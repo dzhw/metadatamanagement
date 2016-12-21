@@ -87,7 +87,7 @@ public class DataSetResourceTest extends AbstractTest {
 
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
 
-    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId());
+    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId(), 1);
 
     // Act and Assert
     // create the variable with the given id
@@ -122,7 +122,7 @@ public class DataSetResourceTest extends AbstractTest {
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     this.surveyRepository.save(survey);
 
-    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(null, survey.getId());
+    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(null, survey.getId(), 1);
 
 
     // Act and Assert
@@ -138,7 +138,7 @@ public class DataSetResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     this.dataAcquisitionProjectRepository.save(project);
 
-    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), "notExist");
+    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), "notExist", null);
 
     // Act and Assert
     // create the DataSet with the given id but with an unknown survey
@@ -161,7 +161,7 @@ public class DataSetResourceTest extends AbstractTest {
     this.surveyRepository.save(survey);
 
     DataSet dataSet =
-        UnitTestCreateDomainObjectUtils.buildDataSet(project1.getId(), survey.getId());
+        UnitTestCreateDomainObjectUtils.buildDataSet(project1.getId(), survey.getId(), 1);
     // Act and Assert
     // create the DataSet with the given id but with a survey from a different project
     mockMvc.perform(put(API_DATASETS_URI + "/" + dataSet.getId())
@@ -177,7 +177,7 @@ public class DataSetResourceTest extends AbstractTest {
 
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
 
-    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId());
+    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId(), 1);
 
     // create the DataSet with the given id
     mockMvc.perform(put(API_DATASETS_URI + "/" + dataSet.getId())
@@ -207,7 +207,7 @@ public class DataSetResourceTest extends AbstractTest {
 
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
 
-    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId());
+    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId(), 1);
 
     // Act and Assert
     // create the DataSet with the given id
@@ -246,7 +246,7 @@ public class DataSetResourceTest extends AbstractTest {
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     this.surveyRepository.save(survey);
 
-    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId());
+    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId(), 1);
 
     // Act and Assert
     // create the DataSet with the given id

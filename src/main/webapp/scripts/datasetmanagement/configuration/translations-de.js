@@ -107,7 +107,6 @@ angular.module('metadatamanagementApp').config(
           },
           'post-validation': {
             'data-set-has-invalid-survey-id': 'Der Datensatz {{id}} referenziert eine unbekannte Erhebung({{toBereferenzedId}}).',
-            'data-set-has-invalid-variable-id': 'Der Datensatz {{id}} referenziert eine unbekannte Variable({{toBereferenzedId}}).',
             'sub-data-set-has-an-accessway-which-was-not-found-in-study': 'Der Sub-Datensatz {{id}} hat einen Zugangsweg ({{toBereferenzedId}}) aufgelistet, der nicht den Zugangswegen der Studie gefunden wurde.'
           }
         }

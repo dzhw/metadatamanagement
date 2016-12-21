@@ -28,7 +28,7 @@ public class DataSetSearchDocument {
   
   private List<String> surveyIds;
   
-  private List<String> variableIds;
+  private List<Integer> surveyNumbers;
   
   private List<SubDataSetSearchDocument> subDataSets;
  
@@ -40,15 +40,15 @@ public class DataSetSearchDocument {
       ElasticsearchIndices index) {
     this.id = dataSet.getId();
     this.dataAcquisitionProjectId = dataSet.getDataAcquisitionProjectId();
-    this.variableIds = dataSet.getVariableIds();
     this.setSurveyIds(dataSet.getSurveyIds());
+    this.surveyNumbers = dataSet.getSurveyNumbers();
     createSubDataSetAttributes(dataSet, index);
     createI18nAttributes(dataSet, index);
     createSurveyTitles(surveys, index);
   }
 
   private void createSubDataSetAttributes(DataSet dataSet, ElasticsearchIndices index) {
-    subDataSets = new ArrayList<SubDataSetSearchDocument>();
+    subDataSets = new ArrayList<>();
     if (dataSet.getSubDataSets() == null) {
       return; 
     }
@@ -75,7 +75,7 @@ public class DataSetSearchDocument {
   
   private void createSurveyTitles(Iterable<Survey> surveys, ElasticsearchIndices index) {
     if (surveys != null) {
-      surveyTitles = new ArrayList<String>();
+      surveyTitles = new ArrayList<>();
       for (Survey survey : surveys) {
         switch (index) {
           case METADATA_DE:
@@ -141,14 +141,6 @@ public class DataSetSearchDocument {
     this.dataAcquisitionProjectId = dataAcquisitionProjectId;
   }
 
-  public List<String> getVariableIds() {
-    return variableIds;
-  }
-
-  public void setVariableIds(List<String> variableIds) {
-    this.variableIds = variableIds;
-  }
-
   public List<SubDataSetSearchDocument> getSubDataSets() {
     return subDataSets;
   }
@@ -156,4 +148,14 @@ public class DataSetSearchDocument {
   public void setSubDataSets(List<SubDataSetSearchDocument> subDataSets) {
     this.subDataSets = subDataSets;
   }
+
+  public List<Integer> getSurveyNumbers() {
+    return surveyNumbers;
+  }
+
+  public void setSurveyNumbers(List<Integer> surveyNumbers) {
+    this.surveyNumbers = surveyNumbers;
+  }
+  
+  
 }

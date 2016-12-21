@@ -154,10 +154,9 @@ public class UnitTestCreateDomainObjectUtils {
       .build();
   }
 
-  public static DataSet buildDataSet(String projectId, String surveyId) {
-    List<String> variableIds = new ArrayList<>();
-    variableIds.add("testProject-name1");
-    variableIds.add("testProject-name2");
+  public static DataSet buildDataSet(String projectId, String surveyId, Integer surveyNumber) {
+    List<Integer> surveyNumbers = new ArrayList<>();
+    surveyNumbers.add(surveyNumber);
     
     List<String> surveyIds = new ArrayList<>();
     surveyIds.add(surveyId);
@@ -195,7 +194,7 @@ public class UnitTestCreateDomainObjectUtils {
     return new DataSetBuilder().withSurveyIds(surveyIds)
       .withDataAcquisitionProjectId(projectId)
       .withId(projectId + "-ds1")
-      .withVariableIds(variableIds)
+      .withSurveyNumbers(surveyNumbers)
       .withSurveyIds(surveyIds)
       .withType(DataSetTypes.PERSONAL_RECORD)
       .withDescription(new I18nStringBuilder().withDe("De Beschreibung")

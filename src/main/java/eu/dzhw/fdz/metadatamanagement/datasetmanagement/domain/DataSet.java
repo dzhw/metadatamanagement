@@ -51,6 +51,9 @@ public class DataSet extends AbstractRdcDomainObject {
   @ValidDataSetType(message = "data-set-management.error.data-set.type.valid-type")
   private I18nString type;
   
+  @NotEmpty(message = "data-set-management.error.data-set.survey-numbers.not-empty")
+  private List<Integer> surveyNumbers;
+  
   /* Foreign Keys */
   @Indexed
   @NotEmpty(message = "data-set-management.error.data-set.data-acquisition-project.id.not-empty")
@@ -58,9 +61,6 @@ public class DataSet extends AbstractRdcDomainObject {
 
   @NotEmpty(message = "data-set-management.error.data-set.survey.ids.not-empty")
   private List<String> surveyIds;
-  
-  @NotEmpty(message = "data-set-management.error.data-set.variable.ids.not-empty")
-  private List<String> variableIds;
   
   /* Nested Objects */
   @Valid
@@ -90,7 +90,7 @@ public class DataSet extends AbstractRdcDomainObject {
       .add("id", id)
       .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
       .add("description", description)
-      .add("variableIds", variableIds)
+      .add("variableIds", surveyNumbers)
       .add("surveyIds", surveyIds)
       .add("type", type)
       .add("subDataSets", subDataSets)
@@ -115,12 +115,12 @@ public class DataSet extends AbstractRdcDomainObject {
     this.type = type;
   }
 
-  public List<String> getVariableIds() {
-    return variableIds;
+  public List<Integer> getSurveyNumbers() {
+    return surveyNumbers;
   }
 
-  public void setVariableIds(List<String> variableIds) {
-    this.variableIds = variableIds;
+  public void setSurveyNumbers(List<Integer> surveyNumbers) {
+    this.surveyNumbers = surveyNumbers;
   }
 
   public void setId(String id) {

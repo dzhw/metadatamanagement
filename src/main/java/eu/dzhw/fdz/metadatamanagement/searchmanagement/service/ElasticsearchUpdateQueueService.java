@@ -14,6 +14,7 @@ import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
@@ -321,6 +322,8 @@ public class ElasticsearchUpdateQueueService {
    * @param lockedItem A locked item.
    * @param bulkBuilder A bulk builder for building the actions.
    */
+  @SuppressFBWarnings(value = "NP_LOAD_OF_KNOWN_NULL_VALUE",
+      justification = "DKatzberg: Suppress Load Null Value Warning until Issue 877 is done")
   private void addUpsertActionForVariable(ElasticsearchUpdateQueueItem lockedItem,
       Builder bulkBuilder) {
     Variable variable = variableRepository.findOne(lockedItem.getDocumentId());
@@ -330,8 +333,9 @@ public class ElasticsearchUpdateQueueService {
       if (variable.getSurveyIds() != null) {
         surveys = surveyRepository.findAll(variable.getSurveyIds());
       }
-      dataSets = dataSetRepository.findByVariableIdsContaining(variable.getId());
       for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
+        //TODO DKatzberg For Issue 877 rework to get the dataset by the id. this ist a new field in
+        //Variable
         VariableSearchDocument searchDocument =
             new VariableSearchDocument(variable, surveys, dataSets, index);
 

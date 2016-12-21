@@ -83,7 +83,7 @@ public class DataSetDeleteResourceTest extends AbstractTest {
     
     // create the dataSet
     DataSet dataSet =
-        UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId());
+        UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId(), 1);
     dataSetRepository.save(dataSet);
     
     // check that the survey is present

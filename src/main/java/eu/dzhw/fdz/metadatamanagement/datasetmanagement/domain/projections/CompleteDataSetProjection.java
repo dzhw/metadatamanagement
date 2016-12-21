@@ -24,7 +24,7 @@ public interface CompleteDataSetProjection
 
   String getDataAcquisitionProjectId();
 
-  List<String> getVariableIds();
+  List<Integer> getSurveyNumbers();
   
   List<String> getSurveyIds();
   

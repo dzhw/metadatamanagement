@@ -28,7 +28,6 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ValidResponse;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -49,8 +48,9 @@ public class DataSetReportService {
   @Inject
   private DataSetRepository dataSetRepository;
 
-  @Inject
-  private VariableRepository variableRepository;
+  //TODO DKatzberg need the repo later, again if we have a list of variables.
+  //@Inject
+  //private VariableRepository variableRepository;
 
   @Inject
   private QuestionRepository questionRepository;
@@ -136,7 +136,9 @@ public class DataSetReportService {
             dataForTemplate));
 
     // Create Variables pages
-    List<String> variableIds = ((DataSet) dataForTemplate.get("dataSet")).getVariableIds();
+    //TODO DKatzberg Replace with a list of variables
+    List<String> variableIds = new ArrayList<>(); 
+        //((DataSet) dataForTemplate.get("dataSet")).getVariableIds();
     Map<String, Variable> variablesMap = (Map<String, Variable>) dataForTemplate.get("variables");
     for (String variableId : variableIds) {
       Variable variable = variablesMap.get(variableId);
@@ -282,9 +284,10 @@ public class DataSetReportService {
   private Map<String, Object> createVariableDependingMaps(Map<String, Object> dataForTemplate) {
 
     // Create a Map of Variables
-    List<Variable> variables =
-        this.variableRepository.findByIdIn(
-            ((DataSet)dataForTemplate.get("dataSet")).getVariableIds());
+    //TODO DKatzberg replace with a list of variable ids
+    List<Variable> variables = new ArrayList<>();
+        //this.variableRepository.findByIdIn(
+        //    ((DataSet)dataForTemplate.get("dataSet")).getVariableIds());
     Map<String, Variable> variablesMap =
         Maps.uniqueIndex(variables, new VariableFunction());
     dataForTemplate.put("variables", variablesMap);

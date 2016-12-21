@@ -31,9 +31,5 @@ public interface DataSetRepository
   Slice<DataSet> findBy(Pageable pageable);
 
   @RestResource(exported = false)
-  List<DataSet> findBySurveyIdsContaining(String surveyId);
-  
-  @RestResource(exported = false)
-  List<DataSet> findByVariableIdsContaining(String variableId);
-  
+  List<DataSet> findBySurveyIdsContaining(String surveyId);  
 }

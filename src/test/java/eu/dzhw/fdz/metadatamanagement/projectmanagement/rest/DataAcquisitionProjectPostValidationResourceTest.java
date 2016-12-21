@@ -123,7 +123,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     this.variableRepository.save(variable3);
     
     //DataSet
-    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId());
+    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId(), 1);
     this.dataSetRepository.save(dataSet);
     
     //Instrument
@@ -181,7 +181,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     this.variableRepository.save(variable3);
     
     //DataSet
-    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId());
+    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId(), 1);
     this.dataSetRepository.save(dataSet);
     
     //Instrument
@@ -243,7 +243,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     this.variableRepository.save(variable3);
     
     //DataSet
-    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId());
+    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId(), 1);
     this.dataSetRepository.save(dataSet);
     
     //Instrument
@@ -297,7 +297,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     this.variableRepository.save(variable3);
     
     //DataSet
-    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId());
+    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId(), 1);
     dataSet.getSubDataSets().remove(3);
     this.dataSetRepository.save(dataSet);
     
@@ -351,7 +351,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     this.variableRepository.save(variable3);
     
     //DataSet
-    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId());
+    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId(), 1);
     this.dataSetRepository.save(dataSet);
     
     //Instrument
@@ -403,12 +403,9 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     this.variableRepository.save(variable3);
     
     //DataSet
-    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId());
-    List<String> variableIds = new ArrayList<>();
-    variableIds.add(project.getId() + "-WrongVariableId");
+    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId(), 1);
     List<String> surveyIds = new ArrayList<>();
     surveyIds.add(project.getId() + "-WrongSurveyId");
-    dataSet.setVariableIds(variableIds);
     dataSet.setSurveyIds(surveyIds);
     this.dataSetRepository.save(dataSet);
     
@@ -426,9 +423,8 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     // Act & Assert
     mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
       .andExpect(status().isOk())
-      .andExpect(jsonPath("$.errors", hasSize(2)))
-      .andExpect(jsonPath("$.errors[0].messageId", containsString("error.post-validation.data-set-has-invalid-survey-id")))
-      .andExpect(jsonPath("$.errors[1].messageId", containsString("error.post-validation.data-set-has-invalid-variable-id")));    
+      .andExpect(jsonPath("$.errors", hasSize(1)))
+      .andExpect(jsonPath("$.errors[0].messageId", containsString("error.post-validation.data-set-has-invalid-survey-id")));    
   }
   
   
@@ -463,7 +459,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     this.variableRepository.save(variable3);
     
     //DataSet
-    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId());
+    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId(), 1);
     this.dataSetRepository.save(dataSet);
     
     //Instrument
@@ -512,7 +508,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     this.variableRepository.save(variable2);
     
     //DataSet
-    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId());
+    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId(), 1);
     this.dataSetRepository.save(dataSet);
     
     //Instrument
@@ -529,14 +525,13 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     // Act & Assert
     mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
       .andExpect(status().isOk())
-      .andExpect(jsonPath("$.errors", hasSize(7)))
-      .andExpect(jsonPath("$.errors[0].messageId", containsString("error.post-validation.data-set-has-invalid-variable-id")))
+      .andExpect(jsonPath("$.errors", hasSize(6)))
+      .andExpect(jsonPath("$.errors[0].messageId", containsString("error.post-validation.variable-id-is-not-in-invalid-variables-panel")))
       .andExpect(jsonPath("$.errors[1].messageId", containsString("error.post-validation.variable-id-is-not-in-invalid-variables-panel")))
-      .andExpect(jsonPath("$.errors[2].messageId", containsString("error.post-validation.variable-id-is-not-in-invalid-variables-panel")))
-      .andExpect(jsonPath("$.errors[3].messageId", containsString("error.post-validation.variable-has-invalid-survey-id")))
-      .andExpect(jsonPath("$.errors[4].messageId", containsString("error.post-validation.variable-id-is-not-in-invalid-variables-panel")))
-      .andExpect(jsonPath("$.errors[5].messageId", containsString("error.post-validation.variable-has-invalid-question-id")))
-      .andExpect(jsonPath("$.errors[6].messageId", containsString("error.post-validation.project-has-no-study")));
+      .andExpect(jsonPath("$.errors[2].messageId", containsString("error.post-validation.variable-has-invalid-survey-id")))
+      .andExpect(jsonPath("$.errors[3].messageId", containsString("error.post-validation.variable-id-is-not-in-invalid-variables-panel")))
+      .andExpect(jsonPath("$.errors[4].messageId", containsString("error.post-validation.variable-has-invalid-question-id")))
+      .andExpect(jsonPath("$.errors[5].messageId", containsString("error.post-validation.project-has-no-study")));
   }
   
 }

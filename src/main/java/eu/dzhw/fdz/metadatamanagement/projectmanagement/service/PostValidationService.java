@@ -201,15 +201,6 @@ public class PostValidationService {
               + "post-validation.data-set-has-invalid-survey-id", Arrays.asList(information)));
         }
       }
-
-      // dataSet.VariableIds: there must be a variable with that id
-      for (String variableId : dataSet.getVariableIds()) {
-        if (this.variableRepository.findOne(variableId) == null) {
-          String[] information = {dataSet.getId(), variableId};
-          errors.add(new PostValidationMessageDto("data-set-management.error."
-              + "post-validation.data-set-has-invalid-variable-id", Arrays.asList(information)));
-        }
-      }
       
       //check if all access ways of all sub dataset are in the study list of accessways.     
       Study study = this.studyRepository
