@@ -19,6 +19,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.UniqueDatasetNumberInProject;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.ValidDataSetIdName;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.ValidDataSetType;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
@@ -33,6 +34,8 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.builders")
 @ValidDataSetIdName(message = "data-set-management.error.data-set.id.valid-data-set-id-name")
+@UniqueDatasetNumberInProject(
+    message = "data-set-management.error.data-set.unique-data-set-number-in-project")
 public class DataSet extends AbstractRdcDomainObject {
   
   /* Domain Object Attributes */

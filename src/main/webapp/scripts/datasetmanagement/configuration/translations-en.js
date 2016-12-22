@@ -59,6 +59,7 @@ angular.module('metadatamanagementApp').config(
           'files-in-template-zip-incomplete': 'The uploaded files for the data set report were not complete. The missing file is: {{invalidValue}}',
           'tex-template-error': 'The generation of the data set report failed. There was an error: {{invalidValue}}',
           'data-set': {
+            'unique-data-set-number-in-project': 'The number of the Data Set is not unique within the study.',
             'id': {
               'valid-data-set-id-name': 'The RDC-ID of the Data Set is not valid for the Pattern: RDCID-ds{Number}',
               'not-empty': 'The RDC-ID of the Data Set must not be empty!',

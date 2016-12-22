@@ -26,6 +26,10 @@ public interface DataSetRepository
   List<DataSet> deleteByDataAcquisitionProjectId(String dataAcquisitionProjectId);
   
   List<DataSet> findByDataAcquisitionProjectId(@Param("id") String dataAcquisitionProjectId);
+  
+  @RestResource(exported = false)
+  List<DataSet> findByDataAcquisitionProjectIdAndNumber(String dataAcquisitionProjectId,
+      Integer number);
 
   @RestResource(exported = false)
   Slice<DataSet> findBy(Pageable pageable);
