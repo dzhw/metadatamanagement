@@ -1,5 +1,6 @@
 /*jshint loopfunc: true */
 /* global Blob */
+/* global _ */
 'use strict';
 
 angular.module('metadatamanagementApp').service('QuestionUploadService',
@@ -126,14 +127,20 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
           uploadQuestionCount = 0;
           JobLoggingService.start('question');
           var questionFileReaders = [];
-
+          //console.log(files);
           files.forEach(function(file) {
-            if (file.name.endsWith('.json')) {
-              var instrumentNumber = file.path.substring(
-                file.path.indexOf('ins') + 3,
-                file.path.lastIndexOf('\/'));
-              var questionNumber = file.name.substring(0,
-                file.name.indexOf('.json'));
+            if (_.endsWith(file.name, '.json')) {
+              var pathAsArray;
+              var instrumentName;
+              var instrumentNumber;
+              if (file.path) {
+                pathAsArray = _.split(file.path, '/');
+              } else {
+                pathAsArray = _.split(file.webkitRelativePath, '/');
+              }
+              instrumentName = pathAsArray[pathAsArray.length - 2];
+              instrumentNumber = _.split(instrumentName, 'ins')[1];
+              var questionNumber = _.split(file.name, '.json')[0];
               questionFileReaders.push(FileReaderService.readAsText(
                   file)
                 .then(function(result) {

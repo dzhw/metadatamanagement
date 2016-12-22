@@ -13,7 +13,9 @@
             <div class="fdz-InfiniteScroll">
                 <md-virtual-repeat-container id="vertical-container">
                     <div data-md-virtual-repeat="item in ctrl.infiniteItems" data-md-on-demand flex>
-                        <md-card ui-sref="questionDetail({id:item._source.id})" class="fdz-search-result">
+                        <md-card ui-sref="questionDetail({questionNumber:item._source.number,
+                          instrumentNumber:item._source.instrumentNumber,
+                          projectId:item._source.dataAcquisitionProjectId})" class="fdz-search-result">
                             <md-card-header class="fdz-card-header-border">
                                 <md-card-avatar>
                                     <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-search-result-icon"></md-icon>
