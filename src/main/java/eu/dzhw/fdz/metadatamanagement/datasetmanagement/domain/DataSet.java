@@ -20,6 +20,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.UniqueDatasetNumberInProject;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.UniqueSubDatasetAccessWayInDataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.ValidDataSetIdName;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.ValidDataSetType;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
@@ -71,6 +72,8 @@ public class DataSet extends AbstractRdcDomainObject {
   /* Nested Objects */
   @Valid
   @NotEmpty(message = "data-set-management.error.data-set.sub-data-sets.not-empty")
+  @UniqueSubDatasetAccessWayInDataSet(message = "data-set-management.error.data-set."
+          + "sub-data-sets.access-way-unique-within-data-set")
   private List<SubDataSet> subDataSets;
 
   /*

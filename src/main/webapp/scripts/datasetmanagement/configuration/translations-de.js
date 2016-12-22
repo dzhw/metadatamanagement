@@ -86,7 +86,8 @@ angular.module('metadatamanagementApp').config(
               }
             },
             'sub-data-sets': {
-              'not-empty': 'Der Datensatz musss mindestens einen Sub-Datensatz haben!'
+              'not-empty': 'Der Datensatz musss mindestens einen Sub-Datensatz haben!',
+              'access-way-unique-within-data-set': 'Der Zugangweg des Subdatensates muss eindeutig innerhalb eines Datensatzes sein.'
             },
             'type': {
               'valid-type': 'Der Typ ist ungültig. Erlaubt sind nur: Personendatensatz oder Episodendatensatz.',
