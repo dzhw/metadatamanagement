@@ -54,6 +54,7 @@ public class DataSet extends AbstractRdcDomainObject {
   @NotEmpty(message = "data-set-management.error.data-set.survey-numbers.not-empty")
   private List<Integer> surveyNumbers;
   
+  @NotNull(message = "data-set-management.error.data-set.number.not-null")
   private Integer number;
   
   /* Foreign Keys */

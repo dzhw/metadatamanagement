@@ -73,10 +73,11 @@ angular.module('metadatamanagementApp').config(
                 'not-empty': 'The RDC-ID of the Data Acquisition Project for the Data Set must not be empty!'
               }
             },
-            'variable': {
-              'ids': {
-                'not-empty': 'The Data Set must contain at least one Variable!'
-              }
+            'survey-numbers': {
+              'not-empty': 'The Data Set must contain at least one Survey Number!'
+            },
+            'number': {
+              'not-null': 'The Number of the Data Set must not be empty!'
             },
             'survey': {
               'ids': {
