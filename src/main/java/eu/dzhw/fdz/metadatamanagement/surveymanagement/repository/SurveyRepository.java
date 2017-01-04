@@ -28,4 +28,7 @@ public interface SurveyRepository
   
   @RestResource(exported = false)
   Survey findById(String id);
+  
+  @RestResource(exported = false)
+  Long countByNumberAndDataAcquisitionProjectId(Integer number, String dataAcquisitionProjectId);
 }

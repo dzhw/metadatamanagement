@@ -10,6 +10,7 @@ angular.module('metadatamanagementApp').config(
             'saved': 'Survey with RDC-ID {{ id }} was saved successfully!',
             'not-saved': 'Survey with RDC-ID {{ id }} has not been saved!',
             'missing-id': 'Survey {{ index }} does not contain a RDC-ID and has not been saved!',
+            'missing-number': 'Survey {{ index }} does not contain a Number and has not been saved!',
             'unable-to-upload-image-file': 'Image file "{{ file }}" could not be uploaded!',
             'unable-to-read-image-file': 'Image file "{{ file }}" could not be read!',
             'upload-terminated': 'Finished upload of {{ totalSurveys }} Surveys and {{ totalImages }} Images with {{ totalErrors }} errors.',
@@ -78,6 +79,7 @@ angular.module('metadatamanagementApp').config(
             'sample-size': {
               'not-null': 'The Sample Size of a Survey must not be empty!'
             },
+            'unique-survey-number': 'The Number of a Survey has to be unique within a Data Acquisition Project!',
             'response-rate': {
               'not-null': 'The Response Rate of a Survey must not be empty!'
             }

@@ -10,6 +10,7 @@ angular.module('metadatamanagementApp').config(
             'saved': 'Erhebung mit FDZ-ID {{ id }} erfolgreich gespeichert!',
             'not-saved': 'Erhebung mit FDZ-ID {{ id }} wurde nicht gespeichert!',
             'missing-id': 'Die {{ index }}. Erhebung enthält keine FDZ-ID und wurde nicht gespeichert!',
+            'missing-number': 'Die {{ index }}. Erhebung enthält keine Nummer und wurde nicht gespeichert!',
             'upload-terminated': 'Upload von {{ totalSurveys }} Erhebungen und {{ totalImages }} Bildern mit {{ totalErrors }} Fehlern beendet!',
             'unable-to-upload-image-file': 'Die Bilddatei "{{ file }}" konnte nicht hochgeladen werden!',
             'unable-to-read-image-file': 'Die Bilddatei "{{ file }}" konnte nicht gelesen werden!',
@@ -78,6 +79,7 @@ angular.module('metadatamanagementApp').config(
             'sample-size': {
               'not-null': 'Die Sample-Size der Erhebung darf nicht leer sein!'
             },
+            'unique-survey-number': 'Die Nummer einer Erhebung muss eindeutig innerhalb eines Datenaufbereitungsprojektes sein!',
             'response-rate': {
               'not-null': 'Die Rücklaufquote der Erhebung darf nicht leer sein!'
             }

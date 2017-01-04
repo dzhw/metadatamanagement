@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp')
     $stateProvider
       .state('surveyDetail', {
         parent: 'site',
-        url: '/surveys/{id}',
+        url: '/studies/{projectId}/surveys/{surveyNumber}',
         data: {
           authorities: []
         },
@@ -23,7 +23,8 @@ angular.module('metadatamanagementApp')
           entity: ['$stateParams', 'SurveyResource',
             function($stateParams, SurveyResource) {
               return SurveyResource.get({
-                id: $stateParams.id
+                id: $stateParams.projectId + '-sy' +
+                  $stateParams.surveyNumber
               });
             }
           ]

@@ -26,6 +26,8 @@ public class SurveySearchDocument {
   private String sample;
   
   private String surveyMethod;
+  
+  private Integer number;
 
   /**
    * Create the search document from the domain object depending on the language (index).
@@ -33,6 +35,7 @@ public class SurveySearchDocument {
   public SurveySearchDocument(Survey survey, ElasticsearchIndices index) {
     this.id = survey.getId();
     this.dataAcquisitionProjectId = survey.getDataAcquisitionProjectId();
+    this.number = survey.getNumber();
     createI18nAttributes(survey, index);
     this.fieldPeriod = survey.getFieldPeriod();
   }
@@ -110,5 +113,13 @@ public class SurveySearchDocument {
 
   public void setSurveyMethod(String surveyMethod) {
     this.surveyMethod = surveyMethod;
+  }
+
+  public Integer getNumber() {
+    return number;
+  }
+
+  public void setNumber(Integer number) {
+    this.number = number;
   }
 }

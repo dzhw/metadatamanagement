@@ -28,11 +28,11 @@ angular.module('metadatamanagementApp').service('SurveyUploadService', function(
       //Upload Survey with images
     } else {
       //Check for not existing survey
-      if (!surveys[uploadSurveyCount].id ||
-        surveys[uploadSurveyCount].id === '') {
+      if (!surveys[uploadSurveyCount].number ||
+        surveys[uploadSurveyCount].number === '') {
         var index = uploadSurveyCount;
         JobLoggingService.error({
-          message: 'survey-management.log-messages.survey.missing-id',
+          message: 'survey-management.log-messages.survey.missing-number',
           messageParams: {
             index: index + 1
           },
@@ -56,8 +56,8 @@ angular.module('metadatamanagementApp').service('SurveyUploadService', function(
             imageKeys.forEach(function(imageName) {
               asyncChain = asyncChain.then(function() {
                 //check for valid name at import. no valid name, no import!
-                var imageNameGerman = survey.id + '_responserate_de';
-                var imageNameEnglish = survey.id + '_responserate_en';
+                var imageNameGerman = survey.number + '_responserate_de';
+                var imageNameEnglish = survey.number + '_responserate_en';
                 if (imageName !== imageNameGerman &&
                     imageName !== imageNameEnglish) {
                   return;

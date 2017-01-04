@@ -20,6 +20,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpt
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation.ValidSurveyIdName;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation.ValidUniqueSurveyNumber;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -31,6 +32,8 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.builders")
 @ValidSurveyIdName(message = "survey-management.error.survey.id.valid-survey-id-name")
+@ValidUniqueSurveyNumber(message = "survey-management.error"
+    + ".survey.unique-survey-number")
 public class Survey extends AbstractRdcDomainObject {
 
   /* Domain Object Attributes */
@@ -82,6 +85,9 @@ public class Survey extends AbstractRdcDomainObject {
   @NotNull(message = "survey-management.error.survey.response-rate.not-null")
   private Double responseRate;
   
+  @NotNull(message = "survey-management.error.survey.number.not-null")
+  private Integer number;
+  
   /*
    * (non-Javadoc)
    *
@@ -111,6 +117,7 @@ public class Survey extends AbstractRdcDomainObject {
       .add("grossSampleSize", grossSampleSize)
       .add("sampleSize", sampleSize)
       .add("responseRate", responseRate)
+      .add("number", number)
       .toString();
   }
 
@@ -195,5 +202,15 @@ public class Survey extends AbstractRdcDomainObject {
 
   public void setResponseRate(Double responseRate) {
     this.responseRate = responseRate;
+  }
+
+
+  public Integer getNumber() {
+    return number;
+  }
+
+
+  public void setNumber(Integer number) {
+    this.number = number;
   }
 }

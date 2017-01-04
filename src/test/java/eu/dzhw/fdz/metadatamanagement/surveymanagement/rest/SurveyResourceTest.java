@@ -264,19 +264,24 @@ public class SurveyResourceTest extends AbstractTest {
     mockMvc.perform(put(API_SURVEYS_URI + "/" + survey.getId())
       .content(TestUtil.convertObjectToJsonBytes(survey)))
       .andExpect(status().isCreated());
-
+    
+    // delete the survey
+    mockMvc.perform(delete(API_SURVEYS_URI + "/" + survey.getId()))
+      .andExpect(status().is2xxSuccessful());
+    
     // update the survey
     survey.getTitle()
       .setDe("titel2");
+    
     mockMvc.perform(put(API_SURVEYS_URI + "/" + survey.getId())
-      .content(TestUtil.convertObjectToJsonBytes(survey)))
-      .andExpect(status().isNoContent());
+        .content(TestUtil.convertObjectToJsonBytes(survey)))
+        .andExpect(status().isCreated());
 
     // get the survey and check the updated title and version
     mockMvc.perform(get(API_SURVEYS_URI + "/" + survey.getId() + "?projection=complete"))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.id", is(survey.getId())))
-      .andExpect(jsonPath("$.version", is(1)))
+      .andExpect(jsonPath("$.version", is(0)))
       .andExpect(jsonPath("$.title.de", is("titel2")));
     
     elasticsearchUpdateQueueService.processQueue();
