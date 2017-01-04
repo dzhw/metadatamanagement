@@ -9,15 +9,15 @@ angular.module('metadatamanagementApp').service('DataSetBuilderService',
         }
 
         var dataSetObj = {
-            id: dataSet.id,
+            id: dataAcquisitionProjectId + '-' + dataSet.number,
             dataAcquisitionProjectId: dataAcquisitionProjectId,
             description: {
               en: dataSet['description.en'],
               de: dataSet['description.de']
             },
-            variableIds:
-            CleanJSObjectService.removeWhiteSpace(dataSet.variableIds),
-            surveyIds: CleanJSObjectService.removeWhiteSpace(dataSet.surveyIds),
+            number: dataSet.number,
+            surveyNumbers: CleanJSObjectService
+              .removeWhiteSpace(dataSet.surveyNumbers),
             type: {
               en: dataSet['type.en'],
               de: dataSet['type.de']
