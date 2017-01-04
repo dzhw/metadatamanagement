@@ -1,6 +1,6 @@
 {
   "name": "lodash",
-  "version": "4.17.3",
+  "version": "4.17.4",
   "license": "MIT",
   "private": true,
   "main": "lodash.js",
@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "async": "^2.1.4",
-    "benchmark": "^2.1.2",
+    "benchmark": "^2.1.3",
     "chalk": "^1.1.3",
     "cheerio": "^0.22.0",
     "codecov.io": "~0.1.6",
@@ -45,7 +45,7 @@
     "istanbul": "0.4.5",
     "jquery": "^3.1.1",
     "jscs": "^3.0.7",
-    "lodash": "4.17.2",
+    "lodash": "4.17.3",
     "lodash-doc-globals": "^0.1.1",
     "markdown-doctest": "^0.9.1",
     "optional-dev-dependency": "^2.0.0",
