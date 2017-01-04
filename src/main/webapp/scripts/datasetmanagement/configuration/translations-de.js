@@ -13,7 +13,6 @@ angular.module('metadatamanagementApp').config(
             'upload-terminated': 'Upload von {{ total }} Datensätzen mit {{ errors }} Fehlern beendet!',
             'cancelled': 'Upload von Datensätzen Abgebrochen',
             'unable-to-delete': 'Die Datensätze konnten nicht gelöscht werden!',
-            'missing-sub-data-set-file': 'Keine Excel Datei mit dem Namen "{{ id }}.xlsx" gefunden!',
             'sub-data-set': {
               'number-of-observations-parse-error': 'Anzahl der Beobachtungen des Sub-Datensatzes {{name}} ist keine Zahl!',
               'number-of-analyzed-variables-parse-error': 'Anzahl der analysierten Variablen des Sub-Datensatzes {{name}} ist keine Zahl!'

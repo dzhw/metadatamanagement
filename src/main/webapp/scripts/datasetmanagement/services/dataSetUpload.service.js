@@ -107,46 +107,38 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
                 return;
               }
 
-              ExcelReaderService.readFileAsync(dataSetExcelFile)
-              .then(function(dataSets) {
+              ExcelReaderService.readFileAsync(dataSetExcelFile, true)
+              .then(function(allExcelSheets) {
+                var dataSets = allExcelSheets.dataSets;
+                var subDataSetsSheet = allExcelSheets.subDataSets;
+                //iterate all datasets
                 dataSets.forEach(function(dataSetFromExcel) {
-                  if (subDataSetsExcelFiles[dataSetFromExcel.id]) {
-                    allFileReaders.push(ExcelReaderService.
-                    readFileAsync(subDataSetsExcelFiles[dataSetFromExcel.id]).
-                    then(function(subDataSetsFile) {
-                      var subDataSetErrors = [];
-                      var subDataSets = [];
-                      for (var i = 0; i < subDataSetsFile.length; i++) {
-                        try {
-                          subDataSets.push(DataSetBuilderService
-                          .buildSubDataSet(subDataSetsFile[i]));
-                        }catch (e) {
-                          subDataSetErrors = _.concat(subDataSetErrors, e);
-                        }
+                  var subDataSetErrors = [];
+                  var subDataSets = [];
+                  for (var i = 0; i < subDataSetsSheet.length; i++) {
+
+                    //use only depending sub datasets
+                    if (subDataSetsSheet[i].dataSetNumber ===
+                      dataSetFromExcel.number) {
+                      try {
+                        subDataSets.push(DataSetBuilderService
+                        .buildSubDataSet(subDataSetsSheet[i]));
+                      }catch (e) {
+                        subDataSetErrors = _.concat(subDataSetErrors, e);
                       }
-                      if (subDataSetErrors.length === 0) {
-                        objects.push(DataSetBuilderService
-                          .buildDataSet(dataSetFromExcel,
-                            subDataSets, dataAcquisitionProjectId));
-                      } else {
-                        JobLoggingService.error({
-                          message: 'data-set-management.' +
-                            'log-messages.data-set.not-saved',
-                          messageParams: {id: dataSetFromExcel.id},
-                          subMessages: subDataSetErrors});
-                        return;
-                      }
-                    }, function() {
-                      JobLoggingService
-                      .error({message: 'global.log-messages.' +
-                      'unable-to-read-file',
-                        messageParams: {file: dataSetFromExcel.id + '.xlsx'}});
-                    }));
+                    }
+                  }
+                  if (subDataSetErrors.length === 0) {
+                    objects.push(DataSetBuilderService
+                      .buildDataSet(dataSetFromExcel,
+                        subDataSets, dataAcquisitionProjectId));
                   } else {
                     JobLoggingService.error({
                       message: 'data-set-management.' +
-                      'log-messages.data-set.missing-sub-data-set-file',
-                      messageParams: {id: dataSetFromExcel.id}});
+                        'log-messages.data-set.not-saved',
+                      messageParams: {id: dataSetFromExcel.id},
+                      subMessages: subDataSetErrors});
+                    return;
                   }
                 });
               }, function() {
@@ -163,7 +155,6 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
               return $q.reject();
             }
           );
-
         });
       }
     };
