@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp').service('DataSetBuilderService',
         }
 
         var dataSetObj = {
-            id: dataAcquisitionProjectId + '-' + dataSet.number,
+            id: dataAcquisitionProjectId + '-ds' + dataSet.number,
             dataAcquisitionProjectId: dataAcquisitionProjectId,
             description: {
               en: dataSet['description.en'],
