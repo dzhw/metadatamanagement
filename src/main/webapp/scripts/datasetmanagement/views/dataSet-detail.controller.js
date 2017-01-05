@@ -39,7 +39,9 @@ angular.module('metadatamanagementApp')
             ctrl.counts.dataSetsCount = dataSetsCount.count;
           });
         ctrl.counts.surveysCount = ctrl.dataSet.surveyIds.length;
-        ctrl.counts.variablesCount = ctrl.dataSet.variableIds.length;
+        //ctrl.counts.variablesCount = ctrl.dataSet.variableIds.length;
+        ctrl.counts.variablesCount = 0; //TODO DKatzberg: Just a workaround
+        //until issue 877 is implemented
       });
       ctrl.uploadTexTemplate = function(files) {
         if (files != null) {
