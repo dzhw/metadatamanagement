@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp')
     $stateProvider
       .state('data-setDetail', {
         parent: 'site',
-        url: '/data-sets/{id}',
+        url: '/studies/{projectId}/data-sets/{dataSetNumber}',
         data: {
           authorities: []
         },
@@ -23,7 +23,8 @@ angular.module('metadatamanagementApp')
           entity: ['$stateParams', 'DataSetResource',
             function($stateParams, DataSetResource) {
               return DataSetResource.get({
-                id: $stateParams.id
+                id: $stateParams.projectId + '-ds' +
+                  $stateParams.dataSetNumber
               });
             }
           ]
