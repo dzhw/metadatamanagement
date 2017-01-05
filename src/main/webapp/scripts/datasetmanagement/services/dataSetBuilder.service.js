@@ -8,6 +8,13 @@ angular.module('metadatamanagementApp').service('DataSetBuilderService',
           return null;
         }
 
+        var surveyIds = [];
+        var surveyNumberArray = dataSet.surveyNumbers.split(',');
+        surveyNumberArray.forEach(function(surveyNumber) {
+          console.log(surveyNumber);
+          surveyIds.push(dataAcquisitionProjectId + '-sy' + surveyNumber);
+        });
+
         var dataSetObj = {
             id: dataAcquisitionProjectId + '-ds' + dataSet.number,
             dataAcquisitionProjectId: dataAcquisitionProjectId,
@@ -18,6 +25,7 @@ angular.module('metadatamanagementApp').service('DataSetBuilderService',
             number: dataSet.number,
             surveyNumbers: CleanJSObjectService
               .removeWhiteSpace(dataSet.surveyNumbers),
+            surveyIds: surveyIds,
             type: {
               en: dataSet['type.en'],
               de: dataSet['type.de']
