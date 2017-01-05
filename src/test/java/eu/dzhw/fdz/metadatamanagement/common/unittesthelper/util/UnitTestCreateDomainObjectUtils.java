@@ -151,6 +151,7 @@ public class UnitTestCreateDomainObjectUtils {
       .withGrossSampleSize(100)
       .withSampleSize(100)
       .withResponseRate(100.0)
+      .withNumber(1)
       .build();
   }
 

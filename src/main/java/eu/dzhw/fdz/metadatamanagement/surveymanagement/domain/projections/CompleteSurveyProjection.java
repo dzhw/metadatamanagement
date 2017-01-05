@@ -33,5 +33,7 @@ public interface CompleteSurveyProjection extends AbstractRdcDomainObjectProject
   Integer getSampleSize();
   
   Double getResponseRate();
+  
+  Integer getNumber();
 
 }

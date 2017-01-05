@@ -7,7 +7,8 @@ angular.module('metadatamanagementApp').service('SurveyBuilderService',
       for (var i = 0; i < surveys.length; i++) {
         var data = surveys[i];
         var surveyObj = {
-          id: data.id,
+          id: projectId + '-sy' + data.number,
+          number: data.number,
           dataAcquisitionProjectId: projectId,
           instrumentId: data.instrumentId,
           title: {
