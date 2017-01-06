@@ -48,9 +48,8 @@ public interface CompleteVariableProjection
   GenerationDetails getGenerationDetails();
 
   Distribution getDistribution();
-
-  String getQuestionId();
-
+  
+  /* Foreign Keys */
   String getDataAcquisitionProjectId();
 
   List<String> getSurveyIds();

@@ -25,7 +25,6 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.exception.TemplateIncomp
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.filemanagement.service.FileService;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ValidResponse;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import freemarker.template.Configuration;
@@ -52,8 +51,8 @@ public class DataSetReportService {
   //@Inject
   //private VariableRepository variableRepository;
 
-  @Inject
-  private QuestionRepository questionRepository;
+//  @Inject
+//  private QuestionRepository questionRepository;
 
   /**
    * The Escape Prefix handles the escaping of special latex signs within data information. This
@@ -308,12 +307,13 @@ public class DataSetReportService {
           .size();
       }
 
-      // Create a Map with Atomic Questions
-      if (variable.getQuestionId() != null) {
-        Question question =
-            this.questionRepository.findOne(variable.getQuestionId());
-        questionsMap.put(variable.getQuestionId(), question);
-      }
+      // Create a Map with Questions
+      //TODO DKatzberg Issue 877 needs a redefinition over the relatedQuestion object
+//      if (variable.getQuestionId() != null) {
+//        Question question =
+//            this.questionRepository.findOne(variable.getQuestionId());
+//        questionsMap.put(variable.getQuestionId(), question);
+//      }
 
       // Create the first and last ten isAMissing Values to different list, if there are more
       // than 20.

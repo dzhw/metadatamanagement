@@ -116,8 +116,6 @@ public class Variable extends AbstractRdcDomainObject {
 
 
   /* Foreign Keys */
-  private String questionId;
-
   @Indexed
   @NotEmpty(message = "variable-management.error.variable.data-acquisition-project.id.not-empty")
   private String dataAcquisitionProjectId;
@@ -155,7 +153,6 @@ public class Variable extends AbstractRdcDomainObject {
       .add("filterDetails", filterDetails)
       .add("generationDetails", generationDetails)
       .add("distribution", distribution)
-      .add("questionId", questionId)
       .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
       .add("surveyIds", surveyIds)
       .add("relatedVariables", relatedVariables)
@@ -237,14 +234,6 @@ public class Variable extends AbstractRdcDomainObject {
 
   public void setGenerationDetails(GenerationDetails generationDetails) {
     this.generationDetails = generationDetails;
-  }
-
-  public String getQuestionId() {
-    return questionId;
-  }
-
-  public void setQuestionId(String questionId) {
-    this.questionId = questionId;
   }
 
   public FilterDetails getFilterDetails() {

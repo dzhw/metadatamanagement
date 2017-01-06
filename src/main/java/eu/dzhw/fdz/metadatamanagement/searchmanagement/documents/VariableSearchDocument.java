@@ -20,8 +20,6 @@ public class VariableSearchDocument {
   private String id;
 
   private String name;
-  
-  private String questionId;
 
   private String dataAcquisitionProjectId;
 
@@ -47,7 +45,6 @@ public class VariableSearchDocument {
     this.id = variable.getId();
     this.name = variable.getName();
     this.dataAcquisitionProjectId = variable.getDataAcquisitionProjectId();
-    this.questionId = variable.getQuestionId();
     createI18nAttributes(variable, index);
     createSurveyTitles(surveys, index);
     createDataSetIds(dataSets);
@@ -111,14 +108,6 @@ public class VariableSearchDocument {
 
   public void setId(String id) {
     this.id = id;
-  }
-
-  public String getQuestionId() {
-    return questionId;
-  }
-
-  public void setQuestionId(String questionId) {
-    this.questionId = questionId;
   }
 
   public String getName() {

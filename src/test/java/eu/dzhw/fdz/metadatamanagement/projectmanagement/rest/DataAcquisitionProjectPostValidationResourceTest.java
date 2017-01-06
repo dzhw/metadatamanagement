@@ -128,7 +128,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     
     //Instrument
     Instrument instrument = UnitTestCreateDomainObjectUtils.buildInstrument(project.getId());
-    List<String> listOfSurveyIds = new ArrayList<String>();
+    List<String> listOfSurveyIds = new ArrayList<>();
     listOfSurveyIds.add(survey.getId());
     instrument.setSurveyIds(listOfSurveyIds);
     this.instrumentRepository.save(instrument);
@@ -188,7 +188,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     
     //Instrument
     Instrument instrument = UnitTestCreateDomainObjectUtils.buildInstrument(project.getId());
-    List<String> listOfSurveyIds = new ArrayList<String>();
+    List<String> listOfSurveyIds = new ArrayList<>();
     listOfSurveyIds.add(survey.getId());
     instrument.setSurveyIds(listOfSurveyIds);
     this.instrumentRepository.save(instrument);
@@ -503,7 +503,6 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     Variable variable2 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
     variable2.setId("testProject-name3");
     variable2.setName("name3");
-    variable2.setQuestionId(project.getId()+  "-WrongAtomicQuestionId");
     List<String> dataSetIds = new ArrayList<>();
     dataSetIds.add(project.getId() + "-WrongDataSetId");
     List<String> surveyIds = new ArrayList<>();
@@ -529,13 +528,12 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     // Act & Assert
     mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
       .andExpect(status().isOk())
-      .andExpect(jsonPath("$.errors", hasSize(6)))
+      .andExpect(jsonPath("$.errors", hasSize(5)))
       .andExpect(jsonPath("$.errors[0].messageId", containsString("error.post-validation.variable-id-is-not-in-invalid-variables-panel")))
       .andExpect(jsonPath("$.errors[1].messageId", containsString("error.post-validation.variable-id-is-not-in-invalid-variables-panel")))
       .andExpect(jsonPath("$.errors[2].messageId", containsString("error.post-validation.variable-has-invalid-survey-id")))
       .andExpect(jsonPath("$.errors[3].messageId", containsString("error.post-validation.variable-id-is-not-in-invalid-variables-panel")))
-      .andExpect(jsonPath("$.errors[4].messageId", containsString("error.post-validation.variable-has-invalid-question-id")))
-      .andExpect(jsonPath("$.errors[5].messageId", containsString("error.post-validation.project-has-no-study")));
+      .andExpect(jsonPath("$.errors[4].messageId", containsString("error.post-validation.project-has-no-study")));
   }
   
 }
