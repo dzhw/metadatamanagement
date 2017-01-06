@@ -27,7 +27,7 @@ angular.module('metadatamanagementApp').factory('InstrumentSearchService',
           }],
           'filter': [{
             'term': {
-              'surveyId': surveyId
+              'surveyIds': surveyId
             }
           }]
         }

@@ -70,7 +70,7 @@
                     <div style="margin-right:3px;">{{'instrument-management.detail.instrument' | translate }}:</div>
                     <div ng-if="!ctrl.instrument" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
                     <div ng-if="ctrl.instrument" class="fdz-truncate-string" flex>
-                      <a ui-sref="instrumentDetail({id:ctrl.instrument.id})">{{ctrl.instrument.title}}</a>
+                      <a ui-sref="instrumentDetail({projectId: ctrl.instrument.dataAcquisitionProjectId, instrumentNumber: ctrl.instrument.number})">{{ctrl.instrument.title}}</a>
                     </div>
                 </div>
                 <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
