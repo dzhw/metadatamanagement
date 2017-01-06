@@ -33,8 +33,10 @@ angular.module('metadatamanagementApp')
             }
           });
 
-        //Find Surveys
-        SurveySearchService.findSurveys([ctrl.instrument.surveyId]).then(
+        // Find Surveys
+        // should be changed.
+        // see issue https://github.com/dzhw/metadatamanagement/issues/913
+        SurveySearchService.findSurveys(ctrl.instrument.surveyIds).then(
           function(searchResult) {
             if (searchResult.docs[0].found) {
               ctrl.survey = searchResult.docs[0]._source;
