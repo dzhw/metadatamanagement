@@ -20,6 +20,7 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.service.QuestionImageSe
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RelatedQuestion;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 
@@ -274,16 +275,21 @@ public class PostValidationService {
         }
       }
 
-      // variable.questionId: If there is no genereationDetail every variable needs a
+      // variable.relatedQuestions.questionId: 
+      // If there is no genereationDetail every variable needs a
       // questionId (and vice versa)
-      //TODO DKatzberg Issue 877 change after adding the relatedQuestion Object
-//      if (variable.getQuestionId() != null
-//          && this.questionRepository.findOne(variable.getQuestionId()) == null) {
-//        String[] information = {variable.getId(), variable.getQuestionId()};
-//        errors.add(new PostValidationMessageDto("variable-management.error."
-//            + "post-validation.variable-has-invalid-question-id", Arrays.asList(information)));
-//      }
+      if (variable.getRelatedQuestions() != null) {
+        for (RelatedQuestion relatedQuestion : variable.getRelatedQuestions()) {
+          if (relatedQuestion.getQuestionId() != null
+              && this.questionRepository.findOne(relatedQuestion.getQuestionId()) == null) {
+            String[] information = {variable.getId(), relatedQuestion.getQuestionId()};
+            errors.add(new PostValidationMessageDto("variable-management.error."
+                + "post-validation.variable-has-invalid-question-id", Arrays.asList(information)));
+          }
+        }
+      }
       
+      //variable.dataSetId: Check for for the data set id
       if (variable.getDataSetId() != null 
           && this.dataSetRepository.findOne(variable.getDataSetId()) == null) {
         String[] information = {variable.getId(), variable.getDataSetId()};
