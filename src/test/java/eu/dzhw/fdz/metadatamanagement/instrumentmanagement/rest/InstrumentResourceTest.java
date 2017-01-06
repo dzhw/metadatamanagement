@@ -77,7 +77,7 @@ public class InstrumentResourceTest extends AbstractTest {
     this.dataAcquisitionProjectRepository.save(project);
 
     Instrument instrument =
-        UnitTestCreateDomainObjectUtils.buildInstrument(project.getId(), "SurveyId");
+        UnitTestCreateDomainObjectUtils.buildInstrument(project.getId(), project.getId() + "-sy1");
 
     // Act and Assert
     // create the instrument with the given id
@@ -110,14 +110,18 @@ public class InstrumentResourceTest extends AbstractTest {
     this.dataAcquisitionProjectRepository.save(project);
 
     Instrument instrument =
-        UnitTestCreateDomainObjectUtils.buildInstrument(project.getId(), "SurveyId");
+        UnitTestCreateDomainObjectUtils.buildInstrument(project.getId(), project.getId() + "-sy1");
 
     // Act and Assert
     // create the instrument with the given id
     mockMvc.perform(put(API_INSTRUMENTS_URI + "/" + instrument.getId())
       .content(TestUtil.convertObjectToJsonBytes(instrument)))
       .andExpect(status().isCreated());
-
+    
+    // delete the survey
+    mockMvc.perform(delete(API_INSTRUMENTS_URI + "/" + instrument.getId()))
+      .andExpect(status().is2xxSuccessful());
+    
     instrument.setTitle(new I18nString("Hurz2", "Hurz2"));
 
     // update the instrument with the given id
@@ -129,7 +133,7 @@ public class InstrumentResourceTest extends AbstractTest {
     mockMvc.perform(get(API_INSTRUMENTS_URI + "/" + instrument.getId() + "?projection=complete"))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.id", is(instrument.getId())))
-      .andExpect(jsonPath("$.version", is(1)))
+      .andExpect(jsonPath("$.version", is(0)))
       .andExpect(jsonPath("$.title.de", is("Hurz2")));
 
     elasticsearchUpdateQueueService.processQueue();
@@ -146,14 +150,18 @@ public class InstrumentResourceTest extends AbstractTest {
     this.dataAcquisitionProjectRepository.save(project);
 
     Instrument instrument =
-        UnitTestCreateDomainObjectUtils.buildInstrument(project.getId(), "SurveyId");
+        UnitTestCreateDomainObjectUtils.buildInstrument(project.getId(), project.getId() + "-sy1");
 
     // Act and Assert
     // create the instrument with the given id
     mockMvc.perform(put(API_INSTRUMENTS_URI + "/" + instrument.getId())
       .content(TestUtil.convertObjectToJsonBytes(instrument)))
       .andExpect(status().isCreated());
-
+    
+    // delete the survey
+    mockMvc.perform(delete(API_INSTRUMENTS_URI + "/" + instrument.getId()))
+      .andExpect(status().is2xxSuccessful());
+    
     // set inconsistent type
     instrument.setType("HURZ");
 
@@ -172,7 +180,7 @@ public class InstrumentResourceTest extends AbstractTest {
     this.dataAcquisitionProjectRepository.save(project);
 
     Instrument instrument =
-        UnitTestCreateDomainObjectUtils.buildInstrument(project.getId(), "SurveyId");
+        UnitTestCreateDomainObjectUtils.buildInstrument(project.getId(), project.getId() + "-sy1");
 
     // Act and Assert
     // set inconsistent id
@@ -193,7 +201,7 @@ public class InstrumentResourceTest extends AbstractTest {
     this.dataAcquisitionProjectRepository.save(project);
 
     Instrument instrument =
-        UnitTestCreateDomainObjectUtils.buildInstrument(project.getId(), "SurveyId");
+        UnitTestCreateDomainObjectUtils.buildInstrument(project.getId(), project.getId() + "-sy1");
 
     // Act and Assert
     // set inconsistent title
@@ -215,7 +223,7 @@ public class InstrumentResourceTest extends AbstractTest {
     this.dataAcquisitionProjectRepository.save(project);
 
     Instrument instrument =
-        UnitTestCreateDomainObjectUtils.buildInstrument(project.getId(), "SurveyId");
+        UnitTestCreateDomainObjectUtils.buildInstrument(project.getId(), project.getId() + "-sy1");
 
     // create the instrument with the given id
     mockMvc.perform(put(API_INSTRUMENTS_URI + "/" + instrument.getId())

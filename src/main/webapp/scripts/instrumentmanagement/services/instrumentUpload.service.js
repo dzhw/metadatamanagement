@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
     CleanJSObjectService) {
     //array holding all instrument resources
     var instrumentsToSave;
-    //a map instrumentId -> (map filename -> (attachment, metadata))
+    //a map instrumentNumber -> (map filename -> (attachment, metadata))
     var attachmentsToUpload;
     var uploadCount;
 
@@ -31,12 +31,13 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
         if (instrumentsToSave[uploadCount] === null) {
           uploadCount++;
           return upload();
-        } else if (!instrumentsToSave[uploadCount].id ||
-          instrumentsToSave[uploadCount].id === '') {
+        } else if (!instrumentsToSave[uploadCount].number ||
+          instrumentsToSave[uploadCount].number === '') {
           // instrument does not have an id
           var index = uploadCount;
           JobLoggingService.error({
-            message: 'instrument-management.log-messages.instrument.missing-id',
+            message: 'instrument-management.log-messages' +
+            '.instrument.missing-number',
             messageParams: {
               index: index + 1
             },
@@ -51,7 +52,7 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
             });
             // get the map filename -> {attachment, metadata}
             var attachments = attachmentsToUpload[
-              instrumentsToSave[uploadCount].id];
+              instrumentsToSave[uploadCount].number];
             //upload attachments if there are some
             if (attachments) {
               //upload all attachments sequentially
@@ -183,10 +184,10 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
 
                   if (attachments) {
                     attachments.forEach(function(metadataFromExcel, index) {
-                      if (!metadataFromExcel.instrumentId) {
+                      if (!metadataFromExcel.instrumentNumber) {
                         JobLoggingService.error({
                           message: 'instrument-management.log-messages' +
-                            '.instrument-attachment.missing-instrument-id',
+                            '.instrument-attachment.missing-instrument-number',
                           messageParams: {
                             index: index + 1
                           },
@@ -217,21 +218,22 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
                         return;
                       }
                       if (!attachmentsToUpload[metadataFromExcel
-                        .instrumentId]) {
+                        .instrumentNumber]) {
                         attachmentsToUpload[metadataFromExcel
-                          .instrumentId] = {};
+                          .instrumentNumber] = {};
                       }
-                      if (!attachmentsToUpload[metadataFromExcel.instrumentId]
+                      if (!attachmentsToUpload[metadataFromExcel
+                        .instrumentNumber]
                         [metadataFromExcel.filename]) {
-                        attachmentsToUpload[metadataFromExcel.instrumentId]
+                        attachmentsToUpload[metadataFromExcel.instrumentNumber]
                           [metadataFromExcel.filename] = {};
                       }
-                      attachmentsToUpload[metadataFromExcel.instrumentId]
+                      attachmentsToUpload[metadataFromExcel.instrumentNumber]
                         [metadataFromExcel.filename].metadata =
                         InstrumentBuilderService
                         .buildInstrumentAttachmentMetadata(
                           metadataFromExcel, dataAcquisitionProjectId);
-                      attachmentsToUpload[metadataFromExcel.instrumentId]
+                      attachmentsToUpload[metadataFromExcel.instrumentNumber]
                         [metadataFromExcel.filename].attachment =
                         attachmentFiles[metadataFromExcel.filename];
                     });

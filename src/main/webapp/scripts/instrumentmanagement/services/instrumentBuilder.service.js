@@ -1,3 +1,4 @@
+/* global _*/
 'use strict';
 
 angular.module('metadatamanagementApp').service('InstrumentBuilderService',
@@ -5,8 +6,9 @@ angular.module('metadatamanagementApp').service('InstrumentBuilderService',
     var buildInstrument = function(instrumentFromExcel,
       dataAcquisitionProjectId) {
       var instrument = {
-        id: instrumentFromExcel.id,
+        id: dataAcquisitionProjectId + '-ins' + instrumentFromExcel.number,
         dataAcquisitionProjectId: dataAcquisitionProjectId,
+        number: instrumentFromExcel.number,
         title: {
           en: instrumentFromExcel['title.en'],
           de: instrumentFromExcel['title.de']
@@ -16,8 +18,14 @@ angular.module('metadatamanagementApp').service('InstrumentBuilderService',
           de: instrumentFromExcel['description.de']
         },
         type: instrumentFromExcel.type,
-        surveyId: instrumentFromExcel.surveyId
+        surveyNumbers: _.pull(_.values(_.toString(instrumentFromExcel
+          .surveyNumbers)), '.', ',', ' '),
+        surveyIds: []
       };
+      _.forEach(instrument.surveyNumbers, function(number) {
+        instrument.surveyIds
+        .push(instrument.dataAcquisitionProjectId + '-sy' + number);
+      });
       var cleanedInstrument = CleanJSObjectService
         .removeEmptyJsonObjects(instrument);
       return new InstrumentResource(cleanedInstrument);
@@ -26,7 +34,9 @@ angular.module('metadatamanagementApp').service('InstrumentBuilderService',
     var buildInstrumentAttachmentMetadata = function(metadataFromExcel,
       dataAcquisitionProjectId) {
       var instrumentAttachmentMetadata = {
-        instrumentId: metadataFromExcel.instrumentId,
+        instrumentId: dataAcquisitionProjectId + '-ins' +
+        metadataFromExcel.instrumentNumber,
+        instrumentNumber: metadataFromExcel.instrumentNumber,
         dataAcquisitionProjectId: dataAcquisitionProjectId,
         title: {
           en: metadataFromExcel['title.en'],

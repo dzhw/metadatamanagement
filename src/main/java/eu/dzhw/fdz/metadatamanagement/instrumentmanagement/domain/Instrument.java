@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain;
 
+import java.util.List;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -17,6 +19,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation.ValidInstrumentIdPattern;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation.ValidInstrumentType;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation.ValidUniqueInstrumentNumber;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -30,6 +33,8 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
     intoPackage = "eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.builders")
 @ValidInstrumentIdPattern(message = "instrument-management.error"
     + ".instrument.valid-instrument-id-pattern")
+@ValidUniqueInstrumentNumber(message = "instrument-management.error"
+    + ".instrument.unique-instrument-number")
 public class Instrument extends AbstractRdcDomainObject {
 
   @Id
@@ -57,8 +62,13 @@ public class Instrument extends AbstractRdcDomainObject {
       "instrument-management.error.instrument.data-acquisition-project-id.not-empty")
   private String dataAcquisitionProjectId;
   
-  @NotEmpty(message = "instrument-management.error.instrument.survey-id.not-empty")
-  private String surveyId;
+  private List<String> surveyIds;
+  
+  @NotEmpty(message = "instrument-management.error.instrument.survey-numbers.not-empty")
+  private List<Integer> surveyNumbers;
+  
+  @NotNull(message = "instrument-management.error.instrument.number.not-null")
+  private Integer number;
 
   /*
    * (non-Javadoc)
@@ -107,12 +117,28 @@ public class Instrument extends AbstractRdcDomainObject {
     this.dataAcquisitionProjectId = dataAcquisitionProjectId;
   }
 
-  public String getSurveyId() {
-    return surveyId;
+  public List<String> getSurveyIds() {
+    return surveyIds;
   }
 
-  public void setSurveyId(String surveyId) {
-    this.surveyId = surveyId;
+  public void setSurveyIds(List<String> surveyIds) {
+    this.surveyIds = surveyIds;
+  }
+
+  public List<Integer> getSurveyNumbers() {
+    return surveyNumbers;
+  }
+
+  public void setSurveyNumbers(List<Integer> surveyNumbers) {
+    this.surveyNumbers = surveyNumbers;
+  }
+
+  public Integer getNumber() {
+    return number;
+  }
+
+  public void setNumber(Integer number) {
+    this.number = number;
   }
 
   @Override
@@ -124,7 +150,9 @@ public class Instrument extends AbstractRdcDomainObject {
       .add("description", description)
       .add("type", type)
       .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
-      .add("surveyId", surveyId)
+      .add("surveyIds", surveyIds)
+      .add("surveyNumbers", surveyNumbers)
+      .add("number", number)
       .toString();
   } 
 }

@@ -29,19 +29,12 @@ public class ValidInstrumentIdPatternValidator
   public boolean isValid(Instrument instrument, ConstraintValidatorContext context) {
 
     // check precondition
-    if (instrument.getDataAcquisitionProjectId() == null || instrument.getId() == null) {
+    if (instrument.getDataAcquisitionProjectId() == null || instrument.getId() == null
+        || instrument.getNumber() == null) {
       return false;
     }
-    if (instrument.getId().startsWith(instrument.getDataAcquisitionProjectId() + "-ins")) {
-      try {
-        Integer.parseInt(instrument.getId().replace(
-            instrument.getDataAcquisitionProjectId() + "-ins", ""));
-        return true;
-      } catch (NumberFormatException e) {
-        return false;
-      }
-    }
-    return false;
+    return instrument.getId().equals(instrument.getDataAcquisitionProjectId() + "-ins" 
+        + instrument.getNumber());
   }
 
 }

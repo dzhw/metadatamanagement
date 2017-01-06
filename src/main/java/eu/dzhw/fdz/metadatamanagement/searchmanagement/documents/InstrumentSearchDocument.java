@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
+import java.util.List;
+
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchIndices;
 import io.searchbox.annotations.JestId;
@@ -19,9 +21,15 @@ public class InstrumentSearchDocument {
   
   private String type;
   
-  private String surveyId;
-  
   private String dataAcquisitionProjectId;
+
+  private List<String> surveyIds;
+  
+  private List<Integer> surveyNumbers;
+  
+  private Integer number;
+ 
+  
   
   /**
    * Create the search document from the domain object depending on the language (index).
@@ -30,7 +38,9 @@ public class InstrumentSearchDocument {
     this.id = instrument.getId();
     this.dataAcquisitionProjectId = instrument.getDataAcquisitionProjectId();
     this.type = instrument.getType();
-    this.surveyId = instrument.getSurveyId();
+    this.surveyIds = instrument.getSurveyIds();
+    this.surveyNumbers = instrument.getSurveyNumbers();
+    this.number = instrument.getNumber();
     createI18nAttributes(instrument, index);
   }
 
@@ -67,6 +77,14 @@ public class InstrumentSearchDocument {
     this.title = title;
   }
   
+  public List<String> getSurveyIds() {
+    return surveyIds;
+  }
+  
+  public void setSurveyIds(List<String> surveyIds) {
+    this.surveyIds = surveyIds;
+  }
+  
   public String getDescription() {
     return description;
   }
@@ -75,27 +93,37 @@ public class InstrumentSearchDocument {
     this.description = description;
   }
 
-  public String getType() {
-    return type;
-  }
-
-  public void setType(String type) {
-    this.type = type;
-  }
-
-  public String getSurveyId() {
-    return surveyId;
-  }
-
-  public void setSurveyId(String surveyId) {
-    this.surveyId = surveyId;
-  }
 
   public String getDataAcquisitionProjectId() {
     return dataAcquisitionProjectId;
   }
+  
+  public String getType() {
+    return type;
+  }
+  
+  public void setType(String type) {
+    this.type = type;
+  }
 
   public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
     this.dataAcquisitionProjectId = dataAcquisitionProjectId;
+  }
+
+
+  public List<Integer> getSurveyNumbers() {
+    return surveyNumbers;
+  }
+
+  public void setSurveyNumbers(List<Integer> surveyNumbers) {
+    this.surveyNumbers = surveyNumbers;
+  }
+
+  public Integer getNumber() {
+    return number;
+  }
+
+  public void setNumber(Integer number) {
+    this.number = number;
   }
 }

@@ -287,6 +287,10 @@ public class UnitTestCreateDomainObjectUtils {
   }
   
   public static Instrument buildInstrument(String projectId) {
+    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    surveyNumbers.add(1);
+    List<String> surveyIds = new ArrayList<String>();
+    surveyIds.add(projectId + "-sy1");
     return new InstrumentBuilder().withDataAcquisitionProjectId(projectId)
       .withId(projectId + "-ins1")
       .withTitle(new I18nStringBuilder()
@@ -297,9 +301,11 @@ public class UnitTestCreateDomainObjectUtils {
           .withDe("Instrument.de")
           .withEn("Instrument.en")
           .build())
-      .withSurveyId(projectId + "-sy1")
+      .withSurveyIds(surveyIds)
       .withDataAcquisitionProjectId(projectId)
       .withType("CAPI")
+      .withNumber(1)
+      .withSurveyNumbers(surveyNumbers)
       .build();
   }
 
@@ -440,10 +446,14 @@ public class UnitTestCreateDomainObjectUtils {
 
   public static Instrument buildInstrument(
       String projectId, String surveyId) {
+    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    surveyNumbers.add(1);
+    List<String> surveyIds = new ArrayList<String>();
+    surveyIds.add(surveyId);
     return new InstrumentBuilder()
         .withId(projectId + "-ins1")
         .withDataAcquisitionProjectId(projectId)
-        .withSurveyId(surveyId)
+        .withSurveyIds(surveyIds)
         .withTitle(new I18nStringBuilder()
             .withDe("Hurz")
             .withEn("Hurz")
@@ -453,13 +463,16 @@ public class UnitTestCreateDomainObjectUtils {
             .withEn("Hurz")
             .build())
         .withType("CAPI")
+        .withNumber(1)
+        .withSurveyNumbers(surveyNumbers)
         .build();
   }
   
-  public static InstrumentAttachmentMetadata buildInstrumentAttachmentMetadata(String projectId, String instrumentId) {
+  public static InstrumentAttachmentMetadata buildInstrumentAttachmentMetadata(String projectId, Integer instrumentNumber) {
     return new InstrumentAttachmentMetadataBuilder()
           .withDataAcquisitionProjectId(projectId)
-          .withInstrumentId(instrumentId)
+          .withInstrumentId(projectId + "-ins" + instrumentNumber)
+          .withInstrumentNumber(instrumentNumber)
           .withFileName("filename.txt")
           .withTitle(new I18nString("Titel", "Title"))
           .withType(InstrumentAttachmentTypes.QUESTION_FLOW)

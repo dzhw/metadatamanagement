@@ -229,13 +229,15 @@ public class PostValidationService {
       List<PostValidationMessageDto> errors) {
 
     for (Instrument instrument : instruments) {
-
-      // instrument.surveyId: there must be a survey with that id
-      if (this.surveyRepository.findOne(instrument.getSurveyId()) == null) {
-        String[] information = {instrument.getId(), instrument.getSurveyId()};
-        errors.add(new PostValidationMessageDto("instrument-management.error."
-            + "post-validation.instrument-has-invalid-survey-id", Arrays.asList(information)));
-      }      
+      
+      for (String surveyId : instrument.getSurveyIds()) {
+        // surveyId: there must be a survey with that id
+        if (this.surveyRepository.findOne(surveyId) == null) {
+          String[] information = {instrument.getId(), surveyId};
+          errors.add(new PostValidationMessageDto("instrument-management.error."
+              + "post-validation.instrument-has-invalid-survey-id", Arrays.asList(information)));
+        }              
+      }
     }
 
     return errors;

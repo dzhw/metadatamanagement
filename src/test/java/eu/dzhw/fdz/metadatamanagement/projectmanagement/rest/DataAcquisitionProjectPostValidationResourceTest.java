@@ -128,7 +128,9 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     
     //Instrument
     Instrument instrument = UnitTestCreateDomainObjectUtils.buildInstrument(project.getId());
-    instrument.setSurveyId(survey.getId());
+    List<String> listOfSurveyIds = new ArrayList<String>();
+    listOfSurveyIds.add(survey.getId());
+    instrument.setSurveyIds(listOfSurveyIds);
     this.instrumentRepository.save(instrument);
     
     //Atomic Question
@@ -186,7 +188,9 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     
     //Instrument
     Instrument instrument = UnitTestCreateDomainObjectUtils.buildInstrument(project.getId());
-    instrument.setSurveyId(survey.getId());
+    List<String> listOfSurveyIds = new ArrayList<String>();
+    listOfSurveyIds.add(survey.getId());
+    instrument.setSurveyIds(listOfSurveyIds);
     this.instrumentRepository.save(instrument);
     
     //Atomic Question

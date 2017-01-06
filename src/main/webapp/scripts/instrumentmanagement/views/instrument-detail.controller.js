@@ -32,6 +32,7 @@ angular.module('metadatamanagementApp')
               ctrl.attachments = attachments;
             }
           });
+
         //Find Surveys
         SurveySearchService.findSurveys([ctrl.instrument.surveyId]).then(
           function(searchResult) {
@@ -39,6 +40,7 @@ angular.module('metadatamanagementApp')
               ctrl.survey = searchResult.docs[0]._source;
             }
           });
+
         //Find Studies
         StudySearchService.findStudies(
           [ctrl.instrument.dataAcquisitionProjectId]).then(

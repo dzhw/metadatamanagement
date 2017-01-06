@@ -29,4 +29,7 @@ public interface InstrumentRepository
 
   @RestResource(exported = false)
   List<Instrument> findByDataAcquisitionProjectId(String dataAcquisitionProjectId);
+  
+  @RestResource(exported = false)
+  Long countByNumberAndDataAcquisitionProjectId(Integer number, String dataAcquisitionProjectId);
 }

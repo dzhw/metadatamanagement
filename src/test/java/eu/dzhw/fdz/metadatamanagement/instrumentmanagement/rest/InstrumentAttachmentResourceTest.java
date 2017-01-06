@@ -57,7 +57,7 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
     MockMultipartFile attachment =
         new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
     InstrumentAttachmentMetadata instrumentAttachmentMetadata = UnitTestCreateDomainObjectUtils
-      .buildInstrumentAttachmentMetadata("projectId", "instrumentId");
+      .buildInstrumentAttachmentMetadata("projectId", 1);
     MockMultipartFile metadata = new MockMultipartFile("instrumentAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(instrumentAttachmentMetadata));
 
@@ -83,7 +83,7 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
     MockMultipartFile attachment =
         new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
     InstrumentAttachmentMetadata instrumentAttachmentMetadata = UnitTestCreateDomainObjectUtils
-      .buildInstrumentAttachmentMetadata("projectId", "instrumentId");
+      .buildInstrumentAttachmentMetadata("projectId", 1);
     instrumentAttachmentMetadata.getType().setDe("hurz");
     MockMultipartFile metadata = new MockMultipartFile("instrumentAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(instrumentAttachmentMetadata));
@@ -105,7 +105,7 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
     MockMultipartFile attachment =
         new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
     InstrumentAttachmentMetadata instrumentAttachmentMetadata = UnitTestCreateDomainObjectUtils
-      .buildInstrumentAttachmentMetadata("projectId", "instrumentId");
+      .buildInstrumentAttachmentMetadata("projectId", 1);
     instrumentAttachmentMetadata.getTitle().setDe("");
 
     MockMultipartFile metadata = new MockMultipartFile("instrumentAttachmentMetadata", "Blob",
@@ -125,7 +125,7 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
   @Test
   public void testAttachmentIsDeletedWithInstrument() throws Exception {
     Instrument instrument =
-        UnitTestCreateDomainObjectUtils.buildInstrument("projectId", "SurveyId");
+        UnitTestCreateDomainObjectUtils.buildInstrument("projectId", "projectId-sy1");
 
     // create the instrument with the given id
     mockMvc.perform(put("/api/instruments/" + instrument.getId())
@@ -135,7 +135,7 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
     MockMultipartFile attachment =
         new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
     InstrumentAttachmentMetadata instrumentAttachmentMetadata = UnitTestCreateDomainObjectUtils
-      .buildInstrumentAttachmentMetadata(instrument.getDataAcquisitionProjectId(), instrument.getId());
+      .buildInstrumentAttachmentMetadata(instrument.getDataAcquisitionProjectId(), instrument.getNumber());
 
     MockMultipartFile metadata = new MockMultipartFile("instrumentAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(instrumentAttachmentMetadata));

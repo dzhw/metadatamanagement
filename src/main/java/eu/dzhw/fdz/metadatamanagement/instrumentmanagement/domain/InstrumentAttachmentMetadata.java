@@ -44,7 +44,11 @@ public class InstrumentAttachmentMetadata extends AbstractRdcDomainObject {
   @NotEmpty(message = 
       "instrument-management.error.instrument-attachment-metadata.filename.not-empty")
   private String fileName;
-
+  
+  @NotNull(message = 
+      "instrument-management.error.instrument-attachment-metadata.instrument-number.not-null")
+  private Integer instrumentNumber;
+  
   public String getInstrumentId() {
     return instrumentId;
   }
@@ -83,6 +87,14 @@ public class InstrumentAttachmentMetadata extends AbstractRdcDomainObject {
 
   public void setFileName(String fileName) {
     this.fileName = fileName;
+  }
+
+  public Integer getInstrumentNumber() {
+    return instrumentNumber;
+  }
+  
+  public void setInstrumentNumber(Integer instrumentNumber) {
+    this.instrumentNumber = instrumentNumber;
   }
 
   @Override
