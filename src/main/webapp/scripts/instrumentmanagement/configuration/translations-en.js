@@ -62,6 +62,11 @@ angular.module('metadatamanagementApp').config(
             'data-acquisition-project-id': {
               'not-empty': 'The ID of the Data Acquisition Project must not be empty!'
             },
+            'instrument.unique-instrument-number': 'The Number of a Survey has to be unique within a Data Acquisition Project!',
+            'survey-numbers.not-empty': 'The List of Surveys must not be empty!',
+            'number': {
+              'not-null': 'The Number of the Instrument must not be empty!'
+            },
             'survey-id': {
               'not-empty': 'The ID of the corresponding Survey must not be empty!'
             },
@@ -70,6 +75,9 @@ angular.module('metadatamanagementApp').config(
           'instrument-attachment-metadata': {
             'instrument-id': {
               'not-empty': 'The ID of the corresponding Instrument must not be empty.'
+            },
+            'instrument-number': {
+              'not-null': 'The Number of the corresponding Instrument must not be empty.'
             },
             'project-id': {
               'not-empty': 'The ID of the Data Acquisition Project must not be empty!'

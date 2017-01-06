@@ -80,6 +80,9 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'Die Sample-Size der Erhebung darf nicht leer sein!'
             },
             'unique-survey-number': 'Die Nummer einer Erhebung muss eindeutig innerhalb eines Datenaufbereitungsprojektes sein!',
+            'number': {
+              'not-null': 'Die Nummer der Erhebung darf nicht leer sein!'
+            },
             'response-rate': {
               'not-null': 'Die Rücklaufquote der Erhebung darf nicht leer sein!'
             }
