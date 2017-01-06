@@ -41,6 +41,14 @@ public interface CompleteVariableProjection
   
   List<String> getRelatedVariables();
   
+  String getDataSetId();
+
+  Integer getDataSetNumber();
+
+  Integer getIndexInDataSet();
+
+  List<Integer> getSurveyNumbers();
+  
 
   /* Nested Objects */
   FilterDetails getFilterDetails();

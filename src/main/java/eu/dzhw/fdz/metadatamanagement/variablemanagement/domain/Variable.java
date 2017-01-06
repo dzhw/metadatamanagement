@@ -101,7 +101,16 @@ public class Variable extends AbstractRdcDomainObject {
       message = "variable-management.error.variable.related-question-strings.i18n-string-size")
   private I18nString relatedQuestionStrings;
 
-  public List<String> relatedVariables;
+  private List<String> relatedVariables;
+  
+  private String dataSetId;
+  
+  private Integer dataSetNumber;
+  
+  private Integer indexInDataSet;
+  
+  private List<Integer> surveyNumbers;
+ 
 
 
   /* Nested Objects */
@@ -133,6 +142,7 @@ public class Variable extends AbstractRdcDomainObject {
     return id;
   }
 
+  
   /*
    * (non-Javadoc)
    * @see eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject#toString()
@@ -150,14 +160,20 @@ public class Variable extends AbstractRdcDomainObject {
       .add("accessWays", accessWays)
       .add("sameVariablesInPanel", sameVariablesInPanel)
       .add("relatedQuestionStrings", relatedQuestionStrings)
+      .add("relatedVariables", relatedVariables)
+      .add("dataSetId", dataSetId)
+      .add("dataSetNumber", dataSetNumber)
+      .add("indexInDataSet", indexInDataSet)
+      .add("surveyNumbers", surveyNumbers)
       .add("filterDetails", filterDetails)
       .add("generationDetails", generationDetails)
       .add("distribution", distribution)
       .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
       .add("surveyIds", surveyIds)
-      .add("relatedVariables", relatedVariables)
       .toString();
   }
+
+
 
   /* GETTER / SETTER */
   public String getName() {
@@ -275,4 +291,45 @@ public class Variable extends AbstractRdcDomainObject {
   public void setRelatedVariables(List<String> relatedVariables) {
     this.relatedVariables = relatedVariables;
   }
+
+
+  public String getDataSetId() {
+    return dataSetId;
+  }
+
+
+  public void setDataSetId(String dataSetId) {
+    this.dataSetId = dataSetId;
+  }
+
+
+  public Integer getDataSetNumber() {
+    return dataSetNumber;
+  }
+
+
+  public void setDataSetNumber(Integer dataSetNumber) {
+    this.dataSetNumber = dataSetNumber;
+  }
+
+
+  public Integer getIndexInDataSet() {
+    return indexInDataSet;
+  }
+
+
+  public void setIndexInDataSet(Integer indexInDataSet) {
+    this.indexInDataSet = indexInDataSet;
+  }
+
+
+  public List<Integer> getSurveyNumbers() {
+    return surveyNumbers;
+  }
+
+
+  public void setSurveyNumbers(List<Integer> surveyNumbers) {
+    this.surveyNumbers = surveyNumbers;
+  }
+  
 }

@@ -36,6 +36,14 @@ public class VariableSearchDocument {
   private List<String> surveyTitles;
   
   private List<String> dataSetIds;
+  
+  private String dataSetId;
+  
+  private Integer dataSetNumber;
+  
+  private Integer indexInDataSet;
+  
+  private List<Integer> surveyNumbers;
 
   /**
    * Create the search document from the domain object depending on the language (index).
@@ -45,6 +53,10 @@ public class VariableSearchDocument {
     this.id = variable.getId();
     this.name = variable.getName();
     this.dataAcquisitionProjectId = variable.getDataAcquisitionProjectId();
+    this.dataSetId = variable.getDataSetId();
+    this.dataSetNumber = variable.getDataSetNumber();
+    this.indexInDataSet = variable.getIndexInDataSet();
+    this.surveyNumbers = variable.getSurveyNumbers();
     createI18nAttributes(variable, index);
     createSurveyTitles(surveys, index);
     createDataSetIds(dataSets);
@@ -150,6 +162,14 @@ public class VariableSearchDocument {
     this.scaleLevel = scaleLevel;
   }
 
+  public Integer getDataSetNumber() {
+    return dataSetNumber;
+  }
+
+  public void setDataSetNumber(Integer dataSetNumber) {
+    this.dataSetNumber = dataSetNumber;
+  }
+
   public List<String> getSurveyTitles() {
     return surveyTitles;
   }
@@ -164,6 +184,14 @@ public class VariableSearchDocument {
 
   public void setDataSetIds(List<String> dataSetIds) {
     this.dataSetIds = dataSetIds;
+  }
+  
+  public List<Integer> getSurveyNumbers() {
+    return surveyNumbers;
+  }
+
+  public void setSurveyNumbers(List<Integer> surveyNumbers) {
+    this.surveyNumbers = surveyNumbers;
   }
 
   public String getRelatedQuestionStrings() {
@@ -181,4 +209,22 @@ public class VariableSearchDocument {
   public void setAnnotations(String annotations) {
     this.annotations = annotations;
   }
+
+  public String getDataSetId() {
+    return dataSetId;
+  }
+
+  public void setDataSetId(String dataSetId) {
+    this.dataSetId = dataSetId;
+  }
+
+  public Integer getIndexInDataSet() {
+    return indexInDataSet;
+  }
+
+  public void setIndexInDataSet(Integer indexInDataSet) {
+    this.indexInDataSet = indexInDataSet;
+  }
+
+
 }

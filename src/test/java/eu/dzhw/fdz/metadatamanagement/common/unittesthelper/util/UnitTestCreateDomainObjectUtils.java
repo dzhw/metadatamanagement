@@ -208,6 +208,7 @@ public class UnitTestCreateDomainObjectUtils {
 
   public static Variable buildVariable(String projectId, String surveyId) {
 
+    // TODO DKatzberg Issue 877, add new field for junits tests
     // Prepare Variable
     List<String> accessWays = new ArrayList<>(); 
     accessWays.add(AccessWays.DOWNLOAD_CUF);
@@ -287,9 +288,9 @@ public class UnitTestCreateDomainObjectUtils {
   }
   
   public static Instrument buildInstrument(String projectId) {
-    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(1);
-    List<String> surveyIds = new ArrayList<String>();
+    List<String> surveyIds = new ArrayList<>();
     surveyIds.add(projectId + "-sy1");
     return new InstrumentBuilder().withDataAcquisitionProjectId(projectId)
       .withId(projectId + "-ins1")
@@ -446,9 +447,9 @@ public class UnitTestCreateDomainObjectUtils {
 
   public static Instrument buildInstrument(
       String projectId, String surveyId) {
-    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(1);
-    List<String> surveyIds = new ArrayList<String>();
+    List<String> surveyIds = new ArrayList<>();
     surveyIds.add(surveyId);
     return new InstrumentBuilder()
         .withId(projectId + "-ins1")
