@@ -284,6 +284,13 @@ public class PostValidationService {
 //            + "post-validation.variable-has-invalid-question-id", Arrays.asList(information)));
 //      }
       
+      if (variable.getDataSetId() != null 
+          && this.dataSetRepository.findOne(variable.getDataSetId()) == null) {
+        String[] information = {variable.getId(), variable.getDataSetId()};
+        errors.add(new PostValidationMessageDto("variable-management.error."
+            + "post-validation.variable-has-invalid-data-set-id", Arrays.asList(information)));
+      }
+      
       //variable.relatedVariables: Check for variable ids
       if (variable.getRelatedVariables() != null) {
         for (String variableId : variable.getRelatedVariables()) {
