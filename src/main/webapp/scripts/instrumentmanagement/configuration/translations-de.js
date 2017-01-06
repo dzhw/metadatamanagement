@@ -62,6 +62,11 @@ angular.module('metadatamanagementApp').config(
             'data-acquisition-project-id': {
               'not-empty': 'Die ID des Datenaufbereitungsprojektes darf nicht leer sein!'
             },
+            'instrument.unique-instrument-number': 'Die Nummer eines Erhebungsinstruments muss eindeutig innerhalb eines Datenaufbereitungsprojektes sein!',
+            'survey-numbers.not-empty': 'Die Liste der Erhebungen darf nicht leer sein!',
+            'number': {
+              'not-null': 'Die Nummer des Erhebungsinstruments darf nicht leer sein!'
+            },
             'survey-id': {
               'not-empty': 'Die ID der zugehörigen Erhebung darf nicht leer sein!'
             },
@@ -70,6 +75,9 @@ angular.module('metadatamanagementApp').config(
           'instrument-attachment-metadata': {
             'instrument-id': {
               'not-empty': 'Die ID des zugehörigen Instrumentes darf nicht leer sein.'
+            },
+            'instrument-number': {
+              'not-null': 'Die Nummer des zugehörigen Instrumentes darf nicht leer sein.'
             },
             'project-id': {
               'not-empty': 'Die ID des zugehörigen Datenaufbereitungsprojektes darf nicht leer sein.'

@@ -80,6 +80,9 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'The Sample Size of a Survey must not be empty!'
             },
             'unique-survey-number': 'The Number of a Survey has to be unique within a Data Acquisition Project!',
+            'number': {
+              'not-null': 'The Number of the Survey must not be empty!'
+            },
             'response-rate': {
               'not-null': 'The Response Rate of a Survey must not be empty!'
             }
