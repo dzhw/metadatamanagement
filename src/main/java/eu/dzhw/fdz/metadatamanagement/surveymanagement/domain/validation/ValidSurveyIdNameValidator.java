@@ -31,11 +31,13 @@ public class ValidSurveyIdNameValidator implements ConstraintValidator<ValidSurv
   @Override
   public boolean isValid(Survey survey, ConstraintValidatorContext context) {
     // check for set project id
-    if (survey.getDataAcquisitionProjectId() == null) {
+    if (survey.getId() == null || survey.getDataAcquisitionProjectId() == null
+        || survey.getNumber() == null) {
       return false;
     }
 
-    return survey.getId().matches(survey.getDataAcquisitionProjectId() + "\\-sy" + "[0-9]*");
+    return survey.getId().equals(survey.getDataAcquisitionProjectId()
+        + "-sy" + survey.getNumber());
   }
 
 }

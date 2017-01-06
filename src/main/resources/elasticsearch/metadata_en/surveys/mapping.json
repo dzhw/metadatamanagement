@@ -53,11 +53,6 @@
         "type": "string",
         "index": "not_analyzed",
         "copy_to": "allStringsAsNgrams"
-      },
-       "number": {
-        "type": "string",
-        "index": "not_analyzed",
-        "copy_to": "allStringsAsNgrams"
       }
      }
   }

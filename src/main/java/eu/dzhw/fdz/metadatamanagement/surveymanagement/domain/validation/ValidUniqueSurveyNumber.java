@@ -22,7 +22,7 @@ public @interface ValidUniqueSurveyNumber {
    * Defines the default error message.
    */
   public abstract String message() default "{eu.dzhw.fdz.metadatamanagement.domain.validation"
-  + "surveyn-management.error.survey.unique-survey-number}";
+  + "survey-management.error.survey.unique-survey-number}";
 
   /**
    * This contains groups.
