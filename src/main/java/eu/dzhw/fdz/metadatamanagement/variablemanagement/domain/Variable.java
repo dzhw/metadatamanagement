@@ -122,6 +122,9 @@ public class Variable extends AbstractRdcDomainObject {
 
   @Valid
   private Distribution distribution;
+  
+  @Valid
+  private List<RelatedQuestion> relatedQuestions;
 
 
   /* Foreign Keys */
@@ -330,6 +333,14 @@ public class Variable extends AbstractRdcDomainObject {
 
   public void setSurveyNumbers(List<Integer> surveyNumbers) {
     this.surveyNumbers = surveyNumbers;
+  }
+
+  public List<RelatedQuestion> getRelatedQuestions() {
+    return relatedQuestions;
+  }
+  
+  public void setRelatedQuestions(List<RelatedQuestion> relatedQuestions) {
+    this.relatedQuestions = relatedQuestions;
   }
   
 }

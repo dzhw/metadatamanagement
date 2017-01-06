@@ -6,6 +6,7 @@ import java.util.List;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchIndices;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RelatedQuestion;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import io.searchbox.annotations.JestId;
 
@@ -44,6 +45,8 @@ public class VariableSearchDocument {
   private Integer indexInDataSet;
   
   private List<Integer> surveyNumbers;
+  
+  private List<RelatedQuestion> relatedQuestions;
 
   /**
    * Create the search document from the domain object depending on the language (index).
@@ -57,6 +60,7 @@ public class VariableSearchDocument {
     this.dataSetNumber = variable.getDataSetNumber();
     this.indexInDataSet = variable.getIndexInDataSet();
     this.surveyNumbers = variable.getSurveyNumbers();
+    this.relatedQuestions = variable.getRelatedQuestions();
     createI18nAttributes(variable, index);
     createSurveyTitles(surveys, index);
     createDataSetIds(dataSets);
@@ -144,6 +148,14 @@ public class VariableSearchDocument {
 
   public void setLabel(String label) {
     this.label = label;
+  }
+  
+  public List<RelatedQuestion> getRelatedQuestions() {
+    return relatedQuestions;
+  }
+
+  public void setRelatedQuestions(List<RelatedQuestion> relatedQuestions) {
+    this.relatedQuestions = relatedQuestions;
   }
 
   public String getDataType() {

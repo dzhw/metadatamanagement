@@ -9,6 +9,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.projections.AbstractRdcDomai
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Distribution;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.FilterDetails;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.GenerationDetails;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RelatedQuestion;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 
 /**
@@ -56,6 +57,8 @@ public interface CompleteVariableProjection
   GenerationDetails getGenerationDetails();
 
   Distribution getDistribution();
+  
+  List<RelatedQuestion> getRelatedQuestions();
   
   /* Foreign Keys */
   String getDataAcquisitionProjectId();
