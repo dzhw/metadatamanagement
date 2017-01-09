@@ -10,7 +10,7 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- * Annotation for the validation of the id.
+ * Annotation for the validation of the number.
  */
 @Documented
 @Constraint(validatedBy = {ValidUniqueInstrumentNumberValidator.class})

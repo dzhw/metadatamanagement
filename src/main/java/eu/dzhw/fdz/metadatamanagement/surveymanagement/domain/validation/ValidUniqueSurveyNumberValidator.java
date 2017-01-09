@@ -8,7 +8,7 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 
 /**
- * Validates the uniqueness of question.
+ * Validates the uniqueness of number.
  */
 public class ValidUniqueSurveyNumberValidator
     implements ConstraintValidator<ValidUniqueSurveyNumber, Survey> {

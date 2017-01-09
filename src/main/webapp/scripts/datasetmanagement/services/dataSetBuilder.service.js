@@ -1,3 +1,4 @@
+/* global _*/
 'use strict';
 
 angular.module('metadatamanagementApp').service('DataSetBuilderService',
@@ -8,13 +9,6 @@ angular.module('metadatamanagementApp').service('DataSetBuilderService',
           return null;
         }
 
-        //Create Survey Ids from survey Numbers
-        var surveyIds = [];
-        var surveyNumberArray = dataSet.surveyNumbers.split(',');
-        surveyNumberArray.forEach(function(surveyNumber) {
-          surveyIds.push(dataAcquisitionProjectId + '-sy' + surveyNumber);
-        });
-
         //Create DataSet Object
         var dataSetObj = {
             id: dataAcquisitionProjectId + '-ds' + dataSet.number,
@@ -24,15 +18,19 @@ angular.module('metadatamanagementApp').service('DataSetBuilderService',
               de: dataSet['description.de']
             },
             number: dataSet.number,
-            surveyNumbers: CleanJSObjectService
-              .removeWhiteSpace(dataSet.surveyNumbers),
-            surveyIds: surveyIds,
+            surveyNumbers: (dataSet.surveyNumbers + '').replace(/\s/g, '')
+            .split(new RegExp('[,.]', 'g')),
+            surveyIds: [],
             type: {
               en: dataSet['type.en'],
               de: dataSet['type.de']
             },
             subDataSets: subDataSets
           };
+        _.forEach(dataSetObj.surveyNumbers, function(number) {
+            dataSetObj.surveyIds
+            .push(dataAcquisitionProjectId  + '-sy' + number);
+          });
         var cleanedDataSetObject = CleanJSObjectService
         .removeEmptyJsonObjects(dataSetObj);
         return new DataSetResource(cleanedDataSetObject);

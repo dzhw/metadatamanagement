@@ -8,7 +8,7 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 
 /**
- * Validates the uniqueness of question.
+ * Validates the uniqueness of number.
  */
 public class ValidUniqueInstrumentNumberValidator
     implements ConstraintValidator<ValidUniqueInstrumentNumber, Instrument> {
