@@ -7,13 +7,15 @@ angular.module('metadatamanagementApp').config(
       'variable-management': {
         'log-messages': {
           'variable': {
+            'unable-to-read-file': 'sddfsdsdsdsd {{dataSet}} {{file}}',
+            'json-parse-error': 'wewewewewew {{dataSet}} {{file}}',
             'saved': 'Variable mit FDZ-ID {{ id }} erfolgreich gespeichert!',
             'not-saved': 'Variable mit FDZ-ID {{ id }} wurde nicht gespeichert:',
             'missing-id': 'Die {{ index }}. Variable enthält keine FDZ-ID und wurde nicht gespeichert!',
             'upload-terminated': 'Upload von {{ total }} Variablen mit {{ errors }} Fehlern beendet!',
             'unable-to-delete': 'Die Variablen konnten nicht gelöscht werden!',
             'cancelled': 'Upload von Variablen Abgebrochen!',
-            'missing-json-file': 'Keine JSON Datei zu Variable {{ id }} gefunden!',
+            'missing-json-file': 'Keine JSON Datei zu Variable {{name}} gefunden! {{dataSet}}',
             'generation-details-rule-success-copy-to-clipboard': 'Die Generierungsregel wurde erfolgreich in die Zwischenablage kopiert.',
             'filter-details-success-copy-to-clipboard': 'Der Filterausdruck wurde erfolgreich in die Zwischenablage kopiert.'
           }

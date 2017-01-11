@@ -1,31 +1,22 @@
+/* global _ */
 'use strict';
 
 angular.module('metadatamanagementApp').service('VariableBuilderService',
   function(VariableResource, CleanJSObjectService) {
     var buildVariable = function(variableFromExcel, variableFromJson,
-      dataAcquisitionProjectId) {
-      if (!variableFromExcel || !variableFromJson ||
-        !dataAcquisitionProjectId) {
-        return null;
-      }
+      dataAcquisitionProjectId, dataSet) {
 
       var variableObj = {
-        id: variableFromExcel.id,
-        dataType: variableFromJson.dataType,
-        scaleLevel: variableFromJson.scaleLevel,
-        name: variableFromJson.name,
-        label: variableFromJson.label,
-        questionId: variableFromExcel.questionId,
+        id: dataAcquisitionProjectId + '-' + dataSet +
+        '-' + variableFromExcel.name,
+        dataAcquisitionProjectId: dataAcquisitionProjectId,
+        name: variableFromExcel.name,
         annotations: {
           en: variableFromExcel['annotations.en'],
           de: variableFromExcel['annotations.de']
         },
         accessWays: CleanJSObjectService.
         removeWhiteSpace(variableFromExcel.accessWays),
-        relatedQuestionStrings: {
-          en: variableFromExcel['relatedQuestionStrings.en'],
-          de: variableFromExcel['relatedQuestionStrings.de']
-        },
         filterDetails: {
           expression: variableFromExcel['filterDetails.expression'],
           description: {
@@ -36,24 +27,41 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
             'filterDetails.expressionLanguage'
           ]
         },
-        sameVariablesInPanel: variableFromJson.sameVariablesInPanel,
-        relatedVariables: variableFromJson.relatedVariables,
-        surveyIds: variableFromJson.surveyIds,
-        dataSetIds: variableFromJson.dataSetIds,
-        dataAcquisitionProjectId: dataAcquisitionProjectId,
         generationDetails: {
           rule: variableFromExcel['generationDetails.rule'],
           ruleExpressionLanguage: variableFromExcel[
             'generationDetails.ruleExpressionLanguage'],
           description: {
-            en: variableFromExcel['generationDetails.description.en'],
-            de: variableFromExcel['generationDetails.description.de']
-          }
+              en: variableFromExcel['generationDetails.description.en'],
+              de: variableFromExcel['generationDetails.description.de']
+            }
         },
+        panelIdentifier: variableFromExcel.panelIdentifier,
+        label: variableFromJson.label,
+        dataType: variableFromJson.dataType,
+        scaleLevel: variableFromJson.scaleLevel,
+        relatedQuestions: variableFromJson.relatedQuestions,
+        relatedQuestionStrings: {
+          en: variableFromExcel['relatedQuestionStrings.en'],
+          de: variableFromExcel['relatedQuestionStrings.de']
+        },
+        surveyNumbers: variableFromJson.surveyNumbers,
+        surveyIds: [],
+        indexInDataSet: variableFromJson.indexInDataSet,
+        relatedVariables: variableFromJson.relatedVariables,
         distribution: variableFromJson.distribution,
+        sameVariablesInPanel: variableFromJson.sameVariablesInPanel,
+        dataSetId: dataAcquisitionProjectId + '-' + dataSet,
+        dataSetNumber: _.split(dataSet, 'ds')[1],
+
+        questionId: variableFromExcel.questionId
       };
-      return new VariableResource(CleanJSObjectService.removeEmptyJsonObjects(
-        variableObj));
+      _.forEach(variableObj.surveyNumbers, function(number) {
+        variableObj.surveyIds
+        .push(variableObj.dataAcquisitionProjectId + '-sy' + number);
+      });
+      return new VariableResource(CleanJSObjectService
+        .removeEmptyJsonObjects(variableObj));
     };
     return {
       buildVariable: buildVariable

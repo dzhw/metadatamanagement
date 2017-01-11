@@ -184,7 +184,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     };
 
     $scope.uploadVariables = function(files) {
-      if (!files || files.length === 0) {
+      if (!files || files.length === 0 || !$scope.projectId) {
         return;
       }
       VariableUploadService.uploadVariables(files,
