@@ -40,7 +40,7 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
         label: variableFromJson.label,
         dataType: variableFromJson.dataType,
         scaleLevel: variableFromJson.scaleLevel,
-        relatedQuestions: variableFromJson.relatedQuestions,
+        relatedQuestions: [],
         relatedQuestionStrings: {
           en: variableFromExcel['relatedQuestionStrings.en'],
           de: variableFromExcel['relatedQuestionStrings.de']
@@ -52,13 +52,23 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
         distribution: variableFromJson.distribution,
         sameVariablesInPanel: variableFromJson.sameVariablesInPanel,
         dataSetId: dataAcquisitionProjectId + '-' + dataSet,
-        dataSetNumber: _.split(dataSet, 'ds')[1],
-
-        questionId: variableFromExcel.questionId
+        dataSetNumber: _.split(dataSet, 'ds')[1]
       };
       _.forEach(variableObj.surveyNumbers, function(number) {
         variableObj.surveyIds
         .push(variableObj.dataAcquisitionProjectId + '-sy' + number);
+      });
+      _.forEach(variableFromJson.relatedQuestions, function(relatedQuestion) {
+        variableObj.relatedQuestions
+        .push({
+          'instrumentNumber': relatedQuestion.instrumentNumber,
+          'instrumentId': dataAcquisitionProjectId +
+          '-ins' + relatedQuestion.instrumentNumber,
+          'questionNumber': relatedQuestion.questionNumber,
+          'questionId': dataAcquisitionProjectId + '-ins' +
+          relatedQuestion.instrumentNumber + '-' +
+          relatedQuestion.questionNumber
+        });
       });
       return new VariableResource(CleanJSObjectService
         .removeEmptyJsonObjects(variableObj));
