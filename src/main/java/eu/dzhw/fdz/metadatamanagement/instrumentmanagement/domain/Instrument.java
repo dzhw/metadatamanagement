@@ -8,6 +8,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
@@ -35,6 +36,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
     + ".instrument.valid-instrument-id-pattern")
 @ValidUniqueInstrumentNumber(message = "instrument-management.error"
     + ".instrument.unique-instrument-number")
+@CompoundIndex(def = "{number: 1, dataAcquisitionProjectId: 1}", unique = true)
 public class Instrument extends AbstractRdcDomainObject {
 
   @Id
