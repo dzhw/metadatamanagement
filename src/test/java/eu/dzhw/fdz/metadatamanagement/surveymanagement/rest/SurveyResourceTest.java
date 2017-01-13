@@ -188,7 +188,7 @@ public class SurveyResourceTest extends AbstractTest {
       .andExpect(status().isBadRequest())
       .andExpect(jsonPath("$.errors[0].invalidValue", is("2013-04-01d")))
       .andExpect(jsonPath("$.errors[0].property", is("end")))
-      .andExpect(jsonPath("$.errors[0].entity", is("Period")))
+      .andExpect(jsonPath("$.errors[0].entity", is("Survey")))
       .andExpect(jsonPath("$.errors[0].message", is("global.error.import.json-parsing-error")));
   }
   

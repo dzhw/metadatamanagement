@@ -9,6 +9,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -37,6 +38,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @ValidDataSetIdName(message = "data-set-management.error.data-set.id.valid-data-set-id-name")
 @UniqueDatasetNumberInProject(
     message = "data-set-management.error.data-set.unique-data-set-number-in-project")
+@CompoundIndex(def = "{number: 1, dataAcquisitionProjectId: 1}", unique = true)
 public class DataSet extends AbstractRdcDomainObject {
   
   /* Domain Object Attributes */

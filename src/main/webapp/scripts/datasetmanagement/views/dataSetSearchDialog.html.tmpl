@@ -13,7 +13,8 @@
             <div class="fdz-InfiniteScroll">
                 <md-virtual-repeat-container id="vertical-container">
                     <div data-md-virtual-repeat="item in ctrl.infiniteItems" data-md-on-demand flex>
-                      <md-card ui-sref="data-setDetail({id:item._source.id})" class="fdz-search-result">
+                      <md-card ui-sref="data-setDetail({projectId: item._source.dataAcquisitionProjectId,
+                        dataSetNumber: item._source.number})" class="fdz-search-result">
                           <md-card-header class="fdz-card-header-border">
                               <md-card-avatar>
                                   <md-icon md-svg-src="/assets/images/icons/data-set.svg" class="fdz-search-result-icon"></md-icon>

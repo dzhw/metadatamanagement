@@ -117,8 +117,12 @@ public class ExceptionTranslator {
     
     //Create Json Parsing Error. Just the first will be returned
     try {            
-      String domainObject = processor.getCurrentValue().getClass().getSimpleName();
+      String domainObject = invalidFormatException.getPath().get(0).getFrom()
+          .getClass().getSimpleName();
       String property = processor.getCurrentName();
+      if (property == null) {
+        property = invalidFormatException.getPath().get(0).getFieldName();
+      }
       String invalidValue = (String)invalidFormatException.getValue();
       String messageKey = "global.error.import.json-parsing-error";
       return new ErrorListDto(new ErrorDto(domainObject, messageKey,invalidValue, property));

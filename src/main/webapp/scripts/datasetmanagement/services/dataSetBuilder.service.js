@@ -18,8 +18,8 @@ angular.module('metadatamanagementApp').service('DataSetBuilderService',
               de: dataSet['description.de']
             },
             number: dataSet.number,
-            surveyNumbers: (dataSet.surveyNumbers + '').replace(/\s/g, '')
-            .split(new RegExp('[,.]', 'g')),
+            surveyNumbers: (dataSet.surveyNumbers + '').
+              split(','),
             surveyIds: [],
             type: {
               en: dataSet['type.en'],
