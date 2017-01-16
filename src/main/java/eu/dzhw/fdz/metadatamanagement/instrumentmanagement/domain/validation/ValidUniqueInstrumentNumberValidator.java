@@ -38,7 +38,7 @@ public class ValidUniqueInstrumentNumberValidator
   public boolean isValid(Instrument instrument, ConstraintValidatorContext context) {
     if (instrument.getNumber() == null
         || StringUtils.isEmpty(instrument.getDataAcquisitionProjectId())) {
-      return false;
+      return true;
     }
     List<Instrument> instruments = instrumentRepository
         .findByNumberAndDataAcquisitionProjectId(instrument.getNumber(),

@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -153,10 +154,10 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
       .andExpect(status().isOk());
     
     // check if attachment has been deleted as well
-    // read the created attachment and check the version
     mockMvc.perform(
         get("/api/instruments/" + instrumentAttachmentMetadata.getInstrumentId() + "/attachments"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isOk())
+      .andExpect(content().json("[]"));
   }
 
 }

@@ -72,13 +72,8 @@ public class InstrumentAttachmentResource {
     if (!StringUtils.isEmpty(instrumentId)) {
       List<InstrumentAttachmentMetadata> metadata =
           instrumentAttachmentService.findAllByInstrument(instrumentId);
-      if (metadata.isEmpty()) {
-        return ResponseEntity.notFound()
-          .build();
-      } else {
-        return ResponseEntity.ok()
+      return ResponseEntity.ok()
           .body(metadata);
-      }
     } else {
       return ResponseEntity.badRequest()
         .body(null);

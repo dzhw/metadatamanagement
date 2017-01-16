@@ -18,8 +18,8 @@ angular.module('metadatamanagementApp').service('InstrumentBuilderService',
           de: instrumentFromExcel['description.de']
         },
         type: instrumentFromExcel.type,
-        surveyNumbers: (instrumentFromExcel.surveyNumbers + '')
-        .replace(/\s/g, '').split(new RegExp('[,.]', 'g')),
+        surveyNumbers: (instrumentFromExcel.surveyNumbers + '').
+          split(','),
         surveyIds: []
       };
       _.forEach(instrument.surveyNumbers, function(number) {
