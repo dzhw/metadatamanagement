@@ -4,7 +4,6 @@ import java.lang.management.ManagementFactory;
 import java.util.EnumSet;
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
@@ -39,7 +38,7 @@ public class MetricsConfiguration extends DelegatingMetricsConfiguration
   private static final String PROP_METRIC_REG_JVM_FILES = "jvm.files";
   private static final String PROP_METRIC_REG_JVM_BUFFERS = "jvm.buffers";
 
-  @Inject
+  @Autowired
   private MetricRegistry metricRegistry;
   
   @Override

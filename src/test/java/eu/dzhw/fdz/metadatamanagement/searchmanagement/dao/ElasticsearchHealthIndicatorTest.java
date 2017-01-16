@@ -8,14 +8,12 @@ import static org.junit.Assert.assertThat;
 
 import java.lang.reflect.Field;
 
-import javax.inject.Inject;
-
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.health.Health.Builder;
 import org.springframework.boot.actuate.health.Status;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
-import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.ElasticsearchHealthIndicator;
 import io.searchbox.client.JestClient;
 
 /**
@@ -24,7 +22,7 @@ import io.searchbox.client.JestClient;
  */
 public class ElasticsearchHealthIndicatorTest extends AbstractTest {
 
-  @Inject
+  @Autowired
   private JestClient jestClient;
 
   @Test

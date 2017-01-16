@@ -18,7 +18,6 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-import javax.inject.Inject;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
@@ -27,6 +26,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
@@ -53,16 +53,16 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
  */
 public class AccountResourceTest extends AbstractTest {
 
-  @Inject
+  @Autowired
   private UserRepository userRepository;
 
-  @Inject
+  @Autowired
   private AuthorityRepository authorityRepository;
 
-  @Inject
+  @Autowired
   private UserService userService;
 
-  @Inject
+  @Autowired
   private Validator validator;
 
   @Mock

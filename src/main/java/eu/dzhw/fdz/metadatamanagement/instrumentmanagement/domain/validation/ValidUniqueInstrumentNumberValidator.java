@@ -2,10 +2,10 @@ package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation;
 
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
@@ -17,7 +17,7 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.Instrument
 public class ValidUniqueInstrumentNumberValidator
     implements ConstraintValidator<ValidUniqueInstrumentNumber, Instrument> {
   
-  @Inject
+  @Autowired
   private InstrumentRepository instrumentRepository;
 
   /*

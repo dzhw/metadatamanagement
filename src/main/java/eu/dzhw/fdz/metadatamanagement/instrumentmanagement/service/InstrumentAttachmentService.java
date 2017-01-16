@@ -6,8 +6,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsCriteria;
@@ -27,10 +26,10 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 @Service
 public class InstrumentAttachmentService {
 
-  @Inject
+  @Autowired
   private GridFsOperations operations;
   
-  @Inject
+  @Autowired
   private MongoTemplate mongoTemplate;
   
   /**

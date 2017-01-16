@@ -6,10 +6,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import javax.inject.Inject;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,13 +28,13 @@ public class UserService {
 
   private final Logger log = LoggerFactory.getLogger(UserService.class);
 
-  @Inject
+  @Autowired
   private PasswordEncoder passwordEncoder;
 
-  @Inject
+  @Autowired
   private UserRepository userRepository;
 
-  @Inject
+  @Autowired
   private AuthorityRepository authorityRepository;
 
   /**

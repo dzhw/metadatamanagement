@@ -11,8 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,17 +40,17 @@ import freemarker.template.TemplateExceptionHandler;
 @Service
 public class DataSetReportService {
 
-  @Inject
+  @Autowired
   private FileService fileService;
 
-  @Inject
+  @Autowired
   private DataSetRepository dataSetRepository;
 
   //TODO DKatzberg need the repo later, again if we have a list of variables.
-  //@Inject
+  //@Autowired
   //private VariableRepository variableRepository;
 
-//  @Inject
+//  @Autowired
 //  private QuestionRepository questionRepository;
 
   /**

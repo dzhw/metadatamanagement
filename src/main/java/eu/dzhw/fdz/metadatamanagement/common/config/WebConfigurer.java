@@ -3,7 +3,6 @@ package eu.dzhw.fdz.metadatamanagement.common.config;
 import java.util.Arrays;
 import java.util.EnumSet;
 
-import javax.inject.Inject;
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
@@ -11,6 +10,7 @@ import javax.servlet.ServletException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.context.embedded.MimeMappings;
@@ -30,7 +30,7 @@ public class WebConfigurer
 
   private final Logger log = LoggerFactory.getLogger(WebConfigurer.class);
 
-  @Inject
+  @Autowired
   private Environment env;
 
   @Override

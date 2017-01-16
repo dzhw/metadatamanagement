@@ -1,7 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.rest;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,8 +19,8 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service.Relat
 @RestController
 public class RelatedPublicationDeleteResource {
   
-  @Inject 
-  RelatedPublicationService relatedPublicationService;
+  @Autowired 
+  private RelatedPublicationService relatedPublicationService;
   
   @RequestMapping(path = "/api/related-publications/delete-all", method = RequestMethod.POST,
       produces = MediaType.APPLICATION_JSON_VALUE)

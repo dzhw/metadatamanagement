@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -39,25 +38,25 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepo
 public class RelatedPublicationPostValidationService {
 
   /* Repositories for loading data from the repository */
-  @Inject
- private RelatedPublicationRepository relatedPublicationRepository;
+  @Autowired
+  private RelatedPublicationRepository relatedPublicationRepository;
   
-  @Inject
+  @Autowired
   private VariableRepository variableRepository;
 
-  @Inject
+  @Autowired
   private SurveyRepository surveyRepository;
 
-  @Inject
+  @Autowired
   private DataSetRepository dataSetRepository;
 
-  @Inject
+  @Autowired
   private InstrumentRepository instrumentRepository;
 
-  @Inject
+  @Autowired
   private QuestionRepository questionRepository;
   
-  @Inject
+  @Autowired
   private StudyRepository studyRepository;
 
   /**

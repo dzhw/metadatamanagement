@@ -14,12 +14,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.io.IOException;
 import java.util.Optional;
 
-import javax.inject.Inject;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -45,16 +44,16 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
  */
 public class UserResourceTest extends AbstractTest {
 
-  @Inject
+  @Autowired
   private UserRepository userRepository;
 
-  @Inject
+  @Autowired
   private AuthorityRepository authorityRepository;
 
-  @Inject
+  @Autowired
   private UserService userService;
 
-  @Inject
+  @Autowired
   private PageableHandlerMethodArgumentResolver pageableArgumentResolver;
 
   private MockMvc restUserMockMvc;

@@ -1,7 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.studymanagement.rest;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +21,7 @@ import eu.dzhw.fdz.metadatamanagement.studymanagement.service.StudyService;
 @RestController
 public class StudyDeleteResource {
   
-  @Inject 
+  @Autowired 
   private StudyService studyService;
   
   @RequestMapping(path = "/api/studies/delete", method = RequestMethod.POST,

@@ -5,8 +5,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Arrays;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -40,34 +39,34 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepo
  */
 @Service
 public class ElasticsearchAdminService {
-  @Inject
+  @Autowired
   private ElasticsearchDao elasticsearchDao;
 
-  @Inject
+  @Autowired
   private VariableRepository variableRepository;
   
-  @Inject
+  @Autowired
   private SurveyRepository surveyRepository;
   
-  @Inject
+  @Autowired
   private DataSetRepository dataSetRepository;
   
-  @Inject
+  @Autowired
   private QuestionRepository questionRepository;
   
-  @Inject
+  @Autowired
   private RelatedPublicationRepository relatedPublicationRepository;
   
-  @Inject
+  @Autowired
   private InstrumentRepository instrumentRepository;
   
-  @Inject
+  @Autowired
   private StudyRepository studyRepository;
   
-  @Inject
+  @Autowired
   private ElasticsearchUpdateQueueService updateQueueService;
 
-  @Inject
+  @Autowired
   private ResourceLoader resourceLoader;
 
   private JsonParser jsonParser = new JsonParser();

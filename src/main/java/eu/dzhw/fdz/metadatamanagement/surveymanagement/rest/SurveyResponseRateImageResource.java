@@ -4,8 +4,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -27,7 +26,7 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.SurveyResponseRat
 @RequestMapping("/api")
 public class SurveyResponseRateImageResource {
 
-  @Inject
+  @Autowired
   private SurveyResponseRateImageService surveyResponseRateImageService;
   
   /**

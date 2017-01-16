@@ -36,10 +36,12 @@ module.exports = function(grunt) {
     var LocalPath = './src/main/resources/config/application-local.yml';
     var DevPath = './src/main/resources/config/application-dev.yml';
     var TestPath = './src/main/resources/config/application-test.yml';
+    var ProdPath = './src/main/resources/config/application-prod.yml';
     return {
       LocalProperties: grunt.file.readYAML(LocalPath),
       DevProperties: grunt.file.readYAML(DevPath),
-      TestProperties: grunt.file.readYAML(TestPath)
+      TestProperties: grunt.file.readYAML(TestPath),
+      ProdProperties: grunt.file.readYAML(ProdPath)
     };
   };
   grunt
@@ -549,6 +551,19 @@ module.exports = function(grunt) {
               .metadatamanagement['elasticsearch-angular-client']
               // jscs: enable
           }
+        },
+        prod: {
+          options: {
+            dest: '.tmp/scripts/app.constants.js'
+          },
+          constants: {
+            ENV: 'prod',
+            VERSION: parseVersionFromPomXml(),
+            // jscs: disable
+            ElasticSearchProperties: getElasticSearchProperties().ProdProperties
+              .metadatamanagement['elasticsearch-angular-client']
+              // jscs: enable
+          }
         }
       }
     });
@@ -577,6 +592,13 @@ module.exports = function(grunt) {
 
   grunt.registerTask('buildtest', ['test', 'htmlangular', 'clean:dist',
     'wiredep:app', 'ngconstant:test',
+    'useminPrepare', 'ngtemplates', 'imagemin', 'svgmin',
+    'concat', 'copy:fonts', 'copy:dist', 'ngAnnotate', 'cssmin',
+    'autoprefixer', 'uglify', 'rev', 'usemin', 'htmlmin'
+  ]);
+
+  grunt.registerTask('buildprod', ['test', 'htmlangular', 'clean:dist',
+    'wiredep:app', 'ngconstant:prod',
     'useminPrepare', 'ngtemplates', 'imagemin', 'svgmin',
     'concat', 'copy:fonts', 'copy:dist', 'ngAnnotate', 'cssmin',
     'autoprefixer', 'uglify', 'rev', 'usemin', 'htmlmin'

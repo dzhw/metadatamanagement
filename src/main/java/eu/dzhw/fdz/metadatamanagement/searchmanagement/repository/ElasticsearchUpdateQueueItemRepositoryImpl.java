@@ -3,8 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.repository;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -29,7 +28,7 @@ public class ElasticsearchUpdateQueueItemRepositoryImpl
   // number of queue items to be processed in one batch
   private static final int BULK_SIZE = 100;
 
-  @Inject
+  @Autowired
   private MongoOperations mongoOperations;
 
   @Override

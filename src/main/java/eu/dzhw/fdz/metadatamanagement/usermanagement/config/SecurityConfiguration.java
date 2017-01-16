@@ -1,7 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.usermanagement.config;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -24,7 +23,7 @@ import org.springframework.security.data.repository.query.SecurityEvaluationCont
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-  @Inject
+  @Autowired
   private UserDetailsService userDetailsService;
 
   @Bean
@@ -32,7 +31,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     return new BCryptPasswordEncoder();
   }
 
-  @Inject
+  @Autowired
   public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
     auth.userDetailsService(userDetailsService)
       .passwordEncoder(passwordEncoder());

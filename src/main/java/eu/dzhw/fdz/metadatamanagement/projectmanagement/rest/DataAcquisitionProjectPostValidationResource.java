@@ -1,9 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.rest;
 
-import javax.inject.Inject;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +29,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.PostValidationSe
 @RequestMapping("/api")
 public class DataAcquisitionProjectPostValidationResource {
 
-  @Inject
+  @Autowired
   private PostValidationService postValidationService;
 
   private final Logger log =

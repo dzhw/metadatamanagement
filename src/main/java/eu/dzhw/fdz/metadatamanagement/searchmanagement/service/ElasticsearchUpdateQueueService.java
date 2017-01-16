@@ -4,11 +4,10 @@ import java.lang.management.ManagementFactory;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import org.apache.commons.lang3.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -63,37 +62,37 @@ public class ElasticsearchUpdateQueueService {
    * MongoDB Repository with gets all queue elements for the synchronizations 
    * of the Elasticsearch DB.
    */
-  @Inject
+  @Autowired
   private ElasticsearchUpdateQueueItemRepository queueItemRepository;
 
   /**
    * Repository for the variables for updating them.
    */
-  @Inject
+  @Autowired
   private VariableRepository variableRepository;
   
-  @Inject
+  @Autowired
   private DataSetRepository dataSetRepository;
 
   /**
    * Repository for the surveys for updating them.
    */
-  @Inject
+  @Autowired
   private SurveyRepository surveyRepository;
     
-  @Inject
+  @Autowired
   private QuestionRepository questionRepository;
   
-  @Inject 
+  @Autowired 
   private StudyRepository studyRepository;
   
-  @Inject
+  @Autowired
   private RelatedPublicationRepository relatedPublicationRepository;
   
-  @Inject
+  @Autowired
   private InstrumentRepository instrumentRepository;
   
-  @Inject
+  @Autowired
   private ElasticsearchDao elasticsearchDao;
 
   /**

@@ -11,16 +11,14 @@ import static org.junit.Assert.assertThat;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 
-import javax.inject.Inject;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.task.AsyncTaskExecutor;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
-import eu.dzhw.fdz.metadatamanagement.common.async.ExceptionHandlingAsyncTaskExecutor;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestUserManagementUtils;
 
 /**
@@ -33,7 +31,7 @@ public class ExceptionHandlingAsyncTaskExecutorTest extends AbstractTest {
 
   private ExceptionHandlingAsyncTaskExecutor asyncTaskExecutor;
 
-  @Inject
+  @Autowired
   private AsyncTaskExecutor taskExecutor;
 
   @Before

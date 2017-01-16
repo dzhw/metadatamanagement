@@ -1,7 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.rest;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +27,7 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service.Relat
 @RequestMapping("/api")
 public class RelatedPublicationPostValidationResource {
 
-  @Inject
+  @Autowired
   private RelatedPublicationPostValidationService postValidationService;
 
   /**

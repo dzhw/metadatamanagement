@@ -3,10 +3,9 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.dao;
 import java.io.IOException;
 import java.util.Collection;
 
-import javax.inject.Inject;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.google.gson.JsonObject;
@@ -40,7 +39,7 @@ public class ElasticsearchDao {
 
   private final Logger log = LoggerFactory.getLogger(ElasticsearchDao.class);
 
-  @Inject
+  @Autowired
   private JestClient jestClient;
 
   /**

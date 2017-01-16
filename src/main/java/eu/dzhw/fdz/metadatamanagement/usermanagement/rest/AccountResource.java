@@ -2,13 +2,13 @@ package eu.dzhw.fdz.metadatamanagement.usermanagement.rest;
 
 import java.util.Optional;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -37,13 +37,13 @@ public class AccountResource {
 
   private final Logger log = LoggerFactory.getLogger(AccountResource.class);
 
-  @Inject
+  @Autowired
   private UserRepository userRepository;
 
-  @Inject
+  @Autowired
   private UserService userService;
 
-  @Inject
+  @Autowired
   private MailService mailService;
 
   /**

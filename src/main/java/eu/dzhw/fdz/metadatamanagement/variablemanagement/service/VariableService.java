@@ -2,8 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.variablemanagement.service;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -32,10 +31,10 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepo
 @RepositoryEventHandler
 public class VariableService {
 
-  @Inject
+  @Autowired
   private VariableRepository variableRepository;
   
-  @Inject
+  @Autowired
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
   /**

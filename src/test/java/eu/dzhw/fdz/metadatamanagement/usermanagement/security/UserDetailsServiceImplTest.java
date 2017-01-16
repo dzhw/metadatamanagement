@@ -11,13 +11,13 @@ import static org.junit.Assert.assertThat;
 
 import java.util.Set;
 
-import javax.inject.Inject;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,7 +26,6 @@ import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestUserManagementUtils;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserNotActivatedException;
 
 /**
  * @author Daniel Katzberg
@@ -34,13 +33,13 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserNotActivatedEx
  */
 public class UserDetailsServiceImplTest extends AbstractTest {
 
-  @Inject
+  @Autowired
   private UserRepository userRepository;
 
-  @Inject
+  @Autowired
   private UserDetailsService userDetailsService;
 
-  @Inject
+  @Autowired
   private Validator validator;
 
   private User user;

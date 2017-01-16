@@ -3,13 +3,13 @@ package eu.dzhw.fdz.metadatamanagement.mailmanagement.service;
 import java.util.Locale;
 import java.util.concurrent.Future;
 
-import javax.inject.Inject;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.lang.CharEncoding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -34,16 +34,16 @@ public class MailService {
 
   private final Logger log = LoggerFactory.getLogger(MailService.class);
 
-  @Inject
+  @Autowired
   private JHipsterProperties jhipsterProperties;
 
-  @Inject
+  @Autowired
   private JavaMailSenderImpl javaMailSender;
 
-  @Inject
+  @Autowired
   private MessageSource messageSource;
 
-  @Inject
+  @Autowired
   private SpringTemplateEngine templateEngine;
 
   /**

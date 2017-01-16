@@ -2,8 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.config;
 
 import java.time.LocalDate;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -24,7 +23,7 @@ import io.searchbox.client.config.HttpClientConfig;
 @Configuration
 public class ElasticsearchClientConfiguration {
 
-  @Inject
+  @Autowired
   private MetadataManagementProperties metadataManagementProperties;
 
   /**

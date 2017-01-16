@@ -2,8 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.datasetmanagement.rest;
 
 import java.io.IOException;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -25,7 +24,7 @@ import freemarker.template.TemplateException;
 @RequestMapping("/api")
 public class DataSetsReportResource {
 
-  @Inject
+  @Autowired
   private DataSetReportService dataSetReportService;
 
   /**

@@ -1,7 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -28,10 +27,10 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpda
 @RepositoryEventHandler
 public class RelatedPublicationService {
 
-  @Inject
+  @Autowired
   private RelatedPublicationRepository relatedPublicationRepository;
 
-  @Inject
+  @Autowired
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
   
   /**

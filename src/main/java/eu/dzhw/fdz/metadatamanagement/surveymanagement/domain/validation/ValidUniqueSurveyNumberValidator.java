@@ -1,8 +1,9 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation;
 
-import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
@@ -13,7 +14,7 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyReposito
 public class ValidUniqueSurveyNumberValidator
     implements ConstraintValidator<ValidUniqueSurveyNumber, Survey> {
   
-  @Inject
+  @Autowired
   private SurveyRepository surveyRepository;
 
   /*

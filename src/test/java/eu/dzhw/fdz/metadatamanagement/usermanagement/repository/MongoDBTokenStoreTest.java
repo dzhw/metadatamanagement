@@ -13,12 +13,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import javax.inject.Inject;
-
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.DefaultOAuth2RefreshToken;
@@ -28,9 +27,6 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.OAuth2Request;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.MongoDbTokenStore;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.OAuth2AccessTokenRepository;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.OAuth2RefreshTokenRepository;
 
 /**
  * @author Daniel Katzberg
@@ -38,10 +34,10 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.OAuth2RefreshTok
  */
 public class MongoDBTokenStoreTest extends AbstractTest {
 
-  @Inject
+  @Autowired
   private OAuth2AccessTokenRepository oAuth2AccessTokenRepository;
 
-  @Inject
+  @Autowired
   private OAuth2RefreshTokenRepository oAuth2RefreshTokenRepository;
 
   private MongoDbTokenStore mongoDBTokenStore;

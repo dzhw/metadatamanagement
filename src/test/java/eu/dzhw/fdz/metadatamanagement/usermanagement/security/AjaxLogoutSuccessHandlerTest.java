@@ -10,17 +10,16 @@ import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 
-import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AjaxLogoutSuccessHandler;
 
 /**
  * @author Daniel Katzberg
@@ -28,7 +27,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AjaxLogoutSuccessH
  */
 public class AjaxLogoutSuccessHandlerTest extends AbstractTest {
 
-  @Inject
+  @Autowired
   private AjaxLogoutSuccessHandler ajaxLogoutSuccessHandler;
 
   @Test

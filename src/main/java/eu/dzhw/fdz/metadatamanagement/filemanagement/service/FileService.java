@@ -3,8 +3,8 @@ package eu.dzhw.fdz.metadatamanagement.filemanagement.service;
 import java.io.InputStream;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.index.Index;
@@ -26,10 +26,10 @@ import com.mongodb.gridfs.GridFSFile;
 @Service
 public class FileService {
 
-  @Inject
+  @Autowired
   private GridFsOperations gridfOperations;
   
-  @Inject
+  @Autowired
   private MongoOperations mongoOperations;
   
   /**

@@ -1,7 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.rest;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +21,7 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.InstrumentSer
 @RestController
 public class InstrumentDeleteResource {
   
-  @Inject 
+  @Autowired 
   private InstrumentService instrumentService;
   
   @RequestMapping(path = "/api/instruments/delete", method = RequestMethod.POST,

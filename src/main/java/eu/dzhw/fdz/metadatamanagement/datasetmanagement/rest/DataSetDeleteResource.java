@@ -1,7 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.rest;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +19,8 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetService;
 @RestController
 public class DataSetDeleteResource {
   
-  @Inject DataSetService dataSetService;
+  @Autowired 
+  private DataSetService dataSetService;
   
   @RequestMapping(path = "/api/data-sets/delete", method = RequestMethod.POST,
       produces = MediaType.APPLICATION_JSON_VALUE)

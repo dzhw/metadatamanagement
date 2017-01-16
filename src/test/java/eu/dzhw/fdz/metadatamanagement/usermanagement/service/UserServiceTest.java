@@ -8,10 +8,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import javax.inject.Inject;
-
 import org.junit.After;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
@@ -31,13 +30,13 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.service.util.RandomUtil;
  */
 public class UserServiceTest extends AbstractTest {
 
-  @Inject
+  @Autowired
   private UserRepository userRepository;
 
-  @Inject
+  @Autowired
   private UserService userService;
 
-  @Inject
+  @Autowired
   private PasswordEncoder passwordEncoder;
 
   @After

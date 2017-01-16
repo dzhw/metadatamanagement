@@ -1,7 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.questionmanagement.rest;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +20,7 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.service.QuestionService
 @RequestMapping("/api")
 public class QuestionDeleteResource {
   
-  @Inject 
+  @Autowired 
   private QuestionService questionService;
   
   @RequestMapping(path = "/questions/delete", method = RequestMethod.POST,

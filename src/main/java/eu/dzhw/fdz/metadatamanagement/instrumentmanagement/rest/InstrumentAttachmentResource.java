@@ -5,9 +5,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -30,7 +30,7 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.InstrumentAtt
 @RequestMapping("/api")
 public class InstrumentAttachmentResource {
 
-  @Inject
+  @Autowired
   private InstrumentAttachmentService instrumentAttachmentService;
 
   /**

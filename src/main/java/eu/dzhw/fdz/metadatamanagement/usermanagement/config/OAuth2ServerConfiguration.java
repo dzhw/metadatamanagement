@@ -1,7 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.usermanagement.config;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,13 +38,13 @@ public class OAuth2ServerConfiguration {
   @EnableResourceServer
   protected static class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
 
-    @Inject
+    @Autowired
     private Http401UnauthorizedEntryPoint authenticationEntryPoint;
 
-    @Inject
+    @Autowired
     private AjaxLogoutSuccessHandler ajaxLogoutSuccessHandler;
 
-    @Inject
+    @Autowired
     private Environment environment;
 
     @Override
@@ -137,13 +136,13 @@ public class OAuth2ServerConfiguration {
   protected static class AuthorizationServerConfiguration
       extends AuthorizationServerConfigurerAdapter {
 
-    @Inject
+    @Autowired
     private OAuth2AccessTokenRepository oauth2AccessTokenRepository;
 
-    @Inject
+    @Autowired
     private OAuth2RefreshTokenRepository oauth2RefreshTokenRepository;
 
-    @Inject
+    @Autowired
     private JHipsterProperties jhipsterProperties;
 
     @Bean
@@ -151,7 +150,7 @@ public class OAuth2ServerConfiguration {
       return new MongoDbTokenStore(oauth2AccessTokenRepository, oauth2RefreshTokenRepository);
     }
 
-    @Inject
+    @Autowired
     @Qualifier("authenticationManagerBean")
     private AuthenticationManager authenticationManager;
 

@@ -2,8 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.questionmanagement.service;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -29,13 +28,13 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpda
 @RepositoryEventHandler
 public class QuestionService {
 
-  @Inject
+  @Autowired
   private QuestionRepository questionRepository;
  
-  @Inject
+  @Autowired
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
-  @Inject
+  @Autowired
   private QuestionImageService imageService;
 
   /**

@@ -3,9 +3,10 @@ package eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
@@ -20,7 +21,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetReposi
 public class UniqueDataSetNumberInProjectValidator
     implements ConstraintValidator<UniqueDatasetNumberInProject, DataSet> {
 
-  @Inject
+  @Autowired
   private DataSetRepository dataSetRepository;
 
   /*

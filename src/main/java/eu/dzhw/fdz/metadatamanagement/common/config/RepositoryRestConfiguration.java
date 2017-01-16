@@ -1,7 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.common.config;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.event.ValidatingRepositoryEventListener;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter;
@@ -16,7 +15,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 @Configuration
 public class RepositoryRestConfiguration extends RepositoryRestConfigurerAdapter {
 
-  @Inject
+  @Autowired
   private LocalValidatorFactoryBean validator;
 
   @Override

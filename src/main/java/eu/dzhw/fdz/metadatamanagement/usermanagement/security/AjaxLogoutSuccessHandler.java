@@ -2,12 +2,12 @@ package eu.dzhw.fdz.metadatamanagement.usermanagement.security;
 
 import java.io.IOException;
 
-import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -24,7 +24,7 @@ public class AjaxLogoutSuccessHandler extends AbstractAuthenticationTargetUrlReq
 
   public static final String BEARER_AUTHENTICATION = "Bearer ";
 
-  @Inject
+  @Autowired
   private TokenStore tokenStore;
 
   @Override

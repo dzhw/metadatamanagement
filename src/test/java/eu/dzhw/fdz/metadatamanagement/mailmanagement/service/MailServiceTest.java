@@ -9,18 +9,17 @@ import static org.junit.Assert.assertThat;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-import javax.inject.Inject;
 import javax.mail.Message;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.ServerSetupTest;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
-import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.builders.UserBuilder;
 
@@ -30,7 +29,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.builders.UserBuilder
  */
 public class MailServiceTest extends AbstractTest {
 
-  @Inject
+  @Autowired
   private MailService mailService;
 
   private GreenMail greenMail;

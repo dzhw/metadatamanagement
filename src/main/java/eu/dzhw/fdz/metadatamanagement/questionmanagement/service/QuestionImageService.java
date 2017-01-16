@@ -2,8 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.questionmanagement.service;
 
 import java.io.InputStream;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
@@ -18,7 +17,7 @@ import com.mongodb.gridfs.GridFSFile;
 @Service
 public class QuestionImageService {
 
-  @Inject
+  @Autowired
   private GridFsOperations operations;
 
   /**

@@ -3,11 +3,10 @@ package eu.dzhw.fdz.metadatamanagement.common.config;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import org.mongeez.Mongeez;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.mongo.MongoProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -35,10 +34,10 @@ public class MongoDbConfiguration {
 
   private final Logger log = LoggerFactory.getLogger(MongoDbConfiguration.class);
 
-  @Inject
+  @Autowired
   private Mongo mongo;
 
-  @Inject
+  @Autowired
   private MongoProperties mongoProperties;
 
   /**

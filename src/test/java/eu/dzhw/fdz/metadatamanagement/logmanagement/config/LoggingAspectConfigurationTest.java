@@ -3,13 +3,11 @@
  */
 package eu.dzhw.fdz.metadatamanagement.logmanagement.config;
 
-import javax.inject.Inject;
-
 import org.junit.Test;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
-import eu.dzhw.fdz.metadatamanagement.logmanagement.config.LoggingAspectConfiguration;
 
 /**
  * 
@@ -18,7 +16,7 @@ import eu.dzhw.fdz.metadatamanagement.logmanagement.config.LoggingAspectConfigur
  */
 public class LoggingAspectConfigurationTest extends AbstractTest {
 
-  @Inject
+  @Autowired
   private LoggingAspectConfiguration loggingAspectConfiguration;
 
   //Expected because of the wrong profile. Development is needed for the bean.

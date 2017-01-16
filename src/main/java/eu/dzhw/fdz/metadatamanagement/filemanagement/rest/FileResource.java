@@ -2,9 +2,9 @@ package eu.dzhw.fdz.metadatamanagement.filemanagement.rest;
 
 import java.util.concurrent.TimeUnit;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
@@ -28,7 +28,7 @@ import eu.dzhw.fdz.metadatamanagement.filemanagement.service.FileService;
 @RequestMapping(value = "/public")
 public class FileResource {
 
-  @Inject
+  @Autowired
   private FileService fileService;
 
   /**

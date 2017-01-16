@@ -2,9 +2,10 @@ package eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation;
 
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
@@ -15,7 +16,7 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepo
 public class ValidUniqueQuestionNumberValidator
     implements ConstraintValidator<ValidUniqueQuestionNumber, Question> {
   
-  @Inject
+  @Autowired
   private QuestionRepository questionRepository;
 
   /*

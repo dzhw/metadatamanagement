@@ -2,8 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.surveymanagement.service;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
@@ -26,12 +25,14 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyReposito
 @Service
 @RepositoryEventHandler
 public class SurveyService {
-  @Inject
+  @Autowired
   private SurveyRepository surveyRepository;
-  @Inject
+  
+  @Autowired
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
   
-  @Inject SurveyResponseRateImageService imageService;
+  @Autowired 
+  private SurveyResponseRateImageService imageService;
 
   /**
    * Listener, which will be activate by a deletion of a data acquisition project.

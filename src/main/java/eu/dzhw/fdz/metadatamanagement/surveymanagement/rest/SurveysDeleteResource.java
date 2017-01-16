@@ -1,7 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.rest;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +19,8 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.SurveyService;
 @RestController
 public class SurveysDeleteResource {
   
-  @Inject SurveyService surveyService;
+  @Autowired 
+  private SurveyService surveyService;
   
   @RequestMapping(path = "/api/surveys/delete", method = RequestMethod.POST,
       produces = MediaType.APPLICATION_JSON_VALUE)

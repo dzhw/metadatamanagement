@@ -6,7 +6,6 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -52,10 +51,10 @@ public class SearchResource {
 
   private String base64Credentials;
 
-  @Inject
+  @Autowired
   private ElasticsearchAdminService elasticsearchAdminService;
 
-  @Inject
+  @Autowired
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
   /**

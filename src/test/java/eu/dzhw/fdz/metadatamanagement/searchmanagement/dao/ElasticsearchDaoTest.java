@@ -9,10 +9,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
-import javax.inject.Inject;
-
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 
 import com.google.gson.JsonObject;
@@ -35,10 +34,10 @@ public class ElasticsearchDaoTest extends AbstractTest {
   private static final String NUMBER_OF_REPLICAS = "number_of_replicas";
   private static final String TEST_TYPE = "variables";
 
-  @Inject
+  @Autowired
   private ElasticsearchDao elasticsearchDao;
 
-  @Inject
+  @Autowired
   private ResourceLoader resourceLoader;
 
   private JsonParser jsonParser = new JsonParser();

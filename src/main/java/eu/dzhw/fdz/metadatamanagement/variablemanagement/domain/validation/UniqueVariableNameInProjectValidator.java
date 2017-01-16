@@ -3,9 +3,10 @@ package eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
@@ -20,7 +21,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepo
 public class UniqueVariableNameInProjectValidator
     implements ConstraintValidator<UniqueVariableNameInProject, Variable> {
 
-  @Inject
+  @Autowired
   private VariableRepository variableRepository;
 
   /*

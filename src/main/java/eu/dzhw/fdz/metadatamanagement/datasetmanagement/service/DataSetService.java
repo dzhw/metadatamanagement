@@ -2,8 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.datasetmanagement.service;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
@@ -29,10 +28,10 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 @RepositoryEventHandler
 public class DataSetService {
 
-  @Inject
+  @Autowired
   private DataSetRepository dataSetRepository;
 
-  @Inject
+  @Autowired
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
   /**
