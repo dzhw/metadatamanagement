@@ -1,4 +1,6 @@
-<md-card ui-sref="variableDetail({id:searchResult.id})" class="fdz-search-result">
+<md-card ui-sref="variableDetail({projectId: searchResult.dataAcquisitionProjectId,
+  dataSetNumber: searchResult.dataSetNumber, variableName: searchResult.name})"
+  class="fdz-search-result">
     <md-card-header class="fdz-card-header-border">
         <md-card-avatar>
             <md-icon md-svg-src="/assets/images/icons/variable.svg" class="fdz-search-result-icon"></md-icon>
