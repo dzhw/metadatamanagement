@@ -33,12 +33,14 @@ public class ValidVariableIdNameValidator
   public boolean isValid(Variable variable, ConstraintValidatorContext context) {
 
     // check for set project id
-    if (variable.getDataAcquisitionProjectId() == null || variable.getName() == null) {
+    if (variable.getDataAcquisitionProjectId() == null
+        || variable.getName() == null || variable.getDataSetNumber() == null) {
       return false;
     }
 
     return variable.getId()
-      .equals(variable.getDataAcquisitionProjectId() + "-" + variable.getName());
+      .equals(variable.getDataAcquisitionProjectId() + "-ds" + variable.getDataSetNumber()
+      + "-" + variable.getName());
   }
 
 }

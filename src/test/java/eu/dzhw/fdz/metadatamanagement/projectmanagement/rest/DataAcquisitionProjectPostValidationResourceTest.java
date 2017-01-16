@@ -107,53 +107,48 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     //Survey
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     this.surveyRepository.save(survey);
-    
-    //Variables
-    Variable variable1 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
-    variable1.setId("testProject-name1");
-    variable1.setName("name1");
-    this.variableRepository.save(variable1);    
-    Variable variable2 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
-    variable2.setId("testProject-name2");
-    variable2.setName("name2");
-    this.variableRepository.save(variable2);
-    Variable variable3 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
-    variable3.setId("testProject-name3");
-    variable3.setName("name3");
-    this.variableRepository.save(variable3);
+    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    surveyNumbers.add(1);
+    List<String> listOfSurveyIds = new ArrayList<>();
+    listOfSurveyIds.add(survey.getId());
     
     //DataSet
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId(), 1);
+    dataSet.setSurveyNumbers(surveyNumbers);
+    dataSet.setSurveyIds(listOfSurveyIds);
     this.dataSetRepository.save(dataSet);
     
     //Instrument
     Instrument instrument = UnitTestCreateDomainObjectUtils.buildInstrument(project.getId());
-    List<String> listOfSurveyIds = new ArrayList<>();
-    listOfSurveyIds.add(survey.getId());
+    instrument.setSurveyNumbers(surveyNumbers);
     instrument.setSurveyIds(listOfSurveyIds);
     this.instrumentRepository.save(instrument);
     
+    //Variables
+    Variable variable1 =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name1", 1, surveyNumbers);
+    this.variableRepository.save(variable1);    
+    Variable variable2 =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name2", 2, surveyNumbers);
+    this.variableRepository.save(variable2);
+    Variable variable3 =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name3", 3, surveyNumbers);
+    this.variableRepository.save(variable3);    
+    
     //Atomic Question
-    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), 123, instrument.getId(), 
+    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), 1, instrument.getId(), 
         survey.getId());
     this.questionRepository.save(question);
     UnitTestImageHelper.saveQuestionImage(this.questionImageService, question.getId());
     
     
     Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());    
-    List<String> surveyIds = new ArrayList<>();
-    surveyIds.add(survey.getId());
-    List<String> instrumentIds = new ArrayList<>();
-    instrumentIds.add(instrument.getId());
-    List<String> dataSetIds = new ArrayList<>();
-    dataSetIds.add(dataSet.getId());
     this.studyRepository.save(study);
-    
 
     // Act & Assert
     mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
       .andExpect(status().isOk())
-      .andExpect(jsonPath("$.errors", hasSize(0)));//no errors 
+      .andExpect(jsonPath("$.errors", hasSize(0)));//no errors
   }
   
   @Test
@@ -167,20 +162,21 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     //Survey
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     this.surveyRepository.save(survey);
+    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    surveyNumbers.add(1);
+    List<String> listOfSurveyIds = new ArrayList<>();
+    listOfSurveyIds.add(survey.getId());
     
     //Variables
-    Variable variable1 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
-    variable1.setId("testProject-name1");
-    variable1.setName("name1");
+    Variable variable1 =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name1", 1, surveyNumbers);
     this.variableRepository.save(variable1);    
-    Variable variable2 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
-    variable2.setId("testProject-name2");
-    variable2.setName("name2");
+    Variable variable2 =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name2", 2, surveyNumbers);
     this.variableRepository.save(variable2);
-    Variable variable3 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
-    variable3.setId("testProject-name3");
-    variable3.setName("name3");
-    this.variableRepository.save(variable3);
+    Variable variable3 =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name3", 3, surveyNumbers);
+    this.variableRepository.save(variable3);    
     
     //DataSet
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId(), 1);
@@ -188,8 +184,6 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     
     //Instrument
     Instrument instrument = UnitTestCreateDomainObjectUtils.buildInstrument(project.getId());
-    List<String> listOfSurveyIds = new ArrayList<>();
-    listOfSurveyIds.add(survey.getId());
     instrument.setSurveyIds(listOfSurveyIds);
     this.instrumentRepository.save(instrument);
     
@@ -231,20 +225,21 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     //Survey
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     this.surveyRepository.save(survey);
+    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    surveyNumbers.add(1);
+    List<String> listOfSurveyIds = new ArrayList<>();
+    listOfSurveyIds.add(survey.getId());
     
     //Variables
-    Variable variable1 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
-    variable1.setId("testProject-name1");
-    variable1.setName("name1");
+    Variable variable1 =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name1", 1, surveyNumbers);
     this.variableRepository.save(variable1);    
-    Variable variable2 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
-    variable2.setId("testProject-name2");
-    variable2.setName("name2");
+    Variable variable2 =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name2", 2, surveyNumbers);
     this.variableRepository.save(variable2);
-    Variable variable3 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
-    variable3.setId("testProject-name3");
-    variable3.setName("name3");
-    this.variableRepository.save(variable3);
+    Variable variable3 =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name3", 3, surveyNumbers);
+    this.variableRepository.save(variable3);    
     
     //DataSet
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId(), 1);
@@ -285,20 +280,21 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     //Survey
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     this.surveyRepository.save(survey);
+    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    surveyNumbers.add(1);
+    List<String> listOfSurveyIds = new ArrayList<>();
+    listOfSurveyIds.add(survey.getId());
     
     //Variables
-    Variable variable1 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
-    variable1.setId("testProject-name1");
-    variable1.setName("name1");
+    Variable variable1 =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name1", 1, surveyNumbers);
     this.variableRepository.save(variable1);    
-    Variable variable2 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
-    variable2.setId("testProject-name2");
-    variable2.setName("name2");
+    Variable variable2 =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name2", 2, surveyNumbers);
     this.variableRepository.save(variable2);
-    Variable variable3 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
-    variable3.setId("testProject-name3");
-    variable3.setName("name3");
-    this.variableRepository.save(variable3);
+    Variable variable3 =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name3", 3, surveyNumbers);
+    this.variableRepository.save(variable3);    
     
     //DataSet
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId(), 1);
@@ -339,20 +335,21 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     //Survey
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     this.surveyRepository.save(survey);
+    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    surveyNumbers.add(1);
+    List<String> listOfSurveyIds = new ArrayList<>();
+    listOfSurveyIds.add(survey.getId());
     
     //Variables
-    Variable variable1 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
-    variable1.setId("testProject-name1");
-    variable1.setName("name1");
+    Variable variable1 =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name1", 1, surveyNumbers);
     this.variableRepository.save(variable1);    
-    Variable variable2 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
-    variable2.setId("testProject-name2");
-    variable2.setName("name2");
+    Variable variable2 =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name2", 2, surveyNumbers);
     this.variableRepository.save(variable2);
-    Variable variable3 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
-    variable3.setId("testProject-name3");
-    variable3.setName("name3");
-    this.variableRepository.save(variable3);
+    Variable variable3 =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name3", 3, surveyNumbers);
+    this.variableRepository.save(variable3);    
     
     //DataSet
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId(), 1);
@@ -391,20 +388,21 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     //Survey
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     this.surveyRepository.save(survey);
+    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    surveyNumbers.add(1);
+    List<String> listOfSurveyIds = new ArrayList<>();
+    listOfSurveyIds.add(survey.getId());
     
     //Variables
-    Variable variable1 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
-    variable1.setId("testProject-name1");
-    variable1.setName("name1");
+    Variable variable1 =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name1", 1, surveyNumbers);
     this.variableRepository.save(variable1);    
-    Variable variable2 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
-    variable2.setId("testProject-name2");
-    variable2.setName("name2");
+    Variable variable2 =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name2", 2, surveyNumbers);
     this.variableRepository.save(variable2);
-    Variable variable3 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
-    variable3.setId("testProject-name3");
-    variable3.setName("name3");
-    this.variableRepository.save(variable3);
+    Variable variable3 =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name3", 3, surveyNumbers);
+    this.variableRepository.save(variable3);    
     
     //DataSet
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId(), 1);
@@ -447,20 +445,21 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     //Survey
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     this.surveyRepository.save(survey);
+    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    surveyNumbers.add(1);
+    List<String> listOfSurveyIds = new ArrayList<>();
+    listOfSurveyIds.add(survey.getId());
     
     //Variables
-    Variable variable1 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
-    variable1.setId("testProject-name1");
-    variable1.setName("name1");
+    Variable variable1 =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name1", 1, surveyNumbers);
     this.variableRepository.save(variable1);    
-    Variable variable2 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
-    variable2.setId("testProject-name2");
-    variable2.setName("name2");
+    Variable variable2 =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name2", 2, surveyNumbers);
     this.variableRepository.save(variable2);
-    Variable variable3 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
-    variable3.setId("testProject-name3");
-    variable3.setName("name3");
-    this.variableRepository.save(variable3);
+    Variable variable3 =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name3", 3, surveyNumbers);
+    this.variableRepository.save(variable3);    
     
     //DataSet
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId(), 1);
@@ -493,22 +492,26 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     //Survey
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     this.surveyRepository.save(survey);
+    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    surveyNumbers.add(1);
+    List<String> listOfSurveyIds = new ArrayList<>();
+    listOfSurveyIds.add(survey.getId());
     
     //Variables
-    Variable variable1 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
-    variable1.setId("testProject-name1");
-    variable1.setName("name1");
-    variable1.getSameVariablesInPanel().add("testProject-name123");
+    Variable variable1 =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name1", 1, surveyNumbers);
     this.variableRepository.save(variable1);    
-    Variable variable2 = UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
-    variable2.setId("testProject-name3");
-    variable2.setName("name3");
-    List<String> dataSetIds = new ArrayList<>();
-    dataSetIds.add(project.getId() + "-WrongDataSetId");
-    List<String> surveyIds = new ArrayList<>();
-    surveyIds.add(project.getId() + "-WrongSurveyId");
-    variable2.setSurveyIds(surveyIds);
+    Variable variable2 =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name2", 2, surveyNumbers);
+    List<String> sameVariablesInPanel = new ArrayList<String>();
+    sameVariablesInPanel.add("wrongVariable");
+    variable2.setSameVariablesInPanel(sameVariablesInPanel);
     this.variableRepository.save(variable2);
+    Variable variable3 =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name3", 3, surveyNumbers);
+    surveyNumbers.add(4);
+    variable3.setSurveyNumbers(surveyNumbers);
+    this.variableRepository.save(variable3);    
     
     //DataSet
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId(), 1);
@@ -524,16 +527,13 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     this.questionRepository.save(question);
     UnitTestImageHelper.saveQuestionImage(this.questionImageService, question.getId());
     
-
     // Act & Assert
     mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
       .andExpect(status().isOk())
-      .andExpect(jsonPath("$.errors", hasSize(5)))
+      .andExpect(jsonPath("$.errors", hasSize(3)))
       .andExpect(jsonPath("$.errors[0].messageId", containsString("error.post-validation.variable-id-is-not-in-invalid-variables-panel")))
-      .andExpect(jsonPath("$.errors[1].messageId", containsString("error.post-validation.variable-id-is-not-in-invalid-variables-panel")))
-      .andExpect(jsonPath("$.errors[2].messageId", containsString("error.post-validation.variable-has-invalid-survey-id")))
-      .andExpect(jsonPath("$.errors[3].messageId", containsString("error.post-validation.variable-id-is-not-in-invalid-variables-panel")))
-      .andExpect(jsonPath("$.errors[4].messageId", containsString("error.post-validation.project-has-no-study")));
-  }
+      .andExpect(jsonPath("$.errors[1].messageId", containsString("error.post-validation.variable-has-invalid-survey-id")))
+      .andExpect(jsonPath("$.errors[2].messageId", containsString("error.post-validation.project-has-no-study")));
+    }
   
 }

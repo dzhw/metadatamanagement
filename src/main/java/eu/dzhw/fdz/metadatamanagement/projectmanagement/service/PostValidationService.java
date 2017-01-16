@@ -85,7 +85,7 @@ public class PostValidationService {
     List<Variable> variables =
         this.variableRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
     errors = this.postValidateVariables(variables, errors);
-    
+
     // check instruments
     List<Instrument> instruments =
         this.instrumentRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
@@ -254,7 +254,8 @@ public class PostValidationService {
     for (Variable variable : variables) {
 
       // variable.SurveyId: there must be a survey with that id
-      for (String surveyId : variable.getSurveyIds()) {
+      for (Integer surveyNumber : variable.getSurveyNumbers()) {
+        String surveyId = variable.getDataAcquisitionProjectId() + "-sy" + surveyNumber;
         if (this.surveyRepository.findOne(surveyId) == null) {
           String[] information = {variable.getId(), surveyId};
           errors.add(new PostValidationMessageDto("variable-management.error."

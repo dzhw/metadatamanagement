@@ -36,7 +36,6 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.DataTypes;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.FilterExpressionLanguages;
@@ -99,12 +98,12 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-    surveyRepository.save(survey);
-
+    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    surveyNumbers.add(1);
+    
     Variable variable =
-        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
-
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var1", 1, surveyNumbers);
+   
     // create the variable with the given id
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
       .content(TestUtil.convertObjectToJsonBytes(variable)))
@@ -133,10 +132,11 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-    surveyRepository.save(survey);
-
-    Variable variable = UnitTestCreateDomainObjectUtils.buildVariable(null, survey.getId());
+    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    surveyNumbers.add(1);
+    
+    Variable variable =
+        UnitTestCreateDomainObjectUtils.buildVariable(null, 1, "var1", 1, surveyNumbers);
 
     // create the variable with a survey but without a project
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
@@ -149,11 +149,11 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-    surveyRepository.save(survey);
-
+    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    surveyNumbers.add(1);
+    
     Variable variable =
-        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var1", 1, surveyNumbers);
     variable.setScaleLevel(null);
 
     // create the variable with a survey but without a project
@@ -167,11 +167,11 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-    surveyRepository.save(survey);
-
+    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    surveyNumbers.add(1);
+    
     Variable variable =
-        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var1", 1, surveyNumbers);
     variable.setLabel(null);
 
     // create the variable with a null label
@@ -193,11 +193,11 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-    surveyRepository.save(survey);
-
+    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    surveyNumbers.add(1);
+    
     Variable variable =
-        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var1", 1, surveyNumbers);
     variable.getGenerationDetails()
       .setRule(null);
 
@@ -214,11 +214,11 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-    surveyRepository.save(survey);
-
+    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    surveyNumbers.add(1);
+    
     Variable variable =
-        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var1", 1, surveyNumbers);
     Missing value1 = variable.getDistribution()
       .getMissings()
       .get(0);
@@ -248,11 +248,11 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
       
-    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-    surveyRepository.save(survey);
-     
+    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    surveyNumbers.add(1);
+    
     Variable variable =
-        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var1", 1, surveyNumbers);
     ValidResponse validResponse = variable.getDistribution()
       .getValidResponses()
       .get(0);
@@ -284,11 +284,11 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-    surveyRepository.save(survey);
-
+    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    surveyNumbers.add(1);
+    
     Variable variable =
-        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var1", 1, surveyNumbers);
     ValidResponse validResponse = variable.getDistribution()
       .getValidResponses()
       .get(0);
@@ -306,11 +306,11 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-    surveyRepository.save(survey);
-
+    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    surveyNumbers.add(1);
+    
     Variable variable =
-        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var1", 1, surveyNumbers);
     variable.setScaleLevel(new I18nStringBuilder().withDe("InvalidValue")
       .withEn("InvalidValue")
       .build());
@@ -325,12 +325,11 @@ public class VariableResourceTest extends AbstractTest {
   public void testCreateVariableWithoutDataType() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
-
-    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-    surveyRepository.save(survey);
-
+    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    surveyNumbers.add(1);
+    
     Variable variable =
-        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var1", 1, surveyNumbers);
     variable.setDataType(null);
 
     // create the variable with a survey but without a project
@@ -344,11 +343,11 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-    surveyRepository.save(survey);
-
+    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    surveyNumbers.add(1);
+    
     Variable variable =
-        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var1", 1, surveyNumbers);
     variable.setDataType(new I18nStringBuilder().withDe("InvalidValue")
       .withEn("InvalidValue")
       .build());
@@ -364,11 +363,11 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-    surveyRepository.save(survey);
-
+    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    surveyNumbers.add(1);
+    
     Variable variable =
-        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var1", 1, surveyNumbers);
     variable.setAccessWays(null);
 
     // create the variable with a survey but without a project
@@ -382,13 +381,14 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-    surveyRepository.save(survey);
-
     List<String> accessWays = new ArrayList<>();
     accessWays.add("WrongAccessWay");
+    
+    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    surveyNumbers.add(1);
+    
     Variable variable =
-        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var1", 1, surveyNumbers);
     variable.setAccessWays(accessWays);
 
     // create the variable with a survey but without a project
@@ -402,11 +402,11 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-    surveyRepository.save(survey);
-
+    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    surveyNumbers.add(1);
+    
     Variable variable =
-        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var1", 1, surveyNumbers);
     // No Minus!
     variable.setId(project.getId() + variable.getName());
 
@@ -421,11 +421,10 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-    surveyRepository.save(survey);
-
+    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    surveyNumbers.add(1);
     Variable variable =
-        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var", 1, surveyNumbers);
     // 123 at the end is too much
     variable.setId(project.getId() + "-" + variable.getName() + "123");
 
@@ -441,11 +440,11 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-    surveyRepository.save(survey);
-
+    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    surveyNumbers.add(1);
+    
     Variable variable =
-        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var", 1, surveyNumbers);
 
     // create the first variable
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
@@ -453,7 +452,7 @@ public class VariableResourceTest extends AbstractTest {
       .andExpect(status().isCreated());
 
     Variable variable2 =
-        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var1", 1, surveyNumbers);
     variable2.setId(project.getId() + "-AnotherName");
     variable2.setName(variable.getName());
 
@@ -468,11 +467,11 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-    surveyRepository.save(survey);
-
+    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    surveyNumbers.add(1);
+    
     Variable variable =
-        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var1", 1, surveyNumbers);
     // change scale level (code coverage)
     variable.setScaleLevel(new I18nStringBuilder().withDe(ScaleLevels.ORDINAL.getDe())
       .withEn(ScaleLevels.ORDINAL.getEn())
@@ -501,11 +500,10 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-    surveyRepository.save(survey);
-
+    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    surveyNumbers.add(1);
     Variable variable =
-        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "bdem08_v1", 1, surveyNumbers);
 
     // create the variable with the given id
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
@@ -545,10 +543,11 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-    surveyRepository.save(survey);
+    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    surveyNumbers.add(1);
+    
     Variable variable =
-        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var1", 1, surveyNumbers);
     variable.getFilterDetails()
       .setExpressionLanguage(null);
 
@@ -565,10 +564,11 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-    surveyRepository.save(survey);
+    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    surveyNumbers.add(1);
+    
     Variable variable =
-        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var1", 1, surveyNumbers);
     variable.getFilterDetails()
       .setExpressionLanguage("WrongLanguage");
 
@@ -585,10 +585,11 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-    surveyRepository.save(survey);
+    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    surveyNumbers.add(1);
+    
     Variable variable =
-        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var1", 1, surveyNumbers);
     variable.getFilterDetails()
       .setExpressionLanguage(FilterExpressionLanguages.SPEL);
 
@@ -605,10 +606,11 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-    surveyRepository.save(survey);
+    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    surveyNumbers.add(1);
+    
     Variable variable =
-        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var1", 1, surveyNumbers);
     variable.getGenerationDetails()
       .setRuleExpressionLanguage(null);
 
@@ -625,10 +627,11 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-    surveyRepository.save(survey);
+    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    surveyNumbers.add(1);
+    
     Variable variable =
-        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var1", 1, surveyNumbers);
     variable.getGenerationDetails()
       .setRuleExpressionLanguage("WrongLanguage");
 
@@ -645,10 +648,11 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-    surveyRepository.save(survey);
+    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    surveyNumbers.add(1);
+    
     Variable variable =
-        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var1", 1, surveyNumbers);
     variable.getGenerationDetails()
       .setRuleExpressionLanguage(RuleExpressionLanguages.STATA);
 
@@ -664,12 +668,11 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-    surveyRepository.save(survey);
-
+    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    surveyNumbers.add(1);
+    
     Variable variable =
-        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
-
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var1", 1, surveyNumbers);
     // create the variable with the given id
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
       .content(TestUtil.convertObjectToJsonBytes(variable)))
@@ -692,11 +695,11 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-    surveyRepository.save(survey);
-
+    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    surveyNumbers.add(1);
+    
     Variable variable =
-        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var1", 1, surveyNumbers);
     variable.setDataType(DataTypes.DATE);
 
     // create the variable with the given id
@@ -710,11 +713,11 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-    surveyRepository.save(survey);
-
+    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    surveyNumbers.add(1);
+    
     Variable variable =
-        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var1", 1, surveyNumbers);
     variable.setDataType(DataTypes.DATE);
     variable.getDistribution()
       .setValidResponses(null);

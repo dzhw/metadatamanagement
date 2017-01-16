@@ -1,6 +1,13 @@
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.domain;
 
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.google.common.base.MoreObjects;
+
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
+import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
  * The related Question includes the references to the question and instrument. This is a sub 
@@ -9,11 +16,20 @@ import com.google.common.base.MoreObjects;
  * @author Daniel Katzberg
  *
  */
+@GeneratePojoBuilder(
+    intoPackage = "eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders")
 public class RelatedQuestion {
 
   /* Domain Object listed attributes */
+  @NotEmpty(message = "variable-management.error.variable."
+      + "related-question-instrument-number.not-empty")
   private String instrumentNumber;
   
+  @Size(max = StringLengths.SMALL,
+      message = "variable-management.error.variable."
+      + "related-question-number.size")
+  @NotEmpty(message = "variable-management.error.variable."
+      + "related-question-number.not-empty")
   private String questionNumber;
   
   /* Nested Objects */

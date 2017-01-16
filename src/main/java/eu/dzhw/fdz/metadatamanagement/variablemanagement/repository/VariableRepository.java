@@ -39,4 +39,10 @@ public interface VariableRepository
   
   @RestResource(exported = false)
   Slice<Variable> findByIdIn(Collection<String> ids, Pageable pageable);
+  
+  @RestResource(exported = false)
+  List<Variable> findByNameAndDataSetId(String name, String dataSetId);
+  
+  @RestResource(exported = false)
+  List<Variable> findByIndexInDataSetAndDataSetId(Integer indexInDataSet, String dataSetId);
 }

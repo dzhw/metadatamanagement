@@ -10,6 +10,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -22,7 +23,8 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpt
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.MandatoryScaleLevelForNumericDataType;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.UniqueVariableNameInProject;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.UniqueVariableIndexInDataSet;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.UniqueVariableNameInDataSet;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidAccessWays;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidResponseValueMustBeANumberOnNumericDataType;
@@ -40,10 +42,15 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @Document(collection = "variables")
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders")
-@CompoundIndex(def = "{name: 1, dataAcquisitionProjectId: 1}", unique = true)
+@CompoundIndexes({
+      @CompoundIndex(def = "{name: 1, dataAcquisitionProjectId: 1}", unique = true),
+      @CompoundIndex(def = "{name: 1, dataSetId: 1}", unique = true)
+      })
 @ValidVariableIdName(message = "variable-management.error.variable.valid-variable-name")
-@UniqueVariableNameInProject(message = "variable-management.error."
-    + "variable.unique-variable-name-in-project")
+@UniqueVariableNameInDataSet(message = "variable-management.error."
+    + "variable.unique-variable-name-in-dataSet")
+@UniqueVariableIndexInDataSet(message = "variable-management.error."
+    + "variable.unique-variable-index-in-dataSet")
 @MandatoryScaleLevelForNumericDataType(
     message = "variable-management.error.variable.mandatory-scale-level-for-numeric-data-type")
 @ValidResponseValueMustBeANumberOnNumericDataType(
@@ -105,10 +112,12 @@ public class Variable extends AbstractRdcDomainObject {
   
   private String dataSetId;
   
+  @NotNull(message = "variable-management.error.variable.data-set-number.not-null")
   private Integer dataSetNumber;
   
   private Integer indexInDataSet;
   
+  @NotEmpty(message = "variable-management.error.variable.survey-numbers.not-empty")
   private List<Integer> surveyNumbers;
  
 
@@ -132,7 +141,6 @@ public class Variable extends AbstractRdcDomainObject {
   @NotEmpty(message = "variable-management.error.variable.data-acquisition-project.id.not-empty")
   private String dataAcquisitionProjectId;
 
-  @NotEmpty(message = "variable-management.error.variable.survey.ids.not-empty")
   private List<String> surveyIds;
 
   /*
@@ -173,6 +181,7 @@ public class Variable extends AbstractRdcDomainObject {
       .add("distribution", distribution)
       .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
       .add("surveyIds", surveyIds)
+      .add("relatedQuestions",relatedQuestions)
       .toString();
   }
 

@@ -49,6 +49,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.FilterExpression
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.GenerationDetails;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Histogram;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Missing;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RelatedQuestion;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RuleExpressionLanguages;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ScaleLevels;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Statistics;
@@ -59,6 +60,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.FilterD
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.GenerationDetailsBuilder;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.HistogramBuilder;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.MissingBuilder;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.RelatedQuestionBuilder;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.StatisticsBuilder;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.ValidResponseBuilder;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.VariableBuilder;
@@ -206,7 +208,7 @@ public class UnitTestCreateDomainObjectUtils {
       .build();
   } 
 
-  public static Variable buildVariable(String projectId, String surveyId) {
+  public static Variable buildVariable(String projectId, Integer dataSetNumber, String name, Integer index, List<Integer> surveyNumbers) {
 
     // TODO DKatzberg Issue 877, add new field for junits tests
     // Prepare Variable
@@ -217,26 +219,29 @@ public class UnitTestCreateDomainObjectUtils {
     accessWays.add(AccessWays.ONSITE_SUF);
     
     List<String> withSameVariablesInPanel = new ArrayList<>();
-    withSameVariablesInPanel.add("testProject-name1");
-    withSameVariablesInPanel.add("testProject-name2");
-    String name = "name";
+    withSameVariablesInPanel.add(projectId + "-ds" + dataSetNumber + "-name1");
+    withSameVariablesInPanel.add(projectId + "-ds" + dataSetNumber + "-name2");
+    withSameVariablesInPanel.add(projectId + "-ds" + dataSetNumber + "-name3");
     
     List<String> relatedVariables = new ArrayList<>();
-    relatedVariables.add("testProject-name3");
-
-    // Create Variable
-    List<String> surveyIds = new ArrayList<>();
-    surveyIds.add(surveyId);
-    return new VariableBuilder().withId(projectId + "-" + name)
+    relatedVariables.add(projectId + "-ds" + dataSetNumber + "-name3");   
+    
+    List<RelatedQuestion> relatedQuestions = new ArrayList<RelatedQuestion>();
+    relatedQuestions.add(buildRelatedQuestion(projectId, "1", "1"));
+    return new VariableBuilder().withId(projectId + "-ds" + dataSetNumber + "-" + name)
       .withDataType(DataTypes.NUMERIC)
       .withScaleLevel(ScaleLevels.CONTINOUS)
       .withDataAcquisitionProjectId(projectId)
-      .withSurveyIds(surveyIds)
-      .withLabel(new I18nStringBuilder().withDe("label")
-        .withEn("label")
-        .build())
       .withName(name)
+      .withDataSetId(projectId + "-ds" + dataSetNumber)
+      .withLabel(new I18nStringBuilder().withDe("label")
+          .withEn("label")
+          .build())
       .withAccessWays(accessWays)
+      .withSurveyNumbers(surveyNumbers)
+      .withIndexInDataSet(index)
+      .withDataSetNumber(dataSetNumber)
+      .withRelatedQuestions(relatedQuestions)
       .withAnnotations(new I18nStringBuilder().withDe("De Beschreibung")
         .withEn("En Description")
         .build())
@@ -478,5 +483,14 @@ public class UnitTestCreateDomainObjectUtils {
           .withTitle(new I18nString("Titel", "Title"))
           .withType(InstrumentAttachmentTypes.QUESTION_FLOW)
           .build();
+  }
+  
+  public static RelatedQuestion buildRelatedQuestion(String projectId, String questionNumber, String instrumentNumber) {
+    return new RelatedQuestionBuilder()
+        .withInstrumentNumber(instrumentNumber)
+        .withQuestionNumber(questionNumber)
+        .withInstrumentId(projectId + "-ins" + instrumentNumber)
+        .withInstrumentNumber(projectId + "-ins" + instrumentNumber + "-" +questionNumber)
+        .build();
   }
 }

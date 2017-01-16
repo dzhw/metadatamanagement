@@ -5,6 +5,9 @@ import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +23,6 @@ import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestUserMan
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
@@ -83,11 +85,11 @@ public class SearchResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-    surveyRepository.save(survey);
-
+    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    surveyNumbers.add(1);
+    
     Variable variable =
-        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), survey.getId());
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var1", 1, surveyNumbers);
     variableRepository.save(variable);
 
     // test recreation of all elasticsearch indices with previously created variable
@@ -96,6 +98,6 @@ public class SearchResourceTest extends AbstractTest {
 
     elasticsearchAdminService.refreshAllIndices();
 
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(4.0));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2.0));
   }
 }
