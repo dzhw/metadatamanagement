@@ -31,5 +31,6 @@ public interface InstrumentRepository
   List<Instrument> findByDataAcquisitionProjectId(String dataAcquisitionProjectId);
   
   @RestResource(exported = false)
-  Long countByNumberAndDataAcquisitionProjectId(Integer number, String dataAcquisitionProjectId);
+  List<Instrument> findByNumberAndDataAcquisitionProjectId(Integer number,
+      String dataAcquisitionProjectId);
 }

@@ -1,8 +1,12 @@
 package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+
+import org.springframework.util.StringUtils;
 
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
@@ -32,13 +36,18 @@ public class ValidUniqueInstrumentNumberValidator
    */
   @Override
   public boolean isValid(Instrument instrument, ConstraintValidatorContext context) {
-    if (instrument.getNumber() != null) {
-      Long count = instrumentRepository
-          .countByNumberAndDataAcquisitionProjectId(instrument
-              .getNumber(), instrument.getDataAcquisitionProjectId());
-      if (count > 0) {
-        return false; 
-      }
+    if (instrument.getNumber() == null
+        || StringUtils.isEmpty(instrument.getDataAcquisitionProjectId())) {
+      return false;
+    }
+    List<Instrument> instruments = instrumentRepository
+        .findByNumberAndDataAcquisitionProjectId(instrument.getNumber(),
+            instrument.getDataAcquisitionProjectId());
+    if (instruments.size() > 1) {
+      return false;
+    }
+    if (instruments.size() == 1) {
+      return instruments.get(0).getId().equals(instrument.getId());
     }
     return true;
   }
