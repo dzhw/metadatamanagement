@@ -22,14 +22,14 @@ public class RelatedQuestion {
 
   /* Domain Object listed attributes */
   @NotEmpty(message = "variable-management.error.variable."
-      + "related-question-instrument-number.not-empty")
+      + "related-question-instrument-number-not-empty")
   private String instrumentNumber;
   
   @Size(max = StringLengths.SMALL,
       message = "variable-management.error.variable."
-      + "related-question-number.size")
+      + "related-question-number-size")
   @NotEmpty(message = "variable-management.error.variable."
-      + "related-question-number.not-empty")
+      + "related-question-number-not-empty")
   private String questionNumber;
   
   /* Nested Objects */

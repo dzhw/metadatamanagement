@@ -34,7 +34,7 @@ public class FilterDetails {
       + "expressionLanguage.not-empty")
   @ValidFilterExpressionLanguage(
       message = "variable-management.error.filter-details." 
-          + "expressionLanguage.valid-filter-expression-language")
+          + "expression-language.valid-filter-expression-language")
   private String expressionLanguage;
   
   /*

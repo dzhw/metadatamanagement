@@ -48,7 +48,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
       })
 @ValidVariableIdName(message = "variable-management.error.variable.valid-variable-name")
 @UniqueVariableNameInDataSet(message = "variable-management.error."
-    + "variable.unique-variable-name-in-dataSet")
+    + "variable.unique-variable-name-in-data-set")
 @UniqueVariableIndexInDataSet(message = "variable-management.error."
     + "variable.unique-variable-index-in-dataSet")
 @MandatoryScaleLevelForNumericDataType(
@@ -112,12 +112,13 @@ public class Variable extends AbstractRdcDomainObject {
   
   private String dataSetId;
   
-  @NotNull(message = "variable-management.error.variable.data-set-number.not-null")
+  @NotNull(message = "variable-management.error.variable.data-set-number-not-null")
   private Integer dataSetNumber;
   
+  @NotNull(message = "variable-management.error.variable.data-set-index-not-null")
   private Integer indexInDataSet;
   
-  @NotEmpty(message = "variable-management.error.variable.survey-numbers.not-empty")
+  @NotEmpty(message = "variable-management.error.variable.survey-numbers-not-empty")
   private List<Integer> surveyNumbers;
  
 

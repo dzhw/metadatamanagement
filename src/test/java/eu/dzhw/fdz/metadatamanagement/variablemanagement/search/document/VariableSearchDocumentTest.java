@@ -38,7 +38,7 @@ public class VariableSearchDocumentTest {
       .withDataType(DataTypes.STRING)
       .build();
     VariableSearchDocument searchDocument =
-        new VariableSearchDocument(variable, null, null, ElasticsearchIndices.METADATA_EN);
+        new VariableSearchDocument(variable, null, ElasticsearchIndices.METADATA_EN);
 
     // Act
     List<String> surveyTitles = new ArrayList<String>();
@@ -76,7 +76,7 @@ public class VariableSearchDocumentTest {
       .withDataType(DataTypes.STRING)
       .build();
     VariableSearchDocument searchDocument =
-        new VariableSearchDocument(variable, null, null, ElasticsearchIndices.METADATA_DE);
+        new VariableSearchDocument(variable, null, ElasticsearchIndices.METADATA_DE);
 
     // Act
     List<String> surveyTitles = new ArrayList<String>();

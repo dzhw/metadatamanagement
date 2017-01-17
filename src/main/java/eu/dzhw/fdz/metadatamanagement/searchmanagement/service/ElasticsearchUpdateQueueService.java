@@ -328,15 +328,12 @@ public class ElasticsearchUpdateQueueService {
     Variable variable = variableRepository.findOne(lockedItem.getDocumentId());
     if (variable != null) {
       Iterable<Survey> surveys = null;
-      Iterable<DataSet> dataSets = null;
       if (variable.getSurveyIds() != null) {
         surveys = surveyRepository.findAll(variable.getSurveyIds());
       }
       for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
-        //TODO DKatzberg For Issue 877 rework to get the dataset by the id. this ist a new field in
-        //Variable
         VariableSearchDocument searchDocument =
-            new VariableSearchDocument(variable, surveys, dataSets, index);
+            new VariableSearchDocument(variable, surveys, index);
 
         bulkBuilder.addAction(new Index.Builder(searchDocument)
             .index(index.getIndexName())

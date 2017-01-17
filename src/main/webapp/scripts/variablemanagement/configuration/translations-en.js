@@ -9,11 +9,15 @@ angular.module('metadatamanagementApp').config(
           'variable': {
             'saved': 'Variable with RDC-ID {{ id }} was saved successfully!',
             'not-saved': 'Variable with RDC-ID {{ id }} has not been saved!',
+            'unable-to-read-file': 'The file {{file}} in {{dataSet}} could not be opened!',
+            'json-parse-error': 'The file {{file}} in {{dataSet}} could not be parsed!',
             'missing-id': 'Variable {{ index }} does not contain a RDC-ID and has not been saved:',
             'upload-terminated': 'Finished upload of {{ total }} Variables with {{ errors }} errors.',
             'unable-to-delete': 'The variables could not be deleted!',
             'cancelled': 'Variables upload cancelled!',
-            'missing-json-file': 'There is no JSON file for Variable {{ id }}!',
+            'missing-json-file': 'There is no JSON file for Variable {{name}} in Data Set {{dataSet}}!',
+            'missing-excel-file': 'There is no Excel file in Data Set {{dataSet}}!',
+            'missing-name': 'The {{index}}. Variable in Datensatz {{dataSet}} don\'t have a Name!',
             'generation-details-rule-success-copy-to-clipboard': 'The Generation Rule was successfully copied into the clipboard.',
             'filter-details-success-copy-to-clipboard': 'The Filter Expression was successfully copied into the clipboard.'
           }
@@ -182,7 +186,14 @@ angular.module('metadatamanagementApp').config(
           },
           'variable': {
             'valid-variable-name': 'The RDC-ID of the Variable is not valid for the Pattern: RDCID-VariableName.',
-            'unique-variable-name-in-project': 'The name of the Variable is already used within this Project.',
+            'unique-variable-name-in-data-set': 'The Name of the Variable is already used within this Data Set.',
+            'unique-variable-index-in-dataSet': 'The Index of the Variable is already used within this Data Set.',
+            'data-set-number-not-null': 'The Number of the Data Set of the Variable must not be empty!',
+            'data-set-index-not-null': 'The Index of the Data Set of the Variable must not be empty!',
+            'survey-numbers-not-empty': 'The List of Survey Numbers of a variable needs min. one element and must not be empty!',
+            'related-question-number-size': 'The max Length of Question Number is 32 signs.',
+            'related-question-number-not-empty': 'A Related Question don\'t have a Number!',
+            'related-question-instrument-number-not-empty': 'An Instrument don\'t have a Number!',
             'mandatory-scale-level-for-numeric-data-type': 'The Scale Level of a numeric Variable must not be empty or is must be empty on a string data type!',
             'valid-response-value-must-be-a-number-on-numeric-data-type': 'If the variable has a numeric data type, the values of valid responses have to be numeric!',
             'valid-response-value-must-be-an-iso-date-on-date-data-type': 'If the variable has a date data type, the values of valid responses have to be matchable by the ISO Standard 8601.',

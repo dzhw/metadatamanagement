@@ -18,7 +18,6 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
               total: JobLoggingService.getCurrentJob().total,
               errors: JobLoggingService.getCurrentJob().errors
             });
-          console.log(objects);
           $rootScope.$broadcast('upload-completed');
         });
       } else {
@@ -121,7 +120,6 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
                   var files = _.filter(filesMap, function(o) {
                     return o.index === index ;
                   })[0];
-                  console.log(files);
                   if (!files.excelFile) {
                     JobLoggingService.error({
                       message:
@@ -136,9 +134,12 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
                   }
                   ExcelReaderService.readFileAsync(files.excelFile)
                   .then(function(variables) {
-                                variables.forEach(function(variableFromExcel) {
-                                  if (files.jsonFiles[variableFromExcel.name]) {
-                                    promisesPool.push(FileReaderService
+                                variables.forEach(function(variableFromExcel,
+                                  index) {
+                                  if (variableFromExcel.name) {
+                                    if (files
+                                      .jsonFiles[variableFromExcel.name]) {
+                                      promisesPool.push(FileReaderService
                                       .readAsText(files
                                         .jsonFiles[variableFromExcel.name])
                                         .then(function(variableAsText) {
@@ -161,29 +162,42 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
                                             });
 
                                           }}, function() {
+                                            JobLoggingService.error({
+                                              message: 'variable-management.' +
+                                              'log-messages.variable.unable-' +
+                                              'to-read-file',
+                                              messageParams: {
+                                                dataSet: files.dataSet,
+                                                file: variableFromExcel.name +
+                                                '.json'
+                                              }
+                                            });
+                                          }));
+                                    } else {
                                       JobLoggingService.error({
-                                        message: 'variable-management.' +
-                                    'log-messages.variable.unable-to-read-file',
+                                        message:
+                                        'variable-management.' +
+                                        'log-messages.variable.' +
+                                        'missing-json-file',
                                         messageParams: {
                                           dataSet: files.dataSet,
-                                          file: variableFromExcel.name + '.json'
+                                          name: variableFromExcel.name
                                         }
                                       });
-                                    }));
-                                  } else {
+                                    }
+                                  }else {
                                     JobLoggingService.error({
                                       message:
                                       'variable-management.' +
-                                      'log-messages.variable.missing-json-file',
+                                      'log-messages.variable.missing-name',
                                       messageParams: {
                                         dataSet: files.dataSet,
-                                        name: variableFromExcel.name + '.json'
+                                        index: index + 1
                                       }
                                     });
                                   }
                                 });
                               }, function() {
-                                console.log('kf');
                                 JobLoggingService.error({
                                   message: 'variable-management.' +
                                   'log-messages.variable.unable-to-read-file',

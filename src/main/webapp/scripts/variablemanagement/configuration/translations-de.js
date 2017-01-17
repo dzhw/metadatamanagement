@@ -7,15 +7,17 @@ angular.module('metadatamanagementApp').config(
       'variable-management': {
         'log-messages': {
           'variable': {
-            'unable-to-read-file': 'sddfsdsdsdsd {{dataSet}} {{file}}',
-            'json-parse-error': 'wewewewewew {{dataSet}} {{file}}',
+            'unable-to-read-file': 'Die Datei {{file}} in {{dataSet}} kann nicht geöffnet werden!',
+            'json-parse-error': 'Die Datei {{file}} in {{dataSet}} kann nicht geparst werden!',
             'saved': 'Variable mit FDZ-ID {{ id }} erfolgreich gespeichert!',
             'not-saved': 'Variable mit FDZ-ID {{ id }} wurde nicht gespeichert:',
             'missing-id': 'Die {{ index }}. Variable enthält keine FDZ-ID und wurde nicht gespeichert!',
             'upload-terminated': 'Upload von {{ total }} Variablen mit {{ errors }} Fehlern beendet!',
             'unable-to-delete': 'Die Variablen konnten nicht gelöscht werden!',
             'cancelled': 'Upload von Variablen Abgebrochen!',
-            'missing-json-file': 'Keine JSON Datei zu Variable {{name}} gefunden! {{dataSet}}',
+            'missing-json-file': 'Keine JSON Datei zu Variable {{name}} in Datensatz {{dataSet}} gefunden!',
+            'missing-excel-file': 'Keine Excel Datei in Datensatz {{dataSet}} gefunden!',
+            'missing-name': 'Die {{index}}. Variable in Datensatz {{dataSet}} hat keinen Namen!',
             'generation-details-rule-success-copy-to-clipboard': 'Die Generierungsregel wurde erfolgreich in die Zwischenablage kopiert.',
             'filter-details-success-copy-to-clipboard': 'Der Filterausdruck wurde erfolgreich in die Zwischenablage kopiert.'
           }
@@ -184,7 +186,14 @@ angular.module('metadatamanagementApp').config(
           },
           'variable': {
             'valid-variable-name': 'Die FDZ-ID der Variable entspricht nicht dem Muster: FDZID-Variablenname.',
-            'unique-variable-name-in-project': 'Der Name der Variable ist innerhalb des Projektes schon vergeben.',
+            'unique-variable-name-in-data-set': 'Der Name der Variable ist innerhalb des Datensatzes schon vergeben.',
+            'unique-variable-index-in-dataSet': 'Der Index der Variable ist innerhalb des Datensatzes schon vergeben.',
+            'data-set-number-not-null': 'Die Nummer des Datensatzes der Variable darf nicht leer sein!',
+            'data-set-index-not-null': 'Der Index des Datensatzes der Variable darf nicht leer sein!',
+            'survey-numbers-not-empty': 'Die Liste der Erhebungsnummern einer Variable benötigt mindest ein Element und darf nicht leer sein!',
+            'related-question-number-size': 'Die Maximallänge der Nummer einer Frage ist 32 Zeichen.',
+            'related-question-number-not-empty': 'Eine verbundene Frage hat keine Nummer',
+            'related-question-instrument-number-not-empty': 'Ein Instrument hat keine Nummer',
             'mandatory-scale-level-for-numeric-data-type': 'Das Skalenniveau einer numerischen Variable darf nicht leer sein, bzw.es muss leer sein bei einem String Datentyp!',
             'valid-response-value-must-be-a-number-on-numeric-data-type': 'Wenn der Datentyp einer Variable numerisch ist, müssen die Werte von gültigen Antworten numerisch sein.',
             'valid-response-value-must-be-an-iso-date-on-date-data-type': 'Wenn der Datentyp einer Variable ein Datum ist, müssen die Werte von gültigen Antworten dem ISO Standard 8601 entsprechen.',
