@@ -5,7 +5,10 @@ angular.module('metadatamanagementApp').service('SearchDao',
   function(LanguageService, ElasticSearchClient,
     CleanJSObjectService) {
     var keyMapping = {
-      'variables': {'data-set': 'dataSetIds'}
+      'variables': {
+        'data-set': 'dataSetIds',
+        'panel-identifier': 'panelIdentifier'
+      }
     };
     return {
       search: function(queryterm, pageNumber, dataAcquisitionProjectId, filter,

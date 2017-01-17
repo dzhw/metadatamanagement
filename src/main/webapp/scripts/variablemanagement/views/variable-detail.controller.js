@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp')
   .controller('VariableDetailController', function($scope, entity,
     SurveySearchDialogService, DataSetSearchDialogService,
     RelatedPublicationSearchDialogService,
-    DataSetSearchService, QuestionSearchService, VariableSearchDialogService,
+    DataSetSearchService, QuestionSearchService, VariableSearchService,
     RelatedPublicationSearchService, StudySearchService,
     SimpleMessageToastService, PageTitleService, LanguageService,
     CleanJSObjectService) {
@@ -64,14 +64,12 @@ angular.module('metadatamanagementApp')
         .then(function(publicationsCount) {
           $scope.counts.publicationsCount = publicationsCount.count;
         });
+      VariableSearchService
+          .countBy('panelIdentifier', $scope.variable.panelIdentifier)
+          .then(function(sameVariablesInPanel) {
+            $scope.counts.sameVariablesInPanel = sameVariablesInPanel.count;
+          });
       $scope.counts.surveysCount = $scope.variable.surveyIds.length;
-
-      if ($scope.variable.sameVariablesInPanel != null) {
-        $scope.counts.sameVariablesInPanel =
-          $scope.variable.sameVariablesInPanel.length;
-      } else {
-        $scope.counts.sameVariablesInPanel = 0;
-      }
       if ($scope.variable.filterDetails) {
         html_beautify($scope.variable.filterDetails.expression); //jscs:ignore
       }
@@ -95,12 +93,6 @@ angular.module('metadatamanagementApp')
     };
     $scope.toggleFilterDetailsCode = function() {
       $scope.filterDetailsCodeToggleFlag = !$scope.filterDetailsCodeToggleFlag;
-    };
-    $scope.showSameVariablesInPanel = function() {
-      var paramObject = {};
-      paramObject.methodName = 'findVariables';
-      paramObject.methodParams = $scope.variable.sameVariablesInPanel;
-      VariableSearchDialogService.findVariables(paramObject);
     };
     $scope.showRelatedSurveys = function() {
       var paramObject = {};
