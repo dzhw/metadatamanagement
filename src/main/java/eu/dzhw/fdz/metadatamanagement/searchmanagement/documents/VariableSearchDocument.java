@@ -44,6 +44,8 @@ public class VariableSearchDocument {
   private List<Integer> surveyNumbers;
   
   private List<RelatedQuestion> relatedQuestions;
+  
+  private String panelIdentifier;
 
   /**
    * Create the search document from the domain object depending on the language (index).
@@ -58,6 +60,7 @@ public class VariableSearchDocument {
     this.indexInDataSet = variable.getIndexInDataSet();
     this.surveyNumbers = variable.getSurveyNumbers();
     this.relatedQuestions = variable.getRelatedQuestions();
+    this.panelIdentifier = variable.getPanelIdentifier();
     createI18nAttributes(variable, index);
     createSurveyTitles(surveys, index);
   }
@@ -215,6 +218,14 @@ public class VariableSearchDocument {
 
   public void setIndexInDataSet(Integer indexInDataSet) {
     this.indexInDataSet = indexInDataSet;
+  }
+
+  public String getPanelIdentifier() {
+    return panelIdentifier;
+  }
+
+  public void setPanelIdentifier(String panelIdentifier) {
+    this.panelIdentifier = panelIdentifier;
   }
 
 

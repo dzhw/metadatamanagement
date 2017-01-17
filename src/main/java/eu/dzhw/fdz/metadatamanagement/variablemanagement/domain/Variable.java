@@ -31,6 +31,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.Valid
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidResponseValueMustBeAnIsoDateOnDateDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidScaleLevel;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidVariableIdName;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidVariableIdentifier;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -47,6 +48,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
       @CompoundIndex(def = "{name: 1, dataSetId: 1}", unique = true)
       })
 @ValidVariableIdName(message = "variable-management.error.variable.valid-variable-name")
+@ValidVariableIdentifier(message = "variable-management.error.variable.valid-identifier")
 @UniqueVariableNameInDataSet(message = "variable-management.error."
     + "variable.unique-variable-name-in-data-set")
 @UniqueVariableIndexInDataSet(message = "variable-management.error."
@@ -102,8 +104,6 @@ public class Variable extends AbstractRdcDomainObject {
       message = "variable-management.error.variable.access-ways.valid-access-ways")
   private List<String> accessWays;
 
-  private List<String> sameVariablesInPanel;
-
   @I18nStringSize(max = StringLengths.LARGE,
       message = "variable-management.error.variable.related-question-strings.i18n-string-size")
   private I18nString relatedQuestionStrings;
@@ -121,6 +121,11 @@ public class Variable extends AbstractRdcDomainObject {
   @NotEmpty(message = "variable-management.error.variable.survey-numbers-not-empty")
   private List<Integer> surveyNumbers;
  
+  @Size(max = StringLengths.MEDIUM,
+      message = "variable-management.error.variable.panel-identifier-size")
+  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_MINUS,
+      message = "variable-management.error.variable.panel-identifier-pattern")
+  private String panelIdentifier;
 
 
   /* Nested Objects */
@@ -170,7 +175,6 @@ public class Variable extends AbstractRdcDomainObject {
       .add("label", label)
       .add("annotations", annotations)
       .add("accessWays", accessWays)
-      .add("sameVariablesInPanel", sameVariablesInPanel)
       .add("relatedQuestionStrings", relatedQuestionStrings)
       .add("relatedVariables", relatedVariables)
       .add("dataSetId", dataSetId)
@@ -183,6 +187,7 @@ public class Variable extends AbstractRdcDomainObject {
       .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
       .add("surveyIds", surveyIds)
       .add("relatedQuestions",relatedQuestions)
+      .add("panelIdentifier", panelIdentifier)
       .toString();
   }
 
@@ -239,14 +244,6 @@ public class Variable extends AbstractRdcDomainObject {
 
   public void setId(String id) {
     this.id = id;
-  }
-
-  public List<String> getSameVariablesInPanel() {
-    return sameVariablesInPanel;
-  }
-
-  public void setSameVariablesInPanel(List<String> sameVariablesInPanel) {
-    this.sameVariablesInPanel = sameVariablesInPanel;
   }
 
   public I18nString getRelatedQuestionStrings() {
@@ -351,6 +348,16 @@ public class Variable extends AbstractRdcDomainObject {
   
   public void setRelatedQuestions(List<RelatedQuestion> relatedQuestions) {
     this.relatedQuestions = relatedQuestions;
+  }
+
+
+  public String getPanelIdentifier() {
+    return panelIdentifier;
+  }
+
+
+  public void setPanelIdentifier(String panelIdentifier) {
+    this.panelIdentifier = panelIdentifier;
   }
   
 }

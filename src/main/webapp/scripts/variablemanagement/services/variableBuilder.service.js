@@ -50,7 +50,6 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
         indexInDataSet: variableFromJson.indexInDataSet,
         relatedVariables: variableFromJson.relatedVariables,
         distribution: variableFromJson.distribution,
-        sameVariablesInPanel: variableFromJson.sameVariablesInPanel,
         dataSetId: dataAcquisitionProjectId + '-' + dataSet,
         dataSetNumber: _.split(dataSet, 'ds')[1]
       };

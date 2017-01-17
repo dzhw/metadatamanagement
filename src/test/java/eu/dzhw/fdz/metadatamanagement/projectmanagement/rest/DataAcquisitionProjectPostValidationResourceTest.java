@@ -503,9 +503,6 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     this.variableRepository.save(variable1);    
     Variable variable2 =
         UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name2", 2, surveyNumbers);
-    List<String> sameVariablesInPanel = new ArrayList<String>();
-    sameVariablesInPanel.add("wrongVariable");
-    variable2.setSameVariablesInPanel(sameVariablesInPanel);
     this.variableRepository.save(variable2);
     Variable variable3 =
         UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name3", 3, surveyNumbers);
@@ -530,10 +527,9 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     // Act & Assert
     mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
       .andExpect(status().isOk())
-      .andExpect(jsonPath("$.errors", hasSize(3)))
-      .andExpect(jsonPath("$.errors[0].messageId", containsString("error.post-validation.variable-id-is-not-in-invalid-variables-panel")))
-      .andExpect(jsonPath("$.errors[1].messageId", containsString("error.post-validation.variable-has-invalid-survey-id")))
-      .andExpect(jsonPath("$.errors[2].messageId", containsString("error.post-validation.project-has-no-study")));
+      .andExpect(jsonPath("$.errors", hasSize(2)))
+      .andExpect(jsonPath("$.errors[0].messageId", containsString("error.post-validation.variable-has-invalid-survey-id")))
+      .andExpect(jsonPath("$.errors[1].messageId", containsString("error.post-validation.project-has-no-study")));
     }
   
 }

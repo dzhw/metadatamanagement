@@ -36,7 +36,7 @@ public interface CompleteVariableProjection
 
   List<String> getAccessWays();
 
-  List<String> getSameVariablesInPanel();
+  String getPanelIdentifier();
   
   I18nString getRelatedQuestionStrings();
   

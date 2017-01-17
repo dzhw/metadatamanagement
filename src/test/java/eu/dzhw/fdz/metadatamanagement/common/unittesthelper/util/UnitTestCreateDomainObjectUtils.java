@@ -210,18 +210,12 @@ public class UnitTestCreateDomainObjectUtils {
 
   public static Variable buildVariable(String projectId, Integer dataSetNumber, String name, Integer index, List<Integer> surveyNumbers) {
 
-    // TODO DKatzberg Issue 877, add new field for junits tests
     // Prepare Variable
     List<String> accessWays = new ArrayList<>(); 
     accessWays.add(AccessWays.DOWNLOAD_CUF);
     accessWays.add(AccessWays.REMOTE_DESKTOP);
     accessWays.add(AccessWays.DOWNLOAD_SUF);
     accessWays.add(AccessWays.ONSITE_SUF);
-    
-    List<String> withSameVariablesInPanel = new ArrayList<>();
-    withSameVariablesInPanel.add(projectId + "-ds" + dataSetNumber + "-name1");
-    withSameVariablesInPanel.add(projectId + "-ds" + dataSetNumber + "-name2");
-    withSameVariablesInPanel.add(projectId + "-ds" + dataSetNumber + "-name3");
     
     List<String> relatedVariables = new ArrayList<>();
     relatedVariables.add(projectId + "-ds" + dataSetNumber + "-name3");   
@@ -252,7 +246,6 @@ public class UnitTestCreateDomainObjectUtils {
         .withExpressionLanguage(FilterExpressionLanguages.STATA)
         .withExpression("Filter Expression")
         .build())
-      .withSameVariablesInPanel(withSameVariablesInPanel)
       .withDistribution(buildDistribution())
       .withGenerationDetails(buildGenerationDetails())
       .withRelatedQuestionStrings(new I18nStringBuilder()

@@ -264,7 +264,7 @@ public class PostValidationService {
       }
 
       // variable.SameVariablesInPanel: there must be a variable with that id
-      if (variable.getSameVariablesInPanel() != null) {
+      /*if (variable.getSameVariablesInPanel() != null) {
         for (String variableId : variable.getSameVariablesInPanel()) {
           if (this.variableRepository.findOne(variableId) == null) {
             String[] information = {variable.getId(), variableId};
@@ -273,7 +273,7 @@ public class PostValidationService {
                 Arrays.asList(information)));
           }
         }
-      }
+      }*/
 
       // variable.relatedQuestions.questionId: 
       // If there is no genereationDetail every variable needs a
