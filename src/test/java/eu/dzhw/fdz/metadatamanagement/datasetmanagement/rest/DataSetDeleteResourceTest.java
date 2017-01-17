@@ -14,6 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -26,6 +27,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 /**
  * Test the REST API for {@link DataSetDeleteResource}.
@@ -65,6 +67,7 @@ public class DataSetDeleteResourceTest extends AbstractTest {
 
 
   @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testDeletingProjectDeletesDataSets() throws Exception {
     
     // create the DataAcquisitionProject

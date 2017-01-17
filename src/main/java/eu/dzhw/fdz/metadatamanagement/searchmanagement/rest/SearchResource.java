@@ -129,6 +129,7 @@ public class SearchResource {
   @RequestMapping(value = "/api/search/process-queue", method = RequestMethod.POST,
       produces = MediaType.APPLICATION_JSON_VALUE)
   @Timed
+  @Secured(AuthoritiesConstants.PUBLISHER)
   public ResponseEntity<?> processElasticsearchUpdateQueue() throws URISyntaxException {
     log.debug("REST request to process update queue.");
     elasticsearchUpdateQueueService.processQueue();

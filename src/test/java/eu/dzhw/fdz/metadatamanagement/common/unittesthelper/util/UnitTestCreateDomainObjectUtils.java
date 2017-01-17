@@ -8,8 +8,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import eu.dzhw.fdz.metadatamanagement.citationmanagement.domain.Citation;
-import eu.dzhw.fdz.metadatamanagement.citationmanagement.domain.builders.CitationBuilder;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ImageType;
 import eu.dzhw.fdz.metadatamanagement.common.domain.builders.I18nStringBuilder;
@@ -386,32 +384,6 @@ public class UnitTestCreateDomainObjectUtils {
         .build())
       .withVersion("1.0")
       .withDate(LocalDateTime.now())
-      .build();
-  }
-
-  public static Citation buildCitation() {
-    return new CitationBuilder().withAuthor("Max Mustermann")
-      .withBookTitle("Ein Testbuch fuer Testzwecke")
-      .withChapter("Kapitel 1 - Der Test")
-      .withEdition("Edition 1")
-      .withEditor("Mara Mustermann")
-      .withHowPublished("Gar nicht.")
-      .withId("Reference001")
-      .withInstitution("Institution Testbeispiel")
-      .withJournal("Testjournal")
-      .withNote("Eine Notiz")
-      .withNumber("12 Number")
-      .withOrganization("Testorganisation")
-      .withPages("123")
-      .withPublicationYear(2016)
-      .withPublisher("Testverlag")
-      .withSchool("Testschule")
-      .withSeries("Eine Testserie")
-      .withTitle("Der Titel vom Testbuch")
-      .withType("Testtype")
-      .withVolume("Volume 1")
-      .withCitationString("Citation String")
-      .withSourceReference("Source Reference")
       .build();
   }
 

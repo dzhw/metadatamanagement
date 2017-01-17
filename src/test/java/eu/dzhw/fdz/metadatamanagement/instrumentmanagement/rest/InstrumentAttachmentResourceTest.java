@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -21,11 +22,11 @@ import org.springframework.web.context.WebApplicationContext;
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
-import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestUserManagementUtils;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.InstrumentAttachmentService;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 public class InstrumentAttachmentResourceTest extends AbstractTest {
   @Autowired
@@ -49,10 +50,10 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
   public void cleanUp() {
     this.instrumentRepository.deleteAll();
     this.instrumentAttachmentService.deleteAll();
-    UnitTestUserManagementUtils.logout();;
   }
 
   @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER, username="test")
   public void testUploadValidAttachment() throws Exception {
 
     MockMultipartFile attachment =
@@ -62,7 +63,6 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
     MockMultipartFile metadata = new MockMultipartFile("instrumentAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(instrumentAttachmentMetadata));
 
-    UnitTestUserManagementUtils.login("test", "test");
     mockMvc.perform(MockMvcRequestBuilders.fileUpload("/api/instruments/attachments")
       .file(attachment)
       .file(metadata))
@@ -79,6 +79,7 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
   }
 
   @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testUploadAttachmentWithWrongType() throws Exception {
 
     MockMultipartFile attachment =
@@ -89,9 +90,6 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
     MockMultipartFile metadata = new MockMultipartFile("instrumentAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(instrumentAttachmentMetadata));
 
-    UnitTestUserManagementUtils.login("test", "test");
-
-
     mockMvc.perform(MockMvcRequestBuilders.fileUpload("/api/instruments/attachments")
       .file(attachment)
       .file(metadata))
@@ -101,6 +99,7 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
   }
   
   @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testUploadAttachmentWithMissingTitle() throws Exception {
 
     MockMultipartFile attachment =
@@ -112,9 +111,6 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
     MockMultipartFile metadata = new MockMultipartFile("instrumentAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(instrumentAttachmentMetadata));
 
-    UnitTestUserManagementUtils.login("test", "test");
-
-
     mockMvc.perform(MockMvcRequestBuilders.fileUpload("/api/instruments/attachments")
       .file(attachment)
       .file(metadata))
@@ -124,6 +120,7 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
   }
   
   @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testAttachmentIsDeletedWithInstrument() throws Exception {
     Instrument instrument =
         UnitTestCreateDomainObjectUtils.buildInstrument("projectId", "projectId-sy1");
@@ -140,8 +137,6 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
 
     MockMultipartFile metadata = new MockMultipartFile("instrumentAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(instrumentAttachmentMetadata));
-
-    UnitTestUserManagementUtils.login("test", "test");
 
     mockMvc.perform(MockMvcRequestBuilders.fileUpload("/api/instruments/attachments")
       .file(attachment)

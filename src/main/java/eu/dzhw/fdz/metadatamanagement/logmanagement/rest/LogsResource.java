@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +18,7 @@ import com.codahale.metrics.annotation.Timed;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
 import eu.dzhw.fdz.metadatamanagement.common.rest.dto.LoggerDto;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 /**
  * Controller for view and managing Log Level at runtime.
@@ -31,6 +33,7 @@ public class LogsResource {
   @RequestMapping(value = "/logs", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
   @Timed
+  @Secured(AuthoritiesConstants.ADMIN)
   public List<LoggerDto> getList() {
     LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
     return context.getLoggerList()
@@ -45,6 +48,7 @@ public class LogsResource {
   @RequestMapping(value = "/logs", method = RequestMethod.PUT)
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @Timed
+  @Secured(AuthoritiesConstants.ADMIN)
   public void changeLevel(@RequestBody LoggerDto jsonLogger) {
     LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
     context.getLogger(jsonLogger.getName())

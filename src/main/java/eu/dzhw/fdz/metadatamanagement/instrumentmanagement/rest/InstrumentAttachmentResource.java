@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ import com.codahale.metrics.annotation.Timed;
 
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.InstrumentAttachmentService;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 /**
  * REST controller for uploading an instrument attachment.
@@ -44,6 +46,7 @@ public class InstrumentAttachmentResource {
    */
   @RequestMapping(path = "/instruments/attachments", method = RequestMethod.POST)
   @Timed
+  @Secured(AuthoritiesConstants.PUBLISHER)
   public ResponseEntity<String> uploadAttachment(@RequestPart("file") MultipartFile multiPartFile,
       @RequestPart("instrumentAttachmentMetadata") 
       @Valid InstrumentAttachmentMetadata instrumentAttachmentMetadata)

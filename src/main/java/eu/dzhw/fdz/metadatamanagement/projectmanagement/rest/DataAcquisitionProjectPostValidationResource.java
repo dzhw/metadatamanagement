@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,6 +16,7 @@ import com.codahale.metrics.annotation.Timed;
 
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.rest.dto.PostValidationErrorsDto;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.PostValidationService;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 /**
  * A Resource class for the post validation of data acquisition projects. It get the id of the
@@ -41,6 +43,7 @@ public class DataAcquisitionProjectPostValidationResource {
   @RequestMapping(value = "/data-acquisition-projects/{id}/post-validate",
       method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
   @Timed
+  @Secured(AuthoritiesConstants.PUBLISHER)
   public ResponseEntity<PostValidationErrorsDto> postValidate(@PathVariable String id) {
     log.debug("REST request for post validation : {}", id);
     return new ResponseEntity<>(

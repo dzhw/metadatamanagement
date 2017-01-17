@@ -7,6 +7,7 @@ import java.net.URISyntaxException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.codahale.metrics.annotation.Timed;
 
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.SurveyResponseRateImageService;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 /**
  * REST controller for uploading an survey image.
@@ -39,6 +41,7 @@ public class SurveyResponseRateImageResource {
    */
   @RequestMapping(path = "/surveys/images", method = RequestMethod.POST)
   @Timed
+  @Secured(AuthoritiesConstants.PUBLISHER)
   public ResponseEntity<String> uploadImage(@RequestParam("image") MultipartFile multiPartFile,
       @RequestParam("surveyId") String surveyId) throws IOException, URISyntaxException {
     if (!multiPartFile.isEmpty() && this.surveyResponseRateImageService

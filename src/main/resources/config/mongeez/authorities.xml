@@ -3,6 +3,7 @@
         <script>
             db.jhi_authority.insert({"_id" : "ROLE_ADMIN"});
             db.jhi_authority.insert({"_id" : "ROLE_USER"});
+            db.jhi_authority.insert({"_id" : "ROLE_PUBLISHER"});
         </script>
     </changeSet>
 </mongoChangeLog>

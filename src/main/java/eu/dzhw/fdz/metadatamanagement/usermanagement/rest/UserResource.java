@@ -115,6 +115,7 @@ public class UserResource {
   @RequestMapping(value = "/users", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
   @Timed
+  @Secured(AuthoritiesConstants.ADMIN)
   public ResponseEntity<List<ManagedUserDto>> getAllUsers(Pageable pageable)
       throws URISyntaxException {
     Page<User> page = userRepository.findAll(pageable);
@@ -132,6 +133,7 @@ public class UserResource {
   @RequestMapping(value = "/users/{login}", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
   @Timed
+  @Secured(AuthoritiesConstants.ADMIN)
   public ResponseEntity<ManagedUserDto> getUser(@PathVariable String login) {
     log.debug("REST request to get User : {}", login);
     return userService.getUserWithAuthoritiesByLogin(login)

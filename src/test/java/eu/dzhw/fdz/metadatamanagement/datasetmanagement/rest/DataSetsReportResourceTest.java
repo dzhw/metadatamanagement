@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -24,6 +25,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetReposi
 import eu.dzhw.fdz.metadatamanagement.filemanagement.service.FileService;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 /**
  * @author Daniel Katzberg
@@ -61,6 +63,7 @@ public class DataSetsReportResourceTest extends AbstractTest {
   }
 
   //TODO DKatzberg no working dataset report functionallity at the moment @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testValidUpload() throws Exception {
 
     // Arrange
@@ -91,6 +94,7 @@ public class DataSetsReportResourceTest extends AbstractTest {
   }
   
   @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testValidButIncompleteUpload() throws Exception {
 
     // Arrange
@@ -121,6 +125,7 @@ public class DataSetsReportResourceTest extends AbstractTest {
   }
 
   @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testNonValidUpload() throws Exception {
 
     // Arrange

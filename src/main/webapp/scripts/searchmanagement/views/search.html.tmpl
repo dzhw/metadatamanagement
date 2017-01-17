@@ -23,7 +23,7 @@
         ngf-drop="tabs[searchParams.selectedTabIndex].uploadFunction($files)"
         ngf-multiple="true"
         ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}"
-        ngf-drop-disabled="(!projectId && tabs[searchParams.selectedTabIndex].elasticSearchType !== 'related_publications') || !isAuthenticated() || !tabs[searchParams.selectedTabIndex].uploadFunction">
+        ngf-drop-disabled="(!projectId && tabs[searchParams.selectedTabIndex].elasticSearchType !== 'related_publications') || !hasAuthority('ROLE_PUBLISHER') || !tabs[searchParams.selectedTabIndex].uploadFunction">
         <div ng-repeat="result in searchResult" ng-switch="result._type">
             <variable-search-result ng-switch-when="variables" search-result="result._source"></variable-search-result>
             <survey-search-result ng-switch-when="surveys" search-result="result._source"></survey-search-result>
@@ -47,7 +47,7 @@
                 class="pagination-sm"></ul>
         </div>
     </div>
-    <div ng-switch-when="true" has-any-authority="ROLE_ADMIN, ROLE_USER" class="fdz-fab-button-container" layout="column">
+    <div ng-switch-when="true" data-has-authority="ROLE_PUBLISHER" class="fdz-fab-button-container" layout="column">
         <md-button aria-label="{{'search-management.buttons.refresh' | translate}}" class="md-primary md-fab" ng-click="refresh()" style="margin-bottom: 1em;">
             <md-tooltip md-direction="left">
                 {{'search-management.buttons.refresh' | translate}}

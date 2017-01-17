@@ -19,6 +19,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -33,6 +34,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 
 public class InstrumentResourceTest extends AbstractTest {
@@ -70,6 +72,7 @@ public class InstrumentResourceTest extends AbstractTest {
   }
 
   @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER, username="test")
   public void testCreateInstrument() throws Exception {
 
     // Arrange
@@ -96,14 +99,15 @@ public class InstrumentResourceTest extends AbstractTest {
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.createdDate", not(isEmptyOrNullString())))
       .andExpect(jsonPath("$.lastModifiedDate", not(isEmptyOrNullString())))
-      .andExpect(jsonPath("$.createdBy", is("system")))
-      .andExpect(jsonPath("$.lastModifiedBy", is("system")));
+      .andExpect(jsonPath("$.createdBy", is("test")))
+      .andExpect(jsonPath("$.lastModifiedBy", is("test")));
 
     // call toString for test coverage :-|
     instrument.toString();
   }
 
   @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testUpdateInstrument() throws Exception {
     // Arrange
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
@@ -144,6 +148,7 @@ public class InstrumentResourceTest extends AbstractTest {
   }
 
   @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testUpdateWithWrongType() throws Exception {
     // Arrange
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
@@ -174,6 +179,7 @@ public class InstrumentResourceTest extends AbstractTest {
   }
 
   @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testCreateWithWrongId() throws Exception {
     // Arrange
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
@@ -195,6 +201,7 @@ public class InstrumentResourceTest extends AbstractTest {
   }
 
   @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testCreateWithWrongTitle() throws Exception {
     // Arrange
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
@@ -217,6 +224,7 @@ public class InstrumentResourceTest extends AbstractTest {
   }
   
   @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testInstrumentIsDeletedWithProject() throws Exception {
     // Arrange
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
@@ -244,6 +252,7 @@ public class InstrumentResourceTest extends AbstractTest {
   }
   
   @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testDeleteInstrumentByProjectId() throws Exception {
     // Arrange
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();

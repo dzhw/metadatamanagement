@@ -17,6 +17,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -37,6 +38,7 @@ import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 
@@ -97,6 +99,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
   }
   
   @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testSimpleProjectForPostValidation() throws IOException, Exception {
     
     //Arrange
@@ -152,6 +155,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
   }
   
   @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testPostValidationQuestionImageIsMissing() throws IOException, Exception {
     
     //Arrange
@@ -211,6 +215,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
   
   
   @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testSimpleProjectForPostValidationWithWrongInformationForQuestion() throws IOException, Exception {
     
     //Arrange
@@ -266,6 +271,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
   }
   
   @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testPostValidationWithMissingSubDataAccessWays() throws IOException, Exception {
     
     //Arrange
@@ -320,6 +326,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
   }
   
   @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testPostValidationWithMissingStudyAccessWays() throws IOException, Exception {
     
     //Arrange
@@ -374,6 +381,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
   }
   
   @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testSimpleProjectForPostValidationWithWrongInformationForDataSet() throws IOException, Exception {
     
     //Arrange
@@ -431,6 +439,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
   
   
   @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testSimpleProjectForPostValidationWithCorrectInformationForSurvey() throws IOException, Exception {
     
     //Arrange
@@ -482,6 +491,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
   }
   
   @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testSimpleProjectForPostValidationWithWrongInformationForVariable() throws IOException, Exception {
     
     //Arrange

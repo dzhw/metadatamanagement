@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp').controller('UserManagementController',
     PageTitleService) {
     PageTitleService.setPageTitle('user-management.home.title');
     $scope.users = [];
-    $scope.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
+    $scope.authorities = ['ROLE_USER', 'ROLE_PUBLISHER', 'ROLE_ADMIN'];
     LanguageService.getAll().then(function(languages) {
       $scope.languages = languages;
     });

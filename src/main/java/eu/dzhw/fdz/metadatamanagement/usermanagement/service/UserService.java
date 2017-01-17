@@ -17,6 +17,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.Authority;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.AuthorityRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.service.util.RandomUtil;
 
@@ -109,7 +110,7 @@ public class UserService {
     newUser.setActivated(false);
     // new user gets registration key
     newUser.setActivationKey(RandomUtil.generateActivationKey());
-    Authority authority = authorityRepository.findOne("ROLE_USER");
+    Authority authority = authorityRepository.findOne(AuthoritiesConstants.USER);
     Set<Authority> authorities = new HashSet<>();
     authorities.add(authority);
     newUser.setAuthorities(authorities);

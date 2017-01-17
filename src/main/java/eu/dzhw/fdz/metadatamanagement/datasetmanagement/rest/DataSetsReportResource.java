@@ -5,13 +5,17 @@ import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.codahale.metrics.annotation.Timed;
+
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.exception.TemplateIncompleteException;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetReportService;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import freemarker.template.TemplateException;
 
 /**
@@ -36,6 +40,8 @@ public class DataSetsReportResource {
    * @throws TemplateException Handles template exceptions. (Freemarker Templates)
    */
   @RequestMapping(value = "/data-sets/report")
+  @Timed
+  @Secured(AuthoritiesConstants.PUBLISHER)
   public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile multiPartFile,
       @RequestParam("id") String id) throws IOException, TemplateException, 
       TemplateIncompleteException {
