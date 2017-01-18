@@ -189,6 +189,7 @@ angular.module('metadatamanagementApp').config(
             'unique-variable-name-in-data-set': 'The Name of the Variable is already used within this Data Set.',
             'unique-variable-index-in-dataSet': 'The Index of the Variable is already used within this Data Set.',
             'data-set-number-not-null': 'The Number of the Data Set of the Variable must not be empty!',
+            'data-set-id-not-empty': 'The RDC-ID of the Data Set of the Variable must not be empty!',
             'data-set-index-not-null': 'The Index of the Data Set of the Variable must not be empty!',
             'survey-numbers-not-empty': 'The List of Survey Numbers of a variable needs min. one element and must not be empty!',
             'related-question-number-size': 'The max Length of Question Number is 32 signs.',

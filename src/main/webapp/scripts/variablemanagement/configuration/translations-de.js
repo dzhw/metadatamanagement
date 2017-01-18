@@ -189,6 +189,7 @@ angular.module('metadatamanagementApp').config(
             'unique-variable-name-in-data-set': 'Der Name der Variable ist innerhalb des Datensatzes schon vergeben.',
             'unique-variable-index-in-dataSet': 'Der Index der Variable ist innerhalb des Datensatzes schon vergeben.',
             'data-set-number-not-null': 'Die Nummer des Datensatzes der Variable darf nicht leer sein!',
+            'data-set-id-not-empty': 'Die FDZ-ID des Datensatzes der Variable darf nicht leer sein!',
             'data-set-index-not-null': 'Der Index des Datensatzes der Variable darf nicht leer sein!',
             'survey-numbers-not-empty': 'Die Liste der Erhebungsnummern einer Variable benötigt mindest ein Element und darf nicht leer sein!',
             'related-question-number-size': 'Die Maximallänge der Nummer einer Frage ist 32 Zeichen.',

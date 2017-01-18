@@ -106,6 +106,7 @@ public class Variable extends AbstractRdcDomainObject {
 
   private List<String> relatedVariables;
   
+  @NotEmpty(message = "variable-management.error.variable.data-set-id-not-empty")
   private String dataSetId;
   
   @NotNull(message = "variable-management.error.variable.data-set-number-not-null")
