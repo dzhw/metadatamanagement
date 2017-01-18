@@ -1,8 +1,6 @@
 <mongoChangeLog>
     <changeSet changeId="ChangeSet-2" author="jhipster">
         <script>
-            db.jhi_user.ensureIndex({"login" : 1});
-            db.jhi_user.ensureIndex({"email" : 1});
             db.jhi_user.insert(
             {
                 "_id" : "user-0",

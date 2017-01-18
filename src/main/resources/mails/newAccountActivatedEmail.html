@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title th:text="${'New account ' + user.login + ' activated'}">New account username activated</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </head>
+    <body>
+        <p>
+            Dear DevOps,
+        </p>
+        <p>
+            <span>A new account has been activated:</span>
+            <br/>
+            <a th:href="${'mailto:' + user.email}" th:text="${user.login}">username</a>
+        </p>
+        <p>
+            <span>Regards,</span>
+            <br/>
+            <em>Your Metadatasystem ;-)</em>
+        </p>
+    </body>
+</html>

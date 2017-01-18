@@ -64,7 +64,7 @@ jhipster:
         maxPoolSize: 50
         queueCapacity: 10000
     mail:
-        from: metadatamanagement@dzhw.eu
+        from: fdz@dzhw.eu
     security:
         authentication:
             oauth:

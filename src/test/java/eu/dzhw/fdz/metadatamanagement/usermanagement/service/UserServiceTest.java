@@ -139,10 +139,12 @@ public class UserServiceTest extends AbstractTest {
       .withPassword(this.passwordEncoder.encode("User1Password"))
       .withCreatedDate(now.minusDays(4))
       .withActivated(false)
+      .withEmail("user1@dzhw.eu")
       .build();
     User user2 = new UserBuilder().withLogin("user2login")
       .withPassword(this.passwordEncoder.encode("User2Password"))
       .withActivated(false)
+      .withEmail("user2@dzhw.eu")
       .build();
 
     // Update User 1

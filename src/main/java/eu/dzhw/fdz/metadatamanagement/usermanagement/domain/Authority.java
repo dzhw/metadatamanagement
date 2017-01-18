@@ -22,6 +22,13 @@ public class Authority implements Serializable {
   @Id
   private String name;
 
+  public Authority() {
+  }
+  
+  public Authority(String name) {
+    this.name = name;
+  }
+  
   public String getName() {
     return name;
   }

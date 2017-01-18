@@ -1,7 +1,10 @@
 package eu.dzhw.fdz.metadatamanagement.mailmanagement.service;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Future;
+import java.util.stream.Collectors;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -46,13 +49,8 @@ public class MailService {
   @Autowired
   private SpringTemplateEngine templateEngine;
 
-  /**
-   * System default email address that sends the e-mails.
-   */
-  // private String from;
-
   @Async
-  public Future<Void> sendEmail(String to, String subject, String content, boolean isMultipart,
+  private Future<Void> sendEmail(String[] to, String subject, String content, boolean isMultipart,
       boolean isHtml) {
     log.debug("Send e-mail[multipart '{}' and html '{}'] to '{}' with subject '{}' and content={}",
         isMultipart, isHtml, to, subject, content);
@@ -69,9 +67,10 @@ public class MailService {
       message.setText(content, isHtml);
       javaMailSender.send(mimeMessage);
 
-      log.debug("Sent e-mail to User '{}'", to);
+      log.debug("Sent e-mail to users '{}'", Arrays.toString(to));
     } catch (MessagingException e) {
-      log.warn("E-mail could not be sent to user '{}', exception is: {}", to, e.getMessage());
+      log.warn("E-mail could not be sent to users '{}', exception is: {}", 
+          Arrays.toString(to), e.getMessage());
     }
 
     return new AsyncResult<Void>(null);
@@ -89,7 +88,7 @@ public class MailService {
     context.setVariable("baseUrl", baseUrl);
     String content = templateEngine.process("activationEmail", context);
     String subject = messageSource.getMessage("email.activation.title", null, locale);
-    return sendEmail(user.getEmail(), subject, content, false, true);
+    return sendEmail(new String[] {user.getEmail()}, subject, content, false, true);
   }
 
   /**
@@ -104,7 +103,22 @@ public class MailService {
     context.setVariable("baseUrl", baseUrl);
     String content = templateEngine.process("passwordResetEmail", context);
     String subject = messageSource.getMessage("email.reset.title", null, locale);
-    return sendEmail(user.getEmail(), subject, content, false, true);
+    return sendEmail(new String[] {user.getEmail()}, subject, content, false, true);
+  }
+  
+  /**
+   * Send new account activated mail.
+   */
+  @Async
+  public Future<Void> sendNewAccountActivatedMail(List<User> admins, User newUser) {
+    log.debug("Sending new account e-mail to all admins");
+    Context context = new Context();
+    context.setVariable("user", newUser);
+    String content = templateEngine.process("newAccountActivatedEmail", context);
+    String subject = "New account " + newUser.getLogin() + " activated";
+    List<String> emailAddresses = admins.stream().map(User::getEmail).collect(Collectors.toList());
+    return sendEmail(emailAddresses.toArray(new String[emailAddresses.size()]), 
+        subject, content, false, true);
   }
 
 }

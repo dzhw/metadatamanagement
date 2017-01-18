@@ -45,22 +45,6 @@ public class MailServiceTest extends AbstractTest {
     this.greenMail.stop();
   }
 
-
-  @Test
-  public void sendMail() throws InterruptedException, ExecutionException {
-    // Arrange
-
-    // Act
-    Future<Void> futureVoid =
-        this.mailService.sendEmail("to@localhost.com", "Subject", "Content", false, false);
-    futureVoid.get();
-    Message[] messages = greenMail.getReceivedMessages();
-
-    // Arrange
-    assertThat(futureVoid.isDone(), is(true));
-    assertThat(messages.length, is(1));
-  }
-
   @Test
   public void testSendActivationEmail() throws Exception {
     // Arrange

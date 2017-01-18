@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.Authority;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 
 /**
@@ -16,6 +17,8 @@ public interface UserRepository extends MongoRepository<User, String> {
   Optional<User> findOneByActivationKey(String activationKey);
 
   List<User> findAllByActivatedIsFalseAndCreatedDateBefore(LocalDateTime dateTime);
+  
+  List<User> findAllByAuthoritiesContaining(Authority authority);
 
   Optional<User> findOneByResetKey(String resetKey);
 

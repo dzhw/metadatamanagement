@@ -11,6 +11,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -34,6 +35,7 @@ public class User extends AbstractRdcDomainObject implements Serializable {
   @NotNull(message = "user-management.error.user.login.not-null")
   @Pattern(regexp = "^[a-z0-9]*$|(anonymousUser)")
   @Size(min = 1, max = 50)
+  @Indexed(unique = true)
   private String login;
 
   @JsonIgnore
@@ -51,6 +53,7 @@ public class User extends AbstractRdcDomainObject implements Serializable {
 
   @Email
   @Size(max = 100)
+  @Indexed(unique = true)
   private String email;
 
   private boolean activated = false;
