@@ -5,6 +5,9 @@ function findNotTranslationedStrings(htmlContent, pageUrl) {
   var exp = /\{\{\s*\S*\s*\}\}/g;
   var deferred = protractor.promise.defer();
   htmlContent.getAttribute('innerHTML').then(function(content) {
+    if (content == null) {
+      content = '';
+    }
     var results = content.match(exp);
     var length = results ? results.length : 0;
     var result = {
