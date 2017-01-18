@@ -114,7 +114,7 @@
         <dependency>
             <groupId>net.karneim</groupId>
             <artifactId>pojobuilder</artifactId>
-            <version>3.4.3</version>
+            <version>3.5.0</version>
             <!-- 'provided' scope because this is only needed during compilation -->
             <scope>provided</scope>
         </dependency>
