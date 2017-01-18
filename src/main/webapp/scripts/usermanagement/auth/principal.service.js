@@ -14,18 +14,11 @@ angular.module('metadatamanagementApp').factory(
         return _authenticated;
       },
       hasAuthority: function(authority) {
-        if (!_authenticated) {
-          return $q.when(false);
+        if (!_authenticated || !_identity || !_identity.authorities) {
+          return false;
         }
 
-        return this.identity().then(
-          function(_id) {
-            return _id.authorities &&
-              _id.authorities.indexOf(authority) !== -1;
-          },
-          function() {
-            return false;
-          });
+        return (_identity.authorities.indexOf(authority) !== -1);
       },
       hasAnyAuthority: function(authorities) {
         if (!_authenticated || !_identity || !_identity.authorities) {

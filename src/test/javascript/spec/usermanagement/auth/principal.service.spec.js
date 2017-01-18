@@ -23,7 +23,7 @@ describe('Factory Tests ', function() {
     }));
     it('should return false', function() {
       var retVal = Principal.hasAuthority(true);
-      expect(retVal.$$state.value).toEqual(false);
+      expect(retVal).toEqual(false);
     });
     it('should return false', function() {
       spyOn(Principal, 'identity').and.callFake(function() {

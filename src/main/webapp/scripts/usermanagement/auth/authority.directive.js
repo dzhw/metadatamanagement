@@ -53,13 +53,11 @@ angular.module('metadatamanagementApp').directive(
           setVisible();
         }
 
-        Principal.hasAuthority(authority).then(function(result) {
-          if (result) {
-            setVisible();
-          } else {
-            setHidden();
-          }
-        });
+        if (Principal.hasAuthority(authority)) {
+          setVisible();
+        } else {
+          setHidden();
+        }
       };
 
       if (authority.length > 0) {
