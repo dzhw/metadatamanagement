@@ -7,6 +7,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,8 +25,11 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.exception.TemplateIncomp
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.filemanagement.service.FileService;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RelatedQuestion;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ValidResponse;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -45,13 +49,11 @@ public class DataSetReportService {
 
   @Autowired
   private DataSetRepository dataSetRepository;
+  @Autowired
+  private VariableRepository variableRepository;
 
-  //TODO DKatzberg need the repo later, again if we have a list of variables.
-  //@Autowired
-  //private VariableRepository variableRepository;
-
-//  @Autowired
-//  private QuestionRepository questionRepository;
+  @Autowired
+  private QuestionRepository questionRepository;
 
   /**
    * The Escape Prefix handles the escaping of special latex signs within data information. This
@@ -98,7 +100,6 @@ public class DataSetReportService {
    * @throws TemplateException Handles templates exceptions.
    * @throws IOException Handles IO Exception for the template.
    */
-  @SuppressWarnings("unchecked")
   public String generateReport(MultipartFile multiPartFile,
       String dataSetId) throws TemplateException, TemplateIncompleteException, IOException {
 
@@ -134,17 +135,24 @@ public class DataSetReportService {
             dataForTemplate));
 
     // Create Variables pages
-    //TODO DKatzberg Replace with a list of variables
-    List<String> variableIds = new ArrayList<>(); 
-        //((DataSet) dataForTemplate.get("dataSet")).getVariableIds();
+    @SuppressWarnings("unchecked")
     Map<String, Variable> variablesMap = (Map<String, Variable>) dataForTemplate.get("variables");
-    for (String variableId : variableIds) {
-      Variable variable = variablesMap.get(variableId);
-      dataForTemplate.put("variableId", variableId);
-      if (variable != null) {
-        filledTemplates.put("variables/" + variable.getName() + ".tex",
-            fillTemplate(texTemplates.get(KEY_VARIABLE), templateConfiguration, dataForTemplate));
+    Collection<Variable> variables = variablesMap.values();
+    for (Variable variable : variables) {
+      
+      //Check for null
+      if (variable == null) {
+        continue;
       }
+      
+      //check id field for null
+      if (variable.getId() == null) {
+        continue;
+      }            
+      
+      dataForTemplate.put("variableId", variable.getId());      
+      filledTemplates.put("variables/" + variable.getName() + ".tex",
+          fillTemplate(texTemplates.get(KEY_VARIABLE), templateConfiguration, dataForTemplate));
     }
     // Save into MongoDB / GridFS
     ByteArrayOutputStream byteArrayOutputStreamArchive = ZipUtil.zip(filledTemplates);
@@ -282,12 +290,9 @@ public class DataSetReportService {
   private Map<String, Object> createVariableDependingMaps(Map<String, Object> dataForTemplate) {
 
     // Create a Map of Variables
-    //TODO DKatzberg replace with a list of variable ids
-    List<Variable> variables = new ArrayList<>();
-        //this.variableRepository.findByIdIn(
-        //    ((DataSet)dataForTemplate.get("dataSet")).getVariableIds());
-    Map<String, Variable> variablesMap =
-        Maps.uniqueIndex(variables, new VariableFunction());
+    String dataSetId = ((DataSet)dataForTemplate.get("dataSet")).getId();
+    List<Variable> variables = this.variableRepository.findByDataSetId(dataSetId);
+    Map<String, Variable> variablesMap = Maps.uniqueIndex(variables, new VariableFunction());
     dataForTemplate.put("variables", variablesMap);
 
     // Create different information from the variable
@@ -297,7 +302,6 @@ public class DataSetReportService {
 
 
     for (Variable variable : variables) {
-
       int sizeValidResponses = 0;
       if (variable.getDistribution() != null && variable.getDistribution()
           .getValidResponses() != null) {
@@ -307,16 +311,16 @@ public class DataSetReportService {
       }
 
       // Create a Map with Questions
-      //TODO DKatzberg Issue 877 needs a redefinition over the relatedQuestion object
-//      if (variable.getQuestionId() != null) {
-//        Question question =
-//            this.questionRepository.findOne(variable.getQuestionId());
-//        questionsMap.put(variable.getQuestionId(), question);
-//      }
+      if (variable.getRelatedQuestions() != null 
+          && !variable.getRelatedQuestions().isEmpty()) {        
+        for (RelatedQuestion relatedQuestion : variable.getRelatedQuestions()) {        
+          Question question = this.questionRepository.findOne(relatedQuestion.getQuestionId());
+          questionsMap.put(relatedQuestion.getQuestionId(), question);
+        }
+      }
 
       // Create the first and last ten isAMissing Values to different list, if there are more
       // than 20.
-
       if (sizeValidResponses > 20) {
         firstTenValidResponses.put(variable.getId(),
             variable.getDistribution().getValidResponses().subList(0, 9));
