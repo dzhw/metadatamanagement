@@ -6,6 +6,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import com.google.common.base.MoreObjects;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
@@ -32,6 +34,10 @@ public class RelatedQuestion {
       + "related-question-number-not-empty")
   private String questionNumber;
   
+  @I18nStringSize(max = StringLengths.LARGE,
+      message = "variable-management.error.variable.related-question-strings.i18n-string-size")
+  private I18nString relatedQuestionStrings;
+  
   /* Nested Objects */
   
   /* Foreign Keys */
@@ -51,6 +57,7 @@ public class RelatedQuestion {
       .add("questionNumber", questionNumber)
       .add("questionId", questionId)
       .add("instrumentId", instrumentId)
+      .add("relatedQuestionStrings", relatedQuestionStrings)
       .toString();
   }
 
@@ -85,5 +92,13 @@ public class RelatedQuestion {
 
   public void setInstrumentId(String instrumentId) {
     this.instrumentId = instrumentId;
+  }
+  
+  public I18nString getRelatedQuestionStrings() {
+    return relatedQuestionStrings;
+  }
+
+  public void setRelatedQuestionStrings(I18nString relatedQuestionStrings) {
+    this.relatedQuestionStrings = relatedQuestionStrings;
   }
 }

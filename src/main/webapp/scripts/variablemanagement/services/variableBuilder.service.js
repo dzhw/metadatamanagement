@@ -41,10 +41,6 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
         dataType: variableFromJson.dataType,
         scaleLevel: variableFromJson.scaleLevel,
         relatedQuestions: [],
-        relatedQuestionStrings: {
-          en: variableFromExcel['relatedQuestionStrings.en'],
-          de: variableFromExcel['relatedQuestionStrings.de']
-        },
         surveyNumbers: variableFromJson.surveyNumbers,
         surveyIds: [],
         indexInDataSet: variableFromJson.indexInDataSet,
@@ -66,7 +62,8 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
           'questionNumber': relatedQuestion.questionNumber,
           'questionId': dataAcquisitionProjectId + '-ins' +
           relatedQuestion.instrumentNumber + '-' +
-          relatedQuestion.questionNumber
+          relatedQuestion.questionNumber,
+          relatedQuestionStrings: relatedQuestion.relatedQuestionStrings,
         });
       });
       return new VariableResource(CleanJSObjectService

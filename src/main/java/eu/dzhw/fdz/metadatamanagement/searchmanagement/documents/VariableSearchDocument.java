@@ -29,8 +29,6 @@ public class VariableSearchDocument {
 
   private String scaleLevel;
   
-  private String relatedQuestionStrings;
-  
   private String annotations;
 
   private List<String> surveyTitles;
@@ -43,7 +41,7 @@ public class VariableSearchDocument {
   
   private List<Integer> surveyNumbers;
   
-  private List<RelatedQuestion> relatedQuestions;
+  private List<RelatedQuestionSearchDocument> relatedQuestions;
   
   private String panelIdentifier;
   
@@ -61,11 +59,11 @@ public class VariableSearchDocument {
     this.dataSetNumber = variable.getDataSetNumber();
     this.indexInDataSet = variable.getIndexInDataSet();
     this.surveyNumbers = variable.getSurveyNumbers();
-    this.relatedQuestions = variable.getRelatedQuestions();
     this.panelIdentifier = variable.getPanelIdentifier();
     this.surveyIds = variable.getSurveyIds();
     createI18nAttributes(variable, index);
     createSurveyTitles(surveys, index);
+    createRelatedQuestions(variable, index);
   }
 
   private void createSurveyTitles(Iterable<Survey> surveys, ElasticsearchIndices index) {
@@ -87,27 +85,35 @@ public class VariableSearchDocument {
       }
     }
   }
-    
+  
   private void createI18nAttributes(Variable variable, ElasticsearchIndices index) {
     switch (index) {
       case METADATA_DE:
         label = variable.getLabel() != null ? variable.getLabel().getDe() : null;
         dataType = variable.getDataType() != null ? variable.getDataType().getDe() : null;
-        scaleLevel = variable.getScaleLevel() != null ? variable.getScaleLevel().getDe() : null;
-        setRelatedQuestionStrings(variable.getRelatedQuestionStrings() != null 
-            ? variable.getRelatedQuestionStrings().getDe() : null);
+        scaleLevel = variable.getScaleLevel() != null ? variable.getScaleLevel().getDe() : null;  
         annotations = variable.getAnnotations() != null ? variable.getAnnotations().getDe() : null;
         break;
       case METADATA_EN:
         label = variable.getLabel() != null ? variable.getLabel().getEn() : null;
         dataType = variable.getDataType() != null ? variable.getDataType().getEn() : null;
-        scaleLevel = variable.getScaleLevel() != null ? variable.getScaleLevel().getEn() : null;
-        setRelatedQuestionStrings(variable.getRelatedQuestionStrings() != null 
-            ? variable.getRelatedQuestionStrings().getEn() : null);
+        scaleLevel = variable.getScaleLevel() != null
+            ? variable.getScaleLevel().getEn() : null;       
         annotations = variable.getAnnotations() != null ? variable.getAnnotations().getEn() : null;
         break;
       default:
         throw new RuntimeException("Unknown index:" + index);
+    }
+  }
+  
+  private void createRelatedQuestions(Variable variable,
+      ElasticsearchIndices index) {
+    if (variable.getRelatedQuestions() == null || variable.getRelatedQuestions().isEmpty()) {
+      return;
+    }
+    relatedQuestions = new ArrayList<RelatedQuestionSearchDocument>();
+    for (RelatedQuestion relatedQuestion : variable.getRelatedQuestions()) {
+      relatedQuestions.add(new RelatedQuestionSearchDocument(relatedQuestion, index));
     }
   }
 
@@ -143,11 +149,11 @@ public class VariableSearchDocument {
     this.label = label;
   }
   
-  public List<RelatedQuestion> getRelatedQuestions() {
+  public List<RelatedQuestionSearchDocument> getRelatedQuestions() {
     return relatedQuestions;
   }
 
-  public void setRelatedQuestions(List<RelatedQuestion> relatedQuestions) {
+  public void setRelatedQuestions(List<RelatedQuestionSearchDocument> relatedQuestions) {
     this.relatedQuestions = relatedQuestions;
   }
 
@@ -189,14 +195,6 @@ public class VariableSearchDocument {
 
   public void setSurveyNumbers(List<Integer> surveyNumbers) {
     this.surveyNumbers = surveyNumbers;
-  }
-
-  public String getRelatedQuestionStrings() {
-    return relatedQuestionStrings;
-  }
-
-  public void setRelatedQuestionStrings(String relatedQuestionStrings) {
-    this.relatedQuestionStrings = relatedQuestionStrings;
   }
 
   public String getAnnotations() {

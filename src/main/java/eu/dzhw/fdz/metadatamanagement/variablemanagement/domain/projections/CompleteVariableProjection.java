@@ -38,8 +38,6 @@ public interface CompleteVariableProjection
 
   String getPanelIdentifier();
   
-  I18nString getRelatedQuestionStrings();
-  
   List<String> getRelatedVariables();
   
   String getDataSetId();

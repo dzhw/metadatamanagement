@@ -246,10 +246,6 @@ public class UnitTestCreateDomainObjectUtils {
         .build())
       .withDistribution(buildDistribution())
       .withGenerationDetails(buildGenerationDetails())
-      .withRelatedQuestionStrings(new I18nStringBuilder()
-          .withDe("Related Question String DE")
-          .withEn("Related Question String EN")
-          .build())
       .withRelatedVariables(relatedVariables)
       .build();
   }
@@ -456,6 +452,10 @@ public class UnitTestCreateDomainObjectUtils {
         .withQuestionNumber(questionNumber)
         .withInstrumentId(projectId + "-ins" + instrumentNumber)
         .withInstrumentNumber(projectId + "-ins" + instrumentNumber + "-" +questionNumber)
+        .withRelatedQuestionStrings(new I18nStringBuilder()
+            .withDe("Related Question String DE")
+            .withEn("Related Question String EN")
+            .build())
         .build();
   }
 }

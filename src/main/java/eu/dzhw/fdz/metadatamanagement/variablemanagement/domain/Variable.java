@@ -104,10 +104,6 @@ public class Variable extends AbstractRdcDomainObject {
       message = "variable-management.error.variable.access-ways.valid-access-ways")
   private List<String> accessWays;
 
-  @I18nStringSize(max = StringLengths.LARGE,
-      message = "variable-management.error.variable.related-question-strings.i18n-string-size")
-  private I18nString relatedQuestionStrings;
-
   private List<String> relatedVariables;
   
   private String dataSetId;
@@ -175,7 +171,6 @@ public class Variable extends AbstractRdcDomainObject {
       .add("label", label)
       .add("annotations", annotations)
       .add("accessWays", accessWays)
-      .add("relatedQuestionStrings", relatedQuestionStrings)
       .add("relatedVariables", relatedVariables)
       .add("dataSetId", dataSetId)
       .add("dataSetNumber", dataSetNumber)
@@ -244,14 +239,6 @@ public class Variable extends AbstractRdcDomainObject {
 
   public void setId(String id) {
     this.id = id;
-  }
-
-  public I18nString getRelatedQuestionStrings() {
-    return relatedQuestionStrings;
-  }
-
-  public void setRelatedQuestionStrings(I18nString relatedQuestionStrings) {
-    this.relatedQuestionStrings = relatedQuestionStrings;
   }
 
   public GenerationDetails getGenerationDetails() {
