@@ -1,5 +1,4 @@
-<div ng-if="ctrl.dataSet.$resolved && ctrl.dataSet.id">
-    <div flex ngf-drop="ctrl.uploadTexTemplate($files)" ngf-multiple="true" ngf-include-dir="false" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-drop-disabled="!ctrl.isAuthenticated()">
+<div ng-if="ctrl.dataSet.$resolved && ctrl.dataSet.id" flex ngf-drop="ctrl.uploadTexTemplate($files)" ngf-multiple="true" ngf-include-dir="false" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-drop-disabled="!ctrl.isAuthenticated()">
         <div layout="column" layout-gt-sm="row">
             <md-card flex-gt-sm>
                 <md-card-header>
@@ -126,5 +125,4 @@
                 </div>
             </md-button>
         </div>
-    </div>
 </div>
