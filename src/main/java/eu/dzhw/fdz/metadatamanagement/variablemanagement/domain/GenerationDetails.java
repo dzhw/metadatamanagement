@@ -38,7 +38,7 @@ public class GenerationDetails {
 
   @ValidRuleExpressionLanguage(
       message = "variable-management.error.generation-details."
-          + "ruleExpressionLanguage.valid-rule-expression-language")
+          + "rule-expression-language.valid-rule-expression-language")
   private String ruleExpressionLanguage;
 
   /*
