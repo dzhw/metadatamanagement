@@ -5,7 +5,7 @@
 
 angular.module('metadatamanagementApp')
   .controller('VariableDetailController', function($scope, entity,
-    SurveySearchDialogService, DataSetSearchDialogService,
+    SurveySearchDialogService,
     RelatedPublicationSearchDialogService,
     DataSetSearchService, QuestionSearchService, VariableSearchService,
     RelatedPublicationSearchService, StudySearchService,
@@ -54,10 +54,11 @@ angular.module('metadatamanagementApp')
             }
           });
       }
-      DataSetSearchService
-        .countBy('variableIds', $scope.variable.id)
-        .then(function(dataSetsCount) {
-          $scope.counts.dataSetsCount = dataSetsCount.count;
+      DataSetSearchService.findDataSets([$scope
+        .variable.dataSetId]).then(function(dataSet) {
+          if (dataSet.docs.length > 0) {
+            $scope.dataSet = dataSet.docs[0]._source;
+          }
         });
       RelatedPublicationSearchService
         .countBy('variableIds', $scope.variable.id)
@@ -99,12 +100,6 @@ angular.module('metadatamanagementApp')
       paramObject.methodName = 'findSurveys';
       paramObject.methodParams = $scope.variable.surveyIds;
       SurveySearchDialogService.findSurveys(paramObject);
-    };
-    $scope.showRelatedDataSets = function() {
-      var paramObject = {};
-      paramObject.methodName = 'findByVariableId';
-      paramObject.methodParams = $scope.variable.id;
-      DataSetSearchDialogService.findDataSets(paramObject);
     };
     $scope.showRelatedPublications = function() {
       var paramObject = {};
