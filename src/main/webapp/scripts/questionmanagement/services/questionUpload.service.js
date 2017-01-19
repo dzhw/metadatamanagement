@@ -127,7 +127,6 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
           uploadQuestionCount = 0;
           JobLoggingService.start('question');
           var questionFileReaders = [];
-          //console.log(files);
           files.forEach(function(file) {
             if (_.endsWith(file.name, '.json')) {
               var pathAsArray;
