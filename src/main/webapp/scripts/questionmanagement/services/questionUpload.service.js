@@ -157,6 +157,15 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                     question.id = question.instrumentId + '-' +
                       questionNumber;
                     question.number = questionNumber;
+                    var successors = [];
+                    if (!CleanJSObjectService
+                      .isNullOrEmpty(question.successors)) {
+                      question.successors.forEach(function(successorNumber) {
+                        successors.push(question.instrumentId + '-' +
+                        successorNumber);
+                      });
+                    }
+                    question.successors = successors;
                     question.imageType = 'PNG';
                     if (!images[question.number]) {
                       JobLoggingService.error({
