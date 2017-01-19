@@ -41,10 +41,10 @@ angular.module('metadatamanagementApp').config(
           'sub-data-sets': {
             'title': 'Sub Data Sets',
             'name': 'Name',
-            'accessWay': 'Access Way',
+            'accessWay': 'Data Product',
             'description': 'Description',
-            'numberOfAnalyzedVariables': 'Number Of Analyzed Variables',
-            'numberOfObservations': 'Number Of Observations'
+            'numberOfAnalyzedVariables': 'Analyzable Variables',
+            'numberOfObservations': 'Observations'
           },
           'content': {
             'true': 'Click to maximize',
