@@ -44,7 +44,7 @@
                 "lang_key": "en",
                 "createdBy": "system",
                 "createdDate": new Date(),
-                "authorities": [{"_id": "ROLE_ADMIN"}, {"_id": "ROLE_USER"}]
+                "authorities": [{"_id": "ROLE_ADMIN"}, {"_id": "ROLE_USER"}, {"_id": "ROLE_PUBLISHER"}]
             });
             db.jhi_user.insert(
             {
