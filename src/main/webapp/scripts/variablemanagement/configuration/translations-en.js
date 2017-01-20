@@ -201,6 +201,11 @@ angular.module('metadatamanagementApp').config(
             'mandatory-scale-level-for-numeric-data-type': 'The Scale Level of a numeric Variable must not be empty or is must be empty on a string data type!',
             'valid-response-value-must-be-a-number-on-numeric-data-type': 'If the variable has a numeric data type, the values of valid responses have to be numeric!',
             'valid-response-value-must-be-an-iso-date-on-date-data-type': 'If the variable has a date data type, the values of valid responses have to be matchable by the ISO Standard 8601.',
+            'statistics-minimum-must-be-an-iso-date-on-date-data-type': 'If the variable has a date data type, the minimum of statistics have to be matchable by the ISO Standard 8601.',
+            'statistics-maximum-must-be-an-iso-date-on-date-data-type': 'If the variable has a date data type, the maximum of statistics have to be matchable by the ISO Standard 8601.',
+            'statistics-median-must-be-an-iso-date-on-date-data-type': 'If the variable has a date data type, the median of statistics have to be matchable by the ISO Standard 8601.',
+            'statistics-first-quartile-must-be-an-iso-date-on-date-data-type': 'If the variable has a date data type, the first quartile of statistics have to be matchable by the ISO Standard 8601.',
+            'statistics-third-quartile-must-be-an-iso-date-on-date-data-type': 'If the variable has a date data type, the third quartile of statistics have to be matchable by the ISO Standard 8601.',
             'id': {
               'not-empty': 'The RDC-ID of the Variable must not be empty!',
               'size': 'The max length of the RDC-ID is 128 signs.',

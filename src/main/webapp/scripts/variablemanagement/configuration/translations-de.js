@@ -201,6 +201,11 @@ angular.module('metadatamanagementApp').config(
             'mandatory-scale-level-for-numeric-data-type': 'Das Skalenniveau einer numerischen Variable darf nicht leer sein, bzw.es muss leer sein bei einem String Datentyp!',
             'valid-response-value-must-be-a-number-on-numeric-data-type': 'Wenn der Datentyp einer Variable numerisch ist, müssen die Werte von gültigen Antworten numerisch sein.',
             'valid-response-value-must-be-an-iso-date-on-date-data-type': 'Wenn der Datentyp einer Variable ein Datum ist, müssen die Werte von gültigen Antworten dem ISO Standard 8601 entsprechen.',
+            'statistics-minimum-must-be-an-iso-date-on-date-data-type': 'Wenn der Datentyp einer Variable ein Datum ist, müssen das Minimum von den Statistiken dem ISO Standard 8601 entsprechen.',
+            'statistics-maximum-must-be-an-iso-date-on-date-data-type': 'Wenn der Datentyp einer Variable ein Datum ist, müssen das Maximum von den Statistiken dem ISO Standard 8601 entsprechen.',
+            'statistics-median-must-be-an-iso-date-on-date-data-type': 'Wenn der Datentyp einer Variable ein Datum ist, müssen der Median von den Statistiken dem ISO Standard 8601 entsprechen.',
+            'statistics-first-quartile-must-be-an-iso-date-on-date-data-type': 'Wenn der Datentyp einer Variable ein Datum ist, müssen das erste Quartile von den Statistiken dem ISO Standard 8601 entsprechen.',
+            'statistics-third-quartile-must-be-an-iso-date-on-date-data-type': 'Wenn der Datentyp einer Variable ein Datum ist, müssen das dritte Quartile von den Statistiken dem ISO Standard 8601 entsprechen.',
             'id': {
               'not-empty': 'Die FDZ - ID der Variable darf nicht leer sein!',
               'size': 'Die Maximallänge der FDZ - ID ist 128 Zeichen.',
