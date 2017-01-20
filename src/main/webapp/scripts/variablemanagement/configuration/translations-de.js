@@ -184,6 +184,23 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'Die gültige, relative Häufigkeit eines gültigen Wertes darf nicht leer sein.'
             }
           },
+          'statistics': {
+            'minimum': {
+              'size': 'Die Maximallänge des Minimum ist 32 Zeichen.'
+            },
+            'maximum': {
+              'size': 'Die Maximallänge des Maximum ist 32 Zeichen.'
+            },
+            'median': {
+              'size': 'Die Maximallänge des Medians ist 32 Zeichen.'
+            },
+            'first-quartile': {
+              'size': 'Die Maximallänge des ersten Quartiles ist 32 Zeichen.'
+            },
+            'third-quartile': {
+              'size': 'Die Maximallänge des dritten Quartiles ist 32 Zeichen.'
+            }
+          },
           'variable': {
             'valid-variable-name': 'Die FDZ-ID der Variable entspricht nicht dem Muster: FDZID-Variablenname.',
             'unique-variable-name-in-data-set': 'Der Name der Variable ist innerhalb des Datensatzes schon vergeben.',

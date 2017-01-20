@@ -184,6 +184,23 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'The valid relative frequency of a valid response must not be empty!'
             }
           },
+          'statistics': {
+            'minimum': {
+              'size': 'The max length of the minimum is 32 signs.'
+            },
+            'maximum': {
+              'size': 'The max length of the maximum is 32 signs.'
+            },
+            'median': {
+              'size': 'The max length of the median is 32 signs.'
+            },
+            'first-quartile': {
+              'size': 'The max length of the first quartile is 32 signs.'
+            },
+            'third-quartile': {
+              'size': 'The max length of the third quartile is 32 signs.'
+            }
+          },
           'variable': {
             'valid-variable-name': 'The RDC-ID of the Variable is not valid for the Pattern: RDCID-VariableName.',
             'unique-variable-name-in-data-set': 'The Name of the Variable is already used within this Data Set.',
