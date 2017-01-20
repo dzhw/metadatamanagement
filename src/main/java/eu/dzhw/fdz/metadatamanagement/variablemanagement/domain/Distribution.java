@@ -38,6 +38,7 @@ public class Distribution {
   private Histogram histogram;
 
   // No validation
+  @Valid
   private Statistics statistics;
 
   @UniqueCode(message =

@@ -66,7 +66,6 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @ValidResponseValueMustBeAnIsoDateOnDateDataType(
     message = "variable-management.error.variable."
         + "valid-response-value-must-be-an-iso-date-on-date-data-type")
-//TODO DKatzberg all String of the annotations until the public class have to be added.
 @StatisticsMinimumMustBeAnIsoDateOnDateDataType(message = "variable-management.error.variable."
     + "statistics-minimum-must-be-a-number-on-numeric-data-type")
 @StatisticsMaximumMustBeAnIsoDateOnDateDataType(message = "variable-management.error.variable."
@@ -77,6 +76,8 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
     + "variable.statistics-first-quartile-must-be-a-number-on-numeric-data-type")
 @StatisticsThirdQuartileMustBeAnIsoDateOnDateDataType(message = "variable-management.error."
     + "variable.statistics-third-quartile-must-be-a-number-on-numeric-data-type")
+//TODO DKatzberg all String of the annotations until the public class have to be added.
+//TODO Numeric Validations for statistics
 public class Variable extends AbstractRdcDomainObject {
 
   /* Domain Object listed attributes */
