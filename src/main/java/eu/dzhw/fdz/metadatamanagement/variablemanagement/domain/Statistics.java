@@ -17,21 +17,21 @@ public class Statistics {
 
   private Double meanValue;
 
-  private Double minimum;
+  private String minimum;
 
-  private Double maximum;
+  private String maximum;
 
   private Double skewness;
 
   private Double kurtosis;
 
-  private Double median;
+  private String median;
 
   private Double standardDeviation;
 
-  private Double firstQuartile;
+  private String firstQuartile;
 
-  private Double thirdQuartile;
+  private String thirdQuartile;
 
   private Double lowWhisker;
 
@@ -76,22 +76,6 @@ public class Statistics {
     this.meanValue = meanValue;
   }
 
-  public Double getMinimum() {
-    return minimum;
-  }
-
-  public void setMinimum(Double minimum) {
-    this.minimum = minimum;
-  }
-
-  public Double getMaximum() {
-    return maximum;
-  }
-
-  public void setMaximum(Double maximum) {
-    this.maximum = maximum;
-  }
-
   public Double getSkewness() {
     return skewness;
   }
@@ -108,36 +92,12 @@ public class Statistics {
     this.kurtosis = kurtosis;
   }
 
-  public Double getMedian() {
-    return median;
-  }
-
-  public void setMedian(Double median) {
-    this.median = median;
-  }
-
   public Double getStandardDeviation() {
     return standardDeviation;
   }
 
   public void setStandardDeviation(Double standardDeviation) {
     this.standardDeviation = standardDeviation;
-  }
-
-  public Double getFirstQuartile() {
-    return firstQuartile;
-  }
-
-  public void setFirstQuartile(Double firstQuartile) {
-    this.firstQuartile = firstQuartile;
-  }
-
-  public Double getThirdQuartile() {
-    return thirdQuartile;
-  }
-
-  public void setThirdQuartile(Double thirdQuartile) {
-    this.thirdQuartile = thirdQuartile;
   }
 
   public Double getLowWhisker() {
@@ -180,4 +140,43 @@ public class Statistics {
     this.meanDeviation = meanDeviation;
   }
 
+  public String getMinimum() {
+    return minimum;
+  }
+
+  public void setMinimum(String minimum) {
+    this.minimum = minimum;
+  }
+
+  public String getMaximum() {
+    return maximum;
+  }
+
+  public void setMaximum(String maximum) {
+    this.maximum = maximum;
+  }
+
+  public String getMedian() {
+    return median;
+  }
+
+  public void setMedian(String median) {
+    this.median = median;
+  }
+
+  public String getFirstQuartile() {
+    return firstQuartile;
+  }
+
+  public void setFirstQuartile(String firstQuartile) {
+    this.firstQuartile = firstQuartile;
+  }
+
+  public String getThirdQuartile() {
+    return thirdQuartile;
+  }
+
+  public void setThirdQuartile(String thirdQuartile) {
+    this.thirdQuartile = thirdQuartile;
+  }
 }

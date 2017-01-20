@@ -218,7 +218,7 @@ public class UnitTestCreateDomainObjectUtils {
     List<String> relatedVariables = new ArrayList<>();
     relatedVariables.add(projectId + "-ds" + dataSetNumber + "-name3");   
     
-    List<RelatedQuestion> relatedQuestions = new ArrayList<RelatedQuestion>();
+    List<RelatedQuestion> relatedQuestions = new ArrayList<>();
     relatedQuestions.add(buildRelatedQuestion(projectId, "1", "1"));
     return new VariableBuilder().withId(projectId + "-ds" + dataSetNumber + "-" + name)
       .withDataType(DataTypes.NUMERIC)
@@ -303,17 +303,17 @@ public class UnitTestCreateDomainObjectUtils {
   }
 
   public static Statistics buildStatistics() {
-    return new StatisticsBuilder().withFirstQuartile(70.0)
+    return new StatisticsBuilder().withFirstQuartile("70.0")
       .withHighWhisker(130.0)
       .withKurtosis(234.0)
       .withLowWhisker(30.0)
-      .withMaximum(140.0)
+      .withMaximum("140.0")
       .withMeanValue(87.5)
-      .withMedian(90.0)
-      .withMinimum(0.0)
+      .withMedian("90.0")
+      .withMinimum("0.0")
       .withSkewness(123.0)
       .withStandardDeviation(40.0)
-      .withThirdQuartile(110.0)
+      .withThirdQuartile("110.0")
       .withMode("Mode")
       .withDeviance(12.4)
       .withMeanDeviation(58.7)
