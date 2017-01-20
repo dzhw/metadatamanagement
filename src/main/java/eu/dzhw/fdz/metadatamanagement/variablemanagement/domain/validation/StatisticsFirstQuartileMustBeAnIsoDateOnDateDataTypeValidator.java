@@ -16,7 +16,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
  * @author Daniel Katzberg
  *
  */
-public class StatisticsFirstQuatileMustBeAnIsoDateOnDateDataTypeValidator implements
+public class StatisticsFirstQuartileMustBeAnIsoDateOnDateDataTypeValidator implements
     ConstraintValidator<StatisticsFirstQuartileMustBeAnIsoDateOnDateDataType, Variable> {
 
   /*

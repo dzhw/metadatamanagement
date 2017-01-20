@@ -10,22 +10,22 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- * Annotation for the validation of the statistics of a variable. It checks the first quatile has a
+ * Annotation for the validation of the statistics of a variable. It checks the third quartile has a
  * iso date string, if the variable has a date data type.
  * 
  * @author Daniel Katzberg
  *
  */
 @Documented
-@Constraint(validatedBy = {StatisticsFirstQuartileMustBeAnIsoDateOnDateDataTypeValidator.class})
+@Constraint(validatedBy = {StatisticsThirdQuartileMustBeAnIsoDateOnDateDataTypeValidator.class})
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface StatisticsFirstQuartileMustBeAnIsoDateOnDateDataType {
+public @interface StatisticsThirdQuartileMustBeAnIsoDateOnDateDataType {
   /**
    * Defines the default error message.
    */
   public abstract String message() default "{eu.dzhw.fdz.metadatamanagement.domain.validation."
-      + "statisticsFirstQuatileMustBeAnIsoDateOnDateDataType}";
+      + "statisticsThirdQuartileMustBeAnIsoDateOnDateDataType}";
 
   /**
    * This contains groups.
