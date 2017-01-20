@@ -65,6 +65,8 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
     + "variable.unique-variable-index-in-dataSet")
 @MandatoryScaleLevelForNumericDataType(
     message = "variable-management.error.variable.mandatory-scale-level-for-numeric-data-type")
+
+//Validation if data type is date
 @ValidResponseValueMustBeAnIsoDateOnDateDataType(
     message = "variable-management.error.variable."
         + "valid-response-value-must-be-an-iso-date-on-date-data-type")
@@ -78,10 +80,11 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
     + "variable.statistics-first-quartile-must-be-a-number-on-numeric-data-type")
 @StatisticsThirdQuartileMustBeAnIsoDateOnDateDataType(message = "variable-management.error."
     + "variable.statistics-third-quartile-must-be-a-number-on-numeric-data-type")
+
+//Validation if data type is numeric
 @ValidResponseValueMustBeANumberOnNumericDataType(
     message = "variable-management.error.variable."
         + "valid-response-value-must-be-a-number-on-numeric-data-type")
-//TODO DKatzberg all String of the annotations until the public class have to be added.
 @StatisticsMinimumMustBeANumberOnNumericDataType(
     message = "variable-management.error.variable."
         + "statistics-minimum-must-be-a-number-on-numeric-data-type")
