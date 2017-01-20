@@ -5,7 +5,7 @@
     <parent>
         <artifactId>spring-boot-starter-parent</artifactId>
         <groupId>org.springframework.boot</groupId>
-        <version>1.4.2.RELEASE</version>
+        <version>1.4.3.RELEASE</version>
         <relativePath />
     </parent>
 
@@ -557,6 +557,11 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/webapp</directory>
+                    </resource>
+                </resources>
                 <plugins>
                     <plugin>
                         <groupId>com.github.trecloux</groupId>
