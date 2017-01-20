@@ -24,6 +24,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.MandatoryScaleLevelForNumericDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.StatisticsFirstQuartileMustBeAnIsoDateOnDateDataType;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.StatisticsMaximumMustBeANumberOnNumericDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.StatisticsMaximumMustBeAnIsoDateOnDateDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.StatisticsMedianMustBeAnIsoDateOnDateDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.StatisticsMinimumMustBeANumberOnNumericDataType;
@@ -77,11 +78,13 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @ValidResponseValueMustBeANumberOnNumericDataType(
     message = "variable-management.error.variable."
         + "valid-response-value-must-be-a-number-on-numeric-data-type")
+//TODO DKatzberg all String of the annotations until the public class have to be added.
 @StatisticsMinimumMustBeANumberOnNumericDataType(
     message = "variable-management.error.variable."
         + "statistics-minimum-must-be-a-number-on-numeric-data-type")
-//TODO DKatzberg all String of the annotations until the public class have to be added.
-//TODO Numeric Validations for statistics
+@StatisticsMaximumMustBeANumberOnNumericDataType(
+    message = "variable-management.error.variable."
+        + "statistics-maximum-must-be-a-number-on-numeric-data-type")
 public class Variable extends AbstractRdcDomainObject {
 
   /* Domain Object listed attributes */
