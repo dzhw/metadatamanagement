@@ -26,6 +26,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.Manda
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.StatisticsFirstQuartileMustBeAnIsoDateOnDateDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.StatisticsMaximumMustBeAnIsoDateOnDateDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.StatisticsMedianMustBeAnIsoDateOnDateDataType;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.StatisticsMinimumMustBeANumberOnNumericDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.StatisticsMinimumMustBeAnIsoDateOnDateDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.StatisticsThirdQuartileMustBeAnIsoDateOnDateDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.UniqueVariableIndexInDataSet;
@@ -60,9 +61,6 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
     + "variable.unique-variable-index-in-dataSet")
 @MandatoryScaleLevelForNumericDataType(
     message = "variable-management.error.variable.mandatory-scale-level-for-numeric-data-type")
-@ValidResponseValueMustBeANumberOnNumericDataType(
-    message = "variable-management.error.variable."
-        + "valid-response-value-must-be-a-number-on-numeric-data-type")
 @ValidResponseValueMustBeAnIsoDateOnDateDataType(
     message = "variable-management.error.variable."
         + "valid-response-value-must-be-an-iso-date-on-date-data-type")
@@ -76,6 +74,12 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
     + "variable.statistics-first-quartile-must-be-a-number-on-numeric-data-type")
 @StatisticsThirdQuartileMustBeAnIsoDateOnDateDataType(message = "variable-management.error."
     + "variable.statistics-third-quartile-must-be-a-number-on-numeric-data-type")
+@ValidResponseValueMustBeANumberOnNumericDataType(
+    message = "variable-management.error.variable."
+        + "valid-response-value-must-be-a-number-on-numeric-data-type")
+@StatisticsMinimumMustBeANumberOnNumericDataType(
+    message = "variable-management.error.variable."
+        + "statistics-minimum-must-be-a-number-on-numeric-data-type")
 //TODO DKatzberg all String of the annotations until the public class have to be added.
 //TODO Numeric Validations for statistics
 public class Variable extends AbstractRdcDomainObject {
