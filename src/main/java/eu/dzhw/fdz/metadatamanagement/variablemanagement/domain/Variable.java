@@ -26,6 +26,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.Manda
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.StatisticsFirstQuartileMustBeAnIsoDateOnDateDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.StatisticsMaximumMustBeANumberOnNumericDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.StatisticsMaximumMustBeAnIsoDateOnDateDataType;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.StatisticsMedianMustBeANumberOnNumericDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.StatisticsMedianMustBeAnIsoDateOnDateDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.StatisticsMinimumMustBeANumberOnNumericDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.StatisticsMinimumMustBeAnIsoDateOnDateDataType;
@@ -85,6 +86,9 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @StatisticsMaximumMustBeANumberOnNumericDataType(
     message = "variable-management.error.variable."
         + "statistics-maximum-must-be-a-number-on-numeric-data-type")
+@StatisticsMedianMustBeANumberOnNumericDataType(
+    message = "variable-management.error.variable."
+        + "statistics-median-must-be-a-number-on-numeric-data-type")
 public class Variable extends AbstractRdcDomainObject {
 
   /* Domain Object listed attributes */
