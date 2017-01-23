@@ -71,15 +71,15 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
     message = "variable-management.error.variable."
         + "valid-response-value-must-be-an-iso-date-on-date-data-type")
 @StatisticsMinimumMustBeAnIsoDateOnDateDataType(message = "variable-management.error.variable."
-    + "statistics-minimum-must-be-a-number-on-numeric-data-type")
+    + "statistics-minimum-must-be-an-iso-date-on-date-data-type")
 @StatisticsMaximumMustBeAnIsoDateOnDateDataType(message = "variable-management.error.variable."
-    + "statistics-maximum-must-be-a-number-on-numeric-data-type")
+    + "statistics-maximum-must-be-an-iso-date-on-date-data-type")
 @StatisticsMedianMustBeAnIsoDateOnDateDataType(message = "variable-management.error.variable."
-    + "statistics-median-must-be-a-number-on-numeric-data-type")
+    + "statistics-median-must-be-an-iso-date-on-date-data-type")
 @StatisticsFirstQuartileMustBeAnIsoDateOnDateDataType(message = "variable-management.error."
-    + "variable.statistics-first-quartile-must-be-a-number-on-numeric-data-type")
+    + "variable.statistics-first-quartile-must-be-an-iso-date-on-date-data-type")
 @StatisticsThirdQuartileMustBeAnIsoDateOnDateDataType(message = "variable-management.error."
-    + "variable.statistics-third-quartile-must-be-a-number-on-numeric-data-type")
+    + "variable.statistics-third-quartile-must-be-an-iso-date-on-date-data-type")
 
 //Validation if data type is numeric
 @ValidResponseValueMustBeANumberOnNumericDataType(
