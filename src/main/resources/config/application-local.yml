@@ -14,6 +14,7 @@ spring:
     devtools:
         restart:
             enabled: true
+            additional-exclude: scripts/**, bower_components/**, assets/**
         livereload:
             enabled: false # we use Grunt + BrowserSync for livereload
     data:
