@@ -10,6 +10,7 @@ angular.module('metadatamanagementApp')
       LanguageService) {
       var ctrl = this;
       ctrl.isAuthenticated = Principal.isAuthenticated;
+      ctrl.hasAuthority = Principal.hasAuthority;
       ctrl.counts = {};
       ctrl.dataSet = entity;
       ctrl.counts = {};
@@ -18,8 +19,8 @@ angular.module('metadatamanagementApp')
         var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';
         PageTitleService.setPageTitle('data-set-management.detail.title', {
           description: ctrl.dataSet.description[currenLanguage] ? ctrl.dataSet
-          .description[currenLanguage] : ctrl
-          .dataSet.description[secondLanguage],
+            .description[currenLanguage] : ctrl
+            .dataSet.description[secondLanguage],
           dataSetId: ctrl.dataSet.id
         });
         StudySearchService.findStudy(ctrl.dataSet.dataAcquisitionProjectId)
