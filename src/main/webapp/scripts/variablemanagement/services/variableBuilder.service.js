@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
 
       var variableObj = {
         id: dataAcquisitionProjectId + '-' + dataSet +
-        '-' + variableFromExcel.name,
+          '-' + variableFromExcel.name,
         dataAcquisitionProjectId: dataAcquisitionProjectId,
         name: variableFromExcel.name,
         annotations: {
@@ -20,8 +20,8 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
         filterDetails: {
           expression: variableFromExcel['filterDetails.expression'],
           description: {
-            en: variableFromExcel['filterDetails.description.de'],
-            de: variableFromExcel['filterDetails.description.en']
+            de: variableFromExcel['filterDetails.description.de'],
+            en: variableFromExcel['filterDetails.description.en']
           },
           expressionLanguage: variableFromExcel[
             'filterDetails.expressionLanguage'
@@ -32,9 +32,9 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
           ruleExpressionLanguage: variableFromExcel[
             'generationDetails.ruleExpressionLanguage'],
           description: {
-              en: variableFromExcel['generationDetails.description.en'],
-              de: variableFromExcel['generationDetails.description.de']
-            }
+            en: variableFromExcel['generationDetails.description.en'],
+            de: variableFromExcel['generationDetails.description.de']
+          }
         },
         panelIdentifier: variableFromExcel.panelIdentifier,
         label: variableFromJson.label,
@@ -51,20 +51,20 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
       };
       _.forEach(variableObj.surveyNumbers, function(number) {
         variableObj.surveyIds
-        .push(variableObj.dataAcquisitionProjectId + '-sy' + number);
+          .push(variableObj.dataAcquisitionProjectId + '-sy' + number);
       });
       _.forEach(variableFromJson.relatedQuestions, function(relatedQuestion) {
         variableObj.relatedQuestions
-        .push({
-          'instrumentNumber': relatedQuestion.instrumentNumber,
-          'instrumentId': dataAcquisitionProjectId +
-          '-ins' + relatedQuestion.instrumentNumber,
-          'questionNumber': relatedQuestion.questionNumber,
-          'questionId': dataAcquisitionProjectId + '-ins' +
-          relatedQuestion.instrumentNumber + '-' +
-          relatedQuestion.questionNumber,
-          relatedQuestionStrings: relatedQuestion.relatedQuestionStrings,
-        });
+          .push({
+            'instrumentNumber': relatedQuestion.instrumentNumber,
+            'instrumentId': dataAcquisitionProjectId +
+              '-ins' + relatedQuestion.instrumentNumber,
+            'questionNumber': relatedQuestion.questionNumber,
+            'questionId': dataAcquisitionProjectId + '-ins' +
+              relatedQuestion.instrumentNumber + '-' +
+              relatedQuestion.questionNumber,
+            relatedQuestionStrings: relatedQuestion.relatedQuestionStrings,
+          });
       });
       return new VariableResource(CleanJSObjectService
         .removeEmptyJsonObjects(variableObj));

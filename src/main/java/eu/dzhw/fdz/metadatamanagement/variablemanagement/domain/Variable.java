@@ -54,9 +54,9 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders")
 @CompoundIndexes({
-      @CompoundIndex(def = "{name: 1, dataAcquisitionProjectId: 1}", unique = true),
-      @CompoundIndex(def = "{name: 1, dataSetId: 1}", unique = true)
-      })
+    @CompoundIndex(def = "{name: 1, dataSetId: 1}", unique = true),
+    @CompoundIndex(def = "{indexInDataSet: 1, dataSetId: 1}", unique = true)
+    })
 @ValidVariableIdName(message = "variable-management.error.variable.valid-variable-name")
 @ValidVariableIdentifier(message = "variable-management.error.variable.valid-identifier")
 @UniqueVariableNameInDataSet(message = "variable-management.error."

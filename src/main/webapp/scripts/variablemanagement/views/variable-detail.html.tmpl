@@ -41,7 +41,7 @@
                 <div style="margin-bottom: 0.5em;" ng-if="variable.filterDetails.description">
                     <span style="font-weight: bold;">{{'variable-management.detail.filter-description' | translate }}:
                     </span>
-                    <span>{{variable.filterDetails.description}}</span>
+                    <span>{{variable.filterDetails.description[currentLanguage]}}</span>
                 </div>
                 <div ng-if="variable.filterDetails">
                     <span style="font-weight: bold;">{{'variable-management.detail.input-filter' | translate }}

@@ -29,7 +29,8 @@ angular.module('metadatamanagementApp')
       var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';
       PageTitleService.setPageTitle('variable-management.detail.title', {
         label: $scope.variable.label[currenLanguage] ? $scope.variable
-        .label[currenLanguage] : $scope.variable.label[secondLanguage],
+          .label[currenLanguage] : $scope.variable.label[
+            secondLanguage],
         variableId: $scope.variable.id
       });
       StudySearchService
@@ -55,21 +56,27 @@ angular.module('metadatamanagementApp')
           });
       }
       DataSetSearchService.findDataSets([$scope
-        .variable.dataSetId]).then(function(dataSet) {
-          if (dataSet.docs.length > 0) {
-            $scope.dataSet = dataSet.docs[0]._source;
-          }
-        });
+        .variable.dataSetId
+      ]).then(function(dataSet) {
+        if (dataSet.docs.length > 0) {
+          $scope.dataSet = dataSet.docs[0]._source;
+        }
+      });
       RelatedPublicationSearchService
         .countBy('variableIds', $scope.variable.id)
         .then(function(publicationsCount) {
           $scope.counts.publicationsCount = publicationsCount.count;
         });
-      VariableSearchService
+
+      if ($scope.variable.panelIdentifier) {
+        VariableSearchService
           .countBy('panelIdentifier', $scope.variable.panelIdentifier)
           .then(function(sameVariablesInPanel) {
             $scope.counts.sameVariablesInPanel = sameVariablesInPanel.count;
           });
+      } else {
+        $scope.counts.sameVariablesInPanel = 0;
+      }
       $scope.counts.surveysCount = $scope.variable.surveyIds.length;
       if ($scope.variable.filterDetails) {
         html_beautify($scope.variable.filterDetails.expression); //jscs:ignore

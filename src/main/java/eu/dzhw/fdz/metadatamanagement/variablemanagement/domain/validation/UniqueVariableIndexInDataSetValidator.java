@@ -42,7 +42,7 @@ public class UniqueVariableIndexInDataSetValidator implements
     }
     List<Variable> variables = variableRepository
         .findByIndexInDataSetAndDataSetId(variable.getIndexInDataSet(),
-            variable.getDataAcquisitionProjectId() + "-ds" + variable.getDataSetNumber());
+            variable.getDataSetId());
     if (variables.size() > 1) {
       return false;
     }
