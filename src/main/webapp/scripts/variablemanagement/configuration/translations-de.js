@@ -221,7 +221,7 @@ angular.module('metadatamanagementApp').config(
             'statistics-maximum-must-be-a-number-on-numeric-data-type': 'Wenn der Datentyp einer Variable numerisch ist, muss das Maximum von Statistiken numerisch sein.',
             'statistics-median-must-be-a-number-on-numeric-data-type': 'Wenn der Datentyp einer Variable numerisch ist, muss der Median von Statistiken numerisch sein.',
             'statistics-first-quartile-must-be-a-number-on-numeric-data-type': 'Wenn der Datentyp einer Variable numerisch ist, muss das erste Quartile von Statistiken numerisch sein.',
-            'statistics-third-must-be-a-number-on-numeric-data-type': 'Wenn der Datentyp einer Variable numerisch ist, muss das dritte Quartile von Statistiken numerisch sein.',
+            'statistics-third-quartile-must-be-a-number-on-numeric-data-type': 'Wenn der Datentyp einer Variable numerisch ist, muss das dritte Quartile von Statistiken numerisch sein.',
             'valid-response-value-must-be-an-iso-date-on-date-data-type': 'Wenn der Datentyp einer Variable ein Datum ist, müssen die Werte von gültigen Antworten dem ISO Standard 8601 entsprechen.',
             'statistics-minimum-must-be-an-iso-date-on-date-data-type': 'Wenn der Datentyp einer Variable ein Datum ist, muss das Minimum von den Statistiken dem ISO Standard 8601 entsprechen.',
             'statistics-maximum-must-be-an-iso-date-on-date-data-type': 'Wenn der Datentyp einer Variable ein Datum ist, muss das Maximum von den Statistiken dem ISO Standard 8601 entsprechen.',
