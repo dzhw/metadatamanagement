@@ -1,6 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
 import javax.validation.ConstraintValidator;
@@ -59,7 +59,7 @@ public class ValidResponseValueMustBeAnIsoDateOnDateDataTypeValidator implements
         // if one value is not iso standard ... send a false.
 
         try {
-          LocalDateTime.parse(validResponse.getValue());
+          LocalDate.parse(validResponse.getValue());
           return true;
         } catch (DateTimeParseException dtpe) {
           return false; // not parsable
