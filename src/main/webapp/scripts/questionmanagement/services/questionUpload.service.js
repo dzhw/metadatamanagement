@@ -158,8 +158,9 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                     question.number = questionNumber;
                     var successors = [];
                     if (!CleanJSObjectService
-                      .isNullOrEmpty(question.successors)) {
-                      question.successors.forEach(function(successorNumber) {
+                      .isNullOrEmpty(question.successorNumbers)) {
+                      question.successorNumbers
+                      .forEach(function(successorNumber) {
                         successors.push(question.instrumentId + '-' +
                         successorNumber);
                       });
