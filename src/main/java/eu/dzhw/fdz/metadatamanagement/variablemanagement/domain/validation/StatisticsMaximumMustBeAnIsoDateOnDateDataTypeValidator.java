@@ -1,6 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
 import javax.validation.ConstraintValidator;
@@ -57,7 +57,7 @@ public class StatisticsMaximumMustBeAnIsoDateOnDateDataTypeValidator implements
       String maximum = variable.getDistribution().getStatistics().getMaximum();
 
       try {
-        LocalDateTime.parse(maximum);
+        LocalDate.parse(maximum);
         return true;
       } catch (DateTimeParseException dtpe) {
         return false; // not parsable

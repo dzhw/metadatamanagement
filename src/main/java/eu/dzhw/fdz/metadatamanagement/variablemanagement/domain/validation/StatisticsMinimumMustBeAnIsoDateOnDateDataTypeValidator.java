@@ -1,6 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
 import javax.validation.ConstraintValidator;
@@ -57,7 +57,7 @@ public class StatisticsMinimumMustBeAnIsoDateOnDateDataTypeValidator implements
       String minimum = variable.getDistribution().getStatistics().getMinimum();
 
       try {
-        LocalDateTime.parse(minimum);
+        LocalDate.parse(minimum);
         return true;
       } catch (DateTimeParseException dtpe) {
         return false; // not parsable
