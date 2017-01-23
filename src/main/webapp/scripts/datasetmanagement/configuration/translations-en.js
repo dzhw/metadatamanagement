@@ -20,7 +20,7 @@ angular.module('metadatamanagementApp').config(
           },
           'tex': {
             'upload-terminated': 'Tex file upload terminated!',
-            'generated': 'Tex file was created successfully!',
+            'saved': 'Tex file was created successfully!',
             'cancelled': 'Tex file creation cancelled!'
           }
         },

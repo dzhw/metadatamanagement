@@ -36,19 +36,10 @@ public class StatisticsMaximumMustBeAnIsoDateOnDateDataTypeValidator implements
   @Override
   public boolean isValid(Variable variable, ConstraintValidatorContext context) {
 
-    if (variable == null) {
-      return true;
-    }
-
-    if (variable.getDataType() == null) {
-      return true;
-    }
-
-    if (variable.getDistribution() == null) {
-      return true;
-    }
-
-    if (variable.getDistribution().getStatistics() == null) {
+    if (variable == null || variable.getDataType() == null
+        || variable.getDistribution() == null
+        || variable.getDistribution().getStatistics() == null
+        || variable.getDistribution().getStatistics().getMaximum() == null) {
       return true;
     }
 

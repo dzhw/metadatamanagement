@@ -37,19 +37,9 @@ public class ValidResponseValueMustBeAnIsoDateOnDateDataTypeValidator implements
   @Override
   public boolean isValid(Variable variable, ConstraintValidatorContext context) {
 
-    if (variable == null) {
-      return true;
-    }
-
-    if (variable.getDataType() == null) {
-      return true;
-    }
-
-    if (variable.getDistribution() == null) {
-      return true;
-    }
-
-    if (variable.getDistribution().getValidResponses() == null) {
+    if (variable == null || variable.getDataType() == null
+        || variable.getDistribution() == null
+        || variable.getDistribution().getValidResponses() == null) {
       return true;
     }
 
