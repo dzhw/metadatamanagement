@@ -29,6 +29,9 @@ spring:
         cache-seconds: 1
     thymeleaf:
         cache: false
+    resources:
+      static-locations:
+        - file:src/main/webapp/ 
 
 # ===================================================================
 # JHipster specific properties

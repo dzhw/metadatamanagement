@@ -535,9 +535,6 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <folders>
-                        <folder>src/main/webapp</folder>
-                    </folders>
                     <jvmArguments>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005</jvmArguments>
                     <arguments>
                         <argument>--spring.profiles.active=local</argument>
