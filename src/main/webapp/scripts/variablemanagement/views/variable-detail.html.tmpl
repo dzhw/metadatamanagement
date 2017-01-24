@@ -167,15 +167,19 @@
                         <span>{{'variable-management.detail.statistics.minimum' | translate}}
                         </span>
                         (<span katex>min</span>)
-                        <span>:
+                        <span ng-if="variable.dataType.en == 'numeric'">:
                             {{variable.distribution.statistics.minimum | number:2}}</span>
+                            <span ng-if="variable.dataType.en == 'date'">:
+                                {{variable.distribution.statistics.minimum | date:'mediumDate'}}</span>
                     </div>
                     <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.maximum != null">
                         <span>{{'variable-management.detail.statistics.maximum' | translate}}
                         </span>
                         (<span katex>max</span>)
-                        <span>:
+                        <span ng-if="variable.dataType.en == 'numeric'">:
                             {{variable.distribution.statistics.maximum | number:2}}</span>
+                        <span ng-if="variable.dataType.en == 'date'">:
+                                {{variable.distribution.statistics.maximum | date:'mediumDate'}}</span>
                     </div>
 
                     <h3 style="font-size: 18px; margin-top: 1.0em; margin-bottom: 0.5em;" ng-if="checkCentralTendencyElements()">
@@ -192,8 +196,10 @@
                         <span>{{'variable-management.detail.statistics.median' | translate}}
                         </span>
                         (<span katex>\tilde x</span>)
-                        <span>:
+                        <span ng-if="variable.dataType.en == 'numeric'">:
                             {{variable.distribution.statistics.median | number:2}}</span>
+                        <span ng-if="variable.dataType.en == 'date'">:
+                            {{variable.distribution.statistics.median | date:'mediumDate'}}</span>
                     </div>
                     <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.mode != null">
                         <span>{{'variable-management.detail.statistics.mode' | translate}}
