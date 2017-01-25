@@ -11,7 +11,6 @@ angular.module('metadatamanagementApp')
     RelatedPublicationSearchService, StudySearchService,
     SimpleMessageToastService, PageTitleService, LanguageService,
     CleanJSObjectService) {
-
     $scope.generationCodeToggleFlag = true;
     $scope.filterDetailsCodeToggleFlag = true;
     $scope.notAllRowsVisible = true;

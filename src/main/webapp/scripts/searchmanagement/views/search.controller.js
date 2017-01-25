@@ -11,7 +11,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
     QuestionUploadService, RelatedPublicationUploadService,
     DataSetUploadService, StudyUploadService, SurveyUploadService,
     CleanJSObjectService, InstrumentUploadService,
-    CurrentProjectService, $timeout, PageTitleService) {
+    CurrentProjectService, $timeout, PageTitleService, HistoryService,
+    $rootScope) {
 
     var tabChangedOnInitFlag = false;
     var locationChanged = false;
@@ -44,6 +45,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       locationChanged = !angular.equals($location.search(),
         locationSearch);
       $location.search(locationSearch);
+      HistoryService.addItem($location.absUrl(), 'search');
+      $rootScope.breadcrumbItems = HistoryService.getLastItems();
     };
 
     // read the searchParams object from the location with the correct types

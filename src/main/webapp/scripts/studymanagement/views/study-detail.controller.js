@@ -6,11 +6,9 @@ angular.module('metadatamanagementApp')
       SurveySearchService, SurveySearchDialogService,
       RelatedPublicationSearchDialogService,
       RelatedPublicationSearchService, PageTitleService, LanguageService) {
-
       var ctrl = this;
       ctrl.study = entity;
       ctrl.counts = {};
-
       entity.$promise.then(function() {
         PageTitleService.setPageTitle('study-management.detail.title', {
           title: ctrl.study.title[LanguageService.getCurrentInstantly()],
