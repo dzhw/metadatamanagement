@@ -625,3 +625,20 @@ pre {
 .fdz-reset-left-margin {
     margin-left: 0;
 }
+
+/*-------------*/
+ul.breadcrumb {
+    padding: 8px 16px;
+    list-style: none;
+    background-color: #eee;
+}
+ul.breadcrumb li {display: inline;}
+ul.breadcrumb li+li:before {
+    padding: 8px;
+    content: "/\00a0";
+}
+.currentState  a {
+  color: grey;
+  pointer-events: none;
+  cursor: default;
+}

@@ -1,5 +1,5 @@
 <div layout="row" layout-align="center center">
-<ul>
-<li ng-repeat="item in items |limitTo:3" style="display:inline;"><a  ng-href={{item.url}}>{{item.pageType}}</a> / </li>
-</ul>
+  <ul class="breadcrumb">
+    <li ng-repeat="item in items |limitTo:4"  ng-class="{'currentState':$last}"><a ng-href="{{item.url}}">{{stateNames[item.pageType][language]}}</a></li>
+  </ul>
 </div>

@@ -1,4 +1,5 @@
 <div ng-if="ctrl.dataSet.$resolved && ctrl.dataSet.id" flex ngf-drop="ctrl.uploadTexTemplate($files)" ngf-multiple="true" ngf-include-dir="false" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-drop-disabled="!ctrl.isAuthenticated() || !ctrl.hasAuthority('ROLE_PUBLISHER')">
+  <bread-crumb items=breadCrumbItems language=currentLanguage></bread-crumb>
         <div layout="column" layout-gt-sm="row">
             <md-card flex-gt-sm>
                 <md-card-header>
