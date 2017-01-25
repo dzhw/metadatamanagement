@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('ErrorMessageResolverService',
-  function() {
+  function($rootScope) {
     var getErrorMessage = function(messageObj, domainObjectType,
       subObjectType,
       subObjectId) {
@@ -30,7 +30,8 @@ angular.module('metadatamanagementApp').service('ErrorMessageResolverService',
             translationParams: {
               'property': error.property,
               'invalidValue': error.invalidValue,
-              'entity': error.entity
+              'entity': error.entity,
+              'currentDate': $rootScope.currentDate
             }
           });
         });
@@ -41,7 +42,8 @@ angular.module('metadatamanagementApp').service('ErrorMessageResolverService',
             translationParams: {
               'property': error.property,
               'invalidValue': error.invalidValue,
-              'entity': error.entity
+              'entity': error.entity,
+              'currentDate': $rootScope.currentDate
             }
           });
         });

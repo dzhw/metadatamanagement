@@ -266,7 +266,7 @@ public class ElasticsearchUpdateQueueService {
     if (relatedPublication != null) {      
       for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
         RelatedPublicationSearchDocument searchDocument =
-            new RelatedPublicationSearchDocument(relatedPublication);
+            new RelatedPublicationSearchDocument(relatedPublication, index);
 
         bulkBuilder.addAction(new Index.Builder(searchDocument)
             .index(index.getIndexName())

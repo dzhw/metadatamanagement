@@ -68,6 +68,21 @@
         "type": "string",
         "index": "not_analyzed",
         "copy_to": "allStringsAsNgrams"
+      },
+      "abstractSource": {
+        "type": "string",
+        "index": "not_analyzed",
+        "copy_to": "allStringsAsNgrams"
+      },
+      "authors": {
+        "type": "string",
+        "index": "not_analyzed",
+        "copy_to": "allStringsAsNgrams"
+      },
+      "year": {
+        "type": "string",
+        "index": "not_analyzed",
+        "copy_to": "allStringsAsNgrams"
       }
     }
   }

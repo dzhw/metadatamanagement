@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 import java.util.List;
 
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchIndices;
 import io.searchbox.annotations.JestId;
 
 /**
@@ -24,6 +25,12 @@ public class RelatedPublicationSearchDocument {
   
   private String title;
   
+  private String authors;
+  
+  private String abstractSource;
+  
+  private Integer year;
+  
   private List<String> questionIds;
   
   private List<String> surveyIds;
@@ -39,7 +46,8 @@ public class RelatedPublicationSearchDocument {
   /**
    * Create the search document from the domain object depending on the language (index).
    */
-  public RelatedPublicationSearchDocument(RelatedPublication relatedPublication) {
+  public RelatedPublicationSearchDocument(RelatedPublication relatedPublication,
+      ElasticsearchIndices index) {
     this.id = relatedPublication.getId();
     this.sourceReference = relatedPublication.getSourceReference();
     this.publicationAbstract = relatedPublication.getPublicationAbstract();
@@ -52,8 +60,26 @@ public class RelatedPublicationSearchDocument {
     this.dataSetIds = relatedPublication.getDataSetIds();
     this.studyIds = relatedPublication.getStudyIds();
     this.instrumentIds = relatedPublication.getInstrumentIds();
+    this.year = relatedPublication.getYear();
+    this.authors = relatedPublication.getAuthors();
+    createI18N(relatedPublication, index);
   }
-
+  
+  private void createI18N(RelatedPublication relatedPublication, ElasticsearchIndices index) {
+    switch (index) {
+      case METADATA_DE:
+        abstractSource = relatedPublication.getAbstractSource() != null
+          ? relatedPublication.getAbstractSource().getDe() : null;
+        break;
+      case METADATA_EN:
+        abstractSource = relatedPublication.getAbstractSource() != null
+          ? relatedPublication.getAbstractSource().getEn() : null;
+        break;
+      default:
+        throw new RuntimeException("Unknown index:" + index);
+    }
+  }
+  
   public String getId() {
     return id;
   }
@@ -76,6 +102,30 @@ public class RelatedPublicationSearchDocument {
 
   public String getTitle() {
     return title;
+  }
+
+  public String getAuthors() {
+    return authors;
+  }
+
+  public void setAuthors(String authors) {
+    this.authors = authors;
+  }
+
+  public String getAbstractSource() {
+    return abstractSource;
+  }
+
+  public void setAbstractSource(String abstractSource) {
+    this.abstractSource = abstractSource;
+  }
+
+  public Integer getYear() {
+    return year;
+  }
+
+  public void setYear(Integer year) {
+    this.year = year;
   }
 
   public List<String> getQuestionIds() {

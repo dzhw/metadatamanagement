@@ -21,7 +21,13 @@ angular.module('metadatamanagementApp')
           dataSetIds: CleanJSObjectService.removeWhiteSpace(data.dataSetIds),
           studyIds: CleanJSObjectService.removeWhiteSpace(data.studyIds),
           instrumentIds: CleanJSObjectService
-          .removeWhiteSpace(data.instrumentIds)
+          .removeWhiteSpace(data.instrumentIds),
+          authors: data.authors,
+          year: parseInt(data.year),
+          abstractSource: {
+            en: data['abstractSource.en'],
+            de: data['abstractSource.de']
+          }
         };
         var cleanedRelatedPublicationObject = CleanJSObjectService
           .removeEmptyJsonObjects(relatedPublicationObj);

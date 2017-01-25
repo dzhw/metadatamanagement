@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain;
 
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -10,10 +11,13 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.OneForeignKeyIsUsed;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.OneStudyIsUsed;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidPublicationYear;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidUrl;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
@@ -28,6 +32,8 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
     message = "related-publication-management.error.related-publication.one-foreign-key-is-used")
 @OneStudyIsUsed(
     message = "related-publication-management.error.related-publication.one-study-is-used")
+@ValidPublicationYear(message = "related-publication-management.error.related-publication." 
+    + "year.valid")
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.builders")
 public class RelatedPublication extends AbstractRdcDomainObject {
@@ -68,6 +74,22 @@ public class RelatedPublication extends AbstractRdcDomainObject {
   @NotEmpty(message = "related-publication-management.error.related-publication." 
       + "title.not-empty")
   private String title;
+  
+  @Size(max = StringLengths.LARGE,
+      message = "related-publication-management.error.related-publication." 
+          + "authors.size")
+  @NotEmpty(message = "related-publication-management.error.related-publication." 
+      + "authors.not-empty")
+  private String authors;
+  
+  @NotNull(message = "related-publication-management.error.related-publication." 
+      + "year.not-null")
+  private Integer year;
+  
+  @I18nStringSize(max = StringLengths.LARGE, 
+      message = "related-publication-management.error.related-publication" 
+      + ".abstract-source.i18n-string-size")
+  private I18nString abstractSource;
   
   /* Foreign Keys */
   private List<String> questionIds;
@@ -134,6 +156,30 @@ public class RelatedPublication extends AbstractRdcDomainObject {
 
   public void setId(String id) {
     this.id = id;
+  }
+
+  public String getAuthors() {
+    return authors;
+  }
+
+  public void setAuthors(String authors) {
+    this.authors = authors;
+  }
+
+  public Integer getYear() {
+    return year;
+  }
+
+  public void setYear(Integer year) {
+    this.year = year;
+  }
+
+  public I18nString getAbstractSource() {
+    return abstractSource;
+  }
+
+  public void setAbstractSource(I18nString abstractSource) {
+    this.abstractSource = abstractSource;
   }
 
   public List<String> getQuestionIds() {

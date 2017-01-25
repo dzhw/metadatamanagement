@@ -59,6 +59,17 @@ angular.module('metadatamanagementApp').config(
             'title': {
               'not-empty': 'Der Titel der Publikation darf nicht leer sein!',
               'size': 'Die Maximallänge des Titels der Publikation ist 128 Zeichen.'
+            },
+            'authors': {
+              'size': 'Die Maximallänge der Autoren der Publication ist 2048 Zeichen.',
+              'not-empty': 'Die Autoren der Publikation darf nicht leer sein!'
+            },
+            'year': {
+              'not-null': 'Veröffentlichungsjahr darf nicht leer sein!',
+              'valid': 'Veröffentlichungsjahr muss zwischen 1960 und {{currentDate | date :"yyyy"}} sein!.'
+            },
+            'abstract-source': {
+              'i18n-string-size': 'Die Maximallänge der #"TODO"# der Publication ist 2048 Zeichen.'
             }
           },
           'post-validation': {

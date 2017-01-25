@@ -407,6 +407,12 @@ public class UnitTestCreateDomainObjectUtils {
         .withSourceReference("A Source Reference")
         .withTitle("A Title of a Related Publication")
         .withStudyIds(studyIds)
+        .withAuthors("Author")
+        .withYear(2017)
+        .withAbstractSource(new I18nStringBuilder()
+            .withDe("Test")
+            .withEn("Test")
+            .build())
         .build();
     
   }
