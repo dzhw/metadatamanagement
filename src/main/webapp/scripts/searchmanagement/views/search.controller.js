@@ -46,7 +46,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
         locationSearch);
       $location.search(locationSearch);
       HistoryService.addItem($location.absUrl(), 'search');
-      $rootScope.breadcrumbItems = HistoryService.getLastItems();
+      $rootScope.breadCrumbItems = HistoryService.getLastItems();
     };
 
     // read the searchParams object from the location with the correct types

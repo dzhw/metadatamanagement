@@ -14,7 +14,8 @@ angular
 
 .run(
     function($rootScope, $location, $state,
-      LanguageService, Auth, Principal, ENV, VERSION, $mdMedia, HistoryService) {
+      LanguageService, Auth, Principal, ENV, VERSION, $mdMedia,
+      HistoryService) {
       $rootScope.ENV = ENV;
       $rootScope.VERSION = VERSION;
       $rootScope.$mdMedia = $mdMedia;
@@ -46,7 +47,7 @@ angular
       function(event, toState, toParams,  // jshint ignore:line
         fromState, fromParams) {
         HistoryService.addItem($location.absUrl(), toState.name);
-        $rootScope.breadcrumbItems = HistoryService.getLastItems();
+        $rootScope.breadCrumbItems = HistoryService.getLastItems();
         // Remember previous state unless we've been redirected to login or
         // we've just
         // reset the state memory after logout. If we're redirected to
