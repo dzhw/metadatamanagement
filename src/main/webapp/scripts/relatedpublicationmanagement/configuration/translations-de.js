@@ -32,7 +32,11 @@ angular.module('metadatamanagementApp').config(
           'sourceReference': 'Quellenangabe',
           'sourceLink': 'URL',
           'no-related-publications': 'Keine Publikationen.',
-          'related-publications': 'Publikationen'
+          'related-publications': 'Publikationen',
+          'authors': 'Autor(inn)en',
+          'year': 'Erscheinungsjahr',
+          'source-reference': 'Zitation',
+          'abstract-source': 'Quelle'
         },
         'error': {
           'related-publication': {
@@ -61,15 +65,15 @@ angular.module('metadatamanagementApp').config(
               'size': 'Die Maximallänge des Titels der Publikation ist 128 Zeichen.'
             },
             'authors': {
-              'size': 'Die Maximallänge der Autoren der Publication ist 2048 Zeichen.',
+              'size': 'Die Maximallänge der Autor(inn)en der Publication ist 2048 Zeichen.',
               'not-empty': 'Die Autoren der Publikation darf nicht leer sein!'
             },
             'year': {
-              'not-null': 'Veröffentlichungsjahr darf nicht leer sein!',
-              'valid': 'Veröffentlichungsjahr muss zwischen 1960 und {{currentDate | date :"yyyy"}} sein!.'
+              'not-null': 'Erscheinungsjahr darf nicht leer sein!',
+              'valid': 'Erscheinungsjahr muss zwischen 1960 und {{currentDate | date :"yyyy"}} sein!.'
             },
             'abstract-source': {
-              'i18n-string-size': 'Die Maximallänge der #"TODO"# der Publication ist 2048 Zeichen.'
+              'i18n-string-size': 'Die Maximallänge der Quelle der Publication ist 2048 Zeichen.'
             }
           },
           'post-validation': {

@@ -1,5 +1,5 @@
 /* global browser */
-/* global it */
+/* global xit */
 /* global describe */
 /* global by */
 /* global expect */
@@ -28,14 +28,14 @@ describe('Disclosure Page', function() {
             });
         });
       });
-      it('should check translated strings', function() {
+      xit('should check translated strings', function() {
         htmlContentHelper
           .findNotTranslationedStrings(content, currentUrl)
           .then(function(result) {
             expect(result.length).toBe(0, result.message);
           });
       });
-      it('should check the external URL', function(done) {
+      xit('should check the external URL', function(done) {
         content.all(by.css('a')).then(function(items) {
           items[1].getAttribute('href').then(function(href) {
             if (href.indexOf(browser.baseUrl) === -1) {

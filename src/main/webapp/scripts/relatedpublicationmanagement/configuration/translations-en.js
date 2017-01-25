@@ -32,7 +32,11 @@ angular.module('metadatamanagementApp').config(
           'sourceReference': 'Source Reference',
           'sourceLink': 'URL',
           'no-related-publications': 'No Publications.',
-          'related-publications': 'Publications'
+          'related-publications': 'Publications',
+          'authors': 'Authors',
+          'year': 'Year of publication',
+          'source-reference': 'Citation',
+          'abstract-source': 'Source'
         },
         'error': {
           'related-publication': {
@@ -69,7 +73,7 @@ angular.module('metadatamanagementApp').config(
               'valid': 'The Publication Year must be between 1960 and {{currentDate | date :"yyyy"}}.'
             },
             'abstract-source': {
-              'i18n-string-size': 'The max length of #"TODO"# of the Publication is 2048 signs.'
+              'i18n-string-size': 'The max length of Source of the Publication is 2048 signs.'
             }
           },
           'post-validation': {
