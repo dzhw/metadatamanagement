@@ -63,6 +63,8 @@ public class DataSet extends AbstractRdcDomainObject {
   @NotNull(message = "data-set-management.error.data-set.number.not-null")
   private Integer number;
   
+  private I18nString format;
+  
   /* Foreign Keys */
   @Indexed
   @NotEmpty(message = "data-set-management.error.data-set.data-acquisition-project.id.not-empty")
@@ -88,6 +90,7 @@ public class DataSet extends AbstractRdcDomainObject {
     return this.id;
   }
 
+
   /*
    * (non-Javadoc)
    * @see eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject#toString()
@@ -101,12 +104,13 @@ public class DataSet extends AbstractRdcDomainObject {
       .add("type", type)
       .add("surveyNumbers", surveyNumbers)
       .add("number", number)
+      .add("format", format)
       .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
       .add("surveyIds", surveyIds)
       .add("subDataSets", subDataSets)
       .toString();
   }
-  
+
   /* GETTER / SETTER */
   public I18nString getDescription() {
     return description;
@@ -166,5 +170,13 @@ public class DataSet extends AbstractRdcDomainObject {
 
   public void setNumber(Integer number) {
     this.number = number;
-  } 
+  }
+
+  public I18nString getFormat() {
+    return format;
+  }
+
+  public void setFormat(I18nString format) {
+    this.format = format;
+  }
 }

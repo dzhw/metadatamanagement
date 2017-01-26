@@ -13,6 +13,7 @@ import io.searchbox.annotations.JestId;
  * Representation of a dataSet which is stored in elasticsearch.
  *
  * @author René Reitmann
+ * @author Daniel Katzberg
  */
 public class DataSetSearchDocument {
   @JestId
@@ -33,6 +34,8 @@ public class DataSetSearchDocument {
   private Integer number;
   
   private List<SubDataSetSearchDocument> subDataSets;
+  
+  private String format;
  
 
   /**
@@ -66,10 +69,12 @@ public class DataSetSearchDocument {
       case METADATA_DE:
         description = dataSet.getDescription() != null ? dataSet.getDescription().getDe() : null;
         type = dataSet.getType() != null ? dataSet.getType().getDe() : null;
+        format = dataSet.getFormat() != null ? dataSet.getFormat().getDe() : null;
         break;
       case METADATA_EN:
         description = dataSet.getDescription() != null ? dataSet.getDescription().getEn() : null;
         type = dataSet.getType() != null ? dataSet.getType().getEn() : null;
+        format = dataSet.getFormat() != null ? dataSet.getFormat().getEn() : null;
         break;
       default:
         throw new RuntimeException("Unknown index:" + index);
@@ -166,5 +171,13 @@ public class DataSetSearchDocument {
 
   public void setNumber(Integer number) {
     this.number = number;
+  }
+
+  public String getFormat() {
+    return format;
+  }
+
+  public void setFormat(String format) {
+    this.format = format;
   }
 }
