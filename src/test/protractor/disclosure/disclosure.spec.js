@@ -1,10 +1,11 @@
 /* global browser */
-/* global xit */
+/* global it */
 /* global describe */
 /* global by */
 /* global expect */
 /* global beforeAll */
 /* global element */
+/* global By */
 
 'use strict';
 
@@ -28,16 +29,16 @@ describe('Disclosure Page', function() {
             });
         });
       });
-      xit('should check translated strings', function() {
+      it('should check translated strings', function() {
         htmlContentHelper
           .findNotTranslationedStrings(content, currentUrl)
           .then(function(result) {
             expect(result.length).toBe(0, result.message);
           });
       });
-      xit('should check the external URL', function(done) {
-        content.all(by.css('a')).then(function(items) {
-          items[1].getAttribute('href').then(function(href) {
+      it('should check the external URL', function(done) {
+        var urlElement = element(By.id('externalLink'));
+        urlElement.getAttribute('href').then(function(href) {
             if (href.indexOf(browser.baseUrl) === -1) {
               href = browser.baseUrl + href;
             }
@@ -48,7 +49,6 @@ describe('Disclosure Page', function() {
               done();
             });
           });
-        });
       });
     });
   }
