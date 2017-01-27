@@ -22,7 +22,8 @@ angular.module('metadatamanagementApp').directive('diagram',
               t: 15,
               b: 30
             },
-            width: document.getElementById('diagramContainer').offsetWidth - 10
+            width: document.getElementById('diagramContainer').offsetWidth -
+              10
           };
           if (scope.language === 'de') {
             layout.separators = ',.';
@@ -75,24 +76,27 @@ angular.module('metadatamanagementApp').directive('diagram',
         data[0].type = 'bar';
         if (scope.distribution.validResponses) {
           scope.distribution.validResponses.forEach(function(obj) {
-            data[0].x.push(obj.value);
+            var filteredText =
+              $filter('variableDataType')(obj.value, scope.datatype);
+            data[0].x.push(filteredText);
             try {
               data[0].text.push(obj.label[scope.language]);
-            }catch (e) {
-              data[0].text.push(obj.value);
+            } catch (e) {
+
+              data[0].text.push(filteredText);
             }
             data[0].y.push(obj.absoluteFrequency);
           });
         }
       }
       angular.element($window).on('resize', function() {
-          $timeout(function() {
-            var update = {
-              width: document.getElementById('diagramContainer').offsetWidth
-            };
-            Plotly.relayout('diagram', update);
-          }, 1000);
-        });
+        $timeout(function() {
+          var update = {
+            width: document.getElementById('diagramContainer').offsetWidth
+          };
+          Plotly.relayout('diagram', update);
+        }, 1000);
+      });
       element.on('$destroy', function() {
         angular.element($window).off('resize');
       });
@@ -105,7 +109,8 @@ angular.module('metadatamanagementApp').directive('diagram',
       scope: {
         distribution: '=',
         language: '=',
-        type: '='
+        type: '=',
+        datatype: '='
       }
     };
   });
