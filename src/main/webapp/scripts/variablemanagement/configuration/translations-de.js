@@ -215,7 +215,7 @@ angular.module('metadatamanagementApp').config(
             'valid-identifier': 'Die Panel-Kennung der Variable entspricht nicht dem Muster: DataAcquisitionProjectId + "-" + "ds" + "dataSetNumber" + "-" + string',
             'panel-identifier-size': 'Die Maximallänge der Panel-Kennung der Variable ist 128 Zeichen.',
             'panel-identifier-pattern': 'Für die Panel-Kennung der Variable dürfen nur alphanumerische Zeichen, deutsche Umlaute, ß und das Minus verwendet werden.',
-            'mandatory-scale-level-for-numeric-data-type': 'Das Skalenniveau einer numerischen Variable darf nicht leer sein, bzw.es muss leer sein bei einem String Datentyp!',
+            'mandatory-scale-level-for-numeric-data-type': 'Das Skalenniveau einer numerischen oder einer Datumsvariable darf nicht leer sein, bzw. es muss leer sein bei einem String Datentyp!',
             'valid-response-value-must-be-a-number-on-numeric-data-type': 'Wenn der Datentyp einer Variable numerisch ist, müssen die Werte von gültigen Antworten numerisch sein.',
             'statistics-minimum-must-be-a-number-on-numeric-data-type': 'Wenn der Datentyp einer Variable numerisch ist, müssen das Minimum von Statistiken numerisch sein.',
             'statistics-maximum-must-be-a-number-on-numeric-data-type': 'Wenn der Datentyp einer Variable numerisch ist, muss das Maximum von Statistiken numerisch sein.',
