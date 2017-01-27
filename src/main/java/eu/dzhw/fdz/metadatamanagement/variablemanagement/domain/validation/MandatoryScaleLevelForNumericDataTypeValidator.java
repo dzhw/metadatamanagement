@@ -40,19 +40,19 @@ public class MandatoryScaleLevelForNumericDataTypeValidator
       return false;
     }
 
-    // string is set, but a scale level too -> false!
+    // string is set, but a scale level too -> invalid!
     if (variable.getDataType()
         .equals(DataTypes.STRING) && variable.getScaleLevel() == null) {
       return true;
     }
     
-    //date is set, but a scale level too -> false!
+    //date is set, but a scale level too -> invalid!
     if (variable.getDataType()
         .equals(DataTypes.DATE) && variable.getScaleLevel() == null) {
       return true;
     }
 
-    // string is set, but a scale level too -> false!
+    // numeric is set, but no scale level -> invalid!
     if (variable.getDataType()
         .equals(DataTypes.NUMERIC) && variable.getScaleLevel() != null) {
       return true;
