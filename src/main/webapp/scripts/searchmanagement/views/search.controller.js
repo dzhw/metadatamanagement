@@ -11,8 +11,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     QuestionUploadService, RelatedPublicationUploadService,
     DataSetUploadService, StudyUploadService, SurveyUploadService,
     CleanJSObjectService, InstrumentUploadService,
-    CurrentProjectService, $timeout, PageTitleService, HistoryService,
-    $rootScope) {
+    CurrentProjectService, $timeout, PageTitleService, BreadCrumbService) {
 
     var tabChangedOnInitFlag = false;
     var locationChanged = false;
@@ -45,8 +44,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       locationChanged = !angular.equals($location.search(),
         locationSearch);
       $location.search(locationSearch);
-      HistoryService.addItem($location.absUrl(), 'search');
-      $rootScope.breadCrumbItems = HistoryService.getLastItems();
+      BreadCrumbService.addToBreadCrumb($location.absUrl(), $location.search(),
+      $location.url());
     };
 
     // read the searchParams object from the location with the correct types
@@ -293,7 +292,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       count: null,
       uploadFunction: $scope.uploadSurveys
     }, {
-      title: 'search-management.tabs.data-sets',
+      title: 'search-management.tabs.data_sets',
       inputLabel: 'search-management.input-label.data-sets',
       icon: 'assets/images/icons/data-set.svg',
       elasticSearchType: 'data_sets',
@@ -307,7 +306,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       count: null,
       uploadFunction: $scope.uploadInstruments
     }, {
-      title: 'search-management.tabs.related-publications',
+      title: 'search-management.tabs.related_publications',
       inputLabel: 'search-management.input-label.related-publications',
       icon: 'assets/images/icons/related-publication.svg',
       elasticSearchType: 'related_publications',

@@ -21,6 +21,9 @@ angular.module('metadatamanagementApp').config(
           'delete-instruments-title': 'Delete all Instruments?',
           'delete-instruments': 'Are you sure you want to delete all Instruments within the Data Acquisition Project with RDC-ID "{{ id }}"?'
         },
+        'detail': {
+          'search': 'Search'
+        },
         'buttons': {
           'refresh': 'Refresh search results',
           'upload-variables': 'Upload Variables for selected Data Acquisition Project',
@@ -46,10 +49,10 @@ angular.module('metadatamanagementApp').config(
           'variables': 'Variables',
           'questions': 'Questions',
           'surveys': 'Surveys',
-          'data-sets': 'Data Sets',
+          'data_sets': 'Data Sets',
           'studies': 'Studies',
           'all': 'All',
-          'related-publications': 'Publications',
+          'related_publications': 'Publications',
           'instruments': 'Instruments'
         }
       }

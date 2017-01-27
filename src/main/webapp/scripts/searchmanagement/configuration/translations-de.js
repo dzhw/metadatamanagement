@@ -21,6 +21,9 @@ angular.module('metadatamanagementApp').config(
           'delete-instruments-title': 'Alle Instrumente löschen?',
           'delete-instruments': 'Sind Sie sicher dass, Sie alle Instrumente innerhalb des Datenaufbereitungsprojekts mit der FDZ-ID "{{ id }}" löschen möchten?'
         },
+        'detail': {
+          'search': 'Suche'
+        },
         'buttons': {
           'refresh': 'Suche aktualisieren',
           'upload-variables': 'Variablen für ausgewähltes Datenaufbereitungsprojekt hochladen',
@@ -46,10 +49,10 @@ angular.module('metadatamanagementApp').config(
           'variables': 'Variablen',
           'questions': 'Fragen',
           'surveys': 'Erhebungen',
-          'data-sets': 'Datensätze',
+          'data_sets': 'Datensätze',
           'studies': 'Studien',
           'all': 'Alle',
-          'related-publications': 'Publikationen',
+          'related_publications': 'Publikationen',
           'instruments': 'Instrumente'
         }
       }

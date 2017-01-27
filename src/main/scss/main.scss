@@ -627,18 +627,11 @@ pre {
 }
 
 /*-------------*/
-ul.breadcrumb {
-    padding: 8px 16px;
-    list-style: none;
-    background-color: #eee;
-}
-ul.breadcrumb li {display: inline;}
-ul.breadcrumb li+li:before {
+div.breadCrumb div+div:before {
     padding: 8px;
-    content: "/\00a0";
+    content: "\003e";
 }
-.currentState  a {
-  color: grey;
+.breadCrumbLastElement  a {
   pointer-events: none;
   cursor: default;
 }
