@@ -14,6 +14,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.builders.I18nStringBuilder;
 import eu.dzhw.fdz.metadatamanagement.common.domain.builders.PeriodBuilder;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetTypes;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.Format;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.SubDataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.builders.DataSetBuilder;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.builders.SubDataSetBuilder;
@@ -198,6 +199,7 @@ public class UnitTestCreateDomainObjectUtils {
       .withSurveyNumbers(surveyNumbers)
       .withSurveyIds(surveyIds)
       .withNumber(1)
+      .withFormat(Format.WIDE)
       .withType(DataSetTypes.PERSONAL_RECORD)
       .withDescription(new I18nStringBuilder().withDe("De Beschreibung")
         .withEn("En Description")

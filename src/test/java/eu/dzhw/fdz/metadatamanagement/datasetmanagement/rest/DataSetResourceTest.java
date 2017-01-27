@@ -24,6 +24,7 @@ import org.springframework.web.context.WebApplicationContext;
 import com.google.gson.JsonSyntaxException;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
@@ -124,6 +125,24 @@ public class DataSetResourceTest extends AbstractTest {
 
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(null, survey.getId(), 1);
 
+
+    // Act and Assert
+    // create the DataSet with a survey but without a project
+    mockMvc.perform(put(API_DATASETS_URI + "/" + dataSet.getId())
+      .content(TestUtil.convertObjectToJsonBytes(dataSet)))
+      .andExpect(status().isBadRequest());
+  }
+  
+  @Test
+  public void testCreateDataSetWithWrongFormat() throws Exception {
+    // Arrange
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    this.dataAcquisitionProjectRepository.save(project);
+
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
+
+    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(null, survey.getId(), 1);
+    dataSet.setFormat(new I18nString("wrong", "wrong"));
 
     // Act and Assert
     // create the DataSet with a survey but without a project
