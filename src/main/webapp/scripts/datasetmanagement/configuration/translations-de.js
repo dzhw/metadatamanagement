@@ -58,7 +58,7 @@ angular.module('metadatamanagementApp').config(
           'files-in-template-zip-incomplete': 'Die bereitgestellten Dateien für die Erzeugung eines Datensatzreports sind unvollständig. Es fehlte die Datei: {{invalidValue}}',
           'tex-template-error': 'Die Generierung eines Datensatzreports war nicht erfolgreich. Folgender Fehler trat auf: {{invalidValue}}',
           'data-set': {
-            'unique-data-set-number-in-project':'Die Nummer des Datensatzes in innerhalb der Studie nicht eindeutig.',
+            'unique-data-set-number-in-project': 'Die Nummer des Datensatzes in innerhalb der Studie nicht eindeutig.',
             'id': {
               'valid-data-set-id-name': 'Die FDZ-ID des Datensatzes entspricht nicht dem Muster: FDZID-ds{Number}.',
               'not-empty': 'Die FDZ-ID des Datensatzes darf nicht leer sein!',
@@ -78,6 +78,9 @@ angular.module('metadatamanagementApp').config(
             },
             'number': {
               'not-null': 'Die Nummer des Datensatzes darf nicht leer sein!'
+            },
+            'format': {
+              'valid-format': 'Das Format für ein Datenset darf nur die Werte: breit und weit annehmen.'
             },
             'survey': {
               'ids': {

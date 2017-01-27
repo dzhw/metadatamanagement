@@ -79,6 +79,9 @@ angular.module('metadatamanagementApp').config(
             'number': {
               'not-null': 'The Number of the Data Set must not be empty!'
             },
+            'format': {
+              'valid-format': 'The only allowed values for format of a data set are: wide and long.'
+            },
             'survey': {
               'ids': {
                 'not-empty': 'The Data Set must reference at least one Survey!'

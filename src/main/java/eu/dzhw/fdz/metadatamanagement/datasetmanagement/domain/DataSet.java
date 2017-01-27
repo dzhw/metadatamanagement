@@ -24,6 +24,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.Unique
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.UniqueSubDatasetAccessWayInDataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.ValidDataSetIdName;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.ValidDataSetType;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.ValidFormat;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -63,6 +64,7 @@ public class DataSet extends AbstractRdcDomainObject {
   @NotNull(message = "data-set-management.error.data-set.number.not-null")
   private Integer number;
   
+  @ValidFormat(message = "data-set-management.error.data-set.format.valid-format")
   private I18nString format;
   
   /* Foreign Keys */
