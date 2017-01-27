@@ -301,7 +301,7 @@
                 </thead>
                 <tbody>
                     <tr ng-class="{'fdz-table-last-row':$last}" ng-repeat-start="row in variable.distribution.validResponses" ng-hide="isRowHidden($index)">
-                        <td>{{row.value}}{{row.code | number:0}}&nbsp;</td>
+                        <td>{{row.value | variableDataType: variable.dataType.en}}{{row.code | number:0}}&nbsp;</td>
                         <td>{{row.label[currentLanguage]}}&nbsp;</td>
                         <td>&nbsp;</td>
                         <td>{{row.absoluteFrequency | number:0}}&nbsp;</td>
