@@ -41,7 +41,7 @@ public class ValidFormatValidator implements ConstraintValidator<ValidFormat, I1
       return true;
     }
 
-    // check for scale levels
+    // check for formats
     return Format.ALL.contains(format);
   }
 }

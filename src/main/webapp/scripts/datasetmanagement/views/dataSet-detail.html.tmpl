@@ -14,6 +14,11 @@
                         </span>
                         <span>{{ctrl.dataSet.type[currentLanguage]}}</span>
                     </div>
+                    <div style="margin-bottom: 0.5em;" ng-if="ctrl.dataSet.format">
+                        <span style="font-weight: bold;">{{'data-set-management.detail.format' | translate }}:
+                        </span>
+                        <span>{{ctrl.dataSet.format[currentLanguage]}}</span>
+                    </div>
                 </md-card-content>
             </md-card>
             <md-card flex-gt-sm="40" ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm'), 'fdz-reset-top-margin': $mdMedia('sm') || $mdMedia('xs')}">

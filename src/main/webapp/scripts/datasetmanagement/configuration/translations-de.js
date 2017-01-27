@@ -32,6 +32,7 @@ angular.module('metadatamanagementApp').config(
           'data-set': 'Datensatz',
           'data-sets': 'Datensätze',
           'type': 'Typ',
+          'format': 'Format',
           'data-set-informations': 'Datensatz Informationen',
           'related-information': 'Zugehörige Informationen',
           'data-set-same-study': 'Datensätze der gleichen Studie',
@@ -80,7 +81,7 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'Die Nummer des Datensatzes darf nicht leer sein!'
             },
             'format': {
-              'valid-format': 'Das Format für ein Datenset darf nur die Werte: breit und weit annehmen.'
+              'valid-format': 'Das Format für einen Datensatz darf nur die Werte: breit und lang annehmen.'
             },
             'survey': {
               'ids': {
