@@ -38,7 +38,7 @@ public class OnlyOrdinalScaleLevelForDateDataTypeValidator
 
     // data type is mandatory
     if (variable.getDataType() == null) {
-      return false;
+      return true;
     }
     
     //if no datatype date, this validator is not important. 
@@ -46,12 +46,7 @@ public class OnlyOrdinalScaleLevelForDateDataTypeValidator
       return true;
     }
         
-    //date is set (if not, this code isn't reachable), but no scale level -> invalid!
-    if (variable.getScaleLevel() == null) {
-      return false;
-    }
-    
     //date is set (if not, this code isn't reachable), but a no scale level -> invalid!
-    return variable.getScaleLevel().equals(ScaleLevels.ORDINAL);
+    return ScaleLevels.ORDINAL.equals(variable.getScaleLevel());
   }
 }

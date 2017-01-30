@@ -37,7 +37,7 @@ public class MandatoryScaleLevelForNumericAndDateDataTypeValidator
 
     // data type is mandatory
     if (variable.getDataType() == null) {
-      return false;
+      return true;
     }
 
     // string is set, but a scale level too -> invalid!
