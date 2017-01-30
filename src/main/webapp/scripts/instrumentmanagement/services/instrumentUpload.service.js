@@ -1,4 +1,5 @@
 /*jshint loopfunc: true */
+/* global _*/
 'use strict';
 
 angular.module('metadatamanagementApp').service('InstrumentUploadService',
@@ -37,7 +38,7 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
           var index = uploadCount;
           JobLoggingService.error({
             message: 'instrument-management.log-messages' +
-            '.instrument.missing-number',
+              '.instrument.missing-number',
             messageParams: {
               index: index + 1
             },
@@ -150,7 +151,8 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
                 } else if ((file.path &&
                     file.path.indexOf('attachments') > -1) ||
                   (file.webkitRelativePath &&
-                    file.webkitRelativePath.indexOf('attachments') > -1)) {
+                    file.webkitRelativePath.indexOf('attachments') >
+                    -1)) {
                   attachmentFiles[file.name] = file;
                 }
               });
@@ -168,7 +170,8 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
                   var instruments = excelContent.instruments;
                   var attachments = excelContent.attachments;
                   if (instruments) {
-                    instruments.forEach(function(instrumentFromExcel) {
+                    instruments.forEach(function(
+                      instrumentFromExcel) {
                       instrumentsToSave.push(
                         InstrumentBuilderService.buildInstrument(
                           instrumentFromExcel,
@@ -183,11 +186,30 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
                   }
 
                   if (attachments) {
-                    attachments.forEach(function(metadataFromExcel, index) {
+                    attachments.forEach(function(metadataFromExcel,
+                      index) {
+                      // ensure that the attachment has an instrument number
                       if (!metadataFromExcel.instrumentNumber) {
                         JobLoggingService.error({
                           message: 'instrument-management.log-messages' +
                             '.instrument-attachment.missing-instrument-number',
+                          messageParams: {
+                            index: index + 1
+                          },
+                          objectType: 'instrument-attachment'
+                        });
+                        return;
+                      }
+                      // ensure that there is an instrument with the given
+                      // number
+                      if (!_.find(instrumentsToSave, function(
+                          instrument) {
+                          return instrument.number ===
+                            metadataFromExcel.instrumentNumber;
+                        })) {
+                        JobLoggingService.error({
+                          message: 'instrument-management.log-messages' +
+                            '.instrument-attachment.unknown-instrument-number',
                           messageParams: {
                             index: index + 1
                           },
@@ -217,13 +239,15 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
                         });
                         return;
                       }
-                      if (!attachmentsToUpload[metadataFromExcel
-                        .instrumentNumber]) {
+                      if (!attachmentsToUpload[
+                          metadataFromExcel
+                          .instrumentNumber]) {
                         attachmentsToUpload[metadataFromExcel
                           .instrumentNumber] = {};
                       }
-                      if (!attachmentsToUpload[metadataFromExcel
-                        .instrumentNumber]
+                      if (!attachmentsToUpload[
+                          metadataFromExcel
+                          .instrumentNumber]
                         [metadataFromExcel.filename]) {
                         attachmentsToUpload[metadataFromExcel.instrumentNumber]
                           [metadataFromExcel.filename] = {};
@@ -232,7 +256,8 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
                         [metadataFromExcel.filename].metadata =
                         InstrumentBuilderService
                         .buildInstrumentAttachmentMetadata(
-                          metadataFromExcel, dataAcquisitionProjectId);
+                          metadataFromExcel,
+                          dataAcquisitionProjectId);
                       attachmentsToUpload[metadataFromExcel.instrumentNumber]
                         [metadataFromExcel.filename].attachment =
                         attachmentFiles[metadataFromExcel.filename];

@@ -16,7 +16,8 @@ angular.module('metadatamanagementApp').config(
           },
           'instrument-attachment': {
             'not-saved': 'Attachment "{{ id }}" has not been saved:',
-            'missing-instrument-id': 'Attachment {{ index }} does not have an Instrument ID and has not been saved.',
+            'missing-instrument-number': 'Attachment {{ index }} does not have an instrument number and has not been saved.',
+            'unknown-instrument-number': 'The number of the instrument of attachment {{ index }} does not exist. The attachment has not been saved.',
             'missing-filename': 'Attachment {{ index }} does not have a filename and has not been saved.',
             'file-not-found': 'The File {{ filename }} was not found and has not been saved.'
           }
