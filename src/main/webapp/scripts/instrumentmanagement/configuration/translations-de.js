@@ -12,7 +12,8 @@ angular.module('metadatamanagementApp').config(
             'missing-number': 'Das {{ index }}. Instrument enthält keine Nummer und wurde nicht gespeichert!',
             'upload-terminated': 'Upload von {{ totalInstruments }} Instrumenten und {{ totalAttachments }} Attachments mit {{ totalErrors }} Fehlern beendet!',
             'unable-to-delete': 'Die Instrumente konnten nicht gelöscht werden!',
-            'cancelled': 'Upload von Instrumenten Abgebrochen!'
+            'cancelled': 'Upload von Instrumenten Abgebrochen!',
+            'duplicate-instrument-number': 'Die Nummer ({{ number }}) des {{ index }}. Instrumentes wurde bereits verwendet.'
           },
           'instrument-attachment': {
             'not-saved': 'Attachment "{{ id }}" wurde nicht gespeichert:',

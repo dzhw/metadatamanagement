@@ -13,6 +13,8 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
     //a map instrumentNumber -> (map filename -> (attachment, metadata))
     var attachmentsToUpload;
     var uploadCount;
+    //a map instrumentNumber -> true
+    var previouslyUploadedInstrumentNumbers;
 
     var upload = function() {
       if (uploadCount === instrumentsToSave.length) {
@@ -46,11 +48,28 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
           });
           uploadCount++;
           return upload();
+        } else if (previouslyUploadedInstrumentNumbers[
+            instrumentsToSave[uploadCount].number]) {
+          // duplicate instrument number
+          JobLoggingService.error({
+            message: 'instrument-management.log-messages' +
+              '.instrument.duplicate-instrument-number',
+            messageParams: {
+              index: uploadCount + 1,
+              number: instrumentsToSave[uploadCount].number
+            },
+            objectType: 'instrument'
+          });
+          uploadCount++;
+          return upload();
         } else {
           instrumentsToSave[uploadCount].$save().then(function() {
             JobLoggingService.success({
               objectType: 'instrument'
             });
+            // remember the successfully uploaded instrument number
+            previouslyUploadedInstrumentNumbers[
+              instrumentsToSave[uploadCount].number] = true;
             // get the map filename -> {attachment, metadata}
             var attachments = attachmentsToUpload[
               instrumentsToSave[uploadCount].number];
@@ -135,6 +154,8 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
           // reset the map instrumentId ->
           // (map filename -> (attachment, metadata))
           attachmentsToUpload = {};
+          // reset the map instrumentNumber -> true
+          previouslyUploadedInstrumentNumbers = {};
           JobLoggingService.start('instrument');
           InstrumentDeleteResource.deleteByDataAcquisitionProjectId({
             dataAcquisitionProjectId: dataAcquisitionProjectId
