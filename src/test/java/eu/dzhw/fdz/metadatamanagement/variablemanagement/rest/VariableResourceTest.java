@@ -98,7 +98,7 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(1);
     
     Variable variable =
@@ -132,7 +132,7 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(1);
     
     Variable variable =
@@ -149,7 +149,7 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(1);
     
     Variable variable =
@@ -163,11 +163,91 @@ public class VariableResourceTest extends AbstractTest {
   }
   
   @Test
+  public void testCreateDateVariableWithOrdinalScaleLevel() throws Exception {
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    dataAcquisitionProjectRepository.save(project);
+
+    List<Integer> surveyNumbers = new ArrayList<>();
+    surveyNumbers.add(1);
+    
+    Variable variable =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var1", 1, surveyNumbers);
+    variable.setDataType(DataTypes.DATE);
+    variable.setScaleLevel(ScaleLevels.ORDINAL);
+    List<ValidResponse> validResponses = new ArrayList<>();    
+    variable.getDistribution().setValidResponses(validResponses);
+    variable.getDistribution().getStatistics().setMaximum("2017-01-31");
+    variable.getDistribution().getStatistics().setMinimum("2017-01-30");
+    variable.getDistribution().getStatistics().setMedian("2017-01-30");
+    variable.getDistribution().getStatistics().setThirdQuartile("2017-01-31");
+    variable.getDistribution().getStatistics().setFirstQuartile("2017-01-30");
+
+    // create the variable with a survey but without a project
+    mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
+      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .andExpect(status().isCreated());
+  }
+  
+  @Test
+  public void testCreateDateVariableWithNominalScaleLevel() throws Exception {
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    dataAcquisitionProjectRepository.save(project);
+
+    List<Integer> surveyNumbers = new ArrayList<>();
+    surveyNumbers.add(1);
+    
+    Variable variable =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var1", 1, surveyNumbers);
+    variable.setDataType(DataTypes.DATE);
+    variable.setScaleLevel(ScaleLevels.NOMINAL);
+    List<ValidResponse> validResponses = new ArrayList<>();    
+    variable.getDistribution().setValidResponses(validResponses);
+    variable.getDistribution().getStatistics().setMaximum("2017-01-31");
+    variable.getDistribution().getStatistics().setMinimum("2017-01-30");
+    variable.getDistribution().getStatistics().setMedian("2017-01-30");
+    variable.getDistribution().getStatistics().setThirdQuartile("2017-01-31");
+    variable.getDistribution().getStatistics().setFirstQuartile("2017-01-30");
+
+    // create the variable with a survey but without a project
+    mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
+      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .andExpect(status().isBadRequest())
+      .andExpect(jsonPath("$.errors[0].message", containsString("variable-management.error.variable.only-ordinal-scale-level-for-date-data-type")));
+  }
+  
+  @Test
+  public void testCreateDateVariableWithContinousScaleLevel() throws Exception {
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    dataAcquisitionProjectRepository.save(project);
+
+    List<Integer> surveyNumbers = new ArrayList<>();
+    surveyNumbers.add(1);
+    
+    Variable variable =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var1", 1, surveyNumbers);
+    variable.setDataType(DataTypes.DATE);
+    variable.setScaleLevel(ScaleLevels.CONTINOUS);
+    List<ValidResponse> validResponses = new ArrayList<>();    
+    variable.getDistribution().setValidResponses(validResponses);
+    variable.getDistribution().getStatistics().setMaximum("2017-01-31");
+    variable.getDistribution().getStatistics().setMinimum("2017-01-30");
+    variable.getDistribution().getStatistics().setMedian("2017-01-30");
+    variable.getDistribution().getStatistics().setThirdQuartile("2017-01-31");
+    variable.getDistribution().getStatistics().setFirstQuartile("2017-01-30");
+
+    // create the variable with a survey but without a project
+    mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
+      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .andExpect(status().isBadRequest())
+      .andExpect(jsonPath("$.errors[0].message", containsString("variable-management.error.variable.only-ordinal-scale-level-for-date-data-type")));
+  }
+  
+  @Test
   public void testCreateVariableWithoutLabel() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(1);
     
     Variable variable =
@@ -193,7 +273,7 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(1);
     
     Variable variable =
@@ -214,7 +294,7 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(1);
     
     Variable variable =
@@ -248,7 +328,7 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
       
-    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(1);
     
     Variable variable =
@@ -284,7 +364,7 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(1);
     
     Variable variable =
@@ -306,7 +386,7 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(1);
     
     Variable variable =
@@ -325,7 +405,7 @@ public class VariableResourceTest extends AbstractTest {
   public void testCreateVariableWithoutDataType() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
-    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(1);
     
     Variable variable =
@@ -343,7 +423,7 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(1);
     
     Variable variable =
@@ -363,7 +443,7 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(1);
     
     Variable variable =
@@ -384,7 +464,7 @@ public class VariableResourceTest extends AbstractTest {
     List<String> accessWays = new ArrayList<>();
     accessWays.add("WrongAccessWay");
     
-    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(1);
     
     Variable variable =
@@ -402,7 +482,7 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(1);
     
     Variable variable =
@@ -421,7 +501,7 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(1);
     Variable variable =
         UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var", 1, surveyNumbers);
@@ -440,7 +520,7 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(1);
     
     Variable variable =
@@ -467,7 +547,7 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(1);
     
     Variable variable =
@@ -500,7 +580,7 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(1);
     Variable variable =
         UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "bdem08_v1", 1, surveyNumbers);
@@ -543,7 +623,7 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(1);
     
     Variable variable =
@@ -564,7 +644,7 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(1);
     
     Variable variable =
@@ -585,7 +665,7 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(1);
     
     Variable variable =
@@ -606,7 +686,7 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(1);
     
     Variable variable =
@@ -627,7 +707,7 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(1);
     
     Variable variable =
@@ -648,7 +728,7 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(1);
     
     Variable variable =
@@ -668,7 +748,7 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(1);
     
     Variable variable =
@@ -695,7 +775,7 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(1);
     
     Variable variable =
@@ -713,7 +793,7 @@ public class VariableResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
-    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(1);
     
     Variable variable =
