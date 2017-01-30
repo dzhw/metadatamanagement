@@ -68,11 +68,66 @@ angular.module('metadatamanagementApp').factory('BreadCrumbService',
         case '/disclosure':
           breadCrumbItem = {
             'url': url,
-            'pageType': $translate
-            .instant('disclosure.title')
+            'pageType': $translate.instant('disclosure.title')
+          };
+        break;
+
+        case '/user-management':
+          breadCrumbItem = {
+            'url': url,
+            'pageType': $translate.instant('global.menu.admin.user-management')
+          };
+        break;
+        case '/metrics':
+          breadCrumbItem = {
+            'url': url,
+            'pageType': $translate.instant('global.menu.admin.metrics')
+          };
+        break;
+        case '/health':
+          breadCrumbItem = {
+            'url': url,
+            'pageType': $translate.instant('global.menu.admin.health')
+          };
+        break;
+        case '/configuration':
+          breadCrumbItem = {
+            'url': url,
+            'pageType': $translate.instant('global.menu.admin.configuration')
+          };
+        break;
+        case '/logs':
+          breadCrumbItem = {
+            'url': url,
+            'pageType': $translate.instant('global.menu.admin.logs')
+          };
+        break;
+        case '/settings':
+          breadCrumbItem = {
+            'url': url,
+            'pageType': $translate.instant('global.menu.account.settings')
+          };
+        break;
+        case '/password':
+          breadCrumbItem = {
+            'url': url,
+            'pageType': $translate.instant('global.menu.account.password')
+          };
+        break;
+        case '/login':
+          breadCrumbItem = {
+            'url': url,
+            'pageType': $translate.instant('global.toolbar.buttons.login')
+          };
+        break;
+        case '/register':
+          breadCrumbItem = {
+            'url': url,
+            'pageType': $translate.instant('global.toolbar.buttons.register')
           };
         break;
         default:
+          $rootScope.breadCrumbItems = [];
           if (params.type) {
             breadCrumbItem = {
               'url': url,
@@ -80,7 +135,6 @@ angular.module('metadatamanagementApp').factory('BreadCrumbService',
               'id': $translate.instant('search-management.tabs.' + params.type)
             };
           } else {
-            $rootScope.breadCrumbItems = [];
             breadCrumbItem = {
               'url': url,
               'pageType': $translate.instant('search-management.detail.search'),

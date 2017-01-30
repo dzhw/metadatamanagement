@@ -1,4 +1,7 @@
 <div ng-if="ctrl.question.$resolved && ctrl.question.id">
+  <div layout="row" style="margin-bottom: 0px;" layout-margin>
+    <h1 class="md-headline fdz-truncate-string" style="margin-left: 0px;">{{'question-management.detail.question' | translate}} {{ctrl.question.number}}: {{ctrl.instrument.description}}</h1>
+  </div>
     <div layout="column" layout-gt-sm="row">
         <md-card flex-gt-sm>
             <div style="max-height: 400px; overflow-y:auto;">
