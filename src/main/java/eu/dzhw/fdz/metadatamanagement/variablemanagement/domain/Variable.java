@@ -22,7 +22,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.MandatoryScaleLevelForNumericDataType;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.MandatoryScaleLevelForNumericAndDateDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.StatisticsFirstQuartileMustBeANumberOnNumericDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.StatisticsFirstQuartileMustBeAnIsoDateOnDateDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.StatisticsMaximumMustBeANumberOnNumericDataType;
@@ -63,7 +63,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
     + "variable.unique-variable-name-in-data-set")
 @UniqueVariableIndexInDataSet(message = "variable-management.error."
     + "variable.unique-variable-index-in-dataSet")
-@MandatoryScaleLevelForNumericDataType(
+@MandatoryScaleLevelForNumericAndDateDataType(
     message = "variable-management.error.variable.mandatory-scale-level-for-numeric-data-type")
 
 //Validation if data type is date

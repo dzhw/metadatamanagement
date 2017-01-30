@@ -15,10 +15,10 @@ import javax.validation.Payload;
  *  @author René Reitmann
  */
 @Documented
-@Constraint(validatedBy = {MandatoryScaleLevelForNumericDataTypeValidator.class})
+@Constraint(validatedBy = {MandatoryScaleLevelForNumericAndDateDataTypeValidator.class})
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface MandatoryScaleLevelForNumericDataType {
+public @interface MandatoryScaleLevelForNumericAndDateDataType {
 
   /**
    * Defines the default error message.

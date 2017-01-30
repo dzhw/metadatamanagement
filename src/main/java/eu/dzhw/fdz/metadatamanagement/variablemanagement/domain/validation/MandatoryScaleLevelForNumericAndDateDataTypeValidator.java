@@ -11,8 +11,8 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
  * 
  * @author René Reitmann
  */
-public class MandatoryScaleLevelForNumericDataTypeValidator
-    implements ConstraintValidator<MandatoryScaleLevelForNumericDataType, Variable> {
+public class MandatoryScaleLevelForNumericAndDateDataTypeValidator
+    implements ConstraintValidator<MandatoryScaleLevelForNumericAndDateDataType, Variable> {
 
   /*
    * (non-Javadoc)
@@ -20,7 +20,7 @@ public class MandatoryScaleLevelForNumericDataTypeValidator
    * @see javax.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
    */
   @Override
-  public void initialize(MandatoryScaleLevelForNumericDataType constraintAnnotation) {}
+  public void initialize(MandatoryScaleLevelForNumericAndDateDataType constraintAnnotation) {}
 
   /*
    * (non-Javadoc)
