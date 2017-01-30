@@ -4,6 +4,7 @@
 angular.module('metadatamanagementApp').factory('BreadCrumbService',
   function($translate, $rootScope) {
     $rootScope.breadCrumbItems = [];
+    var items = [];
     var createNewBreadCrumbItem = function(url, params, pathTemplate) {
       var breadCrumbItem = '';
       switch (pathTemplate) {
@@ -66,6 +67,7 @@ angular.module('metadatamanagementApp').factory('BreadCrumbService',
           };
         break;
         case '/disclosure':
+          items = [];
           breadCrumbItem = {
             'url': url,
             'pageType': $translate.instant('disclosure.title')
@@ -73,61 +75,70 @@ angular.module('metadatamanagementApp').factory('BreadCrumbService',
         break;
 
         case '/user-management':
+          items = [];
           breadCrumbItem = {
             'url': url,
             'pageType': $translate.instant('global.menu.admin.user-management')
           };
         break;
         case '/metrics':
+          items = [];
           breadCrumbItem = {
             'url': url,
             'pageType': $translate.instant('global.menu.admin.metrics')
           };
         break;
         case '/health':
+          items = [];
           breadCrumbItem = {
             'url': url,
             'pageType': $translate.instant('global.menu.admin.health')
           };
         break;
         case '/configuration':
+          items = [];
           breadCrumbItem = {
             'url': url,
             'pageType': $translate.instant('global.menu.admin.configuration')
           };
         break;
         case '/logs':
+          items = [];
           breadCrumbItem = {
             'url': url,
             'pageType': $translate.instant('global.menu.admin.logs')
           };
         break;
         case '/settings':
+          items = [];
           breadCrumbItem = {
             'url': url,
             'pageType': $translate.instant('global.menu.account.settings')
           };
         break;
         case '/password':
+          items = [];
           breadCrumbItem = {
             'url': url,
             'pageType': $translate.instant('global.menu.account.password')
           };
         break;
         case '/login':
+          items = [];
           breadCrumbItem = {
             'url': url,
             'pageType': $translate.instant('global.toolbar.buttons.login')
           };
         break;
         case '/register':
+          items = [];
           breadCrumbItem = {
             'url': url,
             'pageType': $translate.instant('global.toolbar.buttons.register')
           };
         break;
         default:
-          $rootScope.breadCrumbItems = [];
+          items = [];
           if (params.type) {
             breadCrumbItem = {
               'url': url,
@@ -146,22 +157,22 @@ angular.module('metadatamanagementApp').factory('BreadCrumbService',
       return breadCrumbItem;
     };
     var addToBreadCrumb = function(url, params, pathTemplate) {
-      var items;
-      if ($rootScope.breadCrumbItems.length > 0) {
-        if (_.last($rootScope.breadCrumbItems)
-        .url !== url) {
-          /* should be refined */
-          if ($rootScope.breadCrumbItems.length >= 3) {
-            $rootScope.breadCrumbItems = $rootScope.breadCrumbItems
-            .slice($rootScope.breadCrumbItems.length - 2,
-              $rootScope.breadCrumbItems.length);
-          }
-          items = createNewBreadCrumbItem(url, params, pathTemplate);
-          $rootScope.breadCrumbItems.push(items);
-        }
+      var index = _.findIndex(items, function(item) {
+        return item.url === url;
+      });
+      if (index >= 0) {
+        items = items.slice(0, index);
+      }
+      if (items.length >= 20) {
+        items = items.slice(0, items.length - 1);
+      }
+      var item = createNewBreadCrumbItem(url, params, pathTemplate);
+      items.push(item);
+      if (items.length >= 3) {
+        $rootScope.breadCrumbItems = items
+        .slice(items.length - 3, items.length);
       } else {
-        items = createNewBreadCrumbItem(url, params, pathTemplate);
-        $rootScope.breadCrumbItems.push(items);
+        $rootScope.breadCrumbItems = items;
       }
     };
     return {
