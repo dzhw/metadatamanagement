@@ -13,6 +13,7 @@ angular.module('metadatamanagementApp').config(
             'upload-terminated': 'Upload von {{ total }} Datensätzen mit {{ errors }} Fehlern beendet!',
             'cancelled': 'Upload von Datensätzen Abgebrochen',
             'unable-to-delete': 'Die Datensätze konnten nicht gelöscht werden!',
+            'duplicate-data-set-number': 'Die Nummer ({{ number }}) des {{ index }}. Datensatzes wurde bereits verwendet.',
             'sub-data-set': {
               'number-of-observations-parse-error': 'Anzahl der Beobachtungen des Sub-Datensatzes {{name}} ist keine Zahl!',
               'number-of-analyzed-variables-parse-error': 'Anzahl der analysierten Variablen des Sub-Datensatzes {{name}} ist keine Zahl!'
