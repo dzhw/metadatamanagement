@@ -6,7 +6,7 @@
         </md-button>
 
         <div layout="row" layout-align=" center" flex class="breadCrumb">
-          <div class="fdz-truncate-string" ng-repeat="item in breadCrumbItems  | limitTo: 3" ng-class="{'breadCrumbLastElement':$last}">
+          <div class="fdz-truncate-string" ng-repeat="item in breadCrumbItems" ng-class="{'breadCrumbLastElement':$last}">
             <a ng-if="item.id" ng-href="{{item.url}}">{{item.pageType}} ({{item.id}})</a>
             <md-tooltip ng-if="item.id" ng-href="{{item.url}}">{{item.pageType}} ({{item.id}})</md-tooltip>
             <a ng-if="!item.id" ng-href="{{item.url}}">{{item.pageType}}</a></div>
