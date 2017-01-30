@@ -16,6 +16,11 @@ angular.module('metadatamanagementApp')
       //For Project Handling
       ctrl.dataAcquisitionProjects = null;
       ctrl.searchText = '';
+
+      // init the input controle with the current project
+      if (CurrentProjectService.getCurrentProject()) {
+        ctrl.searchText = CurrentProjectService.getCurrentProject().id;
+      }
       //Load the projects for the drop menu
       function loadProjects() {
         DataAcquisitionProjectSearchResource.findAll(
