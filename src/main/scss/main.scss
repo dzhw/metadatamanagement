@@ -627,11 +627,11 @@ pre {
 }
 
 /*-------------*/
-div.breadCrumb div+div:before {
+div.fdz-breadCrumb div+div:before {
     padding: 8px;
     content: "\003e";
 }
-.breadCrumbLastElement  a {
+.fdz-breadCrumbLastElement  a {
   pointer-events: none;
   cursor: default;
 }
