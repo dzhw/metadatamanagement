@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp').config(
           'instrument': {
             'saved': 'Instrument mit FDZ-ID {{ id }} erfolgreich gespeichert!',
             'not-saved': 'Instrument mit FDZ-ID {{ id }} wurde nicht gespeichert:',
-            'missing-id': 'Das {{ index }}. Instrument enthält keine FDZ-ID und wurde nicht gespeichert!',
+            'missing-number': 'Das {{ index }}. Instrument enthält keine Nummer und wurde nicht gespeichert!',
             'upload-terminated': 'Upload von {{ totalInstruments }} Instrumenten und {{ totalAttachments }} Attachments mit {{ totalErrors }} Fehlern beendet!',
             'unable-to-delete': 'Die Instrumente konnten nicht gelöscht werden!',
             'cancelled': 'Upload von Instrumenten Abgebrochen!'

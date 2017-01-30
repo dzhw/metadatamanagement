@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp').config(
           'instrument': {
             'saved': 'Instrument with RDC-ID {{ id }} was saved successfully!',
             'not-saved': 'Instrument with RDC-ID {{ id }} has not been saved!',
-            'missing-id': 'Instrument {{ index }} does not contain a RDC-ID and has not been saved:',
+            'missing-number': 'Instrument {{ index }} does not contain a number and has not been saved:',
             'upload-terminated': 'Finished upload of {{ totalInstruments }} Instruments and {{ totalAttachments }} Attachments with {{ totalErrors }} errors.',
             'unable-to-delete': 'The Instruments could not be deleted!',
             'cancelled': 'Instrument upload cancelled!'
