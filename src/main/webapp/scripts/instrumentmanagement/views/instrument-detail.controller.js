@@ -1,10 +1,11 @@
+/* global _ */
 'use strict';
 
 angular.module('metadatamanagementApp')
   .controller('InstrumentDetailController',
     function(entity, SurveySearchService, InstrumentAttachmentResource,
-      StudySearchService, QuestionSearchService,
-      QuestionSearchDialogService, PageTitleService, LanguageService) {
+      StudySearchService, QuestionSearchService, PageTitleService,
+      LanguageService) {
       //Controller Init
       var ctrl = this;
       ctrl.instrument = entity;
@@ -18,11 +19,12 @@ angular.module('metadatamanagementApp')
         var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';
         PageTitleService.setPageTitle('instrument-management.' +
           'detail.page-title', {
-          description: ctrl.instrument.description[currenLanguage] ? ctrl
-          .instrument.description[currenLanguage] : ctrl
-          .instrument.description[secondLanguage],
-          instrumentId: ctrl.instrument.id
-        });
+            description: ctrl.instrument.description[currenLanguage] ?
+              ctrl
+              .instrument.description[currenLanguage] : ctrl
+              .instrument.description[secondLanguage],
+            instrumentId: ctrl.instrument.id
+          });
         //load all related objects in parallel
         InstrumentAttachmentResource.findByInstrumentId({
           id: ctrl.instrument.id
@@ -34,12 +36,15 @@ angular.module('metadatamanagementApp')
           });
 
         // Find Surveys
-        // should be changed.
-        // see issue https://github.com/dzhw/metadatamanagement/issues/913
         SurveySearchService.findSurveys(ctrl.instrument.surveyIds).then(
-          function(searchResult) {
-            if (searchResult.docs[0].found) {
-              ctrl.survey = searchResult.docs[0]._source;
+          function(searchResults) {
+            var foundSurveys = _.filter(searchResults.docs, function(
+              searchResult) {
+              return searchResult.found;
+            });
+            ctrl.surveyCount = foundSurveys.length;
+            if (foundSurveys.length === 1) {
+              ctrl.survey = foundSurveys[0]._source;
             }
           });
 
@@ -57,11 +62,4 @@ angular.module('metadatamanagementApp')
             ctrl.questionCount = result.count;
           });
       });
-
-      ctrl.showRelatedQuestions = function() {
-        var paramObject = {};
-        paramObject.methodName = 'findByInstrumentId';
-        paramObject.methodParams = ctrl.instrument.id;
-        QuestionSearchDialogService.findQuestions(paramObject);
-      };
     });

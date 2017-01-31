@@ -40,12 +40,15 @@ angular.module('metadatamanagementApp').controller('SearchController',
       if ($scope.searchParams.query && $scope.searchParams.query !== '') {
         locationSearch.query = $scope.searchParams.query;
       }
+      if ($scope.searchParams.sortBy && $scope.searchParams.sortBy !== '') {
+        locationSearch['sort-by'] = $scope.searchParams.sortBy;
+      }
       _.assign(locationSearch, $scope.searchParams.filter);
       locationChanged = !angular.equals($location.search(),
         locationSearch);
       $location.search(locationSearch);
       BreadCrumbService.addToBreadCrumb($location.absUrl(), $location.search(),
-      $location.url());
+        $location.url());
     };
 
     // read the searchParams object from the location with the correct types
@@ -69,8 +72,9 @@ angular.module('metadatamanagementApp').controller('SearchController',
           $scope.searchParams.query = '';
         }
         $scope.searchParams.filter = _.omit(locationSearch, ['page', 'type',
-          'query'
+          'query', 'sort-by'
         ]);
+        $scope.searchParams.sortBy = locationSearch['sort-by'];
         $scope.searchParams.selectedTabIndex = _.findIndex($scope.tabs,
           function(tab) {
             return tab.elasticSearchType === locationSearch.type;
@@ -108,7 +112,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       SearchDao.search($scope.searchParams.query, $scope.pageObject.page,
           $scope.projectId, $scope.searchParams.filter,
           $scope.tabs[$scope.searchParams.selectedTabIndex].elasticSearchType,
-          $scope.pageObject.size)
+          $scope.pageObject.size, $scope.searchParams.sortBy)
         .then(function(data) {
           $scope.searchResult = data.hits.hits;
           $scope.pageObject.totalHits = data.hits.total;
@@ -155,16 +159,16 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
     $scope.$on('current-project-changed',
       function(event, currentProject) { // jshint ignore:line
-      $scope.searchParams.filter = undefined;
-      if (currentProject) {
-        $scope.projectId = currentProject.id;
-      } else {
-        $scope.projectId = undefined;
-      }
-      $scope.pageObject.page = 1;
-      writeSearchParamsToLocation();
-      $scope.search();
-    });
+        $scope.searchParams.filter = undefined;
+        if (currentProject) {
+          $scope.projectId = currentProject.id;
+        } else {
+          $scope.projectId = undefined;
+        }
+        $scope.pageObject.page = 1;
+        writeSearchParamsToLocation();
+        $scope.search();
+      });
 
     $scope.onPageChanged = function() {
       writeSearchParamsToLocation();
@@ -179,6 +183,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     $scope.onSelectedTabChanged = function() {
       if (!tabChangedOnInitFlag) {
         $scope.searchParams.filter = undefined;
+        $scope.searchParams.sortBy = undefined;
         $scope.pageObject.page = 1;
         writeSearchParamsToLocation();
         $scope.search();

@@ -8,17 +8,31 @@ angular.module('metadatamanagementApp').service('SearchDao',
       'variables': {
         'data-set': 'dataSetIds',
         'panel-identifier': 'panelIdentifier'
+      },
+      'surveys': {
+        'instrument': 'instrumentIds'
+      },
+      'questions': {
+        'instrument': 'instrumentId'
       }
     };
     return {
-      search: function(queryterm, pageNumber, dataAcquisitionProjectId, filter,
-        elasticsearchType, pageSize) {
+      search: function(queryterm, pageNumber, dataAcquisitionProjectId,
+        filter, elasticsearchType, pageSize, sortBy) {
         var query = {};
         var projectFilter;
         var studiesFilter;
         query.index = 'metadata_' + LanguageService.getCurrentInstantly();
         query.type = elasticsearchType;
         query.body = {};
+        if (sortBy && sortBy !== '') {
+          var sortCriteria = {};
+          sortCriteria[sortBy] = {
+            'order': 'asc'
+          };
+          query.body.sort = [];
+          query.body.sort.push(sortCriteria);
+        }
         //a query term
         if (!CleanJSObjectService.isNullOrEmpty(queryterm)) {
           query.body.query = {
@@ -90,12 +104,15 @@ angular.module('metadatamanagementApp').service('SearchDao',
           };
           query.body.query.bool.filter.bool.must = [];
           _.each(filter, function(value, key) {
-            var filterKeyValue = {'term': {}};
+            var filterKeyValue = {
+              'term': {}
+            };
             if (elasticsearchType) {
               var subKeyMapping = keyMapping[elasticsearchType];
               key = subKeyMapping[key];
               filterKeyValue.term[key] = value;
-              query.body.query.bool.filter.bool.must.push(filterKeyValue);
+              query.body.query.bool.filter.bool.must.push(
+                filterKeyValue);
             }
           });
         }

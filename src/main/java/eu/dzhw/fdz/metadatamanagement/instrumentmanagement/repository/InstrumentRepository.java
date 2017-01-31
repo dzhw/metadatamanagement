@@ -33,4 +33,7 @@ public interface InstrumentRepository
   @RestResource(exported = false)
   List<Instrument> findByNumberAndDataAcquisitionProjectId(Integer number,
       String dataAcquisitionProjectId);
+
+  @RestResource(exported = false)
+  List<Instrument> findBySurveyIdsContaining(String surveyId);
 }

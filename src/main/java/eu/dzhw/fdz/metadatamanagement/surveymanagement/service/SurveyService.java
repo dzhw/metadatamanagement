@@ -9,6 +9,7 @@ import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.stereotype.Service;
 
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
@@ -86,5 +87,23 @@ public class SurveyService {
         survey.getId(), 
         ElasticsearchType.surveys, 
         ElasticsearchUpdateQueueAction.UPSERT);
+  }
+  
+  /**
+   * Enqueue update of survey search documents when the instrument is changed.
+   * 
+   * @param instrument the updated, created or deleted instrument.
+   */
+  @HandleAfterCreate
+  @HandleAfterSave
+  @HandleAfterDelete
+  public void onInstrumentChanged(Instrument instrument) {
+    List<Survey> surveys = surveyRepository.findByIdIn(instrument.getSurveyIds());
+    surveys.forEach(survey -> {
+      elasticsearchUpdateQueueService.enqueue(
+          survey.getId(), 
+          ElasticsearchType.surveys, 
+          ElasticsearchUpdateQueueAction.UPSERT);
+    });
   }
 }

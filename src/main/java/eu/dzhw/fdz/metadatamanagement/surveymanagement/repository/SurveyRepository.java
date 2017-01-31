@@ -32,4 +32,7 @@ public interface SurveyRepository
   @RestResource(exported = false)
   List<Survey> findByNumberAndDataAcquisitionProjectId(Integer number, 
       String dataAcquisitionProjectId);
+  
+  @RestResource(exported = false)
+  List<Survey> findByIdIn(List<String> surveyIds);
 }

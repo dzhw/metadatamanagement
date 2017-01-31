@@ -1,6 +1,10 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchIndices;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import io.searchbox.annotations.JestId;
@@ -28,16 +32,23 @@ public class SurveySearchDocument {
   private String surveyMethod;
   
   private Integer number;
+  
+  private List<String> instrumentIds;
 
   /**
    * Create the search document from the domain object depending on the language (index).
    */
-  public SurveySearchDocument(Survey survey, ElasticsearchIndices index) {
+  public SurveySearchDocument(Survey survey, List<Instrument> instruments, 
+      ElasticsearchIndices index) {
     this.id = survey.getId();
     this.dataAcquisitionProjectId = survey.getDataAcquisitionProjectId();
     this.number = survey.getNumber();
     createI18nAttributes(survey, index);
     this.fieldPeriod = survey.getFieldPeriod();
+    if (instruments != null) {
+      this.instrumentIds = instruments.stream()
+          .map(Instrument::getId).collect(Collectors.toList());      
+    }
   }
 
   private void createI18nAttributes(Survey survey, ElasticsearchIndices index) {
@@ -121,5 +132,13 @@ public class SurveySearchDocument {
 
   public void setNumber(Integer number) {
     this.number = number;
+  }
+  
+  public List<String> getInstrumentIds() {
+    return instrumentIds;
+  }
+
+  public void setInstrumentIds(List<String> instrumentIds) {
+    this.instrumentIds = instrumentIds;
   }
 }

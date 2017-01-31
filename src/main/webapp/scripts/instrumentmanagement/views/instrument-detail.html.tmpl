@@ -41,19 +41,22 @@
                 </div>
                 <div style="margin-bottom: 0.5em;" layout="row">
                     <md-icon md-svg-src="/assets/images/icons/survey.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
-                    <div style="margin-right:3px;">{{'survey-management.detail.survey' | translate }}:</div>
-                    <div ng-if="!ctrl.survey" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
-                    <div ng-if="ctrl.survey" class="fdz-truncate-string" flex>
+                    <div style="margin-right:3px;">{{'survey-management.detail.surveys' | translate }}:</div>
+                    <div ng-if="ctrl.surveyCount === 0" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
+                    <div ng-if="ctrl.surveyCount === 1" class="fdz-truncate-string" flex>
                         <a ui-sref="surveyDetail({surveyNumber:ctrl.survey.number,
                           projectId:ctrl.survey.dataAcquisitionProjectId})">{{ctrl.survey.title}}</a>
+                    </div>
+                    <div ng-if="ctrl.surveyCount > 1" class="fdz-truncate-string" flex>
+                        <a ui-sref="search({'instrument': ctrl.instrument.id, 'type': 'surveys'})">({{ctrl.surveyCount}})</a>
                     </div>
                 </div>
                 <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                     <md-icon md-svg-src="/assets/images/icons/question.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
                     <div style="margin-right:3px;">{{'question-management.detail.questions' | translate }}:</div>
-                    <div ng-if="ctrl.questionCount == 0" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
+                    <div ng-if="ctrl.questionCount === 0" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
                     <div ng-if="ctrl.questionCount > 0" class="fdz-truncate-string" flex>
-                        <a ng-click="ctrl.showRelatedQuestions()">({{ctrl.questionCount}})</a>
+                        <a ui-sref="search({'instrument': ctrl.instrument.id, 'type': 'questions', 'sort-by': 'number'})">({{ctrl.questionCount}})</a>
                     </div>
                 </div>
             </md-card-content>
