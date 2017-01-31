@@ -19,6 +19,9 @@ angular.module('metadatamanagementApp').config(
               'number-of-analyzed-variables-parse-error': 'Anzahl der analysierten Variablen des Sub-Datensatzes {{name}} ist keine Zahl!'
             }
           },
+          'sub-data-set': {
+            'unknown-data-set-number': 'Der Subdatensatz {{name}} verweist auf eine unbekannte Datensatznummer: {{dataSetNumber}}.'
+          },
           'tex': {
             'upload-terminated': 'Upload von Tex Template beendet!',
             'saved': 'Tex Dokument erfolgreich erzeugt!',
