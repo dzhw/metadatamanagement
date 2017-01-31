@@ -30,7 +30,7 @@
     "angular-nvd3": "^1.0.9",
     "js-xlsx": "^0.8.1",
     "cheet.js": "^0.3.3",
-    "angular-material": "^1.1.1",
+    "angular-material": "^1.1.3",
     "angular-block-ui": "^0.2.2",
     "lodash": "^4.17.4",
     "plotly.js": "^1.22.0",
