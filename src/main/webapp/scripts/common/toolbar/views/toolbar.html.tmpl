@@ -8,9 +8,10 @@
         <div layout="row" layout-align=" center" flex class="fdz-breadCrumb">
           <div class="fdz-truncate-string" ng-repeat="item in breadCrumbItems" ng-class="{'fdz-breadCrumbLastElement':$last}">
             <a ng-if="item.id" ng-href="{{item.url}}">{{item.pageType}} ({{item.id}})</a>
-            <md-tooltip ng-if="item.id" ng-href="{{item.url}}">{{item.pageType}} ({{item.id}})</md-tooltip>
-            <a ng-if="!item.id" ng-href="{{item.url}}">{{item.pageType}}</a></div>
-            <md-tooltip ng-if="!item.id" ng-href="{{item.url}}">{{item.pageType}}</md-tooltip>
+            <md-tooltip ng-if="item.id">{{item.pageType}} ({{item.id}})</md-tooltip>
+            <a ng-if="!item.id" ng-href="{{item.url}}">{{item.pageType}}</a>
+            <md-tooltip ng-if="!item.id">{{item.pageType}}</md-tooltip>
+          </div>
         </div>
         <md-button
             id="changeLanguageToEn"

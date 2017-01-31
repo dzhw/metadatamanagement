@@ -17,7 +17,7 @@ angular.module('metadatamanagementApp').config(
             'cancelled': 'Upload von Variablen Abgebrochen!',
             'missing-json-file': 'Keine JSON Datei zu Variable {{name}} in Datensatz {{dataSet}} gefunden!',
             'missing-excel-file': 'Keine Excel Datei in Datensatz {{dataSet}} gefunden!',
-            'missing-name': 'Die {{index}}. Variable in Datensatz {{dataSet}} hat keinen Namen!',
+            'missing-name': 'Die {{variableIndex}}. Variable in Datensatz {{dataSet}} hat keinen Namen!',
             'generation-details-rule-success-copy-to-clipboard': 'Die Generierungsregel wurde erfolgreich in die Zwischenablage kopiert.',
             'filter-details-success-copy-to-clipboard': 'Der Filterausdruck wurde erfolgreich in die Zwischenablage kopiert.'
           }

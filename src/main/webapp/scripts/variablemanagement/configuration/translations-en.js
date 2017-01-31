@@ -17,7 +17,7 @@ angular.module('metadatamanagementApp').config(
             'cancelled': 'Variables upload cancelled!',
             'missing-json-file': 'There is no JSON file for Variable {{name}} in Data Set {{dataSet}}!',
             'missing-excel-file': 'There is no Excel file in Data Set {{dataSet}}!',
-            'missing-name': 'The {{index}}. Variable in Datensatz {{dataSet}} don\'t have a Name!',
+            'missing-name': 'The {{variableIndex}}. Variable in Datensatz {{dataSet}} doesn\'t have a Name!',
             'generation-details-rule-success-copy-to-clipboard': 'The Generation Rule was successfully copied into the clipboard.',
             'filter-details-success-copy-to-clipboard': 'The Filter Expression was successfully copied into the clipboard.'
           }
@@ -210,8 +210,8 @@ angular.module('metadatamanagementApp').config(
             'data-set-index-not-null': 'The Index of the Data Set of the Variable must not be empty!',
             'survey-numbers-not-empty': 'The List of Survey Numbers of a variable needs min. one element and must not be empty!',
             'related-question-number-size': 'The max Length of Question Number is 32 signs.',
-            'related-question-number-not-empty': 'A Related Question don\'t have a Number!',
-            'related-question-instrument-number-not-empty': 'An Instrument don\'t have a Number!',
+            'related-question-number-not-empty': 'A Related Question doesn\'t have a Number!',
+            'related-question-instrument-number-not-empty': 'An Instrument doesn\'t have a Number!',
             'valid-identifier': 'The Panel Identifier of the Variable is not valid for the Pattern: DataAcquisitionProjectId + "-" + "ds" + "dataSetNumber" + "-" + string.',
             'panel-identifier-size': 'The max length of Panel Identifier of the Variable is 128 signs.',
             'panel-identifier-pattern': 'Use only alphanumeric signs, german umlauts, ß and minus for the Panel Identifier of the Variable.',
