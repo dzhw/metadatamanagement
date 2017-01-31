@@ -13,6 +13,7 @@ angular.module('metadatamanagementApp').config(
             'saved': 'Die Publikation mit FDZ-ID {{ id }} erfolgreich gespeichert!',
             'not-saved': 'Die Publikation mit FDZ-ID {{ id }} wurde nicht gespeichert!',
             'missing-id': 'Der {{ index }}. Die Publikation enthält keine FDZ-ID und wurde nicht gespeichert!',
+            'duplicate-id': 'Die FDZ-ID ({{ id }}) der {{ index }}. Publikation wurde bereits verwendet.',
             'upload-terminated': 'Upload von {{ total }} Publikationen mit {{ errors }} Fehlern beendet!',
             'unable-to-delete': 'Die Publikationen konnten nicht gelöscht werden!',
             'cancelled': 'Upload von Publikationen abgebrochen'

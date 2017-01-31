@@ -13,6 +13,7 @@ angular.module('metadatamanagementApp').config(
             'saved': 'Publication with RDC-ID {{ id }} was saved successfully!',
             'not-saved': 'Publication with RDC-ID {{ id }} has not been saved!',
             'missing-id': 'Publication {{ index }} does not contain a RDC-ID and has not been saved!',
+            'duplicate-id': 'The RDC-ID ({{ id }}) of Publication {{ index }} has already been used.',
             'upload-terminated': 'Finished upload of {{ total }} Publications with {{ errors }} errors.',
             'unable-to-delete': 'Publications could not be deleted!',
             'cancelled': 'Publications upload cancelled!'
