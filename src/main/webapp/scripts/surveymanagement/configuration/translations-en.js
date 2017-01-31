@@ -9,12 +9,12 @@ angular.module('metadatamanagementApp').config(
           'survey': {
             'saved': 'Survey with RDC-ID {{ id }} was saved successfully!',
             'not-saved': 'Survey with RDC-ID {{ id }} has not been saved!',
-            'missing-id': 'Survey {{ index }} does not contain a RDC-ID and has not been saved!',
             'missing-number': 'Survey {{ index }} does not contain a Number and has not been saved!',
             'unable-to-upload-image-file': 'Image file "{{ file }}" could not be uploaded!',
             'unable-to-read-image-file': 'Image file "{{ file }}" could not be read!',
             'upload-terminated': 'Finished upload of {{ totalSurveys }} Surveys and {{ totalImages }} Images with {{ totalErrors }} errors.',
             'unable-to-delete': 'The Surveys could not be deleted!',
+            'duplicate-survey-number': 'The number ({{ number }}) of Survey {{ index }} has already been used.',
             'cancelled': 'Surveys upload cancelled!'
           }
         },

@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation;
 
+import java.util.List;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -34,11 +36,14 @@ public class ValidUniqueSurveyNumberValidator
   @Override
   public boolean isValid(Survey survey, ConstraintValidatorContext context) {
     if (survey.getNumber() != null) {
-      Long count = surveyRepository
-          .countByNumberAndDataAcquisitionProjectId(survey
+      List<Survey> surveys = surveyRepository
+          .findByNumberAndDataAcquisitionProjectId(survey
               .getNumber(), survey.getDataAcquisitionProjectId());
-      if (count > 0) {
-        return false; 
+      if (surveys.size() > 1) {
+        return false;
+      }
+      if (surveys.size() == 1) {
+        return surveys.get(0).getId().equals(survey.getId());
       }
     }
     return true;

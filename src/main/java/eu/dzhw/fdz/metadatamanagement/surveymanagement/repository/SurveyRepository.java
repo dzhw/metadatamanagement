@@ -30,5 +30,6 @@ public interface SurveyRepository
   Survey findById(String id);
   
   @RestResource(exported = false)
-  Long countByNumberAndDataAcquisitionProjectId(Integer number, String dataAcquisitionProjectId);
+  List<Survey> findByNumberAndDataAcquisitionProjectId(Integer number, 
+      String dataAcquisitionProjectId);
 }
