@@ -131,24 +131,32 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
                 return;
               }
 
+              //Read excel file with DataSets and SubDataSets
               ExcelReaderService.readFileAsync(dataSetExcelFile, true)
                 .then(function(allExcelSheets) {
                   var dataSets = allExcelSheets.dataSets;
                   var subDataSetsSheet = allExcelSheets.subDataSets;
-                  //TODO
 
-                  //iterate all datasets
+                  //iterate all subdatasets
+                  //the subdata set iteration is the outer loop
+                  //Reason: size(subDataSet) >= size(dataSet)
                   subDataSetsSheet.forEach(function(
                     subDataSetFromExcel) {
+
+                    //Variable for Validation: Is the reference of
+                    //subDataSet.dataSetNumber valid?
                     var subDataSetNumberFound = false;
 
+                    //iterate the data sets
                     for (var i = 0; i < dataSets.length; i++) {
                       var dataSet = dataSets[i];
 
+                      //Prepare: Adding SubDataSets to the DataSet
                       if (dataSet.subDataSets === undefined) {
                         dataSet.subDataSets = [];
                       }
 
+                      //Prepare: Adding SubDataSets Errors to the DataSet
                       if (dataSet.subDataSetErrors ===
                         undefined) {
                         dataSet.subDataSetErrors = [];
@@ -158,6 +166,8 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
                       if (subDataSetFromExcel.dataSetNumber ===
                         dataSet.number) {
                         subDataSetNumberFound = true;
+
+                        //try creating a SubDataSet Object for Mongo
                         try {
                           dataSet.subDataSets.push(
                             DataSetBuilderService
@@ -171,6 +181,7 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
                     } //end for
 
                     //Validation Check
+                    //subDataSet.dataSetNumber valid?
                     if (subDataSetNumberFound === false) {
                       JobLoggingService.error({
                         message: 'data-set-management.' +
