@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').service('DataSetBuilderService',
   function(DataSetResource, CleanJSObjectService) {
-    var buildDataSet = function(dataSet, subDataSets,
+    var buildDataSet = function(dataSet,
       dataAcquisitionProjectId) {
       if (!dataSet || !dataAcquisitionProjectId) {
         return null;
@@ -29,7 +29,7 @@ angular.module('metadatamanagementApp').service('DataSetBuilderService',
           en: dataSet['format.en'],
           de: dataSet['format.de']
         },
-        subDataSets: subDataSets
+        subDataSets: dataSet.subDataSets
       };
       _.forEach(dataSetObj.surveyNumbers, function(number) {
         dataSetObj.surveyIds

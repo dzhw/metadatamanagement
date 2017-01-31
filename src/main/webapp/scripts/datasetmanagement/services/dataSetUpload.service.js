@@ -135,39 +135,70 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
                 .then(function(allExcelSheets) {
                   var dataSets = allExcelSheets.dataSets;
                   var subDataSetsSheet = allExcelSheets.subDataSets;
+                  //TODO
+
                   //iterate all datasets
-                  dataSets.forEach(function(dataSetFromExcel) {
-                    var subDataSetErrors = [];
-                    var subDataSets = [];
-                    for (var i = 0; i < subDataSetsSheet.length; i++) {
+                  subDataSetsSheet.forEach(function(
+                    subDataSetFromExcel) {
+                    var subDataSetNumberFound = false;
+
+                    for (var i = 0; i < dataSets.length; i++) {
+                      var dataSet = dataSets[i];
+
+                      if (dataSet.subDataSets === undefined) {
+                        dataSet.subDataSets = [];
+                      }
+
+                      if (dataSet.subDataSetErrors ===
+                        undefined) {
+                        dataSet.subDataSetErrors = [];
+                      }
 
                       //use only depending sub datasets
-                      if (subDataSetsSheet[i].dataSetNumber ===
-                        dataSetFromExcel.number) {
+                      if (subDataSetFromExcel.dataSetNumber ===
+                        dataSet.number) {
+                        subDataSetNumberFound = true;
                         try {
-                          subDataSets.push(
+                          dataSet.subDataSets.push(
                             DataSetBuilderService
-                            .buildSubDataSet(subDataSetsSheet[
-                              i]));
+                            .buildSubDataSet(
+                              subDataSetFromExcel));
                         } catch (e) {
-                          subDataSetErrors = _.concat(
-                            subDataSetErrors, e);
+                          dataSet.subDataSetErrors = _.concat(
+                            dataSet.subDataSetErrors, e);
                         }
                       }
+                    } //end for
+
+                    //Validation Check
+                    if (subDataSetNumberFound === false) {
+                      JobLoggingService.error({
+                        message: 'data-set-management.' +
+                          'log-messages.sub-data-set.unknown-data-set-number',
+                        messageParams: {
+                          name: subDataSetFromExcel.name,
+                          dataSetNumber: subDataSetFromExcel
+                            .dataSetNumber
+                        }
+                      });
                     }
-                    if (subDataSetErrors.length === 0) {
+                  });
+
+                  //check for errors
+                  dataSets.forEach(function(dataSet) {
+                    if (dataSet.subDataSetErrors.length === 0) {
                       objects.push(DataSetBuilderService
-                        .buildDataSet(dataSetFromExcel,
-                          subDataSets,
-                          dataAcquisitionProjectId));
+                        .buildDataSet(dataSet,
+                          dataAcquisitionProjectId)
+                      );
                     } else {
                       JobLoggingService.error({
                         message: 'data-set-management.' +
                           'log-messages.data-set.not-saved',
                         messageParams: {
-                          id: dataSetFromExcel.id
+                          id: dataSet.id
                         },
-                        subMessages: subDataSetErrors
+                        subMessages: dataSet.subDataSetErrors
                       });
                       return;
                     }
