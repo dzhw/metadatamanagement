@@ -1,13 +1,14 @@
 /* Author: Daniel Katzberg */
 'use strict';
 angular.module('metadatamanagementApp').service('CurrentProjectService',
-  function($rootScope) {
+  function($rootScope, localStorageService) {
 
     //Define current Project field with get and set methods
-    var currentProject = null;
+    var currentProject = localStorageService.get('currentProject');
     var setCurrentProject = function(chosenProject) {
       if (!angular.equals(currentProject, chosenProject)) {
         currentProject = chosenProject;
+        localStorageService.set('currentProject', currentProject);
         $rootScope.$broadcast('current-project-changed', currentProject);
       }
     };
