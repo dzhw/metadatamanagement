@@ -7,10 +7,12 @@
 
         <div layout="row" layout-align=" center" flex class="fdz-breadCrumb">
           <div class="fdz-truncate-string" ng-repeat="item in breadCrumbItems" ng-class="{'fdz-breadCrumbLastElement':$last}">
-            <a ng-if="item.id" ng-href="{{item.url}}">{{item.pageType}} ({{item.id}})</a>
-            <md-tooltip ng-if="item.id">{{item.pageType}} ({{item.id}})</md-tooltip>
-            <a ng-if="!item.id" ng-href="{{item.url}}">{{item.pageType}}</a>
-            <md-tooltip ng-if="!item.id">{{item.pageType}}</md-tooltip>
+            <a ng-if="item.id" ng-href="{{item.url[currentLanguage]}}">{{item.pageType | translate}} ({{item.id}})</a>
+            <md-tooltip ng-if="item.id">{{item.pageType | translate}} ({{item.id}})</md-tooltip>
+            <a ng-if="item.tab" ng-href="{{item.url[currentLanguage]}}">{{item.pageType | translate}} ({{item.tab | translate}})</a>
+            <md-tooltip ng-if="item.tab">{{item.pageType | translate}} ({{item.tab | translate}})</md-tooltip>
+            <a ng-if="!item.id && !item.tab" ng-href="{{item.url[currentLanguage]}}">{{item.pageType | translate}}</a>
+            <md-tooltip ng-if="!item.id && !item.tab">{{item.pageType | translate}}</md-tooltip>
           </div>
         </div>
         <md-button

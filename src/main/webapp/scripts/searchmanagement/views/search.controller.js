@@ -47,8 +47,11 @@ angular.module('metadatamanagementApp').controller('SearchController',
       locationChanged = !angular.equals($location.search(),
         locationSearch);
       $location.search(locationSearch);
-      BreadCrumbService.addToBreadCrumb($location.absUrl(), $location.search(),
+      if (_.size($location.search()) <= 2) {
+        BreadCrumbService.addToBreadCrumb($location.absUrl(),
+        $location.search(),
         $location.url());
+      }
     };
 
     // read the searchParams object from the location with the correct types
@@ -171,9 +174,9 @@ angular.module('metadatamanagementApp').controller('SearchController',
       });
 
     $scope.onPageChanged = function() {
-      writeSearchParamsToLocation();
-      $scope.search();
-    };
+        writeSearchParamsToLocation();
+        $scope.search();
+      };
     $scope.onQueryChanged = function() {
       $scope.pageObject.page = 1;
       writeSearchParamsToLocation();

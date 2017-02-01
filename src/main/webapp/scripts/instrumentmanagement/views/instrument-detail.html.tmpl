@@ -1,6 +1,6 @@
 <div ng-if="ctrl.instrument.$resolved && ctrl.instrument.id">
   <div layout="row" style="margin-bottom: 0px;" layout-margin>
-    <h1 class="md-headline fdz-truncate-string" style="margin-left: 0px;">{{ctrl.instrument.description[currentLanguage]}}</h1>
+    <h1 class="md-headline fdz-truncate-string" style="margin-left: 0px;">{{ctrl.instrument.description[currentLanguage]}} ({{ctrl.instrument.id}})</h1>
   </div>
     <div layout="column" layout-gt-sm="row">
         <md-card flex-gt-sm>
