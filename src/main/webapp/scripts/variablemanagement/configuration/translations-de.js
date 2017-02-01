@@ -19,7 +19,8 @@ angular.module('metadatamanagementApp').config(
             'missing-excel-file': 'Keine Excel Datei in Datensatz {{dataSet}} gefunden!',
             'missing-name': 'Die {{variableIndex}}. Variable in Datensatz {{dataSet}} hat keinen Namen!',
             'generation-details-rule-success-copy-to-clipboard': 'Die Generierungsregel wurde erfolgreich in die Zwischenablage kopiert.',
-            'filter-details-success-copy-to-clipboard': 'Der Filterausdruck wurde erfolgreich in die Zwischenablage kopiert.'
+            'filter-details-success-copy-to-clipboard': 'Der Filterausdruck wurde erfolgreich in die Zwischenablage kopiert.',
+            'duplicate-name': 'Der Name ({{ name }}) der {{ index }}. Variable aus Datensatz {{ dataSetNumber }} wurde bereits verwendet.'
           }
         },
         'detail': {

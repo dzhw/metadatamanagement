@@ -8,6 +8,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
     ElasticSearchAdminService, $rootScope, $translate, $mdDialog,
     CleanJSObjectService) {
     var filesMap;
+
     var createDataSetsFileMap = function(files, dataAcquisitionProjectId) {
       filesMap = {};
       var dataSetIndex = 0;
@@ -25,9 +26,9 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
           if (!filesMap[path[pathLength - 2]]) {
             filesMap[path[pathLength - 2]] = {};
             filesMap[path[pathLength - 2]].dataAcquisitionProjectId =
-            dataAcquisitionProjectId;
+              dataAcquisitionProjectId;
             filesMap[path[pathLength - 2]].dataSetName =
-            path[pathLength - 2];
+              path[pathLength - 2];
             filesMap[path[pathLength - 2]].dataSetIndex = dataSetIndex;
             filesMap[path[pathLength - 2]].jsonFiles = {};
             dataSetIndex++;
@@ -39,9 +40,9 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
           if (!filesMap[path[pathLength - 3]]) {
             filesMap[path[pathLength - 3]] = {};
             filesMap[path[pathLength - 3]].dataAcquisitionProjectId =
-            dataAcquisitionProjectId;
+              dataAcquisitionProjectId;
             filesMap[path[pathLength - 3]].dataSetName =
-            path[pathLength - 3];
+              path[pathLength - 3];
             filesMap[path[pathLength - 3]].dataSetIndex = dataSetIndex;
             filesMap[path[pathLength - 3]].jsonFiles = {};
             dataSetIndex++;
@@ -54,99 +55,123 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
       var variablesResources = [];
       return $q(function(resolve) {
         ExcelReaderService.readFileAsync(dataSet.excelFile)
-      .then(function(variables) {
-          variables.forEach(function(variableFromExcel, variableIndex) {
-            if (variableFromExcel.name) {
-              if (dataSet.jsonFiles[variableFromExcel.name]) {
-                FileReaderService.readAsText(dataSet
-                .jsonFiles[variableFromExcel.name])
-                .then(function(variableAsText) {
-                  try {
-                    var variableFromJson = JSON.parse(variableAsText);
-                    variablesResources.push(VariableBuilderService
-                      .buildVariable(variableFromExcel, variableFromJson,
-                        dataSet.dataAcquisitionProjectId, dataSet.dataSetName));
-                    if (variableIndex === (variables.length - 1)) {
-                      resolve(variablesResources);
-                    }
-                  } catch (e) {
-                    JobLoggingService.error({
-                      message: 'variable-management.log-messages.' +
-                      'variable.json-parse-error',
-                      messageParams: {
-                        dataSet: dataSet.dataSetName,
-                        file: variableFromExcel.name + '.json'}
-                    });
-                    if (variableIndex === (variables.length - 1)) {
-                      resolve(variablesResources);
-                    }
-                  }}, function() {
+          .then(function(variables) {
+            variables.forEach(function(variableFromExcel,
+              variableIndex) {
+              if (variableFromExcel.name) {
+                if (dataSet.jsonFiles[variableFromExcel.name]) {
+                  FileReaderService.readAsText(dataSet
+                      .jsonFiles[variableFromExcel.name])
+                    .then(function(variableAsText) {
+                      try {
+                        var variableFromJson = JSON.parse(
+                          variableAsText);
+                        variablesResources.push(
+                          VariableBuilderService
+                          .buildVariable(variableFromExcel,
+                            variableFromJson,
+                            dataSet.dataAcquisitionProjectId,
+                            dataSet.dataSetName));
+                        if (variableIndex === (variables.length - 1)) {
+                          resolve(variablesResources);
+                        }
+                      } catch (e) {
+                        JobLoggingService.error({
+                          message: 'variable-management.log-messages.' +
+                            'variable.json-parse-error',
+                          messageParams: {
+                            dataSet: dataSet.dataSetName,
+                            file: variableFromExcel.name +
+                              '.json'
+                          }
+                        });
+                        if (variableIndex === (variables.length - 1)) {
+                          resolve(variablesResources);
+                        }
+                      }
+                    }, function() {
                       JobLoggingService.error({
                         message: 'variable-management.log-messages.variable' +
-                        '.unable-to-read-file',
+                          '.unable-to-read-file',
                         messageParams: {
                           dataSet: dataSet.dataSetName,
-                          file: variableFromExcel.name + '.json'
+                          file: variableFromExcel.name +
+                            '.json'
                         }
                       });
                       if (variableIndex === (variables.length - 1)) {
                         resolve(variablesResources);
                       }
                     });
+                } else {
+                  JobLoggingService.error({
+                    message: 'variable-management.log-messages.variable' +
+                      '.missing-json-file',
+                    messageParams: {
+                      dataSet: dataSet.dataSetName,
+                      name: variableFromExcel.name
+                    }
+                  });
+                  if (variableIndex === (variables.length - 1)) {
+                    resolve(variablesResources);
+                  }
+                }
               } else {
                 JobLoggingService.error({
-                  message: 'variable-management.log-messages.variable' +
-                  '.missing-json-file',
+                  message: 'variable-management.log-messages' +
+                    '.variable.missing-name',
                   messageParams: {
                     dataSet: dataSet.dataSetName,
-                    name: variableFromExcel.name
+                    variableIndex: variableIndex + 1
                   }
                 });
-              }
-            } else {
-              JobLoggingService.error({
-                message: 'variable-management.log-messages' +
-                '.variable.missing-name',
-                messageParams: {
-                  dataSet: dataSet.dataSetName,
-                  variableIndex: variableIndex + 1
+                if (variableIndex === (variables.length - 1)) {
+                  resolve(variablesResources);
                 }
-              });
-              if (variableIndex === (variables.length - 1)) {
-                resolve(variablesResources);
               }
-            }
+            });
+          }, function() {
+            JobLoggingService.error({
+              message: 'variable-management.log-messages.variable.' +
+                'unable-to-read-file',
+              messageParams: {
+                dataSet: dataSet.dataSetName,
+                file: 'variables.xlsx'
+              }
+            });
+            resolve(variablesResources);
           });
-        }, function() {
-          JobLoggingService.error({
-            message: 'variable-management.log-messages.variable.' +
-            'unable-to-read-file',
-            messageParams: {
-              dataSet: dataSet.dataSetName,
-              file: 'variables.xlsx'
-            }
-          });
-          resolve(variablesResources);
+      });
+    };
+    var uploadVariable = function(variable, index,
+      previouslyUploadedVariableNames) {
+      if (previouslyUploadedVariableNames[variable.name]) {
+        // duplicate variable name
+        JobLoggingService.error({
+          message: 'variable-management.log-messages.variable.duplicate-name',
+          messageParams: {
+            index: index + 1,
+            name: variable.name,
+            dataSetNumber: variable.dataSetNumber
+          }
+        });
+        return $q.resolve();
+      }
+      return variable.$save().then(function() {
+        previouslyUploadedVariableNames[variable.name] = true;
+        JobLoggingService.success();
+      }).catch(function(error) {
+        var errorMessages = ErrorMessageResolverService
+          .getErrorMessage(error, 'variable');
+        JobLoggingService.error({
+          message: errorMessages.message,
+          messageParams: errorMessages.translationParams,
+          subMessages: errorMessages.subMessages
         });
       });
     };
-    var uploadVariable = function(variable) {
-      return $q(function(resolve) {
-          variable.$save().then(function() {
-            JobLoggingService.success();
-            resolve();
-          }).catch(function(error) {
-            var errorMessages = ErrorMessageResolverService
-              .getErrorMessage(error, 'variable');
-            JobLoggingService.error({message: errorMessages.message,
-              messageParams: errorMessages.translationParams,
-              subMessages: errorMessages.subMessages
-            });
-            resolve();
-          });
-        });
-    };
     var uploadDataSets = function(dataSetIndex) {
+      var previouslyUploadedVariableNames = {};
       if (dataSetIndex === _.size(filesMap)) {
         ElasticSearchAdminService.processUpdateQueue().finally(function() {
           JobLoggingService.finish(
@@ -159,33 +184,37 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
         return;
       } else {
         var dataSet = _.filter(filesMap, function(filesObject) {
-          return filesObject.dataSetIndex === dataSetIndex ;
+          return filesObject.dataSetIndex === dataSetIndex;
         })[0];
         if (!dataSet.excelFile) {
           JobLoggingService.error({
-            message:
-            'variable-management.log-messages.variable.missing-excel-file',
+            message: 'variable-management.log-messages.variable.' +
+              'missing-excel-file',
             messageParams: {
               dataSet: dataSet.dataSetName
             }
           });
-          dataSetIndex++;
-          return uploadDataSets(dataSetIndex);
+          return uploadDataSets(dataSetIndex + 1);
         }
         createVariableObjects(dataSet).then(function(variables) {
-          var promises = [];
-          variables.forEach(function(variable) {
-            promises.push(uploadVariable(variable));
+          var chainedVariableUploads = $q.when();
+          variables.forEach(function(variable, index) {
+            chainedVariableUploads = chainedVariableUploads.then(
+              function() {
+                return uploadVariable(variable, index,
+                  previouslyUploadedVariableNames);
+              }
+            );
           });
-          $q.all(promises).then(function() {
-            dataSetIndex++;
-            uploadDataSets(dataSetIndex);
+          chainedVariableUploads.finally(function() {
+            uploadDataSets(dataSetIndex + 1);
           });
         });
       }
     };
     var uploadVariables = function(files, dataAcquisitionProjectId) {
-      if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
+      if (!CleanJSObjectService.isNullOrEmpty(
+          dataAcquisitionProjectId)) {
         var confirm = $mdDialog.confirm()
           .title($translate.instant(
             'search-management.delete-messages.' +
@@ -203,13 +232,17 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
         $mdDialog.show(confirm).then(function() {
           JobLoggingService.start('variable');
           VariableDeleteResource.deleteByDataAcquisitionProjectId({
-            dataAcquisitionProjectId: dataAcquisitionProjectId}).$promise.then(
+            dataAcquisitionProjectId: dataAcquisitionProjectId
+          }).$promise.then(
             function() {
-              createDataSetsFileMap(files, dataAcquisitionProjectId);
+              createDataSetsFileMap(files,
+                dataAcquisitionProjectId);
               uploadDataSets(0);
-            }, function() {
+            },
+            function() {
               JobLoggingService.cancel(
-                'variable-management.log-messages.variable.unable-to-delete');
+                'variable-management.log-messages.variable.unable-to-delete'
+              );
             }
           );
         });
