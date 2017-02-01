@@ -8,25 +8,6 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
     ElasticSearchAdminService, $rootScope, $translate, $mdDialog,
     CleanJSObjectService) {
     var filesMap;
-    var uploadDataSets;
-    var dataSetIndex = 0;
-
-    var upload = function(variable) {
-      return $q(function(resolve) {
-          variable.$save().then(function() {
-            JobLoggingService.success();
-            resolve();
-          }).catch(function(error) {
-            var errorMessages = ErrorMessageResolverService
-              .getErrorMessage(error, 'variable');
-            JobLoggingService.error({message: errorMessages.message,
-              messageParams: errorMessages.translationParams,
-              subMessages: errorMessages.subMessages
-            });
-            resolve();
-          });
-        });
-    };
     var createDataSetsFileMap = function(files, dataAcquisitionProjectId) {
       filesMap = {};
       var dataSetIndex = 0;
@@ -45,7 +26,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
             filesMap[path[pathLength - 2]] = {};
             filesMap[path[pathLength - 2]].dataAcquisitionProjectId =
             dataAcquisitionProjectId;
-            filesMap[path[pathLength - 2]].dataSet =
+            filesMap[path[pathLength - 2]].dataSetName =
             path[pathLength - 2];
             filesMap[path[pathLength - 2]].dataSetIndex = dataSetIndex;
             filesMap[path[pathLength - 2]].jsonFiles = {};
@@ -59,7 +40,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
             filesMap[path[pathLength - 3]] = {};
             filesMap[path[pathLength - 3]].dataAcquisitionProjectId =
             dataAcquisitionProjectId;
-            filesMap[path[pathLength - 3]].dataSet =
+            filesMap[path[pathLength - 3]].dataSetName =
             path[pathLength - 3];
             filesMap[path[pathLength - 3]].dataSetIndex = dataSetIndex;
             filesMap[path[pathLength - 3]].jsonFiles = {};
@@ -68,7 +49,6 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
           filesMap[path[pathLength - 3]].jsonFiles[variableName] = file;
         }
       });
-      return filesMap;
     };
     var createVariableObjects = function(dataSet) {
       var variablesResources = [];
@@ -85,7 +65,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
                     var variableFromJson = JSON.parse(variableAsText);
                     variablesResources.push(VariableBuilderService
                       .buildVariable(variableFromExcel, variableFromJson,
-                        dataSet.dataAcquisitionProjectId, dataSet.dataSet));
+                        dataSet.dataAcquisitionProjectId, dataSet.dataSetName));
                     if (variableIndex === (variables.length - 1)) {
                       resolve(variablesResources);
                     }
@@ -94,7 +74,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
                       message: 'variable-management.log-messages.' +
                       'variable.json-parse-error',
                       messageParams: {
-                        dataSet: dataSet.dataSet,
+                        dataSet: dataSet.dataSetName,
                         file: variableFromExcel.name + '.json'}
                     });
                     if (variableIndex === (variables.length - 1)) {
@@ -105,7 +85,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
                         message: 'variable-management.log-messages.variable' +
                         '.unable-to-read-file',
                         messageParams: {
-                          dataSet: dataSet.dataSet,
+                          dataSet: dataSet.dataSetName,
                           file: variableFromExcel.name + '.json'
                         }
                       });
@@ -118,7 +98,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
                   message: 'variable-management.log-messages.variable' +
                   '.missing-json-file',
                   messageParams: {
-                    dataSet: dataSet.dataSet,
+                    dataSet: dataSet.dataSetName,
                     name: variableFromExcel.name
                   }
                 });
@@ -128,7 +108,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
                 message: 'variable-management.log-messages' +
                 '.variable.missing-name',
                 messageParams: {
-                  dataSet: dataSet.dataSet,
+                  dataSet: dataSet.dataSetName,
                   variableIndex: variableIndex + 1
                 }
               });
@@ -142,7 +122,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
             message: 'variable-management.log-messages.variable.' +
             'unable-to-read-file',
             messageParams: {
-              dataSet: dataSet.dataSet,
+              dataSet: dataSet.dataSetName,
               file: 'variables.xlsx'
             }
           });
@@ -150,8 +130,23 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
         });
       });
     };
-
-    uploadDataSets = function(dataSetIndex) {
+    var uploadVariable = function(variable) {
+      return $q(function(resolve) {
+          variable.$save().then(function() {
+            JobLoggingService.success();
+            resolve();
+          }).catch(function(error) {
+            var errorMessages = ErrorMessageResolverService
+              .getErrorMessage(error, 'variable');
+            JobLoggingService.error({message: errorMessages.message,
+              messageParams: errorMessages.translationParams,
+              subMessages: errorMessages.subMessages
+            });
+            resolve();
+          });
+        });
+    };
+    var uploadDataSets = function(dataSetIndex) {
       if (dataSetIndex === _.size(filesMap)) {
         ElasticSearchAdminService.processUpdateQueue().finally(function() {
           JobLoggingService.finish(
@@ -163,15 +158,15 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
         });
         return;
       } else {
-        var dataSet = _.filter(filesMap, function(o) {
-          return o.dataSetIndex === dataSetIndex ;
+        var dataSet = _.filter(filesMap, function(filesObject) {
+          return filesObject.dataSetIndex === dataSetIndex ;
         })[0];
         if (!dataSet.excelFile) {
           JobLoggingService.error({
             message:
             'variable-management.log-messages.variable.missing-excel-file',
             messageParams: {
-              dataSet: dataSet.dataSet
+              dataSet: dataSet.dataSetName
             }
           });
           dataSetIndex++;
@@ -180,7 +175,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
         createVariableObjects(dataSet).then(function(variables) {
           var promises = [];
           variables.forEach(function(variable) {
-            promises.push(upload(variable));
+            promises.push(uploadVariable(variable));
           });
           $q.all(promises).then(function() {
             dataSetIndex++;
@@ -189,7 +184,6 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
         });
       }
     };
-
     var uploadVariables = function(files, dataAcquisitionProjectId) {
       if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
         var confirm = $mdDialog.confirm()
@@ -211,7 +205,6 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
           VariableDeleteResource.deleteByDataAcquisitionProjectId({
             dataAcquisitionProjectId: dataAcquisitionProjectId}).$promise.then(
             function() {
-              dataSetIndex = 0;
               createDataSetsFileMap(files, dataAcquisitionProjectId);
               uploadDataSets(0);
             }, function() {
@@ -222,7 +215,6 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
         });
       }
     };
-
     return {
       uploadVariables: uploadVariables
     };
