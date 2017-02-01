@@ -131,96 +131,103 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
                 return;
               }
 
+              //TODO DKatzberg
               //Read excel file with DataSets and SubDataSets
               ExcelReaderService.readFileAsync(dataSetExcelFile, true)
                 .then(function(allExcelSheets) {
-                  var dataSets = allExcelSheets.dataSets;
-                  var subDataSetsSheet = allExcelSheets.subDataSets;
+                    var dataSetsSheet = allExcelSheets.dataSets;
+                    var subDataSetsSheet = allExcelSheets.subDataSets;
+                    var dataSetMap = {};
+                    var subDataSetMap = {};
+                    var subDataSetErrors = {};
 
-                  //iterate all subdatasets
-                  //the subdata set iteration is the outer loop
-                  //Reason: size(subDataSet) >= size(dataSet)
-                  subDataSetsSheet.forEach(function(
-                    subDataSetFromExcel) {
-
-                    //Variable for Validation: Is the reference of
-                    //subDataSet.dataSetNumber valid?
-                    var subDataSetNumberFound = false;
-
-                    //iterate the data sets
-                    for (var i = 0; i < dataSets.length; i++) {
-                      var dataSet = dataSets[i];
-
-                      //Prepare: Adding SubDataSets to the DataSet
-                      if (dataSet.subDataSets === undefined) {
-                        dataSet.subDataSets = [];
-                      }
-
-                      //Prepare: Adding SubDataSets Errors to the DataSet
-                      if (dataSet.subDataSetErrors ===
-                        undefined) {
-                        dataSet.subDataSetErrors = [];
-                      }
-
-                      //use only depending sub datasets
-                      if (subDataSetFromExcel.dataSetNumber ===
-                        dataSet.number) {
-                        subDataSetNumberFound = true;
-
-                        //try creating a SubDataSet Object for Mongo
-                        try {
-                          dataSet.subDataSets.push(
-                            DataSetBuilderService
-                            .buildSubDataSet(
-                              subDataSetFromExcel));
-                        } catch (e) {
-                          dataSet.subDataSetErrors = _.concat(
-                            dataSet.subDataSetErrors, e);
-                        }
-                      }
-                    } //end for
-
-                    //Validation Check
-                    //subDataSet.dataSetNumber valid?
-                    if (subDataSetNumberFound === false) {
-                      JobLoggingService.error({
-                        message: 'data-set-management.' +
-                          'log-messages.sub-data-set.unknown-data-set-number',
-                        messageParams: {
-                          name: subDataSetFromExcel.name,
-                          dataSetNumber: subDataSetFromExcel
-                            .dataSetNumber
-                        }
-                      });
-                    }
-                  });
-
-                  //check for errors
-                  dataSets.forEach(function(dataSet) {
-                    if (dataSet.subDataSetErrors.length === 0) {
-                      objects.push(DataSetBuilderService
-                        .buildDataSet(dataSet,
-                          dataAcquisitionProjectId)
-                      );
-                    } else {
-                      JobLoggingService.error({
-                        message: 'data-set-management.' +
-                          'log-messages.data-set.not-saved',
-                        messageParams: {
-                          id: dataSet.id
-                        },
-                        subMessages: dataSet.subDataSetErrors
-                      });
-                      return;
-                    }
-                  });
-                }, function() {
-                  JobLoggingService.cancel('global.log-messages.' +
-                    'unable-to-read-file', {
-                      file: 'dataSets.xlsx'
+                    //Build a dataset Map
+                    dataSetsSheet.forEach(function(dataSetFromExcel) {
+                      dataSetMap[dataSetFromExcel.number] =
+                        dataSetFromExcel;
                     });
-                  return $q.reject();
-                }).then(function() {
+
+                    //Build a subDataSetMap
+                    subDataSetsSheet.forEach(function(
+                      subDataSetFromExcel) {
+
+                      //Validate the SubDataSet.dataSetNumber is valid
+                      if (dataSetMap[subDataSetFromExcel.dataSetNumber] !==
+                        undefined) { //Valid Case
+
+                        if (subDataSetMap[subDataSetFromExcel
+                            .dataSetNumber] === undefined) {
+                          subDataSetMap[subDataSetFromExcel.dataSetNumber] = [];
+                        }
+
+                        if (subDataSetErrors[
+                            subDataSetFromExcel.dataSetNumber] ===
+                          undefined) {
+                          subDataSetErrors[subDataSetFromExcel
+                            .dataSetNumber] = [];
+                        }
+
+                        try {
+                          subDataSetMap[subDataSetFromExcel.dataSetNumber]
+                            .push(DataSetBuilderService
+                              .buildSubDataSet(
+                                subDataSetFromExcel)
+                            );
+                        } catch (e) {
+                          subDataSetErrors[subDataSetFromExcel.dataSetNumber] =
+                            _.concat(subDataSetErrors[
+                              subDataSetFromExcel.dataSetNumber
+                            ], e);
+                        }
+                      } else { //Not valid SubDataSet.dataSetNumber Case
+
+                        JobLoggingService.error({
+                          message: 'data-set-management.' +
+                            'log-messages.sub-data-set.unknown-data-set-number',
+                          messageParams: {
+                            name: subDataSetFromExcel.name,
+                            dataSetNumber: subDataSetFromExcel
+                              .dataSetNumber
+                          }
+                        });
+                      }
+                    });
+
+                    //Concat DataSet and SubDataSet.
+                    //Create DataSet and upload it.
+                    dataSetsSheet.forEach(function(
+                      dataSetFromExcel) {
+                      var dataSet = dataSetMap[dataSetFromExcel.number];
+                      dataSet.subDataSets = subDataSetMap[
+                        dataSetFromExcel.number];
+                      console.log(dataSet);
+                      if (subDataSetErrors[dataSet.number].length ===
+                        0) {
+                        objects.push(DataSetBuilderService
+                          .buildDataSet(dataSet,
+                            dataAcquisitionProjectId)
+                        );
+                      } else {
+                        JobLoggingService.error({
+                          message: 'data-set-management.' +
+                            'log-messages.data-set.not-saved',
+                          messageParams: {
+                            id: dataSet.id
+                          },
+                          subMessages: subDataSetErrors[
+                            dataSet.number]
+                        });
+                        return;
+                      }
+                    });
+                  },
+                  function() {
+                    JobLoggingService.cancel('global.log-messages.' +
+                      'unable-to-read-file', {
+                        file: 'dataSets.xlsx'
+                      });
+                    return $q.reject();
+                  }).then(function() {
                   return $q.all(allFileReaders);
                 }).then(upload);
             },
