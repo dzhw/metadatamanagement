@@ -34,7 +34,7 @@ angular.module('metadatamanagementApp').config(
           'sourceLink': 'URL',
           'no-related-publications': 'Keine Publikationen.',
           'related-publications': 'Publikationen',
-          'authors': 'Autor(inn)en',
+          'authors':  'Autor_innen',
           'year': 'Erscheinungsjahr',
           'source-reference': 'Zitation',
           'abstract-source': 'Quelle'
