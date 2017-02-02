@@ -131,7 +131,6 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
                 return;
               }
 
-              //TODO DKatzberg
               //Read excel file with DataSets and SubDataSets
               ExcelReaderService.readFileAsync(dataSetExcelFile, true)
                 .then(function(allExcelSheets) {
@@ -155,11 +154,13 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
                       if (dataSetMap[subDataSetFromExcel.dataSetNumber] !==
                         undefined) { //Valid Case
 
+                        //Check for an empty array for sub data sets
                         if (subDataSetMap[subDataSetFromExcel
                             .dataSetNumber] === undefined) {
                           subDataSetMap[subDataSetFromExcel.dataSetNumber] = [];
                         }
 
+                        //check for an empty array for errors of sub data sets
                         if (subDataSetErrors[
                             subDataSetFromExcel.dataSetNumber] ===
                           undefined) {
@@ -167,6 +168,7 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
                             .dataSetNumber] = [];
                         }
 
+                        //Build Sub Data Sets
                         try {
                           subDataSetMap[subDataSetFromExcel.dataSetNumber]
                             .push(DataSetBuilderService
@@ -180,12 +182,11 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
                             ], e);
                         }
                       } else { //Not valid SubDataSet.dataSetNumber Case
-
                         JobLoggingService.error({
                           message: 'data-set-management.' +
                             'log-messages.sub-data-set.unknown-data-set-number',
                           messageParams: {
-                            name: subDataSetFromExcel.name,
+                            name: subDataSetFromExcel.name, //TODO use index
                             dataSetNumber: subDataSetFromExcel
                               .dataSetNumber
                           }
@@ -193,21 +194,23 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
                       }
                     });
 
-                    //Concat DataSet and SubDataSet.
-                    //Create DataSet and upload it.
+                    //Build all DataSets
                     dataSetsSheet.forEach(function(
                       dataSetFromExcel) {
+
+                      //Add SubDataSets to the DataSet
                       var dataSet = dataSetMap[dataSetFromExcel.number];
                       dataSet.subDataSets = subDataSetMap[
                         dataSetFromExcel.number];
-                      console.log(dataSet);
+
+                      //Build DataSet
                       if (subDataSetErrors[dataSet.number].length ===
                         0) {
                         objects.push(DataSetBuilderService
                           .buildDataSet(dataSet,
                             dataAcquisitionProjectId)
                         );
-                      } else {
+                      } else { //No Upload -> Error!
                         JobLoggingService.error({
                           message: 'data-set-management.' +
                             'log-messages.data-set.not-saved',
