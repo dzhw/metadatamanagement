@@ -22,7 +22,7 @@ angular.module('metadatamanagementApp').config(
           'delete-instruments': 'Sind Sie sicher dass, Sie alle Instrumente innerhalb des Datenaufbereitungsprojekts mit der FDZ-ID "{{ id }}" löschen möchten?'
         },
         'detail': {
-          'search': 'Metadatensuche'
+          'search': 'Suche'
         },
         'buttons': {
           'refresh': 'Suche aktualisieren',
