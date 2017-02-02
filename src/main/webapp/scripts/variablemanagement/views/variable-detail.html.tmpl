@@ -125,7 +125,7 @@
                     <div style="margin-right:3px;">{{'variable-management.detail.same-variables-in-panel' | translate }}:</div>
                     <div ng-if="counts.sameVariablesInPanel == 0" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
                     <div ng-if="counts.sameVariablesInPanel > 0" class="fdz-truncate-string" flex>
-                      <a ui-sref="search({'panel-identifier': variable.panelIdentifier, 'type': 'variables'})">({{counts.sameVariablesInPanel}})</a>
+                      <a ui-sref="search({'panel-identifier': variable.panelIdentifier, 'type': 'variables', 'page': 1})">({{counts.sameVariablesInPanel}})</a>
                     </div>
                 </div>
                 <div style="margin-bottom: 0.5em;" layout="row">

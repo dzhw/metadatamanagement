@@ -166,25 +166,25 @@ angular.module('metadatamanagementApp').factory('BreadCrumbService',
       return urlObject;
     };
     var addToBreadCrumb = function(url, params, pathTemplate) {
-      var index = _.findIndex(items, function(item) {
-        return item.url.de === url || item.url.en === url;
-      });
-      if (index >= 0) {
-        items = items.slice(0, index);
-      }
-      if (items.length >= 20) {
-        items = items.slice(0, items.length - 1);
-      }
-      var item = createNewBreadCrumbItem(generateUrlObject(url),
-      params, pathTemplate);
-      items.push(item);
-      if (items.length >= 3) {
-        $rootScope.breadCrumbItems = items
-        .slice(items.length - 3, items.length);
-      } else {
-        $rootScope.breadCrumbItems = items;
-      }
-    };
+        var index = _.findIndex(items, function(item) {
+          return item.url.de === url || item.url.en === url;
+        });
+        if (index >= 0) {
+          items = items.slice(0, index);
+        }
+        if (items.length >= 20) {
+          items = items.slice(0, items.length - 1);
+        }
+        var item = createNewBreadCrumbItem(generateUrlObject(url),
+        params, pathTemplate);
+        items.push(item);
+        if (items.length >= 3) {
+          $rootScope.breadCrumbItems = items
+          .slice(items.length - 3, items.length);
+        } else {
+          $rootScope.breadCrumbItems = items;
+        }
+      };
     return {
       addToBreadCrumb: addToBreadCrumb
     };
