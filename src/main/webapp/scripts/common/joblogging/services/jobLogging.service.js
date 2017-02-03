@@ -63,7 +63,6 @@ angular.module('metadatamanagementApp').service('JobLoggingService',
             createNewCountsByObjectType();
         }
         job.countsByObjectType[parameters.objectType].warnings++;
-        job.countsByObjectType[parameters.objectType].total++;
       }
     };
 

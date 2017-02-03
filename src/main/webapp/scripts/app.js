@@ -150,7 +150,7 @@ angular
         '" data-translate="global.joblogging.block-ui-message"' +
         ' data-translate-values="{ errors: job.errors, ' +
         'warnings: job.warnings, ' +
-        'total: job.errors + job.warnings + job.successes}">' +
+        'total: job.errors + job.successes}">' +
         '</span>' +
         '</div>' +
         '</div>';
