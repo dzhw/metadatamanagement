@@ -12,7 +12,7 @@ angular.module('metadatamanagementApp').config(
             'unable-to-read-file': 'The file {{file}} in {{dataSet}} could not be opened!',
             'json-parse-error': 'The file {{file}} in {{dataSet}} could not be parsed!',
             'missing-id': 'Variable {{ index }} does not contain a RDC-ID and has not been saved:',
-            'upload-terminated': 'Finished upload of {{ total }} Variables with {{ errors }} errors.',
+            'upload-terminated': 'Finished upload of {{ total }} Variables with {{warnings}} warnings and {{ errors }} errors.',
             'unable-to-delete': 'The variables could not be deleted!',
             'cancelled': 'Variables upload cancelled!',
             'missing-json-file': 'There is no JSON file for Variable {{name}} in Data Set {{dataSet}}!',

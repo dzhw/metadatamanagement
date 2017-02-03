@@ -72,7 +72,8 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
                             variableFromJson,
                             dataSet.dataAcquisitionProjectId,
                             dataSet.dataSetName));
-                        if (variableIndex === (variables.length - 1)) {
+                        if (variableIndex === (variables.length -
+                            1)) {
                           resolve(variablesResources);
                         }
                       } catch (e) {
@@ -85,7 +86,8 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
                               '.json'
                           }
                         });
-                        if (variableIndex === (variables.length - 1)) {
+                        if (variableIndex === (variables.length -
+                            1)) {
                           resolve(variablesResources);
                         }
                       }
@@ -99,7 +101,8 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
                             '.json'
                         }
                       });
-                      if (variableIndex === (variables.length - 1)) {
+                      if (variableIndex === (variables.length -
+                          1)) {
                         resolve(variablesResources);
                       }
                     });
@@ -177,6 +180,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
           JobLoggingService.finish(
             'variable-management.log-messages.variable.upload-terminated', {
               total: JobLoggingService.getCurrentJob().total,
+              warnings: JobLoggingService.getCurrentJob().warnings,
               errors: JobLoggingService.getCurrentJob().errors
             });
           $rootScope.$broadcast('upload-completed');

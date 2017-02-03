@@ -12,7 +12,7 @@ angular.module('metadatamanagementApp').config(
             'saved': 'Variable mit FDZ-ID {{ id }} erfolgreich gespeichert!',
             'not-saved': 'Variable mit FDZ-ID {{ id }} wurde nicht gespeichert:',
             'missing-id': 'Die {{ index }}. Variable enthält keine FDZ-ID und wurde nicht gespeichert!',
-            'upload-terminated': 'Upload von {{ total }} Variablen mit {{ errors }} Fehlern beendet!',
+            'upload-terminated': 'Upload von {{ total }} Variablen mit {{warnings}} Warnungen und {{ errors }} Fehlern beendet!',
             'unable-to-delete': 'Die Variablen konnten nicht gelöscht werden!',
             'cancelled': 'Upload von Variablen Abgebrochen!',
             'missing-json-file': 'Keine JSON Datei zu Variable {{name}} in Datensatz {{dataSet}} gefunden!',
