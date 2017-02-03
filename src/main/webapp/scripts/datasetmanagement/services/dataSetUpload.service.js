@@ -186,7 +186,8 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
                           message: 'data-set-management.' +
                             'log-messages.sub-data-set.unknown-data-set-number',
                           messageParams: {
-                            name: subDataSetFromExcel.name, //TODO use index
+                            index: (subDataSetFromExcel.__rowNum__ +
+                              1),
                             dataSetNumber: subDataSetFromExcel
                               .dataSetNumber
                           }

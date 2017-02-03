@@ -20,7 +20,7 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'sub-data-set': {
-            'unknown-data-set-number': 'Der Subdatensatz {{name}} verweist auf eine unbekannte Datensatznummer: {{dataSetNumber}}.'
+            'unknown-data-set-number': 'Der Subdatensatz aus der Zeile {{index}} im Excel Dokument verweist auf eine unbekannte Datensatznummer: {{dataSetNumber}}.'
           },
           'tex': {
             'upload-terminated': 'Upload von Tex Template beendet!',

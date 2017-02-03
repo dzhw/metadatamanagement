@@ -20,7 +20,7 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'sub-data-set': {
-            'unknown-data-set-number': 'The Sub Data Set {{name}} has a reference to an unknown Data Set Number: {{dataSetNumber}}.'
+            'unknown-data-set-number': 'The Sub Data Set from the line {{name}} out of the excel document has a reference to an unknown Data Set Number: {{dataSetNumber}}.'
           },
           'tex': {
             'upload-terminated': 'Tex file upload terminated!',
