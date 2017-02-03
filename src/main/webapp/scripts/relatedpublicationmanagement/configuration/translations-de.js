@@ -14,7 +14,7 @@ angular.module('metadatamanagementApp').config(
             'not-saved': 'Die Publikation mit FDZ-ID {{ id }} wurde nicht gespeichert!',
             'missing-id': 'Der {{ index }}. Die Publikation enthält keine FDZ-ID und wurde nicht gespeichert!',
             'duplicate-id': 'Die FDZ-ID ({{ id }}) der {{ index }}. Publikation wurde bereits verwendet.',
-            'upload-terminated': 'Upload von {{ total }} Publikationen mit {{ errors }} Fehlern beendet!',
+            'upload-terminated': 'Upload von {{ total }} Publikationen mit {{warnings}} Warnungen und {{ errors }} Fehlern beendet!',
             'unable-to-delete': 'Die Publikationen konnten nicht gelöscht werden!',
             'cancelled': 'Upload von Publikationen abgebrochen'
           }
@@ -34,7 +34,7 @@ angular.module('metadatamanagementApp').config(
           'sourceLink': 'URL',
           'no-related-publications': 'Keine Publikationen.',
           'related-publications': 'Publikationen',
-          'authors':  'Autor_innen',
+          'authors': 'Autor_innen',
           'year': 'Erscheinungsjahr',
           'source-reference': 'Zitation',
           'abstract-source': 'Quelle'

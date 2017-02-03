@@ -19,6 +19,7 @@ angular.module('metadatamanagementApp')
               'related-publication-management.log-messages.' +
               'related-publication.upload-terminated', {
                 total: JobLoggingService.getCurrentJob().total,
+                warnings: JobLoggingService.getCurrentJob().warnings,
                 errors: JobLoggingService.getCurrentJob().errors
               });
             $rootScope.$broadcast('upload-completed');
