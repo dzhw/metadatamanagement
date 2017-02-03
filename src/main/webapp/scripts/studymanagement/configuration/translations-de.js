@@ -41,7 +41,7 @@ angular.module('metadatamanagementApp').config(
             'releases-file-not-found': 'In dem ausgewählten Verzeichnis fehlt die folgende Datei: releases.xlsx!',
             'unable-to-delete': 'Die Studie konnte nicht gelöscht werden!',
             'missing-id': 'Die {{ index }}. Studie enthält keine FDZ-ID und wurde nicht gespeichert!',
-            'upload-terminated': 'Upload von {{ total }} Studie mit {{ errors }} Fehlern beendet!',
+            'upload-terminated': 'Upload von {{ total }} Studie mit {{warnings}} Warnungen und {{ errors }} Fehlern beendet!',
             'cancelled': 'Upload der Studie Abgebrochen!'
           }
         },

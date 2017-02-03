@@ -12,28 +12,33 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
       if (!study.id || study.id === '') {
         JobLoggingService.error({
           message: 'study-management.log-messages.study.missing-id',
-          messageParams: {index: 1}});
+          messageParams: {
+            index: 1
+          }
+        });
       } else {
         study.$save().then(function() {
-            JobLoggingService.success();
-          }).catch(function(error) {
-            var errorMessages = ErrorMessageResolverService
-              .getErrorMessage(error, 'study');
-            JobLoggingService.error({
-              message: errorMessages.message,
-              messageParams: errorMessages.translationParams,
-              subMessages: errorMessages.subMessages
-            });
-          }).then(function() {
-            ElasticSearchAdminService.processUpdateQueue().finally(function() {
+          JobLoggingService.success();
+        }).catch(function(error) {
+          var errorMessages = ErrorMessageResolverService
+            .getErrorMessage(error, 'study');
+          JobLoggingService.error({
+            message: errorMessages.message,
+            messageParams: errorMessages.translationParams,
+            subMessages: errorMessages.subMessages
+          });
+        }).then(function() {
+          ElasticSearchAdminService.processUpdateQueue().finally(
+            function() {
               JobLoggingService.finish(
                 'study-management.log-messages.study.upload-terminated', {
                   total: JobLoggingService.getCurrentJob().total,
+                  warnings: JobLoggingService.getCurrentJob().warnings,
                   errors: JobLoggingService.getCurrentJob().errors
                 });
               $rootScope.$broadcast('upload-completed');
             });
-          });
+        });
       }
     };
 
@@ -55,7 +60,8 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
         $mdDialog.show(confirm).then(function() {
           JobLoggingService.start('study');
           StudyDeleteResource.deleteByDataAcquisitionProjectId({
-            dataAcquisitionProjectId: dataAcquisitionProjectId}).$promise.then(
+            dataAcquisitionProjectId: dataAcquisitionProjectId
+          }).$promise.then(
             function() {
               var studyExcelFile;
               var releasesExcelFile;
@@ -70,39 +76,44 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
               });
               if (!studyExcelFile) {
                 JobLoggingService.cancel(
-                  'study-management.log-messages.study.study-file-not-found',
-                  {});
+                  'study-management.log-messages.study.study-file-not-found', {}
+                );
                 return;
               }
               if (!releasesExcelFile) {
                 JobLoggingService.cancel(
-                  'study-management.log-messages.study.releases-file-not-found',
-                  {});
+                  'study-management.log-messages.study.releases-file-not-found', {}
+                );
                 return;
               }
               ExcelReaderService.readFileAsync(releasesExcelFile)
-              .then(function(releasesFromExcel) {
-                var releases = StudyBuilderService
-                .buildReleases(releasesFromExcel);
-                ExcelReaderService.readFileAsync(studyExcelFile)
-                .then(function(studyFromExcel) {
-                  study = StudyBuilderService
-                  .buildStudy(studyFromExcel[0], releases,
-                  dataAcquisitionProjectId);
-                  upload();
+                .then(function(releasesFromExcel) {
+                  var releases = StudyBuilderService
+                    .buildReleases(releasesFromExcel);
+                  ExcelReaderService.readFileAsync(studyExcelFile)
+                    .then(function(studyFromExcel) {
+                      study = StudyBuilderService
+                        .buildStudy(studyFromExcel[0], releases,
+                          dataAcquisitionProjectId);
+                      upload();
+                    }, function() {
+                      JobLoggingService.cancel(
+                        'global.log-messages.unable-to-read-file', {
+                          file: 'study.xlsx'
+                        });
+                    });
                 }, function() {
-                  JobLoggingService.cancel(
-                    'global.log-messages.unable-to-read-file',
-                    {file: 'study.xlsx'});
+                  JobLoggingService
+                    .cancel(
+                      'global.log-messages.unable-to-read-file', {
+                        file: 'releases.xlsx'
+                      });
                 });
-              }, function() {
-                JobLoggingService
-                .cancel('global.log-messages.unable-to-read-file',
-                  {file: 'releases.xlsx'});
-              });
-            }, function() {
+            },
+            function() {
               JobLoggingService.cancel(
-                'study-management.log-messages.study.unable-to-delete');
+                'study-management.log-messages.study.unable-to-delete'
+              );
             }
           );
         });
