@@ -25,6 +25,7 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
               totalInstruments: job.getCounts('instrument').total,
               totalAttachments: job.getCounts('instrument-attachment')
                 .total,
+              totalWarnings: job.warnings,
               totalErrors: job.errors
             }
           );

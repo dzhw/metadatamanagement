@@ -10,7 +10,7 @@ angular.module('metadatamanagementApp').config(
             'saved': 'Instrument with RDC-ID {{ id }} was saved successfully!',
             'not-saved': 'Instrument with RDC-ID {{ id }} has not been saved!',
             'missing-number': 'Instrument {{ index }} does not contain a number and has not been saved:',
-            'upload-terminated': 'Finished upload of {{ totalInstruments }} Instruments and {{ totalAttachments }} Attachments with {{ totalErrors }} errors.',
+            'upload-terminated': 'Finished upload of {{ totalInstruments }} Instruments and {{ totalAttachments }} Attachments with {{totalWarnings}} warnings and {{ totalErrors }} errors.',
             'unable-to-delete': 'The Instruments could not be deleted!',
             'cancelled': 'Instrument upload cancelled!',
             'duplicate-instrument-number': 'The number ({{ number }}) of Instrument {{ index }} has already been used.'
