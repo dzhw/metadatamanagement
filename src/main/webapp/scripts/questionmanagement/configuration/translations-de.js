@@ -10,7 +10,7 @@ angular.module('metadatamanagementApp').config(
             'saved': 'Frage mit FDZ-ID {{ id }} erfolgreich gespeichert!',
             'not-saved': 'Frage mit FDZ-ID {{ id }} wurde nicht gespeichert!',
             'missing-id': 'Die {{ index }}. Frage enthält keine FDZ-ID und wurde nicht gespeichert!',
-            'upload-terminated': 'Upload von {{ totalQuestions }} Fragen und {{ totalImages }} Bildern mit {{ totalErrors }} Fehlern beendet!',
+            'upload-terminated': 'Upload von {{ totalQuestions }} Fragen und {{ totalImages }} Bildern mit {{totalWarnings}} Warnungen und {{ totalErrors }} Fehlern beendet!',
             'unable-to-delete': 'Die Fragen konnten nicht gelöscht werden!',
             'unable-to-upload-image-file': 'Die Bilddatei "{{ file }}" konnte nicht hochgeladen werden!',
             'unable-to-read-image-file': 'Die Bilddatei "{{ file }}" konnte nicht gelesen werden!',

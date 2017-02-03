@@ -10,7 +10,7 @@ angular.module('metadatamanagementApp').config(
             'saved': 'Question with RDC-ID {{ id }} was saved successfully!',
             'not-saved': 'Question with RDC-ID {{ id }} has not been saved!',
             'missing-id': 'Question {{ index }} does not contain a RDC-ID and has not been saved!',
-            'upload-terminated': 'Finished upload of {{ totalQuestions }} Questions and {{ totalImages }} Images with {{ totalErrors }} errors.',
+            'upload-terminated': 'Finished upload of {{ totalQuestions }} Questions and {{ totalImages }} Images with {{totalWarnings}} warnings and {{ totalErrors }} errors.',
             'unable-to-delete': 'The questions could not be deleted!',
             'cancelled': 'Question upload cancelled!',
             'not-found-image-file': 'There is no image for the question with RDC-ID {{ id }}!',

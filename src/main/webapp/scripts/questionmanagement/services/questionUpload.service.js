@@ -20,6 +20,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
             'question-management.log-messages.question.upload-terminated', {
               totalQuestions: job.getCounts('question').total,
               totalImages: job.getCounts('image').total,
+              totalWarnings: job.warnings,
               totalErrors: job.errors
             }
           );
@@ -158,12 +159,14 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                     question.number = questionNumber;
                     var successors = [];
                     if (!CleanJSObjectService
-                      .isNullOrEmpty(question.successorNumbers)) {
+                      .isNullOrEmpty(question.successorNumbers)
+                    ) {
                       question.successorNumbers
-                      .forEach(function(successorNumber) {
-                        successors.push(question.instrumentId + '-' +
-                        successorNumber);
-                      });
+                        .forEach(function(successorNumber) {
+                          successors.push(question.instrumentId +
+                            '-' +
+                            successorNumber);
+                        });
                     }
                     question.successors = successors;
                     question.imageType = 'PNG';
