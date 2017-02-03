@@ -34,33 +34,33 @@ angular
       }
 
       $rootScope.$on('$stateChangeStart',
-      function(event, toState, toStateParams) { // jshint ignore:line
-        $rootScope.toState = toState;
-        $rootScope.toStateParams = toStateParams;
-        if (Principal.isIdentityResolved()) {
-          Auth.authorize();
-        }
-        // Update the language
-        LanguageService.setCurrent(toStateParams.lang);
-      });
+        function(event, toState, toStateParams) { // jshint ignore:line
+          $rootScope.toState = toState;
+          $rootScope.toStateParams = toStateParams;
+          if (Principal.isIdentityResolved()) {
+            Auth.authorize();
+          }
+          // Update the language
+          LanguageService.setCurrent(toStateParams.lang);
+        });
       $rootScope.$on('$stateChangeSuccess',
-      function(event, toState, toParams,  // jshint ignore:line
-        fromState, fromParams) {
-        BreadCrumbService.addToBreadCrumb($location.absUrl(), toParams,
-        toState.url);
-        // Remember previous state unless we've been redirected to login or
-        // we've just
-        // reset the state memory after logout. If we're redirected to
-        // login, our
-        // previousState is already set in the authExpiredInterceptor. If
-        // we're going
-        // to login directly, we don't want to be sent to some previous
-        // state anyway
-        if (toState.name !== 'login' && $rootScope.previousStateName) {
-          $rootScope.previousStateName = fromState.name;
-          $rootScope.previousStateParams = fromParams;
-        }
-      });
+        function(event, toState, toParams, // jshint ignore:line
+          fromState, fromParams) {
+          BreadCrumbService.addToBreadCrumb($location.absUrl(), toParams,
+            toState.url);
+          // Remember previous state unless we've been redirected to login or
+          // we've just
+          // reset the state memory after logout. If we're redirected to
+          // login, our
+          // previousState is already set in the authExpiredInterceptor. If
+          // we're going
+          // to login directly, we don't want to be sent to some previous
+          // state anyway
+          if (toState.name !== 'login' && $rootScope.previousStateName) {
+            $rootScope.previousStateName = fromState.name;
+            $rootScope.previousStateParams = fromParams;
+          }
+        });
 
       $rootScope.back = function() {
         // If previous state is 'activate' or do not exist go to 'search'
@@ -149,7 +149,8 @@ angular
         ' && job.id !== \'dataSetReport\'' +
         '" data-translate="global.joblogging.block-ui-message"' +
         ' data-translate-values="{ errors: job.errors, ' +
-        'total: job.errors + job.successes}">' +
+        'warnings: job.warnings, ' +
+        'total: job.errors + job.warnings + job.successes}">' +
         '</span>' +
         '</div>' +
         '</div>';

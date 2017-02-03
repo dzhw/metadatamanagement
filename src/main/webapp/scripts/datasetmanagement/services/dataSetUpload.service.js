@@ -17,6 +17,7 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
           JobLoggingService.finish(
             'data-set-management.log-messages.data-set.upload-terminated', {
               total: JobLoggingService.getCurrentJob().total,
+              warnings: JobLoggingService.getCurrentJob().warnings,
               errors: JobLoggingService.getCurrentJob().errors
             });
           $rootScope.$broadcast('upload-completed');
@@ -182,7 +183,7 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
                             ], e);
                         }
                       } else { //Not valid SubDataSet.dataSetNumber Case
-                        JobLoggingService.error({
+                        JobLoggingService.warning({
                           message: 'data-set-management.' +
                             'log-messages.sub-data-set.unknown-data-set-number',
                           messageParams: {

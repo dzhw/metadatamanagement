@@ -201,12 +201,13 @@ angular.module('metadatamanagementApp').config(
           'protocol-dialog': {
             'title': 'Protokoll',
             'success': 'Erfolg',
+            'warning': 'Warnungen',
             'error': 'Fehler'
           },
           'job-complete-toast': {
             'show-log': 'Protokoll'
           },
-          'block-ui-message': '{{ errors }} Fehler bei {{ total }} Objekten'
+          'block-ui-message': '{{warnings}} Warnungen und {{ errors }} Fehler bei {{ total }} Objekten'
         }
       }
       //jscs:enable

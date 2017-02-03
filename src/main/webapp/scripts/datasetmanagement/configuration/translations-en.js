@@ -10,7 +10,7 @@ angular.module('metadatamanagementApp').config(
             'saved': 'Dataset with RDC-ID {{ id }} was saved successfully!',
             'not-saved': 'Dataset with RDC-ID {{ id }} has not been saved!',
             'missing-id': 'Dataset {{ index }} does not contain a RDC-ID and has not been saved!',
-            'upload-terminated': 'Finished upload of {{ total }} Data Sets with {{ errors }} errors.',
+            'upload-terminated': 'Finished upload of {{ total }} Data Sets with {{warnings}} warnings and {{ errors }} errors.',
             'cancelled': 'Datasets upload cancelled!',
             'unable-to-delete': 'The Data Sets could not be deleted!',
             'duplicate-data-set-number': 'The number ({{ number }}) of Data Set {{ index }} has already been used.',

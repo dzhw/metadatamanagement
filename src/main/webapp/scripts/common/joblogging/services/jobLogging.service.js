@@ -6,6 +6,7 @@ angular.module('metadatamanagementApp').service('JobLoggingService',
     var createNewCountsByObjectType = function() {
       return {
         successes: 0,
+        warnings: 0,
         errors: 0,
         total: 0
       };
@@ -33,6 +34,7 @@ angular.module('metadatamanagementApp').service('JobLoggingService',
     //reset the job object holding counts and log messages
     var start = function(jobId) {
       job.id = jobId;
+      job.warnings = 0;
       job.errors = 0;
       job.total = 0;
       job.successes = 0;
@@ -42,6 +44,27 @@ angular.module('metadatamanagementApp').service('JobLoggingService',
       job.countsByObjectType = {};
       blockUI.start();
       return job;
+    };
+
+    //log warning execution of a step of the current job
+    //parameters contains the message, messageParams, subMessages and objectType
+    var warning = function(parameters) {
+      job.warnings++;
+      job.logMessages.push({
+        message: parameters.message,
+        translationParams: parameters.messageParams,
+        subMessages: parameters.subMessages,
+        type: 'warning'
+      });
+      //increase counters for the given object type
+      if (parameters && parameters.objectType) {
+        if (!job.countsByObjectType[parameters.objectType]) {
+          job.countsByObjectType[parameters.objectType] =
+            createNewCountsByObjectType();
+        }
+        job.countsByObjectType[parameters.objectType].warnings++;
+        job.countsByObjectType[parameters.objectType].total++;
+      }
     };
 
     //log failing execution of a step of the current job
@@ -127,6 +150,7 @@ angular.module('metadatamanagementApp').service('JobLoggingService',
     return {
       getCurrentJob: getCurrentJob,
       start: start,
+      warning: warning,
       error: error,
       success: success,
       finish: finish,

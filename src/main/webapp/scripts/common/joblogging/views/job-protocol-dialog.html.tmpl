@@ -7,6 +7,8 @@
             <div flex></div>
             <span style="margin-right: 1em;" class="label label-as-badge label-success">{{'global.joblogging.protocol-dialog.success' | translate}}:
                 {{job.successes || 0}}</span>
+            <span style="margin-right: 1em;" class="label label-as-badge label-warning">{{'global.joblogging.protocol-dialog.warning' | translate}}:
+                    {{job.warnings || 0}}</span>    
             <span class="label label-as-badge label-danger">{{'global.joblogging.protocol-dialog.error' | translate}}:
                 {{job.errors || 0}}</span>
             <md-button class="md-icon-button" ng-click="closeDialog()">
