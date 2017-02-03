@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.rest;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -11,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.io.IOException;
 
+import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -85,7 +87,43 @@ public class RelatedPublicationResourceTest  extends AbstractTest {
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2.0));
   }
   
-
+  @Test
+  public void testCreateRelatedPublicationsWithoutAuthors() throws IOException, Exception {
+    //ARRANGE
+    RelatedPublication relatedPublication = UnitTestCreateDomainObjectUtils.buildRelatedPublication(null, 2017);
+    
+    //ACT
+    this.mockMvc.perform(put(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId())
+      .content(TestUtil.convertObjectToJsonBytes(relatedPublication)))
+      .andExpect(status().isBadRequest())
+      .andExpect(jsonPath("$.errors[0].message", containsString("related-publication-management.error.related-publication.authors.not-empty")));
+  }
+  
+  @Test
+  public void testCreateRelatedPublicationsWithInvalidYearInPast() throws IOException, Exception {
+    //ARRANGE
+    RelatedPublication relatedPublication = UnitTestCreateDomainObjectUtils.buildRelatedPublication("TestAuthors", 1959);
+    
+    //ACT
+    this.mockMvc.perform(put(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId())
+      .content(TestUtil.convertObjectToJsonBytes(relatedPublication)))
+      .andExpect(status().isBadRequest())
+      .andExpect(jsonPath("$.errors[0].message", containsString("related-publication-management.error.related-publication.year.valid")));
+  }
+  
+  @Test
+  public void testCreateRelatedPublicationsWithInvalidYearInFuture() throws IOException, Exception {
+    //ARRANGE
+    LocalDate date = new LocalDate();
+    RelatedPublication relatedPublication = UnitTestCreateDomainObjectUtils.buildRelatedPublication("TestAuthors", date.getYear() + 1);
+    
+    //ACT
+    this.mockMvc.perform(put(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId())
+      .content(TestUtil.convertObjectToJsonBytes(relatedPublication)))
+      .andExpect(status().isBadRequest())
+      .andExpect(jsonPath("$.errors[0].message", containsString("related-publication-management.error.related-publication.year.valid")));
+  }
+  
   @Test
   public void testUpdateRelatedPublications() throws IOException, Exception {
     //ARRANGE

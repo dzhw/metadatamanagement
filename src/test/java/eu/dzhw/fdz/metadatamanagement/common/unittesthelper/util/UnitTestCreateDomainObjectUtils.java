@@ -418,7 +418,28 @@ public class UnitTestCreateDomainObjectUtils {
         .build();
     
   }
-
+  public static RelatedPublication buildRelatedPublication(String authorsString, int publicationYear) {
+    
+    List<String> studyIds = new ArrayList<>();
+    studyIds.add("Study-IdExample");
+    
+    return new RelatedPublicationBuilder()
+        .withDoi("A DOI")
+        .withId("HurzId123")
+        .withPublicationAbstract("A publication Abstract")
+        .withSourceLink("http://www.hurzexample.de/")
+        .withSourceReference("A Source Reference")
+        .withTitle("A Title of a Related Publication")
+        .withStudyIds(studyIds)
+        .withAuthors(authorsString)
+        .withYear(publicationYear)
+        .withAbstractSource(new I18nStringBuilder()
+            .withDe("Test")
+            .withEn("Test")
+            .build())
+        .build();
+    
+  }
   public static Instrument buildInstrument(
       String projectId, String surveyId) {
     List<Integer> surveyNumbers = new ArrayList<>();
