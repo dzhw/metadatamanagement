@@ -47,7 +47,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       locationChanged = !angular.equals($location.search(),
         locationSearch);
       $location.search(locationSearch);
-      if (_.size($location.search()) <= 2) {
+      if (_.size($location.search()) <= 3) {
         BreadCrumbService.addToBreadCrumb($location.absUrl(),
         $location.search(),
         $location.url());

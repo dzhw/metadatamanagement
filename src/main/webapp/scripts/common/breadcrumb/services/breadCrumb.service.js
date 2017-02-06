@@ -133,7 +133,7 @@ angular.module('metadatamanagementApp').factory('BreadCrumbService',
           };
         break;
         default:
-          if (_.size(params) <= 2) {
+          if (_.size(params) <= 3) {
             items = [];
           }
           if (params.type) {
