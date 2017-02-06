@@ -13,11 +13,13 @@ angular.module('metadatamanagementApp').config(
             'upload-terminated': 'Finished upload of {{ totalQuestions }} Questions and {{ totalImages }} Images with {{totalWarnings}} warnings and {{ totalErrors }} errors.',
             'unable-to-delete': 'The questions could not be deleted!',
             'cancelled': 'Question upload cancelled!',
-            'not-found-image-file': 'There is no image for the question with RDC-ID {{ id }}!',
+            'not-found-image-file': 'There is no image for the question "{{questionNumber}}" in Instrument {{instrument}}!',
             'unable-to-upload-image-file': 'Image file "{{ file }}" could not be uploaded!',
             'unable-to-read-image-file': 'Image file "{{ file }}" could not be read!',
             'technical-representation-success-copy-to-clipboard': 'The Technical Representation was successfully copied into the clipboard.',
-            'question-has-no-image': 'No image was found for the question {{id}}.'
+            'question-has-no-image': 'No image was found for the question {{id}}.',
+            'unable-to-parse-json-file': 'The JSON file "{{file}}" in Instrument {{instrument}} does not contain valid JSON!',
+            'unable-to-read-file': 'The file "{{file}}" in Instrument {{instrument}} could not be read!',
           }
         },
         'home': {
