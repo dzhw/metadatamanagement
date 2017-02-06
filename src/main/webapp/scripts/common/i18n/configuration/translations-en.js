@@ -201,7 +201,7 @@ angular.module('metadatamanagementApp').config(
           'protocol-dialog': {
             'title': 'Protocol',
             'success': 'Success',
-            'warnings': 'Warnings',
+            'warning': 'Warnings',
             'error': 'Error'
           },
           'job-complete-toast': {
