@@ -82,7 +82,8 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
               }
               if (!releasesExcelFile) {
                 JobLoggingService.cancel(
-                  'study-management.log-messages.study.releases-file-not-found', {}
+                  'study-management.log-messages.' +
+                  'study.releases-file-not-found', {}
                 );
                 return;
               }
