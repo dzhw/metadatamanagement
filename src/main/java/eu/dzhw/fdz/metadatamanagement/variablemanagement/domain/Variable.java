@@ -163,7 +163,7 @@ public class Variable extends AbstractRdcDomainObject {
  
   @Size(max = StringLengths.MEDIUM,
       message = "variable-management.error.variable.panel-identifier-size")
-  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_MINUS,
+  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS,
       message = "variable-management.error.variable.panel-identifier-pattern")
   private String panelIdentifier;
 
