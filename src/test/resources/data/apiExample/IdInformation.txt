@@ -7,4 +7,3 @@ variable: FDZID_Variable_001
 instrument: InstrumentId001
 dataSet: DataSet_001
 question: question_001
-citation: Reference001
