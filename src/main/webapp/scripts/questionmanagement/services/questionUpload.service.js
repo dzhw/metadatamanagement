@@ -229,7 +229,6 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                   dataAcquisitionProjectId: dataAcquisitionProjectId}).$promise
                   .then(function() {
                     createInstrumentsFileMap(files, dataAcquisitionProjectId);
-                    console.log(filesMap);
                     uploadInstruments(0);
                   }, function() {
                       JobLoggingService.cancel(
