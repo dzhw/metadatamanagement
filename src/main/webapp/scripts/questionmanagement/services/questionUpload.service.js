@@ -62,67 +62,74 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
       };
       var createQuestionResource = function(instrument,
         questionAsJson, questionNumber) {
-        return FileReaderService.readAsText(questionAsJson)
-        .then(function(result) {
-                  try {
-                    var question = CleanJSObjectService
-                    .removeEmptyJsonObjects(JSON.parse(result));
-                    question.dataAcquisitionProjectId = instrument
-                    .dataAcquisitionProjectId;
-                    question.instrumentId = instrument
-                    .dataAcquisitionProjectId + '-' + instrument.instrumentName;
-                    question.instrumentNumber = instrument.instrumentNumber;
-                    question.id = question.instrumentId + '-' + questionNumber;
-                    question.number = questionNumber;
-                    var successors = [];
-                    if (!CleanJSObjectService.isNullOrEmpty(question
-                      .successorNumbers)) {
-                      question.successorNumbers
-                      .forEach(function(successorNumber) {
-                        successors.push(question.instrumentId + '-' +
-                        successorNumber);
-                      });
-                    }
-                    question.successors = successors;
-                    question.imageType = 'PNG';
-                    if (!instrument.pngFiles[questionNumber]) {
-                      JobLoggingService.error({message: 'question-management.' +
-                      'log-messages.question.not-found-image-file',
+        return $q(function(resolve) {
+          FileReaderService.readAsText(questionAsJson)
+          .then(function(result) {
+                    try {
+                      var question = CleanJSObjectService
+                      .removeEmptyJsonObjects(JSON.parse(result));
+                      question.dataAcquisitionProjectId = instrument
+                      .dataAcquisitionProjectId;
+                      question.instrumentId = instrument
+                      .dataAcquisitionProjectId + '-' +
+                      instrument.instrumentName;
+                      question.instrumentNumber = instrument.instrumentNumber;
+                      question.id = question.instrumentId + '-' +
+                      questionNumber;
+                      question.number = questionNumber;
+                      var successors = [];
+                      if (!CleanJSObjectService.isNullOrEmpty(question
+                        .successorNumbers)) {
+                        question.successorNumbers
+                        .forEach(function(successorNumber) {
+                          successors.push(question.instrumentId + '-' +
+                          successorNumber);
+                        });
+                      }
+                      question.successors = successors;
+                      question.imageType = 'PNG';
+                      if (!instrument.pngFiles[questionNumber]) {
+                        JobLoggingService.error({message: 'question-' +
+                        'management.log-messages.question.not-found-image-file',
+                          messageParams: {
+                            questionNumber: questionNumber,
+                            instrument: instrument.instrumentName
+                          },
+                          objectType: 'question'
+                        });
+                      } else {
+                        questionResources.push(new QuestionResource(question));
+                      }
+                      resolve();
+                    } catch (e) {
+                      JobLoggingService.error({
+                        message: 'question-management.log-messages.' +
+                        'question.unable-to-parse-json-file',
                         messageParams: {
-                          questionNumber: questionNumber,
+                          file: questionNumber + '.json',
                           instrument: instrument.instrumentName
                         },
                         objectType: 'question'
                       });
-                    } else {
-                      questionResources.push(new QuestionResource(question));
+                      resolve();
                     }
-                  } catch (e) {
+                  }, function() {
                     JobLoggingService.error({
                       message: 'question-management.log-messages.' +
-                      'question.unable-to-parse-json-file',
+                      'question.unable-to-read-file',
                       messageParams: {
                         file: questionNumber + '.json',
                         instrument: instrument.instrumentName
                       },
                       objectType: 'question'
                     });
-                  }
-                }, function() {
-                  JobLoggingService.error({
-                    message: 'question-management.log-messages.' +
-                    'question.unable-to-read-file',
-                    messageParams: {
-                      file: questionNumber + '.json',
-                      instrument: instrument.instrumentName
-                    },
-                    objectType: 'question'
+                    resolve();
                   });
-                });
+        });
       };
 
       var uploadQuestion = function(question, image) {
-        return $q(function(resolve, reject) {
+        return $q(function(resolve) {
           question.$save().then(function() {
             JobLoggingService.success({
                 objectType: 'question'
@@ -145,7 +152,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                   },
                   objectType: 'image'
                 });
-              reject();
+              resolve();
             });
           }, function(error) {
             var errorMessages = ErrorMessageResolverService
@@ -156,7 +163,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
               subMessages: errorMessages.subMessages,
               objectType: 'question'
             });
-            reject();
+            resolve();
           });
         });
       };
@@ -222,6 +229,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                   dataAcquisitionProjectId: dataAcquisitionProjectId}).$promise
                   .then(function() {
                     createInstrumentsFileMap(files, dataAcquisitionProjectId);
+                    console.log(filesMap);
                     uploadInstruments(0);
                   }, function() {
                       JobLoggingService.cancel(
