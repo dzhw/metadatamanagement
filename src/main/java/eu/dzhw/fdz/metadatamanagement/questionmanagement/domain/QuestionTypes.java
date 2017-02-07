@@ -12,7 +12,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
  */
 public class QuestionTypes {
   public static final I18nString OPEN = new I18nString("Offen", "Open");
-  public static final I18nString SINGLE_CHOICE = new I18nString("Single Choice", "Single Choice");
+  public static final I18nString SINGLE_CHOICE = new I18nString("Einfachnennung", "Single Choice");
   public static final I18nString MULTIPLE_CHOICE = 
       new I18nString("Mehrfachnennung", "Multiple Choice");
   public static final I18nString ITEM_SET = new I18nString("Itembatterie", "Item Set");
