@@ -36,7 +36,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @Document(collection = "studies")
 @GeneratePojoBuilder(
      intoPackage = "eu.dzhw.fdz.metadatamanagement.studymanagement.domain.builders")
-@ValidStudyId(message = "study-management.error.study.id.not-equal-to-project-id") 
+@ValidStudyId(message = "study-management.error.study.id.not-valid-id") 
 public class Study extends AbstractRdcDomainObject {
   
   @NotEmpty(message = "study-management.error.study.id.not-empty")
