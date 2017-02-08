@@ -76,13 +76,8 @@ angular.module('metadatamanagementApp').directive('diagram',
         data[0].type = 'bar';
         if (scope.distribution.validResponses) {
           scope.distribution.validResponses.forEach(function(obj) {
-            var filteredText;
-            if (scope.datatype.en === 'date') {
-              filteredText = $filter('variableDataType')(obj.value,
-                scope.datatype);
-            } else {
-              filteredText = obj.value;
-            }
+            var filteredText = $filter('variableDataType')(obj.value,
+              scope.datatype);
             data[0].x.push(filteredText);
             try {
               data[0].text.push(obj.label[scope.language]);
