@@ -10,7 +10,11 @@ angular.module('metadatamanagementApp').filter('variableDataType',
 
       //Data Type is Numeric
       if (dataTypeEn === 'numeric') {
-        return $filter('number')(input, 2);
+        if (input % 1 === 0) {
+          return input; //whole number. no filter is needed.
+        } else { //commata number
+          return $filter('number')(input, 2);
+        }
       }
 
       //Date Type is Date
