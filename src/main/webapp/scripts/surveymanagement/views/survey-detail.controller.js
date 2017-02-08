@@ -2,10 +2,8 @@
 
 angular.module('metadatamanagementApp')
   .controller('SurveyDetailController',
-    function(entity, StudySearchService, SurveySearchDialogService,
-      DataSetSearchDialogService, LanguageService, DataSetSearchService,
+    function(entity, StudySearchService, LanguageService, DataSetSearchService,
       SurveySearchService, PageTitleService, InstrumentSearchService) {
-
       var ctrl = this;
       ctrl.imgResolved = false;
       ctrl.survey = entity;
@@ -25,38 +23,20 @@ angular.module('metadatamanagementApp')
               ctrl.study = study.hits.hits[0]._source;
             }
           });
-        DataSetSearchService
-          .countBy('surveyIds',
-            ctrl.survey.id)
+        DataSetSearchService.countBy('surveyIds', ctrl.survey.id)
           .then(function(dataSetsCount) {
             ctrl.counts.dataSetsCount = dataSetsCount.count;
           });
-        SurveySearchService
-          .countBy('dataAcquisitionProjectId',
+        SurveySearchService.countBy('dataAcquisitionProjectId',
             ctrl.survey.dataAcquisitionProjectId, ctrl.survey.id)
           .then(function(surveysCount) {
             ctrl.counts.surveysCount = surveysCount.count;
           });
-        InstrumentSearchService.findBySurveyId(ctrl.survey.id)
-          .then(function(instrument) {
-            if (instrument.hits.hits.length > 0) {
-              ctrl.instrument = instrument.hits.hits[0]._source;
-            }
+        InstrumentSearchService.countBy('surveyIds', ctrl.survey.id)
+          .then(function(instrumentsCount) {
+            ctrl.counts.instrumentsCount = instrumentsCount.count;
           });
       });
-      ctrl.showRelatedDataSets = function() {
-        var paramObject = {};
-        paramObject.methodName = 'findBySurveyId';
-        paramObject.methodParams = ctrl.survey.id;
-        DataSetSearchDialogService.findDataSets(paramObject);
-      };
-      ctrl.showRelatedSurveys = function() {
-        var paramObject = {};
-        paramObject.methodName = 'findByProjectId';
-        paramObject.methodParams = ctrl.survey.dataAcquisitionProjectId;
-        paramObject.surveyId = ctrl.survey.id;
-        SurveySearchDialogService.findSurveys(paramObject);
-      };
       ctrl.setImgResolved = function() {
         ctrl.imgResolved = true;
       };

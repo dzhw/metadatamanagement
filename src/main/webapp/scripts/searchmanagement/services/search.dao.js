@@ -10,15 +10,22 @@ angular.module('metadatamanagementApp').service('SearchDao',
         'panel-identifier': 'panelIdentifier'
       },
       'surveys': {
-        'instrument': 'instrumentIds'
+        'instrument': 'instrumentIds',
+        'study': 'dataAcquisitionProjectId'
       },
       'questions': {
         'instrument': 'instrumentId'
+      },
+      'instruments': {
+        'survey': 'surveyIds'
+      },
+      'data_sets': {
+        'survey': 'surveyIds'
       }
     };
     return {
       search: function(queryterm, pageNumber, dataAcquisitionProjectId,
-        filter, elasticsearchType, pageSize, sortBy) {
+        filter, elasticsearchType, pageSize, sortBy, not) {
         var query = {};
         var projectFilter;
         var studiesFilter;
@@ -57,6 +64,13 @@ angular.module('metadatamanagementApp').service('SearchDao',
               'must': [{
                 'match_all': {}
               }],
+            }
+          };
+        }
+        if (not && not !== '') {
+          query.body.query.bool['must_not'] = { // jshint ignore:line
+            'term': {
+              'id': not
             }
           };
         }

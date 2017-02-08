@@ -204,6 +204,7 @@ public class UnitTestCreateDomainObjectUtils {
       .withDescription(new I18nStringBuilder().withDe("De Beschreibung")
         .withEn("En Description")
         .build())
+      .withStudyId(UnitTestCreateValidIds.buildStudyId(projectId))
       .withSubDataSets(subDataSets)
       .build();
   } 

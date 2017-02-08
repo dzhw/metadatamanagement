@@ -36,4 +36,6 @@ public interface CompleteDataSetProjection
   
   I18nString getFormat();
   
+  String getStudyId();
+  
 }

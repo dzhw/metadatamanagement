@@ -71,6 +71,9 @@ public class DataSet extends AbstractRdcDomainObject {
   @Indexed
   @NotEmpty(message = "data-set-management.error.data-set.data-acquisition-project.id.not-empty")
   private String dataAcquisitionProjectId;
+  
+  @NotEmpty(message = "data-set-management.error.data-set.study.id.not-empty")
+  private String studyId;
 
   @NotEmpty(message = "data-set-management.error.data-set.survey.ids.not-empty")
   private List<String> surveyIds;
@@ -93,6 +96,7 @@ public class DataSet extends AbstractRdcDomainObject {
   }
 
 
+  
   /*
    * (non-Javadoc)
    * @see eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject#toString()
@@ -108,6 +112,7 @@ public class DataSet extends AbstractRdcDomainObject {
       .add("number", number)
       .add("format", format)
       .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
+      .add("studyId", studyId)
       .add("surveyIds", surveyIds)
       .add("subDataSets", subDataSets)
       .toString();
@@ -180,5 +185,13 @@ public class DataSet extends AbstractRdcDomainObject {
 
   public void setFormat(I18nString format) {
     this.format = format;
+  }
+
+  public String getStudyId() {
+    return studyId;
+  }
+
+  public void setStudyId(String studyId) {
+    this.studyId = studyId;
   }
 }

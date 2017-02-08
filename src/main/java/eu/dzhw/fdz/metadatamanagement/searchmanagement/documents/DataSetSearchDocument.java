@@ -36,6 +36,8 @@ public class DataSetSearchDocument {
   private List<SubDataSetSearchDocument> subDataSets;
   
   private String format;
+  
+  private String studyId;
  
 
   /**
@@ -48,6 +50,7 @@ public class DataSetSearchDocument {
     this.setSurveyIds(dataSet.getSurveyIds());
     this.surveyNumbers = dataSet.getSurveyNumbers();
     this.number = dataSet.getNumber();
+    this.studyId = dataSet.getStudyId();
     createSubDataSetAttributes(dataSet, index);
     createI18nAttributes(dataSet, index);
     createSurveyTitles(surveys, index);
@@ -179,5 +182,13 @@ public class DataSetSearchDocument {
 
   public void setFormat(String format) {
     this.format = format;
+  }
+
+  public String getStudyId() {
+    return studyId;
+  }
+
+  public void setStudyId(String studyId) {
+    this.studyId = studyId;
   }
 }
