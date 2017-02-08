@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.questionmanagement.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +20,8 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepo
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RelatedQuestion;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 
 /**
  * Service for creating and updating questions. Used for updating questions in mongo
@@ -113,4 +116,24 @@ public class QuestionService {
       questions = questionRepository.findByInstrumentId(instrument.getId(), page);
     }
   }
+
+  /**
+   * Enqueue update of question search document when the variable is updated.
+   * 
+   * @param variable the updated or created variable.
+   */
+  @HandleAfterCreate
+  @HandleAfterSave
+  @HandleAfterDelete
+  public void onVariableChanged(Variable variable) {
+    if (variable.getRelatedQuestions() != null) {
+      List<String> questionIds = variable.getRelatedQuestions().stream()
+          .map(RelatedQuestion::getQuestionId).collect(Collectors.toList());
+      List<Question> questions = questionRepository.findByIdIn(questionIds);
+      questions.forEach(question -> {
+        elasticsearchUpdateQueueService.enqueue(question.getId(),
+            ElasticsearchType.questions, ElasticsearchUpdateQueueAction.UPSERT);
+      });      
+    }
+  }  
 }

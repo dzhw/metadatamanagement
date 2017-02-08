@@ -14,7 +14,8 @@ angular.module('metadatamanagementApp').service('SearchDao',
         'study': 'dataAcquisitionProjectId'
       },
       'questions': {
-        'instrument': 'instrumentId'
+        'instrument': 'instrumentId',
+        'variable': 'variableIds'
       },
       'instruments': {
         'survey': 'surveyIds'

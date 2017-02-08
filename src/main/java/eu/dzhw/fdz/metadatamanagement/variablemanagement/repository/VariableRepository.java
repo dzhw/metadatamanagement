@@ -44,4 +44,7 @@ public interface VariableRepository
   
   @RestResource(exported = false)
   List<Variable> findByIndexInDataSetAndDataSetId(Integer indexInDataSet, String dataSetId);
+  
+  @RestResource(exported = false)
+  List<Variable> findByRelatedQuestionsQuestionId(String questionId);
 }

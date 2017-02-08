@@ -34,4 +34,7 @@ public interface QuestionRepository
   @RestResource(exported = false)
   Slice<Question> findByInstrumentId(String instrumentId, Pageable pageable);
   
+  @RestResource(exported = false)
+  List<Question> findByIdIn(List<String> ids);
+  
 }

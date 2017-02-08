@@ -28,13 +28,14 @@ public class QuestionSearchDocument {
   private String surveyTitle;
   private Integer instrumentNumber;
   private List<String> successorNumbers;
+  private List<String> variableIds;
   
 
   /**
    * Create the search document from the domain object depending on the language (index).
    */
   public QuestionSearchDocument(Question question, 
-      Instrument instrument, ElasticsearchIndices index) {
+      Instrument instrument, List<String> variableIds, ElasticsearchIndices index) {
     this.id = question.getId();
     this.number = question.getNumber();
     this.instrumentId = question.getInstrumentId();
@@ -43,6 +44,7 @@ public class QuestionSearchDocument {
     this.successors = question.getSuccessors();    
     this.instrumentNumber = question.getInstrumentNumber();
     this.successorNumbers = question.getSuccessorNumbers();
+    this.variableIds = variableIds;
     createI18nAttributes(question, instrument, index);
   }
   
@@ -214,5 +216,13 @@ public class QuestionSearchDocument {
 
   public void setSurveyTitle(String surveyTitle) {
     this.surveyTitle = surveyTitle;
+  }
+
+  public List<String> getVariableIds() {
+    return variableIds;
+  }
+
+  public void setVariableIds(List<String> variableIds) {
+    this.variableIds = variableIds;
   }
 }
