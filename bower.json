@@ -5,16 +5,16 @@
   "testPath": "src/test/javascript/spec",
   "dependencies": {
     "jquery": "^3.1.0",
-    "angular": "1.6.1",
-    "angular-aria": "1.6.1",
+    "angular": "1.6.2",
+    "angular-aria": "1.6.2",
     "angular-bootstrap": "2.5.0",
     "angular-cache-buster": "0.4.3",
-    "angular-cookies": "1.6.1",
+    "angular-cookies": "1.6.2",
     "angular-dynamic-locale": "0.1.32",
-    "angular-i18n": "1.6.1",
+    "angular-i18n": "1.6.2",
     "angular-local-storage": "0.5.2",
-    "angular-resource": "1.6.1",
-    "angular-sanitize": "1.6.1",
+    "angular-resource": "1.6.2",
+    "angular-sanitize": "1.6.2",
     "angular-translate": "2.13.1",
     "angular-translate-interpolation-messageformat": "2.13.1",
     "angular-translate-storage-cookie": "2.13.1",
@@ -39,16 +39,16 @@
     "js-beautify": "^1.6.8",
     "ngclipboard": "^1.1.1",
     "angular-katex": "^0.10.0",
-    "angular-animate": "1.6.1",
-    "angular-messages": "1.6.1"
+    "angular-animate": "1.6.2",
+    "angular-messages": "1.6.2"
   },
   "devDependencies": {
-    "angular-mocks": "1.6.1",
-    "angular-scenario": "1.6.1"
+    "angular-mocks": "1.6.2",
+    "angular-scenario": "1.6.2"
   },
   "resolutions": {
-    "angular": "1.6.1",
-    "angular-cookies": "1.6.1",
+    "angular": "1.6.2",
+    "angular-cookies": "1.6.2",
     "angular-translate": "~2.13.0"
   }
 }
