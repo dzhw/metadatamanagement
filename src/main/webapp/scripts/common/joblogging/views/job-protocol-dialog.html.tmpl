@@ -1,25 +1,28 @@
 <md-dialog aria-label="{{'global.joblogging.protocol-dialog.title' | translate}}">
     <md-toolbar>
-        <div class="md-toolbar-tools">
-            <h2 style="margin-right: 1em;">
-                <span>{{'global.joblogging.protocol-dialog.title' | translate}}</span>
-            </h2>
-            <div flex></div>
-            <span style="margin-right: 1em;" class="label label-as-badge label-success">{{'global.joblogging.protocol-dialog.success' | translate}}:
+        <div class="md-toolbar-tools" style="padding-right: 0px;" layout="row" layout-align="space-between center">
+            <div>
+                <h2 style="margin-right: 1em;">
+                  <span>{{'global.joblogging.protocol-dialog.title' | translate}}</span>
+                </h2>
+            </div>
+            <div>
+                <span style="margin-right: 1em;" class="label label-as-badge label-success">{{'global.joblogging.protocol-dialog.success' | translate}}:
                 {{job.successes || 0}}</span>
-            <span style="margin-right: 1em;" class="label label-as-badge label-warning">{{'global.joblogging.protocol-dialog.warning' | translate}}:
-                    {{job.warnings || 0}}</span>
-            <span class="label label-as-badge label-danger">{{'global.joblogging.protocol-dialog.error' | translate}}:
+                <span style="margin-right: 1em;" class="label label-as-badge label-warning">{{'global.joblogging.protocol-dialog.warning' | translate}}:
+                {{job.warnings || 0}}</span>
+                <span class="label label-as-badge label-danger">{{'global.joblogging.protocol-dialog.error' | translate}}:
                 {{job.errors || 0}}</span>
-            <md-button class="md-icon-button" ng-click="closeDialog()">
-                <md-icon md-font-set="material-icons">clear</md-icon>
-            </md-button>
+                <md-button class="md-icon-button" ng-click="closeDialog()">
+                    <md-icon md-font-set="material-icons">clear</md-icon>
+                </md-button>
+            </div>
         </div>
     </md-toolbar>
     <md-dialog-content>
         <div>
             <ul style="list-style: none; padding: 0;">
-                <li style="margin: 1em;" ng-repeat="logMessage in job.logMessages track by $index" ng-class="{'fdz-log-error-text': logMessage.type ==='error', 'fdz-log-warning-text': logMessage.type ==='warning'}">{{logMessage.message | translate:logMessage.translationParams }}              
+                <li style="margin: 1em;" ng-repeat="logMessage in job.logMessages track by $index" ng-class="{'fdz-log-error-text': logMessage.type ==='error', 'fdz-log-warning-text': logMessage.type ==='warning'}">{{logMessage.message | translate:logMessage.translationParams }}
                     <ul style="list-style-type: square;" ng-show="logMessage.subMessages.length > 0">
                         <li ng-repeat="subMessage in logMessage.subMessages">{{subMessage.message | translate: subMessage.translationParams }}
                         </li>
