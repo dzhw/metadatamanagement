@@ -24,7 +24,7 @@ angular.module('metadatamanagementApp').service('InstrumentBuilderService',
       };
       _.forEach(instrument.surveyNumbers, function(number) {
         instrument.surveyIds
-        .push(instrument.dataAcquisitionProjectId + '-sy' + number);
+        .push(instrument.dataAcquisitionProjectId + '-sy' + number.trim());
       });
       var cleanedInstrument = CleanJSObjectService
         .removeEmptyJsonObjects(instrument);
@@ -35,7 +35,7 @@ angular.module('metadatamanagementApp').service('InstrumentBuilderService',
       dataAcquisitionProjectId) {
       var instrumentAttachmentMetadata = {
         instrumentId: dataAcquisitionProjectId + '-ins' +
-        metadataFromExcel.instrumentNumber,
+          metadataFromExcel.instrumentNumber,
         instrumentNumber: metadataFromExcel.instrumentNumber,
         dataAcquisitionProjectId: dataAcquisitionProjectId,
         title: {

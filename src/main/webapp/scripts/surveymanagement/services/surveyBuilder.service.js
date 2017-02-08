@@ -10,7 +10,6 @@ angular.module('metadatamanagementApp').service('SurveyBuilderService',
           id: projectId + '-sy' + data.number,
           number: data.number,
           dataAcquisitionProjectId: projectId,
-          instrumentId: data.instrumentId,
           title: {
             en: data['title.en'],
             de: data['title.de']
@@ -31,7 +30,6 @@ angular.module('metadatamanagementApp').service('SurveyBuilderService',
             en: data['surveyMethod.en'],
             de: data['surveyMethod.de']
           },
-          dataSetIds: CleanJSObjectService.removeWhiteSpace(data.dataSetIds),
           grossSampleSize: data.grossSampleSize,
           sampleSize: data.sampleSize,
           responseRate: data.responseRate

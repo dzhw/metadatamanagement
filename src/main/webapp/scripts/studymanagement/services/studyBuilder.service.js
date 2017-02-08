@@ -43,15 +43,7 @@ angular.module('metadatamanagementApp').service('StudyBuilderService',
           accessWays: CleanJSObjectService.
           removeWhiteSpace(studyFromExcel.accessWays),
           dataAcquisitionProjectId: dataAcquisitionProjectId,
-          releases: releases,
-          surveyIds: CleanJSObjectService.
-          removeWhiteSpace(studyFromExcel.surveyIds),
-          dataSetIds: CleanJSObjectService.
-          removeWhiteSpace(studyFromExcel.dataSetIds),
-          instrumentIds: CleanJSObjectService.
-          removeWhiteSpace(studyFromExcel.instrumentIds),
-          relatedPublicationIds: CleanJSObjectService.
-          removeWhiteSpace(studyFromExcel.relatedPublicationIds)
+          releases: releases
         };
         var cleanedStudyObject = CleanJSObjectService
         .removeEmptyJsonObjects(study);
