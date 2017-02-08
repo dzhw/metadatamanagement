@@ -78,6 +78,11 @@ angular.module('metadatamanagementApp').config(
                 'not-empty': 'Die FDZ - ID des Projektes darf bei dem Datensatz nicht leer sein!'
               }
             },
+            'study': {
+              'id': {
+                'not-empty': 'Die Studien-ID darf bei dem Datensatz nicht leer sein!'
+              }
+            },
             'survey-numbers': {
               'not-empty': 'Der Datensatz muss mindestens eine Erhebungsnummer beinhalten!'
             },
