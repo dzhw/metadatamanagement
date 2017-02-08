@@ -43,11 +43,14 @@ angular.module('metadatamanagementApp').controller('SearchController',
       if ($scope.searchParams.sortBy && $scope.searchParams.sortBy !== '') {
         locationSearch['sort-by'] = $scope.searchParams.sortBy;
       }
+      if ($scope.searchParams.not && $scope.searchParams.not !== '') {
+        locationSearch.not = $scope.searchParams.not;
+      }
       _.assign(locationSearch, $scope.searchParams.filter);
       locationChanged = !angular.equals($location.search(),
         locationSearch);
       $location.search(locationSearch);
-      if (_.size($location.search()) <= 3) {
+      if (_.size($location.search()) < 3) {
         BreadCrumbService.addToBreadCrumb($location.absUrl(),
         $location.search(),
         $location.url());
@@ -75,9 +78,10 @@ angular.module('metadatamanagementApp').controller('SearchController',
           $scope.searchParams.query = '';
         }
         $scope.searchParams.filter = _.omit(locationSearch, ['page', 'type',
-          'query', 'sort-by'
+          'query', 'sort-by', 'not'
         ]);
         $scope.searchParams.sortBy = locationSearch['sort-by'];
+        $scope.searchParams.not = locationSearch.not;
         $scope.searchParams.selectedTabIndex = _.findIndex($scope.tabs,
           function(tab) {
             return tab.elasticSearchType === locationSearch.type;
@@ -115,7 +119,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       SearchDao.search($scope.searchParams.query, $scope.pageObject.page,
           $scope.projectId, $scope.searchParams.filter,
           $scope.tabs[$scope.searchParams.selectedTabIndex].elasticSearchType,
-          $scope.pageObject.size, $scope.searchParams.sortBy)
+          $scope.pageObject.size, $scope.searchParams.sortBy,
+          $scope.searchParams.not)
         .then(function(data) {
           $scope.searchResult = data.hits.hits;
           $scope.pageObject.totalHits = data.hits.total;
@@ -155,6 +160,11 @@ angular.module('metadatamanagementApp').controller('SearchController',
         if (newValue.type === oldValue.type) {
           $scope.search();
         }
+        if (_.size($location.search()) < 3) {
+          BreadCrumbService.addToBreadCrumb($location.absUrl(),
+          $location.search(),
+          $location.url());
+        }
       } else {
         locationChanged = false;
       }
@@ -187,6 +197,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       if (!tabChangedOnInitFlag) {
         $scope.searchParams.filter = undefined;
         $scope.searchParams.sortBy = undefined;
+        $scope.searchParams.not = undefined;
         $scope.pageObject.page = 1;
         writeSearchParamsToLocation();
         $scope.search();

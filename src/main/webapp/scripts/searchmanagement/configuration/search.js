@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp').config(
     $stateProvider.state('search', {
       parent: 'site',
       url: '/search?{page}{type}{sort-by}{data-set}' +
-      '{instrument}{panel-identifier}',
+      '{instrument}{panel-identifier}{survey}{study}{not}',
       reloadOnSearch: false,
       data: {
         authorities: []
