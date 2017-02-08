@@ -50,7 +50,7 @@ angular.module('metadatamanagementApp').config(
             'id': {
               'not-empty': 'Die FDZ-ID der Studie darf nicht leer sein!',
               'size': 'Die Maximallänge der FDZ-ID ist 128 Zeichen.',
-              'pattern': 'Es dürfen für die FDZ-ID nur alphanumerische Zeichen, deutsche Umlaute, ß, Minus und der Unterstrich verwendet werden.',
+              'pattern': 'Es dürfen für die FDZ-ID nur alphanumerische Zeichen, deutsche Umlaute, ß, Minus, Ausrufezeichen und der Unterstrich verwendet werden.',
               'not-equal-to-project-id': 'Die FDZ-ID der Studie muss der Projekt ID entsprechen.'
             },
             'title': {
