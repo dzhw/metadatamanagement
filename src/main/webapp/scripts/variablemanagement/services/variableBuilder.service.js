@@ -51,7 +51,7 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
       };
       _.forEach(variableObj.surveyNumbers, function(number) {
         variableObj.surveyIds
-          .push(variableObj.dataAcquisitionProjectId + '-sy' + number.trim());
+          .push(variableObj.dataAcquisitionProjectId + '-sy' + number);
       });
       _.forEach(variableFromJson.relatedQuestions, function(relatedQuestion) {
         variableObj.relatedQuestions
