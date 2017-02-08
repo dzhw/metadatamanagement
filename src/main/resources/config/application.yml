@@ -42,18 +42,20 @@ server:
         enabled: true
         mime-types: text/html,text/xml,text/plain,text/css, application/javascript, application/json
 
-# TODO: check if this is ignored and remove
 security:
     basic:
         enabled: false
+    oauth2:
+      resource:
+        filter-order: 3
         
 management:
   context-path: /management
   info:
     git:
-      mode:
-        full
-
+      mode: full
+  security:
+    roles: ROLE_ADMIN
 # ===================================================================
 # JHipster specific properties
 # ===================================================================
