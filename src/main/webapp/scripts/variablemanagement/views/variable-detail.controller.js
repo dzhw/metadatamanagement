@@ -4,8 +4,7 @@
 
 angular.module('metadatamanagementApp')
   .controller('VariableDetailController', function($scope, entity,
-    SurveySearchDialogService,
-    RelatedPublicationSearchDialogService,
+    SurveySearchService,
     DataSetSearchService, QuestionSearchService, VariableSearchService,
     RelatedPublicationSearchService, StudySearchService,
     SimpleMessageToastService, PageTitleService, LanguageService,
@@ -54,28 +53,40 @@ angular.module('metadatamanagementApp')
             });
         }
       });
-      /*SurveySearchService
+      SurveySearchService
         .countBy('variableIds', $scope.variable.id)
-        .then(function(publicationsCount) {
-          $scope.counts.publicationsCount = publicationsCount.count;
-        });*/
+        .then(function(surveysCount) {
+          $scope.counts.surveysCount = surveysCount.count;
+          if (surveysCount.count === 1) {
+            SurveySearchService
+              .findByVariableId($scope.variable.id)
+              .then(function(survey) {
+                $scope.survey = survey.hits.hits[0]._source;
+              });
+          }
+        });
+      if ($scope.variable.panelIdentifier) {
+        VariableSearchService
+          .countBy('panelIdentifier', $scope.variable.panelIdentifier)
+          .then(function(variablesInPanel) {
+            $scope.counts.variablesInPanel = variablesInPanel.count;
+          });
+      }
 
       RelatedPublicationSearchService
         .countBy('variableIds', $scope.variable.id)
         .then(function(publicationsCount) {
           $scope.counts.publicationsCount = publicationsCount.count;
+          if (publicationsCount.count === 1) {
+            RelatedPublicationSearchService
+              .findByVariableId($scope.variable.id)
+              .then(function(relatedPublication) {
+                $scope.relatedPublication = relatedPublication.
+                hits.hits[0]._source;
+              });
+          }
         });
 
-      if ($scope.variable.panelIdentifier) {
-        VariableSearchService
-          .countBy('panelIdentifier', $scope.variable.panelIdentifier)
-          .then(function(sameVariablesInPanel) {
-            $scope.counts.sameVariablesInPanel = sameVariablesInPanel.count;
-          });
-      } else {
-        $scope.counts.sameVariablesInPanel = 0;
-      }
-      $scope.counts.surveysCount = $scope.variable.surveyIds.length;
       if ($scope.variable.filterDetails) {
         html_beautify($scope.variable.filterDetails.expression); //jscs:ignore
       }
@@ -99,19 +110,6 @@ angular.module('metadatamanagementApp')
     };
     $scope.toggleFilterDetailsCode = function() {
       $scope.filterDetailsCodeToggleFlag = !$scope.filterDetailsCodeToggleFlag;
-    };
-    $scope.showRelatedSurveys = function() {
-      var paramObject = {};
-      paramObject.methodName = 'findSurveys';
-      paramObject.methodParams = $scope.variable.surveyIds;
-      SurveySearchDialogService.findSurveys(paramObject);
-    };
-    $scope.showRelatedPublications = function() {
-      var paramObject = {};
-      paramObject.methodName = 'findByVariableId';
-      paramObject.methodParams = $scope.variable.id;
-      RelatedPublicationSearchDialogService
-        .findRelatedPublications(paramObject);
     };
     $scope.openSuccessCopyToClipboardToast = function(message) {
       SimpleMessageToastService.openSimpleMessageToast(message, []);
