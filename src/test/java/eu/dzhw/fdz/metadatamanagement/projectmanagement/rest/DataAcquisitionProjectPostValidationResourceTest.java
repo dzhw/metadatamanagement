@@ -110,7 +110,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     //Survey
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     this.surveyRepository.save(survey);
-    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(1);
     List<String> listOfSurveyIds = new ArrayList<>();
     listOfSurveyIds.add(survey.getId());
@@ -166,7 +166,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     //Survey
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     this.surveyRepository.save(survey);
-    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(1);
     List<String> listOfSurveyIds = new ArrayList<>();
     listOfSurveyIds.add(survey.getId());
@@ -210,7 +210,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.errors", hasSize(1)))
-      .andExpect(jsonPath("$.errors[0].messageId", containsString("question-management.error.post-validation.question-has-no-image")));//no errors 
+      .andExpect(jsonPath("$.errors[0].messageId", containsString("question-management.error.post-validation.question-has-no-image")));//no errors    
   }
   
   
@@ -230,7 +230,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     //Survey
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     this.surveyRepository.save(survey);
-    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(1);
     List<String> listOfSurveyIds = new ArrayList<>();
     listOfSurveyIds.add(survey.getId());
@@ -286,7 +286,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     //Survey
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     this.surveyRepository.save(survey);
-    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(1);
     List<String> listOfSurveyIds = new ArrayList<>();
     listOfSurveyIds.add(survey.getId());
@@ -342,7 +342,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     //Survey
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     this.surveyRepository.save(survey);
-    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(1);
     List<String> listOfSurveyIds = new ArrayList<>();
     listOfSurveyIds.add(survey.getId());
@@ -396,7 +396,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     //Survey
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     this.surveyRepository.save(survey);
-    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(1);
     List<String> listOfSurveyIds = new ArrayList<>();
     listOfSurveyIds.add(survey.getId());
@@ -454,7 +454,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     //Survey
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     this.surveyRepository.save(survey);
-    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(1);
     List<String> listOfSurveyIds = new ArrayList<>();
     listOfSurveyIds.add(survey.getId());
@@ -502,7 +502,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     //Survey
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     this.surveyRepository.save(survey);
-    List<Integer> surveyNumbers = new ArrayList<Integer>();
+    List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(1);
     List<String> listOfSurveyIds = new ArrayList<>();
     listOfSurveyIds.add(survey.getId());

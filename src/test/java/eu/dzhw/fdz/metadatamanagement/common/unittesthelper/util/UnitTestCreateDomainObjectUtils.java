@@ -93,7 +93,7 @@ public class UnitTestCreateDomainObjectUtils {
     accessWays.add(AccessWays.ONSITE_SUF);
     
     return new StudyBuilder()
-        .withId(projectId)
+        .withId(UnitTestCreateValidIds.buildStudyId(projectId))
         .withAuthors("Test Author")
         .withCitationHint(new I18nStringBuilder()
             .withDe("Citation Hint De")
