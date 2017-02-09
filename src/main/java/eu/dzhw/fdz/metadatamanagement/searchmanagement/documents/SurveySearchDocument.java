@@ -34,15 +34,18 @@ public class SurveySearchDocument {
   private Integer number;
   
   private List<String> instrumentIds;
+  
+  private List<String> variableIds;
 
   /**
    * Create the search document from the domain object depending on the language (index).
    */
-  public SurveySearchDocument(Survey survey, List<Instrument> instruments, 
-      ElasticsearchIndices index) {
+  public SurveySearchDocument(Survey survey, List<Instrument> instruments,
+      List<String> variableIds, ElasticsearchIndices index) {
     this.id = survey.getId();
     this.dataAcquisitionProjectId = survey.getDataAcquisitionProjectId();
     this.number = survey.getNumber();
+    this.variableIds = variableIds;
     createI18nAttributes(survey, index);
     this.fieldPeriod = survey.getFieldPeriod();
     if (instruments != null) {
@@ -140,5 +143,13 @@ public class SurveySearchDocument {
 
   public void setInstrumentIds(List<String> instrumentIds) {
     this.instrumentIds = instrumentIds;
+  }
+
+  public List<String> getVariableIds() {
+    return variableIds;
+  }
+
+  public void setVariableIds(List<String> variableIds) {
+    this.variableIds = variableIds;
   }
 }

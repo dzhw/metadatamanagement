@@ -11,7 +11,8 @@ angular.module('metadatamanagementApp').service('SearchDao',
       },
       'surveys': {
         'instrument': 'instrumentIds',
-        'study': 'dataAcquisitionProjectId'
+        'study': 'dataAcquisitionProjectId',
+        'variable': 'variableIds'
       },
       'questions': {
         'instrument': 'instrumentId',
@@ -22,6 +23,9 @@ angular.module('metadatamanagementApp').service('SearchDao',
       },
       'data_sets': {
         'survey': 'surveyIds'
+      },
+      'related_publications': {
+        'variable': 'variableIds'
       }
     };
     return {

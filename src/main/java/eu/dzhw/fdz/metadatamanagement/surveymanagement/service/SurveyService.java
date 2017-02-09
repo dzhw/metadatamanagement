@@ -16,6 +16,7 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 
 /**
  * Service which deletes surveys when the corresponding dataAcquisitionProject has been deleted.
@@ -106,4 +107,22 @@ public class SurveyService {
           ElasticsearchUpdateQueueAction.UPSERT);
     });
   }
+  
+  /**
+   * Enqueue update of survey search document when the variable is updated.
+   * 
+   * @param variable the updated or created variable.
+   */
+  @HandleAfterCreate
+  @HandleAfterSave
+  @HandleAfterDelete
+  public void onVariableChanged(Variable variable) {
+    if (variable.getSurveyIds() != null) {
+      List<Survey> surveys = surveyRepository.findByIdIn(variable.getSurveyIds());
+      surveys.forEach(survey -> {
+        elasticsearchUpdateQueueService.enqueue(survey.getId(),
+            ElasticsearchType.surveys, ElasticsearchUpdateQueueAction.UPSERT);
+      });      
+    }
+  }  
 }

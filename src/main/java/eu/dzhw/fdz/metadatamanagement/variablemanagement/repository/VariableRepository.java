@@ -28,6 +28,9 @@ public interface VariableRepository
   Slice<Variable> findBySurveyIdsContaining(String surveyId, Pageable pageable);
   
   @RestResource(exported = false)
+  List<Variable> findBySurveyIdsContaining(String surveyId);
+  
+  @RestResource(exported = false)
   List<Variable> findByDataSetId(String dataSetId);
   
   @RestResource(exported = false)
