@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.service;
 import java.lang.management.ManagementFactory;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.NotImplementedException;
 import org.slf4j.Logger;
@@ -355,9 +356,12 @@ public class ElasticsearchUpdateQueueService {
     Question question = questionRepository.findOne(lockedItem.getDocumentId());
     if (question != null) {
       Instrument instrument = instrumentRepository.findOne(question.getInstrumentId());
+      List<String> variableIds = variableRepository
+          .findByRelatedQuestionsQuestionId(question.getId()).stream()
+          .map(Variable::getId).collect(Collectors.toList());
       for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
         QuestionSearchDocument searchDocument =
-            new QuestionSearchDocument(question, instrument, index);
+            new QuestionSearchDocument(question, instrument, variableIds, index);
 
         bulkBuilder.addAction(new Index.Builder(searchDocument)
             .index(index.getIndexName())

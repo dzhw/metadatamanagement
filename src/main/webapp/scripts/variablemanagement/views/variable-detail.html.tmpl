@@ -86,32 +86,42 @@
             </md-card-header>
             <md-divider></md-divider>
             <md-card-content layout="column" layout-align="center start">
-                <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                    <md-icon md-svg-src="/assets/images/icons/study.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
-                    <div style="margin-right:3px;">{{'study-management.detail.study' | translate }}:</div>
-                    <div ng-if="!study" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
-                    <div ng-if="study" class="fdz-truncate-string" flex>
-                      <a ui-sref="studyDetail({id:study.id})">{{study.title}}</a>
-                    </div>
-                </div>
-                <div ng-if="question" style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                    <md-icon md-svg-src="/assets/images/icons/question.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
-                    <div style="margin-right:3px;">{{'question-management.detail.question' | translate }}:</div>
-                    <div ng-if="!question" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
-                    <div ng-if="question" class="fdz-truncate-string" flex>
-                        <a ui-sref="questionDetail({id:question.id})">{{question.number}}
-                            {{question.questionText}}</a>
-                    </div>
-                </div>
-                <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                    <md-icon md-svg-src="/assets/images/icons/data-set.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
-                    <div style="margin-right:3px;">{{'data-set-management.detail.data-set' | translate }}:</div>
-                    <div ng-if="!dataSet" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
-                    <div ng-if="dataSet" class="fdz-truncate-string" flex>
-                      <a ui-sref="data-setDetail({projectId: variable.dataAcquisitionProjectId,
-                        dataSetNumber: dataSet.number})">{{dataSet.description}}</a>
-                    </div>
-                </div>
+
+              <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                  <div class="fdz-truncate-string" flex>
+                    <a ui-sref="studyDetail({id: study.id})">
+                      <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
+                      {{'study-management.detail.study' | translate }}: {{study.title}}</a>
+                  </div>
+              </div>
+
+              <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                  <div ng-if="counts.questionsCount == 0" class="fdz-truncate-string" flex>
+                    <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
+                    {{'question-management.detail.question' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                  </div>
+                  <div ng-if="counts.questionsCount == 1" class="fdz-truncate-string" flex>
+                    <a ui-sref="questionDetail({'projectId': variable.dataAcquisitionProjectId,
+                      'questionNumber': question.number, 'instrumentNumber': question.instrumentNumber})">
+                      <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
+                      {{'question-management.detail.question' | translate }}: {{question.questionText}}</a>
+                  </div>
+                  <div ng-if="counts.questionsCount > 1" class="fdz-truncate-string" flex>
+                    <a ui-sref="search({'type': 'questions', 'variable':variable.id, 'page': 1})">
+                      <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
+                      {{'question-management.detail.questions' | translate }}: ({{counts.questionsCount}})</a>
+                  </div>
+              </div>
+
+              <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                  <div class="fdz-truncate-string" flex>
+                    <a ui-sref="data-setDetail({projectId: variable.dataAcquisitionProjectId,
+                      dataSetNumber: dataSet.number})">
+                      <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
+                      {{'data-set-management.detail.data-set' | translate }}: {{dataSet.description}}</a>
+                  </div>
+              </div>
+
                 <div style="margin-bottom: 0.5em;" layout="row">
                     <md-icon md-svg-src="/assets/images/icons/survey.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
                     <div style="margin-right:3px;">{{'survey-management.detail.surveys' | translate }}:</div>
@@ -120,6 +130,7 @@
                         <a ng-click="showRelatedSurveys()">({{counts.surveysCount}})</a>
                     </div>
                 </div>
+
                 <div style="margin-bottom: 0.5em;" layout="row">
                     <md-icon md-svg-src="/assets/images/icons/variable.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
                     <div style="margin-right:3px;">{{'variable-management.detail.same-variables-in-panel' | translate }}:</div>
@@ -128,6 +139,7 @@
                       <a ui-sref="search({'panel-identifier': variable.panelIdentifier, 'type': 'variables', 'page': 1})">({{counts.sameVariablesInPanel}})</a>
                     </div>
                 </div>
+
                 <div style="margin-bottom: 0.5em;" layout="row">
                     <md-icon md-svg-src="/assets/images/icons/related-publication.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
                     <div style="margin-right:3px;">{{'related-publication-management.detail.publications' | translate }}:</div>
@@ -136,6 +148,12 @@
                         <a ng-click="showRelatedPublications()">({{counts.publicationsCount}})</a>
                     </div>
                 </div>
+
+
+
+
+
+
             </md-card-content>
         </md-card>
     </div>

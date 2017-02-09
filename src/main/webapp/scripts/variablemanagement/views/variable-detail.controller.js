@@ -1,4 +1,3 @@
-/* global _ */
 /* global html_beautify */
 /* Author: Daniel Katzberg */
 'use strict';
@@ -32,35 +31,35 @@ angular.module('metadatamanagementApp')
             secondLanguage],
         variableId: $scope.variable.id
       });
-      StudySearchService
-        .findStudy($scope.variable.dataAcquisitionProjectId)
+      StudySearchService.findStudy($scope.variable.dataAcquisitionProjectId)
         .then(function(study) {
           if (study.hits.hits.length > 0) {
             $scope.study = study.hits.hits[0]._source;
           }
         });
-      if ($scope.variable.questionId) {
-        var questionIdAsArray = [];
-        questionIdAsArray.push($scope.variable.questionId);
-        QuestionSearchService
-          .findQuestions(questionIdAsArray)
-          .then(function(question) {
-            _.pullAllBy(question.docs, [{
-                'found': false
-              }],
-              'found');
-            if (question.docs.length > 0) {
-              $scope.question = question.docs[0]._source;
-            }
-          });
-      }
-      DataSetSearchService.findDataSets([$scope
-        .variable.dataSetId
-      ]).then(function(dataSet) {
-        if (dataSet.docs.length > 0) {
-          $scope.dataSet = dataSet.docs[0]._source;
+      DataSetSearchService.findDataSets([$scope.variable.dataSetId])
+      .then(function(dataSet) {
+          if (dataSet.docs.length > 0) {
+            $scope.dataSet = dataSet.docs[0]._source;
+          }
+        });
+      QuestionSearchService.countBy('variableIds', $scope.variable.id)
+      .then(function(questionsCount) {
+        $scope.counts.questionsCount = questionsCount.count;
+        if (questionsCount.count === 1) {
+          QuestionSearchService
+            .findByVariableId($scope.variable.id)
+            .then(function(question) {
+              $scope.question = question.hits.hits[0]._source;
+            });
         }
       });
+      /*SurveySearchService
+        .countBy('variableIds', $scope.variable.id)
+        .then(function(publicationsCount) {
+          $scope.counts.publicationsCount = publicationsCount.count;
+        });*/
+
       RelatedPublicationSearchService
         .countBy('variableIds', $scope.variable.id)
         .then(function(publicationsCount) {

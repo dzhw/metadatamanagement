@@ -70,6 +70,23 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
       };
       return ElasticSearchClient.search(query);
     };
+    var findByVariableId = function(variableId) {
+      query.index = 'metadata_' + LanguageService.getCurrentInstantly();
+      query.body = {};
+      query.body.query = {
+        'bool': {
+          'must': [{
+            'match_all': {}
+          }],
+          'filter': [{
+            'term': {
+              'variableIds': variableId
+            }
+          }]
+        }
+      };
+      return ElasticSearchClient.search(query);
+    };
     var countBy = function(term, value) {
       query.index = 'metadata_' + LanguageService.getCurrentInstantly();
       query.body = {};
@@ -101,6 +118,7 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
       findByInstrumentId: findByInstrumentId,
       findByProjectId: findByProjectId,
       findByStudyId: findByProjectId,
+      findByVariableId: findByVariableId,
       countBy: countBy
     };
   });
