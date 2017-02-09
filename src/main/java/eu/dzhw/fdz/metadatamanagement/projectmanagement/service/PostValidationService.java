@@ -92,7 +92,8 @@ public class PostValidationService {
     errors = this.postValidateInstruments(instruments, errors);
     
     // check that there is a study for the project (all other domain objects might link to it)
-    if (studyRepository.findOne(dataAcquisitionProjectId) == null) {
+    //TODO
+    if (studyRepository.findOneByDataAcquisitionProjectId(dataAcquisitionProjectId) == null) {
       String[] information = {dataAcquisitionProjectId, dataAcquisitionProjectId};
       errors.add(new PostValidationMessageDto("data-acquisition-project-management.error."
           + "post-validation.project-has-no-study", Arrays.asList(information)));
@@ -114,7 +115,7 @@ public class PostValidationService {
     //Check all AccessWays (if there some saved)
     if (study != null && study.getAccessWays().size() > 0) {
       List<DataSet> dataSets = 
-          this.dataSetRepository.findByDataAcquisitionProjectId(study.getId());
+          this.dataSetRepository.findByStudyId(study.getId());
       
       boolean found = false;
       for (String accessWay : study.getAccessWays()) {

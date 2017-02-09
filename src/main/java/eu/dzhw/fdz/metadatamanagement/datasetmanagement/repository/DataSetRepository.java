@@ -28,6 +28,9 @@ public interface DataSetRepository
   List<DataSet> findByDataAcquisitionProjectId(@Param("id") String dataAcquisitionProjectId);
   
   @RestResource(exported = false)
+  List<DataSet> findByStudyId(String studyId);
+  
+  @RestResource(exported = false)
   List<DataSet> findByDataAcquisitionProjectIdAndNumber(String dataAcquisitionProjectId,
       Integer number);
 
