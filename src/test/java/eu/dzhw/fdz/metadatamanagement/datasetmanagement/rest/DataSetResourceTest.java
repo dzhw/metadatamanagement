@@ -100,8 +100,8 @@ public class DataSetResourceTest extends AbstractTest {
     mockMvc.perform(get(API_DATASETS_URI + "/" + dataSet.getId()))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.createdDate", not(isEmptyOrNullString())))
-      .andExpect(jsonPath("$.lastModifiedDate", not(isEmptyOrNullString())))
-      .andExpect(jsonPath("$.createdBy", is("system")))
+      .andExpect(jsonPath("$.lastModifiedDate", not(isEmptyOrNullString())))      
+      .andExpect(jsonPath("$.createdBy", is("system")))      
       .andExpect(jsonPath("$.lastModifiedBy", is("system")));
 
     // call toString for test coverage :-)

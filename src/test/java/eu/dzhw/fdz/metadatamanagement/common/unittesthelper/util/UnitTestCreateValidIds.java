@@ -16,7 +16,7 @@ public class UnitTestCreateValidIds {
   }
   
   public static String buildDataSetId(String dataAcquisitionProjectId, int dataSetNumber) {
-    return "dat" + dataAcquisitionProjectId + "-ds" + dataSetNumber + "!";
+    return "dat-" + dataAcquisitionProjectId + "-ds" + dataSetNumber + "!";
   }
   
 }
