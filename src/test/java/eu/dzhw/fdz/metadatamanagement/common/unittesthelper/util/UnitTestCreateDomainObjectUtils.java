@@ -164,7 +164,7 @@ public class UnitTestCreateDomainObjectUtils {
     surveyIds.add(surveyId);
         
     List<SubDataSet> subDataSets = new ArrayList<>(); 
-    subDataSets.add(new SubDataSetBuilder().withName(projectId + "-ds1")
+    subDataSets.add(new SubDataSetBuilder().withName(UnitTestCreateValidIds.buildDataSetId(projectId, 1))
         .withNumberOfAnalyzedVariables(1)
         .withNumberOfObservations(1)
         .withAccessWay(AccessWays.DOWNLOAD_SUF) 

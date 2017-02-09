@@ -2,7 +2,8 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('DataSetBuilderService',
-  function(DataSetResource, CleanJSObjectService, StudyIdBuilderService) {
+  function(DataSetResource, CleanJSObjectService, StudyIdBuilderService,
+    DataSetIdBuilderService) {
     var buildDataSet = function(dataSet,
       dataAcquisitionProjectId) {
       if (!dataSet || !dataAcquisitionProjectId) {
@@ -11,7 +12,8 @@ angular.module('metadatamanagementApp').service('DataSetBuilderService',
 
       //Create DataSet Object
       var dataSetObj = {
-        id: dataAcquisitionProjectId + '-ds' + dataSet.number,
+        id: DataSetIdBuilderService.buildDataSetId(
+          dataAcquisitionProjectId, dataSet.number),
         studyId: StudyIdBuilderService.buildStudyId(
           dataAcquisitionProjectId),
         dataAcquisitionProjectId: dataAcquisitionProjectId,
