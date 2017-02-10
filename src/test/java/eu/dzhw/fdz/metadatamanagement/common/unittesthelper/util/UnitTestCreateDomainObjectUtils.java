@@ -264,7 +264,7 @@ public class UnitTestCreateDomainObjectUtils {
   public static Question buildQuestion(String projectId, Integer instrumentNumber, 
       String instrumentId, String surveyId) {
     return new QuestionBuilder().withDataAcquisitionProjectId(projectId)
-      .withId(projectId +"-ins" + instrumentNumber + "-123.12")
+      .withId(UnitTestCreateValidIds.buildQuestionId(projectId, instrumentNumber, "123.12"))
       .withAdditionalQuestionText(new I18nString("Zusätzlicher Fragetext", "Additional Question Text"))
       .withDataAcquisitionProjectId(projectId)
       .withImageType(ImageType.PNG)

@@ -32,12 +32,8 @@ public class ValidQuestionIdNameValidator
     if (question.getInstrumentId() == null || question.getNumber() == null) {
       return false;
     }
-    if (!question.getId()
-        .equals(question.getDataAcquisitionProjectId() + "-ins" + question.getInstrumentNumber() 
-        + "-" + question.getNumber())) {
-      return false;
-    }
-    return true;
+    
+    return question.getId().equals("que-" + question.getDataAcquisitionProjectId() + "-ins" 
+            + question.getInstrumentNumber() + "-" + question.getNumber() + "!");
   }
-
 }

@@ -16,5 +16,7 @@ public interface Patterns {
   String GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_EXCLAMATIONMARK  = 
       "^[_A-Za-z0-9äöüÄÖÜß\\-\\!]*$";
   String GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOT = "^[_A-Za-z0-9äöüÄÖÜß\\-\\.]*$";
+  String GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOT_AND_EXCLAMATIONMARK =
+      "^[_A-Za-z0-9äöüÄÖÜß\\-\\.\\!]*$";
   String NO_WHITESPACE = "^[^\\s]*$";
 }
