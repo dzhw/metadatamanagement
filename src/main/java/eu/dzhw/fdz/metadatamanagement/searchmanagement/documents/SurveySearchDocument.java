@@ -35,6 +35,8 @@ public class SurveySearchDocument {
   
   private Integer number;
   
+  private String studyId;
+  
   private List<String> instrumentIds;
   
   private List<String> variableIds;
@@ -49,6 +51,7 @@ public class SurveySearchDocument {
     this.id = survey.getId();
     this.dataAcquisitionProjectId = survey.getDataAcquisitionProjectId();
     this.number = survey.getNumber();
+    this.studyId = survey.getStudyId();
     createI18nAttributes(survey, index);
     this.fieldPeriod = survey.getFieldPeriod();
     if (instruments != null) {
@@ -170,5 +173,13 @@ public class SurveySearchDocument {
 
   public void setDataSetIds(List<String> dataSetIds) {
     this.dataSetIds = dataSetIds;
+  }
+
+  public String getStudyId() {
+    return studyId;
+  }
+
+  public void setStudyId(String studyId) {
+    this.studyId = studyId;
   }
 }

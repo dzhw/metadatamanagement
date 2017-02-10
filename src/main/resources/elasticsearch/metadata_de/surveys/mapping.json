@@ -19,6 +19,11 @@
         "index": "not_analyzed",
         "copy_to": "allStringsAsNgrams"
       },
+      "studyId": {
+        "type": "string",
+        "index": "not_analyzed",
+        "copy_to": "allStringsAsNgrams"
+      },
       "title": {
         "type": "string",
         "index": "not_analyzed",

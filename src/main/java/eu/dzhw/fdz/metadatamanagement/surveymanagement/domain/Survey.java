@@ -88,6 +88,8 @@ public class Survey extends AbstractRdcDomainObject {
   @NotNull(message = "survey-management.error.survey.number.not-null")
   private Integer number;
   
+  private String studyId;
+  
   /*
    * (non-Javadoc)
    *
@@ -118,6 +120,7 @@ public class Survey extends AbstractRdcDomainObject {
       .add("sampleSize", sampleSize)
       .add("responseRate", responseRate)
       .add("number", number)
+      .add("studyId", studyId)
       .toString();
   }
 
@@ -213,4 +216,14 @@ public class Survey extends AbstractRdcDomainObject {
   public void setNumber(Integer number) {
     this.number = number;
   }
+
+
+  public String getStudyId() {
+    return studyId;
+  }
+
+
+  public void setStudyId(String studyId) {
+    this.studyId = studyId;
+  }  
 }

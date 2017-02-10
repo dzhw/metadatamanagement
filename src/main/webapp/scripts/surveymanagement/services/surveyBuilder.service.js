@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('SurveyBuilderService',
-  function(SurveyResource, CleanJSObjectService) {
+  function(SurveyResource, CleanJSObjectService, StudyIdBuilderService) {
     var getSurveys = function(surveys, projectId) {
       var surveysObjArray = [];
       for (var i = 0; i < surveys.length; i++) {
@@ -10,6 +10,7 @@ angular.module('metadatamanagementApp').service('SurveyBuilderService',
           id: projectId + '-sy' + data.number,
           number: data.number,
           dataAcquisitionProjectId: projectId,
+          studyId: StudyIdBuilderService.buildStudyId(projectId),
           title: {
             en: data['title.en'],
             de: data['title.de']
