@@ -6,13 +6,14 @@ angular.module('metadatamanagementApp').service('SearchDao',
     CleanJSObjectService) {
     var keyMapping = {
       'variables': {
-        'data-set': 'dataSetIds',
+        'data-set': 'dataSetId',
         'panel-identifier': 'panelIdentifier'
       },
       'surveys': {
         'instrument': 'instrumentIds',
         'study': 'dataAcquisitionProjectId',
-        'variable': 'variableIds'
+        'variable': 'variableIds',
+        'data-set': 'dataSetIds'
       },
       'questions': {
         'instrument': 'instrumentId',
@@ -22,10 +23,12 @@ angular.module('metadatamanagementApp').service('SearchDao',
         'survey': 'surveyIds'
       },
       'data_sets': {
-        'survey': 'surveyIds'
+        'survey': 'surveyIds',
+        'study': 'dataAcquisitionProjectId',
       },
       'related_publications': {
-        'variable': 'variableIds'
+        'variable': 'variableIds',
+        'data-set': 'dataSetIds'
       }
     };
     return {

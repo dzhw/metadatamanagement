@@ -63,6 +63,11 @@
         "type": "string",
         "index": "not_analyzed",
         "copy_to": "allStringsAsNgrams"
+      },
+      "dataSetIds": {
+        "type": "string",
+        "index": "not_analyzed",
+        "copy_to": "allStringsAsNgrams"
       }
      }
   }

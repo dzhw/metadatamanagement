@@ -35,8 +35,8 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
     };
     var findByQuestionId = function(questionId, from, size) {
       query.index = 'metadata_' + LanguageService.getCurrentInstantly();
-      query.body.from = from;
       query.body = {};
+      query.body.from = from;
       query.body.size = size;
       query.body.query = {
         'bool': {
@@ -46,6 +46,25 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
           'filter': [{
             'term': {
               'questionId': questionId
+            }
+          }]
+        }
+      };
+      return ElasticSearchClient.search(query);
+    };
+    var findByDataSetId = function(dataSetId, from, size) {
+      query.index = 'metadata_' + LanguageService.getCurrentInstantly();
+      query.body = {};
+      query.body.from = from;
+      query.body.size = size;
+      query.body.query = {
+        'bool': {
+          'must': [{
+            'match_all': {}
+          }],
+          'filter': [{
+            'term': {
+              'dataSetId': dataSetId
             }
           }]
         }
@@ -80,6 +99,7 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
       findByQuestionId: findByQuestionId,
       findBySurveyTitle: findBySurveyTitle,
       findVariables: findVariables,
+      findByDataSetId: findByDataSetId,
       countBy: countBy
     };
   });

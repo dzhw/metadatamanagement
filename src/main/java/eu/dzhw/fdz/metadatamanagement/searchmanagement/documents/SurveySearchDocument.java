@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchIndices;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import io.searchbox.annotations.JestId;
 
 /**
@@ -36,21 +38,30 @@ public class SurveySearchDocument {
   private List<String> instrumentIds;
   
   private List<String> variableIds;
+  
+  private List<String> dataSetIds;
 
   /**
    * Create the search document from the domain object depending on the language (index).
    */
   public SurveySearchDocument(Survey survey, List<Instrument> instruments,
-      List<String> variableIds, ElasticsearchIndices index) {
+      List<Variable> variables, List<DataSet> dataSets,ElasticsearchIndices index) {
     this.id = survey.getId();
     this.dataAcquisitionProjectId = survey.getDataAcquisitionProjectId();
     this.number = survey.getNumber();
-    this.variableIds = variableIds;
     createI18nAttributes(survey, index);
     this.fieldPeriod = survey.getFieldPeriod();
     if (instruments != null) {
       this.instrumentIds = instruments.stream()
           .map(Instrument::getId).collect(Collectors.toList());      
+    }
+    if (variables != null) {
+      this.variableIds = variables.stream()
+          .map(Variable::getId).collect(Collectors.toList());    
+    }
+    if (dataSets != null) {
+      this.setDataSetIds(dataSets.stream()
+          .map(DataSet::getId).collect(Collectors.toList()));    
     }
   }
 
@@ -151,5 +162,13 @@ public class SurveySearchDocument {
 
   public void setVariableIds(List<String> variableIds) {
     this.variableIds = variableIds;
+  }
+
+  public List<String> getDataSetIds() {
+    return dataSetIds;
+  }
+
+  public void setDataSetIds(List<String> dataSetIds) {
+    this.dataSetIds = dataSetIds;
   }
 }

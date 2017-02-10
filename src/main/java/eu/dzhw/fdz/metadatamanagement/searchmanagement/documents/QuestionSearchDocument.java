@@ -1,10 +1,12 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchIndices;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import io.searchbox.annotations.JestId;
 
 /**
@@ -36,7 +38,7 @@ public class QuestionSearchDocument {
    * Create the search document from the domain object depending on the language (index).
    */
   public QuestionSearchDocument(Question question, 
-      Instrument instrument, List<String> variableIds, ElasticsearchIndices index) {
+      Instrument instrument, List<Variable> variables, ElasticsearchIndices index) {
     this.id = question.getId();
     this.number = question.getNumber();
     this.instrumentId = question.getInstrumentId();
@@ -45,8 +47,11 @@ public class QuestionSearchDocument {
     this.successors = question.getSuccessors();    
     this.instrumentNumber = question.getInstrumentNumber();
     this.successorNumbers = question.getSuccessorNumbers();
-    this.variableIds = variableIds;
     this.studyId = question.getStudyId();
+    if (variables != null) {
+      this.variableIds = variables.stream()
+          .map(Variable::getId).collect(Collectors.toList());    
+    }
     createI18nAttributes(question, instrument, index);
   }
   

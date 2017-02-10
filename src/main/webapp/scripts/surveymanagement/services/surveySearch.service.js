@@ -42,9 +42,11 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
       }
       return ElasticSearchClient.search(query);
     };
-    var findByVariableId = function(variableId) {
+    var findByVariableId = function(variableId, from, size) {
       query.index = 'metadata_' + LanguageService.getCurrentInstantly();
       query.body = {};
+      query.body.from = from;
+      query.body.size = size;
       query.body.query = {
         'bool': {
           'must': [{

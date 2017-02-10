@@ -9,6 +9,7 @@ import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.stereotype.Service;
 
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
@@ -124,5 +125,23 @@ public class SurveyService {
             ElasticsearchType.surveys, ElasticsearchUpdateQueueAction.UPSERT);
       });      
     }
-  }  
+  }
+  
+  /**
+   * Enqueue update of survey search document when the dataSet is updated.
+   * 
+   * @param dataSet the updated or created dataSet.
+   */
+  @HandleAfterCreate
+  @HandleAfterSave
+  @HandleAfterDelete
+  public void onDataSetChanged(DataSet dataSet) {
+    if (dataSet.getSurveyIds() != null) {
+      List<Survey> surveys = surveyRepository.findByIdIn(dataSet.getSurveyIds());
+      surveys.forEach(survey -> {
+        elasticsearchUpdateQueueService.enqueue(survey.getId(),
+            ElasticsearchType.surveys, ElasticsearchUpdateQueueAction.UPSERT);
+      });      
+    }
+  } 
 }
