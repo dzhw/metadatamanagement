@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
   function(FileReaderService, QuestionResource, QuestionDeleteResource,
     JobLoggingService, QuestionImageUploadService, CleanJSObjectService,
     ErrorMessageResolverService, $q, ElasticSearchAdminService, $rootScope,
-    $translate, $mdDialog, QuestionIdBuilderService) {
+    $translate, $mdDialog, QuestionIdBuilderService, StudyIdBuilderService) {
     var filesMap;
     var questionResources;
     var createInstrumentsFileMap = function(files, dataAcquisitionProjectId) {
@@ -90,6 +90,8 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                   });
               }
               question.successors = successors;
+              question.studyId = StudyIdBuilderService
+                .buildStudyId(question.dataAcquisitionProjectId);
               question.imageType = 'PNG';
               if (!instrument.pngFiles[questionNumber]) {
                 JobLoggingService.error({

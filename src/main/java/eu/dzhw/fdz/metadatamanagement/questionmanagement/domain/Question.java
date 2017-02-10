@@ -106,6 +106,9 @@ public class Question extends AbstractRdcDomainObject {
     
   private String instrumentId;
   
+  @NotEmpty(message = "question-management.error.question.study-id.not-empty")
+  private String studyId;
+  
   /*
    * (non-Javadoc)
    * @see eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject#getId()
@@ -138,6 +141,7 @@ public class Question extends AbstractRdcDomainObject {
       .add("instrumentId", instrumentId)
       .add("instrumentNumber", instrumentNumber)
       .add("successorNumbers", successorNumbers)
+      .add("studyId", studyId)
       .toString();
   }
 
@@ -257,4 +261,12 @@ public class Question extends AbstractRdcDomainObject {
   public void setSuccessorNumbers(List<String> successorNumbers) {
     this.successorNumbers = successorNumbers;
   }
+
+  public String getStudyId() {
+    return studyId;
+  }
+
+  public void setStudyId(String studyId) {
+    this.studyId = studyId;
+  }  
 }

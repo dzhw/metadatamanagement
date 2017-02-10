@@ -91,6 +91,9 @@ angular.module('metadatamanagementApp').config(
             'data-acquisition-project-id': {
               'not-empty': 'The RDC-ID of the Project must not be empty!'
             },
+            'study-id': {
+              'not-empty': 'The Study-ID of of the Question must not be empty!'
+            },
             'instrument-number': {
               'not-null': 'The Number of the Instrument must not be empty!'
             }

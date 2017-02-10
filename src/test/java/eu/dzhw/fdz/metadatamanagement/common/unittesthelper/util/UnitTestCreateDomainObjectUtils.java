@@ -279,6 +279,7 @@ public class UnitTestCreateDomainObjectUtils {
       .withTopic(new I18nString("Topic De", "Topic EN"))
       .withInstrumentNumber(instrumentNumber)
       .withSuccessorNumbers(new ArrayList<>())
+      .withStudyId(UnitTestCreateValidIds.buildStudyId(projectId))
       .build();
   }
   
