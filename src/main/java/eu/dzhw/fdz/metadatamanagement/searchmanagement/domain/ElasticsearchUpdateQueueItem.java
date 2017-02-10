@@ -25,7 +25,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.builders")
 @CompoundIndexes({
-    @CompoundIndex(def = "{documentType: 1, documentId: 1, action: 1, createdDate: 1}",
+    @CompoundIndex(def = "{documentType: 1, documentId: 1, action: 1}",
         unique = true),
     @CompoundIndex(def = "{updateStartedAt: 1, updateStartedBy: 1}")})
 public class ElasticsearchUpdateQueueItem extends AbstractRdcDomainObject {

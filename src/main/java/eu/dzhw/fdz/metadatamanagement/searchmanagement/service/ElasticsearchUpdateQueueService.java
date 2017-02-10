@@ -47,6 +47,8 @@ import io.searchbox.core.Index;
 
 /**
  * Service which manages asynchronous Elasticsearch updates as a FIFO queue.
+ * Inserting an item into the queue which already exists will remove the existing one
+ * and insert the new item at the end of the queue.
  * 
  * @author René Reitmann
  * @author Daniel Katzberg
@@ -106,6 +108,12 @@ public class ElasticsearchUpdateQueueService {
   public void enqueue(String documentId, ElasticsearchType documentType,
       ElasticsearchUpdateQueueAction action) {
     try {
+      ElasticsearchUpdateQueueItem existingItem = queueItemRepository
+          .findOneByDocumentTypeAndDocumentIdAndAction(
+              documentType, documentId, action);
+      if (existingItem != null) {
+        queueItemRepository.delete(existingItem.getId());
+      }
       queueItemRepository
         .insert(new ElasticsearchUpdateQueueItem(documentId, documentType, action));
     } catch (DuplicateKeyException ex) {
