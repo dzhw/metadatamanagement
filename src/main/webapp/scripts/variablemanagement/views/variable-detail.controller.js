@@ -71,6 +71,8 @@ angular.module('metadatamanagementApp')
           .then(function(variablesInPanel) {
             $scope.counts.variablesInPanel = variablesInPanel.count;
           });
+      } else {
+        $scope.counts.variablesInPanel = 0;
       }
 
       RelatedPublicationSearchService

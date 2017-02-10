@@ -143,12 +143,12 @@
                 <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                     <div ng-if="counts.variablesInPanel == 0" class="fdz-truncate-string" flex>
                       <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
-                      {{'variable-management.detail.same-variables-in-panel' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                      {{'variable-management.detail.variables-in-panel' | translate }}: {{'global.messages.error.unavailable' | translate}}
                     </div>
                     <div ng-if="counts.variablesInPanel >= 1" class="fdz-truncate-string" flex>
                       <a ui-sref="search({'type': 'variables', 'panel-identifier':variable.panelIdentifier, 'page': 1})">
                         <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
-                        {{'variable-management.detail.same-variables-in-panel' | translate }}: ({{counts.variablesInPanel}})</a>
+                        {{'variable-management.detail.variables-in-panel' | translate }}: ({{counts.variablesInPanel}})</a>
                     </div>
                 </div>
 

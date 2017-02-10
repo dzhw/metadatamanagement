@@ -22,7 +22,7 @@ angular.module('metadatamanagementApp').config(
           'title': '{{ title }} ({{ surveyId }})',
           'survey': 'Erhebung',
           'surveys': 'Erhebungen',
-          'surveys-same-study': 'Erhebungen der gleichen Studie',
+          'surveys-same-study': 'Alle Erhebungen der Studie',
           'survey-informations': 'Informationen zu der Erhebung',
           'related-information': 'Zugehörige Informationen',
           'related-objects': 'Zugehörige Objekte',

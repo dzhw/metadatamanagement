@@ -28,7 +28,7 @@ angular.module('metadatamanagementApp')
             ctrl.counts.dataSetsCount = dataSetsCount.count;
           });
         SurveySearchService.countBy('dataAcquisitionProjectId',
-            ctrl.survey.dataAcquisitionProjectId, ctrl.survey.id)
+            ctrl.survey.dataAcquisitionProjectId)
           .then(function(surveysCount) {
             ctrl.counts.surveysCount = surveysCount.count;
           });

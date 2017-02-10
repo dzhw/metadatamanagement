@@ -30,7 +30,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
     };
     return {
       search: function(queryterm, pageNumber, dataAcquisitionProjectId,
-        filter, elasticsearchType, pageSize, sortBy, not) {
+        filter, elasticsearchType, pageSize, sortBy) {
         var query = {};
         var projectFilter;
         var studiesFilter;
@@ -69,13 +69,6 @@ angular.module('metadatamanagementApp').service('SearchDao',
               'must': [{
                 'match_all': {}
               }],
-            }
-          };
-        }
-        if (not && not !== '') {
-          query.body.query.bool['must_not'] = { // jshint ignore:line
-            'term': {
-              'id': not
             }
           };
         }

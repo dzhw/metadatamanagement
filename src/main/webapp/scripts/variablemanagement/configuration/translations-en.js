@@ -28,7 +28,7 @@ angular.module('metadatamanagementApp').config(
           'variable': 'Variable',
           'variables': 'Variables',
           'variable-informations': 'Informations',
-          'same-variables-in-panel': 'Panel Variables',
+          'variables-in-panel': 'Panel Variables',
           'related-objects': 'Related Objects',
           'frequencies': 'Frequencies',
           'generation-details': 'Generation Details',
