@@ -78,7 +78,7 @@
                             {{'variable-management.detail.variables' | translate }}: ({{ctrl.counts.variablesCount}})</a>
                         </div>
                     </div>
-                    <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                    <div ng-if="ctrl.counts.dataSetsCount !== 1" style="margin-bottom: 0.5em; width: 100%;" layout="row">
                         <div ng-if="ctrl.counts.dataSetsCount == 0" class="fdz-truncate-string" flex>
                           <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
                           {{'data-set-management.detail.data-set-same-study' | translate }}: {{'global.messages.error.unavailable' | translate}}

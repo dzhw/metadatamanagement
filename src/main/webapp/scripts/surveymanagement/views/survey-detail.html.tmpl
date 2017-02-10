@@ -103,7 +103,7 @@
                         {{'data-set-management.detail.data-sets' | translate }}: ({{ctrl.counts.dataSetsCount}})</a>
                     </div>
                 </div>
-                <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                <div ng-if="ctrl.counts.surveysCount !== 1" style="margin-bottom: 0.5em; width: 100%;" layout="row">
                     <div ng-if="ctrl.counts.surveysCount == 0" class="fdz-truncate-string" flex>
                       <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                       {{'survey-management.detail.surveys-same-study' | translate }}: {{'global.messages.error.unavailable' | translate}}
