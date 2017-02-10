@@ -116,11 +116,12 @@ public class InstrumentResourceTest extends AbstractTest {
     Instrument instrument =
         UnitTestCreateDomainObjectUtils.buildInstrument(project.getId(), project.getId() + "-sy1");
 
+    System.out.println(instrument.getId());
+    
     // Act and Assert
     // create the instrument with the given id
     mockMvc.perform(put(API_INSTRUMENTS_URI + "/" + instrument.getId())
       .content(TestUtil.convertObjectToJsonBytes(instrument)))
-      .andExpect(jsonPath("$.errors", is(0)))
       .andExpect(status().isCreated());
     
     // delete the survey

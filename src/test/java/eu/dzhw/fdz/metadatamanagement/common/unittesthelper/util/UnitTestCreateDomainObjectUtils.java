@@ -289,7 +289,7 @@ public class UnitTestCreateDomainObjectUtils {
     List<String> surveyIds = new ArrayList<>();
     surveyIds.add(projectId + "-sy1");
     return new InstrumentBuilder().withDataAcquisitionProjectId(projectId)
-      .withId(UnitTestCreateValidIds.buildInstrument(projectId, 1))
+      .withId(UnitTestCreateValidIds.buildInstrumentId(projectId, 1))
       .withTitle(new I18nStringBuilder()
           .withDe("Instrument.de")
           .withEn("Instrument.en")
@@ -449,7 +449,7 @@ public class UnitTestCreateDomainObjectUtils {
     List<String> surveyIds = new ArrayList<>();
     surveyIds.add(surveyId);
     return new InstrumentBuilder()
-        .withId(projectId + "-ins1")
+        .withId(UnitTestCreateValidIds.buildInstrumentId(projectId, 1))
         .withDataAcquisitionProjectId(projectId)
         .withSurveyIds(surveyIds)
         .withTitle(new I18nStringBuilder()
@@ -469,7 +469,7 @@ public class UnitTestCreateDomainObjectUtils {
   public static InstrumentAttachmentMetadata buildInstrumentAttachmentMetadata(String projectId, Integer instrumentNumber) {
     return new InstrumentAttachmentMetadataBuilder()
           .withDataAcquisitionProjectId(projectId)
-          .withInstrumentId(projectId + "-ins" + instrumentNumber)
+          .withInstrumentId(UnitTestCreateValidIds.buildInstrumentId(projectId, instrumentNumber))
           .withInstrumentNumber(instrumentNumber)
           .withFileName("filename.txt")
           .withTitle(new I18nString("Titel", "Title"))
