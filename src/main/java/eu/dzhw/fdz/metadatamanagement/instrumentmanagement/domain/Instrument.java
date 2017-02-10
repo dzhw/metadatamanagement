@@ -41,7 +41,7 @@ public class Instrument extends AbstractRdcDomainObject {
 
   @Id
   @NotEmpty(message = "instrument-management.error.instrument.id.not-empty")
-  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS,
+  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_EXCLAMATIONMARK,
       message = "instrument-management.error.instrument.id.pattern")
   @Size(max = StringLengths.MEDIUM, message = "instrument-management.error.instrument.id.size")
   private String id;

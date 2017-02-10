@@ -33,8 +33,13 @@ public class ValidInstrumentIdPatternValidator
         || instrument.getNumber() == null) {
       return false;
     }
-    return instrument.getId().equals(instrument.getDataAcquisitionProjectId() + "-ins" 
-        + instrument.getNumber());
+    
+    System.out.println("ins-" + instrument.getDataAcquisitionProjectId() + "-ins" 
+        + instrument.getNumber() + "!");
+    System.out.println(instrument.getId());
+    
+    return instrument.getId().equals("ins-" + instrument.getDataAcquisitionProjectId() + "-ins" 
+        + instrument.getNumber() + "!");
   }
 
 }

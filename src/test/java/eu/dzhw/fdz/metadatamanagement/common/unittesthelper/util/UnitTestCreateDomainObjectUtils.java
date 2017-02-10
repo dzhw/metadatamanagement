@@ -289,7 +289,7 @@ public class UnitTestCreateDomainObjectUtils {
     List<String> surveyIds = new ArrayList<>();
     surveyIds.add(projectId + "-sy1");
     return new InstrumentBuilder().withDataAcquisitionProjectId(projectId)
-      .withId(projectId + "-ins1")
+      .withId(UnitTestCreateValidIds.buildInstrument(projectId, 1))
       .withTitle(new I18nStringBuilder()
           .withDe("Instrument.de")
           .withEn("Instrument.en")

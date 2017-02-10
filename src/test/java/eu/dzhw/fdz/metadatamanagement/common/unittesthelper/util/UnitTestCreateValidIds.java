@@ -23,4 +23,8 @@ public class UnitTestCreateValidIds {
     return "que-" + dataAcquisitionProjectId + "-ins" + instrumentNumber + "-" + questionNumber + "!";
   }
   
+  public static String buildInstrumentId(String dataAcquisitionProjectId, int instrumentNumber) {
+    return "ins-" + dataAcquisitionProjectId + "-ins" + instrumentNumber + "!";
+  }
+  
 }

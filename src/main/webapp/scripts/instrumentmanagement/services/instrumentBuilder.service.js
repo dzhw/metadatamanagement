@@ -2,11 +2,13 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('InstrumentBuilderService',
-  function(InstrumentResource, CleanJSObjectService) {
+  function(InstrumentResource, CleanJSObjectService,
+    InstrumentIdBuilderService) {
     var buildInstrument = function(instrumentFromExcel,
       dataAcquisitionProjectId) {
       var instrument = {
-        id: dataAcquisitionProjectId + '-ins' + instrumentFromExcel.number,
+        id: InstrumentIdBuilderService.buildInstrumentId(
+          dataAcquisitionProjectId, instrumentFromExcel.number),
         dataAcquisitionProjectId: dataAcquisitionProjectId,
         number: instrumentFromExcel.number,
         title: {
@@ -18,13 +20,13 @@ angular.module('metadatamanagementApp').service('InstrumentBuilderService',
           de: instrumentFromExcel['description.de']
         },
         type: instrumentFromExcel.type,
-        surveyNumbers: (instrumentFromExcel.surveyNumbers + '').
-          split(','),
+        surveyNumbers: (instrumentFromExcel.surveyNumbers + '').split(
+          ','),
         surveyIds: []
       };
       _.forEach(instrument.surveyNumbers, function(number) {
         instrument.surveyIds
-        .push(instrument.dataAcquisitionProjectId + '-sy' + number.trim());
+          .push(instrument.dataAcquisitionProjectId + '-sy' + number.trim());
       });
       var cleanedInstrument = CleanJSObjectService
         .removeEmptyJsonObjects(instrument);
