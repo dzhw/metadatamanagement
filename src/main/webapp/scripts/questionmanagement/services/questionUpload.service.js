@@ -77,7 +77,8 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                 instrument.instrumentName;
               question.instrumentNumber = instrument.instrumentNumber;
               question.id = QuestionIdBuilderService.buildQuestionId(
-                question.instrumentId,
+                question.dataAcquisitionProjectId,
+                question.instrumentNumber,
                 questionNumber);
               question.number = questionNumber;
               var successors = [];
