@@ -22,11 +22,13 @@ angular.module('metadatamanagementApp')
         },
         resolve: {
           entity: ['$stateParams', 'QuestionResource',
-            function($stateParams, QuestionResource) {
+          'QuestionIdBuilderService', function($stateParams, QuestionResource,
+            QuestionIdBuilderService) {
               return QuestionResource.get({
-                id: $stateParams.projectId + '-ins' +
-                  $stateParams.instrumentNumber + '-' +
-                  $stateParams.questionNumber
+                id: QuestionIdBuilderService.buildQuestionId(
+                  $stateParams.projectId,
+                  $stateParams.instrumentNumber,
+                  $stateParams.questionNumber)
               });
             }
           ]
