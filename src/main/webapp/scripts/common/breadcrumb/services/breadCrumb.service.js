@@ -2,7 +2,8 @@
 'use strict';
 
 angular.module('metadatamanagementApp').factory('BreadCrumbService',
-  function($rootScope) {
+  function($rootScope, DataSetIdBuilderService, InstrumentIdBuilderService,
+    QuestionIdBuilderService, StudyIdBuilderService) {
     $rootScope.breadCrumbItems = [];
     var items = [];
     var createNewBreadCrumbItem = function(url, params, pathTemplate) {
@@ -29,22 +30,24 @@ angular.module('metadatamanagementApp').factory('BreadCrumbService',
           breadCrumbItem = {
             'url': url,
             'pageType': 'question-management.detail.question',
-            'id': params.projectId + '-ins' + params.instrumentNumber + '-' +
-            params.questionNumber
+            'id': QuestionIdBuilderService.buildQuestionId(params.projectId,
+              params.instrumentNumber, params.questionNumber)
           };
         break;
         case '/studies/{projectId}/instruments/{instrumentNumber}':
           breadCrumbItem = {
             'url': url,
             'pageType': 'instrument-management.detail.instrument',
-            'id': params.projectId + '-ins' + params.instrumentNumber
+            'id': InstrumentIdBuilderService.buildInstrumentId(params.projectId,
+              params.instrumentNumber)
           };
         break;
         case '/studies/{projectId}/data-sets/{dataSetNumber}':
           breadCrumbItem = {
             'url': url,
             'pageType': 'data-set-management.detail.data-set',
-            'id': params.projectId + '-ds' + params.dataSetNumber
+            'id': DataSetIdBuilderService.buildDataSetId(params.projectId,
+              params.dataSetNumber)
           };
         break;
         case '/publications/{id}':
@@ -58,7 +61,7 @@ angular.module('metadatamanagementApp').factory('BreadCrumbService',
           breadCrumbItem = {
             'url': url,
             'pageType': 'study-management.detail.study',
-            'id': params.id
+            'id': StudyIdBuilderService.buildStudyId(params.id)
           };
         break;
         case '/disclosure':
