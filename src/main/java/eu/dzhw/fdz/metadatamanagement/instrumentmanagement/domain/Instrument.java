@@ -81,6 +81,27 @@ public class Instrument extends AbstractRdcDomainObject {
   public String getId() {
     return id;
   }
+  
+  
+  /*
+   * (non-Javadoc)
+   * @see eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject#toString()
+   */
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this)
+      .add("super", super.toString())
+      .add("id", id)
+      .add("title", title)
+      .add("description", description)
+      .add("type", type)
+      .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
+      .add("surveyIds", surveyIds)
+      .add("surveyNumbers", surveyNumbers)
+      .add("number", number)
+      .toString();
+  }
+
 
   /* GETTER / SETTER */
   public void setId(String id) {
@@ -142,19 +163,4 @@ public class Instrument extends AbstractRdcDomainObject {
   public void setNumber(Integer number) {
     this.number = number;
   }
-
-  @Override
-  public String toString() {
-    return MoreObjects.toStringHelper(this)
-      .add("super", super.toString())
-      .add("id", id)
-      .add("title", title)
-      .add("description", description)
-      .add("type", type)
-      .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
-      .add("surveyIds", surveyIds)
-      .add("surveyNumbers", surveyNumbers)
-      .add("number", number)
-      .toString();
-  } 
 }

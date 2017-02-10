@@ -48,4 +48,6 @@ public interface CompleteQuestionProjection
   Integer getInstrumentNumber();
   
   List<String> getSuccessorNumbers();
+  
+  String getStudyId();
 }

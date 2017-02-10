@@ -29,6 +29,7 @@ public class QuestionSearchDocument {
   private Integer instrumentNumber;
   private List<String> successorNumbers;
   private List<String> variableIds;
+  private String studyId;
   
 
   /**
@@ -45,6 +46,7 @@ public class QuestionSearchDocument {
     this.instrumentNumber = question.getInstrumentNumber();
     this.successorNumbers = question.getSuccessorNumbers();
     this.variableIds = variableIds;
+    this.studyId = question.getStudyId();
     createI18nAttributes(question, instrument, index);
   }
   
@@ -224,5 +226,13 @@ public class QuestionSearchDocument {
 
   public void setVariableIds(List<String> variableIds) {
     this.variableIds = variableIds;
+  }
+
+  public String getStudyId() {
+    return studyId;
+  }
+
+  public void setStudyId(String studyId) {
+    this.studyId = studyId;
   }
 }
