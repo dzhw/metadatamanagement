@@ -26,6 +26,12 @@ angular.module('metadatamanagementApp')
         DataSetSearchService.countBy('surveyIds', ctrl.survey.id)
           .then(function(dataSetsCount) {
             ctrl.counts.dataSetsCount = dataSetsCount.count;
+            if (dataSetsCount.count === 1) {
+              DataSetSearchService.findBySurveyId(ctrl.survey.id)
+              .then(function(dataSet) {
+                ctrl.dataSet = dataSet.hits.hits[0]._source;
+              });
+            }
           });
         SurveySearchService.countBy('dataAcquisitionProjectId',
             ctrl.survey.dataAcquisitionProjectId)
@@ -35,6 +41,12 @@ angular.module('metadatamanagementApp')
         InstrumentSearchService.countBy('surveyIds', ctrl.survey.id)
           .then(function(instrumentsCount) {
             ctrl.counts.instrumentsCount = instrumentsCount.count;
+            if (instrumentsCount.count === 1) {
+              InstrumentSearchService.findBySurveyId(ctrl.survey.id)
+              .then(function(instrument) {
+                ctrl.intrument = instrument;
+              });
+            }
           });
       });
       ctrl.setImgResolved = function() {
