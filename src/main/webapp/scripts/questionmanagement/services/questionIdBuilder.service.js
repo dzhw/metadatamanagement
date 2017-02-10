@@ -4,7 +4,7 @@
 angular.module('metadatamanagementApp').service('QuestionIdBuilderService',
   function() {
     var buildQuestionId = function(instrumentId, questionNumber) {
-      return 'que-' + instrumentId + '-ds' + questionNumber +
+      return 'que-' + instrumentId + '-' + questionNumber +
         '!';
     };
     return {
