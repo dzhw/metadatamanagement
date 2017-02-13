@@ -4,22 +4,17 @@ import java.util.List;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.data.annotation.Id;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ImageType;
-import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
-import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation.ValidQuestionIdName;
@@ -41,27 +36,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
     + ".question.unique-question-number")
 @ValidQuestionIdName(message = "question-management.error"
     + ".question.valid-question-id-name")
-public class Question extends AbstractRdcDomainObject {
-  
-  /* Domain Object Attributes */
-  @Id
-  @NotEmpty(message = "question-management.error.question.id.not-empty")
-  @Pattern(regexp = 
-      Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOT_AND_EXCLAMATIONMARK,
-      message = "question-management.error.question.id.pattern")
-  @Size(max = StringLengths.MEDIUM, message = "question-management.error.question.id.size")
-  private String id;
-  
-  @NotEmpty(message = "question-management.error.question.number.not-empty")
-  @Size(max = StringLengths.SMALL, message = "question-management.error.question.number.size")
-  private String number;
-  
-  @NotNull(message = "question-management.error.question.question-text.not-null")
-  @I18nStringNotEmpty(
-      message = "question-management.error.question.question-text.i18n-string-not-empty")
-  @I18nStringSize(max = StringLengths.LARGE, 
-      message = "question-management.error.question.question-text.i18n-string-size")
-  private I18nString questionText;
+public class Question extends QuestionSubDocument {
   
   @I18nStringSize(max = StringLengths.LARGE, 
       message = "question-management.error.question.instruction.i18n-string-size")
@@ -84,10 +59,6 @@ public class Question extends AbstractRdcDomainObject {
       message = "question-management.error.question.image-type.valid-question-image-type")
   private ImageType imageType;
   
-  @I18nStringSize(max = StringLengths.LARGE, 
-      message = "question-management.error.question.topic.i18n-string-size")
-  private I18nString topic;
-  
   @Valid
   private TechnicalRepresentation technicalRepresentation;
   
@@ -97,7 +68,6 @@ public class Question extends AbstractRdcDomainObject {
   private List<String> successorNumbers;
   
   private List<String> successors;
-  
       
   /* Foreign Keys */
   @Indexed
@@ -108,15 +78,15 @@ public class Question extends AbstractRdcDomainObject {
   
   @NotEmpty(message = "question-management.error.question.study-id.not-empty")
   private String studyId;
+
+  public Question() {
+    super();
+  }
   
-  /*
-   * (non-Javadoc)
-   * @see eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject#getId()
-   */
-  @Override
-  public String getId() {
-    return id;
-  }    
+  public Question(Question question) {
+    super();
+    BeanUtils.copyProperties(question, this);
+  }
   
   /*
    * (non-Javadoc)
@@ -145,27 +115,6 @@ public class Question extends AbstractRdcDomainObject {
       .toString();
   }
 
-  /* GETTER / SETTER */
-  public void setId(String id) {
-    this.id = id;
-  }
-  
-  public String getNumber() {
-    return number;
-  }
-  
-  public void setNumber(String number) {
-    this.number = number;
-  }
-  
-  public I18nString getQuestionText() {
-    return questionText;
-  }
-  
-  public void setQuestionText(I18nString questionText) {
-    this.questionText = questionText;
-  }
-  
   public I18nString getInstruction() {
     return instruction;
   }
@@ -236,14 +185,6 @@ public class Question extends AbstractRdcDomainObject {
 
   public void setInstrumentId(String instrumentId) {
     this.instrumentId = instrumentId;
-  }
-
-  public I18nString getTopic() {
-    return topic;
-  }
-
-  public void setTopic(I18nString topic) {
-    this.topic = topic;
   }
 
   public Integer getInstrumentNumber() {

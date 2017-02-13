@@ -90,9 +90,9 @@ public class InstrumentResourceTest extends AbstractTest {
 
     elasticsearchUpdateQueueService.processQueue();
 
-    // check that there are two instrument documents
+    // check that there is one instrument document
     elasticsearchAdminService.refreshAllIndices();
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2.0));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1.0));
 
     // check that auditing attributes have been set
     mockMvc.perform(get(API_INSTRUMENTS_URI + "/" + instrument.getId()))
@@ -144,9 +144,9 @@ public class InstrumentResourceTest extends AbstractTest {
 
     elasticsearchUpdateQueueService.processQueue();
 
-    // check that there are two instrument documents
+    // check that there is one instrument documents
     elasticsearchAdminService.refreshAllIndices();
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2.0));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1.0));
   }
 
   @Test

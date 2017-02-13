@@ -1,0 +1,18 @@
+{
+	"instruments": {
+    	"_all" : {	
+  		 	"enabled" : true,
+  		 	"analyzer": "trigrams"
+  		},
+    	"properties": {
+    		"id": {
+        		"type": "string",
+        		"index": "not_analyzed"
+      		},
+      		"dataAcquisitionProjectId": {
+      			"type": "string",
+        		"index": "not_analyzed"
+      		}
+      	}
+	}
+}

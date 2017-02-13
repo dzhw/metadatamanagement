@@ -25,9 +25,6 @@ public interface VariableRepository
   List<Variable> findByDataAcquisitionProjectId(String dataAcquisitionProjectId);
   
   @RestResource(exported = false)
-  Slice<Variable> findBySurveyIdsContaining(String surveyId, Pageable pageable);
-  
-  @RestResource(exported = false)
   List<Variable> findBySurveyIdsContaining(String surveyId);
   
   @RestResource(exported = false)
@@ -50,4 +47,10 @@ public interface VariableRepository
   
   @RestResource(exported = false)
   List<Variable> findByRelatedQuestionsQuestionId(String questionId);
+
+  @RestResource(exported = false)
+  List<Variable> findByStudyId(String studyId);
+
+  @RestResource(exported = false)
+  List<Variable> findByRelatedQuestionsInstrumentId(String id);
 }

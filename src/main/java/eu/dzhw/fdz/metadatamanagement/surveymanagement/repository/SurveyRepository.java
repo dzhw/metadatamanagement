@@ -35,4 +35,7 @@ public interface SurveyRepository
   
   @RestResource(exported = false)
   List<Survey> findByIdIn(List<String> surveyIds);
+
+  @RestResource(exported = false)
+  List<Survey> findByStudyId(String studyId);
 }

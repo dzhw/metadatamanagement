@@ -109,9 +109,9 @@ public class DataSetResourceTest extends AbstractTest {
     
     elasticsearchUpdateQueueService.processQueue();
 
-    // check that there are two data set documents plus two surveys
+    // check that there is one data set documents
     elasticsearchAdminService.refreshAllIndices();
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2.0));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1.0));
   }
 
   @Test
@@ -251,9 +251,9 @@ public class DataSetResourceTest extends AbstractTest {
     
     elasticsearchUpdateQueueService.processQueue();
 
-    // check that there are two data set documents
+    // check that there is one data set documents
     elasticsearchAdminService.refreshAllIndices();
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2.0));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1.0));
   }
 
   @Test

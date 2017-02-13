@@ -111,9 +111,9 @@ public class VariableResourceTest extends AbstractTest {
 
     queueService.processQueue();
     
-    // check that there are two variable search documents
+    // check that there is one variable search document
     elasticsearchAdminService.refreshAllIndices();
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2.0));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1.0));
 
     // check that auditing attributes have been set
     mockMvc.perform(get(API_VARIABLES_URI + "/" + variable.getId()))
@@ -614,7 +614,7 @@ public class VariableResourceTest extends AbstractTest {
     
     // check that the variable search documents have been updated
     elasticsearchAdminService.refreshAllIndices();
-    assertThat(elasticsearchAdminService.countAllDocuments(), is(2.0));    
+    assertThat(elasticsearchAdminService.countAllDocuments(), is(1.0));    
   }
 
   @Test

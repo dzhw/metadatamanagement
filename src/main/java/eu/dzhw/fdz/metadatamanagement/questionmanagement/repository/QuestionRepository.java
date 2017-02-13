@@ -36,5 +36,10 @@ public interface QuestionRepository
   
   @RestResource(exported = false)
   List<Question> findByIdIn(List<String> ids);
-  
+
+  @RestResource(exported = false)
+  List<Question> findByStudyId(String studyId);
+
+  @RestResource(exported = false)
+  List<Question> findByInstrumentIdIn(List<String> instrumentIds);
 }

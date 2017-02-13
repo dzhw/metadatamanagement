@@ -92,9 +92,9 @@ public class SurveyResourceTest extends AbstractTest {
     
     elasticsearchUpdateQueueService.processQueue();
 
-    // check that there are two survey documents
+    // check that there is one survey document
     elasticsearchAdminService.refreshAllIndices();
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2.0));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1.0));
   }
 
   @Test
@@ -286,9 +286,9 @@ public class SurveyResourceTest extends AbstractTest {
     
     elasticsearchUpdateQueueService.processQueue();
 
-    // check that there are two survey documents
+    // check that there is one survey documents
     elasticsearchAdminService.refreshAllIndices();
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2.0));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1.0));
   }
 
   @Test

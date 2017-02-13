@@ -11,10 +11,14 @@ import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
@@ -30,6 +34,9 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 public class SurveyService {
   @Autowired
   private SurveyRepository surveyRepository;
+  
+  @Autowired
+  private InstrumentRepository instrumentRepository;
   
   @Autowired
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
@@ -100,7 +107,48 @@ public class SurveyService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onInstrumentChanged(Instrument instrument) {
-    List<Survey> surveys = surveyRepository.findByIdIn(instrument.getSurveyIds());
+    if (instrument.getSurveyIds() != null) {
+      List<Survey> surveys = surveyRepository.findByIdIn(instrument.getSurveyIds());
+      surveys.forEach(survey -> {
+        elasticsearchUpdateQueueService.enqueue(
+            survey.getId(), 
+            ElasticsearchType.surveys, 
+            ElasticsearchUpdateQueueAction.UPSERT);
+      });      
+    }
+  }
+  
+  /**
+   * Enqueue update of survey search documents when the question is changed.
+   * 
+   * @param question the updated, created or deleted question.
+   */
+  @HandleAfterCreate
+  @HandleAfterSave
+  @HandleAfterDelete
+  public void onQuestionChanged(Question question) {
+    Instrument instrument = instrumentRepository.findOne(question.getInstrumentId());
+    if (instrument != null && instrument.getSurveyIds() != null) {
+      List<Survey> surveys = surveyRepository.findByIdIn(instrument.getSurveyIds());
+      surveys.forEach(survey -> {
+        elasticsearchUpdateQueueService.enqueue(
+            survey.getId(), 
+            ElasticsearchType.surveys, 
+            ElasticsearchUpdateQueueAction.UPSERT);
+      });      
+    }
+  }
+  
+  /**
+   * Enqueue update of survey search documents when the study is changed.
+   * 
+   * @param study the updated, created or deleted study.
+   */
+  @HandleAfterCreate
+  @HandleAfterSave
+  @HandleAfterDelete
+  public void onStudyChanged(Study study) {
+    List<Survey> surveys = surveyRepository.findByStudyId(study.getId());
     surveys.forEach(survey -> {
       elasticsearchUpdateQueueService.enqueue(
           survey.getId(), 
@@ -110,9 +158,9 @@ public class SurveyService {
   }
   
   /**
-   * Enqueue update of survey search document when the variable is updated.
+   * Enqueue update of survey search document when the variable is changed.
    * 
-   * @param variable the updated or created variable.
+   * @param variable the updated, created or deleted variable.
    */
   @HandleAfterCreate
   @HandleAfterSave
@@ -138,6 +186,24 @@ public class SurveyService {
   public void onDataSetChanged(DataSet dataSet) {
     if (dataSet.getSurveyIds() != null) {
       List<Survey> surveys = surveyRepository.findByIdIn(dataSet.getSurveyIds());
+      surveys.forEach(survey -> {
+        elasticsearchUpdateQueueService.enqueue(survey.getId(),
+            ElasticsearchType.surveys, ElasticsearchUpdateQueueAction.UPSERT);
+      });      
+    }
+  }
+  
+  /**
+   * Enqueue update of survey search document when the related publication is updated.
+   * 
+   * @param relatedPublication the updated or created publication.
+   */
+  @HandleAfterCreate
+  @HandleAfterSave
+  @HandleAfterDelete
+  public void onRelatedPublicationChanged(RelatedPublication relatedPublication) {
+    if (relatedPublication.getSurveyIds() != null) {
+      List<Survey> surveys = surveyRepository.findByIdIn(relatedPublication.getSurveyIds());
       surveys.forEach(survey -> {
         elasticsearchUpdateQueueService.enqueue(survey.getId(),
             ElasticsearchType.surveys, ElasticsearchUpdateQueueAction.UPSERT);

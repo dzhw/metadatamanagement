@@ -1,15 +1,21 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetSubDocument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
-import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchIndices;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentSubDocument;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.QuestionSubDocument;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublicationSubDocument;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudySubDocument;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
-import io.searchbox.annotations.JestId;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.VariableSubDocument;
 
 /**
  * Representation of a survey which is stored in elasticsearch.
@@ -17,169 +23,81 @@ import io.searchbox.annotations.JestId;
  * @author René Reitmann
  * @author Daniel Katzberg
  */
-public class SurveySearchDocument {
-  @JestId
-  private String id;
+public class SurveySearchDocument extends Survey {
+  private StudySubDocument study;
+  private List<DataSetSubDocument> dataSets;
+  private List<VariableSubDocument> variables;
+  private List<RelatedPublicationSubDocument> relatedPublications;
+  private List<InstrumentSubDocument> instruments;
+  private List<QuestionSubDocument> questions;
   
-  private String dataAcquisitionProjectId;
-
-  private String title;
-
-  private Period fieldPeriod;
-  
-  private String population;
-  
-  private String sample;
-  
-  private String surveyMethod;
-  
-  private Integer number;
-  
-  private String studyId;
-  
-  private List<String> instrumentIds;
-  
-  private List<String> variableIds;
-  
-  private List<String> dataSetIds;
-
   /**
-   * Create the search document from the domain object depending on the language (index).
+   * Construct the search document with all related subdocuments.
+   * @param survey the survey to be searched for
+   * @param study the study containing this survey
+   * @param dataSets the data sets available for this survey
+   * @param variables the variables available for this survey
+   * @param relatedPublications the publication using this survey
+   * @param instruments the instruments used by this survey
+   * @param questions the questions used by this survey
    */
-  public SurveySearchDocument(Survey survey, List<Instrument> instruments,
-      List<Variable> variables, List<DataSet> dataSets,ElasticsearchIndices index) {
-    this.id = survey.getId();
-    this.dataAcquisitionProjectId = survey.getDataAcquisitionProjectId();
-    this.number = survey.getNumber();
-    this.studyId = survey.getStudyId();
-    createI18nAttributes(survey, index);
-    this.fieldPeriod = survey.getFieldPeriod();
-    if (instruments != null) {
-      this.instrumentIds = instruments.stream()
-          .map(Instrument::getId).collect(Collectors.toList());      
-    }
-    if (variables != null) {
-      this.variableIds = variables.stream()
-          .map(Variable::getId).collect(Collectors.toList());    
-    }
-    if (dataSets != null) {
-      this.setDataSetIds(dataSets.stream()
-          .map(DataSet::getId).collect(Collectors.toList()));    
-    }
+  public SurveySearchDocument(Survey survey, Study study, List<DataSet> dataSets, 
+      List<Variable> variables, List<RelatedPublication> relatedPublications,
+      List<Instrument> instruments, List<Question> questions) {
+    super(survey);
+    this.study = study;
+    this.dataSets = new ArrayList<DataSetSubDocument>(dataSets);
+    this.variables = new ArrayList<VariableSubDocument>(variables);
+    this.relatedPublications = new ArrayList<RelatedPublicationSubDocument>(relatedPublications);
+    this.instruments = new ArrayList<InstrumentSubDocument>(instruments);
+    this.questions = new ArrayList<QuestionSubDocument>(questions);
   }
 
-  private void createI18nAttributes(Survey survey, ElasticsearchIndices index) {
-    switch (index) {
-      case METADATA_DE:
-        title = survey.getTitle() != null ? survey.getTitle().getDe() : null;
-        population = survey.getPopulation() != null ? survey.getPopulation().getDe() : null;
-        sample = survey.getSample() != null ? survey.getSample().getDe() : null;
-        surveyMethod = survey.getSurveyMethod() != null ? survey.getSurveyMethod().getDe() : null;
-        break;
-      case METADATA_EN:
-        title = survey.getTitle() != null ? survey.getTitle().getEn() : null;
-        population = survey.getPopulation() != null ? survey.getPopulation().getEn() : null;
-        sample = survey.getSample() != null ? survey.getSample().getEn() : null;
-        surveyMethod = survey.getSurveyMethod() != null ? survey.getSurveyMethod().getEn() : null;
-        break;
-      default:
-        throw new RuntimeException("Unknown index:" + index);
-    }
+  public StudySubDocument getStudy() {
+    return study;
   }
 
-  public String getId() {
-    return id;
+  public void setStudy(StudySubDocument study) {
+    this.study = study;
   }
 
-  public void setId(String id) {
-    this.id = id;
+  public List<DataSetSubDocument> getDataSets() {
+    return dataSets;
   }
 
-  public String getTitle() {
-    return title;
+  public void setDataSets(List<DataSetSubDocument> dataSets) {
+    this.dataSets = dataSets;
   }
 
-  public void setTitle(String title) {
-    this.title = title;
+  public List<VariableSubDocument> getVariables() {
+    return variables;
   }
 
-  public Period getFieldPeriod() {
-    return fieldPeriod;
+  public void setVariables(List<VariableSubDocument> variables) {
+    this.variables = variables;
   }
 
-  public void setFieldPeriod(Period fieldPeriod) {
-    this.fieldPeriod = fieldPeriod;
-  }
-  
-  public String getDataAcquisitionProjectId() {
-    return dataAcquisitionProjectId;
+  public List<RelatedPublicationSubDocument> getRelatedPublications() {
+    return relatedPublications;
   }
 
-  public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
-    this.dataAcquisitionProjectId = dataAcquisitionProjectId;
+  public void setRelatedPublications(List<RelatedPublicationSubDocument> relatedPublications) {
+    this.relatedPublications = relatedPublications;
   }
 
-  public String getPopulation() {
-    return population;
+  public List<InstrumentSubDocument> getInstruments() {
+    return instruments;
   }
 
-  public void setPopulation(String population) {
-    this.population = population;
+  public void setInstruments(List<InstrumentSubDocument> instruments) {
+    this.instruments = instruments;
   }
 
-  public String getSample() {
-    return sample;
+  public List<QuestionSubDocument> getQuestions() {
+    return questions;
   }
 
-  public void setSample(String sample) {
-    this.sample = sample;
-  }
-
-  public String getSurveyMethod() {
-    return surveyMethod;
-  }
-
-  public void setSurveyMethod(String surveyMethod) {
-    this.surveyMethod = surveyMethod;
-  }
-
-  public Integer getNumber() {
-    return number;
-  }
-
-  public void setNumber(Integer number) {
-    this.number = number;
-  }
-  
-  public List<String> getInstrumentIds() {
-    return instrumentIds;
-  }
-
-  public void setInstrumentIds(List<String> instrumentIds) {
-    this.instrumentIds = instrumentIds;
-  }
-
-  public List<String> getVariableIds() {
-    return variableIds;
-  }
-
-  public void setVariableIds(List<String> variableIds) {
-    this.variableIds = variableIds;
-  }
-
-  public List<String> getDataSetIds() {
-    return dataSetIds;
-  }
-
-  public void setDataSetIds(List<String> dataSetIds) {
-    this.dataSetIds = dataSetIds;
-  }
-
-  public String getStudyId() {
-    return studyId;
-  }
-
-  public void setStudyId(String studyId) {
-    this.studyId = studyId;
+  public void setQuestions(List<QuestionSubDocument> questions) {
+    this.questions = questions;
   }
 }

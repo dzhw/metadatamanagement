@@ -3,19 +3,20 @@ package eu.dzhw.fdz.metadatamanagement.variablemanagement.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.stereotype.Service;
 
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
@@ -90,25 +91,93 @@ public class VariableService {
   }
   
   /**
-   * Enqueue update of variable search document when the survey is updated.
+   * Enqueue update of variable search documents when the data set is changed.
    * 
-   * @param survey the updated or created survey.
+   * @param dataSet the updated, created or deleted data set.
    */
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
-  public void onSurveySaved(Survey survey) {
-    Pageable page = new PageRequest(0, 100);
-    Slice<Variable> variables = variableRepository.findBySurveyIdsContaining(survey.getId(), page);
-    while (variables.hasContent()) {
-      variables.forEach(variable -> {
-        elasticsearchUpdateQueueService.enqueue(
-            variable.getId(), 
-            ElasticsearchType.variables, 
-            ElasticsearchUpdateQueueAction.UPSERT);      
-      });
-      page = page.next();
-      variables = variableRepository.findBySurveyIdsContaining(survey.getId(), page);
-    }
+  public void onDataSetChanged(DataSet dataSet) {
+    List<Variable> variables = variableRepository.findByDataSetId(dataSet.getId());
+    variables.forEach(variable -> {
+      elasticsearchUpdateQueueService.enqueue(
+          variable.getId(), 
+          ElasticsearchType.variables, 
+          ElasticsearchUpdateQueueAction.UPSERT);      
+    });
+  }
+  
+  /**
+   * Enqueue update of variable search documents when the study is changed.
+   * 
+   * @param study the updated, created or deleted study.
+   */
+  @HandleAfterCreate
+  @HandleAfterSave
+  @HandleAfterDelete
+  public void onStudyChanged(Study study) {
+    List<Variable> variables = variableRepository.findByStudyId(study.getId());
+    variables.forEach(variable -> {
+      elasticsearchUpdateQueueService.enqueue(
+          variable.getId(), 
+          ElasticsearchType.variables, 
+          ElasticsearchUpdateQueueAction.UPSERT);      
+    });
+  }
+  
+  /**
+   * Enqueue update of variable search documents when the related publication is changed.
+   * 
+   * @param relatedPublication the updated, created or deleted related publication.
+   */
+  @HandleAfterCreate
+  @HandleAfterSave
+  @HandleAfterDelete
+  public void onRelatedPublicationChanged(RelatedPublication relatedPublication) {
+    List<Variable> variables = variableRepository.findByIdIn(relatedPublication.getVariableIds());
+    variables.forEach(variable -> {
+      elasticsearchUpdateQueueService.enqueue(
+          variable.getId(), 
+          ElasticsearchType.variables, 
+          ElasticsearchUpdateQueueAction.UPSERT);      
+    });
+  }
+  
+  /**
+   * Enqueue update of variable search documents when the instrument is changed.
+   * 
+   * @param instrument the updated, created or deleted instrument.
+   */
+  @HandleAfterCreate
+  @HandleAfterSave
+  @HandleAfterDelete
+  public void onInstrumentChanged(Instrument instrument) {
+    List<Variable> variables = variableRepository.findByRelatedQuestionsInstrumentId(
+        instrument.getId());
+    variables.forEach(variable -> {
+      elasticsearchUpdateQueueService.enqueue(
+          variable.getId(), 
+          ElasticsearchType.variables, 
+          ElasticsearchUpdateQueueAction.UPSERT);      
+    });
+  }
+  
+  /**
+   * Enqueue update of variable search documents when the survey is updated.
+   * 
+   * @param survey the updated, created or deleted survey.
+   */
+  @HandleAfterCreate
+  @HandleAfterSave
+  @HandleAfterDelete
+  public void onSurveyChanged(Survey survey) {
+    List<Variable> variables = variableRepository.findBySurveyIdsContaining(survey.getId());
+    variables.forEach(variable -> {
+      elasticsearchUpdateQueueService.enqueue(
+          variable.getId(), 
+          ElasticsearchType.variables, 
+          ElasticsearchUpdateQueueAction.UPSERT);      
+    });   
   }  
 }

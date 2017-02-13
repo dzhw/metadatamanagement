@@ -2,8 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('SearchDao',
-  function(LanguageService, ElasticSearchClient,
-    CleanJSObjectService) {
+  function(ElasticSearchClient, CleanJSObjectService) {
     var keyMapping = {
       'variables': {
         'data-set': 'dataSetId',
@@ -37,9 +36,14 @@ angular.module('metadatamanagementApp').service('SearchDao',
         var query = {};
         var projectFilter;
         var studiesFilter;
-        query.index = 'metadata_' + LanguageService.getCurrentInstantly();
+        query.index = elasticsearchType;
         query.type = elasticsearchType;
         query.body = {};
+        //use source filtering for returning only required attributes
+        query.body._source = ['id', 'number', 'questionText', 'title',
+        'description','type', 'doi', 'publicationAbstract', 'authors',
+        'surveyMethod', 'fieldPeriod', 'label', 'name', 'dataType',
+        'scaleLevel'];
         if (sortBy && sortBy !== '') {
           var sortCriteria = {};
           sortCriteria[sortBy] = {
@@ -54,7 +58,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
             'bool': {
               'must': [{
                 'match': {
-                  'allStringsAsNgrams': {
+                  '_all': {
                     'query': queryterm,
                     'type': 'boolean',
                     'operator': 'AND',

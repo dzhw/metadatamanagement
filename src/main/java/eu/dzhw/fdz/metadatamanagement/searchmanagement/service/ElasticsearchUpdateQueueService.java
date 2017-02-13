@@ -2,7 +2,9 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.service;
 
 import java.lang.management.ManagementFactory;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.NotImplementedException;
 import org.slf4j.Logger;
@@ -13,7 +15,6 @@ import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
@@ -37,6 +38,7 @@ import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RelatedQuestion;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 import io.searchbox.core.Bulk;
@@ -45,9 +47,9 @@ import io.searchbox.core.Delete;
 import io.searchbox.core.Index;
 
 /**
- * Service which manages asynchronous Elasticsearch updates as a FIFO queue.
- * Inserting an item into the queue which already exists will remove the existing one
- * and insert the new item at the end of the queue.
+ * Service which manages asynchronous Elasticsearch updates as a FIFO queue. Inserting an item into
+ * the queue which already exists will remove the existing one and insert the new item at the end of
+ * the queue.
  * 
  * @author René Reitmann
  * @author Daniel Katzberg
@@ -61,8 +63,8 @@ public class ElasticsearchUpdateQueueService {
   private String jvmId = ManagementFactory.getRuntimeMXBean().getName();
 
   /**
-   * MongoDB Repository with gets all queue elements for the synchronizations 
-   * of the Elasticsearch DB.
+   * MongoDB Repository with gets all queue elements for the synchronizations of the Elasticsearch
+   * DB.
    */
   @Autowired
   private ElasticsearchUpdateQueueItemRepository queueItemRepository;
@@ -72,7 +74,7 @@ public class ElasticsearchUpdateQueueService {
    */
   @Autowired
   private VariableRepository variableRepository;
-  
+
   @Autowired
   private DataSetRepository dataSetRepository;
 
@@ -81,19 +83,19 @@ public class ElasticsearchUpdateQueueService {
    */
   @Autowired
   private SurveyRepository surveyRepository;
-    
+
   @Autowired
   private QuestionRepository questionRepository;
-  
-  @Autowired 
+
+  @Autowired
   private StudyRepository studyRepository;
-  
+
   @Autowired
   private RelatedPublicationRepository relatedPublicationRepository;
-  
+
   @Autowired
   private InstrumentRepository instrumentRepository;
-  
+
   @Autowired
   private ElasticsearchDao elasticsearchDao;
 
@@ -108,8 +110,7 @@ public class ElasticsearchUpdateQueueService {
       ElasticsearchUpdateQueueAction action) {
     try {
       ElasticsearchUpdateQueueItem existingItem = queueItemRepository
-          .findOneByDocumentTypeAndDocumentIdAndAction(
-              documentType, documentId, action);
+          .findOneByDocumentTypeAndDocumentIdAndAction(documentType, documentId, action);
       if (existingItem != null) {
         queueItemRepository.delete(existingItem.getId());
       }
@@ -141,7 +142,7 @@ public class ElasticsearchUpdateQueueService {
     }
     logger.info("Finished processing of ElasticsearchUpdateQueue...");
   }
-  
+
   /**
    * Deletes all queue elements in the MongoDB Queue Repository.
    */
@@ -151,6 +152,7 @@ public class ElasticsearchUpdateQueueService {
 
   /**
    * Looks elements in the MongoDb and update them in the Elasticsearch DB.
+   * 
    * @param updateStart Starttime for updates.
    */
   private void lockUpdateQueueItems(LocalDateTime updateStart) {
@@ -175,6 +177,7 @@ public class ElasticsearchUpdateQueueService {
 
   /**
    * Execute locked items from the MongoDB Queue Repository.
+   * 
    * @param lockedItems A list of locked queues items.
    */
   private void executeQueueItemActions(List<ElasticsearchUpdateQueueItem> lockedItems) {
@@ -195,27 +198,28 @@ public class ElasticsearchUpdateQueueService {
 
     // execute the bulk update/delete
     elasticsearchDao.executeBulk(bulkBuilder.build());
-    
+
     // finally delete the queue items
     queueItemRepository.delete(lockedItems);
   }
 
   /**
    * Adds a Deletes Action to the bulk builder.
+   * 
    * @param lockedItem a locked item.
    * @param bulkBuilder for building an add action.
    */
   private void addDeleteActions(ElasticsearchUpdateQueueItem lockedItem, Builder bulkBuilder) {
-    for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
-      bulkBuilder.addAction(new Delete.Builder(lockedItem.getDocumentId())
-          .index(index.getIndexName())
-          .type(lockedItem.getDocumentType().name())
-          .build());
-    }
+    bulkBuilder
+        .addAction(new Delete.Builder(lockedItem.getDocumentId())
+            .index(lockedItem.getDocumentType().name())
+            .type(lockedItem.getDocumentType().name())
+            .build());   
   }
 
   /**
    * Add a update / insert action to the bulk builder.
+   * 
    * @param lockedItem A locked item.
    * @param bulkBuilder The bulk builder for building update / insert actions.
    */
@@ -229,10 +233,10 @@ public class ElasticsearchUpdateQueueService {
         break;
       case data_sets:
         addUpsertActionForDataSet(lockedItem, bulkBuilder);
-        break;     
+        break;
       case questions:
         addUpsertActionForQuestion(lockedItem, bulkBuilder);
-        break; 
+        break;
       case studies:
         addUpsertActionForStudy(lockedItem, bulkBuilder);
         break;
@@ -247,63 +251,66 @@ public class ElasticsearchUpdateQueueService {
             + lockedItem.getDocumentType() + " has not been implemented!");
     }
   }
-  
+
   private void addUpsertActionForInstrument(ElasticsearchUpdateQueueItem lockedItem,
       Builder bulkBuilder) {
     Instrument instrument = instrumentRepository.findOne(lockedItem.getDocumentId());
-    
-    if (instrument != null) {
-      for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
-        InstrumentSearchDocument searchDocument =
-            new InstrumentSearchDocument(instrument, index);
 
-        bulkBuilder.addAction(new Index.Builder(searchDocument)
-            .index(index.getIndexName())
-            .type(lockedItem.getDocumentType().name())
-            .id(searchDocument.getId())
-            .build());
-      }
+    if (instrument != null) {
+      InstrumentSearchDocument searchDocument = new InstrumentSearchDocument(instrument);
+      
+      bulkBuilder.addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType()
+          .name())
+          .type(lockedItem.getDocumentType()
+              .name())
+          .id(searchDocument.getId())
+          .build());
     }
   }
-  
+
   private void addUpsertActionForRelatedPublication(ElasticsearchUpdateQueueItem lockedItem,
       Builder bulkBuilder) {
-    
-    RelatedPublication relatedPublication = 
-        relatedPublicationRepository.findOne(lockedItem.getDocumentId());
-    if (relatedPublication != null) {      
-      for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
-        RelatedPublicationSearchDocument searchDocument =
-            new RelatedPublicationSearchDocument(relatedPublication, index);
 
-        bulkBuilder.addAction(new Index.Builder(searchDocument)
-            .index(index.getIndexName())
-            .type(lockedItem.getDocumentType().name())
-            .id(searchDocument.getId())
-            .build());
-      }
+    RelatedPublication relatedPublication =
+        relatedPublicationRepository.findOne(lockedItem.getDocumentId());
+    if (relatedPublication != null) {
+      RelatedPublicationSearchDocument searchDocument =
+          new RelatedPublicationSearchDocument(relatedPublication);
+
+      bulkBuilder.addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType()
+          .name())
+          .type(lockedItem.getDocumentType()
+            .name())
+          .id(searchDocument.getId())
+          .build());
     }
   }
-   
+
   private void addUpsertActionForDataSet(ElasticsearchUpdateQueueItem lockedItem,
       Builder bulkBuilder) {
     DataSet dataSet = dataSetRepository.findOne(lockedItem.getDocumentId());
-    
-    if (dataSet != null) {
-      Iterable<Survey> surveys = null;
-      if (dataSet.getSurveyIds() != null) {
-        surveys = surveyRepository.findAll(dataSet.getSurveyIds());
-      }
-      for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
-        DataSetSearchDocument searchDocument =
-            new DataSetSearchDocument(dataSet, surveys, index);
 
-        bulkBuilder.addAction(new Index.Builder(searchDocument)
-            .index(index.getIndexName())
-            .type(lockedItem.getDocumentType().name())
-            .id(searchDocument.getId())
-            .build());
+    if (dataSet != null) {
+      Study study = null;
+      if (dataSet.getStudyId() != null) {        
+        study = studyRepository.findOne(dataSet.getStudyId());
       }
+      List<Variable> variables = variableRepository.findByDataSetId(dataSet.getId());
+      List<RelatedPublication> relatedPublications = relatedPublicationRepository
+            .findByDataSetIdsContaining(dataSet.getId());
+      List<Survey> surveys = new ArrayList<Survey>();
+      if (dataSet.getSurveyIds() != null) {        
+        surveys = surveyRepository.findByIdIn(dataSet.getSurveyIds());
+      }
+      DataSetSearchDocument searchDocument = new DataSetSearchDocument(dataSet, study,
+          variables, relatedPublications, surveys);
+      
+      bulkBuilder.addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType()
+          .name())
+          .type(lockedItem.getDocumentType()
+              .name())
+          .id(searchDocument.getId())
+          .build());
     }
   }
 
@@ -311,54 +318,72 @@ public class ElasticsearchUpdateQueueService {
       Builder bulkBuilder) {
     Survey survey = surveyRepository.findOne(lockedItem.getDocumentId());
     if (survey != null) {
-      
-      List<Instrument> instruments = instrumentRepository.findBySurveyIdsContaining(survey.getId());
+      Study study = null;
+      if (survey.getStudyId() != null) {
+        study = studyRepository.findOne(survey.getStudyId());        
+      }
       List<DataSet> dataSets = dataSetRepository.findBySurveyIdsContaining(survey.getId());
       List<Variable> variables = variableRepository.findBySurveyIdsContaining(survey.getId());
-      
-      for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
-        SurveySearchDocument searchDocument =
-            new SurveySearchDocument(survey, instruments, variables, dataSets, index);
+      List<RelatedPublication> relatedPublications = relatedPublicationRepository
+            .findBySurveyIdsContaining(survey.getId());
+      List<Instrument> instruments = instrumentRepository.findBySurveyIdsContaining(survey.getId());
+      List<String> instrumentIds = instruments.stream()
+          .map(Instrument::getId).collect(Collectors.toList());
+      List<Question> questions = questionRepository.findByInstrumentIdIn(instrumentIds);
+      SurveySearchDocument searchDocument =
+           new SurveySearchDocument(survey, study, 
+               dataSets, variables, relatedPublications, instruments, questions);
 
-        bulkBuilder.addAction(new Index.Builder(searchDocument)
-            .index(index.getIndexName())
-            .type(lockedItem.getDocumentType().name())
-            .id(searchDocument.getId())
-            .build());
-      }
+      bulkBuilder.addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType()
+          .name())
+          .type(lockedItem.getDocumentType().name())
+          .id(searchDocument.getId())
+          .build());
     }
   }
 
   /**
    * This method creates for the variable repository update / insert actions.
+   * 
    * @param lockedItem A locked item.
    * @param bulkBuilder A bulk builder for building the actions.
    */
-  @SuppressFBWarnings(value = "NP_LOAD_OF_KNOWN_NULL_VALUE",
-      justification = "DKatzberg: Suppress Load Null Value Warning until Issue 877 is done")
   private void addUpsertActionForVariable(ElasticsearchUpdateQueueItem lockedItem,
       Builder bulkBuilder) {
     Variable variable = variableRepository.findOne(lockedItem.getDocumentId());
     if (variable != null) {
-      Iterable<Survey> surveys = null;
+      Study study = null;
+      if (variable.getStudyId() != null) {        
+        study = studyRepository.findOne(variable.getStudyId());
+      }
+      DataSet dataSet = dataSetRepository.findOne(variable.getDataSetId());
+      List<RelatedPublication> relatedPublications = relatedPublicationRepository
+          .findByVariableIdsContaining(variable.getId());
+      List<Survey> surveys = new ArrayList<Survey>();
       if (variable.getSurveyIds() != null) {
-        surveys = surveyRepository.findAll(variable.getSurveyIds());
+        surveys = surveyRepository.findByIdIn(variable.getSurveyIds());        
       }
-      for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
-        VariableSearchDocument searchDocument =
-            new VariableSearchDocument(variable, surveys, index);
+      List<Instrument> instruments = new ArrayList<>();
+      if (variable.getRelatedQuestions() != null) {
+        List<String> instrumentIds = variable.getRelatedQuestions().stream()
+            .map(RelatedQuestion::getInstrumentId).collect(Collectors.toList());
+        instruments = instrumentRepository.findByIdIn(instrumentIds);
+      }
+      VariableSearchDocument searchDocument = new VariableSearchDocument(variable,
+          dataSet, study, relatedPublications, surveys, instruments);
 
-        bulkBuilder.addAction(new Index.Builder(searchDocument)
-            .index(index.getIndexName())
-            .type(lockedItem.getDocumentType().name())
-            .id(searchDocument.getId())
-            .build());
-      }
+      bulkBuilder.addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType()
+          .name())
+          .type(lockedItem.getDocumentType()
+              .name())
+          .id(searchDocument.getId())
+          .build());
     }
   }
-  
+
   /**
    * This method creates for the question repository update / insert actions.
+   * 
    * @param lockedItem A locked item.
    * @param bulkBuilder A bulk builder for building the actions.
    */
@@ -366,26 +391,21 @@ public class ElasticsearchUpdateQueueService {
       Builder bulkBuilder) {
     Question question = questionRepository.findOne(lockedItem.getDocumentId());
     if (question != null) {
-      
-      Instrument instrument = instrumentRepository.findOne(question.getInstrumentId());
-      List<Variable> variables = variableRepository
-          .findByRelatedQuestionsQuestionId(question.getId());
-      
-      for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
-        QuestionSearchDocument searchDocument =
-            new QuestionSearchDocument(question, instrument, variables, index);
+      QuestionSearchDocument searchDocument =
+            new QuestionSearchDocument(question);
 
-        bulkBuilder.addAction(new Index.Builder(searchDocument)
-            .index(index.getIndexName())
-            .type(lockedItem.getDocumentType().name())
-            .id(searchDocument.getId())
-            .build());
-      }
+      bulkBuilder.addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType()
+          .name())
+          .type(lockedItem.getDocumentType()
+            .name())
+          .id(searchDocument.getId())
+          .build());
     }
   }
-  
+
   /**
    * This method creates for the study repository update / insert actions.
+   * 
    * @param lockedItem A locked item.
    * @param bulkBuilder A bulk builder for building the actions.
    */
@@ -393,16 +413,22 @@ public class ElasticsearchUpdateQueueService {
       Builder bulkBuilder) {
     Study study = this.studyRepository.findOne(lockedItem.getDocumentId());
     if (study != null) {
-      for (ElasticsearchIndices index : ElasticsearchIndices.values()) {
-        StudySearchDocument searchDocument =
-            new StudySearchDocument(study, index);
+      List<DataSet> dataSets = dataSetRepository.findByStudyId(study.getId());
+      List<Variable> variables = variableRepository.findByStudyId(study.getId());
+      List<RelatedPublication> relatedPublications = relatedPublicationRepository
+          .findByStudyIdsContaining(study.getId());
+      List<Survey> surveys = surveyRepository.findByStudyId(study.getId());
+      List<Question> questions = questionRepository.findByStudyId(study.getId());
+      List<Instrument> instruments = instrumentRepository.findByStudyId(study.getId());
+      StudySearchDocument searchDocument = new StudySearchDocument(study, dataSets, variables,
+          relatedPublications, surveys, questions, instruments);
 
-        bulkBuilder.addAction(new Index.Builder(searchDocument)
-            .index(index.getIndexName())
-            .type(lockedItem.getDocumentType().name())
-            .id(searchDocument.getId())
-            .build());
-      }
+      bulkBuilder.addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType()
+          .name())
+          .type(lockedItem.getDocumentType()
+              .name())
+          .id(searchDocument.getId())
+          .build());
     }
   }
 }

@@ -93,9 +93,9 @@ public class QuestionResourceTest extends AbstractTest {
 
     elasticsearchUpdateQueueService.processQueue();
 
-    // check that there are two question documents
+    // check that there is one question documents
     elasticsearchAdminService.refreshAllIndices();
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2.0));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1.0));
 
     // check that auditing attributes have been set
     mockMvc.perform(get(API_QUESTIONS_URI + "/" + question.getId()))
@@ -143,9 +143,9 @@ public class QuestionResourceTest extends AbstractTest {
 
     elasticsearchUpdateQueueService.processQueue();
 
-    // check that there are two question documents
+    // check that there is one question documents
     elasticsearchAdminService.refreshAllIndices();
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2.0));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1.0));
   }
 
   // add this test when validation is on

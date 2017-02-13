@@ -7,9 +7,12 @@
             <Pattern>[%p] %c - %m%n</Pattern>
         </encoder>
     </appender>
-    <logger name="eu.dzhw.fdz.metadatamanagement" level="DEBUG"/>
-    <logger name="org.hibernate.ejb.HibernatePersistence" level="OFF"/>
-    <logger name="org.apache.catalina.startup.DigesterFactory" level="OFF"/>
+    <logger name="eu.dzhw.fdz.metadatamanagement" level="ERROR"/>
+    <logger name="org.elasticsearch" level="WARN"/>
+    <logger name="org.springframework" level="WARN"/>
+    <logger name="org.thymeleaf" level="WARN"/>
+    <logger name="org.hibernate.ejb.HibernatePersistence" level="ERROR"/>
+    <logger name="org.apache.catalina.startup.DigesterFactory" level="ERROR"/>
 
     <root level="WARN">
         <appender-ref ref="CONSOLE"/>

@@ -36,4 +36,10 @@ public interface InstrumentRepository
 
   @RestResource(exported = false)
   List<Instrument> findBySurveyIdsContaining(String surveyId);
+
+  @RestResource(exported = false)
+  List<Instrument> findByStudyId(String studyId);
+
+  @RestResource(exported = false)
+  List<Instrument> findByIdIn(List<String> instrumentIds);
 }

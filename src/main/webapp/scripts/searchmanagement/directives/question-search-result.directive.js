@@ -7,7 +7,8 @@ angular.module('metadatamanagementApp').directive('questionSearchResult',
       templateUrl: 'scripts/searchmanagement/directives/' +
         'question-search-result.html.tmpl',
       scope: {
-        searchResult: '='
+        searchResult: '=',
+        currentLanguage: '='
       }
     };
   });

@@ -3,16 +3,13 @@ package eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.data.annotation.Id;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
-import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.OneForeignKeyIsUsed;
@@ -36,17 +33,8 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
     + "year.valid")
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.builders")
-public class RelatedPublication extends AbstractRdcDomainObject {
+public class RelatedPublication extends RelatedPublicationSubDocument {
 
-  /* Domain Object Attributes */
-  @Id
-  @NotEmpty(message = "related-publication-management.error.related-publication.id.not-empty")
-  @Size(max = StringLengths.MEDIUM, 
-      message = "related-publication-management.error.related-publication.id.size")
-  @Pattern(regexp = Patterns.NO_WHITESPACE,
-      message = "related-publication-management.error.related-publication.id.pattern")
-  private String id;
- 
   @NotEmpty(message = "related-publication-management.error.related-publication." 
       + "source-reference.not-empty")
   @Size(max = StringLengths.LARGE,
@@ -59,28 +47,9 @@ public class RelatedPublication extends AbstractRdcDomainObject {
           + "publication-abstract.size")
   private String publicationAbstract;
   
-  @Size(max = StringLengths.MEDIUM,
-      message = "related-publication-management.error.related-publication." 
-          + "doi.size")
-  private String doi;
-  
   @ValidUrl(message = "related-publication-management.error."
       + "related-publication.source-link.pattern")
   private String sourceLink;
-  
-  @Size(max = StringLengths.MEDIUM,
-      message = "related-publication-management.error.related-publication." 
-          + "title.size")
-  @NotEmpty(message = "related-publication-management.error.related-publication." 
-      + "title.not-empty")
-  private String title;
-  
-  @Size(max = StringLengths.LARGE,
-      message = "related-publication-management.error.related-publication." 
-          + "authors.size")
-  @NotEmpty(message = "related-publication-management.error.related-publication." 
-      + "authors.not-empty")
-  private String authors;
   
   @NotNull(message = "related-publication-management.error.related-publication." 
       + "year.not-null")
@@ -104,15 +73,15 @@ public class RelatedPublication extends AbstractRdcDomainObject {
   
   private List<String> instrumentIds;
   
-  /*
-   * (non-Javadoc)
-   * @see eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject#getId()
-   */
-  @Override
-  public String getId() {
-    return this.id;
+  public RelatedPublication() {
+    super();
   }
-
+  
+  public RelatedPublication(RelatedPublication relatedPublication) {
+    super();
+    BeanUtils.copyProperties(relatedPublication, this);
+  }
+  
   /* GETTER / SETTER */
   public String getSourceReference() {
     return sourceReference;
@@ -130,40 +99,12 @@ public class RelatedPublication extends AbstractRdcDomainObject {
     this.publicationAbstract = publicationAbstract;
   }
 
-  public String getDoi() {
-    return doi;
-  }
-
-  public void setDoi(String doi) {
-    this.doi = doi;
-  }
-
   public String getSourceLink() {
     return sourceLink;
   }
 
   public void setSourceLink(String sourceLink) {
     this.sourceLink = sourceLink;
-  }
-
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public String getAuthors() {
-    return authors;
-  }
-
-  public void setAuthors(String authors) {
-    this.authors = authors;
   }
 
   public Integer getYear() {

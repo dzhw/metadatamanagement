@@ -8,7 +8,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.data.annotation.Id;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -16,11 +16,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
-import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
-import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.MandatoryScaleLevelForNumericAndDateDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.OnlyOrdinalScaleLevelForDateDataType;
@@ -104,16 +101,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @StatisticsThirdQuartileMustBeANumberOnNumericDataType(
     message = "variable-management.error.variable."
         + "statistics-third-quartile-must-be-a-number-on-numeric-data-type")
-public class Variable extends AbstractRdcDomainObject {
-
-  /* Domain Object listed attributes */
-  @Id
-  @NotEmpty(message = "variable-management.error.variable.id.not-empty")
-  @Size(max = StringLengths.MEDIUM,
-      message = "variable-management.error.variable.id.size")
-  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_EXCLAMATIONMARK,
-      message = "variable-management.error.variable.id.pattern")
-  private String id;
+public class Variable extends VariableSubDocument {
 
   @NotNull(message = "variable-management.error.variable.data-type.not-null")
   @ValidDataType(message = "variable-management.error.variable.data-type.valid-data-type")
@@ -122,24 +110,6 @@ public class Variable extends AbstractRdcDomainObject {
   @ValidScaleLevel(
       message = "variable-management.error.variable.scaleLevel.valid-scale-level")
   private I18nString scaleLevel;
-
-  @NotEmpty(message = "variable-management.error.variable.name.not-empty")
-  @Size(max = StringLengths.SMALL,
-      message = "variable-management.error.variable.name.size")
-  @Pattern(regexp = Patterns.ALPHANUMERIC_WITH_UNDERSCORE_NO_NUMBER_AS_FIRST_SIGN,
-      message = "variable-management.error.variable.name.pattern")
-  private String name;
-
-  @NotNull(message = "variable-management.error.variable.label.not-null")
-  @I18nStringSize(max = StringLengths.MEDIUM,
-      message = "variable-management.error.variable.label.i18n-string-size")
-  @I18nStringNotEmpty(
-      message = "variable-management.error.variable.label.i18n-string-not-empty")
-  private I18nString label;
-
-  @I18nStringSize(max = StringLengths.LARGE,
-      message = "variable-management.error.variable.annotations.i18n-string-size")
-  private I18nString annotations;
 
   // checks for min size too.
   @NotEmpty(message = "variable-management.error.variable.access-ways.not-empty")
@@ -186,9 +156,20 @@ public class Variable extends AbstractRdcDomainObject {
   @Indexed
   @NotEmpty(message = "variable-management.error.variable.data-acquisition-project.id.not-empty")
   private String dataAcquisitionProjectId;
+  
+  private String studyId;
 
   private List<String> surveyIds;
 
+  public Variable() {
+    super();
+  }
+  
+  public Variable(Variable variable) {
+    super();
+    BeanUtils.copyProperties(variable, this);
+  }
+  
   /*
    * (non-Javadoc)
    *
@@ -224,23 +205,14 @@ public class Variable extends AbstractRdcDomainObject {
       .add("generationDetails", generationDetails)
       .add("distribution", distribution)
       .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
+      .add("studyId", studyId)
       .add("surveyIds", surveyIds)
       .add("relatedQuestions",relatedQuestions)
       .add("panelIdentifier", panelIdentifier)
       .toString();
   }
 
-
-
   /* GETTER / SETTER */
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
   public I18nString getDataType() {
     return dataType;
   }
@@ -257,32 +229,12 @@ public class Variable extends AbstractRdcDomainObject {
     this.scaleLevel = scaleLevel;
   }
 
-  public I18nString getLabel() {
-    return label;
-  }
-
-  public void setLabel(I18nString label) {
-    this.label = label;
-  }
-
-  public I18nString getAnnotations() {
-    return annotations;
-  }
-
-  public void setAnnotations(I18nString annotations) {
-    this.annotations = annotations;
-  }
-
   public List<String> getAccessWays() {
     return accessWays;
   }
 
   public void setAccessWays(List<String> accessWays) {
     this.accessWays = accessWays;
-  }
-
-  public void setId(String id) {
-    this.id = id;
   }
 
   public GenerationDetails getGenerationDetails() {
@@ -390,5 +342,12 @@ public class Variable extends AbstractRdcDomainObject {
   public void setPanelIdentifier(String panelIdentifier) {
     this.panelIdentifier = panelIdentifier;
   }
-  
+
+  public String getStudyId() {
+    return studyId;
+  }
+
+  public void setStudyId(String studyId) {
+    this.studyId = studyId;
+  }
 }

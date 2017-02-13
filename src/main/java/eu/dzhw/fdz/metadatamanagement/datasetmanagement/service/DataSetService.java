@@ -12,10 +12,13 @@ import org.springframework.stereotype.Service;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 
 /**
  * This service for {@link DataSet} will wait for delete events of a survey or a data acquisition
@@ -89,15 +92,69 @@ public class DataSetService {
   }
   
   /**
-   * Enqueue update of dataSet search documents when the survey is updated.
+   * Enqueue update of dataSet search documents when the study is changed.
    * 
-   * @param survey the updated or created survey.
+   * @param study the updated, created or deleted study.
    */
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
-  public void onSurveySaved(Survey survey) {
+  public void onStudyChanged(Study study) {
+    List<DataSet> dataSets = dataSetRepository.findByStudyId(study.getId());
+    dataSets.forEach(dataSet -> {
+      elasticsearchUpdateQueueService.enqueue(
+          dataSet.getId(), 
+          ElasticsearchType.data_sets, 
+          ElasticsearchUpdateQueueAction.UPSERT);      
+    });
+  }
+  
+  /**
+   * Enqueue update of dataSet search documents when the survey is updated.
+   * 
+   * @param survey the updated, created or deleted survey.
+   */
+  @HandleAfterCreate
+  @HandleAfterSave
+  @HandleAfterDelete
+  public void onSurveyChanged(Survey survey) {
     List<DataSet> dataSets = dataSetRepository.findBySurveyIdsContaining(survey.getId());
+    dataSets.forEach(dataSet -> {
+      elasticsearchUpdateQueueService.enqueue(
+          dataSet.getId(), 
+          ElasticsearchType.data_sets, 
+          ElasticsearchUpdateQueueAction.UPSERT);      
+    });
+  }
+  
+  /**
+   * Enqueue update of dataSet search documents when the variable is changed.
+   * 
+   * @param variable the updated, created or deleted variable.
+   */
+  @HandleAfterCreate
+  @HandleAfterSave
+  @HandleAfterDelete
+  public void onVariableChanged(Variable variable) {
+    DataSet dataSet = dataSetRepository.findOne(variable.getDataSetId());
+    if (dataSet != null) {
+      elasticsearchUpdateQueueService.enqueue(
+          dataSet.getId(), 
+          ElasticsearchType.data_sets, 
+          ElasticsearchUpdateQueueAction.UPSERT);            
+    }
+  }
+  
+  /**
+   * Enqueue update of dataSet search documents when the related publication is changed.
+   * 
+   * @param relatedPublication the updated, created or deleted related publication.
+   */
+  @HandleAfterCreate
+  @HandleAfterSave
+  @HandleAfterDelete
+  public void onRelatedPublicationChanged(RelatedPublication relatedPublication) {
+    List<DataSet> dataSets = dataSetRepository.findByIdIn(relatedPublication.getDataSetIds());
     dataSets.forEach(dataSet -> {
       elasticsearchUpdateQueueService.enqueue(
           dataSet.getId(), 

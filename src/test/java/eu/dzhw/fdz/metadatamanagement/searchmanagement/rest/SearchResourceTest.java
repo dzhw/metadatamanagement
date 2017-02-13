@@ -98,6 +98,6 @@ public class SearchResourceTest extends AbstractTest {
 
     elasticsearchAdminService.refreshAllIndices();
 
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2.0));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1.0));
   }
 }

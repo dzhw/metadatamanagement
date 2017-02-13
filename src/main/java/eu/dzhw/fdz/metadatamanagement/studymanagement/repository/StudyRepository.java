@@ -28,5 +28,7 @@ public interface StudyRepository extends MongoRepository<Study, String>,
   
   @RestResource(exported = false)
   Slice<Study> findBy(Pageable pageable);
-  
+
+  @RestResource(exported = false)
+  List<Study> findByIdIn(List<String> studyIds);
 }

@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository;
 
+import java.util.List;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -21,4 +23,16 @@ public interface RelatedPublicationRepository extends MongoRepository<RelatedPub
   
   @RestResource(exported = false)
   Slice<RelatedPublication> findBy(Pageable pageable);
+
+  @RestResource(exported = false)
+  List<RelatedPublication> findByStudyIdsContaining(String id);
+
+  @RestResource(exported = false)
+  List<RelatedPublication> findByDataSetIdsContaining(String id);
+
+  @RestResource(exported = false)
+  List<RelatedPublication> findBySurveyIdsContaining(String id);
+
+  @RestResource(exported = false)
+  List<RelatedPublication> findByVariableIdsContaining(String id);
 }

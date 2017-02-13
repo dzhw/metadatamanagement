@@ -4,27 +4,20 @@ import java.util.List;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.data.annotation.Id;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
-import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
-import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
-import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.UniqueDatasetNumberInProject;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.UniqueSubDatasetAccessWayInDataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.ValidDataSetIdName;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.ValidDataSetType;
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.ValidFormat;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -40,19 +33,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @UniqueDatasetNumberInProject(
     message = "data-set-management.error.data-set.unique-data-set-number-in-project")
 @CompoundIndex(def = "{number: 1, dataAcquisitionProjectId: 1}", unique = true)
-public class DataSet extends AbstractRdcDomainObject {
-  
-  /* Domain Object Attributes */
-  @Id
-  @NotEmpty(message = "data-set-management.error.data-set.id.not-empty")
-  @Size(max = StringLengths.MEDIUM, message = "data-set-management.error.data-set.id.size")
-  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_EXCLAMATIONMARK,
-      message = "data-set-management.error.data-set.id.pattern")
-  private String id;
-
-  @I18nStringSize(max = StringLengths.LARGE, 
-      message = "data-set-management.error.data-set.description.i18n-string-size")
-  private I18nString description;
+public class DataSet extends DataSetSubDocument {
   
   @NotNull(message = "data-set-management.error.data-set.type.not-null")
   @ValidDataSetType(message = "data-set-management.error.data-set.type.valid-type")
@@ -60,12 +41,6 @@ public class DataSet extends AbstractRdcDomainObject {
   
   @NotEmpty(message = "data-set-management.error.data-set.survey-numbers.not-empty")
   private List<Integer> surveyNumbers;
-  
-  @NotNull(message = "data-set-management.error.data-set.number.not-null")
-  private Integer number;
-  
-  @ValidFormat(message = "data-set-management.error.data-set.format.valid-format")
-  private I18nString format;
   
   /* Foreign Keys */
   @Indexed
@@ -85,17 +60,14 @@ public class DataSet extends AbstractRdcDomainObject {
           + "sub-data-sets.access-way-unique-within-data-set")
   private List<SubDataSet> subDataSets;
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see eu.dzhw.fdz.metadatamanagement.domain.AbstractRdcDomainObject#getId()
-   */
-  @Override
-  public String getId() {
-    return this.id;
+  public DataSet() {
+    super();
   }
-
-
+  
+  public DataSet(DataSet dataSet) {
+    super();
+    BeanUtils.copyProperties(dataSet, this);
+  }
   
   /*
    * (non-Javadoc)
@@ -118,15 +90,6 @@ public class DataSet extends AbstractRdcDomainObject {
       .toString();
   }
 
-  /* GETTER / SETTER */
-  public I18nString getDescription() {
-    return description;
-  }
-
-  public void setDescription(I18nString description) {
-    this.description = description;
-  }
-  
   public I18nString getType() {
     return type;
   }
@@ -143,10 +106,6 @@ public class DataSet extends AbstractRdcDomainObject {
     this.surveyNumbers = surveyNumbers;
   }
 
-  public void setId(String id) {
-    this.id = id;
-  }
-  
   public String getDataAcquisitionProjectId() {
     return dataAcquisitionProjectId;
   }
@@ -169,22 +128,6 @@ public class DataSet extends AbstractRdcDomainObject {
 
   public void setSubDataSets(List<SubDataSet> subDataSets) {
     this.subDataSets = subDataSets;
-  }
-
-  public Integer getNumber() {
-    return number;
-  }
-
-  public void setNumber(Integer number) {
-    this.number = number;
-  }
-
-  public I18nString getFormat() {
-    return format;
-  }
-
-  public void setFormat(I18nString format) {
-    this.format = format;
   }
 
   public String getStudyId() {

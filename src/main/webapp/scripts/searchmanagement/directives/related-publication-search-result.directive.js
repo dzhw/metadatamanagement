@@ -7,7 +7,8 @@ angular.module('metadatamanagementApp')
       templateUrl: 'scripts/searchmanagement/directives/' +
         'related-publication-search-result.html.tmpl',
       scope: {
-        searchResult: '='
+        searchResult: '=',
+        currentLanguage: '='
       }
     };
   });
