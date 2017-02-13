@@ -255,8 +255,7 @@ public class PostValidationService {
     for (Variable variable : variables) {
 
       // variable.SurveyId: there must be a survey with that id
-      for (Integer surveyNumber : variable.getSurveyNumbers()) {
-        String surveyId = variable.getDataAcquisitionProjectId() + "-sy" + surveyNumber;
+      for (String surveyId : variable.getSurveyIds()) {
         if (this.surveyRepository.findOne(surveyId) == null) {
           String[] information = {variable.getId(), surveyId};
           errors.add(new PostValidationMessageDto("variable-management.error."

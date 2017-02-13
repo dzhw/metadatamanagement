@@ -13,7 +13,7 @@ public class ValidInstrumentIdPatternValidator
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see javax.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
    */
   @Override
@@ -21,7 +21,7 @@ public class ValidInstrumentIdPatternValidator
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see javax.validation.ConstraintValidator#isValid(java.lang.Object,
    * javax.validation.ConstraintValidatorContext)
    */
@@ -33,12 +33,8 @@ public class ValidInstrumentIdPatternValidator
         || instrument.getNumber() == null) {
       return false;
     }
-    
-    System.out.println("ins-" + instrument.getDataAcquisitionProjectId() + "-ins" 
-        + instrument.getNumber() + "!");
-    System.out.println(instrument.getId());
-    
-    return instrument.getId().equals("ins-" + instrument.getDataAcquisitionProjectId() + "-ins" 
+
+    return instrument.getId().equals("ins-" + instrument.getDataAcquisitionProjectId() + "-ins"
         + instrument.getNumber() + "!");
   }
 

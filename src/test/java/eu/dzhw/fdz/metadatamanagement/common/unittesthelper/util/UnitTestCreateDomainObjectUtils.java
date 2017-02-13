@@ -219,6 +219,11 @@ public class UnitTestCreateDomainObjectUtils {
     accessWays.add(AccessWays.DOWNLOAD_SUF);
     accessWays.add(AccessWays.ONSITE_SUF);
     
+    List<String> surveyIds = new ArrayList<>();
+    for(Integer surveyNumber : surveyNumbers) {
+      surveyIds.add(UnitTestCreateValidIds.buildSurveyId(projectId, surveyNumber));
+    }
+    
     List<String> relatedVariables = new ArrayList<>();
     relatedVariables.add(projectId + "-ds" + dataSetNumber + "-name3");   
     
@@ -235,6 +240,7 @@ public class UnitTestCreateDomainObjectUtils {
           .build())
       .withAccessWays(accessWays)
       .withSurveyNumbers(surveyNumbers)
+      .withSurveyIds(surveyIds)
       .withIndexInDataSet(index)
       .withDataSetNumber(dataSetNumber)
       .withRelatedQuestions(relatedQuestions)
@@ -288,7 +294,7 @@ public class UnitTestCreateDomainObjectUtils {
     List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(1);
     List<String> surveyIds = new ArrayList<>();
-    surveyIds.add(projectId + "-sy1");
+    surveyIds.add(UnitTestCreateValidIds.buildSurveyId(projectId, 1));
     return new InstrumentBuilder().withDataAcquisitionProjectId(projectId)
       .withId(UnitTestCreateValidIds.buildInstrumentId(projectId, 1))
       .withTitle(new I18nStringBuilder()
@@ -482,8 +488,7 @@ public class UnitTestCreateDomainObjectUtils {
     return new RelatedQuestionBuilder()
         .withInstrumentNumber(instrumentNumber)
         .withQuestionNumber(questionNumber)
-        .withInstrumentId(projectId + "-ins" + instrumentNumber)
-        .withInstrumentNumber(projectId + "-ins" + instrumentNumber + "-" +questionNumber)
+        .withInstrumentId(UnitTestCreateValidIds.buildInstrumentId(projectId, new Integer(instrumentNumber).intValue()))
         .withRelatedQuestionStrings(new I18nStringBuilder()
             .withDe("Related Question String DE")
             .withEn("Related Question String EN")
