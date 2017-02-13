@@ -4,7 +4,8 @@
 angular.module('metadatamanagementApp').service('VariableBuilderService',
   function(VariableResource, CleanJSObjectService, DataSetIdBuilderService) {
     var buildVariable = function(variableFromExcel, variableFromJson,
-      dataAcquisitionProjectId, dataSet) {
+      dataAcquisitionProjectId, dataSet, QuestionIdBuilderService,
+      SurveyIdBuilderService) {
 
       var variableObj = {
         id: dataAcquisitionProjectId + '-' + dataSet +
@@ -52,18 +53,21 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
       };
       _.forEach(variableObj.surveyNumbers, function(number) {
         variableObj.surveyIds
-          .push(variableObj.dataAcquisitionProjectId + '-sy' + number);
+          .push(SurveyIdBuilderService.buildSurveyId(
+            variableObj.dataAcquisitionProjectId, number));
       });
-      _.forEach(variableFromJson.relatedQuestions, function(relatedQuestion) {
+      _.forEach(variableFromJson.relatedQuestions, function(
+        relatedQuestion) {
         variableObj.relatedQuestions
           .push({
             'instrumentNumber': relatedQuestion.instrumentNumber,
             'instrumentId': dataAcquisitionProjectId +
               '-ins' + relatedQuestion.instrumentNumber,
             'questionNumber': relatedQuestion.questionNumber,
-            'questionId': dataAcquisitionProjectId + '-ins' +
-              relatedQuestion.instrumentNumber + '-' +
-              relatedQuestion.questionNumber,
+            'questionId': QuestionIdBuilderService.buildQuestionId(
+              dataAcquisitionProjectId,
+              relatedQuestion.instrumentNumber,
+              relatedQuestion.questionNumber),
             relatedQuestionStrings: relatedQuestion.relatedQuestionStrings,
           });
       });

@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').service('InstrumentBuilderService',
   function(InstrumentResource, CleanJSObjectService,
-    InstrumentIdBuilderService) {
+    InstrumentIdBuilderService, SurveyIdBuilderService) {
     var buildInstrument = function(instrumentFromExcel,
       dataAcquisitionProjectId) {
       var instrument = {
@@ -26,7 +26,8 @@ angular.module('metadatamanagementApp').service('InstrumentBuilderService',
       };
       _.forEach(instrument.surveyNumbers, function(number) {
         instrument.surveyIds
-          .push(instrument.dataAcquisitionProjectId + '-sy' + number.trim());
+          .push(SurveyIdBuilderService.buildSurveyId(
+            instrument.dataAcquisitionProjectId, number.trim()));
       });
       var cleanedInstrument = CleanJSObjectService
         .removeEmptyJsonObjects(instrument);
