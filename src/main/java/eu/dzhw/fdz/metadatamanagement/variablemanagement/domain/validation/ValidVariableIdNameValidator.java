@@ -39,8 +39,8 @@ public class ValidVariableIdNameValidator
     }
 
     return variable.getId()
-      .equals(variable.getDataAcquisitionProjectId() + "-ds" + variable.getDataSetNumber()
-      + "-" + variable.getName());
+      .equals("var-" + variable.getDataAcquisitionProjectId() + "-ds" + variable.getDataSetNumber()
+      + "-" + variable.getName() + "!");
   }
 
 }

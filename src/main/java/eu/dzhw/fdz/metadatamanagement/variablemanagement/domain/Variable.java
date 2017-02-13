@@ -111,7 +111,7 @@ public class Variable extends AbstractRdcDomainObject {
   @NotEmpty(message = "variable-management.error.variable.id.not-empty")
   @Size(max = StringLengths.MEDIUM,
       message = "variable-management.error.variable.id.size")
-  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS,
+  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_EXCLAMATIONMARK,
       message = "variable-management.error.variable.id.pattern")
   private String id;
 

@@ -31,4 +31,8 @@ public class UnitTestCreateValidIds {
     return "sur-" + dataAcquisitionProjectId + "-sy" + surveyNumber + "!";
   }
   
+  public static String buildVariableId(String dataAcquisitionProjectId, int dataSetNumber, String variableName) {
+    return "var-" + dataAcquisitionProjectId + "-ds" + dataSetNumber + "-" + variableName + "!";
+  }
+  
 }

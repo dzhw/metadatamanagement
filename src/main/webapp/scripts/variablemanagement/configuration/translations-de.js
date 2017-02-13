@@ -203,7 +203,7 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'variable': {
-            'valid-variable-name': 'Die FDZ-ID der Variable entspricht nicht dem Muster: FDZID-Variablenname.',
+            'valid-variable-name': 'Die FDZ-ID der Variable entspricht nicht dem Muster: var-{FDZID}-ds{DataSetNmber}-{Variablenname}! .',
             'unique-variable-name-in-data-set': 'Der Name der Variable ist innerhalb des Datensatzes schon vergeben.',
             'unique-variable-index-in-dataSet': 'Der Index der Variable ist innerhalb des Datensatzes schon vergeben.',
             'data-set-number-not-null': 'Die Nummer des Datensatzes der Variable darf nicht leer sein!',
@@ -233,7 +233,7 @@ angular.module('metadatamanagementApp').config(
             'id': {
               'not-empty': 'Die FDZ - ID der Variable darf nicht leer sein!',
               'size': 'Die Maximallänge der FDZ - ID ist 128 Zeichen.',
-              'pattern': 'Es dürfen für die FDZ - ID nur alphanumerische Zeichen, deutsche Umlaute, ß, Minus und der Unterstrich verwendet werden.'
+              'pattern': 'Es dürfen für die FDZ - ID nur alphanumerische Zeichen, deutsche Umlaute, ß, Minus, Ausrufezeichen und der Unterstrich verwendet werden.'
             },
             'data-type': {
               'not-null': 'Der Datentyp der Variable darf nicht leer sein!',

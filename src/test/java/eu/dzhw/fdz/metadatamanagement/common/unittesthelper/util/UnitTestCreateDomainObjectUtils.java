@@ -225,11 +225,11 @@ public class UnitTestCreateDomainObjectUtils {
     }
     
     List<String> relatedVariables = new ArrayList<>();
-    relatedVariables.add(projectId + "-ds" + dataSetNumber + "-name3");   
+    relatedVariables.add(UnitTestCreateValidIds.buildVariableId(projectId,dataSetNumber, "name3"));   
     
     List<RelatedQuestion> relatedQuestions = new ArrayList<>();
     relatedQuestions.add(buildRelatedQuestion(projectId, "1", "1"));
-    return new VariableBuilder().withId(projectId + "-ds" + dataSetNumber + "-" + name)
+    return new VariableBuilder().withId(UnitTestCreateValidIds.buildVariableId(projectId, dataSetNumber, name))
       .withDataType(DataTypes.NUMERIC)
       .withScaleLevel(ScaleLevels.CONTINOUS)
       .withDataAcquisitionProjectId(projectId)

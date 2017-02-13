@@ -203,7 +203,7 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'variable': {
-            'valid-variable-name': 'The RDC-ID of the Variable is not valid for the Pattern: RDCID-VariableName.',
+            'valid-variable-name': 'The RDC-ID of the Variable is not valid for the Pattern: var-{RDCID}-ds{DataSetNumber}-{VariableName}! .',
             'unique-variable-name-in-data-set': 'The Name of the Variable is already used within this Data Set.',
             'unique-variable-index-in-dataSet': 'The Index of the Variable is already used within this Data Set.',
             'data-set-number-not-null': 'The Number of the Data Set of the Variable must not be empty!',
@@ -233,7 +233,7 @@ angular.module('metadatamanagementApp').config(
             'id': {
               'not-empty': 'The RDC-ID of the Variable must not be empty!',
               'size': 'The max length of the RDC-ID is 128 signs.',
-              'pattern': 'Use only alphanumeric signs, german umlauts, ß and space, underscore and minus for the RDC-ID.'
+              'pattern': 'Use only alphanumeric signs, german umlauts, ß and space, underscore, exclamation sign and minus for the RDC-ID.'
             },
             'data-type': {
               'not-null': 'The data type of the Variable must not be empty!',
