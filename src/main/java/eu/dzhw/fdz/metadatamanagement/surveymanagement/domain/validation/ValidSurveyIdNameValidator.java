@@ -36,8 +36,8 @@ public class ValidSurveyIdNameValidator implements ConstraintValidator<ValidSurv
       return false;
     }
 
-    return survey.getId().equals(survey.getDataAcquisitionProjectId()
-        + "-sy" + survey.getNumber());
+    return survey.getId().equals("sur-" + survey.getDataAcquisitionProjectId()
+        + "-sy" + survey.getNumber() + "!");
   }
 
 }

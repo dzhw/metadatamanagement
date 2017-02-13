@@ -27,4 +27,8 @@ public class UnitTestCreateValidIds {
     return "ins-" + dataAcquisitionProjectId + "-ins" + instrumentNumber + "!";
   }
   
+  public static String buildSurveyId(String dataAcquisitionProjectId, int surveyNumber) {
+    return "sur-" + dataAcquisitionProjectId + "-sy" + surveyNumber + "!";
+  }
+  
 }
