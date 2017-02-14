@@ -31,7 +31,6 @@ public class SurveyResponseRateImageService {
    */
   public String saveSurveyImage(InputStream inputStream,
       String surveyId, String fileName, String contentType) {
-    
     String relativePathWithName = "/surveys/" + surveyId + "/" + fileName;    
     GridFSFile gridFsFile = this.operations.store(inputStream, relativePathWithName, contentType);
     gridFsFile.validate();
@@ -71,8 +70,9 @@ public class SurveyResponseRateImageService {
    * @return The name of a response rate image in german. 
    */
   private String getResponseRateFileNameGerman(String surveyId) {
-    String[] surveyNumber = surveyId.split("-sy");
-    return surveyNumber[1] + "_responserate_de.svg";
+    String[] surveyNumberWithExclamationMark = surveyId.split("-sy");
+    String[] surveyNumber = surveyNumberWithExclamationMark[1].split("!");
+    return surveyNumber[0] + "_responserate_de.svg";
   }
   
   /**
@@ -80,8 +80,9 @@ public class SurveyResponseRateImageService {
    * @return The name of a response rate image in english.
    */
   private String getResponseRateFileNameEnglish(String surveyId) {
-    String[] surveyNumber = surveyId.split("-sy");
-    return surveyNumber[1] + "_responserate_en.svg";
+    String[] surveyNumberWithExclamationMark = surveyId.split("-sy");
+    String[] surveyNumber = surveyNumberWithExclamationMark[1].split("!");
+    return surveyNumber[0] + "_responserate_en.svg";
   }
   
 }
