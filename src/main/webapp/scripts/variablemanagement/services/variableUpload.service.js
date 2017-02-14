@@ -77,6 +77,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
                           resolve(variablesResources);
                         }
                       } catch (e) {
+                        console.log(e);
                         JobLoggingService.error({
                           message: 'variable-management.log-messages.' +
                             'variable.json-parse-error',

@@ -2,16 +2,16 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('VariableBuilderService',
-  function(VariableResource, CleanJSObjectService, DataSetIdBuilderService) {
+  function(VariableResource, CleanJSObjectService, DataSetIdBuilderService,
+    QuestionIdBuilderService, SurveyIdBuilderService,
+    VariableIdBuilderService, InstrumentIdBuilderService) {
     var buildVariable = function(variableFromExcel, variableFromJson,
-      dataAcquisitionProjectId, dataSet, QuestionIdBuilderService,
-      SurveyIdBuilderService, VariableIdBuilderService,
-      InstrumentIdBuilderService) {
+      dataAcquisitionProjectId, dataSet) {
 
       var variableObj = {
         id: VariableIdBuilderService.buildVariableId(
-          dataAcquisitionProjectId,
-          dataSet.number, variableFromExcel.name),
+          dataAcquisitionProjectId, dataSet.number, variableFromExcel.name
+        ),
         dataAcquisitionProjectId: dataAcquisitionProjectId,
         name: variableFromExcel.name,
         annotations: {
