@@ -35,4 +35,7 @@ public class UnitTestCreateValidIds {
     return "var-" + dataAcquisitionProjectId + "-ds" + dataSetNumber + "-" + variableName + "!";
   }
   
+  public static String buildRelatedPublicationId(String id) {
+    return "pub-" + id + "!";
+  }
 }

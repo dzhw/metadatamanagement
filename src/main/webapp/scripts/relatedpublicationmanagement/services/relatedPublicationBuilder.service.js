@@ -17,9 +17,11 @@ angular.module('metadatamanagementApp')
             doi: data.doi,
             sourceLink: data.sourceLink,
             title: data.title,
-            questionIds: CleanJSObjectService.removeWhiteSpace(data.questionIds),
+            questionIds: CleanJSObjectService
+              .removeWhiteSpace(data.questionIds),
             surveyIds: CleanJSObjectService.removeWhiteSpace(data.surveyIds),
-            variableIds: CleanJSObjectService.removeWhiteSpace(data.variableIds),
+            variableIds: CleanJSObjectService
+              .removeWhiteSpace(data.variableIds),
             dataSetIds: CleanJSObjectService.removeWhiteSpace(data.dataSetIds),
             studyIds: CleanJSObjectService.removeWhiteSpace(data.studyIds),
             instrumentIds: CleanJSObjectService

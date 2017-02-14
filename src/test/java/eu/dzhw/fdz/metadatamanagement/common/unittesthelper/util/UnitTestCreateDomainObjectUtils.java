@@ -412,7 +412,7 @@ public class UnitTestCreateDomainObjectUtils {
     
     return new RelatedPublicationBuilder()
         .withDoi("A DOI")
-        .withId("HurzId123")
+        .withId(UnitTestCreateValidIds.buildRelatedPublicationId("HurzId123"))
         .withPublicationAbstract("A publication Abstract")
         .withSourceLink("http://www.hurzexample.de/")
         .withSourceReference("A Source Reference")
@@ -434,7 +434,7 @@ public class UnitTestCreateDomainObjectUtils {
     
     return new RelatedPublicationBuilder()
         .withDoi("A DOI")
-        .withId("HurzId123")
+        .withId(UnitTestCreateValidIds.buildRelatedPublicationId("HurzId123"))
         .withPublicationAbstract("A publication Abstract")
         .withSourceLink("http://www.hurzexample.de/")
         .withSourceReference("A Source Reference")
