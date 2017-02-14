@@ -5,12 +5,13 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
   function(VariableResource, CleanJSObjectService, DataSetIdBuilderService,
     QuestionIdBuilderService, SurveyIdBuilderService,
     VariableIdBuilderService, InstrumentIdBuilderService) {
-    var buildVariable = function(variableFromExcel, variableFromJson,
-      dataAcquisitionProjectId, dataSet) {
-
+    var buildVariable = function(variableFromExcel, variableFromJson, dataSet) {
+      var dataAcquisitionProjectId = dataSet.dataAcquisitionProjectId;
       var variableObj = {
         id: VariableIdBuilderService.buildVariableId(
-          dataAcquisitionProjectId, dataSet.number, variableFromExcel.name
+          dataAcquisitionProjectId, dataSet.dataSetName,
+          variableFromExcel
+          .name
         ),
         dataAcquisitionProjectId: dataAcquisitionProjectId,
         name: variableFromExcel.name,
@@ -50,8 +51,9 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
         relatedVariables: variableFromJson.relatedVariables,
         distribution: variableFromJson.distribution,
         dataSetId: DataSetIdBuilderService.buildDataSetId(
-          dataAcquisitionProjectId, _.split(dataSet, 'ds')[1]),
-        dataSetNumber: _.split(dataSet, 'ds')[1]
+          dataAcquisitionProjectId, _.split(dataSet.dataSetName, 'ds')[
+            1]),
+        dataSetNumber: _.split(dataSet.dataSetName, 'ds')[1]
       };
       _.forEach(variableObj.surveyNumbers, function(number) {
         variableObj.surveyIds

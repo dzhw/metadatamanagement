@@ -69,9 +69,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
                         variablesResources.push(
                           VariableBuilderService
                           .buildVariable(variableFromExcel,
-                            variableFromJson,
-                            dataSet.dataAcquisitionProjectId,
-                            dataSet.dataSetName));
+                            variableFromJson, dataSet));
                         if (variableIndex === (variables.length -
                             1)) {
                           resolve(variablesResources);
