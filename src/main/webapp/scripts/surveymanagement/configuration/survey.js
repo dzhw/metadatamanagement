@@ -20,12 +20,11 @@ angular.module('metadatamanagementApp')
           }
         },
         resolve: {
-          entity: ['$stateParams', 'SurveyResource',
-            function($stateParams, SurveyResource) {
-              return SurveyResource.get({
-                id: $stateParams.projectId + '-sy' +
-                  $stateParams.surveyNumber
-              });
+          entity: ['$stateParams', 'SurveyResource', 'SurveyIdBuilderService',
+            function($stateParams, SurveyResource, SurveyIdBuilderService) {
+              return SurveyResource.get({id: SurveyIdBuilderService
+                .buildSurveyId($stateParams.projectId,
+                  $stateParams.surveyNumber)});
             }
           ]
         },
