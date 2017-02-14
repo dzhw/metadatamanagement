@@ -10,7 +10,18 @@ https://github.com/plotly/plotly.js/compare/vX.Y.Z...master
 where X.Y.Z is the semver of most recent plotly.js release.
 
 
-## [1.23.0] -- 2016-02-06
+## [1.23.1] -- 2017-02-13
+
+### Fixed
+- Fix `relayout` for `scene.camera` values [#1364]
+- Fix scaling on axis corner drag interactions for `bar` traces [#1370]
+- Allow `bar` and `histogram` traces to coexist on same subplot [#1365]
+- Fix `bar` position computations when placeholder traces are present [#1310]
+- Fix auto-axis-type routine for data-less `candelestick`traces [#1359]
+- Bower installs now fetch un-minified `dist/plotly.js` bundle [#1373]
+
+
+## [1.23.0] -- 2017-02-06
 
 ### Added
 - Add scrollbox to long dropdown updatemenus [#1214]
@@ -29,7 +40,7 @@ where X.Y.Z is the semver of most recent plotly.js release.
 - Fix 3D thumbnail image generation [#1327]
 
 
-## [1.22.0] -- 2016-01-19
+## [1.22.0] -- 2017-01-19
 
 ### Added
 - Add `cumulative` histogram attributes to generate Cumulative Distribution
@@ -62,7 +73,7 @@ where X.Y.Z is the semver of most recent plotly.js release.
 - Allow style fields in sub and sup text [#1288]
 
 
-## [1.21.3] -- 2016-01-05
+## [1.21.3] -- 2017-01-05
 
 ### Fixed
 - Fix zoom behavior on transformed traces [#1257]
