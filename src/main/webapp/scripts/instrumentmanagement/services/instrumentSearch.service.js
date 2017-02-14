@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('metadatamanagementApp').factory('InstrumentSearchService',
-  function(LanguageService, ElasticSearchClient) {
+  function(ElasticSearchClient) {
     var query = {};
     query.type = 'instruments';
+    query.index = 'instruments';
 
     var findInstruments = function(instruments) {
-      query.index = 'metadata_' + LanguageService.getCurrentInstantly();
       query.body = {};
       query.body.query = {};
       query.body.query.docs = {
@@ -16,7 +16,6 @@ angular.module('metadatamanagementApp').factory('InstrumentSearchService',
     };
 
     var findBySurveyId = function(surveyId, from, size) {
-      query.index = 'metadata_' + LanguageService.getCurrentInstantly();
       query.body = {};
       query.body.from = from;
       query.body.size = size;
@@ -35,7 +34,6 @@ angular.module('metadatamanagementApp').factory('InstrumentSearchService',
       return ElasticSearchClient.search(query);
     };
     var findByProjectId = function(dataAcquisitionProjectId, from, size) {
-      query.index = 'metadata_' + LanguageService.getCurrentInstantly();
       query.body = {};
       query.body.from = from;
       query.body.size = size;
@@ -54,7 +52,6 @@ angular.module('metadatamanagementApp').factory('InstrumentSearchService',
       return ElasticSearchClient.search(query);
     };
     var countBy = function(term, value) {
-      query.index = 'metadata_' + LanguageService.getCurrentInstantly();
       query.body = {};
       query.body.query = {
         'term': {}

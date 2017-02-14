@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('metadatamanagementApp').factory('VariableSearchService',
-  function(LanguageService, ElasticSearchClient) {
+  function(ElasticSearchClient) {
     var query = {};
     query.type = 'variables';
+    query.index = 'variables';
 
     var findVariables = function(variableIds) {
-      query.index = 'metadata_' + LanguageService.getCurrentInstantly();
       query.body = {};
       query.body.query = {};
       query.body.query.docs = {
@@ -15,7 +15,6 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
       return ElasticSearchClient.mget(query);
     };
     var findBySurveyTitle = function(surveyTitle, from, size) {
-      query.index = 'metadata_' + LanguageService.getCurrentInstantly();
       query.body = {};
       query.body.from = from;
       query.body.size = size;
@@ -34,7 +33,6 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
       return ElasticSearchClient.search(query);
     };
     var findByQuestionId = function(questionId, from, size) {
-      query.index = 'metadata_' + LanguageService.getCurrentInstantly();
       query.body = {};
       query.body.from = from;
       query.body.size = size;
@@ -53,7 +51,6 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
       return ElasticSearchClient.search(query);
     };
     var findByDataSetId = function(dataSetId, from, size) {
-      query.index = 'metadata_' + LanguageService.getCurrentInstantly();
       query.body = {};
       query.body.from = from;
       query.body.size = size;
@@ -72,7 +69,6 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
       return ElasticSearchClient.search(query);
     };
     var countBy = function(term, value) {
-      query.index = 'metadata_' + LanguageService.getCurrentInstantly();
       query.body = {};
       query.body.query = {};
       query.body.query = {

@@ -1,11 +1,12 @@
 'use strict';
 
 angular.module('metadatamanagementApp').factory('QuestionSearchService',
-  function(LanguageService, ElasticSearchClient) {
+  function(ElasticSearchClient) {
     var query = {};
     query.type = 'questions';
+    query.index = 'questions';
     var findQuestions = function(questionIds) {
-      query.index = 'metadata_' + LanguageService.getCurrentInstantly();
+
       query.body = {};
       query.body.query = {};
       query.body.query.docs = {
@@ -14,7 +15,6 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
       return ElasticSearchClient.mget(query);
     };
     var findPredeccessors = function(questionId, from, size) {
-      query.index = 'metadata_' + LanguageService.getCurrentInstantly();
       query.body = {};
       query.body.from = from;
       query.body.size = size;
@@ -33,7 +33,6 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
       return ElasticSearchClient.search(query);
     };
     var findByProjectId = function(dataAcquisitionProjectId, from, size) {
-      query.index = 'metadata_' + LanguageService.getCurrentInstantly();
       query.body = {};
       query.body.from = from;
       query.body.size = size;
@@ -52,7 +51,6 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
       return ElasticSearchClient.search(query);
     };
     var findByInstrumentId = function(instrumentId, from, size) {
-      query.index = 'metadata_' + LanguageService.getCurrentInstantly();
       query.body = {};
       query.body.from = from;
       query.body.size = size;
@@ -71,7 +69,7 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
       return ElasticSearchClient.search(query);
     };
     var findByVariableId = function(variableId) {
-      query.index = 'metadata_' + LanguageService.getCurrentInstantly();
+
       query.body = {};
       query.body.query = {
         'bool': {
@@ -88,7 +86,6 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
       return ElasticSearchClient.search(query);
     };
     var countBy = function(term, value) {
-      query.index = 'metadata_' + LanguageService.getCurrentInstantly();
       query.body = {};
       query.body.query = {};
       query.body.query = {
