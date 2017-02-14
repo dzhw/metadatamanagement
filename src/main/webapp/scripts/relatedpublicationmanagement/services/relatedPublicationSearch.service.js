@@ -2,13 +2,13 @@
 
 angular.module('metadatamanagementApp')
   .factory('RelatedPublicationSearchService',
-    function(LanguageService, ElasticSearchClient) {
+    function(ElasticSearchClient) {
       var query = {};
       query.type = 'related_publications';
+      query.index = 'related_publications';
       query.body = {};
 
       var findBySurveyId = function(surveyId, from, size) {
-        query.index = 'metadata_' + LanguageService.getCurrentInstantly();
         query.body.from = from;
         query.body.size = size;
         query.body.query = {
@@ -26,7 +26,6 @@ angular.module('metadatamanagementApp')
         return ElasticSearchClient.search(query);
       };
       var findByQuestionId = function(questionId, from, size) {
-        query.index = 'metadata_' + LanguageService.getCurrentInstantly();
         query.body.from = from;
         query.body.size = size;
         query.body.query = {
@@ -44,7 +43,6 @@ angular.module('metadatamanagementApp')
         return ElasticSearchClient.search(query);
       };
       var findByVariableId = function(variableId, from, size) {
-        query.index = 'metadata_' + LanguageService.getCurrentInstantly();
         query.body.from = from;
         query.body.size = size;
         query.body.query = {
@@ -62,7 +60,6 @@ angular.module('metadatamanagementApp')
         return ElasticSearchClient.search(query);
       };
       var findByDataSetId = function(dataSetId, from, size) {
-        query.index = 'metadata_' + LanguageService.getCurrentInstantly();
         query.body.from = from;
         query.body.size = size;
         query.body.query = {
@@ -80,7 +77,6 @@ angular.module('metadatamanagementApp')
         return ElasticSearchClient.search(query);
       };
       var findByProjectId = function(studyId, from, size) {
-        query.index = 'metadata_' + LanguageService.getCurrentInstantly();
         query.body.from = from;
         query.body.size = size;
         query.body.query = {
@@ -98,7 +94,6 @@ angular.module('metadatamanagementApp')
         return ElasticSearchClient.search(query);
       };
       var countBy = function(term, value) {
-        query.index = 'metadata_' + LanguageService.getCurrentInstantly();
         query.body = {};
         query.body.query = {};
         query.body.query = {

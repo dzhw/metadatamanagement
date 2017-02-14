@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('metadatamanagementApp').factory('SurveySearchService',
-  function(LanguageService, ElasticSearchClient) {
+  function(ElasticSearchClient) {
     var query = {};
     query.type = 'surveys';
+    query.index = 'surveys';
     var findSurveys = function(surveyIds) {
-      query.index = 'metadata_' + LanguageService.getCurrentInstantly();
       query.body = {};
       query.body.query = {};
       query.body.query.docs = {
@@ -15,7 +15,6 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
     };
     var findByProjectId = function(dataAcquisitionProjectId, from, size,
       excludedSurveyId) {
-      query.index = 'metadata_' + LanguageService.getCurrentInstantly();
       query.body = {};
       query.body.from = from;
       query.body.size = size;
@@ -43,7 +42,6 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
       return ElasticSearchClient.search(query);
     };
     var findByVariableId = function(variableId, from, size) {
-      query.index = 'metadata_' + LanguageService.getCurrentInstantly();
       query.body = {};
       query.body.from = from;
       query.body.size = size;
@@ -62,7 +60,6 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
       return ElasticSearchClient.search(query);
     };
     var countBy = function(term, value, excludedSurveyId) {
-      query.index = 'metadata_' + LanguageService.getCurrentInstantly();
       query.body = {};
       query.body.query = {};
       query.body.query = {

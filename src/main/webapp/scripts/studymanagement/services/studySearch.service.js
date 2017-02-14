@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('metadatamanagementApp').factory('StudySearchService',
-  function(LanguageService, ElasticSearchClient) {
+  function(ElasticSearchClient) {
     var query = {};
     query.type = 'studies';
+    query.index = 'studies';
     query.body = {};
 
     var findStudies = function(studyIds) {
-      query.index = 'metadata_' + LanguageService.getCurrentInstantly();
       query.body.query = {};
       query.body.query.docs = {
         'ids': studyIds
@@ -15,7 +15,6 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       return ElasticSearchClient.mget(query);
     };
     var findStudy = function(studyId, from, size) {
-      query.index = 'metadata_' + LanguageService.getCurrentInstantly();
       query.body.from = from;
       query.body.size = size;
       query.body.query = {
