@@ -16,6 +16,7 @@ angular.module('metadatamanagementApp')
     $scope.variable = entity;
     $scope.validResponsesOrMissingsAvailable = false;
     entity.$promise.then(function() {
+      console.log($scope.variable);
       if (!CleanJSObjectService.isNullOrEmpty($scope
           .variable.distribution.missings) || !CleanJSObjectService
         .isNullOrEmpty($scope.variable
@@ -30,7 +31,8 @@ angular.module('metadatamanagementApp')
             secondLanguage],
         variableId: $scope.variable.id
       });
-      StudySearchService.findStudy($scope.variable.dataAcquisitionProjectId)
+      StudySearchService.findByProjectId($scope.variable.
+        dataAcquisitionProjectId, ['id', 'title'])
         .then(function(study) {
           if (study.hits.hits.length > 0) {
             $scope.study = study.hits.hits[0]._source;
@@ -54,9 +56,16 @@ angular.module('metadatamanagementApp')
         }
       });
       SurveySearchService
-        .countBy('variableIds', $scope.variable.id)
+        .countBy('variables', $scope.variable.id)
         .then(function(surveysCount) {
+          SurveySearchService
+            .findByVariableId($scope.variable.id)
+            .then(function(survey) {
+              console.log(survey);
+              $scope.survey = survey.hits.hits[0]._source;
+            });
           $scope.counts.surveysCount = surveysCount.count;
+          console.log($scope.counts.surveysCount);
           if (surveysCount.count === 1) {
             SurveySearchService
               .findByVariableId($scope.variable.id)

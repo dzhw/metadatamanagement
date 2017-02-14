@@ -92,9 +92,9 @@
                   {{'study-management.detail.study' | translate }}: {{'global.messages.error.unavailable' | translate}}
                 </div>
                 <div ng-if="study" class="fdz-truncate-string" flex>
-                    <a ui-sref="studyDetail({id: study.id})">
+                    <a ui-sref="studyDetail({id: variable.dataAcquisitionProjectId})">
                       <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
-                      {{'study-management.detail.study' | translate }}: {{study.title}}</a>
+                      {{'study-management.detail.study' | translate }}: {{study.title[currentLanguage]}}</a>
                   </div>
               </div>
               <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
