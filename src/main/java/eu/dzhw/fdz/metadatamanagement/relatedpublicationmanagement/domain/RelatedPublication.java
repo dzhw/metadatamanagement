@@ -15,6 +15,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.OneForeignKeyIsUsed;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.OneStudyIsUsed;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidPublicationYear;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidRelatedPublicationId;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidUrl;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
@@ -33,6 +34,8 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
     + "year.valid")
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.builders")
+@ValidRelatedPublicationId(message = 
+    "related-publication-management.error.related-publication.valid-related-publication-id")
 public class RelatedPublication extends RelatedPublicationSubDocument {
 
   @NotEmpty(message = "related-publication-management.error.related-publication." 

@@ -43,6 +43,7 @@ angular.module('metadatamanagementApp').config(
           'related-publication': {
             'one-foreign-key-is-used': 'The Publication has no connection to any other object.',
             'one-study-is-used': 'The publication has no connection to any study.',
+            'valid-related-publication-id': 'The Id of Publication have to be build up after the pattern pub-{IdFromCitavi}! .',
             'id': {
               'not-empty': 'The RDC-ID of the Publication must not be empty!',
               'size': 'The max length of the RDC-ID is 128 signs.',
