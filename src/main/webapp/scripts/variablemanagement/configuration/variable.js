@@ -21,10 +21,12 @@ angular.module('metadatamanagementApp')
         },
         resolve: {
           entity: ['$stateParams', 'VariableResource',
-            function($stateParams, VariableResource) {
+          'VariableIdBuilderService',
+            function($stateParams, VariableResource, VariableIdBuilderService) {
               return VariableResource.get({
-                id: $stateParams.projectId + '-ds' +
-                $stateParams.dataSetNumber + '-' + $stateParams.variableName
+                id: VariableIdBuilderService
+                .buildVariableId($stateParams.projectId,
+                  $stateParams.dataSetNumber, $stateParams.variableName)
               });
             }
           ]

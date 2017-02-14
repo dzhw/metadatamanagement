@@ -29,6 +29,8 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
               dataAcquisitionProjectId;
             filesMap[path[pathLength - 2]].dataSetName =
               path[pathLength - 2];
+            filesMap[path[pathLength - 2]].dataSetNumber =
+            _.split(path[pathLength - 2], 'ds')[1];
             filesMap[path[pathLength - 2]].dataSetIndex = dataSetIndex;
             filesMap[path[pathLength - 2]].jsonFiles = {};
             dataSetIndex++;
@@ -43,6 +45,8 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
               dataAcquisitionProjectId;
             filesMap[path[pathLength - 3]].dataSetName =
               path[pathLength - 3];
+            filesMap[path[pathLength - 3]].dataSetNumber =
+            _.split(path[pathLength - 3], 'ds')[1];
             filesMap[path[pathLength - 3]].dataSetIndex = dataSetIndex;
             filesMap[path[pathLength - 3]].jsonFiles = {};
             dataSetIndex++;
