@@ -5,6 +5,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.Id;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
@@ -49,6 +50,11 @@ public class SurveySubDocument extends AbstractRdcDomainObject {
 
   public SurveySubDocument() {
     super();
+  }
+  
+  public SurveySubDocument(Survey survey) {
+    super();
+    BeanUtils.copyProperties(survey, this);
   }
 
   @Override

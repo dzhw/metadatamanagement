@@ -1,7 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetSubDocument;
@@ -45,12 +45,16 @@ public class SurveySearchDocument extends Survey {
       List<Variable> variables, List<RelatedPublication> relatedPublications,
       List<Instrument> instruments, List<Question> questions) {
     super(survey);
-    this.study = study;
-    this.dataSets = new ArrayList<DataSetSubDocument>(dataSets);
-    this.variables = new ArrayList<VariableSubDocument>(variables);
-    this.relatedPublications = new ArrayList<RelatedPublicationSubDocument>(relatedPublications);
-    this.instruments = new ArrayList<InstrumentSubDocument>(instruments);
-    this.questions = new ArrayList<QuestionSubDocument>(questions);
+    if (study != null) {
+      this.study = new StudySubDocument(study);      
+    }
+    this.dataSets = dataSets.stream().map(DataSetSubDocument::new).collect(Collectors.toList());
+    this.variables = variables.stream().map(VariableSubDocument::new).collect(Collectors.toList());
+    this.relatedPublications = relatedPublications.stream()
+        .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());
+    this.instruments = instruments.stream()
+        .map(InstrumentSubDocument::new).collect(Collectors.toList());
+    this.questions = questions.stream().map(QuestionSubDocument::new).collect(Collectors.toList());
   }
 
   public StudySubDocument getStudy() {

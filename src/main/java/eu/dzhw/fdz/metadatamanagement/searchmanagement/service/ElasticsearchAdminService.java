@@ -76,7 +76,7 @@ public class ElasticsearchAdminService {
    */
   public void recreateAllIndices() {
     for (ElasticsearchType type : ElasticsearchType.values()) {
-      recreateIndex(type.name());      
+      recreateIndex(type);      
     }
     this.enqueueAllVariables();
     this.enqueueAllSurveys();
@@ -217,19 +217,17 @@ public class ElasticsearchAdminService {
 
   /**
    * Deletes and create an elasticsearch index.
-   * @param index Elasticsearch Index
+   * @param type name of the index (equals type for us).
    */
-  private void recreateIndex(String index) {
-    if (elasticsearchDao.exists(index)) {
-      elasticsearchDao.delete(index);
+  private void recreateIndex(ElasticsearchType type) {
+    if (elasticsearchDao.exists(type.name())) {
+      elasticsearchDao.delete(type.name());
       // deleting is asynchronous and thus searchly complains if we create the new index to early
-      elasticsearchDao.refresh(Arrays.asList(index));
+      elasticsearchDao.refresh(Arrays.asList(type.name()));
     }
-    elasticsearchDao.createIndex(index, loadSettings());
-    for (ElasticsearchType type : ElasticsearchType.values()) {
-      elasticsearchDao.putMapping(index, type.name(), 
+    elasticsearchDao.createIndex(type.name(), loadSettings());
+    elasticsearchDao.putMapping(type.name(), type.name(), 
           loadMapping(type.name()));
-    }
   }
   
   /**

@@ -4,9 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
@@ -14,12 +11,16 @@ import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RelatedQuestion;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 
@@ -33,6 +34,9 @@ public class QuestionService {
 
   @Autowired
   private QuestionRepository questionRepository;
+  
+  @Autowired
+  private InstrumentRepository instrumentRepository;
  
   @Autowired
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
@@ -95,32 +99,66 @@ public class QuestionService {
   }
   
   /**
-   * Enqueue update of question search documents when the instrument is updated.
+   * Enqueue update of question search documents when the study is changed.
    * 
-   * @param instrument the updated or created instrument.
+   * @param study the updated, created or deleted study.
+   */
+  @HandleAfterCreate
+  @HandleAfterSave
+  @HandleAfterDelete
+  public void onStudyChanged(Study study) {
+    List<Question> questions = questionRepository.findByStudyId(study.getId());
+    questions.forEach(question -> {
+      elasticsearchUpdateQueueService.enqueue(
+          question.getId(), 
+          ElasticsearchType.questions, 
+          ElasticsearchUpdateQueueAction.UPSERT);      
+    });    
+  }
+  
+  /**
+   * Enqueue update of question search documents when the instrument is changed.
+   * 
+   * @param instrument the updated, created or deleted instrument.
    */
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
   public void onInstrumentChanged(Instrument instrument) {
-    Pageable page = new PageRequest(0, 100);
-    Slice<Question> questions = questionRepository.findByInstrumentId(instrument.getId(), page);
-    while (questions.hasContent()) {
+    List<Question> questions = questionRepository.findByInstrumentId(instrument.getId());
+    questions.forEach(question -> {
+      elasticsearchUpdateQueueService.enqueue(
+          question.getId(), 
+          ElasticsearchType.questions, 
+          ElasticsearchUpdateQueueAction.UPSERT);      
+    });    
+  }
+  
+  /**
+   * Enqueue update of question search documents when the survey is changed.
+   * 
+   * @param survey the updated, created or deleted survey.
+   */
+  @HandleAfterCreate
+  @HandleAfterSave
+  @HandleAfterDelete
+  public void onSurveyChanged(Survey survey) {
+    List<Instrument> instruments = instrumentRepository.findBySurveyIdsContaining(survey.getId());
+    instruments.forEach(instrument -> {
+      List<Question> questions = questionRepository.findByInstrumentId(instrument.getId());
       questions.forEach(question -> {
         elasticsearchUpdateQueueService.enqueue(
             question.getId(), 
             ElasticsearchType.questions, 
             ElasticsearchUpdateQueueAction.UPSERT);      
-      });
-      page = page.next();
-      questions = questionRepository.findByInstrumentId(instrument.getId(), page);
-    }
+      });          
+    });
   }
 
   /**
-   * Enqueue update of question search document when the variable is updated.
+   * Enqueue update of question search document when the variable is changed.
    * 
-   * @param variable the updated or created variable.
+   * @param variable the updated, created or deleted variable.
    */
   @HandleAfterCreate
   @HandleAfterSave
@@ -136,4 +174,24 @@ public class QuestionService {
       });      
     }
   }  
+  
+  /**
+   * Enqueue update of question search document when the related publication 
+   * is changed.
+   * 
+   * @param relatedPublication the updated, created or deleted publication.
+   */
+  @HandleAfterCreate
+  @HandleAfterSave
+  @HandleAfterDelete
+  public void onRelatedPublicationChanged(RelatedPublication relatedPublication) {
+    if (relatedPublication.getQuestionIds() != null) {
+      List<Question> questions = questionRepository.findByIdIn(relatedPublication
+          .getQuestionIds());
+      questions.forEach(question -> {
+        elasticsearchUpdateQueueService.enqueue(question.getId(),
+            ElasticsearchType.questions, ElasticsearchUpdateQueueAction.UPSERT);
+      });      
+    }
+  }
 }

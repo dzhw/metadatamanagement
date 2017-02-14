@@ -35,4 +35,10 @@ public interface RelatedPublicationRepository extends MongoRepository<RelatedPub
 
   @RestResource(exported = false)
   List<RelatedPublication> findByVariableIdsContaining(String id);
+
+  @RestResource(exported = false)
+  List<RelatedPublication> findByInstrumentIdsContaining(String id);
+
+  @RestResource(exported = false)
+  List<RelatedPublication> findByQuestionIdsContaining(String id);
 }

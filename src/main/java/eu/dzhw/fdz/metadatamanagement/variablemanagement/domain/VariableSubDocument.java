@@ -5,6 +5,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.Id;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
@@ -46,6 +47,11 @@ public class VariableSubDocument extends AbstractRdcDomainObject {
 
   public VariableSubDocument() {
     super();
+  }
+  
+  public VariableSubDocument(Variable variable) {
+    super();
+    BeanUtils.copyProperties(variable, this);
   }
 
   @Override

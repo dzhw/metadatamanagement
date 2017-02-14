@@ -55,8 +55,6 @@ public class LogsResourceTest extends AbstractTest {
       .getContentAsString();
     JSONArray jsonArray = new JSONArray(content);
 
-    System.out.println(jsonArray);
-
     // Assert
     assertThat(content, not(nullValue()));
     assertThat(jsonArray.length(), greaterThan(0));

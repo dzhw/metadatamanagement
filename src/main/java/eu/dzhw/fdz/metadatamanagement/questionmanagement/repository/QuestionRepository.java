@@ -32,7 +32,7 @@ public interface QuestionRepository
   Slice<Question> findBy(Pageable pageable);
   
   @RestResource(exported = false)
-  Slice<Question> findByInstrumentId(String instrumentId, Pageable pageable);
+  List<Question> findByInstrumentId(String instrumentId);
   
   @RestResource(exported = false)
   List<Question> findByIdIn(List<String> ids);

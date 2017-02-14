@@ -4,6 +4,15 @@
   		 	"enabled" : true,
   		 	"analyzer": "trigrams"
   		},
+  		"dynamic_templates": [{ 
+  			"default_mapping": {
+            	"match": "*", 
+                "mapping": {
+                	"index": "no",
+                	"include_in_all": true
+                }
+             }
+        }],
     	"properties": {
     		"id": {
         		"type": "string",
@@ -12,6 +21,66 @@
       		"dataAcquisitionProjectId": {
       			"type": "string",
         		"index": "not_analyzed"
+      		},
+      		"studyId": {
+      			"type": "string",
+        		"index": "not_analyzed"
+      		},
+      		"surveyMethod": {
+      			"properties": {
+      				"de": {
+      					"type": "string",
+        				"index": "not_analyzed"
+      				},
+      				"en": {
+      					"type": "string",
+        				"index": "not_analyzed"
+      				}		
+      			}
+      		},
+      		"relatedPublications": {
+      			"properties": {
+      				"id" : {
+      					"type": "string",
+        				"index": "not_analyzed"
+      				},
+      				"doi" : {
+      					"type": "string",
+        				"index": "not_analyzed"
+      				}
+      			}
+      		},
+      		"dataSets": {
+      			"properties": {
+      				"id" : {
+      					"type": "string",
+        				"index": "not_analyzed"
+      				}
+      			}
+      		},
+      		"variables": {
+      			"properties": {
+      				"id" : {
+      					"type": "string",
+        				"index": "not_analyzed"
+      				}
+      			}
+      		},
+      		"instruments": {
+      			"properties": {
+      				"id" : {
+      					"type": "string",
+        				"index": "not_analyzed"
+      				}
+      			}
+      		},
+      		"questions": {
+      			"properties": {
+      				"id" : {
+      					"type": "string",
+        				"index": "not_analyzed"
+      				}
+      			}
       		}
       	}
 	}

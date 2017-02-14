@@ -257,7 +257,21 @@ public class ElasticsearchUpdateQueueService {
     Instrument instrument = instrumentRepository.findOne(lockedItem.getDocumentId());
 
     if (instrument != null) {
-      InstrumentSearchDocument searchDocument = new InstrumentSearchDocument(instrument);
+      Study study = null;
+      if (instrument.getStudyId() != null) {
+        study = studyRepository.findOne(instrument.getStudyId());
+      }
+      List<Survey> surveys = new ArrayList<Survey>();
+      if (instrument.getSurveyIds() != null) {
+        surveys = surveyRepository.findByIdIn(instrument.getSurveyIds());        
+      }
+      List<Question> questions = questionRepository.findByInstrumentId(instrument.getId());
+      List<Variable> variables = variableRepository
+          .findByRelatedQuestionsInstrumentId(instrument.getId());
+      List<RelatedPublication> relatedPublications = relatedPublicationRepository
+          .findByInstrumentIdsContaining(instrument.getId());
+      InstrumentSearchDocument searchDocument = new InstrumentSearchDocument(instrument, 
+          study, surveys, questions, variables, relatedPublications);
       
       bulkBuilder.addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType()
           .name())
@@ -274,8 +288,33 @@ public class ElasticsearchUpdateQueueService {
     RelatedPublication relatedPublication =
         relatedPublicationRepository.findOne(lockedItem.getDocumentId());
     if (relatedPublication != null) {
+      List<Study> studies = new ArrayList<Study>();
+      if (relatedPublication.getStudyIds() != null) {
+        studies = studyRepository.findByIdIn(relatedPublication.getStudyIds());
+      }
+      List<Question> questions = new ArrayList<Question>();
+      if (relatedPublication.getQuestionIds() != null) {
+        questions = questionRepository.findByIdIn(relatedPublication.getQuestionIds());
+      }
+      List<Instrument> instruments = new ArrayList<Instrument>();
+      if (relatedPublication.getInstrumentIds() != null) {
+        instruments = instrumentRepository.findByIdIn(relatedPublication.getInstrumentIds());
+      }
+      List<Survey> surveys = new ArrayList<Survey>();
+      if (relatedPublication.getSurveyIds() != null) {
+        surveys = surveyRepository.findByIdIn(relatedPublication.getSurveyIds());
+      }
+      List<DataSet> dataSets = new ArrayList<DataSet>();
+      if (relatedPublication.getDataSetIds() != null) {
+        dataSets = dataSetRepository.findByIdIn(relatedPublication.getDataSetIds());
+      }
+      List<Variable> variables = new ArrayList<Variable>();
+      if (relatedPublication.getVariableIds() != null) {
+        variables = variableRepository.findByIdIn(relatedPublication.getVariableIds());
+      }
       RelatedPublicationSearchDocument searchDocument =
-          new RelatedPublicationSearchDocument(relatedPublication);
+          new RelatedPublicationSearchDocument(relatedPublication, studies, questions,
+              instruments, surveys, dataSets, variables);
 
       bulkBuilder.addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType()
           .name())
@@ -391,8 +430,22 @@ public class ElasticsearchUpdateQueueService {
       Builder bulkBuilder) {
     Question question = questionRepository.findOne(lockedItem.getDocumentId());
     if (question != null) {
+      Study study = null;
+      if (question.getStudyId() != null) {
+        study = studyRepository.findOne(question.getStudyId());
+      }
+      Instrument instrument = instrumentRepository.findOne(question.getInstrumentId());
+      List<Survey> surveys = new ArrayList<Survey>();
+      if (instrument != null && instrument.getSurveyIds() != null) {
+        surveys = surveyRepository.findByIdIn(instrument.getSurveyIds());        
+      }
+      List<Variable> variables = variableRepository
+          .findByRelatedQuestionsQuestionId(question.getId());
+      List<RelatedPublication> relatedPublications = relatedPublicationRepository
+          .findByQuestionIdsContaining(question.getId());
       QuestionSearchDocument searchDocument =
-            new QuestionSearchDocument(question);
+            new QuestionSearchDocument(question, study, instrument, surveys, variables,
+                relatedPublications);
 
       bulkBuilder.addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType()
           .name())

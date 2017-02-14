@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.config;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -39,7 +40,9 @@ public class ElasticsearchClientConfiguration {
         .getReadTimeout();
 
     // configure elasticsearch json serialization / deserialization
-    Gson gson = new GsonBuilder().registerTypeAdapter(LocalDate.class, new LocalDateConverter())
+    Gson gson = new GsonBuilder()
+        .registerTypeAdapter(LocalDate.class, new LocalDateConverter())
+        .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeConverter())
         .create();
     
     // Configuration

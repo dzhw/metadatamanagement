@@ -4,12 +4,49 @@
   		 	"enabled" : true,
   		 	"analyzer": "trigrams"
   		},
+  		"dynamic_templates": [{ 
+  			"default_mapping": {
+            	"match": "*", 
+                "mapping": {
+                	"index": "no",
+                	"include_in_all": true
+                }
+             }
+        }],
     	"properties": {
     		"id": {
         		"type": "string",
         		"index": "not_analyzed"
       		},
       		"dataAcquisitionProjectId": {
+      			"type": "string",
+        		"index": "not_analyzed"
+      		},
+      		"doi": {
+      			"type": "string",
+        		"index": "not_analyzed"
+      		},
+      		"studyIds": {
+      			"type": "string",
+        		"index": "not_analyzed"
+      		},
+      		"dataSetIds": {
+      			"type": "string",
+        		"index": "not_analyzed"
+      		},
+      		"variableIds": {
+      			"type": "string",
+        		"index": "not_analyzed"
+      		},
+      		"instrumentIds": {
+      			"type": "string",
+        		"index": "not_analyzed"
+      		},
+      		"questionIds": {
+      			"type": "string",
+        		"index": "not_analyzed"
+      		},
+      		"surveyIds": {
       			"type": "string",
         		"index": "not_analyzed"
       		}
