@@ -44,7 +44,8 @@ angular.module('metadatamanagementApp')
           .then(function(instrumentsCount) {
             ctrl.counts.instrumentsCount = instrumentsCount.count;
             if (instrumentsCount.count === 1) {
-              InstrumentSearchService.findBySurveyId(ctrl.survey.id)
+              InstrumentSearchService.findBySurveyId(ctrl.survey.id,
+                ['dataAcquisitionProjectId', 'number', 'title'])
               .then(function(instrument) {
                 ctrl.intrument = instrument;
               });

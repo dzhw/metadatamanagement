@@ -83,7 +83,7 @@ angular.module('metadatamanagementApp')
           $scope.counts.publicationsCount = publicationsCount.count;
           if (publicationsCount.count === 1) {
             RelatedPublicationSearchService
-              .findByVariableId($scope.variable.id)
+              .findByVariableId($scope.variable.id, ['id', 'title'])
               .then(function(relatedPublication) {
                 $scope.relatedPublication = relatedPublication.
                 hits.hits[0]._source;
