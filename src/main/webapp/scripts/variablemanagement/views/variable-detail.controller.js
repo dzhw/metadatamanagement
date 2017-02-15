@@ -77,7 +77,7 @@ angular.module('metadatamanagementApp')
         $scope.counts.variablesInPanel = 0;
       }
       RelatedPublicationSearchService
-        .countBy('variables.id', $scope.variable.id)
+        .countBy('variableIds', $scope.variable.id)
         .then(function(publicationsCount) {
           $scope.counts.publicationsCount = publicationsCount.count;
           if (publicationsCount.count === 1) {
