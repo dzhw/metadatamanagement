@@ -32,7 +32,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       };
       return ElasticSearchClient.search(query);
     };
-    var findByProjectId = function(dataAcquisitionProjectId,
+    var findOneByProjectId = function(dataAcquisitionProjectId,
       selectedAttributes) {
       query.body = {};
       query.body._source = selectedAttributes;
@@ -53,6 +53,6 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
     return {
       findStudies: findStudies,
       findStudy: findStudy,
-      findByProjectId: findByProjectId
+      findOneByProjectId: findOneByProjectId
     };
   });

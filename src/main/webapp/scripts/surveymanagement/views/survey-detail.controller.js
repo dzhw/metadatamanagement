@@ -3,7 +3,8 @@
 angular.module('metadatamanagementApp')
   .controller('SurveyDetailController',
     function(entity, StudySearchService, LanguageService, DataSetSearchService,
-      SurveySearchService, PageTitleService, InstrumentSearchService) {
+      SurveySearchService, PageTitleService, InstrumentSearchService,
+      RelatedPublicationSearchService) {
       var ctrl = this;
       ctrl.imgResolved = false;
       ctrl.survey = entity;
@@ -16,8 +17,8 @@ angular.module('metadatamanagementApp')
           .survey.title[currenLanguage] : ctrl.survey.title[secondLanguage],
           surveyId: ctrl.survey.id
         });
-        StudySearchService
-          .findStudy(ctrl.survey.dataAcquisitionProjectId)
+        StudySearchService.findOneByProjectId(ctrl.survey.
+          dataAcquisitionProjectId, ['dataAcquisitionProjectId', 'title'])
           .then(function(study) {
             if (study.hits.hits.length > 0) {
               ctrl.study = study.hits.hits[0]._source;
@@ -48,6 +49,18 @@ angular.module('metadatamanagementApp')
               });
             }
           });
+        RelatedPublicationSearchService.countBy('surveyIds', ctrl.survey.id)
+            .then(function(publicationsCount) {
+              ctrl.counts.publicationsCount = publicationsCount.count;
+              if (publicationsCount.count === 1) {
+                RelatedPublicationSearchService
+                  .findByVariableId(ctrl.survey.id)
+                  .then(function(relatedPublication) {
+                    ctrl.relatedPublication = relatedPublication.
+                    hits.hits[0]._source;
+                  });
+              }
+            });
       });
       ctrl.setImgResolved = function() {
         ctrl.imgResolved = true;
