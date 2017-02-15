@@ -46,7 +46,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
         'description','type', 'doi', 'publicationAbstract', 'authors',
         'surveyMethod', 'fieldPeriod', 'label', 'name', 'dataType',
         'scaleLevel', 'dataAcquisitionProjectId', 'dataSetNumber',
-        'instrumentNumber'];
+        'instrumentNumber', 'instrument.description'];
         if (sortBy && sortBy !== '') {
           var sortCriteria = {};
           sortCriteria[sortBy] = {

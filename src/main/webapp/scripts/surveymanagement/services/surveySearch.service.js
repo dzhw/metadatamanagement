@@ -1,3 +1,4 @@
+/* global  _*/
 'use strict';
 
 angular.module('metadatamanagementApp').factory('SurveySearchService',
@@ -6,12 +7,18 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
     query.type = 'surveys';
     query.index = 'surveys';
     var findSurveys = function(surveyIds, selectedAttributes) {
+      var ids = _.split(surveyIds, ',');
       query.body = {};
-      query.body._source = selectedAttributes;
       query.body.query = {};
-      query.body.query.docs = {
-        'ids': surveyIds
-      };
+      query.body.query.docs = [];
+      _.forEach(ids, function(id) {
+        query.body.query.docs.push({
+          '_id': id,
+          '_source': {
+              'include': selectedAttributes
+            }
+        });
+      });
       return ElasticSearchClient.mget(query);
     };
     var findByProjectId = function(dataAcquisitionProjectId, selectedAttributes,

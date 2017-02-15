@@ -1,3 +1,4 @@
+/* global  _*/
 'use strict';
 
 angular.module('metadatamanagementApp').factory('DataSetSearchService',
@@ -7,12 +8,18 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
     query.index = 'data_sets';
 
     var findDataSets = function(dataSetIds, selectedAttributes) {
+      var ids = _.split(dataSetIds, ',');
       query.body = {};
       query.body.query = {};
-      query.body._source = selectedAttributes;
-      query.body.query.docs = {
-        'ids': dataSetIds
-      };
+      query.body.query.docs = [];
+      _.forEach(ids, function(id) {
+        query.body.query.docs.push({
+          '_id': id,
+          '_source': {
+              'include': selectedAttributes
+            }
+        });
+      });
       return ElasticSearchClient.mget(query);
     };
     var findOneByVariableId = function(variableId, selectedAttributes) {

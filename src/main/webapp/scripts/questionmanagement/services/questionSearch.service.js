@@ -1,3 +1,4 @@
+/* global _*/
 'use strict';
 
 angular.module('metadatamanagementApp').factory('QuestionSearchService',
@@ -6,12 +7,18 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
     query.type = 'questions';
     query.index = 'questions';
     var findQuestions = function(questionIds, selectedAttributes) {
+      var ids = _.split(questionIds, ',');
       query.body = {};
-      query.body._source = selectedAttributes;
       query.body.query = {};
-      query.body.query.docs = {
-        'ids': questionIds
-      };
+      query.body.query.docs = [];
+      _.forEach(ids, function(id) {
+        query.body.query.docs.push({
+          '_id': id,
+          '_source': {
+              'include': selectedAttributes
+            }
+        });
+      });
       return ElasticSearchClient.mget(query);
     };
     var findAllPredeccessors = function(questionId, selectedAttributes, from,

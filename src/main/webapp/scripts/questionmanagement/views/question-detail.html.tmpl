@@ -1,6 +1,6 @@
 <div ng-if="ctrl.question.$resolved && ctrl.question.id">
   <div layout="row" style="margin-bottom: 0px;" layout-margin>
-    <h1 class="md-headline fdz-truncate-string" style="margin-left: 0px;">{{'question-management.detail.question' | translate}} {{ctrl.question.number}}: {{ctrl.instrument.description}} ({{ctrl.question.id}})</h1>
+    <h1 class="md-headline fdz-truncate-string" style="margin-left: 0px;">{{'question-management.detail.question' | translate}} {{ctrl.question.number}}: {{ctrl.instrument.description[currentLanguage]}} ({{ctrl.question.id}})</h1>
   </div>
     <div layout="column" layout-gt-sm="row">
         <md-card flex-gt-sm>
@@ -18,20 +18,26 @@
             </md-card-header>
             <md-divider></md-divider>
             <md-card-content layout="column" layout-align="center start">
-                <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                    <md-icon md-svg-src="/assets/images/icons/study.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
-                    <div style="margin-right:3px;">{{'study-management.detail.study' | translate }}:</div>
-                    <div ng-if="!ctrl.study" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
-                    <div ng-if="ctrl.study" class="fdz-truncate-string" flex>
-                        <a ui-sref="studyDetail({id:ctrl.study.dataAcquisitionProjectId})">{{ctrl.study.title}}</a>
+              <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                  <div ng-if="!ctrl.study" class="fdz-truncate-string" flex>
+                    <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
+                    {{'study-management.detail.study' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                  </div>
+                  <div ng-if="ctrl.study" class="fdz-truncate-string" flex>
+                      <a ui-sref="studyDetail({id: ctrl.study.dataAcquisitionProjectId})">
+                        <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
+                        {{'study-management.detail.study' | translate }}: {{ctrl.study.title[currentLanguage]}}</a>
                     </div>
                 </div>
                 <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                    <md-icon md-svg-src="/assets/images/icons/instrument.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
-                    <div style="margin-right:3px;">{{'instrument-management.detail.instrument' | translate }}:</div>
-                    <div ng-if="!ctrl.instrument" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
+                    <div ng-if="!ctrl.instrument" class="fdz-truncate-string" flex>
+                      <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
+                      {{'instrument-management.detail.instrument' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                    </div>
                     <div ng-if="ctrl.instrument" class="fdz-truncate-string" flex>
-                        <a ui-sref="instrumentDetail({projectId: ctrl.instrument.dataAcquisitionProjectId, instrumentNumber: ctrl.instrument.number})">{{ctrl.instrument.title}}</a>
+                      <a ui-sref="instrumentDetail({'projectId': ctrl.instrument.dataAcquisitionProjectId, 'instrumentNumber': ctrl.instrument.number})">
+                        <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
+                        {{'instrument-management.detail.instrument' | translate }}: ({{ctrl.instrument.title[currentLanguage]}})</a>
                     </div>
                 </div>
                 <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
@@ -63,7 +69,7 @@
             <md-divider></md-divider>
             <md-content style="background-color:white;">
                 <div ng-repeat="predecessor in ctrl.predecessors">
-                    <question-search-result search-result="predecessor._source"></question-search-result>
+                    <question-search-result search-result="predecessor._source" current-language="currentLanguage"></question-search-result>
                 </div>
                 <div layout="row" layout-align="center center" ng-if="ctrl.predecessors.length == 0" layout-padding>
                     {{'question-management.detail.no-predecessors' | translate}}
@@ -79,7 +85,7 @@
             <md-divider></md-divider>
             <md-content style="background-color:white;">
                 <div ng-repeat="successor in ctrl.successors">
-                    <question-search-result ng search-result="successor._source"></question-search-result>
+                    <question-search-result ng search-result="successor._source" current-language="currentLanguage"></question-search-result>
                 </div>
                 <div layout="row" layout-align="center center" ng-if="ctrl.successors.length == 0" layout-padding>
                     {{'question-management.detail.no-successors' | translate }}

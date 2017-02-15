@@ -6,7 +6,7 @@
             <md-icon md-svg-src="/assets/images/icons/question.svg" class="fdz-search-result-icon"></md-icon>
         </md-card-avatar>
         <md-card-header-text class="fdz-truncate-string">
-            <div class="md-title fdz-truncate-string">{{'question-management.detail.question' | translate}} {{searchResult.number}}: {{searchResult.instrumentDescription}} ({{searchResult.id}})</div>
+            <div class="md-title fdz-truncate-string">{{'question-management.detail.question' | translate}} {{searchResult.number}}: {{searchResult.instrument.description[currentLanguage]}} ({{searchResult.id}})</div>
             <div class="md-subhead fdz-truncate-string">{{searchResult.type[currentLanguage]}}</div>
         </md-card-header-text>
     </md-card-header>

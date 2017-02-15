@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp')
       SimpleMessageToastService, QuestionSearchService, CleanJSObjectService,
       RelatedPublicationSearchDialogService, VariableSearchService,
       RelatedPublicationSearchService, InstrumentSearchService,
-      PageTitleService) {
+      PageTitleService, $rootScope) {
 
       var ctrl = this;
       this.representationCodeToggleFlag = true;
@@ -21,16 +21,21 @@ angular.module('metadatamanagementApp')
       ctrl.counts = {};
 
       entity.$promise.then(function() {
+        //console.log(ctrl.question);
         ctrl.questionIdAsArray = ctrl.question.id.split(',');
-        QuestionSearchService.findPredeccessors(ctrl.question.id)
+        QuestionSearchService.findAllPredeccessors(ctrl.question.id, ['id',
+        'instrumentNumber', 'questionText', 'type','instrumentNmber',
+        'number', 'dataAcquisitionProjectId', 'instrument.description'])
           .then(function(predecessors) {
             if (!CleanJSObjectService.isNullOrEmpty(predecessors)) {
               ctrl.predecessors = predecessors.hits.hits;
             }
           });
         if (ctrl.question.successors) {
-          QuestionSearchService.findSuccessors(ctrl.question.successors)
-            .then(function(successors) {
+          QuestionSearchService.findSuccessors(ctrl.question.successors, ['id',
+          'instrumentNumber', 'questionText', 'type','instrumentNmber',
+          'number', 'dataAcquisitionProjectId', 'instrument.description'])
+          .then(function(successors) {
               _.pullAllBy(successors.docs, [{
                 'found': false
               }], 'found');
@@ -49,7 +54,8 @@ angular.module('metadatamanagementApp')
             html_beautify(ctrl.technicalRepresentationBeauty); //jscs:ignore
           }
         }
-        StudySearchService.findStudy(ctrl.question.dataAcquisitionProjectId)
+        StudySearchService.findOneByProjectId(ctrl.question.
+          dataAcquisitionProjectId, ['dataAcquisitionProjectId','title'])
           .then(function(study) {
             if (study.hits.hits.length > 0) {
               ctrl.study = study.hits.hits[0]._source;
@@ -63,19 +69,21 @@ angular.module('metadatamanagementApp')
           ctrl.question.id).then(function(publicationsCount) {
           ctrl.counts.publicationsCount = publicationsCount.count;
         });
-        InstrumentSearchService.findInstruments([ctrl.question.instrumentId])
-          .then(function(searchResult) {
-            var title = {
-              questionNumber: ctrl.question.number,
-              questionId: ctrl.question.id
-            };
-            if (searchResult.docs[0].found) {
-              ctrl.instrument = searchResult.docs[0]._source;
-              title.instrumentDescription = ctrl.instrument.description;
-            }
-            PageTitleService.setPageTitle(
-              'question-management.detail.title', title);
-          });
+        InstrumentSearchService.findInstruments(ctrl.question.instrumentId,
+          ['dataAcquisitionProjectId', 'number', 'title', 'description'])
+          .then(function(instrument) {
+                  var title = {
+                    questionNumber: ctrl.question.number,
+                    questionId: ctrl.question.id
+                  };
+                  if (instrument.docs[0].found === true) {
+                    ctrl.instrument = instrument.docs[0]._source;
+                    title.instrumentDescription = ctrl.instrument
+                    .description[$rootScope.currentLanguage];
+                  }
+                  PageTitleService.
+                  setPageTitle('question-management.detail.title', title);
+                });
       });
       ctrl.showRelatedVariables = function() {
         var paramObject = {};

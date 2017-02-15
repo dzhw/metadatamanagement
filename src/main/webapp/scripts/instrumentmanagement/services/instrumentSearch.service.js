@@ -1,3 +1,4 @@
+/* global _*/
 'use strict';
 
 angular.module('metadatamanagementApp').factory('InstrumentSearchService',
@@ -6,13 +7,19 @@ angular.module('metadatamanagementApp').factory('InstrumentSearchService',
     query.type = 'instruments';
     query.index = 'instruments';
 
-    var findInstruments = function(instruments, selectedAttributes) {
+    var findInstruments = function(instrumentIds, selectedAttributes) {
+      var ids = _.split(instrumentIds, ',');
       query.body = {};
       query.body.query = {};
-      query.body._source = selectedAttributes;
-      query.body.query.docs = {
-        'ids': instruments
-      };
+      query.body.query.docs = [];
+      _.forEach(ids, function(id) {
+        query.body.query.docs.push({
+          '_id': id,
+          '_source': {
+              'include': selectedAttributes
+            }
+        });
+      });
       return ElasticSearchClient.mget(query);
     };
 

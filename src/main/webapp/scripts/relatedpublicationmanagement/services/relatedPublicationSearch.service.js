@@ -6,7 +6,6 @@ angular.module('metadatamanagementApp')
       var query = {};
       query.type = 'related_publications';
       query.index = 'related_publications';
-      query.body = {};
 
       var findBySurveyId = function(surveyId, selectedAttributes, from,
         size) {
