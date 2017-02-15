@@ -7,7 +7,8 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
   function(FileReaderService, QuestionResource, QuestionDeleteResource,
     JobLoggingService, QuestionImageUploadService, CleanJSObjectService,
     ErrorMessageResolverService, $q, ElasticSearchAdminService, $rootScope,
-    $translate, $mdDialog, QuestionIdBuilderService, StudyIdBuilderService) {
+    $translate, $mdDialog, QuestionIdBuilderService, StudyIdBuilderService,
+    InstrumentIdBuilderService) {
     var filesMap;
     var questionResources;
     var createInstrumentsFileMap = function(files, dataAcquisitionProjectId) {
@@ -72,9 +73,9 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                 .removeEmptyJsonObjects(JSON.parse(result));
               question.dataAcquisitionProjectId = instrument
                 .dataAcquisitionProjectId;
-              question.instrumentId = instrument
-                .dataAcquisitionProjectId + '-' +
-                instrument.instrumentName;
+              question.instrumentId = InstrumentIdBuilderService
+                .buildInstrumentId(instrument.dataAcquisitionProjectId,
+                  instrument.instrumentNumber);
               question.instrumentNumber = instrument.instrumentNumber;
               question.id = QuestionIdBuilderService.buildQuestionId(
                 question.dataAcquisitionProjectId,
@@ -86,8 +87,10 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                   .successorNumbers)) {
                 question.successorNumbers
                   .forEach(function(successorNumber) {
-                    successors.push(question.instrumentId + '-' +
-                      successorNumber);
+                    successors.push(QuestionIdBuilderService.buildQuestionId(
+                      question.dataAcquisitionProjectId,
+                      question.instrumentNumber,
+                      successorNumber));
                   });
               }
               question.successors = successors;
