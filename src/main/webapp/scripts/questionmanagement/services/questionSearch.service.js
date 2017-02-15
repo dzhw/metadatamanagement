@@ -5,10 +5,8 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
     var query = {};
     query.type = 'questions';
     query.index = 'questions';
-    var findQuestions = function(questionIds, selectedAttributes, from, size) {
+    var findQuestions = function(questionIds, selectedAttributes) {
       query.body = {};
-      query.body.from = from;
-      query.body.size = size;
       query.body._source = selectedAttributes;
       query.body.query = {};
       query.body.query.docs = {
@@ -16,10 +14,12 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
       };
       return ElasticSearchClient.mget(query);
     };
-    var findAllPredeccessors = function(questionId, selectedAttributes) {
+    var findAllPredeccessors = function(questionId, selectedAttributes, from,
+      size) {
       query.body = {};
+      query.body.from = from;
+      query.body.size = size;
       query.body._source = selectedAttributes;
-      query.body.size = 1000;
       query.body.query = {
         'bool': {
           'must': [{
@@ -34,11 +34,12 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
       };
       return ElasticSearchClient.search(query);
     };
-    // jfdjfdjfdj
-    var findByProjectId = function(dataAcquisitionProjectId, from, size) {
+    var findByProjectId = function(dataAcquisitionProjectId, selectedAttributes,
+      from, size) {
       query.body = {};
       query.body.from = from;
       query.body.size = size;
+      query.body._source = selectedAttributes;
       query.body.query = {
         'bool': {
           'must': [{
@@ -53,10 +54,10 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
       };
       return ElasticSearchClient.search(query);
     };
-    var findByInstrumentId = function(instrumentId, from, size) {
+    var findOneByInstrumentId = function(instrumentId, selectedAttributes) {
       query.body = {};
-      query.body.from = from;
-      query.body.size = size;
+      query.body.size = 1;
+      query.body._source = selectedAttributes;
       query.body.query = {
         'bool': {
           'must': [{
@@ -71,11 +72,12 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
       };
       return ElasticSearchClient.search(query);
     };
-    //sdspüdpsdps
-    var findByVariableId = function(variableId, selectedAttributes) {
+    var findByVariableId = function(variableId, selectedAttributes, from,
+      size) {
       query.body = {};
+      query.body.from = from;
+      query.body.size = size;
       query.body._source = selectedAttributes;
-      query.body.size = 1;
       query.body.query = {
         'bool': {
           'must': [{
@@ -117,7 +119,7 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
       findAllPredeccessors: findAllPredeccessors,
       findSuccessors: findQuestions,
       findQuestions: findQuestions,
-      findByInstrumentId: findByInstrumentId,
+      findOneByInstrumentId: findOneByInstrumentId,
       findByProjectId: findByProjectId,
       findByStudyId: findByProjectId,
       findByVariableId: findByVariableId,
