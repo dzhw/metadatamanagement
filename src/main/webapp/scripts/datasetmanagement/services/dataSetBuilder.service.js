@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').service('DataSetBuilderService',
   function(DataSetResource, CleanJSObjectService, StudyIdBuilderService,
-    DataSetIdBuilderService) {
+    DataSetIdBuilderService, SurveyIdBuilderService) {
     var buildDataSet = function(dataSet,
       dataAcquisitionProjectId) {
       if (!dataSet || !dataAcquisitionProjectId) {
@@ -37,7 +37,8 @@ angular.module('metadatamanagementApp').service('DataSetBuilderService',
       };
       _.forEach(dataSetObj.surveyNumbers, function(number) {
         dataSetObj.surveyIds
-          .push(dataAcquisitionProjectId + '-sy' + number.trim());
+          .push(SurveyIdBuilderService.buildSurveyId(
+            dataAcquisitionProjectId, number));
       });
       var cleanedDataSetObject = CleanJSObjectService
         .removeEmptyJsonObjects(dataSetObj);
