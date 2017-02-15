@@ -31,6 +31,7 @@
         		"index": "not_analyzed"
       		},
       		"variables": {
+				"type": "object",      			
       			"properties": {
       				"id" : {
       					"type": "string",
@@ -39,6 +40,7 @@
       			}
       		},
       		"relatedPublications": {
+      			"type": "object",
       			"properties": {
       				"id" : {
       					"type": "string",
@@ -51,6 +53,7 @@
       			}
       		},
       		"surveys": {
+      			"type": "object",
       			"properties": {
       				"id" : {
       					"type": "string",

@@ -44,7 +44,7 @@ angular.module('metadatamanagementApp')
             $scope.dataSet = dataSet.docs[0]._source;
           }
         });
-      QuestionSearchService.countBy('variableIds', $scope.variable.id)
+      QuestionSearchService.countBy('variables.id', $scope.variable.id)
       .then(function(questionsCount) {
         $scope.counts.questionsCount = questionsCount.count;
         if (questionsCount.count === 1) {
@@ -56,7 +56,7 @@ angular.module('metadatamanagementApp')
         }
       });
       SurveySearchService
-        .countBy('variables', $scope.variable.id)
+        .countBy('variables.id', $scope.variable.id)
         .then(function(surveysCount) {
           SurveySearchService
             .findByVariableId($scope.variable.id)

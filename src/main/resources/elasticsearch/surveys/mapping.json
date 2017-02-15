@@ -27,6 +27,7 @@
         		"index": "not_analyzed"
       		},
       		"surveyMethod": {
+      			"type": "object",	
       			"properties": {
       				"de": {
       					"type": "string",
@@ -39,6 +40,7 @@
       			}
       		},
       		"relatedPublications": {
+      			"type": "object",
       			"properties": {
       				"id" : {
       					"type": "string",
@@ -51,6 +53,7 @@
       			}
       		},
       		"dataSets": {
+      			"type": "object",
       			"properties": {
       				"id" : {
       					"type": "string",
@@ -59,6 +62,7 @@
       			}
       		},
       		"variables": {
+      			"type": "object",
       			"properties": {
       				"id" : {
       					"type": "string",
@@ -67,6 +71,7 @@
       			}
       		},
       		"instruments": {
+      			"type": "object",
       			"properties": {
       				"id" : {
       					"type": "string",
@@ -75,6 +80,7 @@
       			}
       		},
       		"questions": {
+      			"type": "object",
       			"properties": {
       				"id" : {
       					"type": "string",

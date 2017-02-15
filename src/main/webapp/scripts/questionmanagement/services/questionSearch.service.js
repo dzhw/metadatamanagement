@@ -78,7 +78,7 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
           }],
           'filter': [{
             'term': {
-              'variableIds': variableId
+              'variables.id': variableId
             }
           }]
         }

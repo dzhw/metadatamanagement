@@ -35,6 +35,7 @@
         		"index": "not_analyzed"
       		},
       		"dataType": {
+      			"type": "object",
       			"properties": {
       				"de": {
       					"type": "string",
@@ -47,6 +48,7 @@
       			}
       		},
       		"scaleLevel": {
+      			"type": "object",
       			"properties": {
       				"de": {
       					"type": "string",
@@ -71,6 +73,7 @@
         		"index": "not_analyzed"
       		},
       		"relatedQuestions": {
+      			"type": "object",
       			"properties": {
       				"questionId": {
       					"type": "string",
@@ -83,6 +86,7 @@
       			}
       		},
       		"relatedPublications": {
+      			"type": "object",
       			"properties": {
       				"id" : {
       					"type": "string",
@@ -95,6 +99,7 @@
       			}
       		},
       		"instruments": {
+      			"type": "object",
       			"properties": {
       				"id" : {
       					"type": "string",
@@ -103,6 +108,7 @@
       			}
       		},
       		"surveys": {
+      			"type": "object",
       			"properties": {
       				"id" : {
       					"type": "string",
