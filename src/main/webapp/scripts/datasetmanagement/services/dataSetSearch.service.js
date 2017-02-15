@@ -6,18 +6,19 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
     query.type = 'data_sets';
     query.index = 'data_sets';
 
-    var findDataSets = function(dataSetIds) {
+    var findDataSets = function(dataSetIds, selectedAttributes) {
       query.body = {};
       query.body.query = {};
+      query.body._source = selectedAttributes;
       query.body.query.docs = {
         'ids': dataSetIds
       };
       return ElasticSearchClient.mget(query);
     };
-    var findByVariableId = function(variableId, from, size) {
+    var findByVariableId = function(variableId, selectedAttributes) {
       query.body = {};
-      query.body.from = from;
-      query.body.size = size;
+      query.body.size = 1;
+      query.body._source = selectedAttributes;
       query.body.query = {
         'bool': {
           'must': [{
@@ -32,10 +33,10 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
       };
       return ElasticSearchClient.search(query);
     };
-    var findBySurveyId = function(surveyId, from, size) {
+    var findBySurveyId = function(surveyId, selectedAttributes) {
       query.body = {};
-      query.body.from = from;
-      query.body.size = size;
+      query.body.size = 1;
+      query.body._source = selectedAttributes;
       query.body.query = {
         'bool': {
           'must': [{
@@ -50,11 +51,13 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
       };
       return ElasticSearchClient.search(query);
     };
-    var findByProjectId = function(dataAcquisitionProjectId, from, size,
+    var findByProjectId = function(dataAcquisitionProjectId, selectedAttributes,
+      from, size,
       excludedDataSetId) {
       query.body = {};
       query.body.from = from;
       query.body.size = size;
+      query.body._source = selectedAttributes;
       query.body.query = {
         'bool': {
           'must': [{

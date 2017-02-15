@@ -8,9 +8,13 @@ angular.module('metadatamanagementApp')
       query.index = 'related_publications';
       query.body = {};
 
-      var findBySurveyId = function(surveyId, from, size) {
+      var findBySurveyId = function(surveyId, selectedAttributes, from,
+        size) {
+        query.body = {};
         query.body.from = from;
         query.body.size = size;
+        query.body._source = selectedAttributes;
+        query.body._source = selectedAttributes;
         query.body.query = {
           'bool': {
             'must': [{
@@ -25,9 +29,12 @@ angular.module('metadatamanagementApp')
         };
         return ElasticSearchClient.search(query);
       };
-      var findByQuestionId = function(questionId, from, size) {
+      var findByQuestionId = function(questionId, selectedAttributes, from,
+        size) {
+        query.body = {};
         query.body.from = from;
         query.body.size = size;
+        query.body._source = selectedAttributes;
         query.body.query = {
           'bool': {
             'must': [{
@@ -42,9 +49,12 @@ angular.module('metadatamanagementApp')
         };
         return ElasticSearchClient.search(query);
       };
-      var findByVariableId = function(variableId, from, size) {
+      var findByVariableId = function(variableId, selectedAttributes, from,
+        size) {
+        query.body = {};
         query.body.from = from;
         query.body.size = size;
+        query.body._source = selectedAttributes;
         query.body.query = {
           'bool': {
             'must': [{
@@ -59,9 +69,12 @@ angular.module('metadatamanagementApp')
         };
         return ElasticSearchClient.search(query);
       };
-      var findByDataSetId = function(dataSetId, from, size) {
+      var findByDataSetId = function(dataSetId, selectedAttributes, from,
+        size) {
+        query.body = {};
         query.body.from = from;
         query.body.size = size;
+        query.body._source = selectedAttributes;
         query.body.query = {
           'bool': {
             'must': [{
@@ -76,9 +89,12 @@ angular.module('metadatamanagementApp')
         };
         return ElasticSearchClient.search(query);
       };
-      var findByProjectId = function(studyId, from, size) {
+      var findByProjectId = function(studyId, selectedAttributes, from,
+        size) {
+        query.body = {};
         query.body.from = from;
         query.body.size = size;
+        query.body._source = selectedAttributes;
         query.body.query = {
           'bool': {
             'must': [{
