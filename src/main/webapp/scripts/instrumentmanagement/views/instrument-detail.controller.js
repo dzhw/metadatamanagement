@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp')
   .controller('InstrumentDetailController',
     function(entity, SurveySearchService, InstrumentAttachmentResource,
       StudySearchService, QuestionSearchService, PageTitleService,
-      LanguageService) {
+      LanguageService, RelatedPublicationSearchService) {
       //Controller Init
       var ctrl = this;
       ctrl.instrument = entity;
@@ -36,7 +36,8 @@ angular.module('metadatamanagementApp')
           });
 
         // Find Surveys
-        SurveySearchService.findSurveys(ctrl.instrument.surveyIds).then(
+        SurveySearchService.findSurveys(ctrl.instrument.surveyIds,
+          ['dataAcquisitionProjectId', 'number', 'title']).then(
           function(searchResults) {
             var foundSurveys = _.filter(searchResults.docs, function(
               searchResult) {
@@ -48,18 +49,42 @@ angular.module('metadatamanagementApp')
             }
           });
 
-        //Find Studies
-        StudySearchService.findStudies(
-          [ctrl.instrument.dataAcquisitionProjectId]).then(
-          function(searchResult) {
-            if (searchResult.docs[0].found) {
-              ctrl.study = searchResult.docs[0]._source;
+        //Find Study
+        StudySearchService.findOneByProjectId(ctrl.instrument.
+          dataAcquisitionProjectId, ['dataAcquisitionProjectId','title'])
+          .then(function(study) {
+            if (study.hits.hits.length > 0) {
+              ctrl.study = study.hits.hits[0]._source;
             }
           });
         //Count By Instrument Id
         QuestionSearchService.countBy('instrumentId', ctrl.instrument.id)
           .then(function(result) {
             ctrl.questionCount = result.count;
+            if (ctrl.questionCount === 1) {
+              QuestionSearchService
+              .findOneByInstrumentId(ctrl.instrument.id, [
+                'dataAcquisitionProjectId', 'questionText',
+                'instrumentNumber', 'number'])
+              .then(function(question) {
+                ctrl.question = question.
+                hits.hits[0]._source;
+              });
+            }
           });
+
+        RelatedPublicationSearchService.countBy('instrumentIds',
+          ctrl.instrument.id).then(function(result) {
+            ctrl.publicationCount = result.count;
+            if (ctrl.publicationCount === 1) {
+              RelatedPublicationSearchService
+              .findByInstrumentId(ctrl.instrument.id, ['id', 'title'])
+              .then(function(relatedPublication) {
+                ctrl.relatedPublication = relatedPublication.
+                hits.hits[0]._source;
+              });
+            }
+          });
+
       });
     });

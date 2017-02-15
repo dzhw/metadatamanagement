@@ -1,7 +1,7 @@
 <div ng-if="ctrl.instrument.$resolved && ctrl.instrument.id">
-  <div layout="row" style="margin-bottom: 0px;" layout-margin>
-    <h1 class="md-headline fdz-truncate-string" style="margin-left: 0px;">{{ctrl.instrument.description[currentLanguage]}} ({{ctrl.instrument.id}})</h1>
-  </div>
+    <div layout="row" style="margin-bottom: 0px;" layout-margin>
+        <h1 class="md-headline fdz-truncate-string" style="margin-left: 0px;">{{ctrl.instrument.description[currentLanguage]}} ({{ctrl.instrument.id}})</h1>
+    </div>
     <div layout="column" layout-gt-sm="row">
         <md-card flex-gt-sm>
             <md-card-header>
@@ -32,31 +32,63 @@
             <md-divider></md-divider>
             <md-card-content>
                 <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                    <md-icon md-svg-src="/assets/images/icons/study.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
-                    <div style="margin-right:3px;">{{'study-management.detail.study' | translate }}:</div>
-                    <div ng-if="!ctrl.study" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
+                    <div ng-if="!ctrl.study" class="fdz-truncate-string" flex>
+                        <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
+                        {{'study-management.detail.study' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                    </div>
                     <div ng-if="ctrl.study" class="fdz-truncate-string" flex>
-                        <a ui-sref="studyDetail({id:ctrl.study.id})">{{ctrl.study.title}}</a>
-                    </div>
-                </div>
-                <div style="margin-bottom: 0.5em;" layout="row">
-                    <md-icon md-svg-src="/assets/images/icons/survey.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
-                    <div style="margin-right:3px;">{{'survey-management.detail.surveys' | translate }}:</div>
-                    <div ng-if="ctrl.surveyCount === 0" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
-                    <div ng-if="ctrl.surveyCount === 1" class="fdz-truncate-string" flex>
-                        <a ui-sref="surveyDetail({surveyNumber:ctrl.survey.number,
-                          projectId:ctrl.survey.dataAcquisitionProjectId})">{{ctrl.survey.title}}</a>
-                    </div>
-                    <div ng-if="ctrl.surveyCount > 1" class="fdz-truncate-string" flex>
-                        <a ui-sref="search({'instrument': ctrl.instrument.id, 'type': 'surveys', 'page': 1})">({{ctrl.surveyCount}})</a>
+                        <a ui-sref="studyDetail({id: ctrl.study.dataAcquisitionProjectId})">
+                            <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
+                            {{'study-management.detail.study' | translate }}: {{ctrl.study.title[currentLanguage]}}</a>
                     </div>
                 </div>
                 <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                    <md-icon md-svg-src="/assets/images/icons/question.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
-                    <div style="margin-right:3px;">{{'question-management.detail.questions' | translate }}:</div>
-                    <div ng-if="ctrl.questionCount === 0" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
-                    <div ng-if="ctrl.questionCount > 0" class="fdz-truncate-string" flex>
-                        <a ui-sref="search({'instrument': ctrl.instrument.id, 'type': 'questions', 'sort-by': 'number', 'page': 1})">({{ctrl.questionCount}})</a>
+                    <div ng-if="ctrl.surveyCount == 0" class="fdz-truncate-string" flex>
+                        <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
+                        {{'survey-management.detail.surveys' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                    </div>
+                    <div ng-if="ctrl.surveyCount == 1" class="fdz-truncate-string" flex>
+                        <a ui-sref="surveyDetail({'projectId': ctrl.survey.dataAcquisitionProjectId,
+                          'surveyNumber': ctrl.survey.number})">
+                            <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
+                            {{'survey-management.detail.survey' | translate }}: {{ctrl.survey.title[currentLanguage]}}</a>
+                    </div>
+                    <div ng-if="ctrl.surveyCount > 1" class="fdz-truncate-string" flex>
+                        <a ui-sref="search({'type': 'surveys', 'instrument':ctrl.instrument.id, 'page': 1})">
+                            <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
+                            {{'survey-management.detail.surveys' | translate }}: ({{ctrl.surveyCount}})</a>
+                    </div>
+                </div>
+                <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                  <div ng-if="ctrl.questionCount == 0" class="fdz-truncate-string" flex>
+                    <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
+                    {{'question-management.detail.questions' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                  </div>
+                  <div ng-if="ctrl.questionCount == 1" class="fdz-truncate-string" flex>
+                    <a ui-sref="questionDetail({'projectId': ctrl.question.dataAcquisitionProjectId, 'instrumentNumber': ctrl.question.instrumentNumber, 'questionNumber': ctrl.question.number})">
+                      <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
+                      {{'question-management.detail.question' | translate }}: {{ctrl.question.questionText[currentLanguage]}}</a>
+                  </div>
+                  <div ng-if="ctrl.questionCount > 1" class="fdz-truncate-string" flex>
+                    <a ui-sref="search({'instrument': ctrl.instrument.id, 'type': 'questions', 'sort-by': 'number', 'page': 1})">
+                      <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
+                      {{'question-management.detail.questions' | translate }}: ({{ctrl.questionCount}})</a>
+                  </div>
+                </div>
+                <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                    <div ng-if="ctrl.publicationCount == 0" class="fdz-truncate-string" flex>
+                      <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
+                      {{'related-publication-management.detail.publications' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                    </div>
+                    <div ng-if="ctrl.publicationCount == 1" class="fdz-truncate-string" flex>
+                      <a ui-sref="relatedPublicationDetail({'id': ctrl.relatedPublication.id})">
+                        <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
+                        {{'related-publication-management.detail.publication' | translate }}: {{ctrl.relatedPublication.title}}</a>
+                    </div>
+                    <div ng-if="ctrl.publicationCount > 1" class="fdz-truncate-string" flex>
+                      <a ui-sref="search({'type': 'related_publications', 'instrument': ctrl.instrument.id, 'page': 1})">
+                        <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
+                        {{'related-publication-management.detail.publications' | translate }}: ({{ctrl.publicationCount}})</a>
                     </div>
                 </div>
             </md-card-content>

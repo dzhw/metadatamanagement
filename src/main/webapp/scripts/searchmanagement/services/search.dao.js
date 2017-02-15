@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
         'panel-identifier': 'panelIdentifier'
       },
       'surveys': {
-        'instrument': 'instrumentIds',
+        'instrument': 'instruments.id',
         'study': 'dataAcquisitionProjectId',
         'variable': 'variableIds',
         'data-set': 'dataSetIds'
@@ -28,7 +28,8 @@ angular.module('metadatamanagementApp').service('SearchDao',
       'related_publications': {
         'variable': 'variableIds',
         'data-set': 'dataSetIds',
-        'survey': 'surveyIds'
+        'survey': 'surveyIds',
+        'instrument': 'instrumentIds'
       }
     };
     return {

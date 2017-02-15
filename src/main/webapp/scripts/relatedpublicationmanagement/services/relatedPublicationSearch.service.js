@@ -69,6 +69,26 @@ angular.module('metadatamanagementApp')
         };
         return ElasticSearchClient.search(query);
       };
+      var findByInstrumentId = function(instrumentId, selectedAttributes,
+        from, size) {
+        query.body = {};
+        query.body.from = from;
+        query.body.size = size;
+        query.body._source = selectedAttributes;
+        query.body.query = {
+          'bool': {
+            'must': [{
+              'match_all': {}
+            }],
+            'filter': [{
+              'term': {
+                'instrumentIds': instrumentId
+              }
+            }]
+          }
+        };
+        return ElasticSearchClient.search(query);
+      };
       var findByDataSetId = function(dataSetId, selectedAttributes, from,
         size) {
         query.body = {};
@@ -139,6 +159,7 @@ angular.module('metadatamanagementApp')
         findByQuestionId: findByQuestionId,
         findByProjectId: findByProjectId,
         findByStudyId: findByProjectId,
+        findByInstrumentId: findByInstrumentId,
         countBy: countBy
       };
     });

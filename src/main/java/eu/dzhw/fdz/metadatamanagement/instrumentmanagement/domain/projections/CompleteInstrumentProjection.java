@@ -25,6 +25,8 @@ public interface CompleteInstrumentProjection extends AbstractRdcDomainObjectPro
   
   String getDataAcquisitionProjectId();
   
+  String getStudyId();
+  
   List<String> getSurveyIds();
   
   Integer getNumber();
