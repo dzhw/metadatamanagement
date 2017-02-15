@@ -32,7 +32,8 @@ angular.module('metadatamanagementApp')
             ctrl.counts.surveysCount = surveysCount.count;
             if (surveysCount.count === 1) {
               SurveySearchService
-                .findByDataSetId(ctrl.dataSet.id)
+                .findByDataSetId(ctrl.dataSet.id, ['dataAcquisitionProjectId',
+                'number', 'title'])
                 .then(function(survey) {
                   ctrl.survey = survey.hits.hits[0]._source;
                 });
@@ -43,7 +44,8 @@ angular.module('metadatamanagementApp')
           ctrl.counts.variablesCount = variablesCount.count;
           if (variablesCount.count === 1) {
             VariableSearchService
-              .findByDataSetId(ctrl.dataSet.id)
+              .findByDataSetId(ctrl.dataSet.id, ['dataAcquisitionProjectId',
+              'dataSetNumber', 'name', 'label'])
               .then(function(variable) {
                 ctrl.variable = variable.hits.hits[0]._source;
               });
@@ -54,7 +56,7 @@ angular.module('metadatamanagementApp')
           ctrl.counts.publicationsCount = publicationsCount.count;
           if (publicationsCount.count === 1) {
             RelatedPublicationSearchService
-              .findByDataSetId(ctrl.dataSet.id)
+              .findByDataSetId(ctrl.dataSet.id, ['id', 'title'])
               .then(function(ralatedPublication) {
                 ctrl.ralatedPublication = ralatedPublication.
                 hits.hits[0]._source;
