@@ -5,19 +5,23 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
     var query = {};
     query.type = 'surveys';
     query.index = 'surveys';
-    var findSurveys = function(surveyIds) {
+    var findSurveys = function(surveyIds, selectedAttributes, from, size) {
       query.body = {};
+      query.body.from = from;
+      query.body.size = size;
+      query.body._source = selectedAttributes;
       query.body.query = {};
       query.body.query.docs = {
         'ids': surveyIds
       };
       return ElasticSearchClient.mget(query);
     };
-    var findByProjectId = function(dataAcquisitionProjectId, from, size,
-      excludedSurveyId) {
+    var findByProjectId = function(dataAcquisitionProjectId, selectedAttributes,
+      from, size, excludedSurveyId) {
       query.body = {};
       query.body.from = from;
       query.body.size = size;
+      query.body._source = selectedAttributes;
       query.body.query = {
         'bool': {
           'must': [{
@@ -41,10 +45,10 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
       }
       return ElasticSearchClient.search(query);
     };
-    var findByVariableId = function(variableId, from, size) {
+    var findByVariableId = function(variableId, selectedAttributes) {
       query.body = {};
-      query.body.from = from;
-      query.body.size = size;
+      query.body.size = 1;
+      query.body._source = selectedAttributes;
       query.body.query = {
         'bool': {
           'must': [{
@@ -52,7 +56,7 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
           }],
           'filter': [{
             'term': {
-              'variableIds': variableId
+              'variables.id': variableId
             }
           }]
         }

@@ -16,7 +16,6 @@ angular.module('metadatamanagementApp')
     $scope.variable = entity;
     $scope.validResponsesOrMissingsAvailable = false;
     entity.$promise.then(function() {
-      console.log($scope.variable);
       if (!CleanJSObjectService.isNullOrEmpty($scope
           .variable.distribution.missings) || !CleanJSObjectService
         .isNullOrEmpty($scope.variable
@@ -49,7 +48,8 @@ angular.module('metadatamanagementApp')
         $scope.counts.questionsCount = questionsCount.count;
         if (questionsCount.count === 1) {
           QuestionSearchService
-            .findByVariableId($scope.variable.id)
+            .findByVariableId($scope.variable.id, ['number', 'instrumentNumber',
+            'questionText'])
             .then(function(question) {
               $scope.question = question.hits.hits[0]._source;
             });
@@ -58,17 +58,10 @@ angular.module('metadatamanagementApp')
       SurveySearchService
         .countBy('variables.id', $scope.variable.id)
         .then(function(surveysCount) {
-          SurveySearchService
-            .findByVariableId($scope.variable.id)
-            .then(function(survey) {
-              console.log(survey);
-              $scope.survey = survey.hits.hits[0]._source;
-            });
           $scope.counts.surveysCount = surveysCount.count;
-          console.log($scope.counts.surveysCount);
           if (surveysCount.count === 1) {
             SurveySearchService
-              .findByVariableId($scope.variable.id)
+              .findByVariableId($scope.variable.id, ['title', 'number'])
               .then(function(survey) {
                 $scope.survey = survey.hits.hits[0]._source;
               });
@@ -83,9 +76,8 @@ angular.module('metadatamanagementApp')
       } else {
         $scope.counts.variablesInPanel = 0;
       }
-
       RelatedPublicationSearchService
-        .countBy('variableIds', $scope.variable.id)
+        .countBy('variables.id', $scope.variable.id)
         .then(function(publicationsCount) {
           $scope.counts.publicationsCount = publicationsCount.count;
           if (publicationsCount.count === 1) {

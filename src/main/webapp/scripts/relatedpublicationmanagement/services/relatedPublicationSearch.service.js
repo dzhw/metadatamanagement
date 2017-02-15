@@ -52,7 +52,7 @@ angular.module('metadatamanagementApp')
             }],
             'filter': [{
               'term': {
-                'variableIds': variableId
+                'variables.id': variableId
               }
             }]
           }

@@ -5,19 +5,21 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
     var query = {};
     query.type = 'questions';
     query.index = 'questions';
-    var findQuestions = function(questionIds) {
-
+    var findQuestions = function(questionIds, selectedAttributes, from, size) {
       query.body = {};
+      query.body.from = from;
+      query.body.size = size;
+      query.body._source = selectedAttributes;
       query.body.query = {};
       query.body.query.docs = {
         'ids': questionIds
       };
       return ElasticSearchClient.mget(query);
     };
-    var findPredeccessors = function(questionId, from, size) {
+    var findAllPredeccessors = function(questionId, selectedAttributes) {
       query.body = {};
-      query.body.from = from;
-      query.body.size = size;
+      query.body._source = selectedAttributes;
+      query.body.size = 1000;
       query.body.query = {
         'bool': {
           'must': [{
@@ -32,6 +34,7 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
       };
       return ElasticSearchClient.search(query);
     };
+    // jfdjfdjfdj
     var findByProjectId = function(dataAcquisitionProjectId, from, size) {
       query.body = {};
       query.body.from = from;
@@ -68,9 +71,11 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
       };
       return ElasticSearchClient.search(query);
     };
-    var findByVariableId = function(variableId) {
-
+    //sdspüdpsdps
+    var findByVariableId = function(variableId, selectedAttributes) {
       query.body = {};
+      query.body._source = selectedAttributes;
+      query.body.size = 1;
       query.body.query = {
         'bool': {
           'must': [{
@@ -109,7 +114,7 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
       return ElasticSearchClient.count(query);
     };
     return {
-      findPredeccessors: findPredeccessors,
+      findAllPredeccessors: findAllPredeccessors,
       findSuccessors: findQuestions,
       findQuestions: findQuestions,
       findByInstrumentId: findByInstrumentId,
