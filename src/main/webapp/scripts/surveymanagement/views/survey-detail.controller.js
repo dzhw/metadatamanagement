@@ -28,7 +28,8 @@ angular.module('metadatamanagementApp')
           .then(function(dataSetsCount) {
             ctrl.counts.dataSetsCount = dataSetsCount.count;
             if (dataSetsCount.count === 1) {
-              DataSetSearchService.findBySurveyId(ctrl.survey.id)
+              DataSetSearchService.findBySurveyId(ctrl.survey.id,
+              ['description', 'id'])
               .then(function(dataSet) {
                 ctrl.dataSet = dataSet.hits.hits[0]._source;
               });
@@ -54,7 +55,7 @@ angular.module('metadatamanagementApp')
               ctrl.counts.publicationsCount = publicationsCount.count;
               if (publicationsCount.count === 1) {
                 RelatedPublicationSearchService
-                  .findByVariableId(ctrl.survey.id)
+                  .findBySurveyId(ctrl.survey.id, ['id', 'title'])
                   .then(function(relatedPublication) {
                     ctrl.relatedPublication = relatedPublication.
                     hits.hits[0]._source;
