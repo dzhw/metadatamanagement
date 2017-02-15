@@ -31,7 +31,7 @@ angular.module('metadatamanagementApp')
         variableId: $scope.variable.id
       });
       StudySearchService.findOneByProjectId($scope.variable.
-        dataAcquisitionProjectId, ['dataAcquisitionProjectId','title'])
+        dataAcquisitionProjectId, ['dataAcquisitionProjectId','title', 'id'])
         .then(function(study) {
           if (study.hits.hits.length > 0) {
             $scope.study = study.hits.hits[0]._source;

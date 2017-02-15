@@ -18,7 +18,7 @@ angular.module('metadatamanagementApp')
           surveyId: ctrl.survey.id
         });
         StudySearchService.findOneByProjectId(ctrl.survey.
-          dataAcquisitionProjectId, ['dataAcquisitionProjectId', 'title'])
+          dataAcquisitionProjectId, ['dataAcquisitionProjectId', 'title', 'id'])
           .then(function(study) {
             if (study.hits.hits.length > 0) {
               ctrl.study = study.hits.hits[0]._source;

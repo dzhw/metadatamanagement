@@ -21,7 +21,8 @@ angular.module('metadatamanagementApp')
             .dataSet.description[secondLanguage],
           dataSetId: ctrl.dataSet.id
         });
-        StudySearchService.findStudy(ctrl.dataSet.dataAcquisitionProjectId)
+        StudySearchService.findOneByProjectId(ctrl.dataSet.
+          dataAcquisitionProjectId, ['dataAcquisitionProjectId','title', 'id'])
           .then(function(study) {
             if (study.hits.hits.length > 0) {
               ctrl.study = study.hits.hits[0]._source;
