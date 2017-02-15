@@ -37,8 +37,8 @@ angular.module('metadatamanagementApp').service('InstrumentBuilderService',
     var buildInstrumentAttachmentMetadata = function(metadataFromExcel,
       dataAcquisitionProjectId) {
       var instrumentAttachmentMetadata = {
-        instrumentId: dataAcquisitionProjectId + '-ins' +
-          metadataFromExcel.instrumentNumber,
+        instrumentId: InstrumentIdBuilderService.buildInstrumentId(
+          dataAcquisitionProjectId, metadataFromExcel.instrumentNumber),
         instrumentNumber: metadataFromExcel.instrumentNumber,
         dataAcquisitionProjectId: dataAcquisitionProjectId,
         title: {
