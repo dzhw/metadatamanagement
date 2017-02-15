@@ -15,7 +15,7 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
       };
       return ElasticSearchClient.mget(query);
     };
-    var findByVariableId = function(variableId, selectedAttributes) {
+    var findOneByVariableId = function(variableId, selectedAttributes) {
       query.body = {};
       query.body.size = 1;
       query.body._source = selectedAttributes;
@@ -26,16 +26,18 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
           }],
           'filter': [{
             'term': {
-              'variableIds': variableId
+              'variables.id': variableId
             }
           }]
         }
       };
       return ElasticSearchClient.search(query);
     };
-    var findBySurveyId = function(surveyId, selectedAttributes) {
+    var findBySurveyId = function(surveyId, selectedAttributes, from,
+      size) {
       query.body = {};
-      query.body.size = 1;
+      query.body.from = from;
+      query.body.size = size;
       query.body._source = selectedAttributes;
       query.body.query = {
         'bool': {
@@ -114,7 +116,7 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
       return ElasticSearchClient.count(query);
     };
     return {
-      findByVariableId: findByVariableId,
+      findOneByVariableId: findOneByVariableId,
       findBySurveyId: findBySurveyId,
       findByProjectId: findByProjectId,
       findDataSets: findDataSets,

@@ -37,12 +37,13 @@ angular.module('metadatamanagementApp')
             $scope.study = study.hits.hits[0]._source;
           }
         });
-      DataSetSearchService.findDataSets([$scope.variable.dataSetId])
-      .then(function(dataSet) {
-          if (dataSet.docs.length > 0) {
-            $scope.dataSet = dataSet.docs[0]._source;
-          }
-        });
+      DataSetSearchService.findOneByVariableId($scope.variable.id,
+        ['number','dataAcquisitionProjectId','description'])
+          .then(function(dataSet) {
+            if (dataSet.hits.hits.length > 0) {
+              $scope.dataSet = dataSet.hits.hits[0]._source;
+            }
+          });
       QuestionSearchService.countBy('variables.id', $scope.variable.id)
       .then(function(questionsCount) {
         $scope.counts.questionsCount = questionsCount.count;

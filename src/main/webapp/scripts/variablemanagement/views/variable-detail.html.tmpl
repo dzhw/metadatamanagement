@@ -120,7 +120,7 @@
                   {{'data-set-management.detail.data-set' | translate }}: {{'global.messages.error.unavailable' | translate}}
                 </div>
                 <div ng-if="dataSet" class="fdz-truncate-string" flex>
-                  <a ui-sref="data-setDetail({projectId: variable.dataAcquisitionProjectId,
+                  <a ui-sref="data-setDetail({projectId: dataSet.dataAcquisitionProjectId,
                     dataSetNumber: dataSet.number})">
                     <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
                     {{'data-set-management.detail.data-set' | translate }}: {{dataSet.description[currentLanguage]}}</a>

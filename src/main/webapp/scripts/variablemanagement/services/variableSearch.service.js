@@ -6,18 +6,21 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
     query.type = 'variables';
     query.index = 'variables';
 
-    var findVariables = function(variableIds) {
+    var findVariables = function(variableIds, selectedAttributes) {
       query.body = {};
       query.body.query = {};
+      query.body._source = selectedAttributes;
       query.body.query.docs = {
         'ids': variableIds
       };
       return ElasticSearchClient.mget(query);
     };
-    var findBySurveyTitle = function(surveyTitle, from, size) {
+    var findBySurveyTitle = function(surveyTitle, selectedAttributes, from,
+      size) {
       query.body = {};
       query.body.from = from;
       query.body.size = size;
+      query.body._source = selectedAttributes;
       query.body.query = {
         'bool': {
           'must': [{
@@ -32,10 +35,12 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
       };
       return ElasticSearchClient.search(query);
     };
-    var findByQuestionId = function(questionId, from, size) {
+    var findByQuestionId = function(questionId, selectedAttributes, from,
+      size) {
       query.body = {};
       query.body.from = from;
       query.body.size = size;
+      query.body._source = selectedAttributes;
       query.body.query = {
         'bool': {
           'must': [{
@@ -50,10 +55,12 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
       };
       return ElasticSearchClient.search(query);
     };
-    var findByDataSetId = function(dataSetId, from, size) {
+    var findByDataSetId = function(dataSetId, selectedAttributes, from,
+      size) {
       query.body = {};
       query.body.from = from;
       query.body.size = size;
+      query.body._source = selectedAttributes;
       query.body.query = {
         'bool': {
           'must': [{
