@@ -35,6 +35,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
     var findOneByProjectId = function(dataAcquisitionProjectId,
       selectedAttributes) {
       query.body = {};
+      query.body.size = 1;
       query.body._source = selectedAttributes;
       query.body.query = {
         'bool': {

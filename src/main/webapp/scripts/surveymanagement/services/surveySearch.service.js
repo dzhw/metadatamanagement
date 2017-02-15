@@ -5,10 +5,8 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
     var query = {};
     query.type = 'surveys';
     query.index = 'surveys';
-    var findSurveys = function(surveyIds, selectedAttributes, from, size) {
+    var findSurveys = function(surveyIds, selectedAttributes) {
       query.body = {};
-      query.body.from = from;
-      query.body.size = size;
       query.body._source = selectedAttributes;
       query.body.query = {};
       query.body.query.docs = {
