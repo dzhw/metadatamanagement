@@ -20,11 +20,9 @@ angular.module('metadatamanagementApp')
           }
         },
         resolve: {
-          entity: ['$stateParams', 'StudyResource', 'StudyIdBuilderService',
-            function($stateParams, StudyResource, StudyIdBuilderService) {
-              return StudyResource.get({
-                id: StudyIdBuilderService.buildStudyId($stateParams.id)
-              });
+          entity: ['$stateParams', 'StudyResource',
+            function($stateParams, StudyResource) {
+              return StudyResource.get({id: $stateParams.id});
             }
           ]
         },
