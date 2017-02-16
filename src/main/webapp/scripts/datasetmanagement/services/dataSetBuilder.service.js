@@ -38,7 +38,7 @@ angular.module('metadatamanagementApp').service('DataSetBuilderService',
       _.forEach(dataSetObj.surveyNumbers, function(number) {
         dataSetObj.surveyIds
           .push(SurveyIdBuilderService.buildSurveyId(
-            dataAcquisitionProjectId, number));
+            dataAcquisitionProjectId, number.trim()));
       });
       var cleanedDataSetObject = CleanJSObjectService
         .removeEmptyJsonObjects(dataSetObj);
