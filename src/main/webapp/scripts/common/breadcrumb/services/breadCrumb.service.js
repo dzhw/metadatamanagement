@@ -3,7 +3,8 @@
 
 angular.module('metadatamanagementApp').factory('BreadCrumbService',
   function($rootScope, DataSetIdBuilderService, InstrumentIdBuilderService,
-    QuestionIdBuilderService, StudyIdBuilderService) {
+    QuestionIdBuilderService, StudyIdBuilderService, SurveyIdBuilderService,
+    VariableIdBuilderService) {
     $rootScope.breadCrumbItems = [];
     var items = [];
     var createNewBreadCrumbItem = function(url, params, pathTemplate) {
@@ -13,7 +14,8 @@ angular.module('metadatamanagementApp').factory('BreadCrumbService',
           breadCrumbItem = {
             'url': url,
             'pageType': 'survey-management.detail.survey',
-            'id': params.projectId + '-sy' + params.surveyNumber
+            'id': SurveyIdBuilderService.buildSurveyId(params.projectId,
+              params.surveyNumber)
           };
         break;
         case '/studies/{projectId}/data-sets/' +
@@ -21,8 +23,8 @@ angular.module('metadatamanagementApp').factory('BreadCrumbService',
           breadCrumbItem = {
             'url': url,
             'pageType': 'variable-management.detail.variable',
-            'id': params.projectId + '-ds' +
-             params.dataSetNumber + '-' + params.variableName
+            'id': VariableIdBuilderService.buildVariableId(params.projectId,
+              params.dataSetNumber, params.variableName)
           };
         break;
         case '/studies/{projectId}/instruments/' +
