@@ -34,7 +34,7 @@ angular.module('metadatamanagementApp')
                   });
               }
             });
-        RelatedPublicationSearchService.countBy('studyId', ctrl.study.id)
+        RelatedPublicationSearchService.countBy('studyIds', ctrl.study.id)
             .then(function(publicationsCount) {
                 ctrl.counts.publicationsCount = publicationsCount.count;
                 if (publicationsCount.count === 1) {

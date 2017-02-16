@@ -155,9 +155,9 @@
                         {{'related-publication-management.detail.publications' | translate }}: {{'global.messages.error.unavailable' | translate}}
                     </div>
                     <div ng-if="counts.publicationsCount == 1" class="fdz-truncate-string" flex>
-                        <a ui-sref="relatedPublicationDetail({'id': ralatedPublication.id})">
+                        <a ui-sref="relatedPublicationDetail({'id': relatedPublication.id})">
                             <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
-                            {{'related-publication-management.detail.publication' | translate }}: {{ralatedPublication.title}}</a>
+                            {{'related-publication-management.detail.publication' | translate }}: {{relatedPublication.title}}</a>
                     </div>
                     <div ng-if="counts.publicationsCount > 1" class="fdz-truncate-string" flex>
                         <a ui-sref="search({'type': 'related_publications', 'variable':variable.id, 'page': 1})">
