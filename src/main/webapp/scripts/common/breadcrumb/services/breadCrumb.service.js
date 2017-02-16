@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').factory('BreadCrumbService',
   function($rootScope, DataSetIdBuilderService, InstrumentIdBuilderService,
-    QuestionIdBuilderService, StudyIdBuilderService, SurveyIdBuilderService,
+    QuestionIdBuilderService, SurveyIdBuilderService,
     VariableIdBuilderService) {
     $rootScope.breadCrumbItems = [];
     var items = [];
