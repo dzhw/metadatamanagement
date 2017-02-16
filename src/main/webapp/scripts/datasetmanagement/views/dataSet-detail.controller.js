@@ -58,8 +58,8 @@ angular.module('metadatamanagementApp')
           if (publicationsCount.count === 1) {
             RelatedPublicationSearchService
               .findByDataSetId(ctrl.dataSet.id, ['id', 'title'])
-              .then(function(ralatedPublication) {
-                ctrl.ralatedPublication = ralatedPublication.
+              .then(function(relatedPublication) {
+                ctrl.relatedPublication = relatedPublication.
                 hits.hits[0]._source;
               });
           }
