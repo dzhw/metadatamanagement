@@ -63,7 +63,7 @@ angular.module('metadatamanagementApp').factory('BreadCrumbService',
           breadCrumbItem = {
             'url': url,
             'pageType': 'study-management.detail.study',
-            'id': StudyIdBuilderService.buildStudyId(params.id)
+            'id': params.id
           };
         break;
         case '/disclosure':
