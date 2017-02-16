@@ -87,9 +87,10 @@ public class DataSetReportService {
 
   public static final String KEY_INTRODUCTION = "Introduction.tex";
   public static final String KEY_MAIN = "Main.tex";
-  public static final String KEY_REFERENCES = "References.bib";
+  public static final String KEY_REFERENCES_BIB = "References.bib";
   public static final String KEY_VARIABLE = "variables/Variable.tex";
-  
+  public static final String KEY_DSREPORT_STY = "dsreport.sty"
+  ;
   /**
    * This service method will receive a tex template as a string and an id of a data set. With this
    * id, the service will load the data set for receiving all depending information, which are
@@ -125,8 +126,11 @@ public class DataSetReportService {
     Map<String, Object> dataForTemplate = this.loadDataForTemplateFilling(dataSetId);
 
     // Zip the filled templates.
-    filledTemplates.put(KEY_REFERENCES,
-        this.fillTemplate(texTemplates.get(KEY_REFERENCES), templateConfiguration,
+    filledTemplates.put(KEY_REFERENCES_BIB,
+        this.fillTemplate(texTemplates.get(KEY_REFERENCES_BIB), templateConfiguration,
+            dataForTemplate));
+    filledTemplates.put(KEY_DSREPORT_STY,
+        this.fillTemplate(texTemplates.get(KEY_DSREPORT_STY), templateConfiguration,
             dataForTemplate));
     filledTemplates.put(KEY_INTRODUCTION,
         this.fillTemplate(texTemplates.get(KEY_INTRODUCTION), templateConfiguration,
