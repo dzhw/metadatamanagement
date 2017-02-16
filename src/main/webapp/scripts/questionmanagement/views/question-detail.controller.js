@@ -87,7 +87,6 @@ angular.module('metadatamanagementApp')
         RelatedPublicationSearchService.countBy('questionIds',
         ctrl.question.id).then(function(publicationsCount) {
                   ctrl.counts.publicationsCount = publicationsCount.count;
-                  console.log(ctrl.counts.publicationsCount);
                   if (publicationsCount.count === 1) {
                     RelatedPublicationSearchService
                       .findByQuestionId(ctrl.question.id, ['id', 'title'])

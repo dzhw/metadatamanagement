@@ -41,7 +41,8 @@ angular.module('metadatamanagementApp').service('SearchDao',
         'data-set': 'dataSetIds',
         'survey': 'surveyIds',
         'instrument': 'instrumentIds',
-        'study': 'studyIds'
+        'study': 'studyIds',
+        'question': 'questionIds'
       }
     };
     return {
