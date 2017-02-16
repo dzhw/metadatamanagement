@@ -3,9 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.surveymanagement.domain;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.BeanUtils;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
@@ -35,11 +33,6 @@ public class Survey extends SurveySubDocument {
   @NotNull(message = "survey-management.error.survey.field-period.not-null")
   @Valid
   private Period fieldPeriod;
-
-  /* Foreign Keys */
-  @Indexed
-  @NotEmpty(message = "survey-management.error.survey.data-acquisition-project.id.not-empty")
-  private String dataAcquisitionProjectId;
 
   @NotNull(message = "survey-management.error.survey.sample.not-null")
   @I18nStringNotEmpty(message = "survey-management.error.survey.sample.i18n-string-not-empty")
@@ -105,15 +98,6 @@ public class Survey extends SurveySubDocument {
   public void setSample(I18nString sample) {
     this.sample = sample;
   }
-
-  public String getDataAcquisitionProjectId() {
-    return dataAcquisitionProjectId;
-  }
-
-  public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
-    this.dataAcquisitionProjectId = dataAcquisitionProjectId;
-  }
-
 
   public Integer getGrossSampleSize() {
     return grossSampleSize;

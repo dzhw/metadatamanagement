@@ -7,6 +7,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
@@ -30,11 +31,18 @@ public class DataSetSubDocument extends AbstractRdcDomainObject {
   @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_EXCLAMATIONMARK,
       message = "data-set-management.error.data-set.id.pattern")
   protected String id;
+  
+  @Indexed
+  @NotEmpty(message = "data-set-management.error.data-set.data-acquisition-project.id.not-empty")
+  protected String dataAcquisitionProjectId;
+  
   @I18nStringSize(max = StringLengths.LARGE,
       message = "data-set-management.error.data-set.description.i18n-string-size")
   protected I18nString description;
+  
   @NotNull(message = "data-set-management.error.data-set.number.not-null")
   protected Integer number;
+  
   @ValidFormat(message = "data-set-management.error.data-set.format.valid-format")
   protected I18nString format;
 
@@ -50,6 +58,14 @@ public class DataSetSubDocument extends AbstractRdcDomainObject {
   @Override
   public String getId() {
     return this.id;
+  }
+  
+  public String getDataAcquisitionProjectId() {
+    return dataAcquisitionProjectId;
+  }
+
+  public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
+    this.dataAcquisitionProjectId = dataAcquisitionProjectId;
   }
 
   public I18nString getDescription() {

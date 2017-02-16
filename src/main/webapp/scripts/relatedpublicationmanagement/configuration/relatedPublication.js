@@ -20,11 +20,10 @@ angular.module('metadatamanagementApp')
           }
         },
         resolve: {
-          entity: ['$stateParams', 'RelatedPublicationResource',
-            function($stateParams, RelatedPublicationResource) {
-              return RelatedPublicationResource.get({
-                id: $stateParams.id
-              });
+          entity: ['$stateParams', 'RelatedPublicationSearchService',
+            function($stateParams, RelatedPublicationSearchService) {
+              return RelatedPublicationSearchService.findOneById(
+                $stateParams.id);
             }
           ]
         },

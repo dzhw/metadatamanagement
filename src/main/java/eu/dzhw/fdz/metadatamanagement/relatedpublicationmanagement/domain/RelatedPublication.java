@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
@@ -64,17 +65,17 @@ public class RelatedPublication extends RelatedPublicationSubDocument {
   private I18nString abstractSource;
   
   /* Foreign Keys */
-  private List<String> questionIds;
+  private List<String> questionIds = new ArrayList<String>();
   
-  private List<String> surveyIds;
+  private List<String> surveyIds = new ArrayList<String>();
   
-  private List<String> variableIds;
+  private List<String> variableIds = new ArrayList<String>();
   
-  private List<String> dataSetIds;
+  private List<String> dataSetIds = new ArrayList<String>();
   
-  private List<String> studyIds;
+  private List<String> studyIds = new ArrayList<String>();
   
-  private List<String> instrumentIds;
+  private List<String> instrumentIds = new ArrayList<String>();
   
   public RelatedPublication() {
     super();

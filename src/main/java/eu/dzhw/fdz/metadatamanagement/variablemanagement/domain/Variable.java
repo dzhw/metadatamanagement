@@ -11,7 +11,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
@@ -119,12 +118,6 @@ public class Variable extends VariableSubDocument {
 
   private List<String> relatedVariables;
   
-  @NotEmpty(message = "variable-management.error.variable.data-set-id-not-empty")
-  private String dataSetId;
-  
-  @NotNull(message = "variable-management.error.variable.data-set-number-not-null")
-  private Integer dataSetNumber;
-  
   @NotNull(message = "variable-management.error.variable.data-set-index-not-null")
   private Integer indexInDataSet;
   
@@ -152,11 +145,7 @@ public class Variable extends VariableSubDocument {
   private List<RelatedQuestion> relatedQuestions;
 
 
-  /* Foreign Keys */
-  @Indexed
-  @NotEmpty(message = "variable-management.error.variable.data-acquisition-project.id.not-empty")
-  private String dataAcquisitionProjectId;
-  
+  /* Foreign Keys */  
   private String studyId;
 
   private List<String> surveyIds;
@@ -253,14 +242,6 @@ public class Variable extends VariableSubDocument {
     this.filterDetails = filterDetails;
   }
 
-  public String getDataAcquisitionProjectId() {
-    return dataAcquisitionProjectId;
-  }
-
-  public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
-    this.dataAcquisitionProjectId = dataAcquisitionProjectId;
-  }
-
   public List<String> getSurveyIds() {
     return surveyIds;
   }
@@ -284,27 +265,6 @@ public class Variable extends VariableSubDocument {
   public void setRelatedVariables(List<String> relatedVariables) {
     this.relatedVariables = relatedVariables;
   }
-
-
-  public String getDataSetId() {
-    return dataSetId;
-  }
-
-
-  public void setDataSetId(String dataSetId) {
-    this.dataSetId = dataSetId;
-  }
-
-
-  public Integer getDataSetNumber() {
-    return dataSetNumber;
-  }
-
-
-  public void setDataSetNumber(Integer dataSetNumber) {
-    this.dataSetNumber = dataSetNumber;
-  }
-
 
   public Integer getIndexInDataSet() {
     return indexInDataSet;

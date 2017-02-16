@@ -8,7 +8,6 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
@@ -43,10 +42,6 @@ public class DataSet extends DataSetSubDocument {
   private List<Integer> surveyNumbers;
   
   /* Foreign Keys */
-  @Indexed
-  @NotEmpty(message = "data-set-management.error.data-set.data-acquisition-project.id.not-empty")
-  private String dataAcquisitionProjectId;
-  
   @NotEmpty(message = "data-set-management.error.data-set.study.id.not-empty")
   private String studyId;
 
@@ -104,14 +99,6 @@ public class DataSet extends DataSetSubDocument {
 
   public void setSurveyNumbers(List<Integer> surveyNumbers) {
     this.surveyNumbers = surveyNumbers;
-  }
-
-  public String getDataAcquisitionProjectId() {
-    return dataAcquisitionProjectId;
-  }
-
-  public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
-    this.dataAcquisitionProjectId = dataAcquisitionProjectId;
   }
 
   public List<String> getSurveyIds() {

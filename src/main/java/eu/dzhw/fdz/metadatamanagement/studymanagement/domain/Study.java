@@ -7,7 +7,6 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.BeanUtils;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
@@ -57,10 +56,6 @@ public class Study extends StudySubDocument {
   /* Nested Objects */
   @Valid
   private List<Release> releases;
-  
-  @Indexed
-  @NotEmpty(message = "study-management.error.study.data-acquisition-project.id.not-empty")
-  private String dataAcquisitionProjectId;
   
   public Study() {
     super();
@@ -118,14 +113,6 @@ public class Study extends StudySubDocument {
 
   public void setAccessWays(List<String> accessWays) {
     this.accessWays = accessWays;
-  }
-
-  public String getDataAcquisitionProjectId() {
-    return dataAcquisitionProjectId;
-  }
-
-  public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
-    this.dataAcquisitionProjectId = dataAcquisitionProjectId;
   }
 
   public I18nString getDataAvailability() {

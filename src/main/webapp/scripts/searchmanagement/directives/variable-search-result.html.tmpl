@@ -18,9 +18,9 @@
               {{ 'variable-management.labels.surveyed-in' | translate}}
           </div>
           <div layout="column">
-              <div class="fdz-truncate-string" ng-repeat="title in searchResult.surveyTitles">
+              <div class="fdz-truncate-string" ng-repeat="survey in searchResult.surveys">
                   <md-icon md-svg-src="/assets/images/icons/survey.svg" class="fdz-inline-icon"></md-icon>
-                  {{title}}
+                  {{survey.title[currentLanguage]}}
               </div>
           </div>
       </div>

@@ -7,6 +7,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
@@ -31,20 +32,28 @@ public class SurveySubDocument extends AbstractRdcDomainObject {
       regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOT_AND_EXCLAMATIONMARK,
       message = "survey-management.error.survey.id.pattern")
   protected String id;
+  
+  @Indexed
+  @NotEmpty(message = "survey-management.error.survey.data-acquisition-project.id.not-empty")
+  protected String dataAcquisitionProjectId;
+  
   @I18nStringSize(max = StringLengths.MEDIUM,
       message = "survey-management.error.survey.title.i18n-string-size")
   protected I18nString title;
+  
   @NotNull(message = "survey-management.error.survey.population.not-null")
   @I18nStringNotEmpty(message = "survey-management.error.survey.population.i18n-string-not-empty")
   @I18nStringSize(max = StringLengths.LARGE,
       message = "survey-management.error.survey.population.i18n-string-size")
   protected I18nString population;
+  
   @NotNull(message = "survey-management.error.survey.survey-method.not-null")
   @I18nStringNotEmpty(
       message = "survey-management.error.survey.survey-method.i18n-string-not-empty")
   @I18nStringSize(max = StringLengths.MEDIUM,
       message = "survey-management.error.survey.survey-method.i18n-string-size")
   protected I18nString surveyMethod;
+  
   @NotNull(message = "survey-management.error.survey.number.not-null")
   protected Integer number;
 
@@ -60,6 +69,14 @@ public class SurveySubDocument extends AbstractRdcDomainObject {
   @Override
   public String getId() {
     return id;
+  }
+  
+  public String getDataAcquisitionProjectId() {
+    return dataAcquisitionProjectId;
+  }
+
+  public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
+    this.dataAcquisitionProjectId = dataAcquisitionProjectId;
   }
 
   public I18nString getTitle() {

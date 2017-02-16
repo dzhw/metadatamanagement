@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,9 +25,11 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 public class VariableSearchDocument extends Variable {
   private DataSetSubDocument dataSet;
   private StudySubDocument study;
-  private List<RelatedPublicationSubDocument> relatedPublications;
-  private List<SurveySubDocument> surveys;
-  private List<InstrumentSubDocument> instruments; 
+  private List<RelatedPublicationSubDocument> relatedPublications = 
+      new ArrayList<RelatedPublicationSubDocument>();
+  private List<SurveySubDocument> surveys = new ArrayList<SurveySubDocument>();
+  private List<InstrumentSubDocument> instruments = 
+      new ArrayList<InstrumentSubDocument>(); 
   
   /**
    * Construct the search document with all related subdocuments.
@@ -37,6 +40,7 @@ public class VariableSearchDocument extends Variable {
    * @param surveys the surveys using this variable
    * @param instruments the instruments using this variable
    */
+  @SuppressWarnings("CPD-START")
   public VariableSearchDocument(Variable variable, DataSet dataSet, Study study,
       List<RelatedPublication> relatedPublications, List<Survey> surveys, 
       List<Instrument> instruments) {
@@ -47,11 +51,18 @@ public class VariableSearchDocument extends Variable {
     if (study != null) {
       this.study = new StudySubDocument(study);      
     }
-    this.relatedPublications = relatedPublications.stream()
-        .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());
-    this.surveys = surveys.stream().map(SurveySubDocument::new).collect(Collectors.toList());
-    this.instruments = instruments.stream()
-        .map(InstrumentSubDocument::new).collect(Collectors.toList());
+    if (relatedPublications != null) {
+      this.relatedPublications = relatedPublications.stream()
+          .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());
+    }
+    if (surveys != null) {
+      this.surveys = surveys.stream()
+          .map(SurveySubDocument::new).collect(Collectors.toList());      
+    }
+    if (instruments != null) {
+      this.instruments = instruments.stream()
+          .map(InstrumentSubDocument::new).collect(Collectors.toList());
+    }
   }
 
   public DataSetSubDocument getDataSet() {

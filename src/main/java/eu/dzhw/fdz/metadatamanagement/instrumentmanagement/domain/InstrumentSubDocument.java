@@ -7,6 +7,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
@@ -29,14 +30,22 @@ public class InstrumentSubDocument extends AbstractRdcDomainObject {
       message = "instrument-management.error.instrument.id.pattern")
   @Size(max = StringLengths.MEDIUM, message = "instrument-management.error.instrument.id.size")
   protected String id;
+  
+  @Indexed
+  @NotEmpty(message = 
+      "instrument-management.error.instrument.data-acquisition-project-id.not-empty")
+  protected String dataAcquisitionProjectId;
+  
   @NotNull(message = "instrument-management.error.instrument.title.not-null")
   @I18nStringSize(max = StringLengths.MEDIUM, min = 1,
       message = "instrument-management.error.instrument.title.i18n-string-size")
   protected I18nString title;
+  
   @NotNull(message = "instrument-management.error.instrument.description.not-null")
   @I18nStringSize(max = StringLengths.MEDIUM, min = 1,
       message = "instrument-management.error.instrument.description.i18n-string-size")
   protected I18nString description;
+  
   @NotNull(message = "instrument-management.error.instrument.number.not-null")
   protected Integer number;
 
@@ -56,6 +65,14 @@ public class InstrumentSubDocument extends AbstractRdcDomainObject {
 
   public void setId(String id) {
     this.id = id;
+  }
+  
+  public String getDataAcquisitionProjectId() {
+    return dataAcquisitionProjectId;
+  }
+
+  public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
+    this.dataAcquisitionProjectId = dataAcquisitionProjectId;
   }
 
   public I18nString getTitle() {

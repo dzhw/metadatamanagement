@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,11 +26,12 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.VariableSubDocum
  */
 public class SurveySearchDocument extends Survey {
   private StudySubDocument study;
-  private List<DataSetSubDocument> dataSets;
-  private List<VariableSubDocument> variables;
-  private List<RelatedPublicationSubDocument> relatedPublications;
-  private List<InstrumentSubDocument> instruments;
-  private List<QuestionSubDocument> questions;
+  private List<DataSetSubDocument> dataSets = new ArrayList<DataSetSubDocument>();
+  private List<VariableSubDocument> variables = new ArrayList<VariableSubDocument>();
+  private List<RelatedPublicationSubDocument> relatedPublications = 
+      new ArrayList<RelatedPublicationSubDocument>();
+  private List<InstrumentSubDocument> instruments = new ArrayList<InstrumentSubDocument>();
+  private List<QuestionSubDocument> questions = new ArrayList<QuestionSubDocument>();
   
   /**
    * Construct the search document with all related subdocuments.
@@ -41,6 +43,7 @@ public class SurveySearchDocument extends Survey {
    * @param instruments the instruments used by this survey
    * @param questions the questions used by this survey
    */
+  @SuppressWarnings("CPD-START")
   public SurveySearchDocument(Survey survey, Study study, List<DataSet> dataSets, 
       List<Variable> variables, List<RelatedPublication> relatedPublications,
       List<Instrument> instruments, List<Question> questions) {
@@ -48,13 +51,26 @@ public class SurveySearchDocument extends Survey {
     if (study != null) {
       this.study = new StudySubDocument(study);      
     }
-    this.dataSets = dataSets.stream().map(DataSetSubDocument::new).collect(Collectors.toList());
-    this.variables = variables.stream().map(VariableSubDocument::new).collect(Collectors.toList());
-    this.relatedPublications = relatedPublications.stream()
-        .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());
-    this.instruments = instruments.stream()
-        .map(InstrumentSubDocument::new).collect(Collectors.toList());
-    this.questions = questions.stream().map(QuestionSubDocument::new).collect(Collectors.toList());
+    if (dataSets != null) {
+      this.dataSets = dataSets.stream()
+          .map(DataSetSubDocument::new).collect(Collectors.toList());      
+    }
+    if (variables != null) {
+      this.variables = variables.stream()
+          .map(VariableSubDocument::new).collect(Collectors.toList());      
+    }
+    if (relatedPublications != null) {
+      this.relatedPublications = relatedPublications.stream()
+          .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());      
+    }
+    if (instruments != null) {
+      this.instruments = instruments.stream()
+          .map(InstrumentSubDocument::new).collect(Collectors.toList());      
+    }
+    if (questions != null) {
+      this.questions = questions.stream()
+          .map(QuestionSubDocument::new).collect(Collectors.toList());      
+    }
   }
 
   public StudySubDocument getStudy() {

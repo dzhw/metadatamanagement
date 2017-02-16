@@ -7,6 +7,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
@@ -31,19 +32,32 @@ public class VariableSubDocument extends AbstractRdcDomainObject {
   @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_EXCLAMATIONMARK,
       message = "variable-management.error.variable.id.pattern")
   protected String id;
+  
+  @Indexed
+  @NotEmpty(message = "variable-management.error.variable.data-acquisition-project.id.not-empty")
+  protected String dataAcquisitionProjectId;
+  
   @NotEmpty(message = "variable-management.error.variable.name.not-empty")
   @Size(max = StringLengths.SMALL, message = "variable-management.error.variable.name.size")
   @Pattern(regexp = Patterns.ALPHANUMERIC_WITH_UNDERSCORE_NO_NUMBER_AS_FIRST_SIGN,
       message = "variable-management.error.variable.name.pattern")
   protected String name;
+  
   @NotNull(message = "variable-management.error.variable.label.not-null")
   @I18nStringSize(max = StringLengths.MEDIUM,
       message = "variable-management.error.variable.label.i18n-string-size")
   @I18nStringNotEmpty(message = "variable-management.error.variable.label.i18n-string-not-empty")
   protected I18nString label;
+  
   @I18nStringSize(max = StringLengths.LARGE,
       message = "variable-management.error.variable.annotations.i18n-string-size")
   protected I18nString annotations;
+  
+  @NotEmpty(message = "variable-management.error.variable.data-set-id-not-empty")
+  protected String dataSetId;
+  
+  @NotNull(message = "variable-management.error.variable.data-set-number-not-null")
+  protected Integer dataSetNumber;
 
   public VariableSubDocument() {
     super();
@@ -57,6 +71,14 @@ public class VariableSubDocument extends AbstractRdcDomainObject {
   @Override
   public String getId() {
     return id;
+  }
+  
+  public String getDataAcquisitionProjectId() {
+    return dataAcquisitionProjectId;
+  }
+
+  public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
+    this.dataAcquisitionProjectId = dataAcquisitionProjectId;
   }
 
   public String getName() {
@@ -85,5 +107,22 @@ public class VariableSubDocument extends AbstractRdcDomainObject {
 
   public void setId(String id) {
     this.id = id;
+  }
+  
+  public String getDataSetId() {
+    return dataSetId;
+  }
+
+  public void setDataSetId(String dataSetId) {
+    this.dataSetId = dataSetId;
+  }
+
+
+  public Integer getDataSetNumber() {
+    return dataSetNumber;
+  }
+
+  public void setDataSetNumber(Integer dataSetNumber) {
+    this.dataSetNumber = dataSetNumber;
   }
 }

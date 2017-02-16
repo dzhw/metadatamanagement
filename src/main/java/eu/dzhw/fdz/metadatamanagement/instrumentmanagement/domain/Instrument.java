@@ -33,10 +33,6 @@ public class Instrument extends InstrumentSubDocument {
   @NotEmpty(message = "instrument-management.error.instrument.type.not-empty")
   @ValidInstrumentType(message = "instrument-management.error.instrument.type.valid")
   private String type;
-
-  @NotEmpty(message = 
-      "instrument-management.error.instrument.data-acquisition-project-id.not-empty")
-  private String dataAcquisitionProjectId;
   
   private List<String> surveyIds;
   
@@ -81,14 +77,6 @@ public class Instrument extends InstrumentSubDocument {
 
   public void setType(String type) {
     this.type = type;
-  }
-
-  public String getDataAcquisitionProjectId() {
-    return dataAcquisitionProjectId;
-  }
-
-  public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
-    this.dataAcquisitionProjectId = dataAcquisitionProjectId;
   }
 
   public List<String> getSurveyIds() {

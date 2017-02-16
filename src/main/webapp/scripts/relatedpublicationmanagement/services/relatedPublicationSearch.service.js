@@ -2,11 +2,24 @@
 
 angular.module('metadatamanagementApp')
   .factory('RelatedPublicationSearchService',
-    function(ElasticSearchClient) {
+    function(ElasticSearchClient, $q) {
       var query = {};
       query.type = 'related_publications';
       query.index = 'related_publications';
 
+      var findOneById = function(id) {
+        var deferred = $q.defer();
+        delete query.body;
+        query.id = id;
+        ElasticSearchClient.getSource(query, function(error, response) {
+            if (error) {
+              deferred.reject(error);
+            } else {
+              deferred.resolve(response);
+            }
+          });
+        return deferred;
+      };
       var findBySurveyId = function(surveyId, selectedAttributes, from,
         size) {
         query.body = {};
@@ -152,6 +165,7 @@ angular.module('metadatamanagementApp')
         return ElasticSearchClient.count(query);
       };
       return {
+        findOneById: findOneById,
         findBySurveyId: findBySurveyId,
         findByVariableId: findByVariableId,
         findByDataSetId: findByDataSetId,

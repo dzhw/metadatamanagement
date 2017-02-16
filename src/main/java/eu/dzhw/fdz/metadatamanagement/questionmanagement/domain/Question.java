@@ -8,7 +8,6 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
@@ -62,20 +61,11 @@ public class Question extends QuestionSubDocument {
   @Valid
   private TechnicalRepresentation technicalRepresentation;
   
-  @NotNull(message = "question-management.error.question.instrument-number.not-null")
-  private Integer instrumentNumber;
-  
   private List<String> successorNumbers;
   
   private List<String> successors;
       
-  /* Foreign Keys */
-  @Indexed
-  @NotEmpty(message = "question-management.error.question.data-acquisition-project-id.not-empty")
-  private String dataAcquisitionProjectId;
-    
-  private String instrumentId;
-  
+  /* Foreign Keys */ 
   @NotEmpty(message = "question-management.error.question.study-id.not-empty")
   private String studyId;
 
@@ -169,30 +159,6 @@ public class Question extends QuestionSubDocument {
 
   public void setSuccessors(List<String> successors) {
     this.successors = successors;
-  }
-
-  public String getDataAcquisitionProjectId() {
-    return dataAcquisitionProjectId;
-  }
-  
-  public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
-    this.dataAcquisitionProjectId = dataAcquisitionProjectId;
-  }
-
-  public String getInstrumentId() {
-    return instrumentId;
-  }
-
-  public void setInstrumentId(String instrumentId) {
-    this.instrumentId = instrumentId;
-  }
-
-  public Integer getInstrumentNumber() {
-    return instrumentNumber;
-  }
-
-  public void setInstrumentNumber(Integer instrumentNumber) {
-    this.instrumentNumber = instrumentNumber;
   }
 
   public List<String> getSuccessorNumbers() {

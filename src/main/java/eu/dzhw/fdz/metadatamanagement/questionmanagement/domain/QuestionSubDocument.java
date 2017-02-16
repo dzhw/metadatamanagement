@@ -7,6 +7,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
@@ -31,18 +32,30 @@ public class QuestionSubDocument extends AbstractRdcDomainObject {
       message = "question-management.error.question.id.pattern")
   @Size(max = StringLengths.MEDIUM, message = "question-management.error.question.id.size")
   protected String id;
+  
+  @Indexed
+  @NotEmpty(message = "question-management.error.question.data-acquisition-project-id.not-empty")
+  protected String dataAcquisitionProjectId;
+  
   @NotEmpty(message = "question-management.error.question.number.not-empty")
   @Size(max = StringLengths.SMALL, message = "question-management.error.question.number.size")
   protected String number;
+  
   @NotNull(message = "question-management.error.question.question-text.not-null")
   @I18nStringNotEmpty(
       message = "question-management.error.question.question-text.i18n-string-not-empty")
   @I18nStringSize(max = StringLengths.LARGE,
       message = "question-management.error.question.question-text.i18n-string-size")
   protected I18nString questionText;
+  
   @I18nStringSize(max = StringLengths.LARGE,
       message = "question-management.error.question.topic.i18n-string-size")
   protected I18nString topic;
+  
+  protected String instrumentId;
+  
+  @NotNull(message = "question-management.error.question.instrument-number.not-null")
+  protected Integer instrumentNumber;
 
   public QuestionSubDocument() {
     super();
@@ -60,6 +73,30 @@ public class QuestionSubDocument extends AbstractRdcDomainObject {
 
   public void setId(String id) {
     this.id = id;
+  }
+  
+  public String getDataAcquisitionProjectId() {
+    return dataAcquisitionProjectId;
+  }
+  
+  public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
+    this.dataAcquisitionProjectId = dataAcquisitionProjectId;
+  }
+  
+  public String getInstrumentId() {
+    return instrumentId;
+  }
+
+  public void setInstrumentId(String instrumentId) {
+    this.instrumentId = instrumentId;
+  }
+
+  public Integer getInstrumentNumber() {
+    return instrumentNumber;
+  }
+
+  public void setInstrumentNumber(Integer instrumentNumber) {
+    this.instrumentNumber = instrumentNumber;
   }
 
   public String getNumber() {

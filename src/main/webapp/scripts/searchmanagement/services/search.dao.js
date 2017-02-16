@@ -2,29 +2,37 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('SearchDao',
-  function(ElasticSearchClient, CleanJSObjectService) {
+  function(ElasticSearchClient, CleanJSObjectService, StudyIdBuilderService) {
     var keyMapping = {
+      'studies': {
+        'related-publication': 'relatedPublications.id'
+      },
       'variables': {
         'data-set': 'dataSetId',
         'panel-identifier': 'panelIdentifier',
-        'question': 'relatedQuestions.questionId'
+        'question': 'relatedQuestions.questionId',
+        'related-publication': 'relatedPublications.id'
       },
       'surveys': {
         'instrument': 'instruments.id',
         'study': 'dataAcquisitionProjectId',
         'variable': 'variableIds',
-        'data-set': 'dataSetIds'
+        'data-set': 'dataSetIds',
+        'related-publication': 'relatedPublications.id'
       },
       'questions': {
         'instrument': 'instrumentId',
-        'variable': 'variableIds'
+        'variable': 'variableIds',
+        'related-publication': 'relatedPublications.id'
       },
       'instruments': {
-        'survey': 'surveyIds'
+        'survey': 'surveyIds',
+        'related-publication': 'relatedPublications.id'
       },
       'data_sets': {
         'survey': 'surveyIds',
         'study': 'dataAcquisitionProjectId',
+        'related-publication': 'relatedPublications.id'
       },
       'related_publications': {
         'variable': 'variableIds',
@@ -40,6 +48,11 @@ angular.module('metadatamanagementApp').service('SearchDao',
         var projectFilter;
         var studiesFilter;
         query.index = elasticsearchType;
+        if (!elasticsearchType) {
+          //search in all indices
+          query.index = ['studies','variables','surveys','data_sets',
+            'instruments','related_publications','questions'];
+        }
         query.type = elasticsearchType;
         query.body = {};
         //use source filtering for returning only required attributes
@@ -47,7 +60,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
         'description','type', 'doi', 'publicationAbstract', 'authors',
         'surveyMethod', 'fieldPeriod', 'label', 'name', 'dataType',
         'scaleLevel', 'dataAcquisitionProjectId', 'dataSetNumber',
-        'instrumentNumber', 'instrument.description'];
+        'instrumentNumber', 'instrument.description', 'surveys.title'];
         if (sortBy && sortBy !== '') {
           var sortCriteria = {};
           sortCriteria[sortBy] = {
@@ -109,9 +122,11 @@ angular.module('metadatamanagementApp').service('SearchDao',
               'dataAcquisitionProjectId': dataAcquisitionProjectId
             }
           };
+          var studyId = StudyIdBuilderService
+            .buildStudyId(dataAcquisitionProjectId);
           studiesFilter = {
             'term': {
-              'studyIds': dataAcquisitionProjectId
+              'studyIds': studyId
             }
           };
           query.body.query.bool.filter.bool.should = [];
@@ -120,11 +135,6 @@ angular.module('metadatamanagementApp').service('SearchDao',
         }
 
         if (!CleanJSObjectService.isNullOrEmpty(filter)) {
-          projectFilter = {
-            'term': {
-              'dataAcquisitionProjectId': dataAcquisitionProjectId
-            }
-          };
           query.body.query.bool.filter.bool.must = [];
           _.each(filter, function(value, key) {
             var filterKeyValue = {
