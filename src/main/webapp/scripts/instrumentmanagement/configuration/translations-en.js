@@ -47,7 +47,7 @@ angular.module('metadatamanagementApp').config(
             'id': {
               'not-empty': 'The RDC-ID of the Instrument must not be empty!',
               'size': 'The max length of the RDC-ID is 128 signs.',
-              'pattern': 'Use only alphanumeric signs, german umlauts, ß and space, underscore and minus for the RDC-ID.'
+              'pattern': 'Use only alphanumeric signs, german umlauts, ß and space, underscore, exclamation sign and minus for the RDC-ID.'
             },
             'title': {
               'not-null': 'The titel of the Instrument must not be empty!',
@@ -72,7 +72,7 @@ angular.module('metadatamanagementApp').config(
             'survey-id': {
               'not-empty': 'The ID of the corresponding Survey must not be empty!'
             },
-            'valid-instrument-id-pattern': 'The RDC-ID of the Instrument is not valid for the Pattern: DataAcquisitionProjectId + "-" + "ins" + Number'
+            'valid-instrument-id-pattern': 'The RDC-ID of the Instrument is not valid for the Pattern: "ins-" + {DataAcquisitionProjectId} + "-" + "ins" + {Number} + "!".'
           },
           'instrument-attachment-metadata': {
             'instrument-id': {

@@ -47,7 +47,7 @@ angular.module('metadatamanagementApp').config(
             'id': {
               'not-empty': 'Die FDZ-ID des Instruments darf nicht leer sein!',
               'size': 'Die Maximallänge der FDZ-ID ist 128 Zeichen.',
-              'pattern': 'Es dürfen nur alphanumerische Zeichen, deutsche Umlaute, ß, Leerzeichen und Minus für die FDZ-ID verwendet werden.'
+              'pattern': 'Es dürfen nur alphanumerische Zeichen, deutsche Umlaute, ß, Leerzeichen, Ausrufezeichen und Minus für die FDZ-ID verwendet werden.'
             },
             'title': {
               'not-null': 'Der Titel des Instruments darf nicht leer sein!',
@@ -72,7 +72,7 @@ angular.module('metadatamanagementApp').config(
             'survey-id': {
               'not-empty': 'Die ID der zugehörigen Erhebung darf nicht leer sein!'
             },
-            'valid-instrument-id-pattern': 'Die FDZ-ID des Instruments hat nicht die folgende Form: ProjektId + "-" + "ins" + Nummer'
+            'valid-instrument-id-pattern': 'Die FDZ-ID des Instruments hat nicht die folgende Form: "ins-" + {ProjektId} + "-" + "ins" + {Nummer} + "!" .'
           },
           'instrument-attachment-metadata': {
             'instrument-id': {

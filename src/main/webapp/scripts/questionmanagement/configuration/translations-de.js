@@ -50,13 +50,13 @@ angular.module('metadatamanagementApp').config(
         },
         'error': {
           'question': {
-            'valid-question-id-name': 'Die FDZ-ID der Frage entspricht nicht dem Muster: StudienID-insInstrumentNummer-FragenNummer.',
+            'valid-question-id-name': 'Die FDZ-ID der Frage entspricht nicht dem Muster: "que" + {FDZID} + "-ins" + {InstrumentNummer} + "-" + {FragenNummer} + "!".',
             'unique-question-name': 'Der Name einer Frage muss eindeutig innerhalb einer Befragung sein.',
             'unique-question-number': 'Die Nummer einer Frage muss eindeutig innerhalb einer Befragung sein.',
             'id': {
               'not-empty': 'Die FDZ-ID der Frage darf nicht leer sein!',
               'size': 'Die Maximallänge der FDZ-ID ist 128 Zeichen.',
-              'pattern': 'Es dürfen nur alphanumerische Zeichen, deutsche Umlaute, ß, Leerzeichen und Minus für die FDZ - ID verwendet werden.'
+              'pattern': 'Es dürfen nur alphanumerische Zeichen, deutsche Umlaute, ß, Leerzeichen, Ausrufezeichen und Minus für die FDZ - ID verwendet werden.'
             },
             'number': {
               'not-empty': 'Die Nummer der Frage darf nicht leer sein.',

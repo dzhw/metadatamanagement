@@ -43,7 +43,7 @@ angular.module('metadatamanagementApp').config(
           'related-publication': {
             'one-foreign-key-is-used': 'Die Publikation hat keine Verknüpfung zu einem anderen Objekt.',
             'one-study-is-used': 'Die Publikation hat keine Verknüpfung zu einer Studie',
-            'valid-related-publication-id': 'Die Id einer Publikation muss dem Muster pub-{IdAusCitavi}! .',
+            'valid-related-publication-id': 'Die Id einer Publikation muss dem Muster "pub-" + {IdAusCitavi} + "!".',
             'id': {
               'not-empty': 'Die FDZ-ID der Publikation darf nicht leer sein!',
               'size': 'Die Maximallänge der FDZ-ID ist 128 Zeichen.',

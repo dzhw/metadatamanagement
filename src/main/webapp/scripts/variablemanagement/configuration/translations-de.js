@@ -203,7 +203,7 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'variable': {
-            'valid-variable-name': 'Die FDZ-ID der Variable entspricht nicht dem Muster: var-{FDZID}-ds{DataSetNmber}-{Variablenname}! .',
+            'valid-variable-name': 'Die FDZ-ID der Variable entspricht nicht dem Muster: "var-" + {FDZID} + "-ds" + {DataSetNmber} + "-" + {Variablenname}+ "!".',
             'unique-variable-name-in-data-set': 'Der Name der Variable ist innerhalb des Datensatzes schon vergeben.',
             'unique-variable-index-in-dataSet': 'Der Index der Variable ist innerhalb des Datensatzes schon vergeben.',
             'data-set-number-not-null': 'Die Nummer des Datensatzes der Variable darf nicht leer sein!',

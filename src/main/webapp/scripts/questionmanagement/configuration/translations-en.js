@@ -51,13 +51,13 @@ angular.module('metadatamanagementApp').config(
         },
         'error': {
           'question': {
-            'valid-question-id-name': 'The RDC-ID of the Question is not valid for the Pattern: StudyId-insInstrumentNumber-QuestionNumber.',
+            'valid-question-id-name': 'The RDC-ID of the Question is not valid for the Pattern: {RCDID} + "-ins" + {InstrumentNumber} + "-" + {QuestionNumber} + "!".',
             'unique-question-name': 'The name of a question has to be unique within a instrument.',
             'unique-question-number': 'The number of a question has to be unique within a instrument.',
             'id': {
               'not-empty': 'The RDC-ID of an Atomic Question must not be empty!',
               'size': 'The max length of the RDC-ID is 128 signs.',
-              'pattern': 'Use only alphanumeric signs, german umlauts, ß, space, underscore and minus for the RDC-ID.'
+              'pattern': 'Use only alphanumeric signs, german umlauts, ß, space, underscore, exclamation sign and minus for the RDC-ID.'
             },
             'number': {
               'not-empty': 'The number of the Question must not be empty.',

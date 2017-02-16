@@ -203,7 +203,7 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'variable': {
-            'valid-variable-name': 'The RDC-ID of the Variable is not valid for the Pattern: var-{RDCID}-ds{DataSetNumber}-{VariableName}! .',
+            'valid-variable-name': 'The RDC-ID of the Variable is not valid for the Pattern: "var-" + {RDCID}+ "-ds" + {DataSetNumber} + "-" + {VariableName} + "!".',
             'unique-variable-name-in-data-set': 'The Name of the Variable is already used within this Data Set.',
             'unique-variable-index-in-dataSet': 'The Index of the Variable is already used within this Data Set.',
             'data-set-number-not-null': 'The Number of the Data Set of the Variable must not be empty!',
