@@ -121,7 +121,7 @@ angular.module('metadatamanagementApp')
         };
         return ElasticSearchClient.search(query);
       };
-      var findByProjectId = function(studyId, selectedAttributes, from,
+      var findByStudyId = function(studyId, selectedAttributes, from,
         size) {
         query.body = {};
         query.body.from = from;
@@ -170,8 +170,7 @@ angular.module('metadatamanagementApp')
         findByVariableId: findByVariableId,
         findByDataSetId: findByDataSetId,
         findByQuestionId: findByQuestionId,
-        findByProjectId: findByProjectId,
-        findByStudyId: findByProjectId,
+        findByStudyId: findByStudyId,
         findByInstrumentId: findByInstrumentId,
         countBy: countBy
       };

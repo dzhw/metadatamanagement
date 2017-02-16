@@ -63,30 +63,55 @@
             </md-card-header>
             <md-divider></md-divider>
             <md-card-content layout="column" layout-align="center start">
-                <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                    <md-icon md-svg-src="/assets/images/icons/survey.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
-                    <div style="margin-right:3px;">{{'survey-management.detail.surveys' | translate }}:</div>
-                    <div ng-if="ctrl.counts.surveysCount == 0" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
-                    <div ng-if="ctrl.counts.surveysCount > 0" class="fdz-truncate-string" flex>
-                        <a ng-click="ctrl.showRelatedSurveys()">({{ctrl.counts.surveysCount}})</a>
-                    </div>
-                </div>
-                <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                    <md-icon md-svg-src="/assets/images/icons/data-set.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
-                    <div style="margin-right:3px;">{{'data-set-management.detail.data-sets' | translate }}:</div>
-                    <div ng-if="ctrl.counts.dataSetsCount == 0" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
-                    <div ng-if="ctrl.counts.dataSetsCount > 0" class="fdz-truncate-string" flex>
-                        <a ng-click="ctrl.showRelatedDataSets()">({{ctrl.counts.dataSetsCount}})</a>
-                    </div>
-                </div>
-                <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                    <md-icon md-svg-src="/assets/images/icons/related-publication.svg" style="margin-top:0px; margin-right:4px;"></md-icon>
-                    <div style="margin-right:3px;">{{'related-publication-management.detail.publications' | translate }}:</div>
-                    <div ng-if="ctrl.counts.publicationsCount == 0" class="fdz-truncate-string" flex>{{'global.messages.error.unavailable' | translate}}</div>
-                    <div ng-if="ctrl.counts.publicationsCount > 0" class="fdz-truncate-string" flex>
-                        <a ng-click="ctrl.showRelatedPublications()">({{ctrl.counts.publicationsCount}})</a>
-                    </div>
-                </div>
+              <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                  <div ng-if="ctrl.counts.surveysCount == 0" class="fdz-truncate-string" flex>
+                      <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
+                      {{'survey-management.detail.surveys' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                  </div>
+                  <div ng-if="ctrl.counts.surveysCount == 1" class="fdz-truncate-string" flex>
+                      <a ui-sref="surveyDetail({'projectId': ctrl.survey.dataAcquisitionProjectId,
+                      'surveyNumber': ctrl.survey.number})">
+                          <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
+                          {{'survey-management.detail.survey' | translate }}: {{ctrl.survey.title[currentLanguage]}}</a>
+                  </div>
+                  <div ng-if="ctrl.counts.surveysCount > 1" class="fdz-truncate-string" flex>
+                      <a ui-sref="search({'type': 'surveys', 'study': ctrl.study.id, 'page': 1})">
+                          <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
+                          {{'survey-management.detail.surveys' | translate }}: ({{ctrl.counts.surveysCount}})</a>
+                  </div>
+              </div>
+              <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                  <div ng-if="ctrl.counts.dataSetsCount == 0" class="fdz-truncate-string" flex>
+                    <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
+                    {{'data-set-management.detail.data-sets' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                  </div>
+                  <div ng-if="ctrl.counts.dataSetsCount == 1" class="fdz-truncate-string" flex>
+                    <a ui-sref="data-setDetail({'projectId': ctrl.dataSet.dataAcquisitionProjectId, 'dataSetNumber':ctrl.dataSet.number})">
+                      <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
+                      {{'data-set-management.detail.data-set' | translate }}: {{ctrl.dataSet.description}}</a>
+                  </div>
+                  <div ng-if="ctrl.counts.dataSetsCount > 1" class="fdz-truncate-string" flex>
+                    <a ui-sref="search({'type': 'data_sets', 'study':ctrl.study.id, 'page': 1})">
+                      <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
+                      {{'data-set-management.detail.data-sets' | translate }}: ({{ctrl.counts.dataSetsCount}})</a>
+                  </div>
+              </div>
+              <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                  <div ng-if="ctrl.counts.publicationsCount == 0" class="fdz-truncate-string" flex>
+                    <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
+                    {{'related-publication-management.detail.publications' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                  </div>
+                  <div ng-if="ctrl.counts.publicationsCount == 1" class="fdz-truncate-string" flex>
+                    <a ui-sref="relatedPublicationDetail({'id': ctrl.ralatedPublication.id})">
+                      <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
+                      {{'related-publication-management.detail.publication' | translate }}: {{ctrl.relatedPublication.title}}</a>
+                  </div>
+                  <div ng-if="ctrl.counts.publicationsCount > 1" class="fdz-truncate-string" flex>
+                    <a ui-sref="search({'type': 'related_publications', 'study': ctrl.study.id, 'page': 1})">
+                      <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
+                      {{'related-publication-management.detail.publications' | translate }}: ({{ctrl.counts.publicationsCount}})</a>
+                  </div>
+              </div>
             </md-card-content>
         </md-card>
     </div>

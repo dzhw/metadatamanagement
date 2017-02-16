@@ -15,10 +15,11 @@ angular.module('metadatamanagementApp').service('SearchDao',
       },
       'surveys': {
         'instrument': 'instruments.id',
-        'study': 'dataAcquisitionProjectId',
+        'dataAcquisitionProjectId': 'dataAcquisitionProjectId',
         'variable': 'variableIds',
         'data-set': 'dataSetIds',
-        'related-publication': 'relatedPublications.id'
+        'related-publication': 'relatedPublications.id',
+        'study': 'studyId'
       },
       'questions': {
         'instrument': 'instrumentId',
@@ -31,14 +32,16 @@ angular.module('metadatamanagementApp').service('SearchDao',
       },
       'data_sets': {
         'survey': 'surveyIds',
-        'study': 'dataAcquisitionProjectId',
-        'related-publication': 'relatedPublications.id'
+        'related-publication': 'relatedPublications.id',
+        'dataAcquisitionProjectId': 'dataAcquisitionProjectId',
+        'study': 'studyId'
       },
       'related_publications': {
         'variable': 'variableIds',
         'data-set': 'dataSetIds',
         'survey': 'surveyIds',
-        'instrument': 'instrumentIds'
+        'instrument': 'instrumentIds',
+        'study': 'studyIds'
       }
     };
     return {

@@ -50,6 +50,24 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
       }
       return ElasticSearchClient.search(query);
     };
+    var findByStudyId = function(studyId, selectedAttributes) {
+      query.body = {};
+      query.body.size = 1;
+      query.body._source = selectedAttributes;
+      query.body.query = {
+        'bool': {
+          'must': [{
+            'match_all': {}
+          }],
+          'filter': [{
+            'term': {
+              'studyId': studyId
+            }
+          }]
+        }
+      };
+      return ElasticSearchClient.search(query);
+    };
     var findByVariableId = function(variableId, selectedAttributes) {
       query.body = {};
       query.body.size = 1;
@@ -103,6 +121,7 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
     return {
       findSurveys: findSurveys,
       findByProjectId: findByProjectId,
+      findByStudyId: findByStudyId,
       findByVariableId: findByVariableId,
       countBy: countBy
     };
