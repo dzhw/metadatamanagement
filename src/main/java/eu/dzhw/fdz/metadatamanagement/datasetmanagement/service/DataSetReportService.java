@@ -89,8 +89,8 @@ public class DataSetReportService {
   public static final String KEY_MAIN = "Main.tex";
   public static final String KEY_REFERENCES_BIB = "References.bib";
   public static final String KEY_VARIABLE = "variables/Variable.tex";
-  public static final String KEY_DSREPORT_STY = "dsreport.sty"
-  ;
+  public static final String KEY_DSREPORT_STY = "dsreport.sty";
+  
   /**
    * This service method will receive a tex template as a string and an id of a data set. With this
    * id, the service will load the data set for receiving all depending information, which are
