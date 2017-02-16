@@ -6,7 +6,8 @@ angular.module('metadatamanagementApp').service('SearchDao',
     var keyMapping = {
       'variables': {
         'data-set': 'dataSetId',
-        'panel-identifier': 'panelIdentifier'
+        'panel-identifier': 'panelIdentifier',
+        'question': 'relatedQuestions.questionId'
       },
       'surveys': {
         'instrument': 'instruments.id',

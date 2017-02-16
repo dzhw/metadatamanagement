@@ -1,7 +1,7 @@
 <div ng-if="variable.$resolved && variable.id">
-  <div layout="row" style="margin-bottom: 0px;" layout-margin>
-    <h1 class="md-headline fdz-truncate-string" style="margin-left: 0px;">{{variable.label[currentLanguage]}} ({{variable.id}})</h1>
-  </div>
+    <div layout="row" style="margin-bottom: 0px;" layout-margin>
+        <h1 class="md-headline fdz-truncate-string" style="margin-left: 0px;">{{variable.label[currentLanguage]}} ({{variable.id}})</h1>
+    </div>
     <div layout="column" layout-gt-sm="row">
         <md-card flex-gt-sm>
             <md-card-header>
@@ -53,12 +53,7 @@
                     <div class="fdz-overlay-outer-box">
                         <div hljs hljs-language="{{variable.filterDetails.expressionLanguage}}" hljs-source="variable.filterDetails.expression" style="margin-top: 0.5em;" class="fdz-code-container" ng-class="{'fdz-hidden-code': filterDetailsCodeToggleFlag}"></div>
                         <div class="fdz-overlay-inner-box">
-                            <md-button
-                                ng-click="openSuccessCopyToClipboardToast('variable-management.log-messages.variable.filter-details-success-copy-to-clipboard')"
-                                class="md-icon-button md-primary"
-                                ngclipboard
-                                data-clipboard-text="{{variable.filterDetails.expression}}"
-                                aria-label="{{'variable-management.detail.button.aria-label.copy-to-clipboard' | translate}}">
+                            <md-button ng-click="openSuccessCopyToClipboardToast('variable-management.log-messages.variable.filter-details-success-copy-to-clipboard')" class="md-icon-button md-primary" ngclipboard data-clipboard-text="{{variable.filterDetails.expression}}" aria-label="{{'variable-management.detail.button.aria-label.copy-to-clipboard' | translate}}">
                                 <md-icon md-font-library="material-icons">content_copy</md-icon>
                                 <md-tooltip md-direction="top">
                                     {{'variable-management.detail.button.aria-label.copy-to-clipboard' | translate}}
@@ -86,89 +81,88 @@
             </md-card-header>
             <md-divider></md-divider>
             <md-card-content layout="column" layout-align="center start">
-              <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                <div ng-if="!study" class="fdz-truncate-string" flex>
-                  <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
-                  {{'study-management.detail.study' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                    <div ng-if="!study" class="fdz-truncate-string" flex>
+                        <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
+                        {{'study-management.detail.study' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                    </div>
+                    <div ng-if="study" class="fdz-truncate-string" flex>
+                        <a ui-sref="studyDetail({id: study.id})">
+                            <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
+                            {{'study-management.detail.study' | translate }}: {{study.title[currentLanguage]}}</a>
+                    </div>
                 </div>
-                <div ng-if="study" class="fdz-truncate-string" flex>
-                    <a ui-sref="studyDetail({id: study.id})">
-                      <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
-                      {{'study-management.detail.study' | translate }}: {{study.title[currentLanguage]}}</a>
-                  </div>
-              </div>
-              <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                  <div ng-if="counts.questionsCount == 0" class="fdz-truncate-string" flex>
-                    <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
-                    {{'question-management.detail.questions' | translate }}: {{'global.messages.error.unavailable' | translate}}
-                  </div>
-                  <div ng-if="counts.questionsCount == 1" class="fdz-truncate-string" flex>
-                    <a ui-sref="questionDetail({'projectId': variable.dataAcquisitionProjectId,
+                <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                    <div ng-if="counts.questionsCount == 0" class="fdz-truncate-string" flex>
+                        <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
+                        {{'question-management.detail.questions' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                    </div>
+                    <div ng-if="counts.questionsCount == 1" class="fdz-truncate-string" flex>
+                        <a ui-sref="questionDetail({'projectId': variable.dataAcquisitionProjectId,
                       'questionNumber': question.number, 'instrumentNumber': question.instrumentNumber})">
-                      <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
-                      {{'question-management.detail.question' | translate }}: {{question.questionText[currentLanguage]}}</a>
-                  </div>
-                  <div ng-if="counts.questionsCount > 1" class="fdz-truncate-string" flex>
-                    <a ui-sref="search({'type': 'questions', 'variable':variable.id, 'page': 1})">
-                      <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
-                      {{'question-management.detail.questions' | translate }}: ({{counts.questionsCount}})</a>
-                  </div>
-              </div>
-              <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                <div ng-if="!dataSet" class="fdz-truncate-string" flex>
-                  <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
-                  {{'data-set-management.detail.data-set' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                            <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
+                            {{'question-management.detail.question' | translate }}: {{question.questionText[currentLanguage]}}</a>
+                    </div>
+                    <div ng-if="counts.questionsCount > 1" class="fdz-truncate-string" flex>
+                        <a ui-sref="search({'type': 'questions', 'variable':variable.id, 'page': 1})">
+                            <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
+                            {{'question-management.detail.questions' | translate }}: ({{counts.questionsCount}})</a>
+                    </div>
                 </div>
-                <div ng-if="dataSet" class="fdz-truncate-string" flex>
-                  <a ui-sref="data-setDetail({projectId: dataSet.dataAcquisitionProjectId,
+                <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                    <div ng-if="!dataSet" class="fdz-truncate-string" flex>
+                        <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
+                        {{'data-set-management.detail.data-set' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                    </div>
+                    <div ng-if="dataSet" class="fdz-truncate-string" flex>
+                        <a ui-sref="data-setDetail({projectId: dataSet.dataAcquisitionProjectId,
                     dataSetNumber: dataSet.number})">
-                    <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
-                    {{'data-set-management.detail.data-set' | translate }}: {{dataSet.description[currentLanguage]}}</a>
-                  </div>
-              </div>
-              <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                  <div ng-if="counts.surveysCount == 0" class="fdz-truncate-string" flex>
-                      <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
-                      {{'survey-management.detail.surveys' | translate }}: {{'global.messages.error.unavailable' | translate}}
-                  </div>
-                  <div ng-if="counts.surveysCount == 1" class="fdz-truncate-string" flex>
-                      <a ui-sref="surveyDetail({'projectId': variable.dataAcquisitionProjectId,
+                            <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
+                            {{'data-set-management.detail.data-set' | translate }}: {{dataSet.description[currentLanguage]}}</a>
+                    </div>
+                </div>
+                <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                    <div ng-if="counts.surveysCount == 0" class="fdz-truncate-string" flex>
+                        <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
+                        {{'survey-management.detail.surveys' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                    </div>
+                    <div ng-if="counts.surveysCount == 1" class="fdz-truncate-string" flex>
+                        <a ui-sref="surveyDetail({'projectId': variable.dataAcquisitionProjectId,
                         'surveyNumber': survey.number})">
-                        <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
-                        {{'survey-management.detail.survey' | translate }}: {{survey.title[currentLanguage]}}</a>
-                  </div>
-                  <div ng-if="counts.surveysCount > 1" class="fdz-truncate-string" flex>
-                      <a ui-sref="search({'type': 'surveys', 'variable':variable.id, 'page': 1})">
-                        <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
-                        {{'survey-management.detail.surveys' | translate }}: ({{counts.surveysCount}})</a>
-                  </div>
+                            <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
+                            {{'survey-management.detail.survey' | translate }}: {{survey.title[currentLanguage]}}</a>
+                    </div>
+                    <div ng-if="counts.surveysCount > 1" class="fdz-truncate-string" flex>
+                        <a ui-sref="search({'type': 'surveys', 'variable':variable.id, 'page': 1})">
+                            <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
+                            {{'survey-management.detail.surveys' | translate }}: ({{counts.surveysCount}})</a>
+                    </div>
                 </div>
                 <div ng-if="counts.variablesInPanel !== 1" style="margin-bottom: 0.5em; width: 100%;" layout="row">
                     <div ng-if="counts.variablesInPanel == 0" class="fdz-truncate-string" flex>
-                      <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
-                      {{'variable-management.detail.variables-in-panel' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                        <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
+                        {{'variable-management.detail.variables-in-panel' | translate }}: {{'global.messages.error.unavailable' | translate}}
                     </div>
                     <div ng-if="counts.variablesInPanel > 1" class="fdz-truncate-string" flex>
-                      <a ui-sref="search({'type': 'variables', 'panel-identifier':variable.panelIdentifier, 'page': 1})">
-                        <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
-                        {{'variable-management.detail.variables-in-panel' | translate }}: ({{counts.variablesInPanel}})</a>
+                        <a ui-sref="search({'type': 'variables', 'panel-identifier':variable.panelIdentifier, 'page': 1})">
+                            <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
+                            {{'variable-management.detail.variables-in-panel' | translate }}: ({{counts.variablesInPanel}})</a>
                     </div>
                 </div>
-
                 <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                     <div ng-if="counts.publicationsCount == 0" class="fdz-truncate-string" flex>
-                      <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
-                      {{'related-publication-management.detail.publications' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                        <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
+                        {{'related-publication-management.detail.publications' | translate }}: {{'global.messages.error.unavailable' | translate}}
                     </div>
                     <div ng-if="counts.publicationsCount == 1" class="fdz-truncate-string" flex>
-                      <a ui-sref="relatedPublicationDetail({'id': ralatedPublication.id})">
-                        <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
-                        {{'related-publication-management.detail.publication' | translate }}: {{ralatedPublication.title}}</a>
+                        <a ui-sref="relatedPublicationDetail({'id': ralatedPublication.id})">
+                            <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
+                            {{'related-publication-management.detail.publication' | translate }}: {{ralatedPublication.title}}</a>
                     </div>
                     <div ng-if="counts.publicationsCount > 1" class="fdz-truncate-string" flex>
-                      <a ui-sref="search({'type': 'related_publications', 'variable':variable.id, 'page': 1})">
-                        <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
-                        {{'related-publication-management.detail.publications' | translate }}: ({{counts.publicationsCount}})</a>
+                        <a ui-sref="search({'type': 'related_publications', 'variable':variable.id, 'page': 1})">
+                            <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
+                            {{'related-publication-management.detail.publications' | translate }}: ({{counts.publicationsCount}})</a>
                     </div>
                 </div>
 
@@ -204,15 +198,15 @@
                     </div>
                     <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.minimum != null">
                         <span>{{'variable-management.detail.statistics.minimum' | translate}}
-                        </span>
-                        (<span katex>min</span>)
+                        </span> (
+                        <span katex>min</span>)
                         <span>:
                             {{variable.distribution.statistics.minimum | variableDataType: variable.dataType.en}}</span>
                     </div>
                     <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.maximum != null">
                         <span>{{'variable-management.detail.statistics.maximum' | translate}}
-                        </span>
-                        (<span katex>max</span>)
+                        </span> (
+                        <span katex>max</span>)
                         <span>:
                             {{variable.distribution.statistics.maximum | variableDataType: variable.dataType.en}}</span>
                     </div>
@@ -221,22 +215,22 @@
                     </h3>
                     <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.meanValue != null">
                         <span>{{'variable-management.detail.statistics.mean-value' | translate}}
-                        </span>
-                        (<span katex>\bar x</span>)
+                        </span> (
+                        <span katex>\bar x</span>)
                         <span>:
                             {{variable.distribution.statistics.meanValue | number:2}}</span>
                     </div>
                     <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.median != null">
                         <span>{{'variable-management.detail.statistics.median' | translate}}
-                        </span>
-                        (<span katex>\tilde x</span>)
+                        </span> (
+                        <span katex>\tilde x</span>)
                         <span>:
                             {{variable.distribution.statistics.median | variableDataType: variable.dataType.en}}</span>
                     </div>
                     <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.mode != null">
                         <span>{{'variable-management.detail.statistics.mode' | translate}}
-                        </span>
-                        (<span katex>h</span>)
+                        </span> (
+                        <span katex>h</span>)
                         <span>:
                             {{variable.distribution.statistics.mode}}</span>
                     </div>
@@ -246,22 +240,22 @@
                     </h3>
                     <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.standardDeviation != null">
                         <span style="font-weight: none;">{{'variable-management.detail.statistics.standardDeviation' | translate}}
-                        </span>
-                        (<span katex>s</span>)
+                        </span> (
+                        <span katex>s</span>)
                         <span>:
                             {{variable.distribution.statistics.standardDeviation | number:2}}</span>
                     </div>
                     <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.meanDeviation != null">
                         <span style="font-weight: none;">{{'variable-management.detail.statistics.mean-deviation' | translate}}
-                        </span>
-                        (<span katex>MAD</span>)
+                        </span> (
+                        <span katex>MAD</span>)
                         <span>:
                             {{variable.distribution.statistics.meanDeviation | number:2}}</span>
                     </div>
                     <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.deviance != null">
                         <span style="font-weight: none;">{{'variable-management.detail.statistics.deviance' | translate}}
-                        </span>
-                        (<span katex>d</span>)
+                        </span> (
+                        <span katex>d</span>)
                         <span>:
                             {{variable.distribution.statistics.deviance | number:2}}</span>
                     </div>
@@ -271,15 +265,15 @@
                     </h3>
                     <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.skewness != null">
                         <span>{{'variable-management.detail.statistics.skewness' | translate}}
-                        </span>
-                        (<span katex>v</span>)
+                        </span> (
+                        <span katex>v</span>)
                         <span>:
                             {{variable.distribution.statistics.skewness | number:2}}</span>
                     </div>
                     <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.kurtosis != null">
                         <span>{{'variable-management.detail.statistics.kurtosis' | translate}}
-                        </span>
-                        (<span katex>w</span>)
+                        </span> (
+                        <span katex>w</span>)
                         <span>:
                             {{variable.distribution.statistics.kurtosis | number:2}}</span>
                     </div>
@@ -342,10 +336,10 @@
                         <td>{{row.label[currentLanguage]}}&nbsp;</td>
                         <td>&nbsp;</td>
                         <td>{{row.absoluteFrequency | number:0}}&nbsp;</td>
-                        <td>{{row.validRelativeFrequency | number:2}}
-                            %</td>
-                        <td>{{row.relativeFrequency | number:2}}
-                            %</td>
+                        <td>{{row.validRelativeFrequency | number:2}} %
+                        </td>
+                        <td>{{row.relativeFrequency | number:2}} %
+                        </td>
                     </tr>
                     <tr ng-repeat-end ng-if="$index === 4 && variable.distribution.validResponses.length > 10" ng-hide="!notAllRowsVisible">
                         <td>...</td>
@@ -361,8 +355,8 @@
                         <td>&nbsp;</td>
                         <td>{{variable.distribution.totalValidAbsoluteFrequency | number:0}}</td>
                         <td>100 %</td>
-                        <td>{{variable.distribution.totalValidRelativeFrequency | number:2}}
-                            %</td>
+                        <td>{{variable.distribution.totalValidRelativeFrequency | number:2}} %
+                        </td>
                     </tr>
                     <tr ng-class="{'fdz-table-last-row':$last}" ng-repeat="row in variable.distribution.missings">
                         <td>{{row.code}}&nbsp;</td>
@@ -370,8 +364,8 @@
                         <td>m</td>
                         <td>{{row.absoluteFrequency | number:0}}&nbsp;</td>
                         <td>&nbsp;</td>
-                        <td>{{row.relativeFrequency | number:2}}
-                            %</td>
+                        <td>{{row.relativeFrequency | number:2}} %
+                        </td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
@@ -406,26 +400,22 @@
                     <div class="fdz-overlay-outer-box">
                         <div hljs hljs-source="variable.generationDetails.rule" hljs-language="{{variable.generationDetails.ruleExpressionLanguage}}" style="margin-top: 0.5em;" class="fdz-code-container" ng-class="{'fdz-hidden-code': generationCodeToggleFlag}"></div>
                         <div class="fdz-overlay-inner-box">
-                            <md-button
-                                ng-click="openSuccessCopyToClipboardToast('variable-management.log-messages.variable.generation-details-rule-success-copy-to-clipboard')"
-                                class="md-icon-button md-primary"
-                                ngclipboard
-                                data-clipboard-text="{{variable.generationDetails.rule}}"
+                            <md-button ng-click="openSuccessCopyToClipboardToast('variable-management.log-messages.variable.generation-details-rule-success-copy-to-clipboard')" class="md-icon-button md-primary" ngclipboard data-clipboard-text="{{variable.generationDetails.rule}}"
                                 aria-label="{{'variable-management.detail.button.aria-label.copy-to-clipboard' | translate}}">
                                 <md-icon md-font-library="material-icons">content_copy</md-icon>
                                 <md-tooltip md-direction="top">
                                     {{'variable-management.detail.button.aria-label.copy-to-clipboard' | translate}}
                                 </md-tooltip>
-                            </md-button>
-                            <md-button class="md-icon-button md-primary" ng-click="toggleGenerationCode()">
-                                <div>
-                                    <md-icon ng-if="generationCodeToggleFlag" md-svg-src="/assets/images/icons/arrow-expand.svg"></md-icon>
-                                    <md-icon ng-if="!generationCodeToggleFlag" md-svg-src="/assets/images/icons/arrow-compress.svg"></md-icon>
-                                    <md-tooltip md-direction="top">
-                                        {{'variable-management.detail.show-complete-filter-details.' + generationCodeToggleFlag | translate }}
-                                    </md-tooltip>
-                                </div>
-                            </md-button>
+                                </md-button>
+                                <md-button class="md-icon-button md-primary" ng-click="toggleGenerationCode()">
+                                    <div>
+                                        <md-icon ng-if="generationCodeToggleFlag" md-svg-src="/assets/images/icons/arrow-expand.svg"></md-icon>
+                                        <md-icon ng-if="!generationCodeToggleFlag" md-svg-src="/assets/images/icons/arrow-compress.svg"></md-icon>
+                                        <md-tooltip md-direction="top">
+                                            {{'variable-management.detail.show-complete-filter-details.' + generationCodeToggleFlag | translate }}
+                                        </md-tooltip>
+                                    </div>
+                                </md-button>
                         </div>
                     </div>
                 </div>

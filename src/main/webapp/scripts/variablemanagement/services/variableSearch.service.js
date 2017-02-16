@@ -55,7 +55,7 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
           }],
           'filter': [{
             'term': {
-              'questionId': questionId
+              'relatedQuestions.questionId': questionId
             }
           }]
         }

@@ -5,13 +5,10 @@
 
 angular.module('metadatamanagementApp')
   .controller('QuestionDetailController',
-
-    function(StudySearchService,
-      VariableSearchDialogService, entity,
+    function(StudySearchService, entity,
       SimpleMessageToastService, QuestionSearchService, CleanJSObjectService,
-      RelatedPublicationSearchDialogService, VariableSearchService,
-      RelatedPublicationSearchService, InstrumentSearchService,
-      PageTitleService, $rootScope) {
+      VariableSearchService, RelatedPublicationSearchService,
+      InstrumentSearchService, PageTitleService, $rootScope) {
 
       var ctrl = this;
       this.representationCodeToggleFlag = true;
@@ -21,7 +18,6 @@ angular.module('metadatamanagementApp')
       ctrl.counts = {};
 
       entity.$promise.then(function() {
-        //console.log(ctrl.question);
         ctrl.questionIdAsArray = ctrl.question.id.split(',');
         QuestionSearchService.findAllPredeccessors(ctrl.question.id, ['id',
         'instrumentNumber', 'questionText', 'type','instrumentNmber',
@@ -61,9 +57,17 @@ angular.module('metadatamanagementApp')
               ctrl.study = study.hits.hits[0]._source;
             }
           });
-        VariableSearchService.countBy('questionId',
+        VariableSearchService.countBy('relatedQuestions.questionId',
           ctrl.question.id).then(function(variablesCount) {
           ctrl.counts.variablesCount = variablesCount.count;
+          if (variablesCount.count === 1) {
+            VariableSearchService
+              .findByQuestionId(ctrl.question.id, ['dataAcquisitionProjectId',
+              'dataSetNumber', 'name', 'label'])
+              .then(function(variable) {
+                ctrl.variable = variable.hits.hits[0]._source;
+              });
+          }
         });
         RelatedPublicationSearchService.countBy('questionIds',
           ctrl.question.id).then(function(publicationsCount) {
@@ -84,20 +88,19 @@ angular.module('metadatamanagementApp')
                   PageTitleService.
                   setPageTitle('question-management.detail.title', title);
                 });
+        RelatedPublicationSearchService.countBy('questionIds',
+        ctrl.question.id).then(function(publicationsCount) {
+                  ctrl.counts.publicationsCount = publicationsCount.count;
+                  if (publicationsCount.count === 1) {
+                    RelatedPublicationSearchService
+                      .findByQuestionId(ctrl.question.id, ['id', 'title'])
+                      .then(function(ralatedPublication) {
+                        ctrl.ralatedPublication = ralatedPublication.
+                        hits.hits[0]._source;
+                      });
+                  }
+                });
       });
-      ctrl.showRelatedVariables = function() {
-        var paramObject = {};
-        paramObject.methodName = 'findByQuestionId';
-        paramObject.methodParams = ctrl.question.id;
-        VariableSearchDialogService.findVariables(paramObject);
-      };
-      ctrl.showRelatedPublications = function() {
-        var paramObject = {};
-        paramObject.methodName = 'findByQuestionId';
-        paramObject.methodParams = ctrl.question.id;
-        RelatedPublicationSearchDialogService.
-        findRelatedPublications(paramObject);
-      };
       ctrl.openSuccessCopyToClipboardToast = function(message) {
         SimpleMessageToastService.openSimpleMessageToast(message, []);
       };
