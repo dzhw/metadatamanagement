@@ -32,7 +32,7 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'post-validation': {
-            'project-has-no-study': 'The Project has no study with ID {{ id }}.'
+            'project-has-no-study': 'The Project with the RDC-ID {{ id }} has no study.'
           }
         }
       }

@@ -542,9 +542,9 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     // Act & Assert
     mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
       .andExpect(status().isOk())
-//      .andExpect(jsonPath("$.errors", hasSize(2)))
-      .andExpect(jsonPath("$.errors[0].messageId", containsString("error.post-validation.variable-has-invalid-survey-id")))
-      .andExpect(jsonPath("$.errors[1].messageId", containsString("error.post-validation.project-has-no-study")));
+      .andExpect(jsonPath("$.errors", hasSize(2)))      
+      .andExpect(jsonPath("$.errors[0].messageId", containsString("error.post-validation.project-has-no-study")))
+      .andExpect(jsonPath("$.errors[1].messageId", containsString("error.post-validation.variable-has-invalid-survey-id")));
     }
   
 }

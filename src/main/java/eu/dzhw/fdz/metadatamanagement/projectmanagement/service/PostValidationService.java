@@ -69,7 +69,7 @@ public class PostValidationService {
     //Check Study
     Study study = 
         this.studyRepository.findOneByDataAcquisitionProjectId(dataAcquisitionProjectId);
-    errors = this.postValidateStudies(study, errors);
+    errors = this.postValidateStudies(study, errors, dataAcquisitionProjectId);
 
     // Check questions
     List<Question> questions =
@@ -91,26 +91,27 @@ public class PostValidationService {
         this.instrumentRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
     errors = this.postValidateInstruments(instruments, errors);
     
-    // check that there is a study for the project (all other domain objects might link to it)
-    //TODO
-    if (studyRepository.findOneByDataAcquisitionProjectId(dataAcquisitionProjectId) == null) {
-      String[] information = {dataAcquisitionProjectId, dataAcquisitionProjectId};
-      errors.add(new PostValidationMessageDto("data-acquisition-project-management.error."
-          + "post-validation.project-has-no-study", Arrays.asList(information)));
-    }
-
     return errors;
   }
   
   
   /**
    * This method checks all potential issues for study by post-validation.
-   * @param studies All studies of a project.
+   * @param study A study of a project.
    * @param errors The list of known errors.
+   * @param dataAcquisitionProjectId The project id.
    * @return The updated list of errors.
    */
   private List<PostValidationMessageDto> postValidateStudies(Study study,
-      List<PostValidationMessageDto> errors) {
+      List<PostValidationMessageDto> errors, String dataAcquisitionProjectId) {
+    
+
+    // check that there is a study for the project (all other domain objects might link to it)
+    if (study == null) {
+      String[] information = {dataAcquisitionProjectId, dataAcquisitionProjectId};
+      errors.add(new PostValidationMessageDto("data-acquisition-project-management.error."
+          + "post-validation.project-has-no-study", Arrays.asList(information)));
+    }
     
     //Check all AccessWays (if there some saved)
     if (study != null && study.getAccessWays().size() > 0) {

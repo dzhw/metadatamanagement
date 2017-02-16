@@ -32,7 +32,7 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'post-validation': {
-            'project-has-no-study': 'Das Projekt enthält keine Studie mit der ID {{ id }}.'
+            'project-has-no-study': 'Das Projekt mit der FDZID {{ id }} enthält keine Studie.'
           }
         }
       }
