@@ -79,7 +79,7 @@
                     <div ng-if="ctrl.counts.instrumentsCount === 1" class="fdz-truncate-string" flex>
                       <a ui-sref="instrumentDetail({'projectId': ctrl.instrument.dataAcquisitionProjectId, 'instrumentNumber': ctrl.instrument.number})">
                         <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
-                        {{'instrument-management.detail.instrument' | translate }}: ({{ctrl.instrument.title[currentLanguage]}})</a>
+                        {{'instrument-management.detail.instrument' | translate }}: {{ctrl.instrument.description[currentLanguage]}}</a>
                     </div>
                     <div ng-if="ctrl.counts.instrumentsCount > 1" class="fdz-truncate-string" flex>
                       <a ui-sref="search({'type': 'instruments', 'survey':ctrl.survey.id, 'page': 1})">

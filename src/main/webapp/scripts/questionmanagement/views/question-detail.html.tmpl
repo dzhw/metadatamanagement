@@ -37,7 +37,7 @@
                     <div ng-if="ctrl.instrument" class="fdz-truncate-string" flex>
                         <a ui-sref="instrumentDetail({'projectId': ctrl.instrument.dataAcquisitionProjectId, 'instrumentNumber': ctrl.instrument.number})">
                             <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
-                            {{'instrument-management.detail.instrument' | translate }}: ({{ctrl.instrument.title[currentLanguage]}})</a>
+                            {{'instrument-management.detail.instrument' | translate }}: {{ctrl.instrument.description[currentLanguage]}}</a>
                     </div>
                 </div>
                 <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
