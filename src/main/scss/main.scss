@@ -612,8 +612,14 @@ pre {
     position: relative;
 }
 
-.fdz-overlay-outer-box .fdz-overlay-inner-box {
+.fdz-overlay-outer-box .fdz-overlay-inner-box-top {
     top: 0;
+    right: 0;
+    position: absolute;
+}
+
+.fdz-overlay-outer-box .fdz-overlay-inner-box-bottom {
+    bottom: 0;
     right: 0;
     position: absolute;
 }

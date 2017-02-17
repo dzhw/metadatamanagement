@@ -18,6 +18,7 @@ angular.module('metadatamanagementApp')
       ctrl.counts = {};
 
       entity.$promise.then(function() {
+        console.log(ctrl.question);
         ctrl.questionIdAsArray = ctrl.question.id.split(',');
         QuestionSearchService.findAllPredeccessors(ctrl.question.id, ['id',
         'instrumentNumber', 'questionText', 'type','instrumentNmber',

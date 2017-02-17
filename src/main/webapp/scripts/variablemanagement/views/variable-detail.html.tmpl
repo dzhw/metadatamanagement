@@ -52,7 +52,7 @@
                     </span>
                     <div class="fdz-overlay-outer-box">
                         <div hljs hljs-language="{{variable.filterDetails.expressionLanguage}}" hljs-source="variable.filterDetails.expression" style="margin-top: 0.5em;" class="fdz-code-container" ng-class="{'fdz-hidden-code': filterDetailsCodeToggleFlag}"></div>
-                        <div class="fdz-overlay-inner-box">
+                        <div class="fdz-overlay-inner-box-top">
                             <md-button ng-click="openSuccessCopyToClipboardToast('variable-management.log-messages.variable.filter-details-success-copy-to-clipboard')" class="md-icon-button md-primary" ngclipboard data-clipboard-text="{{variable.filterDetails.expression}}" aria-label="{{'variable-management.detail.button.aria-label.copy-to-clipboard' | translate}}">
                                 <md-icon md-font-library="material-icons">content_copy</md-icon>
                                 <md-tooltip md-direction="top">
@@ -399,7 +399,7 @@
                     </span>
                     <div class="fdz-overlay-outer-box">
                         <div hljs hljs-source="variable.generationDetails.rule" hljs-language="{{variable.generationDetails.ruleExpressionLanguage}}" style="margin-top: 0.5em;" class="fdz-code-container" ng-class="{'fdz-hidden-code': generationCodeToggleFlag}"></div>
-                        <div class="fdz-overlay-inner-box">
+                        <div class="fdz-overlay-inner-box-top">
                             <md-button ng-click="openSuccessCopyToClipboardToast('variable-management.log-messages.variable.generation-details-rule-success-copy-to-clipboard')" class="md-icon-button md-primary" ngclipboard data-clipboard-text="{{variable.generationDetails.rule}}"
                                 aria-label="{{'variable-management.detail.button.aria-label.copy-to-clipboard' | translate}}">
                                 <md-icon md-font-library="material-icons">content_copy</md-icon>

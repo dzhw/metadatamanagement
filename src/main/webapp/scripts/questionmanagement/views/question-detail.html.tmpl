@@ -3,14 +3,26 @@
         <h1 class="md-headline fdz-truncate-string" style="margin-left: 0px;">{{'question-management.detail.question' | translate}} {{ctrl.question.number}}: {{ctrl.instrument.description[currentLanguage]}} ({{ctrl.question.id}})</h1>
     </div>
     <div layout="column" layout-gt-sm="row">
-        <md-card flex-gt-sm>
-            <div style="max-height: 400px; overflow-y:auto;">
-                <a ng-href="/public/files/questions/{{ctrl.question.id}}" title="{{ctrl.question.questionText[currentLanguage] }}" target="_blank">
-                    <img alt="" style="width:auto; max-width:100%; height:auto;" ng-src="public/files/questions/{{ctrl.question.id}}" />
-                </a>
+        <md-card flex-gt-sm="50">
+          <div class="fdz-overlay-outer-box">
+            <div style="height:15em; overflow-y:hidden;">
+              <img alt="{{ctrl.question.questionText[currentLanguage] }}" title="{{ctrl.question.questionText[currentLanguage] }}" style="width: 100%; height: auto" ng-src="public/files/questions/{{ctrl.question.id}}" />
             </div>
+            <div class="fdz-overlay-inner-box-bottom">
+              <a class="md-fab md-mini md-primary" ng-href="/public/files/questions/{{ctrl.question.id}}" target="_blank">
+                <md-button class="md-fab md-mini md-primary">
+                  <div>
+                    <md-icon  md-svg-src="/assets/images/icons/arrow-expand.svg"></md-icon>
+                    <md-tooltip md-direction="left">
+                      {{'question-management.detail.open-image-in-new-tab'}}
+                    </md-tooltip>
+                  </div>
+                </md-button>
+              </a>
+            </div>
+          </div>
         </md-card>
-        <md-card flex-gt-sm="40" ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm'), 'fdz-reset-top-margin': $mdMedia('sm') || $mdMedia('xs')}">
+        <md-card flex-gt-sm="50" ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm'), 'fdz-reset-top-margin': $mdMedia('sm') || $mdMedia('xs')}">
             <md-card-header>
                 <md-card-header-text>
                     <h2 class="md-title">{{'global.cards.related-objects' | translate }}</h2>
@@ -77,6 +89,50 @@
         </md-card>
     </div>
     <div layout="column" layout-gt-sm="row">
+      <md-card flex-gt-sm="50" class="fdz-reset-top-margin">
+          <md-card-header>
+              <md-card-header-text>
+                  <h2 class="md-title">{{'global.cards.details' | translate }}</h2>
+              </md-card-header-text>
+          </md-card-header>
+          <md-divider></md-divider>
+          <md-card-content>
+            <div style="margin-bottom: 0.5em;" ng-if="ctrl.question.number">
+              <span style="font-weight: bold;">{{'question-management.detail.number' | translate }}:
+              </span>
+              <span>{{ctrl.question.number}}</span>
+            </div>
+            <div style="margin-bottom: 0.5em;" ng-if="ctrl.question.introduction">
+              <span style="font-weight: bold;">{{'question-management.detail.introduction' | translate }}:
+              </span>
+              <span>{{ctrl.question.introduction[currentLanguage]}}</span>
+            </div>
+            <div style="margin-bottom: 0.5em;" ng-if="ctrl.question.instruction">
+              <span style="font-weight: bold;">{{'question-management.detail.instruction' | translate }}:
+              </span>
+              <span>{{ctrl.question.instruction[currentLanguage]}}</span>
+            </div>
+            <div style="margin-bottom: 0.5em;" ng-if="ctrl.question.questionText">
+              <span style="font-weight: bold;">{{'question-management.detail.questionText' | translate }}:
+              </span>
+              <span>{{ctrl.question.questionText[currentLanguage]}}</span>
+            </div>
+              <div style="margin-bottom: 0.5em;" ng-if="ctrl.question.type">
+                  <span style="font-weight: bold;">{{'question-management.detail.type' | translate }}:
+                  </span>
+                  <span>{{ctrl.question.type[currentLanguage]}}</span>
+              </div>
+              <div style="margin-bottom: 0.5em;" ng-if="ctrl.question.topic">
+                  <span style="font-weight: bold;">{{'question-management.detail.topic' | translate }}:
+                  </span>
+                  <span>{{ctrl.question.topic[currentLanguage]}}</span>
+              </div>
+          </md-card-content>
+      </md-card>
+      <div flex-gt-sm="50" class="fdz-reset-top-margin" ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm')}" layout-padding="">
+      </div>
+    </div>
+    <div layout="column" layout-gt-sm="row">
         <md-card flex-gt-sm="50" class="fdz-reset-top-margin">
             <md-card-header>
                 <md-card-header-text>
@@ -122,7 +178,7 @@
             <md-card-content>
                 <div class="fdz-overlay-outer-box">
                     <div hljs hljs-language="{{ctrl.question.technicalRepresentation.language}}" hljs-source="ctrl.technicalRepresentationBeauty" style="margin-top: 0.5em;" class="fdz-code-container" ng-class="{'fdz-hidden-code': ctrl.representationCodeToggleFlag}"></div>
-                    <div class="fdz-overlay-inner-box">
+                    <div class="fdz-overlay-inner-box-top">
                         <md-button ng-click="ctrl.openSuccessCopyToClipboardToast('question-management.log-messages.question.technical-representation-success-copy-to-clipboard')" class="md-icon-button md-primary" ngclipboard data-clipboard-text="{{ctrl.technicalRepresentationBeauty}}"
                             aria-label="{{'question-management.detail.button.aria-label.copy-to-clipboard' | translate}">
                             <md-icon md-font-library="material-icons">content_copy</md-icon>
