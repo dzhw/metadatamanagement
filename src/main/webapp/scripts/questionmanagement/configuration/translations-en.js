@@ -47,7 +47,13 @@ angular.module('metadatamanagementApp').config(
           'show-complete-technical-representation': {
             'true': 'Show complete Technical Representation',
             'false': 'Minimize Technical Representation '
-          }
+          },
+          'type': 'Question Type',
+          'topic': 'Topic',
+          'instruction': 'Instruction',
+          'introduction': 'Introduction',
+          'number': 'Question Number',
+          'questionText': 'Question Text'
         },
         'error': {
           'question': {
