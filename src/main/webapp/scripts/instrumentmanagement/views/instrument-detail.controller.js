@@ -37,7 +37,7 @@ angular.module('metadatamanagementApp')
 
         // Find Surveys
         SurveySearchService.findSurveys(ctrl.instrument.surveyIds,
-          ['dataAcquisitionProjectId', 'number', 'title']).then(
+          ['dataAcquisitionProjectId', 'number', 'title', 'id']).then(
           function(searchResults) {
             var foundSurveys = _.filter(searchResults.docs, function(
               searchResult) {
@@ -65,7 +65,7 @@ angular.module('metadatamanagementApp')
               QuestionSearchService
               .findOneByInstrumentId(ctrl.instrument.id, [
                 'dataAcquisitionProjectId', 'questionText',
-                'instrumentNumber', 'number'])
+                'instrumentNumber', 'number', 'id'])
               .then(function(question) {
                 ctrl.question = question.
                 hits.hits[0]._source;

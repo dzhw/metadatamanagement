@@ -1,14 +1,16 @@
-<md-card ui-sref="instrumentDetail({projectId: searchResult.dataAcquisitionProjectId, instrumentNumber: searchResult.number})" class="fdz-search-result">
-    <md-card-header class="fdz-card-header-border">
-        <md-card-avatar>
-            <md-icon md-svg-src="/assets/images/icons/instrument.svg" class="fdz-search-result-icon"></md-icon>
-        </md-card-avatar>
-        <md-card-header-text class="fdz-truncate-string">
-            <div class="md-title fdz-truncate-string">{{searchResult.description[currentLanguage]}} ({{searchResult.id}})</div>
-            <div class="md-subhead fdz-truncate-string">{{searchResult.type}}</div>
-        </md-card-header-text>
-    </md-card-header>
-    <md-card-content>
-        <div>{{searchResult.title[currentLanguage]}}</div>
-    </md-card-content>
-</md-card>
+<a ui-sref="instrumentDetail({id: searchResult.id})" class="fdz-search-result">
+    <md-card>
+        <md-card-header class="fdz-card-header-border">
+            <md-card-avatar>
+                <md-icon md-svg-src="/assets/images/icons/instrument.svg" class="fdz-search-result-icon"></md-icon>
+            </md-card-avatar>
+            <md-card-header-text class="fdz-truncate-string">
+                <div class="md-title fdz-truncate-string">{{searchResult.description[currentLanguage]}} <span class="label label-as-badge label-default">{{searchResult.id}}</span></div>
+                <div class="md-subhead fdz-truncate-string">{{searchResult.type}}</div>
+            </md-card-header-text>
+        </md-card-header>
+        <md-card-content>
+            <div>{{searchResult.title[currentLanguage]}}</div>
+        </md-card-content>
+    </md-card>
+</a>

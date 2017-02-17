@@ -1,25 +1,25 @@
-<md-card ui-sref="data-setDetail({projectId: searchResult.dataAcquisitionProjectId,
-  dataSetNumber: searchResult.number})" class="fdz-search-result">
-    <md-card-header class="fdz-card-header-border">
-        <md-card-avatar>
-            <md-icon md-svg-src="/assets/images/icons/data-set.svg" class="fdz-search-result-icon"></md-icon>
-        </md-card-avatar>
-        <md-card-header-text class="fdz-truncate-string">
-            <div class="md-title fdz-truncate-string">{{searchResult.description[currentLanguage]}} ({{searchResult.id}})</div>
-            <div class="md-subhead fdz-truncate-string">{{searchResult.type[currentLanguage]}}</div>
-        </md-card-header-text>
-    </md-card-header>
-    <md-card-content>
-      <div layout="row" layout-xs="column" >
-          <div class="fdz-search-result-label">
-              {{ 'variable-management.labels.surveyed-in' | translate}}
-          </div>
-          <div layout="column">
-              <div class="fdz-truncate-string" ng-repeat="survey in searchResult.surveys">
-                  <md-icon md-svg-src="/assets/images/icons/survey.svg" class="fdz-inline-icon"></md-icon>
-                  {{survey.title[currentLanguage]}}
-              </div>
-          </div>
-      </div>
-    </md-card-content>
-</md-card>
+<a ui-sref="dataSetDetail({id: searchResult.id})" class="fdz-search-result">
+    <md-card>
+        <md-card-header class="fdz-card-header-border">
+            <md-card-avatar>
+                <md-icon md-svg-src="/assets/images/icons/data-set.svg" class="fdz-search-result-icon"></md-icon>
+            </md-card-avatar>
+            <md-card-header-text class="fdz-truncate-string">
+                <div class="md-title fdz-truncate-string">{{searchResult.description[currentLanguage]}} <span class="label label-as-badge label-default">{{searchResult.id}}</span></div>
+                <div class="md-subhead fdz-truncate-string">{{searchResult.type[currentLanguage]}}</div>
+            </md-card-header-text>
+        </md-card-header>
+        <md-card-content>
+            <div layout="row" layout-xs="column">
+                <div class="fdz-search-result-label">
+                    {{ 'variable-management.labels.surveyed-in' | translate}}
+                </div>
+                <div layout="column">
+                    <div class="fdz-truncate-string" ng-repeat="survey in searchResult.surveys">
+                        {{survey.title[currentLanguage]}}
+                    </div>
+                </div>
+            </div>
+        </md-card-content>
+    </md-card>
+</a>

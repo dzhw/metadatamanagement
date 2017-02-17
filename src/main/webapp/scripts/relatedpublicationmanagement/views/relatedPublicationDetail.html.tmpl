@@ -1,6 +1,6 @@
 <div ng-if="ctrl.relatedPublication.id">
     <div layout="row" style="margin-bottom: 0px;" layout-margin>
-        <h1 class="md-headline fdz-truncate-string" style="margin-left: 0px;">{{ctrl.relatedPublication.title}} ({{ctrl.relatedPublication.id}})</h1>
+        <h1 class="md-headline" style="margin-left: 0px;">{{ctrl.relatedPublication.title}} <span class="label label-as-badge label-default">{{ctrl.relatedPublication.id}}</span></h1>
     </div>
     <div layout="column" layout-gt-sm="row">
         <md-card flex-gt-sm>
@@ -70,7 +70,7 @@
                         {{'data-set-management.detail.data-sets' | translate }}: {{'global.messages.error.unavailable' | translate}}
                     </div>
                     <div ng-if="dataSets.length === 1" class="fdz-truncate-string" flex>
-                        <a ui-sref="data-setDetail({'projectId': dataSets[0].dataAcquisitionProjectId, 'dataSetNumber': dataSets[0].number})">
+                        <a ui-sref="dataSetDetail({'id': dataSets[0].id})">
                             <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
                             {{'data-set-management.detail.data-set' | translate }}: {{dataSets[0].description[currentLanguage]}}</a>
                     </div>
@@ -86,8 +86,7 @@
                         {{'survey-management.detail.surveys' | translate }}: {{'global.messages.error.unavailable' | translate}}
                     </div>
                     <div ng-if="surveys.length === 1" class="fdz-truncate-string" flex>
-                        <a ui-sref="surveyDetail({'projectId': surveys[0].dataAcquisitionProjectId,
-                          'surveyNumber': surveys[0].number})">
+                        <a ui-sref="surveyDetail({'id': surveys[0].id})">
                             <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                             {{'survey-management.detail.survey' | translate }}: {{surveys[0].title[currentLanguage]}}</a>
                     </div>
@@ -103,7 +102,7 @@
                         {{'instrument-management.detail.instruments' | translate }}: {{'global.messages.error.unavailable' | translate}}
                     </div>
                     <div ng-if="instruments.length === 1" class="fdz-truncate-string" flex>
-                        <a ui-sref="instrumentDetail({'projectId': instruments[0].dataAcquisitionProjectId, 'instrumentNumber': instruments[0].number})">
+                        <a ui-sref="instrumentDetail({'id': instruments[0].id})">
                             <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
                             {{'instrument-management.detail.instrument' | translate }}: {{instruments[0].description[currentLanguage]}}</a>
                     </div>
@@ -119,7 +118,7 @@
                         {{'question-management.detail.questions' | translate }}: {{'global.messages.error.unavailable' | translate}}
                     </div>
                     <div ng-if="questions.length === 1" class="fdz-truncate-string" flex>
-                        <a ui-sref="questionDetail({'projectId': questions[0].dataAcquisitionProjectId, 'instrumentNumber': questions[0].instrumentNumber, 'questionNumber': questions[0].number})">
+                        <a ui-sref="questionDetail({'id': questions[0].id})">
                             <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
                             {{'question-management.detail.question' | translate }}: {{questions[0].questionText[currentLanguage]}}</a>
                     </div>
@@ -135,7 +134,7 @@
                         {{'variable-management.detail.variables' | translate }}: {{'global.messages.error.unavailable' | translate}}
                     </div>
                     <div ng-if="variables.length === 1" class="fdz-truncate-string" flex>
-                        <a ui-sref="variableDetail({'projectId': variables[0].dataAcquisitionProjectId, 'dataSetNumber': variables[0].dataSetNumber, 'variableName': variables[0].name})">
+                        <a ui-sref="variableDetail({'id': variables[0].id})">
                             <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
                             {{'variable-management.detail.variable' | translate }}: {{variables[0].label[currentLanguage]}}</a>
                     </div>

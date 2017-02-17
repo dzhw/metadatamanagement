@@ -1,6 +1,6 @@
 <div ng-if="variable.$resolved && variable.id">
     <div layout="row" style="margin-bottom: 0px;" layout-margin>
-        <h1 class="md-headline fdz-truncate-string" style="margin-left: 0px;">{{variable.label[currentLanguage]}} ({{variable.id}})</h1>
+        <h1 class="md-headline fdz-truncate-string" style="margin-left: 0px;">{{variable.label[currentLanguage]}} <span class="label label-as-badge label-default">{{variable.id}}</span></h1>
     </div>
     <div layout="column" layout-gt-sm="row">
         <md-card flex-gt-sm>
@@ -98,8 +98,7 @@
                         {{'question-management.detail.questions' | translate }}: {{'global.messages.error.unavailable' | translate}}
                     </div>
                     <div ng-if="counts.questionsCount == 1" class="fdz-truncate-string" flex>
-                        <a ui-sref="questionDetail({'projectId': variable.dataAcquisitionProjectId,
-                      'questionNumber': question.number, 'instrumentNumber': question.instrumentNumber})">
+                        <a ui-sref="questionDetail({'id': question.id})">
                             <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
                             {{'question-management.detail.question' | translate }}: {{question.questionText[currentLanguage]}}</a>
                     </div>
@@ -115,8 +114,7 @@
                         {{'data-set-management.detail.data-set' | translate }}: {{'global.messages.error.unavailable' | translate}}
                     </div>
                     <div ng-if="dataSet" class="fdz-truncate-string" flex>
-                        <a ui-sref="data-setDetail({projectId: dataSet.dataAcquisitionProjectId,
-                    dataSetNumber: dataSet.number})">
+                        <a ui-sref="dataSetDetail({id: dataSet.id})">
                             <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
                             {{'data-set-management.detail.data-set' | translate }}: {{dataSet.description[currentLanguage]}}</a>
                     </div>
@@ -127,8 +125,7 @@
                         {{'survey-management.detail.surveys' | translate }}: {{'global.messages.error.unavailable' | translate}}
                     </div>
                     <div ng-if="counts.surveysCount == 1" class="fdz-truncate-string" flex>
-                        <a ui-sref="surveyDetail({'projectId': variable.dataAcquisitionProjectId,
-                        'surveyNumber': survey.number})">
+                        <a ui-sref="surveyDetail({'id': survey.id})">
                             <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                             {{'survey-management.detail.survey' | translate }}: {{survey.title[currentLanguage]}}</a>
                     </div>

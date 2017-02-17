@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp')
     $stateProvider
       .state('instrumentDetail', {
         parent: 'site',
-        url: '/studies/{projectId}/instruments/{instrumentNumber}',
+        url: '/instruments/{id}',
         data: {
           authorities: []
         },
@@ -21,11 +21,9 @@ angular.module('metadatamanagementApp')
         },
         resolve: {
           entity: ['$stateParams', 'InstrumentResource',
-          'InstrumentIdBuilderService', function($stateParams,
-            InstrumentResource, InstrumentIdBuilderService) {
+            function($stateParams, InstrumentResource) {
               return InstrumentResource.get({
-                id: InstrumentIdBuilderService.buildInstrumentId($stateParams.
-                  projectId, $stateParams.instrumentNumber)
+                id: $stateParams.id
               });
             }
           ]

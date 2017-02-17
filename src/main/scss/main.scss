@@ -181,9 +181,7 @@ body {
 }
 
 .fdz-search-result-label {
-    flex-grow: 0;
-    flex-shrink: 0;
-    width: 12em;
+    padding-right: 0.5em;
 }
 
 .fdz-inline-icon {
@@ -322,8 +320,7 @@ ul#strength {
 
 .label-as-badge {
     border-radius: 1em;
-    padding: 0.2em 0.6em;
-    line-height: inherit;
+    padding: 0.1em 0.6em;
 }
 /*
 style for datapackage

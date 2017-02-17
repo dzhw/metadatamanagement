@@ -38,7 +38,7 @@ angular.module('metadatamanagementApp')
           }
         });
       DataSetSearchService.findOneByVariableId($scope.variable.id,
-        ['number','dataAcquisitionProjectId','description'])
+        ['number','dataAcquisitionProjectId','description', 'id'])
           .then(function(dataSet) {
             if (dataSet.hits.hits.length > 0) {
               $scope.dataSet = dataSet.hits.hits[0]._source;
@@ -50,7 +50,7 @@ angular.module('metadatamanagementApp')
         if (questionsCount.count === 1) {
           QuestionSearchService
             .findByVariableId($scope.variable.id, ['number', 'instrumentNumber',
-            'questionText'])
+            'questionText', 'id'])
             .then(function(question) {
               $scope.question = question.hits.hits[0]._source;
             });
@@ -62,7 +62,7 @@ angular.module('metadatamanagementApp')
           $scope.counts.surveysCount = surveysCount.count;
           if (surveysCount.count === 1) {
             SurveySearchService
-              .findByVariableId($scope.variable.id, ['title', 'number'])
+              .findByVariableId($scope.variable.id, ['title', 'number', 'id'])
               .then(function(survey) {
                 $scope.survey = survey.hits.hits[0]._source;
               });

@@ -1,6 +1,6 @@
 <div ng-if="ctrl.instrument.$resolved && ctrl.instrument.id">
     <div layout="row" style="margin-bottom: 0px;" layout-margin>
-        <h1 class="md-headline fdz-truncate-string" style="margin-left: 0px;">{{ctrl.instrument.description[currentLanguage]}} ({{ctrl.instrument.id}})</h1>
+        <h1 class="md-headline" style="margin-left: 0px;">{{ctrl.instrument.description[currentLanguage]}} <span class="label label-as-badge label-default">{{ctrl.instrument.id}}</span></h1>
     </div>
     <div layout="column" layout-gt-sm="row">
         <md-card flex-gt-sm>
@@ -48,8 +48,7 @@
                         {{'survey-management.detail.surveys' | translate }}: {{'global.messages.error.unavailable' | translate}}
                     </div>
                     <div ng-if="ctrl.surveyCount == 1" class="fdz-truncate-string" flex>
-                        <a ui-sref="surveyDetail({'projectId': ctrl.survey.dataAcquisitionProjectId,
-                          'surveyNumber': ctrl.survey.number})">
+                        <a ui-sref="surveyDetail({'id': ctrl.survey.id})">
                             <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                             {{'survey-management.detail.survey' | translate }}: {{ctrl.survey.title[currentLanguage]}}</a>
                     </div>
@@ -65,7 +64,7 @@
                     {{'question-management.detail.questions' | translate }}: {{'global.messages.error.unavailable' | translate}}
                   </div>
                   <div ng-if="ctrl.questionCount == 1" class="fdz-truncate-string" flex>
-                    <a ui-sref="questionDetail({'projectId': ctrl.question.dataAcquisitionProjectId, 'instrumentNumber': ctrl.question.instrumentNumber, 'questionNumber': ctrl.question.number})">
+                    <a ui-sref="questionDetail({'id': ctrl.question.id})">
                       <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
                       {{'question-management.detail.question' | translate }}: {{ctrl.question.questionText[currentLanguage]}}</a>
                   </div>

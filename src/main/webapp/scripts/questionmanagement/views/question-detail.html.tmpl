@@ -1,6 +1,6 @@
 <div ng-if="ctrl.question.$resolved && ctrl.question.id">
     <div layout="row" style="margin-bottom: 0px;" layout-margin>
-        <h1 class="md-headline fdz-truncate-string" style="margin-left: 0px;">{{'question-management.detail.question' | translate}} {{ctrl.question.number}}: {{ctrl.instrument.description[currentLanguage]}} ({{ctrl.question.id}})</h1>
+        <h1 class="md-headline" style="margin-left: 0px;">{{'question-management.detail.question' | translate}} {{ctrl.question.number}}: {{ctrl.instrument.description[currentLanguage]}} <span class="label label-as-badge label-default">{{ctrl.question.id}}</span></h1>
     </div>
     <div layout="column" layout-gt-sm="row">
         <md-card flex-gt-sm="50">
@@ -47,7 +47,7 @@
                         {{'instrument-management.detail.instrument' | translate }}: {{'global.messages.error.unavailable' | translate}}
                     </div>
                     <div ng-if="ctrl.instrument" class="fdz-truncate-string" flex>
-                        <a ui-sref="instrumentDetail({'projectId': ctrl.instrument.dataAcquisitionProjectId, 'instrumentNumber': ctrl.instrument.number})">
+                        <a ui-sref="instrumentDetail({'id': ctrl.instrument.id})">
                             <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
                             {{'instrument-management.detail.instrument' | translate }}: {{ctrl.instrument.description[currentLanguage]}}</a>
                     </div>
@@ -58,8 +58,7 @@
                         {{'variable-management.detail.variables' | translate }}: {{'global.messages.error.unavailable' | translate}}
                     </div>
                     <div ng-if="ctrl.counts.variablesCount == 1" class="fdz-truncate-string" flex>
-                        <a ui-sref="variableDetail({'projectId': ctrl.variable.dataAcquisitionProjectId,
-                        'dataSetNumber': ctrl.variable.dataSetNumber, 'variableName': ctrl.variable.name})">
+                        <a ui-sref="variableDetail({'id': ctrl.variable.id})">
                             <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
                             {{'variable-management.detail.variable' | translate }}: {{ctrl.variable.label[currentLanguage]}}</a>
                     </div>

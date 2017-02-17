@@ -2,54 +2,45 @@
 'use strict';
 
 angular.module('metadatamanagementApp').factory('BreadCrumbService',
-  function($rootScope, DataSetIdBuilderService, InstrumentIdBuilderService,
-    QuestionIdBuilderService, SurveyIdBuilderService,
-    VariableIdBuilderService) {
+  function($rootScope) {
     $rootScope.breadCrumbItems = [];
     var items = [];
     var createNewBreadCrumbItem = function(url, params, pathTemplate) {
       var breadCrumbItem = '';
       switch (pathTemplate) {
-        case '/studies/{projectId}/surveys/{surveyNumber}':
+        case '/surveys/{id}':
           breadCrumbItem = {
             'url': url,
             'pageType': 'survey-management.detail.survey',
-            'id': SurveyIdBuilderService.buildSurveyId(params.projectId,
-              params.surveyNumber)
+            'id': params.id
           };
         break;
-        case '/studies/{projectId}/data-sets/' +
-        '{dataSetNumber}/variables/{variableName}':
+        case '/variables/{id}':
           breadCrumbItem = {
             'url': url,
             'pageType': 'variable-management.detail.variable',
-            'id': VariableIdBuilderService.buildVariableId(params.projectId,
-              params.dataSetNumber, params.variableName)
+            'id': params.id
           };
         break;
-        case '/studies/{projectId}/instruments/' +
-        '{instrumentNumber}/questions/{questionNumber}':
+        case '/questions/{id}':
           breadCrumbItem = {
             'url': url,
             'pageType': 'question-management.detail.question',
-            'id': QuestionIdBuilderService.buildQuestionId(params.projectId,
-              params.instrumentNumber, params.questionNumber)
+            'id': params.id
           };
         break;
-        case '/studies/{projectId}/instruments/{instrumentNumber}':
+        case '/instruments/{id}':
           breadCrumbItem = {
             'url': url,
             'pageType': 'instrument-management.detail.instrument',
-            'id': InstrumentIdBuilderService.buildInstrumentId(params.projectId,
-              params.instrumentNumber)
+            'id': params.id
           };
         break;
-        case '/studies/{projectId}/data-sets/{dataSetNumber}':
+        case '/data-sets/{id}':
           breadCrumbItem = {
             'url': url,
             'pageType': 'data-set-management.detail.data-set',
-            'id': DataSetIdBuilderService.buildDataSetId(params.projectId,
-              params.dataSetNumber)
+            'id': params.id
           };
         break;
         case '/publications/{id}':

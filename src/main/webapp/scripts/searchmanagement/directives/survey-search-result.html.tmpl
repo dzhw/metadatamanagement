@@ -1,22 +1,23 @@
-<md-card ui-sref="surveyDetail({surveyNumber:searchResult.number,
-  projectId:searchResult.dataAcquisitionProjectId})" class="fdz-search-result">
-  <md-card-header class="fdz-card-header-border">
-      <md-card-avatar>
-          <md-icon md-svg-src="/assets/images/icons/survey.svg" class="fdz-search-result-icon"></md-icon>
-      </md-card-avatar>
-      <md-card-header-text class="fdz-truncate-string">
-          <div class="md-title fdz-truncate-string">{{searchResult.title[currentLanguage]}} ({{searchResult.id}})</div>
-          <div class="md-subhead fdz-truncate-string">{{searchResult.surveyMethod[currentLanguage]}}</div>
-      </md-card-header-text>
-  </md-card-header>
-    <md-card-content>
-          <div layout="row" layout-xs="column" class="fdz-truncate-string">
-            <div class="fdz-search-result-label">
-              Feldzeit:
+<a ui-sref="surveyDetail({id:searchResult.id})" class="fdz-search-result">
+    <md-card>
+        <md-card-header class="fdz-card-header-border">
+            <md-card-avatar>
+                <md-icon md-svg-src="/assets/images/icons/survey.svg" class="fdz-search-result-icon"></md-icon>
+            </md-card-avatar>
+            <md-card-header-text class="fdz-truncate-string">
+                <div class="md-title fdz-truncate-string">{{searchResult.title[currentLanguage]}} <span class="label label-as-badge label-default">{{searchResult.id}}</span></div>
+                <div class="md-subhead fdz-truncate-string">{{searchResult.surveyMethod[currentLanguage]}}</div>
+            </md-card-header-text>
+        </md-card-header>
+        <md-card-content>
+            <div layout="row" layout-xs="column" class="fdz-truncate-string">
+                <div class="fdz-search-result-label">
+                    Feldzeit:
+                </div>
+                <div class="fdz-truncate-string">
+                    {{searchResult.fieldPeriod.start | date}} - {{searchResult.fieldPeriod.end | date}}
+                </div>
             </div>
-            <div class="fdz-truncate-string">
-              {{searchResult.fieldPeriod.start | date}} - {{searchResult.fieldPeriod.end | date}}
-            </div>
-          </div>
-    </md-card-content>
-</md-card>
+        </md-card-content>
+    </md-card>
+</a>

@@ -18,7 +18,7 @@ angular.module('metadatamanagementApp')
               ctrl.counts.surveysCount = surveysCount.count;
               if (surveysCount.count === 1) {
                 SurveySearchService
-                  .findByStudyId(ctrl.study.id, ['title', 'number'])
+                  .findByStudyId(ctrl.study.id, ['title', 'number', 'id'])
                   .then(function(survey) {
                     ctrl.survey = survey.hits.hits[0]._source;
                   });

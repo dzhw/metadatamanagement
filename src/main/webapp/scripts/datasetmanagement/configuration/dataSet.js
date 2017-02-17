@@ -5,9 +5,9 @@ angular.module('metadatamanagementApp')
     $urlRouterProvider.when('/de/data-sets/', '/de/error');
     $urlRouterProvider.when('/en/data-sets/', '/en/error');
     $stateProvider
-      .state('data-setDetail', {
+      .state('dataSetDetail', {
         parent: 'site',
-        url: '/studies/{projectId}/data-sets/{dataSetNumber}',
+        url: '/data-sets/{id}',
         data: {
           authorities: []
         },
@@ -20,12 +20,10 @@ angular.module('metadatamanagementApp')
           }
         },
         resolve: {
-          entity: ['$stateParams', 'DataSetResource', 'DataSetIdBuilderService',
-            function($stateParams, DataSetResource, DataSetIdBuilderService) {
+          entity: ['$stateParams', 'DataSetResource',
+            function($stateParams, DataSetResource) {
               return DataSetResource.get({
-                id: DataSetIdBuilderService
-                .buildDataSetId($stateParams.projectId,
-                  $stateParams.dataSetNumber)
+                id: $stateParams.id
               });
             }
           ]

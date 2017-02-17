@@ -7,8 +7,7 @@ angular.module('metadatamanagementApp')
     $stateProvider
       .state('questionDetail', {
         parent: 'site',
-        url: '/studies/{projectId}/instruments/{instrumentNumber}' +
-          '/questions/{questionNumber}',
+        url: '/questions/{id}',
         data: {
           authorities: []
         },
@@ -22,13 +21,9 @@ angular.module('metadatamanagementApp')
         },
         resolve: {
           entity: ['$stateParams', 'QuestionResource',
-          'QuestionIdBuilderService', function($stateParams, QuestionResource,
-            QuestionIdBuilderService) {
+          function($stateParams, QuestionResource) {
               return QuestionResource.get({
-                id: QuestionIdBuilderService.buildQuestionId(
-                  $stateParams.projectId,
-                  $stateParams.instrumentNumber,
-                  $stateParams.questionNumber)
+                id: $stateParams.id
               });
             }
           ]

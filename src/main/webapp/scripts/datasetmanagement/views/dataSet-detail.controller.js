@@ -34,7 +34,7 @@ angular.module('metadatamanagementApp')
             if (surveysCount.count === 1) {
               SurveySearchService
                 .findByDataSetId(ctrl.dataSet.id, ['dataAcquisitionProjectId',
-                'number', 'title'])
+                'number', 'title', 'id'])
                 .then(function(survey) {
                   ctrl.survey = survey.hits.hits[0]._source;
                 });
@@ -46,7 +46,7 @@ angular.module('metadatamanagementApp')
           if (variablesCount.count === 1) {
             VariableSearchService
               .findByDataSetId(ctrl.dataSet.id, ['dataAcquisitionProjectId',
-              'dataSetNumber', 'name', 'label'])
+              'dataSetNumber', 'name', 'label', 'id'])
               .then(function(variable) {
                 ctrl.variable = variable.hits.hits[0]._source;
               });

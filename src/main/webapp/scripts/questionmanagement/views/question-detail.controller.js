@@ -63,14 +63,14 @@ angular.module('metadatamanagementApp')
           if (variablesCount.count === 1) {
             VariableSearchService
               .findByQuestionId(ctrl.question.id, ['dataAcquisitionProjectId',
-              'dataSetNumber', 'name', 'label'])
+              'dataSetNumber', 'name', 'label', 'id'])
               .then(function(variable) {
                 ctrl.variable = variable.hits.hits[0]._source;
               });
           }
         });
         InstrumentSearchService.findInstruments(ctrl.question.instrumentId,
-          ['dataAcquisitionProjectId', 'number', 'title', 'description'])
+          ['dataAcquisitionProjectId', 'number', 'title', 'description', 'id'])
           .then(function(instrument) {
                   var title = {
                     questionNumber: ctrl.question.number,

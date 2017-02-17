@@ -1,6 +1,6 @@
 <div ng-if="ctrl.survey.$resolved && ctrl.survey.id">
   <div layout="row" style="margin-bottom: 0px;" layout-margin>
-    <h1 class="md-headline fdz-truncate-string" style="margin-left: 0px;">{{ctrl.survey.title[currentLanguage]}} ({{ctrl.survey.id}})</h1>
+    <h1 class="md-headline" style="margin-left: 0px;">{{ctrl.survey.title[currentLanguage]}} <span class="label label-as-badge label-default">{{ctrl.survey.id}}</span></h1>
   </div>
     <div layout="column" layout-gt-sm="row">
         <md-card flex-gt-sm>
@@ -77,7 +77,7 @@
                       {{'instrument-management.detail.instruments' | translate }}: {{'global.messages.error.unavailable' | translate}}
                     </div>
                     <div ng-if="ctrl.counts.instrumentsCount === 1" class="fdz-truncate-string" flex>
-                      <a ui-sref="instrumentDetail({'projectId': ctrl.instrument.dataAcquisitionProjectId, 'instrumentNumber': ctrl.instrument.number})">
+                      <a ui-sref="instrumentDetail({'id': ctrl.instrument.id})">
                         <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
                         {{'instrument-management.detail.instrument' | translate }}: {{ctrl.instrument.description[currentLanguage]}}</a>
                     </div>
@@ -93,7 +93,7 @@
                       {{'data-set-management.detail.data-sets' | translate }}: {{'global.messages.error.unavailable' | translate}}
                     </div>
                     <div ng-if="ctrl.counts.dataSetsCount == 1" class="fdz-truncate-string" flex>
-                      <a ui-sref="data-setDetail({'projectId': ctrl.dataSet.dataAcquisitionProjectId, 'dataSetNumber':ctrl.dataSet.number})">
+                      <a ui-sref="dataSetDetail({'id': ctrl.dataSet.id})">
                         <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
                         {{'data-set-management.detail.data-set' | translate }}: {{ctrl.dataSet.description}}</a>
                     </div>

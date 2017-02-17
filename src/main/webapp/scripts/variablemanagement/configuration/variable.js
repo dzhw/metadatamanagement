@@ -7,8 +7,7 @@ angular.module('metadatamanagementApp')
     $stateProvider
       .state('variableDetail', {
         parent: 'site',
-        url: '/studies/{projectId}/data-sets/' +
-        '{dataSetNumber}/variables/{variableName}',
+        url: '/variables/{id}',
         data: {
           authorities: []
         },
@@ -21,12 +20,9 @@ angular.module('metadatamanagementApp')
         },
         resolve: {
           entity: ['$stateParams', 'VariableResource',
-          'VariableIdBuilderService',
-            function($stateParams, VariableResource, VariableIdBuilderService) {
+            function($stateParams, VariableResource) {
               return VariableResource.get({
-                id: VariableIdBuilderService
-                .buildVariableId($stateParams.projectId,
-                  $stateParams.dataSetNumber, $stateParams.variableName)
+                id: $stateParams.id
               });
             }
           ]
