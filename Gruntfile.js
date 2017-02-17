@@ -230,7 +230,9 @@ module.exports = function(grunt) {
             'ngf-*',
             'layout-sm',
             'layout-xs',
-            'flex-gt-sm'
+            'flex-gt-sm',
+            'hide-xs',
+            'hide-sm'
           ]
         },
         files: {
