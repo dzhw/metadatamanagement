@@ -22,7 +22,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 public class Missing {
 
   @NotNull(message = "variable-management.error.missing.code.not-null")
-  private Integer code;
+  private String code;
 
   @I18nStringSize(max = StringLengths.MEDIUM,
       message = "variable-management.error.missing.label.i18n-string-size")
@@ -50,11 +50,11 @@ public class Missing {
   }
 
   /* GETTER / SETTER */
-  public Integer getCode() {
+  public String getCode() {
     return code;
   }
 
-  public void setCode(Integer code) {
+  public void setCode(String code) {
     this.code = code;
   }
 

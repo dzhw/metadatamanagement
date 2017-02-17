@@ -343,7 +343,7 @@ public class UnitTestCreateDomainObjectUtils {
 
   public static Missing buildMissing() {
     return new MissingBuilder().withAbsoluteFrequency(123)
-      .withCode(1234)
+      .withCode("1234")
       .withLabel(new I18nStringBuilder().withDe("De Label")
         .withEn("En Lable")
         .build())

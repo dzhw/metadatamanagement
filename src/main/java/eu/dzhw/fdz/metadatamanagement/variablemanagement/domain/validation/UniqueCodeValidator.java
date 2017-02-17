@@ -36,7 +36,7 @@ public class UniqueCodeValidator
       return true;
     }
     
-    HashSet<Integer> codes = new HashSet<>();
+    HashSet<String> codes = new HashSet<>();
     
     for (Missing value : missings) {
       if (value.getCode() != null) {
