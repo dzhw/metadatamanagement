@@ -69,10 +69,6 @@ angular.module('metadatamanagementApp')
               });
           }
         });
-        RelatedPublicationSearchService.countBy('questionIds',
-          ctrl.question.id).then(function(publicationsCount) {
-          ctrl.counts.publicationsCount = publicationsCount.count;
-        });
         InstrumentSearchService.findInstruments(ctrl.question.instrumentId,
           ['dataAcquisitionProjectId', 'number', 'title', 'description'])
           .then(function(instrument) {
@@ -94,8 +90,8 @@ angular.module('metadatamanagementApp')
                   if (publicationsCount.count === 1) {
                     RelatedPublicationSearchService
                       .findByQuestionId(ctrl.question.id, ['id', 'title'])
-                      .then(function(ralatedPublication) {
-                        ctrl.ralatedPublication = ralatedPublication.
+                      .then(function(relatedPublication) {
+                        ctrl.relatedPublication = relatedPublication.
                         hits.hits[0]._source;
                       });
                   }
