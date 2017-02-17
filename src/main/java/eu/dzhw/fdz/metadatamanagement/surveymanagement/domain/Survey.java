@@ -3,7 +3,9 @@ package eu.dzhw.fdz.metadatamanagement.surveymanagement.domain;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
@@ -49,6 +51,8 @@ public class Survey extends SurveySubDocument {
   @NotNull(message = "survey-management.error.survey.response-rate.not-null")
   private Double responseRate;
   
+  @Indexed
+  @NotEmpty(message = "survey-management.error.survey.study-id.not-empty")
   private String studyId;
 
   public Survey() {

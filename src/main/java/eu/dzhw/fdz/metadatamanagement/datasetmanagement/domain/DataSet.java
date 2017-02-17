@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
@@ -42,6 +43,7 @@ public class DataSet extends DataSetSubDocument {
   private List<Integer> surveyNumbers;
   
   /* Foreign Keys */
+  @Indexed
   @NotEmpty(message = "data-set-management.error.data-set.study.id.not-empty")
   private String studyId;
 

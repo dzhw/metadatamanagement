@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
@@ -34,11 +35,14 @@ public class Instrument extends InstrumentSubDocument {
   @ValidInstrumentType(message = "instrument-management.error.instrument.type.valid")
   private String type;
   
+  @Indexed
   private List<String> surveyIds;
   
   @NotEmpty(message = "instrument-management.error.instrument.survey-numbers.not-empty")
   private List<Integer> surveyNumbers;
   
+  @Indexed
+  @NotEmpty(message = "instrument-management.error.instrument.study-id.not-empty")
   private String studyId;
   
   public Instrument() {

@@ -11,6 +11,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
@@ -145,7 +146,9 @@ public class Variable extends VariableSubDocument {
   private List<RelatedQuestion> relatedQuestions;
 
 
-  /* Foreign Keys */  
+  /* Foreign Keys */
+  @Indexed
+  @NotEmpty(message = "variable-management.error.variable.study-id.not-empty")
   private String studyId;
 
   private List<String> surveyIds;
