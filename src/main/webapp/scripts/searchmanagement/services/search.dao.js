@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('SearchDao',
-  function(ElasticSearchClient, CleanJSObjectService, StudyIdBuilderService) {
+  function(ElasticSearchClient, CleanJSObjectService) {
     var keyMapping = {
       'studies': {
         'related-publication': 'relatedPublications.id'
@@ -50,7 +50,6 @@ angular.module('metadatamanagementApp').service('SearchDao',
         filter, elasticsearchType, pageSize, sortBy) {
         var query = {};
         var projectFilter;
-        var studiesFilter;
         query.index = elasticsearchType;
         if (!elasticsearchType) {
           //search in all indices
@@ -119,27 +118,20 @@ angular.module('metadatamanagementApp').service('SearchDao',
         }
         // this filter section should be refactored
         // filter by projectId
-        if (dataAcquisitionProjectId && CleanJSObjectService
-          .isNullOrEmpty(filter)) {
+        if (dataAcquisitionProjectId) {
           projectFilter = {
             'term': {
               'dataAcquisitionProjectId': dataAcquisitionProjectId
             }
           };
-          var studyId = StudyIdBuilderService
-            .buildStudyId(dataAcquisitionProjectId);
-          studiesFilter = {
-            'term': {
-              'studyIds': studyId
-            }
-          };
-          query.body.query.bool.filter.bool.should = [];
-          query.body.query.bool.filter.bool.should.push(projectFilter);
-          query.body.query.bool.filter.bool.should.push(studiesFilter);
+          query.body.query.bool.filter.bool.must = [];
+          query.body.query.bool.filter.bool.must.push(projectFilter);
         }
 
         if (!CleanJSObjectService.isNullOrEmpty(filter)) {
-          query.body.query.bool.filter.bool.must = [];
+          if (!query.body.query.bool.filter.bool.must) {
+            query.body.query.bool.filter.bool.must = [];
+          }
           _.each(filter, function(value, key) {
             var filterKeyValue = {
               'term': {}

@@ -6,12 +6,12 @@ angular.module('metadatamanagementApp')
     'CurrentProjectService', 'DataAcquisitionProjectPostValidationService',
     'DataAcquisitionProjectSearchResource', 'DataAcquisitionProjectResource',
     '$mdDialog', 'SimpleMessageToastService', '$translate',
-    'ElasticSearchAdminService',
+    'ElasticSearchAdminService', '$scope',
     function(CurrentProjectService,
       DataAcquisitionProjectPostValidationService,
       DataAcquisitionProjectSearchResource, DataAcquisitionProjectResource,
       $mdDialog, SimpleMessageToastService, $translate,
-      ElasticSearchAdminService) {
+      ElasticSearchAdminService, $scope) {
       var ctrl = this;
       //For Project Handling
       ctrl.dataAcquisitionProjects = null;
@@ -21,6 +21,17 @@ angular.module('metadatamanagementApp')
       if (CurrentProjectService.getCurrentProject()) {
         ctrl.searchText = CurrentProjectService.getCurrentProject().id;
       }
+
+      $scope.$on('current-project-changed',
+        function(event, project) { // jshint ignore:line
+        if (project) {
+          ctrl.searchText = project.id;
+        } else {
+          ctrl.searchText = '';
+        }
+        ctrl.selectedProject = project;
+      });
+
       //Load the projects for the drop menu
       function loadProjects() {
         DataAcquisitionProjectSearchResource.findAll(

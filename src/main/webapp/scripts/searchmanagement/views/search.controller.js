@@ -17,7 +17,9 @@ angular.module('metadatamanagementApp').controller('SearchController',
     var locationChanged = false;
     // set the page title in toolbar and window.title
     PageTitleService.setPageTitle('global.menu.search.title');
-
+    //unset the current project because we might come with predefined filters
+    CurrentProjectService.setCurrentProject(null);
+    $scope.projectId = undefined;
     //Check the login status
     Principal.identity().then(function(account) {
       $scope.account = account;
@@ -176,6 +178,15 @@ angular.module('metadatamanagementApp').controller('SearchController',
         $scope.pageObject.page = 1;
         writeSearchParamsToLocation();
         $scope.search();
+        //disable related_publications tab if a project is selected
+        _.forEach($scope.tabs, function(tab) {
+          if (tab.elasticSearchType === 'related_publications' &&
+            currentProject) {
+            tab.disabled = true;
+          } else {
+            tab.disabled = false;
+          }
+        });
       });
 
     $scope.onPageChanged = function() {
@@ -275,56 +286,64 @@ angular.module('metadatamanagementApp').controller('SearchController',
       elasticSearchType: undefined,
       count: null,
       acceptedFileUploadType: null,
-      uploadFunction: null
+      uploadFunction: null,
+      disabled: false
     }, {
       title: 'search-management.tabs.studies',
       inputLabel: 'search-management.input-label.studies',
       icon: 'assets/images/icons/study.svg',
       elasticSearchType: 'studies',
       count: null,
-      uploadFunction: $scope.uploadStudy
+      uploadFunction: $scope.uploadStudy,
+      disabled: false
     }, {
       title: 'search-management.tabs.questions',
       inputLabel: 'search-management.input-label.questions',
       icon: 'assets/images/icons/question.svg',
       elasticSearchType: 'questions',
       count: null,
-      uploadFunction: $scope.uploadQuestions
+      uploadFunction: $scope.uploadQuestions,
+      disabled: false
     }, {
       title: 'search-management.tabs.variables',
       inputLabel: 'search-management.input-label.variables',
       icon: 'assets/images/icons/variable.svg',
       elasticSearchType: 'variables',
       count: null,
-      uploadFunction: $scope.uploadVariables
+      uploadFunction: $scope.uploadVariables,
+      disabled: false
     }, {
       title: 'search-management.tabs.surveys',
       inputLabel: 'search-management.input-label.surveys',
       icon: 'assets/images/icons/survey.svg',
       elasticSearchType: 'surveys',
       count: null,
-      uploadFunction: $scope.uploadSurveys
+      uploadFunction: $scope.uploadSurveys,
+      disabled: false
     }, {
       title: 'search-management.tabs.data_sets',
       inputLabel: 'search-management.input-label.data-sets',
       icon: 'assets/images/icons/data-set.svg',
       elasticSearchType: 'data_sets',
       count: null,
-      uploadFunction: $scope.uploadDataSets
+      uploadFunction: $scope.uploadDataSets,
+      disabled: false
     }, {
       title: 'search-management.tabs.instruments',
       inputLabel: 'search-management.input-label.instruments',
       icon: 'assets/images/icons/instrument.svg',
       elasticSearchType: 'instruments',
       count: null,
-      uploadFunction: $scope.uploadInstruments
+      uploadFunction: $scope.uploadInstruments,
+      disabled: false
     }, {
       title: 'search-management.tabs.related_publications',
       inputLabel: 'search-management.input-label.related-publications',
       icon: 'assets/images/icons/related-publication.svg',
       elasticSearchType: 'related_publications',
       count: null,
-      uploadFunction: $scope.uploadRelatedPublications
+      uploadFunction: $scope.uploadRelatedPublications,
+      disabled: false
     }];
     init();
   });
