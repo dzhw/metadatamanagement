@@ -90,9 +90,10 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
       }
       return ElasticSearchClient.search(query);
     };
-    var findByStudyId = function(studyId, selectedAttributes) {
+    var findByStudyId = function(studyId, selectedAttributes, from, size) {
       query.body = {};
-      query.body.size = 1;
+      query.body.from = from;
+      query.body.size = size;
       query.body._source = selectedAttributes;
       query.body.query = {
         'bool': {
