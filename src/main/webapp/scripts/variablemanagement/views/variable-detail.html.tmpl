@@ -60,13 +60,11 @@
                                 </md-tooltip>
                             </md-button>
                             <md-button class="md-icon-button md-primary" ng-click="toggleFilterDetailsCode()">
-                                <div>
-                                    <md-icon ng-if="filterDetailsCodeToggleFlag" md-svg-src="/assets/images/icons/arrow-expand.svg"></md-icon>
-                                    <md-icon ng-if="!filterDetailsCodeToggleFlag" md-svg-src="/assets/images/icons/arrow-compress.svg"></md-icon>
-                                    <md-tooltip md-direction="top">
-                                        {{'variable-management.detail.show-complete-input-filter.' + filterDetailsCodeToggleFlag | translate }}
-                                    </md-tooltip>
-                                </div>
+                                <md-icon ng-if="filterDetailsCodeToggleFlag" md-svg-src="/assets/images/icons/arrow-expand.svg"></md-icon>
+                                <md-icon ng-if="!filterDetailsCodeToggleFlag" md-svg-src="/assets/images/icons/arrow-compress.svg"></md-icon>
+                                <md-tooltip md-direction="top">
+                                    {{'variable-management.detail.show-complete-input-filter.' + filterDetailsCodeToggleFlag | translate }}
+                                </md-tooltip>
                             </md-button>
                         </div>
                     </div>
@@ -286,13 +284,11 @@
                     <h2 class="md-title">{{'variable-management.detail.frequencies' | translate }}</h2>
                 </md-card-header-text>
                 <md-button ng-disabled="variable.distribution.validResponses.length <= 10" class="md-fab md-mini md-primary" ng-click="toggleAllRowsVisible()">
-                    <div>
-                        <md-icon ng-if="notAllRowsVisible" md-svg-src="/assets/images/icons/arrow-expand.svg"></md-icon>
-                        <md-icon ng-if="!notAllRowsVisible" md-svg-src="/assets/images/icons/arrow-compress.svg"></md-icon>
-                        <md-tooltip md-direction="left">
-                            {{'variable-management.detail.show-complete-distribution.' + notAllRowsVisible | translate }}
-                        </md-tooltip>
-                    </div>
+                    <md-tooltip md-direction="left">
+                      {{'variable-management.detail.show-complete-distribution.' + notAllRowsVisible | translate }}
+                    </md-tooltip>
+                    <md-icon ng-if="notAllRowsVisible" md-svg-src="/assets/images/icons/arrow-expand.svg"></md-icon>
+                    <md-icon ng-if="!notAllRowsVisible" md-svg-src="/assets/images/icons/arrow-compress.svg"></md-icon>
                 </md-button>
             </md-card-header>
             <table class="fdz-table">
@@ -403,16 +399,14 @@
                                 <md-tooltip md-direction="top">
                                     {{'variable-management.detail.button.aria-label.copy-to-clipboard' | translate}}
                                 </md-tooltip>
-                                </md-button>
-                                <md-button class="md-icon-button md-primary" ng-click="toggleGenerationCode()">
-                                    <div>
-                                        <md-icon ng-if="generationCodeToggleFlag" md-svg-src="/assets/images/icons/arrow-expand.svg"></md-icon>
-                                        <md-icon ng-if="!generationCodeToggleFlag" md-svg-src="/assets/images/icons/arrow-compress.svg"></md-icon>
-                                        <md-tooltip md-direction="top">
-                                            {{'variable-management.detail.show-complete-filter-details.' + generationCodeToggleFlag | translate }}
-                                        </md-tooltip>
-                                    </div>
-                                </md-button>
+                            </md-button>
+                            <md-button class="md-icon-button md-primary" ng-click="toggleGenerationCode()">
+                                <md-icon ng-if="generationCodeToggleFlag" md-svg-src="/assets/images/icons/arrow-expand.svg"></md-icon>
+                                <md-icon ng-if="!generationCodeToggleFlag" md-svg-src="/assets/images/icons/arrow-compress.svg"></md-icon>
+                                <md-tooltip md-direction="top">
+                                    {{'variable-management.detail.show-complete-filter-details.' + generationCodeToggleFlag | translate }}
+                                </md-tooltip>
+                            </md-button>
                         </div>
                     </div>
                 </div>

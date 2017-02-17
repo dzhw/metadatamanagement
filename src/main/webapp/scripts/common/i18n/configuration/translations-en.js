@@ -16,7 +16,8 @@ angular.module('metadatamanagementApp').config(
             'login': 'Sign In',
             'logout': 'Sign Out',
             'change-language': 'Betrachte deutsche Version',
-            'register': 'Sign Up'
+            'register': 'Sign Up',
+            'open-menu': 'Open Navigation Menu'
           }
         },
         'cards': {

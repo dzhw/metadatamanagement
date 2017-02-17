@@ -173,11 +173,15 @@ body {
 .fdz-search-result:hover {
     color: black;
     text-decoration: none;
+}
+
+.fdz-search-result:hover md-card,
+.fdz-search-result:focus md-card {
     background-color: rgba(158, 158, 158, 0.2);
 }
 
-.fdz-search-result md-card {
-    background-color: inherit;
+.md-tooltip {
+  font-size: 12px;
 }
 
 .fdz-search-result-label {
