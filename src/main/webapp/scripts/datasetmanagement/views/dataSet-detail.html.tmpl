@@ -69,7 +69,7 @@
                             {{'variable-management.detail.variable' | translate }}: {{ctrl.variable.label[currentLanguage]}}</a>
                     </div>
                     <div ng-if="ctrl.counts.variablesCount > 1" class="fdz-truncate-string" flex>
-                        <a ui-sref="search({'type': 'variables', 'data-set': ctrl.dataSet.id, 'page': 1})">
+                        <a ui-sref="search({'type': 'variables', 'data-set': ctrl.dataSet.id, 'page': 1, 'sort-by': 'indexInDataSet'})">
                             <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
                             {{'variable-management.detail.variables' | translate }}: ({{ctrl.counts.variablesCount}})</a>
                     </div>
