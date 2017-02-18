@@ -232,7 +232,8 @@ module.exports = function(grunt) {
             'layout-xs',
             'flex-gt-sm',
             'hide-xs',
-            'hide-sm'
+            'hide-sm',
+            'md-sidenav-focus'
           ]
         },
         files: {

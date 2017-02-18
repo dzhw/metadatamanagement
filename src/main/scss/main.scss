@@ -646,3 +646,8 @@ div.fdz-breadCrumb div+div:before {
   pointer-events: none;
   cursor: default;
 }
+
+md-backdrop.md-sidenav-backdrop,
+md-sidenav {
+  z-index: 2000;
+}

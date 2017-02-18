@@ -1,6 +1,6 @@
-<md-sidenav md-component-id="SideNavBar" id="SideNavBar" md-is-locked-open="$mdMedia('gt-md')" md-whiteframe="4" tab-index="-1" flex layout="column">
+<md-sidenav md-component-id="SideNavBar" id="SideNavBar" md-is-locked-open="$mdMedia('gt-md')" md-whiteframe="4" flex layout="column">
     <md-toolbar style="background-color: white;">
-        <a ng-href="#!/{{currentLanguage}}/search?page=1" title="{{'global.rdc-alt-text'|translate}}">
+        <a ng-href="#!/{{currentLanguage}}/search?page=1" title="{{'global.rdc-alt-text'|translate}}" md-sidenav-focus ng-click="close()">
             <img src="assets/images/FDZ_Logo.svg" style="height: 64px" alt>
             <span class="sr-only">FDZ</span>
         </a>
@@ -20,12 +20,12 @@
                 </md-button>
                 <ul class="fdz-navbar-menu-items" ng-show="isAccountMenuOpen">
                     <li>
-                        <md-button ui-sref="settings" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button">
+                        <md-button ui-sref="settings" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
                             <span data-translate="global.menu.account.settings">Settings</span>
                         </md-button>
                     </li>
                     <li>
-                        <md-button ui-sref="password" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button">
+                        <md-button ui-sref="password" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
                             <span data-translate="global.menu.account.password">Password</span>
                         </md-button>
                     </li>
@@ -40,27 +40,27 @@
                 </md-button>
                 <ul class="fdz-navbar-menu-items" ng-show="isAdminMenuOpen">
                     <li>
-                        <md-button ui-sref="user-management" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button">
+                        <md-button ui-sref="user-management" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
                             <span data-translate="global.menu.admin.user-management">User management</span>
                         </md-button>
                     </li>
                     <li>
-                        <md-button ui-sref="metrics" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button">
+                        <md-button ui-sref="metrics" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
                             <span data-translate="global.menu.admin.metrics">Metrics</span>
                         </md-button>
                     </li>
                     <li>
-                        <md-button ui-sref="health" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button">
+                        <md-button ui-sref="health" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
                             <span data-translate="global.menu.admin.health">Health</span>
                         </md-button>
                     </li>
                     <li>
-                        <md-button ui-sref="configuration" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button">
+                        <md-button ui-sref="configuration" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
                             <span data-translate="global.menu.admin.configuration">Configuration</span>
                         </md-button>
                     </li>
                     <li>
-                        <md-button ui-sref="logs" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button">
+                        <md-button ui-sref="logs" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
                             <span data-translate="global.menu.admin.logs">Logs</span>
                         </md-button>
                     </li>
@@ -68,7 +68,7 @@
                 <md-divider></md-divider>
             </li>
             <li class="fdz-navbar-menu">
-                <md-button ui-sref="disclosure" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button">
+                <md-button ui-sref="disclosure" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
                     <span data-translate="global.menu.disclosure">Disclosure</span>
                 </md-button>
                 <md-divider></md-divider>

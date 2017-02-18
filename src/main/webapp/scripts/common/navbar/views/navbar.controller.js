@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('NavbarController',
-  function($scope, Principal) {
+  function($scope, Principal, $mdSidenav) {
     $scope.isAuthenticated = Principal.isAuthenticated;
 
     //For toggle buttons
@@ -17,6 +17,10 @@ angular.module('metadatamanagementApp').controller('NavbarController',
 
     $scope.toggleAdminMenu = function() {
       $scope.isAdminMenuOpen = !$scope.isAdminMenuOpen;
+    };
+
+    $scope.close = function() {
+      $mdSidenav('SideNavBar').toggle();
     };
 
   });
