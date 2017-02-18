@@ -647,7 +647,6 @@ div.fdz-breadCrumb div+div:before {
   cursor: default;
 }
 
-md-backdrop.md-sidenav-backdrop,
-md-sidenav {
-  z-index: 2000;
+.js-plotly-plot .plotly .modebar {
+  z-index: 50 !important;
 }
