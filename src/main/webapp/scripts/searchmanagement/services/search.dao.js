@@ -11,7 +11,8 @@ angular.module('metadatamanagementApp').service('SearchDao',
         'data-set': 'dataSetId',
         'panel-identifier': 'panelIdentifier',
         'question': 'relatedQuestions.questionId',
-        'related-publication': 'relatedPublications.id'
+        'related-publication': 'relatedPublications.id',
+        'access-way': 'accessWays'
       },
       'surveys': {
         'instrument': 'instruments.id',
