@@ -61,6 +61,8 @@ angular.module('metadatamanagementApp').config(
             'delete-project': 'Das ausgewählte Datenaufbereitungsprojekt mit allen verknüpften Daten löschen.',
             'post-validation': 'Das ausgewählte Datenaufbereitungsprojekt validieren.'
           },
+          'skip-navigation': 'Zum Inhalt springen',
+          'skip-navigation-tooltip': 'Klicken zum Überspringen der Navigationselemente',
           'language': 'Sprache',
           'disclosure': 'Impressum',
           'notepad': 'Merkzettel'

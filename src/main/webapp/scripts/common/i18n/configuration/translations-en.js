@@ -61,6 +61,8 @@ angular.module('metadatamanagementApp').config(
             'delete-project': 'Delete the selected Data Acquisition Project with all related data.',
             'post-validation': 'Validate a choosen Data Acquisition Project.'
           },
+          'skip-navigation': 'Skip to Content',
+          'skip-navigation-tooltip': 'Click to skip elements from navigation bar',
           'language': 'Language',
           'disclosure': 'Disclosure',
           'notepad': 'Notepad'

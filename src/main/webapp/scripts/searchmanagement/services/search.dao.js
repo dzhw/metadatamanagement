@@ -104,8 +104,6 @@ angular.module('metadatamanagementApp').service('SearchDao',
         query.body.from = (pageNumber - 1) * pageSize;
         //define size
         query.body.size = pageSize;
-        query.body.query.bool.filter = {};
-        query.body.query.bool.filter.bool = {};
         //aggregations if user is on the all tab
         if (CleanJSObjectService.isNullOrEmpty(elasticsearchType)) {
           //define aggregations
@@ -116,6 +114,12 @@ angular.module('metadatamanagementApp').service('SearchDao',
               }
             }
           };
+        }
+
+        if (dataAcquisitionProjectId ||
+          !CleanJSObjectService.isNullOrEmpty(filter)) {
+          query.body.query.bool.filter = {};
+          query.body.query.bool.filter.bool = {};
         }
         // this filter section should be refactored
         // filter by projectId

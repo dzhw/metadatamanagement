@@ -647,6 +647,24 @@ div.fdz-breadCrumb div+div:before {
   cursor: default;
 }
 
+.fdz-skip-navigation {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  z-index: -100;
+  display: block;
+  width: 95%;
+  margin: 0.5em;
+  -webkit-transition: opacity 0.30s linear;
+  transition: opacity 0.30s linear;
+}
+
+.fdz-skip-navigation:focus {
+  opacity: 0.9;
+  z-index: 60;
+}
+
 .js-plotly-plot .plotly .modebar {
   z-index: 50 !important;
 }

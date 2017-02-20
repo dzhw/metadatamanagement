@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('NavbarController',
-  function($scope, Principal, $mdSidenav) {
+  function($scope, Principal, $mdSidenav, $document) {
     $scope.isAuthenticated = Principal.isAuthenticated;
 
     //For toggle buttons
@@ -20,7 +20,30 @@ angular.module('metadatamanagementApp').controller('NavbarController',
     };
 
     $scope.close = function() {
-      $mdSidenav('SideNavBar').toggle();
+      if (!$mdSidenav('SideNavBar').isLockedOpen()) {
+        $mdSidenav('SideNavBar').toggle();
+      }
     };
 
+    var findFirstFocusableElement = function(element) {
+      var focusableChild;
+      if (element.tabIndex != null && element.tabIndex > -1) {
+        return element;
+      } else {
+        for (var i = 0; i < element.children.length; i++) {
+          focusableChild = findFirstFocusableElement(element.children[i]);
+          if (focusableChild) {
+            return focusableChild;
+          }
+        }
+      }
+    };
+
+    $scope.focusContent = function() {
+      var content = $document.find('#content')[0];
+      var element = findFirstFocusableElement(content);
+      if (element) {
+        element.focus();
+      }
+    };
   });
