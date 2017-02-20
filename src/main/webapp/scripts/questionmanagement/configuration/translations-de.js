@@ -53,7 +53,7 @@ angular.module('metadatamanagementApp').config(
           'introduction': 'Einführung',
           'number': 'Fragenummer',
           'questionText': 'Fragetext',
-          'open-image-in-new-tab': 'Bild in neuem tab öffnen'
+          'open-image-in-new-tab': 'Bild in neuem Tab öffnen'
         },
         'error': {
           'question': {

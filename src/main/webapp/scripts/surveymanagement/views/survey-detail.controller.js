@@ -45,9 +45,10 @@ angular.module('metadatamanagementApp')
             ctrl.counts.instrumentsCount = instrumentsCount.count;
             if (instrumentsCount.count === 1) {
               InstrumentSearchService.findBySurveyId(ctrl.survey.id,
-                ['dataAcquisitionProjectId', 'number', 'title', 'id'])
+                ['dataAcquisitionProjectId', 'number', 'title', 'id',
+              'description'])
               .then(function(instrument) {
-                ctrl.intrument = instrument;
+                ctrl.instrument = instrument.hits.hits[0]._source;
               });
             }
           });

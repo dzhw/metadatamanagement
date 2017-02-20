@@ -3,13 +3,14 @@
 
 angular.module('metadatamanagementApp').service('InstrumentBuilderService',
   function(InstrumentResource, CleanJSObjectService,
-    InstrumentIdBuilderService, SurveyIdBuilderService) {
+    InstrumentIdBuilderService, SurveyIdBuilderService, StudyIdBuilderService) {
     var buildInstrument = function(instrumentFromExcel,
       dataAcquisitionProjectId) {
       var instrument = {
         id: InstrumentIdBuilderService.buildInstrumentId(
           dataAcquisitionProjectId, instrumentFromExcel.number),
         dataAcquisitionProjectId: dataAcquisitionProjectId,
+        studyId: StudyIdBuilderService.buildStudyId(dataAcquisitionProjectId),
         number: instrumentFromExcel.number,
         title: {
           en: instrumentFromExcel['title.en'],
