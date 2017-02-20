@@ -12,6 +12,7 @@ angular.module('metadatamanagementApp')
       ctrl.counts = {};
       ctrl.dataSet = entity;
       ctrl.counts = {};
+
       entity.$promise.then(function() {
         var currenLanguage = LanguageService.getCurrentInstantly();
         var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';
@@ -70,6 +71,12 @@ angular.module('metadatamanagementApp')
           .then(function(dataSetsCount) {
             ctrl.counts.dataSetsCount = dataSetsCount.count;
           });
+        ctrl.dataSet.subDataSets.forEach(function(subDataSet) {
+          VariableSearchService.countBy('accessWays',
+          subDataSet.accessWay, ctrl.dataSet.id).then(function(counts) {
+            ctrl.counts[subDataSet.name] = counts.count;
+          });
+        });
       });
       ctrl.uploadTexTemplate = function(files) {
         if (files != null) {

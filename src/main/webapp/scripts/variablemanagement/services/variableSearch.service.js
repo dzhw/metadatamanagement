@@ -82,7 +82,7 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
       };
       return ElasticSearchClient.search(query);
     };
-    var countBy = function(term, value) {
+    var countBy = function(term, value, dataSetId) {
       query.body = {};
       query.body.query = {};
       query.body.query = {
@@ -102,6 +102,12 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
       };
       mustSubQuery.term[term] = value;
       subQuery.bool.must.push(mustSubQuery);
+      if (dataSetId) {
+        subQuery.bool.must.push({
+          'term': {
+            'dataSetId': dataSetId
+          }});
+      }
       query.body.query.bool.filter.push(subQuery);
       return ElasticSearchClient.count(query);
     };

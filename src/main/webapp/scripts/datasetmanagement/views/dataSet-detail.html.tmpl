@@ -148,7 +148,7 @@
                         <td>{{row.accessWay}}</td>
                         <td>
                         <a ui-sref="search({'type': 'variables', 'data-set':ctrl.dataSet.id, 'page': 1, 'access-way': row.accessWay,'sort-by': 'indexInDataSet'})">
-                          {{row.numberOfAnalyzedVariables}}&nbsp;</a>
+                          {{ctrl.counts[row.name]}}&nbsp;</a>
                         </td>
                         <td>{{row.numberOfObservations}}&nbsp;</td>
                     </tr>
