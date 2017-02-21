@@ -167,28 +167,24 @@ public class UnitTestCreateDomainObjectUtils {
         
     List<SubDataSet> subDataSets = new ArrayList<>(); 
     subDataSets.add(new SubDataSetBuilder().withName(UnitTestCreateValidIds.buildDataSetId(projectId, 1))
-        .withNumberOfAnalyzedVariables(1)
         .withNumberOfObservations(1)
         .withAccessWay(AccessWays.DOWNLOAD_SUF) 
         .withDescription(new I18nStringBuilder().withDe("Description DE")
           .withEn("Description 3 EN")
           .build()).build());
     subDataSets.add(new SubDataSetBuilder().withName(UnitTestCreateValidIds.buildDataSetId(projectId, 2))
-        .withNumberOfAnalyzedVariables(1)
         .withNumberOfObservations(1)
         .withAccessWay(AccessWays.REMOTE_DESKTOP) 
         .withDescription(new I18nStringBuilder().withDe("Description 2 DE")
           .withEn("Description 3 EN")
           .build()).build());
     subDataSets.add(new SubDataSetBuilder().withName(UnitTestCreateValidIds.buildDataSetId(projectId, 3))
-        .withNumberOfAnalyzedVariables(1)
         .withNumberOfObservations(1)
         .withAccessWay(AccessWays.DOWNLOAD_CUF) 
         .withDescription(new I18nStringBuilder().withDe("Description 3 DE")
           .withEn("Description 3 EN")
           .build()).build());
     subDataSets.add(new SubDataSetBuilder().withName(UnitTestCreateValidIds.buildDataSetId(projectId, 4))
-        .withNumberOfAnalyzedVariables(1)
         .withNumberOfObservations(1)
         .withAccessWay(AccessWays.ONSITE_SUF) 
         .withDescription(new I18nStringBuilder().withDe("Description 4 DE")

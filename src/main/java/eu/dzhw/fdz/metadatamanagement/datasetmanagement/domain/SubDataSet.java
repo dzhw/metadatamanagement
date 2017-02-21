@@ -25,9 +25,7 @@ public class SubDataSet {
       message = "data-set-management.error.sub-data-set.name.size")
   private String name;
   
-  private int numberOfObservations;
-  
-  private int numberOfAnalyzedVariables;
+  private int numberOfObservations;  
   
   @NotNull(message = "data-set-management.error.sub-data-set.access-way.not-null")
   @ValidAccessWay(
@@ -56,14 +54,6 @@ public class SubDataSet {
     this.numberOfObservations = numberOfObservations;
   }
   
-  public int getNumberOfAnalyzedVariables() {
-    return numberOfAnalyzedVariables;
-  }
-  
-  public void setNumberOfAnalyzedVariables(int numberOfAnalyzedVariables) {
-    this.numberOfAnalyzedVariables = numberOfAnalyzedVariables;
-  }
-  
   public String getAccessWay() {
     return accessWay;
   }
@@ -83,8 +73,7 @@ public class SubDataSet {
   @Override
   public String toString() {
     return "SubDataSet [name=" + name + ", numberOfObservations=" + numberOfObservations
-        + ", numberOfAnalyzableVariables=" + numberOfAnalyzedVariables + ", accessWay="
-        + accessWay + ", description=" + description + "]";
+        + ", accessWay=" + accessWay + ", description=" + description + "]";
   }
 
 }

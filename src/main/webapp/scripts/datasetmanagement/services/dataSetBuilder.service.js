@@ -79,8 +79,6 @@ angular.module('metadatamanagementApp').service('DataSetBuilderService',
           },
           accessWay: subDataSet.accessWay,
           numberOfObservations: parseInt(subDataSet.numberOfObservations),
-          numberOfAnalyzedVariables: parseInt(
-            subDataSet.numberOfAnalyzedVariables),
           dataSetNumber: subDataSet.dataSetNumber
         };
         var cleanedSubDataSetObject = CleanJSObjectService
