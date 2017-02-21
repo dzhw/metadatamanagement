@@ -4,7 +4,7 @@
 
 angular.module('metadatamanagementApp').service('VariableBuilderService',
   function(VariableResource, CleanJSObjectService, DataSetIdBuilderService,
-    QuestionIdBuilderService, SurveyIdBuilderService,
+    QuestionIdBuilderService, SurveyIdBuilderService, StudyIdBuilderService,
     VariableIdBuilderService, InstrumentIdBuilderService) {
     var buildVariable = function(variableFromExcel, variableFromJson, dataSet) {
       var dataAcquisitionProjectId = dataSet.dataAcquisitionProjectId;
@@ -15,6 +15,7 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
           .name
         ),
         dataAcquisitionProjectId: dataAcquisitionProjectId,
+        studyId: StudyIdBuilderService.buildStudyId(dataAcquisitionProjectId),
         name: variableFromExcel.name,
         annotations: {
           en: variableFromExcel['annotations.en'],

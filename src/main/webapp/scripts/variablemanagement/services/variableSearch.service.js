@@ -82,6 +82,29 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
       };
       return ElasticSearchClient.search(query);
     };
+
+    /*var countAcceBy = function(terms) {
+      query.body = {};
+      query.body.query = {};
+      query.body.query = {
+        'bool': {
+          'must': [{
+            'match_all': {}
+          }],
+          'filter': []
+        }
+      };
+      var subQuery = {
+        'bool': {}
+      };
+      subQuery.bool.must = [];
+      _.forEach(terms, function(term) {
+        subQuery.bool.must.push({'term': term});
+      });
+      query.body.query.bool.filter.push(subQuery);
+      return ElasticSearchClient.count(query);
+    };*/
+
     var countBy = function(term, value, dataSetId) {
       query.body = {};
       query.body.query = {};
