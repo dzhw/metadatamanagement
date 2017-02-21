@@ -10,7 +10,7 @@
 
     <groupId>eu.dzhw.fdz.metadatamanagement</groupId>
     <artifactId>metadatamanagement</artifactId>
-    <version>0.1.39</version>
+    <version>0.1.40-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>metadatamanagement</name>
 
