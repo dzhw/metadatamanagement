@@ -12,29 +12,30 @@ angular.module('metadatamanagementApp').service('SearchDao',
         'panel-identifier': 'panelIdentifier',
         'question': 'relatedQuestions.questionId',
         'related-publication': 'relatedPublications.id',
-        'access-way': 'accessWays'
+        'access-way': 'accessWays',
+        'study': 'studyId'
       },
       'surveys': {
         'instrument': 'instruments.id',
-        'dataAcquisitionProjectId': 'dataAcquisitionProjectId',
-        'variable': 'variableIds',
+        'variable': 'variables.id',
         'data-set': 'dataSets.id',
         'related-publication': 'relatedPublications.id',
         'study': 'studyId'
       },
       'questions': {
         'instrument': 'instrumentId',
-        'variable': 'variableIds',
-        'related-publication': 'relatedPublications.id'
+        'variable': 'variables.id',
+        'related-publication': 'relatedPublications.id',
+        'study': 'studyId'
       },
       'instruments': {
         'survey': 'surveyIds',
-        'related-publication': 'relatedPublications.id'
+        'related-publication': 'relatedPublications.id',
+        'study': 'studyId'
       },
       'data_sets': {
         'survey': 'surveyIds',
         'related-publication': 'relatedPublications.id',
-        'dataAcquisitionProjectId': 'dataAcquisitionProjectId',
         'study': 'studyId'
       },
       'related_publications': {
