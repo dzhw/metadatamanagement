@@ -175,8 +175,8 @@ body {
     text-decoration: none;
 }
 
-.fdz-search-result:hover md-card,
-.fdz-search-result:focus md-card {
+.fdz-search-result:hover,
+.fdz-search-result:focus {
     background-color: rgba(158, 158, 158, 0.2);
 }
 
@@ -375,16 +375,19 @@ md-tooltip {
 }
 
 .fdz-navbar-menu {
+    width: 100%;
     border-left: 5px solid $brand-primary;
 }
 
 .fdz-navbar-menu-accent {
+    width: 100%;
     border-left: 5px solid $brand-warning;
 }
 
 .fdz-navbar-menu-items {
     padding: 0;
     margin: 0;
+    width: 100%;
 }
 
 .fdz-navbar-menu-toggle {
@@ -667,4 +670,10 @@ div.fdz-breadCrumb div+div:before {
 
 .js-plotly-plot .plotly .modebar {
   z-index: 50 !important;
+}
+
+a:focus, button:focus {
+  outline: 0px !important;
+  outline-offset: 0px !important;
+  border: 1px solid $brand-warning !important;
 }

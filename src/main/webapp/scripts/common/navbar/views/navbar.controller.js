@@ -27,7 +27,12 @@ angular.module('metadatamanagementApp').controller('NavbarController',
 
     var findFirstFocusableElement = function(element) {
       var focusableChild;
-      if (element.tabIndex != null && element.tabIndex > -1) {
+      if (element.tabIndex != null && element.tabIndex > -1 &&
+        // IE gives ALL elements a tabindex === 0 therefore we limit
+        // to the following list of tags
+        (element.nodeName === 'A' || element.nodeName === 'BUTTON' ||
+        element.nodeName === 'INPUT' || element.nodeName === 'SELECT' ||
+        element.nodeName === 'AREA' || element.nodeName === 'TEXTAREA')) {
         return element;
       } else {
         for (var i = 0; i < element.children.length; i++) {
