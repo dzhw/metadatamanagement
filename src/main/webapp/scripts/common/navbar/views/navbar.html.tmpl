@@ -6,21 +6,21 @@
             {{'global.menu.skip-navigation-tooltip'|translate}}
           </md-tooltip>
         </md-button>
-        <md-button ng-href="#!/{{currentLanguage}}/search?page=1" md-sidenav-focus ng-click="close()">
+        <md-button ng-href="#!/{{currentLanguage}}/search?page=1" ng-click="close()">
             <img src="assets/images/FDZ_Logo.svg" style="width: 100%; height: auto;" alt="{{'global.rdc-alt-text'|translate}}">
             <md-tooltip>
               {{'global.menu.back-to-search'|translate}}
             </md-tooltip>
         </md-button>
     </md-toolbar>
+    <md-divider></md-divider>
     <md-content ng-switch="isAuthenticated()" flex role="navigation">
-        <md-divider></md-divider>
         <ul style="padding: 0px; margin: 0px;">
             <li class="fdz-navbar-menu-accent" ng-switch-when="true" data-has-authority="ROLE_PUBLISHER" style="padding: 5px 1em 1em 1em;">
                 <project-navbar-module></project-navbar-module>
             </li>
+            <md-divider ng-switch-when="true" data-has-authority="ROLE_PUBLISHER"></md-divider>
             <li class="fdz-navbar-menu" ng-switch-when="true">
-                <md-divider></md-divider>
                 <md-button class="fdz-navbar-menu-toggle" ng-click="toggleAccountMenu()" aria-label="{{'global.menu.account.main' | translate}}">
                     <span data-translate="global.menu.account.main"></span>
                     <md-icon ng-if="!isAccountMenuOpen" md-font-set="material-icons">keyboard_arrow_down</md-icon>
