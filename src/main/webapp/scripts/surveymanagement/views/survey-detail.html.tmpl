@@ -95,7 +95,7 @@
                     <div ng-if="ctrl.counts.dataSetsCount == 1" class="fdz-truncate-string" flex>
                       <a ui-sref="dataSetDetail({'id': ctrl.dataSet.id})">
                         <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
-                        {{'data-set-management.detail.data-set' | translate }}: {{ctrl.dataSet.description}}</a>
+                        {{'data-set-management.detail.data-set' | translate }}: {{ctrl.dataSet.description[currentLanguage]}}</a>
                     </div>
                     <div ng-if="ctrl.counts.dataSetsCount > 1" class="fdz-truncate-string" flex>
                       <a ui-sref="search({'type': 'data_sets', 'survey':ctrl.survey.id, 'page': 1})">
