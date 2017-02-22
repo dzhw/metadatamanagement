@@ -127,7 +127,8 @@ module.exports = function(grunt) {
             'question-search-result',
             'dataset-search-result',
             'instrument-search-result',
-            'md-progress-linear'
+            'md-progress-linear',
+            'md-divider'
           ],
           relaxerror: [
             'The “date” input type is not supported in all browsers.' +
