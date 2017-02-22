@@ -28,8 +28,6 @@ angular
             function(response) {
               localStorageService.set('token', response.data);
               return response;
-            }).catch(function() {
-              localStorageService.remove('token');
             });
         },
         logout: function() {
