@@ -11,10 +11,9 @@ angular.module('metadatamanagementApp').controller('SearchController',
     QuestionUploadService, RelatedPublicationUploadService,
     DataSetUploadService, StudyUploadService, SurveyUploadService,
     CleanJSObjectService, InstrumentUploadService,
-    CurrentProjectService, $timeout, PageTitleService, BreadCrumbService) {
+    CurrentProjectService, $timeout, PageTitleService) {
 
     var tabChangedOnInitFlag = false;
-    var locationChanged = false;
     // set the page title in toolbar and window.title
     PageTitleService.setPageTitle('global.menu.search.title');
     //unset the current project because we might come with predefined filters
@@ -46,14 +45,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
         locationSearch['sort-by'] = $scope.searchParams.sortBy;
       }
       _.assign(locationSearch, $scope.searchParams.filter);
-      locationChanged = !angular.equals($location.search(),
-        locationSearch);
       $location.search(locationSearch);
-      if (_.size($location.search()) < 3) {
-        BreadCrumbService.addToBreadCrumb($location.absUrl(),
-        $location.search(),
-        $location.url());
-      }
     };
 
     // read the searchParams object from the location with the correct types
@@ -76,6 +68,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
         } else {
           $scope.searchParams.query = '';
         }
+        //console.log(locationSearch);
         $scope.searchParams.filter = _.omit(locationSearch, ['page', 'type',
           'query', 'sort-by'
         ]);
@@ -108,7 +101,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       };
       readSearchParamsFromLocation();
       writeSearchParamsToLocation();
-      $scope.search();
+      //$scope.search();
     };
 
     //Search function
@@ -147,24 +140,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
         });
     };
 
-    // watch for location changes not triggered by our code
-    $scope.$watchCollection(function() {
-      return $location.search();
-    }, function(newValue, oldValue) {
-      if (newValue !== oldValue && !locationChanged) {
-        readSearchParamsFromLocation();
-        // type changes are already handled by $scope.onSelectedTabChanged
-        if (newValue.type === oldValue.type) {
-          $scope.search();
-        }
-        if (_.size($location.search()) < 3) {
-          BreadCrumbService.addToBreadCrumb($location.absUrl(),
-          $location.search(),
-          $location.url());
-        }
-      } else {
-        locationChanged = false;
-      }
+    $scope.$on('locationChanged', function(event, args) { // jshint ignore:line
+      $scope.search();
     });
 
     $scope.$on('current-project-changed',
@@ -175,9 +152,10 @@ angular.module('metadatamanagementApp').controller('SearchController',
         } else {
           $scope.projectId = undefined;
         }
-        $scope.pageObject.page = 1;
-        writeSearchParamsToLocation();
         $scope.search();
+        $scope.projectChanged = true;
+        $scope.pageObject.page = 1;
+        //writeSearchParamsToLocation();
         //disable related_publications tab if a project is selected
         _.forEach($scope.tabs, function(tab) {
           if (tab.elasticSearchType === 'related_publications' &&
@@ -186,17 +164,16 @@ angular.module('metadatamanagementApp').controller('SearchController',
           } else {
             tab.disabled = false;
           }
+
         });
       });
 
     $scope.onPageChanged = function() {
         writeSearchParamsToLocation();
-        $scope.search();
       };
     $scope.onQueryChanged = function() {
       $scope.pageObject.page = 1;
       writeSearchParamsToLocation();
-      $scope.search();
     };
 
     $scope.onSelectedTabChanged = function() {
@@ -205,7 +182,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
         $scope.searchParams.sortBy = undefined;
         $scope.pageObject.page = 1;
         writeSearchParamsToLocation();
-        $scope.search();
       }
       tabChangedOnInitFlag = false;
     };
