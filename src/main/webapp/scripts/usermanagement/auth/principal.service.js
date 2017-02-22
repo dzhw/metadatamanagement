@@ -61,6 +61,7 @@ angular.module('metadatamanagementApp').factory(
             _authenticated = true;
             deferred.resolve(_identity);
           }).catch(function() {
+            AuthServerProvider.deleteToken();
             _identity = null;
             _authenticated = false;
             deferred.resolve(_identity);

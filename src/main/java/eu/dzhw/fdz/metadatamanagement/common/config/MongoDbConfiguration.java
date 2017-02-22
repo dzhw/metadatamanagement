@@ -1,19 +1,29 @@
 package eu.dzhw.fdz.metadatamanagement.common.config;
 
+import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+
+import javax.annotation.PreDestroy;
 
 import org.mongeez.Mongeez;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.autoconfigure.mongo.MongoProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.data.mongodb.core.convert.CustomConversions;
 import org.springframework.data.mongodb.core.mapping.event.ValidatingMongoEventListener;
@@ -21,24 +31,50 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import com.mongodb.Mongo;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
 
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.OAuth2AuthenticationReadConverter;
 
 /**
- * Configure the mongo db client instance.
+ * Configure the mongo db client instance. 
+ * Modified version of {@link MongoAutoConfiguration}.
  */
 @Configuration
 @EnableMongoRepositories("eu.dzhw.fdz.metadatamanagement.**.repository")
 @EnableMongoAuditing(auditorAwareRef = "springSecurityAuditorAware")
-public class MongoDbConfiguration {
+public class MongoDbConfiguration extends AbstractMongoConfiguration {
 
   private final Logger log = LoggerFactory.getLogger(MongoDbConfiguration.class);
 
-  @Autowired
-  private Mongo mongo;
-
-  @Autowired
   private MongoProperties mongoProperties;
+
+  private Environment environment;
+  
+  private MongoClientOptions options;
+
+  private MongoClient mongo;
+  
+  /**
+   * Constructor from {@link MongoAutoConfiguration}.
+   */
+  @Autowired
+  public MongoDbConfiguration(MongoProperties properties,
+      ObjectProvider<MongoClientOptions> options, Environment environment) {
+    this.mongoProperties = properties;
+    this.options = options.getIfAvailable();
+    this.environment = environment;
+  }
+
+  /**
+   * Close the mongo client gracefully.
+   */
+  @PreDestroy
+  public void close() {
+    if (this.mongo != null) {
+      this.mongo.close();
+    }
+  }
 
   /**
    * JHipster enabled validation on repository layer.
@@ -76,7 +112,7 @@ public class MongoDbConfiguration {
    */
   @Bean
   @Profile({Constants.SPRING_PROFILE_LOCAL, Constants.SPRING_PROFILE_UNITTEST})
-  public Mongeez mongeez() {
+  public Mongeez mongeez(Mongo mongo) {
     log.debug("Configuring Mongeez");
     Mongeez mongeez = new Mongeez();
     mongeez.setFile(new ClassPathResource("/config/mongeez/master.xml"));
@@ -84,5 +120,23 @@ public class MongoDbConfiguration {
     mongeez.setDbName(mongoProperties.getDatabase());
     mongeez.process();
     return mongeez;
+  }
+
+  @Override
+  protected String getDatabaseName() {
+    return mongoProperties.getDatabase();
+  }
+
+  @Bean
+  @ConditionalOnMissingBean
+  @Override
+  public MongoClient mongo() throws UnknownHostException {
+    mongo = this.mongoProperties.createMongoClient(this.options, this.environment);
+    return mongo;
+  }
+  
+  @Override
+  protected Collection<String> getMappingBasePackages() {
+    return Arrays.asList("eu.dzhw.fdz.metadatamanagement.**.domain");
   }
 }
