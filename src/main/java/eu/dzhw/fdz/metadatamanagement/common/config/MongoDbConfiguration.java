@@ -117,14 +117,14 @@ public class MongoDbConfiguration extends AbstractMongoConfiguration {
     Mongeez mongeez = new Mongeez();
     mongeez.setFile(new ClassPathResource("/config/mongeez/master.xml"));
     mongeez.setMongo(mongo);
-    mongeez.setDbName(mongoProperties.getDatabase());
+    mongeez.setDbName(mongoProperties.getMongoClientDatabase());
     mongeez.process();
     return mongeez;
   }
 
   @Override
   protected String getDatabaseName() {
-    return mongoProperties.getDatabase();
+    return mongoProperties.getMongoClientDatabase();
   }
 
   @Bean
