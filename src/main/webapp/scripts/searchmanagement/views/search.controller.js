@@ -17,9 +17,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
     var locationChanged = false;
     // set the page title in toolbar and window.title
     PageTitleService.setPageTitle('global.menu.search.title');
-    //unset the current project because we might come with predefined filters
-    CurrentProjectService.setCurrentProject(null);
-    $scope.projectId = undefined;
     //Check the login status
     Principal.identity().then(function(account) {
       $scope.account = account;
