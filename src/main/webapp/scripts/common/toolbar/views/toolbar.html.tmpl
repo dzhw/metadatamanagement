@@ -3,7 +3,7 @@
     <div class="md-toolbar-tools" layout="row" ng-switch="isAuthenticated()">
         <md-button class="md-primary md-raised md-hue-1 md-icon-button" hide-gt-md ng-click="toggleLeft()">
             <md-icon md-font-set="material-icons">menu</md-icon>
-            <md-tooltip>
+            <md-tooltip md-z-index="10">
               {{'global.toolbar.buttons.open-menu' | translate}}
             </md-tooltip>
         </md-button>
@@ -11,13 +11,13 @@
         <div layout="row" layout-align=" center" flex class="fdz-breadCrumb">
           <div class="fdz-truncate-string" ng-repeat="item in breadCrumbItems" ng-class="{'fdz-breadCrumbLastElement':$last}">
             <a ng-if="item.id" ng-href="{{item.url[currentLanguage]}}">{{item.pageType | translate}} ({{item.id}})
-              <md-tooltip ng-if="item.id">{{item.pageType | translate}} ({{item.id}})</md-tooltip>
+              <md-tooltip md-z-index="10" ng-if="item.id">{{item.pageType | translate}} ({{item.id}})</md-tooltip>
             </a>
             <a ng-if="item.tab" ng-href="{{item.url[currentLanguage]}}">{{item.pageType | translate}} ({{item.tab | translate}})
-              <md-tooltip ng-if="item.tab">{{item.pageType | translate}} ({{item.tab | translate}})</md-tooltip>
+              <md-tooltip md-z-index="10" ng-if="item.tab">{{item.pageType | translate}} ({{item.tab | translate}})</md-tooltip>
             </a>
             <a ng-if="!item.id && !item.tab" ng-href="{{item.url[currentLanguage]}}">{{item.pageType | translate}}
-              <md-tooltip ng-if="!item.id && !item.tab">{{item.pageType | translate}}</md-tooltip>
+              <md-tooltip md-z-index="10" ng-if="!item.id && !item.tab">{{item.pageType | translate}}</md-tooltip>
             </a>
           </div>
         </div>
@@ -28,7 +28,7 @@
             ng-class="{'md-icon-button': $mdMedia('xs')}"
             ng-click="changeLanguage('en')"
             ng-if="currentLanguage!='en'">
-            <md-tooltip>
+            <md-tooltip md-z-index="10">
                 {{'global.toolbar.buttons.change-language' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">language</md-icon>
@@ -41,7 +41,7 @@
             ng-class="{'md-icon-button': $mdMedia('xs')}"
             ng-click="changeLanguage('de')"
             ng-if="currentLanguage!='de'">
-            <md-tooltip>
+            <md-tooltip md-z-index="10">
                 {{'global.toolbar.buttons.change-language' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">language</md-icon>
@@ -49,7 +49,7 @@
         </md-button>
         <div ng-switch-when="true">
             <md-button id="logout" aria-label="{{'global.toolbar.buttons.logout' | translate}}" class="md-primary md-raised md-hue-1" ng-class="{'md-icon-button': $mdMedia('xs')}" ng-click="logout()">
-                <md-tooltip>
+                <md-tooltip md-z-index="10">
                     {{'global.toolbar.buttons.logout' | translate}}
                 </md-tooltip>
                 <md-icon md-svg-src="/assets/images/icons/logout.svg"></md-icon>
@@ -58,7 +58,7 @@
         </div>
         <div ng-switch-when="false">
             <md-button aria-label="{{'global.toolbar.buttons.login' | translate}}" id="login" class="md-primary md-raised md-hue-1" ng-class="{'md-icon-button': $mdMedia('xs')}" ng-click="login()">
-                <md-tooltip>
+                <md-tooltip md-z-index="10">
                     {{'global.toolbar.buttons.login' | translate}}
                 </md-tooltip>
                 <md-icon md-svg-src="/assets/images/icons/login.svg"></md-icon>
@@ -67,7 +67,7 @@
         </div>
         <div ng-switch-when="false">
             <md-button aria-label="{{'global.toolbar.buttons.register' | translate}}" id="register" class="md-primary md-raised md-hue-1" ng-class="{'md-icon-button': $mdMedia('xs')}" ng-click="register()">
-                <md-tooltip>
+                <md-tooltip md-z-index="10">
                     {{'global.toolbar.buttons.register' | translate}}
                 </md-tooltip>
                 <md-icon md-svg-src="/assets/images/icons/account-plus.svg"></md-icon>

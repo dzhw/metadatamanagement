@@ -7,7 +7,6 @@ angular.module('metadatamanagementApp').config(
       'global': {
         'title': 'metadatamanagement',
         'browsehappy': 'Sie benutzen einen <strong>veralteten</strong> Browser. Bitte <a href="http://browsehappy.com/?locale=de/">aktualisieren Sie Ihren Browser</a>, um die Benutzerfreundlichkeit zu erhöhen.',
-        'rdc-alt-text': 'Forschungsdatenzentrum, Deutsches Zentrum für Hochschul- und Wissenschaftsforschung',
         'dzhw-alt-text': 'Deutsches Zentrum für Hochschul- und Wissenschaftsforschung DZHW GmbH',
         'bmbf-alt-text': 'Gefördert vom BMBF',
         'search': 'Suche',
@@ -63,6 +62,7 @@ angular.module('metadatamanagementApp').config(
           },
           'skip-navigation': 'Zum Inhalt springen',
           'skip-navigation-tooltip': 'Klicken zum Überspringen der Navigationselemente',
+          'back-to-search': 'Klicken um zur Suche zu gelangen',
           'language': 'Sprache',
           'disclosure': 'Impressum',
           'notepad': 'Merkzettel'

@@ -1,15 +1,17 @@
 <md-sidenav md-component-id="SideNavBar" id="SideNavBar" md-is-locked-open="$mdMedia('gt-md')" md-whiteframe="4" flex layout="column">
     <md-toolbar style="background-color: white;">
-        <md-button class="md-accent md-raised fdz-skip-navigation" ng-click="focusContent()">
+        <md-button ng-if="$mdMedia('gt-md')" class="md-accent md-raised fdz-skip-navigation" ng-click="focusContent()">
           {{'global.menu.skip-navigation'|translate}}
           <md-tooltip>
             {{'global.menu.skip-navigation-tooltip'|translate}}
           </md-tooltip>
         </md-button>
-        <a ng-href="#!/{{currentLanguage}}/search?page=1" title="{{'global.rdc-alt-text'|translate}}" md-sidenav-focus ng-click="close()">
+        <md-button ng-href="#!/{{currentLanguage}}/search?page=1" md-sidenav-focus ng-click="close()">
             <img src="assets/images/FDZ_Logo.svg" style="height: 64px" alt>
-            <span class="sr-only">FDZ</span>
-        </a>
+            <md-tooltip>
+              {{'global.menu.back-to-search'|translate}}
+            </md-tooltip>
+        </md-button>
     </md-toolbar>
     <md-content ng-switch="isAuthenticated()" flex role="navigation">
         <md-divider></md-divider>

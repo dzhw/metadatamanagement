@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('NavbarController',
-  function($scope, Principal, $mdSidenav, $document) {
+  function($scope, Principal, $mdSidenav, $document, $timeout) {
     $scope.isAuthenticated = Principal.isAuthenticated;
 
     //For toggle buttons
@@ -21,7 +21,7 @@ angular.module('metadatamanagementApp').controller('NavbarController',
 
     $scope.close = function() {
       if (!$mdSidenav('SideNavBar').isLockedOpen()) {
-        $mdSidenav('SideNavBar').toggle();
+        $timeout($mdSidenav('SideNavBar').toggle, 200);
       }
     };
 

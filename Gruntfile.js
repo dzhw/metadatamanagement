@@ -234,7 +234,8 @@ module.exports = function(grunt) {
             'hide-xs',
             'hide-sm',
             'md-sidenav-focus',
-            'md-autofocus'
+            'md-autofocus',
+            'md-ink-ripple'
           ]
         },
         files: {

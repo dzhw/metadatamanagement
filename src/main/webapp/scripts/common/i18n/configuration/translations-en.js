@@ -7,7 +7,6 @@ angular.module('metadatamanagementApp').config(
       'global': {
         'title': 'metadatamanagement',
         'browsehappy': 'You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/?locale=en">upgrade your browser</a> to improve your experience.',
-        'rdc-alt-text': 'Research Data Center, German Center for Research on Higher Education and Science Studies',
         'dzhw-alt-text': 'The German Centre for Research on Higher Education and Science Studies',
         'bmbf-alt-text': 'Sponsored by the FMER',
         'search': 'Search',
@@ -63,6 +62,7 @@ angular.module('metadatamanagementApp').config(
           },
           'skip-navigation': 'Skip to Content',
           'skip-navigation-tooltip': 'Click to skip elements from navigation bar',
+          'back-to-search': 'Click for navigating to search page',
           'language': 'Language',
           'disclosure': 'Disclosure',
           'notepad': 'Notepad'
