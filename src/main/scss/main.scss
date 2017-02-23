@@ -509,7 +509,7 @@ md-dialog h2 {
 }
 
 .fdz-table tbody > tr:hover {
-    background-color: #f5f5f5;
+    background-color: rgba(158, 158, 158, 0.2);
 }
 @media only screen and (max-width: 600px) {
     .fdz-table {
@@ -675,5 +675,10 @@ div.fdz-breadCrumb div+div:before {
 a:focus, button:focus {
   outline: 0px !important;
   outline-offset: 0px !important;
+  border: 1px solid $brand-warning !important;
+}
+
+.fdz-content:focus {
+  background-color: rgba(158, 158, 158, 0.2) !important;
   border: 1px solid $brand-warning !important;
 }
