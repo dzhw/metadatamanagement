@@ -3,59 +3,62 @@
     <h1 class="md-headline" style="margin-left: 0px;">{{ctrl.study.title[currentLanguage]}} <span class="label label-as-badge label-default">{{ctrl.study.id}}</span></h1>
   </div>
     <div layout="column" layout-gt-sm="row">
-        <md-card flex-gt-sm>
-            <md-card-header>
-                <md-card-header-text>
-                    <h2 class="md-title">{{'global.cards.details' | translate }}</h2>
-                </md-card-header-text>
-            </md-card-header>
-            <md-divider></md-divider>
-            <md-card-content>
-                <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.surveySeries[currentLanguage]">
-                    <span style="font-weight: bold;">{{'study-management.detail.surveySeries' | translate }}:
-                    </span>
-                    <span>{{ctrl.study.surveySeries[currentLanguage]}}</span>
-                </div>
-                <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.institution[currentLanguage]">
-                    <span style="font-weight: bold;">{{'study-management.detail.institution' | translate }}:
-                    </span>
-                    <span>{{ctrl.study.institution[currentLanguage]}}</span>
-                </div>
-                <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.authors">
-                    <span style="font-weight: bold;">{{'study-management.detail.authors' | translate }}:
-                    </span>
-                    <span>{{ctrl.study.authors}}</span>
-                </div>
-                <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.sponsor[currentLanguage]">
-                    <span style="font-weight: bold;">{{'study-management.detail.sponsors' | translate }}:
-                    </span>
-                    <span>{{ctrl.study.sponsor[currentLanguage]}}</span>
-                </div>
-                <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.accessWays">
-                    <span style="font-weight: bold;">{{'study-management.detail.accessWays' | translate }}:
-                    </span>
-                    <span>{{ctrl.study.accessWays.join(', ')}}</span>
-                </div>
-                <div ng-if="ctrl.study.releases.length > 0" ng-repeat="release in ctrl.study.releases">
-                    <div style="margin-bottom: 0.5em;">
-                        <span style="font-weight: bold;">doi:
-                        </span>
-                        <span>{{release.doi}}</span>
-                    </div>
-                    <div style="margin-bottom: 0.5em;">
-                        <span style="font-weight: bold;">{{'study-management.detail.version' | translate }}:
-                        </span>
-                        <span>{{release.version}}</span>
-                    </div>
-                </div>
-                <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.citationHint[currentLanguage]">
-                    <span style="font-weight: bold;">{{'study-management.detail.citationHint' | translate }}:
-                    </span>
-                    <span>{{ctrl.study.citationHint[currentLanguage]}}</span>
-                </div>
-            </md-card-content>
+      <div flex-gt-sm="50">
+        <md-card>
+          <md-card-header>
+            <md-card-header-text>
+              <h2 class="md-title">{{'global.cards.details' | translate }}</h2>
+            </md-card-header-text>
+          </md-card-header>
+          <md-divider></md-divider>
+          <md-card-content>
+            <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.surveySeries[currentLanguage]">
+              <span style="font-weight: bold;">{{'study-management.detail.surveySeries' | translate }}:
+              </span>
+              <span>{{ctrl.study.surveySeries[currentLanguage]}}</span>
+            </div>
+            <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.institution[currentLanguage]">
+              <span style="font-weight: bold;">{{'study-management.detail.institution' | translate }}:
+              </span>
+              <span>{{ctrl.study.institution[currentLanguage]}}</span>
+            </div>
+            <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.authors">
+              <span style="font-weight: bold;">{{'study-management.detail.authors' | translate }}:
+              </span>
+              <span>{{ctrl.study.authors}}</span>
+            </div>
+            <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.sponsor[currentLanguage]">
+              <span style="font-weight: bold;">{{'study-management.detail.sponsors' | translate }}:
+              </span>
+              <span>{{ctrl.study.sponsor[currentLanguage]}}</span>
+            </div>
+            <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.accessWays">
+              <span style="font-weight: bold;">{{'study-management.detail.accessWays' | translate }}:
+              </span>
+              <span>{{ctrl.study.accessWays.join(', ')}}</span>
+            </div>
+            <div ng-if="ctrl.study.releases.length > 0" ng-repeat="release in ctrl.study.releases">
+              <div style="margin-bottom: 0.5em;">
+                <span style="font-weight: bold;">doi:
+                </span>
+                <span>{{release.doi}}</span>
+              </div>
+              <div style="margin-bottom: 0.5em;">
+                <span style="font-weight: bold;">{{'study-management.detail.version' | translate }}:
+                </span>
+                <span>{{release.version}}</span>
+              </div>
+            </div>
+            <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.citationHint[currentLanguage]">
+              <span style="font-weight: bold;">{{'study-management.detail.citationHint' | translate }}:
+              </span>
+              <span>{{ctrl.study.citationHint[currentLanguage]}}</span>
+            </div>
+          </md-card-content>
         </md-card>
-        <md-card flex-gt-sm="40" ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm'), 'fdz-reset-top-margin': $mdMedia('sm') || $mdMedia('xs')}">
+      </div>
+      <div flex-gt-sm="50">
+        <md-card ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm'), 'fdz-reset-top-margin': $mdMedia('sm') || $mdMedia('xs')}">
             <md-card-header>
                 <md-card-header-text>
                     <h2 class="md-title">{{'global.cards.related-objects' | translate }}</h2>
@@ -113,6 +116,7 @@
               </div>
             </md-card-content>
         </md-card>
+      </div>
     </div>
     <div layout="row">
         <md-card flex class="fdz-reset-top-margin">
