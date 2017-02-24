@@ -4,13 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.OneForeignKeyIsUsed;
@@ -18,6 +22,7 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.valida
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidPublicationYear;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidRelatedPublicationId;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidUrl;
+import io.searchbox.annotations.JestId;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -37,8 +42,30 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
     intoPackage = "eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.builders")
 @ValidRelatedPublicationId(message = 
     "related-publication-management.error.related-publication.valid-related-publication-id")
-public class RelatedPublication extends RelatedPublicationSubDocument {
+public class RelatedPublication extends AbstractRdcDomainObject {
 
+  @Id
+  @JestId
+  @NotEmpty(message = "related-publication-management.error.related-publication.id.not-empty")
+  @Size(max = StringLengths.MEDIUM,
+      message = "related-publication-management.error.related-publication.id.size")
+  @Pattern(regexp = Patterns.NO_WHITESPACE,
+      message = "related-publication-management.error.related-publication.id.pattern")
+  private String id;
+  @Size(max = StringLengths.MEDIUM,
+      message = "related-publication-management.error.related-publication." + "doi.size")
+  private String doi;
+  @Size(max = StringLengths.MEDIUM,
+      message = "related-publication-management.error.related-publication." + "title.size")
+  @NotEmpty(
+      message = "related-publication-management.error.related-publication." + "title.not-empty")
+  private String title;
+  @Size(max = StringLengths.LARGE,
+      message = "related-publication-management.error.related-publication." + "authors.size")
+  @NotEmpty(
+      message = "related-publication-management.error.related-publication." + "authors.not-empty")
+  private String authors;
+  
   @NotEmpty(message = "related-publication-management.error.related-publication." 
       + "source-reference.not-empty")
   @Size(max = StringLengths.LARGE,
@@ -84,6 +111,39 @@ public class RelatedPublication extends RelatedPublicationSubDocument {
   public RelatedPublication(RelatedPublication relatedPublication) {
     super();
     BeanUtils.copyProperties(relatedPublication, this);
+  }
+  
+  @Override
+  public String getId() {
+    return this.id;
+  }
+
+  public String getDoi() {
+    return doi;
+  }
+
+  public void setDoi(String doi) {
+    this.doi = doi;
+  }
+
+  public String getTitle() {
+    return title;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  public String getAuthors() {
+    return authors;
+  }
+
+  public void setAuthors(String authors) {
+    this.authors = authors;
   }
   
   /* GETTER / SETTER */

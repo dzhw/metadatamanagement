@@ -1,15 +1,16 @@
 package eu.dzhw.fdz.metadatamanagement.studymanagement.repository;
 
 import java.util.List;
+import java.util.stream.Stream;
 
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudySubDocumentProjection;
 
 /**
  * Spring Data MongoDB repository for the data acquisitionProject entity.
@@ -21,14 +22,23 @@ public interface StudyRepository extends MongoRepository<Study, String>,
     QueryDslPredicateExecutor<Study> {
   
   @RestResource(exported = false)
+  IdAndVersionProjection findOneIdAndVersionById(String id);
+  
+  @RestResource(exported = false)
   Study findOneByDataAcquisitionProjectId(String dataAcquisitionProjectId);
   
   @RestResource(exported = false)
-  List<Study> deleteByDataAcquisitionProjectId(String dataAcquisitionProjectId);
+  Stream<Study> streamByDataAcquisitionProjectId(String dataAcquisitionProjectId);
   
   @RestResource(exported = false)
-  Slice<Study> findBy(Pageable pageable);
+  Stream<IdAndVersionProjection> streamAllIdAndVersionsBy();
 
   @RestResource(exported = false)
-  List<Study> findByIdIn(List<String> studyIds);
+  Stream<IdAndVersionProjection> streamIdsByIdIn(List<String> studyIds);
+
+  @RestResource(exported = false)
+  List<StudySubDocumentProjection> findSubDocumentsByIdIn(List<String> studyIds);
+
+  @RestResource(exported = false)
+  StudySubDocumentProjection findOneSubDocumentById(String studyId);
 }

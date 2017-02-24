@@ -8,6 +8,7 @@ import javax.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 
@@ -40,8 +41,8 @@ public class ValidUniqueInstrumentNumberValidator
         || StringUtils.isEmpty(instrument.getDataAcquisitionProjectId())) {
       return true;
     }
-    List<Instrument> instruments = instrumentRepository
-        .findByNumberAndDataAcquisitionProjectId(instrument.getNumber(),
+    List<IdAndVersionProjection> instruments = instrumentRepository
+        .findIdsByNumberAndDataAcquisitionProjectId(instrument.getNumber(),
             instrument.getDataAcquisitionProjectId());
     if (instruments.size() > 1) {
       return false;

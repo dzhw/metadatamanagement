@@ -296,7 +296,8 @@ public class DataSetReportService {
 
     // Create a Map of Variables
     String dataSetId = ((DataSet)dataForTemplate.get("dataSet")).getId();
-    List<Variable> variables = this.variableRepository.findByDataSetId(dataSetId);
+    List<Variable> variables = this.variableRepository
+        .findByDataSetIdOrderByIndexInDataSetAsc(dataSetId);
     Map<String, Variable> variablesMap = Maps.uniqueIndex(variables, new VariableFunction());
     dataForTemplate.put("variables", variablesMap);
 

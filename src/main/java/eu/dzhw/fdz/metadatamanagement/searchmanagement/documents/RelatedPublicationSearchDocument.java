@@ -2,21 +2,14 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetSubDocument;
-import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
-import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentSubDocument;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.QuestionSubDocument;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataSetSubDocumentProjection;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.InstrumentSubDocumentProjection;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.projections.QuestionSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudySubDocument;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveySubDocument;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.VariableSubDocument;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudySubDocumentProjection;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.SurveySubDocumentProjection;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.VariableSubDocumentProjection;
 
 /**
  * Representation of a related publication which is stored in elasticsearch.
@@ -24,12 +17,18 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.VariableSubDocum
  * @author Daniel Katzberg
  */
 public class RelatedPublicationSearchDocument extends RelatedPublication {
-  private List<StudySubDocument> studies = new ArrayList<StudySubDocument>();
-  private List<QuestionSubDocument> questions = new ArrayList<QuestionSubDocument>();
-  private List<InstrumentSubDocument> instruments = new ArrayList<InstrumentSubDocument>();
-  private List<SurveySubDocument> surveys = new ArrayList<SurveySubDocument>();
-  private List<DataSetSubDocument> dataSets = new ArrayList<DataSetSubDocument>();
-  private List<VariableSubDocument> variables = new ArrayList<VariableSubDocument>();
+  private List<StudySubDocumentProjection> studies = 
+      new ArrayList<StudySubDocumentProjection>();
+  private List<QuestionSubDocumentProjection> questions = 
+      new ArrayList<QuestionSubDocumentProjection>();
+  private List<InstrumentSubDocumentProjection> instruments = 
+      new ArrayList<InstrumentSubDocumentProjection>();
+  private List<SurveySubDocumentProjection> surveys = 
+      new ArrayList<SurveySubDocumentProjection>();
+  private List<DataSetSubDocumentProjection> dataSets = 
+      new ArrayList<DataSetSubDocumentProjection>();
+  private List<VariableSubDocumentProjection> variables = 
+      new ArrayList<VariableSubDocumentProjection>();
   
   /**
    * Construct the search document with all related subdocuments.
@@ -43,80 +42,54 @@ public class RelatedPublicationSearchDocument extends RelatedPublication {
    */
   @SuppressWarnings("CPD-START")
   public RelatedPublicationSearchDocument(RelatedPublication relatedPublication,
-      List<Study> studies, List<Question> questions, List<Instrument> instruments,
-      List<Survey> surveys, List<DataSet> dataSets, List<Variable> variables) {
+      List<StudySubDocumentProjection> studies, 
+      List<QuestionSubDocumentProjection> questions, 
+      List<InstrumentSubDocumentProjection> instruments,
+      List<SurveySubDocumentProjection> surveys, 
+      List<DataSetSubDocumentProjection> dataSets, 
+      List<VariableSubDocumentProjection> variables) {
     super(relatedPublication);
     if (studies != null) {
-      this.studies = studies.stream()
-          .map(StudySubDocument::new).collect(Collectors.toList());      
+      this.studies = studies;      
     }
     if (questions != null) {
-      this.questions = questions.stream()
-          .map(QuestionSubDocument::new).collect(Collectors.toList());      
+      this.questions = questions;      
     }
     if (instruments != null) {
-      this.instruments = instruments.stream()
-          .map(InstrumentSubDocument::new).collect(Collectors.toList());      
+      this.instruments = instruments;      
     }
     if (surveys != null) {
-      this.surveys = surveys.stream()
-          .map(SurveySubDocument::new).collect(Collectors.toList());      
+      this.surveys = surveys;      
     }
     if (dataSets != null) {
-      this.dataSets = dataSets.stream()
-          .map(DataSetSubDocument::new).collect(Collectors.toList());      
+      this.dataSets = dataSets;      
     }
     if (variables != null) {
-      this.variables = variables.stream()
-          .map(VariableSubDocument::new).collect(Collectors.toList());      
+      this.variables = variables;      
     }
   }
 
-  public List<StudySubDocument> getStudies() {
+  public List<StudySubDocumentProjection> getStudies() {
     return studies;
   }
 
-  public void setStudies(List<StudySubDocument> studies) {
-    this.studies = studies;
-  }
-
-  public List<QuestionSubDocument> getQuestions() {
+  public List<QuestionSubDocumentProjection> getQuestions() {
     return questions;
   }
 
-  public void setQuestions(List<QuestionSubDocument> questions) {
-    this.questions = questions;
-  }
-
-  public List<InstrumentSubDocument> getInstruments() {
+  public List<InstrumentSubDocumentProjection> getInstruments() {
     return instruments;
   }
 
-  public void setInstruments(List<InstrumentSubDocument> instruments) {
-    this.instruments = instruments;
-  }
-
-  public List<SurveySubDocument> getSurveys() {
+  public List<SurveySubDocumentProjection> getSurveys() {
     return surveys;
   }
 
-  public void setSurveys(List<SurveySubDocument> surveys) {
-    this.surveys = surveys;
-  }
-
-  public List<DataSetSubDocument> getDataSets() {
+  public List<DataSetSubDocumentProjection> getDataSets() {
     return dataSets;
   }
-
-  public void setDataSets(List<DataSetSubDocument> dataSets) {
-    this.dataSets = dataSets;
-  }
-
-  public List<VariableSubDocument> getVariables() {
+  
+  public List<VariableSubDocumentProjection> getVariables() {
     return variables;
-  }
-
-  public void setVariables(List<VariableSubDocument> variables) {
-    this.variables = variables;
   }
 }

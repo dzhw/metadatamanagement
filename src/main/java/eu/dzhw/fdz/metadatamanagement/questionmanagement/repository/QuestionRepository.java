@@ -1,15 +1,16 @@
 package eu.dzhw.fdz.metadatamanagement.questionmanagement.repository;
 
 import java.util.List;
+import java.util.stream.Stream;
 
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.projections.QuestionSubDocumentProjection;
 
 /**
  * The Repository for {@link Question} domain object. The data will be insert with a REST API and
@@ -20,26 +21,36 @@ public interface QuestionRepository
     extends MongoRepository<Question, String>, QueryDslPredicateExecutor<Question> {
 
   @RestResource(exported = false)
-  List<Question> deleteByDataAcquisitionProjectId(String dataAcquisitionProjectId);
+  Stream<Question> streamByDataAcquisitionProjectId(String dataAcquisitionProjectId);
 
   @RestResource(exported = false)
   List<Question> findByDataAcquisitionProjectId(String dataAcquisitionProjectId);
   
   @RestResource(exported = false)
-  List<Question> findByInstrumentIdAndNumber(String instrumentId, String number);
+  List<IdAndVersionProjection> findIdsByInstrumentIdAndNumber(String instrumentId, String number);
 
   @RestResource(exported = false)
-  Slice<Question> findBy(Pageable pageable);
+  Stream<IdAndVersionProjection> streamAllIdAndVersionsBy();
   
   @RestResource(exported = false)
-  List<Question> findByInstrumentId(String instrumentId);
+  Stream<IdAndVersionProjection> streamIdsByInstrumentId(String instrumentId);
   
   @RestResource(exported = false)
-  List<Question> findByIdIn(List<String> ids);
+  Stream<IdAndVersionProjection> streamIdsByIdIn(List<String> ids);
 
   @RestResource(exported = false)
-  List<Question> findByStudyId(String studyId);
+  Stream<IdAndVersionProjection> streamIdsByStudyId(String studyId);
 
   @RestResource(exported = false)
-  List<Question> findByInstrumentIdIn(List<String> instrumentIds);
+  List<QuestionSubDocumentProjection> findSubDocumentsByInstrumentIdIn(List<String> instrumentIds);
+
+  @RestResource(exported = false)
+  List<QuestionSubDocumentProjection> findSubDocumentsByStudyId(String studyId);
+
+  @RestResource(exported = false)
+  List<QuestionSubDocumentProjection> findSubDocumentsByIdIn(List<String> questionIds);
+
+  @RestResource(exported = false)
+  List<QuestionSubDocumentProjection> findSubDocumentsByInstrumentId(
+      String instrumentId);
 }

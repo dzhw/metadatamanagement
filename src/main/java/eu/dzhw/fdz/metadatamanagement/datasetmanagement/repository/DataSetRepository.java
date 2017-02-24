@@ -1,16 +1,17 @@
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
-import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataSetSubDocumentProjection;
 
 /**
  * The Repository for {@link DataSet} domain object. The data will be insert with a REST API and
@@ -23,23 +24,42 @@ public interface DataSetRepository
     extends MongoRepository<DataSet, String>, QueryDslPredicateExecutor<DataSet> {
 
   @RestResource(exported = false)
-  List<DataSet> deleteByDataAcquisitionProjectId(String dataAcquisitionProjectId);
-  
-  List<DataSet> findByDataAcquisitionProjectId(@Param("id") String dataAcquisitionProjectId);
+  Stream<DataSet> streamByDataAcquisitionProjectId(String dataAcquisitionProjectId);
   
   @RestResource(exported = false)
-  List<DataSet> findByStudyId(String studyId);
+  List<DataSet> findByDataAcquisitionProjectId(String dataAcquisitionProjectId);
   
   @RestResource(exported = false)
-  List<DataSet> findByDataAcquisitionProjectIdAndNumber(String dataAcquisitionProjectId,
-      Integer number);
+  Stream<IdAndVersionProjection> streamIdsByStudyId(String studyId);
+  
+  @RestResource(exported = false)
+  List<IdAndVersionProjection> findIdsByDataAcquisitionProjectIdAndNumber(
+      String dataAcquisitionProjectId, Integer number);
 
   @RestResource(exported = false)
-  Slice<DataSet> findBy(Pageable pageable);
+  Stream<IdAndVersionProjection> streamAllIdAndVersionsBy();
 
   @RestResource(exported = false)
-  List<DataSet> findBySurveyIdsContaining(String surveyId);
+  Stream<IdAndVersionProjection> streamIdsBySurveyIdsContaining(String surveyId);
 
   @RestResource(exported = false)
-  List<DataSet> findByIdIn(List<String> dataSetIds);  
+  Stream<IdAndVersionProjection> streamIdsByIdIn(Collection<String> dataSetIds);
+
+  @RestResource(exported = false)
+  IdAndVersionProjection findOneIdById(String dataSetId);
+
+  @RestResource(exported = false)
+  List<DataSetSubDocumentProjection> findSubDocumentsByIdIn(Collection<String> dataSetIds);
+
+  @RestResource(exported = false)
+  List<DataSetSubDocumentProjection> findSubDocumentsByStudyId(String studyId);
+
+  @RestResource(exported = false)
+  List<DataSetSubDocumentProjection> findSubDocumentsBySurveyIdsContaining(String surveyId);
+
+  @RestResource(exported = false)
+  DataSetSubDocumentProjection findOneSubDocumentById(String dataSetId);
+
+  @RestResource(exported = false)
+  List<DataSet> findByStudyId(String id);  
 }

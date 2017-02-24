@@ -2,14 +2,18 @@ package eu.dzhw.fdz.metadatamanagement.questionmanagement.service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
+import org.springframework.data.rest.core.event.AfterDeleteEvent;
 import org.springframework.stereotype.Service;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
@@ -43,6 +47,9 @@ public class QuestionService {
 
   @Autowired
   private QuestionImageService imageService;
+  
+  @Autowired
+  private ApplicationEventPublisher eventPublisher;
 
   /**
    * Delete all questions when the dataAcquisitionProject was deleted.
@@ -59,15 +66,13 @@ public class QuestionService {
    * @param dataAcquisitionProjectId the id for to the data acquisition project.
    */
   public void deleteQuestionsByProjectId(String dataAcquisitionProjectId) {
-    List<Question> deletedQuestions = this.questionRepository
-        .deleteByDataAcquisitionProjectId(dataAcquisitionProjectId);
-    deletedQuestions.forEach(question -> {
-      imageService.deleteQuestionImage(question.getId());
-      elasticsearchUpdateQueueService.enqueue(
-          question.getId(),
-          ElasticsearchType.questions,
-          ElasticsearchUpdateQueueAction.DELETE);
-    });
+    try (Stream<Question> questions = questionRepository
+        .streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
+      questions.forEach(question -> {
+        questionRepository.delete(question);
+        eventPublisher.publishEvent(new AfterDeleteEvent(question));        
+      });
+    }    
   }
 
   /**
@@ -107,13 +112,7 @@ public class QuestionService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onStudyChanged(Study study) {
-    List<Question> questions = questionRepository.findByStudyId(study.getId());
-    questions.forEach(question -> {
-      elasticsearchUpdateQueueService.enqueue(
-          question.getId(), 
-          ElasticsearchType.questions, 
-          ElasticsearchUpdateQueueAction.UPSERT);      
-    });    
+    enqueueUpserts(questionRepository.streamIdsByStudyId(study.getId()));
   }
   
   /**
@@ -125,13 +124,7 @@ public class QuestionService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onInstrumentChanged(Instrument instrument) {
-    List<Question> questions = questionRepository.findByInstrumentId(instrument.getId());
-    questions.forEach(question -> {
-      elasticsearchUpdateQueueService.enqueue(
-          question.getId(), 
-          ElasticsearchType.questions, 
-          ElasticsearchUpdateQueueAction.UPSERT);      
-    });    
+    enqueueUpserts(questionRepository.streamIdsByInstrumentId(instrument.getId()));
   }
   
   /**
@@ -143,16 +136,12 @@ public class QuestionService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onSurveyChanged(Survey survey) {
-    List<Instrument> instruments = instrumentRepository.findBySurveyIdsContaining(survey.getId());
-    instruments.forEach(instrument -> {
-      List<Question> questions = questionRepository.findByInstrumentId(instrument.getId());
-      questions.forEach(question -> {
-        elasticsearchUpdateQueueService.enqueue(
-            question.getId(), 
-            ElasticsearchType.questions, 
-            ElasticsearchUpdateQueueAction.UPSERT);      
-      });          
-    });
+    try (Stream<IdAndVersionProjection> instruments = instrumentRepository
+        .streamIdsBySurveyIdsContaining(survey.getId())) {
+      instruments.forEach(instrument -> {
+        enqueueUpserts(questionRepository.streamIdsByInstrumentId(instrument.getId()));
+      });      
+    }
   }
 
   /**
@@ -167,11 +156,7 @@ public class QuestionService {
     if (variable.getRelatedQuestions() != null) {
       List<String> questionIds = variable.getRelatedQuestions().stream()
           .map(RelatedQuestion::getQuestionId).collect(Collectors.toList());
-      List<Question> questions = questionRepository.findByIdIn(questionIds);
-      questions.forEach(question -> {
-        elasticsearchUpdateQueueService.enqueue(question.getId(),
-            ElasticsearchType.questions, ElasticsearchUpdateQueueAction.UPSERT);
-      });      
+      enqueueUpserts(questionRepository.streamIdsByIdIn(questionIds));
     }
   }  
   
@@ -186,9 +171,14 @@ public class QuestionService {
   @HandleAfterDelete
   public void onRelatedPublicationChanged(RelatedPublication relatedPublication) {
     if (relatedPublication.getQuestionIds() != null) {
-      List<Question> questions = questionRepository.findByIdIn(relatedPublication
-          .getQuestionIds());
-      questions.forEach(question -> {
+      enqueueUpserts(questionRepository.streamIdsByIdIn(relatedPublication
+          .getQuestionIds()));
+    }
+  }
+  
+  private void enqueueUpserts(Stream<IdAndVersionProjection> questions) {
+    try (Stream<IdAndVersionProjection> questionStream = questions) {
+      questionStream.forEach(question -> {
         elasticsearchUpdateQueueService.enqueue(question.getId(),
             ElasticsearchType.questions, ElasticsearchUpdateQueueAction.UPSERT);
       });      

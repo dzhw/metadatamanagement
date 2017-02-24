@@ -8,6 +8,7 @@ import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 
@@ -42,13 +43,13 @@ public class UniqueDataSetNumberInProjectValidator
   public boolean isValid(DataSet dataSet, ConstraintValidatorContext context) {
 
     // search for data sets with the same project id and number (not id!)
-    List<DataSet> dataSetWithNumberAndProject =
-        this.dataSetRepository.findByDataAcquisitionProjectIdAndNumber(
+    List<IdAndVersionProjection> dataSetWithNumberAndProject =
+        this.dataSetRepository.findIdsByDataAcquisitionProjectIdAndNumber(
         dataSet.getDataAcquisitionProjectId(), dataSet.getNumber());
     
     // ignore the same object (for an update)
-    List<DataSet> dataSetWithoutSameDataSet = new ArrayList<>();
-    for (DataSet dataSetFromList : dataSetWithNumberAndProject) {
+    List<IdAndVersionProjection> dataSetWithoutSameDataSet = new ArrayList<>();
+    for (IdAndVersionProjection dataSetFromList : dataSetWithNumberAndProject) {
       if (!dataSetFromList.getId()
           .equals(dataSet.getId())) {
         dataSetWithoutSameDataSet.add(dataSetFromList);

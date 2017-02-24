@@ -2,18 +2,12 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetSubDocument;
-import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
-import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentSubDocument;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublicationSubDocument;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudySubDocument;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveySubDocument;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataSetSubDocumentProjection;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.InstrumentSubDocumentProjection;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projections.RelatedPublicationSubDocumentProjection;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudySubDocumentProjection;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.SurveySubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 
 /**
@@ -23,13 +17,14 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
  * @author Daniel Katzberg
  */
 public class VariableSearchDocument extends Variable {
-  private DataSetSubDocument dataSet;
-  private StudySubDocument study;
-  private List<RelatedPublicationSubDocument> relatedPublications = 
-      new ArrayList<RelatedPublicationSubDocument>();
-  private List<SurveySubDocument> surveys = new ArrayList<SurveySubDocument>();
-  private List<InstrumentSubDocument> instruments = 
-      new ArrayList<InstrumentSubDocument>(); 
+  private DataSetSubDocumentProjection dataSet;
+  private StudySubDocumentProjection study;
+  private List<RelatedPublicationSubDocumentProjection> relatedPublications = 
+      new ArrayList<RelatedPublicationSubDocumentProjection>();
+  private List<SurveySubDocumentProjection> surveys = 
+      new ArrayList<SurveySubDocumentProjection>();
+  private List<InstrumentSubDocumentProjection> instruments = 
+      new ArrayList<InstrumentSubDocumentProjection>(); 
   
   /**
    * Construct the search document with all related subdocuments.
@@ -41,67 +36,43 @@ public class VariableSearchDocument extends Variable {
    * @param instruments the instruments using this variable
    */
   @SuppressWarnings("CPD-START")
-  public VariableSearchDocument(Variable variable, DataSet dataSet, Study study,
-      List<RelatedPublication> relatedPublications, List<Survey> surveys, 
-      List<Instrument> instruments) {
+  public VariableSearchDocument(Variable variable, 
+      DataSetSubDocumentProjection dataSet, 
+      StudySubDocumentProjection study,
+      List<RelatedPublicationSubDocumentProjection> relatedPublications, 
+      List<SurveySubDocumentProjection> surveys, 
+      List<InstrumentSubDocumentProjection> instruments) {
     super(variable);
-    if (dataSet != null) {      
-      this.dataSet = new DataSetSubDocument(dataSet);
-    }
-    if (study != null) {
-      this.study = new StudySubDocument(study);      
-    }
+    this.dataSet = dataSet;
+    this.study = study;      
     if (relatedPublications != null) {
-      this.relatedPublications = relatedPublications.stream()
-          .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());
+      this.relatedPublications = relatedPublications;
     }
     if (surveys != null) {
-      this.surveys = surveys.stream()
-          .map(SurveySubDocument::new).collect(Collectors.toList());      
+      this.surveys = surveys;      
     }
     if (instruments != null) {
-      this.instruments = instruments.stream()
-          .map(InstrumentSubDocument::new).collect(Collectors.toList());
+      this.instruments = instruments;
     }
   }
 
-  public DataSetSubDocument getDataSet() {
+  public DataSetSubDocumentProjection getDataSet() {
     return dataSet;
   }
 
-  public void setDataSet(DataSetSubDocument dataSet) {
-    this.dataSet = dataSet;
-  }
-
-  public StudySubDocument getStudy() {
+  public StudySubDocumentProjection getStudy() {
     return study;
   }
 
-  public void setStudy(StudySubDocument study) {
-    this.study = study;
-  }
-
-  public List<RelatedPublicationSubDocument> getRelatedPublications() {
+  public List<RelatedPublicationSubDocumentProjection> getRelatedPublications() {
     return relatedPublications;
   }
 
-  public void setRelatedPublications(List<RelatedPublicationSubDocument> relatedPublications) {
-    this.relatedPublications = relatedPublications;
-  }
-
-  public List<SurveySubDocument> getSurveys() {
+  public List<SurveySubDocumentProjection> getSurveys() {
     return surveys;
   }
 
-  public void setSurveys(List<SurveySubDocument> surveys) {
-    this.surveys = surveys;
-  }
-
-  public List<InstrumentSubDocument> getInstruments() {
+  public List<InstrumentSubDocumentProjection> getInstruments() {
     return instruments;
-  }
-
-  public void setInstruments(List<InstrumentSubDocument> instruments) {
-    this.instruments = instruments;
   }
 }

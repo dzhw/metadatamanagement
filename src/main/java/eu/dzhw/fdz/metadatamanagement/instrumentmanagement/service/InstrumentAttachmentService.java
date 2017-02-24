@@ -57,7 +57,7 @@ public class InstrumentAttachmentService {
    * Delete all attachments of the given instrument.
    * @param instrumentId the id of the instrument.
    */
-  public void deleteAllByInstrument(String instrumentId) {
+  public void deleteAllByInstrumentId(String instrumentId) {
     Query query = new Query(GridFsCriteria.whereFilename()
         .regex("^" + Pattern.quote(buildFileNamePrefix(instrumentId))));
     this.operations.delete(query);

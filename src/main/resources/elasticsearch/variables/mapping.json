@@ -104,6 +104,11 @@
       				"id" : {
       					"type": "string",
         				"index": "not_analyzed"
+      				},
+      				"surveyIds" : {
+      					"type": "string",	
+      					"index": "no",
+                		"include_in_all": false
       				}
       			}
       		},

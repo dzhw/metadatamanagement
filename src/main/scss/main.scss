@@ -682,3 +682,7 @@ a:focus, button:focus {
   background-color: rgba(158, 158, 158, 0.2) !important;
   border: 1px solid $brand-warning !important;
 }
+
+md-tab-item:hover {
+  background-color: rgba(158, 158, 158, 0.2) !important;
+}

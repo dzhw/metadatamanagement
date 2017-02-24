@@ -7,6 +7,7 @@ import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 
@@ -36,8 +37,8 @@ public class ValidUniqueSurveyNumberValidator
   @Override
   public boolean isValid(Survey survey, ConstraintValidatorContext context) {
     if (survey.getNumber() != null) {
-      List<Survey> surveys = surveyRepository
-          .findByNumberAndDataAcquisitionProjectId(survey
+      List<IdAndVersionProjection> surveys = surveyRepository
+          .findIdsByNumberAndDataAcquisitionProjectId(survey
               .getNumber(), survey.getDataAcquisitionProjectId());
       if (surveys.size() > 1) {
         return false;

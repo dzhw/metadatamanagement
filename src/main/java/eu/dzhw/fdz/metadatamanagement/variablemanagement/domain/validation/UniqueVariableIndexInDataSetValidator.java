@@ -7,6 +7,7 @@ import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 
@@ -40,8 +41,8 @@ public class UniqueVariableIndexInDataSetValidator implements
     if (variable.getIndexInDataSet() == null || variable.getDataSetNumber() == null) {
       return true;
     }
-    List<Variable> variables = variableRepository
-        .findByIndexInDataSetAndDataSetId(variable.getIndexInDataSet(),
+    List<IdAndVersionProjection> variables = variableRepository
+        .findIdsByIndexInDataSetAndDataSetId(variable.getIndexInDataSet(),
             variable.getDataSetId());
     if (variables.size() > 1) {
       return false;

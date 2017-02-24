@@ -1,14 +1,17 @@
 package eu.dzhw.fdz.metadatamanagement.studymanagement.service;
 
-import java.util.List;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
+import org.springframework.data.rest.core.event.AfterDeleteEvent;
 import org.springframework.stereotype.Service;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
@@ -37,6 +40,9 @@ public class StudyService {
   
   @Autowired
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
+  
+  @Autowired
+  private ApplicationEventPublisher eventPublisher;
 
   /**
    * Delete all studies when the dataAcquisitionProject was deleted.
@@ -51,19 +57,29 @@ public class StudyService {
   /**
    * A service method for deletion of studies within a data acquisition project.
    * @param dataAcquisitionProjectId the id for to the data acquisition project.
-   * @return List of deleted studies
    */
-  public List<Study> deleteAllStudiesByProjectId(String dataAcquisitionProjectId) {
-    List<Study> deletedStudies =
-        this.studyRepository.deleteByDataAcquisitionProjectId(dataAcquisitionProjectId);
-    deletedStudies.forEach(study -> {
-      elasticsearchUpdateQueueService.enqueue(
-          study.getId(), 
-          ElasticsearchType.studies, 
-          ElasticsearchUpdateQueueAction.DELETE);      
-    });
-    return deletedStudies;
-  }  
+  public void deleteAllStudiesByProjectId(String dataAcquisitionProjectId) {
+    try (Stream<Study> studies = studyRepository
+        .streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
+      studies.forEach(study -> {
+        studyRepository.delete(study);
+        eventPublisher.publishEvent(new AfterDeleteEvent(study));
+      });      
+    }
+  }
+  
+  /**
+   * Enqueue deletion of study search document when the study is deleted.
+   * 
+   * @param study the deleted variable.
+   */
+  @HandleAfterDelete
+  public void onStudyDeleted(Study study) {
+    elasticsearchUpdateQueueService.enqueue(
+        study.getId(), 
+        ElasticsearchType.studies, 
+        ElasticsearchUpdateQueueAction.DELETE);
+  }
   
   /**
    * Enqueue update of study search document when the study is updated.
@@ -88,15 +104,13 @@ public class StudyService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onDataSetChanged(DataSet dataSet) {
-    if (dataSet.getStudyId() != null) {      
-      Study study = studyRepository.findOne(dataSet.getStudyId());
-      if (study != null) {
-        elasticsearchUpdateQueueService.enqueue(
-            study.getId(), 
-            ElasticsearchType.studies, 
-            ElasticsearchUpdateQueueAction.UPSERT);      
-      }
-    }
+    IdAndVersionProjection study = studyRepository.findOneIdAndVersionById(dataSet.getStudyId());
+    if (study != null) {
+      elasticsearchUpdateQueueService.enqueue(
+          study.getId(), 
+          ElasticsearchType.studies, 
+          ElasticsearchUpdateQueueAction.UPSERT);      
+    }   
   }
   
   /**
@@ -108,15 +122,13 @@ public class StudyService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onVariableChanged(Variable variable) {
-    if (variable.getStudyId() != null) {
-      Study study = studyRepository.findOne(variable.getStudyId());
-      if (study != null) {
-        elasticsearchUpdateQueueService.enqueue(
-            study.getId(), 
-            ElasticsearchType.studies, 
-            ElasticsearchUpdateQueueAction.UPSERT);      
-      }      
-    }
+    IdAndVersionProjection study = studyRepository.findOneIdAndVersionById(variable.getStudyId());
+    if (study != null) {
+      elasticsearchUpdateQueueService.enqueue(
+          study.getId(), 
+          ElasticsearchType.studies, 
+          ElasticsearchUpdateQueueAction.UPSERT);      
+    }      
   }
   
   /**
@@ -129,13 +141,7 @@ public class StudyService {
   @HandleAfterDelete
   public void onRelatedPublicationChanged(RelatedPublication relatedPublication) {
     if (relatedPublication.getStudyIds() != null) {
-      List<Study> studies = studyRepository.findByIdIn(relatedPublication.getStudyIds());
-      studies.forEach(study -> {
-        elasticsearchUpdateQueueService.enqueue(
-            study.getId(), 
-            ElasticsearchType.studies, 
-            ElasticsearchUpdateQueueAction.UPSERT);            
-      });      
+      enqueueUpserts(studyRepository.streamIdsByIdIn(relatedPublication.getStudyIds()));      
     }
   }
   
@@ -148,15 +154,13 @@ public class StudyService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onSurveyChanged(Survey survey) {
-    if (survey.getStudyId() != null) {
-      Study study = studyRepository.findOne(survey.getStudyId());
-      if (study != null) {
-        elasticsearchUpdateQueueService.enqueue(
-            study.getId(), 
-            ElasticsearchType.studies, 
-            ElasticsearchUpdateQueueAction.UPSERT);      
-      }      
-    }
+    IdAndVersionProjection study = studyRepository.findOneIdAndVersionById(survey.getStudyId());
+    if (study != null) {
+      elasticsearchUpdateQueueService.enqueue(
+          study.getId(), 
+          ElasticsearchType.studies, 
+          ElasticsearchUpdateQueueAction.UPSERT);      
+    }      
   }
   
   /**
@@ -168,15 +172,13 @@ public class StudyService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onQuestionChanged(Question question) {
-    if (question.getStudyId() != null) {
-      Study study = studyRepository.findOne(question.getStudyId());
-      if (study != null) {
-        elasticsearchUpdateQueueService.enqueue(
-            study.getId(), 
-            ElasticsearchType.studies, 
-            ElasticsearchUpdateQueueAction.UPSERT);      
-      }      
-    }
+    IdAndVersionProjection study = studyRepository.findOneIdAndVersionById(question.getStudyId());
+    if (study != null) {
+      elasticsearchUpdateQueueService.enqueue(
+          study.getId(), 
+          ElasticsearchType.studies, 
+          ElasticsearchUpdateQueueAction.UPSERT);      
+    }      
   }
   
   /**
@@ -188,14 +190,21 @@ public class StudyService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onInstrumentChanged(Instrument instrument) {
-    if (instrument.getStudyId() != null) {
-      Study study = studyRepository.findOne(instrument.getStudyId());
-      if (study != null) {
-        elasticsearchUpdateQueueService.enqueue(
-            study.getId(), 
-            ElasticsearchType.studies, 
-            ElasticsearchUpdateQueueAction.UPSERT);      
-      }      
+    IdAndVersionProjection study = studyRepository.findOneIdAndVersionById(instrument.getStudyId());
+    if (study != null) {
+      elasticsearchUpdateQueueService.enqueue(
+          study.getId(), 
+          ElasticsearchType.studies, 
+          ElasticsearchUpdateQueueAction.UPSERT);      
+    }      
+  }
+  
+  private void enqueueUpserts(Stream<IdAndVersionProjection> studies) {
+    try (Stream<IdAndVersionProjection> studyStream = studies) {
+      studyStream.forEach(study -> {
+        elasticsearchUpdateQueueService.enqueue(study.getId(),
+            ElasticsearchType.studies, ElasticsearchUpdateQueueAction.UPSERT);
+      });      
     }
   }
 }

@@ -1,14 +1,17 @@
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.service;
 
-import java.util.List;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
+import org.springframework.data.rest.core.event.AfterDeleteEvent;
 import org.springframework.stereotype.Service;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
@@ -36,6 +39,9 @@ public class DataSetService {
 
   @Autowired
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
+  
+  @Autowired
+  private ApplicationEventPublisher eventPublisher;
 
   /**
    * Delete all data sets when the dataAcquisitionProject was deleted.
@@ -50,18 +56,15 @@ public class DataSetService {
   /**
    * A service method for deletion of dataSets within a data acquisition project.
    * @param dataAcquisitionProjectId the id for to the data acquisition project.
-   * @return List of deleted dataSets
    */
-  public List<DataSet> deleteDataSetsByProjectId(String dataAcquisitionProjectId) {
-    List<DataSet> deletedDataSets =
-        this.dataSetRepository.deleteByDataAcquisitionProjectId(dataAcquisitionProjectId);
-    deletedDataSets.forEach(dataSet -> {
-      elasticsearchUpdateQueueService.enqueue(
-          dataSet.getId(), 
-          ElasticsearchType.data_sets, 
-          ElasticsearchUpdateQueueAction.DELETE);      
-    });
-    return deletedDataSets;
+  public void deleteDataSetsByProjectId(String dataAcquisitionProjectId) {
+    try (Stream<DataSet> dataSets = dataSetRepository
+        .streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
+      dataSets.forEach(dataSet -> {
+        dataSetRepository.delete(dataSet);
+        eventPublisher.publishEvent(new AfterDeleteEvent(dataSet));              
+      });
+    }
   }
   
   /**
@@ -100,13 +103,7 @@ public class DataSetService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onStudyChanged(Study study) {
-    List<DataSet> dataSets = dataSetRepository.findByStudyId(study.getId());
-    dataSets.forEach(dataSet -> {
-      elasticsearchUpdateQueueService.enqueue(
-          dataSet.getId(), 
-          ElasticsearchType.data_sets, 
-          ElasticsearchUpdateQueueAction.UPSERT);      
-    });
+    enqueueUpserts(dataSetRepository.streamIdsByStudyId(study.getId()));
   }
   
   /**
@@ -118,13 +115,7 @@ public class DataSetService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onSurveyChanged(Survey survey) {
-    List<DataSet> dataSets = dataSetRepository.findBySurveyIdsContaining(survey.getId());
-    dataSets.forEach(dataSet -> {
-      elasticsearchUpdateQueueService.enqueue(
-          dataSet.getId(), 
-          ElasticsearchType.data_sets, 
-          ElasticsearchUpdateQueueAction.UPSERT);      
-    });
+    enqueueUpserts(dataSetRepository.streamIdsBySurveyIdsContaining(survey.getId()));
   }
   
   /**
@@ -136,7 +127,7 @@ public class DataSetService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onVariableChanged(Variable variable) {
-    DataSet dataSet = dataSetRepository.findOne(variable.getDataSetId());
+    IdAndVersionProjection dataSet = dataSetRepository.findOneIdById(variable.getDataSetId());
     if (dataSet != null) {
       elasticsearchUpdateQueueService.enqueue(
           dataSet.getId(), 
@@ -154,12 +145,15 @@ public class DataSetService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onRelatedPublicationChanged(RelatedPublication relatedPublication) {
-    List<DataSet> dataSets = dataSetRepository.findByIdIn(relatedPublication.getDataSetIds());
-    dataSets.forEach(dataSet -> {
-      elasticsearchUpdateQueueService.enqueue(
-          dataSet.getId(), 
-          ElasticsearchType.data_sets, 
-          ElasticsearchUpdateQueueAction.UPSERT);      
-    });
+    enqueueUpserts(dataSetRepository.streamIdsByIdIn(relatedPublication.getDataSetIds()));
+  }
+  
+  private void enqueueUpserts(Stream<IdAndVersionProjection> dataSets) {
+    try (Stream<IdAndVersionProjection> dataSetStream = dataSets) {
+      dataSetStream.forEach(dataSet -> {
+        elasticsearchUpdateQueueService.enqueue(dataSet.getId(),
+            ElasticsearchType.data_sets, ElasticsearchUpdateQueueAction.UPSERT);
+      });      
+    }
   }
 }

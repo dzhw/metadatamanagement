@@ -1,17 +1,17 @@
 package eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service;
 
-import java.util.List;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
+import org.springframework.data.rest.core.event.AfterDeleteEvent;
 import org.springframework.stereotype.Service;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
@@ -41,22 +41,19 @@ public class RelatedPublicationService {
   @Autowired
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
   
+  @Autowired
+  private ApplicationEventPublisher eventPublisher;
+  
   /**
    * A service method for deletion of relatedPublications within a data acquisition project.
    */
   public void deleteAll() {
-    Pageable pageable = new PageRequest(0, 100);
-    Slice<RelatedPublication> relatedPublications = relatedPublicationRepository.findBy(pageable);
-
-    while (relatedPublications.hasContent()) {
+    try (Stream<RelatedPublication> relatedPublications = relatedPublicationRepository
+        .streamAllBy()) {
       relatedPublications.forEach(relatedPublication -> {
         relatedPublicationRepository.delete(relatedPublication);
-        elasticsearchUpdateQueueService.enqueue(
-            relatedPublication.getId(), 
-            ElasticsearchType.related_publications, 
-            ElasticsearchUpdateQueueAction.DELETE);      
+        eventPublisher.publishEvent(new AfterDeleteEvent(relatedPublication));              
       });
-      relatedPublications = relatedPublicationRepository.findBy(pageable);
     }
   }
   
@@ -97,14 +94,8 @@ public class RelatedPublicationService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onStudyChanged(Study study) {
-    List<RelatedPublication> relatedPublications = relatedPublicationRepository
-        .findByStudyIdsContaining(study.getId());
-    relatedPublications.forEach(relatedPublication -> {      
-      elasticsearchUpdateQueueService.enqueue(
-          relatedPublication.getId(), 
-          ElasticsearchType.related_publications, 
-          ElasticsearchUpdateQueueAction.UPSERT);
-    });
+    enqueueUpserts(relatedPublicationRepository
+        .streamIdsByStudyIdsContaining(study.getId()));
   }
   
   /**
@@ -116,14 +107,8 @@ public class RelatedPublicationService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onQuestionChanged(Question question) {
-    List<RelatedPublication> relatedPublications = relatedPublicationRepository
-        .findByQuestionIdsContaining(question.getId());
-    relatedPublications.forEach(relatedPublication -> {      
-      elasticsearchUpdateQueueService.enqueue(
-          relatedPublication.getId(), 
-          ElasticsearchType.related_publications, 
-          ElasticsearchUpdateQueueAction.UPSERT);
-    });
+    enqueueUpserts(relatedPublicationRepository
+        .streamIdsByQuestionIdsContaining(question.getId()));
   }
   
   /**
@@ -135,14 +120,8 @@ public class RelatedPublicationService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onInstrumentChanged(Instrument instrument) {
-    List<RelatedPublication> relatedPublications = relatedPublicationRepository
-        .findByInstrumentIdsContaining(instrument.getId());
-    relatedPublications.forEach(relatedPublication -> {      
-      elasticsearchUpdateQueueService.enqueue(
-          relatedPublication.getId(), 
-          ElasticsearchType.related_publications, 
-          ElasticsearchUpdateQueueAction.UPSERT);
-    });
+    enqueueUpserts(relatedPublicationRepository
+        .streamIdsByInstrumentIdsContaining(instrument.getId()));
   }
   
   /**
@@ -154,14 +133,8 @@ public class RelatedPublicationService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onSurveyChanged(Survey survey) {
-    List<RelatedPublication> relatedPublications = relatedPublicationRepository
-        .findBySurveyIdsContaining(survey.getId());
-    relatedPublications.forEach(relatedPublication -> {      
-      elasticsearchUpdateQueueService.enqueue(
-          relatedPublication.getId(), 
-          ElasticsearchType.related_publications, 
-          ElasticsearchUpdateQueueAction.UPSERT);
-    });
+    enqueueUpserts(relatedPublicationRepository
+        .streamIdsBySurveyIdsContaining(survey.getId()));
   }
   
   /**
@@ -173,14 +146,8 @@ public class RelatedPublicationService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onDataSetChanged(DataSet dataSet) {
-    List<RelatedPublication> relatedPublications = relatedPublicationRepository
-        .findByDataSetIdsContaining(dataSet.getId());
-    relatedPublications.forEach(relatedPublication -> {      
-      elasticsearchUpdateQueueService.enqueue(
-          relatedPublication.getId(), 
-          ElasticsearchType.related_publications, 
-          ElasticsearchUpdateQueueAction.UPSERT);
-    });
+    enqueueUpserts(relatedPublicationRepository
+        .streamIdsByDataSetIdsContaining(dataSet.getId()));
   }
   
   /**
@@ -192,13 +159,16 @@ public class RelatedPublicationService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onVariableChanged(Variable variable) {
-    List<RelatedPublication> relatedPublications = relatedPublicationRepository
-        .findByVariableIdsContaining(variable.getId());
-    relatedPublications.forEach(relatedPublication -> {      
-      elasticsearchUpdateQueueService.enqueue(
-          relatedPublication.getId(), 
-          ElasticsearchType.related_publications, 
-          ElasticsearchUpdateQueueAction.UPSERT);
-    });
+    enqueueUpserts(relatedPublicationRepository
+        .streamIdsByVariableIdsContaining(variable.getId()));
+  }
+  
+  private void enqueueUpserts(Stream<IdAndVersionProjection> relatedPublications) {
+    try (Stream<IdAndVersionProjection> relatedPublicationStream = relatedPublications) {
+      relatedPublicationStream.forEach(relatedPublication -> {
+        elasticsearchUpdateQueueService.enqueue(relatedPublication.getId(),
+            ElasticsearchType.related_publications, ElasticsearchUpdateQueueAction.UPSERT);
+      });      
+    }
   }
 }

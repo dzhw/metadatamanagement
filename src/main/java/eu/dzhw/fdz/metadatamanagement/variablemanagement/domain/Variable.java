@@ -9,6 +9,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -16,8 +17,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.base.MoreObjects;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.MandatoryScaleLevelForNumericAndDateDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.OnlyOrdinalScaleLevelForDateDataType;
@@ -40,6 +44,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.Valid
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidScaleLevel;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidVariableIdName;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidVariableIdentifier;
+import io.searchbox.annotations.JestId;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -101,7 +106,41 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @StatisticsThirdQuartileMustBeANumberOnNumericDataType(
     message = "variable-management.error.variable."
         + "statistics-third-quartile-must-be-a-number-on-numeric-data-type")
-public class Variable extends VariableSubDocument {
+public class Variable extends AbstractRdcDomainObject {
+  @Id
+  @JestId
+  @NotEmpty(message = "variable-management.error.variable.id.not-empty")
+  @Size(max = StringLengths.MEDIUM,
+      message = "variable-management.error.variable.id.size")
+  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_EXCLAMATIONMARK,
+      message = "variable-management.error.variable.id.pattern")
+  private String id;
+  
+  @Indexed
+  @NotEmpty(message = "variable-management.error.variable.data-acquisition-project.id.not-empty")
+  private String dataAcquisitionProjectId;
+  
+  @NotEmpty(message = "variable-management.error.variable.name.not-empty")
+  @Size(max = StringLengths.SMALL, message = "variable-management.error.variable.name.size")
+  @Pattern(regexp = Patterns.ALPHANUMERIC_WITH_UNDERSCORE_NO_NUMBER_AS_FIRST_SIGN,
+      message = "variable-management.error.variable.name.pattern")
+  private String name;
+  
+  @NotNull(message = "variable-management.error.variable.label.not-null")
+  @I18nStringSize(max = StringLengths.MEDIUM,
+      message = "variable-management.error.variable.label.i18n-string-size")
+  @I18nStringNotEmpty(message = "variable-management.error.variable.label.i18n-string-not-empty")
+  private I18nString label;
+  
+  @I18nStringSize(max = StringLengths.LARGE,
+      message = "variable-management.error.variable.annotations.i18n-string-size")
+  private I18nString annotations;
+  
+  @NotEmpty(message = "variable-management.error.variable.data-set-id-not-empty")
+  private String dataSetId;
+  
+  @NotNull(message = "variable-management.error.variable.data-set-number-not-null")
+  private Integer dataSetNumber;
 
   @NotNull(message = "variable-management.error.variable.data-type.not-null")
   @ValidDataType(message = "variable-management.error.variable.data-type.valid-data-type")
@@ -130,7 +169,6 @@ public class Variable extends VariableSubDocument {
   @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS,
       message = "variable-management.error.variable.panel-identifier-pattern")
   private String panelIdentifier;
-
 
   /* Nested Objects */
   @Valid
@@ -162,17 +200,64 @@ public class Variable extends VariableSubDocument {
     BeanUtils.copyProperties(variable, this);
   }
   
-  /*
-   * (non-Javadoc)
-   *
-   * @see eu.dzhw.fdz.metadatamanagement.domain.AbstractRdcDomainObject#getId()
-   */
   @Override
   public String getId() {
     return id;
   }
-
   
+  public String getDataAcquisitionProjectId() {
+    return dataAcquisitionProjectId;
+  }
+
+  public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
+    this.dataAcquisitionProjectId = dataAcquisitionProjectId;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public I18nString getLabel() {
+    return label;
+  }
+
+  public void setLabel(I18nString label) {
+    this.label = label;
+  }
+
+  public I18nString getAnnotations() {
+    return annotations;
+  }
+
+  public void setAnnotations(I18nString annotations) {
+    this.annotations = annotations;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+  
+  public String getDataSetId() {
+    return dataSetId;
+  }
+
+  public void setDataSetId(String dataSetId) {
+    this.dataSetId = dataSetId;
+  }
+
+
+  public Integer getDataSetNumber() {
+    return dataSetNumber;
+  }
+
+  public void setDataSetNumber(Integer dataSetNumber) {
+    this.dataSetNumber = dataSetNumber;
+  }
+   
   /*
    * (non-Javadoc)
    * @see eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject#toString()

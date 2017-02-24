@@ -2,14 +2,18 @@ package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
+import org.springframework.data.rest.core.event.AfterDeleteEvent;
 import org.springframework.stereotype.Service;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
@@ -41,6 +45,9 @@ public class InstrumentService {
 
   @Autowired
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
+  
+  @Autowired
+  private ApplicationEventPublisher eventPublisher;
 
   /**
    * Delete all instruments when the dataAcquisitionProject was deleted.
@@ -57,15 +64,13 @@ public class InstrumentService {
    * @param dataAcquisitionProjectId the id for to the data acquisition project.
    */
   public void deleteAllInstrumentsByProjectId(String dataAcquisitionProjectId) {
-    List<Instrument> deletedInstruments =
-        instrumentRepository.deleteByDataAcquisitionProjectId(dataAcquisitionProjectId);
-    deletedInstruments.forEach(instrument -> {
-      instrumentAttachmentService.deleteAllByInstrument(instrument.getId());
-      elasticsearchUpdateQueueService.enqueue(
-          instrument.getId(), 
-          ElasticsearchType.instruments, 
-          ElasticsearchUpdateQueueAction.DELETE);      
-    });
+    try (Stream<Instrument> instruments = instrumentRepository
+        .streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
+      instruments.forEach(instrument -> {
+        instrumentRepository.delete(instrument);
+        eventPublisher.publishEvent(new AfterDeleteEvent(instrument));      
+      });
+    }
   }
   
   /**
@@ -75,7 +80,7 @@ public class InstrumentService {
    */
   @HandleAfterDelete
   public void onInstrumentDeleted(Instrument instrument) {
-    instrumentAttachmentService.deleteAllByInstrument(instrument.getId());
+    instrumentAttachmentService.deleteAllByInstrumentId(instrument.getId());
     elasticsearchUpdateQueueService.enqueue(
         instrument.getId(), 
         ElasticsearchType.instruments, 
@@ -105,13 +110,7 @@ public class InstrumentService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onStudyChanged(Study study) {
-    List<Instrument> instruments = instrumentRepository.findByStudyId(study.getId());
-    instruments.forEach(instrument -> {
-      elasticsearchUpdateQueueService.enqueue(
-          instrument.getId(), 
-          ElasticsearchType.instruments, 
-          ElasticsearchUpdateQueueAction.UPSERT);      
-    });
+    enqueueUpserts(instrumentRepository.streamIdsByStudyId(study.getId()));
   }
   
   /**
@@ -123,13 +122,7 @@ public class InstrumentService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onSurveyChanged(Survey survey) {
-    List<Instrument> instruments = instrumentRepository.findBySurveyIdsContaining(survey.getId());
-    instruments.forEach(instrument -> {
-      elasticsearchUpdateQueueService.enqueue(
-          instrument.getId(), 
-          ElasticsearchType.instruments, 
-          ElasticsearchUpdateQueueAction.UPSERT);      
-    });
+    enqueueUpserts(instrumentRepository.streamIdsBySurveyIdsContaining(survey.getId()));
   }
   
   /**
@@ -141,7 +134,8 @@ public class InstrumentService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onQuestionChanged(Question question) {
-    Instrument instrument = instrumentRepository.findOne(question.getInstrumentId());
+    IdAndVersionProjection instrument = instrumentRepository
+        .findOneIdAndVersionById(question.getInstrumentId());
     if (instrument != null) {
       elasticsearchUpdateQueueService.enqueue(
           instrument.getId(), 
@@ -162,13 +156,7 @@ public class InstrumentService {
     if (variable.getRelatedQuestions() != null) {
       List<String> instrumentIds = variable.getRelatedQuestions().stream()
           .map(RelatedQuestion::getInstrumentId).collect(Collectors.toList());
-      List<Instrument> instruments = instrumentRepository.findByIdIn(instrumentIds);
-      instruments.forEach(instrument -> {
-        elasticsearchUpdateQueueService.enqueue(
-            instrument.getId(), 
-            ElasticsearchType.instruments, 
-            ElasticsearchUpdateQueueAction.UPSERT);                        
-      });
+      enqueueUpserts(instrumentRepository.streamIdsByIdIn(instrumentIds));
     }
   }
   
@@ -182,13 +170,16 @@ public class InstrumentService {
   @HandleAfterDelete
   public void onRelatedPublicationChanged(RelatedPublication relatedPublication) {
     if (relatedPublication.getInstrumentIds() != null) {
-      List<Instrument> instruments = instrumentRepository.findByIdIn(
-          relatedPublication.getInstrumentIds());
-      instruments.forEach(instrument -> {
-        elasticsearchUpdateQueueService.enqueue(
-            instrument.getId(), 
-            ElasticsearchType.instruments, 
-            ElasticsearchUpdateQueueAction.UPSERT);                        
+      enqueueUpserts(instrumentRepository.streamIdsByIdIn(
+          relatedPublication.getInstrumentIds()));
+    }
+  }
+  
+  private void enqueueUpserts(Stream<IdAndVersionProjection> instruments) {
+    try (Stream<IdAndVersionProjection> instrumentStream = instruments) {
+      instrumentStream.forEach(instrument -> {
+        elasticsearchUpdateQueueService.enqueue(instrument.getId(),
+            ElasticsearchType.instruments, ElasticsearchUpdateQueueAction.UPSERT);
       });      
     }
   }

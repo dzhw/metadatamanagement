@@ -7,6 +7,7 @@ import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 
@@ -38,8 +39,8 @@ public class ValidUniqueQuestionNumberValidator
     if (question.getInstrumentId() != null
         && question.getNumber() != null) {
         
-      List<Question> existingQuestions = 
-          questionRepository.findByInstrumentIdAndNumber(question.getInstrumentId(),
+      List<IdAndVersionProjection> existingQuestions = 
+          questionRepository.findIdsByInstrumentIdAndNumber(question.getInstrumentId(),
           question.getNumber());
       if (existingQuestions.isEmpty()) {
         return true;

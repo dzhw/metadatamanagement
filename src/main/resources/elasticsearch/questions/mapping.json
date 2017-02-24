@@ -24,7 +24,8 @@
       		},
       		"successors": {
       			"type": "string",
-        		"index": "not_analyzed"
+        		"index": "not_analyzed",
+        		"include_in_all": false
       		},
       		"studyId": {
       			"type": "string",
@@ -92,6 +93,16 @@
       				"doi" : {
       					"type": "string",
         				"index": "not_analyzed"
+      				}
+      			}
+      		},
+      		"instrument": {
+      			"type": "object",
+      			"properties": {
+      				"surveyIds" : {
+      					"type": "string",	
+      					"index": "no",
+                		"include_in_all": false
       				}
       			}
       		}

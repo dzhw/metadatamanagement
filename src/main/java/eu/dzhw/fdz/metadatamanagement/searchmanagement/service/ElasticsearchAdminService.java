@@ -4,32 +4,24 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
-import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.ElasticsearchDao;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 
 /**
@@ -89,34 +81,25 @@ public class ElasticsearchAdminService {
   }
   
   private void enqueueAllStudies() {
-    Pageable pageable = new PageRequest(0, 100);
-    Slice<Study> studies = studyRepository.findBy(pageable);
-
-    while (studies.hasContent()) {
+    try (Stream<IdAndVersionProjection> studies = studyRepository.streamAllIdAndVersionsBy()) {
       studies.forEach(instrument -> {
         updateQueueService.enqueue(
             instrument.getId(), 
             ElasticsearchType.studies, 
             ElasticsearchUpdateQueueAction.UPSERT);
-      });
-      pageable = pageable.next();
-      studies = studyRepository.findBy(pageable);
+      });      
     }
   }
   
   private void enqueueAllInstruments() {
-    Pageable pageable = new PageRequest(0, 100);
-    Slice<Instrument> instruments = instrumentRepository.findBy(pageable);
-
-    while (instruments.hasContent()) {
+    try (Stream<IdAndVersionProjection> instruments = instrumentRepository
+        .streamAllIdAndVersionsBy()) {
       instruments.forEach(instrument -> {
         updateQueueService.enqueue(
             instrument.getId(), 
             ElasticsearchType.instruments, 
             ElasticsearchUpdateQueueAction.UPSERT);
-      });
-      pageable = pageable.next();
-      instruments = instrumentRepository.findBy(pageable);
+      });      
     }
   }
 
@@ -124,18 +107,13 @@ public class ElasticsearchAdminService {
    * Load all variables from mongo and enqueue them for updating.
    */
   private void enqueueAllVariables() {
-    Pageable pageable = new PageRequest(0, 100);
-    Slice<Variable> variables = variableRepository.findBy(pageable);
-
-    while (variables.hasContent()) {
+    try (Stream<IdAndVersionProjection> variables = variableRepository.streamAllIdAndVersionsBy()) {
       variables.forEach(variable -> {
         updateQueueService.enqueue(
             variable.getId(), 
             ElasticsearchType.variables, 
             ElasticsearchUpdateQueueAction.UPSERT);
-      });
-      pageable = pageable.next();
-      variables = variableRepository.findBy(pageable);
+      });      
     }
   }
   
@@ -143,18 +121,13 @@ public class ElasticsearchAdminService {
    * Load all surveys from mongo and enqueue them for updating.
    */
   private void enqueueAllSurveys() {
-    Pageable pageable = new PageRequest(0, 100);
-    Slice<Survey> surveys = surveyRepository.findBy(pageable);
-
-    while (surveys.hasContent()) {
+    try (Stream<IdAndVersionProjection> surveys = surveyRepository.streamAllIdAndVersionsBy()) {
       surveys.forEach(survey -> {
         updateQueueService.enqueue(
             survey.getId(), 
             ElasticsearchType.surveys, 
             ElasticsearchUpdateQueueAction.UPSERT);
-      });
-      pageable = pageable.next();
-      surveys = surveyRepository.findBy(pageable);
+      });      
     }
   }
   
@@ -162,18 +135,13 @@ public class ElasticsearchAdminService {
    * Load all dataSets from mongo and enqueue them for updating.
    */
   private void enqueueAllDataSets() {
-    Pageable pageable = new PageRequest(0, 100);
-    Slice<DataSet> dataSets = dataSetRepository.findBy(pageable);
-
-    while (dataSets.hasContent()) {
+    try (Stream<IdAndVersionProjection> dataSets = dataSetRepository.streamAllIdAndVersionsBy()) {
       dataSets.forEach(dataSet -> {
         updateQueueService.enqueue(
             dataSet.getId(), 
             ElasticsearchType.data_sets, 
             ElasticsearchUpdateQueueAction.UPSERT);
-      });
-      pageable = pageable.next();
-      dataSets = dataSetRepository.findBy(pageable);
+      });      
     }
   }
     
@@ -181,18 +149,13 @@ public class ElasticsearchAdminService {
    * Load all questions from mongo and enqueue them for updating.
    */
   private void enqueueAllQuestions() {
-    Pageable pageable = new PageRequest(0, 100);
-    Slice<Question> questions = questionRepository.findBy(pageable);
-
-    while (questions.hasContent()) {
+    try (Stream<IdAndVersionProjection> questions = questionRepository.streamAllIdAndVersionsBy()) {
       questions.forEach(question -> {
         updateQueueService.enqueue(
             question.getId(), 
             ElasticsearchType.questions, 
             ElasticsearchUpdateQueueAction.UPSERT);
-      });
-      pageable = pageable.next();
-      questions = questionRepository.findBy(pageable);
+      });      
     }
   }
   
@@ -200,18 +163,14 @@ public class ElasticsearchAdminService {
    * Load all related publications from mongo and enqueue them for updating.
    */
   private void enqueueAllRelatedPublications() {
-    Pageable pageable = new PageRequest(0, 100);
-    Slice<RelatedPublication> relatedPublications = relatedPublicationRepository.findBy(pageable);
-
-    while (relatedPublications.hasContent()) {
+    try (Stream<IdAndVersionProjection> relatedPublications = relatedPublicationRepository
+        .streamAllIdAndVersionsBy()) {
       relatedPublications.forEach(relatedPublication -> {
         updateQueueService.enqueue(
             relatedPublication.getId(), 
             ElasticsearchType.related_publications, 
-            ElasticsearchUpdateQueueAction.UPSERT);
+            ElasticsearchUpdateQueueAction.UPSERT);      
       });
-      pageable = pageable.next();
-      relatedPublications = relatedPublicationRepository.findBy(pageable);
     }
   }
 

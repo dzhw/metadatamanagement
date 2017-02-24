@@ -2,30 +2,26 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
-import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentSubDocument;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.InstrumentSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublicationSubDocument;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudySubDocument;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveySubDocument;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.VariableSubDocument;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projections.RelatedPublicationSubDocumentProjection;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudySubDocumentProjection;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.SurveySubDocumentProjection;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.VariableSubDocumentProjection;
 
 /**
  * Representation of an question which is stored in elasticsearch.
  */
 public class QuestionSearchDocument extends Question {
-  private StudySubDocument study = null;
-  private InstrumentSubDocument instrument = null;
-  private List<SurveySubDocument> surveys = new ArrayList<SurveySubDocument>();
-  private List<VariableSubDocument> variables = new ArrayList<VariableSubDocument>();
-  private List<RelatedPublicationSubDocument> relatedPublications = 
-      new ArrayList<RelatedPublicationSubDocument>();
+  private StudySubDocumentProjection study = null;
+  private InstrumentSubDocumentProjection instrument = null;
+  private List<SurveySubDocumentProjection> surveys = 
+      new ArrayList<SurveySubDocumentProjection>();
+  private List<VariableSubDocumentProjection> variables = 
+      new ArrayList<VariableSubDocumentProjection>();
+  private List<RelatedPublicationSubDocumentProjection> relatedPublications = 
+      new ArrayList<RelatedPublicationSubDocumentProjection>();
   
   /**
    * Construct the search document with all related subdocuments.
@@ -37,67 +33,44 @@ public class QuestionSearchDocument extends Question {
    * @param relatedPublications all publication using this question
    */
   @SuppressWarnings("CPD-START")
-  public QuestionSearchDocument(Question question, Study study, Instrument instrument,
-      List<Survey> surveys, List<Variable> variables, 
-      List<RelatedPublication> relatedPublications) {
+  public QuestionSearchDocument(Question question, 
+      StudySubDocumentProjection study, 
+      InstrumentSubDocumentProjection instrument,
+      List<SurveySubDocumentProjection> surveys, List<VariableSubDocumentProjection> variables, 
+      List<RelatedPublicationSubDocumentProjection> relatedPublications) {
     super(question);
-    if (study != null) {
-      this.study = new StudySubDocument(study);      
-    }
+    this.study = study;      
     if (instrument != null) {
-      this.instrument = new InstrumentSubDocument(instrument);      
+      this.instrument = instrument;      
     }
     if (surveys != null) {
-      this.surveys = surveys.stream()
-          .map(SurveySubDocument::new).collect(Collectors.toList());      
+      this.surveys = surveys;      
     }
     if (variables != null) {
-      this.variables = variables.stream()
-          .map(VariableSubDocument::new).collect(Collectors.toList());
+      this.variables = variables;
     }
     if (relatedPublications != null) {
-      this.relatedPublications = relatedPublications.stream()
-          .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());      
+      this.relatedPublications = relatedPublications;      
     }
   }
 
-  public StudySubDocument getStudy() {
+  public StudySubDocumentProjection getStudy() {
     return study;
   }
 
-  public void setStudy(StudySubDocument study) {
-    this.study = study;
-  }
-
-  public InstrumentSubDocument getInstrument() {
+  public InstrumentSubDocumentProjection getInstrument() {
     return instrument;
   }
 
-  public void setInstrument(InstrumentSubDocument instrument) {
-    this.instrument = instrument;
-  }
-
-  public List<SurveySubDocument> getSurveys() {
+  public List<SurveySubDocumentProjection> getSurveys() {
     return surveys;
   }
 
-  public void setSurveys(List<SurveySubDocument> surveys) {
-    this.surveys = surveys;
-  }
-
-  public List<VariableSubDocument> getVariables() {
+  public List<VariableSubDocumentProjection> getVariables() {
     return variables;
   }
 
-  public void setVariables(List<VariableSubDocument> variables) {
-    this.variables = variables;
-  }
-
-  public List<RelatedPublicationSubDocument> getRelatedPublications() {
+  public List<RelatedPublicationSubDocumentProjection> getRelatedPublications() {
     return relatedPublications;
-  }
-
-  public void setRelatedPublications(List<RelatedPublicationSubDocument> relatedPublications) {
-    this.relatedPublications = relatedPublications;
   }
 }

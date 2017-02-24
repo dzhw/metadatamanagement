@@ -8,6 +8,7 @@ import javax.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 
@@ -41,8 +42,8 @@ public class UniqueVariableNameInDataSetValidator implements
     if (StringUtils.isEmpty(variable.getName()) && StringUtils.isEmpty(variable.getDataSetId())) {
       return false;
     }
-    List<Variable> variables = variableRepository
-        .findByNameAndDataSetId(variable.getName(), variable.getDataSetId());
+    List<IdAndVersionProjection> variables = variableRepository
+        .findIdsByNameAndDataSetId(variable.getName(), variable.getDataSetId());
     if (variables.size() > 1) {
       return false;
     }

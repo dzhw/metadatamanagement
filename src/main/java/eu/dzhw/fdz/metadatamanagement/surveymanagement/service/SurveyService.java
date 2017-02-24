@@ -1,14 +1,17 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.service;
 
-import java.util.List;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
+import org.springframework.data.rest.core.event.AfterDeleteEvent;
 import org.springframework.stereotype.Service;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
@@ -43,6 +46,9 @@ public class SurveyService {
   
   @Autowired 
   private SurveyResponseRateImageService imageService;
+  
+  @Autowired
+  private ApplicationEventPublisher eventPublisher;
 
   /**
    * Listener, which will be activate by a deletion of a data acquisition project.
@@ -59,15 +65,13 @@ public class SurveyService {
    * @param dataAcquisitionProjectId the id for to the data acquisition project.
    */
   public void deleteAllSurveysByProjectId(String dataAcquisitionProjectId) {
-    List<Survey> deletedSurveys =
-        surveyRepository.deleteByDataAcquisitionProjectId(dataAcquisitionProjectId);
-    deletedSurveys.forEach(survey -> {
-      this.imageService.deleteAllSurveyImagesById(survey.getId());
-      elasticsearchUpdateQueueService.enqueue(
-          survey.getId(), 
-          ElasticsearchType.surveys, 
-          ElasticsearchUpdateQueueAction.DELETE);      
-    });
+    try (Stream<Survey> surveys = surveyRepository
+        .streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
+      surveys.forEach(survey -> {
+        surveyRepository.delete(survey);
+        eventPublisher.publishEvent(new AfterDeleteEvent(survey));
+      });
+    }
   }
    
   /**
@@ -108,13 +112,7 @@ public class SurveyService {
   @HandleAfterDelete
   public void onInstrumentChanged(Instrument instrument) {
     if (instrument.getSurveyIds() != null) {
-      List<Survey> surveys = surveyRepository.findByIdIn(instrument.getSurveyIds());
-      surveys.forEach(survey -> {
-        elasticsearchUpdateQueueService.enqueue(
-            survey.getId(), 
-            ElasticsearchType.surveys, 
-            ElasticsearchUpdateQueueAction.UPSERT);
-      });      
+      enqueueUpserts(surveyRepository.streamIdsByIdIn(instrument.getSurveyIds()));
     }
   }
   
@@ -129,13 +127,7 @@ public class SurveyService {
   public void onQuestionChanged(Question question) {
     Instrument instrument = instrumentRepository.findOne(question.getInstrumentId());
     if (instrument != null && instrument.getSurveyIds() != null) {
-      List<Survey> surveys = surveyRepository.findByIdIn(instrument.getSurveyIds());
-      surveys.forEach(survey -> {
-        elasticsearchUpdateQueueService.enqueue(
-            survey.getId(), 
-            ElasticsearchType.surveys, 
-            ElasticsearchUpdateQueueAction.UPSERT);
-      });      
+      enqueueUpserts(surveyRepository.streamIdsByIdIn(instrument.getSurveyIds()));
     }
   }
   
@@ -148,13 +140,7 @@ public class SurveyService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onStudyChanged(Study study) {
-    List<Survey> surveys = surveyRepository.findByStudyId(study.getId());
-    surveys.forEach(survey -> {
-      elasticsearchUpdateQueueService.enqueue(
-          survey.getId(), 
-          ElasticsearchType.surveys, 
-          ElasticsearchUpdateQueueAction.UPSERT);
-    });
+    enqueueUpserts(surveyRepository.streamIdsByStudyId(study.getId()));
   }
   
   /**
@@ -167,11 +153,7 @@ public class SurveyService {
   @HandleAfterDelete
   public void onVariableChanged(Variable variable) {
     if (variable.getSurveyIds() != null) {
-      List<Survey> surveys = surveyRepository.findByIdIn(variable.getSurveyIds());
-      surveys.forEach(survey -> {
-        elasticsearchUpdateQueueService.enqueue(survey.getId(),
-            ElasticsearchType.surveys, ElasticsearchUpdateQueueAction.UPSERT);
-      });      
+      enqueueUpserts(surveyRepository.streamIdsByIdIn(variable.getSurveyIds()));
     }
   }
   
@@ -185,11 +167,7 @@ public class SurveyService {
   @HandleAfterDelete
   public void onDataSetChanged(DataSet dataSet) {
     if (dataSet.getSurveyIds() != null) {
-      List<Survey> surveys = surveyRepository.findByIdIn(dataSet.getSurveyIds());
-      surveys.forEach(survey -> {
-        elasticsearchUpdateQueueService.enqueue(survey.getId(),
-            ElasticsearchType.surveys, ElasticsearchUpdateQueueAction.UPSERT);
-      });      
+      enqueueUpserts(surveyRepository.streamIdsByIdIn(dataSet.getSurveyIds()));
     }
   }
   
@@ -203,11 +181,18 @@ public class SurveyService {
   @HandleAfterDelete
   public void onRelatedPublicationChanged(RelatedPublication relatedPublication) {
     if (relatedPublication.getSurveyIds() != null) {
-      List<Survey> surveys = surveyRepository.findByIdIn(relatedPublication.getSurveyIds());
-      surveys.forEach(survey -> {
+      enqueueUpserts(surveyRepository
+          .streamIdsByIdIn(relatedPublication.getSurveyIds()));
+            
+    }
+  }
+  
+  private void enqueueUpserts(Stream<IdAndVersionProjection> surveys) {
+    try (Stream<IdAndVersionProjection> surveyStream = surveys) {
+      surveyStream.forEach(survey -> {
         elasticsearchUpdateQueueService.enqueue(survey.getId(),
             ElasticsearchType.surveys, ElasticsearchUpdateQueueAction.UPSERT);
       });      
     }
-  } 
+  }
 }

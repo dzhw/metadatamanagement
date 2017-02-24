@@ -1,15 +1,17 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.repository;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.SurveySubDocumentProjection;
 
 /**
  * Spring Data MongoDB repository for the Survey entity.
@@ -21,21 +23,24 @@ public interface SurveyRepository
     extends MongoRepository<Survey, String>, QueryDslPredicateExecutor<Survey> {
 
   @RestResource(exported = false)
-  List<Survey> deleteByDataAcquisitionProjectId(String dataAcquisitionProjectId);
+  Stream<Survey> streamByDataAcquisitionProjectId(String dataAcquisitionProjectId);
   
   @RestResource(exported = false)
-  Slice<Survey> findBy(Pageable pageable);
+  Stream<IdAndVersionProjection> streamAllIdAndVersionsBy();
   
   @RestResource(exported = false)
-  Survey findById(String id);
-  
-  @RestResource(exported = false)
-  List<Survey> findByNumberAndDataAcquisitionProjectId(Integer number, 
+  List<IdAndVersionProjection> findIdsByNumberAndDataAcquisitionProjectId(Integer number, 
       String dataAcquisitionProjectId);
-  
-  @RestResource(exported = false)
-  List<Survey> findByIdIn(List<String> surveyIds);
 
   @RestResource(exported = false)
-  List<Survey> findByStudyId(String studyId);
+  Stream<IdAndVersionProjection> streamIdsByStudyId(String studyId);
+
+  @RestResource(exported = false)
+  Stream<IdAndVersionProjection> streamIdsByIdIn(Collection<String> surveyIds);
+
+  @RestResource(exported = false)
+  List<SurveySubDocumentProjection> findSubDocumentByIdIn(List<String> surveyIds);
+
+  @RestResource(exported = false)
+  List<SurveySubDocumentProjection> findSubDocumentByStudyId(String id);
 }

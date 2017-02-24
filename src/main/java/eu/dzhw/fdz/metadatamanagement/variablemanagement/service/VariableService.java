@@ -1,14 +1,17 @@
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.service;
 
-import java.util.List;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
+import org.springframework.data.rest.core.event.AfterDeleteEvent;
 import org.springframework.stereotype.Service;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
@@ -37,6 +40,9 @@ public class VariableService {
   
   @Autowired
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
+  
+  @Autowired
+  private ApplicationEventPublisher eventPublisher;
 
   /**
    * Delete all variables when the dataAcquisitionProject was deleted.
@@ -53,14 +59,13 @@ public class VariableService {
    * @param dataAcquisitionProjectId the id for to the data acquisition project.
    */
   public void deleteAllVariablesByProjectId(String dataAcquisitionProjectId) {
-    List<Variable> deletedVariables =
-        variableRepository.deleteByDataAcquisitionProjectId(dataAcquisitionProjectId);
-    deletedVariables.forEach(variable -> {
-      elasticsearchUpdateQueueService.enqueue(
-          variable.getId(), 
-          ElasticsearchType.variables, 
-          ElasticsearchUpdateQueueAction.DELETE);      
-    });
+    try (Stream<Variable> variables = variableRepository
+        .streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
+      variables.forEach(variable -> {
+        variableRepository.delete(variable);
+        eventPublisher.publishEvent(new AfterDeleteEvent(variable));
+      });
+    }
   }
   
   /**
@@ -99,13 +104,7 @@ public class VariableService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onDataSetChanged(DataSet dataSet) {
-    List<Variable> variables = variableRepository.findByDataSetId(dataSet.getId());
-    variables.forEach(variable -> {
-      elasticsearchUpdateQueueService.enqueue(
-          variable.getId(), 
-          ElasticsearchType.variables, 
-          ElasticsearchUpdateQueueAction.UPSERT);      
-    });
+    enqueueUpserts(variableRepository.streamIdsByDataSetId(dataSet.getId()));
   }
   
   /**
@@ -117,13 +116,7 @@ public class VariableService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onStudyChanged(Study study) {
-    List<Variable> variables = variableRepository.findByStudyId(study.getId());
-    variables.forEach(variable -> {
-      elasticsearchUpdateQueueService.enqueue(
-          variable.getId(), 
-          ElasticsearchType.variables, 
-          ElasticsearchUpdateQueueAction.UPSERT);      
-    });
+    enqueueUpserts(variableRepository.streamIdsByStudyId(study.getId()));
   }
   
   /**
@@ -135,13 +128,8 @@ public class VariableService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onRelatedPublicationChanged(RelatedPublication relatedPublication) {
-    List<Variable> variables = variableRepository.findByIdIn(relatedPublication.getVariableIds());
-    variables.forEach(variable -> {
-      elasticsearchUpdateQueueService.enqueue(
-          variable.getId(), 
-          ElasticsearchType.variables, 
-          ElasticsearchUpdateQueueAction.UPSERT);      
-    });
+    enqueueUpserts(variableRepository
+        .streamIdsByIdIn(relatedPublication.getVariableIds()));
   }
   
   /**
@@ -153,14 +141,8 @@ public class VariableService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onInstrumentChanged(Instrument instrument) {
-    List<Variable> variables = variableRepository.findByRelatedQuestionsInstrumentId(
-        instrument.getId());
-    variables.forEach(variable -> {
-      elasticsearchUpdateQueueService.enqueue(
-          variable.getId(), 
-          ElasticsearchType.variables, 
-          ElasticsearchUpdateQueueAction.UPSERT);      
-    });
+    enqueueUpserts(variableRepository.streamIdsByRelatedQuestionsInstrumentId(
+        instrument.getId()));
   }
   
   /**
@@ -172,12 +154,15 @@ public class VariableService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onSurveyChanged(Survey survey) {
-    List<Variable> variables = variableRepository.findBySurveyIdsContaining(survey.getId());
-    variables.forEach(variable -> {
-      elasticsearchUpdateQueueService.enqueue(
-          variable.getId(), 
-          ElasticsearchType.variables, 
-          ElasticsearchUpdateQueueAction.UPSERT);      
-    });   
-  }  
+    enqueueUpserts(variableRepository.streamIdsBySurveyIdsContaining(survey.getId()));
+  }
+  
+  private void enqueueUpserts(Stream<IdAndVersionProjection> variables) {
+    try (Stream<IdAndVersionProjection> variableStream = variables) {
+      variableStream.forEach(variable -> {
+        elasticsearchUpdateQueueService.enqueue(variable.getId(),
+            ElasticsearchType.variables, ElasticsearchUpdateQueueAction.UPSERT);
+      });      
+    }
+  }
 }
