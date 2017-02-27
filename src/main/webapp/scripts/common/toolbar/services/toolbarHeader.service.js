@@ -102,12 +102,6 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
       }
       switch (item.stateName) {
         case 'studyDetail':
-          studyItem = {
-            'state': 'studyDetail',
-            'translateString': translationStringsMap.studyDetail.
-             translateString,
-            'id': item.id
-          };
           $rootScope.toolbarHeaderItems.push(searchItem, studyItem);
         break;
         case 'questionDetail':

@@ -11,24 +11,24 @@
           <div hide-xs hide-sm class="fdz-truncate-string" ng-repeat="item in toolbarHeaderItems">
             <a ng-if="!$last" ui-sref="{{item.state}}">{{item.translateString | translate}}
               <span ng-if="item.tabName">({{item.tabName | translate}})</span>
-              <span ng-if="item.id">({{item.id}})</span>
-              <span ng-if="item.number">({{item.number}})</span>
-              <span ng-if="item.projectId">({{item.projectId}})</span>
-              <span ng-if="item.name">({{item.name}})</span>
+              <span ng-if="item.id">{{item.id}}</span>
+              <span ng-if="item.number">{{item.number}}</span>
+              <span ng-if="item.projectId">{{item.projectId}}</span>
+              <span ng-if="item.name">{{item.name}}</span>
             </a>
             <div ng-if="$last">{{item.translateString | translate}}
               <span ng-if="item.tabName">({{item.tabName | translate}})</span>
-              <span ng-if="item.id">({{item.id}})</span>
-              <span ng-if="item.number">({{item.number}})</span>
-              <span ng-if="item.projectId">({{item.projectId}})</span>
-              <span ng-if="item.name">({{item.name}})</span>
+              <span ng-if="item.id">{{item.id}}</span>
+              <span ng-if="item.number">{{item.number}}</span>
+              <span ng-if="item.projectId">{{item.projectId}}</span>
+              <span ng-if="item.name">{{item.name}}</span>
             </div>
             <md-tooltip md-z-index="10">{{item.translateString | translate}}
               <span ng-if="item.tabName">({{item.tabName | translate}})</span>
-              <span ng-if="item.id">({{item.id}})</span>
-              <span ng-if="item.number">({{item.number}})</span>
-              <span ng-if="item.projectId">({{item.projectId}})</span>
-              <span ng-if="item.name">({{item.name}})</span>
+              <span ng-if="item.id">{{item.id}}</span>
+              <span ng-if="item.number">{{item.number}}</span>
+              <span ng-if="item.projectId">{{item.projectId}}</span>
+              <span ng-if="item.name">{{item.name}}</span>
             </md-tooltip>
           </div>
         </div>

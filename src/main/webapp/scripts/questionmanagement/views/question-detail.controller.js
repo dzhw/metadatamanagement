@@ -101,6 +101,7 @@ angular.module('metadatamanagementApp')
           'questionNumber': ctrl.question.number,
           'instrumentNumber': ctrl.question.instrumentNumber,
           'instrumentId': ctrl.question.instrumentId,
+          'studyId': ctrl.question.studyId,
           'projectId': ctrl.question.dataAcquisitionProjectId});
       });
       ctrl.openSuccessCopyToClipboardToast = function(message) {

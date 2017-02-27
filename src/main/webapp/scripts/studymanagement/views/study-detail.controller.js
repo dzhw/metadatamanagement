@@ -48,6 +48,7 @@ angular.module('metadatamanagementApp')
               });
         ToolbarHeaderService.updateToolbarHeader({
           'stateName': $state.current.name,
-          'id': ctrl.study.id});
+          'id': ctrl.study.id,
+          'projectId': ctrl.study.dataAcquisitionProjectId});
       });
     });
