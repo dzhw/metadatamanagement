@@ -92,77 +92,92 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         searchItem.tabName = 'search-management.tabs.all';
       }
       var studyItem = {};
-      if (item.studyId) {
+      if (item.projectId) {
         studyItem = {
           'state': 'studyDetail({"id":"' + item.studyId + '"})',
           'translateString': translationStringsMap.studyDetail.
           translateString,
-          'id': item.studyId
+          'projectId': item.projectId
         };
       }
       switch (item.stateName) {
+        case 'studyDetail':
+          studyItem = {
+            'state': 'studyDetail',
+            'translateString': translationStringsMap.studyDetail.
+             translateString,
+            'id': item.id
+          };
+          $rootScope.breadCrumbItems.push(searchItem, studyItem);
+        break;
         case 'questionDetail':
-          $rootScope.breadCrumbItems.push(searchItem);
           instrumentItem = {
             'state': 'instrumentDetail({"id":"' + item.instrumentId + '"})',
             'translateString': translationStringsMap.instrumentDetail.
             translateString,
-            'id': item.instrumentId
+            'number': item.instrumentNumber
           };
           questionItem = {
             'state': 'questionDetail',
             'translateString': translationStringsMap.questionDetail.
             translateString,
-            'id': item.id
+            'number': item.questionNumber
           };
-          $rootScope.breadCrumbItems.push(studyItem, instrumentItem,
+          $rootScope.breadCrumbItems.push(searchItem, studyItem, instrumentItem,
             questionItem);
         break;
         case 'variableDetail':
-          $rootScope.breadCrumbItems.push(searchItem);
           dataSetItem = {
             'state': 'dataSetDetail({"id":"' + item.dataSetId + '"})',
             'translateString': translationStringsMap.dataSetDetail.
              translateString,
-            'id': item.dataSetId
+            'number': item.dataSetNumber
           };
           variableItem = {
             'state': 'variableDetail',
             'translateString': translationStringsMap.variableDetail.
              translateString,
-            'id': item.id
+            'name': item.name
           };
-          $rootScope.breadCrumbItems.push(studyItem, dataSetItem, variableItem);
+          $rootScope.breadCrumbItems.push(searchItem, studyItem, dataSetItem,
+            variableItem);
         break;
-        case 'instrumentDetail':
-          $rootScope.breadCrumbItems.push(searchItem);
-          instrumentItem = {
-            'state': 'instrumentDetail',
-            'translateString': translationStringsMap.instrumentDetail.
+        case 'surveyDetail':
+          surveyItem = {
+            'state': 'surveyDetail',
+            'translateString': translationStringsMap.surveyDetail.
             translateString,
-            'id': item.id
+            'number': item.number
           };
-          $rootScope.breadCrumbItems.push(studyItem, instrumentItem);
+          $rootScope.breadCrumbItems.push(searchItem, studyItem, surveyItem);
         break;
         case 'dataSetDetail':
-          $rootScope.breadCrumbItems.push(searchItem);
           dataSetItem = {
             'state': 'dataSetDetail',
             'translateString': translationStringsMap.dataSetDetail.
             translateString,
-            'id': item.id
+            'number': item.number
           };
-          $rootScope.breadCrumbItems.push(studyItem, dataSetItem);
+          $rootScope.breadCrumbItems.push(searchItem, studyItem, dataSetItem);
+        break;
+        case 'instrumentDetail':
+          instrumentItem = {
+            'state': 'instrumentDetail',
+            'translateString': translationStringsMap.instrumentDetail.
+            translateString,
+            'number': item.number
+          };
+          $rootScope.breadCrumbItems.push(searchItem, studyItem,
+            instrumentItem);
         break;
         case 'relatedPublicationDetail':
-          $rootScope.breadCrumbItems.push(searchItem);
           publicationItem = {
             'state': 'relatedPublicationDetail',
             'translateString': translationStringsMap.relatedPublicationDetail.
             translateString,
             'id': item.id
           };
-          $rootScope.breadCrumbItems.push(publicationItem);
+          $rootScope.breadCrumbItems.push(searchItem, publicationItem);
         break;
         case 'search':
           searchItem = {};
@@ -176,26 +191,6 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
           searchItem.state = 'search(' + JSON.stringify(item.searchParams) +
           ')';
           $rootScope.breadCrumbItems.push(searchItem);
-        break;
-        case 'studyDetail':
-          $rootScope.breadCrumbItems.push(searchItem);
-          studyItem = {
-            'state': 'studyDetail',
-            'translateString': translationStringsMap.studyDetail.
-            translateString,
-            'id': item.id
-          };
-          $rootScope.breadCrumbItems.push(studyItem);
-        break;
-        case 'surveyDetail':
-          $rootScope.breadCrumbItems.push(searchItem);
-          surveyItem = {
-            'state': 'surveyDetail',
-            'translateString': translationStringsMap.surveyDetail.
-            translateString,
-            'id': item.id
-          };
-          $rootScope.breadCrumbItems.push(surveyItem);
         break;
         case 'disclosure':
           var disclosureItem = {
@@ -307,7 +302,9 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
           $rootScope.breadCrumbItems.push(errorItem);
         break;
         default:
-          console.log(item.stateName + ': coming...');
+          if (item.stateName) {
+            console.log(item.stateName + ': coming...');
+          }
         break;
       }
     };

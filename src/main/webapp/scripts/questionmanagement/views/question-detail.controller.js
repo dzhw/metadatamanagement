@@ -98,9 +98,10 @@ angular.module('metadatamanagementApp')
                 });
         ToolbarHeaderService.updateToolbarHeader({
           'stateName': $state.current.name,
-          'id': ctrl.question.id,
+          'questionNumber': ctrl.question.number,
+          'instrumentNumber': ctrl.question.instrumentNumber,
           'instrumentId': ctrl.question.instrumentId,
-          'studyId': ctrl.question.studyId});
+          'projectId': ctrl.question.dataAcquisitionProjectId});
       });
       ctrl.openSuccessCopyToClipboardToast = function(message) {
         SimpleMessageToastService.openSimpleMessageToast(message, []);

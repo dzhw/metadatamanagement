@@ -92,9 +92,12 @@ angular.module('metadatamanagementApp')
         });
       ToolbarHeaderService.updateToolbarHeader({
         'stateName': $state.current.name,
-        'id': $scope.variable.id,
+        'name': $scope.variable.name,
         'dataSetId': $scope.variable.dataSetId,
-        'studyId': $scope.variable.
+        'dataSetNumber': $scope.variable.dataSetNumber,
+        'studyId': 'stu-' + $scope.variable.dataAcquisitionProjectId + '!',
+        //!!!should be discused
+        'projectId': $scope.variable.
           dataAcquisitionProjectId});
       if ($scope.variable.filterDetails) {
         html_beautify($scope.variable.filterDetails.expression); //jscs:ignore

@@ -66,8 +66,9 @@ angular.module('metadatamanagementApp')
             });
         ToolbarHeaderService.updateToolbarHeader({
           'stateName': $state.current.name,
-          'id': ctrl.survey.id,
-          'studyId': ctrl.survey.studyId});
+          'number': ctrl.survey.number,
+          'studyId': ctrl.survey.studyId,
+          'projectId': ctrl.survey.dataAcquisitionProjectId});
       });
       ctrl.setImgResolved = function() {
         ctrl.imgResolved = true;

@@ -79,8 +79,9 @@ angular.module('metadatamanagementApp')
         });
         ToolbarHeaderService.updateToolbarHeader({
           'stateName': $state.current.name,
-          'id': ctrl.dataSet.id,
-          'studyId': ctrl.dataSet.studyId});
+          'number': ctrl.dataSet.number,
+          'studyId': ctrl.dataSet.studyId,
+          'projectId': ctrl.dataSet.dataAcquisitionProjectId});
       });
       ctrl.uploadTexTemplate = function(files) {
         if (files != null) {
