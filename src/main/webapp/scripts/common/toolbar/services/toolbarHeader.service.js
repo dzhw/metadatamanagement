@@ -77,7 +77,7 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
       }
     };
     var updateToolbarHeader = function(item) {
-      $rootScope.breadCrumbItems = [];
+      $rootScope.toolbarHeaderItems = [];
       var instrumentItem = {};
       var questionItem = {};
       var dataSetItem = {};
@@ -108,7 +108,7 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
              translateString,
             'id': item.id
           };
-          $rootScope.breadCrumbItems.push(searchItem, studyItem);
+          $rootScope.toolbarHeaderItems.push(searchItem, studyItem);
         break;
         case 'questionDetail':
           instrumentItem = {
@@ -123,7 +123,7 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
             translateString,
             'number': item.questionNumber
           };
-          $rootScope.breadCrumbItems.push(searchItem, studyItem, instrumentItem,
+          $rootScope.toolbarHeaderItems.push(searchItem, studyItem, instrumentItem,
             questionItem);
         break;
         case 'variableDetail':
@@ -139,7 +139,7 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
              translateString,
             'name': item.name
           };
-          $rootScope.breadCrumbItems.push(searchItem, studyItem, dataSetItem,
+          $rootScope.toolbarHeaderItems.push(searchItem, studyItem, dataSetItem,
             variableItem);
         break;
         case 'surveyDetail':
@@ -149,7 +149,7 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
             translateString,
             'number': item.number
           };
-          $rootScope.breadCrumbItems.push(searchItem, studyItem, surveyItem);
+          $rootScope.toolbarHeaderItems.push(searchItem, studyItem, surveyItem);
         break;
         case 'dataSetDetail':
           dataSetItem = {
@@ -158,7 +158,7 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
             translateString,
             'number': item.number
           };
-          $rootScope.breadCrumbItems.push(searchItem, studyItem, dataSetItem);
+          $rootScope.toolbarHeaderItems.push(searchItem, studyItem, dataSetItem);
         break;
         case 'instrumentDetail':
           instrumentItem = {
@@ -167,7 +167,7 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
             translateString,
             'number': item.number
           };
-          $rootScope.breadCrumbItems.push(searchItem, studyItem,
+          $rootScope.toolbarHeaderItems.push(searchItem, studyItem,
             instrumentItem);
         break;
         case 'relatedPublicationDetail':
@@ -177,7 +177,7 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
             translateString,
             'id': item.id
           };
-          $rootScope.breadCrumbItems.push(searchItem, publicationItem);
+          $rootScope.toolbarHeaderItems.push(searchItem, publicationItem);
         break;
         case 'search':
           searchItem = {};
@@ -190,14 +190,14 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
           }
           searchItem.state = 'search(' + JSON.stringify(item.searchParams) +
           ')';
-          $rootScope.breadCrumbItems.push(searchItem);
+          $rootScope.toolbarHeaderItems.push(searchItem);
         break;
         case 'disclosure':
           var disclosureItem = {
             'state': 'disclosure',
             'translateString': translationStringsMap.disclosure.translateString
           };
-          $rootScope.breadCrumbItems.push(disclosureItem);
+          $rootScope.toolbarHeaderItems.push(disclosureItem);
         break;
         case 'user-management':
           var managementItem = {
@@ -205,7 +205,7 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
             'translateString': translationStringsMap['user-management'].
             translateString
           };
-          $rootScope.breadCrumbItems.push(managementItem);
+          $rootScope.toolbarHeaderItems.push(managementItem);
         break;
         case 'user-management-detail':
           var userDetailItem = {
@@ -213,28 +213,28 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
             'translateString': translationStringsMap['user-management-detail'].
             translateString
           };
-          $rootScope.breadCrumbItems.push(userDetailItem);
+          $rootScope.toolbarHeaderItems.push(userDetailItem);
         break;
         case 'login':
           var loginItem = {
             'state': 'login',
             'translateString': translationStringsMap.login.translateString
           };
-          $rootScope.breadCrumbItems.push(loginItem);
+          $rootScope.toolbarHeaderItems.push(loginItem);
         break;
         case 'metrics':
           var metricsItem = {
             'state': 'metrics',
             'translateString': translationStringsMap.metrics.translateString
           };
-          $rootScope.breadCrumbItems.push(metricsItem);
+          $rootScope.toolbarHeaderItems.push(metricsItem);
         break;
         case 'health':
           var healthItem = {
             'state': 'health',
             'translateString': translationStringsMap.health.translateString
           };
-          $rootScope.breadCrumbItems.push(healthItem);
+          $rootScope.toolbarHeaderItems.push(healthItem);
         break;
         case 'configuration':
           var configItem = {
@@ -242,49 +242,49 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
             'translateString': translationStringsMap.configuration.
             translateString
           };
-          $rootScope.breadCrumbItems.push(configItem);
+          $rootScope.toolbarHeaderItems.push(configItem);
         break;
         case 'logs':
           var logsItem = {
             'state': 'logs',
             'translateString': translationStringsMap.logs.translateString
           };
-          $rootScope.breadCrumbItems.push(logsItem);
+          $rootScope.toolbarHeaderItems.push(logsItem);
         break;
         case 'settings':
           var settingsItem = {
             'state': 'settings',
             'translateString': translationStringsMap.settings.translateString
           };
-          $rootScope.breadCrumbItems.push(settingsItem);
+          $rootScope.toolbarHeaderItems.push(settingsItem);
         break;
         case 'password':
           var passwordItem = {
             'state': 'password',
             'translateString': translationStringsMap.password.translateString
           };
-          $rootScope.breadCrumbItems.push(passwordItem);
+          $rootScope.toolbarHeaderItems.push(passwordItem);
         break;
         case 'register':
           var registerItem = {
             'state': 'register',
             'translateString': translationStringsMap.register.translateString
           };
-          $rootScope.breadCrumbItems.push(registerItem);
+          $rootScope.toolbarHeaderItems.push(registerItem);
         break;
         case 'activate':
           var activateItem = {
             'state': 'activate',
             'translateString': translationStringsMap.activate.translateString
           };
-          $rootScope.breadCrumbItems.push(activateItem);
+          $rootScope.toolbarHeaderItems.push(activateItem);
         break;
         case 'finishReset':
           var finishResetItem = {
             'state': 'finishReset',
             'translateString': translationStringsMap.finishReset.translateString
           };
-          $rootScope.breadCrumbItems.push(finishResetItem);
+          $rootScope.toolbarHeaderItems.push(finishResetItem);
         break;
         case 'requestReset':
           var requestResetItem = {
@@ -292,14 +292,14 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
             'translateString': translationStringsMap.requestReset.
             translateString
           };
-          $rootScope.breadCrumbItems.push(requestResetItem);
+          $rootScope.toolbarHeaderItems.push(requestResetItem);
         break;
         case 'error':
           var errorItem = {
             'state': 'error',
             'translateString': translationStringsMap.error.translateString
           };
-          $rootScope.breadCrumbItems.push(errorItem);
+          $rootScope.toolbarHeaderItems.push(errorItem);
         break;
         default:
           if (item.stateName) {

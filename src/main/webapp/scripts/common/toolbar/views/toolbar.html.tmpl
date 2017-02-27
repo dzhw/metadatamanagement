@@ -7,8 +7,8 @@
               {{'global.toolbar.buttons.open-menu' | translate}}
             </md-tooltip>
         </md-button>
-        <div layout="row" layout-align="start center" flex class="fdz-breadCrumb">
-          <div hide-xs class="fdz-truncate-string" ng-repeat="item in breadCrumbItems">
+        <div layout="row" layout-align="start center" flex class="fdz-toolbar-header">
+          <div hide-xs hide-sm class="fdz-truncate-string" ng-repeat="item in toolbarHeaderItems">
             <a ng-if="!$last" ui-sref="{{item.state}}">{{item.translateString | translate}}
               <span ng-if="item.tabName">({{item.tabName | translate}})</span>
               <span ng-if="item.id">({{item.id}})</span>
