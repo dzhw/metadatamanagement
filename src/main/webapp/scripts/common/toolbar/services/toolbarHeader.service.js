@@ -123,7 +123,8 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
             translateString,
             'number': item.questionNumber
           };
-          $rootScope.toolbarHeaderItems.push(searchItem, studyItem, instrumentItem,
+          $rootScope.toolbarHeaderItems.push(searchItem, studyItem,
+            instrumentItem,
             questionItem);
         break;
         case 'variableDetail':
@@ -158,7 +159,8 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
             translateString,
             'number': item.number
           };
-          $rootScope.toolbarHeaderItems.push(searchItem, studyItem, dataSetItem);
+          $rootScope.toolbarHeaderItems.push(searchItem, studyItem,
+            dataSetItem);
         break;
         case 'instrumentDetail':
           instrumentItem = {

@@ -60,6 +60,8 @@ public interface CompleteVariableProjection
   
   /* Foreign Keys */
   String getDataAcquisitionProjectId();
+  
+  String getStudyId();
 
   List<String> getSurveyIds();
 

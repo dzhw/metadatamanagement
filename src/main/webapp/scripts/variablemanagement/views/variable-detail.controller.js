@@ -95,8 +95,7 @@ angular.module('metadatamanagementApp')
         'name': $scope.variable.name,
         'dataSetId': $scope.variable.dataSetId,
         'dataSetNumber': $scope.variable.dataSetNumber,
-        'studyId': 'stu-' + $scope.variable.dataAcquisitionProjectId + '!',
-        //!!!should be discused
+        'studyId': $scope.variable.studyId,
         'projectId': $scope.variable.
           dataAcquisitionProjectId});
       if ($scope.variable.filterDetails) {
