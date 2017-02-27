@@ -13,7 +13,7 @@ describe('Controllers Tests ', function() {
       MockState = jasmine.createSpyObj('MockState', ['go']);
       MockTimeout = jasmine.createSpy('MockTimeout');
       event = jasmine.createSpyObj('event', ['preventDefault']);
-
+      MockState.current = {'name': 'login'};
       var locals = {
         '$scope': $scope,
         'Auth': MockAuth,

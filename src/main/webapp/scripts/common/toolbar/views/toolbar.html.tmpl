@@ -9,9 +9,20 @@
         </md-button>
         <div layout="row" layout-align="start center" flex class="fdz-breadCrumb">
           <div hide-xs class="fdz-truncate-string" ng-repeat="item in breadCrumbItems">
-            <a ng-if="!$last" ui-sref="{{item.state}}">{{item.translateString | translate}} ({{item.tabName | translate}}{{item.id}})</a>
-            <div ng-if="$last">{{item.translateString | translate}} ({{item.tabName | translate}}{{item.id}})</div>
-            <md-tooltip md-z-index="10">{{item.translateString | translate}} ({{item.tabName | translate}}{{item.id}})</md-tooltip>
+            <a ng-if="!$last" ui-sref="{{item.state}}">{{item.translateString | translate}}
+              <span ng-if="item.tabName">({{item.tabName | translate}})</span>
+              <span ng-if="item.id">({{item.id}})</span>
+              <span ng-if="item.number">({{item.number}})</span>
+            </a>
+            <div ng-if="$last">{{item.translateString | translate}}
+              <span ng-if="item.tabName">({{item.tabName | translate}})</span>
+              <span ng-if="item.id">({{item.id}})</span>
+              <span ng-if="item.number">({{item.number}})</span>
+            </div>
+            <md-tooltip md-z-index="10">{{item.translateString | translate}}
+              <span ng-if="item.tabName">({{item.tabName | translate}})</span>
+              <span ng-if="item.id">({{item.id}})</span>
+              <span ng-if="item.number">({{item.number}})</span></md-tooltip>
           </div>
         </div>
         <md-button

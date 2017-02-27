@@ -7,7 +7,7 @@ describe('Controllers Tests ', function() {
   describe('ActivationController', function() {
 
     var $scope, $httpBackend, $q, MockAuth; // actual implementations
-    var MockAuth, MockStateParams; // mocks
+    var MockAuth, MockStateParams, MockState; // mocks
     var createController; // local utility function
 
     beforeEach(inject(function($injector) {
@@ -18,9 +18,11 @@ describe('Controllers Tests ', function() {
       ]);
       MockStateParams = jasmine.createSpy('MockStateParams');
       MockStateParams.key = 'ABC123';
-
+      MockState = jasmine.createSpy('MockState');
+      MockState.current = {'name': 'activate'};
       var locals = {
         '$scope': $scope,
+        '$state': MockState,
         '$stateParams': MockStateParams,
         'Auth': MockAuth
       };

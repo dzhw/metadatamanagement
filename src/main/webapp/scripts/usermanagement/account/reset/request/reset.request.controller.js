@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('RequestResetController',
-  function($scope, $timeout, Auth, PageTitleService) {
+  function($scope, $state, ToolbarHeaderService, $timeout, Auth,
+    PageTitleService) {
     PageTitleService.setPageTitle('user-management.reset.request.title');
     $scope.success = null;
     $scope.error = null;
@@ -28,5 +29,6 @@ angular.module('metadatamanagementApp').controller('RequestResetController',
         }
       });
     };
-
+    ToolbarHeaderService.updateToolbarHeader({'stateName': $state.current.
+    name});
   });

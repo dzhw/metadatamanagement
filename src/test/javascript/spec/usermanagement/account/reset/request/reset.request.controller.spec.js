@@ -17,7 +17,7 @@ describe('Controller Tests', function() {
             MockState = jasmine.createSpy('MockState');
             MockTimeout = jasmine.createSpy('MockTimeout');
             MockAuth = jasmine.createSpyObj('MockAuth', ['resetPasswordInit']);
-
+            MockState.current = {'name': 'requestReset'};
             var locals = {
                 '$rootScope': $rootScope,
                 '$scope': $scope,

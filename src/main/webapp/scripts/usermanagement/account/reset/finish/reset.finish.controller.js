@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('ResetFinishController',
-  function($scope, $stateParams, $timeout, Auth,
+  function($scope, $state, $stateParams, $timeout, Auth, ToolbarHeaderService,
     PageTitleService) {
     PageTitleService.setPageTitle('user-management.reset.finish.title');
 
@@ -27,6 +27,7 @@ angular.module('metadatamanagementApp').controller('ResetFinishController',
           $scope.error = 'ERROR';
         });
       }
-
     };
+    ToolbarHeaderService.updateToolbarHeader({'stateName': $state.current.
+    name});
   });

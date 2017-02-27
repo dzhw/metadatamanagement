@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('SettingsController',
-  function($scope, Principal,
+  function($scope, Principal, $state, ToolbarHeaderService,
     Auth, LanguageService, PageTitleService) {
     PageTitleService.setPageTitle('global.menu.account.settings');
     $scope.success = null;
@@ -27,4 +27,6 @@ angular.module('metadatamanagementApp').controller('SettingsController',
         $scope.error = 'ERROR';
       });
     };
+    ToolbarHeaderService.updateToolbarHeader({'stateName': $state.current.
+    name});
   });

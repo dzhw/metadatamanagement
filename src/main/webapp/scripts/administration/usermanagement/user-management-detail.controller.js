@@ -2,7 +2,8 @@
 
 angular.module('metadatamanagementApp').controller(
   'UserManagementDetailController',
-  function($scope, $stateParams, UserResource, PageTitleService, $translate) {
+  function($scope, $stateParams, UserResource, PageTitleService, $translate,
+    $state, ToolbarHeaderService) {
     $translate('user-management.detail.title').then(function(title) {
       PageTitleService.setPageTitle(title + ' ' + $stateParams.login);
     });
@@ -15,4 +16,6 @@ angular.module('metadatamanagementApp').controller(
       });
     };
     $scope.load($stateParams.login);
+    ToolbarHeaderService.updateToolbarHeader({'stateName': $state.current.
+    name});
   });

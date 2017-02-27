@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('PasswordController',
-  function($scope, Auth, Principal, PageTitleService) {
+  function($scope, $state, ToolbarHeaderService, Auth, Principal,
+    PageTitleService) {
     PageTitleService.setPageTitle('global.menu.account.password');
     Principal.identity().then(function(account) {
       $scope.account = account;
@@ -24,4 +25,6 @@ angular.module('metadatamanagementApp').controller('PasswordController',
         });
       }
     };
+    ToolbarHeaderService.updateToolbarHeader({'stateName': $state.current.
+    name});
   });

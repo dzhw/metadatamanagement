@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('MetricsController',
-  function($scope, MonitoringService, $uibModal, PageTitleService) {
+  function($scope, MonitoringService, $uibModal, PageTitleService, $state,
+    ToolbarHeaderService) {
     PageTitleService.setPageTitle('administration.metrics.title');
     $scope.metrics = {};
     $scope.updatingMetrics = true;
@@ -62,4 +63,6 @@ angular.module('metadatamanagementApp').controller('MetricsController',
         });
       });
     };
+    ToolbarHeaderService.updateToolbarHeader({'stateName': $state.current.
+    name});
   });

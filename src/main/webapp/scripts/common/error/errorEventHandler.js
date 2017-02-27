@@ -7,7 +7,7 @@ based on the Error Event.*/
 'use strict';
 
 angular.module('metadatamanagementApp').run(
-  function($rootScope, SimpleMessageToastService) {
+  function($rootScope, SimpleMessageToastService, ToolbarHeaderService) {
     // Server or network down
     $rootScope.$on('serverNotReachableError', function() {
       SimpleMessageToastService.openSimpleMessageToast('global.error.' +
@@ -41,4 +41,5 @@ angular.module('metadatamanagementApp').run(
       SimpleMessageToastService.openSimpleMessageToast('global.error.' +
         'server-error.internal-server-error', {status: response.status});
     });
+    ToolbarHeaderService.updateToolbarHeader({'stateName': 'error'});
   });

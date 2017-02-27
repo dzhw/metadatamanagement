@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('LogsController',
-  function($scope, LogsResource, PageTitleService) {
+  function($scope, $state, LogsResource, PageTitleService,
+  ToolbarHeaderService) {
     PageTitleService.setPageTitle('administration.logs.title');
     $scope.loggers = LogsResource.findAll();
 
@@ -13,4 +14,6 @@ angular.module('metadatamanagementApp').controller('LogsController',
         $scope.loggers = LogsResource.findAll();
       });
     };
+    ToolbarHeaderService.updateToolbarHeader({'stateName': $state.current.
+    name});
   });

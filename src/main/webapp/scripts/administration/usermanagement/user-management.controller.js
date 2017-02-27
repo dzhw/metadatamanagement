@@ -2,8 +2,8 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('UserManagementController',
-  function($scope, UserResource, ParseLinks, LanguageService,
-    PageTitleService) {
+  function($scope, UserResource, ParseLinks, LanguageService, $state,
+    PageTitleService, ToolbarHeaderService) {
     PageTitleService.setPageTitle('user-management.home.title');
     $scope.users = [];
     $scope.authorities = ['ROLE_USER', 'ROLE_PUBLISHER', 'ROLE_ADMIN'];
@@ -79,4 +79,6 @@ angular.module('metadatamanagementApp').controller('UserManagementController',
       $scope.editForm.$setPristine();
       $scope.editForm.$setUntouched();
     };
+    ToolbarHeaderService.updateToolbarHeader({'stateName': $state.current.
+    name});
   });

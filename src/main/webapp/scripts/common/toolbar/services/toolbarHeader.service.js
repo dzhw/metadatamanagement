@@ -33,9 +33,6 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
       'surveyDetail': {
         'translateString': 'survey-management.detail.survey'
       },
-      'user-management': {
-        'translateString': 'global.menu.admin.user-management'
-      },
       'login': {
         'translateString': 'global.toolbar.buttons.login'
       },
@@ -59,6 +56,24 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
       },
       'register': {
         'translateString': 'global.toolbar.buttons.register'
+      },
+      'activate': {
+        'translateString': 'user-management.activate.title'
+      },
+      'requestReset': {
+        'translateString': 'global.menu.account.password'
+      },
+      'finishReset': {
+        'translateString': 'global.menu.account.password'
+      },
+      'user-management': {
+        'translateString': 'global.menu.admin.user-management'
+      },
+      'user-management-detail': {
+        'translateString': 'user-management.home.title'
+      },
+      'error': {
+        'translateString': 'global.error.title'
       }
     };
     var updateToolbarHeader = function(item) {
@@ -181,6 +196,115 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
             'id': item.id
           };
           $rootScope.breadCrumbItems.push(surveyItem);
+        break;
+        case 'disclosure':
+          var disclosureItem = {
+            'state': 'disclosure',
+            'translateString': translationStringsMap.disclosure.translateString
+          };
+          $rootScope.breadCrumbItems.push(disclosureItem);
+        break;
+        case 'user-management':
+          var managementItem = {
+            'state': 'user-management',
+            'translateString': translationStringsMap['user-management'].
+            translateString
+          };
+          $rootScope.breadCrumbItems.push(managementItem);
+        break;
+        case 'user-management-detail':
+          var userDetailItem = {
+            'state': 'user-management-detail',
+            'translateString': translationStringsMap['user-management-detail'].
+            translateString
+          };
+          $rootScope.breadCrumbItems.push(userDetailItem);
+        break;
+        case 'login':
+          var loginItem = {
+            'state': 'login',
+            'translateString': translationStringsMap.login.translateString
+          };
+          $rootScope.breadCrumbItems.push(loginItem);
+        break;
+        case 'metrics':
+          var metricsItem = {
+            'state': 'metrics',
+            'translateString': translationStringsMap.metrics.translateString
+          };
+          $rootScope.breadCrumbItems.push(metricsItem);
+        break;
+        case 'health':
+          var healthItem = {
+            'state': 'health',
+            'translateString': translationStringsMap.health.translateString
+          };
+          $rootScope.breadCrumbItems.push(healthItem);
+        break;
+        case 'configuration':
+          var configItem = {
+            'state': 'configuration',
+            'translateString': translationStringsMap.configuration.
+            translateString
+          };
+          $rootScope.breadCrumbItems.push(configItem);
+        break;
+        case 'logs':
+          var logsItem = {
+            'state': 'logs',
+            'translateString': translationStringsMap.logs.translateString
+          };
+          $rootScope.breadCrumbItems.push(logsItem);
+        break;
+        case 'settings':
+          var settingsItem = {
+            'state': 'settings',
+            'translateString': translationStringsMap.settings.translateString
+          };
+          $rootScope.breadCrumbItems.push(settingsItem);
+        break;
+        case 'password':
+          var passwordItem = {
+            'state': 'password',
+            'translateString': translationStringsMap.password.translateString
+          };
+          $rootScope.breadCrumbItems.push(passwordItem);
+        break;
+        case 'register':
+          var registerItem = {
+            'state': 'register',
+            'translateString': translationStringsMap.register.translateString
+          };
+          $rootScope.breadCrumbItems.push(registerItem);
+        break;
+        case 'activate':
+          var activateItem = {
+            'state': 'activate',
+            'translateString': translationStringsMap.activate.translateString
+          };
+          $rootScope.breadCrumbItems.push(activateItem);
+        break;
+        case 'finishReset':
+          var finishResetItem = {
+            'state': 'finishReset',
+            'translateString': translationStringsMap.finishReset.translateString
+          };
+          $rootScope.breadCrumbItems.push(finishResetItem);
+        break;
+        case 'requestReset':
+          var requestResetItem = {
+            'state': 'requestReset',
+            'translateString': translationStringsMap.requestReset.
+            translateString
+          };
+          $rootScope.breadCrumbItems.push(requestResetItem);
+        break;
+        case 'error':
+          var errorItem = {
+            'state': 'error',
+            'translateString': translationStringsMap.error.translateString
+          };
+          $rootScope.breadCrumbItems.push(errorItem);
         break;
         default:
           console.log(item.stateName + ': coming...');
