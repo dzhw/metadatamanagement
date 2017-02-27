@@ -30,7 +30,7 @@
             <div style="margin-bottom: 0.5em;" ng-if="ctrl.relatedPublication.doi">
               <span style="font-weight: bold;">{{'related-publication-management.detail.doi' | translate }}:
               </span>
-              <a ng-href="https://dx.doi.org/{{ctrl.relatedPublication.doi}}" target="_blank">https://dx.doi.org/{{ctrl.relatedPublication.doi}}</a>
+              <a ng-href="https://dx.doi.org/{{ctrl.relatedPublication.doi}}" target="_blank">{{ctrl.relatedPublication.doi}}</a>
             </div>
             <div style="margin-bottom: 0.5em;" ng-if="ctrl.relatedPublication.sourceLink" layout="row">
               <span style="font-weight: bold;">{{'related-publication-management.detail.sourceLink' | translate }}:&nbsp;
