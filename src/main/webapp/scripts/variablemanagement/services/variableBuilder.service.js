@@ -43,6 +43,8 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
           }
         },
         panelIdentifier: variableFromExcel.panelIdentifier,
+        relatedVariables: CleanJSObjectService.removeWhiteSpace(
+          variableFromExcel.relatedVariables),
         label: variableFromJson.label,
         dataType: variableFromJson.dataType,
         scaleLevel: variableFromJson.scaleLevel,
@@ -50,7 +52,6 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
         surveyNumbers: variableFromJson.surveyNumbers,
         surveyIds: [],
         indexInDataSet: variableFromJson.indexInDataSet,
-        relatedVariables: variableFromJson.relatedVariables,
         distribution: variableFromJson.distribution,
         dataSetId: DataSetIdBuilderService.buildDataSetId(
           dataAcquisitionProjectId, dataSet.dataSetNumber),
