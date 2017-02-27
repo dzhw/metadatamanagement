@@ -9,10 +9,11 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
  * @author René Reitmann
  */
 public interface VariableSubDocumentProjection {
+  
   String getId();
-
+  
   String getDataAcquisitionProjectId();
-
+  
   String getName();
 
   I18nString getLabel();

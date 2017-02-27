@@ -8,7 +8,7 @@ package eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.proje
  */
 public interface RelatedPublicationSubDocumentProjection {
   String getId();
-
+  
   String getDoi();
 
   String getTitle();

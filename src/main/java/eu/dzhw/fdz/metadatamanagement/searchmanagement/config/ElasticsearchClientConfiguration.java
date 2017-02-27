@@ -35,15 +35,9 @@ public class ElasticsearchClientConfiguration {
    * @throws Exception if the connection params cannot be resolved from the environment in the cloud
    */
   @Bean
-  public JestClient jestClient(String elasticSearchConnectionUrl) throws Exception {
+  public JestClient jestClient(String elasticSearchConnectionUrl, Gson gson) throws Exception {
     int readTimeout = metadataManagementProperties.getElasticsearchClient()
         .getReadTimeout();
-
-    // configure elasticsearch json serialization / deserialization
-    Gson gson = new GsonBuilder()
-        .registerTypeAdapter(LocalDate.class, new LocalDateConverter())
-        .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeConverter())
-        .create();
     
     // Configuration
     HttpClientConfig clientConfig =
@@ -70,5 +64,18 @@ public class ElasticsearchClientConfiguration {
         .getUrl();
 
     return connectionUrl;
+  }
+  
+  /**
+   * Configure elasticsearch json serialization / deserialization.
+   * @return the configured gson mapper
+   */
+  @Bean
+  public Gson gson() {
+    Gson gson = new GsonBuilder()
+        .registerTypeAdapter(LocalDate.class, new LocalDateConverter())
+        .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeConverter())
+        .create();
+    return gson;
   }
 }

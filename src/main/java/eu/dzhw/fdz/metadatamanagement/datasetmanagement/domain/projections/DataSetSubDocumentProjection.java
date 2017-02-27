@@ -9,9 +9,9 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
  * @author René Reitmann
  */
 public interface DataSetSubDocumentProjection {
-
+  
   String getId();
-
+  
   String getDataAcquisitionProjectId();
 
   I18nString getDescription();

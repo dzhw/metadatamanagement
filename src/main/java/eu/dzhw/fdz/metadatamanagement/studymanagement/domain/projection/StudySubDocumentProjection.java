@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.studymanagement.domain;
+package eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 
@@ -9,7 +9,6 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
  * @author René Reitmann
  */
 public interface StudySubDocumentProjection {
-
   String getId();
 
   String getDataAcquisitionProjectId();

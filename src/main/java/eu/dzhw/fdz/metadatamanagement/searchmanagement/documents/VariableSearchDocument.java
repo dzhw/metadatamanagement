@@ -2,11 +2,12 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataSetSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.InstrumentSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projections.RelatedPublicationSubDocumentProjection;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudySubDocumentProjection;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.SurveySubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 
@@ -17,14 +18,14 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
  * @author Daniel Katzberg
  */
 public class VariableSearchDocument extends Variable {
-  private DataSetSubDocumentProjection dataSet;
-  private StudySubDocumentProjection study;
-  private List<RelatedPublicationSubDocumentProjection> relatedPublications = 
-      new ArrayList<RelatedPublicationSubDocumentProjection>();
-  private List<SurveySubDocumentProjection> surveys = 
-      new ArrayList<SurveySubDocumentProjection>();
-  private List<InstrumentSubDocumentProjection> instruments = 
-      new ArrayList<InstrumentSubDocumentProjection>(); 
+  private DataSetSubDocument dataSet;
+  private StudySubDocument study;
+  private List<RelatedPublicationSubDocument> relatedPublications = 
+      new ArrayList<RelatedPublicationSubDocument>();
+  private List<SurveySubDocument> surveys = 
+      new ArrayList<SurveySubDocument>();
+  private List<InstrumentSubDocument> instruments = 
+      new ArrayList<InstrumentSubDocument>(); 
   
   /**
    * Construct the search document with all related subdocuments.
@@ -43,36 +44,63 @@ public class VariableSearchDocument extends Variable {
       List<SurveySubDocumentProjection> surveys, 
       List<InstrumentSubDocumentProjection> instruments) {
     super(variable);
-    this.dataSet = dataSet;
-    this.study = study;      
+    if (dataSet != null) {
+      this.dataSet = new DataSetSubDocument(dataSet);      
+    }
+    if (study != null) {
+      this.study = new StudySubDocument(study);            
+    }
     if (relatedPublications != null) {
-      this.relatedPublications = relatedPublications;
+      this.relatedPublications = relatedPublications.stream()
+          .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());
     }
     if (surveys != null) {
-      this.surveys = surveys;      
+      this.surveys = surveys.stream()
+          .map(SurveySubDocument::new).collect(Collectors.toList());      
     }
     if (instruments != null) {
-      this.instruments = instruments;
+      this.instruments = instruments.stream()
+          .map(InstrumentSubDocument::new).collect(Collectors.toList());
     }
   }
 
-  public DataSetSubDocumentProjection getDataSet() {
+  public DataSetSubDocument getDataSet() {
     return dataSet;
   }
 
-  public StudySubDocumentProjection getStudy() {
+  public void setDataSet(DataSetSubDocument dataSet) {
+    this.dataSet = dataSet;
+  }
+
+  public StudySubDocument getStudy() {
     return study;
   }
 
-  public List<RelatedPublicationSubDocumentProjection> getRelatedPublications() {
+  public void setStudy(StudySubDocument study) {
+    this.study = study;
+  }
+
+  public List<RelatedPublicationSubDocument> getRelatedPublications() {
     return relatedPublications;
   }
 
-  public List<SurveySubDocumentProjection> getSurveys() {
+  public void setRelatedPublications(List<RelatedPublicationSubDocument> relatedPublications) {
+    this.relatedPublications = relatedPublications;
+  }
+
+  public List<SurveySubDocument> getSurveys() {
     return surveys;
   }
 
-  public List<InstrumentSubDocumentProjection> getInstruments() {
+  public void setSurveys(List<SurveySubDocument> surveys) {
+    this.surveys = surveys;
+  }
+
+  public List<InstrumentSubDocument> getInstruments() {
     return instruments;
+  }
+
+  public void setInstruments(List<InstrumentSubDocument> instruments) {
+    this.instruments = instruments;
   }
 }

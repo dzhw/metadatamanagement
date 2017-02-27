@@ -11,7 +11,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 public interface QuestionSubDocumentProjection {
 
   String getId();
-
+  
   String getDataAcquisitionProjectId();
 
   String getInstrumentId();

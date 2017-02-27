@@ -10,12 +10,12 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
  * 
  * @author René Reitmann
  */
-public interface InstrumentSubDocumentProjection {
-
+public interface InstrumentSubDocumentProjection  {
+  
   String getId();
-
+  
   String getDataAcquisitionProjectId();
-
+  
   I18nString getTitle();
 
   I18nString getDescription();
