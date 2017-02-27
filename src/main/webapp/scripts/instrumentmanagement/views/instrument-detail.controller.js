@@ -5,7 +5,8 @@ angular.module('metadatamanagementApp')
   .controller('InstrumentDetailController',
     function(entity, SurveySearchService, InstrumentAttachmentResource,
       StudySearchService, QuestionSearchService, PageTitleService,
-      LanguageService, RelatedPublicationSearchService) {
+      LanguageService, RelatedPublicationSearchService, $state,
+      ToolbarHeaderService) {
       //Controller Init
       var ctrl = this;
       ctrl.instrument = entity;
@@ -85,6 +86,9 @@ angular.module('metadatamanagementApp')
               });
             }
           });
-
+        ToolbarHeaderService.updateToolbarHeader({
+          'stateName': $state.current.name,
+          'id': ctrl.instrument.id,
+          'studyId': ctrl.instrument.studyId});
       });
     });

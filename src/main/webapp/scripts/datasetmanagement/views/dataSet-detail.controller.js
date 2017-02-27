@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp')
     function(entity, Principal, StudySearchService, SurveySearchService,
       VariableSearchService, RelatedPublicationSearchService,
       DataSetSearchService, DataSetReportService, PageTitleService,
-      LanguageService) {
+      LanguageService, $state, ToolbarHeaderService) {
       var ctrl = this;
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAuthority = Principal.hasAuthority;
@@ -77,6 +77,10 @@ angular.module('metadatamanagementApp')
             ctrl.counts[subDataSet.name] = counts.count;
           });
         });
+        ToolbarHeaderService.updateToolbarHeader({
+          'stateName': $state.current.name,
+          'id': ctrl.dataSet.id,
+          'studyId': ctrl.dataSet.studyId});
       });
       ctrl.uploadTexTemplate = function(files) {
         if (files != null) {

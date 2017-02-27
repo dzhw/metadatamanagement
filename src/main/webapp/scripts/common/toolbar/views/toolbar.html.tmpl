@@ -7,18 +7,11 @@
               {{'global.toolbar.buttons.open-menu' | translate}}
             </md-tooltip>
         </md-button>
-
-        <div layout="row" layout-align=" center" flex class="fdz-breadCrumb">
-          <div class="fdz-truncate-string" ng-repeat="item in breadCrumbItems" ng-class="{'fdz-breadCrumbLastElement':$last}">
-            <a ng-if="item.id" ng-href="{{item.url[currentLanguage]}}">{{item.pageType | translate}} ({{item.id}})
-              <md-tooltip md-z-index="10" ng-if="item.id">{{item.pageType | translate}} ({{item.id}})</md-tooltip>
-            </a>
-            <a ng-if="item.tab" ng-href="{{item.url[currentLanguage]}}">{{item.pageType | translate}} ({{item.tab | translate}})
-              <md-tooltip md-z-index="10" ng-if="item.tab">{{item.pageType | translate}} ({{item.tab | translate}})</md-tooltip>
-            </a>
-            <a ng-if="!item.id && !item.tab" ng-href="{{item.url[currentLanguage]}}">{{item.pageType | translate}}
-              <md-tooltip md-z-index="10" ng-if="!item.id && !item.tab">{{item.pageType | translate}}</md-tooltip>
-            </a>
+        <div layout="row" layout-align="start center" flex class="fdz-breadCrumb">
+          <div hide-xs class="fdz-truncate-string" ng-repeat="item in breadCrumbItems">
+            <a ng-if="!$last" ui-sref="{{item.state}}">{{item.translateString | translate}} ({{item.tabName | translate}}{{item.id}})</a>
+            <div ng-if="$last">{{item.translateString | translate}} ({{item.tabName | translate}}{{item.id}})</div>
+            <md-tooltip md-z-index="10">{{item.translateString | translate}} ({{item.tabName | translate}}{{item.id}})</md-tooltip>
           </div>
         </div>
         <md-button

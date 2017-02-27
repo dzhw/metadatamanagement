@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp')
     DataSetSearchService, QuestionSearchService, VariableSearchService,
     RelatedPublicationSearchService, StudySearchService,
     SimpleMessageToastService, PageTitleService, LanguageService,
-    CleanJSObjectService) {
+    CleanJSObjectService, $state, ToolbarHeaderService) {
     $scope.generationCodeToggleFlag = true;
     $scope.filterDetailsCodeToggleFlag = true;
     $scope.notAllRowsVisible = true;
@@ -38,7 +38,7 @@ angular.module('metadatamanagementApp')
           }
         });
       DataSetSearchService.findOneByVariableId($scope.variable.id,
-        ['number','dataAcquisitionProjectId','description', 'id'])
+        ['number','dataAcquisitionProjectId','description', 'id', 'studyId'])
           .then(function(dataSet) {
             if (dataSet.hits.hits.length > 0) {
               $scope.dataSet = dataSet.hits.hits[0]._source;
@@ -90,7 +90,12 @@ angular.module('metadatamanagementApp')
               });
           }
         });
-
+      ToolbarHeaderService.updateToolbarHeader({
+        'stateName': $state.current.name,
+        'id': $scope.variable.id,
+        'dataSetId': $scope.variable.dataSetId,
+        'studyId': $scope.variable.
+          dataAcquisitionProjectId});
       if ($scope.variable.filterDetails) {
         html_beautify($scope.variable.filterDetails.expression); //jscs:ignore
       }

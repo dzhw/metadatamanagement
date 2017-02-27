@@ -45,6 +45,7 @@ angular
       $rootScope.$on('$stateChangeSuccess',
         function(event, toState, toParams, // jshint ignore:line
           fromState, fromParams) {
+          $rootScope.toStateName = toState.name;
           // Remember previous state unless we've been redirected to login or
           // we've just
           // reset the state memory after logout. If we're redirected to
@@ -58,15 +59,6 @@ angular
             $rootScope.previousStateParams = fromParams;
           }
         });
-      $rootScope.$watchCollection(function() {
-        return $location.search();
-      }, function(newValue, oldValue) {
-        if (newValue !== oldValue) {
-          $rootScope.$broadcast('locationChanged');
-          //BreadCrumbService.updateBreadCrumb();
-        }
-      });
-
       $rootScope.back = function() {
         // If previous state is 'activate' or do not exist go to 'search'
         if ($rootScope.previousStateName === 'activate' ||

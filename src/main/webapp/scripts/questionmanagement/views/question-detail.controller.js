@@ -5,7 +5,7 @@
 
 angular.module('metadatamanagementApp')
   .controller('QuestionDetailController',
-    function(StudySearchService, entity,
+    function(StudySearchService, entity, $state, ToolbarHeaderService,
       SimpleMessageToastService, QuestionSearchService, CleanJSObjectService,
       VariableSearchService, RelatedPublicationSearchService,
       InstrumentSearchService, PageTitleService, $rootScope) {
@@ -96,6 +96,11 @@ angular.module('metadatamanagementApp')
                       });
                   }
                 });
+        ToolbarHeaderService.updateToolbarHeader({
+          'stateName': $state.current.name,
+          'id': ctrl.question.id,
+          'instrumentId': ctrl.question.instrumentId,
+          'studyId': ctrl.question.studyId});
       });
       ctrl.openSuccessCopyToClipboardToast = function(message) {
         SimpleMessageToastService.openSimpleMessageToast(message, []);

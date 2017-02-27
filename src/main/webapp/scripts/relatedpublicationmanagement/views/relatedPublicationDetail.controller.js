@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp')
   .controller('RelatedPublicationDetailController',
-    function(entity, PageTitleService) {
+    function(entity, PageTitleService, $state, ToolbarHeaderService) {
       var ctrl = this;
       entity.promise.then(function(result) {
         ctrl.relatedPublication = result;
@@ -11,5 +11,8 @@ angular.module('metadatamanagementApp')
           title: ctrl.relatedPublication.title,
           publicationId: ctrl.relatedPublication.id
         });
+        ToolbarHeaderService.updateToolbarHeader({
+          'stateName': $state.current.name,
+          'id': ctrl.relatedPublication.id});
       });
     });

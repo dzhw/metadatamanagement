@@ -4,7 +4,7 @@ angular.module('metadatamanagementApp')
   .controller('SurveyDetailController',
     function(entity, StudySearchService, LanguageService, DataSetSearchService,
       SurveySearchService, PageTitleService, InstrumentSearchService,
-      RelatedPublicationSearchService) {
+      RelatedPublicationSearchService, $state, ToolbarHeaderService) {
       var ctrl = this;
       ctrl.imgResolved = false;
       ctrl.survey = entity;
@@ -64,6 +64,10 @@ angular.module('metadatamanagementApp')
                   });
               }
             });
+        ToolbarHeaderService.updateToolbarHeader({
+          'stateName': $state.current.name,
+          'id': ctrl.survey.id,
+          'studyId': ctrl.survey.studyId});
       });
       ctrl.setImgResolved = function() {
         ctrl.imgResolved = true;

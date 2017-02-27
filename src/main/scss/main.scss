@@ -641,13 +641,9 @@ pre {
 }
 
 /*-------------*/
-div.fdz-breadCrumb div+div:before {
+div.fdz-breadCrumb div a:after {
     padding: 8px;
     content: "\003e";
-}
-.fdz-breadCrumbLastElement  a {
-  pointer-events: none;
-  cursor: default;
 }
 
 .fdz-skip-navigation {

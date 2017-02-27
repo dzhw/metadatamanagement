@@ -3,7 +3,8 @@
 angular.module('metadatamanagementApp')
   .controller('StudyDetailController',
     function(entity, DataSetSearchService, SurveySearchService,
-      RelatedPublicationSearchService, PageTitleService, LanguageService) {
+      RelatedPublicationSearchService, PageTitleService, LanguageService,
+      $state, ToolbarHeaderService) {
       var ctrl = this;
       ctrl.study = entity;
       ctrl.counts = {};
@@ -45,5 +46,8 @@ angular.module('metadatamanagementApp')
                   });
                 }
               });
+        ToolbarHeaderService.updateToolbarHeader({
+          'stateName': $state.current.name,
+          'id': ctrl.study.id});
       });
     });

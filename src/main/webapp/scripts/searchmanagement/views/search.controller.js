@@ -5,13 +5,13 @@
 /* The Controller for the search. It differs between tabs and a tab represent
 a result of a type like variable or dataSet and so on. */
 angular.module('metadatamanagementApp').controller('SearchController',
-  function($scope, Principal, $location,
+  function($scope, Principal, $location, $state,
     SearchDao, VariableUploadService,
     RelatedPublicationsPostValidationService,
     QuestionUploadService, RelatedPublicationUploadService,
     DataSetUploadService, StudyUploadService, SurveyUploadService,
     CleanJSObjectService, InstrumentUploadService,
-    CurrentProjectService, $timeout, PageTitleService, BreadCrumbService) {
+    CurrentProjectService, $timeout, PageTitleService, ToolbarHeaderService) {
 
     var tabChangedOnInitFlag = false;
     var locationChanged = false;
@@ -23,7 +23,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
       $scope.isAuthenticated = Principal.isAuthenticated;
       $scope.hasAuthority = Principal.hasAuthority;
     });
-
     // write the searchParams object to the location with the correct types
     var writeSearchParamsToLocation = function() {
       var locationSearch = {};
@@ -46,11 +45,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
       locationChanged = !angular.equals($location.search(),
         locationSearch);
       $location.search(locationSearch);
-      if (_.size($location.search()) < 3) {
-        BreadCrumbService.addToBreadCrumb($location.absUrl(),
-        $location.search(),
-        $location.url());
-      }
     };
 
     // read the searchParams object from the location with the correct types
@@ -153,16 +147,16 @@ angular.module('metadatamanagementApp').controller('SearchController',
     $scope.$watchCollection(function() {
       return $location.search();
     }, function(newValue, oldValue) {
+      ToolbarHeaderService.updateToolbarHeader({
+        'stateName': $state.current.name,
+        'tabName': $scope.tabs[$scope.searchParams.selectedTabIndex].title,
+        'searchUrl': $location.absUrl(),
+        'searchParams': $location.search()});
       if (newValue !== oldValue && !locationChanged) {
         readSearchParamsFromLocation();
         // type changes are already handled by $scope.onSelectedTabChanged
         if (newValue.type === oldValue.type) {
           $scope.search();
-        }
-        if (_.size($location.search()) < 3) {
-          BreadCrumbService.addToBreadCrumb($location.absUrl(),
-          $location.search(),
-          $location.url());
         }
       } else {
         locationChanged = false;
