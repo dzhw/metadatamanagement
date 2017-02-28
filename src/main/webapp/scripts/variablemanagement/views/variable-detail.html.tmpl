@@ -3,8 +3,8 @@
         <h1 class="md-headline" style="margin-left: 0px;">{{variable.label[currentLanguage]}} <span class="label label-as-badge label-default">{{variable.id}}</span></h1>
     </div>
     <div layout="column" layout-gt-sm="row">
-        <div flex-gt-sm="50">
-            <md-card>
+        <div flex-gt-sm="50" layout="column">
+            <md-card flex="auto">
                 <md-card-header>
                     <md-card-header-text>
                         <h2 class="md-title">{{'global.cards.details' | translate }}</h2>
@@ -64,8 +64,8 @@
                 </md-card-content>
             </md-card>
         </div>
-        <div flex-gt-sm="50">
-            <md-card ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm'), 'fdz-reset-top-margin': $mdMedia('sm') || $mdMedia('xs')}">
+        <div flex-gt-sm="50" layout="column">
+            <md-card flex="auto" ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm'), 'fdz-reset-top-margin': $mdMedia('sm') || $mdMedia('xs')}">
                 <md-card-header>
                     <md-card-header-text>
                         <h2 class="md-title">{{'global.cards.related-objects' | translate }}</h2>
@@ -159,8 +159,8 @@
         </div>
     </div>
     <div layout="column" layout-gt-sm="row">
-         <div flex-gt-sm="50">
-           <md-card ng-if="validResponsesOrMissingsAvailable" class="fdz-reset-top-margin">
+         <div flex-gt-sm="50" layout="column">
+           <md-card flex="auto" ng-if="validResponsesOrMissingsAvailable" class="fdz-reset-top-margin">
              <md-card-header>
                <md-card-header-text>
                  <h2 class="md-title">{{'variable-management.detail.statistics.graphics' | translate }}</h2>
@@ -172,8 +172,8 @@
              </div>
            </md-card>
          </div>
-         <div flex-gt-sm="50">
-           <md-card class="fdz-reset-top-margin" ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm') && validResponsesOrMissingsAvailable }">
+         <div flex-gt-sm="50" layout="column">
+           <md-card flex="auto" class="fdz-reset-top-margin" ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm') && validResponsesOrMissingsAvailable }">
              <md-card-header>
                <md-card-header-text>
                  <h2 class="md-title">{{'variable-management.detail.statistics.statistics' | translate }}</h2>

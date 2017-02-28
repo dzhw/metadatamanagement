@@ -3,8 +3,8 @@
         <h1 class="md-headline" style="margin-left: 0px;">{{ctrl.dataSet.description[currentLanguage]}} <span class="label label-as-badge label-default">{{ctrl.dataSet.id}}</span></h1>
     </div>
     <div layout="column" layout-gt-sm="row">
-      <div flex-gt-sm="50">
-        <md-card>
+      <div flex-gt-sm="50" layout="column">
+        <md-card flex="auto">
           <md-card-header>
             <md-card-header-text>
               <h2 class="md-title">{{'global.cards.details' | translate }}</h2>
@@ -25,8 +25,8 @@
           </md-card-content>
         </md-card>
       </div>
-      <div flex-gt-sm="50">
-        <md-card ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm'), 'fdz-reset-top-margin': $mdMedia('sm') || $mdMedia('xs')}">
+      <div flex-gt-sm="50" layout="column">
+        <md-card flex="auto" ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm'), 'fdz-reset-top-margin': $mdMedia('sm') || $mdMedia('xs')}">
           <md-card-header>
             <md-card-header-text>
               <h2 class="md-title">{{'global.cards.related-objects' | translate }}</h2>
