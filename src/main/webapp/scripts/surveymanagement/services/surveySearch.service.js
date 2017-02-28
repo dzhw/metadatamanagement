@@ -109,7 +109,7 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
       };
       return ElasticSearchClient.search(query);
     };
-    var countBy = function(term, value, excludedSurveyId) {
+    var countBy = function(term, value) {
       query.body = {};
       query.body.query = {};
       query.body.query = {
@@ -120,25 +120,11 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
           'filter': []
         }
       };
-      var subQuery = {
-        'bool': {}
-      };
-      subQuery.bool.must = [];
-      var mustSubQuery = {
+      var mustTerm = {
         'term': {}
       };
-      mustSubQuery.term[term] = value;
-      subQuery.bool.must.push(mustSubQuery);
-      if (excludedSurveyId) {
-        // jscs:disable
-        subQuery.bool.must_not = [{
-          'term': {
-            'id': excludedSurveyId
-          }
-        }];
-        // jscs:enable
-      }
-      query.body.query.bool.filter.push(subQuery);
+      mustTerm.term[term] = value;
+      query.body.query.bool.filter.push(mustTerm);
       return ElasticSearchClient.count(query);
     };
     return {

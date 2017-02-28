@@ -65,10 +65,20 @@ angular.module('metadatamanagementApp').factory('InstrumentSearchService',
     };
     var countBy = function(term, value) {
       query.body = {};
+      query.body.query = {};
       query.body.query = {
+        'bool': {
+          'must': [{
+            'match_all': {}
+          }],
+          'filter': []
+        }
+      };
+      var mustTerm = {
         'term': {}
       };
-      query.body.query.term[term] = value;
+      mustTerm.term[term] = value;
+      query.body.query.bool.filter.push(mustTerm);
       return ElasticSearchClient.count(query);
     };
     return {

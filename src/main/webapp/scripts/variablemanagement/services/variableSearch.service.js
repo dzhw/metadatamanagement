@@ -93,22 +93,17 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
           'filter': []
         }
       };
-      var subQuery = {
-        'bool': {}
-      };
-      subQuery.bool.must = [];
-      var mustSubQuery = {
+      var mustTerm = {
         'term': {}
       };
-      mustSubQuery.term[term] = value;
-      subQuery.bool.must.push(mustSubQuery);
+      mustTerm.term[term] = value;
+      query.body.query.bool.filter.push(mustTerm);
       if (dataSetId) {
-        subQuery.bool.must.push({
+        query.body.query.bool.filter.push({
           'term': {
             'dataSetId': dataSetId
           }});
       }
-      query.body.query.bool.filter.push(subQuery);
       return ElasticSearchClient.count(query);
     };
     return {

@@ -116,28 +116,20 @@ angular.module('metadatamanagementApp').service('SearchDao',
             }
           };
         }
-
         if (dataAcquisitionProjectId ||
           !CleanJSObjectService.isNullOrEmpty(filter)) {
-          query.body.query.bool.filter = {};
-          query.body.query.bool.filter.bool = {};
+          query.body.query.bool.filter = [];
         }
-        // this filter section should be refactored
-        // filter by projectId
         if (dataAcquisitionProjectId) {
           projectFilter = {
             'term': {
               'dataAcquisitionProjectId': dataAcquisitionProjectId
             }
           };
-          query.body.query.bool.filter.bool.must = [];
-          query.body.query.bool.filter.bool.must.push(projectFilter);
+          query.body.query.bool.filter.push(projectFilter);
         }
 
         if (!CleanJSObjectService.isNullOrEmpty(filter)) {
-          if (!query.body.query.bool.filter.bool.must) {
-            query.body.query.bool.filter.bool.must = [];
-          }
           _.each(filter, function(value, key) {
             var filterKeyValue = {
               'term': {}
@@ -146,8 +138,8 @@ angular.module('metadatamanagementApp').service('SearchDao',
               var subKeyMapping = keyMapping[elasticsearchType];
               key = subKeyMapping[key];
               filterKeyValue.term[key] = value;
-              query.body.query.bool.filter.bool.must.push(
-                filterKeyValue);
+              query.body.query.bool.filter.push(
+                  filterKeyValue);
             }
           });
         }

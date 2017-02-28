@@ -110,16 +110,11 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
           'filter': []
         }
       };
-      var subQuery = {
-        'bool': {}
-      };
-      subQuery.bool.must = [];
-      var mustSubQuery = {
+      var mustTerm = {
         'term': {}
       };
-      mustSubQuery.term[term] = value;
-      subQuery.bool.must.push(mustSubQuery);
-      query.body.query.bool.filter.push(subQuery);
+      mustTerm.term[term] = value;
+      query.body.query.bool.filter.push(mustTerm);
       return ElasticSearchClient.count(query);
     };
     return {
