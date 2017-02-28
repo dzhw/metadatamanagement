@@ -3,6 +3,8 @@ package eu.dzhw.fdz.metadatamanagement.variablemanagement.domain;
 
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.google.common.base.MoreObjects;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
@@ -21,7 +23,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
     intoPackage = "eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders")
 public class Missing {
 
-  @NotNull(message = "variable-management.error.missing.code.not-null")
+  @NotEmpty(message = "variable-management.error.missing.code.not-null")
   private String code;
 
   @I18nStringSize(max = StringLengths.MEDIUM,
