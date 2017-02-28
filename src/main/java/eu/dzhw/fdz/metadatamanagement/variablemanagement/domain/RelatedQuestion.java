@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.variablemanagement.domain;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 import com.google.common.base.MoreObjects;
 
@@ -41,8 +42,10 @@ public class RelatedQuestion {
   /* Nested Objects */
   
   /* Foreign Keys */
+  @Indexed
   private String questionId;
   
+  @Indexed
   private String instrumentId;
 
   
