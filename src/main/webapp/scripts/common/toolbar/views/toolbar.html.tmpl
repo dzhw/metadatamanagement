@@ -1,15 +1,15 @@
 <md-toolbar id="toolbar" md-whiteframe="4">
     <div ng-show="{{ENV === 'local' || ENV === 'dev' || ENV === 'test'}}" class="ribbon" ng-cloak>{{ENV}}</div>
     <div class="md-toolbar-tools" layout="row" ng-switch="isAuthenticated()">
-        <md-button class="md-primary md-raised md-hue-1 md-icon-button" hide-gt-md ng-click="toggleLeft()">
+        <md-button class="md-primary md-raised md-icon-button fdz-toolbar-button" hide-gt-md ng-click="toggleLeft()">
             <md-icon md-font-set="material-icons">menu</md-icon>
             <md-tooltip md-z-index="10">
               {{'global.toolbar.buttons.open-menu' | translate}}
             </md-tooltip>
         </md-button>
         <div layout="row" layout-align="start center" flex>
-          <div hide-xs hide-sm class="fdz-truncate-string" ng-repeat="item in toolbarHeaderItems">
-            <md-button class="md-primary md-raised md-hue-1" ng-if="!$last" ui-sref="{{item.state}}">
+          <div hide-xs hide-sm ng-repeat="item in toolbarHeaderItems">
+            <md-button class="md-primary md-raised fdz-toolbar-button" ng-if="!$last" ui-sref="{{item.state}}">
               <md-icon md-font-set="material-icons">search</md-icon>
               {{item.translateString | translate}}
               <span ng-if="item.tabName">({{item.tabName | translate}})</span>
@@ -38,7 +38,7 @@
         <md-button
             id="changeLanguageToEn"
             aria-label="{{'global.toolbar.buttons.change-language' | translate}}"
-            class="md-primary md-raised md-hue-1"
+            class="md-primary md-raised fdz-toolbar-button"
             ng-class="{'md-icon-button': $mdMedia('xs')}"
             ng-click="changeLanguage('en')"
             ng-if="currentLanguage!='en'">
@@ -51,7 +51,7 @@
         <md-button
             id="changeLanguageToDe"
             aria-label="{{'global.toolbar.buttons.change-language' | translate}}"
-            class="md-primary md-raised md-hue-1"
+            class="md-primary md-raised fdz-toolbar-button"
             ng-class="{'md-icon-button': $mdMedia('xs')}"
             ng-click="changeLanguage('de')"
             ng-if="currentLanguage!='de'">
@@ -62,7 +62,7 @@
             <span class="hide-xs">Deutsch</span>
         </md-button>
         <div ng-switch-when="true">
-            <md-button id="logout" aria-label="{{'global.toolbar.buttons.logout' | translate}}" class="md-primary md-raised md-hue-1" ng-class="{'md-icon-button': $mdMedia('xs')}" ng-click="logout()">
+            <md-button id="logout" aria-label="{{'global.toolbar.buttons.logout' | translate}}" class="md-primary md-raised fdz-toolbar-button" ng-class="{'md-icon-button': $mdMedia('xs')}" ng-click="logout()">
                 <md-tooltip md-z-index="10">
                     {{'global.toolbar.buttons.logout' | translate}}
                 </md-tooltip>
@@ -71,7 +71,7 @@
             </md-button>
         </div>
         <div ng-switch-when="false">
-            <md-button aria-label="{{'global.toolbar.buttons.login' | translate}}" id="login" class="md-primary md-raised md-hue-1" ng-class="{'md-icon-button': $mdMedia('xs')}" ng-click="login()">
+            <md-button aria-label="{{'global.toolbar.buttons.login' | translate}}" id="login" class="md-primary md-raised fdz-toolbar-button" ng-class="{'md-icon-button': $mdMedia('xs')}" ng-click="login()">
                 <md-tooltip md-z-index="10">
                     {{'global.toolbar.buttons.login' | translate}}
                 </md-tooltip>
@@ -80,7 +80,7 @@
             </md-button>
         </div>
         <div ng-switch-when="false">
-            <md-button aria-label="{{'global.toolbar.buttons.register' | translate}}" id="register" class="md-primary md-raised md-hue-1" ng-class="{'md-icon-button': $mdMedia('xs')}" ng-click="register()">
+            <md-button aria-label="{{'global.toolbar.buttons.register' | translate}}" id="register" class="md-primary md-raised fdz-toolbar-button" ng-class="{'md-icon-button': $mdMedia('xs')}" ng-click="register()">
                 <md-tooltip md-z-index="10">
                     {{'global.toolbar.buttons.register' | translate}}
                 </md-tooltip>
