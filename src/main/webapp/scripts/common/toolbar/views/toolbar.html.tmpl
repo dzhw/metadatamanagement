@@ -7,9 +7,10 @@
               {{'global.toolbar.buttons.open-menu' | translate}}
             </md-tooltip>
         </md-button>
+        <!-- wait until https://github.com/dzhw/metadatamanagement/issues/982 is worked-->
         <div layout="row" layout-align="start center" flex>
           <div ng-repeat="item in toolbarHeaderItems">
-            <md-button style="max-width: 200px;" ng-class="{'hide-xs': $mdMedia('xs') && !$first, 'hide-sm': $mdMedia('sm') && !$first}" class="md-primary md-raised fdz-toolbar-button fdz-truncate-string" ng-if="!$last" ui-sref="{{item.state}}">
+            <md-button style="max-width: 200px;" ng-class="{'hide-xs': $mdMedia('xs') && !$first, 'hide-sm': $mdMedia('sm') && !$first}" class="md-primary md-raised fdz-toolbar-button" ng-if="!$last" ui-sref="{{item.state}}">
               <md-icon ng-if= "item.iconType == 'font'" md-font-set="material-icons">{{item.icon}}</md-icon>
               <md-icon ng-if= "item.iconType == 'svg'" md-svg-icon="{{item.icon}}"></md-icon>
               {{item.translateString | translate}}
@@ -31,14 +32,15 @@
               <md-icon ng-if= "item.iconType == 'font'" md-font-set="material-icons" style="color: rgba(255,255,255,0.87);">{{item.icon}}</md-icon>
               <md-icon ng-if= "item.iconType == 'svg'" md-svg-icon="{{item.icon}}" style="fill: rgba(255,255,255,0.87);"></md-icon>
               {{item.translateString | translate}}
-              <span ng-if="item.tabName">({{item.tabName | translate}})</span>
-              <span ng-if="item.id">{{item.id}}</span>
-              <span ng-if="item.number">{{item.number}}</span>
-              <span ng-if="item.projectId">{{item.projectId}}</span>
-              <span ng-if="item.name">{{item.name}}</span>
+              <span class="fdz-truncate-string" ng-if="item.tabName">({{item.tabName | translate}})</span>
+              <span class="fdz-truncate-string" ng-if="item.id">{{item.id}}</span>
+              <span class="fdz-truncate-string" ng-if="item.number">{{item.number}}</span>
+              <span class="fdz-truncate-string" ng-if="item.projectId">{{item.projectId}}</span>
+              <span class="fdz-truncate-string" ng-if="item.name">{{item.name}}</span>
             </md-button>
           </div>
         </div>
+        <!-- --> 
         <md-button
             id="changeLanguageToEn"
             aria-label="{{'global.toolbar.buttons.change-language' | translate}}"
