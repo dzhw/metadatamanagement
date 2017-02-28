@@ -183,95 +183,48 @@
              <md-card-content ng-cloak="true">
                <div>
                  <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.validResponses">
-                   <span>{{'variable-management.detail.statistics.validResponses' | translate}}
-                   </span>
-                   <span>:
-                     {{variable.distribution.validResponses.length}}</span>
-                   </div>
-                   <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.minimum != null">
-                     <span>{{'variable-management.detail.statistics.minimum' | translate}}
-                     </span> (
-                     <span katex>min</span>)
-                     <span>:
-                       {{variable.distribution.statistics.minimum | variableDataType: variable.dataType.en}}</span>
-                     </div>
-                     <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.maximum != null">
-                       <span>{{'variable-management.detail.statistics.maximum' | translate}}
-                       </span> (
-                       <span katex>max</span>)
-                       <span>:
-                         {{variable.distribution.statistics.maximum | variableDataType: variable.dataType.en}}</span>
-                       </div>
-                       <h3 style="font-size: 18px; margin-top: 1.0em; margin-bottom: 0.5em;" ng-if="checkCentralTendencyElements()">
-                         {{'variable-management.detail.central-tendency' | translate}}
-                       </h3>
-                       <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.meanValue != null">
-                         <span>{{'variable-management.detail.statistics.mean-value' | translate}}
-                         </span> (
-                         <span katex>\bar x</span>)
-                         <span>:
-                           {{variable.distribution.statistics.meanValue | number:2}}</span>
-                         </div>
-                         <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.median != null">
-                           <span>{{'variable-management.detail.statistics.median' | translate}}
-                           </span> (
-                           <span katex>\tilde x</span>)
-                           <span>:
-                             {{variable.distribution.statistics.median | variableDataType: variable.dataType.en}}</span>
-                           </div>
-                           <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.mode != null">
-                             <span>{{'variable-management.detail.statistics.mode' | translate}}
-                             </span> (
-                             <span katex>h</span>)
-                             <span>:
-                               {{variable.distribution.statistics.mode}}</span>
-                             </div>
-
-                             <h3 style="font-size: 18px; margin-top: 1.0em; margin-bottom: 0.5em;" ng-if="checkDispersionElements()">
-                               {{'variable-management.detail.dispersion' | translate}}
-                             </h3>
-                             <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.standardDeviation != null">
-                               <span style="font-weight: none;">{{'variable-management.detail.statistics.standardDeviation' | translate}}
-                               </span> (
-                               <span katex>s</span>)
-                               <span>:
-                                 {{variable.distribution.statistics.standardDeviation | number:2}}</span>
-                               </div>
-                               <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.meanDeviation != null">
-                                 <span style="font-weight: none;">{{'variable-management.detail.statistics.mean-deviation' | translate}}
-                                 </span> (
-                                 <span katex>MAD</span>)
-                                 <span>:
-                                   {{variable.distribution.statistics.meanDeviation | number:2}}</span>
-                                 </div>
-                                 <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.deviance != null">
-                                   <span style="font-weight: none;">{{'variable-management.detail.statistics.deviance' | translate}}
-                                   </span> (
-                                   <span katex>d</span>)
-                                   <span>:
-                                     {{variable.distribution.statistics.deviance | number:2}}</span>
-                                   </div>
-
-                                   <h3 style="font-size: 18px; margin-top: 1.0em; margin-bottom: 0.5em;" ng-if="checkDistributionElements()">
-                                     {{'variable-management.detail.distribution' | translate}}
-                                   </h3>
-                                   <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.skewness != null">
-                                     <span>{{'variable-management.detail.statistics.skewness' | translate}}
-                                     </span> (
-                                     <span katex>v</span>)
-                                     <span>:
-                                       {{variable.distribution.statistics.skewness | number:2}}</span>
-                                     </div>
-                                     <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.kurtosis != null">
-                                       <span>{{'variable-management.detail.statistics.kurtosis' | translate}}
-                                       </span> (
-                                       <span katex>w</span>)
-                                       <span>:
-                                         {{variable.distribution.statistics.kurtosis | number:2}}</span>
-                                       </div>
-
-                                     </div>
-                                   </md-card-content>
+                   {{'variable-management.detail.statistics.validResponses' | translate}}: {{variable.distribution.validResponses.length}}</div>
+                 <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.minimum != null">
+                   {{'variable-management.detail.statistics.minimum' | translate}} <span katex>(min)</span>: {{variable.distribution.statistics.minimum | variableDataType: variable.dataType.en}}
+                 </div>
+                 <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.maximum != null">
+                   {{'variable-management.detail.statistics.maximum' | translate}} <span katex>(max)</span>: {{variable.distribution.statistics.maximum | variableDataType: variable.dataType.en}}
+                 </div>
+                 <h3 style="font-size: 18px; margin-top: 1.0em; margin-bottom: 0.5em;" ng-if="checkCentralTendencyElements()">
+                   {{'variable-management.detail.central-tendency' | translate}}
+                 </h3>
+                 <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.meanValue != null">
+                   {{'variable-management.detail.statistics.mean-value' | translate}} <span katex>(\bar x)</span>: {{variable.distribution.statistics.meanValue | number:2}}
+                 </div>
+                  <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.median != null">
+                    {{'variable-management.detail.statistics.median' | translate}} <span katex>(\tilde x)</span>: {{variable.distribution.statistics.median | variableDataType: variable.dataType.en}}
+                  </div>
+                  <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.mode != null">
+                    {{'variable-management.detail.statistics.mode' | translate}} <span katex>(h)</span>: {{variable.distribution.statistics.mode}}
+                  </div>
+                  <h3 style="font-size: 18px; margin-top: 1.0em; margin-bottom: 0.5em;" ng-if="checkDispersionElements()">
+                    {{'variable-management.detail.dispersion' | translate}}
+                  </h3>
+                  <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.standardDeviation != null">
+                    {{'variable-management.detail.statistics.standardDeviation' | translate}} <span katex>(s)</span>: {{variable.distribution.statistics.standardDeviation | number:2}}
+                  </div>
+                  <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.meanDeviation != null">
+                    {{'variable-management.detail.statistics.mean-deviation' | translate}} <span katex>(MAD)</span>: {{variable.distribution.statistics.meanDeviation | number:2}}
+                  </div>
+                  <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.deviance != null">
+                    {{'variable-management.detail.statistics.deviance' | translate}} <span katex>(d)</span>: {{variable.distribution.statistics.deviance | number:2}}
+                  </div>
+                  <h3 style="font-size: 18px; margin-top: 1.0em; margin-bottom: 0.5em;" ng-if="checkDistributionElements()">
+                    {{'variable-management.detail.distribution' | translate}}
+                  </h3>
+                  <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.skewness != null">
+                    {{'variable-management.detail.statistics.skewness' | translate}} <span katex>(v)</span>: {{variable.distribution.statistics.skewness | number:2}}
+                  </div>
+                  <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.kurtosis != null">
+                    {{'variable-management.detail.statistics.kurtosis' | translate}} <span katex>(w)</span>: {{variable.distribution.statistics.kurtosis | number:2}}
+                  </div>
+                </div>
+              </md-card-content>
            </md-card>
          </div>
     </div>
