@@ -6,32 +6,48 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
     var searchItem;
     var translationStringsMap = {
       'questionDetail': {
-        'translateString': 'question-management.detail.question'
+        'translateString': 'question-management.detail.question',
+        'iconType': 'svg',
+        'icon': 'assets/images/icons/question.svg'
       },
       'variableDetail': {
-        'translateString': 'variable-management.detail.variable'
+        'translateString': 'variable-management.detail.variable',
+        'iconType': 'svg',
+        'icon': 'assets/images/icons/variable.svg'
       },
       'instrumentDetail': {
-        'translateString': 'instrument-management.detail.instrument'
+        'translateString': 'instrument-management.detail.instrument',
+        'iconType': 'svg',
+        'icon': 'assets/images/icons/instrument.svg'
       },
       'dataSetDetail': {
-        'translateString': 'data-set-management.detail.data-set'
+        'translateString': 'data-set-management.detail.data-set',
+        'iconType': 'svg',
+        'icon': 'assets/images/icons/data-set.svg'
       },
       'disclosure': {
         'translateString': 'disclosure.title'
       },
       'relatedPublicationDetail': {
-        'translateString': 'related-publication-management.detail.publication'
+        'translateString': 'related-publication-management.detail.publication',
+        'iconType': 'svg',
+        'icon': 'assets/images/icons/related-publication.svg'
       },
       'search': {
         'translateString': 'search-management.detail.search',
-        'tab': 'search-management.tabs.'
+        'tab': 'search-management.tabs.',
+        'iconType': 'font',
+        'icon': 'search'
       },
       'studyDetail': {
-        'translateString': 'study-management.detail.study'
+        'translateString': 'study-management.detail.study',
+        'iconType': 'svg',
+        'icon': 'assets/images/icons/study.svg'
       },
       'surveyDetail': {
-        'translateString': 'survey-management.detail.survey'
+        'translateString': 'survey-management.detail.survey',
+        'iconType': 'svg',
+        'icon': 'assets/images/icons/survey.svg'
       },
       'login': {
         'translateString': 'global.toolbar.buttons.login'
@@ -97,6 +113,8 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
           'state': 'studyDetail({"id":"' + item.studyId + '"})',
           'translateString': translationStringsMap.studyDetail.
           translateString,
+          'iconType': translationStringsMap.instrumentDetail.iconType,
+          'icon': translationStringsMap.studyDetail.icon,
           'projectId': item.projectId
         };
       }
@@ -109,12 +127,16 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
             'state': 'instrumentDetail({"id":"' + item.instrumentId + '"})',
             'translateString': translationStringsMap.instrumentDetail.
             translateString,
+            'iconType': translationStringsMap.instrumentDetail.iconType,
+            'icon': translationStringsMap.instrumentDetail.icon,
             'number': item.instrumentNumber
           };
           questionItem = {
             'state': 'questionDetail',
             'translateString': translationStringsMap.questionDetail.
             translateString,
+            'iconType': translationStringsMap.instrumentDetail.iconType,
+            'icon': translationStringsMap.questionDetail.icon,
             'number': item.questionNumber
           };
           $rootScope.toolbarHeaderItems.push(searchItem, studyItem,
@@ -126,12 +148,16 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
             'state': 'dataSetDetail({"id":"' + item.dataSetId + '"})',
             'translateString': translationStringsMap.dataSetDetail.
              translateString,
+            'iconType': translationStringsMap.instrumentDetail.iconType,
+            'icon': translationStringsMap.dataSetDetail.icon,
             'number': item.dataSetNumber
           };
           variableItem = {
             'state': 'variableDetail',
             'translateString': translationStringsMap.variableDetail.
              translateString,
+            'iconType': translationStringsMap.instrumentDetail.iconType,
+            'icon': translationStringsMap.variableDetail.icon,
             'name': item.name
           };
           $rootScope.toolbarHeaderItems.push(searchItem, studyItem, dataSetItem,
@@ -142,6 +168,8 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
             'state': 'surveyDetail',
             'translateString': translationStringsMap.surveyDetail.
             translateString,
+            'iconType': translationStringsMap.instrumentDetail.iconType,
+            'icon': translationStringsMap.surveyDetail.icon,
             'number': item.number
           };
           $rootScope.toolbarHeaderItems.push(searchItem, studyItem, surveyItem);
@@ -151,6 +179,8 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
             'state': 'dataSetDetail',
             'translateString': translationStringsMap.dataSetDetail.
             translateString,
+            'iconType': translationStringsMap.instrumentDetail.iconType,
+            'icon': translationStringsMap.dataSetDetail.icon,
             'number': item.number
           };
           $rootScope.toolbarHeaderItems.push(searchItem, studyItem,
@@ -161,6 +191,8 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
             'state': 'instrumentDetail',
             'translateString': translationStringsMap.instrumentDetail.
             translateString,
+            'iconType': translationStringsMap.instrumentDetail.iconType,
+            'icon': translationStringsMap.instrumentDetail.icon,
             'number': item.number
           };
           $rootScope.toolbarHeaderItems.push(searchItem, studyItem,
@@ -171,6 +203,8 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
             'state': 'relatedPublicationDetail',
             'translateString': translationStringsMap.relatedPublicationDetail.
             translateString,
+            'iconType': translationStringsMap.instrumentDetail.iconType,
+            'icon': translationStringsMap.relatedPublicationDetail.icon,
             'id': item.id
           };
           $rootScope.toolbarHeaderItems.push(searchItem, publicationItem);
@@ -179,6 +213,8 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
           searchItem = {};
           searchItem.translateString = translationStringsMap.search
           .translateString;
+          searchItem.iconType = translationStringsMap.search.iconType;
+          searchItem.icon = translationStringsMap.search.icon;
           if (_.size(item.searchParams) > 1) {
             searchItem.tabName = item.tabName;
           } else {

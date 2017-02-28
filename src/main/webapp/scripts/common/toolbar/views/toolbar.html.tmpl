@@ -8,9 +8,10 @@
             </md-tooltip>
         </md-button>
         <div layout="row" layout-align="start center" flex>
-          <div hide-xs hide-sm ng-repeat="item in toolbarHeaderItems">
-            <md-button class="md-primary md-raised fdz-toolbar-button" ng-if="!$last" ui-sref="{{item.state}}">
-              <md-icon md-font-set="material-icons">search</md-icon>
+          <div ng-repeat="item in toolbarHeaderItems">
+            <md-button class="fdz-truncate-string" style="max-width: 200px;" ng-class="{'hide-xs': $mdMedia('xs') && !$first, 'hide-sm': $mdMedia('sm') && !$first}" class="md-primary md-raised fdz-toolbar-button" ng-if="!$last" ui-sref="{{item.state}}">
+              <md-icon ng-if= "item.iconType == 'font'" md-font-set="material-icons">{{item.icon}}</md-icon>
+              <md-icon ng-if= "item.iconType == 'svg'" md-svg-icon="{{item.icon}}"></md-icon>
               {{item.translateString | translate}}
               <span ng-if="item.tabName">({{item.tabName | translate}})</span>
               <span ng-if="item.id">{{item.id}}</span>
@@ -25,14 +26,17 @@
                 <span ng-if="item.name">{{item.name}}</span>
               </md-tooltip>
             </md-button>
-            <md-icon md-font-set="material-icons" ng-if="!$last">forward</md-icon>
-            <div ng-if="$last" style="margin-left: 6px;">{{item.translateString | translate}}
-              <span ng-if="item.tabName">({{item.tabName | translate}})</span>
-              <span ng-if="item.id">{{item.id}}</span>
-              <span ng-if="item.number">{{item.number}}</span>
-              <span ng-if="item.projectId">{{item.projectId}}</span>
-              <span ng-if="item.name">{{item.name}}</span>
-            </div>
+            <md-icon md-font-set="material-icons" ng-class="{'hide-xs': $mdMedia('xs') && !$first, 'hide-sm': $mdMedia('sm') && !$first}" ng-if="!$last">forward</md-icon>
+            <md-button class="fdz-truncate-string" ng-if="$last" disabled="true"  style="max-width: 200px; margin-left: 2px; color: rgba(255,255,255,0.87);">
+              <md-icon ng-if= "item.iconType == 'font'" md-font-set="material-icons" style="color: rgba(255,255,255,0.87);">{{item.icon}}</md-icon>
+              <md-icon ng-if= "item.iconType == 'svg'" md-svg-icon="{{item.icon}}" style="fill: rgba(255,255,255,0.87);"></md-icon>
+              {{item.translateString | translate}}
+              <span class="fdz-truncate-string" ng-if="item.tabName">({{item.tabName | translate}})</span>
+              <span class="fdz-truncate-string" ng-if="item.id">{{item.id}}</span>
+              <span class="fdz-truncate-string" ng-if="item.number">{{item.number}}</span>
+              <span class="fdz-truncate-string" ng-if="item.projectId">{{item.projectId}}</span>
+              <span class="fdz-truncate-string" ng-if="item.name">{{item.name}}</span>
+            </md-button>
           </div>
         </div>
         <md-button

@@ -28,7 +28,7 @@ angular.module('metadatamanagementApp').config(
         },
         'detail': {
           'page-title': '{{ description }} ({{ instrumentId }})',
-          'instrument': 'Erhebungsinstrument',
+          'instrument': 'Instrument',
           'instruments': 'Instrumente',
           'instrument-informations': 'Details zum Instrument',
           'title': 'Titel',
