@@ -10,6 +10,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
@@ -92,16 +93,22 @@ public class RelatedPublication extends AbstractRdcDomainObject {
   private I18nString abstractSource;
   
   /* Foreign Keys */
+  @Indexed
   private List<String> questionIds = new ArrayList<String>();
   
+  @Indexed
   private List<String> surveyIds = new ArrayList<String>();
   
+  @Indexed
   private List<String> variableIds = new ArrayList<String>();
   
+  @Indexed
   private List<String> dataSetIds = new ArrayList<String>();
   
+  @Indexed
   private List<String> studyIds = new ArrayList<String>();
   
+  @Indexed
   private List<String> instrumentIds = new ArrayList<String>();
   
   public RelatedPublication() {

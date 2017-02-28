@@ -136,6 +136,7 @@ public class Variable extends AbstractRdcDomainObject {
       message = "variable-management.error.variable.annotations.i18n-string-size")
   private I18nString annotations;
   
+  @Indexed
   @NotEmpty(message = "variable-management.error.variable.data-set-id-not-empty")
   private String dataSetId;
   
@@ -183,12 +184,12 @@ public class Variable extends AbstractRdcDomainObject {
   @Valid
   private List<RelatedQuestion> relatedQuestions;
 
-
   /* Foreign Keys */
   @Indexed
   @NotEmpty(message = "variable-management.error.variable.study-id.not-empty")
   private String studyId;
 
+  @Indexed
   private List<String> surveyIds;
 
   public Variable() {

@@ -74,6 +74,7 @@ public class Question extends AbstractRdcDomainObject {
   private I18nString topic;
   
   @NotEmpty
+  @Indexed
   private String instrumentId;
   
   @NotNull(message = "question-management.error.question.instrument-number.not-null")
@@ -105,6 +106,7 @@ public class Question extends AbstractRdcDomainObject {
   
   private List<String> successorNumbers;
   
+  @Indexed
   private List<String> successors;
       
   /* Foreign Keys */

@@ -78,6 +78,7 @@ public class DataSet extends AbstractRdcDomainObject {
   @NotEmpty(message = "data-set-management.error.data-set.study.id.not-empty")
   private String studyId;
 
+  @Indexed
   @NotEmpty(message = "data-set-management.error.data-set.survey.ids.not-empty")
   private List<String> surveyIds;
   
