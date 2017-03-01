@@ -23,7 +23,6 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.MandatoryScaleLevelForNumericAndDateDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.OnlyOrdinalScaleLevelForDateDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.StatisticsFirstQuartileMustBeANumberOnNumericDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.StatisticsFirstQuartileMustBeAnIsoDateOnDateDataType;
@@ -66,9 +65,6 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
     + "variable.unique-variable-name-in-data-set")
 @UniqueVariableIndexInDataSet(message = "variable-management.error."
     + "variable.unique-variable-index-in-dataSet")
-@MandatoryScaleLevelForNumericAndDateDataType(
-    message = "variable-management.error.variable.mandatory-scale-level-for"
-    + "-numeric-and-date-data-type")
 @OnlyOrdinalScaleLevelForDateDataType(
     message = "variable-management.error.variable.only-ordinal-scale-level-for-date-data-type")
 
@@ -147,6 +143,7 @@ public class Variable extends AbstractRdcDomainObject {
   @ValidDataType(message = "variable-management.error.variable.data-type.valid-data-type")
   private I18nString dataType;
 
+  @NotNull(message = "variable-management.error.variable.scaleLevel.not-null")
   @ValidScaleLevel(
       message = "variable-management.error.variable.scaleLevel.valid-scale-level")
   private I18nString scaleLevel;

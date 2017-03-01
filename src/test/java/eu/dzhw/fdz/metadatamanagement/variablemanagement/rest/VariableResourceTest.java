@@ -226,7 +226,7 @@ public class VariableResourceTest extends AbstractTest {
     Variable variable =
         UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var1", 1, surveyNumbers);
     variable.setDataType(DataTypes.DATE);
-    variable.setScaleLevel(ScaleLevels.CONTINOUS);
+    variable.setScaleLevel(ScaleLevels.INTERVAL);
     List<ValidResponse> validResponses = new ArrayList<>();    
     variable.getDistribution().setValidResponses(validResponses);
     variable.getDistribution().getStatistics().setMaximum("2017-01-31");

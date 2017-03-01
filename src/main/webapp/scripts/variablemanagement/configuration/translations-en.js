@@ -216,7 +216,6 @@ angular.module('metadatamanagementApp').config(
             'valid-identifier': 'The Panel Identifier of the Variable is not valid for the Pattern: DataAcquisitionProjectId + "-" + "ds" + "dataSetNumber" + "-" + string.',
             'panel-identifier-size': 'The max length of Panel Identifier of the Variable is 128 signs.',
             'panel-identifier-pattern': 'Use only alphanumeric signs, german umlauts, ß and minus for the Panel Identifier of the Variable.',
-            'mandatory-scale-level-for-numeric-and-date-data-type': 'The scale level of a numeric or date variable must not be empty. However, it must be empty for string variables!',
             'only-ordinal-scale-level-for-date-data-type': 'The scale level of a date variable must be ordinal.',
             'valid-response-value-must-be-a-number-on-numeric-data-type': 'If the variable has a numeric data type, the values of valid responses have to be numeric!',
             'statistics-minimum-must-be-a-number-on-numeric-data-type': 'If the variable has a numeric data type, the minimum of statistics have to be numeric!',
@@ -240,7 +239,8 @@ angular.module('metadatamanagementApp').config(
               'valid-data-type': 'The value for data type is not valid. Allowed values in english: string, numerisch. Allowed values in english: string, numeric.'
             },
             'scaleLevel': {
-              'valid-scale-level': 'The values for Scale Level are not valid. Allowed values in german: ordinal, nominal, kontinuierlich. Allowed values in english: ordinal, nominal, continous.'
+              'valid-scale-level': 'The values for Scale Level are not valid. Allowed values in german: ordinal, nominal, kontinuierlich. Allowed values in english: ordinal, nominal, continous.',
+              'not-null': 'The scale level of a variable must not be empty!'
             },
             'name': {
               'not-empty': 'The Name of the Variable must not be empty!',

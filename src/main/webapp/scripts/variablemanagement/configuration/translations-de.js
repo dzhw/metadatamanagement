@@ -216,7 +216,6 @@ angular.module('metadatamanagementApp').config(
             'valid-identifier': 'Die Panel-Kennung der Variable entspricht nicht dem Muster: DataAcquisitionProjectId + "-" + "ds" + "dataSetNumber" + "-" + string',
             'panel-identifier-size': 'Die Maximallänge der Panel-Kennung der Variable ist 128 Zeichen.',
             'panel-identifier-pattern': 'Für die Panel-Kennung der Variable dürfen nur alphanumerische Zeichen, deutsche Umlaute, ß und das Minus verwendet werden.',
-            'mandatory-scale-level-for-numeric-and-date-data-type': 'Das Skalenniveau einer numerischen oder einer Datumsvariable darf nicht leer sein, bzw. es muss leer sein bei einem String Datentyp!',
             'only-ordinal-scale-level-for-date-data-type': 'Das Skalenniveau einer Datumsvariable muss ordinal sein.',
             'valid-response-value-must-be-a-number-on-numeric-data-type': 'Wenn der Datentyp einer Variable numerisch ist, müssen die Werte von gültigen Antworten numerisch sein.',
             'statistics-minimum-must-be-a-number-on-numeric-data-type': 'Wenn der Datentyp einer Variable numerisch ist, müssen das Minimum von Statistiken numerisch sein.',
@@ -240,7 +239,8 @@ angular.module('metadatamanagementApp').config(
               'valid-data-type': 'Die Werte für Datentyp sind nicht gültig. Erlaubt in deutsch: string, numerisch. Erlaubt in englisch: string, numeric.'
             },
             'scaleLevel': {
-              'valid-scale-level': 'Die Werte für das Skalenniveau sind nicht gültig. Erlaubt in deutsch: nominal, ordinal, kontinuierlich.Erlaubt in englisch: nominal, ordinal, continous.'
+              'valid-scale-level': 'Die Werte für das Skalenniveau sind nicht gültig. Erlaubt in deutsch: nominal, ordinal, kontinuierlich.Erlaubt in englisch: nominal, ordinal, continous.',
+              'not-null': 'Das Skalenniveau einer Variable darf nicht leer sein!'
             },
             'name': {
               'not-empty': 'Der Name der Variable darf nicht leer sein!',

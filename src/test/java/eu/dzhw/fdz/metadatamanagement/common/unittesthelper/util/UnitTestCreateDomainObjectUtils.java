@@ -228,7 +228,7 @@ public class UnitTestCreateDomainObjectUtils {
     relatedQuestions.add(buildRelatedQuestion(projectId, "1", "1"));
     return new VariableBuilder().withId(UnitTestCreateValidIds.buildVariableId(projectId, dataSetNumber, name))
       .withDataType(DataTypes.NUMERIC)
-      .withScaleLevel(ScaleLevels.CONTINOUS)
+      .withScaleLevel(ScaleLevels.RATIO)
       .withDataAcquisitionProjectId(projectId)
       .withStudyId(UnitTestCreateValidIds.buildStudyId(projectId))
       .withName(name)
