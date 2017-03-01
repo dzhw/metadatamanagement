@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -158,28 +157,12 @@ public class ElasticsearchUpdateQueueService {
   }
 
   /**
-   * Looks elements in the MongoDb and update them in the Elasticsearch DB.
+   * Locks elements in the MongoDb.
    * 
    * @param updateStart Starttime for updates.
    */
   private void lockUpdateQueueItems(LocalDateTime updateStart) {
-    List<ElasticsearchUpdateQueueItem> unlockedItems =
-        queueItemRepository.findUnlockedOrExpiredItems();
-
-    while (!unlockedItems.isEmpty()) {
-      for (ElasticsearchUpdateQueueItem item : unlockedItems) {
-        item.setUpdateStartedAt(updateStart);
-        item.setUpdateStartedBy(jvmId);
-        try {
-          queueItemRepository.save(item);
-        } catch (OptimisticLockingFailureException ex) {
-          logger.debug("Queue item will be processed by a different cluster instance.");
-        }
-      }
-
-      // check if there are more unlocked items
-      unlockedItems = queueItemRepository.findUnlockedOrExpiredItems();
-    }
+    queueItemRepository.lockUnlockedOrExpiredItems(updateStart, jvmId);
   }
 
   /**

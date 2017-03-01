@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueItem;
@@ -32,13 +33,15 @@ public class ElasticsearchUpdateQueueItemRepositoryImpl
   private MongoOperations mongoOperations;
 
   @Override
-  public List<ElasticsearchUpdateQueueItem> findUnlockedOrExpiredItems() {
+  public void lockUnlockedOrExpiredItems(LocalDateTime updateStartedAt, String updateStartedBy) {
     Query query = new Query(new Criteria().orOperator(Criteria.where("updateStartedAt")
         .lte(LocalDateTime.now()
         .minusMinutes(UPDATE_LOCK_EXPIRED)),
         Criteria.where("updateStartedAt")
           .exists(false))).limit(BULK_SIZE);
-    return mongoOperations.find(query, ElasticsearchUpdateQueueItem.class);
+    Update update = new Update()
+        .set("updateStartedAt", updateStartedAt).set("updateStartedBy", updateStartedBy);
+    mongoOperations.updateMulti(query, update, ElasticsearchUpdateQueueItem.class);
   }
 
   @Override

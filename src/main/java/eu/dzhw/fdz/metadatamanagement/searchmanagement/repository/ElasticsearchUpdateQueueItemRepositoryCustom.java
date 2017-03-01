@@ -12,7 +12,7 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdat
  */
 public interface ElasticsearchUpdateQueueItemRepositoryCustom {
 
-  List<ElasticsearchUpdateQueueItem> findUnlockedOrExpiredItems();
+  void lockUnlockedOrExpiredItems(LocalDateTime updateStartedAt, String updateStartedBy);
 
   List<ElasticsearchUpdateQueueItem> findOldestLockedItems(String updateStartedBy,
       LocalDateTime updateStartedAt);
