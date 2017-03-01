@@ -106,6 +106,8 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         .translateString;
         searchItem.state = 'search({"page": 1})';
         searchItem.tabName = 'search-management.tabs.all';
+        searchItem.iconType = translationStringsMap.search.iconType;
+        searchItem.icon = translationStringsMap.search.icon;
       }
       var studyItem = {};
       if (item.projectId) {
