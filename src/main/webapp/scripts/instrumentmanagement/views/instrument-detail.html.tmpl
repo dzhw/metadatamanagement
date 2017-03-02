@@ -136,7 +136,7 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="row in ctrl.attachments">
-                        <td>{{row.title}}&nbsp;</td>
+                        <td lang="{{row.language}}">{{row.title}}&nbsp;</td>
                         <td>{{row.description[currentLanguage]}}&nbsp;</td>
                         <td>{{row.type[currentLanguage]}}&nbsp;</td>
                         <td>{{row.language | LanguageFilter: currentLanguage}}&nbsp;</td>
