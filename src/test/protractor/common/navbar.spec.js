@@ -40,28 +40,24 @@ describe('Navigation Bar', function() {
           });
         });
         it('should check BMBF external URL', function(done) {
-          sideNavBar.all(by.css('a')).then(function(items) {
-            items[2].getAttribute('href').then(function(href) {
-              return href;
-            }).then(function(url) {
-              findBrockenUrls.checkHREFs(url, currentUrl)
-              .then(function(result) {
-                expect(result.isValidUrl).toBe(true, result.message);
-                done();
-              });
+          element(by.id('bmbf-link')).getAttribute('href').then(function(href) {
+            return href;
+          }).then(function(url) {
+            findBrockenUrls.checkHREFs(url, currentUrl)
+            .then(function(result) {
+              expect(result.isValidUrl).toBe(true, result.message);
+              done();
             });
           });
         });
         it('should check DZHW external URL', function(done) {
-          sideNavBar.all(by.css('a')).then(function(items) {
-            items[3].getAttribute('href').then(function(href) {
-              return href;
-            }).then(function(url) {
-              findBrockenUrls.checkHREFs(url, currentUrl)
-              .then(function(result) {
-                expect(result.isValidUrl).toBe(true, result.message);
-                done();
-              });
+          element(by.id('dzhw-link')).getAttribute('href').then(function(href) {
+            return href;
+          }).then(function(url) {
+            findBrockenUrls.checkHREFs(url, currentUrl)
+            .then(function(result) {
+              expect(result.isValidUrl).toBe(true, result.message);
+              done();
             });
           });
         });
