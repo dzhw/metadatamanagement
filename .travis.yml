@@ -1,5 +1,5 @@
-# use container based infrastructure
-sudo: false
+# don't use container based infrastructure cause we need sudo
+sudo: required
 language: java
 os:
   - linux
@@ -18,10 +18,10 @@ addons:
     packages:
       - g++-4.8
 before_install:
-  - wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | apt-key add -
-  - echo "deb http://packages.cloudfoundry.org/debian stable main" | tee /etc/apt/sources.list.d/cloudfoundry-cli.list
-  - apt-get update -qq
-  - apt-get install cf-cli -y
+  - wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
+  - echo "deb http://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+  - sudo apt-get update -qq
+  - sudo apt-get install cf-cli -y
 # turn off travis default mvn install call and install a recent node version instead
 install:
   - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install 7.5.0
