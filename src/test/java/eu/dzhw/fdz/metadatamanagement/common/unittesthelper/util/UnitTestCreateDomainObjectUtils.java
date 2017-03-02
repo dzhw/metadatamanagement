@@ -479,7 +479,9 @@ public class UnitTestCreateDomainObjectUtils {
           .withInstrumentId(UnitTestCreateValidIds.buildInstrumentId(projectId, instrumentNumber))
           .withInstrumentNumber(instrumentNumber)
           .withFileName("filename.txt")
-          .withTitle(new I18nString("Titel", "Title"))
+          .withDescription(new I18nString("Beschreibung","Description"))
+          .withTitle("Title")
+          .withLanguage("de")
           .withType(InstrumentAttachmentTypes.QUESTION_FLOW)
           .build();
   }

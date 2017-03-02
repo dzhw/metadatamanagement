@@ -39,6 +39,8 @@ angular.module('metadatamanagementApp').config(
             'table-title': 'Documents related to the Instrument',
             'type': 'Type',
             'title': 'Title',
+            'description': 'Description',
+            'language': 'Document Language',
             'file': 'File'
           }
         },
@@ -89,9 +91,17 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-size': 'The type is mandatory in both languages and must not contain more than 32 characters.',
               'valid-type': 'The type must be one of the following: Questionnaire, Question Flow, Variable Questionnaire, Other.'
             },
+            'description': {
+              'not-null': 'The description of the attachment must not be empty!',
+              'i18n-string-size': 'The description is mandatory in both languages and must not contain more than 128 characters.'
+            },
             'title': {
-              'not-null': 'The titel of the attachment must not be empty!',
-              'i18n-string-size': 'The titel is mandatory in both languages and must not contain more than 128 characters.'
+              'not-null': 'The title of the attachment must not be empty!',
+              'string-size': 'The title of the attachment is mandatory and must not contain more than 128 characters.'
+            },
+            'language': {
+              'not-null': 'The language of the attachment must not be empty!',
+              'not-supported': 'The language of the attachment is mandatory and must be valid!'
             },
             'filename': {
               'not-empty': 'The filename of the attachment must not be empty!'

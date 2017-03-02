@@ -100,13 +100,13 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
   
   @Test
   @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
-  public void testUploadAttachmentWithMissingTitle() throws Exception {
+  public void testUploadAttachmentWithMissingDescription() throws Exception {
 
     MockMultipartFile attachment =
         new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
     InstrumentAttachmentMetadata instrumentAttachmentMetadata = UnitTestCreateDomainObjectUtils
       .buildInstrumentAttachmentMetadata("projectId", 1);
-    instrumentAttachmentMetadata.getTitle().setDe("");
+    instrumentAttachmentMetadata.getDescription().setDe("");
 
     MockMultipartFile metadata = new MockMultipartFile("instrumentAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(instrumentAttachmentMetadata));
@@ -116,7 +116,7 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
       .file(metadata))
       .andExpect(status().isBadRequest())
       .andExpect(jsonPath("$.errors[0].message",
-          is("instrument-management.error.instrument-attachment-metadata.title.i18n-string-size")));
+          is("instrument-management.error.instrument-attachment-metadata.description.i18n-string-size")));
   }
   
   @Test

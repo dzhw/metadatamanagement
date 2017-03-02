@@ -117,6 +117,16 @@
                                 {{'instrument-management.detail.attachments.type' | translate }}
                             </md-tooltip>
                         </th>
+                        <th>{{'instrument-management.detail.attachments.description' | translate }}
+                            <md-tooltip hide-gt-xs md-direction="right">
+                                {{'instrument-management.detail.attachments.description' | translate }}
+                            </md-tooltip>
+                        </th>
+                        <th>{{'instrument-management.detail.attachments.language' | translate }}
+                            <md-tooltip hide-gt-xs md-direction="right">
+                                {{'instrument-management.detail.attachments.language' | translate }}
+                            </md-tooltip>
+                        </th>
                         <th>{{'instrument-management.detail.attachments.file' | translate }}
                             <md-tooltip hide-gt-xs md-direction="right">
                                 {{'instrument-management.detail.attachments.file' | translate }}
@@ -126,8 +136,10 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="row in ctrl.attachments">
-                        <td>{{row.title[currentLanguage]}}&nbsp;</td>
+                        <td>{{row.title}}&nbsp;</td>
+                        <td>{{row.description[currentLanguage]}}&nbsp;</td>
                         <td>{{row.type[currentLanguage]}}&nbsp;</td>
+                        <td>{{row.language | findLanguageFromKey}}&nbsp;</td>
                         <td>
                             <a ng-href="{{row.id}}" target="_blank">{{row.fileName}}</a>&nbsp;</td>
                     </tr>

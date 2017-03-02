@@ -1,5 +1,4 @@
 'use strict';
-
 angular.module('metadatamanagementApp').service(
   'InstrumentAttachmentUploadService',
   function(Upload, $q) {
