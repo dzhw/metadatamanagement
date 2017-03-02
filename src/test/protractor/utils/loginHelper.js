@@ -7,23 +7,28 @@
 var protractorHelper = require('../utils/protractorWaitHelper');
 
 function login() {
-  /*browser.get('/de/login');
-  browser.waitForAngular();*/
-  protractorHelper.protractorWaitHelper('login').then(function(el) {
-    el.click();
+  var loginButton = element(by.id('login'));
+  var accessMenuToggle = element(by.id('account-menu-toggle'));
+  loginButton.isDisplayed().then(function(isDisplayed) {
+    if (!isDisplayed) {
+      accessMenuToggle.click();
+    }
+    loginButton.click();
     protractorHelper.protractorWaitHelper('content').then(function() {
       element(by.id('username')).sendKeys('protractor');
       element(by.id('password')).sendKeys('protractor');
       element(by.css('.form button[type="submit"]')).click();
+      protractorHelper.protractorWaitHelper('SideNavBar').then(function() {
+        expect(element(by.css('[ng-click="logout()"]')).isPresent())
+        .toBe(true);
+      });
     });
   });
-  expect(element(by.css('[ng-click="logout()"]')).isPresent()).toBe(true);
 }
 
 function logout() {
-  browser.sleep(2000);
   element(by.css('[ng-click="logout()"]')).click();
-  protractorHelper.protractorWaitHelper('toolbar').then(function() {
+  protractorHelper.protractorWaitHelper('SideNavBar').then(function() {
     expect(element(by.css('[ng-click="logout()"]')).isPresent()).toBe(false);
   });
 }

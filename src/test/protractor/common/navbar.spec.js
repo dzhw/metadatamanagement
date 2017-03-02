@@ -65,23 +65,6 @@ describe('Navigation Bar', function() {
             });
           });
         });
-        it('should open disclosure page', function(done) {
-          var disclosureState = element(by.css('[ui-sref="disclosure"]'));
-          disclosureState.getAttribute('href').then(function(href) {
-            return href;
-          }).then(function(href) {
-            disclosureState.click();
-            protractorHelper.protractorWaitHelper('content').then(function() {
-              findBrockenUrls.checkStates(href, currentUrl,
-                  'disclosure')
-                .then(function(result) {
-                  expect(result.isValidUrl).toBe(true,
-                    result.message);
-                  done();
-                });
-            });
-          });
-        });
         describe('With logged user', function() {
           beforeAll(function() {
             loginHelper.login();

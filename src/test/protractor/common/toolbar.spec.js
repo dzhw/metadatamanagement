@@ -24,7 +24,7 @@ describe('Tool Bar test', function() {
         disclosureState.click();
         browser.getCurrentUrl().then(function(url) {
           currentUrl = url;
-          translateHelper.changeLanguage('toolbar', url,
+          translateHelper.changeLanguage('SideNavBar', url,
               language)
             .then(function(el) {
               toolbar = el;
@@ -40,24 +40,28 @@ describe('Tool Bar test', function() {
       });
       it('should open login page', function(done) {
         var loginButton = element(by.id('login'));
-        loginButton.click();
-        protractorHelper.protractorWaitHelper('content').then(
+        browser.executeScript('arguments[0].click();', loginButton).then(
           function() {
-            expect(element(by.id('password')).isPresent()).toBe(
-              true, 'and ' +
-              'display Password input field');
-            done();
-          });
+          protractorHelper.protractorWaitHelper('content').then(
+            function() {
+              expect(element(by.id('password')).isPresent()).toBe(
+                true, 'and ' +
+                'display Password input field');
+              done();
+            });
+        });
       });
       it('should open registration page', function(done) {
         var registerButton = element(by.id('register'));
-        registerButton.click();
-        protractorHelper.protractorWaitHelper('content').then(
+        browser.executeScript('arguments[0].click();', registerButton).then(
           function() {
-            expect(element(by.id('password')).isPresent()).toBe(
-              true, 'and ' +
-              'display Password input field');
-            done();
+            protractorHelper.protractorWaitHelper('content').then(
+              function() {
+                expect(element(by.id('password')).isPresent()).toBe(
+                  true, 'and ' +
+                  'display Password input field');
+                done();
+              });
           });
       });
       it('should change language ', function(done) {
@@ -67,7 +71,7 @@ describe('Tool Bar test', function() {
             changeLanguageButton = element(by.id(
               'changeLanguageToEn'));
             changeLanguageButton.click();
-            protractorHelper.protractorWaitHelper('toolbar').then(
+            protractorHelper.protractorWaitHelper('SideNavBar').then(
               function() {
                 expect(element(by.id('changeLanguageToDe')).isPresent())
                   .toBe(true, 'from German to English ');
@@ -77,7 +81,7 @@ describe('Tool Bar test', function() {
             changeLanguageButton = element(by.id(
               'changeLanguageToDe'));
             changeLanguageButton.click();
-            protractorHelper.protractorWaitHelper('toolbar').then(
+            protractorHelper.protractorWaitHelper('SideNavBar').then(
               function() {
                 expect(element(by.id('changeLanguageToEn')).isPresent())
                   .toBe(true, 'from English to German ');

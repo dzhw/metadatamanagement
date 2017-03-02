@@ -43,12 +43,12 @@
                 </md-button>
                 <md-divider></md-divider>
             </li>
-            <li class="fdz-navbar-menu-accent" ng-switch-when="true" data-has-authority="ROLE_PUBLISHER" style="padding: 5px 1em 1em 1em;">
+            <li class="fdz-navbar-menu" ng-switch-when="true" data-has-authority="ROLE_PUBLISHER">
                 <project-navbar-module></project-navbar-module>
+                <md-divider></md-divider>
             </li>
-            <md-divider ng-switch-when="true" data-has-authority="ROLE_PUBLISHER"></md-divider>
             <li class="fdz-navbar-menu">
-                <md-button class="fdz-navbar-menu-toggle" ng-click="toggleAccountMenu()">
+                <md-button class="fdz-navbar-menu-toggle" ng-click="toggleAccountMenu()" id="account-menu-toggle">
                     <span data-translate="global.menu.account.main"></span>
                     <md-icon ng-if="!isAccountMenuOpen" md-font-set="material-icons">keyboard_arrow_down</md-icon>
                     <md-icon ng-if="isAccountMenuOpen" md-font-set="material-icons">keyboard_arrow_up</md-icon>
