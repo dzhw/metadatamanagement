@@ -13,10 +13,10 @@ angular.module('metadatamanagementApp').config(
         'search': 'Search',
         'toolbar': {
           'buttons': {
-            'login': 'Sign In',
-            'logout': 'Sign Out',
+            'login': 'Sign in',
+            'logout': 'Sign out {{username}}',
             'change-language': 'Betrachte deutsche Version',
-            'register': 'Sign Up',
+            'register': 'Sign up',
             'open-menu': 'Open Navigation Menu'
           }
         },
@@ -41,7 +41,7 @@ angular.module('metadatamanagementApp').config(
             'title': 'Metadata Search'
           },
           'account': {
-            'main': 'Account',
+            'main': 'Access for RDC Employees',
             'settings': 'Settings',
             'password': 'Password',
             'sessions': 'Sessions'

@@ -13,7 +13,7 @@ angular.module('metadatamanagementApp').config(
         'search': 'Suche',
         'toolbar': {
           'buttons': {
-            'logout': 'Abmelden',
+            'logout': '{{username}} abmelden',
             'login': 'Anmelden',
             'change-language': 'View english version',
             'register': 'Registrieren',
@@ -41,7 +41,7 @@ angular.module('metadatamanagementApp').config(
             'title': 'Metadatensuche'
           },
           'account': {
-            'main': 'Zugang',
+            'main': 'Zugang für FDZ Mitarbeiter',
             'settings': 'Einstellungen',
             'password': 'Passwort',
             'sessions': 'Sitzungen'

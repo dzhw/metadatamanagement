@@ -2,7 +2,8 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('NavbarController',
-  function($scope, Principal, $mdSidenav, $document, $timeout) {
+  function($scope, Principal, $mdSidenav, $document, $timeout,
+    LanguageService, Auth, $state) {
     $scope.isAuthenticated = Principal.isAuthenticated;
 
     //For toggle buttons
@@ -27,5 +28,19 @@ angular.module('metadatamanagementApp').controller('NavbarController',
 
     $scope.focusContent = function() {
       $document.find('.fdz-content')[0].focus();
+    };
+
+    //Set Languages
+    $scope.changeLanguage = function(languageKey) {
+      LanguageService.setCurrent(languageKey);
+    };
+
+    //Goto Logout Page
+    $scope.logout = function() {
+      Auth.logout();
+      $state.go('search', {
+        lang: LanguageService.getCurrentInstantly()
+      });
+      $scope.close();
     };
   });
