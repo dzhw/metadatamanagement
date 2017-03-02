@@ -239,7 +239,7 @@ angular.module('metadatamanagementApp').config(
               'valid-data-type': 'Die Werte für Datentyp sind nicht gültig. Erlaubt in deutsch: string, numerisch. Erlaubt in englisch: string, numeric.'
             },
             'scaleLevel': {
-              'valid-scale-level': 'Die Werte für das Skalenniveau sind nicht gültig. Erlaubt in deutsch: nominal, ordinal, kontinuierlich.Erlaubt in englisch: nominal, ordinal, continous.',
+              'valid-scale-level': 'Die Werte für das Skalenniveau sind nicht gültig. Erlaubt in deutsch: nominal, ordinal, intervall, verhältnis.Erlaubt in englisch: nominal, ordinal, interval, ratio.',
               'not-null': 'Das Skalenniveau einer Variable darf nicht leer sein!'
             },
             'name': {
