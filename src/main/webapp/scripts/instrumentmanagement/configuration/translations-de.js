@@ -39,6 +39,8 @@ angular.module('metadatamanagementApp').config(
             'table-title': 'Materialien zum Instrument',
             'type': 'Typ',
             'title': 'Titel',
+            'description': 'Beschreibung',
+            'language': 'Dokumentensprache',
             'file': 'Datei'
           }
         },
@@ -89,10 +91,18 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-size': 'Der Typ muss in beiden Sprachen angegeben werden und darf nicht länger als 32 Zeichen sein.',
               'valid-type': 'Der Typ muss einer der folgenden Werte sein: Fragebogen, Filterdiagramm, Variablenfragebogen, Sonstige.'
             },
-            'title': {
-              'not-null': 'Der Titel des Attachments darf nicht leer sein.',
-              'i18n-string-size': 'Der Titel muss in beiden Sprachen angegeben werden und darf nicht länger als 128 Zeichen sein.'
+            'description': {
+              'not-null': 'Die Beschreibung des Attachments darf nicht leer sein.',
+              'i18n-string-size': 'Die Beschreibung muss in beiden Sprachen angegeben werden und darf nicht länger als 128 Zeichen sein.'
             },
+            'title': {
+                'not-null': 'Der Title des Attachments darf nicht leer sein.',
+                'string-size': 'Der Title des Attachments muss angegeben werden und darf nicht länger als 128 Zeichen sein.'
+              },
+            'language': {
+                'not-null': 'Die Sprache des Attachments darf nicht leer sein.',
+                'not-supported': 'Die Sprache des Attachments muss angegeben werden muss gültig sein. '
+              },
             'filename': {
               'not-empty': 'Der Dateiname des Attachments darf nicht leer sein.'
             }

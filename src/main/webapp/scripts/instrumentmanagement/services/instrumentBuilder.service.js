@@ -42,14 +42,16 @@ angular.module('metadatamanagementApp').service('InstrumentBuilderService',
           dataAcquisitionProjectId, metadataFromExcel.instrumentNumber),
         instrumentNumber: metadataFromExcel.instrumentNumber,
         dataAcquisitionProjectId: dataAcquisitionProjectId,
-        title: {
-          en: metadataFromExcel['title.en'],
-          de: metadataFromExcel['title.de']
+        description: {
+          en: metadataFromExcel['description.en'],
+          de: metadataFromExcel['description.de']
         },
         type: {
           en: metadataFromExcel['type.en'],
           de: metadataFromExcel['type.de']
         },
+        title: metadataFromExcel.title,
+        language: metadataFromExcel.language,
         fileName: metadataFromExcel.filename
       };
       var cleanedMetadata = CleanJSObjectService
