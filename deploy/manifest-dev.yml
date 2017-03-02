@@ -1,0 +1,19 @@
+---
+# this is the cloudfoundry manifest for the dev system
+applications:
+- name: metadatamanagement
+  path: ../target/metadatamanagement-dev.war
+  memory: 1024M
+  disk_quota: 1024M
+  instances: 2
+  host: metadatamanagement-dev
+  buildpack: https://github.com/cloudfoundry/java-buildpack
+  env:
+    SPRING_PROFILES_ACTIVE: dev
+    JAVA_OPTS: -Duser.timezone=Europe/Berlin
+    JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{ enabled: false }'
+  services:
+  - mongodb
+  - elasticsearch
+  - email
+  timeout: 180
