@@ -101,7 +101,7 @@ angular.module('metadatamanagementApp').config(
               },
             'language': {
                 'not-null': 'Die Sprache des Attachments darf nicht leer sein.',
-                'not-supported': 'Die Sprache des Attachments muss angegeben werden muss gültig sein. '
+                'not-supported': 'Die Sprache muss eine gültige zweibuchstabige Abkürzung gemäß ISO 639-1 sein.'
               },
             'filename': {
               'not-empty': 'Der Dateiname des Attachments darf nicht leer sein.'

@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 import javax.validation.ConstraintValidator;
@@ -14,6 +15,8 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAtta
 public class ValidIsoLanguageValidator
     implements ConstraintValidator<ValidIsoLanguage, String> {
 
+  private static final List<String> ISO_LANGUAGES = Arrays.asList(Locale.getISOLanguages());
+  
   /*
    * (non-Javadoc)
    * 
@@ -30,7 +33,7 @@ public class ValidIsoLanguageValidator
    */
   @Override
   public boolean isValid(String language, ConstraintValidatorContext context) {
-    return Arrays.asList(Locale.getISOLanguages()).contains(language);
+    return ISO_LANGUAGES.contains(language);
   }
 
 }
