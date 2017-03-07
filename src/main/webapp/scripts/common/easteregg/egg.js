@@ -127,9 +127,9 @@ cheet('h u r z', function() {
           'demos92/game-in-page/breakout.png',
           'https://s3-us-west-2.amazonaws.com/demos92/game-in-page/' +
           'breakout.json');
-        console.log(game.load.spritesheet('page',
+        game.load.spritesheet('page',
           '/assets/images/egg.jpg',
-          pictureDivisionX, pictureDivisionY));
+          pictureDivisionX, pictureDivisionY);
       },
       create: function() {
         game.physics.startSystem(Phaser.Physics.ARCADE);
