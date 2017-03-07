@@ -341,5 +341,10 @@ angular.module('metadatamanagementApp').controller('SearchController',
       uploadFunction: $scope.uploadRelatedPublications,
       disabled: false
     }];
+
+    $scope.hideMobileKeyboard = function($event) {
+      $event.target.querySelector('#query').blur();
+    };
+
     init();
   });
