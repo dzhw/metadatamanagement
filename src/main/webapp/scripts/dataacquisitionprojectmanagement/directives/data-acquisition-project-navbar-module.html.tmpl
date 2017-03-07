@@ -1,5 +1,5 @@
 <div style="padding: 0.5em 1em 0.5em 1em;">
-    <span style="margin-bottom: 5px;">{{'global.menu.entities.current-project' | translate}}</span>
+    <span class="md-body-2" style="margin-bottom: 5px;">{{'global.menu.entities.current-project' | translate}}:</span>
     <md-autocomplete md-search-text="ctrl.searchText" md-selected-item="ctrl.selectedProject" md-selected-item-change="ctrl.onSelectedProjectChanged(ctrl.selectedProject)" md-items="project in ctrl.searchProjects(ctrl.searchText)" md-item-text="project.id"
         md-min-length="0" placeholder="{{'global.menu.entities.select-project' | translate}}" ng-disabled="ctrl.dataAcquisitionProjects.length === 0" md-select-on-match="true" style="margin-top: 5px;" md-no-cache="true">
         <md-item-template>
