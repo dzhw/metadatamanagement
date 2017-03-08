@@ -34,7 +34,7 @@
     "grunt-wiredep": "3.0.1",
     "jasmine-core": "2.5.2",
     "jshint-stylish": "2.2.1",
-    "karma": "1.4.1",
+    "karma": "1.5.0",
     "karma-chrome-launcher": "2.0.0",
     "karma-coverage": "1.1.1",
     "karma-html2js-preprocessor": "1.1.0",
