@@ -21,7 +21,7 @@
     <properties>
         <commons-io.version>2.5</commons-io.version>
         <commons-lang.version>2.6</commons-lang.version>
-        <dropwizard-metrics.version>3.1.2</dropwizard-metrics.version>
+        <dropwizard-metrics.version>3.2.0</dropwizard-metrics.version>
         <elasticsearch.version>2.4.1</elasticsearch.version>
         <jacoco-maven-plugin.version>0.7.9</jacoco-maven-plugin.version>
         <java.version>1.8</java.version>
