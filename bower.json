@@ -35,7 +35,7 @@
     "lodash": "^4.17.4",
     "plotly.js": "^1.24.1",
     "highlightjs": "^9.9.0",
-    "angular-highlightjs": "^0.6.3",
+    "angular-highlightjs": "^0.7.1",
     "js-beautify": "^1.6.11",
     "ngclipboard": "^1.1.1",
     "angular-katex": "^0.10.0",
