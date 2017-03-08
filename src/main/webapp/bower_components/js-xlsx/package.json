@@ -1,18 +1,24 @@
 {
 	"name": "xlsx",
-	"version": "0.8.3",
+	"version": "0.8.7",
 	"author": "sheetjs",
-	"description": "Excel (XLSB/XLSX/XLSM/XLS/XML) and ODS spreadsheet parser and writer",
+	"description": "Excel (XLSB/XLSX/XLSM/XLS/XML) and ODS (ODS/FODS/UOS) spreadsheet parser and writer",
 	"keywords": [ "excel", "xls", "xlsx", "xlsb", "xlsm", "ods", "office", "spreadsheet" ],
 	"bin": {
 		"xlsx": "./bin/xlsx.njs"
 	},
 	"main": "./xlsx",
+	"browser": {
+		"node": false,
+		"crypto": false,
+		"fs": false,
+		"../xlsx.js": false
+	},
 	"dependencies": {
 		"exit-on-epipe":"",
 		"ssf":"~0.8.1",
 		"codepage":"",
-		"cfb":">=0.10.0",
+		"cfb":"~0.11.0",
 		"crc-32":"",
 		"adler-32":"",
 		"commander":""

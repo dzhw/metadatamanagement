@@ -1,4 +1,20 @@
 # Changelog
+## v1.6.11
+
+### Description
+Reverted #1117 - Preserve newlines broken
+
+### Closed Issues
+
+
+## v1.6.10
+
+### Description
+Added `preserver_newlines` to css beautifier
+
+### Closed Issues
+
+
 ## v1.6.9
 
 ### Description

@@ -1,26 +1,29 @@
 # xlsx
 
 Parser and writer for various spreadsheet formats.  Pure-JS cleanroom
-implementation from official specifications and related documents.
+implementation from official specifications, related documents, and test files.
+Emphasis on parsing and writing robustness, cross-format feature compatibility
+with a unified JS representation, and ES3/ES5 browser compatibility back to IE6.
 
-Supported read formats:
+File format support for known spreadsheet data formats:
 
-- Excel 2007+ XML Formats (XLSX/XLSM)
-- Excel 2007+ Binary Format (XLSB BIFF12)
-- Excel 2003-2004 XML Format (XML "SpreadsheetML")
-- Excel 97-2004 (XLS BIFF8)
-- Excel 5.0/95 (XLS BIFF5)
-- Excel 2.0/3.0/4.0 (XLS BIFF2/BIFF3/BIFF4)
-- OpenDocument Spreadsheet (ODS)
-
-Supported write formats:
-
-- Excel 2.0 (XLS BIFF2, compatible with *every version* of Excel)
-- Excel 2007+ XML Formats (XLSX/XLSM, compatible with Excel 2007+)
-- Excel 2007+ Binary Format (XLSB, compatible with Excel 2007+)
-- CSV (and general DSV)
-- JSON and JS objects (various styles)
-- OpenDocument Spreadsheet (ODS)
+| Format                                                       | Read  | Write |
+|:-------------------------------------------------------------|:-----:|:-----:|
+| **Excel Worksheet/Workbook Formats**                         |:-----:|:-----:|
+| Excel 2007+ XML Formats (XLSX/XLSM)                          |  :o:  |  :o:  |
+| Excel 2007+ Binary Format (XLSB BIFF12)                      |  :o:  |  :o:  |
+| Excel 2003-2004 XML Format (XML "SpreadsheetML")             |  :o:  |       |
+| Excel 97-2004 (XLS BIFF8)                                    |  :o:  |       |
+| Excel 5.0/95 (XLS BIFF5)                                     |  :o:  |       |
+| Excel 4.0 (XLS/XLW BIFF4)                                    |  :o:  |       |
+| Excel 3.0 (XLS BIFF3)                                        |  :o:  |       |
+| Excel 2.0/2.1 (XLS BIFF2)                                    |  :o:  |  :o:  |
+| **Excel Supported Text Formats**                             |:-----:|:-----:|
+| Delimiter-Separated Values (CSV/TSV/DSV)                     |       |  :o:  |
+| **Other Workbook/Worksheet Formats**                         |:-----:|:-----:|
+| OpenDocument Spreadsheet (ODS)                               |  :o:  |  :o:  |
+| Flat XML ODF Spreadsheet (FODS)                              |  :o:  |  :o:  |
+| Uniform Office Format Spreadsheet (标文通 UOS1/UOS2)         |  :o:  |       |
 
 Demo: <http://oss.sheetjs.com/js-xlsx>
 
@@ -52,7 +55,7 @@ $ bower install js-xlsx
 CDNjs automatically pulls the latest version and makes all versions available at
 <http://cdnjs.com/libraries/xlsx>
 
-## Optional Modules
+### Optional Modules
 
 The node version automatically requires modules for additional features.  Some
 of these modules are rather large in size and are only needed in special
@@ -70,7 +73,15 @@ An appropriate version for each dependency is included in the dist/ directory.
 
 The complete single-file version is generated at `dist/xlsx.full.min.js`
 
-## ECMAScript 5 Compatibility
+### JS Ecosystem Demos
+
+The `demos` directory includes sample projects for:
+
+- [`browserify`](http://browserify.org/)
+- [`requirejs`](http://requirejs.org/)
+- [`webpack`](https://webpack.js.org/)
+
+### ECMAScript 5 Compatibility
 
 Since xlsx.js uses ES5 functions like `Array#forEach`, older browsers require
 [Polyfills](http://git.io/QVh77g).  This repo and the gh-pages branch include
@@ -239,12 +250,20 @@ Complete examples:
 
 - <http://oss.sheetjs.com/js-xlsx/> HTML5 File API / Base64 Text / Web Workers
 
-Note that older versions of IE does not support HTML5 File API, so the base64
-mode is provided for testing.  On OSX you can get the base64 encoding with:
+Note that older versions of IE do not support HTML5 File API, so the base64 mode
+is used for testing.  On OSX you can get the base64 encoding with:
 
 ```bash
-$ <target_file.xlsx base64 | pbcopy
+$ <target_file base64 | pbcopy
 ```
+
+On Windows XP and up you can get the base64 encoding using `certutil`:
+
+```cmd
+> certutil -encode target_file target_file.b64
+```
+
+(note: You have to open the file and remove the header and footer lines)
 
 - <http://oss.sheetjs.com/js-xlsx/ajax.html> XMLHttpRequest
 
@@ -327,7 +346,7 @@ Utilities are available in the `XLSX.utils` object:
 
 Exporting:
 
-- `sheet_to_json` converts a workbook object to an array of JSON objects.
+- `sheet_to_json` converts a worksheet object to an array of JSON objects.
   `sheet_to_row_object_array` is an alias that will be removed in the future.
 - `sheet_to_csv` generates delimiter-separated-values output.
 - `sheet_to_formulae` generates a list of the formulae (with value fallbacks).
@@ -366,23 +385,27 @@ for(var R = range.s.r; R <= range.e.r; ++R) {
 
 ### Cell Object
 
-| Key | Description |
-| --- | ----------- |
-| `v` | raw value (see Data Types section for more info) |
-| `w` | formatted text (if applicable) |
-| `t` | cell type: `b` Boolean, `n` Number, `e` error, `s` String, `d` Date |
-| `f` | cell formula (if applicable) |
-| `r` | rich text encoding (if applicable) |
-| `h` | HTML rendering of the rich text (if applicable) |
-| `c` | comments associated with the cell ** |
-| `z` | number format string associated with the cell (if requested) |
-| `l` | cell hyperlink object (.Target holds link, .tooltip is tooltip) |
-| `s` | the style/theme of the cell (if applicable) |
+| Key | Description                                                            |
+| --- | ---------------------------------------------------------------------- |
+| `v` | raw value (see Data Types section for more info)                       |
+| `w` | formatted text (if applicable)                                         |
+| `t` | cell type: `b` Boolean, `n` Number, `e` error, `s` String, `d` Date    |
+| `f` | cell formula encoded as an A1-style string (if applicable)             |
+| `F` | range of enclosing array if formula is array formula (if applicable)   |
+| `r` | rich text encoding (if applicable)                                     |
+| `h` | HTML rendering of the rich text (if applicable)                        |
+| `c` | comments associated with the cell                                      |
+| `z` | number format string associated with the cell (if requested)           |
+| `l` | cell hyperlink object (.Target holds link, .tooltip is tooltip)        |
+| `s` | the style/theme of the cell (if applicable)                            |
 
 Built-in export utilities (such as the CSV exporter) will use the `w` text if it
 is available.  To change a value, be sure to delete `cell.w` (or set it to
 `undefined`) before attempting to export.  The utilities will regenerate the `w`
 text from the number format (`cell.z`) and the raw value if possible.
+
+The actual array formula is stored in the `f` field of the first cell in the
+array range.  Other cells in the range will omit the `f` field.
 
 ### Data Types
 
@@ -418,6 +441,20 @@ dates in the local timezone.  js-xlsx does not correct for this error.
 Type `s` is the String type.  `v` should be explicitly stored as a string to
 avoid possible confusion.
 
+### Formulae
+
+The A1-style formula string is stored in the `f` field.  Even though different
+file formats store the formulae in different ways, the formats are converted.
+
+Shared formulae are decompressed and each cell has the correct formula.
+
+Array formulae are stored in the top-left cell of the array block.  All cells
+of an array formula have a `F` field corresponding to the range.  A single-cell
+formula can be distinguished from a plain formula by the presence of `F` field.
+
+The `sheet_to_formulae` method generates one line per formula or array formula.
+Array formulae are rendered in the form `range=formula` while plain cells are
+rendered in the form `cell=formula or value`.
 
 ### Worksheet Object
 
@@ -470,6 +507,7 @@ The exported `read` and `readFile` functions accept an options argument:
 
 | Option Name | Default | Description                                          |
 | :---------- | ------: | :--------------------------------------------------- |
+| type        |         | Input data encoding (see Input Type below)           |
 | cellFormula | true    | Save formulae to the .f field **                     |
 | cellHTML    | true    | Parse rich text and save HTML to the .h field        |
 | cellNF      | false   | Save number format string to the .z field            |
@@ -503,12 +541,41 @@ The exported `read` and `readFile` functions accept an options argument:
 
 The defaults are enumerated in bits/84\_defaults.js
 
+### Input Type
+
+Strings can be interpreted in multiple ways.  The `type` parameter for `read`
+tells the library how to parse the data argument:
+
+| `type`     | expected input                                                  |
+|------------|-----------------------------------------------------------------|
+| `"base64"` | string: base64 encoding of the file                             |
+| `"binary"` | string:  binary string (`n`-th byte is `data.charCodeAt(n)`)    |
+| `"buffer"` | nodejs Buffer                                                   |
+| `"array"`  | array: array of 8-bit unsigned int (`n`-th byte is `data[n]`)   |
+| `"file"`   | string: filename that will be read and processed (nodejs only)  |
+
+### Guessing File Type
+
+Excel and other spreadsheet tools read the first few bytes and apply other
+heuristics to determine a file type.  This enables file type punning: renaming
+files with the `.xls` extension will tell your computer to use Excel to open the
+file but Excel will know how to handle it.  This library applies similar logic:
+
+| Byte 0 | Raw File Type | Spreadsheet Types                                   |
+|:-------|:--------------|:----------------------------------------------------|
+| `0xD0` | CFB Container | BIFF 5/8 or password-protected XLSX/XLSB            |
+| `0x09` | BIFF Stream   | BIFF 2/3/4/5                                        |
+| `0x3C` | XML           | SpreadsheetML or Flat ODS or UOS1                   |
+| `0x50` | ZIP Archive   | XLSB or XLSX/M or ODS or UOS2                       |
+| `0xFE` | UTF8 Text     | SpreadsheetML or Flat ODS or UOS1                   |
+
 ## Writing Options
 
 The exported `write` and `writeFile` functions accept an options argument:
 
 | Option Name |  Default | Description                                         |
 | :---------- | -------: | :-------------------------------------------------- |
+| type        |          | Output data encoding (see Output Type below)        |
 | cellDates   |  `false` | Store dates as type `d` (default is `n`)            |
 | bookSST     |  `false` | Generate Shared String Table **                     |
 | bookType    | `"xlsx"` | Type of Workbook (see below for supported formats)  |
@@ -523,19 +590,95 @@ The exported `write` and `writeFile` functions accept an options argument:
   third-party readers.  Excel itself does not usually write cells with type `d`
   so non-Excel tools may ignore the data or blow up in the presence of dates.
 
-Supported output formats (`bookType`):
+### Supported Output Formats
 
-| bookType | file ext | container | sheets | Description                  |
-| :------- | -------: | :-------: | :----- |:---------------------------- |
-| `xlsx`   | `.xlsx`  |    ZIP    | multi  | Excel 2007+ XML Format       |
-| `xlsm`   | `.xlsm`  |    ZIP    | multi  | Excel 2007+ Macro XML Format |
-| `xlsb`   | `.xlsb`  |    ZIP    | multi  | Excel 2007+ Binary Format    |
-| `ods`    | `.ods`   |    ZIP    | multi  | OpenDocument Spreadsheet     |
-| `biff2`  | `.xls`   |   none    | single | Excel 2.0 Worksheet format   |
+For broad compatibility with third-party tools, this library supports many
+output formats.  The specific file type is controlled with `bookType` option:
+
+| bookType | file ext | container | sheets | Description                       |
+| :------- | -------: | :-------: | :----- |:--------------------------------- |
+| `xlsx`   | `.xlsx`  |    ZIP    | multi  | Excel 2007+ XML Format            |
+| `xlsm`   | `.xlsm`  |    ZIP    | multi  | Excel 2007+ Macro XML Format      |
+| `xlsb`   | `.xlsb`  |    ZIP    | multi  | Excel 2007+ Binary Format         |
+| `ods`    | `.ods`   |    ZIP    | multi  | OpenDocument Spreadsheet          |
+| `biff2`  | `.xls`   |   none    | single | Excel 2.0 Worksheet format        |
+| `fods`   | `.fods`  |   none    | multi  | Flat OpenDocument Spreadsheet     |
+| `csv`    | `.csv`   |   none    | single | Comma Separated Values            |
 
 - `compression` only applies to formats with ZIP containers.
 - Formats that only support a single sheet require a `sheet` option specifying
   the worksheet.  If the string is empty, the first worksheet is used.
+
+### Output Type
+
+The `type` argument for `write` mirrors the `type` argument for `read`:
+
+| `type`     | output                                                          |
+|------------|-----------------------------------------------------------------|
+| `"base64"` | string: base64 encoding of the file                             |
+| `"binary"` | string:  binary string (`n`-th byte is `data.charCodeAt(n)`)    |
+| `"buffer"` | nodejs Buffer                                                   |
+| `"file"`   | string: name of file to be written (nodejs only)                |
+
+
+## File Formats
+
+Despite the fact that the name of the library is `xlsx`, it supports numerous
+non-XLSX file formats:
+
+### Excel 2.0-95 (BIFF2/BIFF3/BIFF4/BIFF5)
+
+BIFF 2/3 XLS are single-sheet streams of binary records.  Excel 4 introduced
+the concept of a workbook (`XLW` files) but also had single-sheet `XLS` format.
+The structure is largely similar to the Lotus 1-2-3 file formats.  BIFF5/8/12
+extended the format in various ways but largely stuck to the same record format.
+
+There is no official specification for any of these formats.  Excel 95 can write
+files in these formats, so record lengths and fields were backsolved by writing
+in all of the supported formats and comparing files.  Excel 2016 can generate
+BIFF5 files, enabling a full suite of file tests starting from XLSX or BIFF2.
+
+### Excel 97-2004 Binary (BIFF8)
+
+BIFF8 exclusively uses the Compound File Binary container format, splitting some
+content into streams within the file.  At its core, it still uses an extended
+version of the binary record format from older versions of BIFF.
+
+The `MS-XLS` specification covers the basics of the file format, and other
+specifications expand on serialization of features like properties.
+
+### Excel 2003-2004 (SpreadsheetML)
+
+Predating XLSX, SpreadsheetML files are simple XML files.  There is no official
+and comprehensive specification, although MS has released whitepapers on the
+format.  Since Excel 2016 can generate SpreadsheetML files, backsolving is
+pretty straightforward.
+
+### Excel 2007+ Binary (XLSB, BIFF12)
+
+Introduced in parallel with XLSX, the XLSB filetype combines BIFF architecture
+with the content separation and ZIP container of XLSX.  For the most part nodes
+in an XLSX sub-file can be mapped to XLSB records in a corresponding sub-file.
+
+The `MS-XLSB` specification covers the basics of the file format, and other
+specifications expand on serialization of features like properties.
+
+### OpenDocument Spreadsheet (ODS/FODS) and Uniform Office Spreadsheet (UOS1/2)
+
+ODS is an XML-in-ZIP format akin to XLSX while FODS is an XML format akin to
+SpreadsheetML.  Both are detailed in the OASIS standard, but tools like LO/OO
+add undocumented extensions.
+
+UOS is a very similar format, and it comes in 2 varieties corresponding to ODS
+and FODS respectively.  For the most part, the difference between the formats
+lies in the names of tags and attributes.
+
+### Comma-Separated Values
+
+Excel CSV deviates from RFC4180 in a number of important ways.  The generated
+CSV files should generally work in Excel although they may not work in RFC4180
+compatible readers.
+
 
 ## Tested Environments
 
@@ -619,6 +762,8 @@ OSP-covered specifications:
  - [MS-OLEDS]: Object Linking and Embedding (OLE) Data Structures
  - [MS-OLEPS]: Object Linking and Embedding (OLE) Property Set Data Structures
  - [MS-OSHARED]: Office Common Data Types and Objects Structures
+ - [MS-ODRAW]: Office Drawing Binary File Format
+ - [MS-ODRAWXML]: Office Drawing Extensions to Office Open XML Structure
  - [MS-OVBA]: Office VBA File Format Structure
  - [MS-CTXLS]: Excel Custom Toolbar Binary File Format
  - [MS-XLDM]: Spreadsheet Data Model File Format

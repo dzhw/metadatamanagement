@@ -21,18 +21,15 @@
 </style>
 </head>
 <body>
-<b>JS-XLSX (XLSX/XLSB/XLSM/XLS/XML/ODS) Live Demo</b><br />
+<b>JS-XLSX Live Demo</b><br />
 Output Format:
 <select name="format">
 <option value="csv" selected> CSV</option>
 <option value="json"> JSON</option>
 <option value="form"> FORMULAE</option>
 </select><br />
-<!--<input type="radio" name="format" value="csv" checked> CSV<br>
-<input type="radio" name="format" value="json"> JSON<br>
-<input type="radio" name="format" value="form"> FORMULAE<br> -->
 
-<div id="drop">Drop an XLSX / XLSM / XLSB / ODS / XLS / XML file here to see sheet data</div>
+<div id="drop">Drop a spreadsheet file here to see sheet data</div>
 <p><input type="file" name="xlfile" id="xlf" /> ... or click here to select a file</p>
 <textarea id="b64data">... or paste a base64-encoding here</textarea>
 <input type="button" id="dotext" value="Click here to process the base64 text" onclick="b64it();"/><br />
@@ -199,7 +196,7 @@ function process_wb(wb) {
 			output = to_formulae(wb);
 			break;
 		default:
-		output = to_csv(wb);
+			output = to_csv(wb);
 	}
 	if(out.innerText === undefined) out.textContent = output;
 	else out.innerText = output;
@@ -227,7 +224,7 @@ function handleDrop(e) {
 				if(rABS) {
 					wb = X.read(data, {type: 'binary'});
 				} else {
-				var arr = fixdata(data);
+					var arr = fixdata(data);
 					wb = X.read(btoa(arr), {type: 'base64'});
 				}
 				process_wb(wb);
@@ -270,7 +267,7 @@ function handleFile(e) {
 				if(rABS) {
 					wb = X.read(data, {type: 'binary'});
 				} else {
-				var arr = fixdata(data);
+					var arr = fixdata(data);
 					wb = X.read(btoa(arr), {type: 'base64'});
 				}
 				process_wb(wb);

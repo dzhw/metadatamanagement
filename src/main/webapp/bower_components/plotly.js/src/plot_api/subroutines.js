@@ -49,7 +49,8 @@ exports.lsInner = function(gd) {
             xa = Plotly.Axes.getFromId(gd, subplot, 'x'),
             ya = Plotly.Axes.getFromId(gd, subplot, 'y');
 
-        xa.setScale(); // this may already be done... not sure
+        // reset scale in case the margins have changed
+        xa.setScale();
         ya.setScale();
 
         if(plotinfo.bg) {
@@ -305,12 +306,6 @@ exports.doModeBar = function(gd) {
 
     // no need to do this for gl2d subplots,
     // Plots.linkSubplots takes care of it all.
-
-    subplotIds = Plots.getSubplotIds(fullLayout, 'geo');
-    for(i = 0; i < subplotIds.length; i++) {
-        var geo = fullLayout[subplotIds[i]]._subplot;
-        geo.updateFx(fullLayout.hovermode);
-    }
 
     return Plots.previousPromises(gd);
 };
