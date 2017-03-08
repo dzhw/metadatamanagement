@@ -3,10 +3,8 @@
 angular.module('metadatamanagementApp').service('SurveyBuilderService',
   function(SurveyResource, CleanJSObjectService, StudyIdBuilderService,
     SurveyIdBuilderService) {
-    var getSurveys = function(surveys, projectId) {
-      var surveysObjArray = [];
-      for (var i = 0; i < surveys.length; i++) {
-        var data = surveys[i];
+    var buildSurvey = function(survey, projectId) {
+        var data = survey;
         var surveyObj = {
           id: SurveyIdBuilderService.buildSurveyId(projectId, data.number),
           number: data.number,
@@ -38,11 +36,29 @@ angular.module('metadatamanagementApp').service('SurveyBuilderService',
         };
         var cleanedSurveyObject = CleanJSObjectService
           .removeEmptyJsonObjects(surveyObj);
-        surveysObjArray[i] = new SurveyResource(cleanedSurveyObject);
-      }
-      return surveysObjArray;
+        return new SurveyResource(cleanedSurveyObject);
+      };
+    var buildSurveyAttachmentMetadata = function(metadataFromExcel,
+      dataAcquisitionProjectId) {
+      var surveyAttachmentMetadata = {
+        surveyId: SurveyIdBuilderService.buildSurveyId(
+          dataAcquisitionProjectId, metadataFromExcel.surveyNumber),
+        surveyNumber: metadataFromExcel.surveyNumber,
+        dataAcquisitionProjectId: dataAcquisitionProjectId,
+        description: {
+          en: metadataFromExcel['description.en'],
+          de: metadataFromExcel['description.de']
+        },
+        title: metadataFromExcel.title,
+        language: metadataFromExcel.language,
+        fileName: metadataFromExcel.filename
+      };
+      var cleanedMetadata = CleanJSObjectService
+        .removeEmptyJsonObjects(surveyAttachmentMetadata);
+      return cleanedMetadata;
     };
     return {
-      getSurveys: getSurveys
+      buildSurvey: buildSurvey,
+      buildSurveyAttachmentMetadata: buildSurveyAttachmentMetadata
     };
   });

@@ -1,38 +1,250 @@
 /*jshint loopfunc: true */
-/* @Author: Daniel Katzberg */
+/* global _ */
 'use strict';
-angular.module('metadatamanagementApp').service('SurveyUploadService', function(
-  ExcelReaderService, SurveyBuilderService, SurveyDeleteResource,
-  JobLoggingService, SurveyResponseRateImageUploadService,
-  ErrorMessageResolverService, ElasticSearchAdminService, $rootScope,
-  $q, $translate, $mdDialog, CleanJSObjectService) {
-  //Create variables
-  var surveys; //Array of Surveys
-  var images = {}; //An object with all images
-  var uploadSurveyCount; //Counter for uploaded Surveys
-  // a map surveyNumber -> true
-  var previouslyUploadedSurveyNumbers;
-  /* Upload Method. This methods uploads the survey and the images */
-  var upload = function() {
-    //Toast if all surveys are uploaded
-    if (uploadSurveyCount === surveys.length) {
-      ElasticSearchAdminService.processUpdateQueue().finally(
-        function() {
-          var job = JobLoggingService.getCurrentJob();
-          JobLoggingService.finish(
+
+angular.module('metadatamanagementApp').service('SurveyUploadService',
+  function(SurveyDeleteResource, JobLoggingService, ExcelReaderService,
+    SurveyBuilderService, $q, $rootScope, ErrorMessageResolverService,
+    SurveyAttachmentUploadService, SurveyResponseRateImageUploadService,
+    CleanJSObjectService, ElasticSearchAdminService, $translate, $mdDialog) {
+    var surveys;
+    var attachments;
+    var readyToUploadSurveys;
+    var filesMap;
+    var previouslyUploadedSurveyNumbers;
+    var createSurveysFileMap = function(files, dataAcquisitionProjectId) {
+      filesMap = {};
+      files.forEach(function(file) {
+        var path;
+        if (file.path) {
+          path = _.split(file.path, '/');
+        } else {
+          if (file.webkitRelativePath) {
+            path = _.split(file.webkitRelativePath, '/');
+          }
+        }
+        var pathLength = path.length;
+        var fileName = _.last(path);
+        var fileType = _.split(fileName, '.')[1];
+        switch (fileType) {
+          case 'xlsx':
+            if (!filesMap[path[pathLength - 2]]) {
+              filesMap[path[pathLength - 2]] = {};
+              filesMap[path[pathLength - 2]].dataAcquisitionProjectId =
+              dataAcquisitionProjectId;
+              filesMap[path[pathLength - 2]].excelFile = {};
+              filesMap[path[pathLength - 2]].attachmentFiles = {};
+              filesMap[path[pathLength - 2]].svgFiles = {};
+            }
+            filesMap[path[pathLength - 2]].excelFile = file;
+          break;
+          case 'svg':
+            if (!filesMap[path[pathLength - 3]]) {
+              filesMap[path[pathLength - 3]] = {};
+              filesMap[path[pathLength - 3]].dataAcquisitionProjectId =
+              dataAcquisitionProjectId;
+              filesMap[path[pathLength - 3]].excelFile = {};
+              filesMap[path[pathLength - 3]].attachmentFiles = {};
+              filesMap[path[pathLength - 3]].svgFiles = {};
+            }
+            filesMap[path[pathLength - 3]]
+            .svgFiles[_.split(fileName, '.svg')[0]] = file;
+          break;
+          default:
+            if (!filesMap[path[pathLength - 3]]) {
+              filesMap[path[pathLength - 3]] = {};
+              filesMap[path[pathLength - 3]].dataAcquisitionProjectId =
+              dataAcquisitionProjectId;
+              filesMap[path[pathLength - 3]].excelFile = {};
+              filesMap[path[pathLength - 3]].attachmentFiles = {};
+              filesMap[path[pathLength - 3]].svgFiles = {};
+            }
+            filesMap[path[pathLength - 3]]
+            .attachmentFiles[fileName] = file;
+          break;
+        }
+      });
+    };
+    var createResourcesFromExcel = function(files) {
+      surveys = [];
+      attachments = [];
+      return $q(function(resolve, reject) {
+        ExcelReaderService.readFileAsync(files.surveys.excelFile, true).then(
+          function(excelContent) {
+            if (excelContent.surveys) {
+              excelContent.surveys.forEach(function(surveyFromExcel) {
+                  surveys.push(SurveyBuilderService
+                  .buildSurvey(surveyFromExcel, files.surveys.
+                    dataAcquisitionProjectId));
+                });
+            } else {
+              JobLoggingService.cancel(
+                'global.log-messages.unable-to-read-excel-sheet', {
+                  sheet: 'surveys'
+                });
+              reject();
+            }
+            if (excelContent.attachments) {
+              excelContent.attachments.forEach(function(attachmentFromExcel) {
+                          attachments.push(SurveyBuilderService.
+                            buildSurveyAttachmentMetadata(attachmentFromExcel,
+                              files.surveys.dataAcquisitionProjectId));
+                        });
+            } else {
+              JobLoggingService.cancel(
+                 'global.log-messages.unable-to-read-excel-sheet', {
+                    sheet: 'attachment'
+                  });
+              reject();
+            }
+            resolve();
+          });
+      });
+    };
+    var createReadyToUploadSurveys = function() {
+      readyToUploadSurveys = [];
+      surveys.forEach(function(survey) {
+        var surveyDetailsObject = {
+          'survey': survey,
+          'images': {
+            'de': filesMap.surveys.svgFiles[survey.number + '_responserate_de'],
+            'en': filesMap.surveys.svgFiles[survey.number + '_responserate_en']
+          },
+          'attachments': []
+        };
+        attachments.forEach(function(attachment) {
+          if (attachment.surveyId === survey.id) {
+            surveyDetailsObject.attachments.push({
+              'metadata': attachment,
+              'file': filesMap.surveys.attachmentFiles[attachment.fileName]
+            });
+          }
+        });
+        readyToUploadSurveys.push(surveyDetailsObject);
+      });
+    };
+
+    var uploadSurveyDetailObject = function(surveyDetailObject, uploadCount) {
+      return $q(function(resolve) {
+        if (previouslyUploadedSurveyNumbers[surveyDetailObject.survey.number]) {
+          JobLoggingService.error({
+            message: 'survey-management.log-messages' +
+              '.survey.duplicate-instrument-number',
+            messageParams: {
+              index: uploadCount + 1,
+              number: surveyDetailObject.survey.number
+            },
+            objectType: 'instrument'
+          });
+          resolve();
+        } else {
+          surveyDetailObject.survey.$save().then(function() {
+                previouslyUploadedSurveyNumbers[surveyDetailObject.survey.
+                  number] = true;
+                JobLoggingService.success({
+                    objectType: 'survey'
+                  });
+                var asyncFilesUpload = $q.when();
+                if (surveyDetailObject.images.de) {
+                  asyncFilesUpload = asyncFilesUpload.then(function() {
+                    return SurveyResponseRateImageUploadService.
+                    uploadImage(surveyDetailObject.images.de,
+                    surveyDetailObject.survey.id);
+                  }).then(function() {
+                    JobLoggingService.success({
+                      objectType: 'image'
+                    });
+                  }).catch(function() {
+                    JobLoggingService.error({
+                      message: 'survey-management.log-messages.' +
+                      'survey.unable-to-upload-image-file',
+                      messageParams: {
+                        file: surveyDetailObject.survey.number +
+                        '_responserate_de.png'
+                      },
+                      objectType: 'image'
+                    });
+                  });
+                }
+                if (surveyDetailObject.images.en) {
+                  asyncFilesUpload = asyncFilesUpload.then(function() {
+                    return SurveyResponseRateImageUploadService.
+                    uploadImage(surveyDetailObject.images.en,
+                      surveyDetailObject.survey.id);
+                  }).then(function() {
+                    JobLoggingService.success({
+                      objectType: 'image'
+                    });
+                  }).catch(function() {
+                    JobLoggingService.error({
+                      message: 'survey-management.log-messages.' +
+                      'survey.unable-to-upload-image-file',
+                      messageParams: {
+                        file: surveyDetailObject.survey.number +
+                        '_responserate_en.png'
+                      },
+                      objectType: 'image'
+                    });
+                  });
+                }
+                surveyDetailObject.attachments.forEach(function(attachment) {
+                  asyncFilesUpload = asyncFilesUpload.then(function() {
+                    return SurveyAttachmentUploadService.
+                    uploadAttachment(attachment.file, attachment.metadata);
+                  }).then(function() {
+                    JobLoggingService.success({
+                      objectType: 'attachment'
+                    });
+                  }).catch(function(error) {
+                    // attachment upload failed
+                    var errorMessage =
+                    ErrorMessageResolverService
+                    .getErrorMessage(error, 'survey',
+                    'survey-attachment', attachment.file.name);
+                    JobLoggingService.error({
+                      message: errorMessage.message,
+                      messageParams: errorMessage.translationParams,
+                      subMessages: errorMessage.subMessages,
+                      objectType: 'attachment'
+                    });
+                  });
+                });
+                asyncFilesUpload.finally(function() {
+                  resolve();
+                });
+              }).catch(function(error) {
+                //unable to save survey object
+                var errorMessages = ErrorMessageResolverService
+                .getErrorMessage(error, 'survey');
+                JobLoggingService.error({
+                  message: errorMessages.message,
+                  messageParams: errorMessages.translationParams,
+                  subMessages: errorMessages.subMessages,
+                  objectType: 'survey'
+                });
+                resolve();
+              });
+        }
+      });
+    };
+
+    var uploadAllSurveyDetailObject = function(index) {
+      if (index === readyToUploadSurveys.length) {
+        ElasticSearchAdminService.processUpdateQueue().finally(function() {
+            var job = JobLoggingService.getCurrentJob();
+            JobLoggingService.finish(
             'survey-management.log-messages.survey.upload-terminated', {
               totalSurveys: job.getCounts('survey').total,
               totalImages: job.getCounts('image').total,
+              totalAttachments: job.getCounts('attachment').total,
               totalErrors: JobLoggingService.getCurrentJob().errors
             });
-          $rootScope.$broadcast('upload-completed');
-        });
-      //Upload Survey with images
-    } else {
-      //Check for not existing survey
-      if (!surveys[uploadSurveyCount].number ||
-        surveys[uploadSurveyCount].number === '') {
-        var index = uploadSurveyCount;
+            $rootScope.$broadcast('upload-completed');
+          });
+        return;
+      }
+      if (!readyToUploadSurveys[index].survey.number ||
+        readyToUploadSurveys[index].survey.number === '') {
         JobLoggingService.error({
           message: 'survey-management.log-messages.survey.missing-number',
           messageParams: {
@@ -40,166 +252,47 @@ angular.module('metadatamanagementApp').service('SurveyUploadService', function(
           },
           objectType: 'survey'
         });
-        uploadSurveyCount++;
-        return upload(); //Start next iteration of uploading a survey
-      } else if (previouslyUploadedSurveyNumbers[surveys[
-          uploadSurveyCount].number]) {
-        JobLoggingService.error({
-          message: 'survey-management.log-messages.survey.' +
-            'duplicate-survey-number',
-          messageParams: {
-            index: uploadSurveyCount + 1,
-            number: surveys[uploadSurveyCount].number
-          },
-          objectType: 'survey'
-        });
-        uploadSurveyCount++;
-        return upload(); //Start next iteration of uploading a survey
-        //Survey is and will be uploaded
       } else {
-        var survey = surveys[uploadSurveyCount];
-        //Upload Survey
-        survey.$save().then(function() {
-          JobLoggingService.success({
-            objectType: 'survey'
-          });
-          previouslyUploadedSurveyNumbers[survey.number] = true;
-          //Asyn Chain waits for all async uploaded images
-          var asyncChain = $q.when();
-
-          //Get ImageNames of all images as an array
-          var imageKeys = Object.keys(images);
-          imageKeys.forEach(function(imageName) {
-            asyncChain = asyncChain.then(function() {
-              //check for valid name at import. no valid name, no import!
-              var imageNameGerman = survey.number +
-                '_responserate_de';
-              var imageNameEnglish = survey.number +
-                '_responserate_en';
-              if (imageName !== imageNameGerman &&
-                imageName !== imageNameEnglish) {
-                return;
-              }
-
-              //Upload Images.
-              SurveyResponseRateImageUploadService.uploadImage(
-                  images[
-                    imageName], survey.id)
-                .then(function() {
-                    JobLoggingService.success({
-                      objectType: 'image'
-                    });
-                  },
-                  function(error) {
-                    if (error !== 'previouslyHandledError') {
-                      //image file read error
-                      JobLoggingService.error({
-                        message: 'survey-management.log-messages.' +
-                          'survey.unable-to-upload-image-file',
-                        messageParams: {
-                          file: images[imageName]
-                        },
-                        objectType: 'image'
-                      });
-                    }
-                    return $q.reject(
-                      'previouslyHandledError'
-                    );
-                  });
-            });
-          });
-          //Everything went well. Start uploading next survey
-          asyncChain.finally(function() {
-            uploadSurveyCount++;
-            return upload();
-          });
-        }).catch(function(error) {
-          //unable to save survey object
-          var errorMessages = ErrorMessageResolverService
-            .getErrorMessage(error, 'survey');
-          JobLoggingService.error({
-            message: errorMessages.message,
-            messageParams: errorMessages.translationParams,
-            subMessages: errorMessages.subMessages,
-            objectType: 'survey'
-          });
-          uploadSurveyCount++;
-          return upload();
+        uploadSurveyDetailObject(readyToUploadSurveys[index]).then(function() {
+          return uploadAllSurveyDetailObject(index + 1);
         });
       }
-    }
-  };
-  /* This method can called by external scripts/classes.
-      It prepates the Upload. Survey information will be read out of the
-      excel file. */
-  var uploadSurveys = function(files, dataAcquisitionProjectId) {
-    if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
-      var confirm = $mdDialog.confirm()
-        .title($translate.instant(
-          'search-management.delete-messages.delete-surveys-title'))
-        .textContent($translate.instant(
-          'search-management.delete-messages.delete-surveys', {
-            id: dataAcquisitionProjectId
-          }))
-        .ariaLabel($translate.instant(
-          'search-management.delete-messages.delete-surveys', {
-            id: dataAcquisitionProjectId
-          }))
-        .ok($translate.instant('global.buttons.ok'))
-        .cancel($translate.instant('global.buttons.cancel'));
-      $mdDialog.show(confirm).then(function() {
-        uploadSurveyCount = 0;
-        surveys = [];
-        images = {};
-        previouslyUploadedSurveyNumbers = {};
-        JobLoggingService.start('survey');
-        //Delete all old Surveys by Project Id
-        SurveyDeleteResource.deleteByDataAcquisitionProjectId({
-            dataAcquisitionProjectId: dataAcquisitionProjectId
-          }).$promise
-          .then(
-            //After deleting read the excel file for survey information
-            function() {
-              files.forEach(function(file) {
-                if (file.name === 'surveys.xlsx') {
-                  ExcelReaderService.readFileAsync(file)
-                    //Save survey information in an array
-                    .then(function(rawSurveys) {
-                      surveys = SurveyBuilderService
-                        .getSurveys(rawSurveys,
-                          dataAcquisitionProjectId);
-                      //Error Handling for non readable excel file
-                    }, function() {
-                      JobLoggingService.cancel(
-                        'global.log-messages.unable-to-read-file', {
-                          file: 'surveys.xlsx'
-                        });
-                    }).finally(function() {
-                      upload(); //Start uploading of surveys and images
-                    });
-                }
-                //Prepare svg images for uploading
-                //No valid name check at this moment,
-                //because there are no survey ids
-                //Just a check for svg image
-                if (file.name.endsWith('.svg')) {
-                  var surveyResponseName = file.name
-                    .substring(0, file.name.indexOf('.svg'));
-                  images[surveyResponseName] = file;
-                }
-              });
-            },
-            //Error Handling for non deleteable surveys
-            function() {
+    };
+    var uploadSurveys = function(files, dataAcquisitionProjectId) {
+      if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
+        var confirm = $mdDialog.confirm().title($translate.instant(
+            'search-management.delete-messages.delete-surveys-title'))
+          .textContent($translate.instant(
+            'search-management.delete-messages.delete-surveys', {
+              id: dataAcquisitionProjectId
+            })).ariaLabel($translate.instant(
+            'search-management.delete-messages.delete-surveys', {
+              id: dataAcquisitionProjectId
+            }))
+          .ok($translate.instant('global.buttons.ok'))
+          .cancel($translate.instant('global.buttons.cancel'));
+        $mdDialog.show(confirm).then(function() {
+          JobLoggingService.start('survey');
+          SurveyDeleteResource.deleteByDataAcquisitionProjectId({
+              dataAcquisitionProjectId: dataAcquisitionProjectId
+            }).$promise
+            .then(function() {
+              createSurveysFileMap(files,
+                dataAcquisitionProjectId);
+              createResourcesFromExcel(filesMap).then(function() {
+                  createReadyToUploadSurveys();
+                  previouslyUploadedSurveyNumbers = {};
+                  uploadAllSurveyDetailObject(0);
+                });
+            }, function() {
               JobLoggingService.cancel(
-                'survey.log-messages.survey.unable-to-delete');
+                'survey-management.log-messages.question.' +
+                'unable-to-delete', {});
             });
-
-      });
-    }
-  };
-  //Global methods
-  return {
-    uploadSurveys: uploadSurveys
-  };
-});
+        });
+      }
+    };
+    return {
+      uploadSurveys: uploadSurveys
+    };
+  });

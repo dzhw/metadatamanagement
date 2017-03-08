@@ -4,7 +4,8 @@ angular.module('metadatamanagementApp')
   .controller('SurveyDetailController',
     function(entity, StudySearchService, LanguageService, DataSetSearchService,
       SurveySearchService, PageTitleService, InstrumentSearchService,
-      RelatedPublicationSearchService, $state, ToolbarHeaderService) {
+      RelatedPublicationSearchService, $state, ToolbarHeaderService,
+      SurveyAttachmentResource) {
       var ctrl = this;
       ctrl.imgResolved = false;
       ctrl.survey = entity;
@@ -52,6 +53,14 @@ angular.module('metadatamanagementApp')
               });
             }
           });
+        SurveyAttachmentResource.findBySurveyId({
+            id: ctrl.survey.id
+          }).$promise.then(
+            function(attachments) {
+              if (attachments.length > 0) {
+                ctrl.attachments = attachments;
+              }
+            });
         RelatedPublicationSearchService.countBy('surveyIds', ctrl.survey.id)
             .then(function(publicationsCount) {
               ctrl.counts.publicationsCount = publicationsCount.count;

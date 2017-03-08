@@ -47,6 +47,9 @@ public class SurveyService {
   @Autowired 
   private SurveyResponseRateImageService imageService;
   
+  @Autowired 
+  private SurveyAttachmentService surveyAttachmentService;
+  
   @Autowired
   private ApplicationEventPublisher eventPublisher;
 
@@ -82,6 +85,7 @@ public class SurveyService {
   @HandleAfterDelete
   public void onSurveyDeleted(Survey survey) {
     this.imageService.deleteAllSurveyImagesById(survey.getId());
+    this.surveyAttachmentService.deleteAllBySurveyId(survey.getId());
     elasticsearchUpdateQueueService.enqueue(
         survey.getId(), 
         ElasticsearchType.surveys, 

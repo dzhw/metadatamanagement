@@ -39,6 +39,8 @@ import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.SurveyDesigns;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.builders.StudyBuilder;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyAttachmentMetadata;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.builders.SurveyAttachmentMetadataBuilder;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.builders.SurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.AccessWays;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.DataTypes;
@@ -483,6 +485,18 @@ public class UnitTestCreateDomainObjectUtils {
           .withTitle("Title")
           .withLanguage("de")
           .withType(InstrumentAttachmentTypes.QUESTION_FLOW)
+          .build();
+  }
+  
+  public static SurveyAttachmentMetadata buildSurveyAttachmentMetadata(String projectId, Integer surveyNumber) {
+    return new SurveyAttachmentMetadataBuilder()
+          .withDataAcquisitionProjectId(projectId)
+          .withSurveyId(UnitTestCreateValidIds.buildSurveyId(projectId, surveyNumber))
+          .withSurveyNumber(surveyNumber)
+          .withFileName("filename.txt")
+          .withDescription(new I18nString("Beschreibung","Description"))
+          .withTitle("Title")
+          .withLanguage("de")
           .build();
   }
   
