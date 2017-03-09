@@ -44,7 +44,8 @@ var rencoding = {
 var rencstr = "&<>'\"".split("");
 
 // TODO: CP remap (need to read file version to determine OS)
-var encregex = /&[a-z]*;/g, coderegex = /_x([\da-fA-F]+)_/g;
+/* 22.4.2.4 bstr (Basic String) */
+var encregex = /&[a-z]*;/g, coderegex = /_x([\da-fA-F]{4})_/g;
 function unescapexml(text){
 	var s = text + '';
 	return s.replace(encregex, function($$) { return encodings[$$]; }).replace(coderegex,function(m,c) {return String.fromCharCode(parseInt(c,16));});
@@ -63,8 +64,9 @@ function parsexmlbool(value) {
 	}
 }
 
-function datenum(v) {
-	var epoch = Date.parse(v);
+function datenum(v/*:Date*/, date1904/*:?boolean*/)/*:number*/ {
+	var epoch = v.getTime();
+	if(date1904) epoch += 1462*24*60*60*1000;
 	return (epoch + 2209161600000) / (24 * 60 * 60 * 1000);
 }
 

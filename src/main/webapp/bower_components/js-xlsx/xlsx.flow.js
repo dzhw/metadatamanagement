@@ -4,7 +4,7 @@
 /*jshint funcscope:true, eqnull:true */
 var XLSX = {};
 (function make_xlsx(XLSX){
-XLSX.version = '0.8.7';
+XLSX.version = '0.8.8';
 var current_codepage = 1200, current_cptable;
 if(typeof module !== "undefined" && typeof require !== 'undefined') {
 	if(typeof cptable === 'undefined') cptable = require('./dist/cpexcel.js');
@@ -1334,10 +1334,9 @@ function evert_arr(obj/*:any*/)/*:EvertArrType*/ {
 	return o;
 }
 
-/* TODO: date1904 logic */
-function datenum(v/*:number*/, date1904/*:?boolean*/)/*:number*/ {
-	if(date1904) v+=1462;
-	var epoch = Date.parse(v);
+function datenum(v/*:Date*/, date1904/*:?boolean*/)/*:number*/ {
+	var epoch = v.getTime();
+	if(date1904) epoch += 1462*24*60*60*1000;
 	return (epoch + 2209161600000) / (24 * 60 * 60 * 1000);
 }
 
@@ -1457,7 +1456,8 @@ var rencstr = "&<>'\"".split("");
 
 // TODO: CP remap (need to read file version to determine OS)
 var unescapexml/*:StringConv*/ = (function() {
-	var encregex = /&[a-z]*;/g, coderegex = /_x([\da-fA-F]+)_/g;
+	/* 22.4.2.4 bstr (Basic String) */
+	var encregex = /&[a-z]*;/g, coderegex = /_x([\da-fA-F]{4})_/g;
 	return function unescapexml(text/*:string*/)/*:string*/ {
 		var s = text + '';
 		return s.replace(encregex, function($$) { return encodings[$$]; }).replace(coderegex,function(m,c) {return String.fromCharCode(parseInt(c,16));});
@@ -4362,6 +4362,7 @@ var parse_rs = (function parse_rs_factory() {
 				/* ** not required . */
 				case '<shadow':
 					/* falls through */
+				case '<shadow>':
 				case '<shadow/>': break;
 
 				/* 18.4.1 charset CT_IntProperty TODO */
@@ -4373,6 +4374,7 @@ var parse_rs = (function parse_rs_factory() {
 				/* 18.4.2 outline CT_BooleanProperty TODO */
 				case '<outline':
 					/* falls through */
+				case '<outline>':
 				case '<outline/>': break;
 
 				/* 18.4.5 rFont CT_FontName */
@@ -4385,6 +4387,7 @@ var parse_rs = (function parse_rs_factory() {
 				case '<strike':
 					if(!y.val) break;
 					/* falls through */
+				case '<strike>':
 				case '<strike/>': font.strike = 1; break;
 				case '</strike>': break;
 
@@ -4392,6 +4395,7 @@ var parse_rs = (function parse_rs_factory() {
 				case '<u':
 					if(y.val == '0') break;
 					/* falls through */
+				case '<u>':
 				case '<u/>': font.u = 1; break;
 				case '</u>': break;
 
@@ -4399,6 +4403,7 @@ var parse_rs = (function parse_rs_factory() {
 				case '<b':
 					if(y.val == '0') break;
 					/* falls through */
+				case '<b>':
 				case '<b/>': font.b = 1; break;
 				case '</b>': break;
 
@@ -4406,6 +4411,7 @@ var parse_rs = (function parse_rs_factory() {
 				case '<i':
 					if(y.val == '0') break;
 					/* falls through */
+				case '<i>':
 				case '<i/>': font.i = 1; break;
 				case '</i>': break;
 
@@ -7894,6 +7900,7 @@ function get_cell_style(styles, cell, opts) {
 }
 
 function safe_format(p, fmtid, fillid, opts) {
+	if(p.t === 'd' && typeof p.v === 'string') p.v = new Date(p.v);
 	try {
 		if(p.t === 'e') p.w = p.w || BErr[p.v];
 		else if(fmtid === 0) {
@@ -8064,7 +8071,7 @@ function write_ws_xml_cell(cell, ref, ws, opts, idx, wb) {
 			if(opts.cellDates) vv = new Date(cell.v).toISOString();
 			else {
 				cell.t = 'n';
-				vv = ''+(cell.v = datenum(cell.v));
+				vv = ''+(cell.v = datenum(new Date(cell.v)));
 				if(typeof cell.z === 'undefined') cell.z = SSF._table[14];
 			}
 			break;
@@ -8192,7 +8199,7 @@ return function parse_ws_xml_data(sdata, s, opts, guess) {
 					break; // inline string
 				case 'b': p.v = parsexmlbool(p.v); break;
 				case 'd':
-					if(!opts.cellDates) { p.v = datenum(p.v); p.t = 'n'; }
+					if(!opts.cellDates) { p.v = datenum(new Date(p.v)); p.t = 'n'; }
 					break;
 				/* error string in .v, number in .v */
 				case 'e': p.w = p.v; p.v = RBErr[p.v]; break;
@@ -9521,8 +9528,9 @@ function xlml_normalize(d)/*:string*/ {
 
 /* TODO: Everything */
 var xlmlregex = /<(\/?)([a-z0-9]*:|)(\w+)[^>]*>/mg;
-function parse_xlml_xml(d, opts) {
+function parse_xlml_xml(d, opts)/*:Workbook*/ {
 	var str = debom(xlml_normalize(d));
+	if(str.substr(0,1000).indexOf("<html") >= 0) return parse_html(str, opts);
 	var Rn;
 	var state = [], tmp;
 	var sheets = {}, sheetnames = [], cursheet = {}, sheetname = "";
@@ -12146,6 +12154,41 @@ function write_biff_buf(wb/*:Workbook*/, o/*:WriteOpts*/) {
 	// TODO
 	return ba.end();
 }
+/* TODO: in browser attach to DOM; in node use an html parser */
+function parse_html(str/*:string*/, opts)/*:Workbook*/ {
+	var ws/*:Worksheet*/ = ({}/*:any*/);
+	var o/*:Workbook*/ = { SheetNames: ["Sheet1"], Sheets: {Sheet1:ws} };
+	var i = str.indexOf("<table"), j = str.indexOf("</table");
+	if(i == -1 || j == -1) throw new Error("Invalid HTML: missing <table> / </table> pair");
+	var rows = str.slice(i, j).split(/<tr[^>]*>/);
+	var R = 0, C = 0;
+	var range = {s:{r:10000000, c:10000000},e:{r:0,c:0}};
+	for(i = 0; i < rows.length; ++i) {
+		if(rows[i].substr(0,3) != "<td") continue;
+		var cells = rows[i].split("</td>");
+		for(j = 0; j < cells.length; ++j) {
+			if(cells[j].substr(0,3) != "<td") continue;
+			++C;
+			var m = cells[j], cc = 0;
+			/* TODO: parse styles etc */
+			while(m.charAt(0) == "<" && (cc = m.indexOf(">")) > -1) m = m.slice(cc+1);
+			while(m.indexOf(">") > -1) m = m.slice(0, m.lastIndexOf("<"));
+			/* TODO: generate stub cells */
+			if(!m.length) continue;
+			if(range.s.r > R) range.s.r = R;
+			if(range.e.r < R) range.e.r = R;
+			if(range.s.c > C) range.s.c = C;
+			if(range.e.c < C) range.e.c = C;
+			var coord/*:string*/ = encode_cell({r:R, c:C});
+			/* TODO: value parsing */
+			if(m == +m) ws[coord] = {t:'n', v:+m};
+			else ws[coord] = {t:'s', v:m};
+		}
+		++R; C = 0;
+	}
+	ws['!ref'] = encode_range(range);
+	return o;
+}
 /* actual implementation in utils, wrappers are for read/write */
 function write_csv_str(wb/*:Workbook*/, o/*:WriteOpts*/) {
 	var idx = 0;
@@ -12515,12 +12558,12 @@ function write_string_type(out/*:string*/, opts/*:WriteOpts*/) {
 	switch(opts.type) {
 		case "base64": return Base64.encode(out);
 		case "binary": return out;
-		case "file": return _fs.writeFileSync(opts.file, out, {encoding:'utf8'});
+		case "file": return _fs.writeFileSync(opts.file, out, 'utf8');
 		case "buffer": {
 			if(has_buf) return new Buffer(out, 'utf8');
 			else return out.split("").map(function(c) { return c.charCodeAt(0); });
 		} break;
-		default: return out;
+		default: throw new Error("Unrecognized type " + opts.type);
 	}
 }
 
