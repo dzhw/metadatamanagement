@@ -17,6 +17,12 @@ angular.module('metadatamanagementApp').config(
             'unable-to-delete': 'Die Erhebungen konnten nicht gelöscht werden!',
             'cancelled': 'Upload von Erhebungen Abgebrochen!',
             'duplicate-survey-number': 'Die Nummer ({{ number }}) der {{ index }}. Erhebung wurde bereits verwendet.'
+          },
+          'survey-attachment': {
+            'not-saved': 'Attachment "{{ id }}" wurde nicht gespeichert.',
+            'missing-survey-number': 'Das {{ index }}. Attachment hat keine Erhebungsnummer und wurde daher nicht gespeichert.',
+            'missing-filename': 'Das {{ index }}. Attachment hat keinen Dateinamen und wurde daher nicht gespeichert.',
+            'file-not-found': 'Die Datei {{ filename }} wurde nicht gefunden und wurde daher nicht gespeichert!'
           }
         },
         'detail': {
@@ -38,7 +44,14 @@ angular.module('metadatamanagementApp').config(
           'grossSampleSize': 'Bruttostichprobe',
           'sampleSize': 'Nettostichprobe',
           'responseRate': 'Rücklaufquote',
-          'response-rate-informations': 'Weitere Informationen zum Rücklauf'
+          'response-rate-informations': 'Weitere Informationen zum Rücklauf',
+          'attachments': {
+            'table-title': 'Materialien zu der Erhebung',
+            'title': 'Titel',
+            'description': 'Beschreibung',
+            'language': 'Dokumentensprache',
+            'file': 'Datei'
+          }
         },
         'error': {
           'survey': {
@@ -87,7 +100,33 @@ angular.module('metadatamanagementApp').config(
             'response-rate': {
               'not-null': 'Die Rücklaufquote der Erhebung darf nicht leer sein!'
             }
-          }
+          },
+          'survey-attachment-metadata':  {
+            'survey-id': {
+              'not-empty': 'Die ID der zugehörigen Erhebung darf nicht leer sein.'
+            },
+            'survey-number': {
+              'not-null': 'Die Nummer der zugehörigen Erhebung darf nicht leer sein.'
+            },
+            'project-id': {
+              'not-empty': 'Die ID des zugehörigen Datenaufbereitungsprojektes darf nicht leer sein.'
+            },
+            'description': {
+              'not-null': 'Die Beschreibung des Attachments darf nicht leer sein.',
+              'i18n-string-size': 'Die Beschreibung muss in beiden Sprachen angegeben werden und darf nicht länger als 128 Zeichen sein.'
+            },
+            'title': {
+                'not-null': 'Der Title des Attachments darf nicht leer sein.',
+                'string-size': 'Der Title des Attachments muss angegeben werden und darf nicht länger als 128 Zeichen sein.'
+              },
+            'language': {
+                'not-null': 'Die Sprache des Attachments darf nicht leer sein.',
+                'not-supported': 'Die Sprache muss eine gültige zweibuchstabige Abkürzung gemäß ISO 639-1 sein.'
+              },
+            'filename': {
+              'not-empty': 'Der Dateiname des Attachments darf nicht leer sein.'
+            }
+          },
         }
       }
       //jscs:enable
