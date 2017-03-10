@@ -178,7 +178,7 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'The relative frequency of a valid response must not be empty!'
             },
             'value': {
-              'size': 'The max length of the value of a valid response is 32 signs.',
+              'size': 'The max length of the value of a valid response is 256 signs.',
               'not-null': 'The value of a valid response must not be empty!'
             },
             'valid-relative-frequency': {

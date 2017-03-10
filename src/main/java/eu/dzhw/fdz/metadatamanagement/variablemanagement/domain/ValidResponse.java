@@ -34,7 +34,7 @@ public class ValidResponse {
   private Double relativeFrequency;
 
   @NotNull(message = "variable-management.error.valid-response.value.not-null")
-  @Size(max = StringLengths.SMALL, 
+  @Size(max = 256, 
       message = "variable-management.error.valid-response.value.size")
   private String value;
 

@@ -178,7 +178,7 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'Die relative Häufigkeit eines gültigen Wertes darf nicht leer sein.'
             },
             'value': {
-              'size': 'Die Maximallänge der Werteklasse ist 32 Zeichen.',
+              'size': 'Die Maximallänge eines Wertes ist 256 Zeichen.',
               'not-null': 'Der Wert eines gültigen Wertes darf nicht leer sein!'
             },
             'valid-relative-frequency': {
