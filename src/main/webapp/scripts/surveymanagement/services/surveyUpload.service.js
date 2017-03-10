@@ -72,11 +72,23 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
         ExcelReaderService.readFileAsync(files.surveys.excelFile, true).then(
           function(excelContent) {
             if (excelContent.surveys) {
-              excelContent.surveys.forEach(function(surveyFromExcel) {
-                  surveys.push(SurveyBuilderService
-                  .buildSurvey(surveyFromExcel, files.surveys.
-                    dataAcquisitionProjectId));
-                });
+              excelContent.surveys.forEach(function(surveyFromExcel, index) {
+                    if (CleanJSObjectService.
+                     isNullOrEmpty(surveyFromExcel.number)) {
+                      JobLoggingService.error({
+                        message: 'survey-management.log-messages.survey.' +
+                        'missing-number',
+                        messageParams: {
+                          index: index + 1
+                        },
+                        objectType: 'survey'
+                      });
+                    } else {
+                      surveys.push(SurveyBuilderService
+                      .buildSurvey(surveyFromExcel, files.surveys.
+                        dataAcquisitionProjectId));
+                    }
+                  });
             } else {
               JobLoggingService.cancel(
                 'global.log-messages.unable-to-read-excel-sheet', {
@@ -85,7 +97,30 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
               reject();
             }
             if (excelContent.attachments) {
-              excelContent.attachments.forEach(function(attachmentFromExcel) {
+              excelContent.attachments.forEach(function(attachmentFromExcel,
+                index) {
+                          if (CleanJSObjectService
+                            .isNullOrEmpty(attachmentFromExcel.surveyNumber)) {
+                            JobLoggingService.error({
+                              message: 'survey-management.log-messages' +
+                              '.survey-attachment.missing-survey-number',
+                              messageParams: {
+                                index: index + 1
+                              },
+                              objectType: 'attachment'
+                            });
+                          }
+                          if (CleanJSObjectService.
+                            isNullOrEmpty(attachmentFromExcel.filename)) {
+                            JobLoggingService.error({
+                              message: 'survey-management.log-messages' +
+                              '.survey-attachment.missing-filename',
+                              messageParams: {
+                                index: index + 1
+                              },
+                              objectType: 'attachment'
+                            });
+                          }
                           attachments.push(SurveyBuilderService.
                             buildSurveyAttachmentMetadata(attachmentFromExcel,
                               files.surveys.dataAcquisitionProjectId));
@@ -103,6 +138,7 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
     };
     var createReadyToUploadSurveys = function() {
       readyToUploadSurveys = [];
+      var notFoundAttachmentsMap = {};
       surveys.forEach(function(survey) {
         var surveyDetailsObject = {
           'survey': survey,
@@ -113,11 +149,27 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
           'attachments': []
         };
         attachments.forEach(function(attachment) {
-          if (attachment.surveyId === survey.id) {
-            surveyDetailsObject.attachments.push({
-              'metadata': attachment,
-              'file': filesMap.surveys.attachmentFiles[attachment.fileName]
-            });
+          if (attachment.fileName) {
+            if (filesMap.surveys.attachmentFiles[attachment.fileName]) {
+              if (attachment.surveyId === survey.id) {
+                surveyDetailsObject.attachments.push({
+                  'metadata': attachment,
+                  'file': filesMap.surveys.attachmentFiles[attachment.fileName]
+                });
+              }
+            } else {
+              if (!notFoundAttachmentsMap[attachment.fileName]) {
+                JobLoggingService.error({
+                  message: 'survey-management.log-messages' +
+                  '.survey-attachment.file-not-found',
+                  messageParams: {
+                    filename: attachment.fileName
+                  },
+                  objectType: 'attachment'
+                });
+                notFoundAttachmentsMap[attachment.fileName] = true;
+              }
+            }
           }
         });
         readyToUploadSurveys.push(surveyDetailsObject);
@@ -129,7 +181,7 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
         if (previouslyUploadedSurveyNumbers[surveyDetailObject.survey.number]) {
           JobLoggingService.error({
             message: 'survey-management.log-messages' +
-              '.survey.duplicate-instrument-number',
+              '.survey.duplicate-survey-number',
             messageParams: {
               index: uploadCount + 1,
               number: surveyDetailObject.survey.number
@@ -188,27 +240,28 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
                   });
                 }
                 surveyDetailObject.attachments.forEach(function(attachment) {
-                  asyncFilesUpload = asyncFilesUpload.then(function() {
-                    return SurveyAttachmentUploadService.
-                    uploadAttachment(attachment.file, attachment.metadata);
-                  }).then(function() {
-                    JobLoggingService.success({
-                      objectType: 'attachment'
+                    asyncFilesUpload = asyncFilesUpload.then(function() {
+                      return SurveyAttachmentUploadService.
+                      uploadAttachment(attachment.file, attachment.metadata);
+                    }).then(function() {
+                      JobLoggingService.success({
+                        objectType: 'attachment'
+                      });
+                    }).catch(function(error) {
+                      // attachment upload failed
+                      var errorMessage =
+                      ErrorMessageResolverService
+                      .getErrorMessage(error, 'survey',
+                      'survey-attachment', attachment.file.name);
+                      JobLoggingService.error({
+                        message: errorMessage.message,
+                        messageParams: errorMessage.translationParams,
+                        subMessages: errorMessage.subMessages,
+                        objectType: 'attachment'
+                      });
                     });
-                  }).catch(function(error) {
-                    // attachment upload failed
-                    var errorMessage =
-                    ErrorMessageResolverService
-                    .getErrorMessage(error, 'survey',
-                    'survey-attachment', attachment.file.name);
-                    JobLoggingService.error({
-                      message: errorMessage.message,
-                      messageParams: errorMessage.translationParams,
-                      subMessages: errorMessage.subMessages,
-                      objectType: 'attachment'
-                    });
+
                   });
-                });
                 asyncFilesUpload.finally(function() {
                   resolve();
                 });
@@ -229,7 +282,8 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
     };
 
     var uploadAllSurveyDetailObject = function(index) {
-      if (index === readyToUploadSurveys.length) {
+      var currentIndex = index;
+      if (currentIndex === readyToUploadSurveys.length) {
         ElasticSearchAdminService.processUpdateQueue().finally(function() {
             var job = JobLoggingService.getCurrentJob();
             JobLoggingService.finish(
@@ -243,20 +297,10 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
           });
         return;
       }
-      if (!readyToUploadSurveys[index].survey.number ||
-        readyToUploadSurveys[index].survey.number === '') {
-        JobLoggingService.error({
-          message: 'survey-management.log-messages.survey.missing-number',
-          messageParams: {
-            index: index + 1
-          },
-          objectType: 'survey'
-        });
-      } else {
-        uploadSurveyDetailObject(readyToUploadSurveys[index]).then(function() {
+      uploadSurveyDetailObject(readyToUploadSurveys[index], index).
+      then(function() {
           return uploadAllSurveyDetailObject(index + 1);
         });
-      }
     };
     var uploadSurveys = function(files, dataAcquisitionProjectId) {
       if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
@@ -286,7 +330,7 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
                 });
             }, function() {
               JobLoggingService.cancel(
-                'survey-management.log-messages.question.' +
+                'survey-management.log-messages.survey.' +
                 'unable-to-delete', {});
             });
         });

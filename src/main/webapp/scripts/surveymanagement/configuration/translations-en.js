@@ -17,6 +17,13 @@ angular.module('metadatamanagementApp').config(
             'image-file-not-found': 'Image file "{{ file }}" could not be found!',
             'duplicate-survey-number': 'The number ({{ number }}) of Survey {{ index }} has already been used.',
             'cancelled': 'Surveys upload cancelled!'
+          },
+          'survey-attachment': {
+            'not-saved': 'Attachment "{{ id }}" has not been saved.',
+            'missing-survey-number': 'Attachment {{ index }} does not have an survey number and has not been saved.',
+            'unknown-survey-number': 'The number of the survey of attachment {{ index }} does not exist. The attachment has not been saved.',
+            'missing-filename': 'Attachment {{ index }} does not have a filename and has not been saved.',
+            'file-not-found': 'The File {{ filename }} was not found and has not been saved.'
           }
         },
         'detail': {
@@ -38,7 +45,14 @@ angular.module('metadatamanagementApp').config(
           'grossSampleSize': 'Gross Sample Size',
           'sampleSize': 'Net Sample Size',
           'responseRate': 'Response Rate',
-          'response-rate-informations': 'Further information about the Response Rate'
+          'response-rate-informations': 'Further information about the Response Rate',
+          'attachments': {
+            'table-title': 'Documents related to the Survey',
+            'title': 'Title',
+            'description': 'Description',
+            'language': 'Document Language',
+            'file': 'File'
+          }
         },
         'error': {
           'survey': {
@@ -86,6 +100,32 @@ angular.module('metadatamanagementApp').config(
             },
             'response-rate': {
               'not-null': 'The Response Rate of a Survey must not be empty!'
+            }
+          },
+          'survey-attachment-metadata': {
+            'survey-id': {
+              'not-empty': 'The ID of the corresponding Survey must not be empty.'
+            },
+            'survey-number': {
+              'not-null': 'The Number of the corresponding Survey must not be empty.'
+            },
+            'project-id': {
+              'not-empty': 'The ID of the Data Acquisition Project must not be empty!'
+            },
+            'description': {
+              'not-null': 'The description of the attachment must not be empty!',
+              'i18n-string-size': 'The description is mandatory in both languages and must not contain more than 128 characters.'
+            },
+            'title': {
+              'not-null': 'The title of the attachment must not be empty!',
+              'string-size': 'The title of the attachment is mandatory and must not contain more than 128 characters.'
+            },
+            'language': {
+              'not-null': 'The language of the attachment must not be empty!',
+              'not-supported': 'The language of the attachment must be a two-letter abbreviation according to ISO 639-1!'
+            },
+            'filename': {
+              'not-empty': 'The filename of the attachment must not be empty!'
             }
           }
         }
