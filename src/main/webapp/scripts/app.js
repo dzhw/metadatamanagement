@@ -6,7 +6,7 @@ angular
       'pascalprecht.translate',
       'ui.bootstrap', // for modal dialogs
       'elasticsearch', 'hljs', 'ngclipboard',
-      'ngResource', 'ui.router', 'ngCookies', 'ngAria', 'ngCacheBuster',
+      'ngResource', 'ui.router', 'ngCookies', 'ngAria',
       'ngFileUpload', 'ngMaterial',
       'blockUI', 'LocalStorageModule',
       'ngMessages', 'katex'
@@ -75,17 +75,12 @@ angular
   .config(
     function($stateProvider, $urlRouterProvider,
       $httpProvider, $locationProvider, $translateProvider,
-      tmhDynamicLocaleProvider, httpRequestInterceptorCacheBusterProvider,
-      blockUIConfig, $mdThemingProvider, localStorageServiceProvider) {
+      tmhDynamicLocaleProvider, blockUIConfig, $mdThemingProvider,
+      localStorageServiceProvider) {
       localStorageServiceProvider
         .setPrefix('metadatamanagementApp')
         .setStorageType('localStorage')
         .setNotify(true, true);
-      // Cache everything except rest api requests
-      httpRequestInterceptorCacheBusterProvider.setMatchlist([/.*api.*/,
-        /.*protected.*/
-      ], true);
-
       // enable urls without #
       $locationProvider.html5Mode(false);
       $locationProvider.hashPrefix('!');

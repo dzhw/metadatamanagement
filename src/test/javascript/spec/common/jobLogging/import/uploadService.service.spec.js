@@ -91,15 +91,15 @@ xdescribe('UploadService', function() {
     mockApis();
     $httpBackend.whenGET('scripts/components/modal/customModal.html.tmpl').
     respond({});
-    $httpBackend.expectGET(/api\/account\?cacheBuster=\d+/).respond(
+    $httpBackend.expectGET(/api\/account/).respond(
       200, '');
-    $httpBackend.whenPUT(/api\/questions\/testId\?cacheBuster=\d+/)
+    $httpBackend.whenPUT(/api\/questions\/testId/)
     .respond(200,{});
-    $httpBackend.whenPUT(/api\/data-sets\/testId\?cacheBuster=\d+/).respond(
+    $httpBackend.whenPUT(/api\/data-sets\/testId/).respond(
       200,{});
-    $httpBackend.whenPUT(/api\/variables\/testId\?cacheBuster=\d+/).respond(
+    $httpBackend.whenPUT(/api\/variables\/testId/).respond(
       200,{});
-    $httpBackend.whenPUT(/api\/surveys\/testId\?cacheBuster=\d+/).respond(
+    $httpBackend.whenPUT(/api\/surveys\/testId/).respond(
       200,{});
     spyOn($translate,'instant').and.callFake(function() {
       return 'Translated Messages';

@@ -20,7 +20,7 @@ describe('SurveyDeleteResource', function() {
     mockSurveyDeleteResource = $injector.
     get('SurveyDeleteResource');
     $httpBackend.expectPOST(
-      /api\/surveys\/delete\?cacheBuster=\d/)
+      /api\/surveys\/delete/)
       .respond(data);
   }));
   it('should return deleted AtomicQuestion resource ', function() {

@@ -5,7 +5,7 @@ applications:
   path: ../target/metadatamanagement-prod.war
   memory: 1024M
   disk_quota: 1024M
-  instances: 2
+  instances: 3
   host: metadatamanagement
   buildpack: https://github.com/cloudfoundry/java-buildpack
   env:

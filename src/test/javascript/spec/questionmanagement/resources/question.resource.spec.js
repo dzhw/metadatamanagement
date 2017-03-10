@@ -19,7 +19,7 @@ describe('QuestionResource', function() {
     $httpBackend = $injector.get('$httpBackend');
     mockQuestionResource = $injector.get('QuestionResource');
     $httpBackend.expectGET(
-      /api\/questions\?cacheBuster=\d+&projection=complete/)
+      /api\/questions\?projection=complete/)
       .respond(data);
   }));
   it('should return QuestionResource resource ', function() {

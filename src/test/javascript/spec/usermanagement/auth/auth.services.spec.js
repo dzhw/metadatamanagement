@@ -18,7 +18,7 @@ xdescribe('Services Tests ', function() {
       var mainJson = new RegExp('i18n\/.*\/main.json');
       $httpBackend.whenGET(globalJson).respond({});
       $httpBackend.whenGET(mainJson).respond({});
-      $httpBackend.expectPOST(/api\/logout\?cacheBuster=\d+/).respond(
+      $httpBackend.expectPOST(/api\/logout/).respond(
         200, '');
     }));
     //make sure no expectations were missed in your tests.

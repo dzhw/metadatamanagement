@@ -26,7 +26,7 @@ describe('Survey', function() {
   describe('getSurvey', function() {
     it('should call get with id', inject(function() {
       $httpBackend.expectGET(
-        /api\/surveys\?cacheBuster=\d+&projection=complete/).respond(
+        /api\/surveys\?projection=complete/).respond(
         data);
 
       var result = mockSurveyResource.get(1);
@@ -39,7 +39,7 @@ describe('Survey', function() {
     }));
     it('should put', inject(function() {
       $httpBackend.when('PUT',
-        /api\/surveys\/1\?cacheBuster=\d/).respond(
+        /api\/surveys\/1/).respond(
         data);
 
       var result = mockSurveyResource.save(data);

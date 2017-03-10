@@ -20,7 +20,7 @@ describe('QuestionDeleteResource', function() {
     mockQuestionDeleteResource = $injector.
     get('QuestionDeleteResource');
     $httpBackend.expectPOST(
-      /api\/questions\/delete\?cacheBuster=\d/)
+      /api\/questions\/delete/)
       .respond(data);
   }));
   it('should return deleted QuestionResource ', function() {

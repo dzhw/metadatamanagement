@@ -104,9 +104,11 @@ public class SearchResource {
     String completePath =
         (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
     String path = completePath.replaceFirst("/api/search", "");
-    ResponseEntity<String> response = restTemplate.exchange(connectionUrl + path, method,
-        new HttpEntity<>(body, headers), String.class);
-    return response;
+    ResponseEntity<String> responseFromElasticSearch = restTemplate.exchange(
+        connectionUrl + path, method, new HttpEntity<>(body, headers), String.class);
+    ResponseEntity<String> finalResponse = new ResponseEntity<String>(
+        responseFromElasticSearch.getBody(), responseFromElasticSearch.getStatusCode());
+    return finalResponse;
   }
 
   /**

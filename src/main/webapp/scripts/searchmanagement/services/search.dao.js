@@ -82,7 +82,6 @@ angular.module('metadatamanagementApp').service('SearchDao',
                 'match': {
                   '_all': {
                     'query': queryterm,
-                    'type': 'boolean',
                     'operator': 'AND',
                     'minimum_should_match': '100%',
                     'zero_terms_query': 'NONE'

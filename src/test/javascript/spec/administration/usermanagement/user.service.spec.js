@@ -22,7 +22,7 @@ describe('User', function() {
   describe('getUser', function() {
     it('should get User', function() {
       $httpBackend.expectGET(
-        /api\/users\?cacheBuster=\d+/).respond(
+        /api\/users/).respond(
         data);
 
       var result = mockUserResource.get(1);
