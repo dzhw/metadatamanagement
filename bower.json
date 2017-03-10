@@ -5,15 +5,15 @@
   "testPath": "src/test/javascript/spec",
   "dependencies": {
     "jquery": "^3.1.0",
-    "angular": "1.6.2",
-    "angular-aria": "1.6.2",
+    "angular": "1.6.3",
+    "angular-aria": "1.6.3",
     "angular-bootstrap": "2.5.0",
-    "angular-cookies": "1.6.2",
+    "angular-cookies": "1.6.3",
     "angular-dynamic-locale": "0.1.32",
-    "angular-i18n": "1.6.2",
+    "angular-i18n": "1.6.3",
     "angular-local-storage": "0.5.2",
-    "angular-resource": "1.6.2",
-    "angular-sanitize": "1.6.2",
+    "angular-resource": "1.6.3",
+    "angular-sanitize": "1.6.3",
     "angular-translate": "2.14.0",
     "angular-translate-interpolation-messageformat": "2.14.0",
     "angular-translate-storage-cookie": "2.14.0",
@@ -27,22 +27,22 @@
     "jszip-utils": "~0.0.2",
     "angular-translate-handler-log": "2.14.0",
     "angular-nvd3": "^1.0.9",
-    "js-xlsx": "^0.8.8",
+    "js-xlsx": "^0.9.0",
     "cheet.js": "^0.3.3",
     "angular-material": "^1.1.3",
     "angular-block-ui": "^0.2.2",
     "lodash": "^4.17.4",
     "plotly.js": "^1.24.1",
-    "highlightjs": "^9.9.0",
+    "highlightjs": "^9.10.0",
     "angular-highlightjs": "^0.7.1",
     "js-beautify": "^1.6.11",
     "ngclipboard": "^1.1.1",
     "angular-katex": "^0.10.0",
-    "angular-animate": "1.6.2",
-    "angular-messages": "1.6.2"
+    "angular-animate": "1.6.3",
+    "angular-messages": "1.6.3"
   },
   "devDependencies": {
-    "angular-mocks": "1.6.2",
-    "angular-scenario": "1.6.2"
+    "angular-mocks": "1.6.3",
+    "angular-scenario": "1.6.3"
   }
 }
