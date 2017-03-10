@@ -21,7 +21,6 @@ angular.module('metadatamanagementApp').config(
           'survey-attachment': {
             'not-saved': 'Attachment "{{ id }}" has not been saved.',
             'missing-survey-number': 'Attachment {{ index }} does not have an survey number and has not been saved.',
-            'unknown-survey-number': 'The number of the survey of attachment {{ index }} does not exist. The attachment has not been saved.',
             'missing-filename': 'Attachment {{ index }} does not have a filename and has not been saved.',
             'file-not-found': 'The File {{ filename }} was not found and has not been saved.'
           }
