@@ -60,14 +60,14 @@ public class Instrument extends AbstractRdcDomainObject {
   @I18nStringSize(max = StringLengths.MEDIUM, min = 1,
       message = "instrument-management.error.instrument.title.i18n-string-size")
   @I18nStringNotEmpty(message = "instrument-management.error.instrument.title."
-      + "i18n-string-not-emty")
+      + "i18n-string-not-empty")
   private I18nString title;
   
   @NotNull(message = "instrument-management.error.instrument.description.not-null")
   @I18nStringSize(max = StringLengths.MEDIUM, min = 1,
       message = "instrument-management.error.instrument.description.i18n-string-size")
   @I18nStringNotEmpty(message = "instrument-management.error.instrument.description."
-      + "i18n-string-not-emty")
+      + "i18n-string-not-empty")
   private I18nString description;
   
   @NotNull(message = "instrument-management.error.instrument.number.not-null")
