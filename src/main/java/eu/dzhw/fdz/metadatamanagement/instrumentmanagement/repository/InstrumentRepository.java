@@ -59,4 +59,7 @@ public interface InstrumentRepository
 
   @RestResource(exported = false)
   InstrumentSubDocumentProjection findOneSubDocumentById(String instrumentId);
+
+  @RestResource(exported = false)
+  Stream<IdAndVersionProjection> streamIdsByDataAcquisitionProjectId(String projectId);
 }

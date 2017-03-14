@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 import org.junit.Test;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.builders.I18nStringBuilder;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.builders.ReleaseBuilder;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Release;
 
 /**
  * @author Daniel Katzberg

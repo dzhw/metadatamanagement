@@ -38,6 +38,7 @@ angular
           // Reset state memory
           $rootScope.previousStateName = undefined;
           $rootScope.previousStateParams = undefined;
+          $rootScope.$broadcast('user-logged-out');
         },
 
         authorize: function(force) {

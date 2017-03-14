@@ -6,7 +6,6 @@ import org.springframework.data.rest.core.config.Projection;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.AbstractRdcDomainObjectProjection;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 
 /**
@@ -34,8 +33,6 @@ public interface CompleteStudyProjection extends AbstractRdcDomainObjectProjecti
   String getAuthors();
   
   List<String> getAccessWays();
-    
-  List<Release> getReleases();
   
   String getDataAcquisitionProjectId();
   

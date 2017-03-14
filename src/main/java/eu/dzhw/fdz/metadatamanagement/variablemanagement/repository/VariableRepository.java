@@ -32,6 +32,9 @@ public interface VariableRepository
   Stream<IdAndVersionProjection> streamIdsByDataSetId(String dataSetId);
   
   @RestResource(exported = false)
+  Stream<IdAndVersionProjection> streamIdsByDataAcquisitionProjectId(String projectId);
+  
+  @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamAllIdAndVersionsBy();
   
   @RestResource(exported = false)

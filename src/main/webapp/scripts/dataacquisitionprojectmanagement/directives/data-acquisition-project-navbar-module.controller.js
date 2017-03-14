@@ -159,6 +159,19 @@ angular.module('metadatamanagementApp')
         DataAcquisitionProjectPostValidationService
           .postValidate(ctrl.selectedProject.id);
       };
+
+      ctrl.releaseProject = function() {
+        ctrl.selectedProject.release = {
+          version: '1.0',
+          date: '2017-03-14T13:56:27.327'
+        };
+        DataAcquisitionProjectResource.save(ctrl.selectedProject);
+      };
+
+      ctrl.unreleaseProject = function() {
+        delete ctrl.selectedProject.release;
+        DataAcquisitionProjectResource.save(ctrl.selectedProject);
+      };
       loadProjects();
     }
   ]);

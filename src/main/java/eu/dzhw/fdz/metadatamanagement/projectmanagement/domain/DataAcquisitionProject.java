@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.domain;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -34,6 +35,9 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
   @Size(max = StringLengths.SMALL,
       message = "data-acquisition-project.error.data-acquisition-project.id.size")
   private String id;
+  
+  @Valid
+  private Release release;
 
   /*
    * (non-Javadoc)
@@ -56,11 +60,20 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
     return MoreObjects.toStringHelper(this)
       .add("super", super.toString())
       .add("id", id)
+      .add("release", release)
       .toString();
   }
 
   /* GETTER / SETTER */
   public void setId(String id) {
     this.id = id;
+  }
+
+  public Release getRelease() {
+    return release;
+  }
+
+  public void setRelease(Release release) {
+    this.release = release;
   }
 }

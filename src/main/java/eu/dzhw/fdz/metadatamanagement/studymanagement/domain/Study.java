@@ -2,7 +2,6 @@ package eu.dzhw.fdz.metadatamanagement.studymanagement.domain;
 
 import java.util.List;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -102,10 +101,6 @@ public class Study extends AbstractRdcDomainObject {
   @ValidAccessWays(
       message = "study-management.error.study.access-ways.valid-access-ways")
   private List<String> accessWays;
-
-  /* Nested Objects */
-  @Valid
-  private List<Release> releases;
   
   public Study() {
     super();
@@ -200,18 +195,8 @@ public class Study extends AbstractRdcDomainObject {
       .add("dataAvailability", dataAvailability)
       .add("surveyDesign", surveyDesign)
       .add("accessWays", accessWays)
-      .add("releases", releases)
       .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
       .toString();
-  }
-
-
-  public List<Release> getReleases() {
-    return releases;
-  }
-
-  public void setReleases(List<Release> releases) {
-    this.releases = releases;
   }
   
   public I18nString getCitationHint() {

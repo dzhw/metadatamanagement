@@ -54,6 +54,12 @@ public class VariableService {
     deleteAllVariablesByProjectId(dataAcquisitionProject.getId());
   }
   
+  @HandleAfterSave
+  public void onDataAcquisitionProjectUpdated(DataAcquisitionProject dataAcquisitionProject) {
+    enqueueUpserts(variableRepository
+        .streamIdsByDataAcquisitionProjectId(dataAcquisitionProject.getId()));
+  }
+  
   /**
    * A service method for deletion of variables within a data acquisition project.
    * @param dataAcquisitionProjectId the id for to the data acquisition project.

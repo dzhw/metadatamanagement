@@ -185,6 +185,10 @@ angular.module('metadatamanagementApp').controller('SearchController',
         });
       });
 
+    $scope.$on('user-logged-out', function() {
+          $scope.search();
+        });
+
     $scope.onPageChanged = function() {
         writeSearchParamsToLocation();
         $scope.search();

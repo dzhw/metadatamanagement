@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataSetSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.InstrumentSubDocumentProjection;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.projections.QuestionSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projections.RelatedPublicationSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySubDocumentProjection;
@@ -19,7 +20,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.Vari
  * @author Daniel Katzberg
  */
 public class SurveySearchDocument extends Survey {
-  private StudySubDocument study;
+  private StudySubDocument study = null;
   private List<DataSetSubDocument> dataSets = 
       new ArrayList<DataSetSubDocument>();
   private List<VariableSubDocument> variables =
@@ -30,6 +31,7 @@ public class SurveySearchDocument extends Survey {
       new ArrayList<InstrumentSubDocument>();
   private List<QuestionSubDocument> questions = 
       new ArrayList<QuestionSubDocument>();
+  private Release release = null;
   
   /**
    * Construct the search document with all related subdocuments.
@@ -48,7 +50,8 @@ public class SurveySearchDocument extends Survey {
       List<VariableSubDocumentProjection> variables, 
       List<RelatedPublicationSubDocumentProjection> relatedPublications,
       List<InstrumentSubDocumentProjection> instruments,
-      List<QuestionSubDocumentProjection> questions) {
+      List<QuestionSubDocumentProjection> questions,
+      Release release) {
     super(survey);
     if (study != null) {
       this.study = new StudySubDocument(study);      
@@ -73,6 +76,7 @@ public class SurveySearchDocument extends Survey {
       this.questions = questions.stream()
           .map(QuestionSubDocument::new).collect(Collectors.toList());      
     }
+    this.release = release;
   }
 
   public StudySubDocument getStudy() {
@@ -121,5 +125,13 @@ public class SurveySearchDocument extends Survey {
 
   public void setQuestions(List<QuestionSubDocument> questions) {
     this.questions = questions;
+  }
+
+  public Release getRelease() {
+    return release;
+  }
+
+  public void setRelease(Release release) {
+    this.release = release;
   }
 }

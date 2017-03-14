@@ -28,5 +28,17 @@
                 </md-tooltip>
                 <md-icon md-font-set="material-icons">playlist_add_check</md-icon>
             </md-button>
+            <md-button aria-label="{{'global.menu.tooltipps.release-project' | translate}}" class="md-primary md-raised md-icon-button" ng-click="ctrl.releaseProject()" style="margin-right: 0px;" ng-disabled="!ctrl.selectedProject || ctrl.selectedProject.release">
+                <md-tooltip md-direction="bottom">
+                    {{'global.menu.tooltipps.release-project' | translate}}
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">screen_share</md-icon>
+            </md-button>
+            <md-button aria-label="{{'global.menu.tooltipps.unrelease-project' | translate}}" class="md-primary md-raised md-icon-button" ng-click="ctrl.unreleaseProject()" style="margin-right: 0px;" ng-disabled="!ctrl.selectedProject || !ctrl.selectedProject.release">
+                <md-tooltip md-direction="bottom">
+                    {{'global.menu.tooltipps.unrelease-project' | translate}}
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">stop_screen_share</md-icon>
+            </md-button>
         </div>
 </div>

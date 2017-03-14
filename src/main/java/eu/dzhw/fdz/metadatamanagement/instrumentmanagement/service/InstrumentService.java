@@ -59,6 +59,12 @@ public class InstrumentService {
     deleteAllInstrumentsByProjectId(dataAcquisitionProject.getId());
   }
   
+  @HandleAfterSave
+  public void onDataAcquisitionProjectUpdated(DataAcquisitionProject dataAcquisitionProject) {
+    enqueueUpserts(instrumentRepository
+        .streamIdsByDataAcquisitionProjectId(dataAcquisitionProject.getId()));
+  }
+  
   /**
    * A service method for deletion of instruments within a data acquisition project.
    * @param dataAcquisitionProjectId the id for to the data acquisition project.

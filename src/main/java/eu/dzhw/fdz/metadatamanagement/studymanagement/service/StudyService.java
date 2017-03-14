@@ -54,6 +54,12 @@ public class StudyService {
     deleteAllStudiesByProjectId(dataAcquisitionProject.getId());
   }
   
+  @HandleAfterSave
+  public void onDataAcquisitionProjectUpdated(DataAcquisitionProject dataAcquisitionProject) {
+    enqueueUpserts(studyRepository
+        .streamIdsByDataAcquisitionProjectId(dataAcquisitionProject.getId()));
+  }
+  
   /**
    * A service method for deletion of studies within a data acquisition project.
    * @param dataAcquisitionProjectId the id for to the data acquisition project.

@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('SearchDao',
-  function(ElasticSearchClient, CleanJSObjectService) {
+  function(ElasticSearchClient, CleanJSObjectService, Principal) {
     var keyMapping = {
       'studies': {
         'related-publication': 'relatedPublications.id'
@@ -99,6 +99,10 @@ angular.module('metadatamanagementApp').service('SearchDao',
               }],
             }
           };
+        }
+        //only publisher see unreleased projects
+        if (!Principal.hasAuthority('ROLE_PUBLISHER')) {
+          query.body.query.bool.must.push({'exists': {'field': 'release'}});
         }
         //define from
         query.body.from = (pageNumber - 1) * pageSize;

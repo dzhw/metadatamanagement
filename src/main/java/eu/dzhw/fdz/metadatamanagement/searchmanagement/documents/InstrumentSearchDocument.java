@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.projections.QuestionSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projections.RelatedPublicationSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySubDocumentProjection;
@@ -17,7 +18,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.Vari
  * @author René Reitmann
  */
 public class InstrumentSearchDocument extends Instrument {
-  private StudySubDocument study;
+  private StudySubDocument study = null;
   private List<SurveySubDocument> surveys = 
       new ArrayList<SurveySubDocument>();
   private List<QuestionSubDocument> questions = 
@@ -26,6 +27,7 @@ public class InstrumentSearchDocument extends Instrument {
       new ArrayList<VariableSubDocument>();
   private List<RelatedPublicationSubDocument> relatedPublications = 
       new ArrayList<RelatedPublicationSubDocument>();
+  private Release release = null;
   
   /**
    * Construct the search document with all related subdocuments.
@@ -42,7 +44,8 @@ public class InstrumentSearchDocument extends Instrument {
       List<SurveySubDocumentProjection> surveys,
       List<QuestionSubDocumentProjection> questions, 
       List<VariableSubDocumentProjection> variables,
-      List<RelatedPublicationSubDocumentProjection> relatedPublications) {
+      List<RelatedPublicationSubDocumentProjection> relatedPublications,
+      Release release) {
     super(instrument);
     if (study != null) {
       this.study = new StudySubDocument(study);      
@@ -63,6 +66,7 @@ public class InstrumentSearchDocument extends Instrument {
       this.relatedPublications = relatedPublications.stream()
           .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());
     }
+    this.release = release;
   }
 
   public StudySubDocument getStudy() {
@@ -103,5 +107,13 @@ public class InstrumentSearchDocument extends Instrument {
 
   public void setRelatedPublications(List<RelatedPublicationSubDocument> relatedPublications) {
     this.relatedPublications = relatedPublications;
+  }
+
+  public Release getRelease() {
+    return release;
+  }
+
+  public void setRelease(Release release) {
+    this.release = release;
   }
 }

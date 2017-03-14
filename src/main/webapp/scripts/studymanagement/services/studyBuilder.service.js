@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').service('StudyBuilderService',
   function(StudyResource, CleanJSObjectService, StudyIdBuilderService) {
-    var buildStudy = function(studyFromExcel, releases,
+    var buildStudy = function(studyFromExcel,
       dataAcquisitionProjectId) {
       var study = {
         id: StudyIdBuilderService.buildStudyId(
@@ -43,31 +43,13 @@ angular.module('metadatamanagementApp').service('StudyBuilderService',
         authors: studyFromExcel.authors,
         accessWays: CleanJSObjectService.
         removeWhiteSpace(studyFromExcel.accessWays),
-        dataAcquisitionProjectId: dataAcquisitionProjectId,
-        releases: releases
+        dataAcquisitionProjectId: dataAcquisitionProjectId
       };
       var cleanedStudyObject = CleanJSObjectService
         .removeEmptyJsonObjects(study);
       return new StudyResource(cleanedStudyObject);
     };
-    var buildReleases = function(releasesFromExcel) {
-      var releases = [];
-      releasesFromExcel.forEach(function(releaseFromExcel) {
-        var release = {
-          version: releaseFromExcel.version,
-          doi: releaseFromExcel.doi,
-          date: releaseFromExcel.date,
-          notes: {
-            en: releaseFromExcel['notes.en'],
-            de: releaseFromExcel['notes.de'],
-          }
-        };
-        releases.push(release);
-      });
-      return releases;
-    };
     return {
-      buildStudy: buildStudy,
-      buildReleases: buildReleases
+      buildStudy: buildStudy
     };
   });

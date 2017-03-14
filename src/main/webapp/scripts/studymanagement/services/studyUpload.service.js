@@ -64,14 +64,9 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
           }).$promise.then(
             function() {
               var studyExcelFile;
-              var releasesExcelFile;
               files.forEach(function(file) {
-                if (file.name === 'releases.xlsx') {
-                  releasesExcelFile = file;
-                } else {
-                  if (file.name === 'study.xlsx') {
-                    studyExcelFile = file;
-                  }
+                if (file.name === 'study.xlsx') {
+                  studyExcelFile = file;
                 }
               });
               if (!studyExcelFile) {
@@ -80,35 +75,17 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
                 );
                 return;
               }
-              if (!releasesExcelFile) {
-                JobLoggingService.cancel(
-                  'study-management.log-messages.' +
-                  'study.releases-file-not-found', {}
-                );
-                return;
-              }
-              ExcelReaderService.readFileAsync(releasesExcelFile)
-                .then(function(releasesFromExcel) {
-                  var releases = StudyBuilderService
-                    .buildReleases(releasesFromExcel);
-                  ExcelReaderService.readFileAsync(studyExcelFile)
-                    .then(function(studyFromExcel) {
-                      study = StudyBuilderService
-                        .buildStudy(studyFromExcel[0], releases,
-                          dataAcquisitionProjectId);
-                      upload();
-                    }, function() {
-                      JobLoggingService.cancel(
-                        'global.log-messages.unable-to-read-file', {
-                          file: 'study.xlsx'
-                        });
-                    });
+              ExcelReaderService.readFileAsync(studyExcelFile)
+                .then(function(studyFromExcel) {
+                  study = StudyBuilderService
+                    .buildStudy(studyFromExcel[0],
+                      dataAcquisitionProjectId);
+                  upload();
                 }, function() {
-                  JobLoggingService
-                    .cancel(
-                      'global.log-messages.unable-to-read-file', {
-                        file: 'releases.xlsx'
-                      });
+                  JobLoggingService.cancel(
+                    'global.log-messages.unable-to-read-file', {
+                      file: 'study.xlsx'
+                    });
                 });
             },
             function() {

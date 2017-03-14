@@ -4,6 +4,7 @@ import org.springframework.data.rest.core.config.Projection;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.AbstractRdcDomainObjectProjection;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 
 /**
  * Projection used to expose all attributes (including ids and versions). Spring Data rest does not
@@ -15,5 +16,5 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
 @Projection(name = "complete", types = DataAcquisitionProject.class)
 public interface CompleteDataAcquisitionProjectProjection
     extends AbstractRdcDomainObjectProjection {
-  
+  Release getRelease();
 }

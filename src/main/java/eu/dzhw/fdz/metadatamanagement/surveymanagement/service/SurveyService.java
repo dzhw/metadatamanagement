@@ -63,6 +63,12 @@ public class SurveyService {
     deleteAllSurveysByProjectId(dataAcquisitionProject.getId());
   }
   
+  @HandleAfterSave
+  public void onDataAcquisitionProjectUpdated(DataAcquisitionProject dataAcquisitionProject) {
+    enqueueUpserts(surveyRepository
+        .streamIdsByDataAcquisitionProjectId(dataAcquisitionProject.getId()));
+  }
+  
   /**
    * A service method for deletion of surveys within a data acquisition project.
    * @param dataAcquisitionProjectId the id for to the data acquisition project.

@@ -41,4 +41,7 @@ public interface StudyRepository extends MongoRepository<Study, String>,
 
   @RestResource(exported = false)
   StudySubDocumentProjection findOneSubDocumentById(String studyId);
+
+  @RestResource(exported = false)
+  Stream<IdAndVersionProjection> streamIdsByDataAcquisitionProjectId(String id);
 }

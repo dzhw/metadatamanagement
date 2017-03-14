@@ -61,5 +61,8 @@ public interface DataSetRepository
   DataSetSubDocumentProjection findOneSubDocumentById(String dataSetId);
 
   @RestResource(exported = false)
-  List<DataSet> findByStudyId(String id);  
+  List<DataSet> findByStudyId(String id);
+
+  @RestResource(exported = false)
+  Stream<IdAndVersionProjection> streamIdsByDataAcquisitionProjectId(String projectId);  
 }

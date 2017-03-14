@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataSetSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.InstrumentSubDocumentProjection;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projections.RelatedPublicationSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.SurveySubDocumentProjection;
@@ -18,14 +19,15 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
  * @author Daniel Katzberg
  */
 public class VariableSearchDocument extends Variable {
-  private DataSetSubDocument dataSet;
-  private StudySubDocument study;
+  private DataSetSubDocument dataSet = null;
+  private StudySubDocument study = null;
   private List<RelatedPublicationSubDocument> relatedPublications = 
       new ArrayList<RelatedPublicationSubDocument>();
   private List<SurveySubDocument> surveys = 
       new ArrayList<SurveySubDocument>();
   private List<InstrumentSubDocument> instruments = 
-      new ArrayList<InstrumentSubDocument>(); 
+      new ArrayList<InstrumentSubDocument>();
+  private Release release = null;
   
   /**
    * Construct the search document with all related subdocuments.
@@ -42,7 +44,8 @@ public class VariableSearchDocument extends Variable {
       StudySubDocumentProjection study,
       List<RelatedPublicationSubDocumentProjection> relatedPublications, 
       List<SurveySubDocumentProjection> surveys, 
-      List<InstrumentSubDocumentProjection> instruments) {
+      List<InstrumentSubDocumentProjection> instruments,
+      Release release) {
     super(variable);
     if (dataSet != null) {
       this.dataSet = new DataSetSubDocument(dataSet);      
@@ -62,6 +65,7 @@ public class VariableSearchDocument extends Variable {
       this.instruments = instruments.stream()
           .map(InstrumentSubDocument::new).collect(Collectors.toList());
     }
+    this.release = release;
   }
 
   public DataSetSubDocument getDataSet() {
@@ -102,5 +106,13 @@ public class VariableSearchDocument extends Variable {
 
   public void setInstruments(List<InstrumentSubDocument> instruments) {
     this.instruments = instruments;
+  }
+
+  public Release getRelease() {
+    return release;
+  }
+
+  public void setRelease(Release release) {
+    this.release = release;
   }
 }

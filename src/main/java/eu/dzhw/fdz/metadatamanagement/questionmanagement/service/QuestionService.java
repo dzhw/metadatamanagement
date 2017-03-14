@@ -60,6 +60,12 @@ public class QuestionService {
   public void onDataAcquisitionProjectDeleted(DataAcquisitionProject dataAcquisitionProject) {
     deleteQuestionsByProjectId(dataAcquisitionProject.getId());
   }
+  
+  @HandleAfterSave
+  public void onDataAcquisitionProjectUpdated(DataAcquisitionProject dataAcquisitionProject) {
+    enqueueUpserts(questionRepository
+        .streamIdsByDataAcquisitionProjectId(dataAcquisitionProject.getId()));
+  }
 
   /**
    * A service method for deletion of questions within a data acquisition project.

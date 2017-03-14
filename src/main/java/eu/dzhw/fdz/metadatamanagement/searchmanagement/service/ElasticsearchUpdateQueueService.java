@@ -20,6 +20,8 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetReposi
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.InstrumentSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.projections.QuestionSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
@@ -104,6 +106,9 @@ public class ElasticsearchUpdateQueueService {
 
   @Autowired
   private ElasticsearchDao elasticsearchDao;
+  
+  @Autowired
+  private DataAcquisitionProjectRepository projectRepository;
 
   /**
    * Attach one item to the queue.
@@ -260,8 +265,10 @@ public class ElasticsearchUpdateQueueService {
       List<RelatedPublicationSubDocumentProjection> relatedPublications = 
           relatedPublicationRepository.findSudDocumentsByInstrumentIdsContaining(
               instrument.getId());
+      Release release = projectRepository.findOne(instrument.getDataAcquisitionProjectId())
+          .getRelease();
       InstrumentSearchDocument searchDocument = new InstrumentSearchDocument(instrument, 
-          study, surveys, questions, variables, relatedPublications);
+          study, surveys, questions, variables, relatedPublications, release);
       
       bulkBuilder.addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType()
           .name())
@@ -335,8 +342,10 @@ public class ElasticsearchUpdateQueueService {
       if (dataSet.getSurveyIds() != null) {        
         surveys = surveyRepository.findSubDocumentByIdIn(dataSet.getSurveyIds());
       }
+      Release release = projectRepository.findOne(dataSet.getDataAcquisitionProjectId())
+          .getRelease();
       DataSetSearchDocument searchDocument = new DataSetSearchDocument(dataSet, study,
-          variables, relatedPublications, surveys);
+          variables, relatedPublications, surveys, release);
       
       bulkBuilder.addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType()
           .name())
@@ -366,9 +375,11 @@ public class ElasticsearchUpdateQueueService {
           .map(InstrumentSubDocumentProjection::getId).collect(Collectors.toList());
       List<QuestionSubDocumentProjection> questions = questionRepository
           .findSubDocumentsByInstrumentIdIn(instrumentIds);
+      Release release = projectRepository.findOne(survey.getDataAcquisitionProjectId())
+          .getRelease();
       SurveySearchDocument searchDocument =
            new SurveySearchDocument(survey, study, 
-               dataSets, variables, relatedPublications, instruments, questions);
+               dataSets, variables, relatedPublications, instruments, questions, release);
 
       bulkBuilder.addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType()
           .name())
@@ -405,8 +416,10 @@ public class ElasticsearchUpdateQueueService {
             .map(RelatedQuestion::getInstrumentId).collect(Collectors.toList());
         instruments = instrumentRepository.findSubDocumentsByIdIn(instrumentIds);
       }
+      Release release = projectRepository.findOne(variable.getDataAcquisitionProjectId())
+          .getRelease();
       VariableSearchDocument searchDocument = new VariableSearchDocument(variable,
-          dataSet, study, relatedPublications, surveys, instruments);
+          dataSet, study, relatedPublications, surveys, instruments, release);
 
       bulkBuilder.addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType()
           .name())
@@ -440,9 +453,11 @@ public class ElasticsearchUpdateQueueService {
       List<RelatedPublicationSubDocumentProjection> relatedPublications = 
           relatedPublicationRepository
             .findSubDocumentsByQuestionIdsContaining(question.getId());
+      Release release = projectRepository.findOne(question.getDataAcquisitionProjectId())
+          .getRelease();
       QuestionSearchDocument searchDocument =
             new QuestionSearchDocument(question, study, instrument, surveys, variables,
-                relatedPublications);
+                relatedPublications, release);
 
       bulkBuilder.addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType()
           .name())
@@ -476,8 +491,10 @@ public class ElasticsearchUpdateQueueService {
           .findSubDocumentsByStudyId(study.getId());
       List<InstrumentSubDocumentProjection> instruments = instrumentRepository
           .findSubDocumentsByStudyId(study.getId());
+      Release release = projectRepository.findOne(study.getDataAcquisitionProjectId())
+          .getRelease();
       StudySearchDocument searchDocument = new StudySearchDocument(study, dataSets, variables,
-          relatedPublications, surveys, questions, instruments);
+          relatedPublications, surveys, questions, instruments, release);
 
       bulkBuilder.addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType()
           .name())

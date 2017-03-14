@@ -53,4 +53,7 @@ public interface QuestionRepository
   @RestResource(exported = false)
   List<QuestionSubDocumentProjection> findSubDocumentsByInstrumentId(
       String instrumentId);
+
+  @RestResource(exported = false)
+  Stream<IdAndVersionProjection> streamIdsByDataAcquisitionProjectId(String projectId);
 }

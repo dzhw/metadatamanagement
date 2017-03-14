@@ -24,6 +24,7 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAtta
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.builders.InstrumentAttachmentMetadataBuilder;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.builders.InstrumentBuilder;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.builders.DataAcquisitionProjectBuilder;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.builders.ReleaseBuilder;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
@@ -34,7 +35,6 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.builders.Technic
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.builders.RelatedPublicationBuilder;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.DataAvailabilities;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.SurveyDesigns;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.builders.StudyBuilder;
@@ -83,11 +83,7 @@ public class UnitTestCreateDomainObjectUtils {
         .build();
   }
   
-  public static Study buildStudy(String projectId) {
-    
-    List<Release> releases = new ArrayList<>();
-    releases.add(buildRelease());
-    
+  public static Study buildStudy(String projectId) { 
     List<String> accessWays = new ArrayList<>();
     accessWays.add(AccessWays.DOWNLOAD_CUF);
     accessWays.add(AccessWays.REMOTE_DESKTOP);
@@ -113,7 +109,6 @@ public class UnitTestCreateDomainObjectUtils {
             .withDe("Survey Series De")
             .withEn("Survey Series En")
             .build())
-        .withReleases(releases)
         .withSponsor(new I18nStringBuilder()
             .withDe("Sponsor De")
             .withEn("Sponsor En")

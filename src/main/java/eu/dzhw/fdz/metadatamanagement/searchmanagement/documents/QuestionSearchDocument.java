@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.InstrumentSubDocumentProjection;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projections.RelatedPublicationSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySubDocumentProjection;
@@ -23,6 +24,7 @@ public class QuestionSearchDocument extends Question {
       new ArrayList<VariableSubDocument>();
   private List<RelatedPublicationSubDocument> relatedPublications = 
       new ArrayList<RelatedPublicationSubDocument>();
+  private Release release = null;
   
   /**
    * Construct the search document with all related subdocuments.
@@ -38,7 +40,8 @@ public class QuestionSearchDocument extends Question {
       StudySubDocumentProjection study, 
       InstrumentSubDocumentProjection instrument,
       List<SurveySubDocumentProjection> surveys, List<VariableSubDocumentProjection> variables, 
-      List<RelatedPublicationSubDocumentProjection> relatedPublications) {
+      List<RelatedPublicationSubDocumentProjection> relatedPublications,
+      Release release) {
     super(question);
     if (study != null) {
       this.study = new StudySubDocument(study);            
@@ -58,6 +61,7 @@ public class QuestionSearchDocument extends Question {
       this.relatedPublications = relatedPublications.stream()
           .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());      
     }
+    this.release = release;
   }
 
   public StudySubDocument getStudy() {
@@ -98,5 +102,13 @@ public class QuestionSearchDocument extends Question {
 
   public void setRelatedPublications(List<RelatedPublicationSubDocument> relatedPublications) {
     this.relatedPublications = relatedPublications;
+  }
+
+  public Release getRelease() {
+    return release;
+  }
+
+  public void setRelease(Release release) {
+    this.release = release;
   }
 }

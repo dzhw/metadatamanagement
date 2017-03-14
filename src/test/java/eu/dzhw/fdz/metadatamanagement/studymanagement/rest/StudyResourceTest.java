@@ -153,21 +153,6 @@ public class StudyResourceTest extends AbstractTest {
   }
   
   @Test
-  public void testUpdateStudyWithInvalidReleaseDoi() throws IOException, Exception {
-    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
-    dataAcquisitionProjectRepository.save(project);
-    
-    Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
-    study.getReleases().get(0).setDoi("ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong." + 
-        "ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.");
-    
-    // Try to put into mongo db
-    mockMvc.perform(put(API_STUDY_URI + "/" + study.getId())
-      .content(TestUtil.convertObjectToJsonBytes(study)))
-      .andExpect(status().is4xxClientError());
-  }
-  
-  @Test
   public void testUpdateStudyWithWrongId() throws IOException, Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);

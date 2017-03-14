@@ -43,4 +43,7 @@ public interface SurveyRepository
 
   @RestResource(exported = false)
   List<SurveySubDocumentProjection> findSubDocumentByStudyId(String id);
+
+  @RestResource(exported = false)
+  Stream<IdAndVersionProjection> streamIdsByDataAcquisitionProjectId(String projectId);
 }
