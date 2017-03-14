@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation.ValidInstrumentAttachmentType;
@@ -41,12 +42,16 @@ public class InstrumentAttachmentMetadata extends AbstractRdcDomainObject {
       "instrument-management.error.instrument-attachment-metadata.description.not-null")
   @I18nStringSize(min = 1, max = StringLengths.MEDIUM, message =
       "instrument-management.error.instrument-attachment-metadata.description.i18n-string-size")
+  @I18nStringNotEmpty(message = "instrument-management.error.instrument-attachment-metadata."
+      + "description.i18n-string-not-empty")
   private I18nString description;
   
   @NotNull(message = 
       "instrument-management.error.instrument-attachment-metadata.title.not-null")
   @Size(max = StringLengths.MEDIUM, message =
       "instrument-management.error.instrument-attachment-metadata.title.string-size")
+  @I18nStringNotEmpty(message = "instrument-management.error.instrument-attachment-metadata."
+      + "title.i18n-string-not-empty")
   private String title;
   
   @NotNull(message = 

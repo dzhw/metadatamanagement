@@ -18,6 +18,7 @@ import com.google.common.base.MoreObjects;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation.ValidInstrumentIdPattern;
@@ -58,11 +59,15 @@ public class Instrument extends AbstractRdcDomainObject {
   @NotNull(message = "instrument-management.error.instrument.title.not-null")
   @I18nStringSize(max = StringLengths.MEDIUM, min = 1,
       message = "instrument-management.error.instrument.title.i18n-string-size")
+  @I18nStringNotEmpty(message = "instrument-management.error.instrument.title."
+      + "i18n-string-not-emty")
   private I18nString title;
   
   @NotNull(message = "instrument-management.error.instrument.description.not-null")
   @I18nStringSize(max = StringLengths.MEDIUM, min = 1,
       message = "instrument-management.error.instrument.description.i18n-string-size")
+  @I18nStringNotEmpty(message = "instrument-management.error.instrument.description."
+      + "i18n-string-not-emty")
   private I18nString description;
   
   @NotNull(message = "instrument-management.error.instrument.number.not-null")

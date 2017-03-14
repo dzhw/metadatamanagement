@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation.ValidIsoLanguage;
@@ -31,6 +32,8 @@ public class SurveyAttachmentMetadata extends AbstractRdcDomainObject {
       "survey-management.error.survey-attachment-metadata.description.not-null")
   @I18nStringSize(min = 1, max = StringLengths.MEDIUM, message =
       "survey-management.error.survey-attachment-metadata.description.i18n-string-size")
+  @I18nStringNotEmpty(message = "survey-management.error.survey-attachment-metadata." 
+      + "description.i18n-string-not-empty")
   private I18nString description;
   
   @NotNull(message = 
