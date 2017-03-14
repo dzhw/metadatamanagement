@@ -13,7 +13,12 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
     var filesMap;
     var previouslyUploadedSurveyNumbers;
     var createSurveysFileMap = function(files, dataAcquisitionProjectId) {
-      filesMap = {};
+      filesMap = {'surveys': {
+        'dataAcquisitionProjectId': dataAcquisitionProjectId,
+        'excelFile': '',
+        'images': {},
+        'attachments': {}
+      }};
       files.forEach(function(file) {
         var path;
         if (file.path) {
@@ -21,46 +26,22 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
         } else {
           if (file.webkitRelativePath) {
             path = _.split(file.webkitRelativePath, '/');
+          } else {
+            path = [file.name];
           }
         }
-        var pathLength = path.length;
-        var fileName = _.last(path);
-        var fileType = _.split(fileName, '.')[1];
-        switch (fileType) {
-          case 'xlsx':
-            if (!filesMap[path[pathLength - 2]]) {
-              filesMap[path[pathLength - 2]] = {};
-              filesMap[path[pathLength - 2]].dataAcquisitionProjectId =
-              dataAcquisitionProjectId;
-              filesMap[path[pathLength - 2]].excelFile = {};
-              filesMap[path[pathLength - 2]].attachmentFiles = {};
-              filesMap[path[pathLength - 2]].svgFiles = {};
-            }
-            filesMap[path[pathLength - 2]].excelFile = file;
+        var parentFolder = _.last(_.initial(path));
+        switch (parentFolder) {
+          case 'images':
+            filesMap.surveys.images[_.split(file.name, '.')[0]] = file;
           break;
-          case 'svg':
-            if (!filesMap[path[pathLength - 3]]) {
-              filesMap[path[pathLength - 3]] = {};
-              filesMap[path[pathLength - 3]].dataAcquisitionProjectId =
-              dataAcquisitionProjectId;
-              filesMap[path[pathLength - 3]].excelFile = {};
-              filesMap[path[pathLength - 3]].attachmentFiles = {};
-              filesMap[path[pathLength - 3]].svgFiles = {};
-            }
-            filesMap[path[pathLength - 3]]
-            .svgFiles[_.split(fileName, '.svg')[0]] = file;
+          case 'attachments':
+            filesMap.surveys.attachments[file.name] = file;
           break;
           default:
-            if (!filesMap[path[pathLength - 3]]) {
-              filesMap[path[pathLength - 3]] = {};
-              filesMap[path[pathLength - 3]].dataAcquisitionProjectId =
-              dataAcquisitionProjectId;
-              filesMap[path[pathLength - 3]].excelFile = {};
-              filesMap[path[pathLength - 3]].attachmentFiles = {};
-              filesMap[path[pathLength - 3]].svgFiles = {};
+            if (file.name === 'surveys.xlsx') {
+              filesMap.surveys.excelFile = file;
             }
-            filesMap[path[pathLength - 3]]
-            .attachmentFiles[fileName] = file;
           break;
         }
       });
@@ -143,18 +124,18 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
         var surveyDetailsObject = {
           'survey': survey,
           'images': {
-            'de': filesMap.surveys.svgFiles[survey.number + '_responserate_de'],
-            'en': filesMap.surveys.svgFiles[survey.number + '_responserate_en']
+            'de': filesMap.surveys.images[survey.number + '_responserate_de'],
+            'en': filesMap.surveys.images[survey.number + '_responserate_en']
           },
           'attachments': []
         };
         attachments.forEach(function(attachment) {
           if (attachment.fileName) {
-            if (filesMap.surveys.attachmentFiles[attachment.fileName]) {
+            if (filesMap.surveys.attachments[attachment.fileName]) {
               if (attachment.surveyId === survey.id) {
                 surveyDetailsObject.attachments.push({
                   'metadata': attachment,
-                  'file': filesMap.surveys.attachmentFiles[attachment.fileName]
+                  'file': filesMap.surveys.attachments[attachment.fileName]
                 });
               }
             } else {
