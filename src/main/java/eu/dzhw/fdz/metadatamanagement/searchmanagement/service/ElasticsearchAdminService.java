@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.service;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Arrays;
@@ -194,11 +195,9 @@ public class ElasticsearchAdminService {
    * @return A JSON Representation of the Settings.
    */
   private JsonObject loadSettings() {
-    try {
-      Reader reader = new InputStreamReader(
-          resourceLoader.getResource("classpath:elasticsearch/settings.json")
-            .getInputStream(),
-          "UTF-8");
+    try (InputStream inputStream = resourceLoader
+          .getResource("classpath:elasticsearch/settings.json").getInputStream();
+         Reader reader = new InputStreamReader(inputStream,"UTF-8");) {
       JsonObject settings = jsonParser.parse(reader)
           .getAsJsonObject();
       return settings;
@@ -214,10 +213,10 @@ public class ElasticsearchAdminService {
    * @return A Json Representation of a Mapping
    */
   private JsonObject loadMapping(String type) {
-    try {
-      Reader reader = new InputStreamReader(resourceLoader
-          .getResource("classpath:elasticsearch/" + type + "/mapping.json")
-          .getInputStream(), "UTF-8");
+    try (InputStream inputStream = resourceLoader
+        .getResource("classpath:elasticsearch/" + type + "/mapping.json")
+        .getInputStream();
+         Reader reader = new InputStreamReader(inputStream, "UTF-8");) {
       JsonObject mapping = jsonParser.parse(reader)
           .getAsJsonObject();
       return mapping;

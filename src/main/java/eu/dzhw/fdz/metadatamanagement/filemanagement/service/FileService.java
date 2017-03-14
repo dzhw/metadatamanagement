@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.filemanagement.service;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 import javax.annotation.PostConstruct;
@@ -88,10 +89,14 @@ public class FileService {
    * @param fileName The fileName which gets prefixed with /tmp/
    * @param contentType the content type of the file
    * @return the final filename
+   * @throws IOException thrown when the input stream cannot be closed
    */
-  public String saveTempFile(InputStream stream, String fileName, String contentType) {
-    GridFSFile gridFsFile = this.gridfOperations.store(stream, "/tmp/" + fileName, contentType);
-    gridFsFile.validate();
-    return gridFsFile.getFilename();
+  public String saveTempFile(InputStream stream, String fileName, String contentType)
+      throws IOException {
+    try (InputStream inputStream = stream) {
+      GridFSFile gridFsFile = this.gridfOperations.store(stream, "/tmp/" + fileName, contentType);
+      gridFsFile.validate();
+      return gridFsFile.getFilename();      
+    }
   }
 }

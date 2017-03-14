@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.questionmanagement.service;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +28,16 @@ public class QuestionImageService {
    * @param questionId The id of the question to be saved
    * @param contentType The mime-type of the image
    * @return return the name of the saved image in the GridFS / MongoDB.
+   * @throws IOException Thrown when the input stream cannot be closed
    */
   public String saveQuestionImage(InputStream inputStream,
-      String questionId, String contentType) {
-    GridFSFile gridFsFile = this.operations.store(inputStream, 
-        "/questions/" + questionId, contentType);
-    gridFsFile.validate();
-    return gridFsFile.getFilename();
+      String questionId, String contentType) throws IOException {
+    try (InputStream in = inputStream) {
+      GridFSFile gridFsFile = this.operations.store(inputStream, 
+          "/questions/" + questionId, contentType);
+      gridFsFile.validate();
+      return gridFsFile.getFilename();      
+    }
   }
   
   /**

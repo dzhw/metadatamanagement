@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -38,19 +39,22 @@ public class InstrumentAttachmentService {
    * @param contentType The contentType of the attachment.
    * @param metadata The metadata of the attachment.
    * @return The GridFs filename.
+   * @throws IOException thrown when the input stream cannot be closed
    */
   public String createInstrumentAttachment(InputStream inputStream,
-      String contentType, InstrumentAttachmentMetadata metadata) {
-    String currentUser = SecurityUtils.getCurrentUserLogin();
-    metadata.setVersion(0L);
-    metadata.setCreatedDate(LocalDateTime.now());
-    metadata.setCreatedBy(currentUser);
-    metadata.setLastModifiedBy(currentUser);
-    metadata.setLastModifiedDate(LocalDateTime.now());
-    GridFSFile gridFsFile = this.operations.store(inputStream, 
-        buildFileName(metadata), contentType, metadata);
-    gridFsFile.validate();
-    return gridFsFile.getFilename();
+      String contentType, InstrumentAttachmentMetadata metadata) throws IOException {
+    try (InputStream in = inputStream) {
+      String currentUser = SecurityUtils.getCurrentUserLogin();
+      metadata.setVersion(0L);
+      metadata.setCreatedDate(LocalDateTime.now());
+      metadata.setCreatedBy(currentUser);
+      metadata.setLastModifiedBy(currentUser);
+      metadata.setLastModifiedDate(LocalDateTime.now());
+      GridFSFile gridFsFile = this.operations.store(inputStream, 
+          buildFileName(metadata), contentType, metadata);
+      gridFsFile.validate();
+      return gridFsFile.getFilename();      
+    }
   }
   
   /**

@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.service;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +29,17 @@ public class SurveyResponseRateImageService {
    * @param surveyId The id of the question to be saved
    * @param contentType The mime-type of the image
    * @return return the name of the saved image in the GridFS / MongoDB.
+   * @throws IOException thrown if the input stream cannot be closed
    */
   public String saveSurveyImage(InputStream inputStream,
-      String surveyId, String fileName, String contentType) {
-    String relativePathWithName = "/surveys/" + surveyId + "/" + fileName;    
-    GridFSFile gridFsFile = this.operations.store(inputStream, relativePathWithName, contentType);
-    gridFsFile.validate();
-    
-    return gridFsFile.getFilename();
+      String surveyId, String fileName, String contentType) throws IOException {
+    try (InputStream in = inputStream) {
+      String relativePathWithName = "/surveys/" + surveyId + "/" + fileName;    
+      GridFSFile gridFsFile = this.operations.store(in, relativePathWithName, contentType);
+      gridFsFile.validate();
+      
+      return gridFsFile.getFilename();      
+    }
   }
   
   /**

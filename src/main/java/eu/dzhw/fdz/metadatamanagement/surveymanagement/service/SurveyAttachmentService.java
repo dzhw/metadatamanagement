@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.service;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -37,19 +38,22 @@ public class SurveyAttachmentService {
    * @param contentType The contentType of the attachment.
    * @param metadata The metadata of the attachment.
    * @return The GridFs filename.
+   * @throws IOException thrown when the input stream is not closable
    */
   public String createSurveyAttachment(InputStream inputStream,
-      String contentType, SurveyAttachmentMetadata metadata) {
-    String currentUser = SecurityUtils.getCurrentUserLogin();
-    metadata.setVersion(0L);
-    metadata.setCreatedDate(LocalDateTime.now());
-    metadata.setCreatedBy(currentUser);
-    metadata.setLastModifiedBy(currentUser);
-    metadata.setLastModifiedDate(LocalDateTime.now());
-    GridFSFile gridFsFile = this.operations.store(inputStream, 
-        buildFileName(metadata), contentType, metadata);
-    gridFsFile.validate();
-    return gridFsFile.getFilename();
+      String contentType, SurveyAttachmentMetadata metadata) throws IOException {
+    try (InputStream in = inputStream) {
+      String currentUser = SecurityUtils.getCurrentUserLogin();
+      metadata.setVersion(0L);
+      metadata.setCreatedDate(LocalDateTime.now());
+      metadata.setCreatedBy(currentUser);
+      metadata.setLastModifiedBy(currentUser);
+      metadata.setLastModifiedDate(LocalDateTime.now());
+      GridFSFile gridFsFile = this.operations.store(in, 
+          buildFileName(metadata), contentType, metadata);
+      gridFsFile.validate();
+      return gridFsFile.getFilename();      
+    }
   }
   
   /**

@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.datasetmanagement.service;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
@@ -222,19 +223,21 @@ public class DataSetReportService {
    * @param byteArrayOutputStream The latex file as byteArrayOutputStream
    * @param fileName The name of the file to be saved
    * @return return the file name of the saved latex template in the GridFS / MongoDB.
+   * @throws IOException thrown if a stream cannot be closed
    */
   private String saveCompleteTexTemplate(ByteArrayOutputStream byteArrayOutputStream,
-      String fileName) {
-
-    // prepare additional information for tex file.
-    ByteArrayInputStream byteArrayInputStream =
-        new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
-
-    // No Update by API, so we have to delete first.
-    fileService.deleteTempFile(fileName);
-
-    // Save tex file, based on the bytearray*streams
-    return fileService.saveTempFile(byteArrayInputStream, fileName, CONTENT_TYPE_ZIP);
+      String fileName) throws IOException {
+    try (OutputStream outputStream = byteArrayOutputStream) {
+      // prepare additional information for tex file.
+      ByteArrayInputStream byteArrayInputStream =
+          new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
+      
+      // No Update by API, so we have to delete first.
+      fileService.deleteTempFile(fileName);
+      
+      // Save tex file, based on the bytearray*streams
+      return fileService.saveTempFile(byteArrayInputStream, fileName, CONTENT_TYPE_ZIP);      
+    }
   }
 
   /**
