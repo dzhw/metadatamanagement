@@ -293,28 +293,28 @@ angular.module('metadatamanagementApp').controller('SearchController',
       uploadFunction: $scope.uploadStudy,
       disabled: false
     }, {
-      title: 'search-management.tabs.questions',
-      inputLabel: 'search-management.input-label.questions',
-      icon: 'assets/images/icons/question.svg',
-      elasticSearchType: 'questions',
-      count: null,
-      uploadFunction: $scope.uploadQuestions,
-      disabled: false
-    }, {
-      title: 'search-management.tabs.variables',
-      inputLabel: 'search-management.input-label.variables',
-      icon: 'assets/images/icons/variable.svg',
-      elasticSearchType: 'variables',
-      count: null,
-      uploadFunction: $scope.uploadVariables,
-      disabled: false
-    }, {
       title: 'search-management.tabs.surveys',
       inputLabel: 'search-management.input-label.surveys',
       icon: 'assets/images/icons/survey.svg',
       elasticSearchType: 'surveys',
       count: null,
       uploadFunction: $scope.uploadSurveys,
+      disabled: false
+    }, {
+      title: 'search-management.tabs.instruments',
+      inputLabel: 'search-management.input-label.instruments',
+      icon: 'assets/images/icons/instrument.svg',
+      elasticSearchType: 'instruments',
+      count: null,
+      uploadFunction: $scope.uploadInstruments,
+      disabled: false
+    }, {
+      title: 'search-management.tabs.questions',
+      inputLabel: 'search-management.input-label.questions',
+      icon: 'assets/images/icons/question.svg',
+      elasticSearchType: 'questions',
+      count: null,
+      uploadFunction: $scope.uploadQuestions,
       disabled: false
     }, {
       title: 'search-management.tabs.data_sets',
@@ -325,12 +325,12 @@ angular.module('metadatamanagementApp').controller('SearchController',
       uploadFunction: $scope.uploadDataSets,
       disabled: false
     }, {
-      title: 'search-management.tabs.instruments',
-      inputLabel: 'search-management.input-label.instruments',
-      icon: 'assets/images/icons/instrument.svg',
-      elasticSearchType: 'instruments',
+      title: 'search-management.tabs.variables',
+      inputLabel: 'search-management.input-label.variables',
+      icon: 'assets/images/icons/variable.svg',
+      elasticSearchType: 'variables',
       count: null,
-      uploadFunction: $scope.uploadInstruments,
+      uploadFunction: $scope.uploadVariables,
       disabled: false
     }, {
       title: 'search-management.tabs.related_publications',
