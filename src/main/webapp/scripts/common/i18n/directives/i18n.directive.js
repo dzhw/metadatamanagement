@@ -7,17 +7,42 @@ angular.module('metadatamanagementApp').directive('i18n',
                     return {
                       pre: function(scope, element, attrs) {
                         var htmlElement;
-                        if (attrs.label) {
-                          htmlElement = $compile('<div lang="{{language}}" ' +
-                          'style="margin-bottom: 0.5em;" ' +
-                          'ng-if="toDisplayString"><span style="font-weight: ' +
-                          'bold;">{{toDisplayLabel}}:' +
-                          '</span><span>{{toDisplayString}}</span></div>')
-                          (scope);
-                        } else {
-                          htmlElement = $compile('<p lang="{{language}}">' +
-                          '{{toDisplayString}}</p>')
-                          (scope);
+                        switch (attrs.type) {
+                          case 'table-cell':
+                            htmlElement = $compile('<span lang="{{language}}' +
+                            '">{{toDisplayString}}&nbsp;</span>')(scope);
+                          break;
+                          case 'image':
+                            htmlElement = $compile('<div style="max-height:' +
+                            '211px; overflow-y:hidden;"><img lang="' +
+                            '{{language}}" alt="{{toDisplayString}}" style=' +
+                            '"width: 100%; height: auto" ng-src="{{sourceLink' +
+                            '}}"/><md-tooltip hide-xs hide-sm md-direction=' +
+                            '"bottom" style="height: auto !important;">' +
+                            '{{toDisplayString}}</md-tooltip></div>')(scope);
+                          break;
+                          default:
+                            if (attrs.icon) {
+                              htmlElement = $compile('<div class="' +
+                              'fdz-truncate-string" flex><a ui-sref="' +
+                              '{{state.name}}({{state.params}})"><md-icon ' +
+                              'md-svg-src="/assets/images/icons/{{icon}}' +
+                              '.svg"></md-icon>&nbsp;{{toDisplayLabel}}' +
+                              ':&nbsp;{{toDisplayString}}</a></div>')(scope);
+                            } else {
+                              if (attrs.label) {
+                                htmlElement = $compile('<div lang="{{language' +
+                                '}}" style="margin-bottom: 0.5em;" ' +
+                                'ng-if="toDisplayString"><span style="' +
+                                'font-weight: bold;">{{toDisplayLabel}}:' +
+                                '&nbsp;</span><span>{{toDisplayString}}' +
+                                '</span></div>')(scope);
+                              } else {
+                                htmlElement = $compile('<p lang="{{language}}' +
+                                '">{{toDisplayString}}</p>')(scope);
+                              }
+                            }
+                          break;
                         }
                         element.append(htmlElement);
                       }
@@ -47,7 +72,11 @@ angular.module('metadatamanagementApp').directive('i18n',
       scope: {
         i18nString: '=',
         label: '@',
-        currentLanguage: '='
+        currentLanguage: '=',
+        type: '@',
+        sourceLink: '@',
+        icon: '@',
+        state: '='
       }
     };
   });

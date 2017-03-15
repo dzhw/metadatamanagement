@@ -12,36 +12,25 @@
                 </md-card-header>
                 <md-divider></md-divider>
                 <md-card-content>
-                    <div style="margin-bottom: 0.5em;" ng-if="ctrl.survey.population">
-                        <span style="font-weight: bold;">{{'survey-management.detail.population' | translate }}:</span>
-                        <span>{{ctrl.survey.population[currentLanguage]}}</span>
-                    </div>
-                    <div style="margin-bottom: 0.5em;" ng-if="ctrl.survey.sample">
-                        <span style="font-weight: bold;">{{'survey-management.detail.sample' | translate }}:</span>
-                        <span>{{ctrl.survey.sample[currentLanguage]}}</span>
-                    </div>
-                    <div style="margin-bottom: 0.5em;" ng-if="ctrl.survey.surveyMethod">
-                        <span style="font-weight: bold;">{{'survey-management.detail.survey-method' | translate }}:</span>
-                        <span>{{ctrl.survey.surveyMethod[currentLanguage]}}</span>
-                    </div>
-                    <div style="margin-bottom: 0.5em;" ng-if="ctrl.survey.fieldPeriod">
-                        <span style="font-weight: bold;">{{'survey-management.detail.field-period' | translate }}:</span>
-                        <span>{{ctrl.survey.fieldPeriod.start | date}}
-                -
-                {{ctrl.survey.fieldPeriod.end | date}}</span>
-                    </div>
-                    <div style="margin-bottom: 0.5em;" ng-if="ctrl.survey.grossSampleSize">
-                        <span style="font-weight: bold;">{{'survey-management.detail.grossSampleSize' | translate }}:</span>
-                        <span>N = {{ctrl.survey.grossSampleSize | number}}</span>
-                    </div>
-                    <div style="margin-bottom: 0.5em;" ng-if="ctrl.survey.sampleSize">
-                        <span style="font-weight: bold;">{{'survey-management.detail.sampleSize' | translate }}:</span>
-                        <span>N = {{ctrl.survey.sampleSize | number}}</span>
-                    </div>
-                    <div style="margin-bottom: 0.5em;" ng-if="ctrl.survey.responseRate">
-                        <span style="font-weight: bold;">{{'survey-management.detail.responseRate' | translate }}:</span>
-                        <span>{{ctrl.survey.responseRate | number}}%</span>
-                    </div>
+                  <i18n i18n-string=ctrl.survey.population current-language=currentLanguage label='survey-management.detail.population' type></i18n>
+                  <i18n i18n-string=ctrl.survey.sample current-language=currentLanguage label='survey-management.detail.sample' type></i18n>
+                  <i18n i18n-string=ctrl.survey.surveyMethod current-language=currentLanguage label='survey-management.detail.survey-method' type></i18n>
+                  <div style="margin-bottom: 0.5em;" ng-if="ctrl.survey.fieldPeriod">
+                    <span style="font-weight: bold;">{{'survey-management.detail.field-period' | translate }}:</span>
+                    <span>{{ctrl.survey.fieldPeriod.start | date}} - {{ctrl.survey.fieldPeriod.end | date}}</span>
+                  </div>
+                  <div style="margin-bottom: 0.5em;" ng-if="ctrl.survey.grossSampleSize">
+                    <span style="font-weight: bold;">{{'survey-management.detail.grossSampleSize' | translate }}:</span>
+                    <span>N = {{ctrl.survey.grossSampleSize | number}}</span>
+                  </div>
+                  <div style="margin-bottom: 0.5em;" ng-if="ctrl.survey.sampleSize">
+                    <span style="font-weight: bold;">{{'survey-management.detail.sampleSize' | translate }}:</span>
+                    <span>N = {{ctrl.survey.sampleSize | number}}</span>
+                  </div>
+                  <div style="margin-bottom: 0.5em;" ng-if="ctrl.survey.responseRate">
+                    <span style="font-weight: bold;">{{'survey-management.detail.responseRate' | translate }}:</span>
+                    <span>{{ctrl.survey.responseRate | number}}%</span>
+                  </div>
                 </md-card-content>
             </md-card>
         </div>
@@ -54,27 +43,25 @@
                 </md-card-header>
                 <md-divider></md-divider>
                 <md-card-content layout="column" layout-align="center start">
+                </i18n>
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                         <div ng-if="!ctrl.study" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
                             {{'study-management.detail.study' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
-                        <div ng-if="ctrl.study" class="fdz-truncate-string" flex>
-                            <a ui-sref="studyDetail({id: ctrl.study.id})">
-                                <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
-                                {{'study-management.detail.study' | translate }}: {{ctrl.study.title[currentLanguage]}}</a>
-                        </div>
+                        <i18n style="width: 100%;" ng-if="ctrl.study" i18n-string=ctrl.study.title current-language=currentLanguage label='study-management.detail.study'
+                              state="{name: 'studyDetail', params:{id: ctrl.study.id}}" icon='study' type>
+                        </i18n>
                     </div>
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                         <div ng-if="ctrl.counts.instrumentsCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
                             {{'instrument-management.detail.instruments' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
-                        <div ng-if="ctrl.counts.instrumentsCount === 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="instrumentDetail({'id': ctrl.instrument.id})">
-                                <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
-                                {{'instrument-management.detail.instrument' | translate }}: {{ctrl.instrument.description[currentLanguage]}}</a>
-                        </div>
+                        <i18n style="width: 100%;" ng-if="ctrl.instrument && ctrl.counts.instrumentsCount === 1" i18n-string=ctrl.instrument.description
+                              current-language=currentLanguage label='instrument-management.detail.instrument'
+                              state="{name: 'instrumentDetail', params:{id: ctrl.instrument.id}}" icon='instrument' type>
+                        </i18n>
                         <div ng-if="ctrl.counts.instrumentsCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'instruments', 'survey':ctrl.survey.id, 'page': 1})">
                                 <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
@@ -86,11 +73,10 @@
                             <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
                             {{'data-set-management.detail.data-sets' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
-                        <div ng-if="ctrl.counts.dataSetsCount == 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="dataSetDetail({'id': ctrl.dataSet.id})">
-                                <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
-                                {{'data-set-management.detail.data-set' | translate }}: {{ctrl.dataSet.description[currentLanguage]}}</a>
-                        </div>
+                        <i18n style="width: 100%;" ng-if="ctrl.dataSet && ctrl.counts.dataSetsCount === 1" i18n-string=ctrl.dataSet.description
+                              current-language=currentLanguage label='data-set-management.detail.data-set'
+                              state="{name: 'dataSetDetail', params: {'id': ctrl.dataSet.id}}" icon='data-set' type>
+                        </i18n>
                         <div ng-if="ctrl.counts.dataSetsCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'data_sets', 'survey':ctrl.survey.id, 'page': 1})">
                                 <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
@@ -163,10 +149,9 @@
                 <tbody>
                     <tr ng-repeat="row in ctrl.attachments">
                         <td lang="{{row.language}}">{{row.title}}&nbsp;</td>
-                        <td>{{row.description[currentLanguage]}}&nbsp;</td>
+                        <td><i18n i18n-string=row.description language=currentLanguage type='table-cell'></i18n></td>
                         <td>{{row.language | displayIsoLanguage: currentLanguage}}&nbsp;</td>
-                        <td>
-                            <a ng-href="{{row.id}}" target="_blank">{{row.fileName}}</a>&nbsp;</td>
+                        <td><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}</a>&nbsp;</td>
                     </tr>
                 </tbody>
             </table>
