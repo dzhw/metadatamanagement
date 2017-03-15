@@ -146,7 +146,7 @@ public class DataSetReportService {
 
     // Zip the filled templates.
     String bibReferenceForTemplateStr =
-        new String(texTemplates.get(KEY_REFERENCES_BIB), StandardCharsets.UTF_8);
+        IOUtils.toString(texTemplates.get(KEY_REFERENCES_BIB), StandardCharsets.UTF_8.name());
     filledTemplates.put(KEY_REFERENCES_BIB,
         this.fillTemplate(bibReferenceForTemplateStr, templateConfiguration, dataForTemplate));
     String introductionForTemplateStr = 
