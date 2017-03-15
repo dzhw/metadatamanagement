@@ -204,7 +204,6 @@ public class DataSetReportService {
    * @param texTemplates All uploaded texTemplates 
    * @return True if all files are included. False min one file is missing.
    */
-  //TODO DKatzberg Other / new files in Structure
   private List<String> validateDataSetReportStructure(Map<String, byte[]> texTemplates) {
     List<String> missingTexFiles = new ArrayList<>();
     
@@ -220,6 +219,54 @@ public class DataSetReportService {
     
     if (!texTemplates.containsKey(KEY_VARIABLE)) {
       missingTexFiles.add(KEY_VARIABLE);
+    }
+    
+    if (!texTemplates.containsKey(KEY_REFERENCES_BIB)) {
+      missingTexFiles.add(KEY_REFERENCES_BIB);
+    }
+    
+    if (!texTemplates.containsKey(KEY_DSREPORT_STY)) {
+      missingTexFiles.add(KEY_DSREPORT_STY);
+    }
+    
+    if (!texTemplates.containsKey(KEY_BLUE_BAR_EPS)) {
+      missingTexFiles.add(KEY_BLUE_BAR_EPS);
+    }
+    
+    if (!texTemplates.containsKey(KEY_BLUE_BAR_PDF)) {
+      missingTexFiles.add(KEY_BLUE_BAR_PDF);
+    }
+    
+    if (!texTemplates.containsKey(KEY_BMBF_LOGO_EPS)) {
+      missingTexFiles.add(KEY_BMBF_LOGO_EPS);
+    }
+    
+    if (!texTemplates.containsKey(KEY_BMBF_LOGO_PDF)) {
+      missingTexFiles.add(KEY_BMBF_LOGO_PDF);
+    }
+    
+    if (!texTemplates.containsKey(KEY_CREATIVE_COMMONS_EPS)) {
+      missingTexFiles.add(KEY_CREATIVE_COMMONS_EPS);
+    }
+    
+    if (!texTemplates.containsKey(KEY_CREATIVE_COMMONS_PNG)) {
+      missingTexFiles.add(KEY_CREATIVE_COMMONS_PNG);
+    }
+    
+    if (!texTemplates.containsKey(KEY_FDZ_LOGO_EPS)) {
+      missingTexFiles.add(KEY_FDZ_LOGO_EPS);
+    }
+    
+    if (!texTemplates.containsKey(KEY_FDZ_LOGO_PDF)) {
+      missingTexFiles.add(KEY_FDZ_LOGO_PDF);
+    }
+    
+    if (!texTemplates.containsKey(KEY_FDZ_LOGO_NO_TEXT_EPS)) {
+      missingTexFiles.add(KEY_FDZ_LOGO_NO_TEXT_EPS);
+    }
+    
+    if (!texTemplates.containsKey(KEY_FDZ_LOGO_NO_TEXT_PDF)) {
+      missingTexFiles.add(KEY_FDZ_LOGO_NO_TEXT_PDF);
     }
     
     return missingTexFiles;
