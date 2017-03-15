@@ -2,7 +2,6 @@ package eu.dzhw.fdz.metadatamanagement.common.rest.util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -30,10 +29,10 @@ public class ZipUtil {
    * @return Returns a HashMap representation of the zip file.
    * @throws IOException Catches the potential IO Error by the unzipper
    */
-  public static Map<String, String> unzip(MultipartFile multiPartFile) throws IOException {
+  public static Map<String, byte[]> unzip(MultipartFile multiPartFile) throws IOException {
 
     // Key = Name, Value = Tex File
-    Map<String, String> texTemplates = new HashMap<>();
+    Map<String, byte[]> texTemplates = new HashMap<>();
 
     // unzip the tar.gz file
     try (ZipArchiveInputStream zipArchiveInputStream =
@@ -45,7 +44,7 @@ public class ZipUtil {
 
         // ignore directories, read file, save in hashmap
         if (!currentEntry.isDirectory()) {
-          String fileContent = IOUtils.toString(zipArchiveInputStream, StandardCharsets.UTF_8);
+          byte[] fileContent = IOUtils.toByteArray(zipArchiveInputStream);
           texTemplates.put(currentEntry.getName(), fileContent);
         }
         currentEntry = zipArchiveInputStream.getNextZipEntry();
