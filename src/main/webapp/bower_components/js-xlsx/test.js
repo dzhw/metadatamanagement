@@ -13,7 +13,7 @@ if(process.env.WTF) {
 }
 var fullex = [".xlsb", ".xlsm", ".xlsx"];
 var ofmt = ["xlsb", "xlsm", "xlsx", "ods", "biff2"];
-var ex = fullex.slice(); ex.push(".ods"); ex.push(".xls"); ex.push("xml");
+var ex = fullex.slice(); ex = ex.concat([".ods", ".xls", ".xml", ".fods"]);
 if(process.env.FMTS === "full") process.env.FMTS = ex.join(":");
 if(process.env.FMTS) ex=process.env.FMTS.split(":").map(function(x){return x[0]==="."?x:"."+x;});
 var exp = ex.map(function(x){ return x + ".pending"; });
@@ -952,6 +952,13 @@ describe('invalid files', function() {
 				});
 			});
 		});
+		it('should fail if SheetNames has duplicate entries', function() {
+			var wb = X.readFile(paths.fstxlsx);
+			wb.SheetNames.push(wb.SheetNames[0]);
+			assert.throws(function() {
+				X.write(wb, {type:'binary'});
+			});
+		});
 	});
 });
 
@@ -1056,6 +1063,20 @@ describe('json output', function() {
 			assert.throws(function() { seeker(json, [0,1,2,3], "sheetjs"); });
 			assert.throws(function() { seeker(json, [0,1,2], "baz"); });
 		});
+	});
+	it('should disambiguate headers', function() {
+		var _data = [["S","h","e","e","t","J","S"],[1,2,3,4,5,6,7],[2,3,4,5,6,7,8]];
+		var _ws = sheet_from_array_of_arrays(_data);
+		var json = X.utils.sheet_to_json(_ws);
+		for(var i = 0; i < json.length; ++i) {
+			assert.equal(json[i].S,   1 + i);
+			assert.equal(json[i].h,   2 + i);
+			assert.equal(json[i].e,   3 + i);
+			assert.equal(json[i].e_1, 4 + i);
+			assert.equal(json[i].t,   5 + i);
+			assert.equal(json[i].J,   6 + i);
+			assert.equal(json[i].S_1, 7 + i);
+		}
 	});
 });
 

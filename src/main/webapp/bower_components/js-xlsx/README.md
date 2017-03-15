@@ -5,34 +5,68 @@ implementation from official specifications, related documents, and test files.
 Emphasis on parsing and writing robustness, cross-format feature compatibility
 with a unified JS representation, and ES3/ES5 browser compatibility back to IE6.
 
-File format support for known spreadsheet data formats:
+[**In-Browser Demo**](http://oss.sheetjs.com/js-xlsx)
 
-| Format                                                       | Read  | Write |
-|:-------------------------------------------------------------|:-----:|:-----:|
-| **Excel Worksheet/Workbook Formats**                         |:-----:|:-----:|
-| Excel 2007+ XML Formats (XLSX/XLSM)                          |  :o:  |  :o:  |
-| Excel 2007+ Binary Format (XLSB BIFF12)                      |  :o:  |  :o:  |
-| Excel 2003-2004 XML Format (XML "SpreadsheetML")             |  :o:  |       |
-| Excel 97-2004 (XLS BIFF8)                                    |  :o:  |       |
-| Excel 5.0/95 (XLS BIFF5)                                     |  :o:  |       |
-| Excel 4.0 (XLS/XLW BIFF4)                                    |  :o:  |       |
-| Excel 3.0 (XLS BIFF3)                                        |  :o:  |       |
-| Excel 2.0/2.1 (XLS BIFF2)                                    |  :o:  |  :o:  |
-| **Excel Supported Text Formats**                             |:-----:|:-----:|
-| Delimiter-Separated Values (CSV/TSV/DSV)                     |       |  :o:  |
-| **Other Workbook/Worksheet Formats**                         |:-----:|:-----:|
-| OpenDocument Spreadsheet (ODS)                               |  :o:  |  :o:  |
-| Flat XML ODF Spreadsheet (FODS)                              |  :o:  |  :o:  |
-| Uniform Office Format Spreadsheet (标文通 UOS1/UOS2)         |  :o:  |       |
-| **Other Common Spreadsheet Output Formats**                  |:-----:|:-----:|
-| HTML Tables                                                  |  :o:  |       |
+[**Source Code**](http://git.io/xlsx)
 
-Demo: <http://oss.sheetjs.com/js-xlsx>
+[**Commercial Support**](http://sheetjs.com/reinforcements)
 
-Source: <http://git.io/xlsx>
+[**File format support for known spreadsheet data formats:**](#file-formats)
 
-Paid support available through the [reinforcements program](http://sheetjs.com/reinforcements)
+![circo graph of format support](formats.png)
 
+
+
+## Table of Contents
+
+<!-- toc -->
+
+- [Installation](#installation)
+  * [JS Ecosystem Demos](#js-ecosystem-demos)
+  * [Optional Modules](#optional-modules)
+  * [ECMAScript 5 Compatibility](#ecmascript-5-compatibility)
+- [Parsing Workbooks](#parsing-workbooks)
+- [Working with the Workbook](#working-with-the-workbook)
+- [Writing Workbooks](#writing-workbooks)
+- [Interface](#interface)
+  * [Parsing functions](#parsing-functions)
+  * [Writing functions](#writing-functions)
+  * [Utilities](#utilities)
+- [Workbook / Worksheet / Cell Object Description](#workbook--worksheet--cell-object-description)
+  * [General Structures](#general-structures)
+  * [Cell Object](#cell-object)
+  * [Data Types](#data-types)
+  * [Formulae](#formulae)
+  * [Worksheet Object](#worksheet-object)
+  * [Workbook Object](#workbook-object)
+- [Parsing Options](#parsing-options)
+  * [Input Type](#input-type)
+  * [Guessing File Type](#guessing-file-type)
+- [Writing Options](#writing-options)
+  * [Supported Output Formats](#supported-output-formats)
+  * [Output Type](#output-type)
+- [Utility Functions](#utility-functions)
+  * [Formulae Output](#formulae-output)
+  * [CSV and general DSV Output](#csv-and-general-dsv-output)
+  * [JSON](#json)
+- [File Formats](#file-formats)
+  * [Excel 2007+ XML (XLSX/XLSM)](#excel-2007-xml-xlsxxlsm)
+  * [Excel 2.0-95 (BIFF2/BIFF3/BIFF4/BIFF5)](#excel-20-95-biff2biff3biff4biff5)
+  * [Excel 97-2004 Binary (BIFF8)](#excel-97-2004-binary-biff8)
+  * [Excel 2003-2004 (SpreadsheetML)](#excel-2003-2004-spreadsheetml)
+  * [Excel 2007+ Binary (XLSB, BIFF12)](#excel-2007-binary-xlsb-biff12)
+  * [OpenDocument Spreadsheet (ODS/FODS) and Uniform Office Spreadsheet (UOS1/2)](#opendocument-spreadsheet-odsfods-and-uniform-office-spreadsheet-uos12)
+  * [Comma-Separated Values](#comma-separated-values)
+  * [HTML](#html)
+- [Testing](#testing)
+  * [Tested Environments](#tested-environments)
+  * [Test Files](#test-files)
+- [Contributing](#contributing)
+- [License](#license)
+- [References](#references)
+- [Badges](#badges)
+
+<!-- tocstop -->
 
 ## Installation
 
@@ -57,6 +91,14 @@ $ bower install js-xlsx
 CDNjs automatically pulls the latest version and makes all versions available at
 <http://cdnjs.com/libraries/xlsx>
 
+### JS Ecosystem Demos
+
+The `demos` directory includes sample projects for:
+
+- [`browserify`](http://browserify.org/)
+- [`requirejs`](http://requirejs.org/)
+- [`webpack`](https://webpack.js.org/)
+
 ### Optional Modules
 
 The node version automatically requires modules for additional features.  Some
@@ -73,13 +115,16 @@ An appropriate version for each dependency is included in the dist/ directory.
 
 The complete single-file version is generated at `dist/xlsx.full.min.js`
 
-### JS Ecosystem Demos
+Webpack and browserify builds include optional modules by default.  Webpack can
+be configured to remove support with `resolve.alias`:
 
-The `demos` directory includes sample projects for:
+```js
+  /* uncomment the lines below to remove support */
+  resolve: {
+    alias: { "./dist/cpexcel.js": "" } // <-- omit international support
+  }
+```
 
-- [`browserify`](http://browserify.org/)
-- [`requirejs`](http://requirejs.org/)
-- [`webpack`](https://webpack.js.org/)
 
 ### ECMAScript 5 Compatibility
 
@@ -141,10 +186,10 @@ oReq.send();
 ```js
 /* processing array buffers, only required for readAsArrayBuffer */
 function fixdata(data) {
-	var o = "", l = 0, w = 10240;
-	for(; l<data.byteLength/w; ++l) o+=String.fromCharCode.apply(null,new Uint8Array(data.slice(l*w,l*w+w)));
-	o+=String.fromCharCode.apply(null, new Uint8Array(data.slice(l*w)));
-	return o;
+  var o = "", l = 0, w = 10240;
+  for(; l<data.byteLength/w; ++l) o+=String.fromCharCode.apply(null,new Uint8Array(data.slice(l*w,l*w+w)));
+  o+=String.fromCharCode.apply(null, new Uint8Array(data.slice(l*w)));
+  return o;
 }
 
 var rABS = true; // true: readAsBinaryString ; false: readAsArrayBuffer
@@ -334,11 +379,15 @@ Complete examples:
 
 `XLSX.readFile(filename, read_opts)` attempts to read `filename` and parse.
 
+Parse options are described in the [Parsing Options](#parsing-options) section.
+
 ### Writing functions
 
 `XLSX.write(wb, write_opts)` attempts to write the workbook `wb`
 
 `XLSX.writeFile(wb, filename, write_opts)` attempts to write `wb` to `filename`
+
+Write options are described in the [Writing Options](#writing-options) section.
 
 ### Utilities
 
@@ -351,7 +400,8 @@ Exporting:
 - `sheet_to_csv` generates delimiter-separated-values output.
 - `sheet_to_formulae` generates a list of the formulae (with value fallbacks).
 
-The `sheet_to_*` functions accept a worksheet and an optional options object.
+Exporters are described in the [Utility Functions](#utility-functions) section.
+
 
 Cell and cell address manipulation:
 
@@ -411,20 +461,20 @@ array range.  Other cells in the range will omit the `f` field.
 
 The raw value is stored in the `v` field, interpreted based on the `t` field.
 
-Type `b` is the Boolean type.  `v` is interpreted according to JS truth tables
+Type `b` is the Boolean type.  `v` is interpreted according to JS truth tables.
 
 Type `e` is the Error type. `v` holds the number and `w` holds the common name:
 
-| Value | Error Meaning  |
-| ----: | :------------- |
-|  0x00 | #NULL!         |
-|  0x07 | #DIV/0!        |
-|  0x0F | #VALUE!        |
-|  0x17 | #REF!          |
-|  0x1D | #NAME?         |
-|  0x24 | #NUM!          |
-|  0x2A | #N/A           |
-|  0x2B | #GETTING\_DATA |
+|  Value | Error Meaning   |
+| -----: | :-------------- |
+| `0x00` | `#NULL!`        |
+| `0x07` | `#DIV/0!`       |
+| `0x0F` | `#VALUE!`       |
+| `0x17` | `#REF!`         |
+| `0x1D` | `#NAME?`        |
+| `0x24` | `#NUM!`         |
+| `0x2A` | `#N/A`          |
+| `0x2B` | `#GETTING_DATA` |
 
 Type `n` is the Number type. This includes all forms of data that Excel stores
 as numbers, such as dates/times and Boolean fields.  Excel exclusively uses data
@@ -521,6 +571,7 @@ The exported `read` and `readFile` functions accept an options argument:
 | bookSheets  | false   | If true, only parse enough to get the sheet names    |
 | bookVBA     | false   | If true, expose vbaProject.bin to `vbaraw` field **  |
 | password    | ""      | If defined and file is encrypted, use password **    |
+| WTF         | false   | If true, throw errors on unexpected file features ** |
 
 - `cellFormula` option only applies to formats that require extra processing to
   parse formulae (XLS/XLSB).
@@ -538,6 +589,9 @@ The exported `read` and `readFile` functions accept an options argument:
 - `cellDates` currently does not convert numerical dates to JS dates.
 - Currently only XOR encryption is supported.  Unsupported error will be thrown
   for files employing other encryption methods.
+- WTF is mainly for development.  By default, the parser will suppress read
+  errors on single worksheets, allowing you to read from the worksheets that do
+  parse properly. Setting `WTF:1` forces those errors to be thrown.
 
 The defaults are enumerated in bits/84\_defaults.js
 
@@ -621,10 +675,163 @@ The `type` argument for `write` mirrors the `type` argument for `read`:
 | `"file"`   | string: name of file to be written (nodejs only)                |
 
 
+## Utility Functions
+
+The `sheet_to_*` functions accept a worksheet and an optional options object.
+
+The examples are based on the following worksheet:
+
+```
+XXX| A | B | C | D | E | F | G |
+---+---+---+---+---+---+---+---+
+ 1 | S | h | e | e | t | J | S |
+ 2 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+ 3 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+```
+
+### Formulae Output
+
+`XLSX.utils.sheet_to_formulae` generates an array of commands that represent
+how a person would enter data into an application.  Each entry is of the form
+`A1-cell-address=formula-or-value`.  String literals are prefixed with a `'` in
+accordance with Excel.  For the example sheet:
+
+```js
+> var o = XLSX.utils.sheet_to_formulae(ws);
+> o.filter(function(v, i) { return i % 5 === 0; });
+[ 'A1=\'S', 'F1=\'J', 'D2=4', 'B3=3', 'G3=8' ]
+```
+
+### CSV and general DSV Output
+
+As an alternative to the `writeFile` CSV type, `XLSX.utils.sheet_to_csv` also
+produces CSV output.  The function takes an options argument:
+
+| Option Name |  Default | Description                                         |
+| :---------- | :------: | :-------------------------------------------------- |
+| FS          |  `","`   | "Field Separator"  delimiter between fields         |
+| RS          |  `"\n"`  | "Record Separator" delimiter between rows           |
+
+For the example sheet:
+
+```js
+> console.log(XLSX.utils.sheet_to_csv(ws));
+S,h,e,e,t,J,S
+1,2,3,4,5,6,7
+2,3,4,5,6,7,8
+> console.log(XLSX.utils.sheet_to_csv(ws, {FS:"\t"}));
+S	h	e	e	t	J	S
+1	2	3	4	5	6	7
+2	3	4	5	6	7	8
+> console.log(X.utils.sheet_to_csv(_ws,{FS:":",RS:"|"}));
+S:h:e:e:t:J:S|1:2:3:4:5:6:7|2:3:4:5:6:7:8|
+```
+
+### JSON
+
+`XLSX.utils.sheet_to_json` and the alias `XLSX.utils.sheet_to_row_object_array`
+generate different types of JS objects.  The function takes an options argument:
+
+| Option Name |  Default | Description                                         |
+| :---------- | :------: | :-------------------------------------------------- |
+| raw         | `false`  | Use raw values (true) or formatted strings (false)  |
+| range       | from WS  | Override Range (see table below)                    |
+| header      |          | Control output format (see table below)             |
+
+- `raw` only affects cells which have a format code (`.z`) field or a formatted
+  text (`.w`) field.
+- If `header` is specified, the first row is considered a data row; if `header`
+  is not specified, the first row is the header row and not considered data.
+- When `header` is not specified, the conversion will automatically disambiguate
+  header entries by affixing `_` and a count starting at `1`.  For example, if
+  three columns have header `foo` the output fields are `foo`, `foo_1`, `foo_2`
+
+`range` is expected to be one of:
+
+| `range`          | Description                                               |
+| :--------------- | :-------------------------------------------------------- |
+| (number)         | Use worksheet range but set starting row to the value     |
+| (string)         | Use specified range (A1-style bounded range string)       |
+| (default)        | Use worksheet range (`ws['!ref']`)                        |
+
+`header` is expected to be one of:
+
+| `header`         | Description                                               |
+| :--------------- | :-------------------------------------------------------- |
+| `1`              | Generate an array of arrays                               |
+| `"A"`            | Row object keys are literal column labels                 |
+| array of strings | Use specified strings as keys in row objects              |
+| (default)        | Read and disambiguate first row as keys                   |
+
+For the example sheet:
+
+```js
+> console.log(X.utils.sheet_to_json(_ws));
+[ { S: 1, h: 2, e: 3, e_1: 4, t: 5, J: 6, S_1: 7 },
+  { S: 2, h: 3, e: 4, e_1: 5, t: 6, J: 7, S_1: 8 } ]
+
+> console.log(X.utils.sheet_to_json(_ws, {header:1}));
+[ [ 'S', 'h', 'e', 'e', 't', 'J', 'S' ],
+  [ 1, 2, 3, 4, 5, 6, 7 ],
+  [ 2, 3, 4, 5, 6, 7, 8 ] ]
+
+> console.log(X.utils.sheet_to_json(_ws, {header:"A"}));
+[ { A: 'S', B: 'h', C: 'e', D: 'e', E: 't', F: 'J', G: 'S' },
+  { A: 1, B: 2, C: 3, D: 4, E: 5, F: 6, G: 7 },
+  { A: 2, B: 3, C: 4, D: 5, E: 6, F: 7, G: 8 } ]
+> console.log(X.utils.sheet_to_json(_ws, {header:["A","E","I","O","U","6","9"]}));
+[ { '6': 'J', '9': 'S', A: 'S', E: 'h', I: 'e', O: 'e', U: 't' },
+  { '6': 6, '9': 7, A: 1, E: 2, I: 3, O: 4, U: 5 },
+  { '6': 7, '9': 8, A: 2, E: 3, I: 4, O: 5, U: 6 } ]
+```
+
+Example showing the effect of `raw`:
+
+```js
+> _ws['A2'].w = "1";                         // set A2 formatted string value
+> console.log(X.utils.sheet_to_json(_ws, {header:1}));
+[ [ 'S', 'h', 'e', 'e', 't', 'J', 'S' ],
+  [ '1', 2, 3, 4, 5, 6, 7 ],                 // <-- A2 uses the formatted string
+  [ 2, 3, 4, 5, 6, 7, 8 ] ]
+> console.log(X.utils.sheet_to_json(_ws, {header:1, raw:true}));
+[ [ 'S', 'h', 'e', 'e', 't', 'J', 'S' ],
+  [ 1, 2, 3, 4, 5, 6, 7 ],                   // <-- A2 uses the raw value
+  [ 2, 3, 4, 5, 6, 7, 8 ] ]
+```
+
 ## File Formats
 
-Despite the fact that the name of the library is `xlsx`, it supports numerous
-non-XLSX file formats:
+Despite the library name `xlsx`, it supports numerous spreadsheet file formats:
+
+| Format                                                       | Read  | Write |
+|:-------------------------------------------------------------|:-----:|:-----:|
+| **Excel Worksheet/Workbook Formats**                         |:-----:|:-----:|
+| Excel 2007+ XML Formats (XLSX/XLSM)                          |  :o:  |  :o:  |
+| Excel 2007+ Binary Format (XLSB BIFF12)                      |  :o:  |  :o:  |
+| Excel 2003-2004 XML Format (XML "SpreadsheetML")             |  :o:  |       |
+| Excel 97-2004 (XLS BIFF8)                                    |  :o:  |       |
+| Excel 5.0/95 (XLS BIFF5)                                     |  :o:  |       |
+| Excel 4.0 (XLS/XLW BIFF4)                                    |  :o:  |       |
+| Excel 3.0 (XLS BIFF3)                                        |  :o:  |       |
+| Excel 2.0/2.1 (XLS BIFF2)                                    |  :o:  |  :o:  |
+| **Excel Supported Text Formats**                             |:-----:|:-----:|
+| Delimiter-Separated Values (CSV/TSV/DSV)                     |       |  :o:  |
+| **Other Workbook/Worksheet Formats**                         |:-----:|:-----:|
+| OpenDocument Spreadsheet (ODS)                               |  :o:  |  :o:  |
+| Flat XML ODF Spreadsheet (FODS)                              |  :o:  |  :o:  |
+| Uniform Office Format Spreadsheet (标文通 UOS1/UOS2)         |  :o:  |       |
+| **Other Common Spreadsheet Output Formats**                  |:-----:|:-----:|
+| HTML Tables                                                  |  :o:  |       |
+
+### Excel 2007+ XML (XLSX/XLSM)
+
+XLSX and XLSM files are ZIP containers containing a series of XML files in
+accordance with the Open Packaging Conventions (OPC).  The XLSM filetype, almost
+identical to XLSX, is used for files containing macros.
+
+The format is standardized in ECMA-376 and later in ISO/IEC 29500.  Excel does
+not follow the specification, and there are additional documents discussing how
+Excel deviates from the specification.
 
 ### Excel 2.0-95 (BIFF2/BIFF3/BIFF4/BIFF5)
 
@@ -685,7 +892,46 @@ Excel HTML worksheets include special metadata encoded in styles.  For example,
 `mso-number-format` is a localized string containing the number format.  Despite
 the metadata the output is valid HTML, although it does accept bare `&` symbols.
 
-## Tested Environments
+## Testing
+
+`make test` will run the node-based tests.  By default it runs tests on files in
+every supported format.  To test a specific file type, set `FMTS` to the format
+you want to test.  Feature-specific tests are avaialble with `make test_misc`
+
+```bash
+$ make test        # run full tests
+$ make test_xls    # only use the XLS test files
+$ make test_xlsx   # only use the XLSX test files
+$ make test_xlsb   # only use the XLSB test files
+$ make test_xml    # only use the XLSB test files
+$ make test_ods    # only use the XLSB test files
+```
+
+To enable all errors, set the environment variable `WTF=1`:
+
+```bash
+$ make test        # run full tests
+$ WTF=1 make test  # enable all error messages
+```
+
+Flow and JSHint/JSCS checks are available:
+
+```bash
+$ make lint        # JSHint and JSCS checks
+$ make flow        # make lint + Flow checking
+```
+
+To run the in-browser tests, clone the repo for
+[oss.sheetjs.com](https://github.com/SheetJS/SheetJS.github.io) and replace
+the xlsx.js file (then fire up the browser and go to `stress.html`):
+
+```bash
+$ cp xlsx.js ../SheetJS.github.io
+$ cd ../SheetJS.github.io
+$ simplehttpserver # or "python -mSimpleHTTPServer" or "serve"
+$ open -a Chromium.app http://localhost:8000/stress.html
+```
+### Tested Environments
 
  - NodeJS 0.8, 0.9, 0.10, 0.11, 0.12, 4.x, 5.x, 6.x, 7.x
  - IE 6/7/8/9/10/11 (IE6-9 browsers require shims for interacting with client)
@@ -699,26 +945,13 @@ Tests utilize the mocha testing framework.  Travis-CI and Sauce Labs links:
  - <https://travis-ci.org/SheetJS/SheetJS.github.io> for XLS\* modules
  - <https://saucelabs.com/u/sheetjs> for XLS\* modules using Sauce Labs
 
-## Test Files
+### Test Files
 
 Test files are housed in [another repo](https://github.com/SheetJS/test_files).
 
 Running `make init` will refresh the `test_files` submodule and get the files.
 
-## Testing
 
-`make test` will run the node-based tests.  To run the in-browser tests, clone
-[the oss.sheetjs.com repo](https://github.com/SheetJS/SheetJS.github.io) and
-replace the xlsx.js file (then fire up the browser and go to `stress.html`):
-
-```bash
-$ cp xlsx.js ../SheetJS.github.io
-$ cd ../SheetJS.github.io
-$ simplehttpserver # or "python -mSimpleHTTPServer" or "serve"
-$ open -a Chromium.app http://localhost:8000/stress.html
-```
-
-For a much smaller test, run `make test_misc`.
 
 ## Contributing
 
@@ -728,28 +961,24 @@ important to ensure code is cleanroom.  Consult CONTRIBUTING.md
 The xlsx.js file is constructed from the files in the `bits` subdirectory. The
 build script (run `make`) will concatenate the individual bits to produce the
 script.  Before submitting a contribution, ensure that running make will produce
-the xlsx.js file exactly.  The simplest way to test is to move the script:
+the xlsx.js file exactly.  The simplest way to test is to add the script:
 
 ```bash
-$ mv xlsx.js xlsx.new.js
+$ git add xlsx.js
+$ make clean
 $ make
-$ diff xlsx.js xlsx.new.js
+$ git diff xlsx.js
 ```
 
 To produce the dist files, run `make dist`.  The dist files are updated in each
-version release and should not be committed between versions.
+version release and *should not be committed between versions*.
+
 
 ## License
 
 Please consult the attached LICENSE file for details.  All rights not explicitly
 granted by the Apache 2.0 License are reserved by the Original Author.
 
-It is the opinion of the Original Author that this code conforms to the terms of
-the Microsoft Open Specifications Promise, falling under the same terms as
-OpenOffice (which is governed by the Apache License v2).  Given the vagaries of
-the promise, the Original Author makes no legal claim that in fact end users are
-protected from future actions.  It is highly recommended that, for commercial
-uses, you consult a lawyer before proceeding.
 
 ## References
 
@@ -776,6 +1005,8 @@ OSP-covered specifications:
  - [XLS]: Microsoft Office Excel 97-2007 Binary File Format Specification
 
 Open Document Format for Office Applications Version 1.2 (29 September 2011)
+
+Worksheet File Format (From Lotus) December 1984
 
 
 ## Badges
