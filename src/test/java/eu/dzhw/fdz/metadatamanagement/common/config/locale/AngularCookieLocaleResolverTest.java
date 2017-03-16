@@ -9,18 +9,15 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.when;
 
 import java.util.Locale;
-import java.util.TimeZone;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.springframework.context.i18n.TimeZoneAwareLocaleContext;
+import org.springframework.context.i18n.LocaleContext;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
-
-import eu.dzhw.fdz.metadatamanagement.common.config.locale.AngularCookieLocaleResolver;
 
 /**
  * @author Daniel Katzberg
@@ -50,16 +47,13 @@ public class AngularCookieLocaleResolverTest {
     HttpServletRequest servlet = Mockito.mock(HttpServletRequest.class);
     when(servlet.getAttribute(CookieLocaleResolver.LOCALE_REQUEST_ATTRIBUTE_NAME))
       .thenReturn(Locale.GERMAN);
-    when(servlet.getAttribute(CookieLocaleResolver.TIME_ZONE_REQUEST_ATTRIBUTE_NAME))
-      .thenReturn(TimeZone.getTimeZone("GMT"));
 
     // Act
-    TimeZoneAwareLocaleContext locale =
-        (TimeZoneAwareLocaleContext) resolver.resolveLocaleContext(servlet);
+    LocaleContext locale =
+        resolver.resolveLocaleContext(servlet);
 
     // Assert
     assertThat(locale.getLocale(), is(Locale.GERMAN));
-    assertThat(locale.getTimeZone(), is(TimeZone.getTimeZone("GMT")));
   }
 
   @Test
@@ -72,7 +66,7 @@ public class AngularCookieLocaleResolverTest {
     resolver.addCookie(response, "CookieTest");
 
     // Assert
-    assertThat(response.getCookies()[0].getValue(), is("%22CookieTest%22"));
+    assertThat(response.getCookies()[0].getValue(), is("CookieTest"));
   }
 
 
@@ -95,7 +89,7 @@ public class AngularCookieLocaleResolverTest {
     // Arrange
     AngularCookieLocaleResolver resolver = new AngularCookieLocaleResolver();
     HttpServletRequest servlet = Mockito.mock(HttpServletRequest.class);
-    Cookie cookie = new Cookie("locale", "de GMT");
+    Cookie cookie = new Cookie("locale", "de");
     Cookie[] cookies = new Cookie[1];
     cookies[0] = cookie;
     when(servlet.getAttribute(CookieLocaleResolver.LOCALE_REQUEST_ATTRIBUTE_NAME)).thenReturn(null);
