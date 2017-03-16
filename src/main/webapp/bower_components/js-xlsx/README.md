@@ -274,24 +274,10 @@ var worksheet = workbook.Sheets[first_sheet_name];
 var desired_cell = worksheet[address_of_cell];
 
 /* Get the value */
-var desired_value = desired_cell.v;
+var desired_value = (desired_cell ? desired_cell.v : undefined);
 ```
 
-This example iterates through every nonempty of every sheet and dumps values:
-
-```js
-var sheet_name_list = workbook.SheetNames;
-sheet_name_list.forEach(function(y) { /* iterate through sheets */
-  var worksheet = workbook.Sheets[y];
-  for (var z in worksheet) {
-    /* all keys that do not begin with "!" correspond to cell addresses */
-    if(z[0] === '!') continue;
-    console.log(y + "!" + z + "=" + JSON.stringify(worksheet[z].v));
-  }
-});
-```
-
-Complete examples:
+**Complete examples:**
 
 - <http://oss.sheetjs.com/js-xlsx/> HTML5 File API / Base64 Text / Web Workers
 
@@ -359,7 +345,7 @@ function s2ab(s) {
 saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), "test.xlsx");
 ```
 
-Complete examples:
+**Complete examples:**
 
 - <http://sheetjs.com/demos/writexlsx.html> generates a simple file
 - <http://git.io/WEK88Q> writing an array of arrays in nodejs
@@ -393,7 +379,7 @@ Write options are described in the [Writing Options](#writing-options) section.
 
 Utilities are available in the `XLSX.utils` object:
 
-Exporting:
+**Exporting:**
 
 - `sheet_to_json` converts a worksheet object to an array of JSON objects.
   `sheet_to_row_object_array` is an alias that will be removed in the future.
@@ -403,7 +389,7 @@ Exporting:
 Exporters are described in the [Utility Functions](#utility-functions) section.
 
 
-Cell and cell address manipulation:
+**Cell and cell address manipulation:**
 
 - `format_cell` generates the text value for a cell (using number formats)
 - `{en,de}code_{row,col}` convert between 0-indexed rows/cols and A1 forms.
@@ -491,6 +477,10 @@ dates in the local timezone.  js-xlsx does not correct for this error.
 Type `s` is the String type.  `v` should be explicitly stored as a string to
 avoid possible confusion.
 
+Type `z` represents blank stub cells.  These do not have any data or type, and
+are not processed by any of the core library functions.  By default these cells
+will not be generated; the parser `sheetStubs` option must be set to `true`.
+
 ### Formulae
 
 The A1-style formula string is stored in the `f` field.  Even though different
@@ -563,7 +553,7 @@ The exported `read` and `readFile` functions accept an options argument:
 | cellNF      | false   | Save number format string to the .z field            |
 | cellStyles  | false   | Save style/theme info to the .s field                |
 | cellDates   | false   | Store dates as type `d` (default is `n`) **          |
-| sheetStubs  | false   | Create cell objects for stub cells                   |
+| sheetStubs  | false   | Create cell objects of type `z` for stub cells       |
 | sheetRows   | 0       | If >0, read the first `sheetRows` rows **            |
 | bookDeps    | false   | If true, parse calculation chains                    |
 | bookFiles   | false   | If true, add raw files to book object **             |
@@ -808,7 +798,7 @@ Despite the library name `xlsx`, it supports numerous spreadsheet file formats:
 | **Excel Worksheet/Workbook Formats**                         |:-----:|:-----:|
 | Excel 2007+ XML Formats (XLSX/XLSM)                          |  :o:  |  :o:  |
 | Excel 2007+ Binary Format (XLSB BIFF12)                      |  :o:  |  :o:  |
-| Excel 2003-2004 XML Format (XML "SpreadsheetML")             |  :o:  |       |
+| Excel 2003-2004 XML Format (XML "SpreadsheetML")             |  :o:  |  :o:  |
 | Excel 97-2004 (XLS BIFF8)                                    |  :o:  |       |
 | Excel 5.0/95 (XLS BIFF5)                                     |  :o:  |       |
 | Excel 4.0 (XLS/XLW BIFF4)                                    |  :o:  |       |

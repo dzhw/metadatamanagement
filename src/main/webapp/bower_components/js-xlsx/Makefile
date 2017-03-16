@@ -92,6 +92,10 @@ TESTFMT=$(patsubst %,test_%,$(FMT))
 $(TESTFMT): test_%:
 	FMTS=$* make test
 
+.PHONY: travis
+travis: ## Run test suite with minimal output
+	mocha -R dot -t 30000
+
 .PHONY: demos
 demos: demo-browserify demo-webpack demo-requirejs
 
@@ -140,6 +144,9 @@ misc/coverage.html: $(TARGET) test.js
 coveralls: ## Coverage Test + Send to coveralls.io
 	mocha --require blanket --reporter mocha-lcov-reporter -t 20000 | node ./node_modules/coveralls/bin/coveralls.js
 
+.PHONY: readme
+readme: ## Update README Table of Contents
+	markdown-toc -i README.md
 
 .PHONY: help
 help:

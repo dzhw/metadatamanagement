@@ -11,8 +11,8 @@ if(process.env.WTF) {
 	opts.WTF = true;
 	opts.cellStyles = true;
 }
-var fullex = [".xlsb", ".xlsm", ".xlsx"];
-var ofmt = ["xlsb", "xlsm", "xlsx", "ods", "biff2"];
+var fullex = [".xlsb", ".xlsm", ".xlsx"/*, ".xlml"*/];
+var ofmt = ["xlsb", "xlsm", "xlsx", "ods", "biff2", "xlml"];
 var ex = fullex.slice(); ex = ex.concat([".ods", ".xls", ".xml", ".fods"]);
 if(process.env.FMTS === "full") process.env.FMTS = ex.join(":");
 if(process.env.FMTS) ex=process.env.FMTS.split(":").map(function(x){return x[0]==="."?x:"."+x;});
@@ -346,10 +346,18 @@ describe('parse options', function() {
 			});
 		});
 		it('should generate sheet stubs when requested', function() {
-			/* TODO: ODS/XLS/XML */
-			[paths.mcxlsx, paths.mcxlsb /*, paths.mcods, paths.mcxls, paths.mcxml*/].forEach(function(p) {
+			[paths.mcxlsx, paths.mcxlsb, paths.mcods, paths.mcxls, paths.mcxml].forEach(function(p) {
 				var wb = X.readFile(p, {sheetStubs:true});
-				assert(typeof wb.Sheets.Merge.A2.t !== 'undefined');
+				assert(wb.Sheets.Merge.A2.t == 'z');
+			});
+		});
+		it('should handle stub cells', function() {
+			[paths.mcxlsx, paths.mcxlsb, paths.mcods, paths.mcxls, paths.mcxml].forEach(function(p) {
+				var wb = X.readFile(p, {sheetStubs:true});
+				X.utils.sheet_to_csv(wb.Sheets.Merge);
+				X.utils.sheet_to_json(wb.Sheets.Merge);
+				X.utils.sheet_to_formulae(wb.Sheets.Merge);
+				ofmt.forEach(function(f) { X.write(wb, {type:"binary", bookType:f}); });
 			});
 		});
 		function checkcells(wb, A46, B26, C16, D2) {
@@ -434,9 +442,9 @@ describe('parse options', function() {
 		});
 		it('bookVBA should generate vbaraw (XLSX/XLSB)', function() {
 			var wb = X.readFile(paths.nfxlsx,{bookVBA:true});
-			assert(typeof wb.vbaraw !== 'undefined');
+			assert(wb.vbaraw);
 			wb = X.readFile(paths.nfxlsb,{bookVBA:true});
-			assert(typeof wb.vbaraw !== 'undefined');
+			assert(wb.vbaraw);
 		});
 	});
 });
@@ -858,13 +866,14 @@ describe('roundtrip features', function() {
 
 	describe('should preserve features', function() {
 		it('merge cells', function() {
+		["xlsx", "xlsb", "xlml", "ods"].forEach(function(f) {
 			var wb1 = X.readFile(paths.mcxlsx);
-			var wb2 = X.read(X.write(wb1, {type:'binary'}), {type:'binary'});
+			var wb2 = X.read(X.write(wb1,{bookType:f,type:'binary'}),{type:'binary'});
 			var m1 = wb1.Sheets.Merge['!merges'].map(X.utils.encode_range);
 			var m2 = wb2.Sheets.Merge['!merges'].map(X.utils.encode_range);
 			assert.equal(m1.length, m2.length);
-			for(var i = 0; i < m1.length; ++i) assert.equal(m1[i], m2[i]);
-		});
+			for(var i = 0; i < m1.length; ++i) assert(m1.indexOf(m2[i]) > -1);
+		}); });
 	});
 
 	describe('should preserve dates', function() {
@@ -1196,3 +1205,45 @@ describe('encryption', function() {
 		});
 	});
 });
+
+describe('multiformat tests', function() {
+var mfopts = opts;
+var mft = fs.readFileSync('multiformat.lst','utf-8').split("\n");
+var csv = true;
+mft.forEach(function(x) {
+	if(x[0]!="#") describe('MFT ' + x, function() {
+		var fil = {}, f = [], r = x.split(/\s+/);
+		if(r.length < 3) return;
+		it('should parse all', function() {
+			for(var j = 1; j != r.length; ++j) f[j-1] = X.readFile(dir + r[0] + r[j], mfopts);
+		});
+		it('should have the same sheetnames', function() {
+			cmparr(f.map(function(x) { return x.SheetNames; }));
+		});
+		it('should have the same ranges', function() {
+			f[0].SheetNames.forEach(function(s) {
+				var ss = f.map(function(x) { return x.Sheets[s]; });
+				cmparr(ss.map(function(s) { return s['!ref']; }));
+			});
+		});
+		it('should have the same merges', function() {
+			f[0].SheetNames.forEach(function(s) {
+				var ss = f.map(function(x) { return x.Sheets[s]; });
+				cmparr(ss.map(function(s) { return (s['!merges']||[]).map(function(y) { return X.utils.encode_range(y); }).sort(); }));
+			});
+		});
+		it('should have the same CSV', csv ? function() {
+			cmparr(f.map(function(x) { return x.SheetNames; }));
+			var names = f[0].SheetNames;
+			names.forEach(function(name) {
+				cmparr(f.map(function(x) { return X.utils.sheet_to_csv(x.Sheets[name]); }));
+			});
+		} : null);
+	});
+	else x.split(/\s+/).forEach(function(w) { switch(w) {
+		case "no-csv": csv = false; break;
+		case "yes-csv": csv = true; break;
+	}});
+});
+});
+
