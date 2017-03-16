@@ -1,6 +1,6 @@
 <div ng-if="ctrl.instrument.$resolved && ctrl.instrument.id">
     <div layout="row" style="margin-bottom: 0px;" layout-margin>
-        <h1 class="md-headline" style="margin-left: 0px;">{{ctrl.instrument.description[currentLanguage]}} <span class="label label-as-badge label-default">{{ctrl.instrument.id}}</span></h1>
+        <h1 class="md-headline" style="margin-left: 0px;"><span display-i18n-string i18n-string=ctrl.instrument.description current-language=currentLanguage></span> <span class="label label-as-badge label-default">{{ctrl.instrument.id}}</span></h1>
     </div>
     <div layout="column" layout-gt-sm="row">
         <div flex-gt-sm="50" layout="column">
@@ -12,10 +12,13 @@
                 </md-card-header>
                 <md-divider></md-divider>
                 <md-card-content>
-                  <i18n i18n-string=ctrl.instrument.title current-language=currentLanguage label='instrument-management.detail.title' type></i18n>
+                  <div style="margin-bottom: 0.5em;" ng-if="ctrl.instrument.title">
+                      <span style="font-weight: bold;">{{'instrument-management.detail.title' | translate }}:</span>
+                      <span display-i18n-string i18n-string=ctrl.instrument.title current-language=currentLanguage></span>
+                  </div>
                   <div style="margin-bottom: 0.5em;" ng-if="ctrl.instrument.type">
-                    <span style="font-weight: bold;">{{'instrument-management.detail.type' | translate }}: </span>
-                    <span>{{ctrl.instrument.type}}</span>
+                      <span style="font-weight: bold;">{{'instrument-management.detail.type' | translate }}:</span>
+                      <span>{{ctrl.instrument.type}}</span>
                   </div>
                 </md-card-content>
             </md-card>
@@ -34,19 +37,25 @@
                             <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
                             {{'study-management.detail.study' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
-                        <i18n style="width: 100%;" ng-if="ctrl.study" i18n-string=ctrl.study.title current-language=currentLanguage label='study-management.detail.study'
-                              state="{name: 'studyDetail', params:{id: ctrl.study.id}}" icon='study' type>
-                        </i18n>
+                        <div ng-if="ctrl.study" class="fdz-truncate-string" flex>
+                          <a ui-sref="studyDetail({id: ctrl.study.id})">
+                              <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
+                              {{'study-management.detail.study' | translate }}:
+                              <span display-i18n-string i18n-string=ctrl.study.title current-language=currentLanguage></span>
+                          </a>
+                      </div>
                     </div>
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                         <div ng-if="ctrl.surveyCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                             {{'survey-management.detail.surveys' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
-                        <i18n style="width: 100%;" ng-if="ctrl.survey && ctrl.surveyCount === 1" i18n-string=ctrl.survey.title
-                              current-language=currentLanguage label='survey-management.detail.survey'
-                              state="{name: 'surveyDetail', params: {'id': ctrl.survey.id}}" icon='survey' type>
-                        </i18n>
+                        <div ng-if="ctrl.surveyCount == 1 && ctrl.survey" class="fdz-truncate-string" flex>
+                           <a ui-sref="surveyDetail({'id': ctrl.survey.id})">
+                               <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
+                               {{'survey-management.detail.survey' | translate }}:
+                               <span display-i18n-string i18n-string=ctrl.survey.title current-language=currentLanguage></span></a>
+                       </div>
                         <div ng-if="ctrl.surveyCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'surveys', 'instrument':ctrl.instrument.id, 'page': 1})">
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
@@ -58,10 +67,12 @@
                             <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
                             {{'question-management.detail.questions' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
-                        <i18n style="width: 100%;" ng-if="ctrl.question && ctrl.questionCount === 1" i18n-string=ctrl.question.questionText
-                              current-language=currentLanguage label='question-management.detail.question'
-                              state="{name: 'questionDetail', params: {'id': ctrl.question.id}}" icon='question' type>
-                        </i18n>
+                        <div ng-if="ctrl.questionCount == 1 && ctrl.question" class="fdz-truncate-string" flex>
+                           <a ui-sref="questionDetail({'id': ctrl.question.id})">
+                               <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
+                               {{'question-management.detail.question' | translate }}:
+                               <span display-i18n-string i18n-string=ctrl.question.questionText current-language=currentLanguage></span></a>
+                       </div>
                         <div ng-if="ctrl.questionCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'instrument': ctrl.instrument.id, 'type': 'questions', 'sort-by': 'number', 'page': 1})">
                                 <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
@@ -128,8 +139,8 @@
                 <tbody>
                     <tr ng-repeat="row in ctrl.attachments">
                         <td lang="{{row.language}}">{{row.title}}&nbsp;</td>
-                        <td><i18n i18n-string=row.description language=currentLanguage type='table-cell'></i18n></td>
-                        <td><i18n i18n-string=row.type language=currentLanguage type='table-cell'></i18n></td>
+                        <td display-i18n-string i18n-string=row.description current-language=currentLanguage></td>
+                        <td display-i18n-string i18n-string=row.type current-language=currentLanguage;></td>
                         <td>{{row.language | displayIsoLanguage: currentLanguage}}&nbsp;</td>
                         <td><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}</a>&nbsp;</td>
                     </tr>

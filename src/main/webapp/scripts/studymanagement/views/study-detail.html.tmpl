@@ -1,105 +1,114 @@
 <div ng-if="ctrl.study.$resolved && ctrl.study.id">
-  <div layout="row" style="margin-bottom: 0px;" layout-margin>
-    <h1 class="md-headline" style="margin-left: 0px;">{{ctrl.study.title[currentLanguage]}} <span class="label label-as-badge label-default">{{ctrl.study.id}}</span></h1>
-  </div>
+    <div layout="row" style="margin-bottom: 0px;" layout-margin>
+        <h1 class="md-headline" style="margin-left: 0px;"><span display-i18n-string i18n-string=ctrl.study.title current-language=currentLanguage></span> <span class="label label-as-badge label-default">{{ctrl.study.id}}</span></h1>
+    </div>
     <div layout="column" layout-gt-sm="row">
-      <div flex-gt-sm="50" layout="column">
-        <md-card flex="auto">
-          <md-card-header>
-            <md-card-header-text>
-              <h2 class="md-title">{{'global.cards.details' | translate }}</h2>
-            </md-card-header-text>
-          </md-card-header>
-          <md-divider></md-divider>
-          <md-card-content>
-            <i18n i18n-string=ctrl.study.description current-language=currentLanguage label='study-management.detail.surveySeries' type></i18n>
-            <i18n i18n-string=ctrl.study.institution current-language=currentLanguage label='study-management.detail.institution' type></i18n>
-            <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.authors">
-              <span style="font-weight: bold;">{{'study-management.detail.authors' | translate }}: df
-              </span>
-              <span>{{ctrl.study.authors}}</span>
-            </div>
-            <i18n i18n-string=ctrl.study.sponsor current-language=currentLanguage label='study-management.detail.sponsors' type></i18n>
-            <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.accessWays">
-              <span style="font-weight: bold;">{{'study-management.detail.accessWays' | translate }}:
-              </span>
-              <span>{{ctrl.study.accessWays.join(', ')}}</span>
-            </div>
-            <div ng-if="ctrl.study.releases.length > 0" ng-repeat="release in ctrl.study.releases">
-              <div style="margin-bottom: 0.5em;">
-                <span style="font-weight: bold;">doi:
-                </span>
-                <span>{{release.doi}}</span>
-              </div>
-
-              <div style="margin-bottom: 0.5em;">
-                <span style="font-weight: bold;">{{'study-management.detail.version' | translate }}:
-                </span>
-                <span>{{release.version}}</span>
-              </div>
-            </div>
-            <i18n i18n-string=ctrl.study.citationHint current-language=currentLanguage label='study-management.detail.citationHint' type></i18n>
-          </md-card-content>
-        </md-card>
-      </div>
-      <div flex-gt-sm="50" layout="column">
-        <md-card flex="auto" ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm'), 'fdz-reset-top-margin': $mdMedia('sm') || $mdMedia('xs')}">
-            <md-card-header>
-                <md-card-header-text>
-                    <h2 class="md-title">{{'global.cards.related-objects' | translate }}</h2>
-                </md-card-header-text>
-            </md-card-header>
-            <md-divider></md-divider>
-            <md-card-content layout="column" layout-align="center start">
-              <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                  <div ng-if="ctrl.counts.surveysCount == 0" class="fdz-truncate-string" flex>
-                      <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
-                      {{'survey-management.detail.surveys' | translate }}: {{'global.messages.error.unavailable' | translate}}
-                  </div>
-                  <i18n style="width: 100%;" ng-if="ctrl.survey && ctrl.counts.surveysCount === 1" i18n-string=ctrl.survey.title
-                        current-language=currentLanguage label='survey-management.detail.survey'
-                        state="{name: 'surveyDetail', params: {'id': ctrl.survey.id}}" icon='survey' type>
-                  </i18n>
-                  <div ng-if="ctrl.counts.surveysCount > 1" class="fdz-truncate-string" flex>
-                      <a ui-sref="search({'type': 'surveys', 'study': ctrl.study.id, 'page': 1})">
-                          <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
-                          {{'survey-management.detail.surveys' | translate }}: ({{ctrl.counts.surveysCount}})</a>
-                  </div>
-              </div>
-              <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                  <div ng-if="ctrl.counts.dataSetsCount == 0" class="fdz-truncate-string" flex>
-                    <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
-                    {{'data-set-management.detail.data-sets' | translate }}: {{'global.messages.error.unavailable' | translate}}
-                  </div>
-                  <i18n style="width: 100%;" ng-if="ctrl.dataSet && ctrl.counts.dataSetsCount === 1" i18n-string=ctrl.dataSet.description
-                        current-language=currentLanguage label='data-set-management.detail.data-set'
-                        state="{name: 'dataSetDetail', params: {'id': ctrl.dataSet.id}}" icon='data-set' type>
-                  </i18n>
-                  <div ng-if="ctrl.counts.dataSetsCount > 1" class="fdz-truncate-string" flex>
-                    <a ui-sref="search({'type': 'data_sets', 'study':ctrl.study.id, 'page': 1})">
-                      <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
-                      {{'data-set-management.detail.data-sets' | translate }}: ({{ctrl.counts.dataSetsCount}})</a>
-                  </div>
-              </div>
-              <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                  <div ng-if="ctrl.counts.publicationsCount == 0" class="fdz-truncate-string" flex>
-                    <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
-                    {{'related-publication-management.detail.publications' | translate }}: {{'global.messages.error.unavailable' | translate}}
-                  </div>
-                  <div ng-if="ctrl.counts.publicationsCount == 1" class="fdz-truncate-string" flex>
-                    <a ui-sref="relatedPublicationDetail({'id': ctrl.relatedPublication.id})">
-                      <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
-                      {{'related-publication-management.detail.publication' | translate }}: {{ctrl.relatedPublication.title}}</a>
-                  </div>
-                  <div ng-if="ctrl.counts.publicationsCount > 1" class="fdz-truncate-string" flex>
-                    <a ui-sref="search({'type': 'related_publications', 'study': ctrl.study.id, 'page': 1})">
-                      <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
-                      {{'related-publication-management.detail.publications' | translate }}: ({{ctrl.counts.publicationsCount}})</a>
-                  </div>
-              </div>
-            </md-card-content>
-        </md-card>
-      </div>
+        <div flex-gt-sm="50" layout="column">
+            <md-card flex="auto">
+                <md-card-header>
+                    <md-card-header-text>
+                        <h2 class="md-title">{{'global.cards.details' | translate }}</h2>
+                    </md-card-header-text>
+                </md-card-header>
+                <md-divider></md-divider>
+                <md-card-content>
+                    <div style="margin-bottom: 0.5em;">
+                        <span style="font-weight: bold;">{{'study-management.detail.surveySeries' | translate }}:</span>
+                        <span display-i18n-string i18n-string=ctrl.study.surveySeries current-language=currentLanguage></span>
+                    </div>
+                    <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.institution">
+                        <span style="font-weight: bold;">{{'study-management.detail.institution' | translate }}:</span>
+                        <span display-i18n-string i18n-string=ctrl.study.institution current-language=currentLanguage></span>
+                    </div>
+                    <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.authors">
+                        <span style="font-weight: bold;">{{'study-management.detail.authors' | translate }}:</span>
+                        <span>{{ctrl.study.authors}}</span>
+                    </div>
+                    <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.sponsor">
+                        <span style="font-weight: bold;">{{'study-management.detail.sponsors' | translate }}:</span>
+                        <span display-i18n-string i18n-string=ctrl.study.sponsor current-language=currentLanguage></span>
+                    </div>
+                    <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.accessWays">
+                        <span style="font-weight: bold;">{{'study-management.detail.accessWays' | translate }}:</span>
+                        <span>{{ctrl.study.accessWays.join(', ')}}</span>
+                    </div>
+                    <div ng-if="ctrl.study.releases.length > 0" ng-repeat="release in ctrl.study.releases">
+                        <div style="margin-bottom: 0.5em;">
+                            <span style="font-weight: bold;">doi:</span>
+                            <span>{{release.doi}}</span>
+                        </div>
+                        <div style="margin-bottom: 0.5em;">
+                            <span style="font-weight: bold;">{{'study-management.detail.version' | translate }}:</span>
+                            <span>{{release.version}}</span>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.citationHint">
+                        <span style="font-weight: bold;">{{'study-management.detail.citationHint' | translate }}:</span>
+                        <span display-i18n-string i18n-string=ctrl.study.citationHint current-language=currentLanguage></span>
+                    </div>
+                </md-card-content>
+            </md-card>
+        </div>
+        <div flex-gt-sm="50" layout="column">
+            <md-card flex="auto" ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm'), 'fdz-reset-top-margin': $mdMedia('sm') || $mdMedia('xs')}">
+                <md-card-header>
+                    <md-card-header-text>
+                        <h2 class="md-title">{{'global.cards.related-objects' | translate }}</h2>
+                    </md-card-header-text>
+                </md-card-header>
+                <md-divider></md-divider>
+                <md-card-content layout="column" layout-align="center start">
+                    <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                        <div ng-if="ctrl.counts.surveysCount == 0" class="fdz-truncate-string" flex>
+                            <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
+                            {{'survey-management.detail.surveys' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                        </div>
+                        <div ng-if="ctrl.counts.surveysCount == 1 && ctrl.survey" class="fdz-truncate-string" flex>
+                            <a ui-sref="surveyDetail({'id': ctrl.survey.id})">
+                                <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
+                                {{'survey-management.detail.survey' | translate }}: {{ctrl.survey.title[currentLanguage]}}</a>
+                        </div>
+                        <div ng-if="ctrl.counts.surveysCount > 1" class="fdz-truncate-string" flex>
+                            <a ui-sref="search({'type': 'surveys', 'study': ctrl.study.id, 'page': 1})">
+                                <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
+                                {{'survey-management.detail.surveys' | translate }}: ({{ctrl.counts.surveysCount}})</a>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                        <div ng-if="ctrl.counts.dataSetsCount == 0" class="fdz-truncate-string" flex>
+                            <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
+                            {{'data-set-management.detail.data-sets' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                        </div>
+                        <div ng-if="ctrl.counts.dataSetsCount == 1 && ctrl.dataSet" class="fdz-truncate-string" flex>
+                            <a ui-sref="dataSetDetail({'id': ctrl.dataSet.id})">
+                                <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
+                                {{'data-set-management.detail.data-set' | translate }}: {{ctrl.dataSet.description}}</a>
+                        </div>
+                        <div ng-if="ctrl.counts.dataSetsCount > 1" class="fdz-truncate-string" flex>
+                            <a ui-sref="search({'type': 'data_sets', 'study':ctrl.study.id, 'page': 1})">
+                                <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
+                                {{'data-set-management.detail.data-sets' | translate }}: ({{ctrl.counts.dataSetsCount}})</a>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                        <div ng-if="ctrl.counts.publicationsCount == 0" class="fdz-truncate-string" flex>
+                            <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
+                            {{'related-publication-management.detail.publications' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                        </div>
+                        <div ng-if="ctrl.counts.publicationsCount == 1" class="fdz-truncate-string" flex>
+                            <a ui-sref="relatedPublicationDetail({'id': ctrl.relatedPublication.id})">
+                                <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
+                                {{'related-publication-management.detail.publication' | translate }}: {{ctrl.relatedPublication.title}}</a>
+                        </div>
+                        <div ng-if="ctrl.counts.publicationsCount > 1" class="fdz-truncate-string" flex>
+                            <a ui-sref="search({'type': 'related_publications', 'study': ctrl.study.id, 'page': 1})">
+                                <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
+                                {{'related-publication-management.detail.publications' | translate }}: ({{ctrl.counts.publicationsCount}})</a>
+                        </div>
+                    </div>
+                </md-card-content>
+            </md-card>
+        </div>
     </div>
     <div layout="row">
         <md-card flex class="fdz-reset-top-margin">
@@ -110,7 +119,7 @@
             </md-card-header>
             <md-divider></md-divider>
             <md-card-content>
-              <i18n i18n-string=ctrl.study.description current-language=currentLanguage type></i18n>
+                <p display-i18n-string i18n-string=ctrl.study.description current-language=currentLanguage></p>
             </md-card-content>
         </md-card>
     </div>

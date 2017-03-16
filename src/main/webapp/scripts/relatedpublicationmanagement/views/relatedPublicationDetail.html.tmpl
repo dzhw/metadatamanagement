@@ -1,153 +1,159 @@
 <div ng-if="ctrl.relatedPublication.id">
-  <div layout="row" style="margin-bottom: 0px;" layout-margin>
-      <h1 class="md-headline" style="margin-left: 0px;">{{ctrl.relatedPublication.title}} <span class="label label-as-badge label-default">{{ctrl.relatedPublication.id}}</span></h1>
-  </div>
+    <div layout="row" style="margin-bottom: 0px;" layout-margin>
+        <h1 class="md-headline" style="margin-left: 0px;">{{ctrl.relatedPublication.title}} <span class="label label-as-badge label-default">{{ctrl.relatedPublication.id}}</span></h1>
+    </div>
     <div layout="column" layout-gt-sm="row">
-      <div flex-gt-sm="50" layout="column">
-        <md-card flex="auto">
-          <md-card-header>
-            <md-card-header-text>
-              <h2 class="md-title">{{'global.cards.details' | translate }}</h2>
-            </md-card-header-text>
-          </md-card-header>
-          <md-divider></md-divider>
-          <md-card-content>
-            <div style="margin-bottom: 0.5em;" ng-if="ctrl.relatedPublication.authors">
-              <span style="font-weight: bold;">{{'related-publication-management.detail.authors' | translate }}:
+        <div flex-gt-sm="50" layout="column">
+            <md-card flex="auto">
+                <md-card-header>
+                    <md-card-header-text>
+                        <h2 class="md-title">{{'global.cards.details' | translate }}</h2>
+                    </md-card-header-text>
+                </md-card-header>
+                <md-divider></md-divider>
+                <md-card-content>
+                    <div style="margin-bottom: 0.5em;" ng-if="ctrl.relatedPublication.authors">
+                        <span style="font-weight: bold;">{{'related-publication-management.detail.authors' | translate }}:
               </span>
-              <span>{{ctrl.relatedPublication.authors}}</span>
-            </div>
-            <div style="margin-bottom: 0.5em;" ng-if="ctrl.relatedPublication.year">
-              <span style="font-weight: bold;">{{'related-publication-management.detail.year' | translate }}:
-              </span>
-              <span>{{ctrl.relatedPublication.year}}</span>
-            </div>
-            <div style="margin-bottom: 0.5em;" ng-if="ctrl.relatedPublication.sourceReference">
-              <span style="font-weight: bold;">{{'related-publication-management.detail.source-reference' | translate }}:
-              </span>
-              <span>{{ctrl.relatedPublication.sourceReference}}</span>
-            </div>
-            <div style="margin-bottom: 0.5em;" ng-if="ctrl.relatedPublication.doi">
-              <span style="font-weight: bold;">{{'related-publication-management.detail.doi' | translate }}:
-              </span>
-              <a ng-href="https://dx.doi.org/{{ctrl.relatedPublication.doi}}" target="_blank">{{ctrl.relatedPublication.doi}}</a>
-            </div>
-            <div style="margin-bottom: 0.5em;" ng-if="ctrl.relatedPublication.sourceLink" layout="row">
-              <span style="font-weight: bold;">{{'related-publication-management.detail.sourceLink' | translate }}:&nbsp;
-              </span>
-              <a  class="fdz-truncate-string" target="_blank" style="display: block;" ng-href="{{ctrl.relatedPublication.sourceLink}}">{{ctrl.relatedPublication.sourceLink}}</a>
-            </div>
-          </md-card-content>
-        </md-card>
-      </div>
-      <div flex-gt-sm="50" layout="column">
-        <md-card flex="auto" ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm'), 'fdz-reset-top-margin': $mdMedia('sm') || $mdMedia('xs')}" ng-init="studies = ctrl.relatedPublication.studies">
-          <md-card-header>
-            <md-card-header-text>
-              <h2 class="md-title">{{'global.cards.related-objects' | translate }}</h2>
-            </md-card-header-text>
-          </md-card-header>
-          <md-divider></md-divider>
-          <md-card-content>
-            <div ng-init="studies = ctrl.relatedPublication.studies" style="margin-bottom: 0.5em; width: 100%;" layout="row">
-              <div ng-if="studies.length === 0" class="fdz-truncate-string" flex>
-                <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
-                {{'study-management.detail.studies' | translate }}: {{'global.messages.error.unavailable' | translate}}
-              </div>
-              <div ng-if="studies.length === 1" class="fdz-truncate-string" flex>
-                <a ui-sref="studyDetail({'id': studies[0].id})">
-                  <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
-                  {{'study-management.detail.study' | translate }}: {{studies[0].title[currentLanguage]}}</a>
-                </div>
-                <div ng-if="studies.length > 1" class="fdz-truncate-string" flex>
-                  <a ui-sref="search({'type': 'studies', 'related-publication':ctrl.relatedPublication.id, 'page': 1})">
-                    <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
-                    {{'study-management.detail.studies' | translate }}: ({{studies.length}})</a>
-                  </div>
-                </div>
-                <div ng-init="dataSets = ctrl.relatedPublication.dataSets" style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                  <div ng-if="dataSets.length === 0" class="fdz-truncate-string" flex>
-                    <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
-                    {{'data-set-management.detail.data-sets' | translate }}: {{'global.messages.error.unavailable' | translate}}
-                  </div>
-                  <div ng-if="dataSets.length === 1" class="fdz-truncate-string" flex>
-                    <a ui-sref="dataSetDetail({'id': dataSets[0].id})">
-                      <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
-                      {{'data-set-management.detail.data-set' | translate }}: {{dataSets[0].description[currentLanguage]}}</a>
+                        <span>{{ctrl.relatedPublication.authors}}</span>
                     </div>
-                    <div ng-if="dataSets.length > 1" class="fdz-truncate-string" flex>
-                      <a ui-sref="search({'type': 'data_sets', 'related-publication':ctrl.relatedPublication.id, 'page': 1})">
-                        <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
-                        {{'data-set-management.detail.data-sets' | translate }}: ({{dataSets.length}})</a>
-                      </div>
+                    <div style="margin-bottom: 0.5em;" ng-if="ctrl.relatedPublication.year">
+                        <span style="font-weight: bold;">{{'related-publication-management.detail.year' | translate }}:
+              </span>
+                        <span>{{ctrl.relatedPublication.year}}</span>
+                    </div>
+                    <div style="margin-bottom: 0.5em;" ng-if="ctrl.relatedPublication.sourceReference">
+                        <span style="font-weight: bold;">{{'related-publication-management.detail.source-reference' | translate }}:
+              </span>
+                        <span>{{ctrl.relatedPublication.sourceReference}}</span>
+                    </div>
+                    <div style="margin-bottom: 0.5em;" ng-if="ctrl.relatedPublication.doi">
+                        <span style="font-weight: bold;">{{'related-publication-management.detail.doi' | translate }}:
+              </span>
+                        <a ng-href="https://dx.doi.org/{{ctrl.relatedPublication.doi}}" target="_blank">{{ctrl.relatedPublication.doi}}</a>
+                    </div>
+                    <div style="margin-bottom: 0.5em;" ng-if="ctrl.relatedPublication.sourceLink" layout="row">
+                        <span style="font-weight: bold;">{{'related-publication-management.detail.sourceLink' | translate }}:&nbsp;
+              </span>
+                        <a class="fdz-truncate-string" target="_blank" style="display: block;" ng-href="{{ctrl.relatedPublication.sourceLink}}">{{ctrl.relatedPublication.sourceLink}}</a>
+                    </div>
+                </md-card-content>
+            </md-card>
+        </div>
+        <div flex-gt-sm="50" layout="column">
+            <md-card flex="auto" ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm'), 'fdz-reset-top-margin': $mdMedia('sm') || $mdMedia('xs')}" ng-init="studies = ctrl.relatedPublication.studies">
+                <md-card-header>
+                    <md-card-header-text>
+                        <h2 class="md-title">{{'global.cards.related-objects' | translate }}</h2>
+                    </md-card-header-text>
+                </md-card-header>
+                <md-divider></md-divider>
+                <md-card-content>
+                    <div ng-init="studies = ctrl.relatedPublication.studies" style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                        <div ng-if="studies.length === 0" class="fdz-truncate-string" flex>
+                            <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
+                            {{'study-management.detail.studies' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                        </div>
+                        <div ng-if="studies.length === 1" class="fdz-truncate-string" flex>
+                            <a ui-sref="studyDetail({'id': studies[0].id})">
+                                <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
+                                {{'study-management.detail.study' | translate }}:
+                                <span display-i18n-string i18n-string=studies[0].title current-language=currentLanguage></span></a>
+                        </div>
+                        <div ng-if="studies.length > 1" class="fdz-truncate-string" flex>
+                            <a ui-sref="search({'type': 'studies', 'related-publication':ctrl.relatedPublication.id, 'page': 1})">
+                                <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
+                                {{'study-management.detail.studies' | translate }}: ({{studies.length}})</a>
+                        </div>
+                    </div>
+                    <div ng-init="dataSets = ctrl.relatedPublication.dataSets" style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                        <div ng-if="dataSets.length === 0" class="fdz-truncate-string" flex>
+                            <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
+                            {{'data-set-management.detail.data-sets' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                        </div>
+                        <div ng-if="dataSets.length === 1" class="fdz-truncate-string" flex>
+                            <a ui-sref="dataSetDetail({'id': dataSets[0].id})">
+                                <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
+                                {{'data-set-management.detail.data-set' | translate }}:
+                                <span display-i18n-string i18n-string=dataSets[0].description current-language=currentLanguage></span></a>
+                        </div>
+                        <div ng-if="dataSets.length > 1" class="fdz-truncate-string" flex>
+                            <a ui-sref="search({'type': 'data_sets', 'related-publication':ctrl.relatedPublication.id, 'page': 1})">
+                                <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
+                                {{'data-set-management.detail.data-sets' | translate }}: ({{dataSets.length}})</a>
+                        </div>
                     </div>
                     <div ng-init="surveys = ctrl.relatedPublication.surveys" style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                      <div ng-if="surveys.length === 0" class="fdz-truncate-string" flex>
-                        <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
-                        {{'survey-management.detail.surveys' | translate }}: {{'global.messages.error.unavailable' | translate}}
-                      </div>
-                      <div ng-if="surveys.length === 1" class="fdz-truncate-string" flex>
-                        <a ui-sref="surveyDetail({'id': surveys[0].id})">
-                          <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
-                          {{'survey-management.detail.survey' | translate }}: {{surveys[0].title[currentLanguage]}}</a>
+                        <div ng-if="surveys.length === 0" class="fdz-truncate-string" flex>
+                            <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
+                            {{'survey-management.detail.surveys' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                        </div>
+                        <div ng-if="surveys.length === 1" class="fdz-truncate-string" flex>
+                            <a ui-sref="surveyDetail({'id': surveys[0].id})">
+                                <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
+                                {{'survey-management.detail.survey' | translate }}:
+                                <span display-i18n-string i18n-string=surveys[0].title current-language=currentLanguage></span></a>
                         </div>
                         <div ng-if="surveys.length > 1" class="fdz-truncate-string" flex>
-                          <a ui-sref="search({'type': 'surveys', 'related-publication':ctrl.relatedPublication.id, 'page': 1})">
-                            <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
-                            {{'survey-management.detail.surveys' | translate }}: ({{surveys.length}})</a>
-                          </div>
+                            <a ui-sref="search({'type': 'surveys', 'related-publication':ctrl.relatedPublication.id, 'page': 1})">
+                                <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
+                                {{'survey-management.detail.surveys' | translate }}: ({{surveys.length}})</a>
                         </div>
-                        <div ng-init="instruments = ctrl.relatedPublication.instruments" style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                          <div ng-if="instruments.length === 0" class="fdz-truncate-string" flex>
+                    </div>
+                    <div ng-init="instruments = ctrl.relatedPublication.instruments" style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                        <div ng-if="instruments.length === 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
                             {{'instrument-management.detail.instruments' | translate }}: {{'global.messages.error.unavailable' | translate}}
-                          </div>
-                          <div ng-if="instruments.length === 1" class="fdz-truncate-string" flex>
+                        </div>
+                        <div ng-if="instruments.length === 1" class="fdz-truncate-string" flex>
                             <a ui-sref="instrumentDetail({'id': instruments[0].id})">
-                              <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
-                              {{'instrument-management.detail.instrument' | translate }}: {{instruments[0].description[currentLanguage]}}</a>
-                            </div>
-                            <div ng-if="instruments.length > 1" class="fdz-truncate-string" flex>
-                              <a ui-sref="search({'type': 'instruments', 'related-publication':ctrl.relatedPublication.id, 'page': 1})">
+                                <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
+                                {{'instrument-management.detail.instrument' | translate }}:
+                                <span display-i18n-string i18n-string=instruments[0].description current-language=currentLanguage></span></a>
+                        </div>
+                        <div ng-if="instruments.length > 1" class="fdz-truncate-string" flex>
+                            <a ui-sref="search({'type': 'instruments', 'related-publication':ctrl.relatedPublication.id, 'page': 1})">
                                 <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
                                 {{'instrument-management.detail.instruments' | translate }}: ({{instruments.length}})</a>
-                              </div>
-                            </div>
-                            <div ng-init="questions = ctrl.relatedPublication.questions" style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                              <div ng-if="questions.length === 0" class="fdz-truncate-string" flex>
+                        </div>
+                    </div>
+                    <div ng-init="questions = ctrl.relatedPublication.questions" style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                        <div ng-if="questions.length === 0" class="fdz-truncate-string" flex>
+                            <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
+                            {{'question-management.detail.questions' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                        </div>
+                        <div ng-if="questions.length === 1" class="fdz-truncate-string" flex>
+                            <a ui-sref="questionDetail({'id': questions[0].id})">
                                 <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
-                                {{'question-management.detail.questions' | translate }}: {{'global.messages.error.unavailable' | translate}}
-                              </div>
-                              <div ng-if="questions.length === 1" class="fdz-truncate-string" flex>
-                                <a ui-sref="questionDetail({'id': questions[0].id})">
-                                  <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
-                                  {{'question-management.detail.question' | translate }}: {{questions[0].questionText[currentLanguage]}}</a>
-                                </div>
-                                <div ng-if="questions.length > 1" class="fdz-truncate-string" flex>
-                                  <a ui-sref="search({'type': 'questions', 'related-publication':ctrl.relatedPublication.id, 'page': 1})">
-                                    <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
-                                    {{'question-management.detail.questions' | translate }}: ({{questions.length}})</a>
-                                  </div>
-                                </div>
-                                <div ng-init="variables = ctrl.relatedPublication.variables" style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                                  <div ng-if="variables.length === 0" class="fdz-truncate-string" flex>
-                                    <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
-                                    {{'variable-management.detail.variables' | translate }}: {{'global.messages.error.unavailable' | translate}}
-                                  </div>
-                                  <div ng-if="variables.length === 1" class="fdz-truncate-string" flex>
-                                    <a ui-sref="variableDetail({'id': variables[0].id})">
-                                      <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
-                                      {{'variable-management.detail.variable' | translate }}: {{variables[0].label[currentLanguage]}}</a>
-                                    </div>
-                                    <div ng-if="variables.length > 1" class="fdz-truncate-string" flex>
-                                      <a ui-sref="search({'type': 'variables', 'related-publication':ctrl.relatedPublication.id, 'page': 1})">
-                                        <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
-                                        {{'variable-management.detail.variables' | translate }}: ({{variables.length}})</a>
-                                      </div>
-                                    </div>
-                                  </md-card-content>
-        </md-card>
-      </div>
+                                {{'question-management.detail.question' | translate }}:
+                                <span display-i18n-string i18n-string=questions[0].questionText current-language=currentLanguage></span></a>
+                        </div>
+                        <div ng-if="questions.length > 1" class="fdz-truncate-string" flex>
+                            <a ui-sref="search({'type': 'questions', 'related-publication':ctrl.relatedPublication.id, 'page': 1})">
+                                <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
+                                {{'question-management.detail.questions' | translate }}: ({{questions.length}})</a>
+                        </div>
+                    </div>
+                    <div ng-init="variables = ctrl.relatedPublication.variables" style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                        <div ng-if="variables.length === 0" class="fdz-truncate-string" flex>
+                            <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
+                            {{'variable-management.detail.variables' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                        </div>
+                        <div ng-if="variables.length === 1" class="fdz-truncate-string" flex>
+                            <a ui-sref="variableDetail({'id': variables[0].id})">
+                                <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
+                                {{'variable-management.detail.variable' | translate }}:
+                                <span display-i18n-string i18n-string=variables[0].label current-language=currentLanguage></span></a>
+                        </div>
+                        <div ng-if="variables.length > 1" class="fdz-truncate-string" flex>
+                            <a ui-sref="search({'type': 'variables', 'related-publication':ctrl.relatedPublication.id, 'page': 1})">
+                                <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
+                                {{'variable-management.detail.variables' | translate }}: ({{variables.length}})</a>
+                        </div>
+                    </div>
+                </md-card-content>
+            </md-card>
+        </div>
     </div>
     <div layout="row">
         <md-card flex class="fdz-reset-top-margin">
@@ -157,16 +163,16 @@
                 </md-card-header-text>
             </md-card-header>
             <md-divider></md-divider>
-           <md-card-content>
-               <div style="margin-bottom: 0.5em;" ng-if="ctrl.relatedPublication.publicationAbstract">
-                   <span>{{ctrl.relatedPublication.publicationAbstract}}</span>
-               </div>
-               <div style="margin-bottom: 0.5em;" ng-if="ctrl.relatedPublication.abstractSource">
-                   <span style="font-weight: bold;">{{'related-publication-management.detail.abstract-source' | translate }}:
+            <md-card-content>
+                <div style="margin-bottom: 0.5em;" ng-if="ctrl.relatedPublication.publicationAbstract">
+                    <span>{{ctrl.relatedPublication.publicationAbstract}}</span>
+                </div>
+                <div style="margin-bottom: 0.5em;" ng-if="ctrl.relatedPublication.abstractSource">
+                    <span style="font-weight: bold;">{{'related-publication-management.detail.abstract-source' | translate }}:
                  </span>
-                   <span>{{ctrl.relatedPublication.abstractSource[currentLanguage]}}</span>
-               </div>
-           </md-card-content>
+                 <span display-i18n-string i18n-string=ctrl.relatedPublication.abstractSource current-language=currentLanguage></span>
+                </div>
+            </md-card-content>
         </md-card>
     </div>
 </div>
