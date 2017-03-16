@@ -6,9 +6,17 @@ angular.module('metadatamanagementApp').config(
       //jscs:disable
       'data-acquisition-project-management': {
         'name': 'Name of the Data Acquisition Projects',
+        'release': {
+          'version': 'Version of the Data Acquisition Projects',
+          'notes': {
+            'de': 'Release Notes (in German)',
+            'en': 'Release Notes (in English)'
+          }
+        },
         'home': {
           'title': 'Data Acquisition Projects',
-          'createLabel': 'Create a new Data Acquisition Project'
+          'createLabel': 'Create a new Data Acquisition Project',
+          'releaseLabel': 'Release Data Acquisition Project "{{ id }}"'
         },
         'delete': {
           'question': 'Are you sure you want to delete Data Acquisition Project "{{ name }}"?'
@@ -20,7 +28,13 @@ angular.module('metadatamanagementApp').config(
             'delete-title': 'Delete Project "{{ id }}"?',
             'delete': 'Do you really want to delete the Project "{{ id }}"? This cannot be undone.',
             'deleted-successfully-project': 'Successfully deleted Data Acquisition Project "{{ id }}"!',
-            'deleted-not-successfully-project': 'Could not delete Data Acquisition Project "{{ id }}"!'
+            'deleted-not-successfully-project': 'Could not delete Data Acquisition Project "{{ id }}"!',
+            'released-successfully': 'The data of the project "{{ id }}" will be visible to all users in about 10 minutes.',
+            'unreleased-successfully': 'The data of the project "{{ id }}" will be visible to RDC employees only in about 10 minutes.',
+            'unrelease-title': 'Unrelease Project "{{ id }}"?',
+            'unrelease': 'Do you really want to reduce visibility of the project "{{ id }}" to RDC employees only?',
+            'release-not-possible-title': 'Project "{{ id }}" cannot be released!',
+            'release-not-possible': 'The project "{{ id }}" cannot be released, since there are post-validation errors.'
           }
         },
         'error': {

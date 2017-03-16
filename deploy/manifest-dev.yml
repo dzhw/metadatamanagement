@@ -10,7 +10,6 @@ applications:
   buildpack: https://github.com/cloudfoundry/java-buildpack
   env:
     SPRING_PROFILES_ACTIVE: dev
-    JAVA_OPTS: -Duser.timezone=Europe/Berlin
     JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{ enabled: false }'
   services:
   - mongodb

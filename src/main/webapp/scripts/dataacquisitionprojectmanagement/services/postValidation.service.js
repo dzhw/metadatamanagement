@@ -8,7 +8,7 @@
 angular.module('metadatamanagementApp').service(
   'DataAcquisitionProjectPostValidationService',
   function(JobLoggingService,
-    DataAcquisitionProjectPostValidationResource) {
+    DataAcquisitionProjectPostValidationResource, $q) {
 
     // Convert array to object
     var convertArrayToObject = function(array) {
@@ -25,6 +25,7 @@ angular.module('metadatamanagementApp').service(
     };
 
     var postValidate = function(id) {
+      var deferred = $q.defer();
       JobLoggingService.start('postValidation');
       DataAcquisitionProjectPostValidationResource.postValidate({
         id: id
@@ -40,10 +41,12 @@ angular.module('metadatamanagementApp').service(
             JobLoggingService.error({message: result.errors[i].messageId,
               messageParams: messageParameter});
           }
+          deferred.reject(result);
           //no errors by post validation
         } else {
           JobLoggingService
             .success();
+          deferred.resolve();
         }
 
         // After sending errors or success, the process is finished.
@@ -55,7 +58,9 @@ angular.module('metadatamanagementApp').service(
       }, function(error) {
         // something went wrong
         JobLoggingService.cancel(error.data.error);
+        deferred.reject(error);
       });
+      return deferred.promise;
     };
     //public, global methods definitions.
     return {

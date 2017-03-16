@@ -239,7 +239,8 @@ module.exports = function(grunt) {
             'hide-sm',
             'md-sidenav-focus',
             'md-autofocus',
-            'md-ink-ripple'
+            'md-ink-ripple',
+            'md-maxlength'
           ]
         },
         files: {

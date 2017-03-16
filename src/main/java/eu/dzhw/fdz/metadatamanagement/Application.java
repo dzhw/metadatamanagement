@@ -5,6 +5,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.TimeZone;
 
 import javax.annotation.PostConstruct;
 
@@ -62,6 +63,7 @@ public class Application {
    * Main method, used to run the application.
    */
   public static void main(String[] args) throws UnknownHostException {
+    TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
     SpringApplication app = new SpringApplication(Application.class);
     SimpleCommandLinePropertySource source = new SimpleCommandLinePropertySource(args);
     addDefaultProfile(app, source);

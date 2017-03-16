@@ -34,7 +34,7 @@ angular.module('metadatamanagementApp').config(
             'main': 'Entitäten',
             'rdcProject': 'Datenaufbereitungsprojekte:',
             'current-project': 'Aktuelles Datenaufbereitungsprojekt',
-            'select-project': 'Datenaufbereitungsprojekt auswählen',
+            'select-project': 'Projekt auswählen',
             'unknown-project': 'Das Datenaufbereitungsprojekt {{projectId}} ist unbekannt.'
           },
           'search': {
@@ -59,6 +59,8 @@ angular.module('metadatamanagementApp').config(
           'tooltipps': {
             'create-project': 'Ein neues Datenaufbereitungsprojekt erzeugen.',
             'delete-project': 'Das ausgewählte Datenaufbereitungsprojekt mit allen verknüpften Daten löschen.',
+            'release-project': 'Klicken, um das ausgewählte Projekt für alle Benutzer freizugeben.',
+            'unrelease-project': 'Klicken, um die Freigabe des ausgewählten Projektes zurückzunehmen.',
             'post-validation': 'Das ausgewählte Datenaufbereitungsprojekt validieren.'
           },
           'skip-navigation': 'Zum Inhalt springen',
@@ -158,7 +160,10 @@ angular.module('metadatamanagementApp').config(
               'period': 'Der Feldzeitbeginn muss vor dem Ende liegen.'
             },
             'data-acquisition-project': {
-              'id': 'Der Name eines Projektes darf nur aus Zahlen und Buchstaben bestehen.'
+              'id': 'Der Name eines Projektes darf nur aus Zahlen und Buchstaben bestehen.',
+              'release': {
+                'version': 'Die Version darf nur aus Zahlen und Punkten bestehen.'
+              }
             }
           }
         },

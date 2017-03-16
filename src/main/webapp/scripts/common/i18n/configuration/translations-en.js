@@ -34,7 +34,7 @@ angular.module('metadatamanagementApp').config(
             'main': 'Entities',
             'rdcProject': 'Data Acquisition Projects',
             'current-project': 'Current Data Acquisition Project:',
-            'select-project': 'Select Data Acquisition Project',
+            'select-project': 'Select Project',
             'unknown-project': 'The Data Acquisition Project {{projectId}} is unknown.'
           },
           'search': {
@@ -59,7 +59,9 @@ angular.module('metadatamanagementApp').config(
           'tooltipps': {
             'create-project': 'Create a new Data Acquisition Project.',
             'delete-project': 'Delete the selected Data Acquisition Project with all related data.',
-            'post-validation': 'Validate a choosen Data Acquisition Project.'
+            'release-project': 'Click to release the chosen project for all users.',
+            'unrelease-project': 'Click to unrelease the chosen project.',
+            'post-validation': 'Validate a chosen Data Acquisition Project.'
           },
           'skip-navigation': 'Skip to Content',
           'skip-navigation-tooltip': 'Click to skip elements from navigation bar',
@@ -158,7 +160,10 @@ angular.module('metadatamanagementApp').config(
               'period': 'The begin of the field period must be before the end.'
             },
             'data-acquisition-project': {
-              'id': 'The name of the project must contain only letters and digits.'
+              'id': 'The name of the project must contain only letters and digits.',
+              'release': {
+                'version': 'The version must contain only digits and dots.'
+              }
             }
           }
         },

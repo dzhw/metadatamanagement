@@ -82,16 +82,15 @@ angular.module('metadatamanagementApp').controller('SearchController',
     var init = function() {
       tabChangedOnInitFlag = true;
       $scope.searchResult = {};
-      var project = CurrentProjectService.getCurrentProject();
-      if (project) {
-        $scope.projectId = project.id;
+      $scope.currentProject = CurrentProjectService.getCurrentProject();
+      if ($scope.currentProject) {
         _.forEach($scope.tabs, function(tab) {
           if (tab.elasticSearchType === 'related_publications') {
             tab.disabled = true;
           }
         });
       } else {
-        $scope.projectId = undefined;
+        $scope.currentProject = undefined;
       }
       $scope.pageObject = {
         totalHits: 0,
@@ -109,9 +108,11 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
     //Search function
     $scope.search = function() {
+      var projectId = $scope.currentProject ?
+        $scope.currentProject.id : undefined;
       $scope.isSearching = true;
       SearchDao.search($scope.searchParams.query, $scope.pageObject.page,
-          $scope.projectId, $scope.searchParams.filter,
+          projectId, $scope.searchParams.filter,
           $scope.tabs[$scope.searchParams.selectedTabIndex].elasticSearchType,
           $scope.pageObject.size, $scope.searchParams.sortBy)
         .then(function(data) {
@@ -167,9 +168,9 @@ angular.module('metadatamanagementApp').controller('SearchController',
       function(event, currentProject) { // jshint ignore:line
         $scope.searchParams.filter = undefined;
         if (currentProject) {
-          $scope.projectId = currentProject.id;
+          $scope.currentProject = currentProject;
         } else {
-          $scope.projectId = undefined;
+          $scope.currentProject = undefined;
         }
         $scope.pageObject.page = 1;
         writeSearchParamsToLocation();
@@ -211,11 +212,11 @@ angular.module('metadatamanagementApp').controller('SearchController',
     };
 
     $scope.uploadVariables = function(files) {
-      if (!files || files.length === 0 || !$scope.projectId) {
+      if (!files || files.length === 0 || !$scope.currentProject) {
         return;
       }
       VariableUploadService.uploadVariables(files,
-        $scope.projectId);
+        $scope.currentProject.id);
     };
 
     $scope.uploadQuestions = function(files) {
@@ -223,7 +224,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
         return;
       }
       QuestionUploadService.uploadQuestions(files,
-        $scope.projectId);
+        $scope.currentProject.id);
     };
 
     $scope.uploadSurveys = function(files) {
@@ -231,7 +232,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
         return;
       }
       SurveyUploadService.uploadSurveys(files,
-        $scope.projectId);
+        $scope.currentProject.id);
     };
 
     $scope.uploadDataSets = function(files) {
@@ -239,7 +240,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
         return;
       }
       DataSetUploadService.uploadDataSets(files,
-        $scope.projectId);
+        $scope.currentProject.id);
     };
 
     $scope.uploadRelatedPublications = function(file) {
@@ -257,7 +258,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       if (!files || files.length === 0) {
         return;
       }
-      StudyUploadService.uploadStudy(files, $scope.projectId);
+      StudyUploadService.uploadStudy(files, $scope.currentProject.id);
     };
 
     $scope.uploadInstruments = function(files) {
@@ -265,7 +266,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
         return;
       }
       InstrumentUploadService.uploadInstruments(files,
-        $scope.projectId);
+        $scope.currentProject.id);
     };
 
     //Refresh function for the refresh button

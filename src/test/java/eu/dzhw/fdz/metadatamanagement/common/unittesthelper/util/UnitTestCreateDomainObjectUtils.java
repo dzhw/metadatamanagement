@@ -381,7 +381,7 @@ public class UnitTestCreateDomainObjectUtils {
   }
 
   public static Release buildRelease() {
-    return new ReleaseBuilder().withDoi("A Test Doi")
+    return new ReleaseBuilder()
       .withNotes(new I18nStringBuilder().withDe("Eine Notiz für die Version 1.0")
         .withEn("A notice for the version 1.0.")
         .build())

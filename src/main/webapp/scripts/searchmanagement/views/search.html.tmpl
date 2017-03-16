@@ -21,7 +21,7 @@
         </div>
         <md-progress-linear md-mode="indeterminate" ng-if="isSearching"></md-progress-linear>
     </md-card>
-    <div flex ngf-drop="tabs[searchParams.selectedTabIndex].uploadFunction($files)" ngf-multiple="true" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-drop-disabled="(!projectId && tabs[searchParams.selectedTabIndex].elasticSearchType !== 'related_publications') || !hasAuthority('ROLE_PUBLISHER') || !tabs[searchParams.selectedTabIndex].uploadFunction">
+    <div flex ngf-drop="tabs[searchParams.selectedTabIndex].uploadFunction($files)" ngf-multiple="true" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-drop-disabled="((!currentProject || currentProject.release) && tabs[searchParams.selectedTabIndex].elasticSearchType !== 'related_publications') || !hasAuthority('ROLE_PUBLISHER') || !tabs[searchParams.selectedTabIndex].uploadFunction">
         <div ng-repeat="result in searchResult" ng-switch="result._type">
             <variable-search-result ng-switch-when="variables" search-result="result._source" current-language="currentLanguage"></variable-search-result>
             <survey-search-result ng-switch-when="surveys" search-result="result._source" current-language="currentLanguage"></survey-search-result>
@@ -46,7 +46,7 @@
         </md-button>
         <!-- Index 1 = Study Tab -->
         <md-button aria-label="{{'search-management.buttons.upload-studies' | translate}}" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='studies'" type="file" ngf-select="uploadStudy($files)" ngf-multiple="true" class="md-accent md-fab" directory
-            webkitdirectory ng-disabled="!projectId">
+            webkitdirectory ng-disabled="!currentProject || currentProject.release">
             <md-tooltip md-direction="left">
                 {{'search-management.buttons.upload-studies' | translate}}
             </md-tooltip>
@@ -54,35 +54,35 @@
             </md-button>
             <!-- Index 2 = Questions Tab -->
             <md-button aria-label="{{'search-management.buttons.upload-questions' | translate}}" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='questions'" type="file" ngf-select="uploadQuestions($files)" ngf-multiple="true" class="md-accent md-fab"
-                directory webkitdirectory ng-disabled="!projectId">
+                directory webkitdirectory ng-disabled="!currentProject || currentProject.release">
                 <md-tooltip md-direction="left">
                     {{'search-management.buttons.upload-questions' | translate}}
                 </md-tooltip>
                 <md-icon md-font-set="material-icons">add</md-icon>
                 </md-button>
                 <md-button aria-label="{{'search-management.buttons.upload-variables' | translate}}" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='variables'" type="file" ngf-select="uploadVariables($files)" class="md-accent md-fab" ngf-multiple="true"
-                    directory webkitdirectory ng-disabled="!projectId">
+                    directory webkitdirectory ng-disabled="!currentProject || currentProject.release">
                     <md-tooltip md-direction="left">
                         {{'search-management.buttons.upload-variables' | translate}}
                     </md-tooltip>
                     <md-icon md-font-set="material-icons">add</md-icon>
                     </md-button>
                     <md-button aria-label="{{'search-management.buttons.upload-surveys' | translate}}" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='surveys'" type="file" ngf-select="uploadSurveys($files)" class="md-accent md-fab" ngf-multiple="true" directory
-                        webkitdirectory ng-disabled="!projectId">
+                        webkitdirectory ng-disabled="!currentProject || currentProject.release">
                         <md-tooltip md-direction="left">
                             {{'search-management.buttons.upload-surveys' | translate}}
                         </md-tooltip>
                         <md-icon md-font-set="material-icons">add</md-icon>
                         </md-button>
                         <md-button aria-label="{{'search-management.buttons.upload-data-sets' | translate}}" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='data_sets'" type="file" ngf-select="uploadDataSets($files)" class="md-accent md-fab" ngf-multiple="true"
-                            directory webkitdirectory ng-disabled="!projectId">
+                            directory webkitdirectory ng-disabled="!currentProject || currentProject.release">
                             <md-tooltip md-direction="left">
                                 {{'search-management.buttons.upload-data-sets' | translate}}
                             </md-tooltip>
                             <md-icon md-font-set="material-icons">add</md-icon>
                             </md-button>
                             <md-button aria-label="{{'search-management.buttons.upload-instruments' | translate}}" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='instruments'" type="file" ngf-select="uploadInstruments($files)" class="md-accent md-fab" ngf-multiple="true"
-                                directory webkitdirectory ng-disabled="!projectId">
+                                directory webkitdirectory ng-disabled="!currentProject || currentProject.release">
                                 <md-tooltip md-direction="left">
                                     {{'search-management.buttons.upload-instruments' | translate}}
                                 </md-tooltip>

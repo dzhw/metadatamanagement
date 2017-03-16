@@ -35,10 +35,6 @@ public class Release {
       message = "data-acquisition-project.error.release.version.pattern")
   private String version;
 
-  @Size(max = StringLengths.MEDIUM, 
-      message = "data-acquisition-project.error.release.doi.size")
-  private String doi;
-
   @NotNull(message = "data-acquisition-project.error.release.date.not-null")
   private LocalDateTime date;
 
@@ -55,7 +51,6 @@ public class Release {
   public String toString() {
     return MoreObjects.toStringHelper(this)
       .add("version", version)
-      .add("doi", doi)
       .add("date", date)
       .add("notes", notes)
       .toString();
@@ -68,14 +63,6 @@ public class Release {
 
   public void setVersion(String version) {
     this.version = version;
-  }
-
-  public String getDoi() {
-    return doi;
-  }
-
-  public void setDoi(String doi) {
-    this.doi = doi;
   }
 
   public LocalDateTime getDate() {

@@ -24,7 +24,7 @@ public class ReleaseTest {
   public void testGetter() {
 
     // Arrange
-    Release release = new ReleaseBuilder().withDoi("A Test Doi")
+    Release release = new ReleaseBuilder()
       .withNotes(new I18nStringBuilder().withDe("Eine Notiz für die Version 1.0")
         .withEn("A notice for the version 1.0.")
         .build())
@@ -35,7 +35,6 @@ public class ReleaseTest {
     // Act
 
     // Assert
-    assertThat(release.getDoi(), is("A Test Doi"));
     assertThat(release.getNotes()
       .getDe(), is("Eine Notiz für die Version 1.0"));
     assertThat(release.getNotes()
@@ -46,7 +45,7 @@ public class ReleaseTest {
   @Test
   public void testToString() {
     // Arrange
-    Release release = new ReleaseBuilder().withDoi("A Test Doi")
+    Release release = new ReleaseBuilder()
       .withNotes(new I18nStringBuilder().withDe("Eine Notiz für die Version 1.0")
         .withEn("A notice for the version 1.0.")
         .build())
@@ -58,7 +57,7 @@ public class ReleaseTest {
 
     // Assert
     assertThat(toString, is(
-        "Release{version=1.0, doi=A Test Doi, date=null, notes=I18nString{de='Eine Notiz für die Version 1.0', en='A notice for the version 1.0.'}}"));
+        "Release{version=1.0, date=null, notes=I18nString{de='Eine Notiz für die Version 1.0', en='A notice for the version 1.0.'}}"));
 
   }
 

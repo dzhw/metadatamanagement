@@ -100,10 +100,6 @@ angular.module('metadatamanagementApp').service('SearchDao',
             }
           };
         }
-        //only publisher see unreleased projects
-        if (!Principal.hasAuthority('ROLE_PUBLISHER')) {
-          query.body.query.bool.must.push({'exists': {'field': 'release'}});
-        }
         //define from
         query.body.from = (pageNumber - 1) * pageSize;
         //define size
@@ -120,8 +116,13 @@ angular.module('metadatamanagementApp').service('SearchDao',
           };
         }
         if (dataAcquisitionProjectId ||
-          !CleanJSObjectService.isNullOrEmpty(filter)) {
+          !CleanJSObjectService.isNullOrEmpty(filter) ||
+          !Principal.hasAuthority('ROLE_PUBLISHER')) {
           query.body.query.bool.filter = [];
+        }
+        //only publisher see unreleased projects
+        if (!Principal.hasAuthority('ROLE_PUBLISHER')) {
+          query.body.query.bool.filter.push({'exists': {'field': 'release'}});
         }
         if (dataAcquisitionProjectId) {
           projectFilter = {

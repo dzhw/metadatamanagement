@@ -13,6 +13,8 @@ angular.module('metadatamanagementApp')
       $mdDialog, SimpleMessageToastService, $translate,
       ElasticSearchAdminService, $scope) {
       var ctrl = this;
+      var i18nPrefix = 'data-acquisition-project-management.log-messages.' +
+        'data-acquisition-project.';
       //For Project Handling
       ctrl.dataAcquisitionProjects = null;
       ctrl.searchText = '';
@@ -82,8 +84,7 @@ angular.module('metadatamanagementApp')
               function() {
                 SimpleMessageToastService
                   .openSimpleMessageToast(
-                    'data-acquisition-project-management.log-messages.' +
-                    'data-acquisition-project.saved', {
+                    i18nPrefix + 'saved', {
                       id: project.id
                     });
                 ctrl.selectedProject = project;
@@ -94,8 +95,7 @@ angular.module('metadatamanagementApp')
               function(errorMsg) {
                 SimpleMessageToastService
                   .openSimpleMessageToast(
-                    'data-acquisition-project-management.log-messages.' +
-                    'data-acquisition-project.server-error' + errorMsg);
+                    i18nPrefix + 'server-error' + errorMsg);
                 loadProjects();
               }
             );
@@ -106,18 +106,15 @@ angular.module('metadatamanagementApp')
       ctrl.deleteProject = function() {
         var confirm = $mdDialog.confirm()
           .title($translate.instant(
-            'data-acquisition-project-management.log-messages.' +
-            'data-acquisition-project.delete-title', {
+            i18nPrefix + 'delete-title', {
               id: ctrl.selectedProject.id
             }))
           .textContent($translate.instant(
-            'data-acquisition-project-management.log-messages.' +
-            'data-acquisition-project.delete', {
+            i18nPrefix + 'delete', {
               id: ctrl.selectedProject.id
             }))
           .ariaLabel($translate.instant(
-            'data-acquisition-project-management.log-messages.' +
-            'data-acquisition-project.delete', {
+            i18nPrefix + 'delete', {
               id: ctrl.selectedProject.id
             }))
           .ok($translate.instant('global.buttons.ok'))
@@ -125,7 +122,7 @@ angular.module('metadatamanagementApp')
 
         $mdDialog.show(confirm).then(function() {
           //User clicked okay -> Delete Project, hide dialog, show feedback
-          $mdDialog.hide(ctrl.selectedProject.id);
+          $mdDialog.hide();
           DataAcquisitionProjectResource.delete({
               id: ctrl.selectedProject.id
             },
@@ -133,8 +130,7 @@ angular.module('metadatamanagementApp')
               ElasticSearchAdminService.processUpdateQueue().then(
                 function() {
                   SimpleMessageToastService.openSimpleMessageToast(
-                    'data-acquisition-project-management.log-messages.' +
-                    'data-acquisition-project.deleted-successfully-project', {
+                    i18nPrefix + 'deleted-successfully-project', {
                       id: ctrl.selectedProject.id
                     });
                   loadProjects();
@@ -142,9 +138,7 @@ angular.module('metadatamanagementApp')
             },
             function() {
               SimpleMessageToastService.openSimpleMessageToast(
-
-                'data-acquisition-project-management.log-messages.' +
-                'data-acquisition-project.deleted-not-successfully-project', {
+                i18nPrefix + 'deleted-not-successfully-project', {
                   id: ctrl.selectedProject.id
                 });
             });
@@ -160,17 +154,77 @@ angular.module('metadatamanagementApp')
           .postValidate(ctrl.selectedProject.id);
       };
 
-      ctrl.releaseProject = function() {
-        ctrl.selectedProject.release = {
-          version: '1.0',
-          date: '2017-03-14T13:56:27.327'
-        };
-        DataAcquisitionProjectResource.save(ctrl.selectedProject);
+      var doRelease = function() {
+        $mdDialog.show({
+            controller: 'ReleaseProjectDialogController',
+            templateUrl: 'scripts/dataacquisitionprojectmanagement/' +
+              'views/release-project-dialog.html.tmpl',
+            clickOutsideToClose: false,
+            locals: {
+              project: ctrl.selectedProject
+            }
+          }).then(function(release) {
+            ctrl.selectedProject.release = release;
+            DataAcquisitionProjectResource.save(ctrl.selectedProject).$promise
+            .then(function() {
+                SimpleMessageToastService.openSimpleMessageToast(
+                  i18nPrefix + 'released-successfully', {
+                    id: ctrl.selectedProject.id
+                  });
+              });
+          }).catch(function() {
+          // user cancellled
+        });
       };
 
-      ctrl.unreleaseProject = function() {
-        delete ctrl.selectedProject.release;
-        DataAcquisitionProjectResource.save(ctrl.selectedProject);
+      var releaseProject = function() {
+        DataAcquisitionProjectPostValidationService
+          .postValidate(ctrl.selectedProject.id)
+          .then(doRelease, function() {
+            $mdDialog.show($mdDialog.alert()
+            .title($translate.instant(
+              i18nPrefix + 'release-not-possible-title',
+              {id: ctrl.selectedProject.id}))
+            .textContent($translate.instant(
+              i18nPrefix + 'release-not-possible',
+              {id: ctrl.selectedProject.id}))
+            .ariaLabel($translate.instant(
+              i18nPrefix + 'release-not-possible-title',
+              {id: ctrl.selectedProject.id}))
+            .ok($translate.instant('global.buttons.ok')));
+          });
+      };
+
+      var unreleaseProject = function() {
+        var confirmDialog = $mdDialog.confirm()
+          .title($translate.instant(i18nPrefix + 'unrelease-title',
+            {id: ctrl.selectedProject.id}))
+          .textContent($translate.instant(i18nPrefix + 'unrelease',
+            {id: ctrl.selectedProject.id}))
+          .ariaLabel($translate.instant(i18nPrefix + 'unrelease',
+            {id: ctrl.selectedProject.id}))
+          .ok($translate.instant('global.buttons.ok'))
+          .cancel($translate.instant('global.buttons.cancel'));
+        $mdDialog.show(confirmDialog).then(function() {
+          delete ctrl.selectedProject.release;
+          DataAcquisitionProjectResource.save(ctrl.selectedProject).$promise
+            .then(function() {
+              SimpleMessageToastService.openSimpleMessageToast(
+                i18nPrefix + 'unreleased-successfully', {
+                  id: ctrl.selectedProject.id
+                });
+            });
+        }, function() {
+          // confirm was cancelled -> do nothing
+        });
+      };
+
+      ctrl.toggleReleaseProject = function() {
+        if (ctrl.selectedProject.release) {
+          unreleaseProject();
+        } else {
+          releaseProject();
+        }
       };
       loadProjects();
     }
