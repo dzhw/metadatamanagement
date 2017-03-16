@@ -91,6 +91,7 @@ public class DataSetReportService {
    * Files which will be filled by the freemarker code.
    */
   public static final String KEY_INTRODUCTION = "Introduction.tex";
+  public static final String KEY_VARIABLELIST = "Variablelist.tex";
   public static final String KEY_MAIN = "Main.tex";
   public static final String KEY_REFERENCES_BIB = "References.bib";
   public static final String KEY_VARIABLE = "variables/Variable.tex";
@@ -153,6 +154,12 @@ public class DataSetReportService {
         IOUtils.toString(texTemplates.get(KEY_INTRODUCTION), StandardCharsets.UTF_8.name());
     filledTemplates.put(KEY_INTRODUCTION,
         this.fillTemplate(introductionForTemplateStr, templateConfiguration, dataForTemplate));
+    
+    String variableListForTemplateStr = 
+        IOUtils.toString(texTemplates.get(KEY_VARIABLELIST), StandardCharsets.UTF_8.name());
+    filledTemplates.put(KEY_VARIABLELIST,
+        this.fillTemplate(variableListForTemplateStr, templateConfiguration, dataForTemplate));
+    
     String mainForTemplateStr = 
         IOUtils.toString(texTemplates.get(KEY_MAIN), StandardCharsets.UTF_8.name());
     filledTemplates.put(KEY_MAIN,
@@ -219,6 +226,10 @@ public class DataSetReportService {
     
     if (!texTemplates.containsKey(KEY_VARIABLE)) {
       missingTexFiles.add(KEY_VARIABLE);
+    }
+    
+    if (!texTemplates.containsKey(KEY_VARIABLELIST)) {
+      missingTexFiles.add(KEY_VARIABLELIST);
     }
     
     if (!texTemplates.containsKey(KEY_REFERENCES_BIB)) {
