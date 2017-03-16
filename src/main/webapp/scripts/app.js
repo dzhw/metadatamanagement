@@ -126,7 +126,7 @@ angular
       tmhDynamicLocaleProvider
         .localeLocationPattern(
           'bower_components/angular-i18n/angular-locale_{{locale}}.js');
-      tmhDynamicLocaleProvider.useCookieStorage();
+      tmhDynamicLocaleProvider.useStorage('$cookies');
       tmhDynamicLocaleProvider.storageKey('NG_TRANSLATE_LANG_KEY');
 
       //did not manage to use a templateUrl :-(
