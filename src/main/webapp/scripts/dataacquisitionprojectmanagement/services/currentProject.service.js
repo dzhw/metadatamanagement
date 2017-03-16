@@ -8,13 +8,21 @@ angular.module('metadatamanagementApp').service('CurrentProjectService',
     var setCurrentProject = function(chosenProject) {
       if (!angular.equals(currentProject, chosenProject)) {
         currentProject = chosenProject;
-        localStorageService.set('currentProject', currentProject);
+        if (currentProject) {
+          localStorageService.set('currentProject', currentProject);
+        } else {
+          localStorageService.remove('currentProject');
+        }
         $rootScope.$broadcast('current-project-changed', currentProject);
       }
     };
     var getCurrentProject = function() {
       return currentProject;
     };
+
+    $rootScope.$on('user-logged-out', function() {
+      setCurrentProject(undefined);
+    });
 
     //make the methods global
     return {
