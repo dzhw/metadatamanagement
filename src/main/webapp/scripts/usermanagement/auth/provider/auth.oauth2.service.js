@@ -33,7 +33,7 @@ angular
         logout: function() {
           // logout from the server
           $http.post('api/logout').then(function() {
-            localStorageService.clearAll();
+            localStorageService.remove('token');
           });
         },
         getToken: function() {

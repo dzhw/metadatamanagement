@@ -15,6 +15,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
     var tabChangedOnInitFlag = false;
     var locationChanged = false;
+    var currentProjectOrLogoutIsBeingHandled = false;
     // set the page title in toolbar and window.title
     PageTitleService.setPageTitle('global.menu.search.title');
     //Check the login status
@@ -139,8 +140,10 @@ angular.module('metadatamanagementApp').controller('SearchController',
               data.hits.total;
           });
           $scope.isSearching = false;
+          currentProjectOrLogoutIsBeingHandled = false;
         }, function() {
           $scope.isSearching = false;
+          currentProjectOrLogoutIsBeingHandled = false;
         });
     };
 
@@ -174,7 +177,10 @@ angular.module('metadatamanagementApp').controller('SearchController',
         }
         $scope.pageObject.page = 1;
         writeSearchParamsToLocation();
-        $scope.search();
+        if (!currentProjectOrLogoutIsBeingHandled) {
+          currentProjectOrLogoutIsBeingHandled = true;
+          $scope.search();
+        }
         //disable related_publications tab if a project is selected
         _.forEach($scope.tabs, function(tab) {
           if (tab.elasticSearchType === 'related_publications' &&
@@ -187,8 +193,11 @@ angular.module('metadatamanagementApp').controller('SearchController',
       });
 
     $scope.$on('user-logged-out', function() {
-          $scope.search();
-        });
+      if (!currentProjectOrLogoutIsBeingHandled) {
+        currentProjectOrLogoutIsBeingHandled = true;
+        $scope.search();
+      }
+    });
 
     $scope.onPageChanged = function() {
         writeSearchParamsToLocation();
