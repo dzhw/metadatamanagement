@@ -6,7 +6,7 @@
 /* global location */
 'use strict';
 
-cheet('h u r z', function() {
+cheet('shift h u r z', function() {
   function initGame() {
     window.addEventListener('keyup', function(e) {
       if (e.keyCode === 27) {
@@ -43,8 +43,8 @@ cheet('h u r z', function() {
     var divisionX = window.innerWidth / 20;
     var divisionY = window.innerHeight / 20;
 
-    var pictureDivisionX = 1600 / 20;
-    var pictureDivisionY = 1200 / 20;
+    var pictureDivisionX = 2560 / 20;
+    var pictureDivisionY = 1920 / 20;
 
     function releaseBall() {
       if (ballOnPaddle) {
