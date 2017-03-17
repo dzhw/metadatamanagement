@@ -3,20 +3,32 @@
 
 'use strict';
 var https = require('https');
+var http = require('http');
 
 function checkHREFs(toBeCheckedURL, pageUrl) {
   var deferred = protractor.promise.defer();
   var result = {
     isValidUrl: true
   };
-  https.get(toBeCheckedURL, function() {
-    deferred.fulfill(result);
-  }).on('error', function() {
-    result.isValidUrl = false;
-    result.message = 'On page [' + pageUrl +
+  if (toBeCheckedURL.startsWith('https://')) {
+    https.get(toBeCheckedURL, function() {
+      deferred.fulfill(result);
+    }).on('error', function() {
+      result.isValidUrl = false;
+      result.message = 'On page [' + pageUrl +
       '], the following URL is incorrect: [' + toBeCheckedURL + ']';
-    deferred.fulfill(result);
-  });
+      deferred.fulfill(result);
+    });
+  } else {
+    http.get(toBeCheckedURL, function() {
+      deferred.fulfill(result);
+    }).on('error', function() {
+      result.isValidUrl = false;
+      result.message = 'On page [' + pageUrl +
+      '], the following URL is incorrect: [' + toBeCheckedURL + ']';
+      deferred.fulfill(result);
+    });
+  }
   return deferred.promise;
 }
 
