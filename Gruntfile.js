@@ -240,9 +240,7 @@ module.exports = function(grunt) {
             'md-autofocus',
             'md-ink-ripple',
             'md-maxlength',
-            'display-i18n-string',
-            'i18n-string',
-            'current-language'
+            'display-i18n-string'
           ]
         },
         files: {
