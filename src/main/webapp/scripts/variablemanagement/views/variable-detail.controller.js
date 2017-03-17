@@ -13,6 +13,20 @@ angular.module('metadatamanagementApp')
     $scope.counts = {};
     $scope.validResponsesOrMissingsAvailable = false;
     entity.promise.then(function(result) {
+      var currenLanguage = LanguageService.getCurrentInstantly();
+      var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';
+      PageTitleService.setPageTitle('variable-management.detail.title', {
+        label: result.label[currenLanguage] ? result.label[currenLanguage]
+          : result.label[secondLanguage],
+        variableId: result.id
+      });
+      ToolbarHeaderService.updateToolbarHeader({
+        'stateName': $state.current.name,
+        'name': result.name,
+        'dataSetId': result.dataSetId,
+        'dataSetNumber': result.dataSetNumber,
+        'studyId': result.studyId,
+        'projectId': result.dataAcquisitionProjectId});
       if (result.release || Principal.hasAuthority('ROLE_PUBLISHER')) {
         $scope.variable = result;
         if (!CleanJSObjectService.isNullOrEmpty($scope
@@ -21,14 +35,6 @@ angular.module('metadatamanagementApp')
             .distribution.validResponses)) {
           $scope.validResponsesOrMissingsAvailable = true;
         }
-        var currenLanguage = LanguageService.getCurrentInstantly();
-        var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';
-        PageTitleService.setPageTitle('variable-management.detail.title', {
-          label: $scope.variable.label[currenLanguage] ? $scope.variable
-          .label[currenLanguage] : $scope.variable.label[
-            secondLanguage],
-          variableId: $scope.variable.id
-        });
         $scope.study = $scope.variable.study;
         $scope.dataSet = $scope.variable.dataSet;
         QuestionSearchService.countBy('variables.id', $scope.variable.id)
@@ -62,14 +68,6 @@ angular.module('metadatamanagementApp')
           $scope.relatedPublication = $scope.variable
           .relatedPublications[0];
         }
-        ToolbarHeaderService.updateToolbarHeader({
-          'stateName': $state.current.name,
-          'name': $scope.variable.name,
-          'dataSetId': $scope.variable.dataSetId,
-          'dataSetNumber': $scope.variable.dataSetNumber,
-          'studyId': $scope.variable.studyId,
-          'projectId': $scope.variable.
-          dataAcquisitionProjectId});
         if ($scope.variable.filterDetails) {
           html_beautify($scope.variable.filterDetails.expression); //jscs:ignore
         }
