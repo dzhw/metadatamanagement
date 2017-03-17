@@ -236,7 +236,7 @@ angular.module('metadatamanagementApp').config(
             },
             'data-type': {
               'not-null': 'Der Datentyp der Variable darf nicht leer sein!',
-              'valid-data-type': 'Die Werte für Datentyp sind nicht gültig. Erlaubt in deutsch: string, numerisch. Erlaubt in englisch: string, numeric.'
+              'valid-data-type': 'Die Werte für Datentyp sind nicht gültig. Erlaubt in deutsch: string, numerisch, datum. Erlaubt in englisch: string, numeric, date.'
             },
             'scaleLevel': {
               'valid-scale-level': 'Die Werte für das Skalenniveau sind nicht gültig. Erlaubt in deutsch: nominal, ordinal, intervall, verhältnis.Erlaubt in englisch: nominal, ordinal, interval, ratio.',

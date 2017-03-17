@@ -236,7 +236,7 @@ angular.module('metadatamanagementApp').config(
             },
             'data-type': {
               'not-null': 'The data type of the Variable must not be empty!',
-              'valid-data-type': 'The value for data type is not valid. Allowed values in english: string, numerisch. Allowed values in english: string, numeric.'
+              'valid-data-type': 'The value for data type is not valid. Allowed values in english: string, numerisch, datum. Allowed values in english: string, numeric, date.'
             },
             'scaleLevel': {
               'valid-scale-level': 'The values for Scale Level are not valid. Allowed values in german: ordinal, nominal, intervall, verhältnis. Allowed values in english: ordinal, nominal, interval, ratio.',
