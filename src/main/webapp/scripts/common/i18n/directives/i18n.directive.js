@@ -2,29 +2,33 @@
 'use strict';
 
 angular.module('metadatamanagementApp').directive('displayI18nString',
-    function() {
+    function(LanguageService) {
         var link = function(scope, element) {
-            var htmlElement;
-            if (_.isObject(scope.i18nString) &&
-                !_.isArray(scope.i18nString)) {
-              if (scope.i18nString[scope.currentLanguage]) {
-                htmlElement = scope.i18nString[scope.currentLanguage];
-                element.attr('lang', scope.currentLanguage);
+            var toBeDisplayed;
+            var currentLanguage = LanguageService.getCurrentInstantly();
+            if (_.isObject(scope.displayI18nString) &&
+                !_.isArray(scope.displayI18nString)) {
+              if (scope.displayI18nString[currentLanguage]) {
+                toBeDisplayed = scope.displayI18nString[currentLanguage];
+                element.attr('lang', currentLanguage);
               } else {
-                var secondLanguage = scope.
-                currentLanguage === 'de' ? 'en' : 'de';
-                htmlElement = scope.i18nString[secondLanguage];
+                var secondLanguage = currentLanguage === 'de' ? 'en' : 'de';
+                toBeDisplayed = scope.displayI18nString[secondLanguage];
                 element.attr('lang', secondLanguage);
               }
             }
-            element.empty().append(htmlElement + '&nbsp;');
+            if (element[0].tagName === 'IMG') {
+              element.attr('alt', toBeDisplayed);
+              element.attr('title', toBeDisplayed);
+            } else {
+              element.empty().append(toBeDisplayed + '&nbsp;');
+            }
           };
         return {
           restrict: 'A',
           link: link,
           scope: {
-              i18nString: '=',
-              currentLanguage: '='
+              displayI18nString: '='
             }
         };
       });

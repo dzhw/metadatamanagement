@@ -1,6 +1,6 @@
 <div ng-if="ctrl.instrument.$resolved && ctrl.instrument.id">
     <div layout="row" style="margin-bottom: 0px;" layout-margin>
-        <h1 class="md-headline" style="margin-left: 0px;"><span display-i18n-string i18n-string=ctrl.instrument.description current-language=currentLanguage></span> <span class="label label-as-badge label-default">{{ctrl.instrument.id}}</span></h1>
+        <h1 class="md-headline" style="margin-left: 0px;"><span display-i18n-string=ctrl.instrument.description></span> <span class="label label-as-badge label-default">{{ctrl.instrument.id}}</span></h1>
     </div>
     <div layout="column" layout-gt-sm="row">
         <div flex-gt-sm="50" layout="column">
@@ -14,7 +14,7 @@
                 <md-card-content>
                   <div style="margin-bottom: 0.5em;" ng-if="ctrl.instrument.title">
                       <span style="font-weight: bold;">{{'instrument-management.detail.title' | translate }}:</span>
-                      <span display-i18n-string i18n-string=ctrl.instrument.title current-language=currentLanguage></span>
+                      <span display-i18n-string=ctrl.instrument.title></span>
                   </div>
                   <div style="margin-bottom: 0.5em;" ng-if="ctrl.instrument.type">
                       <span style="font-weight: bold;">{{'instrument-management.detail.type' | translate }}:</span>
@@ -41,7 +41,7 @@
                           <a ui-sref="studyDetail({id: ctrl.study.id})">
                               <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
                               {{'study-management.detail.study' | translate }}:
-                              <span display-i18n-string i18n-string=ctrl.study.title current-language=currentLanguage></span>
+                              <span display-i18n-string=ctrl.study.title></span>
                           </a>
                       </div>
                     </div>
@@ -54,7 +54,7 @@
                            <a ui-sref="surveyDetail({'id': ctrl.survey.id})">
                                <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                                {{'survey-management.detail.survey' | translate }}:
-                               <span display-i18n-string i18n-string=ctrl.survey.title current-language=currentLanguage></span></a>
+                               <span display-i18n-string=ctrl.survey.title></span></a>
                        </div>
                         <div ng-if="ctrl.surveyCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'surveys', 'instrument':ctrl.instrument.id, 'page': 1})">
@@ -71,7 +71,7 @@
                            <a ui-sref="questionDetail({'id': ctrl.question.id})">
                                <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
                                {{'question-management.detail.question' | translate }}:
-                               <span display-i18n-string i18n-string=ctrl.question.questionText current-language=currentLanguage></span></a>
+                               <span display-i18n-string=ctrl.question.questionText></span></a>
                        </div>
                         <div ng-if="ctrl.questionCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'instrument': ctrl.instrument.id, 'type': 'questions', 'sort-by': 'number', 'page': 1})">
@@ -139,8 +139,8 @@
                 <tbody>
                     <tr ng-repeat="row in ctrl.attachments">
                         <td lang="{{row.language}}">{{row.title}}&nbsp;</td>
-                        <td display-i18n-string i18n-string=row.description current-language=currentLanguage></td>
-                        <td display-i18n-string i18n-string=row.type current-language=currentLanguage;></td>
+                        <td display-i18n-string=row.description></td>
+                        <td display-i18n-string=row.type></td>
                         <td>{{row.language | displayIsoLanguage: currentLanguage}}&nbsp;</td>
                         <td><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}</a>&nbsp;</td>
                     </tr>

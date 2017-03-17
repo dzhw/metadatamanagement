@@ -5,8 +5,8 @@
                 <md-icon md-svg-src="/assets/images/icons/variable.svg" class="fdz-search-result-icon"></md-icon>
             </md-card-avatar>
             <md-card-header-text class="fdz-truncate-string">
-                <div class="md-title fdz-truncate-string">{{searchResult.label[currentLanguage]}} <span class="label label-as-badge label-default">{{searchResult.id}}</span></div>
-                <div class="md-subhead fdz-truncate-string">{{searchResult.name}} ({{searchResult.dataType[currentLanguage]}}, {{searchResult.scaleLevel[currentLanguage]}})
+                <div class="md-title fdz-truncate-string"><span  display-i18n-string=searchResult.label></span> <span class="label label-as-badge label-default">{{searchResult.id}}</span></div>
+                <div class="md-subhead fdz-truncate-string">{{searchResult.name}} (<span  display-i18n-string=searchResult.dataType></span>, <span  display-i18n-string=searchResult.scaleLevel></span>)
                 </div>
             </md-card-header-text>
         </md-card-header>
@@ -17,7 +17,7 @@
                 </div>
                 <div layout="column">
                     <div class="fdz-truncate-string" ng-repeat="survey in searchResult.surveys">
-                        {{survey.title[currentLanguage]}}
+                        <span  display-i18n-string=survey.title></span>
                     </div>
                 </div>
             </div>

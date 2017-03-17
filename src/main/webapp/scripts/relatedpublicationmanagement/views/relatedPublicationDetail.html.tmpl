@@ -58,7 +58,7 @@
                             <a ui-sref="studyDetail({'id': studies[0].id})">
                                 <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
                                 {{'study-management.detail.study' | translate }}:
-                                <span display-i18n-string i18n-string=studies[0].title current-language=currentLanguage></span></a>
+                                <span display-i18n-string=studies[0].title></span></a>
                         </div>
                         <div ng-if="studies.length > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'studies', 'related-publication':ctrl.relatedPublication.id, 'page': 1})">
@@ -75,7 +75,7 @@
                             <a ui-sref="dataSetDetail({'id': dataSets[0].id})">
                                 <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
                                 {{'data-set-management.detail.data-set' | translate }}:
-                                <span display-i18n-string i18n-string=dataSets[0].description current-language=currentLanguage></span></a>
+                                <span display-i18n-string=dataSets[0].description></span></a>
                         </div>
                         <div ng-if="dataSets.length > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'data_sets', 'related-publication':ctrl.relatedPublication.id, 'page': 1})">
@@ -92,7 +92,7 @@
                             <a ui-sref="surveyDetail({'id': surveys[0].id})">
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                                 {{'survey-management.detail.survey' | translate }}:
-                                <span display-i18n-string i18n-string=surveys[0].title current-language=currentLanguage></span></a>
+                                <span display-i18n-string=surveys[0].title></span></a>
                         </div>
                         <div ng-if="surveys.length > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'surveys', 'related-publication':ctrl.relatedPublication.id, 'page': 1})">
@@ -109,7 +109,7 @@
                             <a ui-sref="instrumentDetail({'id': instruments[0].id})">
                                 <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
                                 {{'instrument-management.detail.instrument' | translate }}:
-                                <span display-i18n-string i18n-string=instruments[0].description current-language=currentLanguage></span></a>
+                                <span display-i18n-string=instruments[0].description></span></a>
                         </div>
                         <div ng-if="instruments.length > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'instruments', 'related-publication':ctrl.relatedPublication.id, 'page': 1})">
@@ -126,7 +126,7 @@
                             <a ui-sref="questionDetail({'id': questions[0].id})">
                                 <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
                                 {{'question-management.detail.question' | translate }}:
-                                <span display-i18n-string i18n-string=questions[0].questionText current-language=currentLanguage></span></a>
+                                <span display-i18n-string=questions[0].questionText></span></a>
                         </div>
                         <div ng-if="questions.length > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'questions', 'related-publication':ctrl.relatedPublication.id, 'page': 1})">
@@ -143,7 +143,7 @@
                             <a ui-sref="variableDetail({'id': variables[0].id})">
                                 <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
                                 {{'variable-management.detail.variable' | translate }}:
-                                <span display-i18n-string i18n-string=variables[0].label current-language=currentLanguage></span></a>
+                                <span display-i18n-string=variables[0].label></span></a>
                         </div>
                         <div ng-if="variables.length > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'variables', 'related-publication':ctrl.relatedPublication.id, 'page': 1})">
@@ -170,7 +170,7 @@
                 <div style="margin-bottom: 0.5em;" ng-if="ctrl.relatedPublication.abstractSource">
                     <span style="font-weight: bold;">{{'related-publication-management.detail.abstract-source' | translate }}:
                  </span>
-                 <span display-i18n-string i18n-string=ctrl.relatedPublication.abstractSource current-language=currentLanguage></span>
+                 <span display-i18n-string=ctrl.relatedPublication.abstractSource></span>
                 </div>
             </md-card-content>
         </md-card>

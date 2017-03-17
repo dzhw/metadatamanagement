@@ -1,6 +1,6 @@
 <div ng-if="ctrl.survey.$resolved && ctrl.survey.id">
     <div layout="row" style="margin-bottom: 0px;" layout-margin>
-        <h1 class="md-headline" style="margin-left: 0px;"><span display-i18n-string i18n-string=ctrl.survey.title current-language=currentLanguage></span> <span class="label label-as-badge label-default">{{ctrl.survey.id}}</span></h1>
+        <h1 class="md-headline" style="margin-left: 0px;"><span display-i18n-string=ctrl.survey.title></span> <span class="label label-as-badge label-default">{{ctrl.survey.id}}</span></h1>
     </div>
     <div layout="column" layout-gt-sm="row">
         <div flex-gt-sm="50" layout="column">
@@ -14,15 +14,15 @@
                 <md-card-content>
                   <div style="margin-bottom: 0.5em;" ng-if="ctrl.survey.population">
                     <span style="font-weight: bold;">{{'survey-management.detail.population' | translate }}:</span>
-                    <span display-i18n-string i18n-string=ctrl.survey.population current-language=currentLanguage></span>
+                    <span display-i18n-string=ctrl.survey.population></span>
                   </div>
                   <div style="margin-bottom: 0.5em;" ng-if="ctrl.survey.sample">
                     <span style="font-weight: bold;">{{'survey-management.detail.sample' | translate }}:</span>
-                    <span display-i18n-string i18n-string=ctrl.survey.sample current-language=currentLanguage></span>
+                    <span display-i18n-string=ctrl.survey.sample></span>
                   </div>
                   <div style="margin-bottom: 0.5em;" ng-if="ctrl.survey.surveyMethod">
                     <span style="font-weight: bold;">{{'survey-management.detail.survey-method' | translate }}:</span>
-                    <span display-i18n-string i18n-string=ctrl.survey.surveyMethod current-language=currentLanguage></span>
+                    <span display-i18n-string=ctrl.survey.surveyMethod></span>
                   </div>
                   <div style="margin-bottom: 0.5em;" ng-if="ctrl.survey.fieldPeriod">
                     <span style="font-weight: bold;">{{'survey-management.detail.field-period' | translate }}:</span>
@@ -77,7 +77,7 @@
                             <a ui-sref="studyDetail({id: ctrl.study.id})">
                                 <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
                                 {{'study-management.detail.study' | translate }}:
-                                <span display-i18n-string i18n-string=ctrl.study.title current-language=currentLanguage></span></a>
+                                <span display-i18n-string=ctrl.study.title></span></a>
                         </div>
                     </div>
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
@@ -89,7 +89,7 @@
                           <a ui-sref="instrumentDetail({'id': ctrl.instrument.id})">
                               <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
                               {{'instrument-management.detail.instrument' | translate }}:
-                              <span display-i18n-string i18n-string=ctrl.instrument.description current-language=currentLanguage></span></a>
+                              <span display-i18n-string=ctrl.instrument.description></span></a>
                       </div>
                         <div ng-if="ctrl.counts.instrumentsCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'instruments', 'survey':ctrl.survey.id, 'page': 1})">
@@ -106,7 +106,7 @@
                             <a ui-sref="dataSetDetail({'id': ctrl.dataSet.id})">
                                 <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
                                 {{'data-set-management.detail.data-set' | translate }}:
-                                <span display-i18n-string i18n-string=ctrl.dataSet.description current-language=currentLanguage></span></a>
+                                <span display-i18n-string=ctrl.dataSet.description></span></a>
                         </div>
                         <div ng-if="ctrl.counts.dataSetsCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'data_sets', 'survey':ctrl.survey.id, 'page': 1})">
@@ -180,7 +180,7 @@
                 <tbody>
                     <tr ng-repeat="row in ctrl.attachments">
                         <td lang="{{row.language}}">{{row.title}}&nbsp;</td>
-                        <td display-i18n-string i18n-string=row.description current-language=currentLanguage></td>
+                        <td display-i18n-string=row.description></td>
                         <td>{{row.language | displayIsoLanguage: currentLanguage}}&nbsp;</td>
                         <td><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}</a>&nbsp;</td>
                     </tr>

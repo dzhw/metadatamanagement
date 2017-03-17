@@ -1,6 +1,6 @@
 <div ng-if="ctrl.study.$resolved && ctrl.study.id">
     <div layout="row" style="margin-bottom: 0px;" layout-margin>
-        <h1 class="md-headline" style="margin-left: 0px;"><span display-i18n-string i18n-string=ctrl.study.title current-language=currentLanguage></span> <span class="label label-as-badge label-default">{{ctrl.study.id}}</span></h1>
+        <h1 class="md-headline" style="margin-left: 0px;"><span display-i18n-string=ctrl.study.title></span> <span class="label label-as-badge label-default">{{ctrl.study.id}}</span></h1>
     </div>
     <div layout="column" layout-gt-sm="row">
         <div flex-gt-sm="50" layout="column">
@@ -14,11 +14,11 @@
                 <md-card-content>
                     <div style="margin-bottom: 0.5em;">
                         <span style="font-weight: bold;">{{'study-management.detail.surveySeries' | translate }}:</span>
-                        <span display-i18n-string i18n-string=ctrl.study.surveySeries current-language=currentLanguage></span>
+                        <span display-i18n-string=ctrl.study.surveySeries></span>
                     </div>
                     <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.institution">
                         <span style="font-weight: bold;">{{'study-management.detail.institution' | translate }}:</span>
-                        <span display-i18n-string i18n-string=ctrl.study.institution current-language=currentLanguage></span>
+                        <span display-i18n-string=ctrl.study.institution></span>
                     </div>
                     <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.authors">
                         <span style="font-weight: bold;">{{'study-management.detail.authors' | translate }}:</span>
@@ -26,7 +26,7 @@
                     </div>
                     <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.sponsor">
                         <span style="font-weight: bold;">{{'study-management.detail.sponsors' | translate }}:</span>
-                        <span display-i18n-string i18n-string=ctrl.study.sponsor current-language=currentLanguage></span>
+                        <span display-i18n-string=ctrl.study.sponsor></span>
                     </div>
                     <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.accessWays">
                         <span style="font-weight: bold;">{{'study-management.detail.accessWays' | translate }}:</span>
@@ -44,7 +44,7 @@
                     </div>
                     <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.citationHint">
                         <span style="font-weight: bold;">{{'study-management.detail.citationHint' | translate }}:</span>
-                        <span display-i18n-string i18n-string=ctrl.study.citationHint current-language=currentLanguage></span>
+                        <span display-i18n-string=ctrl.study.citationHint></span>
                     </div>
                 </md-card-content>
             </md-card>
@@ -119,7 +119,7 @@
             </md-card-header>
             <md-divider></md-divider>
             <md-card-content>
-                <p display-i18n-string i18n-string=ctrl.study.description current-language=currentLanguage></p>
+                <p display-i18n-string=ctrl.study.description></p>
             </md-card-content>
         </md-card>
     </div>

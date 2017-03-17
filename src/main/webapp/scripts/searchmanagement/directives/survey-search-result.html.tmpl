@@ -5,15 +5,15 @@
                 <md-icon md-svg-src="/assets/images/icons/survey.svg" class="fdz-search-result-icon"></md-icon>
             </md-card-avatar>
             <md-card-header-text class="fdz-truncate-string">
-                <div class="md-title fdz-truncate-string">{{searchResult.title[currentLanguage]}} <span class="label label-as-badge label-default">{{searchResult.id}}</span></div>
-                <div class="md-subhead fdz-truncate-string">{{searchResult.surveyMethod[currentLanguage]}}</div>
+                <div class="md-title fdz-truncate-string"><span display-i18n-string=searchResult.title></span> <span class="label label-as-badge label-default">{{searchResult.id}}</span></div>
+                <div class="md-subhead fdz-truncate-string" display-i18n-string=searchResult.surveyMethod></div>
             </md-card-header-text>
         </md-card-header>
         <md-card-content>
             <div layout="row" layout-xs="column" class="fdz-truncate-string">
-                <div class="fdz-search-result-label">
-                    Feldzeit:
-                </div>
+              <div class="fdz-search-result-label">
+                  {{'survey-management.detail.field-period' | translate}}:
+              </div>
                 <div class="fdz-truncate-string">
                     {{searchResult.fieldPeriod.start | date}} - {{searchResult.fieldPeriod.end | date}}
                 </div>

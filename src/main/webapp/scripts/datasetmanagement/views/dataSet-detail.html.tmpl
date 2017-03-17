@@ -1,6 +1,6 @@
 <div ng-if="ctrl.dataSet.$resolved && ctrl.dataSet.id" flex ngf-drop="ctrl.uploadTexTemplate($files)" ngf-multiple="true" ngf-include-dir="false" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-drop-disabled="!ctrl.isAuthenticated() || !ctrl.hasAuthority('ROLE_PUBLISHER')">
     <div layout="row" style="margin-bottom: 0px;" layout-margin>
-        <h1 class="md-headline" style="margin-left: 0px;"><span display-i18n-string i18n-string=ctrl.dataSet.description current-language=currentLanguage></span> <span class="label label-as-badge label-default">{{ctrl.dataSet.id}}</span></h1>
+        <h1 class="md-headline" style="margin-left: 0px;"><span display-i18n-string=ctrl.dataSet.description></span> <span class="label label-as-badge label-default">{{ctrl.dataSet.id}}</span></h1>
     </div>
     <div layout="column" layout-gt-sm="row">
         <div flex-gt-sm="50" layout="column">
@@ -14,11 +14,11 @@
                 <md-card-content>
                     <div style="margin-bottom: 0.5em;" ng-if="ctrl.dataSet.type">
                         <span style="font-weight: bold;">{{'data-set-management.detail.type' | translate }}:</span>
-                        <span display-i18n-string i18n-string=ctrl.dataSet.type current-language=currentLanguage></span>
+                        <span display-i18n-string=ctrl.dataSet.type></span>
                     </div>
                     <div style="margin-bottom: 0.5em;" ng-if="ctrl.dataSet.format">
                         <span style="font-weight: bold;">{{'data-set-management.detail.format' | translate }}:</span>
-                        <span display-i18n-string i18n-string=ctrl.dataSet.format current-language=currentLanguage></span>
+                        <span display-i18n-string=ctrl.dataSet.format></span>
                     </div>
                 </md-card-content>
             </md-card>
@@ -41,7 +41,7 @@
                             <a ui-sref="studyDetail({id: ctrl.study.id})">
                                 <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
                                 {{'study-management.detail.study' | translate }}:
-                                <span display-i18n-string i18n-string=ctrl.study.title current-language=currentLanguage></span></a>
+                                <span display-i18n-string=ctrl.study.title></span></a>
                         </div>
                     </div>
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
@@ -53,7 +53,7 @@
                             <a ui-sref="surveyDetail({'id': ctrl.survey.id})">
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                                 {{'survey-management.detail.survey' | translate }}:
-                                <span display-i18n-string i18n-string=ctrl.survey.title current-language=currentLanguage></span></a>
+                                <span display-i18n-string=ctrl.survey.title></span></a>
                         </div>
                         <div ng-if="ctrl.counts.surveysCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'surveys', 'data-set': ctrl.dataSet.id, 'page': 1})">
@@ -70,7 +70,7 @@
                             <a ui-sref="variableDetail({'id': ctrl.variable.id})">
                                 <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
                                 {{'variable-management.detail.variable' | translate }}:
-                                <span display-i18n-string i18n-string=ctrl.variable.label current-language=currentLanguage></span></a>
+                                <span display-i18n-string=ctrl.variable.label></span></a>
                         </div>
                         <div ng-if="ctrl.counts.variablesCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'variables', 'data-set': ctrl.dataSet.id, 'page': 1, 'sort-by': 'indexInDataSet'})">
@@ -149,7 +149,7 @@
                 <tbody>
                     <tr ng-repeat="row in ctrl.dataSet.subDataSets">
                         <td>{{row.name}}&nbsp;</td>
-                        <td display-i18n-string i18n-string=row.description current-language=currentLanguage></td>
+                        <td display-i18n-string=row.description></td>
                         <td>{{row.accessWay}}</td>
                         <td>
                             <a ui-sref="search({'type': 'variables', 'data-set':ctrl.dataSet.id, 'page': 1, 'access-way': row.accessWay,'sort-by': 'indexInDataSet'})">
