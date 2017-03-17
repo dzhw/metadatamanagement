@@ -4,105 +4,82 @@
 
 angular.module('metadatamanagementApp')
   .controller('VariableDetailController', function($scope, entity,
-    SurveySearchService,
-    DataSetSearchService, QuestionSearchService, VariableSearchService,
-    RelatedPublicationSearchService, StudySearchService,
+    QuestionSearchService, VariableSearchService, Principal,
     SimpleMessageToastService, PageTitleService, LanguageService,
     CleanJSObjectService, $state, ToolbarHeaderService) {
     $scope.generationCodeToggleFlag = true;
     $scope.filterDetailsCodeToggleFlag = true;
     $scope.notAllRowsVisible = true;
     $scope.counts = {};
-    $scope.variable = entity;
     $scope.validResponsesOrMissingsAvailable = false;
-    entity.$promise.then(function() {
-      if (!CleanJSObjectService.isNullOrEmpty($scope
+    entity.promise.then(function(result) {
+      if (result.release || Principal.hasAuthority('ROLE_PUBLISHER')) {
+        $scope.variable = result;
+        if (!CleanJSObjectService.isNullOrEmpty($scope
           .variable.distribution.missings) || !CleanJSObjectService
-        .isNullOrEmpty($scope.variable
-          .distribution.validResponses)) {
-        $scope.validResponsesOrMissingsAvailable = true;
-      }
-      var currenLanguage = LanguageService.getCurrentInstantly();
-      var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';
-      PageTitleService.setPageTitle('variable-management.detail.title', {
-        label: $scope.variable.label[currenLanguage] ? $scope.variable
+          .isNullOrEmpty($scope.variable
+            .distribution.validResponses)) {
+          $scope.validResponsesOrMissingsAvailable = true;
+        }
+        var currenLanguage = LanguageService.getCurrentInstantly();
+        var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';
+        PageTitleService.setPageTitle('variable-management.detail.title', {
+          label: $scope.variable.label[currenLanguage] ? $scope.variable
           .label[currenLanguage] : $scope.variable.label[
             secondLanguage],
-        variableId: $scope.variable.id
-      });
-      StudySearchService.findOneByProjectId($scope.variable.
-        dataAcquisitionProjectId, ['dataAcquisitionProjectId','title', 'id'])
-        .then(function(study) {
-          if (study.hits.hits.length > 0) {
-            $scope.study = study.hits.hits[0]._source;
-          }
+          variableId: $scope.variable.id
         });
-      DataSetSearchService.findOneByVariableId($scope.variable.id,
-        ['number','dataAcquisitionProjectId','description', 'id', 'studyId'])
-          .then(function(dataSet) {
-            if (dataSet.hits.hits.length > 0) {
-              $scope.dataSet = dataSet.hits.hits[0]._source;
-            }
-          });
-      QuestionSearchService.countBy('variables.id', $scope.variable.id)
-      .then(function(questionsCount) {
-        $scope.counts.questionsCount = questionsCount.count;
-        if (questionsCount.count === 1) {
-          QuestionSearchService
+        $scope.study = $scope.variable.study;
+        $scope.dataSet = $scope.variable.dataSet;
+        QuestionSearchService.countBy('variables.id', $scope.variable.id)
+        .then(function(questionsCount) {
+          $scope.counts.questionsCount = questionsCount.count;
+          if (questionsCount.count === 1) {
+            QuestionSearchService
             .findByVariableId($scope.variable.id, ['number', 'instrumentNumber',
             'questionText', 'id'])
             .then(function(question) {
               $scope.question = question.hits.hits[0]._source;
             });
-        }
-      });
-      SurveySearchService
-        .countBy('variables.id', $scope.variable.id)
-        .then(function(surveysCount) {
-          $scope.counts.surveysCount = surveysCount.count;
-          if (surveysCount.count === 1) {
-            SurveySearchService
-              .findByVariableId($scope.variable.id, ['title', 'number', 'id'])
-              .then(function(survey) {
-                $scope.survey = survey.hits.hits[0]._source;
-              });
           }
         });
-      if ($scope.variable.panelIdentifier) {
-        VariableSearchService
+        $scope.counts.surveysCount = $scope.variable.surveys.length;
+        if ($scope.counts.surveysCount === 1) {
+          $scope.survey = $scope.variable.surveys[0];
+        }
+        if ($scope.variable.panelIdentifier) {
+          VariableSearchService
           .countBy('panelIdentifier', $scope.variable.panelIdentifier)
           .then(function(variablesInPanel) {
             $scope.counts.variablesInPanel = variablesInPanel.count;
           });
-      } else {
-        $scope.counts.variablesInPanel = 0;
-      }
-      RelatedPublicationSearchService
-        .countBy('variableIds', $scope.variable.id)
-        .then(function(publicationsCount) {
-          $scope.counts.publicationsCount = publicationsCount.count;
-          if (publicationsCount.count === 1) {
-            RelatedPublicationSearchService
-              .findByVariableId($scope.variable.id, ['id', 'title'])
-              .then(function(relatedPublication) {
-                $scope.relatedPublication = relatedPublication.
-                hits.hits[0]._source;
-              });
-          }
-        });
-      ToolbarHeaderService.updateToolbarHeader({
-        'stateName': $state.current.name,
-        'name': $scope.variable.name,
-        'dataSetId': $scope.variable.dataSetId,
-        'dataSetNumber': $scope.variable.dataSetNumber,
-        'studyId': $scope.variable.studyId,
-        'projectId': $scope.variable.
+        } else {
+          $scope.counts.variablesInPanel = 0;
+        }
+        $scope.counts.publicationsCount = $scope.variable
+        .relatedPublications.length;
+        if ($scope.counts.publicationsCount === 1) {
+          $scope.relatedPublication = $scope.variable
+          .relatedPublications[0];
+        }
+        ToolbarHeaderService.updateToolbarHeader({
+          'stateName': $state.current.name,
+          'name': $scope.variable.name,
+          'dataSetId': $scope.variable.dataSetId,
+          'dataSetNumber': $scope.variable.dataSetNumber,
+          'studyId': $scope.variable.studyId,
+          'projectId': $scope.variable.
           dataAcquisitionProjectId});
-      if ($scope.variable.filterDetails) {
-        html_beautify($scope.variable.filterDetails.expression); //jscs:ignore
-      }
-      if ($scope.variable.generationDetails) {
-        html_beautify($scope.variable.generationDetails.rule); //jscs:ignore
+        if ($scope.variable.filterDetails) {
+          html_beautify($scope.variable.filterDetails.expression); //jscs:ignore
+        }
+        if ($scope.variable.generationDetails) {
+          html_beautify($scope.variable.generationDetails.rule); //jscs:ignore
+        }
+      } else {
+        SimpleMessageToastService.openSimpleMessageToast(
+          'variable-management.detail.not-released-toast', {id: result.id}
+        );
       }
     });
     $scope.isRowHidden = function(index) {

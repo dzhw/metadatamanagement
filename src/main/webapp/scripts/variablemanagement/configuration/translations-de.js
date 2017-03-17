@@ -103,7 +103,8 @@ angular.module('metadatamanagementApp').config(
           'related-variables': 'Zugehörige Variablen',
           'central-tendency': 'Zentrale Tendenz',
           'dispersion': 'Streuung',
-          'distribution': 'Verteilung'
+          'distribution': 'Verteilung',
+          'not-released-toast': 'Die Variable "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!'
         },
         'labels': {
           'part-of-data-set': 'Enthalten in Datensatz:',

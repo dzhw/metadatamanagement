@@ -31,6 +31,9 @@ public class RelatedPublicationSearchDocument extends RelatedPublication {
   private List<VariableSubDocument> variables = 
       new ArrayList<VariableSubDocument>();
   
+  // dummy string which ensures that related publications are always released
+  private String release = "__";
+  
   /**
    * Construct the search document with all related subdocuments.
    * @param relatedPublication the related publication to be searched for
@@ -122,5 +125,13 @@ public class RelatedPublicationSearchDocument extends RelatedPublication {
 
   public void setVariables(List<VariableSubDocument> variables) {
     this.variables = variables;
+  }
+
+  public String getRelease() {
+    return release;
+  }
+
+  public void setRelease(String release) {
+    this.release = release;
   }
 }

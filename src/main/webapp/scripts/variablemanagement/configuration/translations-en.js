@@ -103,7 +103,8 @@ angular.module('metadatamanagementApp').config(
           'related-variables': 'Related Variables',
           'central-tendency': 'Central Tendency',
           'dispersion': 'Dispersion',
-          'distribution': 'Distribution'
+          'distribution': 'Distribution',
+          'not-released-toast': 'Variable "{{ id }}" has not yet been released to all users!'
         },
         'labels': {
           'part-of-data-set': 'Part of Data Set:',

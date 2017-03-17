@@ -19,11 +19,9 @@ angular.module('metadatamanagementApp')
           }
         },
         resolve: {
-          entity: ['$stateParams', 'VariableResource',
-            function($stateParams, VariableResource) {
-              return VariableResource.get({
-                id: $stateParams.id
-              });
+          entity: ['$stateParams', 'VariableSearchService',
+            function($stateParams, VariableSearchService) {
+              return VariableSearchService.findOneById($stateParams.id);
             }
           ]
         },

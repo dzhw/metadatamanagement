@@ -2,10 +2,24 @@
 'use strict';
 
 angular.module('metadatamanagementApp').factory('VariableSearchService',
-  function(ElasticSearchClient) {
+  function(ElasticSearchClient, $q) {
     var query = {};
     query.type = 'variables';
     query.index = 'variables';
+
+    var findOneById = function(id) {
+      var deferred = $q.defer();
+      delete query.body;
+      query.id = id;
+      ElasticSearchClient.getSource(query, function(error, response) {
+          if (error) {
+            deferred.reject(error);
+          } else {
+            deferred.resolve(response);
+          }
+        });
+      return deferred;
+    };
 
     var findVariables = function(variableIds, selectedAttributes) {
       var ids = _.split(variableIds, ',');
@@ -107,6 +121,7 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
       return ElasticSearchClient.count(query);
     };
     return {
+      findOneById: findOneById,
       findByQuestionId: findByQuestionId,
       findBySurveyTitle: findBySurveyTitle,
       findVariables: findVariables,
