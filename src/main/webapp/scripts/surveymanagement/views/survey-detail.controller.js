@@ -2,58 +2,42 @@
 
 angular.module('metadatamanagementApp')
   .controller('SurveyDetailController',
-    function(entity, StudySearchService, LanguageService, DataSetSearchService,
-      SurveySearchService, PageTitleService, InstrumentSearchService,
-      RelatedPublicationSearchService, $state, ToolbarHeaderService,
-      SurveyAttachmentResource) {
+    function(entity, LanguageService,
+      PageTitleService, $state, ToolbarHeaderService, SurveySearchService,
+      SurveyAttachmentResource, Principal, SimpleMessageToastService) {
       var ctrl = this;
       ctrl.imgResolved = false;
-      ctrl.survey = entity;
       ctrl.counts = {};
-      entity.$promise.then(function() {
+      entity.promise.then(function(result) {
         var currenLanguage = LanguageService.getCurrentInstantly();
         var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';
         PageTitleService.setPageTitle('survey-management.detail.title', {
-          title: ctrl.survey.title[currenLanguage] ? ctrl
-          .survey.title[currenLanguage] : ctrl.survey.title[secondLanguage],
-          surveyId: ctrl.survey.id
+          title: result.title[currenLanguage] ? result.title[currenLanguage]
+          : result.title[secondLanguage],
+          surveyId: result.id
         });
-        StudySearchService.findOneByProjectId(ctrl.survey.
-          dataAcquisitionProjectId, ['dataAcquisitionProjectId', 'title', 'id'])
-          .then(function(study) {
-            if (study.hits.hits.length > 0) {
-              ctrl.study = study.hits.hits[0]._source;
-            }
-          });
-        DataSetSearchService.countBy('surveyIds', ctrl.survey.id)
-          .then(function(dataSetsCount) {
-            ctrl.counts.dataSetsCount = dataSetsCount.count;
-            if (dataSetsCount.count === 1) {
-              DataSetSearchService.findBySurveyId(ctrl.survey.id,
-              ['description', 'id'])
-              .then(function(dataSet) {
-                ctrl.dataSet = dataSet.hits.hits[0]._source;
-              });
-            }
-          });
-        SurveySearchService.countBy('dataAcquisitionProjectId',
-            ctrl.survey.dataAcquisitionProjectId)
+        ToolbarHeaderService.updateToolbarHeader({
+          'stateName': $state.current.name,
+          'number': result.number,
+          'studyId': result.studyId,
+          'projectId': result.dataAcquisitionProjectId});
+        if (result.release || Principal.hasAuthority('ROLE_PUBLISHER')) {
+          ctrl.survey = result;
+          ctrl.study = result.study;
+          ctrl.counts.dataSetsCount = result.dataSets.length;
+          if (ctrl.counts.dataSetsCount === 1) {
+            ctrl.dataSet = result.dataSets[0];
+          }
+          SurveySearchService.countBy('dataAcquisitionProjectId',
+          ctrl.survey.dataAcquisitionProjectId)
           .then(function(surveysCount) {
             ctrl.counts.surveysCount = surveysCount.count;
           });
-        InstrumentSearchService.countBy('surveyIds', ctrl.survey.id)
-          .then(function(instrumentsCount) {
-            ctrl.counts.instrumentsCount = instrumentsCount.count;
-            if (instrumentsCount.count === 1) {
-              InstrumentSearchService.findBySurveyId(ctrl.survey.id,
-                ['dataAcquisitionProjectId', 'number', 'title', 'id',
-              'description'])
-              .then(function(instrument) {
-                ctrl.instrument = instrument.hits.hits[0]._source;
-              });
-            }
-          });
-        SurveyAttachmentResource.findBySurveyId({
+          ctrl.counts.instrumentsCount = result.instruments.length;
+          if (ctrl.counts.instrumentsCount === 1) {
+            ctrl.instrument = result.instruments[0];
+          }
+          SurveyAttachmentResource.findBySurveyId({
             id: ctrl.survey.id
           }).$promise.then(
             function(attachments) {
@@ -61,23 +45,15 @@ angular.module('metadatamanagementApp')
                 ctrl.attachments = attachments;
               }
             });
-        RelatedPublicationSearchService.countBy('surveyIds', ctrl.survey.id)
-            .then(function(publicationsCount) {
-              ctrl.counts.publicationsCount = publicationsCount.count;
-              if (publicationsCount.count === 1) {
-                RelatedPublicationSearchService
-                  .findBySurveyId(ctrl.survey.id, ['id', 'title'])
-                  .then(function(relatedPublication) {
-                    ctrl.relatedPublication = relatedPublication.
-                    hits.hits[0]._source;
-                  });
-              }
-            });
-        ToolbarHeaderService.updateToolbarHeader({
-          'stateName': $state.current.name,
-          'number': ctrl.survey.number,
-          'studyId': ctrl.survey.studyId,
-          'projectId': ctrl.survey.dataAcquisitionProjectId});
+          ctrl.counts.publicationsCount = result.relatedPublications.length;
+          if (ctrl.counts.publicationsCount === 1) {
+            ctrl.relatedPublication = result.relatedPublications[0];
+          }
+        } else {
+          SimpleMessageToastService.openSimpleMessageToast(
+            'survey-management.detail.not-released-toast', {id: result.id}
+          );
+        }
       });
       ctrl.setImgResolved = function() {
         ctrl.imgResolved = true;

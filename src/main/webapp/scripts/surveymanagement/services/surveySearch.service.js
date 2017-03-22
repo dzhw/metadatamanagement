@@ -2,10 +2,24 @@
 'use strict';
 
 angular.module('metadatamanagementApp').factory('SurveySearchService',
-  function(ElasticSearchClient) {
+  function(ElasticSearchClient, $q) {
     var query = {};
     query.type = 'surveys';
     query.index = 'surveys';
+
+    var findOneById = function(id) {
+      var deferred = $q.defer();
+      delete query.body;
+      query.id = id;
+      ElasticSearchClient.getSource(query, function(error, response) {
+          if (error) {
+            deferred.reject(error);
+          } else {
+            deferred.resolve(response);
+          }
+        });
+      return deferred;
+    };
     var findSurveys = function(surveyIds, selectedAttributes) {
       var ids = _.split(surveyIds, ',');
       query.body = {};
@@ -128,6 +142,7 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
       return ElasticSearchClient.count(query);
     };
     return {
+      findOneById: findOneById,
       findSurveys: findSurveys,
       findByProjectId: findByProjectId,
       findByStudyId: findByStudyId,

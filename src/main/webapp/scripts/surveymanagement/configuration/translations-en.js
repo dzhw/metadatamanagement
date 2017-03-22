@@ -51,7 +51,8 @@ angular.module('metadatamanagementApp').config(
             'description': 'Description',
             'language': 'Document Language',
             'file': 'File'
-          }
+          },
+          'not-released-toast': 'Survey "{{ id }}" has not yet been released to all users!'
         },
         'error': {
           'survey': {

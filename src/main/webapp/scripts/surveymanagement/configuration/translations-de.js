@@ -51,7 +51,8 @@ angular.module('metadatamanagementApp').config(
             'description': 'Beschreibung',
             'language': 'Dokumentensprache',
             'file': 'Datei'
-          }
+          },
+          'not-released-toast': 'Die Erhebung "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!'
         },
         'error': {
           'survey': {
