@@ -5,104 +5,80 @@
 
 angular.module('metadatamanagementApp')
   .controller('QuestionDetailController',
-    function(StudySearchService, entity, $state, ToolbarHeaderService,
+    function(entity, $state, ToolbarHeaderService,
       SimpleMessageToastService, QuestionSearchService, CleanJSObjectService,
-      VariableSearchService, RelatedPublicationSearchService,
-      InstrumentSearchService, PageTitleService, $rootScope) {
+      PageTitleService, $rootScope, Principal) {
 
       var ctrl = this;
       this.representationCodeToggleFlag = true;
-      ctrl.question = entity;
       ctrl.predecessors = [];
       ctrl.successors = [];
       ctrl.counts = {};
 
-      entity.$promise.then(function() {
-        ctrl.questionIdAsArray = ctrl.question.id.split(',');
-        QuestionSearchService.findAllPredeccessors(ctrl.question.id, ['id',
-        'instrumentNumber', 'questionText', 'type','instrumentNmber',
-        'number', 'dataAcquisitionProjectId', 'instrument.description'])
+      entity.promise.then(function(result) {
+        var title = {
+          questionNumber: result.number,
+          questionId: result.id,
+          instrumentDescription: result.instrument.description[
+            $rootScope.currentLanguage]
+        };
+        PageTitleService.
+          setPageTitle('question-management.detail.title', title);
+        ToolbarHeaderService.updateToolbarHeader({
+          'stateName': $state.current.name,
+          'questionNumber': result.number,
+          'instrumentNumber': result.instrumentNumber,
+          'instrumentId': result.instrumentId,
+          'studyId': result.studyId,
+          'projectId': result.dataAcquisitionProjectId});
+        if (result.release || Principal.hasAuthority('ROLE_PUBLISHER')) {
+          ctrl.question = result;
+          QuestionSearchService.findAllPredeccessors(ctrl.question.id, ['id',
+          'instrumentNumber', 'questionText', 'type','instrumentNmber',
+          'number', 'dataAcquisitionProjectId', 'instrument.description'])
           .then(function(predecessors) {
             if (!CleanJSObjectService.isNullOrEmpty(predecessors)) {
               ctrl.predecessors = predecessors.hits.hits;
             }
           });
-        if (ctrl.question.successors) {
-          QuestionSearchService.findSuccessors(ctrl.question.successors, ['id',
-          'instrumentNumber', 'questionText', 'type','instrumentNmber',
-          'number', 'dataAcquisitionProjectId', 'instrument.description'])
-          .then(function(successors) {
+          if (ctrl.question.successors) {
+            QuestionSearchService.findSuccessors(ctrl.question.successors,
+            ['id', 'instrumentNumber', 'questionText', 'type','instrumentNmber',
+            'number', 'dataAcquisitionProjectId', 'instrument.description'])
+            .then(function(successors) {
               _.pullAllBy(successors.docs, [{
                 'found': false
               }], 'found');
               ctrl.successors = successors.docs;
             });
-        }
-        if (ctrl.question.technicalRepresentation) {
-          //default value is no beautify
-          ctrl.technicalRepresentationBeauty =
+          }
+          if (ctrl.question.technicalRepresentation) {
+            //default value is no beautify
+            ctrl.technicalRepresentationBeauty =
             ctrl.question.technicalRepresentation.source;
 
-          //beautify xml, html, xhtml files.
-          if (ctrl.question.technicalRepresentation.language === 'xml' ||
+            //beautify xml, html, xhtml files.
+            if (ctrl.question.technicalRepresentation.language === 'xml' ||
             ctrl.question.technicalRepresentation.language === 'xhtml' ||
             ctrl.question.technicalRepresentation.language === 'html') {
-            html_beautify(ctrl.technicalRepresentationBeauty); //jscs:ignore
-          }
-        }
-        StudySearchService.findOneByProjectId(ctrl.question.
-          dataAcquisitionProjectId, ['dataAcquisitionProjectId','title', 'id'])
-          .then(function(study) {
-            if (study.hits.hits.length > 0) {
-              ctrl.study = study.hits.hits[0]._source;
+              html_beautify(ctrl.technicalRepresentationBeauty); //jscs:ignore
             }
-          });
-        VariableSearchService.countBy('relatedQuestions.questionId',
-          ctrl.question.id).then(function(variablesCount) {
-          ctrl.counts.variablesCount = variablesCount.count;
-          if (variablesCount.count === 1) {
-            VariableSearchService
-              .findByQuestionId(ctrl.question.id, ['dataAcquisitionProjectId',
-              'dataSetNumber', 'name', 'label', 'id'])
-              .then(function(variable) {
-                ctrl.variable = variable.hits.hits[0]._source;
-              });
           }
-        });
-        InstrumentSearchService.findInstruments(ctrl.question.instrumentId,
-          ['dataAcquisitionProjectId', 'number', 'title', 'description', 'id'])
-          .then(function(instrument) {
-                  var title = {
-                    questionNumber: ctrl.question.number,
-                    questionId: ctrl.question.id
-                  };
-                  if (instrument.docs[0].found === true) {
-                    ctrl.instrument = instrument.docs[0]._source;
-                    title.instrumentDescription = ctrl.instrument
-                    .description[$rootScope.currentLanguage];
-                  }
-                  PageTitleService.
-                  setPageTitle('question-management.detail.title', title);
-                });
-        RelatedPublicationSearchService.countBy('questionIds',
-        ctrl.question.id).then(function(publicationsCount) {
-                  ctrl.counts.publicationsCount = publicationsCount.count;
-                  if (publicationsCount.count === 1) {
-                    RelatedPublicationSearchService
-                      .findByQuestionId(ctrl.question.id, ['id', 'title'])
-                      .then(function(relatedPublication) {
-                        ctrl.relatedPublication = relatedPublication.
-                        hits.hits[0]._source;
-                      });
-                  }
-                });
-        ToolbarHeaderService.updateToolbarHeader({
-          'stateName': $state.current.name,
-          'questionNumber': ctrl.question.number,
-          'instrumentNumber': ctrl.question.instrumentNumber,
-          'instrumentId': ctrl.question.instrumentId,
-          'studyId': ctrl.question.studyId,
-          'projectId': ctrl.question.dataAcquisitionProjectId});
+          ctrl.study = result.study;
+          ctrl.counts.variablesCount = result.variables.length;
+          if (ctrl.counts.variablesCount === 1) {
+            ctrl.variable = result.variables[0];
+          }
+          ctrl.instrument = result.instrument;
+          ctrl.counts.publicationsCount = result.relatedPublications.length;
+          if (ctrl.counts.publicationsCount === 1) {
+            ctrl.relatedPublication = result.relatedPublications[0];
+          }
+        } else {
+          SimpleMessageToastService.openSimpleMessageToast(
+          'question-management.detail.not-released-toast', {id: result.id}
+          );
+        }
       });
       ctrl.openSuccessCopyToClipboardToast = function(message) {
         SimpleMessageToastService.openSimpleMessageToast(message, []);

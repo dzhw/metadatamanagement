@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -26,12 +27,14 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.HandlerMapping;
 
 import com.codahale.metrics.annotation.Timed;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import eu.dzhw.fdz.metadatamanagement.common.rest.util.HeaderUtil;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
@@ -63,6 +66,7 @@ public class SearchResource {
    * @param elasticSearchConnectionUrl the elasticsearch host url
    */
   @Autowired
+  @SuppressFBWarnings("SIC_INNER_SHOULD_BE_STATIC_ANON")
   public SearchResource(String elasticSearchConnectionUrl)
       throws UnsupportedEncodingException, MalformedURLException {
     this.connectionUrl = elasticSearchConnectionUrl;
@@ -76,6 +80,12 @@ public class SearchResource {
       byte[] base64CredsBytes = Base64.encode(plainCredsBytes);
       base64Credentials = new String(base64CredsBytes, "UTF-8");
     }
+    // prevent throwing exception on error codes
+    restTemplate.setErrorHandler(new DefaultResponseErrorHandler() {
+      protected boolean hasError(HttpStatus statusCode) {
+          return false;
+      }
+    });
   }
 
   /**

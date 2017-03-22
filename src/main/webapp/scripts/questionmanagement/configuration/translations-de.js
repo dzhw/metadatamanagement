@@ -53,7 +53,8 @@ angular.module('metadatamanagementApp').config(
           'introduction': 'Einführung',
           'number': 'Fragenummer',
           'questionText': 'Fragetext',
-          'open-image-in-new-tab': 'Bild in neuem Tab öffnen'
+          'open-image-in-new-tab': 'Bild in neuem Tab öffnen',
+          'not-released-toast': 'Die Frage "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!'
         },
         'error': {
           'question': {

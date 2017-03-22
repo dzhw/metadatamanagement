@@ -20,11 +20,9 @@ angular.module('metadatamanagementApp')
           }
         },
         resolve: {
-          entity: ['$stateParams', 'QuestionResource',
-          function($stateParams, QuestionResource) {
-              return QuestionResource.get({
-                id: $stateParams.id
-              });
+          entity: ['$stateParams', 'QuestionSearchService',
+          function($stateParams, QuestionSearchService) {
+              return QuestionSearchService.findOneById($stateParams.id);
             }
           ]
         }

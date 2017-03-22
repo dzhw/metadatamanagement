@@ -1,4 +1,4 @@
-<div ng-if="ctrl.question.$resolved && ctrl.question.id">
+<div ng-if="ctrl.question.id">
     <div layout="row" style="margin-bottom: 0px;" layout-margin>
         <h1 class="md-headline" style="margin-left: 0px;">{{'question-management.detail.question' | translate}} {{ctrl.question.number}}: <span ng-if='ctrl.instrument' display-i18n-string=ctrl.instrument.description></span> <span class="label label-as-badge label-default">{{ctrl.question.id}}</span></h1>
     </div>

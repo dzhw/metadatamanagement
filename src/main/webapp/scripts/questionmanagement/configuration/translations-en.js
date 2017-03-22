@@ -54,7 +54,8 @@ angular.module('metadatamanagementApp').config(
           'introduction': 'Introduction',
           'number': 'Question Number',
           'questionText': 'Question Text',
-          'open-image-in-new-tab': 'Open Image in new Tab '
+          'open-image-in-new-tab': 'Open Image in new Tab ',
+          'not-released-toast': 'Question "{{ id }}" has not yet been released to all users!'
         },
         'error': {
           'question': {

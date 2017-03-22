@@ -2,10 +2,24 @@
 'use strict';
 
 angular.module('metadatamanagementApp').factory('QuestionSearchService',
-  function(ElasticSearchClient) {
+  function(ElasticSearchClient, $q) {
     var query = {};
     query.type = 'questions';
     query.index = 'questions';
+
+    var findOneById = function(id) {
+      var deferred = $q.defer();
+      delete query.body;
+      query.id = id;
+      ElasticSearchClient.getSource(query, function(error, response) {
+          if (error) {
+            deferred.reject(error);
+          } else {
+            deferred.resolve(response);
+          }
+        });
+      return deferred;
+    };
     var findQuestions = function(questionIds, selectedAttributes) {
       var ids = _.split(questionIds, ',');
       query.body = {};
@@ -118,6 +132,7 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
       return ElasticSearchClient.count(query);
     };
     return {
+      findOneById: findOneById,
       findAllPredeccessors: findAllPredeccessors,
       findSuccessors: findQuestions,
       findQuestions: findQuestions,
