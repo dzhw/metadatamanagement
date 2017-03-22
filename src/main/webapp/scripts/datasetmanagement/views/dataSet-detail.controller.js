@@ -2,86 +2,62 @@
 
 angular.module('metadatamanagementApp')
   .controller('DataSetDetailController',
-    function(entity, Principal, StudySearchService, SurveySearchService,
-      VariableSearchService, RelatedPublicationSearchService,
+    function(entity, Principal,
+      VariableSearchService,
       DataSetSearchService, DataSetReportService, PageTitleService,
-      LanguageService, $state, ToolbarHeaderService) {
+      LanguageService, $state, ToolbarHeaderService,
+      SimpleMessageToastService) {
       var ctrl = this;
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAuthority = Principal.hasAuthority;
       ctrl.counts = {};
-      ctrl.dataSet = entity;
-      ctrl.counts = {};
 
-      entity.$promise.then(function() {
+      entity.promise.then(function(result) {
         var currenLanguage = LanguageService.getCurrentInstantly();
         var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';
         PageTitleService.setPageTitle('data-set-management.detail.title', {
-          description: ctrl.dataSet.description[currenLanguage] ? ctrl.dataSet
-            .description[currenLanguage] : ctrl
-            .dataSet.description[secondLanguage],
-          dataSetId: ctrl.dataSet.id
-        });
-        StudySearchService.findOneByProjectId(ctrl.dataSet.
-          dataAcquisitionProjectId, ['dataAcquisitionProjectId','title', 'id'])
-          .then(function(study) {
-            if (study.hits.hits.length > 0) {
-              ctrl.study = study.hits.hits[0]._source;
-            }
-          });
-        SurveySearchService.countBy('dataSets.id', ctrl.dataSet.id)
-          .then(function(surveysCount) {
-            ctrl.counts.surveysCount = surveysCount.count;
-            if (surveysCount.count === 1) {
-              SurveySearchService
-                .findByDataSetId(ctrl.dataSet.id, ['dataAcquisitionProjectId',
-                'number', 'title', 'id'])
-                .then(function(survey) {
-                  ctrl.survey = survey.hits.hits[0]._source;
-                });
-            }
-          });
-        VariableSearchService.countBy('dataSetId', ctrl.dataSet.id)
-        .then(function(variablesCount) {
-          ctrl.counts.variablesCount = variablesCount.count;
-          if (variablesCount.count === 1) {
-            VariableSearchService
-              .findByDataSetId(ctrl.dataSet.id, ['dataAcquisitionProjectId',
-              'dataSetNumber', 'name', 'label', 'id'])
-              .then(function(variable) {
-                ctrl.variable = variable.hits.hits[0]._source;
-              });
-          }
-        });
-        RelatedPublicationSearchService.countBy('dataSetIds',
-          ctrl.dataSet.id).then(function(publicationsCount) {
-          ctrl.counts.publicationsCount = publicationsCount.count;
-          if (publicationsCount.count === 1) {
-            RelatedPublicationSearchService
-              .findByDataSetId(ctrl.dataSet.id, ['id', 'title'])
-              .then(function(relatedPublication) {
-                ctrl.relatedPublication = relatedPublication.
-                hits.hits[0]._source;
-              });
-          }
-        });
-        DataSetSearchService
-          .countBy('dataAcquisitionProjectId',
-            ctrl.dataSet.dataAcquisitionProjectId)
-          .then(function(dataSetsCount) {
-            ctrl.counts.dataSetsCount = dataSetsCount.count;
-          });
-        ctrl.dataSet.subDataSets.forEach(function(subDataSet) {
-          VariableSearchService.countBy('accessWays',
-          subDataSet.accessWay, ctrl.dataSet.id).then(function(counts) {
-            ctrl.counts[subDataSet.name] = counts.count;
-          });
+          description: result.description[currenLanguage] ? result
+          .description[currenLanguage] : result.description[secondLanguage],
+          dataSetId: result.id
         });
         ToolbarHeaderService.updateToolbarHeader({
           'stateName': $state.current.name,
-          'number': ctrl.dataSet.number,
-          'studyId': ctrl.dataSet.studyId,
-          'projectId': ctrl.dataSet.dataAcquisitionProjectId});
+          'number': result.number,
+          'studyId': result.studyId,
+          'projectId': result.dataAcquisitionProjectId});
+        if (result.release || Principal.hasAuthority('ROLE_PUBLISHER')) {
+          ctrl.dataSet = result;
+          ctrl.study = result.study;
+          ctrl.counts.surveysCount = result.surveys.length;
+          if (ctrl.counts.surveysCount === 1) {
+            ctrl.survey = result.surveys[0];
+          }
+          ctrl.counts.variablesCount = result.variables.length;
+          if (ctrl.counts.variablesCount === 1) {
+            ctrl.variable = result.variables[0];
+          }
+          ctrl.counts.publicationsCount = result.relatedPublications.length;
+          if (ctrl.counts.publicationsCount === 1) {
+            ctrl.relatedPublication = result.relatedPublications[0];
+          }
+          DataSetSearchService
+          .countBy('dataAcquisitionProjectId',
+          ctrl.dataSet.dataAcquisitionProjectId)
+          .then(function(dataSetsCount) {
+            ctrl.counts.dataSetsCount = dataSetsCount.count;
+          });
+          ctrl.dataSet.subDataSets.forEach(function(subDataSet) {
+            VariableSearchService.countBy('accessWays',
+            subDataSet.accessWay, ctrl.dataSet.id).then(function(counts) {
+              ctrl.counts[subDataSet.name] = counts.count;
+            });
+          });
+
+        } else {
+          SimpleMessageToastService.openSimpleMessageToast(
+          'data-set-management.detail.not-released-toast', {id: result.id}
+          );
+        }
       });
       ctrl.uploadTexTemplate = function(files) {
         if (files != null) {

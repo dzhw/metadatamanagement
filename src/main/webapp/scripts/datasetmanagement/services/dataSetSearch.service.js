@@ -2,11 +2,24 @@
 'use strict';
 
 angular.module('metadatamanagementApp').factory('DataSetSearchService',
-  function(ElasticSearchClient) {
+  function(ElasticSearchClient, $q) {
     var query = {};
     query.type = 'data_sets';
     query.index = 'data_sets';
 
+    var findOneById = function(id) {
+      var deferred = $q.defer();
+      delete query.body;
+      query.id = id;
+      ElasticSearchClient.getSource(query, function(error, response) {
+          if (error) {
+            deferred.reject(error);
+          } else {
+            deferred.resolve(response);
+          }
+        });
+      return deferred;
+    };
     var findDataSets = function(dataSetIds, selectedAttributes) {
       var ids = _.split(dataSetIds, ',');
       query.body = {};
@@ -128,6 +141,7 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
       return ElasticSearchClient.count(query);
     };
     return {
+      findOneById: findOneById,
       findOneByVariableId: findOneByVariableId,
       findBySurveyId: findBySurveyId,
       findByProjectId: findByProjectId,

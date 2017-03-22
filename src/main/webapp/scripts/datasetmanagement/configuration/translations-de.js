@@ -57,7 +57,8 @@ angular.module('metadatamanagementApp').config(
           },
           'generate-variable-report': 'Erzeuge Variablenreport',
           'no-related-data-sets': 'Keine zugehörige Datensätze.',
-          'related-data-sets': 'Zugehörige Datensätze'
+          'related-data-sets': 'Zugehörige Datensätze',
+          'not-released-toast': 'Der Datensatz "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!'
         },
         'error': {
           'files-in-template-zip-incomplete': 'Die bereitgestellten Dateien für die Erzeugung eines Datensatzreports sind unvollständig. Es fehlte die Datei: {{invalidValue}}',

@@ -57,7 +57,8 @@ angular.module('metadatamanagementApp').config(
           },
           'generate-variable-report': 'Generate Variable report',
           'no-related-data-sets': 'No related Data Sets.',
-          'related-data-sets': 'Related Data Sets'
+          'related-data-sets': 'Related Data Sets',
+          'not-released-toast': 'Data Set "{{ id }}" has not yet been released to all users!'
         },
         'error': {
           'files-in-template-zip-incomplete': 'The uploaded files for the data set report were not complete. The missing file is: {{invalidValue}}',

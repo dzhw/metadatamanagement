@@ -1,4 +1,4 @@
-<div ng-if="ctrl.dataSet.$resolved && ctrl.dataSet.id" flex ngf-drop="ctrl.uploadTexTemplate($files)" ngf-multiple="true" ngf-include-dir="false" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-drop-disabled="!ctrl.isAuthenticated() || !ctrl.hasAuthority('ROLE_PUBLISHER')">
+<div ng-if="ctrl.dataSet.id" flex ngf-drop="ctrl.uploadTexTemplate($files)" ngf-multiple="true" ngf-include-dir="false" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-drop-disabled="!ctrl.isAuthenticated() || !ctrl.hasAuthority('ROLE_PUBLISHER')">
     <div layout="row" style="margin-bottom: 0px;" layout-margin>
         <h1 class="md-headline" style="margin-left: 0px;"><span display-i18n-string=ctrl.dataSet.description></span> <span class="label label-as-badge label-default">{{ctrl.dataSet.id}}</span></h1>
     </div>

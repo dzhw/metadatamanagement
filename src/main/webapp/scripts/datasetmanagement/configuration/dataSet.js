@@ -20,11 +20,9 @@ angular.module('metadatamanagementApp')
           }
         },
         resolve: {
-          entity: ['$stateParams', 'DataSetResource',
-            function($stateParams, DataSetResource) {
-              return DataSetResource.get({
-                id: $stateParams.id
-              });
+          entity: ['$stateParams', 'DataSetSearchService',
+            function($stateParams, DataSetSearchService) {
+              return DataSetSearchService.findOneById($stateParams.id);
             }
           ]
         },
