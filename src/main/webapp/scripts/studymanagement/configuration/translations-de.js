@@ -31,7 +31,8 @@ angular.module('metadatamanagementApp').config(
           'related-studies': 'Zugehörige Studien',
           'available-data-products': 'Verfügbare Datenprodukte',
           'basic-data-of-surveys': 'Eckdaten der Erhebungen',
-          'downloads': 'Materialien zum Download'
+          'downloads': 'Materialien zum Download',
+          'not-released-toast': 'Die Studie "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!'
         },
         'log-messages': {
           'study': {
