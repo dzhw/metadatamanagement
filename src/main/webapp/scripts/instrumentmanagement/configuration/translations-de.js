@@ -42,7 +42,8 @@ angular.module('metadatamanagementApp').config(
             'description': 'Beschreibung',
             'language': 'Dokumentensprache',
             'file': 'Datei'
-          }
+          },
+          'not-released-toast': 'Das Instrument "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!'
         },
         'error': {
           'instrument': {

@@ -42,7 +42,8 @@ angular.module('metadatamanagementApp').config(
             'description': 'Description',
             'language': 'Document Language',
             'file': 'File'
-          }
+          },
+          'not-released-toast': 'Instrument "{{ id }}" has not yet been released to all users!'
         },
         'error': {
           'instrument': {

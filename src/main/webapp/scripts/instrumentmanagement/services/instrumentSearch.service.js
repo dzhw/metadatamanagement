@@ -2,10 +2,24 @@
 'use strict';
 
 angular.module('metadatamanagementApp').factory('InstrumentSearchService',
-  function(ElasticSearchClient) {
+  function(ElasticSearchClient, $q) {
     var query = {};
     query.type = 'instruments';
     query.index = 'instruments';
+
+    var findOneById = function(id) {
+      var deferred = $q.defer();
+      delete query.body;
+      query.id = id;
+      ElasticSearchClient.getSource(query, function(error, response) {
+          if (error) {
+            deferred.reject(error);
+          } else {
+            deferred.resolve(response);
+          }
+        });
+      return deferred;
+    };
 
     var findInstruments = function(instrumentIds, selectedAttributes) {
       var ids = _.split(instrumentIds, ',');
@@ -82,6 +96,7 @@ angular.module('metadatamanagementApp').factory('InstrumentSearchService',
       return ElasticSearchClient.count(query);
     };
     return {
+      findOneById: findOneById,
       findInstruments: findInstruments,
       findBySurveyId: findBySurveyId,
       findByProjectId: findByProjectId,

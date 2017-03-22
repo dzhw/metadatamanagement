@@ -20,11 +20,9 @@ angular.module('metadatamanagementApp')
           }
         },
         resolve: {
-          entity: ['$stateParams', 'InstrumentResource',
-            function($stateParams, InstrumentResource) {
-              return InstrumentResource.get({
-                id: $stateParams.id
-              });
+          entity: ['$stateParams', 'InstrumentSearchService',
+            function($stateParams, InstrumentSearchService) {
+              return InstrumentSearchService.findOneById($stateParams.id);
             }
           ]
         },
