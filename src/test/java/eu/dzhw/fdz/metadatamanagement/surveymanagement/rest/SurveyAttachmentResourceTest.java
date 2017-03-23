@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
@@ -106,7 +107,7 @@ public class SurveyAttachmentResourceTest extends AbstractTest {
         new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
     SurveyAttachmentMetadata surveyAttachmentMetadata = UnitTestCreateDomainObjectUtils
       .buildSurveyAttachmentMetadata("projectId", 1);
-    surveyAttachmentMetadata.getDescription().setDe("");
+    surveyAttachmentMetadata.setDescription(new I18nString());
 
     MockMultipartFile metadata = new MockMultipartFile("surveyAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(surveyAttachmentMetadata));
@@ -116,7 +117,7 @@ public class SurveyAttachmentResourceTest extends AbstractTest {
       .file(metadata))
       .andExpect(status().isBadRequest())
       .andExpect(jsonPath("$.errors[0].message",
-          is("survey-management.error.survey-attachment-metadata.description.i18n-string-size")));
+          is("survey-management.error.survey-attachment-metadata.description.i18n-string-not-empty")));
   }
   
   @Test

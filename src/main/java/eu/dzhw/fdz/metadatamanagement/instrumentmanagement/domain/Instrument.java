@@ -29,7 +29,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
  * A Instrument.
- * 
+ *
  * @author Daniel Katzberg
  *
  */
@@ -42,7 +42,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
     + ".instrument.unique-instrument-number")
 @CompoundIndex(def = "{number: 1, dataAcquisitionProjectId: 1}", unique = true)
 public class Instrument extends AbstractRdcDomainObject {
- 
+
   @Id
   @JestId
   @NotEmpty(message = "instrument-management.error.instrument.id.not-empty")
@@ -50,52 +50,52 @@ public class Instrument extends AbstractRdcDomainObject {
       message = "instrument-management.error.instrument.id.pattern")
   @Size(max = StringLengths.MEDIUM, message = "instrument-management.error.instrument.id.size")
   private String id;
-  
+
   @Indexed
-  @NotEmpty(message = 
+  @NotEmpty(message =
       "instrument-management.error.instrument.data-acquisition-project-id.not-empty")
   private String dataAcquisitionProjectId;
-  
+
   @NotNull(message = "instrument-management.error.instrument.title.not-null")
-  @I18nStringSize(max = StringLengths.MEDIUM, min = 1,
-      message = "instrument-management.error.instrument.title.i18n-string-size")
+  @I18nStringSize(max = StringLengths.MEDIUM, message = "instrument-"
+      + "management.error.instrument.title.i18n-string-size")
   @I18nStringNotEmpty(message = "instrument-management.error.instrument.title."
       + "i18n-string-not-empty")
   private I18nString title;
-  
+
   @NotNull(message = "instrument-management.error.instrument.description.not-null")
-  @I18nStringSize(max = StringLengths.MEDIUM, min = 1,
-      message = "instrument-management.error.instrument.description.i18n-string-size")
+  @I18nStringSize(max = StringLengths.MEDIUM, message = "instrument-"
+      + "management.error.instrument.description.i18n-string-size")
   @I18nStringNotEmpty(message = "instrument-management.error.instrument.description."
       + "i18n-string-not-empty")
   private I18nString description;
-  
+
   @NotNull(message = "instrument-management.error.instrument.number.not-null")
   private Integer number;
 
   @NotEmpty(message = "instrument-management.error.instrument.type.not-empty")
   @ValidInstrumentType(message = "instrument-management.error.instrument.type.valid")
   private String type;
-  
+
   @Indexed
   private List<String> surveyIds;
-  
+
   @NotEmpty(message = "instrument-management.error.instrument.survey-numbers.not-empty")
   private List<Integer> surveyNumbers;
-  
+
   @Indexed
   @NotEmpty(message = "instrument-management.error.instrument.study-id.not-empty")
   private String studyId;
-  
+
   public Instrument() {
     super();
   }
-  
+
   public Instrument(Instrument instrument) {
     super();
     BeanUtils.copyProperties(instrument, this);
   }
-  
+
   @Override
   public String getId() {
     return id;
@@ -104,7 +104,7 @@ public class Instrument extends AbstractRdcDomainObject {
   public void setId(String id) {
     this.id = id;
   }
-  
+
   public String getDataAcquisitionProjectId() {
     return dataAcquisitionProjectId;
   }
@@ -136,7 +136,7 @@ public class Instrument extends AbstractRdcDomainObject {
   public void setNumber(Integer number) {
     this.number = number;
   }
-  
+
   /*
    * (non-Javadoc)
    * @see eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject#toString()

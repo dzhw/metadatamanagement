@@ -214,15 +214,14 @@ public class InstrumentResourceTest extends AbstractTest {
 
     // Act and Assert
     // set inconsistent title
-    instrument.getTitle()
-      .setDe("");;
+    instrument.setTitle(new I18nString());
 
     // create the instrument with the given id
     mockMvc.perform(put(API_INSTRUMENTS_URI + "/" + instrument.getId())
       .content(TestUtil.convertObjectToJsonBytes(instrument)))
       .andExpect(status().isBadRequest())
       .andExpect(jsonPath("$.errors[0].message",
-          is("instrument-management.error.instrument.title.i18n-string-size")));
+          is("instrument-management.error.instrument.title.i18n-string-not-empty")));
   }
   
   @Test

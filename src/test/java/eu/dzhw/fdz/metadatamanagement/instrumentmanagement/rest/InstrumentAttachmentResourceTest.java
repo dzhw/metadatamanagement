@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
@@ -106,7 +107,7 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
         new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
     InstrumentAttachmentMetadata instrumentAttachmentMetadata = UnitTestCreateDomainObjectUtils
       .buildInstrumentAttachmentMetadata("projectId", 1);
-    instrumentAttachmentMetadata.getDescription().setDe("");
+    instrumentAttachmentMetadata.setDescription(new I18nString());
 
     MockMultipartFile metadata = new MockMultipartFile("instrumentAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(instrumentAttachmentMetadata));
@@ -116,7 +117,7 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
       .file(metadata))
       .andExpect(status().isBadRequest())
       .andExpect(jsonPath("$.errors[0].message",
-          is("instrument-management.error.instrument-attachment-metadata.description.i18n-string-size")));
+          is("instrument-management.error.instrument-attachment-metadata.description.i18n-string-not-empty")));
   }
   
   @Test

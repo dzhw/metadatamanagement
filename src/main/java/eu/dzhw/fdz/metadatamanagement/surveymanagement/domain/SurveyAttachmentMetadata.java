@@ -15,47 +15,47 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
  * Metadata which will be stored in GridFS with each attachment for surveys.
- * 
+ *
  */
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.builders")
 public class SurveyAttachmentMetadata extends AbstractRdcDomainObject {
-  @NotEmpty(message = 
+  @NotEmpty(message =
       "survey-management.error.survey-attachment-metadata.survey-id.not-empty")
   private String surveyId;
-  
-  @NotEmpty(message = 
+
+  @NotEmpty(message =
       "survey-management.error.survey-attachment-metadata.project-id.not-empty")
   private String dataAcquisitionProjectId;
-  
-  @NotNull(message = 
+
+  @NotNull(message =
       "survey-management.error.survey-attachment-metadata.description.not-null")
-  @I18nStringSize(min = 1, max = StringLengths.MEDIUM, message =
+  @I18nStringSize(max = StringLengths.MEDIUM, message =
       "survey-management.error.survey-attachment-metadata.description.i18n-string-size")
-  @I18nStringNotEmpty(message = "survey-management.error.survey-attachment-metadata." 
+  @I18nStringNotEmpty(message = "survey-management.error.survey-attachment-metadata."
       + "description.i18n-string-not-empty")
   private I18nString description;
-  
-  @NotNull(message = 
+
+  @NotNull(message =
       "survey-management.error.survey-attachment-metadata.title.not-null")
   @Size(max = StringLengths.MEDIUM, message =
       "survey-management.error.survey-attachment-metadata.title.string-size")
   private String title;
-  
-  @NotNull(message = 
+
+  @NotNull(message =
       "survey-management.error.survey-attachment-metadata.language.not-null")
   @ValidIsoLanguage(message =
       "survey-management.error.survey-attachment-metadata.language.not-supported")
   private String language;
-  
-  @NotEmpty(message = 
+
+  @NotEmpty(message =
       "survey-management.error.survey-attachment-metadata.filename.not-empty")
   private String fileName;
-  
-  @NotNull(message = 
+
+  @NotNull(message =
       "survey-management.error.survey-attachment-metadata.survey-number.not-null")
   private Integer surveyNumber;
-  
+
   @Override
   public String getId() {
     return "/public/files/surveys/" + surveyId + "/attachments/" + fileName;

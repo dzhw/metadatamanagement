@@ -16,56 +16,56 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
  * Metadata which will be stored in GridFS with each attachment for instruments.
- * 
+ *
  * @author René Reitmann
  */
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.builders")
 public class InstrumentAttachmentMetadata extends AbstractRdcDomainObject {
-  @NotEmpty(message = 
+  @NotEmpty(message =
       "instrument-management.error.instrument-attachment-metadata.instrument-id.not-empty")
   private String instrumentId;
-  
-  @NotEmpty(message = 
+
+  @NotEmpty(message =
       "instrument-management.error.instrument-attachment-metadata.project-id.not-empty")
   private String dataAcquisitionProjectId;
-  
-  @NotNull(message = 
+
+  @NotNull(message =
       "instrument-management.error.instrument-attachment-metadata.type.not-null")
-  @I18nStringSize(min = 1, max = StringLengths.SMALL, message = 
+  @I18nStringSize(min = 1, max = StringLengths.SMALL, message =
       "instrument-management.error.instrument-attachment-metadata.type.i18n-string-size")
-  @ValidInstrumentAttachmentType(message = 
+  @ValidInstrumentAttachmentType(message =
       "instrument-management.error.instrument-attachment-metadata.type.valid-type")
   private I18nString type;
-  
-  @NotNull(message = 
+
+  @NotNull(message =
       "instrument-management.error.instrument-attachment-metadata.description.not-null")
-  @I18nStringSize(min = 1, max = StringLengths.MEDIUM, message =
+  @I18nStringSize(max = StringLengths.MEDIUM, message =
       "instrument-management.error.instrument-attachment-metadata.description.i18n-string-size")
   @I18nStringNotEmpty(message = "instrument-management.error.instrument-attachment-metadata."
       + "description.i18n-string-not-empty")
   private I18nString description;
-  
-  @NotNull(message = 
+
+  @NotNull(message =
       "instrument-management.error.instrument-attachment-metadata.title.not-null")
   @Size(max = StringLengths.MEDIUM, message =
       "instrument-management.error.instrument-attachment-metadata.title.string-size")
   private String title;
-  
-  @NotNull(message = 
+
+  @NotNull(message =
       "instrument-management.error.instrument-attachment-metadata.language.not-null")
   @ValidIsoLanguage(message =
       "instrument-management.error.instrument-attachment-metadata.language.not-supported")
   private String language;
-  
-  @NotEmpty(message = 
+
+  @NotEmpty(message =
       "instrument-management.error.instrument-attachment-metadata.filename.not-empty")
   private String fileName;
-  
-  @NotNull(message = 
+
+  @NotNull(message =
       "instrument-management.error.instrument-attachment-metadata.instrument-number.not-null")
   private Integer instrumentNumber;
-  
+
   public String getInstrumentId() {
     return instrumentId;
   }
@@ -125,7 +125,7 @@ public class InstrumentAttachmentMetadata extends AbstractRdcDomainObject {
   public Integer getInstrumentNumber() {
     return instrumentNumber;
   }
-  
+
   public void setInstrumentNumber(Integer instrumentNumber) {
     this.instrumentNumber = instrumentNumber;
   }
