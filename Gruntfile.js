@@ -222,6 +222,8 @@ module.exports = function(grunt) {
             'Element “diagram” not allowed as child of element' +
             ' “div” in this context.', 'Bad value “{{row.language}}” for ' +
             'attribute “lang” on element “td”: Subtags must not exceed 8 ' +
+            'characters in length.', 'Bad value “{{currentLanguage}}” for ' +
+            'attribute “lang” on element “html”: Subtags must not exceed 8 ' +
             'characters in length.'
           ],
           customattrs: [
