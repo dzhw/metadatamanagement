@@ -18,10 +18,12 @@ angular.module('metadatamanagementApp')
       entity.promise.then(function(result) {
         var title = {
           questionNumber: result.number,
-          questionId: result.id,
-          instrumentDescription: result.instrument.description[
-            $rootScope.currentLanguage]
+          questionId: result.id
         };
+        if (_.isObject(result.instrument)) {
+          title.instrumentDescription = result.instrument.
+          description[$rootScope.currentLanguage];
+        }
         PageTitleService.
           setPageTitle('question-management.detail.title', title);
         ToolbarHeaderService.updateToolbarHeader({
