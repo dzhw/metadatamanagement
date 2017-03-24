@@ -116,7 +116,7 @@ public class ElasticsearchDao {
    * @param indices the indices to refresh.
    */
   public void refresh(Collection<String> indices) {
-    JestResult result = execute(new Refresh.Builder().addIndex(indices).refresh(true).build());
+    JestResult result = execute(new Refresh.Builder().addIndex(indices).build());
     if (!result.isSucceeded()) {
       log.warn("Unable to refresh indices " + indices + ": " + result.getErrorMessage());
     }

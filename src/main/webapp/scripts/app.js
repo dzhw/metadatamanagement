@@ -76,7 +76,7 @@ angular
     function($stateProvider, $urlRouterProvider,
       $httpProvider, $locationProvider, $translateProvider,
       tmhDynamicLocaleProvider, blockUIConfig, $mdThemingProvider,
-      localStorageServiceProvider) {
+      localStorageServiceProvider, $qProvider) {
       localStorageServiceProvider
         .setPrefix('metadatamanagementApp')
         .setStorageType('localStorage')
@@ -232,4 +232,6 @@ angular
           'hue-2': '600',
           'hue-3': '400'
         });
+
+      $qProvider.errorOnUnhandledRejections(false);
     });
