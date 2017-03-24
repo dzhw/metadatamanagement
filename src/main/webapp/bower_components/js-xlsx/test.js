@@ -64,6 +64,8 @@ var paths = {
 	nfxml:  dir + 'number_format.xls.xml',
 	nfxlsx:  dir + 'number_format.xlsm',
 	nfxlsb:  dir + 'number_format.xlsb',
+	dtxls:  dir + 'xlsx-stream-d-date-cell.xls',
+	dtxml:  dir + 'xlsx-stream-d-date-cell.xls.xml',
 	dtxlsx:  dir + 'xlsx-stream-d-date-cell.xlsx',
 	dtxlsb:  dir + 'xlsx-stream-d-date-cell.xlsb',
 	cwxls:  dir + 'column_width.xlsx',
@@ -71,7 +73,6 @@ var paths = {
 	cwxml:  dir + 'column_width.xml',
 	cwxlsx:  dir + 'column_width.xlsx',
 	cwxlsb:  dir + 'column_width.xlsx',
-	dtxlsb:  dir + 'xlsx-stream-d-date-cell.xlsb',
 	swcxls: dir + 'apachepoi_SimpleWithComments.xls',
 	swcxml: dir + '2011/apachepoi_SimpleWithComments.xls.xml',
 	swcxlsx: dir + 'apachepoi_SimpleWithComments.xlsx',
@@ -316,16 +317,6 @@ describe('parse options', function() {
 		});
 		it('should not generate cell dates by default', function() {
 			var wb = X.readFile(paths.dtxlsx);
-			wb.SheetNames.forEach(function(s) {
-				var ws = wb.Sheets[s];
-				Object.keys(ws).forEach(function(addr) {
-					if(addr[0] === "!" || !ws.hasOwnProperty(addr)) return;
-					assert(ws[addr].t !== 'd');
-				});
-			});
-		});
-		it('XLSB should not generate cell dates', function() {
-			var wb = X.readFile(paths.dtxlsb, {cellDates: true});
 			wb.SheetNames.forEach(function(s) {
 				var ws = wb.Sheets[s];
 				Object.keys(ws).forEach(function(addr) {
@@ -804,6 +795,31 @@ describe('parse features', function() {
 		});
 	});
 
+	describe('cellDates', function() {
+		var fmts = [
+			/* desc     path        sheet     cell   formatted */
+			['XLSX', paths.dtxlsx, 'Sheet1',  'B5',  '2/14/14'],
+			['XLSB', paths.dtxlsb, 'Sheet1',  'B5',  '2/14/14'],
+			['XLS',  paths.dtxls,  'Sheet1',  'B5',  '2/14/14'],
+			['XLML', paths.dtxml,  'Sheet1',  'B5',  '2/14/14'],
+			['XLSM', paths.nfxlsx, 'Implied', 'B13', '18-Oct-33']
+		];
+		it('should not generate date cells by default', function() { fmts.forEach(function(f) {
+			var wb, ws;
+			wb = X.readFile(f[1]);
+			ws = wb.Sheets[f[2]];
+			assert.equal(ws[f[3]].w, f[4]);
+			assert.equal(ws[f[3]].t, 'n');
+		}); });
+		it('should generate date cells if cellDates is true', function() { fmts.forEach(function(f) {
+			var wb, ws;
+			wb = X.readFile(f[1], {cellDates:true});
+			ws = wb.Sheets[f[2]];
+			assert.equal(ws[f[3]].w, f[4]);
+			assert.equal(ws[f[3]].t, 'd');
+		}); });
+	});
+
 	describe('should correctly handle styles', function() {
 		var wsxls, wsxlsx, rn, rn2;
 		var bef = (function() {
@@ -937,18 +953,13 @@ describe('roundtrip features', function() {
 			else { f = paths.nfxlsx; sheet = '2011'; addr = 'J36'; }
 			it('[' + a + '] -> (' + b + ') -> [' + c + '] -> (' + d + ')', function() {
 				var wb1 = X.readFile(f, {cellNF: true, cellDates: di, WTF: opts.WTF});
-				var wb2 = X.read(X.write(wb1, {type:'binary', cellDates:dj, WTF:opts.WTF}), {type:'binary', cellDates: dk, WTF: opts.WTF});
+				var  _f = X.write(wb1, {type:'binary', cellDates:dj, WTF:opts.WTF});
+				var wb2 = X.read(_f, {type:'binary', cellDates: dk, WTF: opts.WTF});
 				var m = [wb1,wb2].map(function(x) { return x.Sheets[sheet][addr]; });
 				assert.equal(m[0].w, m[1].w);
 
-				/* wb1 cellDates */
-				if(dh && di) assert.equal(m[0].t, 'd');
-				//else if(a !== 'd' && di) assert.equal(m[0].t, 'd'); /* TODO */
-				else assert.equal(m[0].t, 'n');
-				/* wb2 cellDates */
-				if(dh && di && dj && dk) assert.equal(m[1].t, 'd');
-				else if(dj && dk && !di); /* TODO: convert to date */
-				else assert.equal(m[1].t, 'n');
+				assert.equal(m[0].t, b);
+				assert.equal(m[1].t, d);
 
 				if(m[0].t === 'n' && m[1].t === 'n') assert.equal(m[0].v, m[1].v);
 				else if(m[0].t === 'd' && m[1].t === 'd') assert.equal(m[0].v.toString(), m[1].v.toString());
@@ -1045,8 +1056,9 @@ function sheet_from_array_of_arrays(data, opts) {
 			if(typeof cell.v === 'number') cell.t = 'n';
 			else if(typeof cell.v === 'boolean') cell.t = 'b';
 			else if(cell.v instanceof Date) {
-				cell.t = 'n'; cell.z = X.SSF._table[14];
-				cell.v = datenum(cell.v);
+				cell.z = X.SSF._table[14];
+				if(opts && opts.cellDates) cell.t = 'd';
+				else { cell.t = 'n'; cell.v = datenum(cell.v); }
 			}
 			else cell.t = 's';
 			ws[cell_ref] = cell;
@@ -1079,7 +1091,7 @@ describe('json output', function() {
 	it('should use first-row headers and full sheet by default', function() {
 		var json = X.utils.sheet_to_json(ws);
 		assert.equal(json.length, data.length - 1);
-		assert.equal(json[0][1], true);
+		assert.equal(json[0][1], "TRUE");
 		assert.equal(json[1][2], "bar");
 		assert.equal(json[2][3], "qux");
 		assert.doesNotThrow(function() { seeker(json, [1,2,3], "sheetjs"); });
@@ -1088,7 +1100,7 @@ describe('json output', function() {
 	it('should create array of arrays if header == 1', function() {
 		var json = X.utils.sheet_to_json(ws, {header:1});
 		assert.equal(json.length, data.length);
-		assert.equal(json[1][0], true);
+		assert.equal(json[1][0], "TRUE");
 		assert.equal(json[2][1], "bar");
 		assert.equal(json[3][2], "qux");
 		assert.doesNotThrow(function() { seeker(json, [0,1,2], "sheetjs"); });
@@ -1098,7 +1110,7 @@ describe('json output', function() {
 	it('should use column names if header == "A"', function() {
 		var json = X.utils.sheet_to_json(ws, {header:'A'});
 		assert.equal(json.length, data.length);
-		assert.equal(json[1].A, true);
+		assert.equal(json[1].A, "TRUE");
 		assert.equal(json[2].B, "bar");
 		assert.equal(json[3].C, "qux");
 		assert.doesNotThrow(function() { seeker(json, "ABC", "sheetjs"); });
@@ -1108,7 +1120,7 @@ describe('json output', function() {
 	it('should use column labels if specified', function() {
 		var json = X.utils.sheet_to_json(ws, {header:["O","D","I","N"]});
 		assert.equal(json.length, data.length);
-		assert.equal(json[1].O, true);
+		assert.equal(json[1].O, "TRUE");
 		assert.equal(json[2].D, "bar");
 		assert.equal(json[3].I, "qux");
 		assert.doesNotThrow(function() { seeker(json, "ODI", "sheetjs"); });
@@ -1119,7 +1131,7 @@ describe('json output', function() {
 		it('should accept custom ' + w[0] + ' range', function() {
 			var json = X.utils.sheet_to_json(ws, {header:1, range:w[1]});
 			assert.equal(json.length, 3);
-			assert.equal(json[0][0], true);
+			assert.equal(json[0][0], "TRUE");
 			assert.equal(json[1][1], "bar");
 			assert.equal(json[2][2], "qux");
 			assert.doesNotThrow(function() { seeker(json, [0,1,2], "sheetjs"); });
@@ -1140,6 +1152,15 @@ describe('json output', function() {
 			assert.equal(json[i].J,   6 + i);
 			assert.equal(json[i].S_1, 7 + i);
 		}
+	});
+	it('should handle raw data if requested', function() {
+		var _ws = sheet_from_array_of_arrays(data, {cellDates:true});
+		var json = X.utils.sheet_to_json(_ws, {header:1, raw:true});
+		assert.equal(json.length, data.length);
+		assert.equal(json[1][0], true);
+		assert.equal(json[2][1], "bar");
+		assert.equal(json[2][2].getTime(), new Date("2014-02-19T14:30Z").getTime());
+		assert.equal(json[3][2], "qux");
 	});
 });
 

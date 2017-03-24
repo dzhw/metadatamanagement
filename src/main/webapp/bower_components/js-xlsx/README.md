@@ -36,6 +36,7 @@ with a unified JS representation, and ES3/ES5 browser compatibility back to IE6.
   * [General Structures](#general-structures)
   * [Cell Object](#cell-object)
     + [Data Types](#data-types)
+    + [Dates](#dates)
   * [Worksheet Object](#worksheet-object)
   * [Workbook Object](#workbook-object)
   * [Document Features](#document-features)
@@ -484,6 +485,19 @@ Type `z` represents blank stub cells.  These do not have any data or type, and
 are not processed by any of the core library functions.  By default these cells
 will not be generated; the parser `sheetStubs` option must be set to `true`.
 
+#### Dates
+
+By default, Excel stores dates as numbers with a format code that specifies date
+processing.  For example, the date `19-Feb-17` is stored as the number `42785`
+with a number format of `d-mmm-yy`.  The `SSF` module understands number formats
+and performs the appropriate conversion.
+
+XLSX also supports a special date type `d` where the data is an ISO 8601 date
+string.  The formatter converts the date back to a number.
+
+The default behavior for all parsers is to generate number cells.  Setting
+`cellDates` to true will force the generators to store dates.
+
 ### Worksheet Object
 
 Each key that does not start with `!` maps to a cell (using `A-1` notation)
@@ -663,7 +677,7 @@ The exported `read` and `readFile` functions accept an options argument:
 | cellHTML    | true    | Parse rich text and save HTML to the .h field        |
 | cellNF      | false   | Save number format string to the .z field            |
 | cellStyles  | false   | Save style/theme info to the .s field                |
-| cellDates   | false   | Store dates as type `d` (default is `n`) **          |
+| cellDates   | false   | Store dates as type `d` (default is `n`)             |
 | sheetStubs  | false   | Create cell objects of type `z` for stub cells       |
 | sheetRows   | 0       | If >0, read the first `sheetRows` rows **            |
 | bookDeps    | false   | If true, parse calculation chains                    |
@@ -687,7 +701,6 @@ The exported `read` and `readFile` functions accept an options argument:
 - `sheetRows-1` rows will be generated when looking at the JSON object output
   (since the header row is counted as a row when parsing the data)
 - `bookVBA` merely exposes the raw vba object.  It does not parse the data.
-- `cellDates` currently does not convert numerical dates to JS dates.
 - Currently only XOR encryption is supported.  Unsupported error will be thrown
   for files employing other encryption methods.
 - WTF is mainly for development.  By default, the parser will suppress read
@@ -812,6 +825,10 @@ produces CSV output.  The function takes an options argument:
 | :---------- | :------: | :-------------------------------------------------- |
 | FS          |  `","`   | "Field Separator"  delimiter between fields         |
 | RS          |  `"\n"`  | "Record Separator" delimiter between rows           |
+| dateNF      |  fmt 14  | Use specified date format in string output          |
+| strip       |  false   | Remove trailing field separators in each record **  |
+
+- `strip` will remove trailing commas from each line under default `FS/RS`
 
 For the example sheet:
 
@@ -838,6 +855,7 @@ generate different types of JS objects.  The function takes an options argument:
 | raw         | `false`  | Use raw values (true) or formatted strings (false)  |
 | range       | from WS  | Override Range (see table below)                    |
 | header      |          | Control output format (see table below)             |
+| dateNF      |  fmt 14  | Use specified date format in string output          |
 
 - `raw` only affects cells which have a format code (`.z`) field or a formatted
   text (`.w`) field.
@@ -1117,7 +1135,7 @@ Worksheet File Format (From Lotus) December 1984
 
 ## Badges
 
-[![Build Status](https://saucelabs.com/browser-matrix/xlsx.svg)](https://saucelabs.com/u/xlsx)
+[![Build Status](https://saucelabs.com/browser-matrix/sheetjs.svg)](https://saucelabs.com/u/sheetjs)
 
 [![Build Status](https://travis-ci.org/SheetJS/js-xlsx.svg?branch=master)](https://travis-ci.org/SheetJS/js-xlsx)
 
