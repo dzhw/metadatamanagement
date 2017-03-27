@@ -305,9 +305,13 @@ public class DataSetReportService {
     ByteArrayOutputStream byteArrayOutputStreamFile = new ByteArrayOutputStream();
     Writer fileWriter = new OutputStreamWriter(byteArrayOutputStreamFile, "UTF-8");
     texTemplate.process(dataForTemplate, fileWriter);
+    
+    byte[] byteArrayStreamFile = byteArrayOutputStreamFile.toByteArray();
+    byteArrayOutputStreamFile.flush();
+    byteArrayOutputStreamFile.close();
 
     // Put translated element to tar archive
-    return byteArrayOutputStreamFile.toByteArray();
+    return byteArrayStreamFile;
   }
 
   /**

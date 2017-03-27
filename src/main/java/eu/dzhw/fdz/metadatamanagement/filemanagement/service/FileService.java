@@ -94,7 +94,8 @@ public class FileService {
   public String saveTempFile(InputStream stream, String fileName, String contentType)
       throws IOException {
     try (InputStream inputStream = stream) {
-      GridFSFile gridFsFile = this.gridfOperations.store(stream, "/tmp/" + fileName, contentType);
+      GridFSFile gridFsFile = 
+          this.gridfOperations.store(inputStream, "/tmp/" + fileName, contentType);
       gridFsFile.validate();
       return gridFsFile.getFilename();      
     }
