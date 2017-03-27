@@ -10,7 +10,7 @@
             </md-card-header-text>
         </md-card-header>
         <md-card-content>
-            <div class="fdz-truncate-string">{{searchResult.publicationAbstract}}</div>
+            <div>{{searchResult.publicationAbstract | limitTo: 500}}{{searchResult.publicationAbstract.length > 500 ? '...' : ''}}</div>
         </md-card-content>
     </a>
 </md-card>
