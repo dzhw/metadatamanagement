@@ -415,9 +415,12 @@ public class DataSetReportService {
       // Create a Map with Questions
       if (variable.getRelatedQuestions() != null 
           && !variable.getRelatedQuestions().isEmpty()) {        
-        for (RelatedQuestion relatedQuestion : variable.getRelatedQuestions()) {        
-          Question question = this.questionRepository.findOne(relatedQuestion.getQuestionId());
-          questionsMap.put(relatedQuestion.getQuestionId(), question);
+        for (RelatedQuestion relatedQuestion : variable.getRelatedQuestions()) {
+          //question is unknown. add it to the question map.
+          if (!questionsMap.containsKey(relatedQuestion.getQuestionId())) {
+            Question question = this.questionRepository.findOne(relatedQuestion.getQuestionId());
+            questionsMap.put(relatedQuestion.getQuestionId(), question);
+          }          
         }
       }
 
