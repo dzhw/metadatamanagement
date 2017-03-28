@@ -35,8 +35,6 @@ public class SurveyResponseRateImageService {
       String surveyId, String fileName, String contentType) throws IOException {
     try (InputStream in = inputStream) {
       String relativePathWithName = "/surveys/" + surveyId + "/" + fileName;
-      // overwrite existing files
-      this.operations.delete(new Query(GridFsCriteria.whereFilename().is(relativePathWithName)));
       GridFSFile gridFsFile = this.operations.store(in, relativePathWithName, contentType);
       gridFsFile.validate();
       

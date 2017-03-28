@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp').service(
   'SurveyResponseRateImageUploadService',
-  function(Upload, $q) {
+  function(Upload, $q, $http) {
     var uploadImage = function(image, surveyId) {
       var deferred = $q.defer();
       Upload.upload({
@@ -18,7 +18,14 @@ angular.module('metadatamanagementApp').service(
       });
       return deferred.promise;
     };
+
+    var deleteAllImages = function(surveyId) {
+      return $http.delete('/api/surveys/' + encodeURIComponent(surveyId) +
+      '/images');
+    };
+
     return {
+      deleteAllImages: deleteAllImages,
       uploadImage: uploadImage
     };
   });

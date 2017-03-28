@@ -9,6 +9,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -56,6 +58,24 @@ public class SurveyResponseRateImageResource {
         .contentLength(imageName.length())
         .contentType(MediaType.TEXT_PLAIN)
         .body(imageName);      
+    } else {
+      return ResponseEntity.badRequest()
+        .body(null);
+    }
+  }
+  
+  /**
+   * Delete all images of the given survey.
+   * 
+   * @param surveyId The id of an survey.
+   */
+  @RequestMapping(path = "/surveys/{surveyId}/images", method = RequestMethod.DELETE)
+  @Timed
+  @Secured(AuthoritiesConstants.PUBLISHER)
+  public ResponseEntity<?> deleteAllBySurveyId(@PathVariable("surveyId") String surveyId) {
+    if (!StringUtils.isEmpty(surveyId)) {
+      surveyResponseRateImageService.deleteAllSurveyImagesById(surveyId);
+      return ResponseEntity.noContent().build();
     } else {
       return ResponseEntity.badRequest()
         .body(null);

@@ -1,7 +1,7 @@
 'use strict';
 angular.module('metadatamanagementApp').service(
   'SurveyAttachmentUploadService',
-  function(Upload, $q) {
+  function(Upload, $q, $http) {
     var uploadAttachment = function(file, metadata) {
         var deferred = $q.defer();
         Upload.upload({
@@ -17,7 +17,13 @@ angular.module('metadatamanagementApp').service(
         });
         return deferred.promise;
       };
+
+    var deleteAllAttachments = function(surveyId) {
+      return $http.delete('/api/surveys/' + encodeURIComponent(surveyId) +
+      '/attachments');
+    };
     return {
-      uploadAttachment: uploadAttachment
+      uploadAttachment: uploadAttachment,
+      deleteAllAttachments: deleteAllAttachments
     };
   });

@@ -82,4 +82,22 @@ public class SurveyAttachmentResource {
         .body(null);
     }
   }
+  
+  /**
+   * Delete all attachments of the given survey.
+   * 
+   * @param surveyId The id of an survey.
+   */
+  @RequestMapping(path = "/surveys/{surveyId}/attachments", method = RequestMethod.DELETE)
+  @Timed
+  @Secured(AuthoritiesConstants.PUBLISHER)
+  public ResponseEntity<?> deleteAllBySurveyId(@PathVariable("surveyId") String surveyId) {
+    if (!StringUtils.isEmpty(surveyId)) {
+      surveyAttachmentService.deleteAllBySurveyId(surveyId);
+      return ResponseEntity.noContent().build();
+    } else {
+      return ResponseEntity.badRequest()
+        .body(null);
+    }
+  }
 }

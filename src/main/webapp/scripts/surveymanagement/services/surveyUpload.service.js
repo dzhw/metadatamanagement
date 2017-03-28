@@ -163,7 +163,21 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
         readyToUploadSurveys.push(surveyDetailsObject);
       });
     };
-
+    var deleteImagesAndAttachments = function(surveyId) {
+      var deferred = $q.defer();
+      SurveyResponseRateImageUploadService.deleteAllImages(surveyId)
+        .catch(function(error) {
+          console.log('Unable to delete images:' + error);
+        }).finally(function() {
+          SurveyAttachmentUploadService.deleteAllAttachments(surveyId)
+          .catch(function(error) {
+            console.log('Unable to delete attachments:' + error);
+          }).finally(function() {
+            deferred.resolve();
+          });
+        });
+      return deferred.promise;
+    };
     var uploadSurveyDetailObject = function(surveyDetailObject, uploadCount) {
       return $q(function(resolve) {
         if (previouslyUploadedSurveyNumbers[surveyDetailObject.survey.number]) {
@@ -178,7 +192,12 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
           });
           resolve();
         } else {
-          surveyDetailObject.survey.$save().then(function() {
+          // ensure that there are no images and attachments left for
+          // the given survey
+          deleteImagesAndAttachments(surveyDetailObject.survey.id).then(
+            function() {
+              return surveyDetailObject.survey.$save();
+            }).then(function() {
                 previouslyUploadedSurveyNumbers[surveyDetailObject.survey.
                   number] = true;
                 JobLoggingService.success({

@@ -50,8 +50,6 @@ public class SurveyAttachmentService {
       metadata.setLastModifiedBy(currentUser);
       metadata.setLastModifiedDate(LocalDateTime.now());
       String filename = buildFileName(metadata);
-      // overwrite existing files
-      this.operations.delete(new Query(GridFsCriteria.whereFilename().is(filename)));
       GridFSFile gridFsFile = this.operations.store(in, 
           filename, contentType, metadata);
       gridFsFile.validate();
