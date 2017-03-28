@@ -107,7 +107,7 @@ public class DataSetResourceTest extends AbstractTest {
     // call toString for test coverage :-)
     dataSet.toString();
     
-    elasticsearchUpdateQueueService.processQueue();
+    elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there is one data set documents
     elasticsearchAdminService.refreshAllIndices();
@@ -211,7 +211,7 @@ public class DataSetResourceTest extends AbstractTest {
     mockMvc.perform(get(API_DATASETS_URI + "/" + dataSet.getId()))
       .andExpect(status().isNotFound());
     
-    elasticsearchUpdateQueueService.processQueue();
+    elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there are no more data set documents
     elasticsearchAdminService.refreshAllIndices();
@@ -249,7 +249,7 @@ public class DataSetResourceTest extends AbstractTest {
       .andExpect(jsonPath("$.version", is(1)))
       .andExpect(jsonPath("$.description.de", is("Angepasst.")));
     
-    elasticsearchUpdateQueueService.processQueue();
+    elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there is one data set documents
     elasticsearchAdminService.refreshAllIndices();

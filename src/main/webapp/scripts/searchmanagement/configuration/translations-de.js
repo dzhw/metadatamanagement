@@ -8,8 +8,8 @@ angular.module('metadatamanagementApp').config(
         'delete-messages': {
           'delete-variables-title': 'Alle Variablen löschen?',
           'delete-variables': 'Sind Sie sicher dass, Sie alle Variablen innerhalb des Datenaufbereitungsprojekts mit der FDZ-ID "{{ id }}" löschen möchten?',
-          'delete-surveys-title': 'Alle Erhebungen löschen?',
-          'delete-surveys': 'Sind Sie sicher dass, Sie alle Erhebungen innerhalb des Datenaufbereitungsprojekts mit der FDZ-ID "{{ id }}" löschen möchten?',
+          'delete-surveys-title': 'Alle Erhebungen ersetzen?',
+          'delete-surveys': 'Sind Sie sicher dass, Sie alle Erhebungen innerhalb des Datenaufbereitungsprojekts "{{ id }}" mit den übergebenen Daten ersetzen möchten?',
           'delete-questions-title': 'Alle Fragen löschen?',
           'delete-questions': 'Sind Sie sicher dass, Sie alle Fragen innerhalb des Datenaufbereitungsprojekts mit der FDZ-ID "{{ id }}" löschen möchten?',
           'delete-data-sets-title': 'Alle Datensätze löschen?',

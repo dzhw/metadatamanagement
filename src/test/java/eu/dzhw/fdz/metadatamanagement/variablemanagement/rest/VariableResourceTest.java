@@ -109,7 +109,7 @@ public class VariableResourceTest extends AbstractTest {
       .content(TestUtil.convertObjectToJsonBytes(variable)))
       .andExpect(status().isCreated());
 
-    queueService.processQueue();
+    queueService.processAllQueueItems();
     
     // check that there is one variable search document
     elasticsearchAdminService.refreshAllIndices();
@@ -610,7 +610,7 @@ public class VariableResourceTest extends AbstractTest {
       .andExpect(jsonPath("$.version", is(1)))
       .andExpect(jsonPath("$.label.de", is("modified")));
 
-    queueService.processQueue();
+    queueService.processAllQueueItems();
     
     // check that the variable search documents have been updated
     elasticsearchAdminService.refreshAllIndices();

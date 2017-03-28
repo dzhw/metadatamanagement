@@ -78,7 +78,7 @@ public class ElasticsearchAdminService {
     this.enqueueAllRelatedPublications();
     this.enqueueAllInstruments();
     this.enqueueAllStudies();
-    updateQueueService.processQueue();
+    updateQueueService.processAllQueueItems();
   }
   
   private void enqueueAllStudies() {
@@ -232,6 +232,13 @@ public class ElasticsearchAdminService {
   public void refreshAllIndices() {
     elasticsearchDao.refresh(Arrays.asList(
         ElasticsearchType.names()));
+  }
+  
+  /**
+   * Refresh elasticsearch index.
+   */
+  public void refreshIndex(ElasticsearchType type) {
+    elasticsearchDao.refresh(Arrays.asList(type.name()));
   }
   
   /**

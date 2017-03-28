@@ -88,7 +88,7 @@ public class InstrumentResourceTest extends AbstractTest {
       .content(TestUtil.convertObjectToJsonBytes(instrument)))
       .andExpect(status().isCreated());
 
-    elasticsearchUpdateQueueService.processQueue();
+    elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there is one instrument document
     elasticsearchAdminService.refreshAllIndices();
@@ -142,7 +142,7 @@ public class InstrumentResourceTest extends AbstractTest {
       .andExpect(jsonPath("$.version", is(0)))
       .andExpect(jsonPath("$.title.de", is("Hurz2")));
 
-    elasticsearchUpdateQueueService.processQueue();
+    elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there is one instrument documents
     elasticsearchAdminService.refreshAllIndices();

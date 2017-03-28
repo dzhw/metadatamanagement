@@ -20,6 +20,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetReposi
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.InstrumentSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
@@ -136,11 +137,11 @@ public class ElasticsearchUpdateQueueService {
    * Process the update queue every 5 minutes.
    */
   @Scheduled(fixedRate = 1000 * 60 * 5, initialDelay = 1000 * 60 * 5)
-  public void processQueue() {
+  public void processAllQueueItems() {
     logger.info("Starting processing of ElasticsearchUpdateQueue...");
     LocalDateTime updateStart = LocalDateTime.now();
 
-    lockUpdateQueueItems(updateStart);
+    queueItemRepository.lockAllUnlockedOrExpiredItems(updateStart, jvmId);
 
     List<ElasticsearchUpdateQueueItem> lockedItems =
         queueItemRepository.findOldestLockedItems(jvmId, updateStart);
@@ -159,15 +160,6 @@ public class ElasticsearchUpdateQueueService {
    */
   public void clearQueue() {
     queueItemRepository.deleteAll();
-  }
-
-  /**
-   * Locks elements in the MongoDb.
-   * 
-   * @param updateStart Starttime for updates.
-   */
-  private void lockUpdateQueueItems(LocalDateTime updateStart) {
-    queueItemRepository.lockUnlockedOrExpiredItems(updateStart, jvmId);
   }
 
   /**
@@ -265,8 +257,12 @@ public class ElasticsearchUpdateQueueService {
       List<RelatedPublicationSubDocumentProjection> relatedPublications = 
           relatedPublicationRepository.findSudDocumentsByInstrumentIdsContaining(
               instrument.getId());
-      Release release = projectRepository.findOne(instrument.getDataAcquisitionProjectId())
-          .getRelease();
+      DataAcquisitionProject project = projectRepository.findOne(
+          instrument.getDataAcquisitionProjectId());
+      Release release = null;
+      if (project != null) {
+        release = project.getRelease();
+      }
       InstrumentSearchDocument searchDocument = new InstrumentSearchDocument(instrument, 
           study, surveys, questions, variables, relatedPublications, release);
       
@@ -342,8 +338,12 @@ public class ElasticsearchUpdateQueueService {
       if (dataSet.getSurveyIds() != null) {        
         surveys = surveyRepository.findSubDocumentByIdIn(dataSet.getSurveyIds());
       }
-      Release release = projectRepository.findOne(dataSet.getDataAcquisitionProjectId())
-          .getRelease();
+      DataAcquisitionProject project = projectRepository.findOne(
+          dataSet.getDataAcquisitionProjectId());
+      Release release = null;
+      if (project != null) {
+        release = project.getRelease();
+      }
       DataSetSearchDocument searchDocument = new DataSetSearchDocument(dataSet, study,
           variables, relatedPublications, surveys, release);
       
@@ -375,8 +375,12 @@ public class ElasticsearchUpdateQueueService {
           .map(InstrumentSubDocumentProjection::getId).collect(Collectors.toList());
       List<QuestionSubDocumentProjection> questions = questionRepository
           .findSubDocumentsByInstrumentIdIn(instrumentIds);
-      Release release = projectRepository.findOne(survey.getDataAcquisitionProjectId())
-          .getRelease();
+      DataAcquisitionProject project = projectRepository.findOne(
+          survey.getDataAcquisitionProjectId());
+      Release release = null;
+      if (project != null) {
+        release = project.getRelease();
+      }
       SurveySearchDocument searchDocument =
            new SurveySearchDocument(survey, study, 
                dataSets, variables, relatedPublications, instruments, questions, release);
@@ -399,11 +403,11 @@ public class ElasticsearchUpdateQueueService {
       Builder bulkBuilder) {
     Variable variable = variableRepository.findOne(lockedItem.getDocumentId());
     if (variable != null) {
-      StudySubDocumentProjection study = studyRepository
+      final StudySubDocumentProjection study = studyRepository
           .findOneSubDocumentById(variable.getStudyId());
-      DataSetSubDocumentProjection dataSet = dataSetRepository
+      final DataSetSubDocumentProjection dataSet = dataSetRepository
           .findOneSubDocumentById(variable.getDataSetId());
-      List<RelatedPublicationSubDocumentProjection> relatedPublications = 
+      final List<RelatedPublicationSubDocumentProjection> relatedPublications = 
           relatedPublicationRepository
             .findSubDocumentsByVariableIdsContaining(variable.getId());
       List<SurveySubDocumentProjection> surveys = new ArrayList<SurveySubDocumentProjection>();
@@ -416,8 +420,12 @@ public class ElasticsearchUpdateQueueService {
             .map(RelatedQuestion::getInstrumentId).collect(Collectors.toList());
         instruments = instrumentRepository.findSubDocumentsByIdIn(instrumentIds);
       }
-      Release release = projectRepository.findOne(variable.getDataAcquisitionProjectId())
-          .getRelease();
+      DataAcquisitionProject project = projectRepository.findOne(
+          variable.getDataAcquisitionProjectId());
+      Release release = null;
+      if (project != null) {
+        release = project.getRelease();
+      }
       VariableSearchDocument searchDocument = new VariableSearchDocument(variable,
           dataSet, study, relatedPublications, surveys, instruments, release);
 
@@ -453,8 +461,12 @@ public class ElasticsearchUpdateQueueService {
       List<RelatedPublicationSubDocumentProjection> relatedPublications = 
           relatedPublicationRepository
             .findSubDocumentsByQuestionIdsContaining(question.getId());
-      Release release = projectRepository.findOne(question.getDataAcquisitionProjectId())
-          .getRelease();
+      DataAcquisitionProject project = projectRepository.findOne(
+          question.getDataAcquisitionProjectId());
+      Release release = null;
+      if (project != null) {
+        release = project.getRelease();
+      }
       QuestionSearchDocument searchDocument =
             new QuestionSearchDocument(question, study, instrument, surveys, variables,
                 relatedPublications, release);
@@ -491,8 +503,12 @@ public class ElasticsearchUpdateQueueService {
           .findSubDocumentsByStudyId(study.getId());
       List<InstrumentSubDocumentProjection> instruments = instrumentRepository
           .findSubDocumentsByStudyId(study.getId());
-      Release release = projectRepository.findOne(study.getDataAcquisitionProjectId())
-          .getRelease();
+      DataAcquisitionProject project = projectRepository.findOne(
+          study.getDataAcquisitionProjectId());
+      Release release = null;
+      if (project != null) {
+        release = project.getRelease();
+      }
       StudySearchDocument searchDocument = new StudySearchDocument(study, dataSets, variables,
           relatedPublications, surveys, questions, instruments, release);
 
@@ -503,5 +519,27 @@ public class ElasticsearchUpdateQueueService {
           .id(searchDocument.getId())
           .build());
     }
+  }
+
+  /**
+   * Process only the update queue items of the given type.
+   * @param type the type of items to be processed.
+   */
+  public void processQueueItems(ElasticsearchType type) {
+    logger.info("Starting processing of ElasticsearchUpdateQueue for type: " + type.name());
+    LocalDateTime updateStart = LocalDateTime.now();
+
+    queueItemRepository.lockAllUnlockedOrExpiredItemsByType(updateStart, jvmId, type);
+
+    List<ElasticsearchUpdateQueueItem> lockedItems =
+        queueItemRepository.findOldestLockedItemsByType(jvmId, updateStart, type);
+
+    while (!lockedItems.isEmpty()) {
+      executeQueueItemActions(lockedItems);
+
+      // check if there are more locked items to process
+      lockedItems = queueItemRepository.findOldestLockedItemsByType(jvmId, updateStart, type);
+    }
+    logger.info("Finished processing of ElasticsearchUpdateQueue for type: " + type.name());
   }
 }
