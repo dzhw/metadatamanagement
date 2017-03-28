@@ -25,9 +25,12 @@ CDNjs automatically pulls the latest version and makes all versions available at
 
 The `demos` directory includes sample projects for:
 
-- [`browserify`](http://browserify.org/)
-- [`requirejs`](http://requirejs.org/)
-- [`webpack`](https://webpack.js.org/)
+- [`angular`](demos/angular/)
+- [`browserify`](demos/browserify/)
+- [`Adobe ExtendScript`](demos/extendscript/)
+- [`requirejs`](demos/requirejs/)
+- [`systemjs`](demos/systemjs/)
+- [`webpack`](demos/webpack/)
 
 ### Optional Modules
 

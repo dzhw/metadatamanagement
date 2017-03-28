@@ -49,6 +49,7 @@ with a unified JS representation, and ES3/ES5 browser compatibility back to IE6.
   * [Supported Output Formats](#supported-output-formats)
   * [Output Type](#output-type)
 - [Utility Functions](#utility-functions)
+  * [Array of Arrays Input](#array-of-arrays-input)
   * [Formulae Output](#formulae-output)
   * [CSV and general DSV Output](#csv-and-general-dsv-output)
   * [JSON](#json)
@@ -98,9 +99,12 @@ CDNjs automatically pulls the latest version and makes all versions available at
 
 The `demos` directory includes sample projects for:
 
-- [`browserify`](http://browserify.org/)
-- [`requirejs`](http://requirejs.org/)
-- [`webpack`](https://webpack.js.org/)
+- [`angular`](demos/angular/)
+- [`browserify`](demos/browserify/)
+- [`Adobe ExtendScript`](demos/extendscript/)
+- [`requirejs`](demos/requirejs/)
+- [`systemjs`](demos/systemjs/)
+- [`webpack`](demos/webpack/)
 
 ### Optional Modules
 
@@ -376,11 +380,18 @@ Parse options are described in the [Parsing Options](#parsing-options) section.
 
 `XLSX.writeFile(wb, filename, write_opts)` attempts to write `wb` to `filename`
 
+`XLSX.writeFileAsync(filename, wb, o, cb)` attempts to write `wb` to `filename`.
+If `o` is omitted, the writer will use the third argument as the callback.
+
 Write options are described in the [Writing Options](#writing-options) section.
 
 ### Utilities
 
 Utilities are available in the `XLSX.utils` object:
+
+**Importing:**
+
+- `aoa_to_sheet` converts an array of arrays of JS data to a worksheet.
 
 **Exporting:**
 
@@ -654,7 +665,7 @@ objects which have the following properties:
 ```typescript
 type ColInfo = {
 	MDW?:number;  // Excel's "Max Digit Width" unit, always integral
-	width:number; // width in Excel's "Max Digit Width", width*256 is integral 
+	width:number; // width in Excel's "Max Digit Width", width*256 is integral
 	wpx?:number;  // width in screen pixels
 	wch?:number;  // intermediate character calculation
 };
@@ -665,7 +676,8 @@ follow the priority order:
 
 1) use `width` field if available
 2) use `wpx` pixel width if available
-2) use `wch` character count if available
+3) use `wch` character count if available
+
 ## Parsing Options
 
 The exported `read` and `readFile` functions accept an options argument:
@@ -673,7 +685,7 @@ The exported `read` and `readFile` functions accept an options argument:
 | Option Name | Default | Description                                          |
 | :---------- | ------: | :--------------------------------------------------- |
 | type        |         | Input data encoding (see Input Type below)           |
-| cellFormula | true    | Save formulae to the .f field **                     |
+| cellFormula | true    | Save formulae to the .f field                        |
 | cellHTML    | true    | Parse rich text and save HTML to the .h field        |
 | cellNF      | false   | Save number format string to the .z field            |
 | cellStyles  | false   | Save style/theme info to the .s field                |
@@ -688,8 +700,6 @@ The exported `read` and `readFile` functions accept an options argument:
 | password    | ""      | If defined and file is encrypted, use password **    |
 | WTF         | false   | If true, throw errors on unexpected file features ** |
 
-- `cellFormula` option only applies to formats that require extra processing to
-  parse formulae (XLS/XLSB).
 - Even if `cellNF` is false, formatted text will be generated and saved to `.w`
 - In some cases, sheets may be parsed even if `bookSheets` is false.
 - `bookSheets` and `bookProps` combine to give both sets of information
@@ -793,6 +803,8 @@ The `type` argument for `write` mirrors the `type` argument for `read`:
 
 The `sheet_to_*` functions accept a worksheet and an optional options object.
 
+The `*_to_sheet` functions accept a data object and an optional options object.
+
 The examples are based on the following worksheet:
 
 ```
@@ -801,6 +813,30 @@ XXX| A | B | C | D | E | F | G |
  1 | S | h | e | e | t | J | S |
  2 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
  3 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+```
+
+### Array of Arrays Input
+
+`XLSX.utils.aoa_to_sheet` takes an array of arrays of JS values and returns a
+worksheet resembling the input data.  Numbers, Booleans and Strings are stored
+as the corresponding styles.  Dates are stored as date or numbers.  Array holes
+and explicit `undefined` values are skipped.  `null` values may be stubbed. All
+other values are stored as strings.  The function takes an options argument:
+
+| Option Name |  Default | Description                                         |
+| :---------- | :------: | :-------------------------------------------------- |
+| dateNF      |  fmt 14  | Use specified date format in string output          |
+| cellDates   |  false   | Store dates as type `d` (default is `n`)            |
+| sheetStubs  |  false   | Create cell objects of type `z` for `null` values   |
+
+To generate the example sheet:
+
+```js
+var ws = XLSX.utils.aoa_to_sheet([
+	"SheetJS".split(""),
+	[1,2,3,4,5,6,7],
+	[2,3,4,5,6,7,8]
+]);
 ```
 
 ### Formulae Output
@@ -827,8 +863,10 @@ produces CSV output.  The function takes an options argument:
 | RS          |  `"\n"`  | "Record Separator" delimiter between rows           |
 | dateNF      |  fmt 14  | Use specified date format in string output          |
 | strip       |  false   | Remove trailing field separators in each record **  |
+| blankrows   |  true    | Include blank lines in the CSV output               |
 
 - `strip` will remove trailing commas from each line under default `FS/RS`
+- blankrows must be set to `false` to skip blank lines.
 
 For the example sheet:
 
@@ -856,6 +894,8 @@ generate different types of JS objects.  The function takes an options argument:
 | range       | from WS  | Override Range (see table below)                    |
 | header      |          | Control output format (see table below)             |
 | dateNF      |  fmt 14  | Use specified date format in string output          |
+| defval      |          | Use specified value in place of null or undefined   |
+| blankrows   |    **    | Include blank lines in the output **                |
 
 - `raw` only affects cells which have a format code (`.z`) field or a formatted
   text (`.w`) field.
@@ -864,6 +904,13 @@ generate different types of JS objects.  The function takes an options argument:
 - When `header` is not specified, the conversion will automatically disambiguate
   header entries by affixing `_` and a count starting at `1`.  For example, if
   three columns have header `foo` the output fields are `foo`, `foo_1`, `foo_2`
+- `null` values are returned when `raw` is true but are skipped when false.
+- If `defval` is not specified, null and undefined values are skipped normally.
+  If specified, all null and undefined points will be filled with `defval`
+- When `header` is `1`, the default is to generate blank rows.  `blankrows` must
+  be set to `false` to skip blank rows.
+- When `header` is not `1`, the default is to skip blank rows.  `blankrows` must
+  be truthy to generate blank rows
 
 `range` is expected to be one of:
 
@@ -881,6 +928,9 @@ generate different types of JS objects.  The function takes an options argument:
 | `"A"`            | Row object keys are literal column labels                 |
 | array of strings | Use specified strings as keys in row objects              |
 | (default)        | Read and disambiguate first row as keys                   |
+
+If header is not `1`, the row object will contain the non-enumerable property
+`__rowNum__` that represents the row of the sheet corresponding to the entry.
 
 For the example sheet:
 
