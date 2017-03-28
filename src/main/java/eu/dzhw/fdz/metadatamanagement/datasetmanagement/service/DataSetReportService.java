@@ -14,6 +14,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -128,7 +129,6 @@ public class DataSetReportService {
     env.put("create", "true");
     Path pathOfZipFile = Paths.get(zipPath);
     URI uriOfZipFile = URI.create("jar:" + pathOfZipFile.toUri());
-    //TODO DKatzberg close it!
     FileSystem zipFileSystem = FileSystems.newFileSystem(uriOfZipFile, env);
        
     //Read the three files with freemarker code 
@@ -139,12 +139,12 @@ public class DataSetReportService {
     Path pathToVariableTexFile = zipFileSystem.getPath(KEY_VARIABLE);
     String texVariableFileStr = ZipUtil.readFileFromZip(pathToVariableTexFile);
     
-    //TODO DKatzberg check string not structure??
-    //List<String> missingTexFiles = this.validateDataSetReportStructure(texTemplates);
-    //if (!missingTexFiles.isEmpty()) {
-    //  throw new TemplateIncompleteException("data-set-management.error"
-    //      + ".files-in-template-zip-incomplete", missingTexFiles);      
-    //}
+    //Check missing files.
+    List<String> missingTexFiles = this.validateDataSetReportStructure(zipFileSystem);
+    if (!missingTexFiles.isEmpty()) {
+      throw new TemplateIncompleteException("data-set-management.error"
+          + ".files-in-template-zip-incomplete", missingTexFiles);      
+    }
 
     // Load data for template only once
     Map<String, Object> dataForTemplate = this.loadDataForTemplateFilling(dataSetId);
@@ -179,7 +179,6 @@ public class DataSetReportService {
       String filledVariablesFile = 
           fillTemplate(texVariableFileStr, templateConfiguration, dataForTemplate);
       Path pathOfVariable = Paths.get("variables/" + variable.getName() + ".tex");
-      
       final Path root = zipFileSystem.getPath("/");
       final Path dest = zipFileSystem.getPath(root.toString(), pathOfVariable.toString());
       ZipUtil.writeFileToZip(dest, filledVariablesFile);
@@ -195,81 +194,32 @@ public class DataSetReportService {
   
   /**
    * Checks for all files which are included for the tex template.
-   * @param texTemplates All uploaded texTemplates 
+   * @param zipFileSystem The zip file as file system
    * @return True if all files are included. False min one file is missing.
    */
-  //TODO DKatzberg Rewrite this method.
-//  private List<String> validateDataSetReportStructure(Map<String, byte[]> texTemplates) {
-//    List<String> missingTexFiles = new ArrayList<>();
-//    
-//    // NO Check for References.bib. This file is just optional has has to be added manually.
-//    //TODO DKatzberg reduces checks
-//    if (!texTemplates.containsKey(KEY_INTRODUCTION)) {
-//      missingTexFiles.add(KEY_INTRODUCTION);
-//    }
-//    
-//    if (!texTemplates.containsKey(KEY_MAIN)) {
-//      missingTexFiles.add(KEY_MAIN);
-//    }
-//    
-//    if (!texTemplates.containsKey(KEY_VARIABLE)) {
-//      missingTexFiles.add(KEY_VARIABLE);
-//    }
-//    
-//    if (!texTemplates.containsKey(KEY_VARIABLELIST)) {
-//      missingTexFiles.add(KEY_VARIABLELIST);
-//    }
-//    
-//    if (!texTemplates.containsKey(KEY_REFERENCES_BIB)) {
-//      missingTexFiles.add(KEY_REFERENCES_BIB);
-//    }
-//    
-//    if (!texTemplates.containsKey(KEY_DSREPORT_STY)) {
-//      missingTexFiles.add(KEY_DSREPORT_STY);
-//    }
-//    
-//    if (!texTemplates.containsKey(KEY_BLUE_BAR_EPS)) {
-//      missingTexFiles.add(KEY_BLUE_BAR_EPS);
-//    }
-//    
-//    if (!texTemplates.containsKey(KEY_BLUE_BAR_PDF)) {
-//      missingTexFiles.add(KEY_BLUE_BAR_PDF);
-//    }
-//    
-//    if (!texTemplates.containsKey(KEY_BMBF_LOGO_EPS)) {
-//      missingTexFiles.add(KEY_BMBF_LOGO_EPS);
-//    }
-//    
-//    if (!texTemplates.containsKey(KEY_BMBF_LOGO_PDF)) {
-//      missingTexFiles.add(KEY_BMBF_LOGO_PDF);
-//    }
-//    
-//    if (!texTemplates.containsKey(KEY_CREATIVE_COMMONS_EPS)) {
-//      missingTexFiles.add(KEY_CREATIVE_COMMONS_EPS);
-//    }
-//    
-//    if (!texTemplates.containsKey(KEY_CREATIVE_COMMONS_PNG)) {
-//      missingTexFiles.add(KEY_CREATIVE_COMMONS_PNG);
-//    }
-//    
-//    if (!texTemplates.containsKey(KEY_FDZ_LOGO_EPS)) {
-//      missingTexFiles.add(KEY_FDZ_LOGO_EPS);
-//    }
-//    
-//    if (!texTemplates.containsKey(KEY_FDZ_LOGO_PDF)) {
-//      missingTexFiles.add(KEY_FDZ_LOGO_PDF);
-//    }
-//    
-//    if (!texTemplates.containsKey(KEY_FDZ_LOGO_NO_TEXT_EPS)) {
-//      missingTexFiles.add(KEY_FDZ_LOGO_NO_TEXT_EPS);
-//    }
-//    
-//    if (!texTemplates.containsKey(KEY_FDZ_LOGO_NO_TEXT_PDF)) {
-//      missingTexFiles.add(KEY_FDZ_LOGO_NO_TEXT_PDF);
-//    }
-//    
-//    return missingTexFiles;
-//  }
+  private List<String> validateDataSetReportStructure(FileSystem zipFileSystem) {
+    List<String> missingTexFiles = new ArrayList<>();
+    
+    // NO Check for References.bib. This file is just optional has has to be added manually.
+    
+    Path mainFile = zipFileSystem.getPath(zipFileSystem.getPath("/").toString(), KEY_MAIN);
+    if (!Files.exists(mainFile)) {
+      missingTexFiles.add(KEY_MAIN);
+    }
+    
+    Path variableFile = zipFileSystem.getPath(zipFileSystem.getPath("/").toString(), KEY_VARIABLE);
+    if (!Files.exists(variableFile)) {
+      missingTexFiles.add(KEY_VARIABLE);
+    }
+    
+    Path variableListFile = zipFileSystem
+        .getPath(zipFileSystem.getPath("/").toString(), KEY_VARIABLELIST);
+    if (!Files.exists(variableListFile)) {
+      missingTexFiles.add(KEY_VARIABLELIST);
+    }
+    
+    return missingTexFiles;
+  }
   
   
 
