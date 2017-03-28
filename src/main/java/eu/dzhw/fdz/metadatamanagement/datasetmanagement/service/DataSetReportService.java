@@ -101,24 +101,6 @@ public class DataSetReportService {
   public static final String KEY_VARIABLE = "variables/Variable.tex";
   
   /**
-   * Files which will be copy into the download file.
-   */
-  //TODO Delete
-//  public static final String KEY_REFERENCES_BIB = "References.bib";
-//  public static final String KEY_INTRODUCTION = "Introduction.tex";
-//  public static final String KEY_DSREPORT_STY = "dsreport.sty";
-//  public static final String KEY_BLUE_BAR_EPS = "blauer_balken.eps";
-//  public static final String KEY_BLUE_BAR_PDF = "blauer_balken.pdf";
-//  public static final String KEY_BMBF_LOGO_EPS = "bmbf-logo_gef_vom.eps";
-//  public static final String KEY_BMBF_LOGO_PDF = "bmbf-logo_gef_vom.pdf";
-//  public static final String KEY_CREATIVE_COMMONS_EPS = "by-nc-sa_eu.eps";
-//  public static final String KEY_CREATIVE_COMMONS_PNG = "by-nc-sa_eu.png";
-//  public static final String KEY_FDZ_LOGO_EPS = "fdz-logo_mit-text.eps";
-//  public static final String KEY_FDZ_LOGO_PDF = "fdz-logo_mit-text.pdf";
-//  public static final String KEY_FDZ_LOGO_NO_TEXT_EPS = "fdz-logo_ohne-text.eps";
-//  public static final String KEY_FDZ_LOGO_NO_TEXT_PDF = "fdz-logo_ohne-text.pdf";
-  
-  /**
    * This service method will receive a tex template as a string and an id of a data set. With this
    * id, the service will load the data set for receiving all depending information, which are
    * needed for filling of the tex template with data.
@@ -137,10 +119,6 @@ public class DataSetReportService {
     templateConfiguration.setDefaultEncoding(StandardCharsets.UTF_8.toString());
     templateConfiguration.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
     templateConfiguration.setNumberFormat("0.######");
-
-    // Unzip the zip file
-    //TODO DKatzberg 
-    // Map<String, byte[]> texTemplates = ZipUtil.unzip(multiPartFile);
     
     Map<String, String> env = new HashMap<>();
     String zipPath = "/tmp/" + dataSetId.replace("!", "") + ".zip";
@@ -167,58 +145,21 @@ public class DataSetReportService {
     //  throw new TemplateIncompleteException("data-set-management.error"
     //      + ".files-in-template-zip-incomplete", missingTexFiles);      
     //}
-    
-//    Map<String, byte[]> filledTemplates = new HashMap<>();
 
     // Load data for template only once
     Map<String, Object> dataForTemplate = this.loadDataForTemplateFilling(dataSetId);
-
-    // Zip the filled templates.
-//    String bibReferenceForTemplateStr =
-//        IOUtils.toString(texTemplates.get(KEY_REFERENCES_BIB), StandardCharsets.UTF_8.name());
-//    filledTemplates.put(KEY_REFERENCES_BIB,
-//        this.fillTemplate(bibReferenceForTemplateStr, templateConfiguration, dataForTemplate));
-//    String introductionForTemplateStr = 
-//        IOUtils.toString(texTemplates.get(KEY_INTRODUCTION), StandardCharsets.UTF_8.name());
-//    filledTemplates.put(KEY_INTRODUCTION,
-//        this.fillTemplate(introductionForTemplateStr, templateConfiguration, dataForTemplate));
-    
-//    String variableListForTemplateStr = 
-//        IOUtils.toString(texTemplates.get(KEY_VARIABLELIST), StandardCharsets.UTF_8.name());
-//    filledTemplates.put(KEY_VARIABLELIST,
     String variableListFilledStr = 
         this.fillTemplate(texVariableListFileStr, templateConfiguration, dataForTemplate);
-//    Path tmpPath2 = Files.createTempFile("test", ".tex");
-//    Files.write(tmpPath2, variableListFilledStr.getBytes());
-//    Files.copy(tmpPath2, pathToVariableListTexFile, StandardCopyOption.REPLACE_EXISTING);
     ZipUtil.writeFileToZip(pathToVariableListTexFile, variableListFilledStr);
-    
-//    String mainForTemplateStr = 
-//        IOUtils.toString(texTemplates.get(KEY_MAIN), StandardCharsets.UTF_8.name());
-//    filledTemplates.put(KEY_MAIN, 
     String mainFilledStr = 
         this.fillTemplate(texMainFileStr, templateConfiguration, dataForTemplate);
     ZipUtil.writeFileToZip(pathToMainTexFile, mainFilledStr);
-    
-    //Just pipe files into the download zip file    
-//    filledTemplates.put(KEY_DSREPORT_STY, texTemplates.get(KEY_DSREPORT_STY));    
-//    filledTemplates.put(KEY_BLUE_BAR_EPS, texTemplates.get(KEY_BLUE_BAR_EPS));
-//    filledTemplates.put(KEY_BLUE_BAR_PDF, texTemplates.get(KEY_BLUE_BAR_PDF));
-//    filledTemplates.put(KEY_BMBF_LOGO_EPS, texTemplates.get(KEY_BMBF_LOGO_EPS));
-//    filledTemplates.put(KEY_BMBF_LOGO_PDF, texTemplates.get(KEY_BMBF_LOGO_PDF));
-//    filledTemplates.put(KEY_CREATIVE_COMMONS_EPS, texTemplates.get(KEY_CREATIVE_COMMONS_EPS));
-//    filledTemplates.put(KEY_CREATIVE_COMMONS_PNG, texTemplates.get(KEY_CREATIVE_COMMONS_PNG));
-//    filledTemplates.put(KEY_FDZ_LOGO_EPS, texTemplates.get(KEY_FDZ_LOGO_EPS));
-//    filledTemplates.put(KEY_FDZ_LOGO_PDF, texTemplates.get(KEY_FDZ_LOGO_PDF));
-//    filledTemplates.put(KEY_FDZ_LOGO_NO_TEXT_EPS, texTemplates.get(KEY_FDZ_LOGO_NO_TEXT_EPS));
-//    filledTemplates.put(KEY_FDZ_LOGO_NO_TEXT_PDF, texTemplates.get(KEY_FDZ_LOGO_NO_TEXT_PDF));
 
     // Create Variables pages
     @SuppressWarnings("unchecked")
     Map<String, Variable> variablesMap = (Map<String, Variable>) dataForTemplate.get("variables");
     Collection<Variable> variables = variablesMap.values();
-//    String variableForTemplateStr = 
-//        IOUtils.toString(texTemplates.get(KEY_VARIABLE), StandardCharsets.UTF_8.name());
+    
     for (Variable variable : variables) {
       
       //Check for null
@@ -242,49 +183,9 @@ public class DataSetReportService {
       final Path root = zipFileSystem.getPath("/");
       final Path dest = zipFileSystem.getPath(root.toString(), pathOfVariable.toString());
       ZipUtil.writeFileToZip(dest, filledVariablesFile);
-//      final Path root = zipFileSystem.getPath("/");
-//      if (!Files.isDirectory(src)) {
-//      final Path dest = zipFileSystem.getPath(root.toString(), pathOfVariable.toString());
-//      Path tmpPath = Files.createTempFile("test", "tex");
-//      Files.write(tmpPath, filledVariablesFile.getBytes());
-//      Files.copy(tmpPath, dest);
-//      ZipUtil.writeFileToZip(dest, filledVariablesFile);
-//        final Path parent = dest.getParent();
-//        if (Files.notExists(parent)) {
-//          System.out.printf("Creating directory %s\n", parent);
-//          Files.createDirectories(parent);
-//        }
-//        Files.copy(src, dest, StandardCopyOption.REPLACE_EXISTING);
-//      } else {
-        //for directories, walk the file tree
-//      Files.walkFileTree(src, new SimpleFileVisitor<Path>() {
-//        @Override
-//        public FileVisitResult visitFile(Path file,
-//            BasicFileAttributes attrs) throws IOException {
-//            final Path dest = zipFileSystem.getPath(root.toString(),
-//                                                    file.toString());
-//            Files.copy(file, dest, StandardCopyOption.REPLACE_EXISTING);
-//            return FileVisitResult.CONTINUE;
-//          }
-// 
-//          @Override
-//          public FileVisitResult preVisitDirectory(Path dir,
-//              BasicFileAttributes attrs) throws IOException {
-//            final Path dirToCreate = zipFileSystem.getPath(root.toString(),
-//                                                           dir.toString());
-//            if (Files.notExists(dirToCreate)) {
-//              System.out.printf("Creating directory %s\n", dirToCreate);
-//            Files.createDirectories(dirToCreate);
-//          }
-//          return FileVisitResult.CONTINUE;
-//        }
-//      });
-//      }
-      
     }
     
     // Save into MongoDB / GridFS
-    //ByteArrayOutputStream byteArrayOutputStreamArchive = ZipUtil.zip(filledTemplates);
     zipFileSystem.close();
     byte[] byteArrayZipFile = Files.readAllBytes(pathOfZipFile);
     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
