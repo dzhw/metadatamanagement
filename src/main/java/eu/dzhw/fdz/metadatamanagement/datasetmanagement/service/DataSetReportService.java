@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.datasetmanagement.service;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -10,6 +11,7 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
@@ -95,7 +97,7 @@ public class DataSetReportService {
    * Files which will be filled by the freemarker code.
    */  
   public static final String KEY_VARIABLELIST = "Variablelist.tex";
-  public static final String KEY_MAIN = "./Main.tex";  
+  public static final String KEY_MAIN = "Main.tex";  
   public static final String KEY_VARIABLE = "variables/Variable.tex";
   
   /**
@@ -141,9 +143,12 @@ public class DataSetReportService {
     // Map<String, byte[]> texTemplates = ZipUtil.unzip(multiPartFile);
     
     Map<String, String> env = new HashMap<>();
-    //multiPartFile.transferTo("/tmp/kldfglsghl");
+    String zipPath = "/tmp/" + dataSetId.replace("!", "") + ".zip";
+    File zipTmpFile = new File(zipPath);
+    multiPartFile.transferTo(zipTmpFile);
+    zipTmpFile.setWritable(true);
     env.put("create", "true");
-    Path pathOfZipFile = Paths.get(multiPartFile.getOriginalFilename());
+    Path pathOfZipFile = Paths.get(zipPath);
     URI uriOfZipFile = URI.create("jar:" + pathOfZipFile.toUri());
     //TODO DKatzberg close it!
     FileSystem zipFileSystem = FileSystems.newFileSystem(uriOfZipFile, env);
@@ -183,6 +188,9 @@ public class DataSetReportService {
 //    filledTemplates.put(KEY_VARIABLELIST,
     String variableListFilledStr = 
         this.fillTemplate(texVariableListFileStr, templateConfiguration, dataForTemplate);
+//    Path tmpPath2 = Files.createTempFile("test", ".tex");
+//    Files.write(tmpPath2, variableListFilledStr.getBytes());
+//    Files.copy(tmpPath2, pathToVariableListTexFile, StandardCopyOption.REPLACE_EXISTING);
     ZipUtil.writeFileToZip(pathToVariableListTexFile, variableListFilledStr);
     
 //    String mainForTemplateStr = 
@@ -226,15 +234,59 @@ public class DataSetReportService {
       dataForTemplate.put("variableId", variable.getId());      
       
       
-//      filledTemplates.put("variables/" + variable.getName() + ".tex",
+      //filledTemplates.put("variables/" + variable.getName() + ".tex",
       String filledVariablesFile = 
           fillTemplate(texVariableFileStr, templateConfiguration, dataForTemplate);
       Path pathOfVariable = Paths.get("variables/" + variable.getName() + ".tex");
-      ZipUtil.writeFileToZip(pathOfVariable, filledVariablesFile);
+      
+      final Path root = zipFileSystem.getPath("/");
+      final Path dest = zipFileSystem.getPath(root.toString(), pathOfVariable.toString());
+      ZipUtil.writeFileToZip(dest, filledVariablesFile);
+//      final Path root = zipFileSystem.getPath("/");
+//      if (!Files.isDirectory(src)) {
+//      final Path dest = zipFileSystem.getPath(root.toString(), pathOfVariable.toString());
+//      Path tmpPath = Files.createTempFile("test", "tex");
+//      Files.write(tmpPath, filledVariablesFile.getBytes());
+//      Files.copy(tmpPath, dest);
+//      ZipUtil.writeFileToZip(dest, filledVariablesFile);
+//        final Path parent = dest.getParent();
+//        if (Files.notExists(parent)) {
+//          System.out.printf("Creating directory %s\n", parent);
+//          Files.createDirectories(parent);
+//        }
+//        Files.copy(src, dest, StandardCopyOption.REPLACE_EXISTING);
+//      } else {
+        //for directories, walk the file tree
+//      Files.walkFileTree(src, new SimpleFileVisitor<Path>() {
+//        @Override
+//        public FileVisitResult visitFile(Path file,
+//            BasicFileAttributes attrs) throws IOException {
+//            final Path dest = zipFileSystem.getPath(root.toString(),
+//                                                    file.toString());
+//            Files.copy(file, dest, StandardCopyOption.REPLACE_EXISTING);
+//            return FileVisitResult.CONTINUE;
+//          }
+// 
+//          @Override
+//          public FileVisitResult preVisitDirectory(Path dir,
+//              BasicFileAttributes attrs) throws IOException {
+//            final Path dirToCreate = zipFileSystem.getPath(root.toString(),
+//                                                           dir.toString());
+//            if (Files.notExists(dirToCreate)) {
+//              System.out.printf("Creating directory %s\n", dirToCreate);
+//            Files.createDirectories(dirToCreate);
+//          }
+//          return FileVisitResult.CONTINUE;
+//        }
+//      });
+//      }
+      
     }
+    
     // Save into MongoDB / GridFS
     //ByteArrayOutputStream byteArrayOutputStreamArchive = ZipUtil.zip(filledTemplates);
-    byte [] byteArrayZipFile = multiPartFile.getBytes();
+    zipFileSystem.close();
+    byte[] byteArrayZipFile = Files.readAllBytes(pathOfZipFile);
     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
     byteArrayOutputStream.write(byteArrayZipFile);    
     return this.saveCompleteTexTemplate(byteArrayOutputStream, multiPartFile.getName());

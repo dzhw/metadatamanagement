@@ -114,6 +114,7 @@ public class ZipUtil {
     try (Writer writer = Files.newBufferedWriter(
         pathToFile, StandardCharsets.UTF_8, StandardOpenOption.CREATE)) {
       writer.write(newFileContent);
+      writer.flush();
     }
   }
 
