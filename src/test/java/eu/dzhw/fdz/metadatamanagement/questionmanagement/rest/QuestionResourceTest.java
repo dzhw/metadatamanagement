@@ -91,7 +91,7 @@ public class QuestionResourceTest extends AbstractTest {
       .content(TestUtil.convertObjectToJsonBytes(question)))
       .andExpect(status().isCreated());
 
-    elasticsearchUpdateQueueService.processQueue();
+    elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there is one question documents
     elasticsearchAdminService.refreshAllIndices();
@@ -141,7 +141,7 @@ public class QuestionResourceTest extends AbstractTest {
       .andExpect(jsonPath("$.version", is(1)))
       .andExpect(jsonPath("$.questionText.de", is("Angepasst")));
 
-    elasticsearchUpdateQueueService.processQueue();
+    elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there is one question documents
     elasticsearchAdminService.refreshAllIndices();

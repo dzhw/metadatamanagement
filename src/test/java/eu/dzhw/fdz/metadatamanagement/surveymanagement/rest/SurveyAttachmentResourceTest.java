@@ -1,8 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.rest;
 
 import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -144,10 +144,9 @@ public class SurveyAttachmentResourceTest extends AbstractTest {
       .file(metadata))
       .andExpect(status().isCreated());
     
-    // delete the survey by project id
-    mockMvc.perform(post("/api/surveys/delete").param("dataAcquisitionProjectId", survey.getDataAcquisitionProjectId())
-      .content(TestUtil.convertObjectToJsonBytes(survey)))
-      .andExpect(status().isOk());
+    // delete the survey with the given id
+    mockMvc.perform(delete("/api/surveys/" + survey.getId()))
+      .andExpect(status().isNoContent());
     
     // check if attachment has been deleted as well
     mockMvc.perform(

@@ -179,7 +179,8 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
     var uploadDataSets = function(dataSetIndex) {
       var previouslyUploadedVariableNames = {};
       if (dataSetIndex === _.size(filesMap)) {
-        ElasticSearchAdminService.processUpdateQueue().finally(function() {
+        ElasticSearchAdminService.processUpdateQueue('variables').finally(
+          function() {
           JobLoggingService.finish(
             'variable-management.log-messages.variable.upload-terminated', {
               total: JobLoggingService.getCurrentJob().total,

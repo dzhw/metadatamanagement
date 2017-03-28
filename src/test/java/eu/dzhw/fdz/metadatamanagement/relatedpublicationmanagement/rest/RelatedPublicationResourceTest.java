@@ -80,7 +80,7 @@ public class RelatedPublicationResourceTest  extends AbstractTest {
     this.mockMvc.perform(get(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId()))
       .andExpect(status().isOk());
     
-    elasticsearchUpdateQueueService.processQueue();
+    elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there is one data set document
     elasticsearchAdminService.refreshAllIndices();
@@ -149,7 +149,7 @@ public class RelatedPublicationResourceTest  extends AbstractTest {
       .andExpect(jsonPath("$.id", is(relatedPublication.getId())))
       .andExpect(jsonPath("$.doi", is("Another DOI")));
     
-    elasticsearchUpdateQueueService.processQueue();
+    elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there are one data set document
     elasticsearchAdminService.refreshAllIndices();
@@ -175,7 +175,7 @@ public class RelatedPublicationResourceTest  extends AbstractTest {
     mockMvc.perform(get(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId()))
       .andExpect(status().isNotFound());
     
-    elasticsearchUpdateQueueService.processQueue();
+    elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there are two data set documents plus two surveys
     elasticsearchAdminService.refreshAllIndices();

@@ -34,7 +34,7 @@ public class ElasticsearchUpdateQueueServiceTest extends AbstractTest {
 
     assertThat(itemRepository.count(), is(1L));
 
-    elasticsearchUpdateQueueService.processQueue();
+    elasticsearchUpdateQueueService.processAllQueueItems();
 
     assertThat(itemRepository.count(), is(0L));
   }
@@ -65,7 +65,7 @@ public class ElasticsearchUpdateQueueServiceTest extends AbstractTest {
 
     itemRepository.insert(outdatedItem);
 
-    elasticsearchUpdateQueueService.processQueue();
+    elasticsearchUpdateQueueService.processAllQueueItems();
 
     assertThat(itemRepository.count(), is(0L));
   }

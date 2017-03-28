@@ -18,7 +18,8 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
 
     var upload = function() {
       if (uploadCount === instrumentsToSave.length) {
-        ElasticSearchAdminService.processUpdateQueue().finally(function() {
+        ElasticSearchAdminService.processUpdateQueue('instruments').finally(
+          function() {
           var job = JobLoggingService.getCurrentJob();
           JobLoggingService.finish(
             'instrument-management.log-messages.instrument.upload-terminated', {

@@ -180,7 +180,8 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
     };
     var uploadInstruments = function(instrumentIndex) {
       if (instrumentIndex === _.size(filesMap)) {
-        ElasticSearchAdminService.processUpdateQueue().finally(function() {
+        ElasticSearchAdminService.processUpdateQueue('questions').finally(
+          function() {
           var job = JobLoggingService.getCurrentJob();
           JobLoggingService.finish(
             'question-management.log-messages.question.upload-terminated', {

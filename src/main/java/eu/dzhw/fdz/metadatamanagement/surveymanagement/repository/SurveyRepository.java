@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
@@ -27,6 +28,10 @@ public interface SurveyRepository
   
   @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamAllIdAndVersionsBy();
+  
+  @RestResource(exported = true)
+  List<Survey> findByDataAcquisitionProjectId(
+      @Param("dataAcquisitionProjectId") String dataAcquisitionProjectId);
   
   @RestResource(exported = false)
   List<IdAndVersionProjection> findIdsByNumberAndDataAcquisitionProjectId(Integer number, 

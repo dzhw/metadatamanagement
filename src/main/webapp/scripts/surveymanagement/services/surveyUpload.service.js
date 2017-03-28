@@ -3,15 +3,17 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('SurveyUploadService',
-  function(SurveyDeleteResource, JobLoggingService, ExcelReaderService,
+  function(JobLoggingService, ExcelReaderService, SurveyResource,
     SurveyBuilderService, $q, $rootScope, ErrorMessageResolverService,
     SurveyAttachmentUploadService, SurveyResponseRateImageUploadService,
-    CleanJSObjectService, ElasticSearchAdminService, $translate, $mdDialog) {
+    CleanJSObjectService, ElasticSearchAdminService, $translate, $mdDialog,
+    SurveyRepositoryClient) {
     var surveys;
     var attachments;
     var readyToUploadSurveys;
     var filesMap;
     var previouslyUploadedSurveyNumbers;
+    var existingSurveys = {}; // map surveyId -> presentInExcel true/false
     var createSurveysFileMap = function(files, dataAcquisitionProjectId) {
       filesMap = {'surveys': {
         'dataAcquisitionProjectId': dataAcquisitionProjectId,
@@ -54,6 +56,7 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
           function(excelContent) {
             if (excelContent.surveys) {
               excelContent.surveys.forEach(function(surveyFromExcel, index) {
+                    var survey;
                     if (CleanJSObjectService.
                      isNullOrEmpty(surveyFromExcel.number)) {
                       JobLoggingService.error({
@@ -65,9 +68,13 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
                         objectType: 'survey'
                       });
                     } else {
-                      surveys.push(SurveyBuilderService
+                      survey = SurveyBuilderService
                       .buildSurvey(surveyFromExcel, files.surveys.
-                        dataAcquisitionProjectId));
+                        dataAcquisitionProjectId);
+                      surveys.push(survey);
+                      if (existingSurveys[survey.id]) {
+                        existingSurveys[survey.id].presentInExcel = true;
+                      }
                     }
                   });
             } else {
@@ -262,20 +269,39 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
       });
     };
 
+    var deleteAllSurveysNotPresentInExcel = function() {
+      var promiseChain = $q.when();
+      _.each(existingSurveys, function(existingSurvey) {
+        if (!existingSurvey.presentInExcel) {
+          promiseChain = promiseChain.then(function() {
+            return SurveyResource.delete({id: existingSurvey.id}).$promise
+            .catch(
+              function(error) {
+                console.log('Error when deleting survey:', error);
+              });
+          });
+        }
+      });
+      return promiseChain;
+    };
+
     var uploadAllSurveyDetailObject = function(index) {
       var currentIndex = index;
       if (currentIndex === readyToUploadSurveys.length) {
-        ElasticSearchAdminService.processUpdateQueue().finally(function() {
-            var job = JobLoggingService.getCurrentJob();
-            JobLoggingService.finish(
-            'survey-management.log-messages.survey.upload-terminated', {
-              totalSurveys: job.getCounts('survey').total,
-              totalImages: job.getCounts('image').total,
-              totalAttachments: job.getCounts('attachment').total,
-              totalErrors: JobLoggingService.getCurrentJob().errors
+        deleteAllSurveysNotPresentInExcel().finally(function() {
+          ElasticSearchAdminService.processUpdateQueue('surveys').finally(
+            function() {
+              var job = JobLoggingService.getCurrentJob();
+              JobLoggingService.finish(
+                'survey-management.log-messages.survey.upload-terminated', {
+                  totalSurveys: job.getCounts('survey').total,
+                  totalImages: job.getCounts('image').total,
+                  totalAttachments: job.getCounts('attachment').total,
+                  totalErrors: JobLoggingService.getCurrentJob().errors
+                });
+              $rootScope.$broadcast('upload-completed');
             });
-            $rootScope.$broadcast('upload-completed');
-          });
+        });
         return;
       }
       uploadSurveyDetailObject(readyToUploadSurveys[index], index).
@@ -283,38 +309,43 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
           return uploadAllSurveyDetailObject(index + 1);
         });
     };
-    var uploadSurveys = function(files, dataAcquisitionProjectId) {
-      if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
-        var confirm = $mdDialog.confirm().title($translate.instant(
-            'search-management.delete-messages.delete-surveys-title'))
-          .textContent($translate.instant(
-            'search-management.delete-messages.delete-surveys', {
-              id: dataAcquisitionProjectId
-            })).ariaLabel($translate.instant(
-            'search-management.delete-messages.delete-surveys', {
-              id: dataAcquisitionProjectId
-            }))
-          .ok($translate.instant('global.buttons.ok'))
-          .cancel($translate.instant('global.buttons.cancel'));
-        $mdDialog.show(confirm).then(function() {
-          JobLoggingService.start('survey');
-          SurveyDeleteResource.deleteByDataAcquisitionProjectId({
-              dataAcquisitionProjectId: dataAcquisitionProjectId
-            }).$promise
-            .then(function() {
-              createSurveysFileMap(files,
-                dataAcquisitionProjectId);
-              createResourcesFromExcel(filesMap).then(function() {
-                  createReadyToUploadSurveys();
-                  previouslyUploadedSurveyNumbers = {};
-                  uploadAllSurveyDetailObject(0);
-                });
-            }, function() {
-              JobLoggingService.cancel(
-                'survey-management.log-messages.survey.' +
-                'unable-to-delete', {});
-            });
+    var startJob = function(files, dataAcquisitionProjectId) {
+      JobLoggingService.start('survey');
+      createSurveysFileMap(files,
+        dataAcquisitionProjectId);
+      createResourcesFromExcel(filesMap).then(function() {
+          createReadyToUploadSurveys();
+          previouslyUploadedSurveyNumbers = {};
+          uploadAllSurveyDetailObject(0);
         });
+    };
+    var uploadSurveys = function(files, dataAcquisitionProjectId) {
+      existingSurveys = {};
+      if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
+        SurveyRepositoryClient.findByDataAcquisitionProjectId(
+          dataAcquisitionProjectId).then(function(result) {
+            result.data.forEach(function(survey) {
+              existingSurveys[survey.id] = survey;
+            });
+            if (result.data.length > 0) {
+              var confirm = $mdDialog.confirm().title($translate.instant(
+                  'search-management.delete-messages.delete-surveys-title'))
+                .textContent($translate.instant(
+                  'search-management.delete-messages.delete-surveys', {
+                    id: dataAcquisitionProjectId
+                  })).ariaLabel($translate.instant(
+                  'search-management.delete-messages.delete-surveys', {
+                    id: dataAcquisitionProjectId
+                  }))
+                .ok($translate.instant('global.buttons.ok'))
+                .cancel($translate.instant('global.buttons.cancel'));
+              $mdDialog.show(confirm).then(function() {
+                  startJob(files, dataAcquisitionProjectId);
+                });
+            } else {
+              startJob(files, dataAcquisitionProjectId);
+            }
+          });
       }
     };
     return {

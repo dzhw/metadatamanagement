@@ -90,7 +90,7 @@ public class SurveyResourceTest extends AbstractTest {
     // call toString for test coverage :-)
     survey.toString();
     
-    elasticsearchUpdateQueueService.processQueue();
+    elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there is one survey document
     elasticsearchAdminService.refreshAllIndices();
@@ -246,7 +246,7 @@ public class SurveyResourceTest extends AbstractTest {
     mockMvc.perform(get(API_SURVEYS_URI + "/" + survey.getId()))
       .andExpect(status().isNotFound());
     
-    elasticsearchUpdateQueueService.processQueue();
+    elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there are no more survey documents
     elasticsearchAdminService.refreshAllIndices();
@@ -284,7 +284,7 @@ public class SurveyResourceTest extends AbstractTest {
       .andExpect(jsonPath("$.version", is(0)))
       .andExpect(jsonPath("$.title.de", is("titel2")));
     
-    elasticsearchUpdateQueueService.processQueue();
+    elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there is one survey documents
     elasticsearchAdminService.refreshAllIndices();

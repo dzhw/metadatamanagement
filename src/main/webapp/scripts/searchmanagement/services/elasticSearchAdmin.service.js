@@ -10,9 +10,10 @@ angular.module('metadatamanagementApp').factory(
             return response.data;
           });
       },
-      processUpdateQueue: function() {
-        return $http.post('/api/search/process-queue')
-          .then(function(response) {
+      processUpdateQueue: function(type) {
+        return $http.post('/api/search/process-queue', {}, {
+          params: {type: type}
+        }).then(function(response) {
             return response.data;
           });
       }

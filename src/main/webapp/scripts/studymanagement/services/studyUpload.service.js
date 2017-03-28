@@ -28,7 +28,7 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
             subMessages: errorMessages.subMessages
           });
         }).then(function() {
-          ElasticSearchAdminService.processUpdateQueue().finally(
+          ElasticSearchAdminService.processUpdateQueue('studies').finally(
             function() {
               JobLoggingService.finish(
                 'study-management.log-messages.study.upload-terminated', {

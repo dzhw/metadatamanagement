@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestClientException;
@@ -37,6 +38,7 @@ import com.codahale.metrics.annotation.Timed;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import eu.dzhw.fdz.metadatamanagement.common.rest.util.HeaderUtil;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
@@ -143,10 +145,16 @@ public class SearchResource {
       produces = MediaType.APPLICATION_JSON_VALUE)
   @Timed
   @Secured(AuthoritiesConstants.PUBLISHER)
-  public ResponseEntity<?> processElasticsearchUpdateQueue() throws URISyntaxException {
-    log.debug("REST request to process update queue.");
-    elasticsearchUpdateQueueService.processQueue();
-    elasticsearchAdminService.refreshAllIndices();
+  public ResponseEntity<?> processElasticsearchUpdateQueue(
+      @RequestParam(required = false) ElasticsearchType type) throws URISyntaxException {
+    log.debug("REST request to process update queue for type: " + type);
+    if (type != null) {
+      elasticsearchUpdateQueueService.processQueueItems(type);
+      elasticsearchAdminService.refreshIndex(type);      
+    } else {
+      elasticsearchUpdateQueueService.processAllQueueItems();
+      elasticsearchAdminService.refreshAllIndices();      
+    }
     return ResponseEntity.ok()
       .build();
   }
