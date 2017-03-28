@@ -29,7 +29,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
         unique = true),
     @CompoundIndex(def = "{updateStartedAt: 1, updateStartedBy: 1, createdDate: 1}"),
     @CompoundIndex(def = "{updateStartedAt: 1, updateStartedBy: 1, documentType: 1,"
-        + " createdDate: 1}")})
+        + " createdDate: 1}", name = "locked_items_per_type")})
 public class ElasticsearchUpdateQueueItem extends AbstractRdcDomainObject {
 
   /* Domain Object Attributes */
