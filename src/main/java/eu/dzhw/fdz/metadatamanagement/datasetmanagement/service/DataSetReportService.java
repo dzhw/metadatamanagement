@@ -6,8 +6,12 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -89,27 +93,28 @@ public class DataSetReportService {
 
   /**
    * Files which will be filled by the freemarker code.
-   */
-  public static final String KEY_INTRODUCTION = "Introduction.tex";
+   */  
   public static final String KEY_VARIABLELIST = "Variablelist.tex";
-  public static final String KEY_MAIN = "Main.tex";
-  public static final String KEY_REFERENCES_BIB = "References.bib";
+  public static final String KEY_MAIN = "./Main.tex";  
   public static final String KEY_VARIABLE = "variables/Variable.tex";
   
   /**
    * Files which will be copy into the download file.
    */
-  public static final String KEY_DSREPORT_STY = "dsreport.sty";
-  public static final String KEY_BLUE_BAR_EPS = "blauer_balken.eps";
-  public static final String KEY_BLUE_BAR_PDF = "blauer_balken.pdf";
-  public static final String KEY_BMBF_LOGO_EPS = "bmbf-logo_gef_vom.eps";
-  public static final String KEY_BMBF_LOGO_PDF = "bmbf-logo_gef_vom.pdf";
-  public static final String KEY_CREATIVE_COMMONS_EPS = "by-nc-sa_eu.eps";
-  public static final String KEY_CREATIVE_COMMONS_PNG = "by-nc-sa_eu.png";
-  public static final String KEY_FDZ_LOGO_EPS = "fdz-logo_mit-text.eps";
-  public static final String KEY_FDZ_LOGO_PDF = "fdz-logo_mit-text.pdf";
-  public static final String KEY_FDZ_LOGO_NO_TEXT_EPS = "fdz-logo_ohne-text.eps";
-  public static final String KEY_FDZ_LOGO_NO_TEXT_PDF = "fdz-logo_ohne-text.pdf";
+  //TODO Delete
+//  public static final String KEY_REFERENCES_BIB = "References.bib";
+//  public static final String KEY_INTRODUCTION = "Introduction.tex";
+//  public static final String KEY_DSREPORT_STY = "dsreport.sty";
+//  public static final String KEY_BLUE_BAR_EPS = "blauer_balken.eps";
+//  public static final String KEY_BLUE_BAR_PDF = "blauer_balken.pdf";
+//  public static final String KEY_BMBF_LOGO_EPS = "bmbf-logo_gef_vom.eps";
+//  public static final String KEY_BMBF_LOGO_PDF = "bmbf-logo_gef_vom.pdf";
+//  public static final String KEY_CREATIVE_COMMONS_EPS = "by-nc-sa_eu.eps";
+//  public static final String KEY_CREATIVE_COMMONS_PNG = "by-nc-sa_eu.png";
+//  public static final String KEY_FDZ_LOGO_EPS = "fdz-logo_mit-text.eps";
+//  public static final String KEY_FDZ_LOGO_PDF = "fdz-logo_mit-text.pdf";
+//  public static final String KEY_FDZ_LOGO_NO_TEXT_EPS = "fdz-logo_ohne-text.eps";
+//  public static final String KEY_FDZ_LOGO_NO_TEXT_PDF = "fdz-logo_ohne-text.pdf";
   
   /**
    * This service method will receive a tex template as a string and an id of a data set. With this
@@ -132,58 +137,80 @@ public class DataSetReportService {
     templateConfiguration.setNumberFormat("0.######");
 
     // Unzip the zip file
-    Map<String, byte[]> texTemplates = ZipUtil.unzip(multiPartFile);
+    //TODO DKatzberg 
+    // Map<String, byte[]> texTemplates = ZipUtil.unzip(multiPartFile);
     
-    List<String> missingTexFiles = this.validateDataSetReportStructure(texTemplates);
-    if (!missingTexFiles.isEmpty()) {
-      throw new TemplateIncompleteException("data-set-management.error"
-          + ".files-in-template-zip-incomplete", missingTexFiles);      
-    }
+    Map<String, String> env = new HashMap<>();
+    //multiPartFile.transferTo("/tmp/kldfglsghl");
+    env.put("create", "true");
+    Path pathOfZipFile = Paths.get(multiPartFile.getOriginalFilename());
+    URI uriOfZipFile = URI.create("jar:" + pathOfZipFile.toUri());
+    //TODO DKatzberg close it!
+    FileSystem zipFileSystem = FileSystems.newFileSystem(uriOfZipFile, env);
+       
+    //Read the three files with freemarker code 
+    Path pathToMainTexFile = zipFileSystem.getPath(KEY_MAIN);
+    String texMainFileStr = ZipUtil.readFileFromZip(pathToMainTexFile);    
+    Path pathToVariableListTexFile = zipFileSystem.getPath(KEY_VARIABLELIST);
+    String texVariableListFileStr = ZipUtil.readFileFromZip(pathToVariableListTexFile);
+    Path pathToVariableTexFile = zipFileSystem.getPath(KEY_VARIABLE);
+    String texVariableFileStr = ZipUtil.readFileFromZip(pathToVariableTexFile);
     
-    Map<String, byte[]> filledTemplates = new HashMap<>();
+    //TODO DKatzberg check string not structure??
+    //List<String> missingTexFiles = this.validateDataSetReportStructure(texTemplates);
+    //if (!missingTexFiles.isEmpty()) {
+    //  throw new TemplateIncompleteException("data-set-management.error"
+    //      + ".files-in-template-zip-incomplete", missingTexFiles);      
+    //}
+    
+//    Map<String, byte[]> filledTemplates = new HashMap<>();
 
     // Load data for template only once
     Map<String, Object> dataForTemplate = this.loadDataForTemplateFilling(dataSetId);
 
     // Zip the filled templates.
-    String bibReferenceForTemplateStr =
-        IOUtils.toString(texTemplates.get(KEY_REFERENCES_BIB), StandardCharsets.UTF_8.name());
-    filledTemplates.put(KEY_REFERENCES_BIB,
-        this.fillTemplate(bibReferenceForTemplateStr, templateConfiguration, dataForTemplate));
-    String introductionForTemplateStr = 
-        IOUtils.toString(texTemplates.get(KEY_INTRODUCTION), StandardCharsets.UTF_8.name());
-    filledTemplates.put(KEY_INTRODUCTION,
-        this.fillTemplate(introductionForTemplateStr, templateConfiguration, dataForTemplate));
+//    String bibReferenceForTemplateStr =
+//        IOUtils.toString(texTemplates.get(KEY_REFERENCES_BIB), StandardCharsets.UTF_8.name());
+//    filledTemplates.put(KEY_REFERENCES_BIB,
+//        this.fillTemplate(bibReferenceForTemplateStr, templateConfiguration, dataForTemplate));
+//    String introductionForTemplateStr = 
+//        IOUtils.toString(texTemplates.get(KEY_INTRODUCTION), StandardCharsets.UTF_8.name());
+//    filledTemplates.put(KEY_INTRODUCTION,
+//        this.fillTemplate(introductionForTemplateStr, templateConfiguration, dataForTemplate));
     
-    String variableListForTemplateStr = 
-        IOUtils.toString(texTemplates.get(KEY_VARIABLELIST), StandardCharsets.UTF_8.name());
-    filledTemplates.put(KEY_VARIABLELIST,
-        this.fillTemplate(variableListForTemplateStr, templateConfiguration, dataForTemplate));
+//    String variableListForTemplateStr = 
+//        IOUtils.toString(texTemplates.get(KEY_VARIABLELIST), StandardCharsets.UTF_8.name());
+//    filledTemplates.put(KEY_VARIABLELIST,
+    String variableListFilledStr = 
+        this.fillTemplate(texVariableListFileStr, templateConfiguration, dataForTemplate);
+    ZipUtil.writeFileToZip(pathToVariableListTexFile, variableListFilledStr);
     
-    String mainForTemplateStr = 
-        IOUtils.toString(texTemplates.get(KEY_MAIN), StandardCharsets.UTF_8.name());
-    filledTemplates.put(KEY_MAIN,
-        this.fillTemplate(mainForTemplateStr, templateConfiguration, dataForTemplate));
+//    String mainForTemplateStr = 
+//        IOUtils.toString(texTemplates.get(KEY_MAIN), StandardCharsets.UTF_8.name());
+//    filledTemplates.put(KEY_MAIN, 
+    String mainFilledStr = 
+        this.fillTemplate(texMainFileStr, templateConfiguration, dataForTemplate);
+    ZipUtil.writeFileToZip(pathToMainTexFile, mainFilledStr);
     
     //Just pipe files into the download zip file    
-    filledTemplates.put(KEY_DSREPORT_STY, texTemplates.get(KEY_DSREPORT_STY));    
-    filledTemplates.put(KEY_BLUE_BAR_EPS, texTemplates.get(KEY_BLUE_BAR_EPS));
-    filledTemplates.put(KEY_BLUE_BAR_PDF, texTemplates.get(KEY_BLUE_BAR_PDF));
-    filledTemplates.put(KEY_BMBF_LOGO_EPS, texTemplates.get(KEY_BMBF_LOGO_EPS));
-    filledTemplates.put(KEY_BMBF_LOGO_PDF, texTemplates.get(KEY_BMBF_LOGO_PDF));
-    filledTemplates.put(KEY_CREATIVE_COMMONS_EPS, texTemplates.get(KEY_CREATIVE_COMMONS_EPS));
-    filledTemplates.put(KEY_CREATIVE_COMMONS_PNG, texTemplates.get(KEY_CREATIVE_COMMONS_PNG));
-    filledTemplates.put(KEY_FDZ_LOGO_EPS, texTemplates.get(KEY_FDZ_LOGO_EPS));
-    filledTemplates.put(KEY_FDZ_LOGO_PDF, texTemplates.get(KEY_FDZ_LOGO_PDF));
-    filledTemplates.put(KEY_FDZ_LOGO_NO_TEXT_EPS, texTemplates.get(KEY_FDZ_LOGO_NO_TEXT_EPS));
-    filledTemplates.put(KEY_FDZ_LOGO_NO_TEXT_PDF, texTemplates.get(KEY_FDZ_LOGO_NO_TEXT_PDF));
+//    filledTemplates.put(KEY_DSREPORT_STY, texTemplates.get(KEY_DSREPORT_STY));    
+//    filledTemplates.put(KEY_BLUE_BAR_EPS, texTemplates.get(KEY_BLUE_BAR_EPS));
+//    filledTemplates.put(KEY_BLUE_BAR_PDF, texTemplates.get(KEY_BLUE_BAR_PDF));
+//    filledTemplates.put(KEY_BMBF_LOGO_EPS, texTemplates.get(KEY_BMBF_LOGO_EPS));
+//    filledTemplates.put(KEY_BMBF_LOGO_PDF, texTemplates.get(KEY_BMBF_LOGO_PDF));
+//    filledTemplates.put(KEY_CREATIVE_COMMONS_EPS, texTemplates.get(KEY_CREATIVE_COMMONS_EPS));
+//    filledTemplates.put(KEY_CREATIVE_COMMONS_PNG, texTemplates.get(KEY_CREATIVE_COMMONS_PNG));
+//    filledTemplates.put(KEY_FDZ_LOGO_EPS, texTemplates.get(KEY_FDZ_LOGO_EPS));
+//    filledTemplates.put(KEY_FDZ_LOGO_PDF, texTemplates.get(KEY_FDZ_LOGO_PDF));
+//    filledTemplates.put(KEY_FDZ_LOGO_NO_TEXT_EPS, texTemplates.get(KEY_FDZ_LOGO_NO_TEXT_EPS));
+//    filledTemplates.put(KEY_FDZ_LOGO_NO_TEXT_PDF, texTemplates.get(KEY_FDZ_LOGO_NO_TEXT_PDF));
 
     // Create Variables pages
     @SuppressWarnings("unchecked")
     Map<String, Variable> variablesMap = (Map<String, Variable>) dataForTemplate.get("variables");
     Collection<Variable> variables = variablesMap.values();
-    String variableForTemplateStr = 
-        IOUtils.toString(texTemplates.get(KEY_VARIABLE), StandardCharsets.UTF_8.name());
+//    String variableForTemplateStr = 
+//        IOUtils.toString(texTemplates.get(KEY_VARIABLE), StandardCharsets.UTF_8.name());
     for (Variable variable : variables) {
       
       //Check for null
@@ -198,12 +225,19 @@ public class DataSetReportService {
       
       dataForTemplate.put("variableId", variable.getId());      
       
-      filledTemplates.put("variables/" + variable.getName() + ".tex",
-          fillTemplate(variableForTemplateStr, templateConfiguration, dataForTemplate));
+      
+//      filledTemplates.put("variables/" + variable.getName() + ".tex",
+      String filledVariablesFile = 
+          fillTemplate(texVariableFileStr, templateConfiguration, dataForTemplate);
+      Path pathOfVariable = Paths.get("variables/" + variable.getName() + ".tex");
+      ZipUtil.writeFileToZip(pathOfVariable, filledVariablesFile);
     }
     // Save into MongoDB / GridFS
-    ByteArrayOutputStream byteArrayOutputStreamArchive = ZipUtil.zip(filledTemplates);
-    return this.saveCompleteTexTemplate(byteArrayOutputStreamArchive, multiPartFile.getName());
+    //ByteArrayOutputStream byteArrayOutputStreamArchive = ZipUtil.zip(filledTemplates);
+    byte [] byteArrayZipFile = multiPartFile.getBytes();
+    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+    byteArrayOutputStream.write(byteArrayZipFile);    
+    return this.saveCompleteTexTemplate(byteArrayOutputStream, multiPartFile.getName());
   }
   
   /**
@@ -211,77 +245,80 @@ public class DataSetReportService {
    * @param texTemplates All uploaded texTemplates 
    * @return True if all files are included. False min one file is missing.
    */
-  private List<String> validateDataSetReportStructure(Map<String, byte[]> texTemplates) {
-    List<String> missingTexFiles = new ArrayList<>();
-    
-    // NO Check for References.bib. This file is just optional has has to be added manually.
-    
-    if (!texTemplates.containsKey(KEY_INTRODUCTION)) {
-      missingTexFiles.add(KEY_INTRODUCTION);
-    }
-    
-    if (!texTemplates.containsKey(KEY_MAIN)) {
-      missingTexFiles.add(KEY_MAIN);
-    }
-    
-    if (!texTemplates.containsKey(KEY_VARIABLE)) {
-      missingTexFiles.add(KEY_VARIABLE);
-    }
-    
-    if (!texTemplates.containsKey(KEY_VARIABLELIST)) {
-      missingTexFiles.add(KEY_VARIABLELIST);
-    }
-    
-    if (!texTemplates.containsKey(KEY_REFERENCES_BIB)) {
-      missingTexFiles.add(KEY_REFERENCES_BIB);
-    }
-    
-    if (!texTemplates.containsKey(KEY_DSREPORT_STY)) {
-      missingTexFiles.add(KEY_DSREPORT_STY);
-    }
-    
-    if (!texTemplates.containsKey(KEY_BLUE_BAR_EPS)) {
-      missingTexFiles.add(KEY_BLUE_BAR_EPS);
-    }
-    
-    if (!texTemplates.containsKey(KEY_BLUE_BAR_PDF)) {
-      missingTexFiles.add(KEY_BLUE_BAR_PDF);
-    }
-    
-    if (!texTemplates.containsKey(KEY_BMBF_LOGO_EPS)) {
-      missingTexFiles.add(KEY_BMBF_LOGO_EPS);
-    }
-    
-    if (!texTemplates.containsKey(KEY_BMBF_LOGO_PDF)) {
-      missingTexFiles.add(KEY_BMBF_LOGO_PDF);
-    }
-    
-    if (!texTemplates.containsKey(KEY_CREATIVE_COMMONS_EPS)) {
-      missingTexFiles.add(KEY_CREATIVE_COMMONS_EPS);
-    }
-    
-    if (!texTemplates.containsKey(KEY_CREATIVE_COMMONS_PNG)) {
-      missingTexFiles.add(KEY_CREATIVE_COMMONS_PNG);
-    }
-    
-    if (!texTemplates.containsKey(KEY_FDZ_LOGO_EPS)) {
-      missingTexFiles.add(KEY_FDZ_LOGO_EPS);
-    }
-    
-    if (!texTemplates.containsKey(KEY_FDZ_LOGO_PDF)) {
-      missingTexFiles.add(KEY_FDZ_LOGO_PDF);
-    }
-    
-    if (!texTemplates.containsKey(KEY_FDZ_LOGO_NO_TEXT_EPS)) {
-      missingTexFiles.add(KEY_FDZ_LOGO_NO_TEXT_EPS);
-    }
-    
-    if (!texTemplates.containsKey(KEY_FDZ_LOGO_NO_TEXT_PDF)) {
-      missingTexFiles.add(KEY_FDZ_LOGO_NO_TEXT_PDF);
-    }
-    
-    return missingTexFiles;
-  }
+  //TODO DKatzberg Rewrite this method.
+//  private List<String> validateDataSetReportStructure(Map<String, byte[]> texTemplates) {
+//    List<String> missingTexFiles = new ArrayList<>();
+//    
+//    // NO Check for References.bib. This file is just optional has has to be added manually.
+//    //TODO DKatzberg reduces checks
+//    if (!texTemplates.containsKey(KEY_INTRODUCTION)) {
+//      missingTexFiles.add(KEY_INTRODUCTION);
+//    }
+//    
+//    if (!texTemplates.containsKey(KEY_MAIN)) {
+//      missingTexFiles.add(KEY_MAIN);
+//    }
+//    
+//    if (!texTemplates.containsKey(KEY_VARIABLE)) {
+//      missingTexFiles.add(KEY_VARIABLE);
+//    }
+//    
+//    if (!texTemplates.containsKey(KEY_VARIABLELIST)) {
+//      missingTexFiles.add(KEY_VARIABLELIST);
+//    }
+//    
+//    if (!texTemplates.containsKey(KEY_REFERENCES_BIB)) {
+//      missingTexFiles.add(KEY_REFERENCES_BIB);
+//    }
+//    
+//    if (!texTemplates.containsKey(KEY_DSREPORT_STY)) {
+//      missingTexFiles.add(KEY_DSREPORT_STY);
+//    }
+//    
+//    if (!texTemplates.containsKey(KEY_BLUE_BAR_EPS)) {
+//      missingTexFiles.add(KEY_BLUE_BAR_EPS);
+//    }
+//    
+//    if (!texTemplates.containsKey(KEY_BLUE_BAR_PDF)) {
+//      missingTexFiles.add(KEY_BLUE_BAR_PDF);
+//    }
+//    
+//    if (!texTemplates.containsKey(KEY_BMBF_LOGO_EPS)) {
+//      missingTexFiles.add(KEY_BMBF_LOGO_EPS);
+//    }
+//    
+//    if (!texTemplates.containsKey(KEY_BMBF_LOGO_PDF)) {
+//      missingTexFiles.add(KEY_BMBF_LOGO_PDF);
+//    }
+//    
+//    if (!texTemplates.containsKey(KEY_CREATIVE_COMMONS_EPS)) {
+//      missingTexFiles.add(KEY_CREATIVE_COMMONS_EPS);
+//    }
+//    
+//    if (!texTemplates.containsKey(KEY_CREATIVE_COMMONS_PNG)) {
+//      missingTexFiles.add(KEY_CREATIVE_COMMONS_PNG);
+//    }
+//    
+//    if (!texTemplates.containsKey(KEY_FDZ_LOGO_EPS)) {
+//      missingTexFiles.add(KEY_FDZ_LOGO_EPS);
+//    }
+//    
+//    if (!texTemplates.containsKey(KEY_FDZ_LOGO_PDF)) {
+//      missingTexFiles.add(KEY_FDZ_LOGO_PDF);
+//    }
+//    
+//    if (!texTemplates.containsKey(KEY_FDZ_LOGO_NO_TEXT_EPS)) {
+//      missingTexFiles.add(KEY_FDZ_LOGO_NO_TEXT_EPS);
+//    }
+//    
+//    if (!texTemplates.containsKey(KEY_FDZ_LOGO_NO_TEXT_PDF)) {
+//      missingTexFiles.add(KEY_FDZ_LOGO_NO_TEXT_PDF);
+//    }
+//    
+//    return missingTexFiles;
+//  }
+  
+  
 
   /**
    * This method fills the tex templates.
@@ -294,7 +331,7 @@ public class DataSetReportService {
    * @throws IOException Handles IO Exception.
    * @throws TemplateException Handles template Exceptions.
    */
-  private byte[] fillTemplate(String templateContent,
+  private String fillTemplate(String templateContent,
       Configuration templateConfiguration, Map<String, Object> dataForTemplate)
       throws IOException, TemplateException {
     // Read Template and escape elements
@@ -309,9 +346,9 @@ public class DataSetReportService {
     byte[] byteArrayStreamFile = byteArrayOutputStreamFile.toByteArray();
     byteArrayOutputStreamFile.flush();
     byteArrayOutputStreamFile.close();
-
+    
     // Put translated element to tar archive
-    return byteArrayStreamFile;
+    return IOUtils.toString(byteArrayStreamFile, StandardCharsets.UTF_8.name());
   }
 
   /**
