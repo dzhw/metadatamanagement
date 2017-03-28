@@ -121,14 +121,17 @@ public class DataSetReportService {
     templateConfiguration.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
     templateConfiguration.setNumberFormat("0.######");
     
+    //Prepare Zip enviroment config
     Map<String, String> env = new HashMap<>();
-    String zipPath = "/tmp/" + dataSetId.replace("!", "") + ".zip";
-    File zipTmpFile = new File(zipPath);
-    multiPartFile.transferTo(zipTmpFile);
-    zipTmpFile.setWritable(true);
     env.put("create", "true");
-    Path pathOfZipFile = Paths.get(zipPath);
-    URI uriOfZipFile = URI.create("jar:" + pathOfZipFile.toUri());
+    env.put("encoding", "UTF-8");
+    
+    //Create tmp file
+    Path zipTmpFilePath = Files.createTempFile(dataSetId.replace("!", ""), ".zip");
+    File zipTmpFile = new File(zipTmpFilePath.toString());
+    multiPartFile.transferTo(zipTmpFile);
+    zipTmpFile.setWritable(true); 
+    URI uriOfZipFile = URI.create("jar:" + zipTmpFilePath.toUri());
     FileSystem zipFileSystem = FileSystems.newFileSystem(uriOfZipFile, env);
        
     //Read the three files with freemarker code 
@@ -172,10 +175,8 @@ public class DataSetReportService {
         continue;
       }            
       
-      dataForTemplate.put("variableId", variable.getId());      
-      
-      
       //filledTemplates.put("variables/" + variable.getName() + ".tex",
+      dataForTemplate.put("variableId", variable.getId());   
       String filledVariablesFile = 
           fillTemplate(texVariableFileStr, templateConfiguration, dataForTemplate);
       Path pathOfVariable = Paths.get("variables/" + variable.getName() + ".tex");
@@ -184,9 +185,14 @@ public class DataSetReportService {
       ZipUtil.writeFileToZip(dest, filledVariablesFile);
     }
     
-    // Save into MongoDB / GridFS
+    //Delete Variables.tex file from zip
+    Files.delete(pathToVariableTexFile);
+    
+    //Close Zip File System
     zipFileSystem.close();
-    byte[] byteArrayZipFile = Files.readAllBytes(pathOfZipFile);
+    
+    // Save into MongoDB / GridFS
+    byte[] byteArrayZipFile = Files.readAllBytes(zipTmpFilePath);
     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
     byteArrayOutputStream.write(byteArrayZipFile);    
     return this.saveCompleteTexTemplate(byteArrayOutputStream, multiPartFile.getName());
