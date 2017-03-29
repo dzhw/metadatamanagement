@@ -48,7 +48,6 @@ import freemarker.template.TemplateExceptionHandler;
  * This service fill tex templates with data and put it into the gridfs / mongodb.
  *
  * @author Daniel Katzberg
- *
  */
 @Service
 public class DataSetReportService {
@@ -124,7 +123,7 @@ public class DataSetReportService {
     //Prepare Zip enviroment config
     Map<String, String> env = new HashMap<>();
     env.put("create", "true");
-    env.put("encoding", "UTF-8");
+    env.put("encoding", StandardCharsets.UTF_8.name());
     
     //Create tmp file
     Path zipTmpFilePath = Files.createTempFile(dataSetId.replace("!", ""), ".zip");
@@ -247,17 +246,18 @@ public class DataSetReportService {
     Template texTemplate = new Template("texTemplate",
         (ESCAPE_PREFIX + templateContent + ESCAPE_SUFFIX), templateConfiguration);
 
-    // Write output to output stream
-    ByteArrayOutputStream byteArrayOutputStreamFile = new ByteArrayOutputStream();
-    Writer fileWriter = new OutputStreamWriter(byteArrayOutputStreamFile, "UTF-8");
-    texTemplate.process(dataForTemplate, fileWriter);
-    
-    byte[] byteArrayStreamFile = byteArrayOutputStreamFile.toByteArray();
-    byteArrayOutputStreamFile.flush();
-    byteArrayOutputStreamFile.close();
-    
-    // Put translated element to tar archive
-    return IOUtils.toString(byteArrayStreamFile, StandardCharsets.UTF_8.name());
+    // Write output to output stream. try with resources with outputstream and stream writer
+    try (ByteArrayOutputStream byteArrayOutputStreamFile = new ByteArrayOutputStream();
+        Writer fileWriter = new OutputStreamWriter(byteArrayOutputStreamFile, 
+            StandardCharsets.UTF_8.name())) {
+      texTemplate.process(dataForTemplate, fileWriter);
+      
+      byte[] byteArrayStreamFile = byteArrayOutputStreamFile.toByteArray();
+      byteArrayOutputStreamFile.flush();
+      
+      //Put translated element to tar archive
+      return IOUtils.toString(byteArrayStreamFile, StandardCharsets.UTF_8.name());      
+    }
   }
 
   /**
