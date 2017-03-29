@@ -133,14 +133,6 @@ public class DataSetReportService {
     zipTmpFile.setWritable(true); 
     URI uriOfZipFile = URI.create("jar:" + zipTmpFilePath.toUri());
     FileSystem zipFileSystem = FileSystems.newFileSystem(uriOfZipFile, env);
-       
-    //Read the three files with freemarker code 
-    Path pathToMainTexFile = zipFileSystem.getPath(KEY_MAIN);
-    String texMainFileStr = ZipUtil.readFileFromZip(pathToMainTexFile);    
-    Path pathToVariableListTexFile = zipFileSystem.getPath(KEY_VARIABLELIST);
-    String texVariableListFileStr = ZipUtil.readFileFromZip(pathToVariableListTexFile);
-    Path pathToVariableTexFile = zipFileSystem.getPath(KEY_VARIABLE);
-    String texVariableFileStr = ZipUtil.readFileFromZip(pathToVariableTexFile);
     
     //Check missing files.
     List<String> missingTexFiles = this.validateDataSetReportStructure(zipFileSystem);
@@ -148,7 +140,15 @@ public class DataSetReportService {
       throw new TemplateIncompleteException("data-set-management.error"
           + ".files-in-template-zip-incomplete", missingTexFiles);      
     }
-
+    
+    //Read the three files with freemarker code 
+    Path pathToMainTexFile = zipFileSystem.getPath(KEY_MAIN);
+    String texMainFileStr = ZipUtil.readFileFromZip(pathToMainTexFile);    
+    Path pathToVariableListTexFile = zipFileSystem.getPath(KEY_VARIABLELIST);
+    String texVariableListFileStr = ZipUtil.readFileFromZip(pathToVariableListTexFile);
+    Path pathToVariableTexFile = zipFileSystem.getPath(KEY_VARIABLE);
+    String texVariableFileStr = ZipUtil.readFileFromZip(pathToVariableTexFile);
+        
     // Load data for template only once
     Map<String, Object> dataForTemplate = this.loadDataForTemplateFilling(dataSetId);
     String variableListFilledStr = 

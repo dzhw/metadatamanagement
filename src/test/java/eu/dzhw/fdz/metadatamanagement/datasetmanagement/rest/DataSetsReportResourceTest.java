@@ -62,7 +62,7 @@ public class DataSetsReportResourceTest extends AbstractTest {
     this.fileService.deleteTempFiles();
   }
 
-  //TODO DKatzberg no working dataset report functionallity at the moment @Test
+  @Test
   @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testValidUpload() throws Exception {
 
@@ -94,7 +94,7 @@ public class DataSetsReportResourceTest extends AbstractTest {
   }
   
   
-  //TODO DKatzbegr Disabled @Test
+  @Test
   @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testValidButIncompleteUpload() throws Exception {
 
