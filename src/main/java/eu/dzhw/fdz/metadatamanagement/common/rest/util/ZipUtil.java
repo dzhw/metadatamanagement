@@ -28,7 +28,7 @@ public class ZipUtil {
     StringBuffer stringBuffer = new StringBuffer();
     try (Stream<String> streamString = 
         Files.newBufferedReader(pathToFile, StandardCharsets.UTF_8).lines()) {
-      streamString.forEach(s -> stringBuffer.append(s));
+      streamString.forEach(s -> stringBuffer.append(s + System.getProperty("line.separator")));
     }
     return stringBuffer.toString();
   }
@@ -46,5 +46,4 @@ public class ZipUtil {
       writer.flush();
     }
   }
-
 }
