@@ -29,17 +29,13 @@ public class ElasticsearchUpdateQueueItemRepositoryImpl
 
   // number of queue items to be processed in one batch
   private static final int BULK_SIZE = 500;
-  
-  private static final Criteria UNLOCKED_OR_EXPIRED = new Criteria().orOperator(
-      Criteria.where("updateStartedAt").lte(LocalDateTime.now().minusMinutes(UPDATE_LOCK_EXPIRED)),
-      Criteria.where("updateStartedAt").exists(false));
 
   @Autowired
   private MongoOperations mongoOperations;
 
   @Override
   public void lockAllUnlockedOrExpiredItems(LocalDateTime updateStartedAt, String updateStartedBy) {
-    Query query = new Query(UNLOCKED_OR_EXPIRED).limit(BULK_SIZE);
+    Query query = new Query(getUnlockedOrExpiredCriteria()).limit(BULK_SIZE);
     Update update = new Update()
         .set("updateStartedAt", updateStartedAt).set("updateStartedBy", updateStartedBy);
     mongoOperations.updateMulti(query, update, ElasticsearchUpdateQueueItem.class);
@@ -61,7 +57,7 @@ public class ElasticsearchUpdateQueueItemRepositoryImpl
       String updateStartedBy, ElasticsearchType type) {
     Query query = new Query(new Criteria().andOperator(
         Criteria.where("documentType").is(type), 
-        UNLOCKED_OR_EXPIRED)).limit(BULK_SIZE);
+        getUnlockedOrExpiredCriteria())).limit(BULK_SIZE);
     Update update = new Update()
         .set("updateStartedAt", updateStartedAt).set("updateStartedBy", updateStartedBy);
     mongoOperations.updateMulti(query, update, ElasticsearchUpdateQueueItem.class);
@@ -77,5 +73,11 @@ public class ElasticsearchUpdateQueueItemRepositoryImpl
             .with(new Sort(Direction.ASC, "createdDate"));
     return mongoOperations.find(query, ElasticsearchUpdateQueueItem.class);
   }
-
+  
+  private Criteria getUnlockedOrExpiredCriteria() {
+    return new Criteria().orOperator(
+        Criteria.where("updateStartedAt").lte(LocalDateTime.now()
+            .minusMinutes(UPDATE_LOCK_EXPIRED)),
+        Criteria.where("updateStartedAt").exists(false));
+  }
 }
