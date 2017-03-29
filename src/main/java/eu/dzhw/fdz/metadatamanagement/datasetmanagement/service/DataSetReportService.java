@@ -28,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.common.rest.util.ZipUtil;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.exception.TemplateIncompleteException;
@@ -351,6 +352,7 @@ public class DataSetReportService {
     Map<String, Question> questionsMap = new HashMap<>();
     Map<String, List<ValidResponse>> firstTenValidResponses = new HashMap<>();
     Map<String, List<ValidResponse>> lastTenValidResponses = new HashMap<>();
+    Map<String, List<IdAndVersionProjection>> sameVariablesInPanel = new HashMap<>();
 
 
     for (Variable variable : variables) {
@@ -384,10 +386,19 @@ public class DataSetReportService {
               .getValidResponses()
               .subList(sizeValidResponses - 10, sizeValidResponses - 1));
       }
+      
+      if (variable.getPanelIdentifier() != null 
+          && !variable.getPanelIdentifier().trim().isEmpty()) {       
+        List<IdAndVersionProjection> otherVariablesInPanel = this.variableRepository
+            .findAllProjectedByPanelIdentifierAndIdNot(
+                variable.getPanelIdentifier(), variable.getId());
+        sameVariablesInPanel.put(variable.getId(), otherVariablesInPanel);
+      }
     }
     dataForTemplate.put("questions", questionsMap);
     dataForTemplate.put("firstTenValidResponses", firstTenValidResponses);
     dataForTemplate.put("lastTenValidResponses", lastTenValidResponses);
+    dataForTemplate.put("sameVariablesInPanel", sameVariablesInPanel);
 
     return dataForTemplate;
 
