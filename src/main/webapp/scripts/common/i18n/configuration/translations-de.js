@@ -116,6 +116,7 @@ angular.module('metadatamanagementApp').config(
           'unable-to-parse-json-file': 'Die JSON Datei "{{file}}" enthält kein valides JSON!',
           'unable-to-read-file': 'Die Datei "{{file}}" konnte nicht gelesen werden!',
           'unable-to-read-excel-sheet': 'Das Excel Tabellenblatt "{{sheet}}" konnte nicht gelesen werden!',
+          'unable-to-read-excel-sheets': 'Mindestens eines der Excel Tabellenblätter "{{sheets}}" konnte nicht gelesen werden!',
           'post-validation-terminated': 'Die Post-Validierung wurde mit {{errors}} Fehlern beendet.'
         },
         'field': {

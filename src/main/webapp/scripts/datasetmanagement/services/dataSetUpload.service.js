@@ -142,6 +142,14 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
                     var subDataSetMap = {};
                     var subDataSetErrors = {};
 
+                    if (!dataSetsSheet || !subDataSetsSheet) {
+                      JobLoggingService.cancel('global.log-messages.' +
+                        'unable-to-read-excel-sheets', {
+                          sheets: 'dataSets, subDataSets'
+                        });
+                      return $q.reqect();
+                    }
+
                     //Build a dataset Map
                     dataSetsSheet.forEach(function(dataSetFromExcel) {
                       dataSetMap[dataSetFromExcel.number] =
