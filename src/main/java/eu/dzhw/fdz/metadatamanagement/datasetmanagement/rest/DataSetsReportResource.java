@@ -35,7 +35,7 @@ public class DataSetsReportResource {
    * Accept latex templates under the given request mapping.
    * 
    * @param multiPartFile The latex template as multipart file
-   * @param id the id of the data acquision project, from where the file was uploaded
+   * @param dataSetId the id of the data set, from where the file was uploaded
    * @throws IOException Handles io exception for the template. (Freemarker Templates)
    * @throws TemplateException Handles template exceptions. (Freemarker Templates)
    */
@@ -43,23 +43,14 @@ public class DataSetsReportResource {
   @Timed
   @Secured(AuthoritiesConstants.PUBLISHER)
   public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile multiPartFile,
-      @RequestParam("id") String id) throws IOException, TemplateException, 
+      @RequestParam("id") String dataSetId) throws IOException, TemplateException, 
       TemplateIncompleteException {
 
     // Handles no empty latex templates
     if (!multiPartFile.isEmpty()) {
 
       // fill the data with data and store the template into mongodb / gridfs
-      String fileName = this.dataSetReportService.generateReport(multiPartFile, id);
-      
-      if (fileName == null) {
-        // Return bad request, if tex template is incomplete
-        //The cration of the error json object happens in the ExceptionTranslationHandler
-        return ResponseEntity
-          .badRequest()
-          .body(null);
-      }
-      
+      String fileName = this.dataSetReportService.generateReport(multiPartFile, dataSetId);
 
       // Return ok. Status 200.
       return ResponseEntity.ok()

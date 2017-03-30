@@ -1,11 +1,9 @@
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.service;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.io.StringWriter;
 import java.io.Writer;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
@@ -20,7 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.common.rest.util.ZipUtil;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
@@ -69,7 +67,7 @@ public class DataSetReportService {
    * The Escape Prefix handles the escaping of special latex signs within data information. This
    * Prefix will be copied before the template source code.
    */
-  public static final String ESCAPE_PREFIX =
+  private static final String ESCAPE_PREFIX =
       "<#escape x as x?replace(\"\\\\\", \"\\\\textbackslash{}\")"
           + "?replace(\"{\", \"\\\\{\")?replace(\"}\", \"\\\\}\")"
           + "?replace(\"#\", \"\\\\#\")?replace(\"$\", \"\\\\$\")"
@@ -82,24 +80,20 @@ public class DataSetReportService {
    * The Escape Suffix closes the escaping prefix. This Prefix will be copied after the template
    * source code.
    */
-  public static final String ESCAPE_SUFFIX = "</#escape>";
+  private static final String ESCAPE_SUFFIX = "</#escape>";
 
-  /**
-   * Latex Mime Content Type.
-   */
-  public static final String CONTENT_TYPE_LATEX = "application/x-tex";
 
   /**
    * Zip Mime Content Type.
    */
-  public static final String CONTENT_TYPE_ZIP = "application/zip";
+  private static final String CONTENT_TYPE_ZIP = "application/zip";
 
   /**
    * Files which will be filled by the freemarker code.
    */  
-  public static final String KEY_VARIABLELIST = "Variablelist.tex";
-  public static final String KEY_MAIN = "Main.tex";  
-  public static final String KEY_VARIABLE = "variables/Variable.tex";
+  private static final String KEY_VARIABLELIST = "Variablelist.tex";
+  private static final String KEY_MAIN = "Main.tex";  
+  private static final String KEY_VARIABLE = "variables/Variable.tex";
   
   /**
    * This service method will receive a tex template as a string and an id of a data set. With this
@@ -128,74 +122,57 @@ public class DataSetReportService {
     
     //Create tmp file
     Path zipTmpFilePath = Files.createTempFile(dataSetId.replace("!", ""), ".zip");
-    File zipTmpFile = new File(zipTmpFilePath.toString());
+    File zipTmpFile = zipTmpFilePath.toFile();
     multiPartFile.transferTo(zipTmpFile);
     zipTmpFile.setWritable(true); 
     URI uriOfZipFile = URI.create("jar:" + zipTmpFilePath.toUri());
-    FileSystem zipFileSystem = FileSystems.newFileSystem(uriOfZipFile, env);
-    
-    //Check missing files.
-    List<String> missingTexFiles = this.validateDataSetReportStructure(zipFileSystem);
-    if (!missingTexFiles.isEmpty()) {
-      throw new TemplateIncompleteException("data-set-management.error"
-          + ".files-in-template-zip-incomplete", missingTexFiles);      
-    }
-    
-    //Read the three files with freemarker code 
-    Path pathToMainTexFile = zipFileSystem.getPath(KEY_MAIN);
-    String texMainFileStr = ZipUtil.readFileFromZip(pathToMainTexFile);    
-    Path pathToVariableListTexFile = zipFileSystem.getPath(KEY_VARIABLELIST);
-    String texVariableListFileStr = ZipUtil.readFileFromZip(pathToVariableListTexFile);
-    Path pathToVariableTexFile = zipFileSystem.getPath(KEY_VARIABLE);
-    String texVariableFileStr = ZipUtil.readFileFromZip(pathToVariableTexFile);
-        
-    // Load data for template only once
-    Map<String, Object> dataForTemplate = this.loadDataForTemplateFilling(dataSetId);
-    String variableListFilledStr = 
-        this.fillTemplate(texVariableListFileStr, templateConfiguration, dataForTemplate);
-    ZipUtil.writeFileToZip(pathToVariableListTexFile, variableListFilledStr);
-    String mainFilledStr = 
-        this.fillTemplate(texMainFileStr, templateConfiguration, dataForTemplate);
-    ZipUtil.writeFileToZip(pathToMainTexFile, mainFilledStr);
-
-    // Create Variables pages
-    @SuppressWarnings("unchecked")
-    Map<String, Variable> variablesMap = (Map<String, Variable>) dataForTemplate.get("variables");
-    Collection<Variable> variables = variablesMap.values();
-    
-    for (Variable variable : variables) {
-      
-      //Check for null
-      if (variable == null) {
-        continue;
+    try (FileSystem zipFileSystem = FileSystems.newFileSystem(uriOfZipFile, env);) {
+      //Check missing files.
+      List<String> missingTexFiles = this.validateDataSetReportStructure(zipFileSystem);
+      if (!missingTexFiles.isEmpty()) {
+        throw new TemplateIncompleteException("data-set-management.error"
+            + ".files-in-template-zip-incomplete", missingTexFiles);      
       }
       
-      //check id field for null
-      if (variable.getId() == null) {
-        continue;
-      }            
+      //Read the three files with freemarker code 
+      Path pathToMainTexFile = zipFileSystem.getPath(KEY_MAIN);
+      String texMainFileStr = ZipUtil.readFileFromZip(pathToMainTexFile);    
+      Path pathToVariableListTexFile = zipFileSystem.getPath(KEY_VARIABLELIST);
+      String texVariableListFileStr = ZipUtil.readFileFromZip(pathToVariableListTexFile);
+      Path pathToVariableTexFile = zipFileSystem.getPath(KEY_VARIABLE);
+      String texVariableFileStr = ZipUtil.readFileFromZip(pathToVariableTexFile);
       
-      //filledTemplates.put("variables/" + variable.getName() + ".tex",
-      dataForTemplate.put("variableId", variable.getId());   
-      String filledVariablesFile = 
-          fillTemplate(texVariableFileStr, templateConfiguration, dataForTemplate);
-      Path pathOfVariable = Paths.get("variables/" + variable.getName() + ".tex");
-      final Path root = zipFileSystem.getPath("/");
-      final Path dest = zipFileSystem.getPath(root.toString(), pathOfVariable.toString());
-      ZipUtil.writeFileToZip(dest, filledVariablesFile);
+      // Load data for template only once
+      Map<String, Object> dataForTemplate = this.loadDataForTemplateFilling(dataSetId);
+      String variableListFilledStr = 
+          this.fillTemplate(texVariableListFileStr, templateConfiguration, dataForTemplate);
+      ZipUtil.writeFileToZip(pathToVariableListTexFile, variableListFilledStr);
+      String mainFilledStr = 
+          this.fillTemplate(texMainFileStr, templateConfiguration, dataForTemplate);
+      ZipUtil.writeFileToZip(pathToMainTexFile, mainFilledStr);
+      
+      // Create Variables pages
+      @SuppressWarnings("unchecked")
+      Map<String, Variable> variablesMap = (Map<String, Variable>) dataForTemplate.get("variables");
+      Collection<Variable> variables = variablesMap.values();
+      
+      for (Variable variable : variables) {
+        //filledTemplates.put("variables/" + variable.getName() + ".tex",
+        dataForTemplate.put("variable", variable);
+        String filledVariablesFile = 
+            fillTemplate(texVariableFileStr, templateConfiguration, dataForTemplate);
+        Path pathOfVariable = Paths.get("variables/" + variable.getName() + ".tex");
+        final Path root = zipFileSystem.getPath("/");
+        final Path dest = zipFileSystem.getPath(root.toString(), pathOfVariable.toString());
+        ZipUtil.writeFileToZip(dest, filledVariablesFile);
+      }
+      
+      //Delete Variables.tex file from zip
+      Files.delete(pathToVariableTexFile);
     }
     
-    //Delete Variables.tex file from zip
-    Files.delete(pathToVariableTexFile);
-    
-    //Close Zip File System
-    zipFileSystem.close();
-    
-    // Save into MongoDB / GridFS
-    byte[] byteArrayZipFile = Files.readAllBytes(zipTmpFilePath);
-    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-    byteArrayOutputStream.write(byteArrayZipFile);    
-    return this.saveCompleteTexTemplate(byteArrayOutputStream, multiPartFile.getName());
+    // Save into MongoDB / GridFS   
+    return this.saveCompleteZipFile(zipTmpFile, multiPartFile.getName());
   }
   
   /**
@@ -246,18 +223,11 @@ public class DataSetReportService {
     // Read Template and escape elements
     Template texTemplate = new Template("texTemplate",
         (ESCAPE_PREFIX + templateContent + ESCAPE_SUFFIX), templateConfiguration);
-
-    // Write output to output stream. try with resources with outputstream and stream writer
-    try (ByteArrayOutputStream byteArrayOutputStreamFile = new ByteArrayOutputStream();
-        Writer fileWriter = new OutputStreamWriter(byteArrayOutputStreamFile, 
-            StandardCharsets.UTF_8.name())) {
-      texTemplate.process(dataForTemplate, fileWriter);
+    try (Writer stringWriter = new StringWriter()) {
+      texTemplate.process(dataForTemplate, stringWriter);
       
-      byte[] byteArrayStreamFile = byteArrayOutputStreamFile.toByteArray();
-      byteArrayOutputStreamFile.flush();
-      
-      //Put translated element to tar archive
-      return IOUtils.toString(byteArrayStreamFile, StandardCharsets.UTF_8.name());      
+      stringWriter.flush();
+      return stringWriter.toString();      
     }
   }
 
@@ -269,19 +239,14 @@ public class DataSetReportService {
    * @return return the file name of the saved latex template in the GridFS / MongoDB.
    * @throws IOException thrown if a stream cannot be closed
    */
-  private String saveCompleteTexTemplate(ByteArrayOutputStream byteArrayOutputStream,
-      String fileName) throws IOException {
-    try (OutputStream outputStream = byteArrayOutputStream) {
-      // prepare additional information for tex file.
-      ByteArrayInputStream byteArrayInputStream =
-          new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
-      
-      // No Update by API, so we have to delete first.
-      fileService.deleteTempFile(fileName);
-      
-      // Save tex file, based on the bytearray*streams
-      return fileService.saveTempFile(byteArrayInputStream, fileName, CONTENT_TYPE_ZIP);      
-    }
+  @SuppressFBWarnings("OBL_UNSATISFIED_OBLIGATION")
+  private String saveCompleteZipFile(File zipFile,
+      String fileName) throws IOException {      
+    // No Update by API, so we have to delete first.
+    fileService.deleteTempFile(fileName);
+    
+    // Save tex file
+    return fileService.saveTempFile(new FileInputStream(zipFile), fileName, CONTENT_TYPE_ZIP);      
   }
 
   /**
@@ -387,10 +352,9 @@ public class DataSetReportService {
               .subList(sizeValidResponses - 10, sizeValidResponses - 1));
       }
       
-      if (variable.getPanelIdentifier() != null 
-          && !variable.getPanelIdentifier().trim().isEmpty()) {       
+      if (variable.getPanelIdentifier() != null) {       
         List<IdAndVersionProjection> otherVariablesInPanel = this.variableRepository
-            .findAllProjectedByPanelIdentifierAndIdNot(
+            .findAllIdsByPanelIdentifierAndIdNot(
                 variable.getPanelIdentifier(), variable.getId());
         sameVariablesInPanel.put(variable.getId(), otherVariablesInPanel);
       }

@@ -1,12 +1,12 @@
 package eu.dzhw.fdz.metadatamanagement.common.rest.util;
 
 import java.io.IOException;
-import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.stream.Stream;
+
+import org.apache.commons.io.IOUtils;
 
 /**
  * This class zip and unzip Zip-Files.
@@ -25,13 +25,9 @@ public class ZipUtil {
    * @throws IOException Handles IO Exception.
    */
   public static String readFileFromZip(Path pathToFile) throws IOException {
-    StringBuffer stringBuffer = new StringBuffer();
-    try (Stream<String> streamString = 
-        Files.newBufferedReader(pathToFile, StandardCharsets.UTF_8).lines()) {
-      streamString.forEach(s -> stringBuffer.append(s + System.getProperty("line.separator")));
-    }
-    return stringBuffer.toString();
+    return IOUtils.toString(Files.readAllBytes(pathToFile),StandardCharsets.UTF_8.name());
   }
+  
   
   /**
    * Saves or updates a File within the zip file.
@@ -40,10 +36,7 @@ public class ZipUtil {
    * @throws IOException Handles IOExceptions.
    */
   public static void writeFileToZip(Path pathToFile, String newFileContent) throws IOException {
-    try (Writer writer = Files.newBufferedWriter(
-        pathToFile, StandardCharsets.UTF_8, StandardOpenOption.CREATE)) {
-      writer.write(newFileContent);
-      writer.flush();
-    }
+    Files.write(pathToFile, newFileContent.getBytes(StandardCharsets.UTF_8),
+        StandardOpenOption.CREATE);
   }
 }

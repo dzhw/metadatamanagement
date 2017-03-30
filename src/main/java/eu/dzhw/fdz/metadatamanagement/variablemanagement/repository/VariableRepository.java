@@ -24,7 +24,7 @@ public interface VariableRepository
   
   @RestResource(exported = false)
   List<IdAndVersionProjection> 
-      findAllProjectedByPanelIdentifierAndIdNot(String panelIdentifier, String id);
+      findAllIdsByPanelIdentifierAndIdNot(String panelIdentifier, String id);
   
   @RestResource(exported = false)
   List<Variable> findByDataAcquisitionProjectId(String dataAcquisitionProjectId);
