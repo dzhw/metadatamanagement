@@ -74,7 +74,9 @@ public class DataSetReportService {
           + "?replace(\"%\", \"\\\\%\")?replace(\"&\", \"\\\\&\")"
           + "?replace(\"^\", \"\\\\textasciicircum{}\")?replace(\"_\", \"\\\\_\")"
           + "?replace(\">\", \"\\\\textgreater{}\")?replace(\"<\", \"\\\\textless{}\")"
-          + "?replace(\"~\", \"\\\\textasciitilde{}\")>";
+          + "?replace(\"~\", \"\\\\textasciitilde{}\")"
+          + "?replace(\"\\r\\n\", \"\\\\par  \")"
+          + "?replace(\"\\n\", \"\\\\par  \")>";
 
   /**
    * The Escape Suffix closes the escaping prefix. This Prefix will be copied after the template
