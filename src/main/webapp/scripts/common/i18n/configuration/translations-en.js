@@ -23,7 +23,15 @@ angular.module('metadatamanagementApp').config(
             'register-tooltip': 'Click to register',
             'open-menu': 'Open Navigation Menu',
             'open-menu-tooltip': 'Click to open Navigation Menu',
-            'disclosure-tooltip': 'Click to open the disclosure'
+            'disclosure-tooltip': 'Click to open the disclosure',
+            'administration-tooltip': 'Click to open submenu "Administration"',
+            'user-management-tooltip': 'Click to open user management',
+            'metrics-tooltip': 'Click to open metrics',
+            'health-tooltip': 'Click to open health',
+            'configuration-tooltip': 'Click to open configuration',
+            'logs-tooltip': 'Click to open logs',
+            'settings-tooltip': 'Click to open settings',
+            'password-tooltip': 'Click to open password'
           }
         },
         'dialog': {

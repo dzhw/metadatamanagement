@@ -77,12 +77,18 @@
                     </li>
                     <li ng-switch-when="true">
                         <md-button ui-sref="settings" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
-                            <span data-translate="global.menu.account.settings">Settings</span>
+                          <md-tooltip>
+                              {{'global.toolbar.buttons.settings-tooltip' | translate}}
+                          </md-tooltip>
+                          <span data-translate="global.menu.account.settings">Settings</span>
                         </md-button>
                     </li>
                     <li ng-switch-when="true">
                         <md-button ui-sref="password" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
-                            <span data-translate="global.menu.account.password">Password</span>
+                          <md-tooltip>
+                              {{'global.toolbar.buttons.password-tooltip' | translate}}
+                          </md-tooltip>
+                          <span data-translate="global.menu.account.password">Password</span>
                         </md-button>
                     </li>
                 </ul>
@@ -90,34 +96,52 @@
             </li>
             <li class="fdz-navbar-menu" ng-switch-when="true" data-has-authority="ROLE_ADMIN">
                 <md-button class="fdz-navbar-menu-toggle" ng-click="toggleAdminMenu()">
-                    <span data-translate="global.menu.admin.main"></span>
-                    <md-icon ng-if="!isAdminMenuOpen" md-font-set="material-icons">keyboard_arrow_down</md-icon>
-                    <md-icon ng-if="isAdminMenuOpen" md-font-set="material-icons">keyboard_arrow_up</md-icon>
+                  <md-tooltip>
+                      {{'global.toolbar.buttons.administration-tooltip' | translate}}
+                  </md-tooltip>
+                  <span data-translate="global.menu.admin.main"></span>
+                  <md-icon ng-if="!isAdminMenuOpen" md-font-set="material-icons">keyboard_arrow_down</md-icon>
+                  <md-icon ng-if="isAdminMenuOpen" md-font-set="material-icons">keyboard_arrow_up</md-icon>
                 </md-button>
                 <ul class="fdz-navbar-menu-items" ng-show="isAdminMenuOpen">
                     <li>
                         <md-button ui-sref="user-management" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
-                            <span data-translate="global.menu.admin.user-management">User management</span>
+                          <md-tooltip>
+                              {{'global.toolbar.buttons.user-management-tooltip' | translate}}
+                          </md-tooltip>
+                          <span data-translate="global.menu.admin.user-management">User management</span>
                         </md-button>
                     </li>
                     <li>
                         <md-button ui-sref="metrics" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
-                            <span data-translate="global.menu.admin.metrics">Metrics</span>
+                          <md-tooltip>
+                              {{'global.toolbar.buttons.metrics-tooltip' | translate}}
+                          </md-tooltip>
+                          <span data-translate="global.menu.admin.metrics">Metrics</span>
                         </md-button>
                     </li>
                     <li>
                         <md-button ui-sref="health" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
-                            <span data-translate="global.menu.admin.health">Health</span>
+                          <md-tooltip>
+                              {{'global.toolbar.buttons.health-tooltip' | translate}}
+                          </md-tooltip>
+                          <span data-translate="global.menu.admin.health">Health</span>
                         </md-button>
                     </li>
                     <li>
                         <md-button ui-sref="configuration" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
-                            <span data-translate="global.menu.admin.configuration">Configuration</span>
+                          <md-tooltip>
+                              {{'global.toolbar.buttons.configuration-tooltip' | translate}}
+                          </md-tooltip>
+                          <span data-translate="global.menu.admin.configuration">Configuration</span>
                         </md-button>
                     </li>
                     <li>
                         <md-button ui-sref="logs" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
-                            <span data-translate="global.menu.admin.logs">Logs</span>
+                          <md-tooltip>
+                              {{'global.toolbar.buttons.logs-tooltip' | translate}}
+                          </md-tooltip>
+                          <span data-translate="global.menu.admin.logs">Logs</span>
                         </md-button>
                     </li>
                 </ul>
