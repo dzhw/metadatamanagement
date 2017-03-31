@@ -66,10 +66,11 @@
                         <div ng-if="ctrl.counts.surveysCount == 1 && ctrl.survey" class="fdz-truncate-string" flex>
                             <a ui-sref="surveyDetail({'id': ctrl.survey.id})">
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
-                                {{'survey-management.detail.survey' | translate }}: {{ctrl.survey.title[currentLanguage]}}</a>
+                                {{'survey-management.detail.survey' | translate }}:
+                                <span display-i18n-string=ctrl.survey.title></span></a>
                         </div>
                         <div ng-if="ctrl.counts.surveysCount > 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="search({'type': 'surveys', 'study': ctrl.study.id, 'page': 1})">
+                            <a ui-sref="search({'type': 'surveys', 'data-set': ctrl.dataSet.id, 'page': 1})">
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                                 {{'survey-management.detail.surveys' | translate }}: ({{ctrl.counts.surveysCount}})</a>
                         </div>
@@ -82,10 +83,11 @@
                         <div ng-if="ctrl.counts.dataSetsCount == 1 && ctrl.dataSet" class="fdz-truncate-string" flex>
                             <a ui-sref="dataSetDetail({'id': ctrl.dataSet.id})">
                                 <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
-                                {{'data-set-management.detail.data-set' | translate }}: {{ctrl.dataSet.description}}</a>
+                                {{'data-set-management.detail.data-set' | translate }}:
+                                <span display-i18n-string=ctrl.dataSet.description></span></a>
                         </div>
                         <div ng-if="ctrl.counts.dataSetsCount > 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="search({'type': 'data_sets', 'study':ctrl.study.id, 'page': 1})">
+                            <a ui-sref="search({'type': 'data_sets', 'survey':ctrl.survey.id, 'page': 1})">
                                 <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
                                 {{'data-set-management.detail.data-sets' | translate }}: ({{ctrl.counts.dataSetsCount}})</a>
                         </div>
