@@ -2,13 +2,13 @@
     <md-toolbar style="background-color: white;">
         <md-button ng-if="$mdMedia('gt-md')" class="md-accent md-raised fdz-skip-navigation" ng-click="focusContent()">
             {{'global.menu.skip-navigation'|translate}}
-            <md-tooltip md-autohide>
+            <md-tooltip md-autohide="true">
                 {{'global.menu.skip-navigation-tooltip'|translate}}
             </md-tooltip>
         </md-button>
         <md-button style="max-width: 95%;" ng-href="#!/{{currentLanguage}}/search?page=1" ng-click="close()">
             <img src="assets/images/FDZ_Logo.svg" style="width: 100%; height: auto;" alt="{{'global.rdc-alt-text'|translate}}">
-            <md-tooltip md-autohide>
+            <md-tooltip md-autohide="true">
                 {{'global.menu.back-to-search'|translate}}
             </md-tooltip>
         </md-button>
@@ -36,7 +36,7 @@
             <li ng-switch-when="true" class="fdz-navbar-menu">
                 <md-button id="logout" ng-click="logout()" class="fdz-navbar-button">
                     <md-tooltip>
-                        {{'global.toolbar.buttons.logout' | translate : '{username:"' + identity.login + '"}'}}
+                        {{'global.toolbar.buttons.logout-tooltip' | translate : '{username:"' + identity.login + '"}'}}
                     </md-tooltip>
                     <md-icon md-svg-src="/assets/images/icons/logout.svg"></md-icon>
                     <span data-translate="global.toolbar.buttons.logout" data-translate-values="{username: identity.login}">Log out</span>
@@ -52,12 +52,15 @@
                     <span data-translate="global.menu.account.main"></span>
                     <md-icon ng-if="!isAccountMenuOpen" md-font-set="material-icons">keyboard_arrow_down</md-icon>
                     <md-icon ng-if="isAccountMenuOpen" md-font-set="material-icons">keyboard_arrow_up</md-icon>
+                    <md-tooltip>
+                        {{'global.toolbar.buttons.fdz-staff-area-tooltip'|translate}}
+                    </md-tooltip>
                 </md-button>
                 <ul class="fdz-navbar-menu-items" ng-show="isAccountMenuOpen">
                     <li ng-switch-when="false">
                         <md-button id="login" ng-click="close()" ui-sref-active="fdz-navbar-button-active" ui-sref="login({lang:currentLanguage})" class="fdz-navbar-button">
                             <md-tooltip>
-                                {{'global.toolbar.buttons.login' | translate}}
+                                {{'global.toolbar.buttons.login-tooltip' | translate}}
                             </md-tooltip>
                             <md-icon md-svg-src="/assets/images/icons/login.svg"></md-icon>
                             <span data-translate="global.toolbar.buttons.login">Login</span>
@@ -66,7 +69,7 @@
                     <li ng-switch-when="false">
                         <md-button id="register" ng-click="close()" ui-sref-active="fdz-navbar-button-active" ui-sref="register({lang:currentLanguage})" class="fdz-navbar-button">
                             <md-tooltip>
-                                {{'global.toolbar.buttons.register' | translate}}
+                                {{'global.toolbar.buttons.register-tooltip' | translate}}
                             </md-tooltip>
                             <md-icon md-svg-src="/assets/images/icons/account-plus.svg"></md-icon>
                             <span data-translate="global.toolbar.buttons.register">Register</span>
@@ -123,13 +126,24 @@
             <li class="fdz-navbar-menu">
                 <md-button ui-sref="disclosure" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
                     <span data-translate="global.menu.disclosure">Disclosure</span>
+                    <md-tooltip>
+                        {{'global.toolbar.buttons.disclosure-tooltip'|translate}}
+                    </md-tooltip>
                 </md-button>
                 <md-divider></md-divider>
             </li>
         </ul>
         <div layout="column" layout-align="center center">
-            <a id="bmbf-link" class="bmbf_logo_{{currentLanguage}}" ng-href="{{currentLanguage==='de'?'https://www.bmbf.de/':'https://www.bmbf.de/en/index.html'}}" target="_blank" title="{{'global.bmbf-alt-text'|translate}}"></a>
-            <a id="dzhw-link" class="dzhw_logo" ng-href="{{currentLanguage==='de'?'https://www.dzhw.eu/':'http://www.dzhw.eu/en/index_html'}}" target="_blank" title="{{'global.dzhw-alt-text'|translate}}"></a>
+            <a id="bmbf-link" class="bmbf_logo_{{currentLanguage}}" ng-href="{{currentLanguage==='de'?'https://www.bmbf.de/':'https://www.bmbf.de/en/index.html'}}" target="_blank">
+              <md-tooltip md-autohide="true">
+                  {{'global.logos.bmbf-tooltip'|translate}}
+              </md-tooltip>
+            </a>
+            <a id="dzhw-link" class="dzhw_logo" ng-href="{{currentLanguage==='de'?'https://www.dzhw.eu/':'http://www.dzhw.eu/en/index_html'}}" target="_blank">
+              <md-tooltip md-autohide="true">
+                  {{'global.logos.dzhw-tooltip'|translate}}
+              </md-tooltip>
+            </a>
         </div>
     </md-content>
 </md-sidenav>

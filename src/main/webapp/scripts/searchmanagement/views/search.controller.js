@@ -210,6 +210,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     };
 
     $scope.onSelectedTabChanged = function() {
+      $scope.sele = $scope.searchParams.selectedTabIndex;
       if (!tabChangedOnInitFlag) {
         $scope.searchParams.filter = undefined;
         $scope.searchParams.sortBy = undefined;
@@ -293,6 +294,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     $scope.tabs = [{
       title: 'search-management.tabs.all',
       inputLabel: 'search-management.input-label.all',
+      tooltipText: 'Tooltip',
       elasticSearchType: undefined,
       count: null,
       acceptedFileUploadType: null,
@@ -301,6 +303,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     }, {
       title: 'search-management.tabs.studies',
       inputLabel: 'search-management.input-label.studies',
+      tooltipText: 'Tooltip',
       icon: 'assets/images/icons/study.svg',
       elasticSearchType: 'studies',
       count: null,
@@ -309,6 +312,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     }, {
       title: 'search-management.tabs.surveys',
       inputLabel: 'search-management.input-label.surveys',
+      tooltipText: 'Tooltip',
       icon: 'assets/images/icons/survey.svg',
       elasticSearchType: 'surveys',
       count: null,
@@ -317,6 +321,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     }, {
       title: 'search-management.tabs.instruments',
       inputLabel: 'search-management.input-label.instruments',
+      tooltipText: 'Tooltip',
       icon: 'assets/images/icons/instrument.svg',
       elasticSearchType: 'instruments',
       count: null,
@@ -325,6 +330,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     }, {
       title: 'search-management.tabs.questions',
       inputLabel: 'search-management.input-label.questions',
+      tooltipText: 'Tooltip',
       icon: 'assets/images/icons/question.svg',
       elasticSearchType: 'questions',
       count: null,
@@ -333,6 +339,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     }, {
       title: 'search-management.tabs.data_sets',
       inputLabel: 'search-management.input-label.data-sets',
+      tooltipText: 'Tooltip',
       icon: 'assets/images/icons/data-set.svg',
       elasticSearchType: 'data_sets',
       count: null,
@@ -341,6 +348,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     }, {
       title: 'search-management.tabs.variables',
       inputLabel: 'search-management.input-label.variables',
+      tooltipText: 'Tooltip',
       icon: 'assets/images/icons/variable.svg',
       elasticSearchType: 'variables',
       count: null,
@@ -349,6 +357,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     }, {
       title: 'search-management.tabs.related_publications',
       inputLabel: 'search-management.input-label.related-publications',
+      tooltipText: 'Tooltip',
       icon: 'assets/images/icons/related-publication.svg',
       elasticSearchType: 'related_publications',
       count: null,

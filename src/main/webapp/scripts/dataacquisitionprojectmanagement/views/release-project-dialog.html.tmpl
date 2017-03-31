@@ -8,6 +8,7 @@
             </div>
             <md-button class="md-icon-button" ng-click="cancel()">
                 <md-icon md-font-set="material-icons">clear</md-icon>
+                <md-tooltip md-direction="top" md-z-index="100001">Tooltip</md-tooltip>
             </md-button>
         </div>
     </md-toolbar>
@@ -15,7 +16,7 @@
         <md-dialog-content style="padding: 1.5em 1.5em 0 1.5em;">
             <md-input-container class="md-block" md-is-error="!releaseForm.version.$valid">
                 <label>{{'data-acquisition-project-management.release.version' | translate}}</label>
-                <input data-md-maxlength="32" required data-md-no-asterisk ng-model="release.version" name="version" ng-pattern="/^[0-9][0-9.]*$/" data-md-autofocus>
+                <input data-md-maxlength="32" required translate-attr="{'title':'global.entity.validation.required'}" data-md-no-asterisk ng-model="release.version" name="version" ng-pattern="/^[0-9][0-9.]*$/" data-md-autofocus>
                 <div ng-messages="releaseForm.version.$error" data-multiple data-md-auto-hide="false">
                     <div ng-message="required">{{'global.entity.validation.required' | translate}}</div>
                     <div ng-message="md-maxlength">{{'global.entity.validation.maxlength' | translate:'{ max: "32" }'}}</div>
@@ -38,8 +39,14 @@
             </md-input-container>
         </md-dialog-content>
         <md-dialog-actions layout="row" style="padding: 0 1.5em 1em 0;">
-            <md-button class="md-raised" ng-click="cancel()">{{'global.entity.action.cancel' | translate}}</md-button>
-            <md-button class="md-raised" ng-click="ok(release)" ng-disabled="releaseForm.$invalid">{{'global.entity.action.ok' | translate}}</md-button>
+            <md-button class="md-raised" ng-click="cancel()">
+              <span>{{'global.entity.action.cancel' | translate}}</span>
+              <md-tooltip md-direction="top" md-z-index="100001">Tooltip</md-tooltip>
+            </md-button>
+            <md-button class="md-raised" ng-click="ok(release)" ng-disabled="releaseForm.$invalid">
+              <span>{{'global.entity.action.ok' | translate}}</span>
+              <md-tooltip md-direction="top" md-z-index="100001">Tooltip</md-tooltip>
+            </md-button>
         </md-dialog-actions>
     </form>
 </md-dialog>

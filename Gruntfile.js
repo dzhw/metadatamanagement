@@ -224,7 +224,10 @@ module.exports = function(grunt) {
             'attribute “lang” on element “td”: Subtags must not exceed 8 ' +
             'characters in length.', 'Bad value “{{currentLanguage}}” for ' +
             'attribute “lang” on element “html”: Subtags must not exceed 8 ' +
-            'characters in length.'
+            'characters in length.', 'Bad value “global.toolbarHeader.' +
+            'search” for attribute “translate” on element “span”.',
+            'Bad value “global.toolbarHeader.default” for attribute ' +
+            '“translate” on element “span”.'
           ],
           customattrs: [
             'show-validation',
@@ -242,7 +245,11 @@ module.exports = function(grunt) {
             'md-autofocus',
             'md-ink-ripple',
             'md-maxlength',
-            'display-i18n-string'
+            'display-i18n-string',
+            'translate-value-type',
+            'translate-value-param',
+            'translate-value-tabname',
+            'translate-attr'
           ]
         },
         files: {

@@ -13,12 +13,32 @@ angular.module('metadatamanagementApp').config(
         'search': 'Suche',
         'toolbar': {
           'buttons': {
+            'fdz-staff-area-tooltip': 'Klicken, um Menue "Zugang für FDZ Mitarbeiter" zu öffnen',
             'logout': '{{username}} abmelden',
+            'logout-tooltip': 'Klicken, um {{username}} abzumelden',
             'login': 'Anmelden',
-            'change-language': 'View english version',
+            'login-tooltip': 'Klicken, um sich anzumelden',
+            'change-language': 'Click to view the english version',
             'register': 'Registrieren',
-            'open-menu': 'Navigationsmenü öffnen'
+            'register-tooltip': 'Klicken, um sich zu registrieren',
+            'open-menu': 'Navigationsmenü öffnen',
+            'open-menu-tooltip': 'Klicken, um Navigationsmenü zu öffnen',
+            'disclosure-tooltip': 'Klicken, um das Impressum zu öffnen'
           }
+        },
+        'dialog': {
+          'tooltip': {
+            'close': 'Klicken, um den Dialog zu schließen'
+          }
+        },
+        'toast': {
+          'tooltip': {
+            'close': 'Klicken, um die Benachrichtigung zu schließen'
+          }
+        },
+        'toolbarHeader': {
+          'search': 'Klicken, um zur letzten {{type}} zu navigieren',
+          'default': 'Klicken, um zu {{type}} {{param}} zu navigieren'
         },
         'cards': {
           'details': 'Details',
@@ -57,11 +77,11 @@ angular.module('metadatamanagementApp').config(
             'database': 'Database'
           },
           'tooltipps': {
-            'create-project': 'Ein neues Datenaufbereitungsprojekt erzeugen.',
-            'delete-project': 'Das ausgewählte Datenaufbereitungsprojekt mit allen verknüpften Daten löschen.',
+            'create-project': 'Klicken, um ein neues Datenaufbereitungsprojekt zu erzeugen.',
+            'delete-project': 'Klicken, um das ausgewählte Datenaufbereitungsprojekt mit allen verknüpften Daten zu löschen.',
             'release-project': 'Klicken, um das ausgewählte Projekt für alle Benutzer freizugeben.',
             'unrelease-project': 'Klicken, um die Freigabe des ausgewählten Projektes zurückzunehmen.',
-            'post-validation': 'Das ausgewählte Datenaufbereitungsprojekt validieren.'
+            'post-validation': 'Klicken, um das ausgewählte Datenaufbereitungsprojekt zu validieren.'
           },
           'skip-navigation': 'Zum Inhalt springen',
           'skip-navigation-tooltip': 'Klicken zum Überspringen der Navigationselemente',
@@ -197,8 +217,8 @@ angular.module('metadatamanagementApp').config(
         },
         'logos': {
           'fdz': 'Forschungsdatenzentrum, Deutsches Zentrum für Hochschul- und Wissenschaftsforschung',
-          'bmbf': 'Gefördert vom BMBF',
-          'dzhw': 'Deutsches Zentrum für Hochschul- und Wissenschaftsforschung DZHW GmbH'
+          'bmbf-tooltip': 'Klicken, um die Internetseite des Bundesministeriums für Bildung und Forschung zu öffnen',
+          'dzhw-tooltip': 'Klicken, um die Internetseite des deutschen Zentrum für Hochschul- und Wissenschaftsforschung zu Öffnen'
         },
         'main': {
           'title': 'Willkommen beim FDZ des DZHW. Sie suchen ...'
@@ -215,7 +235,8 @@ angular.module('metadatamanagementApp').config(
             'error': 'Fehler'
           },
           'job-complete-toast': {
-            'show-log': 'Protokoll'
+            'title': 'Protokoll',
+            'show-log': 'Klicken, um das Protokoll zu öffnen.'
           },
           'block-ui-message': '{{warnings}} Warnungen und {{ errors }} Fehler bei {{ total }} Objekten'
         }

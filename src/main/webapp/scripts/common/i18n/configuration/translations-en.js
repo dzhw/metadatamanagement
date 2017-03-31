@@ -13,13 +13,33 @@ angular.module('metadatamanagementApp').config(
         'search': 'Search',
         'toolbar': {
           'buttons': {
-            'login': 'Sign in',
+            'fdz-staff-area-tooltip': 'Click to open submenu "Access for RDC Employees"',
             'logout': 'Sign out {{username}}',
-            'change-language': 'Betrachte deutsche Version',
+            'logout-tooltip': 'Click to sign out {{username}}',
+            'login': 'Sign in',
+            'login-tooltip': 'Click to sign in',
+            'change-language': 'Click to view the english version',
             'register': 'Sign up',
-            'open-menu': 'Open Navigation Menu'
+            'register-tooltip': 'Click to register',
+            'open-menu': 'Open Navigation Menu',
+            'open-menu-tooltip': 'Click to open Navigation Menu',
+            'disclosure-tooltip': 'Click to open the disclosure'
           }
         },
+        'dialog': {
+            'tooltip': {
+              'close': 'Click to close the dialog'
+            }
+          },
+          'toast': {
+            'tooltip': {
+              'close': 'Click to close the message'
+            }
+          },
+        'toolbarHeader': {
+            'search': 'Click to navigate to the last {{type}}',
+            'default': 'Click to navigate to {{type}} {{param}}'
+          },
         'cards': {
           'details': 'Details',
           'related-objects': 'Related objects'
@@ -57,11 +77,11 @@ angular.module('metadatamanagementApp').config(
             'database': 'Database'
           },
           'tooltipps': {
-            'create-project': 'Create a new Data Acquisition Project.',
-            'delete-project': 'Delete the selected Data Acquisition Project with all related data.',
+            'create-project': 'Click to create a new Data Acquisition Project.',
+            'delete-project': 'Click to delete the selected Data Acquisition Project with all related data.',
             'release-project': 'Click to release the chosen project for all users.',
             'unrelease-project': 'Click to unrelease the chosen project.',
-            'post-validation': 'Validate a chosen Data Acquisition Project.'
+            'post-validation': 'Click to validate a chosen Data Acquisition Project.'
           },
           'skip-navigation': 'Skip to Content',
           'skip-navigation-tooltip': 'Click to skip elements from navigation bar',
@@ -197,8 +217,8 @@ angular.module('metadatamanagementApp').config(
         },
         'logos': {
           'rdc': 'Research Data Center, German Center for Research on Higher Education and Science Studies',
-          'bmbf': 'Sponsored by the FMER',
-          'dzhw': 'The German Centre for Research on Higher Education and Science Studies'
+          'bmbf-tooltip': 'Click to open the website of the federal ministry of education and research',
+          'dzhw-tooltip': 'Click to open the website of the German Centre for Research on Higher Education and Science Studies'
         },
         'main': {
           'title': 'Welcome to the RDC of the DZHW. You are looking for ...'
@@ -215,7 +235,8 @@ angular.module('metadatamanagementApp').config(
             'error': 'Error'
           },
           'job-complete-toast': {
-            'show-log': 'Protocol'
+            'title': 'Protocol',
+            'show-log': 'Click to open the protocol.'
           },
           'block-ui-message': '{{warnings}} Warnings and {{ errors }} Errors on {{ total }} Objects'
         }
