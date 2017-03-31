@@ -14,7 +14,7 @@
                     <md-tab-label>
                         <md-icon ng-if="tab.icon" md-svg-icon="{{tab.icon}}"></md-icon>
                         <span>{{tab.title|translate}} {{tab.count != null? '(' + tab.count + ')' : ''}}</span>
-                        <md-tooltip md-direction="top">{{tab.tooltipText}}</md-tooltip>
+                        <md-tooltip md-direction="top"  md-autohide="true">{{tab.title+'-tooltip'|translate}}</md-tooltip>
                     </md-tab-label>
                 </md-tab>
             </md-tabs>

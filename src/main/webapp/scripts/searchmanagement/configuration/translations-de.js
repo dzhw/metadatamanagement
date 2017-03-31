@@ -47,13 +47,21 @@ angular.module('metadatamanagementApp').config(
         },
         'tabs': {
           'variables': 'Variablen',
+          'variables-tooltip': 'Klicken, um Tabreiter "Variablen" zu selektieren',
           'questions': 'Fragen',
+          'questions-tooltip': 'Klicken, um Tabreiter "Fragen" zu selektieren',
           'surveys': 'Erhebungen',
+          'surveys-tooltip': 'Klicken, um Tabreiter "Erhebungen" zu selektieren',
           'data_sets': 'Datensätze',
+          'data_sets-tooltip': 'Klicken, um Tabreiter "Datensätze" zu selektieren',
           'studies': 'Studien',
+          'studies-tooltip': 'Klicken, um Tabreiter "Studien" zu selektieren',
           'all': 'Alle',
+          'all-tooltip': 'Klicken, um Tabreiter "Alle" zu selektieren',
           'related_publications': 'Publikationen',
-          'instruments': 'Instrumente'
+          'related_publications-tooltip': 'Klicken, um Tabreiter "Publikationen" zu selektieren',
+          'instruments': 'Instrumente',
+          'instruments-tooltip': 'Klicken, um Tabreiter "Instrumente" zu selektieren'
         }
       }
       //jscs:enable

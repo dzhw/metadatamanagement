@@ -15,7 +15,7 @@ angular.module('metadatamanagementApp').config(
           'buttons': {
             'fdz-staff-area-tooltip': 'Click to open submenu "Access for RDC Employees"',
             'logout': 'Sign out {{username}}',
-            'logout-tooltip': 'Click to sign out {{username}}',
+            'logout-tooltip': 'Click to sign out "{{username}}"',
             'login': 'Sign in',
             'login-tooltip': 'Click to sign in',
             'change-language': 'Click to view the english version',
@@ -38,7 +38,7 @@ angular.module('metadatamanagementApp').config(
           },
         'toolbarHeader': {
             'search': 'Click to navigate to the last {{type}}',
-            'default': 'Click to navigate to {{type}} {{param}}'
+            'default': 'Click to navigate to {{type}} "{{param}}"'
           },
         'cards': {
           'details': 'Details',

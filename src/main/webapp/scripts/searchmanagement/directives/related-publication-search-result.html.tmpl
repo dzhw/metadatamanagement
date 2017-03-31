@@ -12,6 +12,8 @@
         <md-card-content>
             <div>{{searchResult.publicationAbstract | limitTo: 500}}{{searchResult.publicationAbstract.length > 500 ? '...' : ''}}</div>
         </md-card-content>
-        <md-tooltip md-direction="top">Tooltip</md-tooltip>
+        <md-tooltip md-direction="top">
+          {{searchResult.title}}
+        </md-tooltip>
     </a>
 </md-card>

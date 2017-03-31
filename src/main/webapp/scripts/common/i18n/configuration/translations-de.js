@@ -15,7 +15,7 @@ angular.module('metadatamanagementApp').config(
           'buttons': {
             'fdz-staff-area-tooltip': 'Klicken, um Menue "Zugang für FDZ Mitarbeiter" zu öffnen',
             'logout': '{{username}} abmelden',
-            'logout-tooltip': 'Klicken, um {{username}} abzumelden',
+            'logout-tooltip': 'Klicken, um "{{username}}" abzumelden',
             'login': 'Anmelden',
             'login-tooltip': 'Klicken, um sich anzumelden',
             'change-language': 'Click to view the english version',
@@ -38,7 +38,7 @@ angular.module('metadatamanagementApp').config(
         },
         'toolbarHeader': {
           'search': 'Klicken, um zur letzten {{type}} zu navigieren',
-          'default': 'Klicken, um zu {{type}} {{param}} zu navigieren'
+          'default': 'Klicken, um zu {{type}} "{{param}}" zu navigieren'
         },
         'cards': {
           'details': 'Details',
