@@ -227,7 +227,7 @@ module.exports = function(grunt) {
             'characters in length.', 'Bad value “global.toolbarHeader.' +
             'search” for attribute “translate” on element “span”.',
             'Bad value “global.toolbarHeader.default” for attribute ' +
-            '“translate” on element “span”.', ' Bad value ' +
+            '“translate” on element “span”.', 'Bad value ' +
             '“search-management.cards” for attribute “translate” ' +
             'on element “span”.'
           ],
