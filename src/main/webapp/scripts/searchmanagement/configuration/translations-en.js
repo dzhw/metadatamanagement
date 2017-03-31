@@ -62,7 +62,8 @@ angular.module('metadatamanagementApp').config(
           'related_publications-tooltip': 'Click to select the "Publications" tab',
           'instruments': 'Instruments',
           'instruments-tooltip': 'Click to select the "Instruments" tab'
-        }
+        },
+        'cards': 'Click to navigate to "{{type}}"'
       }
       //jscs:enable
     };
