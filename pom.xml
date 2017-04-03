@@ -6,11 +6,12 @@
         <artifactId>spring-boot-starter-parent</artifactId>
         <groupId>org.springframework.boot</groupId>
         <version>1.5.2.RELEASE</version>
+        <relativePath />
     </parent>
 
     <groupId>eu.dzhw.fdz.metadatamanagement</groupId>
     <artifactId>metadatamanagement</artifactId>
-    <version>0.1.42-SNAPSHOT</version>
+    <version>0.1.42</version>
     <packaging>war</packaging>
     <name>metadatamanagement</name>
 
