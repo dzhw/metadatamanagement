@@ -13,11 +13,14 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.google.common.base.MoreObjects;
+
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidIsoLanguage;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.OneForeignKeyIsUsed;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.OneStudyIsUsed;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidPublicationYear;
@@ -92,6 +95,12 @@ public class RelatedPublication extends AbstractRdcDomainObject {
       + ".abstract-source.i18n-string-size")
   private I18nString abstractSource;
   
+  @NotNull(message =
+      "related-publication-management.error.related-publication.language.not-null")
+  @ValidIsoLanguage(message =
+      "related-publication-management.error.related-publication.language.not-supported")
+  private String language;
+
   /* Foreign Keys */
   @Indexed
   private List<String> questionIds = new ArrayList<String>();
@@ -193,6 +202,14 @@ public class RelatedPublication extends AbstractRdcDomainObject {
   public void setAbstractSource(I18nString abstractSource) {
     this.abstractSource = abstractSource;
   }
+  
+  public String getLanguage() {
+    return language;
+  }
+
+  public void setLanguage(String language) {
+    this.language = language;
+  }
 
   public List<String> getQuestionIds() {
     return questionIds;
@@ -240,5 +257,28 @@ public class RelatedPublication extends AbstractRdcDomainObject {
 
   public void setInstrumentIds(List<String> instrumentIds) {
     this.instrumentIds = instrumentIds;
+  }
+
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this)
+      .add("super", super.toString())
+      .add("id", id)
+      .add("doi", doi)
+      .add("title", title)
+      .add("authors", authors)
+      .add("sourceReference", sourceReference)
+      .add("publicationAbstract", publicationAbstract)
+      .add("sourceLink", sourceLink)
+      .add("year", year)
+      .add("abstractSource", abstractSource)
+      .add("language", language)
+      .add("questionIds", questionIds)
+      .add("surveyIds", surveyIds)
+      .add("variableIds", variableIds)
+      .add("dataSetIds", dataSetIds)
+      .add("studyIds", studyIds)
+      .add("instrumentIds", instrumentIds)
+      .toString();
   }
 }

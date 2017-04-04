@@ -76,6 +76,10 @@ angular.module('metadatamanagementApp').config(
             },
             'abstract-source': {
               'i18n-string-size': 'Die Maximallänge der Quelle der Publication ist 2048 Zeichen.'
+            },
+            'language': {
+              'not-null': 'Die Sprache der Publikation darf nicht leer sein!',
+              'not-supported': 'Die Sprache muss eine gültige zweibuchstabige Abkürzung gemäß ISO 639-1 sein.'
             }
           },
           'post-validation': {

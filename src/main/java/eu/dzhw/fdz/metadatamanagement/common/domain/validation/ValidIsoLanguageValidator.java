@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation;
+package eu.dzhw.fdz.metadatamanagement.common.domain.validation;
 
 import java.util.Arrays;
 import java.util.List;
@@ -7,10 +7,8 @@ import java.util.Locale;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAttachmentMetadata;
-
 /**
- * Validates the language of an {@link InstrumentAttachmentMetadata}.
+ * Validates the language to be an ISO 639 language code.
  */
 public class ValidIsoLanguageValidator
     implements ConstraintValidator<ValidIsoLanguage, String> {

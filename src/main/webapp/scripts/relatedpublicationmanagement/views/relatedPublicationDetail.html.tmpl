@@ -1,6 +1,6 @@
 <div ng-if="ctrl.relatedPublication.id">
     <div layout="row" style="margin-bottom: 0px;" layout-margin>
-        <h1 class="md-headline" style="margin-left: 0px;">{{ctrl.relatedPublication.title}} <span class="label label-as-badge label-default">{{ctrl.relatedPublication.id}}</span></h1>
+        <h1 class="md-headline" style="margin-left: 0px;" lang="{{ctrl.relatedPublication.language}}">{{ctrl.relatedPublication.title}} <span class="label label-as-badge label-default">{{ctrl.relatedPublication.id}}</span></h1>
     </div>
     <div layout="column" layout-gt-sm="row">
         <div flex-gt-sm="50" layout="column">
@@ -25,7 +25,7 @@
                     <div style="margin-bottom: 0.5em;" ng-if="ctrl.relatedPublication.sourceReference">
                         <span style="font-weight: bold;">{{'related-publication-management.detail.source-reference' | translate }}:
               </span>
-                        <span>{{ctrl.relatedPublication.sourceReference}}</span>
+                        <span lang="{{ctrl.relatedPublication.language}}">{{ctrl.relatedPublication.sourceReference}}</span>
                     </div>
                     <div style="margin-bottom: 0.5em;" ng-if="ctrl.relatedPublication.doi">
                         <span style="font-weight: bold;">{{'related-publication-management.detail.doi' | translate }}:
@@ -165,7 +165,7 @@
             <md-divider></md-divider>
             <md-card-content>
                 <div style="margin-bottom: 0.5em;" ng-if="ctrl.relatedPublication.publicationAbstract">
-                    <span>{{ctrl.relatedPublication.publicationAbstract}}</span>
+                    <span lang="{{ctrl.relatedPublication.language}}">{{ctrl.relatedPublication.publicationAbstract}}</span>
                 </div>
                 <div style="margin-bottom: 0.5em;" ng-if="ctrl.relatedPublication.abstractSource">
                     <span style="font-weight: bold;">{{'related-publication-management.detail.abstract-source' | translate }}:

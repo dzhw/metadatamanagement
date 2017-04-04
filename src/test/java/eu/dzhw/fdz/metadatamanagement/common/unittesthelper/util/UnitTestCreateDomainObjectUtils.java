@@ -420,6 +420,7 @@ public class UnitTestCreateDomainObjectUtils {
             .withDe("Test")
             .withEn("Test")
             .build())
+        .withLanguage("de")
         .build();
     
   }
@@ -442,6 +443,7 @@ public class UnitTestCreateDomainObjectUtils {
             .withDe("Test")
             .withEn("Test")
             .build())
+        .withLanguage("de")
         .build();
     
   }

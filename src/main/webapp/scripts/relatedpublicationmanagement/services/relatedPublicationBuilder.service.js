@@ -31,7 +31,8 @@ angular.module('metadatamanagementApp')
             abstractSource: {
               en: data['abstractSource.en'],
               de: data['abstractSource.de']
-            }
+            },
+            language: data.language
           };
           var cleanedRelatedPublicationObject = CleanJSObjectService
             .removeEmptyJsonObjects(relatedPublicationObj);

@@ -229,7 +229,15 @@ module.exports = function(grunt) {
             'Bad value “global.toolbarHeader.default” for attribute ' +
             '“translate” on element “span”.', 'Bad value ' +
             '“search-management.cards” for attribute “translate” ' +
-            'on element “span”.'
+            'on element “span”.',
+            'Bad value “{{ctrl.relatedPublication.language}}” for attribute ' +
+            '“lang” on element “h1”: Subtags must not exceed 8 characters in ' +
+            'length.',
+            'Bad value “{{ctrl.relatedPublication.language}}” for attribute ' +
+            '“lang” on element “span”: Subtags must not exceed 8 characters ' +
+            'in length.',
+            'Bad value “{{searchResult.language}}” for attribute “lang” on ' +
+            'element “div”: Subtags must not exceed 8 characters in length.'
           ],
           customattrs: [
             'show-validation',

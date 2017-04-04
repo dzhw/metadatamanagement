@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation;
+package eu.dzhw.fdz.metadatamanagement.common.domain.validation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -10,7 +10,7 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- * Annotation for the validation of the language of an instrumentAttachment.
+ * Annotation for the validation of a language codes according to ISO 639.
  */
 @Documented
 @Constraint(validatedBy = {ValidIsoLanguageValidator.class})
@@ -22,7 +22,7 @@ public @interface ValidIsoLanguage {
    * Defines the default error message.
    */
   public abstract String message() default "{eu.dzhw.fdz.metadatamanagement.domain.validation"
-  + "instrument-management.error.instrument-attachment-metadata.language.not-supported}";
+  + "common.error.language.not-supported}";
 
   /**
    * This contains groups.

@@ -20,6 +20,8 @@ public class RelatedPublicationSubDocument implements RelatedPublicationSubDocum
   
   private String authors;
   
+  private String language;
+  
   public RelatedPublicationSubDocument() {
     super();
   }
@@ -59,5 +61,13 @@ public class RelatedPublicationSubDocument implements RelatedPublicationSubDocum
 
   public void setAuthors(String authors) {
     this.authors = authors;
+  }
+
+  public String getLanguage() {
+    return language;
+  }
+
+  public void setLanguage(String language) {
+    this.language = language;
   }
 }
