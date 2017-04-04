@@ -157,13 +157,14 @@
                 <md-divider></md-divider>
             </li>
         </ul>
-        <div layout="column" layout-align="center center">
+        <div layout="column" layout-align="center center" flex>
             <a id="bmbf-link" class="bmbf_logo_{{currentLanguage}}" ng-href="{{currentLanguage==='de'?'https://www.bmbf.de/':'https://www.bmbf.de/en/index.html'}}" target="_blank">
               <md-tooltip md-autohide="true">
                   {{'global.logos.bmbf-tooltip'|translate}}
               </md-tooltip>
             </a>
-            <a id="dzhw-link" class="dzhw_logo" ng-href="{{currentLanguage==='de'?'https://www.dzhw.eu/':'http://www.dzhw.eu/en/index_html'}}" target="_blank">
+            <a id="dzhw-link" ng-href="{{currentLanguage==='de'?'https://www.dzhw.eu/':'http://www.dzhw.eu/en/index_html'}}" target="_blank">
+              <img src="./assets/images/DZHW_Logo_{{currentLanguage}}.svg" class="dzhw_logo"></img>
               <md-tooltip md-autohide="true">
                   {{'global.logos.dzhw-tooltip'|translate}}
               </md-tooltip>

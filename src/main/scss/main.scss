@@ -110,7 +110,20 @@ body {
 }
 
 .dzhw_logo {
-    background-image: url("../images/DZHW_Logo.svg");
+  width: 50%;
+  height: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* should be removed after review */
+.dzhw_logo_de {
+    background-image: url("../images/DZHW_Logo_de.svg");
+}
+
+.dzhw_logo_en {
+    background-image: url("../images/DZHW_Logo_en.svg");
 }
 
 .fdz_logo {
@@ -118,11 +131,11 @@ body {
 }
 
 .bmbf_logo_de {
-    background-image: url("../images/BMBF_Logo_L_de.png");
+    background-image: url("../images/BMBF_Logo_de.png");
 }
 
 .bmbf_logo_en {
-    background-image: url("../images/BMBF_Logo_L_en.png");
+    background-image: url("../images/BMBF_Logo_en.png");
 }
 
 .fdz_logo {
