@@ -10,7 +10,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
-import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation.ValidIsoLanguage;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidIsoLanguage;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
