@@ -4,7 +4,8 @@
 angular.module('metadatamanagementApp').service('DataSetReportService',
   function(Upload, FileResource, JobLoggingService, ZipWriterService) {
     var uploadTexTemplate = function(files, dataAcquisitionProjectId) {
-      ZipWriterService.createZipFileAsync(files).then(function(file) {
+
+      ZipWriterService.createZipFileAsync(files, true).then(function(file) {
         if (file !== null) {
           JobLoggingService.start('dataSetReport');
           Upload.upload({
