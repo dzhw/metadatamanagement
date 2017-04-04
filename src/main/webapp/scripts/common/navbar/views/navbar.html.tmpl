@@ -164,7 +164,8 @@
               </md-tooltip>
             </a>
             <a id="dzhw-link" ng-href="{{currentLanguage==='de'?'https://www.dzhw.eu/':'http://www.dzhw.eu/en/index_html'}}" target="_blank">
-              <img src="./assets/images/DZHW_Logo_{{currentLanguage}}.svg" class="dzhw_logo"></img>
+              <img ng-if="currentLanguage == 'de'" alt="" src="./assets/images/DZHW_Logo_de.svg" class="dzhw_logo"/>
+              <img ng-if="currentLanguage == 'en'" alt="" src="./assets/images/DZHW_Logo_en.svg" class="dzhw_logo"/>
               <md-tooltip md-autohide="true">
                   {{'global.logos.dzhw-tooltip'|translate}}
               </md-tooltip>
