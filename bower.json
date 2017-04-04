@@ -5,15 +5,15 @@
   "testPath": "src/test/javascript/spec",
   "dependencies": {
     "jquery": "^3.2.0",
-    "angular": "1.6.3",
-    "angular-aria": "1.6.3",
+    "angular": "1.6.4",
+    "angular-aria": "1.6.4",
     "angular-bootstrap": "2.5.0",
-    "angular-cookies": "1.6.3",
+    "angular-cookies": "1.6.4",
     "angular-dynamic-locale": "0.1.32",
-    "angular-i18n": "1.6.3",
+    "angular-i18n": "1.6.4",
     "angular-local-storage": "0.5.2",
-    "angular-resource": "1.6.3",
-    "angular-sanitize": "1.6.3",
+    "angular-resource": "1.6.4",
+    "angular-sanitize": "1.6.4",
     "angular-translate": "2.15.1",
     "angular-translate-interpolation-messageformat": "2.15.1",
     "angular-translate-storage-cookie": "2.15.1",
@@ -38,11 +38,11 @@
     "js-beautify": "^1.6.12",
     "ngclipboard": "^1.1.1",
     "angular-katex": "^0.10.0",
-    "angular-animate": "1.6.3",
-    "angular-messages": "1.6.3"
+    "angular-animate": "1.6.4",
+    "angular-messages": "1.6.4"
   },
   "devDependencies": {
-    "angular-mocks": "1.6.3",
-    "angular-scenario": "1.6.3"
+    "angular-mocks": "1.6.4",
+    "angular-scenario": "1.6.4"
   }
 }
