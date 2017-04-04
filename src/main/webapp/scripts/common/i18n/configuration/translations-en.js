@@ -226,7 +226,9 @@ angular.module('metadatamanagementApp').config(
         'logos': {
           'rdc': 'Research Data Center, German Center for Research on Higher Education and Science Studies',
           'bmbf-tooltip': 'Click to open the website of the federal ministry of education and research',
-          'dzhw-tooltip': 'Click to open the website of the German Centre for Research on Higher Education and Science Studies'
+          'bmbf-alt-text': 'Logo of the federal ministry of education and research',
+          'dzhw-tooltip': 'Click to open the website of the german center for research on higher education and science studies',
+          'dzhw-alt-text': 'Logo of german center for research on higher education and science studies'
         },
         'main': {
           'title': 'Welcome to the RDC of the DZHW. You are looking for ...'

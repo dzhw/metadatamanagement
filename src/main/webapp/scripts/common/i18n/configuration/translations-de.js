@@ -226,7 +226,9 @@ angular.module('metadatamanagementApp').config(
         'logos': {
           'fdz': 'Forschungsdatenzentrum, Deutsches Zentrum für Hochschul- und Wissenschaftsforschung',
           'bmbf-tooltip': 'Klicken, um die Internetseite des Bundesministeriums für Bildung und Forschung zu öffnen',
-          'dzhw-tooltip': 'Klicken, um die Internetseite des deutschen Zentrum für Hochschul- und Wissenschaftsforschung zu Öffnen'
+          'bmbf-alt-text': 'Das Logo des Bundesministeriums für Bildung und Forschung',
+          'dzhw-tooltip': 'Klicken, um die Internetseite des deutschen Zentrums für Hochschul- und Wissenschaftsforschung zu Öffnen',
+          'dzhw-alt-text': 'Das Logo des deutschen Zentrums für Hochschul- und Wissenschaftsforschung'
         },
         'main': {
           'title': 'Willkommen beim FDZ des DZHW. Sie suchen ...'
