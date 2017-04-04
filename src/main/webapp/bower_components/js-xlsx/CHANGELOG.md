@@ -7,6 +7,12 @@ changes may not be included if they are not expected to break existing code.
 
 ## Unreleased
 
+* default output format changed to XLSB
+* comment text line endings are now normalized
+* errors thrown on write when worksheets have invalid names
+
+## 0.9.7 (2017-03-28)
+
 * XLS legacy `!range` field removed
 * Hyperlink tooltip is stored in the `Tooltip` field
 
@@ -15,7 +21,7 @@ changes may not be included if they are not expected to break existing code.
 * `sheet_to_json` now passes `null` values when `raw` is set to `true`
 * `sheet_to_json` treats `null` stub cells as values in conjunction with `raw`
 
-## 0.9.5 (2017-03-22) 
+## 0.9.5 (2017-03-22)
 
 * `cellDates` affects parsing in non-XLSX formats
 

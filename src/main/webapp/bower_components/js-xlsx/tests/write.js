@@ -6,7 +6,9 @@ var data = [
 	[1,2,3],
 	[true, false, null, "sheetjs"],
 	["foo","bar",new Date("2014-02-19T14:30Z"), "0.3"],
-	["baz", null, "qux", 3.14159]
+	["baz", null, "qux", 3.14159],
+	["hidden"],
+	["visible"]
 ];
 
 var ws_name = "SheetJS";
@@ -18,6 +20,13 @@ var wscols = [
 	{wpx:125}
 ];
 
+var wsrows = [];
+wsrows[0] = {hpt: 12}; // "points"
+wsrows[1] = {hpx: 16}; // "pixels"
+wsrows[2] = {hpt: 18};
+wsrows[3] = {hpx: 24};
+wsrows[4] = {hidden:true}; // hide row
+wsrows[5] = {hidden:false};
 
 console.log("Sheet Name: " + ws_name);
 console.log("Data: "); for(var i=0; i!=data.length; ++i) console.log(data[i]);
@@ -50,20 +59,48 @@ ws['E1'] = {t:'n', f:"TRANSPOSE(A1:D1)", F:"E1:E4"};
 ws['E2'] = {t:'n', F:"E1:E4"};
 ws['E3'] = {t:'n', F:"E1:E4"};
 ws['E4'] = {t:'n', F:"E1:E4"};
-ws["!ref"] = "A1:E4";
+ws["!ref"] = "A1:E6";
 
-/* TEST: column widths */
+/* TEST: column props */
 ws['!cols'] = wscols;
+
+/* TEST: row props */
+ws['!rows'] = wsrows;
 
 /* TEST: hyperlink note: Excel does not automatically style hyperlinks */
 ws['A3'].l = { Target: "http://sheetjs.com", Tooltip: "Visit us <SheetJS.com!>" };
 
 /* TEST: built-in format */
-//ws['A1'].z = "0%"; wb.SSF[9] = "0%"; // Format Code 9
+ws['B1'].z = "0%"; // Format Code 9
 
 /* TEST: custom format */
 //ws['B2'].z = "0.0"; wb.SSF[60] = "0.0"; // Custom
-console.log("JSON Data: "); console.log(XLSX.utils.sheet_to_json(ws, {header:1}));
+
+console.log("JSON Data:");console.log(XLSX.utils.sheet_to_json(ws, {header:1}));
+
+/* TEST: hidden sheets */
+wb.SheetNames.push("Hidden");
+wb.Sheets["Hidden"] = XLSX.utils.aoa_to_sheet(["Hidden".split(""), [1,2,3]]);
+wb.Workbook = {Sheets:[]};
+wb.Workbook.Sheets[1] = {Hidden:1};
+
+/* TEST: properties */
+wb.Props = {
+	Title: "SheetJS Test",
+	Subject: "Tests",
+	Author: "Devs at SheetJS",
+	Manager: "Sheet Manager",
+	Company: "SheetJS",
+	Category: "Experimentation",
+	Keywords: "Test",
+	Comments: "Nothing to say here",
+	LastAuthor: "Not SheetJS",
+	CreatedDate: new Date(2017,1,19)
+}
+
+/* TEST: comments */
+ws['A4'].c = [];
+ws['A4'].c.push({a:"SheetJS",t:"I'm a little comment, short and stout!\n\nWell, Stout may be the wrong word"});
 
 console.log("Worksheet Model:")
 console.log(ws);
@@ -76,7 +113,10 @@ XLSX.writeFile(wb, 'sheetjs.xls', {bookType:'biff2'}); // no formula
 XLSX.writeFile(wb, 'sheetjs.xml.xls', {bookType:'xlml'});
 XLSX.writeFile(wb, 'sheetjs.ods');
 XLSX.writeFile(wb, 'sheetjs.fods');
+XLSX.writeFile(wb, 'sheetjs.slk');
 XLSX.writeFile(wb, 'sheetjs.csv');
+XLSX.writeFile(wb, 'sheetjs.txt');
+XLSX.writeFile(wb, 'sheetjs.prn');
 
 /* test by reading back files */
 XLSX.readFile('sheetjs.xlsx');
@@ -86,4 +126,7 @@ XLSX.readFile('sheetjs.xls');
 XLSX.readFile('sheetjs.xml.xls');
 XLSX.readFile('sheetjs.ods');
 XLSX.readFile('sheetjs.fods');
+XLSX.readFile('sheetjs.slk');
 //XLSX.readFile('sheetjs.csv');
+//XLSX.readFile('sheetjs.txt');
+XLSX.readFile('sheetjs.prn');

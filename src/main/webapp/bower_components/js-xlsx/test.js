@@ -12,7 +12,7 @@ if(process.env.WTF) {
 	opts.cellStyles = true;
 }
 var fullex = [".xlsb", ".xlsm", ".xlsx"/*, ".xlml"*/];
-var ofmt = ["xlsb", "xlsm", "xlsx", "ods", "biff2", "xlml"];
+var ofmt = ["xlsb", "xlsm", "xlsx", "ods", "biff2", "xlml", "sylk", "dif"];
 var ex = fullex.slice(); ex = ex.concat([".ods", ".xls", ".xml", ".fods"]);
 if(process.env.FMTS === "full") process.env.FMTS = ex.join(":");
 if(process.env.FMTS) ex=process.env.FMTS.split(":").map(function(x){return x[0]==="."?x:"."+x;});
@@ -44,6 +44,7 @@ var paths = {
 	cstxml: dir + 'comments_stress_test.xls.xml',
 	cstxlsx: dir + 'comments_stress_test.xlsx',
 	cstxlsb: dir + 'comments_stress_test.xlsb',
+	cstods: dir + 'comments_stress_test.ods',
 	fstxls: dir + 'formula_stress_test.xls',
 	fstxml: dir + 'formula_stress_test.xls.xml',
 	fstxlsx: dir + 'formula_stress_test.xlsx',
@@ -73,6 +74,11 @@ var paths = {
 	cwxml:  dir + 'column_width.xml',
 	cwxlsx:  dir + 'column_width.xlsx',
 	cwxlsb:  dir + 'column_width.xlsx',
+	svxls:  dir + 'sheet_visibility.xls',
+	svxls5: dir + 'sheet_visibility.xls',
+	svxml:  dir + 'sheet_visibility.xml',
+	svxlsx: dir + 'sheet_visibility.xlsx',
+	svxlsb: dir + 'sheet_visibility.xlsb',
 	swcxls: dir + 'apachepoi_SimpleWithComments.xls',
 	swcxml: dir + '2011/apachepoi_SimpleWithComments.xls.xml',
 	swcxlsx: dir + 'apachepoi_SimpleWithComments.xlsx',
@@ -215,6 +221,21 @@ describe('should parse test files', function() {
 		});
 	});
 });
+
+/* comments_stress_test family */
+function check_comments(wb) {
+	var ws0 = wb.Sheets.Sheet2;
+	assert.equal(ws0.A1.c[0].a, 'Author');
+	assert.equal(ws0.A1.c[0].t, 'Author:\nGod thinks this is good');
+	assert.equal(ws0.C1.c[0].a, 'Author');
+	assert.equal(ws0.C1.c[0].t, 'I really hope that xlsx decides not to use magic like rPr');
+
+	var ws3 = wb.Sheets.Sheet4;
+	assert.equal(ws3.B1.c[0].a, 'Author');
+	assert.equal(ws3.B1.c[0].t, 'The next comment is empty');
+	assert.equal(ws3.B2.c[0].a, 'Author');
+	assert.equal(ws3.B2.c[0].t, '');
+}
 
 describe('parse options', function() {
 	var html_cell_types = ['s'];
@@ -489,16 +510,6 @@ describe('input formats', function() {
 		X.read(fs.readFileSync(paths.cstxlsx));
 		X.read(fs.readFileSync(paths.cstxlsb));
 	});
-	it('should default to base64 type', function() {
-		assert.throws(function() { X.read(fs.readFileSync(paths.cstxls, 'binary')); });
-		assert.throws(function() { X.read(fs.readFileSync(paths.cstxml, 'binary')); });
-		assert.throws(function() { X.read(fs.readFileSync(paths.cstxlsx, 'binary')); });
-		assert.throws(function() { X.read(fs.readFileSync(paths.cstxlsb, 'binary')); });
-		X.read(fs.readFileSync(paths.cstxls, 'base64'));
-		X.read(fs.readFileSync(paths.cstxml, 'base64'));
-		X.read(fs.readFileSync(paths.cstxlsx, 'base64'));
-		X.read(fs.readFileSync(paths.cstxlsb, 'base64'));
-	});
 });
 
 describe('output formats', function() {
@@ -616,22 +627,70 @@ function hlink(wb) {
 
 
 describe('parse features', function() {
-	if(fs.existsSync(paths.swcxlsx)) it('should have comment as part of cell properties', function(){
-		var X = require(modp);
-		var sheet = 'Sheet1';
-		var wb1=X.readFile(paths.swcxlsx);
-		var wb2=X.readFile(paths.swcxlsb);
-		var wb3=X.readFile(paths.swcxls);
-		var wb4=X.readFile(paths.swcxml);
-
-		[wb1,wb2,wb3,wb4].map(function(wb) { return wb.Sheets[sheet]; }).forEach(function(ws, i) {
-			assert.equal(ws.B1.c.length, 1,"must have 1 comment");
-			assert.equal(ws.B1.c[0].a, "Yegor Kozlov","must have the same author");
-			assert.equal(ws.B1.c[0].t.replace(/\r\n/g,"\n").replace(/\r/g,"\n"), "Yegor Kozlov:\nfirst cell", "must have the concatenated texts");
-			if(i > 0) return;
-			assert.equal(ws.B1.c[0].r, '<r><rPr><b/><sz val="8"/><color indexed="81"/><rFont val="Tahoma"/></rPr><t>Yegor Kozlov:</t></r><r><rPr><sz val="8"/><color indexed="81"/><rFont val="Tahoma"/></rPr><t xml:space="preserve">\r\nfirst cell</t></r>', "must have the rich text representation");
-			assert.equal(ws.B1.c[0].h, '<span style="font-weight: bold;">Yegor Kozlov:</span><span style=""><br/>first cell</span>', "must have the html representation");
+	describe('sheet visibility', function() {
+		var wb1, wb2, wb3, wb4, wb5;
+		var bef = (function() {
+			wb1 = X.readFile(paths.svxls);
+			wb2 = X.readFile(paths.svxls5);
+			wb3 = X.readFile(paths.svxml);
+			wb4 = X.readFile(paths.svxlsx);
+			wb5 = X.readFile(paths.svxlsb);
 		});
+		if(typeof before != 'undefined') before(bef);
+		else it('before', bef);
+
+		it('should detect visible sheets', function() {
+			[wb1, wb2, wb3, wb4, wb5].forEach(function(wb) {
+				assert(!wb.Workbook.Sheets[0].Hidden);
+			});
+		});
+		it('should detect all hidden sheets', function() {
+			[wb1, wb2, wb3, wb4, wb5].forEach(function(wb) {
+				assert(wb.Workbook.Sheets[1].Hidden);
+				assert(wb.Workbook.Sheets[2].Hidden);
+			});
+		});
+		it('should distinguish very hidden sheets', function() {
+			[wb1, wb2, wb3, wb4, wb5].forEach(function(wb) {
+				assert.equal(wb.Workbook.Sheets[1].Hidden,1);
+				assert.equal(wb.Workbook.Sheets[2].Hidden,2);
+			});
+		});
+	});
+
+	describe('comments', function() {
+		if(fs.existsSync(paths.swcxlsx)) it('should have comment as part of cell properties', function(){
+			var X = require(modp);
+			var sheet = 'Sheet1';
+			var wb1=X.readFile(paths.swcxlsx);
+			var wb2=X.readFile(paths.swcxlsb);
+			var wb3=X.readFile(paths.swcxls);
+			var wb4=X.readFile(paths.swcxml);
+
+			[wb1,wb2,wb3,wb4].map(function(wb) { return wb.Sheets[sheet]; }).forEach(function(ws, i) {
+				assert.equal(ws.B1.c.length, 1,"must have 1 comment");
+				assert.equal(ws.B1.c[0].a, "Yegor Kozlov","must have the same author");
+				assert.equal(ws.B1.c[0].t, "Yegor Kozlov:\nfirst cell", "must have the concatenated texts");
+				if(i > 0) return;
+				assert.equal(ws.B1.c[0].r, '<r><rPr><b/><sz val="8"/><color indexed="81"/><rFont val="Tahoma"/></rPr><t>Yegor Kozlov:</t></r><r><rPr><sz val="8"/><color indexed="81"/><rFont val="Tahoma"/></rPr><t xml:space="preserve">\r\nfirst cell</t></r>', "must have the rich text representation");
+				assert.equal(ws.B1.c[0].h, '<span style="font-weight: bold;">Yegor Kozlov:</span><span style=""><br/>first cell</span>', "must have the html representation");
+			});
+		});
+		[
+			['xlsx', paths.cstxlsx],
+			['xlsb', paths.cstxlsb],
+			['xls', paths.cstxls],
+			['xlml', paths.cstxml],
+			['ods', paths.cstods]
+		].forEach(function(m) { it(m[0] + ' stress test', function() {
+			var wb = X.readFile(m[1]);
+			check_comments(wb);
+			var ws0 = wb.Sheets.Sheet2;
+			assert.equal(ws0.A1.c[0].a, 'Author');
+			assert.equal(ws0.A1.c[0].t, 'Author:\nGod thinks this is good');
+			assert.equal(ws0.C1.c[0].a, 'Author');
+			assert.equal(ws0.C1.c[0].t, 'I really hope that xlsx decides not to use magic like rPr');
+		}); });
 	});
 
 	describe('should parse core properties and custom properties', function() {
@@ -913,26 +972,31 @@ describe('roundtrip features', function() {
 	var bef = (function() { X = require(modp); });
 	if(typeof before != 'undefined') before(bef);
 	else it('before', bef);
-	describe('should parse core properties and custom properties', function() {
-		var wb1, wb2, base = './tmp/cp';
-		var bef = (function() {
-			wb1 = X.readFile(paths.cpxlsx);
-			wb2 = X.readFile(paths.cpxlsb);
-			fullex.forEach(function(p) {
-				X.writeFile(wb1, base + '.xlsm' + p);
-				X.writeFile(wb2, base + '.xlsb' + p);
-			});
+	describe('should preserve core properties', function() { [
+		['xlml', paths.cpxml],
+		['xlsx', paths.cpxlsx],
+		['xlsb', paths.cpxlsb]
+	].forEach(function(w) {
+		it(w[0], function() {
+				var wb1 = X.readFile(w[1]);
+				var wb2 = X.read(X.write(wb1, {bookType:w[0], type:"buffer"}), {type:"buffer"});
+				coreprop(wb1);
+				coreprop(wb2);
 		});
-		if(typeof before != 'undefined') before(bef);
-		else it('before', bef);
-		fullex.forEach(function(p) { ['.xlsm','.xlsb'].forEach(function(q) {
-			it(q + p + ' should roundtrip core and custom properties', function() {
-				var wb = X.readFile(base + q + p);
-				coreprop(wb);
-				custprop(wb);
-			}); });
+	}); });
+
+	describe('should preserve custom properties', function() { [
+		['xlml', paths.cpxml],
+		['xlsx', paths.cpxlsx],
+		['xlsb', paths.cpxlsb]
+	].forEach(function(w) {
+		it(w[0], function() {
+				var wb1 = X.readFile(w[1]);
+				var wb2 = X.read(X.write(wb1, {bookType:w[0], type:"buffer"}), {type:"buffer"});
+				custprop(wb1);
+				custprop(wb2);
 		});
-	});
+	}); });
 
 	describe('should preserve features', function() {
 		it('merge cells', function() {
@@ -989,14 +1053,49 @@ describe('roundtrip features', function() {
 
 	describe('should preserve hyperlink', function() { [
 			['xlml', paths.hlxml],
-			//['xlsx', paths.hlxlsx], // TODO
-			//['xlsb', paths.hlxlsb] // TODO
+			['xlsx', paths.hlxlsx],
+			['xlsb', paths.hlxlsb]
 		].forEach(function(w) {
 			it(w[0], function() {
 				var wb1 = X.readFile(w[1]);
 				var wb2 = X.read(X.write(wb1, {bookType:w[0], type:"buffer"}), {type:"buffer"});
 				hlink(wb1);
 				hlink(wb2);
+			});
+		});
+	});
+
+	describe('should preserve sheet visibility', function() { [
+			['xlml', paths.svxml],
+			['xlsx', paths.svxlsx],
+			['xlsb', paths.svxlsb]
+		].forEach(function(w) {
+			it(w[0], function() {
+				var wb1 = X.readFile(w[1]);
+				var wb2 = X.read(X.write(wb1, {bookType:w[0], type:"buffer"}), {type:"buffer"});
+				var wbs1 = wb1.Workbook.Sheets;
+				var wbs2 = wb2.Workbook.Sheets;
+				assert.equal(wbs1.length, wbs2.length);
+				for(var i = 0; i < wbs1.length; ++i) {
+					assert.equal(wbs1[i].name, wbs2[i].name);
+					assert.equal(wbs1[i].Hidden, wbs2[i].Hidden);
+				}
+			});
+		});
+	});
+
+	describe('should preserve cell comments', function() { [
+			['xlsx', paths.cstxlsx],
+			['xlsb', paths.cstxlsb],
+			//['xls', paths.cstxlsx],
+			['xlml', paths.cstxml]
+			//['ods', paths.cstods]
+	].forEach(function(w) {
+			it(w[0], function() {
+				var wb1 = X.readFile(w[1]);
+				var wb2 = X.read(X.write(wb1, {bookType:w[0], type:"buffer"}), {type:"buffer"});
+				check_comments(wb1);
+				check_comments(wb2);
 			});
 		});
 	});

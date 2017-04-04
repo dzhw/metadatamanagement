@@ -38,6 +38,33 @@ var ws = XLSX.utils.aoa_to_sheet([
 ]);
 ```
 
+### HTML Table Input
+
+`XLSX.utils.table_to_sheet` takes a table DOM element and returns a worksheet
+resembling the input table.  Numbers are parsed.  All other data will be stored
+as strings.
+
+`XLSX.utils.table_to_book` produces a minimal workbook based on the worksheet.
+
+To generate the example sheet, start with the HTML table:
+
+```html
+<table id="sheetjs">
+<tr><td>S</td><td>h</td><td>e</td><td>e</td><td>t</td><td>J</td><td>S</td></tr>
+<tr><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>
+<tr><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td></tr>
+</table>
+```
+
+To process the table:
+
+```js
+var tbl = document.getElementById('sheetjs');
+var wb = XLSX.utils.table_to_book(tbl);
+```
+
+Note: `XLSX.read` can handle HTML represented as strings.
+
 ### Formulae Output
 
 `XLSX.utils.sheet_to_formulae` generates an array of commands that represent
@@ -51,7 +78,7 @@ accordance with Excel.  For the example sheet:
 [ 'A1=\'S', 'F1=\'J', 'D2=4', 'B3=3', 'G3=8' ]
 ```
 
-### CSV and general DSV Output
+### Delimiter-Separated Output
 
 As an alternative to the `writeFile` CSV type, `XLSX.utils.sheet_to_csv` also
 produces CSV output.  The function takes an options argument:
@@ -81,6 +108,12 @@ S	h	e	e	t	J	S
 > console.log(X.utils.sheet_to_csv(_ws,{FS:":",RS:"|"}));
 S:h:e:e:t:J:S|1:2:3:4:5:6:7|2:3:4:5:6:7:8|
 ```
+
+#### UTF-16 Unicode Text
+
+The `txt` output type uses the tab character as the field separator.  If the
+codepage library is available (included in the full distribution but not core),
+the output will be encoded in codepage `1200` and the BOM will be prepended.
 
 ### JSON
 

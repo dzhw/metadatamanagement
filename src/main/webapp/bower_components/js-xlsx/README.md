@@ -15,6 +15,7 @@ with a unified JS representation, and ES3/ES5 browser compatibility back to IE6.
 
 ![circo graph of format support](formats.png)
 
+![graph legend](legend.png)
 
 
 ## Table of Contents
@@ -32,17 +33,22 @@ with a unified JS representation, and ES3/ES5 browser compatibility back to IE6.
   * [Parsing functions](#parsing-functions)
   * [Writing functions](#writing-functions)
   * [Utilities](#utilities)
-- [Workbook / Worksheet / Cell Object Description](#workbook--worksheet--cell-object-description)
+- [Common Spreadsheet Format](#common-spreadsheet-format)
   * [General Structures](#general-structures)
   * [Cell Object](#cell-object)
     + [Data Types](#data-types)
     + [Dates](#dates)
-  * [Worksheet Object](#worksheet-object)
-  * [Chartsheet Object](#chartsheet-object)
+  * [Sheet Objects](#sheet-objects)
+    + [Worksheet Object](#worksheet-object)
+    + [Chartsheet Object](#chartsheet-object)
   * [Workbook Object](#workbook-object)
+    + [Workbook File Properties](#workbook-file-properties)
   * [Document Features](#document-features)
     + [Formulae](#formulae)
     + [Column Properties](#column-properties)
+    + [Hyperlinks](#hyperlinks)
+    + [Cell Comments](#cell-comments)
+    + [Sheet Visibility](#sheet-visibility)
 - [Parsing Options](#parsing-options)
   * [Input Type](#input-type)
   * [Guessing File Type](#guessing-file-type)
@@ -51,8 +57,10 @@ with a unified JS representation, and ES3/ES5 browser compatibility back to IE6.
   * [Output Type](#output-type)
 - [Utility Functions](#utility-functions)
   * [Array of Arrays Input](#array-of-arrays-input)
+  * [HTML Table Input](#html-table-input)
   * [Formulae Output](#formulae-output)
-  * [CSV and general DSV Output](#csv-and-general-dsv-output)
+  * [Delimiter-Separated Output](#delimiter-separated-output)
+    + [UTF-16 Unicode Text](#utf-16-unicode-text)
   * [JSON](#json)
 - [File Formats](#file-formats)
   * [Excel 2007+ XML (XLSX/XLSM)](#excel-2007-xml-xlsxxlsm)
@@ -60,10 +68,15 @@ with a unified JS representation, and ES3/ES5 browser compatibility back to IE6.
   * [Excel 97-2004 Binary (BIFF8)](#excel-97-2004-binary-biff8)
   * [Excel 2003-2004 (SpreadsheetML)](#excel-2003-2004-spreadsheetml)
   * [Excel 2007+ Binary (XLSB, BIFF12)](#excel-2007-binary-xlsb-biff12)
-  * [OpenDocument Spreadsheet (ODS/FODS) and Uniform Office Spreadsheet (UOS1/2)](#opendocument-spreadsheet-odsfods-and-uniform-office-spreadsheet-uos12)
-  * [dBASE and Visual FoxPro (DBF)](#dbase-and-visual-foxpro-dbf)
-  * [Comma-Separated Values](#comma-separated-values)
-  * [HTML](#html)
+  * [OpenDocument Spreadsheet (ODS/FODS)](#opendocument-spreadsheet-odsfods)
+    + [Uniform Office Spreadsheet (UOS1/2)](#uniform-office-spreadsheet-uos12)
+  * [Delimiter-Separated Values (CSV/TXT)](#delimiter-separated-values-csvtxt)
+  * [Other Single-Worksheet Formats](#other-single-worksheet-formats)
+    + [dBASE and Visual FoxPro (DBF)](#dbase-and-visual-foxpro-dbf)
+    + [Symbolic Link (SYLK)](#symbolic-link-sylk)
+    + [Lotus Formatted Text (PRN)](#lotus-formatted-text-prn)
+    + [Data Interchange Format (DIF)](#data-interchange-format-dif)
+    + [HTML](#html)
 - [Testing](#testing)
   * [Tested Environments](#tested-environments)
   * [Test Files](#test-files)
@@ -158,6 +171,13 @@ data and feeding it into the library.  Here are a few common scenarios:
 ```js
 if(typeof require !== 'undefined') XLSX = require('xlsx');
 var workbook = XLSX.readFile('test.xlsx');
+/* DO SOMETHING WITH workbook HERE */
+```
+
+- Browser DOM Table element:
+
+```js
+var worksheet = XLSX.utils.table_to_book(document.getElementById('tableau'));
 /* DO SOMETHING WITH workbook HERE */
 ```
 
@@ -413,7 +433,7 @@ Exporters are described in the [Utility Functions](#utility-functions) section.
 - `{en,de}code_cell` converts cell addresses
 - `{en,de}code_range` converts cell ranges
 
-## Workbook / Worksheet / Cell Object Description
+## Common Spreadsheet Format
 
 js-xlsx conforms to the Common Spreadsheet Format (CSF):
 
@@ -449,7 +469,7 @@ for(var R = range.s.r; R <= range.e.r; ++R) {
 | `h` | HTML rendering of the rich text (if applicable)                        |
 | `c` | comments associated with the cell                                      |
 | `z` | number format string associated with the cell (if requested)           |
-| `l` | cell hyperlink object (.Target holds link, .tooltip is tooltip)        |
+| `l` | cell hyperlink object (.Target holds link, .Tooltip is tooltip)        |
 | `s` | the style/theme of the cell (if applicable)                            |
 
 Built-in export utilities (such as the CSV exporter) will use the `w` text if it
@@ -512,21 +532,20 @@ string.  The formatter converts the date back to a number.
 The default behavior for all parsers is to generate number cells.  Setting
 `cellDates` to true will force the generators to store dates.
 
-### Worksheet Object
+### Sheet Objects
 
 Each key that does not start with `!` maps to a cell (using `A-1` notation)
 
-`worksheet[address]` returns the cell object for the specified address.
+`sheet[address]` returns the cell object for the specified address.
 
-Special worksheet keys (accessible as `worksheet[key]`, each starting with `!`):
+Special sheet keys (accessible as `sheet[key]`, each starting with `!`):
 
-- `ws['!ref']`: A-1 based range representing the worksheet range. Functions that
+- `sheet['!ref']`: A-1 based range representing the sheet range. Functions that
   work with sheets should use this parameter to determine the range.  Cells that
   are assigned outside of the range are not processed.  In particular, when
-  writing a worksheet by hand, be sure to update the range.  For a longer
-  discussion, see <http://git.io/KIaNKQ>
+  writing a sheet by hand, cells outside of the range are not included
 
-  Functions that handle worksheets should test for the presence of `!ref` field.
+  Functions that handle sheets should test for the presence of `!ref` field.
   If the `!ref` is omitted or is not a valid range, functions are free to treat
   the sheet as empty or attempt to guess the range.  The standard utilities that
   ship with this library treat sheets as empty (for example, the CSV output is
@@ -534,6 +553,10 @@ Special worksheet keys (accessible as `worksheet[key]`, each starting with `!`):
 
   When reading a worksheet with the `sheetRows` property set, the ref parameter
   will use the restricted range.  The original range is set at `ws['!fullref']`
+
+#### Worksheet Object
+
+In addition to the base sheet keys, worksheets also add:
 
 - `ws['!cols']`: array of column properties objects.  Column widths are actually
   stored in files in a normalized manner, measured in terms of the "Maximum
@@ -546,12 +569,13 @@ Special worksheet keys (accessible as `worksheet[key]`, each starting with `!`):
   will write all cells in the merge range if they exist, so be sure that only
   the first cell (upper-left) in the range is set.
 
-### Chartsheet Object
+#### Chartsheet Object
 
-Chartsheets are represented as standard worksheets.  They are distinguished with
-the `!type` property set to `"chart"`.
+Chartsheets are represented as standard sheets.  They are distinguished with the
+`!type` property set to `"chart"`.
 
-The underlying data and `!ref` refer to the cached data in the chartsheet.
+The underlying data and `!ref` refer to the cached data in the chartsheet.  The
+first row of the chartsheet is the underlying header.
 
 ### Workbook Object
 
@@ -561,7 +585,7 @@ The underlying data and `!ref` refer to the cached data in the chartsheet.
 
 `wb.Props` is an object storing the standard properties.  `wb.Custprops` stores
 custom properties.  Since the XLS standard properties deviate from the XLSX
-standard, XLS parsing stores core properties in both places.  .
+standard, XLS parsing stores core properties in both places.
 
 `wb.WBProps` includes more workbook-level properties:
 
@@ -569,6 +593,38 @@ standard, XLS parsing stores core properties in both places.  .
   [1900 vs. 1904 Date System](http://support2.microsoft.com/kb/180162).
   The workbook's epoch can be determined by examining the workbook's
   `wb.WBProps.date1904` property.
+
+#### Workbook File Properties
+
+The various file formats use different internal names for file properties.  The
+workbook `Props` object normalizes the names:
+
+| JS Name     | Excel Description              |
+|:------------|:-------------------------------|
+| Title       | Summary tab "Title"            |
+| Subject     | Summary tab "Subject"          |
+| Author      | Summary tab "Author"           |
+| Manager     | Summary tab "Manager"          |
+| Company     | Summary tab "Company"          |
+| Category    | Summary tab "Category"         |
+| Keywords    | Summary tab "Keywords"         |
+| Comments    | Summary tab "Comments"         |
+| LastAuthor  | Statistics tab "Last saved by" |
+| CreatedDate | Statistics tab "Created"       |
+
+For example, to set the workbook title property:
+
+```js
+if(!wb.Props) wb.Props = {};
+wb.Props.Title = "Insert Title Here";
+```
+
+Custom properties are added in the workbook `Custprops` object:
+
+```js
+if(!wb.Custprops) wb.Custprops = {};
+wb.Custprops["Custom Property"] = "Custom Value";
+```
 
 ### Document Features
 
@@ -688,6 +744,71 @@ follow the priority order:
 2) use `wpx` pixel width if available
 3) use `wch` character count if available
 
+#### Hyperlinks
+
+Hyperlinks are stored in the `l` key of cell objects.  The `Target` field of the
+hyperlink object is the target of the link, including the URI fragment. Tooltips
+are stored in the `Tooltip` field and are displayed when you move your mouse
+over the text.
+
+For example, the following snippet creates a link from cell `A3` to
+<http://sheetjs.com> with the tip `"Find us @ SheetJS.com!"`:
+
+```js
+ws['A3'].l = { Target:"http://sheetjs.com", Tooltip:"Find us @ SheetJS.com!" };
+```
+
+Note that Excel does not automatically style hyperlinks -- they will generally
+be displayed as normal text.
+
+#### Cell Comments
+
+Cell comments are objects stored in the `c` array of cell objects.  The actual
+contents of the comment are split into blocks based on the comment author.  The
+`a` field of each comment object is the author of the comment and the `t` field
+is the plaintext representation.
+
+For example, the following snippet appends a cell comment into cell `A1`:
+
+```js
+if(!ws.A1.c) ws.A1.c = [];
+ws.A1.c.push({a:"SheetJS", t:"I'm a little comment, short and stout!"});
+```
+
+Note: XLSB enforces a 54 character limit on the Author name.  Names longer than
+54 characters may cause issues with other formats.
+
+#### Sheet Visibility
+
+Excel enables hiding sheets in the lower tab bar.  The sheet data is stored in
+the file but the UI does not readily make it available.  Standard hidden sheets
+are revealed in the unhide menu.  Excel also has "very hidden" sheets which
+cannot be revealed in the menu.  It is only accessible in the VB Editor!
+
+The visibility setting is stored in the `Hidden` property of the sheet props
+array.  The values are:
+
+| Value | Definition  |
+|:-----:|:------------|
+|   0   | Visible     |
+|   1   | Hidden      |
+|   2   | Very Hidden |
+
+With <https://rawgit.com/SheetJS/test_files/master/sheet_visibility.xlsx>:
+
+```js
+> wb.Workbook.Sheets.map(function(x) { return [x.name, x.Hidden] })
+[ [ 'Visible', 0 ], [ 'Hidden', 1 ], [ 'VeryHidden', 2 ] ]
+```
+
+Non-Excel formats do not support the Very Hidden state.  The best way to test
+if a sheet is visible is to check if the `Hidden` property is logical truth:
+
+```js
+> wb.Workbook.Sheets.map(function(x) { return [x.name, !x.Hidden] })
+[ [ 'Visible', true ], [ 'Hidden', false ], [ 'VeryHidden', false ] ]
+```
+
 ## Parsing Options
 
 The exported `read` and `readFile` functions accept an options argument:
@@ -755,10 +876,22 @@ file but Excel will know how to handle it.  This library applies similar logic:
 | `0x09` | BIFF Stream   | BIFF 2/3/4/5                                        |
 | `0x3C` | XML/HTML      | SpreadsheetML / Flat ODS / UOS1 / HTML / plaintext  |
 | `0x50` | ZIP Archive   | XLSB or XLSX/M or ODS or UOS2 or plaintext          |
-| `0xFE` | UTF8 Text     | SpreadsheetML or Flat ODS or UOS1 or plaintext      |
+| `0x49` | Plain Text    | SYLK or plaintext                                   |
+| `0x54` | Plain Text    | DIF or plaintext                                    |
+| `0xFE` | UTF16 Encoded | SpreadsheetML or Flat ODS or UOS1 or plaintext      |
 
 DBF files are detected based on the first byte as well as the third and fourth
 bytes (corresponding to month and day of the file date)
+
+Plaintext format guessing follows the priority order:
+
+| Format | Test                                                                |
+|:-------|:--------------------------------------------------------------------|
+| XML    | starts with <                                                       |
+| DSV    | starts with `/sep=.$/`, separator is the specified character        |
+| TSV    | one of the first 1024 characters is a tab char `"\t"`               |
+| CSV    | one of the first 1024 characters is a comma char `","`              |
+| PRN    | (default)                                                           |
 
 ## Writing Options
 
@@ -791,14 +924,22 @@ output formats.  The specific file type is controlled with `bookType` option:
 | `xlsx`   | `.xlsx`  |    ZIP    | multi  | Excel 2007+ XML Format            |
 | `xlsm`   | `.xlsm`  |    ZIP    | multi  | Excel 2007+ Macro XML Format      |
 | `xlsb`   | `.xlsb`  |    ZIP    | multi  | Excel 2007+ Binary Format         |
-| `ods`    | `.ods`   |    ZIP    | multi  | OpenDocument Spreadsheet          |
 | `biff2`  | `.xls`   |   none    | single | Excel 2.0 Worksheet format        |
+| `xlml`   | `.xls`   |   none    | multi  | Excel 2003-2004 (SpreadsheetML)   |
+| `ods`    | `.ods`   |    ZIP    | multi  | OpenDocument Spreadsheet          |
 | `fods`   | `.fods`  |   none    | multi  | Flat OpenDocument Spreadsheet     |
 | `csv`    | `.csv`   |   none    | single | Comma Separated Values            |
+| `txt`    | `.txt`   |   none    | single | UTF-16 Unicode Text (TXT)         |
+| `sylk`   | `.sylk`  |   none    | single | Symbolic Link (SYLK)              |
+| `dif`    | `.dif`   |   none    | single | Data Interchange Format (DIF)     |
+| `prn`    | `.prn`   |   none    | single | Lotus Formatted Text              |
 
 - `compression` only applies to formats with ZIP containers.
 - Formats that only support a single sheet require a `sheet` option specifying
   the worksheet.  If the string is empty, the first worksheet is used.
+- `writeFile` will automatically guess the output file format based on the file
+  extension if `bookType` is not specified.  It will choose the first format in
+  the aforementioned table that matches the extension.
 
 ### Output Type
 
@@ -852,6 +993,33 @@ var ws = XLSX.utils.aoa_to_sheet([
 ]);
 ```
 
+### HTML Table Input
+
+`XLSX.utils.table_to_sheet` takes a table DOM element and returns a worksheet
+resembling the input table.  Numbers are parsed.  All other data will be stored
+as strings.
+
+`XLSX.utils.table_to_book` produces a minimal workbook based on the worksheet.
+
+To generate the example sheet, start with the HTML table:
+
+```html
+<table id="sheetjs">
+<tr><td>S</td><td>h</td><td>e</td><td>e</td><td>t</td><td>J</td><td>S</td></tr>
+<tr><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>
+<tr><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td></tr>
+</table>
+```
+
+To process the table:
+
+```js
+var tbl = document.getElementById('sheetjs');
+var wb = XLSX.utils.table_to_book(tbl);
+```
+
+Note: `XLSX.read` can handle HTML represented as strings.
+
 ### Formulae Output
 
 `XLSX.utils.sheet_to_formulae` generates an array of commands that represent
@@ -865,7 +1033,7 @@ accordance with Excel.  For the example sheet:
 [ 'A1=\'S', 'F1=\'J', 'D2=4', 'B3=3', 'G3=8' ]
 ```
 
-### CSV and general DSV Output
+### Delimiter-Separated Output
 
 As an alternative to the `writeFile` CSV type, `XLSX.utils.sheet_to_csv` also
 produces CSV output.  The function takes an options argument:
@@ -895,6 +1063,12 @@ S	h	e	e	t	J	S
 > console.log(X.utils.sheet_to_csv(_ws,{FS:":",RS:"|"}));
 S:h:e:e:t:J:S|1:2:3:4:5:6:7|2:3:4:5:6:7:8|
 ```
+
+#### UTF-16 Unicode Text
+
+The `txt` output type uses the tab character as the field separator.  If the
+codepage library is available (included in the full distribution but not core),
+the output will be encoded in codepage `1200` and the BOM will be prepended.
 
 ### JSON
 
@@ -997,7 +1171,11 @@ Despite the library name `xlsx`, it supports numerous spreadsheet file formats:
 | Excel 3.0 (XLS BIFF3)                                        |  :o:  |       |
 | Excel 2.0/2.1 (XLS BIFF2)                                    |  :o:  |  :o:  |
 | **Excel Supported Text Formats**                             |:-----:|:-----:|
-| Delimiter-Separated Values (CSV/TSV/DSV)                     |       |  :o:  |
+| Delimiter-Separated Values (CSV/TXT)                         |  :o:  |  :o:  |
+| Data Interchange Format (DIF)                                |  :o:  |  :o:  |
+| Symbolic Link (SYLK/SLK)                                     |  :o:  |  :o:  |
+| Lotus Formatted Text (PRN)                                   |  :o:  |  :o:  |
+| UTF-16 Unicode Text (TXT)                                    |  :o:  |  :o:  |
 | **Other Workbook/Worksheet Formats**                         |:-----:|:-----:|
 | OpenDocument Spreadsheet (ODS)                               |  :o:  |  :o:  |
 | Flat XML ODF Spreadsheet (FODS)                              |  :o:  |  :o:  |
@@ -1053,17 +1231,31 @@ in an XLSX sub-file can be mapped to XLSB records in a corresponding sub-file.
 The `MS-XLSB` specification covers the basics of the file format, and other
 specifications expand on serialization of features like properties.
 
-### OpenDocument Spreadsheet (ODS/FODS) and Uniform Office Spreadsheet (UOS1/2)
+### OpenDocument Spreadsheet (ODS/FODS)
 
 ODS is an XML-in-ZIP format akin to XLSX while FODS is an XML format akin to
 SpreadsheetML.  Both are detailed in the OASIS standard, but tools like LO/OO
 add undocumented extensions.
 
+#### Uniform Office Spreadsheet (UOS1/2)
+
 UOS is a very similar format, and it comes in 2 varieties corresponding to ODS
 and FODS respectively.  For the most part, the difference between the formats
 lies in the names of tags and attributes.
 
-### dBASE and Visual FoxPro (DBF)
+### Delimiter-Separated Values (CSV/TXT)
+
+Excel CSV deviates from RFC4180 in a number of important ways.  The generated
+CSV files should generally work in Excel although they may not work in RFC4180
+compatible readers.  The parser should generally understand Excel CSV.
+
+Excel TXT uses tab as the delimiter and codepage 1200.
+
+### Other Single-Worksheet Formats
+
+Many older formats supported only one worksheet:
+
+#### dBASE and Visual FoxPro (DBF)
 
 DBF is really a typed table format: each column can only hold one data type and
 each record omits type information.  The parser generates a header row and
@@ -1072,13 +1264,24 @@ inserts records starting at the second row of the worksheet.
 Multi-file extensions like external memos and tables are currently unsupported,
 limited by the general ability to read arbitrary files in the web browser.
 
-### Comma-Separated Values
+#### Symbolic Link (SYLK)
 
-Excel CSV deviates from RFC4180 in a number of important ways.  The generated
-CSV files should generally work in Excel although they may not work in RFC4180
-compatible readers.
+There is no real documentation.  All knowledge was gathered by saving files in
+various versions of Excel to deduce the meaning of fields.
 
-### HTML
+#### Lotus Formatted Text (PRN)
+
+There is no real documentation, and in fact Excel treats PRN as an output-only
+file format.  Nevertheless we can guess the column widths and reverse-engineer
+the original layout.
+
+#### Data Interchange Format (DIF)
+
+There is no unified definition.  Visicalc DIF differs from Lotus DIF, and both
+differ from Excel DIF.  Where ambiguous, the parser/writer follows the expected
+behavior from Excel.
+
+#### HTML
 
 Excel HTML worksheets include special metadata encoded in styles.  For example,
 `mso-number-format` is a localized string containing the number format.  Despite

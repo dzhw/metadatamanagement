@@ -34,6 +34,7 @@ var paths = {
 	cstxml: dir + 'comments_stress_test.xls.xml',
 	cstxlsx: dir + 'comments_stress_test.xlsx',
 	cstxlsb: dir + 'comments_stress_test.xlsb',
+	cstods: dir + 'comments_stress_test.ods',
 	fstxls: dir + 'formula_stress_test.xls',
 	fstxml: dir + 'formula_stress_test.xls.xml',
 	fstxlsx: dir + 'formula_stress_test.xlsx',
@@ -63,6 +64,11 @@ var paths = {
 	cwxml:  dir + 'column_width.xml',
 	cwxlsx:  dir + 'column_width.xlsx',
 	cwxlsb:  dir + 'column_width.xlsx',
+	svxls:  dir + 'sheet_visibility.xls',
+	svxls5: dir + 'sheet_visibility.xls',
+	svxml:  dir + 'sheet_visibility.xml',
+	svxlsx: dir + 'sheet_visibility.xlsx',
+	svxlsb: dir + 'sheet_visibility.xlsb',
 	swcxls: dir + 'apachepoi_SimpleWithComments.xls',
 	swcxml: dir + '2011/apachepoi_SimpleWithComments.xls.xml',
 	swcxlsx: dir + 'apachepoi_SimpleWithComments.xlsx',
@@ -73,6 +79,21 @@ var N1 = 'XLSX';
 var N2 = 'XLSB';
 var N3 = 'XLS';
 var N4 = 'XML';
+
+/* comments_stress_test family */
+function check_comments(wb) {
+	var ws0 = wb.Sheets.Sheet2;
+	assert.equal(ws0.A1.c[0].a, 'Author');
+	assert.equal(ws0.A1.c[0].t, 'Author:\nGod thinks this is good');
+	assert.equal(ws0.C1.c[0].a, 'Author');
+	assert.equal(ws0.C1.c[0].t, 'I really hope that xlsx decides not to use magic like rPr');
+
+	var ws3 = wb.Sheets.Sheet4;
+	assert.equal(ws3.B1.c[0].a, 'Author');
+	assert.equal(ws3.B1.c[0].t, 'The next comment is empty');
+	assert.equal(ws3.B2.c[0].a, 'Author');
+	assert.equal(ws3.B2.c[0].t, '');
+}
 
 describe('parse options', function() {
 	var html_cell_types = ['s'];
@@ -342,10 +363,6 @@ describe('input formats', function() {
 		assert.throws(function() { X.read(fs.readFileSync(paths.cstxlsb), {type: 'dafuq'}); });
 	});
 	it('should default to base64 type', function() {
-		assert.throws(function() { X.read(fs.readFileSync(paths.cstxls, 'binary')); });
-		assert.throws(function() { X.read(fs.readFileSync(paths.cstxml, 'binary')); });
-		assert.throws(function() { X.read(fs.readFileSync(paths.cstxlsx, 'binary')); });
-		assert.throws(function() { X.read(fs.readFileSync(paths.cstxlsb, 'binary')); });
 		X.read(fs.readFileSync(paths.cstxls, 'base64'));
 		X.read(fs.readFileSync(paths.cstxml, 'base64'));
 		X.read(fs.readFileSync(paths.cstxlsx, 'base64'));
@@ -458,22 +475,70 @@ function hlink(wb) {
 
 
 describe('parse features', function() {
-	if(fs.existsSync(paths.swcxlsx)) it('should have comment as part of cell properties', function(){
-		var X = require(modp);
-		var sheet = 'Sheet1';
-		var wb1=X.read(fs.readFileSync(paths.swcxlsx), {type:"binary"});
-		var wb2=X.read(fs.readFileSync(paths.swcxlsb), {type:"binary"});
-		var wb3=X.read(fs.readFileSync(paths.swcxls), {type:"binary"});
-		var wb4=X.read(fs.readFileSync(paths.swcxml), {type:"binary"});
-
-		[wb1,wb2,wb3,wb4].map(function(wb) { return wb.Sheets[sheet]; }).forEach(function(ws, i) {
-			assert.equal(ws.B1.c.length, 1,"must have 1 comment");
-			assert.equal(ws.B1.c[0].a, "Yegor Kozlov","must have the same author");
-			assert.equal(ws.B1.c[0].t.replace(/\r\n/g,"\n").replace(/\r/g,"\n"), "Yegor Kozlov:\nfirst cell", "must have the concatenated texts");
-			if(i > 0) return;
-			assert.equal(ws.B1.c[0].r, '<r><rPr><b/><sz val="8"/><color indexed="81"/><rFont val="Tahoma"/></rPr><t>Yegor Kozlov:</t></r><r><rPr><sz val="8"/><color indexed="81"/><rFont val="Tahoma"/></rPr><t xml:space="preserve">\r\nfirst cell</t></r>', "must have the rich text representation");
-			assert.equal(ws.B1.c[0].h, '<span style="font-weight: bold;">Yegor Kozlov:</span><span style=""><br/>first cell</span>', "must have the html representation");
+	describe('sheet visibility', function() {
+		var wb1, wb2, wb3, wb4, wb5;
+		var bef = (function() {
+			wb1 = X.read(fs.readFileSync(paths.svxls), {type:"binary"});
+			wb2 = X.read(fs.readFileSync(paths.svxls5), {type:"binary"});
+			wb3 = X.read(fs.readFileSync(paths.svxml), {type:"binary"});
+			wb4 = X.read(fs.readFileSync(paths.svxlsx), {type:"binary"});
+			wb5 = X.read(fs.readFileSync(paths.svxlsb), {type:"binary"});
 		});
+		if(typeof before != 'undefined') before(bef);
+		else it('before', bef);
+
+		it('should detect visible sheets', function() {
+			[wb1, wb2, wb3, wb4, wb5].forEach(function(wb) {
+				assert(!wb.Workbook.Sheets[0].Hidden);
+			});
+		});
+		it('should detect all hidden sheets', function() {
+			[wb1, wb2, wb3, wb4, wb5].forEach(function(wb) {
+				assert(wb.Workbook.Sheets[1].Hidden);
+				assert(wb.Workbook.Sheets[2].Hidden);
+			});
+		});
+		it('should distinguish very hidden sheets', function() {
+			[wb1, wb2, wb3, wb4, wb5].forEach(function(wb) {
+				assert.equal(wb.Workbook.Sheets[1].Hidden,1);
+				assert.equal(wb.Workbook.Sheets[2].Hidden,2);
+			});
+		});
+	});
+
+	describe('comments', function() {
+		if(fs.existsSync(paths.swcxlsx)) it('should have comment as part of cell properties', function(){
+			var X = require(modp);
+			var sheet = 'Sheet1';
+			var wb1=X.read(fs.readFileSync(paths.swcxlsx), {type:"binary"});
+			var wb2=X.read(fs.readFileSync(paths.swcxlsb), {type:"binary"});
+			var wb3=X.read(fs.readFileSync(paths.swcxls), {type:"binary"});
+			var wb4=X.read(fs.readFileSync(paths.swcxml), {type:"binary"});
+
+			[wb1,wb2,wb3,wb4].map(function(wb) { return wb.Sheets[sheet]; }).forEach(function(ws, i) {
+				assert.equal(ws.B1.c.length, 1,"must have 1 comment");
+				assert.equal(ws.B1.c[0].a, "Yegor Kozlov","must have the same author");
+				assert.equal(ws.B1.c[0].t.replace(/\r\n/g,"\n").replace(/\r/g,"\n"), "Yegor Kozlov:\nfirst cell", "must have the concatenated texts");
+				if(i > 0) return;
+				assert.equal(ws.B1.c[0].r, '<r><rPr><b/><sz val="8"/><color indexed="81"/><rFont val="Tahoma"/></rPr><t>Yegor Kozlov:</t></r><r><rPr><sz val="8"/><color indexed="81"/><rFont val="Tahoma"/></rPr><t xml:space="preserve">\r\nfirst cell</t></r>', "must have the rich text representation");
+				assert.equal(ws.B1.c[0].h, '<span style="font-weight: bold;">Yegor Kozlov:</span><span style=""><br/>first cell</span>', "must have the html representation");
+			});
+		});
+		[
+			['xlsx', paths.cstxlsx],
+			['xlsb', paths.cstxlsb],
+			['xls', paths.cstxls],
+			['xlml', paths.cstxml],
+			['ods', paths.cstods]
+		].forEach(function(m) { it(m[0] + ' stress test', function() {
+			var wb = X.read(fs.readFileSync(m[1]), {type:'binary'});
+			check_comments(wb);
+			var ws0 = wb.Sheets.Sheet2;
+			assert.equal(ws0.A1.c[0].a, 'Author');
+			assert.equal(ws0.A1.c[0].t, 'Author:\nGod thinks this is good');
+			assert.equal(ws0.C1.c[0].a, 'Author');
+			assert.equal(ws0.C1.c[0].t, 'I really hope that xlsx decides not to use magic like rPr');
+		}); });
 	});
 
 	describe('should parse core properties and custom properties', function() {
@@ -755,7 +820,7 @@ describe('roundtrip features', function() {
 	var bef = (function() { X = require(modp); });
 	if(typeof before != 'undefined') before(bef);
 	else it('before', bef);
-	describe('should parse core properties and custom properties', function() {
+	describe('should preserve core properties and custom properties', function() {
 		var wb1, wb2, base = './tmp/cp';
 		var bef = (function() {
 			wb1 = X.read(fs.readFileSync(paths.cpxlsx), {type:"binary"});
@@ -841,6 +906,41 @@ describe('roundtrip features', function() {
 			});
 		});
 	});
+
+	describe('should preserve sheet visibility', function() { [
+			['xlml', paths.svxml],
+			['xlsx', paths.svxlsx],
+			['xlsb', paths.svxlsb]
+		].forEach(function(w) {
+			it(w[0], function() {
+				var wb1 = X.read(fs.readFileSync(w[1]), {type:"binary"});
+				var wb2 = X.read(X.write(wb1, {bookType:w[0], type:"binary"}), {type:"binary"});
+				var wbs1 = wb1.Workbook.Sheets;
+				var wbs2 = wb2.Workbook.Sheets;
+				assert.equal(wbs1.length, wbs2.length);
+				for(var i = 0; i < wbs1.length; ++i) {
+					assert.equal(wbs1[i].name, wbs2[i].name);
+					assert.equal(wbs1[i].Hidden, wbs2[i].Hidden);
+				}
+			});
+		});
+	});
+
+	describe('should preserve cell comments', function() { [
+			['xlsx', paths.cstxlsx],
+			['xlsb', paths.cstxlsb],
+			//['xls', paths.cstxlsx],
+			['xlml', paths.cstxml]
+			//['ods', paths.cstods]
+	].forEach(function(w) {
+			it(w[0], function() {
+				var wb1 = X.read(fs.readFileSync(w[1]), {type:"binary"});
+				var wb2 = X.read(X.write(wb1, {bookType:w[0], type:"binary"}), {type:"binary"});
+				check_comments(wb1);
+				check_comments(wb2);
+			});
+		});
+	});
 });
 
 function password_file(x){return x.match(/^password.*\.xls$/); }
@@ -851,7 +951,7 @@ describe('invalid files', function() {
 			['passwords', 'apachepoi_xor-encryption-abc.xls'],
 			['DOC files', 'word_doc.doc']
 		].forEach(function(w) { it('should fail on ' + w[0], function() {
-			assert.throws(function() { X.read(fs.readFileSync(dir + w[1]), {type:"binary"}); });
+			assert.throws(function() { X.read(fs.readFileSync(dir + w[1], {type:"binary"}), {type:"binary"}); });
 			assert.throws(function() { X.read(fs.readFileSync(dir+w[1], 'base64'), {type:'base64'}); });
 		}); });
 	});

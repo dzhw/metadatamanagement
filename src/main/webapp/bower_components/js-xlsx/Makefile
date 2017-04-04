@@ -15,6 +15,7 @@ FLOWAUX=$(patsubst %.js,%.flow.js,$(AUXTARGETS))
 AUXSCPTS=xlsxworker1.js xlsxworker2.js xlsxworker.js
 FLOWTGTS=$(TARGET) $(AUXTARGETS) $(AUXSCPTS)
 UGLIFYOPTS=--support-ie8
+CLOSURE=/usr/local/lib/node_modules/google-closure-compiler/compiler.jar
 
 ## Main Targets
 
@@ -74,9 +75,12 @@ bytes: ## display minified and gzipped file sizes
 	for i in dist/xlsx.min.js dist/xlsx.{core,full}.min.js; do printj "%-30s %7d %10d" $$i $$(wc -c < $$i) $$(gzip --best --stdout $$i | wc -c); done
 
 .PHONY: graph
-graph: formats.png ## Rebuild format conversion graph
+graph: formats.png legend.png ## Rebuild format conversion graph
 formats.png: formats.dot
 	circo -Tpng -o$@ $<
+legend.png: misc/legend.dot
+	dot -Tpng -o$@ $<
+
 
 .PHONY: nexe
 nexe: xlsx.exe ## Build nexe standalone executable
@@ -144,6 +148,7 @@ lint: $(TARGET) $(AUXTARGETS) ## Run jshint and jscs checks
 	@jshint --show-non-errors package.json bower.json
 	@jshint --show-non-errors --extract=always $(HTMLLINT)
 	@jscs $(TARGET) $(AUXTARGETS)
+	if [ -e $(CLOSURE) ]; then java -jar $(CLOSURE) $(REQS) $(FLOWTARGET) --jscomp_warning=reportUnknownTypes >/dev/null; fi
 
 .PHONY: flow
 flow: lint ## Run flow checker
@@ -172,6 +177,11 @@ README.md: $(READEPS)
 .PHONY: readme
 readme: README.md ## Update README Table of Contents
 	markdown-toc -i README.md
+
+.PHONY: book
+book: readme graph ## Update summary for documentation
+	printf "# Summary\n\n- [xlsx](README.md#xlsx)\n" > misc/docs/SUMMARY.md
+	markdown-toc README.md | sed 's/(#/(README.md#/g'>> misc/docs/SUMMARY.md
 
 .PHONY: help
 help:

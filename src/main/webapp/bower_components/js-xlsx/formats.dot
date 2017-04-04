@@ -1,5 +1,5 @@
 digraph G {
-	graph [mindist=0.1]; 
+	graph [mindist=0.1];
 	csf [shape=doublecircle,label="Common\nSpreadsheet\nFormat\n(JS Object)"];
 	subgraph XL {
 		node  [style=filled,color=green];
@@ -13,21 +13,21 @@ digraph G {
 		xls8  [label="XLS\nBIFF8"];
 	}
 
-	subgraph OD {
-		node  [style=filled,color=yellow];
-		ods   [label="ODS"];
-		fods  [label="Flat\nODS"];
-		uos   [label="UOS\n标文通"];
-	}
-
 	subgraph OLD {
 		node  [style=filled,color=cyan];
+		ods   [label="ODS"];
+		fods  [label="FODS"];
+		uos   [label="UOS"];
 		html  [label="HTML\nTable"];
 		csv   [label="CSV"];
+		txt   [label="TXT\nUTF-16"];
 		dbf   [label="DBF"];
+		dif   [label="DIF"];
+		slk   [label="SYLK"];
+		prn   [label="PRN"];
 	}
 
-	subgraph JSXLSX {
+	subgraph WORKBOOK {
 		edge [color=blue];
 		csf -> xlsx
 		xlsx -> csf
@@ -35,18 +35,30 @@ digraph G {
 		xlsb -> csf
 		csf -> xlml
 		xlml -> csf
-		xls2 -> csf
-		csf -> xls2
-		xls3 -> csf
-		xls4 -> csf
 		xls5 -> csf
 		xls8 -> csf
-		csf -> csv
 		ods -> csf
 		csf -> ods
 		fods -> csf
 		csf -> fods
 		uos -> csf
+	}
+	subgraph WORKSHEET {
+		edge [color=aquamarine4];
+		xls2 -> csf
+		csf -> xls2
+		xls3 -> csf
+		xls4 -> csf
+		csf -> slk
+		slk -> csf
+		csf -> dif
+		dif -> csf
+		prn -> csf
+		csf -> prn
+		csv -> csf
+		csf -> csv
+		txt -> csf
+		csf -> txt
 		dbf -> csf
 		html -> csf
 	}
