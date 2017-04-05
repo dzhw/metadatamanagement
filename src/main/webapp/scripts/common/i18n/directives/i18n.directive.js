@@ -17,6 +17,9 @@ angular.module('metadatamanagementApp').directive('displayI18nString',
                 element.attr('lang', secondLanguage);
               }
             }
+            if (!toBeDisplayed) {
+              toBeDisplayed = '';
+            }
             if (element[0].tagName === 'IMG') {
               element.attr('alt', toBeDisplayed);
               element.attr('title', toBeDisplayed);

@@ -18,15 +18,15 @@
                     </div>
                     <div style="margin-bottom: 0.5em;" ng-if="variable.label">
                         <span style="font-weight: bold;">{{'variable-management.detail.label' | translate }}:</span>
-                        <span display-i18n-string=variable.label></span>
+                        <span display-i18n-string="variable.label"></span>
                     </div>
                     <div style="margin-bottom: 0.5em;" ng-if="variable.dataType">
                         <span style="font-weight: bold;">{{'variable-management.detail.data-type' | translate }}:</span>
-                        <span display-i18n-string=variable.dataType></span>
+                        <span display-i18n-string="variable.dataType"></span>
                     </div>
                     <div style="margin-bottom: 0.5em;" ng-if="variable.scaleLevel">
                         <span style="font-weight: bold;">{{'variable-management.detail.scale-level' | translate }}:</span>
-                        <span display-i18n-string=variable.scaleLevel></span>
+                        <span display-i18n-string="variable.scaleLevel"></span>
                     </div>
                     <div style="margin-bottom: 0.5em;" ng-if="variable.accessWays">
                         <span style="font-weight: bold;">{{'variable-management.detail.access-ways' | translate }}:</span>
@@ -34,11 +34,11 @@
                     </div>
                     <div style="margin-bottom: 0.5em;" ng-if="variable.annotations">
                         <span style="font-weight: bold;">{{'variable-management.detail.annotations' | translate }}:</span>
-                        <span display-i18n-string=variable.annotations></span>
+                        <span display-i18n-string="variable.annotations"></span>
                     </div>
                     <div style="margin-bottom: 0.5em;" ng-if="variable.filterDetails.description">
                         <span style="font-weight: bold;">{{'variable-management.detail.filter-description' | translate }}:</span>
-                        <span display-i18n-string=variable.filterDetails.description></span>
+                        <span display-i18n-string="variable.filterDetails.description"></span>
                     </div>
                     <div ng-if="variable.filterDetails">
                         <span style="font-weight: bold;">{{'variable-management.detail.input-filter' | translate }} ({{variable.filterDetails.expressionLanguage}}):</span>
@@ -81,7 +81,7 @@
                         <div ng-if="study" class="fdz-truncate-string" flex>
                             <a ui-sref="studyDetail({id: study.id})">
                                 <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
-                                {{'study-management.detail.study' | translate }}: <span display-i18n-string=study.title></span></a>
+                                {{'study-management.detail.study' | translate }}: <span display-i18n-string="study.title"></span></a>
                         </div>
                     </div>
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
@@ -92,7 +92,7 @@
                         <div ng-if="counts.questionsCount == 1 && question" class="fdz-truncate-string" flex>
                             <a ui-sref="questionDetail({'id': question.id})">
                                 <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
-                                {{'question-management.detail.question' | translate }}: <span display-i18n-string=question.questionText></span></a>
+                                {{'question-management.detail.question' | translate }}: <span display-i18n-string="question.questionText"></span></a>
                         </div>
                         <div ng-if="counts.questionsCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'questions', 'variable':variable.id, 'page': 1})">
@@ -108,7 +108,7 @@
                         <div ng-if="dataSet" class="fdz-truncate-string" flex>
                             <a ui-sref="dataSetDetail({id: dataSet.id})">
                                 <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
-                                {{'data-set-management.detail.data-set' | translate }}: <span display-i18n-string=dataSet.description></span></a>
+                                {{'data-set-management.detail.data-set' | translate }}: <span display-i18n-string="dataSet.description"></span></a>
                         </div>
                     </div>
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
@@ -119,7 +119,7 @@
                         <div ng-if="counts.surveysCount == 1 && survey" class="fdz-truncate-string" flex>
                             <a ui-sref="surveyDetail({'id': survey.id})">
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
-                                {{'survey-management.detail.survey' | translate }}: <span display-i18n-string=survey.title></span></a>
+                                {{'survey-management.detail.survey' | translate }}: <span display-i18n-string="survey.title"></span></a>
                         </div>
                         <div ng-if="counts.surveysCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'surveys', 'variable':variable.id, 'page': 1})">
@@ -242,7 +242,7 @@
                     <md-icon ng-if="!notAllRowsVisible" md-svg-src="/assets/images/icons/arrow-compress.svg"></md-icon>
                 </md-button>
             </md-card-header>
-            <table class="fdz-table">
+            <table class="fdz-table" ng-if="variable.distribution.validResponses">
                 <thead>
                     <tr>
                         <th>{{'variable-management.detail.statistics.value' | translate }}
@@ -277,7 +277,7 @@
                 <tbody>
                     <tr ng-class="{'fdz-table-last-row':$last}" ng-repeat-start="row in variable.distribution.validResponses" ng-hide="isRowHidden($index)">
                         <td>{{row.value | variableDataType: variable.dataType.en}}{{row.code | number:0}}&nbsp;</td>
-                        <td display-i18n-string=row.label></td>
+                        <td display-i18n-string="row.label"></td>
                         <td>&nbsp;</td>
                         <td>{{row.absoluteFrequency | number:0}}&nbsp;</td>
                         <td>{{row.validRelativeFrequency | number:2}} %
@@ -304,7 +304,7 @@
                     </tr>
                     <tr ng-class="{'fdz-table-last-row':$last}" ng-repeat="row in variable.distribution.missings">
                         <td>{{row.code}}&nbsp;</td>
-                        <td display-i18n-string=row.label></td>
+                        <td display-i18n-string="row.label"></td>
                         <td>m</td>
                         <td>{{row.absoluteFrequency | number:0}}&nbsp;</td>
                         <td>&nbsp;</td>
@@ -335,7 +335,7 @@
                 <div style="margin-bottom: 0.5em;" ng-if="variable.generationDetails.description[currentLanguage]">
                     <span style="font-weight: bold;">{{'variable-management.detail.generation-details-description' | translate }}:
                     </span>
-                    <span display-i18n-string=variable.generationDetails.description></span>
+                    <span display-i18n-string="variable.generationDetails.description"></span>
                 </div>
                 <div ng-if="variable.generationDetails.rule">
                     <span style="font-weight: bold; margin-right:0px;">{{'variable-management.detail.generation-details-rule' | translate }}
