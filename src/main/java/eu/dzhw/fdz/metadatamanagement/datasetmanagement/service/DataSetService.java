@@ -71,7 +71,6 @@ public class DataSetService {
     try (Stream<DataSet> dataSets = dataSetRepository
         .streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
       dataSets.forEach(dataSet -> {
-        this.dataSetAttachmentService.deleteAllByDataSetId(dataSet.getId());
         dataSetRepository.delete(dataSet);
         eventPublisher.publishEvent(new AfterDeleteEvent(dataSet));              
       });
