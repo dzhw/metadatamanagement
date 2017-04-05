@@ -107,6 +107,33 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'Der Typ des Datensatzes darf nicht leer sein!'
             }
           },
+          'data-set-attachment-metadata': {
+            'data-set-id': {
+              'not-empty': 'Die ID des zugehörigen Datensatzes darf nicht leer sein.'
+            },
+            'data-set-number': {
+              'not-null': 'Die Nummer des zugehörigen Datensatzes darf nicht leer sein.'
+            },
+            'project-id': {
+              'not-empty': 'Die ID des zugehörigen Datenaufbereitungsprojektes darf nicht leer sein.'
+            },
+            'description': {
+              'not-null': 'Die Beschreibung des Attachments darf nicht leer sein.',
+              'i18n-string-size': 'Die Beschreibung muss in mindestens einer Sprache angegeben werden und darf nicht länger als 128 Zeichen sein.',
+              'i18n-string-not-empty': 'Die Beschreibung darf nicht leer sein.'
+            },
+            'title': {
+              'not-null': 'Der Title des Attachments darf nicht leer sein.',
+              'string-size': 'Der Title des Attachments muss angegeben werden und darf nicht länger als 128 Zeichen sein.'
+            },
+            'language': {
+              'not-null': 'Die Sprache des Attachments darf nicht leer sein.',
+              'not-supported': 'Die Sprache muss eine gültige zweibuchstabige Abkürzung gemäß ISO 639-1 sein.'
+            },
+            'filename': {
+              'not-empty': 'Der Dateiname des Attachments darf nicht leer sein.'
+            }
+          },
           'sub-data-set': {
             'name': {
               'not-empty': 'Der Name des {{index}}. Sub-Daten-Satzes darf bei dem Datensatz nicht leer sein!',
