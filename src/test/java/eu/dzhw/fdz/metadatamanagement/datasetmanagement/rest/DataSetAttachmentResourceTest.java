@@ -121,7 +121,7 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
           is("data-set-management.error.data-set-attachment-metadata.description.i18n-string-not-empty")));
   }
   
-  // TODO DKatzberg have to be implemented in the backend @Test
+  @Test
   @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testAttachmentIsDeletedWithDataSet() throws Exception {
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey("projectId");

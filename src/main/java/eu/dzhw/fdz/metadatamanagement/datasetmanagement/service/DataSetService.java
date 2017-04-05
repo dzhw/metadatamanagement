@@ -43,6 +43,9 @@ public class DataSetService {
   
   @Autowired
   private ApplicationEventPublisher eventPublisher;
+  
+  @Autowired 
+  private DataSetAttachmentService dataSetAttachmentService;
 
   /**
    * Delete all data sets when the dataAcquisitionProject was deleted.
@@ -68,6 +71,7 @@ public class DataSetService {
     try (Stream<DataSet> dataSets = dataSetRepository
         .streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
       dataSets.forEach(dataSet -> {
+        this.dataSetAttachmentService.deleteAllByDataSetId(dataSet.getId());
         dataSetRepository.delete(dataSet);
         eventPublisher.publishEvent(new AfterDeleteEvent(dataSet));              
       });
@@ -81,6 +85,7 @@ public class DataSetService {
    */
   @HandleAfterDelete
   public void onDataSetDeleted(DataSet dataSet) {
+    this.dataSetAttachmentService.deleteAllByDataSetId(dataSet.getId());
     elasticsearchUpdateQueueService.enqueue(
         dataSet.getId(), 
         ElasticsearchType.data_sets, 

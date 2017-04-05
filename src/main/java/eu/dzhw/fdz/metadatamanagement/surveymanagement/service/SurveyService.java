@@ -77,6 +77,7 @@ public class SurveyService {
     try (Stream<Survey> surveys = surveyRepository
         .streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
       surveys.forEach(survey -> {
+        this.surveyAttachmentService.deleteAllBySurveyId(survey.getId());
         surveyRepository.delete(survey);
         eventPublisher.publishEvent(new AfterDeleteEvent(survey));
       });
