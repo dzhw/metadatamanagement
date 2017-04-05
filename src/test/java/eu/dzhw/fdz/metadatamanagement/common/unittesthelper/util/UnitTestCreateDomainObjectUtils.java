@@ -13,9 +13,11 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.ImageType;
 import eu.dzhw.fdz.metadatamanagement.common.domain.builders.I18nStringBuilder;
 import eu.dzhw.fdz.metadatamanagement.common.domain.builders.PeriodBuilder;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetTypes;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.Format;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.SubDataSet;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.builders.DataSetAttachmentMetadataBuilder;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.builders.DataSetBuilder;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.builders.SubDataSetBuilder;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
@@ -490,6 +492,18 @@ public class UnitTestCreateDomainObjectUtils {
           .withDataAcquisitionProjectId(projectId)
           .withSurveyId(UnitTestCreateValidIds.buildSurveyId(projectId, surveyNumber))
           .withSurveyNumber(surveyNumber)
+          .withFileName("filename.txt")
+          .withDescription(new I18nString("Beschreibung","Description"))
+          .withTitle("Title")
+          .withLanguage("de")
+          .build();
+  }
+  
+  public static DataSetAttachmentMetadata buildDataSetAttachmentMetadata(String projectId, Integer dataSetNumber) {
+    return new DataSetAttachmentMetadataBuilder()
+          .withDataAcquisitionProjectId(projectId)
+          .withDataSetId(UnitTestCreateValidIds.buildDataSetId(projectId, dataSetNumber))
+          .withDataSetNumber(dataSetNumber)
           .withFileName("filename.txt")
           .withDescription(new I18nString("Beschreibung","Description"))
           .withTitle("Title")

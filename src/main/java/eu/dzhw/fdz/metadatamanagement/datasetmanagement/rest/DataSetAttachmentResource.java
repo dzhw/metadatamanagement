@@ -48,7 +48,7 @@ public class DataSetAttachmentResource {
   @Timed
   @Secured(AuthoritiesConstants.PUBLISHER)
   public ResponseEntity<String> uploadAttachment(@RequestPart("file") MultipartFile multiPartFile,
-      @RequestPart("dataSetsAttachmentMetadata") 
+      @RequestPart("dataSetAttachmentMetadata") 
       @Valid DataSetAttachmentMetadata dataSetAttachmentMetadata)
       throws URISyntaxException, IOException {
     if (!multiPartFile.isEmpty()) {
