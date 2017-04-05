@@ -160,6 +160,7 @@ public class QuestionService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
+  @Async
   public void onVariableChanged(Variable variable) {
     if (variable.getRelatedQuestions() != null) {
       List<String> questionIds = variable.getRelatedQuestions().stream()

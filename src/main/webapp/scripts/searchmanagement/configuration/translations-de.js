@@ -6,8 +6,8 @@ angular.module('metadatamanagementApp').config(
       //jscs:disable
       'search-management': {
         'delete-messages': {
-          'delete-variables-title': 'Alle Variablen löschen?',
-          'delete-variables': 'Sind Sie sicher dass, Sie alle Variablen innerhalb des Datenaufbereitungsprojekts mit der FDZ-ID "{{ id }}" löschen möchten?',
+          'delete-variables-title': 'Alle Variablen ersetzen?',
+          'delete-variables': 'Sind Sie sicher dass, Sie alle Variablen innerhalb des Datenaufbereitungsprojekts "{{ id }}" mit den übergebenen Daten ersetzen möchten?',
           'delete-surveys-title': 'Alle Erhebungen ersetzen?',
           'delete-surveys': 'Sind Sie sicher dass, Sie alle Erhebungen innerhalb des Datenaufbereitungsprojekts "{{ id }}" mit den übergebenen Daten ersetzen möchten?',
           'delete-questions-title': 'Alle Fragen löschen?',

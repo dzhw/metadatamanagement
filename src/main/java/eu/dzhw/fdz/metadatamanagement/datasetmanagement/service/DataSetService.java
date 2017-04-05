@@ -138,6 +138,7 @@ public class DataSetService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
+  @Async
   public void onVariableChanged(Variable variable) {
     IdAndVersionProjection dataSet = dataSetRepository.findOneIdById(variable.getDataSetId());
     if (dataSet != null) {

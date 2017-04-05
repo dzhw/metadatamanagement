@@ -9,6 +9,7 @@ import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.data.rest.core.event.AfterDeleteEvent;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
@@ -161,6 +162,7 @@ public class SurveyService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
+  @Async
   public void onVariableChanged(Variable variable) {
     if (variable.getSurveyIds() != null) {
       enqueueUpserts(surveyRepository.streamIdsByIdIn(variable.getSurveyIds()));

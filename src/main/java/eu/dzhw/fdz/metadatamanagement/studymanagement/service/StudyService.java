@@ -128,6 +128,7 @@ public class StudyService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
+  @Async
   public void onVariableChanged(Variable variable) {
     IdAndVersionProjection study = studyRepository.findOneIdAndVersionById(variable.getStudyId());
     if (study != null) {

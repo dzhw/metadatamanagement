@@ -6,8 +6,8 @@ angular.module('metadatamanagementApp').config(
       //jscs:disable
       'search-management': {
         'delete-messages': {
-          'delete-variables-title': 'Delete all Variables?',
-          'delete-variables': 'Are you sure you want to delete all Variables within the Data Acquisition Project with RDC-ID "{{ id }}"?',
+          'delete-variables-title': 'Replace all Variables?',
+          'delete-variables': 'Are you sure you want to replace all data of the Variables within the Data Acquisition Project "{{ id }}"?',
           'delete-surveys-title': 'Replace all Surveys?',
           'delete-surveys': 'Are you sure you want to replace all data of the Surveys within the Data Acquisition Project "{{ id }}"?',
           'delete-questions-title': 'Delete all Questions?',

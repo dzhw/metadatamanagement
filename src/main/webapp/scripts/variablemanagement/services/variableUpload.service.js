@@ -3,11 +3,12 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('VariableUploadService',
-  function(VariableBuilderService, VariableDeleteResource, JobLoggingService,
+  function(VariableBuilderService, VariableRepositoryClient, JobLoggingService,
     ErrorMessageResolverService, ExcelReaderService, $q, FileReaderService,
     ElasticSearchAdminService, $rootScope, $translate, $mdDialog,
-    CleanJSObjectService) {
+    CleanJSObjectService, VariableResource) {
     var filesMap;
+    var existingVariables = {}; // map variableId -> providedByUser true/false
 
     var createDataSetsFileMap = function(files, dataAcquisitionProjectId) {
       filesMap = {};
@@ -70,10 +71,14 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
                       try {
                         var variableFromJson = JSON.parse(
                           variableAsText);
-                        variablesResources.push(
-                          VariableBuilderService
-                          .buildVariable(variableFromExcel,
-                            variableFromJson, dataSet));
+                        var variableResource = VariableBuilderService
+                        .buildVariable(variableFromExcel,
+                          variableFromJson, dataSet);
+                        variablesResources.push(variableResource);
+                        if (existingVariables[variableResource.id]) {
+                          existingVariables[variableResource.id]
+                            .providedByUser = true;
+                        }
                         if (variableIndex === (variables.length -
                             1)) {
                           resolve(variablesResources);
@@ -149,6 +154,23 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
           });
       });
     };
+
+    var deleteAllVariablesNotProvidedByUser = function() {
+      var promiseChain = $q.when();
+      _.each(existingVariables, function(existingVariable) {
+        if (!existingVariable.providedByUser) {
+          promiseChain = promiseChain.then(function() {
+            return VariableResource.delete({id: existingVariable.id}).$promise
+            .catch(
+              function(error) {
+                console.log('Error when deleting variable:', error);
+              });
+          });
+        }
+      });
+      return promiseChain;
+    };
+
     var uploadVariable = function(variable, index,
       previouslyUploadedVariableNames) {
       if (previouslyUploadedVariableNames[variable.name]) {
@@ -179,15 +201,17 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
     var uploadDataSets = function(dataSetIndex) {
       var previouslyUploadedVariableNames = {};
       if (dataSetIndex === _.size(filesMap)) {
-        ElasticSearchAdminService.processUpdateQueue('variables').finally(
-          function() {
-          JobLoggingService.finish(
-            'variable-management.log-messages.variable.upload-terminated', {
-              total: JobLoggingService.getCurrentJob().total,
-              warnings: JobLoggingService.getCurrentJob().warnings,
-              errors: JobLoggingService.getCurrentJob().errors
+        deleteAllVariablesNotProvidedByUser().finally(function() {
+          ElasticSearchAdminService.processUpdateQueue('variables').finally(
+            function() {
+              JobLoggingService.finish(
+                'variable-management.log-messages.variable.upload-terminated', {
+                  total: JobLoggingService.getCurrentJob().total,
+                  warnings: JobLoggingService.getCurrentJob().warnings,
+                  errors: JobLoggingService.getCurrentJob().errors
+                });
+              $rootScope.$broadcast('upload-completed');
             });
-          $rootScope.$broadcast('upload-completed');
         });
         return;
       } else {
@@ -220,40 +244,44 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
         });
       }
     };
+
+    var startJob = function(files, dataAcquisitionProjectId) {
+      JobLoggingService.start('variable');
+      createDataSetsFileMap(files, dataAcquisitionProjectId);
+      uploadDataSets(0);
+    };
+
     var uploadVariables = function(files, dataAcquisitionProjectId) {
+      existingVariables = {};
       if (!CleanJSObjectService.isNullOrEmpty(
           dataAcquisitionProjectId)) {
-        var confirm = $mdDialog.confirm()
-          .title($translate.instant(
-            'search-management.delete-messages.' +
-            'delete-variables-title'))
-          .textContent($translate.instant(
-            'search-management.delete-messages.delete-variables', {
-              id: dataAcquisitionProjectId
-            }))
-          .ariaLabel($translate.instant(
-            'search-management.delete-messages.delete-variables', {
-              id: dataAcquisitionProjectId
-            }))
-          .ok($translate.instant('global.buttons.ok'))
-          .cancel($translate.instant('global.buttons.cancel'));
-        $mdDialog.show(confirm).then(function() {
-          JobLoggingService.start('variable');
-          VariableDeleteResource.deleteByDataAcquisitionProjectId({
-            dataAcquisitionProjectId: dataAcquisitionProjectId
-          }).$promise.then(
-            function() {
-              createDataSetsFileMap(files,
-                dataAcquisitionProjectId);
-              uploadDataSets(0);
-            },
-            function() {
-              JobLoggingService.cancel(
-                'variable-management.log-messages.variable.unable-to-delete'
-              );
+        VariableRepositoryClient.findByDataAcquisitionProjectId(
+          dataAcquisitionProjectId).then(function(result) {
+            result.data.forEach(function(variable) {
+              existingVariables[variable.id] = variable;
+            });
+            if (result.data.length > 0) {
+              var confirm = $mdDialog.confirm()
+                .title($translate.instant(
+                  'search-management.delete-messages.' +
+                  'delete-variables-title'))
+                .textContent($translate.instant(
+                  'search-management.delete-messages.delete-variables', {
+                    id: dataAcquisitionProjectId
+                  }))
+                .ariaLabel($translate.instant(
+                  'search-management.delete-messages.delete-variables', {
+                    id: dataAcquisitionProjectId
+                  }))
+                .ok($translate.instant('global.buttons.ok'))
+                .cancel($translate.instant('global.buttons.cancel'));
+              $mdDialog.show(confirm).then(function() {
+                startJob(files, dataAcquisitionProjectId);
+              });
+            } else {
+              startJob(files, dataAcquisitionProjectId);
             }
-          );
-        });
+          });
       }
     };
     return {

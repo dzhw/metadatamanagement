@@ -160,6 +160,7 @@ public class InstrumentService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
+  @Async
   public void onVariableChanged(Variable variable) {
     if (variable.getRelatedQuestions() != null) {
       List<String> instrumentIds = variable.getRelatedQuestions().stream()

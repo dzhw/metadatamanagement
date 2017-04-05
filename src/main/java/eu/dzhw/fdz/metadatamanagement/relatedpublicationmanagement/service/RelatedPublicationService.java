@@ -160,6 +160,7 @@ public class RelatedPublicationService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
+  @Async
   public void onVariableChanged(Variable variable) {
     enqueueUpserts(relatedPublicationRepository
         .streamIdsByVariableIdsContaining(variable.getId()));
