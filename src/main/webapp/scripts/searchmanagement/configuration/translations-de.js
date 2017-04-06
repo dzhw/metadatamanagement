@@ -63,7 +63,15 @@ angular.module('metadatamanagementApp').config(
           'instruments': 'Instrumente',
           'instruments-tooltip': 'Klicken, um Tabreiter "Instrumente" zu selektieren'
         },
-        'cards': 'Klicken, um zu "{{type}}" zu navigieren'
+        'cards': {
+          'question-tooltip': 'Klicken, um zur Frage zu navigieren',
+          'variable-tooltip': 'Klicken, um zur Variable zu navigieren',
+          'data-set-tooltip': 'Klicken, um zum Datensatz zu navigieren',
+          'instrument-tooltip': 'Klicken, um zum Instrument zu navigieren',
+          'survey-tooltip': 'Klicken, um zur Erhebung zu navigieren',
+          'study-tooltip': 'Klicken, um zur Studie zu navigieren',
+          'publication-tooltip': 'Klicken, um zur Publication zu navigieren'
+        }
       }
       //jscs:enable
     };

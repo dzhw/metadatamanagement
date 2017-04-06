@@ -24,7 +24,7 @@ angular.module('metadatamanagementApp').config(
             'open-menu': 'Navigationsmenü öffnen',
             'open-menu-tooltip': 'Klicken, um Navigationsmenü zu öffnen',
             'disclosure-tooltip': 'Klicken, um das Impressum zu öffnen',
-            'administration-tooltip': 'Klicken, um Menue "Administration" zu öffnen',
+            'administration-tooltip': 'Klicken, um Menü "Administration" zu öffnen',
             'user-management-tooltip': 'Klicken, um die Seite der Benutzerverwaltung zu öffnen',
             'metrics-tooltip': 'Klicken, um die Seite der Metriken zu öffnen',
             'health-tooltip': 'Klicken, um die Seite des Status zu öffnen',
@@ -45,8 +45,8 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'toolbarHeader': {
-          'search': 'Klicken, um zur letzten {{type}} zu navigieren',
-          'default': 'Klicken, um zu {{type}} "{{param}}" zu navigieren'
+          'search': 'Klicken, um zur letzten {{type}} zu gelangen',
+          'default': 'Klicken, um zum Element {{type}} "{{param}}" zu gelangen'
         },
         'cards': {
           'details': 'Details',
@@ -65,45 +65,45 @@ angular.module('metadatamanagementApp').config(
           'post-validation': 'Klicken, um das ausgewählte Datenaufbereitungsprojekt zu validieren.',
           'surveys': {
             'no': 'Keine verbundene Erhebung',
-            'one': 'Klicken, um die verbundene Erhebung zu öffnen',
-            'many': 'Klicken, um die Liste aller verbundenen Erhebungen zu öffnen'
+            'one': 'Klicken, um zur verbundenen Erhebung zu gelangen',
+            'many': 'Klicken, um zur Liste aller verbundenen Erhebungen zu gelangen'
           },
           'data-sets': {
             'no': 'Keine verbundene Datensätze',
-            'one': 'Klicken, um den verbundenen Datensatz zu öffnen',
-            'many': 'Klicken, um die Liste aller verbundenen Datensätze zu öffnen',
-            'same-data-sets': 'Klicken, um die Liste der Datensätze der gleichen Studie zu öffnen'
+            'one': 'Klicken, um zum verbundenen Datensatz zu gelangen',
+            'many': 'Klicken, um zur Liste aller verbundenen Datensätze zu gelangen',
+            'same-data-sets': 'Klicken, um zur Liste der Datensätze der gleichen Studie zu gelangen'
           },
           'publications': {
             'no': 'Keine verbundene Publikationen',
-            'one': 'Klicken, um die verbundene Publikation zu öffnen',
-            'many': 'Klicken, um die Liste aller verbundenen Publikationen zu öffnen'
+            'one': 'Klicken, um zur verbundenen Publikation zu gelangen',
+            'many': 'Klicken, um zur Liste aller verbundenen Publikationen zu gelangen'
           },
           'questions': {
             'no': 'Keine verbundene Fragen',
-            'one': 'Klicken, um die verbundene Frage zu öffnen',
-            'many': 'Klicken, um die Liste aller verbundenen Fragen zu öffnen'
+            'one': 'Klicken, um zur verbundenen Frage zu gelangen',
+            'many': 'Klicken, um zur Liste aller verbundenen Fragen zu gelangen'
           },
           'instruments': {
             'no': 'Keine verbundene Instrumente',
-            'one': 'Klicken, um das verbundene Instrument zu öffnen',
-            'many': 'Klicken, um die Liste aller verbundenen Instrumente zu öffnen'
+            'one': 'Klicken, um zum verbundenen Instrument zu gelangen',
+            'many': 'Klicken, um zur Liste aller verbundenen Instrumente zu gelangen'
           },
           'variables': {
             'no': 'Keine verbundene Variablen',
-            'one': 'Klicken, um die verbundene Variable zu öffnen',
-            'many': 'Klicken, um die Liste aller verbundenen Variablen zu öffnen',
-            'same-in-panel': 'Klicken, um die Liste der gleichen Variablen zu öffnen'
+            'one': 'Klicken, um zur verbundenen Variable zu gelangen',
+            'many': 'Klicken, um zur Liste aller verbundenen Variablen zu gelangen',
+            'same-in-panel': 'Klicken, um zur Liste der gleichen Variablen zu gelangen'
           },
           'studies':{
             'no': 'Keine verbundene Studie',
-            'one': 'Klicken, um die verbundene Studie zu öffnen',
-            'many': 'Klicken, um die Liste aller verbundenen Studien zu öffnen'
+            'one': 'Klicken, um zur verbundene Studie zu öffnen',
+            'many': 'Klicken, um zur Liste aller verbundenen Studien zu gelangen'
           },
           'files': {
             'download': 'Klicken, um das Dokument herunterzuladen'
           },
-          'images': 'Klicken, um das Bild in neuem zu öffnen'
+          'images': 'Klicken, um die fotografische Darstellung in neuem zu öffnen'
         },
         'menu': {
           'entities': {

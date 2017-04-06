@@ -35,7 +35,7 @@
             </li>
             <li ng-switch-when="true" class="fdz-navbar-menu">
                 <md-button id="logout" ng-click="logout()" class="fdz-navbar-button">
-                    <md-tooltip>
+                    <md-tooltip md-autohide="true">
                         {{'global.toolbar.buttons.logout-tooltip' | translate : '{username:"' + identity.login + '"}'}}
                     </md-tooltip>
                     <md-icon md-svg-src="/assets/images/icons/logout.svg"></md-icon>
@@ -52,7 +52,7 @@
                     <span data-translate="global.menu.account.main"></span>
                     <md-icon ng-if="!isAccountMenuOpen" md-font-set="material-icons">keyboard_arrow_down</md-icon>
                     <md-icon ng-if="isAccountMenuOpen" md-font-set="material-icons">keyboard_arrow_up</md-icon>
-                    <md-tooltip md-autohide="true">
+                    <md-tooltip md-autohide="true" md-direction="right">
                         {{'global.toolbar.buttons.fdz-staff-area-tooltip'|translate}}
                     </md-tooltip>
                 </md-button>
@@ -96,7 +96,7 @@
             </li>
             <li class="fdz-navbar-menu" ng-switch-when="true" data-has-authority="ROLE_ADMIN">
                 <md-button class="fdz-navbar-menu-toggle" ng-click="toggleAdminMenu()">
-                  <md-tooltip md-autohide="true">
+                  <md-tooltip md-autohide="true" md-direction="right">
                       {{'global.toolbar.buttons.administration-tooltip' | translate}}
                   </md-tooltip>
                   <span data-translate="global.menu.admin.main"></span>

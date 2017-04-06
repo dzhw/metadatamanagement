@@ -63,7 +63,15 @@ angular.module('metadatamanagementApp').config(
           'instruments': 'Instruments',
           'instruments-tooltip': 'Click to select the "Instruments" tab'
         },
-        'cards': 'Click to navigate to "{{type}}"'
+        'cards': {
+          'question-tooltip': 'Click to navigate to question',
+          'variable-tooltip': 'Click to navigate to variable',
+          'data-set-tooltip': 'Click to navigate to data set',
+          'instrument-tooltip': 'Click to navigate to instrument',
+          'survey-tooltip': 'Click to navigate to survey',
+          'study-tooltip': 'Click to navigate to study',
+          'publication-tooltip': 'Click to navigate to publication'
+        }
       }
       //jscs:enable
     };
