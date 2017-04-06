@@ -12,8 +12,8 @@
                 <div class="fdz-overlay-inner-box-bottom">
                     <md-button class="md-fab md-mini md-primary" ng-href="/public/files/questions/{{ctrl.question.id}}" target="_blank">
                       <md-icon md-svg-src="/assets/images/icons/arrow-expand.svg"></md-icon>
-                      <md-tooltip md-direction="left">
-                        {{'question-management.detail.open-image-in-new-tab' | translate }}
+                      <md-tooltip md-autohide="true" md-direction="left">
+                          {{'global.tooltips.images' | translate}}
                       </md-tooltip>
                     </md-button>
                 </div>
@@ -33,54 +33,89 @@
                     <div ng-if="!ctrl.study" class="fdz-truncate-string" flex>
                         <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
                         {{'study-management.detail.study' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                        <md-tooltip md-autohide="true">
+                            {{'global.tooltips.studies.any' | translate}}
+                        </md-tooltip>
                     </div>
                     <div ng-if="ctrl.study" class="fdz-truncate-string" flex>
                       <a ui-sref="studyDetail({id: ctrl.study.id})">
                           <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
                           {{'study-management.detail.study' | translate }}: <span display-i18n-string="ctrl.study.title"></span></a>
+                          <md-tooltip md-autohide="true">
+                              {{'global.tooltips.studies.one' | translate}}
+                          </md-tooltip>
                   </div>
                 </div>
                 <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                     <div ng-if="!ctrl.instrument" class="fdz-truncate-string" flex>
                         <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
                         {{'instrument-management.detail.instrument' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                        <md-tooltip md-autohide="true">
+                            {{'global.tooltips.instruments.any' | translate}}
+                        </md-tooltip>
                     </div>
                     <div ng-if="ctrl.instrument" class="fdz-truncate-string" flex>
                        <a ui-sref="instrumentDetail({'id': ctrl.instrument.id})">
                            <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
-                           {{'instrument-management.detail.instrument' | translate }}: <span display-i18n-string="ctrl.instrument.description"></span></a>
+                           {{'instrument-management.detail.instrument' | translate }}: <span display-i18n-string="ctrl.instrument.description"></span>
+                           <md-tooltip md-autohide="true">
+                               {{'global.tooltips.instruments.one' | translate}}
+                           </md-tooltip>
+                       </a>
                    </div>
                 </div>
                 <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                     <div ng-if="ctrl.counts.variablesCount == 0" class="fdz-truncate-string" flex>
                         <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
                         {{'variable-management.detail.variables' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                        <md-tooltip md-autohide="true">
+                            {{'global.tooltips.variables.any' | translate}}
+                        </md-tooltip>
                     </div>
                     <div ng-if="ctrl.counts.variablesCount == 1 && ctrl.variable" class="fdz-truncate-string" flex>
                        <a ui-sref="variableDetail({'id': ctrl.variable.id})">
                            <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
-                           {{'variable-management.detail.variable' | translate }}: <span display-i18n-string="ctrl.variable.label"></span></a>
+                           {{'variable-management.detail.variable' | translate }}: <span display-i18n-string="ctrl.variable.label"></span>
+                           <md-tooltip md-autohide="true">
+                               {{'global.tooltips.variables.one' | translate}}
+                           </md-tooltip>
+                       </a>
                    </div>
                     <div ng-if="ctrl.counts.variablesCount > 1" class="fdz-truncate-string" flex>
                         <a ui-sref="search({'type': 'variables', 'question': ctrl.question.id, 'page': 1})">
                             <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
-                            {{'variable-management.detail.variables' | translate }}: ({{ctrl.counts.variablesCount}})</a>
+                            {{'variable-management.detail.variables' | translate }}: ({{ctrl.counts.variablesCount}})
+                            <md-tooltip md-autohide="true">
+                                {{'global.tooltips.variables.many' | translate}}
+                            </md-tooltip>
+                        </a>
                     </div>
                 </div>
                 <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                     <div ng-if="ctrl.counts.publicationsCount == 0" class="fdz-truncate-string" flex>
                         <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
                         {{'related-publication-management.detail.publications' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                        <md-tooltip md-autohide="true">
+                            {{'global.tooltips.publications.any' | translate}}
+                        </md-tooltip>
                     </div>
                     <div ng-if="ctrl.counts.publicationsCount == 1" class="fdz-truncate-string" flex>
                         <a ui-sref="relatedPublicationDetail({'id': ctrl.relatedPublication.id})">
                             <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
-                            {{'related-publication-management.detail.publication' | translate }}: {{ctrl.relatedPublication.title}}</a>
+                            {{'related-publication-management.detail.publication' | translate }}: {{ctrl.relatedPublication.title}}
+                            <md-tooltip md-autohide="true">
+                                {{'global.tooltips.publications.one' | translate}}
+                            </md-tooltip>
+                        </a>
                     </div>
                     <div ng-if="ctrl.counts.publicationsCount > 1" class="fdz-truncate-string" flex>
                         <a ui-sref="search({'type': 'related_publications', 'question':ctrl.question.id, 'page': 1})">
                             <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
-                            {{'related-publication-management.detail.publications' | translate }}: ({{ctrl.counts.publicationsCount}})</a>
+                            {{'related-publication-management.detail.publications' | translate }}: ({{ctrl.counts.publicationsCount}})
+                            <md-tooltip md-autohide="true">
+                                {{'global.tooltips.publications.many' | translate}}
+                            </md-tooltip>
+                        </a>
                     </div>
                 </div>
             </md-card-content>
@@ -183,7 +218,7 @@
                             aria-label="{{'question-management.detail.button.aria-label.copy-to-clipboard' | translate}">
                             <md-icon md-font-library="material-icons">content_copy</md-icon>
                             <md-tooltip md-direction="top">
-                                {{'question-management.detail.button.aria-label.copy-to-clipboard' | translate}}
+                                {{'question-management.detail.button.aria-label.copy-to-clipboard-tooltip' | translate}}
                             </md-tooltip>
                         </md-button>
                         <md-button class="md-icon-button md-primary" ng-click="ctrl.toggleRepresentationCode()">

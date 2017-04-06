@@ -100,7 +100,8 @@ angular.module('metadatamanagementApp').config(
           },
           'files': {
             'download': 'Klicken, um die Datei herunterzuladen'
-          }
+          },
+          'images': 'Klicken, um das Bild in neuem zu öffnen'
         },
         'menu': {
           'entities': {

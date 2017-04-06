@@ -28,7 +28,8 @@ angular.module('metadatamanagementApp').config(
         'detail': {
           'button': {
             'aria-label': {
-              'copy-to-clipboard': 'Copy to Clipboard'
+              'copy-to-clipboard': 'Copy to Clipboard',
+              'copy-to-clipboard-tooltip': 'Click to copy to clipboard'
             }
           },
           'title': 'Question {{ questionNumber }}: {{ instrumentDescription }} ({{ questionId }})',
@@ -45,8 +46,8 @@ angular.module('metadatamanagementApp').config(
           'no-related-questions': 'No related Questions.',
           'related-questions': 'Related Questions',
           'show-complete-technical-representation': {
-            'true': 'Show complete Technical Representation',
-            'false': 'Minimize Technical Representation '
+            'true': 'Click to show the complete technical representation',
+            'false': 'Click to minimize the technical representation '
           },
           'type': 'Question Type',
           'topic': 'Topic',
