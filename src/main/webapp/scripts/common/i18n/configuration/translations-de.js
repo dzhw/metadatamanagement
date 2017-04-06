@@ -92,7 +92,8 @@ angular.module('metadatamanagementApp').config(
           'variables': {
             'any': 'Keine zugehörige Variablen',
             'one': 'Klicken, um zur zugehörigen Variable zu navigieren',
-            'many': 'Klicken, um die Liste aller zugehörigen Variablen zu laden'
+            'many': 'Klicken, um die Liste aller zugehörigen Variablen zu laden',
+            'same-in-panel': 'Klicken, um die Liste der gleichen Variablen zu laden'
           },
           'studies':{
             'any': 'Keine zugehörige Studie',

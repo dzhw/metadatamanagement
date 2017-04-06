@@ -25,15 +25,15 @@ angular.module('metadatamanagementApp').config(
           'search': 'Search'
         },
         'buttons': {
-          'refresh': 'Refresh search results',
-          'upload-variables': 'Upload Variables for selected Data Acquisition Project',
-          'upload-surveys': 'Upload Surveys for selected Data Acquisition Project',
-          'upload-data-sets': 'Upload Data Sets for selected Data Acquisition Project',
-          'upload-questions': 'Upload Questions for selected Data Acquisition Project',
-          'upload-studies': 'Upload Study for selected Data Acquisition Project',
-          'upload-related-publications': 'Upload Publications',
-          'post-validate-related-publications': 'Validate Publications',
-          'upload-instruments': 'Upload Instruments for selected Data Acquisition Project'
+          'refresh-tooltip': 'Click to refresh search results',
+          'upload-variables-tooltip': 'Click to upload variables for selected data acquisition project',
+          'upload-surveys-tooltip': 'Click to upload upload Surveys for selected data acquisition project',
+          'upload-data-sets-tooltip': 'Click to upload data sets for selected data acquisition project',
+          'upload-questions-tooltip': 'Click to upload questions for selected data acquisition project',
+          'upload-studies-tooltip': 'Click to upload study for selected data acquisition project',
+          'upload-related-publications-tooltip': 'Click to upload publications',
+          'post-validate-related-publications-tooltip': 'Click to validate publications',
+          'upload-instruments-tooltip': 'Click to upload instruments for selected data acquisition project'
         },
         'input-label': {
           'all': 'Are you searching for Studies, Variables, Questions, Surveys, Data Sets, Instruments or Publications?',

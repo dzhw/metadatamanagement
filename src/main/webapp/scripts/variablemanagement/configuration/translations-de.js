@@ -45,26 +45,23 @@ angular.module('metadatamanagementApp').config(
           'generation-details-description': 'Generierungsbeschreibung',
           'generation-details-expression-language': 'Generierungsausdruckssprache',
           'generation-details-rule': 'Generierungsregel',
-          'show-complete-input-filter': {
-            'true': 'Zeige gesamte Inhalt des Eingangsfilters',
-            'false': 'Minimiere Eingangsfilter'
+          'copy-complete-input-filter-tooltip': 'Klicken, um den gesamten Inhalt des Eingangsfilters in die Zwischenablage zu kopieren',
+          'show-complete-input-filter-tooltip': {
+            'true': 'Klicken, um den gesamten Inhalt des Eingangsfilters zu zeigen',
+            'false': 'Klicken, um den Inhaltsbereich des Eingangsfilters zu minimieren'
           },
-          'show-complete-filter-details': {
-            'true': 'Zeige gesamte Generierungsregel',
-            'false': 'Minimiere Generierungsregel'
-          },
-          'button': {
-            'aria-label': {
-              'copy-to-clipboard': 'Kopiere in die Zwischenablage'
-            }
+          'copy-complete-rule-tooltip': 'Klicken, um den gesamten Inhalt der Generierungsregel zu kopieren',
+          'show-complete-rule-tooltip': {
+            'true': 'Klicken, um den gesamten Inhalt der Generierungsregel zu zeigen',
+            'false': 'Klicken, um den Inhaltsbereich der Generierungsregel zu minimieren'
           },
           'label': 'Label',
           'not-found': 'Die id {{id}} referenziert auf eine unbekannte Variable.',
           'not-found-references': 'Die id {{id}} hat keine Referenzen auf Variablen.',
           'same-in-panel': 'Ähnliche Variablen',
-          'show-complete-distribution': {
-            'true': 'Zeige gesamte Häufigkeitstabelle',
-            'false': 'Minimiere Häufigkeitstabelle'
+          'show-complete-distribution-tooltip': {
+            'true': 'Klicken, um den gesamten Inhalt der Häufigkeitstabelle zu zeigen',
+            'false': 'Klicken, um den Inhaltsbereich der Häufigkeitstabelle zu minimieren'
           },
           'statistics': {
             'graphics': 'Abbildung Häufigkeiten/Verteilung',

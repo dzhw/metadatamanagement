@@ -26,12 +26,6 @@ angular.module('metadatamanagementApp').config(
           'title': 'Questions'
         },
         'detail': {
-          'button': {
-            'aria-label': {
-              'copy-to-clipboard': 'Copy to Clipboard',
-              'copy-to-clipboard-tooltip': 'Click to copy to clipboard'
-            }
-          },
           'title': 'Question {{ questionNumber }}: {{ instrumentDescription }} ({{ questionId }})',
           'question': 'Question',
           'questions': 'Questions',
@@ -45,9 +39,10 @@ angular.module('metadatamanagementApp').config(
           'not-found-references': 'The id {{id}} has no References to Questions.',
           'no-related-questions': 'No related Questions.',
           'related-questions': 'Related Questions',
-          'show-complete-technical-representation': {
+          'copy-technical-representation-to-clipboard-tooltip': 'Click to copy the complete technical representation to clipboard',
+          'show-complete-technical-representation-tooltip': {
             'true': 'Click to show the complete technical representation',
-            'false': 'Click to minimize the technical representation '
+            'false': 'Click to minimize the content area of the technical representation'
           },
           'type': 'Question Type',
           'topic': 'Topic',

@@ -10,29 +10,29 @@
                 <span data-translate="global.menu.entities.unknown-project" data-translate-values="{projectId: ctrl.searchText}"></span>
             </md-not-found>
             </md-autocomplete>
-            <md-button aria-label="{{'global.menu.tooltips.create-project' | translate}}" class="md-primary md-raised md-icon-button" ng-click="ctrl.createProject()" style="margin-right: 0px; margin-left: 1em;">
+            <md-button class="md-primary md-raised md-icon-button" ng-click="ctrl.createProject()" style="margin-right: 0px; margin-left: 1em;">
                 <md-tooltip md-direction="bottom">
-                    {{'global.menu.tooltips.create-project' | translate}}
+                    {{'global.tooltips.create-project' | translate}}
                 </md-tooltip>
                 <md-icon md-font-set="material-icons">add</md-icon>
             </md-button>
     </div>
     <div style="margin-top: 1em;">
-        <md-button aria-label="{{'global.menu.tooltips.delete-project' | translate}}" class="md-primary md-raised md-icon-button" ng-click="ctrl.deleteProject()" style="margin-right: 0px; margin-left: 0px;" ng-disabled="!ctrl.selectedProject">
+        <md-button class="md-primary md-raised md-icon-button" ng-click="ctrl.deleteProject()" style="margin-right: 0px; margin-left: 0px;" ng-disabled="!ctrl.selectedProject">
             <md-tooltip md-direction="bottom">
-                {{'global.menu.tooltips.delete-project' | translate}}
+                {{'global.tooltips.delete-project' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">delete</md-icon>
         </md-button>
-        <md-button aria-label="{{'global.menu.tooltips.post-validation' | translate}}" class="md-primary md-raised md-icon-button" ng-click="ctrl.postValidateProject()" style="margin-right: 0px;" ng-disabled="!ctrl.selectedProject">
+        <md-button class="md-primary md-raised md-icon-button" ng-click="ctrl.postValidateProject()" style="margin-right: 0px;" ng-disabled="!ctrl.selectedProject">
             <md-tooltip md-direction="bottom">
-                {{'global.menu.tooltips.post-validation' | translate}}
+                {{'global.tooltips.post-validation' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">playlist_add_check</md-icon>
         </md-button>
         <md-button class="md-primary md-raised md-icon-button" style="margin-right: 0px;" ng-disabled="!ctrl.selectedProject" ng-click="ctrl.toggleReleaseProject()">
             <md-tooltip md-direction="bottom">
-                {{ctrl.selectedProject.release?'global.menu.tooltips.unrelease-project':'global.menu.tooltips.release-project' | translate}}
+                {{ctrl.selectedProject.release?'global.tooltips.unrelease-project':'global.tooltips.release-project' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">{{ctrl.selectedProject.release?'stop_screen_share':'screen_share'}}</md-icon>
         </md-button>

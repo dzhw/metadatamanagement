@@ -25,12 +25,6 @@ angular.module('metadatamanagementApp').config(
           'title': 'Fragen'
         },
         'detail': {
-          'button': {
-            'aria-label': {
-              'copy-to-clipboard': 'Kopiere in die Zwischenablage',
-              'copy-to-clipboard-tooltip': 'Klicken, um den Inhalt in die Zwischenablage zu kopieren'
-            }
-          },
           'title': 'Frage {{ questionNumber }}: {{ instrumentDescription }} ({{ questionId }})',
           'question': 'Frage',
           'questions': 'Fragen',
@@ -44,9 +38,10 @@ angular.module('metadatamanagementApp').config(
           'not-found-references': 'Die id {{id}} hat keine Referenzen auf Fragen.',
           'no-related-questions': 'Keine zugehörige Fragen.',
           'related-questions': 'Zugehörige Fragen',
-          'show-complete-technical-representation': {
+          'copy-technical-representation-to-clipboard-tooltip': 'Klicken, um den Inhalt der technischen Representation in die Zwischenablage zu kopieren',
+          'show-complete-technical-representation-tooltip': {
             'true': 'Klicken, um die gesamte technische Representation zu zeigen',
-            'false': 'Klicken, um die technische Representation zu minimieren'
+            'false': 'Klicken, um den Inhaltsbereich der technischen Representation zu minimieren'
           },
           'type': 'Fragetyp',
           'topic': 'Thema',

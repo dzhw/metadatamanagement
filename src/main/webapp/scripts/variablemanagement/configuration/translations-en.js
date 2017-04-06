@@ -45,18 +45,15 @@ angular.module('metadatamanagementApp').config(
           'generation-details-description': 'Generation Details Description',
           'generation-details-expression-language': 'Generation Expression Language',
           'generation-details-rule': 'Generation Rule',
-          'show-complete-rule': {
-            'true': 'Show complete Generation Rule',
-            'false': 'Minimize Generation Rule '
+          'copy-complete-input-filter-tooltip': 'Click to copy the input filter to Clipboard',
+          'show-complete-input-filter-tooltip': {
+            'true': 'Click to show the input filter',
+            'false': 'Click to minimize the content area of the input filter'
           },
-          'show-complete-filter-details': {
-            'true': 'Show complete Input Filter',
-            'false': 'Minimize Input Filter'
-          },
-          'button': {
-            'aria-label': {
-              'copy-to-clipboard': 'Copy to Clipboard'
-            }
+          'copy-complete-rule-tooltip': 'Click to copy the generation rule to Clipboard',
+          'show-complete-rule-tooltip': {
+            'true': 'Click to show the generation rule',
+            'false': 'Click to minimize the content area of the generation rule'
           },
           'label': 'Label',
           'not-found': 'The {{id}} references to an unknown Variable.',

@@ -214,18 +214,17 @@
                 <div class="fdz-overlay-outer-box">
                     <div hljs hljs-language="{{ctrl.question.technicalRepresentation.language}}" hljs-source="ctrl.technicalRepresentationBeauty" style="margin-top: 0.5em;" class="fdz-code-container" ng-class="{'fdz-hidden-code': ctrl.representationCodeToggleFlag}"></div>
                     <div class="fdz-overlay-inner-box-top">
-                        <md-button ng-click="ctrl.openSuccessCopyToClipboardToast('question-management.log-messages.question.technical-representation-success-copy-to-clipboard')" class="md-icon-button md-primary" ngclipboard data-clipboard-text="{{ctrl.technicalRepresentationBeauty}}"
-                            aria-label="{{'question-management.detail.button.aria-label.copy-to-clipboard' | translate}">
+                        <md-button ng-click="ctrl.openSuccessCopyToClipboardToast('question-management.log-messages.question.technical-representation-success-copy-to-clipboard')" class="md-icon-button md-primary" ngclipboard data-clipboard-text="{{ctrl.technicalRepresentationBeauty}}">
                             <md-icon md-font-library="material-icons">content_copy</md-icon>
                             <md-tooltip md-direction="top">
-                                {{'question-management.detail.button.aria-label.copy-to-clipboard-tooltip' | translate}}
+                                {{'question-management.detail.copy-technical-representation-to-clipboard-tooltip' | translate}}
                             </md-tooltip>
                         </md-button>
                         <md-button class="md-icon-button md-primary" ng-click="ctrl.toggleRepresentationCode()">
                             <md-icon ng-if="ctrl.representationCodeToggleFlag" md-svg-src="/assets/images/icons/arrow-expand.svg"></md-icon>
                             <md-icon ng-if="!ctrl.representationCodeToggleFlag" md-svg-src="/assets/images/icons/arrow-compress.svg"></md-icon>
                             <md-tooltip md-direction="top">
-                                {{'question-management.detail.show-complete-technical-representation.' + ctrl.representationCodeToggleFlag | translate }}
+                                {{'question-management.detail.show-complete-technical-representation-tooltip.' + ctrl.representationCodeToggleFlag | translate }}
                             </md-tooltip>
                         </md-button>
                     </div>

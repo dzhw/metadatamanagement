@@ -25,15 +25,15 @@ angular.module('metadatamanagementApp').config(
           'search': 'Suche'
         },
         'buttons': {
-          'refresh': 'Suche aktualisieren',
-          'upload-variables': 'Variablen für ausgewähltes Datenaufbereitungsprojekt hochladen',
-          'upload-surveys': 'Erhebungen für ausgewähltes Datenaufbereitungsprojekt hochladen',
-          'upload-data-sets': 'Datensätze für ausgewähltes Datenaufbereitungsprojekt hochladen',
-          'upload-questions': 'Fragen für ausgewähltes Datenaufbereitungsprojekt hochladen',
-          'upload-studies': 'Studie für ausgewähltes Datenaufbereitungsprojekt hochladen',
-          'upload-related-publications': 'Publikationen hochladen',
-          'post-validate-related-publications': 'Publikationen validieren',
-          'upload-instruments': 'Instrumente für ausgewähltes Datenaufbereitungsprojekt hochladen'
+          'refresh-tooltip': 'Klicken, um die Suche zu aktualisieren',
+          'upload-variables-tooltip': 'Kilcken, um Variablen für ausgewähltes Datenaufbereitungsprojekt hochzuladen',
+          'upload-surveys-tooltip': 'Kilcken, um Erhebungen für ausgewähltes Datenaufbereitungsprojekt hochzuladen',
+          'upload-data-sets-tooltip': 'Kilcken, um Datensätze für ausgewähltes Datenaufbereitungsprojekt hochzuladen',
+          'upload-questions-tooltip': 'Kilcken, um Fragen für ausgewähltes Datenaufbereitungsprojekt hochzuladen',
+          'upload-studies-tooltip': 'Kilcken, um Studie für ausgewähltes Datenaufbereitungsprojekt hochzuladen',
+          'upload-related-publications-tooltip': 'Kilcken, um Publikationen hochzuladen',
+          'post-validate-related-publications-tooltip': 'Kilcken, um Publikationen zu validieren',
+          'upload-instruments-tooltip': 'Kilcken, um Instrumente für ausgewähltes Datenaufbereitungsprojekt hochzuladen'
         },
         'input-label': {
           'all': 'Suchen Sie Studien, Variablen, Fragen, Erhebungen, Datensätze, Instrumente oder Publikationen?',
