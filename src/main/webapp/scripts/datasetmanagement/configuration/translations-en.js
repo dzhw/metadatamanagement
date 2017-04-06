@@ -56,7 +56,7 @@ angular.module('metadatamanagementApp').config(
             'true': 'Click to maximize',
             'false': 'Click to minimize'
           },
-          'generate-variable-report': 'Generate Variable report',
+          'generate-variable-report': 'Click to generate variable report',
           'no-related-data-sets': 'No related Data Sets.',
           'related-data-sets': 'Related Data Sets',
           'not-released-toast': 'Data Set "{{ id }}" has not yet been released to all users!'

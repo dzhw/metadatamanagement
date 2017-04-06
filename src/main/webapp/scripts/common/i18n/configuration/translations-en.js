@@ -64,35 +64,46 @@ angular.module('metadatamanagementApp').config(
           'unrelease-project': 'Click to unrelease the chosen project.',
           'post-validation': 'Click to validate a chosen Data Acquisition Project.',
           'surveys': {
-            'one': '',
-            'many': ''
+            'no': 'No related survey',
+            'one': 'Click to show survey',
+            'many': 'Click to show all related surveys'
           },
           'data-sets': {
-            'one': '',
-            'many': ''
+            'no': 'No related data set',
+            'one': 'Click to show data set',
+            'many': 'Click to show all related data sets',
+            'same-data-sets': 'Click to show same data sets'
           },
           'publications': {
-            'one': '',
-            'many': ''
+            'no': 'No related publication',
+            'one': 'Click to show publication',
+            'many': 'Click to show all related publications'
           },
           'questions': {
-            'one': '',
-            'many': ''
+            'no': 'No related question',
+            'one': 'Click to show question',
+            'many': 'Click to show all related questions'
           },
           'instruments': {
-            'one': '',
-            'many': ''
+            'no': 'No related instrument',
+            'one': 'Click to show instrument',
+            'many': 'Click to show all related instruments'
           },
           'variables': {
-            'one': '',
-            'many': ''
+            'no': 'No related variables',
+            'one': 'Click to show variable',
+            'many': 'Click to show all related variables',
+            'same-in-panel': 'Click to show same variables in panel'
           },
           'studies':{
-            'one': ''
+            'no': 'no related studies',
+            'one': 'Click to show study',
+            'many': 'Click to show all related studies'
           },
           'files': {
-            'download': 'Click to download the file'
-          }
+            'download': 'Click to download the document'
+          },
+          'images': 'Click to open image in new Tab'
         },
         'menu': {
           'entities': {

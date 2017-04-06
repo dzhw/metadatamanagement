@@ -57,7 +57,7 @@
                             <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
                             {{'study-management.detail.study' | translate }}: {{'global.messages.error.unavailable' | translate}}
                             <md-tooltip md-autohide="true">
-                                {{'global.tooltips.studies.any' | translate}}
+                                {{'global.tooltips.studies.no' | translate}}
                             </md-tooltip>
                         </div>
                         <div ng-if="ctrl.study" class="fdz-truncate-string" flex>
@@ -76,7 +76,7 @@
                             <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
                             {{'instrument-management.detail.instruments' | translate }}: {{'global.messages.error.unavailable' | translate}}
                             <md-tooltip md-autohide="true">
-                                {{'global.tooltips.instruments.any' | translate}}
+                                {{'global.tooltips.instruments.no' | translate}}
                             </md-tooltip>
                         </div>
                         <div ng-if="ctrl.counts.instrumentsCount === 1 && ctrl.instrument" class="fdz-truncate-string" flex>
@@ -104,7 +104,7 @@
                             <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
                             {{'data-set-management.detail.data-sets' | translate }}: {{'global.messages.error.unavailable' | translate}}
                             <md-tooltip md-autohide="true">
-                                {{'global.tooltips.data-sets.any' | translate}}
+                                {{'global.tooltips.data-sets.no' | translate}}
                             </md-tooltip>
                         </div>
                         <div ng-if="ctrl.counts.dataSetsCount == 1 && ctrl.dataSet" class="fdz-truncate-string" flex>
@@ -132,7 +132,7 @@
                             <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                             {{'survey-management.detail.surveys-same-study' | translate }}: {{'global.messages.error.unavailable' | translate}}
                             <md-tooltip md-autohide="true">
-                                {{'global.tooltips.surveys.any' | translate}}
+                                {{'global.tooltips.surveys.no' | translate}}
                             </md-tooltip>
                         </div>
                         <div ng-if="ctrl.counts.surveysCount > 1" class="fdz-truncate-string" flex>
@@ -150,7 +150,7 @@
                             <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
                             {{'related-publication-management.detail.publications' | translate }}: {{'global.messages.error.unavailable' | translate}}
                             <md-tooltip md-autohide="true">
-                                {{'global.tooltips.publications.any' | translate}}
+                                {{'global.tooltips.publications.no' | translate}}
                             </md-tooltip>
                         </div>
                         <div ng-if="ctrl.counts.publicationsCount == 1" class="fdz-truncate-string" flex>

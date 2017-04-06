@@ -64,43 +64,44 @@ angular.module('metadatamanagementApp').config(
           'unrelease-project': 'Klicken, um die Freigabe des ausgewählten Projektes zurückzunehmen.',
           'post-validation': 'Klicken, um das ausgewählte Datenaufbereitungsprojekt zu validieren.',
           'surveys': {
-            'any': 'Keine zugehörige Erhebung',
-            'one': 'Klicken, um zu der zugehörigen Erhebung zu navigieren',
-            'many': 'Klicken, um die Liste aller zugehörigen Erhebungen zu laden'
+            'no': 'Keine verbundene Erhebung',
+            'one': 'Klicken, um die verbundene Erhebung zu öffnen',
+            'many': 'Klicken, um die Liste aller verbundenen Erhebungen zu öffnen'
           },
           'data-sets': {
-            'any': 'Keine zugehörige Datensätze',
-            'one': 'Klicken, um zum zugehörigen Datensatz zu navigieren',
-            'many': 'Klicken, um die Liste aller zugehörigen Datensätze zu laden',
-            'same-data-sets': 'Klicken, um die Liste der Datensätze der gleichen Studie zu laden'
+            'no': 'Keine verbundene Datensätze',
+            'one': 'Klicken, um den verbundenen Datensatz zu öffnen',
+            'many': 'Klicken, um die Liste aller verbundenen Datensätze zu öffnen',
+            'same-data-sets': 'Klicken, um die Liste der Datensätze der gleichen Studie zu öffnen'
           },
           'publications': {
-            'any': 'Keine zugehörige Publikationen',
-            'one': 'Klicken, um zur zugehörigen Publikation zu navigieren',
-            'many': 'Klicken, um die Liste aller zugehörigen Publikationen zu laden'
+            'no': 'Keine verbundene Publikationen',
+            'one': 'Klicken, um die verbundene Publikation zu öffnen',
+            'many': 'Klicken, um die Liste aller verbundenen Publikationen zu öffnen'
           },
           'questions': {
-            'any': 'Keine zugehörige Fragen',
-            'one': 'Klicken, um zur zugehörigen Frag zu navigieren',
-            'many': 'Klicken, um die Liste aller zugehörigen Fragen zu laden'
+            'no': 'Keine verbundene Fragen',
+            'one': 'Klicken, um die verbundene Frage zu öffnen',
+            'many': 'Klicken, um die Liste aller verbundenen Fragen zu öffnen'
           },
           'instruments': {
-            'any': 'Keine zugehörige Instrumente',
-            'one': 'Klicken, um zum zugehörigen Instrument zu navigieren',
-            'many': 'Klicken, um die Liste aller zugehörigen Instrumente zu laden'
+            'no': 'Keine verbundene Instrumente',
+            'one': 'Klicken, um das verbundene Instrument zu öffnen',
+            'many': 'Klicken, um die Liste aller verbundenen Instrumente zu öffnen'
           },
           'variables': {
-            'any': 'Keine zugehörige Variablen',
-            'one': 'Klicken, um zur zugehörigen Variable zu navigieren',
-            'many': 'Klicken, um die Liste aller zugehörigen Variablen zu laden',
-            'same-in-panel': 'Klicken, um die Liste der gleichen Variablen zu laden'
+            'no': 'Keine verbundene Variablen',
+            'one': 'Klicken, um die verbundene Variable zu öffnen',
+            'many': 'Klicken, um die Liste aller verbundenen Variablen zu öffnen',
+            'same-in-panel': 'Klicken, um die Liste der gleichen Variablen zu öffnen'
           },
           'studies':{
-            'any': 'Keine zugehörige Studie',
-            'one': 'Klicken, um zur Studie zu navigieren'
+            'no': 'Keine verbundene Studie',
+            'one': 'Klicken, um die verbundene Studie zu öffnen',
+            'many': 'Klicken, um die Liste aller verbundenen Studien zu öffnen'
           },
           'files': {
-            'download': 'Klicken, um die Datei herunterzuladen'
+            'download': 'Klicken, um das Dokument herunterzuladen'
           },
           'images': 'Klicken, um das Bild in neuem zu öffnen'
         },
