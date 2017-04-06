@@ -18,14 +18,14 @@
         <ul style="padding: 0px; margin: 0px;">
             <li class="fdz-navbar-menu">
                 <md-button lang="en" id="changeLanguageToEn" ng-click="changeLanguage('en')" ng-if="currentLanguage!='en'" class="fdz-navbar-button">
-                    <md-tooltip>
+                    <md-tooltip md-autohide="true">
                         {{'global.toolbar.buttons.change-language' | translate}}
                     </md-tooltip>
                     <md-icon md-font-set="material-icons">language</md-icon>
                     <span>Pages in English</span>
                 </md-button>
                 <md-button lang="de" id="changeLanguageToDe" ng-click="changeLanguage('de')" ng-if="currentLanguage!='de'" class="fdz-navbar-button">
-                    <md-tooltip>
+                    <md-tooltip md-autohide="true">
                         {{'global.toolbar.buttons.change-language' | translate}}
                     </md-tooltip>
                     <md-icon md-font-set="material-icons">language</md-icon>
@@ -52,14 +52,14 @@
                     <span data-translate="global.menu.account.main"></span>
                     <md-icon ng-if="!isAccountMenuOpen" md-font-set="material-icons">keyboard_arrow_down</md-icon>
                     <md-icon ng-if="isAccountMenuOpen" md-font-set="material-icons">keyboard_arrow_up</md-icon>
-                    <md-tooltip>
+                    <md-tooltip md-autohide="true">
                         {{'global.toolbar.buttons.fdz-staff-area-tooltip'|translate}}
                     </md-tooltip>
                 </md-button>
                 <ul class="fdz-navbar-menu-items" ng-show="isAccountMenuOpen">
                     <li ng-switch-when="false">
                         <md-button id="login" ng-click="close()" ui-sref-active="fdz-navbar-button-active" ui-sref="login({lang:currentLanguage})" class="fdz-navbar-button">
-                            <md-tooltip>
+                            <md-tooltip md-autohide="true">
                                 {{'global.toolbar.buttons.login-tooltip' | translate}}
                             </md-tooltip>
                             <md-icon md-svg-src="/assets/images/icons/login.svg"></md-icon>
@@ -68,7 +68,7 @@
                     </li>
                     <li ng-switch-when="false">
                         <md-button id="register" ng-click="close()" ui-sref-active="fdz-navbar-button-active" ui-sref="register({lang:currentLanguage})" class="fdz-navbar-button">
-                            <md-tooltip>
+                            <md-tooltip md-autohide="true">
                                 {{'global.toolbar.buttons.register-tooltip' | translate}}
                             </md-tooltip>
                             <md-icon md-svg-src="/assets/images/icons/account-plus.svg"></md-icon>
@@ -77,7 +77,7 @@
                     </li>
                     <li ng-switch-when="true">
                         <md-button ui-sref="settings" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
-                          <md-tooltip>
+                          <md-tooltip md-autohide="true">
                               {{'global.toolbar.buttons.settings-tooltip' | translate}}
                           </md-tooltip>
                           <span data-translate="global.menu.account.settings">Settings</span>
@@ -85,7 +85,7 @@
                     </li>
                     <li ng-switch-when="true">
                         <md-button ui-sref="password" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
-                          <md-tooltip>
+                          <md-tooltip md-autohide="true">
                               {{'global.toolbar.buttons.password-tooltip' | translate}}
                           </md-tooltip>
                           <span data-translate="global.menu.account.password">Password</span>
@@ -96,7 +96,7 @@
             </li>
             <li class="fdz-navbar-menu" ng-switch-when="true" data-has-authority="ROLE_ADMIN">
                 <md-button class="fdz-navbar-menu-toggle" ng-click="toggleAdminMenu()">
-                  <md-tooltip>
+                  <md-tooltip md-autohide="true">
                       {{'global.toolbar.buttons.administration-tooltip' | translate}}
                   </md-tooltip>
                   <span data-translate="global.menu.admin.main"></span>
@@ -106,7 +106,7 @@
                 <ul class="fdz-navbar-menu-items" ng-show="isAdminMenuOpen">
                     <li>
                         <md-button ui-sref="user-management" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
-                          <md-tooltip>
+                          <md-tooltip md-autohide="true">
                               {{'global.toolbar.buttons.user-management-tooltip' | translate}}
                           </md-tooltip>
                           <span data-translate="global.menu.admin.user-management">User management</span>
@@ -114,7 +114,7 @@
                     </li>
                     <li>
                         <md-button ui-sref="metrics" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
-                          <md-tooltip>
+                          <md-tooltip md-autohide="true">
                               {{'global.toolbar.buttons.metrics-tooltip' | translate}}
                           </md-tooltip>
                           <span data-translate="global.menu.admin.metrics">Metrics</span>
@@ -122,7 +122,7 @@
                     </li>
                     <li>
                         <md-button ui-sref="health" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
-                          <md-tooltip>
+                          <md-tooltip md-autohide="true">
                               {{'global.toolbar.buttons.health-tooltip' | translate}}
                           </md-tooltip>
                           <span data-translate="global.menu.admin.health">Health</span>
@@ -130,7 +130,7 @@
                     </li>
                     <li>
                         <md-button ui-sref="configuration" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
-                          <md-tooltip>
+                          <md-tooltip md-autohide="true">
                               {{'global.toolbar.buttons.configuration-tooltip' | translate}}
                           </md-tooltip>
                           <span data-translate="global.menu.admin.configuration">Configuration</span>
@@ -138,7 +138,7 @@
                     </li>
                     <li>
                         <md-button ui-sref="logs" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
-                          <md-tooltip>
+                          <md-tooltip md-autohide="true">
                               {{'global.toolbar.buttons.logs-tooltip' | translate}}
                           </md-tooltip>
                           <span data-translate="global.menu.admin.logs">Logs</span>
@@ -150,7 +150,7 @@
             <li class="fdz-navbar-menu">
                 <md-button ui-sref="disclosure" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
                     <span data-translate="global.menu.disclosure">Disclosure</span>
-                    <md-tooltip>
+                    <md-tooltip md-autohide="true">
                         {{'global.toolbar.buttons.disclosure-tooltip'|translate}}
                     </md-tooltip>
                 </md-button>

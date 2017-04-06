@@ -49,6 +49,7 @@ angular.module('metadatamanagementApp').config(
             'accessWay': 'Data Product',
             'description': 'Description',
             'numberOfAnalyzedVariables': 'Analyzable Variables',
+            'numberOfAnalyzedVariables-tooltip': 'Click to navigate to the list of analyzable variables',
             'numberOfObservations': 'Observations'
           },
           'content': {

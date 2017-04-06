@@ -4,7 +4,7 @@
 angular.module('metadatamanagementApp').directive('displayI18nString',
     function(LanguageService) {
         var link = function(scope, element) {
-            var toBeDisplayed = '';
+            var toBeDisplayed;
             var currentLanguage = LanguageService.getCurrentInstantly();
             if (_.isObject(scope.displayI18nString) &&
                 !_.isArray(scope.displayI18nString)) {

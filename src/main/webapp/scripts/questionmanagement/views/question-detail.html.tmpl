@@ -1,13 +1,13 @@
 <div ng-if="ctrl.question.id">
     <div layout="row" style="margin-bottom: 0px;" layout-margin>
-        <h1 class="md-headline" style="margin-left: 0px;">{{'question-management.detail.question' | translate}} {{ctrl.question.number}}: <span ng-if='ctrl.instrument' display-i18n-string=ctrl.instrument.description></span> <span class="label label-as-badge label-default">{{ctrl.question.id}}</span></h1>
+        <h1 class="md-headline" style="margin-left: 0px;">{{'question-management.detail.question' | translate}} {{ctrl.question.number}}: <span ng-if='ctrl.instrument' display-i18n-string="ctrl.instrument.description"></span> <span class="label label-as-badge label-default">{{ctrl.question.id}}</span></h1>
     </div>
     <div layout="column" layout-gt-sm="row">
       <div flex-gt-sm="50">
         <md-card>
             <div class="fdz-overlay-outer-box">
               <div style="max-height:211px; overflow-y:hidden;">
-                   <img display-i18n-string=ctrl.question.questionText alt="" style="width: 100%; height: auto" ng-src="public/files/questions/{{ctrl.question.id}}" />
+                   <img display-i18n-string="ctrl.question.questionText" alt="" style="width: 100%; height: auto" ng-src="public/files/questions/{{ctrl.question.id}}" />
                </div>
                 <div class="fdz-overlay-inner-box-bottom">
                     <md-button class="md-fab md-mini md-primary" ng-href="/public/files/questions/{{ctrl.question.id}}" target="_blank">
@@ -37,7 +37,7 @@
                     <div ng-if="ctrl.study" class="fdz-truncate-string" flex>
                       <a ui-sref="studyDetail({id: ctrl.study.id})">
                           <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
-                          {{'study-management.detail.study' | translate }}: <span display-i18n-string=ctrl.study.title></span></a>
+                          {{'study-management.detail.study' | translate }}: <span display-i18n-string="ctrl.study.title"></span></a>
                   </div>
                 </div>
                 <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
@@ -48,7 +48,7 @@
                     <div ng-if="ctrl.instrument" class="fdz-truncate-string" flex>
                        <a ui-sref="instrumentDetail({'id': ctrl.instrument.id})">
                            <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
-                           {{'instrument-management.detail.instrument' | translate }}: <span display-i18n-string=ctrl.instrument.description></span></a>
+                           {{'instrument-management.detail.instrument' | translate }}: <span display-i18n-string="ctrl.instrument.description"></span></a>
                    </div>
                 </div>
                 <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
@@ -59,7 +59,7 @@
                     <div ng-if="ctrl.counts.variablesCount == 1 && ctrl.variable" class="fdz-truncate-string" flex>
                        <a ui-sref="variableDetail({'id': ctrl.variable.id})">
                            <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
-                           {{'variable-management.detail.variable' | translate }}: <span display-i18n-string=ctrl.variable.label></span></a>
+                           {{'variable-management.detail.variable' | translate }}: <span display-i18n-string="ctrl.variable.label"></span></a>
                    </div>
                     <div ng-if="ctrl.counts.variablesCount > 1" class="fdz-truncate-string" flex>
                         <a ui-sref="search({'type': 'variables', 'question': ctrl.question.id, 'page': 1})">
@@ -103,23 +103,23 @@
                 </div>
                 <div style="margin-bottom: 0.5em;" ng-if="ctrl.question.questionText">
                    <span style="font-weight: bold;">{{'question-management.detail.questionText' | translate }}:</span>
-                   <span display-i18n-string=ctrl.question.questionText></span>
+                   <span display-i18n-string="ctrl.question.questionText"></span>
                </div>
                <div style="margin-bottom: 0.5em;" ng-if="ctrl.question.introduction">
                    <span style="font-weight: bold;">{{'question-management.detail.introduction' | translate }}:</span>
-                   <span display-i18n-string=ctrl.question.introduction></span>
+                   <span display-i18n-string="ctrl.question.introduction"></span>
                </div>
                <div style="margin-bottom: 0.5em;" ng-if="ctrl.question.instruction">
                    <span style="font-weight: bold;">{{'question-management.detail.instruction' | translate }}:</span>
-                   <span display-i18n-string=ctrl.question.instruction></span>
+                   <span display-i18n-string="ctrl.question.instruction"></span>
                </div>
                <div style="margin-bottom: 0.5em;" ng-if="ctrl.question.type">
                    <span style="font-weight: bold;">{{'question-management.detail.type' | translate }}:</span>
-                   <span display-i18n-string=ctrl.question.type></span>
+                   <span display-i18n-string="ctrl.question.type"></span>
                </div>
                <div style="margin-bottom: 0.5em;" ng-if="ctrl.question.topic">
                    <span style="font-weight: bold;">{{'question-management.detail.topic' | translate }}:</span>
-                   <span display-i18n-string=ctrl.question.topic></span>
+                   <span display-i18n-string="ctrl.question.topic"></span>
                </div>
             </md-card-content>
         </md-card>

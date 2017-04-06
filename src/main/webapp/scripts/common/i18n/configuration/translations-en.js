@@ -57,6 +57,43 @@ angular.module('metadatamanagementApp').config(
           'ok': 'OK',
           'cancel': 'Cancel'
         },
+        'tooltips': {
+          'create-project': 'Click to create a new Data Acquisition Project.',
+          'delete-project': 'Click to delete the selected Data Acquisition Project with all related data.',
+          'release-project': 'Click to release the chosen project for all users.',
+          'unrelease-project': 'Click to unrelease the chosen project.',
+          'post-validation': 'Click to validate a chosen Data Acquisition Project.',
+          'surveys': {
+            'one': '',
+            'many': ''
+          },
+          'data-sets': {
+            'one': '',
+            'many': ''
+          },
+          'publications': {
+            'one': '',
+            'many': ''
+          },
+          'questions': {
+            'one': '',
+            'many': ''
+          },
+          'instruments': {
+            'one': '',
+            'many': ''
+          },
+          'variables': {
+            'one': '',
+            'many': ''
+          },
+          'studies':{
+            'one': ''
+          },
+          'files': {
+            'download': 'Click to download the file'
+          }
+        },
         'menu': {
           'entities': {
             'main': 'Entities',
@@ -83,13 +120,6 @@ angular.module('metadatamanagementApp').config(
             'logs': 'Logs',
             'apidocs': 'API',
             'database': 'Database'
-          },
-          'tooltipps': {
-            'create-project': 'Click to create a new Data Acquisition Project.',
-            'delete-project': 'Click to delete the selected Data Acquisition Project with all related data.',
-            'release-project': 'Click to release the chosen project for all users.',
-            'unrelease-project': 'Click to unrelease the chosen project.',
-            'post-validation': 'Click to validate a chosen Data Acquisition Project.'
           },
           'skip-navigation': 'Skip to Content',
           'skip-navigation-tooltip': 'Click to skip elements from navigation bar',

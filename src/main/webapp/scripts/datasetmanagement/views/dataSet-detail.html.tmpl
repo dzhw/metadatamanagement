@@ -1,6 +1,6 @@
 <div ng-if="ctrl.dataSet.id" flex ngf-drop="ctrl.uploadTexTemplate($files)" ngf-multiple="true" ngf-include-dir="false" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-drop-disabled="!ctrl.isAuthenticated() || !ctrl.hasAuthority('ROLE_PUBLISHER')">
     <div layout="row" style="margin-bottom: 0px;" layout-margin>
-        <h1 class="md-headline" style="margin-left: 0px;"><span display-i18n-string=ctrl.dataSet.description></span> <span class="label label-as-badge label-default">{{ctrl.dataSet.id}}</span></h1>
+        <h1 class="md-headline" style="margin-left: 0px;"><span display-i18n-string="ctrl.dataSet.description"></span> <span class="label label-as-badge label-default">{{ctrl.dataSet.id}}</span></h1>
     </div>
     <div layout="column" layout-gt-sm="row">
         <div flex-gt-sm="50" layout="column">
@@ -14,11 +14,11 @@
                 <md-card-content>
                     <div style="margin-bottom: 0.5em;" ng-if="ctrl.dataSet.type">
                         <span style="font-weight: bold;">{{'data-set-management.detail.type' | translate }}:</span>
-                        <span display-i18n-string=ctrl.dataSet.type></span>
+                        <span display-i18n-string="ctrl.dataSet.type"></span>
                     </div>
                     <div style="margin-bottom: 0.5em;" ng-if="ctrl.dataSet.format">
                         <span style="font-weight: bold;">{{'data-set-management.detail.format' | translate }}:</span>
-                        <span display-i18n-string=ctrl.dataSet.format></span>
+                        <span display-i18n-string="ctrl.dataSet.format"></span>
                     </div>
                 </md-card-content>
             </md-card>
@@ -36,73 +36,120 @@
                         <div ng-if="!ctrl.study" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
                             {{'study-management.detail.study' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                            <md-tooltip md-autohide="true">
+                                {{'global.tooltips.studies.any' | translate}}
+                            </md-tooltip>
                         </div>
                         <div ng-if="ctrl.study" class="fdz-truncate-string" flex>
                             <a ui-sref="studyDetail({id: ctrl.study.id})">
                                 <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
                                 {{'study-management.detail.study' | translate }}:
-                                <span display-i18n-string=ctrl.study.title></span></a>
+                                <span display-i18n-string="ctrl.study.title"></span>
+                                <md-tooltip md-autohide="true">
+                                    {{'global.tooltips.studies.one' | translate}}
+                                </md-tooltip>
+                            </a>
                         </div>
                     </div>
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                         <div ng-if="ctrl.counts.surveysCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                             {{'survey-management.detail.surveys' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                            <md-tooltip md-autohide="true">
+                                {{'global.tooltips.surveys.any' | translate}}
+                            </md-tooltip>
                         </div>
                         <div ng-if="ctrl.counts.surveysCount == 1 && ctrl.survey" class="fdz-truncate-string" flex>
                             <a ui-sref="surveyDetail({'id': ctrl.survey.id})">
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                                 {{'survey-management.detail.survey' | translate }}:
-                                <span display-i18n-string=ctrl.survey.title></span></a>
+                                <span display-i18n-string="ctrl.survey.title"></span>
+                                <md-tooltip md-autohide="true">
+                                    {{'global.tooltips.surveys.one' | translate}}
+                                </md-tooltip>
+                            </a>
                         </div>
                         <div ng-if="ctrl.counts.surveysCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'surveys', 'data-set': ctrl.dataSet.id, 'page': 1})">
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
-                                {{'survey-management.detail.surveys' | translate }}: ({{ctrl.counts.surveysCount}})</a>
+                                {{'survey-management.detail.surveys' | translate }}: ({{ctrl.counts.surveysCount}})
+                                <md-tooltip md-autohide="true">
+                                    {{'global.tooltips.surveys.many' | translate}}
+                                </md-tooltip>
+                            </a>
                         </div>
                     </div>
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                         <div ng-if="ctrl.counts.variablesCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
                             {{'variable-management.detail.variables' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                            <md-tooltip md-autohide="true">
+                                {{'global.tooltips.variables.any' | translate}}
+                            </md-tooltip>
                         </div>
                         <div ng-if="ctrl.counts.variablesCount == 1 && ctrl.variable" class="fdz-truncate-string" flex>
                             <a ui-sref="variableDetail({'id': ctrl.variable.id})">
                                 <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
                                 {{'variable-management.detail.variable' | translate }}:
-                                <span display-i18n-string=ctrl.variable.label></span></a>
+                                <span display-i18n-string="ctrl.variable.label"></span>
+                                <md-tooltip md-autohide="true">
+                                    {{'global.tooltips.variables.one' | translate}}
+                                </md-tooltip>
+                            </a>
                         </div>
                         <div ng-if="ctrl.counts.variablesCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'variables', 'data-set': ctrl.dataSet.id, 'page': 1, 'sort-by': 'indexInDataSet'})">
                                 <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
-                                {{'variable-management.detail.variables' | translate }}: ({{ctrl.counts.variablesCount}})</a>
+                                {{'variable-management.detail.variables' | translate }}: ({{ctrl.counts.variablesCount}})
+                                <md-tooltip md-autohide="true">
+                                    {{'global.tooltips.variables.many' | translate}}
+                                </md-tooltip>
+                            </a>
                         </div>
                     </div>
                     <div ng-if="ctrl.counts.dataSetsCount !== 1" style="margin-bottom: 0.5em; width: 100%;" layout="row">
                         <div ng-if="ctrl.counts.dataSetsCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
                             {{'data-set-management.detail.data-set-same-study' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                            <md-tooltip md-autohide="true">
+                                {{'global.tooltips.data-sets.any' | translate}}
+                            </md-tooltip>
                         </div>
                         <div ng-if="ctrl.counts.dataSetsCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'data_sets', 'study':ctrl.dataSet.studyId, 'page': 1})">
                                 <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
-                                {{'data-set-management.detail.data-set-same-study' | translate }}: ({{ctrl.counts.dataSetsCount}})</a>
+                                {{'data-set-management.detail.data-set-same-study' | translate }}: ({{ctrl.counts.dataSetsCount}})
+                                <md-tooltip md-autohide="true">
+                                    {{'global.tooltips.data-sets.same-data-sets' | translate}}
+                                </md-tooltip>
+                            </a>
                         </div>
                     </div>
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                         <div ng-if="ctrl.counts.publicationsCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
                             {{'related-publication-management.detail.publications' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                            <md-tooltip md-autohide="true">
+                                {{'global.tooltips.publications.any' | translate}}
+                            </md-tooltip>
                         </div>
                         <div ng-if="ctrl.counts.publicationsCount == 1" class="fdz-truncate-string" flex>
                             <a ui-sref="relatedPublicationDetail({'id': ctrl.relatedPublication.id})">
                                 <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
-                                {{'related-publication-management.detail.publication' | translate }}: {{ctrl.relatedPublication.title}}</a>
+                                {{'related-publication-management.detail.publication' | translate }}: {{ctrl.relatedPublication.title}}
+                                <md-tooltip md-autohide="true">
+                                    {{'global.tooltips.publications.one' | translate}}
+                                </md-tooltip>
+                            </a>
                         </div>
                         <div ng-if="ctrl.counts.publicationsCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'related_publications', 'data-set':ctrl.dataSet.id, 'page': 1})">
                                 <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
-                                {{'related-publication-management.detail.publications' | translate }}: ({{ctrl.counts.publicationsCount}})</a>
+                                {{'related-publication-management.detail.publications' | translate }}: ({{ctrl.counts.publicationsCount}})
+                                <md-tooltip md-autohide="true">
+                                    {{'global.tooltips.publications.many' | translate}}
+                                </md-tooltip>
+                            </a>
                         </div>
                     </div>
                 </md-card-content>
@@ -149,11 +196,13 @@
                 <tbody>
                     <tr ng-repeat="row in ctrl.dataSet.subDataSets">
                         <td>{{row.name}}&nbsp;</td>
-                        <td display-i18n-string=row.description></td>
+                        <td display-i18n-string="row.description"></td>
                         <td>{{row.accessWay}}</td>
                         <td>
                             <a ui-sref="search({'type': 'variables', 'data-set':ctrl.dataSet.id, 'page': 1, 'access-way': row.accessWay,'sort-by': 'indexInDataSet'})">
-                          {{ctrl.counts[row.name]}}&nbsp;</a>
+                          {{ctrl.counts[row.name]}}&nbsp;<md-tooltip md-autohide="true">
+                                {{'data-set-management.detail.sub-data-sets.numberOfAnalyzedVariables-tooltip' | translate}}
+                            </md-tooltip></a>
                         </td>
                         <td>{{row.numberOfObservations}}&nbsp;</td>
                     </tr>

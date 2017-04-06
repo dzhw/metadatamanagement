@@ -1,6 +1,6 @@
 <div ng-if="ctrl.survey.id">
     <div layout="row" style="margin-bottom: 0px;" layout-margin>
-        <h1 class="md-headline" style="margin-left: 0px;"><span display-i18n-string=ctrl.survey.title></span> <span class="label label-as-badge label-default">{{ctrl.survey.id}}</span></h1>
+        <h1 class="md-headline" style="margin-left: 0px;"><span display-i18n-string="ctrl.survey.title"></span> <span class="label label-as-badge label-default">{{ctrl.survey.id}}</span></h1>
     </div>
     <div layout="column" layout-gt-sm="row">
         <div flex-gt-sm="50" layout="column">
@@ -14,15 +14,15 @@
                 <md-card-content>
                   <div style="margin-bottom: 0.5em;" ng-if="ctrl.survey.population">
                     <span style="font-weight: bold;">{{'survey-management.detail.population' | translate }}:</span>
-                    <span display-i18n-string=ctrl.survey.population></span>
+                    <span display-i18n-string="ctrl.survey.population"></span>
                   </div>
                   <div style="margin-bottom: 0.5em;" ng-if="ctrl.survey.sample">
                     <span style="font-weight: bold;">{{'survey-management.detail.sample' | translate }}:</span>
-                    <span display-i18n-string=ctrl.survey.sample></span>
+                    <span display-i18n-string="ctrl.survey.sample"></span>
                   </div>
                   <div style="margin-bottom: 0.5em;" ng-if="ctrl.survey.surveyMethod">
                     <span style="font-weight: bold;">{{'survey-management.detail.survey-method' | translate }}:</span>
-                    <span display-i18n-string=ctrl.survey.surveyMethod></span>
+                    <span display-i18n-string="ctrl.survey.surveyMethod"></span>
                   </div>
                   <div style="margin-bottom: 0.5em;" ng-if="ctrl.survey.fieldPeriod">
                     <span style="font-weight: bold;">{{'survey-management.detail.field-period' | translate }}:</span>
@@ -56,73 +56,120 @@
                         <div ng-if="!ctrl.study" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
                             {{'study-management.detail.study' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                            <md-tooltip md-autohide="true">
+                                {{'global.tooltips.studies.any' | translate}}
+                            </md-tooltip>
                         </div>
                         <div ng-if="ctrl.study" class="fdz-truncate-string" flex>
                             <a ui-sref="studyDetail({id: ctrl.study.id})">
                                 <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
                                 {{'study-management.detail.study' | translate }}:
-                                <span display-i18n-string=ctrl.study.title></span></a>
+                                <span display-i18n-string="ctrl.study.title"></span>
+                                <md-tooltip md-autohide="true">
+                                    {{'global.tooltips.studies.one' | translate}}
+                                </md-tooltip>
+                            </a>
                         </div>
                     </div>
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                         <div ng-if="ctrl.counts.instrumentsCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
                             {{'instrument-management.detail.instruments' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                            <md-tooltip md-autohide="true">
+                                {{'global.tooltips.instruments.any' | translate}}
+                            </md-tooltip>
                         </div>
                         <div ng-if="ctrl.counts.instrumentsCount === 1 && ctrl.instrument" class="fdz-truncate-string" flex>
                           <a ui-sref="instrumentDetail({'id': ctrl.instrument.id})">
                               <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
                               {{'instrument-management.detail.instrument' | translate }}:
-                              <span display-i18n-string=ctrl.instrument.description></span></a>
+                              <span display-i18n-string="ctrl.instrument.description"></span>
+                              <md-tooltip md-autohide="true">
+                                  {{'global.tooltips.instruments.one' | translate}}
+                              </md-tooltip>
+                          </a>
                       </div>
                         <div ng-if="ctrl.counts.instrumentsCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'instruments', 'survey':ctrl.survey.id, 'page': 1})">
                                 <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
-                                {{'instrument-management.detail.instruments' | translate }}: ({{ctrl.counts.instrumentsCount}})</a>
+                                {{'instrument-management.detail.instruments' | translate }}: ({{ctrl.counts.instrumentsCount}})
+                                <md-tooltip md-autohide="true">
+                                    {{'global.tooltips.instruments.many' | translate}}
+                                </md-tooltip>
+                            </a>
                         </div>
                     </div>
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                         <div ng-if="ctrl.counts.dataSetsCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
                             {{'data-set-management.detail.data-sets' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                            <md-tooltip md-autohide="true">
+                                {{'global.tooltips.data-sets.any' | translate}}
+                            </md-tooltip>
                         </div>
                         <div ng-if="ctrl.counts.dataSetsCount == 1 && ctrl.dataSet" class="fdz-truncate-string" flex>
                             <a ui-sref="dataSetDetail({'id': ctrl.dataSet.id})">
                                 <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
                                 {{'data-set-management.detail.data-set' | translate }}:
-                                <span display-i18n-string=ctrl.dataSet.description></span></a>
+                                <span display-i18n-string="ctrl.dataSet.description"></span>
+                                <md-tooltip md-autohide="true">
+                                    {{'global.tooltips.data-sets.one' | translate}}
+                                </md-tooltip>
+                            </a>
                         </div>
                         <div ng-if="ctrl.counts.dataSetsCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'data_sets', 'survey':ctrl.survey.id, 'page': 1})">
                                 <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
-                                {{'data-set-management.detail.data-sets' | translate }}: ({{ctrl.counts.dataSetsCount}})</a>
+                                {{'data-set-management.detail.data-sets' | translate }}: ({{ctrl.counts.dataSetsCount}})
+                                <md-tooltip md-autohide="true">
+                                    {{'global.tooltips.data-sets.many' | translate}}
+                                </md-tooltip>
+                            </a>
                         </div>
                     </div>
                     <div ng-if="ctrl.counts.surveysCount !== 1" style="margin-bottom: 0.5em; width: 100%;" layout="row">
                         <div ng-if="ctrl.counts.surveysCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                             {{'survey-management.detail.surveys-same-study' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                            <md-tooltip md-autohide="true">
+                                {{'global.tooltips.surveys.any' | translate}}
+                            </md-tooltip>
                         </div>
                         <div ng-if="ctrl.counts.surveysCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'surveys', 'study':ctrl.survey.studyId, 'page': 1})">
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
-                                {{'survey-management.detail.surveys-same-study' | translate }}: ({{ctrl.counts.surveysCount}})</a>
+                                {{'survey-management.detail.surveys-same-study' | translate }}: ({{ctrl.counts.surveysCount}})
+                                <md-tooltip md-autohide="true">
+                                    {{'global.tooltips.surveys.many' | translate}}
+                                </md-tooltip>
+                            </a>
                         </div>
                     </div>
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                         <div ng-if="ctrl.counts.publicationsCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
                             {{'related-publication-management.detail.publications' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                            <md-tooltip md-autohide="true">
+                                {{'global.tooltips.publications.any' | translate}}
+                            </md-tooltip>
                         </div>
                         <div ng-if="ctrl.counts.publicationsCount == 1" class="fdz-truncate-string" flex>
                             <a ui-sref="relatedPublicationDetail({'id': ctrl.relatedPublication.id})">
                                 <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
-                                {{'related-publication-management.detail.publication' | translate }}: {{ctrl.relatedPublication.title}}</a>
+                                {{'related-publication-management.detail.publication' | translate }}: {{ctrl.relatedPublication.title}}
+                                <md-tooltip md-autohide="true">
+                                    {{'global.tooltips.publications.one' | translate}}
+                                </md-tooltip>
+                            </a>
                         </div>
                         <div ng-if="ctrl.counts.publicationsCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'related_publications', 'survey': ctrl.survey.id, 'page': 1})">
                                 <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
-                                {{'related-publication-management.detail.publications' | translate }}: ({{ctrl.counts.publicationsCount}})</a>
+                                {{'related-publication-management.detail.publications' | translate }}: ({{ctrl.counts.publicationsCount}})
+                                <md-tooltip md-autohide="true">
+                                    {{'global.tooltips.publications.many' | translate}}
+                                </md-tooltip>
+                            </a>
                         </div>
                     </div>
                 </md-card-content>
@@ -164,9 +211,11 @@
                 <tbody>
                     <tr ng-repeat="row in ctrl.attachments">
                         <td lang="{{row.language}}">{{row.title}}&nbsp;</td>
-                        <td display-i18n-string=row.description></td>
+                        <td display-i18n-string="row.description"></td>
                         <td>{{row.language | displayIsoLanguage: currentLanguage}}&nbsp;</td>
-                        <td><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}</a>&nbsp;</td>
+                        <td><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}<md-tooltip md-autohide="true">
+                            {{'global.tooltips.files.download' | translate}}
+                        </md-tooltip></a>&nbsp;</td>
                     </tr>
                 </tbody>
             </table>
@@ -181,8 +230,11 @@
                     </md-card-header-text>
                 </md-card-header>
                 <md-divider></md-divider>
-                <a ng-href="{{'/public/files/surveys/' + ctrl.survey.id + '/' + ctrl.survey.number + '_responserate_' + currentLanguage + '.svg'}}" title="" target="_blank">
-                    <img data-fdz-onload="ctrl.setImgResolved()" alt="" style="width:100%;height:100%;top:0;left:0;bottom:0;right:0;" ng-src="{{'/public/files/surveys/' + ctrl.survey.id + '/' + ctrl.survey.number + '_responserate_' + currentLanguage + '.svg'}}" />
+                <a ng-href="{{'/public/files/surveys/' + ctrl.survey.id + '/' + ctrl.survey.number + '_responserate_' + currentLanguage + '.svg'}}" target="_blank">
+                    <img data-fdz-onload="ctrl.setImgResolved()" alt="{{'survey-management.detail.response-rate-informations-alt-text' | translate}}" style="width:100%;height:100%;top:0;left:0;bottom:0;right:0;" ng-src="{{'/public/files/surveys/' + ctrl.survey.id + '/' + ctrl.survey.number + '_responserate_' + currentLanguage + '.svg'}}" />
+                    <md-tooltip md-autohide="true">
+                        {{'survey-management.detail.response-rate-informations-tooltip' | translate}}
+                    </md-tooltip>
                 </a>
             </md-card>
         </div>

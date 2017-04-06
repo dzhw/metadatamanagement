@@ -45,6 +45,8 @@ angular.module('metadatamanagementApp').config(
           'sampleSize': 'Net Sample Size',
           'responseRate': 'Response Rate',
           'response-rate-informations': 'Further information about the Response Rate',
+          'response-rate-informations-tooltip': 'Click to open the image in new tab',
+          'response-rate-informations-alt-text': 'Image to display further information about the response rate',
           'attachments': {
             'table-title': 'Documents related to the Survey',
             'title': 'Title',

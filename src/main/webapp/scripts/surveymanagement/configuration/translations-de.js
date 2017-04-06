@@ -45,6 +45,8 @@ angular.module('metadatamanagementApp').config(
           'sampleSize': 'Nettostichprobe',
           'responseRate': 'Rücklaufquote',
           'response-rate-informations': 'Weitere Informationen zum Rücklauf',
+          'response-rate-informations-tooltip': 'Klicken, um das Bild zu öffnen',
+          'response-rate-informations-alt-text': 'Bild zum Darstellen von weiteren Informationen zum Rücklauf',
           'attachments': {
             'table-title': 'Materialien zu der Erhebung',
             'title': 'Titel',

@@ -57,6 +57,51 @@ angular.module('metadatamanagementApp').config(
           'ok': 'OK',
           'cancel': 'Abbrechen'
         },
+        'tooltips': {
+          'create-project': 'Klicken, um ein neues Datenaufbereitungsprojekt zu erzeugen.',
+          'delete-project': 'Klicken, um das ausgewählte Datenaufbereitungsprojekt mit allen verknüpften Daten zu löschen.',
+          'release-project': 'Klicken, um das ausgewählte Projekt für alle Benutzer freizugeben.',
+          'unrelease-project': 'Klicken, um die Freigabe des ausgewählten Projektes zurückzunehmen.',
+          'post-validation': 'Klicken, um das ausgewählte Datenaufbereitungsprojekt zu validieren.',
+          'surveys': {
+            'any': 'Keine zugehörige Erhebung',
+            'one': 'Klicken, um zu der zugehörigen Erhebung zu navigieren',
+            'many': 'Klicken, um die Liste aller zugehörigen Erhebungen zu laden'
+          },
+          'data-sets': {
+            'any': 'Keine zugehörige Datensätze',
+            'one': 'Klicken, um zum zugehörigen Datensatz zu navigieren',
+            'many': 'Klicken, um die Liste aller zugehörigen Datensätze zu laden',
+            'same-data-sets': 'Klicken, um die Liste der Datensätze der gleichen Studie zu laden'
+          },
+          'publications': {
+            'any': 'Keine zugehörige Publikationen',
+            'one': 'Klicken, um zur zugehörigen Publikation zu navigieren',
+            'many': 'Klicken, um die Liste aller zugehörigen Publikationen zu laden'
+          },
+          'questions': {
+            'any': 'Keine zugehörige Fragen',
+            'one': 'Klicken, um zur zugehörigen Frag zu navigieren',
+            'many': 'Klicken, um die Liste aller zugehörigen Fragen zu laden'
+          },
+          'instruments': {
+            'any': 'Keine zugehörige Instrumente',
+            'one': 'Klicken, um zum zugehörigen Instrument zu navigieren',
+            'many': 'Klicken, um die Liste aller zugehörigen Instrumente zu laden'
+          },
+          'variables': {
+            'any': 'Keine zugehörige Variablen',
+            'one': 'Klicken, um zur zugehörigen Variable zu navigieren',
+            'many': 'Klicken, um die Liste aller zugehörigen Variablen zu laden'
+          },
+          'studies':{
+            'any': 'Keine zugehörige Studie',
+            'one': 'Klicken, um zur Studie zu navigieren'
+          },
+          'files': {
+            'download': 'Klicken, um die Datei herunterzuladen'
+          }
+        },
         'menu': {
           'entities': {
             'main': 'Entitäten',
@@ -83,13 +128,6 @@ angular.module('metadatamanagementApp').config(
             'logs': 'Protokoll',
             'apidocs': 'API',
             'database': 'Database'
-          },
-          'tooltipps': {
-            'create-project': 'Klicken, um ein neues Datenaufbereitungsprojekt zu erzeugen.',
-            'delete-project': 'Klicken, um das ausgewählte Datenaufbereitungsprojekt mit allen verknüpften Daten zu löschen.',
-            'release-project': 'Klicken, um das ausgewählte Projekt für alle Benutzer freizugeben.',
-            'unrelease-project': 'Klicken, um die Freigabe des ausgewählten Projektes zurückzunehmen.',
-            'post-validation': 'Klicken, um das ausgewählte Datenaufbereitungsprojekt zu validieren.'
           },
           'skip-navigation': 'Zum Inhalt springen',
           'skip-navigation-tooltip': 'Klicken zum Überspringen der Navigationselemente',

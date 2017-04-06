@@ -19,7 +19,7 @@
                     <span hide-xs class="fdz-truncate-string" ng-if="item.number">{{item.number}}</span>
                     <span hide-xs class="fdz-truncate-string" ng-if="item.projectId">{{item.projectId}}</span>
                     <span hide-xs class="fdz-truncate-string" ng-if="item.name">{{item.name}}</span>
-                    <md-tooltip md-z-index="100">
+                    <md-tooltip md-z-index="100" md-autohide="true">
                       <span ng-if="item.tabName" translate='global.toolbarHeader.search' translate-value-tabname="{{item.tabName | translate}}"  translate-value-type="{{item.translateString | translate}}"></span>
                       <span ng-if="item.id" translate='global.toolbarHeader.default' translate-value-param="{{item.id}}"  translate-value-type="{{item.translateString | translate}}"></span>
                       <span ng-if="item.number" translate='global.toolbarHeader.default' translate-value-param="{{item.number}}"  translate-value-type="{{item.translateString | translate}}"></span>

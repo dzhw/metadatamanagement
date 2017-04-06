@@ -1,6 +1,6 @@
 <div ng-if="ctrl.instrument.id">
     <div layout="row" style="margin-bottom: 0px;" layout-margin>
-        <h1 class="md-headline" style="margin-left: 0px;"><span display-i18n-string=ctrl.instrument.description></span> <span class="label label-as-badge label-default">{{ctrl.instrument.id}}</span></h1>
+        <h1 class="md-headline" style="margin-left: 0px;"><span display-i18n-string="ctrl.instrument.description"></span> <span class="label label-as-badge label-default">{{ctrl.instrument.id}}</span></h1>
     </div>
     <div layout="column" layout-gt-sm="row">
         <div flex-gt-sm="50" layout="column">
@@ -14,7 +14,7 @@
                 <md-card-content>
                   <div style="margin-bottom: 0.5em;" ng-if="ctrl.instrument.title">
                       <span style="font-weight: bold;">{{'instrument-management.detail.title' | translate }}:</span>
-                      <span display-i18n-string=ctrl.instrument.title></span>
+                      <span display-i18n-string="ctrl.instrument.title"></span>
                   </div>
                   <div style="margin-bottom: 0.5em;" ng-if="ctrl.instrument.type">
                       <span style="font-weight: bold;">{{'instrument-management.detail.type' | translate }}:</span>
@@ -36,12 +36,18 @@
                         <div ng-if="!ctrl.study" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
                             {{'study-management.detail.study' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                            <md-tooltip md-autohide="true">
+                                {{'global.tooltips.studies.any' | translate}}
+                            </md-tooltip>
                         </div>
                         <div ng-if="ctrl.study" class="fdz-truncate-string" flex>
                           <a ui-sref="studyDetail({id: ctrl.study.id})">
                               <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
                               {{'study-management.detail.study' | translate }}:
-                              <span display-i18n-string=ctrl.study.title></span>
+                              <span display-i18n-string="ctrl.study.title"></span>
+                              <md-tooltip md-autohide="true">
+                                  {{'global.tooltips.studies.one' | translate}}
+                              </md-tooltip>
                           </a>
                       </div>
                     </div>
@@ -49,50 +55,83 @@
                         <div ng-if="ctrl.surveyCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                             {{'survey-management.detail.surveys' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                            <md-tooltip md-autohide="true">
+                                {{'global.tooltips.surveys.any' | translate}}
+                            </md-tooltip>
                         </div>
                         <div ng-if="ctrl.surveyCount == 1 && ctrl.survey" class="fdz-truncate-string" flex>
                            <a ui-sref="surveyDetail({'id': ctrl.survey.id})">
                                <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                                {{'survey-management.detail.survey' | translate }}:
-                               <span display-i18n-string=ctrl.survey.title></span></a>
+                               <span display-i18n-string="ctrl.survey.title"></span>
+                               <md-tooltip md-autohide="true">
+                                   {{'global.tooltips.surveys.one' | translate}}
+                               </md-tooltip>
+                            </a>
                        </div>
                         <div ng-if="ctrl.surveyCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'surveys', 'instrument':ctrl.instrument.id, 'page': 1})">
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
-                                {{'survey-management.detail.surveys' | translate }}: ({{ctrl.surveyCount}})</a>
+                                {{'survey-management.detail.surveys' | translate }}: ({{ctrl.surveyCount}})
+                                <md-tooltip md-autohide="true">
+                                    {{'global.tooltips.surveys.many' | translate}}
+                                </md-tooltip>
+                            </a>
                         </div>
                     </div>
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                         <div ng-if="ctrl.questionCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
                             {{'question-management.detail.questions' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                            <md-tooltip md-autohide="true">
+                                {{'global.tooltips.questions.any' | translate}}
+                            </md-tooltip>
                         </div>
                         <div ng-if="ctrl.questionCount == 1 && ctrl.question" class="fdz-truncate-string" flex>
                            <a ui-sref="questionDetail({'id': ctrl.question.id})">
                                <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
                                {{'question-management.detail.question' | translate }}:
-                               <span display-i18n-string=ctrl.question.questionText></span></a>
+                               <span display-i18n-string="ctrl.question.questionText"></span>
+                               <md-tooltip md-autohide="true">
+                                   {{'global.tooltips.questions.many' | translate}}
+                               </md-tooltip>
+                            </a>
                        </div>
                         <div ng-if="ctrl.questionCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'instrument': ctrl.instrument.id, 'type': 'questions', 'sort-by': 'number', 'page': 1})">
                                 <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
-                                {{'question-management.detail.questions' | translate }}: ({{ctrl.questionCount}})</a>
+                                {{'question-management.detail.questions' | translate }}: ({{ctrl.questionCount}})
+                                <md-tooltip md-autohide="true">
+                                    {{'global.tooltips.questions.many' | translate}}
+                                </md-tooltip>
+                            </a>
                         </div>
                     </div>
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                         <div ng-if="ctrl.publicationCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
                             {{'related-publication-management.detail.publications' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                            <md-tooltip md-autohide="true">
+                                {{'global.tooltips.publications.any' | translate}}
+                            </md-tooltip>
                         </div>
                         <div ng-if="ctrl.publicationCount == 1" class="fdz-truncate-string" flex>
                             <a ui-sref="relatedPublicationDetail({'id': ctrl.relatedPublication.id})">
                                 <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
-                                {{'related-publication-management.detail.publication' | translate }}: {{ctrl.relatedPublication.title}}</a>
+                                {{'related-publication-management.detail.publication' | translate }}: {{ctrl.relatedPublication.title}}
+                                <md-tooltip md-autohide="true">
+                                    {{'global.tooltips.publications.one' | translate}}
+                                </md-tooltip>
+                            </a>
                         </div>
                         <div ng-if="ctrl.publicationCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'related_publications', 'instrument': ctrl.instrument.id, 'page': 1})">
                                 <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
-                                {{'related-publication-management.detail.publications' | translate }}: ({{ctrl.publicationCount}})</a>
+                                {{'related-publication-management.detail.publications' | translate }}: ({{ctrl.publicationCount}})
+                                <md-tooltip md-autohide="true">
+                                    {{'global.tooltips.publications.many' | translate}}
+                                </md-tooltip>
+                            </a>
                         </div>
                     </div>
                 </md-card-content>
@@ -139,10 +178,13 @@
                 <tbody>
                     <tr ng-repeat="row in ctrl.attachments">
                         <td lang="{{row.language}}">{{row.title}}&nbsp;</td>
-                        <td display-i18n-string=row.description></td>
-                        <td display-i18n-string=row.type></td>
+                        <td display-i18n-string="row.description"></td>
+                        <td display-i18n-string="row.type"></td>
                         <td>{{row.language | displayIsoLanguage: currentLanguage}}&nbsp;</td>
-                        <td><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}</a>&nbsp;</td>
+                        <td><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}
+                          <md-tooltip md-autohide="true">
+                              {{'global.tooltips.files.download' | translate}}
+                          </md-tooltip></a>&nbsp;</td>
                     </tr>
                 </tbody>
             </table>

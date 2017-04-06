@@ -5,8 +5,8 @@
                 <md-icon md-svg-src="/assets/images/icons/survey.svg" class="fdz-search-result-icon"></md-icon>
             </md-card-avatar>
             <md-card-header-text class="fdz-truncate-string">
-                <div class="md-title fdz-truncate-string"><span display-i18n-string=searchResult.title></span> <span class="label label-as-badge label-default">{{searchResult.id}}</span></div>
-                <div class="md-subhead fdz-truncate-string" display-i18n-string=searchResult.surveyMethod></div>
+                <div class="md-title fdz-truncate-string"><span display-i18n-string="searchResult.title"></span> <span class="label label-as-badge label-default">{{searchResult.id}}</span></div>
+                <div class="md-subhead fdz-truncate-string" display-i18n-string="searchResult.surveyMethod"></div>
             </md-card-header-text>
         </md-card-header>
         <md-card-content>
@@ -19,7 +19,7 @@
                 </div>
             </div>
         </md-card-content>
-        <md-tooltip md-direction="top">
+        <md-tooltip md-direction="top" md-autohide="true">
           <span translate="search-management.cards" translate-value-type="{{'survey-management.detail.survey' | translate}}"></span>
         </md-tooltip>
   </a>

@@ -12,7 +12,7 @@
         <md-card-content>
             <div lang="{{searchResult.language}}">{{searchResult.publicationAbstract | limitTo: 500}}{{searchResult.publicationAbstract.length > 500 ? '...' : ''}}</div>
         </md-card-content>
-        <md-tooltip md-direction="top">
+        <md-tooltip md-direction="top" md-autohide="true">
             <span translate="search-management.cards" translate-value-type="{{'related-publication-management.detail.publication' | translate}}"></span>
         </md-tooltip>
     </a>
