@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp').service(
       Upload.upload({
         url: '/api/data-sets/attachments',
         data: {
-          dataSetsAttachmentMetadata: Upload.jsonBlob(metadata),
+          dataSetAttachmentMetadata: Upload.jsonBlob(metadata),
           file: file
         }
       }).success(function() {

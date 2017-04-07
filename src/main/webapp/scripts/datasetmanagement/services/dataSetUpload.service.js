@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
     DataSetDeleteResource, JobLoggingService, $q,
     ErrorMessageResolverService, ElasticSearchAdminService, $rootScope,
     $translate, $mdDialog, CleanJSObjectService,
-    DataSetAttachmentUploadService) {
+    DataSetAttachmentUploadService, DataSetIdBuilderService) {
     var objects;
     var uploadCount;
     var filesMap;
@@ -47,13 +47,22 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
     };
 
     //TODO DKatzberg. Attachment noch bauen aus 2. Sheet
-    var createAttachmentUploadObjects = function(attachmentsSheet) {
+    var createAttachmentUploadObjects =
+      function(attachmentsSheet, dataAcquisitionProjectId) {
       var notFoundAttachmentsMap = {};
       var attachmentUploadObjects = [];
       attachmentsSheet.forEach(function(attachment) {
         if (attachment.fileName) {
           if (filesMap.dataSets
             .attachments[attachment.fileName]) {
+            attachment.dataAcquisitionProjectId = dataAcquisitionProjectId;
+            attachment.dataSetId =
+              DataSetIdBuilderService.buildDataSetId(dataAcquisitionProjectId,
+                attachment.dataSetNumber);
+            attachment.description = {
+              'de': 'test de',
+              'en': 'test en'
+            };
             attachmentUploadObjects.push({
               'metadata': attachment,
               'file': filesMap.dataSets
@@ -278,7 +287,8 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
 
                     //TODO here
                     var attachmentUploadObjects =
-                      createAttachmentUploadObjects(attachmentsSheet);
+                      createAttachmentUploadObjects(attachmentsSheet,
+                        dataAcquisitionProjectId);
                     var asyncFilesUpload = $q.when();
                     attachmentUploadObjects
                     .forEach(function(attachmentUploadObj) {
