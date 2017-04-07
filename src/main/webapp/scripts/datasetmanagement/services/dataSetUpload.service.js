@@ -6,23 +6,58 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
   function(ExcelReaderService, DataSetBuilderService,
     DataSetDeleteResource, JobLoggingService, $q,
     ErrorMessageResolverService, ElasticSearchAdminService, $rootScope,
-    $translate, $mdDialog, CleanJSObjectService) {
+    $translate, $mdDialog, CleanJSObjectService,
+    DataSetAttachmentUploadService) {
     var objects;
     var uploadCount;
+    var filesMap;
     // a map dataSet.number -> true
     var previouslyUploadedDataSetNumbers;
+
+    //TODO
+    var createDataSetFileMap = function(files, dataAcquisitionProjectId) {
+      filesMap = {'dataSets': {
+        'dataAcquisitionProjectId': dataAcquisitionProjectId,
+        'excelFile': '',
+        'attachments': {}
+      }};
+      files.forEach(function(file) {
+        var path;
+        if (file.path) {
+          path = _.split(file.path, '/');
+        } else {
+          if (file.webkitRelativePath) {
+            path = _.split(file.webkitRelativePath, '/');
+          } else {
+            path = [file.name];
+          }
+        }
+        var parentFolder = _.last(_.initial(path));
+        switch (parentFolder) {
+          case 'attachments':
+            filesMap.dataSets.attachments[file.name] = file;
+          break;
+          default:
+            if (file.name === 'surveys.xlsx') {
+              filesMap.dataSets.excelFile = file;
+            }
+          break;
+        }
+      });
+    };
+
     var upload = function() {
       if (uploadCount === objects.length) {
         ElasticSearchAdminService.processUpdateQueue('data_sets').finally(
           function() {
-          JobLoggingService.finish(
-            'data-set-management.log-messages.data-set.upload-terminated', {
-              total: JobLoggingService.getCurrentJob().total,
-              warnings: JobLoggingService.getCurrentJob().warnings,
-              errors: JobLoggingService.getCurrentJob().errors
-            });
-          $rootScope.$broadcast('upload-completed');
-        });
+            JobLoggingService.finish(
+              'data-set-management.log-messages.data-set.upload-terminated', {
+                total: JobLoggingService.getCurrentJob().total,
+                warnings: JobLoggingService.getCurrentJob().warnings,
+                errors: JobLoggingService.getCurrentJob().errors
+              });
+            $rootScope.$broadcast('upload-completed');
+          });
       } else {
         if (!objects[uploadCount].id || objects[uploadCount].id === '') {
           var index = uploadCount;
@@ -112,6 +147,9 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
             dataAcquisitionProjectId: dataAcquisitionProjectId
           }).$promise.then(
             function() {
+
+              createDataSetFileMap(files, dataAcquisitionProjectId);
+
               var dataSetExcelFile;
               var subDataSetsExcelFiles = {};
 
@@ -138,6 +176,7 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
                 .then(function(allExcelSheets) {
                     var dataSetsSheet = allExcelSheets.dataSets;
                     var subDataSetsSheet = allExcelSheets.subDataSets;
+                    var attachmentsSheet = allExcelSheets.attachments;
                     var dataSetMap = {};
                     var subDataSetMap = {};
                     var subDataSetErrors = {};
@@ -203,6 +242,59 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
                           }
                         });
                       }
+                    });
+
+                    //TODO DKatzberg. Attachment noch bauen aus 2. Sheet
+                    var notFoundAttachmentsMap = {};
+                    var asyncFilesUpload = $q.when();
+                    attachmentsSheet.forEach(function(attachment) {
+                      var attachmentUploadObj = {};
+                      if (attachment.fileName) {
+                        if (filesMap.dataSets
+                          .attachments[attachment.fileName]) {
+                          attachmentUploadObj = {
+                            'metadata': attachment,
+                            'file': filesMap.surveys
+                            .attachments[attachment.fileName]
+                          };
+                        } else {
+                          if (!notFoundAttachmentsMap[attachment.fileName]) {
+                            JobLoggingService.error({
+                              message: 'survey-management.log-messages' +
+                              '.survey-attachment.file-not-found',
+                              messageParams: {
+                                filename: attachment.fileName
+                              },
+                              objectType: 'attachment'
+                            });
+                            notFoundAttachmentsMap[attachment.fileName] = true;
+                          }
+                        }
+                      }
+
+                      asyncFilesUpload = asyncFilesUpload
+                        .then(function() {
+                          return DataSetAttachmentUploadService
+                            .uploadAttachment(attachmentUploadObj.file,
+                              attachmentUploadObj.metadata);
+                        }).then(function() {
+                          JobLoggingService.success({
+                            objectType: 'attachment'
+                          });
+                        }).catch(function(error) {
+                          // attachment upload failed
+                          var errorMessage =
+                            ErrorMessageResolverService
+                            .getErrorMessage(error, 'dataSet',
+                            'dataSet-attachment',
+                            attachmentUploadObj.file.name);
+                          JobLoggingService.error({
+                            message: errorMessage.message,
+                            messageParams: errorMessage.translationParams,
+                            subMessages: errorMessage.subMessages,
+                            objectType: 'attachment'
+                          });
+                        });
                     });
 
                     //Build all DataSets
