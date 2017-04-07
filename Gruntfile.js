@@ -259,7 +259,8 @@ module.exports = function(grunt) {
             'translate-value-type',
             'translate-value-param',
             'translate-value-tabname',
-            'translate-attr'
+            'translate-attr',
+            'template-url'
           ]
         },
         files: {

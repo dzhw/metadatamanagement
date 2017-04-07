@@ -103,7 +103,12 @@ angular.module('metadatamanagementApp').config(
           'files': {
             'download': 'Click to download the document'
           },
-          'images': 'Click to open image in new Tab'
+          'images': 'Click to open image in new Tab',
+          'pager': {
+            'previous':'Click to load previous search results',
+            'next': 'Click to load next search results',
+            'current': 'Click to load search page "{{number}}"'
+          }
         },
         'menu': {
           'entities': {

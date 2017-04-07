@@ -96,7 +96,9 @@ angular.module('metadatamanagementApp').controller('SearchController',
       $scope.pageObject = {
         totalHits: 0,
         size: 5,
-        page: 1
+        page: 1,
+        templateUrl: 'src/main/webapp/scripts/common/custom-uib-pager/' +
+        'custom-uib-pager-template.html.tmpl'
       };
       $scope.searchParams = {
         query: '',

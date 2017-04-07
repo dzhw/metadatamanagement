@@ -32,7 +32,7 @@
             <instrument-search-result ng-switch-when="instruments" search-result="result._source" current-language="currentLanguage"></instrument-search-result>
         </div>
         <div ng-if="pageObject.totalHits && pageObject.totalHits > pageObject.size" layout="row" layout-align="center">
-            <ul uib-pagination next-text="{{'global.pagination.next'|translate}}" previous-text="{{'global.pagination.previous'|translate}}" total-items="pageObject.totalHits" ng-model="pageObject.page" max-size="5" ng-change="onPageChanged()" items-per-page="pageObject.size"
+            <ul template-url="custom-uib-pager-template" uib-pagination next-text="{{'global.pagination.next'|translate}}" previous-text="{{'global.pagination.previous'|translate}}" total-items="pageObject.totalHits" ng-model="pageObject.page" max-size="5" ng-change="onPageChanged()" items-per-page="pageObject.size"
                 class="pagination-sm"></ul>
         </div>
     </div>

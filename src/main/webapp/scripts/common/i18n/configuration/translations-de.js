@@ -103,7 +103,12 @@ angular.module('metadatamanagementApp').config(
           'files': {
             'download': 'Klicken, um das Dokument herunterzuladen'
           },
-          'images': 'Klicken, um die fotografische Darstellung in neuem zu öffnen'
+          'images': 'Klicken, um die fotografische Darstellung in neuem zu öffnen',
+          'pager': {
+            'previous':'Klicken, um die vorherigen Suchtreffer zu laden',
+            'next': 'Klicken, um die nächsten Suchtreffer zu laden',
+            'current': 'Klicken, um die Suchseite "{{number}}" zu laden'
+          }
         },
         'menu': {
           'entities': {

@@ -13,8 +13,8 @@ angular
     ])
 
 .run(
-    function($rootScope, $location, $state,
-      LanguageService, Auth, Principal, ENV, VERSION, $mdMedia) {
+    function($rootScope, $location, $state, LanguageService, Auth, Principal,
+      ENV, VERSION, $mdMedia, $templateCache) {
       $rootScope.ENV = ENV;
       $rootScope.VERSION = VERSION;
       $rootScope.$mdMedia = $mdMedia;
@@ -71,6 +71,39 @@ angular
             $rootScope.previousStateParams);
         }
       };
+      $templateCache.put('custom-uib-pager-template', '<li role=\"menuitem\"' +
+      ' ng-if=\"::boundaryLinks\" ng-class=\"{disabled: ' +
+      'noPrevious()||ngDisabled}\" class=\"pagination-first\"><a href ' +
+      'ng-click=\"selectPage(1, $event)\" ' +
+      'ng-disabled=\"noPrevious()||ngDisabled\" uib-tabindex-toggle>' +
+      '{{::getText(\'first\')}}</a></li><li role=\"menuitem\" ' +
+      'ng-if=\"::directionLinks\" ng-class=\"{disabled: ' +
+      'noPrevious()||ngDisabled}\" class=\"pagination-prev\"><a href ' +
+      'ng-click=\"selectPage(page - 1, $event)\" ' +
+      'ng-disabled=\"noPrevious()||ngDisabled\" ' +
+      'uib-tabindex-toggle>{{::getText(\'previous\')}}<md-tooltip ' +
+      'md-direction="bottom" md-autohide="true"><span translate=' +
+      '"global.tooltips.pager.previous"></span></md-tooltip></a></li><li ' +
+      'role=\"menuitem\" ng-repeat=\"page in pages track by $index\" ' +
+      'ng-class=\"{active: page.active,disabled: ngDisabled&&!page.active}\" ' +
+      'class=\"pagination-page\"><a href ng-click=\"selectPage(page.number, ' +
+      '$event)\" ng-disabled=\"ngDisabled&&!page.active\" uib-tabindex-' +
+      'toggle>{{page.text}}<md-tooltip md-direction="bottom" ' +
+      'md-autohide="true"><span translate="global.tooltips.pager.current" ' +
+      'translate-values="{number: page.text}"></span></md-tooltip></a></li>' +
+      '<li role=\"menuitem\" ' +
+      'ng-if=\"::directionLinks\" ng-class=\"{disabled: ' +
+      'noNext()||ngDisabled}\" class=\"pagination-next\"><a ' +
+      'href ng-click=\"selectPage(page + 1, $event)\" ' +
+      'ng-disabled=\"noNext()||ngDisabled\" uib-tabindex-toggle>' +
+      '{{::getText(\'next\')}}<md-tooltip md-direction="bottom" ' +
+    'md-autohide="true"><span translate="global.tooltips.pager.next" ' +
+    '></span></md-tooltip></a></li><li role=\"menuitem\" ' +
+      'ng-if=\"::boundaryLinks\" ng-class=\"{disabled: ' +
+      'noNext()||ngDisabled}\" class=\"pagination-last\"><a href ' +
+      'ng-click=\"selectPage(totalPages, $event)\" ' +
+      'ng-disabled=\"noNext()||ngDisabled\" ' +
+      'uib-tabindex-toggle>{{::getText(\'last\')}}</a></li>');
     })
   .config(
     function($stateProvider, $urlRouterProvider,
