@@ -38,12 +38,44 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
             filesMap.dataSets.attachments[file.name] = file;
           break;
           default:
-            if (file.name === 'surveys.xlsx') {
+            if (file.name === 'dataSets.xlsx') {
               filesMap.dataSets.excelFile = file;
             }
           break;
         }
       });
+    };
+
+    //TODO DKatzberg. Attachment noch bauen aus 2. Sheet
+    var createAttachmentUploadObjects = function(attachmentsSheet) {
+      var notFoundAttachmentsMap = {};
+      var attachmentUploadObjects = [];
+      attachmentsSheet.forEach(function(attachment) {
+        if (attachment.fileName) {
+          if (filesMap.dataSets
+            .attachments[attachment.fileName]) {
+            attachmentUploadObjects.push({
+              'metadata': attachment,
+              'file': filesMap.dataSets
+              .attachments[attachment.fileName]
+            });
+          } else {
+            if (!notFoundAttachmentsMap[attachment.fileName]) {
+              JobLoggingService.error({
+                message: 'data-set-management.log-messages' +
+                '.data-set-attachment.file-not-found',
+                messageParams: {
+                  filename: attachment.fileName
+                },
+                objectType: 'attachment'
+              });
+              notFoundAttachmentsMap[attachment.fileName] = true;
+            }
+          }
+        }
+      });
+
+      return attachmentUploadObjects;
     };
 
     var upload = function() {
@@ -244,34 +276,12 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
                       }
                     });
 
-                    //TODO DKatzberg. Attachment noch bauen aus 2. Sheet
-                    var notFoundAttachmentsMap = {};
+                    //TODO here
+                    var attachmentUploadObjects =
+                      createAttachmentUploadObjects(attachmentsSheet);
                     var asyncFilesUpload = $q.when();
-                    attachmentsSheet.forEach(function(attachment) {
-                      var attachmentUploadObj = {};
-                      if (attachment.fileName) {
-                        if (filesMap.dataSets
-                          .attachments[attachment.fileName]) {
-                          attachmentUploadObj = {
-                            'metadata': attachment,
-                            'file': filesMap.surveys
-                            .attachments[attachment.fileName]
-                          };
-                        } else {
-                          if (!notFoundAttachmentsMap[attachment.fileName]) {
-                            JobLoggingService.error({
-                              message: 'survey-management.log-messages' +
-                              '.survey-attachment.file-not-found',
-                              messageParams: {
-                                filename: attachment.fileName
-                              },
-                              objectType: 'attachment'
-                            });
-                            notFoundAttachmentsMap[attachment.fileName] = true;
-                          }
-                        }
-                      }
-
+                    attachmentUploadObjects
+                    .forEach(function(attachmentUploadObj) {
                       asyncFilesUpload = asyncFilesUpload
                         .then(function() {
                           return DataSetAttachmentUploadService
