@@ -7,14 +7,13 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
     DataSetDeleteResource, JobLoggingService, $q,
     ErrorMessageResolverService, ElasticSearchAdminService, $rootScope,
     $translate, $mdDialog, CleanJSObjectService,
-    DataSetAttachmentUploadService, DataSetIdBuilderService) {
+    DataSetAttachmentUploadService, DataSetAttachmentBuilderService) {
     var objects;
     var uploadCount;
     var filesMap;
     // a map dataSet.number -> true
     var previouslyUploadedDataSetNumbers;
 
-    //TODO
     var createDataSetFileMap = function(files, dataAcquisitionProjectId) {
       filesMap = {'dataSets': {
         'dataAcquisitionProjectId': dataAcquisitionProjectId,
@@ -44,47 +43,6 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
           break;
         }
       });
-    };
-
-    //TODO DKatzberg. Attachment noch bauen aus 2. Sheet
-    var createAttachmentUploadObjects =
-      function(attachmentsSheet, dataAcquisitionProjectId) {
-      var notFoundAttachmentsMap = {};
-      var attachmentUploadObjects = [];
-      attachmentsSheet.forEach(function(attachment) {
-        if (attachment.fileName) {
-          if (filesMap.dataSets
-            .attachments[attachment.fileName]) {
-            attachment.dataAcquisitionProjectId = dataAcquisitionProjectId;
-            attachment.dataSetId =
-              DataSetIdBuilderService.buildDataSetId(dataAcquisitionProjectId,
-                attachment.dataSetNumber);
-            attachment.description = {
-              'de': 'test de',
-              'en': 'test en'
-            };
-            attachmentUploadObjects.push({
-              'metadata': attachment,
-              'file': filesMap.dataSets
-              .attachments[attachment.fileName]
-            });
-          } else {
-            if (!notFoundAttachmentsMap[attachment.fileName]) {
-              JobLoggingService.error({
-                message: 'data-set-management.log-messages' +
-                '.data-set-attachment.file-not-found',
-                messageParams: {
-                  filename: attachment.fileName
-                },
-                objectType: 'attachment'
-              });
-              notFoundAttachmentsMap[attachment.fileName] = true;
-            }
-          }
-        }
-      });
-
-      return attachmentUploadObjects;
     };
 
     var upload = function() {
@@ -287,8 +245,9 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
 
                     //TODO here
                     var attachmentUploadObjects =
-                      createAttachmentUploadObjects(attachmentsSheet,
-                        dataAcquisitionProjectId);
+                      DataSetAttachmentBuilderService
+                        .buildDataSetAttachment(attachmentsSheet,
+                        dataAcquisitionProjectId, filesMap);
                     var asyncFilesUpload = $q.when();
                     attachmentUploadObjects
                     .forEach(function(attachmentUploadObj) {
