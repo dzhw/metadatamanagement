@@ -263,8 +263,8 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
                           // attachment upload failed
                           var errorMessage =
                             ErrorMessageResolverService
-                            .getErrorMessage(error, 'dataSet',
-                            'dataSet-attachment',
+                            .getErrorMessage(error, 'data-set',
+                            'data-set-attachment',
                             attachmentUploadObj.file.name);
                           JobLoggingService.error({
                             message: errorMessage.message,
