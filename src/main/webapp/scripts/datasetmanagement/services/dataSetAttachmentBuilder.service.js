@@ -10,19 +10,24 @@ angular.module('metadatamanagementApp')
         var notFoundAttachmentsMap = {};
         var attachmentUploadObjects = [];
         attachmentsSheet.forEach(function(attachment) {
+          var metadata = attachment;
           if (attachment.fileName) {
             if (filesMap.dataSets
               .attachments[attachment.fileName]) {
-              attachment.dataAcquisitionProjectId = dataAcquisitionProjectId;
-              attachment.dataSetId =
+              metadata.fileName = attachment.fileName;
+              metadata.title = attachment.title;
+              metadata.language = attachment.language;
+              metadata.dataSetNumber = attachment.dataSetNumber;
+              metadata.dataAcquisitionProjectId = dataAcquisitionProjectId;
+              metadata.dataSetId =
                 DataSetIdBuilderService.buildDataSetId(dataAcquisitionProjectId,
                   attachment.dataSetNumber);
-              attachment.description = {
+              metadata.description = {
                 'de': 'test de',
                 'en': 'test en'
               };
               attachmentUploadObjects.push({
-                'metadata': attachment,
+                'metadata': metadata,
                 'file': filesMap.dataSets
                 .attachments[attachment.fileName]
               });
