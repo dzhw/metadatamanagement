@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp')
       VariableSearchService,
       DataSetSearchService, DataSetReportService, PageTitleService,
       LanguageService, $state, ToolbarHeaderService,
-      SimpleMessageToastService) {
+      SimpleMessageToastService, DataSetAttachmentResource) {
       var ctrl = this;
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAuthority = Principal.hasAuthority;
@@ -52,7 +52,14 @@ angular.module('metadatamanagementApp')
               ctrl.counts[subDataSet.name] = counts.count;
             });
           });
-
+          DataSetAttachmentResource.findByDataSetId({
+            id: ctrl.dataSet.id
+          }).$promise.then(
+            function(attachments) {
+              if (attachments.length > 0) {
+                ctrl.attachments = attachments;
+              }
+            });
         } else {
           SimpleMessageToastService.openSimpleMessageToast(
           'data-set-management.detail.not-released-toast', {id: result.id}

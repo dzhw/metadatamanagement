@@ -58,6 +58,13 @@ angular.module('metadatamanagementApp').config(
             'numberOfAnalyzedVariables-tooltip': 'Click to navigate to the list of analyzable variables',
             'numberOfObservations': 'Observations'
           },
+          'attachments': {
+            'table-title': 'Documents related to the Data Set',
+            'title': 'Title',
+            'description': 'Description',
+            'language': 'Document Language',
+            'file': 'File'
+          },
           'content': {
             'true': 'Click to maximize',
             'false': 'Click to minimize'
