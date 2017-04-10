@@ -26,51 +26,51 @@ angular.module('metadatamanagementApp').config(
         },
         'buttons': {
           'refresh-tooltip': 'Klicken, um die Suche zu aktualisieren',
-          'upload-variables-tooltip': 'Kilcken, um Variablen für ausgewähltes Datenaufbereitungsprojekt hochzuladen',
-          'upload-surveys-tooltip': 'Kilcken, um Erhebungen für ausgewähltes Datenaufbereitungsprojekt hochzuladen',
-          'upload-data-sets-tooltip': 'Kilcken, um Datensätze für ausgewähltes Datenaufbereitungsprojekt hochzuladen',
-          'upload-questions-tooltip': 'Kilcken, um Fragen für ausgewähltes Datenaufbereitungsprojekt hochzuladen',
-          'upload-studies-tooltip': 'Kilcken, um Studie für ausgewähltes Datenaufbereitungsprojekt hochzuladen',
-          'upload-related-publications-tooltip': 'Kilcken, um Publikationen hochzuladen',
-          'post-validate-related-publications-tooltip': 'Kilcken, um Publikationen zu validieren',
-          'upload-instruments-tooltip': 'Kilcken, um Instrumente für ausgewähltes Datenaufbereitungsprojekt hochzuladen'
+          'upload-variables-tooltip': 'Klicken, um Variablen für das ausgewählte Datenaufbereitungsprojekt hochzuladen',
+          'upload-surveys-tooltip': 'Klicken, um Erhebungen für das ausgewählte Datenaufbereitungsprojekt hochzuladen',
+          'upload-data-sets-tooltip': 'Klicken, um Datensätze für das ausgewählte Datenaufbereitungsprojekt hochzuladen',
+          'upload-questions-tooltip': 'Klicken, um Fragen für das ausgewählte Datenaufbereitungsprojekt hochzuladen',
+          'upload-studies-tooltip': 'Klicken, um Studie für das ausgewählte Datenaufbereitungsprojekt hochzuladen',
+          'upload-related-publications-tooltip': 'Klicken, um Publikationen hochzuladen',
+          'post-validate-related-publications-tooltip': 'Klicken, um Publikationen zu validieren',
+          'upload-instruments-tooltip': 'Klicken, um Instrumente für das ausgewählte Datenaufbereitungsprojekt hochzuladen'
         },
         'input-label': {
-          'all': 'Suchen Sie Studien, Variablen, Fragen, Erhebungen, Datensätze, Instrumente oder Publikationen?',
-          'variables': 'Suchen Sie Variablen?',
-          'questions': 'Suchen Sie Fragen?',
-          'surveys': 'Suchen Sie Erhebungen?',
-          'data-sets': 'Suchen Sie Datensätze?',
-          'studies': 'Suchen Sie Studien?',
-          'related-publications': 'Suchen Sie Publikationen?',
-          'instruments': 'Suchen Sie Instrumente?'
+          'all': 'Suchen Sie Studien, Variablen, Fragen, Erhebungen, Datensätze, Instrumente oder Publikationen...',
+          'variables': 'Suchen Sie nach Variablen...',
+          'questions': 'Suchen Sie nach Fragen...',
+          'surveys': 'Suchen Sie nach Erhebungen...',
+          'data-sets': 'Suchen Sie nach Datensätzen...',
+          'studies': 'Suchen Sie nach Studien...',
+          'related-publications': 'Suchen Sie nach Publikationen...',
+          'instruments': 'Suchen Sie nach Instrumenten...'
         },
         'tabs': {
           'variables': 'Variablen',
-          'variables-tooltip': 'Klicken, um Tabreiter "Variablen" zu selektieren',
+          'variables-tooltip': 'Klicken, um nach Variablen zu suchen',
           'questions': 'Fragen',
-          'questions-tooltip': 'Klicken, um Tabreiter "Fragen" zu selektieren',
+          'questions-tooltip': 'Klicken, um nach Fragen zu suchen',
           'surveys': 'Erhebungen',
-          'surveys-tooltip': 'Klicken, um Tabreiter "Erhebungen" zu selektieren',
+          'surveys-tooltip': 'Klicken, um nach Erhebungen zu suchen',
           'data_sets': 'Datensätze',
-          'data_sets-tooltip': 'Klicken, um Tabreiter "Datensätze" zu selektieren',
+          'data_sets-tooltip': 'Klicken, um nach Datensätzen zu suchen',
           'studies': 'Studien',
-          'studies-tooltip': 'Klicken, um Tabreiter "Studien" zu selektieren',
+          'studies-tooltip': 'Klicken, um nach Studien zu suchen',
           'all': 'Alle',
-          'all-tooltip': 'Klicken, um Tabreiter "Alle" zu selektieren',
+          'all-tooltip': 'Klicken, um nach allen Objekten zu suchen',
           'related_publications': 'Publikationen',
-          'related_publications-tooltip': 'Klicken, um Tabreiter "Publikationen" zu selektieren',
+          'related_publications-tooltip': 'Klicken, um nach Publikationen zu suchen',
           'instruments': 'Instrumente',
-          'instruments-tooltip': 'Klicken, um Tabreiter "Instrumente" zu selektieren'
+          'instruments-tooltip': 'Klicken, um nach Instrumenten zu suchen'
         },
         'cards': {
-          'question-tooltip': 'Klicken, um zur Frage zu navigieren',
-          'variable-tooltip': 'Klicken, um zur Variable zu navigieren',
-          'data-set-tooltip': 'Klicken, um zum Datensatz zu navigieren',
-          'instrument-tooltip': 'Klicken, um zum Instrument zu navigieren',
-          'survey-tooltip': 'Klicken, um zur Erhebung zu navigieren',
-          'study-tooltip': 'Klicken, um zur Studie zu navigieren',
-          'publication-tooltip': 'Klicken, um zur Publication zu navigieren'
+          'question-tooltip': 'Klicken, um die Frage "{{id}}" anzuzeigen',
+          'variable-tooltip': 'Klicken, um die Variable "{{id}}" anzuzeigen',
+          'data-set-tooltip': 'Klicken, um den Datensatz "{{id}}" anzuzeigen',
+          'instrument-tooltip': 'Klicken, um das Instrument "{{id}}" anzuzeigen',
+          'survey-tooltip': 'Klicken, um die Erhebung "{{id}}" anzuzeigen',
+          'study-tooltip': 'Klicken, um die Studie "{{id}}" anzuzeigen',
+          'publication-tooltip': 'Klicken, um die Publikation "{{id}}" anzuzeigen'
         }
       }
       //jscs:enable

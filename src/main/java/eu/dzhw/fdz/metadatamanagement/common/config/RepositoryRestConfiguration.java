@@ -6,8 +6,6 @@ import org.springframework.data.rest.core.event.ValidatingRepositoryEventListene
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
-
 /**
  * Configure Spring Data Rest to validate on PUT and POST.
  * Spring data rest converts the validation message in json and send a 400 when validation fails.
@@ -25,11 +23,5 @@ public class RepositoryRestConfiguration extends RepositoryRestConfigurerAdapter
       ValidatingRepositoryEventListener validatingListener) {
     validatingListener.addValidator("beforeCreate", validator);
     validatingListener.addValidator("beforeSave", validator);
-  }
-  
-  @Override
-  public void configureRepositoryRestConfiguration(
-      org.springframework.data.rest.core.config.RepositoryRestConfiguration config) {
-    config.getProjectionConfiguration().addProjection(IdAndVersionProjection.class);
   }
 }

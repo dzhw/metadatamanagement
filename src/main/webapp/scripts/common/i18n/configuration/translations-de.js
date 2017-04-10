@@ -13,7 +13,7 @@ angular.module('metadatamanagementApp').config(
         'search': 'Suche',
         'toolbar': {
           'buttons': {
-            'fdz-staff-area-tooltip': 'Klicken, um Menue "Zugang für FDZ Mitarbeiter" zu öffnen',
+            'fdz-staff-area-tooltip': 'Klicken, um das Menü "Zugang für FDZ Mitarbeiter" zu öffnen',
             'logout': '{{username}} abmelden',
             'logout-tooltip': 'Klicken, um "{{username}}" abzumelden',
             'login': 'Anmelden',
@@ -23,15 +23,15 @@ angular.module('metadatamanagementApp').config(
             'register-tooltip': 'Klicken, um sich zu registrieren',
             'open-menu': 'Navigationsmenü öffnen',
             'open-menu-tooltip': 'Klicken, um Navigationsmenü zu öffnen',
-            'disclosure-tooltip': 'Klicken, um das Impressum zu öffnen',
-            'administration-tooltip': 'Klicken, um Menü "Administration" zu öffnen',
-            'user-management-tooltip': 'Klicken, um die Seite der Benutzerverwaltung zu öffnen',
-            'metrics-tooltip': 'Klicken, um die Seite der Metriken zu öffnen',
-            'health-tooltip': 'Klicken, um die Seite des Status zu öffnen',
-            'configuration-tooltip': 'Klicken, um die Seite der Konfiguration zu öffnen',
-            'logs-tooltip': 'Klicken, um die Seite des Protokolls zu öffnen',
-            'settings-tooltip': 'Klicken, um die Seite der Einstellungen zu öffnen',
-            'password-tooltip': 'Klicken, um die Seite der Passwortverwaltung zu öffnen'
+            'disclosure-tooltip': 'Klicken, um das Impressum anzuzeigen',
+            'administration-tooltip': 'Klicken, um das Menü "Administration" zu öffnen',
+            'user-management-tooltip': 'Klicken, um die Benutzerverwaltung zu öffnen',
+            'metrics-tooltip': 'Klicken, um die Servermetriken anzuzeigen',
+            'health-tooltip': 'Klicken, um die Verfügbarkeit aller externen Dienste zu prüfen',
+            'configuration-tooltip': 'Klicken, um die Spring-Konfiguration anzuzeigen',
+            'logs-tooltip': 'Klicken, um Loglevel zu ändern',
+            'settings-tooltip': 'Klicken, um die Kontoeigenschaften zu bearbeiten',
+            'password-tooltip': 'Klicken, um das Passwort zu ändern'
           }
         },
         'dialog': {
@@ -105,9 +105,9 @@ angular.module('metadatamanagementApp').config(
           },
           'images': 'Klicken, um die fotografische Darstellung in neuem zu öffnen',
           'pager': {
-            'previous':'Klicken, um die vorherigen Suchtreffer zu laden',
-            'next': 'Klicken, um die nächsten Suchtreffer zu laden',
-            'current': 'Klicken, um die Suchseite "{{number}}" zu laden'
+            'previous':'Klicken, um die vorherigen Suchergebnisse anzuzeigen',
+            'next': 'Klicken, um die nächsten Suchergebnisse anzuzeigen',
+            'current': 'Klicken, um die {{number}}. Seite mit Suchergebnissen anzuzeigen'
           }
         },
         'menu': {
@@ -123,23 +123,23 @@ angular.module('metadatamanagementApp').config(
           },
           'account': {
             'main': 'Zugang für FDZ Mitarbeiter',
-            'settings': 'Einstellungen',
-            'password': 'Passwort',
+            'settings': 'Konto bearbeiten',
+            'password': 'Passwort ändern',
             'sessions': 'Sitzungen'
           },
           'admin': {
             'main': 'Administration',
             'user-management': 'Benutzerverwaltung',
-            'metrics': 'Metriken',
-            'health': 'Status',
-            'configuration': 'Konfiguration',
-            'logs': 'Protokoll',
+            'metrics': 'Servermetriken',
+            'health': 'Verfügbarkeit externer Dienste',
+            'configuration': 'Spring-Konfiguration',
+            'logs': 'Loglevel',
             'apidocs': 'API',
             'database': 'Database'
           },
           'skip-navigation': 'Zum Inhalt springen',
           'skip-navigation-tooltip': 'Klicken zum Überspringen der Navigationselemente',
-          'back-to-search': 'Klicken um zur Suche zu gelangen',
+          'back-to-search': 'Klicken, um zur Suche zu gelangen',
           'language': 'Sprache',
           'disclosure': 'Impressum',
           'notepad': 'Merkzettel'
@@ -273,7 +273,7 @@ angular.module('metadatamanagementApp').config(
           'fdz': 'Forschungsdatenzentrum, Deutsches Zentrum für Hochschul- und Wissenschaftsforschung',
           'bmbf-tooltip': 'Klicken, um die Internetseite des Bundesministeriums für Bildung und Forschung zu öffnen',
           'bmbf-alt-text': 'Das Logo des Bundesministeriums für Bildung und Forschung',
-          'dzhw-tooltip': 'Klicken, um die Internetseite des deutschen Zentrums für Hochschul- und Wissenschaftsforschung zu Öffnen',
+          'dzhw-tooltip': 'Klicken, um die Internetseite des deutschen Zentrums für Hochschul- und Wissenschaftsforschung zu öffnen',
           'dzhw-alt-text': 'Das Logo des deutschen Zentrums für Hochschul- und Wissenschaftsforschung'
         },
         'main': {

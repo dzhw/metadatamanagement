@@ -36,9 +36,6 @@
                         <div ng-if="!ctrl.study" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
                             {{'study-management.detail.study' | translate }}: {{'global.messages.error.unavailable' | translate}}
-                            <md-tooltip md-autohide="true">
-                                {{'global.tooltips.studies.no' | translate}}
-                            </md-tooltip>
                         </div>
                         <div ng-if="ctrl.study" class="fdz-truncate-string" flex>
                             <a ui-sref="studyDetail({id: ctrl.study.id})">
@@ -55,9 +52,6 @@
                         <div ng-if="ctrl.counts.surveysCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                             {{'survey-management.detail.surveys' | translate }}: {{'global.messages.error.unavailable' | translate}}
-                            <md-tooltip md-autohide="true">
-                                {{'global.tooltips.surveys.no' | translate}}
-                            </md-tooltip>
                         </div>
                         <div ng-if="ctrl.counts.surveysCount == 1 && ctrl.survey" class="fdz-truncate-string" flex>
                             <a ui-sref="surveyDetail({'id': ctrl.survey.id})">
@@ -83,9 +77,6 @@
                         <div ng-if="ctrl.counts.variablesCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
                             {{'variable-management.detail.variables' | translate }}: {{'global.messages.error.unavailable' | translate}}
-                            <md-tooltip md-autohide="true">
-                                {{'global.tooltips.variables.no' | translate}}
-                            </md-tooltip>
                         </div>
                         <div ng-if="ctrl.counts.variablesCount == 1 && ctrl.variable" class="fdz-truncate-string" flex>
                             <a ui-sref="variableDetail({'id': ctrl.variable.id})">
@@ -111,9 +102,6 @@
                         <div ng-if="ctrl.counts.dataSetsCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
                             {{'data-set-management.detail.data-set-same-study' | translate }}: {{'global.messages.error.unavailable' | translate}}
-                            <md-tooltip md-autohide="true">
-                                {{'global.tooltips.data-sets.no' | translate}}
-                            </md-tooltip>
                         </div>
                         <div ng-if="ctrl.counts.dataSetsCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'data_sets', 'study':ctrl.dataSet.studyId, 'page': 1})">
@@ -129,9 +117,6 @@
                         <div ng-if="ctrl.counts.publicationsCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
                             {{'related-publication-management.detail.publications' | translate }}: {{'global.messages.error.unavailable' | translate}}
-                            <md-tooltip md-autohide="true">
-                                {{'global.tooltips.publications.no' | translate}}
-                            </md-tooltip>
                         </div>
                         <div ng-if="ctrl.counts.publicationsCount == 1" class="fdz-truncate-string" flex>
                             <a ui-sref="relatedPublicationDetail({'id': ctrl.relatedPublication.id})">

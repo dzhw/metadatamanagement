@@ -82,13 +82,16 @@ angular
       'ng-click=\"selectPage(page - 1, $event)\" ' +
       'ng-disabled=\"noPrevious()||ngDisabled\" ' +
       'uib-tabindex-toggle>{{::getText(\'previous\')}}<md-tooltip ' +
+      'ng-if="!noPrevious()" ' +
       'md-direction="bottom" md-autohide="true"><span translate=' +
       '"global.tooltips.pager.previous"></span></md-tooltip></a></li><li ' +
       'role=\"menuitem\" ng-repeat=\"page in pages track by $index\" ' +
       'ng-class=\"{active: page.active,disabled: ngDisabled&&!page.active}\" ' +
       'class=\"pagination-page\"><a href ng-click=\"selectPage(page.number, ' +
-      '$event)\" ng-disabled=\"ngDisabled&&!page.active\" uib-tabindex-' +
-      'toggle>{{page.text}}<md-tooltip md-direction="bottom" ' +
+      '$event)\" ng-disabled=\"ngDisabled&&!page.active\" ' +
+      'tabindex="{{page.active?\'-1\':\'0\'}}" ' +
+      '>{{page.text}}<md-tooltip ng-if="!page.active" ' +
+      'md-direction="bottom" ' +
       'md-autohide="true"><span translate="global.tooltips.pager.current" ' +
       'translate-values="{number: page.text}"></span></md-tooltip></a></li>' +
       '<li role=\"menuitem\" ' +
@@ -97,8 +100,9 @@ angular
       'href ng-click=\"selectPage(page + 1, $event)\" ' +
       'ng-disabled=\"noNext()||ngDisabled\" uib-tabindex-toggle>' +
       '{{::getText(\'next\')}}<md-tooltip md-direction="bottom" ' +
-    'md-autohide="true"><span translate="global.tooltips.pager.next" ' +
-    '></span></md-tooltip></a></li><li role=\"menuitem\" ' +
+      'ng-if="!noNext()" ' +
+      'md-autohide="true"><span translate="global.tooltips.pager.next" ' +
+      '></span></md-tooltip></a></li><li role=\"menuitem\" ' +
       'ng-if=\"::boundaryLinks\" ng-class=\"{disabled: ' +
       'noNext()||ngDisabled}\" class=\"pagination-last\"><a href ' +
       'ng-click=\"selectPage(totalPages, $event)\" ' +

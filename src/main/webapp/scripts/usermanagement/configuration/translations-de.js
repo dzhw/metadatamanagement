@@ -71,7 +71,7 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'password': {
-          'title': 'Passwort für [<b>{{username}}</b>]',
+          'title': 'Passwort für <b>{{username}}</b> ändern',
           'form': {
             'button': 'Speichern'
           },
@@ -128,7 +128,7 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'settings': {
-          'title': 'Einstellungen für Benutzer [<b>{{username}}</b>]',
+          'title': 'Kontoeigenschaften für Benutzer <b>{{username}}</b>',
           'form': {
             'firstname': 'Vorname',
             'firstname.placeholder': 'Ihr Vorname',
@@ -139,10 +139,10 @@ angular.module('metadatamanagementApp').config(
           },
           'messages': {
             'error': {
-              'fail': '<strong>Es ist ein Fehler aufgetreten!</strong> Die Einstellungen konnten nicht gespeichert werden.',
+              'fail': '<strong>Es ist ein Fehler aufgetreten!</strong> Die Kontoänderungen konnten nicht gespeichert werden.',
               'emailexists': '<strong>E-mail wird bereits verwendet!</strong> Bitte wählen Sie eine andere aus.'
             },
-            'success': '<strong>Einstellungen wurden gespeichert!</strong>',
+            'success': '<strong>Kontoänderungen wurden gespeichert!</strong>',
             'validate': {
               'firstname': {
                 'required': 'Ihr Vorname wird benötigt.',
