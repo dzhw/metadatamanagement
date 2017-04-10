@@ -19,6 +19,12 @@ angular.module('metadatamanagementApp').config(
               'number-of-analyzed-variables-parse-error': 'Number Of Analyzed Variables of Sub Data Set {{name}} is not a Number!'
             }
           },
+          'data-set-attachment': {
+            'not-saved': 'Attachment "{{ id }}" has not been saved.',
+            'missing-survey-number': 'Attachment {{ index }} does not have an survey number and has not been saved.',
+            'missing-filename': 'Attachment {{ index }} does not have a filename and has not been saved.',
+            'file-not-found': 'The File {{ filename }} was not found and has not been saved.'
+          },
           'sub-data-set': {
             'unknown-data-set-number': 'The Sub Data Set from the line {{name}} out of the excel document has a reference to an unknown Data Set Number: {{dataSetNumber}}.'
           },

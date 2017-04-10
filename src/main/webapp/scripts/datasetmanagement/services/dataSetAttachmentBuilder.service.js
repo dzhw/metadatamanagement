@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp')
   .service('DataSetAttachmentBuilderService',
   function(JobLoggingService, DataSetIdBuilderService) {
 
-    var buildDataSetAttachment =
+    var buildDataSetAttachments =
       function(attachmentsSheet, dataAcquisitionProjectId, filesMap) {
         var notFoundAttachmentsMap = {};
         var attachmentUploadObjects = [];
@@ -51,6 +51,6 @@ angular.module('metadatamanagementApp')
       };
 
     return {
-      buildDataSetAttachment: buildDataSetAttachment
+      buildDataSetAttachments: buildDataSetAttachments
     };
   });

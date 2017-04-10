@@ -243,10 +243,9 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
                       }
                     });
 
-                    //TODO here
                     var attachmentUploadObjects =
                       DataSetAttachmentBuilderService
-                        .buildDataSetAttachment(attachmentsSheet,
+                        .buildDataSetAttachments(attachmentsSheet,
                         dataAcquisitionProjectId, filesMap);
                     var asyncFilesUpload = $q.when();
                     attachmentUploadObjects
