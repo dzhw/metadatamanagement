@@ -237,7 +237,9 @@ module.exports = function(grunt) {
             '“lang” on element “span”: Subtags must not exceed 8 characters ' +
             'in length.',
             'Bad value “{{searchResult.language}}” for attribute “lang” on ' +
-            'element “div”: Subtags must not exceed 8 characters in length.'
+            'element “div”: Subtags must not exceed 8 characters in length.',
+            'Bad value “{{item.tooltip}}” for attribute “translate” on ' +
+            'element “span”.'
           ],
           customattrs: [
             'show-validation',
