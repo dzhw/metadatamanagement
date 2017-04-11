@@ -52,8 +52,11 @@
                     <span data-translate="global.menu.account.main"></span>
                     <md-icon ng-if="!isAccountMenuOpen" md-font-set="material-icons">keyboard_arrow_down</md-icon>
                     <md-icon ng-if="isAccountMenuOpen" md-font-set="material-icons">keyboard_arrow_up</md-icon>
-                    <md-tooltip md-autohide="true" md-direction="right">
-                        {{'global.toolbar.buttons.fdz-staff-area-tooltip'|translate}}
+                    <md-tooltip ng-if="!isAccountMenuOpen" md-autohide="true" md-direction="right">
+                        {{'global.toolbar.buttons.fdz-staff-area-tooltip.open'|translate}}
+                    </md-tooltip>
+                    <md-tooltip ng-if="isAccountMenuOpen" md-autohide="true" md-direction="right">
+                        {{'global.toolbar.buttons.fdz-staff-area-tooltip.close'|translate}}
                     </md-tooltip>
                 </md-button>
                 <ul class="fdz-navbar-menu-items" ng-show="isAccountMenuOpen">
@@ -96,8 +99,11 @@
             </li>
             <li class="fdz-navbar-menu" ng-switch-when="true" data-has-authority="ROLE_ADMIN">
                 <md-button class="fdz-navbar-menu-toggle" ng-click="toggleAdminMenu()">
-                  <md-tooltip md-autohide="true" md-direction="right">
-                      {{'global.toolbar.buttons.administration-tooltip' | translate}}
+                  <md-tooltip ng-if="!isAdminMenuOpen" md-autohide="true" md-direction="right">
+                      {{'global.toolbar.buttons.administration-tooltip.open' | translate}}
+                  </md-tooltip>
+                  <md-tooltip ng-if="isAdminMenuOpen" md-autohide="true" md-direction="right">
+                      {{'global.toolbar.buttons.administration-tooltip.close' | translate}}
                   </md-tooltip>
                   <span data-translate="global.menu.admin.main"></span>
                   <md-icon ng-if="!isAdminMenuOpen" md-font-set="material-icons">keyboard_arrow_down</md-icon>

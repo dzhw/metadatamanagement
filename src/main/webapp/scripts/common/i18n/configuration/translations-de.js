@@ -13,7 +13,10 @@ angular.module('metadatamanagementApp').config(
         'search': 'Suche',
         'toolbar': {
           'buttons': {
-            'fdz-staff-area-tooltip': 'Klicken, um das Menü "Zugang für FDZ Mitarbeiter" zu öffnen',
+            'fdz-staff-area-tooltip': {
+              'open': 'Klicken, um das Menü "Zugang für FDZ Mitarbeiter" zu öffnen',
+              'close': 'Klicken, um das Menü "Zugang für FDZ Mitarbeiter" zu schließen'
+            },
             'logout': '{{username}} abmelden',
             'logout-tooltip': 'Klicken, um "{{username}}" abzumelden',
             'login': 'Anmelden',
@@ -23,7 +26,10 @@ angular.module('metadatamanagementApp').config(
             'register-tooltip': 'Klicken, um sich zu registrieren',
             'open-menu-tooltip': 'Klicken, um das Navigationsmenü zu öffnen',
             'disclosure-tooltip': 'Klicken, um das Impressum anzuzeigen',
-            'administration-tooltip': 'Klicken, um das Menü "Administration" zu öffnen',
+            'administration-tooltip': {
+              'open': 'Klicken, um das Menü "Administration" zu öffnen',
+              'close': 'Klicken, um das Menü "Administration" zu schließen'
+            },
             'user-management-tooltip': 'Klicken, um die Benutzerverwaltung zu öffnen',
             'metrics-tooltip': 'Klicken, um die Servermetriken anzuzeigen',
             'health-tooltip': 'Klicken, um die Verfügbarkeit aller externen Dienste zu prüfen',

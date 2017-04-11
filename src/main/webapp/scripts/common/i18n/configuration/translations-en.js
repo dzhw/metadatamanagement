@@ -13,7 +13,10 @@ angular.module('metadatamanagementApp').config(
         'search': 'Search',
         'toolbar': {
           'buttons': {
-            'fdz-staff-area-tooltip': 'Click to open menu "Access for RDC Employees"',
+            'fdz-staff-area-tooltip': {
+              'open': 'Click to open menu "Access for RDC Employees"',
+              'close': 'Click to close menu "Access for RDC Employees"'
+            },
             'logout': 'Sign out {{username}}',
             'logout-tooltip': 'Click to sign out "{{username}}"',
             'login': 'Sign in',
@@ -23,7 +26,10 @@ angular.module('metadatamanagementApp').config(
             'register-tooltip': 'Click to register',
             'open-menu-tooltip': 'Click to open the menu',
             'disclosure-tooltip': 'Click to show the disclosure',
-            'administration-tooltip': 'Click to open menu "Administration"',
+            'administration-tooltip': {
+              'open': 'Click to open menu "Administration"',
+              'close': 'Click to close menu "Administration"'
+            },
             'user-management-tooltip': 'Click to open the User Management',
             'metrics-tooltip': 'Click to show the Server Metrics',
             'health-tooltip': 'Click to check the availability of the external services',
