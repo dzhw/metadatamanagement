@@ -23,8 +23,8 @@ angular.module('metadatamanagementApp')
                 DataSetIdBuilderService.buildDataSetId(dataAcquisitionProjectId,
                   attachment.dataSetNumber);
               metadata.description = {
-                'de': 'test de',
-                'en': 'test en'
+                'de': attachment['description.de'],
+                'en': attachment['description.en']
               };
               attachmentUploadObjects.push({
                 'metadata': metadata,
