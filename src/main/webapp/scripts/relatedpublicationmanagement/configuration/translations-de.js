@@ -30,16 +30,42 @@ angular.module('metadatamanagementApp').config(
           'citation-text': 'Zitationstext',
           'abstract': 'Abstract',
           'doi': 'DOI',
-          'doi-tooltip': 'Klicken, um die DOI Seite zu öffnen',
+          'doi-tooltip': 'Klicken, um die DOI in einem neuen Tab zu öffnen',
           'sourceReference': 'Quellenangabe',
           'sourceLink': 'URL',
-          'sourceLink-tooltip': 'Klicken, um die DOI Seite zu öffnen ',
+          'sourceLink-tooltip': 'Klicken, um die Quelle dieser Publikation in einem neuen Tab zu öffnen ',
           'no-related-publications': 'Keine Publikationen.',
           'related-publications': 'Publikationen',
           'authors': 'Autor_innen',
           'year': 'Erscheinungsjahr',
           'source-reference': 'Zitation',
-          'abstract-source': 'Quelle'
+          'abstract-source': 'Quelle',
+          'tooltips': {
+            'surveys': {
+              'one': 'Klicken, um die Erhebung anzuzeigen, zu der diese Publikation verfasst wurde',
+              'many': 'Klicken, um alle Erhebungen anzuzeigen, zu denen diese Publikation verfasst wurde'
+            },
+            'data-sets': {
+              'one': 'Klicken, um den Datensatz anzuzeigen, zu dem diese Publikation verfasst wurde',
+              'many': 'Klicken, um alle Datensätze anzuzeigen, zu denen diese Publikation verfasst wurde'
+            },
+            'questions': {
+              'one': 'Klicken, um die Frage anzuzeigen, zu der diese Publikation verfasst wurde',
+              'many': 'Klicken, um alle Fragen anzuzeigen, zu denen diese Publikation verfasst wurde'
+            },
+            'instruments': {
+              'one': 'Klicken, um das Instrument anzuzeigen, zu dem diese Publikation verfasst wurde',
+              'many': 'Klicken, um alle Instrumente anzuzeigen, zu denen diese Publikation verfasst wurde'
+            },
+            'variables': {
+              'one': 'Klicken, um die Variable anzuzeigen, zu der diese Publikation verfasst wurde',
+              'many': 'Klicken, um alle Variablen anzuzeigen, zu denen diese Publikation verfasst wurde'
+            },
+            'studies':{
+              'one': 'Klicken, um die Studie anzuzeigen, zu der diese Publikation verfasst wurde',
+              'many': 'Klicken, um alle Studien anzuzeigen, zu denen diese Publikation verfasst wurde'
+            }
+          }
         },
         'error': {
           'related-publication': {

@@ -101,7 +101,7 @@ angular.module('metadatamanagementApp').config(
             'many': 'Click to show all related studies'
           },
           'files': {
-            'download': 'Click to download the document'
+            'download': 'Click to download file "{{filename}}"'
           },
           'images': 'Click to open image in new Tab',
           'pager': {

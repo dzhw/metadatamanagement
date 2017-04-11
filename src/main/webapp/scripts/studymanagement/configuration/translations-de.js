@@ -32,7 +32,21 @@ angular.module('metadatamanagementApp').config(
           'available-data-products': 'Verfügbare Datenprodukte',
           'basic-data-of-surveys': 'Eckdaten der Erhebungen',
           'downloads': 'Materialien zum Download',
-          'not-released-toast': 'Die Studie "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!'
+          'not-released-toast': 'Die Studie "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!',
+          'tooltips': {
+            'surveys': {
+              'one': 'Klicken, um die Erhebung dieser Studie anzuzeigen',
+              'many': 'Klicken, um alle Erhebungen dieser Studie anzuzeigen'
+            },
+            'data-sets': {
+              'one': 'Klicken, um den Datensatz dieser Studie anzuzeigen',
+              'many': 'Klicken, um alle Datensätze dieser Studie anzuzeigen',
+            },
+            'publications': {
+              'one': 'Klicken, um die Publikation zu dieser Studie anzuzeigen',
+              'many': 'Klicken, um alle Publikationen zu dieser Studie anzuzeigen'
+            },
+          }
         },
         'log-messages': {
           'study': {

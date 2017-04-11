@@ -43,7 +43,24 @@ angular.module('metadatamanagementApp').config(
             'language': 'Dokumentensprache',
             'file': 'Datei'
           },
-          'not-released-toast': 'Das Instrument "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!'
+          'not-released-toast': 'Das Instrument "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!',
+          'tooltips': {
+            'surveys': {
+              'one': 'Klicken, um die Erhebung anzuzeigen, bei der dieses Instrument verwendet wurde',
+              'many': 'Klicken, um alle Erhebungen anzuzeigen, bei denen dieses Instrument verwendet wurde'
+            },
+            'publications': {
+              'one': 'Klicken, um die Publikation zu diesem Instrument anzuzeigen',
+              'many': 'Klicken, um alle Publikationen zu diesem Instrument anzuzeigen'
+            },
+            'questions': {
+              'one': 'Klicken, um die Frage dieses Instrumentes anzuzeigen',
+              'many': 'Klicken, um alle Fragen dieses Instrumentes anzuzeigen'
+            },
+            'studies':{
+              'one': 'Klicken, um die Studie anzuzeigen, in der dieses Instrument verwendet wurde'
+            }
+          }
         },
         'error': {
           'instrument': {

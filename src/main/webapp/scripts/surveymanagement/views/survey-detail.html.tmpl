@@ -63,7 +63,7 @@
                                 {{'study-management.detail.study' | translate }}:
                                 <span display-i18n-string="ctrl.study.title"></span>
                                 <md-tooltip md-autohide="true">
-                                    {{'global.tooltips.studies.one' | translate}}
+                                    {{'survey-management.detail.tooltips.studies.one' | translate}}
                                 </md-tooltip>
                             </a>
                         </div>
@@ -79,7 +79,7 @@
                               {{'instrument-management.detail.instrument' | translate }}:
                               <span display-i18n-string="ctrl.instrument.description"></span>
                               <md-tooltip md-autohide="true">
-                                  {{'global.tooltips.instruments.one' | translate}}
+                                  {{'survey-management.detail.tooltips.instruments.one' | translate}}
                               </md-tooltip>
                           </a>
                       </div>
@@ -88,7 +88,7 @@
                                 <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
                                 {{'instrument-management.detail.instruments' | translate }}: ({{ctrl.counts.instrumentsCount}})
                                 <md-tooltip md-autohide="true">
-                                    {{'global.tooltips.instruments.many' | translate}}
+                                    {{'survey-management.detail.tooltips.instruments.many' | translate}}
                                 </md-tooltip>
                             </a>
                         </div>
@@ -104,7 +104,7 @@
                                 {{'data-set-management.detail.data-set' | translate }}:
                                 <span display-i18n-string="ctrl.dataSet.description"></span>
                                 <md-tooltip md-autohide="true">
-                                    {{'global.tooltips.data-sets.one' | translate}}
+                                    {{'survey-management.detail.tooltips.data-sets.one' | translate}}
                                 </md-tooltip>
                             </a>
                         </div>
@@ -113,7 +113,7 @@
                                 <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
                                 {{'data-set-management.detail.data-sets' | translate }}: ({{ctrl.counts.dataSetsCount}})
                                 <md-tooltip md-autohide="true">
-                                    {{'global.tooltips.data-sets.many' | translate}}
+                                    {{'survey-management.detail.tooltips.data-sets.many' | translate}}
                                 </md-tooltip>
                             </a>
                         </div>
@@ -128,7 +128,7 @@
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                                 {{'survey-management.detail.surveys-same-study' | translate }}: ({{ctrl.counts.surveysCount}})
                                 <md-tooltip md-autohide="true">
-                                    {{'global.tooltips.surveys.many' | translate}}
+                                    {{'survey-management.detail.tooltips.surveys.many' | translate}}
                                 </md-tooltip>
                             </a>
                         </div>
@@ -143,7 +143,7 @@
                                 <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
                                 {{'related-publication-management.detail.publication' | translate }}: {{ctrl.relatedPublication.title}}
                                 <md-tooltip md-autohide="true">
-                                    {{'global.tooltips.publications.one' | translate}}
+                                    {{'survey-management.detail.tooltips.publications.one' | translate}}
                                 </md-tooltip>
                             </a>
                         </div>
@@ -152,7 +152,7 @@
                                 <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
                                 {{'related-publication-management.detail.publications' | translate }}: ({{ctrl.counts.publicationsCount}})
                                 <md-tooltip md-autohide="true">
-                                    {{'global.tooltips.publications.many' | translate}}
+                                    {{'survey-management.detail.tooltips.publications.many' | translate}}
                                 </md-tooltip>
                             </a>
                         </div>
@@ -199,7 +199,7 @@
                         <td display-i18n-string="row.description"></td>
                         <td>{{row.language | displayIsoLanguage: currentLanguage}}&nbsp;</td>
                         <td><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}<md-tooltip md-autohide="true">
-                            {{'global.tooltips.files.download' | translate}}
+                            {{'global.tooltips.files.download' | translate: {filename: row.fileName} }}
                         </md-tooltip></a>&nbsp;</td>
                     </tr>
                 </tbody>

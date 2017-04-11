@@ -101,7 +101,30 @@ angular.module('metadatamanagementApp').config(
           'central-tendency': 'Zentrale Tendenz',
           'dispersion': 'Streuung',
           'distribution': 'Verteilung',
-          'not-released-toast': 'Die Variable "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!'
+          'not-released-toast': 'Die Variable "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!',
+          'tooltips': {
+            'surveys': {
+              'one': 'Klicken, um die Erhebung anzuzeigen, aus der diese Variable resultierte',
+              'many': 'Klicken, um alle Erhebungen anzuzeigen, aus denen diese Variable resultierte'
+            },
+            'data-sets': {
+              'one': 'Klicken, um den Datensatz anzuzeigen, in dem diese Variable enthalten ist'
+            },
+            'publications': {
+              'one': 'Klicken, um die Publikation zu dieser Variable anzuzeigen',
+              'many': 'Klicken, um alle Publikationen zu dieser Variable anzuzeigen'
+            },
+            'questions': {
+              'one': 'Klicken, um die Frage anzuzeigen, aus der diese Variable resultierte',
+              'many': 'Klicken, um die Fragen anzuzeigen, aus denen diese Variable resultierte'
+            },
+            'variables': {
+              'same-in-panel': 'Klicken, um alle Panelvariablen zu dieser Variable anzuzeigen,'
+            },
+            'studies':{
+              'one': 'Klicken, um die Studie anzuzeigen, aus der diese Variable resultierte'
+            }
+          }
         },
         'labels': {
           'part-of-data-set': 'Enthalten in Datensatz:',

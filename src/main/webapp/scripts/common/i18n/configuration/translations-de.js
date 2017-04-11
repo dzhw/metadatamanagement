@@ -63,47 +63,10 @@ angular.module('metadatamanagementApp').config(
           'release-project': 'Klicken, um das ausgewählte Projekt für alle Benutzer freizugeben.',
           'unrelease-project': 'Klicken, um die Freigabe des ausgewählten Projektes zurückzunehmen.',
           'post-validation': 'Klicken, um das ausgewählte Datenaufbereitungsprojekt zu validieren.',
-          'surveys': {
-            'no': 'Keine verbundene Erhebung',
-            'one': 'Klicken, um zur verbundenen Erhebung zu gelangen',
-            'many': 'Klicken, um zur Liste aller verbundenen Erhebungen zu gelangen'
-          },
-          'data-sets': {
-            'no': 'Keine verbundene Datensätze',
-            'one': 'Klicken, um zum verbundenen Datensatz zu gelangen',
-            'many': 'Klicken, um zur Liste aller verbundenen Datensätze zu gelangen',
-            'same-data-sets': 'Klicken, um zur Liste der Datensätze der gleichen Studie zu gelangen'
-          },
-          'publications': {
-            'no': 'Keine verbundene Publikationen',
-            'one': 'Klicken, um zur verbundenen Publikation zu gelangen',
-            'many': 'Klicken, um zur Liste aller verbundenen Publikationen zu gelangen'
-          },
-          'questions': {
-            'no': 'Keine verbundene Fragen',
-            'one': 'Klicken, um zur verbundenen Frage zu gelangen',
-            'many': 'Klicken, um zur Liste aller verbundenen Fragen zu gelangen'
-          },
-          'instruments': {
-            'no': 'Keine verbundene Instrumente',
-            'one': 'Klicken, um zum verbundenen Instrument zu gelangen',
-            'many': 'Klicken, um zur Liste aller verbundenen Instrumente zu gelangen'
-          },
-          'variables': {
-            'no': 'Keine verbundene Variablen',
-            'one': 'Klicken, um zur verbundenen Variable zu gelangen',
-            'many': 'Klicken, um zur Liste aller verbundenen Variablen zu gelangen',
-            'same-in-panel': 'Klicken, um zur Liste der gleichen Variablen zu gelangen'
-          },
-          'studies':{
-            'no': 'Keine verbundene Studie',
-            'one': 'Klicken, um zur verbundene Studie zu öffnen',
-            'many': 'Klicken, um zur Liste aller verbundenen Studien zu gelangen'
-          },
           'files': {
-            'download': 'Klicken, um das Dokument herunterzuladen'
+            'download': 'Klicken, um die Datei "{{filename}}" herunterzuladen'
           },
-          'images': 'Klicken, um die fotografische Darstellung in neuem zu öffnen',
+          'images': 'Klicken, um das Bild in einem neuem Tab zu öffnen',
           'pager': {
             'previous':'Klicken, um die vorherigen Suchergebnisse anzuzeigen',
             'next': 'Klicken, um die nächsten Suchergebnisse anzuzeigen',

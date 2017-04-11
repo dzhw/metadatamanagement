@@ -43,32 +43,32 @@
                                 {{'study-management.detail.study' | translate }}:
                                 <span display-i18n-string="ctrl.study.title"></span>
                                 <md-tooltip md-autohide="true">
-                                    {{'global.tooltips.studies.one' | translate}}
+                                    {{'data-set-management.detail.tooltips.studies.one' | translate}}
                                 </md-tooltip>
                             </a>
                         </div>
                     </div>
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                        <div ng-if="ctrl.counts.data-setsCount == 0" class="fdz-truncate-string" flex>
-                            <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
-                            {{'data-set-management.detail.data-sets' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                        <div ng-if="ctrl.counts.surveysCount == 0" class="fdz-truncate-string" flex>
+                            <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
+                            {{'survey-management.detail.surveys' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
-                        <div ng-if="ctrl.counts.data-setsCount == 1 && ctrl.data-set" class="fdz-truncate-string" flex>
-                            <a ui-sref="data-setDetail({'id': ctrl.data-set.id})">
-                                <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
-                                {{'data-set-management.detail.data-set' | translate }}:
-                                <span display-i18n-string="ctrl.data-set.title"></span>
+                        <div ng-if="ctrl.counts.surveysCount == 1 && ctrl.survey" class="fdz-truncate-string" flex>
+                            <a ui-sref="surveyDetail({'id': ctrl.survey.id})">
+                                <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
+                                {{'survey-management.detail.survey' | translate }}:
+                                <span display-i18n-string="ctrl.survey.title"></span>
                                 <md-tooltip md-autohide="true">
-                                    {{'global.tooltips.data-sets.one' | translate}}
+                                    {{'data-set-management.detail.tooltips.surveys.one' | translate}}
                                 </md-tooltip>
                             </a>
                         </div>
-                        <div ng-if="ctrl.counts.data-setsCount > 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="search({'type': 'data-sets', 'data-set': ctrl.dataSet.id, 'page': 1})">
-                                <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
-                                {{'data-set-management.detail.data-sets' | translate }}: ({{ctrl.counts.data-setsCount}})
+                        <div ng-if="ctrl.counts.surveysCount > 1" class="fdz-truncate-string" flex>
+                            <a ui-sref="search({'type': 'surveys', 'data-set': ctrl.dataSet.id, 'page': 1})">
+                                <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
+                                {{'survey-management.detail.surveys' | translate }}: ({{ctrl.counts.surveysCount}})
                                 <md-tooltip md-autohide="true">
-                                    {{'global.tooltips.data-sets.many' | translate}}
+                                    {{'data-set-management.detail.tooltips.surveys.many' | translate}}
                                 </md-tooltip>
                             </a>
                         </div>
@@ -84,7 +84,7 @@
                                 {{'variable-management.detail.variable' | translate }}:
                                 <span display-i18n-string="ctrl.variable.label"></span>
                                 <md-tooltip md-autohide="true">
-                                    {{'global.tooltips.variables.one' | translate}}
+                                    {{'data-set-management.detail.tooltips.variables.one' | translate}}
                                 </md-tooltip>
                             </a>
                         </div>
@@ -93,7 +93,7 @@
                                 <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
                                 {{'variable-management.detail.variables' | translate }}: ({{ctrl.counts.variablesCount}})
                                 <md-tooltip md-autohide="true">
-                                    {{'global.tooltips.variables.many' | translate}}
+                                    {{'data-set-management.detail.tooltips.variables.many' | translate}}
                                 </md-tooltip>
                             </a>
                         </div>
@@ -108,7 +108,7 @@
                                 <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
                                 {{'data-set-management.detail.data-set-same-study' | translate }}: ({{ctrl.counts.dataSetsCount}})
                                 <md-tooltip md-autohide="true">
-                                    {{'global.tooltips.data-sets.same-data-sets' | translate}}
+                                    {{'data-set-management.detail.tooltips.data-sets.same-data-sets' | translate}}
                                 </md-tooltip>
                             </a>
                         </div>
@@ -123,7 +123,7 @@
                                 <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
                                 {{'related-publication-management.detail.publication' | translate }}: {{ctrl.relatedPublication.title}}
                                 <md-tooltip md-autohide="true">
-                                    {{'global.tooltips.publications.one' | translate}}
+                                    {{'data-set-management.detail.tooltips.publications.one' | translate}}
                                 </md-tooltip>
                             </a>
                         </div>
@@ -132,7 +132,7 @@
                                 <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
                                 {{'related-publication-management.detail.publications' | translate }}: ({{ctrl.counts.publicationsCount}})
                                 <md-tooltip md-autohide="true">
-                                    {{'global.tooltips.publications.many' | translate}}
+                                    {{'data-set-management.detail.tooltips.publications.many' | translate}}
                                 </md-tooltip>
                             </a>
                         </div>

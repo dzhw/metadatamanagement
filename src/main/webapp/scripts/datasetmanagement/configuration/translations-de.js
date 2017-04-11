@@ -56,7 +56,7 @@ angular.module('metadatamanagementApp').config(
             'accessWay': 'Datenprodukt',
             'description': 'Beschreibung',
             'numberOfAnalyzedVariables': ' Analysierbare Variablen',
-            'numberOfAnalyzedVariables-tooltip': 'Klicken, um zur Liste der analysierbaren Variablen zu gelangen',
+            'numberOfAnalyzedVariables-tooltip': 'Klicken, um alle analysierbaren Variablen anzuzeigen',
             'numberOfObservations': 'Fälle'
           },
           'attachments': {
@@ -73,7 +73,27 @@ angular.module('metadatamanagementApp').config(
           'generate-variable-report-tooltip': 'Klicken, um Variablenreport zu erzeugen',
           'no-related-data-sets': 'Keine zugehörige Datensätze.',
           'related-data-sets': 'Zugehörige Datensätze',
-          'not-released-toast': 'Der Datensatz "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!'
+          'not-released-toast': 'Der Datensatz "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!',
+          'tooltips': {
+            'data-sets': {
+              'same-data-sets': 'Klicken, um alle Datensätze dieser Studie anzuzeigen'
+            },
+            'surveys': {
+              'one': 'Klicken, um die Erhebung anzuzeigen, aus der dieser Datensatz resultierte',
+              'many': 'Klicken, um alle Erhebungen anzuzeigen, aus denen dieser Datensatz resultierte'
+            },
+            'publications': {
+              'one': 'Klicken, um die Publikation zu diesem Datensatz anzuzeigen',
+              'many': 'Klicken, um alle Publikationen zu diesem Datensatz anzuzeigen'
+            },
+            'variables': {
+              'one': 'Klicken, um die Variable dieses Datensatzes anzuzeigen',
+              'many': 'Klicken, um alle Variablen dieses Datensatzes anzuzeigen'
+            },
+            'studies':{
+              'one': 'Klicken, um die Studie dieses Datensatzes anzuzeigen'
+            }
+          }
         },
         'error': {
           'files-in-template-zip-incomplete': 'Die bereitgestellten Dateien für die Erzeugung eines Datensatzreports sind unvollständig. Es fehlte die Datei: {{invalidValue}}',

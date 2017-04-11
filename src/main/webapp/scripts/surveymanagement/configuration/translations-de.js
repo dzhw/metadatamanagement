@@ -46,7 +46,7 @@ angular.module('metadatamanagementApp').config(
           'responseRate': 'Rücklaufquote',
           'response-rate-informations': 'Weitere Informationen zum Rücklauf',
           'response-rate-informations-tooltip': 'Klicken, um das Bild zu öffnen',
-          'response-rate-informations-alt-text': 'Bild zum Darstellen von weiteren Informationen zum Rücklauf',
+          'response-rate-informations-alt-text': 'Grafische Darstellung der Rücklaufquote',
           'attachments': {
             'table-title': 'Materialien zu der Erhebung',
             'title': 'Titel',
@@ -54,7 +54,27 @@ angular.module('metadatamanagementApp').config(
             'language': 'Dokumentensprache',
             'file': 'Datei'
           },
-          'not-released-toast': 'Die Erhebung "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!'
+          'not-released-toast': 'Die Erhebung "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!',
+          'tooltips': {
+            'surveys': {
+              'many': 'Klicken, um alle Erhebungen dieser Studie anzuzeigen'
+            },
+            'data-sets': {
+              'one': 'Klicken, um den Datensatz dieser Erhebung anzuzeigen',
+              'many': 'Klicken, um alle Datensätze dieser Erhebung anzuzeigen'
+            },
+            'publications': {
+              'one': 'Klicken, um die Publikation zu dieser Erhebung anzuzeigen',
+              'many': 'Klicken, um alle Publikationen zu dieser Erhebung anzuzeigen'
+            },
+            'instruments': {
+              'one': 'Klicken, um das bei dieser Erhebung verwendete Instrument anzuzeigen',
+              'many': 'Klicken, um alle bei dieser Erhebung verwendeten Instrumente anzuzeigen'
+            },
+            'studies':{
+              'one': 'Klicken, um die Studie dieser Erhebung anzuzeigen'
+            }
+          }
         },
         'error': {
           'survey': {

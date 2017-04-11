@@ -77,16 +77,13 @@
                         <div ng-if="!study" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
                             {{'study-management.detail.study' | translate }}: {{'global.messages.error.unavailable' | translate}}
-                            <md-tooltip md-autohide="true">
-                                {{'global.tooltips.studies.no' | translate}}
-                            </md-tooltip>
                         </div>
                         <div ng-if="study" class="fdz-truncate-string" flex>
                             <a ui-sref="studyDetail({id: study.id})">
                                 <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
                                 {{'study-management.detail.study' | translate }}: <span display-i18n-string="study.title"></span>
                                 <md-tooltip md-autohide="true">
-                                    {{'global.tooltips.studies.one' | translate}}
+                                    {{'variable-management.detail.tooltips.studies.one' | translate}}
                                 </md-tooltip>
                             </a>
                         </div>
@@ -95,16 +92,13 @@
                         <div ng-if="counts.questionsCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
                             {{'question-management.detail.questions' | translate }}: {{'global.messages.error.unavailable' | translate}}
-                            <md-tooltip md-autohide="true">
-                                {{'global.tooltips.questions.no' | translate}}
-                            </md-tooltip>
                         </div>
                         <div ng-if="counts.questionsCount == 1 && question" class="fdz-truncate-string" flex>
                             <a ui-sref="questionDetail({'id': question.id})">
                                 <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
                                 {{'question-management.detail.question' | translate }}: <span display-i18n-string="question.questionText"></span>
                                 <md-tooltip md-autohide="true">
-                                    {{'global.tooltips.questions.one' | translate}}
+                                    {{'variable-management.detail.tooltips.questions.one' | translate}}
                                 </md-tooltip>
                             </a>
                         </div>
@@ -113,7 +107,7 @@
                                 <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
                                 {{'question-management.detail.questions' | translate }}: ({{counts.questionsCount}})
                                 <md-tooltip md-autohide="true">
-                                    {{'global.tooltips.questions.many' | translate}}
+                                    {{'variable-management.detail.tooltips.questions.many' | translate}}
                                 </md-tooltip>
                             </a>
                         </div>
@@ -122,16 +116,13 @@
                         <div ng-if="!dataSet" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
                             {{'data-set-management.detail.data-set' | translate }}: {{'global.messages.error.unavailable' | translate}}
-                            <md-tooltip md-autohide="true">
-                                {{'global.tooltips.data-sets.no' | translate}}
-                            </md-tooltip>
                         </div>
                         <div ng-if="dataSet" class="fdz-truncate-string" flex>
                             <a ui-sref="dataSetDetail({id: dataSet.id})">
                                 <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
                                 {{'data-set-management.detail.data-set' | translate }}: <span display-i18n-string="dataSet.description"></span>
                                 <md-tooltip md-autohide="true">
-                                    {{'global.tooltips.data-sets.one' | translate}}
+                                    {{'variable-management.detail.tooltips.data-sets.one' | translate}}
                                 </md-tooltip>
                             </a>
                         </div>
@@ -140,16 +131,13 @@
                         <div ng-if="counts.surveysCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                             {{'survey-management.detail.surveys' | translate }}: {{'global.messages.error.unavailable' | translate}}
-                            <md-tooltip md-autohide="true">
-                                {{'global.tooltips.surveys.no' | translate}}
-                            </md-tooltip>
                         </div>
                         <div ng-if="counts.surveysCount == 1 && survey" class="fdz-truncate-string" flex>
                             <a ui-sref="surveyDetail({'id': survey.id})">
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                                 {{'survey-management.detail.survey' | translate }}: <span display-i18n-string="survey.title"></span>
                                 <md-tooltip md-autohide="true">
-                                    {{'global.tooltips.surveys.one' | translate}}
+                                    {{'variable-management.detail.tooltips.surveys.one' | translate}}
                                 </md-tooltip>
                             </a>
                         </div>
@@ -158,7 +146,7 @@
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                                 {{'survey-management.detail.surveys' | translate }}: ({{counts.surveysCount}})
                                 <md-tooltip md-autohide="true">
-                                    {{'global.tooltips.surveys.many' | translate}}
+                                    {{'variable-management.detail.tooltips.surveys.many' | translate}}
                                 </md-tooltip>
                             </a>
                         </div>
@@ -167,16 +155,13 @@
                         <div ng-if="counts.variablesInPanel == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
                             {{'variable-management.detail.variables-in-panel' | translate }}: {{'global.messages.error.unavailable' | translate}}
-                            <md-tooltip md-autohide="true">
-                                {{'global.tooltips.variables.no' | translate}}
-                            </md-tooltip>
                         </div>
                         <div ng-if="counts.variablesInPanel > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'variables', 'panel-identifier':variable.panelIdentifier, 'page': 1})">
                                 <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
                                 {{'variable-management.detail.variables-in-panel' | translate }}: ({{counts.variablesInPanel}})
                                 <md-tooltip md-autohide="true">
-                                    {{'global.tooltips.variables.same-in-panel' | translate}}
+                                    {{'variable-management.detail.tooltips.variables.same-in-panel' | translate}}
                                 </md-tooltip>
                             </a>
                         </div>
@@ -185,16 +170,13 @@
                         <div ng-if="counts.publicationsCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
                             {{'related-publication-management.detail.publications' | translate }}: {{'global.messages.error.unavailable' | translate}}
-                            <md-tooltip md-autohide="true">
-                                {{'global.tooltips.publications.no' | translate}}
-                            </md-tooltip>
                         </div>
                         <div ng-if="counts.publicationsCount == 1" class="fdz-truncate-string" flex>
                             <a ui-sref="relatedPublicationDetail({'id': relatedPublication.id})">
                                 <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
                                 {{'related-publication-management.detail.publication' | translate }}: {{relatedPublication.title}}
                                 <md-tooltip md-autohide="true">
-                                    {{'global.tooltips.publications.one' | translate}}
+                                    {{'variable-management.detail.tooltips.publications.one' | translate}}
                                 </md-tooltip>
                             </a>
                         </div>
@@ -203,7 +185,7 @@
                                 <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
                                 {{'related-publication-management.detail.publications' | translate }}: ({{counts.publicationsCount}})
                                 <md-tooltip md-autohide="true">
-                                    {{'global.tooltips.publications.many' | translate}}
+                                    {{'variable-management.detail.tooltips.publications.many' | translate}}
                                 </md-tooltip>
                             </a>
                         </div>

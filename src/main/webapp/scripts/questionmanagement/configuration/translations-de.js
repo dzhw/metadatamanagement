@@ -50,7 +50,23 @@ angular.module('metadatamanagementApp').config(
           'number': 'Fragenummer',
           'questionText': 'Fragetext',
           'open-image-in-new-tab': 'Bild in neuem Tab öffnen',
-          'not-released-toast': 'Die Frage "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!'
+          'not-released-toast': 'Die Frage "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!',
+          'tooltips': {
+            'publications': {
+              'one': 'Klicken, um die Publikation zu dieser Frage anzuzeigen',
+              'many': 'Klicken, um alle Publikationen zu dieser Frage anzuzeigen'
+            },
+            'instruments': {
+              'one': 'Klicken, um das Instrument dieser Frage anzuzeigen'
+            },
+            'variables': {
+              'one': 'Klicken, um die Variable dieser Frage anzuzeigen',
+              'many': 'Klicken, um alle Variablen dieser Frage anzuzeigen'
+            },
+            'studies':{
+              'one': 'Klicken, um die Studie anzuzeigen, in der diese Frage verwendet wurde'
+            }
+          }
         },
         'error': {
           'question': {
