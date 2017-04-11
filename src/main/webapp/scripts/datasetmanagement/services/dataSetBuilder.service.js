@@ -90,54 +90,56 @@ angular.module('metadatamanagementApp').service('DataSetBuilderService',
       }
     };
 
-    var buildDataSetAttachments =
-      function(attachmentsSheet, dataAcquisitionProjectId, filesMap) {
+    var buildDataSetAttachment =
+      function(attachment, dataAcquisitionProjectId, filesMap) {
         var notFoundAttachmentsMap = {};
-        var attachmentUploadObjects = [];
-        attachmentsSheet.forEach(function(attachment) {
-          var metadata = attachment;
-          if (attachment.fileName) {
-            if (filesMap.dataSets
-              .attachments[attachment.fileName]) {
-              metadata.fileName = attachment.fileName;
-              metadata.title = attachment.title;
-              metadata.language = attachment.language;
-              metadata.dataSetNumber = attachment.dataSetNumber;
-              metadata.dataAcquisitionProjectId = dataAcquisitionProjectId;
-              metadata.dataSetId =
-                DataSetIdBuilderService.buildDataSetId(dataAcquisitionProjectId,
-                  attachment.dataSetNumber);
-              metadata.description = {
-                'de': attachment['description.de'],
-                'en': attachment['description.en']
-              };
-              attachmentUploadObjects.push({
-                'metadata': metadata,
-                'file': filesMap.dataSets
-                .attachments[attachment.fileName]
+        var attachmentUploadObject = {};
+        var metadata = {};
+
+        // Build Metadata for Attachment
+        if (attachment.fileName) {
+          if (filesMap.dataSets
+            .attachments[attachment.fileName]) {
+            metadata.fileName = attachment.fileName;
+            metadata.title = attachment.title;
+            metadata.language = attachment.language;
+            metadata.dataSetNumber = attachment.dataSetNumber;
+            metadata.dataAcquisitionProjectId = dataAcquisitionProjectId;
+            metadata.dataSetId =
+              DataSetIdBuilderService.buildDataSetId(dataAcquisitionProjectId,
+                attachment.dataSetNumber);
+            metadata.description = {
+              'de': attachment['description.de'],
+              'en': attachment['description.en']
+            };
+
+            //Build Attachment Upload Object
+            attachmentUploadObject = {
+              'metadata': metadata,
+              'file': filesMap.dataSets
+              .attachments[attachment.fileName]
+            };
+          } else {
+            if (!notFoundAttachmentsMap[attachment.fileName]) {
+              JobLoggingService.error({
+                message: 'data-set-management.log-messages' +
+                '.data-set-attachment.file-not-found',
+                messageParams: {
+                  filename: attachment.fileName
+                },
+                objectType: 'attachment'
               });
-            } else {
-              if (!notFoundAttachmentsMap[attachment.fileName]) {
-                JobLoggingService.error({
-                  message: 'data-set-management.log-messages' +
-                  '.data-set-attachment.file-not-found',
-                  messageParams: {
-                    filename: attachment.fileName
-                  },
-                  objectType: 'attachment'
-                });
-                notFoundAttachmentsMap[attachment.fileName] = true;
-              }
+              notFoundAttachmentsMap[attachment.fileName] = true;
             }
           }
-        });
+        }
 
-        return attachmentUploadObjects;
+        return attachmentUploadObject;
       };
 
     return {
       buildDataSet: buildDataSet,
       buildSubDataSet: buildSubDataSet,
-      buildDataSetAttachments: buildDataSetAttachments
+      buildDataSetAttachment: buildDataSetAttachment
     };
   });

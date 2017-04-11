@@ -243,36 +243,49 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
                       }
                     });
 
-                    var attachmentUploadObjects =
-                      DataSetBuilderService
-                        .buildDataSetAttachments(attachmentsSheet,
-                        dataAcquisitionProjectId, filesMap);
                     var asyncFilesUpload = $q.when();
-                    attachmentUploadObjects
-                    .forEach(function(attachmentUploadObj) {
-                      asyncFilesUpload = asyncFilesUpload
-                        .then(function() {
-                          return DataSetAttachmentUploadService
-                            .uploadAttachment(attachmentUploadObj.file,
-                              attachmentUploadObj.metadata);
-                        }).then(function() {
-                          JobLoggingService.success({
-                            objectType: 'attachment'
+                    attachmentsSheet.forEach(function(attachment) {
+
+                      if (dataSetMap[attachment.dataSetNumber] !==
+                        undefined) {
+                        var attachmentUploadObj =
+                          DataSetBuilderService
+                            .buildDataSetAttachments(attachment,
+                            dataAcquisitionProjectId, filesMap);
+                        asyncFilesUpload = asyncFilesUpload
+                          .then(function() {
+                            return DataSetAttachmentUploadService
+                              .uploadAttachment(attachmentUploadObj.file,
+                                attachmentUploadObj.metadata);
+                          }).then(function() {
+                            JobLoggingService.success({
+                              objectType: 'attachment'
+                            });
+                          }).catch(function(error) {
+                            // attachment upload failed
+                            var errorMessage =
+                              ErrorMessageResolverService
+                              .getErrorMessage(error, 'data-set',
+                              'data-set-attachment',
+                              attachmentUploadObj.file.name);
+                            JobLoggingService.error({
+                              message: errorMessage.message,
+                              messageParams: errorMessage.translationParams,
+                              subMessages: errorMessage.subMessages,
+                              objectType: 'attachment'
+                            });
                           });
-                        }).catch(function(error) {
-                          // attachment upload failed
-                          var errorMessage =
-                            ErrorMessageResolverService
-                            .getErrorMessage(error, 'data-set',
-                            'data-set-attachment',
-                            attachmentUploadObj.file.name);
-                          JobLoggingService.error({
-                            message: errorMessage.message,
-                            messageParams: errorMessage.translationParams,
-                            subMessages: errorMessage.subMessages,
-                            objectType: 'attachment'
-                          });
+                      } else {
+                        //Not valid Attachment.dataSetNumber Case
+                        JobLoggingService.warning({
+                          message: 'data-set-management.log-messages.' +
+                          'data-set-attachment.unknown-data-set-number',
+                          messageParams: {
+                            index: (attachment.__rowNum__ + 1),
+                            dataSetNumber: attachment.dataSetNumber
+                          }
                         });
+                      }
                     });
 
                     //Build all DataSets
