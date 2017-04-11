@@ -102,6 +102,13 @@ wb.Props = {
 ws['A4'].c = [];
 ws['A4'].c.push({a:"SheetJS",t:"I'm a little comment, short and stout!\n\nWell, Stout may be the wrong word"});
 
+/* TEST: sheet protection */
+ws['!protect'] = {
+	password:"password",
+	objects:1,
+	scenarios:1
+};
+
 console.log("Worksheet Model:")
 console.log(ws);
 
@@ -117,6 +124,7 @@ XLSX.writeFile(wb, 'sheetjs.slk');
 XLSX.writeFile(wb, 'sheetjs.csv');
 XLSX.writeFile(wb, 'sheetjs.txt');
 XLSX.writeFile(wb, 'sheetjs.prn');
+XLSX.writeFile(wb, 'sheetjs.dif');
 
 /* test by reading back files */
 XLSX.readFile('sheetjs.xlsx');
@@ -127,6 +135,7 @@ XLSX.readFile('sheetjs.xml.xls');
 XLSX.readFile('sheetjs.ods');
 XLSX.readFile('sheetjs.fods');
 XLSX.readFile('sheetjs.slk');
-//XLSX.readFile('sheetjs.csv');
-//XLSX.readFile('sheetjs.txt');
+XLSX.readFile('sheetjs.csv');
+XLSX.readFile('sheetjs.txt');
 XLSX.readFile('sheetjs.prn');
+XLSX.readFile('sheetjs.dif');

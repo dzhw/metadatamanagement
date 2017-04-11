@@ -11,6 +11,8 @@ with a unified JS representation, and ES3/ES5 browser compatibility back to IE6.
 
 [**Commercial Support**](http://sheetjs.com/reinforcements)
 
+[**Rendered Documentation**](https://sheetjs.gitbooks.io/docs/)
+
 [**File format support for known spreadsheet data formats:**](#file-formats)
 
 ![circo graph of format support](formats.png)
@@ -68,9 +70,12 @@ with a unified JS representation, and ES3/ES5 browser compatibility back to IE6.
   * [Excel 97-2004 Binary (BIFF8)](#excel-97-2004-binary-biff8)
   * [Excel 2003-2004 (SpreadsheetML)](#excel-2003-2004-spreadsheetml)
   * [Excel 2007+ Binary (XLSB, BIFF12)](#excel-2007-binary-xlsb-biff12)
-  * [OpenDocument Spreadsheet (ODS/FODS)](#opendocument-spreadsheet-odsfods)
-    + [Uniform Office Spreadsheet (UOS1/2)](#uniform-office-spreadsheet-uos12)
   * [Delimiter-Separated Values (CSV/TXT)](#delimiter-separated-values-csvtxt)
+  * [Other Workbook Formats](#other-workbook-formats)
+    + [Lotus 1-2-3 (WKS/WK1/WK2/WK3/WK4/123)](#lotus-1-2-3-wkswk1wk2wk3wk4123)
+    + [Quattro Pro (WQ1/WQ2/WB1/WB2/WB3/QPW)](#quattro-pro-wq1wq2wb1wb2wb3qpw)
+    + [OpenDocument Spreadsheet (ODS/FODS)](#opendocument-spreadsheet-odsfods)
+    + [Uniform Office Spreadsheet (UOS1/2)](#uniform-office-spreadsheet-uos12)
   * [Other Single-Worksheet Formats](#other-single-worksheet-formats)
     + [dBASE and Visual FoxPro (DBF)](#dbase-and-visual-foxpro-dbf)
     + [Symbolic Link (SYLK)](#symbolic-link-sylk)
@@ -569,6 +574,28 @@ In addition to the base sheet keys, worksheets also add:
   will write all cells in the merge range if they exist, so be sure that only
   the first cell (upper-left) in the range is set.
 
+- `ws['protect']`: object of write sheet protection properties.  The `password`
+  key specifies the password.  The writer uses the XOR obfuscation method.  The
+  following keys control the sheet protection (same as ECMA-376 18.3.1.85):
+
+| key                   | functionality disabled if value is true              |
+|:----------------------|:-----------------------------------------------------|
+| `selectLockedCells`   | Select locked cells                                  |
+| `selectUnlockedCells` | Select unlocked cells                                |
+| `formatCells`         | Format cells                                         |
+| `formatColumns`       | Format columns                                       |
+| `formatRows`          | Format rows                                          |
+| `insertColumns`       | Insert columns                                       |
+| `insertRows`          | Insert rows                                          |
+| `insertHyperlinks`    | Insert hyperlinks                                    |
+| `deleteColumns`       | Delete columns                                       |
+| `deleteRows`          | Delete rows                                          |
+| `sort`                | Sort                                                 |
+| `autoFilter`          | Filter                                               |
+| `pivotTables`         | Use PivotTable reports                               |
+| `objects`             | Edit objects                                         |
+| `scenarios`           | Edit scenarios                                       |
+
 #### Chartsheet Object
 
 Chartsheets are represented as standard sheets.  They are distinguished with the
@@ -872,13 +899,14 @@ file but Excel will know how to handle it.  This library applies similar logic:
 
 | Byte 0 | Raw File Type | Spreadsheet Types                                   |
 |:-------|:--------------|:----------------------------------------------------|
-| `0xD0` | CFB Container | BIFF 5/8 or password-protected XLSX/XLSB            |
+| `0xD0` | CFB Container | BIFF 5/8 or password-protected XLSX/XLSB or WQ3/QPW |
 | `0x09` | BIFF Stream   | BIFF 2/3/4/5                                        |
 | `0x3C` | XML/HTML      | SpreadsheetML / Flat ODS / UOS1 / HTML / plaintext  |
 | `0x50` | ZIP Archive   | XLSB or XLSX/M or ODS or UOS2 or plaintext          |
 | `0x49` | Plain Text    | SYLK or plaintext                                   |
 | `0x54` | Plain Text    | DIF or plaintext                                    |
 | `0xFE` | UTF16 Encoded | SpreadsheetML or Flat ODS or UOS1 or plaintext      |
+| `0x00` | Record Stream | Lotus WK\* or Quattro Pro or plaintext              |
 
 DBF files are detected based on the first byte as well as the third and fourth
 bytes (corresponding to month and day of the file date)
@@ -1181,6 +1209,8 @@ Despite the library name `xlsx`, it supports numerous spreadsheet file formats:
 | Flat XML ODF Spreadsheet (FODS)                              |  :o:  |  :o:  |
 | Uniform Office Format Spreadsheet (标文通 UOS1/UOS2)         |  :o:  |       |
 | dBASE II/III/IV / Visual FoxPro (DBF)                        |  :o:  |       |
+| Lotus 1-2-3 (WKS/WK1/WK2/WK3/WK4/123)                        |  :o:  |       |
+| Quattro Pro Spreadsheet (WQ1/WQ2/WB1/WB2/WB3/QPW)            |  :o:  |       |
 | **Other Common Spreadsheet Output Formats**                  |:-----:|:-----:|
 | HTML Tables                                                  |  :o:  |       |
 
@@ -1231,7 +1261,34 @@ in an XLSX sub-file can be mapped to XLSB records in a corresponding sub-file.
 The `MS-XLSB` specification covers the basics of the file format, and other
 specifications expand on serialization of features like properties.
 
-### OpenDocument Spreadsheet (ODS/FODS)
+### Delimiter-Separated Values (CSV/TXT)
+
+Excel CSV deviates from RFC4180 in a number of important ways.  The generated
+CSV files should generally work in Excel although they may not work in RFC4180
+compatible readers.  The parser should generally understand Excel CSV.
+
+Excel TXT uses tab as the delimiter and codepage 1200.
+
+### Other Workbook Formats
+
+Support for other formats is generally far XLS/XLSB/XLSX support, due in large
+part to a lack of publicly available documentation.  Test files were produced in
+the respective apps and compared to their XLS exports to determine structure.
+The main focus is data extraction.
+
+#### Lotus 1-2-3 (WKS/WK1/WK2/WK3/WK4/123)
+
+The Lotus formats consist of binary records similar to the BIFF structure. Lotus
+did release a whitepaper decades ago covering the original WK1 format.  Other
+features were deduced by producing files and comparing to Excel support.
+
+#### Quattro Pro (WQ1/WQ2/WB1/WB2/WB3/QPW)
+
+The Quattro Pro formats use binary records in the same way as BIFF and Lotus.
+Some of the newer formats (namely WB3 and QPW) use a CFB enclosure just like
+BIFF8 XLS.
+
+#### OpenDocument Spreadsheet (ODS/FODS)
 
 ODS is an XML-in-ZIP format akin to XLSX while FODS is an XML format akin to
 SpreadsheetML.  Both are detailed in the OASIS standard, but tools like LO/OO
@@ -1242,14 +1299,6 @@ add undocumented extensions.
 UOS is a very similar format, and it comes in 2 varieties corresponding to ODS
 and FODS respectively.  For the most part, the difference between the formats
 lies in the names of tags and attributes.
-
-### Delimiter-Separated Values (CSV/TXT)
-
-Excel CSV deviates from RFC4180 in a number of important ways.  The generated
-CSV files should generally work in Excel although they may not work in RFC4180
-compatible readers.  The parser should generally understand Excel CSV.
-
-Excel TXT uses tab as the delimiter and codepage 1200.
 
 ### Other Single-Worksheet Formats
 
