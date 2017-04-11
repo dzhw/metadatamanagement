@@ -28,9 +28,11 @@ angular.module('metadatamanagementApp')
           setPageTitle('question-management.detail.title', title);
         ToolbarHeaderService.updateToolbarHeader({
           'stateName': $state.current.name,
+          'id': result.id,
           'questionNumber': result.number,
           'instrumentNumber': result.instrumentNumber,
           'instrumentId': result.instrumentId,
+          'surveys': result.surveys,
           'studyId': result.studyId,
           'projectId': result.dataAcquisitionProjectId});
         if (result.release || Principal.hasAuthority('ROLE_PUBLISHER')) {

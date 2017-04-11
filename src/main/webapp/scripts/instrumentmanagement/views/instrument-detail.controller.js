@@ -15,7 +15,9 @@ angular.module('metadatamanagementApp')
       entity.promise.then(function(result) {
         ToolbarHeaderService.updateToolbarHeader({
           'stateName': $state.current.name,
+          'id': result.id,
           'number': result.number,
+          'surveys': result.surveys,
           'studyId': result.studyId,
           'projectId': result.dataAcquisitionProjectId});
         var currenLanguage = LanguageService.getCurrentInstantly();
