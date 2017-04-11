@@ -22,8 +22,10 @@ angular.module('metadatamanagementApp')
         });
         ToolbarHeaderService.updateToolbarHeader({
           'stateName': $state.current.name,
+          'id': result.id,
           'number': result.number,
           'studyId': result.studyId,
+          'surveys': result.surveys,
           'projectId': result.dataAcquisitionProjectId});
         if (result.release || Principal.hasAuthority('ROLE_PUBLISHER')) {
           ctrl.dataSet = result;

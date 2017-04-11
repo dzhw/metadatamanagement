@@ -19,6 +19,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
         'instrument': 'instruments.id',
         'variable': 'variables.id',
         'data-set': 'dataSets.id',
+        'question': 'questions.id',
         'related-publication': 'relatedPublications.id',
         'study': 'studyId'
       },
