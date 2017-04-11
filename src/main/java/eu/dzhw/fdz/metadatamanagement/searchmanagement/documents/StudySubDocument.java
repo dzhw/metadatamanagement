@@ -1,8 +1,11 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
+import java.util.List;
+
 import org.springframework.beans.BeanUtils;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySubDocumentProjection;
 
 /**
@@ -26,7 +29,7 @@ public class StudySubDocument implements StudySubDocumentProjection {
   
   private I18nString title;
   
-  private String authors;
+  private List<Person> authors;
   
   public StudySubDocument() {
     super();
@@ -37,14 +40,16 @@ public class StudySubDocument implements StudySubDocumentProjection {
     BeanUtils.copyProperties(projection, this);
   }
 
-  public String getAuthors() {
+  @Override
+  public List<Person> getAuthors() {
     return authors;
   }
 
-  public void setAuthors(String authors) {
+  public void setAuthors(List<Person> authors) {
     this.authors = authors;
   }
 
+  @Override
   public String getId() {
     return id;
   }
@@ -53,6 +58,7 @@ public class StudySubDocument implements StudySubDocumentProjection {
     this.id = id;
   }
 
+  @Override
   public String getDataAcquisitionProjectId() {
     return dataAcquisitionProjectId;
   }
@@ -61,6 +67,7 @@ public class StudySubDocument implements StudySubDocumentProjection {
     this.dataAcquisitionProjectId = dataAcquisitionProjectId;
   }
 
+  @Override
   public I18nString getDescription() {
     return description;
   }
@@ -69,6 +76,7 @@ public class StudySubDocument implements StudySubDocumentProjection {
     this.description = description;
   }
 
+  @Override
   public I18nString getInstitution() {
     return institution;
   }
@@ -77,6 +85,7 @@ public class StudySubDocument implements StudySubDocumentProjection {
     this.institution = institution;
   }
 
+  @Override
   public I18nString getSponsor() {
     return sponsor;
   }
@@ -85,6 +94,7 @@ public class StudySubDocument implements StudySubDocumentProjection {
     this.sponsor = sponsor;
   }
 
+  @Override
   public I18nString getSurveySeries() {
     return surveySeries;
   }
@@ -93,6 +103,7 @@ public class StudySubDocument implements StudySubDocumentProjection {
     this.surveySeries = surveySeries;
   }
 
+  @Override
   public I18nString getTitle() {
     return title;
   }

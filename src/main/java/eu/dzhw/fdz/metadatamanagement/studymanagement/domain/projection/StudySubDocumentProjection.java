@@ -1,6 +1,9 @@
 package eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection;
 
+import java.util.List;
+
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
 
 /**
  * Subset of study attributes which can be used in other search documents
@@ -23,6 +26,6 @@ public interface StudySubDocumentProjection {
 
   I18nString getSponsor();
 
-  String getAuthors();
+  List<Person> getAuthors();
 
 }

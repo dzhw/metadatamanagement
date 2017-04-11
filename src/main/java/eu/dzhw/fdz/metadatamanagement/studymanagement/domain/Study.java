@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.studymanagement.domain;
 
 import java.util.List;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -16,6 +17,7 @@ import com.google.common.base.MoreObjects;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
@@ -79,9 +81,8 @@ public class Study extends AbstractRdcDomainObject {
       message = "study-management.error.study.sponsor.i18n-string-size")
   private I18nString sponsor;
   
-  @Size(max = StringLengths.MEDIUM,
-      message = "study-management.error.study.authors.i18n-string-size")
-  private String authors;
+  @Valid
+  private List<Person> authors;
   
   @I18nStringSize(max = StringLengths.LARGE,
       message = "study-management.error.study.citation-hint.i18n-string-size")
@@ -168,14 +169,14 @@ public class Study extends AbstractRdcDomainObject {
     this.sponsor = sponsor;
   }
 
-  public String getAuthors() {
+  public List<Person> getAuthors() {
     return authors;
   }
 
-  public void setAuthors(String authors) {
+  public void setAuthors(List<Person> authors) {
     this.authors = authors;
   }
-  
+
   /*
    * (non-Javadoc)
    * @see eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject#toString()

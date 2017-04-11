@@ -75,9 +75,6 @@ angular.module('metadatamanagementApp').config(
             'citation-hint': {
               'i18n-string-size': 'The max length of the citation hint of the study is 2048.'
             },
-            'authors': {
-              'i18n-string-size': 'The max length of the authors of the study is 128.'
-            },
             'survey-series': {
               'i18n-string-size': 'The max length of the survey series is 128 signs.'
             },

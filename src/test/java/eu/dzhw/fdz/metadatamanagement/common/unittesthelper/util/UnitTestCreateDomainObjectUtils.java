@@ -10,8 +10,10 @@ import java.util.List;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ImageType;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
 import eu.dzhw.fdz.metadatamanagement.common.domain.builders.I18nStringBuilder;
 import eu.dzhw.fdz.metadatamanagement.common.domain.builders.PeriodBuilder;
+import eu.dzhw.fdz.metadatamanagement.common.domain.builders.PersonBuilder;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetTypes;
@@ -92,9 +94,12 @@ public class UnitTestCreateDomainObjectUtils {
     accessWays.add(AccessWays.DOWNLOAD_SUF);
     accessWays.add(AccessWays.ONSITE_SUF);
     
+    List<Person> authors = new ArrayList<>();
+    authors.add(buildPerson("Test", null, "Authors"));
+    
     return new StudyBuilder()
         .withId(UnitTestCreateValidIds.buildStudyId(projectId))
-        .withAuthors("Test Author")
+        .withAuthors(authors)
         .withCitationHint(new I18nStringBuilder()
             .withDe("Citation Hint De")
             .withEn("Citation Hint En")
@@ -520,6 +525,15 @@ public class UnitTestCreateDomainObjectUtils {
             .withDe("Related Question String DE")
             .withEn("Related Question String EN")
             .build())
+        .build();
+  }
+  
+  public static Person buildPerson(String firstName, String middleName, String lastName) {
+    
+    return new PersonBuilder()
+        .withFirstName(firstName)
+        .withMiddleName(middleName)
+        .withLastName(lastName)
         .build();
   }
 }

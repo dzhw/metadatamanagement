@@ -89,9 +89,6 @@ angular.module('metadatamanagementApp').config(
             'citation-hint': {
               'i18n-string-size': 'Die Maximallänge des Zitationshinweises einer Studie ist 2048 Zeichen.'
             },
-            'authors': {
-              'i18n-string-size': 'Die Maximallänge der Autoren einer Studie ist 128 Zeichen.'
-            },
             'survey-series': {
               'i18n-string-size': 'Die Maximallänge der Erhebungsreihe einer Studie ist 128 Zeichen.'
             },

@@ -8,6 +8,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -18,6 +20,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
 import eu.dzhw.fdz.metadatamanagement.common.domain.builders.I18nStringBuilder;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
@@ -117,7 +120,9 @@ public class StudyResourceTest extends AbstractTest {
       .content(TestUtil.convertObjectToJsonBytes(study)))
       .andExpect(status().isCreated());
     
-    study.setAuthors("AnotherAuthor");
+    List<Person> authors = new ArrayList<>();
+    authors.add(UnitTestCreateDomainObjectUtils.buildPerson("Another", null, "Author"));
+    study.setAuthors(authors);
     
     // create the study with the given id
     mockMvc.perform(put(API_STUDY_URI + "/" + study.getId())
@@ -128,7 +133,8 @@ public class StudyResourceTest extends AbstractTest {
     mockMvc.perform(get(API_STUDY_URI + "/" + study.getId() + "?projection=complete"))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.id", is(study.getId())))
-      .andExpect(jsonPath("$.authors", is("AnotherAuthor")));
+      .andExpect(jsonPath("$.authors[0].firstName", is("Another")))
+      .andExpect(jsonPath("$.authors[0].lastName", is("Author")));
   }
   
   @Test
