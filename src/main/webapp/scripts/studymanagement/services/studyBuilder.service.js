@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').service('StudyBuilderService',
   function(StudyResource, CleanJSObjectService, StudyIdBuilderService) {
-    var buildStudy = function(studyFromExcel,
+    var buildStudy = function(studyFromExcel, authors,
       dataAcquisitionProjectId) {
       var study = {
         id: StudyIdBuilderService.buildStudyId(
@@ -40,7 +40,7 @@ angular.module('metadatamanagementApp').service('StudyBuilderService',
           en: studyFromExcel['surveyDesign.en'],
           de: studyFromExcel['surveyDesign.de']
         },
-        authors: studyFromExcel.authors,
+        authors: authors,
         accessWays: CleanJSObjectService.
         removeWhiteSpace(studyFromExcel.accessWays),
         dataAcquisitionProjectId: dataAcquisitionProjectId
@@ -49,7 +49,22 @@ angular.module('metadatamanagementApp').service('StudyBuilderService',
         .removeEmptyJsonObjects(study);
       return new StudyResource(cleanedStudyObject);
     };
+
+    var buildAuthors = function(authorsFromExcel) {
+      var authors = [];
+      authorsFromExcel.forEach(function(author) {
+        authors.push({
+          'firstName': author.firstName,
+          'middleName': author.middleName,
+          'lastName': author.lastName
+        });
+      });
+
+      return authors;
+    };
+
     return {
-      buildStudy: buildStudy
+      buildStudy: buildStudy,
+      buildAuthors: buildAuthors
     };
   });

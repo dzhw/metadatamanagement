@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').service('StudyUploadService',
   function(StudyBuilderService, StudyDeleteResource, JobLoggingService,
-    ErrorMessageResolverService, ExcelReaderService,
+    ErrorMessageResolverService, ExcelReaderService, $q,
     ElasticSearchAdminService, $rootScope, $translate, $mdDialog,
     CleanJSObjectService) {
     var study;
@@ -75,11 +75,29 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
                 );
                 return;
               }
-              ExcelReaderService.readFileAsync(studyExcelFile)
-                .then(function(studyFromExcel) {
+              ExcelReaderService.readFileAsync(studyExcelFile, true)
+                .then(function(allExcelSheets) {
+                  var studyFromExcel = allExcelSheets.study;
+                  var authorsFromExcel = allExcelSheets.authors;
+                  var authors;
+
+                  //Check for the study and authors sheets
+                  if (!studyFromExcel || !authorsFromExcel) {
+                    JobLoggingService.cancel('global.log-messages.' +
+                      'unable-to-read-excel-sheets', {
+                        sheets: 'study, authors',
+                      });
+                    return $q.reqect();
+                  }
+                  //Get list of authors from excel sheet
+                  authors = StudyBuilderService.buildAuthors(
+                    authorsFromExcel);
+
+                  //build study
                   study = StudyBuilderService
-                    .buildStudy(studyFromExcel[0],
+                    .buildStudy(studyFromExcel[0], authors,
                       dataAcquisitionProjectId);
+
                   upload();
                 }, function() {
                   JobLoggingService.cancel(
