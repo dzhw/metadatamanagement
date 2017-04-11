@@ -87,13 +87,11 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
             previouslyUploadedDataSetNumbers[objects[uploadCount].number] =
               true;
 
-            //TODO Upload Attachment
             //Get all Attachment of a Data Set Number
             if (attachmentMap[objects[uploadCount].number] !== undefined) {
               var attachments = attachmentMap[objects[uploadCount].number];
-              var asyncFilesUpload = $q.when();
               attachments.forEach(function(attachmentUploadObj) {
-                  asyncFilesUpload().then(function() {
+                  $q.when().then(function() {
                     return DataSetAttachmentUploadService
                       .uploadAttachment(attachmentUploadObj.file,
                         attachmentUploadObj.metadata);
@@ -290,11 +288,10 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
 
                         //Add Attachment to a list for
                         //the depending dataset number
-                        var att = DataSetBuilderService
-                            .buildDataSetAttachment(attachment,
-                            dataAcquisitionProjectId, filesMap);
                         attachmentMap[attachment.dataSetNumber]
-                          .push(att);
+                          .push(DataSetBuilderService
+                            .buildDataSetAttachment(attachment,
+                            dataAcquisitionProjectId, filesMap));
                       } else {
                         //Not valid Attachment.dataSetNumber Case
                         JobLoggingService.warning({
