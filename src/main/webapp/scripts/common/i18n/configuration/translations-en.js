@@ -108,6 +108,17 @@ angular.module('metadatamanagementApp').config(
             'previous':'Click to load previous search results',
             'next': 'Click to load next search results',
             'current': 'Click to load search page "{{number}}"'
+          },
+          'toolbarHeader': {
+            'search': 'Click to load last search results',
+            'data-set': 'Click to show data set "{{param}}"',
+            'survey': 'Click to show survey "{{param}}"',
+            'surveys': 'Click to show surveys',
+            'question': 'Click to show question "{{param}}"',
+            'variable': 'Click to show variable "{{param}}"',
+            'study': 'Click to show study "{{param}}"',
+            'instrument': 'Click to show instrument "{{param}}"',
+            'publication': 'Click to show publication "{{param}}"'
           }
         },
         'menu': {

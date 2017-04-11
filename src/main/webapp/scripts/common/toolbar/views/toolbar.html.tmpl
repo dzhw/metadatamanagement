@@ -13,7 +13,7 @@
                 <md-button style="max-width: 250px;" ng-class="{'hide-xs': $mdMedia('xs') && !$first, 'hide-sm': $mdMedia('sm') && !$first, 'md-icon-button': $mdMedia('xs')}" class="md-primary md-raised fdz-toolbar-button" ng-if="!$last && !item.notFound" ui-sref="{{item.state}}">
                     <md-icon ng-if="item.iconType == 'font'" md-font-set="material-icons">{{item.icon}}</md-icon>
                     <md-icon ng-if="item.iconType == 'svg'" md-svg-icon="{{item.icon}}"></md-icon>
-                    <span hide-xs class="fdz-truncate-string">{{item.translateString | translate}}</span>
+                    <span hide-xs class="fdz-truncate-string">{{item.type | translate}}</span>
                     <span hide-xs class="fdz-truncate-string" ng-if="item.tabName">({{item.tabName | translate}})</span>
                     <span hide-xs class="fdz-truncate-string" ng-if="item.id">{{item.id}}</span>
                     <span hide-xs class="fdz-truncate-string" ng-if="item.number">{{item.number}}</span>
@@ -21,25 +21,25 @@
                     <span hide-xs class="fdz-truncate-string" ng-if="item.projectId">{{item.projectId}}</span>
                     <span hide-xs class="fdz-truncate-string" ng-if="item.name">{{item.name}}</span>
                     <md-tooltip md-z-index="100" md-autohide="true">
-                      <span ng-if="item.tabName" translate='global.toolbarHeader.search' translate-value-tabname="{{item.tabName | translate}}"  translate-value-type="{{item.translateString | translate}}"></span>
-                      <span ng-if="item.id" translate='global.toolbarHeader.default' translate-value-param="{{item.id}}"  translate-value-type="{{item.translateString | translate}}"></span>
-                      <span ng-if="item.number" translate='global.toolbarHeader.default' translate-value-param="{{item.number}}"  translate-value-type="{{item.translateString | translate}}"></span>
-                      <span ng-if="item.numbers" translate='global.toolbarHeader.default' translate-value-param="{{item.numbers}}"  translate-value-type="{{item.translateString | translate}}"></span>
-                      <span ng-if="item.projectId" translate='global.toolbarHeader.default' translate-value-param="{{item.projectId}}"  translate-value-type="{{item.translateString | translate}}"></span>
-                      <span ng-if="item.name" translate='global.toolbarHeader.default' translate-value-param="{{item.name}}"  translate-value-type="{{item.translateString | translate}}"></span>
+                      <span ng-if="item.tabName" translate='{{item.tooltip}}' translate-value-tabname="{{item.tabName | translate}}"></span>
+                      <span ng-if="item.id" translate='{{item.tooltip}}' translate-value-param="{{item.id}}"></span>
+                      <span ng-if="item.number" translate='{{item.tooltip}}' translate-value-param="{{item.number}}"></span>
+                      <span ng-if="item.numbers" translate='{{item.tooltip}}' translate-value-param="{{item.numbers}}"></span>
+                      <span ng-if="item.projectId" translate='{{item.tooltip}}' translate-value-param="{{item.projectId}}"></span>
+                      <span ng-if="item.name" translate='{{item.tooltip}}' translate-value-param="{{item.name}}"></span>
                     </md-tooltip>
                 </md-button>
                 <md-button class="fdz-truncate-string" ng-if="item.notFound" disabled="true" style="max-width: 250px; margin-left: 2px; color: rgba(255,255,255,0.87);">
                     <md-icon ng-if="item.iconType == 'font'" md-font-set="material-icons" style="color: rgba(255,255,255,0.87);">{{item.icon}}</md-icon>
                     <md-icon ng-if="item.iconType == 'svg'" md-svg-icon="{{item.icon}}" style="fill: rgba(255,255,255,0.87);"></md-icon>
-                    {{item.translateString | translate}}
+                    {{item.type | translate}}
                     <span class="fdz-truncate-string">{{item.notFound}}</span>
                 </md-button>
                 <md-icon md-font-set="material-icons" ng-class="{'hide-xs': $mdMedia('xs'), 'hide-sm': $mdMedia('sm') && !$first}" ng-if="!$last">forward</md-icon>
                 <md-button class="fdz-truncate-string" ng-if="$last" disabled="true" style="max-width: 250px; margin-left: 2px; color: rgba(255,255,255,0.87);">
                     <md-icon ng-if="item.iconType == 'font'" md-font-set="material-icons" style="color: rgba(255,255,255,0.87);">{{item.icon}}</md-icon>
                     <md-icon ng-if="item.iconType == 'svg'" md-svg-icon="{{item.icon}}" style="fill: rgba(255,255,255,0.87);"></md-icon>
-                    {{item.translateString | translate}}
+                    {{item.type | translate}}
                     <span class="fdz-truncate-string" ng-if="item.tabName">({{item.tabName | translate}})</span>
                     <span class="fdz-truncate-string" ng-if="item.id">{{item.id}}</span>
                     <span class="fdz-truncate-string" ng-if="item.number">{{item.number}}</span>

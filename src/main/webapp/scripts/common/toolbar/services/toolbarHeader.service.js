@@ -6,91 +6,100 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
     var searchItem;
     var translationStringsMap = {
       'questionDetail': {
-        'translateString': 'question-management.detail.question',
+        'type': 'question-management.detail.question',
+        'translateString': 'global.tooltips.toolbarHeader.question',
         'iconType': 'svg',
         'icon': 'assets/images/icons/question.svg'
       },
       'variableDetail': {
-        'translateString': 'variable-management.detail.variable',
+        'type': 'variable-management.detail.variable',
+        'translateString': 'global.tooltips.toolbarHeader.variable',
         'iconType': 'svg',
         'icon': 'assets/images/icons/variable.svg'
       },
       'instrumentDetail': {
-        'translateString': 'instrument-management.detail.instrument',
+        'type': 'instrument-management.detail.instrument',
+        'translateString': 'global.tooltips.toolbarHeader.instrument',
         'iconType': 'svg',
         'icon': 'assets/images/icons/instrument.svg'
       },
       'dataSetDetail': {
-        'translateString': 'data-set-management.detail.data-set',
+        'type': 'data-set-management.detail.data-set',
+        'translateString': 'global.tooltips.toolbarHeader.data-set',
         'iconType': 'svg',
         'icon': 'assets/images/icons/data-set.svg'
       },
       'disclosure': {
-        'translateString': 'disclosure.title'
+        'type': 'disclosure.title'
       },
       'relatedPublicationDetail': {
-        'translateString': 'related-publication-management.detail.publication',
+        'type': 'related-publication-management.detail.publication',
+        'translateString': 'global.tooltips.toolbarHeader.publication',
         'iconType': 'svg',
         'icon': 'assets/images/icons/related-publication.svg'
       },
       'search': {
-        'translateString': 'search-management.detail.search',
+        'type': 'search-management.detail.search',
+        'translateString': 'global.tooltips.toolbarHeader.search',
         'tab': 'search-management.tabs.',
         'iconType': 'font',
         'icon': 'search'
       },
       'studyDetail': {
-        'translateString': 'study-management.detail.study',
+        'type': 'study-management.detail.study',
+        'translateString': 'global.tooltips.toolbarHeader.study',
         'iconType': 'svg',
         'icon': 'assets/images/icons/study.svg'
       },
       'surveyDetail': {
-        'translateString': 'survey-management.detail.survey',
-        'translateStrings': 'survey-management.detail.surveys',
+        'type': 'survey-management.detail.survey',
+        'types': 'survey-management.detail.surveys',
+        'translateString': 'global.tooltips.toolbarHeader.survey',
+        'translateStrings': 'global.tooltips.toolbarHeader.surveys',
         'iconType': 'svg',
         'icon': 'assets/images/icons/survey.svg'
       },
       'login': {
-        'translateString': 'global.toolbar.buttons.login'
+        'type': 'global.toolbar.buttons.login'
       },
       'metrics': {
-        'translateString': 'global.menu.admin.metrics'
+        'type': 'global.menu.admin.metrics'
       },
       'health': {
-        'translateString': 'global.menu.admin.health'
+        'type': 'global.menu.admin.health'
       },
       'configuration': {
-        'translateString': 'global.menu.admin.configuration'
+        'type': 'global.menu.admin.configuration'
       },
       'logs': {
-        'translateString': 'global.menu.admin.logs'
+        'type': 'global.menu.admin.logs'
       },
       'settings': {
-        'translateString': 'global.menu.account.settings'
+        'type': 'global.menu.account.settings'
       },
       'password': {
-        'translateString': 'global.menu.account.password'
+        'type': 'global.menu.account.password'
       },
       'register': {
-        'translateString': 'global.toolbar.buttons.register'
+        'type': 'global.toolbar.buttons.register'
       },
       'activate': {
-        'translateString': 'user-management.activate.title'
+        'type': 'user-management.activate.title'
       },
       'requestReset': {
-        'translateString': 'global.menu.account.password'
+        'type': 'global.menu.account.password'
       },
       'finishReset': {
-        'translateString': 'global.menu.account.password'
+        'type': 'global.menu.account.password'
       },
       'user-management': {
-        'translateString': 'global.menu.admin.user-management'
+        'type': 'global.menu.admin.user-management'
       },
       'user-management-detail': {
-        'translateString': 'user-management.home.title'
+        'type': 'user-management.home.title'
       },
       'error': {
-        'translateString': 'global.error.title'
+        'type': 'global.error.title'
       }
     };
     var createRelatedSurveyItem = function(surveys, itemTyp, itemId) {
@@ -101,7 +110,8 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
       if (surveys.length === 1) {
         surveyItem.state = 'surveyDetail({"id":"' + surveys[0].id +
         '"})';
-        surveyItem.translateString = translationStringsMap.surveyDetail.
+        surveyItem.type = translationStringsMap.surveyDetail.type;
+        surveyItem.tooltip = translationStringsMap.surveyDetail.
         translateString;
         surveyItem.number = surveys[0].number;
       }
@@ -109,7 +119,8 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         var stateParams = {'type': 'surveys', 'page': 1};
         stateParams[itemTyp] = itemId;
         surveyItem.state = 'search(' + JSON.stringify(stateParams) + ')';
-        surveyItem.translateString = translationStringsMap.surveyDetail.
+        surveyItem.type = translationStringsMap.surveyDetail.types;
+        surveyItem.tooltip = translationStringsMap.surveyDetail.
         translateStrings;
         surveyItem.numbers = surveys.length > 2 ? surveys[0].number +
         ', ..., ' + _.last(surveys) : surveys[0].number + ', ' +
@@ -117,8 +128,7 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
       }
       if (surveys.length === 0) {
         surveyItem.disabled = true;
-        surveyItem.translateString = translationStringsMap.surveyDetail.
-        translateString;
+        surveyItem.type = translationStringsMap.surveyDetail.type;
         surveyItem.notFound = '?'; // survey undefined...
       }
       return surveyItem;
@@ -133,8 +143,9 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
       var surveyItem = {};
       if (!searchItem) {
         searchItem = {};
-        searchItem.translateString = translationStringsMap.search
-        .translateString;
+        searchItem.type = translationStringsMap.search.type;
+        searchItem.tooltip = translationStringsMap.search.
+        translateString;
         searchItem.state = 'search({"page": 1})';
         searchItem.tabName = 'search-management.tabs.all';
         searchItem.iconType = translationStringsMap.search.iconType;
@@ -144,8 +155,8 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
       if (item.projectId) {
         studyItem = {
           'state': 'studyDetail({"id":"' + item.studyId + '"})',
-          'translateString': translationStringsMap.studyDetail.
-          translateString,
+          'type': translationStringsMap.studyDetail.type,
+          'tooltip': translationStringsMap.studyDetail.translateString,
           'iconType': translationStringsMap.instrumentDetail.iconType,
           'icon': translationStringsMap.studyDetail.icon,
           'projectId': item.projectId
@@ -158,16 +169,16 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         case 'questionDetail':
           instrumentItem = {
             'state': 'instrumentDetail({"id":"' + item.instrumentId + '"})',
-            'translateString': translationStringsMap.instrumentDetail.
-            translateString,
+            'type': translationStringsMap.instrumentDetail.type,
+            'tooltip': translationStringsMap.instrumentDetail.translateString,
             'iconType': translationStringsMap.instrumentDetail.iconType,
             'icon': translationStringsMap.instrumentDetail.icon,
             'number': item.instrumentNumber
           };
           questionItem = {
             'state': 'questionDetail',
-            'translateString': translationStringsMap.questionDetail.
-            translateString,
+            'type': translationStringsMap.questionDetail.type,
+            'tooltip': translationStringsMap.questionDetail.translateString,
             'iconType': translationStringsMap.instrumentDetail.iconType,
             'icon': translationStringsMap.questionDetail.icon,
             'number': item.questionNumber
@@ -180,16 +191,16 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         case 'variableDetail':
           dataSetItem = {
             'state': 'dataSetDetail({"id":"' + item.dataSetId + '"})',
-            'translateString': translationStringsMap.dataSetDetail.
-             translateString,
+            'type': translationStringsMap.dataSetDetail.type,
+            'tooltip': translationStringsMap.dataSetDetail.translateString,
             'iconType': translationStringsMap.instrumentDetail.iconType,
             'icon': translationStringsMap.dataSetDetail.icon,
             'number': item.dataSetNumber
           };
           variableItem = {
             'state': 'variableDetail',
-            'translateString': translationStringsMap.variableDetail.
-             translateString,
+            'type': translationStringsMap.variableDetail.type,
+            'tooltip': translationStringsMap.variableDetail.translateString,
             'iconType': translationStringsMap.instrumentDetail.iconType,
             'icon': translationStringsMap.variableDetail.icon,
             'name': item.name
@@ -202,8 +213,8 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         case 'surveyDetail':
           surveyItem = {
             'state': 'surveyDetail',
-            'translateString': translationStringsMap.surveyDetail.
-            translateString,
+            'type': translationStringsMap.surveyDetail.type,
+            'tooltip': translationStringsMap.surveyDetail.translateString,
             'iconType': translationStringsMap.instrumentDetail.iconType,
             'icon': translationStringsMap.surveyDetail.icon,
             'number': item.number
@@ -213,8 +224,8 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         case 'dataSetDetail':
           dataSetItem = {
             'state': 'dataSetDetail',
-            'translateString': translationStringsMap.dataSetDetail.
-            translateString,
+            'type': translationStringsMap.dataSetDetail.type,
+            'tooltip': translationStringsMap.dataSetDetail.translateString,
             'iconType': translationStringsMap.instrumentDetail.iconType,
             'icon': translationStringsMap.dataSetDetail.icon,
             'number': item.number
@@ -227,8 +238,8 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         case 'instrumentDetail':
           instrumentItem = {
             'state': 'instrumentDetail',
-            'translateString': translationStringsMap.instrumentDetail.
-            translateString,
+            'type': translationStringsMap.instrumentDetail.type,
+            'tooltip': translationStringsMap.instrumentDetail.translateString,
             'iconType': translationStringsMap.instrumentDetail.iconType,
             'icon': translationStringsMap.instrumentDetail.icon,
             'number': item.number
@@ -241,7 +252,8 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         case 'relatedPublicationDetail':
           publicationItem = {
             'state': 'relatedPublicationDetail',
-            'translateString': translationStringsMap.relatedPublicationDetail.
+            'type': translationStringsMap.relatedPublicationDetail.type,
+            'tooltip': translationStringsMap.relatedPublicationDetail.
             translateString,
             'iconType': translationStringsMap.instrumentDetail.iconType,
             'icon': translationStringsMap.relatedPublicationDetail.icon,
@@ -251,8 +263,9 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         break;
         case 'search':
           searchItem = {};
-          searchItem.translateString = translationStringsMap.search
-          .translateString;
+          searchItem.type = translationStringsMap.search.type;
+          searchItem.tooltip = translationStringsMap.search.
+          translateString;
           searchItem.iconType = translationStringsMap.search.iconType;
           searchItem.icon = translationStringsMap.search.icon;
           searchItem.disabled = false;
@@ -268,110 +281,108 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         case 'disclosure':
           var disclosureItem = {
             'state': 'disclosure',
-            'translateString': translationStringsMap.disclosure.translateString
+            'type': translationStringsMap.disclosure.type
           };
           $rootScope.toolbarHeaderItems.push(disclosureItem);
         break;
         case 'user-management':
           var managementItem = {
             'state': 'user-management',
-            'translateString': translationStringsMap['user-management'].
-            translateString
+            'type': translationStringsMap['user-management'].type
           };
           $rootScope.toolbarHeaderItems.push(managementItem);
         break;
         case 'user-management-detail':
           var userDetailItem = {
             'state': 'user-management-detail',
-            'translateString': translationStringsMap['user-management-detail'].
-            translateString
+            'type': translationStringsMap['user-management-detail'].type
           };
           $rootScope.toolbarHeaderItems.push(userDetailItem);
         break;
         case 'login':
           var loginItem = {
             'state': 'login',
-            'translateString': translationStringsMap.login.translateString
+            'type': translationStringsMap.login.type
           };
           $rootScope.toolbarHeaderItems.push(loginItem);
         break;
         case 'metrics':
           var metricsItem = {
             'state': 'metrics',
-            'translateString': translationStringsMap.metrics.translateString
+            'type': translationStringsMap.metrics.type
           };
           $rootScope.toolbarHeaderItems.push(metricsItem);
         break;
         case 'health':
           var healthItem = {
             'state': 'health',
-            'translateString': translationStringsMap.health.translateString
+            'type': translationStringsMap.health.type
           };
           $rootScope.toolbarHeaderItems.push(healthItem);
         break;
         case 'configuration':
           var configItem = {
             'state': 'configuration',
-            'translateString': translationStringsMap.configuration.
-            translateString
+            'type': translationStringsMap.configuration.
+            type
           };
           $rootScope.toolbarHeaderItems.push(configItem);
         break;
         case 'logs':
           var logsItem = {
             'state': 'logs',
-            'translateString': translationStringsMap.logs.translateString
+            'type': translationStringsMap.logs.type
           };
           $rootScope.toolbarHeaderItems.push(logsItem);
         break;
         case 'settings':
           var settingsItem = {
             'state': 'settings',
-            'translateString': translationStringsMap.settings.translateString
+            'type': translationStringsMap.settings.type
           };
           $rootScope.toolbarHeaderItems.push(settingsItem);
         break;
         case 'password':
           var passwordItem = {
             'state': 'password',
-            'translateString': translationStringsMap.password.translateString
+            'type': translationStringsMap.password.type
           };
           $rootScope.toolbarHeaderItems.push(passwordItem);
         break;
         case 'register':
           var registerItem = {
             'state': 'register',
-            'translateString': translationStringsMap.register.translateString
+            'type': translationStringsMap.register.type
           };
           $rootScope.toolbarHeaderItems.push(registerItem);
         break;
         case 'activate':
           var activateItem = {
             'state': 'activate',
-            'translateString': translationStringsMap.activate.translateString
+            'type': translationStringsMap.activate.type
           };
           $rootScope.toolbarHeaderItems.push(activateItem);
         break;
         case 'finishReset':
           var finishResetItem = {
             'state': 'finishReset',
-            'translateString': translationStringsMap.finishReset
-            .translateString
+            'type': translationStringsMap.finishReset
+            .type
           };
           $rootScope.toolbarHeaderItems.push(finishResetItem);
         break;
         case 'requestReset':
           var requestResetItem = {
             'state': 'requestReset',
-            'translateString': translationStringsMap.requestReset.
-            translateString
+            'type': translationStringsMap.requestReset.
+            type
           };
           $rootScope.toolbarHeaderItems.push(requestResetItem);
         break;
         case 'error':
           var errorItem = {
             'state': 'error',
-            'translateString': translationStringsMap.error.translateString
+            'type': translationStringsMap.error.type
           };
           $rootScope.toolbarHeaderItems.push(errorItem);
         break;

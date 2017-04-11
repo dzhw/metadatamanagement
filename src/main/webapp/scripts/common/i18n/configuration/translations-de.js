@@ -44,10 +44,6 @@ angular.module('metadatamanagementApp').config(
             'close': 'Klicken, um die Benachrichtigung zu schließen'
           }
         },
-        'toolbarHeader': {
-          'search': 'Klicken, um zur letzten {{type}} zu gelangen',
-          'default': 'Klicken, um zum Element {{type}} "{{param}}" zu gelangen'
-        },
         'cards': {
           'details': 'Details',
           'related-objects': 'Verbundene Objekte'
@@ -71,6 +67,17 @@ angular.module('metadatamanagementApp').config(
             'previous':'Klicken, um die vorherigen Suchergebnisse anzuzeigen',
             'next': 'Klicken, um die nächsten Suchergebnisse anzuzeigen',
             'current': 'Klicken, um die {{number}}. Seite mit Suchergebnissen anzuzeigen'
+          },
+          'toolbarHeader': {
+            'search': 'Klicken, um die letzten Suchergebnisse anzuzeigen',
+            'data-set': 'Klicken, um den Datensatz "{{param}}" anzuzeigen',
+            'survey': 'Klicken, um die Erhebung "{{param}}" anzuzeigen',
+            'surveys': 'Klicken, um die Erhebungen anzuzeigen',
+            'question': 'Klicken, um die Frage "{{param}}" anzuzeigen',
+            'variable': 'Klicken, um die Variable "{{param}}" anzuzeigen',
+            'study': 'Klicken, um die Studie "{{param}}" anzuzeigen',
+            'instrument': 'Klicken, um das Instrument "{{param}}" anzuzeigen',
+            'publication': 'Klicken, um die Publikation "{{param}}" anzuzeigen'
           }
         },
         'menu': {
