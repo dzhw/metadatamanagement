@@ -30,16 +30,42 @@ angular.module('metadatamanagementApp').config(
           'citation-text': 'Citation Text',
           'abstract': 'Abstract',
           'doi': 'DOI',
-          'doi-tooltip': 'Click to open the DOI page',
+          'doi-tooltip': 'Click to open the DOI in a new Tab',
           'sourceReference': 'Source Reference',
           'sourceLink': 'URL',
-          'sourceLink-tooltip': 'Click to open the DOI page',
+          'sourceLink-tooltip': 'Click to open the source of this publication in a new Tab',
           'no-related-publications': 'No Publications.',
           'related-publications': 'Publications',
           'authors': 'Authors',
           'year': 'Year of publication',
           'source-reference': 'Citation',
-          'abstract-source': 'Source'
+          'abstract-source': 'Source',
+          'tooltips': {
+            'surveys': {
+              'one': 'Click to show the survey for which this publication has been written',
+              'many': 'Click to show all surveys for which this publication has been written'
+            },
+            'data-sets': {
+              'one': 'Click to show the data set for which this publication has been written',
+              'many': 'Click to show all data sets for which this publication has been written'
+            },
+            'questions': {
+              'one': 'Click to show the question for which this publication has been written',
+              'many': 'Click to show all questions for which this publication has been written'
+            },
+            'instruments': {
+              'one': 'Click to show the instrument for which this publication has been written',
+              'many': 'Click to show all instruments for which this publication has been written'
+            },
+            'variables': {
+              'one': 'Click to show the variable for which this publication has been written',
+              'many': 'Click to show all variables for which this publication has been written'
+            },
+            'studies':{
+              'one': 'Click to show the study for which this publication has been written',
+              'many': 'Click to show all studies for which this publication has been written'
+            }
+          }
         },
         'error': {
           'related-publication': {

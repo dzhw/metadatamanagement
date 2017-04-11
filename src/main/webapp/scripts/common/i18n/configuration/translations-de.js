@@ -21,8 +21,7 @@ angular.module('metadatamanagementApp').config(
             'change-language': 'Click to view the english version',
             'register': 'Registrieren',
             'register-tooltip': 'Klicken, um sich zu registrieren',
-            'open-menu': 'Navigationsmenü öffnen',
-            'open-menu-tooltip': 'Klicken, um Navigationsmenü zu öffnen',
+            'open-menu-tooltip': 'Klicken, um das Navigationsmenü zu öffnen',
             'disclosure-tooltip': 'Klicken, um das Impressum anzuzeigen',
             'administration-tooltip': 'Klicken, um das Menü "Administration" zu öffnen',
             'user-management-tooltip': 'Klicken, um die Benutzerverwaltung zu öffnen',
@@ -30,8 +29,8 @@ angular.module('metadatamanagementApp').config(
             'health-tooltip': 'Klicken, um die Verfügbarkeit aller externen Dienste zu prüfen',
             'configuration-tooltip': 'Klicken, um die Spring-Konfiguration anzuzeigen',
             'logs-tooltip': 'Klicken, um Loglevel zu ändern',
-            'settings-tooltip': 'Klicken, um die Kontoeigenschaften zu bearbeiten',
-            'password-tooltip': 'Klicken, um das Passwort zu ändern'
+            'settings-tooltip': 'Klicken, um Ihre Kontoeigenschaften zu bearbeiten',
+            'password-tooltip': 'Klicken, um Ihr Passwort zu ändern'
           }
         },
         'dialog': {
@@ -108,7 +107,7 @@ angular.module('metadatamanagementApp').config(
             'database': 'Database'
           },
           'skip-navigation': 'Zum Inhalt springen',
-          'skip-navigation-tooltip': 'Klicken zum Überspringen der Navigationselemente',
+          'skip-navigation-tooltip': 'Klicken zum Überspringen des Menüs',
           'back-to-search': 'Klicken, um zur Suche zu gelangen',
           'language': 'Sprache',
           'disclosure': 'Impressum',

@@ -25,52 +25,52 @@ angular.module('metadatamanagementApp').config(
           'search': 'Search'
         },
         'buttons': {
-          'refresh-tooltip': 'Click to refresh search results',
-          'upload-variables-tooltip': 'Click to upload variables for selected data acquisition project',
-          'upload-surveys-tooltip': 'Click to upload upload Surveys for selected data acquisition project',
-          'upload-data-sets-tooltip': 'Click to upload data sets for selected data acquisition project',
-          'upload-questions-tooltip': 'Click to upload questions for selected data acquisition project',
-          'upload-studies-tooltip': 'Click to upload study for selected data acquisition project',
+          'refresh-tooltip': 'Click to refresh the search results',
+          'upload-variables-tooltip': 'Click to upload variables for the selected data acquisition project',
+          'upload-surveys-tooltip': 'Click to upload upload surveys for the selected data acquisition project',
+          'upload-data-sets-tooltip': 'Click to upload data sets for the selected data acquisition project',
+          'upload-questions-tooltip': 'Click to upload questions for the selected data acquisition project',
+          'upload-studies-tooltip': 'Click to upload a study for the selected data acquisition project',
           'upload-related-publications-tooltip': 'Click to upload publications',
-          'post-validate-related-publications-tooltip': 'Click to validate publications',
-          'upload-instruments-tooltip': 'Click to upload instruments for selected data acquisition project'
+          'post-validate-related-publications-tooltip': 'Click to validate the publications',
+          'upload-instruments-tooltip': 'Click to upload instruments for the selected data acquisition project'
         },
         'input-label': {
-          'all': 'Are you searching for Studies, Variables, Questions, Surveys, Data Sets, Instruments or Publications?',
-          'variables': 'Are you searching for Variables?',
-          'questions': 'Are you searching for Questions?',
-          'surveys': 'Are you searching for Surveys?',
-          'data-sets': 'Are you searching for Data Sets?',
-          'studies': 'Are you searching for Studies?',
-          'related-publications': 'Are you searching for Publications?',
-          'instruments': 'Are you searching for Instruments?'
+          'all': 'Search for Studies, Variables, Questions, Surveys, Data Sets, Instruments and Publications...',
+          'variables': 'Search for Variables...',
+          'questions': 'Search for Questions...',
+          'surveys': 'Search for Surveys...',
+          'data-sets': 'Search for Data Sets...',
+          'studies': 'Search for Studies...',
+          'related-publications': 'Search for Publications...',
+          'instruments': 'Search for Instruments...'
         },
         'tabs': {
           'variables': 'Variables',
-          'variables-tooltip': 'Click to select the "Variables" tab',
+          'variables-tooltip': 'Click to search for Variables',
           'questions': 'Questions',
-          'questions-tooltip': 'Click to select the "Questions" tab',
+          'questions-tooltip': 'Click to search for Questions',
           'surveys': 'Surveys',
-          'surveys-tooltip': 'Click to select the "Surveys" tab',
+          'surveys-tooltip': 'Click to search for Surveys',
           'data_sets': 'Data Sets',
-          'data_sets-tooltip': 'Click to select the "Data Sets" tab',
+          'data_sets-tooltip': 'Click to search for Data Sets',
           'studies': 'Studies',
-          'studies-tooltip': 'Click to select the "Studies" tab',
+          'studies-tooltip': 'Click to search for Studies',
           'all': 'All',
-          'all-tooltip': 'Click to select the "All" tab',
+          'all-tooltip': 'Click to search for all objects',
           'related_publications': 'Publications',
-          'related_publications-tooltip': 'Click to select the "Publications" tab',
+          'related_publications-tooltip': 'Click to search for Publications',
           'instruments': 'Instruments',
-          'instruments-tooltip': 'Click to select the "Instruments" tab'
+          'instruments-tooltip': 'Click to search for Instruments'
         },
         'cards': {
-          'question-tooltip': 'Click to navigate to question',
-          'variable-tooltip': 'Click to navigate to variable',
-          'data-set-tooltip': 'Click to navigate to data set',
-          'instrument-tooltip': 'Click to navigate to instrument',
-          'survey-tooltip': 'Click to navigate to survey',
-          'study-tooltip': 'Click to navigate to study',
-          'publication-tooltip': 'Click to navigate to publication'
+          'question-tooltip': 'Click to show question "{{id}}"',
+          'variable-tooltip': 'Click to show variable "{{id}}"',
+          'data-set-tooltip': 'Click to show data set "{{id}}"',
+          'instrument-tooltip': 'Click to show instrument "{{id}}"',
+          'survey-tooltip': 'Click to show survey "{{id}}"',
+          'study-tooltip': 'Click to show study "{{id}}"',
+          'publication-tooltip': 'Click to show publication "{{id}}"'
         }
       }
       //jscs:enable

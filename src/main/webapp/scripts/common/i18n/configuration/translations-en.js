@@ -13,25 +13,24 @@ angular.module('metadatamanagementApp').config(
         'search': 'Search',
         'toolbar': {
           'buttons': {
-            'fdz-staff-area-tooltip': 'Click to open submenu "Access for RDC Employees"',
+            'fdz-staff-area-tooltip': 'Click to open menu "Access for RDC Employees"',
             'logout': 'Sign out {{username}}',
             'logout-tooltip': 'Click to sign out "{{username}}"',
             'login': 'Sign in',
             'login-tooltip': 'Click to sign in',
-            'change-language': 'Click to view the english version',
+            'change-language': 'Klicken, um die Seiten auf Deutsch anzuzeigen',
             'register': 'Sign up',
             'register-tooltip': 'Click to register',
-            'open-menu': 'Open Navigation Menu',
-            'open-menu-tooltip': 'Click to open Navigation Menu',
-            'disclosure-tooltip': 'Click to open the disclosure',
-            'administration-tooltip': 'Click to open submenu "Administration"',
-            'user-management-tooltip': 'Click to open user management',
-            'metrics-tooltip': 'Click to open metrics',
-            'health-tooltip': 'Click to open health',
-            'configuration-tooltip': 'Click to open configuration',
-            'logs-tooltip': 'Click to open logs',
-            'settings-tooltip': 'Click to open settings',
-            'password-tooltip': 'Click to open password'
+            'open-menu-tooltip': 'Click to open the menu',
+            'disclosure-tooltip': 'Click to show the disclosure',
+            'administration-tooltip': 'Click to open menu "Administration"',
+            'user-management-tooltip': 'Click to open the User Management',
+            'metrics-tooltip': 'Click to show the Server Metrics',
+            'health-tooltip': 'Click to check the availability of the external services',
+            'configuration-tooltip': 'Click to show the Spring Configuration',
+            'logs-tooltip': 'Click to change loglevel',
+            'settings-tooltip': 'Click to change your account details',
+            'password-tooltip': 'Click to change your password'
           }
         },
         'dialog': {
@@ -41,12 +40,12 @@ angular.module('metadatamanagementApp').config(
           },
           'toast': {
             'tooltip': {
-              'close': 'Click to close the message'
+              'close': 'Click to close the notification'
             }
           },
         'toolbarHeader': {
-            'search': 'Click to navigate to the last {{type}}',
-            'default': 'Click to navigate to {{type}} "{{param}}"'
+            'search': 'Click to show the last {{type}}',
+            'default': 'Click to show {{type}} "{{param}}"'
           },
         'cards': {
           'details': 'Details',
@@ -60,54 +59,17 @@ angular.module('metadatamanagementApp').config(
         'tooltips': {
           'create-project': 'Click to create a new Data Acquisition Project.',
           'delete-project': 'Click to delete the selected Data Acquisition Project with all related data.',
-          'release-project': 'Click to release the chosen project for all users.',
-          'unrelease-project': 'Click to unrelease the chosen project.',
-          'post-validation': 'Click to validate a chosen Data Acquisition Project.',
-          'surveys': {
-            'no': 'No related survey',
-            'one': 'Click to show survey',
-            'many': 'Click to show all related surveys'
-          },
-          'data-sets': {
-            'no': 'No related data set',
-            'one': 'Click to show data set',
-            'many': 'Click to show all related data sets',
-            'same-data-sets': 'Click to show same data sets'
-          },
-          'publications': {
-            'no': 'No related publication',
-            'one': 'Click to show publication',
-            'many': 'Click to show all related publications'
-          },
-          'questions': {
-            'no': 'No related question',
-            'one': 'Click to show question',
-            'many': 'Click to show all related questions'
-          },
-          'instruments': {
-            'no': 'No related instrument',
-            'one': 'Click to show instrument',
-            'many': 'Click to show all related instruments'
-          },
-          'variables': {
-            'no': 'No related variables',
-            'one': 'Click to show variable',
-            'many': 'Click to show all related variables',
-            'same-in-panel': 'Click to show same variables in panel'
-          },
-          'studies':{
-            'no': 'no related studies',
-            'one': 'Click to show study',
-            'many': 'Click to show all related studies'
-          },
+          'release-project': 'Click to release the selected project for all users.',
+          'unrelease-project': 'Click to unrelease the selected project.',
+          'post-validation': 'Click to validate the selected Data Acquisition Project.',
           'files': {
             'download': 'Click to download file "{{filename}}"'
           },
-          'images': 'Click to open image in new Tab',
+          'images': 'Click to open image in a new Tab',
           'pager': {
-            'previous':'Click to load previous search results',
-            'next': 'Click to load next search results',
-            'current': 'Click to load search page "{{number}}"'
+            'previous':'Click to show previous search results',
+            'next': 'Click to show next search results',
+            'current': 'Click to show search results on page {{number}}'
           },
           'toolbarHeader': {
             'search': 'Click to load last search results',
@@ -134,23 +96,21 @@ angular.module('metadatamanagementApp').config(
           },
           'account': {
             'main': 'Access for RDC Employees',
-            'settings': 'Settings',
-            'password': 'Password',
+            'settings': 'Edit Account',
+            'password': 'Change Password',
             'sessions': 'Sessions'
           },
           'admin': {
             'main': 'Administration',
-            'user-management': 'User management',
-            'metrics': 'Metrics',
-            'health': 'Health',
-            'configuration': 'Configuration',
-            'logs': 'Logs',
-            'apidocs': 'API',
-            'database': 'Database'
+            'user-management': 'User Management',
+            'metrics': 'Server Metrics',
+            'health': 'External Services',
+            'configuration': 'Spring Configuration',
+            'logs': 'Loglevel'
           },
           'skip-navigation': 'Skip to Content',
-          'skip-navigation-tooltip': 'Click to skip elements from navigation bar',
-          'back-to-search': 'Click for navigating to search page',
+          'skip-navigation-tooltip': 'Click to skip menu',
+          'back-to-search': 'Click to show search page',
           'language': 'Language',
           'disclosure': 'Disclosure',
           'notepad': 'Notepad'

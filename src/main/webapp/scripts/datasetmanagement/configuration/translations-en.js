@@ -46,7 +46,7 @@ angular.module('metadatamanagementApp').config(
           'format': 'Format',
           'data-set-informations': 'Data Set Informations',
           'related-information': 'Related Information',
-          'data-set-same-study': 'Data Sets of the same Study',
+          'data-set-same-study': 'Data Sets of this Study',
           'description': 'Description',
           'not-found': 'The {{id}} references to an unknown Data Set.',
           'not-found-references': 'The id {{id}} has no References to Data Sets.',
@@ -56,7 +56,7 @@ angular.module('metadatamanagementApp').config(
             'accessWay': 'Data Product',
             'description': 'Description',
             'numberOfAnalyzedVariables': 'Analyzable Variables',
-            'numberOfAnalyzedVariables-tooltip': 'Click to navigate to the list of analyzable variables',
+            'numberOfAnalyzedVariables-tooltip': 'Click to show all analyzable variables of this sub data set',
             'numberOfObservations': 'Observations'
           },
           'attachments': {
@@ -70,10 +70,30 @@ angular.module('metadatamanagementApp').config(
             'true': 'Click to maximize',
             'false': 'Click to minimize'
           },
-          'generate-variable-report': 'Click to generate variable report',
+          'generate-variable-report-tooltip': 'Click to generate variable report',
           'no-related-data-sets': 'No related Data Sets.',
           'related-data-sets': 'Related Data Sets',
-          'not-released-toast': 'Data Set "{{ id }}" has not yet been released to all users!'
+          'not-released-toast': 'Data Set "{{ id }}" has not yet been released to all users!',
+          'tooltips': {
+            'data-sets': {
+              'same-data-sets': 'Click to show all data sets of this study'
+            },
+            'surveys': {
+              'one': 'Click to show the survey from which this data set has been generated',
+              'many': 'Click to show all surveys from which this data set has been generated'
+            },
+            'publications': {
+              'one': 'Click to show the publication related to this data set',
+              'many': 'Click to show all publications related to this data set'
+            },
+            'variables': {
+              'one': 'Click to show the variable of this data set',
+              'many': 'Click to show all variables of this data set'
+            },
+            'studies':{
+              'one': 'Click to show the study of this data set'
+            }
+          }
         },
         'error': {
           'files-in-template-zip-incomplete': 'The uploaded files for the data set report were not complete. The missing file is: {{invalidValue}}',

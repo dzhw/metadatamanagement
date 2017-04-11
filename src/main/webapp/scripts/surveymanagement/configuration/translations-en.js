@@ -29,7 +29,7 @@ angular.module('metadatamanagementApp').config(
           'title': '{{ title }} ({{ surveyId }})',
           'survey': 'Survey',
           'surveys': 'Surveys',
-          'surveys-same-study': 'All Surveys of the same Study',
+          'surveys-same-study': 'All Surveys of this Study',
           'survey-informations': 'Survey Informations',
           'related-information': 'Related Information',
           'related-objects': 'Related Objects',
@@ -45,7 +45,6 @@ angular.module('metadatamanagementApp').config(
           'sampleSize': 'Net Sample Size',
           'responseRate': 'Response Rate',
           'response-rate-informations': 'Further information about the Response Rate',
-          'response-rate-informations-tooltip': 'Click to open the image in new tab',
           'response-rate-informations-alt-text': 'Image to display further information about the response rate',
           'attachments': {
             'table-title': 'Documents related to the Survey',
@@ -54,7 +53,27 @@ angular.module('metadatamanagementApp').config(
             'language': 'Document Language',
             'file': 'File'
           },
-          'not-released-toast': 'Survey "{{ id }}" has not yet been released to all users!'
+          'not-released-toast': 'Survey "{{ id }}" has not yet been released to all users!',
+          'tooltips': {
+            'surveys': {
+              'many': 'Click to show all surveys of this study'
+            },
+            'data-sets': {
+              'one': 'Click to show the data set of this survey',
+              'many': 'Click to show all data sets of this survey'
+            },
+            'publications': {
+              'one': 'Click to show the publication related to this survey',
+              'many': 'Click to show all publications related to this survey'
+            },
+            'instruments': {
+              'one': 'Click to show the instrument used by this survey',
+              'many': 'Click to show all instruments used by this survey'
+            },
+            'studies':{
+              'one': 'Click to show the study of this survey'
+            }
+          }
         },
         'error': {
           'survey': {

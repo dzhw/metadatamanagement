@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp').config(
       //jscs:disable
       'administration': {
         'configuration': {
-          'title': 'Configuration',
+          'title': 'Spring Configuration',
           'filter': 'Filter (by prefix)',
           'table': {
             'prefix': 'Prefix',
@@ -14,7 +14,7 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'health': {
-          'title': 'Health checks',
+          'title': 'Availability of External Services',
           'refresh-button': 'Refresh',
           'stacktrace': 'Stacktrace',
           'details': {
@@ -45,7 +45,7 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'logs': {
-          'title': 'Logs',
+          'title': 'Loglevel per Logger',
           'nbloggers': 'There are {{ total }} loggers.',
           'filter': 'Filter',
           'table': {

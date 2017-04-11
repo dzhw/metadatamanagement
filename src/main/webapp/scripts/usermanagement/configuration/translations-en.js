@@ -71,7 +71,7 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'password': {
-          'title': 'Password for [<b>{{username}}</b>]',
+          'title': 'Change Password for <b>{{username}}</b>',
           'form': {
             'button': 'Save'
           },
@@ -128,7 +128,7 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'settings': {
-          'title': 'User settings for [<b>{{username}}</b>]',
+          'title': 'Account Details for <b>{{username}}</b>',
           'form': {
             'firstname': 'First Name',
             'firstname.placeholder': 'Your first name',
@@ -139,10 +139,10 @@ angular.module('metadatamanagementApp').config(
           },
           'messages': {
             'error': {
-              'fail': '<strong>An error has occurred!</strong> Settings could not be saved.',
+              'fail': '<strong>An error has occurred!</strong> Account Details could not be saved.',
               'emailexists': '<strong>E-mail is already in use!</strong> Please choose another one.'
             },
-            'success': '<strong>Settings saved!</strong>',
+            'success': '<strong>Account Details saved!</strong>',
             'validate': {
               'firstname': {
                 'required': 'Your first name is required.',

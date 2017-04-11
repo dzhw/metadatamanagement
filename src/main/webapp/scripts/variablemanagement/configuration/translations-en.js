@@ -45,21 +45,21 @@ angular.module('metadatamanagementApp').config(
           'generation-details-description': 'Generation Details Description',
           'generation-details-expression-language': 'Generation Expression Language',
           'generation-details-rule': 'Generation Rule',
-          'copy-complete-input-filter-tooltip': 'Click to copy the input filter to Clipboard',
+          'copy-complete-input-filter-tooltip': 'Click to copy the input filter to the clipboard',
           'show-complete-input-filter-tooltip': {
-            'true': 'Click to show the input filter',
+            'true': 'Click to show the whole input filter',
             'false': 'Click to minimize the content area of the input filter'
           },
-          'copy-complete-rule-tooltip': 'Click to copy the generation rule to Clipboard',
+          'copy-complete-rule-tooltip': 'Click to copy the generation rule to the clipboard',
           'show-complete-rule-tooltip': {
-            'true': 'Click to show the generation rule',
+            'true': 'Click to show the whole generation rule',
             'false': 'Click to minimize the content area of the generation rule'
           },
           'label': 'Label',
           'not-found': 'The {{id}} references to an unknown Variable.',
           'not-found-references': 'The id {{id}} has no References to Variables.',
           'same-in-panel': 'Same Variables',
-          'show-complete-distribution': {
+          'show-complete-distribution-tooltip': {
             'true': 'Show complete distribution',
             'false': 'Minimize table of distribution'
           },
@@ -101,7 +101,30 @@ angular.module('metadatamanagementApp').config(
           'central-tendency': 'Central Tendency',
           'dispersion': 'Dispersion',
           'distribution': 'Distribution',
-          'not-released-toast': 'Variable "{{ id }}" has not yet been released to all users!'
+          'not-released-toast': 'Variable "{{ id }}" has not yet been released to all users!',
+          'tooltips': {
+            'surveys': {
+              'one': 'Click to show the survey from which this variable resulted',
+              'many': 'Click to show all surveys from which this variable resulted'
+            },
+            'data-sets': {
+              'one': 'Click to show the data set containing this variable'
+            },
+            'publications': {
+              'one': 'Click to show the publication related to this variable',
+              'many': 'Click to show all publications related to this variable'
+            },
+            'questions': {
+              'one': 'Click to show the question from which this variable resulted',
+              'many': 'Click to show all questions from which this variable resulted'
+            },
+            'variables': {
+              'same-in-panel': 'Click to show all panel variables related to this variable'
+            },
+            'studies':{
+              'one': 'Click to show the study from which this variable resulted'
+            }
+          }
         },
         'labels': {
           'part-of-data-set': 'Part of Data Set:',

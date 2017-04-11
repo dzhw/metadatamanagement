@@ -245,7 +245,7 @@
 
 
     <div ng-if="ctrl.isAuthenticated() && ctrl.hasAuthority('ROLE_PUBLISHER')" class="fdz-fab-button-container" layout="column">
-        <md-button aria-label="{{'data-set-management.detail.generate-variable-report' | translate}}" type="file" ngf-select="ctrl.uploadTexTemplate($files)" ngf-multiple="true" directory webkitdirectory class="md-accent md-fab">
+        <md-button type="file" ngf-select="ctrl.uploadTexTemplate($files)" ngf-multiple="true" directory webkitdirectory class="md-accent md-fab">
             <md-tooltip md-direction="left">
                 {{'data-set-management.detail.generate-variable-report-tooltip' | translate}}
             </md-tooltip>

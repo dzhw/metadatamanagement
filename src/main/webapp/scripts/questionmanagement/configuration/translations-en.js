@@ -50,8 +50,23 @@ angular.module('metadatamanagementApp').config(
           'introduction': 'Introduction',
           'number': 'Question Number',
           'questionText': 'Question Text',
-          'open-image-in-new-tab': 'Open Image in new Tab ',
-          'not-released-toast': 'Question "{{ id }}" has not yet been released to all users!'
+          'not-released-toast': 'Question "{{ id }}" has not yet been released to all users!',
+          'tooltips': {
+            'publications': {
+              'one': 'Click to show the publication related to this question',
+              'many': 'Click to show all publications related to this question'
+            },
+            'instruments': {
+              'one': 'Click to show the instrument of this question'
+            },
+            'variables': {
+              'one': 'Click to show the variable of this question',
+              'many': 'Click to show all variables of this question'
+            },
+            'studies':{
+              'one': 'Click to show the study in which this question has been used'
+            }
+          }
         },
         'error': {
           'question': {

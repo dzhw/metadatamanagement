@@ -45,7 +45,7 @@ angular.module('metadatamanagementApp').config(
             'publications': {
               'one': 'Klicken, um die Publikation zu dieser Studie anzuzeigen',
               'many': 'Klicken, um alle Publikationen zu dieser Studie anzuzeigen'
-            },
+            }
           }
         },
         'log-messages': {

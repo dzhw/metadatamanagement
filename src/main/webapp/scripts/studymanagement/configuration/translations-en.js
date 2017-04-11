@@ -32,7 +32,21 @@ angular.module('metadatamanagementApp').config(
           'available-data-products': 'Available Data Products',
           'basic-data-of-surveys': 'Basic Data of Surveys',
           'downloads': 'Downloads',
-          'not-released-toast': 'Study "{{ id }}" has not yet been released to all users!'
+          'not-released-toast': 'Study "{{ id }}" has not yet been released to all users!',
+          'tooltips': {
+            'surveys': {
+              'one': 'Click to show the survey of this study',
+              'many': 'Click to show all surveys of this study'
+            },
+            'data-sets': {
+              'one': 'Click to show the data set of this study',
+              'many': 'Click to show all data sets of this study',
+            },
+            'publications': {
+              'one': 'Click to show the publication related to this study',
+              'many': 'Click to show all publications related to this study'
+            }
+          }
         },
         'log-messages': {
           'study': {

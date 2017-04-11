@@ -28,7 +28,7 @@ angular.module('metadatamanagementApp').config(
         },
         'detail': {
           'page-title': '{{ description }} ({{ instrumentId }})',
-          'instrument': 'Survey Instrument',
+          'instrument': 'Instrument',
           'instruments': 'Instruments',
           'instrument-informations': 'Details for the Instrument',
           'title': 'Title',
@@ -43,7 +43,24 @@ angular.module('metadatamanagementApp').config(
             'language': 'Document Language',
             'file': 'File'
           },
-          'not-released-toast': 'Instrument "{{ id }}" has not yet been released to all users!'
+          'not-released-toast': 'Instrument "{{ id }}" has not yet been released to all users!',
+          'tooltips': {
+            'surveys': {
+              'one': 'Click to show the survey in which this instrument has been used',
+              'many': 'Click to show all surveys in which this instrument has been used'
+            },
+            'publications': {
+              'one': 'Click to show the publication related to this instrument',
+              'many': 'Click to show all publications related to this instrument'
+            },
+            'questions': {
+              'one': 'Click to show the question of this instrument',
+              'many': 'Click to show all questions of this instrument'
+            },
+            'studies':{
+              'one': 'Click to show the study in which this instrument has been used'
+            }
+          }
         },
         'error': {
           'instrument': {
