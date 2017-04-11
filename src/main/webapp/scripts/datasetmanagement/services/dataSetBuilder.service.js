@@ -3,7 +3,8 @@
 
 angular.module('metadatamanagementApp').service('DataSetBuilderService',
   function(DataSetResource, CleanJSObjectService, StudyIdBuilderService,
-    DataSetIdBuilderService, SurveyIdBuilderService) {
+    DataSetIdBuilderService, SurveyIdBuilderService, JobLoggingService) {
+
     var buildDataSet = function(dataSet,
       dataAcquisitionProjectId) {
       if (!dataSet || !dataAcquisitionProjectId) {
@@ -88,8 +89,55 @@ angular.module('metadatamanagementApp').service('DataSetBuilderService',
         throw subDataSetErrors;
       }
     };
+
+    var buildDataSetAttachments =
+      function(attachmentsSheet, dataAcquisitionProjectId, filesMap) {
+        var notFoundAttachmentsMap = {};
+        var attachmentUploadObjects = [];
+        attachmentsSheet.forEach(function(attachment) {
+          var metadata = attachment;
+          if (attachment.fileName) {
+            if (filesMap.dataSets
+              .attachments[attachment.fileName]) {
+              metadata.fileName = attachment.fileName;
+              metadata.title = attachment.title;
+              metadata.language = attachment.language;
+              metadata.dataSetNumber = attachment.dataSetNumber;
+              metadata.dataAcquisitionProjectId = dataAcquisitionProjectId;
+              metadata.dataSetId =
+                DataSetIdBuilderService.buildDataSetId(dataAcquisitionProjectId,
+                  attachment.dataSetNumber);
+              metadata.description = {
+                'de': attachment['description.de'],
+                'en': attachment['description.en']
+              };
+              attachmentUploadObjects.push({
+                'metadata': metadata,
+                'file': filesMap.dataSets
+                .attachments[attachment.fileName]
+              });
+            } else {
+              if (!notFoundAttachmentsMap[attachment.fileName]) {
+                JobLoggingService.error({
+                  message: 'data-set-management.log-messages' +
+                  '.data-set-attachment.file-not-found',
+                  messageParams: {
+                    filename: attachment.fileName
+                  },
+                  objectType: 'attachment'
+                });
+                notFoundAttachmentsMap[attachment.fileName] = true;
+              }
+            }
+          }
+        });
+
+        return attachmentUploadObjects;
+      };
+
     return {
       buildDataSet: buildDataSet,
-      buildSubDataSet: buildSubDataSet
+      buildSubDataSet: buildSubDataSet,
+      buildDataSetAttachments: buildDataSetAttachments
     };
   });

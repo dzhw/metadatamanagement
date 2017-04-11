@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
     DataSetDeleteResource, JobLoggingService, $q,
     ErrorMessageResolverService, ElasticSearchAdminService, $rootScope,
     $translate, $mdDialog, CleanJSObjectService,
-    DataSetAttachmentUploadService, DataSetAttachmentBuilderService) {
+    DataSetAttachmentUploadService) {
     var objects;
     var uploadCount;
     var filesMap;
@@ -244,7 +244,7 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
                     });
 
                     var attachmentUploadObjects =
-                      DataSetAttachmentBuilderService
+                      DataSetBuilderService
                         .buildDataSetAttachments(attachmentsSheet,
                         dataAcquisitionProjectId, filesMap);
                     var asyncFilesUpload = $q.when();
