@@ -96,8 +96,7 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
     var createRelatedSurveyItem = function(surveys, itemTyp, itemId) {
       var surveyItem = {
         'iconType': translationStringsMap.instrumentDetail.iconType,
-        'icon': translationStringsMap.surveyDetail.icon,
-        'disabled': false
+        'icon': translationStringsMap.surveyDetail.icon
       };
       if (surveys.length === 1) {
         surveyItem.state = 'surveyDetail({"id":"' + surveys[0].id +
@@ -149,7 +148,6 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
           translateString,
           'iconType': translationStringsMap.instrumentDetail.iconType,
           'icon': translationStringsMap.studyDetail.icon,
-          'disabled': false,
           'projectId': item.projectId
         };
       }
@@ -164,7 +162,6 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
             translateString,
             'iconType': translationStringsMap.instrumentDetail.iconType,
             'icon': translationStringsMap.instrumentDetail.icon,
-            'disabled': false,
             'number': item.instrumentNumber
           };
           questionItem = {
@@ -173,7 +170,6 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
             translateString,
             'iconType': translationStringsMap.instrumentDetail.iconType,
             'icon': translationStringsMap.questionDetail.icon,
-            'disabled': false,
             'number': item.questionNumber
           };
           surveyItem = createRelatedSurveyItem(item.surveys, 'question',
@@ -188,7 +184,6 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
              translateString,
             'iconType': translationStringsMap.instrumentDetail.iconType,
             'icon': translationStringsMap.dataSetDetail.icon,
-            'disabled': true,
             'number': item.dataSetNumber
           };
           variableItem = {
@@ -197,7 +192,6 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
              translateString,
             'iconType': translationStringsMap.instrumentDetail.iconType,
             'icon': translationStringsMap.variableDetail.icon,
-            'disabled': false,
             'name': item.name
           };
           surveyItem = createRelatedSurveyItem(item.surveys, 'variable',
@@ -212,7 +206,6 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
             translateString,
             'iconType': translationStringsMap.instrumentDetail.iconType,
             'icon': translationStringsMap.surveyDetail.icon,
-            'disabled': false,
             'number': item.number
           };
           $rootScope.toolbarHeaderItems.push(searchItem, studyItem, surveyItem);
@@ -224,7 +217,6 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
             translateString,
             'iconType': translationStringsMap.instrumentDetail.iconType,
             'icon': translationStringsMap.dataSetDetail.icon,
-            'disabled': false,
             'number': item.number
           };
           surveyItem = createRelatedSurveyItem(item.surveys, 'data-set',
@@ -239,7 +231,6 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
             translateString,
             'iconType': translationStringsMap.instrumentDetail.iconType,
             'icon': translationStringsMap.instrumentDetail.icon,
-            'disabled': false,
             'number': item.number
           };
           surveyItem = createRelatedSurveyItem(item.surveys, 'instrument',
@@ -254,7 +245,6 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
             translateString,
             'iconType': translationStringsMap.instrumentDetail.iconType,
             'icon': translationStringsMap.relatedPublicationDetail.icon,
-            'disabled': false,
             'id': item.id
           };
           $rootScope.toolbarHeaderItems.push(searchItem, publicationItem);
@@ -278,8 +268,7 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         case 'disclosure':
           var disclosureItem = {
             'state': 'disclosure',
-            'translateString': translationStringsMap.disclosure.translateString,
-            'disabled': false
+            'translateString': translationStringsMap.disclosure.translateString
           };
           $rootScope.toolbarHeaderItems.push(disclosureItem);
         break;
@@ -302,16 +291,14 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         case 'login':
           var loginItem = {
             'state': 'login',
-            'translateString': translationStringsMap.login.translateString,
-            'disabled': false,
+            'translateString': translationStringsMap.login.translateString
           };
           $rootScope.toolbarHeaderItems.push(loginItem);
         break;
         case 'metrics':
           var metricsItem = {
             'state': 'metrics',
-            'translateString': translationStringsMap.metrics.translateString,
-            'disabled': false,
+            'translateString': translationStringsMap.metrics.translateString
           };
           $rootScope.toolbarHeaderItems.push(metricsItem);
         break;
@@ -354,16 +341,14 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         case 'register':
           var registerItem = {
             'state': 'register',
-            'translateString': translationStringsMap.register.translateString,
-            'disabled': false,
+            'translateString': translationStringsMap.register.translateString
           };
           $rootScope.toolbarHeaderItems.push(registerItem);
         break;
         case 'activate':
           var activateItem = {
             'state': 'activate',
-            'translateString': translationStringsMap.activate.translateString,
-            'disabled': false,
+            'translateString': translationStringsMap.activate.translateString
           };
           $rootScope.toolbarHeaderItems.push(activateItem);
         break;
@@ -371,8 +356,7 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
           var finishResetItem = {
             'state': 'finishReset',
             'translateString': translationStringsMap.finishReset
-            .translateString,
-            'disabled': false,
+            .translateString
           };
           $rootScope.toolbarHeaderItems.push(finishResetItem);
         break;
@@ -380,16 +364,14 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
           var requestResetItem = {
             'state': 'requestReset',
             'translateString': translationStringsMap.requestReset.
-            translateString,
-            'disabled': false,
+            translateString
           };
           $rootScope.toolbarHeaderItems.push(requestResetItem);
         break;
         case 'error':
           var errorItem = {
             'state': 'error',
-            'translateString': translationStringsMap.error.translateString,
-            'disabled': false,
+            'translateString': translationStringsMap.error.translateString
           };
           $rootScope.toolbarHeaderItems.push(errorItem);
         break;
