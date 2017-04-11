@@ -16,11 +16,13 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
     var previouslyUploadedDataSetNumbers;
 
     var createDataSetFileMap = function(files, dataAcquisitionProjectId) {
-      filesMap = {'dataSets': {
-        'dataAcquisitionProjectId': dataAcquisitionProjectId,
-        'excelFile': '',
-        'attachments': {}
-      }};
+      filesMap = {
+        'dataSets': {
+          'dataAcquisitionProjectId': dataAcquisitionProjectId,
+          'excelFile': '',
+          'attachments': {}
+        }
+      };
       files.forEach(function(file) {
         var path;
         if (file.path) {
@@ -36,12 +38,12 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
         switch (parentFolder) {
           case 'attachments':
             filesMap.dataSets.attachments[file.name] = file;
-          break;
+            break;
           default:
             if (file.name === 'dataSets.xlsx') {
               filesMap.dataSets.excelFile = file;
             }
-          break;
+            break;
         }
       });
     };
@@ -88,32 +90,33 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
               true;
 
             //Get all Attachment of a Data Set Number
-            if (attachmentMap[objects[uploadCount].number] !== undefined) {
+            if (attachmentMap[objects[uploadCount].number] !==
+              undefined) {
               var attachments = attachmentMap[objects[uploadCount].number];
               attachments.forEach(function(attachmentUploadObj) {
-                  $q.when().then(function() {
-                    return DataSetAttachmentUploadService
-                      .uploadAttachment(attachmentUploadObj.file,
-                        attachmentUploadObj.metadata);
-                  }).then(function() {
-                    JobLoggingService.success({
-                      objectType: 'attachment'
-                    });
-                  }).catch(function(error) {
-                    // attachment upload failed
-                    var errorMessage =
-                      ErrorMessageResolverService
-                      .getErrorMessage(error, 'data-set',
+                $q.when().then(function() {
+                  return DataSetAttachmentUploadService
+                    .uploadAttachment(attachmentUploadObj.file,
+                      attachmentUploadObj.metadata);
+                }).then(function() {
+                  JobLoggingService.success({
+                    objectType: 'attachment'
+                  });
+                }).catch(function(error) {
+                  // attachment upload failed
+                  var errorMessage =
+                    ErrorMessageResolverService
+                    .getErrorMessage(error, 'data-set',
                       'data-set-attachment',
                       attachmentUploadObj.file.name);
-                    JobLoggingService.error({
-                      message: errorMessage.message,
-                      messageParams: errorMessage.translationParams,
-                      subMessages: errorMessage.subMessages,
-                      objectType: 'attachment'
-                    });
+                  JobLoggingService.error({
+                    message: errorMessage.message,
+                    messageParams: errorMessage.translationParams,
+                    subMessages: errorMessage.subMessages,
+                    objectType: 'attachment'
                   });
                 });
+              });
             }
 
             uploadCount++;
@@ -212,10 +215,11 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
                     var subDataSetMap = {};
                     var subDataSetErrors = {};
 
-                    if (!dataSetsSheet || !subDataSetsSheet) {
+                    if (!dataSetsSheet || !subDataSetsSheet || !
+                      attachmentsSheet) {
                       JobLoggingService.cancel('global.log-messages.' +
                         'unable-to-read-excel-sheets', {
-                          sheets: 'dataSets, subDataSets'
+                          sheets: 'dataSets, subDataSets, attachment',
                         });
                       return $q.reqect();
                     }
@@ -291,12 +295,13 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
                         attachmentMap[attachment.dataSetNumber]
                           .push(DataSetBuilderService
                             .buildDataSetAttachment(attachment,
-                            dataAcquisitionProjectId, filesMap));
+                              dataAcquisitionProjectId, filesMap)
+                          );
                       } else {
                         //Not valid Attachment.dataSetNumber Case
                         JobLoggingService.warning({
                           message: 'data-set-management.log-messages.' +
-                          'data-set-attachment.unknown-data-set-number',
+                            'data-set-attachment.unknown-data-set-number',
                           messageParams: {
                             index: (attachment.__rowNum__ + 1),
                             dataSetNumber: attachment.dataSetNumber
