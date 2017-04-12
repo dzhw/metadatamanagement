@@ -22,7 +22,7 @@
                     </div>
                     <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.authors">
                         <span style="font-weight: bold;">{{'study-management.detail.authors' | translate }}:</span>
-                        <span>{{ctrl.study.authors}}</span>
+                        <span ng-repeat="author in ctrl.study.authors">{{author.lastName}}, {{author.firstName}} {{author.middleName}}; </span>                        
                     </div>
                     <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.sponsor">
                         <span style="font-weight: bold;">{{'study-management.detail.sponsors' | translate }}:</span>
