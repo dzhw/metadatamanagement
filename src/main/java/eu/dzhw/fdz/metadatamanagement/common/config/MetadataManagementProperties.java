@@ -64,7 +64,7 @@ public class MetadataManagementProperties {
   public static class ElasticsearchAngularClient {
     // default connection url
     private String url = "http://localhost:9200";
-    private String apiVersion = "2.4";
+    private String apiVersion = "5.x";
     private String logLevel = "trace";
     private Integer pageSize = 10;
 
@@ -98,5 +98,23 @@ public class MetadataManagementProperties {
     public void setPageSize(Integer pageSize) {
       this.pageSize = pageSize;
     }
+  }
+  
+  /**
+   * Configuration Properties for Dara.
+   *
+   * @author Daniel Katzberg
+   */
+  public static class Dara {
+    // TODO DKatzberg This is the TEST SERVER URL! Change it after release in the different ymls.
+    private String endpoint = "http://dara-test.gesis.org:8084/dara/api/";
+
+    public String getEndpoint() {
+      return endpoint;
+    }
+
+    public void setEndpoint(String endpoint) {
+      this.endpoint = endpoint;
+    }    
   }
 }

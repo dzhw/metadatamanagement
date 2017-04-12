@@ -48,7 +48,7 @@ security:
     oauth2:
       resource:
         filter-order: 3
-        
+
 management:
   context-path: /management
   info:
@@ -59,7 +59,7 @@ management:
 # ===================================================================
 # JHipster specific properties
 # ===================================================================
-    
+
 jhipster:
     async:
         corePoolSize: 2
