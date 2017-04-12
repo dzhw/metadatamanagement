@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp').config(
       'global': {
         'title': 'metadatamanagement',
         'browsehappy': 'You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/?locale=en">upgrade your browser</a> to improve your experience.',
-        'rdc-alt-text': 'The Logo of Research Data Center, German Center for Research on Higher Education and Science Studies',
+        'rdc-alt-text': 'Logo of the Research Data Center of the German Center for Research on Higher Education and Science Studies',
         'dzhw-alt-text': 'The German Centre for Research on Higher Education and Science Studies',
         'bmbf-alt-text': 'Sponsored by the FMER',
         'search': 'Search',
@@ -251,7 +251,7 @@ angular.module('metadatamanagementApp').config(
           'bmbf-tooltip': 'Click to open the website of the federal ministry of education and research',
           'bmbf-alt-text': 'Logo of the federal ministry of education and research',
           'dzhw-tooltip': 'Click to open the website of the german center for research on higher education and science studies',
-          'dzhw-alt-text': 'Logo of german center for research on higher education and science studies'
+          'dzhw-alt-text': 'Logo of the german center for research on higher education and science studies'
         },
         'main': {
           'title': 'Welcome to the RDC of the DZHW. You are looking for ...'

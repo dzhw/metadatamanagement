@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp').config(
       'global': {
         'title': 'metadatamanagement',
         'browsehappy': 'Sie benutzen einen <strong>veralteten</strong> Browser. Bitte <a href="http://browsehappy.com/?locale=de/">aktualisieren Sie Ihren Browser</a>, um die Benutzerfreundlichkeit zu erhöhen.',
-        'rdc-alt-text': 'Das Logo des Forschungsdatenzentrums, Deutsches Zentrum für Hochschul- und Wissenschaftsforschung',
+        'rdc-alt-text': 'Logo des Forschungsdatenzentrums des Deutschen Zentrum für Hochschul- und Wissenschaftsforschung',
         'dzhw-alt-text': 'Deutsches Zentrum für Hochschul- und Wissenschaftsforschung DZHW GmbH',
         'bmbf-alt-text': 'Gefördert vom BMBF',
         'search': 'Suche',
@@ -247,9 +247,9 @@ angular.module('metadatamanagementApp').config(
         'logos': {
           'fdz': 'Forschungsdatenzentrum, Deutsches Zentrum für Hochschul- und Wissenschaftsforschung',
           'bmbf-tooltip': 'Klicken, um die Internetseite des Bundesministeriums für Bildung und Forschung zu öffnen',
-          'bmbf-alt-text': 'Das Logo des Bundesministeriums für Bildung und Forschung',
+          'bmbf-alt-text': 'Logo des Bundesministeriums für Bildung und Forschung',
           'dzhw-tooltip': 'Klicken, um die Internetseite des deutschen Zentrums für Hochschul- und Wissenschaftsforschung zu öffnen',
-          'dzhw-alt-text': 'Das Logo des deutschen Zentrums für Hochschul- und Wissenschaftsforschung'
+          'dzhw-alt-text': 'Logo des deutschen Zentrums für Hochschul- und Wissenschaftsforschung'
         },
         'main': {
           'title': 'Willkommen beim FDZ des DZHW. Sie suchen ...'
