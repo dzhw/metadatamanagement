@@ -31,10 +31,12 @@ angular.module('metadatamanagementApp')
             ctrl.relatedPublication = result.relatedPublications[0];
           }
           DataSetSearchService.findByStudyId(result.id,
-            ['number', 'description', 'subDataSets']).then(function(dataSets) {
+            ['id', 'number', 'description', 'subDataSets'])
+            .then(function(dataSets) {
               ctrl.dataSets = [];
               dataSets.hits.hits.forEach(function(dataSet) {
                 ctrl.dataSets.push({
+                  'id': dataSet._source.id,
                   'number': dataSet._source.number,
                   'description': dataSet._source.description,
                   'accessWays': _.map(dataSet._source.subDataSets,

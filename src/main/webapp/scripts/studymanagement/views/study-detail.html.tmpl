@@ -177,7 +177,11 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="row in ctrl.dataSets | orderBy: 'number'">
-                        <td display-i18n-string="row.description"></td>
+                        <td><a ui-sref="dataSetDetail({'id': row.id})">
+                          <span display-i18n-string="row.description"></span>&nbsp;
+                          <md-tooltip md-autohide="true">
+                                {{'study-management.detail.data-set.description-tooltip' | translate: {id:row.id} }}
+                            </md-tooltip></a></td>
                         <td>{{row.accessWays}}</td>
                         <td>{{row.maxOfNumberOfObservations}}</td>
                     </tr>

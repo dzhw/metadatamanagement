@@ -51,9 +51,9 @@ angular.module('metadatamanagementApp').config(
           'not-found': 'Die id {{id}} referenziert auf einen unbekannten Datensatz',
           'not-found-references': 'Die id {{id}} hat keine Referenzen auf Datensätze.',
           'sub-data-sets': {
-            'title': 'Datenprodukte',
+            'title': 'Verfügbare Subdatensätze',
             'name': 'Name',
-            'accessWay': 'Datenprodukt',
+            'accessWay': 'Zugangswege',
             'description': 'Beschreibung',
             'numberOfAnalyzedVariables': ' Analysierbare Variablen',
             'numberOfAnalyzedVariables-tooltip': 'Klicken, um alle analysierbaren Variablen dieses Subdatensatzes anzuzeigen',

@@ -51,6 +51,7 @@ angular.module('metadatamanagementApp').config(
             'card-title': 'Available Data Sets',
             'accessWays': 'Access Ways',
             'description': 'Description',
+            'description-tooltip': 'Click to show data set "{{id}}"',
             'maxNumberOfObservations': 'Observations'
           }
         },
