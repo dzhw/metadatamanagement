@@ -14,8 +14,8 @@ angular.module('metadatamanagementApp').config(
         'toolbar': {
           'buttons': {
             'fdz-staff-area-tooltip': {
-              'open': 'Klicken, um das Menü "Zugang für FDZ Mitarbeiter" zu öffnen',
-              'close': 'Klicken, um das Menü "Zugang für FDZ Mitarbeiter" zu schließen'
+              'false': 'Klicken, um das Menü "Zugang für FDZ Mitarbeiter" zu öffnen',
+              'true': 'Klicken, um das Menü "Zugang für FDZ Mitarbeiter" zu schließen'
             },
             'logout': '{{username}} abmelden',
             'logout-tooltip': 'Klicken, um "{{username}}" abzumelden',
@@ -27,8 +27,8 @@ angular.module('metadatamanagementApp').config(
             'open-menu-tooltip': 'Klicken, um das Navigationsmenü zu öffnen',
             'disclosure-tooltip': 'Klicken, um das Impressum anzuzeigen',
             'administration-tooltip': {
-              'open': 'Klicken, um das Menü "Administration" zu öffnen',
-              'close': 'Klicken, um das Menü "Administration" zu schließen'
+              'false': 'Klicken, um das Menü "Administration" zu öffnen',
+              'true': 'Klicken, um das Menü "Administration" zu schließen'
             },
             'user-management-tooltip': 'Klicken, um die Benutzerverwaltung zu öffnen',
             'metrics-tooltip': 'Klicken, um die Servermetriken anzuzeigen',
