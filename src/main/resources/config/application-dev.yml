@@ -34,3 +34,5 @@ metadatamanagement:
     apiVersion: 5.x
     logLevel: error
     pageSize: 10
+  dara:
+    endpoint: http://dara-test.gesis.org:8084/dara/api/  
