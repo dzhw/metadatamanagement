@@ -185,14 +185,10 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
               createDataSetFileMap(files, dataAcquisitionProjectId);
 
               var dataSetExcelFile;
-              var subDataSetsExcelFiles = {};
 
               files.forEach(function(file) {
                 if (file.name.endsWith('.xlsx')) {
-                  if (file.name !== 'dataSets.xlsx') {
-                    subDataSetsExcelFiles[file
-                      .name.replace('.xlsx', '')] = file;
-                  } else {
+                  if (file.name === 'dataSets.xlsx') {
                     dataSetExcelFile = file;
                   }
                 }
