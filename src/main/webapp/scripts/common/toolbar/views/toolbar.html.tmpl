@@ -29,7 +29,7 @@
                       <span ng-if="item.name" translate='{{item.tooltip}}' translate-value-param="{{item.name}}"></span>
                     </md-tooltip>
                 </md-button>
-                <md-button class="fdz-truncate-string" ng-if="item.notFound" disabled="true" style="max-width: 250px; margin-left: 2px; color: rgba(255,255,255,0.87);">
+                <md-button class="fdz-truncate-string" ng-if="item.notFound" ng-class="{'hide-xs': $mdMedia('xs'), 'hide-sm': $mdMedia('sm') && !$first}" disabled="true" style="max-width: 250px; margin-left: 2px; color: rgba(255,255,255,0.87);">
                     <md-icon ng-if="item.iconType == 'font'" md-font-set="material-icons" style="color: rgba(255,255,255,0.87);">{{item.icon}}</md-icon>
                     <md-icon ng-if="item.iconType == 'svg'" md-svg-icon="{{item.icon}}" style="fill: rgba(255,255,255,0.87);"></md-icon>
                     {{item.type | translate}}

@@ -75,14 +75,14 @@ angular.module('metadatamanagementApp').config(
           },
           'toolbarHeader': {
             'search': 'Klicken, um die letzten Suchergebnisse anzuzeigen',
-            'data-set': 'Klicken, um den Datensatz "{{param}}" anzuzeigen',
-            'survey': 'Klicken, um die Erhebung "{{param}}" anzuzeigen',
+            'data-set': 'Klicken, um den Datensatz {{param}} anzuzeigen',
+            'survey': 'Klicken, um die Erhebung {{param}} anzuzeigen',
             'surveys': 'Klicken, um die Erhebungen anzuzeigen',
-            'question': 'Klicken, um die Frage "{{param}}" anzuzeigen',
-            'variable': 'Klicken, um die Variable "{{param}}" anzuzeigen',
-            'study': 'Klicken, um die Studie "{{param}}" anzuzeigen',
-            'instrument': 'Klicken, um das Instrument "{{param}}" anzuzeigen',
-            'publication': 'Klicken, um die Publikation "{{param}}" anzuzeigen'
+            'question': 'Klicken, um die Frage {{param}} anzuzeigen',
+            'variable': 'Klicken, um die Variable {{param}} anzuzeigen',
+            'study': 'Klicken, um die Studie {{param}} anzuzeigen',
+            'instrument': 'Klicken, um das Instrument {{param}} anzuzeigen',
+            'publication': 'Klicken, um die Publikation {{param}} anzuzeigen'
           }
         },
         'menu': {
