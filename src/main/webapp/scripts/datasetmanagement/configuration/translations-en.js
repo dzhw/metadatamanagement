@@ -53,7 +53,7 @@ angular.module('metadatamanagementApp').config(
           'sub-data-sets': {
             'title': 'Available Sub Data Sets',
             'name': 'Name',
-            'accessWay': 'Access Ways',
+            'accessWay': 'Access Way',
             'description': 'Description',
             'numberOfAnalyzedVariables': 'Analyzable Variables',
             'numberOfAnalyzedVariables-tooltip': 'Click to show all analyzable variables of this sub data set',

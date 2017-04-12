@@ -117,36 +117,10 @@ body {
   margin-right: auto;
 }
 
-.fdz_logo {
-    background-image: url("../images/FDZ_Logo.svg");
-}
-
-.bmbf_logo_de {
-    background-image: url("../images/BMBF_Logo_de.png");
-}
-
-.bmbf_logo_en {
-    background-image: url("../images/BMBF_Logo_en.png");
-}
-
-.fdz_logo {
-    width: 190px;
-    height: 45px;
-    padding-right: 190px;
-    background-size: 190px 45px;
-    background-image: url("../images/FDZ_Logo.svg");
-}
-
-.bmbf_logo_de,
-.bmbf_logo_en,
-.fdz_logo {
+.bmbf_logo {
     background-color: transparent;
     background-position: center center;
     background-repeat: no-repeat;
-}
-
-.bmbf_logo_de,
-.bmbf_logo_en {
     width: 221px;
     height: 157px;
     background-size: 221px 157px;
