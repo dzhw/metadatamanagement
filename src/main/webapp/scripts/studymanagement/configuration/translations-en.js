@@ -46,6 +46,12 @@ angular.module('metadatamanagementApp').config(
               'one': 'Click to show the publication related to this study',
               'many': 'Click to show all publications related to this study'
             }
+          },
+          'data-set': {
+            'card-title': 'Available Data Sets',
+            'accessWays': 'Access Ways',
+            'description': 'Description',
+            'maxNumberOfObservations': 'Observations'
           }
         },
         'log-messages': {

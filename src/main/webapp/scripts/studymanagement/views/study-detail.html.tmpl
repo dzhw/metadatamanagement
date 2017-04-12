@@ -22,7 +22,7 @@
                     </div>
                     <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.authors">
                         <span style="font-weight: bold;">{{'study-management.detail.authors' | translate }}:</span>
-                        <span ng-repeat="author in ctrl.study.authors">{{author.lastName}}, {{author.firstName}} {{author.middleName}}; </span>                        
+                        <span ng-repeat="author in ctrl.study.authors">{{author.lastName}}, {{author.firstName}} {{author.middleName}}; </span>
                     </div>
                     <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.sponsor">
                         <span style="font-weight: bold;">{{'study-management.detail.sponsors' | translate }}:</span>
@@ -151,16 +151,41 @@
     </div>
     <div layout="row">
         <md-card flex class="fdz-reset-top-margin">
-            <md-card-header>
+            <md-card-header layout-align="center center">
                 <md-card-header-text>
-                    <h2 class="md-title">{{'study-management.detail.available-data-products' | translate }}</h2>
+                    <h2 class="md-title">{{'study-management.detail.data-set.card-title' | translate }}</h2>
                 </md-card-header-text>
             </md-card-header>
-            <md-divider></md-divider>
-            <md-card-content>
-            </md-card-content>
+            <table class="fdz-table">
+                <thead>
+                    <tr>
+                        <th>{{'study-management.detail.data-set.description' | translate }}
+                            <md-tooltip hide-gt-xs md-direction="right">
+                                {{'study-management.detail.data-set.description' | translate }}
+                            </md-tooltip>
+                        </th>
+                        <th>{{'study-management.detail.data-set.accessWays' | translate }}
+                            <md-tooltip hide-gt-xs md-direction="right">
+                                {{'study-management.detail.data-set.accessWays' | translate }}
+                            </md-tooltip>
+                        <th>{{'study-management.detail.data-set.maxNumberOfObservations' | translate }} <span katex>(max)</span>
+                            <md-tooltip hide-gt-xs md-direction="right">
+                                {{'study-management.detail.data-set.maxNumberOfObservations' | translate }} <span katex>(max)</span>
+                            </md-tooltip>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="row in ctrl.dataSets | orderBy: 'number'">
+                        <td display-i18n-string="row.description"></td>
+                        <td>{{row.accessWays}}</td>
+                        <td>{{row.maxOfNumberOfObservations}}</td>
+                    </tr>
+                </tbody>
+            </table>
         </md-card>
     </div>
+
     <div layout="row">
         <md-card flex class="fdz-reset-top-margin">
             <md-card-header>

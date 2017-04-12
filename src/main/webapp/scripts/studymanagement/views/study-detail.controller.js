@@ -1,8 +1,9 @@
+/* global _*/
 'use strict';
 
 angular.module('metadatamanagementApp')
   .controller('StudyDetailController',
-    function(entity, PageTitleService, LanguageService,
+    function(entity, PageTitleService, LanguageService, DataSetSearchService,
       $state, ToolbarHeaderService, Principal, SimpleMessageToastService) {
       var ctrl = this;
       ctrl.counts = {};
@@ -29,6 +30,22 @@ angular.module('metadatamanagementApp')
           if (ctrl.counts.publicationsCount === 1) {
             ctrl.relatedPublication = result.relatedPublications[0];
           }
+          DataSetSearchService.findByStudyId(result.id,
+            ['number', 'description', 'subDataSets']).then(function(dataSets) {
+              ctrl.dataSets = [];
+              dataSets.hits.hits.forEach(function(dataSet) {
+                ctrl.dataSets.push({
+                  'number': dataSet._source.number,
+                  'description': dataSet._source.description,
+                  'accessWays': _.map(dataSet._source.subDataSets,
+                    'accessWay').join(', '),
+                  'maxOfNumberOfObservations': _.maxBy(dataSet._source.
+                    subDataSets, function(subDataSet) {
+                      return subDataSet.numberOfObservations;})
+                      .numberOfObservations
+                });
+              });
+            });
         } else {
           SimpleMessageToastService.openSimpleMessageToast(
           'study-management.detail.not-released-toast', {id: result.id}
