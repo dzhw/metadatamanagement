@@ -20,6 +20,8 @@ public class MetadataManagementProperties {
 
   private final ElasticsearchAngularClient elasticsearchAngularClient =
       new ElasticsearchAngularClient();
+  
+  private final Dara dara = new Dara();
 
   public ElasticsearchClient getElasticsearchClient() {
     return elasticsearchClient;
@@ -27,6 +29,10 @@ public class MetadataManagementProperties {
 
   public ElasticsearchAngularClient getElasticsearchAngularClient() {
     return elasticsearchAngularClient;
+  }
+  
+  public Dara getDara() {
+    return dara;
   }
 
   /**
