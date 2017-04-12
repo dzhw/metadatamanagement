@@ -239,7 +239,9 @@ module.exports = function(grunt) {
             'Bad value “{{searchResult.language}}” for attribute “lang” on ' +
             'element “div”: Subtags must not exceed 8 characters in length.',
             'Bad value “{{item.tooltip}}” for attribute “translate” on ' +
-            'element “span”.'
+            'element “span”.',
+            'Document uses the Unicode Private Use Area(s), which should not' +
+            ' be used in publicly exchanged documents. (Charmod C073)'
           ],
           customattrs: [
             'show-validation',
