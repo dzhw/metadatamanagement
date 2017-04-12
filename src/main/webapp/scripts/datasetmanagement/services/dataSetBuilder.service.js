@@ -97,10 +97,10 @@ angular.module('metadatamanagementApp').service('DataSetBuilderService',
         var metadata = {};
 
         // Build Metadata for Attachment
-        if (attachment.fileName) {
+        if (attachment.filename) {
           if (filesMap.dataSets
-            .attachments[attachment.fileName]) {
-            metadata.fileName = attachment.fileName;
+            .attachments[attachment.filename]) {
+            metadata.fileName = attachment.filename;
             metadata.title = attachment.title;
             metadata.language = attachment.language;
             metadata.dataSetNumber = attachment.dataSetNumber;
@@ -117,19 +117,19 @@ angular.module('metadatamanagementApp').service('DataSetBuilderService',
             attachmentUploadObject = {
               'metadata': metadata,
               'file': filesMap.dataSets
-              .attachments[attachment.fileName]
+              .attachments[attachment.filename]
             };
           } else {
-            if (!notFoundAttachmentsMap[attachment.fileName]) {
+            if (!notFoundAttachmentsMap[attachment.filename]) {
               JobLoggingService.error({
                 message: 'data-set-management.log-messages' +
                 '.data-set-attachment.file-not-found',
                 messageParams: {
-                  filename: attachment.fileName
+                  filename: attachment.filename
                 },
                 objectType: 'attachment'
               });
-              notFoundAttachmentsMap[attachment.fileName] = true;
+              notFoundAttachmentsMap[attachment.filename] = true;
             }
           }
         }

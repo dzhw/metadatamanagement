@@ -235,7 +235,7 @@
                         <td display-i18n-string="row.description"></td>
                         <td>{{row.language | displayIsoLanguage: currentLanguage}}&nbsp;</td>
                         <td><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}<md-tooltip md-autohide="true">
-                            {{'global.tooltips.files.download' | translate}}
+                            {{'global.tooltips.files.download' | translate:{filename: row.fileName} }}
                         </md-tooltip></a>&nbsp;</td>
                     </tr>
                 </tbody>
