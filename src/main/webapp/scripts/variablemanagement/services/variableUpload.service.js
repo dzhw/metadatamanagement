@@ -61,6 +61,9 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
       return $q(function(resolve) {
         ExcelReaderService.readFileAsync(dataSet.excelFile)
           .then(function(variables) {
+            if (!variables || variables.length === 0) {
+              resolve();
+            }
             variables.forEach(function(variableFromExcel,
               variableIndex) {
               if (variableFromExcel.name) {
@@ -230,14 +233,16 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
         }
         createVariableResources(dataSet).then(function(variables) {
           var chainedVariableUploads = $q.when();
-          variables.forEach(function(variable, index) {
-            chainedVariableUploads = chainedVariableUploads.then(
-              function() {
-                return uploadVariable(variable, index,
-                  previouslyUploadedVariableNames);
-              }
-            );
-          });
+          if (variables) {
+            variables.forEach(function(variable, index) {
+                chainedVariableUploads = chainedVariableUploads.then(
+                  function() {
+                    return uploadVariable(variable, index,
+                      previouslyUploadedVariableNames);
+                  }
+                  );
+              });
+          }
           chainedVariableUploads.finally(function() {
             uploadDataSets(dataSetIndex + 1);
           });

@@ -42,10 +42,9 @@
     <logger name="org.apache.catalina.startup.DigesterFactory" level="OFF"/>
     <logger name="org.bson" level="WARN"/>
     <logger name="org.hibernate.validator" level="WARN"/>
-    <logger name="org.hibernate" level="WARN"/>
-    <logger name="org.hibernate.ejb.HibernatePersistence" level="OFF"/>
     <logger name="org.springframework" level="WARN"/>
     <logger name="org.springframework.web" level="WARN"/>
+    <logger name="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver" level="ERROR"/>
     <logger name="org.springframework.security" level="WARN"/>
     <logger name="org.springframework.cache" level="WARN"/>
     <logger name="org.thymeleaf" level="WARN"/>
