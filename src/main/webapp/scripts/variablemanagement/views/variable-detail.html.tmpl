@@ -43,7 +43,7 @@
                     <div ng-if="variable.filterDetails">
                         <span style="font-weight: bold;">{{'variable-management.detail.input-filter' | translate }} ({{variable.filterDetails.expressionLanguage}}):</span>
                         <div class="fdz-overlay-outer-box">
-                            <div hljs hljs-language="{{variable.filterDetails.expressionLanguage}}" hljs-source="variable.filterDetails.expression" style="margin-top: 0.5em;" class="fdz-code-container" ng-class="{'fdz-hidden-code': filterDetailsCodeToggleFlag}"></div>
+                            <div hljs hljs-language="{{variable.filterDetails.expressionLanguage}}" hljs-source="variable.filterDetails.expression" style="margin-top: 0.5em;" class="fdz-code-container" ng-class="{'fdz-hidden-code': filterDetailsCodeToggleFlag}" create-variable-links="{currentLanguage: currentLanguage, currentVariable: variable}"></div>
                             <div class="fdz-overlay-inner-box-top">
                                 <md-button ng-click="openSuccessCopyToClipboardToast('variable-management.log-messages.variable.filter-details-success-copy-to-clipboard')" class="md-icon-button md-primary" ngclipboard data-clipboard-text="{{variable.filterDetails.expression}}">
                                     <md-icon md-font-library="material-icons">content_copy</md-icon>
@@ -270,7 +270,7 @@
                 <md-card-header-text>
                     <h2 class="md-title">{{'variable-management.detail.frequencies' | translate }}</h2>
                 </md-card-header-text>
-                <md-button ng-disabled="variable.distribution.validResponses.length <= 10" class="md-fab md-mini md-primary" ng-click="toggleAllRowsVisible()">
+                <md-button ng-disabled="!variable.distribution.validResponses || variable.distribution.validResponses.length <= 10" class="md-fab md-mini md-primary" ng-click="toggleAllRowsVisible()">
                     <md-tooltip md-direction="left">
                         {{'variable-management.detail.show-complete-distribution-tooltip.' + notAllRowsVisible | translate }}
                     </md-tooltip>
@@ -278,7 +278,7 @@
                     <md-icon ng-if="!notAllRowsVisible" md-svg-src="/assets/images/icons/arrow-compress.svg"></md-icon>
                 </md-button>
             </md-card-header>
-            <table class="fdz-table" ng-if="variable.distribution.validResponses">
+            <table class="fdz-table">
                 <thead>
                     <tr>
                         <th>{{'variable-management.detail.statistics.value' | translate }}
@@ -368,7 +368,7 @@
             </md-card-header>
             <md-divider></md-divider>
             <md-card-content>
-                <div style="margin-bottom: 0.5em;" ng-if="variable.generationDetails.description[currentLanguage]">
+                <div style="margin-bottom: 0.5em;">
                     <span style="font-weight: bold;">{{'variable-management.detail.generation-details-description' | translate }}:
                     </span>
                     <span display-i18n-string="variable.generationDetails.description"></span>
@@ -378,7 +378,7 @@
                         ({{variable.generationDetails.ruleExpressionLanguage}}):
                     </span>
                     <div class="fdz-overlay-outer-box">
-                        <div hljs hljs-source="variable.generationDetails.rule" hljs-language="{{variable.generationDetails.ruleExpressionLanguage}}" style="margin-top: 0.5em;" class="fdz-code-container" ng-class="{'fdz-hidden-code': generationCodeToggleFlag}"></div>
+                        <div hljs hljs-source="variable.generationDetails.rule" hljs-language="{{variable.generationDetails.ruleExpressionLanguage}}" style="margin-top: 0.5em;" class="fdz-code-container" ng-class="{'fdz-hidden-code': generationCodeToggleFlag}" create-variable-links="{currentLanguage: currentLanguage, currentVariable: variable}"></div>
                         <div class="fdz-overlay-inner-box-top">
                             <md-button ng-click="openSuccessCopyToClipboardToast('variable-management.log-messages.variable.generation-details-rule-success-copy-to-clipboard')" class="md-icon-button md-primary" ngclipboard data-clipboard-text="{{variable.generationDetails.rule}}">
                                 <md-icon md-font-library="material-icons">content_copy</md-icon>
