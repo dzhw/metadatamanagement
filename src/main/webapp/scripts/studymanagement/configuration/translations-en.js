@@ -107,8 +107,11 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'The survey design of the study must not be empty!',
               'valid-survey-design': 'The allowed values for the survey design of the study are: Cross-section, Panel.'
             },
+            'authors': {
+              'not-empty': 'The list of authors of a study needs min. one element and must not be empty!',
+            },
             'access-ways': {
-              'not-empty': 'The list of access ways of a variable needs min. one element and must not be empty!',
+              'not-empty': 'The list of access ways of a study needs min. one element and must not be empty!',
               'valid-access-ways': 'The values of access ways are invalid. Valid values are: download-cuf, download-suf, remote-desktop-suf, onsite-suf, not-accessible.'
             },
             'data-acquisition-project': {

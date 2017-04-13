@@ -107,8 +107,11 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'Das Erhebungsdesign einer Studie darf nicht leer sein!',
               'valid-survey-design': 'Die erlaubten Werte für das Erhebungsdesign der Studie sind: Querschnitt, Panel.'
             },
+            'authors': {
+              'not-empty': 'Die Liste der Autoren einer Studie benötigt mindestens ein Element und darf nicht leer sein!',
+            },
             'access-ways': {
-              'not-empty': 'Die Liste der Zugangswege einer Variable benötigt mindest ein Element und darf nicht leer sein!',
+              'not-empty': 'Die Liste der Zugangswege einer Studie benötigt mindestens ein Element und darf nicht leer sein!',
               'valid-access-ways': 'Die Liste der Zugangswege enthält ungültige Werte. Erlaubt sind nur: download-cuf, download-suf, remote-desktop-suf, onsite-suf, not-accessible.'
             },
             'data-acquisition-project': {
