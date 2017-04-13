@@ -69,7 +69,7 @@ angular.module('metadatamanagementApp').config(
           },
           'images': 'Klicken, um das Bild in einem neuem Tab zu öffnen',
           'pager': {
-            'previous':'Klicken, um die vorherigen Suchergebnisse anzuzeigen',
+            'previous': 'Klicken, um die vorherigen Suchergebnisse anzuzeigen',
             'next': 'Klicken, um die nächsten Suchergebnisse anzuzeigen',
             'current': 'Klicken, um die {{number}}. Seite mit Suchergebnissen anzuzeigen'
           },
@@ -242,6 +242,14 @@ angular.module('metadatamanagementApp').config(
             'unauthorized-error': 'Sie sind nicht berechtigt diese Aktion durchzuführen (Status {{ status }}).',
             'forbidden-error': 'Sie sind nicht berechtigt diese Aktion durchzuführen (Status {{ status }}).',
             'not-found-error': 'Sorry, etwas ist schief gelaufen :-( ({{ status }}).'
+          },
+          'person': {
+            'first-name': {
+              'not-empty': 'Der Vorname einer Person muss gefüllt sein.'
+            },
+            'last-name': {
+              'not-empty': 'Der Nachname einer Person muss gefüllt sein.'
+            }
           }
         },
         'logos': {
