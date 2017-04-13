@@ -43,30 +43,34 @@ angular.module('metadatamanagementApp').directive('diagram',
       switch (scope.type) {
         case 'verhältnis':
         case 'ratio':
-          var size = (scope.distribution.histogram.end -
-            scope.distribution.histogram.start) /
-            scope.distribution.histogram.numberOfBins;
-          data[0].x = [];
-          data[0].type = 'histogram';
-          data[0].autobinx = false;
-          data[0].xbins = {
-            start: scope.distribution.histogram.start,
-            end: scope.distribution.histogram.end,
-            size: size
-          };
-          data[0].hoverinfo = 'text+y';
-          data[0].text = [];
-          for (var i = 0; i < scope.distribution.histogram.numberOfBins; i++) {
-            data[0].text.push('[' + $filter('number')(scope.distribution
-              .histogram.start + size * i, 2) + '; ' +
-              $filter('number')(scope.distribution.histogram.start +
-              size * (i + 1), 2) + ')');
-          }
-          if (scope.distribution.validResponses) {
-            for (var j = 0; j < scope.distribution.validResponses.length; j++) {
-              for (var k = 0; k < scope.distribution.validResponses[j]
-                .absoluteFrequency; k++) {
-                data[0].x.push(scope.distribution.validResponses[j].value);
+          if (scope.distribution.histogram) {
+            var size = (scope.distribution.histogram.end -
+              scope.distribution.histogram.start) /
+              scope.distribution.histogram.numberOfBins;
+            data[0].x = [];
+            data[0].type = 'histogram';
+            data[0].autobinx = false;
+            data[0].xbins = {
+              start: scope.distribution.histogram.start,
+              end: scope.distribution.histogram.end,
+              size: size
+            };
+            data[0].hoverinfo = 'text+y';
+            data[0].text = [];
+            for (var i = 0; i < scope.distribution.histogram.numberOfBins;
+              i++) {
+              data[0].text.push('[' + $filter('number')(scope.distribution
+                .histogram.start + size * i, 2) + '; ' +
+                $filter('number')(scope.distribution.histogram.start +
+                  size * (i + 1), 2) + ')');
+            }
+            if (scope.distribution.validResponses) {
+              for (var j = 0; j < scope.distribution.validResponses.length;
+                j++) {
+                for (var k = 0; k < scope.distribution.validResponses[j]
+                  .absoluteFrequency; k++) {
+                  data[0].x.push(scope.distribution.validResponses[j].value);
+                }
               }
             }
           }
