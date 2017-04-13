@@ -93,7 +93,7 @@ angular.module('metadatamanagementApp').config(
           'entities': {
             'main': 'Entities',
             'rdcProject': 'Data Acquisition Projects',
-            'current-project': 'Current Data Acquisition Project:',
+            'current-project': 'Current Data Acquisition Project',
             'select-project': 'Select Project',
             'unknown-project': 'The Data Acquisition Project {{projectId}} is unknown.'
           },

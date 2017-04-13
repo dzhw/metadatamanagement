@@ -63,7 +63,7 @@ angular.module('metadatamanagementApp').config(
             'releases-file-not-found': 'The selected directory does not contain the following file: releases.xlsx!',
             'unable-to-delete': 'The study could not be deleted!',
             'missing-id': 'Study {{ index }} does not contain a RDC-ID and has not been saved:',
-            'upload-terminated': 'Finished upload of {{ total }} Study with {warnings }} warnings and {{ errors }} errors.',
+            'upload-terminated': 'Finished upload of {{ total }} Study with {{ warnings }} warnings and {{ errors }} errors.',
             'cancelled': 'Study upload cancelled!'
           }
         },

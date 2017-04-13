@@ -15,7 +15,7 @@ angular.module('metadatamanagementApp').config(
           'delete-data-sets-title': 'Delete all Data Sets?',
           'delete-data-sets': 'Are you sure you want to delete all Data Sets within the Data Acquisition Project with RDC-ID "{{ id }}"?',
           'delete-studies-title': 'Delete Study?',
-          'delete-studies': 'Are you sure you want to the Study of the Data Acquisition Project with RDC-ID "{{ id }}"?',
+          'delete-studies': 'Are you sure you want to delete the Study of the Data Acquisition Project with RDC-ID "{{ id }}"?',
           'delete-related-publications-title': 'Delete all Publications?',
           'delete-related-publications': 'Are you sure you want to delete all Publications?',
           'delete-instruments-title': 'Delete all Instruments?',
