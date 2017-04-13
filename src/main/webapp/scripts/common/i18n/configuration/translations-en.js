@@ -40,19 +40,19 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'dialog': {
-            'tooltip': {
-              'close': 'Click to close the dialog'
-            }
-          },
-          'toast': {
-            'tooltip': {
-              'close': 'Click to close the notification'
-            }
-          },
+          'tooltip': {
+            'close': 'Click to close the dialog'
+          }
+        },
+        'toast': {
+          'tooltip': {
+            'close': 'Click to close the notification'
+          }
+        },
         'toolbarHeader': {
-            'search': 'Click to show the last {{type}}',
-            'default': 'Click to show {{type}} "{{param}}"'
-          },
+          'search': 'Click to show the last {{type}}',
+          'default': 'Click to show {{type}} "{{param}}"'
+        },
         'cards': {
           'details': 'Details',
           'related-objects': 'Related objects'
@@ -73,7 +73,7 @@ angular.module('metadatamanagementApp').config(
           },
           'images': 'Click to open image in a new Tab',
           'pager': {
-            'previous':'Click to show previous search results',
+            'previous': 'Click to show previous search results',
             'next': 'Click to show next search results',
             'current': 'Click to show search results on page {{number}}'
           },
@@ -244,6 +244,14 @@ angular.module('metadatamanagementApp').config(
             'unauthorized-error': 'You are not authorized to do this (Status {{ status }}).',
             'forbidden-error': 'You are not authorized to do this (Status {{ status }}).',
             'not-found-error': 'Sorry, something went wrong :-( ({{ status }}).'
+          },
+          'person': {
+            'first-name': {
+              'not-empty': 'The first name of a person has to be given.'
+            },
+            'last-name': {
+              'not-empty': 'The last name of a person has to be given.'
+            }
           }
         },
         'logos': {

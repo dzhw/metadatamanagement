@@ -28,7 +28,8 @@ angular.module('metadatamanagementApp').config(
             'diskSpace': 'Festplattenplatz',
             'mail': 'Email',
             'mongo': 'MongoDB',
-            'elasticsearch': 'ElasticSearch'
+            'elasticsearch': 'ElasticSearch',
+            'dara': 'Dara'
           },
           'table': {
             'service': 'Servicename',
