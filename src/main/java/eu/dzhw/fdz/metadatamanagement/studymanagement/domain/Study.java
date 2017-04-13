@@ -82,6 +82,7 @@ public class Study extends AbstractRdcDomainObject {
   private I18nString sponsor;
   
   @Valid
+  @NotEmpty(message = "study-management.error.study.authors.not-empty")
   private List<Person> authors;
   
   @I18nStringSize(max = StringLengths.LARGE,
