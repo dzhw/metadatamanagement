@@ -1,3 +1,4 @@
+/*global bowser */
 'use strict';
 
 angular
@@ -15,6 +16,7 @@ angular
 .run(
     function($rootScope, $location, $state, LanguageService, Auth, Principal,
       ENV, VERSION, $mdMedia, $templateCache) {
+      $rootScope.bowser = bowser;
       $rootScope.ENV = ENV;
       $rootScope.VERSION = VERSION;
       $rootScope.$mdMedia = $mdMedia;

@@ -9,15 +9,15 @@
                 </md-input-container>
                 <input type="submit" ng-hide="true">
             </form>
-            <md-tabs md-selected="searchParams.selectedTabIndex" md-dynamic-height>
-                <md-tab ng-repeat="tab in tabs" md-on-select="onSelectedTabChanged()" ng-disabled="tab.disabled">
-                    <md-tab-label>
-                        <md-icon ng-if="tab.icon" md-svg-icon="{{tab.icon}}"></md-icon>
-                        <span>{{tab.title|translate}} {{tab.count != null? '(' + tab.count + ')' : ''}}</span>
-                        <md-tooltip md-direction="top" md-autohide="true">{{tab.title+'-tooltip'|translate}}</md-tooltip>
-                    </md-tab-label>
+              <md-tabs md-selected="searchParams.selectedTabIndex" md-dynamic-height>
+                <md-tab ng-repeat="tab in tabs" aria-label="Test" md-on-select="onSelectedTabChanged()" ng-disabled="tab.disabled">
+                  <md-tab-label>
+                    <md-icon ng-if="tab.icon" md-svg-icon="{{tab.icon}}"></md-icon>
+                    <span>{{tab.title|translate}} {{tab.count != null? '(' + tab.count + ')' : ''}}</span>
+                    <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.name === 'msie' || bowser.name === 'msedge' ? -100 : 20">{{tab.title+'-tooltip'|translate}}</md-tooltip>
+                  </md-tab-label>
                 </md-tab>
-            </md-tabs>
+              </md-tabs>
         </div>
         <md-progress-linear md-mode="indeterminate" ng-if="isSearching"></md-progress-linear>
     </md-card>
