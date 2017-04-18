@@ -49,6 +49,27 @@ module.exports = {
     font: extendFlat({}, fontAttrs, {
         description: 'Sets the annotation text font.'
     }),
+    width: {
+        valType: 'number',
+        min: 1,
+        dflt: null,
+        role: 'style',
+        description: [
+            'Sets an explicit width for the text box. null (default) lets the',
+            'text set the box width. Wider text will be clipped.',
+            'There is no automatic wrapping; use <br> to start a new line.'
+        ].join(' ')
+    },
+    height: {
+        valType: 'number',
+        min: 1,
+        dflt: null,
+        role: 'style',
+        description: [
+            'Sets an explicit height for the text box. null (default) lets the',
+            'text set the box height. Taller text will be clipped.'
+        ].join(' ')
+    },
     opacity: {
         valType: 'number',
         min: 0,
@@ -63,10 +84,21 @@ module.exports = {
         dflt: 'center',
         role: 'style',
         description: [
-            'Sets the vertical alignment of the `text` with',
-            'respect to the set `x` and `y` position.',
-            'Has only an effect if `text` spans more two or more lines',
-            '(i.e. `text` contains one or more <br> HTML tags).'
+            'Sets the horizontal alignment of the `text` within the box.',
+            'Has an effect only if `text` spans more two or more lines',
+            '(i.e. `text` contains one or more <br> HTML tags) or if an',
+            'explicit width is set to override the text width.'
+        ].join(' ')
+    },
+    valign: {
+        valType: 'enumerated',
+        values: ['top', 'middle', 'bottom'],
+        dflt: 'middle',
+        role: 'style',
+        description: [
+            'Sets the vertical alignment of the `text` within the box.',
+            'Has an effect only if an explicit height is set to override',
+            'the text height.'
         ].join(' ')
     },
     bgcolor: {
@@ -148,7 +180,9 @@ module.exports = {
         description: [
             'Sets a distance, in pixels, to move the arrowhead away from the',
             'position it is pointing at, for example to point at the edge of',
-            'a marker independent of zoom.'
+            'a marker independent of zoom. Note that this shortens the arrow',
+            'from the `ax` / `ay` vector, in contrast to `xshift` / `yshift`',
+            'which moves everything by this amount.'
         ].join(' ')
     },
     ax: {
@@ -260,6 +294,15 @@ module.exports = {
             'corresponds to the closest side.'
         ].join(' ')
     },
+    xshift: {
+        valType: 'number',
+        dflt: 0,
+        role: 'style',
+        description: [
+            'Shifts the position of the whole annotation and arrow to the',
+            'right (positive) or left (negative) by this many pixels.'
+        ].join(' ')
+    },
     yref: {
         valType: 'enumerated',
         values: [
@@ -310,6 +353,15 @@ module.exports = {
             'corresponds to the closest side.'
         ].join(' ')
     },
+    yshift: {
+        valType: 'number',
+        dflt: 0,
+        role: 'style',
+        description: [
+            'Shifts the position of the whole annotation and arrow up',
+            '(positive) or down (negative) by this many pixels.'
+        ].join(' ')
+    },
     clicktoshow: {
         valType: 'enumerated',
         values: [false, 'onoff', 'onout'],
@@ -344,6 +396,53 @@ module.exports = {
         description: [
             'Toggle this annotation when clicking a data point whose `y` value',
             'is `yclick` rather than the annotation\'s `y` value.'
+        ].join(' ')
+    },
+    hovertext: {
+        valType: 'string',
+        role: 'info',
+        description: [
+            'Sets text to appear when hovering over this annotation.',
+            'If omitted or blank, no hover label will appear.'
+        ].join(' ')
+    },
+    hoverlabel: {
+        bgcolor: {
+            valType: 'color',
+            role: 'style',
+            description: [
+                'Sets the background color of the hover label.',
+                'By default uses the annotation\'s `bgcolor` made opaque,',
+                'or white if it was transparent.'
+            ].join(' ')
+        },
+        bordercolor: {
+            valType: 'color',
+            role: 'style',
+            description: [
+                'Sets the border color of the hover label.',
+                'By default uses either dark grey or white, for maximum',
+                'contrast with `hoverlabel.bgcolor`.'
+            ].join(' ')
+        },
+        font: extendFlat({}, fontAttrs, {
+            description: [
+                'Sets the hover label text font.',
+                'By default uses the global hover font and size,',
+                'with color from `hoverlabel.bordercolor`.'
+            ].join(' ')
+        })
+    },
+    captureevents: {
+        valType: 'boolean',
+        role: 'info',
+        description: [
+            'Determines whether the annotation text box captures mouse move',
+            'and click events, or allows those events to pass through to data',
+            'points in the plot that may be behind the annotation. By default',
+            '`captureevents` is *false* unless `hovertext` is provided.',
+            'If you use the event `plotly_clickannotation` without `hovertext`',
+            'you must explicitly enable `captureevents`.'
         ].join(' ')
     },
 
