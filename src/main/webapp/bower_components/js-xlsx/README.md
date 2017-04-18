@@ -29,8 +29,10 @@ with a unified JS representation, and ES3/ES5 browser compatibility back to IE6.
   * [Optional Modules](#optional-modules)
   * [ECMAScript 5 Compatibility](#ecmascript-5-compatibility)
 - [Parsing Workbooks](#parsing-workbooks)
+  * [Note on Streaming Read](#note-on-streaming-read)
 - [Working with the Workbook](#working-with-the-workbook)
 - [Writing Workbooks](#writing-workbooks)
+  * [Streaming Write](#streaming-write)
 - [Interface](#interface)
   * [Parsing functions](#parsing-functions)
   * [Writing functions](#writing-functions)
@@ -45,6 +47,8 @@ with a unified JS representation, and ES3/ES5 browser compatibility back to IE6.
     + [Chartsheet Object](#chartsheet-object)
   * [Workbook Object](#workbook-object)
     + [Workbook File Properties](#workbook-file-properties)
+  * [Workbook-Level Attributes](#workbook-level-attributes)
+    + [Defined Names](#defined-names)
   * [Document Features](#document-features)
     + [Formulae](#formulae)
     + [Column Properties](#column-properties)
@@ -83,9 +87,13 @@ with a unified JS representation, and ES3/ES5 browser compatibility back to IE6.
     + [Data Interchange Format (DIF)](#data-interchange-format-dif)
     + [HTML](#html)
 - [Testing](#testing)
+  * [Node](#node)
+  * [Browser](#browser)
   * [Tested Environments](#tested-environments)
   * [Test Files](#test-files)
 - [Contributing](#contributing)
+  * [OSX/Linux](#osxlinux)
+  * [Windows](#windows)
 - [License](#license)
 - [References](#references)
 - [Badges](#badges)
@@ -292,6 +300,39 @@ function handleFile(e) {
 input_dom_element.addEventListener('change', handleFile, false);
 ```
 
+**Complete examples:**
+
+- <http://oss.sheetjs.com/js-xlsx/> HTML5 File API / Base64 Text / Web Workers
+
+Note that older versions of IE do not support HTML5 File API, so the base64 mode
+is used for testing.  On OSX you can get the base64 encoding with:
+
+```bash
+$ <target_file base64 | pbcopy
+```
+
+On Windows XP and up you can get the base64 encoding using `certutil`:
+
+```cmd
+> certutil -encode target_file target_file.b64
+```
+
+(note: You have to open the file and remove the header and footer lines)
+
+- <http://oss.sheetjs.com/js-xlsx/ajax.html> XMLHttpRequest
+
+### Note on Streaming Read
+
+The most common and interesting formats (XLS, XLSX/M, XLSB, ODS) are ultimately
+ZIP or CFB containers of files.  Neither format puts the directory structure at
+the beginning of the file: ZIP files place the Central Directory records at the
+end of the logical file, while CFB files can place the FAT structure anywhere in
+the file! As a result, to properly handle these formats, a streaming function
+would have to buffer the entire file before commencing.  That belies the
+expectations of streaming, so we do not provide any streaming read API.  If you
+really want to stream, there are node modules like `concat-stream` that will do
+the buffering for you.
+
 ## Working with the Workbook
 
 The full object format is described later in this README.
@@ -313,25 +354,6 @@ var desired_value = (desired_cell ? desired_cell.v : undefined);
 ```
 
 **Complete examples:**
-
-- <http://oss.sheetjs.com/js-xlsx/> HTML5 File API / Base64 Text / Web Workers
-
-Note that older versions of IE do not support HTML5 File API, so the base64 mode
-is used for testing.  On OSX you can get the base64 encoding with:
-
-```bash
-$ <target_file base64 | pbcopy
-```
-
-On Windows XP and up you can get the base64 encoding using `certutil`:
-
-```cmd
-> certutil -encode target_file target_file.b64
-```
-
-(note: You have to open the file and remove the header and footer lines)
-
-- <http://oss.sheetjs.com/js-xlsx/ajax.html> XMLHttpRequest
 
 - <https://github.com/SheetJS/js-xlsx/blob/master/bin/xlsx.njs> node
 
@@ -386,6 +408,16 @@ saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), "test.xlsx");
 - <http://git.io/WEK88Q> writing an array of arrays in nodejs
 - <http://sheetjs.com/demos/table.html> exporting an HTML table
 
+### Streaming Write
+
+The streaming write functions are available in the `XLSX.stream` object.  They
+take the same arguments as the normal write functions but return a readable
+stream.  They are only exposed in node.
+
+- `XLSX.stream.to_csv` is the streaming version of `XLSX.utils.sheet_to_csv`.
+- `XLSX.stream.to_html` is the streaming version of the HTML output type.
+
+<https://github.com/sheetjs/sheetaki> pipes write streams to nodejs response.
 ## Interface
 
 `XLSX` is the exposed variable in the browser and the exported node variable
@@ -410,6 +442,8 @@ Parse options are described in the [Parsing Options](#parsing-options) section.
 
 `XLSX.writeFileAsync(filename, wb, o, cb)` attempts to write `wb` to `filename`.
 If `o` is omitted, the writer will use the third argument as the callback.
+
+`XLSX.stream` contains a set of streaming write functions.
 
 Write options are described in the [Writing Options](#writing-options) section.
 
@@ -559,6 +593,28 @@ Special sheet keys (accessible as `sheet[key]`, each starting with `!`):
   When reading a worksheet with the `sheetRows` property set, the ref parameter
   will use the restricted range.  The original range is set at `ws['!fullref']`
 
+- `sheet['!margins']`: Object representing the page margins.  The default values
+  follow Excel's "normal" preset.  Excel also has a "wide" and a "narrow" preset
+  but they are stored as raw measurements. The main properties are listed below:
+
+| key      | description            | "normal" | "wide" | "narrow" |
+|----------|------------------------|:---------|:-------|:-------- |
+| `left`   | left margin (inches)   | `0.7`    | `1.0`  | `0.25`   |
+| `right`  | right margin (inches)  | `0.7`    | `1.0`  | `0.25`   |
+| `top`    | top margin (inches)    | `0.75`   | `1.0`  | `0.75`   |
+| `bottom` | bottom margin (inches) | `0.75`   | `1.0`  | `0.75`   |
+| `header` | header margin (inches) | `0.3`    | `0.5`  | `0.3`    |
+| `footer` | footer margin (inches) | `0.3`    | `0.5`  | `0.3`    |
+
+```js
+/* Set worksheet sheet to "normal" */
+sheet["!margins"] = { left:0.7, right:0.7, top:0.75, bottom:0.75, header:0.3, footer:0.3 }
+/* Set worksheet sheet to "wide" */
+sheet["!margins"] = { left:1.0, right:1.0, top:1.0, bottom:1.0, header:0.5, footer:0.5 }
+/* Set worksheet sheet to "narrow" */
+sheet["!margins"] = { left:0.25, right:0.25, top:0.75, bottom:0.75, header:0.3, footer:0.3 }
+```
+
 #### Worksheet Object
 
 In addition to the base sheet keys, worksheets also add:
@@ -595,6 +651,14 @@ In addition to the base sheet keys, worksheets also add:
 | `pivotTables`         | Use PivotTable reports                               |
 | `objects`             | Edit objects                                         |
 | `scenarios`           | Edit scenarios                                       |
+
+- `ws['!autofilter']`: AutoFilter object following the schema:
+
+```typescript
+type AutoFilter = {
+	ref:string; // A-1 based range representing the AutoFilter table range
+}
+```
 
 #### Chartsheet Object
 
@@ -653,6 +717,32 @@ if(!wb.Custprops) wb.Custprops = {};
 wb.Custprops["Custom Property"] = "Custom Value";
 ```
 
+Writers will process the `Props` key of the options object:
+
+```js
+/* force the Author to be "SheetJS" */
+XLSX.write(wb, {Props:{Author:"SheetJS"}});
+```
+
+### Workbook-Level Attributes
+
+`wb.Workbook` stores workbook level attributes.
+
+#### Defined Names
+
+`wb.Workbook.Names` is an array of defined name objects which have the keys:
+
+| Key       | Description                                                      |
+|:----------|:-----------------------------------------------------------------|
+| `Sheet`   | Name scope.  Sheet Index (0 = first sheet) or `null` (Workbook)  |
+| `Name`    | Case-sensitive name.  Standard rules apply **                    |
+| `Ref`     | A1-style Reference (e.g. `"Sheet1!$A$1:$D$20"`)                  |
+| `Comment` | Comment (only applicable for XLS/XLSX/XLSB)                      |
+
+Excel allows two sheet-scoped defined names to share the same name.  However, a
+sheet-scoped name cannot collide with a workbook-scope name.  Workbook writers
+may not enforce this constraint.
+
 ### Document Features
 
 Even for basic features like date storage, the official Excel formats store the
@@ -707,7 +797,7 @@ worksheet['C1'] = { t:'n', f: "SUM(A1:A3*B1:B3)", F:"C1:C1" };
 ```
 
 For a multi-cell array formula, every cell has the same array range but only the
-first cell has content.  Consider `D1:D3=A1:A3*B1:B3`:
+first cell specifies the formula.  Consider `D1:D3=A1:A3*B1:B3`:
 
 ```js
 worksheet['D1'] = { t:'n', F:"D1:D3", f:"A1:A3*B1:B3" };
@@ -915,7 +1005,8 @@ Plaintext format guessing follows the priority order:
 
 | Format | Test                                                                |
 |:-------|:--------------------------------------------------------------------|
-| XML    | starts with <                                                       |
+| HTML   | starts with \<html                                                  |
+| XML    | starts with \<                                                      |
 | DSV    | starts with `/sep=.$/`, separator is the specified character        |
 | TSV    | one of the first 1024 characters is a tab char `"\t"`               |
 | CSV    | one of the first 1024 characters is a comma char `","`              |
@@ -933,6 +1024,7 @@ The exported `write` and `writeFile` functions accept an options argument:
 | bookType    | `"xlsx"` | Type of Workbook (see below for supported formats)  |
 | sheet       |     `""` | Name of Worksheet for single-sheet formats **       |
 | compression |  `false` | Use ZIP compression for ZIP-based formats **        |
+| Props       |          | Override workbook properties when writing **        |
 
 - `bookSST` is slower and more memory intensive, but has better compatibility
   with older versions of iOS Numbers
@@ -941,6 +1033,8 @@ The exported `write` and `writeFile` functions accept an options argument:
 - `cellDates` only applies to XLSX output and is not guaranteed to work with
   third-party readers.  Excel itself does not usually write cells with type `d`
   so non-Excel tools may ignore the data or blow up in the presence of dates.
+- `Props` is an object mirroring the workbook `Props` field.  See the table from
+  the [Workbook File Properties](#workbook-file-properties) section.
 
 ### Supported Output Formats
 
@@ -959,6 +1053,7 @@ output formats.  The specific file type is controlled with `bookType` option:
 | `csv`    | `.csv`   |   none    | single | Comma Separated Values            |
 | `txt`    | `.txt`   |   none    | single | UTF-16 Unicode Text (TXT)         |
 | `sylk`   | `.sylk`  |   none    | single | Symbolic Link (SYLK)              |
+| `html`   | `.html`  |   none    | single | HTML Document                     |
 | `dif`    | `.dif`   |   none    | single | Data Interchange Format (DIF)     |
 | `prn`    | `.prn`   |   none    | single | Lotus Formatted Text              |
 
@@ -1088,7 +1183,7 @@ S,h,e,e,t,J,S
 S	h	e	e	t	J	S
 1	2	3	4	5	6	7
 2	3	4	5	6	7	8
-> console.log(X.utils.sheet_to_csv(_ws,{FS:":",RS:"|"}));
+> console.log(XLSX.utils.sheet_to_csv(ws,{FS:":",RS:"|"}));
 S:h:e:e:t:J:S|1:2:3:4:5:6:7|2:3:4:5:6:7:8|
 ```
 
@@ -1139,7 +1234,7 @@ generate different types of JS objects.  The function takes an options argument:
 
 | `header`         | Description                                               |
 | :--------------- | :-------------------------------------------------------- |
-| `1`              | Generate an array of arrays                               |
+| `1`              | Generate an array of arrays ("2D Array")                  |
 | `"A"`            | Row object keys are literal column labels                 |
 | array of strings | Use specified strings as keys in row objects              |
 | (default)        | Read and disambiguate first row as keys                   |
@@ -1150,34 +1245,34 @@ If header is not `1`, the row object will contain the non-enumerable property
 For the example sheet:
 
 ```js
-> console.log(X.utils.sheet_to_json(_ws));
+> console.log(XLSX.utils.sheet_to_json(ws));
 [ { S: 1, h: 2, e: 3, e_1: 4, t: 5, J: 6, S_1: 7 },
   { S: 2, h: 3, e: 4, e_1: 5, t: 6, J: 7, S_1: 8 } ]
 
-> console.log(X.utils.sheet_to_json(_ws, {header:1}));
+> console.log(XLSX.utils.sheet_to_json(ws, {header:1}));
 [ [ 'S', 'h', 'e', 'e', 't', 'J', 'S' ],
-  [ 1, 2, 3, 4, 5, 6, 7 ],
-  [ 2, 3, 4, 5, 6, 7, 8 ] ]
+  [ '1', '2', '3', '4', '5', '6', '7' ],
+  [ '2', '3', '4', '5', '6', '7', '8' ] ]
 
-> console.log(X.utils.sheet_to_json(_ws, {header:"A"}));
+> console.log(XLSX.utils.sheet_to_json(ws, {header:"A"}));
 [ { A: 'S', B: 'h', C: 'e', D: 'e', E: 't', F: 'J', G: 'S' },
-  { A: 1, B: 2, C: 3, D: 4, E: 5, F: 6, G: 7 },
-  { A: 2, B: 3, C: 4, D: 5, E: 6, F: 7, G: 8 } ]
-> console.log(X.utils.sheet_to_json(_ws, {header:["A","E","I","O","U","6","9"]}));
+  { A: '1', B: '2', C: '3', D: '4', E: '5', F: '6', G: '7' },
+  { A: '2', B: '3', C: '4', D: '5', E: '6', F: '7', G: '8' } ]
+> console.log(XLSX.utils.sheet_to_json(ws, {header:["A","E","I","O","U","6","9"]}));
 [ { '6': 'J', '9': 'S', A: 'S', E: 'h', I: 'e', O: 'e', U: 't' },
-  { '6': 6, '9': 7, A: 1, E: 2, I: 3, O: 4, U: 5 },
-  { '6': 7, '9': 8, A: 2, E: 3, I: 4, O: 5, U: 6 } ]
+  { '6': '6', '9': '7', A: '1', E: '2', I: '3', O: '4', U: '5' },
+  { '6': '7', '9': '8', A: '2', E: '3', I: '4', O: '5', U: '6' } ]
 ```
 
 Example showing the effect of `raw`:
 
 ```js
-> _ws['A2'].w = "1";                         // set A2 formatted string value
-> console.log(X.utils.sheet_to_json(_ws, {header:1}));
+> ws['A2'].w = "3";                          // set A2 formatted string value
+> console.log(XLSX.utils.sheet_to_json(ws, {header:1}));
 [ [ 'S', 'h', 'e', 'e', 't', 'J', 'S' ],
-  [ '1', 2, 3, 4, 5, 6, 7 ],                 // <-- A2 uses the formatted string
-  [ 2, 3, 4, 5, 6, 7, 8 ] ]
-> console.log(X.utils.sheet_to_json(_ws, {header:1, raw:true}));
+  [ '3', '2', '3', '4', '5', '6', '7' ],     // <-- A2 uses the formatted string
+  [ '2', '3', '4', '5', '6', '7', '8' ] ]
+> console.log(XLSX.utils.sheet_to_json(ws, {header:1, raw:true}));
 [ [ 'S', 'h', 'e', 'e', 't', 'J', 'S' ],
   [ 1, 2, 3, 4, 5, 6, 7 ],                   // <-- A2 uses the raw value
   [ 2, 3, 4, 5, 6, 7, 8 ] ]
@@ -1212,7 +1307,7 @@ Despite the library name `xlsx`, it supports numerous spreadsheet file formats:
 | Lotus 1-2-3 (WKS/WK1/WK2/WK3/WK4/123)                        |  :o:  |       |
 | Quattro Pro Spreadsheet (WQ1/WQ2/WB1/WB2/WB3/QPW)            |  :o:  |       |
 | **Other Common Spreadsheet Output Formats**                  |:-----:|:-----:|
-| HTML Tables                                                  |  :o:  |       |
+| HTML Tables                                                  |  :o:  |  :o:  |
 
 ### Excel 2007+ XML (XLSX/XLSM)
 
@@ -1338,17 +1433,20 @@ the metadata the output is valid HTML, although it does accept bare `&` symbols.
 
 ## Testing
 
+### Node
+
 `make test` will run the node-based tests.  By default it runs tests on files in
 every supported format.  To test a specific file type, set `FMTS` to the format
 you want to test.  Feature-specific tests are avaialble with `make test_misc`
 
 ```bash
+$ make test_misc   # run core tests
 $ make test        # run full tests
 $ make test_xls    # only use the XLS test files
 $ make test_xlsx   # only use the XLSX test files
 $ make test_xlsb   # only use the XLSB test files
-$ make test_xml    # only use the XLSB test files
-$ make test_ods    # only use the XLSB test files
+$ make test_xml    # only use the XML test files
+$ make test_ods    # only use the ODS test files
 ```
 
 To enable all errors, set the environment variable `WTF=1`:
@@ -1365,8 +1463,14 @@ $ make lint        # JSHint and JSCS checks
 $ make flow        # make lint + Flow checking
 ```
 
-The core in-browser tests are available at `tests/test.html` within this repo.
+### Browser
+
+The core in-browser tests are available at `tests/index.html` within this repo.
 Start a local server and navigate to that directory to run the tests.
+`make ctestserv` will start a server on port 8000.
+
+`make ctest` will generate the browser fixtures.  To add more files, edit the
+`tests/fixtures.lst` file and add the paths.
 
 To run the full in-browser tests, clone the repo for
 [oss.sheetjs.com](https://github.com/SheetJS/SheetJS.github.io) and replace
@@ -1406,6 +1510,8 @@ Running `make init` will refresh the `test_files` submodule and get the files.
 Due to the precarious nature of the Open Specifications Promise, it is very
 important to ensure code is cleanroom.  Consult CONTRIBUTING.md
 
+### OSX/Linux
+
 The xlsx.js file is constructed from the files in the `bits` subdirectory. The
 build script (run `make`) will concatenate the individual bits to produce the
 script.  Before submitting a contribution, ensure that running make will produce
@@ -1421,6 +1527,31 @@ $ git diff xlsx.js
 To produce the dist files, run `make dist`.  The dist files are updated in each
 version release and *should not be committed between versions*.
 
+### Windows
+
+The included `make.cmd` script will build `xlsx.js` from the `bits` directory.
+Building is as simple as:
+
+```cmd
+> make.cmd
+```
+
+To prepare dev environment:
+
+```cmd
+> npm install -g mocha
+> npm install
+> mocha -t 30000
+```
+
+The normal approach uses a variety of command line tools to grab the test files.
+For windows users, please download the latest version of the test files snapshot
+from [github](https://github.com/SheetJS/test_files/releases)
+
+Latest test files snapshot:
+<https://github.com/SheetJS/test_files/releases/download/20170409/test_files.zip>
+
+Download and unzip to the `test_files` subdirectory.
 
 ## License
 
