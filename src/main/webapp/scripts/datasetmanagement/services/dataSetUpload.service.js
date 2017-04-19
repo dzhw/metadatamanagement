@@ -49,6 +49,8 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
     };
 
     var upload = function() {
+
+      //the uploads are finished
       if (uploadCount === objects.length) {
         ElasticSearchAdminService.processUpdateQueue('data_sets').finally(
           function() {
@@ -63,7 +65,9 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
               });
             $rootScope.$broadcast('upload-completed');
           });
+        //Further uploads
       } else {
+        //Check for missing id
         if (!objects[uploadCount].id || objects[uploadCount].id === '') {
           var index = uploadCount;
           JobLoggingService.error({
@@ -74,6 +78,7 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
           });
           uploadCount++;
           return upload();
+          //check for double used dataset id
         } else if (previouslyUploadedDataSetNumbers[
             objects[uploadCount].number]) {
           JobLoggingService.error({
@@ -86,6 +91,7 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
           });
           uploadCount++;
           return upload();
+          //Everything is ok for a regular upload
         } else {
           objects[uploadCount].$save().then(function() {
             JobLoggingService.success({
