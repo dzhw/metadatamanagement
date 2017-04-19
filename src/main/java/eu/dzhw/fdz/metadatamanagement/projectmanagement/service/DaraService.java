@@ -1,9 +1,9 @@
-package eu.dzhw.fdz.metadatamanagement.projectmanagement.dao;
+package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
@@ -13,8 +13,8 @@ import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties
  * 
  * @author Daniel Katzberg
  */
-@Component
-public class DaraDao {
+@Service
+public class DaraService {
   
   private static final String IS_ALiVE_ENDPOINT = "isAlive"; 
       

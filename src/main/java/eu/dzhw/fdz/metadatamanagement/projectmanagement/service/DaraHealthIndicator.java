@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.projectmanagement.dao;
+package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
 import org.springframework.boot.actuate.health.AbstractHealthIndicator;
 import org.springframework.boot.actuate.health.Health.Builder;
@@ -11,15 +11,15 @@ import org.springframework.boot.actuate.health.Health.Builder;
  */
 public class DaraHealthIndicator extends AbstractHealthIndicator {
   
-  private DaraDao daraDao;
+  private DaraService daraService;
   
   /**
    * The health check is external and needs a dara rest resource for checking health. 
    * 
-   * @param daraDao The rest resource for calling the rest api of dara.
+   * @param daraService The rest resource for calling the rest api of dara.
    */
-  public DaraHealthIndicator(DaraDao daraDao) {
-    this.daraDao = daraDao;
+  public DaraHealthIndicator(DaraService daraService) {
+    this.daraService = daraService;
   }
 
   /*
@@ -31,9 +31,9 @@ public class DaraHealthIndicator extends AbstractHealthIndicator {
   protected void doHealthCheck(Builder builder) throws Exception {
     
     //check dara health
-    if (this.daraDao.isDaraHealth()) {
+    if (this.daraService.isDaraHealth()) {
       builder.up();
-      builder.withDetail("location", this.daraDao.getApiEndpoint());
+      builder.withDetail("location", this.daraService.getApiEndpoint());
     } else {
       builder.down();
     }

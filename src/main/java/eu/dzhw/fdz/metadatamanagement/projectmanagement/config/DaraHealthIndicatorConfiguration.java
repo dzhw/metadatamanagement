@@ -5,8 +5,8 @@ import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.dao.DaraDao;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.dao.DaraHealthIndicator;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DaraHealthIndicator;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DaraService;
 
 /**
  * Add additional {@link HealthIndicator} of Dara for spring boot actuator.
@@ -18,7 +18,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.dao.DaraHealthIndicator;
 public class DaraHealthIndicatorConfiguration {
   
   @Autowired
-  private DaraDao daraDao;
+  private DaraService daraService;
 
   /**
    * Adds a {@link DaraHealthIndicator} to the application context.
@@ -27,7 +27,7 @@ public class DaraHealthIndicatorConfiguration {
    */
   @Bean
   public DaraHealthIndicator daraHealthIndicator() {
-    return new DaraHealthIndicator(this.daraDao);
+    return new DaraHealthIndicator(this.daraService);
   }
   
 }
