@@ -110,9 +110,12 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
                     .uploadAttachment(attachmentUploadObj.file,
                       attachmentUploadObj.metadata);
                 }).then(function() {
+                  //Upload the next DataSet after finishing the attachment
                   JobLoggingService.success({
                     objectType: 'attachment'
                   });
+                  uploadCount++;
+                  return upload();
                 }).catch(function(error) {
                   // attachment upload failed
                   var errorMessage =
@@ -128,10 +131,11 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
                   });
                 });
               });
+              //No attachment. Next DataSet
+            } else {
+              uploadCount++;
+              return upload();
             }
-
-            uploadCount++;
-            return upload();
           }).catch(function(error) {
             var errorMessages = ErrorMessageResolverService
               .getErrorMessage(error, 'data-set');
