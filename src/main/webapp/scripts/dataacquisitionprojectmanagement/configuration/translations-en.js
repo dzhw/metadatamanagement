@@ -43,6 +43,9 @@ angular.module('metadatamanagementApp').config(
               'not-empty': 'The RDC-ID of Data Acquisition Project must not be empty!',
               'pattern': 'The RDC-ID must contain only alphanumeric signs, german umlauts and ß.',
               'size': 'The max length of the RDC-ID is 32 signs.'
+            },
+            'has-been-released-before': {
+              'not-null' : 'The information is missing, that a Data Acquisition Project has been relesed before.'
             }
           },
           'post-validation': {

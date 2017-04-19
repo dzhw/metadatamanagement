@@ -43,6 +43,9 @@ angular.module('metadatamanagementApp').config(
               'not-empty': 'Die FDZ-ID des Datenaufbereitungsprojekts darf nicht leer sein!',
               'pattern': 'Die FDZ-ID darf nur alphanumerische Zeichen, deutsche Umlaute und ß beinhalten.',
               'size': 'Die Maximallänge der FDZ-ID ist 32 Zeichen.'
+            },
+            'has-been-released-before': {
+              'not-null' : 'Es muss angegeben sein, ob ein des Datenaufbereitungsprojekts schon einmal veröffentlicht wurde oder nicht.'
             }
           },
           'post-validation': {
