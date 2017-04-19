@@ -10,7 +10,7 @@ angular.module('metadatamanagementApp').config(
             'saved': 'Datensatz mit FDZ-ID {{ id }} erfolgreich gespeichert!',
             'not-saved': 'Datensatz mit FDZ-ID {{ id }} wurde nicht gespeichert!',
             'missing-id': 'Der {{ index }}. Datensatz enthält keine FDZ-ID und wurde nicht gespeichert!',
-            'upload-terminated': 'Upload von {{ total }} Datensätzen mit {{warnings}} Warnungen und {{ errors }} Fehlern beendet!',
+            'upload-terminated': 'Upload von {{ total }} Datensätzen und {{ attachments }} Anhängen mit {{warnings}} Warnungen und {{ errors }} Fehlern beendet!',
             'cancelled': 'Upload von Datensätzen Abgebrochen',
             'unable-to-delete': 'Die Datensätze konnten nicht gelöscht werden!',
             'duplicate-data-set-number': 'Die Nummer ({{ number }}) des {{ index }}. Datensatzes wurde bereits verwendet.',

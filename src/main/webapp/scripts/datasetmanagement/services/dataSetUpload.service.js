@@ -54,7 +54,10 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
           function() {
             JobLoggingService.finish(
               'data-set-management.log-messages.data-set.upload-terminated', {
-                total: JobLoggingService.getCurrentJob().total,
+                total: JobLoggingService
+                  .getCurrentJob().getCounts('dataSet').total,
+                attachments: JobLoggingService
+                  .getCurrentJob().getCounts('attachment').total,
                 warnings: JobLoggingService.getCurrentJob().warnings,
                 errors: JobLoggingService.getCurrentJob().errors
               });
@@ -85,7 +88,9 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
           return upload();
         } else {
           objects[uploadCount].$save().then(function() {
-            JobLoggingService.success();
+            JobLoggingService.success({
+              objectType: 'dataSet'
+            });
             previouslyUploadedDataSetNumbers[objects[uploadCount].number] =
               true;
 
