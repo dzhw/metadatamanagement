@@ -26,8 +26,12 @@ angular.module('metadatamanagementApp')
         'name': result.name,
         'dataSetId': result.dataSetId,
         'dataSetNumber': result.dataSetNumber,
+        'dataSetIsPresent': CleanJSObjectService.
+        isNullOrEmpty(result.dataSet) ? false : true,
         'surveys': result.surveys,
         'studyId': result.studyId,
+        'studyIsPresent': CleanJSObjectService.
+        isNullOrEmpty(result.study) ? false : true,
         'projectId': result.dataAcquisitionProjectId});
       if (result.release || Principal.hasAuthority('ROLE_PUBLISHER')) {
         $scope.variable = result;

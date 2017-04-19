@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp')
     function(entity, Principal,
       VariableSearchService,
       DataSetSearchService, DataSetReportService, PageTitleService,
-      LanguageService, $state, ToolbarHeaderService,
+      LanguageService, $state, ToolbarHeaderService, CleanJSObjectService,
       SimpleMessageToastService, DataSetAttachmentResource) {
       var ctrl = this;
       ctrl.isAuthenticated = Principal.isAuthenticated;
@@ -26,6 +26,9 @@ angular.module('metadatamanagementApp')
           'number': result.number,
           'studyId': result.studyId,
           'surveys': result.surveys,
+          'dataSetIsPresent': true,
+          'studyIsPresent': CleanJSObjectService.
+          isNullOrEmpty(result.study) ? false : true,
           'projectId': result.dataAcquisitionProjectId});
         if (result.release || Principal.hasAuthority('ROLE_PUBLISHER')) {
           ctrl.dataSet = result;

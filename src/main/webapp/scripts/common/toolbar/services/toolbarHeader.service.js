@@ -3,7 +3,6 @@
 
 angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
   function($rootScope) {
-    var searchItem;
     var translationStringsMap = {
       'questionDetail': {
         'type': 'question-management.detail.question',
@@ -102,9 +101,98 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         'type': 'global.error.title'
       }
     };
+    var searchItem = {
+      item: {
+        'type': translationStringsMap.search.type,
+        'tooltip': translationStringsMap.search.translateString,
+        'state': 'search({"page": 1})',
+        'tabName': 'search-management.tabs.all',
+        'iconType': translationStringsMap.search.iconType,
+        'icon': translationStringsMap.search.icon
+      },
+      get: function() {
+        return this.item;
+      },
+      set: function(item) {
+        this.item.type = translationStringsMap.search.type;
+        this.item.tooltip = translationStringsMap.search.translateString;
+        this.item.iconType = translationStringsMap.search.iconType;
+        this.item.icon = translationStringsMap.search.icon;
+        if (_.size(item.searchParams) > 1) {
+          this.item.tabName = item.tabName;
+        } else {
+          this.item.tabName = 'search-management.tabs.all';
+        }
+        this.item.state = 'search(' + JSON.stringify(item.searchParams) +
+        ')';
+      }
+    };
+    var createRelatedStudyItem = function(item) {
+      var studyItem = {
+        'type': translationStringsMap.studyDetail.type,
+        'iconType': translationStringsMap.studyDetail.iconType,
+        'icon': translationStringsMap.studyDetail.icon,
+      };
+      if (item.studyIsPresent) {
+        studyItem.state = 'studyDetail({"id":"' + item.studyId + '"})';
+        studyItem.tooltip = translationStringsMap.studyDetail.translateString;
+        studyItem.projectId = item.projectId;
+      } else {
+        studyItem.notFound = '?';
+      }
+      return studyItem;
+    };
+    var createRelatedInstrumentItem = function(item, type) {
+      var instrumentItem = {
+        'type': translationStringsMap.instrumentDetail.type,
+        'iconType': translationStringsMap.instrumentDetail.iconType,
+        'icon': translationStringsMap.instrumentDetail.icon
+      };
+      if (type === 'instrument') {
+        instrumentItem.state = 'instrumentDetail';
+        instrumentItem.tooltip = translationStringsMap.instrumentDetail.
+        translateString;
+        instrumentItem.number = item.number;
+      } else {
+        if (item.instrumentIsPresent) {
+          instrumentItem.state =
+          'instrumentDetail({"id":"' + item.instrumentId + '"})';
+          instrumentItem.tooltip = translationStringsMap
+          .instrumentDetail.translateString;
+          instrumentItem.number = item.instrumentNumber;
+        } else {
+          instrumentItem.notFound = '?';
+        }
+      }
+      return instrumentItem;
+    };
+    var createRelatedDataSetItem = function(dataSet, type) {
+      var dataSetItem = {
+        'type': translationStringsMap.dataSetDetail.type,
+        'iconType': translationStringsMap.dataSetDetail.iconType,
+        'icon': translationStringsMap.dataSetDetail.icon
+      };
+      if (type === 'data-set') {
+        dataSetItem.state = 'dataSetDetail';
+        dataSetItem.tooltip = translationStringsMap.dataSetDetail
+        .translateString;
+        dataSetItem.number = dataSet.number;
+      } else {
+        if (dataSet.dataSetIsPresent) {
+          dataSetItem.state =
+          'dataSetDetail({"id":"' + dataSet.dataSetId + '"})';
+          dataSetItem.tooltip = translationStringsMap
+          .dataSetDetail.translateString;
+          dataSetItem.number = dataSet.dataSetNumber;
+        } else {
+          dataSetItem.notFound = '?';
+        }
+      }
+      return dataSetItem;
+    };
     var createRelatedSurveyItem = function(surveys, itemTyp, itemId) {
       var surveyItem = {
-        'iconType': translationStringsMap.instrumentDetail.iconType,
+        'iconType': translationStringsMap.surveyDetail.iconType,
         'icon': translationStringsMap.surveyDetail.icon
       };
       if (surveys.length === 1) {
@@ -127,7 +215,6 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         surveys[1].number;
       }
       if (surveys.length === 0) {
-        surveyItem.disabled = true;
         surveyItem.type = translationStringsMap.surveyDetail.type;
         surveyItem.notFound = '?'; // survey undefined...
       }
@@ -141,40 +228,12 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
       var variableItem = {};
       var publicationItem = {};
       var surveyItem = {};
-      if (!searchItem) {
-        searchItem = {};
-        searchItem.type = translationStringsMap.search.type;
-        searchItem.tooltip = translationStringsMap.search.
-        translateString;
-        searchItem.state = 'search({"page": 1})';
-        searchItem.tabName = 'search-management.tabs.all';
-        searchItem.iconType = translationStringsMap.search.iconType;
-        searchItem.icon = translationStringsMap.search.icon;
-      }
-      var studyItem = {};
-      if (item.projectId) {
-        studyItem = {
-          'state': 'studyDetail({"id":"' + item.studyId + '"})',
-          'type': translationStringsMap.studyDetail.type,
-          'tooltip': translationStringsMap.studyDetail.translateString,
-          'iconType': translationStringsMap.instrumentDetail.iconType,
-          'icon': translationStringsMap.studyDetail.icon,
-          'projectId': item.projectId
-        };
-      }
+      var studyItem = createRelatedStudyItem(item);
       switch (item.stateName) {
         case 'studyDetail':
-          $rootScope.toolbarHeaderItems.push(searchItem, studyItem);
+          $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem);
         break;
         case 'questionDetail':
-          instrumentItem = {
-            'state': 'instrumentDetail({"id":"' + item.instrumentId + '"})',
-            'type': translationStringsMap.instrumentDetail.type,
-            'tooltip': translationStringsMap.instrumentDetail.translateString,
-            'iconType': translationStringsMap.instrumentDetail.iconType,
-            'icon': translationStringsMap.instrumentDetail.icon,
-            'number': item.instrumentNumber
-          };
           questionItem = {
             'state': 'questionDetail',
             'type': translationStringsMap.questionDetail.type,
@@ -185,18 +244,11 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
           };
           surveyItem = createRelatedSurveyItem(item.surveys, 'question',
           item.id);
-          $rootScope.toolbarHeaderItems.push(searchItem, studyItem, surveyItem,
-            instrumentItem, questionItem);
+          instrumentItem = createRelatedInstrumentItem(item, 'question');
+          $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
+          surveyItem, instrumentItem, questionItem);
         break;
         case 'variableDetail':
-          dataSetItem = {
-            'state': 'dataSetDetail({"id":"' + item.dataSetId + '"})',
-            'type': translationStringsMap.dataSetDetail.type,
-            'tooltip': translationStringsMap.dataSetDetail.translateString,
-            'iconType': translationStringsMap.instrumentDetail.iconType,
-            'icon': translationStringsMap.dataSetDetail.icon,
-            'number': item.dataSetNumber
-          };
           variableItem = {
             'state': 'variableDetail',
             'type': translationStringsMap.variableDetail.type,
@@ -205,48 +257,29 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
             'icon': translationStringsMap.variableDetail.icon,
             'name': item.name
           };
+          dataSetItem = createRelatedDataSetItem(item, 'variable');
           surveyItem = createRelatedSurveyItem(item.surveys, 'variable',
           item.id);
-          $rootScope.toolbarHeaderItems.push(searchItem, studyItem, surveyItem,
-            dataSetItem, variableItem);
+          $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
+          surveyItem, dataSetItem, variableItem);
         break;
         case 'surveyDetail':
-          surveyItem = {
-            'state': 'surveyDetail',
-            'type': translationStringsMap.surveyDetail.type,
-            'tooltip': translationStringsMap.surveyDetail.translateString,
-            'iconType': translationStringsMap.instrumentDetail.iconType,
-            'icon': translationStringsMap.surveyDetail.icon,
-            'number': item.number
-          };
-          $rootScope.toolbarHeaderItems.push(searchItem, studyItem, surveyItem);
+          surveyItem = createRelatedSurveyItem([item]);
+          $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
+          surveyItem);
         break;
         case 'dataSetDetail':
-          dataSetItem = {
-            'state': 'dataSetDetail',
-            'type': translationStringsMap.dataSetDetail.type,
-            'tooltip': translationStringsMap.dataSetDetail.translateString,
-            'iconType': translationStringsMap.instrumentDetail.iconType,
-            'icon': translationStringsMap.dataSetDetail.icon,
-            'number': item.number
-          };
+          dataSetItem = createRelatedDataSetItem(item, 'data-set');
           surveyItem = createRelatedSurveyItem(item.surveys, 'data-set',
           item.id);
-          $rootScope.toolbarHeaderItems.push(searchItem, studyItem, surveyItem,
-            dataSetItem);
+          $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
+          surveyItem, dataSetItem);
         break;
         case 'instrumentDetail':
-          instrumentItem = {
-            'state': 'instrumentDetail',
-            'type': translationStringsMap.instrumentDetail.type,
-            'tooltip': translationStringsMap.instrumentDetail.translateString,
-            'iconType': translationStringsMap.instrumentDetail.iconType,
-            'icon': translationStringsMap.instrumentDetail.icon,
-            'number': item.number
-          };
+          instrumentItem = createRelatedInstrumentItem(item, 'instrument');
           surveyItem = createRelatedSurveyItem(item.surveys, 'instrument',
           item.id);
-          $rootScope.toolbarHeaderItems.push(searchItem, studyItem,
+          $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
             surveyItem, instrumentItem);
         break;
         case 'relatedPublicationDetail':
@@ -259,24 +292,11 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
             'icon': translationStringsMap.relatedPublicationDetail.icon,
             'id': item.id
           };
-          $rootScope.toolbarHeaderItems.push(searchItem, publicationItem);
+          $rootScope.toolbarHeaderItems.push(searchItem.get(), publicationItem);
         break;
         case 'search':
-          searchItem = {};
-          searchItem.type = translationStringsMap.search.type;
-          searchItem.tooltip = translationStringsMap.search.
-          translateString;
-          searchItem.iconType = translationStringsMap.search.iconType;
-          searchItem.icon = translationStringsMap.search.icon;
-          searchItem.disabled = false;
-          if (_.size(item.searchParams) > 1) {
-            searchItem.tabName = item.tabName;
-          } else {
-            searchItem.tabName = 'search-management.tabs.all';
-          }
-          searchItem.state = 'search(' + JSON.stringify(item.searchParams) +
-          ')';
-          $rootScope.toolbarHeaderItems.push(searchItem);
+          searchItem.set(item);
+          $rootScope.toolbarHeaderItems.push(searchItem.get());
         break;
         case 'disclosure':
           var disclosureItem = {

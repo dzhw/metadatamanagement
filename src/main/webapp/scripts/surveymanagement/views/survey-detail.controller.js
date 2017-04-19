@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp')
   .controller('SurveyDetailController',
-    function(entity, LanguageService,
+    function(entity, LanguageService, CleanJSObjectService,
       PageTitleService, $state, ToolbarHeaderService, SurveySearchService,
       SurveyAttachmentResource, Principal, SimpleMessageToastService) {
       var ctrl = this;
@@ -18,8 +18,11 @@ angular.module('metadatamanagementApp')
         });
         ToolbarHeaderService.updateToolbarHeader({
           'stateName': $state.current.name,
+          'id': result.id,
           'number': result.number,
           'studyId': result.studyId,
+          'studyIsPresent': CleanJSObjectService.
+          isNullOrEmpty(result.study) ? false : true,
           'projectId': result.dataAcquisitionProjectId});
         if (result.release || Principal.hasAuthority('ROLE_PUBLISHER')) {
           ctrl.survey = result;

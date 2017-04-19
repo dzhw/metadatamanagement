@@ -3,7 +3,7 @@
 angular.module('metadatamanagementApp')
   .controller('InstrumentDetailController',
     function(entity, InstrumentAttachmentResource,
-      PageTitleService, LanguageService, $state,
+      PageTitleService, LanguageService, $state, CleanJSObjectService,
       ToolbarHeaderService, Principal, SimpleMessageToastService) {
       //Controller Init
       var ctrl = this;
@@ -17,8 +17,11 @@ angular.module('metadatamanagementApp')
           'stateName': $state.current.name,
           'id': result.id,
           'number': result.number,
+          'instrumentIsPresent': true,
           'surveys': result.surveys,
           'studyId': result.studyId,
+          'studyIsPresent': CleanJSObjectService.
+          isNullOrEmpty(result.study) ? false : true,
           'projectId': result.dataAcquisitionProjectId});
         var currenLanguage = LanguageService.getCurrentInstantly();
         var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';

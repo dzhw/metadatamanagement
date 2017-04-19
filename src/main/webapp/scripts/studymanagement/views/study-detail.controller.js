@@ -15,6 +15,7 @@ angular.module('metadatamanagementApp')
         ToolbarHeaderService.updateToolbarHeader({
           'stateName': $state.current.name,
           'id': result.id,
+          'studyIsPresent': true,
           'projectId': result.dataAcquisitionProjectId});
         if (result.release || Principal.hasAuthority('ROLE_PUBLISHER')) {
           ctrl.study = result;

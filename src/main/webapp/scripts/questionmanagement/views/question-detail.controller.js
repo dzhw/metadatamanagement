@@ -32,8 +32,12 @@ angular.module('metadatamanagementApp')
           'questionNumber': result.number,
           'instrumentNumber': result.instrumentNumber,
           'instrumentId': result.instrumentId,
+          'instrumentIsPresent': CleanJSObjectService.
+          isNullOrEmpty(result.instrument) ? false : true,
           'surveys': result.surveys,
           'studyId': result.studyId,
+          'studyIsPresent': CleanJSObjectService.
+          isNullOrEmpty(result.study) ? false : true,
           'projectId': result.dataAcquisitionProjectId});
         if (result.release || Principal.hasAuthority('ROLE_PUBLISHER')) {
           ctrl.question = result;
