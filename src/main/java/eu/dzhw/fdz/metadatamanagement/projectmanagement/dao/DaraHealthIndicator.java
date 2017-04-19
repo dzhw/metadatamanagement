@@ -31,8 +31,9 @@ public class DaraHealthIndicator extends AbstractHealthIndicator {
   protected void doHealthCheck(Builder builder) throws Exception {
     
     //check dara health
-    if (daraDao.isDaraHealth()) {
+    if (this.daraDao.isDaraHealth()) {
       builder.up();
+      builder.withDetail("location", this.daraDao.getApiEndpoint());
     } else {
       builder.down();
     }

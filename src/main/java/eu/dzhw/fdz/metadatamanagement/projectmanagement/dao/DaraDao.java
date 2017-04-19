@@ -27,11 +27,18 @@ public class DaraDao {
    */
   public boolean isDaraHealth() {
     
-    final String uri = metadataManagementProperties.getDara().getEndpoint() + IS_ALiVE_ENDPOINT;
+    final String uri = this.metadataManagementProperties.getDara().getEndpoint() + IS_ALiVE_ENDPOINT;
     
     RestTemplate restTemplate = new RestTemplate();
     ResponseEntity<String> result = restTemplate.getForEntity(uri, String.class);
     
     return result.getStatusCode().equals(HttpStatus.OK);
+  }
+  
+  /**
+   * @return the api endpoint given by the configuration.
+   */
+  public String getApiEndpoint() {
+    return this.metadataManagementProperties.getDara().getEndpoint();
   }
 }
