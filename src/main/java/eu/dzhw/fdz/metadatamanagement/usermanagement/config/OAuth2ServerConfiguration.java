@@ -63,26 +63,20 @@ public class OAuth2ServerConfiguration {
         .frameOptions()
         .disable()
         .and()
-        // disable csrf protection for api and management endpoints
+        // disable csrf protection for api
         .csrf()
-        .ignoringAntMatchers("/api/**", "/management/**")
+        .ignoringAntMatchers("/api/**")
         .and()
         .authorizeRequests()
         .antMatchers("/api/authenticate")
         .permitAll()
         .antMatchers("/api/register")
         .permitAll()
-        // enable basic http for /api and spring endpoints
+        // enable basic http for /api
         .and()
         .authorizeRequests()
         .antMatchers("/api/**")
         .authenticated()
-        .and()
-        .httpBasic()
-        .and()
-        .authorizeRequests()
-        .antMatchers("/management/**")
-        .hasAuthority(AuthoritiesConstants.ADMIN)
         .and()
         .httpBasic();
 
