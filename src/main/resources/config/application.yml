@@ -56,6 +56,12 @@ management:
       mode: full
   security:
     roles: ROLE_ADMIN
+    
+endpoints:
+  sensitive: true
+  health:
+    sensitive: false
+ 
 # ===================================================================
 # JHipster specific properties
 # ===================================================================
