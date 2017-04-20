@@ -4,13 +4,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
+import eu.dzhw.fdz.metadatamanagement.common.repository.BaseRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.VariableSubDocumentProjection;
 
@@ -19,7 +18,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.Vari
  */
 @RepositoryRestResource(path = "/variables")
 public interface VariableRepository
-    extends MongoRepository<Variable, String>, QueryDslPredicateExecutor<Variable> {
+    extends BaseRepository<Variable, String> {
   @RestResource(exported = false)
   Stream<Variable> streamByDataAcquisitionProjectId(String dataAcquisitionProjectId);
   

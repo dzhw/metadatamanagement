@@ -3,12 +3,11 @@ package eu.dzhw.fdz.metadatamanagement.questionmanagement.repository;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
+import eu.dzhw.fdz.metadatamanagement.common.repository.BaseRepository;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.projections.QuestionSubDocumentProjection;
 
@@ -18,7 +17,7 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.projections.Ques
  */
 @RepositoryRestResource(path = "/questions")
 public interface QuestionRepository
-    extends MongoRepository<Question, String>, QueryDslPredicateExecutor<Question> {
+    extends BaseRepository<Question, String> {
 
   @RestResource(exported = false)
   Stream<Question> streamByDataAcquisitionProjectId(String dataAcquisitionProjectId);

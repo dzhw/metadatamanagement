@@ -38,7 +38,7 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpda
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
-
+@WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
 public class QuestionResourceTest extends AbstractTest {
   private static final String API_QUESTIONS_URI = "/api/questions";
 
@@ -104,8 +104,8 @@ public class QuestionResourceTest extends AbstractTest {
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.createdDate", not(isEmptyOrNullString())))
       .andExpect(jsonPath("$.lastModifiedDate", not(isEmptyOrNullString())))
-      .andExpect(jsonPath("$.createdBy", is("system")))
-      .andExpect(jsonPath("$.lastModifiedBy", is("system")));
+      .andExpect(jsonPath("$.createdBy", is("user")))
+      .andExpect(jsonPath("$.lastModifiedBy", is("user")));
 
     // call toString for test coverage :-|
     question.toString();

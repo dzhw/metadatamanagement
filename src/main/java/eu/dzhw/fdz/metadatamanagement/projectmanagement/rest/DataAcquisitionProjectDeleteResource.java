@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,7 +13,6 @@ import com.codahale.metrics.annotation.Timed;
 
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionProjectService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 /**
  * If a data acquisition project has been released before, it can not be deleted by anyone.
@@ -38,7 +36,6 @@ public class DataAcquisitionProjectDeleteResource {
    */
   @RequestMapping(value = "/data-acquisition-projects/{id}", method = RequestMethod.DELETE)
   @Timed
-  @Secured(AuthoritiesConstants.PUBLISHER)
   public ResponseEntity<?> deleteDataAcquisitionProject(@PathVariable String id) {
     
     //load project

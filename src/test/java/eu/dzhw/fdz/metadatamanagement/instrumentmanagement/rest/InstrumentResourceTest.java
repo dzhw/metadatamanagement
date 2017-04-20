@@ -36,7 +36,7 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdmi
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
-
+@WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
 public class InstrumentResourceTest extends AbstractTest {
   private static final String API_INSTRUMENTS_URI = "/api/instruments";
 

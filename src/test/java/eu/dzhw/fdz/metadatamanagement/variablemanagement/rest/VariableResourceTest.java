@@ -56,6 +56,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepo
  * @author René Reitmann
  * @author Daniel Katzberg
  */
+@WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
 public class VariableResourceTest extends AbstractTest {
   private static final String API_VARIABLES_URI = "/api/variables";
 
@@ -122,8 +123,8 @@ public class VariableResourceTest extends AbstractTest {
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.createdDate", not(isEmptyOrNullString())))
       .andExpect(jsonPath("$.lastModifiedDate", not(isEmptyOrNullString())))
-      .andExpect(jsonPath("$.createdBy", is("system")))
-      .andExpect(jsonPath("$.lastModifiedBy", is("system")));
+      .andExpect(jsonPath("$.createdBy", is("user")))
+      .andExpect(jsonPath("$.lastModifiedBy", is("user")));
 
     // call toString for test coverage :-)
     variable.toString();

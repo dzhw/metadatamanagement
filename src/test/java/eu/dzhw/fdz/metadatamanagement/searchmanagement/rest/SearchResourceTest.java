@@ -53,10 +53,11 @@ public class SearchResourceTest extends AbstractTest {
 
   @After
   public void cleanUp() {
-    UnitTestUserManagementUtils.logout();
+    UnitTestUserManagementUtils.login("admin", "admin");
     dataAcquisitionProjectRepository.deleteAll();
     surveyRepository.deleteAll();
     variableRepository.deleteAll();
+    UnitTestUserManagementUtils.logout();
   }
 
   @Test

@@ -33,6 +33,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
  * @author René Reitmann
  * @author Daniel Katzberg
  */
+@WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
 public class DataAcquisitionProjectResourceTest extends AbstractTest {
   private static final String API_DATA_ACQUISITION_PROJECTS_URI = "/api/data-acquisition-projects";
 

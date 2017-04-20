@@ -40,6 +40,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
  * @author René Reitmann
  * @author Daniel Katzberg
  */
+@WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
 public class SurveyResourceTest extends AbstractTest {
   private static final String API_SURVEYS_URI = "/api/surveys";
 

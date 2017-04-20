@@ -2,11 +2,10 @@ package eu.dzhw.fdz.metadatamanagement.projectmanagement.repository;
 
 import java.util.List;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
+import eu.dzhw.fdz.metadatamanagement.common.repository.BaseRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 
 /**
@@ -16,9 +15,8 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
  */
 @RepositoryRestResource(path = "/data-acquisition-projects")
 public interface DataAcquisitionProjectRepository
-    extends MongoRepository<DataAcquisitionProject, String>,
-    QueryDslPredicateExecutor<DataAcquisitionProject> {
+    extends BaseRepository<DataAcquisitionProject, String> {
   
   @RestResource(path = "findAll", rel = "findAll")
-  List<DataAcquisitionProject> findAllBy();
+  List<DataAcquisitionProject> findAllBy();  
 }
