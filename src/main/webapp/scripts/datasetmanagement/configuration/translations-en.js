@@ -15,8 +15,7 @@ angular.module('metadatamanagementApp').config(
             'unable-to-delete': 'The Data Sets could not be deleted!',
             'duplicate-data-set-number': 'The number ({{ number }}) of Data Set {{ index }} has already been used.',
             'sub-data-set': {
-              'number-of-observations-parse-error': 'Number Of Observations of Sub Data Set {{name}} is not a Number',
-              'number-of-analyzed-variables-parse-error': 'Number Of Analyzed Variables of Sub Data Set {{name}} is not a Number!'
+              'number-of-observations-parse-error': 'Number Of Observations of Sub Data Set {{name}} is not a Number'
             }
           },
           'data-set-attachment': {
@@ -90,7 +89,7 @@ angular.module('metadatamanagementApp').config(
               'one': 'Click to show the variable of this data set',
               'many': 'Click to show all variables of this data set'
             },
-            'studies':{
+            'studies': {
               'one': 'Click to show the study of this data set'
             }
           }

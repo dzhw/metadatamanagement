@@ -60,16 +60,6 @@ angular.module('metadatamanagementApp').service('DataSetBuilderService',
         };
         subDataSetErrors.push(error);
       }
-      if (!Number(subDataSet.numberOfAnalyzedVariables)) {
-        error = {
-          message: 'data-set-management.log-messages.data-set.sub-' +
-            'data-set.number-of-analyzed-variables-parse-error',
-          translationParams: {
-            name: subDataSet.name
-          }
-        };
-        subDataSetErrors.push(error);
-      }
 
       if (subDataSetErrors.length === 0) {
         var subDataSetObj = {
@@ -117,13 +107,13 @@ angular.module('metadatamanagementApp').service('DataSetBuilderService',
             attachmentUploadObject = {
               'metadata': metadata,
               'file': filesMap.dataSets
-              .attachments[attachment.filename]
+                .attachments[attachment.filename]
             };
           } else {
             if (!notFoundAttachmentsMap[attachment.filename]) {
               JobLoggingService.error({
                 message: 'data-set-management.log-messages' +
-                '.data-set-attachment.file-not-found',
+                  '.data-set-attachment.file-not-found',
                 messageParams: {
                   filename: attachment.filename
                 },

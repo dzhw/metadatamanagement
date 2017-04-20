@@ -15,8 +15,7 @@ angular.module('metadatamanagementApp').config(
             'unable-to-delete': 'Die Datensätze konnten nicht gelöscht werden!',
             'duplicate-data-set-number': 'Die Nummer ({{ number }}) des {{ index }}. Datensatzes wurde bereits verwendet.',
             'sub-data-set': {
-              'number-of-observations-parse-error': 'Anzahl der Beobachtungen des Sub-Datensatzes {{name}} ist keine Zahl!',
-              'number-of-analyzed-variables-parse-error': 'Anzahl der analysierten Variablen des Sub-Datensatzes {{name}} ist keine Zahl!'
+              'number-of-observations-parse-error': 'Anzahl der Beobachtungen des Sub-Datensatzes {{name}} ist keine Zahl!'
             }
           },
           'data-set-attachment': {
@@ -90,7 +89,7 @@ angular.module('metadatamanagementApp').config(
               'one': 'Klicken, um die Variable dieses Datensatzes anzuzeigen',
               'many': 'Klicken, um alle Variablen dieses Datensatzes anzuzeigen'
             },
-            'studies':{
+            'studies': {
               'one': 'Klicken, um die Studie dieses Datensatzes anzuzeigen'
             }
           }
