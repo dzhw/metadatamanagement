@@ -51,15 +51,10 @@ public class SurveyAttachmentResource {
       @RequestPart("surveyAttachmentMetadata") 
       @Valid SurveyAttachmentMetadata surveyAttachmentMetadata)
       throws URISyntaxException, IOException {
-    if (!multiPartFile.isEmpty()) {
-      surveyAttachmentService.createSurveyAttachment(multiPartFile.getInputStream(),
-          multiPartFile.getContentType(), surveyAttachmentMetadata);
-      return ResponseEntity.created(new URI(surveyAttachmentMetadata.getId()))
+    surveyAttachmentService.createSurveyAttachment(multiPartFile.getInputStream(),
+        multiPartFile.getContentType(), surveyAttachmentMetadata);
+    return ResponseEntity.created(new URI(surveyAttachmentMetadata.getId()))
         .body(null);
-    } else {
-      return ResponseEntity.badRequest()
-        .body(null);
-    }
   }
 
   /**

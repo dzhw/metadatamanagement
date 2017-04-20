@@ -51,15 +51,10 @@ public class InstrumentAttachmentResource {
       @RequestPart("instrumentAttachmentMetadata") 
       @Valid InstrumentAttachmentMetadata instrumentAttachmentMetadata)
       throws URISyntaxException, IOException {
-    if (!multiPartFile.isEmpty()) {
-      instrumentAttachmentService.createInstrumentAttachment(multiPartFile.getInputStream(),
-          multiPartFile.getContentType(), instrumentAttachmentMetadata);
-      return ResponseEntity.created(new URI(instrumentAttachmentMetadata.getId()))
+    instrumentAttachmentService.createInstrumentAttachment(multiPartFile.getInputStream(),
+        multiPartFile.getContentType(), instrumentAttachmentMetadata);
+    return ResponseEntity.created(new URI(instrumentAttachmentMetadata.getId()))
         .body(null);
-    } else {
-      return ResponseEntity.badRequest()
-        .body(null);
-    }
   }
 
   /**

@@ -51,15 +51,10 @@ public class DataSetAttachmentResource {
       @RequestPart("dataSetAttachmentMetadata") 
       @Valid DataSetAttachmentMetadata dataSetAttachmentMetadata)
       throws URISyntaxException, IOException {
-    if (!multiPartFile.isEmpty()) {
-      dataSetAttachmentService.createDataSetAttachment(multiPartFile.getInputStream(),
-          multiPartFile.getContentType(), dataSetAttachmentMetadata);
-      return ResponseEntity.created(new URI(dataSetAttachmentMetadata.getId()))
+    dataSetAttachmentService.createDataSetAttachment(multiPartFile.getInputStream(),
+        multiPartFile.getContentType(), dataSetAttachmentMetadata);
+    return ResponseEntity.created(new URI(dataSetAttachmentMetadata.getId()))
         .body(null);
-    } else {
-      return ResponseEntity.badRequest()
-        .body(null);
-    }
   }
 
   /**
