@@ -56,66 +56,77 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
         }
       });
     };
+
+    var createJsonFileReader = function(dataSet, variableFromExcel,
+      variableIndex, variables, variablesResources, resolve) {
+      return FileReaderService.readAsText(dataSet
+          .jsonFiles[variableFromExcel.name])
+        .then(function(variableAsText) {
+          try {
+            var variableFromJson = JSON.parse(
+              variableAsText);
+            var variableResource = VariableBuilderService
+            .buildVariable(variableFromExcel,
+              variableFromJson, dataSet);
+            variablesResources.push(variableResource);
+            if (existingVariables[variableResource.id]) {
+              existingVariables[variableResource.id]
+                .providedByUser = true;
+            }
+            if (variableIndex === (variables.length -
+                1)) {
+              resolve(variablesResources);
+            }
+          } catch (e) {
+            console.log(e);
+            JobLoggingService.error({
+              message: 'variable-management.log-messages.' +
+                'variable.json-parse-error',
+              messageParams: {
+                dataSet: dataSet.dataSetName,
+                file: variableFromExcel.name +
+                  '.json'
+              }
+            });
+            if (variableIndex === (variables.length -
+                1)) {
+              resolve(variablesResources);
+            }
+          }
+        }, function() {
+          JobLoggingService.error({
+            message: 'variable-management.log-messages.variable' +
+              '.unable-to-read-file',
+            messageParams: {
+              dataSet: dataSet.dataSetName,
+              file: variableFromExcel.name +
+                '.json'
+            }
+          });
+          if (variableIndex === (variables.length -
+              1)) {
+            resolve(variablesResources);
+          }
+        });
+    };
+
     var createVariableResources = function(dataSet) {
       var variablesResources = [];
       return $q(function(resolve) {
         ExcelReaderService.readFileAsync(dataSet.excelFile)
           .then(function(variables) {
             if (!variables || variables.length === 0) {
-              resolve();
+              resolve(variablesResources);
             }
+            var chainedJsonFileReader = $q.when();
             variables.forEach(function(variableFromExcel,
               variableIndex) {
               if (variableFromExcel.name) {
                 if (dataSet.jsonFiles[variableFromExcel.name]) {
-                  FileReaderService.readAsText(dataSet
-                      .jsonFiles[variableFromExcel.name])
-                    .then(function(variableAsText) {
-                      try {
-                        var variableFromJson = JSON.parse(
-                          variableAsText);
-                        var variableResource = VariableBuilderService
-                        .buildVariable(variableFromExcel,
-                          variableFromJson, dataSet);
-                        variablesResources.push(variableResource);
-                        if (existingVariables[variableResource.id]) {
-                          existingVariables[variableResource.id]
-                            .providedByUser = true;
-                        }
-                        if (variableIndex === (variables.length -
-                            1)) {
-                          resolve(variablesResources);
-                        }
-                      } catch (e) {
-                        console.log(e);
-                        JobLoggingService.error({
-                          message: 'variable-management.log-messages.' +
-                            'variable.json-parse-error',
-                          messageParams: {
-                            dataSet: dataSet.dataSetName,
-                            file: variableFromExcel.name +
-                              '.json'
-                          }
-                        });
-                        if (variableIndex === (variables.length -
-                            1)) {
-                          resolve(variablesResources);
-                        }
-                      }
-                    }, function() {
-                      JobLoggingService.error({
-                        message: 'variable-management.log-messages.variable' +
-                          '.unable-to-read-file',
-                        messageParams: {
-                          dataSet: dataSet.dataSetName,
-                          file: variableFromExcel.name +
-                            '.json'
-                        }
-                      });
-                      if (variableIndex === (variables.length -
-                          1)) {
-                        resolve(variablesResources);
-                      }
+                  chainedJsonFileReader = chainedJsonFileReader.then(
+                    function() {
+                      return createJsonFileReader(dataSet, variableFromExcel,
+                        variableIndex, variables, variablesResources, resolve);
                     });
                 } else {
                   JobLoggingService.error({
@@ -201,6 +212,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
         });
       });
     };
+
     var uploadDataSets = function(dataSetIndex) {
       var previouslyUploadedVariableNames = {};
       if (dataSetIndex === _.size(filesMap)) {
