@@ -84,6 +84,7 @@ public class UnitTestCreateDomainObjectUtils {
 
     return new DataAcquisitionProjectBuilder()
         .withId(projectId)
+        .withHasBeenReleasedBefore(false)
         .build();
   }
   
