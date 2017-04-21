@@ -41,7 +41,11 @@ public class DataAcquisitionProjectDeleteResource {
     //load project
     DataAcquisitionProject dataAcquisitionProject = this.dataAcquisitionProjectService.findOne(id);
     
-    //TODO NOT FOUND
+    //project could not be found
+    if (dataAcquisitionProject == null) {
+      this.log.warn("Project could not be found and deleted!");
+      return ResponseEntity.badRequest().build();
+    }
     
     //Check project, if it has been released before
     if (this.dataAcquisitionProjectService.deleteDataAcquisitionProject(dataAcquisitionProject)) {
