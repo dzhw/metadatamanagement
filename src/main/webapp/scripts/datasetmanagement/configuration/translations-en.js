@@ -23,10 +23,10 @@ angular.module('metadatamanagementApp').config(
             'missing-survey-number': 'Attachment {{ index }} does not have an survey number and has not been saved.',
             'missing-filename': 'Attachment {{ index }} does not have a filename and has not been saved.',
             'file-not-found': 'The File {{ filename }} was not found and has not been saved.',
-            'unknown-data-set-number': 'An Attachment of the Data Sets from the line {{name}} out of the excel document has a reference to an unknown Data Set Number: {{dataSetNumber}}.'
+            'unknown-data-set-number': 'An Attachment of the Data Sets from the line {{ index }} of the excel document has a reference to an unknown Data Set Number: {{dataSetNumber}}.'
           },
           'sub-data-set': {
-            'unknown-data-set-number': 'The Sub Data Set from the line {{name}} out of the excel document has a reference to an unknown Data Set Number: {{dataSetNumber}}.'
+            'unknown-data-set-number': 'The Sub Data Set from the line {{ index }} of the excel document has a reference to an unknown Data Set Number: {{dataSetNumber}}.'
           },
           'tex': {
             'upload-terminated': 'Tex file upload terminated!',

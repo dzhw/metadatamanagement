@@ -190,20 +190,20 @@ angular.module('metadatamanagementApp').config(
           },
           'valid-response': {
             'label': {
-              'i18n-string-size': 'Die Maximallänge des Labels eines gültigen Wertes ist 2048 Zeichen.'
+              'i18n-string-size': 'Die Maximallänge des Labels einer gültigen Antwort ist 2048 Zeichen.'
             },
             'absolute-frequency': {
-              'not-null': 'Die absolute Häufigkeit eines gültigen Wertes darf nicht leer sein.'
+              'not-null': 'Die absolute Häufigkeit einer gültigen Antwort darf nicht leer sein.'
             },
             'relative-frequency': {
-              'not-null': 'Die relative Häufigkeit eines gültigen Wertes darf nicht leer sein.'
+              'not-null': 'Die relative Häufigkeit einer gültigen Antwort darf nicht leer sein.'
             },
             'value': {
               'size': 'Die Maximallänge eines Wertes ist 256 Zeichen.',
-              'not-null': 'Der Wert eines gültigen Wertes darf nicht leer sein!'
+              'not-null': 'Der Wert einer gültigen Antwort darf nicht leer sein!'
             },
             'valid-relative-frequency': {
-              'not-null': 'Die gültige, relative Häufigkeit eines gültigen Wertes darf nicht leer sein.'
+              'not-null': 'Die gültige, relative Häufigkeit einer gültigen Antwort darf nicht leer sein.'
             }
           },
           'statistics': {

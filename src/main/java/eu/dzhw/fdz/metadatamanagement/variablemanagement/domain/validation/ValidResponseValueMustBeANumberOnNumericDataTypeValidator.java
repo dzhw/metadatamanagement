@@ -46,6 +46,10 @@ public class ValidResponseValueMustBeANumberOnNumericDataTypeValidator implement
       String regex = "-?\\d+(\\.\\d+)?";
       for (ValidResponse validResponse : variable.getDistribution().getValidResponses()) {
         // if one value is not number ... send a false.
+        if (validResponse.getValue() == null) {
+          // will be handled by not null validator
+          return true;
+        }
         if (!validResponse.getValue().matches(regex)) {
           return false;
         }

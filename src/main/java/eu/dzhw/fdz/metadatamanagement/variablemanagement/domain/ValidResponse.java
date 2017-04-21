@@ -4,6 +4,8 @@ package eu.dzhw.fdz.metadatamanagement.variablemanagement.domain;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.google.common.base.MoreObjects;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
@@ -33,7 +35,7 @@ public class ValidResponse {
       message = "variable-management.error.valid-response.relative-frequency.not-null")
   private Double relativeFrequency;
 
-  @NotNull(message = "variable-management.error.valid-response.value.not-null")
+  @NotEmpty(message = "variable-management.error.valid-response.value.not-null")
   @Size(max = 256, 
       message = "variable-management.error.valid-response.value.size")
   private String value;
