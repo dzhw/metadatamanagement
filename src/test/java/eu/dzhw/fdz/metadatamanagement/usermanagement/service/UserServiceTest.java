@@ -148,16 +148,11 @@ public class UserServiceTest extends AbstractTest {
       .build();
 
     // Update User 1
-    // TODO DKatzberg This Test has double save operations since Spring Boot 1.5.2 
-    // The Reason is a bug by increasing the version number to late
-    user1 = this.userRepository.save(user1);
     user1 = this.userRepository.save(user1);
     user1.setCreatedDate(now.minusDays(5));
     user1 = this.userRepository.save(user1);
-
-    // TODO DKatzberg This Test has double save operations since Spring Boot 1.5.2 
-    // The Reason is a bug by increasing the version number to late
-    user2 = this.userRepository.save(user2);
+    
+    // Update User 2
     user2 = this.userRepository.save(user2);
     user2.setCreatedDate(now.minusDays(5));
     user2 = this.userRepository.save(user2);
