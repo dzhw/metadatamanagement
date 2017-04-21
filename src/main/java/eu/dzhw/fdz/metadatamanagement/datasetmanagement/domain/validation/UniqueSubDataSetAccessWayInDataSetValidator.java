@@ -34,7 +34,11 @@ public class UniqueSubDataSetAccessWayInDataSetValidator
    */
   @Override
   public boolean isValid(List<SubDataSet> subDataSetList, ConstraintValidatorContext context) {
-
+    if (subDataSetList == null) {
+      // will be handled by not empty validator
+      return true;
+    }
+    
     // ignore the same object (for an update)
     List<String> foundAccessWays = new ArrayList<>();
     for (SubDataSet subDataSetFromList : subDataSetList) {

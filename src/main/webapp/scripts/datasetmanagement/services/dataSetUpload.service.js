@@ -336,8 +336,8 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
                         dataSetFromExcel.number];
 
                       //Build DataSet
-                      if (subDataSetErrors[dataSet.number].length ===
-                        0) {
+                      if (!subDataSetErrors[dataSet.number] ||
+                        subDataSetErrors[dataSet.number].length === 0) {
                         objects.push(DataSetBuilderService
                           .buildDataSet(dataSet,
                             dataAcquisitionProjectId)

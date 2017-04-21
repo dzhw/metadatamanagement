@@ -133,7 +133,7 @@ angular.module('metadatamanagementApp').config(
               }
             },
             'sub-data-sets': {
-              'not-empty': 'Der Datensatz musss mindestens einen Sub-Datensatz haben!',
+              'not-empty': 'Der Datensatz muss mindestens einen Sub-Datensatz haben!',
               'access-way-unique-within-data-set': 'Der Zugangsweg des Subdatensatzes muss eindeutig innerhalb eines Datensatzes sein.'
             },
             'type': {
