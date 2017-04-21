@@ -79,7 +79,7 @@ angular.module('metadatamanagementApp').directive('createVariableLinks',
                 });
             } else {
               $log.warn('Variable links are currently only supported' +
-                        'for STATA');
+              'for STATA');
             }
           };
 
