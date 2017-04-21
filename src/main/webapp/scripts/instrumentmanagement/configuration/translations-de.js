@@ -108,7 +108,7 @@ angular.module('metadatamanagementApp').config(
             'type': {
               'not-null': 'Der Typ des Attachments darf nicht leer sein.',
               'i18n-string-size': 'Der Typ muss in beiden Sprachen angegeben werden und darf nicht länger als 32 Zeichen sein.',
-              'valid-type': 'Der Typ muss einer der folgenden Werte sein: Fragebogen, Filterdiagramm, Variablenfragebogen, Sonstige.'
+              'valid-type': 'Der Typ muss einer der folgenden Werte sein: Fragebogen, Filterführungsdiagramm, Variablenfragebogen, Sonstige.'
             },
             'description': {
               'not-null': 'Die Beschreibung des Attachments darf nicht leer sein.',

@@ -12,7 +12,8 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
  */
 public class InstrumentAttachmentTypes {
   public static final I18nString QUESTIONNAIRE = new I18nString("Fragebogen", "Questionnaire");
-  public static final I18nString QUESTION_FLOW = new I18nString("Filterdiagramm", "Question Flow");
+  public static final I18nString QUESTION_FLOW = new I18nString("Filterführungsdiagramm", 
+      "Question Flow");
   public static final I18nString VARIABLE_QUESTIONNAIRE =
       new I18nString("Variablenfragebogen", "Variable Questionnaire");
   public static final I18nString OTHER = new I18nString("Sonstige", "Other");
