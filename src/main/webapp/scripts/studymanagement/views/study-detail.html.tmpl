@@ -28,19 +28,9 @@
                         <span style="font-weight: bold;">{{'study-management.detail.sponsors' | translate }}:</span>
                         <span display-i18n-string="ctrl.study.sponsor"></span>
                     </div>
-                    <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.accessWays">
-                        <span style="font-weight: bold;">{{'study-management.detail.accessWays' | translate }}:</span>
-                        <span>{{ctrl.study.accessWays.join(', ')}}</span>
-                    </div>
-                    <div ng-if="ctrl.study.releases.length > 0" ng-repeat="release in ctrl.study.releases">
-                        <div style="margin-bottom: 0.5em;">
-                            <span style="font-weight: bold;">doi:</span>
-                            <span>{{release.doi}}</span>
-                        </div>
-                        <div style="margin-bottom: 0.5em;">
-                            <span style="font-weight: bold;">{{'study-management.detail.version' | translate }}:</span>
-                            <span>{{release.version}}</span>
-                        </div>
+                    <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.surveyDesign">
+                        <span style="font-weight: bold;">{{'study-management.detail.surveyDesign' | translate }}:</span>
+                        <span display-i18n-string="ctrl.study.surveyDesign"></span>
                     </div>
                     <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.citationHint">
                         <span style="font-weight: bold;">{{'study-management.detail.citationHint' | translate }}:</span>
