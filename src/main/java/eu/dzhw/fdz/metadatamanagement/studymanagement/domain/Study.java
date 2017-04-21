@@ -26,7 +26,6 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.validation.ValidDataAvailability;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.validation.ValidStudyId;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.validation.ValidSurveyDesign;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidAccessWays;
 import io.searchbox.annotations.JestId;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
@@ -98,11 +97,6 @@ public class Study extends AbstractRdcDomainObject {
   @ValidSurveyDesign(
       message = "study-management.error.study.survey-design.valid-survey-design")
   private I18nString surveyDesign;
-  
-  @NotEmpty(message = "study-management.error.study.access-ways.not-empty")
-  @ValidAccessWays(
-      message = "study-management.error.study.access-ways.valid-access-ways")
-  private List<String> accessWays;
   
   public Study() {
     super();
@@ -196,7 +190,6 @@ public class Study extends AbstractRdcDomainObject {
       .add("authors", authors)
       .add("dataAvailability", dataAvailability)
       .add("surveyDesign", surveyDesign)
-      .add("accessWays", accessWays)
       .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
       .toString();
   }
@@ -207,14 +200,6 @@ public class Study extends AbstractRdcDomainObject {
 
   public void setCitationHint(I18nString citationHint) {
     this.citationHint = citationHint;
-  }
-
-  public List<String> getAccessWays() {
-    return accessWays;
-  }
-
-  public void setAccessWays(List<String> accessWays) {
-    this.accessWays = accessWays;
   }
 
   public I18nString getDataAvailability() {

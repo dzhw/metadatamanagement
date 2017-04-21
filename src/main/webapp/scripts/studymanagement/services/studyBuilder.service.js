@@ -41,8 +41,6 @@ angular.module('metadatamanagementApp').service('StudyBuilderService',
           de: studyFromExcel['surveyDesign.de']
         },
         authors: authors,
-        accessWays: CleanJSObjectService.
-        removeWhiteSpace(studyFromExcel.accessWays),
         dataAcquisitionProjectId: dataAcquisitionProjectId
       };
       var cleanedStudyObject = CleanJSObjectService

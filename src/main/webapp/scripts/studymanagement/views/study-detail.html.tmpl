@@ -36,6 +36,10 @@
                         <span style="font-weight: bold;">{{'study-management.detail.citationHint' | translate }}:</span>
                         <span display-i18n-string="ctrl.study.citationHint"></span>
                     </div>
+                    <div style="margin-bottom: 0.5em;">
+                        <span style="font-weight: bold;">{{'study-management.detail.version' | translate }}:</span>
+                        <span>{{ctrl.study.release?ctrl.study.release.version: ('study-management.detail.not-yet-released' | translate)}}</span>
+                    </div>
                 </md-card-content>
             </md-card>
         </div>

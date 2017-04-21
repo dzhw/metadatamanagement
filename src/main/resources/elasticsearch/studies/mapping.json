@@ -22,10 +22,6 @@
       			"type": "string",
         		"index": "not_analyzed"
       		},
-      		"accessWays": {
-        		"type": "string",
-        		"index": "not_analyzed"
-      		},
       		"dataAvailability": {
         		"type": "object",
         		"properties": {

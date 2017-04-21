@@ -21,8 +21,7 @@ angular.module('metadatamanagementApp').config(
           'institution': 'Institution',
           'authors': 'Authors',
           'sponsors': 'Sponsored by',
-          'accessWays': 'Access Ways',
-          'releases': 'Releases',
+          'not-yet-released': 'Not yet released',
           'version': 'Version',
           'notes': 'Botes',
           'surveyDesign': 'Survey Design',
@@ -111,34 +110,11 @@ angular.module('metadatamanagementApp').config(
             'authors': {
               'not-empty': 'The list of authors of a study needs min. one element and must not be empty!',
             },
-            'access-ways': {
-              'not-empty': 'The list of access ways of a study needs min. one element and must not be empty!',
-              'valid-access-ways': 'The values of access ways are invalid. Valid values are: download-cuf, download-suf, remote-desktop-suf, onsite-suf, not-accessible.'
-            },
             'data-acquisition-project': {
               'id': {
                 'not-empty': 'The RDC-ID of the Data Acquisition Project for the Study must not be empty!'
               }
             }
-          },
-          'release': {
-            'version': {
-              'not-empty': 'The version of a release must not be empty!',
-              'size': 'The max length of the version is 32 signs.',
-              'pattern': 'Use only numbers and the dot for the version.'
-            },
-            'doi': {
-              'size': 'The max length of the doi is 128 signs.'
-            },
-            'date': {
-              'not-null': 'The date of a Release must not be empty!'
-            },
-            'notes': {
-              'size': 'The max length of the version is 2048 signs.'
-            }
-          },
-          'post-validation': {
-            'study-has-an-accessway-which-was-not-found-in-sub-data-sets': 'The study {{id}} has an accessway ({{toBereferenzedId}}) which was not found in Sub-Datasets.'
           }
         }
       }

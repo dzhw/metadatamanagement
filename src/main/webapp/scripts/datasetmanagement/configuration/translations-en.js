@@ -183,8 +183,7 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'post-validation': {
-            'data-set-has-invalid-survey-id': 'The Data Set {{id}} references an unknown Survey ({{toBereferenzedId}}).',
-            'sub-data-set-has-an-accessway-which-was-not-found-in-study': 'The Sub-Data-Set {{id}} has an accessway ({{toBereferenzedId}}) which was not found in the Study.'
+            'data-set-has-invalid-survey-id': 'The Data Set {{id}} references an unknown Survey ({{toBereferenzedId}}).'
           }
         }
       }

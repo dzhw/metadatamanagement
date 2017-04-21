@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.SubDataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
@@ -112,33 +111,6 @@ public class PostValidationService {
       errors.add(new PostValidationMessageDto("data-acquisition-project-management.error."
           + "post-validation.project-has-no-study", Arrays.asList(information)));
     }
-    
-    //Check all AccessWays (if there some saved)
-    if (study != null && study.getAccessWays().size() > 0) {
-      List<DataSet> dataSets = 
-          this.dataSetRepository.findByStudyId(study.getId());
-      
-      boolean found = false;
-      for (String accessWay : study.getAccessWays()) {
-        found = false; //Next Accessway is found yet
-        dataSetLoop: for (DataSet dataSet : dataSets) {
-          for (SubDataSet subDataSet : dataSet.getSubDataSets()) {
-            if (subDataSet.getAccessWay().equals(accessWay)) {
-              found = true;
-              break dataSetLoop;
-            }
-          } //END FOR SUBDATASET
-        } //END FOR DATASET
-        
-        //check if no AccessWay was found.
-        if (!found) {
-          String[] information = {study.getId(), accessWay};
-          errors.add(new PostValidationMessageDto("study-management.error.post-validation."
-              + "study-has-an-accessway-which-was-not-found-in-"
-              + "sub-data-sets", Arrays.asList(information)));
-        } 
-      } // END FOR ACCESSWAY
-    }
       
     return errors;
   }
@@ -201,20 +173,6 @@ public class PostValidationService {
           String[] information = {dataSet.getId(), surveyId};
           errors.add(new PostValidationMessageDto("data-set-management.error."
               + "post-validation.data-set-has-invalid-survey-id", Arrays.asList(information)));
-        }
-      }
-      
-      //check if all access ways of all sub dataset are in the study list of accessways.     
-      Study study = this.studyRepository
-          .findOneByDataAcquisitionProjectId(dataSet.getDataAcquisitionProjectId());
-      if (study != null) {
-        for (SubDataSet subDataSet : dataSet.getSubDataSets()) {
-          if (!study.getAccessWays().contains(subDataSet.getAccessWay())) {
-            String[] information = {subDataSet.getName(), subDataSet.getAccessWay()};
-            errors.add(new PostValidationMessageDto("data-set-management.error.post-validation."
-                + "sub-data-set-has-an-accessway-which-was-not-found-in-"
-                + "study", Arrays.asList(information)));
-          }        
         }
       }
     }

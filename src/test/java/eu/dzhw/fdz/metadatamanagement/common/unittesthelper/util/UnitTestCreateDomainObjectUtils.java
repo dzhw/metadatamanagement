@@ -88,13 +88,7 @@ public class UnitTestCreateDomainObjectUtils {
         .build();
   }
   
-  public static Study buildStudy(String projectId) { 
-    List<String> accessWays = new ArrayList<>();
-    accessWays.add(AccessWays.DOWNLOAD_CUF);
-    accessWays.add(AccessWays.REMOTE_DESKTOP);
-    accessWays.add(AccessWays.DOWNLOAD_SUF);
-    accessWays.add(AccessWays.ONSITE_SUF);
-    
+  public static Study buildStudy(String projectId) {  
     List<Person> authors = new ArrayList<>();
     authors.add(buildPerson("Test", null, "Authors"));
     
@@ -131,7 +125,6 @@ public class UnitTestCreateDomainObjectUtils {
             .build())
         .withDataAvailability(DataAvailabilities.AVAILABLE)
         .withSurveyDesign(SurveyDesigns.PANEL)
-        .withAccessWays(accessWays)
         .withDataAcquisitionProjectId(projectId)
         .build();    
   }

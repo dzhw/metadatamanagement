@@ -10,7 +10,7 @@ angular.module('metadatamanagementApp').config(
             'saved': 'Datensatz mit FDZ-ID {{ id }} erfolgreich gespeichert!',
             'not-saved': 'Datensatz mit FDZ-ID {{ id }} wurde nicht gespeichert!',
             'missing-id': 'Der {{ index }}. Datensatz enthält keine FDZ-ID und wurde nicht gespeichert!',
-            'upload-terminated': 'Upload von {{ total }} Datensätzen und {{ attachments }} Anhängen mit {{warnings}} Warnungen und {{ errors }} Fehlern beendet!',
+            'upload-terminated': 'Upload von {{ total }} Datensätzen und {{ attachments }} Attachments mit {{warnings}} Warnungen und {{ errors }} Fehlern beendet!',
             'cancelled': 'Upload von Datensätzen Abgebrochen',
             'unable-to-delete': 'Die Datensätze konnten nicht gelöscht werden!',
             'duplicate-data-set-number': 'Die Nummer ({{ number }}) des {{ index }}. Datensatzes wurde bereits verwendet.',
@@ -183,8 +183,7 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'post-validation': {
-            'data-set-has-invalid-survey-id': 'Der Datensatz {{id}} referenziert eine unbekannte Erhebung({{toBereferenzedId}}).',
-            'sub-data-set-has-an-accessway-which-was-not-found-in-study': 'Der Sub-Datensatz {{id}} hat einen Zugangsweg ({{toBereferenzedId}}) aufgelistet, der nicht den Zugangswegen der Studie gefunden wurde.'
+            'data-set-has-invalid-survey-id': 'Der Datensatz {{id}} referenziert eine unbekannte Erhebung({{toBereferenzedId}}).'
           }
         }
       }

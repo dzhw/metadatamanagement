@@ -33,8 +33,6 @@ public interface CompleteStudyProjection extends AbstractRdcDomainObjectProjecti
   
   List<Person> getAuthors();
   
-  List<String> getAccessWays();
-  
   String getDataAcquisitionProjectId();
   
   I18nString getDataAvailability();

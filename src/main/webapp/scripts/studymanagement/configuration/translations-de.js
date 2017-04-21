@@ -21,8 +21,7 @@ angular.module('metadatamanagementApp').config(
           'institution': 'Erhebende Institution',
           'authors': 'Projektmitarbeiter(innen)',
           'sponsors': 'Gefördert von',
-          'accessWays': 'Zugangswege',
-          'releases': 'Veröffentlichungen',
+          'not-yet-released': 'Noch nicht freigegeben',
           'version': 'Version',
           'notes': 'Notizen',
           'surveyDesign': 'Erhebungsdesign',
@@ -111,34 +110,11 @@ angular.module('metadatamanagementApp').config(
             'authors': {
               'not-empty': 'Die Liste der Autoren einer Studie benötigt mindestens ein Element und darf nicht leer sein!',
             },
-            'access-ways': {
-              'not-empty': 'Die Liste der Zugangswege einer Studie benötigt mindestens ein Element und darf nicht leer sein!',
-              'valid-access-ways': 'Die Liste der Zugangswege enthält ungültige Werte. Erlaubt sind nur: download-cuf, download-suf, remote-desktop-suf, onsite-suf, not-accessible.'
-            },
             'data-acquisition-project': {
               'id': {
                 'not-empty': 'Die FDZ - ID des Projektes darf bei der Studie nicht leer sein!'
               }
             }
-          },
-          'release': {
-            'version': {
-              'not-empty': 'Die Version einer Veröffentlichung darf nicht leer sein!',
-              'size': 'Die Maximallänge der Version eines Releases ist 32 Zeichen.',
-              'pattern': 'Es dürfen nur Zahlen und der Punkt für die Version verwendet werden.'
-            },
-            'doi': {
-              'size': 'Die Maximallänge einer DOI ist 128 Zeichen.'
-            },
-            'date': {
-              'not-null': 'Das Datum einer Veröffentlichung darf nicht leer sein!'
-            },
-            'notes': {
-              'size': 'Die Maximallänge einer Notiz ist 2048 Zeichen.'
-            }
-          },
-          'post-validation': {
-            'study-has-an-accessway-which-was-not-found-in-sub-data-sets': 'Die Studie {{id}} hat einen Zugangsweg ({{toBereferenzedId}}) aufgelistet, der nicht in Sub-Datensätzen gefunden wurde.'
           }
         }
       }
