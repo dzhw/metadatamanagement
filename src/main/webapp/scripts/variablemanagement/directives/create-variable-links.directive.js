@@ -50,32 +50,33 @@ angular.module('metadatamanagementApp').directive('createVariableLinks',
                   '-ds' + currentVariable.dataSetNumber +
                   '-$1!"><md-tooltip>' + linkTooltip[currentLanguage] +
                   '</md-tooltip>$1</a>';
-              // hack to wait for highlight js having done its job
               $timeout(function() {
-                  var textNodes = getTextNodesIn(element[0], false);
-                  _.each(textNodes, function(textNode) {
-                      var match;
-                      var replacedText = textNode.textContent;
-                      /*jshint -W084 */
-                      while (match = variableNameRegex.exec(
-                        textNode.textContent)) {
-                        /*jshint +W084 */
-                        //if match in blacklist continue
-                        if (match && !_.includes(keywords, match[0]) &&
-                            !_.includes(builtIns, match[0])) {
-                          replacedText = replacedText.replace(
-                            new RegExp('(' + match[0] + ')', 'g'),
-                            substitution);
-                        }
-                      }
-                      if (replacedText !== textNode.textContent) {
-                        var newElement = angular.element('<span>' +
-                          replacedText + '</span>');
-                        var compiledElement = $compile(newElement)(scope);
-                        textNode.replaceWith(compiledElement[0]);
-                      }
+                  $timeout(function() {
+                      var textNodes = getTextNodesIn(element[0], false);
+                      _.each(textNodes, function(textNode) {
+                            var match;
+                            var replacedText = textNode.textContent;
+                            /*jshint -W084 */
+                            while (match = variableNameRegex.exec(
+                               textNode.textContent)) {
+                              /*jshint +W084 */
+                              //if match in blacklist continue
+                              if (match && !_.includes(keywords, match[0]) &&
+                              !_.includes(builtIns, match[0])) {
+                                replacedText = replacedText.replace(
+                                  new RegExp('(' + match[0] + ')', 'g'),
+                                  substitution);
+                              }
+                            }
+                            if (replacedText !== textNode.textContent) {
+                              var newElement = angular.element('<span>' +
+                               replacedText + '</span>');
+                              var compiledElement = $compile(newElement)(scope);
+                              textNode.replaceWith(compiledElement[0]);
+                            }
+                          });
                     });
-                }, 1000);
+                });
             } else {
               $log.warn('Variable links are currently only supported' +
                         'for STATA');
