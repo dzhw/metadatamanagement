@@ -58,7 +58,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
     };
 
     var createJsonFileReader = function(dataSet, variableFromExcel,
-      variableIndex, variables, variablesResources, resolve) {
+      variablesResources) {
       return FileReaderService.readAsText(dataSet
           .jsonFiles[variableFromExcel.name])
         .then(function(variableAsText) {
@@ -73,10 +73,6 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
               existingVariables[variableResource.id]
                 .providedByUser = true;
             }
-            if (variableIndex === (variables.length -
-                1)) {
-              resolve(variablesResources);
-            }
           } catch (e) {
             console.log(e);
             JobLoggingService.error({
@@ -88,10 +84,6 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
                   '.json'
               }
             });
-            if (variableIndex === (variables.length -
-                1)) {
-              resolve(variablesResources);
-            }
           }
         }, function() {
           JobLoggingService.error({
@@ -103,10 +95,6 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
                 '.json'
             }
           });
-          if (variableIndex === (variables.length -
-              1)) {
-            resolve(variablesResources);
-          }
         });
     };
 
@@ -117,6 +105,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
           .then(function(variables) {
             if (!variables || variables.length === 0) {
               resolve(variablesResources);
+              return;
             }
             var chainedJsonFileReader = $q.when();
             variables.forEach(function(variableFromExcel,
@@ -126,7 +115,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
                   chainedJsonFileReader = chainedJsonFileReader.then(
                     function() {
                       return createJsonFileReader(dataSet, variableFromExcel,
-                        variableIndex, variables, variablesResources, resolve);
+                        variablesResources);
                     });
                 } else {
                   JobLoggingService.error({
@@ -137,9 +126,6 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
                       name: variableFromExcel.name
                     }
                   });
-                  if (variableIndex === (variables.length - 1)) {
-                    resolve(variablesResources);
-                  }
                 }
               } else {
                 JobLoggingService.error({
@@ -150,10 +136,10 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
                     variableIndex: variableIndex + 1
                   }
                 });
-                if (variableIndex === (variables.length - 1)) {
-                  resolve(variablesResources);
-                }
               }
+            });
+            chainedJsonFileReader.finally(function() {
+              resolve(variablesResources);
             });
           }, function() {
             JobLoggingService.error({
