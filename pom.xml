@@ -405,6 +405,9 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <linkXRef>false</linkXRef>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

@@ -22,17 +22,17 @@ public @interface UniqueVariableIndexInDataSet {
   /**
    * Defines the default error message.
    */
-  public abstract String message() default "{variable-management.error."
+  String message() default "{variable-management.error."
     + "variable.unique-variable-index-in-dataSet}";
 
   /**
    * This contains groups.
    */
-  public Class<?>[] groups() default {};
+  Class<?>[] groups() default {};
 
   /**
    * This method contains the payload.
    */
-  public Class<? extends Payload>[] payload() default {};
+  Class<? extends Payload>[] payload() default {};
 
 }

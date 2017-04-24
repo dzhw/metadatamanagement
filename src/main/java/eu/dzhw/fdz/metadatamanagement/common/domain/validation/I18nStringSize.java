@@ -23,18 +23,18 @@ public @interface I18nStringSize {
   /**
    * Defines the default error message.
    */
-  public abstract String message() default "eu.dzhw.fdz.metadatamanagement.domain.validation."
+  String message() default "eu.dzhw.fdz.metadatamanagement.domain.validation."
       + "i18nstringsize.message";
   
   /**
    * This contains groups.
    */
-  public Class<?>[]groups() default {};
+  Class<?>[]groups() default {};
   
   /**
    * This method contains the payload.
    */
-  public Class<? extends Payload>[]payload() default {};
+  Class<? extends Payload>[]payload() default {};
   
   /**
    * @return size the element must be equal or lower to.

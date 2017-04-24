@@ -24,16 +24,16 @@ public @interface UniqueDatasetNumberInProject {
   /**
    * Defines the default error message.
    */
-  public abstract String message() default "{eu.dzhw.fdz.metadatamanagement.domain.validation."
+  String message() default "{eu.dzhw.fdz.metadatamanagement.domain.validation."
       + "uniqueDatasetNumberInProject.message}";
 
   /**
    * This contains groups.
    */
-  public Class<?>[] groups() default {};
+  Class<?>[] groups() default {};
 
   /**
    * This method contains the payload.
    */
-  public Class<? extends Payload>[] payload() default {};
+  Class<? extends Payload>[] payload() default {};
 }

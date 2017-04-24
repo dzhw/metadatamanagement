@@ -24,16 +24,16 @@ public @interface ValidResponseValueMustBeAnIsoDateOnDateDataType {
   /**
    * Defines the default error message.
    */
-  public abstract String message() default "{eu.dzhw.fdz.metadatamanagement.domain.validation."
+  String message() default "{eu.dzhw.fdz.metadatamanagement.domain.validation."
       + "valid-response-value-must-be-an-iso-date-on-date-data-type.message}";
 
   /**
    * This contains groups.
    */
-  public Class<?>[] groups() default {};
+  Class<?>[] groups() default {};
 
   /**
    * This method contains the payload.
    */
-  public Class<? extends Payload>[] payload() default {};
+  Class<? extends Payload>[] payload() default {};
 }

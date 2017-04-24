@@ -21,18 +21,16 @@ public @interface ValidPublicationYear {
   /**
    * Defines the default error message.
    */
-  public abstract String message() default "related-publication-management.error."
+  String message() default "related-publication-management.error."
   + "related-publication.year.valid";
   
   /**
    * This contains groups.
    */
-  public Class<?>[] groups() default {};
+  Class<?>[] groups() default {};
 
   /**
    * This method contains the payload.
    */
-  public Class<? extends Payload>[] payload() default {};
-
-  
+  Class<? extends Payload>[] payload() default {};
 }

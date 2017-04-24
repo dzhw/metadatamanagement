@@ -21,15 +21,15 @@ public @interface ValidUrl {
   /**
    * Defines the default error message.
    */
-  public abstract String message() default "{RelatedPublication}";
+  String message() default "{RelatedPublication}";
 
   /**
    * This contains groups.
    */
-  public Class<?>[] groups() default {};
+  Class<?>[] groups() default {};
 
   /**
    * This method contains the payload.
    */
-  public Class<? extends Payload>[] payload() default {};
+  Class<? extends Payload>[] payload() default {};
 }
