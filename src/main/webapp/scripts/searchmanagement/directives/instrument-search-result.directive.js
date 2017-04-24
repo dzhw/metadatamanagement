@@ -8,7 +8,8 @@ angular.module('metadatamanagementApp').directive('instrumentSearchResult',
         'instrument-search-result.html.tmpl',
       scope: {
         searchResult: '=',
-        currentLanguage: '='
+        currentLanguage: '=',
+        bowser: '='
       }
     };
   });

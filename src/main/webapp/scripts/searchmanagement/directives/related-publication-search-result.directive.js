@@ -8,7 +8,8 @@ angular.module('metadatamanagementApp')
         'related-publication-search-result.html.tmpl',
       scope: {
         searchResult: '=',
-        currentLanguage: '='
+        currentLanguage: '=',
+        bowser: '='
       }
     };
   });

@@ -23,13 +23,13 @@
     </md-card>
     <div flex ngf-drop="tabs[searchParams.selectedTabIndex].uploadFunction($files)" ngf-multiple="true" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-drop-disabled="((!currentProject || currentProject.release) && tabs[searchParams.selectedTabIndex].elasticSearchType !== 'related_publications') || !hasAuthority('ROLE_PUBLISHER') || !tabs[searchParams.selectedTabIndex].uploadFunction">
         <div ng-repeat="result in searchResult" ng-switch="result._type">
-            <variable-search-result ng-switch-when="variables" search-result="result._source" current-language="currentLanguage"></variable-search-result>
-            <survey-search-result ng-switch-when="surveys" search-result="result._source" current-language="currentLanguage"></survey-search-result>
-            <question-search-result ng-switch-when="questions" search-result="result._source" current-language="currentLanguage"></question-search-result>
-            <dataset-search-result ng-switch-when="data_sets" search-result="result._source" current-language="currentLanguage"></dataset-search-result>
-            <study-search-result ng-switch-when="studies" search-result="result._source" current-language="currentLanguage"></study-search-result>
-            <related-publication-search-result ng-switch-when="related_publications" search-result="result._source" current-language="currentLanguage"></related-publication-search-result>
-            <instrument-search-result ng-switch-when="instruments" search-result="result._source" current-language="currentLanguage"></instrument-search-result>
+            <variable-search-result ng-switch-when="variables" search-result="result._source" current-language="currentLanguage" bowser="bowser"></variable-search-result>
+            <survey-search-result ng-switch-when="surveys" search-result="result._source" current-language="currentLanguage" bowser="bowser"></survey-search-result>
+            <question-search-result ng-switch-when="questions" search-result="result._source" current-language="currentLanguage" bowser="bowser"></question-search-result>
+            <dataset-search-result ng-switch-when="data_sets" search-result="result._source" current-language="currentLanguage" bowser="bowser"></dataset-search-result>
+            <study-search-result ng-switch-when="studies" search-result="result._source" current-language="currentLanguage" bowser="bowser"></study-search-result>
+            <related-publication-search-result ng-switch-when="related_publications" search-result="result._source" current-language="currentLanguage" bowser="bowser"></related-publication-search-result>
+            <instrument-search-result ng-switch-when="instruments" search-result="result._source" current-language="currentLanguage" bowser="bowser"></instrument-search-result>
         </div>
         <div ng-if="pageObject.totalHits && pageObject.totalHits > pageObject.size" layout="row" layout-align="center">
             <ul template-url="custom-uib-pager-template" uib-pagination next-text="{{'global.pagination.next'|translate}}" previous-text="{{'global.pagination.previous'|translate}}" total-items="pageObject.totalHits" ng-model="pageObject.page" max-size="5" ng-change="onPageChanged()" items-per-page="pageObject.size"

@@ -162,7 +162,7 @@
                 <md-divider></md-divider>
                 <md-content style="background-color:white;">
                     <div style="width: 100%;" ng-repeat="predecessor in ctrl.predecessors">
-                        <question-search-result search-result="predecessor._source" current-language="currentLanguage"></question-search-result>
+                        <question-search-result search-result="predecessor._source" current-language="currentLanguage" bowser="bowser"></question-search-result>
                     </div>
                     <div layout="row" layout-align="center center" ng-if="ctrl.predecessors.length == 0" layout-padding>
                         {{'question-management.detail.no-predecessors' | translate}}
@@ -180,7 +180,7 @@
                 <md-divider></md-divider>
                 <md-content style="background-color:white;">
                     <div style="width: 100%;" ng-repeat="successor in ctrl.successors">
-                        <question-search-result ng search-result="successor._source" current-language="currentLanguage"></question-search-result>
+                        <question-search-result ng search-result="successor._source" current-language="currentLanguage" bowser="bowser"></question-search-result>
                     </div>
                     <div layout="row" layout-align="center center" ng-if="ctrl.successors.length == 0" layout-padding>
                         {{'question-management.detail.no-successors' | translate }}
