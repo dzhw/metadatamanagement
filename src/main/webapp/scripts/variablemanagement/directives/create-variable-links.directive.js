@@ -72,7 +72,8 @@ angular.module('metadatamanagementApp').directive('createVariableLinks',
                               var newElement = angular.element('<span>' +
                                replacedText + '</span>');
                               var compiledElement = $compile(newElement)(scope);
-                              textNode.replaceWith(compiledElement[0]);
+                              angular.element(textNode)
+                              .replaceWith(compiledElement[0]);
                             }
                           });
                     });
