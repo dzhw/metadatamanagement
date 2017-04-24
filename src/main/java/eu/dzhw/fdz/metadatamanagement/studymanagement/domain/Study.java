@@ -98,6 +98,9 @@ public class Study extends AbstractRdcDomainObject {
       message = "study-management.error.study.survey-design.valid-survey-design")
   private I18nString surveyDesign;
   
+  @NotEmpty(message = "study-management.error.study.doi.not-empty")
+  private String doi;
+
   public Study() {
     super();
   }
@@ -216,5 +219,13 @@ public class Study extends AbstractRdcDomainObject {
 
   public void setSurveyDesign(I18nString surveyDesign) {
     this.surveyDesign = surveyDesign;
+  }
+  
+  public String getDoi() {
+    return doi;
+  }
+
+  public void setDoi(String doi) {
+    this.doi = doi;
   }
 }

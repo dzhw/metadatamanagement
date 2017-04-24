@@ -31,6 +31,8 @@ public class StudySubDocument implements StudySubDocumentProjection {
   
   private List<Person> authors;
   
+  private String doi;
+  
   public StudySubDocument() {
     super();
   }
@@ -110,5 +112,14 @@ public class StudySubDocument implements StudySubDocumentProjection {
 
   public void setTitle(I18nString title) {
     this.title = title;
+  }
+
+  @Override
+  public String getDoi() {
+    return doi;
+  }
+  
+  public void setDoi(String doi) {
+    this.doi = doi;
   }
 }

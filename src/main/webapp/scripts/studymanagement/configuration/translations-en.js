@@ -53,7 +53,9 @@ angular.module('metadatamanagementApp').config(
             'description': 'Description',
             'description-tooltip': 'Click to show data set "{{id}}"',
             'maxNumberOfObservations': 'Observations'
-          }
+          },
+          'doi': 'DOI',
+          'doi-tooltip': 'Click to open the DOI in a new Tab'
         },
         'log-messages': {
           'study': {

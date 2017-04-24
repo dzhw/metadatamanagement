@@ -27,5 +27,6 @@ public interface StudySubDocumentProjection {
   I18nString getSponsor();
 
   List<Person> getAuthors();
-
+  
+  String getDoi();
 }

@@ -65,6 +65,15 @@
       				}		
       			}
       		},
+      		"study": {
+				"type": "object",      			
+      			"properties": {
+      				"doi" : {
+      					"type": "string",
+        				"index": "not_analyzed"
+      				}
+      			}
+      		},
       		"surveys": {
       			"type": "object",
       			"properties": {

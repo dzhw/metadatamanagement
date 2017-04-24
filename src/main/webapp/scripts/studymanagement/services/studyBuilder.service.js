@@ -41,7 +41,8 @@ angular.module('metadatamanagementApp').service('StudyBuilderService',
           de: studyFromExcel['surveyDesign.de']
         },
         authors: authors,
-        dataAcquisitionProjectId: dataAcquisitionProjectId
+        dataAcquisitionProjectId: dataAcquisitionProjectId,
+        doi: 'prefix-' + dataAcquisitionProjectId + '-postfix'
       };
       var cleanedStudyObject = CleanJSObjectService
         .removeEmptyJsonObjects(study);

@@ -35,6 +35,10 @@
       				}
       			}
       		},
+      		"doi": {
+      			"type": "string",
+        		"index": "not_analyzed"
+      		},
       		"relatedPublications": {
       			"type": "object",
       			"properties": {

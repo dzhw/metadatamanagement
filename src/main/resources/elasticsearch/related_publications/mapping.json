@@ -59,6 +59,15 @@
                 		"include_in_all": false
       				}
       			}
+      		},
+      		"studies": {
+				"type": "object",      			
+      			"properties": {
+      				"doi" : {
+      					"type": "string",
+        				"index": "not_analyzed"
+      				}
+      			}
       		}
       	}
 	}
