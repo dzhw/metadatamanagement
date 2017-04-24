@@ -116,8 +116,7 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-not-empty':'The description must not be empty!'
             },
             'title': {
-              'not-null': 'The title of the attachment must not be empty!',
-              'string-size': 'The title of the attachment is mandatory and must not contain more than 128 characters.'
+              'string-size': 'The title of the attachment must not contain more than 128 characters.'
             },
             'language': {
               'not-null': 'The language of the attachment must not be empty!',

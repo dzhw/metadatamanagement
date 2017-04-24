@@ -136,9 +136,9 @@
             <table class="fdz-table">
                 <thead>
                     <tr>
-                        <th>{{'instrument-management.detail.attachments.title' | translate }}
+                        <th>{{'instrument-management.detail.attachments.type' | translate }}
                             <md-tooltip hide-gt-xs md-direction="right">
-                                {{'instrument-management.detail.attachments.title' | translate }}
+                                {{'instrument-management.detail.attachments.type' | translate }}
                             </md-tooltip>
                         </th>
                         <th>{{'instrument-management.detail.attachments.description' | translate }}
@@ -146,10 +146,10 @@
                                 {{'instrument-management.detail.attachments.description' | translate }}
                             </md-tooltip>
                         </th>
-                        <th>{{'instrument-management.detail.attachments.type' | translate }}
-                            <md-tooltip hide-gt-xs md-direction="right">
-                                {{'instrument-management.detail.attachments.type' | translate }}
-                            </md-tooltip>
+                        <th>{{'instrument-management.detail.attachments.title' | translate }}
+                          <md-tooltip hide-gt-xs md-direction="right">
+                            {{'instrument-management.detail.attachments.title' | translate }}
+                          </md-tooltip>
                         </th>
                         <th>{{'instrument-management.detail.attachments.language' | translate }}
                             <md-tooltip hide-gt-xs md-direction="right">
@@ -165,9 +165,9 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="row in ctrl.attachments">
-                        <td lang="{{row.language}}">{{row.title}}&nbsp;</td>
-                        <td display-i18n-string="row.description"></td>
                         <td display-i18n-string="row.type"></td>
+                        <td display-i18n-string="row.description"></td>
+                        <td lang="{{row.language}}">{{row.title}}&nbsp;</td>
                         <td>{{row.language | displayIsoLanguage: currentLanguage}}&nbsp;</td>
                         <td><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                               {{'global.tooltips.files.download' | translate: {filename: row.fileName} }}

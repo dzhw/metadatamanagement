@@ -116,8 +116,7 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-not-empty':'Die Beschreibung darf nicht leer sein.'
             },
             'title': {
-                'not-null': 'Der Title des Attachments darf nicht leer sein.',
-                'string-size': 'Der Title des Attachments muss angegeben werden und darf nicht länger als 128 Zeichen sein.'
+                'string-size': 'Der Title des Attachments darf nicht länger als 128 Zeichen sein.'
               },
             'language': {
                 'not-null': 'Die Sprache des Attachments darf nicht leer sein.',
