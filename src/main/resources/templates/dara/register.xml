@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.da-ra.de/fileadmin/media/da-ra.de/Technik/dara_v3.1_de_en_18112014.xsd">
+    <resourceType>${resourceType}</resourceType>
+    <titles>
+        <title>
+            <language>de</language>
+            <titleName>${study.title.de}</titleName>
+        </title>
+        <title>
+            <language>en</language>
+            <titleName>${study.title.en}</titleName>
+        </title>
+    </titles>
+    <creators>
+        <#list study.authors as author>
+        <creator>
+            <person>
+                <firstName>${author.firstName}</firstName>
+                <#if author.middleName??>
+                <middleName>${author.middleName}</middleName>
+                </#if>
+                <lastName>${author.lastName}</lastName>
+            </person>
+        </creator>
+        </#list>
+    </creators>
+    <dataURLs>
+        <dataURL>
+            http://metadata.fdz.dzhw.eu/#!/de/studies/${study.id}
+        </dataURL>
+    </dataURLs>
+    <publicationDate>
+        <date>${releaseDate}</date>
+    </publicationDate>
+    <availability>
+        <availabilityControlled>${availabilityControlled}</availabilityControlled>
+    </availability>
+</resource>
