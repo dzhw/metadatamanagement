@@ -16,7 +16,12 @@ angular.module('metadatamanagementApp').config(
         'home': {
           'title': 'Datenaufbereitungsprojekte',
           'createLabel': 'Neues Datenaufbereitungsprojekt anlegen',
-          'releaseLabel': 'Das Datenaufbereitungsprojekt "{{ id }}" freigeben'
+          'releaseLabel': 'Das Datenaufbereitungsprojekt "{{ id }}" freigeben',
+          'dialog-tooltip': {
+            'ok': 'Klicken, um das Datenaufbereitungsprojekt zu erzeugen',
+            'cancel': 'Klicken, um abzubrechen',
+            'close': 'Klicken, um den Dialog zu schließen'
+          }
         },
         'delete': {
           'question': 'Sind Sie sicher, dass Sie das Datenaufbereitungsprojekt "{{ name }}" löschen möchten?'

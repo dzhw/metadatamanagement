@@ -15,7 +15,7 @@
                 {{job.errors || 0}}</span>
                 <md-button class="md-icon-button" ng-click="closeDialog()">
                     <md-icon md-font-set="material-icons">clear</md-icon>
-                    <md-tooltip md-z-index="100001">
+                    <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                         {{'global.dialog.tooltip.close' | translate}}
                     </md-tooltip>
                 </md-button>

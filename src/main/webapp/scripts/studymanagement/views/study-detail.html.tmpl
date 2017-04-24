@@ -38,7 +38,7 @@
                     </div>
                     <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.doi">
                         <span style="font-weight: bold;">{{'study-management.detail.doi' | translate }}:</span>
-                        <a ng-href="https://dx.doi.org/{{ctrl.study.doi}}" target="_blank">{{ctrl.study.doi}}<md-tooltip md-autohide="true">
+                        <a ng-href="https://dx.doi.org/{{ctrl.study.doi}}" target="_blank">{{ctrl.study.doi}}<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                             {{'study-management.detail.doi-tooltip' | translate}}
                         </md-tooltip>
                         </a>
@@ -69,7 +69,7 @@
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                                 {{'survey-management.detail.survey' | translate }}:
                                 <span display-i18n-string="ctrl.survey.title"></span>
-                                <md-tooltip md-autohide="true">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'study-management.detail.tooltips.surveys.one' | translate}}
                                 </md-tooltip>
                               </a>
@@ -78,7 +78,7 @@
                             <a ui-sref="search({'type': 'surveys', 'data-set': ctrl.dataSet.id, 'page': 1})">
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                                 {{'survey-management.detail.surveys' | translate }}: ({{ctrl.counts.surveysCount}})
-                                <md-tooltip md-autohide="true">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'study-management.detail.tooltips.surveys.many' | translate}}
                                 </md-tooltip>
                             </a>
@@ -94,7 +94,7 @@
                                 <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
                                 {{'data-set-management.detail.data-set' | translate }}:
                                 <span display-i18n-string="ctrl.dataSet.description"></span>
-                                <md-tooltip md-autohide="true">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'study-management.detail.tooltips.data-sets.one' | translate}}
                                 </md-tooltip>
                             </a>
@@ -103,7 +103,7 @@
                             <a ui-sref="search({'type': 'data_sets', 'survey':ctrl.survey.id, 'page': 1})">
                                 <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
                                 {{'data-set-management.detail.data-sets' | translate }}: ({{ctrl.counts.dataSetsCount}})
-                                <md-tooltip md-autohide="true">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'study-management.detail.tooltips.data-sets.many' | translate}}
                                 </md-tooltip>
                             </a>
@@ -118,7 +118,7 @@
                             <a ui-sref="relatedPublicationDetail({'id': ctrl.relatedPublication.id})">
                                 <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
                                 {{'related-publication-management.detail.publication' | translate }}: {{ctrl.relatedPublication.title}}
-                                <md-tooltip md-autohide="true">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'study-management.detail.tooltips.publications.one' | translate}}
                                 </md-tooltip>
                             </a>
@@ -127,7 +127,7 @@
                             <a ui-sref="search({'type': 'related_publications', 'study': ctrl.study.id, 'page': 1})">
                                 <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
                                 {{'related-publication-management.detail.publications' | translate }}: ({{ctrl.counts.publicationsCount}})
-                                <md-tooltip md-autohide="true">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'study-management.detail.tooltips.publications.many' | translate}}
                                 </md-tooltip>
                             </a>
@@ -180,7 +180,7 @@
                     <tr ng-repeat="row in ctrl.dataSets | orderBy: 'number'">
                         <td><a ui-sref="dataSetDetail({'id': row.id})">
                           <span display-i18n-string="row.description"></span>&nbsp;
-                          <md-tooltip md-autohide="true">
+                          <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                 {{'study-management.detail.data-set.description-tooltip' | translate: {id:row.id} }}
                             </md-tooltip></a></td>
                         <td>{{row.accessWays}}</td>

@@ -16,7 +16,12 @@ angular.module('metadatamanagementApp').config(
         'home': {
           'title': 'Data Acquisition Projects',
           'createLabel': 'Create a new Data Acquisition Project',
-          'releaseLabel': 'Release Data Acquisition Project "{{ id }}"'
+          'releaseLabel': 'Release Data Acquisition Project "{{ id }}"',
+          'dialog-tooltip': {
+            'ok': 'Click to create the Data Acquisition Project',
+            'cancel': 'Click to cancel',
+            'close': 'Click to close the dialog'
+          }
         },
         'delete': {
           'question': 'Are you sure you want to delete Data Acquisition Project "{{ name }}"?'
