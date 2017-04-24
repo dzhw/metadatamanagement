@@ -111,7 +111,7 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
                           }
                           attachments.push(SurveyBuilderService.
                             buildSurveyAttachmentMetadata(attachmentFromExcel,
-                              files.surveys.dataAcquisitionProjectId));
+                              files.surveys.dataAcquisitionProjectId, index));
                         });
             } else {
               JobLoggingService.cancel(

@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsCriteria;
@@ -75,6 +76,7 @@ public class DataSetAttachmentService {
   public List<DataSetAttachmentMetadata> findAllByDataSet(String dataSetId) {
     Query query = new Query(GridFsCriteria.whereFilename()
         .regex("^" + Pattern.quote(buildFileNamePrefix(dataSetId))));
+    query.with(new Sort(Sort.Direction.ASC, "metadata.indexInDataSet"));
     return this.operations.find(query).stream().map(gridfsFile -> {
       return mongoTemplate.getConverter().read(DataSetAttachmentMetadata.class, 
           gridfsFile.getMetaData());

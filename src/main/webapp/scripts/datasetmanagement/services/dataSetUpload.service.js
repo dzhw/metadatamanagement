@@ -311,7 +311,8 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
                         attachmentMap[attachment.dataSetNumber]
                           .push(DataSetBuilderService
                             .buildDataSetAttachment(attachment,
-                              dataAcquisitionProjectId, filesMap)
+                              dataAcquisitionProjectId, filesMap,
+                              attachment.__rowNum__)
                           );
                       } else {
                         //Not valid Attachment.dataSetNumber Case

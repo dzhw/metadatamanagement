@@ -81,7 +81,7 @@ angular.module('metadatamanagementApp').service('DataSetBuilderService',
     };
 
     var buildDataSetAttachment =
-      function(attachment, dataAcquisitionProjectId, filesMap) {
+      function(attachment, dataAcquisitionProjectId, filesMap, excelRowIndex) {
         var notFoundAttachmentsMap = {};
         var attachmentUploadObject = {};
         var metadata = {};
@@ -102,6 +102,7 @@ angular.module('metadatamanagementApp').service('DataSetBuilderService',
               'de': attachment['description.de'],
               'en': attachment['description.en']
             };
+            metadata.indexInDataSet = excelRowIndex;
 
             //Build Attachment Upload Object
             attachmentUploadObject = {

@@ -55,6 +55,10 @@ public class DataSetAttachmentMetadata extends AbstractRdcDomainObject {
   @NotNull(message =
       "data-set-management.error.data-set-attachment-metadata.data-set-number.not-null")
   private Integer dataSetNumber;
+  
+  @NotNull(message =
+      "data-set-management.error.data-set-attachment-metadata.index-in-data-set.not-null")
+  private Integer indexInDataSet;
 
   @Override
   public String getId() {
@@ -116,5 +120,13 @@ public class DataSetAttachmentMetadata extends AbstractRdcDomainObject {
 
   public void setDataSetNumber(Integer dataSetNumber) {
     this.dataSetNumber = dataSetNumber;
+  }
+
+  public Integer getIndexInDataSet() {
+    return indexInDataSet;
+  }
+
+  public void setIndexInDataSet(Integer indexInDataSet) {
+    this.indexInDataSet = indexInDataSet;
   }
 }

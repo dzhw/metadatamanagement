@@ -484,6 +484,7 @@ public class UnitTestCreateDomainObjectUtils {
           .withTitle("Title")
           .withLanguage("de")
           .withType(InstrumentAttachmentTypes.QUESTION_FLOW)
+          .withIndexInInstrument(1)
           .build();
   }
   
@@ -496,6 +497,7 @@ public class UnitTestCreateDomainObjectUtils {
           .withDescription(new I18nString("Beschreibung","Description"))
           .withTitle("Title")
           .withLanguage("de")
+          .withIndexInSurvey(1)
           .build();
   }
   
@@ -508,6 +510,7 @@ public class UnitTestCreateDomainObjectUtils {
           .withDescription(new I18nString("Beschreibung","Description"))
           .withTitle("Title")
           .withLanguage("de")
+          .withIndexInDataSet(1)
           .build();
   }
   

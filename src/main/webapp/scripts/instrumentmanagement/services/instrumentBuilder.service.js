@@ -36,7 +36,7 @@ angular.module('metadatamanagementApp').service('InstrumentBuilderService',
     };
 
     var buildInstrumentAttachmentMetadata = function(metadataFromExcel,
-      dataAcquisitionProjectId) {
+      dataAcquisitionProjectId, excelRowIndex) {
       var instrumentAttachmentMetadata = {
         instrumentId: InstrumentIdBuilderService.buildInstrumentId(
           dataAcquisitionProjectId, metadataFromExcel.instrumentNumber),
@@ -52,7 +52,8 @@ angular.module('metadatamanagementApp').service('InstrumentBuilderService',
         },
         title: metadataFromExcel.title,
         language: metadataFromExcel.language,
-        fileName: metadataFromExcel.filename
+        fileName: metadataFromExcel.filename,
+        indexInInstrument: excelRowIndex
       };
       var cleanedMetadata = CleanJSObjectService
         .removeEmptyJsonObjects(instrumentAttachmentMetadata);

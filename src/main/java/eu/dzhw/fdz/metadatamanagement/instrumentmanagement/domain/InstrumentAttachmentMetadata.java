@@ -63,6 +63,10 @@ public class InstrumentAttachmentMetadata extends AbstractRdcDomainObject {
   @NotNull(message =
       "instrument-management.error.instrument-attachment-metadata.instrument-number.not-null")
   private Integer instrumentNumber;
+  
+  @NotNull(message =
+      "instrument-management.error.instrument-attachment-metadata.index-in-instrument.not-null")
+  private Integer indexInInstrument;
 
   public String getInstrumentId() {
     return instrumentId;
@@ -131,5 +135,13 @@ public class InstrumentAttachmentMetadata extends AbstractRdcDomainObject {
   @Override
   public String getId() {
     return "/public/files/instruments/" + instrumentId + "/attachments/" + fileName;
+  }
+
+  public Integer getIndexInInstrument() {
+    return indexInInstrument;
+  }
+
+  public void setIndexInInstrument(Integer indexInInstrument) {
+    this.indexInInstrument = indexInInstrument;
   }
 }

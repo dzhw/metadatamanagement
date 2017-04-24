@@ -280,7 +280,7 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
                         InstrumentBuilderService
                         .buildInstrumentAttachmentMetadata(
                           metadataFromExcel,
-                          dataAcquisitionProjectId);
+                          dataAcquisitionProjectId, index);
                       attachmentsToUpload[metadataFromExcel.instrumentNumber]
                         [metadataFromExcel.filename].attachment =
                         attachmentFiles[metadataFromExcel.filename];

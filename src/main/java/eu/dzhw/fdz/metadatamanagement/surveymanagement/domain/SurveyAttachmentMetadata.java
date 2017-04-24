@@ -55,6 +55,10 @@ public class SurveyAttachmentMetadata extends AbstractRdcDomainObject {
   @NotNull(message =
       "survey-management.error.survey-attachment-metadata.survey-number.not-null")
   private Integer surveyNumber;
+  
+  @NotNull(message =
+      "survey-management.error.survey-attachment-metadata.index-in-survey.not-null")
+  private Integer indexInSurvey;
 
   @Override
   public String getId() {
@@ -115,5 +119,13 @@ public class SurveyAttachmentMetadata extends AbstractRdcDomainObject {
 
   public void setSurveyNumber(Integer surveyNumber) {
     this.surveyNumber = surveyNumber;
+  }
+
+  public Integer getIndexInSurvey() {
+    return indexInSurvey;
+  }
+
+  public void setIndexInSurvey(Integer indexInSurvey) {
+    this.indexInSurvey = indexInSurvey;
   }
 }

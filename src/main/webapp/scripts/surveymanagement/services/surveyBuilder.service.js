@@ -39,7 +39,7 @@ angular.module('metadatamanagementApp').service('SurveyBuilderService',
         return new SurveyResource(cleanedSurveyObject);
       };
     var buildSurveyAttachmentMetadata = function(metadataFromExcel,
-      dataAcquisitionProjectId) {
+      dataAcquisitionProjectId, excelRowIndex) {
       var surveyAttachmentMetadata = {
         surveyId: SurveyIdBuilderService.buildSurveyId(
           dataAcquisitionProjectId, metadataFromExcel.surveyNumber),
@@ -51,7 +51,8 @@ angular.module('metadatamanagementApp').service('SurveyBuilderService',
         },
         title: metadataFromExcel.title,
         language: metadataFromExcel.language,
-        fileName: metadataFromExcel.filename
+        fileName: metadataFromExcel.filename,
+        indexInSurvey: excelRowIndex
       };
       var cleanedMetadata = CleanJSObjectService
         .removeEmptyJsonObjects(surveyAttachmentMetadata);

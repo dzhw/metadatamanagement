@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsCriteria;
@@ -68,13 +69,14 @@ public class InstrumentAttachmentService {
   }
   
   /**
-   * Load all metadata objects from gridfs.
+   * Load all metadata objects from gridfs (ordered by indexInInstrument).
    * @param instrumentId The id of the instrument.
    * @return A list of metadata.
    */
   public List<InstrumentAttachmentMetadata> findAllByInstrument(String instrumentId) {
     Query query = new Query(GridFsCriteria.whereFilename()
         .regex("^" + Pattern.quote(buildFileNamePrefix(instrumentId))));
+    query.with(new Sort(Sort.Direction.ASC, "metadata.indexInInstrument"));
     return this.operations.find(query).stream().map(gridfsFile -> {
       return mongoTemplate.getConverter().read(InstrumentAttachmentMetadata.class, 
           gridfsFile.getMetaData());
