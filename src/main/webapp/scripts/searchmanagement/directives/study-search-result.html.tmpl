@@ -14,7 +14,7 @@
         <md-card-content>
             <div display-i18n-string="searchResult.description"></div>
         </md-card-content>
-        <md-tooltip md-direction="top" md-autohide="true">
+        <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
           {{'search-management.cards.study-tooltip' | translate: {id:searchResult.id} }}
         </md-tooltip>
     </a>

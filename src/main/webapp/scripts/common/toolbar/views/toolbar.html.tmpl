@@ -3,7 +3,7 @@
     <div class="md-toolbar-tools" layout="row">
         <md-button class="md-primary md-raised md-icon-button fdz-toolbar-button" hide-gt-md ng-click="toggleLeft()">
             <md-icon md-font-set="material-icons">menu</md-icon>
-            <md-tooltip md-z-index="10">
+            <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 20">
                 {{'global.toolbar.buttons.open-menu-tooltip' | translate}}
             </md-tooltip>
         </md-button>
@@ -20,7 +20,7 @@
                     <span hide-xs class="fdz-truncate-string" ng-if="item.numbers">{{item.numbers}}</span>
                     <span hide-xs class="fdz-truncate-string" ng-if="item.projectId">{{item.projectId}}</span>
                     <span hide-xs class="fdz-truncate-string" ng-if="item.name">{{item.name}}</span>
-                    <md-tooltip md-z-index="100" md-autohide="true">
+                    <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                       <span ng-if="item.tabName" translate='{{item.tooltip}}' translate-value-tabname="{{item.tabName | translate}}"></span>
                       <span ng-if="item.id" translate='{{item.tooltip}}' translate-value-param="{{item.id}}"></span>
                       <span ng-if="item.number" translate='{{item.tooltip}}' translate-value-param="{{item.number}}"></span>

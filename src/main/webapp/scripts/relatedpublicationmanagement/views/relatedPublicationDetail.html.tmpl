@@ -30,7 +30,7 @@
                     <div style="margin-bottom: 0.5em;" ng-if="ctrl.relatedPublication.doi">
                         <span style="font-weight: bold;">{{'related-publication-management.detail.doi' | translate }}:
               </span>
-                        <a ng-href="https://dx.doi.org/{{ctrl.relatedPublication.doi}}" target="_blank">{{ctrl.relatedPublication.doi}}<md-tooltip md-autohide="true">
+                        <a ng-href="https://dx.doi.org/{{ctrl.relatedPublication.doi}}" target="_blank">{{ctrl.relatedPublication.doi}}<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                             {{'related-publication-management.detail.doi-tooltip' | translate}}
                         </md-tooltip>
                         </a>
@@ -38,7 +38,7 @@
                     <div style="margin-bottom: 0.5em;" ng-if="ctrl.relatedPublication.sourceLink" layout="row">
                         <span style="font-weight: bold;">{{'related-publication-management.detail.sourceLink' | translate }}:&nbsp;
               </span>
-                        <a class="fdz-truncate-string" target="_blank" style="display: block;" ng-href="{{ctrl.relatedPublication.sourceLink}}">{{ctrl.relatedPublication.sourceLink}}<md-tooltip md-autohide="true">
+                        <a class="fdz-truncate-string" target="_blank" style="display: block;" ng-href="{{ctrl.relatedPublication.sourceLink}}">{{ctrl.relatedPublication.sourceLink}}<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                             {{'related-publication-management.detail.sourceLink-tooltip' | translate}}
                         </md-tooltip></a>
                     </div>
@@ -64,7 +64,7 @@
                                 <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
                                 {{'study-management.detail.study' | translate }}:
                                 <span display-i18n-string="studies[0].title"></span>
-                                <md-tooltip md-autohide="true">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'related-publication-management.detail.tooltips.studies.one' | translate}}
                                 </md-tooltip>
                             </a>
@@ -73,7 +73,7 @@
                             <a ui-sref="search({'type': 'studies', 'related-publication':ctrl.relatedPublication.id, 'page': 1})">
                                 <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
                                 {{'study-management.detail.studies' | translate }}: ({{studies.length}})
-                                <md-tooltip md-autohide="true">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'related-publication-management.detail.tooltips.studies.many' | translate}}
                                 </md-tooltip>
                             </a>
@@ -89,7 +89,7 @@
                                 <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
                                 {{'data-set-management.detail.data-set' | translate }}:
                                 <span display-i18n-string="dataSets[0].description"></span>
-                                <md-tooltip md-autohide="true">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'related-publication-management.detail.tooltips.data-sets.one' | translate}}
                                 </md-tooltip>
                             </a>
@@ -98,7 +98,7 @@
                             <a ui-sref="search({'type': 'data_sets', 'related-publication':ctrl.relatedPublication.id, 'page': 1})">
                                 <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
                                 {{'data-set-management.detail.data-sets' | translate }}: ({{dataSets.length}})
-                                <md-tooltip md-autohide="true">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'related-publication-management.detail.tooltips.data-sets.many' | translate}}
                                 </md-tooltip>
                             </a>
@@ -114,7 +114,7 @@
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                                 {{'survey-management.detail.survey' | translate }}:
                                 <span display-i18n-string="surveys[0].title"></span>
-                                <md-tooltip md-autohide="true">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'related-publication-management.detail.tooltips.surveys.one' | translate}}
                                 </md-tooltip>
                             </a>
@@ -123,7 +123,7 @@
                             <a ui-sref="search({'type': 'surveys', 'related-publication':ctrl.relatedPublication.id, 'page': 1})">
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                                 {{'survey-management.detail.surveys' | translate }}: ({{surveys.length}})
-                                <md-tooltip md-autohide="true">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'related-publication-management.detail.tooltips.surveys.many' | translate}}
                                 </md-tooltip>
                             </a>
@@ -139,7 +139,7 @@
                                 <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
                                 {{'instrument-management.detail.instrument' | translate }}:
                                 <span display-i18n-string="instruments[0].description"></span>
-                                <md-tooltip md-autohide="true">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'related-publication-management.detail.tooltips.instruments.one' | translate}}
                                 </md-tooltip>
                             </a>
@@ -164,7 +164,7 @@
                                 <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
                                 {{'question-management.detail.question' | translate }}:
                                 <span display-i18n-string="questions[0].questionText"></span>
-                                <md-tooltip md-autohide="true">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'related-publication-management.detail.tooltips.questions.one' | translate}}
                                 </md-tooltip>
                             </a>
@@ -173,7 +173,7 @@
                             <a ui-sref="search({'type': 'questions', 'related-publication':ctrl.relatedPublication.id, 'page': 1})">
                                 <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
                                 {{'question-management.detail.questions' | translate }}: ({{questions.length}})
-                                <md-tooltip md-autohide="true">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'related-publication-management.detail.tooltips.questions.many' | translate}}
                                 </md-tooltip>
                             </a>
@@ -189,7 +189,7 @@
                                 <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
                                 {{'variable-management.detail.variable' | translate }}:
                                 <span display-i18n-string="variables[0].label"></span>
-                                <md-tooltip md-autohide="true">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'related-publication-management.detail.tooltips.variables.one' | translate}}
                                 </md-tooltip>
                             </a>
@@ -198,7 +198,7 @@
                             <a ui-sref="search({'type': 'variables', 'related-publication':ctrl.relatedPublication.id, 'page': 1})">
                                 <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
                                 {{'variable-management.detail.variables' | translate }}: ({{variables.length}})
-                                <md-tooltip md-autohide="true">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'related-publication-management.detail.tooltips.variables.many' | translate}}
                                 </md-tooltip>
                             </a>

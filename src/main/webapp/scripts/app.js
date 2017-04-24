@@ -85,7 +85,9 @@ angular
       'ng-disabled=\"noPrevious()||ngDisabled\" ' +
       'uib-tabindex-toggle>{{::getText(\'previous\')}}<md-tooltip ' +
       'ng-if="!noPrevious()" ' +
-      'md-direction="bottom" md-autohide="true"><span translate=' +
+      'md-direction="bottom" ' +
+      'md-autohide="true" md-z-index="bowser.mobile || ' +
+      'bowser.tablet ? -100 : 100"><span translate=' +
       '"global.tooltips.pager.previous"></span></md-tooltip></a></li><li ' +
       'role=\"menuitem\" ng-repeat=\"page in pages track by $index\" ' +
       'ng-class=\"{active: page.active,disabled: ngDisabled&&!page.active}\" ' +
@@ -93,8 +95,9 @@ angular
       '$event)\" ng-disabled=\"ngDisabled&&!page.active\" ' +
       'tabindex="{{page.active?\'-1\':\'0\'}}" ' +
       '>{{page.text}}<md-tooltip ng-if="!page.active" ' +
-      'md-direction="bottom" ' +
-      'md-autohide="true"><span translate="global.tooltips.pager.current" ' +
+      'md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || ' +
+      'bowser.tablet ? -100 : 100"' +
+      '><span translate="global.tooltips.pager.current" ' +
       'translate-values="{number: page.text}"></span></md-tooltip></a></li>' +
       '<li role=\"menuitem\" ' +
       'ng-if=\"::directionLinks\" ng-class=\"{disabled: ' +
@@ -102,8 +105,9 @@ angular
       'href ng-click=\"selectPage(page + 1, $event)\" ' +
       'ng-disabled=\"noNext()||ngDisabled\" uib-tabindex-toggle>' +
       '{{::getText(\'next\')}}<md-tooltip md-direction="bottom" ' +
-      'ng-if="!noNext()" ' +
-      'md-autohide="true"><span translate="global.tooltips.pager.next" ' +
+      'ng-if="!noNext()" md-autohide="true" md-z-index="bowser.mobile || ' +
+      'bowser.tablet ? -100 : 100"' +
+      '><span translate="global.tooltips.pager.next" ' +
       '></span></md-tooltip></a></li><li role=\"menuitem\" ' +
       'ng-if=\"::boundaryLinks\" ng-class=\"{disabled: ' +
       'noNext()||ngDisabled}\" class=\"pagination-last\"><a href ' +

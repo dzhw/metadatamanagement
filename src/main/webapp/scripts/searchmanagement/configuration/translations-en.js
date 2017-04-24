@@ -27,7 +27,7 @@ angular.module('metadatamanagementApp').config(
         'buttons': {
           'refresh-tooltip': 'Click to refresh the search results',
           'upload-variables-tooltip': 'Click to upload variables for the selected data acquisition project',
-          'upload-surveys-tooltip': 'Click to upload upload surveys for the selected data acquisition project',
+          'upload-surveys-tooltip': 'Click to upload surveys for the selected data acquisition project',
           'upload-data-sets-tooltip': 'Click to upload data sets for the selected data acquisition project',
           'upload-questions-tooltip': 'Click to upload questions for the selected data acquisition project',
           'upload-studies-tooltip': 'Click to upload a study for the selected data acquisition project',
@@ -47,21 +47,21 @@ angular.module('metadatamanagementApp').config(
         },
         'tabs': {
           'variables': 'Variables',
-          'variables-tooltip': 'Click to search for Variables',
+          'variables-tooltip': 'Click to search for variables',
           'questions': 'Questions',
-          'questions-tooltip': 'Click to search for Questions',
+          'questions-tooltip': 'Click to search for questions',
           'surveys': 'Surveys',
-          'surveys-tooltip': 'Click to search for Surveys',
+          'surveys-tooltip': 'Click to search for surveys',
           'data_sets': 'Data Sets',
-          'data_sets-tooltip': 'Click to search for Data Sets',
+          'data_sets-tooltip': 'Click to search for data sets',
           'studies': 'Studies',
-          'studies-tooltip': 'Click to search for Studies',
+          'studies-tooltip': 'Click to search for studies',
           'all': 'All',
           'all-tooltip': 'Click to search for all objects',
           'related_publications': 'Publications',
-          'related_publications-tooltip': 'Click to search for Publications',
+          'related_publications-tooltip': 'Click to search for publications',
           'instruments': 'Instruments',
-          'instruments-tooltip': 'Click to search for Instruments'
+          'instruments-tooltip': 'Click to search for instruments'
         },
         'cards': {
           'question-tooltip': 'Click to show question "{{id}}"',

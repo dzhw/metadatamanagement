@@ -1,14 +1,14 @@
 <md-toast class="fdz-toast" layout="row" layout-align="end center">
     <span class="fdz-truncate-string" data-translate="{{resultMessage}}" data-translate-values="{{translationParams}}"></span>
     <md-button aria-label="{{'global.joblogging.job-complete-toast.show-log'| translate}}" class="md-accent md-raised" ng-click="showLog()" ng-class="{'md-icon-button': $mdMedia('xs')}">
-        <md-tooltip>
+        <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
             {{'global.joblogging.job-complete-toast.show-log' | translate}}
         </md-tooltip>
         <md-icon md-font-set="material-icons">remove_red_eye</md-icon>
         <span data-translate="global.joblogging.job-complete-toast.title">Show log</span>
     </md-button>
     <md-button aria-label="{{'global.buttons.close' | translate}}" ng-click="closeToast()">
-        <md-tooltip>
+        <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
             {{'global.dialog.tooltip.close' | translate}}
         </md-tooltip>
         <md-icon style="color: white;" md-font-set="material-icons">close</md-icon>

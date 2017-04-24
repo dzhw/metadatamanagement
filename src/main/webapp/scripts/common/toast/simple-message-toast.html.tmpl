@@ -1,7 +1,7 @@
 <md-toast>
     <span data-translate="{{messageId}}" data-translate-values="messageParams"></span>
     <md-button aria-label="{{'global.buttons.close' | translate}}" ng-click="closeToast()">
-        <md-tooltip>
+        <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
             {{'global.toast.tooltip.close' | translate}}
         </md-tooltip>
         <md-icon style="color: white;" md-font-set="material-icons">close</md-icon>
