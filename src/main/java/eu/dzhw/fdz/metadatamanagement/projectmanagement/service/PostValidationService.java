@@ -222,18 +222,6 @@ public class PostValidationService {
         }
       }
 
-      // variable.SameVariablesInPanel: there must be a variable with that id
-      /*if (variable.getSameVariablesInPanel() != null) {
-        for (String variableId : variable.getSameVariablesInPanel()) {
-          if (this.variableRepository.findOne(variableId) == null) {
-            String[] information = {variable.getId(), variableId};
-            errors.add(new PostValidationMessageDto("variable-management.error."
-                + "post-validation.variable-id-is-not-in-invalid-variables-panel",
-                Arrays.asList(information)));
-          }
-        }
-      }*/
-
       // variable.relatedQuestions.questionId: 
       // If there is no genereationDetail every variable needs a
       // questionId (and vice versa)
@@ -249,11 +237,22 @@ public class PostValidationService {
       }
       
       //variable.dataSetId: Check for for the data set id
-      if (variable.getDataSetId() != null 
-          && this.dataSetRepository.findOne(variable.getDataSetId()) == null) {
-        String[] information = {variable.getId(), variable.getDataSetId()};
-        errors.add(new PostValidationMessageDto("variable-management.error."
-            + "post-validation.variable-has-invalid-data-set-id", Arrays.asList(information)));
+      if (variable.getDataSetId() != null) {
+        DataSet dataSet =  this.dataSetRepository.findOne(variable.getDataSetId());
+        if (dataSet == null) {
+          String[] information = {variable.getId(), variable.getDataSetId()};
+          errors.add(new PostValidationMessageDto("variable-management.error."
+              + "post-validation.variable-has-invalid-data-set-id", 
+              Arrays.asList(information)));          
+        } else {
+          // check that variable.surveyIds is a subset of dataSet.surveyIds
+          if (!dataSet.getSurveyIds().containsAll(variable.getSurveyIds())) {
+            String[] information = {variable.getId(), variable.getDataSetId()};
+            errors.add(new PostValidationMessageDto("variable-management.error."
+                + "post-validation.variable-survey-ids-are-not-consistent-with-data-set", 
+                Arrays.asList(information)));
+          }
+        }
       }
       
       //variable.relatedVariables: Check for variable ids
@@ -270,8 +269,6 @@ public class PostValidationService {
       
     }
     
-    
-
     return errors;
   }
 

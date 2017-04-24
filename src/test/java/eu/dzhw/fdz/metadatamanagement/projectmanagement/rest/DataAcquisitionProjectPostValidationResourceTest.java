@@ -325,8 +325,9 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     // Act & Assert
     mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
       .andExpect(status().isOk())
-      .andExpect(jsonPath("$.errors", hasSize(1)))
-      .andExpect(jsonPath("$.errors[0].messageId", containsString("error.post-validation.data-set-has-invalid-survey-id")));    
+      .andExpect(jsonPath("$.errors", hasSize(4)))
+      .andExpect(jsonPath("$.errors[0].messageId", containsString("error.post-validation.data-set-has-invalid-survey-id")))
+      .andExpect(jsonPath("$.errors[1].messageId", containsString("error.post-validation.variable-survey-ids-are-not-consistent-with-data-set")));
   }
   
   
@@ -418,6 +419,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     
     //DataSet
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId(), 1);
+    dataSet.setSurveyIds(surveyIds);
     this.dataSetRepository.save(dataSet);
     
     //Instrument
@@ -433,9 +435,10 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     // Act & Assert
     mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
       .andExpect(status().isOk())
-      .andExpect(jsonPath("$.errors", hasSize(2)))      
+      .andExpect(jsonPath("$.errors", hasSize(3)))      
       .andExpect(jsonPath("$.errors[0].messageId", containsString("error.post-validation.project-has-no-study")))
-      .andExpect(jsonPath("$.errors[1].messageId", containsString("error.post-validation.variable-has-invalid-survey-id")));
+      .andExpect(jsonPath("$.errors[1].messageId", containsString("error.post-validation.data-set-has-invalid-survey-id")))
+      .andExpect(jsonPath("$.errors[2].messageId", containsString("error.post-validation.variable-has-invalid-survey-id")));
     }
   
 }
