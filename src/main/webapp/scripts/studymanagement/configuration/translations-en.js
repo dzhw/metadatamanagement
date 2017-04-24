@@ -107,7 +107,7 @@ angular.module('metadatamanagementApp').config(
             },
             'survey-design': {
               'not-null': 'The survey design of the study must not be empty!',
-              'valid-survey-design': 'The allowed values for the survey design of the study are: Cross-section, Panel.'
+              'valid-survey-design': 'The allowed values for the survey design of the study are: Cross-Section, Panel.'
             },
             'authors': {
               'not-empty': 'The list of authors of a study needs min. one element and must not be empty!',

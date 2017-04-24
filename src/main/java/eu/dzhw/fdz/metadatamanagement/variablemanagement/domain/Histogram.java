@@ -14,11 +14,11 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
     intoPackage = "eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders")
 public class Histogram {
 
-  public Integer numberOfBins;
+  private Integer numberOfBins;
 
-  public Double start;
+  private Double start;
 
-  public Double end;
+  private Double end;
 
   /*
    * (non-Javadoc)

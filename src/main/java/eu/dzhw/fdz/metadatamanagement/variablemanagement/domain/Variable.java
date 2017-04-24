@@ -23,6 +23,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.MandatoryHistogramOnRatioScaleLevel;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.OnlyOrdinalScaleLevelForDateDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.StatisticsFirstQuartileMustBeANumberOnNumericDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.StatisticsFirstQuartileMustBeAnIsoDateOnDateDataType;
@@ -102,6 +103,9 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @StatisticsThirdQuartileMustBeANumberOnNumericDataType(
     message = "variable-management.error.variable."
         + "statistics-third-quartile-must-be-a-number-on-numeric-data-type")
+//validation for scalelevel ration
+@MandatoryHistogramOnRatioScaleLevel(
+    message = "variable-management.error.variable.histogram-must-be-set-on-ratio-scale-level")
 public class Variable extends AbstractRdcDomainObject {
   @Id
   @JestId

@@ -250,6 +250,7 @@ angular.module('metadatamanagementApp').config(
             'statistics-median-must-be-an-iso-date-on-date-data-type': 'Wenn der Datentyp einer Variable ein Datum ist, muss der Median von den Statistiken dem Format yyyy-MM-dd entsprechen.',
             'statistics-first-quartile-must-be-an-iso-date-on-date-data-type': 'Wenn der Datentyp einer Variable ein Datum ist, muss das erste Quartile von den Statistiken dem Format yyyy-MM-dd entsprechen.',
             'statistics-third-quartile-must-be-an-iso-date-on-date-data-type': 'Wenn der Datentyp einer Variable ein Datum ist, muss das dritte Quartile von den Statistiken dem Format yyyy-MM-dd entsprechen.',
+            'histogram-must-be-set-on-ratio-scale-level': 'Für verhältnisskalierte Variablen muss ein vollständiges Histogram-Objekt angegeben werden.',
             'id': {
               'not-empty': 'Die FDZ - ID der Variable darf nicht leer sein!',
               'size': 'Die Maximallänge der FDZ - ID ist 128 Zeichen.',
