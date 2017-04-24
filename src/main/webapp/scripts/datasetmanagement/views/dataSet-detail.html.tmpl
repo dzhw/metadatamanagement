@@ -151,20 +151,20 @@
             <table class="fdz-table">
                 <thead>
                     <tr>
-                        <th>{{'data-set-management.detail.sub-data-sets.name' | translate }}
-                            <md-tooltip hide-gt-xs md-direction="right">
-                                {{'data-set-management.detail.sub-data-sets.name' | translate }}
-                            </md-tooltip>
+                        <th>{{'data-set-management.detail.sub-data-sets.accessWay' | translate }}
+                          <md-tooltip hide-gt-xs md-direction="right">
+                            {{'data-set-management.detail.sub-data-sets.accessWay' | translate }}
+                          </md-tooltip>
                         </th>
                         <th>{{'data-set-management.detail.sub-data-sets.description' | translate }}
                             <md-tooltip hide-gt-xs md-direction="right">
                                 {{'data-set-management.detail.sub-data-sets.description' | translate }}
                             </md-tooltip>
                         </th>
-                        <th>{{'data-set-management.detail.sub-data-sets.accessWay' | translate }}
-                            <md-tooltip hide-gt-xs md-direction="right">
-                                {{'data-set-management.detail.sub-data-sets.accessWay' | translate }}
-                            </md-tooltip>
+                        <th>{{'data-set-management.detail.sub-data-sets.name' | translate }}
+                          <md-tooltip hide-gt-xs md-direction="right">
+                            {{'data-set-management.detail.sub-data-sets.name' | translate }}
+                          </md-tooltip>
                         </th>
                         <th>{{'data-set-management.detail.sub-data-sets.numberOfAnalyzedVariables' | translate }}
                             <md-tooltip hide-gt-xs md-direction="right">
@@ -180,9 +180,9 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="row in ctrl.dataSet.subDataSets">
-                        <td>{{row.name}}&nbsp;</td>
-                        <td display-i18n-string="row.description"></td>
                         <td>{{row.accessWay}}</td>
+                        <td display-i18n-string="row.description"></td>
+                        <td>{{row.name}}&nbsp;</td>
                         <td>
                             <a ui-sref="search({'type': 'variables', 'data-set':ctrl.dataSet.id, 'page': 1, 'access-way': row.accessWay,'sort-by': 'indexInDataSet'})">
                           {{ctrl.counts[row.name]}}&nbsp;<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
