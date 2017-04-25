@@ -3,6 +3,8 @@ package eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.DataTypes;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 
@@ -37,22 +39,18 @@ public class StatisticsMedianMustBeANumberOnNumericDataTypeValidator implements
     if (variable == null || variable.getDataType() == null
         || variable.getDistribution() == null
         || variable.getDistribution().getStatistics() == null
-        || variable.getDistribution().getStatistics().getMedian() == null) {
+        || variable.getDistribution().getStatistics().getMedian() == null
+        || !variable.getDataType().equals(DataTypes.NUMERIC)) {
       return true;
     }
 
-    if (variable.getDataType()
-        .equals(DataTypes.NUMERIC)) {
-      String regex = "-?\\d+(\\.\\d+)?";
-      String median = variable.getDistribution().getStatistics().getMedian();
-      // if one value is not number ... send a false.
-      if (!median.matches(regex)) {
-        return false;
-      }
+    String median = variable.getDistribution().getStatistics().getMedian();
+    try {
+      NumberUtils.createNumber(median);
+      return true;
+    } catch (NumberFormatException e) {
+      return false;
     }
-
-    // no numeric, everything is okay.
-    return true;
   }
 
 }

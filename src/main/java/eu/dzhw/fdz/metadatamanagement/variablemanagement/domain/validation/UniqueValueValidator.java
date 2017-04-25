@@ -6,6 +6,9 @@ import java.util.List;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ValidResponse;
 
 /**
@@ -16,6 +19,8 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ValidResponse;
 public class UniqueValueValidator
     implements ConstraintValidator<UniqueValue, List<ValidResponse>> {
 
+  private final Logger log = LoggerFactory.getLogger(UniqueValueValidator.class);
+  
   /*
    * (non-Javadoc)
    * 
@@ -41,6 +46,7 @@ public class UniqueValueValidator
     for (ValidResponse validResponse : validResponses) {
       if (validResponse.getValue() != null) {
         if (classes.contains(validResponse.getValue())) {
+          log.debug("Duplicate validResponse.value found: " + validResponse.getValue());
           return false;
         }
         classes.add(validResponse.getValue());

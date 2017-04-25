@@ -3,6 +3,8 @@ package eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.DataTypes;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ValidResponse;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
@@ -43,14 +45,16 @@ public class ValidResponseValueMustBeANumberOnNumericDataTypeValidator implement
 
     if (variable.getDataType()
         .equals(DataTypes.NUMERIC)) {
-      String regex = "-?\\d+(\\.\\d+)?";
       for (ValidResponse validResponse : variable.getDistribution().getValidResponses()) {
         // if one value is not number ... send a false.
         if (validResponse.getValue() == null) {
           // will be handled by not null validator
           return true;
         }
-        if (!validResponse.getValue().matches(regex)) {
+        try {
+          NumberUtils.createNumber(validResponse.getValue());
+          return true;
+        } catch (NumberFormatException e) {
           return false;
         }
       }

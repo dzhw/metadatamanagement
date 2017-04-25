@@ -3,6 +3,8 @@ package eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.DataTypes;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 
@@ -38,22 +40,18 @@ public class StatisticsMinimumMustBeANumberOnNumericDataTypeValidator implements
         || variable.getDataType() == null
         || variable.getDistribution() == null
         || variable.getDistribution().getStatistics() == null
-        || variable.getDistribution().getStatistics().getMinimum() == null) {
+        || variable.getDistribution().getStatistics().getMinimum() == null
+        || !variable.getDataType().equals(DataTypes.NUMERIC)) {
       return true;
     }
 
-    if (variable.getDataType()
-        .equals(DataTypes.NUMERIC)) {
-      String regex = "-?\\d+(\\.\\d+)?";
-      String minimum = variable.getDistribution().getStatistics().getMinimum();
-      // if one value is not number ... send a false.
-      if (!minimum.matches(regex)) {
-        return false;
-      }
+    String minimum = variable.getDistribution().getStatistics().getMinimum();
+    try {
+      NumberUtils.createNumber(minimum);
+      return true;
+    } catch (NumberFormatException e) {
+      return false;
     }
-
-    // no numeric, everything is okay.
-    return true;
   }
 
 }
