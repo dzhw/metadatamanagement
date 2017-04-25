@@ -12,9 +12,7 @@
         </md-card-header>
         <md-card-content>
             <div layout="row" layout-xs="column">
-                <div class="fdz-search-result-label">
-                    {{ 'variable-management.labels.surveyed-in' | translate}}
-                </div>
+                <span style="font-weight: bold;">{{'global.cards.labels-surveyed-in' | translate}}:&nbsp;</span>
                 <div layout="column">
                     <div class="fdz-truncate-string" ng-repeat="survey in searchResult.surveys">
                         <span  display-i18n-string="survey.title"></span>

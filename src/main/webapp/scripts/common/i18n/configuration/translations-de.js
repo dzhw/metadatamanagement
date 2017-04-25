@@ -51,7 +51,8 @@ angular.module('metadatamanagementApp').config(
         },
         'cards': {
           'details': 'Details',
-          'related-objects': 'Verbundene Objekte'
+          'related-objects': 'Verbundene Objekte',
+          'labels-surveyed-in': 'Erhoben in'
         },
         'buttons': {
           'close': 'Schließen',

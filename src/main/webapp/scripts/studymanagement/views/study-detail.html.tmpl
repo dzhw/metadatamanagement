@@ -190,7 +190,6 @@
             </table>
         </md-card>
     </div>
-
     <div layout="row">
         <md-card flex class="fdz-reset-top-margin">
             <md-card-header>
@@ -199,11 +198,11 @@
                 </md-card-header-text>
             </md-card-header>
             <md-divider></md-divider>
-            <md-card-content>
+            <md-content>
                 <div ng-repeat="result in ctrl.study.surveys | orderBy:['fieldPeriod.start','fieldPeriod.end']">
-                  <survey-search-result search-result="result" current-language="currentLanguage" bowser="bowser"></survey-search-result>
+                  <survey-search-result search-result="result" current-language="currentLanguage" bowser="bowser" add-margin="$mdMedia('gt-sm')"></survey-search-result>
                 </div>
-            </md-card-content>
+            </md-content>
         </md-card>
     </div>
     <div layout="row">

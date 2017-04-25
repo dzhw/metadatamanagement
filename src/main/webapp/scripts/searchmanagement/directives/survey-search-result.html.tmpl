@@ -11,18 +11,18 @@
         </md-card-header>
         <md-card-content>
             <div layout="column" layout-gt-sm="row">
-                <div flex-gt-sm="70" layout="column">
-                    <div style="margin-bottom: 0.5em;" ng-if="searchResult.population">
+                <div flex-gt-sm="60" layout="column" ng-class="{'fdz-add-right-margin': addMargin}">
+                    <div ng-if="searchResult.population">
                         <span style="font-weight: bold;">{{'survey-management.detail.population' | translate }}:</span>
                         <span display-i18n-string="searchResult.population"></span>
                     </div>
                 </div>
-                <div flex-gt-sm="30" layout="column">
-                    <div style="margin-bottom: 0.5em;" ng-if="searchResult.sample">
+                <div flex-gt-sm="40" layout="column">
+                    <div ng-if="searchResult.sample">
                         <span style="font-weight: bold;">{{'survey-management.detail.sample' | translate }}:</span>
                         <span display-i18n-string="searchResult.sample"></span>
                     </div>
-                    <div style="margin-bottom: 0.5em;" ng-if="searchResult.fieldPeriod">
+                    <div ng-if="searchResult.fieldPeriod">
                         <span style="font-weight: bold;">{{'survey-management.detail.field-period' | translate }}:</span>
                         <span>{{searchResult.fieldPeriod.start | date}} - {{searchResult.fieldPeriod.end | date}}</span>
                     </div>
