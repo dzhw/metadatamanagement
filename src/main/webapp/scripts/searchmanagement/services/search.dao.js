@@ -64,8 +64,8 @@ angular.module('metadatamanagementApp').service('SearchDao',
         //use source filtering for returning only required attributes
         query.body._source = ['id', 'number', 'questionText', 'title',
         'description','type', 'doi', 'publicationAbstract', 'authors',
-        'surveyMethod', 'fieldPeriod', 'label', 'name', 'dataType',
-        'scaleLevel', 'dataAcquisitionProjectId', 'dataSetNumber',
+        'surveyMethod', 'fieldPeriod', 'label', 'name', 'dataType', 'sample',
+        'scaleLevel', 'dataAcquisitionProjectId', 'dataSetNumber', 'population',
         'instrumentNumber', 'instrument.description', 'surveys.title',
         'language'];
         if (sortBy && sortBy !== '') {

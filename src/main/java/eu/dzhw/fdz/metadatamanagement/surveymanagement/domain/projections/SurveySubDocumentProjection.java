@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
 
 /**
  * Subset of survey attributes which can be used in other search documents
@@ -21,5 +22,9 @@ public interface SurveySubDocumentProjection {
   I18nString getSurveyMethod();
 
   Integer getNumber();
+  
+  Period getFieldPeriod();
+  
+  I18nString getSample();
 
 }

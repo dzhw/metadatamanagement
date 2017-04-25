@@ -199,7 +199,11 @@
                 </md-card-header-text>
             </md-card-header>
             <md-divider></md-divider>
-            <md-card-content></md-card-content>
+            <md-card-content>
+                <div ng-repeat="result in ctrl.study.surveys | orderBy:['fieldPeriod.start','fieldPeriod.end']">
+                  <survey-search-result search-result="result" current-language="currentLanguage" bowser="bowser"></survey-search-result>
+                </div>
+            </md-card-content>
         </md-card>
     </div>
     <div layout="row">
