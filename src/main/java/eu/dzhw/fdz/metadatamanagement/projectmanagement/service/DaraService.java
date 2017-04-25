@@ -62,7 +62,7 @@ public class DaraService {
   
   //Availability Controlled
   private static final int AVAILABILITY_CONTROLLED_DELIVERY = 2;
-  //private static final int AVAILABILITY_CONTROLLED_NOT_AVAILABLE = 4;
+  private static final int AVAILABILITY_CONTROLLED_NOT_AVAILABLE = 4;
   
   /**
    * Check the dara health endpoint. 
@@ -70,22 +70,26 @@ public class DaraService {
    */
   public boolean isDaraHealth() {
     
-    final String uri = 
+    final String daraHealthEndpoint = 
         this.metadataManagementProperties.getDara().getEndpoint() + IS_ALiVE_ENDPOINT;
     
-    ResponseEntity<String> result = new RestTemplate().getForEntity(uri, String.class);
+    ResponseEntity<String> result = 
+        new RestTemplate().getForEntity(daraHealthEndpoint, String.class);
     
     return result.getStatusCode().equals(HttpStatus.OK);
   }
   
   /**
-   * Registers a dataset with a given doi at dara.
+   * Registers or updates a dataset with a given doi to dara.
    * @param projectId The id of the Project.
    * @param studyId The id of the study.
+   * @return True, if the Registration is successful. 
+   *        (Return http Status of 200 or 201.). 
+   *        Returns a false, if something gone wrong.
    * @throws IOException the io exception for non readable xml file.
    * @throws TemplateException Exception for filling the template.
    */
-  public boolean registerDoi(String projectId, String studyId) 
+  public boolean registerOrUpdateDoi(String projectId, String studyId) 
       throws IOException, TemplateException {
     
     //Load Project
@@ -100,24 +104,29 @@ public class DaraService {
             this.getDataForTemplate(studyId, AVAILABILITY_CONTROLLED_DELIVERY));
     
     //Send Rest Call for Registration
-    boolean isRegistered = this.sendRegistration(filledTemplate, project.isHasBeenReleasedBefore());
+    boolean isRegistered = 
+          this.postToDaraImportXml(filledTemplate, project.isHasBeenReleasedBefore());
     project.setHasBeenReleasedBefore(isRegistered);
     
     return isRegistered; 
   }
   
-  private boolean sendRegistration(String filledTemplate, boolean hasBeenReleasedBefore) {
+  /**
+   * This is the kernel method for registration, update and unregister of a doi element. 
+   * @param filledTemplate The filled and used template.
+   * @param hasBeenReleasedBefore The parameter for the project, which is released before or not.
+   * @return True, if the Registration or unregistration is successfull 
+   *        (Return http Status of 200 or 201.). 
+   *        Returns a false, if something gone wrong.
+   */
+  private boolean postToDaraImportXml(String filledTemplate, boolean hasBeenReleasedBefore) {
     
     //Load Dara Information
     final String daraEndpoint = 
         this.metadataManagementProperties.getDara().getEndpoint() + REGISTRATION_ENDPOINT;
     final String daraUsername = this.metadataManagementProperties.getDara().getUsername();
     final String daraPassword = this.metadataManagementProperties.getDara().getPassword();
-    
-    //Build Parameter
-    Map<String, String> uriVariables = new HashMap<>();
-    uriVariables.put("registration", Boolean.toString(!hasBeenReleasedBefore));
-    
+        
     //Build Header
     HttpHeaders headers = new HttpHeaders();
     headers.add("Content-Type", "application/xml;charset=UTF-8");
@@ -125,20 +134,45 @@ public class DaraService {
     byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName(Charsets.UTF_8.name())));
     String authHeader = "Basic " + new String(encodedAuth, Charsets.UTF_8);
     headers.add("Authorization", authHeader);
+    headers.add("registration", Boolean.valueOf(!hasBeenReleasedBefore).toString());
     
     //Build Request
     HttpEntity<String> request = new HttpEntity<>(filledTemplate, headers);
-    
+        
     //Send Post
     ResponseEntity<String> result = 
-        new RestTemplate().postForEntity(daraEndpoint, request, String.class, uriVariables);
+        new RestTemplate().postForEntity(daraEndpoint, request, String.class);
     
     return result.getStatusCode().equals(HttpStatus.CREATED) 
         || result.getStatusCode().equals(HttpStatus.OK);
   }
 
-  public void unregisterDoi(String studyId) {
-    //TODO DKatzberg
+  /**
+   * This method set a registered doi at dara to not available. 
+   * 
+   * @param projectId The id of the project.
+   * @param studyId The id of the study.
+   * @return True, if the unregistration is successful. 
+   *        (Return http Status of 200.). 
+   *        Returns a false, if something gone wrong. 
+   * @throws IOException the io exception for non readable xml file.
+   * @throws TemplateException Exception for filling the template.
+   */
+  public boolean setDoiToNotAvailable(String projectId, String studyId) 
+      throws IOException, TemplateException {
+    //Load Project
+    DataAcquisitionProject project = this.projectRepository.findOne(projectId);
+        
+    //Read register xml
+    String registerXmlStr = IOUtils.toString(this.registerXml.getInputStream(), Charsets.UTF_8);
+    
+    //Fill template
+    String filledTemplate = this.fillTemplate(registerXmlStr, 
+            this.getTemplateConfiguration(), 
+            this.getDataForTemplate(studyId, AVAILABILITY_CONTROLLED_NOT_AVAILABLE));
+    
+    //Send Rest Call for Registration
+    return this.postToDaraImportXml(filledTemplate, project.isHasBeenReleasedBefore()); 
   }
   
   /**

@@ -126,7 +126,7 @@ public class UnitTestCreateDomainObjectUtils {
         .withDataAvailability(DataAvailabilities.AVAILABLE)
         .withSurveyDesign(SurveyDesigns.PANEL)
         .withDataAcquisitionProjectId(projectId)
-        .withDoi("prefix-" + projectId + "-postfix")
+        .withDoi("10.21249/DZHW:" + projectId)
         .build();    
   }
 
