@@ -116,18 +116,16 @@ public class InstrumentResourceTest extends AbstractTest {
     Instrument instrument =
         UnitTestCreateDomainObjectUtils.buildInstrument(project.getId(), project.getId() + "-sy1");
 
-    System.out.println(instrument.getId());
-    
     // Act and Assert
     // create the instrument with the given id
     mockMvc.perform(put(API_INSTRUMENTS_URI + "/" + instrument.getId())
       .content(TestUtil.convertObjectToJsonBytes(instrument)))
       .andExpect(status().isCreated());
-    
+
     // delete the survey
     mockMvc.perform(delete(API_INSTRUMENTS_URI + "/" + instrument.getId()))
       .andExpect(status().is2xxSuccessful());
-    
+
     instrument.setTitle(new I18nString("Hurz2", "Hurz2"));
 
     // update the instrument with the given id
@@ -164,11 +162,11 @@ public class InstrumentResourceTest extends AbstractTest {
     mockMvc.perform(put(API_INSTRUMENTS_URI + "/" + instrument.getId())
       .content(TestUtil.convertObjectToJsonBytes(instrument)))
       .andExpect(status().isCreated());
-    
+
     // delete the survey
     mockMvc.perform(delete(API_INSTRUMENTS_URI + "/" + instrument.getId()))
       .andExpect(status().is2xxSuccessful());
-    
+
     // set inconsistent type
     instrument.setType("HURZ");
 
@@ -223,7 +221,7 @@ public class InstrumentResourceTest extends AbstractTest {
       .andExpect(jsonPath("$.errors[0].message",
           is("instrument-management.error.instrument.title.i18n-string-not-empty")));
   }
-  
+
   @Test
   @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testInstrumentIsDeletedWithProject() throws Exception {
@@ -238,20 +236,20 @@ public class InstrumentResourceTest extends AbstractTest {
     mockMvc.perform(put(API_INSTRUMENTS_URI + "/" + instrument.getId())
       .content(TestUtil.convertObjectToJsonBytes(instrument)))
       .andExpect(status().isCreated());
-    
+
     // check that the instrument has been created
     mockMvc.perform(get(API_INSTRUMENTS_URI + "/" + instrument.getId()))
       .andExpect(status().isOk());
-    
+
     // delete the project
     mockMvc.perform(delete("/api/data-acquisition-projects/" + project.getId()))
       .andExpect(status().is2xxSuccessful());
-    
+
     // check that the instrument has been deleted as well
     mockMvc.perform(get(API_INSTRUMENTS_URI + "/" + instrument.getId()))
       .andExpect(status().isNotFound());
   }
-  
+
   @Test
   @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testDeleteInstrumentByProjectId() throws Exception {
@@ -266,14 +264,13 @@ public class InstrumentResourceTest extends AbstractTest {
     mockMvc.perform(put(API_INSTRUMENTS_URI + "/" + instrument.getId())
       .content(TestUtil.convertObjectToJsonBytes(instrument)))
       .andExpect(status().isCreated());
-    
+
     // delete the instrument
     mockMvc.perform(post("/api/instruments/delete?dataAcquisitionProjectId=" + project.getId()))
       .andExpect(status().is2xxSuccessful());
-    
+
     // check that the instrument has been deleted as well
     mockMvc.perform(get(API_INSTRUMENTS_URI + "/" + instrument.getId()))
       .andExpect(status().isNotFound());
   }
 }
-

@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.common.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.searchbox.client.JestClient;
 
 /**
@@ -112,8 +113,9 @@ public class MetadataManagementProperties {
    * @author Daniel Katzberg
    */
   public static class Dara {
-    // TODO DKatzberg This is the TEST SERVER URL! Change it after release in the different ymls.
-    private String endpoint = "http://dara-test.gesis.org:8084/dara/api/";
+    private String endpoint;
+    private String username;
+    private String password;
 
     public String getEndpoint() {
       return endpoint;
@@ -121,6 +123,23 @@ public class MetadataManagementProperties {
 
     public void setEndpoint(String endpoint) {
       this.endpoint = endpoint;
-    }    
+    }
+
+    @SuppressFBWarnings("NM_CONFUSING")
+    public String getUsername() {
+      return username;
+    }
+
+    public void setUsername(String username) {
+      this.username = username;
+    }
+
+    public String getPassword() {
+      return password;
+    }
+
+    public void setPassword(String password) {
+      this.password = password;
+    }
   }
 }
