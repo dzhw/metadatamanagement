@@ -107,6 +107,7 @@ public class DaraService {
     boolean isRegistered = 
           this.postToDaraImportXml(filledTemplate, project.isHasBeenReleasedBefore());
     project.setHasBeenReleasedBefore(isRegistered);
+    this.projectRepository.save(project);
     
     return isRegistered; 
   }
@@ -128,13 +129,14 @@ public class DaraService {
     final String daraPassword = this.metadataManagementProperties.getDara().getPassword();
         
     //Build Header
-    HttpHeaders headers = new HttpHeaders();
+    HttpHeaders headers = new HttpHeaders();    
     headers.add("Content-Type", "application/xml;charset=UTF-8");
     String auth = daraUsername + ":" + daraPassword;
     byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName(Charsets.UTF_8.name())));
     String authHeader = "Basic " + new String(encodedAuth, Charsets.UTF_8);
     headers.add("Authorization", authHeader);
-    headers.add("registration", Boolean.valueOf(!hasBeenReleasedBefore).toString());
+    String registration = Boolean.valueOf(!hasBeenReleasedBefore).toString();
+    headers.add("registration", registration);
     
     //Build Request
     HttpEntity<String> request = new HttpEntity<>(filledTemplate, headers);
