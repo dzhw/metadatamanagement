@@ -12,31 +12,31 @@
                 </md-card-header>
                 <md-divider></md-divider>
                 <md-card-content>
-                  <div style="margin-bottom: 0.5em;" ng-if="ctrl.survey.population">
+                  <div class="fdz-add-bottom-margin" ng-if="ctrl.survey.population">
                     <span style="font-weight: bold;">{{'survey-management.detail.population' | translate }}:</span>
                     <span display-i18n-string="ctrl.survey.population"></span>
                   </div>
-                  <div style="margin-bottom: 0.5em;" ng-if="ctrl.survey.sample">
+                  <div class="fdz-add-bottom-margin" ng-if="ctrl.survey.sample">
                     <span style="font-weight: bold;">{{'survey-management.detail.sample' | translate }}:</span>
                     <span display-i18n-string="ctrl.survey.sample"></span>
                   </div>
-                  <div style="margin-bottom: 0.5em;" ng-if="ctrl.survey.surveyMethod">
+                  <div class="fdz-add-bottom-margin" ng-if="ctrl.survey.surveyMethod">
                     <span style="font-weight: bold;">{{'survey-management.detail.survey-method' | translate }}:</span>
                     <span display-i18n-string="ctrl.survey.surveyMethod"></span>
                   </div>
-                  <div style="margin-bottom: 0.5em;" ng-if="ctrl.survey.fieldPeriod">
+                  <div class="fdz-add-bottom-margin" ng-if="ctrl.survey.fieldPeriod">
                     <span style="font-weight: bold;">{{'survey-management.detail.field-period' | translate }}:</span>
                     <span>{{ctrl.survey.fieldPeriod.start | date}} - {{ctrl.survey.fieldPeriod.end | date}}</span>
                   </div>
-                  <div style="margin-bottom: 0.5em;" ng-if="ctrl.survey.grossSampleSize">
+                  <div class="fdz-add-bottom-margin" ng-if="ctrl.survey.grossSampleSize">
                     <span style="font-weight: bold;">{{'survey-management.detail.grossSampleSize' | translate }}:</span>
                     <span>n = {{ctrl.survey.grossSampleSize | number}}</span>
                   </div>
-                  <div style="margin-bottom: 0.5em;" ng-if="ctrl.survey.sampleSize">
+                  <div class="fdz-add-bottom-margin" ng-if="ctrl.survey.sampleSize">
                     <span style="font-weight: bold;">{{'survey-management.detail.sampleSize' | translate }}:</span>
                     <span>n = {{ctrl.survey.sampleSize | number}}</span>
                   </div>
-                  <div style="margin-bottom: 0.5em;" ng-if="ctrl.survey.responseRate">
+                  <div class="fdz-add-bottom-margin" ng-if="ctrl.survey.responseRate">
                     <span style="font-weight: bold;">{{'survey-management.detail.responseRate' | translate }}:</span>
                     <span>{{ctrl.survey.responseRate | number}}%</span>
                   </div>

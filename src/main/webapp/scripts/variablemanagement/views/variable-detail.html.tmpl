@@ -12,31 +12,31 @@
                 </md-card-header>
                 <md-divider></md-divider>
                 <md-card-content>
-                    <div style="margin-bottom: 0.5em;" ng-if="variable.name">
+                    <div class="fdz-add-bottom-margin" ng-if="variable.name">
                         <span style="font-weight: bold;">{{'variable-management.detail.name' | translate }}:</span>
                         <span>{{variable.name}}</span>
                     </div>
-                    <div style="margin-bottom: 0.5em;" ng-if="variable.label">
+                    <div class="fdz-add-bottom-margin" ng-if="variable.label">
                         <span style="font-weight: bold;">{{'variable-management.detail.label' | translate }}:</span>
                         <span display-i18n-string="variable.label"></span>
                     </div>
-                    <div style="margin-bottom: 0.5em;" ng-if="variable.dataType">
+                    <div class="fdz-add-bottom-margin" ng-if="variable.dataType">
                         <span style="font-weight: bold;">{{'variable-management.detail.data-type' | translate }}:</span>
                         <span display-i18n-string="variable.dataType"></span>
                     </div>
-                    <div style="margin-bottom: 0.5em;" ng-if="variable.scaleLevel">
+                    <div class="fdz-add-bottom-margin" ng-if="variable.scaleLevel">
                         <span style="font-weight: bold;">{{'variable-management.detail.scale-level' | translate }}:</span>
                         <span display-i18n-string="variable.scaleLevel"></span>
                     </div>
-                    <div style="margin-bottom: 0.5em;" ng-if="variable.accessWays">
+                    <div class="fdz-add-bottom-margin" ng-if="variable.accessWays">
                         <span style="font-weight: bold;">{{'variable-management.detail.access-ways' | translate }}:</span>
                         <span>{{variable.accessWays.join(', ')}}</span>
                     </div>
-                    <div style="margin-bottom: 0.5em;" ng-if="variable.annotations">
+                    <div class="fdz-add-bottom-margin" ng-if="variable.annotations">
                         <span style="font-weight: bold;">{{'variable-management.detail.annotations' | translate }}:</span>
                         <span display-i18n-string="variable.annotations"></span>
                     </div>
-                    <div style="margin-bottom: 0.5em;" ng-if="variable.filterDetails.description">
+                    <div class="fdz-add-bottom-margin" ng-if="variable.filterDetails.description">
                         <span style="font-weight: bold;">{{'variable-management.detail.filter-description' | translate }}:</span>
                         <span display-i18n-string="variable.filterDetails.description"></span>
                     </div>
@@ -218,45 +218,45 @@
              <md-divider></md-divider>
              <md-card-content ng-cloak="true">
                <div>
-                 <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.validResponses">
+                 <div class="fdz-add-bottom-margin" ng-if="variable.distribution.validResponses">
                    {{'variable-management.detail.statistics.validResponses' | translate}}: {{variable.distribution.validResponses.length}}</div>
-                 <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.minimum != null">
+                 <div class="fdz-add-bottom-margin" ng-if="variable.distribution.statistics.minimum != null">
                    {{'variable-management.detail.statistics.minimum' | translate}} <span katex>(min)</span>: {{variable.distribution.statistics.minimum | variableDataType: variable.dataType.en}}
                  </div>
-                 <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.maximum != null">
+                 <div class="fdz-add-bottom-margin" ng-if="variable.distribution.statistics.maximum != null">
                    {{'variable-management.detail.statistics.maximum' | translate}} <span katex>(max)</span>: {{variable.distribution.statistics.maximum | variableDataType: variable.dataType.en}}
                  </div>
                  <h3 style="font-size: 18px; margin-top: 1.0em; margin-bottom: 0.5em;" ng-if="checkCentralTendencyElements()">
                    {{'variable-management.detail.central-tendency' | translate}}
                  </h3>
-                 <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.meanValue != null">
+                 <div class="fdz-add-bottom-margin" ng-if="variable.distribution.statistics.meanValue != null">
                    {{'variable-management.detail.statistics.mean-value' | translate}} <span katex>(\bar x)</span>: {{variable.distribution.statistics.meanValue | number:2}}
                  </div>
-                  <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.median != null">
+                  <div class="fdz-add-bottom-margin" ng-if="variable.distribution.statistics.median != null">
                     {{'variable-management.detail.statistics.median' | translate}} <span katex>(\tilde x)</span>: {{variable.distribution.statistics.median | variableDataType: variable.dataType.en}}
                   </div>
-                  <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.mode != null">
+                  <div class="fdz-add-bottom-margin" ng-if="variable.distribution.statistics.mode != null">
                     {{'variable-management.detail.statistics.mode' | translate}} <span katex>(h)</span>: {{variable.distribution.statistics.mode}}
                   </div>
                   <h3 style="font-size: 18px; margin-top: 1.0em; margin-bottom: 0.5em;" ng-if="checkDispersionElements()">
                     {{'variable-management.detail.dispersion' | translate}}
                   </h3>
-                  <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.standardDeviation != null">
+                  <div class="fdz-add-bottom-margin" ng-if="variable.distribution.statistics.standardDeviation != null">
                     {{'variable-management.detail.statistics.standardDeviation' | translate}} <span katex>(s)</span>: {{variable.distribution.statistics.standardDeviation | number:2}}
                   </div>
-                  <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.meanDeviation != null">
+                  <div class="fdz-add-bottom-margin" ng-if="variable.distribution.statistics.meanDeviation != null">
                     {{'variable-management.detail.statistics.mean-deviation' | translate}} <span katex>(MAD)</span>: {{variable.distribution.statistics.meanDeviation | number:2}}
                   </div>
-                  <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.deviance != null">
+                  <div class="fdz-add-bottom-margin" ng-if="variable.distribution.statistics.deviance != null">
                     {{'variable-management.detail.statistics.deviance' | translate}} <span katex>(d)</span>: {{variable.distribution.statistics.deviance | number:2}}
                   </div>
                   <h3 style="font-size: 18px; margin-top: 1.0em; margin-bottom: 0.5em;" ng-if="checkDistributionElements()">
                     {{'variable-management.detail.distribution' | translate}}
                   </h3>
-                  <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.skewness != null">
+                  <div class="fdz-add-bottom-margin" ng-if="variable.distribution.statistics.skewness != null">
                     {{'variable-management.detail.statistics.skewness' | translate}} <span katex>(v)</span>: {{variable.distribution.statistics.skewness | number:2}}
                   </div>
-                  <div style="margin-bottom: 0.5em;" ng-if="variable.distribution.statistics.kurtosis != null">
+                  <div class="fdz-add-bottom-margin" ng-if="variable.distribution.statistics.kurtosis != null">
                     {{'variable-management.detail.statistics.kurtosis' | translate}} <span katex>(w)</span>: {{variable.distribution.statistics.kurtosis | number:2}}
                   </div>
                 </div>
@@ -368,7 +368,7 @@
             </md-card-header>
             <md-divider></md-divider>
             <md-card-content>
-                <div style="margin-bottom: 0.5em;">
+                <div class="fdz-add-bottom-margin">
                     <span style="font-weight: bold;">{{'variable-management.detail.generation-details-description' | translate }}:
                     </span>
                     <span display-i18n-string="variable.generationDetails.description"></span>

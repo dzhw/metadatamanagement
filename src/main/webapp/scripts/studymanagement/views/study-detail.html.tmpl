@@ -12,38 +12,38 @@
                 </md-card-header>
                 <md-divider></md-divider>
                 <md-card-content>
-                    <div style="margin-bottom: 0.5em;">
+                    <div class="fdz-add-bottom-margin">
                         <span style="font-weight: bold;">{{'study-management.detail.surveySeries' | translate }}:</span>
                         <span display-i18n-string="ctrl.study.surveySeries"></span>
                     </div>
-                    <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.institution">
+                    <div class="fdz-add-bottom-margin" ng-if="ctrl.study.institution">
                         <span style="font-weight: bold;">{{'study-management.detail.institution' | translate }}:</span>
                         <span display-i18n-string="ctrl.study.institution"></span>
                     </div>
-                    <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.authors">
+                    <div class="fdz-add-bottom-margin" ng-if="ctrl.study.authors">
                         <span style="font-weight: bold;">{{'study-management.detail.authors' | translate }}:</span>
                         <span ng-repeat="author in ctrl.study.authors">{{author.lastName}}, {{author.firstName}} {{author.middleName}}; </span>
                     </div>
-                    <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.sponsor">
+                    <div class="fdz-add-bottom-margin" ng-if="ctrl.study.sponsor">
                         <span style="font-weight: bold;">{{'study-management.detail.sponsors' | translate }}:</span>
                         <span display-i18n-string="ctrl.study.sponsor"></span>
                     </div>
-                    <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.surveyDesign">
+                    <div class="fdz-add-bottom-margin" ng-if="ctrl.study.surveyDesign">
                         <span style="font-weight: bold;">{{'study-management.detail.surveyDesign' | translate }}:</span>
                         <span display-i18n-string="ctrl.study.surveyDesign"></span>
                     </div>
-                    <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.citationHint">
+                    <div class="fdz-add-bottom-margin" ng-if="ctrl.study.citationHint">
                         <span style="font-weight: bold;">{{'study-management.detail.citationHint' | translate }}:</span>
                         <span display-i18n-string="ctrl.study.citationHint"></span>
                     </div>
-                    <div style="margin-bottom: 0.5em;" ng-if="ctrl.study.doi">
+                    <div class="fdz-add-bottom-margin" ng-if="ctrl.study.doi">
                         <span style="font-weight: bold;">{{'study-management.detail.doi' | translate }}:</span>
                         <a ng-href="https://dx.doi.org/{{ctrl.study.doi}}" target="_blank">{{ctrl.study.doi}}<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                             {{'study-management.detail.doi-tooltip' | translate}}
                         </md-tooltip>
                         </a>
                     </div>
-                    <div style="margin-bottom: 0.5em;">
+                    <div class="fdz-add-bottom-margin">
                         <span style="font-weight: bold;">{{'study-management.detail.version' | translate }}:</span>
                         <span>{{ctrl.study.release?ctrl.study.release.version: ('study-management.detail.not-yet-released' | translate)}}</span>
                     </div>
