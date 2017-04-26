@@ -48,5 +48,6 @@ exports.config = {
     jasmineNodeOpts: {
       defaultTimeoutInterval: 120000
     },
-    allScriptsTimeout: 120000
+    allScriptsTimeout: 120000,
+    getPageTimeout: 120000
   };
