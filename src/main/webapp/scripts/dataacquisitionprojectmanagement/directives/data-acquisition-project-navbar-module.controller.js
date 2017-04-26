@@ -163,15 +163,6 @@ angular.module('metadatamanagementApp')
             locals: {
               project: ctrl.selectedProject
             }
-          }).then(function(release) {
-            ctrl.selectedProject.release = release;
-            DataAcquisitionProjectResource.save(ctrl.selectedProject).$promise
-            .then(function() {
-                SimpleMessageToastService.openSimpleMessageToast(
-                  i18nPrefix + 'released-successfully', {
-                    id: ctrl.selectedProject.id
-                  });
-              });
           }).catch(function() {
           // user cancellled
         });
