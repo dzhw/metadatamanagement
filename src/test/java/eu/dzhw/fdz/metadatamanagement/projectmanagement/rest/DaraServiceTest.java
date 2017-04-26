@@ -15,7 +15,6 @@ import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DaraService;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
@@ -27,8 +26,8 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
 @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
 public class DaraServiceTest extends AbstractTest{
   
-  @Autowired
-  private DaraService daraService;
+//  @Autowired
+//  private DaraService daraService;
     
   @Autowired
   private DataAcquisitionProjectRepository dataAcquisitionProjectRepository;

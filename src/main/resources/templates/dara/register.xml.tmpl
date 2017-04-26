@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<resource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.da-ra.de/fileadmin/media/da-ra.de/Technik/dara_v3.1_de_en_18112014.xsd">
+<resource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:noNamespaceSchemaLocation="http://www.da-ra.de/fileadmin/media/da-ra.de/Technik/dara_v3.1_de_en_18112014.xsd">
     <resourceType>${resourceType}</resourceType>
     <resourceIdentifier>
-        <identifier>dzhw-${study.dataAcquisitionProjectId}</identifier>
+        <identifier>dzhw_${study.dataAcquisitionProjectId}</identifier>
     </resourceIdentifier>
     <titles>
         <title>
@@ -21,6 +22,8 @@
                 <firstName>${author.firstName}</firstName>
                 <#if author.middleName??>
                 <middleName>${author.middleName}</middleName>
+                <#else>
+                <middleName/>
                 </#if>
                 <lastName>${author.lastName}</lastName>
             </person>
@@ -32,7 +35,9 @@
             http://metadata.fdz.dzhw.eu/#!/de/studies/${study.id}
         </dataURL>
     </dataURLs>
+    <#if release>
     <doiProposal>${study.doi}</doiProposal>
+    </#if>
     <publicationDate>
         <date>${releaseDate}</date>
     </publicationDate>

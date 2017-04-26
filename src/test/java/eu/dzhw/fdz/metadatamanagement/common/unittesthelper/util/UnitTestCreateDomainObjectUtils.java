@@ -126,7 +126,7 @@ public class UnitTestCreateDomainObjectUtils {
         .withDataAvailability(DataAvailabilities.AVAILABLE)
         .withSurveyDesign(SurveyDesigns.PANEL)
         .withDataAcquisitionProjectId(projectId)
-        .withDoi("10.21249/DZHW:" + projectId)
+        .withDoi("10.5072/DZHW:" + projectId)
         .build();    
   }
 

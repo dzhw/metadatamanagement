@@ -21,6 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.google.common.base.Charsets;
 
@@ -101,7 +102,8 @@ public class DaraService {
     //Fill template
     String filledTemplate = this.fillTemplate(registerXmlStr, 
             this.getTemplateConfiguration(), 
-            this.getDataForTemplate(studyId, AVAILABILITY_CONTROLLED_DELIVERY));
+            this.getDataForTemplate(studyId, AVAILABILITY_CONTROLLED_DELIVERY, 
+                !project.isHasBeenReleasedBefore()));
     
     //Send Rest Call for Registration
     boolean isRegistered = 
@@ -133,18 +135,20 @@ public class DaraService {
     headers.add("Content-Type", "application/xml;charset=UTF-8");
     String auth = daraUsername + ":" + daraPassword;
     byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName(Charsets.UTF_8.name())));
-    String authHeader = "Basic " + new String(encodedAuth, Charsets.UTF_8);
-    headers.add("Authorization", authHeader);
-    String registration = Boolean.valueOf(!hasBeenReleasedBefore).toString();
-    headers.add("registration", registration);
+    headers.add("Authorization", "Basic " + new String(encodedAuth, Charsets.UTF_8));
+    
+    //Build
+    UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(daraEndpoint)
+        .queryParam("registration", Boolean.valueOf(!hasBeenReleasedBefore).toString());
     
     //Build Request
     HttpEntity<String> request = new HttpEntity<>(filledTemplate, headers);
-        
-    //Send Post
-    ResponseEntity<String> result = 
-        new RestTemplate().postForEntity(daraEndpoint, request, String.class);
     
+    //Send Post
+    //Info: result.getBody() has the registered DOI
+    ResponseEntity<String> result = 
+          new RestTemplate().postForEntity(builder.build().toUri(), request, String.class);
+        
     return result.getStatusCode().equals(HttpStatus.CREATED) 
         || result.getStatusCode().equals(HttpStatus.OK);
   }
@@ -171,7 +175,8 @@ public class DaraService {
     //Fill template
     String filledTemplate = this.fillTemplate(registerXmlStr, 
             this.getTemplateConfiguration(), 
-            this.getDataForTemplate(studyId, AVAILABILITY_CONTROLLED_NOT_AVAILABLE));
+            this.getDataForTemplate(studyId, AVAILABILITY_CONTROLLED_NOT_AVAILABLE, 
+                !project.isHasBeenReleasedBefore()));
     
     //Send Rest Call for Registration
     return this.postToDaraImportXml(filledTemplate, project.isHasBeenReleasedBefore()); 
@@ -185,11 +190,14 @@ public class DaraService {
    *    resourceType
    * @param studyId The id of the study.
    * @param availabilityControlled The availability of the data.
+   * @param release True = Element will be initially release. 
+   *     False = Element is released before.
    * @return Returns a Map of names and the depending objects. 
    *     If the key is 'study' so the study object is the value. 
    *     Study is the name for the object use in freemarker.
    */
-  private Map<String, Object> getDataForTemplate(String studyId, int availabilityControlled) {
+  private Map<String, Object> getDataForTemplate(String studyId, 
+      int availabilityControlled, boolean release) {
     
     Map<String, Object> dataForTemplate = new HashMap<>();
     
@@ -206,6 +214,9 @@ public class DaraService {
     
     //Add Resource Type
     dataForTemplate.put("resourceType", RESOURCE_TYPE_DATASET);
+    
+    //Add Release Status
+    dataForTemplate.put("release", release);
     
     return dataForTemplate;
   }
