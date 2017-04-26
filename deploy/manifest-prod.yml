@@ -14,6 +14,7 @@ applications:
   - mongodb
   - elasticsearch
   - email
+  - dara
   timeout: 180
   routes:
   - route: metadata.fdz.dzhw.eu

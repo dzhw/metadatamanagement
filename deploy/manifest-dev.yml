@@ -15,4 +15,5 @@ applications:
   - mongodb
   - elasticsearch
   - email
+  - dara
   timeout: 180
