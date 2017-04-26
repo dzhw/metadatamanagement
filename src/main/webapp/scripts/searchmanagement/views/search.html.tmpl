@@ -10,7 +10,7 @@
                 <input type="submit" ng-hide="true">
             </form>
               <md-tabs md-selected="searchParams.selectedTabIndex" md-dynamic-height>
-                <md-tab ng-repeat="tab in tabs" aria-label="Test" md-on-select="onSelectedTabChanged()" ng-disabled="tab.disabled">
+                <md-tab ng-repeat="tab in tabs" md-on-select="onSelectedTabChanged()" ng-disabled="tab.disabled">
                   <md-tab-label>
                     <md-icon ng-if="tab.icon" md-svg-icon="{{tab.icon}}"></md-icon>
                     <span>{{tab.title|translate}} {{tab.count != null? '(' + tab.count + ')' : ''}}</span>

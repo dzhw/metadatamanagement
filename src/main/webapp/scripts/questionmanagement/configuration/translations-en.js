@@ -32,7 +32,7 @@ angular.module('metadatamanagementApp').config(
           'predecessors': 'Previous Questions in Questionnaire',
           'successors': 'Subsequent Questions in Questionnaire',
           'no-predecessors': 'No previous Questions in the Questionnaire',
-          'no-successors': 'Keine subsequent Questions in Questionnaire',
+          'no-successors': 'No subsequent Questions in Questionnaire',
           'technical-representation': 'Technical Representation',
           'related-information': 'Related Information',
           'not-found': 'The {{id}} references to an unknown Question.',

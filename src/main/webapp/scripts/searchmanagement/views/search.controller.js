@@ -15,7 +15,9 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
     var tabChangedOnInitFlag = false;
     var locationChanged = false;
-    var currentProjectOrLogoutIsBeingHandled = false;
+    var currentProjectChangeIsBeingHandled = false;
+    var selectedTabChangeIsBeingHandled = false;
+
     // set the page title in toolbar and window.title
     PageTitleService.setPageTitle('global.menu.search.title');
     //Check the login status
@@ -72,16 +74,24 @@ angular.module('metadatamanagementApp').controller('SearchController',
           'query', 'sort-by'
         ]);
         $scope.searchParams.sortBy = locationSearch['sort-by'];
-        $scope.searchParams.selectedTabIndex = _.findIndex($scope.tabs,
+        var indexToSelect = _.findIndex($scope.tabs,
           function(tab) {
             return tab.elasticSearchType === locationSearch.type;
           });
+        if (indexToSelect < 0) {
+          $scope.searchParams.selectedTabIndex = 0;
+        } else {
+          $scope.searchParams.selectedTabIndex = indexToSelect;
+        }
       }
     };
 
     // init the controller and its scope objects
     var init = function() {
       tabChangedOnInitFlag = true;
+      $scope.tabs = _.filter($scope.tabs, function(tab) {
+        return tab.visibleForPublicUser || Principal.isAuthenticated();
+      });
       $scope.searchResult = {};
       $scope.currentProject = CurrentProjectService.getCurrentProject();
       if ($scope.currentProject) {
@@ -96,9 +106,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       $scope.pageObject = {
         totalHits: 0,
         size: 5,
-        page: 1,
-        templateUrl: 'src/main/webapp/scripts/common/custom-uib-pager/' +
-        'custom-uib-pager-template.html.tmpl'
+        page: 1
       };
       $scope.searchParams = {
         query: '',
@@ -142,10 +150,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
               data.hits.total;
           });
           $scope.isSearching = false;
-          currentProjectOrLogoutIsBeingHandled = false;
         }, function() {
           $scope.isSearching = false;
-          currentProjectOrLogoutIsBeingHandled = false;
         });
     };
 
@@ -171,33 +177,48 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
     $scope.$on('current-project-changed',
       function(event, currentProject) { // jshint ignore:line
-        $scope.searchParams.filter = undefined;
-        if (currentProject) {
-          $scope.currentProject = currentProject;
-        } else {
-          $scope.currentProject = undefined;
-        }
-        $scope.pageObject.page = 1;
-        writeSearchParamsToLocation();
-        if (!currentProjectOrLogoutIsBeingHandled) {
-          currentProjectOrLogoutIsBeingHandled = true;
-          $scope.search();
-        }
-        //disable related_publications tab if a project is selected
-        _.forEach($scope.tabs, function(tab) {
-          if (tab.elasticSearchType === 'related_publications' &&
-            currentProject) {
-            tab.disabled = true;
+        currentProjectChangeIsBeingHandled = true;
+        //wait for other events (logout, selectedTabIndex)
+        $timeout(function() {
+          $scope.searchParams.filter = undefined;
+          if (currentProject) {
+            $scope.currentProject = currentProject;
           } else {
-            tab.disabled = false;
+            $scope.currentProject = undefined;
           }
+          $scope.pageObject.page = 1;
+          writeSearchParamsToLocation();
+          if (!selectedTabChangeIsBeingHandled) {
+            $scope.search();
+          }
+
+          //disable related_publications tab if a project is selected
+          _.forEach($scope.tabs, function(tab) {
+            if (tab.elasticSearchType === 'related_publications' &&
+            currentProject) {
+              tab.disabled = true;
+            } else {
+              tab.disabled = false;
+            }
+          });
+          currentProjectChangeIsBeingHandled = false;
         });
       });
 
     $scope.$on('user-logged-out', function() {
-      if (!currentProjectOrLogoutIsBeingHandled) {
-        currentProjectOrLogoutIsBeingHandled = true;
-        $scope.search();
+      var currentType = $scope.tabs[$scope.searchParams.selectedTabIndex]
+        .elasticSearchType;
+      $scope.tabs = _.filter($scope.tabs, function(tab) {
+        return tab.visibleForPublicUser || Principal.isAuthenticated();
+      });
+      var indexToSelect = _.findIndex($scope.tabs,
+        function(tab) {
+        return tab.elasticSearchType === currentType;
+      });
+      if (indexToSelect < 0) {
+        $scope.searchParams.selectedTabIndex = 0;
+      } else {
+        $scope.searchParams.selectedTabIndex = indexToSelect;
       }
     });
 
@@ -212,15 +233,23 @@ angular.module('metadatamanagementApp').controller('SearchController',
     };
 
     $scope.onSelectedTabChanged = function() {
-      $scope.sele = $scope.searchParams.selectedTabIndex;
-      if (!tabChangedOnInitFlag) {
-        $scope.searchParams.filter = undefined;
-        $scope.searchParams.sortBy = undefined;
-        $scope.pageObject.page = 1;
-        writeSearchParamsToLocation();
-        $scope.search();
+      if (!selectedTabChangeIsBeingHandled) {
+        //prevent multiple tab change handlers caused by logout
+        selectedTabChangeIsBeingHandled = true;
+        $timeout(function() {
+          if (!tabChangedOnInitFlag) {
+            $scope.searchParams.filter = undefined;
+            $scope.searchParams.sortBy = undefined;
+            $scope.pageObject.page = 1;
+            writeSearchParamsToLocation();
+            if (!currentProjectChangeIsBeingHandled) {
+              $scope.search();
+            }
+          }
+          tabChangedOnInitFlag = false;
+          selectedTabChangeIsBeingHandled = false;
+        });
       }
-      tabChangedOnInitFlag = false;
     };
 
     $scope.uploadVariables = function(files) {
@@ -300,7 +329,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       count: null,
       acceptedFileUploadType: null,
       uploadFunction: null,
-      disabled: false
+      disabled: false,
+      visibleForPublicUser: false
     }, {
       title: 'search-management.tabs.studies',
       inputLabel: 'search-management.input-label.studies',
@@ -308,7 +338,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       elasticSearchType: 'studies',
       count: null,
       uploadFunction: $scope.uploadStudy,
-      disabled: false
+      disabled: false,
+      visibleForPublicUser: true
     }, {
       title: 'search-management.tabs.surveys',
       inputLabel: 'search-management.input-label.surveys',
@@ -316,7 +347,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       elasticSearchType: 'surveys',
       count: null,
       uploadFunction: $scope.uploadSurveys,
-      disabled: false
+      disabled: false,
+      visibleForPublicUser: true
     }, {
       title: 'search-management.tabs.instruments',
       inputLabel: 'search-management.input-label.instruments',
@@ -324,7 +356,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       elasticSearchType: 'instruments',
       count: null,
       uploadFunction: $scope.uploadInstruments,
-      disabled: false
+      disabled: false,
+      visibleForPublicUser: true
     }, {
       title: 'search-management.tabs.questions',
       inputLabel: 'search-management.input-label.questions',
@@ -332,7 +365,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       elasticSearchType: 'questions',
       count: null,
       uploadFunction: $scope.uploadQuestions,
-      disabled: false
+      disabled: false,
+      visibleForPublicUser: true
     }, {
       title: 'search-management.tabs.data_sets',
       inputLabel: 'search-management.input-label.data-sets',
@@ -340,7 +374,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       elasticSearchType: 'data_sets',
       count: null,
       uploadFunction: $scope.uploadDataSets,
-      disabled: false
+      disabled: false,
+      visibleForPublicUser: true
     }, {
       title: 'search-management.tabs.variables',
       inputLabel: 'search-management.input-label.variables',
@@ -348,7 +383,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       elasticSearchType: 'variables',
       count: null,
       uploadFunction: $scope.uploadVariables,
-      disabled: false
+      disabled: false,
+      visibleForPublicUser: true
     }, {
       title: 'search-management.tabs.related_publications',
       inputLabel: 'search-management.input-label.related-publications',
@@ -356,7 +392,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       elasticSearchType: 'related_publications',
       count: null,
       uploadFunction: $scope.uploadRelatedPublications,
-      disabled: false
+      disabled: false,
+      visibleForPublicUser: true
     }];
 
     $scope.hideMobileKeyboard = function($event) {
