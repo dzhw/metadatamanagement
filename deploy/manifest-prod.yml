@@ -6,7 +6,6 @@ applications:
   memory: 1024M
   disk_quota: 1024M
   instances: 3
-  host: metadatamanagement
   buildpack: https://github.com/cloudfoundry/java-buildpack
   env:
     SPRING_PROFILES_ACTIVE: prod
@@ -16,3 +15,6 @@ applications:
   - elasticsearch
   - email
   timeout: 180
+  routes:
+  - route: metadata.fdz.dzhw.eu
+  - route: metadatamanagement.cfapps.io
