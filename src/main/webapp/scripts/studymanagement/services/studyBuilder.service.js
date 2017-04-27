@@ -61,9 +61,36 @@ angular.module('metadatamanagementApp').service('StudyBuilderService',
 
       return authors;
     };
+    var buildStudyAttachmentsMetadata = function(metadataFromExcel,
+      dataAcquisitionProjectId, studyId) {
+      var attachments = [];
+      metadataFromExcel.forEach(function(attachment) {
+          var studyAttachmentMetadata = {
+            studyId: studyId,
+            dataAcquisitionProjectId: dataAcquisitionProjectId,
+            description: {
+              en: attachment['description.en'],
+              de: attachment['description.de']
+            },
+            type: {
+              en: attachment['type.en'],
+              de: attachment['type.de']
+            },
+            title: attachment.title,
+            language: attachment.language,
+            fileName: attachment.filename,
+            indexInStudy: attachment.__rowNum__
+          };
+          var cleanedMetadata = CleanJSObjectService
+        .removeEmptyJsonObjects(studyAttachmentMetadata);
+          attachments.push(cleanedMetadata);
+        });
+      return attachments;
+    };
 
     return {
       buildStudy: buildStudy,
-      buildAuthors: buildAuthors
+      buildAuthors: buildAuthors,
+      buildStudyAttachmentsMetadata: buildStudyAttachmentsMetadata
     };
   });

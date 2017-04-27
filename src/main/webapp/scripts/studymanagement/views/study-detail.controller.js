@@ -4,7 +4,8 @@
 angular.module('metadatamanagementApp')
   .controller('StudyDetailController',
     function(entity, PageTitleService, LanguageService, DataSetSearchService,
-      $state, ToolbarHeaderService, Principal, SimpleMessageToastService) {
+      $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
+      StudyAttachmentResource) {
       var ctrl = this;
       ctrl.counts = {};
       entity.promise.then(function(result) {
@@ -49,6 +50,15 @@ angular.module('metadatamanagementApp')
                 });
               });
             });
+          StudyAttachmentResource.findByStudyId({
+              id: ctrl.study.id
+            }).$promise.then(
+              function(attachments) {
+                if (attachments.length > 0) {
+                  console.log(attachments);
+                  ctrl.attachments = attachments;
+                }
+              });
         } else {
           SimpleMessageToastService.openSimpleMessageToast(
           'study-management.detail.not-released-toast', {id: result.id}

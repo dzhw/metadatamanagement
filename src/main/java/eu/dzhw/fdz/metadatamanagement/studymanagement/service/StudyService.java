@@ -29,8 +29,6 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 /**
  * Service for creating and updating variable. Used for updating variables in mongo and
  * elasticsearch.
- * 
- * @author Daniel Katzberg
  */
 @Service
 @RepositoryEventHandler
@@ -38,6 +36,9 @@ public class StudyService {
 
   @Autowired
   private StudyRepository studyRepository;
+  
+  @Autowired 
+  private StudyAttachmentService studyAttachmentService;
   
   @Autowired
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
@@ -82,6 +83,7 @@ public class StudyService {
    */
   @HandleAfterDelete
   public void onStudyDeleted(Study study) {
+    studyAttachmentService.deleteAllByStudyId(study.getId());
     elasticsearchUpdateQueueService.enqueue(
         study.getId(), 
         ElasticsearchType.studies, 

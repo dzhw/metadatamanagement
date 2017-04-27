@@ -33,6 +33,14 @@ angular.module('metadatamanagementApp').config(
           'basic-data-of-surveys': 'Eckdaten der Erhebungen',
           'downloads': 'Materialien zum Download',
           'not-released-toast': 'Die Studie "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!',
+          'attachments': {
+            'table-title': 'Materialien zu Studie',
+            'type': 'Typ',
+            'title': 'Titel',
+            'description': 'Beschreibung',
+            'language': 'Dokumentensprache',
+            'file': 'Datei'
+          },
           'tooltips': {
             'surveys': {
               'one': 'Klicken, um die Erhebung dieser Studie anzuzeigen',
@@ -65,9 +73,14 @@ angular.module('metadatamanagementApp').config(
             'releases-file-not-found': 'In dem ausgewählten Verzeichnis fehlt die folgende Datei: releases.xlsx!',
             'unable-to-delete': 'Die Studie konnte nicht gelöscht werden!',
             'missing-id': 'Die {{ index }}. Studie enthält keine FDZ-ID und wurde nicht gespeichert!',
-            'upload-terminated': 'Upload von {{ total }} Studie mit {{warnings}} Warnungen und {{ errors }} Fehlern beendet!',
+            'upload-terminated': 'Upload von {{ total }} Studie  und {{ attachments }} Attachments mit {{warnings}} Warnungen und {{ errors }} Fehlern beendet!',
             'cancelled': 'Upload der Studie Abgebrochen!'
-          }
+          },
+          'study-attachment': {
+              'not-saved': 'Attachment "{{ id }}" wurde nicht gespeichert:',
+              'missing-filename': 'Das {{ index }}. Attachment hat keinen Dateinamen und wurde daher nicht gespeichert.',
+              'file-not-found': 'Die Datei {{ filename }} wurde nicht gefunden und wurde daher nicht gespeichert!'
+            }
         },
         'error': {
           'study': {
@@ -116,6 +129,34 @@ angular.module('metadatamanagementApp').config(
               'id': {
                 'not-empty': 'Die FDZ - ID des Projektes darf bei der Studie nicht leer sein!'
               }
+            }
+          },
+          'study-attachment-metadata': {
+            'study-id': {
+              'not-empty': 'Die ID der zugehörigen Studie darf nicht leer sein.'
+            },
+            'project-id': {
+              'not-empty': 'Die ID des zugehörigen Datenaufbereitungsprojektes darf nicht leer sein.'
+            },
+            'type': {
+              'not-null': 'Der Typ des Attachments darf nicht leer sein.',
+              'i18n-string-size': 'Der Typ muss in beiden Sprachen angegeben werden und darf nicht länger als 32 Zeichen sein.',
+              'valid-type': 'Der Typ muss einer der folgenden Werte sein: Daten- und Methodenbericht, Sonstiges.'
+            },
+            'description': {
+              'not-null': 'Die Beschreibung des Attachments darf nicht leer sein.',
+              'i18n-string-size': 'Die Beschreibung muss in mindestens einer Sprache angegeben werden und darf nicht länger als 128 Zeichen sein.',
+              'i18n-string-not-empty':'Die Beschreibung darf nicht leer sein.'
+            },
+            'title': {
+                'string-size': 'Der Title des Attachments darf nicht länger als 128 Zeichen sein.'
+              },
+            'language': {
+                'not-null': 'Die Sprache des Attachments darf nicht leer sein.',
+                'not-supported': 'Die Sprache muss eine gültige zweibuchstabige Abkürzung gemäß ISO 639-1 sein.'
+              },
+            'filename': {
+              'not-empty': 'Der Dateiname des Attachments darf nicht leer sein.'
             }
           }
         }

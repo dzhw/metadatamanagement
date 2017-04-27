@@ -33,6 +33,14 @@ angular.module('metadatamanagementApp').config(
           'basic-data-of-surveys': 'Basic Data of Surveys',
           'downloads': 'Downloads',
           'not-released-toast': 'Study "{{ id }}" has not yet been released to all users!',
+          'attachments': {
+            'table-title': 'Documents related to the Study',
+            'type': 'Type',
+            'title': 'Title',
+            'description': 'Description',
+            'language': 'Document Language',
+            'file': 'File'
+          },
           'tooltips': {
             'surveys': {
               'one': 'Click to show the survey of this study',
@@ -65,8 +73,13 @@ angular.module('metadatamanagementApp').config(
             'releases-file-not-found': 'The selected directory does not contain the following file: releases.xlsx!',
             'unable-to-delete': 'The study could not be deleted!',
             'missing-id': 'Study {{ index }} does not contain a RDC-ID and has not been saved:',
-            'upload-terminated': 'Finished upload of {{ total }} Study with {{ warnings }} warnings and {{ errors }} errors.',
+            'upload-terminated': 'Finished upload of {{ total }} Study and {{ attachments }} Attachments with {{ warnings }} warnings and {{ errors }} errors.',
             'cancelled': 'Study upload cancelled!'
+          },
+          'study-attachment': {
+            'not-saved': 'Attachment "{{ id }}" has not been saved:',
+            'missing-filename': 'Attachment {{ index }} does not have a filename and has not been saved.',
+            'file-not-found': 'The File {{ filename }} was not found and has not been saved.'
           }
         },
         'error': {
@@ -116,6 +129,34 @@ angular.module('metadatamanagementApp').config(
               'id': {
                 'not-empty': 'The RDC-ID of the Data Acquisition Project for the Study must not be empty!'
               }
+            }
+          },
+          'study-attachment-metadata': {
+            'study-id': {
+              'not-empty': 'The ID of the corresponding Study must not be empty.'
+            },
+            'project-id': {
+              'not-empty': 'The ID of the Data Acquisition Project must not be empty!'
+            },
+            'type': {
+              'not-null': 'The type of the attachment must not be empty!',
+              'i18n-string-size': 'The type is mandatory in both languages and must not contain more than 32 characters.',
+              'valid-type': 'The type must be one of the following: Questionnaire, Question Flow, Variable Questionnaire, Other.'
+            },
+            'description': {
+              'not-null': 'The description of the attachment must not be empty!',
+              'i18n-string-size': 'The description is mandatory and must in at least one language and must not contain more than 128 characters.',
+              'i18n-string-not-empty':'The description must not be empty!'
+            },
+            'title': {
+              'string-size': 'The title of the attachment must not contain more than 128 characters.'
+            },
+            'language': {
+              'not-null': 'The language of the attachment must not be empty!',
+              'not-supported': 'The language of the attachment must be a two-letter abbreviation according to ISO 639-1!'
+            },
+            'filename': {
+              'not-empty': 'The filename of the attachment must not be empty!'
             }
           }
         }
