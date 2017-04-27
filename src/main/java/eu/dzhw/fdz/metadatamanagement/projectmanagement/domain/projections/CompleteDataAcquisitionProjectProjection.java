@@ -17,4 +17,6 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 public interface CompleteDataAcquisitionProjectProjection
     extends AbstractRdcDomainObjectProjection {
   Release getRelease();
+  
+  Boolean getHasBeenReleasedBefore();
 }

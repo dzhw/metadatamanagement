@@ -39,11 +39,11 @@ public class DataAcquisitionProjectService {
   public boolean deleteDataAcquisitionProject(DataAcquisitionProject dataAcquisitionProject) {
     
     //just delete project, if it has not been released before.
-    if (!dataAcquisitionProject.isHasBeenReleasedBefore()) {
+    if (!dataAcquisitionProject.getHasBeenReleasedBefore()) {
       this.acquisitionProjectRepository.delete(dataAcquisitionProject);
       this.eventPublisher.publishEvent(new AfterDeleteEvent(dataAcquisitionProject));
     }   
     
-    return !dataAcquisitionProject.isHasBeenReleasedBefore();
+    return !dataAcquisitionProject.getHasBeenReleasedBefore();
   }
 }

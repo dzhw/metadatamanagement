@@ -138,6 +138,31 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
       .andExpect(jsonPath("$.id", is(project.getId())))
       .andExpect(jsonPath("$.version", is(1)));
   }
+  
+  @Test
+  public void testUpdateProjectToSetHasBeenReleasedBackToFalse() throws IOException, Exception {
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    project.setHasBeenReleasedBefore(true);
+
+    // create the project with the given id
+    mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
+      .content(TestUtil.convertObjectToJsonBytes(project)))
+      .andExpect(status().isCreated());
+
+    // update the project
+    project.setHasBeenReleasedBefore(false);
+    mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
+      .content(TestUtil.convertObjectToJsonBytes(project)))
+      .andExpect(status().is4xxClientError());
+
+    // load the project with the complete projection
+    mockMvc.perform(
+        get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId() + "?projection=complete"))
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$.id", is(project.getId())))
+      .andExpect(jsonPath("$.hasBeenReleasedBefore", is(true)))
+      .andExpect(jsonPath("$.version", is(0)));
+  }
 
   @Test
   public void testIdIsMandatory() throws IOException, Exception {

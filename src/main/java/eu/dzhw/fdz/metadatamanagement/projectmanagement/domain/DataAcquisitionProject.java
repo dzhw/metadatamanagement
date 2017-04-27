@@ -14,6 +14,7 @@ import com.google.common.base.MoreObjects;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation.SetHasBeenReleasedBeforeOnlyOnce;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 /**
@@ -22,6 +23,9 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  * @author Daniel Katzberg
  */
 @Document(collection = "data_acquisition_projects")
+@SetHasBeenReleasedBeforeOnlyOnce(message = "data-acquisition-project."
+    + "error.data-acquisition-project."
+    + "has-been-released-before.set-has-been-released-before-only-once")
 @GeneratePojoBuilder(
     intoPackage = "eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.builders")
 public class DataAcquisitionProject extends AbstractRdcDomainObject {
@@ -37,7 +41,7 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
   
   @NotNull(message = "data-acquisition-project.error.data-acquisition-project."
       + "has-been-released-before.not-null")
-  private boolean hasBeenReleasedBefore;
+  private Boolean hasBeenReleasedBefore;
   
   @Valid
   private Release release;
@@ -79,18 +83,11 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
     this.release = release;
   }
 
-  public boolean isHasBeenReleasedBefore() {
+  public Boolean getHasBeenReleasedBefore() {
     return hasBeenReleasedBefore;
   }
-
-  /**
-   * If the has been released before field is set to true, it can never be set to false.
-   * @param hasBeenReleasedBefore New value for the has been released before field.
-   */
-  public void setHasBeenReleasedBefore(boolean hasBeenReleasedBefore) {
-    //if the element is changed once to true, it can never be back set to false.
-    if (!this.hasBeenReleasedBefore) {
-      this.hasBeenReleasedBefore = hasBeenReleasedBefore;
-    }  
+  
+  public void setHasBeenReleasedBefore(Boolean hasBeenReleasedBefore) {
+    this.hasBeenReleasedBefore = hasBeenReleasedBefore;
   }
 }

@@ -103,11 +103,11 @@ public class DaraService {
     String filledTemplate = this.fillTemplate(registerXmlStr, 
             this.getTemplateConfiguration(), 
             this.getDataForTemplate(studyId, AVAILABILITY_CONTROLLED_DELIVERY, 
-                !project.isHasBeenReleasedBefore()));
+                !project.getHasBeenReleasedBefore()));
     
     //Send Rest Call for Registration
     boolean isRegistered = 
-          this.postToDaraImportXml(filledTemplate, project.isHasBeenReleasedBefore());
+          this.postToDaraImportXml(filledTemplate, project.getHasBeenReleasedBefore());
     project.setHasBeenReleasedBefore(isRegistered);
     this.projectRepository.save(project);
     
@@ -176,10 +176,10 @@ public class DaraService {
     String filledTemplate = this.fillTemplate(registerXmlStr, 
             this.getTemplateConfiguration(), 
             this.getDataForTemplate(studyId, AVAILABILITY_CONTROLLED_NOT_AVAILABLE, 
-                !project.isHasBeenReleasedBefore()));
+                !project.getHasBeenReleasedBefore()));
     
     //Send Rest Call for Registration
-    return this.postToDaraImportXml(filledTemplate, project.isHasBeenReleasedBefore()); 
+    return this.postToDaraImportXml(filledTemplate, project.getHasBeenReleasedBefore()); 
   }
   
   /**
