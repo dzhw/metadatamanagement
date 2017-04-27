@@ -15,11 +15,14 @@ angular.module('metadatamanagementApp')
       project.release = release;
       project.hasBeenReleasedBefore = true;
       DataAcquisitionProjectResource.save(project).$promise
-      .then(function() {
+        .then(function() {
           SimpleMessageToastService.openSimpleMessageToast(
             i18nPrefix + 'released-successfully', {
               id: project.id
             });
+        })
+        .then(function() {
+          //TODO DKatzberg nach dem speichern -> releasen
         });
       $mdDialog.hide();
     };

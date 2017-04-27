@@ -83,14 +83,12 @@ public class DaraService {
   /**
    * Registers or updates a dataset with a given doi to dara.
    * @param projectId The id of the Project.
-   * @param studyId The id of the study.
-   * @return True, if the Registration is successful. 
-   *        (Return http Status of 200 or 201.). 
+   * @return The HttpStatus from Dara 
    *        Returns a false, if something gone wrong.
    * @throws IOException the io exception for non readable xml file.
    * @throws TemplateException Exception for filling the template.
    */
-  public boolean registerOrUpdateDoi(String projectId, String studyId) 
+  public HttpStatus registerOrUpdateProjectToDara(String projectId) 
       throws IOException, TemplateException {
     
     //Load Project
@@ -102,27 +100,27 @@ public class DaraService {
     //Fill template
     String filledTemplate = this.fillTemplate(registerXmlStr, 
             this.getTemplateConfiguration(), 
-            this.getDataForTemplate(studyId, AVAILABILITY_CONTROLLED_DELIVERY, 
+            this.getDataForTemplate(projectId, AVAILABILITY_CONTROLLED_DELIVERY, 
                 !project.getHasBeenReleasedBefore()));
     
     //Send Rest Call for Registration
-    boolean isRegistered = 
-          this.postToDaraImportXml(filledTemplate, project.getHasBeenReleasedBefore());
-    project.setHasBeenReleasedBefore(isRegistered);
-    this.projectRepository.save(project);
+    HttpStatus httpStatusFromDara = 
+        this.postToDaraImportXml(filledTemplate, project.getHasBeenReleasedBefore());
+    if (httpStatusFromDara.is2xxSuccessful()) {
+      project.setHasBeenReleasedBefore(true);
+      this.projectRepository.save(project);
+    }
     
-    return isRegistered; 
+    return httpStatusFromDara; 
   }
   
   /**
    * This is the kernel method for registration, update and unregister of a doi element. 
    * @param filledTemplate The filled and used template.
    * @param hasBeenReleasedBefore The parameter for the project, which is released before or not.
-   * @return True, if the Registration or unregistration is successfull 
-   *        (Return http Status of 200 or 201.). 
-   *        Returns a false, if something gone wrong.
+   * @return the HttpStatus from Dara.
    */
-  private boolean postToDaraImportXml(String filledTemplate, boolean hasBeenReleasedBefore) {
+  private HttpStatus postToDaraImportXml(String filledTemplate, boolean hasBeenReleasedBefore) {
     
     //Load Dara Information
     final String daraEndpoint = 
@@ -149,22 +147,19 @@ public class DaraService {
     ResponseEntity<String> result = 
           new RestTemplate().postForEntity(builder.build().toUri(), request, String.class);
         
-    return result.getStatusCode().equals(HttpStatus.CREATED) 
-        || result.getStatusCode().equals(HttpStatus.OK);
+    return result.getStatusCode();
   }
 
   /**
    * This method set a registered doi at dara to not available. 
    * 
    * @param projectId The id of the project.
-   * @param studyId The id of the study.
-   * @return True, if the unregistration is successful. 
-   *        (Return http Status of 200.). 
+   * @return The HttpStatus from Dara 
    *        Returns a false, if something gone wrong. 
    * @throws IOException the io exception for non readable xml file.
    * @throws TemplateException Exception for filling the template.
    */
-  public boolean setDoiToNotAvailable(String projectId, String studyId) 
+  public HttpStatus unregisterProjectToDara(String projectId) 
       throws IOException, TemplateException {
     //Load Project
     DataAcquisitionProject project = this.projectRepository.findOne(projectId);
@@ -175,7 +170,7 @@ public class DaraService {
     //Fill template
     String filledTemplate = this.fillTemplate(registerXmlStr, 
             this.getTemplateConfiguration(), 
-            this.getDataForTemplate(studyId, AVAILABILITY_CONTROLLED_NOT_AVAILABLE, 
+            this.getDataForTemplate(projectId, AVAILABILITY_CONTROLLED_NOT_AVAILABLE, 
                 !project.getHasBeenReleasedBefore()));
     
     //Send Rest Call for Registration
@@ -188,7 +183,7 @@ public class DaraService {
    *    releaseDate
    *    availabilityControlled
    *    resourceType
-   * @param studyId The id of the study.
+   * @param projectId The id of the project to find the study.
    * @param availabilityControlled The availability of the data.
    * @param release True = Element will be initially release. 
    *     False = Element is released before.
@@ -196,13 +191,13 @@ public class DaraService {
    *     If the key is 'study' so the study object is the value. 
    *     Study is the name for the object use in freemarker.
    */
-  private Map<String, Object> getDataForTemplate(String studyId, 
+  private Map<String, Object> getDataForTemplate(String projectId, 
       int availabilityControlled, boolean release) {
     
     Map<String, Object> dataForTemplate = new HashMap<>();
     
     //Get Study Information
-    Study study = this.studyRepository.findOne(studyId);    
+    Study study = this.studyRepository.findOneByDataAcquisitionProjectId(projectId);    
     dataForTemplate.put("study", study);
     
     //Add Date
