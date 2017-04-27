@@ -16,6 +16,8 @@ applications:
   - email
   - dara
   timeout: 180
+  health-check-type: http
+  health-check-http-endpoint: /management/info
   routes:
   - route: metadata.fdz.dzhw.eu
   - route: metadatamanagement.cfapps.io

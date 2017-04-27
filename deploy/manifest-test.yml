@@ -17,3 +17,5 @@ applications:
   - email
   - dara
   timeout: 180
+  health-check-type: http
+  health-check-http-endpoint: /management/info

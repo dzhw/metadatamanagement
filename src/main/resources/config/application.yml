@@ -61,6 +61,8 @@ endpoints:
   sensitive: true
   health:
     sensitive: false
+  info:
+    sensitive: false
  
 # ===================================================================
 # JHipster specific properties
