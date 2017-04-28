@@ -36,6 +36,21 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
         });
         return studyFilesMap;
       };
+      var finishUpload = function() {
+        ElasticSearchAdminService.processUpdateQueue('studies').finally(
+          function() {
+            JobLoggingService.finish(
+              'study-management.log-messages.study.upload-terminated', {
+                total: JobLoggingService
+                  .getCurrentJob().getCounts('study').total,
+                attachments: JobLoggingService
+                  .getCurrentJob().getCounts('attachment').total,
+                warnings: JobLoggingService.getCurrentJob().warnings,
+                errors: JobLoggingService.getCurrentJob().errors
+              });
+            $rootScope.$broadcast('upload-completed');
+          });
+      };
       var uploadAttachmentAsync = function(attachments) {
             var chainedAttachmentUploads = $q.when();
             attachments.forEach(function(attachmentUploadObj) {
@@ -61,20 +76,7 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
                 });
             });
             chainedAttachmentUploads.finally(function() {
-              ElasticSearchAdminService.processUpdateQueue('studies').finally(
-                function() {
-                  JobLoggingService.finish(
-                    'study-management.log-messages.study.upload-terminated', {
-                      total: JobLoggingService
-                        .getCurrentJob().getCounts('study').total,
-                      attachments: JobLoggingService
-                        .getCurrentJob().getCounts('attachment').total,
-                      warnings: JobLoggingService.getCurrentJob().warnings,
-                      errors: JobLoggingService.getCurrentJob().errors
-                    });
-                  $rootScope.$broadcast('upload-completed');
-                });
-              return;
+              finishUpload();
             });
 
           };
@@ -83,6 +85,7 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
           JobLoggingService.success({
             objectType: 'study'
           });
+          uploadAttachmentAsync(toBeUploadedStudy.attachments);
         }).catch(function(error) {
           var errorMessages = ErrorMessageResolverService
             .getErrorMessage(error, 'study');
@@ -91,8 +94,7 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
             messageParams: errorMessages.translationParams,
             subMessages: errorMessages.subMessages
           });
-        }).then(function() {
-          uploadAttachmentAsync(toBeUploadedStudy.attachments);
+          finishUpload();
         });
       };
       var createReadyToUploadStudy = function(studyResource, attachmentFiles) {

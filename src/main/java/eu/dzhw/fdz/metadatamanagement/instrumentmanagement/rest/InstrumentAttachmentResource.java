@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.UriUtils;
 
 import com.codahale.metrics.annotation.Timed;
 
@@ -53,7 +54,8 @@ public class InstrumentAttachmentResource {
       throws URISyntaxException, IOException {
     instrumentAttachmentService.createInstrumentAttachment(multiPartFile.getInputStream(),
         multiPartFile.getContentType(), instrumentAttachmentMetadata);
-    return ResponseEntity.created(new URI(instrumentAttachmentMetadata.getId()))
+    return ResponseEntity.created(new URI(UriUtils.encodePath(
+        instrumentAttachmentMetadata.getId(), "UTF-8")))
         .body(null);
   }
 
