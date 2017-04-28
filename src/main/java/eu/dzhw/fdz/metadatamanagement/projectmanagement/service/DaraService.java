@@ -20,6 +20,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -116,7 +117,7 @@ public class DaraService {
    * @return the HttpStatus from Dara.
    */
   private HttpStatus postToDaraImportXml(String filledTemplate, boolean hasBeenReleasedBefore) {
-    
+        
     //Load Dara Information
     final String daraEndpoint = 
         this.metadataManagementProperties.getDara().getEndpoint() + REGISTRATION_ENDPOINT;
@@ -134,15 +135,29 @@ public class DaraService {
     UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(daraEndpoint)
         .queryParam("registration", Boolean.valueOf(!hasBeenReleasedBefore).toString());
     
+    System.out.println(builder.build().toUri());
+    
     //Build Request
     HttpEntity<String> request = new HttpEntity<>(filledTemplate, headers);
     
     //Send Post
     //Info: result.getBody() has the registered DOI
-    ResponseEntity<String> result = 
-          new RestTemplate().postForEntity(builder.build().toUri(), request, String.class);
-        
-    return result.getStatusCode();
+    try {
+      ResponseEntity<String> result = 
+            new RestTemplate().postForEntity(builder.build().toUri(), request, String.class);      
+      return result.getStatusCode();
+    } catch (HttpClientErrorException httpClientError) {
+      //Has been released is false? Something went wrong at the local save?
+      //Catch the second try for registring 
+      //Idempotent Method!
+      if (httpClientError.getStatusCode().is4xxClientError()
+          && httpClientError.getResponseBodyAsString()
+            .equals("A resource with the given doiProposal exists in the system.")) {
+        return HttpStatus.CREATED;
+      } else {
+        return httpClientError.getStatusCode();
+      }
+    }
   }
 
   /**

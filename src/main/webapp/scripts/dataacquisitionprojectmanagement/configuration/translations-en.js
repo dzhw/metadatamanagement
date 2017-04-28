@@ -36,6 +36,7 @@ angular.module('metadatamanagementApp').config(
             'deleted-not-successfully-project': 'Could not delete Data Acquisition Project "{{ id }}"!',
             'released-successfully': 'The data of the project "{{ id }}" will be visible to all users in about 10 minutes.',
             'unreleased-successfully': 'The data of the project "{{ id }}" will be visible to RDC employees only in about 10 minutes.',
+            'dara-released-not-successfully': 'The data of the project "{{ id }}" could not be released. It happened an error on the registration / update of the DOI at Dara.',
             'unrelease-title': 'Unrelease Project "{{ id }}"?',
             'unrelease': 'Do you really want to reduce visibility of the project "{{ id }}" to RDC employees only?',
             'release-not-possible-title': 'Project "{{ id }}" cannot be released!',
@@ -50,7 +51,7 @@ angular.module('metadatamanagementApp').config(
               'size': 'The max length of the RDC-ID is 32 signs.'
             },
             'has-been-released-before': {
-              'not-null' : 'The information is missing, that a Data Acquisition Project has been relesed before.'
+              'not-null': 'The information is missing, that a Data Acquisition Project has been relesed before.'
             }
           },
           'post-validation': {
