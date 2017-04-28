@@ -40,7 +40,10 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.Relate
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.builders.RelatedPublicationBuilder;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.DataAvailabilities;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudyAttachmentMetadata;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudyAttachmentTypes;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.SurveyDesigns;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.builders.StudyAttachmentMetadataBuilder;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.builders.StudyBuilder;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyAttachmentMetadata;
@@ -514,6 +517,19 @@ public class UnitTestCreateDomainObjectUtils {
           .build();
   }
   
+  public static StudyAttachmentMetadata buildStudyAttachmentMetadata(String projectId) {
+    return new StudyAttachmentMetadataBuilder()
+          .withDataAcquisitionProjectId(projectId)
+          .withStudyId(UnitTestCreateValidIds.buildStudyId(projectId))
+          .withFileName("filename.txt")
+          .withDescription(new I18nString("Beschreibung","Description"))
+          .withTitle("Title")
+          .withLanguage("de")
+          .withType(StudyAttachmentTypes.METHOD_REPORT)
+          .withIndexInStudy(1)
+          .build();
+  }
+ 
   public static RelatedQuestion buildRelatedQuestion(String projectId, String questionNumber, String instrumentNumber) {
     return new RelatedQuestionBuilder()
         .withInstrumentNumber(instrumentNumber)
