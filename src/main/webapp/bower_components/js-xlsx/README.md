@@ -1,17 +1,22 @@
-# xlsx
+# [SheetJS js-xlsx](http://sheetjs.com)
 
 Parser and writer for various spreadsheet formats.  Pure-JS cleanroom
 implementation from official specifications, related documents, and test files.
 Emphasis on parsing and writing robustness, cross-format feature compatibility
 with a unified JS representation, and ES3/ES5 browser compatibility back to IE6.
 
-[**In-Browser Demo**](http://oss.sheetjs.com/js-xlsx)
+This is the community version.  We also offer a pro version with performance
+enhancements and additional features by request.
 
-[**Source Code**](http://git.io/xlsx)
+[**Pro Version**](http://sheetjs.com/pro)
 
-[**Commercial Support**](http://sheetjs.com/reinforcements)
+[**Commercial Support**](http://sheetjs.com/support)
 
 [**Rendered Documentation**](https://sheetjs.gitbooks.io/docs/)
+
+[**In-Browser Demos**](http://sheetjs.com/demos)
+
+[**Source Code**](http://git.io/xlsx)
 
 [**File format support for known spreadsheet data formats:**](#file-formats)
 
@@ -1025,6 +1030,7 @@ The exported `write` and `writeFile` functions accept an options argument:
 | sheet       |     `""` | Name of Worksheet for single-sheet formats **       |
 | compression |  `false` | Use ZIP compression for ZIP-based formats **        |
 | Props       |          | Override workbook properties when writing **        |
+| themeXLSX   |          | Override theme XML when writing XLSX/XLSB/XLSM **   |
 
 - `bookSST` is slower and more memory intensive, but has better compatibility
   with older versions of iOS Numbers
@@ -1035,6 +1041,8 @@ The exported `write` and `writeFile` functions accept an options argument:
   so non-Excel tools may ignore the data or blow up in the presence of dates.
 - `Props` is an object mirroring the workbook `Props` field.  See the table from
   the [Workbook File Properties](#workbook-file-properties) section.
+- if specified, the string from `themeXLSX` will be saved as the primary theme
+  for XLSX/XLSB/XLSM files (to `xl/theme/theme1.xml` in the ZIP)
 
 ### Supported Output Formats
 

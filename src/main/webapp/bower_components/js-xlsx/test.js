@@ -658,6 +658,14 @@ function hlink(wb) {
 	assert.equal(get_cell(ws, "A7").l.Tooltip, "foo bar baz");
 }
 
+function check_margin(margins, exp) {
+	assert.equal(margins.left, exp[0]);
+	assert.equal(margins.right, exp[1]);
+	assert.equal(margins.top, exp[2]);
+	assert.equal(margins.bottom, exp[3]);
+	assert.equal(margins.header, exp[4]);
+	assert.equal(margins.footer, exp[5]);
+}
 
 describe('parse features', function() {
 	describe('sheet visibility', function() {
@@ -706,7 +714,7 @@ describe('parse features', function() {
 				assert.equal(get_cell(ws, "B1").c[0].t, "Yegor Kozlov:\nfirst cell", "must have the concatenated texts");
 				if(i > 0) return;
 				assert.equal(get_cell(ws, "B1").c[0].r, '<r><rPr><b/><sz val="8"/><color indexed="81"/><rFont val="Tahoma"/></rPr><t>Yegor Kozlov:</t></r><r><rPr><sz val="8"/><color indexed="81"/><rFont val="Tahoma"/></rPr><t xml:space="preserve">\r\nfirst cell</t></r>', "must have the rich text representation");
-				assert.equal(get_cell(ws, "B1").c[0].h, '<span style="font-weight: bold;">Yegor Kozlov:</span><span style=""><br/>first cell</span>', "must have the html representation");
+				assert.equal(get_cell(ws, "B1").c[0].h, '<span style="font-size:8;"><b>Yegor Kozlov:</b></span><span style="font-size:8;"><br/>first cell</span>', "must have the html representation");
 			});
 		});
 		[
@@ -977,14 +985,6 @@ describe('parse features', function() {
 	});
 
 	describe('page margins', function() {
-		function check_margin(margins, exp) {
-			assert.equal(margins.left, exp[0]);
-			assert.equal(margins.right, exp[1]);
-			assert.equal(margins.top, exp[2]);
-			assert.equal(margins.bottom, exp[3]);
-			assert.equal(margins.header, exp[4]);
-			assert.equal(margins.footer, exp[5]);
-		}
 		var wb1, wb2, wb3, wb4, wb5, wbs;
 		var bef = (function() {
 			wb1 = X.readFile(paths.pmxls);
@@ -1250,6 +1250,21 @@ describe('roundtrip features', function() {
 			});
 		});
 	});
+
+	describe('should preserve page margins', function() {[
+			//['xlml', paths.pmxml],
+			['xlsx', paths.pmxlsx],
+			['xlsb', paths.pmxlsb]
+		].forEach(function(w) { it(w[0], function() {
+			var wb1 = X.readFile(w[1]);
+			var wb2 = X.read(X.write(wb1, {bookType:w[0], type:"binary"}), {type:"binary"});
+			check_margin(wb2.Sheets["Normal"]["!margins"], [0.7, 0.7, 0.75, 0.75, 0.3, 0.3]);
+			check_margin(wb2.Sheets["Wide"]["!margins"], [1, 1, 1, 1, 0.5, 0.5]);
+			check_margin(wb2.Sheets["Wide"]["!margins"], [1, 1, 1, 1, 0.5, 0.5]);
+			check_margin(wb2.Sheets["Narrow"]["!margins"], [0.25, 0.25, 0.75, 0.75, 0.3, 0.3]);
+			check_margin(wb2.Sheets["Custom 1 Inch Centered"]["!margins"], [1, 1, 1, 1, 0.3, 0.3]);
+			check_margin(wb2.Sheets["1 Inch HF"]["!margins"], [0.7, 0.7, 0.75, 0.75, 1, 1]);
+	}); }); });
 
 	describe('should preserve sheet visibility', function() { [
 			['xlml', paths.svxml],
