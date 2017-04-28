@@ -42,6 +42,11 @@
     "angular-messages": "1.6.4",
     "bowser": "^1.6.1"
   },
+  "overrides": {
+    "elasticsearch": {
+      "main": "elasticsearch.angular.js"
+    }
+  },
   "devDependencies": {
     "angular-mocks": "1.6.4",
     "angular-scenario": "1.6.4"
