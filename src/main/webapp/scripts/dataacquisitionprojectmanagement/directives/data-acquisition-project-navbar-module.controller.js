@@ -79,6 +79,7 @@ angular.module('metadatamanagementApp')
             clickOutsideToClose: false
           })
           .then(function(project) {
+            project.hasBeenReleasedBefore = false;
             DataAcquisitionProjectResource.save(project,
               //Success
               function() {
