@@ -26,13 +26,13 @@ angular.module('metadatamanagementApp')
 
       $scope.$on('current-project-changed',
         function(event, project) { // jshint ignore:line
-        if (project) {
-          ctrl.searchText = project.id;
-        } else {
-          ctrl.searchText = '';
-        }
-        ctrl.selectedProject = project;
-      });
+          if (project) {
+            ctrl.searchText = project.id;
+          } else {
+            ctrl.searchText = '';
+          }
+          ctrl.selectedProject = project;
+        });
 
       //Load the projects for the drop menu
       function loadProjects() {
@@ -156,14 +156,14 @@ angular.module('metadatamanagementApp')
 
       var doRelease = function() {
         $mdDialog.show({
-            controller: 'ReleaseProjectDialogController',
-            templateUrl: 'scripts/dataacquisitionprojectmanagement/' +
-              'views/release-project-dialog.html.tmpl',
-            clickOutsideToClose: false,
-            locals: {
-              project: ctrl.selectedProject
-            }
-          }).catch(function() {
+          controller: 'ReleaseProjectDialogController',
+          templateUrl: 'scripts/dataacquisitionprojectmanagement/' +
+            'views/release-project-dialog.html.tmpl',
+          clickOutsideToClose: false,
+          locals: {
+            project: ctrl.selectedProject
+          }
+        }).catch(function() {
           // user cancellled
         });
       };
@@ -173,27 +173,33 @@ angular.module('metadatamanagementApp')
           .postValidate(ctrl.selectedProject.id)
           .then(doRelease, function() {
             $mdDialog.show($mdDialog.alert()
-            .title($translate.instant(
-              i18nPrefix + 'release-not-possible-title',
-              {id: ctrl.selectedProject.id}))
-            .textContent($translate.instant(
-              i18nPrefix + 'release-not-possible',
-              {id: ctrl.selectedProject.id}))
-            .ariaLabel($translate.instant(
-              i18nPrefix + 'release-not-possible-title',
-              {id: ctrl.selectedProject.id}))
-            .ok($translate.instant('global.buttons.ok')));
+              .title($translate.instant(
+                i18nPrefix + 'release-not-possible-title', {
+                  id: ctrl.selectedProject.id
+                }))
+              .textContent($translate.instant(
+                i18nPrefix + 'release-not-possible', {
+                  id: ctrl.selectedProject.id
+                }))
+              .ariaLabel($translate.instant(
+                i18nPrefix + 'release-not-possible-title', {
+                  id: ctrl.selectedProject.id
+                }))
+              .ok($translate.instant('global.buttons.ok')));
           });
       };
 
       var unreleaseProject = function() {
         var confirmDialog = $mdDialog.confirm()
-          .title($translate.instant(i18nPrefix + 'unrelease-title',
-            {id: ctrl.selectedProject.id}))
-          .textContent($translate.instant(i18nPrefix + 'unrelease',
-            {id: ctrl.selectedProject.id}))
-          .ariaLabel($translate.instant(i18nPrefix + 'unrelease',
-            {id: ctrl.selectedProject.id}))
+          .title($translate.instant(i18nPrefix + 'unrelease-title', {
+            id: ctrl.selectedProject.id
+          }))
+          .textContent($translate.instant(i18nPrefix + 'unrelease', {
+            id: ctrl.selectedProject.id
+          }))
+          .ariaLabel($translate.instant(i18nPrefix + 'unrelease', {
+            id: ctrl.selectedProject.id
+          }))
           .ok($translate.instant('global.buttons.ok'))
           .cancel($translate.instant('global.buttons.cancel'));
         $mdDialog.show(confirmDialog).then(function() {

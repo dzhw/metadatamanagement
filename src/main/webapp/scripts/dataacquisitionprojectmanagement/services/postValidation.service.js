@@ -38,8 +38,10 @@ angular.module('metadatamanagementApp').service(
               toBereferenzedId: result.errors[i].messageParameter[1],
               additionalId: result.errors[i].messageParameter[2]
             };
-            JobLoggingService.error({message: result.errors[i].messageId,
-              messageParams: messageParameter});
+            JobLoggingService.error({
+              message: result.errors[i].messageId,
+              messageParams: messageParameter
+            });
           }
           deferred.reject(result);
           //no errors by post validation

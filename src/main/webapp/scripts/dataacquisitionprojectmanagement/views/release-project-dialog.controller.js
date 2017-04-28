@@ -2,7 +2,8 @@
 
 angular.module('metadatamanagementApp')
   .controller('ReleaseProjectDialogController', function($scope, $mdDialog,
-    project, SimpleMessageToastService, DataAcquisitionProjectResource) {
+    project, SimpleMessageToastService, DataAcquisitionProjectResource,
+    DataAcquisitionProjectReleaseResource) {
     $scope.project = project;
     var i18nPrefix = 'data-acquisition-project-management.log-messages.' +
       'data-acquisition-project.';
@@ -13,7 +14,6 @@ angular.module('metadatamanagementApp')
     $scope.ok = function(release) {
       release.date = new Date().toISOString();
       project.release = release;
-      project.hasBeenReleasedBefore = true;
       DataAcquisitionProjectResource.save(project).$promise
         .then(function() {
           SimpleMessageToastService.openSimpleMessageToast(
@@ -22,7 +22,9 @@ angular.module('metadatamanagementApp')
             });
         })
         .then(function() {
-          //TODO DKatzberg nach dem speichern -> releasen
+          DataAcquisitionProjectReleaseResource.release({
+            id: project.id
+          });
         });
       $mdDialog.hide();
     };
