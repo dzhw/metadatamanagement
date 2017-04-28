@@ -106,11 +106,6 @@ public class DaraService {
     //Send Rest Call for Registration
     HttpStatus httpStatusFromDara = 
         this.postToDaraImportXml(filledTemplate, project.getHasBeenReleasedBefore());
-    if (httpStatusFromDara.is2xxSuccessful()) {
-      project.setHasBeenReleasedBefore(true);
-      this.projectRepository.save(project);
-    }
-    
     return httpStatusFromDara; 
   }
   

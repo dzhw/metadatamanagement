@@ -14,18 +14,18 @@ angular.module('metadatamanagementApp')
     $scope.ok = function(release) {
       release.date = new Date().toISOString();
       project.release = release;
-      DataAcquisitionProjectResource.save(project).$promise
-        .then(function() {
-          SimpleMessageToastService.openSimpleMessageToast(
-            i18nPrefix + 'released-successfully', {
-              id: project.id
-            });
-        })
-        .then(function() {
-          DataAcquisitionProjectReleaseResource.release({
-            id: project.id
+      DataAcquisitionProjectReleaseResource.release({
+        id: project.id
+      }).$promise.then(function() {
+        project.hasBeenReleasedBefore = true;
+        DataAcquisitionProjectResource.save(project).$promise
+          .then(function() {
+            SimpleMessageToastService.openSimpleMessageToast(
+              i18nPrefix + 'released-successfully', {
+                id: project.id
+              });
           });
-        });
+      });
       $mdDialog.hide();
     };
   });
