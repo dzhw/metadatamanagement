@@ -10,13 +10,25 @@
             </md-card-header-text>
         </md-card-header>
         <md-card-content>
-            <div layout="row" layout-xs="column">
-              <span style="font-weight: bold;">{{'global.cards.labels-surveyed-in' | translate}}:&nbsp;</span>
-              <div layout="column">
-                  <div class="fdz-truncate-string" ng-repeat="survey in searchResult.surveys">
-                      <span  display-i18n-string="survey.title"></span>
+            <div layout="column" layout-gt-sm="row">
+                <div flex-gt-sm="50" layout="column" ng-class="{'fdz-add-right-margin': addMargin, 'fdz-add-bottom-margin': !addMargin}">
+                  <span style="font-weight: bold;">{{'global.cards.labels-surveyed-in' | translate}}:&nbsp;</span>
+                  <div layout="column">
+                      <div class="fdz-truncate-string" ng-repeat="survey in searchResult.surveys">
+                          <span  display-i18n-string="survey.title"></span>
+                      </div>
                   </div>
-              </div>
+                </div>
+                <div flex-gt-sm="50" layout="column">
+                    <div ng-class="{'fdz-add-bottom-margin': !addMargin}" ng-if="searchResult.accessWays">
+                        <span style="font-weight: bold;">{{'study-management.detail.data-set.accessWays' | translate }}:</span>
+                        <span>{{searchResult.accessWays}}</span>
+                    </div>
+                    <div ng-if="searchResult.maxOfNumberOfObservations">
+                      <span style="font-weight: bold;">{{'study-management.detail.data-set.maxNumberOfObservations' | translate }} <span katex>(max)</span>:&nbsp;</span>
+                        <span>{{searchResult.maxOfNumberOfObservations}}</span>
+                    </div>
+                </div>
             </div>
         </md-card-content>
         <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">

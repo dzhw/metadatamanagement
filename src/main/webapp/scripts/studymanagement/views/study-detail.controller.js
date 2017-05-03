@@ -1,4 +1,3 @@
-/* global _*/
 'use strict';
 
 angular.module('metadatamanagementApp')
@@ -32,23 +31,13 @@ angular.module('metadatamanagementApp')
           if (ctrl.counts.publicationsCount === 1) {
             ctrl.relatedPublication = result.relatedPublications[0];
           }
+          /* We should discuss if we need to extand the dataSet sub document
+          to contain type, subDataSets and surveys.
+          we need this properties only at this place*/
           DataSetSearchService.findByStudyId(result.id,
-            ['id', 'number', 'description', 'subDataSets'])
+            ['id', 'number', 'description', 'type', 'subDataSets', 'surveys'])
             .then(function(dataSets) {
-              ctrl.dataSets = [];
-              dataSets.hits.hits.forEach(function(dataSet) {
-                ctrl.dataSets.push({
-                  'id': dataSet._source.id,
-                  'number': dataSet._source.number,
-                  'description': dataSet._source.description,
-                  'accessWays': _.map(dataSet._source.subDataSets,
-                    'accessWay').join(', '),
-                  'maxOfNumberOfObservations': _.maxBy(dataSet._source.
-                    subDataSets, function(subDataSet) {
-                      return subDataSet.numberOfObservations;})
-                      .numberOfObservations
-                });
-              });
+              ctrl.dataSets = dataSets.hits.hits;
             });
           StudyAttachmentResource.findByStudyId({
               id: ctrl.study.id
