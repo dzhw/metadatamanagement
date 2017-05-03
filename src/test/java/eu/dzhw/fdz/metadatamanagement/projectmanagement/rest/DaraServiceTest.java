@@ -5,11 +5,17 @@ package eu.dzhw.fdz.metadatamanagement.projectmanagement.rest;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
 import org.junit.After;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.client.MockRestServiceServer;
+import org.springframework.web.client.RestTemplate;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
@@ -43,21 +49,67 @@ public class DaraServiceTest extends AbstractTest{
   }
   
   @Test
-  public void testRegister() throws Exception {
+  public void testHealthCheack() throws Exception {
     
-    //Create Objects
+    //ASSERT
+    RestTemplate restTemplate = new RestTemplate();
+    MockRestServiceServer mockServer = MockRestServiceServer.bindTo(restTemplate).build();
+    mockServer
+      .expect(requestTo(this.daraService.getApiEndpoint() + DaraService.IS_ALiVE_ENDPOINT))
+      .andRespond(withSuccess());
+    this.daraService.setRestTemplate(restTemplate);
+    
+    //ACT
+    boolean health = this.daraService.isDaraHealth();
+    
+    //ASSERT
+    assertThat(health, is(true));
+  }
+  
+  @Test
+  public void testRelease() throws Exception {
+    
+    //ASSERT
+    RestTemplate restTemplate = new RestTemplate();
+    MockRestServiceServer mockServer = MockRestServiceServer.bindTo(restTemplate).build();
+    mockServer
+      .expect(requestTo(this.daraService.getApiEndpoint() + DaraService.REGISTRATION_ENDPOINT + "?registration=true"))
+      .andRespond(withStatus(HttpStatus.CREATED));
+    this.daraService.setRestTemplate(restTemplate);    
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
-    dataAcquisitionProjectRepository.save(project);
-    
+    dataAcquisitionProjectRepository.save(project);    
     Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
-    this.studyRepository.save(study);    
+    this.studyRepository.save(study);
     
-    //perform register
-    boolean isRegistered = true; //TODO this.daraService.registerOrUpdateDoi(project.getId(), study.getId());    
-    assertThat(isRegistered, is(true));
+    //ACT
+    HttpStatus isRegistered = this.daraService.registerOrUpdateProjectToDara(project.getId()); 
     
-    boolean doiNotAvailable = true; //TODO this.daraService.setDoiToNotAvailable(project.getId(), study.getId());
-    assertThat(doiNotAvailable, is(true));
+    //ASSERT
+    assertThat(isRegistered, is(HttpStatus.CREATED));
+  }
+  
+  
+  @Test
+  public void testUnrelease() throws Exception {
+    
+    //ASSERT
+    RestTemplate restTemplate = new RestTemplate();
+    MockRestServiceServer mockServer = MockRestServiceServer.bindTo(restTemplate).build();
+    mockServer
+      .expect(requestTo(this.daraService.getApiEndpoint() + DaraService.REGISTRATION_ENDPOINT + "?registration=false"))
+      .andRespond(withStatus(HttpStatus.OK));
+    this.daraService.setRestTemplate(restTemplate);    
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    project.setHasBeenReleasedBefore(true);
+    dataAcquisitionProjectRepository.save(project);    
+    Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
+    this.studyRepository.save(study);
+    
+    //ACT
+    HttpStatus doiNotAvailable = this.daraService.unregisterProjectToDara(project.getId());
+    
+    //ASSERT
+    assertThat(doiNotAvailable, is(HttpStatus.OK));
   }
 
 }

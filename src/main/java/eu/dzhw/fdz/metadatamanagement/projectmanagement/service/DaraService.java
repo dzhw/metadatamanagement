@@ -48,8 +48,8 @@ public class DaraService {
   
   private final Logger log = LoggerFactory.getLogger(DaraService.class);
   
-  private static final String IS_ALiVE_ENDPOINT = "api/isAlive";
-  private static final String REGISTRATION_ENDPOINT = "study/importXML";
+  public static final String IS_ALiVE_ENDPOINT = "api/isAlive";
+  public static final String REGISTRATION_ENDPOINT = "study/importXML";
       
   @Autowired
   private MetadataManagementProperties metadataManagementProperties;
@@ -63,6 +63,8 @@ public class DaraService {
   @Value(value = "classpath:templates/dara/register.xml.tmpl")
   private Resource registerXml;
   
+  private RestTemplate restTemplate;
+  
   //Resource Type
   private static final int RESOURCE_TYPE_DATASET = 2;
   
@@ -71,16 +73,22 @@ public class DaraService {
   private static final int AVAILABILITY_CONTROLLED_NOT_AVAILABLE = 4;
   
   /**
+   * Constructor for Dara Services. Set the Rest Template.
+   */
+  public DaraService() {
+    this.restTemplate = new RestTemplate();
+  }
+  
+  /**
    * Check the dara health endpoint. 
    * @return Returns the status of the dara server.
    */
   public boolean isDaraHealth() {
     
-    final String daraHealthEndpoint = 
-        this.metadataManagementProperties.getDara().getEndpoint() + IS_ALiVE_ENDPOINT;
-    
+    final String daraHealthEndpoint = this.getApiEndpoint() + IS_ALiVE_ENDPOINT;
+      
     ResponseEntity<String> result = 
-        new RestTemplate().getForEntity(daraHealthEndpoint, String.class);
+        this.restTemplate.getForEntity(daraHealthEndpoint, String.class);
     
     return result.getStatusCode().equals(HttpStatus.OK);
   }
@@ -148,7 +156,7 @@ public class DaraService {
     //Info: result.getBody() has the registered DOI
     try {
       ResponseEntity<String> result = 
-            new RestTemplate().postForEntity(builder.build().toUri(), request, String.class);      
+            this.restTemplate.postForEntity(builder.build().toUri(), request, String.class);      
       return result.getStatusCode();
     } catch (HttpClientErrorException httpClientError) {
       //Has been released is false? Something went wrong at the local save?
@@ -272,5 +280,14 @@ public class DaraService {
    */
   public String getApiEndpoint() {
     return this.metadataManagementProperties.getDara().getEndpoint();
+  }
+
+  /* GETTER / SETTER */
+  public RestTemplate getRestTemplate() {
+    return restTemplate;
+  }
+
+  public void setRestTemplate(RestTemplate restTemplate) {
+    this.restTemplate = restTemplate;
   }
 }
