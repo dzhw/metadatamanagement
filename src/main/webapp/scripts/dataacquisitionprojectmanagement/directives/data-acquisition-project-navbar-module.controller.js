@@ -192,7 +192,6 @@ angular.module('metadatamanagementApp')
           });
       };
 
-      //TODO DKatzberg
       var unreleaseProject = function() {
         var confirmDialog = $mdDialog.confirm()
           .title($translate.instant(i18nPrefix + 'unrelease-title', {
@@ -211,7 +210,8 @@ angular.module('metadatamanagementApp')
             id: ctrl.selectedProject.id
           }).$promise.then(function() {
             delete ctrl.selectedProject.release;
-            DataAcquisitionProjectResource.save(ctrl.selectedProject).$promise
+            DataAcquisitionProjectResource.save(ctrl.selectedProject)
+              .$promise
               .then(function() {
                 SimpleMessageToastService.openSimpleMessageToast(
                   i18nPrefix + 'unreleased-successfully', {
