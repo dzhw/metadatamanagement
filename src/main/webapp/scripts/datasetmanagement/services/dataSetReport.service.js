@@ -20,7 +20,8 @@ angular.module('metadatamanagementApp').service('DataSetReportService',
             FileResource.download(gridFsFileName).then(function(
               response) {
               JobLoggingService.success({
-                message: 'data-set-management.log-messages.tex.upload-terminated'
+                message: 'data-set-management.log-messages.' +
+                  'tex.upload-terminated'
               });
               saveAs(response.data.blob, file.name);
               JobLoggingService.finish(
