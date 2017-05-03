@@ -73,6 +73,10 @@ angular.module('metadatamanagementApp')
             }
           }
           ctrl.study = result.study;
+          ctrl.counts.surveysCount = result.surveys.length;
+          if (ctrl.counts.surveysCount === 1) {
+            ctrl.survey = result.surveys[0];
+          }
           ctrl.counts.variablesCount = result.variables.length;
           if (ctrl.counts.variablesCount === 1) {
             ctrl.variable = result.variables[0];
