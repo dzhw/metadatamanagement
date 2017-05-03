@@ -12,6 +12,8 @@ import java.util.Map;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -43,6 +45,8 @@ import freemarker.template.TemplateExceptionHandler;
  */
 @Service
 public class DaraService {
+  
+  private final Logger log = LoggerFactory.getLogger(DaraService.class);
   
   private static final String IS_ALiVE_ENDPOINT = "api/isAlive";
   private static final String REGISTRATION_ENDPOINT = "study/importXML";
@@ -117,7 +121,9 @@ public class DaraService {
    * @return the HttpStatus from Dara.
    */
   private HttpStatus postToDaraImportXml(String filledTemplate, boolean hasBeenReleasedBefore) {
-        
+    
+    this.log.debug("XML Element to Dara: " + filledTemplate);
+    
     //Load Dara Information
     final String daraEndpoint = 
         this.metadataManagementProperties.getDara().getEndpoint() + REGISTRATION_ENDPOINT;
@@ -134,9 +140,7 @@ public class DaraService {
     //Build
     UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(daraEndpoint)
         .queryParam("registration", Boolean.valueOf(!hasBeenReleasedBefore).toString());
-    
-    System.out.println(builder.build().toUri());
-    
+        
     //Build Request
     HttpEntity<String> request = new HttpEntity<>(filledTemplate, headers);
     

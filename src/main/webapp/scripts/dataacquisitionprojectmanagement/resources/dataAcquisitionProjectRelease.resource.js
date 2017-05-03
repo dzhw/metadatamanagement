@@ -1,6 +1,6 @@
 'use strict';
 /*
-  Resource url definition for the post validation..
+  Resource url definition for the relase process.
   @author Daniel Katzberg
 */
 

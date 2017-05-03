@@ -7,11 +7,13 @@ angular.module('metadatamanagementApp')
     'DataAcquisitionProjectSearchResource', 'DataAcquisitionProjectResource',
     '$mdDialog', 'SimpleMessageToastService', '$translate',
     'ElasticSearchAdminService', '$scope',
+    'DataAcquisitionProjectUnreleaseResource',
     function(CurrentProjectService,
       DataAcquisitionProjectPostValidationService,
       DataAcquisitionProjectSearchResource, DataAcquisitionProjectResource,
       $mdDialog, SimpleMessageToastService, $translate,
-      ElasticSearchAdminService, $scope) {
+      ElasticSearchAdminService, $scope,
+      DataAcquisitionProjectUnreleaseResource) {
       var ctrl = this;
       var i18nPrefix = 'data-acquisition-project-management.log-messages.' +
         'data-acquisition-project.';
@@ -190,6 +192,7 @@ angular.module('metadatamanagementApp')
           });
       };
 
+      //TODO DKatzberg
       var unreleaseProject = function() {
         var confirmDialog = $mdDialog.confirm()
           .title($translate.instant(i18nPrefix + 'unrelease-title', {
@@ -204,14 +207,23 @@ angular.module('metadatamanagementApp')
           .ok($translate.instant('global.buttons.ok'))
           .cancel($translate.instant('global.buttons.cancel'));
         $mdDialog.show(confirmDialog).then(function() {
-          delete ctrl.selectedProject.release;
-          DataAcquisitionProjectResource.save(ctrl.selectedProject).$promise
-            .then(function() {
-              SimpleMessageToastService.openSimpleMessageToast(
-                i18nPrefix + 'unreleased-successfully', {
-                  id: ctrl.selectedProject.id
-                });
-            });
+          DataAcquisitionProjectUnreleaseResource.unrelease({
+            id: ctrl.selectedProject.id
+          }).$promise.then(function() {
+            delete ctrl.selectedProject.release;
+            DataAcquisitionProjectResource.save(ctrl.selectedProject).$promise
+              .then(function() {
+                SimpleMessageToastService.openSimpleMessageToast(
+                  i18nPrefix + 'unreleased-successfully', {
+                    id: ctrl.selectedProject.id
+                  });
+              });
+          }).catch(function() {
+            SimpleMessageToastService.openSimpleMessageToast(
+              i18nPrefix + 'dara-unreleased-not-successfully', {
+                id: ctrl.selectedProject.id
+              });
+          });
         }, function() {
           // confirm was cancelled -> do nothing
         });
