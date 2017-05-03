@@ -265,7 +265,8 @@ module.exports = function(grunt) {
             'translate-value-tabname',
             'translate-attr',
             'template-url',
-            'create-variable-links'
+            'create-variable-links',
+            'fdz-table'
           ]
         },
         files: {

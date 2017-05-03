@@ -141,7 +141,7 @@ angular.module('metadatamanagementApp').config(
             'type': {
               'not-null': 'The type of the attachment must not be empty!',
               'i18n-string-size': 'The type is mandatory in both languages and must not contain more than 32 characters.',
-              'valid-type': 'The type must be one of the following: Questionnaire, Question Flow, Variable Questionnaire, Other.'
+              'valid-type': 'The type must be one of the following: Method Report, Other.'
             },
             'description': {
               'not-null': 'The description of the attachment must not be empty!',

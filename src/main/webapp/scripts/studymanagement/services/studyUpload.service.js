@@ -1,4 +1,3 @@
-/*jshint loopfunc: true */
 /* global _*/
 'use strict';
 
@@ -183,12 +182,12 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
       };
       var uploadStudy = function(files, dataAcquisitionProjectId) {
         var confirm = $mdDialog.confirm().title($translate.instant(
-          'search-management.delete-messages.delete-surveys-title'))
+          'search-management.delete-messages.delete-studies-title'))
           .textContent($translate.instant(
-            'search-management.delete-messages.delete-surveys', {
+            'search-management.delete-messages.delete-studies', {
               id: dataAcquisitionProjectId
             })).ariaLabel($translate.instant(
-              'search-management.delete-messages.delete-surveys', {
+              'search-management.delete-messages.delete-studies', {
                 id: dataAcquisitionProjectId
               })).ok($translate.instant('global.buttons.ok'))
               .cancel($translate.instant('global.buttons.cancel'));

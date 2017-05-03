@@ -34,7 +34,7 @@ angular.module('metadatamanagementApp').config(
           'downloads': 'Materialien zum Download',
           'not-released-toast': 'Die Studie "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!',
           'attachments': {
-            'table-title': 'Materialien zu Studie',
+            'table-title': 'Materialien zu der Studie',
             'type': 'Typ',
             'title': 'Titel',
             'description': 'Beschreibung',
