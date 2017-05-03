@@ -55,7 +55,6 @@ angular.module('metadatamanagementApp')
             }).$promise.then(
               function(attachments) {
                 if (attachments.length > 0) {
-                  console.log(attachments);
                   ctrl.attachments = attachments;
                 }
               });
