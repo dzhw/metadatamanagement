@@ -3,7 +3,8 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('VariableUploadService',
-  function(VariableBuilderService, VariableRepositoryClient, JobLoggingService,
+  function(VariableBuilderService, VariableRepositoryClient,
+    JobLoggingService,
     ErrorMessageResolverService, ExcelReaderService, $q, FileReaderService,
     ElasticSearchAdminService, $rootScope, $translate, $mdDialog,
     CleanJSObjectService, VariableResource) {
@@ -31,7 +32,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
             filesMap[path[pathLength - 2]].dataSetName =
               path[pathLength - 2];
             filesMap[path[pathLength - 2]].dataSetNumber =
-            _.split(path[pathLength - 2], 'ds')[1];
+              _.split(path[pathLength - 2], 'ds')[1];
             filesMap[path[pathLength - 2]].dataSetIndex = dataSetIndex;
             filesMap[path[pathLength - 2]].jsonFiles = {};
             dataSetIndex++;
@@ -47,7 +48,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
             filesMap[path[pathLength - 3]].dataSetName =
               path[pathLength - 3];
             filesMap[path[pathLength - 3]].dataSetNumber =
-            _.split(path[pathLength - 3], 'ds')[1];
+              _.split(path[pathLength - 3], 'ds')[1];
             filesMap[path[pathLength - 3]].dataSetIndex = dataSetIndex;
             filesMap[path[pathLength - 3]].jsonFiles = {};
             dataSetIndex++;
@@ -55,6 +56,29 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
           filesMap[path[pathLength - 3]].jsonFiles[variableName] = file;
         }
       });
+    };
+
+    var checkForHistogramOnRatioVariables = function(variableFromExcel,
+      variableFromJson) {
+      if (variableFromJson.scaleLevel !== undefined &&
+        variableFromJson.scaleLevel.en === 'ratio' &&
+        variableFromJson.scaleLevel.de === 'verhältnis') {
+        if (variableFromJson.distribution === undefined ||
+          variableFromJson.distribution.histogram === undefined ||
+          variableFromJson.distribution.histogram.numberOfBins ===
+          null ||
+          variableFromJson.distribution.histogram.start === null ||
+          variableFromJson.distribution.histogram.end === null) {
+          JobLoggingService.warning({
+            message: 'variable-management.' +
+              'log-messages.variable.distribution.histogram.' +
+              'incomplete-histogram-information',
+            messageParams: {
+              variableName: variableFromExcel.name
+            }
+          });
+        }
+      }
     };
 
     var createJsonFileReader = function(dataSet, variableFromExcel,
@@ -65,9 +89,14 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
           try {
             var variableFromJson = JSON.parse(
               variableAsText);
+
+            //Check for Histogram at ratio variables
+            checkForHistogramOnRatioVariables(variableFromExcel,
+              variableFromJson);
+
             var variableResource = VariableBuilderService
-            .buildVariable(variableFromExcel,
-              variableFromJson, dataSet);
+              .buildVariable(variableFromExcel,
+                variableFromJson, dataSet);
             variablesResources.push(variableResource);
             if (existingVariables[variableResource.id]) {
               existingVariables[variableResource.id]
@@ -114,7 +143,8 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
                 if (dataSet.jsonFiles[variableFromExcel.name]) {
                   chainedJsonFileReader = chainedJsonFileReader.then(
                     function() {
-                      return createJsonFileReader(dataSet, variableFromExcel,
+                      return createJsonFileReader(dataSet,
+                        variableFromExcel,
                         variablesResources);
                     });
                 } else {
@@ -160,11 +190,14 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
       _.each(existingVariables, function(existingVariable) {
         if (!existingVariable.providedByUser) {
           promiseChain = promiseChain.then(function() {
-            return VariableResource.delete({id: existingVariable.id}).$promise
-            .catch(
-              function(error) {
-                console.log('Error when deleting variable:', error);
-              });
+            return VariableResource.delete({
+                id: existingVariable.id
+              }).$promise
+              .catch(
+                function(error) {
+                  console.log('Error when deleting variable:',
+                    error);
+                });
           });
         }
       });
@@ -233,13 +266,13 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
           var chainedVariableUploads = $q.when();
           if (variables) {
             variables.forEach(function(variable, index) {
-                chainedVariableUploads = chainedVariableUploads.then(
-                  function() {
-                    return uploadVariable(variable, index,
-                      previouslyUploadedVariableNames);
-                  }
-                  );
-              });
+              chainedVariableUploads = chainedVariableUploads.then(
+                function() {
+                  return uploadVariable(variable, index,
+                    previouslyUploadedVariableNames);
+                }
+              );
+            });
           }
           chainedVariableUploads.finally(function() {
             uploadDataSets(dataSetIndex + 1);
@@ -260,31 +293,31 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
           dataAcquisitionProjectId)) {
         VariableRepositoryClient.findByDataAcquisitionProjectId(
           dataAcquisitionProjectId).then(function(result) {
-            result.data.forEach(function(variable) {
-              existingVariables[variable.id] = variable;
-            });
-            if (result.data.length > 0) {
-              var confirm = $mdDialog.confirm()
-                .title($translate.instant(
-                  'search-management.delete-messages.' +
-                  'delete-variables-title'))
-                .textContent($translate.instant(
-                  'search-management.delete-messages.delete-variables', {
-                    id: dataAcquisitionProjectId
-                  }))
-                .ariaLabel($translate.instant(
-                  'search-management.delete-messages.delete-variables', {
-                    id: dataAcquisitionProjectId
-                  }))
-                .ok($translate.instant('global.buttons.ok'))
-                .cancel($translate.instant('global.buttons.cancel'));
-              $mdDialog.show(confirm).then(function() {
-                startJob(files, dataAcquisitionProjectId);
-              });
-            } else {
-              startJob(files, dataAcquisitionProjectId);
-            }
+          result.data.forEach(function(variable) {
+            existingVariables[variable.id] = variable;
           });
+          if (result.data.length > 0) {
+            var confirm = $mdDialog.confirm()
+              .title($translate.instant(
+                'search-management.delete-messages.' +
+                'delete-variables-title'))
+              .textContent($translate.instant(
+                'search-management.delete-messages.delete-variables', {
+                  id: dataAcquisitionProjectId
+                }))
+              .ariaLabel($translate.instant(
+                'search-management.delete-messages.delete-variables', {
+                  id: dataAcquisitionProjectId
+                }))
+              .ok($translate.instant('global.buttons.ok'))
+              .cancel($translate.instant('global.buttons.cancel'));
+            $mdDialog.show(confirm).then(function() {
+              startJob(files, dataAcquisitionProjectId);
+            });
+          } else {
+            startJob(files, dataAcquisitionProjectId);
+          }
+        });
       }
     };
     return {

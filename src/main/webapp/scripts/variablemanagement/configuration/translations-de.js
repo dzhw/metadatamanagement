@@ -20,7 +20,12 @@ angular.module('metadatamanagementApp').config(
             'missing-name': 'Die {{variableIndex}}. Variable in Datensatz {{dataSet}} hat keinen Namen!',
             'generation-details-rule-success-copy-to-clipboard': 'Die Generierungsregel wurde erfolgreich in die Zwischenablage kopiert.',
             'filter-details-success-copy-to-clipboard': 'Der Filterausdruck wurde erfolgreich in die Zwischenablage kopiert.',
-            'duplicate-name': 'Der Name ({{ name }}) der {{ index }}. Variable aus Datensatz {{ dataSetNumber }} wurde bereits verwendet.'
+            'duplicate-name': 'Der Name ({{ name }}) der {{ index }}. Variable aus Datensatz {{ dataSetNumber }} wurde bereits verwendet.',
+            'distribution': {
+              'histogram': {
+                'incomplete-histogram-information': 'Die Variable vom Skalenniveau Verhältnis mit dem Namen {{ variableName }} hat nicht alle Informationen für die Erzeugung eines Histrogram.'
+              }
+            }
           }
         },
         'detail': {
@@ -121,7 +126,7 @@ angular.module('metadatamanagementApp').config(
             'variables': {
               'same-in-panel': 'Klicken, um alle Panelvariablen zu dieser Variable anzuzeigen'
             },
-            'studies':{
+            'studies': {
               'one': 'Klicken, um die Studie anzuzeigen, aus der diese Variable resultierte'
             }
           }

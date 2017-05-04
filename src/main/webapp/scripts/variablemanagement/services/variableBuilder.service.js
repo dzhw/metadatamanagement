@@ -1,4 +1,3 @@
-
 /* global _ */
 'use strict';
 
@@ -11,11 +10,11 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
       var variableObj = {
         id: VariableIdBuilderService.buildVariableId(
           dataAcquisitionProjectId, dataSet.dataSetNumber,
-          variableFromExcel
-          .name
+          variableFromExcel.name
         ),
         dataAcquisitionProjectId: dataAcquisitionProjectId,
-        studyId: StudyIdBuilderService.buildStudyId(dataAcquisitionProjectId),
+        studyId: StudyIdBuilderService.buildStudyId(
+          dataAcquisitionProjectId),
         name: variableFromExcel.name,
         annotations: {
           en: variableFromExcel['annotations.en'],
