@@ -255,7 +255,6 @@ angular.module('metadatamanagementApp').config(
             'statistics-median-must-be-an-iso-date-on-date-data-type': 'If the variable has a date data type, the median of statistics have to be matchable by the pattern yyyy-MM-dd.',
             'statistics-first-quartile-must-be-an-iso-date-on-date-data-type': 'If the variable has a date data type, the first quartile of statistics have to be matchable by the pattern yyyy-MM-dd.',
             'statistics-third-quartile-must-be-an-iso-date-on-date-data-type': 'If the variable has a date data type, the third quartile of statistics have to be matchable by the pattern yyyy-MM-dd.',
-            'histogram-must-be-set-on-ratio-scale-level': 'There must be a complete histogram object for ratio scaled variables.',
             'id': {
               'not-empty': 'The RDC-ID of the Variable must not be empty!',
               'size': 'The max length of the RDC-ID is 128 signs.',
