@@ -7,7 +7,11 @@
             <md-card-header-text class="fdz-truncate-string">
                 <div class="md-title fdz-truncate-string"><span display-i18n-string="searchResult.title"></span> <span class="label label-as-badge label-default">{{searchResult.id}}</span></div>
                 <div class="md-subhead fdz-truncate-string">
-                  <span ng-repeat="author in searchResult.authors">{{author.lastName}}, {{author.firstName}} {{author.middleName}}; </span>
+                  <span ng-repeat="author in searchResult.authors">
+                    <span>{{author.lastName}}, </span>
+                    <span ng-if="author.middleName === undefined"> {{author.firstName}};</span>
+                    <span ng-if="author.middleName !== undefined"> {{author.firstName}}  {{author.middleName}};</span>
+                  </span>
                 </div>
             </md-card-header-text>
         </md-card-header>
