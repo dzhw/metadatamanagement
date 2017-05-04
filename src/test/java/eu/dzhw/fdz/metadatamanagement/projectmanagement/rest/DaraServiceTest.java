@@ -49,7 +49,7 @@ public class DaraServiceTest extends AbstractTest{
   }
   
   @Test
-  public void testHealthCheack() throws Exception {
+  public void testHealthCheck() throws Exception {
     
     //ASSERT
     RestTemplate restTemplate = new RestTemplate();

@@ -54,9 +54,9 @@ metadatamanagement:
     url: http://localhost:9234
     read-timeout: 60000
   dara:
-    endpoint: ${DARA_ENDPOINT} 
-    username: ${DARA_USERNAME}
-    password: ${DARA_PASSWORD}
+    endpoint: dara_endpoint 
+    username: dara_username
+    password: dara_password
 
 jhipster:
     async:
