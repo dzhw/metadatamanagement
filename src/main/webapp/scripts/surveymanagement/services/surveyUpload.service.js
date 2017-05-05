@@ -192,86 +192,84 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
           });
           resolve();
         } else {
-          // ensure that there are no images and attachments left for
-          // the given survey
-          deleteImagesAndAttachments(surveyDetailObject.survey.id).then(
-            function() {
-              return surveyDetailObject.survey.$save();
-            }).then(function() {
+          surveyDetailObject.survey.$save().then(function() {
                 previouslyUploadedSurveyNumbers[surveyDetailObject.survey.
                   number] = true;
                 JobLoggingService.success({
-                    objectType: 'survey'
-                  });
-                var asyncFilesUpload = $q.when();
-                if (surveyDetailObject.images.de) {
-                  asyncFilesUpload = asyncFilesUpload.then(function() {
-                    return SurveyResponseRateImageUploadService.
-                    uploadImage(surveyDetailObject.images.de,
-                    surveyDetailObject.survey.id);
-                  }).then(function() {
-                    JobLoggingService.success({
-                      objectType: 'image'
-                    });
-                  }).catch(function() {
-                    JobLoggingService.error({
-                      message: 'survey-management.log-messages.' +
-                      'survey.unable-to-upload-image-file',
-                      messageParams: {
-                        file: surveyDetailObject.survey.number +
-                        '_responserate_de.png'
-                      },
-                      objectType: 'image'
-                    });
-                  });
-                }
-                if (surveyDetailObject.images.en) {
-                  asyncFilesUpload = asyncFilesUpload.then(function() {
-                    return SurveyResponseRateImageUploadService.
-                    uploadImage(surveyDetailObject.images.en,
-                      surveyDetailObject.survey.id);
-                  }).then(function() {
-                    JobLoggingService.success({
-                      objectType: 'image'
-                    });
-                  }).catch(function() {
-                    JobLoggingService.error({
-                      message: 'survey-management.log-messages.' +
-                      'survey.unable-to-upload-image-file',
-                      messageParams: {
-                        file: surveyDetailObject.survey.number +
-                        '_responserate_en.png'
-                      },
-                      objectType: 'image'
-                    });
-                  });
-                }
-                surveyDetailObject.attachments.forEach(function(attachment) {
-                    asyncFilesUpload = asyncFilesUpload.then(function() {
-                      return SurveyAttachmentUploadService.
-                      uploadAttachment(attachment.file, attachment.metadata);
-                    }).then(function() {
-                      JobLoggingService.success({
-                        objectType: 'attachment'
-                      });
-                    }).catch(function(error) {
-                      // attachment upload failed
-                      var errorMessage =
-                      ErrorMessageResolverService
-                      .getErrorMessage(error, 'survey',
-                      'survey-attachment', attachment.file.name);
-                      JobLoggingService.error({
-                        message: errorMessage.message,
-                        messageParams: errorMessage.translationParams,
-                        subMessages: errorMessage.subMessages,
-                        objectType: 'attachment'
-                      });
-                    });
-
-                  });
-                asyncFilesUpload.finally(function() {
-                  resolve();
+                  objectType: 'survey'
                 });
+                deleteImagesAndAttachments(surveyDetailObject.survey.id).
+                then(function() {
+                    var asyncFilesUpload = $q.when();
+                    if (surveyDetailObject.images.de) {
+                      asyncFilesUpload = asyncFilesUpload.then(function() {
+                          return SurveyResponseRateImageUploadService.
+                          uploadImage(surveyDetailObject.images.de,
+                            surveyDetailObject.survey.id);
+                        }).then(function() {
+                          JobLoggingService.success({
+                            objectType: 'image'
+                          });
+                        }).catch(function() {
+                          JobLoggingService.error({
+                            message: 'survey-management.log-messages.' +
+                            'survey.unable-to-upload-image-file',
+                            messageParams: {
+                              file: surveyDetailObject.survey.number +
+                              '_responserate_de.png'
+                            },
+                            objectType: 'image'
+                          });
+                        });
+                    }
+                    if (surveyDetailObject.images.en) {
+                      asyncFilesUpload = asyncFilesUpload.then(function() {
+                              return SurveyResponseRateImageUploadService.
+                            uploadImage(surveyDetailObject.images.en,
+                              surveyDetailObject.survey.id);
+                            }).then(function() {
+                              JobLoggingService.success({
+                                objectType: 'image'
+                              });
+                            }).catch(function() {
+                              JobLoggingService.error({
+                                message: 'survey-management.log-messages.' +
+                                'survey.unable-to-upload-image-file',
+                                messageParams: {
+                                  file: surveyDetailObject.survey.number +
+                                  '_responserate_en.png'
+                                },
+                                objectType: 'image'
+                              });
+                            });
+                    }
+                    surveyDetailObject.attachments.forEach(
+                      function(attachment) {
+                        asyncFilesUpload = asyncFilesUpload.then(function() {
+                            return SurveyAttachmentUploadService.
+                            uploadAttachment(attachment.file,
+                              attachment.metadata);}).then(function() {
+                                JobLoggingService.success({
+                                  objectType: 'attachment'
+                                });
+                              }).catch(function(error) {
+                                // attachment upload failed
+                                var errorMessage =
+                                ErrorMessageResolverService
+                                .getErrorMessage(error, 'survey',
+                                'survey-attachment', attachment.file.name);
+                                JobLoggingService.error({
+                                  message: errorMessage.message,
+                                  messageParams: errorMessage.translationParams,
+                                  subMessages: errorMessage.subMessages,
+                                  objectType: 'attachment'
+                                });
+                              });
+                      });
+                    asyncFilesUpload.finally(function() {
+                        resolve();
+                      });
+                  });
               }).catch(function(error) {
                 //unable to save survey object
                 var errorMessages = ErrorMessageResolverService
