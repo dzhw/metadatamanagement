@@ -1,5 +1,7 @@
 /* global browser */
 /* global it */
+/* global element */
+/* global by */
 /* global describe */
 /* global expect */
 /* global beforeAll */
@@ -14,6 +16,7 @@ var translateHelper = require('../utils/translateHelper');
 describe('Home page', function() {
   function callHomePage() {
     browser.get('#!/de/search');
+    element(by.id('closeWelcomeDialog')).click();
   }
 
   function testHomePage(description, language) {

@@ -29,7 +29,7 @@ angular.module('metadatamanagementApp').directive('fdzWelcomeDialog',
             '</div>' +
             '<md-dialog-actions>' +
             '<span flex></span>' +
-            '   <md-button class="md-raised" ng-click="closeDialog()">Ok' +
+            '   <md-button class="md-raised" id="closeWelcomeDialog" ng-click="closeDialog()">Ok' +
             '       <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">' +
             '          {{"global.dialog.tooltip.close" | translate}}' +
             '       </md-tooltip>' +
