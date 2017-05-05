@@ -3,7 +3,8 @@
 angular.module('metadatamanagementApp').directive('fdzWelcomeDialog',
   function($mdDialog) {
     return {
-        link: function() {
+      restrict: 'E',
+      link: function($scope) {
           // jscs:disable
           $mdDialog.show({
             template: '<md-dialog aria-label="Submitting Bugs and Feedback" md-autofocus>' +
@@ -36,9 +37,15 @@ angular.module('metadatamanagementApp').directive('fdzWelcomeDialog',
             '</md-dialog-actions>' +
             '</md-dialog>',
             controller: 'FdzWelcomeDialogController',
+            locals : {
+                    bowser : $scope.bowser
+            },
             clickOutsideToClose: true
           });
           // jscs:enable
+        },
+      scope: {
+          bowser: '=',
         }
-      };
+    };
   });
