@@ -6,7 +6,8 @@ Emphasis on parsing and writing robustness, cross-format feature compatibility
 with a unified JS representation, and ES3/ES5 browser compatibility back to IE6.
 
 This is the community version.  We also offer a pro version with performance
-enhancements and additional features by request.
+enhancements, additional features by request, and dedicated support.
+
 
 [**Pro Version**](http://sheetjs.com/pro)
 
@@ -18,14 +19,37 @@ enhancements and additional features by request.
 
 [**Source Code**](http://git.io/xlsx)
 
+[**Issues and Bug Reports**](https://github.com/sheetjs/js-xlsx/issues)
+
+[**Other General Support Issues**](https://discourse.sheetjs.com)
+
 [**File format support for known spreadsheet data formats:**](#file-formats)
+
+<details>
+	<summary><b>Graph of supported formats</b> (click to show)</summary>
 
 ![circo graph of format support](formats.png)
 
 ![graph legend](legend.png)
 
+</details>
+
+[**Browser Test**](http://oss.sheetjs.com/js-xlsx/tests/)
+
+[![Build Status](https://saucelabs.com/browser-matrix/sheetjs.svg)](https://saucelabs.com/u/sheetjs)
+
+[![Build Status](https://travis-ci.org/SheetJS/js-xlsx.svg?branch=master)](https://travis-ci.org/SheetJS/js-xlsx)
+[![Build Status](https://semaphoreci.com/api/v1/sheetjs/js-xlsx/branches/master/shields_badge.svg)](https://semaphoreci.com/sheetjs/js-xlsx)
+[![Coverage Status](http://img.shields.io/coveralls/SheetJS/js-xlsx/master.svg)](https://coveralls.io/r/SheetJS/js-xlsx?branch=master)
+[![Dependencies Status](https://david-dm.org/sheetjs/js-xlsx/status.svg)](https://david-dm.org/sheetjs/js-xlsx)
+[![NPM Downloads](https://img.shields.io/npm/dt/xlsx.svg)](https://npmjs.org/package/xlsx)
+[![ghit.me](https://ghit.me/badge.svg?repo=sheetjs/js-xlsx)](https://ghit.me/repo/sheetjs/js-xlsx)
+[![Analytics](https://ga-beacon.appspot.com/UA-36810333-1/SheetJS/js-xlsx?pixel)](https://github.com/SheetJS/js-xlsx)
 
 ## Table of Contents
+
+<details>
+	<summary>Expand to show Table of Contents</summary>
 
 <!-- toc -->
 
@@ -33,10 +57,14 @@ enhancements and additional features by request.
   * [JS Ecosystem Demos](#js-ecosystem-demos)
   * [Optional Modules](#optional-modules)
   * [ECMAScript 5 Compatibility](#ecmascript-5-compatibility)
+- [Philosophy](#philosophy)
 - [Parsing Workbooks](#parsing-workbooks)
+  * [Complete Examples](#complete-examples)
   * [Note on Streaming Read](#note-on-streaming-read)
 - [Working with the Workbook](#working-with-the-workbook)
+  * [Complete Examples](#complete-examples-1)
 - [Writing Workbooks](#writing-workbooks)
+  * [Complete Examples](#complete-examples-2)
   * [Streaming Write](#streaming-write)
 - [Interface](#interface)
   * [Parsing functions](#parsing-functions)
@@ -57,6 +85,8 @@ enhancements and additional features by request.
   * [Document Features](#document-features)
     + [Formulae](#formulae)
     + [Column Properties](#column-properties)
+    + [Row Properties](#row-properties)
+    + [Number Formats](#number-formats)
     + [Hyperlinks](#hyperlinks)
     + [Cell Comments](#cell-comments)
     + [Sheet Visibility](#sheet-visibility)
@@ -97,26 +127,28 @@ enhancements and additional features by request.
   * [Tested Environments](#tested-environments)
   * [Test Files](#test-files)
 - [Contributing](#contributing)
+  * [Tests](#tests)
   * [OSX/Linux](#osxlinux)
   * [Windows](#windows)
 - [License](#license)
 - [References](#references)
-- [Badges](#badges)
 
 <!-- tocstop -->
 
+</details>
+
 ## Installation
+
+In the browser, just add a script tag:
+
+```html
+<script lang="javascript" src="dist/xlsx.full.min.js"></script>
+```
 
 With [npm](https://www.npmjs.org/package/xlsx):
 
 ```bash
 $ npm install xlsx
-```
-
-In the browser:
-
-```html
-<script lang="javascript" src="dist/xlsx.core.min.js"></script>
 ```
 
 With [bower](http://bower.io/search/?q=js-xlsx):
@@ -179,12 +211,48 @@ To use the shim, add the shim before the script tag that loads xlsx.js:
 <script type="text/javascript" src="/path/to/shim.js"></script>
 ```
 
+## Philosophy
+
+<details>
+	<summary><b>Philosophy</b> (click to show)</summary>
+
+Prior to SheetJS, APIs for processing spreadsheet files were format-specific.
+Third-party libraries either supported one format, or they involved a separate
+set of classes for each supported file type.  Even though XLSB was introduced in
+Excel 2007, nothing outside of SheetJS or Excel supported the format.
+
+To promote a format-agnostic view, js-xlsx starts from a pure-JS representation
+that we call the ["Common Spreadsheet Format"](#common-spreadsheet-format).
+Emphasizing a uniform object representation enables radical features like format
+conversion (e.g. reading an XLSX template and saving as XLS) and circumvents the
+"class trap".  By abstracting the complexities of the various formats, tools
+need not worry about the specific file type!
+
+A simple object representation combined with careful coding practices enables
+use cases in older browsers and in alternative environments like ExtendScript
+and Web Workers. It is always tempting to use the latest and greatest features,
+but they tend to require the latest versions of browsers, limiting usability.
+
+Utility functions capture common use cases like generating JS objects or HTML.
+Most simple operations should only require a few lines of code.  More complex
+operations generally should be straightforward to implement.
+
+Excel pushes the XLSX format as default starting in Excel 2007.  However, there
+are other formats with more appealing properties.  For example, the XLSB format
+is spiritually similar to XLSX but files often tend up taking less than half the
+space and open much faster!  Even though an XLSX writer is available, other
+format writers are available so users can take advantage of the unique
+characteristics of each format.
+
+</details>
+
 ## Parsing Workbooks
 
 For parsing, the first step is to read the file.  This involves acquiring the
 data and feeding it into the library.  Here are a few common scenarios:
 
-- node readFile:
+<details>
+	<summary><b>nodejs read a file</b> (click to show)</summary>
 
 ```js
 if(typeof require !== 'undefined') XLSX = require('xlsx');
@@ -192,15 +260,23 @@ var workbook = XLSX.readFile('test.xlsx');
 /* DO SOMETHING WITH workbook HERE */
 ```
 
-- Browser DOM Table element:
+</details>
+
+<details>
+	<summary><b>Browser read TABLE element from page</b> (click to show)</summary>
 
 ```js
 var worksheet = XLSX.utils.table_to_book(document.getElementById('tableau'));
 /* DO SOMETHING WITH workbook HERE */
 ```
 
-- ajax (for a more complete example that works in older browsers, check the demo
-  at <http://oss.sheetjs.com/js-xlsx/ajax.html>):
+</details>
+
+<details>
+	<summary><b>Browser download file (ajax)</b> (click to show)</summary>
+
+Note: for a more complete example that works in older browsers, check the demo
+at <http://oss.sheetjs.com/js-xlsx/ajax.html>):
 
 ```js
 /* set up XMLHttpRequest */
@@ -227,9 +303,14 @@ oReq.onload = function(e) {
 oReq.send();
 ```
 
-- HTML5 drag-and-drop using readAsBinaryString or readAsArrayBuffer:
-  note: readAsBinaryString and readAsArrayBuffer may not be available in every
-  browser.  Use dynamic feature tests to determine which method to use.
+</details>
+
+<details>
+	<summary><b>Browser drag-and-drop</b> (click to show)</summary>
+
+Drag-and-drop uses FileReader with readAsBinaryString or readAsArrayBuffer.
+Note: readAsBinaryString and readAsArrayBuffer may not be available in every
+browser.  Use dynamic feature tests to determine which method to use.
 
 ```js
 /* processing array buffers, only required for readAsArrayBuffer */
@@ -273,7 +354,10 @@ function handleDrop(e) {
 drop_dom_element.addEventListener('drop', handleDrop, false);
 ```
 
-- HTML5 input file element using readAsBinaryString or readAsArrayBuffer:
+</details>
+
+<details>
+	<summary><b>Browser file upload form element</b> (click to show)</summary>
 
 ```js
 /* fixdata and rABS are defined in the drag and drop example */
@@ -305,7 +389,10 @@ function handleFile(e) {
 input_dom_element.addEventListener('change', handleFile, false);
 ```
 
-**Complete examples:**
+</details>
+
+
+### Complete Examples
 
 - <http://oss.sheetjs.com/js-xlsx/> HTML5 File API / Base64 Text / Web Workers
 
@@ -358,7 +445,7 @@ var desired_cell = worksheet[address_of_cell];
 var desired_value = (desired_cell ? desired_cell.v : undefined);
 ```
 
-**Complete examples:**
+### Complete Examples
 
 - <https://github.com/SheetJS/js-xlsx/blob/master/bin/xlsx.njs> node
 
@@ -379,7 +466,8 @@ For writing, the first step is to generate output data.  The helper functions
 dissemination.  The second step is to actual share the data with the end point.
 Assuming `workbook` is a workbook object:
 
-- nodejs write to file:
+<details>
+	<summary><b>nodejs write a file</b> (click to show)</summary>
 
 ```js
 /* output format determined by filename */
@@ -387,11 +475,16 @@ XLSX.writeFile(workbook, 'out.xlsx');
 /* at this point, out.xlsx is a file that you can distribute */
 ```
 
-- browser generate binary blob and "download" to client
-  (using [FileSaver.js](https://github.com/eligrey/FileSaver.js/) for download):
+</details>
+
+<details>
+	<summary><b>Browser download file</b> (click to show)</summary>
+
+Note: browser generates binary blob and forces a "download" to client.  This
+example uses [FileSaver.js](https://github.com/eligrey/FileSaver.js/):
 
 ```js
-/* bookType can be 'xlsx' or 'xlsm' or 'xlsb' or 'ods' */
+/* bookType can be any supported output type */ 
 var wopts = { bookType:'xlsx', bookSST:false, type:'binary' };
 
 var wbout = XLSX.write(workbook,wopts);
@@ -406,12 +499,12 @@ function s2ab(s) {
 /* the saveAs call downloads a file on the local machine */
 saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), "test.xlsx");
 ```
+</details>
 
-**Complete examples:**
+### Complete Examples
 
-- <http://sheetjs.com/demos/writexlsx.html> generates a simple file
-- <http://git.io/WEK88Q> writing an array of arrays in nodejs
 - <http://sheetjs.com/demos/table.html> exporting an HTML table
+- <http://sheetjs.com/demos/writexlsx.html> generates a simple file
 
 ### Streaming Write
 
@@ -423,6 +516,7 @@ stream.  They are only exposed in node.
 - `XLSX.stream.to_html` is the streaming version of the HTML output type.
 
 <https://github.com/sheetjs/sheetaki> pipes write streams to nodejs response.
+
 ## Interface
 
 `XLSX` is the exposed variable in the browser and the exported node variable
@@ -463,7 +557,6 @@ Utilities are available in the `XLSX.utils` object:
 **Exporting:**
 
 - `sheet_to_json` converts a worksheet object to an array of JSON objects.
-  `sheet_to_row_object_array` is an alias that will be removed in the future.
 - `sheet_to_csv` generates delimiter-separated-values output.
 - `sheet_to_formulae` generates a list of the formulae (with value fallbacks).
 
@@ -532,6 +625,9 @@ Type `b` is the Boolean type.  `v` is interpreted according to JS truth tables.
 
 Type `e` is the Error type. `v` holds the number and `w` holds the common name:
 
+<details>
+	<summary><b>Error values and interpretation</b> (click to show)</summary>
+
 |  Value | Error Meaning   |
 | -----: | :-------------- |
 | `0x00` | `#NULL!`        |
@@ -542,6 +638,8 @@ Type `e` is the Error type. `v` holds the number and `w` holds the common name:
 | `0x24` | `#NUM!`         |
 | `0x2A` | `#N/A`          |
 | `0x2B` | `#GETTING_DATA` |
+
+</details>
 
 Type `n` is the Number type. This includes all forms of data that Excel stores
 as numbers, such as dates/times and Boolean fields.  Excel exclusively uses data
@@ -582,7 +680,7 @@ Each key that does not start with `!` maps to a cell (using `A-1` notation)
 
 `sheet[address]` returns the cell object for the specified address.
 
-Special sheet keys (accessible as `sheet[key]`, each starting with `!`):
+**Special sheet keys (accessible as `sheet[key]`, each starting with `!`):**
 
 - `sheet['!ref']`: A-1 based range representing the sheet range. Functions that
   work with sheets should use this parameter to determine the range.  Cells that
@@ -602,6 +700,9 @@ Special sheet keys (accessible as `sheet[key]`, each starting with `!`):
   follow Excel's "normal" preset.  Excel also has a "wide" and a "narrow" preset
   but they are stored as raw measurements. The main properties are listed below:
 
+<details>
+	<summary><b>Page margin details</b> (click to show)</summary>
+
 | key      | description            | "normal" | "wide" | "narrow" |
 |----------|------------------------|:---------|:-------|:-------- |
 | `left`   | left margin (inches)   | `0.7`    | `1.0`  | `0.25`   |
@@ -619,6 +720,7 @@ sheet["!margins"] = { left:1.0, right:1.0, top:1.0, bottom:1.0, header:0.5, foot
 /* Set worksheet sheet to "narrow" */
 sheet["!margins"] = { left:0.25, right:0.25, top:0.75, bottom:0.75, header:0.3, footer:0.3 }
 ```
+</details>
 
 #### Worksheet Object
 
@@ -630,38 +732,47 @@ In addition to the base sheet keys, worksheets also add:
   parsed, the column objects store the pixel width in the `wpx` field, character
   width in the `wch` field, and the maximum digit width in the `MDW` field.
 
+- `ws['!rows']`: array of row properties objects as explained later in the docs.
+  Each row object encodes properties including row height and visibility.
+
 - `ws['!merges']`: array of range objects corresponding to the merged cells in
   the worksheet.  Plaintext utilities are unaware of merge cells.  CSV export
   will write all cells in the merge range if they exist, so be sure that only
   the first cell (upper-left) in the range is set.
 
-- `ws['protect']`: object of write sheet protection properties.  The `password`
-  key specifies the password.  The writer uses the XOR obfuscation method.  The
-  following keys control the sheet protection (same as ECMA-376 18.3.1.85):
+- `ws['!protect']`: object of write sheet protection properties.  The `password`
+  key specifies the password for formats that support password-protected sheets
+  (XLSX/XLSB/XLS).  The writer uses the XOR obfuscation method.  The following
+  keys control the sheet protection -- set to `false` to enable a feature when
+  sheet is locked or set to `true` to disable a feature:
 
-| key                   | functionality disabled if value is true              |
-|:----------------------|:-----------------------------------------------------|
-| `selectLockedCells`   | Select locked cells                                  |
-| `selectUnlockedCells` | Select unlocked cells                                |
-| `formatCells`         | Format cells                                         |
-| `formatColumns`       | Format columns                                       |
-| `formatRows`          | Format rows                                          |
-| `insertColumns`       | Insert columns                                       |
-| `insertRows`          | Insert rows                                          |
-| `insertHyperlinks`    | Insert hyperlinks                                    |
-| `deleteColumns`       | Delete columns                                       |
-| `deleteRows`          | Delete rows                                          |
-| `sort`                | Sort                                                 |
-| `autoFilter`          | Filter                                               |
-| `pivotTables`         | Use PivotTable reports                               |
-| `objects`             | Edit objects                                         |
-| `scenarios`           | Edit scenarios                                       |
+<details>
+	<summary><b>Worksheet Protection Details</b> (click to show)</summary>
+
+| key                   | feature (true=disabled / false=enabled) | default    |
+|:----------------------|:----------------------------------------|:-----------|
+| `selectLockedCells`   | Select locked cells                     | enabled    |
+| `selectUnlockedCells` | Select unlocked cells                   | enabled    |
+| `formatCells`         | Format cells                            | disabled   |
+| `formatColumns`       | Format columns                          | disabled   |
+| `formatRows`          | Format rows                             | disabled   |
+| `insertColumns`       | Insert columns                          | disabled   |
+| `insertRows`          | Insert rows                             | disabled   |
+| `insertHyperlinks`    | Insert hyperlinks                       | disabled   |
+| `deleteColumns`       | Delete columns                          | disabled   |
+| `deleteRows`          | Delete rows                             | disabled   |
+| `sort`                | Sort                                    | disabled   |
+| `autoFilter`          | Filter                                  | disabled   |
+| `pivotTables`         | Use PivotTable reports                  | disabled   |
+| `objects`             | Edit objects                            | enabled    |
+| `scenarios`           | Edit scenarios                          | enabled    |
+</details>
 
 - `ws['!autofilter']`: AutoFilter object following the schema:
 
 ```typescript
 type AutoFilter = {
-	ref:string; // A-1 based range representing the AutoFilter table range
+  ref:string; // A-1 based range representing the AutoFilter table range
 }
 ```
 
@@ -695,6 +806,9 @@ standard, XLS parsing stores core properties in both places.
 The various file formats use different internal names for file properties.  The
 workbook `Props` object normalizes the names:
 
+<details>
+	<summary><b>File Properties</b> (click to show)</summary>
+
 | JS Name     | Excel Description              |
 |:------------|:-------------------------------|
 | Title       | Summary tab "Title"            |
@@ -707,6 +821,7 @@ workbook `Props` object normalizes the names:
 | Comments    | Summary tab "Comments"         |
 | LastAuthor  | Statistics tab "Last saved by" |
 | CreatedDate | Statistics tab "Created"       |
+</details>
 
 For example, to set the workbook title property:
 
@@ -737,12 +852,16 @@ XLSX.write(wb, {Props:{Author:"SheetJS"}});
 
 `wb.Workbook.Names` is an array of defined name objects which have the keys:
 
+<details>
+	<summary><b>Defined Name Properties</b> (click to show)</summary>
+
 | Key       | Description                                                      |
 |:----------|:-----------------------------------------------------------------|
 | `Sheet`   | Name scope.  Sheet Index (0 = first sheet) or `null` (Workbook)  |
 | `Name`    | Case-sensitive name.  Standard rules apply **                    |
 | `Ref`     | A1-style Reference (e.g. `"Sheet1!$A$1:$D$20"`)                  |
 | `Comment` | Comment (only applicable for XLS/XLSX/XLSB)                      |
+</details>
 
 Excel allows two sheet-scoped defined names to share the same name.  However, a
 sheet-scoped name cannot collide with a workbook-scope name.  Workbook writers
@@ -762,7 +881,8 @@ file formats store the formulae in different ways, the formats are translated.
 Even though some formats store formulae with a leading equal sign, CSF formulae
 do not start with `=`.
 
-The worksheet representation of A1=1, A2=2, A3=A1+A2:
+<details>
+	<summary><b>Representation of A1=1, A2=2, A3=A1+A2</b> (click to show)</summary>
 
 ```js
 {
@@ -772,6 +892,7 @@ The worksheet representation of A1=1, A2=2, A3=A1+A2:
 	A3: { t:'n', v:3, f:'A1+A2' }
 }
 ```
+</details>
 
 Shared formulae are decompressed and each cell has the formula corresponding to
 its cell.  Writers generally do not attempt to generate shared formulae.
@@ -779,6 +900,9 @@ its cell.  Writers generally do not attempt to generate shared formulae.
 Cells with formula entries but no value will be serialized in a way that Excel
 and other spreadsheet tools will recognize.  This library will not automatically
 compute formula results!  For example, to compute `BESSELJ` in a worksheet:
+
+<details>
+	<summary><b>Formula without known value</b> (click to show)</summary>
 
 ```js
 {
@@ -788,12 +912,16 @@ compute formula results!  For example, to compute `BESSELJ` in a worksheet:
 	A3: { t:'n', f:'BESSELJ(A1,A2)' }
 }
 ```
+</details>
 
 **Array Formulae**
 
 Array formulae are stored in the top-left cell of the array block.  All cells
 of an array formula have a `F` field corresponding to the range.  A single-cell
 formula can be distinguished from a plain formula by the presence of `F` field.
+
+<details>
+	<summary><b>Array Formula examples</b> (click to show)</summary>
 
 For example, setting the cell `C1` to the array formula `{=SUM(A1:A3*B1:B3)}`:
 
@@ -810,18 +938,23 @@ worksheet['D2'] = { t:'n', F:"D1:D3" };
 worksheet['D3'] = { t:'n', F:"D1:D3" };
 ```
 
+</details>
+
 Utilities and writers are expected to check for the presence of a `F` field and
 ignore any possible formula element `f` in cells other than the starting cell.
 They are not expected to perform validation of the formulae!
 
-**Formula Output**
+<details>
+	<summary><b>Formula Output Utility Function</b> (click to show)</summary>
 
 The `sheet_to_formulae` method generates one line per formula or array formula.
 Array formulae are rendered in the form `range=formula` while plain cells are
 rendered in the form `cell=formula or value`.  Note that string literals are
 prefixed with an apostrophe `'`, consistent with Excel's formula bar display.
+</details>
 
-**Formulae File Format Details**
+<details>
+	<summary><b>Formulae File Format Details</b> (click to show)</summary>
 
 | Storage Representation | Formats                  | Read  | Write |
 |:-----------------------|:-------------------------|:-----:|:-----:|
@@ -834,12 +967,36 @@ Since Excel prohibits named cells from colliding with names of A1 or RC style
 cell references, a (not-so-simple) regex conversion is possible.  BIFF Parsed
 formulae have to be explicitly unwound.  OpenFormula formulae can be converted
 with regexes for the most part.
+</details>
+
 #### Column Properties
 
+The `!cols` array in each worksheet, if present, is a collection of `ColInfo`
+objects which have the following properties:
+
+```typescript
+type ColInfo = {
+	/* visibility */
+	hidden:?boolean; // if true, the column is hidden
+
+	/* column width is specified in one of the following ways: */
+	wpx?:number;     // width in screen pixels
+	width:number;    // width in Excel's "Max Digit Width", width*256 is integral
+	wch?:number;     // width in characters
+
+	/* other fields for preserving features from files */
+	MDW?:number;     // Excel's "Max Digit Width" unit, always integral
+};
+```
+
 Excel internally stores column widths in a nebulous "Max Digit Width" form.  The
-Max Digit Width is the width of the largest digit when rendered.  The internal
-width must be an integer multiple of the the width divided by 256.  ECMA-376
-describes a formula for converting between pixels and the internal width.
+Max Digit Width is the width of the largest digit when rendered (generally the
+"0" character is the widest).  The internal width must be an integer multiple of
+the the width divided by 256.  ECMA-376 describes a formula for converting
+between pixels and the internal width.
+
+<details>
+	<summary><b>Implementation details</b> (click to show)</summary>
 
 Given the constraints, it is possible to determine the MDW without actually
 inspecting the font!  The parsers guess the pixel width by converting from width
@@ -847,25 +1004,125 @@ to pixels and back, repeating for all possible MDW and selecting the MDW that
 minimizes the error.  XLML actually stores the pixel width, so the guess works
 in the opposite direction.
 
-The `!cols` array in each worksheet, if present, is a collection of `ColInfo`
-objects which have the following properties:
-
-```typescript
-type ColInfo = {
-	MDW?:number;  // Excel's "Max Digit Width" unit, always integral
-	width:number; // width in Excel's "Max Digit Width", width*256 is integral
-	wpx?:number;  // width in screen pixels
-	wch?:number;  // intermediate character calculation
-};
-```
-
 Even though all of the information is made available, writers are expected to
 follow the priority order:
 
 1) use `width` field if available
 2) use `wpx` pixel width if available
 3) use `wch` character count if available
+</details>
 
+#### Row Properties
+
+The `!rows` array in each worksheet, if present, is a collection of `RowInfo`
+objects which have the following properties:
+
+```typescript
+type RowInfo = {
+	/* visibility */
+	hidden:?boolean; // if true, the row is hidden
+
+	/* row height is specified in one of the following ways: */
+	hpx?:number;     // height in screen pixels
+	hpt?:number;     // height in points
+};
+```
+
+<details>
+	<summary><b>Implementation details</b> (click to show)</summary>
+
+Excel internally stores row heights in points.  The default resolution is 72 DPI
+or 96 PPI, so the pixel and point size should agree.  For different resolutions
+they may not agree, so the library separates the concepts.
+
+Even though all of the information is made available, writers are expected to
+follow the priority order:
+
+1) use `hpx` pixel height if available
+2) use `hpt` point height if available
+</details>
+
+#### Number Formats
+
+The `cell.w` formatted text for each cell is produced from `cell.v` and `cell.z`
+format.  If the format is not specified, the Excel `General` format is used.
+The format can either be specified as a string or as an index into the format
+table.  Parsers are expected to populate `workbook.SSF` with the number format
+table.  Writers are expected to serialize the table.
+
+Custom tools should ensure that the local table has each used format string
+somewhere in the table.  Excel convention mandates that the custom formats start
+at index 164.  The following example creates a custom format from scratch:
+
+<details>
+	<summary><b>New worksheet with custom format</b> (click to show)</summary>
+
+```js
+var tbl = {};
+var wb = {
+	SheetNames: ["Sheet1"],
+	Sheets: {
+		Sheet1: {
+			"!ref":"A1:C1",
+			A1: { t:"n", v:10000 },                    // <-- General format
+			B1: { t:"n", v:10000, z: "0%" },           // <-- Builtin format
+			C1: { t:"n", v:10000, z: "\"T\"\ #0.00" }  // <-- Custom format
+		}
+	}
+}
+```
+</details>
+
+The rules are slightly different from how Excel displays custom number formats.
+In particular, literal characters must be wrapped in double quotes or preceded
+by a backslash. For more info, see the Excel documentation article
+[`Create or delete a custom number format`](https://support.office.com/en-us/article/78f2a361-936b-4c03-8772-09fab54be7f4)
+or ECMA-376 18.8.31 (Number Formats)
+
+<details>
+	<summary><b>Default Number Formats</b> (click to show)</summary>
+
+The default formats are listed in ECMA-376 18.8.30:
+
+| ID | Format                     |
+|---:|:---------------------------|
+|  0 | `General`                  |
+|  1 | `0`                        |
+|  2 | `0.00`                     |
+|  3 | `#,##0`                    |
+|  4 | `#,##0.00`                 |
+|  9 | `0%`                       |
+| 10 | `0.00%`                    |
+| 11 | `0.00E+00`                 |
+| 12 | `# ?/?`                    |
+| 13 | `# ??/??`                  |
+| 14 | `m/d/yy` (see below)       |
+| 15 | `d-mmm-yy`                 |
+| 16 | `d-mmm`                    |
+| 17 | `mmm-yy`                   |
+| 18 | `h:mm AM/PM`               |
+| 19 | `h:mm:ss AM/PM`            |
+| 20 | `h:mm`                     |
+| 21 | `h:mm:ss`                  |
+| 22 | `m/d/yy h:mm`              |
+| 37 | `#,##0 ;(#,##0)`           |
+| 38 | `#,##0 ;[Red](#,##0)`      |
+| 39 | `#,##0.00;(#,##0.00)`      |
+| 40 | `#,##0.00;[Red](#,##0.00)` |
+| 45 | `mm:ss`                    |
+| 46 | `[h]:mm:ss`                |
+| 47 | `mmss.0`                   |
+| 48 | `##0.0E+0`                 |
+| 49 | `@`                        |
+
+</details>
+
+Format 14 (`m/d/yy`) is localized by Excel: even though the file specifies that
+number format, it will be drawn differently based on system settings.  It makes
+sense when the producer and consumer of files are in the same locale, but that
+is not always the case over the Internet.  To get around this ambiguity, parse
+functions accept the `dateNF` option to override the interpretation of that
+specific format string.
 #### Hyperlinks
 
 Hyperlinks are stored in the `l` key of cell objects.  The `Target` field of the
@@ -907,8 +1164,10 @@ the file but the UI does not readily make it available.  Standard hidden sheets
 are revealed in the unhide menu.  Excel also has "very hidden" sheets which
 cannot be revealed in the menu.  It is only accessible in the VB Editor!
 
-The visibility setting is stored in the `Hidden` property of the sheet props
-array.  The values are:
+The visibility setting is stored in the `Hidden` property of sheet props array.
+
+<details>
+	<summary><b>More details</b> (click to show)</summary>
 
 | Value | Definition  |
 |:-----:|:------------|
@@ -930,6 +1189,7 @@ if a sheet is visible is to check if the `Hidden` property is logical truth:
 > wb.Workbook.Sheets.map(function(x) { return [x.name, !x.Hidden] })
 [ [ 'Visible', true ], [ 'Hidden', false ], [ 'VeryHidden', false ] ]
 ```
+</details>
 
 ## Parsing Options
 
@@ -939,10 +1199,12 @@ The exported `read` and `readFile` functions accept an options argument:
 | :---------- | ------: | :--------------------------------------------------- |
 | type        |         | Input data encoding (see Input Type below)           |
 | cellFormula | true    | Save formulae to the .f field                        |
-| cellHTML    | true    | Parse rich text and save HTML to the .h field        |
-| cellNF      | false   | Save number format string to the .z field            |
-| cellStyles  | false   | Save style/theme info to the .s field                |
+| cellHTML    | true    | Parse rich text and save HTML to the `.h` field      |
+| cellNF      | false   | Save number format string to the `.z` field          |
+| cellStyles  | false   | Save style/theme info to the `.s` field              |
+| cellText    | true    | Generated formatted text to the `.w` field           |
 | cellDates   | false   | Store dates as type `d` (default is `n`)             |
+| dateNF      |         | If specified, use the string for date code 14 **     |
 | sheetStubs  | false   | Create cell objects of type `z` for stub cells       |
 | sheetRows   | 0       | If >0, read the first `sheetRows` rows **            |
 | bookDeps    | false   | If true, parse calculation chains                    |
@@ -987,6 +1249,9 @@ tells the library how to parse the data argument:
 
 ### Guessing File Type
 
+<details>
+	<summary><b>Implementation Details</b> (click to show)</summary>
+
 Excel and other spreadsheet tools read the first few bytes and apply other
 heuristics to determine a file type.  This enables file type punning: renaming
 files with the `.xls` extension will tell your computer to use Excel to open the
@@ -1016,6 +1281,7 @@ Plaintext format guessing follows the priority order:
 | TSV    | one of the first 1024 characters is a tab char `"\t"`               |
 | CSV    | one of the first 1024 characters is a comma char `","`              |
 | PRN    | (default)                                                           |
+</details>
 
 ## Writing Options
 
@@ -1114,6 +1380,9 @@ other values are stored as strings.  The function takes an options argument:
 | cellDates   |  false   | Store dates as type `d` (default is `n`)            |
 | sheetStubs  |  false   | Create cell objects of type `z` for `null` values   |
 
+<details>
+	<summary><b>Examples</b> (click to show)</summary>
+
 To generate the example sheet:
 
 ```js
@@ -1123,6 +1392,7 @@ var ws = XLSX.utils.aoa_to_sheet([
 	[2,3,4,5,6,7,8]
 ]);
 ```
+</details>
 
 ### HTML Table Input
 
@@ -1131,6 +1401,9 @@ resembling the input table.  Numbers are parsed.  All other data will be stored
 as strings.
 
 `XLSX.utils.table_to_book` produces a minimal workbook based on the worksheet.
+
+<details>
+	<summary><b>Examples</b> (click to show)</summary>
 
 To generate the example sheet, start with the HTML table:
 
@@ -1148,6 +1421,7 @@ To process the table:
 var tbl = document.getElementById('sheetjs');
 var wb = XLSX.utils.table_to_book(tbl);
 ```
+</details>
 
 Note: `XLSX.read` can handle HTML represented as strings.
 
@@ -1156,13 +1430,19 @@ Note: `XLSX.read` can handle HTML represented as strings.
 `XLSX.utils.sheet_to_formulae` generates an array of commands that represent
 how a person would enter data into an application.  Each entry is of the form
 `A1-cell-address=formula-or-value`.  String literals are prefixed with a `'` in
-accordance with Excel.  For the example sheet:
+accordance with Excel.
+
+<details>
+	<summary><b>Examples</b> (click to show)</summary>
+
+For the example sheet:
 
 ```js
 > var o = XLSX.utils.sheet_to_formulae(ws);
 > o.filter(function(v, i) { return i % 5 === 0; });
 [ 'A1=\'S', 'F1=\'J', 'D2=4', 'B3=3', 'G3=8' ]
 ```
+</details>
 
 ### Delimiter-Separated Output
 
@@ -1180,6 +1460,9 @@ produces CSV output.  The function takes an options argument:
 - `strip` will remove trailing commas from each line under default `FS/RS`
 - blankrows must be set to `false` to skip blank lines.
 
+<details>
+	<summary><b>Examples</b> (click to show)</summary>
+
 For the example sheet:
 
 ```js
@@ -1194,6 +1477,7 @@ S	h	e	e	t	J	S
 > console.log(XLSX.utils.sheet_to_csv(ws,{FS:":",RS:"|"}));
 S:h:e:e:t:J:S|1:2:3:4:5:6:7|2:3:4:5:6:7:8|
 ```
+</details>
 
 #### UTF-16 Unicode Text
 
@@ -1203,8 +1487,8 @@ the output will be encoded in codepage `1200` and the BOM will be prepended.
 
 ### JSON
 
-`XLSX.utils.sheet_to_json` and the alias `XLSX.utils.sheet_to_row_object_array`
-generate different types of JS objects.  The function takes an options argument:
+`XLSX.utils.sheet_to_json` generates different types of JS objects. The function
+takes an options argument:
 
 | Option Name |  Default | Description                                         |
 | :---------- | :------: | :-------------------------------------------------- |
@@ -1250,6 +1534,9 @@ generate different types of JS objects.  The function takes an options argument:
 If header is not `1`, the row object will contain the non-enumerable property
 `__rowNum__` that represents the row of the sheet corresponding to the entry.
 
+<details>
+	<summary><b>Examples</b> (click to show)</summary>
+
 For the example sheet:
 
 ```js
@@ -1285,6 +1572,7 @@ Example showing the effect of `raw`:
   [ 1, 2, 3, 4, 5, 6, 7 ],                   // <-- A2 uses the raw value
   [ 2, 3, 4, 5, 6, 7, 8 ] ]
 ```
+</details>
 
 ## File Formats
 
@@ -1319,6 +1607,9 @@ Despite the library name `xlsx`, it supports numerous spreadsheet file formats:
 
 ### Excel 2007+ XML (XLSX/XLSM)
 
+<details>
+	<summary>(click to show)</summary>
+
 XLSX and XLSM files are ZIP containers containing a series of XML files in
 accordance with the Open Packaging Conventions (OPC).  The XLSM filetype, almost
 identical to XLSX, is used for files containing macros.
@@ -1327,7 +1618,12 @@ The format is standardized in ECMA-376 and later in ISO/IEC 29500.  Excel does
 not follow the specification, and there are additional documents discussing how
 Excel deviates from the specification.
 
+</details>
+
 ### Excel 2.0-95 (BIFF2/BIFF3/BIFF4/BIFF5)
+
+<details>
+	<summary>(click to show)</summary>
 
 BIFF 2/3 XLS are single-sheet streams of binary records.  Excel 4 introduced
 the concept of a workbook (`XLW` files) but also had single-sheet `XLS` format.
@@ -1339,7 +1635,12 @@ files in these formats, so record lengths and fields were backsolved by writing
 in all of the supported formats and comparing files.  Excel 2016 can generate
 BIFF5 files, enabling a full suite of file tests starting from XLSX or BIFF2.
 
+</details>
+
 ### Excel 97-2004 Binary (BIFF8)
+
+<details>
+	<summary>(click to show)</summary>
 
 BIFF8 exclusively uses the Compound File Binary container format, splitting some
 content into streams within the file.  At its core, it still uses an extended
@@ -1348,14 +1649,24 @@ version of the binary record format from older versions of BIFF.
 The `MS-XLS` specification covers the basics of the file format, and other
 specifications expand on serialization of features like properties.
 
+</details>
+
 ### Excel 2003-2004 (SpreadsheetML)
+
+<details>
+	<summary>(click to show)</summary>
 
 Predating XLSX, SpreadsheetML files are simple XML files.  There is no official
 and comprehensive specification, although MS has released whitepapers on the
 format.  Since Excel 2016 can generate SpreadsheetML files, backsolving is
 pretty straightforward.
 
+</details>
+
 ### Excel 2007+ Binary (XLSB, BIFF12)
+
+<details>
+	<summary>(click to show)</summary>
 
 Introduced in parallel with XLSX, the XLSB filetype combines BIFF architecture
 with the content separation and ZIP container of XLSX.  For the most part nodes
@@ -1364,50 +1675,87 @@ in an XLSX sub-file can be mapped to XLSB records in a corresponding sub-file.
 The `MS-XLSB` specification covers the basics of the file format, and other
 specifications expand on serialization of features like properties.
 
+</details>
+
 ### Delimiter-Separated Values (CSV/TXT)
+
+<details>
+	<summary>(click to show)</summary>
 
 Excel CSV deviates from RFC4180 in a number of important ways.  The generated
 CSV files should generally work in Excel although they may not work in RFC4180
-compatible readers.  The parser should generally understand Excel CSV.
+compatible readers.  The parser should generally understand Excel CSV. The
+writer proactively generates cells for formulae if values are unavailable.
 
 Excel TXT uses tab as the delimiter and codepage 1200.
 
+</details>
+
 ### Other Workbook Formats
+
+<details>
+	<summary>(click to show)</summary>
 
 Support for other formats is generally far XLS/XLSB/XLSX support, due in large
 part to a lack of publicly available documentation.  Test files were produced in
 the respective apps and compared to their XLS exports to determine structure.
 The main focus is data extraction.
 
+</details>
+
 #### Lotus 1-2-3 (WKS/WK1/WK2/WK3/WK4/123)
+
+<details>
+	<summary>(click to show)</summary>
 
 The Lotus formats consist of binary records similar to the BIFF structure. Lotus
 did release a whitepaper decades ago covering the original WK1 format.  Other
 features were deduced by producing files and comparing to Excel support.
 
+</details>
+
 #### Quattro Pro (WQ1/WQ2/WB1/WB2/WB3/QPW)
+
+<details>
+	<summary>(click to show)</summary>
 
 The Quattro Pro formats use binary records in the same way as BIFF and Lotus.
 Some of the newer formats (namely WB3 and QPW) use a CFB enclosure just like
 BIFF8 XLS.
 
+</details>
+
 #### OpenDocument Spreadsheet (ODS/FODS)
+
+<details>
+	<summary>(click to show)</summary>
 
 ODS is an XML-in-ZIP format akin to XLSX while FODS is an XML format akin to
 SpreadsheetML.  Both are detailed in the OASIS standard, but tools like LO/OO
-add undocumented extensions.
+add undocumented extensions.  The parsers and writers do not implement the full
+standard, instead focusing on parts necessary to extract and store raw data.
+
+</details>
 
 #### Uniform Office Spreadsheet (UOS1/2)
+
+<details>
+	<summary>(click to show)</summary>
 
 UOS is a very similar format, and it comes in 2 varieties corresponding to ODS
 and FODS respectively.  For the most part, the difference between the formats
 lies in the names of tags and attributes.
+
+</details>
 
 ### Other Single-Worksheet Formats
 
 Many older formats supported only one worksheet:
 
 #### dBASE and Visual FoxPro (DBF)
+
+<details>
+	<summary>(click to show)</summary>
 
 DBF is really a typed table format: each column can only hold one data type and
 each record omits type information.  The parser generates a header row and
@@ -1416,32 +1764,67 @@ inserts records starting at the second row of the worksheet.
 Multi-file extensions like external memos and tables are currently unsupported,
 limited by the general ability to read arbitrary files in the web browser.
 
+</details>
+
 #### Symbolic Link (SYLK)
 
+<details>
+	<summary>(click to show)</summary>
+
 There is no real documentation.  All knowledge was gathered by saving files in
-various versions of Excel to deduce the meaning of fields.
+various versions of Excel to deduce the meaning of fields.  Notes:
+
+- Plain formulae are stored in the RC form.
+- Column widths are rounded to integral characters.
+
+</details>
 
 #### Lotus Formatted Text (PRN)
 
+<details>
+	<summary>(click to show)</summary>
+
 There is no real documentation, and in fact Excel treats PRN as an output-only
 file format.  Nevertheless we can guess the column widths and reverse-engineer
-the original layout.
+the original layout.  Excel's 240-character width limitation is not enforced.
+
+</details>
 
 #### Data Interchange Format (DIF)
 
+<details>
+	<summary>(click to show)</summary>
+
 There is no unified definition.  Visicalc DIF differs from Lotus DIF, and both
 differ from Excel DIF.  Where ambiguous, the parser/writer follows the expected
-behavior from Excel.
+behavior from Excel.  In particular, Excel extends DIF in incompatible ways:
+
+- Since Excel automatically converts numbers-as-strings to numbers, numeric
+  string constants are converted to formulae: `"0.3" -> "=""0.3""`
+- DIF technically expects numeric cells to hold the raw numeric data, but Excel
+  permits formatted numbers (including dates)
+- DIF technically has no support for formulae, but Excel will automatically
+  convert plain formulae.  Array formulae are not preserved.
+
+</details>
 
 #### HTML
+
+<details>
+	<summary>(click to show)</summary>
 
 Excel HTML worksheets include special metadata encoded in styles.  For example,
 `mso-number-format` is a localized string containing the number format.  Despite
 the metadata the output is valid HTML, although it does accept bare `&` symbols.
 
+</details>
+
 ## Testing
 
 ### Node
+
+<details>
+	<summary>(click to show)</summary>
 
 `make test` will run the node-based tests.  By default it runs tests on files in
 every supported format.  To test a specific file type, set `FMTS` to the format
@@ -1464,14 +1847,19 @@ $ make test        # run full tests
 $ WTF=1 make test  # enable all error messages
 ```
 
-Flow and JSHint/JSCS checks are available:
+Flow and eslint checks are available:
 
 ```bash
-$ make lint        # JSHint and JSCS checks
+$ make lint        # eslint checks
 $ make flow        # make lint + Flow checking
 ```
 
+</details>
+
 ### Browser
+
+<details>
+	<summary>(click to show)</summary>
 
 The core in-browser tests are available at `tests/index.html` within this repo.
 Start a local server and navigate to that directory to run the tests.
@@ -1490,7 +1878,12 @@ $ cd ../SheetJS.github.io
 $ simplehttpserver # or "python -mSimpleHTTPServer" or "serve"
 $ open -a Chromium.app http://localhost:8000/stress.html
 ```
+</details>
+
 ### Tested Environments
+
+<details>
+	<summary>(click to show)</summary>
 
  - NodeJS 0.8, 0.9, 0.10, 0.11, 0.12, 4.x, 5.x, 6.x, 7.x
  - IE 6/7/8/9/10/11 (IE6-9 browsers require shims for interacting with client)
@@ -1505,6 +1898,8 @@ Tests utilize the mocha testing framework.  Travis-CI and Sauce Labs links:
  - <https://travis-ci.org/SheetJS/SheetJS.github.io> for XLS\* modules
  - <https://saucelabs.com/u/sheetjs> for XLS\* modules using Sauce Labs
 
+</details>
+
 ### Test Files
 
 Test files are housed in [another repo](https://github.com/SheetJS/test_files).
@@ -1518,7 +1913,33 @@ Running `make init` will refresh the `test_files` submodule and get the files.
 Due to the precarious nature of the Open Specifications Promise, it is very
 important to ensure code is cleanroom.  Consult CONTRIBUTING.md
 
+### Tests
+
+<details>
+	<summary>(click to show)</summary>
+
+The `test_misc` target (`make test_misc` on Linux/OSX / `make misc` on Windows)
+runs the targeted feature tests.  It should take 5-10 seconds to perform feature
+tests without testing against the entire test battery.  New features should be
+accompanied with tests for the relevant file formats and features.
+
+For tests involving the read side, an appropriate feature test would involve
+reading an existing file and checking the resulting workbook object.  If a
+parameter is involved, files should be read with different values for the param
+to verify that the feature is working as expected.
+
+For tests involving a new write feature which can already be parsed, appropriate
+feature tests would involve writing a workbook with the feature and then opening
+and verifying that the feature is preserved.
+
+For tests involving a new write feature without an existing read ability, please
+add a feature test to the kitchen sink `tests/write.js`.
+</details>
+
 ### OSX/Linux
+
+<details>
+	<summary>(click to show)</summary>
 
 The xlsx.js file is constructed from the files in the `bits` subdirectory. The
 build script (run `make`) will concatenate the individual bits to produce the
@@ -1534,22 +1955,35 @@ $ git diff xlsx.js
 
 To produce the dist files, run `make dist`.  The dist files are updated in each
 version release and *should not be committed between versions*.
+</details>
 
 ### Windows
+
+<details>
+	<summary>(click to show)</summary>
 
 The included `make.cmd` script will build `xlsx.js` from the `bits` directory.
 Building is as simple as:
 
 ```cmd
-> make.cmd
+> make
 ```
 
 To prepare dev environment:
 
 ```cmd
-> npm install -g mocha
-> npm install
-> mocha -t 30000
+> make init
+```
+
+The full list of commands available in Windows are displayed in `make help`:
+
+```
+make init -- install deps and global modules
+make lint -- run eslint linter
+make test -- run mocha test suite
+make misc -- run smaller test suite
+make book -- rebuild README and summary
+make help -- display this message
 ```
 
 The normal approach uses a variety of command line tools to grab the test files.
@@ -1560,6 +1994,7 @@ Latest test files snapshot:
 <https://github.com/SheetJS/test_files/releases/download/20170409/test_files.zip>
 
 Download and unzip to the `test_files` subdirectory.
+</details>
 
 ## License
 
@@ -1569,9 +2004,8 @@ granted by the Apache 2.0 License are reserved by the Original Author.
 
 ## References
 
-ISO/IEC 29500:2012(E) "Information technology — Document description and processing languages — Office Open XML File Formats"
-
-OSP-covered specifications:
+<details>
+	<summary><b>OSP-covered Specifications</b> (click to show)</summary>
 
  - [MS-XLSB]: Excel (.xlsb) Binary File Format
  - [MS-XLSX]: Excel (.xlsx) Extensions to the Office Open XML SpreadsheetML File Format
@@ -1592,25 +2026,10 @@ OSP-covered specifications:
  - [XLS]: Microsoft Office Excel 97-2007 Binary File Format Specification
  - [MS-OI29500]: Office Implementation Information for ISO/IEC 29500 Standards Support
 
-Open Document Format for Office Applications Version 1.2 (29 September 2011)
+</details>
 
-Worksheet File Format (From Lotus) December 1984
+- ISO/IEC 29500:2012(E) "Information technology — Document description and processing languages — Office Open XML File Formats"
+- Open Document Format for Office Applications Version 1.2 (29 September 2011)
+- Worksheet File Format (From Lotus) December 1984
 
 
-## Badges
-
-[![Build Status](https://saucelabs.com/browser-matrix/sheetjs.svg)](https://saucelabs.com/u/sheetjs)
-
-[![Build Status](https://travis-ci.org/SheetJS/js-xlsx.svg?branch=master)](https://travis-ci.org/SheetJS/js-xlsx)
-
-[![Build Status](https://semaphoreci.com/api/v1/sheetjs/js-xlsx/branches/master/shields_badge.svg)](https://semaphoreci.com/sheetjs/js-xlsx)
-
-[![Coverage Status](http://img.shields.io/coveralls/SheetJS/js-xlsx/master.svg)](https://coveralls.io/r/SheetJS/js-xlsx?branch=master)
-
-[![NPM Downloads](https://img.shields.io/npm/dt/xlsx.svg)](https://npmjs.org/package/xlsx)
-
-[![Dependencies Status](https://david-dm.org/sheetjs/js-xlsx/status.svg)](https://david-dm.org/sheetjs/js-xlsx)
-
-[![ghit.me](https://ghit.me/badge.svg?repo=sheetjs/js-xlsx)](https://ghit.me/repo/sheetjs/js-xlsx)
-
-[![Analytics](https://ga-beacon.appspot.com/UA-36810333-1/SheetJS/js-xlsx?pixel)](https://github.com/SheetJS/js-xlsx)

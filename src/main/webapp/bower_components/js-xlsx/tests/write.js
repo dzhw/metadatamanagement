@@ -16,17 +16,19 @@ var ws_name = "SheetJS";
 var wscols = [
 	{wch:6}, // "characters"
 	{wpx:50}, // "pixels"
-	{wch:10},
-	{wpx:125}
+	,
+	{hidden:true} // hide column
 ];
 
-var wsrows = [];
-wsrows[0] = {hpt: 12}; // "points"
-wsrows[1] = {hpx: 16}; // "pixels"
-wsrows[2] = {hpt: 18};
-wsrows[3] = {hpx: 24};
-wsrows[4] = {hidden:true}; // hide row
-wsrows[5] = {hidden:false};
+/* At 96 PPI, 1 pt = 1 px */
+var wsrows = [
+	{hpt: 12}, // "points"
+	{hpx: 16}, // "pixels"
+	,
+	{hpx: 24},
+	{hidden:true}, // hide row
+	{hidden:false}
+]
 
 console.log("Sheet Name: " + ws_name);
 console.log("Data: "); for(var i=0; i!=data.length; ++i) console.log(data[i]);
@@ -41,7 +43,7 @@ if(typeof XLSX === "undefined") { try { XLSX = require('./'); } catch(e) { XLSX 
 var wb = { SheetNames: [], Sheets: {} };
 
 /* convert an array of arrays in JS to a CSF spreadsheet */
-var ws = XLSX.utils.aoa_to_sheet(data, {cellDates:true, dense:false});
+var ws = XLSX.utils.aoa_to_sheet(data, {cellDates:true});
 
 /* TEST: add worksheet to workbook */
 wb.SheetNames.push(ws_name);
@@ -74,7 +76,8 @@ ws['A3'].l = { Target: "http://sheetjs.com", Tooltip: "Visit us <SheetJS.com!>" 
 ws['B1'].z = "0%"; // Format Code 9
 
 /* TEST: custom format */
-//ws['B2'].z = "0.0"; wb.SSF[60] = "0.0"; // Custom
+var custfmt = "\"This is \"\\ 0.0";
+ws['C2'].z = custfmt;
 
 /* TEST: page margins */
 ws['!margins'] =  { left:1.0, right:1.0, top:1.0, bottom:1.0, header:0.5, footer:0.5 };
@@ -108,6 +111,10 @@ ws['A4'].c.push({a:"SheetJS",t:"I'm a little comment, short and stout!\n\nWell, 
 /* TEST: sheet protection */
 ws['!protect'] = {
 	password:"password",
+	/* enable formatting rows and columns */
+	formatRows:0,
+	formatColumns:0,
+	/* disable editing objects and scenarios */
 	objects:1,
 	scenarios:1
 };
@@ -115,30 +122,29 @@ ws['!protect'] = {
 console.log("Worksheet Model:")
 console.log(ws);
 
-/* write file */
-XLSX.writeFile(wb, 'sheetjs.xlsx', {bookSST:true});
-XLSX.writeFile(wb, 'sheetjs.xlsm');
-XLSX.writeFile(wb, 'sheetjs.xlsb'); // no formula
-XLSX.writeFile(wb, 'sheetjs.xls', {bookType:'biff2'}); // no formula
-XLSX.writeFile(wb, 'sheetjs.xml.xls', {bookType:'xlml'});
-XLSX.writeFile(wb, 'sheetjs.ods');
-XLSX.writeFile(wb, 'sheetjs.fods');
-XLSX.writeFile(wb, 'sheetjs.slk');
-XLSX.writeFile(wb, 'sheetjs.csv');
-XLSX.writeFile(wb, 'sheetjs.txt');
-XLSX.writeFile(wb, 'sheetjs.prn');
-XLSX.writeFile(wb, 'sheetjs.dif');
-
-/* test by reading back files */
-XLSX.readFile('sheetjs.xlsx');
-XLSX.readFile('sheetjs.xlsm');
-XLSX.readFile('sheetjs.xlsb');
-XLSX.readFile('sheetjs.xls');
-XLSX.readFile('sheetjs.xml.xls');
-XLSX.readFile('sheetjs.ods');
-XLSX.readFile('sheetjs.fods');
-XLSX.readFile('sheetjs.slk');
-XLSX.readFile('sheetjs.csv');
-XLSX.readFile('sheetjs.txt');
-XLSX.readFile('sheetjs.prn');
-XLSX.readFile('sheetjs.dif');
+[
+	['sheetjs.xlsx', {bookSST:true}],
+	'sheetjs.xlsm',
+	'sheetjs.xlsb',
+	['sheetjs.xls', {bookType:'biff2'}],
+	['sheetjs.xml.xls', {bookType:'xlml'}],
+	'sheetjs.ods',
+	'sheetjs.fods',
+	'sheetjs.slk',
+	'sheetjs.csv',
+	'sheetjs.txt',
+	'sheetjs.prn',
+	'sheetjs.dif'
+].forEach(function(r) {
+	if(typeof r == 'string') {
+		/* write file */
+		XLSX.writeFile(wb, r);
+		/* test by reading back files */
+		XLSX.readFile(r);
+	} else {
+		/* write file */
+		XLSX.writeFile(wb, r[0], r[1]);
+		/* test by reading back files */
+		XLSX.readFile(r[0]);
+	}
+});

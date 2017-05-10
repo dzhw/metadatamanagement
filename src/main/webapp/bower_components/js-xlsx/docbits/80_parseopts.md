@@ -11,6 +11,7 @@ The exported `read` and `readFile` functions accept an options argument:
 | cellStyles  | false   | Save style/theme info to the `.s` field              |
 | cellText    | true    | Generated formatted text to the `.w` field           |
 | cellDates   | false   | Store dates as type `d` (default is `n`)             |
+| dateNF      |         | If specified, use the string for date code 14 **     |
 | sheetStubs  | false   | Create cell objects of type `z` for stub cells       |
 | sheetRows   | 0       | If >0, read the first `sheetRows` rows **            |
 | bookDeps    | false   | If true, parse calculation chains                    |
@@ -55,6 +56,9 @@ tells the library how to parse the data argument:
 
 ### Guessing File Type
 
+<details>
+	<summary><b>Implementation Details</b> (click to show)</summary>
+
 Excel and other spreadsheet tools read the first few bytes and apply other
 heuristics to determine a file type.  This enables file type punning: renaming
 files with the `.xls` extension will tell your computer to use Excel to open the
@@ -84,4 +88,5 @@ Plaintext format guessing follows the priority order:
 | TSV    | one of the first 1024 characters is a tab char `"\t"`               |
 | CSV    | one of the first 1024 characters is a comma char `","`              |
 | PRN    | (default)                                                           |
+</details>
 
