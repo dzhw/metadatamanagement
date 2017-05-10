@@ -248,7 +248,7 @@
                                     <pluginExecutionFilter>
                                         <groupId>org.apache.maven.plugins</groupId>
                                         <artifactId>maven-pmd-plugin</artifactId>
-                                        <versionRange>[3.7,)</versionRange>
+                                        <versionRange>[3.8,)</versionRange>
                                         <goals>
                                             <goal>cpd-check</goal>
                                         </goals>
