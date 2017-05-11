@@ -10,7 +10,7 @@ angular.module('metadatamanagementApp').filter('variableDataType',
 
       //Data Type is Numeric
       if (dataTypeEn === 'numeric') {
-        if (input % 1 === 0) {
+        if (input % 1 === 0 && !input.includes('.') && !input.includes(',')) {
           return input; //whole number. no filter is needed.
         } else { //commata number
           return $filter('number')(input, 2);
