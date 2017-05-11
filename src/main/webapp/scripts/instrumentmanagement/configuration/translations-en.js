@@ -57,7 +57,7 @@ angular.module('metadatamanagementApp').config(
               'one': 'Click to show the question of this instrument',
               'many': 'Click to show all questions of this instrument'
             },
-            'studies':{
+            'studies': {
               'one': 'Click to show the study in which this instrument has been used'
             }
           }
@@ -76,7 +76,7 @@ angular.module('metadatamanagementApp').config(
             'description': {
               'not-null': 'The description of the Instrument must not be empty!',
               'i18n-string-size': 'The description is mandatory in both languages and must not contain more than 128 characters.',
-              'i18n-string-not-empty':'The description must not be empty!'
+              'i18n-string-not-empty': 'The description must not be empty!'
             },
             'type': {
               'not-empty': 'The type of the Instrument must not be empty!',
@@ -113,10 +113,10 @@ angular.module('metadatamanagementApp').config(
             'description': {
               'not-null': 'The description of the attachment must not be empty!',
               'i18n-string-size': 'The description is mandatory and must in at least one language and must not contain more than 128 characters.',
-              'i18n-string-not-empty':'The description must not be empty!'
+              'i18n-string-not-empty': 'The description must not be empty!'
             },
             'title': {
-              'string-size': 'The title of the attachment must not contain more than 128 characters.'
+              'string-size': 'The title of the attachment is mandatory in both languages and must not contain more than 128 characters.'
             },
             'language': {
               'not-null': 'The language of the attachment must not be empty!',
