@@ -25,6 +25,8 @@ public class InstrumentSubDocument implements InstrumentSubDocumentProjection {
   
   private Integer number;
   
+  private I18nString annotations;
+  
   private List<String> surveyIds;
   
   public InstrumentSubDocument() {
@@ -36,6 +38,7 @@ public class InstrumentSubDocument implements InstrumentSubDocumentProjection {
     BeanUtils.copyProperties(projection, this);
   }
   
+  @Override
   public String getId() {
     return id;
   }
@@ -44,6 +47,7 @@ public class InstrumentSubDocument implements InstrumentSubDocumentProjection {
     this.id = id;
   }
 
+  @Override
   public String getDataAcquisitionProjectId() {
     return dataAcquisitionProjectId;
   }
@@ -52,6 +56,7 @@ public class InstrumentSubDocument implements InstrumentSubDocumentProjection {
     this.dataAcquisitionProjectId = dataAcquisitionProjectId;
   }
 
+  @Override
   public I18nString getTitle() {
     return title;
   }
@@ -60,6 +65,7 @@ public class InstrumentSubDocument implements InstrumentSubDocumentProjection {
     this.title = title;
   }
 
+  @Override
   public I18nString getDescription() {
     return description;
   }
@@ -68,6 +74,7 @@ public class InstrumentSubDocument implements InstrumentSubDocumentProjection {
     this.description = description;
   }
 
+  @Override
   public Integer getNumber() {
     return number;
   }
@@ -76,11 +83,21 @@ public class InstrumentSubDocument implements InstrumentSubDocumentProjection {
     this.number = number;
   }
 
+  @Override
   public List<String> getSurveyIds() {
     return surveyIds;
   }
 
   public void setSurveyIds(List<String> surveyIds) {
     this.surveyIds = surveyIds;
+  }
+
+  @Override
+  public I18nString getAnnotations() {
+    return annotations;
+  }
+
+  public void setAnnotations(I18nString annotations) {
+    this.annotations = annotations;
   }
 }

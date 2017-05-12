@@ -50,4 +50,6 @@ public interface CompleteQuestionProjection
   List<String> getSuccessorNumbers();
   
   String getStudyId();
+  
+  I18nString getAnnotations();
 }

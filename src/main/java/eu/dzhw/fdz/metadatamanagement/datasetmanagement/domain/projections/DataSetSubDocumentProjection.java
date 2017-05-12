@@ -19,5 +19,7 @@ public interface DataSetSubDocumentProjection {
   Integer getNumber();
 
   I18nString getFormat();
+  
+  I18nString getAnnotations();
 
 }

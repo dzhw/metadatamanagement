@@ -27,6 +27,8 @@ public class QuestionSubDocument implements QuestionSubDocumentProjection {
   
   private I18nString topic;
   
+  private I18nString annotations;
+  
   public QuestionSubDocument() {
     super();
   }
@@ -36,6 +38,7 @@ public class QuestionSubDocument implements QuestionSubDocumentProjection {
     BeanUtils.copyProperties(projection, this);
   }
 
+  @Override
   public String getId() {
     return id;
   }
@@ -44,6 +47,7 @@ public class QuestionSubDocument implements QuestionSubDocumentProjection {
     this.id = id;
   }
 
+  @Override
   public String getDataAcquisitionProjectId() {
     return dataAcquisitionProjectId;
   }
@@ -52,6 +56,7 @@ public class QuestionSubDocument implements QuestionSubDocumentProjection {
     this.dataAcquisitionProjectId = dataAcquisitionProjectId;
   }
 
+  @Override
   public String getInstrumentId() {
     return instrumentId;
   }
@@ -60,6 +65,7 @@ public class QuestionSubDocument implements QuestionSubDocumentProjection {
     this.instrumentId = instrumentId;
   }
 
+  @Override
   public Integer getInstrumentNumber() {
     return instrumentNumber;
   }
@@ -68,6 +74,7 @@ public class QuestionSubDocument implements QuestionSubDocumentProjection {
     this.instrumentNumber = instrumentNumber;
   }
 
+  @Override
   public String getNumber() {
     return number;
   }
@@ -76,6 +83,7 @@ public class QuestionSubDocument implements QuestionSubDocumentProjection {
     this.number = number;
   }
 
+  @Override
   public I18nString getQuestionText() {
     return questionText;
   }
@@ -84,11 +92,21 @@ public class QuestionSubDocument implements QuestionSubDocumentProjection {
     this.questionText = questionText;
   }
 
+  @Override
   public I18nString getTopic() {
     return topic;
   }
 
   public void setTopic(I18nString topic) {
     this.topic = topic;
+  }
+
+  @Override
+  public I18nString getAnnotations() {
+    return annotations;
+  }
+
+  public void setAnnotations(I18nString annotations) {
+    this.annotations = annotations;
   }
 }

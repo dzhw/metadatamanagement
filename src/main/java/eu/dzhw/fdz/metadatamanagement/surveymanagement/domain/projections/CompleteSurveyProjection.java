@@ -37,5 +37,7 @@ public interface CompleteSurveyProjection extends AbstractRdcDomainObjectProject
   Integer getNumber();
   
   String getStudyId();
+  
+  I18nString getAnnotations();
 
 }

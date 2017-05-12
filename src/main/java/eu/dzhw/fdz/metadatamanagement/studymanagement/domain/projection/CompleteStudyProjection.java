@@ -40,4 +40,6 @@ public interface CompleteStudyProjection extends AbstractRdcDomainObjectProjecti
   I18nString getSurveyDesign();
   
   String getDoi();
+  
+  I18nString getAnnotations();
 }

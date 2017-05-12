@@ -21,6 +21,8 @@ public class DataSetSubDocument implements DataSetSubDocumentProjection {
   private I18nString format;
   
   private Integer number;
+  
+  private I18nString annotations;
 
   public DataSetSubDocument() {
     super();
@@ -31,6 +33,7 @@ public class DataSetSubDocument implements DataSetSubDocumentProjection {
     BeanUtils.copyProperties(projection, this);
   }
   
+  @Override
   public String getId() {
     return id;
   }
@@ -39,6 +42,7 @@ public class DataSetSubDocument implements DataSetSubDocumentProjection {
     this.id = id;
   }
 
+  @Override
   public String getDataAcquisitionProjectId() {
     return dataAcquisitionProjectId;
   }
@@ -47,6 +51,7 @@ public class DataSetSubDocument implements DataSetSubDocumentProjection {
     this.dataAcquisitionProjectId = dataAcquisitionProjectId;
   }
 
+  @Override
   public I18nString getDescription() {
     return description;
   }
@@ -55,6 +60,7 @@ public class DataSetSubDocument implements DataSetSubDocumentProjection {
     this.description = description;
   }
 
+  @Override
   public I18nString getFormat() {
     return format;
   }
@@ -63,11 +69,21 @@ public class DataSetSubDocument implements DataSetSubDocumentProjection {
     this.format = format;
   }
 
+  @Override
   public Integer getNumber() {
     return number;
   }
 
   public void setNumber(Integer number) {
     this.number = number;
+  }
+
+  @Override
+  public I18nString getAnnotations() {
+    return annotations;
+  }
+
+  public void setAnnotations(I18nString annotations) {
+    this.annotations = annotations;
   }
 }

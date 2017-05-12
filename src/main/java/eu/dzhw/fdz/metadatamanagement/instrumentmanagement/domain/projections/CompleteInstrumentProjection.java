@@ -30,4 +30,6 @@ public interface CompleteInstrumentProjection extends AbstractRdcDomainObjectPro
   List<String> getSurveyIds();
   
   Integer getNumber();
+  
+  I18nString getAnnotations();
 }

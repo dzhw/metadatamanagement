@@ -33,6 +33,8 @@ public class StudySubDocument implements StudySubDocumentProjection {
   
   private String doi;
   
+  private I18nString annotations;
+  
   public StudySubDocument() {
     super();
   }
@@ -121,5 +123,14 @@ public class StudySubDocument implements StudySubDocumentProjection {
   
   public void setDoi(String doi) {
     this.doi = doi;
+  }
+
+  @Override
+  public I18nString getAnnotations() {
+    return annotations;
+  }
+
+  public void setAnnotations(I18nString annotations) {
+    this.annotations = annotations;
   }
 }

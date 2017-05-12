@@ -38,4 +38,6 @@ public interface CompleteDataSetProjection
   
   String getStudyId();
   
+  I18nString getAnnotations();
+  
 }

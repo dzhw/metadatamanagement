@@ -29,6 +29,8 @@ public class SurveySubDocument implements SurveySubDocumentProjection {
   
   private I18nString sample;
   
+  private I18nString annotations;
+  
   public SurveySubDocument() {
     super();
   }
@@ -38,6 +40,7 @@ public class SurveySubDocument implements SurveySubDocumentProjection {
     BeanUtils.copyProperties(projection, this);
   }
 
+  @Override
   public String getId() {
     return id;
   }
@@ -46,6 +49,7 @@ public class SurveySubDocument implements SurveySubDocumentProjection {
     this.id = id;
   }
 
+  @Override
   public String getDataAcquisitionProjectId() {
     return dataAcquisitionProjectId;
   }
@@ -54,6 +58,7 @@ public class SurveySubDocument implements SurveySubDocumentProjection {
     this.dataAcquisitionProjectId = dataAcquisitionProjectId;
   }
 
+  @Override
   public Integer getNumber() {
     return number;
   }
@@ -62,6 +67,7 @@ public class SurveySubDocument implements SurveySubDocumentProjection {
     this.number = number;
   }
 
+  @Override
   public I18nString getPopulation() {
     return population;
   }
@@ -70,6 +76,7 @@ public class SurveySubDocument implements SurveySubDocumentProjection {
     this.population = population;
   }
 
+  @Override
   public I18nString getSurveyMethod() {
     return surveyMethod;
   }
@@ -78,6 +85,7 @@ public class SurveySubDocument implements SurveySubDocumentProjection {
     this.surveyMethod = surveyMethod;
   }
 
+  @Override
   public I18nString getTitle() {
     return title;
   }
@@ -86,6 +94,7 @@ public class SurveySubDocument implements SurveySubDocumentProjection {
     this.title = title;
   }
 
+  @Override
   public Period getFieldPeriod() {
     return fieldPeriod;
   }
@@ -94,11 +103,21 @@ public class SurveySubDocument implements SurveySubDocumentProjection {
     this.fieldPeriod = fieldPeriod;
   }
 
+  @Override
   public I18nString getSample() {
     return sample;
   }
 
   public void setSample(I18nString sample) {
     this.sample = sample;
+  }
+
+  @Override
+  public I18nString getAnnotations() {
+    return annotations;
+  }
+
+  public void setAnnotations(I18nString annotations) {
+    this.annotations = annotations;
   }
 }

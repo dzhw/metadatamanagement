@@ -29,4 +29,6 @@ public interface StudySubDocumentProjection {
   List<Person> getAuthors();
   
   String getDoi();
+  
+  I18nString getAnnotations();
 }
