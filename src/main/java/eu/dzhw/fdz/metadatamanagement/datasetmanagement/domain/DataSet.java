@@ -70,6 +70,10 @@ public class DataSet extends AbstractRdcDomainObject {
   @ValidDataSetType(message = "data-set-management.error.data-set.type.valid-type")
   private I18nString type;
   
+  @I18nStringSize(max = StringLengths.LARGE,
+      message = "data-set-management.error.variable.annotations.i18n-string-size")
+  private I18nString annotations;
+  
   @NotEmpty(message = "data-set-management.error.data-set.survey-numbers.not-empty")
   private List<Integer> surveyNumbers;
   
@@ -157,6 +161,7 @@ public class DataSet extends AbstractRdcDomainObject {
       .add("studyId", studyId)
       .add("surveyIds", surveyIds)
       .add("subDataSets", subDataSets)
+      .add("annotations", annotations)
       .toString();
   }
 
@@ -198,5 +203,13 @@ public class DataSet extends AbstractRdcDomainObject {
 
   public void setStudyId(String studyId) {
     this.studyId = studyId;
+  }
+
+  public I18nString getAnnotations() {
+    return annotations;
+  }
+
+  public void setAnnotations(I18nString annotations) {
+    this.annotations = annotations;
   }
 }

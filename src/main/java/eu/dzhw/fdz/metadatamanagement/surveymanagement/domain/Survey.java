@@ -93,6 +93,10 @@ public class Survey extends AbstractRdcDomainObject {
   @Indexed
   @NotEmpty(message = "survey-management.error.survey.study-id.not-empty")
   private String studyId;
+  
+  @I18nStringSize(max = StringLengths.LARGE,
+      message = "variable-management.error.variable.annotations.i18n-string-size")
+  private I18nString annotations;
 
   public Survey() {
     super();
@@ -172,6 +176,7 @@ public class Survey extends AbstractRdcDomainObject {
       .add("responseRate", responseRate)
       .add("number", number)
       .add("studyId", studyId)
+      .add("annotations", annotations)
       .toString();
   }
 
@@ -228,5 +233,13 @@ public class Survey extends AbstractRdcDomainObject {
 
   public void setStudyId(String studyId) {
     this.studyId = studyId;
+  }
+
+  public I18nString getAnnotations() {
+    return annotations;
+  }
+
+  public void setAnnotations(I18nString annotations) {
+    this.annotations = annotations;
   }  
 }

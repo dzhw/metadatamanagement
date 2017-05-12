@@ -100,6 +100,10 @@ public class Study extends AbstractRdcDomainObject {
   
   @NotEmpty(message = "study-management.error.study.doi.not-empty")
   private String doi;
+  
+  @I18nStringSize(max = StringLengths.LARGE,
+      message = "study-management.error.variable.annotations.i18n-string-size")
+  private I18nString annotations;
 
   public Study() {
     super();
@@ -194,6 +198,7 @@ public class Study extends AbstractRdcDomainObject {
       .add("dataAvailability", dataAvailability)
       .add("surveyDesign", surveyDesign)
       .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
+      .add("annotations", annotations)
       .toString();
   }
   
@@ -227,5 +232,13 @@ public class Study extends AbstractRdcDomainObject {
 
   public void setDoi(String doi) {
     this.doi = doi;
+  }
+
+  public I18nString getAnnotations() {
+    return annotations;
+  }
+
+  public void setAnnotations(I18nString annotations) {
+    this.annotations = annotations;
   }
 }

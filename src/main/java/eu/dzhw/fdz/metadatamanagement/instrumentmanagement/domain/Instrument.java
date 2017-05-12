@@ -76,6 +76,10 @@ public class Instrument extends AbstractRdcDomainObject {
   @NotEmpty(message = "instrument-management.error.instrument.type.not-empty")
   @ValidInstrumentType(message = "instrument-management.error.instrument.type.valid")
   private String type;
+  
+  @I18nStringSize(max = StringLengths.LARGE,
+      message = "instrument-management.error.variable.annotations.i18n-string-size")
+  private I18nString annotations;
 
   @Indexed
   private List<String> surveyIds;
@@ -153,6 +157,7 @@ public class Instrument extends AbstractRdcDomainObject {
       .add("surveyIds", surveyIds)
       .add("surveyNumbers", surveyNumbers)
       .add("number", number)
+      .add("annotations", annotations)
       .add("studyId", studyId)
       .toString();
   }
@@ -188,5 +193,13 @@ public class Instrument extends AbstractRdcDomainObject {
 
   public void setStudyId(String studyId) {
     this.studyId = studyId;
+  }
+
+  public I18nString getAnnotations() {
+    return annotations;
+  }
+
+  public void setAnnotations(I18nString annotations) {
+    this.annotations = annotations;
   }
 }

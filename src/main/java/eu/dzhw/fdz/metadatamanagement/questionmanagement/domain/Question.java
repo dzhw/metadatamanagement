@@ -101,6 +101,10 @@ public class Question extends AbstractRdcDomainObject {
       message = "question-management.error.question.image-type.valid-question-image-type")
   private ImageType imageType;
   
+  @I18nStringSize(max = StringLengths.LARGE,
+      message = "question-management.error.variable.annotations.i18n-string-size")
+  private I18nString annotations;
+  
   @Valid
   private TechnicalRepresentation technicalRepresentation;
   
@@ -204,6 +208,7 @@ public class Question extends AbstractRdcDomainObject {
       .add("instrumentNumber", instrumentNumber)
       .add("successorNumbers", successorNumbers)
       .add("studyId", studyId)
+      .add("annotations", annotations)
       .toString();
   }
 
@@ -277,5 +282,13 @@ public class Question extends AbstractRdcDomainObject {
 
   public void setStudyId(String studyId) {
     this.studyId = studyId;
+  }
+
+  public I18nString getAnnotations() {
+    return annotations;
+  }
+
+  public void setAnnotations(I18nString annotations) {
+    this.annotations = annotations;
   }  
 }
