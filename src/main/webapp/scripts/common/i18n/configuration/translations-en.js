@@ -41,7 +41,8 @@ angular.module('metadatamanagementApp').config(
         },
         'dialog': {
           'tooltip': {
-            'close': 'Click to close the dialog'
+            'close': 'Click to close the dialog',
+            'closeDialogForEver':'Click to close the dialog forever'
           }
         },
         'toast': {
@@ -61,7 +62,9 @@ angular.module('metadatamanagementApp').config(
         'buttons': {
           'close': 'Close',
           'ok': 'OK',
-          'cancel': 'Cancel'
+          'cancel': 'Cancel',
+          'closeDialogForEver': 'Close forever!',
+          'closeDialogTemporarily': 'Not yet!'
         },
         'tooltips': {
           'create-project': 'Click to create a new Data Acquisition Project.',
