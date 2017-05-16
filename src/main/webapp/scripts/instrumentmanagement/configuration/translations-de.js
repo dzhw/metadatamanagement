@@ -71,7 +71,8 @@ angular.module('metadatamanagementApp').config(
             },
             'title': {
               'not-null': 'Der Titel des Instruments darf nicht leer sein!',
-              'i18n-string-size': 'Der Titel muss in beiden Sprachen angegeben werden und darf nicht länger als 128 Zeichen sein.'
+              'i18n-string-size': 'Der Titel darf nicht länger als 128 Zeichen sein.',
+              'i18n-string-not-empty': 'Der Titel muss in mind. einer Sprachen angegeben werden.'
             },
             'description': {
               'not-null': 'Die Beschreibung des Instruments darf nicht leer sein!',
@@ -116,7 +117,7 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-not-empty': 'Die Beschreibung darf nicht leer sein.'
             },
             'title': {
-              'string-size': 'Der Title des Attachments muss in beiden Sprachen angegeben werden und darf nicht länger als 128 Zeichen sein.'
+              'string-size': 'Der Title des Attachments darf nicht länger als 128 Zeichen sein.'
             },
             'language': {
               'not-null': 'Die Sprache des Attachments darf nicht leer sein.',
