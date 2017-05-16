@@ -166,21 +166,21 @@
                 <md-divider></md-divider>
             </li>
         </ul>
-        <div layout="column" layout-align="center center" flex>
-            <a id="bmbf-link" ng-href="{{currentLanguage==='de'?'https://www.bmbf.de/':'https://www.bmbf.de/en/index.html'}}" target="_blank">
-              <img ng-if="currentLanguage == 'de'" alt="{{'global.logos.bmbf-alt-text'|translate}}" src="./assets/images/BMBF_Logo_de.png" class="bmbf_logo"/>
-              <img ng-if="currentLanguage == 'en'" alt="{{'global.logos.bmbf-alt-text'|translate}}" src="./assets/images/BMBF_Logo_en.png" class="bmbf_logo"/>
-              <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                    {{'global.logos.bmbf-tooltip'|translate}}
-              </md-tooltip>
-            </a>
-            <a id="dzhw-link" ng-href="{{currentLanguage==='de'?'https://www.dzhw.eu/':'http://www.dzhw.eu/en/index_html'}}" target="_blank">
-              <img ng-if="currentLanguage == 'de'" alt="{{'global.logos.dzhw-alt-text'|translate}}" src="./assets/images/DZHW_Logo_de.svg" class="dzhw_logo"/>
-              <img ng-if="currentLanguage == 'en'" alt="{{'global.logos.dzhw-alt-text'|translate}}" src="./assets/images/DZHW_Logo_en.svg" class="dzhw_logo"/>
-              <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                  {{'global.logos.dzhw-tooltip'|translate}}
-              </md-tooltip>
-            </a>
-        </div>
+        <div layout="column" layout-align="center center" flex layout-padding>
+          <a id="dzhw-link" ng-href="{{currentLanguage==='de'?'https://www.dzhw.eu/':'http://www.dzhw.eu/en/index_html'}}" target="_blank">
+            <img ng-if="currentLanguage == 'de'" alt="{{'global.logos.dzhw-alt-text'|translate}}" src="./assets/images/DZHW_Logo_de.svg" class="dzhw_logo"/>
+            <img ng-if="currentLanguage == 'en'" alt="{{'global.logos.dzhw-alt-text'|translate}}" src="./assets/images/DZHW_Logo_en.svg" class="dzhw_logo"/>
+            <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+              {{'global.logos.dzhw-tooltip'|translate}}
+            </md-tooltip>
+         </a>
+         <a id="bmbf-link" ng-href="{{currentLanguage==='de'?'https://www.bmbf.de/':'https://www.bmbf.de/en/index.html'}}" target="_blank">
+           <img ng-if="currentLanguage == 'de'" alt="{{'global.logos.bmbf-alt-text'|translate}}" src="./assets/images/BMBF_Logo_de.png" class="bmbf_logo"/>
+           <img ng-if="currentLanguage == 'en'" alt="{{'global.logos.bmbf-alt-text'|translate}}" src="./assets/images/BMBF_Logo_en.png" class="bmbf_logo"/>
+           <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+              {{'global.logos.bmbf-tooltip'|translate}}
+           </md-tooltip>
+        </a>
+      </div>
     </md-content>
 </md-sidenav>
