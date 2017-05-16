@@ -72,7 +72,7 @@ angular.module('metadatamanagementApp').config(
             'title': {
               'not-null': 'Der Titel des Instruments darf nicht leer sein!',
               'i18n-string-size': 'Der Titel darf nicht länger als 128 Zeichen sein.',
-              'i18n-string-not-empty': 'Der Titel muss in mind. einer Sprachen angegeben werden.'
+              'i18n-string-not-empty': 'Der Titel muss in mind. einer Sprache angegeben werden.'
             },
             'description': {
               'not-null': 'Die Beschreibung des Instruments darf nicht leer sein!',

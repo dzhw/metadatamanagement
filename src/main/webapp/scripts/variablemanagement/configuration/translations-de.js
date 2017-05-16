@@ -23,7 +23,7 @@ angular.module('metadatamanagementApp').config(
             'duplicate-name': 'Der Name ({{ name }}) der {{ index }}. Variable aus Datensatz {{ dataSetNumber }} wurde bereits verwendet.',
             'distribution': {
               'histogram': {
-                'incomplete-histogram-information': 'Die Variable vom Skalenniveau Verhältnis mit dem Namen {{ variableName }} hat nicht alle Informationen für die Erzeugung eines Histrogram.'
+                'incomplete-histogram-information': 'Die Variable vom Skalenniveau Verhältnis mit dem Namen {{ variableName }} hat nicht alle Informationen für die Erzeugung eines Histrograms.'
               }
             }
           }

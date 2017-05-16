@@ -70,9 +70,9 @@ angular.module('metadatamanagementApp').config(
               'pattern': 'Use only alphanumeric signs, german umlauts, ß and space, underscore, exclamation sign and minus for the RDC-ID.'
             },
             'title': {
-              'not-null': 'The titel of the Instrument must not be empty!',
-              'i18n-string-size': 'The titel must not contain more than 128 characters.',
-              'i18n-string-not-empty': 'The titel is mandatory in one languages.'
+              'not-null': 'The title of the Instrument must not be empty!',
+              'i18n-string-size': 'The title must not contain more than 128 characters.',
+              'i18n-string-not-empty': 'The title is mandatory in one language.'
             },
             'description': {
               'not-null': 'The description of the Instrument must not be empty!',
