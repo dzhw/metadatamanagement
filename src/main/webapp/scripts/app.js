@@ -15,7 +15,7 @@ angular
 
 .run(
     function($rootScope, $location, $state, LanguageService, Auth, Principal,
-      ENV, VERSION, $mdMedia, $templateCache) {
+      ENV, VERSION, $mdMedia, $templateCache, $transitions) {
       $rootScope.bowser = bowser;
       $rootScope.ENV = ENV;
       $rootScope.VERSION = VERSION;
@@ -26,7 +26,6 @@ angular
           return this.indexOf(suffix, this.length - suffix.length) !== -1;
         };
       }
-
       //init the current language
       if ($location.path().indexOf('/en/') > -1) {
         LanguageService.setCurrent('en');
@@ -34,33 +33,65 @@ angular
         LanguageService.setCurrent('de');
       }
 
-      $rootScope.$on('$stateChangeStart',
-        function(event, toState, toStateParams) { // jshint ignore:line
-          $rootScope.toState = toState;
-          $rootScope.toStateParams = toStateParams;
-          if (Principal.isIdentityResolved()) {
-            Auth.authorize();
+      $transitions.onStart({}, function(trans) {
+        $rootScope.toState = trans.$to();
+        $rootScope.toStateParams = trans.params();
+        if (Principal.isIdentityResolved()) {
+          Auth.authorize();
+        }
+        // Update the language
+        LanguageService.setCurrent($rootScope.toStateParams.lang);
+        // an authenticated user can't access to login and
+        // register pages
+        if (Principal.isAuthenticated() &&
+          $rootScope.toState.parent === 'account' &&
+          ($rootScope.toState.name === 'login' ||
+            $rootScope.toState.name === 'register')) {
+          return trans.router.stateService.target('search',
+          {
+            lang: LanguageService.getCurrentInstantly()
+          });
+        }
+        if ($rootScope.toState.data.authorities &&
+          $rootScope.toState.data.authorities.length > 0 &&
+          !Principal.hasAnyAuthority(
+            $rootScope.toState.data.authorities)) {
+          if (!Principal.isAuthenticated()) {
+            // user is not authenticated. stow the state
+            // they wanted before you
+            // send them to the signin state, so you can
+            // return them when you're done
+            $rootScope.previousStateName =
+              $rootScope.toState.name;
+            $rootScope.previousStateParams =
+              $rootScope.toStateParams;
+            // now, send them to the signin state so they
+            // can log in
+            return trans.router.stateService.target('login',
+            {
+              lang: LanguageService.getCurrentInstantly()
+            });
           }
-          // Update the language
-          LanguageService.setCurrent(toStateParams.lang);
-        });
-      $rootScope.$on('$stateChangeSuccess',
-        function(event, toState, toParams, // jshint ignore:line
-          fromState, fromParams) {
-          $rootScope.toStateName = toState.name;
-          // Remember previous state unless we've been redirected to login or
-          // we've just
-          // reset the state memory after logout. If we're redirected to
-          // login, our
-          // previousState is already set in the authExpiredInterceptor. If
-          // we're going
-          // to login directly, we don't want to be sent to some previous
-          // state anyway
-          if (toState.name !== 'login' && $rootScope.previousStateName) {
-            $rootScope.previousStateName = fromState.name;
-            $rootScope.previousStateParams = fromParams;
-          }
-        });
+        }
+      });
+
+      $transitions.onSuccess({}, function(trans) {
+        $rootScope.toStateName = trans.$to().name;
+        // Remember previous state unless we've been redirected to login or
+        // we've just
+        // reset the state memory after logout. If we're redirected to
+        // login, our
+        // previousState is already set in the authExpiredInterceptor. If
+        // we're going
+        // to login directly, we don't want to be sent to some previous
+        // state anyway
+        if ($rootScope.toStateName !== 'login' &&
+        $rootScope.previousStateName) {
+          $rootScope.previousStateName = trans.$from().name;
+          $rootScope.previousStateParams = trans.$from().params;
+        }
+      });
+
       $rootScope.back = function() {
         // If previous state is 'activate' or do not exist go to 'search'
         if ($rootScope.previousStateName === 'activate' ||
