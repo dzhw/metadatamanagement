@@ -156,6 +156,15 @@
                 </md-button>
                 <md-divider></md-divider>
             </li>
+            <li class="fdz-navbar-menu">
+                <md-button ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" href="https://github.com/dzhw/metadatamanagement/issues/new" target="_blank">
+                    <span data-translate="global.navbar-feedback.title">Feedback</span>
+                    <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                        {{'global.tooltips.navbar-feedback'|translate}}
+                    </md-tooltip>
+                </md-button>
+                <md-divider></md-divider>
+            </li>
         </ul>
         <div layout="column" layout-align="center center" flex>
             <a id="bmbf-link" ng-href="{{currentLanguage==='de'?'https://www.bmbf.de/':'https://www.bmbf.de/en/index.html'}}" target="_blank">
