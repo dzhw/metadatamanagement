@@ -26,7 +26,7 @@
                     </div>
                     <div ng-if="searchResult.maxOfNumberOfObservations">
                       <span style="font-weight: bold;">{{'study-management.detail.data-set.maxNumberOfObservations' | translate }} <span katex>(max)</span>:&nbsp;</span>
-                        <span>{{searchResult.maxOfNumberOfObservations}}</span>
+                        <span>{{searchResult.maxOfNumberOfObservations | number: 0}}</span>
                     </div>
                 </div>
             </div>
