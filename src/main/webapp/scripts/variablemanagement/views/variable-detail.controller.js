@@ -16,8 +16,8 @@ angular.module('metadatamanagementApp')
       var currenLanguage = LanguageService.getCurrentInstantly();
       var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';
       PageTitleService.setPageTitle('variable-management.detail.title', {
-        label: result.label[currenLanguage] ? result.label[currenLanguage]
-          : result.label[secondLanguage],
+        label: result.label[currenLanguage] ? result.label[
+          currenLanguage] : result.label[secondLanguage],
         variableId: result.id
       });
       ToolbarHeaderService.updateToolbarHeader({
@@ -32,11 +32,12 @@ angular.module('metadatamanagementApp')
         'studyId': result.studyId,
         'studyIsPresent': CleanJSObjectService.
         isNullOrEmpty(result.study) ? false : true,
-        'projectId': result.dataAcquisitionProjectId});
+        'projectId': result.dataAcquisitionProjectId
+      });
       if (result.release || Principal.hasAuthority('ROLE_PUBLISHER')) {
         $scope.variable = result;
         if (!CleanJSObjectService.isNullOrEmpty($scope
-          .variable.distribution.missings) || !CleanJSObjectService
+            .variable.distribution.missings) || !CleanJSObjectService
           .isNullOrEmpty($scope.variable
             .distribution.validResponses)) {
           $scope.validResponsesOrMissingsAvailable = true;
@@ -44,35 +45,37 @@ angular.module('metadatamanagementApp')
         $scope.study = $scope.variable.study;
         $scope.dataSet = $scope.variable.dataSet;
         QuestionSearchService.countBy('variables.id', $scope.variable.id)
-        .then(function(questionsCount) {
-          $scope.counts.questionsCount = questionsCount.count;
-          if (questionsCount.count === 1) {
-            QuestionSearchService
-            .findByVariableId($scope.variable.id, ['number', 'instrumentNumber',
-            'questionText', 'id'])
-            .then(function(question) {
-              $scope.question = question.hits.hits[0]._source;
-            });
-          }
-        });
+          .then(function(questionsCount) {
+            $scope.counts.questionsCount = questionsCount.count;
+            if (questionsCount.count === 1) {
+              QuestionSearchService
+                .findByVariableId($scope.variable.id, ['number',
+                  'instrumentNumber',
+                  'questionText', 'id'
+                ])
+                .then(function(question) {
+                  $scope.question = question.hits.hits[0]._source;
+                });
+            }
+          });
         $scope.counts.surveysCount = $scope.variable.surveys.length;
         if ($scope.counts.surveysCount === 1) {
           $scope.survey = $scope.variable.surveys[0];
         }
         if ($scope.variable.panelIdentifier) {
           VariableSearchService
-          .countBy('panelIdentifier', $scope.variable.panelIdentifier)
-          .then(function(variablesInPanel) {
-            $scope.counts.variablesInPanel = variablesInPanel.count;
-          });
+            .countBy('panelIdentifier', $scope.variable.panelIdentifier)
+            .then(function(variablesInPanel) {
+              $scope.counts.variablesInPanel = variablesInPanel.count;
+            });
         } else {
           $scope.counts.variablesInPanel = 0;
         }
         $scope.counts.publicationsCount = $scope.variable
-        .relatedPublications.length;
+          .relatedPublications.length;
         if ($scope.counts.publicationsCount === 1) {
           $scope.relatedPublication = $scope.variable
-          .relatedPublications[0];
+            .relatedPublications[0];
         }
         if ($scope.variable.filterDetails) {
           html_beautify($scope.variable.filterDetails.expression); //jscs:ignore
@@ -82,7 +85,9 @@ angular.module('metadatamanagementApp')
         }
       } else {
         SimpleMessageToastService.openSimpleMessageToast(
-          'variable-management.detail.not-released-toast', {id: result.id}
+          'variable-management.detail.not-released-toast', {
+            id: result.id
+          }
         );
       }
     });
@@ -133,4 +138,16 @@ angular.module('metadatamanagementApp')
           $scope.variable.distribution.statistics.kurtosis != null);
     };
 
+    /* Display only a histogram if all data are available. */
+    $scope.drawDiagram = function() {
+      if ($scope.variable.distribution === undefined ||
+        $scope.variable.distribution.histogram === undefined ||
+        $scope.variable.distribution.histogram.numberOfBins === undefined ||
+        $scope.variable.distribution.histogram.start === undefined ||
+        $scope.variable.distribution.histogram.end === undefined) {
+        return false;
+      } else {
+        return true;
+      }
+    };
   });

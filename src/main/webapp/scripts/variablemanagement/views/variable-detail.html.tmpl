@@ -203,7 +203,7 @@
                </md-card-header-text>
              </md-card-header>
              <md-divider></md-divider>
-             <div id="diagramContainer">
+             <div id="diagramContainer" ng-if="drawDiagram()">
                <diagram distribution="variable.distribution" datatype="variable.dataType['en']" type="variable.scaleLevel[currentLanguage]" language="currentLanguage" ng-cloak></diagram>
              </div>
            </md-card>
