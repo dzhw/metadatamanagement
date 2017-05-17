@@ -127,7 +127,9 @@ angular.module('metadatamanagementApp')
     $scope.checkDispersionElements = function() {
       return $scope.variable.distribution != null &&
         $scope.variable.distribution.statistics != null &&
-        ($scope.variable.distribution.statistics.deviance != null);
+        ($scope.variable.distribution.statistics.standardDeviation != null ||
+          $scope.variable.distribution.statistics.meanDeviation != null ||
+          $scope.variable.distribution.statistics.deviance != null);
     };
 
     /* Show headline for Distribution, if one element is filled with data. */
