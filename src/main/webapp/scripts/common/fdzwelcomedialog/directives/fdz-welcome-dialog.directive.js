@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp').directive('fdzWelcomeDialog',
     return {
       restrict: 'E',
       link: function($scope) {
-          if (!localStorageService.get('closeDialogForEver')) {
+          if (!localStorageService.get('closeWelcomeDialogForever')) {
             // jscs:disable
             $mdDialog.show({
               template: '<md-dialog aria-label="Submitting Bugs and Feedback" md-autofocus>' +

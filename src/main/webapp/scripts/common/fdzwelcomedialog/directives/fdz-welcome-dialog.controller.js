@@ -3,7 +3,7 @@ angular.module('metadatamanagementApp').controller('FdzWelcomeDialogController',
   function($scope, $mdDialog, localStorageService, bowser) {
     $scope.bowser = bowser;
     $scope.closeDialogForEver = function() {
-      localStorageService.set('closeDialogForEver', true);
+      localStorageService.set('closeWelcomeDialogForever', true);
       $scope.closeDialog();
     };
     $scope.closeDialog = function() {
