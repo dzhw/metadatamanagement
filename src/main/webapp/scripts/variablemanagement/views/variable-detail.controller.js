@@ -137,17 +137,4 @@ angular.module('metadatamanagementApp')
         ($scope.variable.distribution.statistics.skewness != null ||
           $scope.variable.distribution.statistics.kurtosis != null);
     };
-
-    /* Display only a histogram if all data are available. */
-    $scope.drawDiagram = function() {
-      if ($scope.variable.distribution === undefined ||
-        $scope.variable.distribution.histogram === undefined ||
-        $scope.variable.distribution.histogram.numberOfBins === undefined ||
-        $scope.variable.distribution.histogram.start === undefined ||
-        $scope.variable.distribution.histogram.end === undefined) {
-        return false;
-      } else {
-        return true;
-      }
-    };
   });
