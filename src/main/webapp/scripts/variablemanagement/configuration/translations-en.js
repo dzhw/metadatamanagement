@@ -69,7 +69,7 @@ angular.module('metadatamanagementApp').config(
             'false': 'Minimize table of distribution'
           },
           'statistics': {
-            'graphics': 'Figure Frequencies/Distribution',
+            'graphics': 'Figure Frequencies/Distribution (valid responses)',
             'graphic-is-loading': 'is loading...',
             'graphic-is-not-available': 'No plotting available',
             'statistics': 'Descriptive Metrics',

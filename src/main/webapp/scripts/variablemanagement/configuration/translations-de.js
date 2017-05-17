@@ -69,7 +69,7 @@ angular.module('metadatamanagementApp').config(
             'false': 'Klicken, um den Inhaltsbereich der Häufigkeitstabelle zu minimieren'
           },
           'statistics': {
-            'graphics': 'Abbildung Häufigkeiten/Verteilung',
+            'graphics': 'Abbildung Häufigkeiten/Verteilung (gültige Werte)',
             'graphic-is-loading': 'wird geladen...',
             'graphic-is-not-available': 'Keine Grafische Darstellung Der Statistiken',
             'statistics': 'Deskriptive Maßzahlen',
