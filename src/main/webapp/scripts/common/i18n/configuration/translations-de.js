@@ -89,18 +89,18 @@ angular.module('metadatamanagementApp').config(
             'publication': 'Klicken, um die Publikation {{param}} anzuzeigen'
           },
           'welcomeDialog': {
-            'github': 'Klicken, um Feedback zu geben'
+            'github': 'Klicken, um Feedback zu geben oder einen Fehler zu melden'
           },
-          'navbar-feedback': 'Klicken, um Feedback zu geben'
+          'navbar-feedback': 'Klicken, um Feedback zu geben oder einen Fehler zu melden'
         },
         'welcomeDialog': {
-          'toolbar-head': 'Bugs und Feedback Einreichen',
+          'toolbar-head': 'Feedback geben oder Fehler melden',
           'content-head': 'Dies ist eine Pre-Release-Version von Metadata Management System.',
           'content-body-with': 'Mit',
           'content-body': 'können Sie Fehler und Verbesserungsvorschläge einreichen. Vielen Dank, dass Sie sich Zeit nehmen, um uns Feedback zu geben!'
         },
         'navbar-feedback': {
-          'title': 'Bugs und Feedback Einreichen'
+          'title': 'Feedback geben oder Fehler melden'
         },
         'menu': {
           'entities': {
