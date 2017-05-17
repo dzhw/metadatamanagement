@@ -196,7 +196,7 @@
     </div>
     <div layout="column" layout-gt-sm="row">
          <div flex-gt-sm="50" layout="column">
-           <md-card flex="auto" ng-if="validResponsesOrMissingsAvailable" class="fdz-reset-top-margin">
+           <md-card flex="auto" ng-if="validResponsesOrMissingsAvailable || !drawDiagram" class="fdz-reset-top-margin">
              <md-card-header>
                <md-card-header-text>
                  <h2 class="md-title">{{'variable-management.detail.statistics.graphics' | translate }}</h2>
@@ -209,7 +209,7 @@
            </md-card>
          </div>
          <div flex-gt-sm="50" layout="column">
-           <md-card flex="auto" class="fdz-reset-top-margin" ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm') && validResponsesOrMissingsAvailable }">
+           <md-card flex="auto" ng-if="variable.accessWays != 'not-accessible'" class="fdz-reset-top-margin" ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm') && validResponsesOrMissingsAvailable }">
              <md-card-header>
                <md-card-header-text>
                  <h2 class="md-title">{{'variable-management.detail.statistics.statistics' | translate }}</h2>
