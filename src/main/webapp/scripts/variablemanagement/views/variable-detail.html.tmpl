@@ -244,12 +244,6 @@
                   <div class="fdz-add-bottom-margin" ng-if="variable.distribution.statistics.standardDeviation != null">
                     {{'variable-management.detail.statistics.standardDeviation' | translate}} <span katex>(s)</span>: {{variable.distribution.statistics.standardDeviation | number:2}}
                   </div>
-                  <div class="fdz-add-bottom-margin" ng-if="variable.distribution.statistics.meanDeviation != null">
-                    {{'variable-management.detail.statistics.mean-deviation' | translate}} <span katex>(MAD)</span>: {{variable.distribution.statistics.meanDeviation | number:2}}
-                  </div>
-                  <div class="fdz-add-bottom-margin" ng-if="variable.distribution.statistics.deviance != null">
-                    {{'variable-management.detail.statistics.deviance' | translate}} <span katex>(d)</span>: {{variable.distribution.statistics.deviance | number:2}}
-                  </div>
                   <h3 style="font-size: 18px; margin-top: 1.0em; margin-bottom: 0.5em;" ng-if="checkDistributionElements()">
                     {{'variable-management.detail.distribution' | translate}}
                   </h3>

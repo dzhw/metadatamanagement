@@ -98,7 +98,7 @@ angular.module('metadatamanagementApp').config(
             'kurtosis': 'Kurtosis',
             'standardDeviation': 'Standard Deviation',
             'mode': 'Mode',
-            'deviance': 'Deviation',
+            'deviance': 'Deviance',
             'mean-deviation': 'Mean absolute Deviation'
           },
           'no-related-variables': 'No related Variables.',
