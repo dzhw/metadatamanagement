@@ -138,16 +138,15 @@ angular.module('metadatamanagementApp')
           $scope.variable.distribution.statistics.kurtosis != null);
     };
 
-    $scope.drawDiagram = function() {
-      if ($scope.variable.scaleLevel !== undefined &&
+    $scope.isDiagramVisible = function() {
+      if ($scope.variable.scaleLevel != null &&
         $scope.variable.scaleLevel.en === 'ratio' &&
         $scope.variable.scaleLevel.de === 'verhältnis') {
-        if ($scope.variable.distribution === undefined ||
-          $scope.variable.distribution.histogram === undefined ||
-          $scope.variable.distribution.histogram.numberOfBins ===
-          undefined ||
-          $scope.variable.distribution.histogram.start === undefined ||
-          $scope.variable.distribution.histogram.end === undefined) {
+        if ($scope.variable.distribution == null ||
+          $scope.variable.distribution.histogram == null ||
+          $scope.variable.distribution.histogram.numberOfBins == null ||
+          $scope.variable.distribution.histogram.start == null ||
+          $scope.variable.distribution.histogram.end == null) {
           return false;
         } else {
           return true;

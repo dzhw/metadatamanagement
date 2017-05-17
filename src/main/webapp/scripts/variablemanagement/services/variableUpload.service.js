@@ -60,15 +60,14 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
 
     var checkForHistogramOnRatioVariables = function(variableFromExcel,
       variableFromJson) {
-      if (variableFromJson.scaleLevel !== undefined &&
+      if (variableFromJson.scaleLevel != null &&
         variableFromJson.scaleLevel.en === 'ratio' &&
         variableFromJson.scaleLevel.de === 'verhältnis') {
-        if (variableFromJson.distribution === undefined ||
-          variableFromJson.distribution.histogram === undefined ||
-          variableFromJson.distribution.histogram.numberOfBins ===
-          null ||
-          variableFromJson.distribution.histogram.start === null ||
-          variableFromJson.distribution.histogram.end === null) {
+        if (variableFromJson.distribution == null ||
+          variableFromJson.distribution.histogram == null ||
+          variableFromJson.distribution.histogram.numberOfBins == null ||
+          variableFromJson.distribution.histogram.start == null ||
+          variableFromJson.distribution.histogram.end == null) {
           JobLoggingService.warning({
             message: 'variable-management.' +
               'log-messages.variable.distribution.histogram.' +
