@@ -55,6 +55,7 @@ angular.module('metadatamanagementApp').config(
             'accessWay': 'Access Way',
             'description': 'Description',
             'numberOfAnalyzedVariables': 'Analyzable Variables',
+            'unknownNumberOfAnalyzedVariables': 'Unknown',
             'numberOfAnalyzedVariables-tooltip': 'Click to show all analyzable variables of this sub data set',
             'numberOfObservations': 'Observations'
           },
