@@ -241,7 +241,8 @@ module.exports = function(grunt) {
             'Bad value “{{item.tooltip}}” for attribute “translate” on ' +
             'element “span”.',
             'Document uses the Unicode Private Use Area(s), which should not' +
-            ' be used in publicly exchanged documents. (Charmod C073)'
+            ' be used in publicly exchanged documents. (Charmod C073)',
+            'Attribute “flex” not allowed on element “span” at this point.'
           ],
           customattrs: [
             'show-validation',
