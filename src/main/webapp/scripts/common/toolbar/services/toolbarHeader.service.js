@@ -211,7 +211,7 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         surveyItem.tooltip = translationStringsMap.surveyDetail.
         translateStrings;
         surveyItem.numbers = surveys.length > 2 ? surveys[0].number +
-        ', ..., ' + surveys.length : surveys[0].number + ', ' +
+        ', ..., ' + _.last(surveys).number : surveys[0].number + ', ' +
         surveys[1].number;
       }
       if (surveys.length === 0) {
