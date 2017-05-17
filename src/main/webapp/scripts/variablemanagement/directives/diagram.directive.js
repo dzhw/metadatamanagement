@@ -84,7 +84,11 @@ angular.module('metadatamanagementApp').directive('diagram',
             scope.distribution.validResponses.forEach(function(obj) {
               var filteredText = $filter('variableDataType')(obj.value,
                 scope.datatype);
-              data[0].x.push(filteredText);
+              if (scope.datatype !== 'numeric') {
+                data[0].x.push(filteredText);
+              } else {
+                data[0].x.push(obj.value);
+              }
               try {
                 data[0].text.push(obj.label[scope.language]);
               } catch (e) {
