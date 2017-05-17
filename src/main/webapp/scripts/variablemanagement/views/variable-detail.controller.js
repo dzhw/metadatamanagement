@@ -137,4 +137,23 @@ angular.module('metadatamanagementApp')
         ($scope.variable.distribution.statistics.skewness != null ||
           $scope.variable.distribution.statistics.kurtosis != null);
     };
+
+    $scope.drawDiagram = function() {
+      if ($scope.variable.scaleLevel !== undefined &&
+        $scope.variable.scaleLevel.en === 'ratio' &&
+        $scope.variable.scaleLevel.de === 'verhältnis') {
+        if ($scope.variable.distribution === undefined ||
+          $scope.variable.distribution.histogram === undefined ||
+          $scope.variable.distribution.histogram.numberOfBins ===
+          undefined ||
+          $scope.variable.distribution.histogram.start === undefined ||
+          $scope.variable.distribution.histogram.end === undefined) {
+          return false;
+        } else {
+          return true;
+        }
+      } else {
+        return true;
+      }
+    };
   });
