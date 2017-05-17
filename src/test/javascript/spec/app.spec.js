@@ -69,7 +69,7 @@ describe('Specification for app ', function() {
       $rootScope.$apply();
       expect(LanguageService.getCurrentInstantly()).toBe('en');
     });
-    // should be changed, because we use $transitons
+    // TODO should be changed, because we use $transitons
     xdescribe('run functions', function() {
       xdescribe('on stateChangeStart', function() {
         it('should call stateChangeStart function', function() {
