@@ -40,6 +40,10 @@
                     <span style="font-weight: bold;">{{'survey-management.detail.responseRate' | translate }}:</span>
                     <span>{{ctrl.survey.responseRate | number}}%</span>
                   </div>
+                  <div class="fdz-add-bottom-margin" ng-if="ctrl.survey.annotations">
+                      <span style="font-weight: bold;">{{'survey-management.detail.annotations' | translate }}:</span>
+                      <span display-i18n-string="ctrl.survey.annotations"></span>
+                  </div>
                 </md-card-content>
             </md-card>
         </div>

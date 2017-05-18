@@ -20,6 +20,10 @@
                       <span style="font-weight: bold;">{{'instrument-management.detail.type' | translate }}:</span>
                       <span>{{ctrl.instrument.type}}</span>
                   </div>
+                  <div class="fdz-add-bottom-margin" ng-if="ctrl.instrument.annotations">
+                      <span style="font-weight: bold;">{{'instrument-management.detail.annotations' | translate }}:</span>
+                      <span display-i18n-string="ctrl.instrument.annotations"></span>
+                  </div>
                 </md-card-content>
             </md-card>
         </div>
