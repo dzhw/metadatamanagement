@@ -59,7 +59,7 @@ angular.module('metadatamanagementApp').config(
           'close': 'Schließen',
           'ok': 'OK',
           'cancel': 'Abbrechen',
-          'closeDialogForEver': 'Diesen hinweis nicht mehr anzeigen',
+          'closeDialogForEver': 'Diesen Hinweis nicht mehr anzeigen',
           'closeDialogTemporarily': 'Jetzt nicht!'
         },
         'tooltips': {
