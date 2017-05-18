@@ -184,7 +184,7 @@
                         <td display-i18n-string="row.description"></td>
                         <td>{{row.name}}&nbsp;</td>
                         <td><span ng-if="ctrl.counts.variablesCount == 0">{{'data-set-management.detail.sub-data-sets.unknownNumberOfAnalyzedVariables' | translate }}</span>
-                            <a ng-if="ctrl.counts.variablesCount != 0" ui-sref="search({'type': 'variables', 'data-set':ctrl.dataSet.id, 'page': 1, 'access-way': row.accessWay,'sort-by': 'indexInDataSet'})">
+                            <a ng-if="ctrl.counts.variablesCount > 0" ui-sref="search({'type': 'variables', 'data-set':ctrl.dataSet.id, 'page': 1, 'access-way': row.accessWay,'sort-by': 'indexInDataSet'})">
                           {{ctrl.counts[row.name] | number: 0}}&nbsp;<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                 {{'data-set-management.detail.sub-data-sets.numberOfAnalyzedVariables-tooltip' | translate}}
                             </md-tooltip></a>
