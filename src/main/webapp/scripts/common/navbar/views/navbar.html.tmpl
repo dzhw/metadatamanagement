@@ -14,7 +14,7 @@
         </md-button>
     </md-toolbar>
     <md-divider></md-divider>
-    <md-content ng-switch="isAuthenticated()" flex role="navigation">
+    <md-content ng-switch="isAuthenticated()" flex layout="column" role="navigation">
         <ul style="padding: 0px; margin: 0px;">
             <li class="fdz-navbar-menu">
                 <md-button lang="en" id="changeLanguageToEn" ng-click="changeLanguage('en')" ng-if="currentLanguage!='en'" class="fdz-navbar-button">
@@ -58,7 +58,8 @@
                 <md-divider></md-divider>
             </li>
             <li class="fdz-navbar-menu">
-                <md-button class="fdz-navbar-menu-toggle" ng-click="toggleAccountMenu()" aria-label="" id="account-menu-toggle">
+                <md-button class="fdz-navbar-menu-toggle" ng-click="toggleAccountMenu()" id="account-menu-toggle">
+                    <md-icon md-font-set="material-icons">supervisor_account</md-icon>
                     <span data-translate="global.menu.account.main"></span>
                     <md-icon ng-if="!isAccountMenuOpen" md-font-set="material-icons">keyboard_arrow_down</md-icon>
                     <md-icon ng-if="isAccountMenuOpen" md-font-set="material-icons">keyboard_arrow_up</md-icon>
@@ -109,6 +110,7 @@
                   <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                       {{'global.toolbar.buttons.administration-tooltip.' + isAdminMenuOpen | translate}}
                   </md-tooltip>
+                  <md-icon md-font-set="material-icons">vpn_key</md-icon>
                   <span data-translate="global.menu.admin.main"></span>
                   <md-icon ng-if="!isAdminMenuOpen" md-font-set="material-icons">keyboard_arrow_down</md-icon>
                   <md-icon ng-if="isAdminMenuOpen" md-font-set="material-icons">keyboard_arrow_up</md-icon>
@@ -159,6 +161,7 @@
             </li>
             <li class="fdz-navbar-menu">
                 <md-button ui-sref="disclosure" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
+                    <md-icon md-font-set="material-icons">mail_outline</md-icon>
                     <span data-translate="global.menu.disclosure">Disclosure</span>
                     <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                         {{'global.toolbar.buttons.disclosure-tooltip'|translate}}
@@ -167,7 +170,7 @@
                 <md-divider></md-divider>
             </li>
         </ul>
-        <div layout="column" layout-align="center center" flex layout-padding>
+        <div layout="column" style="margin: 1em;" layout-align="start center" flex layout-padding>
           <a id="dzhw-link" ng-href="{{currentLanguage==='de'?'https://www.dzhw.eu/':'http://www.dzhw.eu/en/index_html'}}" target="_blank">
             <img ng-if="currentLanguage == 'de'" alt="{{'global.logos.dzhw-alt-text'|translate}}" src="./assets/images/DZHW_Logo_de.svg" class="dzhw_logo"/>
             <img ng-if="currentLanguage == 'en'" alt="{{'global.logos.dzhw-alt-text'|translate}}" src="./assets/images/DZHW_Logo_en.svg" class="dzhw_logo"/>

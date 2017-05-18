@@ -12,7 +12,7 @@ angular.module('metadatamanagementApp').service('FdzWelcomeDialogService',
                 bowser: $rootScope.bowser
               },
               clickOutsideToClose: true,
-              closeTo: angular.element('#feedBackButton')
+              closeTo: '#feedBackButton'
             });
           }
         };

@@ -42,7 +42,7 @@ angular.module('metadatamanagementApp').config(
         'dialog': {
           'tooltip': {
             'close': 'Click to close the dialog',
-            'closeDialogForEver': 'Click to close the dialog forever'
+            'closeDialogForEver': 'Click to close this message forever'
           }
         },
         'toast': {
@@ -95,8 +95,8 @@ angular.module('metadatamanagementApp').config(
         },
         'welcomeDialog': {
           'toolbar-head': 'Give Feedback or report Bugs',
-          'content-head': 'This is a pre-release version of the Metadata Management System.',
-          'content-body-with': 'With',
+          'content-head': 'This is a pre-release version of our Metadata Management System.',
+          'content-body-with': 'On',
           'content-body': 'you can submit bugs and request enhancements. Thank you for taking the time to send us feedback!'
         },
         'navbar-feedback': {
