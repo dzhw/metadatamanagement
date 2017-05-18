@@ -23,7 +23,7 @@ angular.module('metadatamanagementApp').config(
             'duplicate-name': 'The name ({{ name }}) of Variable {{ index }} of Data Set {{ dataSetNumber }} has already been used.',
             'distribution': {
               'histogram': {
-                'incomplete-histogram-information': 'The variable with the scale level Ratio and the name {{ variableName }} has incomplete data for a histogram.'
+                'incomplete-histogram-information': 'The Variable {{ variableName }} of Data Set {{ dataSetName }} has the scalelevel "ratio" but there is not enough information for displaying a histogram.'
               }
             }
           }

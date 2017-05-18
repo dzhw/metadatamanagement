@@ -59,7 +59,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
     };
 
     var checkForHistogramOnRatioVariables = function(variableFromExcel,
-      variableFromJson) {
+      variableFromJson, dataSetName) {
       if (variableFromJson.scaleLevel != null &&
         variableFromJson.scaleLevel.en === 'ratio' &&
         variableFromJson.scaleLevel.de === 'verhältnis') {
@@ -73,7 +73,8 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
               'log-messages.variable.distribution.histogram.' +
               'incomplete-histogram-information',
             messageParams: {
-              variableName: variableFromExcel.name
+              variableName: variableFromExcel.name,
+              dataSetName: dataSetName
             }
           });
         }
@@ -91,7 +92,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
 
             //Check for Histogram at ratio variables
             checkForHistogramOnRatioVariables(variableFromExcel,
-              variableFromJson);
+              variableFromJson, dataSet.dataSetName);
 
             var variableResource = VariableBuilderService
               .buildVariable(variableFromExcel,
