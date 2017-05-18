@@ -279,7 +279,7 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-not-empty': 'Mindestens ein deutsches oder ein englisches Label muss angegeben werden!'
             },
             'annotations': {
-              'i18n-string-size': 'Die Maximallänge der Annotationen ist 2048 Zeichen.'
+              'i18n-string-size': 'Die Maximallänge der Anmerkungen ist 2048 Zeichen.'
             },
             'access-ways': {
               'not-empty': 'Die Liste der Zugangswege einer Variable benötigt mindest ein Element und darf nicht leer sein!',

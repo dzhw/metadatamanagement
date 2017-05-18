@@ -27,6 +27,7 @@ angular.module('metadatamanagementApp').config(
           'surveyDesign': 'Erhebungsdesign',
           'citationHint': 'Zitation',
           'instruments': 'Instrumente',
+          'annotations': 'Anmerkungen',
           'no-related-studies': 'Keine zugehörige Studien.',
           'related-studies': 'Zugehörige Studien',
           'available-data-products': 'Verfügbare Datenprodukte',
@@ -77,10 +78,10 @@ angular.module('metadatamanagementApp').config(
             'cancelled': 'Upload der Studie Abgebrochen!'
           },
           'study-attachment': {
-              'not-saved': 'Attachment "{{ id }}" wurde nicht gespeichert:',
-              'missing-filename': 'Das {{ index }}. Attachment hat keinen Dateinamen und wurde daher nicht gespeichert.',
-              'file-not-found': 'Die Datei {{ filename }} wurde nicht gefunden und wurde daher nicht gespeichert!'
-            }
+            'not-saved': 'Attachment "{{ id }}" wurde nicht gespeichert:',
+            'missing-filename': 'Das {{ index }}. Attachment hat keinen Dateinamen und wurde daher nicht gespeichert.',
+            'file-not-found': 'Die Datei {{ filename }} wurde nicht gefunden und wurde daher nicht gespeichert!'
+          }
         },
         'error': {
           'study': {
@@ -125,6 +126,9 @@ angular.module('metadatamanagementApp').config(
             'authors': {
               'not-empty': 'Die Liste der Autoren einer Studie benötigt mindestens ein Element und darf nicht leer sein!',
             },
+            'annotations': {
+              'i18n-string-size': 'Die Maximallänge der Anmerkungen ist 2048 Zeichen.'
+            },
             'data-acquisition-project': {
               'id': {
                 'not-empty': 'Die FDZ - ID des Projektes darf bei der Studie nicht leer sein!'
@@ -146,15 +150,15 @@ angular.module('metadatamanagementApp').config(
             'description': {
               'not-null': 'Die Beschreibung des Attachments darf nicht leer sein.',
               'i18n-string-size': 'Die Beschreibung muss in mindestens einer Sprache angegeben werden und darf nicht länger als 128 Zeichen sein.',
-              'i18n-string-not-empty':'Die Beschreibung darf nicht leer sein.'
+              'i18n-string-not-empty': 'Die Beschreibung darf nicht leer sein.'
             },
             'title': {
-                'string-size': 'Der Title des Attachments darf nicht länger als 128 Zeichen sein.'
-              },
+              'string-size': 'Der Title des Attachments darf nicht länger als 128 Zeichen sein.'
+            },
             'language': {
-                'not-null': 'Die Sprache des Attachments darf nicht leer sein.',
-                'not-supported': 'Die Sprache muss eine gültige zweibuchstabige Abkürzung gemäß ISO 639-1 sein.'
-              },
+              'not-null': 'Die Sprache des Attachments darf nicht leer sein.',
+              'not-supported': 'Die Sprache muss eine gültige zweibuchstabige Abkürzung gemäß ISO 639-1 sein.'
+            },
             'filename': {
               'not-empty': 'Der Dateiname des Attachments darf nicht leer sein.'
             }

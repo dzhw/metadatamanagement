@@ -12,7 +12,6 @@ angular.module('metadatamanagementApp').config(
             'missing-id': 'Question {{ index }} does not contain a RDC-ID and has not been saved!',
             'upload-terminated': 'Finished upload of {{ totalQuestions }} Questions and {{ totalImages }} Images with {{totalWarnings}} warnings and {{ totalErrors }} errors.',
             'unable-to-delete': 'The questions could not be deleted!',
-            'cancelled': 'Question upload cancelled!',
             'not-found-image-file': 'There is no image for the question "{{questionNumber}}" in Instrument {{instrument}}!',
             'unable-to-upload-image-file': 'Image file "{{ file }}" could not be uploaded!',
             'unable-to-read-image-file': 'Image file "{{ file }}" could not be read!',
@@ -29,6 +28,7 @@ angular.module('metadatamanagementApp').config(
           'title': 'Question {{ questionNumber }}: {{ instrumentDescription }} ({{ questionId }})',
           'question': 'Question',
           'questions': 'Questions',
+          'annotations': 'Annotations',
           'predecessors': 'Previous Questions in Questionnaire',
           'successors': 'Subsequent Questions in Questionnaire',
           'no-predecessors': 'No previous Questions in the Questionnaire',
@@ -63,7 +63,7 @@ angular.module('metadatamanagementApp').config(
               'one': 'Click to show the variable of this question',
               'many': 'Click to show all variables of this question'
             },
-            'studies':{
+            'studies': {
               'one': 'Click to show the study in which this question has been used'
             }
           }
@@ -115,6 +115,9 @@ angular.module('metadatamanagementApp').config(
             },
             'instrument-number': {
               'not-null': 'The Number of the Instrument must not be empty!'
+            },
+            'annotations': {
+              'i18n-string-size': 'The max length of the annotations is 2048 signs.'
             }
           },
           'technical-representation': {

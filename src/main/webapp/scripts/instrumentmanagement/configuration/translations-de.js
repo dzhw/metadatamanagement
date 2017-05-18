@@ -33,6 +33,7 @@ angular.module('metadatamanagementApp').config(
           'instrument-informations': 'Details zum Instrument',
           'title': 'Titel',
           'type': 'Typ',
+          'annotations': 'Anmerkungen',
           'related-information': 'Verbundene Objekte',
           'no-related-instruments': 'Keine zugehörige Instrumente.',
           'attachments': {
@@ -78,6 +79,9 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'Die Beschreibung des Instruments darf nicht leer sein!',
               'i18n-string-size': 'Die Beschreibung muss in beiden Sprachen angegeben werden und darf nicht länger als 128 Zeichen sein.',
               'i18n-string-not-empty': 'Die Beschreibung darf nicht leer sein.'
+            },
+            'annotations': {
+              'i18n-string-size': 'Die Maximallänge der Anmerkungen ist 2048 Zeichen.'
             },
             'type': {
               'not-empty': 'Der Typ des Instruments darf nicht leer sein!',

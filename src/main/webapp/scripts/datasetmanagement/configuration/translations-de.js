@@ -43,6 +43,7 @@ angular.module('metadatamanagementApp').config(
           'data-sets': 'Datensätze',
           'type': 'Typ',
           'format': 'Format',
+          'annotations': 'Anmerkungen',
           'data-set-informations': 'Datensatz Informationen',
           'related-information': 'Zugehörige Informationen',
           'data-set-same-study': 'Datensätze der gleichen Studie',
@@ -108,6 +109,9 @@ angular.module('metadatamanagementApp').config(
             },
             'description': {
               'i18n-string-size': 'Die Maximallänge der Datensatzbeschreibung ist 2048 Zeichen.'
+            },
+            'annotations': {
+              'i18n-string-size': 'Die Maximallänge der Anmerkungen ist 2048 Zeichen.'
             },
             'data-acquisition-project': {
               'id': {

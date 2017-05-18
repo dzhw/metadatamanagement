@@ -33,6 +33,7 @@ angular.module('metadatamanagementApp').config(
           'instrument-informations': 'Details for the Instrument',
           'title': 'Title',
           'type': 'Type',
+          'annotations': 'Annotations',
           'related-information': 'Related Objects',
           'no-related-instruments': 'No related Instruments.',
           'attachments': {
@@ -78,6 +79,9 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'The description of the Instrument must not be empty!',
               'i18n-string-size': 'The description is mandatory in both languages and must not contain more than 128 characters.',
               'i18n-string-not-empty': 'The description must not be empty!'
+            },
+            'annotations': {
+              'i18n-string-size': 'The max length of the annotations is 2048 signs.'
             },
             'type': {
               'not-empty': 'The type of the Instrument must not be empty!',

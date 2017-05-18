@@ -37,6 +37,7 @@ angular.module('metadatamanagementApp').config(
           'population': 'Grundgesamtheit',
           'survey-method': 'Erhebungsmethode',
           'sample': 'Stichprobe',
+          'annotations': 'Anmerkungen',
           'not-found': 'Die id {{id}} referenziert auf eine unbekannte Erhebung.',
           'not-found-references': 'Die id {{id}} hat keine Referenzen auf Erhebungen.',
           'no-related-surveys': 'Keine zugehörige Erhebungen.',
@@ -70,7 +71,7 @@ angular.module('metadatamanagementApp').config(
               'one': 'Klicken, um das bei dieser Erhebung verwendete Instrument anzuzeigen',
               'many': 'Klicken, um alle bei dieser Erhebung verwendeten Instrumente anzuzeigen'
             },
-            'studies':{
+            'studies': {
               'one': 'Klicken, um die Studie dieser Erhebung anzuzeigen'
             }
           }
@@ -121,6 +122,9 @@ angular.module('metadatamanagementApp').config(
             },
             'response-rate': {
               'not-null': 'Die Rücklaufquote der Erhebung darf nicht leer sein!'
+            },
+            'annotations': {
+              'i18n-string-size': 'Die Maximallänge der Anmerkungen ist 2048 Zeichen.'
             }
           },
           'survey-attachment-metadata': {

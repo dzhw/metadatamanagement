@@ -28,6 +28,7 @@ angular.module('metadatamanagementApp').config(
           'title': 'Frage {{ questionNumber }}: {{ instrumentDescription }} ({{ questionId }})',
           'question': 'Frage',
           'questions': 'Fragen',
+          'annotations': 'Anmerkungen',
           'predecessors': 'Vorangegangene Fragen im Fragebogen',
           'successors': 'Nachfolgende Fragen im Fragebogen',
           'no-predecessors': 'Keine vorangegangenen Fragen im Fragebogen',
@@ -62,7 +63,7 @@ angular.module('metadatamanagementApp').config(
               'one': 'Klicken, um die Variable dieser Frage anzuzeigen',
               'many': 'Klicken, um alle Variablen dieser Frage anzuzeigen'
             },
-            'studies':{
+            'studies': {
               'one': 'Klicken, um die Studie anzuzeigen, in der diese Frage verwendet wurde'
             }
           }
@@ -114,6 +115,9 @@ angular.module('metadatamanagementApp').config(
             },
             'instrument-number': {
               'not-null': 'Die Nummer des Instruments darf nicht leer sein.'
+            },
+            'annotations': {
+              'i18n-string-size': 'Die Maximallänge der Anmerkungen ist 2048 Zeichen.'
             }
           },
           'technical-representation': {

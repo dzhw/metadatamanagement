@@ -27,6 +27,7 @@ angular.module('metadatamanagementApp').config(
           'surveyDesign': 'Survey Design',
           'citationHint': 'Citation Hint',
           'instruments': 'Instruments',
+          'annotations': 'Annotations',
           'no-related-studies': 'No related Studies.',
           'related-studies': 'Related Studies',
           'available-data-products': 'Available Data Products',
@@ -125,6 +126,9 @@ angular.module('metadatamanagementApp').config(
             'authors': {
               'not-empty': 'The list of authors of a study needs min. one element and must not be empty!',
             },
+            'annotations': {
+              'i18n-string-size': 'The max length of the annotations is 2048 signs.'
+            },
             'data-acquisition-project': {
               'id': {
                 'not-empty': 'The RDC-ID of the Data Acquisition Project for the Study must not be empty!'
@@ -146,7 +150,7 @@ angular.module('metadatamanagementApp').config(
             'description': {
               'not-null': 'The description of the attachment must not be empty!',
               'i18n-string-size': 'The description is mandatory and must in at least one language and must not contain more than 128 characters.',
-              'i18n-string-not-empty':'The description must not be empty!'
+              'i18n-string-not-empty': 'The description must not be empty!'
             },
             'title': {
               'string-size': 'The title of the attachment must not contain more than 128 characters.'

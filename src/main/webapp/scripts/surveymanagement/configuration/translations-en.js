@@ -44,6 +44,7 @@ angular.module('metadatamanagementApp').config(
           'grossSampleSize': 'Gross Sample Size',
           'sampleSize': 'Net Sample Size',
           'responseRate': 'Response Rate',
+          'annotations': 'Annotations',
           'response-rate-informations': 'Further information about the Response Rate',
           'response-rate-informations-alt-text': 'Image to display further information about the response rate',
           'attachments': {
@@ -70,7 +71,7 @@ angular.module('metadatamanagementApp').config(
               'one': 'Click to show the instrument used by this survey',
               'many': 'Click to show all instruments used by this survey'
             },
-            'studies':{
+            'studies': {
               'one': 'Click to show the study of this survey'
             }
           }
@@ -121,6 +122,9 @@ angular.module('metadatamanagementApp').config(
             },
             'response-rate': {
               'not-null': 'The Response Rate of a Survey must not be empty!'
+            },
+            'annotations': {
+              'i18n-string-size': 'The max length of the annotations is 2048 signs.'
             }
           },
           'survey-attachment-metadata': {
@@ -136,7 +140,7 @@ angular.module('metadatamanagementApp').config(
             'description': {
               'not-null': 'The description of the attachment must not be empty!',
               'i18n-string-size': 'The description is mandatory and must in at least one language and must not contain more than 128 characters.',
-              'i18n-string-not-empty':'The description must not be empty!'
+              'i18n-string-not-empty': 'The description must not be empty!'
             },
             'title': {
               'not-null': 'The title of the attachment must not be empty!',

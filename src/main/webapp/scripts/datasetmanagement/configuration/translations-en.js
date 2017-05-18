@@ -43,6 +43,7 @@ angular.module('metadatamanagementApp').config(
           'data-sets': 'Data Sets',
           'type': 'Type',
           'format': 'Format',
+          'annotations': 'Annotations',
           'data-set-informations': 'Data Set Informations',
           'related-information': 'Related Information',
           'data-set-same-study': 'Data Sets of this Study',
@@ -108,6 +109,9 @@ angular.module('metadatamanagementApp').config(
             },
             'description': {
               'i18n-string-size': 'The max length of the description is 2048 signs.'
+            },
+            'annotations': {
+              'i18n-string-size': 'The max length of the annotations is 2048 signs.'
             },
             'data-acquisition-project': {
               'id': {
