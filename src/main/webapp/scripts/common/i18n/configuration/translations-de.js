@@ -59,7 +59,7 @@ angular.module('metadatamanagementApp').config(
           'close': 'Schließen',
           'ok': 'OK',
           'cancel': 'Abbrechen',
-          'closeDialogForEver': 'Für immer schließen!',
+          'closeDialogForEver': 'Diesen hinweis nicht mehr anzeigen',
           'closeDialogTemporarily': 'Jetzt nicht!'
         },
         'tooltips': {
@@ -100,7 +100,7 @@ angular.module('metadatamanagementApp').config(
           'content-body': 'können Sie Fehler und Verbesserungsvorschläge einreichen. Vielen Dank, dass Sie sich Zeit nehmen, um uns Feedback zu geben!'
         },
         'navbar-feedback': {
-          'title': 'Feedback geben oder Fehler melden'
+          'title': 'Feedback geben'
         },
         'menu': {
           'entities': {

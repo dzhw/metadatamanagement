@@ -43,6 +43,16 @@
                 </md-button>
                 <md-divider></md-divider>
             </li>
+            <li class="fdz-navbar-menu">
+              <md-button id="feedBackButton" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" href="https://github.com/dzhw/metadatamanagement/issues/new" target="_blank">
+                <md-icon md-svg-src="/assets/images/icons/github-circle.svg"></md-icon>
+                <span data-translate="global.navbar-feedback.title">Feedback</span>
+                <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                  {{'global.tooltips.navbar-feedback'|translate}}
+                </md-tooltip>
+              </md-button>
+              <md-divider></md-divider>
+            </li>
             <li class="fdz-navbar-menu" ng-switch-when="true" data-has-authority="ROLE_PUBLISHER">
                 <project-navbar-module></project-navbar-module>
                 <md-divider></md-divider>
@@ -146,16 +156,6 @@
                     </li>
                 </ul>
                 <md-divider></md-divider>
-            </li>
-            <li class="fdz-navbar-menu">
-              <md-button ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" href="https://github.com/dzhw/metadatamanagement/issues/new" target="_blank">
-                <md-icon md-svg-src="/assets/images/icons/github-circle.svg"></md-icon>
-                <span data-translate="global.navbar-feedback.title">Feedback</span>
-                <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                  {{'global.tooltips.navbar-feedback'|translate}}
-                </md-tooltip>
-              </md-button>
-              <md-divider></md-divider>
             </li>
             <li class="fdz-navbar-menu">
                 <md-button ui-sref="disclosure" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">

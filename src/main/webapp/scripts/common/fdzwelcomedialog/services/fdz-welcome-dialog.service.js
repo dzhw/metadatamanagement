@@ -1,3 +1,4 @@
+/* global document */
 'use strict';
 
 angular.module('metadatamanagementApp').service('FdzWelcomeDialogService',
@@ -11,7 +12,9 @@ angular.module('metadatamanagementApp').service('FdzWelcomeDialogService',
               locals: {
                 bowser: $rootScope.bowser
               },
-              clickOutsideToClose: true
+              clickOutsideToClose: true,
+              closeTo: angular.
+              element(document.querySelector('#feedBackButton')),
             });
           }
         };
