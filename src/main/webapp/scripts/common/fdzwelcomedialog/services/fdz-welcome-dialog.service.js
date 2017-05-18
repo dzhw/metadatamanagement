@@ -13,8 +13,8 @@ angular.module('metadatamanagementApp').service('FdzWelcomeDialogService',
                 bowser: $rootScope.bowser
               },
               clickOutsideToClose: true,
-              closeTo: angular.
-              element(document.querySelector('#feedBackButton')),
+              closeTo: angular.element(document.
+                querySelector('#feedBackButton')),
             });
           }
         };
