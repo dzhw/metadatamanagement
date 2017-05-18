@@ -56,23 +56,26 @@ angular.module('metadatamanagementApp').directive('createVariableLinks',
                       var textNodes = getTextNodesIn(element[0], false);
                       _.each(textNodes, function(textNode) {
                             var match;
-                            var toBeReplacedText = textNode.textContent;
                             var replacedText = textNode.textContent;
+                            var allreadyReplacedMatches = [];
                             /*jshint -W084 */
                             while (match = variableNameRegex.exec(
                                textNode.textContent)) {
                               /*jshint +W084 */
                               //if match in blacklist continue
                               if (match && !_.includes(keywords, match[0]) &&
-                              !_.includes(builtIns, match[0])) {
-                                toBeReplacedText = replacedText.replace(
+                              !_.includes(builtIns, match[0]) &&
+                              _.indexOf(allreadyReplacedMatches,
+                                match[0]) < 0) {
+                                replacedText = replacedText.replace(
                                   new RegExp('(' + match[0] + ')', 'g'),
                                   substitution);
+                                allreadyReplacedMatches.push(match[0]);
                               }
                             }
-                            if (toBeReplacedText !== textNode.textContent) {
+                            if (replacedText !== textNode.textContent) {
                               var newElement = angular.element('<span>' +
-                               toBeReplacedText + '</span>');
+                               replacedText + '</span>');
                               var compiledElement = $compile(newElement)(scope);
                               angular.element(textNode)
                               .replaceWith(compiledElement[0]);
