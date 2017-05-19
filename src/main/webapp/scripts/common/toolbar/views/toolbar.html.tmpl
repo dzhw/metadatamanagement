@@ -7,7 +7,6 @@
                 {{'global.toolbar.buttons.open-menu-tooltip' | translate}}
             </md-tooltip>
         </md-button>
-        <!-- wait until https://github.com/dzhw/metadatamanagement/issues/982 is worked-->
         <div layout="row" layout-align="start center" flex>
             <div ng-repeat="item in toolbarHeaderItems">
                 <md-button style="max-width: 250px;" ng-class="{'hide-xs': $mdMedia('xs') && !$first, 'hide-sm': $mdMedia('sm') && !$first, 'md-icon-button': $mdMedia('xs')}" class="md-primary md-raised fdz-toolbar-button" ng-if="!$last && !item.notFound" ui-sref="{{item.state}}">
