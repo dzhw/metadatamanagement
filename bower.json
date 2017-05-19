@@ -33,7 +33,7 @@
     "angular-block-ui": "^0.2.2",
     "lodash": "^4.17.4",
     "plotly.js": "^1.27.1",
-    "highlightjs": "^9.10.0",
+    "highlightjs": "^9.11.0",
     "angular-highlightjs": "^0.7.1",
     "js-beautify": "^1.6.14",
     "ngclipboard": "^1.1.1",
