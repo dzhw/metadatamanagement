@@ -1,13 +1,14 @@
 {
 	"name": "xlsx",
-	"version": "0.10.1",
+	"version": "0.10.3",
 	"author": "sheetjs",
-	"description": "Excel (XLSB/XLSX/XLSM/XLS/XML) and ODS (ODS/FODS/UOS) spreadsheet parser and writer",
-	"keywords": [ "excel", "xls", "xlsx", "xlsb", "xlsm", "ods", "office", "spreadsheet" ],
+	"description": "Excel (XLSB/XLSX/XLS/XML) ODS and other spreadsheet format (CSV/DIF/DBF/SYLK) parser and writer",
+	"keywords": [ "excel", "xls", "xlsx", "xlsb", "xlsm", "ods", "csv", "dbf", "dif", "sylk", "office", "spreadsheet" ],
 	"bin": {
 		"xlsx": "./bin/xlsx.njs"
 	},
 	"main": "./xlsx",
+	"types": "types",
 	"browser": {
 		"node": false,
 		"crypto": false,
@@ -17,7 +18,7 @@
 	},
 	"dependencies": {
 		"exit-on-epipe":"~1.0.0",
-		"ssf":"~0.9.2",
+		"ssf":"~0.9.3",
 		"codepage":"~1.8.0",
 		"cfb":"~0.11.1",
 		"crc-32":"~1.0.2",
@@ -27,12 +28,17 @@
 	"devDependencies": {
 		"mocha":"",
 		"xlsjs":"",
-		"uglify-js":""
+		"@sheetjs/uglify-js":"",
+		"@types/node":"",
+		"@types/commander":"",
+		"dtslint": "^0.1.2",
+		"typescript": "2.2.0"
 	},
 	"repository": { "type":"git", "url":"git://github.com/SheetJS/js-xlsx.git" },
 	"scripts": {
 		"pretest": "git submodule init && git submodule update",
-		"test": "make travis"
+		"test": "make travis",
+		"dtslint": "dtslint types"
 	},
 	"config": {
 		"blanket": {
