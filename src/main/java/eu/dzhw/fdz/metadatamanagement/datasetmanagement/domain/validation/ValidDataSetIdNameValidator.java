@@ -37,7 +37,7 @@ public class ValidDataSetIdNameValidator
     }
     
     return dataset.getId().equals("dat-" + dataset.getDataAcquisitionProjectId() + "-ds" 
-        + dataset.getNumber() + "!");
+        + dataset.getNumber() + "$");
   }
 
 }

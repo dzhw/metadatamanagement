@@ -98,7 +98,7 @@ angular.module('metadatamanagementApp').config(
             'survey-id': {
               'not-empty': 'The ID of the corresponding Survey must not be empty!'
             },
-            'valid-instrument-id-pattern': 'The RDC-ID of the Instrument is not valid for the Pattern: "ins-" + {DataAcquisitionProjectId} + "-" + "ins" + {Number} + "!".'
+            'valid-instrument-id-pattern': 'The RDC-ID of the Instrument is not valid for the Pattern: "ins-" + {DataAcquisitionProjectId} + "-" + "ins" + {Number} + "$".'
           },
           'instrument-attachment-metadata': {
             'instrument-id': {

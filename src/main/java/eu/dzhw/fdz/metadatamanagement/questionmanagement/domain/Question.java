@@ -49,7 +49,7 @@ public class Question extends AbstractRdcDomainObject {
   @JestId
   @NotEmpty(message = "question-management.error.question.id.not-empty")
   @Pattern(
-      regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOT_AND_EXCLAMATIONMARK,
+      regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOT_AND_DOLLAR,
       message = "question-management.error.question.id.pattern")
   @Size(max = StringLengths.MEDIUM, message = "question-management.error.question.id.size")
   private String id;

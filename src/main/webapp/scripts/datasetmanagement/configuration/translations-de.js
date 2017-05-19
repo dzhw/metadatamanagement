@@ -102,7 +102,7 @@ angular.module('metadatamanagementApp').config(
           'data-set': {
             'unique-data-set-number-in-project': 'Die Nummer des Datensatzes in innerhalb der Studie nicht eindeutig.',
             'id': {
-              'valid-data-set-id-name': 'Die FDZ-ID des Datensatzes entspricht nicht dem Muster: "dat-" + {FDZID} + "-ds" + {Number} + "!".',
+              'valid-data-set-id-name': 'Die FDZ-ID des Datensatzes entspricht nicht dem Muster: "dat-" + {FDZID} + "-ds" + {Number} + "$".',
               'not-empty': 'Die FDZ-ID des Datensatzes darf nicht leer sein!',
               'size': 'Die Maximallänge der FDZ-ID ist 128 Zeichen.',
               'pattern': 'Die FDZ-ID darf nur alphanumerische Zeichen, deutsche Umlaute, Ausrufezeichen und ß beinhalten.'

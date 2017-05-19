@@ -46,7 +46,7 @@ public class Study extends AbstractRdcDomainObject {
   @JestId
   @NotEmpty(message = "study-management.error.study.id.not-empty")
   @Size(max = StringLengths.MEDIUM, message = "study-management.error.study.id.size")
-  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_EXCLAMATIONMARK,
+  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOLLAR,
       message = "study-management.error.study.id.pattern")
   private String id;
   

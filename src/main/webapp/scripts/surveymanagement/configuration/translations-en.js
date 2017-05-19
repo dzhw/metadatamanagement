@@ -79,7 +79,7 @@ angular.module('metadatamanagementApp').config(
         'error': {
           'survey': {
             'id': {
-              'valid-survey-id-name': 'The RDC-ID of the Survey is not valid for the Pattern: "sur-" + {RDCID} + "-sy" + {Number} + "!".',
+              'valid-survey-id-name': 'The RDC-ID of the Survey is not valid for the Pattern: "sur-" + {RDCID} + "-sy" + {Number} + "$".',
               'not-empty': 'The RDC-ID of the Survey must not be empty!',
               'size': 'The max length of the RDC-ID is 128 signs.',
               'pattern': 'Use only alphanumeric signs, german umlauts, ß and space, underscore, excemation sign and minus for the RDC-ID.'

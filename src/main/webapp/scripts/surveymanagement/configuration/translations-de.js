@@ -79,7 +79,7 @@ angular.module('metadatamanagementApp').config(
         'error': {
           'survey': {
             'id': {
-              'valid-survey-id-name': 'Die FDZ-ID der Erhebung entspricht nicht dem Muster: "sur-" + {FDZID} + "-sy" + {Number} + "!".',
+              'valid-survey-id-name': 'Die FDZ-ID der Erhebung entspricht nicht dem Muster: "sur-" + {FDZID} + "-sy" + {Number} + "$".',
               'not-empty': 'Die FDZ-ID der Erhebung darf nicht leer sein!',
               'size': 'Die Maximallänge der FDZ-ID der Erhebung ist 128 Zeichen.',
               'pattern': 'Es dürfen für die FDZ-ID nur alphanumerische Zeichen, deutsche Umlaute, ß, Ausrufezeichen, Minus und der Unterstrich verwendet werden.'

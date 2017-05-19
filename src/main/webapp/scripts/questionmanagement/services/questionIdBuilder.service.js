@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp').service('QuestionIdBuilderService',
     var buildQuestionId = function(dataAcquisitionProjectId,
       instrumentNumber, questionNumber) {
       return 'que-' + dataAcquisitionProjectId + '-ins' + instrumentNumber +
-        '-' + questionNumber + '!';
+        '-' + questionNumber + '$';
     };
     return {
       buildQuestionId: buildQuestionId

@@ -102,7 +102,7 @@ angular.module('metadatamanagementApp').config(
           'data-set': {
             'unique-data-set-number-in-project': 'The number of the Data Set is not unique within the study.',
             'id': {
-              'valid-data-set-id-name': 'The RDC-ID of the Data Set is not valid for the Pattern: "dat-" + {FDZID} + "-ds" + {Number} + "!".',
+              'valid-data-set-id-name': 'The RDC-ID of the Data Set is not valid for the Pattern: "dat-" + {FDZID} + "-ds" + {Number} + "$".',
               'not-empty': 'The RDC-ID of the Data Set must not be empty!',
               'size': 'The max length of the RDC-ID is 128 signs.',
               'pattern': 'Use only alphanumeric signs, german umlauts, ß and space, underscore, exclamation sign and minus for the RDC-ID.'

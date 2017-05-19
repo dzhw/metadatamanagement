@@ -48,7 +48,7 @@ public class DataSet extends AbstractRdcDomainObject {
   @JestId
   @NotEmpty(message = "data-set-management.error.data-set.id.not-empty")
   @Size(max = StringLengths.MEDIUM, message = "data-set-management.error.data-set.id.size")
-  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_EXCLAMATIONMARK,
+  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOLLAR,
       message = "data-set-management.error.data-set.id.pattern")
   private String id;
   

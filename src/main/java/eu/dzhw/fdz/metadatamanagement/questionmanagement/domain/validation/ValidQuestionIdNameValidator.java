@@ -34,6 +34,6 @@ public class ValidQuestionIdNameValidator
     }
     
     return question.getId().equals("que-" + question.getDataAcquisitionProjectId() + "-ins" 
-            + question.getInstrumentNumber() + "-" + question.getNumber() + "!");
+            + question.getInstrumentNumber() + "-" + question.getNumber() + "$");
   }
 }

@@ -43,7 +43,7 @@ public class Survey extends AbstractRdcDomainObject {
   @NotEmpty(message = "survey-management.error.survey.id.not-empty")
   @Size(max = StringLengths.MEDIUM, message = "survey-management.error.survey.id.size")
   @Pattern(
-      regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOT_AND_EXCLAMATIONMARK,
+      regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOT_AND_DOLLAR,
       message = "survey-management.error.survey.id.pattern")
   private String id;
   

@@ -98,7 +98,7 @@ angular.module('metadatamanagementApp').config(
             'survey-id': {
               'not-empty': 'Die ID der zugehörigen Erhebung darf nicht leer sein!'
             },
-            'valid-instrument-id-pattern': 'Die FDZ-ID des Instruments hat nicht die folgende Form: "ins-" + {ProjektId} + "-" + "ins" + {Nummer} + "!" .'
+            'valid-instrument-id-pattern': 'Die FDZ-ID des Instruments hat nicht die folgende Form: "ins-" + {ProjektId} + "-" + "ins" + {Nummer} + "$" .'
           },
           'instrument-attachment-metadata': {
             'instrument-id': {

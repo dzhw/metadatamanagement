@@ -40,7 +40,7 @@ public class ValidVariableIdNameValidator
 
     return variable.getId()
       .equals("var-" + variable.getDataAcquisitionProjectId() + "-ds" + variable.getDataSetNumber()
-      + "-" + variable.getName() + "!");
+      + "-" + variable.getName() + "$");
   }
 
 }

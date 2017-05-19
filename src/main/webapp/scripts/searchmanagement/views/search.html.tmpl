@@ -35,6 +35,13 @@
             <ul template-url="custom-uib-pager-template" uib-pagination next-text="{{'global.pagination.next'|translate}}" previous-text="{{'global.pagination.previous'|translate}}" total-items="pageObject.totalHits" ng-model="pageObject.page" max-size="5" ng-change="onPageChanged()" items-per-page="pageObject.size"
                 class="pagination-sm"></ul>
         </div>
+        <div ng-if="pageObject.totalHits === 0 && !isSearching">
+          <md-card>
+            <md-card-content>
+              <p>{{tabs[searchParams.selectedTabIndex].noResultsText|translate}}</p>
+            </md-card-content>
+          </md-card>
+        </div>
     </div>
     <div ng-switch-when="true" data-has-authority="ROLE_PUBLISHER" class="fdz-fab-button-container" layout="column">
         <md-button class="md-primary md-fab" ng-click="refresh()" style="margin-bottom: 1em;">

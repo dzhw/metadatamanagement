@@ -89,7 +89,7 @@ angular.module('metadatamanagementApp').config(
               'not-empty': 'The RDC-ID of the Study must not be empty!',
               'size': 'The max length of the RDC-ID is 128 signs.',
               'pattern': 'Use only alphanumeric signs, german umlauts, ß and space, underscore, exclamation mark and minus for the RDC-ID.',
-              'not-valid-id': 'The study id must be equal to the id scheme "stu-" + {ProjectId} + "!" .'
+              'not-valid-id': 'The study id must be equal to the id scheme "stu-" + {ProjectId} + "$" .'
             },
             'title': {
               'not-null': 'The title of the study must not be empty!',

@@ -74,8 +74,8 @@ public class SurveyResponseRateImageService {
    * @return The name of a response rate image in german. 
    */
   private String getResponseRateFileNameGerman(String surveyId) {
-    String[] surveyNumberWithExclamationMark = surveyId.split("-sy");
-    String[] surveyNumber = surveyNumberWithExclamationMark[1].split("!");
+    String[] surveyNumberWithDollar = surveyId.split("-sy");
+    String[] surveyNumber = surveyNumberWithDollar[1].split("\\$");
     return surveyNumber[0] + "_responserate_de.svg";
   }
   
@@ -84,8 +84,8 @@ public class SurveyResponseRateImageService {
    * @return The name of a response rate image in english.
    */
   private String getResponseRateFileNameEnglish(String surveyId) {
-    String[] surveyNumberWithExclamationMark = surveyId.split("-sy");
-    String[] surveyNumber = surveyNumberWithExclamationMark[1].split("!");
+    String[] surveyNumberWithDollar = surveyId.split("-sy");
+    String[] surveyNumber = surveyNumberWithDollar[1].split("\\$");
     return surveyNumber[0] + "_responserate_en.svg";
   }
   

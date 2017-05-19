@@ -35,7 +35,7 @@ public class ValidInstrumentIdPatternValidator
     }
 
     return instrument.getId().equals("ins-" + instrument.getDataAcquisitionProjectId() + "-ins"
-        + instrument.getNumber() + "!");
+        + instrument.getNumber() + "$");
   }
 
 }

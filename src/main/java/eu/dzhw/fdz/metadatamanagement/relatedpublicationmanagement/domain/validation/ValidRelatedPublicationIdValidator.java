@@ -31,6 +31,6 @@ public class ValidRelatedPublicationIdValidator implements
   public boolean isValid(RelatedPublication relatedPublication, 
       ConstraintValidatorContext context) {
     
-    return relatedPublication.getId().matches("^pub\\-.*\\!$");
+    return relatedPublication.getId().matches("^pub\\-.*\\$$");
   }
 }

@@ -330,7 +330,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       acceptedFileUploadType: null,
       uploadFunction: null,
       disabled: false,
-      visibleForPublicUser: false
+      visibleForPublicUser: false,
+      noResultsText: 'search-management.no-results-text.all'
     }, {
       title: 'search-management.tabs.studies',
       inputLabel: 'search-management.input-label.studies',
@@ -339,7 +340,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       count: null,
       uploadFunction: $scope.uploadStudy,
       disabled: false,
-      visibleForPublicUser: true
+      visibleForPublicUser: true,
+      noResultsText: 'search-management.no-results-text.studies'
     }, {
       title: 'search-management.tabs.surveys',
       inputLabel: 'search-management.input-label.surveys',
@@ -348,7 +350,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       count: null,
       uploadFunction: $scope.uploadSurveys,
       disabled: false,
-      visibleForPublicUser: true
+      visibleForPublicUser: true,
+      noResultsText: 'search-management.no-results-text.surveys'
     }, {
       title: 'search-management.tabs.instruments',
       inputLabel: 'search-management.input-label.instruments',
@@ -357,7 +360,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       count: null,
       uploadFunction: $scope.uploadInstruments,
       disabled: false,
-      visibleForPublicUser: true
+      visibleForPublicUser: true,
+      noResultsText: 'search-management.no-results-text.instruments'
     }, {
       title: 'search-management.tabs.questions',
       inputLabel: 'search-management.input-label.questions',
@@ -366,7 +370,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       count: null,
       uploadFunction: $scope.uploadQuestions,
       disabled: false,
-      visibleForPublicUser: true
+      visibleForPublicUser: true,
+      noResultsText: 'search-management.no-results-text.questions'
     }, {
       title: 'search-management.tabs.data_sets',
       inputLabel: 'search-management.input-label.data-sets',
@@ -375,7 +380,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       count: null,
       uploadFunction: $scope.uploadDataSets,
       disabled: false,
-      visibleForPublicUser: true
+      visibleForPublicUser: true,
+      noResultsText: 'search-management.no-results-text.data-sets'
     }, {
       title: 'search-management.tabs.variables',
       inputLabel: 'search-management.input-label.variables',
@@ -384,7 +390,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       count: null,
       uploadFunction: $scope.uploadVariables,
       disabled: false,
-      visibleForPublicUser: true
+      visibleForPublicUser: true,
+      noResultsText: 'search-management.no-results-text.variables'
     }, {
       title: 'search-management.tabs.related_publications',
       inputLabel: 'search-management.input-label.related-publications',
@@ -393,7 +400,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       count: null,
       uploadFunction: $scope.uploadRelatedPublications,
       disabled: false,
-      visibleForPublicUser: true
+      visibleForPublicUser: true,
+      noResultsText: 'search-management.no-results-text.related-publications'
     }];
 
     $scope.hideMobileKeyboard = function($event) {

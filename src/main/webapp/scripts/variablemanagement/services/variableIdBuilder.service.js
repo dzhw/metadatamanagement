@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp').service('VariableIdBuilderService',
     var buildVariableId = function(dataAcquisitionProjectId, dataSetName,
       variableName) {
       return 'var-' + dataAcquisitionProjectId + '-ds' + dataSetName +
-        '-' + variableName + '!';
+        '-' + variableName + '$';
     };
     return {
       buildVariableId: buildVariableId
