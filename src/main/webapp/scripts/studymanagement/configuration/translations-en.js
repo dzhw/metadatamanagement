@@ -22,7 +22,7 @@ angular.module('metadatamanagementApp').config(
           'authors': 'Authors',
           'sponsors': 'Sponsored by',
           'not-yet-released': 'Not yet released',
-          'version': 'Version',
+          'version': 'Version of Data Sets',
           'notes': 'Botes',
           'surveyDesign': 'Survey Design',
           'citationHint': 'Citation Hint',

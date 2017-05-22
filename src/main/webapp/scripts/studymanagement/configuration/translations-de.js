@@ -22,7 +22,7 @@ angular.module('metadatamanagementApp').config(
           'authors': 'Projektmitarbeiter(innen)',
           'sponsors': 'Gefördert von',
           'not-yet-released': 'Noch nicht freigegeben',
-          'version': 'Version',
+          'version': 'Version der Datensätze',
           'notes': 'Notizen',
           'surveyDesign': 'Erhebungsdesign',
           'citationHint': 'Zitation',
