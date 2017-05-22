@@ -30,6 +30,10 @@ angular.module('metadatamanagementApp').service('SurveyBuilderService',
             en: data['surveyMethod.en'],
             de: data['surveyMethod.de']
           },
+          annotations: {
+            en: data['annotations.en'],
+            de: data['annotations.de']
+          },
           grossSampleSize: data.grossSampleSize,
           sampleSize: data.sampleSize,
           responseRate: data.responseRate
