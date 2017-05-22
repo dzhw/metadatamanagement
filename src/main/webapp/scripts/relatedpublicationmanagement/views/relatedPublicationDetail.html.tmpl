@@ -208,7 +208,7 @@
             </md-card>
         </div>
     </div>
-    <div layout="row">
+    <div ng-if="ctrl.relatedPublication.publicationAbstract" layout="row">
         <md-card flex class="fdz-reset-top-margin">
             <md-card-header layout-align="center center">
                 <md-card-header-text>
@@ -217,7 +217,7 @@
             </md-card-header>
             <md-divider></md-divider>
             <md-card-content>
-                <div class="fdz-add-bottom-margin" ng-if="ctrl.relatedPublication.publicationAbstract">
+                <div class="fdz-add-bottom-margin">
                     <span lang="{{ctrl.relatedPublication.language}}">{{ctrl.relatedPublication.publicationAbstract}}</span>
                 </div>
                 <div class="fdz-add-bottom-margin" ng-if="ctrl.relatedPublication.abstractSource">
