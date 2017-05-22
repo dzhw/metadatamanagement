@@ -20,6 +20,10 @@
                         <span style="font-weight: bold;">{{'data-set-management.detail.format' | translate }}:</span>
                         <span display-i18n-string="ctrl.dataSet.format"></span>
                     </div>
+                    <div class="fdz-add-bottom-margin" ng-if="ctrl.dataSet.annotations">
+                        <span style="font-weight: bold;">{{'data-set-management.detail.annotations' | translate }}:</span>
+                        <span display-i18n-string="ctrl.dataSet.annotations"></span>
+                    </div>
                 </md-card-content>
             </md-card>
         </div>
@@ -136,10 +140,6 @@
                                 </md-tooltip>
                             </a>
                         </div>
-                    </div>
-                    <div class="fdz-add-bottom-margin" ng-if="ctrl.dataSet.annotations">
-                        <span style="font-weight: bold;">{{'data-set-management.detail.annotations' | translate }}:</span>
-                        <span display-i18n-string="ctrl.dataSet.annotations"></span>
                     </div>
                 </md-card-content>
             </md-card>

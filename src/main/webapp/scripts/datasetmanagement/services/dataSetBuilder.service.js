@@ -22,6 +22,10 @@ angular.module('metadatamanagementApp').service('DataSetBuilderService',
           en: dataSet['description.en'],
           de: dataSet['description.de']
         },
+        annotations: {
+          en: dataSet['annotations.en'],
+          de: dataSet['annotations.de']
+        },
         number: dataSet.number,
         surveyNumbers: (dataSet.surveyNumbers + '').
         split(','),
