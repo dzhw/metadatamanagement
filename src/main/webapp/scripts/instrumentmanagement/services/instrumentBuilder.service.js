@@ -20,6 +20,10 @@ angular.module('metadatamanagementApp').service('InstrumentBuilderService',
           en: instrumentFromExcel['description.en'],
           de: instrumentFromExcel['description.de']
         },
+        annotations: {
+          en: instrumentFromExcel['annotations.en'],
+          de: instrumentFromExcel['annotations.de']
+        },
         type: instrumentFromExcel.type,
         surveyNumbers: (instrumentFromExcel.surveyNumbers + '').split(
           ','),
