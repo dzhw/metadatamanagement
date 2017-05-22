@@ -24,8 +24,8 @@
                         <span style="font-weight: bold;">{{'study-management.detail.authors' | translate }}:</span>
                         <span ng-repeat="author in ctrl.study.authors">
                           <span>{{author.lastName}}, </span>
-                          <span ng-if="author.middleName === undefined"> {{author.firstName}};</span>
-                          <span ng-if="author.middleName !== undefined"> {{author.firstName}}  {{author.middleName}};</span>
+                          <span ng-if="author.middleName === undefined"> {{author.firstName}}{{!$last?';':''}}</span>
+                          <span ng-if="author.middleName !== undefined"> {{author.firstName}}  {{author.middleName}}{{!$last?';':''}}</span>
                         </span>
                     </div>
                     <div class="fdz-add-bottom-margin" ng-if="ctrl.study.sponsor">
