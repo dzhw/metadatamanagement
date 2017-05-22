@@ -40,6 +40,10 @@ angular.module('metadatamanagementApp').service('StudyBuilderService',
           en: studyFromExcel['surveyDesign.en'],
           de: studyFromExcel['surveyDesign.de']
         },
+        annotations: {
+          en: studyFromExcel['annotations.en'],
+          de: studyFromExcel['annotations.de']
+        },
         authors: authors,
         dataAcquisitionProjectId: dataAcquisitionProjectId,
         doi: '10.5072/DZHW:' + dataAcquisitionProjectId
