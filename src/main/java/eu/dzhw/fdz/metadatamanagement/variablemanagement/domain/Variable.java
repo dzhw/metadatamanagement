@@ -34,7 +34,6 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.Stati
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.StatisticsMinimumMustBeAnIsoDateOnDateDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.StatisticsThirdQuartileMustBeANumberOnNumericDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.StatisticsThirdQuartileMustBeAnIsoDateOnDateDataType;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.UniqueVariableIndexInDataSet;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.UniqueVariableNameInDataSet;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidAccessWays;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidDataType;
@@ -66,8 +65,6 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @ValidVariableIdentifier(message = "variable-management.error.variable.valid-identifier")
 @UniqueVariableNameInDataSet(message = "variable-management.error."
     + "variable.unique-variable-name-in-data-set")
-@UniqueVariableIndexInDataSet(message = "variable-management.error."
-    + "variable.unique-variable-index-in-dataSet")
 @OnlyOrdinalScaleLevelForDateDataType(
     message = "variable-management.error.variable.only-ordinal-scale-level-for-date-data-type")
 
