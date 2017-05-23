@@ -26,6 +26,7 @@ angular.module('metadatamanagementApp')
               });
           });
       }).catch(function() {
+        delete project.release;
         SimpleMessageToastService.openSimpleMessageToast(
           i18nPrefix + 'dara-released-not-successfully', {
             id: project.id
