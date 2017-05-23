@@ -15,7 +15,7 @@ angular
 
 .run(
     function($rootScope, $location, $state, LanguageService, Auth, Principal,
-      ENV, VERSION, $mdMedia, $templateCache, $transitions) {
+      ENV, VERSION, $mdMedia, $templateCache, $transitions, $timeout) {
       $rootScope.bowser = bowser;
       $rootScope.ENV = ENV;
       $rootScope.VERSION = VERSION;
@@ -53,25 +53,28 @@ angular
           });
         }
         if ($rootScope.toState.data.authorities &&
-          $rootScope.toState.data.authorities.length > 0 &&
-          !Principal.hasAnyAuthority(
-            $rootScope.toState.data.authorities)) {
-          if (!Principal.isAuthenticated()) {
-            // user is not authenticated. stow the state
-            // they wanted before you
-            // send them to the signin state, so you can
-            // return them when you're done
-            $rootScope.previousStateName =
+          $rootScope.toState.data.authorities.length > 0) {
+          // wait for initialization of Principal Service
+          $timeout(function() {
+            if (!Principal.hasAnyAuthority(
+                $rootScope.toState.data.authorities) ||
+                !Principal.isAuthenticated()) {
+              // user is not authenticated. store the state
+              // they wanted before you
+              // send them to the signin state, so you can
+              // return them when you're done
+              $rootScope.previousStateName =
               $rootScope.toState.name;
-            $rootScope.previousStateParams =
+              $rootScope.previousStateParams =
               $rootScope.toStateParams;
-            // now, send them to the signin state so they
-            // can log in
-            return trans.router.stateService.target('login',
-            {
-              lang: LanguageService.getCurrentInstantly()
-            });
-          }
+              // now, send them to the signin state so they
+              // can log in
+              $state.go('login',
+              {
+                lang: LanguageService.getCurrentInstantly()
+              });
+            }
+          }, 1000);
         }
       });
 

@@ -46,14 +46,14 @@ angular.module('metadatamanagementApp').config(
           'instruments': 'Suchen Sie nach Instrumenten...'
         },
         'no-results-text': {
-          'all': 'Keine Ergebnisse zu ihrer Suchanfrage gefunden.',
-          'variables': 'Keine Variablen zu ihrer Suchanfrage gefunden.',
-          'questions': 'Keine Fragen zu ihrer Suchanfrage gefunden.',
-          'surveys': 'Keine Erhebungen zu ihrer Suchanfrage gefunden.',
-          'data-sets': 'Keine Datensätze zu ihrer Suchanfrage gefunden.',
-          'studies': 'Keine Studien zu ihrer Suchanfrage gefunden.',
-          'related-publications': 'Keine Publikationen zu ihrer Suchanfrage gefunden.',
-          'instruments': 'Keine Instrumente zu ihrer Suchanfrage gefunden.'
+          'all': 'Keine Ergebnisse zu Ihrer Suchanfrage gefunden.',
+          'variables': 'Keine Variablen zu Ihrer Suchanfrage gefunden.',
+          'questions': 'Keine Fragen zu Ihrer Suchanfrage gefunden.',
+          'surveys': 'Keine Erhebungen zu Ihrer Suchanfrage gefunden.',
+          'data-sets': 'Keine Datensätze zu Ihrer Suchanfrage gefunden.',
+          'studies': 'Keine Studien zu Ihrer Suchanfrage gefunden.',
+          'related-publications': 'Keine Publikationen zu Ihrer Suchanfrage gefunden.',
+          'instruments': 'Keine Instrumente zu Ihrer Suchanfrage gefunden.'
         },
         'tabs': {
           'variables': 'Variablen',

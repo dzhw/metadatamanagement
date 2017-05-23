@@ -3,7 +3,8 @@
     xsi:noNamespaceSchemaLocation="http://www.da-ra.de/fileadmin/media/da-ra.de/Technik/dara_v3.1_de_en_18112014.xsd">
     <resourceType>${resourceType}</resourceType>
     <resourceIdentifier>
-        <identifier>dzhw_${study.dataAcquisitionProjectId}</identifier>
+        <identifier>dzhw:${study.dataAcquisitionProjectId}:1.0.0</identifier>
+        <currentVersion>1.0.0</currentVersion>
     </resourceIdentifier>
     <titles>
         <title>
@@ -32,11 +33,13 @@
     </creators>
     <dataURLs>
         <dataURL>
-            http://metadata.fdz.dzhw.eu/#!/de/studies/${study.id}
+            https://metadata.fdz.dzhw.eu/#!/de/studies/${study.id}
         </dataURL>
     </dataURLs>
-    <#if release>
+    <#if !isDaraTest>
     <doiProposal>${study.doi}</doiProposal>
+    <#else>
+    <doiProposal>${study.doi?replace("10.21249", "10.5072")}</doiProposal>
     </#if>
     <publicationDate>
         <date>${releaseDate}</date>

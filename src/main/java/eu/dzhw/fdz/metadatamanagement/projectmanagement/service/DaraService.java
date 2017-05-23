@@ -16,11 +16,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -28,6 +31,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.google.common.base.Charsets;
 
+import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
@@ -63,6 +67,9 @@ public class DaraService {
   @Value(value = "classpath:templates/dara/register.xml.tmpl")
   private Resource registerXml;
   
+  @Autowired
+  private Environment env;
+  
   private RestTemplate restTemplate;
   
   //Resource Type
@@ -76,14 +83,16 @@ public class DaraService {
    * Constructor for Dara Services. Set the Rest Template.
    */
   public DaraService() {
-    this.restTemplate = new RestTemplate();
+    this.restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
+    this.restTemplate.getMessageConverters()
+      .add(0, new StringHttpMessageConverter(Charset.forName("UTF-8")));
   }
   
   /**
    * Check the dara health endpoint. 
    * @return Returns the status of the dara server.
    */
-  public boolean isDaraHealth() {
+  public boolean isDaraHealthy() {
     
     final String daraHealthEndpoint = this.getApiEndpoint() + IS_ALiVE_ENDPOINT;
       
@@ -113,8 +122,7 @@ public class DaraService {
     //Fill template
     String filledTemplate = this.fillTemplate(registerXmlStr, 
             this.getTemplateConfiguration(), 
-            this.getDataForTemplate(projectId, AVAILABILITY_CONTROLLED_DELIVERY, 
-                !project.getHasBeenReleasedBefore()));
+            this.getDataForTemplate(projectId, AVAILABILITY_CONTROLLED_DELIVERY));
     
     //Send Rest Call for Registration
     HttpStatus httpStatusFromDara = 
@@ -159,6 +167,8 @@ public class DaraService {
             this.restTemplate.postForEntity(builder.build().toUri(), request, String.class);      
       return result.getStatusCode();
     } catch (HttpClientErrorException httpClientError) {
+      log.debug("HTTP Error durind Dara call", httpClientError);
+      log.debug("Dara Response Body:\n" + httpClientError.getResponseBodyAsString());
       //Has been released is false? Something went wrong at the local save?
       //Catch the second try for registring 
       //Idempotent Method!
@@ -192,8 +202,7 @@ public class DaraService {
     //Fill template
     String filledTemplate = this.fillTemplate(registerXmlStr, 
             this.getTemplateConfiguration(), 
-            this.getDataForTemplate(projectId, AVAILABILITY_CONTROLLED_NOT_AVAILABLE, 
-                !project.getHasBeenReleasedBefore()));
+            this.getDataForTemplate(projectId, AVAILABILITY_CONTROLLED_NOT_AVAILABLE));
     
     //Send Rest Call for Registration
     return this.postToDaraImportXml(filledTemplate, project.getHasBeenReleasedBefore()); 
@@ -207,14 +216,12 @@ public class DaraService {
    *    resourceType
    * @param projectId The id of the project to find the study.
    * @param availabilityControlled The availability of the data.
-   * @param release True = Element will be initially release. 
-   *     False = Element is released before.
    * @return Returns a Map of names and the depending objects. 
    *     If the key is 'study' so the study object is the value. 
    *     Study is the name for the object use in freemarker.
    */
   private Map<String, Object> getDataForTemplate(String projectId, 
-      int availabilityControlled, boolean release) {
+      int availabilityControlled) {
     
     Map<String, Object> dataForTemplate = new HashMap<>();
     
@@ -232,8 +239,7 @@ public class DaraService {
     //Add Resource Type
     dataForTemplate.put("resourceType", RESOURCE_TYPE_DATASET);
     
-    //Add Release Status
-    dataForTemplate.put("release", release);
+    dataForTemplate.put("isDaraTest", !env.acceptsProfiles(Constants.SPRING_PROFILE_PROD));
     
     return dataForTemplate;
   }
@@ -281,13 +287,8 @@ public class DaraService {
   public String getApiEndpoint() {
     return this.metadataManagementProperties.getDara().getEndpoint();
   }
-
-  /* GETTER / SETTER */
+  
   public RestTemplate getRestTemplate() {
-    return restTemplate;
-  }
-
-  public void setRestTemplate(RestTemplate restTemplate) {
-    this.restTemplate = restTemplate;
+    return this.restTemplate;
   }
 }

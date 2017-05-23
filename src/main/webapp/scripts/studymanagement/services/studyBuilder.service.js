@@ -46,7 +46,7 @@ angular.module('metadatamanagementApp').service('StudyBuilderService',
         },
         authors: authors,
         dataAcquisitionProjectId: dataAcquisitionProjectId,
-        doi: '10.5072/DZHW:' + dataAcquisitionProjectId
+        doi: '10.21249/DZHW:' + dataAcquisitionProjectId + ':1.0.0'
       };
       var cleanedStudyObject = CleanJSObjectService
         .removeEmptyJsonObjects(study);

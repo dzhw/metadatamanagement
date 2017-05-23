@@ -52,15 +52,14 @@ public class DaraServiceTest extends AbstractTest{
   public void testHealthCheck() throws Exception {
     
     //ASSERT
-    RestTemplate restTemplate = new RestTemplate();
+    RestTemplate restTemplate = this.daraService.getRestTemplate();
     MockRestServiceServer mockServer = MockRestServiceServer.bindTo(restTemplate).build();
     mockServer
       .expect(requestTo(this.daraService.getApiEndpoint() + DaraService.IS_ALiVE_ENDPOINT))
       .andRespond(withSuccess());
-    this.daraService.setRestTemplate(restTemplate);
     
     //ACT
-    boolean health = this.daraService.isDaraHealth();
+    boolean health = this.daraService.isDaraHealthy();
     
     //ASSERT
     assertThat(health, is(true));
@@ -70,12 +69,11 @@ public class DaraServiceTest extends AbstractTest{
   public void testRelease() throws Exception {
     
     //ASSERT
-    RestTemplate restTemplate = new RestTemplate();
+    RestTemplate restTemplate = this.daraService.getRestTemplate();
     MockRestServiceServer mockServer = MockRestServiceServer.bindTo(restTemplate).build();
     mockServer
       .expect(requestTo(this.daraService.getApiEndpoint() + DaraService.REGISTRATION_ENDPOINT + "?registration=true"))
       .andRespond(withStatus(HttpStatus.CREATED));
-    this.daraService.setRestTemplate(restTemplate);    
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);    
     Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
@@ -93,12 +91,11 @@ public class DaraServiceTest extends AbstractTest{
   public void testUnrelease() throws Exception {
     
     //ASSERT
-    RestTemplate restTemplate = new RestTemplate();
+    RestTemplate restTemplate = this.daraService.getRestTemplate();
     MockRestServiceServer mockServer = MockRestServiceServer.bindTo(restTemplate).build();
     mockServer
       .expect(requestTo(this.daraService.getApiEndpoint() + DaraService.REGISTRATION_ENDPOINT + "?registration=false"))
       .andRespond(withStatus(HttpStatus.OK));
-    this.daraService.setRestTemplate(restTemplate);    
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.setHasBeenReleasedBefore(true);
     dataAcquisitionProjectRepository.save(project);    

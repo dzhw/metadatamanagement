@@ -7,13 +7,13 @@ angular.module('metadatamanagementApp')
     'DataAcquisitionProjectSearchResource', 'DataAcquisitionProjectResource',
     '$mdDialog', 'SimpleMessageToastService', '$translate',
     'ElasticSearchAdminService', '$scope',
-    'DataAcquisitionProjectUnreleaseResource',
+    'DaraUnreleaseResource',
     function(CurrentProjectService,
       DataAcquisitionProjectPostValidationService,
       DataAcquisitionProjectSearchResource, DataAcquisitionProjectResource,
       $mdDialog, SimpleMessageToastService, $translate,
       ElasticSearchAdminService, $scope,
-      DataAcquisitionProjectUnreleaseResource) {
+      DaraUnreleaseResource) {
       var ctrl = this;
       var i18nPrefix = 'data-acquisition-project-management.log-messages.' +
         'data-acquisition-project.';
@@ -206,7 +206,7 @@ angular.module('metadatamanagementApp')
           .ok($translate.instant('global.buttons.ok'))
           .cancel($translate.instant('global.buttons.cancel'));
         $mdDialog.show(confirmDialog).then(function() {
-          DataAcquisitionProjectUnreleaseResource.unrelease({
+          DaraUnreleaseResource.unrelease({
             id: ctrl.selectedProject.id
           }).$promise.then(function() {
             delete ctrl.selectedProject.release;

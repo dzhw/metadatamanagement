@@ -3,7 +3,7 @@
 angular.module('metadatamanagementApp')
   .controller('ReleaseProjectDialogController', function($scope, $mdDialog,
     project, SimpleMessageToastService, DataAcquisitionProjectResource,
-    DataAcquisitionProjectReleaseResource) {
+    DaraReleaseResource) {
     $scope.project = project;
     var i18nPrefix = 'data-acquisition-project-management.log-messages.' +
       'data-acquisition-project.';
@@ -14,7 +14,7 @@ angular.module('metadatamanagementApp')
     $scope.ok = function(release) {
       release.date = new Date().toISOString();
       project.release = release;
-      DataAcquisitionProjectReleaseResource.release({
+      DaraReleaseResource.release({
         id: project.id
       }).$promise.then(function() {
         project.hasBeenReleasedBefore = true;

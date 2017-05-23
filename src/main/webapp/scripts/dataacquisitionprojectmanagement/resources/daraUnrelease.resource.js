@@ -5,7 +5,7 @@
 */
 
 angular.module('metadatamanagementApp')
-  .factory('DataAcquisitionProjectUnreleaseResource', function($resource) {
+  .factory('DaraUnreleaseResource', function($resource) {
     return $resource('/api/data-acquisition-projects/:id/unrelease', {
       id: '@id'
     }, {

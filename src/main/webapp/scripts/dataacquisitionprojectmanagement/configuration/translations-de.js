@@ -37,6 +37,7 @@ angular.module('metadatamanagementApp').config(
             'released-successfully': 'Die Daten des Projektes "{{ id }}" werden in ca. 10 Minuten für alle Benutzer sichtbar sein.',
             'dara-released-not-successfully': 'Die Daten des Projektes "{{ id }}" können nicht veröffentlicht werden. Es trat ein Fehler bei der Registrierung / Update der DOI bei Dara auf.',
             'unreleased-successfully': 'Die Daten des Projektes "{{ id }}" werden in ca. 10 Minuten nur noch für FDZ Mitarbeiter sichtbar sein.',
+            'dara-unreleased-not-successfully': 'Die Freigabe des Projektes "{{ id }}" konnte nicht zurückgenommen werden, da ein Fehler beim Aktualisieren von Dara auftrat.',
             'unrelease-title': 'Freigabe für Projekt "{{ id }}" zurücknehmen?',
             'unrelease': 'Möchten Sie wirklich, dass das Projekt "{{ id }}" nur noch für FDZ Mitarbeiter sichtbar ist?',
             'release-not-possible-title': 'Projekt "{{ id }}" kann nicht freigegeben werden!',

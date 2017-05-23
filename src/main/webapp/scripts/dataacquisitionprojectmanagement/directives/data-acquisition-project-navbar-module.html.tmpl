@@ -18,7 +18,7 @@
             </md-button>
     </div>
     <div style="margin-top: 1em;">
-        <md-button class="md-primary md-raised md-icon-button" ng-click="ctrl.deleteProject()" style="margin-right: 0px; margin-left: 0px;" ng-disabled="!ctrl.selectedProject">
+        <md-button class="md-primary md-raised md-icon-button" ng-click="ctrl.deleteProject()" style="margin-right: 0px; margin-left: 0px;" ng-disabled="!ctrl.selectedProject || ctrl.selectedProject.hasBeenReleasedBefore">
             <md-tooltip ng-hide="!ctrl.selectedProject" md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{'global.tooltips.delete-project' | translate}}
             </md-tooltip>

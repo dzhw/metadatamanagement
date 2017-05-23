@@ -28,7 +28,7 @@ import freemarker.template.TemplateException;
  */
 @RestController
 @RequestMapping("/api")
-public class DataAcquisitionProjectReleaseManagementResource {
+public class DaraReleaseResource {
   
   @Autowired
   private DaraService daraService;
