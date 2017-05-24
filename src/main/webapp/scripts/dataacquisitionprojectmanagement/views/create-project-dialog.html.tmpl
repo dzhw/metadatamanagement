@@ -19,7 +19,7 @@
             <md-input-container class="md-block" md-is-error="!projectForm.id.$valid" md-no-float>
                 <label>{{'data-acquisition-project-management.name' | translate}}
                 </label>
-                <input data-md-maxlength="32" required translate-attr="{'title':'global.entity.validation.required'}" data-md-no-asterisk ng-model="project.id" name="id" ng-pattern="/^[A-Za-z0-9äöüÄÖÜß]*$/" data-md-autofocus>
+                <input data-md-maxlength="32" required translate-attr="{'title':'global.entity.validation.required'}" data-md-no-asterisk ng-model="project.id" name="id" ng-pattern="/^[a-z0-9]*$/" data-md-autofocus>
                 <div ng-messages="projectForm.id.$error" data-multiple data-md-auto-hide="false">
                     <div ng-message="required">{{'global.entity.validation.required' | translate}}</div>
                     <div ng-message="md-maxlength">{{'global.entity.validation.maxlength' | translate:'{ max: "32" }'}}</div>

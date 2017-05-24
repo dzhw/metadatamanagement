@@ -10,7 +10,7 @@ angular.module('metadatamanagementApp').service('SimpleMessageToastService',
       SynchronizedMdToast.show({
         controller: 'SimpleMessageToastController',
         templateUrl: 'scripts/common/toast/simple-message-toast.html.tmpl',
-        hideDelay: 10000,
+        hideDelay: 0,
         position: 'top right',
         parent: toastParent,
         locals: {

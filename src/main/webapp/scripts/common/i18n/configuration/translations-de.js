@@ -227,7 +227,7 @@ angular.module('metadatamanagementApp').config(
               'period': 'Der Feldzeitbeginn muss vor dem Ende liegen.'
             },
             'data-acquisition-project': {
-              'id': 'Der Name eines Projektes darf nur aus Zahlen und Buchstaben bestehen.',
+              'id': 'Der Name eines Projektes darf nur aus Zahlen und kleinen Buchstaben (a-z) bestehen.',
               'release': {
                 'version': 'Die Version darf nur aus Zahlen und Punkten bestehen.'
               }

@@ -59,7 +59,7 @@ public class RelatedPublication extends AbstractRdcDomainObject {
   @Size(max = StringLengths.MEDIUM,
       message = "related-publication-management.error.related-publication." + "doi.size")
   private String doi;
-  @Size(max = StringLengths.MEDIUM,
+  @Size(max = StringLengths.LARGE,
       message = "related-publication-management.error.related-publication." + "title.size")
   @NotEmpty(
       message = "related-publication-management.error.related-publication." + "title.not-empty")

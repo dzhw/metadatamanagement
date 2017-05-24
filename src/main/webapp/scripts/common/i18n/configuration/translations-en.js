@@ -225,7 +225,7 @@ angular.module('metadatamanagementApp').config(
               'period': 'The begin of the field period must be before the end.'
             },
             'data-acquisition-project': {
-              'id': 'The name of the project must contain only letters and digits.',
+              'id': 'The name of the project must contain only lowercase letters (a-z) and digits.',
               'release': {
                 'version': 'The version must contain only digits and dots.'
               }

@@ -92,7 +92,7 @@ angular.module('metadatamanagementApp').config(
             },
             'title': {
               'not-empty': 'The title of the Publication must not be empty!',
-              'size': 'The max length of the title of the Publication is 128 signs.'
+              'size': 'The max length of the title of the Publication is 2048 signs.'
             },
             'authors': {
               'size': 'The max length of the authors of the Publication is 2048 signs.',

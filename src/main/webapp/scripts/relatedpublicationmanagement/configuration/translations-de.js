@@ -92,7 +92,7 @@ angular.module('metadatamanagementApp').config(
             },
             'title': {
               'not-empty': 'Der Titel der Publikation darf nicht leer sein!',
-              'size': 'Die Maximallänge des Titels der Publikation ist 128 Zeichen.'
+              'size': 'Die Maximallänge des Titels der Publikation ist 2048 Zeichen.'
             },
             'authors': {
               'size': 'Die Maximallänge der Autor(inn)en der Publication ist 2048 Zeichen.',

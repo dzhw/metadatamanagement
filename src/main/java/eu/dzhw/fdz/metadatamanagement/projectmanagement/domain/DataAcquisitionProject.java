@@ -12,7 +12,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import com.google.common.base.MoreObjects;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
-import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation.SetHasBeenReleasedBeforeOnlyOnce;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
@@ -33,7 +32,7 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
   /* Domain Object Attributes */
   @Id
   @NotEmpty(message = "data-acquisition-project.error.data-acquisition-project.id.not-empty")
-  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC,
+  @Pattern(regexp = "^[a-z0-9]*$",
       message = "data-acquisition-project.error.data-acquisition-project.id.pattern")
   @Size(max = StringLengths.SMALL,
       message = "data-acquisition-project.error.data-acquisition-project.id.size")
