@@ -52,8 +52,8 @@ public class DataSetAttachmentResource {
       @RequestPart("dataSetAttachmentMetadata") 
       @Valid DataSetAttachmentMetadata dataSetAttachmentMetadata)
       throws URISyntaxException, IOException {
-    dataSetAttachmentService.createDataSetAttachment(multiPartFile.getInputStream(),
-        multiPartFile.getContentType(), dataSetAttachmentMetadata);
+    dataSetAttachmentService.createDataSetAttachment(multiPartFile,
+        dataSetAttachmentMetadata);
     return ResponseEntity.created(new URI(UriUtils.encodePath(
         dataSetAttachmentMetadata.getId(), "UTF-8")))
         .body(null);

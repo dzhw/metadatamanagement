@@ -8,8 +8,11 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.mongodb.gridfs.GridFSFile;
+
+import eu.dzhw.fdz.metadatamanagement.filemanagement.util.MimeTypeDetector;
 
 /**
  * Service for creating and updating survey images. Used for updating images in mongo
@@ -21,20 +24,22 @@ public class SurveyResponseRateImageService {
 
   @Autowired
   private GridFsOperations operations;
+  
+  @Autowired
+  private MimeTypeDetector mimeTypeDetector;
 
   /**
    * This method save an image into GridFS/MongoDB based on a byteArrayOutputStream.
    * Existing image should be deleted before saving/updating an image
-   * @param inputStream The image as byteArrayOutputStream
    * @param surveyId The id of the question to be saved
-   * @param contentType The mime-type of the image
    * @return return the name of the saved image in the GridFS / MongoDB.
    * @throws IOException thrown if the input stream cannot be closed
    */
-  public String saveSurveyImage(InputStream inputStream,
-      String surveyId, String fileName, String contentType) throws IOException {
-    try (InputStream in = inputStream) {
+  public String saveSurveyImage(MultipartFile multipartFile,
+      String surveyId, String fileName) throws IOException {
+    try (InputStream in = multipartFile.getInputStream()) {
       String relativePathWithName = "/surveys/" + surveyId + "/" + fileName;
+      String contentType = mimeTypeDetector.detect(multipartFile);
       GridFSFile gridFsFile = this.operations.store(in, relativePathWithName, contentType);
       gridFsFile.validate();
       

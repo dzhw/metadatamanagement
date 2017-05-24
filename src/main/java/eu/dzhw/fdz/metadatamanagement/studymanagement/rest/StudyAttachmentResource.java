@@ -52,8 +52,8 @@ public class StudyAttachmentResource {
       @RequestPart("studyAttachmentMetadata") 
       @Valid StudyAttachmentMetadata studyAttachmentMetadata)
       throws URISyntaxException, IOException {
-    studyAttachmentService.createStudyAttachment(multiPartFile.getInputStream(),
-        multiPartFile.getContentType(), studyAttachmentMetadata);
+    studyAttachmentService.createStudyAttachment(multiPartFile,
+        studyAttachmentMetadata);
     return ResponseEntity.created(new URI(UriUtils.encodePath(
         studyAttachmentMetadata.getId(), "UTF-8")))
         .body(null);

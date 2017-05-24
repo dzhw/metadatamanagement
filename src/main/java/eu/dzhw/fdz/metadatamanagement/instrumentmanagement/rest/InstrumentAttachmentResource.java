@@ -52,8 +52,8 @@ public class InstrumentAttachmentResource {
       @RequestPart("instrumentAttachmentMetadata") 
       @Valid InstrumentAttachmentMetadata instrumentAttachmentMetadata)
       throws URISyntaxException, IOException {
-    instrumentAttachmentService.createInstrumentAttachment(multiPartFile.getInputStream(),
-        multiPartFile.getContentType(), instrumentAttachmentMetadata);
+    instrumentAttachmentService.createInstrumentAttachment(multiPartFile,
+        instrumentAttachmentMetadata);
     return ResponseEntity.created(new URI(UriUtils.encodePath(
         instrumentAttachmentMetadata.getId(), "UTF-8")))
         .body(null);

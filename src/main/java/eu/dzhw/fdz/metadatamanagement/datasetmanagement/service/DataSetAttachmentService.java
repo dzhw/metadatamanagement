@@ -14,10 +14,12 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.mongodb.gridfs.GridFSFile;
 
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetAttachmentMetadata;
+import eu.dzhw.fdz.metadatamanagement.filemanagement.util.MimeTypeDetector;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 
 /**
@@ -33,17 +35,18 @@ public class DataSetAttachmentService {
   @Autowired
   private MongoTemplate mongoTemplate;
   
+  @Autowired
+  private MimeTypeDetector mimeTypeDetector;
+  
   /**
    * Save the attachment for a data set. 
-   * @param inputStream The inputStream of the attachment.
-   * @param contentType The contentType of the attachment.
    * @param metadata The metadata of the attachment.
    * @return The GridFs filename.
    * @throws IOException thrown when the input stream is not closable
    */
-  public String createDataSetAttachment(InputStream inputStream,
-      String contentType, DataSetAttachmentMetadata metadata) throws IOException {
-    try (InputStream in = inputStream) {
+  public String createDataSetAttachment(MultipartFile multipartFile,
+      DataSetAttachmentMetadata metadata) throws IOException {
+    try (InputStream in = multipartFile.getInputStream()) {
       String currentUser = SecurityUtils.getCurrentUserLogin();
       metadata.setVersion(0L);
       metadata.setCreatedDate(LocalDateTime.now());
@@ -51,6 +54,7 @@ public class DataSetAttachmentService {
       metadata.setLastModifiedBy(currentUser);
       metadata.setLastModifiedDate(LocalDateTime.now());
       String filename = buildFileName(metadata);
+      String contentType = mimeTypeDetector.detect(multipartFile);
       GridFSFile gridFsFile = this.operations.store(in, 
           filename, contentType, metadata);
       gridFsFile.validate();

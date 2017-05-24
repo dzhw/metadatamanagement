@@ -14,9 +14,11 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.mongodb.gridfs.GridFSFile;
 
+import eu.dzhw.fdz.metadatamanagement.filemanagement.util.MimeTypeDetector;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 
@@ -34,24 +36,26 @@ public class InstrumentAttachmentService {
   @Autowired
   private MongoTemplate mongoTemplate;
   
+  @Autowired
+  private MimeTypeDetector mimeTypeDetector;
+  
   /**
    * Save the attachment for an instrument. 
-   * @param inputStream The inputStream of the attachment.
-   * @param contentType The contentType of the attachment.
    * @param metadata The metadata of the attachment.
    * @return The GridFs filename.
    * @throws IOException thrown when the input stream cannot be closed
    */
-  public String createInstrumentAttachment(InputStream inputStream,
-      String contentType, InstrumentAttachmentMetadata metadata) throws IOException {
-    try (InputStream in = inputStream) {
+  public String createInstrumentAttachment(MultipartFile multipartFile, 
+      InstrumentAttachmentMetadata metadata) throws IOException {
+    try (InputStream in = multipartFile.getInputStream()) {
       String currentUser = SecurityUtils.getCurrentUserLogin();
       metadata.setVersion(0L);
       metadata.setCreatedDate(LocalDateTime.now());
       metadata.setCreatedBy(currentUser);
       metadata.setLastModifiedBy(currentUser);
       metadata.setLastModifiedDate(LocalDateTime.now());
-      GridFSFile gridFsFile = this.operations.store(inputStream, 
+      String contentType = mimeTypeDetector.detect(multipartFile);
+      GridFSFile gridFsFile = this.operations.store(in, 
           buildFileName(metadata), contentType, metadata);
       gridFsFile.validate();
       return gridFsFile.getFilename();      

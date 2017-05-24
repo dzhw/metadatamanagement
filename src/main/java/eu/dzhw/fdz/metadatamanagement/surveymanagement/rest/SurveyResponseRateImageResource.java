@@ -51,8 +51,8 @@ public class SurveyResponseRateImageResource {
       //We need the original file, because we do not know if it is a german or english file.
       //We just know it is a valid name.
       String imageName = this.surveyResponseRateImageService
-          .saveSurveyImage(multiPartFile.getInputStream(), 
-           surveyId, multiPartFile.getOriginalFilename(), multiPartFile.getContentType());
+          .saveSurveyImage(multiPartFile, 
+           surveyId, multiPartFile.getOriginalFilename());
       return ResponseEntity
         .created(new URI("/public/files" + imageName))
         .contentLength(imageName.length())

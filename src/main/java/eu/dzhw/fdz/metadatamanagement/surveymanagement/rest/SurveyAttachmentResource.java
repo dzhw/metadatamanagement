@@ -52,8 +52,8 @@ public class SurveyAttachmentResource {
       @RequestPart("surveyAttachmentMetadata") 
       @Valid SurveyAttachmentMetadata surveyAttachmentMetadata)
       throws URISyntaxException, IOException {
-    surveyAttachmentService.createSurveyAttachment(multiPartFile.getInputStream(),
-        multiPartFile.getContentType(), surveyAttachmentMetadata);
+    surveyAttachmentService.createSurveyAttachment(multiPartFile,
+        surveyAttachmentMetadata);
     return ResponseEntity.created(new URI(UriUtils.encodePath(
         surveyAttachmentMetadata.getId(), "UTF-8")))
         .body(null);
