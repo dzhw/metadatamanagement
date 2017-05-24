@@ -139,6 +139,31 @@ angular.module('metadatamanagementApp').service('SearchDao',
         break;
 
         case 'instruments':
+          queryShould.push({
+            'match': {
+              'title.de': queryterm
+            }
+          });
+          queryShould.push({
+            'match': {
+              'title.en': queryterm
+            }
+          });
+          queryShould.push({
+            'match': {
+              'description.de': queryterm
+            }
+          });
+          queryShould.push({
+            'match': {
+              'description.en': queryterm
+            }
+          });
+          queryShould.push({
+            'match': {
+              'type': queryterm
+            }
+          });
         break;
 
         case 'questions':
