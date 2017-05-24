@@ -48,7 +48,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepo
  *
  */
 public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTest{
-  private static final String PROJECT_NAME = "testProject";
+  private static final String PROJECT_NAME = "testproject";
   private static final String API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI = "/api/data-acquisition-projects/" + PROJECT_NAME + "/post-validate";
   
   

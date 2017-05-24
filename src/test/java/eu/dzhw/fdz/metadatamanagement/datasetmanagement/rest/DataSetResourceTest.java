@@ -175,7 +175,7 @@ public class DataSetResourceTest extends AbstractTest {
     // Arrange
     DataAcquisitionProject project1 = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     DataAcquisitionProject project2 = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
-    project2.setId("testProject2");
+    project2.setId("testproject2");
     this.dataAcquisitionProjectRepository.save(project1);
     this.dataAcquisitionProjectRepository.save(project2);
 

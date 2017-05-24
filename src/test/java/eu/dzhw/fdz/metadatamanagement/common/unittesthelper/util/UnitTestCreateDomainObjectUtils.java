@@ -83,7 +83,7 @@ public class UnitTestCreateDomainObjectUtils {
 
   public static DataAcquisitionProject buildDataAcquisitionProject() {
 
-    String projectId = "testProject";
+    String projectId = "testproject";
 
     return new DataAcquisitionProjectBuilder()
         .withId(projectId)
