@@ -48,6 +48,68 @@ angular.module('metadatamanagementApp').service('SearchDao',
         'question': 'questionIds'
       }
     };
+
+    var addAdditionalShouldQuery = function(elasticsearchType, queryterm) {
+      switch (elasticsearchType) {
+        case 'studies':
+          return [];
+
+        case 'surveys':
+          return [{
+            'match': {
+              'title.de': queryterm
+            }
+          }, {
+            'match': {
+              'title.en': queryterm
+            }
+          }, {
+            'match': {
+              'id': queryterm
+            }
+          }, {
+            'match': {
+              'surveyMethod.de': queryterm
+            }
+          }, {
+            'match': {
+              'surveyMethod.en': queryterm
+            }
+          }, {
+            'match': {
+              'population.de': queryterm
+            }
+          }, {
+            'match': {
+              'population.en': queryterm
+            }
+          }, {
+            'match': {
+              'sample.de': queryterm
+            }
+          }, {
+            'match': {
+              'sample.en': queryterm
+            }
+          }];
+
+        case 'instruments':
+          return [];
+
+        case 'questions':
+          return [];
+
+        case 'data_sets':
+          return [];
+
+        case 'variables':
+          return [];
+
+        case 'related_publications':
+          return [];
+      }
+    };
+
     return {
       search: function(queryterm, pageNumber, dataAcquisitionProjectId,
         filter, elasticsearchType, pageSize, sortBy) {
@@ -56,18 +118,22 @@ angular.module('metadatamanagementApp').service('SearchDao',
         query.index = elasticsearchType;
         if (!elasticsearchType) {
           //search in all indices
-          query.index = ['studies','variables','surveys','data_sets',
-            'instruments','related_publications','questions'];
+          query.index = ['studies', 'variables', 'surveys', 'data_sets',
+            'instruments', 'related_publications', 'questions'
+          ];
         }
         query.type = elasticsearchType;
         query.body = {};
         //use source filtering for returning only required attributes
         query.body._source = ['id', 'number', 'questionText', 'title',
-        'description','type', 'doi', 'publicationAbstract', 'authors',
-        'surveyMethod', 'fieldPeriod', 'label', 'name', 'dataType', 'sample',
-        'scaleLevel', 'dataAcquisitionProjectId', 'dataSetNumber', 'population',
-        'instrumentNumber', 'instrument.description', 'surveys.title',
-        'language', 'subDataSets'];
+          'description', 'type', 'doi', 'publicationAbstract', 'authors',
+          'surveyMethod', 'fieldPeriod', 'label', 'name', 'dataType',
+          'sample',
+          'scaleLevel', 'dataAcquisitionProjectId', 'dataSetNumber',
+          'population',
+          'instrumentNumber', 'instrument.description', 'surveys.title',
+          'language', 'subDataSets'
+        ];
         if (sortBy && sortBy !== '') {
           var sortCriteria = {};
           sortCriteria[sortBy] = {
@@ -86,12 +152,17 @@ angular.module('metadatamanagementApp').service('SearchDao',
                     'query': queryterm,
                     'operator': 'AND',
                     'minimum_should_match': '100%',
-                    'zero_terms_query': 'NONE'
+                    'zero_terms_query': 'NONE',
+                    'boost': 0.01 //decrease the ngram results for scoring
                   }
                 }
-              }]
+              }],
+              'should': addAdditionalShouldQuery(elasticsearchType,
+                queryterm),
+              'minimum_should_match': 1
             }
           };
+
           //no query term
         } else {
           query.body.query = {
@@ -124,7 +195,11 @@ angular.module('metadatamanagementApp').service('SearchDao',
         }
         //only publisher see unreleased projects
         if (!Principal.hasAuthority('ROLE_PUBLISHER')) {
-          query.body.query.bool.filter.push({'exists': {'field': 'release'}});
+          query.body.query.bool.filter.push({
+            'exists': {
+              'field': 'release'
+            }
+          });
         }
         if (dataAcquisitionProjectId) {
           projectFilter = {
@@ -145,7 +220,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
               key = subKeyMapping[key];
               filterKeyValue.term[key] = value;
               query.body.query.bool.filter.push(
-                  filterKeyValue);
+                filterKeyValue);
             }
           });
         }
