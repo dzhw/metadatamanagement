@@ -49,64 +49,74 @@ angular.module('metadatamanagementApp').service('SearchDao',
       }
     };
 
-    var addAdditionalShouldQuery = function(elasticsearchType, queryterm) {
+    var addAdditionalShouldQueries = function(elasticsearchType, queryterm,
+      queryShould) {
       switch (elasticsearchType) {
         case 'studies':
-          return [];
+        break;
 
         case 'surveys':
-          return [{
+          queryShould.push({
             'match': {
               'title.de': queryterm
             }
-          }, {
+          });
+          queryShould.push({
             'match': {
               'title.en': queryterm
             }
-          }, {
+          });
+          queryShould.push({
             'match': {
               'id': queryterm
             }
-          }, {
+          });
+          queryShould.push({
             'match': {
               'surveyMethod.de': queryterm
             }
-          }, {
+          });
+          queryShould.push({
             'match': {
               'surveyMethod.en': queryterm
             }
-          }, {
+          });
+          queryShould.push({
             'match': {
               'population.de': queryterm
             }
-          }, {
+          });
+          queryShould.push({
             'match': {
               'population.en': queryterm
             }
-          }, {
+          });
+          queryShould.push({
             'match': {
               'sample.de': queryterm
             }
-          }, {
+          });
+          queryShould.push({
             'match': {
               'sample.en': queryterm
             }
-          }];
+          });
+        break;
 
         case 'instruments':
-          return [];
+        break;
 
         case 'questions':
-          return [];
+        break;
 
         case 'data_sets':
-          return [];
+        break;
 
         case 'variables':
-          return [];
+        break;
 
         case 'related_publications':
-          return [];
+        break;
       }
     };
 
@@ -146,7 +156,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
         if (!CleanJSObjectService.isNullOrEmpty(queryterm)) {
           query.body.query = {
             'bool': {
-              'must': [{
+              'should': [{
                 'match': {
                   '_all': {
                     'query': queryterm,
@@ -157,11 +167,12 @@ angular.module('metadatamanagementApp').service('SearchDao',
                   }
                 }
               }],
-              'should': addAdditionalShouldQuery(elasticsearchType,
-                queryterm),
               'minimum_should_match': 1
             }
           };
+
+          addAdditionalShouldQueries(elasticsearchType, queryterm,
+            query.body.query.bool.should);
 
           //no query term
         } else {
