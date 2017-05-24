@@ -71,7 +71,7 @@ angular.module('metadatamanagementApp').config(
             'true': 'Klicken zum maximieren',
             'false': 'Klicken zum minimieren'
           },
-          'generate-variable-report-tooltip': 'Klicken, um Variablenreport zu erzeugen',
+          'generate-variable-report-tooltip': 'Klicken, um einen Datensatzreport zu erzeugen',
           'no-related-data-sets': 'Keine zugehörige Datensätze.',
           'related-data-sets': 'Zugehörige Datensätze',
           'not-released-toast': 'Der Datensatz "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!',
@@ -93,7 +93,8 @@ angular.module('metadatamanagementApp').config(
             },
             'studies': {
               'one': 'Klicken, um die Studie dieses Datensatzes anzuzeigen'
-            }
+            },
+            'get-data-set-tooltip': 'Klicken, um Informationen zur Datenbeantragung zu erhalten'
           }
         },
         'error': {

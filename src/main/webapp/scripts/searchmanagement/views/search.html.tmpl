@@ -44,7 +44,7 @@
         </div>
     </div>
     <div ng-switch-when="true" data-has-authority="ROLE_PUBLISHER" class="fdz-fab-button-container" layout="column">
-        <md-button class="md-primary md-fab" ng-click="refresh()" style="margin-bottom: 1em;">
+        <md-button class="md-primary md-fab" ng-click="refresh()">
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{'search-management.buttons.refresh-tooltip' | translate}}
             </md-tooltip>
@@ -94,7 +94,7 @@
             </md-tooltip>
             <md-icon md-font-set="material-icons">add</md-icon>
         </md-button>
-        <md-button ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='related_publications'" ng-click="postValidateRelatedPublications()" class="md-primary md-fab" style="margin-bottom: 1em;">
+        <md-button ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='related_publications'" ng-click="postValidateRelatedPublications()" class="md-primary md-fab">
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{'search-management.buttons.post-validate-related-publications-tooltip' | translate}}
             </md-tooltip>

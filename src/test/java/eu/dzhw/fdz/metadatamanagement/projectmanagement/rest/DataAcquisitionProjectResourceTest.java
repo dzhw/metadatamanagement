@@ -76,7 +76,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
   @Test
   public void testCreateDataAcquisitionProjectWithTooLongId() throws IOException, Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
-    project.setId("ThisIdistoolongandshouldproduceanerror");
+    project.setId("thisidistoolongandshouldproduceanerror");
     // create the project with the given id
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
       .content(TestUtil.convertObjectToJsonBytes(project)))

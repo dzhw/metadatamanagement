@@ -246,14 +246,18 @@
             </table>
         </md-card>
     </div>
-
-
-    <div ng-if="ctrl.isAuthenticated() && ctrl.hasAuthority('ROLE_PUBLISHER')" class="fdz-fab-button-container" layout="column">
-        <md-button type="file" ngf-select="ctrl.uploadTexTemplate($files)" ngf-multiple="true" directory webkitdirectory class="md-accent md-fab">
-            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                {{'data-set-management.detail.generate-variable-report-tooltip' | translate}}
-            </md-tooltip>
-            <md-icon md-font-set="material-icons">note_add</md-icon>
-        </md-button>
+    <div class="fdz-fab-button-container" layout="column">
+      <md-button class="md-fab" ng-class="{'md-primary': ctrl.isAuthenticated(), 'md-accent': !ctrl.isAuthenticated()}" href="https://fdz.dzhw.eu/kontakt/index_html" target="_blank">
+        <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+          {{'data-set-management.detail.tooltips.get-data-set-tooltip' | translate}}
+        </md-tooltip>
+        <md-icon md-font-set="material-icons">file_download</md-icon>
+      </md-button>
+      <md-button ng-if="ctrl.isAuthenticated() && ctrl.hasAuthority('ROLE_PUBLISHER')" type="file" ngf-select="ctrl.uploadTexTemplate($files)" ngf-multiple="true" directory webkitdirectory class="md-accent md-fab">
+          <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+              {{'data-set-management.detail.generate-variable-report-tooltip' | translate}}
+          </md-tooltip>
+          <md-icon md-font-set="material-icons">note_add</md-icon>
+      </md-button>
     </div>
 </div>
