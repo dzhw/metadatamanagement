@@ -65,27 +65,47 @@ angular.module('metadatamanagementApp').service('SearchDao',
           });
           queryShould.push({
             'match': {
-              'authors.firstName': queryterm
+              'authors.firstName': {
+                'query': queryterm,
+                boost: 0.25
+              }
             }
           });
           queryShould.push({
             'match': {
-              'authors.middleName': queryterm
+              'authors.middleName': {
+                'query': queryterm,
+                boost: 0.25
+              }
             }
           });
           queryShould.push({
             'match': {
-              'authors.lastName': queryterm
+              'authors.lastName': {
+                'query': queryterm,
+                boost: 0.25
+              }
             }
           });
           queryShould.push({
             'match': {
-              'description.de': queryterm
+              'description.de': {
+                'query': queryterm,
+                boost: 0.25
+              }
             }
           });
           queryShould.push({
             'match': {
-              'description.en': queryterm
+              'description.en': {
+                'query': queryterm,
+                boost: 0.25
+              }
+            }
+          });
+          queryShould.push({
+            'match': {
+              'id': queryterm
             }
           });
         break;
@@ -108,32 +128,50 @@ angular.module('metadatamanagementApp').service('SearchDao',
           });
           queryShould.push({
             'match': {
-              'surveyMethod.de': queryterm
+              'surveyMethod.de': {
+                'query': queryterm,
+                boost: 0.25
+              }
             }
           });
           queryShould.push({
             'match': {
-              'surveyMethod.en': queryterm
+              'surveyMethod.en': {
+                'query': queryterm,
+                boost: 0.25
+              }
             }
           });
           queryShould.push({
             'match': {
-              'population.de': queryterm
+              'population.de': {
+                'query': queryterm,
+                boost: 0.25
+              }
             }
           });
           queryShould.push({
             'match': {
-              'population.en': queryterm
+              'population.en': {
+                'query': queryterm,
+                boost: 0.25
+              }
             }
           });
           queryShould.push({
             'match': {
-              'sample.de': queryterm
+              'sample.de': {
+                'query': queryterm,
+                boost: 0.25
+              }
             }
           });
           queryShould.push({
             'match': {
-              'sample.en': queryterm
+              'sample.en': {
+                'query': queryterm,
+                boost: 0.25
+              }
             }
           });
         break;
@@ -151,22 +189,75 @@ angular.module('metadatamanagementApp').service('SearchDao',
           });
           queryShould.push({
             'match': {
-              'description.de': queryterm
+              'description.de': {
+                'query': queryterm,
+                boost: 0.25
+              }
             }
           });
           queryShould.push({
             'match': {
-              'description.en': queryterm
+              'description.en': {
+                'query': queryterm,
+                boost: 0.25
+              }
             }
           });
           queryShould.push({
             'match': {
-              'type': queryterm
+              'type': {
+                'query': queryterm,
+                boost: 0.25
+              }
+            }
+          });
+          queryShould.push({
+            'match': {
+              'id': queryterm
             }
           });
         break;
 
         case 'questions':
+          queryShould.push({
+            'match': {
+              'instrument.description.de': queryterm
+            }
+          });
+          queryShould.push({
+            'match': {
+              'instrument.description.en': queryterm
+            }
+          });
+          queryShould.push({
+            'match': {
+              'questionText.de': {
+                'query': queryterm,
+                boost: 0.25
+              }
+            }
+          });
+          queryShould.push({
+            'match': {
+              'questionText.en': {
+                'query': queryterm,
+                boost: 0.25
+              }
+            }
+          });
+          queryShould.push({
+            'match': {
+              'type': {
+                'query': queryterm,
+                boost: 0.25
+              }
+            }
+          });
+          queryShould.push({
+            'match': {
+              'id': queryterm
+            }
+          });
         break;
 
         case 'data_sets':

@@ -1,120 +1,150 @@
 {
 	"questions": {
-    	"_all" : {	
-  		 	"enabled" : true,
-  		 	"analyzer": "trigrams"
-  		},
-  		"dynamic_templates": [{ 
-  			"default_mapping": {
-            	"match": "*", 
-                "mapping": {
-                	"index": "no",
-                	"include_in_all": true
-                }
-             }
-        }],
-    	"properties": {
-    		"id": {
-        		"type": "string",
-        		"index": "not_analyzed"
-      		},
-      		"dataAcquisitionProjectId": {
-      			"type": "string",
-        		"index": "not_analyzed"
-      		},
-      		"successors": {
-      			"type": "string",
-        		"index": "not_analyzed",
-        		"include_in_all": false
-      		},
-      		"studyId": {
-      			"type": "string",
-        		"index": "not_analyzed"
-      		},
-      		"instrumentId": {
-      			"type": "string",
-        		"index": "not_analyzed"
-      		},
-      		"number": {
-      			"type": "string",
-        		"index": "not_analyzed"
-      		},
-      		"type": {
-      			"type": "object",	
-      			"properties": {
-      				"de": {
-      					"type": "string",
-        				"index": "not_analyzed"
-      				},
-      				"en": {
-      					"type": "string",
-        				"index": "not_analyzed"
-      				}		
-      			}
-      		},
-      		"topic": {
-      			"type": "object",
-      			"properties": {
-      				"de": {
-      					"type": "string",
-        				"index": "not_analyzed"
-      				},
-      				"en": {
-      					"type": "string",
-        				"index": "not_analyzed"
-      				}		
-      			}
-      		},
-      		"study": {
-				"type": "object",      			
-      			"properties": {
-      				"doi" : {
-      					"type": "string",
-        				"index": "not_analyzed"
-      				}
-      			}
-      		},
-      		"surveys": {
-      			"type": "object",
-      			"properties": {
-      				"id" : {
-      					"type": "string",
-        				"index": "not_analyzed"
-      				}
-      			}
-      		},
-      		"variables": {
-      			"type": "object",
-      			"properties": {
-      				"id" : {
-      					"type": "string",
-        				"index": "not_analyzed"
-      				}
-      			}
-      		},
-      		"relatedPublications": {
-      			"type": "object",
-      			"properties": {
-      				"id" : {
-      					"type": "string",
-        				"index": "not_analyzed"
-      				},
-      				"doi" : {
-      					"type": "string",
-        				"index": "not_analyzed"
-      				}
-      			}
-      		},
-      		"instrument": {
-      			"type": "object",
-      			"properties": {
-      				"surveyIds" : {
-      					"type": "string",	
-      					"index": "no",
-                		"include_in_all": false
-      				}
-      			}
-      		}
-      	}
+		"_all": {
+			"enabled": true,
+			"analyzer": "trigrams"
+		},
+		"dynamic_templates": [{
+			"default_mapping": {
+				"match": "*",
+				"mapping": {
+					"index": "no",
+					"include_in_all": true
+				}
+			}
+		}],
+		"properties": {
+			"id": {
+				"type": "string",
+				"index": "not_analyzed"
+			},
+			"dataAcquisitionProjectId": {
+				"type": "string",
+				"index": "not_analyzed"
+			},
+			"successors": {
+				"type": "string",
+				"index": "not_analyzed",
+				"include_in_all": false
+			},
+			"studyId": {
+				"type": "string",
+				"index": "not_analyzed"
+			},
+			"instrumentId": {
+				"type": "string",
+				"index": "not_analyzed"
+			},
+			"number": {
+				"type": "string",
+				"index": "not_analyzed"
+			},
+			"type": {
+				"type": "object",
+				"properties": {
+					"de": {
+						"type": "string",
+						"index": "not_analyzed"
+					},
+					"en": {
+						"type": "string",
+						"index": "not_analyzed"
+					}
+				}
+			},
+			"topic": {
+				"type": "object",
+				"properties": {
+					"de": {
+						"type": "string",
+						"index": "not_analyzed"
+					},
+					"en": {
+						"type": "string",
+						"index": "not_analyzed"
+					}
+				}
+			},
+			"questionText": {
+				"type": "object",
+				"properties": {
+					"de": {
+						"type": "string",
+						"index": "analyzed",
+						"analyzer": "german"
+					},
+					"en": {
+						"type": "string",
+						"index": "analyzed",
+						"analyzer": "english"
+					}
+				}
+			},
+			"study": {
+				"type": "object",
+				"properties": {
+					"doi": {
+						"type": "string",
+						"index": "not_analyzed"
+					}
+				}
+			},
+			"surveys": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string",
+						"index": "not_analyzed"
+					}
+				}
+			},
+			"variables": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string",
+						"index": "not_analyzed"
+					}
+				}
+			},
+			"relatedPublications": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string",
+						"index": "not_analyzed"
+					},
+					"doi": {
+						"type": "string",
+						"index": "not_analyzed"
+					}
+				}
+			},
+			"instrument": {
+				"type": "object",
+				"properties": {
+					"surveyIds": {
+						"type": "string",
+						"index": "no",
+						"include_in_all": false
+					},
+					"description": {
+						"type": "object",
+						"properties": {
+							"de": {
+								"type": "string",
+								"index": "analyzed",
+								"analyzer": "german"
+							},
+							"en": {
+								"type": "string",
+								"index": "analyzed",
+								"analyzer": "english"
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 }
