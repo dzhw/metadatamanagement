@@ -53,6 +53,41 @@ angular.module('metadatamanagementApp').service('SearchDao',
       queryShould) {
       switch (elasticsearchType) {
         case 'studies':
+          queryShould.push({
+            'match': {
+              'title.de': queryterm
+            }
+          });
+          queryShould.push({
+            'match': {
+              'title.en': queryterm
+            }
+          });
+          queryShould.push({
+            'match': {
+              'authors.firstName': queryterm
+            }
+          });
+          queryShould.push({
+            'match': {
+              'authors.middleName': queryterm
+            }
+          });
+          queryShould.push({
+            'match': {
+              'authors.lastName': queryterm
+            }
+          });
+          queryShould.push({
+            'match': {
+              'description.de': queryterm
+            }
+          });
+          queryShould.push({
+            'match': {
+              'description.en': queryterm
+            }
+          });
         break;
 
         case 'surveys':
