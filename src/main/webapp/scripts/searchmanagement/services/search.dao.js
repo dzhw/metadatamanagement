@@ -261,6 +261,53 @@ angular.module('metadatamanagementApp').service('SearchDao',
         break;
 
         case 'data_sets':
+          queryShould.push({
+            'match': {
+              'description.de': queryterm
+            }
+          });
+          queryShould.push({
+            'match': {
+              'description.en': queryterm
+            }
+          });
+          queryShould.push({
+            'match': {
+              'id': queryterm
+            }
+          });
+          queryShould.push({
+            'match': {
+              'type': {
+                'query': queryterm,
+                boost: 0.25
+              }
+            }
+          });
+          queryShould.push({
+            'match': {
+              'surveys.title.de': {
+                'query': queryterm,
+                boost: 0.25
+              }
+            }
+          });
+          queryShould.push({
+            'match': {
+              'surveys.title.en': {
+                'query': queryterm,
+                boost: 0.25
+              }
+            }
+          });
+          queryShould.push({
+            'match': {
+              'accessWays': {
+                'query': queryterm,
+                boost: 0.25
+              }
+            }
+          });
         break;
 
         case 'variables':
