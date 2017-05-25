@@ -264,6 +264,77 @@ angular.module('metadatamanagementApp').service('SearchDao',
         break;
 
         case 'variables':
+          queryShould.push({
+            'match': {
+              'label.de': queryterm
+            }
+          });
+          queryShould.push({
+            'match': {
+              'label.en': queryterm
+            }
+          });
+          queryShould.push({
+            'match': {
+              'id': queryterm
+            }
+          });
+          queryShould.push({
+            'match': {
+              'name': {
+                'query': queryterm,
+                boost: 0.25
+              }
+            }
+          });
+          queryShould.push({
+            'match': {
+              'dataType.de': {
+                'query': queryterm,
+                boost: 0.25
+              }
+            }
+          });
+          queryShould.push({
+            'match': {
+              'dataType.en': {
+                'query': queryterm,
+                boost: 0.25
+              }
+            }
+          });
+          queryShould.push({
+            'match': {
+              'scaleLevel.de': {
+                'query': queryterm,
+                boost: 0.25
+              }
+            }
+          });
+          queryShould.push({
+            'match': {
+              'scaleLevel.en': {
+                'query': queryterm,
+                boost: 0.25
+              }
+            }
+          });
+          queryShould.push({
+            'match': {
+              'surveys.title.de': {
+                'query': queryterm,
+                boost: 0.25
+              }
+            }
+          });
+          queryShould.push({
+            'match': {
+              'surveys.title.en': {
+                'query': queryterm,
+                boost: 0.25
+              }
+            }
+          });
         break;
 
         case 'related_publications':
