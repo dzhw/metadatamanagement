@@ -235,7 +235,7 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
                       attachmentsSheet) {
                       JobLoggingService.cancel('global.log-messages.' +
                         'unable-to-read-excel-sheets', {
-                          sheets: 'dataSets, subDataSets, attachment',
+                          sheets: 'dataSets, subDataSets, attachments',
                         });
                       return $q.reqect();
                     }

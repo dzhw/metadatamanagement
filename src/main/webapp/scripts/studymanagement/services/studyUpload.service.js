@@ -132,7 +132,7 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
                   !attachmentsFromExcel) {
                   JobLoggingService.cancel('global.log-messages.' +
                     'unable-to-read-excel-sheets', {
-                      sheets: 'study, authors, attachment',
+                      sheets: 'study, authors, attachments',
                     });
                   resolve();
                 }
