@@ -76,9 +76,9 @@ public class Instrument extends AbstractRdcDomainObject {
   @NotEmpty(message = "instrument-management.error.instrument.type.not-empty")
   @ValidInstrumentType(message = "instrument-management.error.instrument.type.valid")
   private String type;
-  
+
   @I18nStringSize(max = StringLengths.LARGE,
-      message = "instrument-management.error.variable.annotations.i18n-string-size")
+      message = "instrument-management.error.instrument.annotations.i18n-string-size")
   private I18nString annotations;
 
   @Indexed
