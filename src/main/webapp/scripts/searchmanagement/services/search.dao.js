@@ -51,6 +51,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
 
     var addAdditionalShouldQueries = function(elasticsearchType, queryterm,
       queryShould) {
+
       switch (elasticsearchType) {
         case 'studies':
           queryShould.push({
@@ -385,6 +386,37 @@ angular.module('metadatamanagementApp').service('SearchDao',
         break;
 
         case 'related_publications':
+          queryShould.push({
+            'match': {
+              'title.de': queryterm
+            }
+          });
+          queryShould.push({
+            'match': {
+              'title.en': queryterm
+            }
+          });
+          queryShould.push({
+            'match': {
+              'id': queryterm
+            }
+          });
+          queryShould.push({
+            'match': {
+              'doi': {
+                'query': queryterm,
+                boost: 0.25
+              }
+            }
+          });
+          queryShould.push({
+            'match': {
+              'publicationAbstract': {
+                'query': queryterm,
+                boost: 0.25
+              }
+            }
+          });
         break;
       }
     };
@@ -439,7 +471,6 @@ angular.module('metadatamanagementApp').service('SearchDao',
               'minimum_should_match': 1
             }
           };
-
           addAdditionalShouldQueries(elasticsearchType, queryterm,
             query.body.query.bool.should);
 
