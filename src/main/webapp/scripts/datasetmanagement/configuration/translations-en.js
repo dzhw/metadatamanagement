@@ -94,7 +94,7 @@ angular.module('metadatamanagementApp').config(
             'studies': {
               'one': 'Click to show the study of this data set'
             },
-            'get-data-set-tooltip': 'Click to retrieve information about how to order the data'
+            'get-data-set-tooltip': 'Click for information on data access'
           }
         },
         'error': {

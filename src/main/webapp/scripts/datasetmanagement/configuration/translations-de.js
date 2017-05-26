@@ -94,7 +94,7 @@ angular.module('metadatamanagementApp').config(
             'studies': {
               'one': 'Klicken, um die Studie dieses Datensatzes anzuzeigen'
             },
-            'get-data-set-tooltip': 'Klicken, um Informationen zur Datenbeantragung zu erhalten'
+            'get-data-set-tooltip': 'Klicken, um Informationen zum Datenzugang zu erhalten'
           }
         },
         'error': {
