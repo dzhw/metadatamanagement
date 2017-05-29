@@ -14,10 +14,6 @@
 			}
 		}],
 		"properties": {
-			"id": {
-				"type": "string",
-				"index": "not_analyzed"
-			},
 			"dataAcquisitionProjectId": {
 				"type": "string",
 				"index": "not_analyzed"
@@ -52,7 +48,13 @@
 			},
 			"title": {
 				"type": "string",
-				"index": "not_analyzed"
+				"index": "analyzed",
+				"analyzer": "standard"
+			},
+			"publicationAbstract": {
+				"type": "string",
+				"index": "analyzed",
+				"analyzer": "standard"
 			},
 			"instruments": {
 				"type": "object",

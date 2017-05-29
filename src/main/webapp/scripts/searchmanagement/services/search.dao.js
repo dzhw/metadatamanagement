@@ -67,24 +67,21 @@ angular.module('metadatamanagementApp').service('SearchDao',
           queryShould.push({
             'match': {
               'authors.firstName': {
-                'query': queryterm,
-                boost: 0.25
+                'query': queryterm
               }
             }
           });
           queryShould.push({
             'match': {
               'authors.middleName': {
-                'query': queryterm,
-                boost: 0.25
+                'query': queryterm
               }
             }
           });
           queryShould.push({
             'match': {
               'authors.lastName': {
-                'query': queryterm,
-                boost: 0.25
+                'query': queryterm
               }
             }
           });
@@ -106,7 +103,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
           });
           queryShould.push({
             'match': {
-              'id': queryterm
+              '_id': queryterm
             }
           });
         break;
@@ -124,22 +121,20 @@ angular.module('metadatamanagementApp').service('SearchDao',
           });
           queryShould.push({
             'match': {
-              'id': queryterm
+              '_id': queryterm
             }
           });
           queryShould.push({
             'match': {
               'surveyMethod.de': {
-                'query': queryterm,
-                boost: 0.25
+                'query': queryterm
               }
             }
           });
           queryShould.push({
             'match': {
               'surveyMethod.en': {
-                'query': queryterm,
-                boost: 0.25
+                'query': queryterm
               }
             }
           });
@@ -207,14 +202,13 @@ angular.module('metadatamanagementApp').service('SearchDao',
           queryShould.push({
             'match': {
               'type': {
-                'query': queryterm,
-                boost: 0.25
+                'query': queryterm
               }
             }
           });
           queryShould.push({
             'match': {
-              'id': queryterm
+              '_id': queryterm
             }
           });
         break;
@@ -249,14 +243,13 @@ angular.module('metadatamanagementApp').service('SearchDao',
           queryShould.push({
             'match': {
               'type': {
-                'query': queryterm,
-                boost: 0.25
+                'query': queryterm
               }
             }
           });
           queryShould.push({
             'match': {
-              'id': queryterm
+              '_id': queryterm
             }
           });
         break;
@@ -274,14 +267,13 @@ angular.module('metadatamanagementApp').service('SearchDao',
           });
           queryShould.push({
             'match': {
-              'id': queryterm
+              '_id': queryterm
             }
           });
           queryShould.push({
             'match': {
               'type': {
-                'query': queryterm,
-                boost: 0.25
+                'query': queryterm
               }
             }
           });
@@ -324,46 +316,41 @@ angular.module('metadatamanagementApp').service('SearchDao',
           });
           queryShould.push({
             'match': {
-              'id': queryterm
+              '_id': queryterm
             }
           });
           queryShould.push({
             'match': {
               'name': {
-                'query': queryterm,
-                boost: 0.25
+                'query': queryterm
               }
             }
           });
           queryShould.push({
             'match': {
               'dataType.de': {
-                'query': queryterm,
-                boost: 0.25
+                'query': queryterm
               }
             }
           });
           queryShould.push({
             'match': {
               'dataType.en': {
-                'query': queryterm,
-                boost: 0.25
+                'query': queryterm
               }
             }
           });
           queryShould.push({
             'match': {
               'scaleLevel.de': {
-                'query': queryterm,
-                boost: 0.25
+                'query': queryterm
               }
             }
           });
           queryShould.push({
             'match': {
               'scaleLevel.en': {
-                'query': queryterm,
-                boost: 0.25
+                'query': queryterm
               }
             }
           });
@@ -398,14 +385,13 @@ angular.module('metadatamanagementApp').service('SearchDao',
           });
           queryShould.push({
             'match': {
-              'id': queryterm
+              '_id': queryterm
             }
           });
           queryShould.push({
             'match': {
               'doi': {
-                'query': queryterm,
-                boost: 0.25
+                'query': queryterm
               }
             }
           });

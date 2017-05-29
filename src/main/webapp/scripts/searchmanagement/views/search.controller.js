@@ -17,6 +17,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     var locationChanged = false;
     var currentProjectChangeIsBeingHandled = false;
     var selectedTabChangeIsBeingHandled = false;
+    $scope.isSearching = 0;
 
     // set the page title in toolbar and window.title
     PageTitleService.setPageTitle('global.menu.search.title');
@@ -121,7 +122,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     $scope.search = function() {
       var projectId = $scope.currentProject ?
         $scope.currentProject.id : undefined;
-      $scope.isSearching = true;
+      $scope.isSearching++;
       SearchDao.search($scope.searchParams.query, $scope.pageObject.page,
           projectId, $scope.searchParams.filter,
           $scope.tabs[$scope.searchParams.selectedTabIndex].elasticSearchType,
@@ -149,9 +150,9 @@ angular.module('metadatamanagementApp').controller('SearchController',
             $scope.tabs[$scope.searchParams.selectedTabIndex].count =
               data.hits.total;
           });
-          $scope.isSearching = false;
+          $scope.isSearching--;
         }, function() {
-          $scope.isSearching = false;
+          $scope.isSearching--;
         });
     };
 
