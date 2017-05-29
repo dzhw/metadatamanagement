@@ -8,21 +8,21 @@ import com.google.common.base.Strings;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 
 /**
- * Validate the single strings of the i18n strings. If both are not null or empty, return true. 
- * If one or none of the String is set, then return false.
+ * Validate the single strings of the i18n strings. If both are null or empty, return false. If one
+ * of the String is set, then return true.
  * 
  * @author Daniel Katzberg
  *
  */
-public class I18nStringNotEmptyValidator implements 
-    ConstraintValidator<I18nStringEntireNotEmpty, I18nString> {
+public class I18nStringEntireNotEmptyValidator implements 
+    ConstraintValidator<I18nStringNotEmpty, I18nString> {
   
   /*
    * (non-Javadoc)
    * @see javax.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
    */
   @Override
-  public void initialize(I18nStringEntireNotEmpty constraintAnnotation) {}
+  public void initialize(I18nStringNotEmpty constraintAnnotation) {}
 
   /*
    * (non-Javadoc)
@@ -38,7 +38,7 @@ public class I18nStringNotEmptyValidator implements
     }
     
     //Check De /En Empty String    
-    return !Strings.isNullOrEmpty(value.getDe()) && !Strings.isNullOrEmpty(value.getEn());
+    return !Strings.isNullOrEmpty(value.getDe()) || !Strings.isNullOrEmpty(value.getEn());
   }
 
 }

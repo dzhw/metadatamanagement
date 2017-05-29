@@ -19,6 +19,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringEntireNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
@@ -57,7 +58,8 @@ public class Study extends AbstractRdcDomainObject {
   @NotNull(message = "study-management.error.study.title.not-null")
   @I18nStringSize(max = StringLengths.LARGE,
       message = "study-management.error.study.title.i18n-string-size")
-  @I18nStringNotEmpty(message = "study-management.error.study.title.i18n-string-not-empty")
+  @I18nStringEntireNotEmpty(
+      message = "study-management.error.study.title.i18n-string-entire-not-empty")
   private I18nString title;
   
   @NotNull(message = "study-management.error.study.description.not-null")

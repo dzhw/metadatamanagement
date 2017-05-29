@@ -94,7 +94,7 @@ angular.module('metadatamanagementApp').config(
             'title': {
               'not-null': 'The title of the study must not be empty!',
               'i18n-string-size': 'The max length of the study title is 2048.',
-              'i18n-string-not-empty': 'The title of the study must not be empty at least for one language.'
+              'i18n-string-entire-not-empty': 'The title of the study must not be empty at least for all languages.'
             },
             'description': {
               'not-null': 'The description of the study must not be empty!',
