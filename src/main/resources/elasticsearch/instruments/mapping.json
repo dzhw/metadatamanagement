@@ -24,7 +24,8 @@
 			},
 			"type": {
 				"type": "string",
-				"index": "not_analyzed"
+				"index": "analyzed",
+				"analyzer": "trigrams"
 			},
 			"surveyIds": {
 				"type": "string",

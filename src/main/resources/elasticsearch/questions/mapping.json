@@ -40,11 +40,13 @@
 				"properties": {
 					"de": {
 						"type": "string",
-						"index": "not_analyzed"
+						"index": "analyzed",
+						"analyzer": "german"
 					},
 					"en": {
 						"type": "string",
-						"index": "not_analyzed"
+						"index": "analyzed",
+						"analyzer": "english"
 					}
 				}
 			},

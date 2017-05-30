@@ -35,11 +35,13 @@
 				"properties": {
 					"de": {
 						"type": "string",
-						"index": "not_analyzed"
+						"index": "analyzed",
+						"analyzer": "german"
 					},
 					"en": {
 						"type": "string",
-						"index": "not_analyzed"
+						"index": "analyzed",
+						"analyzer": "english"
 					}
 				}
 			},
@@ -48,11 +50,13 @@
 				"properties": {
 					"de": {
 						"type": "string",
-						"index": "not_analyzed"
+						"index": "analyzed",
+						"analyzer": "german"
 					},
 					"en": {
 						"type": "string",
-						"index": "not_analyzed"
+						"index": "analyzed",
+						"analyzer": "english"
 					}
 				}
 			},
@@ -85,7 +89,8 @@
 			},
 			"name": {
 				"type": "string",
-				"index": "not_analyzed"
+				"index": "analyzed",
+				"analyzer": "trigrams"
 			},
 			"relatedQuestions": {
 				"type": "object",

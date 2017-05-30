@@ -277,6 +277,22 @@ angular.module('metadatamanagementApp').service('SearchDao',
           });
           queryShould.push({
             'match': {
+              'type.de': {
+                'query': queryterm,
+                boost: germanMajorBoost
+              }
+            }
+          });
+          queryShould.push({
+            'match': {
+              'type.en': {
+                'query': queryterm,
+                boost: englishMajorBoost
+              }
+            }
+          });
+          queryShould.push({
+            'match': {
               'questionText.de': {
                 'query': queryterm,
                 boost: germanMinorBoost
@@ -288,13 +304,6 @@ angular.module('metadatamanagementApp').service('SearchDao',
               'questionText.en': {
                 'query': queryterm,
                 boost: englishMinorBoost
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
-              'type': {
-                'query': queryterm
               }
             }
           });
@@ -329,8 +338,17 @@ angular.module('metadatamanagementApp').service('SearchDao',
           });
           queryShould.push({
             'match': {
-              'type': {
-                'query': queryterm
+              'type.de': {
+                'query': queryterm,
+                boost: germanMajorBoost
+              }
+            }
+          });
+          queryShould.push({
+            'match': {
+              'type.en': {
+                'query': queryterm,
+                boost: englishMajorBoost
               }
             }
           });
@@ -442,17 +460,8 @@ angular.module('metadatamanagementApp').service('SearchDao',
         case 'related_publications':
           queryShould.push({
             'match': {
-              'title.de': {
-                'query': queryterm,
-                boost: germanMajorBoost
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
-              'title.en': {
-                'query': queryterm,
-                boost: englishMajorBoost
+              'title': {
+                'query': queryterm
               }
             }
           });
