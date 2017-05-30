@@ -503,6 +503,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
         }
         query.type = elasticsearchType;
         query.body = {};
+        query.searchType = 'dfs_query_then_fetch';
         //use source filtering for returning only required attributes
         query.body._source = ['id', 'number', 'questionText', 'title',
           'description', 'type', 'doi', 'publicationAbstract', 'authors',
