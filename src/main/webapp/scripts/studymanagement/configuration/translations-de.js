@@ -94,7 +94,7 @@ angular.module('metadatamanagementApp').config(
             'title': {
               'not-null': 'Der Titel einer Studie darf nicht leer sein!',
               'i18n-string-size': 'Die Maximallänge des Titels einer Studie ist 2048 Zeichen.',
-              'i18n-string-entire-not-empty': 'Der Titel einer Studie muss in allen Sprache vorhanden sein.'
+              'i18n-string-entire-not-empty': 'Der Titel einer Studie muss in allen Sprachen vorhanden sein.'
             },
             'description': {
               'not-null': 'Die Beschreibung einer Studie darf nicht leer sein!',
