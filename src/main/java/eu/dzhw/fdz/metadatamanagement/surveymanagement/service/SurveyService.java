@@ -150,6 +150,7 @@ public class SurveyService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
+  @Async
   public void onStudyChanged(Study study) {
     enqueueUpserts(surveyRepository.streamIdsByStudyId(study.getId()));
   }

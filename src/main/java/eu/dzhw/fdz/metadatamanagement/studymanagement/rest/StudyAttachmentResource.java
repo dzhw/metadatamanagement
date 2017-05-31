@@ -79,4 +79,22 @@ public class StudyAttachmentResource {
         .body(null);
     }
   }
+  
+  /**
+   * Delete all attachments of the given study.
+   * 
+   * @param studyId The id of the study.
+   */
+  @RequestMapping(path = "/studies/{studyId}/attachments", method = RequestMethod.DELETE)
+  @Timed
+  @Secured(AuthoritiesConstants.PUBLISHER)
+  public ResponseEntity<?> deleteAllByStudyId(@PathVariable("studyId") String studyId) {
+    if (!StringUtils.isEmpty(studyId)) {
+      studyAttachmentService.deleteAllByStudyId(studyId);
+      return ResponseEntity.noContent().build();
+    } else {
+      return ResponseEntity.badRequest()
+        .body(null);
+    }
+  }
 }

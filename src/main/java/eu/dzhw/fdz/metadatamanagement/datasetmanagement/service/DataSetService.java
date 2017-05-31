@@ -113,6 +113,7 @@ public class DataSetService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
+  @Async
   public void onStudyChanged(Study study) {
     enqueueUpserts(dataSetRepository.streamIdsByStudyId(study.getId()));
   }

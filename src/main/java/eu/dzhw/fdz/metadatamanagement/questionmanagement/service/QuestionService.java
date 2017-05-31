@@ -118,6 +118,7 @@ public class QuestionService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
+  @Async
   public void onStudyChanged(Study study) {
     enqueueUpserts(questionRepository.streamIdsByStudyId(study.getId()));
   }

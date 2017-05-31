@@ -122,6 +122,7 @@ public class VariableService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
+  @Async
   public void onStudyChanged(Study study) {
     enqueueUpserts(variableRepository.streamIdsByStudyId(study.getId()));
   }

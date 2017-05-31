@@ -94,6 +94,7 @@ public class RelatedPublicationService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
+  @Async
   public void onStudyChanged(Study study) {
     enqueueUpserts(relatedPublicationRepository
         .streamIdsByStudyIdsContaining(study.getId()));

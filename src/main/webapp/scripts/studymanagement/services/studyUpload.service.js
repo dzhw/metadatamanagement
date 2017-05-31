@@ -2,9 +2,11 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('StudyUploadService',
-  function(StudyBuilderService, StudyDeleteResource, JobLoggingService,
+  function(StudyBuilderService, JobLoggingService, StudyRepositoryClient,
     ErrorMessageResolverService, ExcelReaderService, $translate, $mdDialog,
-    StudyAttachmentUploadService, $q, ElasticSearchAdminService, $rootScope) {
+    StudyAttachmentUploadService, $q, ElasticSearchAdminService, $rootScope,
+    CleanJSObjectService) {
+      var existingStudies = {};
       var createStudyFilesMap = function(files, dataAcquisitionProjectId) {
         var studyFilesMap = {
           dataAcquisitionProjectId: dataAcquisitionProjectId,
@@ -79,12 +81,28 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
             });
 
           };
+      var deleteAttachments = function(studyId) {
+        var deferred = $q.defer();
+        StudyAttachmentUploadService.deleteAllAttachments(studyId)
+        .catch(function(error) {
+          console.log('Unable to delete attachments:' + error);
+        }).finally(function() {
+          deferred.resolve();
+        });
+        return deferred.promise;
+      };
       var upload = function(toBeUploadedStudy) {
         toBeUploadedStudy.study.$save().then(function() {
           JobLoggingService.success({
             objectType: 'study'
           });
-          uploadAttachmentAsync(toBeUploadedStudy.attachments);
+          if (CleanJSObjectService.isNullOrEmpty(existingStudies)) {
+            uploadAttachmentAsync(toBeUploadedStudy.attachments);
+          } else {
+            deleteAttachments(toBeUploadedStudy.study.id).then(function() {
+              uploadAttachmentAsync(toBeUploadedStudy.attachments);
+            });
+          }
         }).catch(function(error) {
           var errorMessages = ErrorMessageResolverService
             .getErrorMessage(error, 'study');
@@ -164,36 +182,41 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
       };
       var startJob = function(files, dataAcquisitionProjectId) {
         JobLoggingService.start('study');
-        StudyDeleteResource.deleteByDataAcquisitionProjectId({
-          dataAcquisitionProjectId: dataAcquisitionProjectId
-        }).$promise.then(function() {
-          var filesMap = createStudyFilesMap(files,
-            dataAcquisitionProjectId);
-          createStudyResource(filesMap).then(function(studyResource) {
-              var toBeUploadedStudy = createReadyToUploadStudy(studyResource,
-              filesMap.attachments);
-              upload(toBeUploadedStudy);
-            });
-        }, function() {
-            JobLoggingService.cancel(
-              'study-management.log-messages.study.unable-to-delete'
-            );
+        var filesMap = createStudyFilesMap(files,
+          dataAcquisitionProjectId);
+        createStudyResource(filesMap).then(function(studyResource) {
+            var toBeUploadedStudy = createReadyToUploadStudy(studyResource,
+            filesMap.attachments);
+            upload(toBeUploadedStudy);
           });
       };
       var uploadStudy = function(files, dataAcquisitionProjectId) {
-        var confirm = $mdDialog.confirm().title($translate.instant(
-          'search-management.delete-messages.delete-studies-title'))
-          .textContent($translate.instant(
-            'search-management.delete-messages.delete-studies', {
-              id: dataAcquisitionProjectId
-            })).ariaLabel($translate.instant(
-              'search-management.delete-messages.delete-studies', {
-                id: dataAcquisitionProjectId
-              })).ok($translate.instant('global.buttons.ok'))
-              .cancel($translate.instant('global.buttons.cancel'));
-        $mdDialog.show(confirm).then(function() {
-            startJob(files, dataAcquisitionProjectId);
-          });
+        existingStudies = {};
+        if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
+          StudyRepositoryClient.findByDataAcquisitionProjectId(
+            dataAcquisitionProjectId).then(function(result) {
+              result.data.forEach(function(study) {
+                existingStudies[study.id] = study;
+              });
+              if (!CleanJSObjectService.isNullOrEmpty(existingStudies)) {
+                var confirm = $mdDialog.confirm().title($translate.instant(
+                  'search-management.delete-messages.delete-studies-title'))
+                  .textContent($translate.instant(
+                    'search-management.delete-messages.delete-studies', {
+                      id: dataAcquisitionProjectId
+                    })).ariaLabel($translate.instant(
+                      'search-management.delete-messages.delete-studies', {
+                        id: dataAcquisitionProjectId
+                      })).ok($translate.instant('global.buttons.ok'))
+                      .cancel($translate.instant('global.buttons.cancel'));
+                $mdDialog.show(confirm).then(function() {
+                    startJob(files, dataAcquisitionProjectId);
+                  });
+              } else {
+                startJob(files, dataAcquisitionProjectId);
+              }
+            });
+        }
       };
       return {
         uploadStudy: uploadStudy

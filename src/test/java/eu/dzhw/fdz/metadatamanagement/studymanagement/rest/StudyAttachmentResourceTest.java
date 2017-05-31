@@ -1,8 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.studymanagement.rest;
 
 import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -145,9 +145,8 @@ public class StudyAttachmentResourceTest extends AbstractTest {
       .andExpect(status().isCreated());
     
     // delete the study by project id
-    mockMvc.perform(post("/api/studies/delete").param("dataAcquisitionProjectId", study.getDataAcquisitionProjectId())
-      .content(TestUtil.convertObjectToJsonBytes(study)))
-      .andExpect(status().isOk());
+    mockMvc.perform(delete("/api/studies/" + study.getId()))
+      .andExpect(status().isNoContent());
     
     // check if attachment has been deleted as well
     mockMvc.perform(

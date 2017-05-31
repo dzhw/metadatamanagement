@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.studymanagement.repository;
 import java.util.List;
 import java.util.stream.Stream;
 
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
@@ -24,6 +25,10 @@ public interface StudyRepository extends BaseRepository<Study, String> {
   
   @RestResource(exported = false)
   Study findOneByDataAcquisitionProjectId(String dataAcquisitionProjectId);
+  
+  @RestResource(exported = true)
+  List<Study> findByDataAcquisitionProjectId(
+      @Param("dataAcquisitionProjectId") String dataAcquisitionProjectId);
   
   @RestResource(exported = false)
   Stream<Study> streamByDataAcquisitionProjectId(String dataAcquisitionProjectId);

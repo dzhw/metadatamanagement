@@ -116,6 +116,7 @@ public class InstrumentService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
+  @Async
   public void onStudyChanged(Study study) {
     enqueueUpserts(instrumentRepository.streamIdsByStudyId(study.getId()));
   }
