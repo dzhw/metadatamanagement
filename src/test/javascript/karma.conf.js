@@ -55,6 +55,8 @@ module.exports = function(config) {
       'src/main/webapp/bower_components/katex/dist/katex.js',
       'src/main/webapp/bower_components/angular-katex/angular-katex.js',
       'src/main/webapp/bower_components/bowser/src/bowser.js',
+      'src/main/webapp/bower_components/blob-polyfill/Blob.js',
+      'src/main/webapp/bower_components/angular-file-saver/dist/angular-file-saver.bundle.js',
       'src/main/webapp/bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'src/main/webapp/bower_components/elasticsearch/elasticsearch.angular.js',

@@ -58,6 +58,7 @@ angular.module('metadatamanagementApp').config(
         'buttons': {
           'close': 'Close',
           'ok': 'OK',
+          'save-protocol': 'Save Protocol',
           'cancel': 'Cancel',
           'closeDialogForEver': 'Don\'t show this message again',
           'closeDialogTemporarily': 'Not yet!'

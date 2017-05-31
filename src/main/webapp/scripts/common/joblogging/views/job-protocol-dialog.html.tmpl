@@ -34,4 +34,13 @@
             </ul>
         </div>
     </md-dialog-content>
+    <md-dialog-actions layout="row">
+      <span flex></span>
+      <md-button ng-click="saveProtocol()">
+        {{'global.buttons.save-protocol' | translate}}
+      </md-button>
+      <md-button ng-click="closeDialog()">
+        {{'global.buttons.close' | translate}}
+      </md-button>
+    </md-dialog-actions>
 </md-dialog>
