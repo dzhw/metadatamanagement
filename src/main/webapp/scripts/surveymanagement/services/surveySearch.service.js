@@ -3,13 +3,16 @@
 
 angular.module('metadatamanagementApp').factory('SurveySearchService',
   function(ElasticSearchClient, $q) {
-    var query = {};
-    query.type = 'surveys';
-    query.index = 'surveys';
+    var createQueryObject = function() {
+      return {
+        index: 'surveys',
+        type: 'surveys'
+      };
+    };
 
     var findOneById = function(id) {
       var deferred = $q.defer();
-      delete query.body;
+      var query = createQueryObject();
       query.id = id;
       ElasticSearchClient.getSource(query, function(error, response) {
           if (error) {
@@ -22,6 +25,7 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
     };
     var findSurveys = function(surveyIds, selectedAttributes) {
       var ids = _.split(surveyIds, ',');
+      var query = createQueryObject();
       query.body = {};
       query.body.query = {};
       query.body.query.docs = [];
@@ -37,6 +41,7 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
     };
     var findByProjectId = function(dataAcquisitionProjectId, selectedAttributes,
       from, size, excludedSurveyId) {
+      var query = createQueryObject();
       query.body = {};
       query.body.from = from;
       query.body.size = size;
@@ -65,6 +70,7 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
       return ElasticSearchClient.search(query);
     };
     var findByStudyId = function(studyId, selectedAttributes, from, size) {
+      var query = createQueryObject();
       query.body = {};
       query.body.from = from;
       query.body.size = size;
@@ -85,6 +91,7 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
     };
     var findByVariableId = function(variableId, selectedAttributes,
       from, size) {
+      var query = createQueryObject();
       query.body = {};
       query.body.from = from;
       query.body.size = size;
@@ -105,6 +112,7 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
     };
     var findByDataSetId = function(dataSetId, selectedAttributes,
       from, size) {
+      var query = createQueryObject();
       query.body = {};
       query.body.from = from;
       query.body.size = size;
@@ -124,6 +132,7 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
       return ElasticSearchClient.search(query);
     };
     var countBy = function(term, value) {
+      var query = createQueryObject();
       query.body = {};
       query.body.query = {};
       query.body.query = {

@@ -3,13 +3,16 @@
 
 angular.module('metadatamanagementApp').factory('QuestionSearchService',
   function(ElasticSearchClient, $q) {
-    var query = {};
-    query.type = 'questions';
-    query.index = 'questions';
+    var createQueryObject = function() {
+      return {
+        index: 'questions',
+        type: 'questions'
+      };
+    };
 
     var findOneById = function(id) {
       var deferred = $q.defer();
-      delete query.body;
+      var query =  createQueryObject();
       query.id = id;
       ElasticSearchClient.getSource(query, function(error, response) {
           if (error) {
@@ -22,6 +25,7 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
     };
     var findQuestions = function(questionIds, selectedAttributes) {
       var ids = _.split(questionIds, ',');
+      var query =  createQueryObject();
       query.body = {};
       query.body.query = {};
       query.body.query.docs = [];
@@ -37,6 +41,7 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
     };
     var findAllPredeccessors = function(questionId, selectedAttributes, from,
       size) {
+      var query =  createQueryObject();
       query.body = {};
       query.body.from = from;
       query.body.size = size;
@@ -57,6 +62,7 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
     };
     var findByProjectId = function(dataAcquisitionProjectId, selectedAttributes,
       from, size) {
+      var query =  createQueryObject();
       query.body = {};
       query.body.from = from;
       query.body.size = size;
@@ -76,6 +82,7 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
       return ElasticSearchClient.search(query);
     };
     var findOneByInstrumentId = function(instrumentId, selectedAttributes) {
+      var query =  createQueryObject();
       query.body = {};
       query.body.size = 1;
       query.body._source = selectedAttributes;
@@ -95,6 +102,7 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
     };
     var findByVariableId = function(variableId, selectedAttributes, from,
       size) {
+      var query =  createQueryObject();
       query.body = {};
       query.body.from = from;
       query.body.size = size;
@@ -114,6 +122,7 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
       return ElasticSearchClient.search(query);
     };
     var countBy = function(term, value) {
+      var query =  createQueryObject();
       query.body = {};
       query.body.query = {};
       query.body.query = {

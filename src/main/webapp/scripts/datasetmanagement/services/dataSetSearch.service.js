@@ -3,13 +3,16 @@
 
 angular.module('metadatamanagementApp').factory('DataSetSearchService',
   function(ElasticSearchClient, $q) {
-    var query = {};
-    query.type = 'data_sets';
-    query.index = 'data_sets';
+    var createQueryObject = function() {
+      return {
+        index: 'data_sets',
+        type: 'data_sets'
+      };
+    };
 
     var findOneById = function(id) {
       var deferred = $q.defer();
-      delete query.body;
+      var query =  createQueryObject();
       query.id = id;
       ElasticSearchClient.getSource(query, function(error, response) {
           if (error) {
@@ -22,6 +25,7 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
     };
     var findDataSets = function(dataSetIds, selectedAttributes) {
       var ids = _.split(dataSetIds, ',');
+      var query =  createQueryObject();
       query.body = {};
       query.body.query = {};
       query.body.query.docs = [];
@@ -36,6 +40,7 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
       return ElasticSearchClient.mget(query);
     };
     var findOneByVariableId = function(variableId, selectedAttributes) {
+      var query =  createQueryObject();
       query.body = {};
       query.body.size = 1;
       query.body._source = selectedAttributes;
@@ -55,6 +60,7 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
     };
     var findBySurveyId = function(surveyId, selectedAttributes, from,
       size) {
+      var query =  createQueryObject();
       query.body = {};
       query.body.from = from;
       query.body.size = size;
@@ -76,6 +82,7 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
     var findByProjectId = function(dataAcquisitionProjectId, selectedAttributes,
       from, size,
       excludedDataSetId) {
+      var query =  createQueryObject();
       query.body = {};
       query.body.from = from;
       query.body.size = size;
@@ -104,6 +111,7 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
       return ElasticSearchClient.search(query);
     };
     var findByStudyId = function(studyId, selectedAttributes, from, size) {
+      var query =  createQueryObject();
       query.body = {};
       query.body.from = from;
       query.body.size = size;
@@ -123,6 +131,7 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
       return ElasticSearchClient.search(query);
     };
     var countBy = function(term, value) {
+      var query =  createQueryObject();
       query.body = {};
       query.body.query = {};
       query.body.query = {

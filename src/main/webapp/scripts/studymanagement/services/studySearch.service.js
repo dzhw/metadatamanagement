@@ -2,13 +2,16 @@
 
 angular.module('metadatamanagementApp').factory('StudySearchService',
   function(ElasticSearchClient, $q) {
-    var query = {};
-    query.type = 'studies';
-    query.index = 'studies';
+    var createQueryObject = function() {
+      return {
+        index: 'studies',
+        type: 'studies'
+      };
+    };
 
     var findOneById = function(id) {
       var deferred = $q.defer();
-      delete query.body;
+      var query = createQueryObject();
       query.id = id;
       ElasticSearchClient.getSource(query, function(error, response) {
           if (error) {
@@ -20,6 +23,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       return deferred;
     };
     var findStudies = function(studyIds, selectedAttributes) {
+      var query = createQueryObject();
       query.body = {};
       query.body.query = {};
       query.body._source = selectedAttributes;
@@ -29,6 +33,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       return ElasticSearchClient.mget(query);
     };
     var findStudy = function(studyId, selectedAttributes) {
+      var query = createQueryObject();
       query.body = {};
       query.body._source = selectedAttributes;
       query.body.query = {
@@ -47,6 +52,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
     };
     var findOneByProjectId = function(dataAcquisitionProjectId,
       selectedAttributes) {
+      var query = createQueryObject();
       query.body = {};
       query.body.size = 1;
       query.body._source = selectedAttributes;

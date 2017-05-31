@@ -3,13 +3,16 @@
 angular.module('metadatamanagementApp')
   .factory('RelatedPublicationSearchService',
     function(ElasticSearchClient, $q) {
-      var query = {};
-      query.type = 'related_publications';
-      query.index = 'related_publications';
+      var createQueryObject = function() {
+        return {
+          index: 'related_publications',
+          type: 'related_publications'
+        };
+      };
 
       var findOneById = function(id) {
         var deferred = $q.defer();
-        delete query.body;
+        var query = createQueryObject();
         query.id = id;
         ElasticSearchClient.getSource(query, function(error, response) {
             if (error) {
@@ -22,6 +25,7 @@ angular.module('metadatamanagementApp')
       };
       var findBySurveyId = function(surveyId, selectedAttributes, from,
         size) {
+        var query = createQueryObject();
         query.body = {};
         query.body.from = from;
         query.body.size = size;
@@ -43,6 +47,7 @@ angular.module('metadatamanagementApp')
       };
       var findByQuestionId = function(questionId, selectedAttributes, from,
         size) {
+        var query = createQueryObject();
         query.body = {};
         query.body.from = from;
         query.body.size = size;
@@ -63,6 +68,7 @@ angular.module('metadatamanagementApp')
       };
       var findByVariableId = function(variableId, selectedAttributes, from,
         size) {
+        var query = createQueryObject();
         query.body = {};
         query.body.from = from;
         query.body.size = size;
@@ -83,6 +89,7 @@ angular.module('metadatamanagementApp')
       };
       var findByInstrumentId = function(instrumentId, selectedAttributes,
         from, size) {
+        var query = createQueryObject();
         query.body = {};
         query.body.from = from;
         query.body.size = size;
@@ -103,6 +110,7 @@ angular.module('metadatamanagementApp')
       };
       var findByDataSetId = function(dataSetId, selectedAttributes, from,
         size) {
+        var query = createQueryObject();
         query.body = {};
         query.body.from = from;
         query.body.size = size;
@@ -123,6 +131,7 @@ angular.module('metadatamanagementApp')
       };
       var findByStudyId = function(studyId, selectedAttributes, from,
         size) {
+        var query = createQueryObject();
         query.body = {};
         query.body.from = from;
         query.body.size = size;
@@ -142,6 +151,7 @@ angular.module('metadatamanagementApp')
         return ElasticSearchClient.search(query);
       };
       var countBy = function(term, value) {
+        var query = createQueryObject();
         query.body = {};
         query.body.query = {};
         query.body.query = {

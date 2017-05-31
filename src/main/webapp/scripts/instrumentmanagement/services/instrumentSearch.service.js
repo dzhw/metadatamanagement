@@ -3,13 +3,16 @@
 
 angular.module('metadatamanagementApp').factory('InstrumentSearchService',
   function(ElasticSearchClient, $q) {
-    var query = {};
-    query.type = 'instruments';
-    query.index = 'instruments';
+    var createQueryObject = function() {
+      return {
+        index: 'instruments',
+        type: 'instruments'
+      };
+    };
 
     var findOneById = function(id) {
       var deferred = $q.defer();
-      delete query.body;
+      var query = createQueryObject();
       query.id = id;
       ElasticSearchClient.getSource(query, function(error, response) {
           if (error) {
@@ -23,6 +26,7 @@ angular.module('metadatamanagementApp').factory('InstrumentSearchService',
 
     var findInstruments = function(instrumentIds, selectedAttributes) {
       var ids = _.split(instrumentIds, ',');
+      var query = createQueryObject();
       query.body = {};
       query.body.query = {};
       query.body.query.docs = [];
@@ -39,6 +43,7 @@ angular.module('metadatamanagementApp').factory('InstrumentSearchService',
 
     var findBySurveyId = function(surveyId, selectedAttributes, from,
       size) {
+      var query = createQueryObject();
       query.body = {};
       query.body.from = from;
       query.body.size = size;
@@ -59,6 +64,7 @@ angular.module('metadatamanagementApp').factory('InstrumentSearchService',
     };
     var findByProjectId = function(dataAcquisitionProjectId, selectedAttributes,
       from, size) {
+      var query = createQueryObject();
       query.body = {};
       query.body.from = from;
       query.body.size = size;
@@ -78,6 +84,7 @@ angular.module('metadatamanagementApp').factory('InstrumentSearchService',
       return ElasticSearchClient.search(query);
     };
     var countBy = function(term, value) {
+      var query = createQueryObject();
       query.body = {};
       query.body.query = {};
       query.body.query = {

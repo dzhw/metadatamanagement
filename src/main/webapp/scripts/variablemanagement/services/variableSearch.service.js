@@ -3,13 +3,16 @@
 
 angular.module('metadatamanagementApp').factory('VariableSearchService',
   function(ElasticSearchClient, $q) {
-    var query = {};
-    query.type = 'variables';
-    query.index = 'variables';
+    var createQueryObject = function() {
+      return {
+        index: 'variables',
+        type: 'variables'
+      };
+    };
 
     var findOneById = function(id) {
       var deferred = $q.defer();
-      delete query.body;
+      var query = createQueryObject();
       query.id = id;
       ElasticSearchClient.getSource(query, function(error, response) {
           if (error) {
@@ -23,6 +26,7 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
 
     var findVariables = function(variableIds, selectedAttributes) {
       var ids = _.split(variableIds, ',');
+      var query = createQueryObject();
       query.body = {};
       query.body.query = {};
       query.body.query.docs = [];
@@ -38,6 +42,7 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
     };
     var findBySurveyTitle = function(surveyTitle, selectedAttributes, from,
       size) {
+      var query = createQueryObject();
       query.body = {};
       query.body.from = from;
       query.body.size = size;
@@ -58,6 +63,7 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
     };
     var findByQuestionId = function(questionId, selectedAttributes, from,
       size) {
+      var query = createQueryObject();
       query.body = {};
       query.body.from = from;
       query.body.size = size;
@@ -78,6 +84,7 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
     };
     var findByDataSetId = function(dataSetId, selectedAttributes, from,
       size) {
+      var query = createQueryObject();
       query.body = {};
       query.body.from = from;
       query.body.size = size;
@@ -97,6 +104,7 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
       return ElasticSearchClient.search(query);
     };
     var countBy = function(term, value, dataSetId) {
+      var query = createQueryObject();
       query.body = {};
       query.body.query = {};
       query.body.query = {
