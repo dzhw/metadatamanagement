@@ -293,6 +293,11 @@ angular.module('metadatamanagementApp').config(
             'title': 'Protocol',
             'show-log': 'Click to open the protocol.'
           },
+          'type': {
+            'error': 'Error',
+            'warning': 'Warning',
+            'info': 'Information'
+          },
           'block-ui-message': '{{warnings}} Warnings and {{ errors }} Errors on {{ total }} Objects'
         }
       }

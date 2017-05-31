@@ -68,12 +68,12 @@ angular.module('metadatamanagementApp').service('SearchDao',
         case 'de':
           englishMajorBoost = 0.125;
           englishMinorBoost = 0.125;
-        break;
+          break;
         //English is the actual language, decrease german boosting
         case 'en':
           germanMajorBoost = 0.125;
           englishMinorBoost = 0.125;
-        break;
+          break;
       }
 
       //Add fields with boosting for search of different domain objects
@@ -137,7 +137,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
               '_id': queryterm
             }
           });
-        break;
+          break;
 
         case 'surveys':
           queryShould.push({
@@ -209,7 +209,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
               }
             }
           });
-        break;
+          break;
 
         case 'instruments':
           queryShould.push({
@@ -256,7 +256,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
               '_id': queryterm
             }
           });
-        break;
+          break;
 
         case 'questions':
           queryShould.push({
@@ -312,7 +312,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
               '_id': queryterm
             }
           });
-        break;
+          break;
 
         case 'data_sets':
           queryShould.push({
@@ -376,7 +376,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
               }
             }
           });
-        break;
+          break;
 
         case 'variables':
           queryShould.push({
@@ -455,7 +455,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
               }
             }
           });
-        break;
+          break;
 
         case 'related_publications':
           queryShould.push({
@@ -485,7 +485,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
               }
             }
           });
-        break;
+          break;
       }
     };
 

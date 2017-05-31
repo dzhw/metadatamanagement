@@ -25,12 +25,12 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
           switch (parentFolder) {
             case 'attachments':
               studyFilesMap.attachments[file.name] = file;
-            break;
+              break;
             default:
               if (file.name === 'study.xlsx') {
                 studyFilesMap['excelFile'] = file; /* jshint ignore:line */
               }
-            break;
+              break;
           }
         });
         return studyFilesMap;

@@ -317,7 +317,7 @@ module.exports = function(grunt) {
       jscs: {
         src: ['Gruntfile.js', 'src/main/webapp/scripts/**/*.js'],
         options: {
-          config: 'buildconfig/.jscsrc',
+          config: '.jscsrc',
           requireCurlyBraces: ['if']
         }
       },

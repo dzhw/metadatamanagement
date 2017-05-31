@@ -36,15 +36,15 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
         switch (parentFolder) {
           case 'images':
             filesMap.surveys.images[_.split(file.name, '.')[0]] = file;
-          break;
+            break;
           case 'attachments':
             filesMap.surveys.attachments[file.name] = file;
-          break;
+            break;
           default:
             if (file.name === 'surveys.xlsx') {
               filesMap.surveys.excelFile = file;
             }
-          break;
+            break;
         }
       });
     };

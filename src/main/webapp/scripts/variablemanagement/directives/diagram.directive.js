@@ -74,7 +74,7 @@ angular.module('metadatamanagementApp').directive('diagram',
               }
             }
           }
-        break;
+          break;
         default:
           data[0].x = [];
           data[0].text = [];
@@ -97,7 +97,7 @@ angular.module('metadatamanagementApp').directive('diagram',
               data[0].y.push(obj.absoluteFrequency);
             });
           }
-        break;
+          break;
       }
       angular.element($window).on('resize', function() {
         $timeout(function() {

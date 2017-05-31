@@ -232,7 +232,7 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
       switch (item.stateName) {
         case 'studyDetail':
           $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem);
-        break;
+          break;
         case 'questionDetail':
           questionItem = {
             'state': 'questionDetail',
@@ -247,7 +247,7 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
           instrumentItem = createRelatedInstrumentItem(item, 'question');
           $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
           surveyItem, instrumentItem, questionItem);
-        break;
+          break;
         case 'variableDetail':
           variableItem = {
             'state': 'variableDetail',
@@ -262,26 +262,26 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
           item.id);
           $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
           surveyItem, dataSetItem, variableItem);
-        break;
+          break;
         case 'surveyDetail':
           surveyItem = createRelatedSurveyItem([item]);
           $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
           surveyItem);
-        break;
+          break;
         case 'dataSetDetail':
           dataSetItem = createRelatedDataSetItem(item, 'data-set');
           surveyItem = createRelatedSurveyItem(item.surveys, 'data-set',
           item.id);
           $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
           surveyItem, dataSetItem);
-        break;
+          break;
         case 'instrumentDetail':
           instrumentItem = createRelatedInstrumentItem(item, 'instrument');
           surveyItem = createRelatedSurveyItem(item.surveys, 'instrument',
           item.id);
           $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
             surveyItem, instrumentItem);
-        break;
+          break;
         case 'relatedPublicationDetail':
           publicationItem = {
             'state': 'relatedPublicationDetail',
@@ -293,53 +293,53 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
             'id': item.id
           };
           $rootScope.toolbarHeaderItems.push(searchItem.get(), publicationItem);
-        break;
+          break;
         case 'search':
           searchItem.set(item);
           $rootScope.toolbarHeaderItems.push(searchItem.get());
-        break;
+          break;
         case 'disclosure':
           var disclosureItem = {
             'state': 'disclosure',
             'type': translationStringsMap.disclosure.type
           };
           $rootScope.toolbarHeaderItems.push(disclosureItem);
-        break;
+          break;
         case 'user-management':
           var managementItem = {
             'state': 'user-management',
             'type': translationStringsMap['user-management'].type
           };
           $rootScope.toolbarHeaderItems.push(managementItem);
-        break;
+          break;
         case 'user-management-detail':
           var userDetailItem = {
             'state': 'user-management-detail',
             'type': translationStringsMap['user-management-detail'].type
           };
           $rootScope.toolbarHeaderItems.push(userDetailItem);
-        break;
+          break;
         case 'login':
           var loginItem = {
             'state': 'login',
             'type': translationStringsMap.login.type
           };
           $rootScope.toolbarHeaderItems.push(loginItem);
-        break;
+          break;
         case 'metrics':
           var metricsItem = {
             'state': 'metrics',
             'type': translationStringsMap.metrics.type
           };
           $rootScope.toolbarHeaderItems.push(metricsItem);
-        break;
+          break;
         case 'health':
           var healthItem = {
             'state': 'health',
             'type': translationStringsMap.health.type
           };
           $rootScope.toolbarHeaderItems.push(healthItem);
-        break;
+          break;
         case 'configuration':
           var configItem = {
             'state': 'configuration',
@@ -347,42 +347,42 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
             type
           };
           $rootScope.toolbarHeaderItems.push(configItem);
-        break;
+          break;
         case 'logs':
           var logsItem = {
             'state': 'logs',
             'type': translationStringsMap.logs.type
           };
           $rootScope.toolbarHeaderItems.push(logsItem);
-        break;
+          break;
         case 'settings':
           var settingsItem = {
             'state': 'settings',
             'type': translationStringsMap.settings.type
           };
           $rootScope.toolbarHeaderItems.push(settingsItem);
-        break;
+          break;
         case 'password':
           var passwordItem = {
             'state': 'password',
             'type': translationStringsMap.password.type
           };
           $rootScope.toolbarHeaderItems.push(passwordItem);
-        break;
+          break;
         case 'register':
           var registerItem = {
             'state': 'register',
             'type': translationStringsMap.register.type
           };
           $rootScope.toolbarHeaderItems.push(registerItem);
-        break;
+          break;
         case 'activate':
           var activateItem = {
             'state': 'activate',
             'type': translationStringsMap.activate.type
           };
           $rootScope.toolbarHeaderItems.push(activateItem);
-        break;
+          break;
         case 'finishReset':
           var finishResetItem = {
             'state': 'finishReset',
@@ -390,7 +390,7 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
             .type
           };
           $rootScope.toolbarHeaderItems.push(finishResetItem);
-        break;
+          break;
         case 'requestReset':
           var requestResetItem = {
             'state': 'requestReset',
@@ -398,19 +398,19 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
             type
           };
           $rootScope.toolbarHeaderItems.push(requestResetItem);
-        break;
+          break;
         case 'error':
           var errorItem = {
             'state': 'error',
             'type': translationStringsMap.error.type
           };
           $rootScope.toolbarHeaderItems.push(errorItem);
-        break;
+          break;
         default:
           if (item.stateName) {
             console.log(item.stateName + ': coming...');
           }
-        break;
+          break;
       }
     };
     return {

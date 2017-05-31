@@ -10,7 +10,7 @@ angular
       'ngResource', 'ui.router', 'ngCookies', 'ngAria',
       'ngFileUpload', 'ngMaterial',
       'blockUI', 'LocalStorageModule',
-      'ngMessages', 'katex'
+      'ngMessages', 'katex', 'ngFileSaver'
     ])
 
 .run(

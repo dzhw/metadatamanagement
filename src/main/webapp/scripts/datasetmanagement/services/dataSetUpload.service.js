@@ -38,12 +38,12 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
         switch (parentFolder) {
           case 'attachments':
             filesMap.dataSets.attachments[file.name] = file;
-          break;
+            break;
           default:
             if (file.name === 'dataSets.xlsx') {
               filesMap.dataSets.excelFile = file;
             }
-          break;
+            break;
         }
       });
     };
