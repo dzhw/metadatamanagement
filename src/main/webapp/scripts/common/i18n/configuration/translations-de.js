@@ -42,7 +42,8 @@ angular.module('metadatamanagementApp').config(
         'dialog': {
           'tooltip': {
             'close': 'Klicken, um den Dialog zu schließen',
-            'closeDialogForEver': 'Klicken, um diesen Hinweis nicht mehr anzuzeigen'
+            'closeDialogForEver': 'Klicken, um diesen Hinweis nicht mehr anzuzeigen',
+            'save': 'Klicken, um das Protokoll lokal zu speichern.'
           }
         },
         'toast': {
@@ -58,7 +59,7 @@ angular.module('metadatamanagementApp').config(
         'buttons': {
           'close': 'Schließen',
           'ok': 'OK',
-          'save-protocol': 'Protokoll speichern',
+          'save': 'Speichern',
           'cancel': 'Abbrechen',
           'closeDialogForEver': 'Diesen Hinweis nicht mehr anzeigen',
           'closeDialogTemporarily': 'Jetzt nicht!'
