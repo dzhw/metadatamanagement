@@ -290,8 +290,7 @@ angular.module('metadatamanagementApp').config(
             'title': 'Protokoll',
             'success': 'Erfolg',
             'warning': 'Warnungen',
-            'error': 'Fehler',
-            'total': 'Total'
+            'error': 'Fehler'
           },
           'job-complete-toast': {
             'title': 'Protokoll',
@@ -301,6 +300,9 @@ angular.module('metadatamanagementApp').config(
             'error': 'Fehler',
             'warning': 'Warnung',
             'info': 'Information'
+          },
+          'protocol': {
+            'created-by': 'Erstellt durch Metadatensuche, am'
           },
           'block-ui-message': '{{warnings}} Warnungen und {{ errors }} Fehler bei {{ total }} Objekten'
         }

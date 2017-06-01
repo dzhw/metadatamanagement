@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').controller(
   'JobProtocolDialogController', function(
-    $scope, $mdDialog, JobLoggingService, $translate, FileSaver, Blob,
+    $scope, $mdDialog, $filter, JobLoggingService, $translate, FileSaver, Blob,
       EndOfLineService) {
     $scope.job = JobLoggingService.getCurrentJob();
     $scope.closeDialog = function() {
@@ -12,25 +12,36 @@ angular.module('metadatamanagementApp').controller(
 
     /* Save Protocol */
     $scope.saveProtocol = function() {
+      var date = new Date();
+      var dateForTextFile = $filter('date')(date, 'medium', 'local');
+      var dateForFileName = $filter('date')(date, 'yyyy-MM-ddTHH-mm-ss',
+        'local');
       var protocol = '';
       var endOfLine = EndOfLineService.getOsDependingEndOfLine();
+      var spaces = '     ';
+      //50 - signs per line. last line has actually 20 - (total: 120 - signs)
+      var asciiLine = '--------------------------------------------------' +
+      '--------------------------------------------------' +
+      '--------------------';
 
       //Add Headline Summary
-      protocol += $translate
-        .instant('global.joblogging.protocol-dialog.total') + ': ' +
-        $scope.job.total + endOfLine;
+      protocol += asciiLine;
+      protocol += endOfLine;
       protocol += $translate
         .instant('global.joblogging.protocol-dialog.success') + ': ' +
-        $scope.job.successes + endOfLine;
+        $scope.job.successes + spaces;
       protocol += $translate
         .instant('global.joblogging.protocol-dialog.warning') + ': ' +
-        $scope.job.warnings + endOfLine;
+        $scope.job.warnings + spaces;
       protocol += $translate
         .instant('global.joblogging.protocol-dialog.error') + ': ' +
         $scope.job.errors + endOfLine;
-      protocol += endOfLine;
       protocol += $translate
-        .instant('global.joblogging.protocol-dialog.title') + ': ' + endOfLine;
+        .instant('global.joblogging.protocol.created-by') + ' ' +
+        dateForTextFile + endOfLine;
+      protocol += asciiLine;
+      protocol += endOfLine;
+      protocol += endOfLine;
 
       //Add all Messages
       $scope.job.logMessages.forEach(function(logMessage) {
@@ -64,17 +75,10 @@ angular.module('metadatamanagementApp').controller(
 
       //Save Log File
       var data = new Blob([protocol], {type: 'text/plain;charset=utf-8'});
-      var date = new Date();
-
-      //FileName Example: Protocol_2017_05_31_15_23_45.txt
+      //FileName Example: Protocol-2017-05-31T15-23-45.txt
       var fileName = $translate
-        .instant('global.joblogging.protocol-dialog.title') + '_' +
-        date.getFullYear() + '_' +
-        ('0' + (date.getMonth() + 1)).slice(-2) + '_' +
-        ('0' + date.getDate()).slice(-2) + '_' +
-        ('0' + date.getHours()).slice(-2) + '_' +
-        ('0' + date.getMinutes()).slice(-2) + '_' +
-        ('0' + date.getSeconds()).slice(-2) + '.txt';
+        .instant('global.joblogging.protocol-dialog.title') + '-' +
+        dateForFileName + '.txt';
       FileSaver.saveAs(data, fileName);
     };
   });
