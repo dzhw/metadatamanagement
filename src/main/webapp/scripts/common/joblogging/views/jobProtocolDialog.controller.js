@@ -3,7 +3,8 @@
 
 angular.module('metadatamanagementApp').controller(
   'JobProtocolDialogController', function(
-    $scope, $mdDialog, JobLoggingService, $translate, FileSaver, Blob) {
+    $scope, $mdDialog, JobLoggingService, $translate, FileSaver, Blob,
+      EndOfLineService) {
     $scope.job = JobLoggingService.getCurrentJob();
     $scope.closeDialog = function() {
       $mdDialog.hide();
@@ -12,23 +13,24 @@ angular.module('metadatamanagementApp').controller(
     /* Save Protocol */
     $scope.saveProtocol = function() {
       var protocol = '';
+      var endOfLine = EndOfLineService.getOsDependingEndOfLine();
 
       //Add Headline Summary
       protocol += $translate
         .instant('global.joblogging.protocol-dialog.total') + ': ' +
-        $scope.job.total + '\n';
+        $scope.job.total + endOfLine;
       protocol += $translate
         .instant('global.joblogging.protocol-dialog.success') + ': ' +
-        $scope.job.successes + '\n';
+        $scope.job.successes + endOfLine;
       protocol += $translate
         .instant('global.joblogging.protocol-dialog.warning') + ': ' +
-        $scope.job.warnings + '\n';
+        $scope.job.warnings + endOfLine;
       protocol += $translate
         .instant('global.joblogging.protocol-dialog.error') + ': ' +
-        $scope.job.errors + '\n';
-      protocol += '\n';
+        $scope.job.errors + endOfLine;
+      protocol += endOfLine;
       protocol += $translate
-        .instant('global.joblogging.protocol-dialog.title') + ': \n';
+        .instant('global.joblogging.protocol-dialog.title') + ': ' + endOfLine;
 
       //Add all Messages
       $scope.job.logMessages.forEach(function(logMessage) {
@@ -41,19 +43,20 @@ angular.module('metadatamanagementApp').controller(
               .instant('global.joblogging.type.warning') + ') ';
               break;
             case 'info': protocol += '(' + $translate
-              .instant('global.joblogging.type.info') +
-              ') ';
+              .instant('global.joblogging.type.info') + ') ';
               break;
           }
           protocol += $translate
-            .instant(logMessage.message, logMessage.translationParams) + '\n';
+            .instant(logMessage.message, logMessage.translationParams) +
+            endOfLine;
+          protocol += endOfLine;
 
           //Add SubMessages, if existing.
           if (logMessage.subMessages) {
             logMessage.subMessages.forEach(function(subMessage) {
               protocol += '  * ' + $translate
                 .instant(subMessage.message, subMessage.translationParams) +
-                '\n';
+                endOfLine;
             });
           }
 
