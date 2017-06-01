@@ -287,7 +287,8 @@ angular.module('metadatamanagementApp').config(
             'title': 'Protocol',
             'success': 'Success',
             'warning': 'Warnings',
-            'error': 'Error'
+            'error': 'Error',
+            'total': 'Total'
           },
           'job-complete-toast': {
             'title': 'Protocol',

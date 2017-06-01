@@ -15,6 +15,9 @@ angular.module('metadatamanagementApp').controller(
 
       //Add Headline Summary
       protocol += $translate
+        .instant('global.joblogging.protocol-dialog.total') + ': ' +
+        $scope.job.total + '\n';
+      protocol += $translate
         .instant('global.joblogging.protocol-dialog.success') + ': ' +
         $scope.job.successes + '\n';
       protocol += $translate
@@ -43,12 +46,32 @@ angular.module('metadatamanagementApp').controller(
               break;
           }
           protocol += $translate
-            .instant(logMessage.message, logMessage.translationParams);
-          protocol += '\n';
+            .instant(logMessage.message, logMessage.translationParams) + '\n';
+
+          //Add SubMessages, if existing.
+          if (logMessage.subMessages) {
+            logMessage.subMessages.forEach(function(subMessage) {
+              protocol += '  * ' + $translate
+                .instant(subMessage.message, subMessage.translationParams) +
+                '\n';
+            });
+          }
+
         });
 
       //Save Log File
       var data = new Blob([protocol], {type: 'text/plain;charset=utf-8'});
-      FileSaver.saveAs(data, 'text.txt');
+      var date = new Date();
+
+      //FileName Example: Protocol_2017_05_31_15_23_45.txt
+      var fileName = $translate
+        .instant('global.joblogging.protocol-dialog.title') + '_' +
+        date.getFullYear() + '_' +
+        ('0' + (date.getMonth() + 1)).slice(-2) + '_' +
+        ('0' + date.getDate()).slice(-2) + '_' +
+        ('0' + date.getHours()).slice(-2) + '_' +
+        ('0' + date.getMinutes()).slice(-2) + '_' +
+        ('0' + date.getSeconds()).slice(-2) + '.txt';
+      FileSaver.saveAs(data, fileName);
     };
   });

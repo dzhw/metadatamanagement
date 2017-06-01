@@ -289,7 +289,8 @@ angular.module('metadatamanagementApp').config(
             'title': 'Protokoll',
             'success': 'Erfolg',
             'warning': 'Warnungen',
-            'error': 'Fehler'
+            'error': 'Fehler',
+            'total': 'Total'
           },
           'job-complete-toast': {
             'title': 'Protokoll',
