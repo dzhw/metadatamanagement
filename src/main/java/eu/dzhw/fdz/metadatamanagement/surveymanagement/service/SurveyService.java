@@ -121,6 +121,7 @@ public class SurveyService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
+  @Async
   public void onInstrumentChanged(Instrument instrument) {
     if (instrument.getSurveyIds() != null) {
       enqueueUpserts(surveyRepository.streamIdsByIdIn(instrument.getSurveyIds()));

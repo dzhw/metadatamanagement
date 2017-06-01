@@ -1,8 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.rest;
 
 import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -145,9 +145,8 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
       .andExpect(status().isCreated());
     
     // delete the instrument by project id
-    mockMvc.perform(post("/api/instruments/delete").param("dataAcquisitionProjectId", instrument.getDataAcquisitionProjectId())
-      .content(TestUtil.convertObjectToJsonBytes(instrument)))
-      .andExpect(status().isOk());
+    mockMvc.perform(delete("/api/instruments/" + instrument.getId()))
+      .andExpect(status().isNoContent());
     
     // check if attachment has been deleted as well
     mockMvc.perform(

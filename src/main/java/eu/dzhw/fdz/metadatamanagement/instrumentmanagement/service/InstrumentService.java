@@ -70,7 +70,7 @@ public class InstrumentService {
    * A service method for deletion of instruments within a data acquisition project.
    * @param dataAcquisitionProjectId the id for to the data acquisition project.
    */
-  public void deleteAllInstrumentsByProjectId(String dataAcquisitionProjectId) {
+  private void deleteAllInstrumentsByProjectId(String dataAcquisitionProjectId) {
     try (Stream<Instrument> instruments = instrumentRepository
         .streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
       instruments.forEach(instrument -> {

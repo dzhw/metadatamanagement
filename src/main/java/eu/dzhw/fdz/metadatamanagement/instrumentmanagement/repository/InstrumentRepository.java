@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
 
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
@@ -28,8 +29,9 @@ public interface InstrumentRepository
   @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamAllIdAndVersionsBy();
 
-  @RestResource(exported = false)
-  List<Instrument> findByDataAcquisitionProjectId(String dataAcquisitionProjectId);
+  @RestResource(exported = true)
+  List<Instrument> findByDataAcquisitionProjectId(
+      @Param("dataAcquisitionProjectId") String dataAcquisitionProjectId);
   
   @RestResource(exported = false)
   List<IdAndVersionProjection> findIdsByNumberAndDataAcquisitionProjectId(Integer number,

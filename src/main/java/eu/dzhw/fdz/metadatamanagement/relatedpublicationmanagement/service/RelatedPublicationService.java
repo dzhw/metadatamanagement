@@ -121,6 +121,7 @@ public class RelatedPublicationService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
+  @Async
   public void onInstrumentChanged(Instrument instrument) {
     enqueueUpserts(relatedPublicationRepository
         .streamIdsByInstrumentIdsContaining(instrument.getId()));

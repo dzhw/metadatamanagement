@@ -149,6 +149,7 @@ public class VariableService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
+  @Async
   public void onInstrumentChanged(Instrument instrument) {
     enqueueUpserts(variableRepository.streamIdsByRelatedQuestionsInstrumentId(
         instrument.getId()));

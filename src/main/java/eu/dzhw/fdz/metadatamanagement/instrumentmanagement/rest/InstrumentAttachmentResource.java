@@ -79,4 +79,23 @@ public class InstrumentAttachmentResource {
         .body(null);
     }
   }
+  
+  /**
+   * Delete all attachments of the given instrument.
+   * 
+   * @param instrumentId The id of an instrument.
+   */
+  @RequestMapping(path = "/instruments/{instrumentId}/attachments", method = RequestMethod.DELETE)
+  @Timed
+  @Secured(AuthoritiesConstants.PUBLISHER)
+  public ResponseEntity<?> deleteAllByInstrumentId(
+      @PathVariable("instrumentId") String instrumentId) {
+    if (!StringUtils.isEmpty(instrumentId)) {
+      instrumentAttachmentService.deleteAllByInstrumentId(instrumentId);
+      return ResponseEntity.noContent().build();
+    } else {
+      return ResponseEntity.badRequest()
+        .body(null);
+    }
+  }
 }

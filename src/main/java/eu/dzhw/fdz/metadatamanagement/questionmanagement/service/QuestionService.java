@@ -131,6 +131,7 @@ public class QuestionService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
+  @Async
   public void onInstrumentChanged(Instrument instrument) {
     enqueueUpserts(questionRepository.streamIdsByInstrumentId(instrument.getId()));
   }

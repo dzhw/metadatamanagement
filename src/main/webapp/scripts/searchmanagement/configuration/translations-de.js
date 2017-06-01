@@ -18,8 +18,8 @@ angular.module('metadatamanagementApp').config(
           'delete-studies': 'Sind Sie sicher, dass Sie die Studie des Datenaufbereitungsprojekts mit der FDZ-ID "{{ id }}" mit den übergebenen Daten ersetzen möchten?',
           'delete-related-publications-title': 'Alle Publikationen löschen?',
           'delete-related-publications': 'Sind Sie sicher, dass Sie die Publikationen löschen möchten?',
-          'delete-instruments-title': 'Alle Instrumente löschen?',
-          'delete-instruments': 'Sind Sie sicher, dass Sie alle Instrumente innerhalb des Datenaufbereitungsprojekts mit der FDZ-ID "{{ id }}" löschen möchten?'
+          'delete-instruments-title': 'Alle Instrumente ersetzen?',
+          'delete-instruments': 'Sind Sie sicher, dass Sie alle Instrumente innerhalb des Datenaufbereitungsprojekts mit der FDZ-ID "{{ id }}" mit den übergebenen Daten ersetzen möchten?'
         },
         'detail': {
           'search': 'Suche'

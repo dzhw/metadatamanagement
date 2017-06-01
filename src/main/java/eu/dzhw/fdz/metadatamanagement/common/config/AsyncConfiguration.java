@@ -9,6 +9,7 @@ import org.springframework.aop.interceptor.SimpleAsyncUncaughtExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -22,6 +23,7 @@ import eu.dzhw.fdz.metadatamanagement.common.async.ExceptionHandlingAsyncTaskExe
  * Configuration for {@link Async} and {@link Scheduled} tasks. *
  */
 @Configuration
+@Profile("!" + Constants.SPRING_PROFILE_UNITTEST)
 @EnableAsync
 @EnableScheduling
 public class AsyncConfiguration implements AsyncConfigurer {

@@ -10,7 +10,6 @@ import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -243,30 +242,6 @@ public class InstrumentResourceTest extends AbstractTest {
 
     // delete the project
     mockMvc.perform(delete("/api/data-acquisition-projects/" + project.getId()))
-      .andExpect(status().is2xxSuccessful());
-
-    // check that the instrument has been deleted as well
-    mockMvc.perform(get(API_INSTRUMENTS_URI + "/" + instrument.getId()))
-      .andExpect(status().isNotFound());
-  }
-
-  @Test
-  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
-  public void testDeleteInstrumentByProjectId() throws Exception {
-    // Arrange
-    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
-    this.dataAcquisitionProjectRepository.save(project);
-
-    Instrument instrument =
-        UnitTestCreateDomainObjectUtils.buildInstrument(project.getId(), "SurveyId");
-
-    // create the instrument with the given id
-    mockMvc.perform(put(API_INSTRUMENTS_URI + "/" + instrument.getId())
-      .content(TestUtil.convertObjectToJsonBytes(instrument)))
-      .andExpect(status().isCreated());
-
-    // delete the instrument
-    mockMvc.perform(post("/api/instruments/delete?dataAcquisitionProjectId=" + project.getId()))
       .andExpect(status().is2xxSuccessful());
 
     // check that the instrument has been deleted as well

@@ -201,6 +201,7 @@ public class StudyService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
+  @Async
   public void onInstrumentChanged(Instrument instrument) {
     IdAndVersionProjection study = studyRepository.findOneIdAndVersionById(instrument.getStudyId());
     if (study != null) {
