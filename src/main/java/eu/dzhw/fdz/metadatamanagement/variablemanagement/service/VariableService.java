@@ -65,7 +65,7 @@ public class VariableService {
    * A service method for deletion of variables within a data acquisition project.
    * @param dataAcquisitionProjectId the id for to the data acquisition project.
    */
-  public void deleteAllVariablesByProjectId(String dataAcquisitionProjectId) {
+  private void deleteAllVariablesByProjectId(String dataAcquisitionProjectId) {
     try (Stream<Variable> variables = variableRepository
         .streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
       variables.forEach(variable -> {
@@ -110,6 +110,7 @@ public class VariableService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
+  @Async
   public void onDataSetChanged(DataSet dataSet) {
     enqueueUpserts(variableRepository.streamIdsByDataSetId(dataSet.getId()));
   }

@@ -148,6 +148,7 @@ public class RelatedPublicationService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
+  @Async
   public void onDataSetChanged(DataSet dataSet) {
     enqueueUpserts(relatedPublicationRepository
         .streamIdsByDataSetIdsContaining(dataSet.getId()));

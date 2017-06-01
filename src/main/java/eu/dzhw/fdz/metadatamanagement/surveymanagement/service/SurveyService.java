@@ -74,7 +74,7 @@ public class SurveyService {
    * A service method for deletion of surveys within a data acquisition project.
    * @param dataAcquisitionProjectId the id for to the data acquisition project.
    */
-  public void deleteAllSurveysByProjectId(String dataAcquisitionProjectId) {
+  private void deleteAllSurveysByProjectId(String dataAcquisitionProjectId) {
     try (Stream<Survey> surveys = surveyRepository
         .streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
       surveys.forEach(survey -> {

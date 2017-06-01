@@ -66,7 +66,7 @@ public class StudyService {
    * A service method for deletion of studies within a data acquisition project.
    * @param dataAcquisitionProjectId the id for to the data acquisition project.
    */
-  public void deleteAllStudiesByProjectId(String dataAcquisitionProjectId) {
+  private void deleteAllStudiesByProjectId(String dataAcquisitionProjectId) {
     try (Stream<Study> studies = studyRepository
         .streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
       studies.forEach(study -> {
@@ -112,6 +112,7 @@ public class StudyService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
+  @Async
   public void onDataSetChanged(DataSet dataSet) {
     IdAndVersionProjection study = studyRepository.findOneIdAndVersionById(dataSet.getStudyId());
     if (study != null) {
