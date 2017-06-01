@@ -178,6 +178,7 @@ public class SurveyService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
+  @Async
   public void onDataSetChanged(DataSet dataSet) {
     if (dataSet.getSurveyIds() != null) {
       enqueueUpserts(surveyRepository.streamIdsByIdIn(dataSet.getSurveyIds()));
