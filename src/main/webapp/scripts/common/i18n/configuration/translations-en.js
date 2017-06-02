@@ -43,7 +43,7 @@ angular.module('metadatamanagementApp').config(
           'tooltip': {
             'close': 'Click to close the dialog',
             'closeDialogForEver': 'Click to close this message forever',
-            'save': 'Click to save the protocol locally.'
+            'save': 'Click to save the protocol'
           }
         },
         'toast': {

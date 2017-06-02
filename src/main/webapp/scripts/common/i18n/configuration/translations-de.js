@@ -43,7 +43,7 @@ angular.module('metadatamanagementApp').config(
           'tooltip': {
             'close': 'Klicken, um den Dialog zu schließen',
             'closeDialogForEver': 'Klicken, um diesen Hinweis nicht mehr anzuzeigen',
-            'save': 'Klicken, um das Protokoll lokal zu speichern.'
+            'save': 'Klicken, um das Protokoll zu speichern'
           }
         },
         'toast': {
