@@ -58,11 +58,11 @@ public class QuestionImageService {
   
   /**
    * This method delete an image from GridFS/MongoDB.
-   * @param imageName The name of the image to be deleted
+   * @param questionId the id of the question to which the image belongs
    */
-  public void deleteQuestionImage(String imageName) {
+  public void deleteQuestionImage(String questionId) {
     Query query = new Query(GridFsCriteria.whereFilename()
-        .is("/questions/" + imageName));
+        .is("/questions/" + questionId));
     this.operations.delete(query);
   }
   

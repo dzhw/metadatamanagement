@@ -183,6 +183,7 @@ public class StudyService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
+  @Async
   public void onQuestionChanged(Question question) {
     IdAndVersionProjection study = studyRepository.findOneIdAndVersionById(question.getStudyId());
     if (study != null) {

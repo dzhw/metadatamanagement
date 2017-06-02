@@ -1,16 +1,17 @@
 /*jshint loopfunc: true */
-/* global Blob */
 /* global _ */
 'use strict';
 
 angular.module('metadatamanagementApp').service('QuestionUploadService',
-  function(FileReaderService, QuestionResource, QuestionDeleteResource,
+  function(FileReaderService, QuestionResource, QuestionRepositoryClient,
     JobLoggingService, QuestionImageUploadService, CleanJSObjectService,
     ErrorMessageResolverService, $q, ElasticSearchAdminService, $rootScope,
     $translate, $mdDialog, QuestionIdBuilderService, StudyIdBuilderService,
     InstrumentIdBuilderService) {
     var filesMap;
     var questionResources;
+    // map questionId -> presentInJson true/false
+    var existingQuestions = {};
     var createInstrumentsFileMap = function(files, dataAcquisitionProjectId) {
       filesMap = {};
       var instrumentIndex = 0;
@@ -81,6 +82,9 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                 question.dataAcquisitionProjectId,
                 question.instrumentNumber,
                 questionNumber);
+              if (existingQuestions[question.id]) {
+                existingQuestions[question.id].presentInJson = true;
+              }
               question.number = questionNumber;
               var successors = [];
               if (!CleanJSObjectService.isNullOrEmpty(question
@@ -138,33 +142,59 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
       });
     };
 
+    var deleteAllQuestionsNotPresentInJson = function() {
+      var promiseChain = $q.when();
+      _.each(existingQuestions, function(existingQuestion) {
+        if (!existingQuestion.presentInJson) {
+          promiseChain = promiseChain.then(function() {
+            return QuestionResource.delete({id: existingQuestion.id}).$promise
+            .catch(
+              function(error) {
+                console.log('Error when deleting question:', error);
+              });
+          });
+        }
+      });
+      return promiseChain;
+    };
+
+    var deleteAllImages = function(questionId) {
+      var deferred = $q.defer();
+      QuestionImageUploadService.deleteAllImages(questionId)
+      .catch(function(error) {
+        console.log('Unable to delete images:' + error);
+      }).finally(function() {
+        deferred.resolve();
+      });
+      return deferred.promise;
+    };
+
     var uploadQuestion = function(question, image) {
       return $q(function(resolve) {
         question.$save().then(function() {
           JobLoggingService.success({
             objectType: 'question'
           });
-          var imageFile = new Blob([image], {
-            type: 'image/png'
-          });
-          QuestionImageUploadService.uploadImage(imageFile,
+          deleteAllImages(question.id).finally(function() {
+            QuestionImageUploadService.uploadImage(image,
               question.id)
-            .then(function() {
-              JobLoggingService.success({
-                objectType: 'image'
-              });
-              resolve();
-            }, function() {
-              JobLoggingService.error({
-                message: 'question-management.log-messages.' +
+              .then(function() {
+                JobLoggingService.success({
+                  objectType: 'image'
+                });
+                resolve();
+              }, function() {
+                JobLoggingService.error({
+                  message: 'question-management.log-messages.' +
                   'question.unable-to-upload-image-file',
-                messageParams: {
-                  file: question.number + '.png'
-                },
-                objectType: 'image'
+                  messageParams: {
+                    file: question.number + '.png'
+                  },
+                  objectType: 'image'
+                });
+                resolve();
               });
-              resolve();
-            });
+          });
         }, function(error) {
           var errorMessages = ErrorMessageResolverService
             .getErrorMessage(error, 'question');
@@ -178,22 +208,24 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
         });
       });
     };
+
     var uploadInstruments = function(instrumentIndex) {
       if (instrumentIndex === _.size(filesMap)) {
-        ElasticSearchAdminService.processUpdateQueue('questions').finally(
-          function() {
-          var job = JobLoggingService.getCurrentJob();
-          JobLoggingService.finish(
-            'question-management.log-messages.question.upload-terminated', {
-              totalQuestions: job.getCounts('question').total,
-              totalImages: job.getCounts('image').total,
-              totalWarnings: job.warnings,
-              totalErrors: job.errors
-            }
-          );
-          $rootScope.$broadcast('upload-completed');
+        deleteAllQuestionsNotPresentInJson().finally(function() {
+          ElasticSearchAdminService.processUpdateQueue('questions').finally(
+            function() {
+            var job = JobLoggingService.getCurrentJob();
+            JobLoggingService.finish(
+              'question-management.log-messages.question.upload-terminated', {
+                totalQuestions: job.getCounts('question').total,
+                totalImages: job.getCounts('image').total,
+                totalWarnings: job.warnings,
+                totalErrors: job.errors
+              }
+            );
+            $rootScope.$broadcast('upload-completed');
+          });
         });
-        return;
       } else {
         var instrument = _.filter(filesMap, function(filesObject) {
           return filesObject.instrumentIndex === instrumentIndex;
@@ -225,34 +257,40 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
           });
       }
     };
+
+    var startJob = function(files, dataAcquisitionProjectId) {
+      JobLoggingService.start('question');
+      createInstrumentsFileMap(files, dataAcquisitionProjectId);
+      uploadInstruments(0);
+    };
+
     var uploadQuestions = function(files, dataAcquisitionProjectId) {
+      existingQuestions = {};
       if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
-        var confirm = $mdDialog.confirm().title($translate.instant(
-            'search-management.delete-messages.delete-questions-title'))
-          .textContent($translate.instant(
-            'search-management.delete-messages.delete-questions', {
-              id: dataAcquisitionProjectId
-            })).ariaLabel($translate.instant(
-            'search-management.delete-messages.delete-questions', {
-              id: dataAcquisitionProjectId
-            }))
-          .ok($translate.instant('global.buttons.ok'))
-          .cancel($translate.instant('global.buttons.cancel'));
-        $mdDialog.show(confirm).then(function() {
-          JobLoggingService.start('question');
-          QuestionDeleteResource.deleteByDataAcquisitionProjectId({
-              dataAcquisitionProjectId: dataAcquisitionProjectId
-            }).$promise
-            .then(function() {
-              createInstrumentsFileMap(files,
-                dataAcquisitionProjectId);
-              uploadInstruments(0);
-            }, function() {
-              JobLoggingService.cancel(
-                'question-management.log-messages.question.' +
-                'unable-to-delete', {});
+        QuestionRepositoryClient.findByDataAcquisitionProjectId(
+          dataAcquisitionProjectId).then(function(result) {
+            result.data.forEach(function(question) {
+              existingQuestions[question.id] = question;
             });
-        });
+            if (result.data.length > 0) {
+              var confirm = $mdDialog.confirm().title($translate.instant(
+                  'search-management.delete-messages.delete-questions-title'))
+                .textContent($translate.instant(
+                  'search-management.delete-messages.delete-questions', {
+                    id: dataAcquisitionProjectId
+                  })).ariaLabel($translate.instant(
+                  'search-management.delete-messages.delete-questions', {
+                    id: dataAcquisitionProjectId
+                  }))
+                .ok($translate.instant('global.buttons.ok'))
+                .cancel($translate.instant('global.buttons.cancel'));
+              $mdDialog.show(confirm).then(function() {
+                  startJob(files, dataAcquisitionProjectId);
+                });
+            } else {
+              startJob(files, dataAcquisitionProjectId);
+            }
+          });
       }
     };
     return {

@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.questionmanagement.repository;
 import java.util.List;
 import java.util.stream.Stream;
 
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
@@ -22,8 +23,9 @@ public interface QuestionRepository
   @RestResource(exported = false)
   Stream<Question> streamByDataAcquisitionProjectId(String dataAcquisitionProjectId);
 
-  @RestResource(exported = false)
-  List<Question> findByDataAcquisitionProjectId(String dataAcquisitionProjectId);
+  @RestResource(exported = true)
+  List<Question> findByDataAcquisitionProjectId(
+      @Param("dataAcquisitionProjectId") String dataAcquisitionProjectId);
   
   @RestResource(exported = false)
   List<IdAndVersionProjection> findIdsByInstrumentIdAndNumber(String instrumentId, String number);

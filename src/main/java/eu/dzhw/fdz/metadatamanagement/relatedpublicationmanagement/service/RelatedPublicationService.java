@@ -108,6 +108,7 @@ public class RelatedPublicationService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
+  @Async
   public void onQuestionChanged(Question question) {
     enqueueUpserts(relatedPublicationRepository
         .streamIdsByQuestionIdsContaining(question.getId()));

@@ -136,6 +136,7 @@ public class SurveyService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
+  @Async
   public void onQuestionChanged(Question question) {
     Instrument instrument = instrumentRepository.findOne(question.getInstrumentId());
     if (instrument != null && instrument.getSurveyIds() != null) {

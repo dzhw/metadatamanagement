@@ -72,7 +72,7 @@ public class QuestionService {
    * A service method for deletion of questions within a data acquisition project.
    * @param dataAcquisitionProjectId the id for to the data acquisition project.
    */
-  public void deleteQuestionsByProjectId(String dataAcquisitionProjectId) {
+  private void deleteQuestionsByProjectId(String dataAcquisitionProjectId) {
     try (Stream<Question> questions = questionRepository
         .streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
       questions.forEach(question -> {

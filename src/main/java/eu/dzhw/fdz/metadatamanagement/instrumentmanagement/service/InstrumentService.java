@@ -142,6 +142,7 @@ public class InstrumentService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
+  @Async
   public void onQuestionChanged(Question question) {
     IdAndVersionProjection instrument = instrumentRepository
         .findOneIdAndVersionById(question.getInstrumentId());
