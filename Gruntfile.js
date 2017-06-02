@@ -399,20 +399,6 @@ module.exports = function(grunt) {
           dirs: ['<%= yeoman.dist %>']
         }
       },
-      imagemin: {
-        dist: {
-          files: [{
-            expand: true,
-            cwd: 'src/main/webapp/assets/images',
-            src: '**/*.{jpg,jpeg}', // we don't optimize PNG
-            // files as it
-            // doesn't work on Linux. If you are
-            // not on Linux, feel free to use
-            // '**/*.{png,jpg,jpeg}'
-            dest: '<%= yeoman.dist %>/assets/images'
-          }]
-        }
-      },
       svgmin: {
         dist: {
           files: [{
@@ -623,21 +609,21 @@ module.exports = function(grunt) {
 
   grunt.registerTask('builddev', ['test', 'htmlangular', 'clean:dist',
     'wiredep:app', 'ngconstant:dev',
-    'useminPrepare', 'ngtemplates', 'imagemin', 'svgmin',
+    'useminPrepare', 'ngtemplates', 'svgmin',
     'concat', 'copy:fonts', 'copy:dist', 'ngAnnotate', 'cssmin',
     'autoprefixer', 'uglify', 'rev', 'usemin', 'htmlmin'
   ]);
 
   grunt.registerTask('buildtest', ['test', 'htmlangular', 'clean:dist',
     'wiredep:app', 'ngconstant:test',
-    'useminPrepare', 'ngtemplates', 'imagemin', 'svgmin',
+    'useminPrepare', 'ngtemplates', 'svgmin',
     'concat', 'copy:fonts', 'copy:dist', 'ngAnnotate', 'cssmin',
     'autoprefixer', 'uglify', 'rev', 'usemin', 'htmlmin'
   ]);
 
   grunt.registerTask('buildprod', ['test', 'htmlangular', 'clean:dist',
     'wiredep:app', 'ngconstant:prod',
-    'useminPrepare', 'ngtemplates', 'imagemin', 'svgmin',
+    'useminPrepare', 'ngtemplates', 'svgmin',
     'concat', 'copy:fonts', 'copy:dist', 'ngAnnotate', 'cssmin',
     'autoprefixer', 'uglify', 'rev', 'usemin', 'htmlmin'
   ]);
