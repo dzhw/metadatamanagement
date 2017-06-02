@@ -179,6 +179,7 @@ public class InstrumentService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
+  @Async
   public void onRelatedPublicationChanged(RelatedPublication relatedPublication) {
     if (relatedPublication.getInstrumentIds() != null) {
       enqueueUpserts(instrumentRepository.streamIdsByIdIn(

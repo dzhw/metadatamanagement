@@ -3,12 +3,10 @@ package eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
-import org.springframework.data.rest.core.event.AfterDeleteEvent;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -41,22 +39,6 @@ public class RelatedPublicationService {
 
   @Autowired
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
-  
-  @Autowired
-  private ApplicationEventPublisher eventPublisher;
-  
-  /**
-   * A service method for deletion of relatedPublications within a data acquisition project.
-   */
-  public void deleteAll() {
-    try (Stream<RelatedPublication> relatedPublications = relatedPublicationRepository
-        .streamAllBy()) {
-      relatedPublications.forEach(relatedPublication -> {
-        relatedPublicationRepository.delete(relatedPublication);
-        eventPublisher.publishEvent(new AfterDeleteEvent(relatedPublication));              
-      });
-    }
-  }
   
   /**
    * Enqueue deletion of related publication search document 

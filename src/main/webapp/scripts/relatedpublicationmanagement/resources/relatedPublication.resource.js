@@ -14,6 +14,9 @@ angular.module('metadatamanagementApp')
       },
       'save': {
         method: 'PUT'
+      },
+      'delete': {
+        method: 'DELETE'
       }
     });
   });

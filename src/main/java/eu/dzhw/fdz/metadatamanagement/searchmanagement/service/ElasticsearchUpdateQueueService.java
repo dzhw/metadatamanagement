@@ -255,7 +255,7 @@ public class ElasticsearchUpdateQueueService {
       List<VariableSubDocumentProjection> variables = variableRepository
           .findSubDocumentsByRelatedQuestionsInstrumentId(instrument.getId());
       List<RelatedPublicationSubDocumentProjection> relatedPublications = 
-          relatedPublicationRepository.findSudDocumentsByInstrumentIdsContaining(
+          relatedPublicationRepository.findSubDocumentsByInstrumentIdsContaining(
               instrument.getId());
       DataAcquisitionProject project = projectRepository.findOne(
           instrument.getDataAcquisitionProjectId());

@@ -180,6 +180,7 @@ public class QuestionService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
+  @Async
   public void onRelatedPublicationChanged(RelatedPublication relatedPublication) {
     if (relatedPublication.getQuestionIds() != null) {
       enqueueUpserts(questionRepository.streamIdsByIdIn(relatedPublication

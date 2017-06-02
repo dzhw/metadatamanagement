@@ -136,6 +136,7 @@ public class VariableService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
+  @Async
   public void onRelatedPublicationChanged(RelatedPublication relatedPublication) {
     enqueueUpserts(variableRepository
         .streamIdsByIdIn(relatedPublication.getVariableIds()));

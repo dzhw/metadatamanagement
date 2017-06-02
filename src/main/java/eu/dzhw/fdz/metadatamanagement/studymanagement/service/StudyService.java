@@ -150,6 +150,7 @@ public class StudyService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
+  @Async
   public void onRelatedPublicationChanged(RelatedPublication relatedPublication) {
     if (relatedPublication.getStudyIds() != null) {
       enqueueUpserts(studyRepository.streamIdsByIdIn(relatedPublication.getStudyIds()));      

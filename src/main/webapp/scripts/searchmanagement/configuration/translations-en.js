@@ -16,8 +16,8 @@ angular.module('metadatamanagementApp').config(
           'delete-data-sets': 'Are you sure you want to replace all Data Sets within the Data Acquisition Project with RDC-ID "{{ id }}"?',
           'delete-studies-title': 'Replace Study?',
           'delete-studies': 'Are you sure you want to replace the Study of the Data Acquisition Project with RDC-ID "{{ id }}"?',
-          'delete-related-publications-title': 'Delete all Publications?',
-          'delete-related-publications': 'Are you sure you want to delete all Publications?',
+          'delete-related-publications-title': 'Replace all Publications?',
+          'delete-related-publications': 'Are you sure you want to replace all Publications?',
           'delete-instruments-title': 'Replace all Instruments?',
           'delete-instruments': 'Are you sure you want to replace all Instruments within the Data Acquisition Project with RDC-ID "{{ id }}"?'
         },

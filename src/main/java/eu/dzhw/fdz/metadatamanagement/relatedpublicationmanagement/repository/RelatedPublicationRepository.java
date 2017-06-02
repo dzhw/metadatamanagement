@@ -64,11 +64,14 @@ public interface RelatedPublicationRepository extends BaseRepository<RelatedPubl
       String dataSetId);
 
   @RestResource(exported = false)
-  List<RelatedPublicationSubDocumentProjection> findSudDocumentsByInstrumentIdsContaining(
+  List<RelatedPublicationSubDocumentProjection> findSubDocumentsByInstrumentIdsContaining(
       String instrumentId);
 
   @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamAllIdAndVersionsBy();
+  
+  @RestResource(exported = true)
+  List<RelatedPublication> findAllBy();
   
   @RestResource(exported = false)
   Stream<RelatedPublication> streamAllBy();
