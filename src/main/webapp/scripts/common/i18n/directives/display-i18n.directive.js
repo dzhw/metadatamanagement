@@ -25,10 +25,11 @@ angular.module('metadatamanagementApp').directive('displayI18nString',
             } else {
               //if the limitTo Filter is set, use it!
               if (scope.limitTo) {
+                var originalLength  = toBeDisplayed.length;
                 toBeDisplayed = $filter('limitTo')
                   (toBeDisplayed, scope.limitTo, 0);
-                if (toBeDisplayed.length < scope.limitTo) {
-                  toBeDisplayed += ' ...';
+                if (originalLength > scope.limitTo) {
+                  toBeDisplayed += '...';
                 }
               }
               element.empty().append(toBeDisplayed += '&nbsp;');
