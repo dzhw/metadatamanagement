@@ -110,18 +110,12 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-not-empty': 'The Survey-Method has to be given for one language.',
               'i18n-string-size': 'The max length of the Survey-Method is 128 signs.'
             },
-            'gross-sample-size': {
-              'not-null': 'The Gross Sample Size of a Survey must not be empty!'
-            },
             'sample-size': {
               'not-null': 'The Sample Size of a Survey must not be empty!'
             },
             'unique-survey-number': 'The Number of a Survey has to be unique within a Data Acquisition Project!',
             'number': {
               'not-null': 'The Number of the Survey must not be empty!'
-            },
-            'response-rate': {
-              'not-null': 'The Response Rate of a Survey must not be empty!'
             },
             'annotations': {
               'i18n-string-size': 'The max length of the annotations is 2048 signs.'

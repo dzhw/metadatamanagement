@@ -110,18 +110,12 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-not-empty': 'Die Erhebungsmethode muss mindestens in einer Sprache vorliegen.',
               'i18n-string-size': 'Die Maximallänge der Erhebungsmethode ist 128 Zeichen.'
             },
-            'gross-sample-size': {
-              'not-null': 'Die Gross-Sample-Size der Erhebung darf nicht leer sein!'
-            },
             'sample-size': {
               'not-null': 'Die Sample-Size der Erhebung darf nicht leer sein!'
             },
             'unique-survey-number': 'Die Nummer einer Erhebung muss eindeutig innerhalb eines Datenaufbereitungsprojektes sein!',
             'number': {
               'not-null': 'Die Nummer der Erhebung darf nicht leer sein!'
-            },
-            'response-rate': {
-              'not-null': 'Die Rücklaufquote der Erhebung darf nicht leer sein!'
             },
             'annotations': {
               'i18n-string-size': 'Die Maximallänge der Anmerkungen ist 2048 Zeichen.'

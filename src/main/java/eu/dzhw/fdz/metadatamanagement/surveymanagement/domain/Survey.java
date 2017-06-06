@@ -81,13 +81,11 @@ public class Survey extends AbstractRdcDomainObject {
       message = "survey-management.error.survey.sample.i18n-string-size")
   private I18nString sample;
 
-  @NotNull(message = "survey-management.error.survey.gross-sample-size.not-null")
   private Integer grossSampleSize;
   
   @NotNull(message = "survey-management.error.survey.sample-size.not-null")
   private Integer sampleSize;
   
-  @NotNull(message = "survey-management.error.survey.response-rate.not-null")
   private Double responseRate;
   
   @Indexed
