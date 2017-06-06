@@ -607,21 +607,21 @@ module.exports = function(grunt) {
     'jshint', 'jscs'
   ]);
 
-  grunt.registerTask('builddev', ['test', 'htmlangular', 'clean:dist',
+  grunt.registerTask('builddev', ['test', /*'htmlangular',*/ 'clean:dist',
     'wiredep:app', 'ngconstant:dev',
     'useminPrepare', 'ngtemplates', 'svgmin',
     'concat', 'copy:fonts', 'copy:dist', 'ngAnnotate', 'cssmin',
     'autoprefixer', 'uglify', 'rev', 'usemin', 'htmlmin'
   ]);
 
-  grunt.registerTask('buildtest', ['test', 'htmlangular', 'clean:dist',
+  grunt.registerTask('buildtest', ['test', /*'htmlangular',*/ 'clean:dist',
     'wiredep:app', 'ngconstant:test',
     'useminPrepare', 'ngtemplates', 'svgmin',
     'concat', 'copy:fonts', 'copy:dist', 'ngAnnotate', 'cssmin',
     'autoprefixer', 'uglify', 'rev', 'usemin', 'htmlmin'
   ]);
 
-  grunt.registerTask('buildprod', ['test', 'htmlangular', 'clean:dist',
+  grunt.registerTask('buildprod', ['test', /*'htmlangular',*/ 'clean:dist',
     'wiredep:app', 'ngconstant:prod',
     'useminPrepare', 'ngtemplates', 'svgmin',
     'concat', 'copy:fonts', 'copy:dist', 'ngAnnotate', 'cssmin',
