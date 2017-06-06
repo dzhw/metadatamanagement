@@ -10,7 +10,7 @@
             </md-card-header-text>
         </md-card-header>
         <md-card-content>
-            <div lang="{{searchResult.language}}">{{searchResult.publicationAbstract | limitTo: 500}}{{searchResult.publicationAbstract.length > 500 ? '...' : ''}}</div>
+            <div lang="{{searchResult.language}}">{{searchResult.publicationAbstract | limitTo: 256}}{{searchResult.publicationAbstract.length > 500 ? '...' : ''}}</div>
         </md-card-content>
         <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
           {{'search-management.cards.publication-tooltip' | translate: {id:searchResult.id} }}

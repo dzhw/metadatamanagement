@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').directive('displayI18nString',
-    function(LanguageService) {
+    function(LanguageService, $filter) {
         var link = function(scope, element) {
             var toBeDisplayed;
             var currentLanguage = LanguageService.getCurrentInstantly();
@@ -23,14 +23,20 @@ angular.module('metadatamanagementApp').directive('displayI18nString',
             if (element[0].tagName === 'IMG') {
               element.attr('alt', toBeDisplayed);
             } else {
-              element.empty().append(toBeDisplayed + '&nbsp;');
+              //if the limitTo Filter is set, use it!
+              if (scope.limitTo) {
+                toBeDisplayed = $filter('limitTo')
+                  (toBeDisplayed, scope.limitTo, 0) + ' ...';
+              }
+              element.empty().append(toBeDisplayed += '&nbsp;');
             }
           };
         return {
           restrict: 'A',
           link: link,
           scope: {
-              displayI18nString: '='
+              displayI18nString: '=',
+              limitTo: '='
             }
         };
       });

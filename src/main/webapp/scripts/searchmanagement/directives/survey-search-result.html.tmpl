@@ -14,7 +14,7 @@
                 <div flex-gt-sm="50" layout="column" ng-class="{'fdz-add-right-margin': addMargin, 'fdz-add-bottom-margin': !addMargin}">
                     <div ng-if="searchResult.population">
                         <span style="font-weight: bold;">{{'survey-management.detail.population' | translate }}:</span>
-                        <span display-i18n-string="searchResult.population"></span>
+                        <span display-i18n-string="searchResult.population" limit-to="256"></span>
                     </div>
                 </div>
                 <div flex-gt-sm="50" layout="column">
