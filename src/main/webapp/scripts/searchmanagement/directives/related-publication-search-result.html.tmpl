@@ -6,7 +6,10 @@
             </md-card-avatar>
             <md-card-header-text class="fdz-truncate-string">
                 <div class="md-title fdz-truncate-string" lang="{{searchResult.language}}">{{searchResult.title}} <span class="label label-as-badge label-default">{{searchResult.id}}</span></div>
-                <div class="md-subhead fdz-truncate-string">{{searchResult.doi}}</div>
+                <div class="md-subhead fdz-truncate-string">
+                  <span>{{searchResult.authors}}</span>
+                  <span ng-if="searchResult.doi" class="md-subhead fdz-truncate-string">({{'related-publication-management.detail.doi' | translate }}: {{searchResult.doi}})</span>
+                </div>
             </md-card-header-text>
         </md-card-header>
         <md-card-content>
