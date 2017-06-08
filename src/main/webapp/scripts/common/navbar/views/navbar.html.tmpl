@@ -160,6 +160,15 @@
                 <md-divider></md-divider>
             </li>
             <li class="fdz-navbar-menu">
+                <md-button class="fdz-navbar-button" href="https://fdz.dzhw.eu/kontakt/index_html" target="_blank">
+                    <md-icon md-font-set="material-icons">get_app</md-icon>
+                    <span data-translate="global.menu.data-access">Data Accessx</span>
+                    <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                        {{'data-set-management.detail.tooltips.get-data-set-tooltip' | translate}}
+                    </md-tooltip>
+                </md-button>
+            </li>
+            <li class="fdz-navbar-menu">
                 <md-button ui-sref="disclosure" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
                     <md-icon md-font-set="material-icons">mail_outline</md-icon>
                     <span data-translate="global.menu.disclosure">Disclosure</span>

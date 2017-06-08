@@ -127,12 +127,15 @@ angular.module('metadatamanagementApp').config(
             'metrics': 'Server Metrics',
             'health': 'External Services',
             'configuration': 'Spring Configuration',
-            'logs': 'Loglevel'
+            'logs': 'Loglevel',
+            'apidocs': 'API',
+            'database': 'Database'
           },
           'skip-navigation': 'Skip to Content',
           'skip-navigation-tooltip': 'Click to skip menu',
           'back-to-search': 'Click to show search page',
           'language': 'Language',
+          'data-access':'Daten Access',
           'disclosure': 'Disclosure',
           'notepad': 'Notepad'
         },

@@ -135,6 +135,7 @@ angular.module('metadatamanagementApp').config(
           'skip-navigation-tooltip': 'Klicken zum Überspringen des Menüs',
           'back-to-search': 'Klicken, um zur Suche zu gelangen',
           'language': 'Sprache',
+          'data-access':'Datenzugang',
           'disclosure': 'Impressum',
           'notepad': 'Merkzettel'
         },
