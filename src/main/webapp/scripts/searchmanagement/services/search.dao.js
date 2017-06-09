@@ -583,7 +583,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
           });
         }
 
-        //ALL TAB, TODO All Tab works not correctly
+        //ALL TAB
         if (CleanJSObjectService.isNullOrEmpty(elasticsearchType)) {
           projectFilter = {
             'term': {
@@ -601,7 +601,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
           query.body.query.bool.should.push(projectFilter);
           query.body.query.bool.should.push(studyIdFilter);
           // jscs:disable
-          query.body.query.bool.minimum_should_match = '1';
+          query.body.query.bool.minimum_should_match = '67%';
           // jscs:enable
         } else {
           //NOT ALL TAB AND NOT related_publications TAB
@@ -615,6 +615,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
             query.body.query.bool.filter.push(projectFilter);
           }
 
+          //related_publications tab
           if (elasticsearchType === 'related_publications' && studyId) {
             studyIdFilter = {
               'term': {
@@ -624,6 +625,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
             query.body.query.bool.filter.push(studyIdFilter);
           }
         }
+
         if (!CleanJSObjectService.isNullOrEmpty(filter)) {
           _.each(filter, function(value, key) {
             var filterKeyValue = {
