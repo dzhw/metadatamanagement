@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
+import java.util.List;
+
 import org.springframework.beans.BeanUtils;
 
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projections.RelatedPublicationSubDocumentProjection;
@@ -22,6 +24,8 @@ public class RelatedPublicationSubDocument implements RelatedPublicationSubDocum
   
   private String language;
   
+  private List<String> studyIds;
+  
   public RelatedPublicationSubDocument() {
     super();
   }
@@ -31,6 +35,7 @@ public class RelatedPublicationSubDocument implements RelatedPublicationSubDocum
     BeanUtils.copyProperties(projection, this);
   }
 
+  @Override
   public String getId() {
     return id;
   }
@@ -39,6 +44,7 @@ public class RelatedPublicationSubDocument implements RelatedPublicationSubDocum
     this.id = id;
   }
 
+  @Override
   public String getDoi() {
     return doi;
   }
@@ -47,6 +53,7 @@ public class RelatedPublicationSubDocument implements RelatedPublicationSubDocum
     this.doi = doi;
   }
 
+  @Override
   public String getTitle() {
     return title;
   }
@@ -55,6 +62,7 @@ public class RelatedPublicationSubDocument implements RelatedPublicationSubDocum
     this.title = title;
   }
 
+  @Override
   public String getAuthors() {
     return authors;
   }
@@ -69,5 +77,14 @@ public class RelatedPublicationSubDocument implements RelatedPublicationSubDocum
 
   public void setLanguage(String language) {
     this.language = language;
+  }
+
+  @Override
+  public List<String> getStudyIds() {
+    return studyIds;
+  }
+
+  public void setStudyIds(List<String> studyIds) {
+    this.studyIds = studyIds;
   }
 }

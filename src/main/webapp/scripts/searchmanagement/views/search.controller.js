@@ -10,7 +10,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     RelatedPublicationsPostValidationService,
     QuestionUploadService, RelatedPublicationUploadService,
     DataSetUploadService, StudyUploadService, SurveyUploadService,
-    CleanJSObjectService, InstrumentUploadService,
+    CleanJSObjectService, InstrumentUploadService, StudyIdBuilderService,
     CurrentProjectService, $timeout, PageTitleService, ToolbarHeaderService) {
 
     var tabChangedOnInitFlag = false;
@@ -98,7 +98,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       if ($scope.currentProject) {
         _.forEach($scope.tabs, function(tab) {
           if (tab.elasticSearchType === 'related_publications') {
-            tab.disabled = true;
+            tab.disabled = false;
           }
         });
       } else {
@@ -123,8 +123,12 @@ angular.module('metadatamanagementApp').controller('SearchController',
       var projectId = $scope.currentProject ?
         $scope.currentProject.id : undefined;
       $scope.isSearching++;
+      var studyId;
+      if (projectId) {
+        studyId = StudyIdBuilderService.buildStudyId(projectId);
+      }
       SearchDao.search($scope.searchParams.query, $scope.pageObject.page,
-          projectId, $scope.searchParams.filter,
+          projectId, studyId, $scope.searchParams.filter,
           $scope.tabs[$scope.searchParams.selectedTabIndex].elasticSearchType,
           $scope.pageObject.size, $scope.searchParams.sortBy)
         .then(function(data) {
@@ -193,15 +197,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
             $scope.search();
           }
 
-          //disable related_publications tab if a project is selected
-          _.forEach($scope.tabs, function(tab) {
-            if (tab.elasticSearchType === 'related_publications' &&
-            currentProject) {
-              tab.disabled = true;
-            } else {
-              tab.disabled = false;
-            }
-          });
           currentProjectChangeIsBeingHandled = false;
         });
       });

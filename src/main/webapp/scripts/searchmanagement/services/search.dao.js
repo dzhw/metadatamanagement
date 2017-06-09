@@ -490,10 +490,11 @@ angular.module('metadatamanagementApp').service('SearchDao',
     };
 
     return {
-      search: function(queryterm, pageNumber, dataAcquisitionProjectId,
+      search: function(queryterm, pageNumber, dataAcquisitionProjectId, studyId,
         filter, elasticsearchType, pageSize, sortBy) {
         var query = {};
         var projectFilter;
+        var studyIdFilter;
         query.index = elasticsearchType;
         if (!elasticsearchType) {
           //search in all indices
@@ -509,7 +510,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
           'description', 'type', 'doi', 'publicationAbstract', 'authors',
           'surveyMethod', 'fieldPeriod', 'label', 'name', 'dataType',
           'sample',
-          'scaleLevel', 'dataAcquisitionProjectId', 'dataSetNumber',
+          'scaleLevel', 'dataAcquisitionProjectId', 'studyIds', 'dataSetNumber',
           'population',
           'instrumentNumber', 'instrument.description', 'surveys.title',
           'language', 'subDataSets'
@@ -549,7 +550,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
             'bool': {
               'must': [{
                 'match_all': {}
-              }],
+              }]
             }
           };
         }
@@ -568,7 +569,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
             }
           };
         }
-        if (dataAcquisitionProjectId ||
+        if (dataAcquisitionProjectId || studyId ||
           !CleanJSObjectService.isNullOrEmpty(filter) ||
           !Principal.hasAuthority('ROLE_PUBLISHER')) {
           query.body.query.bool.filter = [];
@@ -581,13 +582,44 @@ angular.module('metadatamanagementApp').service('SearchDao',
             }
           });
         }
-        if (dataAcquisitionProjectId) {
+
+        //TODO DKatzberg simplify -> if dapId, then studyID is there too?
+        if (dataAcquisitionProjectId && studyId) {
           projectFilter = {
             'term': {
               'dataAcquisitionProjectId': dataAcquisitionProjectId
             }
           };
-          query.body.query.bool.filter.push(projectFilter);
+          studyIdFilter = {
+              'term': {
+                'studyIds': studyId
+              }
+            };
+          query.body.query.bool.should = [];
+          query.body.query.bool.should.push(projectFilter);
+          query.body.query.bool.should.push(studyIdFilter);
+          // jscs:disable
+          query.body.query.bool.minimum_should_match = '1';
+          // jscs:enable
+        } else {
+
+          if (dataAcquisitionProjectId) {
+            projectFilter = {
+              'term': {
+                'dataAcquisitionProjectId': dataAcquisitionProjectId
+              }
+            };
+            query.body.query.bool.filter.push(projectFilter);
+          }
+
+          if (studyId) {
+            studyIdFilter = {
+              'term': {
+                'studyIds': studyId
+              }
+            };
+            query.body.query.bool.filter.push(studyIdFilter);
+          }
         }
 
         if (!CleanJSObjectService.isNullOrEmpty(filter)) {
