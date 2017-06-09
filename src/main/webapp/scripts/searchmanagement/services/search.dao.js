@@ -583,8 +583,8 @@ angular.module('metadatamanagementApp').service('SearchDao',
           });
         }
 
-        //TODO DKatzberg simplify -> if dapId, then studyID is there too?
-        if (dataAcquisitionProjectId && studyId) {
+        //ALL TAB, TODO All Tab works not correctly
+        if (CleanJSObjectService.isNullOrEmpty(elasticsearchType)) {
           projectFilter = {
             'term': {
               'dataAcquisitionProjectId': dataAcquisitionProjectId
@@ -595,15 +595,18 @@ angular.module('metadatamanagementApp').service('SearchDao',
                 'studyIds': studyId
               }
             };
-          query.body.query.bool.should = [];
+          if (!query.body.query.bool.should) {
+            query.body.query.bool.should = [];
+          }
           query.body.query.bool.should.push(projectFilter);
           query.body.query.bool.should.push(studyIdFilter);
           // jscs:disable
           query.body.query.bool.minimum_should_match = '1';
           // jscs:enable
         } else {
-
-          if (dataAcquisitionProjectId) {
+          //NOT ALL TAB AND NOT related_publications TAB
+          if (elasticsearchType !== 'related_publications' &&
+            dataAcquisitionProjectId) {
             projectFilter = {
               'term': {
                 'dataAcquisitionProjectId': dataAcquisitionProjectId
@@ -612,7 +615,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
             query.body.query.bool.filter.push(projectFilter);
           }
 
-          if (studyId) {
+          if (elasticsearchType === 'related_publications' && studyId) {
             studyIdFilter = {
               'term': {
                 'studyIds': studyId
@@ -621,7 +624,6 @@ angular.module('metadatamanagementApp').service('SearchDao',
             query.body.query.bool.filter.push(studyIdFilter);
           }
         }
-
         if (!CleanJSObjectService.isNullOrEmpty(filter)) {
           _.each(filter, function(value, key) {
             var filterKeyValue = {
