@@ -49,7 +49,7 @@ enhancements, additional features by request, and dedicated support.
 ## Table of Contents
 
 <details>
-	<summary>Expand to show Table of Contents</summary>
+	<summary><b>Expand to show Table of Contents</b></summary>
 
 <!-- toc -->
 
@@ -82,6 +82,7 @@ enhancements, additional features by request, and dedicated support.
     + [Workbook File Properties](#workbook-file-properties)
   * [Workbook-Level Attributes](#workbook-level-attributes)
     + [Defined Names](#defined-names)
+    + [Miscellaneous Workbook Properties](#miscellaneous-workbook-properties)
   * [Document Features](#document-features)
     + [Formulae](#formulae)
     + [Column Properties](#column-properties)
@@ -169,12 +170,16 @@ The `demos` directory includes sample projects for:
 - [`angular`](demos/angular/)
 - [`browserify`](demos/browserify/)
 - [`Adobe ExtendScript`](demos/extendscript/)
+- [`meteor`](demos/meteor/)
 - [`phantomjs`](demos/phantomjs/)
 - [`requirejs`](demos/requirejs/)
 - [`systemjs`](demos/systemjs/)
 - [`webpack`](demos/webpack/)
 
 ### Optional Modules
+
+<details>
+	<summary><b>Optional features</b> (click to show)</summary>
 
 The node version automatically requires modules for additional features.  Some
 of these modules are rather large in size and are only needed in special
@@ -200,6 +205,7 @@ be configured to remove support with `resolve.alias`:
   }
 ```
 
+</details>
 
 ### ECMAScript 5 Compatibility
 
@@ -399,7 +405,12 @@ input_dom_element.addEventListener('change', handleFile, false);
 - <http://oss.sheetjs.com/js-xlsx/> HTML5 File API / Base64 Text / Web Workers
 
 Note that older versions of IE do not support HTML5 File API, so the base64 mode
-is used for testing.  On OSX you can get the base64 encoding with:
+is used for testing.
+
+<details>
+	<summary><b>Get base64 encoding on OSX / Windows</b> (click to show)</summary>
+
+On OSX you can get the base64 encoding with:
 
 ```bash
 $ <target_file base64 | pbcopy
@@ -412,6 +423,8 @@ On Windows XP and up you can get the base64 encoding using `certutil`:
 ```
 
 (note: You have to open the file and remove the header and footer lines)
+
+</details>
 
 - <http://oss.sheetjs.com/js-xlsx/ajax.html> XMLHttpRequest
 
@@ -431,6 +444,9 @@ the buffering for you.
 
 The full object format is described later in this README.
 
+<details>
+	<summary><b>Reading a specific cell </b> (click to show)</summary>
+
 This example extracts the value stored in cell A1 from the first worksheet:
 
 ```js
@@ -446,6 +462,35 @@ var desired_cell = worksheet[address_of_cell];
 /* Get the value */
 var desired_value = (desired_cell ? desired_cell.v : undefined);
 ```
+
+</details>
+
+<details>
+	<summary><b>Adding a new worksheet to a workbook</b> (click to show)</summary>
+
+This example uses [`XLSX.utils.aoa_to_sheet`](#array-of-arrays-input) to make a
+worksheet and appends the new worksheet to the workbook:
+
+```js
+var new_ws_name = "SheetJS";
+
+/* make worksheet */
+var ws_data = [
+	[ "S", "h", "e", "e", "t", "J", "S" ],
+	[  1 ,  2 ,  3 ,  4 ,  5 ]
+];
+var ws = XLSX.utils.aoa_to_sheet(ws_data);
+
+/* Add the sheet name to the list */
+wb.SheetNames.push(ws_name);
+
+/* Load the worksheet object */
+wb.Sheets[ws_name] = ws;
+
+```
+
+</details>
+
 
 ### Complete Examples
 
@@ -682,6 +727,9 @@ will not be generated; the parser `sheetStubs` option must be set to `true`.
 
 #### Dates
 
+<details>
+	<summary><b>Excel Date Code details</b> (click to show)</summary>
+
 By default, Excel stores dates as numbers with a format code that specifies date
 processing.  For example, the date `19-Feb-17` is stored as the number `42785`
 with a number format of `d-mmm-yy`.  The `SSF` module understands number formats
@@ -692,6 +740,32 @@ string.  The formatter converts the date back to a number.
 
 The default behavior for all parsers is to generate number cells.  Setting
 `cellDates` to true will force the generators to store dates.
+
+</details>
+
+<details>
+	<summary><b>Time Zones and Dates</b> (click to show)</summary>
+
+Excel has no native concept of universal time.  All times are specified in the
+local time zone.  Excel limitations prevent specifying true absolute dates.
+
+Following Excel, this library treats all dates as relative to local time zone.
+
+</details>
+
+<details>
+	<summary><b>Epochs: 1900 and 1904</b> (click to show)</summary>
+
+Excel supports two epochs (January 1 1900 and January 1 1904), see
+["1900 vs. 1904 Date System" article](http://support2.microsoft.com/kb/180162).
+The workbook's epoch can be determined by examining the workbook's
+`wb.Workbook.WBProps.date1904` property:
+
+```js
+!!(((wb.Workbook||{}).WBProps||{}).date1904)
+```
+
+</details>
 
 ### Sheet Objects
 
@@ -813,12 +887,7 @@ first row of the chartsheet is the underlying header.
 custom properties.  Since the XLS standard properties deviate from the XLSX
 standard, XLS parsing stores core properties in both places.
 
-`wb.WBProps` includes more workbook-level properties:
-
-- Excel supports two epochs (January 1 1900 and January 1 1904), see
-  [1900 vs. 1904 Date System](http://support2.microsoft.com/kb/180162).
-  The workbook's epoch can be determined by examining the workbook's
-  `wb.WBProps.date1904` property.
+`wb.Workbook` stores [workbook-level attributes](#workbook-level-attributes).
 
 #### Workbook File Properties
 
@@ -865,7 +934,7 @@ XLSX.write(wb, {Props:{Author:"SheetJS"}});
 
 ### Workbook-Level Attributes
 
-`wb.Workbook` stores workbook level attributes.
+`wb.Workbook` stores workbook-level attributes.
 
 #### Defined Names
 
@@ -880,11 +949,21 @@ XLSX.write(wb, {Props:{Author:"SheetJS"}});
 | `Name`    | Case-sensitive name.  Standard rules apply **                    |
 | `Ref`     | A1-style Reference (e.g. `"Sheet1!$A$1:$D$20"`)                  |
 | `Comment` | Comment (only applicable for XLS/XLSX/XLSB)                      |
+
 </details>
 
 Excel allows two sheet-scoped defined names to share the same name.  However, a
 sheet-scoped name cannot collide with a workbook-scope name.  Workbook writers
 may not enforce this constraint.
+
+#### Miscellaneous Workbook Properties
+
+`wb.Workbook.WBProps` holds other workbook properties:
+
+| Key             | Description                                         |
+|:----------------|:----------------------------------------------------|
+| `date1904`      | epoch: 0/false for 1900 system, 1/true for 1904     |
+| `filterPrivacy` | Warn or strip personally identifying info on save   |
 
 ### Document Features
 

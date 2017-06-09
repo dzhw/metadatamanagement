@@ -237,6 +237,18 @@ export interface WBProps {
 
     /** Defined Names */
     Names?: DefinedName[];
+
+    /** Other Workbook Properties */
+    WBProps?: WorkbookProperties;
+}
+
+/** Other Workbook Properties */
+export interface WorkbookProperties {
+    /** Worksheet Epoch (1904 if true, 1900 if false) */
+    date1904?: boolean;
+
+    /** Warn or strip personally identifying info on save */
+    filterPrivacy?: boolean;
 }
 
 export interface ColInfo {
