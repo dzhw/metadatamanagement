@@ -143,7 +143,7 @@ angular.module('metadatamanagementApp').config(
               'access-way-unique-within-data-set': 'Der Zugangsweg des Subdatensatzes muss eindeutig innerhalb eines Datensatzes sein.'
             },
             'type': {
-              'valid-type': 'Der Typ ist ungültig. Erlaubt sind nur: Personendatensatz oder Episodendatensatz.',
+              'valid-type': 'Der Typ des Datensatzes ist ungültig. Erlaubt im deutschen sind: Personendatensatz oder Episodendatensatz. Der Typ kann auch in anderen Sprachen fehlerhaft sein.',
               'not-null': 'Der Typ des Datensatzes darf nicht leer sein!'
             }
           },
