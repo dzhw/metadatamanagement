@@ -584,7 +584,8 @@ angular.module('metadatamanagementApp').service('SearchDao',
         }
 
         //ALL TAB
-        if (CleanJSObjectService.isNullOrEmpty(elasticsearchType)) {
+        if (CleanJSObjectService.isNullOrEmpty(elasticsearchType) &&
+          dataAcquisitionProjectId && studyId) {
           projectFilter = {
             'term': {
               'dataAcquisitionProjectId': dataAcquisitionProjectId
