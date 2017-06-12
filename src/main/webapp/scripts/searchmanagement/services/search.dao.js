@@ -569,13 +569,10 @@ angular.module('metadatamanagementApp').service('SearchDao',
             }
           };
         }
-        if (dataAcquisitionProjectId || studyId ||
-          !CleanJSObjectService.isNullOrEmpty(filter) ||
-          !Principal.hasAuthority('ROLE_PUBLISHER')) {
-          query.body.query.bool.filter = [];
-        }
+
         //only publisher see unreleased projects
         if (!Principal.hasAuthority('ROLE_PUBLISHER')) {
+          query.body.query.bool.filter = [];
           query.body.query.bool.filter.push({
             'exists': {
               'field': 'release'
@@ -583,9 +580,11 @@ angular.module('metadatamanagementApp').service('SearchDao',
           });
         }
 
-        //ALL TAB
+        //All Tab with choosen project
         if (CleanJSObjectService.isNullOrEmpty(elasticsearchType) &&
           dataAcquisitionProjectId && studyId) {
+          /* The all tab needs both: studyId for related Publications and
+          data acquisition project id for all other domain objects */
           projectFilter = {
             'term': {
               'dataAcquisitionProjectId': dataAcquisitionProjectId
@@ -604,8 +603,14 @@ angular.module('metadatamanagementApp').service('SearchDao',
           // jscs:disable
           query.body.query.bool.minimum_should_match = '67%';
           // jscs:enable
-        } else {
-          //NOT ALL TAB AND NOT related_publications TAB
+        } else { //Every other tab beside the all tab
+
+          if (!query.body.query.bool.filter &&
+            (dataAcquisitionProjectId || studyId)) {
+            query.body.query.bool.filter = [];
+          }
+
+          //Not all tab and not related_publications Tab
           if (elasticsearchType !== 'related_publications' &&
             dataAcquisitionProjectId) {
             projectFilter = {
@@ -636,6 +641,11 @@ angular.module('metadatamanagementApp').service('SearchDao',
               var subKeyMapping = keyMapping[elasticsearchType];
               key = subKeyMapping[key];
               filterKeyValue.term[key] = value;
+
+              if (!query.body.query.bool.filter) {
+                query.body.query.bool.filter = [];
+              }
+
               query.body.query.bool.filter.push(
                 filterKeyValue);
             }
