@@ -95,13 +95,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       });
       $scope.searchResult = {};
       $scope.currentProject = CurrentProjectService.getCurrentProject();
-      if ($scope.currentProject) {
-        _.forEach($scope.tabs, function(tab) {
-          if (tab.elasticSearchType === 'related_publications') {
-            tab.disabled = false;
-          }
-        });
-      } else {
+      if (!$scope.currentProject) {
         $scope.currentProject = undefined;
       }
       $scope.pageObject = {
