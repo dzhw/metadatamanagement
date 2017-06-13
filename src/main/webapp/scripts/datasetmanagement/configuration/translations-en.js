@@ -143,7 +143,7 @@ angular.module('metadatamanagementApp').config(
               'access-way-unique-within-data-set': 'The Access Way of the Sub Data Sets has to be unique within the Data Set.'
             },
             'type': {
-              'valid-type': 'The value of Type is invalid. Valid values are: Personal Record or Episode Record.',
+              'valid-type': 'The value of Data Set Type is invalid. Valid english values are: Individual Data or Spell Data. The type might be invalid in other languagses.',
               'not-null': 'The Type Set must not be empty!'
             }
           },

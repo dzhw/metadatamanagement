@@ -15,10 +15,10 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 public class DataSetTypes {
 
   public static final I18nString PERSONAL_RECORD = 
-      new I18nString("Personendatensatz", "Personal Record");
+      new I18nString("Personendatensatz", "Individual Data");
   public static final I18nString EPISODE_RECORD = 
-      new I18nString("Episodendatensatz", "Episode Record");
+      new I18nString("Episodendatensatz", "Spell Data");
   public static final Set<I18nString> ALL =
       Collections.unmodifiableSet(
-          new HashSet<I18nString>(Arrays.asList(PERSONAL_RECORD, EPISODE_RECORD)));
+          new HashSet<>(Arrays.asList(PERSONAL_RECORD, EPISODE_RECORD)));
 }
