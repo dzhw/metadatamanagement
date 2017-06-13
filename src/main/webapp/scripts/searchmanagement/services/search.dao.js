@@ -580,12 +580,9 @@ angular.module('metadatamanagementApp').service('SearchDao',
           });
         }
 
-        //All Tab with choosen project
         if (dataAcquisitionProjectId) {
           studyId = StudyIdBuilderService
             .buildStudyId(dataAcquisitionProjectId);
-          /* The all tab needs both: studyId for related Publications and
-          data acquisition project id for all other domain objects */
           if (!query.body.query.bool.filter) {
             query.body.query.bool.filter = [];
           }
