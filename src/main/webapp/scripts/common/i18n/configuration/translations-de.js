@@ -37,7 +37,9 @@ angular.module('metadatamanagementApp').config(
             'logs-tooltip': 'Klicken, um Loglevel zu ändern',
             'settings-tooltip': 'Klicken, um Ihre Kontoeigenschaften zu bearbeiten',
             'password-tooltip': 'Klicken, um Ihr Passwort zu ändern'
-          }
+          },
+          'released': 'Freigegeben',
+          'not-released': 'Nicht freigegeben'
         },
         'dialog': {
           'tooltip': {
@@ -110,7 +112,7 @@ angular.module('metadatamanagementApp').config(
             'rdcProject': 'Datenaufbereitungsprojekte:',
             'current-project': 'Aktuelles Datenaufbereitungsprojekt',
             'select-project': 'Projekt auswählen',
-            'unknown-project': 'Das Datenaufbereitungsprojekt {{projectId}} ist unbekannt.'
+            'unknown-project': '{{projectId}} ist unbekannt.'
           },
           'search': {
             'title': 'Metadatensuche'

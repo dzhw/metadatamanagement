@@ -2,20 +2,28 @@
     <span class="md-body-2" style="margin-bottom: 5px;">{{'global.menu.entities.current-project' | translate}}:</span>
     <div layout="row" style="margin-top: 5px;">
         <md-autocomplete flex md-search-text="ctrl.searchText" md-selected-item="ctrl.selectedProject" md-selected-item-change="ctrl.onSelectedProjectChanged(ctrl.selectedProject)" md-items="project in ctrl.searchProjects(ctrl.searchText)" md-item-text="project.id"
-            md-clear-button="true" md-min-length="0" placeholder="{{'global.menu.entities.select-project' | translate}}" ng-disabled="ctrl.dataAcquisitionProjects.length === 0" md-select-on-match="true" md-no-cache="true">
+          md-clear-button="true" md-min-length="0" placeholder="{{'global.menu.entities.select-project' | translate}}" ng-disabled="ctrl.dataAcquisitionProjects.length === 0" md-select-on-match="true" md-no-cache="true">
             <md-item-template>
                 <span md-highlight-text="ctrl.searchText">{{project.id}}</span>
             </md-item-template>
             <md-not-found>
                 <span data-translate="global.menu.entities.unknown-project" data-translate-values="{projectId: ctrl.searchText}"></span>
             </md-not-found>
-            </md-autocomplete>
-            <md-button class="md-primary md-raised md-icon-button" ng-click="ctrl.createProject()" style="margin-right: 0px; margin-left: 1em;">
-                <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                    {{'global.tooltips.create-project' | translate}}
-                </md-tooltip>
-                <md-icon md-font-set="material-icons">add</md-icon>
-            </md-button>
+        </md-autocomplete>
+        <md-button class="md-primary md-raised md-icon-button" ng-click="ctrl.createProject()" style="margin-right: 0px; margin-left: 1em;">
+            <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                {{'global.tooltips.create-project' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">add</md-icon>
+        </md-button>
+    </div>
+    <div ng-if="ctrl.selectedProject.release && ctrl.selectedProject" style="margin-top: 1em;">
+        <span><md-icon md-font-set="material-icons" class="fdz-released">check_circle</md-icon></span>
+        <span>{{'global.toolbar.released' | translate}}</span>
+    </div>
+    <div ng-if="!ctrl.selectedProject.release && ctrl.selectedProject" style="margin-top: 1em;">
+        <span><md-icon md-font-set="material-icons" class="fdz-not-released">cancel</md-icon></span>
+        <span>{{'global.toolbar.not-released' | translate}}</span>
     </div>
     <div style="margin-top: 1em;">
         <md-button class="md-primary md-raised md-icon-button" ng-click="ctrl.deleteProject()" style="margin-right: 0px; margin-left: 0px;" ng-disabled="!ctrl.selectedProject || ctrl.selectedProject.hasBeenReleasedBefore">
