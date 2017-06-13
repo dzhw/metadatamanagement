@@ -10,7 +10,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     RelatedPublicationsPostValidationService,
     QuestionUploadService, RelatedPublicationUploadService,
     DataSetUploadService, StudyUploadService, SurveyUploadService,
-    CleanJSObjectService, InstrumentUploadService, StudyIdBuilderService,
+    CleanJSObjectService, InstrumentUploadService,
     CurrentProjectService, $timeout, PageTitleService, ToolbarHeaderService) {
 
     var tabChangedOnInitFlag = false;
@@ -123,12 +123,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       var projectId = $scope.currentProject ?
         $scope.currentProject.id : undefined;
       $scope.isSearching++;
-      var studyId;
-      if (projectId) {
-        studyId = StudyIdBuilderService.buildStudyId(projectId);
-      }
       SearchDao.search($scope.searchParams.query, $scope.pageObject.page,
-          projectId, studyId, $scope.searchParams.filter,
+          projectId, $scope.searchParams.filter,
           $scope.tabs[$scope.searchParams.selectedTabIndex].elasticSearchType,
           $scope.pageObject.size, $scope.searchParams.sortBy)
         .then(function(data) {

@@ -4,7 +4,7 @@
 
 angular.module('metadatamanagementApp').service('SearchDao',
   function(ElasticSearchClient, CleanJSObjectService, Principal,
-    LanguageService) {
+    LanguageService, StudyIdBuilderService) {
     var keyMapping = {
       'studies': {
         'related-publication': 'relatedPublications.id'
@@ -490,11 +490,11 @@ angular.module('metadatamanagementApp').service('SearchDao',
     };
 
     return {
-      search: function(queryterm, pageNumber, dataAcquisitionProjectId, studyId,
+      search: function(queryterm, pageNumber, dataAcquisitionProjectId,
         filter, elasticsearchType, pageSize, sortBy) {
         var query = {};
-        var projectFilter;
-        var studyIdFilter;
+        var studyId;
+
         query.index = elasticsearchType;
         if (!elasticsearchType) {
           //search in all indices
@@ -510,7 +510,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
           'description', 'type', 'doi', 'publicationAbstract', 'authors',
           'surveyMethod', 'fieldPeriod', 'label', 'name', 'dataType',
           'sample',
-          'scaleLevel', 'dataAcquisitionProjectId', 'studyIds', 'dataSetNumber',
+          'scaleLevel', 'dataAcquisitionProjectId', 'dataSetNumber',
           'population',
           'instrumentNumber', 'instrument.description', 'surveys.title',
           'language', 'subDataSets'
@@ -581,55 +581,30 @@ angular.module('metadatamanagementApp').service('SearchDao',
         }
 
         //All Tab with choosen project
-        if (CleanJSObjectService.isNullOrEmpty(elasticsearchType) &&
-          dataAcquisitionProjectId && studyId) {
+        if (dataAcquisitionProjectId) {
+          studyId = StudyIdBuilderService
+            .buildStudyId(dataAcquisitionProjectId);
           /* The all tab needs both: studyId for related Publications and
           data acquisition project id for all other domain objects */
-          projectFilter = {
-            'term': {
-              'dataAcquisitionProjectId': dataAcquisitionProjectId
-            }
-          };
-          studyIdFilter = {
-              'term': {
-                'studyIds': studyId
-              }
-            };
-          if (!query.body.query.bool.should) {
-            query.body.query.bool.should = [];
-          }
-          query.body.query.bool.should.push(projectFilter);
-          query.body.query.bool.should.push(studyIdFilter);
-          // jscs:disable
-          query.body.query.bool.minimum_should_match = '67%';
-          // jscs:enable
-        } else { //Every other tab beside the all tab
-
-          if (!query.body.query.bool.filter &&
-            (dataAcquisitionProjectId || studyId)) {
+          if (!query.body.query.bool.filter) {
             query.body.query.bool.filter = [];
           }
 
-          //Not all tab and not related_publications Tab
-          if (elasticsearchType !== 'related_publications' &&
-            dataAcquisitionProjectId) {
-            projectFilter = {
-              'term': {
-                'dataAcquisitionProjectId': dataAcquisitionProjectId
-              }
-            };
-            query.body.query.bool.filter.push(projectFilter);
-          }
+          var boolFilter = {
+            'bool': {
+              'should': [{
+                'term': {
+                  'dataAcquisitionProjectId': dataAcquisitionProjectId
+                }
+              },{
+                'term': {
+                  'studyIds': studyId
+                }
+              }]
+            }
+          };
 
-          //related_publications tab
-          if (elasticsearchType === 'related_publications' && studyId) {
-            studyIdFilter = {
-              'term': {
-                'studyIds': studyId
-              }
-            };
-            query.body.query.bool.filter.push(studyIdFilter);
-          }
+          query.body.query.bool.filter.push(boolFilter);
         }
 
         if (!CleanJSObjectService.isNullOrEmpty(filter)) {
