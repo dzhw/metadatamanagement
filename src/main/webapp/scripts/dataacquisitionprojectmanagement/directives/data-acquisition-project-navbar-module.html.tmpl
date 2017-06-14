@@ -17,12 +17,12 @@
             <md-icon md-font-set="material-icons">add</md-icon>
         </md-button>
     </div>
-    <div ng-if="ctrl.selectedProject.release && ctrl.selectedProject" style="margin-top: 1em;">
-        <span><md-icon md-font-set="material-icons" class="fdz-released">check_circle</md-icon></span>
+    <div ng-if="ctrl.selectedProject && ctrl.selectedProject.release" style="margin-top: 1em;">
+        <md-icon md-font-set="material-icons" class="fdz-released">check_circle</md-icon>
         <span>{{'global.toolbar.released' | translate}}</span>
     </div>
-    <div ng-if="!ctrl.selectedProject.release && ctrl.selectedProject" style="margin-top: 1em;">
-        <span><md-icon md-font-set="material-icons" class="fdz-not-released">cancel</md-icon></span>
+    <div ng-if="ctrl.selectedProject && !ctrl.selectedProject.release" style="margin-top: 1em;">
+        <md-icon md-font-set="material-icons" class="fdz-not-released">cancel</md-icon>
         <span>{{'global.toolbar.not-released' | translate}}</span>
     </div>
     <div style="margin-top: 1em;">
