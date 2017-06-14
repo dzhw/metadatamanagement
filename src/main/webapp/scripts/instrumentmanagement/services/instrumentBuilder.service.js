@@ -16,6 +16,10 @@ angular.module('metadatamanagementApp').service('InstrumentBuilderService',
           en: instrumentFromExcel['title.en'],
           de: instrumentFromExcel['title.de']
         },
+        subtitle: {
+          en: instrumentFromExcel['subtitle.en'],
+          de: instrumentFromExcel['subtitle.de']
+        },
         description: {
           en: instrumentFromExcel['description.en'],
           de: instrumentFromExcel['description.de']
