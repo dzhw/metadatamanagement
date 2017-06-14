@@ -447,6 +447,14 @@ style for datapackage
     background-color: $brand-success !important;
 }
 
+.fdz-released {
+    color: $brand-success;
+}
+
+.fdz-not-released {
+    color: $brand-danger;
+}
+
 .fdz-bootstrap-headline,
 md-dialog h2 {
     margin-top: 0.5em;
