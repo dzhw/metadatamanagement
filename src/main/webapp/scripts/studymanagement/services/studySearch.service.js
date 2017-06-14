@@ -43,7 +43,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
           }],
           'filter': [{
             'term': {
-              'id': studyId
+              '_id': studyId
             }
           }]
         }

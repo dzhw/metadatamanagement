@@ -224,7 +224,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
         selectedTabChangeIsBeingHandled = true;
         $timeout(function() {
           if (!tabChangedOnInitFlag) {
-            $scope.searchParams.filter = undefined;
+            // TODO remove filters which are not relevant
+            //$scope.searchParams.filter = undefined;
             $scope.searchParams.sortBy = undefined;
             $scope.pageObject.page = 1;
             writeSearchParamsToLocation();
@@ -304,7 +305,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     $scope.$on('upload-completed', function() {
       //wait for 1 seconds until refresh
       //in order to wait for elasticsearch reindex
-      $timeout($scope.search, 1000);
+      $timeout($scope.search, 2000);
     });
 
     //Information for the different tabs
@@ -392,6 +393,12 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
     $scope.hideMobileKeyboard = function($event) {
       $event.target.querySelector('#query').blur();
+    };
+
+    $scope.onFilterChanged = function() {
+      $scope.pageObject.page = 1;
+      writeSearchParamsToLocation();
+      $scope.search();
     };
 
     init();

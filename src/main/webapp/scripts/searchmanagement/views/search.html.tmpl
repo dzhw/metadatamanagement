@@ -1,6 +1,6 @@
 <div flex layout="column" ng-switch="isAuthenticated()">
     <md-card style="margin-bottom: 0px">
-        <div class="fdz-search-input-container">
+        <div>
             <form role="search" ng-submit="hideMobileKeyboard($event)">
                 <md-input-container class="fdz-search-input">
                     <label>{{tabs[searchParams.selectedTabIndex].inputLabel|translate}}</label>
@@ -9,7 +9,7 @@
                 </md-input-container>
                 <input type="submit" ng-hide="true">
             </form>
-              <md-tabs md-selected="searchParams.selectedTabIndex" md-dynamic-height>
+              <md-tabs md-selected="searchParams.selectedTabIndex" md-dynamic-height md-border-bottom>
                 <md-tab ng-repeat="tab in tabs" md-on-select="onSelectedTabChanged()" ng-disabled="tab.disabled">
                   <md-tab-label>
                     <md-icon ng-if="tab.icon" md-svg-icon="{{tab.icon}}"></md-icon>
@@ -19,6 +19,8 @@
                 </md-tab>
               </md-tabs>
         </div>
+        <study-search-filter current-language="currentLanguage" current-search-params="searchParams" study-changed-callback="onFilterChanged" bowser="bowser"></study-search-filter>
+        <dataset-search-filter current-language="currentLanguage" current-search-params="searchParams" dataset-changed-callback="onFilterChanged" bowser="bowser"></dataset-search-filter>
         <md-progress-linear md-mode="indeterminate" ng-if="isSearching"></md-progress-linear>
     </md-card>
     <div flex ngf-drop="tabs[searchParams.selectedTabIndex].uploadFunction($files)" ngf-multiple="true" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-drop-disabled="((!currentProject || currentProject.release) && tabs[searchParams.selectedTabIndex].elasticSearchType !== 'related_publications') || !hasAuthority('ROLE_PUBLISHER') || !tabs[searchParams.selectedTabIndex].uploadFunction">

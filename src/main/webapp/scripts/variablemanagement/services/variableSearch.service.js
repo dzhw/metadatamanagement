@@ -40,27 +40,6 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
       });
       return ElasticSearchClient.mget(query);
     };
-    var findBySurveyTitle = function(surveyTitle, selectedAttributes, from,
-      size) {
-      var query = createQueryObject();
-      query.body = {};
-      query.body.from = from;
-      query.body.size = size;
-      query.body._source = selectedAttributes;
-      query.body.query = {
-        'bool': {
-          'must': [{
-            'match_all': {}
-          }],
-          'filter': [{
-            'term': {
-              'surveyTitles': surveyTitle
-            }
-          }]
-        }
-      };
-      return ElasticSearchClient.search(query);
-    };
     var findByQuestionId = function(questionId, selectedAttributes, from,
       size) {
       var query = createQueryObject();
@@ -131,7 +110,6 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
     return {
       findOneById: findOneById,
       findByQuestionId: findByQuestionId,
-      findBySurveyTitle: findBySurveyTitle,
       findVariables: findVariables,
       findByDataSetId: findByDataSetId,
       countBy: countBy

@@ -1,0 +1,14 @@
+<div layout="row" layout-align="center center" layout-margin>
+  <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
+  <span style="margin-left: 0px; margin-right: 0px;">Datensatz:</span>
+  <md-autocomplete flex md-min-length="0" md-require-match="true" md-selected-item="currentDataSet" md-selected-item-change="onSelectionChanged(currentDataSet)" md-search-text="searchText" md-items="item in searchDataSets(search)" md-item-text="item._source.description.de + ' (' + item._source.id + ')'" md-clear-button="true">
+    <md-item-template>
+      <md-icon md-svg-src="/assets/images/icons/data-set.svg" class="md-primary"></md-icon>
+      <span class="md-title" style="font-size: 14px; margin-left: 0.5em;">{{item._source.description.de}}</span>
+      <span class="label label-as-badge label-default">{{item._source.id}}</span>
+    </md-item-template>
+    <md-not-found>
+      Not found
+    </md-not-found>
+  </md-autocomplete>
+</div>
