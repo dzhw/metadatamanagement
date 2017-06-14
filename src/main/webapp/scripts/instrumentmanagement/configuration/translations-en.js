@@ -75,6 +75,9 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-size': 'The title must not contain more than 128 characters.',
               'i18n-string-not-empty': 'The title is mandatory in one language.'
             },
+            'subtitle': {
+              'i18n-string-size': 'The subtitle must not contain more than 2048 characters.',
+            },
             'description': {
               'not-null': 'The description of the Instrument must not be empty!',
               'i18n-string-size': 'The description is mandatory in both languages and must not contain more than 128 characters.',

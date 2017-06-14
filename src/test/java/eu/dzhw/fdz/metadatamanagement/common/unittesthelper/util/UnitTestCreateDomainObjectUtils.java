@@ -63,11 +63,11 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ScaleLevels;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Statistics;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ValidResponse;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.HistogramBuilder;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.MissingBuilder;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.DistributionBuilder;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.FilterDetailsBuilder;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.GenerationDetailsBuilder;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.HistogramBuilder;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.MissingBuilder;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.RelatedQuestionBuilder;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.StatisticsBuilder;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.ValidResponseBuilder;
@@ -313,6 +313,10 @@ public class UnitTestCreateDomainObjectUtils {
           .withDe("Instrument.de")
           .withEn("Instrument.en")
           .build())
+      .withSubtitle(new I18nStringBuilder()
+          .withDe("Instrument Untertitel de")
+          .withEn("Instrument Subtitle en")
+          .build())
       .withDescription(new I18nStringBuilder()
           .withDe("Instrument.de")
           .withEn("Instrument.en")
@@ -481,6 +485,10 @@ public class UnitTestCreateDomainObjectUtils {
         .withTitle(new I18nStringBuilder()
             .withDe("Hurz")
             .withEn("Hurz")
+            .build())
+        .withSubtitle(new I18nStringBuilder()
+            .withDe("Instrument Untertitel de")
+            .withEn("Instrument Subtitle en")
             .build())
         .withDescription(new I18nStringBuilder()
             .withDe("Hurz")

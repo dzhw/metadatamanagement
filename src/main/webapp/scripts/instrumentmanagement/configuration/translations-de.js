@@ -75,6 +75,9 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-size': 'Der Titel darf nicht länger als 128 Zeichen sein.',
               'i18n-string-not-empty': 'Der Titel muss in mind. einer Sprache angegeben werden.'
             },
+            'subtitle': {
+              'i18n-string-size': 'Der Untertitel darf nicht länger als 2048 Zeichen sein.',
+            },
             'description': {
               'not-null': 'Die Beschreibung des Instruments darf nicht leer sein!',
               'i18n-string-size': 'Die Beschreibung muss in beiden Sprachen angegeben werden und darf nicht länger als 128 Zeichen sein.',

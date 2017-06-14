@@ -21,6 +21,8 @@ public class InstrumentSubDocument implements InstrumentSubDocumentProjection {
   
   private I18nString title;
   
+  private I18nString subtitle;
+  
   private I18nString description;
   
   private Integer number;
@@ -100,4 +102,13 @@ public class InstrumentSubDocument implements InstrumentSubDocumentProjection {
   public void setAnnotations(I18nString annotations) {
     this.annotations = annotations;
   }
+
+  @Override
+  public I18nString getSubtitle() {
+    return subtitle;
+  }
+
+  public void setSubtitle(I18nString subtitle) {
+    this.subtitle = subtitle;
+  }  
 }
