@@ -72,7 +72,7 @@ angular.module('metadatamanagementApp').config(
             },
             'title': {
               'not-null': 'The title of the Instrument must not be empty!',
-              'i18n-string-size': 'The title must not contain more than 128 characters.',
+              'i18n-string-size': 'The title must not contain more than 2048 characters.',
               'i18n-string-not-empty': 'The title is mandatory in one language.'
             },
             'description': {
@@ -121,7 +121,7 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-not-empty': 'The description must not be empty!'
             },
             'title': {
-              'string-size': 'The title of the attachment must not contain more than 128 characters.'
+              'string-size': 'The title of the attachment must not contain more than 2048 characters.'
             },
             'language': {
               'not-null': 'The language of the attachment must not be empty!',

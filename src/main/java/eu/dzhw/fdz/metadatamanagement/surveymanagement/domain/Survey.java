@@ -46,31 +46,31 @@ public class Survey extends AbstractRdcDomainObject {
       regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOT_AND_DOLLAR,
       message = "survey-management.error.survey.id.pattern")
   private String id;
-  
+
   @Indexed
   @NotEmpty(message = "survey-management.error.survey.data-acquisition-project.id.not-empty")
   private String dataAcquisitionProjectId;
-  
-  @I18nStringSize(max = StringLengths.MEDIUM,
+
+  @I18nStringSize(max = StringLengths.LARGE,
       message = "survey-management.error.survey.title.i18n-string-size")
   private I18nString title;
-  
+
   @NotNull(message = "survey-management.error.survey.population.not-null")
   @I18nStringNotEmpty(message = "survey-management.error.survey.population.i18n-string-not-empty")
   @I18nStringSize(max = StringLengths.LARGE,
       message = "survey-management.error.survey.population.i18n-string-size")
   private I18nString population;
-  
+
   @NotNull(message = "survey-management.error.survey.survey-method.not-null")
   @I18nStringNotEmpty(
       message = "survey-management.error.survey.survey-method.i18n-string-not-empty")
   @I18nStringSize(max = StringLengths.MEDIUM,
       message = "survey-management.error.survey.survey-method.i18n-string-size")
   private I18nString surveyMethod;
-  
+
   @NotNull(message = "survey-management.error.survey.number.not-null")
   private Integer number;
-  
+
   @NotNull(message = "survey-management.error.survey.field-period.not-null")
   @Valid
   private Period fieldPeriod;
@@ -82,16 +82,16 @@ public class Survey extends AbstractRdcDomainObject {
   private I18nString sample;
 
   private Integer grossSampleSize;
-  
+
   @NotNull(message = "survey-management.error.survey.sample-size.not-null")
   private Integer sampleSize;
-  
+
   private Double responseRate;
-  
+
   @Indexed
   @NotEmpty(message = "survey-management.error.survey.study-id.not-empty")
   private String studyId;
-  
+
   @I18nStringSize(max = StringLengths.LARGE,
       message = "variable-management.error.variable.annotations.i18n-string-size")
   private I18nString annotations;
@@ -99,17 +99,17 @@ public class Survey extends AbstractRdcDomainObject {
   public Survey() {
     super();
   }
-  
+
   public Survey(Survey survey) {
     super();
     BeanUtils.copyProperties(survey, this);
   }
-  
+
   @Override
   public String getId() {
     return id;
   }
-  
+
   public String getDataAcquisitionProjectId() {
     return dataAcquisitionProjectId;
   }
@@ -153,7 +153,7 @@ public class Survey extends AbstractRdcDomainObject {
   public void setNumber(Integer number) {
     this.number = number;
   }
-  
+
   /*
    * (non-Javadoc)
    * @see eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject#toString()
@@ -239,5 +239,5 @@ public class Survey extends AbstractRdcDomainObject {
 
   public void setAnnotations(I18nString annotations) {
     this.annotations = annotations;
-  }  
+  }
 }

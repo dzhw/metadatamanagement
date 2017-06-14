@@ -32,7 +32,7 @@ public class StudyAttachmentMetadata extends AbstractRdcDomainObject {
       "study-management.error.study-attachment-metadata.index-in-study.not-null")
   private Integer indexInStudy;
 
-  @Size(max = StringLengths.MEDIUM, message =
+  @Size(max = StringLengths.LARGE, message =
       "study-management.error.study-attachment-metadata.title.string-size")
   private String title;
   

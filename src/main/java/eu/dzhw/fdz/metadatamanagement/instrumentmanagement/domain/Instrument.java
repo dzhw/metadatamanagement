@@ -57,7 +57,7 @@ public class Instrument extends AbstractRdcDomainObject {
   private String dataAcquisitionProjectId;
 
   @NotNull(message = "instrument-management.error.instrument.title.not-null")
-  @I18nStringSize(max = StringLengths.MEDIUM, message = "instrument-"
+  @I18nStringSize(max = StringLengths.LARGE, message = "instrument-"
       + "management.error.instrument.title.i18n-string-size")
   @I18nStringNotEmpty(message = "instrument-management.error.instrument.title."
       + "i18n-string-not-empty")
