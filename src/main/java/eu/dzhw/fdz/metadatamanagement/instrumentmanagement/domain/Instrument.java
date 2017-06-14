@@ -62,6 +62,10 @@ public class Instrument extends AbstractRdcDomainObject {
   @I18nStringNotEmpty(message = "instrument-management.error.instrument.title."
       + "i18n-string-not-empty")
   private I18nString title;
+  
+  @I18nStringSize(max = StringLengths.LARGE, message = "instrument-"
+      + "management.error.instrument.subtitle.i18n-string-size")
+  private I18nString subtitle;
 
   @NotNull(message = "instrument-management.error.instrument.description.not-null")
   @I18nStringSize(max = StringLengths.MEDIUM, message = "instrument-"
@@ -151,6 +155,7 @@ public class Instrument extends AbstractRdcDomainObject {
       .add("super", super.toString())
       .add("id", id)
       .add("title", title)
+      .add("subtitle", subtitle)
       .add("description", description)
       .add("type", type)
       .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
@@ -201,5 +206,13 @@ public class Instrument extends AbstractRdcDomainObject {
 
   public void setAnnotations(I18nString annotations) {
     this.annotations = annotations;
+  }
+
+  public I18nString getSubtitle() {
+    return subtitle;
+  }
+
+  public void setSubtitle(I18nString subtitle) {
+    this.subtitle = subtitle;
   }
 }

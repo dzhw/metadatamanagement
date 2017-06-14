@@ -32,6 +32,7 @@ angular.module('metadatamanagementApp').config(
           'instruments': 'Instruments',
           'instrument-informations': 'Details for the Instrument',
           'title': 'Title',
+          'subtitle': 'Subtitle',
           'type': 'Type',
           'annotations': 'Annotations',
           'related-information': 'Related Objects',
@@ -74,6 +75,9 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'The title of the Instrument must not be empty!',
               'i18n-string-size': 'The title must not contain more than 2048 characters.',
               'i18n-string-not-empty': 'The title is mandatory in one language.'
+            },
+            'subtitle': {
+              'i18n-string-size': 'The subtitle must not contain more than 2048 characters.',
             },
             'description': {
               'not-null': 'The description of the Instrument must not be empty!',

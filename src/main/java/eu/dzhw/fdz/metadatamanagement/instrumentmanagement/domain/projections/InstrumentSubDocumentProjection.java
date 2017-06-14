@@ -17,6 +17,8 @@ public interface InstrumentSubDocumentProjection  {
   String getDataAcquisitionProjectId();
   
   I18nString getTitle();
+  
+  I18nString getSubtitle();
 
   I18nString getDescription();
 
