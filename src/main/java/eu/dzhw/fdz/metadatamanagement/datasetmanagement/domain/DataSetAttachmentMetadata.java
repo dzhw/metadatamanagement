@@ -38,7 +38,7 @@ public class DataSetAttachmentMetadata extends AbstractRdcDomainObject {
 
   @NotNull(message =
       "data-set-management.error.data-set-attachment-metadata.title.not-null")
-  @Size(max = StringLengths.MEDIUM, message =
+  @Size(max = StringLengths.LARGE, message =
       "data-set-management.error.data-set-attachment-metadata.title.string-size")
   private String title;
 

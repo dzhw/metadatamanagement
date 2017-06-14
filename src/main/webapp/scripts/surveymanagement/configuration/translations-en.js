@@ -85,7 +85,7 @@ angular.module('metadatamanagementApp').config(
               'pattern': 'Use only alphanumeric signs, german umlauts, ß and space, underscore, excemation sign and minus for the RDC-ID.'
             },
             'title': {
-              'i18n-string-size': 'The max length of the title is 128 signs.'
+              'i18n-string-size': 'The max length of the title is 2048 signs.'
             },
             'field-period': {
               'not-null': 'The Field Period of a Survey must not be empty!'
@@ -138,7 +138,7 @@ angular.module('metadatamanagementApp').config(
             },
             'title': {
               'not-null': 'The title of the attachment must not be empty!',
-              'string-size': 'The title of the attachment is mandatory and must not contain more than 128 characters.'
+              'string-size': 'The title of the attachment is mandatory and must not contain more than 2048 characters.'
             },
             'language': {
               'not-null': 'The language of the attachment must not be empty!',

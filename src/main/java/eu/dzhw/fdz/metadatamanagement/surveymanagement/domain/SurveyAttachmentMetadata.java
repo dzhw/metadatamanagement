@@ -38,7 +38,7 @@ public class SurveyAttachmentMetadata extends AbstractRdcDomainObject {
 
   @NotNull(message =
       "survey-management.error.survey-attachment-metadata.title.not-null")
-  @Size(max = StringLengths.MEDIUM, message =
+  @Size(max = StringLengths.LARGE, message =
       "survey-management.error.survey-attachment-metadata.title.string-size")
   private String title;
 

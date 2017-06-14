@@ -46,7 +46,7 @@ public class InstrumentAttachmentMetadata extends AbstractRdcDomainObject {
       + "description.i18n-string-not-empty")
   private I18nString description;
 
-  @Size(max = StringLengths.MEDIUM, message =
+  @Size(max = StringLengths.LARGE, message =
       "instrument-management.error.instrument-attachment-metadata.title.string-size")
   private String title;
 
