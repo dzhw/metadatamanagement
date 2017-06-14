@@ -32,6 +32,7 @@ angular.module('metadatamanagementApp').config(
           'instruments': 'Instruments',
           'instrument-informations': 'Details for the Instrument',
           'title': 'Title',
+          'subtitle': 'Subtitle',
           'type': 'Type',
           'annotations': 'Annotations',
           'related-information': 'Related Objects',
