@@ -2,7 +2,8 @@
 'use strict';
 
 angular.module('metadatamanagementApp').factory('VariableSearchService',
-  function(ElasticSearchClient, $q) {
+  function(ElasticSearchClient, $q, SearchFilterHelperService,
+    CleanJSObjectService) {
     var createQueryObject = function() {
       return {
         index: 'variables',
@@ -107,11 +108,37 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
       }
       return ElasticSearchClient.count(query);
     };
+    var findAccessWays = function(term, filter) {
+      var query = createQueryObject();
+      query.body = {
+        'size': 0,
+        'aggs': {
+            'accessWays': {
+                'terms': {
+                  'field': 'accessWays',
+                  'include': term + '.*'
+                }
+              }
+          }
+      };
+      if (!CleanJSObjectService.isNullOrEmpty(filter)) {
+        query.body.query = {
+          bool: {
+          }
+        };
+        query.body.query.bool.filter = SearchFilterHelperService
+          .createTermFilters('variables', filter);
+      }
+      return ElasticSearchClient.search(query).then(function(result) {
+        return _.map(result.aggregations.accessWays.buckets, 'key');
+      });
+    };
     return {
       findOneById: findOneById,
       findByQuestionId: findByQuestionId,
       findVariables: findVariables,
       findByDataSetId: findByDataSetId,
-      countBy: countBy
+      countBy: countBy,
+      findAccessWays: findAccessWays
     };
   });

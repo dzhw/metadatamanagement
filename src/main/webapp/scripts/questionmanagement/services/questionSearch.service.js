@@ -81,25 +81,6 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
       };
       return ElasticSearchClient.search(query);
     };
-    var findOneByInstrumentId = function(instrumentId, selectedAttributes) {
-      var query =  createQueryObject();
-      query.body = {};
-      query.body.size = 1;
-      query.body._source = selectedAttributes;
-      query.body.query = {
-        'bool': {
-          'must': [{
-            'match_all': {}
-          }],
-          'filter': [{
-            'term': {
-              'instrumentId': instrumentId
-            }
-          }]
-        }
-      };
-      return ElasticSearchClient.search(query);
-    };
     var findByVariableId = function(variableId, selectedAttributes, from,
       size) {
       var query =  createQueryObject();
@@ -143,9 +124,7 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
     return {
       findOneById: findOneById,
       findAllPredeccessors: findAllPredeccessors,
-      findSuccessors: findQuestions,
       findQuestions: findQuestions,
-      findOneByInstrumentId: findOneByInstrumentId,
       findByProjectId: findByProjectId,
       findByStudyId: findByProjectId,
       findByVariableId: findByVariableId,

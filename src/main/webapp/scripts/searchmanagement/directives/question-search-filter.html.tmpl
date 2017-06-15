@@ -1,0 +1,13 @@
+<div layout="row" style="margin-top: 0px; margin-bottom: 0px;" layout-align="center center" layout-margin>
+  <span style="margin-right: 0px;">Frage:</span>
+  <md-autocomplete flex md-min-length="0" md-require-match="true" md-selected-item="currentQuestion" md-selected-item-change="onSelectionChanged(currentQuestion)" md-search-text="searchText" md-items="item in searchQuestions(searchText)" md-item-text="item._source.number + ': ' + item._source.instrument.description[currentLanguage] + ' (' + item._source.id + ')'" md-clear-button="true" md-no-cache="true">
+    <md-item-template>
+      <md-icon md-svg-src="/assets/images/icons/question.svg" class="md-primary"></md-icon>
+      <span class="md-title" style="font-size: 14px; margin-left: 0.5em;">{{'question-management.detail.question' | translate}} {{item._source.number}}: <span display-i18n-string="item._source.instrument.description"></span></span>
+      <span class="label label-as-badge label-default">{{item._source.id}}</span>
+    </md-item-template>
+    <md-not-found>
+      Not found
+    </md-not-found>
+  </md-autocomplete>
+</div>

@@ -50,7 +50,7 @@ angular.module('metadatamanagementApp')
             }
           });
           if (ctrl.question.successors) {
-            QuestionSearchService.findSuccessors(ctrl.question.successors,
+            QuestionSearchService.findQuestions(ctrl.question.successors,
             ['id', 'instrumentNumber', 'questionText', 'type','instrumentNmber',
             'number', 'dataAcquisitionProjectId', 'instrument.description'])
             .then(function(successors) {

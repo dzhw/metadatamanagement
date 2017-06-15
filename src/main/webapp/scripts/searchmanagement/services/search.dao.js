@@ -4,53 +4,7 @@
 
 angular.module('metadatamanagementApp').service('SearchDao',
   function(ElasticSearchClient, CleanJSObjectService, Principal,
-    LanguageService, StudyIdBuilderService) {
-    var keyMapping = {
-      'studies': {
-        'related-publication': 'relatedPublications.id'
-      },
-      'variables': {
-        'data-set': 'dataSetId',
-        'panel-identifier': 'panelIdentifier',
-        'question': 'relatedQuestions.questionId',
-        'related-publication': 'relatedPublications.id',
-        'access-way': 'accessWays',
-        'study': 'studyId'
-      },
-      'surveys': {
-        'instrument': 'instruments.id',
-        'variable': 'variables.id',
-        'data-set': 'dataSets.id',
-        'question': 'questions.id',
-        'related-publication': 'relatedPublications.id',
-        'study': 'studyId'
-      },
-      'questions': {
-        'instrument': 'instrumentId',
-        'variable': 'variables.id',
-        'related-publication': 'relatedPublications.id',
-        'study': 'studyId'
-      },
-      'instruments': {
-        'survey': 'surveyIds',
-        'related-publication': 'relatedPublications.id',
-        'study': 'studyId'
-      },
-      'data_sets': {
-        'survey': 'surveyIds',
-        'related-publication': 'relatedPublications.id',
-        'study': 'studyId'
-      },
-      'related_publications': {
-        'variable': 'variableIds',
-        'data-set': 'dataSetIds',
-        'survey': 'surveyIds',
-        'instrument': 'instrumentIds',
-        'study': 'studyIds',
-        'question': 'questionIds'
-      }
-    };
-
+    LanguageService, StudyIdBuilderService, SearchFilterHelperService) {
     var addAdditionalShouldQueries = function(elasticsearchType, queryterm,
       queryShould) {
 
@@ -605,23 +559,14 @@ angular.module('metadatamanagementApp').service('SearchDao',
         }
 
         if (!CleanJSObjectService.isNullOrEmpty(filter)) {
-          _.each(filter, function(value, key) {
-            var filterKeyValue = {
-              'term': {}
-            };
-            if (elasticsearchType) {
-              var subKeyMapping = keyMapping[elasticsearchType];
-              key = subKeyMapping[key];
-              filterKeyValue.term[key] = value;
-
-              if (!query.body.query.bool.filter) {
-                query.body.query.bool.filter = [];
-              }
-
-              query.body.query.bool.filter.push(
-                filterKeyValue);
-            }
-          });
+          if (!query.body.query.bool.filter) {
+            query.body.query.bool.filter = SearchFilterHelperService
+            .createTermFilters(elasticsearchType, filter);
+          } else {
+            query.body.query.bool.filter = _.concat(
+              query.body.query.bool.filter, SearchFilterHelperService
+              .createTermFilters(elasticsearchType, filter));
+          }
         }
         return ElasticSearchClient.search(query);
       }
