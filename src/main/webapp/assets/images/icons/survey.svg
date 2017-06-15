@@ -1,1 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M22,4H14L12,2H6A2,2 0 0,0 4,4V16A2,2 0 0,0 6,18H22A2,2 0 0,0 24,16V6A2,2 0 0,0 22,4M2,6H0V11H0V20A2,2 0 0,0 2,22H20V20H2V6Z" /></svg>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.4, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="192px" height="192px" viewBox="0 0 192 192" enable-background="new 0 0 192 192" xml:space="preserve">
+<path d="M144.812,118.569l-44.572,43.796v21.412h21.412l44.588-43.785L144.812,118.569z M118.58,110.652h-14.666
+	v14.666h14.666V110.652z M103.914,95.986h14.666V81.319h-14.666V95.986z M89.24,110.652H37.906v14.666H89.24V110.652z
+	 M37.906,95.986H89.24V81.319H37.906V95.986z M89.24,139.992H37.906v14.668H89.24V139.992z M139.112,83.818h17.603V28.518h-52.973
+	C102.961,17.07,93.537,8,81.893,8s-21.069,9.07-21.85,20.518H8V184h63.107v-17.606H25.604V46.124H45.24v20.528h73.34V46.124h20.532
+	V83.818z M182.303,115.65l-13.141-13.141c-2.607-2.273-5.192-2.273-7.792,0l-10.706,10.223l21.412,21.413l10.227-10.706
+	C184.566,120.844,184.566,118.254,182.303,115.65"/>
+</svg>
