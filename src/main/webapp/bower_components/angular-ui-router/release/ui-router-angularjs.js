@@ -1,24 +1,24 @@
 /**
  * State-based routing for AngularJS 1.x
  * This bundle requires the ui-router-core.js bundle from the @uirouter/core package.
- * @version v1.0.3
+ * @version v1.0.4
  * @link https://ui-router.github.io
  * @license MIT License, http://www.opensource.org/licenses/MIT
  */
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@uirouter/core'), require('angular')) :
-    typeof define === 'function' && define.amd ? define(['exports', '@uirouter/core', 'angular'], factory) :
-    (factory((global['@uirouter/angularjs'] = global['@uirouter/angularjs'] || {}),global['@uirouter/core'],global.angular));
-}(this, (function (exports,_uirouter_core,ng_from_import) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('angular'), require('@uirouter/core')) :
+    typeof define === 'function' && define.amd ? define(['exports', 'angular', '@uirouter/core'], factory) :
+    (factory((global['@uirouter/angularjs'] = global['@uirouter/angularjs'] || {}),global.angular,global['@uirouter/core']));
+}(this, (function (exports,ng_from_import,_uirouter_core) { 'use strict';
 
 var ng_from_global = angular;
 var ng = (ng_from_import && ng_from_import.module) ? ng_from_import : ng_from_global;
 
-function getNg1ViewConfigFactory$1() {
+function getNg1ViewConfigFactory() {
     var templateFactory = null;
     return function (path, view) {
         templateFactory = templateFactory || _uirouter_core.services.$injector.get("$templateFactory");
-        return [new Ng1ViewConfig$1(path, view, templateFactory)];
+        return [new Ng1ViewConfig(path, view, templateFactory)];
     };
 }
 var hasAnyKey = function (keys, obj) {
@@ -33,7 +33,7 @@ var hasAnyKey = function (keys, obj) {
  * If no `views: {}` property exists on the [[StateDeclaration]], then it creates the `views` object
  * and applies the state-level configuration to a view named `$default`.
  */
-function ng1ViewsBuilder$1(state) {
+function ng1ViewsBuilder(state) {
     // Do not process root state
     if (!state.parent)
         return {};
@@ -72,8 +72,8 @@ function ng1ViewsBuilder$1(state) {
     return views;
 }
 var id = 0;
-var Ng1ViewConfig$1 = (function () {
-    function Ng1ViewConfig$$1(path, viewDecl, factory) {
+var Ng1ViewConfig = (function () {
+    function Ng1ViewConfig(path, viewDecl, factory) {
         var _this = this;
         this.path = path;
         this.viewDecl = viewDecl;
@@ -84,7 +84,7 @@ var Ng1ViewConfig$1 = (function () {
             return _this.component ? _this.factory.makeComponentTemplate(uiView, context, _this.component, _this.viewDecl.bindings) : _this.template;
         };
     }
-    Ng1ViewConfig$$1.prototype.load = function () {
+    Ng1ViewConfig.prototype.load = function () {
         var _this = this;
         var $q = _uirouter_core.services.$q;
         var context = new _uirouter_core.ResolveContext(this.path);
@@ -105,7 +105,7 @@ var Ng1ViewConfig$1 = (function () {
      *
      * @returns {Function|Promise.<Function>} Returns a controller, or a promise that resolves to a controller.
      */
-    Ng1ViewConfig$$1.prototype.getController = function (context) {
+    Ng1ViewConfig.prototype.getController = function (context) {
         var provider = this.viewDecl.controllerProvider;
         if (!_uirouter_core.isInjectable(provider))
             return this.viewDecl.controller;
@@ -114,7 +114,7 @@ var Ng1ViewConfig$1 = (function () {
         var resolvable = new _uirouter_core.Resolvable("", providerFn, deps);
         return resolvable.get(context);
     };
-    return Ng1ViewConfig$$1;
+    return Ng1ViewConfig;
 }());
 
 /** @module view */
@@ -323,11 +323,11 @@ var scopeBindings = function (bindingsObj) { return Object.keys(bindingsObj || {
  *
  * The `$stateProvider` provides interfaces to declare these states for your app.
  */
-var StateProvider$1 = (function () {
-    function StateProvider$$1(stateRegistry, stateService) {
+var StateProvider = (function () {
+    function StateProvider(stateRegistry, stateService) {
         this.stateRegistry = stateRegistry;
         this.stateService = stateService;
-        _uirouter_core.createProxyFunctions(_uirouter_core.val(StateProvider$$1.prototype), this, _uirouter_core.val(this));
+        _uirouter_core.createProxyFunctions(_uirouter_core.val(StateProvider.prototype), this, _uirouter_core.val(this));
     }
     /**
      * Decorates states when they are registered
@@ -418,10 +418,10 @@ var StateProvider$1 = (function () {
      *
      * @return {object} $stateProvider - $stateProvider instance
      */
-    StateProvider$$1.prototype.decorator = function (name, func) {
+    StateProvider.prototype.decorator = function (name, func) {
         return this.stateRegistry.decorator(name, func) || this;
     };
-    StateProvider$$1.prototype.state = function (name, definition) {
+    StateProvider.prototype.state = function (name, definition) {
         if (_uirouter_core.isObject(name)) {
             definition = name;
         }
@@ -436,10 +436,10 @@ var StateProvider$1 = (function () {
      *
      * This is a passthrough to [[StateService.onInvalid]] for ng1.
      */
-    StateProvider$$1.prototype.onInvalid = function (callback) {
+    StateProvider.prototype.onInvalid = function (callback) {
         return this.stateService.onInvalid(callback);
     };
-    return StateProvider$$1;
+    return StateProvider;
 }());
 
 /** @module ng1 */ /** */
@@ -456,7 +456,7 @@ var getStateHookBuilder = function (hookName) {
         var pathname = hookName === 'onExit' ? 'from' : 'to';
         function decoratedNg1Hook(trans, state) {
             var resolveContext = new _uirouter_core.ResolveContext(trans.treeChanges(pathname));
-            var locals = _uirouter_core.extend(getLocals$1(resolveContext), { $state$: state, $transition$: trans });
+            var locals = _uirouter_core.extend(getLocals(resolveContext), { $state$: state, $transition$: trans });
             return _uirouter_core.services.$injector.invoke(hook, this, locals);
         }
         return hook ? decoratedNg1Hook : undefined;
@@ -549,14 +549,14 @@ var Ng1LocationServices = (function () {
  *
  * @deprecated
  */
-var UrlRouterProvider$1 = (function () {
+var UrlRouterProvider = (function () {
     /** @hidden */
-    function UrlRouterProvider$$1(router) {
+    function UrlRouterProvider(router) {
         this._router = router;
         this._urlRouter = router.urlRouter;
     }
     /** @hidden */
-    UrlRouterProvider$$1.prototype.$get = function () {
+    UrlRouterProvider.prototype.$get = function () {
         var urlRouter = this._urlRouter;
         urlRouter.update(true);
         if (!urlRouter.interceptDeferred)
@@ -594,7 +594,7 @@ var UrlRouterProvider$1 = (function () {
      *
      * @return [[UrlRouterProvider]] (`this`)
      */
-    UrlRouterProvider$$1.prototype.rule = function (ruleFn) {
+    UrlRouterProvider.prototype.rule = function (ruleFn) {
         var _this = this;
         if (!_uirouter_core.isFunction(ruleFn))
             throw new Error("'rule' must be a function");
@@ -632,7 +632,7 @@ var UrlRouterProvider$1 = (function () {
      *
      * @return {object} `$urlRouterProvider` - `$urlRouterProvider` instance
      */
-    UrlRouterProvider$$1.prototype.otherwise = function (rule) {
+    UrlRouterProvider.prototype.otherwise = function (rule) {
         var _this = this;
         var urlRouter = this._urlRouter;
         if (_uirouter_core.isString(rule)) {
@@ -685,15 +685,15 @@ var UrlRouterProvider$1 = (function () {
      *
      * Note: the handler may also invoke arbitrary code, such as `$state.go()`
      */
-    UrlRouterProvider$$1.prototype.when = function (what, handler) {
+    UrlRouterProvider.prototype.when = function (what, handler) {
         if (_uirouter_core.isArray(handler) || _uirouter_core.isFunction(handler)) {
-            handler = UrlRouterProvider$$1.injectableHandler(this._router, handler);
+            handler = UrlRouterProvider.injectableHandler(this._router, handler);
         }
         this._urlRouter.when(what, handler);
         return this;
     };
     
-    UrlRouterProvider$$1.injectableHandler = function (router, handler) {
+    UrlRouterProvider.injectableHandler = function (router, handler) {
         return function (match) {
             return _uirouter_core.services.$injector.invoke(handler, null, { $match: match, $stateParams: router.globals.params });
         };
@@ -728,11 +728,11 @@ var UrlRouterProvider$1 = (function () {
      * @param defer Indicates whether to defer location change interception.
      *        Passing no parameter is equivalent to `true`.
      */
-    UrlRouterProvider$$1.prototype.deferIntercept = function (defer) {
+    UrlRouterProvider.prototype.deferIntercept = function (defer) {
         this._urlRouter.deferIntercept(defer);
     };
     
-    return UrlRouterProvider$$1;
+    return UrlRouterProvider;
 }());
 
 /**
@@ -760,13 +760,13 @@ $uiRouter.$inject = ['$locationProvider'];
 function $uiRouter($locationProvider) {
     // Create a new instance of the Router when the $uiRouterProvider is initialized
     router = this.router = new _uirouter_core.UIRouter();
-    router.stateProvider = new StateProvider$1(router.stateRegistry, router.stateService);
+    router.stateProvider = new StateProvider(router.stateRegistry, router.stateService);
     // Apply ng1 specific StateBuilder code for `views`, `resolve`, and `onExit/Retain/Enter` properties
-    router.stateRegistry.decorator("views", ng1ViewsBuilder$1);
+    router.stateRegistry.decorator("views", ng1ViewsBuilder);
     router.stateRegistry.decorator("onExit", getStateHookBuilder("onExit"));
     router.stateRegistry.decorator("onRetain", getStateHookBuilder("onRetain"));
     router.stateRegistry.decorator("onEnter", getStateHookBuilder("onEnter"));
-    router.viewService._pluginapi._viewConfigFactory('ng1', getNg1ViewConfigFactory$1());
+    router.viewService._pluginapi._viewConfigFactory('ng1', getNg1ViewConfigFactory());
     var ng1LocationService = router.locationService = router.locationConfig = new Ng1LocationServices($locationProvider);
     Ng1LocationServices.monkeyPatchPathParameterType(router);
     // backwards compat: also expose router instance as $uiRouterProvider.router
@@ -801,15 +801,15 @@ function runBlock($injector, $q, $uiRouter) {
 }
 // $urlRouter service and $urlRouterProvider
 var getUrlRouterProvider = function (uiRouter) {
-    return uiRouter.urlRouterProvider = new UrlRouterProvider$1(uiRouter);
+    return uiRouter.urlRouterProvider = new UrlRouterProvider(uiRouter);
 };
 // $state service and $stateProvider
 // $urlRouter service and $urlRouterProvider
 var getStateProvider = function () {
     return _uirouter_core.extend(router.stateProvider, { $get: function () { return router.stateService; } });
 };
-watchDigests$1.$inject = ['$rootScope'];
-function watchDigests$1($rootScope) {
+watchDigests.$inject = ['$rootScope'];
+function watchDigests($rootScope) {
     $rootScope.$watch(function () { _uirouter_core.trace.approximateDigests++; });
 }
 mod_init.provider("$uiRouter", $uiRouter);
@@ -824,13 +824,13 @@ mod_state.provider('$state', ['$uiRouterProvider', getStateProvider]);
 mod_state.factory('$stateParams', ['$uiRouter', function ($uiRouter) { return $uiRouter.globals.params; }]);
 mod_main.factory('$view', function () { return router.viewService; });
 mod_main.service("$trace", function () { return _uirouter_core.trace; });
-mod_main.run(watchDigests$1);
+mod_main.run(watchDigests);
 mod_util.run(['$urlMatcherFactory', function ($urlMatcherFactory) { }]);
 mod_state.run(['$state', function ($state) { }]);
 mod_rtr.run(['$urlRouter', function ($urlRouter) { }]);
 mod_init.run(runBlock);
 /** @hidden TODO: find a place to move this */
-var getLocals$1 = function (ctx) {
+var getLocals = function (ctx) {
     var tokens = ctx.getTokens().filter(_uirouter_core.isString);
     var tuples = tokens.map(function (key) {
         var resolvable = ctx.getResolvable(key);
@@ -1473,7 +1473,7 @@ uiSrefActive = ['$state', '$stateParams', '$interpolate', '$uiRouter',
                         return deregister;
                     };
                     function updateAfterTransition(trans) {
-                        trans.promise.then(update);
+                        trans.promise.then(update, _uirouter_core.noop);
                     }
                     $scope.$on('$stateChangeSuccess', update);
                     $scope.$on('$destroy', $uiRouter.transitionService.onStart({}, updateAfterTransition));
@@ -1747,7 +1747,7 @@ uiView = ['$view', '$animate', '$uiViewScroll', '$interpolate', '$q',
                     };
                     _uirouter_core.trace.traceUIViewEvent("Linking", activeUIView);
                     function configUpdatedCallback(config) {
-                        if (config && !(config instanceof Ng1ViewConfig$1))
+                        if (config && !(config instanceof Ng1ViewConfig))
                             return;
                         if (configsEqual(viewConfig, config))
                             return;
@@ -1868,7 +1868,7 @@ function $ViewDirectiveFill($compile, $controller, $transitions, $view, $q, $tim
                 var controller = cfg.controller;
                 var controllerAs = getControllerAs(cfg);
                 var resolveAs = getResolveAs(cfg);
-                var locals = resolveCtx && getLocals$1(resolveCtx);
+                var locals = resolveCtx && getLocals(resolveCtx);
                 scope[resolveAs] = locals;
                 if (controller) {
                     var controllerInstance = $controller(controller, _uirouter_core.extend({}, locals, { $scope: scope, $element: $element }));
@@ -1997,15 +1997,15 @@ ng.module('ui.router.state').provider('$uiViewScroll', $ViewScrollProvider);
  */ /** */
 var index = "ui.router";
 
-exports.core = _uirouter_core;
 exports['default'] = index;
-exports.watchDigests = _uirouter_core.watchDigests;
-exports.getLocals = _uirouter_core.getLocals;
-exports.getNg1ViewConfigFactory = _uirouter_core.getNg1ViewConfigFactory;
-exports.ng1ViewsBuilder = _uirouter_core.ng1ViewsBuilder;
-exports.Ng1ViewConfig = _uirouter_core.Ng1ViewConfig;
-exports.StateProvider = _uirouter_core.StateProvider;
-exports.UrlRouterProvider = _uirouter_core.UrlRouterProvider;
+exports.core = _uirouter_core;
+exports.watchDigests = watchDigests;
+exports.getLocals = getLocals;
+exports.getNg1ViewConfigFactory = getNg1ViewConfigFactory;
+exports.ng1ViewsBuilder = ng1ViewsBuilder;
+exports.Ng1ViewConfig = Ng1ViewConfig;
+exports.StateProvider = StateProvider;
+exports.UrlRouterProvider = UrlRouterProvider;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
