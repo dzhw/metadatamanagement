@@ -1,0 +1,37 @@
+{
+  "name": "Metadata Management Manifest",
+  "icons": [{
+    "src": "assets/images/webapp/57-Gesamte-App.png",
+    "sizes": "57x57",
+    "type": "image/png",
+    "density": "1.0"
+  }, {
+    "src": "assets/images/webapp/72-Gesamte-App.png",
+    "sizes": "72x72",
+    "type": "image/png",
+    "density": "1.5"
+  }, {
+    "src": "assets/images/webapp/114-Gesamte-App.png",
+    "sizes": "114x114",
+    "type": "image/png",
+    "density": "2.0"
+  }, {
+    "src": "assets/images/webapp/128-Gesamte-App.png",
+    "sizes": "128x128",
+    "type": "image/png",
+    "density": "2.5"
+  }, {
+    "src": "assets/images/webapp/144-Gesamte-App.png",
+    "sizes": "144x144",
+    "type": "image/png",
+    "density": "3.0"
+  }, {
+    "src": "assets/images/webapp/192-Gesamte-App.png",
+    "sizes": "192x192",
+    "type": "image/png",
+    "density": "4.0"
+  }],
+  "start_url": "index.html",
+  "display": "standalone",
+  "orientation": "landscape"
+}
