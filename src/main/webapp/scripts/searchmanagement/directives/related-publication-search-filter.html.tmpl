@@ -1,0 +1,13 @@
+<div layout="row" style="margin-top: 0px; margin-bottom: 0px;" layout-align="center center" layout-margin>
+  <span style="margin-right: 0px;">Publikation:</span>
+  <md-autocomplete flex md-min-length="0" md-selected-item="currentRelatedPublication" md-selected-item-change="onSelectionChanged(currentRelatedPublication)" md-search-text="searchText" md-items="item in searchRelatedPublications(searchText)" md-item-text="item._source.title + ' (' + item._source.id + ')'" md-clear-button="true" md-no-cache="true">
+    <md-item-template>
+      <md-icon md-svg-src="/assets/images/icons/related-publication.svg" class="md-primary"></md-icon>
+      <span class="md-title" style="font-size: 14px; margin-left: 0.5em;">{{item._source.title}}</span>
+      <span class="label label-as-badge label-default">{{item._source.id}}</span>
+    </md-item-template>
+    <md-not-found>
+      Not found
+    </md-not-found>
+  </md-autocomplete>
+</div>

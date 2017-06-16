@@ -1,10 +1,11 @@
+/* global _ */
 'use strict';
 
 angular.module('metadatamanagementApp')
   .controller('AccessWaySearchFilterController', [
     '$scope', 'VariableSearchService',
     function($scope, VariableSearchService) {
-      // prevent data-set changed events during init
+      // prevent access-way changed events during init
       var initializing = true;
       var init = function() {
         if ($scope.currentSearchParams.filter &&
@@ -32,7 +33,7 @@ angular.module('metadatamanagementApp')
 
       $scope.searchAccessWays = function(searchText) {
         return VariableSearchService.findAccessWays(
-          searchText, $scope.currentSearchParams.filter);
+          searchText, _.omit($scope.currentSearchParams.filter, 'access-way'));
       };
       init();
     }

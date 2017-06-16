@@ -22,7 +22,9 @@
         <study-search-filter current-language="currentLanguage" current-search-params="searchParams" study-changed-callback="onFilterChanged" bowser="bowser"></study-search-filter>
         <dataset-search-filter current-language="currentLanguage" current-search-params="searchParams" dataset-changed-callback="onFilterChanged" bowser="bowser"></dataset-search-filter>
         <question-search-filter current-language="currentLanguage" current-search-params="searchParams" question-changed-callback="onFilterChanged" bowser="bowser"></question-search-filter>
+        <related-publication-search-filter current-language="currentLanguage" current-search-params="searchParams" related-publication-changed-callback="onFilterChanged" bowser="bowser"></related-publication-search-filter>
         <access-way-search-filter current-language="currentLanguage" current-search-params="searchParams" access-way-changed-callback="onFilterChanged" bowser="bowser"></access-way-search-filter>
+        <panel-identifier-search-filter current-language="currentLanguage" current-search-params="searchParams" panel-identifier-changed-callback="onFilterChanged" bowser="bowser"></panel-identifier-search-filter>
         <md-progress-linear md-mode="indeterminate" ng-if="isSearching"></md-progress-linear>
     </md-card>
     <div flex ngf-drop="tabs[searchParams.selectedTabIndex].uploadFunction($files)" ngf-multiple="true" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-drop-disabled="((!currentProject || currentProject.release) && tabs[searchParams.selectedTabIndex].elasticSearchType !== 'related_publications') || !hasAuthority('ROLE_PUBLISHER') || !tabs[searchParams.selectedTabIndex].uploadFunction">

@@ -133,12 +133,39 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
         return _.map(result.aggregations.accessWays.buckets, 'key');
       });
     };
+
+    var findPanelIdentifiers = function(term, filter) {
+      var query = createQueryObject();
+      query.body = {
+        'size': 0,
+        'aggs': {
+            'panelIdentifiers': {
+                'terms': {
+                  'field': 'panelIdentifier',
+                  'include': '.*' + term + '.*'
+                }
+              }
+          }
+      };
+      if (!CleanJSObjectService.isNullOrEmpty(filter)) {
+        query.body.query = {
+          bool: {
+          }
+        };
+        query.body.query.bool.filter = SearchFilterHelperService
+          .createTermFilters('variables', filter);
+      }
+      return ElasticSearchClient.search(query).then(function(result) {
+        return _.map(result.aggregations.panelIdentifiers.buckets, 'key');
+      });
+    };
     return {
       findOneById: findOneById,
       findByQuestionId: findByQuestionId,
       findVariables: findVariables,
       findByDataSetId: findByDataSetId,
       countBy: countBy,
-      findAccessWays: findAccessWays
+      findAccessWays: findAccessWays,
+      findPanelIdentifiers: findPanelIdentifiers
     };
   });

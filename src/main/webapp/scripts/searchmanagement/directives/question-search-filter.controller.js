@@ -1,4 +1,3 @@
-/* global _ */
 'use strict';
 
 angular.module('metadatamanagementApp')
@@ -44,7 +43,7 @@ angular.module('metadatamanagementApp')
 
       $scope.searchQuestions = function(searchText) {
         return SearchDao.search(searchText, 1,
-            undefined, _.omit($scope.currentSearchParams.filter, 'question'),
+            undefined, $scope.currentSearchParams.filter,
             'questions',
             100).then(function(data) {
               return data.hits.hits;
