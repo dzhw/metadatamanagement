@@ -462,9 +462,9 @@ md-dialog h2 {
 }
 
 .fdz-table-wide {
+    table-layout: auto;
     border-collapse: collapse;
-    width: 100%;
-    text-align: center;
+    white-space: nowrap;
 }
 
 .fdz-table-wide thead {
@@ -486,6 +486,10 @@ md-dialog h2 {
 
 .fdz-table-wide tbody > tr:hover {
     background-color: rgba(158, 158, 158, 0.2);
+}
+
+.fdz-table-absorbing-column {
+    width: 100%;
 }
 
 .fdz-table-rotated {
