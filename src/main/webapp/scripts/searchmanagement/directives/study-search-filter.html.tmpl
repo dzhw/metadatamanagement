@@ -1,13 +1,15 @@
-<div layout="row" style="margin-top: 0px; margin-bottom: 0px;" layout-align="center center" layout-margin>
-  <span style="margin-right: 0px;">Studie:</span>
-  <md-autocomplete flex md-min-length="0" md-require-match="true" md-selected-item="currentStudy" md-selected-item-change="onSelectionChanged(currentStudy)" md-search-text="searchText" md-items="item in searchStudies(searchText)" md-item-text="item._source.title.de + ' (' + item._source.id + ')'" md-clear-button="true" md-no-cache="true">
-    <md-item-template>
-      <md-icon md-svg-src="/assets/images/icons/study.svg" class="md-primary"></md-icon>
-      <span class="md-title" style="font-size: 14px; margin-left: 0.5em;">{{item._source.title.de}}</span>
-      <span class="label label-as-badge label-default">{{item._source.id}}</span>
-    </md-item-template>
-    <md-not-found>
-      Not found
-    </md-not-found>
-  </md-autocomplete>
+<div ng-form="studyFilterForm" layout="row" layout-align="center center">
+    <md-autocomplete class="fdz-search-filter-component" md-input-name="studyFilter" md-floating-label="Studie" flex md-min-length="0" md-require-match="true" md-select-on-match="true" md-selected-item="currentStudy" md-selected-item-change="onSelectionChanged(currentStudy)" md-search-text="searchText"
+      md-items="item in searchStudies(searchText)" md-item-text="item._source.title.de + ' (' + item._source.id + ')'" md-clear-button="true" md-no-cache="true">
+        <md-item-template>
+            <span class="md-title" style="font-size: 14px;">{{item._source.title.de}}</span>
+            <span class="label label-as-badge label-default">{{item._source.id}}</span>
+        </md-item-template>
+        <md-not-found>
+            Not found
+        </md-not-found>
+        <div ng-messages="studyFilterForm.studyFilter.$error">
+            <div ng-message="md-require-match">Keine Studie ausgewählt</div>
+        </div>
+    </md-autocomplete>
 </div>

@@ -12,9 +12,8 @@ angular.module('metadatamanagementApp')
           $scope.currentSearchParams.filter['access-way']) {
           $scope.currentAccessWay =
           $scope.currentSearchParams.filter['access-way'];
-        } else {
-          initializing = false;
         }
+        initializing = false;
       };
       $scope.onSelectionChanged = function(accessWay) {
         if (!$scope.currentSearchParams.filter) {

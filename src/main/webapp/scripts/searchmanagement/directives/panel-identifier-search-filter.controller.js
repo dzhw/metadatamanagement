@@ -12,9 +12,8 @@ angular.module('metadatamanagementApp')
           $scope.currentSearchParams.filter['panel-identifier']) {
           $scope.currentPanelIdentifier =
           $scope.currentSearchParams.filter['panel-identifier'];
-        } else {
-          initializing = false;
         }
+        initializing = false;
       };
       $scope.onSelectionChanged = function(panelIdentifier) {
         if (!$scope.currentSearchParams.filter) {

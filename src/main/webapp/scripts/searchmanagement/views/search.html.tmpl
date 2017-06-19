@@ -1,6 +1,14 @@
 <div flex layout="column" ng-switch="isAuthenticated()">
-    <md-card style="margin-bottom: 0px">
-        <div>
+    <md-card style="margin-bottom: 0px; display: block;">
+          <md-tabs md-selected="searchParams.selectedTabIndex" md-dynamic-height md-border-bottom>
+            <md-tab ng-repeat="tab in tabs" md-on-select="onSelectedTabChanged()" ng-disabled="tab.disabled">
+              <md-tab-label>
+                <md-icon ng-if="tab.icon" md-svg-icon="{{tab.icon}}"></md-icon>
+                <span>{{tab.title|translate}} {{tab.count != null? '(' + tab.count + ')' : ''}}</span>
+                <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.msie || bowser.msedge || bowser.mobile || bowser.tablet ? -100 : 100">{{tab.title+'-tooltip'|translate}}</md-tooltip>
+              </md-tab-label>
+            </md-tab>
+          </md-tabs>
             <form role="search" ng-submit="hideMobileKeyboard($event)">
                 <md-input-container class="fdz-search-input">
                     <label>{{tabs[searchParams.selectedTabIndex].inputLabel|translate}}</label>
@@ -9,22 +17,9 @@
                 </md-input-container>
                 <input type="submit" ng-hide="true">
             </form>
-              <md-tabs md-selected="searchParams.selectedTabIndex" md-dynamic-height md-border-bottom>
-                <md-tab ng-repeat="tab in tabs" md-on-select="onSelectedTabChanged()" ng-disabled="tab.disabled">
-                  <md-tab-label>
-                    <md-icon ng-if="tab.icon" md-svg-icon="{{tab.icon}}"></md-icon>
-                    <span>{{tab.title|translate}} {{tab.count != null? '(' + tab.count + ')' : ''}}</span>
-                    <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.msie || bowser.msedge || bowser.mobile || bowser.tablet ? -100 : 100">{{tab.title+'-tooltip'|translate}}</md-tooltip>
-                  </md-tab-label>
-                </md-tab>
-              </md-tabs>
+        <div ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType">
+          <search-filter-panel current-elasticsearch-type="tabs[searchParams.selectedTabIndex].elasticSearchType" current-language="currentLanguage" current-search-params="searchParams" filter-changed-callback="onFilterChanged" bowser="bowser"></search-filter-panel>
         </div>
-        <study-search-filter current-language="currentLanguage" current-search-params="searchParams" study-changed-callback="onFilterChanged" bowser="bowser"></study-search-filter>
-        <dataset-search-filter current-language="currentLanguage" current-search-params="searchParams" dataset-changed-callback="onFilterChanged" bowser="bowser"></dataset-search-filter>
-        <question-search-filter current-language="currentLanguage" current-search-params="searchParams" question-changed-callback="onFilterChanged" bowser="bowser"></question-search-filter>
-        <related-publication-search-filter current-language="currentLanguage" current-search-params="searchParams" related-publication-changed-callback="onFilterChanged" bowser="bowser"></related-publication-search-filter>
-        <access-way-search-filter current-language="currentLanguage" current-search-params="searchParams" access-way-changed-callback="onFilterChanged" bowser="bowser"></access-way-search-filter>
-        <panel-identifier-search-filter current-language="currentLanguage" current-search-params="searchParams" panel-identifier-changed-callback="onFilterChanged" bowser="bowser"></panel-identifier-search-filter>
         <md-progress-linear md-mode="indeterminate" ng-if="isSearching"></md-progress-linear>
     </md-card>
     <div flex ngf-drop="tabs[searchParams.selectedTabIndex].uploadFunction($files)" ngf-multiple="true" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-drop-disabled="((!currentProject || currentProject.release) && tabs[searchParams.selectedTabIndex].elasticSearchType !== 'related_publications') || !hasAuthority('ROLE_PUBLISHER') || !tabs[searchParams.selectedTabIndex].uploadFunction">

@@ -2,12 +2,10 @@
 
 angular.module('metadatamanagementApp')
   .controller('RelatedPublicationSearchFilterController', [
-    '$scope', 'SearchDao', 'RelatedPublicationSearchService', '$q',
-    function($scope, SearchDao, RelatedPublicationSearchService, $q) {
+    '$scope', 'SearchDao', 'RelatedPublicationSearchService',
+    function($scope, SearchDao, RelatedPublicationSearchService) {
       // prevent related-publication changed events during init
       var initializing = true;
-      // prevent duplicate searches caused by md-autocomplete
-      var activeSearches = {};
       var init = function() {
         if ($scope.currentSearchParams.filter &&
           $scope.currentSearchParams.filter['related-publication']) {
@@ -45,19 +43,12 @@ angular.module('metadatamanagementApp')
       };
 
       $scope.searchRelatedPublications = function(searchText) {
-        if (!activeSearches[searchText]) {
-          activeSearches[searchText] = true;
-          return SearchDao.search(searchText, 1,
-            undefined, $scope.currentSearchParams.filter,
-            'related_publications',
-            100).then(function(data) {
-              delete activeSearches[searchText];
-              return data.hits.hits;
-            }
-          );
-        } else {
-          return $q.defer().promise;
-        }
+        return SearchDao.search(searchText, 1,
+          undefined, $scope.currentSearchParams.filter,
+          'related_publications',
+          100).then(function(data) {
+            return data.hits.hits;
+          });
       };
       init();
     }

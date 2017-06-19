@@ -397,9 +397,9 @@ style for datapackage
 
 .fdz-search-input {
     display: block;
-    margin-bottom: 0;
-    margin-left: 1.5em;
-    margin-right: 2em;
+    margin-left: 8px;
+    margin-right: 16px;
+    margin-bottom: 16px;
 }
 
 .fdz-search-input .md-errors-spacer {
@@ -650,4 +650,27 @@ md-tab-item:hover {
 
 .fdz-toolbar-button {
   box-shadow: 0 5px 12px 0 rgba(0, 0, 0, 0.26) !important;
+}
+
+.fdz-search-filter-component md-input-container {
+  margin: 0px;
+}
+
+.fdz-search-filter-component {
+  margin-bottom: 0px !important;
+}
+
+.fdz-search-filter-component button {
+  top: 2px !important;
+}
+
+.fdz-search-filter-component md-progress-linear {
+  bottom: 22px !important;
+}
+
+.fdz-search-filter-component md-input-container.md-input-has-value label,
+.fdz-search-filter-component md-input-container.md-input-focused label,
+md-input-container.fdz-search-input.md-input-has-value label,
+md-input-container.fdz-search-input.md-input-focused label {
+  bottom: 80% !important;
 }

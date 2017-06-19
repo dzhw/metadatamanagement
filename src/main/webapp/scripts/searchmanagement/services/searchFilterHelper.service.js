@@ -72,8 +72,17 @@ angular.module('metadatamanagementApp').factory(
         return termFilters;
       }
     };
+
+    var removeIrrelevantFilters = function(elasticsearchType, filter) {
+      if (elasticsearchType) {
+        var validFilterKeys = _.keys(keyMapping[elasticsearchType]);
+        return _.pick(filter, validFilterKeys);
+      }
+      return {};
+    };
     return {
-      createTermFilters: createTermFilters
+      createTermFilters: createTermFilters,
+      removeIrrelevantFilters: removeIrrelevantFilters
     };
   }
 );
