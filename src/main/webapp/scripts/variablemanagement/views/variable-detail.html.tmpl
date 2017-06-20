@@ -306,48 +306,48 @@
                 </thead>
                 <tbody>
                     <tr ng-class="{'fdz-table-last-row':$last}" ng-repeat-start="row in variable.distribution.validResponses" ng-hide="isRowHidden($index)">
-                        <td>{{row.value | variableDataType: variable.dataType.en}}{{row.code | number:0}}&nbsp;</td>
+                        <td ng-class="{'fdz-table-number' : variable.dataType.en === 'numeric'}">{{row.value | variableDataType: variable.dataType.en}}{{row.code | number:0}}&nbsp;</td>
                         <td display-i18n-string="row.label"></td>
-                        <td>&nbsp;</td>
-                        <td>{{row.absoluteFrequency | number:0}}&nbsp;</td>
-                        <td>{{row.validRelativeFrequency | number:2}} %
+                        <td class="fdz-table-number">&nbsp;</td>
+                        <td class="fdz-table-number">{{row.absoluteFrequency | number:0}}&nbsp;</td>
+                        <td class="fdz-table-number">{{row.validRelativeFrequency | number:2}} %
                         </td>
-                        <td>{{row.relativeFrequency | number:2}} %
+                        <td class="fdz-table-number">{{row.relativeFrequency | number:2}} %
                         </td>
                     </tr>
                     <tr ng-repeat-end ng-if="$index === 4 && variable.distribution.validResponses.length > 10" ng-hide="!notAllRowsVisible">
+                        <td ng-class="{'fdz-table-number' : variable.dataType.en === 'numeric'}">...</td>
                         <td>...</td>
-                        <td>...</td>
-                        <td>...</td>
-                        <td>...</td>
-                        <td>...</td>
-                        <td>...</td>
+                        <td class="fdz-table-number">...</td>
+                        <td class="fdz-table-number">...</td>
+                        <td class="fdz-table-number">...</td>
+                        <td class="fdz-table-number">...</td>
                     </tr>
                     <tr ng-if="variable.distribution.validResponses.length > 0">
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
-                        <td>{{variable.distribution.totalValidAbsoluteFrequency | number:0}}</td>
-                        <td>100 %</td>
-                        <td>{{variable.distribution.totalValidRelativeFrequency | number:2}} %
+                        <td class="fdz-table-total-number">{{variable.distribution.totalValidAbsoluteFrequency | number:0}}&nbsp;</td>
+                        <td class="fdz-table-total-number">100 %</td>
+                        <td class="fdz-table-total-number">{{variable.distribution.totalValidRelativeFrequency | number:2}} %
                         </td>
                     </tr>
                     <tr ng-class="{'fdz-table-last-row':$last}" ng-repeat="row in variable.distribution.missings">
-                        <td>{{row.code}}&nbsp;</td>
+                        <td ng-class="{'fdz-table-number' : variable.dataType.en === 'numeric'}">{{row.code}}&nbsp;</td>
                         <td display-i18n-string="row.label"></td>
-                        <td>m</td>
-                        <td>{{row.absoluteFrequency | number:0}}&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>{{row.relativeFrequency | number:2}} %
+                        <td class="fdz-table-number">m</td>
+                        <td class="fdz-table-number">{{row.absoluteFrequency | number:0}}&nbsp;</td>
+                        <td class="fdz-table-number">&nbsp;</td>
+                        <td class="fdz-table-number">{{row.relativeFrequency | number:2}} %
                         </td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
-                        <td>{{variable.distribution.totalAbsoluteFrequency | number:0}}</td>
-                        <td>&nbsp;</td>
-                        <td>100 %</td>
+                        <td class="fdz-table-total-number">{{variable.distribution.totalAbsoluteFrequency | number:0}}&nbsp;</td>
+                        <td class="fdz-table-total-number">&nbsp;</td>
+                        <td class="fdz-table-total-number">100 %</td>
                     </tr>
                 </tbody>
             </table>

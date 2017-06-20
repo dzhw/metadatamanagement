@@ -465,6 +465,7 @@ md-dialog h2 {
     table-layout: auto;
     border-collapse: collapse;
     white-space: nowrap;
+    text-align: left;
 }
 
 .fdz-table-wide thead {
@@ -474,14 +475,20 @@ md-dialog h2 {
 .fdz-table-wide thead th {
     font-weight: bold;
 }
-.fdz-table-wide tbody td {
-    font-weight: normal;
+
+.fdz-table-number {
+  text-align: right;
 }
+
+.fdz-table-total-number {
+  text-align: right;
+  font-weight: bold;
+}
+
 .fdz-table-wide td,
 .fdz-table-wide th {
     padding: 8px 16px;
     border-bottom: 1px solid #ddd;
-    text-align: left;
 }
 
 .fdz-table-wide tbody > tr:hover {
