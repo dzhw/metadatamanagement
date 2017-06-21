@@ -1,37 +1,29 @@
 {
-  "name": "Metadata Management Manifest",
+  "name": "Metadata Management",
   "icons": [{
-    "src": "assets/images/icons/colored-mdm-app.svg",
+    "src": "assets/images/webapp/36-Gesamte-App.png",
     "sizes": "36x36",
-    "type": "image/svg+xml",
-    "density": "0.75"
+    "type": "image/png"
   }, {
-    "src": "assets/images/icons/colored-mdm-app.svg",
+    "src": "assets/images/webapp/48-Gesamte-App.png",
     "sizes": "48x48",
-    "type": "image/svg+xml",
-    "density": "1.0"
+    "type": "image/png"
   }, {
     "src": "assets/images/webapp/72-Gesamte-App.png",
     "sizes": "72x72",
-    "type": "image/png",
-    "density": "1.5"
+    "type": "image/png"
   }, {
-    "src": "assets/images/icons/colored-mdm-app.svg",
+    "src": "assets/images/webapp/96-Gesamte-App.png",
     "sizes": "96x96",
-    "type": "image/svg+xml",
-    "density": "2.0"
+    "type": "image/png"
   }, {
     "src": "assets/images/webapp/144-Gesamte-App.png",
     "sizes": "144x144",
-    "type": "image/png",
-    "density": "3.0"
+    "type": "image/png"
   }, {
-    "src": "assets/images/icons/webapp/192-Gesamte-App.png",
+    "src": "assets/images/webapp/192-Gesamte-App.png",
     "sizes": "192x192",
-    "type": "image/png",
-    "density": "4.0"
+    "type": "image/png"
   }],
-  "start_url": "index.html",
-  "display": "standalone",
-  "orientation": "landscape"
+  "start_url": "index.html"
 }
