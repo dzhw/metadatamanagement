@@ -173,12 +173,12 @@
                   {{'study-management.detail.attachments.type' | translate }}
                 </md-tooltip>
               </th>
-              <th class="fdz-table-absorbing-column">{{'study-management.detail.attachments.description' | translate }}
+              <th class="fdz-table-half-absorbing-column">{{'study-management.detail.attachments.description' | translate }}
                 <md-tooltip hide-gt-xs md-direction="right">
                   {{'study-management.detail.attachments.description' | translate }}
                 </md-tooltip>
               </th>
-              <th>{{'study-management.detail.attachments.title' | translate }}
+              <th class="fdz-table-half-absorbing-column">{{'study-management.detail.attachments.title' | translate }}
                 <md-tooltip hide-gt-xs md-direction="right">
                   {{'study-management.detail.attachments.title' | translate }}
                 </md-tooltip>
@@ -197,7 +197,7 @@
           </thead>
           <tbody>
             <tr ng-repeat="row in ctrl.attachments">
-              <td display-i18n-string="row.type"></td>
+              <td class="fdz-table-nowrap" display-i18n-string="row.type"></td>
               <td display-i18n-string="row.description"></td>
               <td lang="{{row.language}}">{{row.title}}&nbsp;</td>
               <td>{{row.language | displayIsoLanguage: currentLanguage}}&nbsp;</td>
