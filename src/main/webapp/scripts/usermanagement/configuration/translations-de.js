@@ -64,7 +64,7 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'password': {
-            'forgot': 'Sie haben ihr Passwort vergessen?'
+            'forgot': 'Sie haben Ihr Passwort vergessen?'
           },
           'registration': {
             'register': 'Registrieren Sie sich'
