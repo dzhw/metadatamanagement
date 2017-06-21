@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.common.rest.errors;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.tomcat.util.http.fileupload.FileUploadBase.FileSizeLimitExceededException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartException;
 
 import com.fasterxml.jackson.core.json.UTF8StreamJsonParser;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.exception.TemplateIncompleteException;
@@ -56,6 +58,7 @@ public class ExceptionTranslator {
   
   private ErrorListDto processFieldErrors(List<ObjectError> globalErrors, 
       List<FieldError> fieldErrors) {
+    
     ErrorListDto errorListDto =  new ErrorListDto();
 
     //handle global errors
@@ -87,12 +90,20 @@ public class ExceptionTranslator {
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   public ErrorListDto processHttpMessageNotReadableException(
       HttpMessageNotReadableException exception) {
+    
     InvalidFormatException invalidFormatException =  
         findInvalidFormatException(exception.getCause());
-    if (invalidFormatException != null) {  
+    
+    JsonMappingException jsonMappingException =
+        findJsonMappingException(exception.getCause());
+    
+    if (invalidFormatException != null) {
       return createJsonParsingError(invalidFormatException);
+    //Default message, if no other root cause was found  
+    } else if (jsonMappingException != null) {      
+      return createJsonMappingException(jsonMappingException);
     } else {
-      String errorMessage;
+      String errorMessage;      
       if (exception.getRootCause() != null) {
         errorMessage = exception.getRootCause()
           .getLocalizedMessage();
@@ -100,6 +111,7 @@ public class ExceptionTranslator {
         errorMessage = exception.getLocalizedMessage();
       }
       return new ErrorListDto(new ErrorDto(null, errorMessage, null, null));
+      
     }
   }
   
@@ -111,9 +123,17 @@ public class ExceptionTranslator {
     }
   }
   
+  private JsonMappingException findJsonMappingException(Throwable cause) {
+    if (cause == null || cause instanceof JsonMappingException) {
+      return (JsonMappingException) cause;
+    } else {
+      return findJsonMappingException(cause.getCause());
+    }
+  }
+  
   private ErrorListDto createJsonParsingError(InvalidFormatException invalidFormatException) {
     UTF8StreamJsonParser processor = 
-        (UTF8StreamJsonParser) invalidFormatException.getProcessor();      
+        (UTF8StreamJsonParser) invalidFormatException.getProcessor(); 
     
     //Create Json Parsing Error. Just the first will be returned
     try {            
@@ -130,6 +150,17 @@ public class ExceptionTranslator {
       return new ErrorListDto(
           new ErrorDto(null, "global.error.import.no-json-mapping", null, null));
     }
+  }
+  
+  private ErrorListDto createJsonMappingException(JsonMappingException jsonMappingException) {
+   
+    String invalidField = jsonMappingException.getPath()
+        .stream()
+        .map(i -> i.getFieldName())
+        .collect(Collectors.joining("."));
+    
+    return new ErrorListDto(
+        new ErrorDto(null, "global.error.import.json-not-readable", invalidField, null));
   }
   
   /**
