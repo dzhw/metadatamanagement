@@ -160,7 +160,7 @@
                             {{'data-set-management.detail.sub-data-sets.accessWay' | translate }}
                           </md-tooltip>
                         </th>
-                        <th>{{'data-set-management.detail.sub-data-sets.description' | translate }}
+                        <th class="fdz-table-absorbing-column">{{'data-set-management.detail.sub-data-sets.description' | translate }}
                             <md-tooltip hide-gt-xs md-direction="right">
                                 {{'data-set-management.detail.sub-data-sets.description' | translate }}
                             </md-tooltip>
@@ -184,16 +184,16 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="row in ctrl.dataSet.subDataSets">
-                        <td>{{row.accessWay}}</td>
+                        <td class="fdz-table-nowrap">{{row.accessWay}}</td>
                         <td display-i18n-string="row.description"></td>
-                        <td>{{row.name}}&nbsp;</td>
-                        <td><span ng-if="ctrl.counts.variablesCount == 0">{{'data-set-management.detail.sub-data-sets.unknownNumberOfAnalyzedVariables' | translate }}</span>
+                        <td class="fdz-table-nowrap">{{row.name}}&nbsp;</td>
+                        <td class="fdz-table-number"><span ng-if="ctrl.counts.variablesCount == 0">{{'data-set-management.detail.sub-data-sets.unknownNumberOfAnalyzedVariables' | translate }}</span>
                             <a ng-if="ctrl.counts.variablesCount > 0" ui-sref="search({'type': 'variables', 'data-set':ctrl.dataSet.id, 'page': 1, 'access-way': row.accessWay,'sort-by': 'indexInDataSet'})">
                           {{ctrl.counts[row.name] | number: 0}}&nbsp;<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                 {{'data-set-management.detail.sub-data-sets.numberOfAnalyzedVariables-tooltip' | translate}}
                             </md-tooltip></a>
                         </td>
-                        <td>{{row.numberOfObservations | number: 0}}&nbsp;</td>
+                        <td class="fdz-table-number">{{row.numberOfObservations | number: 0}}&nbsp;</td>
                     </tr>
                 </tbody>
             </table>
@@ -216,7 +216,7 @@
                                 {{'data-set-management.detail.attachments.title' | translate }}
                             </md-tooltip>
                         </th>
-                        <th>{{'data-set-management.detail.attachments.description' | translate }}
+                        <th class="fdz-table-absorbing-column">{{'data-set-management.detail.attachments.description' | translate }}
                             <md-tooltip hide-gt-xs md-direction="right">
                                 {{'data-set-management.detail.attachments.description' | translate }}
                             </md-tooltip>
@@ -246,7 +246,7 @@
             </table>
         </md-card>
     </div>
-    <div class="fdz-fab-button-container" layout="column">      
+    <div class="fdz-fab-button-container" layout="column">
       <md-button ng-if="ctrl.isAuthenticated() && ctrl.hasAuthority('ROLE_PUBLISHER')" type="file" ngf-select="ctrl.uploadTexTemplate($files)" ngf-multiple="true" directory webkitdirectory class="md-accent md-fab">
           <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
               {{'data-set-management.detail.generate-variable-report-tooltip' | translate}}

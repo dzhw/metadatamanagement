@@ -16,10 +16,9 @@ $state-warning-bg: #FDECD3 !default;
 $state-warning-border: $brand-warning !default;
 $state-danger-text: #000000 !default;
 $state-danger-bg: #F5D0D0 !default;
-$state-danger-border: $brand-danger !default;
-// bower:scss
-@import "bootstrap-sass/assets/stylesheets/_bootstrap.scss";
-// endbower
+$state-danger-border: $brand-danger !default; // bower:scss
+ @import "bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+ // endbower
 
 h1,
 h2,
@@ -111,11 +110,11 @@ body {
 }
 
 .dzhw_logo {
-  width: 70%;
-  height: auto;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+    width: 70%;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .bmbf_logo {
@@ -147,13 +146,13 @@ body {
     text-decoration: none;
 }
 
-.fdz-search-result:hover,
-.fdz-search-result:focus {
+.fdz-search-result:focus,
+.fdz-search-result:hover {
     background-color: rgba(158, 158, 158, 0.2);
 }
 
 .md-tooltip {
-  font-size: 12px;
+    font-size: 12px;
 }
 
 .fdz-search-result-label {
@@ -458,30 +457,59 @@ md-dialog h2 {
 }
 
 .fdz-table-wide {
+    table-layout: auto;
     border-collapse: collapse;
-    width: 100%;
-    text-align: center;
+    text-align: left;
 }
 
 .fdz-table-wide thead {
     background-color: white;
     color: black;
 }
+
 .fdz-table-wide thead th {
     font-weight: bold;
 }
-.fdz-table-wide tbody td {
-    font-weight: normal;
+
+.fdz-table-number {
+    text-align: right;
+    white-space: nowrap;
 }
+
+.fdz-table-total-number {
+    text-align: right;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
 .fdz-table-wide td,
 .fdz-table-wide th {
     padding: 8px 16px;
     border-bottom: 1px solid #ddd;
-    text-align: left;
+}
+
+.fdz-table-wide td {
+    vertical-align: top;
+}
+
+.fdz-table-wide th {
+    white-space: nowrap;
 }
 
 .fdz-table-wide tbody > tr:hover {
     background-color: rgba(158, 158, 158, 0.2);
+}
+
+.fdz-table-absorbing-column {
+    width: 100%;
+}
+
+.fdz-table-half-absorbing-column {
+    width: 50%;
+}
+
+.fdz-table-nowrap {
+    white-space: nowrap;
 }
 
 .fdz-table-rotated {
@@ -494,56 +522,58 @@ md-dialog h2 {
 }
 
 .fdz-table-rotated thead {
+    margin-left: 11px;
     display: block;
     float: left;
     width: 100px;
 }
 
 .fdz-table-rotated tbody {
-     display: block;
-     width: auto;
-     position: relative;
-     overflow-x: auto;
-     white-space: nowrap;
+    display: block;
+    width: auto;
+    position: relative;
+    overflow-x: auto;
+    white-space: nowrap;
 }
 
-.fdz-table-rotated td, .fdz-table-rotated th {
-     margin: 0;
-     vertical-align: top;
-     text-align: left;
+.fdz-table-rotated td,
+.fdz-table-rotated th {
+    margin: 0;
+    vertical-align: top;
+    text-align: left;
 }
 
 .fdz-table-rotated th {
-     display: block;
-     white-space: nowrap;
-     text-overflow: ellipsis;
-     overflow: hidden;
-     border: 0;
-     margin: 5px;
+    display: block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    border: 0;
+    margin: 5px;
 }
 
 .fdz-table-rotated th:last-child {
-     border-bottom: 0;
+    border-bottom: 0;
 }
 
 .fdz-table-rotated td {
-     display: block;
-     text-align: left;
-     border: 0;
+    display: block;
+    text-align: left;
+    border: 0;
     margin: 5px;
 }
 
 .fdz-table-rotated thead tr {
-     display: block;
-     border-right: 1px solid #ddd;
+    display: block;
+    border-right: 1px solid #ddd;
 }
 
 .fdz-table-rotated tbody tr {
-     display: inline-block;
-     vertical-align: top;
-     border-collapse: collapse;
-     border-right: 1px solid #ddd;
-     border-bottom: 0;
+    display: inline-block;
+    vertical-align: top;
+    border-collapse: collapse;
+    border-right: 1px solid #ddd;
+    border-bottom: 0;
 }
 
 .hljs {
@@ -612,44 +642,45 @@ pre {
 }
 
 .fdz-skip-navigation {
-  position: absolute;
-  left: 0;
-  top: 0;
-  opacity: 0;
-  z-index: -100;
-  display: block;
-  width: 95%;
-  margin: 0.5em;
-  -webkit-transition: opacity 0.30s linear;
-  transition: opacity 0.30s linear;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    z-index: -100;
+    display: block;
+    width: 95%;
+    margin: 0.5em;
+    -webkit-transition: opacity 0.30s linear;
+    transition: opacity 0.30s linear;
 }
 
 .fdz-skip-navigation:focus {
-  opacity: 0.9;
-  z-index: 60;
+    opacity: 0.9;
+    z-index: 60;
 }
 
 .js-plotly-plot .plotly .modebar {
-  z-index: 50 !important;
+    z-index: 50 !important;
 }
 
-a:focus, button:focus {
-  outline: 0px !important;
-  outline-offset: 0px !important;
-  border: 1px solid $brand-warning !important;
+a:focus,
+button:focus {
+    outline: 0 !important;
+    outline-offset: 0 !important;
+    border: 1px solid $brand-warning !important;
 }
 
 .fdz-content:focus {
-  background-color: rgba(158, 158, 158, 0.2) !important;
-  border: 1px solid $brand-warning !important;
+    background-color: rgba(158, 158, 158, 0.2) !important;
+    border: 1px solid $brand-warning !important;
 }
 
 md-tab-item:hover {
-  background-color: rgba(158, 158, 158, 0.2) !important;
+    background-color: rgba(158, 158, 158, 0.2) !important;
 }
 
 .fdz-toolbar-button {
-  box-shadow: 0 5px 12px 0 rgba(0, 0, 0, 0.26) !important;
+    box-shadow: 0 5px 12px 0 rgba(0, 0, 0, 0.26) !important;
 }
 
 .fdz-search-filter-component md-input-container {
