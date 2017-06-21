@@ -101,7 +101,7 @@ public class ExceptionTranslator {
       return createJsonParsingError(invalidFormatException);
     //Default message, if no other root cause was found  
     } else if (jsonMappingException != null) {      
-      return createJsonMappingException(jsonMappingException);
+      return createJsonMappingError(jsonMappingException);
     } else {
       String errorMessage;      
       if (exception.getRootCause() != null) {
@@ -152,7 +152,7 @@ public class ExceptionTranslator {
     }
   }
   
-  private ErrorListDto createJsonMappingException(JsonMappingException jsonMappingException) {
+  private ErrorListDto createJsonMappingError(JsonMappingException jsonMappingException) {
    
     String invalidField = jsonMappingException.getPath()
         .stream()
