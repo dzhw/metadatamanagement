@@ -253,6 +253,7 @@ angular.module('metadatamanagementApp').config(
             'valid-period': 'The start and end date have to be set and the dates have to be in the correct order!'
           },
           'import': {
+            'json-not-readable': 'The Json has an error in the field "{{invalidValue}}".',
             'json-parsing-error': 'The import of the object "{{entity}}" failed, because the field "{{property}}" has an invalid value: {{invalidValue}}',
             'no-json-mapping': 'A server side error happened during the import of an object.',
             'file-size-limit-exceeded': 'The file "{{ entity }}" exceeds the limit of 10MB!'
