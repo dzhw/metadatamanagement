@@ -136,6 +136,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
               resolve(variablesResources);
               return;
             }
+            //TODO here pipe the index to the build method
             var chainedJsonFileReader = $q.when();
             variables.forEach(function(variableFromExcel,
               variableIndex) {
