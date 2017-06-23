@@ -11,7 +11,7 @@
     "angular-cookies": "1.6.4",
     "angular-dynamic-locale": "0.1.32",
     "angular-i18n": "1.6.4",
-    "angular-local-storage": "0.6.0",
+    "angular-local-storage": "0.7.1",
     "angular-resource": "1.6.4",
     "angular-sanitize": "1.6.4",
     "angular-translate": "2.15.1",
