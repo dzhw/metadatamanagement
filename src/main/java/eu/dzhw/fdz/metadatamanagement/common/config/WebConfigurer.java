@@ -68,7 +68,6 @@ public class WebConfigurer
     mappings.add("pdf", "application/pdf");
     mappings.add("jpg", "image/jpeg");
     mappings.add("jpeg", "image/jpeg");
-    mappings.add("jpeg", "image/jpe");
     mappings.add("png", "image/png");
     mappings.add("gif", "image/gif");
 
@@ -86,6 +85,7 @@ public class WebConfigurer
 
     staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/");
     staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/index.html");
+    staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/manifest.json");
     staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/assets/*");
     staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/scripts/*");
     staticResourcesProductionFilter.setAsyncSupported(true);
@@ -102,8 +102,8 @@ public class WebConfigurer
 
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/dist/*");
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/index.html");
+    cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/manifest.json");  
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/bower_components/*");
-    cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/favicon.ico");
     cachingHttpHeadersFilter.setAsyncSupported(true);
   }
 }

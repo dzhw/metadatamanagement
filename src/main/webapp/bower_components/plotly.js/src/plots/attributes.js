@@ -69,11 +69,28 @@ module.exports = {
         role: 'info',
         dflt: ''
     },
+    ids: {
+        valType: 'data_array',
+        description: [
+            'Assigns id labels to each datum.',
+            'These ids for object constancy of data points during animation.'
+        ].join(' ')
+    },
+    customdata: {
+        valType: 'data_array',
+        description: [
+            'Assigns extra data each datum.',
+            'This may be useful when listening to hover, click and selection events.',
+            'Note that, *scatter* traces also appends customdata items in the markers',
+            'DOM elements'
+        ].join(' ')
+    },
     hoverinfo: {
         valType: 'flaglist',
         role: 'info',
         flags: ['x', 'y', 'z', 'text', 'name'],
         extras: ['all', 'none', 'skip'],
+        arrayOk: true,
         dflt: 'all',
         description: [
             'Determines which trace information appear on hover.',

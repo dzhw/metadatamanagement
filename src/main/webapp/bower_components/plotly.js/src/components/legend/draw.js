@@ -22,6 +22,8 @@ var svgTextUtils = require('../../lib/svg_text_utils');
 
 var constants = require('./constants');
 var interactConstants = require('../../constants/interactions');
+var LINE_SPACING = require('../../constants/alignment').LINE_SPACING;
+
 var getLegendData = require('./get_legend_data');
 var style = require('./style');
 var helpers = require('./helpers');
@@ -111,7 +113,7 @@ module.exports = function draw(gd) {
     traces.enter().append('g').attr('class', 'traces');
     traces.exit().remove();
 
-    traces.call(style)
+    traces.call(style, gd)
         .style('opacity', function(d) {
             var trace = d[0].trace;
             if(Registry.traceIs(trace, 'pie')) {
@@ -317,6 +319,7 @@ module.exports = function draw(gd) {
 
         dragElement.init({
             element: legend.node(),
+            gd: gd,
             prepFn: function() {
                 var transform = Drawing.getTranslate(legend);
 
@@ -368,30 +371,24 @@ function drawTexts(g, gd) {
 
     var text = g.selectAll('text.legendtext')
         .data([0]);
+
     text.enter().append('text').classed('legendtext', true);
-    text.attr({
-        x: 40,
-        y: 0,
-        'data-unformatted': name
-    })
-    .style('text-anchor', 'start')
-    .classed('user-select-none', true)
-    .call(Drawing.font, fullLayout.legend.font)
-    .text(name);
+
+    text.attr('text-anchor', 'start')
+        .classed('user-select-none', true)
+        .call(Drawing.font, fullLayout.legend.font)
+        .text(name);
 
     function textLayout(s) {
-        svgTextUtils.convertToTspans(s, function() {
-            s.selectAll('tspan.line').attr({x: s.attr('x')});
-            g.call(computeTextDimensions, gd);
+        svgTextUtils.convertToTspans(s, gd, function() {
+            computeTextDimensions(g, gd);
         });
     }
 
     if(gd._context.editable && !isPie) {
-        text.call(svgTextUtils.makeEditable)
+        text.call(svgTextUtils.makeEditable, {gd: gd})
             .call(textLayout)
             .on('edit', function(text) {
-                this.attr({'data-unformatted': text});
-
                 this.text(text)
                     .call(textLayout);
 
@@ -556,20 +553,21 @@ function handleClick(g, gd, numClicks) {
 }
 
 function computeTextDimensions(g, gd) {
-    var legendItem = g.data()[0][0],
-        mathjaxGroup = g.select('g[class*=math-group]'),
-        opts = gd._fullLayout.legend,
-        lineHeight = opts.font.size * 1.3,
-        height,
-        width;
+    var legendItem = g.data()[0][0];
 
     if(!legendItem.trace.showlegend) {
         g.remove();
         return;
     }
 
-    if(mathjaxGroup.node()) {
-        var mathjaxBB = Drawing.bBox(mathjaxGroup.node());
+    var mathjaxGroup = g.select('g[class*=math-group]');
+    var mathjaxNode = mathjaxGroup.node();
+    var opts = gd._fullLayout.legend;
+    var lineHeight = opts.font.size * LINE_SPACING;
+    var height, width;
+
+    if(mathjaxNode) {
+        var mathjaxBB = Drawing.bBox(mathjaxNode);
 
         height = mathjaxBB.height;
         width = mathjaxBB.width;
@@ -577,18 +575,19 @@ function computeTextDimensions(g, gd) {
         Drawing.setTranslate(mathjaxGroup, 0, (height / 4));
     }
     else {
-        var text = g.selectAll('.legendtext'),
-            textSpans = g.selectAll('.legendtext>tspan'),
-            textLines = textSpans[0].length || 1;
+        var text = g.select('.legendtext');
+        var textLines = svgTextUtils.lineCount(text);
+        var textNode = text.node();
 
         height = lineHeight * textLines;
-        width = text.node() && Drawing.bBox(text.node()).width;
+        width = textNode ? Drawing.bBox(textNode).width : 0;
 
         // approximation to height offset to center the font
         // to avoid getBoundingClientRect
         var textY = lineHeight * (0.3 + (1 - textLines) / 2);
-        text.attr('y', textY);
-        textSpans.attr('y', textY);
+        // TODO: this 40 should go in a constants file (along with other
+        // values related to the legend symbol size)
+        svgTextUtils.positionText(text, 40, textY);
     }
 
     height = Math.max(height, 16) + 3;

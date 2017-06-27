@@ -20,6 +20,7 @@ var Color = require('../color');
 var svgTextUtils = require('../../lib/svg_text_utils');
 var interactConstants = require('../../constants/interactions');
 
+var PLACEHOLDER_RE = /Click to enter .+ title/;
 
 var Titles = module.exports = {};
 
@@ -52,28 +53,33 @@ var Titles = module.exports = {};
  *          title, include here. Otherwise it will go in fullLayout._infolayer
  */
 Titles.draw = function(gd, titleClass, options) {
-    var cont = options.propContainer,
-        prop = options.propName,
-        traceIndex = options.traceIndex,
-        name = options.dfltName,
-        avoid = options.avoid || {},
-        attributes = options.attributes,
-        transform = options.transform,
-        group = options.containerGroup,
+    var cont = options.propContainer;
+    var prop = options.propName;
+    var traceIndex = options.traceIndex;
+    var name = options.dfltName;
+    var avoid = options.avoid || {};
+    var attributes = options.attributes;
+    var transform = options.transform;
+    var group = options.containerGroup;
 
-        fullLayout = gd._fullLayout,
-        font = cont.titlefont.family,
-        fontSize = cont.titlefont.size,
-        fontColor = cont.titlefont.color,
+    var fullLayout = gd._fullLayout;
+    var font = cont.titlefont.family;
+    var fontSize = cont.titlefont.size;
+    var fontColor = cont.titlefont.color;
 
-        opacity = 1,
-        isplaceholder = false,
-        txt = cont.title.trim();
+    var opacity = 1;
+    var isplaceholder = false;
+    var txt = cont.title.trim();
+    var editable = gd._context.editable;
+
     if(txt === '') opacity = 0;
-    if(txt.match(/Click to enter .+ title/)) {
+    if(txt.match(PLACEHOLDER_RE)) {
         opacity = 0.2;
         isplaceholder = true;
+        if(!editable) txt = '';
     }
+
+    var elShouldExist = txt || editable;
 
     if(!group) {
         group = fullLayout._infolayer.selectAll('.g-' + titleClass)
@@ -83,7 +89,7 @@ Titles.draw = function(gd, titleClass, options) {
     }
 
     var el = group.selectAll('text')
-        .data([0]);
+        .data(elShouldExist ? [0] : []);
     el.enter().append('text');
     el.text(txt)
         // this is hacky, but convertToTspans uses the class
@@ -92,6 +98,9 @@ Titles.draw = function(gd, titleClass, options) {
         // correct one (only relevant for colorbars, at least
         // for now) - ie don't use .classed
         .attr('class', titleClass);
+    el.exit().remove();
+
+    if(!elShouldExist) return;
 
     function titleLayout(titleEl) {
         Lib.syncOrAsync([drawTitle, scootTitle], titleEl);
@@ -111,11 +120,8 @@ Titles.draw = function(gd, titleClass, options) {
             'font-weight': Plots.fontWeight
         })
         .attr(attributes)
-        .call(svgTextUtils.convertToTspans)
-        .attr(attributes);
+        .call(svgTextUtils.convertToTspans, gd);
 
-        titleEl.selectAll('tspan.line')
-            .attr(attributes);
         return Plots.previousPromises(gd);
     }
 
@@ -127,33 +133,33 @@ Titles.draw = function(gd, titleClass, options) {
 
             // move toward avoid.side (= left, right, top, bottom) if needed
             // can include pad (pixels, default 2)
-            var shift = 0,
-                backside = {
-                    left: 'right',
-                    right: 'left',
-                    top: 'bottom',
-                    bottom: 'top'
-                }[avoid.side],
-                shiftSign = (['left', 'top'].indexOf(avoid.side) !== -1) ?
-                    -1 : 1,
-                pad = isNumeric(avoid.pad) ? avoid.pad : 2,
-                titlebb = Drawing.bBox(titleGroup.node()),
-                paperbb = {
-                    left: 0,
-                    top: 0,
-                    right: fullLayout.width,
-                    bottom: fullLayout.height
-                },
-                maxshift = avoid.maxShift || (
-                    (paperbb[avoid.side] - titlebb[avoid.side]) *
-                    ((avoid.side === 'left' || avoid.side === 'top') ? -1 : 1));
+            var shift = 0;
+            var backside = {
+                left: 'right',
+                right: 'left',
+                top: 'bottom',
+                bottom: 'top'
+            }[avoid.side];
+            var shiftSign = (['left', 'top'].indexOf(avoid.side) !== -1) ?
+                    -1 : 1;
+            var pad = isNumeric(avoid.pad) ? avoid.pad : 2;
+            var titlebb = Drawing.bBox(titleGroup.node());
+            var paperbb = {
+                left: 0,
+                top: 0,
+                right: fullLayout.width,
+                bottom: fullLayout.height
+            };
+            var maxshift = avoid.maxShift || (
+                (paperbb[avoid.side] - titlebb[avoid.side]) *
+                ((avoid.side === 'left' || avoid.side === 'top') ? -1 : 1));
             // Prevent the title going off the paper
             if(maxshift < 0) shift = maxshift;
             else {
                 // so we don't have to offset each avoided element,
                 // give the title the opposite offset
-                var offsetLeft = avoid.offsetLeft || 0,
-                    offsetTop = avoid.offsetTop || 0;
+                var offsetLeft = avoid.offsetLeft || 0;
+                var offsetTop = avoid.offsetTop || 0;
                 titlebb.left -= offsetLeft;
                 titlebb.right -= offsetLeft;
                 titlebb.top -= offsetTop;
@@ -184,8 +190,7 @@ Titles.draw = function(gd, titleClass, options) {
         }
     }
 
-    el.attr({'data-unformatted': txt})
-        .call(titleLayout);
+    el.call(titleLayout);
 
     var placeholderText = 'Click to enter ' + name + ' title';
 
@@ -193,8 +198,7 @@ Titles.draw = function(gd, titleClass, options) {
         opacity = 0;
         isplaceholder = true;
         txt = placeholderText;
-        el.attr({'data-unformatted': txt})
-            .text(txt)
+        el.text(txt)
             .on('mouseover.opacity', function() {
                 d3.select(this).transition()
                     .duration(interactConstants.SHOW_PLACEHOLDER).style('opacity', 1);
@@ -205,11 +209,11 @@ Titles.draw = function(gd, titleClass, options) {
             });
     }
 
-    if(gd._context.editable) {
+    if(editable) {
         if(!txt) setPlaceholder();
         else el.on('.opacity', null);
 
-        el.call(svgTextUtils.makeEditable)
+        el.call(svgTextUtils.makeEditable, {gd: gd})
             .on('edit', function(text) {
                 if(traceIndex !== undefined) Plotly.restyle(gd, prop, text, traceIndex);
                 else Plotly.relayout(gd, prop, text);
@@ -219,13 +223,9 @@ Titles.draw = function(gd, titleClass, options) {
                     .call(titleLayout);
             })
             .on('input', function(d) {
-                this.text(d || ' ').attr(attributes)
-                    .selectAll('tspan.line')
-                        .attr(attributes);
+                this.text(d || ' ')
+                    .call(svgTextUtils.positionText, attributes.x, attributes.y);
             });
-    }
-    else if(!txt || txt.match(/Click to enter .+ title/)) {
-        el.remove();
     }
     el.classed('js-placeholder', isplaceholder);
 };

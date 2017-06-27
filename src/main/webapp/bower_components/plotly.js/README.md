@@ -131,7 +131,7 @@ Please read through our [contributing guidelines](https://github.com/plotly/plot
 * Implementation help may be found on community.plot.ly (tagged [`plotly-js`](http://community.plot.ly/c/plotly-js)) or
   on Stack Overflow (tagged [`plotly`](https://stackoverflow.com/questions/tagged/plotly)).
 * Developers should use the keyword `plotly` on packages which modify or add to the functionality of plotly.js when distributing through [npm](https://www.npmjs.com/browse/keyword/plotly).
-* Direct developer email support can be purchased through a [Plotly Pro](https://plot.ly/products/cloud/) plan.
+* Direct developer email support can be purchased through a [Plotly Support Plan](https://support.plot.ly/libraries/javascript).
 
 ## Versioning
 
@@ -152,7 +152,7 @@ Open-source clients to the plotly.js APIs are available at these links:
 |**node.js cloud client**| [plotly/plotly-nodejs](https://github.com/plotly/plotly-nodejs) | [plot.ly/nodejs/getting-started](https://plot.ly/nodejs/getting-started) |
 |**Julia**| [plotly/Plotly.jl](https://github.com/plotly/Plotly.jl) | [plot.ly/julia/getting-started](https://plot.ly/julia/getting-started) |
 
-plotly.js charts can also be created and saved online for free at [plot.ly/plot](https://plot.ly/plot).
+plotly.js charts can also be created and saved online for free at [plot.ly/create](https://plot.ly/create).
 
 ## Creators
 
@@ -160,7 +160,10 @@ plotly.js charts can also be created and saved online for free at [plot.ly/plot]
 |---|--------|---------|
 |**Alex C. Johnson**| [@alexcjohnson](https://github.com/alexcjohnson) | |
 |**Étienne Tétreault-Pinard**| [@etpinard](https://github.com/etpinard) | [@etpinard](https://twitter.com/etpinard) |
-|**Mikola Lysenko**| [@mikolalysenko](https://github.com/mikolalysenko) | [@MikolaLysenko](https://twitter.com/MikolaLysenko) | |
+|**Mikola Lysenko**| [@mikolalysenko](https://github.com/mikolalysenko) | [@MikolaLysenko](https://twitter.com/MikolaLysenko) |
+|**Ricky Reusser**| [@rreusser](https://github.com/rreusser) | [@rickyreusser](https://twitter.com/rickyreusser) |
+|**Robert Monfera**| [@monfera](https://github.com/monfera) | [@monfera](https://twitter.com/monfera) |
+|**Nicolas Riesco**| [@n-riesco](https://github.com/n-riesco) | |
 |**Miklós Tusz**| [@mdtusz](https://github.com/mdtusz) | [@mdtusz](https://twitter.com/mdtusz)|
 |**Chelsea Douglas**| [@cldougl](https://github.com/cldougl) | |
 |**Ben Postlethwaite**| [@bpostlethwaite](https://github.com/bpostlethwaite) | |

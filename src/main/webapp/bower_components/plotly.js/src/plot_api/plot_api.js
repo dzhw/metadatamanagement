@@ -32,7 +32,9 @@ var manageArrays = require('./manage_arrays');
 var helpers = require('./helpers');
 var subroutines = require('./subroutines');
 var cartesianConstants = require('../plots/cartesian/constants');
-var enforceAxisConstraints = require('../plots/cartesian/constraints');
+var axisConstraints = require('../plots/cartesian/constraints');
+var enforceAxisConstraints = axisConstraints.enforce;
+var cleanAxisConstraints = axisConstraints.clean;
 var axisIds = require('../plots/cartesian/axis_ids');
 
 
@@ -189,9 +191,7 @@ Plotly.plot = function(gd, data, layout, config) {
         }
 
         return Lib.syncOrAsync([
-            subroutines.layoutStyles,
-            drawAxes,
-            initInteractions
+            subroutines.layoutStyles
         ], gd);
     }
 
@@ -220,19 +220,19 @@ Plotly.plot = function(gd, data, layout, config) {
 
     // in case the margins changed, draw margin pushers again
     function marginPushersAgain() {
-        var seq = JSON.stringify(fullLayout._size) === oldmargins ?
-            [] :
-            [marginPushers, subroutines.layoutStyles];
+        if(JSON.stringify(fullLayout._size) === oldmargins) return;
 
-        // re-initialize cartesian interaction,
-        // which are sometimes cleared during marginPushers
-        seq = seq.concat(initInteractions);
-
-        return Lib.syncOrAsync(seq, gd);
+        return Lib.syncOrAsync([
+            marginPushers,
+            subroutines.layoutStyles
+        ], gd);
     }
 
     function positionAndAutorange() {
-        if(!recalc) return;
+        if(!recalc) {
+            enforceAxisConstraints(gd);
+            return;
+        }
 
         var subplots = Plots.getSubplotIds(fullLayout, 'cartesian'),
             modules = fullLayout._modules;
@@ -270,7 +270,10 @@ Plotly.plot = function(gd, data, layout, config) {
 
         var axList = Plotly.Axes.list(gd, '', true);
         for(var i = 0; i < axList.length; i++) {
-            Plotly.Axes.doAutoRange(axList[i]);
+            var ax = axList[i];
+            cleanAxisConstraints(gd, ax);
+
+            Plotly.Axes.doAutoRange(ax);
         }
 
         enforceAxisConstraints(gd);
@@ -370,6 +373,7 @@ Plotly.plot = function(gd, data, layout, config) {
         drawAxes,
         drawData,
         finalDraw,
+        initInteractions,
         Plots.rehover
     ];
 
@@ -467,7 +471,7 @@ function plotPolar(gd, data, layout) {
     var placeholderText = 'Click to enter title';
 
     var titleLayout = function() {
-        this.call(svgTextUtils.convertToTspans);
+        this.call(svgTextUtils.convertToTspans, gd);
         // TODO: html/mathjax
         // TODO: center title
     };
@@ -476,9 +480,10 @@ function plotPolar(gd, data, layout) {
         .call(titleLayout);
 
     if(gd._context.editable) {
-        title.attr({'data-unformatted': txt});
         if(!txt || txt === placeholderText) {
             opacity = 0.2;
+            // placeholder is not going through convertToTspans
+            // so needs explicit data-unformatted
             title.attr({'data-unformatted': placeholderText})
                 .text(placeholderText)
                 .style({opacity: opacity})
@@ -493,11 +498,10 @@ function plotPolar(gd, data, layout) {
         }
 
         var setContenteditable = function() {
-            this.call(svgTextUtils.makeEditable)
+            this.call(svgTextUtils.makeEditable, {gd: gd})
                 .on('edit', function(text) {
                     gd.framework({layout: {title: text}});
-                    this.attr({'data-unformatted': text})
-                        .text(text)
+                    this.text(text)
                         .call(titleLayout);
                     this.call(setContenteditable);
                 })
@@ -1383,6 +1387,7 @@ function _restyle(gd, aobj, _traces) {
     ];
 
     var zscl = ['zmin', 'zmax'],
+        cscl = ['cmin', 'cmax'],
         xbins = ['xbins.start', 'xbins.end', 'xbins.size'],
         ybins = ['ybins.start', 'ybins.end', 'ybins.size'],
         contourAttrs = ['contours.start', 'contours.end', 'contours.size'];
@@ -1481,6 +1486,9 @@ function _restyle(gd, aobj, _traces) {
             // and setting auto should save bin or z settings
             if(zscl.indexOf(ai) !== -1) {
                 doextra('zauto', false, i);
+            }
+            if(cscl.indexOf(ai) !== -1) {
+                doextra('cauto', false, i);
             }
             else if(ai === 'colorscale') {
                 doextra('autocolorscale', false, i);
@@ -1913,10 +1921,12 @@ function _relayout(gd, aobj) {
     // we're editing the (auto)range of, so we can tell the others constrained
     // to scale with them that it's OK for them to shrink
     var rangesAltered = {};
+    var axId;
 
     function recordAlteredAxis(pleafPlus) {
         var axId = axisIds.name2id(pleafPlus.split('.')[0]);
         rangesAltered[axId] = 1;
+        return axId;
     }
 
     // alter gd.layout
@@ -1938,7 +1948,8 @@ function _relayout(gd, aobj) {
             // trunk nodes (everything except the leaf)
             ptrunk = p.parts.slice(0, pend).join('.'),
             parentIn = Lib.nestedProperty(gd.layout, ptrunk).get(),
-            parentFull = Lib.nestedProperty(fullLayout, ptrunk).get();
+            parentFull = Lib.nestedProperty(fullLayout, ptrunk).get(),
+            vOld = p.get();
 
         if(vi === undefined) continue;
 
@@ -1946,7 +1957,7 @@ function _relayout(gd, aobj) {
 
         // axis reverse is special - it is its own inverse
         // op and has no flag.
-        undoit[ai] = (pleaf === 'reverse') ? vi : p.get();
+        undoit[ai] = (pleaf === 'reverse') ? vi : vOld;
 
         // Setting width or height to null must reset the graph's width / height
         // back to its initial value as computed during the first pass in Plots.plotAutoSize.
@@ -1959,11 +1970,25 @@ function _relayout(gd, aobj) {
         else if(pleafPlus.match(/^[xyz]axis[0-9]*\.range(\[[0|1]\])?$/)) {
             doextra(ptrunk + '.autorange', false);
             recordAlteredAxis(pleafPlus);
+            Lib.nestedProperty(fullLayout, ptrunk + '._inputRange').set(null);
         }
         else if(pleafPlus.match(/^[xyz]axis[0-9]*\.autorange$/)) {
             doextra([ptrunk + '.range[0]', ptrunk + '.range[1]'],
                 undefined);
             recordAlteredAxis(pleafPlus);
+            Lib.nestedProperty(fullLayout, ptrunk + '._inputRange').set(null);
+            var axFull = Lib.nestedProperty(fullLayout, ptrunk).get();
+            if(axFull._inputDomain) {
+                // if we're autoranging and this axis has a constrained domain,
+                // reset it so we don't get locked into a shrunken size
+                axFull._input.domain = axFull._inputDomain.slice();
+            }
+        }
+        else if(pleafPlus.match(/^[xyz]axis[0-9]*\.domain(\[[0|1]\])?$/)) {
+            Lib.nestedProperty(fullLayout, ptrunk + '._inputDomain').set(null);
+        }
+        else if(pleafPlus.match(/^[xyz]axis[0-9]*\.constrain.*$/)) {
+            flags.docalc = true;
         }
         else if(pleafPlus.match(/^aspectratio\.[xyz]$/)) {
             doextra(proot + '.aspectmode', 'manual');
@@ -2043,6 +2068,7 @@ function _relayout(gd, aobj) {
                 // will not make sense, so autorange it.
                 doextra(ptrunk + '.autorange', true);
             }
+            Lib.nestedProperty(fullLayout, ptrunk + '._inputRange').set(null);
         }
         else if(pleaf.match(cartesianConstants.AX_NAME_PATTERN)) {
             var fullProp = Lib.nestedProperty(fullLayout, ai).get(),
@@ -2141,7 +2167,16 @@ function _relayout(gd, aobj) {
             }
             else if(fullLayout._has('gl2d') &&
                 (ai.indexOf('axis') !== -1 || ai === 'plot_bgcolor')
-            ) flags.doplot = true;
+            ) {
+                flags.doplot = true;
+            }
+            else if(fullLayout._has('gl2d') &&
+                (ai === 'dragmode' &&
+                (vi === 'lasso' || vi === 'select') &&
+                !(vOld === 'lasso' || vOld === 'select'))
+            ) {
+                flags.docalc = true;
+            }
             else if(ai === 'hiddenlabels') flags.docalc = true;
             else if(proot.indexOf('legend') !== -1) flags.dolegend = true;
             else if(ai.indexOf('title') !== -1) flags.doticks = true;
@@ -2189,7 +2224,7 @@ function _relayout(gd, aobj) {
 
     // figure out if we need to recalculate axis constraints
     var constraints = fullLayout._axisConstraintGroups;
-    for(var axId in rangesAltered) {
+    for(axId in rangesAltered) {
         for(i = 0; i < constraints.length; i++) {
             var group = constraints[i];
             if(group[axId]) {
