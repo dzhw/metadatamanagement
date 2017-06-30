@@ -1,14 +1,18 @@
 <md-card>
-  <a ui-sref="relatedPublicationDetail({id:searchResult.id})" class="fdz-search-result">
+    <a ui-sref="relatedPublicationDetail({id:searchResult.id})" class="fdz-search-result">
         <md-card-header class="fdz-card-header-border">
             <md-card-avatar>
                 <md-icon md-svg-src="/assets/images/icons/related-publication.svg" class="fdz-search-result-icon"></md-icon>
             </md-card-avatar>
             <md-card-header-text class="fdz-truncate-string">
                 <div class="md-title fdz-truncate-string" lang="{{searchResult.language}}">{{searchResult.title}} <span class="label label-as-badge label-default">{{searchResult.id}}</span></div>
-                <div class="md-subhead fdz-truncate-string">
-                  <span>{{searchResult.authors}}</span>
-                  <span ng-if="searchResult.doi">({{'related-publication-management.detail.doi' | translate }}: {{searchResult.doi}})</span>
+                <div layout="row" class="md-subhead">
+                    <div class="fdz-truncate-string">
+                    <span>{{searchResult.authors}}&nbsp;</span>
+                    </div>
+                    <div>
+                    <span ng-if="searchResult.year">({{searchResult.year}})</span>
+                  </div>
                 </div>
             </md-card-header-text>
         </md-card-header>
@@ -16,7 +20,7 @@
             <div lang="{{searchResult.language}}">{{searchResult.publicationAbstract | limitTo: 256}}{{searchResult.publicationAbstract.length > 256 ? '...' : ''}}</div>
         </md-card-content>
         <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-          {{'search-management.cards.publication-tooltip' | translate: {id:searchResult.id} }}
+            {{'search-management.cards.publication-tooltip' | translate: {id:searchResult.id} }}
         </md-tooltip>
     </a>
 </md-card>

@@ -104,31 +104,6 @@
                             </a>
                         </div>
                     </div>
-                    <div ng-init="dataSets = ctrl.relatedPublication.dataSets" style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                        <div ng-if="dataSets.length === 0" class="fdz-truncate-string" flex>
-                            <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
-                            {{'data-set-management.detail.data-sets' | translate }}: {{'global.messages.error.unavailable' | translate}}
-                        </div>
-                        <div ng-if="dataSets.length === 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="dataSetDetail({'id': dataSets[0].id})">
-                                <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
-                                {{'data-set-management.detail.data-set' | translate }}:
-                                <span display-i18n-string="dataSets[0].description"></span>
-                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                                    {{'related-publication-management.detail.tooltips.data-sets.one' | translate}}
-                                </md-tooltip>
-                            </a>
-                        </div>
-                        <div ng-if="dataSets.length > 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="search({'type': 'data_sets', 'related-publication':ctrl.relatedPublication.id, 'page': 1})">
-                                <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
-                                {{'data-set-management.detail.data-sets' | translate }}: ({{dataSets.length}})
-                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                                    {{'related-publication-management.detail.tooltips.data-sets.many' | translate}}
-                                </md-tooltip>
-                            </a>
-                        </div>
-                    </div>
                     <div ng-init="instruments = ctrl.relatedPublication.instruments" style="margin-bottom: 0.5em; width: 100%;" layout="row">
                         <div ng-if="instruments.length === 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
@@ -175,6 +150,31 @@
                                 {{'question-management.detail.questions' | translate }}: ({{questions.length}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'related-publication-management.detail.tooltips.questions.many' | translate}}
+                                </md-tooltip>
+                            </a>
+                        </div>
+                    </div>
+                    <div ng-init="dataSets = ctrl.relatedPublication.dataSets" style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                        <div ng-if="dataSets.length === 0" class="fdz-truncate-string" flex>
+                            <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
+                            {{'data-set-management.detail.data-sets' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                        </div>
+                        <div ng-if="dataSets.length === 1" class="fdz-truncate-string" flex>
+                            <a ui-sref="dataSetDetail({'id': dataSets[0].id})">
+                                <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
+                                {{'data-set-management.detail.data-set' | translate }}:
+                                <span display-i18n-string="dataSets[0].description"></span>
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                    {{'related-publication-management.detail.tooltips.data-sets.one' | translate}}
+                                </md-tooltip>
+                            </a>
+                        </div>
+                        <div ng-if="dataSets.length > 1" class="fdz-truncate-string" flex>
+                            <a ui-sref="search({'type': 'data_sets', 'related-publication':ctrl.relatedPublication.id, 'page': 1})">
+                                <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
+                                {{'data-set-management.detail.data-sets' | translate }}: ({{dataSets.length}})
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                    {{'related-publication-management.detail.tooltips.data-sets.many' | translate}}
                                 </md-tooltip>
                             </a>
                         </div>
