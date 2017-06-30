@@ -104,11 +104,9 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
       return ElasticSearchClient.search(query);
     };
     var findByDataSetIdAndIndexInDataSet = function(dataSetId, indexInDataSet,
-      selectedAttributes, from, size) {
+      selectedAttributes) {
       var query = createQueryObject();
       query.body = {};
-      query.body.from = from;
-      query.body.size = size;
       query.body._source = selectedAttributes;
       query.body.query = {
         'bool': {
