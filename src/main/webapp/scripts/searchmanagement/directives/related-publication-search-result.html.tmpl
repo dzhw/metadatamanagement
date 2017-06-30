@@ -6,9 +6,13 @@
             </md-card-avatar>
             <md-card-header-text class="fdz-truncate-string">
                 <div class="md-title fdz-truncate-string" lang="{{searchResult.language}}">{{searchResult.title}} <span class="label label-as-badge label-default">{{searchResult.id}}</span></div>
-                <div class="md-subhead fdz-truncate-string">
-                    <span>{{searchResult.authors}}</span>
+                <div layout="row" class="md-subhead">
+                    <div class="fdz-truncate-string">
+                    <span>{{searchResult.authors}}&nbsp;</span>
+                    </div>
+                    <div>
                     <span ng-if="searchResult.year">({{'related-publication-management.detail.year' | translate }}: {{searchResult.year}})</span>
+                  </div>
                 </div>
             </md-card-header-text>
         </md-card-header>
