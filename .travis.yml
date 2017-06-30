@@ -24,7 +24,7 @@ before_install:
   - sudo apt-get install cf-cli -y
 # turn off travis default mvn install call and install a recent node version instead
 install:
-  - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install 8.1.1
+  - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install 8.1.3
   - npm install -g bower
   - npm install -g grunt-cli
 # do not install into local maven repo to avoid polluting the cache
