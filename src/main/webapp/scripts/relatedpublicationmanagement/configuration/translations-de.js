@@ -36,7 +36,7 @@ angular.module('metadatamanagementApp').config(
           'sourceLink-tooltip': 'Klicken, um die Quelle dieser Publikation in einem neuen Tab zu öffnen ',
           'no-related-publications': 'Keine Publikationen.',
           'related-publications': 'Publikationen',
-          'authors': 'Autor_innen',
+          'authors': 'Autor(inn)en',
           'year': 'Erscheinungsjahr',
           'source-reference': 'Zitation',
           'abstract-source': 'Quelle',
