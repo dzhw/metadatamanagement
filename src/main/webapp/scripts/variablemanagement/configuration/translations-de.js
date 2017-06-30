@@ -51,6 +51,10 @@ angular.module('metadatamanagementApp').config(
           'generation-details-expression-language': 'Generierungsausdruckssprache',
           'generation-details-rule': 'Generierungsregel',
           'copy-complete-input-filter-tooltip': 'Klicken, um den gesamten Inhalt des Eingangsfilters in die Zwischenablage zu kopieren',
+          'previous-variable-in-data-set':'Vorangegangene Variable im Datensatz',
+          'no-previous-variable':'Keine vorangegangene Variable im Datensatz vorhanden.',
+          'next-variable-in-data-set':'Nachfolgende Variable im Datensatz',
+          'no-next-variable':'Keine nachfolgende Variable im Datensatz vorhanden.',
           'show-complete-input-filter-tooltip': {
             'true': 'Klicken, um den gesamten Inhalt des Eingangsfilters zu zeigen',
             'false': 'Klicken, um den Inhaltsbereich des Eingangsfilters zu minimieren'

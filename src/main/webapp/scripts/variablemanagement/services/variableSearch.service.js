@@ -103,6 +103,29 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
       };
       return ElasticSearchClient.search(query);
     };
+    var findByDataSetIdAndIndexInDataSet = function(dataSetId, indexInDataSet,
+      selectedAttributes) {
+      var query = createQueryObject();
+      query.body = {};
+      query.body._source = selectedAttributes;
+      query.body.query = {
+        'bool': {
+          'must': [{
+            'match_all': {}
+          }],
+          'filter': [{
+            'term': {
+              'dataSetId': dataSetId
+            }
+          },{
+            'term': {
+              'indexInDataSet': indexInDataSet
+            }
+          }]
+        }
+      };
+      return ElasticSearchClient.search(query);
+    };
     var countBy = function(term, value, dataSetId) {
       var query = createQueryObject();
       query.body = {};
@@ -134,6 +157,7 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
       findBySurveyTitle: findBySurveyTitle,
       findVariables: findVariables,
       findByDataSetId: findByDataSetId,
+      findByDataSetIdAndIndexInDataSet: findByDataSetIdAndIndexInDataSet,
       countBy: countBy
     };
   });
