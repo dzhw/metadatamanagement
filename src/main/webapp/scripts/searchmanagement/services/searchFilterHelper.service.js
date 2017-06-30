@@ -11,12 +11,12 @@ angular.module('metadatamanagementApp').factory(
         'question': 'questions.id'
       },
       'variables': {
+        'study': 'studyId',
         'data-set': 'dataSetId',
-        'panel-identifier': 'panelIdentifier',
         'question': 'relatedQuestions.questionId',
         'related-publication': 'relatedPublications.id',
-        'access-way': 'accessWays',
-        'study': 'studyId'
+        'panel-identifier': 'panelIdentifier',
+        'access-way': 'accessWays'
       },
       'surveys': {
         'instrument': 'instruments.id',
@@ -38,9 +38,9 @@ angular.module('metadatamanagementApp').factory(
         'study': 'studyId'
       },
       'data_sets': {
+        'study': 'studyId',
         'survey': 'surveyIds',
-        'related-publication': 'relatedPublications.id',
-        'study': 'studyId'
+        'related-publication': 'relatedPublications.id'
       },
       'related_publications': {
         'variable': 'variableIds',
@@ -80,9 +80,15 @@ angular.module('metadatamanagementApp').factory(
       }
       return {};
     };
+
+    var getAvailableFilters = function(elasticsearchType) {
+      return _.keys(keyMapping[elasticsearchType]);
+    };
+
     return {
       createTermFilters: createTermFilters,
-      removeIrrelevantFilters: removeIrrelevantFilters
+      removeIrrelevantFilters: removeIrrelevantFilters,
+      getAvailableFilters: getAvailableFilters
     };
   }
 );

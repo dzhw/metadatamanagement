@@ -3,8 +3,8 @@
 
 angular.module('metadatamanagementApp')
   .controller('SearchFilterPanelController', [
-    '$scope', 'CleanJSObjectService',
-    function($scope, CleanJSObjectService) {
+    '$scope', 'CleanJSObjectService', 'SearchFilterHelperService',
+    function($scope, CleanJSObjectService, SearchFilterHelperService) {
       $scope.isFilterActive = !CleanJSObjectService.isNullOrEmpty(
         $scope.currentSearchParams.filter);
       $scope.filterPanelClosed = !$scope.isFilterActive;
@@ -12,14 +12,15 @@ angular.module('metadatamanagementApp')
         $scope.filterPanelClosed = !$scope.filterPanelClosed;
       };
 
-      $scope.$watch('currentSearchParams.filter', function() {
-        $scope.selectedSearchFilters = {};
+      $scope.$watch('currentElasticsearchType', function() {
+        $scope.availableFilters = SearchFilterHelperService.getAvailableFilters(
+          $scope.currentElasticsearchType);
+
+        $scope.selectedFilters = [];
         $scope.isFilterActive = !CleanJSObjectService.isNullOrEmpty(
-          $scope.currentSearchParams.filter);
+            $scope.currentSearchParams.filter);
         if ($scope.isFilterActive) {
-          _.forEach($scope.currentSearchParams.filter, function(value, key) {
-            $scope.selectedSearchFilters[key] = value;
-          });
+          $scope.selectedFilters = _.keys($scope.currentSearchParams.filter);
         }
       });
 
