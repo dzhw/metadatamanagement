@@ -507,7 +507,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
         query.searchType = 'dfs_query_then_fetch';
         //use source filtering for returning only required attributes
         query.body._source = ['id', 'number', 'questionText', 'title',
-          'description', 'type', 'doi', 'publicationAbstract', 'authors',
+          'description', 'type', 'year', 'publicationAbstract', 'authors',
           'surveyMethod', 'fieldPeriod', 'label', 'name', 'dataType',
           'sample',
           'scaleLevel', 'dataAcquisitionProjectId', 'dataSetNumber',
