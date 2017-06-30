@@ -82,7 +82,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
     };
 
     var createJsonFileReader = function(dataSet, variableFromExcel,
-      variablesResources) {
+      variablesResources, variableIndex) {
       return FileReaderService.readAsText(dataSet
           .jsonFiles[variableFromExcel.name])
         .then(function(variableAsText) {
@@ -96,7 +96,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
 
             var variableResource = VariableBuilderService
               .buildVariable(variableFromExcel,
-                variableFromJson, dataSet);
+                variableFromJson, dataSet, variableIndex);
             variablesResources.push(variableResource);
             if (existingVariables[variableResource.id]) {
               existingVariables[variableResource.id]
@@ -146,7 +146,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
                     function() {
                       return createJsonFileReader(dataSet,
                         variableFromExcel,
-                        variablesResources);
+                        variablesResources, (variableIndex + 1));
                     });
                 } else {
                   JobLoggingService.error({

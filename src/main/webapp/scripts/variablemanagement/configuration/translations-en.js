@@ -51,6 +51,10 @@ angular.module('metadatamanagementApp').config(
           'generation-details-expression-language': 'Generation Expression Language',
           'generation-details-rule': 'Generation Rule',
           'copy-complete-input-filter-tooltip': 'Click to copy the input filter to the clipboard',
+          'previous-variable-in-data-set':'Previous Variable in Data Set',
+          'no-previous-variable':'No previous Variable in Data Set',
+          'next-variable-in-data-set':'Next Variable in Data Set',
+          'no-next-variable':'No next Variable in Data Set.',
           'show-complete-input-filter-tooltip': {
             'true': 'Click to show the whole input filter',
             'false': 'Click to minimize the content area of the input filter'

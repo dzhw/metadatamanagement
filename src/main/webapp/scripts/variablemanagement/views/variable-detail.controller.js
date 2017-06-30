@@ -11,6 +11,8 @@ angular.module('metadatamanagementApp')
     $scope.filterDetailsCodeToggleFlag = true;
     $scope.notAllRowsVisible = true;
     $scope.counts = {};
+    $scope.nextVariables = [];
+    $scope.previousVariables = [];
     $scope.validResponsesOrMissingsAvailable = false;
     entity.promise.then(function(result) {
       var currenLanguage = LanguageService.getCurrentInstantly();
@@ -58,6 +60,25 @@ angular.module('metadatamanagementApp')
                 });
             }
           });
+
+        //Find previousVariables
+        var previousIndexInDataSet = result.indexInDataSet - 1;
+        VariableSearchService.findByDataSetIdAndIndexInDataSet(result.dataSetId,
+          previousIndexInDataSet, ['id', 'label', 'name', 'dataType',
+            'scaleLevel', 'surveys'])
+          .then(function(resultPreviousVariable) {
+            $scope.previousVariables = resultPreviousVariable.hits.hits;
+          });
+
+        //Find nextVariables
+        var nextIndexInDataSet = result.indexInDataSet + 1;
+        VariableSearchService.findByDataSetIdAndIndexInDataSet(result.dataSetId,
+          nextIndexInDataSet, ['id', 'label', 'name', 'dataType',
+            'scaleLevel', 'surveys'])
+          .then(function(resultNextVariable) {
+            $scope.nextVariables = resultNextVariable.hits.hits;
+          });
+
         $scope.counts.surveysCount = $scope.variable.surveys.length;
         if ($scope.counts.surveysCount === 1) {
           $scope.survey = $scope.variable.surveys[0];
