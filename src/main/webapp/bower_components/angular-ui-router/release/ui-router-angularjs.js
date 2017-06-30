@@ -1,7 +1,7 @@
 /**
  * State-based routing for AngularJS 1.x
  * This bundle requires the ui-router-core.js bundle from the @uirouter/core package.
- * @version v1.0.4
+ * @version v1.0.5
  * @link https://ui-router.github.io
  * @license MIT License, http://www.opensource.org/licenses/MIT
  */
@@ -797,7 +797,7 @@ function runBlock($injector, $q, $uiRouter) {
         .map(function (x) { return x.$$state().resolvables; })
         .reduce(_uirouter_core.unnestR, [])
         .filter(function (x) { return x.deps === "deferred"; })
-        .forEach(function (resolvable) { return resolvable.deps = $injector.annotate(resolvable.resolveFn); });
+        .forEach(function (resolvable) { return resolvable.deps = $injector.annotate(resolvable.resolveFn, $injector.strictDi); });
 }
 // $urlRouter service and $urlRouterProvider
 var getUrlRouterProvider = function (uiRouter) {
