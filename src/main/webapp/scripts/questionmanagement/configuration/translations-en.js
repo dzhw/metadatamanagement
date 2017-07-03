@@ -87,6 +87,9 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-not-empty': 'The question text of the question must not be empty at least for one language.',
               'i18n-string-size': 'The max length of the question text is 2048 signs.'
             },
+            'indexInInstrument': {
+              'not-null': 'The "Index in a Instrument" of a Question must not be empty!'
+            },
             'instruction': {
               'i18n-string-size': 'The max length of the instruction is 2048 signs.'
             },
