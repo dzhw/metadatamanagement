@@ -19,6 +19,7 @@ angular.module('metadatamanagementApp').config(
             'question-has-no-image': 'No image was found for the question {{id}}.',
             'unable-to-parse-json-file': 'The JSON file "{{file}}" in Instrument {{instrument}} does not contain valid JSON!',
             'unable-to-read-file': 'The file "{{file}}" in Instrument {{instrument}} could not be read!',
+            'non-unique-index-in-instrument': 'At least two questions ({{firstQuestionId}}, {{secondQuestionId}}) have the same index "{{index}}" in an instrument.'
           }
         },
         'home': {
