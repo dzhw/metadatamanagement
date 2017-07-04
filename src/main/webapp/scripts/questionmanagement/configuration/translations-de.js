@@ -18,7 +18,8 @@ angular.module('metadatamanagementApp').config(
             'not-found-image-file': 'Zu der Frage "{{questionNumber}}" in Instrument "{{instrument}}" konnte kein Bild gefunden werden!',
             'technical-representation-success-copy-to-clipboard': 'Die technische Representation wurde erfolgreich in die Zwischenablage kopiert.',
             'unable-to-parse-json-file': 'Die JSON Datei "{{file}}" in Instrument "{{instrument}}" enthält kein valides JSON!',
-            'unable-to-read-file': 'Die Datei "{{file}}" in Instrument "{{instrument}}" konnte nicht gelesen werden!'
+            'unable-to-read-file': 'Die Datei "{{file}}" in Instrument "{{instrument}}" konnte nicht gelesen werden!',
+            'non-unique-index-in-instrument': 'Mindestens zwei Fragen ({{firstQuestionId}}, {{secondQuestionId}}) haben den gleichen Index "{{index}}" innerhalb eines Instrument.'
           }
         },
         'home': {

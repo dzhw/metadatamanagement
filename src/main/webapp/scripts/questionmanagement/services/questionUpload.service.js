@@ -12,6 +12,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
     var questionResources;
     // map questionId -> presentInJson true/false
     var existingQuestions = {};
+    var usedIndexInInstrument = {};
     var createInstrumentsFileMap = function(files, dataAcquisitionProjectId) {
       filesMap = {};
       var instrumentIndex = 0;
@@ -175,6 +176,24 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
           JobLoggingService.success({
             objectType: 'question'
           });
+
+          //TODO Dkatzberg
+          if (CleanJSObjectService
+            .isNullOrEmpty(usedIndexInInstrument[question.indexInInstrument])) {
+            usedIndexInInstrument[question.indexInInstrument] = question.id;
+          } else {
+            JobLoggingService.warning({
+              message: 'question-management.log-messages.' +
+                'question.non-unique-index-in-instrument',
+              messageParams: {
+                index: question.indexInInstrument,
+                firstQuestionId:
+                  usedIndexInInstrument[question.indexInInstrument],
+                secondQuestionId: question.id
+              }
+            });
+          }
+
           deleteAllImages(question.id).finally(function() {
             QuestionImageUploadService.uploadImage(image,
               question.id)
@@ -266,6 +285,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
 
     var uploadQuestions = function(files, dataAcquisitionProjectId) {
       existingQuestions = {};
+      usedIndexInInstrument = {};
       if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
         QuestionRepositoryClient.findByDataAcquisitionProjectId(
           dataAcquisitionProjectId).then(function(result) {
