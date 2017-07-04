@@ -63,11 +63,11 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ScaleLevels;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Statistics;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ValidResponse;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.HistogramBuilder;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.MissingBuilder;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.DistributionBuilder;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.FilterDetailsBuilder;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.GenerationDetailsBuilder;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.HistogramBuilder;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.MissingBuilder;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.RelatedQuestionBuilder;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.StatisticsBuilder;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.ValidResponseBuilder;
@@ -288,6 +288,7 @@ public class UnitTestCreateDomainObjectUtils {
       .withInstrumentId(instrumentId)
       .withIntroduction(new I18nString("Einleitung", "Introduction"))
       .withNumber("123.12")
+      .withIndexInInstrument(1)
       .withSuccessors(new ArrayList<>())
       .withQuestionText(new I18nString("Fragetext","Question text"))
       .withTechnicalRepresentation(buildTechnicalRepresentation())

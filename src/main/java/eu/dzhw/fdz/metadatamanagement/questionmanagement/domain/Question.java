@@ -73,6 +73,9 @@ public class Question extends AbstractRdcDomainObject {
       message = "question-management.error.question.topic.i18n-string-size")
   private I18nString topic;
   
+  @NotNull(message = "question-management.error.question.indexInInstrument.not-null")
+  private Integer indexInInstrument;
+  
   @NotEmpty
   @Indexed
   private String instrumentId;
@@ -209,6 +212,7 @@ public class Question extends AbstractRdcDomainObject {
       .add("successorNumbers", successorNumbers)
       .add("studyId", studyId)
       .add("annotations", annotations)
+      .add("indexInInstrument", indexInInstrument)
       .toString();
   }
 
@@ -290,5 +294,13 @@ public class Question extends AbstractRdcDomainObject {
 
   public void setAnnotations(I18nString annotations) {
     this.annotations = annotations;
-  }  
+  }
+
+  public Integer getIndexInInstrument() {
+    return indexInInstrument;
+  }
+
+  public void setIndexInInstrument(Integer indexInInstrument) {
+    this.indexInInstrument = indexInInstrument;
+  } 
 }

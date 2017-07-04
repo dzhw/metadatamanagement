@@ -43,8 +43,9 @@ angular.module('metadatamanagementApp').controller('SearchController',
       if ($scope.searchParams.query && $scope.searchParams.query !== '') {
         locationSearch.query = $scope.searchParams.query;
       }
-      if ($scope.searchParams.sortBy && $scope.searchParams.sortBy !== '') {
-        locationSearch['sort-by'] = $scope.searchParams.sortBy;
+      if ($scope.tabs[$scope.searchParams.selectedTabIndex].sortBy) {
+        locationSearch['sort-by'] =
+          $scope.tabs[$scope.searchParams.selectedTabIndex].sortBy;
       }
       _.assign(locationSearch, $scope.searchParams.filter);
       locationChanged = !angular.equals($location.search(),
@@ -75,7 +76,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
         $scope.searchParams.filter = _.omit(locationSearch, ['page', 'type',
           'query', 'sort-by'
         ]);
-        $scope.searchParams.sortBy = locationSearch['sort-by'];
         var indexToSelect = _.findIndex($scope.tabs,
           function(tab) {
             return tab.elasticSearchType === locationSearch.type;
@@ -121,7 +121,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       SearchDao.search($scope.searchParams.query, $scope.pageObject.page,
           projectId, $scope.searchParams.filter,
           $scope.tabs[$scope.searchParams.selectedTabIndex].elasticSearchType,
-          $scope.pageObject.size, $scope.searchParams.sortBy)
+          $scope.pageObject.size,
+          $scope.tabs[$scope.searchParams.selectedTabIndex].sortBy)
         .then(function(data) {
           $scope.searchResult = data.hits.hits;
           $scope.pageObject.totalHits = data.hits.total;
@@ -230,7 +231,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
                 $scope.tabs[$scope.searchParams.selectedTabIndex]
                   .elasticSearchType,
                 $scope.searchParams.filter);
-            $scope.searchParams.sortBy = undefined;
             $scope.pageObject.page = 1;
             writeSearchParamsToLocation();
             if (!currentProjectChangeIsBeingHandled) {
@@ -317,6 +317,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       title: 'search-management.tabs.all',
       inputLabel: 'search-management.input-label.all',
       elasticSearchType: undefined,
+      sortBy: undefined,
       count: null,
       acceptedFileUploadType: null,
       uploadFunction: null,
@@ -328,6 +329,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       inputLabel: 'search-management.input-label.studies',
       icon: 'assets/images/icons/study.svg',
       elasticSearchType: 'studies',
+      sortBy: undefined,
       count: null,
       uploadFunction: $scope.uploadStudy,
       disabled: false,
@@ -338,6 +340,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       inputLabel: 'search-management.input-label.surveys',
       icon: 'assets/images/icons/survey.svg',
       elasticSearchType: 'surveys',
+      sortBy: undefined,
       count: null,
       uploadFunction: $scope.uploadSurveys,
       disabled: false,
@@ -348,6 +351,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       inputLabel: 'search-management.input-label.instruments',
       icon: 'assets/images/icons/instrument.svg',
       elasticSearchType: 'instruments',
+      sortBy: undefined,
       count: null,
       uploadFunction: $scope.uploadInstruments,
       disabled: false,
@@ -358,6 +362,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       inputLabel: 'search-management.input-label.questions',
       icon: 'assets/images/icons/question.svg',
       elasticSearchType: 'questions',
+      sortBy: 'indexInInstrument',
       count: null,
       uploadFunction: $scope.uploadQuestions,
       disabled: false,
@@ -368,6 +373,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       inputLabel: 'search-management.input-label.data-sets',
       icon: 'assets/images/icons/data-set.svg',
       elasticSearchType: 'data_sets',
+      sortBy: undefined,
       count: null,
       uploadFunction: $scope.uploadDataSets,
       disabled: false,
@@ -378,6 +384,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       inputLabel: 'search-management.input-label.variables',
       icon: 'assets/images/icons/variable.svg',
       elasticSearchType: 'variables',
+      sortBy: undefined,
       count: null,
       uploadFunction: $scope.uploadVariables,
       disabled: false,
@@ -388,6 +395,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       inputLabel: 'search-management.input-label.related-publications',
       icon: 'assets/images/icons/related-publication.svg',
       elasticSearchType: 'related_publications',
+      sortBy: undefined,
       count: null,
       uploadFunction: $scope.uploadRelatedPublications,
       disabled: false,
