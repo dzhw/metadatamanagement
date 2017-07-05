@@ -105,6 +105,9 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-not-empty': 'Die Stichprobe der Erhebung muss mindestens in einer Sprache vorliegen.',
               'i18n-string-size': 'Die Maximallänge der Stichprobe der Erhebung ist 2048 Zeichen.'
             },
+            'wave': {
+              'not-null': 'Die Welle der Erhebung darf nicht leer sein!',
+            },
             'survey-method': {
               'not-null': 'Die Erhebungsmethode darf nicht leer sein!',
               'i18n-string-not-empty': 'Die Erhebungsmethode muss mindestens in einer Sprache vorliegen.',
