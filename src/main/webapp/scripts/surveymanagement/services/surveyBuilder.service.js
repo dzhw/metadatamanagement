@@ -36,7 +36,8 @@ angular.module('metadatamanagementApp').service('SurveyBuilderService',
           },
           grossSampleSize: data.grossSampleSize,
           sampleSize: data.sampleSize,
-          responseRate: data.responseRate
+          responseRate: data.responseRate,
+          wave: data.wave
         };
         var cleanedSurveyObject = CleanJSObjectService
           .removeEmptyJsonObjects(surveyObj);
