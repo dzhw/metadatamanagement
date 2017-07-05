@@ -28,6 +28,7 @@ angular.module('metadatamanagementApp').config(
           'citationHint': 'Citation Hint',
           'instruments': 'Instruments',
           'annotations': 'Annotations',
+          'wave': 'Available Waves',
           'no-related-studies': 'No related Studies.',
           'related-studies': 'Related Studies',
           'available-data-products': 'Available Data Products',

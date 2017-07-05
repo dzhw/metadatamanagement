@@ -4,9 +4,10 @@ angular.module('metadatamanagementApp')
   .controller('StudyDetailController',
     function(entity, PageTitleService, LanguageService, DataSetSearchService,
       $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
-      StudyAttachmentResource) {
+      StudyAttachmentResource, SurveySearchService) {
       var ctrl = this;
       ctrl.counts = {};
+      ctrl.surveyMaxWaves = 0;
       entity.promise.then(function(result) {
         PageTitleService.setPageTitle('study-management.detail.title', {
           title: result.title[LanguageService.getCurrentInstantly()],
@@ -39,6 +40,11 @@ angular.module('metadatamanagementApp')
             .then(function(dataSets) {
               ctrl.dataSets = dataSets.hits.hits;
             });
+          SurveySearchService.findSurveyMaxWavesByStudyId(ctrl.study.id,
+            ['id', 'wave'])
+            .then(function(result) {
+            ctrl.surveyMaxWaves = result.aggregations.maxWaves.value;
+          });
           StudyAttachmentResource.findByStudyId({
               id: ctrl.study.id
             }).$promise.then(
