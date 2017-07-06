@@ -63,6 +63,10 @@ angular.module('metadatamanagementApp').config(
             'questions': {
               'one': 'Click to show the question of this study',
               'many': 'Click to show all questions of this study'
+            },
+            'instruments': {
+              'one': 'Click to show the instruments of this study',
+              'many': 'Click to show all instruments of this study'
             }
           },
           'data-set': {
