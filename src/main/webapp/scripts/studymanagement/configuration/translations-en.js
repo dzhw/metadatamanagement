@@ -59,6 +59,10 @@ angular.module('metadatamanagementApp').config(
             'variables': {
               'one': 'Click to show the variable of this study',
               'many': 'Click to show all variables of this study'
+            },
+            'questions': {
+              'one': 'Click to show the question of this study',
+              'many': 'Click to show all questions of this study'
             }
           },
           'data-set': {
