@@ -32,6 +32,10 @@ angular.module('metadatamanagementApp')
           if (ctrl.counts.publicationsCount === 1) {
             ctrl.relatedPublication = result.relatedPublications[0];
           }
+          ctrl.counts.variablesCount = result.variables.length;
+          if (ctrl.counts.variablesCount === 1) {
+            ctrl.variable = result.variables[0];
+          }
           /* We should discuss if we need to extand the dataSet sub document
           to contain type, subDataSets and surveys.
           we need this properties only at this place*/

@@ -55,6 +55,10 @@ angular.module('metadatamanagementApp').config(
             'publications': {
               'one': 'Click to show the publication related to this study',
               'many': 'Click to show all publications related to this study'
+            },
+            'variables': {
+              'one': 'Click to show the variable of this study',
+              'many': 'Click to show all variables of this study'
             }
           },
           'data-set': {
