@@ -80,6 +80,9 @@ public class Survey extends AbstractRdcDomainObject {
   @I18nStringSize(max = StringLengths.LARGE,
       message = "survey-management.error.survey.sample.i18n-string-size")
   private I18nString sample;
+  
+  @NotNull(message = "survey-management.error.survey.wave.not-null")
+  private Integer wave;
 
   private Integer grossSampleSize;
 
@@ -175,6 +178,7 @@ public class Survey extends AbstractRdcDomainObject {
       .add("number", number)
       .add("studyId", studyId)
       .add("annotations", annotations)
+      .add("wave", wave)
       .toString();
   }
 
@@ -239,5 +243,13 @@ public class Survey extends AbstractRdcDomainObject {
 
   public void setAnnotations(I18nString annotations) {
     this.annotations = annotations;
+  }
+
+  public Integer getWave() {
+    return wave;
+  }
+
+  public void setWave(Integer wave) {
+    this.wave = wave;
   }
 }

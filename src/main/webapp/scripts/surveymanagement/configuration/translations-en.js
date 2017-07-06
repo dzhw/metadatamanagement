@@ -105,6 +105,9 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-not-empty': 'The Sample of the Survey has to be given for one language.',
               'i18n-string-size': 'The max length of the sample of the survey is 2048 signs.'
             },
+            'wave': {
+              'not-null': 'The Wave of a Survey must not be empty!',
+            },
             'survey-method': {
               'not-null': 'The Survey-Method must not be empty!',
               'i18n-string-not-empty': 'The Survey-Method has to be given for one language.',

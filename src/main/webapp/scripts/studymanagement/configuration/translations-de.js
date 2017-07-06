@@ -28,6 +28,7 @@ angular.module('metadatamanagementApp').config(
           'citationHint': 'Zitation',
           'instruments': 'Instrumente',
           'annotations': 'Anmerkungen',
+          'wave': 'Verfügbare  Wellen',
           'no-related-studies': 'Keine zugehörige Studien.',
           'related-studies': 'Zugehörige Studien',
           'available-data-products': 'Verfügbare Datenprodukte',
@@ -54,6 +55,18 @@ angular.module('metadatamanagementApp').config(
             'publications': {
               'one': 'Klicken, um die Publikation zu dieser Studie anzuzeigen',
               'many': 'Klicken, um alle Publikationen zu dieser Studie anzuzeigen'
+            },
+            'variables': {
+              'one': 'Klicken, um die Variable dieser Studie anzuzeigen',
+              'many': 'Klicken, um alle Variablen dieser Studie anzuzeigen'
+            },
+            'questions': {
+              'one': 'Klicken, um die Frage dieser Studie anzuzeigen.',
+              'many': 'Klicken, um die Fragen dieser Studie anzuzeigen.'
+            },
+            'instruments': {
+              'one': 'Klicken, um die Instrumente dieser Studie anzuzeigen.',
+              'many': 'Klicken, um die Instrumente dieser Studie anzuzeigen.'
             }
           },
           'data-set': {

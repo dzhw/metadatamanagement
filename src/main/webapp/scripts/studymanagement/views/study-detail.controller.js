@@ -4,9 +4,10 @@ angular.module('metadatamanagementApp')
   .controller('StudyDetailController',
     function(entity, PageTitleService, LanguageService, DataSetSearchService,
       $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
-      StudyAttachmentResource) {
+      StudyAttachmentResource, SurveySearchService) {
       var ctrl = this;
       ctrl.counts = {};
+      ctrl.surveyMaxWaves = 0;
       entity.promise.then(function(result) {
         PageTitleService.setPageTitle('study-management.detail.title', {
           title: result.title[LanguageService.getCurrentInstantly()],
@@ -31,6 +32,18 @@ angular.module('metadatamanagementApp')
           if (ctrl.counts.publicationsCount === 1) {
             ctrl.relatedPublication = result.relatedPublications[0];
           }
+          ctrl.counts.variablesCount = result.variables.length;
+          if (ctrl.counts.variablesCount === 1) {
+            ctrl.variable = result.variables[0];
+          }
+          ctrl.counts.questionsCount = result.questions.length;
+          if (ctrl.counts.questionsCount === 1) {
+            ctrl.question = result.questions[0];
+          }
+          ctrl.counts.instrumentsCount = result.instruments.length;
+          if (ctrl.counts.instrumentsCount === 1) {
+            ctrl.instrument = result.instruments[0];
+          }
           /* We should discuss if we need to extand the dataSet sub document
           to contain type, subDataSets and surveys.
           we need this properties only at this place*/
@@ -39,6 +52,11 @@ angular.module('metadatamanagementApp')
             .then(function(dataSets) {
               ctrl.dataSets = dataSets.hits.hits;
             });
+          SurveySearchService.findSurveyMaxWavesByStudyId(ctrl.study.id,
+            ['id', 'wave'])
+            .then(function(result) {
+            ctrl.surveyMaxWaves = result.aggregations.maxWaves.value;
+          });
           StudyAttachmentResource.findByStudyId({
               id: ctrl.study.id
             }).$promise.then(

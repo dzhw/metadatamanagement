@@ -163,6 +163,7 @@ public class UnitTestCreateDomainObjectUtils {
       .withSampleSize(100)
       .withResponseRate(100.0)
       .withNumber(1)
+      .withWave(1)
       .build();
   }
 
