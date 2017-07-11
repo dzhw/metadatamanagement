@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp')
 
 .constant('ENV', 'local')
 
-.constant('VERSION', '1.0.49-SNAPSHOT')
+.constant('VERSION', '1.0.49')
 
 .constant('ElasticSearchProperties', {apiVersion:'5.x',logLevel:'error',pageSize:10})
 
