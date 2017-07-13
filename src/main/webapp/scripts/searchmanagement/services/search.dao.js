@@ -34,378 +34,143 @@ angular.module('metadatamanagementApp').service('SearchDao',
       switch (elasticsearchType) {
         case 'studies':
           queryShould.push({
-            'match': {
-              'title.de': {
-                'query': queryterm,
-                boost: germanMajorBoost
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
-              'title.en': {
-                'query': queryterm,
-                boost: englishMajorBoost
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
-              'authors.firstName': {
-                'query': queryterm
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
-              'authors.middleName': {
-                'query': queryterm
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
-              'authors.lastName': {
-                'query': queryterm
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
-              'description.de': {
-                'query': queryterm,
-                boost: germanMinorBoost
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
-              'description.en': {
-                'query': queryterm,
-                boost: englishMinorBoost
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
-              '_id': queryterm
+            'multi_match': {
+              'query': queryterm,
+              'fields': [
+                'title.de^' + germanMajorBoost,
+                'title.en^' + englishMajorBoost,
+                'authors.firstName',
+                'authors.middleName',
+                'authors.lastName',
+                '_id',
+                'description.de^' + germanMinorBoost,
+                'description.en^' + englishMinorBoost
+              ],
+              'type': 'phrase_prefix',
+              'operator': 'AND',
+              'zero_terms_query': 'NONE',
+              'minimum_should_match': 1
             }
           });
           break;
 
         case 'surveys':
           queryShould.push({
-            'match': {
-              'title.de': {
-                'query': queryterm,
-                boost: germanMajorBoost
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
-              'title.en': {
-                'query': queryterm,
-                boost: englishMajorBoost
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
-              '_id': queryterm
-            }
-          });
-          queryShould.push({
-            'match': {
-              'surveyMethod.de': {
-                'query': queryterm,
-                boost: germanMajorBoost
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
-              'surveyMethod.en': {
-                'query': queryterm,
-                boost: englishMajorBoost
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
-              'population.de': {
-                'query': queryterm,
-                boost: germanMinorBoost
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
-              'population.en': {
-                'query': queryterm,
-                boost: englishMinorBoost
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
-              'sample.de': {
-                'query': queryterm,
-                boost: germanMinorBoost
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
-              'sample.en': {
-                'query': queryterm,
-                boost: englishMinorBoost
-              }
+            'multi_match': {
+              'query': queryterm,
+              'fields': [
+                'title.de^' + germanMajorBoost,
+                'title.en^' + englishMajorBoost,
+                'surveyMethod.de^' + germanMajorBoost,
+                'surveyMethod.en^' + englishMajorBoost,
+                '_id',
+                'population.de^' + germanMinorBoost,
+                'population.en^' + englishMinorBoost,
+                'sample.de^' + germanMinorBoost,
+                'sample.en^' + englishMinorBoost,
+              ],
+              'type': 'phrase_prefix',
+              'operator': 'AND',
+              'zero_terms_query': 'NONE',
+              'minimum_should_match': 1
             }
           });
           break;
 
         case 'instruments':
           queryShould.push({
-            'match': {
-              'title.de': {
-                'query': queryterm,
-                boost: germanMajorBoost
-              }
+            'multi_match': {
+              'query': queryterm,
+              'fields': [
+                'title.de^' + germanMajorBoost,
+                'title.en^' + englishMajorBoost,
+                'description.de^' + germanMajorBoost,
+                'description.en^' + englishMajorBoost,
+                '_id'
+              ],
+              'type': 'phrase_prefix',
+              'operator': 'AND',
+              'zero_terms_query': 'NONE',
+              'minimum_should_match': 1
             }
           });
           queryShould.push({
-            'match': {
-              'title.en': {
-                'query': queryterm,
-                boost: englishMajorBoost
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
-              'description.de': {
-                'query': queryterm,
-                boost: germanMinorBoost
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
-              'description.en': {
-                'query': queryterm,
-                boost: englishMinorBoost
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
+            'wildcard': {
               'type': {
-                'query': queryterm
+                'value': '*' + queryterm + '*'
               }
-            }
-          });
-          queryShould.push({
-            'match': {
-              '_id': queryterm
             }
           });
           break;
 
         case 'questions':
           queryShould.push({
-            'match': {
-              'instrument.description.de': {
-                'query': queryterm,
-                boost: germanMajorBoost
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
-              'instrument.description.en': {
-                'query': queryterm,
-                boost: englishMajorBoost
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
-              'type.de': {
-                'query': queryterm,
-                boost: germanMajorBoost
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
-              'type.en': {
-                'query': queryterm,
-                boost: englishMajorBoost
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
-              'questionText.de': {
-                'query': queryterm,
-                boost: germanMinorBoost
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
-              'questionText.en': {
-                'query': queryterm,
-                boost: englishMinorBoost
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
-              '_id': queryterm
+            'multi_match': {
+              'query': queryterm,
+              'fields': [
+                'instrument.description.de^' + germanMajorBoost,
+                'instrument.description.en^' + englishMajorBoost,
+                '_id',
+                'type.de^' + germanMajorBoost,
+                'type.en^' + englishMajorBoost,
+                'questionText.de^' + germanMinorBoost,
+                'questionText.en^' + englishMinorBoost
+              ],
+              'type': 'phrase_prefix',
+              'operator': 'AND',
+              'zero_terms_query': 'NONE',
+              'minimum_should_match': 1
             }
           });
           break;
 
         case 'data_sets':
           queryShould.push({
-            'match': {
-              'description.de': {
-                'query': queryterm,
-                boost: germanMajorBoost
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
-              'description.en': {
-                'query': queryterm,
-                boost: englishMajorBoost
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
-              '_id': queryterm
-            }
-          });
-          queryShould.push({
-            'match': {
-              'type.de': {
-                'query': queryterm,
-                boost: germanMajorBoost
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
-              'type.en': {
-                'query': queryterm,
-                boost: englishMajorBoost
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
-              'surveys.title.de': {
-                'query': queryterm,
-                boost: germanMinorBoost
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
-              'surveys.title.en': {
-                'query': queryterm,
-                boost: englishMinorBoost
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
-              'accessWays': {
-                'query': queryterm,
-                boost: standardMinorBoost
-              }
+            'multi_match': {
+              'query': queryterm,
+              'fields': [
+                'description.de^' + germanMajorBoost,
+                'description.en^' + englishMajorBoost,
+                '_id',
+                'type.de^' + germanMajorBoost,
+                'type.en^' + englishMajorBoost,
+                'surveys.title.de^' + germanMinorBoost,
+                'surveys.title.en^' + englishMinorBoost,
+                'accessWays^' + standardMinorBoost
+              ],
+              'type': 'phrase_prefix',
+              'operator': 'AND',
+              'zero_terms_query': 'NONE',
+              'minimum_should_match': 1
             }
           });
           break;
 
         case 'variables':
           queryShould.push({
-            'match': {
-              'label.de': {
-                'query': queryterm,
-                boost: germanMajorBoost
-              }
+            'multi_match': {
+              'query': queryterm,
+              'fields': [
+                'label.de^' + germanMajorBoost,
+                'label.en^' + englishMajorBoost,
+                '_id',
+                'dataType.de^' + germanMajorBoost,
+                'dataType.en^' + englishMajorBoost,
+                'scaleLevel.de^' + germanMajorBoost,
+                'scaleLevel.en^' + englishMajorBoost,
+                'surveys.title.de^' + germanMinorBoost,
+                'surveys.title.en^' + englishMinorBoost
+              ],
+              'type': 'phrase_prefix',
+              'operator': 'AND',
+              'zero_terms_query': 'NONE',
+              'minimum_should_match': 1
             }
           });
           queryShould.push({
-            'match': {
-              'label.en': {
-                'query': queryterm,
-                boost: englishMajorBoost
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
-              '_id': queryterm
-            }
-          });
-          queryShould.push({
-            'match': {
+            'wildcard': {
               'name': {
-                'query': queryterm
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
-              'dataType.de': {
-                'query': queryterm,
-                boost: germanMajorBoost
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
-              'dataType.en': {
-                'query': queryterm,
-                boost: englishMajorBoost
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
-              'scaleLevel.de': {
-                'query': queryterm,
-                boost: germanMajorBoost
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
-              'scaleLevel.en': {
-                'query': queryterm,
-                boost: englishMajorBoost
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
-              'surveys.title.de': {
-                'query': queryterm,
-                boost: germanMinorBoost
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
-              'surveys.title.en': {
-                'query': queryterm,
-                boost: englishMinorBoost
+                'value': '*' + queryterm + '*'
               }
             }
           });
@@ -413,30 +178,18 @@ angular.module('metadatamanagementApp').service('SearchDao',
 
         case 'related_publications':
           queryShould.push({
-            'match': {
-              'title': {
-                'query': queryterm
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
-              '_id': queryterm
-            }
-          });
-          queryShould.push({
-            'match': {
-              'doi': {
-                'query': queryterm
-              }
-            }
-          });
-          queryShould.push({
-            'match': {
-              'publicationAbstract': {
-                'query': queryterm,
-                boost: standardMinorBoost
-              }
+            'multi_match': {
+              'query': queryterm,
+              'fields': [
+                'title',
+                'doi',
+                'publicationAbstract^' + standardMinorBoost,
+                '_id'
+              ],
+              'type': 'phrase_prefix',
+              'operator': 'AND',
+              'zero_terms_query': 'NONE',
+              'minimum_should_match': 1
             }
           });
           break;
@@ -480,22 +233,25 @@ angular.module('metadatamanagementApp').service('SearchDao',
         if (!CleanJSObjectService.isNullOrEmpty(queryterm)) {
           query.body.query = {
             'bool': {
-              'should': [{
+              'minimum_number_should_match': 1,
+              'should': [
+                {
                 'match': {
                   '_all': {
                     'query': queryterm,
                     'operator': 'AND',
-                    'minimum_should_match': '100%',
+                    'minimum_should_match': 1,
                     'zero_terms_query': 'NONE',
                     'boost': 0.01 //decrease the ngram results for scoring
                   }
                 }
-              }],
-              'minimum_should_match': 1
+              }
+            ]
             }
           };
-          addAdditionalShouldQueries(elasticsearchType, queryterm,
-            query.body.query.bool.should);
+
+          addAdditionalShouldQueries(elasticsearchType,
+            queryterm, query.body.query.bool.should);
 
           //no query term
         } else {
@@ -567,6 +323,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
               .createTermFilters(elasticsearchType, filter));
           }
         }
+
         return ElasticSearchClient.search(query);
       }
     };
