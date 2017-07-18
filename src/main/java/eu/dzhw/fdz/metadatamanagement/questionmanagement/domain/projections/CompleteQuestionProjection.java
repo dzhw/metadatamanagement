@@ -39,7 +39,7 @@ public interface CompleteQuestionProjection
   
   I18nString getTopic();
   
-  Integer getIndexInInstrument();
+  Integer getIndexInStudy();
     
   TechnicalRepresentation getTechnicalRepresentation();
     

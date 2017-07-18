@@ -12,7 +12,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
     var questionResources;
     // map questionId -> presentInJson true/false
     var existingQuestions = {};
-    var usedIndexInInstrument = {};
+    var usedindexInStudy = {};
     var createInstrumentsFileMap = function(files, dataAcquisitionProjectId) {
       filesMap = {};
       var instrumentIndex = 0;
@@ -179,16 +179,16 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
 
           //TODO Dkatzberg
           if (CleanJSObjectService
-            .isNullOrEmpty(usedIndexInInstrument[question.indexInInstrument])) {
-            usedIndexInInstrument[question.indexInInstrument] = question.id;
+            .isNullOrEmpty(usedindexInStudy[question.indexInStudy])) {
+            usedindexInStudy[question.indexInStudy] = question.id;
           } else {
             JobLoggingService.warning({
               message: 'question-management.log-messages.' +
                 'question.non-unique-index-in-instrument',
               messageParams: {
-                index: question.indexInInstrument,
+                index: question.indexInStudy,
                 firstQuestionId:
-                  usedIndexInInstrument[question.indexInInstrument],
+                  usedindexInStudy[question.indexInStudy],
                 secondQuestionId: question.id
               }
             });
@@ -285,7 +285,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
 
     var uploadQuestions = function(files, dataAcquisitionProjectId) {
       existingQuestions = {};
-      usedIndexInInstrument = {};
+      usedindexInStudy = {};
       if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
         QuestionRepositoryClient.findByDataAcquisitionProjectId(
           dataAcquisitionProjectId).then(function(result) {
