@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartException;
 import com.fasterxml.jackson.core.json.UTF8StreamJsonParser;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import com.fasterxml.jackson.databind.node.TreeTraversingParser;
 
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.exception.TemplateIncompleteException;
 import freemarker.template.TemplateException;
@@ -83,7 +84,8 @@ public class ExceptionTranslator {
   }
 
   /**
-   * Handler for wrapping exceptions which occur when an unparsable json is send by the client.
+   * Handler for wrapping exceptions which occur when an unparsable json or excel file 
+   * is send by the client.
    */
   @ExceptionHandler(HttpMessageNotReadableException.class)
   @ResponseBody
@@ -98,7 +100,7 @@ public class ExceptionTranslator {
         findJsonMappingException(exception.getCause());
     
     if (invalidFormatException != null) {
-      return createJsonParsingError(invalidFormatException);
+      return createParsingError(invalidFormatException);
     //Default message, if no other root cause was found  
     } else if (jsonMappingException != null) {      
       return createJsonMappingError(jsonMappingException);
@@ -131,12 +133,47 @@ public class ExceptionTranslator {
     }
   }
   
+  private ErrorListDto createParsingError(InvalidFormatException invalidFormatException) { 
+    
+    //Get the Name of the Processor
+    String nameOfProcessor = invalidFormatException.getProcessor().getClass().getSimpleName();
+    
+    //Decide between different input types like excel or json files
+    switch (nameOfProcessor) {
+      //Excel Parsing Error
+      case "TreeTraversingParser":
+        return this.createExcelParsingError(invalidFormatException);
+      //Json Parsing Error
+      case "UTF8StreamJsonParser":
+        return this.createJsonParsingError(invalidFormatException);
+      default:
+        return new ErrorListDto();
+    }
+  }
+  
+  private ErrorListDto createExcelParsingError(InvalidFormatException invalidFormatException) {
+    TreeTraversingParser processor = 
+        (TreeTraversingParser) invalidFormatException.getProcessor();  
+    
+    //Create Excel Parsing Error. Just the first will be returned                     
+    String domainObject = invalidFormatException.getPath().get(0).getFrom()
+        .getClass().getSimpleName();
+    String property = processor.getCurrentName();
+    if (property == null) {
+      property = invalidFormatException.getPath().get(0).getFieldName();
+    }
+    String invalidValue = (String)invalidFormatException.getValue();
+    String messageKey = "global.error.import.excel-parsing-error";
+    return new ErrorListDto(new ErrorDto(domainObject, messageKey,invalidValue, property));    
+  }
+  
   private ErrorListDto createJsonParsingError(InvalidFormatException invalidFormatException) {
     UTF8StreamJsonParser processor = 
-        (UTF8StreamJsonParser) invalidFormatException.getProcessor(); 
+        (UTF8StreamJsonParser) invalidFormatException.getProcessor();  
     
     //Create Json Parsing Error. Just the first will be returned
     try {            
+      
       String domainObject = invalidFormatException.getPath().get(0).getFrom()
           .getClass().getSimpleName();
       String property = processor.getCurrentName();

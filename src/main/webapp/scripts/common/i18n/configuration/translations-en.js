@@ -254,7 +254,8 @@ angular.module('metadatamanagementApp').config(
           },
           'import': {
             'json-not-readable': 'The Json has an error in the field "{{invalidValue}}".',
-            'json-parsing-error': 'The import of the object "{{entity}}" failed, because the field "{{property}}" has an invalid value: {{invalidValue}}',
+            'json-parsing-error': 'The import of the object "{{entity}}" from an json file failed, because the field "{{property}}" has an invalid value: {{invalidValue}}',
+            'excel-parsing-error': 'The import of the object "{{entity}}" from an excel file failed, because the field "{{property}}" has an invalid value: {{invalidValue}}',
             'no-json-mapping': 'A server side error happened during the import of an object.',
             'file-size-limit-exceeded': 'The file "{{ entity }}" exceeds the limit of 10MB!'
           },
