@@ -28,7 +28,8 @@ angular.module('metadatamanagementApp').controller('NavbarController',
       if (encodedUrl.includes('questions')) {
         domainManagement = 'questionmanagement';
       }
-      if (encodedUrl.includes('data-sets')) {
+      if (encodedUrl.includes('data-sets') ||
+        encodedUrl.includes('data_sets')) {
         domainManagement = 'datasetmanagement';
       }
       if (encodedUrl.includes('variables')) {
