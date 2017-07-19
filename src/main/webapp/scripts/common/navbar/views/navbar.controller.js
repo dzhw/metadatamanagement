@@ -4,7 +4,7 @@
 
 angular.module('metadatamanagementApp').controller('NavbarController',
   function($scope, Principal, $mdSidenav, $document, $timeout,
-    LanguageService, Auth, $state, $location) {
+    LanguageService, Auth, $state, $location, $translate) {
     $scope.isAuthenticated = Principal.isAuthenticated;
 
     //For toggle buttons
@@ -38,9 +38,11 @@ angular.module('metadatamanagementApp').controller('NavbarController',
         domainManagement = 'relatedpublicationmanagement';
       }
 
+      var sourceLang = $translate
+        .instant('global.navbar-feedback.source');
       var feedbackUrl = 'https://github.com/dzhw/' +
       'metadatamanagement/issues/new?' +
-      'body=%0A---------------------------------%0AQuelle%3A%0A' +
+      'body=%0A---------------------------------%0A' + sourceLang + '%3A%0A' +
       encodedUrl +
       '%0A---------------------------------' +
       '&labels[]=type:bug' +
