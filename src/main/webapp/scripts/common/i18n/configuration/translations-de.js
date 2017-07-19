@@ -104,7 +104,8 @@ angular.module('metadatamanagementApp').config(
           'content-body': 'können Sie Fehler und Verbesserungsvorschläge einreichen. Vielen Dank, dass Sie sich Zeit nehmen, um uns Feedback zu geben!'
         },
         'navbar-feedback': {
-          'title': 'Feedback geben'
+          'title': 'Feedback geben',
+          'source': 'Quelle'
         },
         'menu': {
           'entities': {

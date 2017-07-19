@@ -12,7 +12,7 @@
                 </md-card-header>
                 <md-divider></md-divider>
                 <md-card-content>
-                    <div class="fdz-add-bottom-margin">
+                    <div ng-if="ctrl.study.surveySeries" class="fdz-add-bottom-margin">
                         <span style="font-weight: bold;">{{'study-management.detail.surveySeries' | translate }}:</span>
                         <span display-i18n-string="ctrl.study.surveySeries"></span>
                     </div>
