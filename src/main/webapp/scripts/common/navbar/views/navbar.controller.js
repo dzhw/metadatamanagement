@@ -4,13 +4,18 @@
 
 angular.module('metadatamanagementApp').controller('NavbarController',
   function($scope, Principal, $mdSidenav, $document, $timeout,
-    LanguageService, Auth, $state, $location, $translate) {
+    LanguageService, Auth, $state, $location, $translate,
+    FdzWelcomeDialogService) {
     $scope.isAuthenticated = Principal.isAuthenticated;
 
     //For toggle buttons
     $scope.isProjectMenuOpen = false;
     $scope.isAdminMenuOpen = false;
     $scope.isAccountMenuOpen = false;
+
+    $scope.openDialog = function() {
+      FdzWelcomeDialogService.showDialog();
+    };
 
     $scope.currentUrl = function() {
 
