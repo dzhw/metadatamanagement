@@ -92,16 +92,18 @@ angular.module('metadatamanagementApp').config(
             'instrument': 'Click to show instrument {{param}}',
             'publication': 'Click to show publication {{param}}'
           },
-          'welcomeDialog': {
-            'github': 'Click to give feedback or report a Bug'
+          'welcome-dialog': {
+            'github': 'Click to give feedback or report a Bug by Github',
+            'email': 'Click to give feedback or report a Bug by an E-Mail.'
           },
           'navbar-feedback': 'Click to give feedback or report a Bug'
         },
-        'welcomeDialog': {
+        'welcome-dialog': {
           'toolbar-head': 'Give Feedback or report Bugs',
           'content-head': 'This is a pre-release version of our Metadata Management System.',
-          'content-body-with': 'On',
-          'content-body': 'you can submit bugs and request enhancements. Thank you for taking the time to send us feedback!'
+          'content-body-feedback': 'You can submit bugs and request enhancements ...',
+          'content-body-by': '... by',
+          'content-body-thanks': 'Thank you for taking the time to send us feedback!'
         },
         'navbar-feedback': {
           'title': 'Give Feedback',
