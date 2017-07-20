@@ -14,7 +14,8 @@ angular.module('metadatamanagementApp').controller('NavbarController',
     $scope.isAccountMenuOpen = false;
 
     $scope.openDialog = function() {
-      FdzWelcomeDialogService.showDialog();
+      var openByNavbarFeedbackButton = true;
+      FdzWelcomeDialogService.showDialog(openByNavbarFeedbackButton);
     };
 
     $scope.currentUrl = function() {
