@@ -132,7 +132,8 @@ angular.module('metadatamanagementApp').service('SearchDao',
                 'title.en^' + englishMajorBoost,
                 'description.de^' + germanMajorBoost,
                 'description.en^' + englishMajorBoost,
-                '_id'
+                '_id',
+                'type^' + standardMinorBoost
               ],
               'type': 'phrase_prefix',
               'operator': 'AND',
@@ -199,6 +200,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
               'fields': [
                 'label.de^' + germanMajorBoost,
                 'label.en^' + englishMajorBoost,
+                'name^' + standardMinorBoost,
                 '_id',
                 'dataType.de^' + germanMajorBoost,
                 'dataType.en^' + englishMajorBoost,
