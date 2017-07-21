@@ -3,9 +3,12 @@
 'use strict';
 angular.module('metadatamanagementApp').controller('FdzWelcomeDialogController',
   function($scope, $mdDialog, localStorageService, bowser, $location,
-      $translate) {
+      $translate, showCheckbox) {
     $scope.bowser = bowser;
-    $scope.closeWelcomeDialogForever = false;
+    $scope.checkBox = {
+      closeWelcomeDialogForever: false
+    };
+    $scope.showCheckbox = showCheckbox;
 
     var checkDomainManagement = function() {
       var domainManagement = 'crosscutting';
@@ -64,7 +67,8 @@ angular.module('metadatamanagementApp').controller('FdzWelcomeDialogController',
     };
 
     $scope.closeDialog = function() {
-      if ($scope.closeWelcomeDialogForever) {
+      console.log($scope.checkBox.closeWelcomeDialogForever);
+      if ($scope.checkBox.closeWelcomeDialogForever) {
         localStorageService.set('closeWelcomeDialogForever', true);
       }
       $mdDialog.hide();

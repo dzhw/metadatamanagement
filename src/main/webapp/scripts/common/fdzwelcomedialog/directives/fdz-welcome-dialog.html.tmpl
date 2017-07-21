@@ -35,11 +35,13 @@
         <span>{{"global.welcome-dialog.content-body-thanks" | translate}}</span>
     </div>
     <md-dialog-actions>
-        <md-checkbox ng-model="closeWelcomeDialogForever" ng-if="showCheckbox">
+        <span>
+        <md-checkbox ng-model="checkBox.closeWelcomeDialogForever" ng-if="showCheckbox">
             {{"global.buttons.closeDialogForEver" | translate}}
         </md-checkbox>
+      </span>
         <span flex></span>
-        <md-button class="md-primary md-raised" id="closewelcome-dialog" ng-click="closeDialog()">
+        <md-button class="md-primary md-raised" id="closeWelcomeDialog" ng-click="closeDialog()">
             {{"global.buttons.close" | translate}}
             <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{"global.dialog.tooltip.close" | translate}}
