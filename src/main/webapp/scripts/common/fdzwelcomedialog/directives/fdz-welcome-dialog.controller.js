@@ -49,8 +49,8 @@ angular.module('metadatamanagementApp').controller('FdzWelcomeDialogController',
     $scope.mailBody =
       '%0A---------------------------------%0A' +
       sourceLang + '%3A%0A' +
-      $location.absUrl() + '%3A%0A' +
-      categoryLang + ': ' + checkDomainManagement() +
+      window.encodeURIComponent($location.absUrl()) + '%0A' +
+      categoryLang + '%3A ' + checkDomainManagement() +
       '%0A---------------------------------';
 
     $scope.currentUrl = function() {
