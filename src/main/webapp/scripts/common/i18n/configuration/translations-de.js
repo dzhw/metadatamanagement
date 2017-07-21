@@ -104,10 +104,12 @@ angular.module('metadatamanagementApp').config(
           'content-body-feedback': 'Sie können Feedback geben oder Fehler melden ...',
           'content-body-via': '... via',
           'content-body-thanks': 'Vielen Dank, dass Sie sich Zeit nehmen, um uns Feedback zu geben!',
+          'mail-subject': 'Metadata Management System Feedback'
         },
         'navbar-feedback': {
           'title': 'Feedback geben',
-          'source': 'Quelle'
+          'source': 'Quelle',
+          'category': 'Kategorie'
         },
         'menu': {
           'entities': {

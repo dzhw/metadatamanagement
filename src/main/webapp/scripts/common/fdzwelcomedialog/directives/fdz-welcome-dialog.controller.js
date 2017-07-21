@@ -7,8 +7,7 @@ angular.module('metadatamanagementApp').controller('FdzWelcomeDialogController',
     $scope.bowser = bowser;
     $scope.closeWelcomeDialogForever = false;
 
-    $scope.currentUrl = function() {
-
+    var checkDomainManagement = function() {
       var domainManagement = 'crosscutting';
       var encodedUrl = window.encodeURIComponent($location.absUrl());
       if (encodedUrl.includes('studies')) {
@@ -34,15 +33,32 @@ angular.module('metadatamanagementApp').controller('FdzWelcomeDialogController',
         domainManagement = 'relatedpublicationmanagement';
       }
 
-      var sourceLang = $translate
-        .instant('global.navbar-feedback.source');
+      return domainManagement;
+    };
+
+    var sourceLang = $translate
+      .instant('global.navbar-feedback.source');
+    var categoryLang = $translate
+      .instant('global.navbar-feedback.category');
+    $scope.mailBody = '';
+    $scope.mailSubject = $translate
+      .instant('global.welcome-dialog.mail-subject');
+    $scope.mailBody =
+      '%0A---------------------------------%0A' +
+      sourceLang + '%3A%0A' +
+      $location.absUrl() + '%3A%0A' +
+      categoryLang + ': ' + checkDomainManagement() +
+      '%0A---------------------------------';
+
+    $scope.currentUrl = function() {
+      var encodedUrl = window.encodeURIComponent($location.absUrl());
       var feedbackUrl = 'https://github.com/dzhw/' +
       'metadatamanagement/issues/new?' +
       'body=%0A---------------------------------%0A' + sourceLang + '%3A%0A' +
       encodedUrl +
       '%0A---------------------------------' +
       '&labels[]=type:bug' +
-      '&labels[]=category:' + domainManagement +
+      '&labels[]=category:' + checkDomainManagement() +
       '&labels[]=prio:?';
       return feedbackUrl;
     };

@@ -24,7 +24,7 @@
           </a>
         </span>
         <span>{{"global.welcome-dialog.content-body-via" | translate}}
-          <a ng-href="mailto:fdz-feedback@dzhw.eu">
+          <a ng-href="mailto:fdz-feedback@dzhw.eu?subject={{mailSubject}}&body={{mailBody}}">
             <md-icon md-svg-src="/assets/images/icons/email.svg"></md-icon>fdz-feedback@dzhw.eu
             <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{"global.tooltips.welcome-dialog.email" | translate}}

@@ -103,11 +103,13 @@ angular.module('metadatamanagementApp').config(
           'content-head': 'This is a pre-release version of our Metadata Management System.',
           'content-body-feedback': 'You can submit bugs and request enhancements ...',
           'content-body-via': '... via',
-          'content-body-thanks': 'Thank you for taking the time to send us feedback!'
+          'content-body-thanks': 'Thank you for taking the time to send us feedback!',
+          'mail-subject': 'Metadata Management System Feedback'
         },
         'navbar-feedback': {
           'title': 'Give Feedback',
-          'source': 'Source'
+          'source': 'Source',
+          'category': 'Category'
         },
         'menu': {
           'entities': {
