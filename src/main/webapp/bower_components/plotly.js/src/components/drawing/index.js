@@ -34,7 +34,7 @@ var drawing = module.exports = {};
 
 drawing.font = function(s, family, size, color) {
     // also allow the form font(s, {family, size, color})
-    if(family && family.family) {
+    if(Lib.isPlainObject(family)) {
         color = family.color;
         size = family.size;
         family = family.family;
@@ -68,9 +68,8 @@ drawing.setRect = function(s, x, y, w, h) {
  *  false if selection could not get translated
  */
 drawing.translatePoint = function(d, sel, xa, ya) {
-    // put xp and yp into d if pixel scaling is already done
-    var x = d.xp || xa.c2p(d.x),
-        y = d.yp || ya.c2p(d.y);
+    var x = xa.c2p(d.x);
+    var y = ya.c2p(d.y);
 
     if(isNumeric(x) && isNumeric(y) && sel.node()) {
         // for multiline text this works better
@@ -86,10 +85,28 @@ drawing.translatePoint = function(d, sel, xa, ya) {
     return true;
 };
 
-drawing.translatePoints = function(s, xa, ya, trace) {
+drawing.translatePoints = function(s, xa, ya) {
     s.each(function(d) {
         var sel = d3.select(this);
-        drawing.translatePoint(d, sel, xa, ya, trace);
+        drawing.translatePoint(d, sel, xa, ya);
+    });
+};
+
+drawing.hideOutsideRangePoint = function(d, sel, xa, ya) {
+    sel.attr(
+        'display',
+        xa.isPtWithinRange(d) && ya.isPtWithinRange(d) ? null : 'none'
+    );
+};
+
+drawing.hideOutsideRangePoints = function(points, subplot) {
+    if(!subplot._hasClipOnAxisFalse) return;
+
+    var xa = subplot.xaxis;
+    var ya = subplot.yaxis;
+
+    points.each(function(d) {
+        drawing.hideOutsideRangePoint(d, d3.select(this), xa, ya);
     });
 };
 
@@ -569,9 +586,6 @@ drawing.steps = function(shape) {
 
 // off-screen svg render testing element, shared by the whole page
 // uses the id 'js-plotly-tester' and stores it in drawing.tester
-// makes a hash of cached text items in tester.node()._cache
-// so we can add references to rendered text (including all info
-// needed to fully determine its bounding rect)
 drawing.makeTester = function() {
     var tester = d3.select('body')
         .selectAll('#js-plotly-tester')
@@ -601,25 +615,37 @@ drawing.makeTester = function() {
             fill: 'black'
         });
 
-    if(!tester.node()._cache) {
-        tester.node()._cache = {};
-    }
-
     drawing.tester = tester;
     drawing.testref = testref;
 };
 
 /*
  * use our offscreen tester to get a clientRect for an element,
- * in a reference frame where it isn't translated and its anchor
- * point is at (0,0)
+ * in a reference frame where it isn't translated (or transformed) and
+ * its anchor point is at (0,0)
  * always returns a copy of the bbox, so the caller can modify it safely
+ *
+ * @param {SVGElement} node: the element to measure. If possible this should be
+ *   a <text> or MathJax <g> element that's already passed through
+ *   `convertToTspans` because in that case we can cache the results, but it's
+ *   possible to pass in any svg element.
+ *
+ * @param {boolean} inTester: is this element already in `drawing.tester`?
+ *   If you are measuring a dummy element, rather than one you really intend
+ *   to use on the plot, making it in `drawing.tester` in the first place
+ *   allows us to test faster because it cuts out cloning and appending it.
+ *
+ * @param {string} hash: for internal use only, if we already know the cache key
+ *   for this element beforehand.
+ *
+ * @return {object}: a plain object containing the width, height, left, right,
+ *   top, and bottom of `node`
  */
 drawing.savedBBoxes = {};
 var savedBBoxesCount = 0;
 var maxSavedBBoxes = 10000;
 
-drawing.bBox = function(node, hash) {
+drawing.bBox = function(node, inTester, hash) {
     /*
      * Cache elements we've already measured so we don't have to
      * remeasure the same thing many times
@@ -652,7 +678,7 @@ drawing.bBox = function(node, hash) {
             if(!transform) {
                 // in this case, just varying x and y, don't bother caching
                 // the final bBox because the alteration is quick.
-                var innerBB = drawing.bBox(innerNode, hash);
+                var innerBB = drawing.bBox(innerNode, false, hash);
                 if(x) {
                     innerBB.left += x;
                     innerBB.right += x;
@@ -679,12 +705,17 @@ drawing.bBox = function(node, hash) {
             if(out) return Lib.extendFlat({}, out);
         }
     }
+    var testNode, tester;
+    if(inTester) {
+        testNode = node;
+    }
+    else {
+        tester = drawing.tester.node();
 
-    var tester = drawing.tester.node();
-
-    // copy the node to test into the tester
-    var testNode = node.cloneNode(true);
-    tester.appendChild(testNode);
+        // copy the node to test into the tester
+        testNode = node.cloneNode(true);
+        tester.appendChild(testNode);
+    }
 
     // standardize its position (and newline tspans if any)
     d3.select(testNode)
@@ -696,7 +727,7 @@ drawing.bBox = function(node, hash) {
         .node()
         .getBoundingClientRect();
 
-    tester.removeChild(testNode);
+    if(!inTester) tester.removeChild(testNode);
 
     var bb = {
         height: testRect.height,
