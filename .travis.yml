@@ -10,13 +10,13 @@ cache:
   - $HOME/.m2
   - ./node_modules
 env:
-  - CXX=g++-4.9.4
+  - CXX=g++-4.9
 addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
     packages:
-      - g++-4.9.4
+      - g++-4.9
 before_install:
   - wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
   - echo "deb http://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
