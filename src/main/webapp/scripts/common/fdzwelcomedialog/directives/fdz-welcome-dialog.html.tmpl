@@ -16,20 +16,20 @@
         <span>{{"global.welcome-dialog.content-body-feedback" | translate}}</span>
         <span>
           {{"global.welcome-dialog.content-body-via" | translate}}
-          <a href="https://github.com/dzhw/metadatamanagement/issues/new" target="_blank">
+          <md-button ng-href="{{currentUrl()}}" target="_blank">
             <md-icon md-svg-src="/assets/images/icons/github-circle.svg"></md-icon>GitHub
             <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{"global.tooltips.welcome-dialog.github" | translate}}
             </md-tooltip>
-          </a>
+          </md-button>
         </span>
         <span>{{"global.welcome-dialog.content-body-via" | translate}}
-          <a href="mailto:fdz-feedback@dzhw.eu" target="_blank">
+          <md-button ng-href="mailto:fdz-feedback@dzhw.eu">
             <md-icon md-svg-src="/assets/images/icons/email.svg"></md-icon>fdz-feedback@dzhw.eu
             <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{"global.tooltips.welcome-dialog.email" | translate}}
             </md-tooltip>
-          </a>
+          </md-button>
         </span>
         <br>
         <span>{{"global.welcome-dialog.content-body-thanks" | translate}}</span>
