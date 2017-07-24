@@ -141,13 +141,6 @@ angular.module('metadatamanagementApp').service('SearchDao',
               'minimum_should_match': 1
             }
           });
-          queryShould.push({
-            'wildcard': {
-              'type': {
-                'value': '*' + queryterm + '*'
-              }
-            }
-          });
           break;
 
         case 'questions':
@@ -213,13 +206,6 @@ angular.module('metadatamanagementApp').service('SearchDao',
               'operator': 'AND',
               'zero_terms_query': 'NONE',
               'minimum_should_match': 1
-            }
-          });
-          queryShould.push({
-            'wildcard': {
-              'name': {
-                'value': '*' + queryterm + '*'
-              }
             }
           });
           break;
