@@ -169,6 +169,7 @@ module.exports = function draw(gd, id) {
                 ticksuffix: opts.ticksuffix,
                 title: opts.title,
                 titlefont: opts.titlefont,
+                showline: true,
                 anchor: 'free',
                 position: 1
             },
@@ -549,7 +550,7 @@ module.exports = function draw(gd, id) {
         if(cbDone && cbDone.then) (gd._promises || []).push(cbDone);
 
         // dragging...
-        if(gd._context.editable) {
+        if(gd._context.edits.colorbarPosition) {
             var t0,
                 xf,
                 yf;
