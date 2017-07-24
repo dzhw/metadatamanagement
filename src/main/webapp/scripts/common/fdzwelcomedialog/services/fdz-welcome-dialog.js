@@ -3,6 +3,7 @@
 angular.module('metadatamanagementApp').run(function(FdzWelcomeDialogService,
   $timeout) {
     $timeout(function() {
-      FdzWelcomeDialogService.showDialog();
+      var openByNavbarFeedbackButton = false;
+      FdzWelcomeDialogService.showDialog(openByNavbarFeedbackButton);
     });
   });

@@ -85,6 +85,8 @@ function drawOne(gd, index) {
 function drawRaw(gd, options, index, subplotId, xa, ya) {
     var fullLayout = gd._fullLayout;
     var gs = gd._fullLayout._size;
+    var edits = gd._context.edits;
+
     var className;
     var annbase;
 
@@ -128,8 +130,11 @@ function drawRaw(gd, options, index, subplotId, xa, ya) {
     var annTextGroup = annGroup.append('g')
         .classed('annotation-text-g', true);
 
+    var editTextPosition = edits[options.showarrow ? 'annotationTail' : 'annotationPosition'];
+    var textEvents = options.captureevents || edits.annotationText || editTextPosition;
+
     var annTextGroupInner = annTextGroup.append('g')
-        .style('pointer-events', options.captureevents ? 'all' : null)
+        .style('pointer-events', textEvents ? 'all' : null)
         .call(setCursor, 'default')
         .on('click', function() {
             gd._dragging = false;
@@ -487,7 +492,7 @@ function drawRaw(gd, options, index, subplotId, xa, ya) {
             // to get the parity of the number of intersections.
             if(edges.reduce(function(a, x) {
                 return a ^
-                    !!lineIntersect(headX, headY, headX + 1e6, headY + 1e6,
+                    !!Lib.segmentsIntersect(headX, headY, headX + 1e6, headY + 1e6,
                             x[0], x[1], x[2], x[3]);
             }, false)) {
                 // no line or arrow - so quit drawArrow now
@@ -495,7 +500,7 @@ function drawRaw(gd, options, index, subplotId, xa, ya) {
             }
 
             edges.forEach(function(x) {
-                var p = lineIntersect(tailX, tailY, headX, headY,
+                var p = Lib.segmentsIntersect(tailX, tailY, headX, headY,
                             x[0], x[1], x[2], x[3]);
                 if(p) {
                     tailX = p.x;
@@ -519,7 +524,7 @@ function drawRaw(gd, options, index, subplotId, xa, ya) {
 
             // the arrow dragger is a small square right at the head, then a line to the tail,
             // all expanded by a stroke width of 6px plus the arrow line width
-            if(gd._context.editable && arrow.node().parentNode && !subplotId) {
+            if(edits.annotationPosition && arrow.node().parentNode && !subplotId) {
                 var arrowDragHeadX = headX;
                 var arrowDragHeadY = headY;
                 if(options.standoff) {
@@ -601,7 +606,7 @@ function drawRaw(gd, options, index, subplotId, xa, ya) {
         if(options.showarrow) drawArrow(0, 0);
 
         // user dragging the annotation (text, not arrow)
-        if(gd._context.editable) {
+        if(editTextPosition) {
             var update,
                 baseTextTransform;
 
@@ -679,7 +684,7 @@ function drawRaw(gd, options, index, subplotId, xa, ya) {
         }
     }
 
-    if(gd._context.editable) {
+    if(edits.annotationText) {
         annText.call(svgTextUtils.makeEditable, {delegate: annTextGroupInner, gd: gd})
             .call(textLayout)
             .on('edit', function(_text) {
@@ -700,25 +705,4 @@ function drawRaw(gd, options, index, subplotId, xa, ya) {
             });
     }
     else annText.call(textLayout);
-}
-
-// look for intersection of two line segments
-//   (1->2 and 3->4) - returns array [x,y] if they do, null if not
-function lineIntersect(x1, y1, x2, y2, x3, y3, x4, y4) {
-    var a = x2 - x1,
-        b = x3 - x1,
-        c = x4 - x3,
-        d = y2 - y1,
-        e = y3 - y1,
-        f = y4 - y3,
-        det = a * f - c * d;
-    // parallel lines? intersection is undefined
-    // ignore the case where they are colinear
-    if(det === 0) return null;
-    var t = (b * f - c * e) / det,
-        u = (b * d - a * e) / det;
-    // segments do not intersect?
-    if(u < 0 || u > 1 || t < 0 || t > 1) return null;
-
-    return {x: x1 + a * t, y: y1 + d * t};
 }

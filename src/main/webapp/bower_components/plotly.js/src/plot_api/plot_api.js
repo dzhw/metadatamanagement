@@ -12,6 +12,7 @@
 
 var d3 = require('d3');
 var isNumeric = require('fast-isnumeric');
+var hasHover = require('has-hover');
 
 var Plotly = require('../plotly');
 var Lib = require('../lib');
@@ -31,6 +32,8 @@ var svgTextUtils = require('../lib/svg_text_utils');
 var manageArrays = require('./manage_arrays');
 var helpers = require('./helpers');
 var subroutines = require('./subroutines');
+var editTypes = require('./edit_types');
+
 var cartesianConstants = require('../plots/cartesian/constants');
 var axisConstraints = require('../plots/cartesian/constraints');
 var enforceAxisConstraints = axisConstraints.enforce;
@@ -394,34 +397,68 @@ function opaqueSetBackground(gd, bgColor) {
 }
 
 function setPlotContext(gd, config) {
-    if(!gd._context) gd._context = Lib.extendFlat({}, Plotly.defaultConfig);
+    if(!gd._context) gd._context = Lib.extendDeep({}, Plotly.defaultConfig);
     var context = gd._context;
 
+    var i, keys, key;
+
     if(config) {
-        Object.keys(config).forEach(function(key) {
+        keys = Object.keys(config);
+        for(i = 0; i < keys.length; i++) {
+            key = keys[i];
+            if(key === 'editable' || key === 'edits') continue;
             if(key in context) {
                 if(key === 'setBackground' && config[key] === 'opaque') {
                     context[key] = opaqueSetBackground;
                 }
                 else context[key] = config[key];
             }
-        });
+        }
 
         // map plot3dPixelRatio to plotGlPixelRatio for backward compatibility
         if(config.plot3dPixelRatio && !context.plotGlPixelRatio) {
             context.plotGlPixelRatio = context.plot3dPixelRatio;
+        }
+
+        // now deal with editable and edits - first editable overrides
+        // everything, then edits refines
+        var editable = config.editable;
+        if(editable !== undefined) {
+            // we're not going to *use* context.editable, we're only going to
+            // use context.edits... but keep it for the record
+            context.editable = editable;
+
+            keys = Object.keys(context.edits);
+            for(i = 0; i < keys.length; i++) {
+                context.edits[keys[i]] = editable;
+            }
+        }
+        if(config.edits) {
+            keys = Object.keys(config.edits);
+            for(i = 0; i < keys.length; i++) {
+                key = keys[i];
+                if(key in context.edits) {
+                    context.edits[key] = config.edits[key];
+                }
+            }
         }
     }
 
     // staticPlot forces a bunch of others:
     if(context.staticPlot) {
         context.editable = false;
+        context.edits = {};
         context.autosizable = false;
         context.scrollZoom = false;
         context.doubleClick = false;
         context.showTips = false;
         context.showLink = false;
         context.displayModeBar = false;
+    }
+
+    // make sure hover-only devices have mode bar visible
+    if(context.displayModeBar === 'hover' && !hasHover) {
+        context.displayModeBar = true;
     }
 }
 
@@ -479,7 +516,7 @@ function plotPolar(gd, data, layout) {
     var title = polarPlotSVG.select('.title-group text')
         .call(titleLayout);
 
-    if(gd._context.editable) {
+    if(gd._context.edits.titleText) {
         if(!txt || txt === placeholderText) {
             opacity = 0.2;
             // placeholder is not going through convertToTspans
@@ -1264,16 +1301,7 @@ function _restyle(gd, aobj, _traces) {
     var traces = helpers.coerceTraceIndices(gd, _traces);
 
     // initialize flags
-    var flags = {
-        docalc: false,
-        docalcAutorange: false,
-        doplot: false,
-        dostyle: false,
-        docolorbars: false,
-        autorangeOn: false,
-        clearCalc: false,
-        fullReplot: false
-    };
+    var flags = editTypes.traces();
 
     // copies of the change (and previous values of anything affected)
     // for the undo / redo queue
@@ -1304,8 +1332,6 @@ function _restyle(gd, aobj, _traces) {
         'reversescale', 'marker.reversescale',
         'autobinx', 'nbinsx', 'xbins', 'xbins.start', 'xbins.end', 'xbins.size',
         'autobiny', 'nbinsy', 'ybins', 'ybins.start', 'ybins.end', 'ybins.size',
-        'autocontour', 'ncontours', 'contours', 'contours.coloring',
-        'contours.operation', 'contours.value', 'contours.type', 'contours.value[0]', 'contours.value[1]',
         'error_y', 'error_y.visible', 'error_y.value', 'error_y.type',
         'error_y.traceref', 'error_y.array', 'error_y.symmetric',
         'error_y.arrayminus', 'error_y.valueminus', 'error_y.tracerefminus',
@@ -1373,8 +1399,6 @@ function _restyle(gd, aobj, _traces) {
         'marker.cmin', 'marker.cmax', 'marker.cauto',
         'line.cmin', 'line.cmax',
         'marker.line.cmin', 'marker.line.cmax',
-        'contours.start', 'contours.end', 'contours.size',
-        'contours.showlines',
         'line', 'line.smoothing', 'line.shape',
         'error_y.width', 'error_x.width', 'error_x.copy_ystyle',
         'marker.maxdisplayed'
@@ -1619,23 +1643,41 @@ function _restyle(gd, aobj, _traces) {
                 flags.docalc = true;
             }
             else {
-                var moduleAttrs = (contFull._module || {}).attributes || {};
-                var valObject = Lib.nestedProperty(moduleAttrs, ai).get() ||
-                    Lib.nestedProperty(Plots.attributes, ai).get() ||
-                    {};
+                var aiHead = param.parts[0];
+                var moduleAttrs = (contFull._module || {}).attributes;
+                var valObject = moduleAttrs && moduleAttrs[aiHead];
+                if(!valObject) valObject = Plots.attributes[aiHead];
+                if(valObject) {
+                    /*
+                     * In occasional cases we can't the innermost valObject
+                     * doesn't exist, for example `valType: 'any'` items like
+                     * contourcarpet `contours.value` where we might set
+                     * `contours.value[0]`. In that case, stop at the deepest
+                     * valObject we *do* find.
+                     */
+                    for(var parti = 1; parti < param.parts.length; parti++) {
+                        var newValObject = valObject[param.parts[parti]];
+                        if(newValObject) valObject = newValObject;
+                        else break;
+                    }
 
-                // if restyling entire attribute container, assume worse case
-                if(!valObject.valType) {
-                    flags.docalc = true;
+                    /*
+                     * must redo calcdata when restyling:
+                     * 1) array values of arrayOk attributes
+                     * 2) a container object (it would be hard to tell what
+                     *    pieces changed, whether any are arrays, so to be
+                     *    safe we need to recalc)
+                     */
+                    if(!valObject.valType || (valObject.arrayOk && (Array.isArray(newVal) || Array.isArray(oldVal)))) {
+                        flags.docalc = true;
+                    }
+
+                    // some attributes declare an 'editType' flaglist
+                    editTypes.update(flags, valObject);
                 }
-
-                // must redo calcdata when restyling array values of arrayOk attributes
-                if(valObject.arrayOk && (Array.isArray(newVal) || Array.isArray(oldVal))) {
-                    flags.docalc = true;
-                }
-
-                // some attributes declare an 'editType' flaglist
-                if(valObject.editType === 'docalc') {
+                else {
+                    // if we couldn't find valObject even at the root,
+                    // assume a full recalc.
                     flags.docalc = true;
                 }
 
@@ -1863,16 +1905,7 @@ function _relayout(gd, aobj) {
     }
 
     // initialize flags
-    var flags = {
-        dolegend: false,
-        doticks: false,
-        dolayoutstyle: false,
-        doplot: false,
-        docalc: false,
-        domodebar: false,
-        docamera: false,
-        layoutReplot: false
-    };
+    var flags = editTypes.layout();
 
     // copies of the change (and previous values of anything affected)
     // for the undo / redo queue

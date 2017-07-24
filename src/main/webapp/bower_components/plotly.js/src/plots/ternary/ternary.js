@@ -46,9 +46,19 @@ proto.init = function(fullLayout) {
 };
 
 proto.plot = function(ternaryCalcData, fullLayout) {
-    var _this = this,
-        ternaryLayout = fullLayout[_this.id],
-        graphSize = fullLayout._size;
+    var _this = this;
+    var ternaryLayout = fullLayout[_this.id];
+    var graphSize = fullLayout._size;
+
+    _this._hasClipOnAxisFalse = false;
+    for(var i = 0; i < ternaryCalcData.length; i++) {
+        var trace = ternaryCalcData[i][0].trace;
+
+        if(trace.cliponaxis === false) {
+            _this._hasClipOnAxisFalse = true;
+            break;
+        }
+    }
 
     _this.adjustLayout(ternaryLayout, graphSize);
 
@@ -66,10 +76,17 @@ proto.makeFramework = function() {
         .classed('clips', true);
 
     // clippath for this ternary subplot
-    var clipId = 'clip' + _this.layoutId + _this.id;
+    var clipId = _this.clipId = 'clip' + _this.layoutId + _this.id;
     _this.clipDef = defGroup.selectAll('#' + clipId)
         .data([0]);
     _this.clipDef.enter().append('clipPath').attr('id', clipId)
+        .append('path').attr('d', 'M0,0Z');
+
+    // 'relative' clippath (i.e. no translation) for this ternary subplot
+    var clipIdRelative = _this.clipIdRelative = 'clip-relative' + _this.layoutId + _this.id;
+    _this.clipDefRelative = defGroup.selectAll('#' + clipIdRelative)
+        .data([0]);
+    _this.clipDefRelative.enter().append('clipPath').attr('id', clipIdRelative)
         .append('path').attr('d', 'M0,0Z');
 
     // container for everything in this ternary subplot
@@ -88,7 +105,6 @@ proto.makeFramework = function() {
         'backplot',
         'grids',
         'frontplot',
-        'zoom',
         'aaxis', 'baxis', 'caxis', 'axlines'
     ];
     var toplevel = _this.plotContainer.selectAll('g.toplevel')
@@ -121,12 +137,8 @@ proto.makeFramework = function() {
         .attr('class', function(d) { return 'grid ' + d; })
         .each(function(d) { _this.layers[d] = d3.select(this); });
 
-    _this.plotContainer.selectAll('.backplot,.frontplot,.grids')
+    _this.plotContainer.selectAll('.backplot,.grids')
         .call(Drawing.setClipUrl, clipId);
-
-    if(!_this.graphDiv._context.staticPlot) {
-        _this.initInteractions();
-    }
 };
 
 var w_over_h = Math.sqrt(4 / 3);
@@ -180,6 +192,16 @@ proto.adjustLayout = function(ternaryLayout, graphSize) {
     };
     setConvert(_this.xaxis, _this.graphDiv._fullLayout);
     _this.xaxis.setScale();
+    _this.xaxis.isPtWithinRange = function(d) {
+        return (
+            d.a >= _this.aaxis.range[0] &&
+            d.a <= _this.aaxis.range[1] &&
+            d.b >= _this.baxis.range[1] &&
+            d.b <= _this.baxis.range[0] &&
+            d.c >= _this.caxis.range[1] &&
+            d.c <= _this.caxis.range[0]
+        );
+    };
 
     _this.yaxis = {
         type: 'linear',
@@ -192,6 +214,7 @@ proto.adjustLayout = function(ternaryLayout, graphSize) {
     };
     setConvert(_this.yaxis, _this.graphDiv._fullLayout);
     _this.yaxis.setScale();
+    _this.yaxis.isPtWithinRange = function() { return true; };
 
     // set up the modified axes for tick drawing
     var yDomain0 = _this.yaxis.domain[0];
@@ -262,9 +285,14 @@ proto.adjustLayout = function(ternaryLayout, graphSize) {
     _this.clipDef.select('path').attr('d', triangleClip);
     _this.layers.plotbg.select('path').attr('d', triangleClip);
 
+    var triangleClipRelative = 'M0,' + h + 'h' + w + 'l-' + (w / 2) + ',-' + h + 'Z';
+    _this.clipDefRelative.select('path').attr('d', triangleClipRelative);
+
     var plotTransform = 'translate(' + x0 + ',' + y0 + ')';
-    _this.plotContainer.selectAll('.scatterlayer,.maplayer,.zoom')
+    _this.plotContainer.selectAll('.scatterlayer,.maplayer')
         .attr('transform', plotTransform);
+
+    _this.clipDefRelative.select('path').attr('transform', null);
 
     // TODO: shift axes to accommodate linewidth*sin(30) tick mark angle
 
@@ -303,6 +331,13 @@ proto.adjustLayout = function(ternaryLayout, graphSize) {
             'M' + (x0 + w / 2) + ',' + y0 + 'l' + (w / 2) + ',' + h : 'M0,0')
         .call(Color.stroke, caxis.linecolor || '#000')
         .style('stroke-width', (caxis.linewidth || 0) + 'px');
+
+    if(!_this.graphDiv._context.staticPlot) {
+        _this.initInteractions();
+    }
+
+    _this.plotContainer.select('.frontplot')
+        .call(Drawing.setClipUrl, _this._hasClipOnAxisFalse ? null : _this.clipId);
 };
 
 proto.drawAxes = function(doTitles) {
@@ -382,13 +417,16 @@ proto.initInteractions = function() {
     var _this = this,
         dragger = _this.layers.plotbg.select('path').node(),
         gd = _this.graphDiv,
-        zoomContainer = _this.layers.zoom;
+        zoomContainer = gd._fullLayout._zoomlayer;
 
     // use plotbg for the main interactions
     var dragOptions = {
         element: dragger,
         gd: gd,
-        plotinfo: {plot: zoomContainer},
+        plotinfo: {
+            xaxis: _this.xaxis,
+            yaxis: _this.yaxis
+        },
         doubleclick: doubleClick,
         subplot: _this.id,
         prepFn: function(e, startX, startY) {
@@ -441,6 +479,7 @@ proto.initInteractions = function() {
 
         zb = zoomContainer.append('path')
             .attr('class', 'zoombox')
+            .attr('transform', 'translate(' + _this.x0 + ', ' + _this.y0 + ')')
             .style({
                 'fill': lum > 0.2 ? 'rgba(0,0,0,0)' : 'rgba(255,255,255,0)',
                 'stroke-width': 0
@@ -449,6 +488,7 @@ proto.initInteractions = function() {
 
         corners = zoomContainer.append('path')
             .attr('class', 'zoombox-corners')
+            .attr('transform', 'translate(' + _this.x0 + ', ' + _this.y0 + ')')
             .style({
                 fill: Color.background,
                 stroke: Color.defaultLine,
@@ -578,6 +618,9 @@ proto.initInteractions = function() {
         _this.plotContainer.selectAll('.scatterlayer,.maplayer')
             .attr('transform', plotTransform);
 
+        var plotTransform2 = 'translate(' + -dx + ',' + -dy + ')';
+        _this.clipDefRelative.select('path').attr('transform', plotTransform2);
+
         // move the ticks
         _this.aaxis.range = [mins.a, _this.sum - mins.b - mins.c];
         _this.baxis.range = [_this.sum - mins.a - mins.c, mins.b];
@@ -585,6 +628,17 @@ proto.initInteractions = function() {
 
         _this.drawAxes(false);
         _this.plotContainer.selectAll('.crisp').classed('crisp', false);
+
+        if(_this._hasClipOnAxisFalse) {
+            var scatterPoints = _this.plotContainer
+                .select('.scatterlayer').selectAll('.points');
+
+            scatterPoints.selectAll('.point')
+                .call(Drawing.hideOutsideRangePoints, _this);
+
+            scatterPoints.selectAll('.textpoint')
+                .call(Drawing.hideOutsideRangePoints, _this);
+        }
     }
 
     function dragDone(dragged, numClicks) {
@@ -603,7 +657,7 @@ proto.initInteractions = function() {
         // until we get around to persistent selections, remove the outline
         // here. The selection itself will be removed when the plot redraws
         // at the end.
-        _this.plotContainer.selectAll('.select-outline').remove();
+        zoomContainer.selectAll('.select-outline').remove();
     }
 
     function doubleClick() {

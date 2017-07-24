@@ -1,35 +1,51 @@
-<md-dialog aria-label="{{'global.welcomeDialog.toolbar-head' |translate}}" md-autofocus>
-<md-toolbar>
- <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
-    <h2>{{"global.welcomeDialog.toolbar-head" |translate}}</h2>
-     <md-button class="md-icon-button" ng-click="closeDialog()">
-    <md-icon md-font-set="material-icons">clear</md-icon>
-    <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-        {{"global.dialog.tooltip.close" | translate}}
-    </md-tooltip>
-</md-button>
-  </div>
-</md-toolbar>
-   <div class="md-dialog-content" layout="column">
-<strong>{{"global.welcomeDialog.content-head" | translate}}</strong>
-<span>{{"global.welcomeDialog.content-body-with" | translate}}
-<a href="https://github.com/dzhw/metadatamanagement/issues/new" target="_blank">
-  <md-icon md-svg-src="/assets/images/icons/github-circle.svg"></md-icon>GitHub
-  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-      {{"global.tooltips.welcomeDialog.github" | translate}}
-  </md-tooltip>
-</a>{{"global.welcomeDialog.content-body" | translate}}</span>
-</div>
-<md-dialog-actions>
-  <md-checkbox ng-model="closeWelcomeDialogForever">
-          {{"global.buttons.closeDialogForEver" | translate}}
-  </md-checkbox>
-  <span flex></span>
-   <md-button class="md-primary md-raised" id="closeWelcomeDialog" ng-click="closeDialog()">
-       {{"global.buttons.close" | translate}}
-       <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-          {{"global.dialog.tooltip.close" | translate}}
-       </md-tooltip>
-    </md-button>
-</md-dialog-actions>
+<md-dialog aria-label="{{'global.welcome-dialog.toolbar-head' |translate}}" md-autofocus>
+    <md-toolbar>
+        <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+            <h2>{{"global.welcome-dialog.toolbar-head" |translate}}</h2>
+            <md-button class="md-icon-button" ng-click="closeDialog()">
+                <md-icon md-font-set="material-icons">clear</md-icon>
+                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                    {{"global.dialog.tooltip.close" | translate}}
+                </md-tooltip>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <div class="md-dialog-content" layout="column">
+        <strong>{{"global.welcome-dialog.content-head" | translate}}</strong>
+        <br>
+        <span>{{"global.welcome-dialog.content-body-feedback" | translate}}</span>
+        <span>
+          {{"global.welcome-dialog.content-body-via" | translate}}
+          <a ng-href="{{currentUrl()}}" target="_blank">
+            <md-icon md-svg-src="/assets/images/icons/github-circle.svg"></md-icon>GitHub
+            <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{"global.tooltips.welcome-dialog.github" | translate}}
+            </md-tooltip>
+          </a>
+        </span>
+        <span>{{"global.welcome-dialog.content-body-via" | translate}}
+          <a ng-href="mailto:fdz-feedback@dzhw.eu?subject={{mailSubject}}&body={{mailBody}}">
+            <md-icon md-svg-src="/assets/images/icons/email.svg"></md-icon>fdz-feedback@dzhw.eu
+            <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{"global.tooltips.welcome-dialog.email" | translate}}
+            </md-tooltip>
+          </a>
+        </span>
+        <br>
+        <span>{{"global.welcome-dialog.content-body-thanks" | translate}}</span>
+    </div>
+    <md-dialog-actions>
+        <span>
+        <md-checkbox ng-model="checkBox.closeWelcomeDialogForever" ng-if="showCheckbox">
+            {{"global.buttons.closeDialogForEver" | translate}}
+        </md-checkbox>
+      </span>
+        <span flex></span>
+        <md-button class="md-primary md-raised" id="closeWelcomeDialog" ng-click="closeDialog()">
+            {{"global.buttons.close" | translate}}
+            <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{"global.dialog.tooltip.close" | translate}}
+            </md-tooltip>
+        </md-button>
+    </md-dialog-actions>
 </md-dialog>
