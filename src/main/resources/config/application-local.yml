@@ -48,12 +48,12 @@ jhipster:
 metadatamanagement:
   elasticsearch-client:
     url: http://localhost:9200
-    read-timeout: 60000
+    read-timeout: 360000
   elasticsearch-angular-client:
     apiVersion: 5.x
     logLevel: error
     pageSize: 10
   dara:
-    endpoint: ${DARA_ENDPOINT} 
+    endpoint: ${DARA_ENDPOINT}
     username: ${DARA_USERNAME}
     password: ${DARA_PASSWORD}
