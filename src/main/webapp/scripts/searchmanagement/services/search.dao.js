@@ -98,6 +98,22 @@ angular.module('metadatamanagementApp').service('SearchDao',
               'minimum_should_match': 1
             }
           });
+          queryShould.push({
+            'query_string': {
+              'query': queryterm + '*',
+              'fields': [
+                'title.de^' + germanMajorBoost,
+                'title.en^' + englishMajorBoost,
+                'authors.firstName',
+                'authors.middleName',
+                'authors.lastName',
+                'description.de^' + germanMinorBoost,
+                'description.en^' + englishMinorBoost
+              ],
+              'default_operator': 'AND',
+              'minimum_should_match': 1
+            }
+          });
           break;
 
         case 'surveys':
@@ -121,6 +137,23 @@ angular.module('metadatamanagementApp').service('SearchDao',
               'minimum_should_match': 1
             }
           });
+          queryShould.push({
+            'query_string': {
+              'query': queryterm + '*',
+              'fields': [
+                'title.de^' + germanMajorBoost,
+                'title.en^' + englishMajorBoost,
+                'surveyMethod.de^' + germanMajorBoost,
+                'surveyMethod.en^' + englishMajorBoost,
+                'population.de^' + germanMinorBoost,
+                'population.en^' + englishMinorBoost,
+                'sample.de^' + germanMinorBoost,
+                'sample.en^' + englishMinorBoost,
+              ],
+              'default_operator': 'AND',
+              'minimum_should_match': 1
+            }
+          });
           break;
 
         case 'instruments':
@@ -138,6 +171,20 @@ angular.module('metadatamanagementApp').service('SearchDao',
               'type': 'phrase_prefix',
               'operator': 'AND',
               'zero_terms_query': 'NONE',
+              'minimum_should_match': 1
+            }
+          });
+          queryShould.push({
+            'query_string': {
+              'query': queryterm + '*',
+              'fields': [
+                'title.de^' + germanMajorBoost,
+                'title.en^' + englishMajorBoost,
+                'description.de^' + germanMajorBoost,
+                'description.en^' + englishMajorBoost,
+                'type^' + standardMinorBoost
+              ],
+              'default_operator': 'AND',
               'minimum_should_match': 1
             }
           });
@@ -162,6 +209,21 @@ angular.module('metadatamanagementApp').service('SearchDao',
               'minimum_should_match': 1
             }
           });
+          queryShould.push({
+            'query_string': {
+              'query': queryterm + '*',
+              'fields': [
+                'instrument.description.de^' + germanMajorBoost,
+                'instrument.description.en^' + englishMajorBoost,
+                'type.de^' + germanMajorBoost,
+                'type.en^' + englishMajorBoost,
+                'questionText.de^' + germanMinorBoost,
+                'questionText.en^' + englishMinorBoost
+              ],
+              'default_operator': 'AND',
+              'minimum_should_match': 1
+            }
+          });
           break;
 
         case 'data_sets':
@@ -181,6 +243,22 @@ angular.module('metadatamanagementApp').service('SearchDao',
               'type': 'phrase_prefix',
               'operator': 'AND',
               'zero_terms_query': 'NONE',
+              'minimum_should_match': 1
+            }
+          });
+          queryShould.push({
+            'query_string': {
+              'query': queryterm + '*',
+              'fields': [
+                'description.de^' + germanMajorBoost,
+                'description.en^' + englishMajorBoost,
+                'type.de^' + germanMajorBoost,
+                'type.en^' + englishMajorBoost,
+                'surveys.title.de^' + germanMinorBoost,
+                'surveys.title.en^' + englishMinorBoost,
+                'accessWays^' + standardMinorBoost
+              ],
+              'default_operator': 'AND',
               'minimum_should_match': 1
             }
           });
@@ -208,6 +286,24 @@ angular.module('metadatamanagementApp').service('SearchDao',
               'minimum_should_match': 1
             }
           });
+          queryShould.push({
+            'query_string': {
+              'query': queryterm + '*',
+              'fields': [
+                'label.de^' + germanMajorBoost,
+                'label.en^' + englishMajorBoost,
+                'name^' + standardMinorBoost,
+                'dataType.de^' + germanMajorBoost,
+                'dataType.en^' + englishMajorBoost,
+                'scaleLevel.de^' + germanMajorBoost,
+                'scaleLevel.en^' + englishMajorBoost,
+                'surveys.title.de^' + germanMinorBoost,
+                'surveys.title.en^' + englishMinorBoost
+              ],
+              'default_operator': 'AND',
+              'minimum_should_match': 1
+            }
+          });
           break;
 
         case 'related_publications':
@@ -223,6 +319,18 @@ angular.module('metadatamanagementApp').service('SearchDao',
               'type': 'phrase_prefix',
               'operator': 'AND',
               'zero_terms_query': 'NONE',
+              'minimum_should_match': 1
+            }
+          });
+          queryShould.push({
+            'query_string': {
+              'query': queryterm + '*',
+              'fields': [
+                'title',
+                'doi',
+                'publicationAbstract^' + standardMinorBoost
+              ],
+              'default_operator': 'AND',
               'minimum_should_match': 1
             }
           });
