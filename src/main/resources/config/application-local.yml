@@ -54,6 +54,6 @@ metadatamanagement:
     logLevel: error
     pageSize: 10
   dara:
-    endpoint: ${DARA_ENDPOINT} 
+    endpoint: ${DARA_ENDPOINT}
     username: ${DARA_USERNAME}
     password: ${DARA_PASSWORD}
