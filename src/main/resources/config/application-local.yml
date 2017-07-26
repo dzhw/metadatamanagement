@@ -48,7 +48,7 @@ jhipster:
 metadatamanagement:
   elasticsearch-client:
     url: http://localhost:9200
-    read-timeout: 360000
+    read-timeout: 60000
   elasticsearch-angular-client:
     apiVersion: 5.x
     logLevel: error

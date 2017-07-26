@@ -29,7 +29,7 @@ spring:
 metadatamanagement:
   elasticsearch-client:
     url: ${vcap.services.elasticsearch.credentials.sslUri}
-    read-timeout: 360000
+    read-timeout: 60000
   elasticsearch-angular-client:
     apiVersion: 5.x
     logLevel: error
