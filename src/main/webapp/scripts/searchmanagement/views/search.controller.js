@@ -46,16 +46,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
         locationSearch['sort-by'] =
           $scope.tabs[$scope.searchParams.selectedTabIndex].sortBy;
       }
-      if ($scope.searchParams.sortBy && $scope.searchParams.sortBy !== '') {
-        locationSearch['sort-by'] = $scope.searchParams.sortBy;
-      } else {
-        if ($scope.tabs[$scope.searchParams.selectedTabIndex].sortBy) {
-          locationSearch['sort-by'] =
-            $scope.tabs[$scope.searchParams.selectedTabIndex].sortBy;
-          $scope.searchParams.sortBy =
-            $scope.tabs[$scope.searchParams.selectedTabIndex].sortBy;
-        }
-      }
       _.assign(locationSearch, $scope.searchParams.filter);
       locationChanged = !angular.equals($location.search(),
         locationSearch);
@@ -85,7 +75,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
         $scope.searchParams.filter = _.omit(locationSearch, ['page', 'type',
           'query', 'sort-by'
         ]);
-        $scope.searchParams.sortBy = locationSearch['sort-by'];
         var indexToSelect = _.findIndex($scope.tabs,
           function(tab) {
             return tab.elasticSearchType === locationSearch.type;
@@ -131,7 +120,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       SearchDao.search($scope.searchParams.query, $scope.pageObject.page,
           projectId, $scope.searchParams.filter,
           $scope.tabs[$scope.searchParams.selectedTabIndex].elasticSearchType,
-          $scope.pageObject.size, $scope.searchParams.sortBy)
+          $scope.pageObject.size,
+          $scope.tabs[$scope.searchParams.selectedTabIndex].sortBy)
         .then(function(data) {
           $scope.searchResult = data.hits.hits;
           $scope.pageObject.totalHits = data.hits.total;
@@ -236,7 +226,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
         $timeout(function() {
           if (!tabChangedOnInitFlag) {
             $scope.searchParams.filter = undefined;
-            $scope.searchParams.sortBy = undefined;
             $scope.pageObject.page = 1;
             writeSearchParamsToLocation();
             if (!currentProjectChangeIsBeingHandled) {
