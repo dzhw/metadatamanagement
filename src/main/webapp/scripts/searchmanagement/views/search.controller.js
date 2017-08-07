@@ -128,17 +128,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
       var projectId = $scope.currentProject ?
         $scope.currentProject.id : undefined;
       $scope.isSearching++;
-
-      //If there is no query on question detail page, sort by index in study,
-      //but is there a query, sort by the score
-      if (!CleanJSObjectService.isNullOrEmpty($scope.searchParams.query) &&
-        $scope.tabs[$scope.searchParams.selectedTabIndex].elasticSearchType ===
-          'questions') {
-        $scope.searchParams.sortBy = undefined;
-      } else {
-        $scope.searchParams.sortBy = 'indexInStudy';
-      }
-
       SearchDao.search($scope.searchParams.query, $scope.pageObject.page,
           projectId, $scope.searchParams.filter,
           $scope.tabs[$scope.searchParams.selectedTabIndex].elasticSearchType,
