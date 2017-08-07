@@ -44,6 +44,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       }
       if ($scope.searchParams.sortBy && $scope.searchParams.sortBy !== '') {
         locationSearch['sort-by'] = $scope.searchParams.sortBy;
+      } else {
+        delete locationSearch['sort-by'];
       }
       _.assign(locationSearch, $scope.searchParams.filter);
       locationChanged = !angular.equals($location.search(),
@@ -214,6 +216,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       };
     $scope.onQueryChanged = function() {
       $scope.pageObject.page = 1;
+      delete $scope.searchParams.sortBy;
       writeSearchParamsToLocation();
       $scope.search();
     };

@@ -358,19 +358,21 @@ angular.module('metadatamanagementApp').service('SearchDao',
         query.body._source = ['id', 'number', 'questionText', 'title',
           'description', 'type', 'year', 'publicationAbstract', 'authors',
           'surveyMethod', 'fieldPeriod', 'label', 'name', 'dataType',
-          'sample', 'indexInInstrument', 'wave',
+          'sample', 'wave',
           'scaleLevel', 'dataAcquisitionProjectId', 'dataSetNumber',
           'population',
           'instrumentNumber', 'instrument.description', 'surveys.title',
           'language', 'subDataSets'
         ];
         if (sortBy && sortBy !== '') {
-          var sortCriteria = {};
-          sortCriteria[sortBy] = {
-            'order': 'asc'
-          };
           query.body.sort = [];
-          query.body.sort.push(sortCriteria);
+          sortBy.split(',').forEach(function(fieldName) {
+            var sortCriteria = {};
+            sortCriteria[fieldName] = {
+              'order': 'asc'
+            };
+            query.body.sort.push(sortCriteria);
+          });
         }
         //a query term
         if (!CleanJSObjectService.isNullOrEmpty(queryterm)) {

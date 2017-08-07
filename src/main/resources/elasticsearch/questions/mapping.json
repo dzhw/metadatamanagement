@@ -35,6 +35,12 @@
 				"type": "string",
 				"index": "not_analyzed"
 			},
+			"indexInInstrument": {
+				"type": "integer"
+			},
+			"instrumentNumber": {
+				"type": "integer"
+			},
 			"type": {
 				"type": "object",
 				"properties": {
