@@ -43,19 +43,10 @@ angular.module('metadatamanagementApp').controller('SearchController',
       if ($scope.searchParams.query && $scope.searchParams.query !== '') {
         locationSearch.query = $scope.searchParams.query;
       }
-      if ($scope.tabs[$scope.searchParams.selectedTabIndex].sortBy) {
-        locationSearch['sort-by'] =
-          $scope.tabs[$scope.searchParams.selectedTabIndex].sortBy;
-      }
       if ($scope.searchParams.sortBy && $scope.searchParams.sortBy !== '') {
         locationSearch['sort-by'] = $scope.searchParams.sortBy;
       } else {
-        if ($scope.tabs[$scope.searchParams.selectedTabIndex].sortBy) {
-          locationSearch['sort-by'] =
-            $scope.tabs[$scope.searchParams.selectedTabIndex].sortBy;
-          $scope.searchParams.sortBy =
-            $scope.tabs[$scope.searchParams.selectedTabIndex].sortBy;
-        }
+        delete locationSearch['sort-by'];
       }
       _.assign(locationSearch, $scope.searchParams.filter);
       locationChanged = !angular.equals($location.search(),
@@ -226,6 +217,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       };
     $scope.onQueryChanged = function() {
       $scope.pageObject.page = 1;
+      delete $scope.searchParams.sortBy;
       writeSearchParamsToLocation();
       $scope.search();
     };
@@ -328,7 +320,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
       title: 'search-management.tabs.all',
       inputLabel: 'search-management.input-label.all',
       elasticSearchType: undefined,
-      sortBy: undefined,
       count: null,
       acceptedFileUploadType: null,
       uploadFunction: null,
@@ -340,7 +331,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
       inputLabel: 'search-management.input-label.studies',
       icon: 'assets/images/icons/study.svg',
       elasticSearchType: 'studies',
-      sortBy: undefined,
       count: null,
       uploadFunction: $scope.uploadStudy,
       disabled: false,
@@ -351,7 +341,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
       inputLabel: 'search-management.input-label.surveys',
       icon: 'assets/images/icons/survey.svg',
       elasticSearchType: 'surveys',
-      sortBy: undefined,
       count: null,
       uploadFunction: $scope.uploadSurveys,
       disabled: false,
@@ -362,7 +351,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
       inputLabel: 'search-management.input-label.instruments',
       icon: 'assets/images/icons/instrument.svg',
       elasticSearchType: 'instruments',
-      sortBy: undefined,
       count: null,
       uploadFunction: $scope.uploadInstruments,
       disabled: false,
@@ -373,7 +361,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
       inputLabel: 'search-management.input-label.questions',
       icon: 'assets/images/icons/question.svg',
       elasticSearchType: 'questions',
-      sortBy: 'indexInInstrument',
       count: null,
       uploadFunction: $scope.uploadQuestions,
       disabled: false,
@@ -384,7 +371,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
       inputLabel: 'search-management.input-label.data-sets',
       icon: 'assets/images/icons/data-set.svg',
       elasticSearchType: 'data_sets',
-      sortBy: undefined,
       count: null,
       uploadFunction: $scope.uploadDataSets,
       disabled: false,
@@ -395,7 +381,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
       inputLabel: 'search-management.input-label.variables',
       icon: 'assets/images/icons/variable.svg',
       elasticSearchType: 'variables',
-      sortBy: undefined,
       count: null,
       uploadFunction: $scope.uploadVariables,
       disabled: false,
@@ -406,7 +391,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
       inputLabel: 'search-management.input-label.related-publications',
       icon: 'assets/images/icons/related-publication.svg',
       elasticSearchType: 'related_publications',
-      sortBy: undefined,
       count: null,
       uploadFunction: $scope.uploadRelatedPublications,
       disabled: false,

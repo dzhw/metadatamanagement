@@ -142,7 +142,7 @@
                             </a>
                         </div>
                         <div ng-if="counts.questionsCount > 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="search({'type': 'questions', 'variable':variable.id, 'page': 1})">
+                            <a ui-sref="search({'type': 'questions', 'variable':variable.id, 'sort-by': 'instrumentNumber,indexInInstrument', 'page': 1})">
                                 <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
                                 {{'question-management.detail.questions' | translate }}: ({{counts.questionsCount}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 20">
