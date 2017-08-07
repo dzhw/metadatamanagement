@@ -73,8 +73,8 @@ public class Question extends AbstractRdcDomainObject {
       message = "question-management.error.question.topic.i18n-string-size")
   private I18nString topic;
   
-  @NotNull(message = "question-management.error.question.index-in-study.not-null")
-  private Integer indexInStudy;
+  @NotNull(message = "question-management.error.question.indexInInstrument.not-null")
+  private Integer indexInInstrument;
   
   @NotEmpty
   @Indexed
@@ -212,7 +212,7 @@ public class Question extends AbstractRdcDomainObject {
       .add("successorNumbers", successorNumbers)
       .add("studyId", studyId)
       .add("annotations", annotations)
-      .add("indexInStudy", indexInStudy)
+      .add("indexInInstrument", indexInInstrument)
       .toString();
   }
 
@@ -296,11 +296,11 @@ public class Question extends AbstractRdcDomainObject {
     this.annotations = annotations;
   }
 
-  public Integer getIndexInStudy() {
-    return indexInStudy;
+  public Integer getIndexInInstrument() {
+    return indexInInstrument;
   }
 
-  public void setIndexInStudy(Integer indexInStudy) {
-    this.indexInStudy = indexInStudy;
-  }
+  public void setIndexInInstrument(Integer indexInInstrument) {
+    this.indexInInstrument = indexInInstrument;
+  } 
 }

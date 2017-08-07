@@ -88,8 +88,8 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-not-empty': 'Der Fragetext muss in mind. einer Sprache vorliegen.',
               'i18n-string-size': 'Die Maximallänge der des Fragetextes ist 2048 Zeichen.'
             },
-            'index-in-study': {
-              'not-null': 'Der "Index innerhalb eines Study" einer Frage darf nicht leer sein!'
+            'indexInInstrument': {
+              'not-null': 'Der "Index innerhalb eines Instrumentes" einer Frage darf nicht leer sein!'
             },
             'instruction': {
               'i18n-string-size': 'Die Maximallänge der Instruktion ist 2048 Zeichen.'
