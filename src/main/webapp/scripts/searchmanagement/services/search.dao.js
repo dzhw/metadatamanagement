@@ -343,6 +343,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
         filter, elasticsearchType, pageSize, sortBy) {
         var query = {};
         var studyId;
+
         query.index = elasticsearchType;
         if (!elasticsearchType) {
           //search in all indices
