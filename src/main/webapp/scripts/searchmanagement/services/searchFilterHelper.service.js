@@ -13,10 +13,10 @@ angular.module('metadatamanagementApp').factory(
       'variables': {
         'study': 'studyId',
         'data-set': 'dataSetId',
-        'question': 'relatedQuestions.questionId',
-        'related-publication': 'relatedPublications.id',
+        'access-way': 'accessWays',
         'panel-identifier': 'panelIdentifier',
-        'access-way': 'accessWays'
+        'question': 'relatedQuestions.questionId',
+        'related-publication': 'relatedPublications.id'
       },
       'surveys': {
         'instrument': 'instruments.id',

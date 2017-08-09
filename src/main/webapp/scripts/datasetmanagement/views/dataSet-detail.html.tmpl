@@ -93,7 +93,7 @@
                             </a>
                         </div>
                         <div ng-if="ctrl.counts.variablesCount > 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="search({'type': 'variables', 'data-set': ctrl.dataSet.id, 'page': 1, 'sort-by': 'indexInDataSet'})">
+                            <a ui-sref="search({'type': 'variables', 'data-set': ctrl.dataSet.id, 'study': ctrl.dataSet.studyId, 'page': 1, 'sort-by': 'indexInDataSet'})">
                                 <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
                                 {{'variable-management.detail.variables' | translate }}: ({{ctrl.counts.variablesCount}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
@@ -188,7 +188,7 @@
                         <td display-i18n-string="row.description"></td>
                         <td class="fdz-table-nowrap">{{row.name}}&nbsp;</td>
                         <td ng-class="{'fdz-table-number' : ctrl.counts.variablesCount > 0}"><span ng-if="ctrl.counts.variablesCount == 0">{{'data-set-management.detail.sub-data-sets.unknownNumberOfAnalyzedVariables' | translate }}</span>
-                            <a ng-if="ctrl.counts.variablesCount > 0" ui-sref="search({'type': 'variables', 'data-set':ctrl.dataSet.id, 'page': 1, 'access-way': row.accessWay,'sort-by': 'indexInDataSet'})">
+                            <a ng-if="ctrl.counts.variablesCount > 0" ui-sref="search({'type': 'variables', 'data-set':ctrl.dataSet.id, 'study': ctrl.dataSet.studyId, 'page': 1, 'access-way': row.accessWay,'sort-by': 'indexInDataSet'})">
                           {{ctrl.counts[row.name] | number: 0}}&nbsp;<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                 {{'data-set-management.detail.sub-data-sets.numberOfAnalyzedVariables-tooltip' | translate}}
                             </md-tooltip></a>

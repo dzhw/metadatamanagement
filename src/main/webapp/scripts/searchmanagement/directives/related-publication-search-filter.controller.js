@@ -1,11 +1,15 @@
+/* global _ */
 'use strict';
 
 angular.module('metadatamanagementApp')
   .controller('RelatedPublicationSearchFilterController', [
-    '$scope', 'SearchDao', 'RelatedPublicationSearchService',
-    function($scope, SearchDao, RelatedPublicationSearchService) {
+    '$scope', 'SearchDao', 'RelatedPublicationSearchService', '$timeout',
+    function($scope, SearchDao, RelatedPublicationSearchService, $timeout) {
       // prevent related-publication changed events during init
       var initializing = true;
+      var lastSearchText;
+      var lastFilter;
+      var lastSearchResult;
       var init = function() {
         if ($scope.currentSearchParams.filter &&
           $scope.currentSearchParams.filter['related-publication']) {
@@ -21,7 +25,20 @@ angular.module('metadatamanagementApp')
                   }
                 };
               }
-            });
+            }, function() {
+                $scope.currentRelatedPublication = {
+                  _source: {
+                    id: $scope.currentSearchParams.filter['related-publication']
+                  }
+                };
+                $timeout(function() {
+                  $scope.relatedPublicationFilterForm.relatedPublicationFilter
+                    .$setValidity(
+                    'md-require-match', false);
+                });
+                $scope.relatedPublicationFilterForm.relatedPublicationFilter
+                  .$setTouched();
+              });
         } else {
           initializing = false;
         }
@@ -43,10 +60,19 @@ angular.module('metadatamanagementApp')
       };
 
       $scope.searchRelatedPublications = function(searchText) {
+        var cleanedFilter = _.omit($scope.currentSearchParams.filter,
+          'related-publication');
+        if (searchText === lastSearchText &&
+          _.isEqual(lastFilter, cleanedFilter)) {
+          return lastSearchResult;
+        }
         return SearchDao.search(searchText, 1,
-          undefined, $scope.currentSearchParams.filter,
+          undefined, cleanedFilter,
           'related_publications',
           100).then(function(data) {
+            lastSearchText = searchText;
+            lastFilter = _.cloneDeep(cleanedFilter);
+            lastSearchResult = data.hits.hits;
             return data.hits.hits;
           });
       };

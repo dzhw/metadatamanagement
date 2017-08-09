@@ -398,7 +398,7 @@ style for datapackage
     display: block;
     margin-left: 8px;
     margin-right: 16px;
-    margin-bottom: 16px;
+    margin-bottom: 24px;
 }
 
 .fdz-search-input .md-errors-spacer {
@@ -704,4 +704,13 @@ md-tab-item:hover {
 md-input-container.fdz-search-input.md-input-has-value label,
 md-input-container.fdz-search-input.md-input-focused label {
   bottom: 80% !important;
+}
+
+.fdz-search-filter-component .ng-active div[ng-message] {
+  opacity: 1;
+  margin-top: 0px;
+}
+
+.md-select-placeholder {
+  font-weight: bold;
 }

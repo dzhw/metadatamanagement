@@ -185,7 +185,7 @@
                             </a>
                         </div>
                         <div ng-if="ctrl.counts.variablesCount > 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="search({'type': 'variables', 'study': ctrl.study.id, 'page': 1})">
+                            <a ui-sref="search({'type': 'variables', 'study': ctrl.study.id, 'sort-by': 'dataSetNumber,indexInDataSet', 'page': 1})">
                                 <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
                                 {{'variable-management.detail.variables' | translate }}: ({{ctrl.counts.variablesCount}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">

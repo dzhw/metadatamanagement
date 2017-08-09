@@ -1,11 +1,15 @@
+/* global _ */
 'use strict';
 
 angular.module('metadatamanagementApp')
   .controller('DataSetSearchFilterController', [
-    '$scope', 'SearchDao', 'DataSetSearchService',
-    function($scope, SearchDao, DataSetSearchService) {
+    '$scope', 'SearchDao', 'DataSetSearchService', '$timeout',
+    function($scope, SearchDao, DataSetSearchService, $timeout) {
       // prevent data-set changed events during init
       var initializing = true;
+      var lastSearchText;
+      var lastFilter;
+      var lastSearchResult;
       var init = function() {
         if ($scope.currentSearchParams.filter &&
           $scope.currentSearchParams.filter['data-set']) {
@@ -21,7 +25,18 @@ angular.module('metadatamanagementApp')
                   }
                 };
               }
-            });
+            }, function() {
+                $scope.currentDataSet = {
+                  _source: {
+                    id: $scope.currentSearchParams.filter['data-set']
+                  }
+                };
+                $timeout(function() {
+                  $scope.dataSetFilterForm.dataSetFilter.$setValidity(
+                    'md-require-match', false);
+                });
+                $scope.dataSetFilterForm.dataSetFilter.$setTouched();
+              });
         } else {
           initializing = false;
         }
@@ -42,10 +57,19 @@ angular.module('metadatamanagementApp')
       };
 
       $scope.searchDataSets = function(searchText) {
+        var cleanedFilter = _.omit($scope.currentSearchParams.filter,
+          'data-set');
+        if (searchText === lastSearchText &&
+          _.isEqual(lastFilter, cleanedFilter)) {
+          return lastSearchResult;
+        }
         return SearchDao.search(searchText, 1,
-            undefined, $scope.currentSearchParams.filter,
+            undefined, cleanedFilter,
             'data_sets',
             100).then(function(data) {
+              lastSearchText = searchText;
+              lastFilter = _.cloneDeep(cleanedFilter);
+              lastSearchResult = data.hits.hits;
               return data.hits.hits;
             }
           );

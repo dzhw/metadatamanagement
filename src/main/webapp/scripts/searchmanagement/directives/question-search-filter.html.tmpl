@@ -1,14 +1,15 @@
 <div ng-form="questionFilterForm" layout="row" layout-align="center center">
-  <md-autocomplete class="fdz-search-filter-component" md-input-name="questionFilter" md-floating-label="Frage" flex md-min-length="0" md-require-match="true" md-select-on-match="true" md-selected-item="currentQuestion" md-selected-item-change="onSelectionChanged(currentQuestion)" md-search-text="searchText" md-items="item in searchQuestions(searchText)" md-item-text="item._source.number + ': ' + item._source.instrument.description[currentLanguage] + ' (' + item._source.id + ')'" md-clear-button="true" md-no-cache="true">
-    <md-item-template>
-      <span class="md-title" style="font-size: 14px;">{{'question-management.detail.question' | translate}} {{item._source.number}}: <span display-i18n-string="item._source.instrument.description"></span></span>
-      <span class="label label-as-badge label-default">{{item._source.id}}</span>
-    </md-item-template>
-    <md-not-found>
-      Not found
-    </md-not-found>
-    <div ng-messages="questionFilterForm.questionFilter.$error">
-        <div ng-message="md-require-match">Keine Frage ausgewählt</div>
-    </div>
-  </md-autocomplete>
+    <md-autocomplete class="fdz-search-filter-component" md-input-name="questionFilter" md-floating-label="{{'search-management.filter.question' | translate}}" flex md-min-length="0" md-require-match="true" md-select-on-match="true" md-selected-item="currentQuestion" md-selected-item-change="onSelectionChanged(currentQuestion)"
+      md-search-text="searchText" md-items="item in searchQuestions(searchText)" md-item-text="item._source.number + ': ' + item._source.instrument.description[currentLanguage] + ' (' + item._source.id + ')'" md-clear-button="true" md-no-cache="true">
+        <md-item-template>
+            <span class="md-title" style="font-size: 14px;">{{'question-management.detail.question' | translate}} {{item._source.number}}: <span display-i18n-string="item._source.instrument.description"></span></span>
+            <span class="label label-as-badge label-default">{{item._source.id}}</span>
+        </md-item-template>
+        <md-not-found>
+            Keine Frage gefunden!
+        </md-not-found>
+        <div ng-messages="questionFilterForm.questionFilter.$error">
+            <div ng-message="md-require-match">Keine gültige Frage ausgewählt!</div>
+        </div>
+    </md-autocomplete>
 </div>

@@ -1,11 +1,15 @@
+/* global _ */
 'use strict';
 
 angular.module('metadatamanagementApp')
   .controller('QuestionSearchFilterController', [
-    '$scope', 'SearchDao', 'QuestionSearchService',
-    function($scope, SearchDao, QuestionSearchService) {
+    '$scope', 'SearchDao', 'QuestionSearchService', '$timeout',
+    function($scope, SearchDao, QuestionSearchService, $timeout) {
       // prevent question changed events during init
       var initializing = true;
+      var lastSearchText;
+      var lastFilter;
+      var lastSearchResult;
       var init = function() {
         if ($scope.currentSearchParams.filter &&
           $scope.currentSearchParams.filter.question) {
@@ -21,7 +25,18 @@ angular.module('metadatamanagementApp')
                   }
                 };
               }
-            });
+            }, function() {
+                $scope.currentQuestion = {
+                  _source: {
+                    id: $scope.currentSearchParams.filter.question
+                  }
+                };
+                $timeout(function() {
+                  $scope.questionFilterForm.questionFilter.$setValidity(
+                    'md-require-match', false);
+                });
+                $scope.questionFilterForm.questionFilter.$setTouched();
+              });
         } else {
           initializing = false;
         }
@@ -42,14 +57,24 @@ angular.module('metadatamanagementApp')
       };
 
       $scope.searchQuestions = function(searchText) {
+        var cleanedFilter = _.omit($scope.currentSearchParams.filter,
+          'question');
+        if (searchText === lastSearchText &&
+          _.isEqual(lastFilter, cleanedFilter)) {
+          return lastSearchResult;
+        }
         return SearchDao.search(searchText, 1,
-            undefined, $scope.currentSearchParams.filter,
+            undefined, cleanedFilter,
             'questions',
             100).then(function(data) {
+              lastSearchText = searchText;
+              lastFilter = _.cloneDeep(cleanedFilter);
+              lastSearchResult = data.hits.hits;
               return data.hits.hits;
             }
           );
       };
+
       init();
     }
   ]);

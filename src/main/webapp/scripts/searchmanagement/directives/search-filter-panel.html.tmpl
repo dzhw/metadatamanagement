@@ -1,25 +1,20 @@
-<md-button style="display: block; width: 100%; height: 100%; text-align: left; margin: 0px; padding-left: 10px;" ng-class="{'md-primary': isFilterActive}" layout="row" ng-click="toggleFilterPanelClosed()">
-    <md-icon md-svg-src="/assets/images/icons/filter.svg" style="margin-right: 8px;"></md-icon>
-    <span>Suchfilter für {{currentElasticsearchType}}</span>
-    <md-icon ng-if="filterPanelClosed" md-font-set="material-icons">keyboard_arrow_down</md-icon>
-    <md-icon ng-if="!filterPanelClosed" md-font-set="material-icons">keyboard_arrow_up</md-icon>
-</md-button>
-<md-divider ng-if="!filterPanelClosed" style="margin-left: 8px; margin-right: 8px;"></md-divider>
-<div ng-hide="filterPanelClosed" layout="column" style="margin: 16px 16px 0px 16px;">
-    <div layout="row">
-        <md-input-container style="min-width: 200px;">
-            <label>Ausgewählte Filter</label>
-            <md-select ng-model="selectedFilters" multiple>
-                <md-optgroup label="Variablenfilter">
-                    <md-option ng-value="filter" ng-repeat="filter in availableFilters">{{filter}}</md-option>
-                </md-optgroup>
-            </md-select>
-        </md-input-container>
-    </div>
+<md-divider></md-divider>
+<div layout="row">
+    <md-input-container style="min-width: 50%;" class="fdz-search-input">
+        <md-icon md-svg-src="/assets/images/icons/filter.svg"></md-icon>
+        <label>{{'search-management.filter.input-label.' + currentElasticsearchType | translate}}</label>
+        <md-select ng-model="selectedFilters" multiple>
+            <md-optgroup>
+                <md-option ng-value="filter" ng-repeat="filter in availableFilters">{{'search-management.filter.' + filter | translate}}</md-option>
+            </md-optgroup>
+        </md-select>
+    </md-input-container>
+</div>
+<div ng-if="selectedFilters && selectedFilters.length !== 0" layout="column" style="margin: 0px 16px 0px 16px;">
     <study-search-filter ng-if="selectedFilters.includes('study')" current-language="currentLanguage" current-search-params="currentSearchParams" study-changed-callback="onOneFilterChanged" bowser="bowser"></study-search-filter>
     <dataset-search-filter ng-if="selectedFilters.includes('data-set')" current-language="currentLanguage" current-search-params="currentSearchParams" dataset-changed-callback="onOneFilterChanged" bowser="bowser"></dataset-search-filter>
-    <question-search-filter ng-if="selectedFilters.includes('question')" current-language="currentLanguage" current-search-params="currentSearchParams" question-changed-callback="onOneFilterChanged" bowser="bowser"></question-search-filter>
-    <related-publication-search-filter ng-if="selectedFilters.includes('related-publication')" current-language="currentLanguage" current-search-params="currentSearchParams" related-publication-changed-callback="onOneFilterChanged" bowser="bowser"></related-publication-search-filter>
     <access-way-search-filter ng-if="selectedFilters.includes('access-way')" current-language="currentLanguage" current-search-params="currentSearchParams" access-way-changed-callback="onOneFilterChanged" bowser="bowser"></access-way-search-filter>
     <panel-identifier-search-filter ng-if="selectedFilters.includes('panel-identifier')" current-language="currentLanguage" current-search-params="currentSearchParams" panel-identifier-changed-callback="onOneFilterChanged" bowser="bowser"></panel-identifier-search-filter>
+    <question-search-filter ng-if="selectedFilters.includes('question')" current-language="currentLanguage" current-search-params="currentSearchParams" question-changed-callback="onOneFilterChanged" bowser="bowser"></question-search-filter>
+    <related-publication-search-filter ng-if="selectedFilters.includes('related-publication')" current-language="currentLanguage" current-search-params="currentSearchParams" related-publication-changed-callback="onOneFilterChanged" bowser="bowser"></related-publication-search-filter>
 </div>

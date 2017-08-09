@@ -81,6 +81,23 @@ angular.module('metadatamanagementApp').config(
           'survey-tooltip': 'Click to show survey "{{id}}"',
           'study-tooltip': 'Click to show study "{{id}}"',
           'publication-tooltip': 'Click to show publication "{{id}}"'
+        },
+        'filter': {
+          'study': 'Study Filter',
+          'data-set': 'Data Set Filter',
+          'question': 'Question Filter',
+          'related-publication': 'Publication Filter',
+          'panel-identifier': 'Panel Identifier Filter',
+          'access-way': 'Access Way Filter',
+          'input-label': {
+            'studies': 'Filter for Study Search...',
+            'surveys': 'Filter for Survey Search...',
+            'instruments': 'Filter for Instrument Search...',
+            'questions': 'Filter for Question Search...',
+            'data_sets': 'Filter for Data Set Search...',
+            'variables': 'Filter for Variable Search...',
+            'related_publications': 'Filter for Publication Search...'
+          }
         }
       }
       //jscs:enable

@@ -1,14 +1,14 @@
 <div ng-form="relatedPublicationFilterForm" layout="row" layout-align="center center">
-  <md-autocomplete class="fdz-search-filter-component" md-input-name="relatedPublicationFilter" md-floating-label="Publikation" flex md-min-length="0" md-require-match="true" md-select-on-match="true" md-selected-item="currentRelatedPublication" md-selected-item-change="onSelectionChanged(currentRelatedPublication)" md-search-text="searchText" md-items="item in searchRelatedPublications(searchText)" md-item-text="item._source.title + ' (' + item._source.id + ')'" md-clear-button="true" md-no-cache="true">
+  <md-autocomplete class="fdz-search-filter-component" md-input-name="relatedPublicationFilter" md-floating-label="{{'search-management.filter.related-publication' | translate}}" flex md-min-length="0" md-require-match="true" md-select-on-match="true" md-selected-item="currentRelatedPublication" md-selected-item-change="onSelectionChanged(currentRelatedPublication)" md-search-text="searchText" md-items="item in searchRelatedPublications(searchText)" md-item-text="item._source.title + ' (' + item._source.id + ')'" md-clear-button="true" md-no-cache="true">
     <md-item-template>
       <span class="md-title" style="font-size: 14px;">{{item._source.title}}</span>
       <span class="label label-as-badge label-default">{{item._source.id}}</span>
     </md-item-template>
     <md-not-found>
-      Not found
+      Keine Publikation gefunden!
     </md-not-found>
     <div ng-messages="relatedPublicationFilterForm.relatedPublicationFilter.$error">
-        <div ng-message="md-require-match">Keine Publikation ausgewählt</div>
+        <div ng-message="md-require-match">Keine gültige Publikation ausgewählt!</div>
     </div>
   </md-autocomplete>
 </div>

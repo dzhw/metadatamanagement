@@ -1,13 +1,13 @@
 <div ng-form="accessWayFilterForm" layout="row" layout-align="center center">
-  <md-autocomplete class="fdz-search-filter-component" md-input-name="accessWayFilter" md-floating-label="Zugangsweg" flex md-min-length="0" md-require-match="true" md-select-on-match="true" md-selected-item="currentAccessWay" md-selected-item-change="onSelectionChanged(currentAccessWay)" md-search-text="searchText" md-items="item in searchAccessWays(searchText)" md-item-text="item" md-clear-button="true" md-no-cache="true">
+  <md-autocomplete class="fdz-search-filter-component" md-input-name="accessWayFilter" md-floating-label="{{'search-management.filter.access-way' | translate}}" flex md-min-length="0" md-require-match="true" md-select-on-match="true" md-selected-item="currentAccessWay" md-selected-item-change="onSelectionChanged(currentAccessWay)" md-search-text="searchText" md-items="item in searchAccessWays(searchText)" md-item-text="item" md-clear-button="true" md-no-cache="true">
     <md-item-template>
       <span class="md-title" style="font-size: 14px;">{{item}}</span>
     </md-item-template>
     <md-not-found>
-      Not found
+      Kein Zugangsweg gefunden!
     </md-not-found>
     <div ng-messages="accessWayFilterForm.accessWayFilter.$error">
-        <div ng-message="md-require-match">Kein Zugangsweg ausgewählt</div>
+        <div ng-message="md-require-match">Kein gültiger Zugangsweg ausgewählt!</div>
     </div>
   </md-autocomplete>
 </div>

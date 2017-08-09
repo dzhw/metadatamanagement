@@ -3,31 +3,41 @@
 
 angular.module('metadatamanagementApp')
   .controller('SearchFilterPanelController', [
-    '$scope', 'CleanJSObjectService', 'SearchFilterHelperService',
-    function($scope, CleanJSObjectService, SearchFilterHelperService) {
-      $scope.isFilterActive = !CleanJSObjectService.isNullOrEmpty(
-        $scope.currentSearchParams.filter);
-      $scope.filterPanelClosed = !$scope.isFilterActive;
-      $scope.toggleFilterPanelClosed = function() {
-        $scope.filterPanelClosed = !$scope.filterPanelClosed;
-      };
-
+    '$scope', 'SearchFilterHelperService', '$timeout',
+    function($scope, SearchFilterHelperService, $timeout) {
+      var elasticSearchTypeChanged = false;
       $scope.$watch('currentElasticsearchType', function() {
+        elasticSearchTypeChanged = true;
         $scope.availableFilters = SearchFilterHelperService.getAvailableFilters(
           $scope.currentElasticsearchType);
 
         $scope.selectedFilters = [];
-        $scope.isFilterActive = !CleanJSObjectService.isNullOrEmpty(
-            $scope.currentSearchParams.filter);
-        if ($scope.isFilterActive) {
-          $scope.selectedFilters = _.keys($scope.currentSearchParams.filter);
+        if ($scope.currentSearchParams.filter) {
+          $scope.selectedFilters = _.intersection(
+            _.keys($scope.currentSearchParams.filter), $scope.availableFilters);
         }
+        $timeout(function() {
+          elasticSearchTypeChanged = false;
+        });
       });
 
       $scope.onOneFilterChanged = function() {
-        $scope.isFilterActive = !CleanJSObjectService.isNullOrEmpty(
-          $scope.currentSearchParams.filter);
         $scope.filterChangedCallback();
       };
+
+      $scope.$watch('selectedFilters', function(newSelectedFilters,
+        oldSelectedFilters) {
+        if (elasticSearchTypeChanged) {
+          return;
+        }
+        var unselectedFilters = _.difference(
+          oldSelectedFilters, newSelectedFilters);
+        if ($scope.currentSearchParams.filter && unselectedFilters.length > 0) {
+          unselectedFilters.forEach(function(unselectedFilter) {
+            delete $scope.currentSearchParams.filter[unselectedFilter];
+          });
+          $scope.filterChangedCallback();
+        }
+      });
     }
   ]);
