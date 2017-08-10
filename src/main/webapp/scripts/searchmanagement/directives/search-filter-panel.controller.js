@@ -3,8 +3,9 @@
 
 angular.module('metadatamanagementApp')
   .controller('SearchFilterPanelController', [
-    '$scope', 'SearchFilterHelperService', '$timeout',
-    function($scope, SearchFilterHelperService, $timeout) {
+    '$scope', 'SearchFilterHelperService', '$timeout', 'StudyIdBuilderService',
+    function($scope, SearchFilterHelperService, $timeout,
+      StudyIdBuilderService) {
       var elasticSearchTypeChanged = false;
       $scope.$watch('currentElasticsearchType', function() {
         elasticSearchTypeChanged = true;
@@ -39,5 +40,28 @@ angular.module('metadatamanagementApp')
           $scope.filterChangedCallback();
         }
       });
+
+      $scope.$on('current-project-changed',
+          function(event, currentProject) { // jshint ignore:line
+            if (currentProject) {
+              if (!$scope.currentSearchParams.filter) {
+                $scope.currentSearchParams.filter = {};
+              }
+              $scope.currentSearchParams.filter.study =
+                StudyIdBuilderService.buildStudyId(currentProject.id);
+              if (!_.includes($scope.selectedFilters, 'study')) {
+                $timeout(function() {
+                  $scope.selectedFilters.push('study');
+                });
+              }
+            } else {
+              if (_.includes($scope.selectedFilters, 'study')) {
+                _.remove($scope.selectedFilters, function(selectedFilter) {
+                  return selectedFilter === 'study';
+                });
+                delete $scope.currentSearchParams.filter.study;
+              }
+            }
+          });
     }
   ]);

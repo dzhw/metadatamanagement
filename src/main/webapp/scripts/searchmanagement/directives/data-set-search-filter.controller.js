@@ -4,13 +4,22 @@
 angular.module('metadatamanagementApp')
   .controller('DataSetSearchFilterController', [
     '$scope', 'SearchDao', 'DataSetSearchService', '$timeout',
-    function($scope, SearchDao, DataSetSearchService, $timeout) {
+    'CurrentProjectService',
+    function($scope, SearchDao, DataSetSearchService, $timeout,
+      CurrentProjectService) {
       // prevent data-set changed events during init
       var initializing = true;
+      var selectionChanging = false;
       var lastSearchText;
       var lastFilter;
+      var lastProjectId;
       var lastSearchResult;
       var init = function() {
+        if (selectionChanging) {
+          selectionChanging = false;
+          return;
+        }
+        initializing = true;
         if ($scope.currentSearchParams.filter &&
           $scope.currentSearchParams.filter['data-set']) {
           DataSetSearchService.findOneById(
@@ -42,6 +51,11 @@ angular.module('metadatamanagementApp')
         }
       };
       $scope.onSelectionChanged = function(dataSet) {
+        if (initializing) {
+          initializing = false;
+          return;
+        }
+        selectionChanging = true;
         if (!$scope.currentSearchParams.filter) {
           $scope.currentSearchParams.filter = {};
         }
@@ -50,30 +64,33 @@ angular.module('metadatamanagementApp')
         } else {
           delete $scope.currentSearchParams.filter['data-set'];
         }
-        if (!initializing) {
-          $scope.datasetChangedCallback();
-        }
-        initializing = false;
+        $scope.datasetChangedCallback();
       };
 
       $scope.searchDataSets = function(searchText) {
         var cleanedFilter = _.omit($scope.currentSearchParams.filter,
           'data-set');
+        var currentProjectId = CurrentProjectService.getCurrentProject() ?
+          CurrentProjectService.getCurrentProject().id : null;
         if (searchText === lastSearchText &&
-          _.isEqual(lastFilter, cleanedFilter)) {
+          _.isEqual(lastFilter, cleanedFilter) &&
+          lastProjectId === currentProjectId) {
           return lastSearchResult;
         }
         return SearchDao.search(searchText, 1,
-            undefined, cleanedFilter,
+            currentProjectId, cleanedFilter,
             'data_sets',
             100).then(function(data) {
               lastSearchText = searchText;
               lastFilter = _.cloneDeep(cleanedFilter);
+              lastProjectId = currentProjectId;
               lastSearchResult = data.hits.hits;
               return data.hits.hits;
             }
           );
       };
-      init();
+      $scope.$watch('currentSearchParams.filter["data-set"]', function() {
+        init();
+      });
     }
   ]);

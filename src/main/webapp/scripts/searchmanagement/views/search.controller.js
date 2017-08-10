@@ -178,7 +178,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
         currentProjectChangeIsBeingHandled = true;
         //wait for other events (logout, selectedTabIndex)
         $timeout(function() {
-          $scope.searchParams.filter = undefined;
           if (currentProject) {
             $scope.currentProject = currentProject;
           } else {

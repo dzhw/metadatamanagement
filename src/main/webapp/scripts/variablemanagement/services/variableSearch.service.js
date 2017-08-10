@@ -131,34 +131,59 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
       }
       return ElasticSearchClient.count(query);
     };
-    var findAccessWays = function(term, filter) {
+
+    var createTermFilters = function(filter, dataAcquisitionProjectId) {
+      var termFilter;
+      if (!CleanJSObjectService.isNullOrEmpty(filter) ||
+        !CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
+        termFilter = [];
+      }
+      if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
+        var projectFilter = {
+          term: {
+            dataAcquisitionProjectId: dataAcquisitionProjectId
+          }
+        };
+        termFilter.push(projectFilter);
+      }
+      if (!CleanJSObjectService.isNullOrEmpty(filter)) {
+        termFilter = _.concat(termFilter,
+          SearchFilterHelperService.createTermFilters('variables', filter));
+      }
+      return termFilter;
+    };
+
+    var findAccessWays = function(term, filter, dataAcquisitionProjectId) {
       var query = createQueryObject();
+      var termFilters = createTermFilters(filter, dataAcquisitionProjectId);
       query.body = {
         'size': 0,
         'aggs': {
             'accessWays': {
                 'terms': {
                   'field': 'accessWays',
-                  'include': term + '.*'
+                  'include': '.*' + term + '.*'
                 }
               }
           }
       };
-      if (!CleanJSObjectService.isNullOrEmpty(filter)) {
+
+      if (termFilters) {
         query.body.query = {
           bool: {
           }
         };
-        query.body.query.bool.filter = SearchFilterHelperService
-          .createTermFilters('variables', filter);
+        query.body.query.bool.filter = termFilters;
       }
       return ElasticSearchClient.search(query).then(function(result) {
         return _.map(result.aggregations.accessWays.buckets, 'key');
       });
     };
 
-    var findPanelIdentifiers = function(term, filter) {
+    var findPanelIdentifiers = function(term, filter,
+      dataAcquisitionProjectId) {
       var query = createQueryObject();
+      var termFilters = createTermFilters(filter, dataAcquisitionProjectId);
       query.body = {
         'size': 0,
         'aggs': {
@@ -170,14 +195,15 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
               }
           }
       };
-      if (!CleanJSObjectService.isNullOrEmpty(filter)) {
+
+      if (termFilters) {
         query.body.query = {
           bool: {
           }
         };
-        query.body.query.bool.filter = SearchFilterHelperService
-          .createTermFilters('variables', filter);
+        query.body.query.bool.filter = termFilters;
       }
+
       return ElasticSearchClient.search(query).then(function(result) {
         return _.map(result.aggregations.panelIdentifiers.buckets, 'key');
       });
