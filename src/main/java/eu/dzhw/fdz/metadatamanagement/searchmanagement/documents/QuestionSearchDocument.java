@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataSetSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.InstrumentSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
@@ -22,6 +23,8 @@ public class QuestionSearchDocument extends Question {
       new ArrayList<SurveySubDocument>();
   private List<VariableSubDocument> variables = 
       new ArrayList<VariableSubDocument>();
+  private List<DataSetSubDocument> dataSets = 
+      new ArrayList<DataSetSubDocument>();
   private List<RelatedPublicationSubDocument> relatedPublications = 
       new ArrayList<RelatedPublicationSubDocument>();
   private Release release = null;
@@ -39,7 +42,8 @@ public class QuestionSearchDocument extends Question {
   public QuestionSearchDocument(Question question, 
       StudySubDocumentProjection study, 
       InstrumentSubDocumentProjection instrument,
-      List<SurveySubDocumentProjection> surveys, List<VariableSubDocumentProjection> variables, 
+      List<SurveySubDocumentProjection> surveys, List<VariableSubDocumentProjection> variables,
+      List<DataSetSubDocumentProjection> dataSets,
       List<RelatedPublicationSubDocumentProjection> relatedPublications,
       Release release) {
     super(question);
@@ -56,6 +60,10 @@ public class QuestionSearchDocument extends Question {
     if (variables != null) {
       this.variables = variables.stream()
           .map(VariableSubDocument::new).collect(Collectors.toList());
+    }
+    if (dataSets != null) {
+      this.dataSets = dataSets.stream()
+          .map(DataSetSubDocument::new).collect(Collectors.toList());
     }
     if (relatedPublications != null) {
       this.relatedPublications = relatedPublications.stream()
@@ -94,6 +102,14 @@ public class QuestionSearchDocument extends Question {
 
   public void setVariables(List<VariableSubDocument> variables) {
     this.variables = variables;
+  }
+  
+  public List<DataSetSubDocument> getDataSets() {
+    return dataSets;
+  }
+
+  public void setDataSets(List<DataSetSubDocument> dataSets) {
+    this.dataSets = dataSets;
   }
 
   public List<RelatedPublicationSubDocument> getRelatedPublications() {

@@ -4,9 +4,28 @@
 angular.module('metadatamanagementApp')
   .controller('SearchFilterPanelController', [
     '$scope', 'SearchFilterHelperService', '$timeout', 'StudyIdBuilderService',
+    'CurrentProjectService',
     function($scope, SearchFilterHelperService, $timeout,
-      StudyIdBuilderService) {
+      StudyIdBuilderService, CurrentProjectService) {
       var elasticSearchTypeChanged = false;
+
+      var selectStudyForProject = function() {
+        if (!_.includes($scope.availableFilters, 'study')) {
+          return;
+        }
+        var currentProject = CurrentProjectService.getCurrentProject();
+        if (currentProject) {
+          if (!$scope.currentSearchParams.filter) {
+            $scope.currentSearchParams.filter = {};
+          }
+          $scope.currentSearchParams.filter.study =
+            StudyIdBuilderService.buildStudyId(currentProject.id);
+          if (!_.includes($scope.selectedFilters, 'study')) {
+            $scope.selectedFilters.push('study');
+          }
+        }
+      };
+
       $scope.$watch('currentElasticsearchType', function() {
         elasticSearchTypeChanged = true;
         $scope.availableFilters = SearchFilterHelperService.getAvailableFilters(
@@ -17,6 +36,7 @@ angular.module('metadatamanagementApp')
           $scope.selectedFilters = _.intersection(
             _.keys($scope.currentSearchParams.filter), $scope.availableFilters);
         }
+        selectStudyForProject();
         $timeout(function() {
           elasticSearchTypeChanged = false;
         });
@@ -41,27 +61,18 @@ angular.module('metadatamanagementApp')
         }
       });
 
-      $scope.$on('current-project-changed',
-          function(event, currentProject) { // jshint ignore:line
-            if (currentProject) {
-              if (!$scope.currentSearchParams.filter) {
-                $scope.currentSearchParams.filter = {};
-              }
-              $scope.currentSearchParams.filter.study =
-                StudyIdBuilderService.buildStudyId(currentProject.id);
-              if (!_.includes($scope.selectedFilters, 'study')) {
-                $timeout(function() {
-                  $scope.selectedFilters.push('study');
-                });
-              }
-            } else {
-              if (_.includes($scope.selectedFilters, 'study')) {
-                _.remove($scope.selectedFilters, function(selectedFilter) {
-                  return selectedFilter === 'study';
-                });
-                delete $scope.currentSearchParams.filter.study;
-              }
-            }
-          });
+      $scope.$on('current-project-changed', function() {
+        var currentProject = CurrentProjectService.getCurrentProject();
+        if (currentProject) {
+          selectStudyForProject();
+        } else {
+          if (_.includes($scope.selectedFilters, 'study')) {
+            _.remove($scope.selectedFilters, function(selectedFilter) {
+              return selectedFilter === 'study';
+            });
+            delete $scope.currentSearchParams.filter.study;
+          }
+        }
+      });
     }
   ]);

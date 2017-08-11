@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.InstrumentSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.projections.QuestionSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projections.RelatedPublicationSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.SurveySubDocumentProjection;
@@ -21,6 +23,10 @@ public class DataSetSearchDocument extends DataSet {
   private StudySubDocument study = null;
   private List<VariableSubDocument> variables = 
       new ArrayList<VariableSubDocument>();
+  private List<InstrumentSubDocument> instruments = 
+      new ArrayList<InstrumentSubDocument>();
+  private List<QuestionSubDocument> questions = 
+      new ArrayList<QuestionSubDocument>();
   private List<RelatedPublicationSubDocument> relatedPublications = 
       new ArrayList<RelatedPublicationSubDocument>();
   private List<SurveySubDocument> surveys = 
@@ -34,6 +40,8 @@ public class DataSetSearchDocument extends DataSet {
    * @param variables The variables available in this data set.
    * @param relatedPublications The related publications using this data set.
    * @param surveys The surveys using this data set.
+   * @param instruments The instruments used to create this data set.
+   * @param questions The questions used to create this data set.
    */
   @SuppressWarnings("CPD-START")
   public DataSetSearchDocument(DataSet dataSet, 
@@ -41,6 +49,8 @@ public class DataSetSearchDocument extends DataSet {
       List<VariableSubDocumentProjection> variables,
       List<RelatedPublicationSubDocumentProjection> relatedPublications, 
       List<SurveySubDocumentProjection> surveys,
+      List<InstrumentSubDocumentProjection> instruments,
+      List<QuestionSubDocumentProjection> questions,
       Release release) {
     super(dataSet);
     if (study != null) {
@@ -57,6 +67,14 @@ public class DataSetSearchDocument extends DataSet {
     if (surveys != null) {
       this.surveys = surveys.stream()
           .map(SurveySubDocument::new).collect(Collectors.toList());
+    }
+    if (instruments != null) {
+      this.instruments = instruments.stream()
+          .map(InstrumentSubDocument::new).collect(Collectors.toList());      
+    }
+    if (questions != null) {
+      this.questions = questions.stream()
+          .map(QuestionSubDocument::new).collect(Collectors.toList());      
     }
     this.release = release;
   }
@@ -91,6 +109,22 @@ public class DataSetSearchDocument extends DataSet {
 
   public void setSurveys(List<SurveySubDocument> surveys) {
     this.surveys = surveys;
+  }
+  
+  public List<InstrumentSubDocument> getInstruments() {
+    return instruments;
+  }
+
+  public void setInstruments(List<InstrumentSubDocument> instruments) {
+    this.instruments = instruments;
+  }
+  
+  public List<QuestionSubDocument> getQuestion() {
+    return questions;
+  }
+
+  public void setQuestions(List<QuestionSubDocument> questions) {
+    this.questions = questions;
   }
 
   public Release getRelease() {

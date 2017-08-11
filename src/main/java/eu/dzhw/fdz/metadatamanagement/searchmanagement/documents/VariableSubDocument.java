@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 import org.springframework.beans.BeanUtils;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.VariableSubDocumentProjection;
 
 /**
@@ -33,6 +34,11 @@ public class VariableSubDocument implements VariableSubDocumentProjection {
   public VariableSubDocument(VariableSubDocumentProjection projection) {
     super();
     BeanUtils.copyProperties(projection, this);
+  }
+  
+  public VariableSubDocument(Variable variable) {
+    super();
+    BeanUtils.copyProperties(variable, this);
   }
   
   public String getId() {

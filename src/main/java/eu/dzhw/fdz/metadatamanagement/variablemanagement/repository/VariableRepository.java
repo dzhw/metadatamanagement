@@ -72,7 +72,7 @@ public interface VariableRepository
   List<VariableSubDocumentProjection> findSubDocumentsBySurveyIdsContaining(String surveyId);
 
   @RestResource(exported = false)
-  List<VariableSubDocumentProjection> findSubDocumentsByDataSetId(String dataSetId);
+  List<Variable> findByDataSetId(String dataSetId);
 
   @RestResource(exported = false)
   List<VariableSubDocumentProjection> findSubDocumentsByRelatedQuestionsInstrumentId(

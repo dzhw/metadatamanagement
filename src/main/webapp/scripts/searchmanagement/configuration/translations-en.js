@@ -89,6 +89,9 @@ angular.module('metadatamanagementApp').config(
           'related-publication': 'Publication Filter',
           'panel-identifier': 'Panel Identifier Filter',
           'access-way': 'Access Way Filter',
+          'instrument': 'Instrument Filter',
+          'variable': 'Variable Filter',
+          'survey': 'Survey Filter',
           'input-label': {
             'studies': 'Filter for Study Search...',
             'surveys': 'Filter for Survey Search...',

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataSetSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.projections.QuestionSubDocumentProjection;
@@ -25,6 +26,8 @@ public class InstrumentSearchDocument extends Instrument {
       new ArrayList<QuestionSubDocument>();
   private List<VariableSubDocument> variables = 
       new ArrayList<VariableSubDocument>();
+  private List<DataSetSubDocument> dataSets = 
+      new ArrayList<DataSetSubDocument>();
   private List<RelatedPublicationSubDocument> relatedPublications = 
       new ArrayList<RelatedPublicationSubDocument>();
   private Release release = null;
@@ -44,6 +47,7 @@ public class InstrumentSearchDocument extends Instrument {
       List<SurveySubDocumentProjection> surveys,
       List<QuestionSubDocumentProjection> questions, 
       List<VariableSubDocumentProjection> variables,
+      List<DataSetSubDocumentProjection> dataSets,
       List<RelatedPublicationSubDocumentProjection> relatedPublications,
       Release release) {
     super(instrument);
@@ -61,6 +65,10 @@ public class InstrumentSearchDocument extends Instrument {
     if (variables != null) {
       this.variables = variables.stream()
           .map(VariableSubDocument::new).collect(Collectors.toList());      
+    }
+    if (dataSets != null) {
+      this.dataSets = dataSets.stream()
+          .map(DataSetSubDocument::new).collect(Collectors.toList());      
     }
     if (relatedPublications != null) {
       this.relatedPublications = relatedPublications.stream()
@@ -99,6 +107,14 @@ public class InstrumentSearchDocument extends Instrument {
 
   public void setVariables(List<VariableSubDocument> variables) {
     this.variables = variables;
+  }
+  
+  public List<DataSetSubDocument> getDataSets() {
+    return dataSets;
+  }
+
+  public void setDataSets(List<DataSetSubDocument> dataSets) {
+    this.dataSets = dataSets;
   }
 
   public List<RelatedPublicationSubDocument> getRelatedPublications() {
