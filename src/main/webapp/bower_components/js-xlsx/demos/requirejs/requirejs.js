@@ -1,4 +1,4 @@
-require(["xlsx.full"], function(_XLSX) {
+require(["xlsx.full.min"], function(_XLSX) {
 var X = XLSX;
 
 var rABS = typeof FileReader !== "undefined" && typeof FileReader.prototype !== "undefined" && typeof FileReader.prototype.readAsBinaryString !== "undefined";

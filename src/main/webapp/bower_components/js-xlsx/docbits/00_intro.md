@@ -13,7 +13,7 @@ enhancements, additional features by request, and dedicated support.
 
 [**Commercial Support**](http://sheetjs.com/support)
 
-[**Rendered Documentation**](https://sheetjs.gitbooks.io/docs/)
+[**Rendered Documentation**](http://docs.sheetjs.com/)
 
 [**In-Browser Demos**](http://sheetjs.com/demos)
 

@@ -13,7 +13,7 @@ enhancements, additional features by request, and dedicated support.
 
 [**Commercial Support**](http://sheetjs.com/support)
 
-[**Rendered Documentation**](https://sheetjs.gitbooks.io/docs/)
+[**Rendered Documentation**](http://docs.sheetjs.com/)
 
 [**In-Browser Demos**](http://sheetjs.com/demos)
 
@@ -167,17 +167,24 @@ CDNjs automatically pulls the latest version and makes all versions available at
 
 The `demos` directory includes sample projects for:
 
+**Frameworks**
 - [`angular 1.x`](demos/angular/)
 - [`angular 2.x / 4.x`](demos/angular2/)
-- [`browserify`](demos/browserify/)
-- [`Adobe ExtendScript`](demos/extendscript/)
 - [`meteor`](demos/meteor/)
-- [`phantomjs`](demos/phantomjs/)
+- [`vue 2`](demos/vue/)
+
+**JS Bundlers and Tooling**
+- [`browserify`](demos/browserify/)
 - [`requirejs`](demos/requirejs/)
 - [`rollup`](demos/rollup/)
 - [`systemjs`](demos/systemjs/)
-- [`vue 2`](demos/vue/)
 - [`webpack`](demos/webpack/)
+
+**JS Platforms and Integrations**
+- [`Adobe ExtendScript`](demos/extendscript/)
+- [`phantomjs`](demos/phantomjs/)
+- [`canvas-datagrid`](demos/datagrid/)
+- [`Other JS engines`](demos/altjs/)
 
 ### Optional Modules
 
@@ -234,7 +241,7 @@ Excel 2007, nothing outside of SheetJS or Excel supported the format.
 
 To promote a format-agnostic view, js-xlsx starts from a pure-JS representation
 that we call the ["Common Spreadsheet Format"](#common-spreadsheet-format).
-Emphasizing a uniform object representation enables radical features like format
+Emphasizing a uniform object representation enables new features like format
 conversion (e.g. reading an XLSX template and saving as XLS) and circumvents the
 "class trap".  By abstracting the complexities of the various formats, tools
 need not worry about the specific file type!
@@ -439,7 +446,7 @@ On Windows XP and up you can get the base64 encoding using `certutil`:
 The most common and interesting formats (XLS, XLSX/M, XLSB, ODS) are ultimately
 ZIP or CFB containers of files.  Neither format puts the directory structure at
 the beginning of the file: ZIP files place the Central Directory records at the
-end of the logical file, while CFB files can place the FAT structure anywhere in
+end of the logical file, while CFB files can place the storage info anywhere in
 the file! As a result, to properly handle these formats, a streaming function
 would have to buffer the entire file before commencing.  That belies the
 expectations of streaming, so we do not provide any streaming read API.
@@ -667,7 +674,8 @@ Write options are described in the [Writing Options](#writing-options) section.
 
 ### Utilities
 
-Utilities are available in the `XLSX.utils` object:
+Utilities are available in the `XLSX.utils` object and are described in the
+[Utility Functions](#utility-functions) section:
 
 **Importing:**
 
@@ -682,8 +690,6 @@ Utilities are available in the `XLSX.utils` object:
 - `sheet_to_html` generates HTML output.
 - `sheet_to_formulae` generates a list of the formulae (with value fallbacks).
 
-These utilities are described in [Utility Functions](#utility-functions) below.
-
 
 **Cell and cell address manipulation:**
 
@@ -691,8 +697,6 @@ These utilities are described in [Utility Functions](#utility-functions) below.
 - `{en,de}code_{row,col}` convert between 0-indexed rows/cols and A1 forms.
 - `{en,de}code_cell` converts cell addresses
 - `{en,de}code_range` converts cell ranges
-
-Utilities are described in the [Utility Functions](#utility-functions) section.
 
 ## Common Spreadsheet Format
 
@@ -1381,6 +1385,7 @@ The exported `read` and `readFile` functions accept an options argument:
 | Option Name | Default | Description                                          |
 | :---------- | ------: | :--------------------------------------------------- |
 | type        |         | Input data encoding (see Input Type below)           |
+| raw         |         | If true, plaintext parsing will not parse values **  |
 | cellFormula | true    | Save formulae to the .f field                        |
 | cellHTML    | true    | Parse rich text and save HTML to the `.h` field      |
 | cellNF      | false   | Save number format string to the `.z` field          |
@@ -1400,6 +1405,8 @@ The exported `read` and `readFile` functions accept an options argument:
 
 - Even if `cellNF` is false, formatted text will be generated and saved to `.w`
 - In some cases, sheets may be parsed even if `bookSheets` is false.
+- Excel aggressively tries to interpret values from CSV and other plaintext.
+  This leads to surprising behavior! The `raw` option suppresses value parsing.
 - `bookSheets` and `bookProps` combine to give both sets of information
 - `Deps` will be an empty object if `bookDeps` is falsy
 - `bookFiles` behavior depends on file type:
@@ -1446,8 +1453,13 @@ file but Excel will know how to handle it.  This library applies similar logic:
 | `0x50` | ZIP Archive   | XLSB or XLSX/M or ODS or UOS2 or plaintext          |
 | `0x49` | Plain Text    | SYLK or plaintext                                   |
 | `0x54` | Plain Text    | DIF or plaintext                                    |
-| `0xFE` | UTF16 Encoded | SpreadsheetML or Flat ODS or UOS1 or plaintext      |
+| `0xEF` | UTF8 Encoded  | SpreadsheetML / Flat ODS / UOS1 / HTML / plaintext  |
+| `0xFF` | UTF16 Encoded | SpreadsheetML / Flat ODS / UOS1 / HTML / plaintext  |
 | `0x00` | Record Stream | Lotus WK\* or Quattro Pro or plaintext              |
+| `0x0A` | Plaintext     | RTF or plaintext                                    |
+| `0x0A` | Plaintext     | SpreadsheetML / Flat ODS / UOS1 / HTML / plaintext  |
+| `0x0D` | Plaintext     | SpreadsheetML / Flat ODS / UOS1 / HTML / plaintext  |
+| `0x20` | Plaintext     | SpreadsheetML / Flat ODS / UOS1 / HTML / plaintext  |
 
 DBF files are detected based on the first byte as well as the third and fourth
 bytes (corresponding to month and day of the file date)
@@ -1456,12 +1468,16 @@ Plaintext format guessing follows the priority order:
 
 | Format | Test                                                                |
 |:-------|:--------------------------------------------------------------------|
-| HTML   | starts with `<html`                                                 |
+| XML    | `<?xml` appears in the first 1024 characters                        |
+| HTML   | starts with `<` and HTML tags appear in the first 1024 characters * |
 | XML    | starts with `<`                                                     |
+| RTF    | starts with `{\rt`                                                  |
 | DSV    | starts with `/sep=.$/`, separator is the specified character        |
 | TSV    | one of the first 1024 characters is a tab char `"\t"`               |
 | CSV    | one of the first 1024 characters is a comma char `","`              |
 | PRN    | (default)                                                           |
+
+- HTML tags include: `html`, `table`, `head`, `meta`, `script`, `style`, `div`
 
 </details>
 
@@ -1504,7 +1520,7 @@ The exported `write` and `writeFile` functions accept an options argument:
   in this README may not be serialized.
 - `cellDates` only applies to XLSX output and is not guaranteed to work with
   third-party readers.  Excel itself does not usually write cells with type `d`
-  so non-Excel tools may ignore the data or blow up in the presence of dates.
+  so non-Excel tools may ignore the data or error in the presence of dates.
 - `Props` is an object mirroring the workbook `Props` field.  See the table from
   the [Workbook File Properties](#workbook-file-properties) section.
 - if specified, the string from `themeXLSX` will be saved as the primary theme
@@ -1597,7 +1613,15 @@ var ws = XLSX.utils.aoa_to_sheet([
 ### Array of Objects Input
 
 `XLSX.utils.json_to_sheet` takes an array of objects and returns a worksheet
-with automatically-generated "headers" based on the keys of the objects.
+with automatically-generated "headers" based on the keys of the objects.  The
+default column order is determined by the first appearance of the field using
+`Object.keys`, but can be overridden using the options argument:
+
+| Option Name |  Default | Description                                         |
+| :---------- | :------: | :-------------------------------------------------- |
+| header      |          | Use specified column order (default `Object.keys`)  |
+| dateNF      |  fmt 14  | Use specified date format in string output          |
+| cellDates   |  false   | Store dates as type `d` (default is `n`)            |
 
 <details>
 	<summary><b>Examples</b> (click to show)</summary>
@@ -1609,7 +1633,7 @@ After replacing the second `e` and `S` with `e_1` and `S_1`:
 var ws = XLSX.utils.json_to_sheet([
 	{S:1,h:2,e:3,e_1:4,t:5,J:6,S_1:7},
 	{S:2,h:3,e:4,e_1:5,t:6,J:7,S_1:8}
-]);
+], {header:["S","h","e","e_1","t","J","S_1"]});
 ```
 </details>
 
@@ -1620,6 +1644,15 @@ resembling the input table.  Numbers are parsed.  All other data will be stored
 as strings.
 
 `XLSX.utils.table_to_book` produces a minimal workbook based on the worksheet.
+
+Both functions accept options arguments:
+
+| Option Name |  Default | Description                                         |
+| :---------- | :------: | :-------------------------------------------------- |
+| dateNF      |  fmt 14  | Use specified date format in string output          |
+| cellDates   |  false   | Store dates as type `d` (default is `n`)            |
+| raw         |          | If true, every cell will hold raw strings           |
+
 
 <details>
 	<summary><b>Examples</b> (click to show)</summary>
@@ -1675,6 +1708,7 @@ produces CSV output.  The function takes an options argument:
 | dateNF      |  fmt 14  | Use specified date format in string output          |
 | strip       |  false   | Remove trailing field separators in each record **  |
 | blankrows   |  true    | Include blank lines in the CSV output               |
+| skipHidden  |  false   | Skips hidden rows/columns in the CSV output         |
 
 - `strip` will remove trailing commas from each line under default `FS/RS`
 - blankrows must be set to `false` to skip blank lines.
@@ -1985,7 +2019,7 @@ standard, instead focusing on parts necessary to extract and store raw data.
 
 UOS is a very similar format, and it comes in 2 varieties corresponding to ODS
 and FODS respectively.  For the most part, the difference between the formats
-lies in the names of tags and attributes.
+is in the names of tags and attributes.
 
 </details>
 
@@ -2111,7 +2145,7 @@ Start a local server and navigate to that directory to run the tests.
 
 To run the full in-browser tests, clone the repo for
 [oss.sheetjs.com](https://github.com/SheetJS/SheetJS.github.io) and replace
-the xlsx.js file (then fire up the browser and go to `stress.html`):
+the xlsx.js file (then open a browser window and go to `stress.html`):
 
 ```bash
 $ cp xlsx.js ../SheetJS.github.io
@@ -2300,5 +2334,3 @@ granted by the Apache 2.0 License are reserved by the Original Author.
 - ISO/IEC 29500:2012(E) "Information technology — Document description and processing languages — Office Open XML File Formats"
 - Open Document Format for Office Applications Version 1.2 (29 September 2011)
 - Worksheet File Format (From Lotus) December 1984
-
-

@@ -45,7 +45,15 @@ var ws = XLSX.utils.aoa_to_sheet([
 ### Array of Objects Input
 
 `XLSX.utils.json_to_sheet` takes an array of objects and returns a worksheet
-with automatically-generated "headers" based on the keys of the objects.
+with automatically-generated "headers" based on the keys of the objects.  The
+default column order is determined by the first appearance of the field using
+`Object.keys`, but can be overridden using the options argument:
+
+| Option Name |  Default | Description                                         |
+| :---------- | :------: | :-------------------------------------------------- |
+| header      |          | Use specified column order (default `Object.keys`)  |
+| dateNF      |  fmt 14  | Use specified date format in string output          |
+| cellDates   |  false   | Store dates as type `d` (default is `n`)            |
 
 <details>
 	<summary><b>Examples</b> (click to show)</summary>
@@ -57,7 +65,7 @@ After replacing the second `e` and `S` with `e_1` and `S_1`:
 var ws = XLSX.utils.json_to_sheet([
 	{S:1,h:2,e:3,e_1:4,t:5,J:6,S_1:7},
 	{S:2,h:3,e:4,e_1:5,t:6,J:7,S_1:8}
-]);
+], {header:["S","h","e","e_1","t","J","S_1"]});
 ```
 </details>
 
@@ -68,6 +76,15 @@ resembling the input table.  Numbers are parsed.  All other data will be stored
 as strings.
 
 `XLSX.utils.table_to_book` produces a minimal workbook based on the worksheet.
+
+Both functions accept options arguments:
+
+| Option Name |  Default | Description                                         |
+| :---------- | :------: | :-------------------------------------------------- |
+| dateNF      |  fmt 14  | Use specified date format in string output          |
+| cellDates   |  false   | Store dates as type `d` (default is `n`)            |
+| raw         |          | If true, every cell will hold raw strings           |
+
 
 <details>
 	<summary><b>Examples</b> (click to show)</summary>
@@ -123,6 +140,7 @@ produces CSV output.  The function takes an options argument:
 | dateNF      |  fmt 14  | Use specified date format in string output          |
 | strip       |  false   | Remove trailing field separators in each record **  |
 | blankrows   |  true    | Include blank lines in the CSV output               |
+| skipHidden  |  false   | Skips hidden rows/columns in the CSV output         |
 
 - `strip` will remove trailing commas from each line under default `FS/RS`
 - blankrows must be set to `false` to skip blank lines.
