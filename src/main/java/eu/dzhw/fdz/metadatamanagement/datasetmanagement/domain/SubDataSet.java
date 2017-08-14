@@ -38,6 +38,10 @@ public class SubDataSet {
       message = "data-set-management.error.sub-data-set.description.i18n-string-not-empty")
   private I18nString description;
   
+  @I18nStringSize(max = StringLengths.LARGE,
+      message = "data-set-management.error.sub-data-set.citation-hint.i18n-string-size")
+  private I18nString citationHint;
+  
   public String getName() {
     return name;
   }
@@ -69,11 +73,22 @@ public class SubDataSet {
   public void setDescription(I18nString description) {
     this.description = description;
   }
+  
+  public I18nString getCitationHint() {
+    return citationHint;
+  }
+
+  public void setCitationHint(I18nString citationHint) {
+    this.citationHint = citationHint;
+  }
 
   @Override
   public String toString() {
     return "SubDataSet [name=" + name + ", numberOfObservations=" + numberOfObservations
-        + ", accessWay=" + accessWay + ", description=" + description + "]";
+        + ", accessWay=" + accessWay + ", description=" + description + ", citationHint="
+        + citationHint + "]";
   }
+
+  
 
 }

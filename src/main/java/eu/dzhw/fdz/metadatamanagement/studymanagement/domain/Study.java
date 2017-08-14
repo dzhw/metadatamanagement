@@ -84,11 +84,7 @@ public class Study extends AbstractRdcDomainObject {
   
   @Valid
   @NotEmpty(message = "study-management.error.study.authors.not-empty")
-  private List<Person> authors;
-  
-  @I18nStringSize(max = StringLengths.LARGE,
-      message = "study-management.error.study.citation-hint.i18n-string-size")
-  private I18nString citationHint;
+  private List<Person> authors;  
   
   @NotNull(message = "study-management.error.study.data-availability.not-null")
   @ValidDataAvailability(
@@ -195,21 +191,12 @@ public class Study extends AbstractRdcDomainObject {
       .add("institution", institution)
       .add("surveySeries", surveySeries)
       .add("sponsor", sponsor)
-      .add("citationHint", citationHint)
       .add("authors", authors)
       .add("dataAvailability", dataAvailability)
       .add("surveyDesign", surveyDesign)
       .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
       .add("annotations", annotations)
       .toString();
-  }
-  
-  public I18nString getCitationHint() {
-    return citationHint;
-  }
-
-  public void setCitationHint(I18nString citationHint) {
-    this.citationHint = citationHint;
   }
 
   public I18nString getDataAvailability() {
