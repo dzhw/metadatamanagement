@@ -3,9 +3,13 @@
     <md-input-container flex-gt-sm="50" flex class="fdz-search-input">
         <md-icon md-svg-src="/assets/images/icons/filter.svg"></md-icon>
         <label>{{'search-management.filter.input-label.' + currentElasticsearchType | translate}}</label>
-        <md-select ng-model="selectedFilters" multiple>
+        <md-select ng-model="selectedFilters" md-on-close="clearFilterSearchTerm()" multiple>
+            <md-select-header class="fdz-select-header">
+                <input id="searchFilterInput" ng-model="filterSearchTerm" type="search" placeholder="Suche nach Filtermöglichkeiten..." class="md-text fdz-select-header-searchbox">
+            </md-select-header>
             <md-optgroup>
-                <md-option ng-value="filter" ng-repeat="filter in availableFilters">{{'search-management.filter.' + filter | translate}}</md-option>
+                <md-option ng-value="filter" ng-repeat="filter in availableHiddenFilters | filterTranslatedValues:filterSearchTerm:'search-management.filter.'">{{'search-management.filter.' + filter | translate}}</md-option>
+                <md-option ng-value="filter" ng-repeat="filter in availableFilters | filterTranslatedValues:filterSearchTerm:'search-management.filter.'">{{'search-management.filter.' + filter | translate}}</md-option>
             </md-optgroup>
         </md-select>
     </md-input-container>

@@ -4,9 +4,10 @@
 angular.module('metadatamanagementApp')
   .controller('SearchFilterPanelController', [
     '$scope', 'SearchFilterHelperService', '$timeout', 'StudyIdBuilderService',
-    'CurrentProjectService',
+    'CurrentProjectService', '$element', 'CleanJSObjectService',
     function($scope, SearchFilterHelperService, $timeout,
-      StudyIdBuilderService, CurrentProjectService) {
+      StudyIdBuilderService, CurrentProjectService, $element,
+      CleanJSObjectService) {
       var elasticSearchTypeChanged = false;
 
       var selectStudyForProject = function() {
@@ -30,11 +31,17 @@ angular.module('metadatamanagementApp')
         elasticSearchTypeChanged = true;
         $scope.availableFilters = SearchFilterHelperService.getAvailableFilters(
           $scope.currentElasticsearchType);
-
+        $scope.availableHiddenFilters = _.intersection(
+          SearchFilterHelperService.getHiddenFilters(
+            $scope.currentElasticsearchType),
+            _.keys($scope.currentSearchParams.filter)
+        );
         $scope.selectedFilters = [];
         if ($scope.currentSearchParams.filter) {
           $scope.selectedFilters = _.intersection(
-            _.keys($scope.currentSearchParams.filter), $scope.availableFilters);
+            _.keys($scope.currentSearchParams.filter),
+            _.union($scope.availableFilters, $scope.availableHiddenFilters)
+          );
         }
         selectStudyForProject();
         $timeout(function() {
@@ -57,6 +64,8 @@ angular.module('metadatamanagementApp')
           unselectedFilters.forEach(function(unselectedFilter) {
             delete $scope.currentSearchParams.filter[unselectedFilter];
           });
+          $scope.availableHiddenFilters = _.difference(
+            $scope.availableHiddenFilters, unselectedFilters);
           $scope.filterChangedCallback();
         }
       });
@@ -74,5 +83,20 @@ angular.module('metadatamanagementApp')
           }
         }
       });
+
+      $element.find('#searchFilterInput').on('keydown', function(event) {
+          // close filter chooser on escape
+          if (event.keyCode === 27 &&
+            CleanJSObjectService.isNullOrEmpty($scope.filterSearchTerm)) {
+            return;
+          }
+          // The md-select directive eats keydown events for some quick select
+          // logic. Since we have a search input here, we don't need that logic.
+          event.stopPropagation();
+        });
+
+      $scope.clearFilterSearchTerm = function() {
+        $scope.filterSearchTerm = '';
+      };
     }
   ]);
