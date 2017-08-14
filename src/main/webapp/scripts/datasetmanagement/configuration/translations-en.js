@@ -183,6 +183,9 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-not-empty': 'The Description of the {{index}}. Sub Data Set must not be empty!',
               'i18n-string-size': 'The max length of the Name of the {{index}}. Sub Data Set is 32 signs.'
             },
+            'citation-hint': {
+              'i18n-string-size': 'The max length of the citation hint of the Sub Data Set is 2048.'
+            },
             'access-way': {
               'not-null': 'The value of Access Way of the {{index}}. Sub Data Set must not be empty!',
               'valid-access-way': 'The value of Access Way of the {{index}}. Sub Data Set is invalid. Valid values are: download-cuf, download-suf, remote-desktop-suf or onsite-suf.'

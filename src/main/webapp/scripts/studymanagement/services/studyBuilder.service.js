@@ -28,10 +28,6 @@ angular.module('metadatamanagementApp').service('StudyBuilderService',
           en: studyFromExcel['sponsor.en'],
           de: studyFromExcel['sponsor.de']
         },
-        citationHint: {
-          en: studyFromExcel['citationHint.en'],
-          de: studyFromExcel['citationHint.de']
-        },
         dataAvailability: {
           en: studyFromExcel['dataAvailability.en'],
           de: studyFromExcel['dataAvailability.de']

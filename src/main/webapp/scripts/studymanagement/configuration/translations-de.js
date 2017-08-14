@@ -122,9 +122,6 @@ angular.module('metadatamanagementApp').config(
             'sponsor': {
               'i18n-string-size': 'Die Maximallänge des Sponsors einer Studie ist 128 Zeichen.'
             },
-            'citation-hint': {
-              'i18n-string-size': 'Die Maximallänge des Zitationshinweises einer Studie ist 2048 Zeichen.'
-            },
             'survey-series': {
               'i18n-string-size': 'Die Maximallänge der Erhebungsreihe einer Studie ist 128 Zeichen.'
             },

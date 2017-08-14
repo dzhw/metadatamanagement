@@ -72,6 +72,10 @@ angular.module('metadatamanagementApp').service('DataSetBuilderService',
             de: subDataSet['description.de'],
             en: subDataSet['description.en']
           },
+          citationHint: {
+            en: subDataSet['citationHint.en'],
+            de: subDataSet['citationHint.de']
+          },
           accessWay: subDataSet.accessWay,
           numberOfObservations: parseInt(subDataSet.numberOfObservations),
           dataSetNumber: subDataSet.dataSetNumber
