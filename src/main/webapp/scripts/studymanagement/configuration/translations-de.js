@@ -25,7 +25,6 @@ angular.module('metadatamanagementApp').config(
           'version': 'Version der Datensätze',
           'notes': 'Notizen',
           'surveyDesign': 'Erhebungsdesign',
-          'citationHint': 'Zitation',
           'instruments': 'Instrumente',
           'annotations': 'Anmerkungen',
           'wave': 'Verfügbare  Wellen',

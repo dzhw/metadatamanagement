@@ -170,6 +170,11 @@
                             {{'data-set-management.detail.sub-data-sets.name' | translate }}
                           </md-tooltip>
                         </th>
+                        <th>{{'data-set-management.detail.sub-data-sets.citation-hint' | translate }}
+                            <md-tooltip hide-gt-xs md-direction="right">
+                                {{'data-set-management.detail.sub-data-sets.citation-hint' | translate }}
+                            </md-tooltip>
+                        </th>
                         <th>{{'data-set-management.detail.sub-data-sets.numberOfAnalyzedVariables' | translate }}
                             <md-tooltip hide-gt-xs md-direction="right">
                                 {{'data-set-management.detail.sub-data-sets.numberOfAnalyzedVariables' | translate }}
@@ -187,6 +192,7 @@
                         <td class="fdz-table-nowrap">{{row.accessWay}}</td>
                         <td display-i18n-string="row.description"></td>
                         <td class="fdz-table-nowrap">{{row.name}}&nbsp;</td>
+                        <td class="fdz-table-nowrap" display-i18n-string="row.citationHint" limit-to="12"></td>
                         <td ng-class="{'fdz-table-number' : ctrl.counts.variablesCount > 0}"><span ng-if="ctrl.counts.variablesCount == 0">{{'data-set-management.detail.sub-data-sets.unknownNumberOfAnalyzedVariables' | translate }}</span>
                             <a ng-if="ctrl.counts.variablesCount > 0" ui-sref="search({'type': 'variables', 'data-set':ctrl.dataSet.id, 'study': ctrl.dataSet.studyId, 'page': 1, 'access-way': row.accessWay,'sort-by': 'indexInDataSet'})">
                           {{ctrl.counts[row.name] | number: 0}}&nbsp;<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">

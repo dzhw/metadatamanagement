@@ -58,7 +58,8 @@ angular.module('metadatamanagementApp').config(
             'numberOfAnalyzedVariables': 'Analysierbare Variablen',
             'unknownNumberOfAnalyzedVariables': 'Nicht bekannt',
             'numberOfAnalyzedVariables-tooltip': 'Klicken, um alle analysierbaren Variablen dieses Subdatensatzes anzuzeigen',
-            'numberOfObservations': 'Fälle'
+            'numberOfObservations': 'Fälle',
+            'citation-hint': 'Zitation'
           },
           'attachments': {
             'table-title': 'Materialien zu dem Datensatz',

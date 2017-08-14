@@ -25,7 +25,6 @@ angular.module('metadatamanagementApp').config(
           'version': 'Version of Data Sets',
           'notes': 'Botes',
           'surveyDesign': 'Survey Design',
-          'citationHint': 'Citation Hint',
           'instruments': 'Instruments',
           'annotations': 'Annotations',
           'wave': 'Available Waves',
