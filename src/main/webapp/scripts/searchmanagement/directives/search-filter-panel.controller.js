@@ -1,13 +1,13 @@
-/* global _ */
+/* global _, document */
 'use strict';
 
 angular.module('metadatamanagementApp')
   .controller('SearchFilterPanelController', [
     '$scope', 'SearchFilterHelperService', '$timeout', 'StudyIdBuilderService',
-    'CurrentProjectService', '$element', 'CleanJSObjectService',
+    'CurrentProjectService', '$element', 'CleanJSObjectService', '$mdSelect',
     function($scope, SearchFilterHelperService, $timeout,
       StudyIdBuilderService, CurrentProjectService, $element,
-      CleanJSObjectService) {
+      CleanJSObjectService, $mdSelect) {
       var elasticSearchTypeChanged = false;
 
       var selectStudyForProject = function() {
@@ -95,8 +95,16 @@ angular.module('metadatamanagementApp')
           event.stopPropagation();
         });
 
+      $scope.closeSelectMenu = function() {
+        $mdSelect.hide();
+      };
+
       $scope.clearFilterSearchTerm = function() {
         $scope.filterSearchTerm = '';
+      };
+
+      $scope.hideMobileKeyboard = function() {
+        document.activeElement.blur();
       };
     }
   ]);

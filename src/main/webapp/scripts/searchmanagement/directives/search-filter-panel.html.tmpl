@@ -4,24 +4,33 @@
         <md-icon md-svg-src="/assets/images/icons/filter.svg"></md-icon>
         <label>{{'search-management.filter.input-label.' + currentElasticsearchType | translate}}</label>
         <md-select ng-model="selectedFilters" md-on-close="clearFilterSearchTerm()" multiple>
-            <md-select-header class="fdz-select-header">
-                <input id="searchFilterInput" ng-model="filterSearchTerm" type="search" placeholder="Suche nach Filtermöglichkeiten..." class="md-text fdz-select-header-searchbox">
+            <md-select-header layout="row" class="fdz-select-header">
+                <md-input-container flex>
+                    <label>Suche nach Filtermöglichkeiten...</label>
+                    <input id="searchFilterInput" ng-model="filterSearchTerm" type="search">
+                </md-input-container>
+                <md-button class="md-icon-button" aria-label="{{'global.buttons.close' | translate}}" ng-click="closeSelectMenu()">
+                    <md-icon md-font-set="material-icons">close</md-icon>
+                </md-button>
             </md-select-header>
-            <md-optgroup>
+            <md-content>
                 <md-option ng-value="filter" ng-repeat="filter in availableHiddenFilters | filterTranslatedValues:filterSearchTerm:'search-management.filter.'">{{'search-management.filter.' + filter | translate}}</md-option>
                 <md-option ng-value="filter" ng-repeat="filter in availableFilters | filterTranslatedValues:filterSearchTerm:'search-management.filter.'">{{'search-management.filter.' + filter | translate}}</md-option>
-            </md-optgroup>
+            </md-content>
         </md-select>
     </md-input-container>
 </div>
 <div ng-if="selectedFilters && selectedFilters.length !== 0" layout="column" style="margin: 0px 16px 0px 16px;">
-    <study-search-filter ng-if="selectedFilters.includes('study')" current-language="currentLanguage" current-search-params="currentSearchParams" study-changed-callback="onOneFilterChanged" bowser="bowser"></study-search-filter>
-    <survey-search-filter ng-if="selectedFilters.includes('survey')" current-language="currentLanguage" current-search-params="currentSearchParams" survey-changed-callback="onOneFilterChanged" bowser="bowser"></survey-search-filter>
-    <instrument-search-filter ng-if="selectedFilters.includes('instrument')" current-language="currentLanguage" current-search-params="currentSearchParams" instrument-changed-callback="onOneFilterChanged" bowser="bowser"></instrument-search-filter>
-    <question-search-filter ng-if="selectedFilters.includes('question')" current-language="currentLanguage" current-search-params="currentSearchParams" question-changed-callback="onOneFilterChanged" bowser="bowser"></question-search-filter>
-    <dataset-search-filter ng-if="selectedFilters.includes('data-set')" current-language="currentLanguage" current-search-params="currentSearchParams" dataset-changed-callback="onOneFilterChanged" bowser="bowser"></dataset-search-filter>
-    <variable-search-filter ng-if="selectedFilters.includes('variable')" current-language="currentLanguage" current-search-params="currentSearchParams" variable-changed-callback="onOneFilterChanged" bowser="bowser"></variable-search-filter>
-    <access-way-search-filter ng-if="selectedFilters.includes('access-way')" current-language="currentLanguage" current-search-params="currentSearchParams" access-way-changed-callback="onOneFilterChanged" bowser="bowser"></access-way-search-filter>
-    <panel-identifier-search-filter ng-if="selectedFilters.includes('panel-identifier')" current-language="currentLanguage" current-search-params="currentSearchParams" panel-identifier-changed-callback="onOneFilterChanged" bowser="bowser"></panel-identifier-search-filter>
-    <related-publication-search-filter ng-if="selectedFilters.includes('related-publication')" current-language="currentLanguage" current-search-params="currentSearchParams" related-publication-changed-callback="onOneFilterChanged" bowser="bowser"></related-publication-search-filter>
+    <form role="search" ng-submit="hideMobileKeyboard()">
+        <study-search-filter ng-if="selectedFilters.includes('study')" current-language="currentLanguage" current-search-params="currentSearchParams" study-changed-callback="onOneFilterChanged" bowser="bowser"></study-search-filter>
+        <survey-search-filter ng-if="selectedFilters.includes('survey')" current-language="currentLanguage" current-search-params="currentSearchParams" survey-changed-callback="onOneFilterChanged" bowser="bowser"></survey-search-filter>
+        <instrument-search-filter ng-if="selectedFilters.includes('instrument')" current-language="currentLanguage" current-search-params="currentSearchParams" instrument-changed-callback="onOneFilterChanged" bowser="bowser"></instrument-search-filter>
+        <question-search-filter ng-if="selectedFilters.includes('question')" current-language="currentLanguage" current-search-params="currentSearchParams" question-changed-callback="onOneFilterChanged" bowser="bowser"></question-search-filter>
+        <dataset-search-filter ng-if="selectedFilters.includes('data-set')" current-language="currentLanguage" current-search-params="currentSearchParams" dataset-changed-callback="onOneFilterChanged" bowser="bowser"></dataset-search-filter>
+        <variable-search-filter ng-if="selectedFilters.includes('variable')" current-language="currentLanguage" current-search-params="currentSearchParams" variable-changed-callback="onOneFilterChanged" bowser="bowser"></variable-search-filter>
+        <access-way-search-filter ng-if="selectedFilters.includes('access-way')" current-language="currentLanguage" current-search-params="currentSearchParams" access-way-changed-callback="onOneFilterChanged" bowser="bowser"></access-way-search-filter>
+        <panel-identifier-search-filter ng-if="selectedFilters.includes('panel-identifier')" current-language="currentLanguage" current-search-params="currentSearchParams" panel-identifier-changed-callback="onOneFilterChanged" bowser="bowser"></panel-identifier-search-filter>
+        <related-publication-search-filter ng-if="selectedFilters.includes('related-publication')" current-language="currentLanguage" current-search-params="currentSearchParams" related-publication-changed-callback="onOneFilterChanged" bowser="bowser"></related-publication-search-filter>
+        <input type="submit" ng-hide="true">
+    </form>
 </div>
