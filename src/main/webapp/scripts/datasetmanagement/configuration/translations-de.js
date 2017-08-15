@@ -63,6 +63,7 @@ angular.module('metadatamanagementApp').config(
             'citate': 'Zitieren',
             'citation': 'Zitation',
             'citate-tooltipp': 'Klicken, um Zitationsinformationen zu erhalten und zu kopieren.',
+            'no-citate-tooltipp': 'Dieser Subdatansatz hat keine Informationen zur Zitation.',
             'copy-complete-citation-tooltip': 'Klicken, um die Zitation in die Zwischenablage zu kopieren.'
           },
           'attachments': {

@@ -63,6 +63,7 @@ angular.module('metadatamanagementApp').config(
             'citate': 'Citate',
             'citation': 'Citation',
             'citate-tooltipp': 'Click to show citation information and to copy them.',
+            'no-citate-tooltipp': 'This Sub Data Set has no information about the citation.',
             'copy-complete-citation-tooltip': 'Click for copy the citation to the clipboard.'
           },
           'attachments': {
