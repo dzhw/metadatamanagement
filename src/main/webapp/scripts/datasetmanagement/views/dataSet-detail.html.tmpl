@@ -198,7 +198,7 @@
                         </td>
                         <td class="fdz-table-number">{{row.numberOfObservations | number: 0}}&nbsp;</td>
                         <td>
-                          <a ng-click="ctrl.openDialog()" target="_blank">
+                          <a ng-click="ctrl.openDialog(row)" target="_blank">
                           <span data-translate="data-set-management.detail.sub-data-sets.citate">Citate</span>
                           <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                             {{'data-set-management.detail.sub-data-sets.citate-tooltipp'|translate}}

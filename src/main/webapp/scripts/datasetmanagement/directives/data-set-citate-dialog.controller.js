@@ -2,9 +2,9 @@
 'use strict';
 angular.module('metadatamanagementApp')
   .controller('DataSetCitateDialogController',
-  function($mdDialog, SimpleMessageToastService) {
+  function($mdDialog, SimpleMessageToastService, citation) {
     var ctrl = this;
-    ctrl.citation = 'Test';
+    ctrl.citation = citation;
 
     ctrl.openSuccessCopyToClipboardToast = function(message) {
       SimpleMessageToastService.openSimpleMessageToast(message, []);

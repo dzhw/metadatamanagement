@@ -63,7 +63,7 @@ angular.module('metadatamanagementApp').config(
             'citate': 'Citate',
             'citation': 'Citation',
             'citate-tooltipp': 'Click to show citation information and to copy them.',
-            'copy-complete-citation-tooltip': Click for copy the citation to the clipboard.'
+            'copy-complete-citation-tooltip': 'Click for copy the citation to the clipboard.'
           },
           'attachments': {
             'table-title': 'Documents related to the Data Set',

@@ -3,12 +3,15 @@
 
 angular.module('metadatamanagementApp').service('DataSetCitateDialogService',
     function($mdDialog) {
-      var showDialog = function() {
+      var showDialog = function(citationHint) {
         $mdDialog.show({
           templateUrl: 'scripts/datasetmanagement/directives/' +
           'data-set-citate-dialog.html.tmpl',
           controller: 'DataSetCitateDialogController',
           controllerAs: 'ctrl',
+          locals: {
+            citation: citationHint
+          },
           clickOutsideToClose: true
         });
       };
