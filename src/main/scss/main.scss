@@ -405,6 +405,10 @@ style for datapackage
     display: none;
 }
 
+md-input-container.fdz-search-input label:not(.md-container-ignore) {
+    bottom: 89%;
+}
+
 .fdz-log-error-text {
     color: $brand-danger;
 }
@@ -700,10 +704,12 @@ md-tab-item:hover {
 }
 
 .fdz-search-filter-component md-input-container.md-input-has-value label,
-.fdz-search-filter-component md-input-container.md-input-focused label,
-md-input-container.fdz-search-input.md-input-has-value label,
-md-input-container.fdz-search-input.md-input-focused label {
+.fdz-search-filter-component md-input-container.md-input-focused label {
   bottom: 80% !important;
+}
+
+.fdz-search-filter-component md-input-container label:not(.md-container-ignore) {
+    bottom: 91%;
 }
 
 .fdz-search-filter-component .ng-active div[ng-message] {
@@ -726,12 +732,21 @@ md-input-container.fdz-search-input.md-input-focused label {
 }
 
 .fdz-select-header md-input-container.md-input-has-value label,
-.fdz-select-header md-input-container.md-input-focused label,
-md-input-container.fdz-search-input.md-input-has-value label,
-md-input-container.fdz-search-input.md-input-focused label {
+.fdz-select-header md-input-container.md-input-focused label {
   bottom: 65% !important;
 }
 
 .fdz-select-header .md-errors-spacer {
     display: none;
+}
+
+.fdz-filter-select {
+  margin-left: 8px;
+  margin-right: 16px;
+  margin-bottom: 24px;
+}
+
+md-input-container.fdz-filter-select.md-input-has-value label,
+md-input-container.fdz-filter-select.md-input-focused label {
+  bottom: 89% !important;
 }

@@ -14,6 +14,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     CurrentProjectService, $timeout, PageTitleService, ToolbarHeaderService,
     SearchFilterHelperService) {
 
+    var queryChangedOnInit = false;
     var tabChangedOnInitFlag = false;
     var locationChanged = false;
     var currentProjectChangeIsBeingHandled = false;
@@ -93,6 +94,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     // init the controller and its scope objects
     var init = function() {
       tabChangedOnInitFlag = true;
+      queryChangedOnInit = true;
       $scope.tabs = _.filter($scope.tabs, function(tab) {
         return tab.visibleForPublicUser || Principal.isAuthenticated();
       });
@@ -214,12 +216,17 @@ angular.module('metadatamanagementApp').controller('SearchController',
         writeSearchParamsToLocation();
         $scope.search();
       };
-    $scope.onQueryChanged = function() {
+
+    $scope.$watch('searchParams.query', function() {
+      if (queryChangedOnInit)  {
+        queryChangedOnInit = false;
+        return;
+      }
       $scope.pageObject.page = 1;
       delete $scope.searchParams.sortBy;
       writeSearchParamsToLocation();
       $scope.search();
-    };
+    });
 
     $scope.onSelectedTabChanged = function() {
       if (!selectedTabChangeIsBeingHandled) {

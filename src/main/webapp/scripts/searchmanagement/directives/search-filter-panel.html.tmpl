@@ -1,15 +1,15 @@
 <md-divider></md-divider>
 <div layout="row">
-    <md-input-container flex-gt-sm="50" flex class="fdz-search-input">
+    <md-input-container flex-gt-sm="50" flex class="fdz-filter-select">
         <md-icon md-svg-src="/assets/images/icons/filter.svg"></md-icon>
         <label>{{'search-management.filter.input-label.' + currentElasticsearchType | translate}}</label>
         <md-select ng-model="selectedFilters" md-on-close="clearFilterSearchTerm()" multiple>
             <md-select-header layout="row" class="fdz-select-header">
                 <md-input-container flex>
                     <label>Suche nach Filtermöglichkeiten...</label>
-                    <input id="searchFilterInput" ng-model="filterSearchTerm" type="search">
+                    <input id="searchFilterInput" ng-model="filterSearchTerm" type="search" fdz-select-search-input>
                 </md-input-container>
-                <md-button class="md-icon-button" aria-label="{{'global.buttons.close' | translate}}" ng-click="closeSelectMenu()">
+                <md-button class="md-icon-button" tabindex="-1" aria-label="{{'global.buttons.close' | translate}}" ng-click="closeSelectMenu()">
                     <md-icon md-font-set="material-icons">close</md-icon>
                 </md-button>
             </md-select-header>

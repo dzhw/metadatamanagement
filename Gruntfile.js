@@ -269,7 +269,9 @@ module.exports = function(grunt) {
             'create-variable-links',
             'fdz-table',
             'fdz-welcome-dialog',
-            'limit-to'
+            'limit-to',
+            'fdz-select-search-input',
+            'fdz-clear-input'
           ]
         },
         files: {
