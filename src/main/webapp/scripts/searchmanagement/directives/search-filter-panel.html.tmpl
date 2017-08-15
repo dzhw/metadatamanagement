@@ -19,8 +19,16 @@
             </md-content>
         </md-select>
     </md-input-container>
+    <div flex-gt-sm></div>
+    <md-button class="md-icon-button" ng-click="filtersCollapsed = !filtersCollapsed" style="margin-right: 14px;">
+        <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+            {{'todo' | translate}}
+        </md-tooltip>
+        <md-icon ng-if="!filtersCollapsed" md-font-set="material-icons">keyboard_arrow_down</md-icon>
+        <md-icon ng-if="filtersCollapsed" md-font-set="material-icons">keyboard_arrow_up</md-icon>
+    </md-button>
 </div>
-<div ng-if="selectedFilters && selectedFilters.length !== 0" layout="column" style="margin: 0px 16px 0px 16px;">
+<div ng-if="selectedFilters && selectedFilters.length !== 0" layout="column" style="margin: 0px 16px 0px 16px;" ng-hide="filtersCollapsed">
     <form role="search" ng-submit="hideMobileKeyboard()">
         <study-search-filter ng-if="selectedFilters.includes('study')" current-language="currentLanguage" current-search-params="currentSearchParams" study-changed-callback="onOneFilterChanged" bowser="bowser"></study-search-filter>
         <survey-search-filter ng-if="selectedFilters.includes('survey')" current-language="currentLanguage" current-search-params="currentSearchParams" survey-changed-callback="onOneFilterChanged" bowser="bowser"></survey-search-filter>
