@@ -1,15 +1,17 @@
 <div ng-form="studyFilterForm" layout="row" layout-align="center center">
-    <md-autocomplete class="fdz-search-filter-component" md-input-name="studyFilter" md-floating-label="{{'search-management.filter.study' | translate}}" flex md-min-length="0" md-require-match="true" md-select-on-match="true" md-selected-item="currentStudy" md-selected-item-change="onSelectionChanged(currentStudy)"
+    <md-autocomplete md-delay="250" class="fdz-search-filter-component" md-input-name="studyFilter" md-floating-label="{{'search-management.filter.study' | translate}}" flex md-min-length="0" md-require-match="true" md-select-on-match="true" md-selected-item="currentStudy" md-selected-item-change="onSelectionChanged(currentStudy)"
       md-search-text="searchText" md-items="item in searchStudies(searchText)" md-item-text="item._source.title.de + ' (' + item._source.id + ')'" md-clear-button="true" md-no-cache="true">
         <md-item-template>
-            <span class="md-title" style="font-size: 14px;">{{item._source.title.de}}</span>
+            <span class="md-title" style="font-size: 14px;" display-i18n-string="item._source.title"></span>
             <span class="label label-as-badge label-default">{{item._source.id}}</span>
         </md-item-template>
         <md-not-found>
-            Keine Studie gefunden!
+            {{'search-management.filter.study-filter.not-found' | translate}}
         </md-not-found>
         <div ng-messages="studyFilterForm.studyFilter.$error">
-            <div ng-message="md-require-match">Keine gültige Studie ausgewählt!</div>
+            <div ng-message="md-require-match">
+              {{'search-management.filter.study-filter.no-valid-selected' | translate}}
+            </div>
         </div>
     </md-autocomplete>
 </div>

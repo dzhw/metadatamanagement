@@ -9,6 +9,7 @@ angular.module('metadatamanagementApp')
       StudyIdBuilderService, CurrentProjectService, $element,
       CleanJSObjectService, $mdSelect) {
       var elasticSearchTypeChanged = false;
+      $scope.filtersCollapsed = false;
 
       var selectStudyForProject = function() {
         if (!_.includes($scope.availableFilters, 'study')) {

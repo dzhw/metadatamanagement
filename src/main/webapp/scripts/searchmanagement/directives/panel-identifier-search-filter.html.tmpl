@@ -1,13 +1,16 @@
 <div ng-form="panelIdentifierFilterForm" layout="row" layout-align="center center">
-  <md-autocomplete class="fdz-search-filter-component" md-input-name="panelIdentifierFilter" md-floating-label="{{'search-management.filter.panel-identifier' | translate}}" flex md-min-length="0" md-require-match="true" md-select-on-match="true" md-selected-item="currentPanelIdentifier" md-selected-item-change="onSelectionChanged(currentPanelIdentifier)" md-search-text="searchText" md-items="item in searchPanelIdentifiers(searchText)" md-item-text="item" md-clear-button="true" md-no-cache="true">
-    <md-item-template>
-      <span class="md-title" style="font-size: 14px;">{{item}}</span>
-    </md-item-template>
-    <md-not-found>
-      Keine Panel-Kennung gefunden!
-    </md-not-found>
-    <div ng-messages="panelIdentifierFilterForm.panelIdentifierFilter.$error">
-        <div ng-message="md-require-match">Keine gültige Panel-Kennung ausgewählt!</div>
-    </div>
-  </md-autocomplete>
+    <md-autocomplete md-delay="250" class="fdz-search-filter-component" md-input-name="panelIdentifierFilter" md-floating-label="{{'search-management.filter.panel-identifier' | translate}}" flex md-min-length="0" md-require-match="true" md-select-on-match="true"
+      md-selected-item="currentPanelIdentifier" md-selected-item-change="onSelectionChanged(currentPanelIdentifier)" md-search-text="searchText" md-items="item in searchPanelIdentifiers(searchText)" md-item-text="item" md-clear-button="true" md-no-cache="true">
+        <md-item-template>
+            <span class="md-title" style="font-size: 14px;">{{item}}</span>
+        </md-item-template>
+        <md-not-found>
+            {{'search-management.filter.panel-identifier-filter.not-found' | translate}}
+        </md-not-found>
+        <div ng-messages="panelIdentifierFilterForm.panelIdentifierFilter.$error">
+            <div ng-message="md-require-match">
+                {{'search-management.filter.panel-identifier-filter.no-valid-selected' | translate}}
+            </div>
+        </div>
+    </md-autocomplete>
 </div>

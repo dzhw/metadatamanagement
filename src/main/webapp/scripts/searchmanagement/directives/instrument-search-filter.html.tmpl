@@ -1,15 +1,17 @@
 <div ng-form="instrumentFilterForm" layout="row" layout-align="center center">
-    <md-autocomplete class="fdz-search-filter-component" md-input-name="instrumentFilter" md-floating-label="{{'search-management.filter.instrument' | translate}}" flex md-min-length="0" md-require-match="true" md-select-on-match="true" md-selected-item="currentInstrument" md-selected-item-change="onSelectionChanged(currentInstrument)"
-      md-search-text="searchText" md-items="item in searchInstruments(searchText)" md-item-text="item._source.description.de + ' (' + item._source.id + ')'" md-clear-button="true" md-no-cache="true">
+    <md-autocomplete md-delay="250" class="fdz-search-filter-component" md-input-name="instrumentFilter" md-floating-label="{{'search-management.filter.instrument' | translate}}" flex md-min-length="0" md-require-match="true" md-select-on-match="true" md-selected-item="currentInstrument"
+      md-selected-item-change="onSelectionChanged(currentInstrument)" md-search-text="searchText" md-items="item in searchInstruments(searchText)" md-item-text="item._source.description.de + ' (' + item._source.id + ')'" md-clear-button="true" md-no-cache="true">
         <md-item-template>
             <span class="md-title" style="font-size: 14px;" display-i18n-string="item._source.description"></span>
             <span class="label label-as-badge label-default">{{item._source.id}}</span>
         </md-item-template>
         <md-not-found>
-            Kein Instrument gefunden!
+            {{'search-management.filter.instrument-filter.not-found' | translate}}
         </md-not-found>
         <div ng-messages="instrumentFilterForm.instrumentFilter.$error">
-            <div ng-message="md-require-match">Kein gültiges Instrument ausgewählt!</div>
+            <div ng-message="md-require-match">
+                {{'search-management.filter.instrument-filter.no-valid-selected' | translate}}
+            </div>
         </div>
     </md-autocomplete>
 </div>

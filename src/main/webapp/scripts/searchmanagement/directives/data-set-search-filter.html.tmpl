@@ -1,14 +1,17 @@
 <div ng-form="dataSetFilterForm" layout="row" layout-align="center center">
-  <md-autocomplete class="fdz-search-filter-component" md-input-name="dataSetFilter" md-floating-label="{{'search-management.filter.data-set' | translate}}" flex md-min-length="0" md-require-match="true" md-select-on-match="true" md-selected-item="currentDataSet" md-selected-item-change="onSelectionChanged(currentDataSet)" md-search-text="searchText" md-items="item in searchDataSets(searchText)" md-item-text="item._source.description.de + ' (' + item._source.id + ')'" md-clear-button="true" md-no-cache="true">
-    <md-item-template>
-      <span class="md-title" style="font-size: 14px;">{{item._source.description.de}}</span>
-      <span class="label label-as-badge label-default">{{item._source.id}}</span>
-    </md-item-template>
-    <md-not-found>
-      Kein Datensatz gefunden!
-    </md-not-found>
-    <div ng-messages="dataSetFilterForm.dataSetFilter.$error">
-        <div ng-message="md-require-match">Kein gültiger Datensatz ausgewählt!</div>
-    </div>
-  </md-autocomplete>
+    <md-autocomplete md-delay="250" class="fdz-search-filter-component" md-input-name="dataSetFilter" md-floating-label="{{'search-management.filter.data-set' | translate}}" flex md-min-length="0" md-require-match="true" md-select-on-match="true" md-selected-item="currentDataSet"
+      md-selected-item-change="onSelectionChanged(currentDataSet)" md-search-text="searchText" md-items="item in searchDataSets(searchText)" md-item-text="item._source.description.de + ' (' + item._source.id + ')'" md-clear-button="true" md-no-cache="true">
+        <md-item-template>
+            <span class="md-title" style="font-size: 14px;" display-i18n-string="item._source.description"></span>
+            <span class="label label-as-badge label-default">{{item._source.id}}</span>
+        </md-item-template>
+        <md-not-found>
+            {{'search-management.filter.data-set-filter.not-found' | translate}}
+        </md-not-found>
+        <div ng-messages="dataSetFilterForm.dataSetFilter.$error">
+            <div ng-message="md-require-match">
+                {{'search-management.filter.data-set-filter.no-valid-selected' | translate}}
+            </div>
+        </div>
+    </md-autocomplete>
 </div>

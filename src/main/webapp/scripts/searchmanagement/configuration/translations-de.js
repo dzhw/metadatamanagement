@@ -100,6 +100,47 @@ angular.module('metadatamanagementApp').config(
             'data_sets': 'Filter für die Datensatzsuche...',
             'variables': 'Filter für die Variablensuche...',
             'related_publications': 'Filter für die Publikationssuche...'
+          },
+          'uncollapse-filters-tooltip': {
+            'true': 'Klicken, um die ausgewählten Filter einzublenden',
+            'false': 'Klicken, um die ausgewählten Filter auszublenden'
+          },
+          'filter-search-input-label': 'Suche nach möglichen Filtern...',
+          'study-filter': {
+            'not-found': 'Keine Studie gefunden!',
+            'no-valid-selected': 'Keine gültige Studie ausgewählt!'
+          },
+          'survey-filter': {
+            'not-found': 'Keine Erhebung gefunden!',
+            'no-valid-selected': 'Keine gültige Erhebung ausgewählt!'
+          },
+          'instrument-filter': {
+            'not-found': 'Kein Instrument gefunden!',
+            'no-valid-selected': 'Keine gültiges Instrument ausgewählt!'
+          },
+          'question-filter': {
+            'not-found': 'Keine Frage gefunden!',
+            'no-valid-selected': 'Keine gültige Frage ausgewählt!'
+          },
+          'data-set-filter': {
+            'not-found': 'Kein Datensatz gefunden!',
+            'no-valid-selected': 'Kein gültiger Datensatz ausgewählt!'
+          },
+          'variable-filter': {
+            'not-found': 'Keine Variable gefunden!',
+            'no-valid-selected': 'Keine gültige Variable ausgewählt!'
+          },
+          'related-publication-filter': {
+            'not-found': 'Keine Publikation gefunden!',
+            'no-valid-selected': 'Keine gültige Publikation ausgewählt!'
+          },
+          'panel-identifier-filter': {
+            'not-found': 'Keine Panelkennung gefunden!',
+            'no-valid-selected': 'Keine gültige Panelkennung ausgewählt!'
+          },
+          'access-way-filter': {
+            'not-found': 'Kein Zugangsweg gefunden!',
+            'no-valid-selected': 'Kein gültiger Zugangsweg ausgewählt!'
           }
         }
       }

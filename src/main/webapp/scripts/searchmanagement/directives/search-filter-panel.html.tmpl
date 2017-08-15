@@ -6,7 +6,7 @@
         <md-select ng-model="selectedFilters" md-on-close="clearFilterSearchTerm()" multiple>
             <md-select-header layout="row" class="fdz-select-header">
                 <md-input-container flex>
-                    <label>Suche nach Filtermöglichkeiten...</label>
+                    <label>{{'search-management.filter.filter-search-input-label' | translate}}</label>
                     <input id="searchFilterInput" ng-model="filterSearchTerm" type="search" fdz-select-search-input>
                 </md-input-container>
                 <md-button class="md-icon-button" tabindex="-1" aria-label="{{'global.buttons.close' | translate}}" ng-click="closeSelectMenu()">
@@ -20,12 +20,12 @@
         </md-select>
     </md-input-container>
     <div flex-gt-sm></div>
-    <md-button class="md-icon-button" ng-click="filtersCollapsed = !filtersCollapsed" style="margin-right: 14px;">
+    <md-button ng-show="selectedFilters && selectedFilters.length !== 0" class="md-icon-button" ng-click="filtersCollapsed = !filtersCollapsed" style="margin-right: 10px; margin-top: 16px;">
         <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-            {{'todo' | translate}}
+            {{'search-management.filter.uncollapse-filters-tooltip.' +  filtersCollapsed | translate}}
         </md-tooltip>
-        <md-icon ng-if="!filtersCollapsed" md-font-set="material-icons">keyboard_arrow_down</md-icon>
-        <md-icon ng-if="filtersCollapsed" md-font-set="material-icons">keyboard_arrow_up</md-icon>
+        <md-icon ng-if="filtersCollapsed" md-svg-src="/assets/images/icons/arrow-expand.svg"></md-icon>
+        <md-icon ng-if="!filtersCollapsed" md-svg-src="/assets/images/icons/arrow-compress.svg"></md-icon>
     </md-button>
 </div>
 <div ng-if="selectedFilters && selectedFilters.length !== 0" layout="column" style="margin: 0px 16px 0px 16px;" ng-hide="filtersCollapsed">
