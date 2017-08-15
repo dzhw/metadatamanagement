@@ -10,6 +10,29 @@ https://github.com/plotly/plotly.js/compare/vX.Y.Z...master
 where X.Y.Z is the semver of most recent plotly.js release.
 
 
+## [1.29.3] -- 2017-07-27
+
+### Fixed
+- Fix `groupby` / `filter` interactions when filter includes `target` data
+  [#1892]
+
+
+## [1.29.2] -- 2017-07-26
+
+### Fixed
+- Add fallback for `ArrayBuffer.isView` fixing gl2d and gl3d rendering
+  in environments that don't support it (e.g. RStudio) [#1915]
+
+
+## [1.29.1] -- 2017-07-25
+
+### Fixed
+- Fix axis line rendering when `showticklabels` is false
+  (bug introduced in 1.29.0) [#1910]
+- Fix histogram auto bin restyle [#1901]
+- Fix colorbar edge case that caused infinite loops [#1906]
+
+
 ## [1.29.0] -- 2017-07-19
 
 ### Added
