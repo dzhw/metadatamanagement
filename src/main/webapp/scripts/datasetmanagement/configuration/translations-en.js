@@ -26,7 +26,8 @@ angular.module('metadatamanagementApp').config(
             'unknown-data-set-number': 'An Attachment of the Data Sets from the line {{ index }} of the excel document has a reference to an unknown Data Set Number: {{dataSetNumber}}.'
           },
           'sub-data-set': {
-            'unknown-data-set-number': 'The Sub Data Set from the line {{ index }} of the excel document has a reference to an unknown Data Set Number: {{dataSetNumber}}.'
+            'unknown-data-set-number': 'The Sub Data Set from the line {{ index }} of the excel document has a reference to an unknown Data Set Number: {{dataSetNumber}}.',
+            'citation-success-copy-to-clipboard': 'The citation was copied succesfully into the clipboard.'
           },
           'tex': {
             'upload-terminated': 'Tex file upload terminated!',
@@ -59,7 +60,10 @@ angular.module('metadatamanagementApp').config(
             'unknownNumberOfAnalyzedVariables': 'Unknown',
             'numberOfAnalyzedVariables-tooltip': 'Click to show all analyzable variables of this sub data set',
             'numberOfObservations': 'Observations',
-            'citation-hint': 'Citation'
+            'citate': 'Citate',
+            'citation': 'Citation',
+            'citate-tooltipp': 'Click to show citation information and to copy them.',
+            'copy-complete-citation-tooltip': Click for copy the citation to the clipboard.'
           },
           'attachments': {
             'table-title': 'Documents related to the Data Set',

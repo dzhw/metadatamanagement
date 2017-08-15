@@ -26,7 +26,8 @@ angular.module('metadatamanagementApp').config(
             'unknown-data-set-number': 'Ein Attachment der Datensätze aus der Zeile {{index}} im Excel Dokument verweist auf eine unbekannte Datensatznummer: {{dataSetNumber}}.'
           },
           'sub-data-set': {
-            'unknown-data-set-number': 'Der Subdatensatz aus der Zeile {{index}} im Excel Dokument verweist auf eine unbekannte Datensatznummer: {{dataSetNumber}}.'
+            'unknown-data-set-number': 'Der Subdatensatz aus der Zeile {{index}} im Excel Dokument verweist auf eine unbekannte Datensatznummer: {{dataSetNumber}}.',
+            'citation-success-copy-to-clipboard': 'Die Zitation wurde erfolgreich in die Zwischenablage kopiert.'
           },
           'tex': {
             'upload-terminated': 'Upload von Tex Template beendet!',
@@ -59,7 +60,10 @@ angular.module('metadatamanagementApp').config(
             'unknownNumberOfAnalyzedVariables': 'Nicht bekannt',
             'numberOfAnalyzedVariables-tooltip': 'Klicken, um alle analysierbaren Variablen dieses Subdatensatzes anzuzeigen',
             'numberOfObservations': 'Fälle',
-            'citation-hint': 'Zitation'
+            'citate': 'Zitieren',
+            'citation': 'Zitation',
+            'citate-tooltipp': 'Klicken, um Zitationsinformationen zu erhalten und zu kopieren.',
+            'copy-complete-citation-tooltip': 'Klicken, um die Zitation in die Zwischenablage zu kopieren.'
           },
           'attachments': {
             'table-title': 'Materialien zu dem Datensatz',
