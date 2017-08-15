@@ -96,7 +96,7 @@ angular.module('metadatamanagementApp').config(
             'studies': 'Filter für die Studiensuche...',
             'surveys': 'Filter für die Erhebungssuche...',
             'instruments': 'Filter für die Instrumentensuche...',
-            'questions': 'Filter für die Fragesuche...',
+            'questions': 'Filter für die Fragensuche...',
             'data_sets': 'Filter für die Datensatzsuche...',
             'variables': 'Filter für die Variablensuche...',
             'related_publications': 'Filter für die Publikationssuche...'
@@ -105,7 +105,7 @@ angular.module('metadatamanagementApp').config(
             'true': 'Klicken, um die ausgewählten Filter einzublenden',
             'false': 'Klicken, um die ausgewählten Filter auszublenden'
           },
-          'filter-search-input-label': 'Suche nach möglichen Filtern...',
+          'filter-search-input-label': 'Suchen Sie nach möglichen Filtern...',
           'study-filter': {
             'not-found': 'Keine Studie gefunden!',
             'no-valid-selected': 'Keine gültige Studie ausgewählt!'

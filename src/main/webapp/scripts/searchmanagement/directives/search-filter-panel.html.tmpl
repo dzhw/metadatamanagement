@@ -1,6 +1,6 @@
 <md-divider></md-divider>
 <div layout="row">
-    <md-input-container flex-gt-sm="50" flex class="fdz-filter-select">
+    <md-input-container flex-gt-sm="50" flex class="fdz-filter-select" ng-style="!selectedFilters || selectedFilters.length === 0 ? {'margin-right':'16px'} : {}">
         <md-icon md-svg-src="/assets/images/icons/filter.svg"></md-icon>
         <label>{{'search-management.filter.input-label.' + currentElasticsearchType | translate}}</label>
         <md-select ng-model="selectedFilters" md-on-close="clearFilterSearchTerm()" multiple>
@@ -13,6 +13,7 @@
                     <md-icon md-font-set="material-icons">close</md-icon>
                 </md-button>
             </md-select-header>
+            <md-divider></md-divider>
             <md-content>
                 <md-option ng-value="filter" ng-repeat="filter in availableHiddenFilters | filterTranslatedValues:filterSearchTerm:'search-management.filter.'">{{'search-management.filter.' + filter | translate}}</md-option>
                 <md-option ng-value="filter" ng-repeat="filter in availableFilters | filterTranslatedValues:filterSearchTerm:'search-management.filter.'">{{'search-management.filter.' + filter | translate}}</md-option>

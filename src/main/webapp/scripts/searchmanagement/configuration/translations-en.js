@@ -93,17 +93,17 @@ angular.module('metadatamanagementApp').config(
           'variable': 'Variable Filter',
           'survey': 'Survey Filter',
           'input-label': {
-            'studies': 'Filter for Study Search...',
-            'surveys': 'Filter for Survey Search...',
-            'instruments': 'Filter for Instrument Search...',
-            'questions': 'Filter for Question Search...',
-            'data_sets': 'Filter for Data Set Search...',
-            'variables': 'Filter for Variable Search...',
-            'related_publications': 'Filter for Publication Search...'
+            'studies': 'Select filters for Study Search...',
+            'surveys': 'Select filters for Survey Search...',
+            'instruments': 'Select filters for Instrument Search...',
+            'questions': 'Select filters for Question Search...',
+            'data_sets': 'Select filters for Data Set Search...',
+            'variables': 'Select filters for Variable Search...',
+            'related_publications': 'Select filters for Publication Search...'
           },
           'uncollapse-filters-tooltip': {
-            'true': 'Click to show chosen filters',
-            'false': 'Click to hide chosen filters'
+            'true': 'Click to show selected filters',
+            'false': 'Click to hide selected filters'
           },
           'filter-search-input-label': 'Search for possible filters...',
           'study-filter': {
