@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package eu.dzhw.fdz.metadatamanagement.common.config;
 
@@ -45,12 +45,12 @@ public class MetadataManagementPropertiesTest {
     ElasticsearchAngularClient angularClient = managementProperties.getElasticsearchAngularClient();
     angularClient.setLogLevel("info");
     angularClient.setUrl("http://localhost:1234");
-    angularClient.setApiVersion("5.x");
+    angularClient.setApiVersion("5.1");
 
     // Assert
     assertThat(angularClient, not(nullValue()));
     assertThat(angularClient.getLogLevel(), is("info"));
-    assertThat(angularClient.getApiVersion(), is("5.x"));
+    assertThat(angularClient.getApiVersion(), is("5.1"));
     assertThat(angularClient.getUrl(), is("http://localhost:1234"));
   }
 }
