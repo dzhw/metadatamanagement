@@ -181,7 +181,10 @@
                             </md-tooltip>
                         </th>
                         <th>
-                            &nbsp;
+                          {{'data-set-management.detail.sub-data-sets.citation' | translate }}
+                              <md-tooltip hide-gt-xs md-direction="right">
+                                  {{'data-set-management.detail.sub-data-sets.citation' | translate }}
+                              </md-tooltip>
                         </th>
                     </tr>
                 </thead>
@@ -199,18 +202,17 @@
                         <td class="fdz-table-number">{{row.numberOfObservations | number: 0}}&nbsp;</td>
                         <td>
                             <div ng-if="row.citationHint">
-                                <a ng-click="ctrl.openDialog(row)" target="_blank">
-                                  <span data-translate="data-set-management.detail.sub-data-sets.citate">Citate</span>
-                                  <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                                    {{'data-set-management.detail.sub-data-sets.citate-tooltipp'|translate}}
-                                  </md-tooltip>
-                                </a>
+                                <md-button class="md-icon-button" ng-click="ctrl.openDialog(row)" target="_blank">
+                                    <md-icon md-svg-icon="assets/images/icons/citate.svg"></md-icon>
+                                    <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                        {{'data-set-management.detail.sub-data-sets.citate-tooltipp'|translate}}
+                                    </md-tooltip>
+                                </md-button>
                             </div>
                             <div ng-if="!row.citationHint">
-                              <span data-translate="data-set-management.detail.sub-data-sets.citate">Citate</span>
-                              <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                                {{'data-set-management.detail.sub-data-sets.no-citate-tooltipp'|translate}}
-                              </md-tooltip>
+                                <md-button class="md-icon-button" ng-click="ctrl.openDialog(row)" target="_blank" ng-disabled="true" title="{{'data-set-management.detail.sub-data-sets.no-citate-tooltipp'|translate}}">
+                                    <md-icon md-svg-icon="assets/images/icons/citate.svg"></md-icon>
+                                </md-button>
                             </div>
                         </td>
                     </tr>
