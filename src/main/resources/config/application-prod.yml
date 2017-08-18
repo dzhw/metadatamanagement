@@ -31,7 +31,7 @@ metadatamanagement:
     url: ${vcap.services.elasticsearch.credentials.sslUri}
     read-timeout: 60000
   elasticsearch-angular-client:
-    apiVersion: 5.x
+    apiVersion: '5.1'
     logLevel: error
     pageSize: 10
   dara:
