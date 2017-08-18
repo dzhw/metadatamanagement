@@ -162,7 +162,8 @@ angular.module('metadatamanagementApp').config(
           },
           'error': {
             'dontmatch': 'The password and its confirmation do not match!',
-            'unavailable': 'Not available!'
+            'unavailable': 'Not available!',
+            'undocumented': 'Undocumented.'
           },
           'validate': {
             'newpassword': {
