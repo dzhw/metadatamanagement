@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.questionmanagement.repository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -49,7 +50,7 @@ public interface QuestionRepository
   List<QuestionSubDocumentProjection> findSubDocumentsByStudyId(String studyId);
 
   @RestResource(exported = false)
-  List<QuestionSubDocumentProjection> findSubDocumentsByIdIn(List<String> questionIds);
+  List<QuestionSubDocumentProjection> findSubDocumentsByIdIn(Collection<String> questionIds);
 
   @RestResource(exported = false)
   List<QuestionSubDocumentProjection> findSubDocumentsByInstrumentId(

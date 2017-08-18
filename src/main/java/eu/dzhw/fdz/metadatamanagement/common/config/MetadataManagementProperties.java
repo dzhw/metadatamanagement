@@ -21,7 +21,7 @@ public class MetadataManagementProperties {
 
   private final ElasticsearchAngularClient elasticsearchAngularClient =
       new ElasticsearchAngularClient();
-  
+
   private final Dara dara = new Dara();
 
   public ElasticsearchClient getElasticsearchClient() {
@@ -31,7 +31,7 @@ public class MetadataManagementProperties {
   public ElasticsearchAngularClient getElasticsearchAngularClient() {
     return elasticsearchAngularClient;
   }
-  
+
   public Dara getDara() {
     return dara;
   }
@@ -71,7 +71,7 @@ public class MetadataManagementProperties {
   public static class ElasticsearchAngularClient {
     // default connection url
     private String url = "http://localhost:9200";
-    private String apiVersion = "5.x";
+    private String apiVersion = "5.1";
     private String logLevel = "trace";
     private Integer pageSize = 10;
 
@@ -106,7 +106,7 @@ public class MetadataManagementProperties {
       this.pageSize = pageSize;
     }
   }
-  
+
   /**
    * Configuration Properties for Dara.
    *

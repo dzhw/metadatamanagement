@@ -1,21 +1,50 @@
-/* global _ */
+/* global _, document */
 'use strict';
 
 angular.module('metadatamanagementApp')
   .controller('SearchFilterPanelController', [
-    '$scope', 'SearchFilterHelperService', '$timeout',
-    function($scope, SearchFilterHelperService, $timeout) {
+    '$scope', 'SearchFilterHelperService', '$timeout', 'StudyIdBuilderService',
+    'CurrentProjectService', '$element', 'CleanJSObjectService', '$mdSelect',
+    function($scope, SearchFilterHelperService, $timeout,
+      StudyIdBuilderService, CurrentProjectService, $element,
+      CleanJSObjectService, $mdSelect) {
       var elasticSearchTypeChanged = false;
+      $scope.filtersCollapsed = false;
+
+      var selectStudyForProject = function() {
+        if (!_.includes($scope.availableFilters, 'study')) {
+          return;
+        }
+        var currentProject = CurrentProjectService.getCurrentProject();
+        if (currentProject) {
+          if (!$scope.currentSearchParams.filter) {
+            $scope.currentSearchParams.filter = {};
+          }
+          $scope.currentSearchParams.filter.study =
+            StudyIdBuilderService.buildStudyId(currentProject.id);
+          if (!_.includes($scope.selectedFilters, 'study')) {
+            $scope.selectedFilters.push('study');
+          }
+        }
+      };
+
       $scope.$watch('currentElasticsearchType', function() {
         elasticSearchTypeChanged = true;
         $scope.availableFilters = SearchFilterHelperService.getAvailableFilters(
           $scope.currentElasticsearchType);
-
+        $scope.availableHiddenFilters = _.intersection(
+          SearchFilterHelperService.getHiddenFilters(
+            $scope.currentElasticsearchType),
+            _.keys($scope.currentSearchParams.filter)
+        );
         $scope.selectedFilters = [];
         if ($scope.currentSearchParams.filter) {
           $scope.selectedFilters = _.intersection(
-            _.keys($scope.currentSearchParams.filter), $scope.availableFilters);
+            _.keys($scope.currentSearchParams.filter),
+            _.union($scope.availableFilters, $scope.availableHiddenFilters)
+          );
         }
+        selectStudyForProject();
         $timeout(function() {
           elasticSearchTypeChanged = false;
         });
@@ -36,8 +65,47 @@ angular.module('metadatamanagementApp')
           unselectedFilters.forEach(function(unselectedFilter) {
             delete $scope.currentSearchParams.filter[unselectedFilter];
           });
+          $scope.availableHiddenFilters = _.difference(
+            $scope.availableHiddenFilters, unselectedFilters);
           $scope.filterChangedCallback();
         }
       });
+
+      $scope.$on('current-project-changed', function() {
+        var currentProject = CurrentProjectService.getCurrentProject();
+        if (currentProject) {
+          selectStudyForProject();
+        } else {
+          if (_.includes($scope.selectedFilters, 'study')) {
+            _.remove($scope.selectedFilters, function(selectedFilter) {
+              return selectedFilter === 'study';
+            });
+            delete $scope.currentSearchParams.filter.study;
+          }
+        }
+      });
+
+      $element.find('#searchFilterInput').on('keydown', function(event) {
+          // close filter chooser on escape
+          if (event.keyCode === 27 &&
+            CleanJSObjectService.isNullOrEmpty($scope.filterSearchTerm)) {
+            return;
+          }
+          // The md-select directive eats keydown events for some quick select
+          // logic. Since we have a search input here, we don't need that logic.
+          event.stopPropagation();
+        });
+
+      $scope.closeSelectMenu = function() {
+        $mdSelect.hide();
+      };
+
+      $scope.clearFilterSearchTerm = function() {
+        $scope.filterSearchTerm = '';
+      };
+
+      $scope.hideMobileKeyboard = function() {
+        document.activeElement.blur();
+      };
     }
   ]);

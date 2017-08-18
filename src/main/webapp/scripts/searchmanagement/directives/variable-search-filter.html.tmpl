@@ -1,0 +1,17 @@
+<div ng-form="variableFilterForm" layout="row" layout-align="center center">
+    <md-autocomplete md-delay="250" class="fdz-search-filter-component" md-input-name="variableFilter" md-floating-label="{{'search-management.filter.variable' | translate}}" flex md-min-length="0" md-require-match="true" md-select-on-match="true" md-selected-item="currentVariable"
+      md-selected-item-change="onSelectionChanged(currentVariable)" md-search-text="searchText" md-items="item in searchVariables(searchText)" md-item-text="(item._source.label | displayI18nString) + ' (' + item._source.id + ')'" md-clear-button="true" md-no-cache="true">
+        <md-item-template>
+            <span class="md-title" style="font-size: 14px;" display-i18n-string="item._source.label"></span>
+            <span class="label label-as-badge label-default">{{item._source.id}}</span>
+        </md-item-template>
+        <md-not-found>
+            {{'search-management.filter.variable-filter.not-found' | translate}}
+        </md-not-found>
+        <div ng-messages="variableFilterForm.variableFilter.$error">
+            <div ng-message="md-require-match">
+                {{'search-management.filter.survey-filter.no-valid-selected' | translate}}
+            </div>
+        </div>
+    </md-autocomplete>
+</div>

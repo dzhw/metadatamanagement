@@ -3,7 +3,9 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.service;
 import java.lang.management.ManagementFactory;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.NotImplementedException;
@@ -37,6 +39,7 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.RelatedPublicat
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.StudySearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.SurveySearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.VariableSearchDocument;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.VariableSubDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueItem;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
@@ -254,6 +257,11 @@ public class ElasticsearchUpdateQueueService {
           .findSubDocumentsByInstrumentId(instrument.getId());
       List<VariableSubDocumentProjection> variables = variableRepository
           .findSubDocumentsByRelatedQuestionsInstrumentId(instrument.getId());
+      Set<String> dataSetIds = variables.stream()
+          .map(variable -> variable.getDataSetId())
+          .collect(Collectors.toSet());
+      List<DataSetSubDocumentProjection> dataSets = dataSetRepository
+          .findSubDocumentsByIdIn(dataSetIds);
       List<RelatedPublicationSubDocumentProjection> relatedPublications = 
           relatedPublicationRepository.findSubDocumentsByInstrumentIdsContaining(
               instrument.getId());
@@ -264,7 +272,7 @@ public class ElasticsearchUpdateQueueService {
         release = project.getRelease();
       }
       InstrumentSearchDocument searchDocument = new InstrumentSearchDocument(instrument, 
-          study, surveys, questions, variables, relatedPublications, release);
+          study, surveys, questions, variables, dataSets, relatedPublications, release);
       
       bulkBuilder.addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType()
           .name())
@@ -327,10 +335,24 @@ public class ElasticsearchUpdateQueueService {
     DataSet dataSet = dataSetRepository.findOne(lockedItem.getDocumentId());
 
     if (dataSet != null) {
-      StudySubDocumentProjection study = studyRepository
-          .findOneSubDocumentById(dataSet.getStudyId());
-      List<VariableSubDocumentProjection> variables = variableRepository
-          .findSubDocumentsByDataSetId(dataSet.getId());
+      List<Variable> variables = variableRepository
+          .findByDataSetId(dataSet.getId());
+      List<VariableSubDocumentProjection> variableProjections = new ArrayList<>(variables.size());
+      Set<String> questionIds = new HashSet<>();
+      Set<String> instrumentIds = new HashSet<>();
+      variables.forEach(variable -> {
+        variableProjections.add(new VariableSubDocument(variable));
+        if (variable.getRelatedQuestions() != null) {
+          variable.getRelatedQuestions().forEach(relatedQuestion -> {
+            questionIds.add(relatedQuestion.getQuestionId());
+            instrumentIds.add(relatedQuestion.getInstrumentId());
+          });
+        }
+      });
+      List<InstrumentSubDocumentProjection> instruments = instrumentRepository
+          .findSubDocumentsByIdIn(instrumentIds);
+      List<QuestionSubDocumentProjection> questions = questionRepository
+          .findSubDocumentsByIdIn(questionIds);
       List<RelatedPublicationSubDocumentProjection> relatedPublications = 
           relatedPublicationRepository
             .findSubDocumentsByDataSetIdsContaining(dataSet.getId());
@@ -344,8 +366,10 @@ public class ElasticsearchUpdateQueueService {
       if (project != null) {
         release = project.getRelease();
       }
+      StudySubDocumentProjection study = studyRepository
+          .findOneSubDocumentById(dataSet.getStudyId());
       DataSetSearchDocument searchDocument = new DataSetSearchDocument(dataSet, study,
-          variables, relatedPublications, surveys, release);
+          variableProjections, relatedPublications, surveys, instruments, questions, release);
       
       bulkBuilder.addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType()
           .name())
@@ -458,6 +482,11 @@ public class ElasticsearchUpdateQueueService {
       }
       List<VariableSubDocumentProjection> variables = variableRepository
           .findSubDocumentsByRelatedQuestionsQuestionId(question.getId());
+      Set<String> dataSetIds = variables.stream()
+          .map(variable -> variable.getDataSetId())
+          .collect(Collectors.toSet());
+      List<DataSetSubDocumentProjection> dataSets = dataSetRepository
+          .findSubDocumentsByIdIn(dataSetIds);
       List<RelatedPublicationSubDocumentProjection> relatedPublications = 
           relatedPublicationRepository
             .findSubDocumentsByQuestionIdsContaining(question.getId());
@@ -469,7 +498,7 @@ public class ElasticsearchUpdateQueueService {
       }
       QuestionSearchDocument searchDocument =
             new QuestionSearchDocument(question, study, instrument, surveys, variables,
-                relatedPublications, release);
+                dataSets, relatedPublications, release);
 
       bulkBuilder.addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType()
           .name())

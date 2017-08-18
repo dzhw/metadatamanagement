@@ -1,4 +1,4 @@
-<div flex layout="column" ng-switch="isAuthenticated()">
+<div flex layout="column" ng-switch="isAuthenticated()" ngf-drop="tabs[searchParams.selectedTabIndex].uploadFunction($files)" ngf-multiple="true" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-drop-disabled="((!currentProject || currentProject.release) && tabs[searchParams.selectedTabIndex].elasticSearchType !== 'related_publications') || !hasAuthority('ROLE_PUBLISHER') || !tabs[searchParams.selectedTabIndex].uploadFunction">
     <md-card style="margin-bottom: 0px; display: block;">
           <md-tabs md-selected="searchParams.selectedTabIndex" md-dynamic-height md-border-bottom>
             <md-tab ng-repeat="tab in tabs" md-on-select="onSelectedTabChanged()" ng-disabled="tab.disabled">
@@ -13,7 +13,7 @@
                 <md-input-container class="fdz-search-input">
                     <label>{{tabs[searchParams.selectedTabIndex].inputLabel|translate}}</label>
                     <md-icon md-font-set="material-icons">search</md-icon>
-                    <input id="query" type="search" ng-model="searchParams.query" ng-change="onQueryChanged()" ng-model-options="{debounce: 250}" autocomplete="off" tabindex="0">
+                    <input id="query" type="search" ng-model="searchParams.query" ng-model-options="{debounce: 250}" autocomplete="off" tabindex="0" fdz-clear-input>
                 </md-input-container>
                 <input type="submit" ng-hide="true">
             </form>
@@ -22,7 +22,7 @@
         </div>
         <md-progress-linear md-mode="indeterminate" ng-if="isSearching"></md-progress-linear>
     </md-card>
-    <div flex ngf-drop="tabs[searchParams.selectedTabIndex].uploadFunction($files)" ngf-multiple="true" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-drop-disabled="((!currentProject || currentProject.release) && tabs[searchParams.selectedTabIndex].elasticSearchType !== 'related_publications') || !hasAuthority('ROLE_PUBLISHER') || !tabs[searchParams.selectedTabIndex].uploadFunction">
+    <div flex>
         <div ng-repeat="result in searchResult" ng-switch="result._type">
             <variable-search-result ng-switch-when="variables" search-result="result._source" current-language="currentLanguage" bowser="bowser"></variable-search-result>
             <survey-search-result ng-switch-when="surveys" search-result="result._source" current-language="currentLanguage" bowser="bowser" add-margin="$mdMedia('gt-sm')"></survey-search-result>

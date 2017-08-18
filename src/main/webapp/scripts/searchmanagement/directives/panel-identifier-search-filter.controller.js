@@ -3,14 +3,21 @@
 
 angular.module('metadatamanagementApp')
   .controller('PanelIdentifierSearchFilterController', [
-    '$scope', 'VariableSearchService', '$timeout',
-    function($scope, VariableSearchService, $timeout) {
+    '$scope', 'VariableSearchService', '$timeout', 'CurrentProjectService',
+    function($scope, VariableSearchService, $timeout, CurrentProjectService) {
       // prevent panel-identifier changed events during init
       var initializing = true;
+      var selectionChanging = false;
       var lastSearchText;
       var lastFilter;
+      var lastProjectId;
       var lastSearchResult;
       var init = function() {
+        if (selectionChanging) {
+          selectionChanging = false;
+          return;
+        }
+        initializing = true;
         if ($scope.currentSearchParams.filter &&
           $scope.currentSearchParams.filter['panel-identifier']) {
           $scope.searchPanelIdentifiers(
@@ -34,6 +41,11 @@ angular.module('metadatamanagementApp')
         }
       };
       $scope.onSelectionChanged = function(panelIdentifier) {
+        if (initializing) {
+          initializing = false;
+          return;
+        }
+        selectionChanging = true;
         if (!$scope.currentSearchParams.filter) {
           $scope.currentSearchParams.filter = {};
         }
@@ -43,28 +55,34 @@ angular.module('metadatamanagementApp')
         } else {
           delete $scope.currentSearchParams.filter['panel-identifier'];
         }
-        if (!initializing) {
-          $scope.panelIdentifierChangedCallback();
-        }
-        initializing = false;
+        $scope.panelIdentifierChangedCallback();
       };
 
       $scope.searchPanelIdentifiers = function(searchText) {
         var cleanedFilter = _.omit($scope.currentSearchParams.filter,
           'panel-identifier');
+        var currentProjectId = CurrentProjectService.getCurrentProject() ?
+          CurrentProjectService.getCurrentProject().id : null;
         if (searchText === lastSearchText &&
-          _.isEqual(lastFilter, cleanedFilter)) {
+          _.isEqual(lastFilter, cleanedFilter) &&
+          lastProjectId === currentProjectId) {
           return lastSearchResult;
         }
         return VariableSearchService.findPanelIdentifiers(
-          searchText, cleanedFilter).then(function(panelIdentifiers) {
+          searchText, cleanedFilter,
+          currentProjectId)
+          .then(function(panelIdentifiers) {
             lastSearchText = searchText;
             lastFilter = _.cloneDeep(cleanedFilter);
+            lastProjectId = currentProjectId;
             lastSearchResult = panelIdentifiers;
             return panelIdentifiers;
           }
         );
       };
-      init();
+      $scope.$watch('currentSearchParams.filter["panel-identifier"]',
+        function() {
+          init();
+        });
     }
   ]);

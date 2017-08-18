@@ -3,14 +3,21 @@
 
 angular.module('metadatamanagementApp')
   .controller('AccessWaySearchFilterController', [
-    '$scope', 'VariableSearchService', '$timeout',
-    function($scope, VariableSearchService, $timeout) {
+    '$scope', 'VariableSearchService', '$timeout', 'CurrentProjectService',
+    function($scope, VariableSearchService, $timeout, CurrentProjectService) {
       // prevent access-way changed events during init
       var initializing = true;
+      var selectionChanging = false;
       var lastSearchText;
       var lastFilter;
+      var lastProjectId;
       var lastSearchResult;
       var init = function() {
+        if (selectionChanging) {
+          selectionChanging = false;
+          return;
+        }
+        initializing = true;
         if ($scope.currentSearchParams.filter &&
           $scope.currentSearchParams.filter['access-way']) {
           $scope.searchAccessWays(
@@ -33,6 +40,11 @@ angular.module('metadatamanagementApp')
         }
       };
       $scope.onSelectionChanged = function(accessWay) {
+        if (initializing) {
+          initializing = false;
+          return;
+        }
+        selectionChanging = true;
         if (!$scope.currentSearchParams.filter) {
           $scope.currentSearchParams.filter = {};
         }
@@ -41,28 +53,33 @@ angular.module('metadatamanagementApp')
         } else {
           delete $scope.currentSearchParams.filter['access-way'];
         }
-        if (!initializing) {
-          $scope.accessWayChangedCallback();
-        }
-        initializing = false;
+        $scope.accessWayChangedCallback();
       };
 
       $scope.searchAccessWays = function(searchText) {
         var cleanedFilter = _.omit($scope.currentSearchParams.filter,
           'access-way');
+        var currentProjectId = CurrentProjectService.getCurrentProject() ?
+            CurrentProjectService.getCurrentProject().id : null;
         if (searchText === lastSearchText &&
-          _.isEqual(lastFilter, cleanedFilter)) {
+          _.isEqual(lastFilter, cleanedFilter) &&
+           lastProjectId === currentProjectId) {
           return lastSearchResult;
         }
         return VariableSearchService.findAccessWays(
-          searchText, cleanedFilter).then(function(accessWays) {
+          searchText, cleanedFilter, currentProjectId)
+          .then(function(accessWays) {
             lastSearchText = searchText;
             lastFilter = _.cloneDeep(cleanedFilter);
+            lastProjectId = currentProjectId;
             lastSearchResult = accessWays;
             return accessWays;
           }
         );
       };
-      init();
+      $scope.$watch('currentSearchParams.filter["access-way"]',
+        function() {
+          init();
+        });
     }
   ]);

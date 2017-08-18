@@ -4,13 +4,22 @@
 angular.module('metadatamanagementApp')
   .controller('RelatedPublicationSearchFilterController', [
     '$scope', 'SearchDao', 'RelatedPublicationSearchService', '$timeout',
-    function($scope, SearchDao, RelatedPublicationSearchService, $timeout) {
+    'CurrentProjectService',
+    function($scope, SearchDao, RelatedPublicationSearchService, $timeout,
+      CurrentProjectService) {
       // prevent related-publication changed events during init
       var initializing = true;
+      var selectionChanging = false;
       var lastSearchText;
       var lastFilter;
+      var lastProjectId;
       var lastSearchResult;
       var init = function() {
+        if (selectionChanging) {
+          selectionChanging = false;
+          return;
+        }
+        initializing = true;
         if ($scope.currentSearchParams.filter &&
           $scope.currentSearchParams.filter['related-publication']) {
           RelatedPublicationSearchService.findOneById(
@@ -44,6 +53,11 @@ angular.module('metadatamanagementApp')
         }
       };
       $scope.onSelectionChanged = function(relatedPublication) {
+        if (initializing) {
+          initializing = false;
+          return;
+        }
+        selectionChanging = true;
         if (!$scope.currentSearchParams.filter) {
           $scope.currentSearchParams.filter = {};
         }
@@ -53,29 +67,33 @@ angular.module('metadatamanagementApp')
         } else {
           delete $scope.currentSearchParams.filter['related-publication'];
         }
-        if (!initializing) {
-          $scope.relatedPublicationChangedCallback();
-        }
-        initializing = false;
+        $scope.relatedPublicationChangedCallback();
       };
 
       $scope.searchRelatedPublications = function(searchText) {
         var cleanedFilter = _.omit($scope.currentSearchParams.filter,
           'related-publication');
+        var currentProjectId = CurrentProjectService.getCurrentProject() ?
+            CurrentProjectService.getCurrentProject().id : null;
         if (searchText === lastSearchText &&
-          _.isEqual(lastFilter, cleanedFilter)) {
+          _.isEqual(lastFilter, cleanedFilter) &&
+          lastProjectId === currentProjectId) {
           return lastSearchResult;
         }
         return SearchDao.search(searchText, 1,
-          undefined, cleanedFilter,
+          currentProjectId, cleanedFilter,
           'related_publications',
           100).then(function(data) {
             lastSearchText = searchText;
             lastFilter = _.cloneDeep(cleanedFilter);
+            lastProjectId = currentProjectId;
             lastSearchResult = data.hits.hits;
             return data.hits.hits;
           });
       };
-      init();
+      $scope.$watch('currentSearchParams.filter["related-publication"]',
+        function() {
+          init();
+        });
     }
   ]);

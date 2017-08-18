@@ -89,14 +89,58 @@ angular.module('metadatamanagementApp').config(
           'related-publication': 'Publication Filter',
           'panel-identifier': 'Panel Identifier Filter',
           'access-way': 'Access Way Filter',
+          'instrument': 'Instrument Filter',
+          'variable': 'Variable Filter',
+          'survey': 'Survey Filter',
           'input-label': {
-            'studies': 'Filter for Study Search...',
-            'surveys': 'Filter for Survey Search...',
-            'instruments': 'Filter for Instrument Search...',
-            'questions': 'Filter for Question Search...',
-            'data_sets': 'Filter for Data Set Search...',
-            'variables': 'Filter for Variable Search...',
-            'related_publications': 'Filter for Publication Search...'
+            'studies': 'Select filters for Study Search...',
+            'surveys': 'Select filters for Survey Search...',
+            'instruments': 'Select filters for Instrument Search...',
+            'questions': 'Select filters for Question Search...',
+            'data_sets': 'Select filters for Data Set Search...',
+            'variables': 'Select filters for Variable Search...',
+            'related_publications': 'Select filters for Publication Search...'
+          },
+          'uncollapse-filters-tooltip': {
+            'true': 'Click to show selected filters',
+            'false': 'Click to hide selected filters'
+          },
+          'filter-search-input-label': 'Search for possible filters...',
+          'study-filter': {
+            'not-found': 'No study found!',
+            'no-valid-selected': 'No valid study selected!'
+          },
+          'survey-filter': {
+            'not-found': 'No survey found!',
+            'no-valid-selected': 'No valid survey selected!'
+          },
+          'instrument-filter': {
+            'not-found': 'No instrument found!',
+            'no-valid-selected': 'No valid instrument selected!'
+          },
+          'question-filter': {
+            'not-found': 'No question found!',
+            'no-valid-selected': 'No valid question selected!'
+          },
+          'data-set-filter': {
+            'not-found': 'No data set found!',
+            'no-valid-selected': 'No data set selected!'
+          },
+          'variable-filter': {
+            'not-found': 'No variable found!',
+            'no-valid-selected': 'No valid variable selected!'
+          },
+          'related-publication-filter': {
+            'not-found': 'No publication found!',
+            'no-valid-selected': 'No valid publication selected!'
+          },
+          'panel-identifier-filter': {
+            'not-found': 'No panel identifier found!',
+            'no-valid-selected': 'No valid panel identifier selected!'
+          },
+          'access-way-filter': {
+            'not-found': 'No access way found!',
+            'no-valid-selected': 'No valid access way selected!'
           }
         }
       }

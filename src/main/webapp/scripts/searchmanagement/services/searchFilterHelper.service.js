@@ -6,50 +6,87 @@ angular.module('metadatamanagementApp').factory(
   function(CleanJSObjectService) {
     var keyMapping = {
       'studies': {
-        'related-publication': 'relatedPublications.id',
+        'survey': 'surveys.id',
+        'instrument': 'instruments.id',
+        'question': 'questions.id',
         'data-set': 'dataSets.id',
-        'question': 'questions.id'
+        'variable': 'variables.id',
+        'related-publication': 'relatedPublications.id'
       },
       'variables': {
         'study': 'studyId',
+        'survey': 'surveys.id',
+        'instrument': 'instruments.id',
+        'question': 'relatedQuestions.questionId',
         'data-set': 'dataSetId',
         'access-way': 'accessWays',
         'panel-identifier': 'panelIdentifier',
-        'question': 'relatedQuestions.questionId',
         'related-publication': 'relatedPublications.id'
       },
       'surveys': {
+        'study': 'studyId',
         'instrument': 'instruments.id',
-        'variable': 'variables.id',
-        'data-set': 'dataSets.id',
         'question': 'questions.id',
-        'related-publication': 'relatedPublications.id',
-        'study': 'studyId'
+        'data-set': 'dataSets.id',
+        'variable': 'variables.id',
+        'related-publication': 'relatedPublications.id'
       },
       'questions': {
+        'study': 'studyId',
+        'survey': 'surveys.id',
         'instrument': 'instrumentId',
+        'data-set': 'dataSets.id',
         'variable': 'variables.id',
-        'related-publication': 'relatedPublications.id',
-        'study': 'studyId'
+        'related-publication': 'relatedPublications.id'
       },
       'instruments': {
+        'study': 'studyId',
         'survey': 'surveyIds',
-        'related-publication': 'relatedPublications.id',
-        'study': 'studyId'
+        'question': 'questions.id',
+        'data-set': 'dataSets.id',
+        'variable': 'variables.id',
+        'related-publication': 'relatedPublications.id'
       },
       'data_sets': {
         'study': 'studyId',
         'survey': 'surveyIds',
+        'instrument': 'instruments.id',
+        'question': 'questions.id',
+        'variable': 'variables.id',
         'related-publication': 'relatedPublications.id'
       },
       'related_publications': {
-        'variable': 'variableIds',
-        'data-set': 'dataSetIds',
+        'study': 'studyIds',
         'survey': 'surveyIds',
         'instrument': 'instrumentIds',
-        'study': 'studyIds',
-        'question': 'questionIds'
+        'question': 'questionIds',
+        'data-set': 'dataSetIds',
+        'variable': 'variableIds'
       }
+    };
+
+    var hiddenFiltersKeyMapping = {
+      'studies': {
+        'study': '_id'
+      },
+      'variables': {
+        'variable': '_id'
+      },
+      'surveys': {
+        'survey': '_id'
+      },
+      'questions': {
+        'question': '_id'
+      },
+      'instruments': {
+        'instrument': '_id'
+      },
+      'data_sets': {
+        'data-set': '_id'
+      },
+      'related_publications': {
+        'related-publication': '_id'
+      },
     };
 
     var createTermFilters = function(elasticsearchType, filter) {
@@ -61,7 +98,8 @@ angular.module('metadatamanagementApp').factory(
           };
           if (elasticsearchType) {
             var subKeyMapping = keyMapping[elasticsearchType];
-            key = subKeyMapping[key];
+            key = subKeyMapping[key] ||
+              hiddenFiltersKeyMapping[elasticsearchType][key];
             if (key) {
               filterKeyValue.term[key] = value;
               termFilters.push(
@@ -76,7 +114,9 @@ angular.module('metadatamanagementApp').factory(
     var removeIrrelevantFilters = function(elasticsearchType, filter) {
       if (elasticsearchType) {
         var validFilterKeys = _.keys(keyMapping[elasticsearchType]);
-        return _.pick(filter, validFilterKeys);
+        var validHiddenFilterKeys = _.keys(
+          hiddenFiltersKeyMapping[elasticsearchType]);
+        return _.pick(filter, validFilterKeys, validHiddenFilterKeys);
       }
       return {};
     };
@@ -85,10 +125,15 @@ angular.module('metadatamanagementApp').factory(
       return _.keys(keyMapping[elasticsearchType]);
     };
 
+    var getHiddenFilters = function(elasticsearchType) {
+      return _.keys(hiddenFiltersKeyMapping[elasticsearchType]);
+    };
+
     return {
       createTermFilters: createTermFilters,
       removeIrrelevantFilters: removeIrrelevantFilters,
-      getAvailableFilters: getAvailableFilters
+      getAvailableFilters: getAvailableFilters,
+      getHiddenFilters: getHiddenFilters
     };
   }
 );
