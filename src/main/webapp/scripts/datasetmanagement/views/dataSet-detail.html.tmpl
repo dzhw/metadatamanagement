@@ -200,20 +200,13 @@
                             </md-tooltip></a>
                         </td>
                         <td class="fdz-table-number">{{row.numberOfObservations | number: 0}}&nbsp;</td>
-                        <td>
-                            <div ng-if="row.citationHint">
-                                <md-button class="md-icon-button" ng-click="ctrl.openDialog(row)" target="_blank">
-                                    <md-icon md-svg-icon="assets/images/icons/citate.svg"></md-icon>
-                                    <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                                        {{'data-set-management.detail.sub-data-sets.citate-tooltipp'|translate}}
-                                    </md-tooltip>
-                                </md-button>
-                            </div>
-                            <div ng-if="!row.citationHint">
-                                <md-button class="md-icon-button" ng-click="ctrl.openDialog(row)" target="_blank" ng-disabled="true" title="{{'data-set-management.detail.sub-data-sets.no-citate-tooltipp'|translate}}">
-                                    <md-icon md-svg-icon="assets/images/icons/citate.svg"></md-icon>
-                                </md-button>
-                            </div>
+                        <td style="padding-top: 0px; padding-bottom: 0px; margin-bottom: 0px;">
+                          <md-button class="md-icon-button md-primary" ng-click="ctrl.openDialog(row)" ng-disabled="!row.citationHint">
+                            <md-icon md-svg-icon="assets/images/icons/citate.svg"></md-icon>
+                            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                              {{'data-set-management.detail.sub-data-sets.citate-tooltipp'|translate}}
+                            </md-tooltip>
+                          </md-button>
                         </td>
                     </tr>
                 </tbody>
