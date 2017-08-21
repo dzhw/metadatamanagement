@@ -156,9 +156,9 @@
                 <thead>
                     <tr>
                         <th>{{'data-set-management.detail.sub-data-sets.accessWay' | translate }}
-                          <md-tooltip hide-gt-xs md-direction="right">
-                            {{'data-set-management.detail.sub-data-sets.accessWay' | translate }}
-                          </md-tooltip>
+                            <md-tooltip hide-gt-xs md-direction="right">
+                                {{'data-set-management.detail.sub-data-sets.accessWay' | translate }}
+                            </md-tooltip>
                         </th>
                         <th class="fdz-table-absorbing-column">{{'data-set-management.detail.sub-data-sets.description' | translate }}
                             <md-tooltip hide-gt-xs md-direction="right">
@@ -166,9 +166,9 @@
                             </md-tooltip>
                         </th>
                         <th>{{'data-set-management.detail.sub-data-sets.name' | translate }}
-                          <md-tooltip hide-gt-xs md-direction="right">
-                            {{'data-set-management.detail.sub-data-sets.name' | translate }}
-                          </md-tooltip>
+                            <md-tooltip hide-gt-xs md-direction="right">
+                                {{'data-set-management.detail.sub-data-sets.name' | translate }}
+                            </md-tooltip>
                         </th>
                         <th>{{'data-set-management.detail.sub-data-sets.numberOfAnalyzedVariables' | translate }}
                             <md-tooltip hide-gt-xs md-direction="right">
@@ -179,6 +179,12 @@
                             <md-tooltip hide-gt-xs md-direction="right">
                                 {{'data-set-management.detail.sub-data-sets.numberOfObservations' | translate }}
                             </md-tooltip>
+                        </th>
+                        <th>
+                          {{'data-set-management.detail.sub-data-sets.citation' | translate }}
+                              <md-tooltip hide-gt-xs md-direction="right">
+                                  {{'data-set-management.detail.sub-data-sets.citation' | translate }}
+                              </md-tooltip>
                         </th>
                     </tr>
                 </thead>
@@ -194,6 +200,14 @@
                             </md-tooltip></a>
                         </td>
                         <td class="fdz-table-number">{{row.numberOfObservations | number: 0}}&nbsp;</td>
+                        <td style="padding-top: 0px; padding-bottom: 0px; margin-bottom: 0px;">
+                          <md-button class="md-icon-button md-primary" ng-click="ctrl.openDialog(row)" ng-disabled="!row.citationHint">
+                            <md-icon md-svg-icon="assets/images/icons/citate.svg"></md-icon>
+                            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                              {{'data-set-management.detail.sub-data-sets.citate-tooltipp'|translate}}
+                            </md-tooltip>
+                          </md-button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -247,11 +261,11 @@
         </md-card>
     </div>
     <div class="fdz-fab-button-container" layout="column">
-      <md-button ng-if="ctrl.isAuthenticated() && ctrl.hasAuthority('ROLE_PUBLISHER')" type="file" ngf-select="ctrl.uploadTexTemplate($files)" ngf-multiple="true" directory webkitdirectory class="md-accent md-fab">
-          <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-              {{'data-set-management.detail.generate-variable-report-tooltip' | translate}}
-          </md-tooltip>
-          <md-icon md-font-set="material-icons">note_add</md-icon>
-      </md-button>
+        <md-button ng-if="ctrl.isAuthenticated() && ctrl.hasAuthority('ROLE_PUBLISHER')" type="file" ngf-select="ctrl.uploadTexTemplate($files)" ngf-multiple="true" directory webkitdirectory class="md-accent md-fab">
+            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                {{'data-set-management.detail.generate-variable-report-tooltip' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">note_add</md-icon>
+        </md-button>
     </div>
 </div>

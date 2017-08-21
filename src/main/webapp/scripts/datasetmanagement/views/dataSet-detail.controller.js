@@ -6,11 +6,16 @@ angular.module('metadatamanagementApp')
       VariableSearchService,
       DataSetSearchService, DataSetReportService, PageTitleService,
       LanguageService, $state, ToolbarHeaderService, CleanJSObjectService,
-      SimpleMessageToastService, DataSetAttachmentResource) {
+      SimpleMessageToastService, DataSetAttachmentResource,
+      DataSetCitateDialogService) {
       var ctrl = this;
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAuthority = Principal.hasAuthority;
       ctrl.counts = {};
+
+      ctrl.openDialog = function(subDataSet) {
+        DataSetCitateDialogService.showDialog(subDataSet.citationHint);
+      };
 
       entity.promise.then(function(result) {
         var currenLanguage = LanguageService.getCurrentInstantly();

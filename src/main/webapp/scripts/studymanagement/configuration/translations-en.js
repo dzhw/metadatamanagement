@@ -25,7 +25,6 @@ angular.module('metadatamanagementApp').config(
           'version': 'Version of Data Sets',
           'notes': 'Botes',
           'surveyDesign': 'Survey Design',
-          'citationHint': 'Citation Hint',
           'instruments': 'Instruments',
           'annotations': 'Annotations',
           'wave': 'Available Waves',
@@ -121,9 +120,6 @@ angular.module('metadatamanagementApp').config(
             },
             'sponsor': {
               'i18n-string-size': 'The max length of the sponsor of the study is 128.'
-            },
-            'citation-hint': {
-              'i18n-string-size': 'The max length of the citation hint of the study is 2048.'
             },
             'survey-series': {
               'i18n-string-size': 'The max length of the survey series is 128 signs.'

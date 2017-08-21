@@ -26,7 +26,8 @@ angular.module('metadatamanagementApp').config(
             'unknown-data-set-number': 'Ein Attachment der Datensätze aus der Zeile {{index}} im Excel Dokument verweist auf eine unbekannte Datensatznummer: {{dataSetNumber}}.'
           },
           'sub-data-set': {
-            'unknown-data-set-number': 'Der Subdatensatz aus der Zeile {{index}} im Excel Dokument verweist auf eine unbekannte Datensatznummer: {{dataSetNumber}}.'
+            'unknown-data-set-number': 'Der Subdatensatz aus der Zeile {{index}} im Excel Dokument verweist auf eine unbekannte Datensatznummer: {{dataSetNumber}}.',
+            'citation-success-copy-to-clipboard': 'Die Zitation wurde erfolgreich in die Zwischenablage kopiert.'
           },
           'tex': {
             'upload-terminated': 'Upload von Tex Template beendet!',
@@ -58,7 +59,12 @@ angular.module('metadatamanagementApp').config(
             'numberOfAnalyzedVariables': 'Analysierbare Variablen',
             'unknownNumberOfAnalyzedVariables': 'Nicht bekannt',
             'numberOfAnalyzedVariables-tooltip': 'Klicken, um alle analysierbaren Variablen dieses Subdatensatzes anzuzeigen',
-            'numberOfObservations': 'Fälle'
+            'numberOfObservations': 'Fälle',
+            'citate': 'Zitieren',
+            'citation': 'Zitation',
+            'citate-tooltipp': 'Klicken, um Zitationsinformationen zu erhalten und zu kopieren.',
+            'no-citate-tooltipp': 'Dieser Subdatansatz hat keine Informationen zur Zitation.',
+            'copy-complete-citation-tooltip': 'Klicken, um die Zitation in die Zwischenablage zu kopieren.'
           },
           'attachments': {
             'table-title': 'Materialien zu dem Datensatz',
@@ -182,6 +188,9 @@ angular.module('metadatamanagementApp').config(
             'description': {
               'i18n-string-not-empty': 'Die Beschreibung des {{index}}. Sub-Daten-Satzes darf nicht leer sein!',
               'i18n-string-size': 'Die Maximallänge der Beschreibung des {{index}}. Sub-Daten-Satzes ist 128 Zeichen.'
+            },
+            'citation-hint': {
+              'i18n-string-size': 'Die Maximallänge des Zitationshinweises eines Subdatensatzes ist 2048 Zeichen.'
             },
             'access-way': {
               'not-null': 'Der Zugangsweg des {{index}}. Sub-Daten-Satzes darf nicht leer sein!',

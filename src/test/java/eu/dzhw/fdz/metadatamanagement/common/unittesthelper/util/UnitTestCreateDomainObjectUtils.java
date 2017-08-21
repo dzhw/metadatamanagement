@@ -97,11 +97,7 @@ public class UnitTestCreateDomainObjectUtils {
     
     return new StudyBuilder()
         .withId(UnitTestCreateValidIds.buildStudyId(projectId))
-        .withAuthors(authors)
-        .withCitationHint(new I18nStringBuilder()
-            .withDe("Citation Hint De")
-            .withEn("Citation Hint En")
-            .build())
+        .withAuthors(authors)        
         .withDescription(new I18nStringBuilder()
             .withDe("Description De")
             .withEn("Description En")
@@ -177,7 +173,11 @@ public class UnitTestCreateDomainObjectUtils {
     List<SubDataSet> subDataSets = new ArrayList<>(); 
     subDataSets.add(new SubDataSetBuilder().withName(UnitTestCreateValidIds.buildDataSetId(projectId, 1))
         .withNumberOfObservations(1)
-        .withAccessWay(AccessWays.DOWNLOAD_SUF) 
+        .withAccessWay(AccessWays.DOWNLOAD_SUF)
+        .withCitationHint(new I18nStringBuilder()
+            .withDe("Citation Hint De")
+            .withEn("Citation Hint En")
+            .build())
         .withDescription(new I18nStringBuilder().withDe("Description DE")
           .withEn("Description 3 EN")
           .build()).build());

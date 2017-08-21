@@ -26,7 +26,8 @@ angular.module('metadatamanagementApp').config(
             'unknown-data-set-number': 'An Attachment of the Data Sets from the line {{ index }} of the excel document has a reference to an unknown Data Set Number: {{dataSetNumber}}.'
           },
           'sub-data-set': {
-            'unknown-data-set-number': 'The Sub Data Set from the line {{ index }} of the excel document has a reference to an unknown Data Set Number: {{dataSetNumber}}.'
+            'unknown-data-set-number': 'The Sub Data Set from the line {{ index }} of the excel document has a reference to an unknown Data Set Number: {{dataSetNumber}}.',
+            'citation-success-copy-to-clipboard': 'The citation was copied succesfully into the clipboard.'
           },
           'tex': {
             'upload-terminated': 'Tex file upload terminated!',
@@ -58,7 +59,12 @@ angular.module('metadatamanagementApp').config(
             'numberOfAnalyzedVariables': 'Analyzable Variables',
             'unknownNumberOfAnalyzedVariables': 'Unknown',
             'numberOfAnalyzedVariables-tooltip': 'Click to show all analyzable variables of this sub data set',
-            'numberOfObservations': 'Observations'
+            'numberOfObservations': 'Observations',
+            'citate': 'Citate',
+            'citation': 'Citation',
+            'citate-tooltipp': 'Click to show citation information and to copy them.',
+            'no-citate-tooltipp': 'This Sub Data Set has no information about the citation.',
+            'copy-complete-citation-tooltip': 'Click for copy the citation to the clipboard.'
           },
           'attachments': {
             'table-title': 'Documents related to the Data Set',
@@ -182,6 +188,9 @@ angular.module('metadatamanagementApp').config(
             'description': {
               'i18n-string-not-empty': 'The Description of the {{index}}. Sub Data Set must not be empty!',
               'i18n-string-size': 'The max length of the Name of the {{index}}. Sub Data Set is 32 signs.'
+            },
+            'citation-hint': {
+              'i18n-string-size': 'The max length of the citation hint of the Sub Data Set is 2048.'
             },
             'access-way': {
               'not-null': 'The value of Access Way of the {{index}}. Sub Data Set must not be empty!',

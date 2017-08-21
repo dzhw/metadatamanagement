@@ -67,7 +67,6 @@ angular.module('metadatamanagementApp').controller('FdzWelcomeDialogController',
     };
 
     $scope.closeDialog = function() {
-      console.log($scope.checkBox.closeWelcomeDialogForever);
       if ($scope.checkBox.closeWelcomeDialogForever) {
         localStorageService.set('closeWelcomeDialogForever', true);
       }

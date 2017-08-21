@@ -29,8 +29,6 @@ public interface CompleteStudyProjection extends AbstractRdcDomainObjectProjecti
   
   I18nString getSponsor();
   
-  I18nString getCitationHint();
-  
   List<Person> getAuthors();
   
   String getDataAcquisitionProjectId();

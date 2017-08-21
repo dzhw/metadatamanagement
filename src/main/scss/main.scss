@@ -19,7 +19,6 @@ $state-danger-bg: #F5D0D0 !default;
 $state-danger-border: $brand-danger !default; // bower:scss
  @import "bootstrap-sass/assets/stylesheets/_bootstrap.scss";
  // endbower
-
 h1,
 h2,
 h3 {
@@ -556,6 +555,15 @@ md-dialog h2 {
     margin: 5px;
 }
 
+.fdz-table-rotated td .md-button {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 0px;
+    margin-left: 0px;
+    min-height: 0px;
+    height: 18px;
+}
+
 .fdz-table-rotated th:last-child {
     border-bottom: 0;
 }
@@ -688,24 +696,24 @@ md-tab-item:hover {
 }
 
 .fdz-search-filter-component md-input-container {
-  margin: 0px;
+    margin: 0;
 }
 
 .fdz-search-filter-component {
-  margin-bottom: 0px !important;
+    margin-bottom: 0 !important;
 }
 
 .fdz-search-filter-component button {
-  top: 2px !important;
+    top: 2px !important;
 }
 
 .fdz-search-filter-component md-progress-linear {
-  bottom: 22px !important;
+    bottom: 22px !important;
 }
 
-.fdz-search-filter-component md-input-container.md-input-has-value label,
-.fdz-search-filter-component md-input-container.md-input-focused label {
-  bottom: 80% !important;
+.fdz-search-filter-component md-input-container.md-input-focused label,
+.fdz-search-filter-component md-input-container.md-input-has-value label {
+    bottom: 80% !important;
 }
 
 .fdz-search-filter-component md-input-container label:not(.md-container-ignore) {
@@ -713,17 +721,17 @@ md-tab-item:hover {
 }
 
 .fdz-search-filter-component .ng-active div[ng-message] {
-  opacity: 1;
-  margin-top: 0px;
+    opacity: 1;
+    margin-top: 0;
 }
 
 .md-select-placeholder {
-  font-weight: bold;
+    font-weight: bold;
 }
 
 .fdz-select-header {
-  background-color: white;
-  padding-left: 10px;
+    background-color: white;
+    padding-left: 10px;
 }
 
 .fdz-select-header md-input-container {
@@ -731,9 +739,9 @@ md-tab-item:hover {
     margin-top: 10px;
 }
 
-.fdz-select-header md-input-container.md-input-has-value label,
-.fdz-select-header md-input-container.md-input-focused label {
-  bottom: 65% !important;
+.fdz-select-header md-input-container.md-input-focused label,
+.fdz-select-header md-input-container.md-input-has-value label {
+    bottom: 65% !important;
 }
 
 .fdz-select-header .md-errors-spacer {
@@ -741,12 +749,12 @@ md-tab-item:hover {
 }
 
 .fdz-filter-select {
-  margin-left: 8px;
-  margin-right: 0px;
-  margin-bottom: 24px;
+    margin-left: 8px;
+    margin-right: 0;
+    margin-bottom: 24px;
 }
 
-md-input-container.fdz-filter-select.md-input-has-value label,
-md-input-container.fdz-filter-select.md-input-focused label {
-  bottom: 89% !important;
+md-input-container.fdz-filter-select.md-input-focused label,
+md-input-container.fdz-filter-select.md-input-has-value label {
+    bottom: 89% !important;
 }
