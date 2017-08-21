@@ -162,7 +162,8 @@ angular.module('metadatamanagementApp').config(
           },
           'error': {
             'dontmatch': 'Das bestätigte Passwort entspricht nicht dem neuen Passwort!',
-            'unavailable': 'Nicht vorhanden!'
+            'unavailable': 'Nicht vorhanden!',
+            'undocumented': 'Nicht erfasst.'
           },
           'validate': {
             'newpassword': {
