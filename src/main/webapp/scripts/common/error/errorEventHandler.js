@@ -12,6 +12,7 @@ angular.module('metadatamanagementApp').run(
     $rootScope.$on('serverNotReachableError', function() {
       SimpleMessageToastService.openSimpleMessageToast('global.error.' +
         'server-not-reachable');
+      ToolbarHeaderService.updateToolbarHeader({'stateName': 'error'});
     });
 
     //Client Error 401
@@ -19,6 +20,7 @@ angular.module('metadatamanagementApp').run(
     function(event, response) { // jshint ignore:line
       SimpleMessageToastService.openSimpleMessageToast('global.error.' +
         'client-error.unauthorized-error', {status: response.status});
+      ToolbarHeaderService.updateToolbarHeader({'stateName': 'error'});
     });
 
     //Client Error 403
@@ -26,6 +28,7 @@ angular.module('metadatamanagementApp').run(
     function(event, response) { // jshint ignore:line
       SimpleMessageToastService.openSimpleMessageToast('global.error.' +
         'client-error.forbidden-error', {status: response.status});
+      ToolbarHeaderService.updateToolbarHeader({'stateName': 'error'});
     });
 
     //Client Error 404
@@ -33,6 +36,7 @@ angular.module('metadatamanagementApp').run(
     function(event, response) { // jshint ignore:line
       SimpleMessageToastService.openSimpleMessageToast('global.error.' +
         'client-error.not-found-error', {status: response.status});
+      ToolbarHeaderService.updateToolbarHeader({'stateName': 'error'});
     });
 
     //Server Error 500 to 511
@@ -40,6 +44,6 @@ angular.module('metadatamanagementApp').run(
     function(event, response) { // jshint ignore:line
       SimpleMessageToastService.openSimpleMessageToast('global.error.' +
         'server-error.internal-server-error', {status: response.status});
+      ToolbarHeaderService.updateToolbarHeader({'stateName': 'error'});
     });
-    ToolbarHeaderService.updateToolbarHeader({'stateName': 'error'});
   });
