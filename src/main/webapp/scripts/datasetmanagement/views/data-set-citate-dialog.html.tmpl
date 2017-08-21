@@ -11,11 +11,11 @@
         </div>
     </md-toolbar>
     <div class="md-dialog-content" layout="row">
-        <span display-i18n-string="ctrl.citation"></span>
+        <span id="citationHint" display-i18n-string="ctrl.citation"></span>
     </div>
     <md-dialog-actions>
         <span flex></span>
-        <md-button ng-click="ctrl.openSuccessCopyToClipboardToast('data-set-management.log-messages.sub-data-set.citation-success-copy-to-clipboard')" class="md-icon-button md-primary" ngclipboard data-clipboard-text="{{ctrl.citation}}">
+        <md-button ng-click="ctrl.openSuccessCopyToClipboardToast('data-set-management.log-messages.sub-data-set.citation-success-copy-to-clipboard')" class="md-icon-button md-primary" ngclipboard data-clipboard-target="#citationHint">
             <md-icon md-font-library="material-icons">content_copy</md-icon>
             <md-tooltip md-direction="south" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'data-set-management.detail.sub-data-sets.copy-complete-citation-tooltip' | translate}}
