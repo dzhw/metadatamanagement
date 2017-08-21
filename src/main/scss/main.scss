@@ -555,7 +555,12 @@ md-dialog h2 {
     margin: 5px;
 }
 
-.fdz-table-rotated td .md-button {
+.fdz-table-wide td .md-icon-button {
+  padding: 0px;
+  height: auto;
+}
+
+.fdz-table-rotated td .md-icon-button {
     padding-top: 0px;
     padding-bottom: 0px;
     padding-left: 0px;
