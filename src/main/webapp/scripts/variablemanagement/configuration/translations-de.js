@@ -242,7 +242,7 @@ angular.module('metadatamanagementApp').config(
             'related-question-number-size': 'Die Maximallänge der Nummer einer Frage ist 32 Zeichen.',
             'related-question-number-not-empty': 'Eine verbundene Frage hat keine Nummer',
             'related-question-instrument-number-not-empty': 'Ein Instrument hat keine Nummer',
-            'valid-identifier': 'Die Panel-Kennung der Variable entspricht nicht dem Muster: DataAcquisitionProjectId + "-" + "ds" + "dataSetNumber" + "-" + string',
+            'valid-panel-identifier': 'Die Panel-Kennung der Variable entspricht nicht dem Muster: DataAcquisitionProjectId + "-" + "ds" + "dataSetNumber" + "-" + string',
             'panel-identifier-size': 'Die Maximallänge der Panel-Kennung der Variable ist 128 Zeichen.',
             'panel-identifier-pattern': 'Für die Panel-Kennung der Variable dürfen nur alphanumerische Zeichen, deutsche Umlaute, ß und das Minus verwendet werden.',
             'only-ordinal-scale-level-for-date-data-type': 'Das Skalenniveau einer Datumsvariable muss ordinal sein.',

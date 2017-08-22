@@ -242,7 +242,7 @@ angular.module('metadatamanagementApp').config(
             'related-question-number-size': 'The max Length of Question Number is 32 signs.',
             'related-question-number-not-empty': 'A Related Question doesn\'t have a Number!',
             'related-question-instrument-number-not-empty': 'An Instrument doesn\'t have a Number!',
-            'valid-identifier': 'The Panel Identifier of the Variable is not valid for the Pattern: DataAcquisitionProjectId + "-" + "ds" + "dataSetNumber" + "-" + string.',
+            'valid-panel-identifier': 'The Panel Identifier of the Variable is not valid for the Pattern: DataAcquisitionProjectId + "-" + "ds" + "dataSetNumber" + "-" + string.',
             'panel-identifier-size': 'The max length of Panel Identifier of the Variable is 128 signs.',
             'panel-identifier-pattern': 'Use only alphanumeric signs, german umlauts, ß and minus for the Panel Identifier of the Variable.',
             'only-ordinal-scale-level-for-date-data-type': 'The scale level of a date variable must be ordinal.',
