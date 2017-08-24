@@ -34,6 +34,7 @@ angular.module('metadatamanagementApp').config(
           'variables': 'Variables',
           'variable-informations': 'Informations',
           'variables-in-panel': 'Panel Variables',
+          'derived-variables': 'Derived Variables',
           'related-objects': 'Related Objects',
           'frequencies': 'Frequencies',
           'generation-details': 'Generation Details',
@@ -128,7 +129,8 @@ angular.module('metadatamanagementApp').config(
               'many': 'Click to show all questions from which this variable resulted'
             },
             'variables': {
-              'same-in-panel': 'Click to show all panel variables related to this variable'
+              'same-in-panel': 'Click to show all panel variables related to this variable',
+              'derived-variables': 'Click to show all derived variables related to this variable',
             },
             'studies': {
               'one': 'Click to show the study from which this variable resulted'
