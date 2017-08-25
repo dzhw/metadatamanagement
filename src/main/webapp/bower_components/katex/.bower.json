@@ -32,12 +32,12 @@
     "/metrics",
     "/static"
   ],
-  "version": "0.7.1",
-  "_release": "0.7.1",
+  "version": "0.8.2",
+  "_release": "0.8.2",
   "_resolution": {
     "type": "version",
-    "tag": "v0.7.1",
-    "commit": "f2c438af4ef2e9037e5922a1c56414614bb5ce44"
+    "tag": "v0.8.2",
+    "commit": "c35786a37758724810c15a4f682a8443b38d5880"
   },
   "_source": "https://github.com/Khan/KaTeX.git",
   "_target": ">=0.4.0",
