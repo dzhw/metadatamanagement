@@ -37,12 +37,12 @@
     "*.json",
     "*.md"
   ],
-  "version": "1.8.5",
-  "_release": "1.8.5",
+  "version": "1.8.6",
+  "_release": "1.8.6",
   "_resolution": {
     "type": "version",
-    "tag": "v1.8.5",
-    "commit": "3fee7f9eec75b9e9234706cca01bf128607a41a6"
+    "tag": "v1.8.6",
+    "commit": "d273ea52d91b482d044f8cef1e921256f2bfddcd"
   },
   "_source": "https://github.com/novus/nvd3.git",
   "_target": "^1.7.1",
