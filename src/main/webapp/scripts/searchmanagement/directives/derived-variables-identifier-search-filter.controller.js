@@ -35,7 +35,7 @@ angular.module('metadatamanagementApp')
                     $scope.derivedVariablesIdentifierFilterForm
                       .derivedVariablesIdentifierFilter
                       .$setValidity('md-require-match', false);
-                  });
+                  }, 500);
                   $scope.derivedVariablesIdentifierFilterForm
                     .derivedVariablesIdentifierFilter
                     .$setTouched();
