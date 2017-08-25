@@ -21,6 +21,7 @@ angular.module('metadatamanagementApp').factory(
         'data-set': 'dataSetId',
         'access-way': 'accessWays',
         'panel-identifier': 'panelIdentifier',
+        'derived-variables-identifier': 'derivedVariablesIdentifier',
         'related-publication': 'relatedPublications.id'
       },
       'surveys': {

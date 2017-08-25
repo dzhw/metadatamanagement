@@ -2,10 +2,10 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('PanelIdentifierSearchFilterController', [
+  .controller('DerivedVariablesIdentifierSearchFilterController', [
     '$scope', 'VariableSearchService', '$timeout', 'CurrentProjectService',
     function($scope, VariableSearchService, $timeout, CurrentProjectService) {
-      // prevent panel-identifier changed events during init
+      // prevent derived-variables-identifier changed events during init
       var initializing = true;
       var selectionChanging = false;
       var lastSearchText;
@@ -19,20 +19,25 @@ angular.module('metadatamanagementApp')
         }
         initializing = true;
         if ($scope.currentSearchParams.filter &&
-          $scope.currentSearchParams.filter['panel-identifier']) {
-          $scope.searchPanelIdentifiers(
-            $scope.currentSearchParams.filter['panel-identifier']).then(
-              function(panelIdentifiers) {
-                if (panelIdentifiers.length === 1) {
-                  $scope.currentPanelIdentifier = panelIdentifiers[0];
+          $scope.currentSearchParams.filter['derived-variables-identifier']) {
+          $scope.searchDerivedVariablesIdentifiers(
+            $scope.currentSearchParams.filter['derived-variables-identifier'])
+            .then(
+              function(derivedVariablesIdentifiers) {
+                if (derivedVariablesIdentifiers.length === 1) {
+                  $scope.currentDerivedVariablesIdentifier =
+                    derivedVariablesIdentifiers[0];
                 } else {
-                  $scope.currentPanelIdentifier =
-                    $scope.currentSearchParams.filter['panel-identifier'];
+                  $scope.currentDerivedVariablesIdentifier =
+                    $scope.currentSearchParams
+                      .filter['derived-variables-identifier'];
                   $timeout(function() {
-                    $scope.panelIdentifierFilterForm.panelIdentifierFilter
+                    $scope.derivedVariablesIdentifierFilterForm
+                      .derivedVariablesIdentifierFilter
                       .$setValidity('md-require-match', false);
                   });
-                  $scope.panelIdentifierFilterForm.panelIdentifierFilter
+                  $scope.derivedVariablesIdentifierFilterForm
+                    .derivedVariablesIdentifierFilter
                     .$setTouched();
                 }
               });
@@ -40,7 +45,7 @@ angular.module('metadatamanagementApp')
           initializing = false;
         }
       };
-      $scope.onSelectionChanged = function(panelIdentifier) {
+      $scope.onSelectionChanged = function(derivedVariablesIdentifier) {
         if (initializing) {
           initializing = false;
           return;
@@ -49,18 +54,19 @@ angular.module('metadatamanagementApp')
         if (!$scope.currentSearchParams.filter) {
           $scope.currentSearchParams.filter = {};
         }
-        if (panelIdentifier) {
-          $scope.currentSearchParams.filter['panel-identifier'] =
-          panelIdentifier;
+        if (derivedVariablesIdentifier) {
+          $scope.currentSearchParams.filter['derived-variables-identifier'] =
+          derivedVariablesIdentifier;
         } else {
-          delete $scope.currentSearchParams.filter['panel-identifier'];
+          delete $scope.currentSearchParams
+            .filter['derived-variables-identifier'];
         }
-        $scope.panelIdentifierChangedCallback();
+        $scope.derivedVariablesIdentifierChangedCallback();
       };
 
-      $scope.searchPanelIdentifiers = function(searchText) {
+      $scope.searchDerivedVariablesIdentifiers = function(searchText) {
         var cleanedFilter = _.omit($scope.currentSearchParams.filter,
-          'panel-identifier');
+          'derived-variables-identifier');
         var currentProjectId = CurrentProjectService.getCurrentProject() ?
           CurrentProjectService.getCurrentProject().id : null;
         if (searchText === lastSearchText &&
@@ -68,19 +74,20 @@ angular.module('metadatamanagementApp')
           lastProjectId === currentProjectId) {
           return lastSearchResult;
         }
-        return VariableSearchService.findPanelIdentifiers(
+        return VariableSearchService.findDerivedVariablesIdentifiers(
           searchText, cleanedFilter,
           currentProjectId)
-          .then(function(panelIdentifiers) {
+          .then(function(derivedVariablesIdentifiers) {
             lastSearchText = searchText;
             lastFilter = _.cloneDeep(cleanedFilter);
             lastProjectId = currentProjectId;
-            lastSearchResult = panelIdentifiers;
-            return panelIdentifiers;
+            lastSearchResult = derivedVariablesIdentifiers;
+            return derivedVariablesIdentifiers;
           }
         );
       };
-      $scope.$watch('currentSearchParams.filter["panel-identifier"]',
+      $scope
+        .$watch('currentSearchParams.filter["derived-variables-identifier"]',
         function() {
           init();
         });
