@@ -36,6 +36,7 @@ angular.module('metadatamanagementApp').config(
           'field-period': 'Field Period',
           'population': 'Population',
           'survey-method': 'Survey Method',
+          'data-type': 'Data Type',
           'sample': 'Sample',
           'not-found': 'The {{id}} references to an unknown Survey.',
           'not-found-references': 'The id {{id}} has no References to Surveys.',
@@ -122,6 +123,10 @@ angular.module('metadatamanagementApp').config(
             },
             'annotations': {
               'i18n-string-size': 'The max length of the annotations is 2048 signs.'
+            },
+            'data-type': {
+              'not-null': 'The data type of the survey must not be empty.',
+              'valid-data-type': 'The data type of the survey allows only following valus: de = "Quantitative Daten" and en = "Quantitative Data" or de = "Qualitative Daten" and en = "Qualitative Data"'
             }
           },
           'survey-attachment-metadata': {

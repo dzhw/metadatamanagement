@@ -92,7 +92,7 @@ public class Survey extends AbstractRdcDomainObject {
 
   private Double responseRate;
   
-  @I18nStringNotEmpty(message = "survey-management.error.survey.data-type.i18n-string-not-empty")
+  @NotNull(message = "survey-management.error.survey.data-type.not-null")
   @ValidDataType(message = "survey-management.error.survey.data-type.valid-data-type")
   private I18nString dataType;
 
