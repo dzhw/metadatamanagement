@@ -31,7 +31,7 @@
     "grunt-text-replace": "0.4.0",
     "grunt-usemin": "3.1.1",
     "grunt-wiredep": "3.0.1",
-    "jasmine-core": "2.7.0",
+    "jasmine-core": "2.8.0",
     "jshint-stylish": "2.2.1",
     "karma": "1.7.0",
     "karma-chrome-launcher": "2.2.0",
@@ -48,7 +48,7 @@
     "requirejs": "2.3",
     "time-grunt": "1.4.0",
     "wiredep": "4.0.0",
-    "xml2js": "0.4.18",
+    "xml2js": "0.4.19",
     "zeparser": "0.0.7"
   },
   "engines": {
