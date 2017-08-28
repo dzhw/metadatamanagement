@@ -155,6 +155,7 @@ public class UnitTestCreateDomainObjectUtils {
       .withAnnotations(new I18nStringBuilder().withDe("De Anmerkungen")
           .withEn("En Annotations")
           .build())
+      .withDataType(eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.DataTypes.QUALITATIVE_DATA)
       .withGrossSampleSize(100)
       .withSampleSize(100)
       .withResponseRate(100.0)

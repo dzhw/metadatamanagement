@@ -20,6 +20,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation.ValidDataType;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation.ValidSurveyIdName;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation.ValidUniqueSurveyNumber;
 import io.searchbox.annotations.JestId;
@@ -90,6 +91,10 @@ public class Survey extends AbstractRdcDomainObject {
   private Integer sampleSize;
 
   private Double responseRate;
+  
+  @I18nStringNotEmpty(message = "survey-management.error.survey.data-type.i18n-string-not-empty")
+  @ValidDataType(message = "survey-management.error.survey.data-type.valid-data-type")
+  private I18nString dataType;
 
   @Indexed
   @NotEmpty(message = "survey-management.error.survey.study-id.not-empty")
@@ -179,6 +184,7 @@ public class Survey extends AbstractRdcDomainObject {
       .add("studyId", studyId)
       .add("annotations", annotations)
       .add("wave", wave)
+      .add("dataType", dataType)
       .toString();
   }
 
@@ -251,5 +257,13 @@ public class Survey extends AbstractRdcDomainObject {
 
   public void setWave(Integer wave) {
     this.wave = wave;
+  }
+
+  public I18nString getDataType() {
+    return dataType;
+  }
+
+  public void setDataType(I18nString dataType) {
+    this.dataType = dataType;
   }
 }
