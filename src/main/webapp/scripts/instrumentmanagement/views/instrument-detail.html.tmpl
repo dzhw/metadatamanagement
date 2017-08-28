@@ -72,7 +72,7 @@
                             </a>
                        </div>
                         <div ng-if="ctrl.surveyCount > 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="search({'type': 'surveys', 'instrument':ctrl.instrument.id, 'study': ctrl.instrument.studyId, 'page': 1})">
+                            <a ui-sref="search({'type': 'surveys', 'instrument':ctrl.instrument.id, 'study': ctrl.instrument.studyId, 'sort-by': 'number', 'page': 1})">
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                                 {{'survey-management.detail.surveys' | translate }}: ({{ctrl.surveyCount}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">

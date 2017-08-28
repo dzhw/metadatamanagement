@@ -107,7 +107,7 @@
                             </a>
                         </div>
                         <div ng-if="ctrl.counts.instrumentsCount > 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="search({'type': 'instruments', 'study': ctrl.study.id, 'page': 1})">
+                            <a ui-sref="search({'type': 'instruments', 'study': ctrl.study.id, 'sorty-by': 'number', 'page': 1})">
                                 <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
                                 {{'instrument-management.detail.instruments' | translate }}: ({{ctrl.counts.instrumentsCount}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">

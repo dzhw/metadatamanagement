@@ -103,7 +103,7 @@
                         </a>
                       </div>
                       <div ng-if="counts.surveysCount > 1" class="fdz-truncate-string" flex>
-                        <a ui-sref="search({'type': 'surveys', 'variable':variable.id, 'study': variable.studyId, 'data-set': variable.dataSetId, 'page': 1})">
+                        <a ui-sref="search({'type': 'surveys', 'variable':variable.id, 'study': variable.studyId, 'data-set': variable.dataSetId, 'sort-by': 'number', 'page': 1})">
                           <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                           {{'survey-management.detail.surveys' | translate }}: ({{counts.surveysCount}})
                           <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 20">
@@ -157,7 +157,7 @@
                             {{'variable-management.detail.variables-in-panel' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
                         <div ng-if="counts.variablesInPanel > 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="search({'type': 'variables', 'panel-identifier':variable.panelIdentifier, 'study': variable.studyId, 'data-set': variable.dataSetId, 'page': 1})">
+                            <a ui-sref="search({'type': 'variables', 'panel-identifier':variable.panelIdentifier, 'study': variable.studyId, 'data-set': variable.dataSetId, 'sort-by': 'indexInDataSet', 'page': 1})">
                                 <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
                                 {{'variable-management.detail.variables-in-panel' | translate }}: ({{counts.variablesInPanel}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 20">
