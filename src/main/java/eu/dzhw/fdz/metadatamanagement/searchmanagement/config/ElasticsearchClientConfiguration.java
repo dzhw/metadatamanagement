@@ -45,7 +45,7 @@ public class ElasticsearchClientConfiguration {
           .multiThreaded(true)
           .gson(gson)
           .build();
-
+    
     // Construct a new Jest client according to configuration via factory
     JestClientFactory factory = new JestClientFactory();
     factory.setHttpClientConfig(clientConfig);

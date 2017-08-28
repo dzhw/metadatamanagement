@@ -2,7 +2,7 @@
 	"questions": {
 		"_all": {
 			"enabled": true,
-			"analyzer": "trigrams"
+			"analyzer": "ngrams"
 		},
 		"dynamic_templates": [{
 			"default_mapping": {
@@ -14,11 +14,28 @@
 			}
 		}],
 		"properties": {
+			"id": {
+				"type": "string",
+				"index": "not_analyzed",
+				"fields": {
+					"ngrams": {
+						"type": "string",
+						"index": "analyzed",
+						"analyzer": "ngrams",
+						"norms": false
+					}
+				}
+			},
 			"dataAcquisitionProjectId": {
 				"type": "string",
 				"index": "not_analyzed"
 			},
 			"successors": {
+				"type": "string",
+				"index": "not_analyzed",
+				"include_in_all": false
+			},
+			"successorNumbers": {
 				"type": "string",
 				"index": "not_analyzed",
 				"include_in_all": false
@@ -33,7 +50,15 @@
 			},
 			"number": {
 				"type": "string",
-				"index": "not_analyzed"
+				"index": "not_analyzed",
+				"fields": {
+					"edge_ngrams": {
+						"type": "string",
+						"index": "analyzed",
+						"analyzer": "edge_ngrams_small",
+						"norms": false
+					}
+				}
 			},
 			"indexInInstrument": {
 				"type": "integer"
@@ -46,28 +71,29 @@
 				"properties": {
 					"de": {
 						"type": "string",
-						"index": "analyzed",
-						"analyzer": "german"
+						"index": "no",
+						"include_in_all": true,
+						"fields": {
+							"ngrams": {
+								"type": "string",
+								"index": "analyzed",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
 					},
 					"en": {
 						"type": "string",
-						"index": "analyzed",
-						"analyzer": "english"
-					}
-				}
-			},
-			"topic": {
-				"type": "object",
-				"properties": {
-					"de": {
-						"type": "string",
-						"index": "analyzed",
-						"analyzer": "german"
-					},
-					"en": {
-						"type": "string",
-						"index": "analyzed",
-						"analyzer": "english"
+						"index": "no",
+						"include_in_all": true,
+						"fields": {
+							"ngrams": {
+								"type": "string",
+								"index": "analyzed",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
 					}
 				}
 			},
@@ -76,22 +102,29 @@
 				"properties": {
 					"de": {
 						"type": "string",
-						"index": "analyzed",
-						"analyzer": "german"
+						"index": "no",
+						"include_in_all": true,
+						"fields": {
+							"ngrams": {
+								"type": "string",
+								"index": "analyzed",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
 					},
 					"en": {
 						"type": "string",
-						"index": "analyzed",
-						"analyzer": "english"
-					}
-				}
-			},
-			"study": {
-				"type": "object",
-				"properties": {
-					"doi": {
-						"type": "string",
-						"index": "not_analyzed"
+						"index": "no",
+						"include_in_all": true,
+						"fields": {
+							"ngrams": {
+								"type": "string",
+								"index": "analyzed",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
 					}
 				}
 			},
@@ -101,6 +134,21 @@
 					"id": {
 						"type": "string",
 						"index": "not_analyzed"
+					},
+					"population": {
+						"type": "object",
+						"properties": {
+							"de": {
+								"type": "string",
+								"index": "no",
+								"include_in_all": false
+							},
+							"en": {
+								"type": "string",
+								"index": "no",
+								"include_in_all": false
+							}
+						}
 					}
 				}
 			},
@@ -128,10 +176,6 @@
 					"id": {
 						"type": "string",
 						"index": "not_analyzed"
-					},
-					"doi": {
-						"type": "string",
-						"index": "not_analyzed"
 					}
 				}
 			},
@@ -148,13 +192,29 @@
 						"properties": {
 							"de": {
 								"type": "string",
-								"index": "analyzed",
-								"analyzer": "german"
+								"index": "no",
+								"include_in_all": true,
+								"fields": {
+									"ngrams": {
+										"type": "string",
+										"index": "analyzed",
+										"analyzer": "ngrams",
+										"norms": false
+									}
+								}
 							},
 							"en": {
 								"type": "string",
-								"index": "analyzed",
-								"analyzer": "english"
+								"index": "no",
+								"include_in_all": true,
+								"fields": {
+									"ngrams": {
+										"type": "string",
+										"index": "analyzed",
+										"analyzer": "ngrams",
+										"norms": false
+									}
+								}
 							}
 						}
 					}

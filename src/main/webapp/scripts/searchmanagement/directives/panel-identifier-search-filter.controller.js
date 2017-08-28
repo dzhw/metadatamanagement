@@ -31,7 +31,7 @@ angular.module('metadatamanagementApp')
                   $timeout(function() {
                     $scope.panelIdentifierFilterForm.panelIdentifierFilter
                       .$setValidity('md-require-match', false);
-                  });
+                  }, 500);
                   $scope.panelIdentifierFilterForm.panelIdentifierFilter
                     .$setTouched();
                 }

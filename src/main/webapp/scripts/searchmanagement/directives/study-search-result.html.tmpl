@@ -9,8 +9,8 @@
                 <div class="md-subhead fdz-truncate-string">
                   <span ng-repeat="author in searchResult.authors">
                     <span>{{author.lastName}}, </span>
-                    <span ng-if="author.middleName === undefined"> {{author.firstName}}{{!$last?';':''}}</span>
-                    <span ng-if="author.middleName !== undefined"> {{author.firstName}}  {{author.middleName}}{{!$last?';':''}}</span>
+                    <span ng-if="!author.middleName">{{author.firstName}}{{!$last?';':''}}</span>
+                    <span ng-if="author.middleName">{{author.firstName}} {{author.middleName}}{{!$last?';':''}}</span>
                   </span>
                 </div>
             </md-card-header-text>

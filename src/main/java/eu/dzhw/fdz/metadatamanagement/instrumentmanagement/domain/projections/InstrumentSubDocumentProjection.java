@@ -25,6 +25,4 @@ public interface InstrumentSubDocumentProjection  {
   Integer getNumber();
 
   List<String> getSurveyIds();
-  
-  I18nString getAnnotations();
 }

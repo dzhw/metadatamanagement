@@ -2,7 +2,7 @@
 	"data_sets": {
 		"_all": {
 			"enabled": true,
-			"analyzer": "trigrams"
+			"analyzer": "ngrams"
 		},
 		"dynamic_templates": [{
 			"default_mapping": {
@@ -14,6 +14,18 @@
 			}
 		}],
 		"properties": {
+			"id": {
+				"type": "string",
+				"index": "not_analyzed",
+				"fields": {
+					"ngrams": {
+						"type": "string",
+						"index": "analyzed",
+						"analyzer": "ngrams",
+						"norms": false
+					}
+				}
+			},
 			"dataAcquisitionProjectId": {
 				"type": "string",
 				"index": "not_analyzed"
@@ -26,16 +38,82 @@
 				"type": "string",
 				"index": "not_analyzed"
 			},
-			"accessWays": {
-				"type": "string",
-				"index": "not_analyzed"
-			},
-			"study": {
+			"description": {
 				"type": "object",
 				"properties": {
-					"doi": {
+					"de": {
 						"type": "string",
-						"index": "not_analyzed"
+						"index": "no",
+						"include_in_all": true,
+						"fields": {
+							"ngrams": {
+								"type": "string",
+								"index": "analyzed",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
+					},
+					"en": {
+						"type": "string",
+						"index": "no",
+						"include_in_all": true,
+						"fields": {
+							"ngrams": {
+								"type": "string",
+								"index": "analyzed",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
+					}
+				}
+			},
+			"subDataSets": {
+				"type": "object",
+				"properties": {
+					"accessWays": {
+						"type": "string",
+						"index": "not_analyzed",
+						"fields": {
+							"ngrams": {
+								"type": "string",
+								"index": "analyzed",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
+					}
+				}
+			},
+			"type": {
+				"type": "object",
+				"properties": {
+					"de": {
+						"type": "string",
+						"index": "no",
+						"include_in_all": true,
+						"fields": {
+							"ngrams": {
+								"type": "string",
+								"index": "analyzed",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
+					},
+					"en": {
+						"type": "string",
+						"index": "no",
+						"include_in_all": true,
+						"fields": {
+							"ngrams": {
+								"type": "string",
+								"index": "analyzed",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
 					}
 				}
 			},
@@ -48,49 +126,6 @@
 					}
 				}
 			},
-			"type": {
-				"type": "object",
-				"properties": {
-					"de": {
-						"type": "string",
-						"index": "analyzed",
-						"analyzer": "german"
-					},
-					"en": {
-						"type": "string",
-						"index": "analyzed",
-						"analyzer": "english"
-					}
-				}
-			},
-			"description": {
-				"type": "object",
-				"properties": {
-					"de": {
-						"type": "string",
-						"index": "analyzed",
-						"analyzer": "german"
-					},
-					"en": {
-						"type": "string",
-						"index": "analyzed",
-						"analyzer": "english"
-					}
-				}
-			},
-			"relatedPublications": {
-				"type": "object",
-				"properties": {
-					"id": {
-						"type": "string",
-						"index": "not_analyzed"
-					},
-					"doi": {
-						"type": "string",
-						"index": "not_analyzed"
-					}
-				}
-			},
 			"surveys": {
 				"type": "object",
 				"properties": {
@@ -98,18 +133,49 @@
 						"type": "string",
 						"index": "not_analyzed"
 					},
+					"population": {
+						"type": "object",
+						"properties": {
+							"de": {
+								"type": "string",
+								"index": "no",
+								"include_in_all": false
+							},
+							"en": {
+								"type": "string",
+								"index": "no",
+								"include_in_all": false
+							}
+						}
+					},
 					"title": {
 						"type": "object",
 						"properties": {
 							"de": {
 								"type": "string",
-								"index": "analyzed",
-								"analyzer": "german"
+								"index": "no",
+								"include_in_all": true,
+								"fields": {
+									"ngrams": {
+										"type": "string",
+										"index": "analyzed",
+										"analyzer": "ngrams",
+										"norms": false
+									}
+								}
 							},
 							"en": {
 								"type": "string",
-								"index": "analyzed",
-								"analyzer": "english"
+								"index": "no",
+								"include_in_all": true,
+								"fields": {
+									"ngrams": {
+										"type": "string",
+										"index": "analyzed",
+										"analyzer": "ngrams",
+										"norms": false
+									}
+								}
 							}
 						}
 					}
@@ -130,6 +196,15 @@
 				}
 			},
 			"questions": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string",
+						"index": "not_analyzed"
+					}
+				}
+			},
+			"relatedPublications": {
 				"type": "object",
 				"properties": {
 					"id": {

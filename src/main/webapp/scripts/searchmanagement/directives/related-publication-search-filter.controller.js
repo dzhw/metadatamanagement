@@ -44,7 +44,7 @@ angular.module('metadatamanagementApp')
                   $scope.relatedPublicationFilterForm.relatedPublicationFilter
                     .$setValidity(
                     'md-require-match', false);
-                });
+                }, 500);
                 $scope.relatedPublicationFilterForm.relatedPublicationFilter
                   .$setTouched();
               });

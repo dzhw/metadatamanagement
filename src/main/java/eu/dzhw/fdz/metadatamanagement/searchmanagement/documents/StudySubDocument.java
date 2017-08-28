@@ -19,8 +19,6 @@ public class StudySubDocument implements StudySubDocumentProjection {
   
   private String dataAcquisitionProjectId;
   
-  private I18nString description;
-  
   private I18nString institution;
   
   private I18nString sponsor;
@@ -33,7 +31,7 @@ public class StudySubDocument implements StudySubDocumentProjection {
   
   private String doi;
   
-  private I18nString annotations;
+  private I18nString surveyDesign;
   
   public StudySubDocument() {
     super();
@@ -69,15 +67,6 @@ public class StudySubDocument implements StudySubDocumentProjection {
 
   public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
     this.dataAcquisitionProjectId = dataAcquisitionProjectId;
-  }
-
-  @Override
-  public I18nString getDescription() {
-    return description;
-  }
-
-  public void setDescription(I18nString description) {
-    this.description = description;
   }
 
   @Override
@@ -126,11 +115,11 @@ public class StudySubDocument implements StudySubDocumentProjection {
   }
 
   @Override
-  public I18nString getAnnotations() {
-    return annotations;
+  public I18nString getSurveyDesign() {
+    return surveyDesign;
   }
 
-  public void setAnnotations(I18nString annotations) {
-    this.annotations = annotations;
+  public void setSurveyDesign(I18nString surveyDesign) {
+    this.surveyDesign = surveyDesign;
   }
 }

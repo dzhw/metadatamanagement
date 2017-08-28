@@ -29,8 +29,6 @@ public class SurveySubDocument implements SurveySubDocumentProjection {
   
   private I18nString sample;
   
-  private I18nString annotations;
-  
   public SurveySubDocument() {
     super();
   }
@@ -110,14 +108,5 @@ public class SurveySubDocument implements SurveySubDocumentProjection {
 
   public void setSample(I18nString sample) {
     this.sample = sample;
-  }
-
-  @Override
-  public I18nString getAnnotations() {
-    return annotations;
-  }
-
-  public void setAnnotations(I18nString annotations) {
-    this.annotations = annotations;
   }
 }

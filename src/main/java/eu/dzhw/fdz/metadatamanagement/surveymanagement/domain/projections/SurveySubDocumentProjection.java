@@ -26,7 +26,4 @@ public interface SurveySubDocumentProjection {
   Period getFieldPeriod();
   
   I18nString getSample();
-  
-  I18nString getAnnotations();
-
 }

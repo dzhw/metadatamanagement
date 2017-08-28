@@ -2,7 +2,7 @@
 	"instruments": {
 		"_all": {
 			"enabled": true,
-			"analyzer": "trigrams"
+			"analyzer": "ngrams"
 		},
 		"dynamic_templates": [{
 			"default_mapping": {
@@ -14,6 +14,18 @@
 			}
 		}],
 		"properties": {
+			"id": {
+				"type": "string",
+				"index": "not_analyzed",
+				"fields": {
+					"ngrams": {
+						"type": "string",
+						"index": "analyzed",
+						"analyzer": "ngrams",
+						"norms": false
+					}
+				}
+			},
 			"dataAcquisitionProjectId": {
 				"type": "string",
 				"index": "not_analyzed"
@@ -24,64 +36,80 @@
 			},
 			"type": {
 				"type": "string",
-				"index": "analyzed",
-				"analyzer": "trigrams"
+				"index": "no",
+				"include_in_all": true,
+				"fields": {
+					"ngrams": {
+						"type": "string",
+						"index": "analyzed",
+						"analyzer": "ngrams",
+						"norms": false
+					}
+				}
 			},
 			"surveyIds": {
 				"type": "string",
 				"index": "not_analyzed"
-			},
-			"study": {
-				"type": "object",
-				"properties": {
-					"doi": {
-						"type": "string",
-						"index": "not_analyzed"
-					}
-				}
 			},
 			"title": {
 				"type": "object",
 				"properties": {
 					"de": {
 						"type": "string",
-						"index": "analyzed",
-						"analyzer": "german"
+						"index": "no",
+						"include_in_all": true,
+						"fields": {
+							"ngrams": {
+								"type": "string",
+								"index": "analyzed",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
 					},
 					"en": {
 						"type": "string",
-						"index": "analyzed",
-						"analyzer": "english"
+						"index": "no",
+						"include_in_all": true,
+						"fields": {
+							"ngrams": {
+								"type": "string",
+								"index": "analyzed",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
 					}
 				}
 			},
-			"subtitle": {
-                "type": "object",
-                "properties": {
-                    "de": {
-                        "type": "string",
-                        "index": "analyzed",
-                        "analyzer": "german"
-                    },
-                    "en": {
-                        "type": "string",
-                        "index": "analyzed",
-                        "analyzer": "english"
-                    }
-                }
-            },
 			"description": {
 				"type": "object",
 				"properties": {
 					"de": {
 						"type": "string",
-						"index": "analyzed",
-						"analyzer": "german"
+						"index": "no",
+						"include_in_all": true,
+						"fields": {
+							"ngrams": {
+								"type": "string",
+								"index": "analyzed",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
 					},
 					"en": {
 						"type": "string",
-						"index": "analyzed",
-						"analyzer": "english"
+						"index": "no",
+						"include_in_all": true,
+						"fields": {
+							"ngrams": {
+								"type": "string",
+								"index": "analyzed",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
 					}
 				}
 			},
@@ -91,6 +119,21 @@
 					"id": {
 						"type": "string",
 						"index": "not_analyzed"
+					},
+					"population": {
+						"type": "object",
+						"properties": {
+							"de": {
+								"type": "string",
+								"index": "no",
+								"include_in_all": false
+							},
+							"en": {
+								"type": "string",
+								"index": "no",
+								"include_in_all": false
+							}
+						}
 					}
 				}
 			},
@@ -125,10 +168,6 @@
 				"type": "object",
 				"properties": {
 					"id": {
-						"type": "string",
-						"index": "not_analyzed"
-					},
-					"doi": {
 						"type": "string",
 						"index": "not_analyzed"
 					}

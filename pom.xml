@@ -36,6 +36,7 @@
         <project.testresult.directory>${project.build.directory}/test-results</project.testresult.directory>
         <querydsl.version>4.1.4</querydsl.version>
         <run.addResources>false</run.addResources>
+        <elasticsearch.version>5.5.2</elasticsearch.version>
     </properties>
 
     <dependencies>
@@ -130,6 +131,17 @@
             <groupId>org.elasticsearch</groupId>
             <artifactId>elasticsearch</artifactId>
         </dependency>
+         <dependency>
+        <groupId>org.elasticsearch.plugin</groupId>
+ 	       <artifactId>transport-netty4-client</artifactId>
+    	    <version>${elasticsearch.version}</version>
+        	<scope>test</scope>
+ 		</dependency>
+ 		<dependency>
+    		<groupId>org.apache.logging.log4j</groupId>
+    		<artifactId>log4j-core</artifactId>
+		    <scope>test</scope>
+		</dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-jdk8</artifactId>
