@@ -29,6 +29,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.DataTypes;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.builders.SurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
@@ -98,6 +99,36 @@ public class SurveyResourceTest extends AbstractTest {
     // check that there is one survey document
     elasticsearchAdminService.refreshAllIndices();
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1.0));
+  }
+  
+  @Test
+  public void testCreateSurveyWithMixedMethodDataType() throws Exception {
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    rdcProjectRepository.save(project);
+
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
+    survey.setDataType(DataTypes.MIXED_METHODS);
+
+    // create the survey with the given id but with wrong period
+    mockMvc.perform(put(API_SURVEYS_URI + "/" + survey.getId())
+      .content(TestUtil.convertObjectToJsonBytes(survey)))
+      .andExpect(status().isBadRequest())
+      .andReturn();
+  }
+  
+  @Test
+  public void testCreateSurveyWithNoDataType() throws Exception {
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    rdcProjectRepository.save(project);
+
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
+    survey.setDataType(null);
+
+    // create the survey with the given id but with wrong period
+    mockMvc.perform(put(API_SURVEYS_URI + "/" + survey.getId())
+      .content(TestUtil.convertObjectToJsonBytes(survey)))
+      .andExpect(status().isBadRequest())
+      .andReturn();
   }
 
   @Test

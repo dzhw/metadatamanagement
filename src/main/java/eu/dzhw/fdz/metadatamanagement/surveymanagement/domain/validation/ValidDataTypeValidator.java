@@ -30,10 +30,10 @@ public class ValidDataTypeValidator implements ConstraintValidator<ValidDataType
    * javax.validation.ConstraintValidatorContext)
    */
   @Override
-  public boolean isValid(I18nString dataType, ConstraintValidatorContext context) {
-
+  public boolean isValid(I18nString dataType, ConstraintValidatorContext context) {   
+    
     // check for data types
-    return DataTypes.ALL.contains(dataType);
+    return DataTypes.VALID_SURVEY_DATA_TYPES.contains(dataType);
   }
 
 }
