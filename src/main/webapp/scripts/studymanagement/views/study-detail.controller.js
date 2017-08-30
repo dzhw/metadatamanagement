@@ -6,6 +6,7 @@ angular.module('metadatamanagementApp')
       $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
       StudyAttachmentResource, SurveySearchService) {
       var ctrl = this;
+      var differentSurveyDataTypes = 0;
       ctrl.counts = {};
       ctrl.surveyMaxWaves = 0;
       entity.promise.then(function(result) {
@@ -52,10 +53,23 @@ angular.module('metadatamanagementApp')
             .then(function(dataSets) {
               ctrl.dataSets = dataSets.hits.hits;
             });
-          SurveySearchService.findSurveyMaxWavesByStudyId(ctrl.study.id,
-            ['id', 'wave'])
+          SurveySearchService
+            .findSurveyMaxWavesAndNumberSurveyDataTypesByStudyId(ctrl.study.id,
+            ['id', 'wave', 'dataType'])
             .then(function(result) {
             ctrl.surveyMaxWaves = result.aggregations.maxWaves.value;
+            differentSurveyDataTypes =
+              result.aggregations.surveyDataTypesCount.value;
+
+            if (differentSurveyDataTypes === 1) {
+              ctrl.surveyDataType = result.hits.hits[0]._source.dataType;
+            }
+            if (differentSurveyDataTypes > 1) {
+              ctrl.surveyDataType = {
+                'de': 'Mixed Methods',
+                'en': 'Mixed Methods'
+              };
+            }
           });
           StudyAttachmentResource.findByStudyId({
               id: ctrl.study.id
