@@ -1,4 +1,4 @@
-/* global _*/
+/* global _, ClientJS*/
 /* Author: Daniel Katzberg */
 'use strict';
 
@@ -6,7 +6,8 @@ angular.module('metadatamanagementApp').service('SearchDao',
   function(ElasticSearchClient, CleanJSObjectService, Principal,
     LanguageService, StudyIdBuilderService, SearchFilterHelperService) {
     //use a fake sessionId for consistent shard routing
-    var sessionId = Math.floor((1 + Math.random()) * 0x100000000).toString(16);
+    var fingerprint = new ClientJS().getFingerprint();
+
     var addAdditionalShouldQueries = function(elasticsearchType, query,
       boolQuery) {
       var queryTerms = query.split(' ');
@@ -206,7 +207,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
       search: function(queryterm, pageNumber, dataAcquisitionProjectId,
         filter, elasticsearchType, pageSize, sortBy) {
         var query = {};
-        query.preference = sessionId;
+        query.preference = fingerprint;
         var studyId;
 
         query.index = elasticsearchType;
