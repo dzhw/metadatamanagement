@@ -31,6 +31,10 @@ public class SurveySubDocument implements SurveySubDocumentProjection {
   
   private I18nString annotations;
   
+  private Integer wave;
+  
+  private I18nString dataType;
+  
   public SurveySubDocument() {
     super();
   }
@@ -119,5 +123,23 @@ public class SurveySubDocument implements SurveySubDocumentProjection {
 
   public void setAnnotations(I18nString annotations) {
     this.annotations = annotations;
+  }
+
+  @Override
+  public Integer getWave() {
+    return wave;
+  }
+
+  public void setWave(Integer wave) {
+    this.wave = wave;
+  }
+
+  @Override
+  public I18nString getDataType() {
+    return dataType;
+  }
+
+  public void setDataType(I18nString dataType) {
+    this.dataType = dataType;
   }
 }

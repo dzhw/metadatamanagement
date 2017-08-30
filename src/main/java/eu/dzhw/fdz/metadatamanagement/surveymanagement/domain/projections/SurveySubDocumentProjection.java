@@ -28,5 +28,9 @@ public interface SurveySubDocumentProjection {
   I18nString getSample();
   
   I18nString getAnnotations();
+  
+  Integer getWave();
+  
+  I18nString getDataType();
 
 }
