@@ -151,6 +151,12 @@ angular.module('metadatamanagementApp').controller('SearchController',
           });
           $scope.isSearching--;
         }, function() {
+          $scope.pageObject.totalHits = 0;
+          $scope.searchResult = {};
+          $scope.tabs.forEach(function(tab) {
+            tab.count = null;
+          });
+          $scope.tabs[$scope.searchParams.selectedTabIndex].count = 0;
           $scope.isSearching--;
         });
     };

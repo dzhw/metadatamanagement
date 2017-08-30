@@ -1,8 +1,11 @@
 {
 	"data_sets": {
 		"_all": {
+			"type": "text",
+			"index": "analyzed",
 			"enabled": true,
-			"analyzer": "ngrams"
+			"analyzer": "ngrams",
+			"norms": false
 		},
 		"dynamic_templates": [{
 			"default_mapping": {
@@ -15,11 +18,11 @@
 		}],
 		"properties": {
 			"id": {
-				"type": "string",
+				"type": "keyword",
 				"index": "not_analyzed",
 				"fields": {
 					"ngrams": {
-						"type": "string",
+						"type": "text",
 						"index": "analyzed",
 						"analyzer": "ngrams",
 						"norms": false
@@ -27,27 +30,27 @@
 				}
 			},
 			"dataAcquisitionProjectId": {
-				"type": "string",
+				"type": "keyword",
 				"index": "not_analyzed"
 			},
 			"studyId": {
-				"type": "string",
+				"type": "keyword",
 				"index": "not_analyzed"
 			},
 			"surveyIds": {
-				"type": "string",
+				"type": "keyword",
 				"index": "not_analyzed"
 			},
 			"description": {
 				"type": "object",
 				"properties": {
 					"de": {
-						"type": "string",
+						"type": "text",
 						"index": "no",
 						"include_in_all": true,
 						"fields": {
 							"ngrams": {
-								"type": "string",
+								"type": "text",
 								"index": "analyzed",
 								"analyzer": "ngrams",
 								"norms": false
@@ -55,12 +58,12 @@
 						}
 					},
 					"en": {
-						"type": "string",
+						"type": "text",
 						"index": "no",
 						"include_in_all": true,
 						"fields": {
 							"ngrams": {
-								"type": "string",
+								"type": "text",
 								"index": "analyzed",
 								"analyzer": "ngrams",
 								"norms": false
@@ -73,11 +76,11 @@
 				"type": "object",
 				"properties": {
 					"accessWays": {
-						"type": "string",
+						"type": "keyword",
 						"index": "not_analyzed",
 						"fields": {
 							"ngrams": {
-								"type": "string",
+								"type": "text",
 								"index": "analyzed",
 								"analyzer": "ngrams",
 								"norms": false
@@ -90,12 +93,12 @@
 				"type": "object",
 				"properties": {
 					"de": {
-						"type": "string",
+						"type": "text",
 						"index": "no",
 						"include_in_all": true,
 						"fields": {
 							"ngrams": {
-								"type": "string",
+								"type": "text",
 								"index": "analyzed",
 								"analyzer": "ngrams",
 								"norms": false
@@ -103,12 +106,12 @@
 						}
 					},
 					"en": {
-						"type": "string",
+						"type": "text",
 						"index": "no",
 						"include_in_all": true,
 						"fields": {
 							"ngrams": {
-								"type": "string",
+								"type": "text",
 								"index": "analyzed",
 								"analyzer": "ngrams",
 								"norms": false
@@ -121,7 +124,7 @@
 				"type": "object",
 				"properties": {
 					"id": {
-						"type": "string",
+						"type": "keyword",
 						"index": "not_analyzed"
 					}
 				}
@@ -130,19 +133,19 @@
 				"type": "object",
 				"properties": {
 					"id": {
-						"type": "string",
+						"type": "keyword",
 						"index": "not_analyzed"
 					},
 					"population": {
 						"type": "object",
 						"properties": {
 							"de": {
-								"type": "string",
+								"type": "text",
 								"index": "no",
 								"include_in_all": false
 							},
 							"en": {
-								"type": "string",
+								"type": "text",
 								"index": "no",
 								"include_in_all": false
 							}
@@ -152,12 +155,12 @@
 						"type": "object",
 						"properties": {
 							"de": {
-								"type": "string",
+								"type": "text",
 								"index": "no",
 								"include_in_all": true,
 								"fields": {
 									"ngrams": {
-										"type": "string",
+										"type": "text",
 										"index": "analyzed",
 										"analyzer": "ngrams",
 										"norms": false
@@ -165,12 +168,12 @@
 								}
 							},
 							"en": {
-								"type": "string",
+								"type": "text",
 								"index": "no",
 								"include_in_all": true,
 								"fields": {
 									"ngrams": {
-										"type": "string",
+										"type": "text",
 										"index": "analyzed",
 										"analyzer": "ngrams",
 										"norms": false
@@ -185,11 +188,11 @@
 				"type": "object",
 				"properties": {
 					"id": {
-						"type": "string",
+						"type": "keyword",
 						"index": "not_analyzed"
 					},
 					"surveyIds": {
-						"type": "string",
+						"type": "keyword",
 						"index": "no",
 						"include_in_all": false
 					}
@@ -199,7 +202,7 @@
 				"type": "object",
 				"properties": {
 					"id": {
-						"type": "string",
+						"type": "keyword",
 						"index": "not_analyzed"
 					}
 				}
@@ -208,7 +211,7 @@
 				"type": "object",
 				"properties": {
 					"id": {
-						"type": "string",
+						"type": "keyword",
 						"index": "not_analyzed"
 					}
 				}

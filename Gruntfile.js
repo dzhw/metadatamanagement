@@ -244,7 +244,11 @@ module.exports = function(grunt) {
             ' be used in publicly exchanged documents. (Charmod C073)',
             'Attribute “flex” not allowed on element “span” at this point.',
             'Bad value “{{item._source.language}}” for attribute “lang” on' +
-            ' element “span”: Subtags must not exceed 8 characters in length.'
+            ' element “span”: Subtags must not exceed 8 characters in length.',
+            'Element “li” not allowed as child of element “body”' +
+            ' in this context.',
+            'An element with “role=menuitem” must be contained in, or owned' +
+            ' by, an element with “role=menubar” or “role=menu”.'
           ],
           customattrs: [
             'show-validation',
@@ -273,7 +277,8 @@ module.exports = function(grunt) {
             'fdz-welcome-dialog',
             'limit-to',
             'fdz-select-search-input',
-            'fdz-clear-input'
+            'fdz-clear-input',
+            'boundary-link-numbers'
           ]
         },
         files: {

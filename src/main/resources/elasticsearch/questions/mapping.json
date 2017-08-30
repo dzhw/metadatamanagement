@@ -1,8 +1,11 @@
 {
 	"questions": {
 		"_all": {
+			"type": "text",
+			"index": "analyzed",
 			"enabled": true,
-			"analyzer": "ngrams"
+			"analyzer": "ngrams",
+			"norms": false
 		},
 		"dynamic_templates": [{
 			"default_mapping": {
@@ -15,11 +18,11 @@
 		}],
 		"properties": {
 			"id": {
-				"type": "string",
+				"type": "keyword",
 				"index": "not_analyzed",
 				"fields": {
 					"ngrams": {
-						"type": "string",
+						"type": "text",
 						"index": "analyzed",
 						"analyzer": "ngrams",
 						"norms": false
@@ -27,33 +30,33 @@
 				}
 			},
 			"dataAcquisitionProjectId": {
-				"type": "string",
+				"type": "keyword",
 				"index": "not_analyzed"
 			},
 			"successors": {
-				"type": "string",
+				"type": "keyword",
 				"index": "not_analyzed",
 				"include_in_all": false
 			},
 			"successorNumbers": {
-				"type": "string",
+				"type": "keyword",
 				"index": "not_analyzed",
 				"include_in_all": false
 			},
 			"studyId": {
-				"type": "string",
+				"type": "keyword",
 				"index": "not_analyzed"
 			},
 			"instrumentId": {
-				"type": "string",
+				"type": "keyword",
 				"index": "not_analyzed"
 			},
 			"number": {
-				"type": "string",
+				"type": "keyword",
 				"index": "not_analyzed",
 				"fields": {
 					"edge_ngrams": {
-						"type": "string",
+						"type": "text",
 						"index": "analyzed",
 						"analyzer": "edge_ngrams_small",
 						"norms": false
@@ -70,12 +73,12 @@
 				"type": "object",
 				"properties": {
 					"de": {
-						"type": "string",
+						"type": "text",
 						"index": "no",
 						"include_in_all": true,
 						"fields": {
 							"ngrams": {
-								"type": "string",
+								"type": "text",
 								"index": "analyzed",
 								"analyzer": "ngrams",
 								"norms": false
@@ -83,12 +86,12 @@
 						}
 					},
 					"en": {
-						"type": "string",
+						"type": "text",
 						"index": "no",
 						"include_in_all": true,
 						"fields": {
 							"ngrams": {
-								"type": "string",
+								"type": "text",
 								"index": "analyzed",
 								"analyzer": "ngrams",
 								"norms": false
@@ -101,12 +104,12 @@
 				"type": "object",
 				"properties": {
 					"de": {
-						"type": "string",
+						"type": "text",
 						"index": "no",
 						"include_in_all": true,
 						"fields": {
 							"ngrams": {
-								"type": "string",
+								"type": "text",
 								"index": "analyzed",
 								"analyzer": "ngrams",
 								"norms": false
@@ -114,12 +117,12 @@
 						}
 					},
 					"en": {
-						"type": "string",
+						"type": "text",
 						"index": "no",
 						"include_in_all": true,
 						"fields": {
 							"ngrams": {
-								"type": "string",
+								"type": "text",
 								"index": "analyzed",
 								"analyzer": "ngrams",
 								"norms": false
@@ -132,19 +135,19 @@
 				"type": "object",
 				"properties": {
 					"id": {
-						"type": "string",
+						"type": "keyword",
 						"index": "not_analyzed"
 					},
 					"population": {
 						"type": "object",
 						"properties": {
 							"de": {
-								"type": "string",
+								"type": "text",
 								"index": "no",
 								"include_in_all": false
 							},
 							"en": {
-								"type": "string",
+								"type": "text",
 								"index": "no",
 								"include_in_all": false
 							}
@@ -156,7 +159,7 @@
 				"type": "object",
 				"properties": {
 					"id": {
-						"type": "string",
+						"type": "keyword",
 						"index": "not_analyzed"
 					}
 				}
@@ -165,7 +168,7 @@
 				"type": "object",
 				"properties": {
 					"id": {
-						"type": "string",
+						"type": "keyword",
 						"index": "not_analyzed"
 					}
 				}
@@ -174,7 +177,7 @@
 				"type": "object",
 				"properties": {
 					"id": {
-						"type": "string",
+						"type": "keyword",
 						"index": "not_analyzed"
 					}
 				}
@@ -183,7 +186,7 @@
 				"type": "object",
 				"properties": {
 					"surveyIds": {
-						"type": "string",
+						"type": "keyword",
 						"index": "no",
 						"include_in_all": false
 					},
@@ -191,12 +194,12 @@
 						"type": "object",
 						"properties": {
 							"de": {
-								"type": "string",
+								"type": "text",
 								"index": "no",
 								"include_in_all": true,
 								"fields": {
 									"ngrams": {
-										"type": "string",
+										"type": "text",
 										"index": "analyzed",
 										"analyzer": "ngrams",
 										"norms": false
@@ -204,12 +207,12 @@
 								}
 							},
 							"en": {
-								"type": "string",
+								"type": "text",
 								"index": "no",
 								"include_in_all": true,
 								"fields": {
 									"ngrams": {
-										"type": "string",
+										"type": "text",
 										"index": "analyzed",
 										"analyzer": "ngrams",
 										"norms": false

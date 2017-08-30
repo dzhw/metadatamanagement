@@ -1,8 +1,11 @@
 {
 	"related_publications": {
 		"_all": {
+			"type": "text",
+			"index": "analyzed",
 			"enabled": true,
-			"analyzer": "ngrams"
+			"analyzer": "ngrams",
+			"norms": false
 		},
 		"dynamic_templates": [{
 			"default_mapping": {
@@ -15,11 +18,11 @@
 		}],
 		"properties": {
 			"id": {
-				"type": "string",
+				"type": "keyword",
 				"index": "not_analyzed",
 				"fields": {
 					"ngrams": {
-						"type": "string",
+						"type": "text",
 						"index": "analyzed",
 						"analyzer": "ngrams",
 						"norms": false
@@ -27,17 +30,16 @@
 				}
 			},
 			"dataAcquisitionProjectId": {
-				"type": "string",
+				"type": "keyword",
 				"index": "not_analyzed"
 			},
-			
 			"title": {
-				"type": "string",
+				"type": "text",
 				"index": "no",
 				"include_in_all": true,
 				"fields": {
 					"ngrams": {
-						"type": "string",
+						"type": "text",
 						"index": "analyzed",
 						"analyzer": "ngrams",
 						"norms": false
@@ -45,12 +47,12 @@
 				}
 			},
 			"authors": {
-				"type": "string",
+				"type": "text",
 				"index": "no",
 				"include_in_all": true,
 				"fields": {
 					"ngrams": {
-						"type": "string",
+						"type": "text",
 						"index": "analyzed",
 						"analyzer": "ngrams",
 						"norms": false
@@ -58,12 +60,12 @@
 				}
 			},
 			"publicationAbstract": {
-				"type": "string",
+				"type": "text",
 				"index": "no",
 				"include_in_all": true,
 				"fields": {
 					"ngrams": {
-						"type": "string",
+						"type": "text",
 						"index": "analyzed",
 						"analyzer": "ngrams",
 						"norms": false
@@ -74,34 +76,34 @@
 				"type": "integer"
 			},
 			"studyIds": {
-				"type": "string",
+				"type": "keyword",
 				"index": "not_analyzed"
 			},
 			"dataSetIds": {
-				"type": "string",
+				"type": "keyword",
 				"index": "not_analyzed"
 			},
 			"variableIds": {
-				"type": "string",
+				"type": "keyword",
 				"index": "not_analyzed"
 			},
 			"instrumentIds": {
-				"type": "string",
+				"type": "keyword",
 				"index": "not_analyzed"
 			},
 			"questionIds": {
-				"type": "string",
+				"type": "keyword",
 				"index": "not_analyzed"
 			},
 			"surveyIds": {
-				"type": "string",
+				"type": "keyword",
 				"index": "not_analyzed"
 			},
 			"instruments": {
 				"type": "object",
 				"properties": {
 					"surveyIds": {
-						"type": "string",
+						"type": "keyword",
 						"index": "no",
 						"include_in_all": false
 					}
@@ -114,12 +116,12 @@
 						"type": "object",
 						"properties": {
 							"de": {
-								"type": "string",
+								"type": "text",
 								"index": "no",
 								"include_in_all": false
 							},
 							"en": {
-								"type": "string",
+								"type": "text",
 								"index": "no",
 								"include_in_all": false
 							}
