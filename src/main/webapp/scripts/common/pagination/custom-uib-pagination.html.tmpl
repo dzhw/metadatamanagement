@@ -11,7 +11,7 @@
     </md-tooltip>
   </a>
 </li>
-<li role="menuitem" ng-repeat="page in pages track by $index" ng-class="{active: page.active, disabled: ngDisabled&&!page.active}" class="pagination-page">
+<li role="menuitem" ng-repeat="page in pages track by $index" ng-class="{active: page.active, disabled: ngDisabled&&!page.active, 'fdz-last-page-links': $last || $index === (pages.length - 2)}" class="pagination-page">
     <a href="" ng-click="selectPage(page.number, $event)" ng-disabled="ngDisabled &&!page.active" tabindex="{{page.active?'-1':'0'}}">
     {{page.text}}
     <md-tooltip ng-if="!page.active" md-direction="bottom" md-autohide="true" md-z-index="$parent.$parent.$parent.bowser.mobile || $parent.$parent.$parent.bowser.tablet ? -100 : 100">
