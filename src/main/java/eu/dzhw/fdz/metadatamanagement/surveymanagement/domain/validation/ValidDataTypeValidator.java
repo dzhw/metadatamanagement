@@ -33,7 +33,7 @@ public class ValidDataTypeValidator implements ConstraintValidator<ValidDataType
   public boolean isValid(I18nString dataType, ConstraintValidatorContext context) {   
     
     // check for data types
-    return DataTypes.VALID_SURVEY_DATA_TYPES.contains(dataType);
+    return DataTypes.ALL.contains(dataType);
   }
 
 }

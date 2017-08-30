@@ -29,7 +29,6 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.DataTypes;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.builders.SurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
@@ -107,7 +106,7 @@ public class SurveyResourceTest extends AbstractTest {
     rdcProjectRepository.save(project);
 
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-    survey.setDataType(DataTypes.MIXED_METHODS);
+    survey.setDataType(new I18nStringBuilder().withDe("Mixed Methods").withEn("Mixed Methods").build());
 
     // create the survey with the given id but with wrong period
     mockMvc.perform(put(API_SURVEYS_URI + "/" + survey.getId())
