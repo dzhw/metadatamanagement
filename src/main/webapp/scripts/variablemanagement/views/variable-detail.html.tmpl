@@ -166,6 +166,21 @@
                             </a>
                         </div>
                     </div>
+                    <div ng-if="counts.derivedVariables !== 1" style="margin-bottom: 0.5em; width: 100%;" layout="row">
+                        <div ng-if="counts.derivedVariables == 0" class="fdz-truncate-string" flex>
+                            <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
+                            {{'variable-management.detail.derived-variables' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                        </div>
+                        <div ng-if="counts.derivedVariables > 1" class="fdz-truncate-string" flex>
+                            <a ui-sref="search({'type': 'variables', 'derived-variables-identifier': variable.derivedVariablesIdentifier, 'study': variable.studyId, 'data-set': variable.dataSetId, 'sort-by': 'indexInDataSet', 'page': 1})">
+                                <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
+                                {{'variable-management.detail.derived-variables' | translate }}: ({{counts.derivedVariables}})
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 20">
+                                    {{'variable-management.detail.tooltips.variables.derived-variables' | translate}}
+                                </md-tooltip>
+                            </a>
+                        </div>
+                    </div>
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                         <div ng-if="counts.publicationsCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>

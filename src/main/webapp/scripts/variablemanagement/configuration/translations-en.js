@@ -34,6 +34,7 @@ angular.module('metadatamanagementApp').config(
           'variables': 'Variables',
           'variable-informations': 'Informations',
           'variables-in-panel': 'Panel Variables',
+          'derived-variables': 'Derived Variables',
           'related-objects': 'Related Objects',
           'frequencies': 'Frequencies',
           'generation-details': 'Generation Details',
@@ -128,7 +129,8 @@ angular.module('metadatamanagementApp').config(
               'many': 'Click to show all questions from which this variable resulted'
             },
             'variables': {
-              'same-in-panel': 'Click to show all panel variables related to this variable'
+              'same-in-panel': 'Click to show all panel variables related to this variable',
+              'derived-variables': 'Click to show all derived variables related to this variable',
             },
             'studies': {
               'one': 'Click to show the study from which this variable resulted'
@@ -242,9 +244,12 @@ angular.module('metadatamanagementApp').config(
             'related-question-number-size': 'The max Length of Question Number is 32 signs.',
             'related-question-number-not-empty': 'A Related Question doesn\'t have a Number!',
             'related-question-instrument-number-not-empty': 'An Instrument doesn\'t have a Number!',
-            'valid-identifier': 'The Panel Identifier of the Variable is not valid for the Pattern: DataAcquisitionProjectId + "-" + "ds" + "dataSetNumber" + "-" + string.',
+            'valid-panel-identifier': 'The Panel Identifier of the Variable is not valid for the Pattern: DataAcquisitionProjectId + "-" + "ds" + "dataSetNumber" + "-" + string.',
+            'valid-derived-variables-identifier': 'The Identifier of the derived Variable is not valid for the Pattern: DataAcquisitionProjectId + "-" + "ds" + "dataSetNumber" + "-" + string.',
             'panel-identifier-size': 'The max length of Panel Identifier of the Variable is 128 signs.',
             'panel-identifier-pattern': 'Use only alphanumeric signs, german umlauts, ß and minus for the Panel Identifier of the Variable.',
+            'derived-variables-identifier-size': 'The max length of derived Variables Identifier of the Variable is 128 signs.',
+            'derived-variables-identifier-pattern': 'Use only alphanumeric signs, german umlauts, ß and minus for the derived Variables Identifier of the Variable.',
             'only-ordinal-scale-level-for-date-data-type': 'The scale level of a date variable must be ordinal.',
             'valid-response-value-must-be-a-number-on-numeric-data-type': 'If the variable has a numeric data type, the values of valid responses have to be numeric!',
             'statistics-minimum-must-be-a-number-on-numeric-data-type': 'If the variable has a numeric data type, the minimum of statistics have to be numeric!',
