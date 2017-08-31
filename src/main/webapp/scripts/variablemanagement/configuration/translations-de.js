@@ -130,7 +130,7 @@ angular.module('metadatamanagementApp').config(
             },
             'variables': {
               'same-in-panel': 'Klicken, um alle Panelvariablen zu dieser Variable anzuzeigen',
-              'derived-variables': 'Klicken, um alle abgeleitete Variablen zu dieser Variable anzuzeigen',
+              'derived-variables': 'Klicken, um alle abgeleiteten Variablen zu dieser Variable anzuzeigen',
             },
             'studies': {
               'one': 'Klicken, um die Studie anzuzeigen, aus der diese Variable resultierte'

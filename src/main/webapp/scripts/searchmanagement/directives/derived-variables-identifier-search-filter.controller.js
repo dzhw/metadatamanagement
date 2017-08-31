@@ -27,19 +27,28 @@ angular.module('metadatamanagementApp')
                 if (derivedVariablesIdentifiers.length === 1) {
                   $scope.currentDerivedVariablesIdentifier =
                     derivedVariablesIdentifiers[0];
-                } else {
-                  $scope.currentDerivedVariablesIdentifier =
+                  return;
+                } else if (derivedVariablesIdentifiers.length > 1) {
+                  var index = _.indexOf(derivedVariablesIdentifiers,
                     $scope.currentSearchParams
-                      .filter['derived-variables-identifier'];
-                  $timeout(function() {
-                    $scope.derivedVariablesIdentifierFilterForm
-                      .derivedVariablesIdentifierFilter
-                      .$setValidity('md-require-match', false);
-                  }, 500);
+                      .filter['derived-variables-identifier']);
+                  if (index > -1) {
+                    $scope.currentDerivedVariablesIdentifier =
+                      derivedVariablesIdentifiers[index];
+                    return;
+                  }
+                }
+                $scope.currentDerivedVariablesIdentifier =
+                  $scope.currentSearchParams
+                    .filter['derived-variables-identifier'];
+                $timeout(function() {
                   $scope.derivedVariablesIdentifierFilterForm
                     .derivedVariablesIdentifierFilter
-                    .$setTouched();
-                }
+                    .$setValidity('md-require-match', false);
+                }, 500);
+                $scope.derivedVariablesIdentifierFilterForm
+                  .derivedVariablesIdentifierFilter
+                  .$setTouched();
               });
         } else {
           initializing = false;
