@@ -39,6 +39,7 @@
         <variable-search-filter ng-if="selectedFilters.indexOf('variable') >= 0" current-language="currentLanguage" current-search-params="currentSearchParams" variable-changed-callback="onOneFilterChanged" bowser="bowser"></variable-search-filter>
         <access-way-search-filter ng-if="selectedFilters.indexOf('access-way') >= 0" current-language="currentLanguage" current-search-params="currentSearchParams" access-way-changed-callback="onOneFilterChanged" bowser="bowser"></access-way-search-filter>
         <panel-identifier-search-filter ng-if="selectedFilters.indexOf('panel-identifier') >= 0" current-language="currentLanguage" current-search-params="currentSearchParams" panel-identifier-changed-callback="onOneFilterChanged" bowser="bowser"></panel-identifier-search-filter>
+        <derived-variables-identifier-search-filter ng-if="selectedFilters.indexOf('derived-variables-identifier') >= 0" current-language="currentLanguage" current-search-params="currentSearchParams" derived-variables-identifier-changed-callback="onOneFilterChanged" bowser="bowser"></derived-variables-identifier-search-filter>
         <related-publication-search-filter ng-if="selectedFilters.indexOf('related-publication') >= 0" current-language="currentLanguage" current-search-params="currentSearchParams" related-publication-changed-callback="onOneFilterChanged" bowser="bowser"></related-publication-search-filter>
         <input type="submit" ng-hide="true">
     </form>

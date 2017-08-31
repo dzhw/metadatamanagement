@@ -268,6 +268,8 @@ public class UnitTestCreateDomainObjectUtils {
       .withDistribution(buildDistribution())
       .withGenerationDetails(buildGenerationDetails())
       .withRelatedVariables(relatedVariables)
+      .withPanelIdentifier(projectId + "-ds" + dataSetNumber + "-" + name)
+      .withDerivedVariablesIdentifier(projectId + "-ds" + dataSetNumber + "-" + name)
       .build();
   }
   

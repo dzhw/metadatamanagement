@@ -88,6 +88,7 @@ angular.module('metadatamanagementApp').config(
           'question': 'Question Filter',
           'related-publication': 'Publication Filter',
           'panel-identifier': 'Panel Identifier Filter',
+          'derived-variables-identifier': 'Derived Variables Filter',
           'access-way': 'Access Way Filter',
           'instrument': 'Instrument Filter',
           'variable': 'Variable Filter',
@@ -137,6 +138,10 @@ angular.module('metadatamanagementApp').config(
           'panel-identifier-filter': {
             'not-found': 'No panel identifier found!',
             'no-valid-selected': 'No valid panel identifier selected!'
+          },
+          'derived-variables-identifier-filter': {
+            'not-found': 'No derived variables identifier found!',
+            'no-valid-selected': 'No valid derived variables identifier selected!'
           },
           'access-way-filter': {
             'not-found': 'No access way found!',
