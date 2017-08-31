@@ -76,6 +76,10 @@ angular.module('metadatamanagementApp').service('SearchDao',
             boolQuery.should.push(createConstantScoreQuery(
               'surveyDesign.en.ngrams', queryTerm, englishSuperBoost));
             boolQuery.should.push(createConstantScoreQuery(
+              'surveyDataType.de.ngrams', queryTerm, germanSuperBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'surveyDataType.en.ngrams', queryTerm, englishSuperBoost));
+            boolQuery.should.push(createConstantScoreQuery(
               'id.ngrams', queryTerm, standardMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
               'authors.firstName.ngrams', queryTerm, standardMajorBoost));
@@ -94,6 +98,10 @@ angular.module('metadatamanagementApp').service('SearchDao',
               'title.de.ngrams', queryTerm, germanMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
               'title.en.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'dataType.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'dataType.en.ngrams', queryTerm, englishMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
               'surveyMethod.de.ngrams', queryTerm, germanMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
@@ -223,7 +231,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
         query.body._source = ['id', 'number', 'questionText', 'title',
           'description', 'type', 'year', 'publicationAbstract', 'authors',
           'surveyMethod', 'fieldPeriod', 'label', 'name', 'dataType',
-          'sample', 'wave',
+          'sample',
           'scaleLevel', 'dataAcquisitionProjectId', 'dataSetNumber',
           'population',
           'instrumentNumber', 'instrument.description', 'surveys.title',

@@ -7,15 +7,17 @@
 			"analyzer": "ngrams",
 			"norms": false
 		},
-		"dynamic_templates": [{
-			"default_mapping": {
-				"match": "*",
-				"mapping": {
-					"index": "no",
-					"include_in_all": true
+		"dynamic_templates": [
+			{
+				"default_mapping": {
+					"match": "*",
+					"mapping": {
+						"index": "no",
+						"include_in_all": true
+					}
 				}
 			}
-		}],
+		],
 		"properties": {
 			"id": {
 				"type": "keyword",
@@ -69,6 +71,37 @@
 				}
 			},
 			"title": {
+				"type": "object",
+				"properties": {
+					"de": {
+						"type": "text",
+						"index": "no",
+						"include_in_all": true,
+						"fields": {
+							"ngrams": {
+								"type": "text",
+								"index": "analyzed",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
+					},
+					"en": {
+						"type": "text",
+						"index": "no",
+						"include_in_all": true,
+						"fields": {
+							"ngrams": {
+								"type": "text",
+								"index": "analyzed",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
+					}
+				}
+			},
+			"dataType": {
 				"type": "object",
 				"properties": {
 					"de": {

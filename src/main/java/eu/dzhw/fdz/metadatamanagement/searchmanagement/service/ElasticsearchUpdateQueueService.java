@@ -137,9 +137,9 @@ public class ElasticsearchUpdateQueueService {
   }
 
   /**
-   * Process the update queue every 5 minutes.
+   * Process the update queue every minute.
    */
-  @Scheduled(fixedRate = 1000 * 60 * 5, initialDelay = 1000 * 60 * 5)
+  @Scheduled(fixedRate = 1000 * 60, initialDelay = 1000 * 60)
   public void processAllQueueItems() {
     logger.info("Starting processing of ElasticsearchUpdateQueue...");
     LocalDateTime updateStart = LocalDateTime.now();

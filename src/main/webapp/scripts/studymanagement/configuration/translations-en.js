@@ -28,6 +28,7 @@ angular.module('metadatamanagementApp').config(
           'instruments': 'Instruments',
           'annotations': 'Annotations',
           'wave': 'Available Waves',
+          'survey-data-type': 'Survey Data Type',
           'no-related-studies': 'No related Studies.',
           'related-studies': 'Related Studies',
           'available-data-products': 'Available Data Products',

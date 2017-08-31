@@ -6,15 +6,15 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
 /**
  * Subset of survey attributes which can be used in other search documents
  * as sub document and as projection for mongo.
- * 
+ *
  * @author René Reitmann
  */
 public interface SurveySubDocumentProjection {
-  
+
   String getId();
-  
+
   String getDataAcquisitionProjectId();
-  
+
   I18nString getTitle();
 
   I18nString getPopulation();
@@ -22,8 +22,13 @@ public interface SurveySubDocumentProjection {
   I18nString getSurveyMethod();
 
   Integer getNumber();
-  
+
   Period getFieldPeriod();
-  
+
   I18nString getSample();
+  
+  Integer getWave();
+
+  I18nString getDataType();
+
 }

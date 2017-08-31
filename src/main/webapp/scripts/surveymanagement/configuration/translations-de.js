@@ -35,6 +35,7 @@ angular.module('metadatamanagementApp').config(
           'related-objects': 'Zugehörige Objekte',
           'field-period': 'Feldzeit',
           'population': 'Grundgesamtheit',
+          'data-type': 'Erhebungsdatentyp',
           'survey-method': 'Erhebungsmethode',
           'sample': 'Stichprobe',
           'annotations': 'Anmerkungen',
@@ -122,6 +123,10 @@ angular.module('metadatamanagementApp').config(
             },
             'annotations': {
               'i18n-string-size': 'Die Maximallänge der Anmerkungen ist 2048 Zeichen.'
+            },
+            'data-type': {
+              'not-null': 'Der Erhebungsdatentyp der Erhebung darf nicht leer sein.',
+              'valid-data-type': 'Der Erhebungsdatentyp einer Erhebung darf nur folgende Werte einnehmen: de = "Quantitative Daten" und en = "Quantitative Data" oder de = "Qualitative Daten" und en = "Qualitative Data" '
             }
           },
           'survey-attachment-metadata': {

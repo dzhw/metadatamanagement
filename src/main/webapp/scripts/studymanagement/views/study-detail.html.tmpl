@@ -38,7 +38,11 @@
                     </div>
                     <div ng-if="ctrl.study.surveyDesign.en==='Panel'" class="fdz-add-bottom-margin">
                       <span style="font-weight: bold;">{{'study-management.detail.wave' | translate }}:</span>
-                        <span>{{ctrl.surveyMaxWaves}}</span>
+                        <span>{{ctrl.study.numberOfWaves}}</span>
+                    </div>
+                    <div class="fdz-add-bottom-margin" ng-if="ctrl.study.surveyDataType">
+                        <span style="font-weight: bold;">{{'study-management.detail.survey-data-type' | translate }}:</span>
+                        <span display-i18n-string="ctrl.study.surveyDataType"></span>
                     </div>
                     <div class="fdz-add-bottom-margin" ng-if="ctrl.study.doi">
                         <span style="font-weight: bold;">{{'study-management.detail.doi' | translate }}:</span>

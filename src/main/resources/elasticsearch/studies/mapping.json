@@ -7,15 +7,17 @@
 			"analyzer": "ngrams",
 			"norms": false
 		},
-		"dynamic_templates": [{
-			"default_mapping": {
-				"match": "*",
-				"mapping": {
-					"index": "no",
-					"include_in_all": true
+		"dynamic_templates": [
+			{
+				"default_mapping": {
+					"match": "*",
+					"mapping": {
+						"index": "no",
+						"include_in_all": true
+					}
 				}
 			}
-		}],
+		],
 		"properties": {
 			"id": {
 				"type": "keyword",
@@ -46,7 +48,7 @@
 								"index": "analyzed",
 								"analyzer": "ngrams",
 								"norms": false
-							}	
+							}
 						}
 					},
 					"en": {
@@ -59,7 +61,38 @@
 								"index": "analyzed",
 								"analyzer": "ngrams",
 								"norms": false
-							}	
+							}
+						}
+					}
+				}
+			},
+			"surveyDataType": {
+				"type": "object",
+				"properties": {
+					"de": {
+						"type": "text",
+						"index": "no",
+						"include_in_all": true,
+						"fields": {
+							"ngrams": {
+								"type": "text",
+								"index": "analyzed",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
+					},
+					"en": {
+						"type": "text",
+						"index": "no",
+						"include_in_all": true,
+						"fields": {
+							"ngrams": {
+								"type": "text",
+								"index": "analyzed",
+								"analyzer": "ngrams",
+								"norms": false
+							}
 						}
 					}
 				}
@@ -77,7 +110,7 @@
 								"index": "analyzed",
 								"analyzer": "ngrams",
 								"norms": false
-							}	
+							}
 						}
 					},
 					"en": {
@@ -90,7 +123,7 @@
 								"index": "analyzed",
 								"analyzer": "ngrams",
 								"norms": false
-							}	
+							}
 						}
 					}
 				}
@@ -108,7 +141,7 @@
 								"index": "analyzed",
 								"analyzer": "ngrams",
 								"norms": false
-							}	
+							}
 						}
 					},
 					"middleName": {
@@ -121,7 +154,7 @@
 								"index": "analyzed",
 								"analyzer": "ngrams",
 								"norms": false
-							}	
+							}
 						}
 					},
 					"lastName": {
@@ -134,7 +167,7 @@
 								"index": "analyzed",
 								"analyzer": "ngrams",
 								"norms": false
-							}	
+							}
 						}
 					}
 				}
@@ -152,7 +185,7 @@
 								"index": "analyzed",
 								"analyzer": "ngrams",
 								"norms": false
-							}	
+							}
 						}
 					},
 					"en": {
@@ -165,7 +198,7 @@
 								"index": "analyzed",
 								"analyzer": "ngrams",
 								"norms": false
-							}	
+							}
 						}
 					}
 				}
