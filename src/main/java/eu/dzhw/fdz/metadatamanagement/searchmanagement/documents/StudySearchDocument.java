@@ -43,7 +43,7 @@ public class StudySearchDocument extends Study {
   
   private I18nString surveyDataType;
   
-  private Integer maxWave;
+  private Integer numberOfWaves;
   
   /**
    * Construct the search document with all related subdocuments.
@@ -80,8 +80,8 @@ public class StudySearchDocument extends Study {
     if (surveys != null) {
       this.surveys = surveys.stream()
           .map(SurveySubDocument::new).collect(Collectors.toList());      
-      this.surveyDataType = verifySurveyDataType(surveys);
-      this.maxWave = getSurveyMaxWaveNumber(surveys);
+      this.surveyDataType = generateSurveyDataType(surveys);
+      this.numberOfWaves = generateNumberOfWaves(surveys);
     }
     if (questions != null) {
       this.questions = questions.stream()
@@ -99,19 +99,17 @@ public class StudySearchDocument extends Study {
    * @param surveys All Survey Sub Document Projections.
    * @return The highest (max) wave number.
    */
-  private Integer getSurveyMaxWaveNumber(List<SurveySubDocumentProjection> surveys) {
-    int maxWaves = 0;
+  private Integer generateNumberOfWaves(List<SurveySubDocumentProjection> surveys) {
+    Integer numberOfWaves = null;
     
     for (SurveySubDocumentProjection survey : surveys) {
-      
-      if (survey.getWave() > maxWaves) {
-        maxWaves = survey.getWave();
+      if (numberOfWaves == null || survey.getWave() > numberOfWaves) {
+        numberOfWaves = survey.getWave();
       }
     }
     
-    return maxWaves;
+    return numberOfWaves;
   }
-
 
   /**
    * Check the Data Type of every Survey.
@@ -119,7 +117,7 @@ public class StudySearchDocument extends Study {
    * @return If all Data Type of the Survey are equal, return the Data Type. If the surveys have 
    *     different Data Type, return the Mixed Method Data Type. 
    */
-  private I18nString verifySurveyDataType(List<SurveySubDocumentProjection> surveys) {
+  private I18nString generateSurveyDataType(List<SurveySubDocumentProjection> surveys) {
     
     I18nString surveyDataType = null;
     
@@ -129,15 +127,13 @@ public class StudySearchDocument extends Study {
         continue;
       }
       
-      if (!surveyDataType.equals(survey.getDataType())) {
+      if (survey.getDataType() != null && !surveyDataType.equals(survey.getDataType())) {
         return SurveyDataTypes.MIXED_METHODS;
       }
     }
     
     return surveyDataType;
   }
-
-
 
   public List<DataSetSubDocument> getDataSets() {
     return dataSets;
@@ -203,11 +199,11 @@ public class StudySearchDocument extends Study {
     this.surveyDataType = surveyDataType;
   }
 
-  public Integer getMaxWave() {
-    return maxWave;
+  public Integer getNumberOfWaves() {
+    return numberOfWaves;
   }
   
-  public void setMaxWave(Integer maxWave) {
-    this.maxWave = maxWave;
+  public void setNumberOfWaves(Integer numberOfWaves) {
+    this.numberOfWaves = numberOfWaves;
   }
 }

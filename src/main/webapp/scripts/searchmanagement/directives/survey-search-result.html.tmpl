@@ -6,7 +6,7 @@
             </md-card-avatar>
             <md-card-header-text class="fdz-truncate-string">
                 <div class="md-title fdz-truncate-string"><span display-i18n-string="searchResult.title"></span> <span class="label label-as-badge label-default">{{searchResult.id}}</span></div>
-                <div class="md-subhead fdz-truncate-string" display-i18n-string="searchResult.surveyMethod"></div>
+                <div class="md-subhead fdz-truncate-string">{{searchResult.dataType[currentLanguage]}}, <span display-i18n-string="searchResult.surveyMethod"></span></div>
             </md-card-header-text>
         </md-card-header>
         <md-card-content>
@@ -18,10 +18,6 @@
                     </div>
                 </div>
                 <div flex-gt-sm="50" layout="column">
-                    <div ng-class="{'fdz-add-bottom-margin': !addMargin}" ng-if="searchResult.dataType">
-                        <span style="font-weight: bold;">{{'survey-management.detail.data-type' | translate }}:</span>
-                        <span display-i18n-string="searchResult.dataType"></span>
-                    </div>
                     <div ng-class="{'fdz-add-bottom-margin': !addMargin}" ng-if="searchResult.sample">
                         <span style="font-weight: bold;">{{'survey-management.detail.sample' | translate }}:</span>
                         <span display-i18n-string="searchResult.sample"></span>

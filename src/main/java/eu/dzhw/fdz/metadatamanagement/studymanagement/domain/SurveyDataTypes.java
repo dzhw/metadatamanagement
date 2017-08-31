@@ -16,7 +16,7 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.DataTypes;
 public class SurveyDataTypes extends DataTypes {
 
   public static final I18nString MIXED_METHODS = 
-      new I18nString("Qualitative Daten", "Qualitative Data");
+      new I18nString("Mixed Methods", "Mixed Methods");
   
   public static final Set<I18nString> ALL =
       Collections.unmodifiableSet(new HashSet<>(

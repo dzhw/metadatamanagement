@@ -37,6 +37,21 @@
 					}
 				}
 			},
+			"dataType": {
+				"type": "object",
+				"properties": {
+					"de": {
+						"type": "string",
+						"index": "analyzed",
+						"analyzer": "german"
+					},
+					"en": {
+						"type": "string",
+						"index": "analyzed",
+						"analyzer": "english"
+					}
+				}
+			},
 			"study": {
 				"type": "object",
 				"properties": {
