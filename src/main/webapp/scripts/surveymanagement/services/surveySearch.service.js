@@ -90,38 +90,6 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
       return ElasticSearchClient.search(query);
     };
 
-    var findSurveyMaxWavesAndNumberSurveyDataTypesByStudyId =
-        function(studyId, selectedAttributes) {
-      var query = createQueryObject();
-      query.body = {};
-      query.body._source = selectedAttributes;
-      query.body.query = {
-        'bool': {
-          'must': [{
-            'match_all': {}
-          }],
-          'filter': [{
-            'term': {
-              'studyId': studyId
-            }
-          }]
-        }
-      };
-      query.body.aggregations = {
-        'maxWaves': {
-          'max': {
-            'field': 'wave'
-          }
-        },
-        'surveyDataTypesCount': {
-          'cardinality': {
-            'field': 'dataType.de'
-          }
-        }
-      };
-      return ElasticSearchClient.search(query);
-    };
-
     var findByVariableId = function(variableId, selectedAttributes,
       from, size) {
       var query = createQueryObject();
@@ -188,8 +156,6 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
       findSurveys: findSurveys,
       findByProjectId: findByProjectId,
       findByStudyId: findByStudyId,
-      findSurveyMaxWavesAndNumberSurveyDataTypesByStudyId:
-        findSurveyMaxWavesAndNumberSurveyDataTypesByStudyId,
       findByDataSetId: findByDataSetId,
       findByVariableId: findByVariableId,
       countBy: countBy

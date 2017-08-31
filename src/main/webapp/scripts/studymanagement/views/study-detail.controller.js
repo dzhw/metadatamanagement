@@ -4,11 +4,9 @@ angular.module('metadatamanagementApp')
   .controller('StudyDetailController',
     function(entity, PageTitleService, LanguageService, DataSetSearchService,
       $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
-      StudyAttachmentResource, SurveySearchService) {
+      StudyAttachmentResource) {
       var ctrl = this;
-      var differentSurveyDataTypes = 0;
       ctrl.counts = {};
-      ctrl.surveyMaxWaves = 0;
       entity.promise.then(function(result) {
         PageTitleService.setPageTitle('study-management.detail.title', {
           title: result.title[LanguageService.getCurrentInstantly()],
@@ -53,24 +51,6 @@ angular.module('metadatamanagementApp')
             .then(function(dataSets) {
               ctrl.dataSets = dataSets.hits.hits;
             });
-          SurveySearchService
-            .findSurveyMaxWavesAndNumberSurveyDataTypesByStudyId(ctrl.study.id,
-            ['id', 'wave', 'dataType'])
-            .then(function(result) {
-            ctrl.surveyMaxWaves = result.aggregations.maxWaves.value;
-            differentSurveyDataTypes =
-              result.aggregations.surveyDataTypesCount.value;
-
-            if (differentSurveyDataTypes === 1) {
-              ctrl.surveyDataType = result.hits.hits[0]._source.dataType;
-            }
-            if (differentSurveyDataTypes > 1) {
-              ctrl.surveyDataType = {
-                'de': 'Mixed Methods',
-                'en': 'Mixed Methods'
-              };
-            }
-          });
           StudyAttachmentResource.findByStudyId({
               id: ctrl.study.id
             }).$promise.then(
