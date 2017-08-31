@@ -19,6 +19,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     var locationChanged = false;
     var currentProjectChangeIsBeingHandled = false;
     var selectedTabChangeIsBeingHandled = false;
+    var queryChangeIsBeingHandled = false;
     $scope.isSearching = 0;
 
     // set the page title in toolbar and window.title
@@ -32,7 +33,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
     // write the searchParams object to the location with the correct types
     var writeSearchParamsToLocation = function() {
       var locationSearch = {};
-      locationSearch.page = '' + $scope.pageObject.page;
       try {
         locationSearch.type = $scope.tabs[
           $scope.searchParams.selectedTabIndex].elasticSearchType;
@@ -65,17 +65,13 @@ angular.module('metadatamanagementApp').controller('SearchController',
           selectedTabIndex: 0
         };
       } else {
-        if (locationSearch.page != null) {
-          $scope.pageObject.page = parseInt(locationSearch.page);
-        } else {
-          $scope.pageObject.page = 1;
-        }
+        $scope.pageObject.page = 1;
         if (locationSearch.query) {
           $scope.searchParams.query = locationSearch.query;
         } else {
           $scope.searchParams.query = '';
         }
-        $scope.searchParams.filter = _.omit(locationSearch, ['page', 'type',
+        $scope.searchParams.filter = _.omit(locationSearch, ['type',
           'query', 'sort-by'
         ]);
         $scope.searchParams.sortBy = locationSearch['sort-by'];
@@ -228,14 +224,21 @@ angular.module('metadatamanagementApp').controller('SearchController',
         queryChangedOnInit = false;
         return;
       }
-      $scope.pageObject.page = 1;
-      delete $scope.searchParams.sortBy;
-      writeSearchParamsToLocation();
-      $scope.search();
+      if (selectedTabChangeIsBeingHandled) {
+        return;
+      }
+      queryChangeIsBeingHandled = true;
+      $timeout(function() {
+        $scope.pageObject.page = 1;
+        delete $scope.searchParams.sortBy;
+        writeSearchParamsToLocation();
+        $scope.search();
+        queryChangeIsBeingHandled = false;
+      });
     });
 
     $scope.onSelectedTabChanged = function() {
-      if (!selectedTabChangeIsBeingHandled) {
+      if (!selectedTabChangeIsBeingHandled && !queryChangeIsBeingHandled) {
         //prevent multiple tab change handlers caused by logout
         selectedTabChangeIsBeingHandled = true;
         $timeout(function() {

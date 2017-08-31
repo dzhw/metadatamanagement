@@ -204,7 +204,7 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         surveyItem.number = surveys[0].number;
       }
       if (surveys.length > 1) {
-        var stateParams = {'type': 'surveys', 'page': 1};
+        var stateParams = {'type': 'surveys'};
         stateParams[itemTyp] = itemId;
         surveyItem.state = 'search(' + JSON.stringify(stateParams) + ')';
         surveyItem.type = translationStringsMap.surveyDetail.types;

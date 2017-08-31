@@ -25,16 +25,24 @@ angular.module('metadatamanagementApp')
               function(panelIdentifiers) {
                 if (panelIdentifiers.length === 1) {
                   $scope.currentPanelIdentifier = panelIdentifiers[0];
-                } else {
-                  $scope.currentPanelIdentifier =
-                    $scope.currentSearchParams.filter['panel-identifier'];
-                  $timeout(function() {
-                    $scope.panelIdentifierFilterForm.panelIdentifierFilter
-                      .$setValidity('md-require-match', false);
-                  }, 500);
-                  $scope.panelIdentifierFilterForm.panelIdentifierFilter
-                    .$setTouched();
+                  return;
+                } else if (panelIdentifiers.length > 1) {
+                  var index = _.indexOf(panelIdentifiers,
+                    $scope.currentSearchParams.filter['panel-identifier']);
+                  if (index > -1) {
+                    $scope.currentPanelIdentifier = panelIdentifiers[index];
+                    return;
+                  }
                 }
+                //panel identifier was not found
+                $scope.currentPanelIdentifier =
+                  $scope.currentSearchParams.filter['panel-identifier'];
+                $timeout(function() {
+                  $scope.panelIdentifierFilterForm.panelIdentifierFilter
+                    .$setValidity('md-require-match', false);
+                }, 500);
+                $scope.panelIdentifierFilterForm.panelIdentifierFilter
+                  .$setTouched();
               });
         } else {
           initializing = false;
