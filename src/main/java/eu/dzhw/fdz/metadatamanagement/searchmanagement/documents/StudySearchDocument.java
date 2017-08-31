@@ -81,7 +81,7 @@ public class StudySearchDocument extends Study {
       this.surveys = surveys.stream()
           .map(SurveySubDocument::new).collect(Collectors.toList());      
       this.surveyDataType = verifySurveyDataType(surveys);
-      this.maxWave = verifyMaxWave(surveys);
+      this.maxWave = getSurveyMaxWaveNumber(surveys);
     }
     if (questions != null) {
       this.questions = questions.stream()
@@ -94,8 +94,12 @@ public class StudySearchDocument extends Study {
     this.release = release;
   }
   
-  
-  private Integer verifyMaxWave(List<SurveySubDocumentProjection> surveys) {
+  /**
+   * Check the wave number of every survey. 
+   * @param surveys All Survey Sub Document Projections.
+   * @return The highest (max) wave number.
+   */
+  private Integer getSurveyMaxWaveNumber(List<SurveySubDocumentProjection> surveys) {
     int maxWaves = 0;
     
     for (SurveySubDocumentProjection survey : surveys) {
@@ -109,6 +113,12 @@ public class StudySearchDocument extends Study {
   }
 
 
+  /**
+   * Check the Data Type of every Survey.
+   * @param surveys All Survey Sub Document Projections.
+   * @return If all Data Type of the Survey are equal, return the Data Type. If the surveys have 
+   *     different Data Type, return the Mixed Method Data Type. 
+   */
   private I18nString verifySurveyDataType(List<SurveySubDocumentProjection> surveys) {
     
     I18nString surveyDataType = null;
