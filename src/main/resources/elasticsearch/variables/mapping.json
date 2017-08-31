@@ -121,6 +121,10 @@
 				"type": "keyword",
 				"index": "not_analyzed"
 			},
+			"derivedVariablesIdentifier": {
+				"type": "keyword",
+				"index": "not_analyzed"
+			},
 			"label": {
 				"type": "object",
 				"properties": {

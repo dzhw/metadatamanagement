@@ -14,15 +14,15 @@ import javax.validation.Payload;
  *
  */
 @Documented
-@Constraint(validatedBy = {ValidVariableIdentifierValidator.class})
+@Constraint(validatedBy = {ValidPanelIdentifierValidator.class})
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidVariableIdentifier {
+public @interface ValidPanelIdentifier {
   /**
    * Defines the default error message.
    */
   String message() default "{eu.dzhw.fdz.metadatamanagement.domain.validation."
-      + "variable-management.error.variable.valid-identifier}";
+      + "variable-management.error.variable.valid-panel-identifier}";
 
   /**
    * This contains groups.

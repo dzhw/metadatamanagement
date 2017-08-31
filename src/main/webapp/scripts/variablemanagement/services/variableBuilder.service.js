@@ -44,6 +44,8 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
           }
         },
         panelIdentifier: variableFromExcel.panelIdentifier,
+        derivedVariablesIdentifier:
+          variableFromExcel.derivedVariablesIdentifier,
         relatedVariables: CleanJSObjectService.removeWhiteSpace(
           variableFromExcel.relatedVariables),
         label: variableFromJson.label,

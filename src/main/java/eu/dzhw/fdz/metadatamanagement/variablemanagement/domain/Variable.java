@@ -37,11 +37,12 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.Stati
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.UniqueVariableNameInDataSet;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidAccessWays;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidDataType;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidDerivedVariablesIdentifier;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidPanelIdentifier;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidResponseValueMustBeANumberOnNumericDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidResponseValueMustBeAnIsoDateOnDateDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidScaleLevel;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidVariableIdName;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidVariableIdentifier;
 import io.searchbox.annotations.JestId;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
@@ -62,7 +63,9 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
     @CompoundIndex(def = "{indexInDataSet: 1, dataSetId: 1}", unique = false)
     })
 @ValidVariableIdName(message = "variable-management.error.variable.valid-variable-name")
-@ValidVariableIdentifier(message = "variable-management.error.variable.valid-identifier")
+@ValidPanelIdentifier(message = "variable-management.error.variable.valid-panel-identifier")
+@ValidDerivedVariablesIdentifier(message = 
+    "variable-management.error.variable.valid-derived-variables-identifier")
 @UniqueVariableNameInDataSet(message = "variable-management.error."
     + "variable.unique-variable-name-in-data-set")
 @OnlyOrdinalScaleLevelForDateDataType(
@@ -167,6 +170,12 @@ public class Variable extends AbstractRdcDomainObject {
   @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS,
       message = "variable-management.error.variable.panel-identifier-pattern")
   private String panelIdentifier;
+  
+  @Size(max = StringLengths.MEDIUM,
+      message = "variable-management.error.variable.derived-variables-identifier-size")
+  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS,
+      message = "variable-management.error.variable.derived-variables-identifier-pattern")
+  private String derivedVariablesIdentifier;
 
   /* Nested Objects */
   @Valid
@@ -284,6 +293,7 @@ public class Variable extends AbstractRdcDomainObject {
       .add("surveyIds", surveyIds)
       .add("relatedQuestions",relatedQuestions)
       .add("panelIdentifier", panelIdentifier)
+      .add("derivedVariablesIdentifier", derivedVariablesIdentifier)
       .toString();
   }
 
@@ -395,5 +405,13 @@ public class Variable extends AbstractRdcDomainObject {
 
   public void setStudyId(String studyId) {
     this.studyId = studyId;
+  }
+
+  public String getDerivedVariablesIdentifier() {
+    return derivedVariablesIdentifier;
+  }
+
+  public void setDerivedVariablesIdentifier(String derivedVariablesIdentifier) {
+    this.derivedVariablesIdentifier = derivedVariablesIdentifier;
   }
 }

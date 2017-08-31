@@ -92,6 +92,16 @@ angular.module('metadatamanagementApp')
         } else {
           $scope.counts.variablesInPanel = 0;
         }
+        if ($scope.variable.derivedVariablesIdentifier) {
+          VariableSearchService
+            .countBy('derivedVariablesIdentifier',
+              $scope.variable.derivedVariablesIdentifier)
+            .then(function(derivedVariables) {
+              $scope.counts.derivedVariables = derivedVariables.count;
+            });
+        } else {
+          $scope.counts.derivedVariables = 0;
+        }
         $scope.counts.publicationsCount = $scope.variable
           .relatedPublications.length;
         if ($scope.counts.publicationsCount === 1) {
