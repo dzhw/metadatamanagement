@@ -33,6 +33,10 @@ public class DataSetSearchDocument extends DataSet {
       new ArrayList<SurveySubDocument>();
   private Release release = null;
   
+  private Integer maxNumberOfObservations;
+  
+  private List<String> accessWays;
+  
   /**
    * Construct the search document with all related subdocuments.
    * @param dataSet The data set to be searched for.
@@ -76,6 +80,10 @@ public class DataSetSearchDocument extends DataSet {
       this.questions = questions.stream()
           .map(QuestionSubDocument::new).collect(Collectors.toList());      
     }
+    this.maxNumberOfObservations = dataSet.getSubDataSets().stream()
+        .map(subDataSet -> subDataSet.getNumberOfObservations()).reduce(Integer::max).get();
+    this.accessWays = dataSet.getSubDataSets().stream()
+        .map(subDataSet -> subDataSet.getAccessWay()).collect(Collectors.toList());
     this.release = release;
   }
 
@@ -133,5 +141,17 @@ public class DataSetSearchDocument extends DataSet {
 
   public void setRelease(Release release) {
     this.release = release;
+  }
+
+  public Integer getMaxNumberOfObservations() {
+    return maxNumberOfObservations;
+  }
+
+  public List<String> getAccessWays() {
+    return accessWays;
+  }
+
+  public List<QuestionSubDocument> getQuestions() {
+    return questions;
   }
 }

@@ -27,8 +27,6 @@ public class InstrumentSubDocument implements InstrumentSubDocumentProjection {
   
   private Integer number;
   
-  private I18nString annotations;
-  
   private List<String> surveyIds;
   
   public InstrumentSubDocument() {
@@ -92,15 +90,6 @@ public class InstrumentSubDocument implements InstrumentSubDocumentProjection {
 
   public void setSurveyIds(List<String> surveyIds) {
     this.surveyIds = surveyIds;
-  }
-
-  @Override
-  public I18nString getAnnotations() {
-    return annotations;
-  }
-
-  public void setAnnotations(I18nString annotations) {
-    this.annotations = annotations;
   }
 
   @Override

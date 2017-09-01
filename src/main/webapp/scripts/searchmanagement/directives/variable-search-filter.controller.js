@@ -43,7 +43,7 @@ angular.module('metadatamanagementApp')
                 $timeout(function() {
                   $scope.variableFilterForm.variableFilter.$setValidity(
                     'md-require-match', false);
-                });
+                }, 500);
                 $scope.variableFilterForm.variableFilter.$setTouched();
               });
         } else {

@@ -1,301 +1,221 @@
-/* global _*/
+/* global _, ClientJS*/
 /* Author: Daniel Katzberg */
 'use strict';
 
 angular.module('metadatamanagementApp').service('SearchDao',
   function(ElasticSearchClient, CleanJSObjectService, Principal,
     LanguageService, StudyIdBuilderService, SearchFilterHelperService) {
-    var addAdditionalShouldQueries = function(elasticsearchType, queryterm,
-      queryShould) {
+    //use a fake sessionId for consistent shard routing
+    var fingerprint = new ClientJS().getFingerprint();
+
+    var addAdditionalShouldQueries = function(elasticsearchType, query,
+      boolQuery) {
+      var queryTerms = query.split(' ');
+      if (CleanJSObjectService.isNullOrEmpty(boolQuery.should)) {
+        boolQuery.should = [];
+      }
 
       //Definition of Boosting for Elasticsearch Search Queries
-      var standardMinorBoost = 0.25;
-      var germanMajorBoost = 1.0;
-      var germanMinorBoost = 0.25;
-      var englishMajorBoost = 1.0;
-      var englishMinorBoost = 0.25;
+      var standardSuperBoost = 10;
+      var standardMajorBoost = 1;
+      var standardMinorBoost = 0.1;
+      var germanSuperBoost = 10;
+      var germanMajorBoost = 1;
+      var germanMinorBoost = 0.1;
+      var englishSuperBoost = 10;
+      var englishMajorBoost = 1;
+      var englishMinorBoost = 0.1;
 
       //Change Boosting by Language
       var currentLanguage = LanguageService.getCurrentInstantly();
       switch (currentLanguage) {
         //German is the actual language, decrease english boosting
         case 'de':
-          englishMajorBoost = 0.125;
-          englishMinorBoost = 0.125;
+          englishSuperBoost = 0.01;
+          englishMajorBoost = 0.001;
+          englishMinorBoost = 0.0001;
           break;
         //English is the actual language, decrease german boosting
         case 'en':
-          germanMajorBoost = 0.125;
-          englishMinorBoost = 0.125;
+          germanSuperBoost = 0.01;
+          germanMajorBoost = 0.001;
+          germanMinorBoost = 0.0001;
           break;
       }
 
+      var createConstantScoreQuery = function(fieldName, queryTerm, boost,
+        lenient) {
+        var constantScoreQuery = {
+          'constant_score': {
+            'query': {
+              'match': {}
+            },
+            'boost': boost
+          }
+        };
+        // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
+        constantScoreQuery.constant_score.query.match[fieldName] = {
+          'query': queryTerm,
+          'operator': 'and',
+          'minimum_should_match': '100%',
+          'lenient': lenient === true
+        };
+        // jscs:enable requireCamelCaseOrUpperCaseIdentifiers
+        return constantScoreQuery;
+      };
       //Add fields with boosting for search of different domain objects
-      switch (elasticsearchType) {
-        case 'studies':
-          queryShould.push({
-            'multi_match': {
-              'query': queryterm,
-              'fields': [
-                'title.de^' + germanMajorBoost,
-                'title.en^' + englishMajorBoost,
-                'authors.firstName',
-                'authors.middleName',
-                'authors.lastName',
-                '_id',
-                'description.de^' + germanMinorBoost,
-                'description.en^' + englishMinorBoost
-              ],
-              'type': 'phrase_prefix',
-              'operator': 'AND',
-              'zero_terms_query': 'NONE',
-              'minimum_should_match': 1
-            }
-          });
-          queryShould.push({
-            'query_string': {
-              'query': queryterm + '*',
-              'fields': [
-                'title.de^' + germanMajorBoost,
-                'title.en^' + englishMajorBoost,
-                'authors.firstName',
-                'authors.middleName',
-                'authors.lastName',
-                'description.de^' + germanMinorBoost,
-                'description.en^' + englishMinorBoost
-              ],
-              'default_operator': 'AND',
-              'minimum_should_match': 1
-            }
-          });
-          break;
+      queryTerms.forEach(function(queryTerm) {
+        switch (elasticsearchType) {
+          case 'studies':
+            boolQuery.should.push(createConstantScoreQuery(
+              'title.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'title.en.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'surveyDesign.de.ngrams', queryTerm, germanSuperBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'surveyDesign.en.ngrams', queryTerm, englishSuperBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'surveyDataType.de.ngrams', queryTerm, germanSuperBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'surveyDataType.en.ngrams', queryTerm, englishSuperBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'id.ngrams', queryTerm, standardMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'authors.firstName.ngrams', queryTerm, standardMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'authors.middleName.ngrams', queryTerm, standardMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'authors.lastName.ngrams', queryTerm, standardMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'description.de.ngrams', queryTerm, germanMinorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'description.en.ngrams', queryTerm, englishMinorBoost));
+            break;
 
-        case 'surveys':
-          queryShould.push({
-            'multi_match': {
-              'query': queryterm,
-              'fields': [
-                'title.de^' + germanMajorBoost,
-                'title.en^' + englishMajorBoost,
-                'surveyMethod.de^' + germanMajorBoost,
-                'surveyMethod.en^' + englishMajorBoost,
-                '_id',
-                'population.de^' + germanMinorBoost,
-                'population.en^' + englishMinorBoost,
-                'sample.de^' + germanMinorBoost,
-                'sample.en^' + englishMinorBoost,
-              ],
-              'type': 'phrase_prefix',
-              'operator': 'AND',
-              'zero_terms_query': 'NONE',
-              'minimum_should_match': 1
-            }
-          });
-          queryShould.push({
-            'query_string': {
-              'query': queryterm + '*',
-              'fields': [
-                'title.de^' + germanMajorBoost,
-                'title.en^' + englishMajorBoost,
-                'surveyMethod.de^' + germanMajorBoost,
-                'surveyMethod.en^' + englishMajorBoost,
-                'population.de^' + germanMinorBoost,
-                'population.en^' + englishMinorBoost,
-                'sample.de^' + germanMinorBoost,
-                'sample.en^' + englishMinorBoost,
-              ],
-              'default_operator': 'AND',
-              'minimum_should_match': 1
-            }
-          });
-          break;
+          case 'surveys':
+            boolQuery.should.push(createConstantScoreQuery(
+              'title.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'title.en.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'dataType.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'dataType.en.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'surveyMethod.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'surveyMethod.en.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'id.ngrams', queryTerm, standardMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'population.de.ngrams', queryTerm, germanMinorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'population.en.ngrams', queryTerm, englishMinorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'sample.de.ngrams', queryTerm, germanMinorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'sample.en.ngrams', queryTerm, englishMinorBoost));
+            break;
 
-        case 'instruments':
-          queryShould.push({
-            'multi_match': {
-              'query': queryterm,
-              'fields': [
-                'title.de^' + germanMajorBoost,
-                'title.en^' + englishMajorBoost,
-                'description.de^' + germanMajorBoost,
-                'description.en^' + englishMajorBoost,
-                '_id',
-                'type^' + standardMinorBoost
-              ],
-              'type': 'phrase_prefix',
-              'operator': 'AND',
-              'zero_terms_query': 'NONE',
-              'minimum_should_match': 1
-            }
-          });
-          queryShould.push({
-            'query_string': {
-              'query': queryterm + '*',
-              'fields': [
-                'title.de^' + germanMajorBoost,
-                'title.en^' + englishMajorBoost,
-                'description.de^' + germanMajorBoost,
-                'description.en^' + englishMajorBoost,
-                'type^' + standardMinorBoost
-              ],
-              'default_operator': 'AND',
-              'minimum_should_match': 1
-            }
-          });
-          break;
+          case 'instruments':
+            boolQuery.should.push(createConstantScoreQuery(
+              'description.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'description.en.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'id.ngrams', queryTerm, standardMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'type.ngrams', queryTerm, standardMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'title.de.ngrams', queryTerm, germanMinorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'title.en.ngrams', queryTerm, englishMinorBoost));
+            break;
 
-        case 'questions':
-          queryShould.push({
-            'multi_match': {
-              'query': queryterm,
-              'fields': [
-                'instrument.description.de^' + germanMajorBoost,
-                'instrument.description.en^' + englishMajorBoost,
-                '_id',
-                'type.de^' + germanMajorBoost,
-                'type.en^' + englishMajorBoost,
-                'questionText.de^' + germanMinorBoost,
-                'questionText.en^' + englishMinorBoost
-              ],
-              'type': 'phrase_prefix',
-              'operator': 'AND',
-              'zero_terms_query': 'NONE',
-              'minimum_should_match': 1
-            }
-          });
-          queryShould.push({
-            'query_string': {
-              'query': queryterm + '*',
-              'fields': [
-                'instrument.description.de^' + germanMajorBoost,
-                'instrument.description.en^' + englishMajorBoost,
-                'type.de^' + germanMajorBoost,
-                'type.en^' + englishMajorBoost,
-                'questionText.de^' + germanMinorBoost,
-                'questionText.en^' + englishMinorBoost
-              ],
-              'default_operator': 'AND',
-              'minimum_should_match': 1
-            }
-          });
-          break;
+          case 'questions':
+            boolQuery.should.push(createConstantScoreQuery(
+              'instrument.description.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'instrument.description.en.ngrams', queryTerm, englishMajorBoost)
+            );
+            boolQuery.should.push(createConstantScoreQuery(
+              'id.ngrams', queryTerm, standardMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'number.edge_ngrams', queryTerm, standardSuperBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'type.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'type.en.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'questionText.de.ngrams', queryTerm, germanMinorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'questionText.en.ngrams', queryTerm, englishMinorBoost));
+            break;
 
-        case 'data_sets':
-          queryShould.push({
-            'multi_match': {
-              'query': queryterm,
-              'fields': [
-                'description.de^' + germanMajorBoost,
-                'description.en^' + englishMajorBoost,
-                '_id',
-                'type.de^' + germanMajorBoost,
-                'type.en^' + englishMajorBoost,
-                'surveys.title.de^' + germanMinorBoost,
-                'surveys.title.en^' + englishMinorBoost,
-                'accessWays^' + standardMinorBoost
-              ],
-              'type': 'phrase_prefix',
-              'operator': 'AND',
-              'zero_terms_query': 'NONE',
-              'minimum_should_match': 1
-            }
-          });
-          queryShould.push({
-            'query_string': {
-              'query': queryterm + '*',
-              'fields': [
-                'description.de^' + germanMajorBoost,
-                'description.en^' + englishMajorBoost,
-                'type.de^' + germanMajorBoost,
-                'type.en^' + englishMajorBoost,
-                'surveys.title.de^' + germanMinorBoost,
-                'surveys.title.en^' + englishMinorBoost,
-                'accessWays^' + standardMinorBoost
-              ],
-              'default_operator': 'AND',
-              'minimum_should_match': 1
-            }
-          });
-          break;
+          case 'data_sets':
+            boolQuery.should.push(createConstantScoreQuery(
+              'description.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'description.en.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'id.ngrams', queryTerm, standardMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'type.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'type.en.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'surveys.title.de.ngrams', queryTerm, germanMinorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'surveys.title.en.ngrams', queryTerm, englishMinorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'subDataSets.accessWays.ngrams', queryTerm, standardMinorBoost));
+            break;
 
-        case 'variables':
-          queryShould.push({
-            'multi_match': {
-              'query': queryterm,
-              'fields': [
-                'label.de^' + germanMajorBoost,
-                'label.en^' + englishMajorBoost,
-                'name^' + standardMinorBoost,
-                '_id',
-                'dataType.de^' + germanMajorBoost,
-                'dataType.en^' + englishMajorBoost,
-                'scaleLevel.de^' + germanMajorBoost,
-                'scaleLevel.en^' + englishMajorBoost,
-                'surveys.title.de^' + germanMinorBoost,
-                'surveys.title.en^' + englishMinorBoost
-              ],
-              'type': 'phrase_prefix',
-              'operator': 'AND',
-              'zero_terms_query': 'NONE',
-              'minimum_should_match': 1
-            }
-          });
-          queryShould.push({
-            'query_string': {
-              'query': queryterm + '*',
-              'fields': [
-                'label.de^' + germanMajorBoost,
-                'label.en^' + englishMajorBoost,
-                'name^' + standardMinorBoost,
-                'dataType.de^' + germanMajorBoost,
-                'dataType.en^' + englishMajorBoost,
-                'scaleLevel.de^' + germanMajorBoost,
-                'scaleLevel.en^' + englishMajorBoost,
-                'surveys.title.de^' + germanMinorBoost,
-                'surveys.title.en^' + englishMinorBoost
-              ],
-              'default_operator': 'AND',
-              'minimum_should_match': 1
-            }
-          });
-          break;
+          case 'variables':
+            boolQuery.should.push(createConstantScoreQuery(
+              'label.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'label.en.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'name.ngrams', queryTerm, standardMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'id.ngrams', queryTerm, standardMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'dataType.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'dataType.en.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'scaleLevel.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'scaleLevel.en.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'surveys.title.de.ngrams', queryTerm, germanMinorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'surveys.title.en.ngrams', queryTerm, englishMinorBoost));
+            break;
 
-        case 'related_publications':
-          queryShould.push({
-            'multi_match': {
-              'query': queryterm,
-              'fields': [
-                'title',
-                'doi',
-                'publicationAbstract^' + standardMinorBoost,
-                '_id'
-              ],
-              'type': 'phrase_prefix',
-              'operator': 'AND',
-              'zero_terms_query': 'NONE',
-              'minimum_should_match': 1
-            }
-          });
-          queryShould.push({
-            'query_string': {
-              'query': queryterm + '*',
-              'fields': [
-                'title',
-                'doi',
-                'publicationAbstract^' + standardMinorBoost
-              ],
-              'default_operator': 'AND',
-              'minimum_should_match': 1
-            }
-          });
-          break;
-      }
+          case 'related_publications':
+            boolQuery.should.push(createConstantScoreQuery(
+              'title.ngrams', queryTerm, standardMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'authors.ngrams', queryTerm, standardMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'id.ngrams', queryTerm, standardMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'year', queryTerm, standardSuperBoost, true));
+            boolQuery.should.push(createConstantScoreQuery(
+              'publicationAbstract.ngrams', queryTerm, standardMinorBoost));
+            break;
+        }
+      });
     };
 
     return {
       search: function(queryterm, pageNumber, dataAcquisitionProjectId,
         filter, elasticsearchType, pageSize, sortBy) {
         var query = {};
+        query.preference = fingerprint;
         var studyId;
 
         query.index = elasticsearchType;
@@ -307,16 +227,15 @@ angular.module('metadatamanagementApp').service('SearchDao',
         }
         query.type = elasticsearchType;
         query.body = {};
-        query.searchType = 'dfs_query_then_fetch';
         //use source filtering for returning only required attributes
         query.body._source = ['id', 'number', 'questionText', 'title',
           'description', 'type', 'year', 'publicationAbstract', 'authors',
           'surveyMethod', 'fieldPeriod', 'label', 'name', 'dataType',
-          'sample', 'wave',
+          'sample',
           'scaleLevel', 'dataAcquisitionProjectId', 'dataSetNumber',
           'population',
           'instrumentNumber', 'instrument.description', 'surveys.title',
-          'language', 'subDataSets'
+          'language', 'subDataSets', 'accessWays', 'maxNumberOfObservations'
         ];
         if (sortBy && sortBy !== '') {
           query.body.sort = [];
@@ -332,25 +251,29 @@ angular.module('metadatamanagementApp').service('SearchDao',
         if (!CleanJSObjectService.isNullOrEmpty(queryterm)) {
           query.body.query = {
             'bool': {
-              'minimum_number_should_match': 1,
-              'should': [
+              'must': [
                 {
-                'match': {
-                  '_all': {
-                    'query': queryterm,
-                    'operator': 'AND',
-                    'minimum_should_match': 1,
-                    'zero_terms_query': 'NONE',
-                    'boost': 0.01 //decrease the ngram results for scoring
+                'constant_score': {
+                  'query': {
+                    'match': {
+                      '_all': {
+                        'query': queryterm,
+                        'operator': 'AND',
+                        'minimum_should_match': '100%',
+                        'zero_terms_query': 'NONE',
+                        'boost': 1 //constant base score of 1 for matches
+                      }
+                    }
                   }
                 }
               }
-            ]
+            ],
+              'disable_coord': true
             }
           };
 
           addAdditionalShouldQueries(elasticsearchType,
-            queryterm, query.body.query.bool.should);
+            queryterm, query.body.query.bool);
 
           //no query term
         } else {

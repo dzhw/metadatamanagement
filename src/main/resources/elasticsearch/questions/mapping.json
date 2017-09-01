@@ -1,8 +1,11 @@
 {
 	"questions": {
 		"_all": {
+			"type": "text",
+			"index": "analyzed",
 			"enabled": true,
-			"analyzer": "trigrams"
+			"analyzer": "ngrams",
+			"norms": false
 		},
 		"dynamic_templates": [{
 			"default_mapping": {
@@ -14,26 +17,51 @@
 			}
 		}],
 		"properties": {
+			"id": {
+				"type": "keyword",
+				"index": "not_analyzed",
+				"fields": {
+					"ngrams": {
+						"type": "text",
+						"index": "analyzed",
+						"analyzer": "ngrams",
+						"norms": false
+					}
+				}
+			},
 			"dataAcquisitionProjectId": {
-				"type": "string",
+				"type": "keyword",
 				"index": "not_analyzed"
 			},
 			"successors": {
-				"type": "string",
+				"type": "keyword",
+				"index": "not_analyzed",
+				"include_in_all": false
+			},
+			"successorNumbers": {
+				"type": "keyword",
 				"index": "not_analyzed",
 				"include_in_all": false
 			},
 			"studyId": {
-				"type": "string",
+				"type": "keyword",
 				"index": "not_analyzed"
 			},
 			"instrumentId": {
-				"type": "string",
+				"type": "keyword",
 				"index": "not_analyzed"
 			},
 			"number": {
-				"type": "string",
-				"index": "not_analyzed"
+				"type": "keyword",
+				"index": "not_analyzed",
+				"fields": {
+					"edge_ngrams": {
+						"type": "text",
+						"index": "analyzed",
+						"analyzer": "edge_ngrams_small",
+						"norms": false
+					}
+				}
 			},
 			"indexInInstrument": {
 				"type": "integer"
@@ -45,29 +73,30 @@
 				"type": "object",
 				"properties": {
 					"de": {
-						"type": "string",
-						"index": "analyzed",
-						"analyzer": "german"
+						"type": "text",
+						"index": "no",
+						"include_in_all": true,
+						"fields": {
+							"ngrams": {
+								"type": "text",
+								"index": "analyzed",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
 					},
 					"en": {
-						"type": "string",
-						"index": "analyzed",
-						"analyzer": "english"
-					}
-				}
-			},
-			"topic": {
-				"type": "object",
-				"properties": {
-					"de": {
-						"type": "string",
-						"index": "analyzed",
-						"analyzer": "german"
-					},
-					"en": {
-						"type": "string",
-						"index": "analyzed",
-						"analyzer": "english"
+						"type": "text",
+						"index": "no",
+						"include_in_all": true,
+						"fields": {
+							"ngrams": {
+								"type": "text",
+								"index": "analyzed",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
 					}
 				}
 			},
@@ -75,23 +104,30 @@
 				"type": "object",
 				"properties": {
 					"de": {
-						"type": "string",
-						"index": "analyzed",
-						"analyzer": "german"
+						"type": "text",
+						"index": "no",
+						"include_in_all": true,
+						"fields": {
+							"ngrams": {
+								"type": "text",
+								"index": "analyzed",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
 					},
 					"en": {
-						"type": "string",
-						"index": "analyzed",
-						"analyzer": "english"
-					}
-				}
-			},
-			"study": {
-				"type": "object",
-				"properties": {
-					"doi": {
-						"type": "string",
-						"index": "not_analyzed"
+						"type": "text",
+						"index": "no",
+						"include_in_all": true,
+						"fields": {
+							"ngrams": {
+								"type": "text",
+								"index": "analyzed",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
 					}
 				}
 			},
@@ -99,8 +135,23 @@
 				"type": "object",
 				"properties": {
 					"id": {
-						"type": "string",
+						"type": "keyword",
 						"index": "not_analyzed"
+					},
+					"population": {
+						"type": "object",
+						"properties": {
+							"de": {
+								"type": "text",
+								"index": "no",
+								"include_in_all": false
+							},
+							"en": {
+								"type": "text",
+								"index": "no",
+								"include_in_all": false
+							}
+						}
 					}
 				}
 			},
@@ -108,7 +159,7 @@
 				"type": "object",
 				"properties": {
 					"id": {
-						"type": "string",
+						"type": "keyword",
 						"index": "not_analyzed"
 					}
 				}
@@ -117,7 +168,7 @@
 				"type": "object",
 				"properties": {
 					"id": {
-						"type": "string",
+						"type": "keyword",
 						"index": "not_analyzed"
 					}
 				}
@@ -126,11 +177,7 @@
 				"type": "object",
 				"properties": {
 					"id": {
-						"type": "string",
-						"index": "not_analyzed"
-					},
-					"doi": {
-						"type": "string",
+						"type": "keyword",
 						"index": "not_analyzed"
 					}
 				}
@@ -139,7 +186,7 @@
 				"type": "object",
 				"properties": {
 					"surveyIds": {
-						"type": "string",
+						"type": "keyword",
 						"index": "no",
 						"include_in_all": false
 					},
@@ -147,14 +194,30 @@
 						"type": "object",
 						"properties": {
 							"de": {
-								"type": "string",
-								"index": "analyzed",
-								"analyzer": "german"
+								"type": "text",
+								"index": "no",
+								"include_in_all": true,
+								"fields": {
+									"ngrams": {
+										"type": "text",
+										"index": "analyzed",
+										"analyzer": "ngrams",
+										"norms": false
+									}
+								}
 							},
 							"en": {
-								"type": "string",
-								"index": "analyzed",
-								"analyzer": "english"
+								"type": "text",
+								"index": "no",
+								"include_in_all": true,
+								"fields": {
+									"ngrams": {
+										"type": "text",
+										"index": "analyzed",
+										"analyzer": "ngrams",
+										"norms": false
+									}
+								}
 							}
 						}
 					}

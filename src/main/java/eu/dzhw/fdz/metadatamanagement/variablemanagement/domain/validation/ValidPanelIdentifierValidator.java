@@ -9,8 +9,8 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
  * This validator checks a panelIdentifier.
  *
  */
-public class ValidVariableIdentifierValidator
-    implements ConstraintValidator<ValidVariableIdentifier, Variable> {
+public class ValidPanelIdentifierValidator
+    implements ConstraintValidator<ValidPanelIdentifier, Variable> {
 
   /*
    * (non-Javadoc)
@@ -18,7 +18,7 @@ public class ValidVariableIdentifierValidator
    * @see javax.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
    */
   @Override
-  public void initialize(ValidVariableIdentifier constraintAnnotation) {}
+  public void initialize(ValidPanelIdentifier constraintAnnotation) {}
 
   /*
    * (non-Javadoc)

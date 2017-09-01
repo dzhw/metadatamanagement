@@ -72,7 +72,7 @@
                             </a>
                        </div>
                         <div ng-if="ctrl.surveyCount > 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="search({'type': 'surveys', 'instrument':ctrl.instrument.id, 'study': ctrl.instrument.studyId, 'page': 1})">
+                            <a ui-sref="search({'type': 'surveys', 'instrument':ctrl.instrument.id, 'study': ctrl.instrument.studyId, 'sort-by': 'number'})">
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                                 {{'survey-management.detail.surveys' | translate }}: ({{ctrl.surveyCount}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
@@ -97,7 +97,7 @@
                             </a>
                        </div>
                         <div ng-if="ctrl.questionCount > 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="search({'instrument': ctrl.instrument.id, 'study': ctrl.instrument.studyId, 'type': 'questions', 'sort-by': 'indexInInstrument', 'page': 1})">
+                            <a ui-sref="search({'instrument': ctrl.instrument.id, 'study': ctrl.instrument.studyId, 'type': 'questions', 'sort-by': 'indexInInstrument'})">
                                 <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
                                 {{'question-management.detail.questions' | translate }}: ({{ctrl.questionCount}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
@@ -121,7 +121,7 @@
                             </a>
                         </div>
                         <div ng-if="ctrl.publicationCount > 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="search({'type': 'related_publications', 'instrument': ctrl.instrument.id, 'study': ctrl.instrument.studyId, 'page': 1})">
+                            <a ui-sref="search({'type': 'related_publications', 'instrument': ctrl.instrument.id, 'study': ctrl.instrument.studyId})">
                                 <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
                                 {{'related-publication-management.detail.publications' | translate }}: ({{ctrl.publicationCount}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">

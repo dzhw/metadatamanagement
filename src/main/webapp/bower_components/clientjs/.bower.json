@@ -1,0 +1,27 @@
+{
+  "name": "clientjs",
+  "version": "0.1.5",
+  "main": [
+    "dist/client.min.js"
+  ],
+  "ignore": [
+    ".travis.yml",
+    ".gitignore",
+    "build",
+    "grunt.js",
+    "LICENSE",
+    "node_modules",
+    "package.json"
+  ],
+  "homepage": "https://github.com/jackspirou/clientjs",
+  "_release": "0.1.5",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.1.5",
+    "commit": "c44193530b6ec8b726eeea13c13c183de97eee52"
+  },
+  "_source": "https://github.com/jackspirou/clientjs.git",
+  "_target": "^0.1.5",
+  "_originalSource": "clientjs",
+  "_direct": true
+}

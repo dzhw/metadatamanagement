@@ -34,6 +34,10 @@ angular.module('metadatamanagementApp').service('SurveyBuilderService',
             en: data['annotations.en'],
             de: data['annotations.de']
           },
+          dataType: {
+            en: data['dataType.en'],
+            de: data['dataType.de']
+          },
           grossSampleSize: data.grossSampleSize,
           sampleSize: data.sampleSize,
           responseRate: data.responseRate,
@@ -41,6 +45,7 @@ angular.module('metadatamanagementApp').service('SurveyBuilderService',
         };
         var cleanedSurveyObject = CleanJSObjectService
           .removeEmptyJsonObjects(surveyObj);
+
         return new SurveyResource(cleanedSurveyObject);
       };
     var buildSurveyAttachmentMetadata = function(metadataFromExcel,
