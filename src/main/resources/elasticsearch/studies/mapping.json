@@ -236,21 +236,6 @@
 					"id": {
 						"type": "keyword",
 						"index": "not_analyzed"
-					},
-					"population": {
-						"type": "object",
-						"properties": {
-							"de": {
-								"type": "text",
-								"index": "no",
-								"include_in_all": false
-							},
-							"en": {
-								"type": "text",
-								"index": "no",
-								"include_in_all": false
-							}
-						}
 					}
 				}
 			},

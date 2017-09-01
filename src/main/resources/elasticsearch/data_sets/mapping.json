@@ -120,6 +120,10 @@
 					}
 				}
 			},
+			"accessWays": {
+				"type": "keyword",
+				"index": "not_analyzed"
+			},
 			"variables": {
 				"type": "object",
 				"properties": {

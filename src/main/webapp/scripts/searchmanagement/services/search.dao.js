@@ -235,7 +235,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
           'scaleLevel', 'dataAcquisitionProjectId', 'dataSetNumber',
           'population',
           'instrumentNumber', 'instrument.description', 'surveys.title',
-          'language', 'subDataSets'
+          'language', 'subDataSets', 'accessWays', 'maxNumberOfObservations'
         ];
         if (sortBy && sortBy !== '') {
           query.body.sort = [];

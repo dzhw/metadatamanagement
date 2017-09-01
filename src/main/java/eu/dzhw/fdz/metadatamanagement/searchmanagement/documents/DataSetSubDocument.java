@@ -1,8 +1,12 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.BeanUtils;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.SubDataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataSetSubDocumentProjection;
 
 /**
@@ -22,15 +26,23 @@ public class DataSetSubDocument implements DataSetSubDocumentProjection {
   
   private Integer number;
   
-  private I18nString annotations;
-
-  public DataSetSubDocument() {
-    super();
-  }
+  private List<SubDataSet> subDataSets;
   
+  private Integer maxNumberOfObservations;
+  
+  private List<String> accessWays;
+ 
+  /**
+   * Create the sub document from the given projection.
+   * @param projection the data set projection
+   */
   public DataSetSubDocument(DataSetSubDocumentProjection projection) {
     super();
     BeanUtils.copyProperties(projection, this);
+    this.maxNumberOfObservations = projection.getSubDataSets().stream()
+        .map(subDataSet -> subDataSet.getNumberOfObservations()).reduce(Integer::max).get();
+    this.accessWays = projection.getSubDataSets().stream()
+        .map(subDataSet -> subDataSet.getAccessWay()).collect(Collectors.toList());
   }
   
   @Override
@@ -78,12 +90,19 @@ public class DataSetSubDocument implements DataSetSubDocumentProjection {
     this.number = number;
   }
 
-  @Override
-  public I18nString getAnnotations() {
-    return annotations;
+  public List<SubDataSet> getSubDataSets() {
+    return subDataSets;
   }
 
-  public void setAnnotations(I18nString annotations) {
-    this.annotations = annotations;
+  public void setSubDataSets(List<SubDataSet> subDataSets) {
+    this.subDataSets = subDataSets;
+  }
+
+  public Integer getMaxNumberOfObservations() {
+    return maxNumberOfObservations;
+  }
+
+  public List<String> getAccessWays() {
+    return accessWays;
   }
 }

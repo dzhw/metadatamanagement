@@ -43,11 +43,11 @@ angular.module('metadatamanagementApp')
           if (ctrl.counts.instrumentsCount === 1) {
             ctrl.instrument = result.instruments[0];
           }
-          /* We should discuss if we need to extand the dataSet sub document
-          to contain type, subDataSets and surveys.
-          we need this properties only at this place*/
+          /* We need to load search the dataSets cause the contain needed
+             survey titles */
           DataSetSearchService.findByStudyId(result.id,
-            ['id', 'number', 'description', 'type', 'subDataSets', 'surveys'])
+            ['id', 'number', 'description', 'type', 'surveys',
+              'maxNumberOfObservations', 'accessWays'])
             .then(function(dataSets) {
               ctrl.dataSets = dataSets.hits.hits;
             });
