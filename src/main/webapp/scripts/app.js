@@ -10,7 +10,7 @@ angular
       'ngResource', 'ui.router', 'ngCookies', 'ngAria',
       'ngFileUpload', 'ngMaterial',
       'blockUI', 'LocalStorageModule',
-      'ngMessages', 'katex', 'ngFileSaver'
+      'ngMessages', 'katex', 'ngFileSaver', 'duScroll'
     ])
 
 .run(
@@ -270,4 +270,8 @@ angular
         });
 
       $qProvider.errorOnUnhandledRejections(false);
-    });
+    })
+    .value('duScrollDuration', 500)
+    .value('duScrollEasing', function easeInCubic(t) {
+        return t * t * t;
+      });
