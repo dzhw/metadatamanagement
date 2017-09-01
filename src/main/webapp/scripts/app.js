@@ -10,7 +10,7 @@ angular
       'ngResource', 'ui.router', 'ngCookies', 'ngAria',
       'ngFileUpload', 'ngMaterial',
       'blockUI', 'LocalStorageModule',
-      'ngMessages', 'katex', 'ngFileSaver'
+      'ngMessages', 'katex', 'ngFileSaver', 'duScroll'
     ])
 
 .run(
@@ -110,12 +110,12 @@ angular
       $templateCache.put('custom-uib-pager-template', '<li role=\"menuitem\"' +
       ' ng-if=\"::boundaryLinks\" ng-class=\"{disabled: ' +
       'noPrevious()||ngDisabled}\" class=\"pagination-first\"><a href ' +
-      'ng-click=\"selectPage(1, $event)\" ' +
+      'ng-click=\"selectPage(1, $event)\" du-smooth-scroll=\"top\"' +
       'ng-disabled=\"noPrevious()||ngDisabled\" uib-tabindex-toggle>' +
       '{{::getText(\'first\')}}</a></li><li role=\"menuitem\" ' +
       'ng-if=\"::directionLinks\" ng-class=\"{disabled: ' +
-      'noPrevious()||ngDisabled}\" class=\"pagination-prev\"><a href ' +
-      'ng-click=\"selectPage(page - 1, $event)\" ' +
+      'noPrevious()||ngDisabled}\" class=\"pagination-prev\"><a href=\"\" ' +
+      'ng-click=\"selectPage(page - 1, $event)\" du-smooth-scroll=\"top\"' +
       'ng-disabled=\"noPrevious()||ngDisabled\" ' +
       'uib-tabindex-toggle>{{::getText(\'previous\')}}<md-tooltip ' +
       'ng-if="!noPrevious()" ' +
@@ -127,7 +127,7 @@ angular
       'ng-class=\"{active: page.active,disabled: ngDisabled&&!page.active}\" ' +
       'class=\"pagination-page\"><a href ng-click=\"selectPage(page.number, ' +
       '$event)\" ng-disabled=\"ngDisabled&&!page.active\" ' +
-      'tabindex="{{page.active?\'-1\':\'0\'}}" ' +
+      'tabindex="{{page.active?\'-1\':\'0\'}}" du-smooth-scroll=\"top\"' +
       '>{{page.text}}<md-tooltip ng-if="!page.active" ' +
       'md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || ' +
       'bowser.tablet ? -100 : 100"' +
@@ -136,11 +136,11 @@ angular
       '<li role=\"menuitem\" ' +
       'ng-if=\"::directionLinks\" ng-class=\"{disabled: ' +
       'noNext()||ngDisabled}\" class=\"pagination-next\"><a ' +
-      'href ng-click=\"selectPage(page + 1, $event)\" ' +
+      'href ng-click=\"selectPage(page + 1, $event)\" du-smooth-scroll="top"' +
       'ng-disabled=\"noNext()||ngDisabled\" uib-tabindex-toggle>' +
       '{{::getText(\'next\')}}<md-tooltip md-direction="bottom" ' +
       'ng-if="!noNext()" md-autohide="true" md-z-index="bowser.mobile || ' +
-      'bowser.tablet ? -100 : 100"' +
+      'bowser.tablet ? -100 : 100" du-smooth-scroll=\"top\"' +
       '><span translate="global.tooltips.pager.next" ' +
       '></span></md-tooltip></a></li><li role=\"menuitem\" ' +
       'ng-if=\"::boundaryLinks\" ng-class=\"{disabled: ' +
@@ -311,4 +311,8 @@ angular
         });
 
       $qProvider.errorOnUnhandledRejections(false);
-    });
+    })
+    .value('duScrollDuration', 800)
+    .value('duScrollEasing', function easeInCubic(t) {
+        return t * t * t;
+      });

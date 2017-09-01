@@ -9,6 +9,7 @@
     <meta name="google" content="notranslate">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#006AB2">
     <title data-translate="{{pageTitleKey}}" data-translate-values="{{pageTitleParams}}" data-translate-default="Metadatamanagement">Metadatamanagement</title>
     <meta name="apple-mobile-web-app-title" content="Metadatamanagement">
     <link rel="icon" type="image/png" href="assets/images/webapp/96-Gesamte-App.png">
@@ -51,7 +52,7 @@
     <div flex layout="column" id="root-container" ng-cloak>
         <div ui-view="toolbar"></div>
         <div flex layout="column" id="toast-container">
-            <md-content layout="column" flex id="content">
+            <md-content layout="column" flex id="content" du-scroll-container>
                 <div layout="column" flex class="fdz-content" tabindex="-1">
                     <ui-view layout="column" flex name="content" tabindex="-1"></ui-view>
                 </div>
@@ -109,6 +110,7 @@
     <script src="bower_components/bowser/src/bowser.js"></script>
     <script src="bower_components/blob-polyfill/Blob.js"></script>
     <script src="bower_components/angular-file-saver/dist/angular-file-saver.bundle.js"></script>
+    <script src="bower_components/angular-scroll/angular-scroll.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
