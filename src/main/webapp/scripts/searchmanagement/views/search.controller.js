@@ -69,7 +69,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
         if (locationSearch.page != null) {
           $scope.pageObject.page = parseInt(locationSearch.page);
         } else {
-           $scope.pageObject.page = 1;
+          $scope.pageObject.page = 1;
         }
         if (locationSearch.query) {
           $scope.searchParams.query = locationSearch.query;

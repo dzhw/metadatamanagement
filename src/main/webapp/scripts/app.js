@@ -1,4 +1,4 @@
-/*global bowser */
+/* global bowser, event */
 'use strict';
 
 angular
@@ -15,12 +15,21 @@ angular
 
 .run(
     function($rootScope, $location, $state, LanguageService, Auth, Principal,
-      ENV, VERSION, $mdMedia, $transitions, $timeout) {
+      ENV, VERSION, $mdMedia, $transitions, $timeout, $window) {
       $rootScope.bowser = bowser;
       $rootScope.ENV = ENV;
       $rootScope.VERSION = VERSION;
       $rootScope.$mdMedia = $mdMedia;
       $rootScope.currentDate = new Date();
+      //prevent default browser actions for drag and drop
+      $window.addEventListener('dragover', function(e) {
+        e = e || event;
+        e.preventDefault();
+      }, false);
+      $window.addEventListener('drop', function(e) {
+        e = e || event;
+        e.preventDefault();
+      }, false);
       if (typeof String.prototype.endsWith !== 'function') {
         String.prototype.endsWith = function(suffix) {
           return this.indexOf(suffix, this.length - suffix.length) !== -1;
