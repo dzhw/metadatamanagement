@@ -34,7 +34,7 @@
         </div>
         <div ng-if="pageObject.totalHits && pageObject.totalHits > pageObject.size" layout="row" layout-align="center">
             <ul template-url="scripts/common/pagination/custom-uib-pagination.html.tmpl" max-size="$mdMedia('gt-xs')?5:3" boundary-link-numbers="true" uib-pagination next-text="{{'global.pagination.next'|translate}}" previous-text="{{'global.pagination.previous'|translate}}" total-items="pageObject.totalHits" ng-model="pageObject.page" ng-change="onPageChanged()" items-per-page="pageObject.size"
-                class="pagination-sm" ng-class="{'fdz-remove-last-page-links': pageObject.totalHits > 10000}"></ul>
+                class="pagination-sm"></ul>
         </div>
         <div ng-if="pageObject.totalHits === 0 && !isSearching">
           <md-card>
