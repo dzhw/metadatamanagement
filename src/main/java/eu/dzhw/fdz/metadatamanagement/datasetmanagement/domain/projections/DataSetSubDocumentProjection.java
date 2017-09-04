@@ -18,6 +18,8 @@ public interface DataSetSubDocumentProjection {
   String getDataAcquisitionProjectId();
 
   I18nString getDescription();
+  
+  I18nString getType();
 
   Integer getNumber();
 
