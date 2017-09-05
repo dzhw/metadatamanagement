@@ -38,7 +38,7 @@ angular.module('metadatamanagementApp').config(
           'related-publications': 'Publikationen',
           'authors': 'Autor(inn)en',
           'year': 'Erscheinungsjahr',
-          'source-reference': 'Zitation',
+          'source-reference': 'Referenz',
           'abstract-source': 'Quelle',
           'tooltips': {
             'surveys': {
