@@ -125,7 +125,7 @@ angular.module('metadatamanagementApp').config(
           },
           'data-set-filter': {
             'not-found': 'No data set found!',
-            'no-valid-selected': 'No data set selected!'
+            'no-valid-selected': 'No valid data set selected!'
           },
           'variable-filter': {
             'not-found': 'No variable found!',
