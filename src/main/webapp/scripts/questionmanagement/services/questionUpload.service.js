@@ -12,7 +12,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
     var questionResources;
     // map questionId -> presentInJson true/false
     var existingQuestions = {};
-    var usedIndexInInstrument = {};
+    var usedIndexInInstrument = [];
     var createInstrumentsFileMap = function(files, dataAcquisitionProjectId) {
       filesMap = {};
       var instrumentIndex = 0;
@@ -177,10 +177,16 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
             objectType: 'question'
           });
 
-          //TODO Dkatzberg
           if (CleanJSObjectService
-            .isNullOrEmpty(usedIndexInInstrument[question.indexInInstrument])) {
-            usedIndexInInstrument[question.indexInInstrument] = question.id;
+            .isNullOrEmpty(usedIndexInInstrument[question.instrumentId])) {
+            usedIndexInInstrument[question.instrumentId] = [];
+          }
+
+          if (CleanJSObjectService
+            .isNullOrEmpty(usedIndexInInstrument[question.instrumentId]
+              [question.indexInInstrument])) {
+            usedIndexInInstrument[question.instrumentId]
+              [question.indexInInstrument] = question.id;
           } else {
             JobLoggingService.warning({
               message: 'question-management.log-messages.' +
