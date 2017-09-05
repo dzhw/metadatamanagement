@@ -22,6 +22,8 @@ public class DataSetSubDocument implements DataSetSubDocumentProjection {
   
   private I18nString description;
   
+  private I18nString type;
+  
   private I18nString format;
   
   private Integer number;
@@ -61,6 +63,14 @@ public class DataSetSubDocument implements DataSetSubDocumentProjection {
 
   public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
     this.dataAcquisitionProjectId = dataAcquisitionProjectId;
+  }
+  
+  public I18nString getType() {
+    return type;
+  }
+  
+  public void setType(I18nString type) {
+    this.type = type;
   }
 
   @Override
