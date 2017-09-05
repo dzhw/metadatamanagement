@@ -7,6 +7,8 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
+import eu.dzhw.fdz.metadatamanagement.common.components.StringTrimModule;
+
 /**
  * Configure the jackson json mapper.
  */
@@ -18,6 +20,7 @@ public class JacksonConfiguration {
     // enable custom data bindings like JSR 310 (e.g. LocalDate)
     return new Jackson2ObjectMapperBuilder()
       .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-      .serializationInclusion(Include.NON_NULL);
+      .serializationInclusion(Include.NON_NULL)
+      .modulesToInstall(new StringTrimModule());
   }
 }
