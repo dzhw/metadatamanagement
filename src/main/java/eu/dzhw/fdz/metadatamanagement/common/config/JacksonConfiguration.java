@@ -7,7 +7,7 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-import eu.dzhw.fdz.metadatamanagement.common.components.StringTrimModule;
+import eu.dzhw.fdz.metadatamanagement.common.config.jackson.StringTrimModule;
 
 /**
  * Configure the jackson json mapper.

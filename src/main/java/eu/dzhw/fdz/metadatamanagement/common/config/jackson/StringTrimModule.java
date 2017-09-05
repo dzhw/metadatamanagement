@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.common.components;
+package eu.dzhw.fdz.metadatamanagement.common.config.jackson;
 
 import java.io.IOException;
 
