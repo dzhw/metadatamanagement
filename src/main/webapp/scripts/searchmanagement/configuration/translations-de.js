@@ -117,7 +117,7 @@ angular.module('metadatamanagementApp').config(
           },
           'instrument-filter': {
             'not-found': 'Kein Instrument gefunden!',
-            'no-valid-selected': 'Keine gültiges Instrument ausgewählt!'
+            'no-valid-selected': 'Kein gültiges Instrument ausgewählt!'
           },
           'question-filter': {
             'not-found': 'Keine Frage gefunden!',
