@@ -1,6 +1,6 @@
 <div ng-if="variable.id">
     <div layout="row" style="margin-bottom: 0px;" layout-margin>
-        <h1 class="md-headline" style="margin-left: 0px;"><span display-i18n-string=variable.label></span> <span class="label label-as-badge label-default">{{variable.id}}</span></h1>
+        <h1 class="md-headline fdz-text-block" style="margin-left: 0px;"><span display-i18n-string="variable.label" fdz-hyphenate></span> <span class="label label-as-badge label-default">{{variable.id}}</span></h1>
     </div>
     <div layout="column" layout-gt-sm="row">
         <div flex-gt-sm="50" layout="column">
@@ -12,13 +12,13 @@
                 </md-card-header>
                 <md-divider></md-divider>
                 <md-card-content>
-                    <div class="fdz-add-bottom-margin" ng-if="variable.name">
+                    <div class="fdz-add-bottom-margin fdz-text-block" ng-if="variable.name">
                         <span style="font-weight: bold;">{{'variable-management.detail.name' | translate }}:</span>
                         <span>{{variable.name}}</span>
                     </div>
-                    <div class="fdz-add-bottom-margin" ng-if="variable.label">
+                    <div class="fdz-add-bottom-margin fdz-text-block" ng-if="variable.label">
                         <span style="font-weight: bold;">{{'variable-management.detail.label' | translate }}:</span>
-                        <span display-i18n-string="variable.label"></span>
+                        <span display-i18n-string="variable.label" fdz-hyphenate></span>
                     </div>
                     <div class="fdz-add-bottom-margin" ng-if="variable.dataType">
                         <span style="font-weight: bold;">{{'variable-management.detail.data-type' | translate }}:</span>
@@ -32,13 +32,13 @@
                         <span style="font-weight: bold;">{{'variable-management.detail.access-ways' | translate }}:</span>
                         <span>{{variable.accessWays.join(', ')}}</span>
                     </div>
-                    <div class="fdz-add-bottom-margin" ng-if="variable.annotations">
+                    <div class="fdz-add-bottom-margin fdz-text-block" ng-if="variable.annotations">
                         <span style="font-weight: bold;">{{'variable-management.detail.annotations' | translate }}:</span>
-                        <span display-i18n-string="variable.annotations"></span>
+                        <span display-i18n-string="variable.annotations" fdz-hyphenate></span>
                     </div>
-                    <div class="fdz-add-bottom-margin" ng-if="variable.filterDetails.description">
+                    <div class="fdz-add-bottom-margin fdz-text-block" ng-if="variable.filterDetails.description">
                         <span style="font-weight: bold;">{{'variable-management.detail.filter-description' | translate }}:</span>
-                        <span display-i18n-string="variable.filterDetails.description"></span>
+                        <span display-i18n-string="variable.filterDetails.description" fdz-hyphenate></span>
                     </div>
                     <div ng-if="variable.filterDetails">
                         <span style="font-weight: bold;">{{'variable-management.detail.input-filter' | translate }} ({{variable.filterDetails.expressionLanguage}}):</span>
@@ -214,7 +214,7 @@
            <md-card flex="auto" ng-if="validResponsesOrMissingsAvailable && isDiagramVisible()" class="fdz-reset-top-margin">
              <md-card-header>
                <md-card-header-text>
-                 <h2 class="md-title">{{'variable-management.detail.statistics.graphics' | translate }}</h2>
+                 <h2 class="md-title fdz-text-block">{{'variable-management.detail.statistics.graphics' | translate | fdzHyphenate }}</h2>
                </md-card-header-text>
              </md-card-header>
              <md-divider></md-divider>
@@ -227,7 +227,7 @@
            <md-card flex="auto" ng-if="variable.accessWays != 'not-accessible'" class="fdz-reset-top-margin" ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm') && validResponsesOrMissingsAvailable }">
              <md-card-header>
                <md-card-header-text>
-                 <h2 class="md-title">{{'variable-management.detail.statistics.statistics' | translate }}</h2>
+                 <h2 class="md-title fdz-text-block">{{'variable-management.detail.statistics.statistics' | translate | fdzHyphenate }}</h2>
                </md-card-header-text>
              </md-card-header>
              <md-divider></md-divider>
@@ -277,7 +277,7 @@
         <md-card flex class="fdz-reset-top-margin">
             <md-card-header class="fdz-card-header-with-button" layout-align="center center">
                 <md-card-header-text>
-                    <h2 class="md-title">{{'variable-management.detail.frequencies' | translate }}</h2>
+                    <h2 class="md-title fdz-text-block">{{'variable-management.detail.frequencies' | translate | fdzHyphenate }}</h2>
                 </md-card-header-text>
                 <md-button ng-disabled="!variable.distribution.validResponses || variable.distribution.validResponses.length <= 10" class="md-fab md-mini md-primary" ng-click="toggleAllRowsVisible()">
                     <md-tooltip ng-hide="!variable.distribution.validResponses || variable.distribution.validResponses.length <= 10" md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 20">
@@ -372,15 +372,15 @@
         <md-card flex class="fdz-reset-top-margin">
             <md-card-header layout-align="center center">
                 <md-card-header-text>
-                    <h2 class="md-title">{{'variable-management.detail.generation-details' | translate }}</h2>
+                    <h2 class="md-title fdz-text-block">{{'variable-management.detail.generation-details' | translate | fdzHyphenate }}</h2>
                 </md-card-header-text>
             </md-card-header>
             <md-divider></md-divider>
             <md-card-content>
-                <div class="fdz-add-bottom-margin">
+                <div class="fdz-add-bottom-margin fdz-text-block">
                     <span style="font-weight: bold;">{{'variable-management.detail.generation-details-description' | translate }}:
                     </span>
-                    <span display-i18n-string="variable.generationDetails.description"></span>
+                    <span display-i18n-string="variable.generationDetails.description" fdz-hyphenate></span>
                 </div>
                 <div ng-if="variable.generationDetails.rule">
                     <span style="font-weight: bold; margin-right:0px;">{{'variable-management.detail.generation-details-rule' | translate }}
@@ -413,7 +413,7 @@
             <md-card flex="auto" class="fdz-reset-top-margin">
                 <md-card-header>
                     <md-card-header-text>
-                        <h2 class="md-title">{{'variable-management.detail.previous-variable-in-data-set' | translate }}</h2>
+                        <h2 class="md-title fdz-text-block">{{'variable-management.detail.previous-variable-in-data-set' | translate | fdzHyphenate }}</h2>
                     </md-card-header-text>
                 </md-card-header>
                 <md-divider></md-divider>
@@ -431,7 +431,7 @@
             <md-card flex="auto" class="fdz-reset-top-margin" ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm')}">
                 <md-card-header>
                     <md-card-header-text>
-                        <h2 class="md-title">{{'variable-management.detail.next-variable-in-data-set' | translate }}</h2>
+                        <h2 class="md-title fdz-text-block">{{'variable-management.detail.next-variable-in-data-set' | translate | fdzHyphenate }}</h2>
                     </md-card-header-text>
                 </md-card-header>
                 <md-divider></md-divider>

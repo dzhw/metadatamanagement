@@ -1,6 +1,6 @@
 <div ng-if="ctrl.instrument.id">
     <div layout="row" style="margin-bottom: 0px;" layout-margin>
-        <h1 class="md-headline" style="margin-left: 0px;"><span display-i18n-string="ctrl.instrument.description"></span> <span class="label label-as-badge label-default">{{ctrl.instrument.id}}</span></h1>
+        <h1 class="md-headline fdz-text-block" style="margin-left: 0px;"><span display-i18n-string="ctrl.instrument.description" fdz-hyphenate></span> <span class="label label-as-badge label-default">{{ctrl.instrument.id}}</span></h1>
     </div>
     <div layout="column" layout-gt-sm="row">
         <div flex-gt-sm="50" layout="column">
@@ -12,21 +12,21 @@
                 </md-card-header>
                 <md-divider></md-divider>
                 <md-card-content>
-                  <div class="fdz-add-bottom-margin" ng-if="ctrl.instrument.title">
+                  <div class="fdz-add-bottom-margin fdz-text-block" ng-if="ctrl.instrument.title">
                       <span style="font-weight: bold;">{{'instrument-management.detail.title' | translate }}:</span>
-                      <span display-i18n-string="ctrl.instrument.title"></span>
+                      <span display-i18n-string="ctrl.instrument.title" fdz-hyphenate></span>
                   </div>
-                  <div class="fdz-add-bottom-margin" ng-if="ctrl.instrument.subtitle">
+                  <div class="fdz-add-bottom-margin fdz-text-block" ng-if="ctrl.instrument.subtitle">
                       <span style="font-weight: bold;">{{'instrument-management.detail.subtitle' | translate }}:</span>
-                      <span display-i18n-string="ctrl.instrument.subtitle"></span>
+                      <span display-i18n-string="ctrl.instrument.subtitle" fdz-hyphenate></span>
                   </div>
-                  <div class="fdz-add-bottom-margin" ng-if="ctrl.instrument.type">
+                  <div class="fdz-add-bottom-margin fdz-text-block" ng-if="ctrl.instrument.type">
                       <span style="font-weight: bold;">{{'instrument-management.detail.type' | translate }}:</span>
                       <span>{{ctrl.instrument.type}}</span>
                   </div>
-                  <div class="fdz-add-bottom-margin" ng-if="ctrl.instrument.annotations">
+                  <div class="fdz-add-bottom-margin fdz-text-block" ng-if="ctrl.instrument.annotations">
                       <span style="font-weight: bold;">{{'instrument-management.detail.annotations' | translate }}:</span>
-                      <span display-i18n-string="ctrl.instrument.annotations"></span>
+                      <span display-i18n-string="ctrl.instrument.annotations" fdz-hyphenate></span>
                   </div>
                 </md-card-content>
             </md-card>
@@ -138,7 +138,7 @@
         <md-card ng-if="ctrl.attachments" flex class="fdz-reset-top-margin">
             <md-card-header layout-align="center center">
                 <md-card-header-text>
-                    <h2 class="md-title">{{'instrument-management.detail.attachments.table-title' | translate }}</h2>
+                    <h2 class="md-title fdz-text-block">{{'instrument-management.detail.attachments.table-title' | translate | fdzHyphenate }}</h2>
                 </md-card-header-text>
             </md-card-header>
             <table fdz-table>
@@ -174,8 +174,8 @@
                 <tbody>
                     <tr ng-repeat="row in ctrl.attachments">
                         <td display-i18n-string="row.type"></td>
-                        <td display-i18n-string="row.description"></td>
-                        <td lang="{{row.language}}">{{row.title}}&nbsp;</td>
+                        <td display-i18n-string="row.description" fdz-hyphenate class="fdz-text-block"></td>
+                        <td lang="{{row.language}}" fdz-hyphenate class="fdz-text-block">{{row.title}}&nbsp;</td>
                         <td>{{row.language | displayIsoLanguage: currentLanguage}}&nbsp;</td>
                         <td><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                               {{'global.tooltips.files.download' | translate: {filename: row.fileName} }}

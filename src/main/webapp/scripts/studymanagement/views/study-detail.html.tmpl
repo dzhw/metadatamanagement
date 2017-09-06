@@ -1,6 +1,6 @@
 <div ng-if="ctrl.study.id">
     <div layout="row" style="margin-bottom: 0px;" layout-margin>
-        <h1 class="md-headline" style="margin-left: 0px;"><span display-i18n-string="ctrl.study.title" fdz-hyphenate></span> <span class="label label-as-badge label-default">{{ctrl.study.id}}</span></h1>
+        <h1 class="md-headline fdz-text-block" style="margin-left: 0px;"><span display-i18n-string="ctrl.study.title" fdz-hyphenate></span> <span class="label label-as-badge label-default">{{ctrl.study.id}}</span></h1>
     </div>
     <div layout="column" layout-gt-sm="row">
         <div flex-gt-sm="50" layout="column">
@@ -12,15 +12,15 @@
                 </md-card-header>
                 <md-divider></md-divider>
                 <md-card-content>
-                    <div ng-if="ctrl.study.surveySeries" class="fdz-add-bottom-margin">
+                    <div ng-if="ctrl.study.surveySeries" class="fdz-add-bottom-margin fdz-text-block">
                         <span style="font-weight: bold;">{{'study-management.detail.surveySeries' | translate }}:</span>
                         <span display-i18n-string="ctrl.study.surveySeries" fdz-hyphenate></span>
                     </div>
-                    <div class="fdz-add-bottom-margin" ng-if="ctrl.study.institution">
+                    <div class="fdz-add-bottom-margin fdz-text-block" ng-if="ctrl.study.institution">
                         <span style="font-weight: bold;">{{'study-management.detail.institution' | translate }}:</span>
                         <span display-i18n-string="ctrl.study.institution"></span>
                     </div>
-                    <div class="fdz-add-bottom-margin" ng-if="ctrl.study.authors">
+                    <div class="fdz-add-bottom-margin fdz-text-block" ng-if="ctrl.study.authors">
                         <span style="font-weight: bold;">{{'study-management.detail.authors' | translate }}:</span>
                         <span ng-repeat="author in ctrl.study.authors">
                           <span>{{author.lastName}}, </span>
@@ -28,34 +28,34 @@
                           <span ng-if="author.middleName !== undefined"> {{author.firstName}}  {{author.middleName}}{{!$last?';':''}}</span>
                         </span>
                     </div>
-                    <div class="fdz-add-bottom-margin" ng-if="ctrl.study.sponsor">
+                    <div class="fdz-add-bottom-margin fdz-text-block" ng-if="ctrl.study.sponsor">
                         <span style="font-weight: bold;">{{'study-management.detail.sponsors' | translate }}:</span>
                         <span display-i18n-string="ctrl.study.sponsor"></span>
                     </div>
-                    <div class="fdz-add-bottom-margin" ng-if="ctrl.study.surveyDesign">
+                    <div class="fdz-add-bottom-margin fdz-text-block" ng-if="ctrl.study.surveyDesign">
                         <span style="font-weight: bold;">{{'study-management.detail.surveyDesign' | translate }}:</span>
                         <span display-i18n-string="ctrl.study.surveyDesign" fdz-hyphenate></span>
                     </div>
-                    <div ng-if="ctrl.study.surveyDesign.en==='Panel'" class="fdz-add-bottom-margin">
+                    <div ng-if="ctrl.study.surveyDesign.en==='Panel'" class="fdz-add-bottom-margin fdz-text-block">
                       <span style="font-weight: bold;">{{'study-management.detail.wave' | translate }}:</span>
                         <span>{{ctrl.study.numberOfWaves}}</span>
                     </div>
-                    <div class="fdz-add-bottom-margin" ng-if="ctrl.study.surveyDataType">
+                    <div class="fdz-add-bottom-margin fdz-text-block" ng-if="ctrl.study.surveyDataType">
                         <span style="font-weight: bold;">{{'study-management.detail.survey-data-type' | translate }}:</span>
                         <span display-i18n-string="ctrl.study.surveyDataType" fdz-hyphenate></span>
                     </div>
-                    <div class="fdz-add-bottom-margin" ng-if="ctrl.study.doi">
+                    <div class="fdz-add-bottom-margin fdz-text-block" ng-if="ctrl.study.doi">
                         <span style="font-weight: bold;">{{'study-management.detail.doi' | translate }}:</span>
                         <a ng-href="https://dx.doi.org/{{ctrl.study.doi}}" target="_blank">{{ctrl.study.doi}}<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                             {{'study-management.detail.doi-tooltip' | translate}}
                         </md-tooltip>
                         </a>
                     </div>
-                    <div class="fdz-add-bottom-margin">
+                    <div class="fdz-add-bottom-margin fdz-text-block">
                         <span style="font-weight: bold;">{{'study-management.detail.version' | translate }}:</span>
                         <span>{{ctrl.study.release?ctrl.study.release.version: ('study-management.detail.not-yet-released' | translate)}}</span>
                     </div>
-                    <div class="fdz-add-bottom-margin" ng-if="ctrl.study.annotations">
+                    <div class="fdz-add-bottom-margin" ng-if="ctrl.study.annotations fdz-text-block">
                         <span style="font-weight: bold;">{{'study-management.detail.annotations' | translate }}:</span>
                         <span display-i18n-string="ctrl.study.annotations" fdz-hyphenate></span>
                     </div>
@@ -226,12 +226,12 @@
         <md-card flex class="fdz-reset-top-margin">
             <md-card-header>
                 <md-card-header-text>
-                    <h2 class="md-title">{{'study-management.detail.description' | translate | fdzHyphenate}}</h2>
+                    <h2 class="md-title fdz-text-block">{{'study-management.detail.description' | translate | fdzHyphenate}}</h2>
                 </md-card-header-text>
             </md-card-header>
             <md-divider></md-divider>
             <md-card-content>
-                <p display-i18n-string="ctrl.study.description" fdz-hyphenate></p>
+                <p display-i18n-string="ctrl.study.description" fdz-hyphenate class="fdz-text-block"></p>
             </md-card-content>
         </md-card>
     </div>
@@ -275,8 +275,8 @@
           <tbody>
             <tr ng-repeat="row in ctrl.attachments">
               <td class="fdz-table-nowrap" display-i18n-string="row.type"></td>
-              <td display-i18n-string="row.description" fdz-hyphenate></td>
-              <td lang="{{row.language}}" fdz-hyphenate>{{row.title}}&nbsp;</td>
+              <td display-i18n-string="row.description" fdz-hyphenate class="fdz-text-block"></td>
+              <td lang="{{row.language}}" fdz-hyphenate class="fdz-text-block">{{row.title}}&nbsp;</td>
               <td>{{row.language | displayIsoLanguage: currentLanguage}}&nbsp;</td>
               <td><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">{{'global.tooltips.files.download' | translate: {filename: row.fileName} }}</md-tooltip></a>&nbsp;</td>
             </tr>
@@ -288,7 +288,7 @@
         <md-card ng-if="ctrl.dataSets.length > 0" flex class="fdz-reset-top-margin">
             <md-card-header>
                 <md-card-header-text>
-                    <h2 class="md-title">{{'study-management.detail.data-set.card-title' | translate | fdzHyphenate }}</h2>
+                    <h2 class="md-title fdz-text-block">{{'study-management.detail.data-set.card-title' | translate | fdzHyphenate }}</h2>
                 </md-card-header-text>
             </md-card-header>
             <md-divider></md-divider>
@@ -303,7 +303,7 @@
         <md-card ng-if="ctrl.study.surveys.length > 0" flex class="fdz-reset-top-margin">
             <md-card-header>
                 <md-card-header-text>
-                    <h2 class="md-title">{{'study-management.detail.basic-data-of-surveys' | translate | fdzHyphenate }}</h2>
+                    <h2 class="md-title fdz-text-block">{{'study-management.detail.basic-data-of-surveys' | translate | fdzHyphenate }}</h2>
                 </md-card-header-text>
             </md-card-header>
             <md-divider></md-divider>

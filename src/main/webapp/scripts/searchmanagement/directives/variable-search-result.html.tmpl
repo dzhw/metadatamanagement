@@ -12,7 +12,7 @@
         </md-card-header>
         <md-card-content>
             <div layout="row">
-                <div flex layout="column" ng-class="{'fdz-add-right-margin': addMargin, 'fdz-add-bottom-margin': !addMargin}">
+                <div flex layout="column">
                     <span style="font-weight: bold;">{{'global.cards.labels-surveyed-in' | translate}}:&nbsp;</span>
                     <div class="fdz-truncate-string" ng-repeat="survey in searchResult.surveys">
                         <span display-i18n-string="survey.title"></span>
