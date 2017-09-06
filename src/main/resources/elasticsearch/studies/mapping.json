@@ -1,52 +1,99 @@
 {
 	"studies": {
 		"_all": {
+			"type": "text",
+			"index": "analyzed",
 			"enabled": true,
-			"analyzer": "trigrams"
+			"analyzer": "ngrams",
+			"norms": false
 		},
-		"dynamic_templates": [{
-			"default_mapping": {
-				"match": "*",
-				"mapping": {
-					"index": "no",
-					"include_in_all": true
+		"dynamic_templates": [
+			{
+				"default_mapping": {
+					"match": "*",
+					"mapping": {
+						"index": "no",
+						"include_in_all": true
+					}
 				}
 			}
-		}],
+		],
 		"properties": {
-			"dataAcquisitionProjectId": {
-				"type": "string",
-				"index": "not_analyzed"
-			},
-			"dataAvailability": {
-				"type": "object",
-				"properties": {
-					"de": {
-						"type": "string",
-						"index": "not_analyzed"
-					},
-					"en": {
-						"type": "string",
-						"index": "not_analyzed"
+			"id": {
+				"type": "keyword",
+				"index": "not_analyzed",
+				"fields": {
+					"ngrams": {
+						"type": "text",
+						"index": "analyzed",
+						"analyzer": "ngrams",
+						"norms": false
 					}
 				}
 			},
-			"doi": {
-				"type": "string",
+			"dataAcquisitionProjectId": {
+				"type": "keyword",
 				"index": "not_analyzed"
 			},
 			"title": {
 				"type": "object",
 				"properties": {
 					"de": {
-						"type": "string",
-						"index": "analyzed",
-						"analyzer": "german"
+						"type": "text",
+						"index": "no",
+						"include_in_all": true,
+						"fields": {
+							"ngrams": {
+								"type": "text",
+								"index": "analyzed",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
 					},
 					"en": {
-						"type": "string",
-						"index": "analyzed",
-						"analyzer": "english"
+						"type": "text",
+						"index": "no",
+						"include_in_all": true,
+						"fields": {
+							"ngrams": {
+								"type": "text",
+								"index": "analyzed",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
+					}
+				}
+			},
+			"surveyDataType": {
+				"type": "object",
+				"properties": {
+					"de": {
+						"type": "text",
+						"index": "no",
+						"include_in_all": true,
+						"fields": {
+							"ngrams": {
+								"type": "text",
+								"index": "analyzed",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
+					},
+					"en": {
+						"type": "text",
+						"index": "no",
+						"include_in_all": true,
+						"fields": {
+							"ngrams": {
+								"type": "text",
+								"index": "analyzed",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
 					}
 				}
 			},
@@ -54,14 +101,30 @@
 				"type": "object",
 				"properties": {
 					"de": {
-						"type": "string",
-						"index": "analyzed",
-						"analyzer": "german"
+						"type": "text",
+						"index": "no",
+						"include_in_all": true,
+						"fields": {
+							"ngrams": {
+								"type": "text",
+								"index": "analyzed",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
 					},
 					"en": {
-						"type": "string",
-						"index": "analyzed",
-						"analyzer": "english"
+						"type": "text",
+						"index": "no",
+						"include_in_all": true,
+						"fields": {
+							"ngrams": {
+								"type": "text",
+								"index": "analyzed",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
 					}
 				}
 			},
@@ -69,19 +132,74 @@
 				"type": "object",
 				"properties": {
 					"firstName": {
-						"type": "string",
-						"index": "analyzed",
-						"analyzer": "standard"
+						"type": "text",
+						"index": "no",
+						"include_in_all": true,
+						"fields": {
+							"ngrams": {
+								"type": "text",
+								"index": "analyzed",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
 					},
 					"middleName": {
-						"type": "string",
-						"index": "analyzed",
-						"analyzer": "standard"
+						"type": "text",
+						"index": "no",
+						"include_in_all": true,
+						"fields": {
+							"ngrams": {
+								"type": "text",
+								"index": "analyzed",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
 					},
 					"lastName": {
-						"type": "string",
-						"index": "analyzed",
-						"analyzer": "standard"
+						"type": "text",
+						"index": "no",
+						"include_in_all": true,
+						"fields": {
+							"ngrams": {
+								"type": "text",
+								"index": "analyzed",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
+					}
+				}
+			},
+			"surveyDesign": {
+				"type": "object",
+				"properties": {
+					"de": {
+						"type": "text",
+						"index": "no",
+						"include_in_all": true,
+						"fields": {
+							"ngrams": {
+								"type": "text",
+								"index": "analyzed",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
+					},
+					"en": {
+						"type": "text",
+						"index": "no",
+						"include_in_all": true,
+						"fields": {
+							"ngrams": {
+								"type": "text",
+								"index": "analyzed",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
 					}
 				}
 			},
@@ -89,11 +207,7 @@
 				"type": "object",
 				"properties": {
 					"id": {
-						"type": "string",
-						"index": "not_analyzed"
-					},
-					"doi": {
-						"type": "string",
+						"type": "keyword",
 						"index": "not_analyzed"
 					}
 				}
@@ -102,7 +216,7 @@
 				"type": "object",
 				"properties": {
 					"id": {
-						"type": "string",
+						"type": "keyword",
 						"index": "not_analyzed"
 					}
 				}
@@ -111,7 +225,7 @@
 				"type": "object",
 				"properties": {
 					"id": {
-						"type": "string",
+						"type": "keyword",
 						"index": "not_analyzed"
 					}
 				}
@@ -120,7 +234,7 @@
 				"type": "object",
 				"properties": {
 					"id": {
-						"type": "string",
+						"type": "keyword",
 						"index": "not_analyzed"
 					}
 				}
@@ -129,7 +243,7 @@
 				"type": "object",
 				"properties": {
 					"id": {
-						"type": "string",
+						"type": "keyword",
 						"index": "not_analyzed"
 					}
 				}
@@ -138,11 +252,11 @@
 				"type": "object",
 				"properties": {
 					"id": {
-						"type": "string",
+						"type": "keyword",
 						"index": "not_analyzed"
 					},
 					"surveyIds": {
-						"type": "string",
+						"type": "keyword",
 						"index": "no",
 						"include_in_all": false
 					}

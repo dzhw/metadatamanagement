@@ -99,6 +99,36 @@ public class SurveyResourceTest extends AbstractTest {
     elasticsearchAdminService.refreshAllIndices();
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1.0));
   }
+  
+  @Test
+  public void testCreateSurveyWithMixedMethodDataType() throws Exception {
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    rdcProjectRepository.save(project);
+
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
+    survey.setDataType(new I18nStringBuilder().withDe("Mixed Methods").withEn("Mixed Methods").build());
+
+    // create the survey with the given id but with wrong period
+    mockMvc.perform(put(API_SURVEYS_URI + "/" + survey.getId())
+      .content(TestUtil.convertObjectToJsonBytes(survey)))
+      .andExpect(status().isBadRequest())
+      .andReturn();
+  }
+  
+  @Test
+  public void testCreateSurveyWithNoDataType() throws Exception {
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    rdcProjectRepository.save(project);
+
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
+    survey.setDataType(null);
+
+    // create the survey with the given id but with wrong period
+    mockMvc.perform(put(API_SURVEYS_URI + "/" + survey.getId())
+      .content(TestUtil.convertObjectToJsonBytes(survey)))
+      .andExpect(status().isBadRequest())
+      .andReturn();
+  }
 
   @Test
   public void testCreateSurveyWithInvalidPeriod() throws Exception {

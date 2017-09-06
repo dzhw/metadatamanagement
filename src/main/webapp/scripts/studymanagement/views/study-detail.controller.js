@@ -4,10 +4,9 @@ angular.module('metadatamanagementApp')
   .controller('StudyDetailController',
     function(entity, PageTitleService, LanguageService, DataSetSearchService,
       $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
-      StudyAttachmentResource, SurveySearchService) {
+      StudyAttachmentResource) {
       var ctrl = this;
       ctrl.counts = {};
-      ctrl.surveyMaxWaves = 0;
       entity.promise.then(function(result) {
         PageTitleService.setPageTitle('study-management.detail.title', {
           title: result.title[LanguageService.getCurrentInstantly()],
@@ -44,19 +43,14 @@ angular.module('metadatamanagementApp')
           if (ctrl.counts.instrumentsCount === 1) {
             ctrl.instrument = result.instruments[0];
           }
-          /* We should discuss if we need to extand the dataSet sub document
-          to contain type, subDataSets and surveys.
-          we need this properties only at this place*/
+          /* We need to load search the dataSets cause the contain needed
+             survey titles */
           DataSetSearchService.findByStudyId(result.id,
-            ['id', 'number', 'description', 'type', 'subDataSets', 'surveys'])
+            ['id', 'number', 'description', 'type', 'surveys',
+              'maxNumberOfObservations', 'accessWays'])
             .then(function(dataSets) {
               ctrl.dataSets = dataSets.hits.hits;
             });
-          SurveySearchService.findSurveyMaxWavesByStudyId(ctrl.study.id,
-            ['id', 'wave'])
-            .then(function(result) {
-            ctrl.surveyMaxWaves = result.aggregations.maxWaves.value;
-          });
           StudyAttachmentResource.findByStudyId({
               id: ctrl.study.id
             }).$promise.then(

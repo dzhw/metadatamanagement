@@ -1,0 +1,14 @@
+{
+  "name": "clientjs",
+  "version": "0.1.5",
+  "main": ["dist/client.min.js"],
+  "ignore": [
+    ".travis.yml",
+    ".gitignore",
+    "build",
+    "grunt.js",
+    "LICENSE",
+    "node_modules",
+    "package.json"
+  ]
+}

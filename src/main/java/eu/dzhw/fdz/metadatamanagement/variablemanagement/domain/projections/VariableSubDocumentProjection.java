@@ -18,8 +18,6 @@ public interface VariableSubDocumentProjection {
 
   I18nString getLabel();
 
-  I18nString getAnnotations();
-
   String getDataSetId();
 
   Integer getDataSetNumber();

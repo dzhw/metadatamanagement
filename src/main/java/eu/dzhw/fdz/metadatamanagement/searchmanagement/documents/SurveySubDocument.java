@@ -8,33 +8,35 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.Survey
 
 /**
  * Attributes of a survey which are stored in other search documents.
- *  
+ *
  * @author René Reitmann
  */
 @SuppressWarnings("CPD-START")
 public class SurveySubDocument implements SurveySubDocumentProjection {
   private String id;
-  
+
   private String dataAcquisitionProjectId;
-  
+
   private Integer number;
-  
+
   private I18nString population;
-  
+
   private I18nString surveyMethod;
-  
+
   private I18nString title;
-  
+
   private Period fieldPeriod;
-  
+
   private I18nString sample;
-  
-  private I18nString annotations;
-  
+
+  private Integer wave;
+
+  private I18nString dataType;
+
   public SurveySubDocument() {
     super();
   }
-  
+
   public SurveySubDocument(SurveySubDocumentProjection projection) {
     super();
     BeanUtils.copyProperties(projection, this);
@@ -113,11 +115,20 @@ public class SurveySubDocument implements SurveySubDocumentProjection {
   }
 
   @Override
-  public I18nString getAnnotations() {
-    return annotations;
+  public Integer getWave() {
+    return wave;
   }
 
-  public void setAnnotations(I18nString annotations) {
-    this.annotations = annotations;
+  public void setWave(Integer wave) {
+    this.wave = wave;
+  }
+
+  @Override
+  public I18nString getDataType() {
+    return dataType;
+  }
+
+  public void setDataType(I18nString dataType) {
+    this.dataType = dataType;
   }
 }

@@ -19,6 +19,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     var locationChanged = false;
     var currentProjectChangeIsBeingHandled = false;
     var selectedTabChangeIsBeingHandled = false;
+    var queryChangeIsBeingHandled = false;
     $scope.isSearching = 0;
 
     // set the page title in toolbar and window.title
@@ -151,6 +152,12 @@ angular.module('metadatamanagementApp').controller('SearchController',
           });
           $scope.isSearching--;
         }, function() {
+          $scope.pageObject.totalHits = 0;
+          $scope.searchResult = {};
+          $scope.tabs.forEach(function(tab) {
+            tab.count = null;
+          });
+          $scope.tabs[$scope.searchParams.selectedTabIndex].count = 0;
           $scope.isSearching--;
         });
     };
@@ -222,14 +229,21 @@ angular.module('metadatamanagementApp').controller('SearchController',
         queryChangedOnInit = false;
         return;
       }
-      $scope.pageObject.page = 1;
-      delete $scope.searchParams.sortBy;
-      writeSearchParamsToLocation();
-      $scope.search();
+      if (selectedTabChangeIsBeingHandled) {
+        return;
+      }
+      queryChangeIsBeingHandled = true;
+      $timeout(function() {
+        $scope.pageObject.page = 1;
+        delete $scope.searchParams.sortBy;
+        writeSearchParamsToLocation();
+        $scope.search();
+        queryChangeIsBeingHandled = false;
+      });
     });
 
     $scope.onSelectedTabChanged = function() {
-      if (!selectedTabChangeIsBeingHandled) {
+      if (!selectedTabChangeIsBeingHandled && !queryChangeIsBeingHandled) {
         //prevent multiple tab change handlers caused by logout
         selectedTabChangeIsBeingHandled = true;
         $timeout(function() {

@@ -182,7 +182,7 @@ The `demos` directory includes sample projects for:
 
 **JS Platforms and Integrations**
 - [`Adobe ExtendScript`](demos/extendscript/)
-- [`phantomjs`](demos/phantomjs/)
+- [`Headless Browsers`](demos/headless/)
 - [`canvas-datagrid`](demos/datagrid/)
 - [`Other JS engines`](demos/altjs/)
 
@@ -1385,7 +1385,7 @@ The exported `read` and `readFile` functions accept an options argument:
 | Option Name | Default | Description                                          |
 | :---------- | ------: | :--------------------------------------------------- |
 | type        |         | Input data encoding (see Input Type below)           |
-| raw         |         | If true, plaintext parsing will not parse values **  |
+| raw         | false   | If true, plaintext parsing will not parse values **  |
 | cellFormula | true    | Save formulae to the .f field                        |
 | cellHTML    | true    | Parse rich text and save HTML to the `.h` field      |
 | cellNF      | false   | Save number format string to the `.z` field          |
@@ -1430,7 +1430,7 @@ tells the library how to parse the data argument:
 | `type`     | expected input                                                  |
 |------------|-----------------------------------------------------------------|
 | `"base64"` | string: base64 encoding of the file                             |
-| `"binary"` | string:  binary string (`n`-th byte is `data.charCodeAt(n)`)    |
+| `"binary"` | string: binary string (`n`-th byte is `data.charCodeAt(n)`)     |
 | `"buffer"` | nodejs Buffer                                                   |
 | `"array"`  | array: array of 8-bit unsigned int (`n`-th byte is `data[n]`)   |
 | `"file"`   | string: filename that will be read and processed (nodejs only)  |
@@ -1456,7 +1456,7 @@ file but Excel will know how to handle it.  This library applies similar logic:
 | `0xEF` | UTF8 Encoded  | SpreadsheetML / Flat ODS / UOS1 / HTML / plaintext  |
 | `0xFF` | UTF16 Encoded | SpreadsheetML / Flat ODS / UOS1 / HTML / plaintext  |
 | `0x00` | Record Stream | Lotus WK\* or Quattro Pro or plaintext              |
-| `0x0A` | Plaintext     | RTF or plaintext                                    |
+| `0x7B` | Plaintext     | RTF or plaintext                                    |
 | `0x0A` | Plaintext     | SpreadsheetML / Flat ODS / UOS1 / HTML / plaintext  |
 | `0x0D` | Plaintext     | SpreadsheetML / Flat ODS / UOS1 / HTML / plaintext  |
 | `0x20` | Plaintext     | SpreadsheetML / Flat ODS / UOS1 / HTML / plaintext  |
@@ -1473,8 +1473,8 @@ Plaintext format guessing follows the priority order:
 | XML    | starts with `<`                                                     |
 | RTF    | starts with `{\rt`                                                  |
 | DSV    | starts with `/sep=.$/`, separator is the specified character        |
+| CSV    | more unquoted `","` characters than `"\t"` chars in the first 1024  |
 | TSV    | one of the first 1024 characters is a tab char `"\t"`               |
-| CSV    | one of the first 1024 characters is a comma char `","`              |
 | PRN    | (default)                                                           |
 
 - HTML tags include: `html`, `table`, `head`, `meta`, `script`, `style`, `div`
@@ -1963,6 +1963,14 @@ compatible readers.  The parser should generally understand Excel CSV. The
 writer proactively generates cells for formulae if values are unavailable.
 
 Excel TXT uses tab as the delimiter and codepage 1200.
+
+Notes:
+
+- Like in Excel, files starting with `0x49 0x44 ("ID")` are treated as Symbolic
+  Link files.  Unlike Excel, if the file does not have a valid SYLK header, it
+  will be proactively reinterpreted as CSV.  There are some files with semicolon
+  delimiter that align with a valid SYLK file.  For the broadest compatibility,
+  all cells with the value of `ID` are automatically wrapped in double-quotes.
 
 </details>
 

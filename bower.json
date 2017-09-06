@@ -5,15 +5,15 @@
   "testPath": "src/test/javascript/spec",
   "dependencies": {
     "jquery": "^3.2.0",
-    "angular": "1.6.5",
-    "angular-aria": "1.6.5",
+    "angular": "1.6.6",
+    "angular-aria": "1.6.6",
     "angular-bootstrap": "2.5.0",
-    "angular-cookies": "1.6.5",
+    "angular-cookies": "1.6.6",
     "angular-dynamic-locale": "0.1.32",
-    "angular-i18n": "1.6.5",
+    "angular-i18n": "1.6.6",
     "angular-local-storage": "0.7.1",
-    "angular-resource": "1.6.5",
-    "angular-sanitize": "1.6.5",
+    "angular-resource": "1.6.6",
+    "angular-sanitize": "1.6.6",
     "angular-translate": "2.15.2",
     "angular-translate-interpolation-messageformat": "2.15.2",
     "angular-translate-storage-cookie": "2.15.2",
@@ -27,21 +27,23 @@
     "jszip-utils": "~0.0.2",
     "angular-translate-handler-log": "2.15.2",
     "angular-nvd3": "^1.0.9",
-    "js-xlsx": "^0.11.2",
+    "js-xlsx": "^0.11.3",
     "cheet.js": "^0.3.3",
     "angular-material": "^1.1.4",
     "angular-block-ui": "^0.2.2",
     "lodash": "^4.17.4",
-    "plotly.js": "^1.29.3",
+    "plotly.js": "^1.30.0",
     "highlightjs": "^9.12.0",
     "angular-highlightjs": "^0.7.1",
     "js-beautify": "^1.6.14",
     "ngclipboard": "^1.1.1",
     "angular-katex": "^0.10.0",
-    "angular-animate": "1.6.5",
-    "angular-messages": "1.6.5",
-    "bowser": "^1.7.2",
-    "angular-file-saver": "^1.1.3"
+    "angular-animate": "1.6.6",
+    "angular-messages": "1.6.6",
+    "bowser": "^1.7.3",
+    "angular-file-saver": "^1.1.3",
+    "clientjs": "^0.1.5",
+    "angular-scroll": "^1.0.2"
   },
   "overrides": {
     "elasticsearch": {
@@ -49,7 +51,7 @@
     }
   },
   "devDependencies": {
-    "angular-mocks": "1.6.5",
-    "angular-scenario": "1.6.5"
+    "angular-mocks": "1.6.6",
+    "angular-scenario": "1.6.6"
   }
 }

@@ -1,8 +1,9 @@
 <div ng-form="questionFilterForm" layout="row" layout-align="center center">
     <md-autocomplete md-delay="250" class="fdz-search-filter-component" md-input-name="questionFilter" md-floating-label="{{'search-management.filter.question' | translate}}" flex md-min-length="0" md-require-match="true" md-select-on-match="true" md-selected-item="currentQuestion"
-      md-selected-item-change="onSelectionChanged(currentQuestion)" md-search-text="searchText" md-items="item in searchQuestions(searchText)" md-item-text="(item._source.questionText | displayI18nString ) + ' (' + item._source.id + ')'"
+      md-selected-item-change="onSelectionChanged(currentQuestion)" md-search-text="searchText" md-items="item in searchQuestions(searchText)" md-item-text="item._source.number + ': ' + (item._source.questionText | displayI18nString ) + ' (' + item._source.id + ')'"
       md-clear-button="true" md-no-cache="true">
         <md-item-template>
+            <span class="md-title" style="font-size: 14px;">{{item._source.number}}: </span>
             <span class="md-title" style="font-size: 14px;" display-i18n-string="item._source.questionText"></span>
             <span class="label label-as-badge label-default">{{item._source.id}}</span>
         </md-item-template>

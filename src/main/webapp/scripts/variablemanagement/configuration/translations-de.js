@@ -34,6 +34,7 @@ angular.module('metadatamanagementApp').config(
           'variables': 'Variablen',
           'variable-informations': 'Informationen',
           'variables-in-panel': 'Panelvariablen',
+          'derived-variables': 'Abgeleitete Variablen',
           'related-objects': 'Zugehörige Objekte',
           'frequencies': 'Häufigkeiten',
           'generation-details': 'Generierungsdetails',
@@ -128,7 +129,8 @@ angular.module('metadatamanagementApp').config(
               'many': 'Klicken, um die Fragen anzuzeigen, aus denen diese Variable resultierte'
             },
             'variables': {
-              'same-in-panel': 'Klicken, um alle Panelvariablen zu dieser Variable anzuzeigen'
+              'same-in-panel': 'Klicken, um alle Panelvariablen zu dieser Variable anzuzeigen',
+              'derived-variables': 'Klicken, um alle abgeleiteten Variablen zu dieser Variable anzuzeigen',
             },
             'studies': {
               'one': 'Klicken, um die Studie anzuzeigen, aus der diese Variable resultierte'
@@ -242,9 +244,12 @@ angular.module('metadatamanagementApp').config(
             'related-question-number-size': 'Die Maximallänge der Nummer einer Frage ist 32 Zeichen.',
             'related-question-number-not-empty': 'Eine verbundene Frage hat keine Nummer',
             'related-question-instrument-number-not-empty': 'Ein Instrument hat keine Nummer',
-            'valid-identifier': 'Die Panel-Kennung der Variable entspricht nicht dem Muster: DataAcquisitionProjectId + "-" + "ds" + "dataSetNumber" + "-" + string',
+            'valid-panel-identifier': 'Die Panel-Kennung der Variable entspricht nicht dem Muster: DataAcquisitionProjectId + "-" + "ds" + "dataSetNumber" + "-" + string',
+            'valid-derived-variables-identifier': 'Die Kennung der abgeleiteten Variablen entspricht nicht dem Muster: DataAcquisitionProjectId + "-" + "ds" + "dataSetNumber" + "-" + string',
             'panel-identifier-size': 'Die Maximallänge der Panel-Kennung der Variable ist 128 Zeichen.',
             'panel-identifier-pattern': 'Für die Panel-Kennung der Variable dürfen nur alphanumerische Zeichen, deutsche Umlaute, ß und das Minus verwendet werden.',
+            'derived-variables-identifier-size': 'Die Maximallänge der Kennung der abgeleiteten Variablen ist 128 Zeichen.',
+            'derived-variables-identifier-pattern': 'Für die Kennung der abgeleiteten Variablen dürfen nur alphanumerische Zeichen, deutsche Umlaute, ß und das Minus verwendet werden.',
             'only-ordinal-scale-level-for-date-data-type': 'Das Skalenniveau einer Datumsvariable muss ordinal sein.',
             'valid-response-value-must-be-a-number-on-numeric-data-type': 'Wenn der Datentyp einer Variable numerisch ist, müssen die Werte von gültigen Antworten numerisch sein.',
             'statistics-minimum-must-be-a-number-on-numeric-data-type': 'Wenn der Datentyp einer Variable numerisch ist, müssen das Minimum von Statistiken numerisch sein.',

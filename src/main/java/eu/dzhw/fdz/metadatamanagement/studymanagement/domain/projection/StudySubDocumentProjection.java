@@ -20,8 +20,6 @@ public interface StudySubDocumentProjection {
 
   I18nString getTitle();
 
-  I18nString getDescription();
-
   I18nString getInstitution();
 
   I18nString getSponsor();
@@ -30,5 +28,5 @@ public interface StudySubDocumentProjection {
   
   String getDoi();
   
-  I18nString getAnnotations();
+  I18nString getSurveyDesign();
 }

@@ -6,7 +6,7 @@
   	  },
     "properties": {
       "allStringsAsNgrams" : {
-      	"type": "string",
+      	"type": "text",
       	"analyzer": "trigrams"
       },
       "answerOptions": {
@@ -28,17 +28,14 @@
         "copy_to": "allStringsAsNgrams"
       },
       "question": {
-      	 "type" : "multi_field",
+      	 "type": "string",
+         "analyzer": "german",
+         "copy_to": "allStringsAsNgrams",
          "fields" : {
-               "question" : {
-        		"type": "string",
-        		"analyzer": "german",
-        		"copy_to": "allStringsAsNgrams"            	
-                },
-                "highlight" : {
-                 "type" : "string", 
-                 "analyzer" : "highlight_de"
-                }
+             "highlight" : {
+             "type" : "string", 
+             "analyzer" : "highlight_de"
+             }
          }
       },
       "id": {
@@ -47,31 +44,25 @@
         "copy_to": "allStringsAsNgrams"
       },
       "label": {	
-          	"type" : "multi_field",
-         	"fields" : {
-               "label" : {
-        		"type": "string",
-        		"analyzer": "german",
-        		"copy_to": "allStringsAsNgrams"            	
-                },
-                "highlight" : {
-                 "type" : "string", 
-                 "analyzer" : "highlight_de"
-                }
-         	}
+        "type": "string",
+        "analyzer": "german",
+        "copy_to": "allStringsAsNgrams",
+        "fields" : {
+        	"highlight" : {
+         	   "type" : "string", 
+            	"analyzer" : "highlight_de"
+        	}
+        }
       },
       "name": {	
-      	"type" : "multi_field",
-        	"fields" : {
-               	"name" : {
-      				"type": "string",
-        			"index": "not_analyzed",
-        			"copy_to": "allStringsAsNgrams"            	
-                },
-                "highlight" : {
-                 	"type" : "string", 
-                 	"analyzer" : "highlight_trigrams"
-                }
+      	"type": "string",
+        "index": "not_analyzed",
+        "copy_to": "allStringsAsNgrams",            	
+        "fields" : {
+        	"highlight" : {
+            	"type" : "string", 
+               	"analyzer" : "highlight_trigrams"
+            }
       	}
       },
       "scaleLevel": {
@@ -106,13 +97,10 @@
             }
           },
           "title": {	
-          	"type" : "multi_field",
+          	"type": "string",
+        	"index": "not_analyzed",
+        	"copy_to": "allStringsAsNgrams",
          	"fields" : {
-               "title" : {
-        		"type": "string",
-        		"index": "not_analyzed",
-        		"copy_to": "allStringsAsNgrams"            	
-                },
                 "highlight" : {
                  "type" : "string", 
                  "analyzer" : "highlight_de"
@@ -130,13 +118,10 @@
             "copy_to": "allStringsAsNgrams"
           },
           "label": {
-            "type": "multi_field",
+            "type": "string",
+            "analyzer": "german",
+            "copy_to": "allStringsAsNgrams",
             "fields": {
-              "label": {
-                "type": "string",
-                "analyzer": "german",
-                "copy_to": "allStringsAsNgrams"
-              },
               "highlight": {
                 "type": "string",
                 "analyzer": "highlight_de"
@@ -144,13 +129,10 @@
             }
           },
           "name": {
-            "type": "multi_field",
+            "type": "string",
+            "index": "not_analyzed",
+            "copy_to": "allStringsAsNgrams",
             "fields": {
-              "name": {
-                "type": "string",
-                "index": "not_analyzed",
-                "copy_to": "allStringsAsNgrams"
-              },
               "highlight": {
                 "type": "string",
                 "analyzer": "highlight_trigrams"

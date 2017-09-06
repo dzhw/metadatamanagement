@@ -166,6 +166,42 @@ public class VariableResourceTest extends AbstractTest {
   }
   
   @Test
+  public void testCreateVariableWithWrongPanelIdentifier() throws Exception {
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    dataAcquisitionProjectRepository.save(project);
+
+    List<Integer> surveyNumbers = new ArrayList<>();
+    surveyNumbers.add(1);
+    
+    Variable variable =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var1", 1, surveyNumbers);
+    variable.setPanelIdentifier("WrongPanelIdentifier");
+
+    // create the variable with a survey but without a project
+    mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
+      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .andExpect(status().isBadRequest());
+  }
+  
+  @Test
+  public void testCreateVariableWithWrongDerivedVariablesIdentifier() throws Exception {
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    dataAcquisitionProjectRepository.save(project);
+
+    List<Integer> surveyNumbers = new ArrayList<>();
+    surveyNumbers.add(1);
+    
+    Variable variable =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var1", 1, surveyNumbers);
+    variable.setDerivedVariablesIdentifier("WrongDerivedVariablesIdentifier");
+
+    // create the variable with a survey but without a project
+    mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
+      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .andExpect(status().isBadRequest());
+  }
+  
+  @Test
   public void testCreateDateVariableWithOrdinalScaleLevel() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);

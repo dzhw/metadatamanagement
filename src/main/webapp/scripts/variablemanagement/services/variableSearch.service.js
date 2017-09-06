@@ -208,6 +208,37 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
         return _.map(result.aggregations.panelIdentifiers.buckets, 'key');
       });
     };
+
+    var findDerivedVariablesIdentifiers = function(term, filter,
+      dataAcquisitionProjectId) {
+      var query = createQueryObject();
+      var termFilters = createTermFilters(filter, dataAcquisitionProjectId);
+      query.body = {
+        'size': 0,
+        'aggs': {
+            'derivedVariablesIdentifiers': {
+                'terms': {
+                  'field': 'derivedVariablesIdentifier',
+                  'include': '.*' + term + '.*'
+                }
+              }
+          }
+      };
+
+      if (termFilters) {
+        query.body.query = {
+          bool: {
+          }
+        };
+        query.body.query.bool.filter = termFilters;
+      }
+
+      return ElasticSearchClient.search(query).then(function(result) {
+        return _.map(result.aggregations
+            .derivedVariablesIdentifiers.buckets, 'key');
+      });
+    };
+
     return {
       findOneById: findOneById,
       findByQuestionId: findByQuestionId,
@@ -216,6 +247,7 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
       countBy: countBy,
       findAccessWays: findAccessWays,
       findPanelIdentifiers: findPanelIdentifiers,
+      findDerivedVariablesIdentifiers: findDerivedVariablesIdentifiers,
       findByDataSetIdAndIndexInDataSet: findByDataSetIdAndIndexInDataSet
     };
   });

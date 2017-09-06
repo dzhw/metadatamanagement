@@ -70,7 +70,7 @@
                             </a>
                         </div>
                         <div ng-if="studies.length > 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="search({'type': 'studies', 'related-publication':ctrl.relatedPublication.id, 'page': 1})">
+                            <a ui-sref="search({'type': 'studies', 'related-publication':ctrl.relatedPublication.id})">
                                 <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
                                 {{'study-management.detail.studies' | translate }}: ({{studies.length}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
@@ -95,7 +95,7 @@
                             </a>
                         </div>
                         <div ng-if="surveys.length > 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="search({'type': 'surveys', 'related-publication':ctrl.relatedPublication.id, 'page': 1})">
+                            <a ui-sref="search({'type': 'surveys', 'related-publication':ctrl.relatedPublication.id})">
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                                 {{'survey-management.detail.surveys' | translate }}: ({{surveys.length}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
@@ -120,7 +120,7 @@
                             </a>
                         </div>
                         <div ng-if="instruments.length > 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="search({'type': 'instruments', 'related-publication':ctrl.relatedPublication.id, 'page': 1})">
+                            <a ui-sref="search({'type': 'instruments', 'related-publication':ctrl.relatedPublication.id})">
                                 <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
                                 {{'instrument-management.detail.instruments' | translate }}: ({{instruments.length}})
                                 <md-tooltip md-autohide="true">
@@ -145,7 +145,7 @@
                             </a>
                         </div>
                         <div ng-if="questions.length > 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="search({'type': 'questions', 'related-publication':ctrl.relatedPublication.id, 'page': 1})">
+                            <a ui-sref="search({'type': 'questions', 'related-publication':ctrl.relatedPublication.id})">
                                 <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
                                 {{'question-management.detail.questions' | translate }}: ({{questions.length}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
@@ -170,7 +170,7 @@
                             </a>
                         </div>
                         <div ng-if="dataSets.length > 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="search({'type': 'data_sets', 'related-publication':ctrl.relatedPublication.id, 'page': 1})">
+                            <a ui-sref="search({'type': 'data_sets', 'related-publication':ctrl.relatedPublication.id})">
                                 <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
                                 {{'data-set-management.detail.data-sets' | translate }}: ({{dataSets.length}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
@@ -195,7 +195,7 @@
                             </a>
                         </div>
                         <div ng-if="variables.length > 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="search({'type': 'variables', 'related-publication':ctrl.relatedPublication.id, 'page': 1})">
+                            <a ui-sref="search({'type': 'variables', 'related-publication':ctrl.relatedPublication.id})">
                                 <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
                                 {{'variable-management.detail.variables' | translate }}: ({{variables.length}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">

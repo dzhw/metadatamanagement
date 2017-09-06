@@ -1,4 +1,4 @@
-/*global bowser */
+/* global bowser, event */
 'use strict';
 
 angular
@@ -10,17 +10,26 @@ angular
       'ngResource', 'ui.router', 'ngCookies', 'ngAria',
       'ngFileUpload', 'ngMaterial',
       'blockUI', 'LocalStorageModule',
-      'ngMessages', 'katex', 'ngFileSaver'
+      'ngMessages', 'katex', 'ngFileSaver', 'duScroll'
     ])
 
 .run(
     function($rootScope, $location, $state, LanguageService, Auth, Principal,
-      ENV, VERSION, $mdMedia, $templateCache, $transitions, $timeout) {
+      ENV, VERSION, $mdMedia, $transitions, $timeout, $window) {
       $rootScope.bowser = bowser;
       $rootScope.ENV = ENV;
       $rootScope.VERSION = VERSION;
       $rootScope.$mdMedia = $mdMedia;
       $rootScope.currentDate = new Date();
+      //prevent default browser actions for drag and drop
+      $window.addEventListener('dragover', function(e) {
+        e = e || event;
+        e.preventDefault();
+      }, false);
+      $window.addEventListener('drop', function(e) {
+        e = e || event;
+        e.preventDefault();
+      }, false);
       if (typeof String.prototype.endsWith !== 'function') {
         String.prototype.endsWith = function(suffix) {
           return this.indexOf(suffix, this.length - suffix.length) !== -1;
@@ -107,47 +116,6 @@ angular
             $rootScope.previousStateParams);
         }
       };
-      $templateCache.put('custom-uib-pager-template', '<li role=\"menuitem\"' +
-      ' ng-if=\"::boundaryLinks\" ng-class=\"{disabled: ' +
-      'noPrevious()||ngDisabled}\" class=\"pagination-first\"><a href ' +
-      'ng-click=\"selectPage(1, $event)\" ' +
-      'ng-disabled=\"noPrevious()||ngDisabled\" uib-tabindex-toggle>' +
-      '{{::getText(\'first\')}}</a></li><li role=\"menuitem\" ' +
-      'ng-if=\"::directionLinks\" ng-class=\"{disabled: ' +
-      'noPrevious()||ngDisabled}\" class=\"pagination-prev\"><a href ' +
-      'ng-click=\"selectPage(page - 1, $event)\" ' +
-      'ng-disabled=\"noPrevious()||ngDisabled\" ' +
-      'uib-tabindex-toggle>{{::getText(\'previous\')}}<md-tooltip ' +
-      'ng-if="!noPrevious()" ' +
-      'md-direction="bottom" ' +
-      'md-autohide="true" md-z-index="bowser.mobile || ' +
-      'bowser.tablet ? -100 : 100"><span translate=' +
-      '"global.tooltips.pager.previous"></span></md-tooltip></a></li><li ' +
-      'role=\"menuitem\" ng-repeat=\"page in pages track by $index\" ' +
-      'ng-class=\"{active: page.active,disabled: ngDisabled&&!page.active}\" ' +
-      'class=\"pagination-page\"><a href ng-click=\"selectPage(page.number, ' +
-      '$event)\" ng-disabled=\"ngDisabled&&!page.active\" ' +
-      'tabindex="{{page.active?\'-1\':\'0\'}}" ' +
-      '>{{page.text}}<md-tooltip ng-if="!page.active" ' +
-      'md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || ' +
-      'bowser.tablet ? -100 : 100"' +
-      '><span translate="global.tooltips.pager.current" ' +
-      'translate-values="{number: page.text}"></span></md-tooltip></a></li>' +
-      '<li role=\"menuitem\" ' +
-      'ng-if=\"::directionLinks\" ng-class=\"{disabled: ' +
-      'noNext()||ngDisabled}\" class=\"pagination-next\"><a ' +
-      'href ng-click=\"selectPage(page + 1, $event)\" ' +
-      'ng-disabled=\"noNext()||ngDisabled\" uib-tabindex-toggle>' +
-      '{{::getText(\'next\')}}<md-tooltip md-direction="bottom" ' +
-      'ng-if="!noNext()" md-autohide="true" md-z-index="bowser.mobile || ' +
-      'bowser.tablet ? -100 : 100"' +
-      '><span translate="global.tooltips.pager.next" ' +
-      '></span></md-tooltip></a></li><li role=\"menuitem\" ' +
-      'ng-if=\"::boundaryLinks\" ng-class=\"{disabled: ' +
-      'noNext()||ngDisabled}\" class=\"pagination-last\"><a href ' +
-      'ng-click=\"selectPage(totalPages, $event)\" ' +
-      'ng-disabled=\"noNext()||ngDisabled\" ' +
-      'uib-tabindex-toggle>{{::getText(\'last\')}}</a></li>');
     })
   .config(
     function($stateProvider, $urlRouterProvider,
@@ -311,4 +279,8 @@ angular
         });
 
       $qProvider.errorOnUnhandledRejections(false);
-    });
+    })
+    .value('duScrollDuration', 500)
+    .value('duScrollEasing', function easeInCubic(t) {
+        return t * t * t;
+      });

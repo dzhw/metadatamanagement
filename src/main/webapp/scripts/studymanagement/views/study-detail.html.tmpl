@@ -38,8 +38,12 @@
                     </div>
                     <div ng-if="ctrl.study.surveyDesign.en==='Panel'" class="fdz-add-bottom-margin">
                       <span style="font-weight: bold;">{{'study-management.detail.wave' | translate }}:</span>
-                        <span>{{ctrl.surveyMaxWaves}}</span>
-                    </div>                    
+                        <span>{{ctrl.study.numberOfWaves}}</span>
+                    </div>
+                    <div class="fdz-add-bottom-margin" ng-if="ctrl.study.surveyDataType">
+                        <span style="font-weight: bold;">{{'study-management.detail.survey-data-type' | translate }}:</span>
+                        <span display-i18n-string="ctrl.study.surveyDataType"></span>
+                    </div>
                     <div class="fdz-add-bottom-margin" ng-if="ctrl.study.doi">
                         <span style="font-weight: bold;">{{'study-management.detail.doi' | translate }}:</span>
                         <a ng-href="https://dx.doi.org/{{ctrl.study.doi}}" target="_blank">{{ctrl.study.doi}}<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
@@ -83,7 +87,7 @@
                               </a>
                         </div>
                         <div ng-if="ctrl.counts.surveysCount > 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="search({'type': 'surveys', 'study': ctrl.study.id, 'page': 1})">
+                            <a ui-sref="search({'type': 'surveys', 'study': ctrl.study.id, 'sort-by': 'number'})">
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                                 {{'survey-management.detail.surveys' | translate }}: ({{ctrl.counts.surveysCount}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
@@ -107,7 +111,7 @@
                             </a>
                         </div>
                         <div ng-if="ctrl.counts.instrumentsCount > 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="search({'type': 'instruments', 'study': ctrl.study.id, 'page': 1})">
+                            <a ui-sref="search({'type': 'instruments', 'study': ctrl.study.id, 'sorty-by': 'number'})">
                                 <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
                                 {{'instrument-management.detail.instruments' | translate }}: ({{ctrl.counts.instrumentsCount}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
@@ -131,7 +135,7 @@
                             </a>
                         </div>
                         <div ng-if="ctrl.counts.questionsCount > 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="search({'type': 'questions', 'study':ctrl.study.id, 'sort-by': 'instrumentNumber,indexInInstrument', 'page': 1})">
+                            <a ui-sref="search({'type': 'questions', 'study':ctrl.study.id, 'sort-by': 'instrumentNumber,indexInInstrument'})">
                                 <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
                                 {{'question-management.detail.questions' | translate }}: ({{ctrl.counts.questionsCount}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 20">
@@ -156,7 +160,7 @@
                             </a>
                         </div>
                         <div ng-if="ctrl.counts.dataSetsCount > 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="search({'type': 'data_sets', 'study': ctrl.study.id, 'page': 1})">
+                            <a ui-sref="search({'type': 'data_sets', 'study': ctrl.study.id, 'sort-by': 'number'})">
                                 <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
                                 {{'data-set-management.detail.data-sets' | translate }}: ({{ctrl.counts.dataSetsCount}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
@@ -181,7 +185,7 @@
                             </a>
                         </div>
                         <div ng-if="ctrl.counts.variablesCount > 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="search({'type': 'variables', 'study': ctrl.study.id, 'sort-by': 'dataSetNumber,indexInDataSet', 'page': 1})">
+                            <a ui-sref="search({'type': 'variables', 'study': ctrl.study.id, 'sort-by': 'dataSetNumber,indexInDataSet'})">
                                 <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
                                 {{'variable-management.detail.variables' | translate }}: ({{ctrl.counts.variablesCount}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
@@ -205,7 +209,7 @@
                             </a>
                         </div>
                         <div ng-if="ctrl.counts.publicationsCount > 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="search({'type': 'related_publications', 'study': ctrl.study.id, 'page': 1})">
+                            <a ui-sref="search({'type': 'related_publications', 'study': ctrl.study.id})">
                                 <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
                                 {{'related-publication-management.detail.publications' | translate }}: ({{ctrl.counts.publicationsCount}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
@@ -289,7 +293,7 @@
             </md-card-header>
             <md-divider></md-divider>
             <md-content style="background-color:white;">
-                <div ng-repeat="result in ctrl.dataSets">
+                <div ng-repeat="result in ctrl.dataSets | orderBy:['_source.number']">
                   <dataset-search-result search-result="result._source" current-language="currentLanguage" bowser="bowser" add-margin="$mdMedia('gt-sm')"></dataset-search-result>
                 </div>
             </md-content>
@@ -304,7 +308,7 @@
             </md-card-header>
             <md-divider></md-divider>
             <md-content style="background-color:white;">
-                <div ng-repeat="result in ctrl.study.surveys | orderBy:['fieldPeriod.start','fieldPeriod.end']">
+                <div ng-repeat="result in ctrl.study.surveys | orderBy:['number']">
                   <survey-search-result search-result="result" current-language="currentLanguage" bowser="bowser" add-margin="$mdMedia('gt-sm')"></survey-search-result>
                 </div>
             </md-content>

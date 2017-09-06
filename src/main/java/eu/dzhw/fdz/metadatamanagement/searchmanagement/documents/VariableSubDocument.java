@@ -19,8 +19,6 @@ public class VariableSubDocument implements VariableSubDocumentProjection {
   
   private String name;
   
-  private I18nString annotations;
-  
   private I18nString label;
   
   private String dataSetId;
@@ -63,14 +61,6 @@ public class VariableSubDocument implements VariableSubDocumentProjection {
 
   public void setName(String name) {
     this.name = name;
-  }
-
-  public I18nString getAnnotations() {
-    return annotations;
-  }
-
-  public void setAnnotations(I18nString annotations) {
-    this.annotations = annotations;
   }
 
   public I18nString getLabel() {

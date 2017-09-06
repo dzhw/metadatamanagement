@@ -1,4 +1,4 @@
-<div flex layout="column" ng-switch="isAuthenticated()" ngf-drop="tabs[searchParams.selectedTabIndex].uploadFunction($files)" ngf-multiple="true" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-drop-disabled="((!currentProject || currentProject.release) && tabs[searchParams.selectedTabIndex].elasticSearchType !== 'related_publications') || !hasAuthority('ROLE_PUBLISHER') || !tabs[searchParams.selectedTabIndex].uploadFunction">
+<div id="top" flex layout="column" ng-switch="isAuthenticated()" ngf-drop="tabs[searchParams.selectedTabIndex].uploadFunction($files)" ngf-multiple="true" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-drop-disabled="((!currentProject || currentProject.release) && tabs[searchParams.selectedTabIndex].elasticSearchType !== 'related_publications') || !hasAuthority('ROLE_PUBLISHER') || !tabs[searchParams.selectedTabIndex].uploadFunction">
     <md-card style="margin-bottom: 0px; display: block;">
           <md-tabs md-selected="searchParams.selectedTabIndex" md-dynamic-height md-border-bottom>
             <md-tab ng-repeat="tab in tabs" md-on-select="onSelectedTabChanged()" ng-disabled="tab.disabled">
@@ -33,7 +33,7 @@
             <instrument-search-result ng-switch-when="instruments" search-result="result._source" current-language="currentLanguage" bowser="bowser"></instrument-search-result>
         </div>
         <div ng-if="pageObject.totalHits && pageObject.totalHits > pageObject.size" layout="row" layout-align="center">
-            <ul template-url="custom-uib-pager-template" uib-pagination next-text="{{'global.pagination.next'|translate}}" previous-text="{{'global.pagination.previous'|translate}}" total-items="pageObject.totalHits" ng-model="pageObject.page" max-size="5" ng-change="onPageChanged()" items-per-page="pageObject.size"
+            <ul template-url="scripts/common/pagination/custom-uib-pagination.html.tmpl" max-size="$mdMedia('gt-xs')?5:3" boundary-link-numbers="true" uib-pagination next-text="{{'global.pagination.next'|translate}}" previous-text="{{'global.pagination.previous'|translate}}" total-items="pageObject.totalHits" ng-model="pageObject.page" ng-change="onPageChanged()" items-per-page="pageObject.size"
                 class="pagination-sm"></ul>
         </div>
         <div ng-if="pageObject.totalHits === 0 && !isSearching">

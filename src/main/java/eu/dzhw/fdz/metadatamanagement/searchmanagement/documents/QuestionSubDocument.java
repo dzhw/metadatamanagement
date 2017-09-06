@@ -27,8 +27,6 @@ public class QuestionSubDocument implements QuestionSubDocumentProjection {
   
   private I18nString topic;
   
-  private I18nString annotations;
-  
   public QuestionSubDocument() {
     super();
   }
@@ -99,14 +97,5 @@ public class QuestionSubDocument implements QuestionSubDocumentProjection {
 
   public void setTopic(I18nString topic) {
     this.topic = topic;
-  }
-
-  @Override
-  public I18nString getAnnotations() {
-    return annotations;
-  }
-
-  public void setAnnotations(I18nString annotations) {
-    this.annotations = annotations;
   }
 }

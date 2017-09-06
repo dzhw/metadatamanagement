@@ -88,6 +88,7 @@ angular.module('metadatamanagementApp').config(
           'question': 'Fragefilter',
           'related-publication': 'Publikationsfilter',
           'panel-identifier': 'Panelkennungsfilter',
+          'derived-variables-identifier': 'Abgeleitete Variablenfilter',
           'access-way': 'Zugangswegfilter',
           'instrument': 'Instrumentfilter',
           'variable': 'Variablenfilter',
@@ -116,7 +117,7 @@ angular.module('metadatamanagementApp').config(
           },
           'instrument-filter': {
             'not-found': 'Kein Instrument gefunden!',
-            'no-valid-selected': 'Keine gültiges Instrument ausgewählt!'
+            'no-valid-selected': 'Kein gültiges Instrument ausgewählt!'
           },
           'question-filter': {
             'not-found': 'Keine Frage gefunden!',
@@ -137,6 +138,10 @@ angular.module('metadatamanagementApp').config(
           'panel-identifier-filter': {
             'not-found': 'Keine Panelkennung gefunden!',
             'no-valid-selected': 'Keine gültige Panelkennung ausgewählt!'
+          },
+          'derived-variables-identifier-filter': {
+            'not-found': 'Keine abgeleitete Variablenkennung gefunden!',
+            'no-valid-selected': 'Keine gültige abgeleitete Variablenkennung ausgewählt!'
           },
           'access-way-filter': {
             'not-found': 'Kein Zugangsweg gefunden!',
