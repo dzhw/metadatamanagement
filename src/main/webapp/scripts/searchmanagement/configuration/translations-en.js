@@ -93,6 +93,7 @@ angular.module('metadatamanagementApp').config(
           'instrument': 'Instrument Filter',
           'variable': 'Variable Filter',
           'survey': 'Survey Filter',
+          'survey-series': 'Survey Series Filter',
           'input-label': {
             'studies': 'Select filters for Study Search...',
             'surveys': 'Select filters for Survey Search...',
@@ -146,6 +147,10 @@ angular.module('metadatamanagementApp').config(
           'access-way-filter': {
             'not-found': 'No access way found!',
             'no-valid-selected': 'No valid access way selected!'
+          },
+          'survey-series-filter': {
+            'not-found': 'No survey series found!',
+            'no-valid-selected': 'No valid survey series selected!'
           }
         }
       }

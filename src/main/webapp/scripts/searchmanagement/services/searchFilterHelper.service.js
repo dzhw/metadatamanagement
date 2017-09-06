@@ -7,6 +7,7 @@ angular.module('metadatamanagementApp').factory(
     var keyMapping = {
       'studies': {
         'survey': 'surveys.id',
+        'survey-series': 'surveySeries',
         'instrument': 'instruments.id',
         'question': 'questions.id',
         'data-set': 'dataSets.id',

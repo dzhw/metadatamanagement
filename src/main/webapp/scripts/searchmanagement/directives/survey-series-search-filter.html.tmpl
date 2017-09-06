@@ -1,0 +1,16 @@
+<div ng-form="surveySeriesFilterForm" layout="row" layout-align="center center">
+    <md-autocomplete md-delay="250" class="fdz-search-filter-component" md-input-name="surveySeriesFilter" md-floating-label="{{'search-management.filter.survey-series' | translate}}" flex md-min-length="0" md-require-match="true" md-select-on-match="true"
+      md-selected-item="currentSurveySeries" md-selected-item-change="onSelectionChanged(currentSurveySeries)" md-search-text="searchText" md-items="item in searchSurveySeries(searchText)" md-item-text="item" md-clear-button="true" md-no-cache="true">
+        <md-item-template>
+            <span class="md-title" style="font-size: 14px;">{{item}}</span>
+        </md-item-template>
+        <md-not-found>
+            {{'search-management.filter.survey-series-filter.not-found' | translate}}
+        </md-not-found>
+        <div ng-messages="surveySeriesFilterForm.surveySeriesFilter.$error">
+            <div ng-message="md-require-match">
+                {{'search-management.filter.survey-series-filter.no-valid-selected' | translate}}
+            </div>
+        </div>
+    </md-autocomplete>
+</div>
