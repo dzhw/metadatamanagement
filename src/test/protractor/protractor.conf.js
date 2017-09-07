@@ -36,8 +36,7 @@ exports.config = {
       'platform': 'Windows 10',
       'browserName': 'MicrosoftEdge',
       'version': 'latest',
-      'screenResolution': '1280x1024',
-      'seleniumVersion': '3.5.0'
+      'screenResolution': '1280x1024'
     }, {
       'name': 'Win10/IE11',
       'platform': 'Windows 10',
