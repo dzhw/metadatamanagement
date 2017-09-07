@@ -1,4 +1,4 @@
-/* global bowser, event */
+/* global bowser, event, ClientJS */
 'use strict';
 
 angular
@@ -283,4 +283,6 @@ angular
     .value('duScrollDuration', 500)
     .value('duScrollEasing', function easeInCubic(t) {
         return t * t * t;
-      });
+      })
+    //use a fake sessionId for consistent shard routing
+    .constant('clientId', new ClientJS().getFingerprint());
