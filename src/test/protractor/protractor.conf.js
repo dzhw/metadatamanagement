@@ -31,7 +31,8 @@ exports.config = {
       'browserName': 'firefox',
       'screenResolution': '1280x1024',
       'version': 'latest',
-      'marionette': true
+      'marionette': true,
+      'seleniumVersion': '3.5.3'
     }, {
       'name': 'Win10/Edge',
       'platform': 'Windows 10',
