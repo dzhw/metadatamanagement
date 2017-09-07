@@ -23,6 +23,7 @@ import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudyAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
@@ -38,6 +39,9 @@ public class StudyAttachmentResourceTest extends AbstractTest {
   
   @Autowired
   private StudyRepository studyRepository;
+  
+  @Autowired
+  private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
 
   private MockMvc mockMvc;
 
@@ -51,6 +55,7 @@ public class StudyAttachmentResourceTest extends AbstractTest {
   public void cleanUp() {
     this.studyRepository.deleteAll();
     this.studyAttachmentService.deleteAll();
+    this.elasticsearchUpdateQueueItemRepository.deleteAll();
   }
 
   @Test

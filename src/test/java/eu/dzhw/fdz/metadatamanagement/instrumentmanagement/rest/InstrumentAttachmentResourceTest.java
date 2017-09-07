@@ -27,6 +27,7 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.InstrumentAttachmentService;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 public class InstrumentAttachmentResourceTest extends AbstractTest {
@@ -38,6 +39,9 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
   
   @Autowired
   private InstrumentRepository instrumentRepository;
+  
+  @Autowired
+  private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
 
   private MockMvc mockMvc;
 
@@ -51,6 +55,7 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
   public void cleanUp() {
     this.instrumentRepository.deleteAll();
     this.instrumentAttachmentService.deleteAll();
+    this.elasticsearchUpdateQueueItemRepository.deleteAll();
   }
 
   @Test
