@@ -30,15 +30,14 @@ exports.config = {
       'platform': 'Windows 10',
       'browserName': 'firefox',
       'screenResolution': '1280x1024',
-      'version': 'latest',
-      'marionette': true,
-      'seleniumVersion': '3.5.3'
+      'version': '54.0'
     }, {
       'name': 'Win10/Edge',
       'platform': 'Windows 10',
       'browserName': 'MicrosoftEdge',
       'version': 'latest',
-      'screenResolution': '1280x1024'
+      'screenResolution': '1280x1024',
+      'seleniumVersion': '3.5.0'
     }, {
       'name': 'Win10/IE11',
       'platform': 'Windows 10',
