@@ -1,6 +1,6 @@
 <div ng-if="ctrl.dataSet.id" flex ngf-drop="ctrl.uploadTexTemplate($files)" ngf-multiple="true" ngf-include-dir="false" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-drop-disabled="!ctrl.isAuthenticated() || !ctrl.hasAuthority('ROLE_PUBLISHER')">
     <div layout="row" style="margin-bottom: 0px;" layout-margin>
-        <h1 class="md-headline fdz-text-block" style="margin-left: 0px;"><span display-i18n-string="ctrl.dataSet.description" fdz-hyphenate></span> <span class="label label-as-badge label-default">{{ctrl.dataSet.id}}</span></h1>
+        <h1 class="md-headline" style="margin-left: 0px;"><span display-i18n-string="ctrl.dataSet.description" fdz-hyphenate></span> <span class="label label-as-badge label-default">{{ctrl.dataSet.id}}</span></h1>
     </div>
     <div layout="column" layout-gt-sm="row">
         <div flex-gt-sm="50" layout="column">
@@ -12,11 +12,11 @@
                 </md-card-header>
                 <md-divider></md-divider>
                 <md-card-content>
-                    <div class="fdz-add-bottom-margin fdz-text-block" ng-if="ctrl.dataSet.type">
+                    <div class="fdz-add-bottom-margin" ng-if="ctrl.dataSet.type">
                         <span style="font-weight: bold;">{{'data-set-management.detail.type' | translate }}:</span>
                         <span display-i18n-string="ctrl.dataSet.type" fdz-hyphenate></span>
                     </div>
-                    <div class="fdz-add-bottom-margin fdz-text-block" ng-if="ctrl.dataSet.format">
+                    <div class="fdz-add-bottom-margin" ng-if="ctrl.dataSet.format">
                         <span style="font-weight: bold;">{{'data-set-management.detail.format' | translate }}:</span>
                         <span display-i18n-string="ctrl.dataSet.format"></span>
                     </div>
@@ -149,7 +149,7 @@
         <md-card flex class="fdz-reset-top-margin">
             <md-card-header layout-align="center center">
                 <md-card-header-text>
-                    <h2 class="md-title fdz-text-block">{{'data-set-management.detail.sub-data-sets.title' | translate | fdzHyphenate }}</h2>
+                    <h2 class="md-title">{{'data-set-management.detail.sub-data-sets.title' | translate | fdzHyphenate }}</h2>
                 </md-card-header-text>
             </md-card-header>
             <table fdz-table>
@@ -218,7 +218,7 @@
         <md-card ng-if="ctrl.attachments" flex class="fdz-reset-top-margin">
             <md-card-header layout-align="center center">
                 <md-card-header-text>
-                    <h2 class="md-title fdz-text-block">{{'data-set-management.detail.attachments.table-title' | translate | fdzHyphenate }}</h2>
+                    <h2 class="md-title">{{'data-set-management.detail.attachments.table-title' | translate | fdzHyphenate }}</h2>
                 </md-card-header-text>
             </md-card-header>
             <table fdz-table>
