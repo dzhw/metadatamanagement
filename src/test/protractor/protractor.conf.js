@@ -8,9 +8,9 @@ exports.config = {
       browser.driver.manage().window().maximize();
     },
     //disable these if you want to run tests locally
-    sauceUser: process.env.SAUCE_USERNAME,
-    sauceKey: process.env.SAUCE_ACCESS_KEY,
-    sauceBuild: process.env.TRAVIS_BUILD_NUMBER,
+    sauceUser: 'rreitmann',
+    sauceKey: '810162bf-aeaa-4af7-86ae-2656a3ff5a46',
+    //sauceBuild: process.env.TRAVIS_BUILD_NUMBER,
     rootElement: 'html',
     baseUrl: 'https://metadatamanagement-dev.cfapps.io/',
     specs: [
@@ -19,7 +19,7 @@ exports.config = {
       'common/navbar.spec.js',
       'common/toolbar.spec.js',
     ],
-    multiCapabilities: [{
+    multiCapabilities: [/*{
       'name': 'Win10/Chrome',
       'platform': 'Windows 10',
       'browserName': 'chrome',
@@ -31,19 +31,21 @@ exports.config = {
       'browserName': 'firefox',
       'screenResolution': '1280x1024',
       'version': '54.0'
-    }, {
+    }, */{
       'name': 'Win10/Edge',
       'platform': 'Windows 10',
       'browserName': 'MicrosoftEdge',
       'version': 'latest',
-      'screenResolution': '1280x1024'
-    }, {
+      'screenResolution': '1280x1024',
+      'elementScrollBehavior': 1,
+      'nativeEvents': false
+    }/*, {
       'name': 'Win10/IE11',
       'platform': 'Windows 10',
       'browserName': 'internet explorer',
       'version': '11.0',
       'screenResolution': '1280x1024'
-    }],
+    }*/],
     //enable this for local tests without selenium
     //directConnect: true,
     jasmineNodeOpts: {
