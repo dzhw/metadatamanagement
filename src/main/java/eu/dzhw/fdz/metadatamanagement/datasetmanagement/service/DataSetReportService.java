@@ -363,11 +363,11 @@ public class DataSetReportService {
       // than 20.
       if (sizeValidResponses > 20) {
         firstTenValidResponses.put(variable.getId(),
-            variable.getDistribution().getValidResponses().subList(0, 9));
+            variable.getDistribution().getValidResponses().subList(0, 10));
         lastTenValidResponses.put(variable.getId(),
             variable.getDistribution()
               .getValidResponses()
-              .subList(sizeValidResponses - 9, sizeValidResponses));
+              .subList(sizeValidResponses - 10, sizeValidResponses));
       }
       
       if (variable.getPanelIdentifier() != null) {       
