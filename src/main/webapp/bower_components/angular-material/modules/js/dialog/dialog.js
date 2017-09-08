@@ -2,7 +2,7 @@
  * AngularJS Material Design
  * https://github.com/angular/material
  * @license MIT
- * v1.1.4
+ * v1.1.5
  */
 (function( window, angular, undefined ){
 "use strict";
@@ -546,8 +546,6 @@ function MdDialogDirective($$rAF, $mdTheming, $mdDialog) {
  *     `three` into the controller, with the value 3. If `bindToController` is true, they will be
  *     copied to the controller instead.
  *   - `bindToController` - `bool`: bind the locals to the controller, instead of passing them in.
- *   - `resolve` - `{object=}`: Similar to locals, except it takes promises as values, and the
- *     dialog will not open until all of the promises resolve.
  *   - `controllerAs` - `{string=}`: An alias to assign the controller to on the scope.
  *   - `parent` - `{element=}`: The element to append the dialog to. Defaults to appending
  *     to the root element of the application.
@@ -591,7 +589,7 @@ function MdDialogDirective($$rAF, $mdTheming, $mdDialog) {
 
 function MdDialogProvider($$interimElementProvider) {
   // Elements to capture and redirect focus when the user presses tab at the dialog boundary.
-  advancedDialogOptions['$inject'] = ["$mdDialog", "$mdConstant"];
+  MdDialogController['$inject'] = ["$mdDialog", "$mdConstant"];
   dialogDefaultOptions['$inject'] = ["$mdDialog", "$mdAria", "$mdUtil", "$mdConstant", "$animate", "$document", "$window", "$rootElement", "$log", "$injector", "$mdTheming", "$interpolate", "$mdInteraction"];
   var topFocusTrap, bottomFocusTrap;
 
@@ -613,12 +611,12 @@ function MdDialogProvider($$interimElementProvider) {
     })
     .addPreset('prompt', {
       methods: ['title', 'htmlContent', 'textContent', 'initialValue', 'content', 'placeholder', 'ariaLabel',
-          'ok', 'cancel', 'theme', 'css'],
+          'ok', 'cancel', 'theme', 'css', 'required'],
       options: advancedDialogOptions
     });
 
   /* ngInject */
-  function advancedDialogOptions($mdDialog, $mdConstant) {
+  function advancedDialogOptions() {
     return {
       template: [
         '<md-dialog md-theme="{{ dialog.theme || dialog.defaultTheme }}" aria-label="{{ dialog.ariaLabel }}" ng-class="dialog.css">',
@@ -631,7 +629,7 @@ function MdDialogProvider($$interimElementProvider) {
         '    </div>',
         '    <md-input-container md-no-float ng-if="::dialog.$type == \'prompt\'" class="md-prompt-input-container">',
         '      <input ng-keypress="dialog.keypress($event)" md-autofocus ng-model="dialog.result" ' +
-        '             placeholder="{{::dialog.placeholder}}">',
+        '             placeholder="{{::dialog.placeholder}}" ng-required="dialog.required">',
         '    </md-input-container>',
         '  </md-dialog-content>',
         '  <md-dialog-actions>',
@@ -639,33 +637,44 @@ function MdDialogProvider($$interimElementProvider) {
         '               ng-click="dialog.abort()" class="md-primary md-cancel-button">',
         '      {{ dialog.cancel }}',
         '    </md-button>',
-        '    <md-button ng-click="dialog.hide()" class="md-primary md-confirm-button" md-autofocus="dialog.$type===\'alert\'">',
+        '    <md-button ng-click="dialog.hide()" class="md-primary md-confirm-button" md-autofocus="dialog.$type===\'alert\'"' +
+        '               ng-disabled="dialog.required && !dialog.result">',
         '      {{ dialog.ok }}',
         '    </md-button>',
         '  </md-dialog-actions>',
         '</md-dialog>'
       ].join('').replace(/\s\s+/g, ''),
-      controller: function mdDialogCtrl() {
-        var isPrompt = this.$type == 'prompt';
-
-        if (isPrompt && this.initialValue) {
-          this.result = this.initialValue;
-        }
-
-        this.hide = function() {
-          $mdDialog.hide(isPrompt ? this.result : true);
-        };
-        this.abort = function() {
-          $mdDialog.cancel();
-        };
-        this.keypress = function($event) {
-          if ($event.keyCode === $mdConstant.KEY_CODE.ENTER) {
-            $mdDialog.hide(this.result);
-          }
-        };
-      },
+      controller: MdDialogController,
       controllerAs: 'dialog',
       bindToController: true,
+    };
+  }
+
+  /**
+   * Controller for the md-dialog interim elements
+   * ngInject
+   */
+  function MdDialogController($mdDialog, $mdConstant) {
+    // For compatibility with AngularJS 1.6+, we should always use the $onInit hook in
+    // interimElements. The $mdCompiler simulates the $onInit hook for all versions.
+    this.$onInit = function() {
+      var isPrompt = this.$type == 'prompt';
+
+      if (isPrompt && this.initialValue) {
+        this.result = this.initialValue;
+      }
+
+      this.hide = function() {
+        $mdDialog.hide(isPrompt ? this.result : true);
+      };
+      this.abort = function() {
+        $mdDialog.cancel();
+      };
+      this.keypress = function($event) {
+        if ($event.keyCode === $mdConstant.KEY_CODE.ENTER) {
+          $mdDialog.hide(this.result);
+        }
+      };
     };
   }
 
@@ -1097,9 +1106,15 @@ function MdDialogProvider($$interimElementProvider) {
       }
       else {
         $mdAria.expectAsync(element, 'aria-label', function() {
-          var words = dialogContent.text().split(/\s+/);
-          if (words.length > 3) words = words.slice(0, 3).concat('...');
-          return words.join(' ');
+          // If dialog title is specified, set aria-label with it
+          // See https://github.com/angular/material/issues/10582
+          if (options.title) {
+            return options.title;
+          } else {
+            var words = dialogContent.text().split(/\s+/);
+            if (words.length > 3) words = words.slice(0, 3).concat('...');
+            return words.join(' ');
+          }
         });
       }
 
@@ -1156,7 +1171,9 @@ function MdDialogProvider($$interimElementProvider) {
           for (var i = 0; i < children.length; i++) {
             // skip over child if it is an ascendant of the dialog
             // or a script or style tag
-            if (element !== children[i] && !isNodeOneOf(children[i], ['SCRIPT', 'STYLE'])) {
+            if (element !== children[i] &&
+             !isNodeOneOf(children[i], ['SCRIPT', 'STYLE']) &&
+             !children[i].hasAttribute('aria-live')) {
               children[i].setAttribute('aria-hidden', isHidden);
             }
           }
