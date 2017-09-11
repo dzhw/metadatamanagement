@@ -119,7 +119,7 @@
             </div>
         </div>
     </div>
-    <md-card-content>
+    <md-card-content layout="column">
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead>
@@ -198,6 +198,19 @@
                     </li>
                 </ul>
             </nav>
+        </div>
+        <div>
+          <form name="userMessageForm">
+            <md-input-container class="md-block">
+              <label>Notification to all users</label>
+              <input md-maxlength="200" required name="userMessage" ng-model="userMessage">
+              <div ng-messages="userMessageForm.userMessage.$error">
+                <div ng-message="required">This is required.</div>
+                <div ng-message="md-maxlength">The description must be less than 200 characters long.</div>
+              </div>
+            </md-input-container>
+            <md-button type="submit" ng-click="sendMessageToAllUsers()" class="md-raised" ng-disabled="userMessageForm.$invalid">Submit</md-button>
+          </form>
         </div>
     </md-card-content>
 </md-card>

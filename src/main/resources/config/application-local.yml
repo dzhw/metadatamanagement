@@ -32,6 +32,10 @@ spring:
     resources:
       static-locations:
         - file:src/main/webapp/
+        
+logging:
+    level:
+      eu.dzhw.fdz.metadatamanagement: debug
 
 # ===================================================================
 # JHipster specific properties

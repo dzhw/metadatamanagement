@@ -15,7 +15,9 @@ angular
 
 .run(
     function($rootScope, $location, $state, LanguageService, Auth, Principal,
-      ENV, VERSION, $mdMedia, $transitions, $timeout, $window) {
+      ENV, VERSION, $mdMedia, $transitions, $timeout, $window,
+      WebSocketService) {
+      WebSocketService.connect();
       $rootScope.bowser = bowser;
       $rootScope.ENV = ENV;
       $rootScope.VERSION = VERSION;
