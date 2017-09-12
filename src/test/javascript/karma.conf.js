@@ -59,11 +59,11 @@ module.exports = function(config) {
       'src/main/webapp/bower_components/angular-file-saver/dist/angular-file-saver.bundle.js',
       'src/main/webapp/bower_components/clientjs/dist/client.min.js',
       'src/main/webapp/bower_components/angular-scroll/angular-scroll.js',
+      'src/main/webapp/bower_components/sockjs-client/dist/sockjs.js',
+      'src/main/webapp/bower_components/stomp-websocket/lib/stomp.min.js',
       'src/main/webapp/bower_components/hyphenator/Hyphenator.js',
       'src/main/webapp/bower_components/hyphenator/patterns/de.js',
       'src/main/webapp/bower_components/hyphenator/patterns/en-us.js',
-      'src/main/webapp/bower_components/sockjs-client/dist/sockjs.js',
-      'src/main/webapp/bower_components/stomp-websocket/lib/stomp.min.js',
       'src/main/webapp/bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'src/main/webapp/bower_components/elasticsearch/elasticsearch.angular.js',
