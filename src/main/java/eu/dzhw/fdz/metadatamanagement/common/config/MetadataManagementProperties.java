@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.common.config;
 
+import java.util.Arrays;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -210,11 +212,11 @@ public class MetadataManagementProperties {
     private String[] allowedOrigins = new String[0];
 
     public String[] getAllowedOrigins() {
-      return allowedOrigins;
+      return Arrays.copyOf(allowedOrigins, allowedOrigins.length);
     }
 
     public void setAllowedOrigins(String[] allowedOrigins) {
-      this.allowedOrigins = allowedOrigins;
+      this.allowedOrigins = Arrays.copyOf(allowedOrigins, allowedOrigins.length);
     }  
   }
 }

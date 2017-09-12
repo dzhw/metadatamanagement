@@ -35,8 +35,11 @@ angular.module('metadatamanagementApp').factory('WebSocketService',
 
     var sendMessageToAllUsers = function(message) {
       var token = localStorageService.get('token');
+
       if (token) {
+        //jscs:disable requireCamelCaseOrUpperCaseIdentifiers
         token = token.access_token;
+        //jscs:enable requireCamelCaseOrUpperCaseIdentifiers
       }
       stompClient.send(
         '/metadatamanagement/user-message', {'access_token': token},
