@@ -15,6 +15,9 @@ angular.module('metadatamanagementApp').factory('WebSocketService',
           'https://' + $location.host() + ':4443/websocket');
       }
       stompClient = Stomp.over(socket);
+      if (ENV !== 'local') {
+        stompClient.debug = null;
+      }
       stompClient.connect({}, function() {
         stompClient.subscribe('/topic/user-messages', function(data) {
           var message = angular.fromJson(data.body);
