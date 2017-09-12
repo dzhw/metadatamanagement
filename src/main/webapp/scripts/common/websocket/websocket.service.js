@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').factory('WebSocketService',
-  function($timeout, $mdDialog, ENV, $location) {
+  function($timeout, $mdDialog, ENV, $location, localStorageService) {
     var stompClient = null;
 
     var connect = function() {
@@ -33,11 +33,14 @@ angular.module('metadatamanagementApp').factory('WebSocketService',
       });
     };
 
-    var sendMessageToAllUsers = function(sender, message) {
+    var sendMessageToAllUsers = function(message) {
+      var token = localStorageService.get('token');
+      if (token) {
+        token = token.access_token;
+      }
       stompClient.send(
-        '/metadatamanagement/user-message', {},
+        '/metadatamanagement/user-message', {'access_token': token},
         angular.toJson({
-          'sender': sender,
           'text': message
         }));
     };

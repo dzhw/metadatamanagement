@@ -40,3 +40,8 @@ metadatamanagement:
     password: ${vcap.services.dara.credentials.password}
   rabbitmq:
     uri: ${vcap.services.rabbitmq.credentials.uri}
+  websockets:
+    allowed-origins: 
+      - "https://metadatamanagement-dev.cfapps.io"
+      - "https://metadatamanagement-dev.cfapps.io:4443"
+      

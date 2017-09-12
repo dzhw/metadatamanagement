@@ -51,7 +51,8 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
   @Override
   public void registerStompEndpoints(StompEndpointRegistry registry) {
-    registry.addEndpoint("/websocket").setAllowedOrigins("*").withSockJS()
+    registry.addEndpoint("/websocket").setAllowedOrigins(
+        properties.getWebsockets().getAllowedOrigins()).withSockJS()
         .setSessionCookieNeeded(false)
         .setClientLibraryUrl("/bower_components/sockjs-client/dist/sockjs.min.js")
         .setInterceptors(websocketHandshakeInterceptor());

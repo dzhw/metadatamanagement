@@ -27,6 +27,8 @@ public class MetadataManagementProperties {
   private final Dara dara = new Dara();
   
   private final Rabbitmq rabbitmq = new Rabbitmq();
+  
+  private final Websockets websockets = new Websockets();
 
   public ElasticsearchClient getElasticsearchClient() {
     return elasticsearchClient;
@@ -42,6 +44,10 @@ public class MetadataManagementProperties {
   
   public Rabbitmq getRabbitmq() {
     return rabbitmq;
+  }
+  
+  public Websockets getWebsockets() {
+    return websockets;
   }
 
   /**
@@ -193,5 +199,22 @@ public class MetadataManagementProperties {
     public String getVirtualHost() {
       return virtualHost;
     }
+  }
+  
+  /**
+   * Allowed origins for web socket connections.
+   * 
+   * @author René Reitmann
+   */
+  public static class Websockets {
+    private String[] allowedOrigins = new String[0];
+
+    public String[] getAllowedOrigins() {
+      return allowedOrigins;
+    }
+
+    public void setAllowedOrigins(String[] allowedOrigins) {
+      this.allowedOrigins = allowedOrigins;
+    }  
   }
 }

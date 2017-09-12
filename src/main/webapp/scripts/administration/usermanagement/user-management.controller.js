@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').controller('UserManagementController',
   function($scope, UserResource, ParseLinks, LanguageService, $state,
-    PageTitleService, ToolbarHeaderService, WebSocketService, $rootScope) {
+    PageTitleService, ToolbarHeaderService, WebSocketService) {
     PageTitleService.setPageTitle('user-management.home.title');
     $scope.users = [];
     $scope.authorities = ['ROLE_USER', 'ROLE_PUBLISHER', 'ROLE_ADMIN'];
@@ -83,7 +83,6 @@ angular.module('metadatamanagementApp').controller('UserManagementController',
     name});
 
     $scope.sendMessageToAllUsers = function() {
-      WebSocketService.sendMessageToAllUsers($rootScope.identity.login,
-        $scope.userMessage);
+      WebSocketService.sendMessageToAllUsers($scope.userMessage);
     };
   });
