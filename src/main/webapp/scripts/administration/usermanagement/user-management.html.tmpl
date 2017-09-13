@@ -120,7 +120,7 @@
         </div>
     </div>
     <md-card-content layout="column">
-        <div class="table-responsive">
+        <md-content style="background-color: white;">
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -198,19 +198,14 @@
                     </li>
                 </ul>
             </nav>
-        </div>
-        <div>
-          <form name="userMessageForm">
-            <md-input-container class="md-block">
-              <label>Notification to all users</label>
-              <input md-maxlength="200" required name="userMessage" ng-model="userMessage">
-              <div ng-messages="userMessageForm.userMessage.$error">
-                <div ng-message="required">This is required.</div>
-                <div ng-message="md-maxlength">The description must be less than 200 characters long.</div>
-              </div>
-            </md-input-container>
-            <md-button type="submit" ng-click="sendMessageToAllUsers()" class="md-raised" ng-disabled="userMessageForm.$invalid">Submit</md-button>
-          </form>
-        </div>
+        </md-content>
     </md-card-content>
 </md-card>
+<div class="fdz-fab-button-container" layout="column">
+    <md-button class="md-accent md-fab" ng-click="openUserMessageDialog($event)">
+        <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+            {{'user-management.user-messages.dialog-tooltip.open-create-dialog' | translate}}
+        </md-tooltip>
+        <md-icon md-font-set="material-icons">send</md-icon>
+    </md-button>
+</div>

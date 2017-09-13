@@ -13,7 +13,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.web.authentication.session.SessionAuthenticationException;
 import org.springframework.stereotype.Controller;
 
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.Message;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.websocket.dto.MessageDto;
 
 /**
  * Controller for sending messages via websockets to users.
@@ -35,9 +35,9 @@ public class UserMessagesController {
    * @return the message to the topic
    * @throws Exception Thrown if not authorized for instance.
    */
-  @MessageMapping("/user-message")
+  @MessageMapping("/user-messages")
   @SendTo("/topic/user-messages")
-  public Message sendMessageToAllUsers(Message message, 
+  public MessageDto sendMessageToAllUsers(MessageDto message, 
       @Header("access_token") String accessToken) throws Exception {
     OAuth2AccessToken oauth2accessToken = tokenStore.readAccessToken(accessToken);
     if (oauth2accessToken != null) {
@@ -49,6 +49,8 @@ public class UserMessagesController {
         return message;        
       }
     }
+    log.error("Unauthorized message from {} with content: {}", 
+        message.getSender(), message.getText());
     throw new SessionAuthenticationException("No valid access token found!");
   }
 }

@@ -1,0 +1,53 @@
+<md-dialog aria-label="{{'user-management.user-messages.create-title' | translate }}" style="min-width: 550px;" class="md-inline-form">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <div flex>
+                <h2 class="fdz-truncate-string">
+                    <span>{{'user-management.user-messages.create-title' | translate }}</span>
+                </h2>
+            </div>
+            <md-button class="md-icon-button" ng-click="closeDialog()">
+                <md-icon md-font-set="material-icons">clear</md-icon>
+                <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
+                  {{'user-management.user-messages.dialog-tooltip.close' | translate }}
+                </md-tooltip>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <form name="userMessageForm">
+        <md-dialog-content style="padding: 1.5em 1.5em 0 1.5em;">
+            <md-input-container class="md-block" md-is-error="!userMessageForm.messageDe.$valid" md-no-float>
+                <label>{{'user-management.user-messages.message-de-label' | translate}}
+                </label>
+                <textarea rows="4" md-maxlength="200" required translate-attr="{'title':'global.entity.validation.required'}" md-no-asterisk ng-model="message.de" name="messageDe" md-autofocus></textarea>
+                <div ng-messages="userMessageForm.messageDe.$error" multiple md-auto-hide="false">
+                    <div ng-message="required">{{'global.entity.validation.required' | translate}}</div>
+                    <div ng-message="md-maxlength">{{'global.entity.validation.maxlength' | translate:'{ max: "200" }'}}</div>
+                </div>
+            </md-input-container>
+            <md-input-container class="md-block" md-is-error="!userMessageForm.messageEn.$valid" md-no-float>
+                <label>{{'user-management.user-messages.message-en-label' | translate}}
+                </label>
+                <textarea rows="4" md-maxlength="200" required translate-attr="{'title':'global.entity.validation.required'}" md-no-asterisk ng-model="message.en" name="messageEn"></textarea>
+                <div ng-messages="userMessageForm.messageEn.$error" multiple md-auto-hide="false">
+                    <div ng-message="required">{{'global.entity.validation.required' | translate}}</div>
+                    <div ng-message="md-maxlength">{{'global.entity.validation.maxlength' | translate:'{ max: "200" }'}}</div>
+                </div>
+            </md-input-container>
+        </md-dialog-content>
+        <md-dialog-actions layout="row" style="padding: 0 1.5em 1em 0;">
+            <md-button class="md-raised" ng-click="closeDialog()">
+              <span>{{'global.entity.action.cancel' | translate}}</span>
+            <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
+              {{'user-management.user-messages.dialog-tooltip.close' | translate }}
+            </md-tooltip>
+            </md-button>
+            <md-button class="md-raised" type="submit" ng-click="sendMessageToAllUsers()" ng-disabled="userMessageForm.$invalid">
+              <span>{{'user-management.user-messages.buttons.send' | translate}}</span>
+              <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
+                {{'user-management.user-messages.dialog-tooltip.send' | translate }}
+              </md-tooltip>
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>
