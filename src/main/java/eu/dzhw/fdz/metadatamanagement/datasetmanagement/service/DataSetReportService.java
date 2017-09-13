@@ -32,6 +32,8 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.exception.TemplateIncompleteException;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.filemanagement.service.FileService;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RelatedQuestion;
@@ -62,6 +64,9 @@ public class DataSetReportService {
 
   @Autowired
   private QuestionRepository questionRepository;
+  
+  @Autowired
+  private InstrumentRepository instrumentRepository;
 
   /**
    * The Escape Prefix handles the escaping of special latex signs within data information. This
@@ -317,6 +322,7 @@ public class DataSetReportService {
 
     // Create different information from the variable
     Map<String, Question> questionsMap = new HashMap<>();
+    Map<String, Instrument> instrumentMap = new HashMap<>();
     Map<String, List<ValidResponse>> firstTenValidResponses = new HashMap<>();
     Map<String, List<ValidResponse>> lastTenValidResponses = new HashMap<>();
     Map<String, List<IdAndVersionProjection>> sameVariablesInPanel = new HashMap<>();
@@ -342,16 +348,26 @@ public class DataSetReportService {
           }          
         }
       }
+      
+      //Create a Map with Instruments
+      if (!questionsMap.isEmpty()) {
+        questionsMap.values().forEach(question -> {
+          if (!instrumentMap.containsKey(question.getInstrumentId())) {
+            Instrument instrument = this.instrumentRepository.findOne(question.getInstrumentId());
+            instrumentMap.put(question.getInstrumentId(), instrument);
+          }
+        });
+      }
 
       // Create the first and last ten isAMissing Values to different list, if there are more
       // than 20.
       if (sizeValidResponses > 20) {
         firstTenValidResponses.put(variable.getId(),
-            variable.getDistribution().getValidResponses().subList(0, 9));
+            variable.getDistribution().getValidResponses().subList(0, 10));
         lastTenValidResponses.put(variable.getId(),
             variable.getDistribution()
               .getValidResponses()
-              .subList(sizeValidResponses - 10, sizeValidResponses - 1));
+              .subList(sizeValidResponses - 10, sizeValidResponses));
       }
       
       if (variable.getPanelIdentifier() != null) {       
@@ -362,6 +378,7 @@ public class DataSetReportService {
       }
     }
     dataForTemplate.put("questions", questionsMap);
+    dataForTemplate.put("instruments", instrumentMap);
     dataForTemplate.put("firstTenValidResponses", firstTenValidResponses);
     dataForTemplate.put("lastTenValidResponses", lastTenValidResponses);
     dataForTemplate.put("sameVariablesInPanel", sameVariablesInPanel);

@@ -32,7 +32,7 @@ script:
   - mvn -Pdev --settings ./buildconfig/settings.xml -B -DrepoToken=$COVERALLS_TOKEN package
   - cf login -u $CI_DEPLOY_USERNAME -p $CI_DEPLOY_PASSWORD -o DZHW -s dev -a https://api.run.pivotal.io
   - cf push -f ./deploy/manifest-dev.yml
-  - ./node_modules/protractor/bin/webdriver-manager update --standalone
+  - ./node_modules/protractor/bin/webdriver-manager update
   - ./node_modules/protractor/bin/protractor ./src/test/protractor/protractor.conf.js
 after_script:
  - mvn coveralls:report

@@ -29,10 +29,10 @@
     "angular-nvd3": "^1.0.9",
     "js-xlsx": "^0.11.3",
     "cheet.js": "^0.3.3",
-    "angular-material": "^1.1.4",
+    "angular-material": "^1.1.5",
     "angular-block-ui": "^0.2.2",
     "lodash": "^4.17.4",
-    "plotly.js": "^1.30.0",
+    "plotly.js": "^1.30.1",
     "highlightjs": "^9.12.0",
     "angular-highlightjs": "^0.7.1",
     "js-beautify": "^1.6.14",
@@ -43,11 +43,15 @@
     "bowser": "^1.7.3",
     "angular-file-saver": "^1.1.3",
     "clientjs": "^0.1.5",
-    "angular-scroll": "^1.0.2"
+    "angular-scroll": "^1.0.2",
+    "hyphenator": "Hyphenator#^5.2.0"
   },
   "overrides": {
     "elasticsearch": {
       "main": "elasticsearch.angular.js"
+    },
+    "hyphenator": {
+      "main": ["Hyphenator.js","./patterns/de.js", "patterns/en-us.js"]
     }
   },
   "devDependencies": {

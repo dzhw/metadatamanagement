@@ -177,10 +177,16 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
             objectType: 'question'
           });
 
-          //TODO Dkatzberg
           if (CleanJSObjectService
-            .isNullOrEmpty(usedIndexInInstrument[question.indexInInstrument])) {
-            usedIndexInInstrument[question.indexInInstrument] = question.id;
+            .isNullOrEmpty(usedIndexInInstrument[question.instrumentId])) {
+            usedIndexInInstrument[question.instrumentId] = {};
+          }
+
+          if (CleanJSObjectService
+            .isNullOrEmpty(usedIndexInInstrument[question.instrumentId]
+              [question.indexInInstrument])) {
+            usedIndexInInstrument[question.instrumentId]
+              [question.indexInInstrument] = question.id;
           } else {
             JobLoggingService.warning({
               message: 'question-management.log-messages.' +
@@ -188,7 +194,8 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
               messageParams: {
                 index: question.indexInInstrument,
                 firstQuestionId:
-                  usedIndexInInstrument[question.indexInInstrument],
+                  usedIndexInInstrument[question.instrumentId]
+                    [question.indexInInstrument],
                 secondQuestionId: question.id
               }
             });

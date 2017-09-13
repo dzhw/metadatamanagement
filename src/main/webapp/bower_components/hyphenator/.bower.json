@@ -1,0 +1,19 @@
+{
+  "name": "hyphenator",
+  "version": "5.2.0",
+  "main": "Hyphenator.js",
+  "ignore": [
+    "favicon.ico"
+  ],
+  "homepage": "https://github.com/mnater/Hyphenator",
+  "_release": "5.2.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "5.2.0",
+    "commit": "3a39b06d9a6ddcae6d2753c9934a14c193af2a39"
+  },
+  "_source": "https://github.com/mnater/Hyphenator.git",
+  "_target": "^5.2.0",
+  "_originalSource": "Hyphenator",
+  "_direct": true
+}
