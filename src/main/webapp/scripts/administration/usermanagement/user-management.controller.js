@@ -88,7 +88,8 @@ angular.module('metadatamanagementApp').controller('UserManagementController',
           templateUrl: 'scripts/administration/' +
             'usermanagement/user-message-dialog.html.tmpl',
           clickOutsideToClose: false,
-          targetEvent: event
+          targetEvent: event,
+          fullscreen: true
         });
     };
   });
