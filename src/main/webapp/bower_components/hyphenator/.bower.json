@@ -6,11 +6,11 @@
     "Hyphenator_observable.js"
   ],
   "homepage": "https://github.com/rreitmann/Hyphenator",
-  "_release": "006c34c2a8",
+  "_release": "9a726f36fd",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "006c34c2a85aa8226367a8e2353a2a9b8c049cc0"
+    "commit": "9a726f36fdf1318723ab03dd7597a59ea9502623"
   },
   "_source": "https://github.com/rreitmann/Hyphenator.git",
   "_target": "master",

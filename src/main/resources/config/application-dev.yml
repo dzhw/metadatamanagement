@@ -42,6 +42,4 @@ metadatamanagement:
     uri: ${vcap.services.rabbitmq.credentials.uri}
   websockets:
     allowed-origins: 
-      - "https://metadatamanagement-dev.cfapps.io"
-      - "https://metadatamanagement-dev.cfapps.io:4443"
-      
+      - https://metadatamanagement-dev.cfapps.io

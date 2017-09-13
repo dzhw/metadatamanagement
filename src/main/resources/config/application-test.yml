@@ -40,5 +40,4 @@ metadatamanagement:
     password: ${vcap.services.dara.credentials.password}
   websockets:
     allowed-origins: 
-      - "https://metadatamanagement-test.cfapps.io"
-      - "https://metadatamanagement-test.cfapps.io:4443"
+      - https://metadatamanagement-test.cfapps.io

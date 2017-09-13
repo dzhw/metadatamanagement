@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.common.config;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.web.util.UriComponents;
@@ -209,14 +210,14 @@ public class MetadataManagementProperties {
    * @author René Reitmann
    */
   public static class Websockets {
-    private String[] allowedOrigins = new String[0];
+    private List<String> allowedOrigins = new ArrayList<String>();
 
-    public String[] getAllowedOrigins() {
-      return Arrays.copyOf(allowedOrigins, allowedOrigins.length);
+    public List<String> getAllowedOrigins() {
+      return allowedOrigins;
     }
 
-    public void setAllowedOrigins(String[] allowedOrigins) {
-      this.allowedOrigins = Arrays.copyOf(allowedOrigins, allowedOrigins.length);
+    public void setAllowedOrigins(List<String> allowedOrigins) {
+      this.allowedOrigins = allowedOrigins;
     }  
   }
 }
