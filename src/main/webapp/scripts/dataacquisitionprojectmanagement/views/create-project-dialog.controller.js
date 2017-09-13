@@ -2,8 +2,9 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('CreateProjectDialogController', function($scope, $mdDialog) {
-
+  .controller('CreateProjectDialogController', function($scope, $mdDialog,
+    $rootScope) {
+    $scope.bowser = $rootScope.bowser;
     /* Close Dialog without return value for hiding */
     $scope.closeDialog = function() {
       $mdDialog.cancel();

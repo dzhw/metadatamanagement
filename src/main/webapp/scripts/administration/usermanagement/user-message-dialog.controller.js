@@ -2,7 +2,8 @@
 
 angular.module('metadatamanagementApp')
   .controller('UserMessageDialogController', function($scope, $mdDialog,
-    WebSocketService) {
+    WebSocketService, $rootScope) {
+    $scope.bowser = $rootScope.bowser;
     $scope.message = {};
 
     $scope.closeDialog = function() {
