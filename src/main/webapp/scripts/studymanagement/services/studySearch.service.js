@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').factory('StudySearchService',
-  function(ElasticSearchClient, $q, LanguageService, CleanJSObjectService,
+  function(ElasticSearchClient, $q, CleanJSObjectService,
     SearchFilterHelperService) {
     var createQueryObject = function() {
       return {
@@ -95,7 +95,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       return ElasticSearchClient.search(query);
     };
 
-    var findSurveySeries = function(term, filter,
+    var findSurveySeries = function(filter,
       dataAcquisitionProjectId) {
       var query = createQueryObject();
       var termFilters = createTermFilters(filter, dataAcquisitionProjectId);
@@ -103,11 +103,18 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       query.body = {
         'size': 0,
         'aggs': {
-            'surveySeries': {
+            'surveySeriesDe': {
                 'terms': {
-                  'field': 'surveySeries.' +
-                    LanguageService.getCurrentInstantly(),
-                  'include': '.*' + term + '.*'
+                  'field': 'surveySeries.de',
+                  'include': '.*.*'
+                },
+                'aggs': {
+                  'surveySeriesEn': {
+                    'terms': {
+                      'field': 'surveySeries.en',
+                      'include': '.*.*'
+                    }
+                  }
                 }
               }
           }
@@ -122,7 +129,20 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       }
 
       return ElasticSearchClient.search(query).then(function(result) {
-        return _.map(result.aggregations.surveySeries.buckets, 'key');
+        var surveySeries = _.map([result.aggregations.surveySeriesDe.buckets],
+          function(buckets) {
+            var bucket;
+            var surveySeriesArray = [];
+            for (bucket of buckets) {
+              var surveySeriesElement = {
+                'de': bucket.key,
+                'en': bucket.surveySeriesEn.buckets[0].key
+              };
+              surveySeriesArray.push(surveySeriesElement);
+            }
+            return surveySeriesArray;
+          });
+        return surveySeries;
       });
     };
 
