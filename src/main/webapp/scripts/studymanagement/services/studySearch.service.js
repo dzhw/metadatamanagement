@@ -11,9 +11,11 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       };
     };
 
-    var createTermFilters = function(filter, dataAcquisitionProjectId) {
+    var createTermFilters = function(filterDe, filterEn,
+      dataAcquisitionProjectId) {
       var termFilter;
-      if (!CleanJSObjectService.isNullOrEmpty(filter) ||
+      if (!CleanJSObjectService.isNullOrEmpty(filterDe) ||
+        !CleanJSObjectService.isNullOrEmpty(filterEn) ||
         !CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
         termFilter = [];
       }
@@ -25,9 +27,13 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
         };
         termFilter.push(projectFilter);
       }
-      if (!CleanJSObjectService.isNullOrEmpty(filter)) {
+      if (!CleanJSObjectService.isNullOrEmpty(filterDe)) {
         termFilter = _.concat(termFilter,
-          SearchFilterHelperService.createTermFilters('studies', filter));
+          SearchFilterHelperService.createTermFilters('studies', filterDe));
+      }
+      if (!CleanJSObjectService.isNullOrEmpty(filterEn)) {
+        termFilter = _.concat(termFilter,
+          SearchFilterHelperService.createTermFilters('studies', filterEn));
       }
       return termFilter;
     };
@@ -95,10 +101,11 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       return ElasticSearchClient.search(query);
     };
 
-    var findSurveySeries = function(filter,
+    var findSurveySeries = function(filterDe, filterEn,
       dataAcquisitionProjectId) {
       var query = createQueryObject();
-      var termFilters = createTermFilters(filter, dataAcquisitionProjectId);
+      var termFilters = createTermFilters(filterDe, filterEn,
+        dataAcquisitionProjectId);
 
       query.body = {
         'size': 0,
@@ -133,8 +140,8 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
         var surveySeriesElement = {};
         result.aggregations.surveySeriesDe.buckets.forEach(function(bucket) {
             surveySeriesElement = {
-              de: bucket.key,
-              en: bucket.surveySeriesEn.buckets[0].key
+              'de': bucket.key,
+              'en': bucket.surveySeriesEn.buckets[0].key
             };
             surveySeries.push(surveySeriesElement);
           });
