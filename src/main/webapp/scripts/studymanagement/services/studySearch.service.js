@@ -95,7 +95,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       return ElasticSearchClient.search(query);
     };
 
-    var findSurveySeries = function(term, filter,
+    var findSurveySeries = function(filter,
       dataAcquisitionProjectId) {
       var query = createQueryObject();
       var termFilters = createTermFilters(filter, dataAcquisitionProjectId);
@@ -106,13 +106,13 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
             'surveySeriesDe': {
                 'terms': {
                   'field': 'surveySeries.de',
-                  'include': '.*' + term + '.*'
+                  'include': '.*.*'
                 },
                 'aggs': {
                   'surveySeriesEn': {
                     'terms': {
                       'field': 'surveySeries.en',
-                      'include': '.*' + term + '.*'
+                      'include': '.*.*'
                     }
                   }
                 }
@@ -129,19 +129,14 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       }
 
       return ElasticSearchClient.search(query).then(function(result) {
-        var surveySeries = _.map([result.aggregations.surveySeriesDe.buckets],
-          function(buckets) {
-            var bucket;
-            var surveySeriesArray = [];
-            var surveySeriesElement = {};
-            for (bucket in buckets) {
-              surveySeriesElement = {
-                'de': bucket.key,
-                'en': bucket.surveySeriesEn.buckets[0].key
-              };
-              surveySeriesArray.push(surveySeriesElement);
-            }
-            return surveySeriesArray;
+        var surveySeries = [];
+        var surveySeriesElement = {};
+        result.aggregations.surveySeriesDe.buckets.forEach(function(bucket) {
+            surveySeriesElement = {
+              de: bucket.key,
+              en: bucket.surveySeriesEn.buckets[0].key
+            };
+            surveySeries.push(surveySeriesElement);
           });
         return surveySeries;
       });

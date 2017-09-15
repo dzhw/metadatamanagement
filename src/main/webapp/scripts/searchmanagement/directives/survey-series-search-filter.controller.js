@@ -20,16 +20,16 @@ angular.module('metadatamanagementApp')
         }
         initializing = true;
         if ($scope.currentSearchParams.filter &&
-          $scope.currentSearchParams.filter['survey-series']) {
+          $scope.currentSearchParams.filter['survey-series-de']) {
           $scope.searchSurveySeries(
-            $scope.currentSearchParams.filter['survey-series']).then(
+            $scope.currentSearchParams.filter['survey-series-de']).then(
               function(surveySeries) {
                 if (surveySeries.length === 1) {
                   $scope.currentSurveySeries = surveySeries[0];
                   return;
                 } else if (surveySeries.length > 1) {
                   var index = _.indexOf(surveySeries,
-                    $scope.currentSearchParams.filter['survey-series']);
+                    $scope.currentSearchParams.filter['survey-series-de']);
                   if (index > -1) {
                     $scope.currentSurveySeries = surveySeries[index];
                     return;
@@ -37,7 +37,7 @@ angular.module('metadatamanagementApp')
                 }
                 //survey series was not found
                 $scope.currentSurveySeries =
-                  $scope.currentSearchParams.filter['survey-series'];
+                  $scope.currentSearchParams.filter['survey-series-de'];
                 $timeout(function() {
                   $scope.surveySeriesFilterForm.surveySeriesFilter
                     .$setValidity('md-require-match', false);
@@ -59,17 +59,17 @@ angular.module('metadatamanagementApp')
           $scope.currentSearchParams.filter = {};
         }
         if (surveySeries) {
-          $scope.currentSearchParams.filter['survey-series'] =
-          surveySeries;
+          $scope.currentSearchParams.filter['survey-series-de'] =
+          surveySeries.de;
         } else {
-          delete $scope.currentSearchParams.filter['survey-series'];
+          delete $scope.currentSearchParams.filter['survey-series-de'];
         }
         $scope.surveySeriesChangedCallback();
       };
 
       $scope.searchSurveySeries = function(searchText) {
         var cleanedFilter = _.omit($scope.currentSearchParams.filter,
-          'survey-series');
+          'survey-series-de');
         var currentProjectId = CurrentProjectService.getCurrentProject() ?
           CurrentProjectService.getCurrentProject().id : null;
         if (searchText === lastSearchText &&
@@ -77,8 +77,7 @@ angular.module('metadatamanagementApp')
           lastProjectId === currentProjectId) {
           return lastSearchResult;
         }
-        return StudySearchService.findSurveySeries(
-          searchText, cleanedFilter,
+        return StudySearchService.findSurveySeries(cleanedFilter,
           currentProjectId)
           .then(function(surveySeries) {
             lastSearchText = searchText;
@@ -89,7 +88,7 @@ angular.module('metadatamanagementApp')
           }
         );
       };
-      $scope.$watch('currentSearchParams.filter["survey-series"]',
+      $scope.$watch('currentSearchParams.filter["survey-series-de"]',
         function() {
           init();
         });
