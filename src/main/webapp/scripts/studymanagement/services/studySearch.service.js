@@ -95,7 +95,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       return ElasticSearchClient.search(query);
     };
 
-    var findSurveySeries = function(filter,
+    var findSurveySeries = function(term, filter,
       dataAcquisitionProjectId) {
       var query = createQueryObject();
       var termFilters = createTermFilters(filter, dataAcquisitionProjectId);
@@ -106,13 +106,13 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
             'surveySeriesDe': {
                 'terms': {
                   'field': 'surveySeries.de',
-                  'include': '.*.*'
+                  'include': '.*' + term + '.*'
                 },
                 'aggs': {
                   'surveySeriesEn': {
                     'terms': {
                       'field': 'surveySeries.en',
-                      'include': '.*.*'
+                      'include': '.*' + term + '.*'
                     }
                   }
                 }
@@ -133,8 +133,9 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
           function(buckets) {
             var bucket;
             var surveySeriesArray = [];
-            for (bucket of buckets) {
-              var surveySeriesElement = {
+            var surveySeriesElement = {};
+            for (bucket in buckets) {
+              surveySeriesElement = {
                 'de': bucket.key,
                 'en': bucket.surveySeriesEn.buckets[0].key
               };
