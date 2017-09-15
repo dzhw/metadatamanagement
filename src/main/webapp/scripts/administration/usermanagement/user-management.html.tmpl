@@ -119,8 +119,8 @@
             </div>
         </div>
     </div>
-    <md-card-content>
-        <div class="table-responsive">
+    <md-card-content layout="column">
+        <md-content style="background-color: white;">
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -198,6 +198,14 @@
                     </li>
                 </ul>
             </nav>
-        </div>
+        </md-content>
     </md-card-content>
 </md-card>
+<div class="fdz-fab-button-container" layout="column">
+    <md-button class="md-accent md-fab" ng-click="openUserMessageDialog($event)">
+        <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+            {{'user-management.user-messages.dialog-tooltip.open-create-dialog' | translate}}
+        </md-tooltip>
+        <md-icon md-font-set="material-icons">send</md-icon>
+    </md-button>
+</div>

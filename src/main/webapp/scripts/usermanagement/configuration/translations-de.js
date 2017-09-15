@@ -156,6 +156,20 @@ angular.module('metadatamanagementApp').config(
               }
             }
           }
+        },
+        'user-messages': {
+          'create-title': 'Nachricht an alle Benutzer (gerade online) verfassen',
+          'new-message-title': 'Neue Nachricht von {{sender}}',
+          'message-de-label': 'Nachricht (auf Deutsch)',
+          'message-en-label': 'Nachricht (auf Englisch)',
+          'dialog-tooltip': {
+            'close': 'Klicken, um das Senden der Nachricht abzubrechen.',
+            'send': 'Klicken, um die Nachricht an alle Benutzer zu senden.',
+            'open-create-dialog': 'Klicken, um eine Nachricht an alle Benutzer (gerade online) zu verfassen'
+          },
+          'buttons': {
+            'send': 'Senden'
+          }
         }
       }
       //jscs:enable

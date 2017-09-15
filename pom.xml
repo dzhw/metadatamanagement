@@ -5,7 +5,7 @@
     <parent>
         <artifactId>spring-boot-starter-parent</artifactId>
         <groupId>org.springframework.boot</groupId>
-        <version>1.5.6.RELEASE</version>
+        <version>1.5.7.RELEASE</version>
         <relativePath />
     </parent>
 
@@ -107,6 +107,20 @@
             <version>${dropwizard-metrics.version}</version>
         </dependency>
         <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.1.15.Final</version>
+        </dependency>
+        <!-- Reactor for websocket relay to MQ -->
+        <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-net</artifactId>
+        </dependency>
+        <dependency>
             <groupId>io.searchbox</groupId>
             <artifactId>jest</artifactId>
         </dependency>
@@ -201,6 +215,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
         <!-- security -->
         <dependency>
             <groupId>org.springframework.security</groupId>
@@ -252,7 +270,7 @@
         </resources>
         <pluginManagement>
             <plugins>
-                <!--This plugin's configuration is used to store Eclipse m2e settings
+                <!--This plugin's configuration is used to store Eclipse m2e settings 
 					only. It has no influence on the Maven build itself. -->
                 <plugin>
                     <groupId>org.eclipse.m2e</groupId>
@@ -438,7 +456,7 @@
             <plugin>
                 <groupId>org.bsc.maven</groupId>
                 <artifactId>maven-processor-plugin</artifactId>
-                <version>3.3.1</version>
+                <version>3.3.2</version>
                 <executions>
                     <execution>
                         <id>process2</id>
@@ -503,7 +521,7 @@
                         <configuration>
                             <!-- Sets the path to the file which contains the execution data. -->
                             <destFile>${project.testresult.directory}/coverage/jacoco/jacoco.exec</destFile>
-                            <!-- Sets the name of the property containing the settings for JaCoCo
+                            <!-- Sets the name of the property containing the settings for JaCoCo 
 								runtime agent. -->
                             <propertyName>surefireArgLine</propertyName>
                             <excludes>
@@ -513,7 +531,7 @@
                             </excludes>
                         </configuration>
                     </execution>
-                    <!-- Ensures that the code coverage report for unit tests is created
+                    <!-- Ensures that the code coverage report for unit tests is created 
 						after unit tests have been run -->
                     <execution>
                         <id>post-unit-test</id>
@@ -591,10 +609,6 @@
                     </plugin>
                 </plugins>
             </build>
-            <properties>
-                <!-- log configuration -->
-                <logback.loglevel>DEBUG</logback.loglevel>
-            </properties>
             <dependencies>
                 <dependency>
                     <groupId>org.springframework.boot</groupId>
@@ -646,15 +660,11 @@
                     <plugin>
                         <artifactId>maven-war-plugin</artifactId>
                         <configuration>
-                            <warSourceExcludes>/index.html,%regex[bower_components/(?!angular-i18n).*],/scripts/**,/assets/**</warSourceExcludes>
+                            <warSourceExcludes>/index.html,%regex[bower_components/(?!angular-i18n|sockjs-client).*],/scripts/**,/assets/**</warSourceExcludes>
                         </configuration>
                     </plugin>
                 </plugins>
             </build>
-            <properties>
-                <!-- log configuration -->
-                <logback.loglevel>INFO</logback.loglevel>
-            </properties>
         </profile>
         <profile>
             <id>test</id>
@@ -699,15 +709,11 @@
                     <plugin>
                         <artifactId>maven-war-plugin</artifactId>
                         <configuration>
-                            <warSourceExcludes>/index.html,%regex[bower_components/(?!angular-i18n).*],/scripts/**,/assets/**</warSourceExcludes>
+                            <warSourceExcludes>/index.html,%regex[bower_components/(?!angular-i18n|sockjs-client).*],/scripts/**,/assets/**</warSourceExcludes>
                         </configuration>
                     </plugin>
                 </plugins>
             </build>
-            <properties>
-                <!-- log configuration -->
-                <logback.loglevel>INFO</logback.loglevel>
-            </properties>
         </profile>
         <profile>
             <id>prod</id>
@@ -752,15 +758,11 @@
                     <plugin>
                         <artifactId>maven-war-plugin</artifactId>
                         <configuration>
-                            <warSourceExcludes>/index.html,%regex[bower_components/(?!angular-i18n).*],/scripts/**,/assets/**</warSourceExcludes>
+                            <warSourceExcludes>/index.html,%regex[bower_components/(?!angular-i18n|sockjs-client).*],/scripts/**,/assets/**</warSourceExcludes>
                         </configuration>
                     </plugin>
                 </plugins>
             </build>
-            <properties>
-                <!-- log configuration -->
-                <logback.loglevel>INFO</logback.loglevel>
-            </properties>
         </profile>
     </profiles>
 </project>

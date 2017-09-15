@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties.ElasticsearchAngularClient;
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties.ElasticsearchClient;
+import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties.Rabbitmq;
 
 /**
  * @author Daniel Katzberg
@@ -52,5 +53,20 @@ public class MetadataManagementPropertiesTest {
     assertThat(angularClient.getLogLevel(), is("info"));
     assertThat(angularClient.getApiVersion(), is("5.1"));
     assertThat(angularClient.getUrl(), is("http://localhost:1234"));
+  }
+  
+  @Test
+  public void testRabittmqConfiguration() {
+    // Arrange
+    MetadataManagementProperties managementProperties = new MetadataManagementProperties();
+
+    // Act
+    Rabbitmq rabbitmq = managementProperties.getRabbitmq();
+    rabbitmq.setUri("amqp://rreitmann:hurz@rhino.rmq.cloudamqp.com/virtual");
+    
+    assertThat(rabbitmq.getUsername(), is("rreitmann"));
+    assertThat(rabbitmq.getPassword(), is("hurz"));
+    assertThat(rabbitmq.getHost(), is("rhino.rmq.cloudamqp.com"));
+    assertThat(rabbitmq.getVirtualHost(), is("virtual"));
   }
 }

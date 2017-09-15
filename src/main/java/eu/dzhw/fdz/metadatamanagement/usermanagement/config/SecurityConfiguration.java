@@ -42,6 +42,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     web.ignoring()
       .antMatchers("/scripts/**/*.{js,html}")
       .antMatchers("/bower_components/**")
+      .antMatchers("/websocket/**")
       .antMatchers("/i18n/**")
       .antMatchers("/assets/**")
       .antMatchers("/api/register")

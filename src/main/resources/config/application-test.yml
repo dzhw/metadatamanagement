@@ -38,3 +38,6 @@ metadatamanagement:
     endpoint: ${vcap.services.dara.credentials.endpoint}
     username: ${vcap.services.dara.credentials.username}
     password: ${vcap.services.dara.credentials.password}
+  websockets:
+    allowed-origins: 
+      - https://metadatamanagement-test.cfapps.io

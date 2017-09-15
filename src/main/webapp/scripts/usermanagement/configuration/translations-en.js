@@ -156,6 +156,20 @@ angular.module('metadatamanagementApp').config(
               }
             }
           }
+        },
+        'user-messages': {
+          'create-title': 'Create Message to all Users (currently online)',
+          'new-message-title': 'New Message from {{sender}}',
+          'message-de-label': 'Notification (in German)',
+          'message-en-label': 'Notification (in English)',
+          'dialog-tooltip': {
+            'close': 'Click to cancel sending a message',
+            'send': 'Click to send the message to all users (currently online)',
+            'open-create-dialog': 'Click to create a message to all users (currently online)'
+          },
+          'buttons': {
+            'send': 'Send'
+          }
         }
       }
       //jscs:enable

@@ -36,9 +36,7 @@ exports.config = {
       'platform': 'Windows 10',
       'browserName': 'MicrosoftEdge',
       'version': 'latest',
-      'screenResolution': '1280x1024',
-      'elementScrollBehavior': 1,
-      'nativeEvents': false
+      'screenResolution': '1280x1024'
     }, {
       'name': 'Win10/IE11',
       'platform': 'Windows 10',

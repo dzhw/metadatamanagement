@@ -1,6 +1,11 @@
 package eu.dzhw.fdz.metadatamanagement.common.config;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.searchbox.client.JestClient;
@@ -23,6 +28,10 @@ public class MetadataManagementProperties {
       new ElasticsearchAngularClient();
 
   private final Dara dara = new Dara();
+  
+  private final Rabbitmq rabbitmq = new Rabbitmq();
+  
+  private final Websockets websockets = new Websockets();
 
   public ElasticsearchClient getElasticsearchClient() {
     return elasticsearchClient;
@@ -34,6 +43,14 @@ public class MetadataManagementProperties {
 
   public Dara getDara() {
     return dara;
+  }
+  
+  public Rabbitmq getRabbitmq() {
+    return rabbitmq;
+  }
+  
+  public Websockets getWebsockets() {
+    return websockets;
   }
 
   /**
@@ -141,5 +158,66 @@ public class MetadataManagementProperties {
     public void setPassword(String password) {
       this.password = password;
     }
+  }
+  
+  /**
+   * Configuration Properties for RabbitMQ (ignored in LOCAL mode).
+   */
+  public static class Rabbitmq {
+    private String uri;
+    private String username;
+    private String password;
+    private String host;
+    private String virtualHost;
+
+    public String getUri() {
+      return uri;
+    }
+
+    /**
+     * Set the uri and decode its components.
+     * @param uri connection uri of the rabbitmq service
+     */
+    public void setUri(String uri) {
+      this.uri = uri;
+      UriComponents uriComponents = UriComponentsBuilder.fromUriString(uri).build();
+      this.host = uriComponents.getHost();
+      this.virtualHost = uriComponents.getPath().replaceFirst("/", "");
+      this.username = uriComponents.getUserInfo().split(":")[0];
+      this.password = uriComponents.getUserInfo().split(":")[1];
+    }
+
+    public String getUsername() {
+      return username;
+    }
+
+    public String getPassword() {
+      return password;
+    }
+
+    public String getHost() {
+      return host;
+    }
+
+    public String getVirtualHost() {
+      return virtualHost;
+    }
+  }
+  
+  /**
+   * Allowed origins for web socket connections.
+   * 
+   * @author René Reitmann
+   */
+  public static class Websockets {
+    private List<String> allowedOrigins = new ArrayList<String>();
+
+    public List<String> getAllowedOrigins() {
+      return allowedOrigins;
+    }
+
+    public void setAllowedOrigins(List<String> allowedOrigins) {
+      this.allowedOrigins = allowedOrigins;
+    }  
   }
 }

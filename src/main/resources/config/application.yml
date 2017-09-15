@@ -32,6 +32,11 @@ spring:
       multipart:
         max-file-size: 10MB
         max-request-size: 15MB
+        
+logging:
+  level:
+    root: warn
+    eu.dzhw.fdz.metadatamanagement: info
 
 server:
     port: 8080

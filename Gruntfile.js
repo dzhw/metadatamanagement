@@ -279,7 +279,10 @@ module.exports = function(grunt) {
             'fdz-select-search-input',
             'fdz-clear-input',
             'boundary-link-numbers',
-            'fdz-hyphenate'
+            'fdz-hyphenate',
+            'md-no-asterisk',
+            'multiple',
+            'md-auto-hide'
           ]
         },
         files: {
