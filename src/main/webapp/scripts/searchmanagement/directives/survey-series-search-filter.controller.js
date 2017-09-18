@@ -37,36 +37,39 @@ angular.module('metadatamanagementApp')
           $scope.searchSurveySeries(currentFilterByLanguage)
             .then(function(surveySeries) {
 
-                if (!$scope.currentSurveySeries) {
-                  $scope.currentSurveySeries = {};
-                }
-
                 if (surveySeries.length === 1) {
                   $scope.currentSurveySeries = surveySeries[0];
                   return;
                 } else if (surveySeries.length > 1) {
-                  var index = _.indexOf(surveySeries, currentFilterByLanguage);
-                  if (index > -1) {
-                    $scope.currentSurveySeries = surveySeries[index];
-                    return;
-                  }
+                  surveySeries.forEach(function(surveySerie) {
+                    if (surveySerie[LanguageService.getCurrentInstantly()] ===
+                      currentFilterByLanguage) {
+                      $scope.currentSurveySeries = surveySerie;
+                      return;
+                    }
+                  });
                 }
+
                 //survey series was not found
-                $scope.currentSurveySeries.de =
-                  $scope.currentSearchParams.filter['survey-series-de'];
-                $scope.currentSurveySeries.en =
-                    $scope.currentSearchParams.filter['survey-series-en'];
-                $timeout(function() {
+                if (!$scope.currentSurveySeries) {
+                  $scope.currentSurveySeries = {};
+                  $scope.currentSurveySeries.de =
+                    $scope.currentSearchParams.filter['survey-series-de'];
+                  $scope.currentSurveySeries.en =
+                      $scope.currentSearchParams.filter['survey-series-en'];
+                  $timeout(function() {
+                    $scope.surveySeriesFilterForm.surveySeriesFilter
+                      .$setValidity('md-require-match', false);
+                  }, 500);
                   $scope.surveySeriesFilterForm.surveySeriesFilter
-                    .$setValidity('md-require-match', false);
-                }, 500);
-                $scope.surveySeriesFilterForm.surveySeriesFilter
-                  .$setTouched();
+                    .$setTouched();
+                }
               });
         } else {
           initializing = false;
         }
       };
+
       $scope.onSelectionChanged = function(surveySeries) {
         if (initializing) {
           initializing = false;
