@@ -38,7 +38,7 @@ angular.module('metadatamanagementApp')
                   }
                 }
                 //survey series was not found
-                $scope.currentSurveySeries =
+                $scope.currentSurveySeries[language] =
                   $scope.currentSearchParams.filter['survey-series-' +
                   language];
                 $timeout(function() {
@@ -98,13 +98,13 @@ angular.module('metadatamanagementApp')
           }
         );
       };
-      $scope.$watch('currentSearchParams.filter["survey-series-de"]',
-        function() {
-          init('de');
-        });
       $scope.$watch('currentSearchParams.filter["survey-series-en"]',
         function() {
           init('en');
+        });
+      $scope.$watch('currentSearchParams.filter["survey-series-de"]',
+        function() {
+          init('de');
         });
     }
   ]);
