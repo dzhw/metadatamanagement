@@ -11,7 +11,7 @@ exports.config = {
     sauceUser: process.env.SAUCE_USERNAME,
     sauceKey: process.env.SAUCE_ACCESS_KEY,
     sauceBuild: process.env.TRAVIS_BUILD_NUMBER,
-    rootElement: 'html',
+    rootElement: '[ng-app]',
     baseUrl: 'https://metadatamanagement-dev.cfapps.io/',
     specs: [
       'home/home.spec.js',
