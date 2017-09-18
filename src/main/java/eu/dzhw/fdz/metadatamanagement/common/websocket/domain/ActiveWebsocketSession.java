@@ -22,6 +22,14 @@ public class ActiveWebsocketSession {
   
   private String ipAddress;
   
+  private String browser;
+  
+  private String browserMajorVersion;
+  
+  private String clientOs;
+  
+  private String clientOsVersion;
+  
   private Set<String> stompVersions;
   
   private LocalDateTime connectedAt;
@@ -72,7 +80,39 @@ public class ActiveWebsocketSession {
   public void setConnectedAt(LocalDateTime connectedAt) {
     this.connectedAt = connectedAt;
   }
-  
+   
+  public String getBrowser() {
+    return browser;
+  }
+
+  public void setBrowser(String browser) {
+    this.browser = browser;
+  }
+
+  public String getBrowserMajorVersion() {
+    return browserMajorVersion;
+  }
+
+  public void setBrowserMajorVersion(String browserMajorVersion) {
+    this.browserMajorVersion = browserMajorVersion;
+  }
+
+  public String getClientOs() {
+    return clientOs;
+  }
+
+  public void setClientOs(String clientOs) {
+    this.clientOs = clientOs;
+  }
+
+  public String getClientOsVersion() {
+    return clientOsVersion;
+  }
+
+  public void setClientOsVersion(String clientOsVersion) {
+    this.clientOsVersion = clientOsVersion;
+  }
+
   @Override
   public int hashCode() {
     return Objects.hashCode(this.getId());
@@ -95,6 +135,10 @@ public class ActiveWebsocketSession {
     return MoreObjects.toStringHelper(this)
       .add("id", id)
       .add("ipAddress", ipAddress)
+      .add("browser", browser)
+      .add("browserMajorVersion", browserMajorVersion)
+      .add("clientOs", clientOs)
+      .add("clientOsVersion", clientOsVersion)
       .add("stompVersions", stompVersions)
       .add("connectedAt", connectedAt)
       .toString();
