@@ -4,8 +4,9 @@
 angular.module('metadatamanagementApp')
   .controller('SurveySeriesSearchFilterController', [
     '$scope', 'StudySearchService', '$timeout', 'CurrentProjectService',
+    'LanguageService',
     function($scope, StudySearchService, $timeout,
-        CurrentProjectService) {
+        CurrentProjectService, LanguageService) {
       // prevent survey-series changed events during init
       var initializing = true;
       var selectionChanging = false;
@@ -14,33 +15,47 @@ angular.module('metadatamanagementApp')
       var lastFilterEn;
       var lastProjectId;
       var lastSearchResult;
-      var init = function(language) {
+      var currentFilterByLanguage;
+      var init = function() {
         if (selectionChanging) {
           selectionChanging = false;
           return;
         }
         initializing = true;
         if ($scope.currentSearchParams.filter &&
-          $scope.currentSearchParams.filter['survey-series-' +  language]) {
-          $scope.searchSurveySeries(
-            $scope.currentSearchParams.filter['survey-series-' + language])
+          $scope.currentSearchParams.filter['survey-series-de'] &&
+          $scope.currentSearchParams.filter['survey-series-en']) {
+
+          if (LanguageService.getCurrentInstantly() === 'de') {
+            currentFilterByLanguage =
+              $scope.currentSearchParams.filter['survey-series-de'];
+          } else {
+            currentFilterByLanguage =
+              $scope.currentSearchParams.filter['survey-series-en'];
+          }
+
+          $scope.searchSurveySeries(currentFilterByLanguage)
             .then(function(surveySeries) {
+
+                if (!$scope.currentSurveySeries) {
+                  $scope.currentSurveySeries = {};
+                }
+
                 if (surveySeries.length === 1) {
                   $scope.currentSurveySeries = surveySeries[0];
                   return;
                 } else if (surveySeries.length > 1) {
-                  var index = _.indexOf(surveySeries,
-                    $scope.currentSearchParams.filter['survey-series-' +
-                    language]);
+                  var index = _.indexOf(surveySeries, currentFilterByLanguage);
                   if (index > -1) {
                     $scope.currentSurveySeries = surveySeries[index];
                     return;
                   }
                 }
                 //survey series was not found
-                $scope.currentSurveySeries[language] =
-                  $scope.currentSearchParams.filter['survey-series-' +
-                  language];
+                $scope.currentSurveySeries.de =
+                  $scope.currentSearchParams.filter['survey-series-de'];
+                $scope.currentSurveySeries.en =
+                    $scope.currentSearchParams.filter['survey-series-en'];
                 $timeout(function() {
                   $scope.surveySeriesFilterForm.surveySeriesFilter
                     .$setValidity('md-require-match', false);
@@ -98,13 +113,10 @@ angular.module('metadatamanagementApp')
           }
         );
       };
-      $scope.$watch('currentSearchParams.filter["survey-series-en"]',
+      $scope.$watch(['currentSearchParams.filter["survey-series-de"]',
+        'currentSearchParams.filter["survey-series-en"]'],
         function() {
-          init('en');
-        });
-      $scope.$watch('currentSearchParams.filter["survey-series-de"]',
-        function() {
-          init('de');
+          init();
         });
     }
   ]);

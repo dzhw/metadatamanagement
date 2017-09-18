@@ -5,11 +5,26 @@ angular.module('metadatamanagementApp')
   .controller('SearchFilterPanelController', [
     '$scope', 'SearchFilterHelperService', '$timeout', 'StudyIdBuilderService',
     'CurrentProjectService', '$element', 'CleanJSObjectService', '$mdSelect',
+    'LanguageService',
     function($scope, SearchFilterHelperService, $timeout,
       StudyIdBuilderService, CurrentProjectService, $element,
-      CleanJSObjectService, $mdSelect) {
+      CleanJSObjectService, $mdSelect, LanguageService) {
       var elasticSearchTypeChanged = false;
       $scope.filtersCollapsed = false;
+
+      var checkForI18nFilter = function(filter) {
+        var i18nCleanedFilter = {};
+        var i18nFilterEnding = '-' + LanguageService.getCurrentInstantly();
+        for (var property in filter) {
+          //add i18n free filter name
+          if (filter.hasOwnProperty(property) &&
+            property.endsWith(i18nFilterEnding)) {
+            i18nCleanedFilter[property.slice(0, -3)] = filter[property];
+          }
+          i18nCleanedFilter[property] = filter[property];
+        }
+        return i18nCleanedFilter;
+      };
 
       var selectStudyForProject = function() {
         if (!_.includes($scope.availableFilters, 'study')) {
@@ -39,10 +54,21 @@ angular.module('metadatamanagementApp')
         );
         $scope.selectedFilters = [];
         if ($scope.currentSearchParams.filter) {
-          $scope.selectedFilters = _.intersection(
-            _.keys($scope.currentSearchParams.filter),
-            _.union($scope.availableFilters, $scope.availableHiddenFilters)
-          );
+
+          //Check for I18nFilter
+          var i18nFilter =
+            checkForI18nFilter($scope.currentSearchParams.filter);
+          if (i18nFilter) {
+            $scope.selectedFilters = _.intersection(
+              _.keys(i18nFilter),
+              _.union($scope.availableFilters, $scope.availableHiddenFilters)
+            );
+          } else {
+            $scope.selectedFilters = _.intersection(
+              _.keys($scope.currentSearchParams.filter),
+              _.union($scope.availableFilters, $scope.availableHiddenFilters)
+            );
+          }
         }
         selectStudyForProject();
         $timeout(function() {
