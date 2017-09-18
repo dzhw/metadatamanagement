@@ -14,7 +14,8 @@ angular.module('metadatamanagementApp').service('FdzWelcomeDialogService',
               showCheckbox: !openByNavbarFeedbackButton
             },
             clickOutsideToClose: true,
-            closeTo: '#feedBackButton'
+            closeTo: '#feedBackButton',
+            fullscreen: true
           });
         }
       };

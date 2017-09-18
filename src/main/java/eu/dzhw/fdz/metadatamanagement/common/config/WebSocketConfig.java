@@ -72,7 +72,7 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
         WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
       if (request instanceof ServletServerHttpRequest) {
         ServletServerHttpRequest servletRequest = (ServletServerHttpRequest) request;
-        attributes.put(IP_ADDRESS, servletRequest.getRemoteAddress());
+        attributes.put(IP_ADDRESS, servletRequest.getRemoteAddress().getAddress());
       }
       return true;
     }

@@ -78,7 +78,8 @@ angular.module('metadatamanagementApp')
             controller: 'CreateProjectDialogController',
             templateUrl: 'scripts/dataacquisitionprojectmanagement/' +
               'views/create-project-dialog.html.tmpl',
-            clickOutsideToClose: false
+            clickOutsideToClose: false,
+            fullscreen: true
           })
           .then(function(project) {
             project.hasBeenReleasedBefore = false;

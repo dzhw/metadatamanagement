@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').factory('WebSocketService',
   function($timeout, $mdDialog, ENV, $location, localStorageService,
-    $translate, LanguageService) {
+    $translate, LanguageService, ClientJS) {
       var socket = null;
       var stompClient = null;
 
@@ -35,11 +35,18 @@ angular.module('metadatamanagementApp').factory('WebSocketService',
         if (ENV !== 'local') {
           stompClient.debug = null;
         }
-        stompClient.connect({'test': 'test'}, function() {
-          stompClient.subscribe('/topic/user-messages', function(data) {
-            displayUserMessage(angular.fromJson(data.body));
-          });
-        }, function() {
+        stompClient.connect(
+          {
+            'browser': ClientJS.getBrowser(),
+            'browser-major-version': ClientJS.getBrowserMajorVersion(),
+            'client-os': ClientJS.getOS(),
+            'client-os-version': ClientJS.getOSVersion()
+          },
+          function() {
+            stompClient.subscribe('/topic/user-messages', function(data) {
+              displayUserMessage(angular.fromJson(data.body));
+            });
+          }, function() {
           $timeout(connect, 10000);
         });
       };

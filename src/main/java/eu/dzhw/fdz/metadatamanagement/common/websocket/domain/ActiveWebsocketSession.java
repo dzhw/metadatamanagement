@@ -38,13 +38,22 @@ public class ActiveWebsocketSession {
    * Generate a new session.
    * @param id The websockets session id
    * @param ipAddress the remote ipaddress of the user
+   * @param browser the clients browser
+   * @param browserMajorVersion the clients browser version
+   * @param clientOs the name of the clients operation system
+   * @param clientOsVersion the version of the clients operationg system
    * @param connectedAt the date and time when the connection has been established
    */
-  public ActiveWebsocketSession(String id, String ipAddress, 
+  public ActiveWebsocketSession(String id, String ipAddress, String browser,
+      String browserMajorVersion, String clientOs, String clientOsVersion,
       Set<String> stompVersions, LocalDateTime connectedAt) {
     super();
     this.id = id;
     this.ipAddress = ipAddress;
+    this.browser = browser;
+    this.browserMajorVersion = browserMajorVersion;
+    this.clientOs = clientOs;
+    this.clientOsVersion = clientOsVersion;
     this.stompVersions = stompVersions;
     this.connectedAt = connectedAt;
   }
