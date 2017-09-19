@@ -5,23 +5,26 @@ angular.module('metadatamanagementApp')
   .controller('SearchFilterPanelController', [
     '$scope', 'SearchFilterHelperService', '$timeout', 'StudyIdBuilderService',
     'CurrentProjectService', '$element', 'CleanJSObjectService', '$mdSelect',
-    'LanguageService',
     function($scope, SearchFilterHelperService, $timeout,
       StudyIdBuilderService, CurrentProjectService, $element,
-      CleanJSObjectService, $mdSelect, LanguageService) {
+      CleanJSObjectService, $mdSelect) {
       var elasticSearchTypeChanged = false;
       $scope.filtersCollapsed = false;
 
-      var checkForI18nFilter = function(filter) {
-        var i18nCleanedFilter = {};
-        var i18nFilterEnding = '-' + LanguageService.getCurrentInstantly();
-        for (var property in filter) {
+      var mapI18nFilter = function(filter) {
+        var i18nCleanedFilter = [];
+        var i18nDeEnding = '-de';
+        var i18nEnEnding = '-en';
+        var index;
+        for (index = 0; index < filter.length; ++index) {
           //add i18n free filter name
-          if (filter.hasOwnProperty(property) &&
-            property.endsWith(i18nFilterEnding)) {
-            i18nCleanedFilter[property.slice(0, -3)] = filter[property];
+          if (filter[index].endsWith(i18nDeEnding)) {
+            i18nCleanedFilter.push(filter[index].slice(0, -3));
+          } else if (filter[index].endsWith(i18nEnEnding)) {
+            //do nothing, that removes the en ending
+          } else {
+            i18nCleanedFilter.push(filter[index]);
           }
-          i18nCleanedFilter[property] = filter[property];
         }
         return i18nCleanedFilter;
       };
@@ -56,19 +59,13 @@ angular.module('metadatamanagementApp')
         if ($scope.currentSearchParams.filter) {
 
           //Check for I18nFilter
-          var i18nFilter =
-            checkForI18nFilter($scope.currentSearchParams.filter);
-          if (i18nFilter) {
-            $scope.selectedFilters = _.intersection(
-              _.keys(i18nFilter),
-              _.union($scope.availableFilters, $scope.availableHiddenFilters)
-            );
-          } else {
-            $scope.selectedFilters = _.intersection(
-              _.keys($scope.currentSearchParams.filter),
-              _.union($scope.availableFilters, $scope.availableHiddenFilters)
-            );
-          }
+          var i18nFreeFilter =
+            mapI18nFilter($scope.availableFilters);
+          $scope.availableFilters = i18nFreeFilter;
+          $scope.selectedFilters = _.intersection(
+            _.keys($scope.currentSearchParams.filter),
+            _.union($scope.availableFilters, $scope.availableHiddenFilters)
+          );
         }
         selectStudyForProject();
         $timeout(function() {

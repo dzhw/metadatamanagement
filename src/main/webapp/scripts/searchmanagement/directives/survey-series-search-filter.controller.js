@@ -20,10 +20,18 @@ angular.module('metadatamanagementApp')
 
       //Search Method for Survey Series, call Elasticsearch
       $scope.searchSurveySeries = function(searchText) {
-        var cleanedFilterDe = _.omit($scope.currentSearchParams.filter,
+        var cleanedFilterDe = _.pick($scope.currentSearchParams.filter,
           'survey-series-de');
-        var cleanedFilterEn = _.omit($scope.currentSearchParams.filter,
+        var cleanedFilterEn = _.pick($scope.currentSearchParams.filter,
           'survey-series-en');
+        var cleanedFilter;
+
+        if (LanguageService.getCurrentInstantly() === 'de') {
+          cleanedFilter = cleanedFilterDe;
+        } else {
+          cleanedFilter = cleanedFilterEn;
+        }
+
         var currentProjectId = CurrentProjectService.getCurrentProject() ?
           CurrentProjectService.getCurrentProject().id : null;
         if (searchText === lastSearchText &&
@@ -32,6 +40,20 @@ angular.module('metadatamanagementApp')
           lastProjectId === currentProjectId) {
           return lastSearchResult;
         }
+
+        //TODO DKatzberg Delete?
+        /*return SearchDao.search(searchText, 1,
+            currentProjectId, cleanedFilter,
+            'studies',
+            100).then(function(data) {
+              lastSearchText = searchText;
+              lastFilter = _.cloneDeep(cleanedFilter);
+              lastProjectId = currentProjectId;
+              lastSearchResult = data.hits.hits;
+              return data.hits.hits;
+            }
+          );*/
+
         //Search Call to Elasticsearch
         return StudySearchService.findSurveySeries(cleanedFilterDe,
           cleanedFilterEn, currentProjectId)

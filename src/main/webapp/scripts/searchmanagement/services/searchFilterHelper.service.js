@@ -3,14 +3,12 @@
 
 angular.module('metadatamanagementApp').factory(
   'SearchFilterHelperService',
-  function(CleanJSObjectService, LanguageService) {
+  function(CleanJSObjectService) {
     var keyMapping = {
       'studies': {
         'survey': 'surveys.id',
-        'survey-series': {
-          'de': 'surveySeries.de',
-          'en': 'surveySeries.en'
-        },
+        'survey-series-de': 'surveySeries.de',
+        'survey-series-en': 'surveySeries.en',
         'instrument': 'instruments.id',
         'question': 'questions.id',
         'data-set': 'dataSets.id',
@@ -105,16 +103,8 @@ angular.module('metadatamanagementApp').factory(
             var subKeyMapping = keyMapping[elasticsearchType];
             key = subKeyMapping[key] ||
               hiddenFiltersKeyMapping[elasticsearchType][key];
-            if (key) {
-              if (typeof key === 'object') {
-                var i18nKey = key[LanguageService.getCurrentInstantly()];
-                //I18n Case
-                filterKeyValue.term[i18nKey] = value;
-              } else {
-                filterKeyValue.term[key] = value;
-              }
-              termFilters.push(filterKeyValue);
-            }
+            filterKeyValue.term[key] = value;
+            termFilters.push(filterKeyValue);
           }
         });
         return termFilters;

@@ -101,6 +101,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       return ElasticSearchClient.search(query);
     };
 
+    //TODO DKatzberg Delete ?
     var findSurveySeries = function(filterDe, filterEn,
       dataAcquisitionProjectId) {
       var query = createQueryObject();
