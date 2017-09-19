@@ -1,21 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<configuration scan="true">
-    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <charset>utf-8</charset>
-            <Pattern>[%p] %c - %m%n</Pattern>
-        </encoder>
-    </appender>
-    <logger name="eu.dzhw.fdz.metadatamanagement" level="ERROR"/>
-    <logger name="org.elasticsearch" level="WARN"/>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml" />
     <logger name="org.springframework" level="WARN"/>
-    <logger name="org.thymeleaf" level="WARN"/>
-    <logger name="org.hibernate.ejb.HibernatePersistence" level="ERROR"/>
-    <logger name="org.apache.catalina.startup.DigesterFactory" level="ERROR"/>
-
-    <root level="WARN">
-        <appender-ref ref="CONSOLE"/>
-    </root>
-
+    <logger name="eu.dzhw.fdz.metadatamanagement" level="WARN"/>
 </configuration>

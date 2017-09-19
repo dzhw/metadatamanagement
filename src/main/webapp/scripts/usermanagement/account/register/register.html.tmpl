@@ -31,19 +31,19 @@
             <form ng-show="!success" name="form" novalidate ng-submit="register()" show-validation>
 
                 <div class="form-group">
-                    <label for="login" data-translate="global.form.username">Username</label>
-                    <input type="text" class="form-control" id="login" name="login" placeholder="{{'global.form.username-placeholder' | translate}}" ng-model="registerAccount.login" ng-minlength=1 ng-maxlength=50 ng-pattern="/^[a-z0-9]*$/" required>
-                    <div ng-show="form.login.$dirty && form.login.$invalid">
-                        <p class="help-block" ng-show="form.login.$error.required" data-translate="user-management.register.messages.validate.login.required">
+                    <label for="username" data-translate="global.form.username">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="{{'global.form.username-placeholder' | translate}}" ng-model="registerAccount.login" ng-minlength=1 ng-maxlength=50 ng-pattern="/^[a-z0-9]*$/" required>
+                    <div ng-show="form.username.$dirty && form.username.$invalid">
+                        <p class="help-block" ng-show="form.username.$error.required" data-translate="user-management.register.messages.validate.login.required">
                             Your username is required.
                         </p>
-                        <p class="help-block" ng-show="form.login.$error.minlength" data-translate="user-management.register.messages.validate.login.minlength">
+                        <p class="help-block" ng-show="form.username.$error.minlength" data-translate="user-management.register.messages.validate.login.minlength">
                             Your username is required to be at least 1 character.
                         </p>
-                        <p class="help-block" ng-show="form.login.$error.maxlength" data-translate="user-management.register.messages.validate.login.maxlength">
+                        <p class="help-block" ng-show="form.username.$error.maxlength" data-translate="user-management.register.messages.validate.login.maxlength">
                             Your username cannot be longer than 50 characters.
                         </p>
-                        <p class="help-block" ng-show="form.login.$error.pattern" data-translate="user-management.register.messages.validate.login.pattern">
+                        <p class="help-block" ng-show="form.username.$error.pattern" data-translate="user-management.register.messages.validate.login.pattern">
                             Your username can only contain lower-case letters and digits.
                         </p>
                     </div>

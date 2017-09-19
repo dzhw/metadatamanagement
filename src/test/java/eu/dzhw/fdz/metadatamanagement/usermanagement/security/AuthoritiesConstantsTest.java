@@ -13,8 +13,6 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.junit.Test;
 
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
-
 /**
  * No Integration Test. No need for application Context.
  * 

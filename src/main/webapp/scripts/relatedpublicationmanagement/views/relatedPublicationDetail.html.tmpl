@@ -1,6 +1,6 @@
 <div ng-if="ctrl.relatedPublication.id">
     <div layout="row" style="margin-bottom: 0px;" layout-margin>
-        <h1 class="md-headline" style="margin-left: 0px;" lang="{{ctrl.relatedPublication.language}}">{{ctrl.relatedPublication.title}} <span class="label label-as-badge label-default">{{ctrl.relatedPublication.id}}</span></h1>
+        <h1 class="md-headline" style="margin-left: 0px;" lang="{{ctrl.relatedPublication.language}}" fdz-hyphenate>{{ctrl.relatedPublication.title}} <span class="label label-as-badge label-default">{{ctrl.relatedPublication.id}}</span></h1>
     </div>
     <div layout="column" layout-gt-sm="row">
         <div flex-gt-sm="50" layout="column">
@@ -212,13 +212,13 @@
         <md-card flex class="fdz-reset-top-margin">
             <md-card-header layout-align="center center">
                 <md-card-header-text>
-                    <h2 class="md-title">{{'related-publication-management.detail.abstract' | translate }}</h2>
+                    <h2 class="md-title">{{'related-publication-management.detail.abstract' | translate | fdzHyphenate }}</h2>
                 </md-card-header-text>
             </md-card-header>
             <md-divider></md-divider>
             <md-card-content>
-                <div class="fdz-add-bottom-margin">
-                    <span lang="{{ctrl.relatedPublication.language}}">{{ctrl.relatedPublication.publicationAbstract}}</span>
+                <div class="fdz-add-bottom-margin fdz-text-block">
+                    <span lang="{{ctrl.relatedPublication.language}}" fdz-hyphenate>{{ctrl.relatedPublication.publicationAbstract}}</span>
                 </div>
                 <div class="fdz-add-bottom-margin" ng-if="ctrl.relatedPublication.abstractSource">
                     <span style="font-weight: bold;">{{'related-publication-management.detail.abstract-source' | translate }}:

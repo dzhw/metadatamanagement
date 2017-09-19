@@ -767,3 +767,18 @@ md-input-container.fdz-filter-select.md-input-has-value label {
 input::-ms-clear {
     display: none;
 }
+
+.fdz-hyphenate {
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+}
+
+.fdz-text-block {
+    text-align: justify;
+}
+
+.md-dialog-content-body {
+  white-space: pre-line;
+}

@@ -1,6 +1,6 @@
 <div ng-if="ctrl.dataSet.id" flex ngf-drop="ctrl.uploadTexTemplate($files)" ngf-multiple="true" ngf-include-dir="false" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-drop-disabled="!ctrl.isAuthenticated() || !ctrl.hasAuthority('ROLE_PUBLISHER')">
     <div layout="row" style="margin-bottom: 0px;" layout-margin>
-        <h1 class="md-headline" style="margin-left: 0px;"><span display-i18n-string="ctrl.dataSet.description"></span> <span class="label label-as-badge label-default">{{ctrl.dataSet.id}}</span></h1>
+        <h1 class="md-headline" style="margin-left: 0px;"><span display-i18n-string="ctrl.dataSet.description" fdz-hyphenate></span> <span class="label label-as-badge label-default">{{ctrl.dataSet.id}}</span></h1>
     </div>
     <div layout="column" layout-gt-sm="row">
         <div flex-gt-sm="50" layout="column">
@@ -14,15 +14,15 @@
                 <md-card-content>
                     <div class="fdz-add-bottom-margin" ng-if="ctrl.dataSet.type">
                         <span style="font-weight: bold;">{{'data-set-management.detail.type' | translate }}:</span>
-                        <span display-i18n-string="ctrl.dataSet.type"></span>
+                        <span display-i18n-string="ctrl.dataSet.type" fdz-hyphenate></span>
                     </div>
                     <div class="fdz-add-bottom-margin" ng-if="ctrl.dataSet.format">
                         <span style="font-weight: bold;">{{'data-set-management.detail.format' | translate }}:</span>
                         <span display-i18n-string="ctrl.dataSet.format"></span>
                     </div>
-                    <div class="fdz-add-bottom-margin" ng-if="ctrl.dataSet.annotations">
+                    <div class="fdz-add-bottom-margin fdz-text-block" ng-if="ctrl.dataSet.annotations">
                         <span style="font-weight: bold;">{{'data-set-management.detail.annotations' | translate }}:</span>
-                        <span display-i18n-string="ctrl.dataSet.annotations"></span>
+                        <span display-i18n-string="ctrl.dataSet.annotations" fdz-hyphenate></span>
                     </div>
                 </md-card-content>
             </md-card>
@@ -149,7 +149,7 @@
         <md-card flex class="fdz-reset-top-margin">
             <md-card-header layout-align="center center">
                 <md-card-header-text>
-                    <h2 class="md-title">{{'data-set-management.detail.sub-data-sets.title' | translate }}</h2>
+                    <h2 class="md-title">{{'data-set-management.detail.sub-data-sets.title' | translate | fdzHyphenate }}</h2>
                 </md-card-header-text>
             </md-card-header>
             <table fdz-table>
@@ -191,7 +191,7 @@
                 <tbody>
                     <tr ng-repeat="row in ctrl.dataSet.subDataSets">
                         <td class="fdz-table-nowrap">{{row.accessWay}}</td>
-                        <td display-i18n-string="row.description"></td>
+                        <td display-i18n-string="row.description" fdz-hyphenate class="fdz-text-block"></td>
                         <td class="fdz-table-nowrap">{{row.name}}&nbsp;</td>
                         <td ng-class="{'fdz-table-number' : ctrl.counts.variablesCount > 0}"><span ng-if="ctrl.counts.variablesCount == 0">{{'data-set-management.detail.sub-data-sets.unknownNumberOfAnalyzedVariables' | translate }}</span>
                             <a ng-if="ctrl.counts.variablesCount > 0" ui-sref="search({'type': 'variables', 'data-set':ctrl.dataSet.id, 'study': ctrl.dataSet.studyId, 'access-way': row.accessWay,'sort-by': 'indexInDataSet'})">
@@ -214,12 +214,11 @@
         </md-card>
     </div>
 
-
     <div layout="row">
         <md-card ng-if="ctrl.attachments" flex class="fdz-reset-top-margin">
             <md-card-header layout-align="center center">
                 <md-card-header-text>
-                    <h2 class="md-title">{{'data-set-management.detail.attachments.table-title' | translate }}</h2>
+                    <h2 class="md-title">{{'data-set-management.detail.attachments.table-title' | translate | fdzHyphenate }}</h2>
                 </md-card-header-text>
             </md-card-header>
             <table fdz-table>
@@ -250,7 +249,7 @@
                 <tbody>
                     <tr ng-repeat="row in ctrl.attachments">
                         <td lang="{{row.language}}">{{row.title}}&nbsp;</td>
-                        <td display-i18n-string="row.description"></td>
+                        <td display-i18n-string="row.description" fdz-hyphenate class="fdz-text-block"></td>
                         <td>{{row.language | displayIsoLanguage: currentLanguage}}&nbsp;</td>
                         <td><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                             {{'global.tooltips.files.download' | translate:{filename: row.fileName} }}

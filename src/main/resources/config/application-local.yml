@@ -32,6 +32,10 @@ spring:
     resources:
       static-locations:
         - file:src/main/webapp/
+        
+logging:
+    level:
+      eu.dzhw.fdz.metadatamanagement: debug
 
 # ===================================================================
 # JHipster specific properties
@@ -57,3 +61,6 @@ metadatamanagement:
     endpoint: ${DARA_ENDPOINT}
     username: ${DARA_USERNAME}
     password: ${DARA_PASSWORD}
+  websockets:
+    allowed-origins: 
+      - "*"

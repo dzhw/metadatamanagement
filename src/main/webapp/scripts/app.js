@@ -1,4 +1,4 @@
-/* global bowser, event */
+/* global bowser, event, ClientJS */
 'use strict';
 
 angular
@@ -15,7 +15,9 @@ angular
 
 .run(
     function($rootScope, $location, $state, LanguageService, Auth, Principal,
-      ENV, VERSION, $mdMedia, $transitions, $timeout, $window) {
+      ENV, VERSION, $mdMedia, $transitions, $timeout, $window,
+      WebSocketService) {
+      WebSocketService.connect();
       $rootScope.bowser = bowser;
       $rootScope.ENV = ENV;
       $rootScope.VERSION = VERSION;
@@ -283,4 +285,7 @@ angular
     .value('duScrollDuration', 500)
     .value('duScrollEasing', function easeInCubic(t) {
         return t * t * t;
-      });
+      })
+    //use a fake sessionId for consistent shard routing
+    .constant('clientId', new ClientJS().getFingerprint())
+    .constant('ClientJS', new ClientJS());

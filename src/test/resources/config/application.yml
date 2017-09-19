@@ -37,6 +37,12 @@ spring:
     thymeleaf:
         mode: XHTML
 
+logging:
+    level:
+      root: warn
+      eu.dzhw.fdz.metadatamanagement: error
+      org.springframework: error
+
 security:
     basic:
         enabled: false
@@ -54,7 +60,7 @@ metadatamanagement:
     url: http://localhost:9234
     read-timeout: 60000
   dara:
-    endpoint: dara_endpoint 
+    endpoint: dara_endpoint
     username: dara_username
     password: dara_password
 

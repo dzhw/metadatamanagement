@@ -3,7 +3,8 @@
 angular.module('metadatamanagementApp')
   .controller('ReleaseProjectDialogController', function($scope, $mdDialog,
     project, SimpleMessageToastService, DataAcquisitionProjectResource,
-    DaraReleaseResource) {
+    DaraReleaseResource, $rootScope) {
+    $scope.bowser = $rootScope.bowser;
     $scope.project = project;
     var i18nPrefix = 'data-acquisition-project-management.log-messages.' +
       'data-acquisition-project.';

@@ -1,6 +1,6 @@
 <div ng-if="ctrl.survey.id">
     <div layout="row" style="margin-bottom: 0px;" layout-margin>
-        <h1 class="md-headline" style="margin-left: 0px;"><span display-i18n-string="ctrl.survey.title"></span> <span class="label label-as-badge label-default">{{ctrl.survey.id}}</span></h1>
+        <h1 class="md-headline" style="margin-left: 0px;"><span display-i18n-string="ctrl.survey.title" fdz-hyphenate></span> <span class="label label-as-badge label-default">{{ctrl.survey.id}}</span></h1>
     </div>
     <div layout="column" layout-gt-sm="row">
         <div flex-gt-sm="50" layout="column">
@@ -12,21 +12,21 @@
                 </md-card-header>
                 <md-divider></md-divider>
                 <md-card-content>
-                  <div class="fdz-add-bottom-margin" ng-if="ctrl.survey.population">
+                  <div class="fdz-add-bottom-margin fdz-text-block" ng-if="ctrl.survey.population">
                     <span style="font-weight: bold;">{{'survey-management.detail.population' | translate }}:</span>
-                    <span display-i18n-string="ctrl.survey.population"></span>
-                  </div>                  
+                    <span display-i18n-string="ctrl.survey.population" fdz-hyphenate></span>
+                  </div>
                   <div class="fdz-add-bottom-margin" ng-if="ctrl.survey.dataType">
                     <span style="font-weight: bold;">{{'survey-management.detail.data-type' | translate }}:</span>
-                    <span display-i18n-string="ctrl.survey.dataType"></span>
+                    <span display-i18n-string="ctrl.survey.dataType" fdz-hyphenate></span>
                   </div>
                   <div class="fdz-add-bottom-margin" ng-if="ctrl.survey.sample">
                     <span style="font-weight: bold;">{{'survey-management.detail.sample' | translate }}:</span>
-                    <span display-i18n-string="ctrl.survey.sample"></span>
+                    <span display-i18n-string="ctrl.survey.sample" fdz-hyphenate></span>
                   </div>
                   <div class="fdz-add-bottom-margin" ng-if="ctrl.survey.surveyMethod">
                     <span style="font-weight: bold;">{{'survey-management.detail.survey-method' | translate }}:</span>
-                    <span display-i18n-string="ctrl.survey.surveyMethod"></span>
+                    <span display-i18n-string="ctrl.survey.surveyMethod" fdz-hyphenate></span>
                   </div>
                   <div class="fdz-add-bottom-margin" ng-if="ctrl.survey.fieldPeriod">
                     <span style="font-weight: bold;">{{'survey-management.detail.field-period' | translate }}:</span>
@@ -44,9 +44,9 @@
                     <span style="font-weight: bold;">{{'survey-management.detail.responseRate' | translate }}:</span>
                     <span>{{ctrl.survey.responseRate | number}}%</span>
                   </div>
-                  <div class="fdz-add-bottom-margin" ng-if="ctrl.survey.annotations">
+                  <div class="fdz-add-bottom-margin fdz-text-block" ng-if="ctrl.survey.annotations">
                       <span style="font-weight: bold;">{{'survey-management.detail.annotations' | translate }}:</span>
-                      <span display-i18n-string="ctrl.survey.annotations"></span>
+                      <span display-i18n-string="ctrl.survey.annotations" fdz-hyphenate></span>
                   </div>
                 </md-card-content>
             </md-card>
@@ -173,7 +173,7 @@
         <md-card ng-if="ctrl.attachments" flex class="fdz-reset-top-margin">
             <md-card-header layout-align="center center">
                 <md-card-header-text>
-                    <h2 class="md-title">{{'survey-management.detail.attachments.table-title' | translate }}</h2>
+                    <h2 class="md-title">{{'survey-management.detail.attachments.table-title' | translate | fdzHyphenate }}</h2>
                 </md-card-header-text>
             </md-card-header>
             <table fdz-table>
@@ -203,8 +203,8 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="row in ctrl.attachments">
-                        <td lang="{{row.language}}">{{row.title}}&nbsp;</td>
-                        <td display-i18n-string="row.description"></td>
+                        <td lang="{{row.language}}" fdz-hyphenate>{{row.title}}&nbsp;</td>
+                        <td display-i18n-string="row.description" fdz-hyphenate class="fdz-text-block"></td>
                         <td>{{row.language | displayIsoLanguage: currentLanguage}}&nbsp;</td>
                         <td><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                             {{'global.tooltips.files.download' | translate: {filename: row.fileName} }}
@@ -219,12 +219,12 @@
             <md-card ng-hide="!ctrl.imgResolved" class="fdz-reset-top-margin">
                 <md-card-header>
                     <md-card-header-text>
-                        <h2 class="md-title">{{'survey-management.detail.response-rate-informations' | translate }}</h2>
+                        <h2 class="md-title">{{'survey-management.detail.response-rate-informations' | translate | fdzHyphenate }}</h2>
                     </md-card-header-text>
                 </md-card-header>
                 <md-divider></md-divider>
                 <a ng-href="{{'/public/files/surveys/' + ctrl.survey.id + '/' + ctrl.survey.number + '_responserate_' + currentLanguage + '.svg'}}" target="_blank">
-                    <img data-fdz-onload="ctrl.setImgResolved()" alt="{{'survey-management.detail.response-rate-informations-alt-text' | translate}}" style="width:100%;height:100%;top:0;left:0;bottom:0;right:0;" ng-src="{{'/public/files/surveys/' + ctrl.survey.id + '/' + ctrl.survey.number + '_responserate_' + currentLanguage + '.svg'}}" />
+                    <img data-fdz-onload="ctrl.setImgResolved()" alt="{{'survey-management.detail.response-rate-informations-alt-text' | translate}}" style="width:100%;top:0;left:0;bottom:0;right:0;" ng-src="{{'/public/files/surveys/' + ctrl.survey.id + '/' + ctrl.survey.number + '_responserate_' + currentLanguage + '.svg'}}" />
                     <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                         {{'global.tooltips.images' | translate}}
                     </md-tooltip>

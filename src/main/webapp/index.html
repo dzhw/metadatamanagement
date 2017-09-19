@@ -59,10 +59,6 @@
             </md-content>
         </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-sham.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.3/es6-shim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.3/es6-sham.min.js"></script>
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
@@ -112,6 +108,15 @@
     <script src="bower_components/angular-file-saver/dist/angular-file-saver.bundle.js"></script>
     <script src="bower_components/clientjs/dist/client.min.js"></script>
     <script src="bower_components/angular-scroll/angular-scroll.js"></script>
+    <script src="bower_components/sockjs-client/dist/sockjs.js"></script>
+    <script src="bower_components/stomp-websocket/lib/stomp.min.js"></script>
+    <script src="bower_components/hyphenator/Hyphenator.js"></script>
+    <script src="bower_components/hyphenator/patterns/de.js"></script>
+    <script src="bower_components/hyphenator/patterns/en-us.js"></script>
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/es5-shim/es5-sham.js"></script>
+    <script src="bower_components/es6-shim/es6-shim.js"></script>
+    <script src="bower_components/es6-shim/es6-sham.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -140,6 +145,7 @@
     <script src="scripts/administration/usermanagement/user-management.controller.js"></script>
     <script src="scripts/administration/usermanagement/user-management.js"></script>
     <script src="scripts/administration/usermanagement/user.resource.js"></script>
+    <script src="scripts/administration/usermanagement/user-message-dialog.controller.js"></script>
 
     <script src="scripts/usermanagement/configuration/translations-de.js"></script>
     <script src="scripts/usermanagement/configuration/translations-en.js"></script>
@@ -207,6 +213,9 @@
     <script src="scripts/common/fdzwelcomedialog/services/fdz-welcome-dialog.js"></script>
     <script src="scripts/common/input/fdz-clear-input.directive.js"></script>
     <script src="scripts/common/input/fdz-select-search-input.directive.js"></script>
+    <script src="scripts/common/hyphenator/fdz-hyphenate.directive.js"></script>
+    <script src="scripts/common/hyphenator/fdz-hyphenate.filter.js"></script>
+    <script src="scripts/common/websocket/websocket.service.js"></script>
 
     <script src="scripts/filemanagement/resources/file.resource.js"></script>
     <script src="scripts/filemanagement/services/zipReader.service.js"></script>

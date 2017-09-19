@@ -29,7 +29,8 @@ angular.module('metadatamanagementApp').config(
             'mail': 'Email',
             'mongo': 'MongoDB',
             'elasticsearch': 'ElasticSearch',
-            'dara': 'Dara'
+            'dara': 'Dara',
+            'messageBroker': 'Message Broker (for Websockets)'
           },
           'table': {
             'service': 'Service name',

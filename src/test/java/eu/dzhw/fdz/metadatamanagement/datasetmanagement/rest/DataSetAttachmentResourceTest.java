@@ -27,6 +27,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetAttachmentService;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
@@ -39,6 +40,9 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
   
   @Autowired
   private DataSetRepository dataSetRepository;
+  
+  @Autowired
+  private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
 
   private MockMvc mockMvc;
 
@@ -52,6 +56,7 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
   public void cleanUp() {
     this.dataSetRepository.deleteAll();
     this.dataSetAttachmentService.deleteAll();
+    this.elasticsearchUpdateQueueItemRepository.deleteAll();
   }
 
   @Test
