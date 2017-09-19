@@ -1,11 +1,9 @@
 <md-dialog aria-label="{{'data-acquisition-project-management.home.createLabel' | translate}}" class="md-inline-form">
     <md-toolbar>
-        <div class="md-toolbar-tools">
-            <div flex>
-                <h2 class="fdz-truncate-string">
-                    <span>{{'data-acquisition-project-management.home.createLabel' | translate}}</span>
-                </h2>
-            </div>
+        <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+            <h2 class="fdz-truncate-string">
+                <span>{{'data-acquisition-project-management.home.createLabel' | translate}}</span>
+            </h2>
             <md-button class="md-icon-button" ng-click="closeDialog()">
                 <md-icon md-font-set="material-icons">clear</md-icon>
                 <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">

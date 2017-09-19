@@ -24,6 +24,11 @@ import eu.dzhw.fdz.metadatamanagement.common.websocket.repository.ActiveWebSocke
 @Component
 public class WebSocketConnectionListener {
   
+  private static final String BROWSER = "browser";
+  private static final String BROWSER_MAJOR_VERSION = "browser-major-version";
+  private static final String CLIENT_OS = "client-os";
+  private static final String CLIENT_OS_VERSION = "client-os-version";
+  
   @Autowired
   private ActiveWebSocketSessionRepository activeWebSocketSessionRepository;
 
@@ -40,6 +45,10 @@ public class WebSocketConnectionListener {
     ActiveWebsocketSession session = new ActiveWebsocketSession(
         sha.getSessionId(), 
         sha.getSessionAttributes().get(WebSocketConfig.IP_ADDRESS).toString(),
+        sha.getFirstNativeHeader(BROWSER),
+        sha.getFirstNativeHeader(BROWSER_MAJOR_VERSION),
+        sha.getFirstNativeHeader(CLIENT_OS),
+        sha.getFirstNativeHeader(CLIENT_OS_VERSION),
         sha.getAcceptVersion(),
         LocalDateTime.now());
     activeWebSocketSessionRepository.save(session);

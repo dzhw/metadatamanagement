@@ -11,13 +11,12 @@ exports.config = {
     sauceUser: process.env.SAUCE_USERNAME,
     sauceKey: process.env.SAUCE_ACCESS_KEY,
     sauceBuild: process.env.TRAVIS_BUILD_NUMBER,
-    rootElement: 'html',
     baseUrl: 'https://metadatamanagement-dev.cfapps.io/',
     specs: [
       'home/home.spec.js',
       'disclosure/disclosure.spec.js',
       'common/navbar.spec.js',
-      'common/toolbar.spec.js',
+      'common/toolbar.spec.js'
     ],
     multiCapabilities: [{
       'name': 'Win10/Chrome',
@@ -31,17 +30,17 @@ exports.config = {
       'browserName': 'firefox',
       'screenResolution': '1280x1024',
       'version': '54.0'
-    }, {
+    }, /*{
       'name': 'Win10/Edge',
       'platform': 'Windows 10',
       'browserName': 'MicrosoftEdge',
       'version': 'latest',
       'screenResolution': '1280x1024'
-    }, {
+    },*/ {
       'name': 'Win10/IE11',
       'platform': 'Windows 10',
       'browserName': 'internet explorer',
-      'version': '11.0',
+      'version': 'latest',
       'screenResolution': '1280x1024'
     }],
     //enable this for local tests without selenium

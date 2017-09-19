@@ -22,6 +22,14 @@ public class ActiveWebsocketSession {
   
   private String ipAddress;
   
+  private String browser;
+  
+  private String browserMajorVersion;
+  
+  private String clientOs;
+  
+  private String clientOsVersion;
+  
   private Set<String> stompVersions;
   
   private LocalDateTime connectedAt;
@@ -30,13 +38,22 @@ public class ActiveWebsocketSession {
    * Generate a new session.
    * @param id The websockets session id
    * @param ipAddress the remote ipaddress of the user
+   * @param browser the clients browser
+   * @param browserMajorVersion the clients browser version
+   * @param clientOs the name of the clients operation system
+   * @param clientOsVersion the version of the clients operationg system
    * @param connectedAt the date and time when the connection has been established
    */
-  public ActiveWebsocketSession(String id, String ipAddress, 
+  public ActiveWebsocketSession(String id, String ipAddress, String browser,
+      String browserMajorVersion, String clientOs, String clientOsVersion,
       Set<String> stompVersions, LocalDateTime connectedAt) {
     super();
     this.id = id;
     this.ipAddress = ipAddress;
+    this.browser = browser;
+    this.browserMajorVersion = browserMajorVersion;
+    this.clientOs = clientOs;
+    this.clientOsVersion = clientOsVersion;
     this.stompVersions = stompVersions;
     this.connectedAt = connectedAt;
   }
@@ -72,7 +89,39 @@ public class ActiveWebsocketSession {
   public void setConnectedAt(LocalDateTime connectedAt) {
     this.connectedAt = connectedAt;
   }
-  
+   
+  public String getBrowser() {
+    return browser;
+  }
+
+  public void setBrowser(String browser) {
+    this.browser = browser;
+  }
+
+  public String getBrowserMajorVersion() {
+    return browserMajorVersion;
+  }
+
+  public void setBrowserMajorVersion(String browserMajorVersion) {
+    this.browserMajorVersion = browserMajorVersion;
+  }
+
+  public String getClientOs() {
+    return clientOs;
+  }
+
+  public void setClientOs(String clientOs) {
+    this.clientOs = clientOs;
+  }
+
+  public String getClientOsVersion() {
+    return clientOsVersion;
+  }
+
+  public void setClientOsVersion(String clientOsVersion) {
+    this.clientOsVersion = clientOsVersion;
+  }
+
   @Override
   public int hashCode() {
     return Objects.hashCode(this.getId());
@@ -95,6 +144,10 @@ public class ActiveWebsocketSession {
     return MoreObjects.toStringHelper(this)
       .add("id", id)
       .add("ipAddress", ipAddress)
+      .add("browser", browser)
+      .add("browserMajorVersion", browserMajorVersion)
+      .add("clientOs", clientOs)
+      .add("clientOsVersion", clientOsVersion)
       .add("stompVersions", stompVersions)
       .add("connectedAt", connectedAt)
       .toString();

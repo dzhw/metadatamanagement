@@ -287,4 +287,5 @@ angular
         return t * t * t;
       })
     //use a fake sessionId for consistent shard routing
-    .constant('clientId', new ClientJS().getFingerprint());
+    .constant('clientId', new ClientJS().getFingerprint())
+    .constant('ClientJS', new ClientJS());

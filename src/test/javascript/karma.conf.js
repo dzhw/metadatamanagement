@@ -64,6 +64,10 @@ module.exports = function(config) {
       'src/main/webapp/bower_components/hyphenator/Hyphenator.js',
       'src/main/webapp/bower_components/hyphenator/patterns/de.js',
       'src/main/webapp/bower_components/hyphenator/patterns/en-us.js',
+      'src/main/webapp/bower_components/es5-shim/es5-shim.js',
+      'src/main/webapp/bower_components/es5-shim/es5-sham.js',
+      'src/main/webapp/bower_components/es6-shim/es6-shim.js',
+      'src/main/webapp/bower_components/es6-shim/es6-sham.js',
       'src/main/webapp/bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'src/main/webapp/bower_components/elasticsearch/elasticsearch.angular.js',

@@ -8,6 +8,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
+import eu.dzhw.fdz.metadatamanagement.common.websocket.repository.ActiveWebSocketSessionRepository;
 
 /**
  * Ping the message broker (rabbitMq when running in the cloud) for the health check.
@@ -20,11 +21,22 @@ public class MessageBrokerHealthIndicator extends AbstractHealthIndicator {
   private final SimpMessagingTemplate messagingTemplate;
   
   private final Environment env;
-
+  
+  private final ActiveWebSocketSessionRepository activeWebSocketSessionRepository;
+  
+  /**
+   * Create the health indicator.
+   * 
+   * @param messagingTemplate the messaging template for pinging the broker.
+   * @param env the environment for getting the active profiles
+   * @param activeWebSocketSessionRepository the repository for counting the active sessions
+   */
   @Autowired
-  public MessageBrokerHealthIndicator(SimpMessagingTemplate messagingTemplate, Environment env) {
+  public MessageBrokerHealthIndicator(SimpMessagingTemplate messagingTemplate, Environment env,
+      ActiveWebSocketSessionRepository activeWebSocketSessionRepository) {
     this.messagingTemplate = messagingTemplate;
     this.env = env;
+    this.activeWebSocketSessionRepository = activeWebSocketSessionRepository;
   }
 
   @Override
@@ -34,6 +46,7 @@ public class MessageBrokerHealthIndicator extends AbstractHealthIndicator {
     } else {
       builder.withDetail("Message Broker", "CloudAMQP (RabbitMQ)");
     }
+    builder.withDetail("Active Websocket Sessions", activeWebSocketSessionRepository.count());
     messagingTemplate.convertAndSend("/topic", "Ping");
     builder.up();      
   }

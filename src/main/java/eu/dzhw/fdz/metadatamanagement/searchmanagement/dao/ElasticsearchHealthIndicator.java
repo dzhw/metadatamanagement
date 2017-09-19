@@ -1,10 +1,13 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.health.AbstractHealthIndicator;
 import org.springframework.boot.actuate.health.Health.Builder;
+import org.springframework.stereotype.Component;
 
 import com.google.gson.JsonObject;
 
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
 import io.searchbox.client.JestClient;
 import io.searchbox.client.JestResult;
 import io.searchbox.indices.Stats;
@@ -14,17 +17,22 @@ import io.searchbox.indices.Stats;
  * 
  * @author René Reitmann
  */
+@Component
 public class ElasticsearchHealthIndicator extends AbstractHealthIndicator {
 
   private final JestClient jestClient;
+  
+  private final ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
 
-  public ElasticsearchHealthIndicator(JestClient jestClient) {
+  @Autowired
+  public ElasticsearchHealthIndicator(JestClient jestClient,
+      ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository) {
     this.jestClient = jestClient;
+    this.elasticsearchUpdateQueueItemRepository = elasticsearchUpdateQueueItemRepository;
   }
 
   @Override
   protected void doHealthCheck(Builder builder) throws Exception {
-
     JestResult result = jestClient.execute(new Stats.Builder().addIndex("_all").build());
     JsonObject map = result.getJsonObject();
 
@@ -34,6 +42,8 @@ public class ElasticsearchHealthIndicator extends AbstractHealthIndicator {
     } else {
       builder.down();
     }
+    builder.withDetail("Number of Update Queue Items", 
+        elasticsearchUpdateQueueItemRepository.count());
   }
 
   /**
@@ -50,12 +60,6 @@ public class ElasticsearchHealthIndicator extends AbstractHealthIndicator {
       JsonObject primaries = indexStats.getAsJsonObject("primaries");
       builder.withDetail(indexName + "." + "docs_count",
           primaries.getAsJsonObject("docs").get("count").getAsString());
-      builder.withDetail(indexName + "." + "docs_deleted",
-          primaries.getAsJsonObject("docs").get("deleted").getAsString());
-      builder.withDetail(indexName + "." + "store_size",
-          primaries.getAsJsonObject("store").get("size_in_bytes").getAsString());
-      builder.withDetail(indexName + "." + "query_total",
-          primaries.getAsJsonObject("search").get("query_total").getAsString());
     });
   }
 }

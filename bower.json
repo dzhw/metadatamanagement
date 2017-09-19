@@ -46,7 +46,9 @@
     "angular-scroll": "^1.0.2",
     "sockjs-client": "^1.1.4",
     "stomp-websocket": "^2.3.4",
-    "hyphenator": "rreitmann/Hyphenator#master"
+    "hyphenator": "rreitmann/Hyphenator#master",
+    "es5-shim": "^4.5.9",
+    "es6-shim": "^0.35.3"
   },
   "overrides": {
     "elasticsearch": {
@@ -57,6 +59,18 @@
         "Hyphenator.js",
         "patterns/de.js",
         "patterns/en-us.js"
+      ]
+    },
+    "es5-shim": {
+      "main": [
+        "es5-shim.js",
+        "es5-sham.js"
+      ]
+    },
+    "es6-shim": {
+      "main": [
+        "es6-shim.js",
+        "es6-sham.js"
       ]
     }
   },
