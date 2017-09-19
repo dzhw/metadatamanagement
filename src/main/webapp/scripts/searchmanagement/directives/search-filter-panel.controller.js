@@ -13,15 +13,20 @@ angular.module('metadatamanagementApp')
 
       var mapI18nFilterArray = function(filter) {
         var i18nCleanedFilter = [];
-        var i18nDeEnding = '-de';
-        var i18nEnEnding = '-en';
+        var i18nActualEnding = '-' + $scope.currentLanguage;
+        var i18nAnotherEnding;
+        if (i18nActualEnding === '-de') {
+          i18nAnotherEnding = '-en';
+        } else {
+          i18nAnotherEnding = '-de';
+        }
         var index;
         for (index = 0; index < filter.length; ++index) {
           //add i18n free filter name
-          if (filter[index].endsWith(i18nDeEnding)) {
+          if (filter[index].endsWith(i18nActualEnding)) {
             i18nCleanedFilter.push(filter[index].slice(0, -3));
-          } else if (filter[index].endsWith(i18nEnEnding)) {
-            //do nothing, that removes the en ending
+          } else if (filter[index].endsWith(i18nAnotherEnding)) {
+            //do nothing, that removes the non actual ending
           } else {
             i18nCleanedFilter.push(filter[index]);
           }
@@ -31,20 +36,24 @@ angular.module('metadatamanagementApp')
 
       var mapI18nFilterObject = function(filter) {
         var i18nCleanedFilter = {};
-        var i18nDeEnding = '-de';
-        var i18nEnEnding = '-en';
+        var i18nActualEnding = '-' + $scope.currentLanguage;
+        var i18nAnotherEnding;
+        if (i18nActualEnding === '-de') {
+          i18nAnotherEnding = '-en';
+        } else {
+          i18nAnotherEnding = '-de';
+        }
 
         for (var property in filter) {
           //add i18n free filter name
-          if (property.endsWith(i18nDeEnding)) {
+          if (property.endsWith(i18nActualEnding)) {
             i18nCleanedFilter[property.slice(0, -3)] = filter[property];
-          } else if (property.endsWith(i18nEnEnding)) {
-            //do nothing, that removes the en ending
+          } else if (property.endsWith(i18nAnotherEnding)) {
+            //do nothing, that removes the another, non actual language ending
           } else {
             i18nCleanedFilter[property] = filter[property];
           }
         }
-
         return i18nCleanedFilter;
       };
 
@@ -78,7 +87,6 @@ angular.module('metadatamanagementApp')
         if ($scope.currentSearchParams.filter) {
           var selectedI18nFreeFilters =
             mapI18nFilterObject($scope.currentSearchParams.filter);
-
 
           //Check for I18nFilter
           var i18nFreeFilter =
