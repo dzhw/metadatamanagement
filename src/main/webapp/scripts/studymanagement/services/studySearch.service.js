@@ -101,10 +101,10 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       return ElasticSearchClient.search(query);
     };
 
-    var findSurveySeries = function(filterDe, filterEn,
+    var findSurveySeries = function(filter,
       dataAcquisitionProjectId) {
       var query = createQueryObject();
-      var termFilters = createTermFilters(filterDe, filterEn,
+      var termFilters = createTermFilters(filter,
         dataAcquisitionProjectId);
 
       query.body = {
