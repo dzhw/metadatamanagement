@@ -29,18 +29,18 @@ exports.config = {
       'platform': 'Windows 10',
       'browserName': 'firefox',
       'screenResolution': '1280x1024',
-      'version': '54.0'
-    }, {
+      'version': 'latest'
+    }, /*{
       'name': 'Win10/Edge',
       'platform': 'Windows 10',
       'browserName': 'MicrosoftEdge',
       'version': 'latest',
       'screenResolution': '1280x1024'
-    }, {
+    },*/ {
       'name': 'Win10/IE11',
       'platform': 'Windows 10',
       'browserName': 'internet explorer',
-      'version': '11.0',
+      'version': 'latest',
       'screenResolution': '1280x1024'
     }],
     //enable this for local tests without selenium
