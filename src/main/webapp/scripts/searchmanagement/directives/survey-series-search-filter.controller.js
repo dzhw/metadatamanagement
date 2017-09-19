@@ -41,19 +41,6 @@ angular.module('metadatamanagementApp')
           return lastSearchResult;
         }
 
-        //TODO DKatzberg Delete?
-        /*return SearchDao.search(searchText, 1,
-            currentProjectId, cleanedFilter,
-            'studies',
-            100).then(function(data) {
-              lastSearchText = searchText;
-              lastFilter = _.cloneDeep(cleanedFilter);
-              lastProjectId = currentProjectId;
-              lastSearchResult = data.hits.hits;
-              return data.hits.hits;
-            }
-          );*/
-
         //Search Call to Elasticsearch
         return StudySearchService.findSurveySeries(cleanedFilterDe,
           cleanedFilterEn, currentProjectId)
