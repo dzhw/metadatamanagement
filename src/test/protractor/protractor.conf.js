@@ -29,8 +29,7 @@ exports.config = {
       'platform': 'Windows 10',
       'browserName': 'firefox',
       'screenResolution': '1280x1024',
-      'version': 'latest',
-      'seleniumVersion': '3.3.1'
+      'version': '54.0'
     }, /*{
       'name': 'Win10/Edge',
       'platform': 'Windows 10',
