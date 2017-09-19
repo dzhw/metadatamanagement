@@ -16,7 +16,7 @@ exports.config = {
       'home/home.spec.js',
       'disclosure/disclosure.spec.js',
       'common/navbar.spec.js',
-      'common/toolbar.spec.js',
+      'common/toolbar.spec.js'
     ],
     multiCapabilities: [{
       'name': 'Win10/Chrome',
@@ -29,7 +29,8 @@ exports.config = {
       'platform': 'Windows 10',
       'browserName': 'firefox',
       'screenResolution': '1280x1024',
-      'version': 'latest'
+      'version': 'latest',
+      'seleniumVersion': '3.3.1'
     }, /*{
       'name': 'Win10/Edge',
       'platform': 'Windows 10',
