@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp')
       var elasticSearchTypeChanged = false;
       $scope.filtersCollapsed = false;
 
-      var mapI18nFilter = function(filter) {
+      var mapI18nFilterArray = function(filter) {
         var i18nCleanedFilter = [];
         var i18nDeEnding = '-de';
         var i18nEnEnding = '-en';
@@ -26,6 +26,25 @@ angular.module('metadatamanagementApp')
             i18nCleanedFilter.push(filter[index]);
           }
         }
+        return i18nCleanedFilter;
+      };
+
+      var mapI18nFilterObject = function(filter) {
+        var i18nCleanedFilter = {};
+        var i18nDeEnding = '-de';
+        var i18nEnEnding = '-en';
+
+        for (var property in filter) {
+          //add i18n free filter name
+          if (property.endsWith(i18nDeEnding)) {
+            i18nCleanedFilter[property.slice(0, -3)] = filter[property];
+          } else if (property.endsWith(i18nEnEnding)) {
+            //do nothing, that removes the en ending
+          } else {
+            i18nCleanedFilter[property] = filter[property];
+          }
+        }
+
         return i18nCleanedFilter;
       };
 
@@ -57,13 +76,16 @@ angular.module('metadatamanagementApp')
         );
         $scope.selectedFilters = [];
         if ($scope.currentSearchParams.filter) {
+          var selectedI18nFreeFilters =
+            mapI18nFilterObject($scope.currentSearchParams.filter);
+
 
           //Check for I18nFilter
           var i18nFreeFilter =
-            mapI18nFilter($scope.availableFilters);
+            mapI18nFilterArray($scope.availableFilters);
           $scope.availableFilters = i18nFreeFilter;
           $scope.selectedFilters = _.intersection(
-            _.keys($scope.currentSearchParams.filter),
+            _.keys(selectedI18nFreeFilters),
             _.union($scope.availableFilters, $scope.availableHiddenFilters)
           );
         }
