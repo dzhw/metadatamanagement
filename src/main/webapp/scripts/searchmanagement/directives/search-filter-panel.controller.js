@@ -36,6 +36,8 @@ angular.module('metadatamanagementApp')
 
       var mapI18nFilterObject = function(filter) {
         var i18nCleanedFilter = {};
+        var foundActualEnding = false;
+        var foundAnotherEnding = false;
         var i18nActualEnding = '-' + $scope.currentLanguage;
         var i18nAnotherEnding;
         if (i18nActualEnding === '-de') {
@@ -48,12 +50,20 @@ angular.module('metadatamanagementApp')
           //add i18n free filter name
           if (property.endsWith(i18nActualEnding)) {
             i18nCleanedFilter[property.slice(0, -3)] = filter[property];
+            foundActualEnding = true;
           } else if (property.endsWith(i18nAnotherEnding)) {
             //do nothing, that removes the another, non actual language ending
+            foundAnotherEnding = true;
           } else {
             i18nCleanedFilter[property] = filter[property];
           }
         }
+
+        if (!foundActualEnding && foundAnotherEnding) {
+          //Load the another String
+          //TODO DKatzberg: Concept of Proof: Hardcoded Search SurveySeries
+        }
+
         return i18nCleanedFilter;
       };
 

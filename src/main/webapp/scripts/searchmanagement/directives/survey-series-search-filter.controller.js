@@ -30,8 +30,8 @@ angular.module('metadatamanagementApp')
         }
 
         //Search Call to Elasticsearch
-        return StudySearchService.findSurveySeries(cleanedFilter,
-          currentProjectId)
+        return StudySearchService.findSurveySeries(searchText, '',
+        cleanedFilter, currentProjectId)
           .then(function(surveySeries) {
             lastSearchText = searchText;
             lastFilter = _.cloneDeep(cleanedFilter);

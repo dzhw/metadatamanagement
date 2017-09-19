@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').factory('StudySearchService',
   function(ElasticSearchClient, $q, CleanJSObjectService,
-    SearchFilterHelperService) {
+    SearchFilterHelperService, LanguageService) {
     var createQueryObject = function() {
       return {
         index: 'studies',
@@ -101,11 +101,23 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       return ElasticSearchClient.search(query);
     };
 
-    var findSurveySeries = function(filter,
-      dataAcquisitionProjectId) {
+    var findSurveySeries = function(searchTermCurrentLanguage,
+      searchTermAnotherLanguage, filter, dataAcquisitionProjectId) {
+
       var query = createQueryObject();
       var termFilters = createTermFilters(filter,
         dataAcquisitionProjectId);
+      var currentLanguage = LanguageService.getCurrentInstantly();
+      var searchTermDe;
+      var searchTermEn;
+
+      if (currentLanguage === 'de') {
+        searchTermDe = searchTermCurrentLanguage;
+        searchTermEn = searchTermAnotherLanguage;
+      } else {
+        searchTermEn = searchTermCurrentLanguage;
+        searchTermDe = searchTermAnotherLanguage;
+      }
 
       query.body = {
         'size': 0,
@@ -113,13 +125,13 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
             'surveySeriesDe': {
                 'terms': {
                   'field': 'surveySeries.de',
-                  'include': '.*.*'
+                  'include': '.*' + searchTermDe + '.*'
                 },
                 'aggs': {
                   'surveySeriesEn': {
                     'terms': {
                       'field': 'surveySeries.en',
-                      'include': '.*.*'
+                      'include': '.*' + searchTermEn + '.*'
                     }
                   }
                 }
