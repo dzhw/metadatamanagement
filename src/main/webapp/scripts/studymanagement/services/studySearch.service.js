@@ -11,11 +11,9 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       };
     };
 
-    var createTermFilters = function(filterDe, filterEn,
-      dataAcquisitionProjectId) {
+    var createTermFilters = function(filter, dataAcquisitionProjectId) {
       var termFilter;
-      if (!CleanJSObjectService.isNullOrEmpty(filterDe) ||
-        !CleanJSObjectService.isNullOrEmpty(filterEn) ||
+      if (!CleanJSObjectService.isNullOrEmpty(filter) ||
         !CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
         termFilter = [];
       }
@@ -27,13 +25,9 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
         };
         termFilter.push(projectFilter);
       }
-      if (!CleanJSObjectService.isNullOrEmpty(filterDe)) {
+      if (!CleanJSObjectService.isNullOrEmpty(filter)) {
         termFilter = _.concat(termFilter,
           SearchFilterHelperService.createTermFilters('studies', filterDe));
-      }
-      if (!CleanJSObjectService.isNullOrEmpty(filterEn)) {
-        termFilter = _.concat(termFilter,
-          SearchFilterHelperService.createTermFilters('studies', filterEn));
       }
       return termFilter;
     };
@@ -50,55 +44,6 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
           }
         });
       return deferred;
-    };
-    var findStudies = function(studyIds, selectedAttributes) {
-      var query = createQueryObject();
-      query.body = {};
-      query.body.query = {};
-      query.body._source = selectedAttributes;
-      query.body.query.docs = {
-        'ids': studyIds
-      };
-      return ElasticSearchClient.mget(query);
-    };
-    var findStudy = function(studyId, selectedAttributes) {
-      var query = createQueryObject();
-      query.body = {};
-      query.body._source = selectedAttributes;
-      query.body.query = {
-        'bool': {
-          'must': [{
-            'match_all': {}
-          }],
-          'filter': [{
-            'term': {
-              '_id': studyId
-            }
-          }]
-        }
-      };
-      return ElasticSearchClient.search(query);
-    };
-
-    var findOneByProjectId = function(dataAcquisitionProjectId,
-      selectedAttributes) {
-      var query = createQueryObject();
-      query.body = {};
-      query.body.size = 1;
-      query.body._source = selectedAttributes;
-      query.body.query = {
-        'bool': {
-          'must': [{
-            'match_all': {}
-          }],
-          'filter': [{
-            'term': {
-              'dataAcquisitionProjectId': dataAcquisitionProjectId
-            }
-          }]
-        }
-      };
-      return ElasticSearchClient.search(query);
     };
 
     var findSurveySeries = function(searchTermCurrentLanguage,
@@ -146,7 +91,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
         };
         query.body.query.bool.filter = termFilters;
       }
-
+      
       return ElasticSearchClient.search(query).then(function(result) {
         var surveySeries = [];
         var surveySeriesElement = {};
@@ -163,9 +108,6 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
 
     return {
       findOneById: findOneById,
-      findStudies: findStudies,
-      findStudy: findStudy,
-      findOneByProjectId: findOneByProjectId,
       findSurveySeries: findSurveySeries
     };
   });

@@ -21,6 +21,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
     var selectedTabChangeIsBeingHandled = false;
     var queryChangeIsBeingHandled = false;
     $scope.isSearching = 0;
+    $scope.surveySeriesLanguageField =
+      'survey-series-' + $scope.currentLanguage;
 
     // set the page title in toolbar and window.title
     PageTitleService.setPageTitle('global.menu.search.title');
