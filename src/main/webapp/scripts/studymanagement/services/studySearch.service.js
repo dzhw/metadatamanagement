@@ -27,7 +27,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       }
       if (!CleanJSObjectService.isNullOrEmpty(filter)) {
         termFilter = _.concat(termFilter,
-          SearchFilterHelperService.createTermFilters('studies', filterDe));
+          SearchFilterHelperService.createTermFilters('studies', filter));
       }
       return termFilter;
     };
@@ -91,7 +91,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
         };
         query.body.query.bool.filter = termFilters;
       }
-      
+
       return ElasticSearchClient.search(query).then(function(result) {
         var surveySeries = [];
         var surveySeriesElement = {};
