@@ -28,10 +28,36 @@ angular.module('metadatamanagementApp')
         }
       };
 
+      var createDisplayAvailableFilterList = function(availableFilters) {
+        var displayAvailableFilters = [];
+        var i18nGermanEnding = '-de';
+        var i18nEnglishEnding = '-en';
+        availableFilters.forEach(function(filter) {
+          if (filter.endsWith(i18nGermanEnding)) {
+            if ($scope.currentLanguage === 'de') {
+              displayAvailableFilters.push(filter);
+            }
+            //Else case, no save of the german filter
+          } else if (filter.endsWith(i18nEnglishEnding)) {
+            if ($scope.currentLanguage === 'en') {
+              displayAvailableFilters.push(filter);
+            }
+            //Else Case no save of the english filter
+          } else {
+            //Standard Case
+            displayAvailableFilters.push(filter);
+          }
+        });
+
+        return displayAvailableFilters;
+      };
+
       $scope.$watch('currentElasticsearchType', function() {
         elasticSearchTypeChanged = true;
         $scope.availableFilters = SearchFilterHelperService.getAvailableFilters(
           $scope.currentElasticsearchType);
+        $scope.displayAvailableFilters = createDisplayAvailableFilterList(
+          $scope.availableFilters);
         $scope.availableHiddenFilters = _.intersection(
           SearchFilterHelperService.getHiddenFilters(
             $scope.currentElasticsearchType),

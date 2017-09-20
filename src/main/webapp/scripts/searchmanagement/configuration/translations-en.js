@@ -94,6 +94,8 @@ angular.module('metadatamanagementApp').config(
           'variable': 'Variable Filter',
           'survey': 'Survey Filter',
           'survey-series': 'Survey Series Filter',
+          'survey-series-de': 'Survey Series Filter',
+          'survey-series-en': 'Survey Series Filter',
           'input-label': {
             'studies': 'Select filters for Study Search...',
             'surveys': 'Select filters for Survey Search...',

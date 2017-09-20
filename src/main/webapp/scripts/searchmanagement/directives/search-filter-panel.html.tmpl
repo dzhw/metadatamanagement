@@ -16,7 +16,7 @@
             <md-divider style="background-color: white;"></md-divider>
             <md-content>
                 <md-option ng-value="filter" ng-repeat="filter in availableHiddenFilters | filterTranslatedValues:filterSearchTerm:'search-management.filter.'">{{'search-management.filter.' + filter | translate}}</md-option>
-                <md-option ng-value="filter" ng-repeat="filter in availableFilters | filterTranslatedValues:filterSearchTerm:'search-management.filter.'">{{'search-management.filter.' + filter | translate}}</md-option>
+                <md-option ng-value="filter" ng-repeat="filter in displayAvailableFilters | filterTranslatedValues:filterSearchTerm:'search-management.filter.'">{{'search-management.filter.' + filter | translate}}</md-option>
             </md-content>
         </md-select>
     </md-input-container>
