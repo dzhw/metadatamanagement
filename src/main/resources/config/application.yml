@@ -41,8 +41,8 @@ logging:
 server:
     port: 8080
     tomcat:
-        remote_ip_header: x-forwarded-for
-        protocol_header: x-forwarded-proto
+        remote-ip-header: x-forwarded-for
+        protocol-header: x-forwarded-proto
     compression:
         enabled: true
         mime-types: text/html,text/xml,text/plain,text/css, application/javascript, application/json
@@ -74,10 +74,6 @@ endpoints:
 # ===================================================================
 
 jhipster:
-    async:
-        corePoolSize: 2
-        maxPoolSize: 50
-        queueCapacity: 10000
     mail:
         from: fdz@dzhw.eu
     security:

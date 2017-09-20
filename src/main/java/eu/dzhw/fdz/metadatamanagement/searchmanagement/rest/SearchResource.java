@@ -36,7 +36,6 @@ import org.springframework.web.servlet.HandlerMapping;
 import com.codahale.metrics.annotation.Timed;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import eu.dzhw.fdz.metadatamanagement.common.rest.util.HeaderUtil;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
@@ -138,9 +137,7 @@ public class SearchResource {
   public ResponseEntity<?> recreateAllElasticsearchIndices() throws URISyntaxException {
     log.debug("REST request to recreate all elasticsearch indices.");
     elasticsearchAdminService.recreateAllIndices();
-    return ResponseEntity.ok()
-      .headers(HeaderUtil.createAlert("administration.health.elasticsearch.reindex-success"))
-      .build();
+    return ResponseEntity.ok().build();
   }
 
   /**

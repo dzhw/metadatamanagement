@@ -3,7 +3,7 @@
 angular.module('metadatamanagementApp').controller(
   'HealthController',
   function($scope, MonitoringService, $uibModal, ElasticSearchAdminService,
-    PageTitleService, $state, ToolbarHeaderService) {
+    PageTitleService, $state, ToolbarHeaderService, SimpleMessageToastService) {
     PageTitleService.setPageTitle('administration.health.title');
     $scope.isRecreatingIndices = false;
     $scope.updatingHealth = true;
@@ -24,10 +24,10 @@ angular.module('metadatamanagementApp').controller(
       $scope.isRecreatingIndices = true;
       ElasticSearchAdminService.recreateAllElasticsearchIndices()
         .then(function() {
-          // success
+          SimpleMessageToastService.openSimpleMessageToast(
+            'administration.health.elasticsearch.reindex-success');
           $scope.isRecreatingIndices = false;
         }, function() {
-          // error
           $scope.isRecreatingIndices = false;
         });
     };

@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
 
-import eu.dzhw.fdz.metadatamanagement.common.rest.util.HeaderUtil;
 import eu.dzhw.fdz.metadatamanagement.common.rest.util.PaginationUtil;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.Authority;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
@@ -103,7 +102,6 @@ public class UserResource {
           .forEach(authority -> authorities.add(authorityRepository.findOne(authority)));
         userRepository.save(user);
         return ResponseEntity.ok()
-          .headers(HeaderUtil.createEntityUpdateAlert("user", managedUserDto.getLogin()))
           .body(new ManagedUserDto(userRepository.findOne(managedUserDto.getId())));
       })
       .orElseGet(() -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
