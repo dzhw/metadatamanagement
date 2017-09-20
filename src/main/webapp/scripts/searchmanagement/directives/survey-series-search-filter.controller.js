@@ -42,6 +42,32 @@ angular.module('metadatamanagementApp')
         );
       };
 
+      $scope.searchSurveySeriesByAnotherLanguage = function(searchText,
+          language) {
+        var cleanedFilter = _.pick($scope.currentSearchParams.filter,
+          'survey-series-' + language);
+
+        var currentProjectId = CurrentProjectService.getCurrentProject() ?
+          CurrentProjectService.getCurrentProject().id : null;
+        if (searchText === lastSearchText &&
+          _.isEqual(lastFilter, cleanedFilter) &&
+          lastProjectId === currentProjectId) {
+          return lastSearchResult;
+        }
+
+        //Search Call to Elasticsearch
+        return StudySearchService.findSurveySeries('', searchText,
+        cleanedFilter, currentProjectId)
+          .then(function(surveySeries) {
+            lastSearchText = searchText;
+            lastFilter = _.cloneDeep(cleanedFilter);
+            lastProjectId = currentProjectId;
+            lastSearchResult = surveySeries;
+            return surveySeries;
+          }
+        );
+      };
+
       //Init the de and en filter of survey series
       var init = function(currentLanguage) {
 
@@ -81,7 +107,7 @@ angular.module('metadatamanagementApp')
                   });
                 }
 
-                //Survey Series was not found, set the last one
+                //Survey Series was not found check the language
                 if (!$scope.currentSurveySeries) {
                   $scope.currentSurveySeries =
                     $scope.currentSearchParams.filter['survey-series-' +
@@ -95,6 +121,30 @@ angular.module('metadatamanagementApp')
                 }
               });
         } else {
+          var i18nActualEnding = $scope.currentLanguage;
+          var i18nAnotherEnding;
+          if (i18nActualEnding === 'de') {
+            i18nAnotherEnding = 'en';
+          } else {
+            i18nAnotherEnding = 'de';
+          }
+
+          if ($scope.currentSearchParams.filter['survey-series-' +
+            i18nAnotherEnding]) {
+            $scope.searchSurveySeriesByAnotherLanguage(
+              $scope.currentSearchParams.filter['survey-series-' +
+              i18nAnotherEnding], i18nAnotherEnding)
+              .then(function(surveySeries) {
+                if (surveySeries) {
+                  $scope.currentSearchParams.filter['survey-series-' +
+                    i18nActualEnding] = surveySeries[0][i18nActualEnding];
+                  delete $scope.currentSearchParams.filter['survey-series-' +
+                    i18nAnotherEnding];
+                  $scope.surveySeriesChangedCallback();
+                  return;
+                }
+              });
+          }
           initializing = false;
         }
       };

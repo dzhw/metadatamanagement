@@ -11,62 +11,6 @@ angular.module('metadatamanagementApp')
       var elasticSearchTypeChanged = false;
       $scope.filtersCollapsed = false;
 
-      var mapI18nFilterArray = function(filter) {
-        var i18nCleanedFilter = [];
-        var i18nActualEnding = '-' + $scope.currentLanguage;
-        var i18nAnotherEnding;
-        if (i18nActualEnding === '-de') {
-          i18nAnotherEnding = '-en';
-        } else {
-          i18nAnotherEnding = '-de';
-        }
-        var index;
-        for (index = 0; index < filter.length; ++index) {
-          //add i18n free filter name
-          if (filter[index].endsWith(i18nActualEnding)) {
-            i18nCleanedFilter.push(filter[index].slice(0, -3));
-          } else if (filter[index].endsWith(i18nAnotherEnding)) {
-            //do nothing, that removes the non actual ending
-          } else {
-            i18nCleanedFilter.push(filter[index]);
-          }
-        }
-        return i18nCleanedFilter;
-      };
-
-      var mapI18nFilterObject = function(filter) {
-        var i18nCleanedFilter = {};
-        var foundActualEnding = false;
-        var foundAnotherEnding = false;
-        var i18nActualEnding = '-' + $scope.currentLanguage;
-        var i18nAnotherEnding;
-        if (i18nActualEnding === '-de') {
-          i18nAnotherEnding = '-en';
-        } else {
-          i18nAnotherEnding = '-de';
-        }
-
-        for (var property in filter) {
-          //add i18n free filter name
-          if (property.endsWith(i18nActualEnding)) {
-            i18nCleanedFilter[property.slice(0, -3)] = filter[property];
-            foundActualEnding = true;
-          } else if (property.endsWith(i18nAnotherEnding)) {
-            //do nothing, that removes the another, non actual language ending
-            foundAnotherEnding = true;
-          } else {
-            i18nCleanedFilter[property] = filter[property];
-          }
-        }
-
-        if (!foundActualEnding && foundAnotherEnding) {
-          //Load the another String
-          //TODO DKatzberg: Concept of Proof: Hardcoded Search SurveySeries
-        }
-
-        return i18nCleanedFilter;
-      };
-
       var selectStudyForProject = function() {
         if (!_.includes($scope.availableFilters, 'study')) {
           return;
@@ -95,15 +39,8 @@ angular.module('metadatamanagementApp')
         );
         $scope.selectedFilters = [];
         if ($scope.currentSearchParams.filter) {
-          var selectedI18nFreeFilters =
-            mapI18nFilterObject($scope.currentSearchParams.filter);
-
-          //Check for I18nFilter
-          var i18nFreeFilter =
-            mapI18nFilterArray($scope.availableFilters);
-          $scope.availableFilters = i18nFreeFilter;
           $scope.selectedFilters = _.intersection(
-            _.keys(selectedI18nFreeFilters),
+            _.keys($scope.currentSearchParams.filter),
             _.union($scope.availableFilters, $scope.availableHiddenFilters)
           );
         }
