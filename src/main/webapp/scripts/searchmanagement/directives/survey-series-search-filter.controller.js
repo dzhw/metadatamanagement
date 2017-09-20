@@ -4,64 +4,42 @@
 
 angular.module('metadatamanagementApp')
   .controller('SurveySeriesSearchFilterController', [
-    '$scope', 'StudySearchService', '$timeout', 'CurrentProjectService',
-    function($scope, StudySearchService, $timeout,
-        CurrentProjectService) {
+    '$scope', 'StudySearchService', '$timeout',
+    function($scope, StudySearchService, $timeout) {
       // prevent survey-series changed events during init
       var initializing = true;
       var selectionChanging = false;
       var lastSearchText;
       var lastFilter;
-      var lastProjectId;
       var lastSearchResult;
       var currentFilterByLanguage;
+      var searchTextDe;
+      var searchTextEn;
 
       //Search Method for Survey Series, call Elasticsearch
-      $scope.searchSurveySeries = function(searchText) {
-        var cleanedFilter = _.pick($scope.currentSearchParams.filter,
-          'survey-series-' + $scope.currentLanguage);
-
-        var currentProjectId = CurrentProjectService.getCurrentProject() ?
-          CurrentProjectService.getCurrentProject().id : null;
-        if (searchText === lastSearchText &&
-          _.isEqual(lastFilter, cleanedFilter) &&
-          lastProjectId === currentProjectId) {
-          return lastSearchResult;
-        }
-
-        //Search Call to Elasticsearch
-        return StudySearchService.findSurveySeries(searchText, '',
-        cleanedFilter, currentProjectId)
-          .then(function(surveySeries) {
-            lastSearchText = searchText;
-            lastFilter = _.cloneDeep(cleanedFilter);
-            lastProjectId = currentProjectId;
-            lastSearchResult = surveySeries;
-            return surveySeries;
-          }
-        );
-      };
-
-      $scope.searchSurveySeriesByAnotherLanguage = function(searchText,
-          language) {
+      $scope.searchSurveySeries = function(searchText, language) {
         var cleanedFilter = _.pick($scope.currentSearchParams.filter,
           'survey-series-' + language);
 
-        var currentProjectId = CurrentProjectService.getCurrentProject() ?
-          CurrentProjectService.getCurrentProject().id : null;
         if (searchText === lastSearchText &&
-          _.isEqual(lastFilter, cleanedFilter) &&
-          lastProjectId === currentProjectId) {
+          _.isEqual(lastFilter, cleanedFilter)) {
           return lastSearchResult;
         }
 
+        if (language === 'de') {
+          searchTextDe = searchText;
+          searchTextEn = '';
+        } else {
+          searchTextDe = '';
+          searchTextEn = searchText;
+        }
+
         //Search Call to Elasticsearch
-        return StudySearchService.findSurveySeries('', searchText,
-        cleanedFilter, currentProjectId)
+        return StudySearchService.findSurveySeries(searchTextDe, searchTextEn,
+        cleanedFilter)
           .then(function(surveySeries) {
             lastSearchText = searchText;
             lastFilter = _.cloneDeep(cleanedFilter);
-            lastProjectId = currentProjectId;
             lastSearchResult = surveySeries;
             return surveySeries;
           }
@@ -89,7 +67,7 @@ angular.module('metadatamanagementApp')
               currentLanguage];
 
           //Search Survey Series and for Validation
-          $scope.searchSurveySeries(currentFilterByLanguage)
+          $scope.searchSurveySeries(currentFilterByLanguage, currentLanguage)
             .then(function(surveySeries) {
 
                 //Just one Survey Series exists
@@ -131,7 +109,7 @@ angular.module('metadatamanagementApp')
 
           if ($scope.currentSearchParams.filter['survey-series-' +
             i18nAnotherEnding]) {
-            $scope.searchSurveySeriesByAnotherLanguage(
+            $scope.searchSurveySeries(
               $scope.currentSearchParams.filter['survey-series-' +
               i18nAnotherEnding], i18nAnotherEnding)
               .then(function(surveySeries) {
@@ -140,6 +118,7 @@ angular.module('metadatamanagementApp')
                     i18nActualEnding] = surveySeries[0][i18nActualEnding];
                   delete $scope.currentSearchParams.filter['survey-series-' +
                     i18nAnotherEnding];
+                  $scope.currentSurveySeries = surveySeries[0];
                   $scope.surveySeriesChangedCallback();
                   return;
                 }
@@ -163,7 +142,7 @@ angular.module('metadatamanagementApp')
         //Set the Survey Series Filter in the URL
         if (surveySeries) {
           $scope.currentSearchParams.filter['survey-series-' +
-            $scope.currentLanguage] = surveySeries.de;
+            $scope.currentLanguage] = surveySeries[$scope.currentLanguage];
         } else {
           //No Survey Series is chosen, delete the Parameter in the URL
           delete $scope.currentSearchParams.filter['survey-series-' +

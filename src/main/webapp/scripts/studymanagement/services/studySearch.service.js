@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').factory('StudySearchService',
   function(ElasticSearchClient, $q, CleanJSObjectService,
-    SearchFilterHelperService, LanguageService) {
+    SearchFilterHelperService) {
     var createQueryObject = function() {
       return {
         index: 'studies',
@@ -46,23 +46,10 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       return deferred;
     };
 
-    var findSurveySeries = function(searchTermCurrentLanguage,
-      searchTermAnotherLanguage, filter, dataAcquisitionProjectId) {
+    var findSurveySeries = function(searchTermDe, searchTermEn, filter) {
 
       var query = createQueryObject();
-      var termFilters = createTermFilters(filter,
-        dataAcquisitionProjectId);
-      var currentLanguage = LanguageService.getCurrentInstantly();
-      var searchTermDe;
-      var searchTermEn;
-
-      if (currentLanguage === 'de') {
-        searchTermDe = searchTermCurrentLanguage;
-        searchTermEn = searchTermAnotherLanguage;
-      } else {
-        searchTermEn = searchTermCurrentLanguage;
-        searchTermDe = searchTermAnotherLanguage;
-      }
+      var termFilters = createTermFilters(filter);
 
       query.body = {
         'size': 0,
