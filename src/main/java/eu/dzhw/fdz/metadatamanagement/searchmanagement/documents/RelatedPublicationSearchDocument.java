@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataSetSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.InstrumentSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.projections.QuestionSubDocumentProjection;
@@ -33,6 +34,8 @@ public class RelatedPublicationSearchDocument extends RelatedPublication {
   
   // dummy string which ensures that related publications are always released
   private String release = "__";
+  
+  private I18nString guiLabels = RelatedPublicationDetailsGuiLabels.GUI_LABELS;
   
   /**
    * Construct the search document with all related subdocuments.
@@ -133,5 +136,13 @@ public class RelatedPublicationSearchDocument extends RelatedPublication {
 
   public void setRelease(String release) {
     this.release = release;
+  }
+
+  public I18nString getGuiLabels() {
+    return guiLabels;
+  }
+
+  public void setGuiLabels(I18nString guiLabels) {
+    this.guiLabels = guiLabels;
   }
 }

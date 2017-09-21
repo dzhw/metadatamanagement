@@ -45,6 +45,8 @@ public class StudySearchDocument extends Study {
   
   private Integer numberOfWaves;
   
+  private I18nString guiLabels = StudyDetailsGuiLabels.GUI_LABELS;
+  
   /**
    * Construct the search document with all related subdocuments.
    * @param study The study to be searched for
@@ -205,5 +207,13 @@ public class StudySearchDocument extends Study {
   
   public void setNumberOfWaves(Integer numberOfWaves) {
     this.numberOfWaves = numberOfWaves;
+  }
+  
+  public I18nString getGuiLabels() {
+    return guiLabels;
+  }
+
+  public void setGuiLabels(I18nString guiLabels) {
+    this.guiLabels = guiLabels;
   }
 }

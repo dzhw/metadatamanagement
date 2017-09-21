@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataSetSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.InstrumentSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
@@ -32,6 +33,8 @@ public class SurveySearchDocument extends Survey {
   private List<QuestionSubDocument> questions = 
       new ArrayList<QuestionSubDocument>();
   private Release release = null;
+  
+  private I18nString guiLabels = SurveyDetailsGuiLabels.GUI_LABELS;
   
   /**
    * Construct the search document with all related subdocuments.
@@ -133,5 +136,13 @@ public class SurveySearchDocument extends Survey {
 
   public void setRelease(Release release) {
     this.release = release;
+  }
+  
+  public I18nString getGuiLabels() {
+    return guiLabels;
+  }
+
+  public void setGuiLabels(I18nString guiLabels) {
+    this.guiLabels = guiLabels;
   }
 }

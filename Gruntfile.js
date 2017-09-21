@@ -604,6 +604,126 @@ module.exports = function(grunt) {
               // jscs: enable
           }
         }
+      },
+      createJavaSourceCodeFromTranslations: {
+        options: {
+          javaTemplate: 'src/main/templates/DetailsGuiLabels.java.tmpl',
+          javaSourceDestination: 'target/generated-sources/translations/' +
+            'eu/dzhw/fdz/metadatamanagement/searchmanagement/documents'
+        },
+        sources: {
+          src: ['src/main/webapp/scripts/studymanagement/**/translations*.js',
+            'src/main/webapp/scripts/surveymanagement/**/translations*.js',
+            'src/main/webapp/scripts/instrumentmanagement/**/translations*.js',
+            'src/main/webapp/scripts/questionmanagement/**/translations*.js',
+            'src/main/webapp/scripts/datasetmanagement/**/translations*.js',
+            'src/main/webapp/scripts/variablemanagement/**/translations*.js',
+            'src/main/webapp/scripts/relatedpublicationmanagement/**/' +
+            'translations*.js']
+        }
+      }
+    });
+
+  grunt.registerMultiTask('createJavaSourceCodeFromTranslations',
+    'Adding translations to search index',
+    function() {
+      /*jshint evil:true */
+      var options = this.options();
+      var javaTemplate = grunt.file.read(options.javaTemplate);
+      //create the destination directory if it does not exist
+      if (!grunt.file.exists(options.javaSourceDestination)) {
+        grunt.file.mkdir(options.javaSourceDestination);
+      }
+
+      //fill the template and write it to generated-sources
+      var writeJavaSourceCode = function(model) {
+        var javaSourceTmplString = eval('`' +
+          javaTemplate.replace(/`/g, '\\`') + '`');
+        grunt.file.write(options.javaSourceDestination +
+          '/' + model.domainObject + 'DetailsGuiLabels.java',
+          javaSourceTmplString);
+      };
+
+      var findDetailTranslations = function(translations) {
+        for (var property in translations) {
+          if (translations[property].detail) {
+            return translations[property].detail;
+          }
+        }
+      };
+
+      var collectAllStrings = function(object) {
+        if (typeof object === 'string') {
+          return object.replace(/"/g, '');
+        } else if (typeof object === 'object') {
+          let strings = '';
+          for (var property in object) {
+            if (object.hasOwnProperty(property)) {
+              strings = strings + collectAllStrings(object[property]) + ' ';
+            }
+          }
+          return strings;
+        }
+      };
+
+      var readGuiLabels = function(filename) {
+        var sourceFile = grunt.file.read(filename);
+        var jsonBegin = sourceFile.indexOf('translations');
+        var jsonEnd = sourceFile.indexOf('};', jsonBegin);
+        var translations = eval(
+          sourceFile.substring(jsonBegin, jsonEnd + 1));
+        return collectAllStrings(findDetailTranslations(translations));
+      };
+
+      var detectDomainObjectFromFilename = function(filename) {
+        if (filename.includes('studymanagement')) {
+          return 'Study';
+        }
+        if (filename.includes('surveymanagement')) {
+          return 'Survey';
+        }
+        if (filename.includes('instrumentmanagement')) {
+          return 'Instrument';
+        }
+        if (filename.includes('questionmanagement')) {
+          return 'Question';
+        }
+        if (filename.includes('datasetmanagement')) {
+          return 'DataSet';
+        }
+        if (filename.includes('variablemanagement')) {
+          return 'Variable';
+        }
+        if (filename.includes('relatedpublicationmanagement')) {
+          return 'RelatedPublication';
+        }
+      };
+
+      var detectLanguageFromFilename = function(filename) {
+        if (filename.endsWith('de.js')) {
+          return 'de';
+        }
+        if (filename.endsWith('en.js')) {
+          return 'en';
+        }
+      };
+
+      grunt.log.writeln('Processing ' + this.filesSrc.length +
+      ' translation files:');
+      var translationsPerDomainObject = {};
+      this.filesSrc.forEach(function(filename) {
+        grunt.log.writeln(filename);
+        var domainObject = detectDomainObjectFromFilename(filename);
+        var language = detectLanguageFromFilename(filename);
+        var guiLabels = readGuiLabels(filename);
+        translationsPerDomainObject[domainObject] =
+          translationsPerDomainObject[domainObject] || {};
+        translationsPerDomainObject[domainObject].domainObject =
+          domainObject;
+        translationsPerDomainObject[domainObject][language] = guiLabels;
+      });
+      for (var domainObject in translationsPerDomainObject) {
+        writeJavaSourceCode(translationsPerDomainObject[domainObject]);
       }
     });
 
