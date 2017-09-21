@@ -10,7 +10,7 @@ exports.config = {
     //disable these if you want to run tests locally
     sauceUser: process.env.SAUCE_USERNAME,
     sauceKey: process.env.SAUCE_ACCESS_KEY,
-    //sauceBuild: process.env.TRAVIS_BUILD_NUMBER,
+    sauceBuild: process.env.TRAVIS_BUILD_NUMBER,
     baseUrl: 'https://metadatamanagement-dev.cfapps.io/',
     //rootElement: 'html',
     specs: [
