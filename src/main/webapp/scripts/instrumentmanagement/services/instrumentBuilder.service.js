@@ -58,7 +58,6 @@ angular.module('metadatamanagementApp').service('InstrumentBuilderService',
           en: metadataFromExcel['type.en'],
           de: metadataFromExcel['type.de']
         },
-        title: metadataFromExcel.title,
         language: metadataFromExcel.language,
         fileName: metadataFromExcel.filename,
         indexInInstrument: excelRowIndex
