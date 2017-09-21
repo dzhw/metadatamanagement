@@ -114,11 +114,20 @@ angular.module('metadatamanagementApp')
               i18nAnotherEnding], i18nAnotherEnding)
               .then(function(surveySeries) {
                 if (surveySeries) {
+                  $scope.currentSurveySeries = surveySeries[0];
+
                   $scope.currentSearchParams.filter['survey-series-' +
                     i18nActualEnding] = surveySeries[0][i18nActualEnding];
+                  $scope.selectedFilters.push('survey-series-' +
+                    i18nActualEnding);
+
+                  $scope.selectedFilters = $scope.selectedFilters
+                    .filter(function(item) {
+                      return item !== 'survey-series-' +
+                        i18nAnotherEnding;
+                    });
                   delete $scope.currentSearchParams.filter['survey-series-' +
                     i18nAnotherEnding];
-                  $scope.currentSurveySeries = surveySeries[0];
                   $scope.surveySeriesChangedCallback();
                   return;
                 }

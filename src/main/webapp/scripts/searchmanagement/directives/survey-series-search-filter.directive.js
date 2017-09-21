@@ -10,6 +10,7 @@ angular.module('metadatamanagementApp').directive('surveySeriesSearchFilter',
         currentSearchParams: '=',
         surveySeriesChangedCallback: '=',
         currentLanguage: '=',
+        selectedFilters: '=',
         bowser: '='
       },
       controller: 'SurveySeriesSearchFilterController'
