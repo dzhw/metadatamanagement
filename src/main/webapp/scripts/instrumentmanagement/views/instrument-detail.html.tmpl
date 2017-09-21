@@ -154,11 +154,6 @@
                                 {{'instrument-management.detail.attachments.description' | translate }}
                             </md-tooltip>
                         </th>
-                        <th class="fdz-table-half-absorbing-column">{{'instrument-management.detail.attachments.title' | translate }}
-                          <md-tooltip hide-gt-xs md-direction="right">
-                            {{'instrument-management.detail.attachments.title' | translate }}
-                          </md-tooltip>
-                        </th>
                         <th>{{'instrument-management.detail.attachments.language' | translate }}
                             <md-tooltip hide-gt-xs md-direction="right">
                                 {{'instrument-management.detail.attachments.language' | translate }}
@@ -174,8 +169,7 @@
                 <tbody>
                     <tr ng-repeat="row in ctrl.attachments">
                         <td display-i18n-string="row.type"></td>
-                        <td display-i18n-string="row.description" fdz-hyphenate class="fdz-text-block"></td>
-                        <td lang="{{row.language}}" fdz-hyphenate class="fdz-text-block">{{row.title}}&nbsp;</td>
+                        <td display-i18n-string="row.description" fdz-hyphenate class="fdz-text-block"></td>                        
                         <td>{{row.language | displayIsoLanguage: currentLanguage}}&nbsp;</td>
                         <td><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                               {{'global.tooltips.files.download' | translate: {filename: row.fileName} }}

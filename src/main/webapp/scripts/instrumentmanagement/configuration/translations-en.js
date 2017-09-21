@@ -40,7 +40,6 @@ angular.module('metadatamanagementApp').config(
           'attachments': {
             'table-title': 'Documents related to the Instrument',
             'type': 'Type',
-            'title': 'Title',
             'description': 'Description',
             'language': 'Document Language',
             'file': 'File'
