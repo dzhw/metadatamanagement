@@ -32,6 +32,8 @@ public class MetadataManagementProperties {
   private final Rabbitmq rabbitmq = new Rabbitmq();
   
   private final Websockets websockets = new Websockets();
+  
+  private final Server server = new Server();
 
   public ElasticsearchClient getElasticsearchClient() {
     return elasticsearchClient;
@@ -51,6 +53,10 @@ public class MetadataManagementProperties {
   
   public Websockets getWebsockets() {
     return websockets;
+  }
+  
+  public Server getServer() {
+    return server;
   }
 
   /**
@@ -219,5 +225,22 @@ public class MetadataManagementProperties {
     public void setAllowedOrigins(List<String> allowedOrigins) {
       this.allowedOrigins = allowedOrigins;
     }  
+  }
+  
+  /**
+   * Custom Server properties. 
+   * 
+   * @author René Reitmann
+   */
+  public static class Server {
+    private Integer instanceIndex = null;
+
+    public Integer getInstanceIndex() {
+      return instanceIndex;
+    }
+
+    public void setInstanceIndex(Integer instanceIndex) {
+      this.instanceIndex = instanceIndex;
+    }
   }
 }

@@ -65,10 +65,6 @@ metadatamanagement:
     password: dara_password
 
 jhipster:
-    async:
-        corePoolSize: 2
-        maxPoolSize: 50
-        queueCapacity: 10000
     security:
         authentication:
             oauth:

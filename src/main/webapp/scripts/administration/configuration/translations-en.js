@@ -43,7 +43,7 @@ angular.module('metadatamanagementApp').config(
           },
           'elasticsearch': {
             'reindex': 'Reindex',
-            'reindex-success': 'Successfully created elasticsearch indices.'
+            'reindex-success': 'Elasticsearch indices are currently recreated...'
           }
         },
         'logs': {

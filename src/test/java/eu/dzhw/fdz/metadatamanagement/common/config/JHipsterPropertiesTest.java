@@ -10,11 +10,9 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
-import eu.dzhw.fdz.metadatamanagement.common.config.JHipsterProperties;
-import eu.dzhw.fdz.metadatamanagement.common.config.JHipsterProperties.Async;
 import eu.dzhw.fdz.metadatamanagement.common.config.JHipsterProperties.Http;
-import eu.dzhw.fdz.metadatamanagement.common.config.JHipsterProperties.Mail;
 import eu.dzhw.fdz.metadatamanagement.common.config.JHipsterProperties.Http.Cache;
+import eu.dzhw.fdz.metadatamanagement.common.config.JHipsterProperties.Mail;
 import eu.dzhw.fdz.metadatamanagement.common.config.JHipsterProperties.Metrics.Graphite;
 import eu.dzhw.fdz.metadatamanagement.common.config.JHipsterProperties.Metrics.Spark;
 
@@ -23,25 +21,6 @@ import eu.dzhw.fdz.metadatamanagement.common.config.JHipsterProperties.Metrics.S
  *
  */
 public class JHipsterPropertiesTest {
-
-  @Test
-  public void testAsync() {
-    // Arrange
-    JHipsterProperties jHipsterProperties = new JHipsterProperties();
-
-    // Act
-    Async async = jHipsterProperties.getAsync();
-    async.setCorePoolSize(5);
-    async.setMaxPoolSize(10);
-    async.setQueueCapacity(2);
-
-    // Assert
-    assertThat(async, not(nullValue()));
-    assertThat(async.getCorePoolSize(), is(5));
-    assertThat(async.getMaxPoolSize(), is(10));
-    assertThat(async.getQueueCapacity(), is(2));
-
-  }
 
   @Test
   public void testHttp() {

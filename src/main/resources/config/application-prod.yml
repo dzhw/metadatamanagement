@@ -27,6 +27,8 @@ spring:
 # ===================================================================
 
 metadatamanagement:
+  server:
+    instance-index: ${cf.instance.index}
   elasticsearch-client:
     url: ${vcap.services.elasticsearch.credentials.sslUri}
     read-timeout: 60000

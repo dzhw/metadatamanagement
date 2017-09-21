@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.JsonObject;
@@ -32,6 +33,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepo
  */
 @Service
 public class ElasticsearchAdminService {
+  
   @Autowired
   private ElasticsearchDao elasticsearchDao;
 
@@ -61,12 +63,14 @@ public class ElasticsearchAdminService {
 
   @Autowired
   private ResourceLoader resourceLoader;
-
+  
   private JsonParser jsonParser = new JsonParser();
 
   /**
    * Recreate the indices and all their mappings.
+   * Asynchronous cause it might take a while.
    */
+  @Async
   public void recreateAllIndices() {
     for (ElasticsearchType type : ElasticsearchType.values()) {
       recreateIndex(type);      
@@ -205,7 +209,7 @@ public class ElasticsearchAdminService {
       throw new RuntimeException("Unable to load settings!", e);
     }
   }
-
+  
   /**
    * Load Elasticsearch Mapping of an index.
    * @param index An elasticsearch index

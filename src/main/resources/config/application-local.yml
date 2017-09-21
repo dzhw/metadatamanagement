@@ -50,6 +50,8 @@ jhipster:
 # ===================================================================
 
 metadatamanagement:
+  server:
+    instance-index: 0
   elasticsearch-client:
     url: http://localhost:9200
     read-timeout: 60000
