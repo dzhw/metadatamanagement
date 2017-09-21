@@ -26,6 +26,7 @@ angular.module('metadatamanagementApp')
           return lastSearchResult;
         }
 
+        //Prepare language change for the I18n Filter
         if (language === 'de') {
           searchTextDe = searchText;
           searchTextEn = '';
@@ -123,8 +124,7 @@ angular.module('metadatamanagementApp')
 
                   $scope.selectedFilters = $scope.selectedFilters
                     .filter(function(item) {
-                      return item !== 'survey-series-' +
-                        i18nAnotherEnding;
+                      return item !== 'survey-series-' + i18nAnotherEnding;
                     });
                   delete $scope.currentSearchParams.filter['survey-series-' +
                     i18nAnotherEnding];

@@ -103,8 +103,10 @@ angular.module('metadatamanagementApp').factory(
             var subKeyMapping = keyMapping[elasticsearchType];
             key = subKeyMapping[key] ||
               hiddenFiltersKeyMapping[elasticsearchType][key];
-            filterKeyValue.term[key] = value;
-            termFilters.push(filterKeyValue);
+            if (key) {
+              filterKeyValue.term[key] = value;
+              termFilters.push(filterKeyValue);
+            }
           }
         });
         return termFilters;

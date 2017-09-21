@@ -1,3 +1,4 @@
+/* @Author Daniel Katzberg */
 'use strict';
 
 angular.module('metadatamanagementApp').directive('surveySeriesSearchFilter',
