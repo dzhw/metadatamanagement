@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Arrays;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +72,7 @@ public class ElasticsearchAdminService {
    * Asynchronous cause it might take a while.
    */
   @Async
-  public void recreateAllIndices() {
+  public CompletableFuture<Object> recreateAllIndices() {
     for (ElasticsearchType type : ElasticsearchType.values()) {
       recreateIndex(type);      
     }
@@ -83,6 +84,7 @@ public class ElasticsearchAdminService {
     this.enqueueAllInstruments();
     this.enqueueAllStudies();
     updateQueueService.processAllQueueItems();
+    return CompletableFuture.completedFuture(new Object());
   }
   
   private void enqueueAllStudies() {

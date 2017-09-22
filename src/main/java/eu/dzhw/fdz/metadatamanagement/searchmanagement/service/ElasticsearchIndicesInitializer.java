@@ -65,9 +65,11 @@ public class ElasticsearchIndicesInitializer {
     String currentVersion = loadIndicesVersion().get("indicesVersion").getAsString();
     if (previousVersions.isEmpty() || !previousVersions.get(0).getId().equals(currentVersion)) {
       log.info("Going to automatically update elasticsearch indices...");
-      elasticsearchAdminService.recreateAllIndices();
-      indicesVersionRepository.deleteAll();
-      indicesVersionRepository.save(new ElasticsearchIndicesVersion(currentVersion));
+      elasticsearchAdminService.recreateAllIndices().thenRun(() -> {        
+        indicesVersionRepository.deleteAll();
+        indicesVersionRepository.save(new ElasticsearchIndicesVersion(currentVersion));
+        log.info("Finished automatic update of elasticsearch indices!");
+      });
     }
   }
   

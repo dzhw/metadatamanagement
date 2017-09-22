@@ -1,7 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -45,10 +44,6 @@ public class InstrumentAttachmentMetadata extends AbstractRdcDomainObject {
   @I18nStringNotEmpty(message = "instrument-management.error.instrument-attachment-metadata."
       + "description.i18n-string-not-empty")
   private I18nString description;
-
-  @Size(max = StringLengths.LARGE, message =
-      "instrument-management.error.instrument-attachment-metadata.title.string-size")
-  private String title;
 
   @NotNull(message =
       "instrument-management.error.instrument-attachment-metadata.language.not-null")
@@ -98,14 +93,6 @@ public class InstrumentAttachmentMetadata extends AbstractRdcDomainObject {
 
   public void setDescription(I18nString description) {
     this.description = description;
-  }
-
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
   }
 
   public String getLanguage() {
