@@ -24,7 +24,7 @@ angular.module('metadatamanagementApp').factory('WebSocketService',
           (socket && socket.readyState !== 3)) {
           return;
         }
-        if (ENV === 'local') {
+        if ($location.host().indexOf('cfapps.io') < 0) {
           socket = new SockJS('/websocket');
         } else {
           // pivotal specific port for websockets
