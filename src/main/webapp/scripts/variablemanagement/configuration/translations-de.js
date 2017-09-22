@@ -162,7 +162,7 @@ angular.module('metadatamanagementApp').config(
           'filter-details': {
             'expression': {
               'not-empty': 'Der Filterausdruck darf nicht leer sein!',
-              'size': 'Die Maximallänge des Filterausdrucks ist 128 Zeichen.'
+              'size': 'Die Maximallänge des Filterausdrucks ist 2048 Zeichen.'
             },
             'description': {
               'i18n-string-size': 'Die Maximallänge der Filterbeschreibung ist 2048 Zeichen.'
