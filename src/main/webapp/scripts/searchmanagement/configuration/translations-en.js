@@ -93,6 +93,9 @@ angular.module('metadatamanagementApp').config(
           'instrument': 'Instrument Filter',
           'variable': 'Variable Filter',
           'survey': 'Survey Filter',
+          'survey-series': 'Survey Series Filter',
+          'survey-series-de': 'Survey Series Filter',
+          'survey-series-en': 'Survey Series Filter',
           'floating-label': {
             'survey': 'In what survey do you want to looking for?',
             'instrument': 'In what instrument do you want to looking for?',
@@ -158,6 +161,10 @@ angular.module('metadatamanagementApp').config(
           'access-way-filter': {
             'not-found': 'No access way found!',
             'no-valid-selected': 'No valid access way selected!'
+          },
+          'survey-series-filter': {
+            'not-found': 'No survey series found!',
+            'no-valid-selected': 'No valid survey series selected!'
           }
         }
       }

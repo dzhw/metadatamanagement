@@ -12,9 +12,23 @@
                 </md-card-header>
                 <md-divider></md-divider>
                 <md-card-content>
-                    <div ng-if="ctrl.study.surveySeries" class="fdz-add-bottom-margin">
-                        <span style="font-weight: bold;">{{'study-management.detail.surveySeries' | translate }}:</span>
-                        <span display-i18n-string="ctrl.study.surveySeries" fdz-hyphenate></span>
+                    <div ng-if="ctrl.study.surveySeries && currentLanguage === 'de'" class="fdz-add-bottom-margin">
+                      <span style="font-weight: bold;">{{'study-management.detail.surveySeries' | translate }}:</span>
+                      <a ui-sref="search({'type': 'studies', 'survey-series-de': ctrl.study.surveySeries.de})">
+                          <span display-i18n-string="ctrl.study.surveySeries" fdz-hyphenate></span>
+                          <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                              {{'study-management.detail.tooltips.studies.survey-series' | translate}}
+                          </md-tooltip>
+                      </a>
+                    </div>
+                    <div ng-if="ctrl.study.surveySeries && currentLanguage === 'en'" class="fdz-add-bottom-margin">
+                      <span style="font-weight: bold;">{{'study-management.detail.surveySeries' | translate }}:</span>
+                      <a ui-sref="search({'type': 'studies', 'survey-series-en': ctrl.study.surveySeries.en})">
+                          <span display-i18n-string="ctrl.study.surveySeries" fdz-hyphenate></span>
+                          <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                              {{'study-management.detail.tooltips.studies.survey-series' | translate}}
+                          </md-tooltip>
+                      </a>
                     </div>
                     <div class="fdz-add-bottom-margin" ng-if="ctrl.study.institution">
                         <span style="font-weight: bold;">{{'study-management.detail.institution' | translate }}:</span>

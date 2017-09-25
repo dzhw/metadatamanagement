@@ -1,12 +1,35 @@
+/* global _ */
 'use strict';
 
 angular.module('metadatamanagementApp').factory('StudySearchService',
-  function(ElasticSearchClient, $q) {
+  function(ElasticSearchClient, $q, CleanJSObjectService,
+    SearchFilterHelperService, LanguageService) {
     var createQueryObject = function() {
       return {
         index: 'studies',
         type: 'studies'
       };
+    };
+
+    var createTermFilters = function(filter, dataAcquisitionProjectId) {
+      var termFilter;
+      if (!CleanJSObjectService.isNullOrEmpty(filter) ||
+        !CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
+        termFilter = [];
+      }
+      if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
+        var projectFilter = {
+          term: {
+            dataAcquisitionProjectId: dataAcquisitionProjectId
+          }
+        };
+        termFilter.push(projectFilter);
+      }
+      if (!CleanJSObjectService.isNullOrEmpty(filter)) {
+        termFilter = _.concat(termFilter,
+          SearchFilterHelperService.createTermFilters('studies', filter));
+      }
+      return termFilter;
     };
 
     var findOneById = function(id) {
@@ -22,58 +45,68 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
         });
       return deferred;
     };
-    var findStudies = function(studyIds, selectedAttributes) {
+
+    var findSurveySeries = function(searchText, filter, language) {
+      language = language || LanguageService.getCurrentInstantly();
       var query = createQueryObject();
-      query.body = {};
-      query.body.query = {};
-      query.body._source = selectedAttributes;
-      query.body.query.docs = {
-        'ids': studyIds
+      var termFilters = createTermFilters(filter);
+
+      query.body = {
+        'size': 0,
+        'aggs': {
+            'surveySeriesDe': {
+                'terms': {
+                  'field': 'surveySeries.de'
+                },
+                'aggs': {
+                  'surveySeriesEn': {
+                    'terms': {
+                      'field': 'surveySeries.en'
+                    }
+                  }
+                }
+              }
+          }
       };
-      return ElasticSearchClient.mget(query);
-    };
-    var findStudy = function(studyId, selectedAttributes) {
-      var query = createQueryObject();
-      query.body = {};
-      query.body._source = selectedAttributes;
+
       query.body.query = {
         'bool': {
           'must': [{
-            'match_all': {}
-          }],
-          'filter': [{
-            'term': {
-              '_id': studyId
-            }
-          }]
+              'match': {
+              }
+            }],
+          'disable_coord': true
         }
       };
-      return ElasticSearchClient.search(query);
-    };
-    var findOneByProjectId = function(dataAcquisitionProjectId,
-      selectedAttributes) {
-      var query = createQueryObject();
-      query.body = {};
-      query.body.size = 1;
-      query.body._source = selectedAttributes;
-      query.body.query = {
-        'bool': {
-          'must': [{
-            'match_all': {}
-          }],
-          'filter': [{
-            'term': {
-              'dataAcquisitionProjectId': dataAcquisitionProjectId
-            }
-          }]
-        }
+
+      query.body.query.bool.must[0].match
+        ['surveySeries.' + language + '.ngrams'] = {
+        'query': searchText,
+        'operator': 'AND',
+        'minimum_should_match': '100%',
+        'zero_terms_query': 'ALL'
       };
-      return ElasticSearchClient.search(query);
+
+      if (termFilters) {
+        query.body.query.bool.filter = termFilters;
+      }
+
+      return ElasticSearchClient.search(query).then(function(result) {
+        var surveySeries = [];
+        var surveySeriesElement = {};
+        result.aggregations.surveySeriesDe.buckets.forEach(function(bucket) {
+            surveySeriesElement = {
+              'de': bucket.key,
+              'en': bucket.surveySeriesEn.buckets[0].key
+            };
+            surveySeries.push(surveySeriesElement);
+          });
+        return surveySeries;
+      });
     };
+
     return {
       findOneById: findOneById,
-      findStudies: findStudies,
-      findStudy: findStudy,
-      findOneByProjectId: findOneByProjectId
+      findSurveySeries: findSurveySeries
     };
   });

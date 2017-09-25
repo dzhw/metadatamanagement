@@ -67,6 +67,9 @@ angular.module('metadatamanagementApp').config(
             'instruments': {
               'one': 'Click to show the instruments of this study',
               'many': 'Click to show all instruments of this study'
+            },
+            'studies': {
+              'survey-series': 'Click to show all studies of the survey series.'
             }
           },
           'data-set': {
