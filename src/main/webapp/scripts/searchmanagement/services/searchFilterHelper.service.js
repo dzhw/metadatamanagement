@@ -6,6 +6,8 @@ angular.module('metadatamanagementApp').factory(
   function(CleanJSObjectService) {
     var keyMapping = {
       'studies': {
+        'survey-series-de': 'surveySeries.de',
+        'survey-series-en': 'surveySeries.en',
         'survey': 'surveys.id',
         'instrument': 'instruments.id',
         'question': 'questions.id',
@@ -14,6 +16,8 @@ angular.module('metadatamanagementApp').factory(
         'related-publication': 'relatedPublications.id'
       },
       'variables': {
+        'survey-series-de': 'study.surveySeries.de',
+        'survey-series-en': 'study.surveySeries.en',
         'study': 'studyId',
         'survey': 'surveys.id',
         'instrument': 'instruments.id',
@@ -25,6 +29,8 @@ angular.module('metadatamanagementApp').factory(
         'related-publication': 'relatedPublications.id'
       },
       'surveys': {
+        'survey-series-de': 'study.surveySeries.de',
+        'survey-series-en': 'study.surveySeries.en',
         'study': 'studyId',
         'instrument': 'instruments.id',
         'question': 'questions.id',
@@ -33,6 +39,8 @@ angular.module('metadatamanagementApp').factory(
         'related-publication': 'relatedPublications.id'
       },
       'questions': {
+        'survey-series-de': 'study.surveySeries.de',
+        'survey-series-en': 'study.surveySeries.en',
         'study': 'studyId',
         'survey': 'surveys.id',
         'instrument': 'instrumentId',
@@ -41,6 +49,8 @@ angular.module('metadatamanagementApp').factory(
         'related-publication': 'relatedPublications.id'
       },
       'instruments': {
+        'survey-series-de': 'study.surveySeries.de',
+        'survey-series-en': 'study.surveySeries.en',
         'study': 'studyId',
         'survey': 'surveyIds',
         'question': 'questions.id',
@@ -49,6 +59,8 @@ angular.module('metadatamanagementApp').factory(
         'related-publication': 'relatedPublications.id'
       },
       'data_sets': {
+        'survey-series-de': 'study.surveySeries.de',
+        'survey-series-en': 'study.surveySeries.en',
         'study': 'studyId',
         'survey': 'surveyIds',
         'instrument': 'instruments.id',
@@ -57,6 +69,8 @@ angular.module('metadatamanagementApp').factory(
         'related-publication': 'relatedPublications.id'
       },
       'related_publications': {
+        'survey-series-de': 'studies.surveySeries.de',
+        'survey-series-en': 'studies.surveySeries.en',
         'study': 'studyIds',
         'survey': 'surveyIds',
         'instrument': 'instrumentIds',
@@ -103,8 +117,7 @@ angular.module('metadatamanagementApp').factory(
               hiddenFiltersKeyMapping[elasticsearchType][key];
             if (key) {
               filterKeyValue.term[key] = value;
-              termFilters.push(
-                filterKeyValue);
+              termFilters.push(filterKeyValue);
             }
           }
         });

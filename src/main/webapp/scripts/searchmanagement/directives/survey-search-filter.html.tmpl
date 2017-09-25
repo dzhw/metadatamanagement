@@ -1,5 +1,5 @@
 <div ng-form="surveyFilterForm" layout="row" layout-align="center center">
-    <md-autocomplete md-delay="250" class="fdz-search-filter-component" md-input-name="surveyFilter" md-floating-label="{{'search-management.filter.survey' | translate}}" flex md-min-length="0" md-require-match="true" md-select-on-match="true" md-selected-item="currentSurvey"
+    <md-autocomplete md-delay="250" class="fdz-search-filter-component" md-input-name="surveyFilter" md-floating-label="{{'search-management.filter.floating-label.survey' | translate}}" flex md-min-length="0" md-require-match="true" md-select-on-match="true" md-selected-item="currentSurvey"
       md-selected-item-change="onSelectionChanged(currentSurvey)" md-search-text="searchText" md-items="item in searchSurveys(searchText)" md-item-text="(item._source.title | displayI18nString) + ' (' + item._source.id + ')'" md-clear-button="true" md-no-cache="true">
         <md-item-template>
             <span class="md-title" style="font-size: 14px;" display-i18n-string="item._source.title"></span>

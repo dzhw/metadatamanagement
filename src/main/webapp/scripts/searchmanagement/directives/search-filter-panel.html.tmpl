@@ -16,7 +16,7 @@
             <md-divider style="background-color: white;"></md-divider>
             <md-content>
                 <md-option ng-value="filter" ng-repeat="filter in availableHiddenFilters | filterTranslatedValues:filterSearchTerm:'search-management.filter.'">{{'search-management.filter.' + filter | translate}}</md-option>
-                <md-option ng-value="filter" ng-repeat="filter in availableFilters | filterTranslatedValues:filterSearchTerm:'search-management.filter.'">{{'search-management.filter.' + filter | translate}}</md-option>
+                <md-option ng-value="filter" ng-repeat="filter in displayAvailableFilters | filterTranslatedValues:filterSearchTerm:'search-management.filter.'">{{'search-management.filter.' + filter | translate}}</md-option>
             </md-content>
         </md-select>
     </md-input-container>
@@ -31,6 +31,7 @@
 </div>
 <div ng-if="selectedFilters && selectedFilters.length !== 0" layout="column" style="margin: 0px 16px 0px 16px;" ng-hide="filtersCollapsed">
     <form role="search" ng-submit="hideMobileKeyboard()">
+        <survey-series-search-filter ng-if="selectedFilters.indexOf('survey-series-de') >= 0 || selectedFilters.indexOf('survey-series-en') >= 0" current-language="currentLanguage" current-search-params="currentSearchParams" selected-filters="selectedFilters" survey-series-changed-callback="onOneFilterChanged" bowser="bowser"></survey-series-search-filter>
         <study-search-filter ng-if="selectedFilters.indexOf('study') >= 0" current-language="currentLanguage" current-search-params="currentSearchParams" study-changed-callback="onOneFilterChanged" bowser="bowser"></study-search-filter>
         <survey-search-filter ng-if="selectedFilters.indexOf('survey') >= 0" current-language="currentLanguage" current-search-params="currentSearchParams" survey-changed-callback="onOneFilterChanged" bowser="bowser"></survey-search-filter>
         <instrument-search-filter ng-if="selectedFilters.indexOf('instrument') >= 0" current-language="currentLanguage" current-search-params="currentSearchParams" instrument-changed-callback="onOneFilterChanged" bowser="bowser"></instrument-search-filter>

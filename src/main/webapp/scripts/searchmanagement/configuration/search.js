@@ -6,7 +6,8 @@ angular.module('metadatamanagementApp').config(
       parent: 'site',
       url: '/search?{page}{type}{sort-by}{data-set}' +
       '{instrument}{panel-identifier}{derived-variables-identifier}{survey}' +
-      '{study}{variable}{question}{related-publication}{access-way}{query}',
+      '{study}{variable}{question}{related-publication}{access-way}{query}' +
+      '{survey-series-de}{survey-series-en}',
       reloadOnSearch: false,
       data: {
         authorities: []

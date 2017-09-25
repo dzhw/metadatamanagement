@@ -515,7 +515,6 @@ public class UnitTestCreateDomainObjectUtils {
           .withInstrumentNumber(instrumentNumber)
           .withFileName("filename.txt")
           .withDescription(new I18nString("Beschreibung","Description"))
-          .withTitle("Title")
           .withLanguage("de")
           .withType(InstrumentAttachmentTypes.QUESTION_FLOW)
           .withIndexInInstrument(1)

@@ -37,7 +37,7 @@ these new files.
 You can build and deploy the jar to the dev environment by running
 
     mvn -Pdev clean package cf:push-only
-    
+
 ## Pivotal Cloudfoundry
 This project is currently built and deployed to Pivotal Cloudfoundry by Travis CI. You can test the latest version on https://metadatamanagement-dev.cfapps.io/
 

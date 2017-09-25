@@ -40,7 +40,6 @@ angular.module('metadatamanagementApp').config(
           'attachments': {
             'table-title': 'Materialien zum Instrument',
             'type': 'Typ',
-            'title': 'Titel',
             'description': 'Beschreibung',
             'language': 'Dokumentensprache',
             'file': 'Datei'
@@ -123,9 +122,6 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'Die Beschreibung des Attachments darf nicht leer sein.',
               'i18n-string-size': 'Die Beschreibung muss in mindestens einer Sprache angegeben werden und darf nicht länger als 128 Zeichen sein.',
               'i18n-string-not-empty': 'Die Beschreibung darf nicht leer sein.'
-            },
-            'title': {
-              'string-size': 'Der Title des Attachments darf nicht länger als 2048 Zeichen sein.'
             },
             'language': {
               'not-null': 'Die Sprache des Attachments darf nicht leer sein.',

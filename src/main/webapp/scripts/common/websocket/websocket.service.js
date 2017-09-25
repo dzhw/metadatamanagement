@@ -26,8 +26,12 @@ angular.module('metadatamanagementApp').factory('WebSocketService',
         }
         if (ENV === 'local') {
           socket = new SockJS('/websocket');
+        } else if (ENV === 'prod') {
+          // pivotal specific port and domain for websockets on prod
+          socket = new SockJS(
+            'https://metadatamanagement.cfapps.io:4443/websocket');
         } else {
-          // pivotal specific port for websockets
+          // pivotal specific port for websockets on dev and test
           socket = new SockJS(
             'https://' + $location.host() + ':4443/websocket');
         }

@@ -128,6 +128,39 @@
 					}
 				}
 			},
+			"surveySeries": {
+                "type": "object",
+                "properties": {
+                    "de": {
+                        "type": "keyword",
+                        "index": "not_analyzed",
+                        "include_in_all": true,
+                        "norms": false,
+                        "fields": {
+                            "ngrams": {
+                                "type": "text",
+                                "index": "analyzed",
+                                "analyzer": "ngrams",
+                                "norms": false
+                            }
+                        }
+                    },
+                    "en": {
+                        "type": "keyword",
+                        "index": "not_analyzed",
+                        "include_in_all": true,
+                        "norms": false,
+                        "fields": {
+                            "ngrams": {
+                                "type": "text",
+                                "index": "analyzed",
+                                "analyzer": "ngrams",
+                                "norms": false
+                            }
+                        }
+                    }
+                }
+            },
 			"authors": {
 				"type": "object",
 				"properties": {

@@ -162,7 +162,7 @@ angular.module('metadatamanagementApp').config(
           'filter-details': {
             'expression': {
               'not-empty': 'The filter expression must not be empty!',
-              'size': 'The max length of the filter expression is 128 signs.'
+              'size': 'The max length of the filter expression is 2048 signs.'
             },
             'description': {
               'i18n-string-size': 'The max length of the filter description is 2048 signs.'
