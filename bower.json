@@ -35,7 +35,7 @@
     "plotly.js": "^1.30.1",
     "highlightjs": "^9.12.0",
     "angular-highlightjs": "^0.7.1",
-    "js-beautify": "^1.6.14",
+    "js-beautify": "^1.7.3",
     "ngclipboard": "^1.1.1",
     "angular-katex": "^0.10.0",
     "angular-animate": "1.6.6",
