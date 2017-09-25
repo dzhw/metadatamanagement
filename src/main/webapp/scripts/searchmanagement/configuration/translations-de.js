@@ -93,6 +93,18 @@ angular.module('metadatamanagementApp').config(
           'instrument': 'Instrumentfilter',
           'variable': 'Variablenfilter',
           'survey': 'Erhebungsfilter',
+          'floating-label': {
+            'survey': 'Innerhalb welcher Erhebung wollen Sie suchen?',
+            'instrument': 'Innerhalb welches Instrumentes wollen Sie suchen?',
+            'study': 'Innerhalb welcher Studie wollen Sie suchen?',
+            'data-set': 'Innerhalb welchen Datensatzes wollen Sie suchen?',
+            'related-publication': 'In welcher Publikation sollen die Daten vorkommen?',
+            'panel-identifier': 'Innerhalb welcher Panelkennung wollen Sie suchen?',
+            'derived-variables-identifier': 'Innerhalb welcher abgeleiteter Variablen wollen Sie suchen?',
+            'access-way': 'Welcher Zugangsweg soll zur Verfügung stehen?',
+            'variable': 'Welche Variable soll vorkommen?',
+            'question': 'Welche Frage soll vorkommen?'
+          },
           'input-label': {
             'studies': 'Filter für die Studiensuche...',
             'surveys': 'Filter für die Erhebungssuche...',
@@ -106,7 +118,7 @@ angular.module('metadatamanagementApp').config(
             'true': 'Klicken, um die ausgewählten Filter einzublenden',
             'false': 'Klicken, um die ausgewählten Filter auszublenden'
           },
-          'filter-search-input-label': 'Suchen Sie nach möglichen Filtern...',
+          'filter-search-input-label': 'Filtern nach ...',
           'study-filter': {
             'not-found': 'Keine Studie gefunden!',
             'no-valid-selected': 'Keine gültige Studie ausgewählt!'
