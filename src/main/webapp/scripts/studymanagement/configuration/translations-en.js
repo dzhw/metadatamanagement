@@ -6,43 +6,42 @@ angular.module('metadatamanagementApp').config(
       //jscs:disable
       'study-management': {
         'detail': {
+          'label': {
+            'study': 'Study',
+            'studies': 'Studies',
+            'description': 'Study Description',
+            'surveySeries': 'Survey Series',
+            'institution': 'Institution',
+            'authors': 'Authors',
+            'sponsors': 'Sponsored by',
+            'surveyDesign': 'Survey Design',
+            'annotations': 'Annotations',
+            'wave': 'Available Waves',
+            'survey-data-type': 'Survey Data Type',
+            'version': 'Version of Data Sets',
+            'basic-data-of-surveys': 'Basic Data of Surveys',
+            'attachments': {
+              'table-title': 'Documents related to the Study',
+              'type': 'Type',
+              'title': 'Title',
+              'description': 'Description',
+              'language': 'Document Language',
+              'file': 'File'
+            },
+            'data-set': {
+              'card-title': 'Available Data Sets',
+              'accessWays': 'Access Ways',
+              'description': 'Description',
+              'description-tooltip': 'Click to show data set "{{id}}"',
+              'maxNumberOfObservations': 'Observations'
+            },
+            'doi': 'DOI'
+          },
           'title': '{{ title }} ({{ studyId }})',
-          'study': 'Study',
-          'studies': 'Studies',
-          'study-informations': 'Study Detail',
-          'related-information': 'Related Information',
           'not-found': 'The {{id}} references to an unknown Study.',
           'not-found-references': 'The id {{id}} has no References to Studies.',
-          'description': 'Study Description',
-          'survey-details': 'Survey Details',
-          'data-set-details': 'Data Set Informationen',
-          'instrument-information': 'Instrument Informations',
-          'surveySeries': 'Survey Series',
-          'institution': 'Institution',
-          'authors': 'Authors',
-          'sponsors': 'Sponsored by',
           'not-yet-released': 'Not yet released',
-          'version': 'Version of Data Sets',
-          'notes': 'Botes',
-          'surveyDesign': 'Survey Design',
-          'instruments': 'Instruments',
-          'annotations': 'Annotations',
-          'wave': 'Available Waves',
-          'survey-data-type': 'Survey Data Type',
-          'no-related-studies': 'No related Studies.',
-          'related-studies': 'Related Studies',
-          'available-data-products': 'Available Data Products',
-          'basic-data-of-surveys': 'Basic Data of Surveys',
-          'downloads': 'Downloads',
           'not-released-toast': 'Study "{{ id }}" has not yet been released to all users!',
-          'attachments': {
-            'table-title': 'Documents related to the Study',
-            'type': 'Type',
-            'title': 'Title',
-            'description': 'Description',
-            'language': 'Document Language',
-            'file': 'File'
-          },
           'tooltips': {
             'surveys': {
               'one': 'Click to show the survey of this study',
@@ -72,14 +71,6 @@ angular.module('metadatamanagementApp').config(
               'survey-series': 'Click to show all studies of the survey series.'
             }
           },
-          'data-set': {
-            'card-title': 'Available Data Sets',
-            'accessWays': 'Access Ways',
-            'description': 'Description',
-            'description-tooltip': 'Click to show data set "{{id}}"',
-            'maxNumberOfObservations': 'Observations'
-          },
-          'doi': 'DOI',
           'doi-tooltip': 'Click to open the DOI in a new Tab'
         },
         'log-messages': {

@@ -13,17 +13,17 @@
             <div layout="column" layout-gt-sm="row">
                 <div flex-gt-sm="50" layout="column" ng-class="{'fdz-add-right-margin': addMargin, 'fdz-add-bottom-margin': !addMargin}">
                     <div ng-if="searchResult.population" class="fdz-text-block">
-                        <span style="font-weight: bold;">{{'survey-management.detail.population' | translate }}:</span>
+                        <span style="font-weight: bold;">{{'survey-management.detail.label.population' | translate }}:</span>
                         <span display-i18n-string="searchResult.population" limit-to="256" fdz-hyphenate></span>
                     </div>
                 </div>
                 <div flex-gt-sm="50" layout="column">
                     <div ng-class="{'fdz-add-bottom-margin': !addMargin}" ng-if="searchResult.sample">
-                        <span style="font-weight: bold;">{{'survey-management.detail.sample' | translate }}:</span>
+                        <span style="font-weight: bold;">{{'survey-management.detail.label.sample' | translate }}:</span>
                         <span display-i18n-string="searchResult.sample" fdz-hyphenate></span>
                     </div>
                     <div ng-if="searchResult.fieldPeriod">
-                        <span style="font-weight: bold;">{{'survey-management.detail.field-period' | translate }}:</span>
+                        <span style="font-weight: bold;">{{'survey-management.detail.label.field-period' | translate }}:</span>
                         <span>{{searchResult.fieldPeriod.start | date}} - {{searchResult.fieldPeriod.end | date}}</span>
                     </div>
                 </div>

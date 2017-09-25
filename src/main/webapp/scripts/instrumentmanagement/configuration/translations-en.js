@@ -27,23 +27,22 @@ angular.module('metadatamanagementApp').config(
           'title': 'Instruments'
         },
         'detail': {
-          'page-title': '{{ description }} ({{ instrumentId }})',
-          'instrument': 'Instrument',
-          'instruments': 'Instruments',
-          'instrument-informations': 'Details for the Instrument',
-          'title': 'Title',
-          'subtitle': 'Subtitle',
-          'type': 'Type',
-          'annotations': 'Annotations',
-          'related-information': 'Related Objects',
-          'no-related-instruments': 'No related Instruments.',
-          'attachments': {
-            'table-title': 'Documents related to the Instrument',
+          'label': {
+            'instrument': 'Instrument',
+            'instruments': 'Instruments',
+            'title': 'Title',
+            'subtitle': 'Subtitle',
             'type': 'Type',
-            'description': 'Description',
-            'language': 'Document Language',
-            'file': 'File'
+            'annotations': 'Annotations',
+            'attachments': {
+              'table-title': 'Documents related to the Instrument',
+              'type': 'Type',
+              'description': 'Description',
+              'language': 'Document Language',
+              'file': 'File'
+            }
           },
+          'page-title': '{{ description }} ({{ instrumentId }})',
           'not-released-toast': 'Instrument "{{ id }}" has not yet been released to all users!',
           'tooltips': {
             'surveys': {
@@ -122,7 +121,7 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'The description of the attachment must not be empty!',
               'i18n-string-size': 'The description is mandatory and must in at least one language and must not contain more than 128 characters.',
               'i18n-string-not-empty': 'The description must not be empty!'
-            },            
+            },
             'language': {
               'not-null': 'The language of the attachment must not be empty!',
               'not-supported': 'The language of the attachment must be a two-letter abbreviation according to ISO 639-1!'

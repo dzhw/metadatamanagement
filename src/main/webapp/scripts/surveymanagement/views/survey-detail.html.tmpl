@@ -13,39 +13,39 @@
                 <md-divider></md-divider>
                 <md-card-content>
                   <div class="fdz-add-bottom-margin fdz-text-block" ng-if="ctrl.survey.population">
-                    <span style="font-weight: bold;">{{'survey-management.detail.population' | translate }}:</span>
+                    <span style="font-weight: bold;">{{'survey-management.detail.label.population' | translate }}:</span>
                     <span display-i18n-string="ctrl.survey.population" fdz-hyphenate></span>
                   </div>
                   <div class="fdz-add-bottom-margin" ng-if="ctrl.survey.dataType">
-                    <span style="font-weight: bold;">{{'survey-management.detail.data-type' | translate }}:</span>
+                    <span style="font-weight: bold;">{{'survey-management.detail.label.data-type' | translate }}:</span>
                     <span display-i18n-string="ctrl.survey.dataType" fdz-hyphenate></span>
                   </div>
                   <div class="fdz-add-bottom-margin" ng-if="ctrl.survey.sample">
-                    <span style="font-weight: bold;">{{'survey-management.detail.sample' | translate }}:</span>
+                    <span style="font-weight: bold;">{{'survey-management.detail.label.sample' | translate }}:</span>
                     <span display-i18n-string="ctrl.survey.sample" fdz-hyphenate></span>
                   </div>
                   <div class="fdz-add-bottom-margin" ng-if="ctrl.survey.surveyMethod">
-                    <span style="font-weight: bold;">{{'survey-management.detail.survey-method' | translate }}:</span>
+                    <span style="font-weight: bold;">{{'survey-management.detail.label.survey-method' | translate }}:</span>
                     <span display-i18n-string="ctrl.survey.surveyMethod" fdz-hyphenate></span>
                   </div>
                   <div class="fdz-add-bottom-margin" ng-if="ctrl.survey.fieldPeriod">
-                    <span style="font-weight: bold;">{{'survey-management.detail.field-period' | translate }}:</span>
+                    <span style="font-weight: bold;">{{'survey-management.detail.label.field-period' | translate }}:</span>
                     <span>{{ctrl.survey.fieldPeriod.start | date}} - {{ctrl.survey.fieldPeriod.end | date}}</span>
                   </div>
                   <div class="fdz-add-bottom-margin" ng-if="ctrl.survey.grossSampleSize">
-                    <span style="font-weight: bold;">{{'survey-management.detail.grossSampleSize' | translate }}:</span>
+                    <span style="font-weight: bold;">{{'survey-management.detail.label.grossSampleSize' | translate }}:</span>
                     <span>n = {{ctrl.survey.grossSampleSize | number}}</span>
                   </div>
                   <div class="fdz-add-bottom-margin" ng-if="ctrl.survey.sampleSize">
-                    <span style="font-weight: bold;">{{'survey-management.detail.sampleSize' | translate }}:</span>
+                    <span style="font-weight: bold;">{{'survey-management.detail.label.sampleSize' | translate }}:</span>
                     <span>n = {{ctrl.survey.sampleSize | number}}</span>
                   </div>
                   <div class="fdz-add-bottom-margin" ng-if="ctrl.survey.responseRate">
-                    <span style="font-weight: bold;">{{'survey-management.detail.responseRate' | translate }}:</span>
+                    <span style="font-weight: bold;">{{'survey-management.detail.label.responseRate' | translate }}:</span>
                     <span>{{ctrl.survey.responseRate | number}}%</span>
                   </div>
                   <div class="fdz-add-bottom-margin fdz-text-block" ng-if="ctrl.survey.annotations">
-                      <span style="font-weight: bold;">{{'survey-management.detail.annotations' | translate }}:</span>
+                      <span style="font-weight: bold;">{{'survey-management.detail.label.annotations' | translate }}:</span>
                       <span display-i18n-string="ctrl.survey.annotations" fdz-hyphenate></span>
                   </div>
                 </md-card-content>
@@ -63,12 +63,12 @@
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                         <div ng-if="!ctrl.study" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
-                            {{'study-management.detail.study' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                            {{'study-management.detail.label.study' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
                         <div ng-if="ctrl.study" class="fdz-truncate-string" flex>
                             <a ui-sref="studyDetail({id: ctrl.study.id})">
                                 <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
-                                {{'study-management.detail.study' | translate }}:
+                                {{'study-management.detail.label.study' | translate }}:
                                 <span display-i18n-string="ctrl.study.title"></span>
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'survey-management.detail.tooltips.studies.one' | translate}}
@@ -79,12 +79,12 @@
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                         <div ng-if="ctrl.counts.instrumentsCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
-                            {{'instrument-management.detail.instruments' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                            {{'instrument-management.detail.label.instruments' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
                         <div ng-if="ctrl.counts.instrumentsCount === 1 && ctrl.instrument" class="fdz-truncate-string" flex>
                           <a ui-sref="instrumentDetail({'id': ctrl.instrument.id})">
                               <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
-                              {{'instrument-management.detail.instrument' | translate }}:
+                              {{'instrument-management.detail.label.instrument' | translate }}:
                               <span display-i18n-string="ctrl.instrument.description"></span>
                               <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                   {{'survey-management.detail.tooltips.instruments.one' | translate}}
@@ -94,7 +94,7 @@
                         <div ng-if="ctrl.counts.instrumentsCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'instruments', 'survey':ctrl.survey.id, 'study': ctrl.survey.studyId, 'sort-by': 'number'})">
                                 <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
-                                {{'instrument-management.detail.instruments' | translate }}: ({{ctrl.counts.instrumentsCount}})
+                                {{'instrument-management.detail.label.instruments' | translate }}: ({{ctrl.counts.instrumentsCount}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'survey-management.detail.tooltips.instruments.many' | translate}}
                                 </md-tooltip>
@@ -104,12 +104,12 @@
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                         <div ng-if="ctrl.counts.dataSetsCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
-                            {{'data-set-management.detail.data-sets' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                            {{'data-set-management.detail.label.data-sets' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
                         <div ng-if="ctrl.counts.dataSetsCount == 1 && ctrl.dataSet" class="fdz-truncate-string" flex>
                             <a ui-sref="dataSetDetail({'id': ctrl.dataSet.id})">
                                 <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
-                                {{'data-set-management.detail.data-set' | translate }}:
+                                {{'data-set-management.detail.label.data-set' | translate }}:
                                 <span display-i18n-string="ctrl.dataSet.description"></span>
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'survey-management.detail.tooltips.data-sets.one' | translate}}
@@ -119,7 +119,7 @@
                         <div ng-if="ctrl.counts.dataSetsCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'data_sets', 'survey':ctrl.survey.id, 'study': ctrl.survey.studyId, 'sort-by': 'number'})">
                                 <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
-                                {{'data-set-management.detail.data-sets' | translate }}: ({{ctrl.counts.dataSetsCount}})
+                                {{'data-set-management.detail.label.data-sets' | translate }}: ({{ctrl.counts.dataSetsCount}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'survey-management.detail.tooltips.data-sets.many' | translate}}
                                 </md-tooltip>
@@ -129,12 +129,12 @@
                     <div ng-if="ctrl.counts.surveysCount !== 1" style="margin-bottom: 0.5em; width: 100%;" layout="row">
                         <div ng-if="ctrl.counts.surveysCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
-                            {{'survey-management.detail.surveys-same-study' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                            {{'survey-management.detail.label.surveys-same-study' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
                         <div ng-if="ctrl.counts.surveysCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'surveys', 'study':ctrl.survey.studyId, 'sort-by': 'number'})">
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
-                                {{'survey-management.detail.surveys-same-study' | translate }}: ({{ctrl.counts.surveysCount}})
+                                {{'survey-management.detail.label.surveys-same-study' | translate }}: ({{ctrl.counts.surveysCount}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'survey-management.detail.tooltips.surveys.many' | translate}}
                                 </md-tooltip>
@@ -144,12 +144,12 @@
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                         <div ng-if="ctrl.counts.publicationsCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
-                            {{'related-publication-management.detail.publications' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                            {{'related-publication-management.detail.label.publications' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
                         <div ng-if="ctrl.counts.publicationsCount == 1" class="fdz-truncate-string" flex>
                             <a ui-sref="relatedPublicationDetail({'id': ctrl.relatedPublication.id})">
                                 <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
-                                {{'related-publication-management.detail.publication' | translate }}: {{ctrl.relatedPublication.title}}
+                                {{'related-publication-management.detail.label.publication' | translate }}: {{ctrl.relatedPublication.title}}
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'survey-management.detail.tooltips.publications.one' | translate}}
                                 </md-tooltip>
@@ -158,7 +158,7 @@
                         <div ng-if="ctrl.counts.publicationsCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'related_publications', 'survey': ctrl.survey.id, 'study': ctrl.survey.studyId})">
                                 <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
-                                {{'related-publication-management.detail.publications' | translate }}: ({{ctrl.counts.publicationsCount}})
+                                {{'related-publication-management.detail.label.publications' | translate }}: ({{ctrl.counts.publicationsCount}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'survey-management.detail.tooltips.publications.many' | translate}}
                                 </md-tooltip>
@@ -173,30 +173,30 @@
         <md-card ng-if="ctrl.attachments" flex class="fdz-reset-top-margin">
             <md-card-header layout-align="center center">
                 <md-card-header-text>
-                    <h2 class="md-title">{{'survey-management.detail.attachments.table-title' | translate | fdzHyphenate }}</h2>
+                    <h2 class="md-title">{{'survey-management.detail.label.attachments.table-title' | translate | fdzHyphenate }}</h2>
                 </md-card-header-text>
             </md-card-header>
             <table fdz-table>
                 <thead>
                     <tr>
-                        <th class="fdz-table-half-absorbing-column">{{'survey-management.detail.attachments.title' | translate }}
+                        <th class="fdz-table-half-absorbing-column">{{'survey-management.detail.label.attachments.title' | translate }}
                             <md-tooltip hide-gt-xs md-direction="right">
-                                {{'survey-management.detail.attachments.title' | translate }}
+                                {{'survey-management.detail.label.attachments.title' | translate }}
                             </md-tooltip>
                         </th>
-                        <th class="fdz-table-half-absorbing-column">{{'survey-management.detail.attachments.description' | translate }}
+                        <th class="fdz-table-half-absorbing-column">{{'survey-management.detail.label.attachments.description' | translate }}
                             <md-tooltip hide-gt-xs md-direction="right">
-                                {{'survey-management.detail.attachments.description' | translate }}
+                                {{'survey-management.detail.label.attachments.description' | translate }}
                             </md-tooltip>
                         </th>
-                        <th>{{'survey-management.detail.attachments.language' | translate }}
+                        <th>{{'survey-management.detail.label.attachments.language' | translate }}
                             <md-tooltip hide-gt-xs md-direction="right">
-                                {{'survey-management.detail.attachments.language' | translate }}
+                                {{'survey-management.detail.label.attachments.language' | translate }}
                             </md-tooltip>
                         </th>
-                        <th>{{'survey-management.detail.attachments.file' | translate }}
+                        <th>{{'survey-management.detail.label.attachments.file' | translate }}
                             <md-tooltip hide-gt-xs md-direction="right">
-                                {{'survey-management.detail.attachments.file' | translate }}
+                                {{'survey-management.detail.label.attachments.file' | translate }}
                             </md-tooltip>
                         </th>
                     </tr>
@@ -219,7 +219,7 @@
             <md-card ng-hide="!ctrl.imgResolved" class="fdz-reset-top-margin">
                 <md-card-header>
                     <md-card-header-text>
-                        <h2 class="md-title">{{'survey-management.detail.response-rate-informations' | translate | fdzHyphenate }}</h2>
+                        <h2 class="md-title">{{'survey-management.detail.label.response-rate-informations' | translate | fdzHyphenate }}</h2>
                     </md-card-header-text>
                 </md-card-header>
                 <md-divider></md-divider>

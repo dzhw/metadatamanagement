@@ -27,23 +27,22 @@ angular.module('metadatamanagementApp').config(
           'title': 'Instrumente'
         },
         'detail': {
-          'page-title': '{{ description }} ({{ instrumentId }})',
-          'instrument': 'Instrument',
-          'instruments': 'Instrumente',
-          'instrument-informations': 'Details zum Instrument',
-          'title': 'Titel',
-          'subtitle': 'Untertitel',
-          'type': 'Typ',
-          'annotations': 'Anmerkungen',
-          'related-information': 'Verbundene Objekte',
-          'no-related-instruments': 'Keine zugehörige Instrumente.',
-          'attachments': {
-            'table-title': 'Materialien zum Instrument',
+          'label': {
+            'instrument': 'Instrument',
+            'instruments': 'Instrumente',
+            'title': 'Titel',
+            'subtitle': 'Untertitel',
             'type': 'Typ',
-            'description': 'Beschreibung',
-            'language': 'Dokumentensprache',
-            'file': 'Datei'
+            'annotations': 'Anmerkungen',
+            'attachments': {
+              'table-title': 'Materialien zum Instrument',
+              'type': 'Typ',
+              'description': 'Beschreibung',
+              'language': 'Dokumentensprache',
+              'file': 'Datei'
+            }
           },
+          'page-title': '{{ description }} ({{ instrumentId }})',
           'not-released-toast': 'Das Instrument "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!',
           'tooltips': {
             'surveys': {

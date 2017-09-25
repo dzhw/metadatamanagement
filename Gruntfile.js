@@ -647,7 +647,7 @@ module.exports = function(grunt) {
       var findDetailTranslations = function(translations) {
         for (var property in translations) {
           if (translations[property].detail) {
-            return translations[property].detail;
+            return translations[property].detail.label;
           }
         }
       };

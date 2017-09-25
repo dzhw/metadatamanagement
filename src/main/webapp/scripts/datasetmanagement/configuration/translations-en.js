@@ -39,47 +39,44 @@ angular.module('metadatamanagementApp').config(
           'title': 'Data Sets'
         },
         'detail': {
+          'label': {
+            'data-set': 'Data Set',
+            'data-sets': 'Data Sets',
+            'type': 'Type',
+            'format': 'Format',
+            'annotations': 'Annotations',
+            'data-set-same-study': 'Data Sets of this Study',
+            'sub-data-sets': {
+              'title': 'Available Sub Data Sets',
+              'name': 'Name',
+              'accessWay': 'Access Way',
+              'description': 'Description',
+              'numberOfAnalyzedVariables': 'Analyzable Variables',
+              'unknownNumberOfAnalyzedVariables': 'Unknown',
+              'numberOfAnalyzedVariables-tooltip': 'Click to show all analyzable variables of this sub data set',
+              'numberOfObservations': 'Observations',
+              'citate': 'Citate',
+              'citation': 'Citation',
+              'citate-tooltipp': 'Click to show citation information and to copy them.',
+              'no-citate-tooltipp': 'This Sub Data Set has no information about the citation.',
+              'copy-complete-citation-tooltip': 'Click for copy the citation to the clipboard.'
+            },
+            'attachments': {
+              'table-title': 'Documents related to the Data Set',
+              'title': 'Title',
+              'description': 'Description',
+              'language': 'Document Language',
+              'file': 'File'
+            }
+          },
           'title': '{{ description }} ({{ dataSetId }})',
-          'data-set': 'Data Set',
-          'data-sets': 'Data Sets',
-          'type': 'Type',
-          'format': 'Format',
-          'annotations': 'Annotations',
-          'data-set-informations': 'Data Set Informations',
-          'related-information': 'Related Information',
-          'data-set-same-study': 'Data Sets of this Study',
-          'description': 'Description',
           'not-found': 'The {{id}} references to an unknown Data Set.',
           'not-found-references': 'The id {{id}} has no References to Data Sets.',
-          'sub-data-sets': {
-            'title': 'Available Sub Data Sets',
-            'name': 'Name',
-            'accessWay': 'Access Way',
-            'description': 'Description',
-            'numberOfAnalyzedVariables': 'Analyzable Variables',
-            'unknownNumberOfAnalyzedVariables': 'Unknown',
-            'numberOfAnalyzedVariables-tooltip': 'Click to show all analyzable variables of this sub data set',
-            'numberOfObservations': 'Observations',
-            'citate': 'Citate',
-            'citation': 'Citation',
-            'citate-tooltipp': 'Click to show citation information and to copy them.',
-            'no-citate-tooltipp': 'This Sub Data Set has no information about the citation.',
-            'copy-complete-citation-tooltip': 'Click for copy the citation to the clipboard.'
-          },
-          'attachments': {
-            'table-title': 'Documents related to the Data Set',
-            'title': 'Title',
-            'description': 'Description',
-            'language': 'Document Language',
-            'file': 'File'
-          },
           'content': {
             'true': 'Click to maximize',
             'false': 'Click to minimize'
           },
           'generate-variable-report-tooltip': 'Click to generate variable report',
-          'no-related-data-sets': 'No related Data Sets.',
-          'related-data-sets': 'Related Data Sets',
           'not-released-toast': 'Data Set "{{ id }}" has not yet been released to all users!',
           'tooltips': {
             'data-sets': {

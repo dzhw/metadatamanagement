@@ -6,43 +6,42 @@ angular.module('metadatamanagementApp').config(
       //jscs:disable
       'study-management': {
         'detail': {
+          'label': {
+            'study': 'Studie',
+            'studies': 'Studien',
+            'description': 'Studienbeschreibung',
+            'surveySeries': 'Erhebungsreihe',
+            'institution': 'Erhebende Institution',
+            'authors': 'Projektmitarbeiter(innen)',
+            'sponsors': 'Gefördert von',
+            'version': 'Version der Datensätze',
+            'surveyDesign': 'Erhebungsdesign',
+            'annotations': 'Anmerkungen',
+            'wave': 'Verfügbare Wellen',
+            'survey-data-type': 'Erhebungsdatentyp',
+            'basic-data-of-surveys': 'Eckdaten der Erhebungen',
+            'attachments': {
+              'table-title': 'Materialien zu der Studie',
+              'type': 'Typ',
+              'title': 'Titel',
+              'description': 'Beschreibung',
+              'language': 'Dokumentensprache',
+              'file': 'Datei'
+            },
+            'data-set': {
+              'card-title': 'Verfügbare Datensätze',
+              'accessWays': 'Zugangswege',
+              'description': 'Beschreibung',
+              'description-tooltip': 'Klicken, um den Datensatz "{{id}}" anzuzeigen',
+              'maxNumberOfObservations': 'Fälle'
+            },
+            'doi': 'DOI'
+          },
           'title': '{{ title }} ({{ studyId }})',
-          'study': 'Studie',
-          'studies': 'Studien',
-          'study-informations': 'Details der Studie',
-          'related-information': 'Zugehörige Informationen',
           'not-found': 'Die id {{id}} referenziert auf eine unbekannte Studie.',
           'not-found-references': 'Die id {{id}} hat keine Referenzen auf Studien.',
-          'description': 'Studienbeschreibung',
-          'survey-details': 'Erhebungsdetails',
-          'data-set-details': 'Datensatzinformationen',
-          'instrument-information': 'Instrumenteninformationen',
-          'surveySeries': 'Erhebungsreihe',
-          'institution': 'Erhebende Institution',
-          'authors': 'Projektmitarbeiter(innen)',
-          'sponsors': 'Gefördert von',
           'not-yet-released': 'Noch nicht freigegeben',
-          'version': 'Version der Datensätze',
-          'notes': 'Notizen',
-          'surveyDesign': 'Erhebungsdesign',
-          'instruments': 'Instrumente',
-          'annotations': 'Anmerkungen',
-          'wave': 'Verfügbare  Wellen',
-          'survey-data-type': 'Erhebungsdatentyp',
-          'no-related-studies': 'Keine zugehörige Studien.',
-          'related-studies': 'Zugehörige Studien',
-          'available-data-products': 'Verfügbare Datenprodukte',
-          'basic-data-of-surveys': 'Eckdaten der Erhebungen',
-          'downloads': 'Materialien zum Download',
           'not-released-toast': 'Die Studie "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!',
-          'attachments': {
-            'table-title': 'Materialien zu der Studie',
-            'type': 'Typ',
-            'title': 'Titel',
-            'description': 'Beschreibung',
-            'language': 'Dokumentensprache',
-            'file': 'Datei'
-          },
           'tooltips': {
             'surveys': {
               'one': 'Klicken, um die Erhebung dieser Studie anzuzeigen',
@@ -72,14 +71,6 @@ angular.module('metadatamanagementApp').config(
               'survey-series': 'Klicken, um alle Studien aus der Erhebungsreihe anzuzeigen.'
             }
           },
-          'data-set': {
-            'card-title': 'Verfügbare Datensätze',
-            'accessWays': 'Zugangswege',
-            'description': 'Beschreibung',
-            'description-tooltip': 'Klicken, um den Datensatz "{{id}}" anzuzeigen',
-            'maxNumberOfObservations': 'Fälle'
-          },
-          'doi': 'DOI',
           'doi-tooltip': 'Klicken, um die DOI in einem neuen Tab zu öffnen'
         },
         'log-messages': {

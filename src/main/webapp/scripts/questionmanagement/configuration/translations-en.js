@@ -26,31 +26,30 @@ angular.module('metadatamanagementApp').config(
           'title': 'Questions'
         },
         'detail': {
+          'label': {
+            'question': 'Question',
+            'questions': 'Questions',
+            'annotations': 'Annotations',
+            'predecessors': 'Previous Questions in Questionnaire',
+            'successors': 'Subsequent Questions in Questionnaire',
+            'technical-representation': 'Technical Representation',
+            'type': 'Question Type',
+            'topic': 'Topic',
+            'instruction': 'Instruction',
+            'introduction': 'Introduction',
+            'number': 'Question Number',
+            'questionText': 'Question Text'
+          },
           'title': 'Question {{ questionNumber }}: {{ instrumentDescription }} ({{ questionId }})',
-          'question': 'Question',
-          'questions': 'Questions',
-          'annotations': 'Annotations',
-          'predecessors': 'Previous Questions in Questionnaire',
-          'successors': 'Subsequent Questions in Questionnaire',
           'no-predecessors': 'No previous Questions in the Questionnaire',
           'no-successors': 'No subsequent Questions in Questionnaire',
-          'technical-representation': 'Technical Representation',
-          'related-information': 'Related Information',
           'not-found': 'The {{id}} references to an unknown Question.',
           'not-found-references': 'The id {{id}} has no References to Questions.',
-          'no-related-questions': 'No related Questions.',
-          'related-questions': 'Related Questions',
           'copy-technical-representation-to-clipboard-tooltip': 'Click to copy the complete technical representation to clipboard',
           'show-complete-technical-representation-tooltip': {
             'true': 'Click to show the complete technical representation',
             'false': 'Click to minimize the content area of the technical representation'
           },
-          'type': 'Question Type',
-          'topic': 'Topic',
-          'instruction': 'Instruction',
-          'introduction': 'Introduction',
-          'number': 'Question Number',
-          'questionText': 'Question Text',
           'not-released-toast': 'Question "{{ id }}" has not yet been released to all users!',
           'tooltips': {
             'publications': {

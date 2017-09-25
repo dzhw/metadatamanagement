@@ -26,35 +26,32 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'detail': {
+          'label': {
+            'survey': 'Erhebung',
+            'surveys': 'Erhebungen',
+            'surveys-same-study': 'Alle Erhebungen der Studie',
+            'field-period': 'Feldzeit',
+            'population': 'Grundgesamtheit',
+            'data-type': 'Erhebungsdatentyp',
+            'survey-method': 'Erhebungsmethode',
+            'sample': 'Stichprobe',
+            'annotations': 'Anmerkungen',
+            'grossSampleSize': 'Bruttostichprobe',
+            'sampleSize': 'Nettostichprobe',
+            'responseRate': 'Rücklaufquote',
+            'response-rate-informations': 'Weitere Informationen zum Rücklauf',
+            'attachments': {
+              'table-title': 'Materialien zu der Erhebung',
+              'title': 'Titel',
+              'description': 'Beschreibung',
+              'language': 'Dokumentensprache',
+              'file': 'Datei'
+            }
+          },
           'title': '{{ title }} ({{ surveyId }})',
-          'survey': 'Erhebung',
-          'surveys': 'Erhebungen',
-          'surveys-same-study': 'Alle Erhebungen der Studie',
-          'survey-informations': 'Informationen zu der Erhebung',
-          'related-information': 'Zugehörige Informationen',
-          'related-objects': 'Zugehörige Objekte',
-          'field-period': 'Feldzeit',
-          'population': 'Grundgesamtheit',
-          'data-type': 'Erhebungsdatentyp',
-          'survey-method': 'Erhebungsmethode',
-          'sample': 'Stichprobe',
-          'annotations': 'Anmerkungen',
           'not-found': 'Die id {{id}} referenziert auf eine unbekannte Erhebung.',
           'not-found-references': 'Die id {{id}} hat keine Referenzen auf Erhebungen.',
-          'no-related-surveys': 'Keine zugehörige Erhebungen.',
-          'related-surveys': 'Zugehörige Erhebungen',
-          'grossSampleSize': 'Bruttostichprobe',
-          'sampleSize': 'Nettostichprobe',
-          'responseRate': 'Rücklaufquote',
-          'response-rate-informations': 'Weitere Informationen zum Rücklauf',
           'response-rate-informations-alt-text': 'Grafische Darstellung der Rücklaufquote',
-          'attachments': {
-            'table-title': 'Materialien zu der Erhebung',
-            'title': 'Titel',
-            'description': 'Beschreibung',
-            'language': 'Dokumentensprache',
-            'file': 'Datei'
-          },
           'not-released-toast': 'Die Erhebung "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!',
           'tooltips': {
             'surveys': {

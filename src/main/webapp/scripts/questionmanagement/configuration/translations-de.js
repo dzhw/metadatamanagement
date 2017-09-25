@@ -26,31 +26,30 @@ angular.module('metadatamanagementApp').config(
           'title': 'Fragen'
         },
         'detail': {
+          'label': {
+            'question': 'Frage',
+            'questions': 'Fragen',
+            'annotations': 'Anmerkungen',
+            'predecessors': 'Vorangegangene Fragen im Fragebogen',
+            'successors': 'Nachfolgende Fragen im Fragebogen',
+            'technical-representation': 'Technische Repräsentation',
+            'type': 'Fragetyp',
+            'topic': 'Thema',
+            'instruction': 'Anleitung',
+            'introduction': 'Einführung',
+            'number': 'Fragenummer',
+            'questionText': 'Fragetext'
+          },
           'title': 'Frage {{ questionNumber }}: {{ instrumentDescription }} ({{ questionId }})',
-          'question': 'Frage',
-          'questions': 'Fragen',
-          'annotations': 'Anmerkungen',
-          'predecessors': 'Vorangegangene Fragen im Fragebogen',
-          'successors': 'Nachfolgende Fragen im Fragebogen',
           'no-predecessors': 'Keine vorangegangenen Fragen im Fragebogen',
           'no-successors': 'Keine nachfolgenden Fragen im Fragebogen',
-          'technical-representation': 'Technische Repräsentation',
-          'related-information': 'Zugehörige Informationen',
           'not-found': 'Die id {{id}} referenziert auf eine unbekannte Frage.',
           'not-found-references': 'Die id {{id}} hat keine Referenzen auf Fragen.',
-          'no-related-questions': 'Keine zugehörige Fragen.',
-          'related-questions': 'Zugehörige Fragen',
           'copy-technical-representation-to-clipboard-tooltip': 'Klicken, um den Inhalt der technischen Representation in die Zwischenablage zu kopieren',
           'show-complete-technical-representation-tooltip': {
             'true': 'Klicken, um die gesamte technische Representation zu zeigen',
             'false': 'Klicken, um den Inhaltsbereich der technischen Representation zu minimieren'
           },
-          'type': 'Fragetyp',
-          'topic': 'Thema',
-          'instruction': 'Anleitung',
-          'introduction': 'Einführung',
-          'number': 'Fragenummer',
-          'questionText': 'Fragetext',
           'not-released-toast': 'Die Frage "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!',
           'tooltips': {
             'publications': {

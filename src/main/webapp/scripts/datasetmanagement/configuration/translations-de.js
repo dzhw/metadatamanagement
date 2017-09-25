@@ -39,47 +39,44 @@ angular.module('metadatamanagementApp').config(
           'title': 'Datensätze'
         },
         'detail': {
+          'label': {
+            'data-set': 'Datensatz',
+            'data-sets': 'Datensätze',
+            'type': 'Typ',
+            'format': 'Format',
+            'annotations': 'Anmerkungen',
+            'data-set-same-study': 'Datensätze der gleichen Studie',
+            'sub-data-sets': {
+              'title': 'Verfügbare Subdatensätze',
+              'name': 'Name',
+              'accessWay': 'Zugangsweg',
+              'description': 'Beschreibung',
+              'numberOfAnalyzedVariables': 'Analysierbare Variablen',
+              'unknownNumberOfAnalyzedVariables': 'Nicht bekannt',
+              'numberOfAnalyzedVariables-tooltip': 'Klicken, um alle analysierbaren Variablen dieses Subdatensatzes anzuzeigen',
+              'numberOfObservations': 'Fälle',
+              'citate': 'Zitieren',
+              'citation': 'Zitation',
+              'citate-tooltipp': 'Klicken, um Zitationsinformationen zu erhalten und zu kopieren.',
+              'no-citate-tooltipp': 'Dieser Subdatansatz hat keine Informationen zur Zitation.',
+              'copy-complete-citation-tooltip': 'Klicken, um die Zitation in die Zwischenablage zu kopieren.'
+            },
+            'attachments': {
+              'table-title': 'Materialien zu dem Datensatz',
+              'title': 'Titel',
+              'description': 'Beschreibung',
+              'language': 'Dokumentensprache',
+              'file': 'Datei'
+            }
+          },
           'title': '{{ description }} ({{ dataSetId }})',
-          'data-set': 'Datensatz',
-          'data-sets': 'Datensätze',
-          'type': 'Typ',
-          'format': 'Format',
-          'annotations': 'Anmerkungen',
-          'data-set-informations': 'Datensatz Informationen',
-          'related-information': 'Zugehörige Informationen',
-          'data-set-same-study': 'Datensätze der gleichen Studie',
-          'description': 'Beschreibung',
           'not-found': 'Die id {{id}} referenziert auf einen unbekannten Datensatz',
           'not-found-references': 'Die id {{id}} hat keine Referenzen auf Datensätze.',
-          'sub-data-sets': {
-            'title': 'Verfügbare Subdatensätze',
-            'name': 'Name',
-            'accessWay': 'Zugangsweg',
-            'description': 'Beschreibung',
-            'numberOfAnalyzedVariables': 'Analysierbare Variablen',
-            'unknownNumberOfAnalyzedVariables': 'Nicht bekannt',
-            'numberOfAnalyzedVariables-tooltip': 'Klicken, um alle analysierbaren Variablen dieses Subdatensatzes anzuzeigen',
-            'numberOfObservations': 'Fälle',
-            'citate': 'Zitieren',
-            'citation': 'Zitation',
-            'citate-tooltipp': 'Klicken, um Zitationsinformationen zu erhalten und zu kopieren.',
-            'no-citate-tooltipp': 'Dieser Subdatansatz hat keine Informationen zur Zitation.',
-            'copy-complete-citation-tooltip': 'Klicken, um die Zitation in die Zwischenablage zu kopieren.'
-          },
-          'attachments': {
-            'table-title': 'Materialien zu dem Datensatz',
-            'title': 'Titel',
-            'description': 'Beschreibung',
-            'language': 'Dokumentensprache',
-            'file': 'Datei'
-          },
           'content': {
             'true': 'Klicken zum maximieren',
             'false': 'Klicken zum minimieren'
           },
           'generate-variable-report-tooltip': 'Klicken, um einen Datensatzreport zu erzeugen',
-          'no-related-data-sets': 'Keine zugehörige Datensätze.',
-          'related-data-sets': 'Zugehörige Datensätze',
           'not-released-toast': 'Der Datensatz "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!',
           'tooltips': {
             'data-sets': {

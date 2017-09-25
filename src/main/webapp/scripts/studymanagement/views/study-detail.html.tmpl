@@ -13,7 +13,7 @@
                 <md-divider></md-divider>
                 <md-card-content>
                     <div ng-if="ctrl.study.surveySeries && currentLanguage === 'de'" class="fdz-add-bottom-margin">
-                      <span style="font-weight: bold;">{{'study-management.detail.surveySeries' | translate }}:</span>
+                      <span style="font-weight: bold;">{{'study-management.detail.label.surveySeries' | translate }}:</span>
                       <a ui-sref="search({'type': 'studies', 'survey-series-de': ctrl.study.surveySeries.de, 'sort-by': 'id'})">
                           <span display-i18n-string="ctrl.study.surveySeries" fdz-hyphenate></span>
                           <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
@@ -22,7 +22,7 @@
                       </a>
                     </div>
                     <div ng-if="ctrl.study.surveySeries && currentLanguage === 'en'" class="fdz-add-bottom-margin">
-                      <span style="font-weight: bold;">{{'study-management.detail.surveySeries' | translate }}:</span>
+                      <span style="font-weight: bold;">{{'study-management.detail.label.surveySeries' | translate }}:</span>
                       <a ui-sref="search({'type': 'studies', 'survey-series-en': ctrl.study.surveySeries.en, 'sort-by': 'id'})">
                           <span display-i18n-string="ctrl.study.surveySeries" fdz-hyphenate></span>
                           <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
@@ -31,11 +31,11 @@
                       </a>
                     </div>
                     <div class="fdz-add-bottom-margin" ng-if="ctrl.study.institution">
-                        <span style="font-weight: bold;">{{'study-management.detail.institution' | translate }}:</span>
+                        <span style="font-weight: bold;">{{'study-management.detail.label.institution' | translate }}:</span>
                         <span display-i18n-string="ctrl.study.institution"></span>
                     </div>
                     <div class="fdz-add-bottom-margin" ng-if="ctrl.study.authors">
-                        <span style="font-weight: bold;">{{'study-management.detail.authors' | translate }}:</span>
+                        <span style="font-weight: bold;">{{'study-management.detail.label.authors' | translate }}:</span>
                         <span ng-repeat="author in ctrl.study.authors">
                           <span>{{author.lastName}}, </span>
                           <span ng-if="author.middleName === undefined"> {{author.firstName}}{{!$last?';':''}}</span>
@@ -43,34 +43,34 @@
                         </span>
                     </div>
                     <div class="fdz-add-bottom-margin" ng-if="ctrl.study.sponsor">
-                        <span style="font-weight: bold;">{{'study-management.detail.sponsors' | translate }}:</span>
+                        <span style="font-weight: bold;">{{'study-management.detail.label.sponsors' | translate }}:</span>
                         <span display-i18n-string="ctrl.study.sponsor"></span>
                     </div>
                     <div class="fdz-add-bottom-margin" ng-if="ctrl.study.surveyDesign">
-                        <span style="font-weight: bold;">{{'study-management.detail.surveyDesign' | translate }}:</span>
+                        <span style="font-weight: bold;">{{'study-management.detail.label.surveyDesign' | translate }}:</span>
                         <span display-i18n-string="ctrl.study.surveyDesign" fdz-hyphenate></span>
                     </div>
                     <div ng-if="ctrl.study.surveyDesign.en==='Panel'" class="fdz-add-bottom-margin">
-                      <span style="font-weight: bold;">{{'study-management.detail.wave' | translate }}:</span>
+                      <span style="font-weight: bold;">{{'study-management.detail.label.wave' | translate }}:</span>
                         <span>{{ctrl.study.numberOfWaves}}</span>
                     </div>
                     <div class="fdz-add-bottom-margin" ng-if="ctrl.study.surveyDataType">
-                        <span style="font-weight: bold;">{{'study-management.detail.survey-data-type' | translate }}:</span>
+                        <span style="font-weight: bold;">{{'study-management.detail.label.survey-data-type' | translate }}:</span>
                         <span display-i18n-string="ctrl.study.surveyDataType" fdz-hyphenate></span>
                     </div>
                     <div class="fdz-add-bottom-margin" ng-if="ctrl.study.doi">
-                        <span style="font-weight: bold;">{{'study-management.detail.doi' | translate }}:</span>
+                        <span style="font-weight: bold;">{{'study-management.detail.label.doi' | translate }}:</span>
                         <a ng-href="https://dx.doi.org/{{ctrl.study.doi}}" target="_blank">{{ctrl.study.doi}}<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                             {{'study-management.detail.doi-tooltip' | translate}}
                         </md-tooltip>
                         </a>
                     </div>
                     <div class="fdz-add-bottom-margin">
-                        <span style="font-weight: bold;">{{'study-management.detail.version' | translate }}:</span>
+                        <span style="font-weight: bold;">{{'study-management.detail.label.version' | translate }}:</span>
                         <span>{{ctrl.study.release?ctrl.study.release.version: ('study-management.detail.not-yet-released' | translate)}}</span>
                     </div>
                     <div class="fdz-add-bottom-margin fdz-text-block" ng-if="ctrl.study.annotations">
-                        <span style="font-weight: bold;">{{'study-management.detail.annotations' | translate }}:</span>
+                        <span style="font-weight: bold;">{{'study-management.detail.label.annotations' | translate }}:</span>
                         <span display-i18n-string="ctrl.study.annotations" fdz-hyphenate></span>
                     </div>
                 </md-card-content>
@@ -88,12 +88,12 @@
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                         <div ng-if="ctrl.counts.surveysCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
-                            {{'survey-management.detail.surveys' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                            {{'survey-management.detail.label.surveys' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
                         <div ng-if="ctrl.counts.surveysCount == 1 && ctrl.survey" class="fdz-truncate-string" flex>
                             <a ui-sref="surveyDetail({'id': ctrl.survey.id})">
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
-                                {{'survey-management.detail.survey' | translate }}:
+                                {{'survey-management.detail.label.survey' | translate }}:
                                 <span display-i18n-string="ctrl.survey.title"></span>
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'study-management.detail.tooltips.surveys.one' | translate}}
@@ -103,7 +103,7 @@
                         <div ng-if="ctrl.counts.surveysCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'surveys', 'study': ctrl.study.id, 'sort-by': 'number'})">
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
-                                {{'survey-management.detail.surveys' | translate }}: ({{ctrl.counts.surveysCount}})
+                                {{'survey-management.detail.label.surveys' | translate }}: ({{ctrl.counts.surveysCount}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'study-management.detail.tooltips.surveys.many' | translate}}
                                 </md-tooltip>
@@ -113,12 +113,12 @@
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                         <div ng-if="ctrl.counts.instrumentsCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
-                            {{'instrument-management.detail.instrument' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                            {{'instrument-management.detail.label.instrument' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
                         <div ng-if="ctrl.counts.instrumentsCount == 1 && ctrl.instrument" class="fdz-truncate-string" flex>
                             <a ui-sref="instrumentDetail({'id': ctrl.instrument.id})">
                                 <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
-                                {{'instrument-management.detail.instrument' | translate }}: <span display-i18n-string="ctrl.instrument.description"></span>
+                                {{'instrument-management.detail.label.instrument' | translate }}: <span display-i18n-string="ctrl.instrument.description"></span>
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'study-management.detail.tooltips.instruments.one' | translate}}
                                 </md-tooltip>
@@ -127,7 +127,7 @@
                         <div ng-if="ctrl.counts.instrumentsCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'instruments', 'study': ctrl.study.id, 'sorty-by': 'number'})">
                                 <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
-                                {{'instrument-management.detail.instruments' | translate }}: ({{ctrl.counts.instrumentsCount}})
+                                {{'instrument-management.detail.label.instruments' | translate }}: ({{ctrl.counts.instrumentsCount}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'study-management.detail.tooltips.instruments.many' | translate}}
                                 </md-tooltip>
@@ -137,12 +137,12 @@
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                         <div ng-if="ctrl.counts.questionsCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
-                            {{'question-management.detail.questions' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                            {{'question-management.detail.label.questions' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
                         <div ng-if="ctrl.counts.questionsCount == 1 && ctrl.question" class="fdz-truncate-string" flex>
                             <a ui-sref="questionDetail({'id': question.id})">
                                 <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
-                                {{'question-management.detail.question' | translate }}: <span display-i18n-string="ctrl.question.questionText"></span>
+                                {{'question-management.detail.label.question' | translate }}: <span display-i18n-string="ctrl.question.questionText"></span>
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 20">
                                     {{'study-management.detail.tooltips.questions.one' | translate}}
                                 </md-tooltip>
@@ -151,7 +151,7 @@
                         <div ng-if="ctrl.counts.questionsCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'questions', 'study':ctrl.study.id, 'sort-by': 'instrumentNumber,indexInInstrument'})">
                                 <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
-                                {{'question-management.detail.questions' | translate }}: ({{ctrl.counts.questionsCount}})
+                                {{'question-management.detail.label.questions' | translate }}: ({{ctrl.counts.questionsCount}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 20">
                                     {{'study-management.detail.tooltips.questions.many' | translate}}
                                 </md-tooltip>
@@ -161,12 +161,12 @@
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                         <div ng-if="ctrl.counts.dataSetsCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
-                            {{'data-set-management.detail.data-sets' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                            {{'data-set-management.detail.label.data-sets' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
                         <div ng-if="ctrl.counts.dataSetsCount == 1 && ctrl.dataSet" class="fdz-truncate-string" flex>
                             <a ui-sref="dataSetDetail({'id': ctrl.dataSet.id})">
                                 <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
-                                {{'data-set-management.detail.data-set' | translate }}:
+                                {{'data-set-management.detail.label.data-set' | translate }}:
                                 <span display-i18n-string="ctrl.dataSet.description"></span>
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'study-management.detail.tooltips.data-sets.one' | translate}}
@@ -176,7 +176,7 @@
                         <div ng-if="ctrl.counts.dataSetsCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'data_sets', 'study': ctrl.study.id, 'sort-by': 'number'})">
                                 <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
-                                {{'data-set-management.detail.data-sets' | translate }}: ({{ctrl.counts.dataSetsCount}})
+                                {{'data-set-management.detail.label.data-sets' | translate }}: ({{ctrl.counts.dataSetsCount}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'study-management.detail.tooltips.data-sets.many' | translate}}
                                 </md-tooltip>
@@ -186,12 +186,12 @@
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                         <div ng-if="ctrl.counts.variablesCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
-                            {{'variable-management.detail.variables' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                            {{'variable-management.detail.label.variables' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
                         <div ng-if="ctrl.counts.variablesCount == 1 && ctrl.variable" class="fdz-truncate-string" flex>
                             <a ui-sref="variableDetail({'id': ctrl.variable.id})">
                                 <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
-                                {{'variable-management.detail.variable' | translate }}:
+                                {{'variable-management.detail.label.variable' | translate }}:
                                 <span display-i18n-string="ctrl.variable.label"></span>
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'study-management.detail.tooltips.variables.one' | translate}}
@@ -201,7 +201,7 @@
                         <div ng-if="ctrl.counts.variablesCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'variables', 'study': ctrl.study.id, 'sort-by': 'dataSetNumber,indexInDataSet'})">
                                 <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
-                                {{'variable-management.detail.variables' | translate }}: ({{ctrl.counts.variablesCount}})
+                                {{'variable-management.detail.label.variables' | translate }}: ({{ctrl.counts.variablesCount}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'study-management.detail.tooltips.variables.many' | translate}}
                                 </md-tooltip>
@@ -211,12 +211,12 @@
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                         <div ng-if="ctrl.counts.publicationsCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
-                            {{'related-publication-management.detail.publications' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                            {{'related-publication-management.detail.label.publications' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
                         <div ng-if="ctrl.counts.publicationsCount == 1" class="fdz-truncate-string" flex>
                             <a ui-sref="relatedPublicationDetail({'id': ctrl.relatedPublication.id})">
                                 <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
-                                {{'related-publication-management.detail.publication' | translate }}: {{ctrl.relatedPublication.title}}
+                                {{'related-publication-management.detail.label.publication' | translate }}: {{ctrl.relatedPublication.title}}
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'study-management.detail.tooltips.publications.one' | translate}}
                                 </md-tooltip>
@@ -225,7 +225,7 @@
                         <div ng-if="ctrl.counts.publicationsCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'related_publications', 'study': ctrl.study.id})">
                                 <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
-                                {{'related-publication-management.detail.publications' | translate }}: ({{ctrl.counts.publicationsCount}})
+                                {{'related-publication-management.detail.label.publications' | translate }}: ({{ctrl.counts.publicationsCount}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'study-management.detail.tooltips.publications.many' | translate}}
                                 </md-tooltip>
@@ -240,7 +240,7 @@
         <md-card flex class="fdz-reset-top-margin">
             <md-card-header>
                 <md-card-header-text>
-                    <h2 class="md-title">{{'study-management.detail.description' | translate | fdzHyphenate}}</h2>
+                    <h2 class="md-title">{{'study-management.detail.label.description' | translate | fdzHyphenate}}</h2>
                 </md-card-header-text>
             </md-card-header>
             <md-divider></md-divider>
@@ -253,35 +253,35 @@
       <md-card  ng-if="ctrl.attachments" flex class="fdz-reset-top-margin">
         <md-card-header layout-align="center center">
           <md-card-header-text>
-            <h2 class="md-title">{{'study-management.detail.attachments.table-title' | translate | fdzHyphenate}}</h2>
+            <h2 class="md-title">{{'study-management.detail.label.attachments.table-title' | translate | fdzHyphenate}}</h2>
           </md-card-header-text>
         </md-card-header>
         <table fdz-table>
           <thead>
             <tr>
-              <th>{{'study-management.detail.attachments.type' | translate }}
+              <th>{{'study-management.detail.label.attachments.type' | translate }}
                 <md-tooltip hide-gt-xs md-direction="right">
-                  {{'study-management.detail.attachments.type' | translate }}
+                  {{'study-management.detail.label.attachments.type' | translate }}
                 </md-tooltip>
               </th>
-              <th class="fdz-table-half-absorbing-column">{{'study-management.detail.attachments.description' | translate }}
+              <th class="fdz-table-half-absorbing-column">{{'study-management.detail.label.attachments.description' | translate }}
                 <md-tooltip hide-gt-xs md-direction="right">
-                  {{'study-management.detail.attachments.description' | translate }}
+                  {{'study-management.detail.label.attachments.description' | translate }}
                 </md-tooltip>
               </th>
-              <th class="fdz-table-half-absorbing-column">{{'study-management.detail.attachments.title' | translate }}
+              <th class="fdz-table-half-absorbing-column">{{'study-management.detail.label.attachments.title' | translate }}
                 <md-tooltip hide-gt-xs md-direction="right">
-                  {{'study-management.detail.attachments.title' | translate }}
+                  {{'study-management.detail.label.attachments.title' | translate }}
                 </md-tooltip>
               </th>
-              <th>{{'study-management.detail.attachments.language' | translate }}
+              <th>{{'study-management.detail.label.attachments.language' | translate }}
                 <md-tooltip hide-gt-xs md-direction="right">
-                  {{'study-management.detail.attachments.language' | translate }}
+                  {{'study-management.detail.label.attachments.language' | translate }}
                 </md-tooltip>
               </th>
-              <th>{{'study-management.detail.attachments.file' | translate }}
+              <th>{{'study-management.detail.label.attachments.file' | translate }}
                 <md-tooltip hide-gt-xs md-direction="right">
-                  {{'study-management.detail.attachments.file' | translate }}
+                  {{'study-management.detail.label.attachments.file' | translate }}
                 </md-tooltip>
               </th>
             </tr>
@@ -302,7 +302,7 @@
         <md-card ng-if="ctrl.dataSets.length > 0" flex class="fdz-reset-top-margin">
             <md-card-header>
                 <md-card-header-text>
-                    <h2 class="md-title">{{'study-management.detail.data-set.card-title' | translate | fdzHyphenate }}</h2>
+                    <h2 class="md-title">{{'study-management.detail.label.data-set.card-title' | translate | fdzHyphenate }}</h2>
                 </md-card-header-text>
             </md-card-header>
             <md-divider></md-divider>
@@ -317,7 +317,7 @@
         <md-card ng-if="ctrl.study.surveys.length > 0" flex class="fdz-reset-top-margin">
             <md-card-header>
                 <md-card-header-text>
-                    <h2 class="md-title">{{'study-management.detail.basic-data-of-surveys' | translate | fdzHyphenate }}</h2>
+                    <h2 class="md-title">{{'study-management.detail.label.basic-data-of-surveys' | translate | fdzHyphenate }}</h2>
                 </md-card-header-text>
             </md-card-header>
             <md-divider></md-divider>

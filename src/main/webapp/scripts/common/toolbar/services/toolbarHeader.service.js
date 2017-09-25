@@ -5,25 +5,25 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
   function($rootScope) {
     var translationStringsMap = {
       'questionDetail': {
-        'type': 'question-management.detail.question',
+        'type': 'question-management.detail.label.question',
         'translateString': 'global.tooltips.toolbarHeader.question',
         'iconType': 'svg',
         'icon': 'assets/images/icons/question.svg'
       },
       'variableDetail': {
-        'type': 'variable-management.detail.variable',
+        'type': 'variable-management.detail.label.variable',
         'translateString': 'global.tooltips.toolbarHeader.variable',
         'iconType': 'svg',
         'icon': 'assets/images/icons/variable.svg'
       },
       'instrumentDetail': {
-        'type': 'instrument-management.detail.instrument',
+        'type': 'instrument-management.detail.label.instrument',
         'translateString': 'global.tooltips.toolbarHeader.instrument',
         'iconType': 'svg',
         'icon': 'assets/images/icons/instrument.svg'
       },
       'dataSetDetail': {
-        'type': 'data-set-management.detail.data-set',
+        'type': 'data-set-management.detail.label.data-set',
         'translateString': 'global.tooltips.toolbarHeader.data-set',
         'iconType': 'svg',
         'icon': 'assets/images/icons/data-set.svg'
@@ -32,7 +32,7 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         'type': 'disclosure.title'
       },
       'relatedPublicationDetail': {
-        'type': 'related-publication-management.detail.publication',
+        'type': 'related-publication-management.detail.label.publication',
         'translateString': 'global.tooltips.toolbarHeader.publication',
         'iconType': 'svg',
         'icon': 'assets/images/icons/related-publication.svg'
@@ -45,14 +45,14 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         'icon': 'search'
       },
       'studyDetail': {
-        'type': 'study-management.detail.study',
+        'type': 'study-management.detail.label.study',
         'translateString': 'global.tooltips.toolbarHeader.study',
         'iconType': 'svg',
         'icon': 'assets/images/icons/study.svg'
       },
       'surveyDetail': {
-        'type': 'survey-management.detail.survey',
-        'types': 'survey-management.detail.surveys',
+        'type': 'survey-management.detail.label.survey',
+        'types': 'survey-management.detail.label.surveys',
         'translateString': 'global.tooltips.toolbarHeader.survey',
         'translateStrings': 'global.tooltips.toolbarHeader.surveys',
         'iconType': 'svg',

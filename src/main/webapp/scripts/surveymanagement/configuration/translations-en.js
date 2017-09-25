@@ -26,35 +26,32 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'detail': {
+          'label': {
+            'survey': 'Survey',
+            'surveys': 'Surveys',
+            'surveys-same-study': 'All Surveys of this Study',
+            'field-period': 'Field Period',
+            'population': 'Population',
+            'survey-method': 'Survey Method',
+            'data-type': 'Survey Data Type',
+            'sample': 'Sample',
+            'grossSampleSize': 'Gross Sample Size',
+            'sampleSize': 'Net Sample Size',
+            'responseRate': 'Response Rate',
+            'annotations': 'Annotations',
+            'response-rate-informations': 'Further Information about the Response Rate',
+            'attachments': {
+              'table-title': 'Documents related to the Survey',
+              'title': 'Title',
+              'description': 'Description',
+              'language': 'Document Language',
+              'file': 'File'
+            }
+          },
           'title': '{{ title }} ({{ surveyId }})',
-          'survey': 'Survey',
-          'surveys': 'Surveys',
-          'surveys-same-study': 'All Surveys of this Study',
-          'survey-informations': 'Survey Informations',
-          'related-information': 'Related Information',
-          'related-objects': 'Related Objects',
-          'field-period': 'Field Period',
-          'population': 'Population',
-          'survey-method': 'Survey Method',
-          'data-type': 'Survey Data Type',
-          'sample': 'Sample',
           'not-found': 'The {{id}} references to an unknown Survey.',
           'not-found-references': 'The id {{id}} has no References to Surveys.',
-          'no-related-surveys': 'No related Surveys.',
-          'related-surveys': 'Related Surveys',
-          'grossSampleSize': 'Gross Sample Size',
-          'sampleSize': 'Net Sample Size',
-          'responseRate': 'Response Rate',
-          'annotations': 'Annotations',
-          'response-rate-informations': 'Further Information about the Response Rate',
           'response-rate-informations-alt-text': 'Image to display further information about the response rate',
-          'attachments': {
-            'table-title': 'Documents related to the Survey',
-            'title': 'Title',
-            'description': 'Description',
-            'language': 'Document Language',
-            'file': 'File'
-          },
           'not-released-toast': 'Survey "{{ id }}" has not yet been released to all users!',
           'tooltips': {
             'surveys': {
