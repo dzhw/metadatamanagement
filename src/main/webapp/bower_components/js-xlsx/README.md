@@ -167,24 +167,29 @@ CDNjs automatically pulls the latest version and makes all versions available at
 
 The `demos` directory includes sample projects for:
 
-**Frameworks**
+**Frameworks and APIs**
 - [`angular 1.x`](demos/angular/)
 - [`angular 2.x / 4.x`](demos/angular2/)
 - [`meteor`](demos/meteor/)
-- [`vue 2`](demos/vue/)
+- [`react and react-native`](demos/react/)
+- [`vue 2.x and weex`](demos/vue/)
+- [`XMLHttpRequest and fetch`](demos/xhr/)
+- [`nodejs server`](demos/server/)
 
-**JS Bundlers and Tooling**
+**Bundlers and Tooling**
 - [`browserify`](demos/browserify/)
 - [`requirejs`](demos/requirejs/)
 - [`rollup`](demos/rollup/)
 - [`systemjs`](demos/systemjs/)
-- [`webpack`](demos/webpack/)
+- [`webpack 2.x`](demos/webpack/)
 
-**JS Platforms and Integrations**
+**Platforms and Integrations**
+- [`electron application`](demos/electron/)
+- [`nw.js application`](demos/nwjs/)
 - [`Adobe ExtendScript`](demos/extendscript/)
 - [`Headless Browsers`](demos/headless/)
 - [`canvas-datagrid`](demos/datagrid/)
-- [`Other JS engines`](demos/altjs/)
+- [`Swift JSC and other engines`](demos/altjs/)
 
 ### Optional Modules
 
@@ -614,6 +619,29 @@ function s2ab(s) {
 /* the saveAs call downloads a file on the local machine */
 saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), "test.xlsx");
 ```
+</details>
+
+<details>
+	<summary><b>Browser upload to server</b> (click to show)</summary>
+
+A complete example using XHR is [included in the xhr demo](demos/xhr/), along
+with examples for fetch and wrapper libraries.  This example assumes the server
+can handle Base64-encoded files (see the demo for a basic nodejs server):
+
+```js
+/* in this example, send a base64 string to the server */
+var wopts = { bookType:'xlsx', bookSST:false, type:'base64' };
+
+var wbout = XLSX.write(workbook,wopts);
+
+var oReq = new XMLHttpRequest();
+oReq.open("POST", "/upload", true);
+var formdata = new FormData();
+formdata.append('file', 'test.xlsx'); // <-- server expects `file` to hold name
+formdata.append('data', wbout); // <-- `data` holds the base64-encoded data
+oReq.send(formdata);
+```
+
 </details>
 
 ### Writing Examples
@@ -1536,7 +1564,8 @@ output formats.  The specific file type is controlled with `bookType` option:
 | `xlsx`   | `.xlsx`  |    ZIP    | multi  | Excel 2007+ XML Format            |
 | `xlsm`   | `.xlsm`  |    ZIP    | multi  | Excel 2007+ Macro XML Format      |
 | `xlsb`   | `.xlsb`  |    ZIP    | multi  | Excel 2007+ Binary Format         |
-| `biff2`  | `.xls`   |   none    | single | Excel 2.0 Worksheet format        |
+| `biff8`  | `.xls`   |    CFB    | multi  | Excel 97-2004 Workbook Format     |
+| `biff2`  | `.xls`   |   none    | single | Excel 2.0 Worksheet Format        |
 | `xlml`   | `.xls`   |   none    | multi  | Excel 2003-2004 (SpreadsheetML)   |
 | `ods`    | `.ods`   |    ZIP    | multi  | OpenDocument Spreadsheet          |
 | `fods`   | `.fods`  |   none    | multi  | Flat OpenDocument Spreadsheet     |
@@ -1859,7 +1888,7 @@ Despite the library name `xlsx`, it supports numerous spreadsheet file formats:
 | Excel 2007+ XML Formats (XLSX/XLSM)                          |  :o:  |  :o:  |
 | Excel 2007+ Binary Format (XLSB BIFF12)                      |  :o:  |  :o:  |
 | Excel 2003-2004 XML Format (XML "SpreadsheetML")             |  :o:  |  :o:  |
-| Excel 97-2004 (XLS BIFF8)                                    |  :o:  |       |
+| Excel 97-2004 (XLS BIFF8)                                    |  :o:  |  :o:  |
 | Excel 5.0/95 (XLS BIFF5)                                     |  :o:  |       |
 | Excel 4.0 (XLS/XLW BIFF4)                                    |  :o:  |       |
 | Excel 3.0 (XLS BIFF3)                                        |  :o:  |       |
@@ -2111,7 +2140,7 @@ the metadata the output is valid HTML, although it does accept bare `&` symbols.
 
 `make test` will run the node-based tests.  By default it runs tests on files in
 every supported format.  To test a specific file type, set `FMTS` to the format
-you want to test.  Feature-specific tests are avaialble with `make test_misc`
+you want to test.  Feature-specific tests are available with `make test_misc`
 
 ```bash
 $ make test_misc   # run core tests
