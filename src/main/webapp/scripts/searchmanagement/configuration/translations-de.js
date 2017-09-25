@@ -83,19 +83,19 @@ angular.module('metadatamanagementApp').config(
           'publication-tooltip': 'Klicken, um die Publikation "{{id}}" anzuzeigen'
         },
         'filter': {
-          'study': 'Studienfilter',
-          'data-set': 'Datensatzfilter',
-          'question': 'Fragefilter',
-          'related-publication': 'Publikationsfilter',
-          'panel-identifier': 'Panelkennungsfilter',
-          'derived-variables-identifier': 'Abgeleitete Variablenfilter',
-          'access-way': 'Zugangswegfilter',
-          'instrument': 'Instrumentfilter',
-          'variable': 'Variablenfilter',
-          'survey': 'Erhebungsfilter',
-          'survey-series': 'Erhebungsreihenfilter',
-          'survey-series-de': 'Erhebungsreihenfilter',
-          'survey-series-en': 'Erhebungsreihenfilter',
+          'study': 'Studien',
+          'data-set': 'Datensätzen',
+          'question': 'Fragen',
+          'related-publication': 'Publikationen',
+          'panel-identifier': 'Panelkennungen',
+          'derived-variables-identifier': 'Abgeleitete Variablen',
+          'access-way': 'Zugangswege',
+          'instrument': 'Instrumente',
+          'variable': 'Variablen',
+          'survey': 'Erhebungen',
+          'survey-series': 'Erhebungsreihen',
+          'survey-series-de': 'Erhebungsreihen',
+          'survey-series-en': 'Erhebungsreihen',
           'floating-label': {
             'survey': 'Innerhalb welcher Erhebung wollen Sie suchen?',
             'instrument': 'Innerhalb welches Instrumentes wollen Sie suchen?',
@@ -106,7 +106,8 @@ angular.module('metadatamanagementApp').config(
             'derived-variables-identifier': 'Innerhalb welcher abgeleiteter Variablen wollen Sie suchen?',
             'access-way': 'Welcher Zugangsweg soll zur Verfügung stehen?',
             'variable': 'Welche Variable soll vorkommen?',
-            'question': 'Welche Frage soll vorkommen?'
+            'question': 'Welche Frage soll vorkommen?',
+            'survey-series': 'Innerhalb welcher Erhebungsreihe wollen Sie suchen?'
           },
           'input-label': {
             'studies': 'Filter für die Studiensuche...',
