@@ -82,6 +82,12 @@ angular.module('metadatamanagementApp')
 
       $scope.$watch('selectedFilters', function(newSelectedFilters,
         oldSelectedFilters) {
+        if ($scope.selectedFilters && !_.isEmpty($scope.selectedFilters)) {
+          $timeout(function() {
+            // add md class manually to fix overlapping labels
+            $element.find('.fdz-filter-select').addClass('md-input-has-value');
+          });
+        }
         if (elasticSearchTypeChanged) {
           return;
         }

@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').factory('StudySearchService',
   function(ElasticSearchClient, $q, CleanJSObjectService,
-    SearchFilterHelperService) {
+    SearchFilterHelperService, LanguageService) {
     var createQueryObject = function() {
       return {
         index: 'studies',
@@ -46,8 +46,8 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       return deferred;
     };
 
-    var findSurveySeries = function(searchTermDe, searchTermEn, filter) {
-
+    var findSurveySeries = function(searchText, filter, language) {
+      language = language || LanguageService.getCurrentInstantly();
       var query = createQueryObject();
       var termFilters = createTermFilters(filter);
 
@@ -56,14 +56,12 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
         'aggs': {
             'surveySeriesDe': {
                 'terms': {
-                  'field': 'surveySeries.de',
-                  'include': '.*' + searchTermDe + '.*'
+                  'field': 'surveySeries.de'
                 },
                 'aggs': {
                   'surveySeriesEn': {
                     'terms': {
-                      'field': 'surveySeries.en',
-                      'include': '.*' + searchTermEn + '.*'
+                      'field': 'surveySeries.en'
                     }
                   }
                 }
@@ -71,11 +69,25 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
           }
       };
 
+      query.body.query = {
+        'bool': {
+          'must': [{
+              'match': {
+              }
+            }],
+          'disable_coord': true
+        }
+      };
+
+      query.body.query.bool.must[0].match
+        ['surveySeries.' + language + '.ngrams'] = {
+        'query': searchText,
+        'operator': 'AND',
+        'minimum_should_match': '100%',
+        'zero_terms_query': 'ALL'
+      };
+
       if (termFilters) {
-        query.body.query = {
-          bool: {
-          }
-        };
         query.body.query.bool.filter = termFilters;
       }
 

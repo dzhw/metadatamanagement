@@ -13,12 +13,10 @@ angular.module('metadatamanagementApp')
       var lastFilter;
       var lastSearchResult;
       var currentFilterByLanguage;
-      var searchTextDe;
-      var searchTextEn;
 
       //Search Method for Survey Series, call Elasticsearch
       $scope.searchSurveySeries = function(searchText, language) {
-        var cleanedFilter = _.pick($scope.currentSearchParams.filter,
+        var cleanedFilter = _.omit($scope.currentSearchParams.filter,
           'survey-series-' + language);
 
         if (searchText === lastSearchText &&
@@ -26,18 +24,9 @@ angular.module('metadatamanagementApp')
           return lastSearchResult;
         }
 
-        //Prepare language change for the I18n Filter
-        if (language === 'de') {
-          searchTextDe = searchText;
-          searchTextEn = '';
-        } else {
-          searchTextDe = '';
-          searchTextEn = searchText;
-        }
-
         //Search Call to Elasticsearch
-        return StudySearchService.findSurveySeries(searchTextDe, searchTextEn,
-        cleanedFilter)
+        return StudySearchService.findSurveySeries(searchText, cleanedFilter,
+          language)
           .then(function(surveySeries) {
             lastSearchText = searchText;
             lastFilter = _.cloneDeep(cleanedFilter);
@@ -121,14 +110,12 @@ angular.module('metadatamanagementApp')
                     i18nActualEnding] = surveySeries[0][i18nActualEnding];
                   $scope.selectedFilters.push('survey-series-' +
                     i18nActualEnding);
-
-                  $scope.selectedFilters = $scope.selectedFilters
-                    .filter(function(item) {
-                      return item !== 'survey-series-' + i18nAnotherEnding;
-                    });
+                  delete $scope.selectedFilters[_.indexOf(
+                    $scope.selectedFilters,
+                    'survey-series-' + i18nAnotherEnding)
+                    ];
                   delete $scope.currentSearchParams.filter['survey-series-' +
                     i18nAnotherEnding];
-                  $scope.surveySeriesChangedCallback();
                   return;
                 }
               });
@@ -160,7 +147,7 @@ angular.module('metadatamanagementApp')
         $scope.surveySeriesChangedCallback();
       };
 
-      //Initialize and watch the both Survey Series Filter
+      //Initialize and watch the current Survey Series Filter
       $scope.$watch('currentSearchParams.filter["survey-series-' +
         $scope.currentLanguage + '"]',
         function() {
