@@ -105,7 +105,7 @@ angular.module('metadatamanagementApp').config(
             'panel-identifier': 'Nach welcher Panelkennung wollen Sie filtern?',
             'derived-variables-identifier': 'Nach welchen abgeleiteten Variablen wollen Sie filtern?',
             'access-way': 'Nach welchem Zugangsweg wollen Sie filtern?',
-            'variable': 'Nach welcher Variablen wollen Sie filtern?',
+            'variable': 'Nach welcher Variable wollen Sie filtern?',
             'question': 'Nach welcher Frage wollen Sie filtern?',
             'survey-series': 'Nach welcher Erhebungsreihe wollen Sie filtern?'
           },
