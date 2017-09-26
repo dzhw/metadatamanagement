@@ -97,17 +97,17 @@ angular.module('metadatamanagementApp').config(
           'survey-series-de': 'Erhebungsreihe',
           'survey-series-en': 'Erhebungsreihe',
           'floating-label': {
-            'survey': 'In welcher Erhebung wollen Sie suchen?',
-            'instrument': 'In welchem Instrument wollen Sie suchen?',
-            'study': 'In welcher Studie wollen Sie suchen?',
-            'data-set': 'In welchem Datensatzes wollen Sie suchen?',
-            'related-publication': 'In welcher Publikation sollen die Daten verwendet worden sein?',
-            'panel-identifier': 'Welche Panelkennung sollen die Variablen haben?',
-            'derived-variables-identifier': 'Welche abgeleiteten Variablen wollen Sie suchen?',
-            'access-way': 'Welcher Zugangsweg soll zur Verfügung stehen?',
-            'variable': 'Welche Variable soll vorkommen?',
-            'question': 'Welche Frage soll vorkommen?',
-            'survey-series': 'In welcher Erhebungsreihe wollen Sie suchen?'
+            'survey': 'Nach welcher Erhebung wollen Sie filtern?',
+            'instrument': 'Nach welchem Instrument wollen Sie filtern?',
+            'study': 'Nach welcher Studie wollen Sie filtern?',
+            'data-set': 'Nach welchem Datensatz wollen Sie filtern?',
+            'related-publication': 'Nach welcher Publikation wollen Sie filtern?',
+            'panel-identifier': 'Nach welcher Panelkennung wollen Sie filtern?',
+            'derived-variables-identifier': 'Nach welchen abgeleiteten Variablen wollen Sie filtern?',
+            'access-way': 'Nach welchem Zugangsweg wollen Sie filtern?',
+            'variable': 'Nach welcher Variablen wollen Sie filtern?',
+            'question': 'Nach welcher Frage wollen Sie filtern?',
+            'survey-series': 'Nach welcher Erhebungsreihe wollen Sie filtern?'
           },
           'input-label': {
             'studies': 'Filter für die Studiensuche...',
