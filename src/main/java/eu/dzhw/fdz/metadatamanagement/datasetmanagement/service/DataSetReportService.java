@@ -179,7 +179,7 @@ public class DataSetReportService {
     }
     
     // Save into MongoDB / GridFS   
-    return this.saveCompleteZipFile(zipTmpFile, multiPartFile.getName());
+    return this.saveCompleteZipFile(zipTmpFile, multiPartFile.getOriginalFilename());
   }
   
   /**

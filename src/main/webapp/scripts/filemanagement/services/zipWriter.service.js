@@ -63,6 +63,9 @@ function(FileReaderService, $q) {
         }
       });
       var blob = zip.generate({type: 'blob'});
+      if (rootFolderNames && rootFolderNames.length === 1) {
+        blob.name =  rootFolderNames[0] + '.zip';
+      }
       deferred.resolve(blob);
     });
     return deferred.promise;
