@@ -200,9 +200,6 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
               });
             }
 
-            errorMessages.translationParams.index = uploadCount + 1;
-            console.log(error);
-            console.log(errorMessages);
             JobLoggingService.error({
               message: errorMessages.message,
               messageParams: errorMessages.translationParams,

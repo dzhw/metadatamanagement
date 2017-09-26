@@ -225,6 +225,17 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
       }).catch(function(error) {
         var errorMessages = ErrorMessageResolverService
           .getErrorMessage(error, 'variable');
+
+        if (errorMessages.subMessages.length > 0) {
+          for (var i = 0; i < errorMessages.subMessages.length; ++i) {
+            //+2, one line, because it starts at zero
+            //the second addiional line is because of the
+            //headline in the excel
+            errorMessages.subMessages[i].translationParams.index =
+              index + 2;
+          }
+        }
+
         JobLoggingService.error({
           message: errorMessages.message,
           messageParams: errorMessages.translationParams,

@@ -274,6 +274,17 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
                 //unable to save survey object
                 var errorMessages = ErrorMessageResolverService
                 .getErrorMessage(error, 'survey');
+
+                if (errorMessages.subMessages.length > 0) {
+                  for (var i = 0; i < errorMessages.subMessages.length; ++i) {
+                    //+2, one line, because it starts at zero
+                    //the second addiional line is because of the
+                    //headline in the excel
+                    errorMessages.subMessages[i].translationParams.index =
+                      uploadCount + 2;
+                  }
+                }
+
                 JobLoggingService.error({
                   message: errorMessages.message,
                   messageParams: errorMessages.translationParams,

@@ -106,6 +106,14 @@ angular.module('metadatamanagementApp').service('StudyUploadService',
         }).catch(function(error) {
           var errorMessages = ErrorMessageResolverService
             .getErrorMessage(error, 'study');
+
+          if (errorMessages.subMessages.length > 0) {
+            for (var i = 0; i < errorMessages.subMessages.length; ++i) {
+              //The study is always on line 2 in the excel document.
+              errorMessages.subMessages[i].translationParams.index = 2;
+            }
+          }
+
           JobLoggingService.error({
             message: errorMessages.message,
             messageParams: errorMessages.translationParams,
