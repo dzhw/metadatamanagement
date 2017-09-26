@@ -174,8 +174,14 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
           }).catch(function(error) {
             var errorMessages = ErrorMessageResolverService
               .getErrorMessage(error, 'data-set');
+            var subMessage;
             if (errorMessages.subMessages.length > 0) {
-              errorMessages.subMessages.forEach(function(subMessage) {
+              for (var i = 0; i < errorMessages.subMessages.length; ++i) {
+                subMessage = errorMessages.subMessages[i];
+                //+2, one line, because it starts at zero
+                //the second addiional line is because of the
+                //headline in the excel
+                subMessage.translationParams.index = uploadCount + 2;
                 if (subMessage.translationParams.property &&
                   subMessage.translationParams.property
                   .indexOf('subDataSets[') !== -1) {
@@ -186,13 +192,17 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
                     index: index + 1
                   };
                 }
-              });
+              }
               errorMessages.subMessages.sort(function(message1,
                 message2) {
                 return message1.translationParams.index -
                   message2.translationParams.index;
               });
             }
+
+            errorMessages.translationParams.index = uploadCount + 1;
+            console.log(error);
+            console.log(errorMessages);
             JobLoggingService.error({
               message: errorMessages.message,
               messageParams: errorMessages.translationParams,
