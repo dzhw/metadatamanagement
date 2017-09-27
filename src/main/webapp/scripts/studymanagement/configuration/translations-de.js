@@ -89,13 +89,11 @@ angular.module('metadatamanagementApp').config(
             'study-file-not-found': 'In dem ausgewählten Verzeichnis fehlt die folgende Datei: study.xlsx!',
             'releases-file-not-found': 'In dem ausgewählten Verzeichnis fehlt die folgende Datei: releases.xlsx!',
             'unable-to-delete': 'Die Studie konnte nicht gelöscht werden!',
-            'missing-id': 'Die {{ index }}. Studie enthält keine FDZ-ID und wurde nicht gespeichert!',
             'upload-terminated': 'Upload von {{ total }} Studie  und {{ attachments }} Attachments mit {{warnings}} Warnungen und {{ errors }} Fehlern beendet!',
             'cancelled': 'Upload der Studie Abgebrochen!'
           },
           'study-attachment': {
             'not-saved': 'Attachment "{{ id }}" wurde nicht gespeichert:',
-            'missing-filename': 'Das {{ index }}. Attachment hat keinen Dateinamen und wurde daher nicht gespeichert.',
             'file-not-found': 'Die Datei {{ filename }} wurde nicht gefunden und wurde daher nicht gespeichert!'
           }
         },
