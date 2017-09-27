@@ -76,7 +76,8 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
             message: 'instrument-management.log-messages' +
               '.instrument.missing-number',
             messageParams: {
-              index: index + 1
+              //+1 index starts with zero, +1 headline in excel
+              index: index + 2
             },
             objectType: 'instrument'
           });
@@ -89,7 +90,8 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
             message: 'instrument-management.log-messages' +
               '.instrument.duplicate-instrument-number',
             messageParams: {
-              index: uploadCount + 1,
+              //+1 index starts with zero, +1 headline in excel
+              index: uploadCount + 2,
               number: instrumentsToSave[uploadCount].number
             },
             objectType: 'instrument'
@@ -248,7 +250,8 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
                   message: 'instrument-management.log-messages' +
                     '.instrument-attachment.missing-instrument-number',
                   messageParams: {
-                    index: index + 1
+                    //+1 index starts with zero, +1 headline in excel
+                    index: index + 2
                   },
                   objectType: 'instrument-attachment'
                 });
@@ -265,7 +268,8 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
                   message: 'instrument-management.log-messages' +
                     '.instrument-attachment.unknown-instrument-number',
                   messageParams: {
-                    index: index + 1
+                    //+1 index starts with zero, +1 headline in excel
+                    index: index + 2
                   },
                   objectType: 'instrument-attachment'
                 });
@@ -276,7 +280,8 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
                   message: 'instrument-management.log-messages.' +
                     'instrument-attachment.missing-filename',
                   messageParams: {
-                    index: index + 1
+                    //+1 index starts with zero, +1 headline in excel
+                    index: index + 2
                   },
                   objectType: 'instrument-attachment'
                 });
