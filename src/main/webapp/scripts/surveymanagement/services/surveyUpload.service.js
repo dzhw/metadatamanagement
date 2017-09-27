@@ -63,7 +63,9 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
                         message: 'survey-management.log-messages.survey.' +
                         'missing-number',
                         messageParams: {
-                          index: index + 1
+                          //+1 index starts with zero.
+                          //+1 headline in excel document
+                          index: index + 2
                         },
                         objectType: 'survey'
                       });
@@ -93,7 +95,9 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
                               message: 'survey-management.log-messages' +
                               '.survey-attachment.missing-survey-number',
                               messageParams: {
-                                index: index + 1
+                                //+1 index starts with zero.
+                                //+1 headline in excel document
+                                index: index + 2
                               },
                               objectType: 'attachment'
                             });
@@ -104,7 +108,9 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
                               message: 'survey-management.log-messages' +
                               '.survey-attachment.missing-filename',
                               messageParams: {
-                                index: index + 1
+                                //+1 index starts with zero.
+                                //+1 headline in excel document
+                                index: index + 2
                               },
                               objectType: 'attachment'
                             });
@@ -185,7 +191,9 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
             message: 'survey-management.log-messages' +
               '.survey.duplicate-survey-number',
             messageParams: {
-              index: uploadCount + 1,
+              //+1 index starts with zero.
+              //+1 headline in excel document
+              index: uploadCount + 2,
               number: surveyDetailObject.survey.number
             },
             objectType: 'instrument'

@@ -9,19 +9,19 @@ angular.module('metadatamanagementApp').config(
           'survey': {
             'saved': 'Survey with RDC-ID {{ id }} was saved successfully!',
             'not-saved': 'Survey with RDC-ID {{ id }} has not been saved!',
-            'missing-number': 'Survey {{ index }} does not contain a Number and has not been saved!',
+            'missing-number': 'Survey from the Excel document in the worksheet "surveys" in the line {{ index }} does not contain a Number and has not been saved!',
             'unable-to-upload-image-file': 'Image file "{{ file }}" could not be uploaded!',
             'unable-to-read-image-file': 'Image file "{{ file }}" could not be read!',
             'upload-terminated': 'Finished upload of {{ totalSurveys }} Surveys, {{ totalImages }} Images and {{totalAttachments}} Attachments with {{ totalErrors }} errors.',
             'unable-to-delete': 'The Surveys could not be deleted!',
             'image-file-not-found': 'Image file "{{ file }}" could not be found!',
-            'duplicate-survey-number': 'The number ({{ number }}) of Survey {{ index }} has already been used.',
+            'duplicate-survey-number': 'The number ({{ number }}) of Survey from the Excel document in the worksheet "surveys" in the line {{ index }} has already been used.',
             'cancelled': 'Surveys upload cancelled!'
           },
           'survey-attachment': {
             'not-saved': 'Attachment "{{ id }}" has not been saved.',
-            'missing-survey-number': 'Attachment {{ index }} does not have an survey number and has not been saved.',
-            'missing-filename': 'Attachment {{ index }} does not have a filename and has not been saved.',
+            'missing-survey-number': 'Attachment of a survey from the Excel document in the worksheet "attachments" in the line {{ index }} does not have an survey number and has not been saved.',
+            'missing-filename': 'Attachment of a survey from the Excel document in the worksheet "attachments" in the line {{ index }} does not have a filename and has not been saved.',
             'file-not-found': 'The File {{ filename }} was not found and has not been saved.'
           }
         },
