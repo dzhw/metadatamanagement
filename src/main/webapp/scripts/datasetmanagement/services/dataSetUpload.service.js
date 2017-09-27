@@ -102,7 +102,8 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
           JobLoggingService.error({
             message: 'data-set-management.log-messages.data-set.missing-id',
             messageParams: {
-              index: index + 1
+              //+1 for index starts with 0, +1 for the headline in excel doc
+              index: index + 2
             }
           });
           uploadCount++;
@@ -114,7 +115,8 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
             message: 'data-set-management.log-messages.data-set.' +
               'duplicate-data-set-number',
             messageParams: {
-              index: uploadCount + 1,
+              //+1 for index = 0, +1 for headline in excel
+              index: uploadCount + 2,
               number: objects[uploadCount].number
             }
           });
@@ -189,7 +191,7 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
                     .property.replace('subDataSets[', '').split(
                       ']')[0]);
                   subMessage.translationParams = {
-                    index: index + 1
+                    index: index + 2
                   };
                 }
               }

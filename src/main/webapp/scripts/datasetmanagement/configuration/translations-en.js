@@ -9,19 +9,17 @@ angular.module('metadatamanagementApp').config(
           'data-set': {
             'saved': 'Dataset with RDC-ID {{ id }} was saved successfully!',
             'not-saved': 'Dataset with RDC-ID {{ id }} has not been saved!',
-            'missing-id': 'Dataset {{ index }} does not contain a RDC-ID and has not been saved!',
+            'missing-id': 'Dataset in Excel Document in work sheet "dataSets" in line {{ index }} does not contain a RDC-ID and has not been saved!',
             'upload-terminated': 'Finished upload of {{ total }} Data Sets and {{ attachments }} Attachments with {{warnings}} warnings and {{ errors }} errors.',
             'cancelled': 'Datasets upload cancelled!',
             'unable-to-delete': 'The Data Sets could not be deleted!',
-            'duplicate-data-set-number': 'The number ({{ number }}) of Data Set {{ index }} has already been used.',
+            'duplicate-data-set-number': 'The number ({{ number }}) of the Data Set in the Excel document on sheet "dataSets" in line {{ index }} has already been used.',
             'sub-data-set': {
               'number-of-observations-parse-error': 'Number Of Observations of Sub Data Set {{name}} is not a Number'
             }
           },
           'data-set-attachment': {
             'not-saved': 'Attachment "{{ id }}" has not been saved.',
-            'missing-survey-number': 'Attachment {{ index }} does not have an survey number and has not been saved.',
-            'missing-filename': 'Attachment {{ index }} does not have a filename and has not been saved.',
             'file-not-found': 'The File {{ filename }} was not found and has not been saved.',
             'unknown-data-set-number': 'An Attachment of the Data Sets from the line {{ index }} in the worksheet "attachments" of the excel document has a reference to an unknown Data Set Number: {{dataSetNumber}}.'
           },
