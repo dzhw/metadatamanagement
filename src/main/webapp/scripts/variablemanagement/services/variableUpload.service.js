@@ -163,8 +163,10 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
                   message: 'variable-management.log-messages' +
                     '.variable.missing-name',
                   messageParams: {
+                    // +1 index starts with zero
+                    // +1 headline in excel document
                     dataSet: dataSet.dataSetName,
-                    variableIndex: variableIndex + 1
+                    variableIndex: variableIndex + 2
                   }
                 });
               }
@@ -212,7 +214,9 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
         JobLoggingService.error({
           message: 'variable-management.log-messages.variable.duplicate-name',
           messageParams: {
-            index: index + 1,
+            // +1 index starts with zero
+            // +1 headline in excel document
+            index: index + 2,
             name: variable.name,
             dataSetNumber: variable.dataSetNumber
           }

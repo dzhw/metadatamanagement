@@ -11,16 +11,15 @@ angular.module('metadatamanagementApp').config(
             'not-saved': 'Variable with RDC-ID {{ id }} has not been saved!',
             'unable-to-read-file': 'The file {{file}} in {{dataSet}} could not be opened!',
             'json-parse-error': 'The file {{file}} in {{dataSet}} could not be parsed!',
-            'missing-id': 'Variable {{ index }} does not contain a RDC-ID and has not been saved:',
             'upload-terminated': 'Finished upload of {{ total }} Variables with {{warnings}} warnings and {{ errors }} errors.',
             'unable-to-delete': 'The variables could not be deleted!',
             'cancelled': 'Variables upload cancelled!',
             'missing-json-file': 'There is no JSON file for Variable {{name}} in Data Set {{dataSet}}!',
             'missing-excel-file': 'There is no Excel file in Data Set {{dataSet}}!',
-            'missing-name': 'The {{variableIndex}}. Variable in Datensatz {{dataSet}} doesn\'t have a Name!',
+            'missing-name': 'The Variable from the Excel document in line {{variableIndex}} in the data set {{dataSet}} doesn\'t have a Name!',
             'generation-details-rule-success-copy-to-clipboard': 'The Generation Rule was successfully copied into the clipboard.',
             'filter-details-success-copy-to-clipboard': 'The Filter Expression was successfully copied into the clipboard.',
-            'duplicate-name': 'The name ({{ name }}) of Variable {{ index }} of Data Set {{ dataSetNumber }} has already been used.',
+            'duplicate-name': 'The name ({{ name }}) of Variable from the Excel document in line {{ index }} of Data Set {{ dataSetNumber }} has already been used.',
             'distribution': {
               'histogram': {
                 'incomplete-histogram-information': 'The Variable {{ variableName }} of Data Set {{ dataSetName }} has the scalelevel "ratio" but there is not enough information for displaying a histogram.'

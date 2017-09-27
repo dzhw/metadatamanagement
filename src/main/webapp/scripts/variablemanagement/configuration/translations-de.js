@@ -11,16 +11,15 @@ angular.module('metadatamanagementApp').config(
             'json-parse-error': 'Die Datei {{file}} in {{dataSet}} kann nicht geparst werden!',
             'saved': 'Variable mit FDZ-ID {{ id }} erfolgreich gespeichert!',
             'not-saved': 'Variable mit FDZ-ID {{ id }} wurde nicht gespeichert:',
-            'missing-id': 'Die {{ index }}. Variable enthält keine FDZ-ID und wurde nicht gespeichert!',
             'upload-terminated': 'Upload von {{ total }} Variablen mit {{warnings}} Warnungen und {{ errors }} Fehlern beendet!',
             'unable-to-delete': 'Die Variablen konnten nicht gelöscht werden!',
             'cancelled': 'Upload von Variablen Abgebrochen!',
             'missing-json-file': 'Keine JSON Datei zu Variable {{name}} in Datensatz {{dataSet}} gefunden!',
             'missing-excel-file': 'Keine Excel Datei in Datensatz {{dataSet}} gefunden!',
-            'missing-name': 'Die {{variableIndex}}. Variable in Datensatz {{dataSet}} hat keinen Namen!',
+            'missing-name': 'Die Variable aus der Exceldatei in der Zeile {{variableIndex}} in Datensatz {{dataSet}} hat keinen Namen!',
             'generation-details-rule-success-copy-to-clipboard': 'Die Generierungsregel wurde erfolgreich in die Zwischenablage kopiert.',
             'filter-details-success-copy-to-clipboard': 'Der Filterausdruck wurde erfolgreich in die Zwischenablage kopiert.',
-            'duplicate-name': 'Der Name ({{ name }}) der {{ index }}. Variable aus Datensatz {{ dataSetNumber }} wurde bereits verwendet.',
+            'duplicate-name': 'Der Name ({{ name }}) der Variable aus der Exceldatei in der Zeile {{ index }} aus Datensatz {{ dataSetNumber }} wurde bereits verwendet.',
             'distribution': {
               'histogram': {
                 'incomplete-histogram-information': 'Die Variable {{ variableName }} in Datensatz {{ dataSetName }} ist verhältnisskaliert, hat aber nicht alle Informationen für die Darstellung eines Histogramms.'
