@@ -282,7 +282,9 @@ module.exports = function(grunt) {
             'fdz-hyphenate',
             'md-no-asterisk',
             'multiple',
-            'md-auto-hide'
+            'md-auto-hide',
+            'du-scroll-container',
+            'layout-align'
           ]
         },
         files: {
