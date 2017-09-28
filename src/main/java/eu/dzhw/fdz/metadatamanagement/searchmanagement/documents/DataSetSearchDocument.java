@@ -19,19 +19,19 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.Vari
  *
  * @author René Reitmann
  */
-public class DataSetSearchDocument extends DataSet {
+public class DataSetSearchDocument extends DataSet implements SearchDocumentInterface {
   
   private StudySubDocument study = null;
   private List<VariableSubDocument> variables = 
-      new ArrayList<VariableSubDocument>();
+      new ArrayList<>();
   private List<InstrumentSubDocument> instruments = 
-      new ArrayList<InstrumentSubDocument>();
+      new ArrayList<>();
   private List<QuestionSubDocument> questions = 
-      new ArrayList<QuestionSubDocument>();
+      new ArrayList<>();
   private List<RelatedPublicationSubDocument> relatedPublications = 
-      new ArrayList<RelatedPublicationSubDocument>();
+      new ArrayList<>();
   private List<SurveySubDocument> surveys = 
-      new ArrayList<SurveySubDocument>();
+      new ArrayList<>();
   private Release release = null;
   
   private Integer maxNumberOfObservations;
@@ -158,6 +158,7 @@ public class DataSetSearchDocument extends DataSet {
     return questions;
   }
   
+  @Override
   public I18nString getGuiLabels() {
     return guiLabels;
   }

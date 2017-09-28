@@ -18,19 +18,20 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.Vari
  *
  * @author Daniel Katzberg
  */
-public class RelatedPublicationSearchDocument extends RelatedPublication {
+public class RelatedPublicationSearchDocument extends RelatedPublication 
+    implements SearchDocumentInterface {
   private List<StudySubDocument> studies = 
-      new ArrayList<StudySubDocument>();
+      new ArrayList<>();
   private List<QuestionSubDocument> questions = 
-      new ArrayList<QuestionSubDocument>();
+      new ArrayList<>();
   private List<InstrumentSubDocument> instruments = 
-      new ArrayList<InstrumentSubDocument>();
+      new ArrayList<>();
   private List<SurveySubDocument> surveys = 
-      new ArrayList<SurveySubDocument>();
+      new ArrayList<>();
   private List<DataSetSubDocument> dataSets = 
-      new ArrayList<DataSetSubDocument>();
+      new ArrayList<>();
   private List<VariableSubDocument> variables = 
-      new ArrayList<VariableSubDocument>();
+      new ArrayList<>();
   
   // dummy string which ensures that related publications are always released
   private String release = "__";
@@ -138,6 +139,7 @@ public class RelatedPublicationSearchDocument extends RelatedPublication {
     this.release = release;
   }
 
+  @Override
   public I18nString getGuiLabels() {
     return guiLabels;
   }

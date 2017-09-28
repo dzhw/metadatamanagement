@@ -20,7 +20,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.Vari
  *
  * @author René Reitmann
  */
-public class StudySearchDocument extends Study {
+public class StudySearchDocument extends Study implements SearchDocumentInterface {
   private List<DataSetSubDocument> dataSets = 
       new ArrayList<>();
   
@@ -209,6 +209,7 @@ public class StudySearchDocument extends Study {
     this.numberOfWaves = numberOfWaves;
   }
   
+  @Override
   public I18nString getGuiLabels() {
     return guiLabels;
   }

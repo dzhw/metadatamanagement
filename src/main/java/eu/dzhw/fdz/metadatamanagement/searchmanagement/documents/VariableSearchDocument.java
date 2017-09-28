@@ -19,15 +19,15 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
  * @author René Reitmann
  * @author Daniel Katzberg
  */
-public class VariableSearchDocument extends Variable {
+public class VariableSearchDocument extends Variable implements SearchDocumentInterface {
   private DataSetSubDocument dataSet = null;
   private StudySubDocument study = null;
   private List<RelatedPublicationSubDocument> relatedPublications = 
-      new ArrayList<RelatedPublicationSubDocument>();
+      new ArrayList<>();
   private List<SurveySubDocument> surveys = 
-      new ArrayList<SurveySubDocument>();
+      new ArrayList<>();
   private List<InstrumentSubDocument> instruments = 
-      new ArrayList<InstrumentSubDocument>();
+      new ArrayList<>();
   private Release release = null;
   
   private I18nString guiLabels = VariableDetailsGuiLabels.GUI_LABELS;
@@ -119,6 +119,7 @@ public class VariableSearchDocument extends Variable {
     this.release = release;
   }
 
+  @Override
   public I18nString getGuiLabels() {
     return guiLabels;
   }
