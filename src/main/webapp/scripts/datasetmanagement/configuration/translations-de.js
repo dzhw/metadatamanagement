@@ -47,7 +47,6 @@ angular.module('metadatamanagementApp').config(
             'annotations': 'Anmerkungen',
             'data-set-same-study': 'Datensätze der gleichen Studie',
             'sub-data-sets': {
-              'title': 'Verfügbare Subdatensätze',
               'name': 'Name',
               'accessWay': 'Zugangsweg',
               'description': 'Beschreibung',
@@ -62,12 +61,17 @@ angular.module('metadatamanagementApp').config(
               'copy-complete-citation-tooltip': 'Klicken, um die Zitation in die Zwischenablage zu kopieren.'
             },
             'attachments': {
-              'table-title': 'Materialien zu dem Datensatz',
               'title': 'Titel',
               'description': 'Beschreibung',
               'language': 'Dokumentensprache',
               'file': 'Datei'
             }
+          },
+          'sub-data-sets': {
+            'title': 'Verfügbare Subdatensätze'
+          },
+          'attachments': {
+            'table-title': 'Materialien zu dem Datensatz'
           },
           'title': '{{ description }} ({{ dataSetId }})',
           'not-found': 'Die id {{id}} referenziert auf einen unbekannten Datensatz',

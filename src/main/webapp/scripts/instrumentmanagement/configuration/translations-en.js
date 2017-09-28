@@ -35,12 +35,14 @@ angular.module('metadatamanagementApp').config(
             'type': 'Type',
             'annotations': 'Annotations',
             'attachments': {
-              'table-title': 'Documents related to the Instrument',
               'type': 'Type',
               'description': 'Description',
               'language': 'Document Language',
               'file': 'File'
             }
+          },
+          'attachments': {
+            'table-title': 'Documents related to the Instrument'
           },
           'page-title': '{{ description }} ({{ instrumentId }})',
           'not-released-toast': 'Instrument "{{ id }}" has not yet been released to all users!',

@@ -47,7 +47,6 @@ angular.module('metadatamanagementApp').config(
             'annotations': 'Annotations',
             'data-set-same-study': 'Data Sets of this Study',
             'sub-data-sets': {
-              'title': 'Available Sub Data Sets',
               'name': 'Name',
               'accessWay': 'Access Way',
               'description': 'Description',
@@ -62,12 +61,17 @@ angular.module('metadatamanagementApp').config(
               'copy-complete-citation-tooltip': 'Click for copy the citation to the clipboard.'
             },
             'attachments': {
-              'table-title': 'Documents related to the Data Set',
               'title': 'Title',
               'description': 'Description',
               'language': 'Document Language',
               'file': 'File'
             }
+          },
+          'sub-data-sets': {
+            'title': 'Available Sub Data Sets'
+          },
+          'attachments': {
+            'table-title': 'Documents related to the Data Set'
           },
           'title': '{{ description }} ({{ dataSetId }})',
           'not-found': 'The {{id}} references to an unknown Data Set.',

@@ -39,19 +39,21 @@ angular.module('metadatamanagementApp').config(
             'grossSampleSize': 'Bruttostichprobe',
             'sampleSize': 'Nettostichprobe',
             'responseRate': 'Rücklaufquote',
-            'response-rate-informations': 'Weitere Informationen zum Rücklauf',
             'attachments': {
-              'table-title': 'Materialien zu der Erhebung',
               'title': 'Titel',
               'description': 'Beschreibung',
               'language': 'Dokumentensprache',
               'file': 'Datei'
             }
           },
+          'attachments': {
+            'table-title': 'Materialien zu der Erhebung'
+          },
           'title': '{{ title }} ({{ surveyId }})',
+          'response-rate-information': 'Weitere Informationen zum Rücklauf',
           'not-found': 'Die id {{id}} referenziert auf eine unbekannte Erhebung.',
           'not-found-references': 'Die id {{id}} hat keine Referenzen auf Erhebungen.',
-          'response-rate-informations-alt-text': 'Grafische Darstellung der Rücklaufquote',
+          'response-rate-information-alt-text': 'Grafische Darstellung der Rücklaufquote',
           'not-released-toast': 'Die Erhebung "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!',
           'tooltips': {
             'surveys': {

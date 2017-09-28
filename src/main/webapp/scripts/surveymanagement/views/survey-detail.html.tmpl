@@ -173,7 +173,7 @@
         <md-card ng-if="ctrl.attachments" flex class="fdz-reset-top-margin">
             <md-card-header layout-align="center center">
                 <md-card-header-text>
-                    <h2 class="md-title">{{'survey-management.detail.label.attachments.table-title' | translate | fdzHyphenate }}</h2>
+                    <h2 class="md-title">{{'survey-management.detail.attachments.table-title' | translate | fdzHyphenate }}</h2>
                 </md-card-header-text>
             </md-card-header>
             <table fdz-table>
@@ -219,12 +219,12 @@
             <md-card ng-hide="!ctrl.imgResolved" class="fdz-reset-top-margin">
                 <md-card-header>
                     <md-card-header-text>
-                        <h2 class="md-title">{{'survey-management.detail.label.response-rate-informations' | translate | fdzHyphenate }}</h2>
+                        <h2 class="md-title">{{'survey-management.detail.response-rate-information' | translate | fdzHyphenate }}</h2>
                     </md-card-header-text>
                 </md-card-header>
                 <md-divider></md-divider>
                 <a ng-href="{{'/public/files/surveys/' + ctrl.survey.id + '/' + ctrl.survey.number + '_responserate_' + currentLanguage + '.svg'}}" target="_blank">
-                    <img data-fdz-onload="ctrl.setImgResolved()" alt="{{'survey-management.detail.response-rate-informations-alt-text' | translate}}" style="width:100%;top:0;left:0;bottom:0;right:0;" ng-src="{{'/public/files/surveys/' + ctrl.survey.id + '/' + ctrl.survey.number + '_responserate_' + currentLanguage + '.svg'}}" />
+                    <img data-fdz-onload="ctrl.setImgResolved()" alt="{{'survey-management.detail.response-rate-information-alt-text' | translate}}" style="width:100%;top:0;left:0;bottom:0;right:0;" ng-src="{{'/public/files/surveys/' + ctrl.survey.id + '/' + ctrl.survey.number + '_responserate_' + currentLanguage + '.svg'}}" />
                     <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                         {{'global.tooltips.images' | translate}}
                     </md-tooltip>

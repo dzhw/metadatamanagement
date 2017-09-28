@@ -34,7 +34,6 @@ angular.module('metadatamanagementApp').config(
             'variables': 'Variablen',
             'variables-in-panel': 'Panelvariablen',
             'derived-variables': 'Abgeleitete Variablen',
-            'frequencies': 'Häufigkeiten',
             'generation-details': 'Generierungsdetails',
             'name': 'Name',
             'data-type': 'Datentyp',
@@ -47,10 +46,8 @@ angular.module('metadatamanagementApp').config(
             'generation-details-rule': 'Generierungsregel',
             'label': 'Label',
             'statistics': {
-              'graphics': 'Abbildung Häufigkeiten/Verteilung (gültige Werte)',
               'graphic-is-loading': 'wird geladen...',
               'graphic-is-not-available': 'Keine Grafische Darstellung Der Statistiken',
-              'statistics': 'Deskriptive Maßzahlen',
               'all': 'Alle',
               'page': 'Seite',
               'rowsPerPage': 'Zeilen Pro Seite',
@@ -81,10 +78,15 @@ angular.module('metadatamanagementApp').config(
             },
             'central-tendency': 'Zentrale Tendenz',
             'dispersion': 'Streuung',
-            'distribution': 'Verteilung',
-            'previous-variable-in-data-set':'Vorangegangene Variable im Datensatz',
-            'next-variable-in-data-set':'Nachfolgende Variable im Datensatz'
+            'distribution': 'Verteilung'
           },
+          'statistics': {
+            'graphics': 'Abbildung Häufigkeiten/Verteilung (gültige Werte)',
+            'statistics': 'Deskriptive Maßzahlen'
+          },
+          'frequencies': 'Häufigkeiten',
+          'previous-variable-in-data-set':'Vorangegangene Variable im Datensatz',
+          'next-variable-in-data-set':'Nachfolgende Variable im Datensatz',
           'title': '{{ label }} ({{ variableId }})',
           'copy-complete-input-filter-tooltip': 'Klicken, um den gesamten Inhalt des Eingangsfilters in die Zwischenablage zu kopieren',
           'no-previous-variable':'Keine vorangegangene Variable im Datensatz vorhanden.',

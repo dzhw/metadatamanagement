@@ -23,7 +23,6 @@ angular.module('metadatamanagementApp').config(
           'label': {
             'publication': 'Publication',
             'publications': 'Publications',
-            'abstract': 'Abstract',
             'doi': 'DOI',
             'sourceReference': 'Source Reference',
             'sourceLink': 'URL',
@@ -32,6 +31,7 @@ angular.module('metadatamanagementApp').config(
             'source-reference': 'Reference',
             'abstract-source': 'Source'
           },
+          'abstract': 'Abstract',
           'title': '{{ title }} ({{publicationId}})',
           'doi-tooltip': 'Click to open the DOI in a new Tab',
           'sourceLink-tooltip': 'Click to open the source of this publication in a new Tab',

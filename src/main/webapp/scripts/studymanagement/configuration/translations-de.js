@@ -9,7 +9,6 @@ angular.module('metadatamanagementApp').config(
           'label': {
             'study': 'Studie',
             'studies': 'Studien',
-            'description': 'Studienbeschreibung',
             'surveySeries': 'Erhebungsreihe',
             'institution': 'Erhebende Institution',
             'authors': 'Projektmitarbeiter(innen)',
@@ -19,9 +18,7 @@ angular.module('metadatamanagementApp').config(
             'annotations': 'Anmerkungen',
             'wave': 'Verfügbare Wellen',
             'survey-data-type': 'Erhebungsdatentyp',
-            'basic-data-of-surveys': 'Eckdaten der Erhebungen',
             'attachments': {
-              'table-title': 'Materialien zu der Studie',
               'type': 'Typ',
               'title': 'Titel',
               'description': 'Beschreibung',
@@ -29,7 +26,6 @@ angular.module('metadatamanagementApp').config(
               'file': 'Datei'
             },
             'data-set': {
-              'card-title': 'Verfügbare Datensätze',
               'accessWays': 'Zugangswege',
               'description': 'Beschreibung',
               'description-tooltip': 'Klicken, um den Datensatz "{{id}}" anzuzeigen',
@@ -37,7 +33,15 @@ angular.module('metadatamanagementApp').config(
             },
             'doi': 'DOI'
           },
+          'attachments': {
+            'table-title': 'Materialien zu der Studie'
+          },
+          'data-set': {
+            'card-title': 'Verfügbare Datensätze'
+          },
           'title': '{{ title }} ({{ studyId }})',
+          'description': 'Studienbeschreibung',
+          'basic-data-of-surveys': 'Eckdaten der Erhebungen',
           'not-found': 'Die id {{id}} referenziert auf eine unbekannte Studie.',
           'not-found-references': 'Die id {{id}} hat keine Referenzen auf Studien.',
           'not-yet-released': 'Noch nicht freigegeben',

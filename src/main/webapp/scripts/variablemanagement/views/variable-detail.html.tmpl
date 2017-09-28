@@ -214,7 +214,7 @@
            <md-card flex="auto" ng-if="validResponsesOrMissingsAvailable && isDiagramVisible()" class="fdz-reset-top-margin">
              <md-card-header>
                <md-card-header-text>
-                 <h2 class="md-title">{{'variable-management.detail.label.statistics.graphics' | translate | fdzHyphenate }}</h2>
+                 <h2 class="md-title">{{'variable-management.detail.statistics.graphics' | translate | fdzHyphenate }}</h2>
                </md-card-header-text>
              </md-card-header>
              <md-divider></md-divider>
@@ -227,7 +227,7 @@
            <md-card flex="auto" ng-if="variable.accessWays != 'not-accessible'" class="fdz-reset-top-margin" ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm') && validResponsesOrMissingsAvailable }">
              <md-card-header>
                <md-card-header-text>
-                 <h2 class="md-title">{{'variable-management.detail.label.statistics.statistics' | translate | fdzHyphenate }}</h2>
+                 <h2 class="md-title">{{'variable-management.detail.statistics.statistics' | translate | fdzHyphenate }}</h2>
                </md-card-header-text>
              </md-card-header>
              <md-divider></md-divider>
@@ -277,7 +277,7 @@
         <md-card flex class="fdz-reset-top-margin">
             <md-card-header class="fdz-card-header-with-button" layout-align="center center">
                 <md-card-header-text>
-                    <h2 class="md-title">{{'variable-management.detail.label.frequencies' | translate | fdzHyphenate }}</h2>
+                    <h2 class="md-title">{{'variable-management.detail.frequencies' | translate | fdzHyphenate }}</h2>
                 </md-card-header-text>
                 <md-button ng-disabled="!variable.distribution.validResponses || variable.distribution.validResponses.length <= 10" class="md-fab md-mini md-primary" ng-click="toggleAllRowsVisible()">
                     <md-tooltip ng-hide="!variable.distribution.validResponses || variable.distribution.validResponses.length <= 10" md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 20">
@@ -413,7 +413,7 @@
             <md-card flex="auto" class="fdz-reset-top-margin">
                 <md-card-header>
                     <md-card-header-text>
-                        <h2 class="md-title">{{'variable-management.detail.label.previous-variable-in-data-set' | translate | fdzHyphenate }}</h2>
+                        <h2 class="md-title">{{'variable-management.detail.previous-variable-in-data-set' | translate | fdzHyphenate }}</h2>
                     </md-card-header-text>
                 </md-card-header>
                 <md-divider></md-divider>
@@ -431,7 +431,7 @@
             <md-card flex="auto" class="fdz-reset-top-margin" ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm')}">
                 <md-card-header>
                     <md-card-header-text>
-                        <h2 class="md-title">{{'variable-management.detail.label.next-variable-in-data-set' | translate | fdzHyphenate }}</h2>
+                        <h2 class="md-title">{{'variable-management.detail.next-variable-in-data-set' | translate | fdzHyphenate }}</h2>
                     </md-card-header-text>
                 </md-card-header>
                 <md-divider></md-divider>

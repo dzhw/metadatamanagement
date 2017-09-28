@@ -39,19 +39,21 @@ angular.module('metadatamanagementApp').config(
             'sampleSize': 'Net Sample Size',
             'responseRate': 'Response Rate',
             'annotations': 'Annotations',
-            'response-rate-informations': 'Further Information about the Response Rate',
             'attachments': {
-              'table-title': 'Documents related to the Survey',
               'title': 'Title',
               'description': 'Description',
               'language': 'Document Language',
               'file': 'File'
             }
           },
+          'attachments': {
+            'table-title': 'Documents related to the Survey'
+          },
           'title': '{{ title }} ({{ surveyId }})',
+          'response-rate-information': 'Further Information about the Response Rate',
           'not-found': 'The {{id}} references to an unknown Survey.',
           'not-found-references': 'The id {{id}} has no References to Surveys.',
-          'response-rate-informations-alt-text': 'Image to display further information about the response rate',
+          'response-rate-information-alt-text': 'Image to display further information about the response rate',
           'not-released-toast': 'Survey "{{ id }}" has not yet been released to all users!',
           'tooltips': {
             'surveys': {

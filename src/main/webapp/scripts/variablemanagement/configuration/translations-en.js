@@ -34,7 +34,6 @@ angular.module('metadatamanagementApp').config(
             'variables': 'Variables',
             'variables-in-panel': 'Panel Variables',
             'derived-variables': 'Derived Variables',
-            'frequencies': 'Frequencies',
             'generation-details': 'Generation Details',
             'name': 'Name',
             'data-type': 'Data Type',
@@ -47,10 +46,8 @@ angular.module('metadatamanagementApp').config(
             'generation-details-rule': 'Generation Rule',
             'label': 'Label',
             'statistics': {
-              'graphics': 'Figure Frequencies/Distribution (valid responses)',
               'graphic-is-loading': 'is loading...',
               'graphic-is-not-available': 'No plotting available',
-              'statistics': 'Descriptive Metrics',
               'all': 'All',
               'page': 'Page',
               'rowsPerPage': 'Rows per Page',
@@ -82,9 +79,14 @@ angular.module('metadatamanagementApp').config(
             'central-tendency': 'Central Tendency',
             'dispersion': 'Dispersion',
             'distribution': 'Distribution',
-            'previous-variable-in-data-set':'Previous Variable in Data Set',
-            'next-variable-in-data-set':'Next Variable in Data Set'
           },
+          'statistics': {
+            'graphics': 'Figure Frequencies/Distribution (valid responses)',
+            'statistics': 'Descriptive Metrics'
+          },
+          'frequencies': 'Frequencies',
+          'previous-variable-in-data-set':'Previous Variable in Data Set',
+          'next-variable-in-data-set':'Next Variable in Data Set',
           'title': '{{ label }} ({{ variableId }})',
           'copy-complete-input-filter-tooltip': 'Click to copy the input filter to the clipboard',
           'no-previous-variable':'No previous Variable in Data Set',

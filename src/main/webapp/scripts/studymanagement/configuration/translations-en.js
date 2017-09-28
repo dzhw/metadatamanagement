@@ -9,7 +9,6 @@ angular.module('metadatamanagementApp').config(
           'label': {
             'study': 'Study',
             'studies': 'Studies',
-            'description': 'Study Description',
             'surveySeries': 'Survey Series',
             'institution': 'Institution',
             'authors': 'Authors',
@@ -19,9 +18,7 @@ angular.module('metadatamanagementApp').config(
             'wave': 'Available Waves',
             'survey-data-type': 'Survey Data Type',
             'version': 'Version of Data Sets',
-            'basic-data-of-surveys': 'Basic Data of Surveys',
             'attachments': {
-              'table-title': 'Documents related to the Study',
               'type': 'Type',
               'title': 'Title',
               'description': 'Description',
@@ -29,7 +26,6 @@ angular.module('metadatamanagementApp').config(
               'file': 'File'
             },
             'data-set': {
-              'card-title': 'Available Data Sets',
               'accessWays': 'Access Ways',
               'description': 'Description',
               'description-tooltip': 'Click to show data set "{{id}}"',
@@ -37,7 +33,15 @@ angular.module('metadatamanagementApp').config(
             },
             'doi': 'DOI'
           },
+          'attachments': {
+            'table-title': 'Documents related to the Study'
+          },
+          'data-set': {
+            'card-title': 'Available Data Sets'
+          },
           'title': '{{ title }} ({{ studyId }})',
+          'description': 'Study Description',
+          'basic-data-of-surveys': 'Basic Data of Surveys',
           'not-found': 'The {{id}} references to an unknown Study.',
           'not-found-references': 'The id {{id}} has no References to Studies.',
           'not-yet-released': 'Not yet released',
