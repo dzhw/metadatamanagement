@@ -9,24 +9,22 @@ angular.module('metadatamanagementApp').config(
           'data-set': {
             'saved': 'Datensatz mit FDZ-ID {{ id }} erfolgreich gespeichert!',
             'not-saved': 'Datensatz mit FDZ-ID {{ id }} wurde nicht gespeichert!',
-            'missing-id': 'Der {{ index }}. Datensatz enthält keine FDZ-ID und wurde nicht gespeichert!',
+            'missing-id': 'Der Datensatz im Exceldokument im Arbeitsblatt "dataSets" in Zeile {{ index }} enthält keine FDZ-ID und wurde nicht gespeichert!',
             'upload-terminated': 'Upload von {{ total }} Datensätzen und {{ attachments }} Attachments mit {{warnings}} Warnungen und {{ errors }} Fehlern beendet!',
             'cancelled': 'Upload von Datensätzen Abgebrochen',
             'unable-to-delete': 'Die Datensätze konnten nicht gelöscht werden!',
-            'duplicate-data-set-number': 'Die Nummer ({{ number }}) des {{ index }}. Datensatzes wurde bereits verwendet.',
+            'duplicate-data-set-number': 'Die Nummer ({{ number }}) des Datensatzes im Excel Dokument im Arbeitsblatt "dataSets" in Zeile {{ index }} wurde bereits verwendet.',
             'sub-data-set': {
               'number-of-observations-parse-error': 'Anzahl der Beobachtungen des Sub-Datensatzes {{name}} ist keine Zahl!'
             }
           },
           'data-set-attachment': {
             'not-saved': 'Attachment "{{ id }}" wurde nicht gespeichert.',
-            'missing-survey-number': 'Das {{ index }}. Attachment hat keine Erhebungsnummer und wurde daher nicht gespeichert.',
-            'missing-filename': 'Das {{ index }}. Attachment hat keinen Dateinamen und wurde daher nicht gespeichert.',
             'file-not-found': 'Die Datei {{ filename }} wurde nicht gefunden und wurde daher nicht gespeichert!',
-            'unknown-data-set-number': 'Ein Attachment der Datensätze aus der Zeile {{index}} im Excel Dokument verweist auf eine unbekannte Datensatznummer: {{dataSetNumber}}.'
+            'unknown-data-set-number': 'Ein Attachment der Datensätze aus der Zeile {{index}} des Arbeitsblattes "attachments" im Excel Dokument verweist auf eine unbekannte Datensatznummer: {{dataSetNumber}}.'
           },
           'sub-data-set': {
-            'unknown-data-set-number': 'Der Subdatensatz aus der Zeile {{index}} im Excel Dokument verweist auf eine unbekannte Datensatznummer: {{dataSetNumber}}.',
+            'unknown-data-set-number': 'Der Subdatensatz aus der Zeile {{index}} in dem Arbeitsblatt "subDataSets" des Excel Dokumentes verweist auf eine unbekannte Datensatznummer: {{dataSetNumber}}.',
             'citation-success-copy-to-clipboard': 'Die Zitation wurde erfolgreich in die Zwischenablage kopiert.'
           },
           'tex': {

@@ -102,7 +102,8 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
           JobLoggingService.error({
             message: 'data-set-management.log-messages.data-set.missing-id',
             messageParams: {
-              index: index + 1
+              //+1 for index starts with 0, +1 for the headline in excel doc
+              index: index + 2
             }
           });
           uploadCount++;
@@ -114,7 +115,8 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
             message: 'data-set-management.log-messages.data-set.' +
               'duplicate-data-set-number',
             messageParams: {
-              index: uploadCount + 1,
+              //+1 for index = 0, +1 for headline in excel
+              index: uploadCount + 2,
               number: objects[uploadCount].number
             }
           });
@@ -174,8 +176,14 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
           }).catch(function(error) {
             var errorMessages = ErrorMessageResolverService
               .getErrorMessage(error, 'data-set');
+            var subMessage;
             if (errorMessages.subMessages.length > 0) {
-              errorMessages.subMessages.forEach(function(subMessage) {
+              for (var i = 0; i < errorMessages.subMessages.length; ++i) {
+                subMessage = errorMessages.subMessages[i];
+                //+2, one line, because it starts at zero
+                //the second addiional line is because of the
+                //headline in the excel
+                subMessage.translationParams.index = uploadCount + 2;
                 if (subMessage.translationParams.property &&
                   subMessage.translationParams.property
                   .indexOf('subDataSets[') !== -1) {
@@ -183,16 +191,17 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
                     .property.replace('subDataSets[', '').split(
                       ']')[0]);
                   subMessage.translationParams = {
-                    index: index + 1
+                    index: index + 2
                   };
                 }
-              });
+              }
               errorMessages.subMessages.sort(function(message1,
                 message2) {
                 return message1.translationParams.index -
                   message2.translationParams.index;
               });
             }
+
             JobLoggingService.error({
               message: errorMessages.message,
               messageParams: errorMessages.translationParams,

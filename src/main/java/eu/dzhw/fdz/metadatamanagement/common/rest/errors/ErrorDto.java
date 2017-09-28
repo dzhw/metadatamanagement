@@ -16,7 +16,8 @@ public class ErrorDto implements Serializable {
   private final String message;
   private final String invalidValue;
   private final String property;
-
+  
+  
   /**
    * Construct the error dto.
    * @param entity the name of the entity

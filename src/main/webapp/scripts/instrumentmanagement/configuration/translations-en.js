@@ -9,17 +9,17 @@ angular.module('metadatamanagementApp').config(
           'instrument': {
             'saved': 'Instrument with RDC-ID {{ id }} was saved successfully!',
             'not-saved': 'Instrument with RDC-ID {{ id }} has not been saved!',
-            'missing-number': 'Instrument {{ index }} does not contain a number and has not been saved:',
+            'missing-number': 'Instrument from the Excel document in the worksheet "instruments" in line {{ index }} does not contain a number and has not been saved:',
             'upload-terminated': 'Finished upload of {{ totalInstruments }} Instruments and {{ totalAttachments }} Attachments with {{totalWarnings}} warnings and {{ totalErrors }} errors.',
             'unable-to-delete': 'The Instruments could not be deleted!',
             'cancelled': 'Instrument upload cancelled!',
-            'duplicate-instrument-number': 'The number ({{ number }}) of Instrument {{ index }} has already been used.'
+            'duplicate-instrument-number': 'The number ({{ number }}) of Instrument from the Excel document in the worksheet "instruments" in line {{ index }} has already been used.'
           },
           'instrument-attachment': {
             'not-saved': 'Attachment "{{ id }}" has not been saved:',
-            'missing-instrument-number': 'Attachment {{ index }} does not have an instrument number and has not been saved.',
-            'unknown-instrument-number': 'The number of the instrument of attachment {{ index }} does not exist. The attachment has not been saved.',
-            'missing-filename': 'Attachment {{ index }} does not have a filename and has not been saved.',
+            'missing-instrument-number': 'Attachment from the Excel document in the worksheet "attachments" in the line {{ index }} does not have an instrument number and has not been saved.',
+            'unknown-instrument-number': 'The number of the instrument of an attachment from the Excel document in the worksheet in the line {{ index }} does not exist. The attachment has not been saved.',
+            'missing-filename': 'Attachment of an instrument from the Excel document in the worksheet "attachments" in line {{ index }} does not have a filename and has not been saved.',
             'file-not-found': 'The File {{ filename }} was not found and has not been saved.'
           }
         },

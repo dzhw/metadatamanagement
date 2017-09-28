@@ -84,13 +84,11 @@ angular.module('metadatamanagementApp').config(
             'study-file-not-found': 'The selected directory does not contain the following file: study.xlsx!',
             'releases-file-not-found': 'The selected directory does not contain the following file: releases.xlsx!',
             'unable-to-delete': 'The study could not be deleted!',
-            'missing-id': 'Study {{ index }} does not contain a RDC-ID and has not been saved:',
             'upload-terminated': 'Finished upload of {{ total }} Study and {{ attachments }} Attachments with {{ warnings }} warnings and {{ errors }} errors.',
             'cancelled': 'Study upload cancelled!'
           },
           'study-attachment': {
             'not-saved': 'Attachment "{{ id }}" has not been saved:',
-            'missing-filename': 'Attachment {{ index }} does not have a filename and has not been saved.',
             'file-not-found': 'The File {{ filename }} was not found and has not been saved.'
           }
         },
