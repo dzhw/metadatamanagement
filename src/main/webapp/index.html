@@ -49,10 +49,10 @@
         </div>
     </div>
     <fdz-navbar ng-cloak></fdz-navbar>
-    <div id="content-container" layout-fill layout="column" flex ng-cloak>
+    <div flex layout-fill id="content-container" ng-cloak>
         <fdz-toolbar></fdz-toolbar>
-        <div layout="column" flex tabindex="-1" id="toast-container" class="fdz-content">
-          <ui-view layout="column" flex name="content" tabindex="-1"></ui-view>
+        <div tabindex="-1" id="toast-container" class="fdz-content">
+          <ui-view name="content" tabindex="-1"></ui-view>
         </div>
     </div>
 

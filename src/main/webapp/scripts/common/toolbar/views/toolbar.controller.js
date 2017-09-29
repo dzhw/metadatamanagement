@@ -12,6 +12,6 @@ angular.module('metadatamanagementApp').controller(
       return $document.find('#toolbar')[0].clientHeight;
     }, function(newHeight) {
       $document.find('#toast-container').css(
-        'margin-top', newHeight);
+        'padding-top', newHeight);
     });
   });
