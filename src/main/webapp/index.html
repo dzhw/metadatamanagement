@@ -40,7 +40,7 @@
     <!-- endbuild -->
 </head>
 
-<body layout="row" block-ui="main" class="block-ui-main">
+<body id="body" layout="row" block-ui="main" class="block-ui-main">
     <!--[if lt IE 11]> <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p> <![endif]-->
     <div class="fdz-splash" ng-cloak>
         <div>
@@ -49,17 +49,13 @@
         </div>
     </div>
     <fdz-navbar ng-cloak></fdz-navbar>
-
-    <div flex layout="column" id="root-container" ng-cloak>
+    <div id="content-container" layout-fill layout="column" flex ng-cloak>
         <fdz-toolbar></fdz-toolbar>
-        <div flex layout="column" id="toast-container">
-            <md-content layout="column" flex id="content" du-scroll-container>
-                <div layout="column" flex class="fdz-content" tabindex="-1">
-                    <ui-view layout="column" flex name="content" tabindex="-1"></ui-view>
-                </div>
-            </md-content>
+        <div layout="column" flex tabindex="-1" id="toast-container" class="fdz-content">
+          <ui-view layout="column" flex name="content" tabindex="-1"></ui-view>
         </div>
     </div>
+
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
@@ -219,7 +215,6 @@
     <script src="scripts/common/hyphenator/fdz-hyphenate.directive.js"></script>
     <script src="scripts/common/hyphenator/fdz-hyphenate.filter.js"></script>
     <script src="scripts/common/websocket/websocket.service.js"></script>
-    <script src="scripts/common/sticky/sticky.directive.js"></script>
 
     <script src="scripts/filemanagement/resources/file.resource.js"></script>
     <script src="scripts/filemanagement/services/zipReader.service.js"></script>

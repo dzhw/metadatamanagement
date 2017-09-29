@@ -799,3 +799,7 @@ input::-ms-clear {
 .md-dialog-content-body {
   white-space: pre-line;
 }
+
+md-sidenav.md-locked-open#SideNavBar, md-toolbar#toolbar {
+  position: fixed;
+}

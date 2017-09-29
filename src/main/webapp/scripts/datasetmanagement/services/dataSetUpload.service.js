@@ -191,7 +191,7 @@ angular.module('metadatamanagementApp').service('DataSetUploadService',
                     .property.replace('subDataSets[', '').split(
                       ']')[0]);
                   subMessage.translationParams = {
-                    index: index + 2
+                    index: index + 1
                   };
                 }
               }

@@ -1,10 +1,10 @@
 <li role="menuitem" ng-if="::boundaryLinks" ng-class="{disabled: noPrevious() || ngDisabled}" class="pagination-first">
-    <a href="" ng-click="selectPage(1, $event)" ng-disabled="noPrevious() || ngDisabled" uib-tabindex-toggle du-smooth-scroll="top">
+    <a href="" ng-click="selectPage(1, $event)" ng-disabled="noPrevious() || ngDisabled" uib-tabindex-toggle du-smooth-scroll="body">
     {{::getText('first')}}
   </a>
 </li>
 <li role="menuitem" ng-if="::directionLinks" ng-class="{disabled: noPrevious() || ngDisabled}" class="pagination-prev">
-    <a href="" ng-click="selectPage(page - 1, $event)" ng-disabled="noPrevious() || ngDisabled" uib-tabindex-toggle du-smooth-scroll="top">
+    <a href="" ng-click="selectPage(page - 1, $event)" ng-disabled="noPrevious() || ngDisabled" uib-tabindex-toggle du-smooth-scroll="body">
     {{::getText('previous')}}
     <md-tooltip ng-if="!noPrevious()" md-direction="bottom" md-autohide="true" md-z-index="$parent.$parent.$parent.bowser.mobile || $parent.$parent.$parent.bowser.tablet ? -100 : 100">
       <span translate="global.tooltips.pager.previous"></span>
@@ -12,7 +12,7 @@
   </a>
 </li>
 <li role="menuitem" ng-repeat="page in pages track by $index" ng-class="{active: page.active, disabled: ngDisabled || (totalItems > 10000 && page.number > 1999)}" class="pagination-page">
-    <a href="" ng-click="(ngDisabled || (totalItems > 10000 && page.number > 1999)) || selectPage(page.number, $event)" ng-disabled="ngDisabled || page.active || (totalItems > 10000 && page.number > 1999)" tabindex="{{page.active?'-1':'0'}}" du-smooth-scroll="top">
+    <a href="" ng-click="(ngDisabled || (totalItems > 10000 && page.number > 1999)) || selectPage(page.number, $event)" ng-disabled="ngDisabled || page.active || (totalItems > 10000 && page.number > 1999)" tabindex="{{page.active?'-1':'0'}}" du-smooth-scroll="body">
     {{page.text}}
     <md-tooltip ng-if="!page.active && !(totalItems > 10000 && page.number > 1999)" md-direction="bottom" md-autohide="true" md-z-index="$parent.$parent.$parent.bowser.mobile || $parent.$parent.$parent.bowser.tablet ? -100 : 100">
       <span translate="global.tooltips.pager.current" translate-values="{number: page.number}"></span>
@@ -20,7 +20,7 @@
   </a>
 </li>
 <li role="menuitem" ng-if="::directionLinks" ng-class="{disabled: noNext() || ngDisabled || (totalItems > 10000 && page > 1998)}" class="pagination-next">
-    <a href="" ng-click="(noNext() || ngDisabled || (totalItems > 10000 && page > 1998)) || selectPage(page + 1, $event)" ng-disabled="noNext() || ngDisabled || (totalItems > 10000 && page > 1998)" uib-tabindex-toggle du-smooth-scroll="top">
+    <a href="" ng-click="(noNext() || ngDisabled || (totalItems > 10000 && page > 1998)) || selectPage(page + 1, $event)" ng-disabled="noNext() || ngDisabled || (totalItems > 10000 && page > 1998)" uib-tabindex-toggle du-smooth-scroll="body">
     {{::getText('next')}}
     <md-tooltip md-direction="bottom" ng-if="!noNext() && !(totalItems > 10000 && page > 1998)" md-autohide="true" md-z-index="$parent.$parent.$parent.bowser.mobile || $parent.$parent.$parent.bowser.tablet ? -100 : 100">
       <span translate="global.tooltips.pager.next"></span>
@@ -28,7 +28,7 @@
   </a>
 </li>
 <li role="menuitem" ng-if="::boundaryLinks" ng-class="{disabled: noNext() || ngDisabled || totalItems > 10000}" class="pagination-last">
-    <a href="" ng-click="selectPage(totalPages, $event)" ng-disabled="noNext() || ngDisabled || totalItems > 10000" uib-tabindex-toggle du-smooth-scroll="top">
+    <a href="" ng-click="selectPage(totalPages, $event)" ng-disabled="noNext() || ngDisabled || totalItems > 10000" uib-tabindex-toggle du-smooth-scroll="body">
     {{::getText('last')}}
   </a>
 </li>

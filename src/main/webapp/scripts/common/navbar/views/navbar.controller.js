@@ -49,4 +49,19 @@ angular.module('metadatamanagementApp').controller('NavbarController',
       });
       $scope.close();
     };
+
+    $scope.$watch(function() {
+      return {
+        width: $document.find('#SideNavBar')[0].clientWidth,
+        isLockedOpen: $mdSidenav('SideNavBar').isLockedOpen()
+      };
+    }, function(newVal) {
+      if (newVal.isLockedOpen) {
+        $document.find('#content-container').css(
+          'margin-left', newVal.width);
+      } else {
+        $document.find('#content-container').css(
+          'margin-left', 0);
+      }
+    }, true);
   });
