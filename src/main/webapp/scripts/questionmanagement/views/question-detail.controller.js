@@ -42,17 +42,19 @@ angular.module('metadatamanagementApp')
         if (result.release || Principal.hasAuthority('ROLE_PUBLISHER')) {
           ctrl.question = result;
           QuestionSearchService.findAllPredeccessors(ctrl.question.id, ['id',
-          'instrumentNumber', 'questionText', 'type','instrumentNmber',
-          'number', 'dataAcquisitionProjectId', 'instrument.description'])
+            'instrumentNumber', 'questionText', 'type','instrumentNmber',
+            'number', 'dataAcquisitionProjectId', 'instrument.description'],
+            0, 100)
           .then(function(predecessors) {
             if (!CleanJSObjectService.isNullOrEmpty(predecessors)) {
               ctrl.predecessors = predecessors.hits.hits;
             }
           });
           if (ctrl.question.successors) {
-            QuestionSearchService.findQuestions(ctrl.question.successors,
-            ['id', 'instrumentNumber', 'questionText', 'type','instrumentNmber',
-            'number', 'dataAcquisitionProjectId', 'instrument.description'])
+            QuestionSearchService.findAllSuccessors(ctrl.question.successors,
+              ['id', 'instrumentNumber', 'questionText', 'type',
+              'instrumentNmber', 'number', 'dataAcquisitionProjectId',
+              'instrument.description'], 0, 100)
             .then(function(successors) {
               _.pullAllBy(successors.docs, [{
                 'found': false
