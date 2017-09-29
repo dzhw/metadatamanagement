@@ -800,10 +800,11 @@ input::-ms-clear {
   white-space: pre-line;
 }
 
-md-sidenav.md-locked-open#SideNavBar, md-toolbar#toolbar {
+md-toolbar#toolbar {
   position: fixed;
 }
 
-md-sidenav, .md-sidenav-backdrop {
+md-sidenav#SideNavBar, .md-sidenav-backdrop {
+  position: fixed;
   min-height: 100vh;
 }
