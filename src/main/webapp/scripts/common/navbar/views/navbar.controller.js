@@ -51,14 +51,13 @@ angular.module('metadatamanagementApp').controller('NavbarController',
     };
 
     $scope.$watch(function() {
-      return {
-        width: $document.find('#SideNavBar')[0].clientWidth,
-        isLockedOpen: $mdSidenav('SideNavBar').isLockedOpen()
-      };
-    }, function(newVal) {
-      if (newVal.isLockedOpen) {
+      return $mdSidenav('SideNavBar').isLockedOpen();
+    }, function(isLockedOpen) {
+      if (isLockedOpen) {
+        // hardcoded width of sidenav cause sometimes
+        // the updated width comes too late :-(
         $document.find('#content-container').css(
-          'margin-left', newVal.width);
+          'margin-left', 320);
       } else {
         $document.find('#content-container').css(
           'margin-left', 0);
