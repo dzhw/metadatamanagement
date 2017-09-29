@@ -1,4 +1,4 @@
-<div id="top" flex layout="column" ng-switch="isAuthenticated()" ngf-drop="tabs[searchParams.selectedTabIndex].uploadFunction($files)" ngf-multiple="true" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-drop-disabled="((!currentProject || currentProject.release) && tabs[searchParams.selectedTabIndex].elasticSearchType !== 'related_publications') || !hasAuthority('ROLE_PUBLISHER') || !tabs[searchParams.selectedTabIndex].uploadFunction">
+<div flex layout="column" ng-switch="isAuthenticated()" ngf-drop="tabs[searchParams.selectedTabIndex].uploadFunction($files)" ngf-multiple="true" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-drop-disabled="((!currentProject || currentProject.release) && tabs[searchParams.selectedTabIndex].elasticSearchType !== 'related_publications') || !hasAuthority('ROLE_PUBLISHER') || !tabs[searchParams.selectedTabIndex].uploadFunction">
     <md-card style="margin-bottom: 0px; display: block;">
           <md-tabs md-selected="searchParams.selectedTabIndex" md-dynamic-height md-border-bottom>
             <md-tab ng-repeat="tab in tabs" md-on-select="onSelectedTabChanged()" ng-disabled="tab.disabled">
