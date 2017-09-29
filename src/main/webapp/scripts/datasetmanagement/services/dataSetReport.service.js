@@ -7,6 +7,7 @@ angular.module('metadatamanagementApp').service('DataSetReportService',
 
       ZipWriterService.createZipFileAsync(files, true).then(function(file) {
         if (file !== null) {
+          file.name = file.name || 'report.zip';
           JobLoggingService.start('dataSetReport');
           Upload.upload({
             url: 'api/data-sets/report',

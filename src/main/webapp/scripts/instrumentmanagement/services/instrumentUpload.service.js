@@ -76,7 +76,8 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
             message: 'instrument-management.log-messages' +
               '.instrument.missing-number',
             messageParams: {
-              index: index + 1
+              //+1 index starts with zero, +1 headline in excel
+              index: index + 2
             },
             objectType: 'instrument'
           });
@@ -89,7 +90,8 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
             message: 'instrument-management.log-messages' +
               '.instrument.duplicate-instrument-number',
             messageParams: {
-              index: uploadCount + 1,
+              //+1 index starts with zero, +1 headline in excel
+              index: uploadCount + 2,
               number: instrumentsToSave[uploadCount].number
             },
             objectType: 'instrument'
@@ -152,12 +154,23 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
             });
           }).catch(function(error) {
             // instrument upload failed
-            var errorMessage = ErrorMessageResolverService
+            var errorMessages = ErrorMessageResolverService
               .getErrorMessage(error, 'instrument');
+
+            if (errorMessages.subMessages.length > 0) {
+              for (var i = 0; i < errorMessages.subMessages.length; ++i) {
+                //+2, one line, because it starts at zero
+                //the second addiional line is because of the
+                //headline in the excel
+                errorMessages.subMessages[i].translationParams.index =
+                  uploadCount + 2;
+              }
+            }
+
             JobLoggingService.error({
-              message: errorMessage.message,
-              messageParams: errorMessage.translationParams,
-              subMessages: errorMessage.subMessages,
+              message: errorMessages.message,
+              messageParams: errorMessages.translationParams,
+              subMessages: errorMessages.subMessages,
               objectType: 'instrument'
             });
             uploadCount++;
@@ -237,7 +250,8 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
                   message: 'instrument-management.log-messages' +
                     '.instrument-attachment.missing-instrument-number',
                   messageParams: {
-                    index: index + 1
+                    //+1 index starts with zero, +1 headline in excel
+                    index: index + 2
                   },
                   objectType: 'instrument-attachment'
                 });
@@ -254,7 +268,8 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
                   message: 'instrument-management.log-messages' +
                     '.instrument-attachment.unknown-instrument-number',
                   messageParams: {
-                    index: index + 1
+                    //+1 index starts with zero, +1 headline in excel
+                    index: index + 2
                   },
                   objectType: 'instrument-attachment'
                 });
@@ -265,7 +280,8 @@ angular.module('metadatamanagementApp').service('InstrumentUploadService',
                   message: 'instrument-management.log-messages.' +
                     'instrument-attachment.missing-filename',
                   messageParams: {
-                    index: index + 1
+                    //+1 index starts with zero, +1 headline in excel
+                    index: index + 2
                   },
                   objectType: 'instrument-attachment'
                 });

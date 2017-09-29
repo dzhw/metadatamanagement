@@ -9,19 +9,17 @@ angular.module('metadatamanagementApp').config(
           'data-set': {
             'saved': 'Dataset with RDC-ID {{ id }} was saved successfully!',
             'not-saved': 'Dataset with RDC-ID {{ id }} has not been saved!',
-            'missing-id': 'Dataset {{ index }} does not contain a RDC-ID and has not been saved!',
+            'missing-id': 'Dataset in Excel Document in work sheet "dataSets" in line {{ index }} does not contain a RDC-ID and has not been saved!',
             'upload-terminated': 'Finished upload of {{ total }} Data Sets and {{ attachments }} Attachments with {{warnings}} warnings and {{ errors }} errors.',
             'cancelled': 'Datasets upload cancelled!',
             'unable-to-delete': 'The Data Sets could not be deleted!',
-            'duplicate-data-set-number': 'The number ({{ number }}) of Data Set {{ index }} has already been used.',
+            'duplicate-data-set-number': 'The number ({{ number }}) of the Data Set in the Excel document on sheet "dataSets" in line {{ index }} has already been used.',
             'sub-data-set': {
               'number-of-observations-parse-error': 'Number Of Observations of Sub Data Set {{name}} is not a Number'
             }
           },
           'data-set-attachment': {
             'not-saved': 'Attachment "{{ id }}" has not been saved.',
-            'missing-survey-number': 'Attachment {{ index }} does not have an survey number and has not been saved.',
-            'missing-filename': 'Attachment {{ index }} does not have a filename and has not been saved.',
             'file-not-found': 'The File {{ filename }} was not found and has not been saved.',
             'unknown-data-set-number': 'An Attachment of the Data Sets from the line {{ index }} in the worksheet "attachments" of the excel document has a reference to an unknown Data Set Number: {{dataSetNumber}}.'
           },
@@ -39,47 +37,48 @@ angular.module('metadatamanagementApp').config(
           'title': 'Data Sets'
         },
         'detail': {
-          'title': '{{ description }} ({{ dataSetId }})',
-          'data-set': 'Data Set',
-          'data-sets': 'Data Sets',
-          'type': 'Type',
-          'format': 'Format',
-          'annotations': 'Annotations',
-          'data-set-informations': 'Data Set Informations',
-          'related-information': 'Related Information',
-          'data-set-same-study': 'Data Sets of this Study',
-          'description': 'Description',
-          'not-found': 'The {{id}} references to an unknown Data Set.',
-          'not-found-references': 'The id {{id}} has no References to Data Sets.',
+          'label': {
+            'data-set': 'Data Set',
+            'data-sets': 'Data Sets',
+            'type': 'Type',
+            'format': 'Format',
+            'annotations': 'Annotations',
+            'data-set-same-study': 'Data Sets of this Study',
+            'sub-data-sets': {
+              'name': 'Name',
+              'accessWay': 'Access Way',
+              'description': 'Description',
+              'numberOfAnalyzedVariables': 'Analyzable Variables',
+              'unknownNumberOfAnalyzedVariables': 'Unknown',
+              'numberOfAnalyzedVariables-tooltip': 'Click to show all analyzable variables of this sub data set',
+              'numberOfObservations': 'Observations',
+              'citate': 'Citate',
+              'citation': 'Citation',
+              'citate-tooltipp': 'Click to show citation information and to copy them.',
+              'no-citate-tooltipp': 'This Sub Data Set has no information about the citation.',
+              'copy-complete-citation-tooltip': 'Click for copy the citation to the clipboard.'
+            },
+            'attachments': {
+              'title': 'Title',
+              'description': 'Description',
+              'language': 'Document Language',
+              'file': 'File'
+            }
+          },
           'sub-data-sets': {
-            'title': 'Available Sub Data Sets',
-            'name': 'Name',
-            'accessWay': 'Access Way',
-            'description': 'Description',
-            'numberOfAnalyzedVariables': 'Analyzable Variables',
-            'unknownNumberOfAnalyzedVariables': 'Unknown',
-            'numberOfAnalyzedVariables-tooltip': 'Click to show all analyzable variables of this sub data set',
-            'numberOfObservations': 'Observations',
-            'citate': 'Citate',
-            'citation': 'Citation',
-            'citate-tooltipp': 'Click to show citation information and to copy them.',
-            'no-citate-tooltipp': 'This Sub Data Set has no information about the citation.',
-            'copy-complete-citation-tooltip': 'Click for copy the citation to the clipboard.'
+            'title': 'Available Sub Data Sets'
           },
           'attachments': {
-            'table-title': 'Documents related to the Data Set',
-            'title': 'Title',
-            'description': 'Description',
-            'language': 'Document Language',
-            'file': 'File'
+            'table-title': 'Documents related to the Data Set'
           },
+          'title': '{{ description }} ({{ dataSetId }})',
+          'not-found': 'The {{id}} references to an unknown Data Set.',
+          'not-found-references': 'The id {{id}} has no References to Data Sets.',
           'content': {
             'true': 'Click to maximize',
             'false': 'Click to minimize'
           },
           'generate-variable-report-tooltip': 'Click to generate variable report',
-          'no-related-data-sets': 'No related Data Sets.',
-          'related-data-sets': 'Related Data Sets',
           'not-released-toast': 'Data Set "{{ id }}" has not yet been released to all users!',
           'tooltips': {
             'data-sets': {

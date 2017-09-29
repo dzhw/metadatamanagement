@@ -9,17 +9,17 @@ angular.module('metadatamanagementApp').config(
           'instrument': {
             'saved': 'Instrument mit FDZ-ID {{ id }} erfolgreich gespeichert!',
             'not-saved': 'Instrument mit FDZ-ID {{ id }} wurde nicht gespeichert:',
-            'missing-number': 'Das {{ index }}. Instrument enthält keine Nummer und wurde nicht gespeichert!',
+            'missing-number': 'Das Instrument im Excel Document aus dem Arbeitsblatt "instruments"  in der Zeile {{ index }} enthält keine Nummer und wurde nicht gespeichert!',
             'upload-terminated': 'Upload von {{ totalInstruments }} Instrumenten und {{ totalAttachments }} Attachments mit {{totalWarnings}} Warnungen und {{ totalErrors }} Fehlern beendet!',
             'unable-to-delete': 'Die Instrumente konnten nicht gelöscht werden!',
             'cancelled': 'Upload von Instrumenten Abgebrochen!',
-            'duplicate-instrument-number': 'Die Nummer ({{ number }}) des {{ index }}. Instrumentes wurde bereits verwendet.'
+            'duplicate-instrument-number': 'Die Nummer ({{ number }}) des Instrumentes aus der Exceldatei aus dem Arbeitsblatt "instruments" in der Zeile {{ index }} wurde bereits verwendet.'
           },
           'instrument-attachment': {
             'not-saved': 'Attachment "{{ id }}" wurde nicht gespeichert:',
-            'missing-instrument-number': 'Das {{ index }}. Attachment hat keine Instrumentnummer und wurde daher nicht gespeichert.',
-            'unknown-instrument-number': 'Die Nummer des Instrumentes des {{ index }}. Attachments gibt es nicht. Das Attachment wurde daher nicht gespeichert.',
-            'missing-filename': 'Das {{ index }}. Attachment hat keinen Dateinamen und wurde daher nicht gespeichert.',
+            'missing-instrument-number': 'Das Instrument Attachment aus dem Exceldocument aus dem Arbeitsblatt "attachments" in der Zeile {{ index }} hat keine Instrumentnummer und wurde daher nicht gespeichert.',
+            'unknown-instrument-number': 'Die Nummer des Instrumentes des Attachments aus der Exceldatei in dem Arbeitsblatt "attachments" in der Zeile {{index}} gibt es nicht. Das Attachment wurde daher nicht gespeichert.',
+            'missing-filename': 'Das Attachment eines Instrumentes aus der Exceldatei aus dem Arbeitsblatt "attachments" in der Zeile {{index}} hat keinen Dateinamen und wurde daher nicht gespeichert.',
             'file-not-found': 'Die Datei {{ filename }} wurde nicht gefunden und wurde daher nicht gespeichert!'
           }
         },
@@ -27,23 +27,24 @@ angular.module('metadatamanagementApp').config(
           'title': 'Instrumente'
         },
         'detail': {
-          'page-title': '{{ description }} ({{ instrumentId }})',
-          'instrument': 'Instrument',
-          'instruments': 'Instrumente',
-          'instrument-informations': 'Details zum Instrument',
-          'title': 'Titel',
-          'subtitle': 'Untertitel',
-          'type': 'Typ',
-          'annotations': 'Anmerkungen',
-          'related-information': 'Verbundene Objekte',
-          'no-related-instruments': 'Keine zugehörige Instrumente.',
-          'attachments': {
-            'table-title': 'Materialien zum Instrument',
+          'label': {
+            'instrument': 'Instrument',
+            'instruments': 'Instrumente',
+            'title': 'Titel',
+            'subtitle': 'Untertitel',
             'type': 'Typ',
-            'description': 'Beschreibung',
-            'language': 'Dokumentensprache',
-            'file': 'Datei'
+            'annotations': 'Anmerkungen',
+            'attachments': {
+              'type': 'Typ',
+              'description': 'Beschreibung',
+              'language': 'Dokumentensprache',
+              'file': 'Datei'
+            }
           },
+          'attachments': {
+            'table-title': 'Materialien zum Instrument'
+          },
+          'page-title': '{{ description }} ({{ instrumentId }})',
           'not-released-toast': 'Das Instrument "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!',
           'tooltips': {
             'surveys': {

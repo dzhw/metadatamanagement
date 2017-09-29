@@ -13,19 +13,19 @@
                 <md-divider></md-divider>
                 <md-card-content>
                   <div class="fdz-add-bottom-margin" ng-if="ctrl.instrument.title">
-                      <span style="font-weight: bold;">{{'instrument-management.detail.title' | translate }}:</span>
+                      <span style="font-weight: bold;">{{'instrument-management.detail.label.title' | translate }}:</span>
                       <span display-i18n-string="ctrl.instrument.title" fdz-hyphenate></span>
                   </div>
                   <div class="fdz-add-bottom-margin" ng-if="ctrl.instrument.subtitle">
-                      <span style="font-weight: bold;">{{'instrument-management.detail.subtitle' | translate }}:</span>
+                      <span style="font-weight: bold;">{{'instrument-management.detail.label.subtitle' | translate }}:</span>
                       <span display-i18n-string="ctrl.instrument.subtitle" fdz-hyphenate></span>
                   </div>
                   <div class="fdz-add-bottom-margin" ng-if="ctrl.instrument.type">
-                      <span style="font-weight: bold;">{{'instrument-management.detail.type' | translate }}:</span>
+                      <span style="font-weight: bold;">{{'instrument-management.detail.label.type' | translate }}:</span>
                       <span>{{ctrl.instrument.type}}</span>
                   </div>
                   <div class="fdz-add-bottom-margin fdz-text-block" ng-if="ctrl.instrument.annotations">
-                      <span style="font-weight: bold;">{{'instrument-management.detail.annotations' | translate }}:</span>
+                      <span style="font-weight: bold;">{{'instrument-management.detail.label.annotations' | translate }}:</span>
                       <span display-i18n-string="ctrl.instrument.annotations" fdz-hyphenate></span>
                   </div>
                 </md-card-content>
@@ -43,12 +43,12 @@
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                         <div ng-if="!ctrl.study" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
-                            {{'study-management.detail.study' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                            {{'study-management.detail.label.study' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
                         <div ng-if="ctrl.study" class="fdz-truncate-string" flex>
                           <a ui-sref="studyDetail({id: ctrl.study.id})">
                               <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
-                              {{'study-management.detail.study' | translate }}:
+                              {{'study-management.detail.label.study' | translate }}:
                               <span display-i18n-string="ctrl.study.title"></span>
                               <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                   {{'instrument-management.detail.tooltips.studies.one' | translate}}
@@ -59,12 +59,12 @@
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                         <div ng-if="ctrl.surveyCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
-                            {{'survey-management.detail.surveys' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                            {{'survey-management.detail.label.surveys' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
                         <div ng-if="ctrl.surveyCount == 1 && ctrl.survey" class="fdz-truncate-string" flex>
                            <a ui-sref="surveyDetail({'id': ctrl.survey.id})">
                                <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
-                               {{'survey-management.detail.survey' | translate }}:
+                               {{'survey-management.detail.label.survey' | translate }}:
                                <span display-i18n-string="ctrl.survey.title"></span>
                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                    {{'instrument-management.detail.tooltips.surveys.one' | translate}}
@@ -74,7 +74,7 @@
                         <div ng-if="ctrl.surveyCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'surveys', 'instrument':ctrl.instrument.id, 'study': ctrl.instrument.studyId, 'sort-by': 'number'})">
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
-                                {{'survey-management.detail.surveys' | translate }}: ({{ctrl.surveyCount}})
+                                {{'survey-management.detail.label.surveys' | translate }}: ({{ctrl.surveyCount}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'instrument-management.detail.tooltips.surveys.many' | translate}}
                                 </md-tooltip>
@@ -84,12 +84,12 @@
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                         <div ng-if="ctrl.questionCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
-                            {{'question-management.detail.questions' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                            {{'question-management.detail.label.questions' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
                         <div ng-if="ctrl.questionCount == 1 && ctrl.question" class="fdz-truncate-string" flex>
                            <a ui-sref="questionDetail({'id': ctrl.question.id})">
                                <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
-                               {{'question-management.detail.question' | translate }}:
+                               {{'question-management.detail.label.question' | translate }}:
                                <span display-i18n-string="ctrl.question.questionText"></span>
                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                    {{'instrument-management.detail.tooltips.questions.one' | translate}}
@@ -99,7 +99,7 @@
                         <div ng-if="ctrl.questionCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'instrument': ctrl.instrument.id, 'study': ctrl.instrument.studyId, 'type': 'questions', 'sort-by': 'indexInInstrument'})">
                                 <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
-                                {{'question-management.detail.questions' | translate }}: ({{ctrl.questionCount}})
+                                {{'question-management.detail.label.questions' | translate }}: ({{ctrl.questionCount}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'instrument-management.detail.tooltips.questions.many' | translate}}
                                 </md-tooltip>
@@ -109,12 +109,12 @@
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                         <div ng-if="ctrl.publicationCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
-                            {{'related-publication-management.detail.publications' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                            {{'related-publication-management.detail.label.publications' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
                         <div ng-if="ctrl.publicationCount == 1" class="fdz-truncate-string" flex>
                             <a ui-sref="relatedPublicationDetail({'id': ctrl.relatedPublication.id})">
                                 <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
-                                {{'related-publication-management.detail.publication' | translate }}: {{ctrl.relatedPublication.title}}
+                                {{'related-publication-management.detail.label.publication' | translate }}: {{ctrl.relatedPublication.title}}
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'instrument-management.detail.tooltips.publications.one' | translate}}
                                 </md-tooltip>
@@ -123,7 +123,7 @@
                         <div ng-if="ctrl.publicationCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'related_publications', 'instrument': ctrl.instrument.id, 'study': ctrl.instrument.studyId})">
                                 <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
-                                {{'related-publication-management.detail.publications' | translate }}: ({{ctrl.publicationCount}})
+                                {{'related-publication-management.detail.label.publications' | translate }}: ({{ctrl.publicationCount}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'instrument-management.detail.tooltips.publications.many' | translate}}
                                 </md-tooltip>
@@ -144,24 +144,24 @@
             <table fdz-table>
                 <thead>
                     <tr>
-                        <th>{{'instrument-management.detail.attachments.type' | translate }}
+                        <th>{{'instrument-management.detail.label.attachments.type' | translate }}
                             <md-tooltip hide-gt-xs md-direction="right">
-                                {{'instrument-management.detail.attachments.type' | translate }}
+                                {{'instrument-management.detail.label.attachments.type' | translate }}
                             </md-tooltip>
                         </th>
-                        <th class="fdz-table-half-absorbing-column">{{'instrument-management.detail.attachments.description' | translate }}
+                        <th class="fdz-table-half-absorbing-column">{{'instrument-management.detail.label.attachments.description' | translate }}
                             <md-tooltip hide-gt-xs md-direction="right">
-                                {{'instrument-management.detail.attachments.description' | translate }}
+                                {{'instrument-management.detail.label.attachments.description' | translate }}
                             </md-tooltip>
                         </th>
-                        <th>{{'instrument-management.detail.attachments.language' | translate }}
+                        <th>{{'instrument-management.detail.label.attachments.language' | translate }}
                             <md-tooltip hide-gt-xs md-direction="right">
-                                {{'instrument-management.detail.attachments.language' | translate }}
+                                {{'instrument-management.detail.label.attachments.language' | translate }}
                             </md-tooltip>
                         </th>
-                        <th>{{'instrument-management.detail.attachments.file' | translate }}
+                        <th>{{'instrument-management.detail.label.attachments.file' | translate }}
                             <md-tooltip hide-gt-xs md-direction="right">
-                                {{'instrument-management.detail.attachments.file' | translate }}
+                                {{'instrument-management.detail.label.attachments.file' | translate }}
                             </md-tooltip>
                         </th>
                     </tr>
@@ -169,7 +169,7 @@
                 <tbody>
                     <tr ng-repeat="row in ctrl.attachments">
                         <td display-i18n-string="row.type"></td>
-                        <td display-i18n-string="row.description" fdz-hyphenate class="fdz-text-block"></td>                        
+                        <td display-i18n-string="row.description" fdz-hyphenate class="fdz-text-block"></td>
                         <td>{{row.language | displayIsoLanguage: currentLanguage}}&nbsp;</td>
                         <td><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                               {{'global.tooltips.files.download' | translate: {filename: row.fileName} }}

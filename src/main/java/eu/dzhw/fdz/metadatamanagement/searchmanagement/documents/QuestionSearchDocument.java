@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataSetSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.InstrumentSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
@@ -16,18 +17,20 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.Vari
 /**
  * Representation of an question which is stored in elasticsearch.
  */
-public class QuestionSearchDocument extends Question {
+public class QuestionSearchDocument extends Question implements SearchDocumentInterface {
   private StudySubDocument study = null;
   private InstrumentSubDocument instrument = null;
   private List<SurveySubDocument> surveys = 
-      new ArrayList<SurveySubDocument>();
+      new ArrayList<>();
   private List<VariableSubDocument> variables = 
-      new ArrayList<VariableSubDocument>();
+      new ArrayList<>();
   private List<DataSetSubDocument> dataSets = 
-      new ArrayList<DataSetSubDocument>();
+      new ArrayList<>();
   private List<RelatedPublicationSubDocument> relatedPublications = 
-      new ArrayList<RelatedPublicationSubDocument>();
+      new ArrayList<>();
   private Release release = null;
+  
+  private I18nString guiLabels = QuestionDetailsGuiLabels.GUI_LABELS;
   
   /**
    * Construct the search document with all related subdocuments.
@@ -126,5 +129,14 @@ public class QuestionSearchDocument extends Question {
 
   public void setRelease(Release release) {
     this.release = release;
+  }
+  
+  @Override
+  public I18nString getGuiLabels() {
+    return guiLabels;
+  }
+
+  public void setGuiLabels(I18nString guiLabels) {
+    this.guiLabels = guiLabels;
   }
 }

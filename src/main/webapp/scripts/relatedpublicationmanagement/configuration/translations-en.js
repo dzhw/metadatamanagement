@@ -20,26 +20,21 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'detail': {
-          'title': '{{ title }} ({{publicationId}})',
-          'publication': 'Publication',
-          'publications': 'Publications',
-          'related-information': 'Related Information',
-          'studies-title': 'Studies',
-          'questions-title': 'Questions',
-          'variables-title': 'Variables',
-          'citation-text': 'Citation Text',
+          'label': {
+            'publication': 'Publication',
+            'publications': 'Publications',
+            'doi': 'DOI',
+            'sourceReference': 'Source Reference',
+            'sourceLink': 'URL',
+            'authors': 'Authors',
+            'year': 'Year of publication',
+            'source-reference': 'Reference',
+            'abstract-source': 'Source'
+          },
           'abstract': 'Abstract',
-          'doi': 'DOI',
+          'title': '{{ title }} ({{publicationId}})',
           'doi-tooltip': 'Click to open the DOI in a new Tab',
-          'sourceReference': 'Source Reference',
-          'sourceLink': 'URL',
           'sourceLink-tooltip': 'Click to open the source of this publication in a new Tab',
-          'no-related-publications': 'No Publications.',
-          'related-publications': 'Publications',
-          'authors': 'Authors',
-          'year': 'Year of publication',
-          'source-reference': 'Reference',
-          'abstract-source': 'Source',
           'tooltips': {
             'surveys': {
               'one': 'Click to show the survey for which this publication has been written',

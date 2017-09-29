@@ -1,7 +1,7 @@
 <md-dialog aria-label="{{'global.welcome-dialog.toolbar-head' |translate}}" md-autofocus>
     <md-toolbar>
         <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
-            <h2>{{"data-set-management.detail.sub-data-sets.citation" | translate}}</h2>
+            <h2>{{"data-set-management.detail.label.sub-data-sets.citation" | translate}}</h2>
             <md-button class="md-icon-button" ng-click="ctrl.closeDialog()">
                 <md-icon md-font-set="material-icons">clear</md-icon>
                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
@@ -18,7 +18,7 @@
         <md-button ng-click="ctrl.openSuccessCopyToClipboardToast('data-set-management.log-messages.sub-data-set.citation-success-copy-to-clipboard')" class="md-icon-button md-primary" ngclipboard data-clipboard-target="#citationHint">
             <md-icon md-font-library="material-icons">content_copy</md-icon>
             <md-tooltip md-direction="south" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                {{'data-set-management.detail.sub-data-sets.copy-complete-citation-tooltip' | translate}}
+                {{'data-set-management.detail.label.sub-data-sets.copy-complete-citation-tooltip' | translate}}
             </md-tooltip>
         </md-button>
         <md-button class="md-primary md-raised" ng-click="ctrl.closeDialog()">

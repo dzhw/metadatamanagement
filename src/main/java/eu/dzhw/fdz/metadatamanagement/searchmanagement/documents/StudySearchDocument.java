@@ -20,7 +20,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.Vari
  *
  * @author René Reitmann
  */
-public class StudySearchDocument extends Study {
+public class StudySearchDocument extends Study implements SearchDocumentInterface {
   private List<DataSetSubDocument> dataSets = 
       new ArrayList<>();
   
@@ -44,6 +44,8 @@ public class StudySearchDocument extends Study {
   private I18nString surveyDataType;
   
   private Integer numberOfWaves;
+  
+  private I18nString guiLabels = StudyDetailsGuiLabels.GUI_LABELS;
   
   /**
    * Construct the search document with all related subdocuments.
@@ -205,5 +207,14 @@ public class StudySearchDocument extends Study {
   
   public void setNumberOfWaves(Integer numberOfWaves) {
     this.numberOfWaves = numberOfWaves;
+  }
+  
+  @Override
+  public I18nString getGuiLabels() {
+    return guiLabels;
+  }
+
+  public void setGuiLabels(I18nString guiLabels) {
+    this.guiLabels = guiLabels;
   }
 }

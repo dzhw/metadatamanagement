@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataSetSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.InstrumentSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.projections.QuestionSubDocumentProjection;
@@ -17,22 +18,25 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.Vari
  *
  * @author Daniel Katzberg
  */
-public class RelatedPublicationSearchDocument extends RelatedPublication {
+public class RelatedPublicationSearchDocument extends RelatedPublication 
+    implements SearchDocumentInterface {
   private List<StudySubDocument> studies = 
-      new ArrayList<StudySubDocument>();
+      new ArrayList<>();
   private List<QuestionSubDocument> questions = 
-      new ArrayList<QuestionSubDocument>();
+      new ArrayList<>();
   private List<InstrumentSubDocument> instruments = 
-      new ArrayList<InstrumentSubDocument>();
+      new ArrayList<>();
   private List<SurveySubDocument> surveys = 
-      new ArrayList<SurveySubDocument>();
+      new ArrayList<>();
   private List<DataSetSubDocument> dataSets = 
-      new ArrayList<DataSetSubDocument>();
+      new ArrayList<>();
   private List<VariableSubDocument> variables = 
-      new ArrayList<VariableSubDocument>();
+      new ArrayList<>();
   
   // dummy string which ensures that related publications are always released
   private String release = "__";
+  
+  private I18nString guiLabels = RelatedPublicationDetailsGuiLabels.GUI_LABELS;
   
   /**
    * Construct the search document with all related subdocuments.
@@ -133,5 +137,14 @@ public class RelatedPublicationSearchDocument extends RelatedPublication {
 
   public void setRelease(String release) {
     this.release = release;
+  }
+
+  @Override
+  public I18nString getGuiLabels() {
+    return guiLabels;
+  }
+
+  public void setGuiLabels(I18nString guiLabels) {
+    this.guiLabels = guiLabels;
   }
 }

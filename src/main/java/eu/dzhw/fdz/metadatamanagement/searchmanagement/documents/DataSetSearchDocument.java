@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.InstrumentSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
@@ -18,24 +19,26 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.Vari
  *
  * @author René Reitmann
  */
-public class DataSetSearchDocument extends DataSet {
+public class DataSetSearchDocument extends DataSet implements SearchDocumentInterface {
   
   private StudySubDocument study = null;
   private List<VariableSubDocument> variables = 
-      new ArrayList<VariableSubDocument>();
+      new ArrayList<>();
   private List<InstrumentSubDocument> instruments = 
-      new ArrayList<InstrumentSubDocument>();
+      new ArrayList<>();
   private List<QuestionSubDocument> questions = 
-      new ArrayList<QuestionSubDocument>();
+      new ArrayList<>();
   private List<RelatedPublicationSubDocument> relatedPublications = 
-      new ArrayList<RelatedPublicationSubDocument>();
+      new ArrayList<>();
   private List<SurveySubDocument> surveys = 
-      new ArrayList<SurveySubDocument>();
+      new ArrayList<>();
   private Release release = null;
   
   private Integer maxNumberOfObservations;
   
   private List<String> accessWays;
+  
+  private I18nString guiLabels = DataSetDetailsGuiLabels.GUI_LABELS;
   
   /**
    * Construct the search document with all related subdocuments.
@@ -153,5 +156,14 @@ public class DataSetSearchDocument extends DataSet {
 
   public List<QuestionSubDocument> getQuestions() {
     return questions;
+  }
+  
+  @Override
+  public I18nString getGuiLabels() {
+    return guiLabels;
+  }
+
+  public void setGuiLabels(I18nString guiLabels) {
+    this.guiLabels = guiLabels;
   }
 }

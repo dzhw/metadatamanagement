@@ -16,7 +16,9 @@ angular
 .run(
     function($rootScope, $location, $state, LanguageService, Auth, Principal,
       ENV, VERSION, $mdMedia, $transitions, $timeout, $window,
-      WebSocketService) {
+      WebSocketService, $urlRouter) {
+      // sometimes urlRouter does not load the state automatically on startup
+      $urlRouter.sync();
       WebSocketService.connect();
       $rootScope.bowser = bowser;
       $rootScope.ENV = ENV;
@@ -135,16 +137,6 @@ angular
       $stateProvider.state('site', {
         'abstract': true,
         url: '/{lang:(?:de|en)}',
-        views: {
-          'navbar@': {
-            templateUrl: 'scripts/common/navbar/views/navbar.html.tmpl',
-            controller: 'NavbarController'
-          },
-          'toolbar@': {
-            templateUrl: 'scripts/common/toolbar/views/toolbar.html.tmpl',
-            controller: 'ToolbarController'
-          }
-        },
         resolve: {
           authorize: ['Auth', function(Auth) {
             return Auth.authorize();
@@ -177,22 +169,7 @@ angular
       tmhDynamicLocaleProvider.storageKey('NG_TRANSLATE_LANG_KEY');
 
       //did not manage to use a templateUrl :-(
-      blockUIConfig.template =
-        '<div ng-controller="BlockUIController" layout="column"' +
-        ' class="fdz-block-ui-overlay">' +
-        '<div flex layout="row" layout-align="center center">' +
-        '<md-progress-circular md-mode="indeterminate"' +
-        ' md-diameter="75px"></md-progress-circular>' +
-        '<span style="font-size: 24px; margin-left: 1em;"' +
-        'ng-if="job.state === \'running\' && job.id !== \'postValidation\'' +
-        ' && job.id !== \'dataSetReport\'' +
-        '" data-translate="global.joblogging.block-ui-message"' +
-        ' data-translate-values="{ errors: job.errors, ' +
-        'warnings: job.warnings, ' +
-        'total: job.errors + job.successes}">' +
-        '</span>' +
-        '</div>' +
-        '</div>';
+      blockUIConfig.templateUrl = 'scripts/common/blockui/blockUI.html.tmpl';
 
       blockUIConfig.autoInjectBodyBlock = false;
       blockUIConfig.blockBrowserNavigation = true;

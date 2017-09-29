@@ -9,52 +9,51 @@ angular.module('metadatamanagementApp').config(
           'survey': {
             'saved': 'Erhebung mit FDZ-ID {{ id }} erfolgreich gespeichert!',
             'not-saved': 'Erhebung mit FDZ-ID {{ id }} wurde nicht gespeichert!',
-            'missing-number': 'Die {{ index }}. Erhebung enthält keine Nummer und wurde daher nicht gespeichert!',
+            'missing-number': 'Die Erhebung in der Exceldatei in dem Arbeitsblatt "surveys" in der Zeile {{index}} enthält keine Nummer und wurde daher nicht gespeichert!',
             'upload-terminated': 'Upload von {{ totalSurveys }} Erhebungen, {{ totalImages }} Bildern und {{totalAttachments}} Attachments mit {{ totalErrors }} Fehlern beendet!',
             'unable-to-upload-image-file': 'Die Bilddatei "{{ file }}" konnte nicht hochgeladen werden!',
             'unable-to-read-image-file': 'Die Bilddatei "{{ file }}" konnte nicht gelesen werden!',
             'image-file-not-found': 'Die Bilddatei "{{ file }}" konnte nicht gefunden werden!',
             'unable-to-delete': 'Die Erhebungen konnten nicht gelöscht werden!',
             'cancelled': 'Upload von Erhebungen Abgebrochen!',
-            'duplicate-survey-number': 'Die Nummer ({{ number }}) der {{ index }}. Erhebung wurde bereits verwendet.'
+            'duplicate-survey-number': 'Die Nummer ({{ number }}) der Erhebung aus der Exceldatei aus dem Arbeitsblatt "surveys" in der Zeile {{ index }} wurde bereits verwendet.'
           },
           'survey-attachment': {
             'not-saved': 'Attachment "{{ id }}" wurde nicht gespeichert.',
-            'missing-survey-number': 'Das {{ index }}. Attachment hat keine Erhebungsnummer und wurde daher nicht gespeichert.',
-            'missing-filename': 'Das {{ index }}. Attachment hat keinen Dateinamen und wurde daher nicht gespeichert.',
+            'missing-survey-number': 'Das Attachment einer Erhebung aus dem Exceldatei aus dem Arbeitsblatt "attachments" in der Zeile {{ index }} hat keine Erhebungsnummer und wurde daher nicht gespeichert.',
+            'missing-filename': 'Das Attachment einer Erhebung aus der Exceldatei aus dem Arbeitsblatt "attachments" in der Zeile {{index}} hat keinen Dateinamen und wurde daher nicht gespeichert.',
             'file-not-found': 'Die Datei {{ filename }} wurde nicht gefunden und wurde daher nicht gespeichert!'
           }
         },
         'detail': {
+          'label': {
+            'survey': 'Erhebung',
+            'surveys': 'Erhebungen',
+            'surveys-same-study': 'Alle Erhebungen der Studie',
+            'field-period': 'Feldzeit',
+            'population': 'Grundgesamtheit',
+            'data-type': 'Erhebungsdatentyp',
+            'survey-method': 'Erhebungsmethode',
+            'sample': 'Stichprobe',
+            'annotations': 'Anmerkungen',
+            'grossSampleSize': 'Bruttostichprobe',
+            'sampleSize': 'Nettostichprobe',
+            'responseRate': 'Rücklaufquote',
+            'attachments': {
+              'title': 'Titel',
+              'description': 'Beschreibung',
+              'language': 'Dokumentensprache',
+              'file': 'Datei'
+            }
+          },
+          'attachments': {
+            'table-title': 'Materialien zu der Erhebung'
+          },
           'title': '{{ title }} ({{ surveyId }})',
-          'survey': 'Erhebung',
-          'surveys': 'Erhebungen',
-          'surveys-same-study': 'Alle Erhebungen der Studie',
-          'survey-informations': 'Informationen zu der Erhebung',
-          'related-information': 'Zugehörige Informationen',
-          'related-objects': 'Zugehörige Objekte',
-          'field-period': 'Feldzeit',
-          'population': 'Grundgesamtheit',
-          'data-type': 'Erhebungsdatentyp',
-          'survey-method': 'Erhebungsmethode',
-          'sample': 'Stichprobe',
-          'annotations': 'Anmerkungen',
+          'response-rate-information': 'Weitere Informationen zum Rücklauf',
           'not-found': 'Die id {{id}} referenziert auf eine unbekannte Erhebung.',
           'not-found-references': 'Die id {{id}} hat keine Referenzen auf Erhebungen.',
-          'no-related-surveys': 'Keine zugehörige Erhebungen.',
-          'related-surveys': 'Zugehörige Erhebungen',
-          'grossSampleSize': 'Bruttostichprobe',
-          'sampleSize': 'Nettostichprobe',
-          'responseRate': 'Rücklaufquote',
-          'response-rate-informations': 'Weitere Informationen zum Rücklauf',
-          'response-rate-informations-alt-text': 'Grafische Darstellung der Rücklaufquote',
-          'attachments': {
-            'table-title': 'Materialien zu der Erhebung',
-            'title': 'Titel',
-            'description': 'Beschreibung',
-            'language': 'Dokumentensprache',
-            'file': 'Datei'
-          },
+          'response-rate-information-alt-text': 'Grafische Darstellung der Rücklaufquote',
           'not-released-toast': 'Die Erhebung "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!',
           'tooltips': {
             'surveys': {

@@ -9,52 +9,51 @@ angular.module('metadatamanagementApp').config(
           'survey': {
             'saved': 'Survey with RDC-ID {{ id }} was saved successfully!',
             'not-saved': 'Survey with RDC-ID {{ id }} has not been saved!',
-            'missing-number': 'Survey {{ index }} does not contain a Number and has not been saved!',
+            'missing-number': 'Survey from the Excel document in the worksheet "surveys" in the line {{ index }} does not contain a Number and has not been saved!',
             'unable-to-upload-image-file': 'Image file "{{ file }}" could not be uploaded!',
             'unable-to-read-image-file': 'Image file "{{ file }}" could not be read!',
             'upload-terminated': 'Finished upload of {{ totalSurveys }} Surveys, {{ totalImages }} Images and {{totalAttachments}} Attachments with {{ totalErrors }} errors.',
             'unable-to-delete': 'The Surveys could not be deleted!',
             'image-file-not-found': 'Image file "{{ file }}" could not be found!',
-            'duplicate-survey-number': 'The number ({{ number }}) of Survey {{ index }} has already been used.',
+            'duplicate-survey-number': 'The number ({{ number }}) of Survey from the Excel document in the worksheet "surveys" in the line {{ index }} has already been used.',
             'cancelled': 'Surveys upload cancelled!'
           },
           'survey-attachment': {
             'not-saved': 'Attachment "{{ id }}" has not been saved.',
-            'missing-survey-number': 'Attachment {{ index }} does not have an survey number and has not been saved.',
-            'missing-filename': 'Attachment {{ index }} does not have a filename and has not been saved.',
+            'missing-survey-number': 'Attachment of a survey from the Excel document in the worksheet "attachments" in the line {{ index }} does not have an survey number and has not been saved.',
+            'missing-filename': 'Attachment of a survey from the Excel document in the worksheet "attachments" in the line {{ index }} does not have a filename and has not been saved.',
             'file-not-found': 'The File {{ filename }} was not found and has not been saved.'
           }
         },
         'detail': {
+          'label': {
+            'survey': 'Survey',
+            'surveys': 'Surveys',
+            'surveys-same-study': 'All Surveys of this Study',
+            'field-period': 'Field Period',
+            'population': 'Population',
+            'survey-method': 'Survey Method',
+            'data-type': 'Survey Data Type',
+            'sample': 'Sample',
+            'grossSampleSize': 'Gross Sample Size',
+            'sampleSize': 'Net Sample Size',
+            'responseRate': 'Response Rate',
+            'annotations': 'Annotations',
+            'attachments': {
+              'title': 'Title',
+              'description': 'Description',
+              'language': 'Document Language',
+              'file': 'File'
+            }
+          },
+          'attachments': {
+            'table-title': 'Documents related to the Survey'
+          },
           'title': '{{ title }} ({{ surveyId }})',
-          'survey': 'Survey',
-          'surveys': 'Surveys',
-          'surveys-same-study': 'All Surveys of this Study',
-          'survey-informations': 'Survey Informations',
-          'related-information': 'Related Information',
-          'related-objects': 'Related Objects',
-          'field-period': 'Field Period',
-          'population': 'Population',
-          'survey-method': 'Survey Method',
-          'data-type': 'Survey Data Type',
-          'sample': 'Sample',
+          'response-rate-information': 'Further Information about the Response Rate',
           'not-found': 'The {{id}} references to an unknown Survey.',
           'not-found-references': 'The id {{id}} has no References to Surveys.',
-          'no-related-surveys': 'No related Surveys.',
-          'related-surveys': 'Related Surveys',
-          'grossSampleSize': 'Gross Sample Size',
-          'sampleSize': 'Net Sample Size',
-          'responseRate': 'Response Rate',
-          'annotations': 'Annotations',
-          'response-rate-informations': 'Further Information about the Response Rate',
-          'response-rate-informations-alt-text': 'Image to display further information about the response rate',
-          'attachments': {
-            'table-title': 'Documents related to the Survey',
-            'title': 'Title',
-            'description': 'Description',
-            'language': 'Document Language',
-            'file': 'File'
-          },
+          'response-rate-information-alt-text': 'Image to display further information about the response rate',
           'not-released-toast': 'Survey "{{ id }}" has not yet been released to all users!',
           'tooltips': {
             'surveys': {

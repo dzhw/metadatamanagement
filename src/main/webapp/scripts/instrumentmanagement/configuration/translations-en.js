@@ -9,17 +9,17 @@ angular.module('metadatamanagementApp').config(
           'instrument': {
             'saved': 'Instrument with RDC-ID {{ id }} was saved successfully!',
             'not-saved': 'Instrument with RDC-ID {{ id }} has not been saved!',
-            'missing-number': 'Instrument {{ index }} does not contain a number and has not been saved:',
+            'missing-number': 'Instrument from the Excel document in the worksheet "instruments" in line {{ index }} does not contain a number and has not been saved:',
             'upload-terminated': 'Finished upload of {{ totalInstruments }} Instruments and {{ totalAttachments }} Attachments with {{totalWarnings}} warnings and {{ totalErrors }} errors.',
             'unable-to-delete': 'The Instruments could not be deleted!',
             'cancelled': 'Instrument upload cancelled!',
-            'duplicate-instrument-number': 'The number ({{ number }}) of Instrument {{ index }} has already been used.'
+            'duplicate-instrument-number': 'The number ({{ number }}) of Instrument from the Excel document in the worksheet "instruments" in line {{ index }} has already been used.'
           },
           'instrument-attachment': {
             'not-saved': 'Attachment "{{ id }}" has not been saved:',
-            'missing-instrument-number': 'Attachment {{ index }} does not have an instrument number and has not been saved.',
-            'unknown-instrument-number': 'The number of the instrument of attachment {{ index }} does not exist. The attachment has not been saved.',
-            'missing-filename': 'Attachment {{ index }} does not have a filename and has not been saved.',
+            'missing-instrument-number': 'Attachment from the Excel document in the worksheet "attachments" in the line {{ index }} does not have an instrument number and has not been saved.',
+            'unknown-instrument-number': 'The number of the instrument of an attachment from the Excel document in the worksheet in the line {{ index }} does not exist. The attachment has not been saved.',
+            'missing-filename': 'Attachment of an instrument from the Excel document in the worksheet "attachments" in line {{ index }} does not have a filename and has not been saved.',
             'file-not-found': 'The File {{ filename }} was not found and has not been saved.'
           }
         },
@@ -27,23 +27,24 @@ angular.module('metadatamanagementApp').config(
           'title': 'Instruments'
         },
         'detail': {
-          'page-title': '{{ description }} ({{ instrumentId }})',
-          'instrument': 'Instrument',
-          'instruments': 'Instruments',
-          'instrument-informations': 'Details for the Instrument',
-          'title': 'Title',
-          'subtitle': 'Subtitle',
-          'type': 'Type',
-          'annotations': 'Annotations',
-          'related-information': 'Related Objects',
-          'no-related-instruments': 'No related Instruments.',
-          'attachments': {
-            'table-title': 'Documents related to the Instrument',
+          'label': {
+            'instrument': 'Instrument',
+            'instruments': 'Instruments',
+            'title': 'Title',
+            'subtitle': 'Subtitle',
             'type': 'Type',
-            'description': 'Description',
-            'language': 'Document Language',
-            'file': 'File'
+            'annotations': 'Annotations',
+            'attachments': {
+              'type': 'Type',
+              'description': 'Description',
+              'language': 'Document Language',
+              'file': 'File'
+            }
           },
+          'attachments': {
+            'table-title': 'Documents related to the Instrument'
+          },
+          'page-title': '{{ description }} ({{ instrumentId }})',
           'not-released-toast': 'Instrument "{{ id }}" has not yet been released to all users!',
           'tooltips': {
             'surveys': {
@@ -122,7 +123,7 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'The description of the attachment must not be empty!',
               'i18n-string-size': 'The description is mandatory and must in at least one language and must not contain more than 128 characters.',
               'i18n-string-not-empty': 'The description must not be empty!'
-            },            
+            },
             'language': {
               'not-null': 'The language of the attachment must not be empty!',
               'not-supported': 'The language of the attachment must be a two-letter abbreviation according to ISO 639-1!'

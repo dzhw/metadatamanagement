@@ -21,11 +21,11 @@
                 </div>
                 <div flex-gt-sm="50" layout="column">
                     <div ng-class="{'fdz-add-bottom-margin': !addMargin}" ng-if="searchResult.accessWays">
-                        <span style="font-weight: bold;">{{'study-management.detail.data-set.accessWays' | translate }}:</span>
+                        <span style="font-weight: bold;">{{'study-management.detail.label.data-set.accessWays' | translate }}:</span>
                         <span>{{searchResult.accessWays.join(', ')}}</span>
                     </div>
                     <div ng-if="searchResult.maxNumberOfObservations">
-                      <span style="font-weight: bold;">{{'study-management.detail.data-set.maxNumberOfObservations' | translate }} <span katex>(max)</span>:&nbsp;</span>
+                      <span style="font-weight: bold;">{{'study-management.detail.label.data-set.maxNumberOfObservations' | translate }} <span katex>(max)</span>:&nbsp;</span>
                         <span>{{searchResult.maxNumberOfObservations | number: 0}}</span>
                     </div>
                 </div>
