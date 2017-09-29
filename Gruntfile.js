@@ -284,7 +284,8 @@ module.exports = function(grunt) {
             'multiple',
             'md-auto-hide',
             'du-scroll-container',
-            'layout-align'
+            'layout-align',
+            'layout-fill'
           ]
         },
         files: {

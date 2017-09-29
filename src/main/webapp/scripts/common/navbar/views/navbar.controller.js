@@ -49,4 +49,18 @@ angular.module('metadatamanagementApp').controller('NavbarController',
       });
       $scope.close();
     };
+
+    $scope.$watch(function() {
+      return $mdSidenav('SideNavBar').isLockedOpen();
+    }, function(isLockedOpen) {
+      if (isLockedOpen) {
+        // hardcoded width of sidenav cause sometimes
+        // the updated width comes too late :-(
+        $document.find('#content-container').css(
+          'margin-left', 320);
+      } else {
+        $document.find('#content-container').css(
+          'margin-left', 0);
+      }
+    }, true);
   });

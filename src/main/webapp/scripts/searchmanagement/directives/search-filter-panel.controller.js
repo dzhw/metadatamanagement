@@ -24,6 +24,11 @@ angular.module('metadatamanagementApp')
             StudyIdBuilderService.buildStudyId(currentProject.id);
           if (!_.includes($scope.selectedFilters, 'study')) {
             $scope.selectedFilters.push('study');
+            $timeout(function() {
+              // add md class manually to fix overlapping labels
+              $element.find('.fdz-filter-select')
+                .addClass('md-input-has-value');
+            });
           }
         }
       };

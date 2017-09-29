@@ -260,7 +260,7 @@ angular.module('metadatamanagementApp').config(
           },
           'import': {
             'json-not-readable': 'Das Json hat im Feld "{{invalidValue}}" einen Fehler.',
-            'json-parsing-error': 'Der Import des Objektes "{{entity}}" aus einer JSON schlug fehl, da in der Excel Datei in der Zeile {{index}} das Feld "{{property}}" einen ungültigen Wert "{{invalidValue}}" hat.',
+            'json-parsing-error': 'Der Import des Objektes "{{entity}}" aus einer JSON Daei schlug fehl, denn das Feld "{{property}}" hat einen ungültigen Wert: {{invalidValue}}',
             'excel-parsing-error': 'Der Import des Objektes "{{entity}}" aus einer Excel Datei in Zeile {{index}} schlug fehl, denn das Feld "{{property}}" hat einen ungültigen Wert: {{invalidValue}}',
             'no-json-mapping': 'Ein serverseitiger Fehler trat beim Import eines Objektes auf.',
             'file-size-limit-exceeded': 'Die Datei "{{ entity }}" ist größer 10MB!'
