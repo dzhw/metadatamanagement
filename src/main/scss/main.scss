@@ -786,3 +786,7 @@ input::-ms-clear {
 md-sidenav.md-locked-open#SideNavBar, md-toolbar#toolbar {
   position: fixed;
 }
+
+md-sidenav, .md-sidenav-backdrop {
+  min-height: 100vh;
+}
