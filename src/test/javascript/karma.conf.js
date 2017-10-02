@@ -37,7 +37,7 @@ module.exports = function(config) {
       'src/main/webapp/bower_components/d3/d3.js',
       'src/main/webapp/bower_components/nvd3/build/nv.d3.js',
       'src/main/webapp/bower_components/angular-nvd3/dist/angular-nvd3.js',
-      'src/main/webapp/bower_components/js-xlsx/dist/xlsx.core.min.js',
+      'src/main/webapp/bower_components/js-xlsx/dist/xlsx.full.min.js',
       'src/main/webapp/bower_components/cheet.js/cheet.js',
       'src/main/webapp/bower_components/angular-animate/angular-animate.js',
       'src/main/webapp/bower_components/angular-messages/angular-messages.js',

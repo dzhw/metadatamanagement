@@ -6,21 +6,40 @@ dissemination.  The second step is to actual share the data with the end point.
 Assuming `workbook` is a workbook object:
 
 <details>
-	<summary><b>nodejs write a file</b> (click to show)</summary>
+  <summary><b>nodejs write a file</b> (click to show)</summary>
+
+`writeFile` is only available in server environments. Browsers have no API for
+writing arbitrary files given a path, so another strategy must be used.
 
 ```js
+if(typeof require !== 'undefined') XLSX = require('xlsx');
 /* output format determined by filename */
-XLSX.writeFile(workbook, 'out.xlsx');
-/* at this point, out.xlsx is a file that you can distribute */
+XLSX.writeFile(workbook, 'out.xlsb');
+/* at this point, out.xlsb is a file that you can distribute */
 ```
 
 </details>
 
 <details>
-	<summary><b>Browser download file</b> (click to show)</summary>
+  <summary><b>Browser add to web page</b> (click to show)</summary>
+
+The `sheet_to_html` utility function generates HTML code that can be added to
+any DOM element.
+
+```js
+var worksheet = workbook.Sheets[workbook.SheetNames[0]];
+var container = document.getElementById('tableau');
+container.innerHTML = XLSX.utils.sheet_to_html(worksheet);
+```
+
+
+</details>
+
+<details>
+  <summary><b>Browser save file</b> (click to show)</summary>
 
 Note: browser generates binary blob and forces a "download" to client.  This
-example uses [FileSaver.js](https://github.com/eligrey/FileSaver.js/):
+example uses [FileSaver](https://github.com/eligrey/FileSaver.js/):
 
 ```js
 /* bookType can be any supported output type */
@@ -38,12 +57,13 @@ function s2ab(s) {
 /* the saveAs call downloads a file on the local machine */
 saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), "test.xlsx");
 ```
+
 </details>
 
 <details>
-	<summary><b>Browser upload to server</b> (click to show)</summary>
+  <summary><b>Browser upload to server</b> (click to show)</summary>
 
-A complete example using XHR is [included in the xhr demo](demos/xhr/), along
+A complete example using XHR is [included in the XHR demo](demos/xhr/), along
 with examples for fetch and wrapper libraries.  This example assumes the server
 can handle Base64-encoded files (see the demo for a basic nodejs server):
 
@@ -53,12 +73,12 @@ var wopts = { bookType:'xlsx', bookSST:false, type:'base64' };
 
 var wbout = XLSX.write(workbook,wopts);
 
-var oReq = new XMLHttpRequest();
-oReq.open("POST", "/upload", true);
+var req = new XMLHttpRequest();
+req.open("POST", "/upload", true);
 var formdata = new FormData();
 formdata.append('file', 'test.xlsx'); // <-- server expects `file` to hold name
 formdata.append('data', wbout); // <-- `data` holds the base64-encoded data
-oReq.send(formdata);
+req.send(formdata);
 ```
 
 </details>

@@ -1834,6 +1834,8 @@ var Parser = function () {
                     var funcData = _functions2.default[func];
                     if (this.mode === "text" && !funcData.allowedInText) {
                         throw new _ParseError2.default("Can't use function '" + func + "' in text mode", baseGroup.token);
+                    } else if (this.mode === "math" && funcData.allowedInMath === false) {
+                        throw new _ParseError2.default("Can't use function '" + func + "' in math mode", baseGroup.token);
                     }
 
                     var args = this.parseArguments(func, funcData);
@@ -3028,6 +3030,40 @@ var buildExpression = function buildExpression(expression, options, isRealGroup)
         }
     }
 
+    // Process \\not commands within the group.
+    // TODO(kevinb): Handle multiple \\not commands in a row.
+    // TODO(kevinb): Handle \\not{abc} correctly.  The \\not should appear over
+    // the 'a' instead of the 'c'.
+    for (var _i3 = 0; _i3 < groups.length; _i3++) {
+        if (groups[_i3].value === "\u0338" && _i3 + 1 < groups.length) {
+            var children = groups.slice(_i3, _i3 + 2);
+
+            children[0].classes = ["mainrm"];
+            // \u0338 is a combining glyph so we could reorder the children so
+            // that it comes after the other glyph.  This works correctly on
+            // most browsers except for Safari.  Instead we absolutely position
+            // the glyph and set its right side to match that of the other
+            // glyph which is visually equivalent.
+            children[0].style.position = "absolute";
+            children[0].style.right = "0";
+
+            // Copy the classes from the second glyph to the new container.
+            // This is so it behaves the same as though there was no \\not.
+            var classes = groups[_i3 + 1].classes;
+            var container = (0, _buildCommon.makeSpan)(classes, children);
+
+            // LaTeX adds a space between ords separated by a \\not.
+            if (classes.indexOf("mord") !== -1) {
+                // \glue(\thickmuskip) 2.77771 plus 2.77771
+                container.style.paddingLeft = "0.277771em";
+            }
+
+            // Ensure that the \u0338 is positioned relative to the container.
+            container.style.position = "relative";
+            groups.splice(_i3, 2, container);
+        }
+    }
+
     return groups;
 };
 
@@ -3821,6 +3857,12 @@ groupTypes.sqrt = function (group, options) {
     // and line
     var inner = buildGroup(group.value.body, options.havingCrampedStyle());
 
+    // Some groups can return document fragments.  Handle those by wrapping
+    // them in a span.
+    if (inner instanceof _domTree2.default.documentFragment) {
+        inner = (0, _buildCommon.makeSpan)([], [inner], options);
+    }
+
     // Calculate the minimum size for the \surd delimiter
     var metrics = options.fontMetrics();
     var theta = metrics.defaultRuleThickness;
@@ -3835,29 +3877,24 @@ groupTypes.sqrt = function (group, options) {
 
     var minDelimiterHeight = (inner.height + inner.depth + lineClearance + theta) * options.sizeMultiplier;
 
-    // Create a \surd delimiter of the required minimum size
-    var delimChar = _delimiter2.default.customSizedDelim("\\surd", minDelimiterHeight, false, options, group.mode);
-    var delim = (0, _buildCommon.makeSpan)(["sqrt-sign"], [delimChar], options);
+    // Create a sqrt SVG of the required minimum size
+    var img = _delimiter2.default.customSizedDelim("\\surd", minDelimiterHeight, false, options, group.mode);
 
     // Calculate the actual line width.
     // This actually should depend on the chosen font -- e.g. \boldmath
     // should use the thicker surd symbols from e.g. KaTeX_Main-Bold, and
     // have thicker rules.
-    var ruleWidth = options.fontMetrics().sqrtRuleThickness * delimChar.delimSizeMultiplier;
-    var line = makeLineSpan("sqrt-line", options, ruleWidth);
+    var ruleWidth = options.fontMetrics().sqrtRuleThickness * img.sizeMultiplier;
 
-    var delimDepth = delim.height + delim.depth - ruleWidth;
+    var delimDepth = img.height - ruleWidth;
 
     // Adjust the clearance based on the delimiter size
     if (delimDepth > inner.height + inner.depth + lineClearance) {
         lineClearance = (lineClearance + delimDepth - inner.height - inner.depth) / 2;
     }
 
-    // Shift the delimiter so that its top lines up with the top of the line
-    var delimShift = -(inner.height + lineClearance + ruleWidth) + delim.height;
-    delim.style.top = delimShift + "em";
-    delim.height -= delimShift;
-    delim.depth += delimShift;
+    // Shift the sqrt image
+    var imgShift = img.height - inner.height - lineClearance - ruleWidth;
 
     // We add a special case here, because even when `inner` is empty, we
     // still get a line. So, we use a simple heuristic to decide if we
@@ -3868,11 +3905,15 @@ groupTypes.sqrt = function (group, options) {
     if (inner.height === 0 && inner.depth === 0) {
         body = (0, _buildCommon.makeSpan)();
     } else {
-        body = _buildCommon2.default.makeVList([{ type: "elem", elem: inner }, { type: "kern", size: lineClearance }, { type: "elem", elem: line }, { type: "kern", size: ruleWidth }], "firstBaseline", null, options);
+        inner.style.paddingLeft = img.surdWidth + "em";
+
+        // Overlay the image and the argument.
+        body = _buildCommon2.default.makeVList([{ type: "elem", elem: inner }, { type: "kern", size: -(inner.height + imgShift) }, { type: "elem", elem: img }, { type: "kern", size: ruleWidth }], "firstBaseline", null, options);
+        body.children[0].children[0].classes.push("svg-align");
     }
 
     if (!group.value.index) {
-        return (0, _buildCommon.makeSpan)(["mord", "sqrt"], [delim, body], options);
+        return (0, _buildCommon.makeSpan)(["mord", "sqrt"], [body], options);
     } else {
         // Handle the optional root index
 
@@ -3880,13 +3921,9 @@ groupTypes.sqrt = function (group, options) {
         var newOptions = options.havingStyle(_Style2.default.SCRIPTSCRIPT);
         var rootm = buildGroup(group.value.index, newOptions, options);
 
-        // Figure out the height and depth of the inner part
-        var innerRootHeight = Math.max(delim.height, body.height);
-        var innerRootDepth = Math.max(delim.depth, body.depth);
-
         // The amount the index is shifted by. This is taken from the TeX
         // source, in the definition of `\r@@t`.
-        var toShift = 0.6 * (innerRootHeight - innerRootDepth);
+        var toShift = 0.6 * (body.height - body.depth);
 
         // Build a VList with the superscript shifted up correctly
         var rootVList = _buildCommon2.default.makeVList([{ type: "elem", elem: rootm }], "shift", -toShift, options);
@@ -3894,7 +3931,7 @@ groupTypes.sqrt = function (group, options) {
         // kerning
         var rootVListWrap = (0, _buildCommon.makeSpan)(["root"], [rootVList]);
 
-        return (0, _buildCommon.makeSpan)(["mord", "sqrt"], [rootVListWrap, delim, body], options);
+        return (0, _buildCommon.makeSpan)(["mord", "sqrt"], [rootVListWrap, body], options);
     }
 };
 
@@ -4002,15 +4039,15 @@ groupTypes.leftright = function (group, options) {
 
     // Handle middle delimiters
     if (hadMiddle) {
-        for (var _i3 = 1; _i3 < inner.length; _i3++) {
-            var middleDelim = inner[_i3];
+        for (var _i4 = 1; _i4 < inner.length; _i4++) {
+            var middleDelim = inner[_i4];
             if (middleDelim.isMiddle) {
                 // Apply the options that were active when \middle was called
-                inner[_i3] = _delimiter2.default.leftRightDelim(middleDelim.isMiddle.value, innerHeight, innerDepth, middleDelim.isMiddle.options, group.mode, []);
+                inner[_i4] = _delimiter2.default.leftRightDelim(middleDelim.isMiddle.value, innerHeight, innerDepth, middleDelim.isMiddle.options, group.mode, []);
                 // Add back spaces shifted into the delimiter
                 var spaces = spliceSpaces(middleDelim.children, 0);
                 if (spaces) {
-                    _buildCommon2.default.prependChildren(inner[_i3], spaces);
+                    _buildCommon2.default.prependChildren(inner[_i4], spaces);
                 }
             }
         }
@@ -4142,7 +4179,7 @@ groupTypes.accent = function (group, options) {
     // Build the accent
     var accentBody = void 0;
     if (!group.value.isStretchy) {
-        var accent = _buildCommon2.default.makeSymbol(group.value.label, "Main-Regular", "math", options);
+        var accent = _buildCommon2.default.makeSymbol(group.value.label, "Main-Regular", group.mode, options);
         // Remove the italic correction of the accent, because it only serves to
         // shift the accent over to a place we don't want.
         accent.italic = 0;
@@ -4151,9 +4188,17 @@ groupTypes.accent = function (group, options) {
         // thus shows up much too far to the left. To account for this, we add a
         // specific class which shifts the accent over to where we want it.
         // TODO(emily): Fix this in a better way, like by changing the font
-        var vecClass = group.value.label === "\\vec" ? "accent-vec" : null;
+        // Similarly, text accent \H is a combining character and
+        // requires a different adjustment.
+        var accentClass = null;
+        if (group.value.label === "\\vec") {
+            accentClass = "accent-vec";
+        } else if (group.value.label === '\\H') {
+            accentClass = "accent-hungarian";
+        }
 
-        accentBody = (0, _buildCommon.makeSpan)(["accent-body", vecClass], [(0, _buildCommon.makeSpan)([], [accent])]);
+        accentBody = (0, _buildCommon.makeSpan)([], [accent]);
+        accentBody = (0, _buildCommon.makeSpan)(["accent-body", accentClass], [accentBody]);
 
         // Shift the accent over by the skew. Note we shift by twice the skew
         // because we are centering the accent, so by adding 2*skew to the left,
@@ -4164,13 +4209,15 @@ groupTypes.accent = function (group, options) {
     } else {
         accentBody = _stretchy2.default.svgSpan(group, options);
 
-        if (skew > 0) {
-            // Shorten the accent. That will nudge it to the right.
-            var adjSize = "calc(100% - " + 2 * skew + "em) 100%";
-            accentBody.style.backgroundSize = adjSize;
-        }
-
         accentBody = _buildCommon2.default.makeVList([{ type: "elem", elem: body }, { type: "elem", elem: accentBody }], "firstBaseline", null, options);
+
+        var styleSpan = accentBody.children[0].children[0].children[1];
+        styleSpan.classes.push("svg-align"); // text-align: left;
+        if (skew > 0) {
+            // Shorten the accent and nudge it to the right.
+            styleSpan.style.width = "calc(100% - " + 2 * skew + "em)";
+            styleSpan.style.marginLeft = 2 * skew + "em";
+        }
     }
 
     var accentWrap = (0, _buildCommon.makeSpan)(["mord", "accent"], [accentBody], options);
@@ -4224,8 +4271,10 @@ groupTypes.horizBrace = function (group, options) {
     var vlist = void 0;
     if (group.value.isOver) {
         vlist = _buildCommon2.default.makeVList([{ type: "elem", elem: body }, { type: "kern", size: 0.1 }, { type: "elem", elem: braceBody }], "firstBaseline", null, options);
+        vlist.children[0].children[0].children[1].classes.push("svg-align");
     } else {
         vlist = _buildCommon2.default.makeVList([{ type: "elem", elem: braceBody }, { type: "kern", size: 0.1 }, { type: "elem", elem: body }], "bottom", body.depth + 0.1 + braceBody.height, options);
+        vlist.children[0].children[0].children[0].classes.push("svg-align");
     }
 
     if (hasSupSub) {
@@ -4259,6 +4308,8 @@ groupTypes.accentUnder = function (group, options) {
     // Generate the vlist, with the appropriate kerns
     var vlist = _buildCommon2.default.makeVList([{ type: "elem", elem: accentBody }, { type: "kern", size: kern }, { type: "elem", elem: innerGroup }], "bottom", accentBody.height + kern, options);
 
+    vlist.children[0].children[0].children[0].classes.push("svg-align");
+
     return (0, _buildCommon.makeSpan)(["mord", "accentunder"], [vlist], options);
 };
 
@@ -4275,7 +4326,6 @@ groupTypes.enclose = function (group, options) {
     if (label === "sout") {
         img = (0, _buildCommon.makeSpan)(["stretchy", "sout"]);
         img.height = options.fontMetrics().defaultRuleThickness / scale;
-        img.maxFontSize = 1.0;
         imgShift = -0.5 * options.fontMetrics().xHeight;
     } else {
         // Add horizontal padding
@@ -4288,10 +4338,14 @@ groupTypes.enclose = function (group, options) {
         pad = label === "fbox" ? 0.34 : isCharBox ? 0.2 : 0;
         imgShift = inner.depth + pad;
 
-        img = _stretchy2.default.encloseSpan(inner, isCharBox, label, pad, options);
+        img = _stretchy2.default.encloseSpan(inner, label, pad, options);
     }
 
     var vlist = _buildCommon2.default.makeVList([{ type: "elem", elem: inner, shift: 0 }, { type: "elem", elem: img, shift: imgShift }], "individualShift", null, options);
+
+    if (label !== "fbox") {
+        vlist.children[0].children[0].children[1].classes.push("svg-align");
+    }
 
     if (/cancel/.test(label)) {
         // cancel does not create horiz space for its line extension.
@@ -4333,6 +4387,8 @@ groupTypes.xArrow = function (group, options) {
     } else {
         vlist = _buildCommon2.default.makeVList([{ type: "elem", elem: upperGroup, shift: upperShift }, { type: "elem", elem: arrowBody, shift: arrowShift }], "individualShift", null, options);
     }
+
+    vlist.children[0].children[0].children[1].classes.push("svg-align");
 
     return (0, _buildCommon.makeSpan)(["mrel", "x-arrow"], [vlist], options);
 };
@@ -5049,6 +5105,9 @@ var buildExpression = function buildExpression(expression, options) {
         var group = expression[i];
         groups.push(buildGroup(group, options));
     }
+
+    // TODO(kevinb): combine \\not with mrels and mords
+
     return groups;
 };
 
@@ -5411,11 +5470,6 @@ var makeStackedDelim = function makeStackedDelim(delim, heightTotal, center, opt
         bottom = "\u23A9";
         repeat = "\u23AA";
         font = "Size4-Regular";
-    } else if (delim === "\\surd") {
-        top = "\uE001";
-        bottom = "\u23B7";
-        repeat = "\uE000";
-        font = "Size4-Regular";
     }
 
     // Get the metrics of the four sections
@@ -5487,6 +5541,70 @@ var makeStackedDelim = function makeStackedDelim(delim, heightTotal, center, opt
     var inner = _buildCommon2.default.makeVList(inners, "bottom", depth, newOptions);
 
     return styleWrap((0, _buildCommon.makeSpan)(["delimsizing", "mult"], [inner], newOptions), _Style2.default.TEXT, options, classes);
+};
+
+var sqrtInnerSVG = {
+    // The main path geometry is from glyph U221A in the font KaTeX Main
+    main: "<svg viewBox='0 0 400000 1000' preserveAspectRatio='xMinYMin\nslice'><path d='M95 622c-2.667 0-7.167-2.667-13.5\n-8S72 604 72 600c0-2 .333-3.333 1-4 1.333-2.667 23.833-20.667 67.5-54s\n65.833-50.333 66.5-51c1.333-1.333 3-2 5-2 4.667 0 8.667 3.333 12 10l173\n378c.667 0 35.333-71 104-213s137.5-285 206.5-429S812 17.333 812 14c5.333\n-9.333 12-14 20-14h399166v40H845.272L620 507 385 993c-2.667 4.667-9 7-19\n7-6 0-10-1-12-3L160 575l-65 47zM834 0h399166v40H845z'/></svg>",
+
+    // size1 is from glyph U221A in the font KaTeX_Size1-Regular
+    1: "<svg viewBox='0 0 400000 1200' preserveAspectRatio='xMinYMin\nslice'><path d='M263 601c.667 0 18 39.667 52 119s68.167\n 158.667 102.5 238 51.833 119.333 52.5 120C810 373.333 980.667 17.667 982 11\nc4.667-7.333 11-11 19-11h398999v40H1012.333L741 607c-38.667 80.667-84 175-136\n 283s-89.167 185.333-111.5 232-33.833 70.333-34.5 71c-4.667 4.667-12.333 7-23\n 7l-12-1-109-253c-72.667-168-109.333-252-110-252-10.667 8-22 16.667-34 26-22\n 17.333-33.333 26-34 26l-26-26 76-59 76-60zM1001 0h398999v40H1012z'/></svg>",
+
+    // size2 is from glyph U221A in the font KaTeX_Size2-Regular
+    2: "<svg viewBox='0 0 400000 1800' preserveAspectRatio='xMinYMin\nslice'><path d='M1001 0h398999v40H1013.084S929.667 308 749\n 880s-277 876.333-289 913c-4.667 4.667-12.667 7-24 7h-12c-1.333-3.333-3.667\n-11.667-7-25-35.333-125.333-106.667-373.333-214-744-10 12-21 25-33 39l-32 39\nc-6-5.333-15-14-27-26l25-30c26.667-32.667 52-63 76-91l52-60 208 722c56-175.333\n 126.333-397.333 211-666s153.833-488.167 207.5-658.5C944.167 129.167 975 32.667\n 983 10c4-6.667 10-10 18-10zm0 0h398999v40H1013z'/></svg>",
+
+    // size3 is from glyph U221A in the font KaTeX_Size3-Regular
+    3: "<svg viewBox='0 0 400000 2400' preserveAspectRatio='xMinYMin\nslice'><path d='M424 2398c-1.333-.667-38.5-172-111.5-514\nS202.667 1370.667 202 1370c0-2-10.667 14.333-32 49-4.667 7.333-9.833 15.667\n-15.5 25s-9.833 16-12.5 20l-5 7c-4-3.333-8.333-7.667-13-13l-13-13 76-122 77-121\n 209 968c0-2 84.667-361.667 254-1079C896.333 373.667 981.667 13.333 983 10\nc4-6.667 10-10 18-10h398999v40H1014.622S927.332 418.667 742 1206c-185.333\n 787.333-279.333 1182.333-282 1185-2 6-10 9-24 9-8 0-12-.667-12-2z\nM1001 0h398999v40H1014z'/></svg>",
+
+    // size4 is from glyph U221A in the font KaTeX_Size4-Regular
+    4: "<svg viewBox='0 0 400000 3000' preserveAspectRatio='xMinYMin\nslice'><path d='M473 2713C812.333 913.667 982.333 13 983 11\nc3.333-7.333 9.333-11 18-11h399110v40H1017.698S927.168 518 741.5 1506C555.833\n 2494 462 2989 460 2991c-2 6-10 9-24 9-8 0-12-.667-12-2s-5.333-32-16-92c-50.667\n-293.333-119.667-693.333-207-1200 0-1.333-5.333 8.667-16 30l-32 64-16 33-26-26\n 76-153 77-151c.667.667 35.667 202 105 604 67.333 400.667 102 602.667 104 606z\nM1001 0h398999v40H1017z'/></svg>",
+
+    // tall is from glyph U23B7 in the font KaTeX_Size4-Regular
+    tall: "l-4 4-4 4c-.667.667-2 1.5-4 2.5s-4.167 1.833-6.5 2.5-5.5 1-9.5 1h\n-12l-28-84c-16.667-52-96.667 -294.333-240-727l-212 -643 -85 170c-4-3.333-8.333\n-7.667-13 -13l-13-13l77-155 77-156c66 199.333 139 419.667 219 661 l218 661z\nM702 0H400000v40H742z'/></svg>"
+};
+
+var sqrtSpan = function sqrtSpan(height, delim, options) {
+    // Create a span containing an SVG image of a sqrt symbol.
+    var span = _buildCommon2.default.makeSpan([], [], options);
+    var sizeMultiplier = options.sizeMultiplier; // default
+
+    if (delim.type === "small") {
+        // Get an SVG that is derived from glyph U+221A in font KaTeX-Main.
+        var newOptions = options.havingBaseStyle(delim.style);
+        sizeMultiplier = newOptions.sizeMultiplier / options.sizeMultiplier;
+
+        span.height = 1 * sizeMultiplier;
+        span.style.height = span.height + "em";
+        span.surdWidth = 0.833 * sizeMultiplier; // from the font.
+        //In the font, the glyph is 1000 units tall. The font scale is 1:1000.
+
+        span.innerHTML = "<svg width='100%' height='" + span.height + "em'>\n            " + sqrtInnerSVG['main'] + "</svg>";
+    } else if (delim.type === "large") {
+        // These SVGs come from fonts: KaTeX_Size1, _Size2, etc.
+        // Get sqrt height from font data
+        span.height = sizeToMaxHeight[delim.size] / sizeMultiplier;
+        span.style.height = span.height + "em";
+        span.surdWidth = 1.0 / sizeMultiplier; // from the font
+
+        span.innerHTML = "<svg width=\"100%\" height=\"" + span.height + "em\">\n            " + sqrtInnerSVG[delim.size] + "</svg>";
+    } else {
+        // Tall sqrt. In TeX, this would be stacked using multiple glyphs.
+        // We'll use a single SVG to accomplish the same thing.
+        span.height = height / sizeMultiplier;
+        span.style.height = span.height + "em";
+        span.surdWidth = 1.056 / sizeMultiplier;
+        var viewBoxHeight = Math.floor(span.height * 1000); // scale = 1:1000
+        var vertSegment = viewBoxHeight - 54;
+
+        // This \sqrt is customized in both height and width. We set the
+        // height now. Then CSS will stretch the image to the correct width.
+        // This SVG path comes from glyph U+23B7, font KaTeX_Size4-Regular.
+        span.innerHTML = "<svg width='100%' height='" + span.height + "em'>\n            <svg viewBox='0 0 400000 " + viewBoxHeight + "'\n            preserveAspectRatio='xMinYMax slice'>\n            <path d='M702 0H400000v40H742v" + vertSegment + "\n            " + sqrtInnerSVG['tall'] + "</svg>";
+    }
+
+    span.sizeMultiplier = sizeMultiplier;
+
+    return span;
 };
 
 // There are three kinds of delimiters, delimiters that stack when they become
@@ -5621,14 +5739,20 @@ var makeCustomSizedDelim = function makeCustomSizedDelim(delim, height, center, 
     // Look through the sequence
     var delimType = traverseSequence(delim, height, sequence, options);
 
-    // Depending on the sequence element we decided on, call the appropriate
-    // function.
-    if (delimType.type === "small") {
-        return makeSmallDelim(delim, delimType.style, center, options, mode, classes);
-    } else if (delimType.type === "large") {
-        return makeLargeDelim(delim, delimType.size, center, options, mode, classes);
-    } else if (delimType.type === "stack") {
-        return makeStackedDelim(delim, height, center, options, mode, classes);
+    if (delim === "\\surd") {
+        // Get an SVG image for
+        return sqrtSpan(height, delimType, options);
+    } else {
+        // Get the delimiter from font glyphs.
+        // Depending on the sequence element we decided on, call the
+        // appropriate function.
+        if (delimType.type === "small") {
+            return makeSmallDelim(delim, delimType.style, center, options, mode, classes);
+        } else if (delimType.type === "large") {
+            return makeLargeDelim(delim, delimType.size, center, options, mode, classes);
+        } else if (delimType.type === "stack") {
+            return makeStackedDelim(delim, height, center, options, mode, classes);
+        }
     }
 };
 
@@ -5731,6 +5855,7 @@ var span = function () {
         this.maxFontSize = 0;
         this.style = {};
         this.attributes = {};
+        this.innerHTML; // used for inline SVG code.
         if (options) {
             if (options.style.isTight()) {
                 this.classes.push("mtight");
@@ -5785,6 +5910,10 @@ var span = function () {
                 }
             }
 
+            if (this.innerHTML) {
+                span.innerHTML = this.innerHTML;
+            }
+
             // Append the children, also as HTML nodes
             for (var i = 0; i < this.children.length; i++) {
                 span.appendChild(this.children[i].toNode());
@@ -5832,6 +5961,10 @@ var span = function () {
             }
 
             markup += ">";
+
+            if (this.innerHTML) {
+                markup += this.innerHTML;
+            }
 
             // Add the markup of the children, also as markup
             for (var i = 0; i < this.children.length; i++) {
@@ -8481,6 +8614,7 @@ function defineFunction(names, props, handler) {
         argTypes: props.argTypes,
         greediness: props.greediness === undefined ? 1 : props.greediness,
         allowedInText: !!props.allowedInText,
+        allowedInMath: props.allowedInMath,
         numOptionalArgs: props.numOptionalArgs || 0,
         infix: !!props.infix,
         handler: handler
@@ -8967,6 +9101,24 @@ defineFunction(["\\acute", "\\grave", "\\ddot", "\\tilde", "\\bar", "\\breve", "
     };
 });
 
+// Text-mode accents
+defineFunction(["\\'", "\\`", "\\^", "\\~", "\\=", "\\u", "\\.", '\\"', "\\r", "\\H", "\\v"], {
+    numArgs: 1,
+    allowedInText: true,
+    allowedInMath: false
+}, function (context, args) {
+    var base = args[0];
+
+    return {
+        type: "accent",
+        label: context.funcName,
+        isStretchy: false,
+        isShifty: true,
+        value: ordargument(base),
+        base: base
+    };
+});
+
 // Horizontal stretchy braces
 defineFunction(["\\overbrace", "\\underbrace"], {
     numArgs: 1
@@ -9359,7 +9511,7 @@ module.exports = parseTree;
 
 /**
  * This file provides support to buildMathML.js and buildHTML.js
- * for stretchy wide elements rendered from background-image SVG files
+ * for stretchy wide elements rendered from SVG files
  * and other CSS trickery.
  */
 
@@ -9410,7 +9562,7 @@ var mathMLnode = function mathMLnode(label) {
 };
 
 // In the katexImagesData object just below, the dimensions all
-// correspond to path geometry inside the relevant SVG file.
+// correspond to path geometry inside the relevant SVG.
 // For example, \rightarrow uses the same arrowhead as glyph U+2192
 // from the KaTeX Main font. The scaling factor is 1000.
 // That is, inside the font, that arrowhead is 522 units tall, which
@@ -9418,51 +9570,200 @@ var mathMLnode = function mathMLnode(label) {
 // And for extensible arrows, we split that distance around the math axis.
 
 var katexImagesData = {
-    // height, depth, fileName
-    overleftarrow: [0.522, 0, "leftarrow"],
-    underleftarrow: [0.522, 0, "leftarrow"],
-    xleftarrow: [0.261, 0.261, "leftarrow"],
-    overrightarrow: [0.522, 0, "rightarrow"],
-    underrightarrow: [0.522, 0, "rightarrow"],
-    xrightarrow: [0.261, 0.261, "rightarrow"],
-    overbrace: [0.548, 0, "overbrace"],
-    underbrace: [0.548, 0, "underbrace"],
-    overleftrightarrow: [0.522, 0, "leftrightarrow"],
-    underleftrightarrow: [0.522, 0, "leftrightarrow"],
-    xleftrightarrow: [0.261, 0.261, "leftrightarrow"],
-    Overrightarrow: [0.56, 0, "doublerightarrow"],
-    xLeftarrow: [0.28, 0.28, "doubleleftarrow"],
-    xRightarrow: [0.28, 0.28, "doublerightarrow"],
-    xLeftrightarrow: [0.28, 0.28, "doubleleftrightarrow"],
-    overleftharpoon: [0.522, 0, "leftharpoon"],
-    overrightharpoon: [0.522, 0, "rightharpoon"],
-    xleftharpoonup: [0.261, 0.261, "leftharpoon"],
-    xrightharpoonup: [0.261, 0.261, "rightharpoon"],
-    xhookleftarrow: [0.261, 0.261, "hookleftarrow"],
-    xhookrightarrow: [0.261, 0.261, "hookrightarrow"],
-    overlinesegment: [0.414, 0, "linesegment"],
-    underlinesegment: [0.414, 0, "linesegment"],
-    xmapsto: [0.261, 0.261, "mapsto"],
-    xrightharpoondown: [0.261, 0.261, "rightharpoondown"],
-    xleftharpoondown: [0.261, 0.261, "leftharpoondown"],
-    xrightleftharpoons: [0.358, 0.358, "rightleftharpoons"],
-    xleftrightharpoons: [0.358, 0.358, "leftrightharpoons"],
-    overgroup: [0.342, 0, "overgroup"],
-    undergroup: [0.342, 0, "undergroup"],
-    xtwoheadleftarrow: [0.167, 0.167, "twoheadleftarrow"],
-    xtwoheadrightarrow: [0.167, 0.167, "twoheadrightarrow"],
-    xLongequal: [0.167, 0.167, "longequal"],
-    xtofrom: [0.264, 0.264, "tofrom"]
+    // height, depth, imageName, minWidth
+    overleftarrow: [0.522, 0, "leftarrow", 0.5],
+    underleftarrow: [0.522, 0, "leftarrow", 0.5],
+    xleftarrow: [0.261, 0.261, "leftarrow", 0.783],
+    overrightarrow: [0.522, 0, "rightarrow", 0.5],
+    underrightarrow: [0.522, 0, "rightarrow", 0.5],
+    xrightarrow: [0.261, 0.261, "rightarrow", 0.783],
+    overbrace: [0.548, 0, "overbrace", 1.6],
+    underbrace: [0.548, 0, "underbrace", 1.6],
+    overleftrightarrow: [0.522, 0, "leftrightarrow", 0.5],
+    underleftrightarrow: [0.522, 0, "leftrightarrow", 0.5],
+    xleftrightarrow: [0.261, 0.261, "leftrightarrow", 0.783],
+    Overrightarrow: [0.56, 0, "doublerightarrow", 0.5],
+    xLeftarrow: [0.28, 0.28, "doubleleftarrow", 0.783],
+    xRightarrow: [0.28, 0.28, "doublerightarrow", 0.783],
+    xLeftrightarrow: [0.28, 0.28, "doubleleftrightarrow", 0.955],
+    overleftharpoon: [0.522, 0, "leftharpoon", 0.5],
+    overrightharpoon: [0.522, 0, "rightharpoon", 0.5],
+    xleftharpoonup: [0.261, 0.261, "leftharpoon", 0.783],
+    xrightharpoonup: [0.261, 0.261, "rightharpoon", 0.783],
+    xhookleftarrow: [0.261, 0.261, "hookleftarrow", 0.87],
+    xhookrightarrow: [0.261, 0.261, "hookrightarrow", 0.87],
+    overlinesegment: [0.414, 0, "linesegment", 0.5],
+    underlinesegment: [0.414, 0, "linesegment", 0.5],
+    xmapsto: [0.261, 0.261, "mapsto", 0.783],
+    xrightharpoondown: [0.261, 0.261, "rightharpoondown", 0.783],
+    xleftharpoondown: [0.261, 0.261, "leftharpoondown", 0.783],
+    xrightleftharpoons: [0.358, 0.358, "rightleftharpoons", 0.716],
+    xleftrightharpoons: [0.358, 0.358, "leftrightharpoons", 0.716],
+    overgroup: [0.342, 0, "overgroup", 0.87],
+    undergroup: [0.342, 0, "undergroup", 0.87],
+    xtwoheadleftarrow: [0.167, 0.167, "twoheadleftarrow", 0.86],
+    xtwoheadrightarrow: [0.167, 0.167, "twoheadrightarrow", 0.86],
+    xLongequal: [0.167, 0.167, "longequal", 0.5],
+    xtofrom: [0.264, 0.264, "tofrom", 0.86]
+};
+
+// Many of the KaTeX SVG images have been adapted from glyphs in KaTeX fonts.
+// Copyright (c) 2009-2010, Design Science, Inc. (<www.mathjax.org>)
+// Copyright (c) 2014-2017 Khan Academy (<www.khanacademy.org>)
+// Licensed under the SIL Open Font License, Version 1.1.
+// See \nhttp://scripts.sil.org/OFL
+
+// Nested SVGs
+//    Many of the KaTeX SVG images contain a nested SVG. This is done to
+//    achieve a stretchy image while avoiding distortion of arrowheads or
+//    brace corners.
+
+//    The inner SVG typically contains a very long (400 em) arrow.
+
+//    The outer SVG acts like a window that exposes only part of the inner SVG.
+//    The outer SVG will grow or shrink to match the dimensions set by CSS.
+
+//    The inner SVG always has a longer, thinner aspect ratio than the outer
+//    SVG. After the inner SVG fills 100% of the height of the outer SVG,
+//    there is a long arrow shaft left over. That left-over shaft is not shown.
+//    Instead, it is sliced off because the inner SVG is set to
+//    "preserveAspectRatio='... slice'".
+
+//    Thus, the reader sees an arrow that matches the subject matter width
+//    without distortion.
+
+//    Some functions, such as \cancel, need to vary their aspect ratio. These
+//    functions do not get the nested SVG treatment.
+
+// Second Brush Stroke
+//    Low resolution monitors struggle to display images in fine detail.
+//    So browsers apply anti-aliasing. A long straight arrow shaft therefore
+//    will sometimes appear as if it has a blurred edge.
+
+//    To mitigate this, these SVG files contain a second "brush-stroke" on the
+//    arrow shafts. That is, a second long thin rectangular SVG path has been
+//    written directly on top of each arrow shaft. This reinforcement causes
+//    some of the screen pixels to display as black instead of the anti-aliased
+//    gray pixel that a  single path would generate. So we get arrow shafts
+//    whose edges appear to be sharper.
+
+var svgPath = {
+    doubleleftarrow: "<path d='M262 157\nl10-10c34-36 62.7-77 86-123 3.3-8 5-13.3 5-16 0-5.3-6.7-8-20-8-7.3\n 0-12.2.5-14.5 1.5-2.3 1-4.8 4.5-7.5 10.5-49.3 97.3-121.7 169.3-217 216-28\n 14-57.3 25-88 33-6.7 2-11 3.8-13 5.5-2 1.7-3 4.2-3 7.5s1 5.8 3 7.5\nc2 1.7 6.3 3.5 13 5.5 68 17.3 128.2 47.8 180.5 91.5 52.3 43.7 93.8 96.2 124.5\n 157.5 9.3 8 15.3 12.3 18 13h6c12-.7 18-4 18-10 0-2-1.7-7-5-15-23.3-46-52-87\n-86-123l-10-10h399738v-40H218c328 0 0 0 0 0l-10-8c-26.7-20-65.7-43-117-69 2.7\n-2 6-3.7 10-5 36.7-16 72.3-37.3 107-64l10-8h399782v-40z\nm8 0v40h399730v-40zm0 194v40h399730v-40z'/>",
+
+    doublerightarrow: "<path d='M399738 392l\n-10 10c-34 36-62.7 77-86 123-3.3 8-5 13.3-5 16 0 5.3 6.7 8 20 8 7.3 0 12.2-.5\n 14.5-1.5 2.3-1 4.8-4.5 7.5-10.5 49.3-97.3 121.7-169.3 217-216 28-14 57.3-25 88\n-33 6.7-2 11-3.8 13-5.5 2-1.7 3-4.2 3-7.5s-1-5.8-3-7.5c-2-1.7-6.3-3.5-13-5.5-68\n-17.3-128.2-47.8-180.5-91.5-52.3-43.7-93.8-96.2-124.5-157.5-9.3-8-15.3-12.3-18\n-13h-6c-12 .7-18 4-18 10 0 2 1.7 7 5 15 23.3 46 52 87 86 123l10 10H0v40h399782\nc-328 0 0 0 0 0l10 8c26.7 20 65.7 43 117 69-2.7 2-6 3.7-10 5-36.7 16-72.3 37.3\n-107 64l-10 8H0v40zM0 157v40h399730v-40zm0 194v40h399730v-40z'/>",
+
+    leftarrow: "<path d='M400000 241H110l3-3c68.7-52.7 113.7-120\n 135-202 4-14.7 6-23 6-25 0-7.3-7-11-21-11-8 0-13.2.8-15.5 2.5-2.3 1.7-4.2 5.8\n-5.5 12.5-1.3 4.7-2.7 10.3-4 17-12 48.7-34.8 92-68.5 130S65.3 228.3 18 247\nc-10 4-16 7.7-18 11 0 8.7 6 14.3 18 17 47.3 18.7 87.8 47 121.5 85S196 441.3 208\n 490c.7 2 1.3 5 2 9s1.2 6.7 1.5 8c.3 1.3 1 3.3 2 6s2.2 4.5 3.5 5.5c1.3 1 3.3\n 1.8 6 2.5s6 1 10 1c14 0 21-3.7 21-11 0-2-2-10.3-6-25-20-79.3-65-146.7-135-202\n l-3-3h399890zM100 241v40h399900v-40z'/>",
+
+    rightarrow: "<path d='M0 241v40h399891c-47.3 35.3-84 78-110 128\n-16.7 32-27.7 63.7-33 95 0 1.3-.2 2.7-.5 4-.3 1.3-.5 2.3-.5 3 0 7.3 6.7 11 20\n 11 8 0 13.2-.8 15.5-2.5 2.3-1.7 4.2-5.5 5.5-11.5 2-13.3 5.7-27 11-41 14.7-44.7\n 39-84.5 73-119.5s73.7-60.2 119-75.5c6-2 9-5.7 9-11s-3-9-9-11c-45.3-15.3-85\n-40.5-119-75.5s-58.3-74.8-73-119.5c-4.7-14-8.3-27.3-11-40-1.3-6.7-3.2-10.8-5.5\n-12.5-2.3-1.7-7.5-2.5-15.5-2.5-14 0-21 3.7-21 11 0 2 2 10.3 6 25 20.7 83.3 67\n 151.7 139 205zm0 0v40h399900v-40z'/>"
+};
+
+var innerSVG = {
+    // Since bcancel's SVG is inline and it omits the viewBox attribute,
+    // it's stroke-width will not vary with span area.
+    bcancel: "<line x1='0' y1='0' x2='100%' y2='100%' stroke-width='0.046em'/>",
+
+    cancel: "<line x1='0' y1='100%' x2='100%' y2='0' stroke-width='0.046em'/>",
+
+    // The doubleleftarrow geometry is from glyph U+21D0 in the font KaTeX Main
+    doubleleftarrow: "><svg viewBox='0 0 400000 549'\npreserveAspectRatio='xMinYMin slice'>" + svgPath["doubleleftarrow"] + "</svg>",
+
+    // doubleleftrightarrow is from glyph U+21D4 in font KaTeX Main
+    doubleleftrightarrow: "><svg width='50.1%' viewBox='0 0 400000 549'\npreserveAspectRatio='xMinYMin slice'>" + svgPath["doubleleftarrow"] + "</svg>\n<svg x='50%' width='50%' viewBox='0 0 400000 549' preserveAspectRatio='xMaxYMin\n slice'>" + svgPath["doublerightarrow"] + "</svg>",
+
+    // doublerightarrow is from glyph U+21D2 in font KaTeX Main
+    doublerightarrow: "><svg viewBox='0 0 400000 549'\npreserveAspectRatio='xMaxYMin slice'>" + svgPath["doublerightarrow"] + "</svg>",
+
+    // hookleftarrow is from glyph U+21A9 in font KaTeX Main
+    hookleftarrow: "><svg width='50.1%' viewBox='0 0 400000 522'\npreserveAspectRatio='xMinYMin slice'>" + svgPath["leftarrow"] + "</svg>\n<svg x='50%' width='50%' viewBox='0 0 400000 522' preserveAspectRatio='xMaxYMin\n slice'><path d='M399859 241c-764 0 0 0 0 0 40-3.3 68.7\n -15.7 86-37 10-12 15-25.3 15-40 0-22.7-9.8-40.7-29.5-54-19.7-13.3-43.5-21-71.5\n -23-17.3-1.3-26-8-26-20 0-13.3 8.7-20 26-20 38 0 71 11.2 99 33.5 0 0 7 5.6 21\n 16.7 14 11.2 21 33.5 21 66.8s-14 61.2-42 83.5c-28 22.3-61 33.5-99 33.5L0 241z\n M0 281v-40h399859v40z'/></svg>",
+
+    // hookrightarrow is from glyph U+21AA in font KaTeX Main
+    hookrightarrow: "><svg width='50.1%' viewBox='0 0 400000 522'\npreserveAspectRatio='xMinYMin slice'><path d='M400000 281\nH103s-33-11.2-61-33.5S0 197.3 0 164s14.2-61.2 42.5-83.5C70.8 58.2 104 47 142 47\nc16.7 0 25 6.7 25 20 0 12-8.7 18.7-26 20-40 3.3-68.7 15.7-86 37-10 12-15 25.3\n-15 40 0 22.7 9.8 40.7 29.5 54 19.7 13.3 43.5 21 71.5 23h399859zM103 281v-40\nh399897v40z'/></svg><svg x='50%' width='50%' viewBox='0 0 400000 522'\npreserveAspectRatio='xMaxYMin slice'>" + svgPath["rightarrow"] + "</svg>",
+
+    // leftarrow is from glyph U+2190 in font KaTeX Main
+    leftarrow: "><svg viewBox='0 0 400000 522' preserveAspectRatio='xMinYMin\n slice'>" + svgPath["leftarrow"] + "</svg>",
+
+    // leftharpoon is from glyph U+21BD in font KaTeX Main
+    leftharpoon: "><svg viewBox='0 0 400000 522' preserveAspectRatio='xMinYMin\n slice'><path d='M0 267c.7 5.3 3 10 7 14h399993v-40H93c3.3\n-3.3 10.2-9.5 20.5-18.5s17.8-15.8 22.5-20.5c50.7-52 88-110.3 112-175 4-11.3 5\n-18.3 3-21-1.3-4-7.3-6-18-6-8 0-13 .7-15 2s-4.7 6.7-8 16c-42 98.7-107.3 174.7\n-196 228-6.7 4.7-10.7 8-12 10-1.3 2-2 5.7-2 11zm100-26v40h399900v-40z'/></svg>",
+
+    // leftharpoondown is from glyph U+21BD in font KaTeX Main
+    leftharpoondown: "><svg viewBox='0 0 400000 522'\npreserveAspectRatio='xMinYMin slice'><path d=\"M7 241c-4 4-6.333 8.667-7 14\n 0 5.333.667 9 2 11s5.333 5.333 12 10c90.667 54 156 130 196 228 3.333 10.667\n 6.333 16.333 9 17 2 .667 5 1 9 1h5c10.667 0 16.667-2 18-6 2-2.667 1-9.667-3-21\n -32-87.333-82.667-157.667-152-211l-3-3h399907v-40z\nM93 281 H400000 v-40L7 241z\"/></svg>",
+
+    // leftrightarrow is from glyph U+2194 in font KaTeX Main
+    leftrightarrow: "><svg width='50.1%' viewBox='0 0 400000 522'\npreserveAspectRatio='xMinYMin slice'>" + svgPath["leftarrow"] + "</svg>\n<svg x='50%' width='50%' viewBox='0 0 400000 522' preserveAspectRatio='xMaxYMin\n slice'>" + svgPath["rightarrow"] + "</svg>",
+
+    // leftrightharpoons is from glyphs U+21BC/21B1 in font KaTeX Main
+    leftrightharpoons: "><svg width='50.1%' viewBox='0 0 400000 716'\npreserveAspectRatio='xMinYMin slice'><path d='M0 267c.7 5.3\n 3 10 7 14h399993v-40H93c3.3-3.3 10.2-9.5 20.5-18.5s17.8-15.8 22.5-20.5c50.7-52\n 88-110.3 112-175 4-11.3 5-18.3 3-21-1.3-4-7.3-6-18-6-8 0-13 .7-15 2s-4.7 6.7-8\n 16c-42 98.7-107.3 174.7-196 228-6.7 4.7-10.7 8-12 10-1.3 2-2 5.7-2 11zm100-26\nv40h399900v-40zM0 435v40h400000v-40zm0 0v40h400000v-40z'/></svg>\n<svg x='50%' width='50%' viewBox='0 0 400000 716' preserveAspectRatio='xMaxYMin\n slice'><path d='M399747 705c0 7.3 6.7 11 20 11 8 0 13-.8\n 15-2.5s4.7-6.8 8-15.5c40-94 99.3-166.3 178-217 13.3-8 20.3-12.3 21-13 5.3-3.3\n 8.5-5.8 9.5-7.5 1-1.7 1.5-5.2 1.5-10.5s-2.3-10.3-7-15H0v40h399908c-34 25.3\n-64.7 57-92 95-27.3 38-48.7 77.7-64 119-3.3 8.7-5 14-5 16zM0 435v40h399900v-40z\nm0-194v40h400000v-40zm0 0v40h400000v-40z'/></svg>",
+
+    linesegment: "><svg width='50.1%' viewBox='0 0 400000 414'\npreserveAspectRatio='xMinYMin slice'><path d='M40 187V40H0\nv334h40V227h399960v-40zm0 0V40H0v334h40V227h399960v-40z'/></svg><svg x='50%'\nwidth='50%' viewBox='0 0 400000 414' preserveAspectRatio='xMaxYMin slice'>\n<path d='M0 187v40h399960v147h40V40h-40v147zm0\n 0v40h399960v147h40V40h-40v147z'/></svg>",
+
+    longequal: " viewBox='0 0 100 334' preserveAspectRatio='none'>\n<path d='M0 50h100v40H0zm0 194h100v40H0z'/>",
+
+    // mapsto is from glyph U+21A6 in font KaTeX Main
+    mapsto: "><svg width='50.1%' viewBox='0 0 400000 522'\npreserveAspectRatio='xMinYMin slice'><path d='M40 241c740\n 0 0 0 0 0v-75c0-40.7-.2-64.3-.5-71-.3-6.7-2.2-11.7-5.5-15-4-4-8.7-6-14-6-5.3 0\n-10 2-14 6C2.7 83.3.8 91.3.5 104 .2 116.7 0 169 0 261c0 114 .7 172.3 2 175 4 8\n 10 12 18 12 5.3 0 10-2 14-6 3.3-3.3 5.2-8.3 5.5-15 .3-6.7.5-30.3.5-71v-75\nh399960zm0 0v40h399960v-40z'/></svg><svg x='50%' width='50%' viewBox='0 0\n 400000 522' preserveAspectRatio='xMaxYMin slice'>" + svgPath["rightarrow"] + "</svg>",
+
+    // overbrace is from glyphs U+23A9/23A8/23A7 in font KaTeX_Size4-Regular
+    overbrace: "><svg width='25.5%' viewBox='0 0 400000 548'\npreserveAspectRatio='xMinYMin slice'><path d='M6 548l-6-6\nv-35l6-11c56-104 135.3-181.3 238-232 57.3-28.7 117-45 179-50h399577v120H403\nc-43.3 7-81 15-113 26-100.7 33-179.7 91-237 174-2.7 5-6 9-10 13-.7 1-7.3 1-20 1\nH6z'/></svg><svg x='25%' width='50%' viewBox='0 0 400000 548'\npreserveAspectRatio='xMidYMin slice'><path d='M200428 334\nc-100.7-8.3-195.3-44-280-108-55.3-42-101.7-93-139-153l-9-14c-2.7 4-5.7 8.7-9 14\n-53.3 86.7-123.7 153-211 199-66.7 36-137.3 56.3-212 62H0V214h199568c178.3-11.7\n 311.7-78.3 403-201 6-8 9.7-12 11-12 .7-.7 6.7-1 18-1s17.3.3 18 1c1.3 0 5 4 11\n 12 44.7 59.3 101.3 106.3 170 141s145.3 54.3 229 60h199572v120z'/></svg>\n<svg x='74.9%' width='24.1%' viewBox='0 0 400000 548'\npreserveAspectRatio='xMaxYMin slice'><path d='M400000 542l\n-6 6h-17c-12.7 0-19.3-.3-20-1-4-4-7.3-8.3-10-13-35.3-51.3-80.8-93.8-136.5-127.5\ns-117.2-55.8-184.5-66.5c-.7 0-2-.3-4-1-18.7-2.7-76-4.3-172-5H0V214h399571l6 1\nc124.7 8 235 61.7 331 161 31.3 33.3 59.7 72.7 85 118l7 13v35z'/></svg>",
+
+    // overgroup is from the MnSymbol package (public domain)
+    overgroup: "><svg width='50.1%' viewBox='0 0 400000 342'\npreserveAspectRatio='xMinYMin slice'><path d='M400000 80\nH435C64 80 168.3 229.4 21 260c-5.9 1.2-18 0-18 0-2 0-3-1-3-3v-38C76 61 257 0\n 435 0h399565z'/></svg><svg x='50%' width='50%' viewBox='0 0 400000 342'\npreserveAspectRatio='xMaxYMin slice'><path d='M0 80h399565\nc371 0 266.7 149.4 414 180 5.9 1.2 18 0 18 0 2 0 3-1 3-3v-38\nc-76-158-257-219-435-219H0z'/></svg>",
+
+    // rightarrow is from glyph U+2192 in font KaTeX Main
+    rightarrow: "><svg viewBox='0 0 400000 522' preserveAspectRatio='xMaxYMin\n slice'>" + svgPath["rightarrow"] + "</svg>",
+
+    // rightharpoon is from glyph U+21C0 in font KaTeX Main
+    rightharpoon: "><svg viewBox='0 0 400000 522' preserveAspectRatio='xMaxYMin\n slice'><path d='M0 241v40h399993c4.7-4.7 7-9.3 7-14 0-9.3\n-3.7-15.3-11-18-92.7-56.7-159-133.7-199-231-3.3-9.3-6-14.7-8-16-2-1.3-7-2-15-2\n-10.7 0-16.7 2-18 6-2 2.7-1 9.7 3 21 15.3 42 36.7 81.8 64 119.5 27.3 37.7 58\n 69.2 92 94.5zm0 0v40h399900v-40z'/></svg>",
+
+    // rightharpoondown is from glyph U+21C1 in font KaTeX Main
+    rightharpoondown: "><svg viewBox='0 0 400000 522'\npreserveAspectRatio='xMaxYMin slice'><path d='M399747 511\nc0 7.3 6.7 11 20 11 8 0 13-.8 15-2.5s4.7-6.8 8-15.5c40-94 99.3-166.3 178-217\n 13.3-8 20.3-12.3 21-13 5.3-3.3 8.5-5.8 9.5-7.5 1-1.7 1.5-5.2 1.5-10.5s-2.3\n -10.3-7-15H0v40h399908c-34 25.3-64.7 57-92 95-27.3 38-48.7 77.7-64 119-3.3\n 8.7-5 14-5 16zM0 241v40h399900v-40z'/></svg>",
+
+    // rightleftharpoons is from glyph U+21CC in font KaTeX Main
+    rightleftharpoons: "><svg width='50%' viewBox='0 0 400000 716'\npreserveAspectRatio='xMinYMin slice'><path d='M7 435c-4 4\n-6.3 8.7-7 14 0 5.3.7 9 2 11s5.3 5.3 12 10c90.7 54 156 130 196 228 3.3 10.7 6.3\n 16.3 9 17 2 .7 5 1 9 1h5c10.7 0 16.7-2 18-6 2-2.7 1-9.7-3-21-32-87.3-82.7\n-157.7-152-211l-3-3h399907v-40H7zm93 0v40h399900v-40zM0 241v40h399900v-40z\nm0 0v40h399900v-40z'/></svg><svg x='50%' width='50%' viewBox='0 0 400000 716'\npreserveAspectRatio='xMaxYMin slice'><path d='M0 241v40\nh399993c4.7-4.7 7-9.3 7-14 0-9.3-3.7-15.3-11-18-92.7-56.7-159-133.7-199-231-3.3\n-9.3-6-14.7-8-16-2-1.3-7-2-15-2-10.7 0-16.7 2-18 6-2 2.7-1 9.7 3 21 15.3 42\n 36.7 81.8 64 119.5 27.3 37.7 58 69.2 92 94.5zm0 0v40h399900v-40z\n m100 194v40h399900v-40zm0 0v40h399900v-40z'/></svg>",
+
+    // tilde1 is a modified version of a glyph from the MnSymbol package
+    tilde1: " viewBox='0 0 600 260' preserveAspectRatio='none'>\n<path d='M200 55.538c-77 0-168 73.953-177 73.953-3 0-7\n-2.175-9-5.437L2 97c-1-2-2-4-2-6 0-4 2-7 5-9l20-12C116 12 171 0 207 0c86 0\n 114 68 191 68 78 0 168-68 177-68 4 0 7 2 9 5l12 19c1 2.175 2 4.35 2 6.525 0\n 4.35-2 7.613-5 9.788l-19 13.05c-92 63.077-116.937 75.308-183 76.128\n-68.267.847-113-73.952-191-73.952z'/>",
+
+    // Ditto tilde2, tilde3, and tilde 4
+    tilde2: " viewBox='0 0 1033 286' preserveAspectRatio='none'>\n<path d='M344 55.266c-142 0-300.638 81.316-311.5 86.418\n-8.01 3.762-22.5 10.91-23.5 5.562L1 120c-1-2-1-3-1-4 0-5 3-9 8-10l18.4-9C160.9\n 31.9 283 0 358 0c148 0 188 122 331 122s314-97 326-97c4 0 8 2 10 7l7 21.114\nc1 2.14 1 3.21 1 4.28 0 5.347-3 9.626-7 10.696l-22.3 12.622C852.6 158.372 751\n 181.476 676 181.476c-149 0-189-126.21-332-126.21z'/>",
+
+    tilde3: " viewBox='0 0 2339 306' preserveAspectRatio='none'>\n<path d='M786 59C457 59 32 175.242 13 175.242c-6 0-10-3.457\n-11-10.37L.15 138c-1-7 3-12 10-13l19.2-6.4C378.4 40.7 634.3 0 804.3 0c337 0\n 411.8 157 746.8 157 328 0 754-112 773-112 5 0 10 3 11 9l1 14.075c1 8.066-.697\n 16.595-6.697 17.492l-21.052 7.31c-367.9 98.146-609.15 122.696-778.15 122.696\n -338 0-409-156.573-744-156.573z'/>",
+
+    tilde4: " viewBox='0 0 2340 312' preserveAspectRatio='none'>\n<path d='M786 58C457 58 32 177.487 13 177.487c-6 0-10-3.345\n-11-10.035L.15 143c-1-7 3-12 10-13l22-6.7C381.2 35 637.15 0 807.15 0c337 0 409\n 177 744 177 328 0 754-127 773-127 5 0 10 3 11 9l1 14.794c1 7.805-3 13.38-9\n 14.495l-20.7 5.574c-366.85 99.79-607.3 139.372-776.3 139.372-338 0-409\n -175.236-744-175.236z'/>",
+
+    // tofrom is from glyph U+21C4 in font KaTeX AMS Regular
+    tofrom: "><svg width='50.1%' viewBox='0 0 400000 528'\npreserveAspectRatio='xMinYMin slice'><path d='M0 147h400000\nv40H0zm0 214c68 40 115.7 95.7 143 167h22c15.3 0 23-.3 23-1 0-1.3-5.3-13.7-16-37\n-18-35.3-41.3-69-70-101l-7-8h399905v-40H95l7-8c28.7-32 52-65.7 70-101 10.7-23.3\n 16-35.7 16-37 0-.7-7.7-1-23-1h-22C115.7 265.3 68 321 0 361zm0-174v-40h399900\nv40zm100 154v40h399900v-40z'/></svg><svg x='50%' width='50%' viewBox='0 0\n 400000 528' preserveAspectRatio='xMaxYMin slice'><path\nd='M400000 167c-70.7-42-118-97.7-142-167h-23c-15.3 0-23 .3-23 1 0 1.3 5.3 13.7\n 16 37 18 35.3 41.3 69 70 101l7 8H0v40h399905l-7 8c-28.7 32-52 65.7-70 101-10.7\n 23.3-16 35.7-16 37 0 .7 7.7 1 23 1h23c24-69.3 71.3-125 142-167z\n M100 147v40h399900v-40zM0 341v40h399900v-40z'/></svg>",
+
+    // twoheadleftarrow is from glyph U+219E in font KaTeX AMS Regular
+    twoheadleftarrow: "><svg viewBox='0 0 400000 334'\npreserveAspectRatio='xMinYMin slice'><path d='M0 167c68 40\n 115.7 95.7 143 167h22c15.3 0 23-.3 23-1 0-1.3-5.3-13.7-16-37-18-35.3-41.3-69\n-70-101l-7-8h125l9 7c50.7 39.3 85 86 103 140h46c0-4.7-6.3-18.7-19-42-18-35.3\n-40-67.3-66-96l-9-9h399716v-40H284l9-9c26-28.7 48-60.7 66-96 12.7-23.333 19\n-37.333 19-42h-46c-18 54-52.3 100.7-103 140l-9 7H95l7-8c28.7-32 52-65.7 70-101\n 10.7-23.333 16-35.7 16-37 0-.7-7.7-1-23-1h-22C115.7 71.3 68 127 0 167z'/>\n</svg>",
+
+    // twoheadrightarrow is from glyph U+21A0 in font KaTeX AMS Regular
+    twoheadrightarrow: "><svg viewBox='0 0 400000 334'\npreserveAspectRatio='xMaxYMin slice'><path d='M400000 167\nc-68-40-115.7-95.7-143-167h-22c-15.3 0-23 .3-23 1 0 1.3 5.3 13.7 16 37 18 35.3\n 41.3 69 70 101l7 8h-125l-9-7c-50.7-39.3-85-86-103-140h-46c0 4.7 6.3 18.7 19 42\n 18 35.3 40 67.3 66 96l9 9H0v40h399716l-9 9c-26 28.7-48 60.7-66 96-12.7 23.333\n-19 37.333-19 42h46c18-54 52.3-100.7 103-140l9-7h125l-7 8c-28.7 32-52 65.7-70\n 101-10.7 23.333-16 35.7-16 37 0 .7 7.7 1 23 1h22c27.3-71.3 75-127 143-167z'/>\n</svg>",
+
+    // underbrace is from glyphs U+23A9/23A8/23A7 in font KaTeX_Size4-Regular
+    underbrace: "><svg width='25.1%' viewBox='0 0 400000 548'\npreserveAspectRatio='xMinYMin slice'><path d='M0 6l6-6h17\nc12.688 0 19.313.3 20 1 4 4 7.313 8.3 10 13 35.313 51.3 80.813 93.8 136.5 127.5\n 55.688 33.7 117.188 55.8 184.5 66.5.688 0 2 .3 4 1 18.688 2.7 76 4.3 172 5\nh399450v120H429l-6-1c-124.688-8-235-61.7-331-161C60.687 138.7 32.312 99.3 7 54\nL0 41V6z'/></svg><svg x='25%' width='50%' viewBox='0 0 400000 548'\npreserveAspectRatio='xMidYMin slice'><path d='M199572 214\nc100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14\n 53.3-86.7 123.7-153 211-199 66.7-36 137.3-56.3 212-62h199568v120H200432c-178.3\n 11.7-311.7 78.3-403 201-6 8-9.7 12-11 12-.7.7-6.7 1-18 1s-17.3-.3-18-1c-1.3 0\n-5-4-11-12-44.7-59.3-101.3-106.3-170-141s-145.3-54.3-229-60H0V214z'/></svg>\n<svg x='74.9%' width='25.1%' viewBox='0 0 400000 548'\npreserveAspectRatio='xMaxYMin slice'><path d='M399994 0l6 6\nv35l-6 11c-56 104-135.3 181.3-238 232-57.3 28.7-117 45-179 50H-300V214h399897\nc43.3-7 81-15 113-26 100.7-33 179.7-91 237-174 2.7-5 6-9 10-13 .7-1 7.3-1 20-1\nh17z'/></svg>",
+
+    // undergroup is from the MnSymbol package (public domain)
+    undergroup: "><svg width='50.1%' viewBox='0 0 400000 342'\npreserveAspectRatio='xMinYMin slice'><path d='M400000 262\nH435C64 262 168.3 112.6 21 82c-5.9-1.2-18 0-18 0-2 0-3 1-3 3v38c76 158 257 219\n 435 219h399565z'/></svg><svg x='50%' width='50%' viewBox='0 0 400000 342'\npreserveAspectRatio='xMaxYMin slice'><path d='M0 262h399565\nc371 0 266.7-149.4 414-180 5.9-1.2 18 0 18 0 2 0 3 1 3 3v38c-76 158-257\n 219-435 219H0z'/></svg>",
+
+    // widehat1 is a modified version of a glyph from the MnSymbol package
+    widehat1: " viewBox='0 0 1062 239' preserveAspectRatio='none'>\n<path d='M529 0h5l519 115c5 1 9 5 9 10 0 1-1 2-1 3l-4 22\nc-1 5-5 9-11 9h-2L532 67 19 159h-2c-5 0-9-4-11-9l-5-22c-1-6 2-12 8-13z'/>",
+
+    // Ditto widehat2, widehat3, and widehat4
+    widehat2: " viewBox='0 0 2364 300' preserveAspectRatio='none'>\n<path d='M1181 0h2l1171 176c6 0 10 5 10 11l-2 23c-1 6-5 10\n-11 10h-1L1182 67 15 220h-1c-6 0-10-4-11-10l-2-23c-1-6 4-11 10-11z'/>",
+
+    widehat3: " viewBox='0 0 2364 360' preserveAspectRatio='none'>\n<path d='M1181 0h2l1171 236c6 0 10 5 10 11l-2 23c-1 6-5 10\n-11 10h-1L1182 67 15 280h-1c-6 0-10-4-11-10l-2-23c-1-6 4-11 10-11z'/>",
+
+    widehat4: " viewBox='0 0 2364 420' preserveAspectRatio='none'>\n<path d='M1181 0h2l1171 296c6 0 10 5 10 11l-2 23c-1 6-5 10\n-11 10h-1L1182 67 15 340h-1c-6 0-10-4-11-10l-2-23c-1-6 4-11 10-11z'/>",
+
+    xcancel: "<line x1='0' y1='0' x2='100%' y2='100%' stroke-width='0.046em'/>\n<line x1='0' y1='100%' x2='100%' y2='0' stroke-width='0.046em'/>"
 };
 
 var svgSpan = function svgSpan(group, options) {
-    // Create a span with class(es) that refer to the background-image
-    // and/or the mask-image.
+    // Create a span with inline SVG for the element.
     var label = group.value.label.substr(1);
     var height = 0;
     var depth = 0;
-    var classArray = ["stretchy"];
-    var fileName = "";
+    var imageName = "";
+    var minWidth = 0;
 
     if (utils.contains(["widehat", "widetilde", "undertilde"], label)) {
         // There are four SVG images available for each function.
@@ -9470,70 +9771,57 @@ var svgSpan = function svgSpan(group, options) {
         var numChars = group.value.value.length;
         if (numChars > 5) {
             height = 0.312;
-            fileName = (label === "widehat" ? "widehat" : "tilde") + "4";
+            imageName = (label === "widehat" ? "widehat" : "tilde") + "4";
         } else {
             var imgIndex = [1, 1, 2, 2, 3, 3][numChars];
             if (label === "widehat") {
                 height = [0, 0.24, 0.30, 0.30, 0.36, 0.36][numChars];
-                fileName = "widehat" + imgIndex;
+                imageName = "widehat" + imgIndex;
             } else {
                 height = [0, 0.26, 0.30, 0.30, 0.34, 0.34][numChars];
-                fileName = "tilde" + imgIndex;
+                imageName = "tilde" + imgIndex;
             }
         }
     } else {
         var imgData = katexImagesData[label];
         height = imgData[0];
         depth = imgData[1];
-        fileName = imgData[2];
-        if (label.substr(0, 1) === "x") {
-            classArray.push("x-arrow"); // Lengthen the arrow via padding.
-        }
+        imageName = imgData[2];
+        minWidth = imgData[3];
     }
 
-    var node = void 0;
-    if (options.color) {
-        classArray.push(fileName); // Set span height and IE image.
-        // The next two lines each add a class that CSS will apply
-        // only to browsers that support CSS mask.
-        // IE will not recognize that CSS, so it will fall back to
-        // the background-image set in the previous line of code.
-        classArray.push("mask"); // Over-ride image.
-        classArray.push(fileName + "-mask"); // Set mask-image.
-        node = buildCommon.makeSpan(classArray, [], options);
-        node.style.backgroundColor = options.getColor();
-    } else {
-        classArray.push(fileName); // Set image and span height.
-        node = buildCommon.makeSpan(classArray, [], options);
+    var span = buildCommon.makeSpan([], [], options);
+    span.height = height;
+    span.depth = depth;
+    var totalHeight = height + depth;
+    span.style.height = totalHeight + "em";
+    if (minWidth > 0) {
+        span.style.minWidth = minWidth + "em";
     }
 
-    node.height = height;
-    node.depth = depth;
-    node.maxFontSize = 1;
-    return node;
+    span.innerHTML = "<svg width='100%' height='" + totalHeight + "em'" + innerSVG[imageName] + "</svg>";
+
+    return span;
 };
 
-var encloseSpan = function encloseSpan(inner, isCharBox, label, pad, options) {
+var encloseSpan = function encloseSpan(inner, label, pad, options) {
     // Return an image span for \cancel, \bcancel, \xcancel, or \fbox
-    var img = buildCommon.makeSpan(["stretchy", label], [], options);
+    var img = void 0;
+    var totalHeight = inner.height + inner.depth + 2 * pad;
 
-    if (options.color) {
-        if (label === "fbox") {
+    if (label === "fbox") {
+        img = buildCommon.makeSpan(["stretchy", label], [], options);
+        if (options.color) {
             img.style.borderColor = options.getColor();
-        } else {
-            img.classes[2] = label + "-mask";
-            img.style.backgroundColor = options.getColor();
         }
-    }
-
-    img.height = inner.height + inner.depth + 2 * pad;
-    img.style.height = img.height + "em";
-
-    if (/cancel/.test(label) && isCharBox) {
-        img.maxFontSize = 1.2; // Make line box tall enough for image to fit.
     } else {
-        img.maxFontSize = 1;
+        img = buildCommon.makeSpan([], [], options);
+        img.innerHTML = "<svg width='100%' height='" + totalHeight + "em'>" + innerSVG[label] + "</svg>";
     }
+
+    img.height = totalHeight;
+    img.style.height = totalHeight + "em";
+
     return img;
 };
 
@@ -10052,6 +10340,7 @@ defineSymbol(math, main, rel, "\u2190", "\\gets");
 defineSymbol(math, main, rel, ">", "\\gt");
 defineSymbol(math, main, rel, "\u2208", "\\in");
 defineSymbol(math, main, rel, "\u2209", "\\notin");
+defineSymbol(math, main, rel, "\u0338", "\\not");
 defineSymbol(math, main, rel, "\u2282", "\\subset");
 defineSymbol(math, main, rel, "\u2283", "\\supset");
 defineSymbol(math, main, rel, "\u2286", "\\subseteq");
@@ -10147,11 +10436,11 @@ defineSymbol(math, main, op, "\u2A06", "\\bigsqcup");
 defineSymbol(math, main, op, "\u222B", "\\smallint");
 defineSymbol(text, main, inner, "\u2026", "\\textellipsis");
 defineSymbol(math, main, inner, "\u2026", "\\mathellipsis");
-defineSymbol(text, main, inner, "\u2026", "\\ldots");
-defineSymbol(math, main, inner, "\u2026", "\\ldots");
-defineSymbol(math, main, inner, "\u22EF", "\\cdots");
-defineSymbol(math, main, inner, "\u22F1", "\\ddots");
-defineSymbol(math, main, textord, "\u22EE", "\\vdots");
+defineSymbol(text, main, inner, "\u2026", "\\ldots", true);
+defineSymbol(math, main, inner, "\u2026", "\\ldots", true);
+defineSymbol(math, main, inner, "\u22EF", "\\cdots", true);
+defineSymbol(math, main, inner, "\u22F1", "\\ddots", true);
+defineSymbol(math, main, textord, "\u22EE", "\\vdots", true);
 defineSymbol(math, main, accent, "\xB4", "\\acute");
 defineSymbol(math, main, accent, "`", "\\grave");
 defineSymbol(math, main, accent, "\xA8", "\\ddot");
@@ -10164,6 +10453,17 @@ defineSymbol(math, main, accent, "\u20D7", "\\vec");
 defineSymbol(math, main, accent, "\u02D9", "\\dot");
 defineSymbol(math, main, mathord, "\u0131", "\\imath");
 defineSymbol(math, main, mathord, "\u0237", "\\jmath");
+defineSymbol(text, main, accent, "\u02CA", "\\'"); // acute
+defineSymbol(text, main, accent, "\u02CB", "\\`"); // grave
+defineSymbol(text, main, accent, "\u02C6", "\\^"); // circumflex
+defineSymbol(text, main, accent, "\u02DC", "\\~"); // tilde
+defineSymbol(text, main, accent, "\u02C9", "\\="); // macron
+defineSymbol(text, main, accent, "\u02D8", "\\u"); // breve
+defineSymbol(text, main, accent, "\u02D9", "\\."); // dot above
+defineSymbol(text, main, accent, "\u02DA", "\\r"); // ring above
+defineSymbol(text, main, accent, "\u02C7", "\\v"); // caron
+defineSymbol(text, main, accent, "\xA8", '\\"'); // diaresis
+defineSymbol(text, main, accent, "\u030B", "\\H"); // double acute
 
 defineSymbol(text, main, textord, "\u2013", "--");
 defineSymbol(text, main, textord, "\u2013", "\\textendash");
@@ -10219,16 +10519,19 @@ for (var _i2 = 0; _i2 < letters.length; _i2++) {
 // Latin-1 letters
 for (var _i3 = 0x00C0; _i3 <= 0x00D6; _i3++) {
     var _ch3 = String.fromCharCode(_i3);
+    defineSymbol(math, main, mathord, _ch3, _ch3);
     defineSymbol(text, main, textord, _ch3, _ch3);
 }
 
 for (var _i4 = 0x00D8; _i4 <= 0x00F6; _i4++) {
     var _ch4 = String.fromCharCode(_i4);
+    defineSymbol(math, main, mathord, _ch4, _ch4);
     defineSymbol(text, main, textord, _ch4, _ch4);
 }
 
 for (var _i5 = 0x00F8; _i5 <= 0x00FF; _i5++) {
     var _ch5 = String.fromCharCode(_i5);
+    defineSymbol(math, main, mathord, _ch5, _ch5);
     defineSymbol(text, main, textord, _ch5, _ch5);
 }
 
@@ -10252,12 +10555,14 @@ defineSymbol(text, main, textord, "\u201D", "”");
 var hangulRegex = /[\uAC00-\uD7AF]/;
 
 // This regex combines
+// - CJK symbols and punctuation: [\u3000-\u303F]
 // - Hiragana: [\u3040-\u309F]
 // - Katakana: [\u30A0-\u30FF]
 // - CJK ideograms: [\u4E00-\u9FAF]
 // - Hangul syllables: [\uAC00-\uD7AF]
+// - Fullwidth punctuation: [\uFF00-\uFF60]
 // Notably missing are halfwidth Katakana and Romanji glyphs.
-var cjkRegex = /[\u3040-\u309F]|[\u30A0-\u30FF]|[\u4E00-\u9FAF]|[\uAC00-\uD7AF]/;
+var cjkRegex = /[\u3000-\u30FF\u4E00-\u9FAF\uAC00-\uD7AF\uFF00-\uFF60]/;
 
 module.exports = {
     cjkRegex: cjkRegex,

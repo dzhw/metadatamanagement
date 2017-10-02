@@ -156,6 +156,9 @@ demo-systemjs: ## Run systemjs demo build
 
 ## Code Checking
 
+.PHONY: fullint
+fullint: lint old-lint tslint flow mdlint ## Run all checks
+
 .PHONY: lint
 lint: $(TARGET) $(AUXTARGETS) ## Run eslint checks
 	@eslint --ext .js,.njs,.json,.html,.htm $(TARGET) $(AUXTARGETS) $(CMDS) $(HTMLLINT) package.json bower.json
@@ -165,9 +168,9 @@ lint: $(TARGET) $(AUXTARGETS) ## Run eslint checks
 old-lint: $(TARGET) $(AUXTARGETS) ## Run jshint and jscs checks
 	@jshint --show-non-errors $(TARGET) $(AUXTARGETS)
 	@jshint --show-non-errors $(CMDS)
-	@jshint --show-non-errors package.json bower.json
+	@jshint --show-non-errors package.json bower.json test.js
 	@jshint --show-non-errors --extract=always $(HTMLLINT)
-	@jscs $(TARGET) $(AUXTARGETS)
+	@jscs $(TARGET) $(AUXTARGETS) test.js
 	if [ -e $(CLOSURE) ]; then java -jar $(CLOSURE) $(REQS) $(FLOWTARGET) --jscomp_warning=reportUnknownTypes >/dev/null; fi
 
 .PHONY: tslint
@@ -208,6 +211,13 @@ book: readme graph ## Update summary for documentation
 	printf "# Summary\n\n- [xlsx](README.md#sheetjs-js-xlsx)\n" > misc/docs/SUMMARY.md
 	markdown-toc README.md | sed 's/(#/(README.md#/g'>> misc/docs/SUMMARY.md
 	<README.md grep -vE "(details|summary)>" > misc/docs/README.md
+
+DEMOMDS=$(sort $(wildcard demos/*/README.md))
+MDLINT=$(DEMODS) $(READEPS) demos/README.md
+.PHONY: mdlint
+mdlint: $(MDLINT) ## Check markdown documents
+	alex $^
+	mdspell -a -n -x -r --en-us $^
 
 .PHONY: help
 help:
