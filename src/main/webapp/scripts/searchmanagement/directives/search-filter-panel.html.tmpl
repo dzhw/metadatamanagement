@@ -14,7 +14,7 @@
                 </md-button>
             </md-select-header>
             <md-divider style="background-color: white;"></md-divider>
-            <md-content>
+            <md-content class="md-select-menu-ie11-fix">
                 <md-option ng-value="filter" ng-repeat="filter in availableHiddenFilters | filterTranslatedValues:filterSearchTerm:'search-management.filter.'">{{'search-management.filter.' + filter | translate}}</md-option>
                 <md-option ng-value="filter" ng-repeat="filter in displayAvailableFilters | filterTranslatedValues:filterSearchTerm:'search-management.filter.'">{{'search-management.filter.' + filter | translate}}</md-option>
             </md-content>
