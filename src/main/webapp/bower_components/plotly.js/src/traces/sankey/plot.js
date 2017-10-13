@@ -135,7 +135,7 @@ module.exports = function plot(gd, calcData) {
 
     var linkHoverFollow = function(element, d) {
         var trace = d.link.trace;
-        var rootBBox = gd.getBoundingClientRect();
+        var rootBBox = gd._fullLayout._paperdiv.node().getBoundingClientRect();
         var boundingBox = element.getBoundingClientRect();
         var hoverCenterX = boundingBox.left + boundingBox.width / 2;
         var hoverCenterY = boundingBox.top + boundingBox.height / 2;
@@ -145,7 +145,7 @@ module.exports = function plot(gd, calcData) {
             y: hoverCenterY - rootBBox.top,
             name: d3.format(d.valueFormat)(d.link.value) + d.valueSuffix,
             text: [
-                d.link.label,
+                d.link.label || '',
                 ['Source:', d.link.source.label].join(' '),
                 ['Target:', d.link.target.label].join(' ')
             ].filter(renderableValuePresent).join('<br>'),
@@ -193,7 +193,7 @@ module.exports = function plot(gd, calcData) {
     var nodeHoverFollow = function(element, d) {
         var trace = d.node.trace;
         var nodeRect = d3.select(element).select('.nodeRect');
-        var rootBBox = gd.getBoundingClientRect();
+        var rootBBox = gd._fullLayout._paperdiv.node().getBoundingClientRect();
         var boundingBox = nodeRect.node().getBoundingClientRect();
         var hoverCenterX0 = boundingBox.left - 2 - rootBBox.left;
         var hoverCenterX1 = boundingBox.right + 2 - rootBBox.left;
