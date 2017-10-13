@@ -11,7 +11,7 @@
     "ender",
     "sniff"
   ],
-  "version": "1.7.3",
+  "version": "1.8.0",
   "homepage": "https://github.com/lancedikson/bowser",
   "scripts": [
     "src/bowser.js"
@@ -30,13 +30,13 @@
     "**/.*",
     "Makefile"
   ],
-  "_release": "1.7.3",
+  "_release": "1.8.0",
   "_resolution": {
     "type": "version",
-    "tag": "1.7.3",
-    "commit": "52f8cd2cf8c8609e22d41a71bb8cfa256ac70bd4"
+    "tag": "1.8.0",
+    "commit": "714a010f1a3cb727c68c894be2814aba262a2135"
   },
   "_source": "https://github.com/ded/bowser.git",
-  "_target": "^1.7.3",
+  "_target": "^1.8.0",
   "_originalSource": "bowser"
 }
