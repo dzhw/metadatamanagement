@@ -73,11 +73,10 @@ public class DaraService {
   private RestTemplate restTemplate;
   
   //Resource Type
-  private static final int RESOURCE_TYPE_DATASET = 2;
+  private static final String RESOURCE_TYPE_DATASET = "Dataset";
   
   //Availability Controlled
-  private static final int AVAILABILITY_CONTROLLED_DELIVERY = 2;
-  private static final int AVAILABILITY_CONTROLLED_NOT_AVAILABLE = 4;
+  private static final String AVAILABILITY_CONTROLLED_DELIVERY = "Delivery";  
   
   /**
    * Constructor for Dara Services. Set the Rest Template.
@@ -164,7 +163,9 @@ public class DaraService {
     //Info: result.getBody() has the registered DOI
     try {
       ResponseEntity<String> result = 
-            this.restTemplate.postForEntity(builder.build().toUri(), request, String.class);      
+            this.restTemplate.postForEntity(builder.build().toUri(), request, String.class);
+      this.log.debug(result.getStatusCode() + "");
+      this.log.debug(result.getBody());
       return result.getStatusCode();
     } catch (HttpClientErrorException httpClientError) {
       log.debug("HTTP Error durind Dara call", httpClientError);
@@ -191,6 +192,7 @@ public class DaraService {
    * @throws IOException the io exception for non readable xml file.
    * @throws TemplateException Exception for filling the template.
    */
+  //TODO Dkatzberg: Do we need this method?
   public HttpStatus unregisterProjectToDara(String projectId) 
       throws IOException, TemplateException {
     //Load Project
@@ -202,7 +204,7 @@ public class DaraService {
     //Fill template
     String filledTemplate = this.fillTemplate(registerXmlStr, 
             this.getTemplateConfiguration(), 
-            this.getDataForTemplate(projectId, AVAILABILITY_CONTROLLED_NOT_AVAILABLE));
+            this.getDataForTemplate(projectId, AVAILABILITY_CONTROLLED_DELIVERY));
     
     //Send Rest Call for Registration
     return this.postToDaraImportXml(filledTemplate, project.getHasBeenReleasedBefore()); 
@@ -221,7 +223,7 @@ public class DaraService {
    *     Study is the name for the object use in freemarker.
    */
   private Map<String, Object> getDataForTemplate(String projectId, 
-      int availabilityControlled) {
+      String availabilityControlled) {
     
     Map<String, Object> dataForTemplate = new HashMap<>();
     
