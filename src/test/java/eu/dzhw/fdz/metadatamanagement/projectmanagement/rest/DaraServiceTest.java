@@ -85,28 +85,5 @@ public class DaraServiceTest extends AbstractTest{
     //ASSERT
     assertThat(isRegistered, is(HttpStatus.CREATED));
   }
-  
-  
-  @Test
-  public void testUnrelease() throws Exception {
-    
-    //ASSERT
-    RestTemplate restTemplate = this.daraService.getRestTemplate();
-    MockRestServiceServer mockServer = MockRestServiceServer.bindTo(restTemplate).build();
-    mockServer
-      .expect(requestTo(this.daraService.getApiEndpoint() + DaraService.REGISTRATION_ENDPOINT + "?registration=false"))
-      .andRespond(withStatus(HttpStatus.OK));
-    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
-    project.setHasBeenReleasedBefore(true);
-    dataAcquisitionProjectRepository.save(project);    
-    Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
-    this.studyRepository.save(study);
-    
-    //ACT
-    HttpStatus doiNotAvailable = this.daraService.unregisterProjectToDara(project.getId());
-    
-    //ASSERT
-    assertThat(doiNotAvailable, is(HttpStatus.OK));
-  }
 
 }

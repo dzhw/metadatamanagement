@@ -20,19 +20,19 @@ import freemarker.template.TemplateException;
 
 /**
  * A Resource Class for handling releasing and unreleading of data acquisition projects to dara.
- * This Resource can register a DOI to dara, updates information of a dara doi or set to not 
+ * This Resource can register a DOI to dara, updates information of a dara doi or set to not
  * available if a project will be unreleased.
- * 
+ *
  * @author Daniel Katzberg
  *
  */
 @RestController
 @RequestMapping("/api")
 public class DaraReleaseResource {
-  
+
   @Autowired
   private DaraService daraService;
-  
+
   /**
    * POST /data-acquisition-projects/:id/relase -> Release a project to dara (or update it).
    * @throws TemplateException Template Errors of the XML Freemarker Process.
@@ -46,22 +46,4 @@ public class DaraReleaseResource {
     HttpStatus status = this.daraService.registerOrUpdateProjectToDara(id);
     return ResponseEntity.status(status).build();
   }
-  
-  
-  /**
-   * POST /data-acquisition-projects/:id/unrelase -> Unrelease a project to dara 
-   * (set status to not available).
-   * @throws TemplateException Template Errors of the XML Freemarker Process.
-   * @throws IOException IO Exception for the XML Freemarker Process. 
-   */
-  @RequestMapping(value = "/data-acquisition-projects/{id}/unrelease",
-      method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-  @Timed
-  @Secured(AuthoritiesConstants.PUBLISHER)
-  public ResponseEntity<?> unrelease(@PathVariable String id) 
-      throws IOException, TemplateException {
-    HttpStatus status = this.daraService.unregisterProjectToDara(id);
-    return ResponseEntity.status(status).build();
-  }
-
 }

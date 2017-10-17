@@ -7,13 +7,11 @@ angular.module('metadatamanagementApp')
     'DataAcquisitionProjectSearchResource', 'DataAcquisitionProjectResource',
     '$mdDialog', 'SimpleMessageToastService', '$translate',
     'ElasticSearchAdminService', '$scope',
-    'DaraUnreleaseResource',
     function(CurrentProjectService,
       DataAcquisitionProjectPostValidationService,
       DataAcquisitionProjectSearchResource, DataAcquisitionProjectResource,
       $mdDialog, SimpleMessageToastService, $translate,
-      ElasticSearchAdminService, $scope,
-      DaraUnreleaseResource) {
+      ElasticSearchAdminService, $scope) {
       var ctrl = this;
       var i18nPrefix = 'data-acquisition-project-management.log-messages.' +
         'data-acquisition-project.';
@@ -207,26 +205,15 @@ angular.module('metadatamanagementApp')
           .ok($translate.instant('global.buttons.ok'))
           .cancel($translate.instant('global.buttons.cancel'));
         $mdDialog.show(confirmDialog).then(function() {
-          DaraUnreleaseResource.unrelease({
-            id: ctrl.selectedProject.id
-          }).$promise.then(function() {
-            delete ctrl.selectedProject.release;
-            DataAcquisitionProjectResource.save(ctrl.selectedProject)
-              .$promise
-              .then(function() {
-                SimpleMessageToastService.openSimpleMessageToast(
-                  i18nPrefix + 'unreleased-successfully', {
-                    id: ctrl.selectedProject.id
-                  });
-              });
-          }).catch(function() {
-            SimpleMessageToastService.openSimpleMessageToast(
-              i18nPrefix + 'dara-unreleased-not-successfully', {
-                id: ctrl.selectedProject.id
-              });
-          });
-        }, function() {
-          // confirm was cancelled -> do nothing
+          delete ctrl.selectedProject.release;
+          DataAcquisitionProjectResource.save(ctrl.selectedProject)
+            .$promise
+            .then(function() {
+              SimpleMessageToastService.openSimpleMessageToast(
+                i18nPrefix + 'unreleased-successfully', {
+                  id: ctrl.selectedProject.id
+                });
+            });
         });
       };
 
