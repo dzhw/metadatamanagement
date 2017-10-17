@@ -430,6 +430,11 @@ md-input-container.fdz-search-input label:not(.md-container-ignore) {
     text-decoration: line-through;
 }
 
+#toast-container > md-toast {
+    z-index: 1000;
+    pointer-events: all;
+}
+
 .fdz-toast {
     background-color: black;
     color: white;

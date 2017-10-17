@@ -48,10 +48,13 @@
             <i class="material-icons">hourglass_empty</i>
         </div>
     </div>
+    <div style="position: fixed; width: 100vw; height: 100vh; pointer-events: none; z-index: 1000;" layout="column">
+      <div flex id="toast-container"></div>
+    </div>
     <fdz-navbar ng-cloak></fdz-navbar>
     <div flex layout="column" id="content-container" ng-cloak>
         <fdz-toolbar></fdz-toolbar>
-        <div tabindex="-1" flex layout="column" id="toast-container" class="fdz-content">
+        <div tabindex="-1" flex layout="column" class="fdz-content">
           <ui-view name="content" flex layout="column" tabindex="-1"></ui-view>
         </div>
     </div>
