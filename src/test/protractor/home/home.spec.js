@@ -26,7 +26,7 @@ describe('Home page', function() {
       beforeAll(function() {
         browser.getCurrentUrl().then(function(url) {
           currentUrl = url;
-          translateHelper.changeLanguage('content', url,
+          translateHelper.changeLanguage('content-container', url,
               language)
             .then(function(el) {
               content = el;
