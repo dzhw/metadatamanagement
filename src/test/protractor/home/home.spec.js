@@ -1,10 +1,9 @@
 /* global browser */
 /* global it */
-/* global element */
-/* global by */
 /* global describe */
 /* global expect */
 /* global beforeAll */
+/* global afterEach */
 
 'use strict';
 var htmlContentHelper =
@@ -40,6 +39,14 @@ describe('Home page', function() {
             done();
           });
         });
+      });
+      afterEach(function() {
+        //check for console errors (currently only on chrome)
+        if (browser.browserName === 'chrome') {
+          browser.manage().logs().get('browser').then(function(browserLogs) {
+            expect(browserLogs.length).toEqual(0);
+          });
+        }
       });
     });
   }
