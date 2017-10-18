@@ -1,19 +1,19 @@
 {
   "name": "hyphenator",
+  "version": "5.3.0",
   "main": "Hyphenator.js",
   "ignore": [
-    "favicon.ico",
-    "Hyphenator_observable.js"
+    "favicon.ico"
   ],
-  "homepage": "https://github.com/rreitmann/Hyphenator",
-  "_release": "9a726f36fd",
+  "homepage": "https://github.com/mnater/Hyphenator",
+  "_release": "5.3.0",
   "_resolution": {
-    "type": "branch",
-    "branch": "master",
-    "commit": "9a726f36fdf1318723ab03dd7597a59ea9502623"
+    "type": "version",
+    "tag": "5.3.0",
+    "commit": "386a7b8fd82976e70dcec79c714a3bdec9399c6f"
   },
-  "_source": "https://github.com/rreitmann/Hyphenator.git",
-  "_target": "master",
-  "_originalSource": "rreitmann/Hyphenator",
+  "_source": "https://github.com/mnater/Hyphenator.git",
+  "_target": "^5.3.0",
+  "_originalSource": "Hyphenator",
   "_direct": true
 }
