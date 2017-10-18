@@ -5,6 +5,7 @@
 exports.config = {
     onPrepare: function() {
       require('./utils/locators.js');
+      browser.driver.manage().window().setSize(1400, 900);
       browser.driver.manage().window().maximize();
     },
     //disable these if you want to run tests locally
@@ -29,8 +30,8 @@ exports.config = {
       'name': 'Win10/Firefox',
       'platform': 'Windows 10',
       'browserName': 'firefox',
-      'screenResolution': '1280x1024',
-      'version': '54.0'
+      'version': 'latest',
+      'screenResolution': '1280x1024'
     }, {
       'name': 'Win10/Edge',
       'platform': 'Windows 10',
