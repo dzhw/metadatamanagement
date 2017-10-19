@@ -48,11 +48,14 @@
             <i class="material-icons">hourglass_empty</i>
         </div>
     </div>
+    <div style="position: fixed; width: 100%; height: 100%; pointer-events: none; z-index: 1000;" layout="column">
+      <div flex id="toast-container"></div>
+    </div>
     <fdz-navbar ng-cloak></fdz-navbar>
-    <div flex layout-fill id="content-container" ng-cloak>
+    <div flex layout="column" id="content-container" ng-cloak>
         <fdz-toolbar></fdz-toolbar>
-        <div tabindex="-1" id="toast-container" class="fdz-content">
-          <ui-view name="content" tabindex="-1"></ui-view>
+        <div tabindex="-1" flex layout="column" class="fdz-content">
+          <ui-view name="content" flex layout="column" tabindex="-1"></ui-view>
         </div>
     </div>
 
@@ -107,13 +110,13 @@
     <script src="bower_components/angular-scroll/angular-scroll.js"></script>
     <script src="bower_components/sockjs-client/dist/sockjs.js"></script>
     <script src="bower_components/stomp-websocket/lib/stomp.min.js"></script>
-    <script src="bower_components/hyphenator/Hyphenator.js"></script>
-    <script src="bower_components/hyphenator/patterns/de.js"></script>
-    <script src="bower_components/hyphenator/patterns/en-us.js"></script>
     <script src="bower_components/es5-shim/es5-shim.js"></script>
     <script src="bower_components/es5-shim/es5-sham.js"></script>
     <script src="bower_components/es6-shim/es6-shim.js"></script>
     <script src="bower_components/es6-shim/es6-sham.js"></script>
+    <script src="bower_components/hyphenator/Hyphenator.js"></script>
+    <script src="bower_components/hyphenator/patterns/de.js"></script>
+    <script src="bower_components/hyphenator/patterns/en-us.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 

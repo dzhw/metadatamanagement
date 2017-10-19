@@ -46,9 +46,9 @@
     "angular-scroll": "^1.0.2",
     "sockjs-client": "^1.1.4",
     "stomp-websocket": "^2.3.4",
-    "hyphenator": "rreitmann/Hyphenator#master",
     "es5-shim": "^4.5.9",
-    "es6-shim": "^0.35.3"
+    "es6-shim": "^0.35.3",
+    "hyphenator": "Hyphenator#^5.3.0"
   },
   "overrides": {
     "elasticsearch": {

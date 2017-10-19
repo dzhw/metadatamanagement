@@ -11,7 +11,9 @@ angular.module('metadatamanagementApp').controller(
     $scope.$watch(function() {
       return $document.find('#toolbar')[0].clientHeight;
     }, function(newHeight) {
+      $document.find('.fdz-content').css(
+        'margin-top', newHeight);
       $document.find('#toast-container').css(
-        'padding-top', newHeight);
+        'margin-top', newHeight);
     });
   });
