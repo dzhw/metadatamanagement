@@ -27,7 +27,6 @@ import com.google.common.collect.Maps;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
-import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorDto;
 import eu.dzhw.fdz.metadatamanagement.common.rest.util.ZipUtil;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.exception.TemplateIncompleteException;
@@ -41,7 +40,6 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RelatedQuestion;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ValidResponse;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
-import freemarker.core.ParseException;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -230,24 +228,14 @@ public class DataSetReportService {
       Configuration templateConfiguration, Map<String, Object> dataForTemplate)
       throws IOException, TemplateException {
     // Read Template and escape elements
-    Template texTemplate = null;
-    try {
-      texTemplate = new Template("texTemplate",
+    Template texTemplate =  new Template("texTemplate",
           (ESCAPE_PREFIX + templateContent + ESCAPE_SUFFIX), templateConfiguration);
-    } catch (ParseException pe) {
-      new ErrorDto("Freemarker", "Eine Fehlemeldung",
-          "Irgendein Value ist falsch", "Und die Property.");
+    
+    try (Writer stringWriter = new StringWriter()) {
+      texTemplate.process(dataForTemplate, stringWriter);
       
-    }
-    if (texTemplate != null) {
-      try (Writer stringWriter = new StringWriter()) {
-        texTemplate.process(dataForTemplate, stringWriter);
-        
-        stringWriter.flush();
-        return stringWriter.toString();      
-      }
-    } else {
-      return null;
+      stringWriter.flush();
+      return stringWriter.toString();      
     }
   }
 

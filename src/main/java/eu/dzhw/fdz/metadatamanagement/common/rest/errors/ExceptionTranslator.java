@@ -27,18 +27,19 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.node.TreeTraversingParser;
 
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.exception.TemplateIncompleteException;
+import freemarker.core.ParseException;
 import freemarker.template.TemplateException;
 
 /**
  * Controller advice to translate the server side exceptions to client-friendly json structures.
- * 
+ *
  * @author Daniel Katzberg
  */
 @ControllerAdvice
 public class ExceptionTranslator {
 
   private MessageSourceAccessor messageSourceAccessor;
-  
+
   @Autowired
   public ExceptionTranslator(MessageSource messageSource) {
     this.messageSourceAccessor = new MessageSourceAccessor(messageSource);
@@ -56,27 +57,27 @@ public class ExceptionTranslator {
     List<FieldError> fieldErrors = result.getFieldErrors();
     return processFieldErrors(globalErrors, fieldErrors);
   }
-  
-  private ErrorListDto processFieldErrors(List<ObjectError> globalErrors, 
+
+  private ErrorListDto processFieldErrors(List<ObjectError> globalErrors,
       List<FieldError> fieldErrors) {
-    
+
     ErrorListDto errorListDto =  new ErrorListDto();
 
     //handle global errors
     for (ObjectError globalError: globalErrors) {
-      errorListDto.add(new ErrorDto(globalError.getObjectName(), 
+      errorListDto.add(new ErrorDto(globalError.getObjectName(),
           globalError.getDefaultMessage(), null, null));
     }
-    
+
     //handle field errors
     for (FieldError fieldError : fieldErrors) {
       String rejectedValue = null;
-      
+
       if (fieldError.getRejectedValue() != null) {
         rejectedValue = fieldError.getRejectedValue().toString();
       }
-      
-      errorListDto.add(new ErrorDto(fieldError.getObjectName(), fieldError.getDefaultMessage(), 
+
+      errorListDto.add(new ErrorDto(fieldError.getObjectName(), fieldError.getDefaultMessage(),
           rejectedValue, fieldError.getField()));
     }
 
@@ -84,7 +85,26 @@ public class ExceptionTranslator {
   }
 
   /**
-   * Handler for wrapping exceptions which occur when an unparsable json or excel file 
+   * Handle validation errors.
+   */
+  @ExceptionHandler(ParseException.class)
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  @ResponseBody
+  public ErrorListDto processFreemarkerParseError(ParseException ex) {
+
+    String invalidValue = "(" + ex.getLineNumber() + "," + ex.getColumnNumber() + "): " 
+        + ex.getEditorMessage();
+    ErrorDto errorDto = new ErrorDto(null, 
+        "global.error.server-error.freemarker.parsing-error", invalidValue, null);
+    ErrorListDto errorListDto = new ErrorListDto();  
+    errorListDto.add(errorDto);
+    
+    return errorListDto;
+  }
+
+
+  /**
+   * Handler for wrapping exceptions which occur when an unparsable json or excel file
    * is send by the client.
    */
   @ExceptionHandler(HttpMessageNotReadableException.class)
@@ -92,20 +112,20 @@ public class ExceptionTranslator {
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   public ErrorListDto processHttpMessageNotReadableException(
       HttpMessageNotReadableException exception) {
-    
-    InvalidFormatException invalidFormatException =  
+
+    InvalidFormatException invalidFormatException =
         findInvalidFormatException(exception.getCause());
-    
+
     JsonMappingException jsonMappingException =
         findJsonMappingException(exception.getCause());
-    
+
     if (invalidFormatException != null) {
       return createParsingError(invalidFormatException);
-    //Default message, if no other root cause was found  
-    } else if (jsonMappingException != null) {      
+    //Default message, if no other root cause was found
+    } else if (jsonMappingException != null) {
       return createJsonMappingError(jsonMappingException);
     } else {
-      String errorMessage;      
+      String errorMessage;
       if (exception.getRootCause() != null) {
         errorMessage = exception.getRootCause()
           .getLocalizedMessage();
@@ -113,10 +133,10 @@ public class ExceptionTranslator {
         errorMessage = exception.getLocalizedMessage();
       }
       return new ErrorListDto(new ErrorDto(null, errorMessage, null, null));
-      
+
     }
   }
-  
+
   private InvalidFormatException findInvalidFormatException(Throwable cause) {
     if (cause == null || cause instanceof InvalidFormatException) {
       return (InvalidFormatException) cause;
@@ -124,7 +144,7 @@ public class ExceptionTranslator {
       return findInvalidFormatException(cause.getCause());
     }
   }
-  
+
   private JsonMappingException findJsonMappingException(Throwable cause) {
     if (cause == null || cause instanceof JsonMappingException) {
       return (JsonMappingException) cause;
@@ -132,12 +152,12 @@ public class ExceptionTranslator {
       return findJsonMappingException(cause.getCause());
     }
   }
-  
-  private ErrorListDto createParsingError(InvalidFormatException invalidFormatException) { 
-    
+
+  private ErrorListDto createParsingError(InvalidFormatException invalidFormatException) {
+
     //Get the Name of the Processor
     String nameOfProcessor = invalidFormatException.getProcessor().getClass().getSimpleName();
-    
+
     //Decide between different input types like excel or json files
     switch (nameOfProcessor) {
       //Excel Parsing Error
@@ -150,12 +170,12 @@ public class ExceptionTranslator {
         return new ErrorListDto();
     }
   }
-  
+
   private ErrorListDto createExcelParsingError(InvalidFormatException invalidFormatException) {
-    TreeTraversingParser processor = 
-        (TreeTraversingParser) invalidFormatException.getProcessor();  
-    
-    //Create Excel Parsing Error. Just the first will be returned                     
+    TreeTraversingParser processor =
+        (TreeTraversingParser) invalidFormatException.getProcessor();
+
+    //Create Excel Parsing Error. Just the first will be returned
     String domainObject = invalidFormatException.getPath().get(0).getFrom()
         .getClass().getSimpleName();
     String property = processor.getCurrentName();
@@ -164,16 +184,16 @@ public class ExceptionTranslator {
     }
     String invalidValue = (String)invalidFormatException.getValue();
     String messageKey = "global.error.import.excel-parsing-error";
-    return new ErrorListDto(new ErrorDto(domainObject, messageKey,invalidValue, property));    
+    return new ErrorListDto(new ErrorDto(domainObject, messageKey,invalidValue, property));
   }
-  
+
   private ErrorListDto createJsonParsingError(InvalidFormatException invalidFormatException) {
-    UTF8StreamJsonParser processor = 
-        (UTF8StreamJsonParser) invalidFormatException.getProcessor();  
-    
+    UTF8StreamJsonParser processor =
+        (UTF8StreamJsonParser) invalidFormatException.getProcessor();
+
     //Create Json Parsing Error. Just the first will be returned
-    try {            
-      
+    try {
+
       String domainObject = invalidFormatException.getPath().get(0).getFrom()
           .getClass().getSimpleName();
       String property = processor.getCurrentName();
@@ -188,22 +208,22 @@ public class ExceptionTranslator {
           new ErrorDto(null, "global.error.import.no-json-mapping", null, null));
     }
   }
-  
+
   private ErrorListDto createJsonMappingError(JsonMappingException jsonMappingException) {
-   
+
     String invalidField = jsonMappingException.getPath()
         .stream()
         .map(i -> i.getFieldName())
         .collect(Collectors.joining("."));
-    
+
     return new ErrorListDto(
         new ErrorDto(null, "global.error.import.json-not-readable", invalidField, null));
   }
-  
+
   /**
    * Handles {@link RepositoryConstraintViolationException}s by returning {@code 400 Bad Request}.
    * Introduces a custom dto for validation errors of spring data rest repositories.
-   * This is necessary due to issue #706. 
+   * This is necessary due to issue #706.
    * @param exception the exception to handle.
    * @return 400 bad request
    */
@@ -212,14 +232,14 @@ public class ExceptionTranslator {
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   ErrorListDto handleRepositoryConstraintViolationException(
       RepositoryConstraintViolationException exception) {
-    
+
     ErrorListDto errorListDto = new ErrorListDto();
-    
+
     for (ObjectError globalError : exception.getErrors().getGlobalErrors()) {
       String message = this.messageSourceAccessor.getMessage(globalError);
       errorListDto.add(new ErrorDto(globalError.getObjectName(), message, null, null));
     }
-    
+
     for (FieldError fieldError : exception.getErrors()
         .getFieldErrors()) {
 
@@ -228,12 +248,12 @@ public class ExceptionTranslator {
       errorListDto.add(new ErrorDto(fieldError.getObjectName(), message,
           String.format("%s", fieldError.getRejectedValue()), fieldError.getField()));
     }
-    
+
     return errorListDto;
   }
-  
+
   /**
-   * Handles the Dataset Report Template exception. This exception will be thrown, 
+   * Handles the Dataset Report Template exception. This exception will be thrown,
    * if something gone wrong on creating latex code by the given freemarker code.
    * @param exception The exception by the template handling.
    * @return 400 Bad Request and the error message.
@@ -242,18 +262,18 @@ public class ExceptionTranslator {
   @ResponseBody
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   ErrorListDto handleTemplateException(TemplateException exception) {
-    
+
     //The message of the exception is the error message of freemarker.
     //The manually added message for the dto can be translated into i18n strings
     String messageKey = "data-set-management.error.tex-template-error";
     ErrorListDto errorListDto = new ErrorListDto(
         new ErrorDto(null, messageKey, exception.getMessage(), null));
-    
+
     return errorListDto;
   }
-  
+
   /**
-   * Handles the Dataset Report Template incomplete exception. This exception will be thrown, 
+   * Handles the Dataset Report Template incomplete exception. This exception will be thrown,
    * if the uploaded tex template files are incomplete and files are missing.
    * @param exception The incomplete tex template exception to handle.
    * @return 400 Bad Request and a list of missing files within the exception.
@@ -263,30 +283,30 @@ public class ExceptionTranslator {
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   ErrorListDto handleIncompleteTemplateException(TemplateIncompleteException exception) {
     ErrorListDto errorListDto = new ErrorListDto();
-    
+
     //All missing files
     for (String missingFile : exception.getMissingFiles()) {
       errorListDto.add(new ErrorDto(null, exception.getMessage(), missingFile, null));
     }
-    
+
     return errorListDto;
   }
-  
+
   @ExceptionHandler
   @ResponseBody
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   ErrorListDto handleMultipartException(MultipartException exception) {
-    FileSizeLimitExceededException fileSizeException = 
+    FileSizeLimitExceededException fileSizeException =
         findFileSizeLimitExceededException(exception);
     if (fileSizeException != null) {
-      return new ErrorListDto(new ErrorDto(fileSizeException.getFileName(), 
+      return new ErrorListDto(new ErrorDto(fileSizeException.getFileName(),
           "global.error.import.file-size-limit-exceeded",
           String.valueOf(fileSizeException.getActualSize()), null));
     }
-    // return the message as it is 
+    // return the message as it is
     return new ErrorListDto(new ErrorDto(null, exception.getLocalizedMessage(), null, null));
   }
-  
+
   private FileSizeLimitExceededException findFileSizeLimitExceededException(Throwable exception) {
     if (exception == null || exception instanceof FileSizeLimitExceededException) {
       return (FileSizeLimitExceededException) exception;

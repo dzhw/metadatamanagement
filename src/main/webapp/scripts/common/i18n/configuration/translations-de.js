@@ -266,7 +266,10 @@ angular.module('metadatamanagementApp').config(
             'file-size-limit-exceeded': 'Die Datei "{{ entity }}" ist größer 10MB!'
           },
           'server-error': {
-            'internal-server-error': 'Sorry, etwas ist schief gelaufen :-( ({{ status }}).'
+            'internal-server-error': 'Sorry, etwas ist schief gelaufen :-( ({{ status }}).',
+            'freemarker': {
+              'parsing-error': 'Bei Freemarker trat ein Parsingproblem {{entity}} auf (Zeile,Zeichen): {{invalidValue}}'
+            }
           },
           'client-error': {
             'unauthorized-error': 'Sie sind nicht berechtigt diese Aktion durchzuführen (Status {{ status }}).',
