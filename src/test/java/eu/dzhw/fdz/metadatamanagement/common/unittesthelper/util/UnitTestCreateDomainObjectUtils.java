@@ -61,6 +61,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RelatedQuestion;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RuleExpressionLanguages;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ScaleLevels;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Statistics;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.StorageTypes;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ValidResponse;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.DistributionBuilder;
@@ -270,6 +271,8 @@ public class UnitTestCreateDomainObjectUtils {
       .withRelatedVariables(relatedVariables)
       .withPanelIdentifier(projectId + "-ds" + dataSetNumber + "-" + name)
       .withDerivedVariablesIdentifier(projectId + "-ds" + dataSetNumber + "-" + name)
+      .withStorageType(StorageTypes.DOUBLE)
+      .withDoNotDisplayThousandsSeparator(true)
       .build();
   }
   
