@@ -268,7 +268,8 @@ angular.module('metadatamanagementApp').config(
           'server-error': {
             'internal-server-error': 'Sorry, something went wrong :-( ({{ status }}).',
             'freemarker': {
-              'parsing-error': 'There is a parsing problem by Freemarker (Line,Column): {{invalidValue}}'
+              'parsing-error': 'There is a parsing problem by Freemarker (Line,Column): {{invalidValue}}',
+              'invalid-reference-error': 'There is a invalid reference in the Freemarker script (Line,Column): {{invalidValue}}'
             }
           },
           'client-error': {

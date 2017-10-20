@@ -27,6 +27,7 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.node.TreeTraversingParser;
 
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.exception.TemplateIncompleteException;
+import freemarker.core.InvalidReferenceException;
 import freemarker.core.ParseException;
 import freemarker.template.TemplateException;
 
@@ -85,7 +86,7 @@ public class ExceptionTranslator {
   }
 
   /**
-   * Handle validation errors.
+   * Handle Freemarker parsing errors.
    */
   @ExceptionHandler(ParseException.class)
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -96,6 +97,24 @@ public class ExceptionTranslator {
         + ex.getEditorMessage();
     ErrorDto errorDto = new ErrorDto(null, 
         "global.error.server-error.freemarker.parsing-error", invalidValue, null);
+    ErrorListDto errorListDto = new ErrorListDto();  
+    errorListDto.add(errorDto);
+    
+    return errorListDto;
+  }
+  
+  /**
+   * Handle validation errors.
+   */
+  @ExceptionHandler(InvalidReferenceException.class)
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  @ResponseBody
+  public ErrorListDto processFreemarkerParseError(InvalidReferenceException ex) {
+
+    String invalidValue = "(" + ex.getLineNumber() + "," + ex.getColumnNumber() + "): " 
+        + ex.getBlamedExpressionString();
+    ErrorDto errorDto = new ErrorDto(null, 
+        "global.error.server-error.freemarker.invalid-reference-error", invalidValue, null);
     ErrorListDto errorListDto = new ErrorListDto();  
     errorListDto.add(errorDto);
     
