@@ -330,7 +330,7 @@
                         <td class="fdz-table-number">{{row.relativeFrequency | number:2}} %
                         </td>
                     </tr>
-                    <tr ng-repeat-end ng-if="$index === 4 && variable.distribution.validResponses.length > 10" ng-hide="!notAllRowsVisible">
+                    <tr ng-repeat-end ng-if="$index === 4 && variable.distribution.validResponses.length > 10" ng-hide="!notAllRowsVisible" ng-click="toggleAllRowsVisible()">
                         <td ng-class="{'fdz-table-number' : variable.dataType.en === 'numeric'}">...</td>
                         <td>...</td>
                         <td class="fdz-table-number">...</td>

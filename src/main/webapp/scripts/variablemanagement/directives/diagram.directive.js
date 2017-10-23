@@ -18,7 +18,7 @@ angular.module('metadatamanagementApp').directive('diagram',
             margin: {
               l: 35,
               r: 35,
-              t: 15,
+              t: 30,
               b: 30
             },
             width: document.getElementById('diagramContainer').offsetWidth -
