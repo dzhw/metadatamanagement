@@ -104,7 +104,7 @@ public class ExceptionTranslator {
   }
   
   /**
-   * Handle validation errors.
+   * Handle Freemarker invalid reference errors.
    */
   @ExceptionHandler(InvalidReferenceException.class)
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
