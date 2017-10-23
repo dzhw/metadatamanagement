@@ -1,7 +1,8 @@
 {
   "name": "ngclipboard",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "homepage": "https://github.com/sachinchoolur/ngclipboard",
+  "license": "MIT",
   "authors": [
     "Sachin N <sachi77n@gmail.com>"
   ],
@@ -22,14 +23,13 @@
     "README.md",
     "demo"
   ],
-  "_release": "1.1.1",
+  "_release": "1.1.2",
   "_resolution": {
     "type": "version",
-    "tag": "1.1.1",
-    "commit": "4870a07486c42be7cb0976a9a64005ef1f4dee60"
+    "tag": "1.1.2",
+    "commit": "64568ef52589f8b781a01ec8fd24e7fb15527eae"
   },
   "_source": "https://github.com/sachinchoolur/ngclipboard.git",
-  "_target": "^1.1.1",
-  "_originalSource": "ngclipboard",
-  "_direct": true
+  "_target": "^1.1.2",
+  "_originalSource": "ngclipboard"
 }
