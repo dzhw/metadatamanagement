@@ -164,8 +164,8 @@ public class DaraService {
     try {
       ResponseEntity<String> result = 
             this.restTemplate.postForEntity(builder.build().toUri(), request, String.class);
-      this.log.debug(result.getStatusCode() + "");
-      this.log.debug(result.getBody());
+      log.debug("Response code from Dara: {}", result.getStatusCode());
+      log.debug("Response body from Dara: {}", result.getBody());
       return result.getStatusCode();
     } catch (HttpClientErrorException httpClientError) {
       log.debug("HTTP Error durind Dara call", httpClientError);
