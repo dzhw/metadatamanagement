@@ -152,10 +152,12 @@ public class DataSetReportService {
       // Load data for template only once
       Map<String, Object> dataForTemplate = this.loadDataForTemplateFilling(dataSetId);
       String variableListFilledStr = 
-          this.fillTemplate(texVariableListFileStr, templateConfiguration, dataForTemplate);
+          this.fillTemplate(texVariableListFileStr, templateConfiguration, dataForTemplate,
+              KEY_VARIABLELIST);
       ZipUtil.writeFileToZip(pathToVariableListTexFile, variableListFilledStr);
       String mainFilledStr = 
-          this.fillTemplate(texMainFileStr, templateConfiguration, dataForTemplate);
+          this.fillTemplate(texMainFileStr, templateConfiguration, dataForTemplate,
+              KEY_MAIN);
       ZipUtil.writeFileToZip(pathToMainTexFile, mainFilledStr);
       
       // Create Variables pages
@@ -167,7 +169,8 @@ public class DataSetReportService {
         //filledTemplates.put("variables/" + variable.getName() + ".tex",
         dataForTemplate.put("variable", variable);
         String filledVariablesFile = 
-            fillTemplate(texVariableFileStr, templateConfiguration, dataForTemplate);
+            fillTemplate(texVariableFileStr, templateConfiguration, dataForTemplate,
+                KEY_VARIABLE);
         Path pathOfVariable = Paths.get("variables/" + variable.getName() + ".tex");
         final Path root = zipFileSystem.getPath("/");
         final Path dest = zipFileSystem.getPath(root.toString(), pathOfVariable.toString());
@@ -225,10 +228,17 @@ public class DataSetReportService {
    * @throws TemplateException Handles template Exceptions.
    */
   private String fillTemplate(String templateContent,
-      Configuration templateConfiguration, Map<String, Object> dataForTemplate)
+      Configuration templateConfiguration, Map<String, Object> dataForTemplate,
+      String fileName)
       throws IOException, TemplateException {
+    
+    String templateName = "texTemplate";
+    if (fileName != null && fileName.trim().length() > 0 ) {
+      templateName = fileName;
+    }
+    
     // Read Template and escape elements
-    Template texTemplate =  new Template("texTemplate",
+    Template texTemplate =  new Template(templateName,
           (ESCAPE_PREFIX + templateContent + ESCAPE_SUFFIX), templateConfiguration);
     
     try (Writer stringWriter = new StringWriter()) {

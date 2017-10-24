@@ -93,16 +93,18 @@ public class ExceptionTranslator {
   @ResponseBody
   public ErrorListDto processFreemarkerParseError(ParseException ex) {
 
-    String invalidValue = "(" + ex.getLineNumber() + "," + ex.getColumnNumber() + "): " 
-        + ex.getEditorMessage();
-    ErrorDto errorDto = new ErrorDto(null, 
+    //Build ErrorDto
+    String invalidValue = "(" + ex.getLineNumber()
+        + "," + ex.getColumnNumber() + "): " + ex.getEditorMessage();
+    ErrorDto errorDto = new ErrorDto(ex.getTemplateName(),
         "global.error.server-error.freemarker.parsing-error", invalidValue, null);
-    ErrorListDto errorListDto = new ErrorListDto();  
+
+    //Build ErrorListDto
+    ErrorListDto errorListDto = new ErrorListDto();
     errorListDto.add(errorDto);
-    
     return errorListDto;
   }
-  
+
   /**
    * Handle Freemarker invalid reference errors.
    */
@@ -111,13 +113,15 @@ public class ExceptionTranslator {
   @ResponseBody
   public ErrorListDto processFreemarkerParseError(InvalidReferenceException ex) {
 
-    String invalidValue = "(" + ex.getLineNumber() + "," + ex.getColumnNumber() + "): " 
-        + ex.getBlamedExpressionString();
-    ErrorDto errorDto = new ErrorDto(null, 
+    //Build ErrorDto
+    String invalidValue = "(" + ex.getLineNumber() + ","
+        + ex.getColumnNumber() + "): " + ex.getBlamedExpressionString();
+    ErrorDto errorDto = new ErrorDto(ex.getTemplateSourceName(),
         "global.error.server-error.freemarker.invalid-reference-error", invalidValue, null);
-    ErrorListDto errorListDto = new ErrorListDto();  
-    errorListDto.add(errorDto);
-    
+
+    //Build ErrorListDto
+    ErrorListDto errorListDto = new ErrorListDto();
+    errorListDto.add(errorDto);    
     return errorListDto;
   }
 
