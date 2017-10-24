@@ -223,6 +223,7 @@ public class DataSetReportService {
    * @param templateConfiguration The configuration for freemarker.
    * @param dataForTemplateThe data for a tex template. All variables, questions and dataset
    *        information.
+   * @param fileName filename of the script which will be filled in this method.
    * @return The filled tex templates as byte array.
    * @throws IOException Handles IO Exception.
    * @throws TemplateException Handles template Exceptions.

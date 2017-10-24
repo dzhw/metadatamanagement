@@ -72,6 +72,9 @@ public class DaraService {
   
   private RestTemplate restTemplate;
   
+  //Key for Register XML Template
+  private static final String KEY_REGISTER_XML_TMPL = "register.xml.tmpl";
+  
   //Resource Type
   private static final int RESOURCE_TYPE_DATASET = 2;
   
@@ -122,7 +125,8 @@ public class DaraService {
     //Fill template
     String filledTemplate = this.fillTemplate(registerXmlStr, 
             this.getTemplateConfiguration(), 
-            this.getDataForTemplate(projectId, AVAILABILITY_CONTROLLED_DELIVERY));
+            this.getDataForTemplate(projectId, AVAILABILITY_CONTROLLED_DELIVERY),
+            KEY_REGISTER_XML_TMPL);
     
     //Send Rest Call for Registration
     HttpStatus httpStatusFromDara = 
@@ -202,7 +206,8 @@ public class DaraService {
     //Fill template
     String filledTemplate = this.fillTemplate(registerXmlStr, 
             this.getTemplateConfiguration(), 
-            this.getDataForTemplate(projectId, AVAILABILITY_CONTROLLED_NOT_AVAILABLE));
+            this.getDataForTemplate(projectId, AVAILABILITY_CONTROLLED_NOT_AVAILABLE),
+            KEY_REGISTER_XML_TMPL);
     
     //Send Rest Call for Registration
     return this.postToDaraImportXml(filledTemplate, project.getHasBeenReleasedBefore()); 
@@ -263,15 +268,22 @@ public class DaraService {
    * @param templateContent The content of a xml template.
    * @param templateConfiguration The configuration for freemarker.
    * @param dataForTemplateThe data for a xml template. 
+   * @param fileName filename of the script which will be filled in this method.
    * @return The filled xml templates as byte array.
    * @throws IOException Handles IO Exception.
    * @throws TemplateException Handles template Exceptions.
    */
   private String fillTemplate(String templateContent,
-      Configuration templateConfiguration, Map<String, Object> dataForTemplate) 
+      Configuration templateConfiguration, Map<String, Object> dataForTemplate, String fileName) 
           throws IOException, TemplateException {
+    
+    String templateName = "xmlTemplate";
+    if (fileName != null && fileName.trim().length() > 0 ) {
+      templateName = fileName;
+    }
+    
     // Read Template and escape elements
-    Template texTemplate = new Template("xmlTemplate", templateContent, templateConfiguration);
+    Template texTemplate = new Template(templateName, templateContent, templateConfiguration);
     try (Writer stringWriter = new StringWriter()) {
       texTemplate.process(dataForTemplate, stringWriter);
       
