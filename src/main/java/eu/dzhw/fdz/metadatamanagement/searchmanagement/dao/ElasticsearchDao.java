@@ -3,8 +3,6 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.dao;
 import java.io.IOException;
 import java.util.Collection;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -28,6 +26,7 @@ import io.searchbox.indices.Refresh;
 import io.searchbox.indices.mapping.GetMapping;
 import io.searchbox.indices.mapping.PutMapping;
 import io.searchbox.indices.settings.GetSettings;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Data Access Object for accessing and manipulating elasticsearch.
@@ -35,10 +34,8 @@ import io.searchbox.indices.settings.GetSettings;
  * @author René Reitmann
  */
 @Component
+@Slf4j
 public class ElasticsearchDao {
-
-  private final Logger log = LoggerFactory.getLogger(ElasticsearchDao.class);
-
   @Autowired
   private JestClient jestClient;
 

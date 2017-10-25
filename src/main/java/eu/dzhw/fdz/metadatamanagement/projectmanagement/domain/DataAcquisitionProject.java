@@ -9,12 +9,15 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.google.common.base.MoreObjects;
-
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation.SetHasBeenReleasedBeforeOnlyOnce;
-import net.karneim.pojobuilder.GeneratePojoBuilder;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * The Data Acquisition Project collects all data which are going to be published by our RDC.
@@ -25,8 +28,12 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @SetHasBeenReleasedBeforeOnlyOnce(message = "data-acquisition-project."
     + "error.data-acquisition-project."
     + "has-been-released-before.set-has-been-released-before-only-once")
-@GeneratePojoBuilder(
-    intoPackage = "eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.builders")
+@Data
+@EqualsAndHashCode(callSuper = false, of = "id")
+@ToString(callSuper = true)
+@NoArgsConstructor 
+@AllArgsConstructor
+@Builder
 public class DataAcquisitionProject extends AbstractRdcDomainObject {
 
   /* Domain Object Attributes */
@@ -44,49 +51,4 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
   
   @Valid
   private Release release;
-
-  /*
-   * (non-Javadoc)
-   *
-   * @see eu.dzhw.fdz.metadatamanagement.domain.AbstractRdcDomainObject#getId()
-   */
-  @Override
-  public String getId() {
-    return id;
-  }
-
-  /*
-   * (non-Javadoc)
-   * @see eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject#toString()
-   */
-  @Override
-  public String toString() {
-    return MoreObjects.toStringHelper(this)
-      .add("super", super.toString())
-      .add("id", id)
-      .add("hasBeenReleasedBefore", hasBeenReleasedBefore)
-      .add("release", release)
-      .toString();
-  }
-
-  /* GETTER / SETTER */
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public Release getRelease() {
-    return release;
-  }
-
-  public void setRelease(Release release) {
-    this.release = release;
-  }
-
-  public Boolean getHasBeenReleasedBefore() {
-    return hasBeenReleasedBefore;
-  }
-  
-  public void setHasBeenReleasedBefore(Boolean hasBeenReleasedBefore) {
-    this.hasBeenReleasedBefore = hasBeenReleasedBefore;
-  }
 }

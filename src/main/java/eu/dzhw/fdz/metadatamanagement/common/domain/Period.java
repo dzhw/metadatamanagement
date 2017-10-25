@@ -4,15 +4,21 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidPeriod;
-import net.karneim.pojobuilder.GeneratePojoBuilder;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Class representing period in time.
  *
  * @author René Reitmann
  */
-@GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.common.domain.builders")
 @ValidPeriod(message = "global.error.period.valid-period")
+@Data
+@NoArgsConstructor 
+@AllArgsConstructor
+@Builder
 public class Period implements Serializable {
   private static final long serialVersionUID = -4040296722435163942L;
 

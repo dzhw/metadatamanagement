@@ -10,45 +10,29 @@ import java.util.List;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ImageType;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
-import eu.dzhw.fdz.metadatamanagement.common.domain.builders.I18nStringBuilder;
-import eu.dzhw.fdz.metadatamanagement.common.domain.builders.PeriodBuilder;
-import eu.dzhw.fdz.metadatamanagement.common.domain.builders.PersonBuilder;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetTypes;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.Format;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.SubDataSet;
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.builders.DataSetAttachmentMetadataBuilder;
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.builders.DataSetBuilder;
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.builders.SubDataSetBuilder;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAttachmentTypes;
-import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.builders.InstrumentAttachmentMetadataBuilder;
-import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.builders.InstrumentBuilder;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.builders.DataAcquisitionProjectBuilder;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.builders.ReleaseBuilder;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.QuestionTypes;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.TechnicalRepresentation;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.builders.QuestionBuilder;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.builders.TechnicalRepresentationBuilder;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.builders.RelatedPublicationBuilder;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.DataAvailabilities;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudyAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudyAttachmentTypes;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.SurveyDesigns;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.builders.StudyAttachmentMetadataBuilder;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.builders.StudyBuilder;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyAttachmentMetadata;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.builders.SurveyAttachmentMetadataBuilder;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.builders.SurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.AccessWays;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.DataTypes;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Distribution;
@@ -63,15 +47,6 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ScaleLevels;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Statistics;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ValidResponse;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.DistributionBuilder;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.FilterDetailsBuilder;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.GenerationDetailsBuilder;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.HistogramBuilder;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.MissingBuilder;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.RelatedQuestionBuilder;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.StatisticsBuilder;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.ValidResponseBuilder;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.VariableBuilder;
 
 /**
  * @author Daniel Katzberg
@@ -85,9 +60,9 @@ public class UnitTestCreateDomainObjectUtils {
 
     String projectId = "testproject";
 
-    return new DataAcquisitionProjectBuilder()
-        .withId(projectId)
-        .withHasBeenReleasedBefore(false)
+    return DataAcquisitionProject.builder()
+        .id(projectId)
+        .hasBeenReleasedBefore(false)
         .build();
   }
   
@@ -95,72 +70,72 @@ public class UnitTestCreateDomainObjectUtils {
     List<Person> authors = new ArrayList<>();
     authors.add(buildPerson("Test", null, "Authors"));
     
-    return new StudyBuilder()
-        .withId(UnitTestCreateValidIds.buildStudyId(projectId))
-        .withAuthors(authors)        
-        .withDescription(new I18nStringBuilder()
-            .withDe("Description De")
-            .withEn("Description En")
+    return Study.builder()
+        .id(UnitTestCreateValidIds.buildStudyId(projectId))
+        .authors(authors)        
+        .description(I18nString.builder()
+            .de("Description De")
+            .en("Description En")
             .build())
-        .withInstitution(new I18nStringBuilder()
-            .withDe("Institution De")
-            .withEn("Institution En")
+        .institution(I18nString.builder()
+            .de("Institution De")
+            .en("Institution En")
             .build())
-        .withSurveySeries(new I18nStringBuilder()
-            .withDe("Survey Series De")
-            .withEn("Survey Series En")
+        .surveySeries(I18nString.builder()
+            .de("Survey Series De")
+            .en("Survey Series En")
             .build())
-        .withSponsor(new I18nStringBuilder()
-            .withDe("Sponsor De")
-            .withEn("Sponsor En")
+        .sponsor(I18nString.builder()
+            .de("Sponsor De")
+            .en("Sponsor En")
             .build())
-        .withSurveySeries(new I18nStringBuilder()
-            .withDe("Survey Series De")
-            .withEn("Survey Series En")
+        .surveySeries(I18nString.builder()
+            .de("Survey Series De")
+            .en("Survey Series En")
             .build())
-        .withTitle(new I18nStringBuilder()
-            .withDe("Titel De")
-            .withEn("Title En")
+        .title(I18nString.builder()
+            .de("Titel De")
+            .en("Title En")
             .build())
-        .withAnnotations(new I18nStringBuilder().withDe("De Anmerkungen")
-            .withEn("En Annotations")
+        .annotations(I18nString.builder().de("De Anmerkungen")
+            .en("En Annotations")
             .build())
-        .withDataAvailability(DataAvailabilities.AVAILABLE)
-        .withSurveyDesign(SurveyDesigns.PANEL)
-        .withDataAcquisitionProjectId(projectId)
-        .withDoi("10.5072/DZHW:" + projectId)
+        .dataAvailability(DataAvailabilities.AVAILABLE)
+        .surveyDesign(SurveyDesigns.PANEL)
+        .dataAcquisitionProjectId(projectId)
+        .doi("10.5072/DZHW:" + projectId)
         .build();    
   }
 
   public static Survey buildSurvey(String projectId) {
-    return new SurveyBuilder()
-      .withId(UnitTestCreateValidIds.buildSurveyId(projectId, 1))
-      .withDataAcquisitionProjectId(projectId)
-      .withStudyId(UnitTestCreateValidIds.buildStudyId(projectId))
-      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
-        .withEnd(LocalDate.now())
+    return Survey.builder()
+      .id(UnitTestCreateValidIds.buildSurveyId(projectId, 1))
+      .dataAcquisitionProjectId(projectId)
+      .studyId(UnitTestCreateValidIds.buildStudyId(projectId))
+      .fieldPeriod(Period.builder().start(LocalDate.now())
+        .end(LocalDate.now())
         .build())
-      .withTitle(new I18nStringBuilder().withDe("Titel")
-        .withEn("title")
+      .title(I18nString.builder().de("Titel")
+        .en("title")
         .build())
-      .withPopulation(new I18nStringBuilder().withDe("Population DE")
-          .withEn("Population EN")
+      .population(I18nString.builder().de("Population DE")
+          .en("Population EN")
           .build())
-      .withSample(new I18nStringBuilder().withDe("Sample DE")
-        .withEn("Sample EN")
+      .sample(I18nString.builder().de("Sample DE")
+        .en("Sample EN")
         .build())
-      .withSurveyMethod(new I18nStringBuilder().withDe("Survey Method DE")
-          .withEn("Survey Method EN")
+      .surveyMethod(I18nString.builder().de("Survey Method DE")
+          .en("Survey Method EN")
           .build())
-      .withAnnotations(new I18nStringBuilder().withDe("De Anmerkungen")
-          .withEn("En Annotations")
+      .annotations(I18nString.builder().de("De Anmerkungen")
+          .en("En Annotations")
           .build())
-      .withDataType(eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.DataTypes.QUALITATIVE_DATA)
-      .withGrossSampleSize(100)
-      .withSampleSize(100)
-      .withResponseRate(100.0)
-      .withNumber(1)
-      .withWave(1)
+      .dataType(eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.DataTypes.QUALITATIVE_DATA)
+      .grossSampleSize(100)
+      .sampleSize(100)
+      .responseRate(100.0)
+      .number(1)
+      .wave(1)
       .build();
   }
 
@@ -172,51 +147,51 @@ public class UnitTestCreateDomainObjectUtils {
     surveyIds.add(surveyId);
         
     List<SubDataSet> subDataSets = new ArrayList<>(); 
-    subDataSets.add(new SubDataSetBuilder().withName(UnitTestCreateValidIds.buildDataSetId(projectId, 1))
-        .withNumberOfObservations(1)
-        .withAccessWay(AccessWays.DOWNLOAD_SUF)
-        .withCitationHint(new I18nStringBuilder()
-            .withDe("Citation Hint De")
-            .withEn("Citation Hint En")
+    subDataSets.add(SubDataSet.builder().name(UnitTestCreateValidIds.buildDataSetId(projectId, 1))
+        .numberOfObservations(1)
+        .accessWay(AccessWays.DOWNLOAD_SUF)
+        .citationHint(I18nString.builder()
+            .de("Citation Hint De")
+            .en("Citation Hint En")
             .build())
-        .withDescription(new I18nStringBuilder().withDe("Description DE")
-          .withEn("Description 3 EN")
+        .description(I18nString.builder().de("Description DE")
+          .en("Description 3 EN")
           .build()).build());
-    subDataSets.add(new SubDataSetBuilder().withName(UnitTestCreateValidIds.buildDataSetId(projectId, 2))
-        .withNumberOfObservations(1)
-        .withAccessWay(AccessWays.REMOTE_DESKTOP) 
-        .withDescription(new I18nStringBuilder().withDe("Description 2 DE")
-          .withEn("Description 3 EN")
+    subDataSets.add(SubDataSet.builder().name(UnitTestCreateValidIds.buildDataSetId(projectId, 2))
+        .numberOfObservations(1)
+        .accessWay(AccessWays.REMOTE_DESKTOP) 
+        .description(I18nString.builder().de("Description 2 DE")
+          .en("Description 3 EN")
           .build()).build());
-    subDataSets.add(new SubDataSetBuilder().withName(UnitTestCreateValidIds.buildDataSetId(projectId, 3))
-        .withNumberOfObservations(1)
-        .withAccessWay(AccessWays.DOWNLOAD_CUF) 
-        .withDescription(new I18nStringBuilder().withDe("Description 3 DE")
-          .withEn("Description 3 EN")
+    subDataSets.add(SubDataSet.builder().name(UnitTestCreateValidIds.buildDataSetId(projectId, 3))
+        .numberOfObservations(1)
+        .accessWay(AccessWays.DOWNLOAD_CUF) 
+        .description(I18nString.builder().de("Description 3 DE")
+          .en("Description 3 EN")
           .build()).build());
-    subDataSets.add(new SubDataSetBuilder().withName(UnitTestCreateValidIds.buildDataSetId(projectId, 4))
-        .withNumberOfObservations(1)
-        .withAccessWay(AccessWays.ONSITE_SUF) 
-        .withDescription(new I18nStringBuilder().withDe("Description 4 DE")
-          .withEn("Description 4 EN")
+    subDataSets.add(SubDataSet.builder().name(UnitTestCreateValidIds.buildDataSetId(projectId, 4))
+        .numberOfObservations(1)
+        .accessWay(AccessWays.ONSITE_SUF) 
+        .description(I18nString.builder().de("Description 4 DE")
+          .en("Description 4 EN")
           .build()).build());
     
-    return new DataSetBuilder().withSurveyIds(surveyIds)
-      .withDataAcquisitionProjectId(projectId)
-      .withId(UnitTestCreateValidIds.buildDataSetId(projectId, 1))
-      .withSurveyNumbers(surveyNumbers)
-      .withSurveyIds(surveyIds)
-      .withNumber(1)
-      .withFormat(Format.WIDE)
-      .withType(DataSetTypes.PERSONAL_RECORD)
-      .withDescription(new I18nStringBuilder().withDe("De Beschreibung")
-        .withEn("En Description")
+    return DataSet.builder().surveyIds(surveyIds)
+      .dataAcquisitionProjectId(projectId)
+      .id(UnitTestCreateValidIds.buildDataSetId(projectId, 1))
+      .surveyNumbers(surveyNumbers)
+      .surveyIds(surveyIds)
+      .number(1)
+      .format(Format.WIDE)
+      .type(DataSetTypes.PERSONAL_RECORD)
+      .description(I18nString.builder().de("De Beschreibung")
+        .en("En Description")
         .build())
-      .withAnnotations(new I18nStringBuilder().withDe("De Anmerkungen")
-          .withEn("En Annotations")
+      .annotations(I18nString.builder().de("De Anmerkungen")
+          .en("En Annotations")
           .build())
-      .withStudyId(UnitTestCreateValidIds.buildStudyId(projectId))
-      .withSubDataSets(subDataSets)
+      .studyId(UnitTestCreateValidIds.buildStudyId(projectId))
+      .subDataSets(subDataSets)
       .build();
   } 
 
@@ -239,71 +214,71 @@ public class UnitTestCreateDomainObjectUtils {
     
     List<RelatedQuestion> relatedQuestions = new ArrayList<>();
     relatedQuestions.add(buildRelatedQuestion(projectId, "1", "1"));
-    return new VariableBuilder().withId(UnitTestCreateValidIds.buildVariableId(projectId, dataSetNumber, name))
-      .withDataType(DataTypes.NUMERIC)
-      .withScaleLevel(ScaleLevels.RATIO)
-      .withDataAcquisitionProjectId(projectId)
-      .withStudyId(UnitTestCreateValidIds.buildStudyId(projectId))
-      .withName(name)
-      .withDataSetId(UnitTestCreateValidIds.buildDataSetId(projectId, dataSetNumber))
-      .withLabel(new I18nStringBuilder().withDe("label")
-          .withEn("label")
+    return Variable.builder().id(UnitTestCreateValidIds.buildVariableId(projectId, dataSetNumber, name))
+      .dataType(DataTypes.NUMERIC)
+      .scaleLevel(ScaleLevels.RATIO)
+      .dataAcquisitionProjectId(projectId)
+      .studyId(UnitTestCreateValidIds.buildStudyId(projectId))
+      .name(name)
+      .dataSetId(UnitTestCreateValidIds.buildDataSetId(projectId, dataSetNumber))
+      .label(I18nString.builder().de("label")
+          .en("label")
           .build())
-      .withAccessWays(accessWays)
-      .withSurveyNumbers(surveyNumbers)
-      .withSurveyIds(surveyIds)
-      .withIndexInDataSet(index)
-      .withDataSetNumber(dataSetNumber)
-      .withRelatedQuestions(relatedQuestions)
-      .withAnnotations(new I18nStringBuilder().withDe("De Beschreibung")
-        .withEn("En Description")
+      .accessWays(accessWays)
+      .surveyNumbers(surveyNumbers)
+      .surveyIds(surveyIds)
+      .indexInDataSet(index)
+      .dataSetNumber(dataSetNumber)
+      .relatedQuestions(relatedQuestions)
+      .annotations(I18nString.builder().de("De Beschreibung")
+        .en("En Description")
         .build())
-      .withFilterDetails(new FilterDetailsBuilder()
-        .withDescription(new I18nStringBuilder().withDe("De Filterbeschreibung")
-            .withEn("En Filter Description")
+      .filterDetails(FilterDetails.builder()
+        .description(I18nString.builder().de("De Filterbeschreibung")
+            .en("En Filter Description")
             .build())
-        .withExpressionLanguage(FilterExpressionLanguages.STATA)
-        .withExpression("Filter Expression")
+        .expressionLanguage(FilterExpressionLanguages.STATA)
+        .expression("Filter Expression")
         .build())
-      .withDistribution(buildDistribution())
-      .withGenerationDetails(buildGenerationDetails())
-      .withRelatedVariables(relatedVariables)
-      .withPanelIdentifier(projectId + "-ds" + dataSetNumber + "-" + name)
-      .withDerivedVariablesIdentifier(projectId + "-ds" + dataSetNumber + "-" + name)
+      .distribution(buildDistribution())
+      .generationDetails(buildGenerationDetails())
+      .relatedVariables(relatedVariables)
+      .panelIdentifier(projectId + "-ds" + dataSetNumber + "-" + name)
+      .derivedVariablesIdentifier(projectId + "-ds" + dataSetNumber + "-" + name)
       .build();
   }
   
   public static TechnicalRepresentation buildTechnicalRepresentation() {
-    return new TechnicalRepresentationBuilder()
-        .withLanguage("TR Language")
-        .withType("Technical Representation Type")
-        .withSource("Technical Representation Source")
+    return TechnicalRepresentation.builder()
+        .language("TR Language")
+        .type("Technical Representation Type")
+        .source("Technical Representation Source")
         .build();
   }
   
   public static Question buildQuestion(String projectId, Integer instrumentNumber, 
       String instrumentId, String surveyId) {
-    return new QuestionBuilder().withDataAcquisitionProjectId(projectId)
-      .withId(UnitTestCreateValidIds.buildQuestionId(projectId, instrumentNumber, "123.12"))
-      .withAdditionalQuestionText(new I18nString("Zusätzlicher Fragetext", "Additional Question Text"))
-      .withDataAcquisitionProjectId(projectId)
-      .withImageType(ImageType.PNG)
-      .withInstruction(new I18nString("Instruktionen", "Instruction"))
-      .withInstrumentId(instrumentId)
-      .withIntroduction(new I18nString("Einleitung", "Introduction"))
-      .withNumber("123.12")
-      .withIndexInInstrument(1)
-      .withSuccessors(new ArrayList<>())
-      .withQuestionText(new I18nString("Fragetext","Question text"))
-      .withTechnicalRepresentation(buildTechnicalRepresentation())
-      .withType(QuestionTypes.SINGLE_CHOICE)
-      .withTopic(new I18nString("Topic De", "Topic EN"))
-      .withInstrumentNumber(instrumentNumber)
-      .withSuccessorNumbers(new ArrayList<>())
-      .withAnnotations(new I18nStringBuilder().withDe("De Anmerkungen")
-          .withEn("En Annotations")
+    return Question.builder().dataAcquisitionProjectId(projectId)
+      .id(UnitTestCreateValidIds.buildQuestionId(projectId, instrumentNumber, "123.12"))
+      .additionalQuestionText(new I18nString("Zusätzlicher Fragetext", "Additional Question Text"))
+      .dataAcquisitionProjectId(projectId)
+      .imageType(ImageType.PNG)
+      .instruction(new I18nString("Instruktionen", "Instruction"))
+      .instrumentId(instrumentId)
+      .introduction(new I18nString("Einleitung", "Introduction"))
+      .number("123.12")
+      .indexInInstrument(1)
+      .successors(new ArrayList<>())
+      .questionText(new I18nString("Fragetext","Question text"))
+      .technicalRepresentation(buildTechnicalRepresentation())
+      .type(QuestionTypes.SINGLE_CHOICE)
+      .topic(new I18nString("Topic De", "Topic EN"))
+      .instrumentNumber(instrumentNumber)
+      .successorNumbers(new ArrayList<>())
+      .annotations(I18nString.builder().de("De Anmerkungen")
+          .en("En Annotations")
           .build())
-      .withStudyId(UnitTestCreateValidIds.buildStudyId(projectId))
+      .studyId(UnitTestCreateValidIds.buildStudyId(projectId))
       .build();
   }
   
@@ -312,85 +287,85 @@ public class UnitTestCreateDomainObjectUtils {
     surveyNumbers.add(1);
     List<String> surveyIds = new ArrayList<>();
     surveyIds.add(UnitTestCreateValidIds.buildSurveyId(projectId, 1));
-    return new InstrumentBuilder().withDataAcquisitionProjectId(projectId)
-      .withId(UnitTestCreateValidIds.buildInstrumentId(projectId, 1))
-      .withTitle(new I18nStringBuilder()
-          .withDe("Instrument.de")
-          .withEn("Instrument.en")
+    return Instrument.builder().dataAcquisitionProjectId(projectId)
+      .id(UnitTestCreateValidIds.buildInstrumentId(projectId, 1))
+      .title(I18nString.builder()
+          .de("Instrument.de")
+          .en("Instrument.en")
           .build())
-      .withSubtitle(new I18nStringBuilder()
-          .withDe("Instrument Untertitel de")
-          .withEn("Instrument Subtitle en")
+      .subtitle(I18nString.builder()
+          .de("Instrument Untertitel de")
+          .en("Instrument Subtitle en")
           .build())
-      .withDescription(new I18nStringBuilder()
-          .withDe("Instrument.de")
-          .withEn("Instrument.en")
+      .description(I18nString.builder()
+          .de("Instrument.de")
+          .en("Instrument.en")
           .build())
-      .withAnnotations(new I18nStringBuilder().withDe("De Anmerkungen")
-          .withEn("En Annotations")
+      .annotations(I18nString.builder().de("De Anmerkungen")
+          .en("En Annotations")
           .build())
-      .withSurveyIds(surveyIds)
-      .withStudyId(UnitTestCreateValidIds.buildStudyId(projectId))
-      .withDataAcquisitionProjectId(projectId)
-      .withType("CAPI")
-      .withNumber(1)
-      .withSurveyNumbers(surveyNumbers)
+      .surveyIds(surveyIds)
+      .studyId(UnitTestCreateValidIds.buildStudyId(projectId))
+      .dataAcquisitionProjectId(projectId)
+      .type("CAPI")
+      .number(1)
+      .surveyNumbers(surveyNumbers)
       .build();
   }
 
   public static Statistics buildStatistics() {
-    return new StatisticsBuilder().withFirstQuartile("70.0")
-      .withHighWhisker(130.0)
-      .withKurtosis(234.0)
-      .withLowWhisker(30.0)
-      .withMaximum("140.0")
-      .withMeanValue(87.5)
-      .withMedian("90.0")
-      .withMinimum("0.0")
-      .withSkewness(123.0)
-      .withStandardDeviation(40.0)
-      .withThirdQuartile("110.0")
-      .withMode("Mode")
-      .withDeviance(12.4)
-      .withMeanDeviation(58.7)
+    return Statistics.builder().firstQuartile("70.0")
+      .highWhisker(130.0)
+      .kurtosis(234.0)
+      .lowWhisker(30.0)
+      .maximum("140.0")
+      .meanValue(87.5)
+      .median("90.0")
+      .minimum("0.0")
+      .skewness(123.0)
+      .standardDeviation(40.0)
+      .thirdQuartile("110.0")
+      .mode("Mode")
+      .deviance(12.4)
+      .meanDeviation(58.7)
       .build();
   }
 
   public static GenerationDetails buildGenerationDetails() {
-    return new GenerationDetailsBuilder()
-      .withDescription(new I18nStringBuilder().withDe("De Beschreibung")
-        .withEn("En Description")
+    return GenerationDetails.builder()
+      .description(I18nString.builder().de("De Beschreibung")
+        .en("En Description")
         .build())
-      .withRule("Rule 123 to 234")
-      .withRuleExpressionLanguage(RuleExpressionLanguages.R)
+      .rule("Rule 123 to 234")
+      .ruleExpressionLanguage(RuleExpressionLanguages.R)
       .build();
   }
 
   public static Missing buildMissing() {
-    return new MissingBuilder().withAbsoluteFrequency(123)
-      .withCode("1234")
-      .withLabel(new I18nStringBuilder().withDe("De Label")
-        .withEn("En Lable")
+    return Missing.builder().absoluteFrequency(123)
+      .code("1234")
+      .label(I18nString.builder().de("De Label")
+        .en("En Lable")
         .build())
-      .withRelativeFrequency(43.78)
+      .relativeFrequency(43.78)
       .build();
   }
 
   public static ValidResponse buildValidResponse() {
-    return new ValidResponseBuilder().withAbsoluteFrequency(123)
-      .withLabel(new I18nStringBuilder().withDe("De Label")
-        .withEn("En Lable")
+    return ValidResponse.builder().absoluteFrequency(123)
+      .label(I18nString.builder().de("De Label")
+        .en("En Lable")
         .build())
-      .withValue("12.34")
-      .withRelativeFrequency(43.78)
-      .withValidRelativeFrequency(75.45)
+      .value("12.34")
+      .relativeFrequency(43.78)
+      .validRelativeFrequency(75.45)
       .build();
   }
 
   public static Histogram buildHistogram() {
-    return new HistogramBuilder().withStart(0.0)
-      .withEnd(10.0)
-      .withNumberOfBins(10)
+    return Histogram.builder().start(0.0)
+      .end(10.0)
+      .numberOfBins(10)
       .build();
   }
 
@@ -399,34 +374,34 @@ public class UnitTestCreateDomainObjectUtils {
     missings.add(buildMissing());
     List<ValidResponse> validResponses = new ArrayList<>();
     validResponses.add(buildValidResponse());
-    return new DistributionBuilder().withHistogram(buildHistogram())
-      .withMissings(missings)
-      .withValidResponses(validResponses)
-      .withStatistics(buildStatistics())
-      .withTotalAbsoluteFrequency(1234)
-      .withTotalValidAbsoluteFrequency(1000)
-      .withTotalValidRelativeFrequency(81.03)
+    return Distribution.builder().histogram(buildHistogram())
+      .missings(missings)
+      .validResponses(validResponses)
+      .statistics(buildStatistics())
+      .totalAbsoluteFrequency(1234)
+      .totalValidAbsoluteFrequency(1000)
+      .totalValidRelativeFrequency(81.03)
       .build();
   }
 
   public static Release buildRelease() {
-    return new ReleaseBuilder()
-      .withNotes(new I18nStringBuilder().withDe("Eine Notiz für die Version 1.0")
-        .withEn("A notice for the version 1.0.")
+    return Release.builder()
+      .notes(I18nString.builder().de("Eine Notiz für die Version 1.0")
+        .en("A notice for the version 1.0.")
         .build())
-      .withVersion("1.0")
-      .withDate(LocalDateTime.now())
+      .version("1.0")
+      .date(LocalDateTime.now())
       .build();
   }
 
   public static FilterDetails buildFilterDetails() {
-    return new FilterDetailsBuilder()
-      .withDescription(new I18nStringBuilder()
-            .withDe("Eine Filterbeschreibung.")
-            .withEn("A filter description.")
+    return FilterDetails.builder()
+      .description(I18nString.builder()
+            .de("Eine Filterbeschreibung.")
+            .en("A filter description.")
             .build())
-      .withExpression("A Filter Expression")
-      .withExpressionLanguage(FilterExpressionLanguages.STATA)
+      .expression("A Filter Expression")
+      .expressionLanguage(FilterExpressionLanguages.STATA)
         .build();
   }
   
@@ -435,21 +410,21 @@ public class UnitTestCreateDomainObjectUtils {
     List<String> studyIds = new ArrayList<>();
     studyIds.add("Study-IdExample");
     
-    return new RelatedPublicationBuilder()
-        .withDoi("A DOI")
-        .withId(UnitTestCreateValidIds.buildRelatedPublicationId("HurzId123"))
-        .withPublicationAbstract("A publication Abstract")
-        .withSourceLink("http://www.hurzexample.de/")
-        .withSourceReference("A Source Reference")
-        .withTitle("A Title of a Related Publication")
-        .withStudyIds(studyIds)
-        .withAuthors("Author")
-        .withYear(2017)
-        .withAbstractSource(new I18nStringBuilder()
-            .withDe("Test")
-            .withEn("Test")
+    return RelatedPublication.builder()
+        .doi("A DOI")
+        .id(UnitTestCreateValidIds.buildRelatedPublicationId("HurzId123"))
+        .publicationAbstract("A publication Abstract")
+        .sourceLink("http://www.hurzexample.de/")
+        .sourceReference("A Source Reference")
+        .title("A Title of a Related Publication")
+        .studyIds(studyIds)
+        .authors("Author")
+        .year(2017)
+        .abstractSource(I18nString.builder()
+            .de("Test")
+            .en("Test")
             .build())
-        .withLanguage("de")
+        .language("de")
         .build();
     
   }
@@ -458,21 +433,21 @@ public class UnitTestCreateDomainObjectUtils {
     List<String> studyIds = new ArrayList<>();
     studyIds.add("Study-IdExample");
     
-    return new RelatedPublicationBuilder()
-        .withDoi("A DOI")
-        .withId(UnitTestCreateValidIds.buildRelatedPublicationId("HurzId123"))
-        .withPublicationAbstract("A publication Abstract")
-        .withSourceLink("http://www.hurzexample.de/")
-        .withSourceReference("A Source Reference")
-        .withTitle("A Title of a Related Publication")
-        .withStudyIds(studyIds)
-        .withAuthors(authorsString)
-        .withYear(publicationYear)
-        .withAbstractSource(new I18nStringBuilder()
-            .withDe("Test")
-            .withEn("Test")
+    return RelatedPublication.builder()
+        .doi("A DOI")
+        .id(UnitTestCreateValidIds.buildRelatedPublicationId("HurzId123"))
+        .publicationAbstract("A publication Abstract")
+        .sourceLink("http://www.hurzexample.de/")
+        .sourceReference("A Source Reference")
+        .title("A Title of a Related Publication")
+        .studyIds(studyIds)
+        .authors(authorsString)
+        .year(publicationYear)
+        .abstractSource(I18nString.builder()
+            .de("Test")
+            .en("Test")
             .build())
-        .withLanguage("de")
+        .language("de")
         .build();
     
   }
@@ -482,102 +457,101 @@ public class UnitTestCreateDomainObjectUtils {
     surveyNumbers.add(1);
     List<String> surveyIds = new ArrayList<>();
     surveyIds.add(surveyId);
-    return new InstrumentBuilder()
-        .withId(UnitTestCreateValidIds.buildInstrumentId(projectId, 1))
-        .withDataAcquisitionProjectId(projectId)
-        .withStudyId(UnitTestCreateValidIds.buildStudyId(projectId))
-        .withSurveyIds(surveyIds)
-        .withTitle(new I18nStringBuilder()
-            .withDe("Hurz")
-            .withEn("Hurz")
+    return Instrument.builder()
+        .id(UnitTestCreateValidIds.buildInstrumentId(projectId, 1))
+        .dataAcquisitionProjectId(projectId)
+        .studyId(UnitTestCreateValidIds.buildStudyId(projectId))
+        .surveyIds(surveyIds)
+        .title(I18nString.builder()
+            .de("Hurz")
+            .en("Hurz")
             .build())
-        .withSubtitle(new I18nStringBuilder()
-            .withDe("Instrument Untertitel de")
-            .withEn("Instrument Subtitle en")
+        .subtitle(I18nString.builder()
+            .de("Instrument Untertitel de")
+            .en("Instrument Subtitle en")
             .build())
-        .withDescription(new I18nStringBuilder()
-            .withDe("Hurz")
-            .withEn("Hurz")
+        .description(I18nString.builder()
+            .de("Hurz")
+            .en("Hurz")
             .build())
-        .withAnnotations(new I18nStringBuilder().withDe("De Anmerkungen")
-            .withEn("En Annotations")
+        .annotations(I18nString.builder().de("De Anmerkungen")
+            .en("En Annotations")
             .build())
-        .withType("CAPI")
-        .withNumber(1)
-        .withSurveyNumbers(surveyNumbers)
+        .type("CAPI")
+        .number(1)
+        .surveyNumbers(surveyNumbers)
         .build();
   }
   
   public static InstrumentAttachmentMetadata buildInstrumentAttachmentMetadata(String projectId, Integer instrumentNumber) {
-    return new InstrumentAttachmentMetadataBuilder()
-          .withDataAcquisitionProjectId(projectId)
-          .withInstrumentId(UnitTestCreateValidIds.buildInstrumentId(projectId, instrumentNumber))
-          .withInstrumentNumber(instrumentNumber)
-          .withFileName("filename.txt")
-          .withDescription(new I18nString("Beschreibung","Description"))
-          .withLanguage("de")
-          .withType(InstrumentAttachmentTypes.QUESTION_FLOW)
-          .withIndexInInstrument(1)
+    return InstrumentAttachmentMetadata.builder()
+          .dataAcquisitionProjectId(projectId)
+          .instrumentId(UnitTestCreateValidIds.buildInstrumentId(projectId, instrumentNumber))
+          .instrumentNumber(instrumentNumber)
+          .fileName("filename.txt")
+          .description(new I18nString("Beschreibung","Description"))
+          .language("de")
+          .type(InstrumentAttachmentTypes.QUESTION_FLOW)
+          .indexInInstrument(1)
           .build();
   }
   
   public static SurveyAttachmentMetadata buildSurveyAttachmentMetadata(String projectId, Integer surveyNumber) {
-    return new SurveyAttachmentMetadataBuilder()
-          .withDataAcquisitionProjectId(projectId)
-          .withSurveyId(UnitTestCreateValidIds.buildSurveyId(projectId, surveyNumber))
-          .withSurveyNumber(surveyNumber)
-          .withFileName("filename.txt")
-          .withDescription(new I18nString("Beschreibung","Description"))
-          .withTitle("Title")
-          .withLanguage("de")
-          .withIndexInSurvey(1)
+    return SurveyAttachmentMetadata.builder()
+          .dataAcquisitionProjectId(projectId)
+          .surveyId(UnitTestCreateValidIds.buildSurveyId(projectId, surveyNumber))
+          .surveyNumber(surveyNumber)
+          .fileName("filename.txt")
+          .description(new I18nString("Beschreibung","Description"))
+          .title("Title")
+          .language("de")
+          .indexInSurvey(1)
           .build();
   }
   
   public static DataSetAttachmentMetadata buildDataSetAttachmentMetadata(String projectId, Integer dataSetNumber) {
-    return new DataSetAttachmentMetadataBuilder()
-          .withDataAcquisitionProjectId(projectId)
-          .withDataSetId(UnitTestCreateValidIds.buildDataSetId(projectId, dataSetNumber))
-          .withDataSetNumber(dataSetNumber)
-          .withFileName("filename.txt")
-          .withDescription(new I18nString("Beschreibung","Description"))
-          .withTitle("Title")
-          .withLanguage("de")
-          .withIndexInDataSet(1)
+    return DataSetAttachmentMetadata.builder()
+          .dataAcquisitionProjectId(projectId)
+          .dataSetId(UnitTestCreateValidIds.buildDataSetId(projectId, dataSetNumber))
+          .dataSetNumber(dataSetNumber)
+          .fileName("filename.txt")
+          .description(new I18nString("Beschreibung","Description"))
+          .title("Title")
+          .language("de")
+          .indexInDataSet(1)
           .build();
   }
   
   public static StudyAttachmentMetadata buildStudyAttachmentMetadata(String projectId) {
-    return new StudyAttachmentMetadataBuilder()
-          .withDataAcquisitionProjectId(projectId)
-          .withStudyId(UnitTestCreateValidIds.buildStudyId(projectId))
-          .withFileName("filename.txt")
-          .withDescription(new I18nString("Beschreibung","Description"))
-          .withTitle("Title")
-          .withLanguage("de")
-          .withType(StudyAttachmentTypes.METHOD_REPORT)
-          .withIndexInStudy(1)
+    return StudyAttachmentMetadata.builder()
+          .dataAcquisitionProjectId(projectId)
+          .studyId(UnitTestCreateValidIds.buildStudyId(projectId))
+          .fileName("filename.txt")
+          .description(new I18nString("Beschreibung","Description"))
+          .title("Title")
+          .language("de")
+          .type(StudyAttachmentTypes.METHOD_REPORT)
+          .indexInStudy(1)
           .build();
   }
  
   public static RelatedQuestion buildRelatedQuestion(String projectId, String questionNumber, String instrumentNumber) {
-    return new RelatedQuestionBuilder()
-        .withInstrumentNumber(instrumentNumber)
-        .withQuestionNumber(questionNumber)
-        .withInstrumentId(UnitTestCreateValidIds.buildInstrumentId(projectId, new Integer(instrumentNumber).intValue()))
-        .withRelatedQuestionStrings(new I18nStringBuilder()
-            .withDe("Related Question String DE")
-            .withEn("Related Question String EN")
+    return RelatedQuestion.builder()
+        .instrumentNumber(instrumentNumber)
+        .questionNumber(questionNumber)
+        .instrumentId(UnitTestCreateValidIds.buildInstrumentId(projectId, new Integer(instrumentNumber).intValue()))
+        .relatedQuestionStrings(I18nString.builder()
+            .de("Related Question String DE")
+            .en("Related Question String EN")
             .build())
         .build();
   }
   
   public static Person buildPerson(String firstName, String middleName, String lastName) {
-    
-    return new PersonBuilder()
-        .withFirstName(firstName)
-        .withMiddleName(middleName)
-        .withLastName(lastName)
+    return Person.builder()
+        .firstName(firstName)
+        .middleName(middleName)
+        .lastName(lastName)
         .build();
   }
 }

@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueItem;
-import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.builders.ElasticsearchUpdateQueueItemBuilder;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
 
 public class ElasticsearchUpdateQueueServiceTest extends AbstractTest {
@@ -55,12 +54,12 @@ public class ElasticsearchUpdateQueueServiceTest extends AbstractTest {
   @Test
   public void testLockedButOutdatedQueueItemIsProcessed() {
     ElasticsearchUpdateQueueItem outdatedItem =
-        new ElasticsearchUpdateQueueItemBuilder().withAction(ElasticsearchUpdateQueueAction.DELETE)
-          .withDocumentId("testId")
-          .withDocumentType(ElasticsearchType.variables)
-          .withUpdateStartedAt(LocalDateTime.now()
+        ElasticsearchUpdateQueueItem.builder().action(ElasticsearchUpdateQueueAction.DELETE)
+          .documentId("testId")
+          .documentType(ElasticsearchType.variables)
+          .updateStartedAt(LocalDateTime.now()
             .minusMinutes(11))
-          .withUpdateStartedBy("test")
+          .updateStartedBy("test")
           .build();
 
     itemRepository.insert(outdatedItem);

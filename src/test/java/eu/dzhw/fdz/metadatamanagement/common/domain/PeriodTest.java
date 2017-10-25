@@ -11,8 +11,6 @@ import java.time.LocalDate;
 
 import org.junit.Test;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.builders.PeriodBuilder;
-
 /**
  * @author Daniel Katzberg
  *
@@ -23,7 +21,7 @@ public class PeriodTest {
   public void testHashCode() {
 
     // Arrange
-    Period period = new PeriodBuilder().build();
+    Period period = Period.builder().build();
 
     // Act
     int hashCodeWithoutStartEnd = period.hashCode();
@@ -54,8 +52,8 @@ public class PeriodTest {
     LocalDate startTime2 = LocalDate.now()
       .minusDays(1);
     LocalDate endTime2 = LocalDate.now();
-    Period period1 = new PeriodBuilder().build();
-    Period period2 = new PeriodBuilder().build();
+    Period period1 = Period.builder().build();
+    Period period2 = Period.builder().build();
 
     // Act
     boolean checkNull = period1.equals(null);
