@@ -40,6 +40,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.Valid
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidResponseValueMustBeANumberOnNumericDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidResponseValueMustBeAnIsoDateOnDateDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidScaleLevel;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidStorageType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidVariableIdName;
 import io.searchbox.annotations.JestId;
 import lombok.AllArgsConstructor;
@@ -65,7 +66,7 @@ import lombok.ToString;
     })
 @ValidVariableIdName(message = "variable-management.error.variable.valid-variable-name")
 @ValidPanelIdentifier(message = "variable-management.error.variable.valid-panel-identifier")
-@ValidDerivedVariablesIdentifier(message = 
+@ValidDerivedVariablesIdentifier(message =
     "variable-management.error.variable.valid-derived-variables-identifier")
 @UniqueVariableNameInDataSet(message = "variable-management.error."
     + "variable.unique-variable-name-in-data-set")
@@ -109,7 +110,7 @@ import lombok.ToString;
 @Data
 @EqualsAndHashCode(callSuper = false, of = "id")
 @ToString(callSuper = true)
-@NoArgsConstructor 
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Variable extends AbstractRdcDomainObject {
@@ -121,37 +122,41 @@ public class Variable extends AbstractRdcDomainObject {
   @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOLLAR,
       message = "variable-management.error.variable.id.pattern")
   private String id;
-  
+
   @Indexed
   @NotEmpty(message = "variable-management.error.variable.data-acquisition-project.id.not-empty")
   private String dataAcquisitionProjectId;
-  
+
   @NotEmpty(message = "variable-management.error.variable.name.not-empty")
   @Size(max = StringLengths.SMALL, message = "variable-management.error.variable.name.size")
   @Pattern(regexp = Patterns.ALPHANUMERIC_WITH_UNDERSCORE_NO_NUMBER_AS_FIRST_SIGN,
       message = "variable-management.error.variable.name.pattern")
   private String name;
-  
+
   @NotNull(message = "variable-management.error.variable.label.not-null")
   @I18nStringSize(max = StringLengths.MEDIUM,
       message = "variable-management.error.variable.label.i18n-string-size")
   @I18nStringNotEmpty(message = "variable-management.error.variable.label.i18n-string-not-empty")
   private I18nString label;
-  
+
   @I18nStringSize(max = StringLengths.LARGE,
       message = "variable-management.error.variable.annotations.i18n-string-size")
   private I18nString annotations;
-  
+
   @Indexed
   @NotEmpty(message = "variable-management.error.variable.data-set-id-not-empty")
   private String dataSetId;
-  
+
   @NotNull(message = "variable-management.error.variable.data-set-number-not-null")
   private Integer dataSetNumber;
 
   @NotNull(message = "variable-management.error.variable.data-type.not-null")
   @ValidDataType(message = "variable-management.error.variable.data-type.valid-data-type")
   private I18nString dataType;
+
+  @NotNull(message = "variable-management.error.variable.storage-type.not-null")
+  @ValidStorageType(message = "variable-management.error.variable.storage-type.valid-storage-type")
+  private String storageType;
 
   @NotNull(message = "variable-management.error.variable.scaleLevel.not-null")
   @ValidScaleLevel(
@@ -165,19 +170,19 @@ public class Variable extends AbstractRdcDomainObject {
   private List<String> accessWays;
 
   private List<String> relatedVariables;
-  
+
   @NotNull(message = "variable-management.error.variable.data-set-index-not-null")
   private Integer indexInDataSet;
-  
+
   @NotEmpty(message = "variable-management.error.variable.survey-numbers-not-empty")
   private List<Integer> surveyNumbers;
- 
+
   @Size(max = StringLengths.MEDIUM,
       message = "variable-management.error.variable.panel-identifier-size")
   @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS,
       message = "variable-management.error.variable.panel-identifier-pattern")
   private String panelIdentifier;
-  
+
   @Size(max = StringLengths.MEDIUM,
       message = "variable-management.error.variable.derived-variables-identifier-size")
   @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS,
@@ -193,9 +198,11 @@ public class Variable extends AbstractRdcDomainObject {
 
   @Valid
   private Distribution distribution;
-  
+
   @Valid
   private List<RelatedQuestion> relatedQuestions;
+
+  private Boolean doNotDisplayThousandsSeparator = false;
 
   /* Foreign Keys */
   @Indexed
@@ -204,7 +211,7 @@ public class Variable extends AbstractRdcDomainObject {
 
   @Indexed
   private List<String> surveyIds;
-  
+
   public Variable(Variable variable) {
     super();
     BeanUtils.copyProperties(variable, this);

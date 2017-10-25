@@ -266,6 +266,10 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'Der Datentyp der Variable darf nicht leer sein!',
               'valid-data-type': 'Die Werte für Datentyp sind nicht gültig. Erlaubt in deutsch: string, numerisch, datum. Erlaubt in englisch: string, numeric, date.'
             },
+            'storage-type': {
+              'not-null': 'Der Storage Typ der Variable darf nicht leer sein!',
+              'valid-storage-type': 'Der Storage Typ ist ungültig. Erlaubt in sind: "logical", "integer", "double", "complex", "character", "raw", "list", "NULL", "closure", "special", "builtin", "environment", "S4", "symbol", "pairlist", "promise", "language", "char", "...", "any", "expression", "externalptr", "bytecode" und "weakref"!'
+            },
             'scaleLevel': {
               'valid-scale-level': 'Die Werte für das Skalenniveau sind nicht gültig. Erlaubt in deutsch: nominal, ordinal, intervall, verhältnis.Erlaubt in englisch: nominal, ordinal, interval, ratio.',
               'not-null': 'Das Skalenniveau einer Variable darf nicht leer sein!'
