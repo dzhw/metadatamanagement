@@ -101,7 +101,75 @@ angular.module('metadatamanagementApp').factory(
       },
       'related_publications': {
         'related-publication': '_id'
-      },
+      }
+    };
+
+    //Filter: No
+    //Query: No
+    var sortByCriteriaWithoutFilterWithoutQuery = {
+      'studies': [{
+            'id': {
+              'order': 'asc'
+            }
+          }]
+    };
+
+    //Filter: Yes
+    //Query: No
+    var sortByCriteriaWithFilterWithoutQuery = {
+      'studies': [{
+          '_id': {
+            'order': 'asc'
+          }
+        }]
+    };
+
+    //Filter: No
+    //Query: Yes
+    var sortByCriteriaWithoutFilterWithQuery = {
+      'studies': [
+        '_score'
+      ]
+    };
+
+    //Filter: Yes
+    //Query: Yes
+    var sortByCriteriaWithFilterWithQuery = {
+      'studies': [
+        '_score'
+      ]
+    };
+
+    //Returns the search criteria depending on filter and queryTerm.
+    var createSortByCriteria = function(elasticsearchType, filter, queryTerm) {
+
+      //Filter: No
+      //Query: No
+      if (CleanJSObjectService.isNullOrEmpty(filter) &&
+        CleanJSObjectService.isNullOrEmpty(queryTerm)) {
+        return sortByCriteriaWithoutFilterWithoutQuery[elasticsearchType];
+      }
+
+      //Filter: Yes
+      //Query: No
+      if (!CleanJSObjectService.isNullOrEmpty(filter) &&
+        CleanJSObjectService.isNullOrEmpty(queryTerm)) {
+        return sortByCriteriaWithFilterWithoutQuery[elasticsearchType];
+      }
+
+      //Filter: No
+      //Query: Yes
+      if (CleanJSObjectService.isNullOrEmpty(filter) &&
+        !CleanJSObjectService.isNullOrEmpty(queryTerm)) {
+        return sortByCriteriaWithoutFilterWithQuery[elasticsearchType];
+      }
+
+      //Filter: Yes
+      //Query: Yes
+      if (!CleanJSObjectService.isNullOrEmpty(filter) &&
+        !CleanJSObjectService.isNullOrEmpty(queryTerm)) {
+        return sortByCriteriaWithFilterWithQuery[elasticsearchType];
+      }
     };
 
     var createTermFilters = function(elasticsearchType, filter) {
@@ -147,7 +215,8 @@ angular.module('metadatamanagementApp').factory(
       createTermFilters: createTermFilters,
       removeIrrelevantFilters: removeIrrelevantFilters,
       getAvailableFilters: getAvailableFilters,
-      getHiddenFilters: getHiddenFilters
+      getHiddenFilters: getHiddenFilters,
+      createSortByCriteria: createSortByCriteria
     };
   }
 );

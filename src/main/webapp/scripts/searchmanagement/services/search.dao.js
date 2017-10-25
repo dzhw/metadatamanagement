@@ -211,7 +211,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
 
     return {
       search: function(queryterm, pageNumber, dataAcquisitionProjectId,
-        filter, elasticsearchType, pageSize, sortBy) {
+        filter, elasticsearchType, pageSize) {
         var query = {};
         query.preference = clientId;
         var studyId;
@@ -235,16 +235,10 @@ angular.module('metadatamanagementApp').service('SearchDao',
           'instrumentNumber', 'instrument.description', 'surveys.title',
           'language', 'subDataSets', 'accessWays', 'maxNumberOfObservations'
         ];
-        if (sortBy && sortBy !== '') {
-          query.body.sort = [];
-          sortBy.split(',').forEach(function(fieldName) {
-            var sortCriteria = {};
-            sortCriteria[fieldName] = {
-              'order': 'asc'
-            };
-            query.body.sort.push(sortCriteria);
-          });
-        }
+
+        query.body.sort = SearchFilterHelperService
+          .createSortByCriteria(elasticsearchType, filter, queryterm);
+
         //a query term
         if (!CleanJSObjectService.isNullOrEmpty(queryterm)) {
           query.body.query = {
