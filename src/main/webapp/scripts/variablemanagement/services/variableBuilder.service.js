@@ -7,7 +7,6 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
     VariableIdBuilderService, InstrumentIdBuilderService) {
     var buildVariable = function(variableFromExcel, variableFromJson, dataSet,
       variableIndex) {
-      console.log('VariableIndex: ' + variableIndex);
       var dataAcquisitionProjectId = dataSet.dataAcquisitionProjectId;
       var variableObj = {
         id: VariableIdBuilderService.buildVariableId(
