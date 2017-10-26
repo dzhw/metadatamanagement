@@ -44,40 +44,43 @@ import freemarker.template.TemplateExceptionHandler;
 
 /**
  * Access component for getting health information or registration or updates for dara and the doi.
- * 
+ *
  * @author Daniel Katzberg
  */
 @Service
 public class DaraService {
-  
+
   private final Logger log = LoggerFactory.getLogger(DaraService.class);
-  
+
   public static final String IS_ALiVE_ENDPOINT = "api/isAlive";
   public static final String REGISTRATION_ENDPOINT = "study/importXML";
-      
+
   @Autowired
   private MetadataManagementProperties metadataManagementProperties;
-  
+
   @Autowired
   private DataAcquisitionProjectRepository projectRepository;
-  
+
   @Autowired
   private StudyRepository studyRepository;
-  
+
   @Value(value = "classpath:templates/dara/register.xml.tmpl")
   private Resource registerXml;
-  
+
   @Autowired
   private Environment env;
-  
+
   private RestTemplate restTemplate;
-  
+
+  //Key for Register XML Template
+  private static final String KEY_REGISTER_XML_TMPL = "register.xml.tmpl";
+
   //Resource Type
   private static final String RESOURCE_TYPE_DATASET = "Dataset";
-  
+
   //Availability Controlled
-  private static final String AVAILABILITY_CONTROLLED_DELIVERY = "Delivery";  
-  
+  private static final String AVAILABILITY_CONTROLLED_DELIVERY = "Delivery";
+
   /**
    * Constructor for Dara Services. Set the Rest Template.
    */
@@ -86,83 +89,84 @@ public class DaraService {
     this.restTemplate.getMessageConverters()
       .add(0, new StringHttpMessageConverter(Charset.forName("UTF-8")));
   }
-  
+
   /**
-   * Check the dara health endpoint. 
+   * Check the dara health endpoint.
    * @return Returns the status of the dara server.
    */
   public boolean isDaraHealthy() {
-    
+
     final String daraHealthEndpoint = this.getApiEndpoint() + IS_ALiVE_ENDPOINT;
-      
-    ResponseEntity<String> result = 
+
+    ResponseEntity<String> result =
         this.restTemplate.getForEntity(daraHealthEndpoint, String.class);
-    
+
     return result.getStatusCode().equals(HttpStatus.OK);
   }
-  
+
   /**
    * Registers or updates a dataset with a given doi to dara.
    * @param projectId The id of the Project.
-   * @return The HttpStatus from Dara 
+   * @return The HttpStatus from Dara
    *        Returns a false, if something gone wrong.
    * @throws IOException the io exception for non readable xml file.
    * @throws TemplateException Exception for filling the template.
    */
-  public HttpStatus registerOrUpdateProjectToDara(String projectId) 
+  public HttpStatus registerOrUpdateProjectToDara(String projectId)
       throws IOException, TemplateException {
-    
+
     //Load Project
     DataAcquisitionProject project = this.projectRepository.findOne(projectId);
-        
+
     //Read register xml
     String registerXmlStr = IOUtils.toString(this.registerXml.getInputStream(), Charsets.UTF_8);
-    
+
     //Fill template
-    String filledTemplate = this.fillTemplate(registerXmlStr, 
-            this.getTemplateConfiguration(), 
-            this.getDataForTemplate(projectId, AVAILABILITY_CONTROLLED_DELIVERY));
-    
+    String filledTemplate = this.fillTemplate(registerXmlStr,
+            this.getTemplateConfiguration(),
+            this.getDataForTemplate(projectId, AVAILABILITY_CONTROLLED_DELIVERY),
+            KEY_REGISTER_XML_TMPL);
+
     //Send Rest Call for Registration
-    HttpStatus httpStatusFromDara = 
+    HttpStatus httpStatusFromDara =
         this.postToDaraImportXml(filledTemplate, project.getHasBeenReleasedBefore());
-    return httpStatusFromDara; 
+    return httpStatusFromDara;
   }
-  
+
   /**
-   * This is the kernel method for registration, update and unregister of a doi element. 
+   * This is the kernel method for registration, update and unregister of a doi element.
    * @param filledTemplate The filled and used template.
    * @param hasBeenReleasedBefore The parameter for the project, which is released before or not.
    * @return the HttpStatus from Dara.
    */
   private HttpStatus postToDaraImportXml(String filledTemplate, boolean hasBeenReleasedBefore) {
-    
+
     this.log.debug("XML Element to Dara: " + filledTemplate);
-    
+
     //Load Dara Information
-    final String daraEndpoint = 
+    final String daraEndpoint =
         this.metadataManagementProperties.getDara().getEndpoint() + REGISTRATION_ENDPOINT;
     final String daraUsername = this.metadataManagementProperties.getDara().getUsername();
     final String daraPassword = this.metadataManagementProperties.getDara().getPassword();
-        
+
     //Build Header
-    HttpHeaders headers = new HttpHeaders();    
+    HttpHeaders headers = new HttpHeaders();
     headers.add("Content-Type", "application/xml;charset=UTF-8");
     String auth = daraUsername + ":" + daraPassword;
     byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName(Charsets.UTF_8.name())));
     headers.add("Authorization", "Basic " + new String(encodedAuth, Charsets.UTF_8));
-    
+
     //Build
     UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(daraEndpoint)
         .queryParam("registration", Boolean.valueOf(!hasBeenReleasedBefore).toString());
-        
+
     //Build Request
     HttpEntity<String> request = new HttpEntity<>(filledTemplate, headers);
-    
+
     //Send Post
     //Info: result.getBody() has the registered DOI
     try {
-      ResponseEntity<String> result = 
+      ResponseEntity<String> result =
             this.restTemplate.postForEntity(builder.build().toUri(), request, String.class);
       log.debug("Response code from Dara: {}", result.getStatusCode());
       log.debug("Response body from Dara: {}", result.getBody());
@@ -171,7 +175,7 @@ public class DaraService {
       log.debug("HTTP Error durind Dara call", httpClientError);
       log.debug("Dara Response Body:\n" + httpClientError.getResponseBodyAsString());
       //Has been released is false? Something went wrong at the local save?
-      //Catch the second try for registring 
+      //Catch the second try for registring
       //Idempotent Method!
       if (httpClientError.getStatusCode().is4xxClientError()
           && httpClientError.getResponseBodyAsString()
@@ -184,68 +188,41 @@ public class DaraService {
   }
 
   /**
-   * This method set a registered doi at dara to not available. 
-   * 
-   * @param projectId The id of the project.
-   * @return The HttpStatus from Dara 
-   *        Returns a false, if something gone wrong. 
-   * @throws IOException the io exception for non readable xml file.
-   * @throws TemplateException Exception for filling the template.
-   */
-  //TODO Dkatzberg: Do we need this method?
-  public HttpStatus unregisterProjectToDara(String projectId) 
-      throws IOException, TemplateException {
-    //Load Project
-    DataAcquisitionProject project = this.projectRepository.findOne(projectId);
-        
-    //Read register xml
-    String registerXmlStr = IOUtils.toString(this.registerXml.getInputStream(), Charsets.UTF_8);
-    
-    //Fill template
-    String filledTemplate = this.fillTemplate(registerXmlStr, 
-            this.getTemplateConfiguration(), 
-            this.getDataForTemplate(projectId, AVAILABILITY_CONTROLLED_DELIVERY));
-    
-    //Send Rest Call for Registration
-    return this.postToDaraImportXml(filledTemplate, project.getHasBeenReleasedBefore()); 
-  }
-  
-  /**
    * Load all needed Data for the XML Templates. The data is callable in freemarker by:
-   *    study 
+   *    study
    *    releaseDate
    *    availabilityControlled
    *    resourceType
    * @param projectId The id of the project to find the study.
    * @param availabilityControlled The availability of the data.
-   * @return Returns a Map of names and the depending objects. 
-   *     If the key is 'study' so the study object is the value. 
+   * @return Returns a Map of names and the depending objects.
+   *     If the key is 'study' so the study object is the value.
    *     Study is the name for the object use in freemarker.
    */
-  private Map<String, Object> getDataForTemplate(String projectId, 
+  private Map<String, Object> getDataForTemplate(String projectId,
       String availabilityControlled) {
-    
+
     Map<String, Object> dataForTemplate = new HashMap<>();
-    
+
     //Get Study Information
-    Study study = this.studyRepository.findOneByDataAcquisitionProjectId(projectId);    
+    Study study = this.studyRepository.findOneByDataAcquisitionProjectId(projectId);
     dataForTemplate.put("study", study);
-    
+
     //Add Date
     DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
     dataForTemplate.put("releaseDate", formatter.format(LocalDate.now()));
-    
+
     //Add Availability Controlled
     dataForTemplate.put("availabilityControlled", availabilityControlled);
-    
+
     //Add Resource Type
     dataForTemplate.put("resourceType", RESOURCE_TYPE_DATASET);
-    
+
     dataForTemplate.put("isDaraTest", !env.acceptsProfiles(Constants.SPRING_PROFILE_PROD));
-    
+
     return dataForTemplate;
   }
-  
+
   /**
    * @return a configratution object for the registration.
    */
@@ -255,33 +232,34 @@ public class DaraService {
     templateConfiguration.setDefaultEncoding(StandardCharsets.UTF_8.toString());
     templateConfiguration.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
     templateConfiguration.setNumberFormat("0.######");
-    
+
     return templateConfiguration;
   }
-  
+
   /**
    * This method fills the xml templates.
    *
    * @param templateContent The content of a xml template.
    * @param templateConfiguration The configuration for freemarker.
-   * @param dataForTemplateThe data for a xml template. 
+   * @param dataForTemplateThe data for a xml template.
+   * @param fileName filename of the script which will be filled in this method.
    * @return The filled xml templates as byte array.
    * @throws IOException Handles IO Exception.
    * @throws TemplateException Handles template Exceptions.
    */
   private String fillTemplate(String templateContent,
-      Configuration templateConfiguration, Map<String, Object> dataForTemplate) 
+      Configuration templateConfiguration, Map<String, Object> dataForTemplate, String fileName)
           throws IOException, TemplateException {
     // Read Template and escape elements
-    Template texTemplate = new Template("xmlTemplate", templateContent, templateConfiguration);
+    Template texTemplate = new Template(fileName, templateContent, templateConfiguration);
     try (Writer stringWriter = new StringWriter()) {
       texTemplate.process(dataForTemplate, stringWriter);
-      
+
       stringWriter.flush();
-      return stringWriter.toString();      
+      return stringWriter.toString();
     }
   }
-  
+
   /**
    * Returns dara api endpont.
    * @return the api endpoint given by the configuration.
@@ -289,7 +267,7 @@ public class DaraService {
   public String getApiEndpoint() {
     return this.metadataManagementProperties.getDara().getEndpoint();
   }
-  
+
   public RestTemplate getRestTemplate() {
     return this.restTemplate;
   }

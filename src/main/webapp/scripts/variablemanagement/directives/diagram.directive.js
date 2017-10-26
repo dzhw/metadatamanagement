@@ -16,8 +16,8 @@ angular.module('metadatamanagementApp').directive('diagram',
         $timeout(function() {
           var layout = {
             margin: {
-              l: 35,
-              r: 35,
+              l: 40,
+              r: 40,
               t: 30,
               b: 30
             },

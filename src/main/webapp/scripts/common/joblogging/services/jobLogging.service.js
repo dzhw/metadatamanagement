@@ -126,8 +126,6 @@ angular.module('metadatamanagementApp').service('JobLoggingService',
     //log cancellation of the entire job
     var cancel = function(cancelMsg, translationParams, objectType) {
       job.state = 'cancelled';
-      job.errors++;
-      job.total++;
       job.logMessages.push({
         message: cancelMsg,
         translationParams: translationParams,
