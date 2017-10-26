@@ -48,7 +48,9 @@ angular.module('metadatamanagementApp').service('DataSetReportService',
                   .trim();
               }
               var messageParams = {
-                invalidValue: invalidValue
+                invalidValue: invalidValue,
+                entity: error.entity,
+                property: error.property
               };
               JobLoggingService.error({
                 message: error.message,
