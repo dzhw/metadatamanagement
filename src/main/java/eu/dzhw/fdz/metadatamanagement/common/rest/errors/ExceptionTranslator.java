@@ -89,7 +89,7 @@ public class ExceptionTranslator {
    * Handle Freemarker parsing errors.
    */
   @ExceptionHandler(ParseException.class)
-  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ResponseBody
   public ErrorListDto processFreemarkerParseError(ParseException ex) {
 
@@ -109,7 +109,7 @@ public class ExceptionTranslator {
    * Handle Freemarker invalid reference errors.
    */
   @ExceptionHandler(InvalidReferenceException.class)
-  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ResponseBody
   public ErrorListDto processFreemarkerParseError(InvalidReferenceException ex) {
 

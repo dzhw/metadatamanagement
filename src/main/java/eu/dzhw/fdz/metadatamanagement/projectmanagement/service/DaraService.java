@@ -276,14 +276,8 @@ public class DaraService {
   private String fillTemplate(String templateContent,
       Configuration templateConfiguration, Map<String, Object> dataForTemplate, String fileName) 
           throws IOException, TemplateException {
-    
-    String templateName = "xmlTemplate";
-    if (fileName != null && fileName.trim().length() > 0 ) {
-      templateName = fileName;
-    }
-    
     // Read Template and escape elements
-    Template texTemplate = new Template(templateName, templateContent, templateConfiguration);
+    Template texTemplate = new Template(fileName, templateContent, templateConfiguration);
     try (Writer stringWriter = new StringWriter()) {
       texTemplate.process(dataForTemplate, stringWriter);
       
