@@ -50,6 +50,7 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
           variableFromExcel.relatedVariables),
         label: variableFromJson.label,
         dataType: variableFromJson.dataType,
+        storageType: variableFromJson.storageType,
         scaleLevel: variableFromJson.scaleLevel,
         relatedQuestions: [],
         surveyNumbers: variableFromJson.surveyNumbers,
@@ -58,7 +59,9 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
         distribution: variableFromJson.distribution,
         dataSetId: DataSetIdBuilderService.buildDataSetId(
           dataAcquisitionProjectId, dataSet.dataSetNumber),
-        dataSetNumber: dataSet.dataSetNumber
+        dataSetNumber: dataSet.dataSetNumber,
+        doNotDisplayThousandsSeparator:
+          variableFromExcel.doNotDisplayThousandsSeparator
       };
       _.forEach(variableObj.surveyNumbers, function(number) {
         variableObj.surveyIds

@@ -42,6 +42,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.Valid
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidResponseValueMustBeANumberOnNumericDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidResponseValueMustBeAnIsoDateOnDateDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidScaleLevel;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidStorageType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidVariableIdName;
 import io.searchbox.annotations.JestId;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
@@ -145,6 +146,10 @@ public class Variable extends AbstractRdcDomainObject {
   @NotNull(message = "variable-management.error.variable.data-type.not-null")
   @ValidDataType(message = "variable-management.error.variable.data-type.valid-data-type")
   private I18nString dataType;
+  
+  @NotNull(message = "variable-management.error.variable.storage-type.not-null")
+  @ValidStorageType(message = "variable-management.error.variable.storage-type.valid-storage-type")
+  private String storageType;
 
   @NotNull(message = "variable-management.error.variable.scaleLevel.not-null")
   @ValidScaleLevel(
@@ -189,6 +194,8 @@ public class Variable extends AbstractRdcDomainObject {
   
   @Valid
   private List<RelatedQuestion> relatedQuestions;
+  
+  private Boolean doNotDisplayThousandsSeparator = false;
 
   /* Foreign Keys */
   @Indexed
@@ -275,6 +282,7 @@ public class Variable extends AbstractRdcDomainObject {
       .add("super", super.toString())
       .add("id", id)
       .add("dataType", dataType)
+      .add("storageType", storageType)
       .add("scaleLevel", scaleLevel)
       .add("name", name)
       .add("label", label)
@@ -294,6 +302,7 @@ public class Variable extends AbstractRdcDomainObject {
       .add("relatedQuestions",relatedQuestions)
       .add("panelIdentifier", panelIdentifier)
       .add("derivedVariablesIdentifier", derivedVariablesIdentifier)
+      .add("doNotDisplayThousandsSeparator", doNotDisplayThousandsSeparator)
       .toString();
   }
 
@@ -413,5 +422,21 @@ public class Variable extends AbstractRdcDomainObject {
 
   public void setDerivedVariablesIdentifier(String derivedVariablesIdentifier) {
     this.derivedVariablesIdentifier = derivedVariablesIdentifier;
+  }
+
+  public String getStorageType() {
+    return storageType;
+  }
+
+  public void setStorageType(String storageType) {
+    this.storageType = storageType;
+  }
+
+  public Boolean getDoNotDisplayThousandsSeparator() {
+    return doNotDisplayThousandsSeparator;
+  }
+
+  public void setDoNotDisplayThousandsSeparator(Boolean doNotDisplayThousandsSeparator) {
+    this.doNotDisplayThousandsSeparator = doNotDisplayThousandsSeparator;
   }
 }

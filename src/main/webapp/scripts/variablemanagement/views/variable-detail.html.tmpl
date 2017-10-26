@@ -219,7 +219,7 @@
              </md-card-header>
              <md-divider></md-divider>
              <div id="diagramContainer">
-               <diagram distribution="variable.distribution" datatype="variable.dataType['en']" type="variable.scaleLevel[currentLanguage]" language="currentLanguage" ng-cloak></diagram>
+               <diagram variable="variable" language="currentLanguage" ng-cloak></diagram>
              </div>
            </md-card>
          </div>
@@ -236,19 +236,19 @@
                  <div class="fdz-add-bottom-margin" ng-if="variable.distribution.validResponses">
                    {{'variable-management.detail.label.statistics.validResponses' | translate}}: {{variable.distribution.validResponses.length}}</div>
                  <div class="fdz-add-bottom-margin" ng-if="variable.distribution.statistics.minimum != null">
-                   {{'variable-management.detail.label.statistics.minimum' | translate}} <span katex>(min)</span>: {{variable.distribution.statistics.minimum | variableDataType: variable.dataType.en}}
+                   {{'variable-management.detail.label.statistics.minimum' | translate}} <span katex>(min)</span>: {{variable.distribution.statistics.minimum | formatResponse: variable}}
                  </div>
                  <div class="fdz-add-bottom-margin" ng-if="variable.distribution.statistics.maximum != null">
-                   {{'variable-management.detail.label.statistics.maximum' | translate}} <span katex>(max)</span>: {{variable.distribution.statistics.maximum | variableDataType: variable.dataType.en}}
+                   {{'variable-management.detail.label.statistics.maximum' | translate}} <span katex>(max)</span>: {{variable.distribution.statistics.maximum | formatResponse: variable}}
                  </div>
                  <h3 style="font-size: 18px; margin-top: 1.0em; margin-bottom: 0.5em;" ng-if="checkCentralTendencyElements()">
                    {{'variable-management.detail.label.central-tendency' | translate}}
                  </h3>
                  <div class="fdz-add-bottom-margin" ng-if="variable.distribution.statistics.meanValue != null">
-                   {{'variable-management.detail.label.statistics.mean-value' | translate}} <span katex>(\bar x)</span>: {{variable.distribution.statistics.meanValue | number:2}}
+                   {{'variable-management.detail.label.statistics.mean-value' | translate}} <span katex>(\bar x)</span>: {{variable.distribution.statistics.meanValue | formatResponse: variable:true}}
                  </div>
                   <div class="fdz-add-bottom-margin" ng-if="variable.distribution.statistics.median != null">
-                    {{'variable-management.detail.label.statistics.median' | translate}} <span katex>(\tilde x)</span>: {{variable.distribution.statistics.median | variableDataType: variable.dataType.en}}
+                    {{'variable-management.detail.label.statistics.median' | translate}} <span katex>(\tilde x)</span>: {{variable.distribution.statistics.median | formatResponse: variable}}
                   </div>
                   <div class="fdz-add-bottom-margin" ng-if="variable.distribution.statistics.mode != null">
                     {{'variable-management.detail.label.statistics.mode' | translate}} <span katex>(h)</span>: {{variable.distribution.statistics.mode}}
@@ -321,7 +321,7 @@
                 </thead>
                 <tbody>
                     <tr ng-class="{'fdz-table-last-row':$last}" ng-repeat-start="row in variable.distribution.validResponses" ng-hide="isRowHidden($index)">
-                        <td ng-class="{'fdz-table-number' : variable.dataType.en === 'numeric'}">{{row.value | variableDataType: variable.dataType.en}}{{row.code | number:0}}&nbsp;</td>
+                        <td ng-class="{'fdz-table-number' : variable.dataType.en === 'numeric'}">{{row.value | formatResponse: variable}}{{row.code | number:0}}&nbsp;</td>
                         <td display-i18n-string="row.label"></td>
                         <td class="fdz-table-number">&nbsp;</td>
                         <td class="fdz-table-number">{{row.absoluteFrequency | number:0}}&nbsp;</td>
@@ -330,7 +330,7 @@
                         <td class="fdz-table-number">{{row.relativeFrequency | number:2}} %
                         </td>
                     </tr>
-                    <tr ng-repeat-end ng-if="$index === 4 && variable.distribution.validResponses.length > 10" ng-hide="!notAllRowsVisible">
+                    <tr ng-repeat-end ng-if="$index === 4 && variable.distribution.validResponses.length > 10" ng-hide="!notAllRowsVisible" ng-click="toggleAllRowsVisible()">
                         <td ng-class="{'fdz-table-number' : variable.dataType.en === 'numeric'}">...</td>
                         <td>...</td>
                         <td class="fdz-table-number">...</td>
