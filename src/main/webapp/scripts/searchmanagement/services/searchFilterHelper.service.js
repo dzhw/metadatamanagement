@@ -107,27 +107,213 @@ angular.module('metadatamanagementApp').factory(
     //Filter: No
     //Query: No
     var sortByCriteriaWithoutFilterWithoutQuery = {
-      'studies': [{
-            'id': {
-              'order': 'asc'
-            }
-          }]
+      'studies': [
+        {
+          'id': {
+            'order': 'asc'
+          }
+        }
+      ],
+      'variables': [
+        {
+          'studyId': {
+            'order': 'asc'
+          }
+        },
+        {
+          'dataSetId': {
+            'order': 'asc'
+          }
+        },
+        {
+          'indexInDataSet': {
+            'order': 'asc'
+          }
+        }
+      ],
+      'surveys': [
+        {
+          'studyId': {
+            'order': 'asc'
+          }
+        },
+        {
+          'number': {
+            'order': 'asc'
+          }
+        }
+      ],
+      'questions': [
+        {
+          'studyId': {
+            'order': 'asc'
+          }
+        },
+        {
+          'instrumentNumber': {
+            'order': 'asc'
+          }
+        },
+        {
+          'indexInInstrument': {
+            'order': 'asc'
+          }
+        }
+      ],
+      'instruments': [
+        {
+          'studyId': {
+            'order': 'asc'
+          }
+        },
+        {
+          'number': {
+            'order': 'asc'
+          }
+        }
+      ],
+      'data_sets': [
+        {
+          'studyId': {
+            'order': 'asc'
+          }
+        },
+        {
+          'number': {
+            'order': 'asc'
+          }
+        }
+      ],
+      'related_publications': [
+        {
+          'year': {
+            'order': 'desc'
+          }
+        },
+        {
+          'title': {
+            'title': 'asc'
+          }
+        }
+      ]
     };
 
     //Filter: Yes
     //Query: No
     var sortByCriteriaWithFilterWithoutQuery = {
-      'studies': [{
-          '_id': {
+      'studies': [
+        {
+          'id': {
             'order': 'asc'
           }
-        }]
+        }
+      ],
+      'variables': [
+        {
+          'studyId': {
+            'order': 'asc'
+          }
+        },
+        {
+          'dataSetId': {
+            'order': 'asc'
+          }
+        },
+        {
+          'indexInDataSet': {
+            'order': 'asc'
+          }
+        }
+      ],
+      'surveys': [
+        {
+          'studyId': {
+            'order': 'asc'
+          }
+        },
+        {
+          'number': {
+            'order': 'asc'
+          }
+        }
+      ],
+      'questions': [
+        {
+          'studyId': {
+            'order': 'asc'
+          }
+        },
+        {
+          'instrumentNumber': {
+            'order': 'asc'
+          }
+        },
+        {
+          'number': {
+            'order': 'asc'
+          }
+        }
+      ],
+      'instruments': [
+        {
+          'studyId': {
+            'order': 'asc'
+          }
+        },
+        {
+          'number': {
+            'order': 'asc'
+          }
+        }
+      ],
+      'data_sets': [
+        {
+          'studyId': {
+            'order': 'asc'
+          }
+        },
+        {
+          'number': {
+            'order': 'asc'
+          }
+        }
+      ],
+      'related_publications': [
+        {
+          'year': {
+            'order': 'desc'
+          }
+        },
+        {
+          'title': {
+            'title': 'asc'
+          }
+        }
+      ]
     };
 
     //Filter: No
     //Query: Yes
     var sortByCriteriaWithoutFilterWithQuery = {
       'studies': [
+        '_score'
+      ],
+      'variables': [
+        '_score'
+      ],
+      'surveys': [
+        '_score'
+      ],
+      'questions': [
+        '_score'
+      ],
+      'instruments': [
+        '_score'
+      ],
+      'data_sets': [
+        '_score'
+      ],
+      'related_publications': [
         '_score'
       ]
     };
@@ -136,6 +322,24 @@ angular.module('metadatamanagementApp').factory(
     //Query: Yes
     var sortByCriteriaWithFilterWithQuery = {
       'studies': [
+        '_score'
+      ],
+      'variables': [
+        '_score'
+      ],
+      'surveys': [
+        '_score'
+      ],
+      'questions': [
+        '_score'
+      ],
+      'instruments': [
+        '_score'
+      ],
+      'data_sets': [
+        '_score'
+      ],
+      'related_publications': [
         '_score'
       ]
     };
