@@ -156,7 +156,7 @@ angular
       // Initialize angular-translate
       $translateProvider.preferredLanguage('de');
       $translateProvider.useCookieStorage();
-      $translateProvider.useSanitizeValueStrategy('escaped');
+      $translateProvider.useSanitizeValueStrategy(null);
       $translateProvider
         .addInterpolation('$translateMessageFormatInterpolation');
       $translateProvider
