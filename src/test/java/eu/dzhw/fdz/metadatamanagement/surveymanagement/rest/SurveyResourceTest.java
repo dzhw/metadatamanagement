@@ -65,6 +65,7 @@ public class SurveyResourceTest extends AbstractTest {
   public void setup() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(wac)
       .build();
+    elasticsearchAdminService.recreateAllIndices();
   }
 
   @After
