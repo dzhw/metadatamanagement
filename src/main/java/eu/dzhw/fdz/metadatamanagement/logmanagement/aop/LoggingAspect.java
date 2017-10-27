@@ -8,17 +8,15 @@ import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Aspect for logging execution of service and repository Spring components.
  */
 @Aspect
+@Slf4j
 public class LoggingAspect {
-
-  private final Logger log = LoggerFactory.getLogger(this.getClass());
-
   @Pointcut(
       "within(eu.dzhw.fdz.metadatamanagement.repository..*)"
       + " || within(eu.dzhw.fdz.metadatamanagement.service..*)"

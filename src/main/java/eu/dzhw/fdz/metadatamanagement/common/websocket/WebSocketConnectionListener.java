@@ -2,8 +2,6 @@ package eu.dzhw.fdz.metadatamanagement.common.websocket;
 
 import java.time.LocalDateTime;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
@@ -15,6 +13,7 @@ import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 import eu.dzhw.fdz.metadatamanagement.common.config.WebSocketConfig;
 import eu.dzhw.fdz.metadatamanagement.common.websocket.domain.ActiveWebsocketSession;
 import eu.dzhw.fdz.metadatamanagement.common.websocket.repository.ActiveWebSocketSessionRepository;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Listener logging new and closed web socket connections.
@@ -22,6 +21,7 @@ import eu.dzhw.fdz.metadatamanagement.common.websocket.repository.ActiveWebSocke
  * @author René Reitmann
  */
 @Component
+@Slf4j
 public class WebSocketConnectionListener {
   
   private static final String BROWSER = "browser";
@@ -31,8 +31,6 @@ public class WebSocketConnectionListener {
   
   @Autowired
   private ActiveWebSocketSessionRepository activeWebSocketSessionRepository;
-
-  private final Logger log = LoggerFactory.getLogger(WebSocketConnectionListener.class);
   
   /**
    * React on new web socket connections. 

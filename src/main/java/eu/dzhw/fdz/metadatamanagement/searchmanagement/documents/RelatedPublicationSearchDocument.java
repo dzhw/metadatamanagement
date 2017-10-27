@@ -12,12 +12,20 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.Relate
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.SurveySubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.VariableSubDocumentProjection;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * Representation of a related publication which is stored in elasticsearch.
  *
  * @author Daniel Katzberg
  */
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+@Getter
+@Setter
 public class RelatedPublicationSearchDocument extends RelatedPublication 
     implements SearchDocumentInterface {
   private List<StudySubDocument> studies = 
@@ -81,70 +89,5 @@ public class RelatedPublicationSearchDocument extends RelatedPublication
       this.variables = variables.stream()
           .map(VariableSubDocument::new).collect(Collectors.toList());      
     }
-  }
-
-  public List<StudySubDocument> getStudies() {
-    return studies;
-  }
-
-  public void setStudies(List<StudySubDocument> studies) {
-    this.studies = studies;
-  }
-
-  public List<QuestionSubDocument> getQuestions() {
-    return questions;
-  }
-
-  public void setQuestions(List<QuestionSubDocument> questions) {
-    this.questions = questions;
-  }
-
-  public List<InstrumentSubDocument> getInstruments() {
-    return instruments;
-  }
-
-  public void setInstruments(List<InstrumentSubDocument> instruments) {
-    this.instruments = instruments;
-  }
-
-  public List<SurveySubDocument> getSurveys() {
-    return surveys;
-  }
-
-  public void setSurveys(List<SurveySubDocument> surveys) {
-    this.surveys = surveys;
-  }
-
-  public List<DataSetSubDocument> getDataSets() {
-    return dataSets;
-  }
-
-  public void setDataSets(List<DataSetSubDocument> dataSets) {
-    this.dataSets = dataSets;
-  }
-
-  public List<VariableSubDocument> getVariables() {
-    return variables;
-  }
-
-  public void setVariables(List<VariableSubDocument> variables) {
-    this.variables = variables;
-  }
-
-  public String getRelease() {
-    return release;
-  }
-
-  public void setRelease(String release) {
-    this.release = release;
-  }
-
-  @Override
-  public I18nString getGuiLabels() {
-    return guiLabels;
-  }
-
-  public void setGuiLabels(I18nString guiLabels) {
-    this.guiLabels = guiLabels;
   }
 }

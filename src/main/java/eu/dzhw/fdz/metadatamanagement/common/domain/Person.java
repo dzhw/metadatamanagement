@@ -2,9 +2,10 @@ package eu.dzhw.fdz.metadatamanagement.common.domain;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.google.common.base.MoreObjects;
-
-import net.karneim.pojobuilder.GeneratePojoBuilder;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * A representation of a person. 
@@ -12,7 +13,10 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  * @author Daniel Katzberg
  *
  */
-@GeneratePojoBuilder(intoPackage = "eu.dzhw.fdz.metadatamanagement.common.domain.builders")
+@Data
+@NoArgsConstructor 
+@AllArgsConstructor
+@Builder
 public class Person {
 
   @NotEmpty(message = "global.error.person.first-name.not-empty")
@@ -22,42 +26,4 @@ public class Person {
   
   @NotEmpty(message = "global.error.person.last-name.not-empty")
   private String lastName;
-  
-  /*
-   * (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return MoreObjects.toStringHelper(this)
-      .add("firstName", firstName)
-      .add("middleName", middleName)
-      .add("lastName", lastName)
-      .toString();
-  }
-
-  /* GETTER / SETTER */
-  public String getFirstName() {
-    return firstName;
-  }
-
-  public void setFirstName(String firstName) {
-    this.firstName = firstName;
-  }
-
-  public String getMiddleName() {
-    return middleName;
-  }
-
-  public void setMiddleName(String middleName) {
-    this.middleName = middleName;
-  }
-
-  public String getLastName() {
-    return lastName;
-  }
-
-  public void setLastName(String lastName) {
-    this.lastName = lastName;
-  }
 }

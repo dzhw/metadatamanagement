@@ -9,8 +9,6 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.builders.I18nStringBuilder;
-
 /**
  * @author Daniel Katzberg
  *
@@ -20,7 +18,7 @@ public class I18nStringTest {
   @Test
   public void testHashCode() {
     // Arrange
-    I18nString i18nString = new I18nStringBuilder().build();
+    I18nString i18nString = I18nString.builder().build();
 
     // Act
     int hashCodeWithoutDeEn = i18nString.hashCode();
@@ -45,8 +43,8 @@ public class I18nStringTest {
     String de2 = "de2";
     String en1 = "en1";
     String en2 = "en2";
-    I18nString i18nString1 = new I18nStringBuilder().build();
-    I18nString i18nString2 = new I18nStringBuilder().build();
+    I18nString i18nString1 = I18nString.builder().build();
+    I18nString i18nString2 = I18nString.builder().build();
 
     // Act
     boolean checkNull = i18nString1.equals(null);

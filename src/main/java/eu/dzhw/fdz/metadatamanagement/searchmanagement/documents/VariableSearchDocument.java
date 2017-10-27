@@ -12,6 +12,10 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projec
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.SurveySubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * Representation of a variable which is stored in elasticsearch.
@@ -19,6 +23,10 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
  * @author René Reitmann
  * @author Daniel Katzberg
  */
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+@Getter
+@Setter
 public class VariableSearchDocument extends Variable implements SearchDocumentInterface {
   private DataSetSubDocument dataSet = null;
   private StudySubDocument study = null;
@@ -69,62 +77,5 @@ public class VariableSearchDocument extends Variable implements SearchDocumentIn
           .map(InstrumentSubDocument::new).collect(Collectors.toList());
     }
     this.release = release;
-  }
-
-  public DataSetSubDocument getDataSet() {
-    return dataSet;
-  }
-
-  public void setDataSet(DataSetSubDocument dataSet) {
-    this.dataSet = dataSet;
-  }
-
-  public StudySubDocument getStudy() {
-    return study;
-  }
-
-  public void setStudy(StudySubDocument study) {
-    this.study = study;
-  }
-
-  public List<RelatedPublicationSubDocument> getRelatedPublications() {
-    return relatedPublications;
-  }
-
-  public void setRelatedPublications(List<RelatedPublicationSubDocument> relatedPublications) {
-    this.relatedPublications = relatedPublications;
-  }
-
-  public List<SurveySubDocument> getSurveys() {
-    return surveys;
-  }
-
-  public void setSurveys(List<SurveySubDocument> surveys) {
-    this.surveys = surveys;
-  }
-
-  public List<InstrumentSubDocument> getInstruments() {
-    return instruments;
-  }
-
-  public void setInstruments(List<InstrumentSubDocument> instruments) {
-    this.instruments = instruments;
-  }
-
-  public Release getRelease() {
-    return release;
-  }
-
-  public void setRelease(Release release) {
-    this.release = release;
-  }
-
-  @Override
-  public I18nString getGuiLabels() {
-    return guiLabels;
-  }
-
-  public void setGuiLabels(I18nString guiLabels) {
-    this.guiLabels = guiLabels;
   }
 }

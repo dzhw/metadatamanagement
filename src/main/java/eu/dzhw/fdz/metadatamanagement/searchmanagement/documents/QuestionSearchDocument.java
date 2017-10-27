@@ -13,10 +13,18 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projec
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.SurveySubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.VariableSubDocumentProjection;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * Representation of an question which is stored in elasticsearch.
  */
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+@Getter
+@Setter
 public class QuestionSearchDocument extends Question implements SearchDocumentInterface {
   private StudySubDocument study = null;
   private InstrumentSubDocument instrument = null;
@@ -73,70 +81,5 @@ public class QuestionSearchDocument extends Question implements SearchDocumentIn
           .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());      
     }
     this.release = release;
-  }
-
-  public StudySubDocument getStudy() {
-    return study;
-  }
-
-  public void setStudy(StudySubDocument study) {
-    this.study = study;
-  }
-
-  public InstrumentSubDocument getInstrument() {
-    return instrument;
-  }
-
-  public void setInstrument(InstrumentSubDocument instrument) {
-    this.instrument = instrument;
-  }
-
-  public List<SurveySubDocument> getSurveys() {
-    return surveys;
-  }
-
-  public void setSurveys(List<SurveySubDocument> surveys) {
-    this.surveys = surveys;
-  }
-
-  public List<VariableSubDocument> getVariables() {
-    return variables;
-  }
-
-  public void setVariables(List<VariableSubDocument> variables) {
-    this.variables = variables;
-  }
-  
-  public List<DataSetSubDocument> getDataSets() {
-    return dataSets;
-  }
-
-  public void setDataSets(List<DataSetSubDocument> dataSets) {
-    this.dataSets = dataSets;
-  }
-
-  public List<RelatedPublicationSubDocument> getRelatedPublications() {
-    return relatedPublications;
-  }
-
-  public void setRelatedPublications(List<RelatedPublicationSubDocument> relatedPublications) {
-    this.relatedPublications = relatedPublications;
-  }
-
-  public Release getRelease() {
-    return release;
-  }
-
-  public void setRelease(Release release) {
-    this.release = release;
-  }
-  
-  @Override
-  public I18nString getGuiLabels() {
-    return guiLabels;
-  }
-
-  public void setGuiLabels(I18nString guiLabels) {
-    this.guiLabels = guiLabels;
   }
 }

@@ -11,14 +11,22 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpt
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidIsoLanguage;
-import net.karneim.pojobuilder.GeneratePojoBuilder;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * Metadata which will be stored in GridFS with each attachment for surveys.
- *
  */
-@GeneratePojoBuilder(
-    intoPackage = "eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.builders")
+@Data
+@EqualsAndHashCode(callSuper = false, of = "id")
+@ToString(callSuper = true)
+@NoArgsConstructor 
+@AllArgsConstructor
+@Builder
 public class SurveyAttachmentMetadata extends AbstractRdcDomainObject {
   @NotEmpty(message =
       "survey-management.error.survey-attachment-metadata.survey-id.not-empty")
@@ -63,69 +71,5 @@ public class SurveyAttachmentMetadata extends AbstractRdcDomainObject {
   @Override
   public String getId() {
     return "/public/files/surveys/" + surveyId + "/attachments/" + fileName;
-  }
-
-  public String getSurveyId() {
-    return surveyId;
-  }
-
-  public void setSurveyId(String surveyId) {
-    this.surveyId = surveyId;
-  }
-
-  public String getDataAcquisitionProjectId() {
-    return dataAcquisitionProjectId;
-  }
-
-  public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
-    this.dataAcquisitionProjectId = dataAcquisitionProjectId;
-  }
-
-  public I18nString getDescription() {
-    return description;
-  }
-
-  public void setDescription(I18nString description) {
-    this.description = description;
-  }
-
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
-  public String getLanguage() {
-    return language;
-  }
-
-  public void setLanguage(String language) {
-    this.language = language;
-  }
-
-  public String getFileName() {
-    return fileName;
-  }
-
-  public void setFileName(String fileName) {
-    this.fileName = fileName;
-  }
-
-  public Integer getSurveyNumber() {
-    return surveyNumber;
-  }
-
-  public void setSurveyNumber(Integer surveyNumber) {
-    this.surveyNumber = surveyNumber;
-  }
-
-  public Integer getIndexInSurvey() {
-    return indexInSurvey;
-  }
-
-  public void setIndexInSurvey(Integer indexInSurvey) {
-    this.indexInSurvey = indexInSurvey;
   }
 }

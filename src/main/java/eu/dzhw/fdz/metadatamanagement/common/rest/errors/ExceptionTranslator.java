@@ -199,8 +199,8 @@ public class ExceptionTranslator {
         (TreeTraversingParser) invalidFormatException.getProcessor();
 
     //Create Excel Parsing Error. Just the first will be returned
-    String domainObject = invalidFormatException.getPath().get(0).getFrom()
-        .getClass().getSimpleName();
+    String domainObject = ((Class<?>) invalidFormatException.getPath().get(0).getFrom())
+        .getSimpleName();
     String property = processor.getCurrentName();
     if (property == null) {
       property = invalidFormatException.getPath().get(0).getFieldName();
@@ -215,10 +215,10 @@ public class ExceptionTranslator {
         (UTF8StreamJsonParser) invalidFormatException.getProcessor();
 
     //Create Json Parsing Error. Just the first will be returned
-    try {
-
-      String domainObject = invalidFormatException.getPath().get(0).getFrom()
-          .getClass().getSimpleName();
+    try {            
+      String domainObject = ((Class<?>) invalidFormatException.getPath().get(0).getFrom())
+          .getSimpleName();
+      
       String property = processor.getCurrentName();
       if (property == null) {
         property = invalidFormatException.getPath().get(0).getFieldName();

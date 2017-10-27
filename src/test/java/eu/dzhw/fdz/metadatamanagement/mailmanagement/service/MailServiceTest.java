@@ -21,7 +21,6 @@ import com.icegreen.greenmail.util.ServerSetupTest;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.builders.UserBuilder;
 
 /**
  * @author Daniel Katzberg
@@ -48,8 +47,8 @@ public class MailServiceTest extends AbstractTest {
   @Test
   public void testSendActivationEmail() throws Exception {
     // Arrange
-    User user = new UserBuilder().withLangKey("de")
-      .withEmail("anyMail@localhost.com")
+    User user = User.builder().langKey("de")
+      .email("anyMail@localhost.com")
       .build();
 
     // Act
@@ -65,8 +64,8 @@ public class MailServiceTest extends AbstractTest {
   @Test
   public void testSendPasswordResetMail() throws InterruptedException, ExecutionException {
     // Arrange
-    User user = new UserBuilder().withLangKey("de")
-      .withEmail("anyMail@localhost.com")
+    User user = User.builder().langKey("de")
+      .email("anyMail@localhost.com")
       .build();
 
     // Act
