@@ -43,7 +43,7 @@ public class GenerationDetailsTest {
 
     // Assert
     assertThat(toString, is(
-        "GenerationDetails{description=I18nString{de='De Beschreibung', en='En Description'}, rule=Rule 123 to 234, ruleExpressionLanguage=R}"));
+        "GenerationDetails(description=I18nString(de=De Beschreibung, en=En Description), rule=Rule 123 to 234, ruleExpressionLanguage=R)"));
 
   }
 

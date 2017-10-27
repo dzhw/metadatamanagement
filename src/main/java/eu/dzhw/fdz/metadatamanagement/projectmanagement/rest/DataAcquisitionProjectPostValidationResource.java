@@ -1,7 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.rest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,6 +15,7 @@ import com.codahale.metrics.annotation.Timed;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.rest.dto.PostValidationErrorsDto;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.PostValidationService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * A Resource class for the post validation of data acquisition projects. It get the id of the
@@ -29,13 +28,10 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
  */
 @RestController
 @RequestMapping("/api")
+@Slf4j
 public class DataAcquisitionProjectPostValidationResource {
-
   @Autowired
   private PostValidationService postValidationService;
-
-  private final Logger log =
-      LoggerFactory.getLogger(DataAcquisitionProjectPostValidationResource.class);
 
   /**
    * POST /data-acquisition-projects/:id/post-validate -> Validate project by id.

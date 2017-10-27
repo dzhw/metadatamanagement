@@ -53,7 +53,7 @@ public class UserDto {
    */
   public UserDto(User user) {
     this(user.getLogin(), null, user.getFirstName(), user.getLastName(), user.getEmail(),
-        user.getActivated(), user.getLangKey(), user.getAuthorities()
+        user.isActivated(), user.getLangKey(), user.getAuthorities()
           .stream()
           .map(Authority::getName)
           .collect(Collectors.toSet()));

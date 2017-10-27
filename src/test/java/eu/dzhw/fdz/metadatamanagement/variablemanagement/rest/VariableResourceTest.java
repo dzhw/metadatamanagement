@@ -30,7 +30,6 @@ import com.google.gson.JsonSyntaxException;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
-import eu.dzhw.fdz.metadatamanagement.common.domain.builders.I18nStringBuilder;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
@@ -46,8 +45,6 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RuleExpressionLa
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ScaleLevels;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ValidResponse;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.MissingBuilder;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.ValidResponseBuilder;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 
 /**
@@ -342,10 +339,10 @@ public class VariableResourceTest extends AbstractTest {
       .getMissings()
       .get(0);
 
-    Missing value2 = new MissingBuilder().withCode(value1.getCode())
-      .withLabel(value1.getLabel())
-      .withAbsoluteFrequency(value1.getAbsoluteFrequency())
-      .withRelativeFrequency(value1.getRelativeFrequency())
+    Missing value2 = Missing.builder().code(value1.getCode())
+      .label(value1.getLabel())
+      .absoluteFrequency(value1.getAbsoluteFrequency())
+      .relativeFrequency(value1.getRelativeFrequency())
       .build();
 
     variable.getDistribution()
@@ -377,11 +374,11 @@ public class VariableResourceTest extends AbstractTest {
       .get(0);
     validResponse.setValue("123.456");
 
-    ValidResponse value2 = new ValidResponseBuilder().withValue(validResponse.getValue())
-      .withLabel(validResponse.getLabel())
-      .withAbsoluteFrequency(validResponse.getAbsoluteFrequency())
-      .withRelativeFrequency(validResponse.getRelativeFrequency())
-      .withValidRelativeFrequency(validResponse.getValidRelativeFrequency())
+    ValidResponse value2 = ValidResponse.builder().value(validResponse.getValue())
+      .label(validResponse.getLabel())
+      .absoluteFrequency(validResponse.getAbsoluteFrequency())
+      .relativeFrequency(validResponse.getRelativeFrequency())
+      .validRelativeFrequency(validResponse.getValidRelativeFrequency())
       .build();
 
     variable.getDistribution()
@@ -430,8 +427,8 @@ public class VariableResourceTest extends AbstractTest {
     
     Variable variable =
         UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var1", 1, surveyNumbers);
-    variable.setScaleLevel(new I18nStringBuilder().withDe("InvalidValue")
-      .withEn("InvalidValue")
+    variable.setScaleLevel(I18nString.builder().de("InvalidValue")
+      .en("InvalidValue")
       .build());
 
     // create the variable with a survey but without a project
@@ -467,8 +464,8 @@ public class VariableResourceTest extends AbstractTest {
     
     Variable variable =
         UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var1", 1, surveyNumbers);
-    variable.setDataType(new I18nStringBuilder().withDe("InvalidValue")
-      .withEn("InvalidValue")
+    variable.setDataType(I18nString.builder().de("InvalidValue")
+      .en("InvalidValue")
       .build());
 
     // create the variable with a survey but without a project
@@ -592,8 +589,8 @@ public class VariableResourceTest extends AbstractTest {
     Variable variable =
         UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var1", 1, surveyNumbers);
     // change scale level (code coverage)
-    variable.setScaleLevel(new I18nStringBuilder().withDe(ScaleLevels.ORDINAL.getDe())
-      .withEn(ScaleLevels.ORDINAL.getEn())
+    variable.setScaleLevel(I18nString.builder().de(ScaleLevels.ORDINAL.getDe())
+      .en(ScaleLevels.ORDINAL.getEn())
       .build());
 
     // create the variable with the given id
@@ -629,12 +626,12 @@ public class VariableResourceTest extends AbstractTest {
       .content(TestUtil.convertObjectToJsonBytes(variable)))
       .andExpect(status().isCreated());
 
-    variable.setLabel(new I18nStringBuilder().withDe("modified")
-      .withEn("modified")
+    variable.setLabel(I18nString.builder().de("modified")
+      .en("modified")
       .build());
     // with other scale level and data type (code coverage)
-    variable.setScaleLevel(new I18nStringBuilder().withDe(ScaleLevels.NOMINAL.getDe())
-      .withEn(ScaleLevels.NOMINAL.getEn())
+    variable.setScaleLevel(I18nString.builder().de(ScaleLevels.NOMINAL.getDe())
+      .en(ScaleLevels.NOMINAL.getEn())
       .build());
 
     // update the variable with the given id
@@ -843,13 +840,13 @@ public class VariableResourceTest extends AbstractTest {
       .setValidResponses(null);
     List<ValidResponse> validResponses = new ArrayList<>();
     validResponses
-      .add(new ValidResponseBuilder().withLabel(new I18nStringBuilder().withDe("Deutsches Label")
-        .withEn("English Label")
+      .add(ValidResponse.builder().label(I18nString.builder().de("Deutsches Label")
+        .en("English Label")
         .build())
-        .withAbsoluteFrequency(1234)
-        .withRelativeFrequency(87.5)
-        .withValidRelativeFrequency(88.9)
-        .withValue(LocalDateTime.now()
+        .absoluteFrequency(1234)
+        .relativeFrequency(87.5)
+        .validRelativeFrequency(88.9)
+        .value(LocalDateTime.now()
           .toString())
         .build());
 

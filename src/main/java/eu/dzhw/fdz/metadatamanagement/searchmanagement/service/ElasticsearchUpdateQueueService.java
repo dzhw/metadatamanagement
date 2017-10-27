@@ -9,8 +9,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.NotImplementedException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -57,6 +55,7 @@ import io.searchbox.core.Bulk;
 import io.searchbox.core.Bulk.Builder;
 import io.searchbox.core.Delete;
 import io.searchbox.core.Index;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Service which manages asynchronous Elasticsearch updates as a FIFO queue. Inserting an item into
@@ -67,10 +66,8 @@ import io.searchbox.core.Index;
  * @author Daniel Katzberg
  */
 @Service
+@Slf4j
 public class ElasticsearchUpdateQueueService {
-
-  private final Logger logger = LoggerFactory.getLogger(ElasticsearchUpdateQueueService.class);
-
   // id used to synchronize multiple jvm instances
   private String jvmId = ManagementFactory.getRuntimeMXBean().getName();
 
@@ -132,7 +129,7 @@ public class ElasticsearchUpdateQueueService {
       queueItemRepository
         .insert(new ElasticsearchUpdateQueueItem(documentId, documentType, action));
     } catch (DuplicateKeyException ex) {
-      logger.debug("Ignoring attempt to enqueue a duplicate action.");
+      log.debug("Ignoring attempt to enqueue a duplicate action.");
     }
   }
 
@@ -141,7 +138,7 @@ public class ElasticsearchUpdateQueueService {
    */
   @Scheduled(fixedRate = 1000 * 60, initialDelay = 1000 * 60)
   public void processAllQueueItems() {
-    logger.info("Starting processing of ElasticsearchUpdateQueue...");
+    log.info("Starting processing of ElasticsearchUpdateQueue...");
     LocalDateTime updateStart = LocalDateTime.now();
 
     queueItemRepository.lockAllUnlockedOrExpiredItems(updateStart, jvmId);
@@ -155,7 +152,7 @@ public class ElasticsearchUpdateQueueService {
       // check if there are more locked items to process
       lockedItems = queueItemRepository.findOldestLockedItems(jvmId, updateStart);
     }
-    logger.info("Finished processing of ElasticsearchUpdateQueue...");
+    log.info("Finished processing of ElasticsearchUpdateQueue...");
   }
 
   /**
@@ -555,7 +552,7 @@ public class ElasticsearchUpdateQueueService {
    * @param type the type of items to be processed.
    */
   public void processQueueItems(ElasticsearchType type) {
-    logger.info("Starting processing of ElasticsearchUpdateQueue for type: " + type.name());
+    log.info("Starting processing of ElasticsearchUpdateQueue for type: " + type.name());
     LocalDateTime updateStart = LocalDateTime.now();
 
     queueItemRepository.lockAllUnlockedOrExpiredItemsByType(updateStart, jvmId, type);
@@ -569,6 +566,6 @@ public class ElasticsearchUpdateQueueService {
       // check if there are more locked items to process
       lockedItems = queueItemRepository.findOldestLockedItemsByType(jvmId, updateStart, type);
     }
-    logger.info("Finished processing of ElasticsearchUpdateQueue for type: " + type.name());
+    log.info("Finished processing of ElasticsearchUpdateQueue for type: " + type.name());
   }
 }

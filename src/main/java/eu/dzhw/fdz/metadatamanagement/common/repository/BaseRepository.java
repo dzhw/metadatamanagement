@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.security.access.annotation.Secured;
 
@@ -21,7 +20,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
  */
 @NoRepositoryBean
 public interface BaseRepository<T, ID extends Serializable>
-    extends MongoRepository<T, ID>, QueryDslPredicateExecutor<T> {
+    extends MongoRepository<T, ID> {
   @Override
   @Secured(AuthoritiesConstants.PUBLISHER)
   void delete(T entity);

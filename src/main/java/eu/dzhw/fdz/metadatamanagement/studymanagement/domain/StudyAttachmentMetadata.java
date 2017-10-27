@@ -12,13 +12,22 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidIsoLanguage;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.validation.ValidStudyAttachmentType;
-import net.karneim.pojobuilder.GeneratePojoBuilder;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * Metadata which will be stored in GridFS with each attachment for studies.
  */
-@GeneratePojoBuilder(
-    intoPackage = "eu.dzhw.fdz.metadatamanagement.studymanagement.domain.builders")
+@Data
+@EqualsAndHashCode(callSuper = false, of = "id")
+@ToString(callSuper = true)
+@NoArgsConstructor 
+@AllArgsConstructor
+@Builder
 public class StudyAttachmentMetadata extends AbstractRdcDomainObject {
   @NotEmpty(message =
       "study-management.error.study-attachment-metadata.study-id.not-empty")
@@ -62,73 +71,8 @@ public class StudyAttachmentMetadata extends AbstractRdcDomainObject {
       "study-management.error.study-attachment-metadata.language.not-supported")
   private String language;
 
-  public String getStudyId() {
-    return studyId;
-  }
-
-  public void setStudyId(String studyId) {
-    this.studyId = studyId;
-  }
-
-  public String getDataAcquisitionProjectId() {
-    return dataAcquisitionProjectId;
-  }
-
-  public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
-    this.dataAcquisitionProjectId = dataAcquisitionProjectId;
-  }
-
-  public Integer getIndexInStudy() {
-    return indexInStudy;
-  }
-
-  public void setIndexInStudy(Integer indexInStudy) {
-    this.indexInStudy = indexInStudy;
-  }
-
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
-  public I18nString getDescription() {
-    return description;
-  }
-
-  public void setDescription(I18nString description) {
-    this.description = description;
-  }
-
-  public I18nString getType() {
-    return type;
-  }
-
-  public void setType(I18nString type) {
-    this.type = type;
-  }
-
-  public String getFileName() {
-    return fileName;
-  }
-
-  public void setFileName(String fileName) {
-    this.fileName = fileName;
-  }
-
-  public String getLanguage() {
-    return language;
-  }
-
-  public void setLanguage(String language) {
-    this.language = language;
-  }
-
   @Override
   public String getId() {
     return "/public/files/studies/" + studyId + "/attachments/" + fileName;
-  }
-  
+  }  
 }

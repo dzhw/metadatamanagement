@@ -11,8 +11,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.google.common.base.MoreObjects;
-
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
@@ -24,7 +22,12 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation.ValidDa
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation.ValidSurveyIdName;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation.ValidUniqueSurveyNumber;
 import io.searchbox.annotations.JestId;
-import net.karneim.pojobuilder.GeneratePojoBuilder;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * A Survey.
@@ -32,11 +35,15 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  * @author Daniel Katzberg
  */
 @Document(collection = "surveys")
-@GeneratePojoBuilder(
-    intoPackage = "eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.builders")
 @ValidSurveyIdName(message = "survey-management.error.survey.id.valid-survey-id-name")
 @ValidUniqueSurveyNumber(message = "survey-management.error"
     + ".survey.unique-survey-number")
+@Data
+@EqualsAndHashCode(callSuper = false, of = "id")
+@ToString(callSuper = true)
+@NoArgsConstructor 
+@AllArgsConstructor
+@Builder
 public class Survey extends AbstractRdcDomainObject {
 
   @Id
@@ -104,166 +111,8 @@ public class Survey extends AbstractRdcDomainObject {
       message = "variable-management.error.variable.annotations.i18n-string-size")
   private I18nString annotations;
 
-  public Survey() {
-    super();
-  }
-
   public Survey(Survey survey) {
     super();
     BeanUtils.copyProperties(survey, this);
-  }
-
-  @Override
-  public String getId() {
-    return id;
-  }
-
-  public String getDataAcquisitionProjectId() {
-    return dataAcquisitionProjectId;
-  }
-
-  public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
-    this.dataAcquisitionProjectId = dataAcquisitionProjectId;
-  }
-
-  public I18nString getTitle() {
-    return title;
-  }
-
-  public void setTitle(I18nString title) {
-    this.title = title;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public I18nString getPopulation() {
-    return population;
-  }
-
-  public void setPopulation(I18nString population) {
-    this.population = population;
-  }
-
-  public I18nString getSurveyMethod() {
-    return surveyMethod;
-  }
-
-  public void setSurveyMethod(I18nString surveyMethod) {
-    this.surveyMethod = surveyMethod;
-  }
-
-  public Integer getNumber() {
-    return number;
-  }
-
-  public void setNumber(Integer number) {
-    this.number = number;
-  }
-
-  /*
-   * (non-Javadoc)
-   * @see eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject#toString()
-   */
-  @Override
-  public String toString() {
-    return MoreObjects.toStringHelper(this)
-      .add("super", super.toString())
-      .add("id", id)
-      .add("title", title)
-      .add("fieldPeriod", fieldPeriod)
-      .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
-      .add("population", population)
-      .add("sample", sample)
-      .add("surveyMethod", surveyMethod)
-      .add("grossSampleSize", grossSampleSize)
-      .add("sampleSize", sampleSize)
-      .add("responseRate", responseRate)
-      .add("number", number)
-      .add("studyId", studyId)
-      .add("annotations", annotations)
-      .add("wave", wave)
-      .add("dataType", dataType)
-      .toString();
-  }
-
-  public Period getFieldPeriod() {
-    return fieldPeriod;
-  }
-
-  public void setFieldPeriod(Period fieldPeriod) {
-    this.fieldPeriod = fieldPeriod;
-  }
-
-  public I18nString getSample() {
-    return sample;
-  }
-
-  public void setSample(I18nString sample) {
-    this.sample = sample;
-  }
-
-  public Integer getGrossSampleSize() {
-    return grossSampleSize;
-  }
-
-
-  public void setGrossSampleSize(Integer grossSampleSize) {
-    this.grossSampleSize = grossSampleSize;
-  }
-
-
-  public Integer getSampleSize() {
-    return sampleSize;
-  }
-
-
-  public void setSampleSize(Integer sampleSize) {
-    this.sampleSize = sampleSize;
-  }
-
-
-  public Double getResponseRate() {
-    return responseRate;
-  }
-
-
-  public void setResponseRate(Double responseRate) {
-    this.responseRate = responseRate;
-  }
-
-
-  public String getStudyId() {
-    return studyId;
-  }
-
-
-  public void setStudyId(String studyId) {
-    this.studyId = studyId;
-  }
-
-  public I18nString getAnnotations() {
-    return annotations;
-  }
-
-  public void setAnnotations(I18nString annotations) {
-    this.annotations = annotations;
-  }
-
-  public Integer getWave() {
-    return wave;
-  }
-
-  public void setWave(Integer wave) {
-    this.wave = wave;
-  }
-
-  public I18nString getDataType() {
-    return dataType;
-  }
-
-  public void setDataType(I18nString dataType) {
-    this.dataType = dataType;
   }
 }

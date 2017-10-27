@@ -24,8 +24,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ImageType;
-import eu.dzhw.fdz.metadatamanagement.common.domain.builders.I18nStringBuilder;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
@@ -126,8 +126,8 @@ public class QuestionResourceTest extends AbstractTest {
       .content(TestUtil.convertObjectToJsonBytes(question)))
       .andExpect(status().isCreated());
     
-      question.setQuestionText(new I18nStringBuilder().withDe("Angepasst")
-          .withEn("Different Value")
+      question.setQuestionText(I18nString.builder().de("Angepasst")
+          .en("Different Value")
           .build());
       
     // update the Question with the given id
@@ -167,8 +167,8 @@ public class QuestionResourceTest extends AbstractTest {
       .andExpect(status().isCreated());
 
     // set inconsistent type
-    question.setType(new I18nStringBuilder().withDe(QuestionTypes.OPEN.getDe())
-      .withEn("Bad Value")
+    question.setType(I18nString.builder().de(QuestionTypes.OPEN.getDe())
+      .en("Bad Value")
       .build());
 
     // update the Question with the given id

@@ -9,8 +9,6 @@ import java.util.List;
 import javax.annotation.PreDestroy;
 
 import org.mongeez.Mongeez;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -35,6 +33,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
 
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.OAuth2AuthenticationReadConverter;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Configure the mongo db client instance. 
@@ -43,10 +42,8 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.OAuth2Authentica
 @Configuration
 @EnableMongoRepositories("eu.dzhw.fdz.metadatamanagement.**.repository")
 @EnableMongoAuditing(auditorAwareRef = "springSecurityAuditorAware")
+@Slf4j
 public class MongoDbConfiguration extends AbstractMongoConfiguration {
-
-  private final Logger log = LoggerFactory.getLogger(MongoDbConfiguration.class);
-
   private MongoProperties mongoProperties;
 
   private Environment environment;
