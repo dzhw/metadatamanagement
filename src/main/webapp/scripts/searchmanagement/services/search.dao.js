@@ -4,7 +4,7 @@
 
 angular.module('metadatamanagementApp').service('SearchDao',
   function(ElasticSearchClient, CleanJSObjectService, Principal,
-    LanguageService, StudyIdBuilderService, SearchFilterHelperService,
+    LanguageService, StudyIdBuilderService, SearchHelperService,
     clientId) {
     var addAdditionalShouldQueries = function(elasticsearchType, query,
       boolQuery) {
@@ -236,7 +236,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
           'language', 'subDataSets', 'accessWays', 'maxNumberOfObservations'
         ];
 
-        query.body.sort = SearchFilterHelperService
+        query.body.sort = SearchHelperService
           .createSortByCriteria(elasticsearchType, filter, queryterm);
 
         //a query term
@@ -329,11 +329,11 @@ angular.module('metadatamanagementApp').service('SearchDao',
 
         if (!CleanJSObjectService.isNullOrEmpty(filter)) {
           if (!query.body.query.bool.filter) {
-            query.body.query.bool.filter = SearchFilterHelperService
+            query.body.query.bool.filter = SearchHelperService
             .createTermFilters(elasticsearchType, filter);
           } else {
             query.body.query.bool.filter = _.concat(
-              query.body.query.bool.filter, SearchFilterHelperService
+              query.body.query.bool.filter, SearchHelperService
               .createTermFilters(elasticsearchType, filter));
           }
         }

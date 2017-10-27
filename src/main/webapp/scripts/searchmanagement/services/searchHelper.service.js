@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').factory(
-  'SearchFilterHelperService',
+  'SearchHelperService',
   function(CleanJSObjectService) {
     var keyMapping = {
       'studies': {
