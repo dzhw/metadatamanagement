@@ -10,8 +10,7 @@ import static org.junit.Assert.assertThat;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * This helper class supports reflection for unit tests.
@@ -19,10 +18,8 @@ import org.slf4j.LoggerFactory;
  * @author Daniel Katzberg
  *
  */
+@Slf4j
 public class UnitTestReflectionHelper {
-
-  private static Logger LOGGER = LoggerFactory.getLogger(UnitTestReflectionHelper.class);
-
   /**
    * This method will return by reflection a declared method. The method has an accessible of true.
    * 
@@ -32,13 +29,13 @@ public class UnitTestReflectionHelper {
    */
   public static Method getDeclaredMethodForTestInvocation(Class<?> clazz, String methodName) {
 
-    LOGGER.debug("Class: " + clazz.getSimpleName() + " with method " + methodName);
+    log.debug("Class: " + clazz.getSimpleName() + " with method " + methodName);
 
     // Look for declaredMethod
     Method method = null;
     for (Method eachMethod : clazz.getDeclaredMethods()) {
 
-      LOGGER.debug("Class: " + clazz.getSimpleName() + " with check method |" + eachMethod.getName()
+      log.debug("Class: " + clazz.getSimpleName() + " with check method |" + eachMethod.getName()
           + "|=|" + methodName + "|");
 
       if (eachMethod.getName()
@@ -69,7 +66,7 @@ public class UnitTestReflectionHelper {
   public static Field getDeclaredFieldForTestInvocation(Class<?> clazz, String fieldName)
       throws NoSuchFieldException, SecurityException {
     
-    LOGGER.debug("Class: " + clazz.getSimpleName() + " with field " + fieldName);
+    log.debug("Class: " + clazz.getSimpleName() + " with field " + fieldName);
     
     // check for found method
     Field field = clazz.getDeclaredField(fieldName);

@@ -12,8 +12,6 @@ import java.time.LocalDateTime;
 
 import org.junit.Test;
 
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.builders.UserBuilder;
-
 /**
  * @author Daniel Katzberg
  *
@@ -23,8 +21,8 @@ public class UserTests {
   @Test
   public void testActivationKey() {
     // Arrange
-    User user1 = new UserBuilder().withLogin("1")
-      .withActivationKey("Key")
+    User user1 = User.builder().login("1")
+      .activationKey("Key")
       .build();
 
     // Act
@@ -37,12 +35,12 @@ public class UserTests {
   public void testEquals() {
 
     // Arrange
-    User user1 = new UserBuilder().withLogin("1")
+    User user1 = User.builder().login("1")
       .build();
-    User user1_1 = new UserBuilder().withLogin("1")
-      .withActivationKey("Key")
+    User user1_1 = User.builder().login("1")
+      .activationKey("Key")
       .build();
-    User user2 = new UserBuilder().withLogin("2")
+    User user2 = User.builder().login("2")
       .build();
 
     // Act
@@ -62,26 +60,9 @@ public class UserTests {
   }
 
   @Test
-  public void testHashCode() {
-    // Arrange
-    User user1 = new UserBuilder().withLogin("1")
-      .build();
-    User user2 = new UserBuilder().withLogin(null)
-      .build();
-
-    // Act
-    int hashCodeWithLogin = user1.hashCode();
-    int hashCodeWithoutLogin = user2.hashCode();
-
-    // Assert
-    assertThat(hashCodeWithLogin, not(0));
-    assertThat(hashCodeWithoutLogin, is(0));
-  }
-
-  @Test
   public void testAbstractAuditingEntity() {
     // Arrange
-    User userFieldsFromAbstractAuditing = new UserBuilder().build();
+    User userFieldsFromAbstractAuditing = User.builder().build();
 
     // Act
     userFieldsFromAbstractAuditing.setCreatedBy("CreatedBy");

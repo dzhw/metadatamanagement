@@ -8,8 +8,6 @@ import java.nio.charset.Charset;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -40,15 +38,14 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdmi
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * REST controller for getting the search results.
  */
 @RestController
+@Slf4j
 public class SearchResource {
-
-  private final Logger log = LoggerFactory.getLogger(SearchResource.class);
-
   private RestTemplate restTemplate;
 
   private String connectionUrl;

@@ -5,11 +5,12 @@ import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import com.google.common.base.MoreObjects;
-
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.UniqueCode;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.UniqueValue;
-import net.karneim.pojobuilder.GeneratePojoBuilder;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Domain object of the ValueSummary. Represent sums for all values of the variable.
@@ -17,8 +18,10 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  * @author Daniel Katzberg
  *
  */
-@GeneratePojoBuilder(
-    intoPackage = "eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders")
+@Data
+@NoArgsConstructor 
+@AllArgsConstructor
+@Builder
 public class Distribution {
 
   @NotNull(message =
@@ -50,81 +53,4 @@ public class Distribution {
       "variable-management.error.distribution.valid-responses.unique-value")
   @Valid
   private List<ValidResponse> validResponses;
-
-
-  /*
-   * (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return MoreObjects.toStringHelper(this)
-      .add("totalAbsoluteFrequency", totalAbsoluteFrequency)
-      .add("totalValidAbsoluteFrequency", totalValidAbsoluteFrequency)
-      .add("totalValidRelativeFrequency", totalValidRelativeFrequency)
-      .add("histogram", histogram)
-      .add("statistics", statistics)
-      .add("missings", missings)
-      .add("validResponses", validResponses)
-      .toString();
-  }
-
-  /*
-   * GETTER / SETTER
-   */
-  public Integer getTotalAbsoluteFrequency() {
-    return totalAbsoluteFrequency;
-  }
-
-  public void setTotalAbsoluteFrequency(Integer totalAbsoluteFrequency) {
-    this.totalAbsoluteFrequency = totalAbsoluteFrequency;
-  }
-
-  public Integer getTotalValidAbsoluteFrequency() {
-    return totalValidAbsoluteFrequency;
-  }
-
-  public void setTotalValidAbsoluteFrequency(Integer totalValidAbsoluteFrequency) {
-    this.totalValidAbsoluteFrequency = totalValidAbsoluteFrequency;
-  }
-
-  public Double getTotalValidRelativeFrequency() {
-    return totalValidRelativeFrequency;
-  }
-
-  public void setTotalValidRelativeFrequency(Double totalValidRelativeFrequency) {
-    this.totalValidRelativeFrequency = totalValidRelativeFrequency;
-  }
-
-  public Statistics getStatistics() {
-    return statistics;
-  }
-
-  public void setStatistics(Statistics statistics) {
-    this.statistics = statistics;
-  }
-
-  public List<Missing> getMissings() {
-    return missings;
-  }
-
-  public void setMissings(List<Missing> missings) {
-    this.missings = missings;
-  }
-
-  public List<ValidResponse> getValidResponses() {
-    return validResponses;
-  }
-
-  public void setValidResponses(List<ValidResponse> validResponses) {
-    this.validResponses = validResponses;
-  }
-
-  public Histogram getHistogram() {
-    return histogram;
-  }
-
-  public void setHistogram(Histogram histogram) {
-    this.histogram = histogram;
-  }
 }

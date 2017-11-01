@@ -4,8 +4,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,15 +16,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Authenticate a user from the database.
  */
 @Component("userDetailsService")
+@Slf4j
 public class UserDetailsServiceImpl implements UserDetailsService {
-
-  private final Logger log = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
-
   @Autowired
   private UserRepository userRepository;
 
@@ -37,7 +34,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     String lowercaseLogin = login.toLowerCase(LocaleContextHolder.getLocale());
     Optional<User> userFromDatabase = userRepository.findOneByLogin(lowercaseLogin);
     return userFromDatabase.map(user -> {
-      if (!user.getActivated()) {
+      if (!user.isActivated()) {
         throw new UserNotActivatedException("User " + lowercaseLogin + " was not activated");
       }
       Set<GrantedAuthority> grantedAuthorities = user.getAuthorities()

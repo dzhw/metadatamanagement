@@ -6,12 +6,13 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.google.common.base.MoreObjects;
-
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
-import net.karneim.pojobuilder.GeneratePojoBuilder;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * The value includes the value itself, a label and frequencies. There are no calculations of the
@@ -19,8 +20,10 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  * 
  * @author Daniel Katzberg
  */
-@GeneratePojoBuilder(
-    intoPackage = "eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders")
+@Data
+@NoArgsConstructor 
+@AllArgsConstructor
+@Builder
 public class ValidResponse {
 
   @I18nStringSize(max = StringLengths.LARGE,
@@ -43,61 +46,4 @@ public class ValidResponse {
   @NotNull(
       message = "variable-management.error.valid-response.validRelativeFrequency.not-null")
   private Double validRelativeFrequency;
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return MoreObjects.toStringHelper(this)
-      .add("label", label)
-      .add("absoluteFrequency", absoluteFrequency)
-      .add("relativeFrequency", relativeFrequency)
-      .add("value", value)
-      .add("validRelativeFrequency", validRelativeFrequency)
-      .toString();
-  }
-
-  /* GETTER / SETTER */
-  public I18nString getLabel() {
-    return label;
-  }
-
-  public void setLabel(I18nString label) {
-    this.label = label;
-  }
-
-  public Integer getAbsoluteFrequency() {
-    return absoluteFrequency;
-  }
-
-  public void setAbsoluteFrequency(Integer absoluteFrequency) {
-    this.absoluteFrequency = absoluteFrequency;
-  }
-
-  public Double getRelativeFrequency() {
-    return relativeFrequency;
-  }
-
-  public void setRelativeFrequency(Double relativeFrequency) {
-    this.relativeFrequency = relativeFrequency;
-  }
-
-  public String getValue() {
-    return value;
-  }
-
-  public void setValue(String value) {
-    this.value = value;
-  }
-
-  public Double getValidRelativeFrequency() {
-    return validRelativeFrequency;
-  }
-
-  public void setValidRelativeFrequency(Double validRelativeFrequency) {
-    this.validRelativeFrequency = validRelativeFrequency;
-  }
 }

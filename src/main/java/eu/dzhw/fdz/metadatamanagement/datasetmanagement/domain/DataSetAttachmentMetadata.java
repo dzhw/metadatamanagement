@@ -11,14 +11,23 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpt
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidIsoLanguage;
-import net.karneim.pojobuilder.GeneratePojoBuilder;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * Metadata which will be stored in GridFS with each attachment for data sets.
  *
  */
-@GeneratePojoBuilder(
-    intoPackage = "eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.builders")
+@Data
+@EqualsAndHashCode(callSuper = false, of = "id")
+@ToString(callSuper = true)
+@NoArgsConstructor 
+@AllArgsConstructor
+@Builder
 public class DataSetAttachmentMetadata extends AbstractRdcDomainObject {
   @NotEmpty(message =
       "data-set-management.error.data-set-attachment-metadata.data-set-id.not-empty")
@@ -63,70 +72,5 @@ public class DataSetAttachmentMetadata extends AbstractRdcDomainObject {
   @Override
   public String getId() {
     return "/public/files/data-sets/" + dataSetId + "/attachments/" + fileName;
-  }
-
-  /* GETTER / SETTER */
-  public String getDataSetId() {
-    return dataSetId;
-  }
-
-  public String getDataAcquisitionProjectId() {
-    return dataAcquisitionProjectId;
-  }
-
-  public I18nString getDescription() {
-    return description;
-  }
-
-  public String getTitle() {
-    return title;
-  }
-
-  public String getLanguage() {
-    return language;
-  }
-
-  public String getFileName() {
-    return fileName;
-  }
-
-  public Integer getDataSetNumber() {
-    return dataSetNumber;
-  }
-
-  public void setDataSetId(String dataSetId) {
-    this.dataSetId = dataSetId;
-  }
-
-  public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
-    this.dataAcquisitionProjectId = dataAcquisitionProjectId;
-  }
-
-  public void setDescription(I18nString description) {
-    this.description = description;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
-  public void setLanguage(String language) {
-    this.language = language;
-  }
-
-  public void setFileName(String fileName) {
-    this.fileName = fileName;
-  }
-
-  public void setDataSetNumber(Integer dataSetNumber) {
-    this.dataSetNumber = dataSetNumber;
-  }
-
-  public Integer getIndexInDataSet() {
-    return indexInDataSet;
-  }
-
-  public void setIndexInDataSet(Integer indexInDataSet) {
-    this.indexInDataSet = indexInDataSet;
   }
 }

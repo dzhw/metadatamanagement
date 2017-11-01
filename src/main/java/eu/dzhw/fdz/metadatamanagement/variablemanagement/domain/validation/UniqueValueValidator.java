@@ -6,21 +6,17 @@ import java.util.List;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ValidResponse;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Ensure that value.valueClass is unique within the variable.
  * 
  * @author René Reitmann
  */
+@Slf4j
 public class UniqueValueValidator
     implements ConstraintValidator<UniqueValue, List<ValidResponse>> {
-
-  private final Logger log = LoggerFactory.getLogger(UniqueValueValidator.class);
-  
   /*
    * (non-Javadoc)
    * 

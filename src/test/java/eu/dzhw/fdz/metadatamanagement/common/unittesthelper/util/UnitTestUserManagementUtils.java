@@ -10,17 +10,15 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.Authority;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.builders.UserBuilder;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.CustomUserDetails;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * This class has helper / utils methods for unit tests.
@@ -28,10 +26,8 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.CustomUserDetails;
  * @author Daniel Katzberg
  *
  */
+@Slf4j
 public class UnitTestUserManagementUtils<T> {
-
-  private final Logger log = LoggerFactory.getLogger(UnitTestUserManagementUtils.class);
-
   /**
    * @param object The object for validation.
    * @param validator The validator for the validation
@@ -59,13 +55,13 @@ public class UnitTestUserManagementUtils<T> {
     authority.setName(AuthoritiesConstants.USER);
     authorities.add(authority);
 
-    return new UserBuilder().withLogin("test")
-      .withFirstName("john")
-      .withLastName("Doe")
-      .withLangKey("de")
-      .withEmail("john.doe@testmail.test")
-      .withAuthorities(authorities)
-      .withActivated(false)
+    return User.builder().login("test")
+      .firstName("john")
+      .lastName("Doe")
+      .langKey("de")
+      .email("john.doe@testmail.test")
+      .authorities(authorities)
+      .activated(false)
       .build();
   }
 
