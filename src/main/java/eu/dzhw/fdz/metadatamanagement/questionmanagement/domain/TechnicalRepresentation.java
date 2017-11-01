@@ -4,10 +4,11 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.google.common.base.MoreObjects;
-
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
-import net.karneim.pojobuilder.GeneratePojoBuilder;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Technical Representation of a Question. It contains the type, 
@@ -15,8 +16,10 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  * @author Daniel Katzberg
  *
  */
-@GeneratePojoBuilder(
-     intoPackage = "eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.builders")
+@Data
+@NoArgsConstructor 
+@AllArgsConstructor
+@Builder
 public class TechnicalRepresentation {
   
   @NotEmpty(message = "question-management.error.technical-representation.type.not-empty")
@@ -33,42 +36,4 @@ public class TechnicalRepresentation {
   @Size(max = StringLengths.X_LARGE, 
       message = "question-management.error.technical-representation.source.size")
   private String source;
-
-  /*
-   * (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return MoreObjects.toStringHelper(this)
-      .add("type", type)
-      .add("language", language)
-      .add("source", source)
-      .toString();
-  }
-
-  /* GETTER / SETTER */
-  public String getType() {
-    return type;
-  }
-
-  public void setType(String type) {
-    this.type = type;
-  }
-
-  public String getLanguage() {
-    return language;
-  }
-
-  public void setLanguage(String language) {
-    this.language = language;
-  }
-
-  public String getSource() {
-    return source;
-  }
-
-  public void setSource(String source) {
-    this.source = source;
-  }
 }

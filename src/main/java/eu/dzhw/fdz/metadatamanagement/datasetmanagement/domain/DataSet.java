@@ -14,8 +14,6 @@ import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.google.common.base.MoreObjects;
-
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
@@ -27,7 +25,12 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.ValidD
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.ValidDataSetType;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.ValidFormat;
 import io.searchbox.annotations.JestId;
-import net.karneim.pojobuilder.GeneratePojoBuilder;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * Data Set.
@@ -36,12 +39,16 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  *
  */
 @Document(collection = "data_sets")
-@GeneratePojoBuilder(
-    intoPackage = "eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.builders")
 @ValidDataSetIdName(message = "data-set-management.error.data-set.id.valid-data-set-id-name")
 @UniqueDatasetNumberInProject(
     message = "data-set-management.error.data-set.unique-data-set-number-in-project")
 @CompoundIndex(def = "{number: 1, dataAcquisitionProjectId: 1}", unique = true)
+@Data
+@EqualsAndHashCode(callSuper = false, of = "id")
+@ToString(callSuper = true)
+@NoArgsConstructor 
+@AllArgsConstructor
+@Builder
 public class DataSet extends AbstractRdcDomainObject {
   
   @Id
@@ -93,123 +100,8 @@ public class DataSet extends AbstractRdcDomainObject {
           + "sub-data-sets.access-way-unique-within-data-set")
   private List<SubDataSet> subDataSets;
 
-  public DataSet() {
-    super();
-  }
-  
   public DataSet(DataSet dataSet) {
     super();
     BeanUtils.copyProperties(dataSet, this);
-  }
-  
-  @Override
-  public String getId() {
-    return this.id;
-  }
-  
-  public String getDataAcquisitionProjectId() {
-    return dataAcquisitionProjectId;
-  }
-
-  public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
-    this.dataAcquisitionProjectId = dataAcquisitionProjectId;
-  }
-
-  public I18nString getDescription() {
-    return description;
-  }
-
-  public void setDescription(I18nString description) {
-    this.description = description;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public Integer getNumber() {
-    return number;
-  }
-
-  public void setNumber(Integer number) {
-    this.number = number;
-  }
-
-  public I18nString getFormat() {
-    return format;
-  }
-
-  public void setFormat(I18nString format) {
-    this.format = format;
-  }
-  
-  /*
-   * (non-Javadoc)
-   * @see eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject#toString()
-   */
-  @Override
-  public String toString() {
-    return MoreObjects.toStringHelper(this)
-      .add("super", super.toString())
-      .add("id", id)
-      .add("description", description)
-      .add("type", type)
-      .add("surveyNumbers", surveyNumbers)
-      .add("number", number)
-      .add("format", format)
-      .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
-      .add("studyId", studyId)
-      .add("surveyIds", surveyIds)
-      .add("subDataSets", subDataSets)
-      .add("annotations", annotations)
-      .toString();
-  }
-
-  public I18nString getType() {
-    return type;
-  }
-  
-  public void setType(I18nString type) {
-    this.type = type;
-  }
-
-  public List<Integer> getSurveyNumbers() {
-    return surveyNumbers;
-  }
-
-  public void setSurveyNumbers(List<Integer> surveyNumbers) {
-    this.surveyNumbers = surveyNumbers;
-  }
-
-  public List<String> getSurveyIds() {
-    return surveyIds;
-  }
-
-  public void setSurveyIds(List<String> surveyIds) {
-    this.surveyIds = surveyIds;
-  }
-  
-  public List<SubDataSet> getSubDataSets() {
-    return subDataSets;
-  }
-
-  public void setSubDataSets(List<SubDataSet> subDataSets) {
-    this.subDataSets = subDataSets;
-  }
-
-  public String getStudyId() {
-    return studyId;
-  }
-
-  public void setStudyId(String studyId) {
-    this.studyId = studyId;
-  }
-
-  public I18nString getAnnotations() {
-    return annotations;
-  }
-
-  public void setAnnotations(I18nString annotations) {
-    this.annotations = annotations;
   }
 }

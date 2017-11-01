@@ -10,8 +10,6 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.lang.CharEncoding;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -24,6 +22,7 @@ import org.thymeleaf.spring4.SpringTemplateEngine;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.JHipsterProperties;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Service for sending e-mails.
@@ -33,10 +32,8 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
  * </p>
  */
 @Service
+@Slf4j
 public class MailService {
-
-  private final Logger log = LoggerFactory.getLogger(MailService.class);
-
   @Autowired
   private JHipsterProperties jhipsterProperties;
 

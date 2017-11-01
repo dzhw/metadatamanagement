@@ -8,13 +8,14 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.google.common.base.MoreObjects;
-
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
-import net.karneim.pojobuilder.GeneratePojoBuilder;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * The release includes all additional information for a release of a data acquisition project. It
@@ -23,8 +24,10 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  * 
  * @author Daniel Katzberg
  */
-@GeneratePojoBuilder(
-    intoPackage = "eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.builders")
+@Data
+@NoArgsConstructor 
+@AllArgsConstructor
+@Builder
 public class Release {
   
   @NotEmpty(message = "data-acquisition-project." 
@@ -41,43 +44,4 @@ public class Release {
   @I18nStringSize(max = StringLengths.LARGE, 
       message = "data-acquisition-project.error.release.notes.i18n-string-size")
   private I18nString notes;
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return MoreObjects.toStringHelper(this)
-      .add("version", version)
-      .add("date", date)
-      .add("notes", notes)
-      .toString();
-  }
-
-  /* GETTER / SETTER */
-  public String getVersion() {
-    return version;
-  }
-
-  public void setVersion(String version) {
-    this.version = version;
-  }
-
-  public LocalDateTime getDate() {
-    return date;
-  }
-
-  public void setDate(LocalDateTime date) {
-    this.date = date;
-  }
-
-  public I18nString getNotes() {
-    return notes;
-  }
-
-  public void setNotes(I18nString notes) {
-    this.notes = notes;
-  }
 }

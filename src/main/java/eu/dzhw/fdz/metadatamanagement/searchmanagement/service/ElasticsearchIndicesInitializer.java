@@ -8,8 +8,6 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ResourceLoader;
@@ -22,6 +20,7 @@ import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchIndicesVersion;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchIndicesVersionRepository;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Bean which recreates all elasticsearch indices on container start
@@ -31,10 +30,8 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchI
  */
 @Component
 @Profile("!" + Constants.SPRING_PROFILE_UNITTEST)
+@Slf4j
 public class ElasticsearchIndicesInitializer {
-  
-  private final Logger log = LoggerFactory.getLogger(ElasticsearchIndicesInitializer.class);
-  
   @Autowired
   private ResourceLoader resourceLoader;
   

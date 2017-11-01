@@ -10,11 +10,14 @@ import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.google.common.base.MoreObjects;
-
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
-import net.karneim.pojobuilder.GeneratePojoBuilder;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * Elasticsearch indices are updated asynchronously by processing these queue items.
@@ -22,14 +25,18 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  * @author René Reitmann
  */
 @Document(collection = "elasticsearch_update_queue_item")
-@GeneratePojoBuilder(
-    intoPackage = "eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.builders")
 @CompoundIndexes({
     @CompoundIndex(def = "{documentType: 1, documentId: 1, action: 1}",
         unique = true),
     @CompoundIndex(def = "{updateStartedAt: 1, updateStartedBy: 1, createdDate: 1}"),
     @CompoundIndex(def = "{updateStartedAt: 1, updateStartedBy: 1, documentType: 1,"
         + " createdDate: 1}", name = "locked_items_per_type")})
+@Data
+@EqualsAndHashCode(callSuper = false, of = "id")
+@ToString(callSuper = true)
+@NoArgsConstructor 
+@AllArgsConstructor
+@Builder
 public class ElasticsearchUpdateQueueItem extends AbstractRdcDomainObject {
 
   /* Domain Object Attributes */
@@ -48,10 +55,6 @@ public class ElasticsearchUpdateQueueItem extends AbstractRdcDomainObject {
 
   @NotNull
   private ElasticsearchUpdateQueueAction action;
-
-  public ElasticsearchUpdateQueueItem() {
-    // default constructor for spring data
-  }
   
   /**
    * Construct a queue item with the mandatory params.
@@ -65,76 +68,4 @@ public class ElasticsearchUpdateQueueItem extends AbstractRdcDomainObject {
     this.documentType = documentType;
     this.action = action;
   }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see eu.dzhw.fdz.metadatamanagement.domain.AbstractRdcDomainObject#getId()
-   */
-  @Override
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public ElasticsearchType getDocumentType() {
-    return documentType;
-  }
-
-  public void setDocumentType(ElasticsearchType documentType) {
-    this.documentType = documentType;
-  }
-
-  public String getDocumentId() {
-    return documentId;
-  }
-
-  public void setDocumentId(String documentId) {
-    this.documentId = documentId;
-  }
-
-  public LocalDateTime getUpdateStartedAt() {
-    return updateStartedAt;
-  }
-
-  public void setUpdateStartedAt(LocalDateTime updateStartedAt) {
-    this.updateStartedAt = updateStartedAt;
-  }
-
-  public ElasticsearchUpdateQueueAction getAction() {
-    return action;
-  }
-
-  public void setAction(ElasticsearchUpdateQueueAction action) {
-    this.action = action;
-  }
-
-  public String getUpdateStartedBy() {
-    return updateStartedBy;
-  }
-
-  public void setUpdateStartedBy(String updateStartedBy) {
-    this.updateStartedBy = updateStartedBy;
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see eu.dzhw.fdz.metadatamanagement.domain.AbstractRdcDomainObject#toString()
-   */
-  @Override
-  public String toString() {
-    return MoreObjects.toStringHelper(this)
-      .add("super", super.toString())
-      .add("documentType", documentType)
-      .add("documentId", documentId)
-      .add("updateStartedAt", updateStartedAt)
-      .add("action", action)
-      .add("updateStartedBy", updateStartedBy)
-      .toString();
-  }
-
 }

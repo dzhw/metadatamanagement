@@ -1,7 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.stereotype.Repository;
 
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
@@ -14,7 +13,6 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType
 @Repository
 public interface ElasticsearchUpdateQueueItemRepository
     extends MongoRepository<ElasticsearchUpdateQueueItem, String>,
-    QueryDslPredicateExecutor<ElasticsearchUpdateQueueItem>,
     ElasticsearchUpdateQueueItemRepositoryCustom {
   
   ElasticsearchUpdateQueueItem findOneByDocumentTypeAndDocumentIdAndAction(

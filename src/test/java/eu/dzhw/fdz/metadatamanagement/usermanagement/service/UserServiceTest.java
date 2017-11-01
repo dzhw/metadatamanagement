@@ -16,7 +16,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestUserManagementUtils;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.builders.UserBuilder;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.service.util.RandomUtil;
@@ -135,16 +134,16 @@ public class UserServiceTest extends AbstractTest {
   public void testFindNotActivatedUsersByCreationDateBefore() {
     // Arrange
     LocalDateTime now = LocalDateTime.now();
-    User user1 = new UserBuilder().withLogin("user1login")
-      .withPassword(this.passwordEncoder.encode("User1Password"))
-      .withCreatedDate(now.minusDays(4))
-      .withActivated(false)
-      .withEmail("user1@dzhw.eu")
+    User user1 = User.builder().login("user1login")
+      .password(this.passwordEncoder.encode("User1Password"))
+      .activated(false)
+      .email("user1@dzhw.eu")
       .build();
-    User user2 = new UserBuilder().withLogin("user2login")
-      .withPassword(this.passwordEncoder.encode("User2Password"))
-      .withActivated(false)
-      .withEmail("user2@dzhw.eu")
+    user1.setCreatedDate(now.minusDays(4));
+    User user2 = User.builder().login("user2login")
+      .password(this.passwordEncoder.encode("User2Password"))
+      .activated(false)
+      .email("user2@dzhw.eu")
       .build();
 
     // Update User 1
@@ -205,11 +204,11 @@ public class UserServiceTest extends AbstractTest {
   public void testChangePassword() {
     // Arrange
     LocalDateTime now = LocalDateTime.now();
-    User user = new UserBuilder().withLogin("user1login")
-      .withPassword(this.passwordEncoder.encode("User1Password"))
-      .withCreatedDate(now.minusDays(4))
-      .withActivated(false)
+    User user = User.builder().login("user1login")
+      .password(this.passwordEncoder.encode("User1Password"))
+      .activated(false)
       .build();
+    user.setCreatedDate(now.minusDays(4));
     user = this.userRepository.save(user);
     UnitTestUserManagementUtils.login("user1login", "User1Password");
 

@@ -21,8 +21,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
-import eu.dzhw.fdz.metadatamanagement.common.domain.builders.I18nStringBuilder;
-import eu.dzhw.fdz.metadatamanagement.common.domain.builders.PeriodBuilder;
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
@@ -30,7 +30,6 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisiti
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.builders.SurveyBuilder;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
@@ -65,6 +64,7 @@ public class SurveyResourceTest extends AbstractTest {
   public void setup() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(wac)
       .build();
+    elasticsearchAdminService.recreateAllIndices();
   }
 
   @After
@@ -106,7 +106,7 @@ public class SurveyResourceTest extends AbstractTest {
     rdcProjectRepository.save(project);
 
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-    survey.setDataType(new I18nStringBuilder().withDe("Mixed Methods").withEn("Mixed Methods").build());
+    survey.setDataType(I18nString.builder().de("Mixed Methods").en("Mixed Methods").build());
 
     // create the survey with the given id but with wrong period
     mockMvc.perform(put(API_SURVEYS_URI + "/" + survey.getId())
@@ -135,13 +135,13 @@ public class SurveyResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     rdcProjectRepository.save(project);
 
-    Survey survey = new SurveyBuilder().withId("testId")
-      .withDataAcquisitionProjectId(project.getId())
-      .withTitle(new I18nStringBuilder().withDe("titel")
-        .withEn("title")
+    Survey survey = Survey.builder().id("testId")
+      .dataAcquisitionProjectId(project.getId())
+      .title(I18nString.builder().de("titel")
+        .en("title")
         .build())
-      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
-        .withEnd(LocalDate.now()
+      .fieldPeriod(Period.builder().start(LocalDate.now())
+        .end(LocalDate.now()
           .minusDays(1))
         .build())
       .build();
@@ -159,8 +159,8 @@ public class SurveyResourceTest extends AbstractTest {
     rdcProjectRepository.save(project);
 
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-    survey.setFieldPeriod(new PeriodBuilder().withStart(null)
-        .withEnd(null)
+    survey.setFieldPeriod(Period.builder().start(null)
+        .end(null)
       .build());
 
     // create the survey with the given id but with an unlimited period
@@ -173,13 +173,13 @@ public class SurveyResourceTest extends AbstractTest {
   public void testCreateSurveyWithInvalidProject() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
 
-    Survey survey = new SurveyBuilder().withId("testId")
-      .withDataAcquisitionProjectId(project.getId())
-      .withTitle(new I18nStringBuilder().withDe("titel")
-        .withEn("title")
+    Survey survey = Survey.builder().id("testId")
+      .dataAcquisitionProjectId(project.getId())
+      .title(I18nString.builder().de("titel")
+        .en("title")
         .build())
-      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
-        .withEnd(LocalDate.now()
+      .fieldPeriod(Period.builder().start(LocalDate.now())
+        .end(LocalDate.now()
           .plusDays(1))
         .build())
       .build();
@@ -192,13 +192,13 @@ public class SurveyResourceTest extends AbstractTest {
 
   @Test
   public void testCreateSurveyEmptyProject() throws Exception {
-    Survey survey = new SurveyBuilder().withId("testId")
-      .withDataAcquisitionProjectId(null)
-      .withTitle(new I18nStringBuilder().withDe("titel")
-        .withEn("title")
+    Survey survey = Survey.builder().id("testId")
+      .dataAcquisitionProjectId(null)
+      .title(I18nString.builder().de("titel")
+        .en("title")
         .build())
-      .withFieldPeriod(new PeriodBuilder().withStart(LocalDate.now())
-        .withEnd(LocalDate.now()
+      .fieldPeriod(Period.builder().start(LocalDate.now())
+        .end(LocalDate.now()
           .plusDays(1))
         .build())
       .build();
