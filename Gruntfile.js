@@ -105,194 +105,201 @@ module.exports = function(grunt) {
         }
       },
       htmlangular: {
-        options: {
-          reportpath: 'target/html-angular-validate-report.json',
-          reportCheckstylePath: 'target/' +
-            'html-angular-validate-report-checkstyle.xml',
-          tmplext: '.html.tmpl',
-          customtags: [
-            'jh-*',
-            'uib-*',
-            'password-strength-bar',
-            'nvd3',
-            'loading',
-            'md-content',
-            'md-sidenav',
-            'md-toolbar',
-            'md-toast',
-            'md-dialog',
-            'md-autocomplete',
-            'variable-search-result',
-            'survey-search-result',
-            'question-search-result',
-            'dataset-search-result',
-            'instrument-search-result',
-            'md-progress-linear',
-            'md-divider'
-          ],
-          relaxerror: [
-            'The “date” input type is not supported in all browsers.' +
-            ' Please be sure to test, and consider using a polyfill.',
-            'Bad value “file” for attribute “type” on element “button”.',
-            'Element “dl” not allowed as child of' +
-            ' element “pre” in this context.',
-            'Element “md-progress-linear” not allowed as child of ' +
-            'element “body” in this context. (Suppressing further ' +
-            'errors from this subtree.)',
-            'Element “md-content” not allowed as child of element' +
-            ' “body” in this context. (Suppressing further errors ' +
-            'from this subtree.)',
-            'Element “md-card” not allowed as child of element' +
-            ' “body” in this context. (Suppressing further errors ' +
-            'from this subtree.)', 'Attribute “layout” not allowed on' +
-            ' element “div” at this point.',
-            'Attribute “layout-gt-sm” not' +
-            ' allowed on element “div” at this point.',
-            'Element “md-card” ' +
-            'not allowed as child of element “div” in this context. ' +
-            '(Suppressing further errors from this subtree.)',
-            'Section lacks heading. Consider using “h2”-“h6” elements' +
-            ' to add identifying headings to all sections.',
-            'Attribute “flex” not allowed on element “div” at this point.',
-            'Element “md-toolbar” not allowed as child of element “div” in ' +
-            'this context. (Suppressing further errors from this subtree.)',
-            'Attribute “layout” not allowed on element “body” at this point.',
-            'Attribute “block-ui” not allowed on element “body” at this point.',
-            'Attribute “has-any-authority” not allowed on element “div” at' +
-            ' this point.',
-            'Element “md-button” not allowed as child of element “div” in' +
-            ' this context. (Suppressing further errors from this subtree.)',
-            'This document appears to be written in',
-            'Element “md-dialog” not allowed as child of element “body” in' +
-            'this context. (Suppressing further errors from this subtree.)',
-            'Element “variable-search-result” not allowed as child of element' +
-            '“div” in this context. (Suppressing further errors from this sub' +
-            'tree.)',
-            'Element “survey-search-result” not allowed as child of element' +
-            '“div” in this context. (Suppressing further errors from this sub' +
-            'tree.)',
-            'Element “question-search-result” not allowed as child of element' +
-            '“div” in this context. (Suppressing further errors from this sub' +
-            'tree.)',
-            'Element “study-search-result” not allowed as child of element ' +
-            '“div” in this context. ' +
-            '(Suppressing further errors from this subtree.)',
-            'Element “dataset-search-result” not allowed as child of element' +
-            '“div” in this context. (Suppressing further errors from this sub' +
-            'tree.)',
-            'Element “related-publication-search-result” not allowed as child' +
-            ' of element “div” in this context. (Suppressing further errors' +
-            ' from this subtree.)',
-            'Attribute “layout-align” not allowed on element “div” at this' +
-            ' point.',
-            'Element “md-card” not allowed as child of element “a” in this' +
-            ' context. (Suppressing further errors from this subtree.)',
-            'Attribute “uib-pagination” not allowed on element' +
-            ' “ul” at this point.',
-            'Attribute “next-text” not allowed on element “ul” at this point.',
-            'Attribute “previous-text” not allowed on element' +
-            ' “ul” at this point.',
-            'Attribute “total-items” not allowed on element' +
-            ' “ul” at this point.',
-            'Attribute “max-size” not allowed on element “ul” at this point.',
-            'Attribute “items-per-page” not allowed on element' +
-            ' “ul” at this point.',
-            'Consider adding a “lang” attribute to the “html” start tag to' +
-            ' declare the language of this document.',
-            'Element “md-icon” not allowed as child of element “div” in this' +
-            ' context. (Suppressing further errors from this subtree.)',
-            'Attribute “layout-margin” not ' +
-            'allowed on element “div” at this point.',
-            'Attribute “block-ui” not allowed on element “div” at this point.',
-            'Element “md-virtual-repeat-container” not allowed as child of ' +
-            'element “div” in this context. (Suppressing further errors ' +
-            'from this subtree.)', 'Attribute “items-per-pageobject” ' +
-            'not allowed on element “ul” at this point.',
-            'Consider avoiding viewport values that prevent ' +
-            'users from resizing documents.', 'Attribute' +
-            ' “md-highlight-text” not allowed on element “span” at this point.',
-            'Attribute “layout-padding” not allowed on ' +
-            'element “div” at this point.', 'Attribute “hljs” not ' +
-            'allowed on element “div” at this point.', 'Attribute ' +
-            '“hljs-language” not allowed on element “div” at this point.',
-            'Attribute “hljs-source” not allowed on element “div” at this ' +
-            'point.',
-            'Attribute “katex” not allowed on element “span” at ' +
-            'this point.',
-            'Element “diagram” not allowed as child of element' +
-            ' “div” in this context.', 'Bad value “{{row.language}}” for ' +
-            'attribute “lang” on element “td”: Subtags must not exceed 8 ' +
-            'characters in length.', 'Bad value “{{currentLanguage}}” for ' +
-            'attribute “lang” on element “html”: Subtags must not exceed 8 ' +
-            'characters in length.', 'Bad value “global.toolbarHeader.' +
-            'search” for attribute “translate” on element “span”.',
-            'Bad value “global.toolbarHeader.default” for attribute ' +
-            '“translate” on element “span”.', 'Bad value ' +
-            '“search-management.cards” for attribute “translate” ' +
-            'on element “span”.',
-            'Bad value “{{ctrl.relatedPublication.language}}” for attribute ' +
-            '“lang” on element “h1”: Subtags must not exceed 8 characters in ' +
-            'length.',
-            'Bad value “{{ctrl.relatedPublication.language}}” for attribute ' +
-            '“lang” on element “span”: Subtags must not exceed 8 characters ' +
-            'in length.',
-            'Bad value “{{searchResult.language}}” for attribute “lang” on ' +
-            'element “div”: Subtags must not exceed 8 characters in length.',
-            'Bad value “{{item.tooltip}}” for attribute “translate” on ' +
-            'element “span”.',
-            'Document uses the Unicode Private Use Area(s), which should not' +
-            ' be used in publicly exchanged documents. (Charmod C073)',
-            'Attribute “flex” not allowed on element “span” at this point.',
-            'Bad value “{{item._source.language}}” for attribute “lang” on' +
-            ' element “span”: Subtags must not exceed 8 characters in length.',
-            'Element “li” not allowed as child of element “body”' +
-            ' in this context.',
-            'An element with “role=menuitem” must be contained in, or owned' +
-            ' by, an element with “role=menubar” or “role=menu”.'
-          ],
-          customattrs: [
-            'show-validation',
-            'jh-*',
-            'ascending',
-            'callback',
-            'accept',
-            'ngf-*',
-            'layout-sm',
-            'layout-xs',
-            'flex-gt-sm',
-            'hide-xs',
-            'hide-sm',
-            'md-sidenav-focus',
-            'md-autofocus',
-            'md-ink-ripple',
-            'md-maxlength',
-            'display-i18n-string',
-            'translate-value-type',
-            'translate-value-param',
-            'translate-value-tabname',
-            'translate-attr',
-            'template-url',
-            'create-variable-links',
-            'fdz-table',
-            'fdz-welcome-dialog',
-            'limit-to',
-            'fdz-select-search-input',
-            'fdz-clear-input',
-            'boundary-link-numbers',
-            'fdz-hyphenate',
-            'md-no-asterisk',
-            'multiple',
-            'md-auto-hide',
-            'du-scroll-container',
-            'layout-align',
-            'layout-fill'
-          ]
-        },
-        files: {
-          src: ['src/main/webapp/*.html',
-            'src/main/webapp/scripts/**/*.html.tmpl',
-            'src/main/webapp/scripts/**/*.html'
-          ]
+        default: {
+          options: {
+            reportpath: 'target/html-angular-validate-report.json',
+            reportCheckstylePath: 'target/' +
+              'html-angular-validate-report-checkstyle.xml',
+            tmplext: '.html.tmpl',
+            customtags: [
+              'jh-*',
+              'uib-*',
+              'password-strength-bar',
+              'nvd3',
+              'loading',
+              'md-content',
+              'md-sidenav',
+              'md-toolbar',
+              'md-toast',
+              'md-dialog',
+              'md-autocomplete',
+              'variable-search-result',
+              'survey-search-result',
+              'question-search-result',
+              'dataset-search-result',
+              'instrument-search-result',
+              'md-progress-linear',
+              'md-divider'
+            ],
+            relaxerror: [
+              'The “date” input type is not supported in all browsers.' +
+              ' Please be sure to test, and consider using a polyfill.',
+              'Bad value “file” for attribute “type” on element “button”.',
+              'Element “dl” not allowed as child of' +
+              ' element “pre” in this context.',
+              'Element “md-progress-linear” not allowed as child of ' +
+              'element “body” in this context. (Suppressing further ' +
+              'errors from this subtree.)',
+              'Element “md-content” not allowed as child of element' +
+              ' “body” in this context. (Suppressing further errors ' +
+              'from this subtree.)',
+              'Element “md-card” not allowed as child of element' +
+              ' “body” in this context. (Suppressing further errors ' +
+              'from this subtree.)', 'Attribute “layout” not allowed on' +
+              ' element “div” at this point.',
+              'Attribute “layout-gt-sm” not' +
+              ' allowed on element “div” at this point.',
+              'Element “md-card” ' +
+              'not allowed as child of element “div” in this context. ' +
+              '(Suppressing further errors from this subtree.)',
+              'Section lacks heading. Consider using “h2”-“h6” elements' +
+              ' to add identifying headings to all sections.',
+              'Attribute “flex” not allowed on element “div” at this point.',
+              'Element “md-toolbar” not allowed as child of element “div” in ' +
+              'this context. (Suppressing further errors from this subtree.)',
+              'Attribute “layout” not allowed on element “body” at this point.',
+              'Attribute “block-ui” not allowed on element “body” at this ' +
+              'point.',
+              'Attribute “has-any-authority” not allowed on element “div” at' +
+              ' this point.',
+              'Element “md-button” not allowed as child of element “div” in' +
+              ' this context. (Suppressing further errors from this subtree.)',
+              'This document appears to be written in',
+              'Element “md-dialog” not allowed as child of element “body” in' +
+              'this context. (Suppressing further errors from this subtree.)',
+              'Element “variable-search-result” not allowed as child of' +
+              'element “div” in this context. (Suppressing further errors ' +
+              'from this subtree.)',
+              'Element “survey-search-result” not allowed as child of element' +
+              ' “div” in this context. (Suppressing further errors from this' +
+              'sub tree.)',
+              'Element “question-search-result” not allowed as child of' +
+              'element “div” in this context. (Suppressing further errors ' +
+              'from this sub tree.)',
+              'Element “study-search-result” not allowed as child of element ' +
+              '“div” in this context. ' +
+              '(Suppressing further errors from this subtree.)',
+              'Element “dataset-search-result” not allowed as child of' +
+              'element “div” in this context. (Suppressing further errors ' +
+              'from this sub tree.)',
+              'Element “related-publication-search-result” not allowed as' +
+              'child of element “div” in this context. (Suppressing further' +
+              ' errors from this subtree.)',
+              'Attribute “layout-align” not allowed on element “div” at this' +
+              ' point.',
+              'Element “md-card” not allowed as child of element “a” in this' +
+              ' context. (Suppressing further errors from this subtree.)',
+              'Attribute “uib-pagination” not allowed on element' +
+              ' “ul” at this point.',
+              'Attribute “next-text” not allowed on element “ul” at this ' +
+              'point.',
+              'Attribute “previous-text” not allowed on element' +
+              ' “ul” at this point.',
+              'Attribute “total-items” not allowed on element' +
+              ' “ul” at this point.',
+              'Attribute “max-size” not allowed on element “ul” at this point.',
+              'Attribute “items-per-page” not allowed on element' +
+              ' “ul” at this point.',
+              'Consider adding a “lang” attribute to the “html” start tag to' +
+              ' declare the language of this document.',
+              'Element “md-icon” not allowed as child of element “div” in' +
+              ' this context. (Suppressing further errors from this subtree.)',
+              'Attribute “layout-margin” not ' +
+              'allowed on element “div” at this point.',
+              'Attribute “block-ui” not allowed on element “div” at this' +
+              ' point.',
+              'Element “md-virtual-repeat-container” not allowed as child of ' +
+              'element “div” in this context. (Suppressing further errors ' +
+              'from this subtree.)', 'Attribute “items-per-pageobject” ' +
+              'not allowed on element “ul” at this point.',
+              'Consider avoiding viewport values that prevent ' +
+              'users from resizing documents.', 'Attribute' +
+              ' “md-highlight-text” not allowed on element “span” at this' +
+              ' point.',
+              'Attribute “layout-padding” not allowed on ' +
+              'element “div” at this point.', 'Attribute “hljs” not ' +
+              'allowed on element “div” at this point.', 'Attribute ' +
+              '“hljs-language” not allowed on element “div” at this point.',
+              'Attribute “hljs-source” not allowed on element “div” at this ' +
+              'point.',
+              'Attribute “katex” not allowed on element “span” at ' +
+              'this point.',
+              'Element “diagram” not allowed as child of element' +
+              ' “div” in this context.', 'Bad value “{{row.language}}” for ' +
+              'attribute “lang” on element “td”: Subtags must not exceed 8 ' +
+              'characters in length.', 'Bad value “{{currentLanguage}}” for ' +
+              'attribute “lang” on element “html”: Subtags must not exceed 8 ' +
+              'characters in length.', 'Bad value “global.toolbarHeader.' +
+              'search” for attribute “translate” on element “span”.',
+              'Bad value “global.toolbarHeader.default” for attribute ' +
+              '“translate” on element “span”.', 'Bad value ' +
+              '“search-management.cards” for attribute “translate” ' +
+              'on element “span”.',
+              'Bad value “{{ctrl.relatedPublication.language}}” for' +
+              ' attribute “lang” on element “h1”: Subtags must not exceed ' +
+              '8 characters in length.',
+              'Bad value “{{ctrl.relatedPublication.language}}” for' +
+              ' attribute “lang” on element “span”: Subtags must not exceed' +
+              ' 8 characters in length.',
+              'Bad value “{{searchResult.language}}” for attribute “lang” on ' +
+              'element “div”: Subtags must not exceed 8 characters in length.',
+              'Bad value “{{item.tooltip}}” for attribute “translate” on ' +
+              'element “span”.',
+              'Document uses the Unicode Private Use Area(s), which should' +
+              ' not be used in publicly exchanged documents. (Charmod C073)',
+              'Attribute “flex” not allowed on element “span” at this point.',
+              'Bad value “{{item._source.language}}” for attribute “lang” on' +
+              ' element “span”: Subtags must not exceed 8 characters in' +
+              ' length.',
+              'Element “li” not allowed as child of element “body”' +
+              ' in this context.',
+              'An element with “role=menuitem” must be contained in, or owned' +
+              ' by, an element with “role=menubar” or “role=menu”.'
+            ],
+            customattrs: [
+              'show-validation',
+              'jh-*',
+              'ascending',
+              'callback',
+              'accept',
+              'ngf-*',
+              'layout-sm',
+              'layout-xs',
+              'flex-gt-sm',
+              'hide-xs',
+              'hide-sm',
+              'md-sidenav-focus',
+              'md-autofocus',
+              'md-ink-ripple',
+              'md-maxlength',
+              'display-i18n-string',
+              'translate-value-type',
+              'translate-value-param',
+              'translate-value-tabname',
+              'translate-attr',
+              'template-url',
+              'create-variable-links',
+              'fdz-table',
+              'fdz-welcome-dialog',
+              'limit-to',
+              'fdz-select-search-input',
+              'fdz-clear-input',
+              'boundary-link-numbers',
+              'fdz-hyphenate',
+              'md-no-asterisk',
+              'multiple',
+              'md-auto-hide',
+              'du-scroll-container',
+              'layout-align',
+              'layout-fill'
+            ]
+          },
+          files: {
+            src: ['src/main/webapp/*.html',
+              'src/main/webapp/scripts/**/*.html.tmpl',
+              'src/main/webapp/scripts/**/*.html'
+            ]
+          }
         }
       },
       browserSync: {
@@ -745,21 +752,21 @@ module.exports = function(grunt) {
     'jshint', 'jscs'
   ]);
 
-  grunt.registerTask('builddev', ['test', 'htmlangular', 'clean:dist',
+  grunt.registerTask('builddev', ['test', 'htmlangular:default', 'clean:dist',
     'wiredep:app', 'ngconstant:dev',
     'useminPrepare', 'ngtemplates', 'svgmin',
     'concat', 'copy:fonts', 'copy:dist', 'ngAnnotate', 'cssmin',
     'autoprefixer', 'uglify', 'rev', 'usemin', 'htmlmin'
   ]);
 
-  grunt.registerTask('buildtest', ['test', 'htmlangular', 'clean:dist',
+  grunt.registerTask('buildtest', ['test', 'htmlangular:default', 'clean:dist',
     'wiredep:app', 'ngconstant:test',
     'useminPrepare', 'ngtemplates', 'svgmin',
     'concat', 'copy:fonts', 'copy:dist', 'ngAnnotate', 'cssmin',
     'autoprefixer', 'uglify', 'rev', 'usemin', 'htmlmin'
   ]);
 
-  grunt.registerTask('buildprod', ['test', 'htmlangular', 'clean:dist',
+  grunt.registerTask('buildprod', ['test', 'htmlangular:default', 'clean:dist',
     'wiredep:app', 'ngconstant:prod',
     'useminPrepare', 'ngtemplates', 'svgmin',
     'concat', 'copy:fonts', 'copy:dist', 'ngAnnotate', 'cssmin',
