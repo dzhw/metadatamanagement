@@ -300,6 +300,19 @@ module.exports = function(grunt) {
               'src/main/webapp/scripts/**/*.html'
             ]
           }
+        },
+        index: {
+          options: {
+            reportpath: 'target/html-angular-index-validate-report.json',
+            reportCheckstylePath: 'target/' +
+              'html-angular-validate-index-report-checkstyle.xml',
+            tmplext: '.html.tmpl'
+          },
+          files: {
+            src: [
+              'src/main/webapp/index.html'
+            ]
+          }
         }
       },
       browserSync: {
@@ -752,21 +765,24 @@ module.exports = function(grunt) {
     'jshint', 'jscs'
   ]);
 
-  grunt.registerTask('builddev', ['test', 'htmlangular:default', 'clean:dist',
+  grunt.registerTask('builddev', ['test', 'htmlangular:default',
+    'htmlangular:index', 'clean:dist',
     'wiredep:app', 'ngconstant:dev',
     'useminPrepare', 'ngtemplates', 'svgmin',
     'concat', 'copy:fonts', 'copy:dist', 'ngAnnotate', 'cssmin',
     'autoprefixer', 'uglify', 'rev', 'usemin', 'htmlmin'
   ]);
 
-  grunt.registerTask('buildtest', ['test', 'htmlangular:default', 'clean:dist',
+  grunt.registerTask('buildtest', ['test', 'htmlangular:default',
+    'htmlangular:index', 'clean:dist',
     'wiredep:app', 'ngconstant:test',
     'useminPrepare', 'ngtemplates', 'svgmin',
     'concat', 'copy:fonts', 'copy:dist', 'ngAnnotate', 'cssmin',
     'autoprefixer', 'uglify', 'rev', 'usemin', 'htmlmin'
   ]);
 
-  grunt.registerTask('buildprod', ['test', 'htmlangular:default', 'clean:dist',
+  grunt.registerTask('buildprod', ['test', 'htmlangular:default',
+    'htmlangular:index', 'clean:dist',
     'wiredep:app', 'ngconstant:prod',
     'useminPrepare', 'ngtemplates', 'svgmin',
     'concat', 'copy:fonts', 'copy:dist', 'ngAnnotate', 'cssmin',
