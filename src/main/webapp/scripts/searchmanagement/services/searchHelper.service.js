@@ -189,11 +189,8 @@ angular.module('metadatamanagementApp').factory(
           'year': {
             'order': 'desc'
           }
-        },
-        {
-          'title': {
-            'title': 'asc'
-          }
+        }, {
+          'title.keyword': 'asc'
         }
       ]
     };
@@ -285,9 +282,7 @@ angular.module('metadatamanagementApp').factory(
           }
         },
         {
-          'title': {
-            'title': 'asc'
-          }
+          'title.keyword': 'asc'
         }
       ]
     };
