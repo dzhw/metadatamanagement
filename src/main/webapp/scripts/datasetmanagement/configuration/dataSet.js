@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp')
     $stateProvider
       .state('dataSetDetail', {
         parent: 'site',
-        url: '/data-sets/{id}',
+        url: '/data-sets/{id}?{search-result-index}',
         data: {
           authorities: []
         },

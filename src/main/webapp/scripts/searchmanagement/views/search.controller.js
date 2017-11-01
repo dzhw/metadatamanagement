@@ -12,7 +12,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     DataSetUploadService, StudyUploadService, SurveyUploadService,
     CleanJSObjectService, InstrumentUploadService,
     CurrentProjectService, $timeout, PageTitleService, ToolbarHeaderService,
-    SearchFilterHelperService) {
+    SearchFilterHelperService, SearchResultNavigatorService) {
 
     var queryChangedOnInit = false;
     var tabChangedOnInitFlag = false;
@@ -123,6 +123,10 @@ angular.module('metadatamanagementApp').controller('SearchController',
       var projectId = $scope.currentProject ?
         $scope.currentProject.id : undefined;
       $scope.isSearching++;
+      SearchResultNavigatorService.setCurrentSearchParams(
+        $scope.searchParams, projectId,
+        $scope.tabs[$scope.searchParams.selectedTabIndex].elasticSearchType,
+        $scope.pageObject);
       SearchDao.search($scope.searchParams.query, $scope.pageObject.page,
           projectId, $scope.searchParams.filter,
           $scope.tabs[$scope.searchParams.selectedTabIndex].elasticSearchType,
@@ -428,5 +432,9 @@ angular.module('metadatamanagementApp').controller('SearchController',
       $scope.search();
     };
 
+    $scope.computeSearchResultIndex = function($index) {
+      return $index + 1 +
+        (($scope.pageObject.page - 1) * $scope.pageObject.size);
+    };
     init();
   });

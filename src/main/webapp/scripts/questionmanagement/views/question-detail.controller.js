@@ -7,8 +7,10 @@ angular.module('metadatamanagementApp')
   .controller('QuestionDetailController',
     function(entity, $state, ToolbarHeaderService,
       SimpleMessageToastService, QuestionSearchService, CleanJSObjectService,
-      PageTitleService, $rootScope, Principal) {
-
+      PageTitleService, $rootScope, Principal, SearchResultNavigatorService,
+      $stateParams) {
+      SearchResultNavigatorService.registerCurrentSearchResult(
+            $stateParams['search-result-index']);
       var ctrl = this;
       this.representationCodeToggleFlag = true;
       ctrl.predecessors = [];

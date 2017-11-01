@@ -2,7 +2,10 @@
 
 angular.module('metadatamanagementApp')
   .controller('RelatedPublicationDetailController',
-    function(entity, PageTitleService, $state, ToolbarHeaderService) {
+    function(entity, PageTitleService, $state, ToolbarHeaderService,
+    SearchResultNavigatorService, $stateParams) {
+      SearchResultNavigatorService.registerCurrentSearchResult(
+          $stateParams['search-result-index']);
       var ctrl = this;
       entity.promise.then(function(result) {
         ctrl.relatedPublication = result;
