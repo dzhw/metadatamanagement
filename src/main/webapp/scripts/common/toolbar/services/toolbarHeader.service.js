@@ -111,7 +111,7 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         'icon': translationStringsMap.search.icon
       },
       get: function() {
-        return this.item;
+        return _.cloneDeep(this.item);
       },
       set: function(item) {
         this.item.type = translationStringsMap.search.type;
@@ -125,6 +125,10 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         }
         this.item.state = 'search(' + JSON.stringify(item.searchParams) +
         ')';
+      },
+      setCurrentPage: function(currentPage) {
+        this.item.state = this.item.state
+          .replace(/"page":"\d+"/, '"page":"' + currentPage + '"');
       }
     };
     var createRelatedStudyItem = function(item) {
@@ -413,7 +417,19 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
           break;
       }
     };
+
+    var setCurrentSearchPage = function(currentPage) {
+      if ($rootScope.toolbarHeaderItems &&
+        $rootScope.toolbarHeaderItems.length > 0 &&
+        $rootScope.toolbarHeaderItems[0].type ===
+          translationStringsMap.search.type) {
+        searchItem.setCurrentPage(currentPage);
+        $rootScope.toolbarHeaderItems[0] = searchItem.get();
+      }
+    };
+
     return {
-      updateToolbarHeader: updateToolbarHeader
+      updateToolbarHeader: updateToolbarHeader,
+      setCurrentSearchPage: setCurrentSearchPage
     };
   });

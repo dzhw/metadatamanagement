@@ -1,0 +1,6 @@
+<md-button ng-show="previousSearchResultLoaded" class="md-primary md-fab" ui-sref="variableDetail({'id': previousSearchResult.id, 'search-result-index': previousSearchResultIndex})">
+    <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+        {{'search-management.buttons.previous-search-result-tooltip' | translate}}
+    </md-tooltip>
+    <md-icon md-font-set="material-icons">navigate_before</md-icon>
+</md-button>

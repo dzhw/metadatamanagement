@@ -1,6 +1,6 @@
-<md-button ng-if="nextSearchResult" class="md-primary md-fab" ui-sref="variableDetail({'id': nextSearchResult.id, 'search-result-index': searchResultIndex})">
+<md-button ng-show="nextSearchResultLoaded" class="md-primary md-fab" ui-sref="variableDetail({'id': nextSearchResult.id, 'search-result-index': nextSearchResultIndex})">
     <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-        {{'search-management.buttons.upload-related-publications-tooltip' | translate}}
+        {{'search-management.buttons.next-search-result-tooltip' | translate}}
     </md-tooltip>
     <md-icon md-font-set="material-icons">navigate_next</md-icon>
 </md-button>

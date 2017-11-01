@@ -2,13 +2,14 @@
 
 angular.module('metadatamanagementApp').factory(
   'SearchResultNavigatorService',
-  function(SearchDao) {
+  function(SearchDao, $q, ToolbarHeaderService) {
     var lastSearchParams = {};
     var lastProjectId;
     var lastPageObject;
     var lastElasticSearchType;
-    var previousSearchResult;
-    var nextSearchResult;
+    var currentSearchResultIndex;
+    var previousSearchResult = $q.resolve();
+    var nextSearchResult = $q.resolve();
 
     function setCurrentSearchParams(searchParams,
       projectId, elasticSearchType, pageObject) {
@@ -19,26 +20,33 @@ angular.module('metadatamanagementApp').factory(
     }
 
     function registerCurrentSearchResult(searchResultIndex) {
+      nextSearchResult = $q.defer();
+      previousSearchResult = $q.defer();
       if (searchResultIndex != null && lastPageObject) {
-        searchResultIndex = parseInt(searchResultIndex);
-        SearchDao.search(lastSearchParams.query,
-          searchResultIndex + 1,
-          lastProjectId, lastSearchParams.filter,
-          lastElasticSearchType,
-          1, lastSearchParams.sortBy).then(function(data) {
-            if (data.hits.hits.length === 1) {
-              nextSearchResult = data.hits.hits[0]._source;
-            }
-          });
-        if (searchResultIndex > 1) {
+        currentSearchResultIndex = parseInt(searchResultIndex);
+        var currentPage = Math.floor((currentSearchResultIndex - 1) /
+          lastPageObject.size) + 1;
+        ToolbarHeaderService.setCurrentSearchPage(currentPage);
+        if (currentSearchResultIndex < lastPageObject.totalHits) {
           SearchDao.search(lastSearchParams.query,
-            searchResultIndex - 1,
+            currentSearchResultIndex + 1,
             lastProjectId, lastSearchParams.filter,
             lastElasticSearchType,
             1, lastSearchParams.sortBy).then(function(data) {
-              if (data.hits.hits.length === 1) {
-                previousSearchResult = data.hits.hits[0]._source;
-              }
+              nextSearchResult.resolve(data);
+            }).catch(function(error) {
+              nextSearchResult.resolve(error);
+            });
+        }
+        if (currentSearchResultIndex > 1) {
+          SearchDao.search(lastSearchParams.query,
+            currentSearchResultIndex - 1,
+            lastProjectId, lastSearchParams.filter,
+            lastElasticSearchType,
+            1, lastSearchParams.sortBy).then(function(data) {
+              previousSearchResult.resolve(data);
+            }).catch(function(error) {
+              previousSearchResult.resolve(error);
             });
         }
       }
@@ -48,15 +56,25 @@ angular.module('metadatamanagementApp').factory(
       return previousSearchResult;
     }
 
+    function getPreviousSearchResultIndex() {
+      return currentSearchResultIndex - 1;
+    }
+
     function getNextSearchResult() {
       return nextSearchResult;
+    }
+
+    function getNextSearchResultIndex() {
+      return currentSearchResultIndex + 1;
     }
 
     return {
       setCurrentSearchParams: setCurrentSearchParams,
       registerCurrentSearchResult: registerCurrentSearchResult,
       getPreviousSearchResult: getPreviousSearchResult,
-      getNextSearchResult: getNextSearchResult
+      getPreviousSearchResultIndex: getPreviousSearchResultIndex,
+      getNextSearchResult: getNextSearchResult,
+      getNextSearchResultIndex: getNextSearchResultIndex
     };
   }
 );
