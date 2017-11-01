@@ -1,7 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.usermanagement.websocket;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -14,6 +12,7 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 import org.springframework.stereotype.Controller;
 
 import eu.dzhw.fdz.metadatamanagement.usermanagement.websocket.dto.MessageDto;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Controller for sending messages via websockets to users.
@@ -21,10 +20,8 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.websocket.dto.MessageDto;
  * @author René Reitmann
  */
 @Controller
+@Slf4j
 public class UserMessagesController {
-
-  private final Logger log = LoggerFactory.getLogger(UserMessagesController.class);
-  
   @Autowired
   private TokenStore tokenStore;
 

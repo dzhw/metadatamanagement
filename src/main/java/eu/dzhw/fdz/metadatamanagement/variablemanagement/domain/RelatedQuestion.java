@@ -5,12 +5,13 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.mongodb.core.index.Indexed;
 
-import com.google.common.base.MoreObjects;
-
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
-import net.karneim.pojobuilder.GeneratePojoBuilder;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * The related Question includes the references to the question and instrument. This is a sub 
@@ -19,8 +20,10 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  * @author Daniel Katzberg
  *
  */
-@GeneratePojoBuilder(
-    intoPackage = "eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders")
+@Data
+@NoArgsConstructor 
+@AllArgsConstructor
+@Builder
 public class RelatedQuestion {
 
   /* Domain Object listed attributes */
@@ -47,61 +50,4 @@ public class RelatedQuestion {
   
   @Indexed
   private String instrumentId;
-
-  
-  /*
-   * (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return MoreObjects.toStringHelper(this)
-      .add("instrumentNumber", instrumentNumber)
-      .add("questionNumber", questionNumber)
-      .add("questionId", questionId)
-      .add("instrumentId", instrumentId)
-      .add("relatedQuestionStrings", relatedQuestionStrings)
-      .toString();
-  }
-
-  /* GETTER / SETTER */
-  public String getInstrumentNumber() {
-    return instrumentNumber;
-  }  
-  
-  public void setInstrumentNumber(String instrumentNumber) {
-    this.instrumentNumber = instrumentNumber;
-  }
-
-  public String getQuestionNumber() {
-    return questionNumber;
-  }
-
-  public void setQuestionNumber(String questionNumber) {
-    this.questionNumber = questionNumber;
-  }
-
-  public String getQuestionId() {
-    return questionId;
-  }
-
-  public void setQuestionId(String questionId) {
-    this.questionId = questionId;
-  }
-
-  public String getInstrumentId() {
-    return instrumentId;
-  }
-
-  public void setInstrumentId(String instrumentId) {
-    this.instrumentId = instrumentId;
-  }
-  
-  public I18nString getRelatedQuestionStrings() {
-    return relatedQuestionStrings;
-  }
-
-  public void setRelatedQuestionStrings(I18nString relatedQuestionStrings) {
-    this.relatedQuestionStrings = relatedQuestionStrings;
-  }
 }

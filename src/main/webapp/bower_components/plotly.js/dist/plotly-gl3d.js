@@ -1,5 +1,5 @@
 /**
-* plotly.js (gl3d) v1.31.0
+* plotly.js (gl3d) v1.31.2
 * Copyright 2012-2017, Plotly, Inc.
 * All rights reserved.
 * Licensed under the MIT license
@@ -31310,7 +31310,7 @@ var ndarray   = require('ndarray')
 
 var nextPow2  = require('bit-twiddle').nextPow2
 
-var selectRange = require('cwise/lib/wrapper')({"args":["array",{"offset":[0,0,1],"array":0},{"offset":[0,0,2],"array":0},{"offset":[0,0,3],"array":0},"scalar","scalar","index"],"pre":{"body":"{this_closestD2=1e8,this_closestX=-1,this_closestY=-1}","args":[],"thisVars":["this_closestD2","this_closestX","this_closestY"],"localVars":[]},"body":{"body":"{if(_inline_52_arg0_<255||_inline_52_arg1_<255||_inline_52_arg2_<255||_inline_52_arg3_<255){var _inline_52_l=_inline_52_arg4_-_inline_52_arg6_[0],_inline_52_a=_inline_52_arg5_-_inline_52_arg6_[1],_inline_52_f=_inline_52_l*_inline_52_l+_inline_52_a*_inline_52_a;_inline_52_f<this_closestD2&&(this_closestD2=_inline_52_f,this_closestX=_inline_52_arg6_[0],this_closestY=_inline_52_arg6_[1])}}","args":[{"name":"_inline_52_arg0_","lvalue":false,"rvalue":true,"count":1},{"name":"_inline_52_arg1_","lvalue":false,"rvalue":true,"count":1},{"name":"_inline_52_arg2_","lvalue":false,"rvalue":true,"count":1},{"name":"_inline_52_arg3_","lvalue":false,"rvalue":true,"count":1},{"name":"_inline_52_arg4_","lvalue":false,"rvalue":true,"count":1},{"name":"_inline_52_arg5_","lvalue":false,"rvalue":true,"count":1},{"name":"_inline_52_arg6_","lvalue":false,"rvalue":true,"count":4}],"thisVars":["this_closestD2","this_closestX","this_closestY"],"localVars":["_inline_52_a","_inline_52_f","_inline_52_l"]},"post":{"body":"{return[this_closestX,this_closestY,this_closestD2]}","args":[],"thisVars":["this_closestD2","this_closestX","this_closestY"],"localVars":[]},"debug":false,"funcName":"cwise","blockSize":64})
+var selectRange = require('cwise/lib/wrapper')({"args":["array",{"offset":[0,0,1],"array":0},{"offset":[0,0,2],"array":0},{"offset":[0,0,3],"array":0},"scalar","scalar","index"],"pre":{"body":"{this_closestD2=1e8,this_closestX=-1,this_closestY=-1}","args":[],"thisVars":["this_closestD2","this_closestX","this_closestY"],"localVars":[]},"body":{"body":"{if(_inline_55_arg0_<255||_inline_55_arg1_<255||_inline_55_arg2_<255||_inline_55_arg3_<255){var _inline_55_l=_inline_55_arg4_-_inline_55_arg6_[0],_inline_55_a=_inline_55_arg5_-_inline_55_arg6_[1],_inline_55_f=_inline_55_l*_inline_55_l+_inline_55_a*_inline_55_a;_inline_55_f<this_closestD2&&(this_closestD2=_inline_55_f,this_closestX=_inline_55_arg6_[0],this_closestY=_inline_55_arg6_[1])}}","args":[{"name":"_inline_55_arg0_","lvalue":false,"rvalue":true,"count":1},{"name":"_inline_55_arg1_","lvalue":false,"rvalue":true,"count":1},{"name":"_inline_55_arg2_","lvalue":false,"rvalue":true,"count":1},{"name":"_inline_55_arg3_","lvalue":false,"rvalue":true,"count":1},{"name":"_inline_55_arg4_","lvalue":false,"rvalue":true,"count":1},{"name":"_inline_55_arg5_","lvalue":false,"rvalue":true,"count":1},{"name":"_inline_55_arg6_","lvalue":false,"rvalue":true,"count":4}],"thisVars":["this_closestD2","this_closestX","this_closestY"],"localVars":["_inline_55_a","_inline_55_f","_inline_55_l"]},"post":{"body":"{return[this_closestX,this_closestY,this_closestD2]}","args":[],"thisVars":["this_closestD2","this_closestX","this_closestY"],"localVars":[]},"debug":false,"funcName":"cwise","blockSize":64})
 
 function SelectResult(x, y, id, value, distance) {
   this.coord = [x, y]
@@ -52399,10 +52399,12 @@ dragElement.unhoverRaw = unhover.raw;
  *          e is the original event
  */
 dragElement.init = function init(options) {
-    var gd = options.gd,
-        numClicks = 1,
-        DBLCLICKDELAY = interactConstants.DBLCLICKDELAY,
-        startX,
+    var gd = options.gd;
+    var numClicks = 1;
+    var DBLCLICKDELAY = interactConstants.DBLCLICKDELAY;
+    var element = options.element;
+
+    var startX,
         startY,
         newMouseDownTime,
         cursor,
@@ -52411,12 +52413,16 @@ dragElement.init = function init(options) {
 
     if(!gd._mouseDownTime) gd._mouseDownTime = 0;
 
-    options.element.style.pointerEvents = 'all';
+    element.style.pointerEvents = 'all';
 
-    options.element.onmousedown = onStart;
-    options.element.ontouchstart = onStart;
+    element.onmousedown = onStart;
+    element.ontouchstart = onStart;
 
     function onStart(e) {
+        if(e.buttons && e.buttons === 2) {    // right click
+            return;
+        }
+
         // make dragging and dragged into properties of gd
         // so that others can look at and modify them
         gd._dragged = false;
@@ -52441,29 +52447,28 @@ dragElement.init = function init(options) {
 
         if(hasHover) {
             dragCover = coverSlip();
-            dragCover.style.cursor = window.getComputedStyle(options.element).cursor;
+            dragCover.style.cursor = window.getComputedStyle(element).cursor;
         }
         else {
             // document acts as a dragcover for mobile, bc we can't create dragcover dynamically
             dragCover = document;
             cursor = window.getComputedStyle(document.documentElement).cursor;
-            document.documentElement.style.cursor = window.getComputedStyle(options.element).cursor;
+            document.documentElement.style.cursor = window.getComputedStyle(element).cursor;
         }
 
-        dragCover.addEventListener('mousemove', onMove);
-        dragCover.addEventListener('mouseup', onDone);
-        dragCover.addEventListener('mouseout', onDone);
-        dragCover.addEventListener('touchmove', onMove);
-        dragCover.addEventListener('touchend', onDone);
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('mouseup', onDone);
+        document.addEventListener('touchmove', onMove);
+        document.addEventListener('touchend', onDone);
 
         return Lib.pauseEvent(e);
     }
 
     function onMove(e) {
-        var offset = pointerOffset(e),
-            dx = offset[0] - startX,
-            dy = offset[1] - startY,
-            minDrag = options.minDrag || constants.MINDRAG;
+        var offset = pointerOffset(e);
+        var dx = offset[0] - startX;
+        var dy = offset[1] - startY;
+        var minDrag = options.minDrag || constants.MINDRAG;
 
         if(Math.abs(dx) < minDrag) dx = 0;
         if(Math.abs(dy) < minDrag) dy = 0;
@@ -52478,11 +52483,10 @@ dragElement.init = function init(options) {
     }
 
     function onDone(e) {
-        dragCover.removeEventListener('mousemove', onMove);
-        dragCover.removeEventListener('mouseup', onDone);
-        dragCover.removeEventListener('mouseout', onDone);
-        dragCover.removeEventListener('touchmove', onMove);
-        dragCover.removeEventListener('touchend', onDone);
+        document.removeEventListener('mousemove', onMove);
+        document.removeEventListener('mouseup', onDone);
+        document.removeEventListener('touchmove', onMove);
+        document.removeEventListener('touchend', onDone);
 
         if(hasHover) {
             Lib.removeElement(dragCover);
@@ -65142,7 +65146,7 @@ exports.svgAttrs = {
 var Plotly = require('./plotly');
 
 // package version injected by `npm run preprocess`
-exports.version = '1.31.0';
+exports.version = '1.31.2';
 
 // inject promise polyfill
 require('es6-promise').polyfill();
@@ -82396,7 +82400,7 @@ module.exports = function prepSelect(e, startX, startY, dragOptions, mode) {
     for(i = 0; i < gd.calcdata.length; i++) {
         cd = gd.calcdata[i];
         trace = cd[0].trace;
-        if(!trace._module || !trace._module.selectPoints) continue;
+        if(trace.visible !== true || !trace._module || !trace._module.selectPoints) continue;
 
         if(dragOptions.subplot) {
             if(
@@ -91183,7 +91187,11 @@ var fileSaver = function(url, name) {
 
         // IE 10+ (native saveAs)
         if(typeof navigator !== 'undefined' && navigator.msSaveBlob) {
-            navigator.msSaveBlob(new Blob([url]), name);
+            // At this point we are only dealing with a SVG encoded as
+            // a data URL (since IE only supports SVG)
+            var encoded = url.split(/^data:image\/svg\+xml,/)[1];
+            var svg = decodeURIComponent(encoded);
+            navigator.msSaveBlob(new Blob([svg]), name);
             resolve(name);
         }
 
@@ -91618,7 +91626,7 @@ module.exports = function toSVG(gd, format, scale) {
         // url in svg are single quoted
         //   since we changed double to single
         //   we'll need to change these to double-quoted
-        s = s.replace(/(\('#)([^']*)('\))/gi, '(\"$2\")');
+        s = s.replace(/(\('#)([^']*)('\))/gi, '(\"#$2\")');
         // font names with spaces will be escaped single-quoted
         //   we'll need to change these to double-quoted
         s = s.replace(/(\\')/gi, '\"');
@@ -94446,7 +94454,7 @@ module.exports = function selectPoints(searchInfo, polygon) {
 
     // TODO: include lines? that would require per-segment line properties
     var hasOnlyLines = (!subtypes.hasMarkers(trace) && !subtypes.hasText(trace));
-    if(trace.visible !== true || hasOnlyLines) return;
+    if(hasOnlyLines) return [];
 
     var opacity = Array.isArray(marker.opacity) ? 1 : marker.opacity;
 

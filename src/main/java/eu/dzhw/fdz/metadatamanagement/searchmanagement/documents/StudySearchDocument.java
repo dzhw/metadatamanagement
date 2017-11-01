@@ -14,12 +14,20 @@ import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.SurveyDataTypes;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.SurveySubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.VariableSubDocumentProjection;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * Representation of a study which is stored in elasticsearch.
  *
  * @author René Reitmann
  */
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+@Getter
+@Setter
 public class StudySearchDocument extends Study implements SearchDocumentInterface {
   private List<DataSetSubDocument> dataSets = 
       new ArrayList<>();
@@ -135,86 +143,5 @@ public class StudySearchDocument extends Study implements SearchDocumentInterfac
     }
     
     return surveyDataType;
-  }
-
-  public List<DataSetSubDocument> getDataSets() {
-    return dataSets;
-  }
-
-  public void setDataSets(List<DataSetSubDocument> dataSets) {
-    this.dataSets = dataSets;
-  }
-
-  public List<VariableSubDocument> getVariables() {
-    return variables;
-  }
-
-  public void setVariables(List<VariableSubDocument> variables) {
-    this.variables = variables;
-  }
-
-  public List<RelatedPublicationSubDocument> getRelatedPublications() {
-    return relatedPublications;
-  }
-
-  public void setRelatedPublications(List<RelatedPublicationSubDocument> relatedPublications) {
-    this.relatedPublications = relatedPublications;
-  }
-
-  public List<SurveySubDocument> getSurveys() {
-    return surveys;
-  }
-
-  public void setSurveys(List<SurveySubDocument> surveys) {
-    this.surveys = surveys;
-  }
-
-  public List<QuestionSubDocument> getQuestions() {
-    return questions;
-  }
-
-  public void setQuestions(List<QuestionSubDocument> questions) {
-    this.questions = questions;
-  }
-
-  public List<InstrumentSubDocument> getInstruments() {
-    return instruments;
-  }
-
-  public void setInstruments(List<InstrumentSubDocument> instruments) {
-    this.instruments = instruments;
-  }
-
-  public Release getRelease() {
-    return release;
-  }
-
-  public void setRelease(Release release) {
-    this.release = release;
-  }
-
-  public I18nString getSurveyDataType() {
-    return surveyDataType;
-  }
-
-  public void setSurveyDataType(I18nString surveyDataType) {
-    this.surveyDataType = surveyDataType;
-  }
-
-  public Integer getNumberOfWaves() {
-    return numberOfWaves;
-  }
-  
-  public void setNumberOfWaves(Integer numberOfWaves) {
-    this.numberOfWaves = numberOfWaves;
-  }
-  
-  @Override
-  public I18nString getGuiLabels() {
-    return guiLabels;
-  }
-
-  public void setGuiLabels(I18nString guiLabels) {
-    this.guiLabels = guiLabels;
   }
 }

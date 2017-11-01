@@ -29,7 +29,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.builders.UserBuilder;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.AuthorityRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.ManagedUserDto;
@@ -96,7 +95,7 @@ public class UserResourceTest extends AbstractTest {
   @Test
   public void testCreateUserWithID() throws Exception {
     // Arrange
-    User user = new UserBuilder().withId("testGetAllUser_ID")
+    User user = User.builder().id("testGetAllUser_ID")
       .build();
 
     // Act

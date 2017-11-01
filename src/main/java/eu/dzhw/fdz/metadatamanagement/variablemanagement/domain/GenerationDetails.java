@@ -2,15 +2,16 @@ package eu.dzhw.fdz.metadatamanagement.variablemanagement.domain;
 
 import javax.validation.constraints.Size;
 
-import com.google.common.base.MoreObjects;
-
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.NotEmptyGenerationDetailsDescriptionOrRule;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.RuleExpressionLanguageAndRuleFilledOrEmpty;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidRuleExpressionLanguage;
-import net.karneim.pojobuilder.GeneratePojoBuilder;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Generation Details.
@@ -18,14 +19,16 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  * @author Daniel Katzberg
  *
  */
-@GeneratePojoBuilder(
-    intoPackage = "eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders")
 @NotEmptyGenerationDetailsDescriptionOrRule(
     message = "variable-management.error.generation-details."
         + "not-empty-generation-details-description-or-rule")
 @RuleExpressionLanguageAndRuleFilledOrEmpty(
     message = "variable-management.error.generation-details."
         + "rule-expression-language-and-rule-filled-or-empty")
+@Data
+@NoArgsConstructor 
+@AllArgsConstructor
+@Builder
 public class GenerationDetails {
 
   @I18nStringSize(max = StringLengths.LARGE,
@@ -40,43 +43,4 @@ public class GenerationDetails {
       message = "variable-management.error.generation-details."
           + "rule-expression-language.valid-rule-expression-language")
   private String ruleExpressionLanguage;
-
-  /*
-   * (non-Javadoc)
-   *
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return MoreObjects.toStringHelper(this)
-      .add("description", description)
-      .add("rule", rule)
-      .add("ruleExpressionLanguage", ruleExpressionLanguage)
-      .toString();
-  }
-
-  /* GETTER / SETTER */
-  public I18nString getDescription() {
-    return description;
-  }
-
-  public void setDescription(I18nString description) {
-    this.description = description;
-  }
-
-  public String getRule() {
-    return rule;
-  }
-
-  public void setRule(String rule) {
-    this.rule = rule;
-  }
-
-  public String getRuleExpressionLanguage() {
-    return ruleExpressionLanguage;
-  }
-
-  public void setRuleExpressionLanguage(String ruleExpressionLanguage) {
-    this.ruleExpressionLanguage = ruleExpressionLanguage;
-  }
 }

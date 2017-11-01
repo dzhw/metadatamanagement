@@ -11,15 +11,24 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidIsoLanguage;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation.ValidInstrumentAttachmentType;
-import net.karneim.pojobuilder.GeneratePojoBuilder;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * Metadata which will be stored in GridFS with each attachment for instruments.
  *
  * @author René Reitmann
  */
-@GeneratePojoBuilder(
-    intoPackage = "eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.builders")
+@Data
+@EqualsAndHashCode(callSuper = false, of = "id")
+@ToString(callSuper = true)
+@NoArgsConstructor 
+@AllArgsConstructor
+@Builder
 public class InstrumentAttachmentMetadata extends AbstractRdcDomainObject {
   @NotEmpty(message =
       "instrument-management.error.instrument-attachment-metadata.instrument-id.not-empty")
@@ -63,72 +72,8 @@ public class InstrumentAttachmentMetadata extends AbstractRdcDomainObject {
       "instrument-management.error.instrument-attachment-metadata.index-in-instrument.not-null")
   private Integer indexInInstrument;
 
-  public String getInstrumentId() {
-    return instrumentId;
-  }
-
-  public void setInstrumentId(String instrumentId) {
-    this.instrumentId = instrumentId;
-  }
-
-  public String getDataAcquisitionProjectId() {
-    return dataAcquisitionProjectId;
-  }
-
-  public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
-    this.dataAcquisitionProjectId = dataAcquisitionProjectId;
-  }
-
-  public I18nString getType() {
-    return type;
-  }
-
-  public void setType(I18nString type) {
-    this.type = type;
-  }
-
-  public I18nString getDescription() {
-    return description;
-  }
-
-  public void setDescription(I18nString description) {
-    this.description = description;
-  }
-
-  public String getLanguage() {
-    return language;
-  }
-
-  public void setLanguage(String language) {
-    this.language = language;
-  }
-
-  public String getFileName() {
-    return fileName;
-  }
-
-  public void setFileName(String fileName) {
-    this.fileName = fileName;
-  }
-
-  public Integer getInstrumentNumber() {
-    return instrumentNumber;
-  }
-
-  public void setInstrumentNumber(Integer instrumentNumber) {
-    this.instrumentNumber = instrumentNumber;
-  }
-
   @Override
   public String getId() {
     return "/public/files/instruments/" + instrumentId + "/attachments/" + fileName;
-  }
-
-  public Integer getIndexInInstrument() {
-    return indexInInstrument;
-  }
-
-  public void setIndexInInstrument(Integer indexInInstrument) {
-    this.indexInInstrument = indexInInstrument;
   }
 }

@@ -1,5 +1,5 @@
 /**
-* plotly.js (cartesian) v1.31.0
+* plotly.js (cartesian) v1.31.2
 * Copyright 2012-2017, Plotly, Inc.
 * All rights reserved.
 * Licensed under the MIT license
@@ -16963,10 +16963,12 @@ dragElement.unhoverRaw = unhover.raw;
  *          e is the original event
  */
 dragElement.init = function init(options) {
-    var gd = options.gd,
-        numClicks = 1,
-        DBLCLICKDELAY = interactConstants.DBLCLICKDELAY,
-        startX,
+    var gd = options.gd;
+    var numClicks = 1;
+    var DBLCLICKDELAY = interactConstants.DBLCLICKDELAY;
+    var element = options.element;
+
+    var startX,
         startY,
         newMouseDownTime,
         cursor,
@@ -16975,12 +16977,16 @@ dragElement.init = function init(options) {
 
     if(!gd._mouseDownTime) gd._mouseDownTime = 0;
 
-    options.element.style.pointerEvents = 'all';
+    element.style.pointerEvents = 'all';
 
-    options.element.onmousedown = onStart;
-    options.element.ontouchstart = onStart;
+    element.onmousedown = onStart;
+    element.ontouchstart = onStart;
 
     function onStart(e) {
+        if(e.buttons && e.buttons === 2) {    // right click
+            return;
+        }
+
         // make dragging and dragged into properties of gd
         // so that others can look at and modify them
         gd._dragged = false;
@@ -17005,29 +17011,28 @@ dragElement.init = function init(options) {
 
         if(hasHover) {
             dragCover = coverSlip();
-            dragCover.style.cursor = window.getComputedStyle(options.element).cursor;
+            dragCover.style.cursor = window.getComputedStyle(element).cursor;
         }
         else {
             // document acts as a dragcover for mobile, bc we can't create dragcover dynamically
             dragCover = document;
             cursor = window.getComputedStyle(document.documentElement).cursor;
-            document.documentElement.style.cursor = window.getComputedStyle(options.element).cursor;
+            document.documentElement.style.cursor = window.getComputedStyle(element).cursor;
         }
 
-        dragCover.addEventListener('mousemove', onMove);
-        dragCover.addEventListener('mouseup', onDone);
-        dragCover.addEventListener('mouseout', onDone);
-        dragCover.addEventListener('touchmove', onMove);
-        dragCover.addEventListener('touchend', onDone);
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('mouseup', onDone);
+        document.addEventListener('touchmove', onMove);
+        document.addEventListener('touchend', onDone);
 
         return Lib.pauseEvent(e);
     }
 
     function onMove(e) {
-        var offset = pointerOffset(e),
-            dx = offset[0] - startX,
-            dy = offset[1] - startY,
-            minDrag = options.minDrag || constants.MINDRAG;
+        var offset = pointerOffset(e);
+        var dx = offset[0] - startX;
+        var dy = offset[1] - startY;
+        var minDrag = options.minDrag || constants.MINDRAG;
 
         if(Math.abs(dx) < minDrag) dx = 0;
         if(Math.abs(dy) < minDrag) dy = 0;
@@ -17042,11 +17047,10 @@ dragElement.init = function init(options) {
     }
 
     function onDone(e) {
-        dragCover.removeEventListener('mousemove', onMove);
-        dragCover.removeEventListener('mouseup', onDone);
-        dragCover.removeEventListener('mouseout', onDone);
-        dragCover.removeEventListener('touchmove', onMove);
-        dragCover.removeEventListener('touchend', onDone);
+        document.removeEventListener('mousemove', onMove);
+        document.removeEventListener('mouseup', onDone);
+        document.removeEventListener('touchmove', onMove);
+        document.removeEventListener('touchend', onDone);
 
         if(hasHover) {
             Lib.removeElement(dragCover);
@@ -29662,7 +29666,7 @@ exports.svgAttrs = {
 var Plotly = require('./plotly');
 
 // package version injected by `npm run preprocess`
-exports.version = '1.31.0';
+exports.version = '1.31.2';
 
 // inject promise polyfill
 require('es6-promise').polyfill();
@@ -46689,7 +46693,7 @@ module.exports = function prepSelect(e, startX, startY, dragOptions, mode) {
     for(i = 0; i < gd.calcdata.length; i++) {
         cd = gd.calcdata[i];
         trace = cd[0].trace;
-        if(!trace._module || !trace._module.selectPoints) continue;
+        if(trace.visible !== true || !trace._module || !trace._module.selectPoints) continue;
 
         if(dragOptions.subplot) {
             if(
@@ -54608,7 +54612,11 @@ var fileSaver = function(url, name) {
 
         // IE 10+ (native saveAs)
         if(typeof navigator !== 'undefined' && navigator.msSaveBlob) {
-            navigator.msSaveBlob(new Blob([url]), name);
+            // At this point we are only dealing with a SVG encoded as
+            // a data URL (since IE only supports SVG)
+            var encoded = url.split(/^data:image\/svg\+xml,/)[1];
+            var svg = decodeURIComponent(encoded);
+            navigator.msSaveBlob(new Blob([svg]), name);
             resolve(name);
         }
 
@@ -55043,7 +55051,7 @@ module.exports = function toSVG(gd, format, scale) {
         // url in svg are single quoted
         //   since we changed double to single
         //   we'll need to change these to double-quoted
-        s = s.replace(/(\('#)([^']*)('\))/gi, '(\"$2\")');
+        s = s.replace(/(\('#)([^']*)('\))/gi, '(\"#$2\")');
         // font names with spaces will be escaped single-quoted
         //   we'll need to change these to double-quoted
         s = s.replace(/(\\')/gi, '\"');
@@ -56177,11 +56185,8 @@ var DESELECTDIM = require('../../constants/interactions').DESELECTDIM;
 module.exports = function selectPoints(searchInfo, polygon) {
     var cd = searchInfo.cd;
     var selection = [];
-    var trace = cd[0].trace;
     var node3 = cd[0].node3;
     var i;
-
-    if(trace.visible !== true) return;
 
     if(polygon === false) {
         // clear selection
@@ -58590,18 +58595,13 @@ function makePath(pi, loc, edgeflag, xtol, ytol) {
     if(cnt === 10000) {
         Lib.log('Infinite loop in contour?');
     }
-    var closedpath = equalPts(pts[0], pts[pts.length - 1], xtol, ytol),
-        totaldist = 0,
-        distThresholdFactor = 0.2 * pi.smoothing,
-        alldists = [],
-        cropstart = 0,
-        distgroup,
-        cnt2,
-        cnt3,
-        newpt,
-        ptcnt,
-        ptavg,
-        thisdist;
+    var closedpath = equalPts(pts[0], pts[pts.length - 1], xtol, ytol);
+    var totaldist = 0;
+    var distThresholdFactor = 0.2 * pi.smoothing;
+    var alldists = [];
+    var cropstart = 0;
+    var distgroup, cnt2, cnt3, newpt, ptcnt, ptavg, thisdist,
+        i, j, edgepathi, edgepathj;
 
     /*
      * Check for points that are too close together (<1/5 the average dist
@@ -58686,41 +58686,45 @@ function makePath(pi, loc, edgeflag, xtol, ytol) {
 
         // edge path - does it start where an existing edge path ends, or vice versa?
         var merged = false;
-        pi.edgepaths.forEach(function(edgepath, edgei) {
-            if(!merged && equalPts(edgepath[0], pts[pts.length - 1], xtol, ytol)) {
+        for(i = 0; i < pi.edgepaths.length; i++) {
+            edgepathi = pi.edgepaths[i];
+            if(!merged && equalPts(edgepathi[0], pts[pts.length - 1], xtol, ytol)) {
                 pts.pop();
                 merged = true;
 
                 // now does it ALSO meet the end of another (or the same) path?
                 var doublemerged = false;
-                pi.edgepaths.forEach(function(edgepath2, edgei2) {
-                    if(!doublemerged && equalPts(
-                            edgepath2[edgepath2.length - 1], pts[0], xtol, ytol)) {
+                for(j = 0; j < pi.edgepaths.length; j++) {
+                    edgepathj = pi.edgepaths[j];
+                    if(equalPts(edgepathj[edgepathj.length - 1], pts[0], xtol, ytol)) {
                         doublemerged = true;
-                        pts.splice(0, 1);
-                        pi.edgepaths.splice(edgei, 1);
-                        if(edgei2 === edgei) {
+                        pts.shift();
+                        pi.edgepaths.splice(i, 1);
+                        if(j === i) {
                             // the path is now closed
-                            pi.paths.push(pts.concat(edgepath2));
+                            pi.paths.push(pts.concat(edgepathj));
                         }
                         else {
-                            pi.edgepaths[edgei2] =
-                                pi.edgepaths[edgei2].concat(pts, edgepath2);
+                            if(j > i) j--;
+                            pi.edgepaths[j] = edgepathj.concat(pts, edgepathi);
                         }
+                        break;
                     }
-                });
+                }
                 if(!doublemerged) {
-                    pi.edgepaths[edgei] = pts.concat(edgepath);
+                    pi.edgepaths[i] = pts.concat(edgepathi);
                 }
             }
-        });
-        pi.edgepaths.forEach(function(edgepath, edgei) {
-            if(!merged && equalPts(edgepath[edgepath.length - 1], pts[0], xtol, ytol)) {
-                pts.splice(0, 1);
-                pi.edgepaths[edgei] = edgepath.concat(pts);
+        }
+        for(i = 0; i < pi.edgepaths.length; i++) {
+            if(merged) break;
+            edgepathi = pi.edgepaths[i];
+            if(equalPts(edgepathi[edgepathi.length - 1], pts[0], xtol, ytol)) {
+                pts.shift();
+                pi.edgepaths[i] = edgepathi.concat(pts);
                 merged = true;
             }
-        });
+        }
 
         if(!merged) pi.edgepaths.push(pts);
     }
@@ -66546,7 +66550,7 @@ module.exports = function selectPoints(searchInfo, polygon) {
 
     // TODO: include lines? that would require per-segment line properties
     var hasOnlyLines = (!subtypes.hasMarkers(trace) && !subtypes.hasText(trace));
-    if(trace.visible !== true || hasOnlyLines) return;
+    if(hasOnlyLines) return [];
 
     var opacity = Array.isArray(marker.opacity) ? 1 : marker.opacity;
 

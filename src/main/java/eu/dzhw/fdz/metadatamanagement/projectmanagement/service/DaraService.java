@@ -12,8 +12,6 @@ import java.util.Map;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
@@ -41,6 +39,7 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Access component for getting health information or registration or updates for dara and the doi.
@@ -48,10 +47,8 @@ import freemarker.template.TemplateExceptionHandler;
  * @author Daniel Katzberg
  */
 @Service
+@Slf4j
 public class DaraService {
-  
-  private final Logger log = LoggerFactory.getLogger(DaraService.class);
-  
   public static final String IS_ALiVE_ENDPOINT = "api/isAlive";
   public static final String REGISTRATION_ENDPOINT = "study/importXML";
       
@@ -71,6 +68,9 @@ public class DaraService {
   private Environment env;
   
   private RestTemplate restTemplate;
+  
+  //Key for Register XML Template
+  private static final String KEY_REGISTER_XML_TMPL = "register.xml.tmpl";
   
   //Resource Type
   private static final int RESOURCE_TYPE_DATASET = 2;
@@ -122,7 +122,8 @@ public class DaraService {
     //Fill template
     String filledTemplate = this.fillTemplate(registerXmlStr, 
             this.getTemplateConfiguration(), 
-            this.getDataForTemplate(projectId, AVAILABILITY_CONTROLLED_DELIVERY));
+            this.getDataForTemplate(projectId, AVAILABILITY_CONTROLLED_DELIVERY),
+            KEY_REGISTER_XML_TMPL);
     
     //Send Rest Call for Registration
     HttpStatus httpStatusFromDara = 
@@ -138,7 +139,7 @@ public class DaraService {
    */
   private HttpStatus postToDaraImportXml(String filledTemplate, boolean hasBeenReleasedBefore) {
     
-    this.log.debug("XML Element to Dara: " + filledTemplate);
+    log.debug("XML Element to Dara: " + filledTemplate);
     
     //Load Dara Information
     final String daraEndpoint = 
@@ -202,7 +203,8 @@ public class DaraService {
     //Fill template
     String filledTemplate = this.fillTemplate(registerXmlStr, 
             this.getTemplateConfiguration(), 
-            this.getDataForTemplate(projectId, AVAILABILITY_CONTROLLED_NOT_AVAILABLE));
+            this.getDataForTemplate(projectId, AVAILABILITY_CONTROLLED_NOT_AVAILABLE),
+            KEY_REGISTER_XML_TMPL);
     
     //Send Rest Call for Registration
     return this.postToDaraImportXml(filledTemplate, project.getHasBeenReleasedBefore()); 
@@ -263,15 +265,16 @@ public class DaraService {
    * @param templateContent The content of a xml template.
    * @param templateConfiguration The configuration for freemarker.
    * @param dataForTemplateThe data for a xml template. 
+   * @param fileName filename of the script which will be filled in this method.
    * @return The filled xml templates as byte array.
    * @throws IOException Handles IO Exception.
    * @throws TemplateException Handles template Exceptions.
    */
   private String fillTemplate(String templateContent,
-      Configuration templateConfiguration, Map<String, Object> dataForTemplate) 
+      Configuration templateConfiguration, Map<String, Object> dataForTemplate, String fileName) 
           throws IOException, TemplateException {
     // Read Template and escape elements
-    Template texTemplate = new Template("xmlTemplate", templateContent, templateConfiguration);
+    Template texTemplate = new Template(fileName, templateContent, templateConfiguration);
     try (Writer stringWriter = new StringWriter()) {
       texTemplate.process(dataForTemplate, stringWriter);
       

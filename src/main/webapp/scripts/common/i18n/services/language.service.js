@@ -22,7 +22,11 @@ angular.module('metadatamanagementApp').factory('LanguageService',
       },
 
       setCurrent: function(language) {
+        if ($rootScope.currentLanguage === language) {
+          return;
+        }
         $rootScope.currentLanguage = language;
+        $rootScope.$broadcast('current-language-changed', language);
         $translate.storage().set('NG_TRANSLATE_LANG_KEY', language);
         tmhDynamicLocale.set(language).then(function() {
           $translate.use(language);

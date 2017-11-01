@@ -18,13 +18,14 @@ addons:
     packages:
       - g++-4.9
 before_install:
+  - sudo rm -vf /etc/apt/sources.list.d/*riak*
   - wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
   - echo "deb http://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
   - sudo apt-get update -qq
   - sudo apt-get install cf-cli -y
 # turn off travis default mvn install call and install a recent node version instead
 install:
-  - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install 8.7.0
+  - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install 8.8.1
   - npm install -g bower
   - npm install -g grunt-cli
 # do not install into local maven repo to avoid polluting the cache

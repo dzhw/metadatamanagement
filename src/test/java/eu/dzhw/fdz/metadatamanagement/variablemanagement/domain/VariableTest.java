@@ -8,8 +8,7 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.builders.I18nStringBuilder;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.builders.VariableBuilder;
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 
 /**
  * @author Daniel Katzberg
@@ -21,12 +20,12 @@ public class VariableTest {
   public void testEquals() {
 
     // Arrange
-    Variable variable1 = new VariableBuilder().withId("1")
+    Variable variable1 = Variable.builder().id("1")
       .build();
-    Variable variable1_1 = new VariableBuilder().withId("1")
-      .withLabel(new I18nStringBuilder().withDe("Label").withEn("Label").build())
+    Variable variable1_1 = Variable.builder().id("1")
+      .label(I18nString.builder().de("Label").en("Label").build())
       .build();
-    Variable variable2 = new VariableBuilder().withId("2")
+    Variable variable2 = Variable.builder().id("2")
       .build();
 
     // Act

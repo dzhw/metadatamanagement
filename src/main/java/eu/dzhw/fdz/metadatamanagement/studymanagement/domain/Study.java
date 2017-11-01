@@ -13,8 +13,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.google.common.base.MoreObjects;
-
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
@@ -28,7 +26,12 @@ import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.validation.ValidDat
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.validation.ValidStudyId;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.validation.ValidSurveyDesign;
 import io.searchbox.annotations.JestId;
-import net.karneim.pojobuilder.GeneratePojoBuilder;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * The study domain object represents a study. A study can has more than one release. 
@@ -38,9 +41,13 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
  *
  */
 @Document(collection = "studies")
-@GeneratePojoBuilder(
-     intoPackage = "eu.dzhw.fdz.metadatamanagement.studymanagement.domain.builders")
-@ValidStudyId(message = "study-management.error.study.id.not-valid-id") 
+@ValidStudyId(message = "study-management.error.study.id.not-valid-id")
+@Data
+@EqualsAndHashCode(callSuper = false, of = "id")
+@ToString(callSuper = true)
+@NoArgsConstructor 
+@AllArgsConstructor
+@Builder
 public class Study extends AbstractRdcDomainObject {
   
   @Id
@@ -102,132 +109,9 @@ public class Study extends AbstractRdcDomainObject {
   @I18nStringSize(max = StringLengths.LARGE,
       message = "study-management.error.variable.annotations.i18n-string-size")
   private I18nString annotations;
-
-  public Study() {
-    super();
-  }
   
   public Study(Study study) {
     super();
     BeanUtils.copyProperties(study, this);
-  }
-  
-  @Override
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-  
-  public String getDataAcquisitionProjectId() {
-    return dataAcquisitionProjectId;
-  }
-
-  public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
-    this.dataAcquisitionProjectId = dataAcquisitionProjectId;
-  }
-
-  public I18nString getSurveySeries() {
-    return surveySeries;
-  }
-
-  public void setSurveySeries(I18nString surveySeries) {
-    this.surveySeries = surveySeries;
-  }
-
-  public I18nString getTitle() {
-    return title;
-  }
-
-  public void setTitle(I18nString title) {
-    this.title = title;
-  }
-
-  public I18nString getDescription() {
-    return description;
-  }
-
-  public void setDescription(I18nString description) {
-    this.description = description;
-  }
-
-  public I18nString getInstitution() {
-    return institution;
-  }
-
-  public void setInstitution(I18nString institution) {
-    this.institution = institution;
-  }
-
-  public I18nString getSponsor() {
-    return sponsor;
-  }
-
-  public void setSponsor(I18nString sponsor) {
-    this.sponsor = sponsor;
-  }
-
-  public List<Person> getAuthors() {
-    return authors;
-  }
-
-  public void setAuthors(List<Person> authors) {
-    this.authors = authors;
-  }
-
-  /*
-   * (non-Javadoc)
-   * @see eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject#toString()
-   */
-  @Override
-  public String toString() {
-    return MoreObjects.toStringHelper(this)
-      .add("super", super.toString())
-      .add("id", id)
-      .add("title", title)
-      .add("description", description)
-      .add("institution", institution)
-      .add("surveySeries", surveySeries)
-      .add("sponsor", sponsor)
-      .add("authors", authors)
-      .add("dataAvailability", dataAvailability)
-      .add("surveyDesign", surveyDesign)
-      .add("dataAcquisitionProjectId", dataAcquisitionProjectId)
-      .add("annotations", annotations)
-      .toString();
-  }
-
-  public I18nString getDataAvailability() {
-    return dataAvailability;
-  }
-
-  public void setDataAvailability(I18nString dataAvailability) {
-    this.dataAvailability = dataAvailability;
-  }
-
-  public I18nString getSurveyDesign() {
-    return surveyDesign;
-  }
-
-  public void setSurveyDesign(I18nString surveyDesign) {
-    this.surveyDesign = surveyDesign;
-  }
-  
-  public String getDoi() {
-    return doi;
-  }
-
-  public void setDoi(String doi) {
-    this.doi = doi;
-  }
-
-  public I18nString getAnnotations() {
-    return annotations;
-  }
-
-  public void setAnnotations(I18nString annotations) {
-    this.annotations = annotations;
   }
 }

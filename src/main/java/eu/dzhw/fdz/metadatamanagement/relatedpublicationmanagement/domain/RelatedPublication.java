@@ -1,6 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
@@ -12,8 +11,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import com.google.common.base.MoreObjects;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
@@ -27,7 +24,12 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.valida
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidRelatedPublicationId;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidUrl;
 import io.searchbox.annotations.JestId;
-import net.karneim.pojobuilder.GeneratePojoBuilder;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * Domain Object for the Related Publications.
@@ -42,10 +44,14 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
     message = "related-publication-management.error.related-publication.one-study-is-used")
 @ValidPublicationYear(message = "related-publication-management.error.related-publication." 
     + "year.valid")
-@GeneratePojoBuilder(
-    intoPackage = "eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.builders")
 @ValidRelatedPublicationId(message = 
     "related-publication-management.error.related-publication.valid-related-publication-id")
+@Data
+@EqualsAndHashCode(callSuper = false, of = "id")
+@ToString(callSuper = true)
+@NoArgsConstructor 
+@AllArgsConstructor
+@Builder
 public class RelatedPublication extends AbstractRdcDomainObject {
 
   @Id
@@ -103,182 +109,25 @@ public class RelatedPublication extends AbstractRdcDomainObject {
 
   /* Foreign Keys */
   @Indexed
-  private List<String> questionIds = new ArrayList<String>();
+  private List<String> questionIds;
   
   @Indexed
-  private List<String> surveyIds = new ArrayList<String>();
+  private List<String> surveyIds;
   
   @Indexed
-  private List<String> variableIds = new ArrayList<String>();
+  private List<String> variableIds;
   
   @Indexed
-  private List<String> dataSetIds = new ArrayList<String>();
+  private List<String> dataSetIds;
   
   @Indexed
-  private List<String> studyIds = new ArrayList<String>();
+  private List<String> studyIds;
   
   @Indexed
-  private List<String> instrumentIds = new ArrayList<String>();
-  
-  public RelatedPublication() {
-    super();
-  }
+  private List<String> instrumentIds;
   
   public RelatedPublication(RelatedPublication relatedPublication) {
     super();
     BeanUtils.copyProperties(relatedPublication, this);
-  }
-  
-  @Override
-  public String getId() {
-    return this.id;
-  }
-
-  public String getDoi() {
-    return doi;
-  }
-
-  public void setDoi(String doi) {
-    this.doi = doi;
-  }
-
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public String getAuthors() {
-    return authors;
-  }
-
-  public void setAuthors(String authors) {
-    this.authors = authors;
-  }
-  
-  /* GETTER / SETTER */
-  public String getSourceReference() {
-    return sourceReference;
-  }
-
-  public void setSourceReference(String sourceReference) {
-    this.sourceReference = sourceReference;
-  }
-
-  public String getPublicationAbstract() {
-    return publicationAbstract;
-  }
-
-  public void setPublicationAbstract(String publicationAbstract) {
-    this.publicationAbstract = publicationAbstract;
-  }
-
-  public String getSourceLink() {
-    return sourceLink;
-  }
-
-  public void setSourceLink(String sourceLink) {
-    this.sourceLink = sourceLink;
-  }
-
-  public Integer getYear() {
-    return year;
-  }
-
-  public void setYear(Integer year) {
-    this.year = year;
-  }
-
-  public I18nString getAbstractSource() {
-    return abstractSource;
-  }
-
-  public void setAbstractSource(I18nString abstractSource) {
-    this.abstractSource = abstractSource;
-  }
-  
-  public String getLanguage() {
-    return language;
-  }
-
-  public void setLanguage(String language) {
-    this.language = language;
-  }
-
-  public List<String> getQuestionIds() {
-    return questionIds;
-  }
-
-  public void setQuestionIds(List<String> questionIds) {
-    this.questionIds = questionIds;
-  }
-
-  public List<String> getSurveyIds() {
-    return surveyIds;
-  }
-
-  public void setSurveyIds(List<String> surveyIds) {
-    this.surveyIds = surveyIds;
-  }
-
-  public List<String> getVariableIds() {
-    return variableIds;
-  }
-
-  public void setVariableIds(List<String> variableIds) {
-    this.variableIds = variableIds;
-  }
-
-  public List<String> getDataSetIds() {
-    return dataSetIds;
-  }
-
-  public void setDataSetIds(List<String> dataSetIds) {
-    this.dataSetIds = dataSetIds;
-  }
-
-  public List<String> getStudyIds() {
-    return studyIds;
-  }
-
-  public void setStudyIds(List<String> studyIds) {
-    this.studyIds = studyIds;
-  }
-
-  public List<String> getInstrumentIds() {
-    return instrumentIds;
-  }
-
-  public void setInstrumentIds(List<String> instrumentIds) {
-    this.instrumentIds = instrumentIds;
-  }
-
-  @Override
-  public String toString() {
-    return MoreObjects.toStringHelper(this)
-      .add("super", super.toString())
-      .add("id", id)
-      .add("doi", doi)
-      .add("title", title)
-      .add("authors", authors)
-      .add("sourceReference", sourceReference)
-      .add("publicationAbstract", publicationAbstract)
-      .add("sourceLink", sourceLink)
-      .add("year", year)
-      .add("abstractSource", abstractSource)
-      .add("language", language)
-      .add("questionIds", questionIds)
-      .add("surveyIds", surveyIds)
-      .add("variableIds", variableIds)
-      .add("dataSetIds", dataSetIds)
-      .add("studyIds", studyIds)
-      .add("instrumentIds", instrumentIds)
-      .toString();
   }
 }

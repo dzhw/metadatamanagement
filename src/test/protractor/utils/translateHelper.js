@@ -1,27 +1,29 @@
 /* global protractor */
-/* global element */
-/* global by */
-
 'use strict';
-var protractorHelper = require('../utils/protractorWaitHelper');
+var protractorWaitHelper = require('../utils/protractorWaitHelper');
 
-function changeLanguage(htmlElementId, currentUrl, targetLanguage) {
-  var deferred = protractor.promise.defer();
+function changeLanguage(currentUrl, targetLanguage) {
   var currentLanguage;
-  var changeLanguageButton;
+  var deferred = protractor.promise.defer();
   if (currentUrl.indexOf('/de/') !== -1) {
-    changeLanguageButton = element(by.id('changeLanguageToEn'));
     currentLanguage = 'de';
+    protractorWaitHelper.waitFor('changeLanguageToEn').then(
+      function(changeLanguageButton) {
+        if (currentLanguage !== targetLanguage) {
+          changeLanguageButton.click();
+        }
+        deferred.fulfill();
+      });
   } else {
-    changeLanguageButton = element(by.id('changeLanguageToDe'));
     currentLanguage = 'en';
+    protractorWaitHelper.waitFor('changeLanguageToDe').then(
+      function(changeLanguageButton) {
+        if (currentLanguage !== targetLanguage) {
+          changeLanguageButton.click();
+        }
+        deferred.fulfill();
+      });
   }
-  if (currentLanguage !== targetLanguage) {
-    changeLanguageButton.click();
-  }
-  protractorHelper.protractorWaitHelper(htmlElementId).then(function(el) {
-    deferred.fulfill(el);
-  });
   return deferred.promise;
 }
 

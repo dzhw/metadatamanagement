@@ -10,14 +10,19 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpt
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.ValidAccessWay;
-import net.karneim.pojobuilder.GeneratePojoBuilder;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Domain object of the SubDataSet.
  *
  */
-@GeneratePojoBuilder(
-    intoPackage = "eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.builders")
+@Data
+@NoArgsConstructor 
+@AllArgsConstructor
+@Builder
 public class SubDataSet {
   
   @NotEmpty(message = "data-set-management.error.sub-data-set.name.not-empty")
@@ -41,54 +46,4 @@ public class SubDataSet {
   @I18nStringSize(max = StringLengths.LARGE,
       message = "data-set-management.error.sub-data-set.citation-hint.i18n-string-size")
   private I18nString citationHint;
-  
-  public String getName() {
-    return name;
-  }
-  
-  public void setName(String name) {
-    this.name = name;
-  }
-  
-  public int getNumberOfObservations() {
-    return numberOfObservations;
-  }
-  
-  public void setNumberOfObservations(int numberOfObservations) {
-    this.numberOfObservations = numberOfObservations;
-  }
-  
-  public String getAccessWay() {
-    return accessWay;
-  }
-  
-  public void setAccessWay(String accessWay) {
-    this.accessWay = accessWay;
-  }
-  
-  public I18nString getDescription() {
-    return description;
-  }
-  
-  public void setDescription(I18nString description) {
-    this.description = description;
-  }
-  
-  public I18nString getCitationHint() {
-    return citationHint;
-  }
-
-  public void setCitationHint(I18nString citationHint) {
-    this.citationHint = citationHint;
-  }
-
-  @Override
-  public String toString() {
-    return "SubDataSet [name=" + name + ", numberOfObservations=" + numberOfObservations
-        + ", accessWay=" + accessWay + ", description=" + description + ", citationHint="
-        + citationHint + "]";
-  }
-
-  
-
 }
