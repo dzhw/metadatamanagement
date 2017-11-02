@@ -27,7 +27,8 @@ angular.module('metadatamanagementApp').factory(
         var currentPage = Math.floor((currentSearchResultIndex - 1) /
           lastPageObject.size) + 1;
         ToolbarHeaderService.setCurrentSearchPage(currentPage);
-        if (currentSearchResultIndex < lastPageObject.totalHits) {
+        if (currentSearchResultIndex < lastPageObject.totalHits &&
+          currentSearchResultIndex < 10000) {
           SearchDao.search(lastSearchParams.query,
             currentSearchResultIndex + 1,
             lastProjectId, lastSearchParams.filter,

@@ -16,7 +16,7 @@ angular
 .run(
     function($rootScope, $location, $state, LanguageService, Auth, Principal,
       ENV, VERSION, $mdMedia, $transitions, $timeout, $window,
-      WebSocketService, $urlRouter) {
+      WebSocketService, $urlRouter, $document) {
       // sometimes urlRouter does not load the state automatically on startup
       $urlRouter.sync();
       WebSocketService.connect();
@@ -118,6 +118,24 @@ angular
         } else {
           $state.go($rootScope.previousStateName,
             $rootScope.previousStateParams);
+        }
+      };
+
+      $rootScope.showNextSearchResult = function() {
+        var nextButton = $document.find('.fdz-next-search-result');
+        if (nextButton.length === 1) {
+          $timeout(function() {
+            nextButton.click();
+          });
+        }
+      };
+
+      $rootScope.showPreviousSearchResult = function() {
+        var previousButton = $document.find('.fdz-previous-search-result');
+        if (previousButton.length === 1) {
+          $timeout(function() {
+            previousButton.click();
+          });
         }
       };
     })
