@@ -49,6 +49,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 public class DaraService {
+
   public static final String IS_ALiVE_ENDPOINT = "api/isAlive";
   public static final String REGISTRATION_ENDPOINT = "study/importXML";
 
@@ -137,8 +138,6 @@ public class DaraService {
    * @return the HttpStatus from Dara.
    */
   private HttpStatus postToDaraImportXml(String filledTemplate, boolean hasBeenReleasedBefore) {
-
-    log.debug("XML Element to Dara: " + filledTemplate);
 
     //Load Dara Information
     final String daraEndpoint =
