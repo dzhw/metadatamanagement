@@ -43,10 +43,6 @@
 						"index": "analyzed",
 						"analyzer": "ngrams",
 						"norms": false
-					},
-					"keyword": {
-						"type": "keyword",
-						"index": "not_analyzed"
 					}
 				}
 			},
@@ -60,6 +56,10 @@
 						"index": "analyzed",
 						"analyzer": "ngrams",
 						"norms": false
+					},
+					"keyword": {
+						"type": "keyword",
+						"index": "not_analyzed"
 					}
 				}
 			},

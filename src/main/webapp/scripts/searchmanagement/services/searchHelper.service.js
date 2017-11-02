@@ -190,7 +190,7 @@ angular.module('metadatamanagementApp').factory(
             'order': 'desc'
           }
         }, {
-          'title.keyword': 'asc'
+          'authors.keyword': 'asc'
         }
       ]
     };
@@ -282,7 +282,7 @@ angular.module('metadatamanagementApp').factory(
           }
         },
         {
-          'title.keyword': 'asc'
+          'authors.keyword': 'asc'
         }
       ]
     };
