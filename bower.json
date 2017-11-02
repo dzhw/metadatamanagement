@@ -48,7 +48,8 @@
     "stomp-websocket": "^2.3.4",
     "es5-shim": "^4.5.9",
     "es6-shim": "^0.35.3",
-    "hyphenator": "Hyphenator#^5.3.0"
+    "hyphenator": "Hyphenator#^5.3.0",
+    "ng-shortcut": "^0.1.4"
   },
   "overrides": {
     "elasticsearch": {
