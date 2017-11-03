@@ -237,7 +237,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
         ];
 
         query.body.sort = SearchHelperService
-          .createSortByCriteria(elasticsearchType, filter, queryterm);
+          .createSortByCriteria(elasticsearchType);
 
         //a query term
         if (!CleanJSObjectService.isNullOrEmpty(queryterm)) {

@@ -104,271 +104,55 @@ angular.module('metadatamanagementApp').factory(
       }
     };
 
-    //Filter: No
-    //Query: No
-    var sortByCriteriaWithoutFilterWithoutQuery = {
+    var sortCriteriaByType = {
       'studies': [
-        {
-          'id': {
-            'order': 'asc'
-          }
-        }
+        '_score',
+        'id'
       ],
       'variables': [
-        {
-          'studyId': {
-            'order': 'asc'
-          }
-        },
-        {
-          'dataSetId': {
-            'order': 'asc'
-          }
-        },
-        {
-          'indexInDataSet': {
-            'order': 'asc'
-          }
-        }
+        '_score',
+        'studyId',
+        'dataSetId',
+        'indexInDataSet'
       ],
       'surveys': [
-        {
-          'studyId': {
-            'order': 'asc'
-          }
-        },
-        {
-          'number': {
-            'order': 'asc'
-          }
-        }
+        '_score',
+        'studyId',
+        'number'
       ],
       'questions': [
-        {
-          'studyId': {
-            'order': 'asc'
-          }
-        },
-        {
-          'instrumentNumber': {
-            'order': 'asc'
-          }
-        },
-        {
-          'indexInInstrument': {
-            'order': 'asc'
-          }
-        }
+        '_score',
+        'studyId',
+        'instrumentNumber',
+        'indexInInstrument'
       ],
       'instruments': [
-        {
-          'studyId': {
-            'order': 'asc'
-          }
-        },
-        {
-          'number': {
-            'order': 'asc'
-          }
-        }
+        '_score',
+        'studyId',
+        'number'
       ],
       'data_sets': [
-        {
-          'studyId': {
-            'order': 'asc'
-          }
-        },
-        {
-          'number': {
-            'order': 'asc'
-          }
-        }
+        '_score',
+        'studyId',
+        'number'
       ],
       'related_publications': [
-        {
-          'year': {
-            'order': 'desc'
-          }
-        }, {
-          'authors.keyword': 'asc'
-        }
+        '_score',
+        {year: {order: 'desc'}},
+        'authors.keyword'
       ]
     };
 
-    //Filter: Yes
-    //Query: No
-    var sortByCriteriaWithFilterWithoutQuery = {
-      'studies': [
-        {
-          'id': {
-            'order': 'asc'
-          }
-        }
-      ],
-      'variables': [
-        {
-          'studyId': {
-            'order': 'asc'
-          }
-        },
-        {
-          'dataSetId': {
-            'order': 'asc'
-          }
-        },
-        {
-          'indexInDataSet': {
-            'order': 'asc'
-          }
-        }
-      ],
-      'surveys': [
-        {
-          'studyId': {
-            'order': 'asc'
-          }
-        },
-        {
-          'number': {
-            'order': 'asc'
-          }
-        }
-      ],
-      'questions': [
-        {
-          'studyId': {
-            'order': 'asc'
-          }
-        },
-        {
-          'instrumentNumber': {
-            'order': 'asc'
-          }
-        },
-        {
-          'number': {
-            'order': 'asc'
-          }
-        }
-      ],
-      'instruments': [
-        {
-          'studyId': {
-            'order': 'asc'
-          }
-        },
-        {
-          'number': {
-            'order': 'asc'
-          }
-        }
-      ],
-      'data_sets': [
-        {
-          'studyId': {
-            'order': 'asc'
-          }
-        },
-        {
-          'number': {
-            'order': 'asc'
-          }
-        }
-      ],
-      'related_publications': [
-        {
-          'year': {
-            'order': 'desc'
-          }
-        },
-        {
-          'authors.keyword': 'asc'
-        }
-      ]
-    };
-
-    //Filter: No
-    //Query: Yes
-    var sortByCriteriaWithoutFilterWithQuery = {
-      'studies': [
-        '_score'
-      ],
-      'variables': [
-        '_score'
-      ],
-      'surveys': [
-        '_score'
-      ],
-      'questions': [
-        '_score'
-      ],
-      'instruments': [
-        '_score'
-      ],
-      'data_sets': [
-        '_score'
-      ],
-      'related_publications': [
-        '_score'
-      ]
-    };
-
-    //Filter: Yes
-    //Query: Yes
-    var sortByCriteriaWithFilterWithQuery = {
-      'studies': [
-        '_score'
-      ],
-      'variables': [
-        '_score'
-      ],
-      'surveys': [
-        '_score'
-      ],
-      'questions': [
-        '_score'
-      ],
-      'instruments': [
-        '_score'
-      ],
-      'data_sets': [
-        '_score'
-      ],
-      'related_publications': [
-        '_score'
-      ]
-    };
-
-    //Returns the search criteria depending on filter and queryTerm.
-    var createSortByCriteria = function(elasticsearchType, filter, queryTerm) {
-
-      //Filter: No
-      //Query: No
-      if (CleanJSObjectService.isNullOrEmpty(filter) &&
-        CleanJSObjectService.isNullOrEmpty(queryTerm)) {
-        return sortByCriteriaWithoutFilterWithoutQuery[elasticsearchType];
+    //Returns the search criteria
+    var createSortByCriteria = function(elasticsearchType) {
+      // no special sorting for all tab
+      if (CleanJSObjectService.isNullOrEmpty(elasticsearchType)) {
+        return [
+          '_score'
+        ];
       }
 
-      //Filter: Yes
-      //Query: No
-      if (!CleanJSObjectService.isNullOrEmpty(filter) &&
-        CleanJSObjectService.isNullOrEmpty(queryTerm)) {
-        return sortByCriteriaWithFilterWithoutQuery[elasticsearchType];
-      }
-
-      //Filter: No
-      //Query: Yes
-      if (CleanJSObjectService.isNullOrEmpty(filter) &&
-        !CleanJSObjectService.isNullOrEmpty(queryTerm)) {
-        return sortByCriteriaWithoutFilterWithQuery[elasticsearchType];
-      }
-
-      //Filter: Yes
-      //Query: Yes
-      if (!CleanJSObjectService.isNullOrEmpty(filter) &&
-        !CleanJSObjectService.isNullOrEmpty(queryTerm)) {
-        return sortByCriteriaWithFilterWithQuery[elasticsearchType];
-      }
+      return sortCriteriaByType[elasticsearchType];
     };
 
     var createTermFilters = function(elasticsearchType, filter) {
