@@ -1,4 +1,6 @@
 <div ng-if="ctrl.instrument.id">
+    <previous-search-result bowser="bowser" current-language="currentLanguage"></previous-search-result>
+    <next-search-result bowser="bowser" current-language="currentLanguage"></next-search-result>
     <div layout="row" style="margin-bottom: 0px;" layout-margin>
         <h1 class="md-headline" style="margin-left: 0px;"><span display-i18n-string="ctrl.instrument.description" fdz-hyphenate></span> <span class="label label-as-badge label-default">{{ctrl.instrument.id}}</span></h1>
     </div>
@@ -179,6 +181,4 @@
             </table>
         </md-card>
     </div>
-    <previous-search-result bowser="bowser" current-language="currentLanguage"></previous-search-result>
-    <next-search-result bowser="bowser" current-language="currentLanguage"></next-search-result>
 </div>

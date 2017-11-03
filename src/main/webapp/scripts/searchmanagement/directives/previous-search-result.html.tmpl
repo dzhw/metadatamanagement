@@ -1,5 +1,5 @@
 <md-button ng-style="leftMarginStyle" ng-if="url" class="md-primary md-fab md-mini fdz-previous-search-result" ng-href="{{url}}" shortcut="ctrl-37">
-    <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+    <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
         {{'search-management.buttons.previous-search-result-tooltip' | translate : { id: previousSearchResult.id, index: previousSearchResultIndex } }}
     </md-tooltip>
     <md-icon md-font-set="material-icons">navigate_before</md-icon>

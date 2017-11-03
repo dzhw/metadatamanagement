@@ -1,4 +1,6 @@
 <div ng-if="ctrl.study.id">
+    <previous-search-result bowser="bowser" current-language="currentLanguage"></previous-search-result>
+    <next-search-result bowser="bowser" current-language="currentLanguage"></next-search-result>
     <div layout="row" style="margin-bottom: 0px;" layout-margin>
         <h1 class="md-headline" style="margin-left: 0px;"><span display-i18n-string="ctrl.study.title" fdz-hyphenate></span> <span class="label label-as-badge label-default">{{ctrl.study.id}}</span></h1>
     </div>
@@ -328,6 +330,4 @@
             </md-content>
         </md-card>
     </div>
-    <previous-search-result bowser="bowser" current-language="currentLanguage"></previous-search-result>
-    <next-search-result bowser="bowser" current-language="currentLanguage"></next-search-result>
 </div>

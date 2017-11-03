@@ -1,4 +1,6 @@
 <div ng-if="ctrl.survey.id">
+    <previous-search-result bowser="bowser" current-language="currentLanguage"></previous-search-result>
+    <next-search-result bowser="bowser" current-language="currentLanguage"></next-search-result>
     <div layout="row" style="margin-bottom: 0px;" layout-margin>
         <h1 class="md-headline" style="margin-left: 0px;"><span display-i18n-string="ctrl.survey.title" fdz-hyphenate></span> <span class="label label-as-badge label-default">{{ctrl.survey.id}}</span></h1>
     </div>
@@ -235,6 +237,4 @@
             <div class="fdz-fake-empty-card fdz-reset-top-margin" ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm')}"></div>
         </div>
     </div>
-    <previous-search-result bowser="bowser" current-language="currentLanguage"></previous-search-result>
-    <next-search-result bowser="bowser" current-language="currentLanguage"></next-search-result>
 </div>
