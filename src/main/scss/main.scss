@@ -825,6 +825,7 @@ md-sidenav#SideNavBar, .md-sidenav-backdrop {
   border-top-left-radius: 0px !important;
   width: 20px !important;
   transition: width 0.25s !important;
+  z-index: 100 !important;
 }
 
 .fdz-previous-search-result > md-icon {
@@ -843,6 +844,7 @@ md-sidenav#SideNavBar, .md-sidenav-backdrop {
   border-top-right-radius: 0px !important;
   width: 20px !important;
   transition: width 0.25s !important;
+  z-index: 100 !important;
 }
 
 .fdz-previous-search-result:hover, .fdz-previous-search-result:focus, .fdz-next-search-result:hover, .fdz-next-search-result:focus {
