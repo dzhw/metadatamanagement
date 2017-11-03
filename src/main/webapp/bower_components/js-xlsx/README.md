@@ -1439,8 +1439,9 @@ if a sheet is visible is to check if the `Hidden` property is logical truth:
 
 VBA Macros are stored in a special data blob that is exposed in the `vbaraw`
 property of the workbook object when the `bookVBA` option is `true`.  They are
-supported in `XLSM`, `XLSB`, and `BIFF8 XLS` formats.  The `XLSM` and `XLSB`
-writers automatically insert the data blobs if it is present in the workbook.
+supported in `XLSM`, `XLSB`, and `BIFF8 XLS` formats.  The supported format
+writers automatically insert the data blobs if it is present in the workbook and
+associate with the worksheet names.
 
 <details>
 	<summary><b>Macrosheets</b> (click to show)</summary>
@@ -1640,6 +1641,7 @@ output formats.  The specific file type is controlled with `bookType` option:
 | `sylk`     | `.sylk`  |   none    | single | Symbolic Link (SYLK)            |
 | `html`     | `.html`  |   none    | single | HTML Document                   |
 | `dif`      | `.dif`   |   none    | single | Data Interchange Format (DIF)   |
+| `dbf`      | `.dbf`   |   none    | single | dBASE II + VFP Extensions (DBF) |
 | `rtf`      | `.rtf`   |   none    | single | Rich Text Format (RTF)          |
 | `prn`      | `.prn`   |   none    | single | Lotus Formatted Text            |
 
@@ -1973,7 +1975,7 @@ Despite the library name `xlsx`, it supports numerous spreadsheet file formats:
 | OpenDocument Spreadsheet (ODS)                               |  :o:  |  :o:  |
 | Flat XML ODF Spreadsheet (FODS)                              |  :o:  |  :o:  |
 | Uniform Office Format Spreadsheet (标文通 UOS1/UOS2)         |  :o:  |       |
-| dBASE II/III/IV / Visual FoxPro (DBF)                        |  :o:  |       |
+| dBASE II/III/IV / Visual FoxPro (DBF)                        |  :o:  |  :o:  |
 | Lotus 1-2-3 (WKS/WK1/WK2/WK3/WK4/123)                        |  :o:  |       |
 | Quattro Pro Spreadsheet (WQ1/WQ2/WB1/WB2/WB3/QPW)            |  :o:  |       |
 | **Other Common Spreadsheet Output Formats**                  |:-----:|:-----:|
@@ -2142,10 +2144,12 @@ Many older formats supported only one worksheet:
 
 DBF is really a typed table format: each column can only hold one data type and
 each record omits type information.  The parser generates a header row and
-inserts records starting at the second row of the worksheet.
+inserts records starting at the second row of the worksheet.  The writer makes
+files compatible with Visual FoxPro extensions.
 
 Multi-file extensions like external memos and tables are currently unsupported,
-limited by the general ability to read arbitrary files in the web browser.
+limited by the general ability to read arbitrary files in the web browser.  The
+reader understands DBF Level 7 extensions like DATETIME.
 
 </details>
 
@@ -2399,6 +2403,22 @@ make test -- run mocha test suite
 make misc -- run smaller test suite
 make book -- rebuild README and summary
 make help -- display this message
+```
+
+As explained in [Test Files](#test-files), on Windows the release ZIP file must
+be downloaded and extracted.  If Bash on Windows is available, it is possible
+to run the OSX/Linux workflow.  The following steps prepares the environment:
+
+```bash
+# Install support programs for the build and test commands
+sudo apt-get install make git subversion mercurial
+
+# Install nodejs and NPM within the WSL
+wget -qO- https://deb.nodesource.com/setup_8.x | sudo bash
+sudo apt-get install nodejs
+
+# Install dev dependencies
+sudo npm install -g mocha voc blanket xlsjs
 ```
 
 </details>
