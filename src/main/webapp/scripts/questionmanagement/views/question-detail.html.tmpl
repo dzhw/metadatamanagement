@@ -82,7 +82,7 @@
                               </a>
                         </div>
                         <div ng-if="ctrl.counts.surveysCount > 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="search({'type': 'surveys', 'question': ctrl.question.id, 'study': ctrl.question.studyId, 'instrument': ctrl.question.instrumentId, 'sort-by': 'number'})">
+                            <a ui-sref="search({'type': 'surveys', 'question': ctrl.question.id, 'study': ctrl.question.studyId, 'instrument': ctrl.question.instrumentId})">
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                                 {{'survey-management.detail.label.surveys' | translate }}: ({{ctrl.counts.surveysCount}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
@@ -121,7 +121,7 @@
                             </a>
                         </div>
                         <div ng-if="ctrl.counts.variablesCount > 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="search({'type': 'variables', 'question': ctrl.question.id, 'study': ctrl.question.studyId, 'instrument': ctrl.question.instrumentId, 'sort-by': 'dataSetNumber,indexInDataSet'})">
+                            <a ui-sref="search({'type': 'variables', 'question': ctrl.question.id, 'study': ctrl.question.studyId, 'instrument': ctrl.question.instrumentId})">
                                 <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
                                 {{'variable-management.detail.label.variables' | translate }}: ({{ctrl.counts.variablesCount}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
