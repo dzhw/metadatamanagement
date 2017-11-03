@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').factory(
-  'SearchFilterHelperService',
+  'SearchHelperService',
   function(CleanJSObjectService) {
     var keyMapping = {
       'studies': {
@@ -101,7 +101,58 @@ angular.module('metadatamanagementApp').factory(
       },
       'related_publications': {
         'related-publication': '_id'
-      },
+      }
+    };
+
+    var sortCriteriaByType = {
+      'studies': [
+        '_score',
+        'id'
+      ],
+      'variables': [
+        '_score',
+        'studyId',
+        'dataSetId',
+        'indexInDataSet'
+      ],
+      'surveys': [
+        '_score',
+        'studyId',
+        'number'
+      ],
+      'questions': [
+        '_score',
+        'studyId',
+        'instrumentNumber',
+        'indexInInstrument'
+      ],
+      'instruments': [
+        '_score',
+        'studyId',
+        'number'
+      ],
+      'data_sets': [
+        '_score',
+        'studyId',
+        'number'
+      ],
+      'related_publications': [
+        '_score',
+        {year: {order: 'desc'}},
+        'authors.keyword'
+      ]
+    };
+
+    //Returns the search criteria
+    var createSortByCriteria = function(elasticsearchType) {
+      // no special sorting for all tab
+      if (CleanJSObjectService.isNullOrEmpty(elasticsearchType)) {
+        return [
+          '_score'
+        ];
+      }
+
+      return sortCriteriaByType[elasticsearchType];
     };
 
     var createTermFilters = function(elasticsearchType, filter) {
@@ -147,7 +198,8 @@ angular.module('metadatamanagementApp').factory(
       createTermFilters: createTermFilters,
       removeIrrelevantFilters: removeIrrelevantFilters,
       getAvailableFilters: getAvailableFilters,
-      getHiddenFilters: getHiddenFilters
+      getHiddenFilters: getHiddenFilters,
+      createSortByCriteria: createSortByCriteria
     };
   }
 );

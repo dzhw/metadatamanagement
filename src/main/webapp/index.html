@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html class="no-js" ng-app="metadatamanagementApp" lang="{{currentLanguage}}">
+<html class="no-js" data-ng-app="metadatamanagementApp" data-lang="{{currentLanguage}}">
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="google" content="notranslate">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -40,22 +40,22 @@
     <!-- endbuild -->
 </head>
 
-<body id="body" layout="row" block-ui="main" class="block-ui-main">
+<body id="body" data-layout="row" data-block-ui="main" class="block-ui-main">
     <!--[if lt IE 11]> <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p> <![endif]-->
-    <div class="fdz-splash" ng-cloak>
+    <div class="fdz-splash" data-ng-cloak>
         <div>
             <p>Metadatamanagement...</p>
             <i class="material-icons">hourglass_empty</i>
         </div>
     </div>
-    <div style="position: fixed; width: 100%; height: 100%; pointer-events: none; z-index: 1000;" layout="column">
-      <div flex id="toast-container"></div>
+    <div style="position: fixed; width: 100%; height: 100%; pointer-events: none; z-index: 1000;" data-layout="column">
+      <div data-flex id="toast-container"></div>
     </div>
     <fdz-navbar ng-cloak></fdz-navbar>
-    <div flex layout="column" id="content-container" ng-cloak>
+    <div data-flex data-layout="column" id="content-container" data-ng-cloak>
         <fdz-toolbar></fdz-toolbar>
-        <div tabindex="-1" flex layout="column" class="fdz-content">
-          <ui-view name="content" flex layout="column" tabindex="-1"></ui-view>
+        <div tabindex="-1" data-flex data-layout="column" class="fdz-content">
+          <ui-view name="content" data-flex data-layout="column" tabindex="-1"></ui-view>
         </div>
     </div>
 
@@ -346,7 +346,7 @@
     <script src="scripts/searchmanagement/services/elasticSearch.client.service.js"></script>
     <script src="scripts/searchmanagement/services/search.dao.js"></script>
     <script src="scripts/searchmanagement/services/elasticSearchAdmin.service.js"></script>
-    <script src="scripts/searchmanagement/services/searchFilterHelper.service.js"></script>
+    <script src="scripts/searchmanagement/services/searchHelper.service.js"></script>
     <script src="scripts/searchmanagement/configuration/search.js"></script>
     <script src="scripts/searchmanagement/configuration/translations-de.js"></script>
     <script src="scripts/searchmanagement/configuration/translations-en.js"></script>

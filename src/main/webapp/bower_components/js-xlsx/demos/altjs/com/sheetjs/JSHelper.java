@@ -34,7 +34,7 @@ public class JSHelper {
 		NativeArray arr = (NativeArray)get_object(path, base);
 		Object[] out = new Object[(int)arr.getLength()];
 		int idx;
-		for(Object o : arr.getIds()) out[idx = (Integer)o] = arr.get(idx, arr);
+		for(Object o : arr.getIds()) out[idx = (Integer)o] = arr.get(idx, arr); 
 		return out;
 	}
 
@@ -42,10 +42,10 @@ public class JSHelper {
 		NativeArray arr = (NativeArray)get_object(path, base);
 		String[] out = new String[(int)arr.getLength()];
 		int idx;
-		for(Object o : arr.getIds()) out[idx = (Integer)o] = arr.get(idx, arr).toString();
+		for(Object o : arr.getIds()) out[idx = (Integer)o] = arr.get(idx, arr).toString(); 
 		return out;
 	}
-
+	
 	public static void close() { Context.exit(); }
 
 }

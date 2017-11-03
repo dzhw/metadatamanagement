@@ -3,9 +3,9 @@
 
 angular.module('metadatamanagementApp')
   .controller('SearchFilterPanelController', [
-    '$scope', 'SearchFilterHelperService', '$timeout', 'StudyIdBuilderService',
+    '$scope', 'SearchHelperService', '$timeout', 'StudyIdBuilderService',
     'CurrentProjectService', '$element', 'CleanJSObjectService', '$mdSelect',
-    function($scope, SearchFilterHelperService, $timeout,
+    function($scope, SearchHelperService, $timeout,
       StudyIdBuilderService, CurrentProjectService, $element,
       CleanJSObjectService, $mdSelect) {
       var elasticSearchTypeChanged = false;
@@ -59,12 +59,12 @@ angular.module('metadatamanagementApp')
 
       $scope.$watch('currentElasticsearchType', function() {
         elasticSearchTypeChanged = true;
-        $scope.availableFilters = SearchFilterHelperService.getAvailableFilters(
+        $scope.availableFilters = SearchHelperService.getAvailableFilters(
           $scope.currentElasticsearchType);
         $scope.displayAvailableFilters = createDisplayAvailableFilterList(
           $scope.availableFilters);
         $scope.availableHiddenFilters = _.intersection(
-          SearchFilterHelperService.getHiddenFilters(
+          SearchHelperService.getHiddenFilters(
             $scope.currentElasticsearchType),
             _.keys($scope.currentSearchParams.filter)
         );
