@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<resource xmlns="http://da-ra.de/schema/kernel-4"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://da-ra.de/schema/kernel-4 http://www.da-ra.de/fileadmin/media/da-ra.de/Technik/4.0/dara.xsd">
+<resource xmlns="http://da-ra.de/schema/kernel-4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://da-ra.de/schema/kernel-4 http://www.da-ra.de/fileadmin/media/da-ra.de/Technik/4.0/dara.xsd">
     <resourceType>${resourceType}</resourceType>
     <resourceIdentifier>
         <identifier>dzhw:${study.dataAcquisitionProjectId}:1.0.0</identifier>
@@ -23,14 +21,25 @@
             <person>
                 <firstName>${author.firstName}</firstName>
                 <#if author.middleName??>
-                <middleName>${author.middleName}</middleName>
-                <#else>
-                <middleName/>
+                    <middleName>${author.middleName}</middleName>
+                    <#else>
+                        <middleName/>
                 </#if>
                 <lastName>${author.lastName}</lastName>
             </person>
         </creator>
         </#list>
+        <#if study.institution??>
+        <creator>
+            <institution>
+                <#if study.institution.de??>
+                <institutionName>${study.institution.de}</institutionName>
+                <#else>
+                <institutionName>${study.institution.en}</institutionName>
+                </#if>
+            </institution>
+        </creator>
+        </#if>
     </creators>
     <dataURLs>
         <dataURL>
@@ -38,9 +47,9 @@
         </dataURL>
     </dataURLs>
     <#if !isDaraTest>
-    <doiProposal>${study.doi}</doiProposal>
-    <#else>
-    <doiProposal>${study.doi?replace("10.21249", "10.5072")}</doiProposal>
+        <doiProposal>${study.doi}</doiProposal>
+        <#else>
+        <doiProposal>${study.doi?replace("10.21249", "10.5072")}</doiProposal>
     </#if>
     <publicationDate>
         <date>${releaseDate}</date>
@@ -48,4 +57,32 @@
     <availability>
         <availabilityType>${availabilityControlled}</availabilityType>
     </availability>
+    <#if study.annotations??>
+    <descriptions>
+        <description>
+            <language>de</language>
+            <freetext>${study.annotations.de}</freetext>
+            <descriptionType>Abstract</descriptionType>
+        </description>
+        <description>
+            <language>en</language>
+            <freetext>${study.annotations.en}</freetext>
+            <descriptionType>Abstract</descriptionType>
+        </description>
+        <#list surveys as survey>
+        <#if survey.annotations??>
+        <description>
+            <language>de</language>
+            <freetext>${survey.annotations.de}</freetext>
+            <descriptionType>Methods</descriptionType>
+        </description>
+        <description>
+            <language>en</language>
+            <freetext>${survey.annotations.en}</freetext>
+            <descriptionType>Methods</descriptionType>
+        </description>
+        </#if>
+        </#list>
+    </descriptions>
+    </#if>
 </resource>

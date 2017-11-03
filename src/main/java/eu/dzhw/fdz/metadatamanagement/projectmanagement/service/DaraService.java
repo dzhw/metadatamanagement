@@ -8,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.codec.binary.Base64;
@@ -35,6 +36,8 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -61,6 +64,9 @@ public class DaraService {
 
   @Autowired
   private StudyRepository studyRepository;
+  
+  @Autowired
+  private SurveyRepository surveyRepository;
 
   @Value(value = "classpath:templates/dara/register.xml.tmpl")
   private Resource registerXml;
@@ -203,7 +209,10 @@ public class DaraService {
     //Get Study Information
     Study study = this.studyRepository.findOneByDataAcquisitionProjectId(projectId);
     dataForTemplate.put("study", study);
-
+    
+    List<Survey> surveys = this.surveyRepository.findByDataAcquisitionProjectId(projectId);
+    dataForTemplate.put("surveys", surveys);
+    
     //Add Date
     DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
     dataForTemplate.put("releaseDate", formatter.format(LocalDate.now()));
