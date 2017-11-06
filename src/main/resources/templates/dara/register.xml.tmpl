@@ -29,7 +29,6 @@
             </person>
         </creator>
         </#list>
-        <#if study.institution??>
         <creator>
             <institution>
                 <#if study.institution.de??>
@@ -39,7 +38,6 @@
                 </#if>
             </institution>
         </creator>
-        </#if>
     </creators>
     <dataURLs>
         <dataURL>
@@ -68,21 +66,25 @@
             <language>en</language>
             <freetext>${study.annotations.en}</freetext>
             <descriptionType>Abstract</descriptionType>
-        </description>
-        <#list surveys as survey>
-        <#if survey.annotations??>
-        <description>
-            <language>de</language>
-            <freetext>${survey.annotations.de}</freetext>
-            <descriptionType>Methods</descriptionType>
-        </description>
-        <description>
-            <language>en</language>
-            <freetext>${survey.annotations.en}</freetext>
-            <descriptionType>Methods</descriptionType>
-        </description>
-        </#if>
-        </#list>
+        </description>        
     </descriptions>
-    </#if>
+    </#if>    
+    <temporalCoverages>
+        <#list surveys as survey>   
+        <#if survey.fieldPeriod.start??>     
+        <temporalCoverage>
+            <temporalCoverageFormal>            
+	            <startDate>
+	               <date>${survey.fieldPeriod.start}</date>
+	            </startDate>
+	            <#if survey.fieldPeriod.end??>
+	             <endDate>
+	               <date>${survey.fieldPeriod.end}</date>
+	             </endDate>
+	            </#if>
+            </temporalCoverageFormal>
+        </temporalCoverage>
+        </#if>        
+        </#list>
+    </temporalCoverages>
 </resource>

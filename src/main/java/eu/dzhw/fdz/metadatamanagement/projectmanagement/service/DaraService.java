@@ -144,6 +144,8 @@ public class DaraService {
    * @return the HttpStatus from Dara.
    */
   private HttpStatus postToDaraImportXml(String filledTemplate, boolean hasBeenReleasedBefore) {
+    
+    this.log.debug(filledTemplate);
 
     //Load Dara Information
     final String daraEndpoint =
