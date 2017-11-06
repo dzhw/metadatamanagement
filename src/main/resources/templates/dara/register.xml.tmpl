@@ -87,4 +87,30 @@
         </#if>        
         </#list>
     </temporalCoverages>
+    <#if study.sponsor??>
+    <fundingReferences>
+        <fundingReference>
+            <institution>
+                <#if study.sponsor.de??>
+                    <institutionName>${study.sponsor.de}</institutionName>
+                <#else>
+                    <institutionName>${study.sponsor.en}</institutionName>
+                </#if>
+            </institution>
+        </fundingReference>
+    </fundingReferences>
+    </#if>
+    <dataSets>
+        <#list dataSets as dataSet>
+        <#list dataSet.subDataSets as subDataSet>
+        <#if subDataSet.numberOfObservations??>
+        <dataSet>
+            <unitType>Individual</unitType>
+            <numberUnits>${subDataSet.numberOfObservations}</numberUnits>
+            <numberVariables>${numberObservationMap[dataSet.id]}</numberVariables>
+        </dataSet>
+        </#if>
+        </#list>
+        </#list>
+    </dataSets>
 </resource>

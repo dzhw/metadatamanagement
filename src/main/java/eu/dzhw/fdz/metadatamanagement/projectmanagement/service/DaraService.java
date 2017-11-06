@@ -32,12 +32,15 @@ import com.google.common.base.Charsets;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -67,6 +70,12 @@ public class DaraService {
   
   @Autowired
   private SurveyRepository surveyRepository;
+  
+  @Autowired 
+  private DataSetRepository dataSetRepository;
+  
+  @Autowired
+  private VariableRepository variableRepository;
 
   @Value(value = "classpath:templates/dara/register.xml.tmpl")
   private Resource registerXml;
@@ -145,7 +154,8 @@ public class DaraService {
    */
   private HttpStatus postToDaraImportXml(String filledTemplate, boolean hasBeenReleasedBefore) {
     
-    this.log.debug(filledTemplate);
+    log.debug("The filled Template for dara:");
+    log.debug(filledTemplate);
 
     //Load Dara Information
     final String daraEndpoint =
@@ -212,8 +222,21 @@ public class DaraService {
     Study study = this.studyRepository.findOneByDataAcquisitionProjectId(projectId);
     dataForTemplate.put("study", study);
     
+    //Get Surveys Information
     List<Survey> surveys = this.surveyRepository.findByDataAcquisitionProjectId(projectId);
     dataForTemplate.put("surveys", surveys);
+    
+    //Get Datasets Information
+    List<DataSet> dataSets = this.dataSetRepository.findByDataAcquisitionProjectId(projectId);
+    dataForTemplate.put("dataSets", dataSets);
+    HashMap<String, Integer> dataSetNumberObservationMap = new HashMap<>();
+    
+    for (DataSet dataSet : dataSets) {
+      int numberVariables = this.variableRepository.findByDataSetId(dataSet.getId()).size();
+      dataSetNumberObservationMap.put(dataSet.getId(), numberVariables);
+    }
+    dataForTemplate.put("numberObservationMap", dataSetNumberObservationMap);
+    
     
     //Add Date
     DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
