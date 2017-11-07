@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp').controller(
     };
 
     $scope.$location = $location;
-    
+
     $scope.$watch(function() {
       return $document.find('#toolbar')[0].clientHeight;
     }, function(newHeight) {
