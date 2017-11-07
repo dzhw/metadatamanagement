@@ -68,7 +68,8 @@
             <descriptionType>Abstract</descriptionType>
         </description>        
     </descriptions>
-    </#if>    
+    </#if>
+    <#if surveys??>    
     <temporalCoverages>
         <#list surveys as survey>   
         <#if survey.fieldPeriod.start??>     
@@ -87,6 +88,7 @@
         </#if>        
         </#list>
     </temporalCoverages>
+    </#if>
     <#if study.sponsor??>
     <fundingReferences>
         <fundingReference>
@@ -100,6 +102,31 @@
         </fundingReference>
     </fundingReferences>
     </#if>
+    <#if surveys??>
+    <collectionModes>
+        <#list surveys as survey>
+        <#if survey.surveyMethod??>
+         <collectionMode>
+            <collectionModesFree>
+                <#if survey.surveyMethod.de??>
+                <collectionModeFree>
+                    <language>de</language>
+                    <freetext>${survey.surveyMethod.de}</freetext>
+                </collectionModeFree>
+                </#if>
+                <#if survey.surveyMethod.en??>
+                <collectionModeFree>
+                    <language>en</language>
+                    <freetext>${survey.surveyMethod.en}</freetext>
+                </collectionModeFree>
+                </#if>
+            </collectionModesFree>
+         </collectionMode>
+         </#if>
+        </#list>
+    </collectionModes>
+    </#if>
+    <#if dataSets??>
     <dataSets>
         <#list dataSets as dataSet>
         <#list dataSet.subDataSets as subDataSet>
@@ -113,6 +140,7 @@
         </#list>
         </#list>
     </dataSets>
+    </#if>
     <#if relatedPublications??>
     <publications>
         <#list relatedPublications as publication>
