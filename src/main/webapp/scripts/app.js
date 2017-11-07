@@ -263,10 +263,10 @@ angular
           'hue-3': '400'
         })
         .accentPalette('dzhwAccentPalette', {
-          'default': 'A100',
-          'hue-1': '800',
-          'hue-2': '600',
-          'hue-3': '400'
+          'default': '900',
+          'hue-1': '700',
+          'hue-2': '500',
+          'hue-3': '300'
         })
         .warnPalette('dzhwWarnPalette', {
           'default': 'A100',
