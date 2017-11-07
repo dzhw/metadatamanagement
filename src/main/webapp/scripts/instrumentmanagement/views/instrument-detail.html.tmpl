@@ -74,7 +74,7 @@
                             </a>
                        </div>
                         <div ng-if="ctrl.surveyCount > 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="search({'type': 'surveys', 'instrument':ctrl.instrument.id, 'study': ctrl.instrument.studyId, 'sort-by': 'number'})">
+                            <a ui-sref="search({'type': 'surveys', 'instrument':ctrl.instrument.id, 'study': ctrl.instrument.studyId})">
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                                 {{'survey-management.detail.label.surveys' | translate }}: ({{ctrl.surveyCount}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
@@ -99,7 +99,7 @@
                             </a>
                        </div>
                         <div ng-if="ctrl.questionCount > 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="search({'instrument': ctrl.instrument.id, 'study': ctrl.instrument.studyId, 'type': 'questions', 'sort-by': 'indexInInstrument'})">
+                            <a ui-sref="search({'instrument': ctrl.instrument.id, 'study': ctrl.instrument.studyId, 'type': 'questions'})">
                                 <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
                                 {{'question-management.detail.label.questions' | translate }}: ({{ctrl.questionCount}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">

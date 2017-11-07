@@ -4,7 +4,7 @@
 
 angular.module('metadatamanagementApp').service('SearchDao',
   function(ElasticSearchClient, CleanJSObjectService, Principal,
-    LanguageService, StudyIdBuilderService, SearchFilterHelperService,
+    LanguageService, StudyIdBuilderService, SearchHelperService,
     clientId) {
     var addAdditionalShouldQueries = function(elasticsearchType, query,
       boolQuery) {
@@ -211,7 +211,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
 
     return {
       search: function(queryterm, pageNumber, dataAcquisitionProjectId,
-        filter, elasticsearchType, pageSize, sortBy) {
+        filter, elasticsearchType, pageSize) {
         var query = {};
         query.preference = clientId;
         var studyId;
@@ -235,16 +235,10 @@ angular.module('metadatamanagementApp').service('SearchDao',
           'instrumentNumber', 'instrument.description', 'surveys.title',
           'language', 'subDataSets', 'accessWays', 'maxNumberOfObservations'
         ];
-        if (sortBy && sortBy !== '') {
-          query.body.sort = [];
-          sortBy.split(',').forEach(function(fieldName) {
-            var sortCriteria = {};
-            sortCriteria[fieldName] = {
-              'order': 'asc'
-            };
-            query.body.sort.push(sortCriteria);
-          });
-        }
+
+        query.body.sort = SearchHelperService
+          .createSortByCriteria(elasticsearchType);
+
         //a query term
         if (!CleanJSObjectService.isNullOrEmpty(queryterm)) {
           query.body.query = {
@@ -335,11 +329,11 @@ angular.module('metadatamanagementApp').service('SearchDao',
 
         if (!CleanJSObjectService.isNullOrEmpty(filter)) {
           if (!query.body.query.bool.filter) {
-            query.body.query.bool.filter = SearchFilterHelperService
+            query.body.query.bool.filter = SearchHelperService
             .createTermFilters(elasticsearchType, filter);
           } else {
             query.body.query.bool.filter = _.concat(
-              query.body.query.bool.filter, SearchFilterHelperService
+              query.body.query.bool.filter, SearchHelperService
               .createTermFilters(elasticsearchType, filter));
           }
         }

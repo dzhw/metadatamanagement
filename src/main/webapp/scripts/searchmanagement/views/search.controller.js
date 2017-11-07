@@ -12,7 +12,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     DataSetUploadService, StudyUploadService, SurveyUploadService,
     CleanJSObjectService, InstrumentUploadService,
     CurrentProjectService, $timeout, PageTitleService, ToolbarHeaderService,
-    SearchFilterHelperService, SearchResultNavigatorService) {
+    SearchHelperService, SearchResultNavigatorService) {
 
     var queryChangedOnInit = false;
     var tabChangedOnInitFlag = false;
@@ -252,7 +252,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
         selectedTabChangeIsBeingHandled = true;
         $timeout(function() {
           if (!tabChangedOnInitFlag) {
-            $scope.searchParams.filter = SearchFilterHelperService
+            $scope.searchParams.filter = SearchHelperService
               .removeIrrelevantFilters(
                 $scope.tabs[$scope.searchParams.selectedTabIndex]
                   .elasticSearchType,

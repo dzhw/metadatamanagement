@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').factory('StudySearchService',
   function(ElasticSearchClient, $q, CleanJSObjectService,
-    SearchFilterHelperService, LanguageService) {
+    SearchHelperService, LanguageService) {
     var createQueryObject = function() {
       return {
         index: 'studies',
@@ -27,7 +27,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       }
       if (!CleanJSObjectService.isNullOrEmpty(filter)) {
         termFilter = _.concat(termFilter,
-          SearchFilterHelperService.createTermFilters('studies', filter));
+          SearchHelperService.createTermFilters('studies', filter));
       }
       return termFilter;
     };

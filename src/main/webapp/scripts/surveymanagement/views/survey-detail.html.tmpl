@@ -94,7 +94,7 @@
                           </a>
                       </div>
                         <div ng-if="ctrl.counts.instrumentsCount > 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="search({'type': 'instruments', 'survey':ctrl.survey.id, 'study': ctrl.survey.studyId, 'sort-by': 'number'})">
+                            <a ui-sref="search({'type': 'instruments', 'survey':ctrl.survey.id, 'study': ctrl.survey.studyId})">
                                 <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
                                 {{'instrument-management.detail.label.instruments' | translate }}: ({{ctrl.counts.instrumentsCount}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
@@ -119,7 +119,7 @@
                             </a>
                         </div>
                         <div ng-if="ctrl.counts.dataSetsCount > 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="search({'type': 'data_sets', 'survey':ctrl.survey.id, 'study': ctrl.survey.studyId, 'sort-by': 'number'})">
+                            <a ui-sref="search({'type': 'data_sets', 'survey':ctrl.survey.id, 'study': ctrl.survey.studyId})">
                                 <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
                                 {{'data-set-management.detail.label.data-sets' | translate }}: ({{ctrl.counts.dataSetsCount}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
@@ -134,7 +134,7 @@
                             {{'survey-management.detail.label.surveys-same-study' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
                         <div ng-if="ctrl.counts.surveysCount > 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="search({'type': 'surveys', 'study':ctrl.survey.studyId, 'sort-by': 'number'})">
+                            <a ui-sref="search({'type': 'surveys', 'study':ctrl.survey.studyId})">
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                                 {{'survey-management.detail.label.surveys-same-study' | translate }}: ({{ctrl.counts.surveysCount}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">

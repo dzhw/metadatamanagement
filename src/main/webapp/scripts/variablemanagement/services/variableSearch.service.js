@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').factory('VariableSearchService',
-  function(ElasticSearchClient, $q, SearchFilterHelperService,
+  function(ElasticSearchClient, $q, SearchHelperService,
     CleanJSObjectService) {
     var createQueryObject = function() {
       return {
@@ -148,7 +148,7 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
       }
       if (!CleanJSObjectService.isNullOrEmpty(filter)) {
         termFilter = _.concat(termFilter,
-          SearchFilterHelperService.createTermFilters('variables', filter));
+          SearchHelperService.createTermFilters('variables', filter));
       }
       return termFilter;
     };
