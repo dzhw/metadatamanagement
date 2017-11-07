@@ -54,7 +54,7 @@ angular.module('metadatamanagementApp').directive('diagram',
               ]
             });
           }
-        }, 1000);
+        });
       };
       switch (scope.variable.scaleLevel.en) {
         case 'ratio':
@@ -91,7 +91,7 @@ angular.module('metadatamanagementApp').directive('diagram',
               } else {
                 data[0].x.push(obj.value);
               }
-              if (obj.label[scope.language]) {
+              if (obj.label && obj.label[scope.language]) {
                 data[0].text.push(relativeFrequency +
                   '<br>' + obj.label[scope.language]);
               } else {

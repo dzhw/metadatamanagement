@@ -189,7 +189,7 @@ angular
       blockUIConfig.templateUrl = 'scripts/common/blockui/blockUI.html.tmpl';
       blockUIConfig.autoInjectBodyBlock = false;
       blockUIConfig.blockBrowserNavigation = true;
-      blockUIConfig.delay = 100;
+      blockUIConfig.delay = 50;
       // Tell the blockUI service to ignore certain requests
       blockUIConfig.requestFilter = function(config) {
         // If the request contains '/api/search' ...

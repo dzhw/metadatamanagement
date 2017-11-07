@@ -173,6 +173,8 @@ angular.module('metadatamanagementApp')
     };
 
     $scope.isDiagramVisible = function() {
-      return $scope.variable.distribution.validResponses.length > 0;
+      return $scope.variable.distribution &&
+        $scope.variable.distribution.validResponses &&
+        $scope.variable.distribution.validResponses.length > 0;
     };
   });
