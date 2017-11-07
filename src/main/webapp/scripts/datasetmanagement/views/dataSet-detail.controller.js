@@ -7,7 +7,9 @@ angular.module('metadatamanagementApp')
       DataSetSearchService, DataSetReportService, PageTitleService,
       LanguageService, $state, ToolbarHeaderService, CleanJSObjectService,
       SimpleMessageToastService, DataSetAttachmentResource,
-      DataSetCitateDialogService) {
+      DataSetCitateDialogService, SearchResultNavigatorService, $stateParams) {
+      SearchResultNavigatorService.registerCurrentSearchResult(
+          $stateParams['search-result-index']);
       var ctrl = this;
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAuthority = Principal.hasAuthority;

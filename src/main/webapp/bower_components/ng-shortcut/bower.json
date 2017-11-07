@@ -1,0 +1,23 @@
+{
+  "name": "ng-shortcut",
+  "main": "ng-shortcut.js",
+  "version": "0.1.4",
+  "authors": [
+    "Philipp Bosch <hello@pb.io>"
+  ],
+  "description": "An Angular.JS directive to bind keyboard shortcuts to DOM elements",
+  "keywords": [
+    "angular",
+    "keyboard",
+    "shortcut"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/philippbosch/ng-shortcut",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

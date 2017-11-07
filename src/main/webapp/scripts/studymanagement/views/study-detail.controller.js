@@ -4,7 +4,9 @@ angular.module('metadatamanagementApp')
   .controller('StudyDetailController',
     function(entity, PageTitleService, LanguageService, DataSetSearchService,
       $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
-      StudyAttachmentResource) {
+      StudyAttachmentResource, SearchResultNavigatorService, $stateParams) {
+      SearchResultNavigatorService.registerCurrentSearchResult(
+          $stateParams['search-result-index']);
       var ctrl = this;
       ctrl.counts = {};
       entity.promise.then(function(result) {

@@ -10,7 +10,8 @@ angular.module('metadatamanagementApp').directive('surveySearchResult',
         searchResult: '=',
         currentLanguage: '=',
         bowser: '=',
-        addMargin: '='
+        addMargin: '=',
+        searchResultIndex: '='
       }
     };
   });

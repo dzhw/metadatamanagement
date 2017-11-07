@@ -4,7 +4,10 @@ angular.module('metadatamanagementApp')
   .controller('SurveyDetailController',
     function(entity, LanguageService, CleanJSObjectService,
       PageTitleService, $state, ToolbarHeaderService, SurveySearchService,
-      SurveyAttachmentResource, Principal, SimpleMessageToastService) {
+      SurveyAttachmentResource, Principal, SimpleMessageToastService,
+      SearchResultNavigatorService, $stateParams) {
+      SearchResultNavigatorService.registerCurrentSearchResult(
+          $stateParams['search-result-index']);
       var ctrl = this;
       ctrl.imgResolved = false;
       ctrl.counts = {};
