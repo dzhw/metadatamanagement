@@ -39,7 +39,6 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Distribution;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.FilterDetails;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.FilterExpressionLanguages;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.GenerationDetails;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Histogram;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Missing;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RelatedQuestion;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RuleExpressionLanguages;
@@ -365,19 +364,12 @@ public class UnitTestCreateDomainObjectUtils {
       .build();
   }
 
-  public static Histogram buildHistogram() {
-    return Histogram.builder().start(0.0)
-      .end(10.0)
-      .numberOfBins(10)
-      .build();
-  }
-
   public static Distribution buildDistribution() {
     List<Missing> missings = new ArrayList<>();
     missings.add(buildMissing());
     List<ValidResponse> validResponses = new ArrayList<>();
     validResponses.add(buildValidResponse());
-    return Distribution.builder().histogram(buildHistogram())
+    return Distribution.builder()
       .missings(missings)
       .validResponses(validResponses)
       .statistics(buildStatistics())

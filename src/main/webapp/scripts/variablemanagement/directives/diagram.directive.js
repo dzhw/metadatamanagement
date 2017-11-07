@@ -57,56 +57,20 @@ angular.module('metadatamanagementApp').directive('diagram',
         }, 1000);
       };
       switch (scope.variable.scaleLevel.en) {
-        case 'verhältnis':
         case 'ratio':
-          if (scope.variable.distribution.histogram) {
-            var size = Math.abs(scope.variable.distribution.histogram.end -
-              scope.variable.distribution.histogram.start) /
-              scope.variable.distribution.histogram.numberOfBins;
-            data[0].x = [];
-            data[0].type = 'histogram';
-            data[0].autobinx = false;
-            data[0].xbins = {
-              start: scope.variable.distribution.histogram.start,
-              end: scope.variable.distribution.histogram.end,
-              size: size
-            };
-            data[0].hoverinfo = 'text+y';
-            data[0].text = [];
-            var relativeFrequencies = new Array(
-              scope.variable.distribution.histogram.numberOfBins);
-            if (scope.variable.distribution.validResponses) {
-              for (var j = 0;
-                j < scope.variable.distribution.validResponses.length;
-                j++) {
-                var binIndex =
-                  Math.floor(
-                    (scope.variable.distribution.validResponses[j].value -
-                    scope.variable.distribution.histogram.start) / size);
-                relativeFrequencies[binIndex] =
-                  relativeFrequencies[binIndex] ?
-                  relativeFrequencies[binIndex] + scope.variable.distribution
-                    .validResponses[j].validRelativeFrequency :
-                  scope.variable.distribution
-                      .validResponses[j].validRelativeFrequency;
-                for (var k = 0;
-                  k < scope.variable.distribution.validResponses[j]
-                  .absoluteFrequency; k++) {
-                  data[0].x.push(
-                    scope.variable.distribution.validResponses[j].value);
-                }
-              }
-              for (var i = 0; i < relativeFrequencies.length; i++) {
-                var left =
-                  scope.variable.distribution.histogram.start + size * i;
-                var right = scope.variable.distribution.histogram.start +
-                  size * (i + 1);
-                var relativeFrequency =
-                    $filter('number')(relativeFrequencies[i] || 0, 2) + ' %';
-                data[0].text.push(relativeFrequency +
-                  '<br>[' + $filter('number')(left, 2) +
-                  '; ' +
-                  $filter('number')(right, 2) + ')');
+          data[0].x = [];
+          data[0].type = 'histogram';
+          data[0].autobinx = true;
+          data[0].hoverinfo = 'x+y';
+          if (scope.variable.distribution.validResponses) {
+            for (var j = 0;
+              j < scope.variable.distribution.validResponses.length;
+              j++) {
+              for (var k = 0;
+                k < scope.variable.distribution.validResponses[j]
+                .absoluteFrequency; k++) {
+                data[0].x.push(
+                  scope.variable.distribution.validResponses[j].value);
               }
             }
           }
@@ -139,16 +103,19 @@ angular.module('metadatamanagementApp').directive('diagram',
           }
           break;
       }
-      angular.element($window).on('resize', function() {
+
+      function resizeDiagram() {
         $timeout(function() {
           var update = {
             width: document.getElementById('diagramContainer').offsetWidth
           };
           Plotly.relayout('diagram', update);
-        }, 1000);
-      });
+        });
+      }
+
+      angular.element($window).on('resize', resizeDiagram);
       element.on('$destroy', function() {
-        angular.element($window).off('resize');
+        angular.element($window).off('resize', resizeDiagram);
       });
       drawDiagram();
     };

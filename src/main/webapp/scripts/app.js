@@ -168,11 +168,10 @@ angular
       tmhDynamicLocaleProvider.useStorage('$cookies');
       tmhDynamicLocaleProvider.storageKey('NG_TRANSLATE_LANG_KEY');
 
-      //did not manage to use a templateUrl :-(
       blockUIConfig.templateUrl = 'scripts/common/blockui/blockUI.html.tmpl';
-
       blockUIConfig.autoInjectBodyBlock = false;
       blockUIConfig.blockBrowserNavigation = true;
+      blockUIConfig.delay = 100;
       // Tell the blockUI service to ignore certain requests
       blockUIConfig.requestFilter = function(config) {
         // If the request contains '/api/search' ...

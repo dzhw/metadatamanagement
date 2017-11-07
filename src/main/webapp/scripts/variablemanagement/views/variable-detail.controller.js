@@ -170,20 +170,6 @@ angular.module('metadatamanagementApp')
     };
 
     $scope.isDiagramVisible = function() {
-      if ($scope.variable.scaleLevel != null &&
-        $scope.variable.scaleLevel.en === 'ratio' &&
-        $scope.variable.scaleLevel.de === 'verhältnis') {
-        if ($scope.variable.distribution == null ||
-          $scope.variable.distribution.histogram == null ||
-          $scope.variable.distribution.histogram.numberOfBins == null ||
-          $scope.variable.distribution.histogram.start == null ||
-          $scope.variable.distribution.histogram.end == null) {
-          return false;
-        } else {
-          return true;
-        }
-      } else {
-        return true;
-      }
+      return $scope.variable.distribution.validResponses.length > 0;
     };
   });

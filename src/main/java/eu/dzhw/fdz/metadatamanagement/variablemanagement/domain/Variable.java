@@ -201,7 +201,8 @@ public class Variable extends AbstractRdcDomainObject {
 
   @Valid
   private List<RelatedQuestion> relatedQuestions;
-
+  
+  @Builder.Default
   private Boolean doNotDisplayThousandsSeparator = false;
 
   /* Foreign Keys */
