@@ -24,9 +24,12 @@ public interface RelatedPublicationRepository extends BaseRepository<RelatedPubl
   
   @RestResource(exported = false)
   Slice<RelatedPublication> findBy(Pageable pageable);
+  
+  @RestResource(exported = false)
+  List<RelatedPublication> findByStudyIdsContaining(String studyId);
 
   @RestResource(exported = false)
-  Stream<IdAndVersionProjection> streamIdsByStudyIdsContaining(String studyIdd);
+  Stream<IdAndVersionProjection> streamIdsByStudyIdsContaining(String studyId);
 
   @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamIdsByDataSetIdsContaining(String dataSetId);

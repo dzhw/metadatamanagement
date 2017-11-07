@@ -36,6 +36,8 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
@@ -76,6 +78,9 @@ public class DaraService {
   
   @Autowired
   private VariableRepository variableRepository;
+  
+  @Autowired
+  private RelatedPublicationRepository relatedPublicationRepository;
 
   @Value(value = "classpath:templates/dara/register.xml.tmpl")
   private Resource registerXml;
@@ -237,7 +242,11 @@ public class DaraService {
     }
     dataForTemplate.put("numberObservationMap", dataSetNumberObservationMap);
     
-    
+    //Get Related Publications
+    List<RelatedPublication> relatedPublications = 
+        this.relatedPublicationRepository.findByStudyIdsContaining(study.getId());
+    dataForTemplate.put("relatedPublications", relatedPublications);
+        
     //Add Date
     DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
     dataForTemplate.put("releaseDate", formatter.format(LocalDate.now()));

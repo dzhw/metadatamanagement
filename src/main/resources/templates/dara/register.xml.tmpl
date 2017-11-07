@@ -113,4 +113,17 @@
         </#list>
         </#list>
     </dataSets>
+    <#if relatedPublications??>
+    <publications>
+        <#list relatedPublications as publication>
+        <#if publication.sourceReference??>
+        <publication>
+            <unstructuredPublication>
+                <freetext>${publication.sourceReference}</freetext>
+            </unstructuredPublication>
+        </publication>
+        </#if>
+        </#list>
+    </publications>
+    </#if>
 </resource>
