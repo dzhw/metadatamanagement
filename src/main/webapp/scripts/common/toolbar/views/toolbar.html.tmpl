@@ -9,7 +9,7 @@
         </md-button>
         <div layout="row" layout-align="start center" flex>
             <div ng-repeat="item in toolbarHeaderItems">
-                <md-button style="max-width: 250px; transition: unset;" ng-class="{'md-accent': $first, 'md-primary': !first, 'hide-xs': $mdMedia('xs') && !$first, 'hide-sm': $mdMedia('sm') && !$first, 'md-icon-button': $mdMedia('xs')}" class="md-raised fdz-toolbar-button" ng-if="!$last && !item.notFound && item.state" ui-sref="{{item.state}}">
+                <md-button style="max-width: 250px; transition: unset;" ng-class="{'md-accent': $first, 'md-primary': !$first, 'hide-xs': $mdMedia('xs') && !$first, 'hide-sm': $mdMedia('sm') && !$first, 'md-icon-button': $mdMedia('xs')}" class="md-raised fdz-toolbar-button" ng-if="!$last && !item.notFound && item.state" ui-sref="{{item.state}}">
                     <md-icon ng-if="item.iconType == 'font'" md-font-set="material-icons" aria-label="">{{item.icon}}</md-icon>
                     <md-icon ng-if="item.iconType == 'svg'" md-svg-icon="{{item.icon}}" aria-label=""></md-icon>
                     <span hide-xs class="fdz-truncate-string">{{item.type | translate}}</span>
