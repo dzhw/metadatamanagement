@@ -6,7 +6,10 @@ angular.module('metadatamanagementApp')
   .controller('VariableDetailController', function($scope, entity,
     QuestionSearchService, VariableSearchService, Principal,
     SimpleMessageToastService, PageTitleService, LanguageService,
-    CleanJSObjectService, $state, ToolbarHeaderService) {
+    CleanJSObjectService, $state, ToolbarHeaderService,
+    SearchResultNavigatorService, $stateParams) {
+    SearchResultNavigatorService.registerCurrentSearchResult(
+      $stateParams['search-result-index']);
     $scope.generationCodeToggleFlag = true;
     $scope.filterDetailsCodeToggleFlag = true;
     $scope.notAllRowsVisible = true;

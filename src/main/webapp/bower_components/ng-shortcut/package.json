@@ -1,0 +1,25 @@
+{
+  "name": "ng-shortcut",
+  "version": "0.1.4",
+  "description": "Angular.JS directive for attaching a keyboard shortcut to an element",
+  "main": "ng-shortcut.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/philippbosch/ng-shortcut.git"
+  },
+  "keywords": [
+    "angular",
+    "angularjs",
+    "keyboard",
+    "shortcut"
+  ],
+  "author": "Philipp Bosch <hello@pb.io>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/philippbosch/ng-shortcut/issues"
+  },
+  "homepage": "https://github.com/philippbosch/ng-shortcut"
+}

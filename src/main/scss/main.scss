@@ -815,3 +815,38 @@ md-sidenav#SideNavBar, .md-sidenav-backdrop {
   position: fixed;
   min-height: 100vh;
 }
+
+.fdz-previous-search-result {
+  position: fixed;
+  top: 50%;
+  margin-left: 0px;
+  padding-left: 0px;
+  border-bottom-left-radius: 0px !important;
+  border-top-left-radius: 0px !important;
+  width: 20px !important;
+  transition: width 0.25s !important;
+  z-index: 100 !important;
+}
+
+.fdz-previous-search-result > md-icon {
+  min-width: 20px;
+  width: 20px;
+  direction: rtl;
+}
+
+.fdz-next-search-result {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  margin-right: 0px;
+  padding-left: 1px;
+  border-bottom-right-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+  width: 20px !important;
+  transition: width 0.25s !important;
+  z-index: 100 !important;
+}
+
+.fdz-previous-search-result:hover, .fdz-previous-search-result:focus, .fdz-next-search-result:hover, .fdz-next-search-result:focus {
+  width: 40px !important;
+}
