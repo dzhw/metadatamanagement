@@ -10,13 +10,13 @@ angular
       'ngResource', 'ui.router', 'ngCookies', 'ngAria',
       'ngFileUpload', 'ngMaterial',
       'blockUI', 'LocalStorageModule',
-      'ngMessages', 'katex', 'ngFileSaver', 'duScroll'
+      'ngMessages', 'katex', 'ngFileSaver', 'duScroll', 'ngShortcut'
     ])
 
 .run(
     function($rootScope, $location, $state, LanguageService, Auth, Principal,
       ENV, VERSION, $mdMedia, $transitions, $timeout, $window,
-      WebSocketService, $urlRouter) {
+      WebSocketService, $urlRouter, $document) {
       // sometimes urlRouter does not load the state automatically on startup
       $urlRouter.sync();
       WebSocketService.connect();
@@ -118,6 +118,24 @@ angular
         } else {
           $state.go($rootScope.previousStateName,
             $rootScope.previousStateParams);
+        }
+      };
+
+      $rootScope.showNextSearchResult = function() {
+        var nextButton = $document.find('.fdz-next-search-result');
+        if (nextButton.length === 1) {
+          $timeout(function() {
+            nextButton.click();
+          });
+        }
+      };
+
+      $rootScope.showPreviousSearchResult = function() {
+        var previousButton = $document.find('.fdz-previous-search-result');
+        if (previousButton.length === 1) {
+          $timeout(function() {
+            previousButton.click();
+          });
         }
       };
     })
@@ -245,10 +263,10 @@ angular
           'hue-3': '400'
         })
         .accentPalette('dzhwAccentPalette', {
-          'default': 'A100',
-          'hue-1': '800',
-          'hue-2': '600',
-          'hue-3': '400'
+          'default': '900',
+          'hue-1': '700',
+          'hue-2': '500',
+          'hue-3': '300'
         })
         .warnPalette('dzhwWarnPalette', {
           'default': 'A100',

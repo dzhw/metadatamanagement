@@ -55,7 +55,7 @@
     <div data-flex data-layout="column" id="content-container" data-ng-cloak>
         <fdz-toolbar></fdz-toolbar>
         <div tabindex="-1" data-flex data-layout="column" class="fdz-content">
-          <ui-view name="content" data-flex data-layout="column" tabindex="-1"></ui-view>
+          <ui-view name="content" flex layout="column" tabindex="-1" md-swipe-left="showNextSearchResult()" md-swipe-right="showPreviousSearchResult()"></ui-view>
         </div>
     </div>
 
@@ -117,6 +117,7 @@
     <script src="bower_components/hyphenator/Hyphenator.js"></script>
     <script src="bower_components/hyphenator/patterns/de.js"></script>
     <script src="bower_components/hyphenator/patterns/en-us.js"></script>
+    <script src="bower_components/ng-shortcut/ng-shortcut.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -241,6 +242,7 @@
     <script src="scripts/variablemanagement/services/variableIdBuilder.service.js"></script>
     <script src="scripts/variablemanagement/services/variableUpload.service.js"></script>
     <script src="scripts/variablemanagement/services/variableRepositoryClient.service.js"></script>
+    <script src="scripts/searchmanagement/services/searchResultNavigator.service.js"></script>
     <script src="scripts/variablemanagement/filter/format-response.filter.js"></script>
     <script src="scripts/variablemanagement/views/variable-detail.controller.js"></script>
     <script src="scripts/variablemanagement/directives/diagram.directive.js"></script>
@@ -347,6 +349,7 @@
     <script src="scripts/searchmanagement/services/search.dao.js"></script>
     <script src="scripts/searchmanagement/services/elasticSearchAdmin.service.js"></script>
     <script src="scripts/searchmanagement/services/searchHelper.service.js"></script>
+    <script src="scripts/searchmanagement/services/searchTypeToDetailsStateMapper.service.js"></script>
     <script src="scripts/searchmanagement/configuration/search.js"></script>
     <script src="scripts/searchmanagement/configuration/translations-de.js"></script>
     <script src="scripts/searchmanagement/configuration/translations-en.js"></script>
@@ -382,6 +385,8 @@
     <script src="scripts/searchmanagement/directives/instrument-search-result.directive.js"></script>
     <script src="scripts/searchmanagement/directives/survey-series-search-filter.directive.js"></script>
     <script src="scripts/searchmanagement/directives/survey-series-search-filter.controller.js"></script>
+    <script src="scripts/searchmanagement/directives/next-search-result.directive.js"></script>
+    <script src="scripts/searchmanagement/directives/previous-search-result.directive.js"></script>
 
     <!-- endbuild -->
 </body>

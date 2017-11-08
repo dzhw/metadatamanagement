@@ -10,7 +10,8 @@ angular.module('metadatamanagementApp').directive('datasetSearchResult',
         searchResult: '=',
         currentLanguage: '=',
         bowser: '=',
-        addMargin: '='
+        addMargin: '=',
+        searchResultIndex: '='
       }
     };
   });

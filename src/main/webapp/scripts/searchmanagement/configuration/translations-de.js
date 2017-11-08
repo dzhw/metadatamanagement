@@ -33,7 +33,9 @@ angular.module('metadatamanagementApp').config(
           'upload-studies-tooltip': 'Klicken, um Studie für das ausgewählte Datenaufbereitungsprojekt hochzuladen',
           'upload-related-publications-tooltip': 'Klicken, um Publikationen hochzuladen',
           'post-validate-related-publications-tooltip': 'Klicken, um Publikationen zu validieren',
-          'upload-instruments-tooltip': 'Klicken, um Instrumente für das ausgewählte Datenaufbereitungsprojekt hochzuladen'
+          'upload-instruments-tooltip': 'Klicken, um Instrumente für das ausgewählte Datenaufbereitungsprojekt hochzuladen',
+          'previous-search-result-tooltip': 'Klicken (oder STRG+"\u21E6"), um das {{ index }}. Suchergebnis ({{ id }}) anzuzeigen',
+          'next-search-result-tooltip': 'Klicken (oder STRG+"\u21E8"), um das {{ index }}. Suchergebnis ({{ id }}) anzuzeigen'
         },
         'input-label': {
           'all': 'Suchen Sie Studien, Variablen, Fragen, Erhebungen, Datensätze, Instrumente oder Publikationen...',

@@ -9,7 +9,8 @@ angular.module('metadatamanagementApp').directive('studySearchResult',
       scope: {
         searchResult: '=',
         currentLanguage: '=',
-        bowser: '='
+        bowser: '=',
+        searchResultIndex: '='
       }
     };
   });

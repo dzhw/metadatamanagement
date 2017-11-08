@@ -24,13 +24,13 @@
     </md-card>
     <div flex>
         <div ng-repeat="result in searchResult" ng-switch="result._type">
-            <variable-search-result ng-switch-when="variables" search-result="result._source" current-language="currentLanguage" bowser="bowser"></variable-search-result>
-            <survey-search-result ng-switch-when="surveys" search-result="result._source" current-language="currentLanguage" bowser="bowser" add-margin="$mdMedia('gt-sm')"></survey-search-result>
-            <question-search-result ng-switch-when="questions" search-result="result._source" current-language="currentLanguage" bowser="bowser"></question-search-result>
-            <dataset-search-result ng-switch-when="data_sets" search-result="result._source" current-language="currentLanguage" bowser="bowser" add-margin="$mdMedia('gt-sm')"></dataset-search-result>
-            <study-search-result ng-switch-when="studies" search-result="result._source" current-language="currentLanguage" bowser="bowser"></study-search-result>
-            <related-publication-search-result ng-switch-when="related_publications" search-result="result._source" current-language="currentLanguage" bowser="bowser"></related-publication-search-result>
-            <instrument-search-result ng-switch-when="instruments" search-result="result._source" current-language="currentLanguage" bowser="bowser"></instrument-search-result>
+            <variable-search-result ng-switch-when="variables" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)"></variable-search-result>
+            <survey-search-result ng-switch-when="surveys" search-result="result._source" current-language="currentLanguage" bowser="bowser" add-margin="$mdMedia('gt-sm')" search-result-index="computeSearchResultIndex($index)"></survey-search-result>
+            <question-search-result ng-switch-when="questions" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)"></question-search-result>
+            <dataset-search-result ng-switch-when="data_sets" search-result="result._source" current-language="currentLanguage" bowser="bowser" add-margin="$mdMedia('gt-sm')" search-result-index="computeSearchResultIndex($index)"></dataset-search-result>
+            <study-search-result ng-switch-when="studies" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)"></study-search-result>
+            <related-publication-search-result ng-switch-when="related_publications" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)"></related-publication-search-result>
+            <instrument-search-result ng-switch-when="instruments" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)"></instrument-search-result>
         </div>
         <div ng-if="pageObject.totalHits && pageObject.totalHits > pageObject.size" layout="row" layout-align="center">
             <ul template-url="scripts/common/pagination/custom-uib-pagination.html.tmpl" max-size="$mdMedia('gt-xs')?5:3" boundary-link-numbers="true" uib-pagination next-text="{{'global.pagination.next'|translate}}" previous-text="{{'global.pagination.previous'|translate}}" total-items="pageObject.totalHits" ng-model="pageObject.page" ng-change="onPageChanged()" items-per-page="pageObject.size"

@@ -4,7 +4,10 @@ angular.module('metadatamanagementApp')
   .controller('InstrumentDetailController',
     function(entity, InstrumentAttachmentResource,
       PageTitleService, LanguageService, $state, CleanJSObjectService,
-      ToolbarHeaderService, Principal, SimpleMessageToastService) {
+      ToolbarHeaderService, Principal, SimpleMessageToastService,
+      SearchResultNavigatorService, $stateParams) {
+      SearchResultNavigatorService.registerCurrentSearchResult(
+        $stateParams['search-result-index']);
       //Controller Init
       var ctrl = this;
       ctrl.survey = null;

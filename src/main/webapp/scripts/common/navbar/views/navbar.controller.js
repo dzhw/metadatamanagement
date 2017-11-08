@@ -58,9 +58,13 @@ angular.module('metadatamanagementApp').controller('NavbarController',
         // the updated width comes too late :-(
         $document.find('#content-container').css(
           'margin-left', 320);
+        $document.find('.fdz-previous-search-result').css(
+          'left', 320);
       } else {
         $document.find('#content-container').css(
           'margin-left', 0);
+        $document.find('.fdz-previous-search-result').css(
+          'left', 0);
       }
     }, true);
   });
