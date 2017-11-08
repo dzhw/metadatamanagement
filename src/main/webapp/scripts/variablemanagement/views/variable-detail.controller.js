@@ -49,20 +49,19 @@ angular.module('metadatamanagementApp')
         }
         $scope.study = $scope.variable.study;
         $scope.dataSet = $scope.variable.dataSet;
-        QuestionSearchService.countBy('variables.id', $scope.variable.id)
-          .then(function(questionsCount) {
-            $scope.counts.questionsCount = questionsCount.count;
-            if (questionsCount.count === 1) {
-              QuestionSearchService
-                .findByVariableId($scope.variable.id, ['number',
-                  'instrumentNumber',
-                  'questionText', 'id'
-                ])
-                .then(function(question) {
-                  $scope.question = question.hits.hits[0]._source;
-                });
-            }
-          });
+
+        $scope.counts.questionsCount = $scope.variable.relatedQuestions ?
+          $scope.variable.relatedQuestions.length : 0;
+        if ($scope.counts.questionsCount === 1) {
+          QuestionSearchService
+            .findByVariableId($scope.variable.id, ['number',
+              'instrumentNumber',
+              'questionText', 'id'
+            ])
+            .then(function(question) {
+              $scope.question = question.hits.hits[0]._source;
+            });
+        }
 
         //Find previousVariables
         var previousIndexInDataSet = result.indexInDataSet - 1;

@@ -8,6 +8,7 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
     var buildVariable = function(variableFromJson, dataSet) {
       var dataAcquisitionProjectId = dataSet.dataAcquisitionProjectId;
       var variableObj = variableFromJson;
+      var relatedQuestions = variableFromJson.relatedQuestions;
       variableObj.id = VariableIdBuilderService.buildVariableId(
         dataAcquisitionProjectId, dataSet.dataSetNumber,
         variableFromJson.name
@@ -25,7 +26,7 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
             variableObj.dataAcquisitionProjectId, number));
       });
       variableObj.relatedQuestions = [];
-      _.forEach(variableFromJson.relatedQuestions, function(
+      _.forEach(relatedQuestions, function(
         relatedQuestion) {
         variableObj.relatedQuestions
           .push({
