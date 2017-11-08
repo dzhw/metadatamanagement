@@ -234,10 +234,10 @@ public class DaraService {
     //Get Datasets Information
     List<DataSet> dataSets = this.dataSetRepository.findByDataAcquisitionProjectId(projectId);
     dataForTemplate.put("dataSets", dataSets);
-    HashMap<String, Integer> dataSetNumberObservationMap = new HashMap<>();
+    HashMap<String, Long> dataSetNumberObservationMap = new HashMap<>();
     
     for (DataSet dataSet : dataSets) {
-      int numberVariables = this.variableRepository.findByDataSetId(dataSet.getId()).size();
+      long numberVariables = this.variableRepository.countByDataSetId(dataSet.getId());
       dataSetNumberObservationMap.put(dataSet.getId(), numberVariables);
     }
     dataForTemplate.put("numberObservationMap", dataSetNumberObservationMap);
