@@ -22,8 +22,6 @@
                 <firstName>${author.firstName}</firstName>
                 <#if author.middleName??>
                     <middleName>${author.middleName}</middleName>
-                    <#else>
-                        <middleName/>
                 </#if>
                 <lastName>${author.lastName}</lastName>
             </person>
@@ -57,24 +55,27 @@
     </availability>
     <#if study.annotations??>
     <descriptions>
+        <#if study.annotations.de??>
         <description>
             <language>de</language>
             <freetext>${study.annotations.de}</freetext>
             <descriptionType>Abstract</descriptionType>
         </description>
+        <#else>
         <description>
             <language>en</language>
             <freetext>${study.annotations.en}</freetext>
             <descriptionType>Abstract</descriptionType>
-        </description>        
+        </description>
+        </#if>
     </descriptions>
     </#if>
-    <#if surveys??>    
+    <#if surveys?? && surveys?size gt 0>
     <temporalCoverages>
-        <#list surveys as survey>   
-        <#if survey.fieldPeriod.start??>     
+        <#list surveys as survey>
+        <#if survey.fieldPeriod.start??>
         <temporalCoverage>
-            <temporalCoverageFormal>            
+            <temporalCoverageFormal>
 	            <startDate>
 	               <date>${survey.fieldPeriod.start}</date>
 	            </startDate>
@@ -85,7 +86,7 @@
 	            </#if>
             </temporalCoverageFormal>
         </temporalCoverage>
-        </#if>        
+        </#if>
         </#list>
     </temporalCoverages>
     </#if>
@@ -102,7 +103,7 @@
         </fundingReference>
     </fundingReferences>
     </#if>
-    <#if surveys??>
+    <#if surveys?? && surveys?size gt 0>
     <collectionModes>
         <#list surveys as survey>
         <#if survey.surveyMethod??>
@@ -113,8 +114,7 @@
                     <language>de</language>
                     <freetext>${survey.surveyMethod.de}</freetext>
                 </collectionModeFree>
-                </#if>
-                <#if survey.surveyMethod.en??>
+                <#else>
                 <collectionModeFree>
                     <language>en</language>
                     <freetext>${survey.surveyMethod.en}</freetext>
@@ -126,11 +126,11 @@
         </#list>
     </collectionModes>
     </#if>
-    <#if dataSets??>
+    <#if dataSets?? && dataSets?size gt 0>
     <dataSets>
-        <#list dataSets as dataSet>
+        <#list dataSets as dataSet>        
         <#list dataSet.subDataSets as subDataSet>
-        <#if subDataSet.numberOfObservations??>
+        <#if subDataSet.numberOfObservations?? && numberObservationMap[dataSet.id]??>
         <dataSet>
             <unitType>Individual</unitType>
             <numberUnits>${subDataSet.numberOfObservations}</numberUnits>
@@ -141,7 +141,7 @@
         </#list>
     </dataSets>
     </#if>
-    <#if relatedPublications??>
+    <#if relatedPublications?? && relatedPublications?size gt 0>
     <publications>
         <#list relatedPublications as publication>
         <#if publication.sourceReference??>
