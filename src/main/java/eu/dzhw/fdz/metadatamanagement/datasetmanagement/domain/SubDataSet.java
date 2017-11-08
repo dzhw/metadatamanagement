@@ -30,7 +30,8 @@ public class SubDataSet {
       message = "data-set-management.error.sub-data-set.name.size")
   private String name;
   
-  private int numberOfObservations;  
+  @NotNull(message = "data-set-management.error.sub-data-set.number-of-observations.not-null")
+  private Integer numberOfObservations;  
   
   @NotNull(message = "data-set-management.error.sub-data-set.access-way.not-null")
   @ValidAccessWay(

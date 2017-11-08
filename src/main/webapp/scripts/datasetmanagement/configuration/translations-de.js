@@ -194,6 +194,9 @@ angular.module('metadatamanagementApp').config(
             'access-way': {
               'not-null': 'Der Zugangsweg des {{index}}. Sub-Daten-Satzes darf nicht leer sein!',
               'valid-access-way': 'Der Zugangsweg des {{index}}. Sub-Daten-Satzes ist ungültig. Erlaubt sind nur: download-cuf, download-suf, remote-desktop-suf oder onsite-suf.'
+            },
+            'number-of-observations': {
+              'not-null': 'Die Anzahl von Beobachtungen darf bei einem Sub-Daten-Satzes nicht leer sein!'
             }
           },
           'post-validation': {

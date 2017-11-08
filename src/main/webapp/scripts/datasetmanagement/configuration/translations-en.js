@@ -194,6 +194,9 @@ angular.module('metadatamanagementApp').config(
             'access-way': {
               'not-null': 'The value of Access Way of the {{index}}. Sub Data Set must not be empty!',
               'valid-access-way': 'The value of Access Way of the {{index}}. Sub Data Set is invalid. Valid values are: download-cuf, download-suf, remote-desktop-suf or onsite-suf.'
+            },
+            'number-of-observations': {
+              'not-null': 'The number of observations of a Sub Data Set must not be empty!'
             }
           },
           'post-validation': {
