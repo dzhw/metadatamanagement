@@ -8,6 +8,7 @@ angular.module('metadatamanagementApp')
       .state('surveyDetail', {
         parent: 'site',
         url: '/surveys/{id}?{search-result-index}',
+        reloadOnSearch: false,
         data: {
           authorities: []
         },

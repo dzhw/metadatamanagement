@@ -8,6 +8,7 @@ angular.module('metadatamanagementApp')
       .state('instrumentDetail', {
         parent: 'site',
         url: '/instruments/{id}?{search-result-index}',
+        reloadOnSearch: false,
         data: {
           authorities: []
         },

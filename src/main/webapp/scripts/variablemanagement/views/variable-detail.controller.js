@@ -49,20 +49,19 @@ angular.module('metadatamanagementApp')
         }
         $scope.study = $scope.variable.study;
         $scope.dataSet = $scope.variable.dataSet;
-        QuestionSearchService.countBy('variables.id', $scope.variable.id)
-          .then(function(questionsCount) {
-            $scope.counts.questionsCount = questionsCount.count;
-            if (questionsCount.count === 1) {
-              QuestionSearchService
-                .findByVariableId($scope.variable.id, ['number',
-                  'instrumentNumber',
-                  'questionText', 'id'
-                ])
-                .then(function(question) {
-                  $scope.question = question.hits.hits[0]._source;
-                });
-            }
-          });
+
+        $scope.counts.questionsCount = $scope.variable.relatedQuestions ?
+          $scope.variable.relatedQuestions.length : 0;
+        if ($scope.counts.questionsCount === 1) {
+          QuestionSearchService
+            .findByVariableId($scope.variable.id, ['number',
+              'instrumentNumber',
+              'questionText', 'id'
+            ])
+            .then(function(question) {
+              $scope.question = question.hits.hits[0]._source;
+            });
+        }
 
         //Find previousVariables
         var previousIndexInDataSet = result.indexInDataSet - 1;
@@ -173,20 +172,8 @@ angular.module('metadatamanagementApp')
     };
 
     $scope.isDiagramVisible = function() {
-      if ($scope.variable.scaleLevel != null &&
-        $scope.variable.scaleLevel.en === 'ratio' &&
-        $scope.variable.scaleLevel.de === 'verhältnis') {
-        if ($scope.variable.distribution == null ||
-          $scope.variable.distribution.histogram == null ||
-          $scope.variable.distribution.histogram.numberOfBins == null ||
-          $scope.variable.distribution.histogram.start == null ||
-          $scope.variable.distribution.histogram.end == null) {
-          return false;
-        } else {
-          return true;
-        }
-      } else {
-        return true;
-      }
+      return $scope.variable.distribution &&
+        $scope.variable.distribution.validResponses &&
+        $scope.variable.distribution.validResponses.length > 0;
     };
   });

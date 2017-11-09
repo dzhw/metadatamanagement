@@ -14,17 +14,8 @@ angular.module('metadatamanagementApp').config(
             'upload-terminated': 'Finished upload of {{ total }} Variables with {{warnings}} warnings and {{ errors }} errors.',
             'unable-to-delete': 'The variables could not be deleted!',
             'cancelled': 'Variables upload cancelled!',
-            'missing-json-file': 'There is no JSON file for Variable {{name}} in Data Set {{dataSet}}!',
-            'missing-excel-file': 'There is no Excel file in Data Set {{dataSet}}!',
-            'missing-name': 'The Variable from the Excel document in line {{variableIndex}} in the data set {{dataSet}} doesn\'t have a Name!',
             'generation-details-rule-success-copy-to-clipboard': 'The Generation Rule was successfully copied into the clipboard.',
-            'filter-details-success-copy-to-clipboard': 'The Filter Expression was successfully copied into the clipboard.',
-            'duplicate-name': 'The name ({{ name }}) of Variable from the Excel document in line {{ index }} of Data Set {{ dataSetNumber }} has already been used.',
-            'distribution': {
-              'histogram': {
-                'incomplete-histogram-information': 'The Variable {{ variableName }} of Data Set {{ dataSetName }} has the scalelevel "ratio" but there is not enough information for displaying a histogram.'
-              }
-            }
+            'filter-details-success-copy-to-clipboard': 'The Filter Expression was successfully copied into the clipboard.'
           }
         },
         'detail': {
