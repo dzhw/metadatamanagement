@@ -50,9 +50,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-//validation for scalelevel ration
-//TODO DKatzberg delete late: @MandatoryHistogramOnRatioScaleLevel(
-//message = "variable-management.error.variable.histogram-must-be-set-on-ratio-scale-level")
 /**
  * A Variable.
  *
@@ -201,7 +198,8 @@ public class Variable extends AbstractRdcDomainObject {
 
   @Valid
   private List<RelatedQuestion> relatedQuestions;
-
+  
+  @Builder.Default
   private Boolean doNotDisplayThousandsSeparator = false;
 
   /* Foreign Keys */

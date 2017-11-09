@@ -36,10 +36,6 @@ public class Distribution {
       "variable-management.error.distribution.total-valid-relative-frequency.not-null")
   private Double totalValidRelativeFrequency;
 
-  /* Nested Objects */
-  // No validation
-  private Histogram histogram;
-
   // No validation
   @Valid
   private Statistics statistics;
