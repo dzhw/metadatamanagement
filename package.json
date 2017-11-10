@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "description": "Description for metadatamanagement",
   "private": true,
+  "scripts": {
+    "fix-memory-limit": "cross-env LIMIT=4096 increase-memory-limit"
+  },
   "dependencies": {},
   "devDependencies": {
     "browser-sync": "^2.18.13",
@@ -31,6 +34,7 @@
     "grunt-text-replace": "0.4.0",
     "grunt-usemin": "3.1.1",
     "grunt-wiredep": "3.0.1",
+    "increase-memory-limit": "^1.0.5",
     "jasmine-core": "2.8.0",
     "jshint-stylish": "2.2.1",
     "karma": "1.7.1",

@@ -28,10 +28,8 @@ install:
   - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install 9.1.0
   - npm install -g bower
   - npm install -g grunt-cli
-  - npm install -g increase-memory-limit
 # do not install into local maven repo to avoid polluting the cache
 script:
-  - increase-memory-limit
   - mvn -Pdev --settings ./buildconfig/settings.xml -B -DrepoToken=$COVERALLS_TOKEN package
   - cf login -u $CI_DEPLOY_USERNAME -p $CI_DEPLOY_PASSWORD -o DZHW -s dev -a https://api.run.pivotal.io
   - cf push -f ./deploy/manifest-dev.yml
