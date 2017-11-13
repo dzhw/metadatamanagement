@@ -1,16 +1,10 @@
-/*globals $ */
 'use strict';
 
 angular.module('metadatamanagementApp').controller('UserManagementController',
-  function($scope, UserResource, ParseLinks, LanguageService, $state,
-    PageTitleService, ToolbarHeaderService, $mdDialog) {
+  function($scope, UserResource, ParseLinks, $state,
+    PageTitleService, ToolbarHeaderService, $mdDialog, $uibModal) {
     PageTitleService.setPageTitle('user-management.home.title');
     $scope.users = [];
-    $scope.authorities = ['ROLE_USER', 'ROLE_PUBLISHER', 'ROLE_ADMIN'];
-    LanguageService.getAll().then(function(languages) {
-      $scope.languages = languages;
-    });
-
     $scope.page = 0;
     $scope.loadAll = function() {
       UserResource.query({
@@ -34,7 +28,6 @@ angular.module('metadatamanagementApp').controller('UserManagementController',
       user.activated = isActivated;
       UserResource.update(user, function() {
         $scope.loadAll();
-        $scope.clear();
       });
     };
 
@@ -42,43 +35,23 @@ angular.module('metadatamanagementApp').controller('UserManagementController',
       UserResource.get({
         login: login
       }, function(result) {
-        $scope.user = result;
-        $('#saveUserModal').modal('show');
-      });
-    };
-
-    $scope.save = function() {
-      UserResource.update($scope.user, function() {
-        $scope.refresh();
+        $uibModal.open({
+            templateUrl: 'scripts/administration/usermanagement/' +
+              'edit-user.html.tmpl',
+            controller: 'EditUserController',
+            size: 'lg',
+            resolve: {
+              user: result,
+              parent: $scope
+            }
+          });
       });
     };
 
     $scope.refresh = function() {
       $scope.loadAll();
-      $('#saveUserModal').modal('hide');
-      $scope.clear();
     };
 
-    $scope.clear = function() {
-      $scope.user = {
-        id: null,
-        login: null,
-        firstName: null,
-        lastName: null,
-        email: null,
-        activated: null,
-        langKey: null,
-        createdBy: null,
-        createdDate: null,
-        lastModifiedBy: null,
-        lastModifiedDate: null,
-        resetDate: null,
-        resetKey: null,
-        authorities: null
-      };
-      $scope.editForm.$setPristine();
-      $scope.editForm.$setUntouched();
-    };
     ToolbarHeaderService.updateToolbarHeader({'stateName': $state.current.
     name});
 
