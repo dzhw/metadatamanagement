@@ -53,18 +53,19 @@
     <availability>
         <availabilityType>${availabilityControlled}</availabilityType>
     </availability>
-    <#if study.annotations??>
+    <#if study.description??>
     <descriptions>
-        <#if study.annotations.de??>
+        <#if study.description.de??>
         <description>
             <language>de</language>
-            <freetext>${study.annotations.de}</freetext>
+            <freetext>${study.description.de}</freetext>
             <descriptionType>Abstract</descriptionType>
         </description>
-        <#else>
+        </#if>
+        <#if study.description.en??>
         <description>
             <language>en</language>
-            <freetext>${study.annotations.en}</freetext>
+            <freetext>${study.description.en}</freetext>
             <descriptionType>Abstract</descriptionType>
         </description>
         </#if>
@@ -114,7 +115,8 @@
                     <language>de</language>
                     <freetext>${survey.surveyMethod.de}</freetext>
                 </collectionModeFree>
-                <#else>
+                </#if>
+                <#if survey.surveyMethod.en??>
                 <collectionModeFree>
                     <language>en</language>
                     <freetext>${survey.surveyMethod.en}</freetext>
@@ -130,11 +132,16 @@
     <dataSets>
         <#list dataSets as dataSet>        
         <#list dataSet.subDataSets as subDataSet>
-        <#if subDataSet.numberOfObservations?? && numberObservationMap[dataSet.id]??>
+        <#if subDataSet.numberOfObservations?? && numberObservationMap[dataSet.id]?? && subDataSet.name??>
         <dataSet>
             <unitType>Individual</unitType>
             <numberUnits>${subDataSet.numberOfObservations}</numberUnits>
             <numberVariables>${numberObservationMap[dataSet.id]}</numberVariables>
+            <files>
+                <file>
+                    <name>&{subDataSet.name}</name>
+                </file>
+            </files>
         </dataSet>
         </#if>
         </#list>
