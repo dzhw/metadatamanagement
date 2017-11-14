@@ -38,9 +38,11 @@ angular.module('metadatamanagementApp').directive('diagram',
               }
             } else {
               if (scope.variable.doNotDisplayThousandsSeparator) {
-                layout.xaxis.tickformat = '.2f';
+                layout.xaxis.tickformat = '.' +
+                  scope.variable.distribution.maxNumberOfDecimalPlaces + 'f';
               } else {
-                layout.xaxis.tickformat = ',.2f';
+                layout.xaxis.tickformat = ',.' +
+                  scope.variable.distribution.maxNumberOfDecimalPlaces + 'f';
               }
             }
           }
