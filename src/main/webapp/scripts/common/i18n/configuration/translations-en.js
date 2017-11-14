@@ -266,7 +266,7 @@ angular.module('metadatamanagementApp').config(
             'file-size-limit-exceeded': 'The file "{{ entity }}" exceeds the limit of 10MB!'
           },
           'server-error': {
-            'internal-server-error': 'Sorry, something went wrong :-( ({{ status }}).',
+            'internal-server-error': 'Sorry, something went wrong :( ({{ status }}).',
             'freemarker': {
               'parsing-error': 'There is a parsing problem by Freemarker in file "{{entity}}" (Line, Column): {{invalidValue}}',
               'invalid-reference-error': 'There is a invalid reference in the Freemarker script in file "{{entity}}" (Line, Column): {{invalidValue}}'
@@ -275,7 +275,7 @@ angular.module('metadatamanagementApp').config(
           'client-error': {
             'unauthorized-error': 'You are not authorized to do this (Status {{ status }}).',
             'forbidden-error': 'You are not authorized to do this (Status {{ status }}).',
-            'not-found-error': 'Sorry, something went wrong :-( ({{ status }}).'
+            'not-found-error': 'Sorry, something went wrong :( ({{ status }}).'
           },
           'person': {
             'first-name': {

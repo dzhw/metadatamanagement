@@ -102,12 +102,6 @@ describe('Controllers Tests ', function() {
     beforeEach(function() {
       createController();
     });
-    it('should call LanguageService.getAll', function() {
-      expect(LanguageService.getAll).toHaveBeenCalled();
-    });
-    it('should set languages to de and fr', function() {
-      expect($scope.languages).toEqual(['de', 'fr']);
-    });
     it('should call User.update', function() {
       $scope.setActive({}, true);
       expect(UserResource.update).toHaveBeenCalled();
@@ -115,15 +109,6 @@ describe('Controllers Tests ', function() {
     it('should call User.get', function() {
       $scope.showUpdate('login');
       expect(UserResource.get).toHaveBeenCalled();
-    });
-    it('should call User.save', function() {
-      $scope.save();
-      expect(UserResource.save).toBeDefined();
-    });
-    it('should call scope.clear', function() {
-      spyOn($scope, 'clear').and.callThrough();
-      $scope.refresh();
-      expect($scope.clear).toHaveBeenCalled();
     });
     it('should set page to 10', function() {
       $scope.loadPage(10);

@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/dzhw/metadatamanagement.svg?branch=development)](https://travis-ci.org/dzhw/metadatamanagement) [![Coverage Status](https://coveralls.io/repos/dzhw/metadatamanagement/badge.svg?branch=development&service=github)](https://coveralls.io/github/dzhw/metadatamanagement?branch=development) [![Dependency Status](https://www.versioneye.com/user/projects/55af5e7a3865620017000077/badge.svg?style=flat)](https://www.versioneye.com/user/projects/55af5e7a3865620017000077) [![Sauce Test Status](https://saucelabs.com/buildstatus/rreitmann)](https://saucelabs.com/u/rreitmann)
+[![Build Status](https://travis-ci.org/dzhw/metadatamanagement.svg?branch=development)](https://travis-ci.org/dzhw/metadatamanagement) [![Built with Grunt](https://cdn.gruntjs.com/builtwith.svg)](https://gruntjs.com/) [![Coverage Status](https://coveralls.io/repos/dzhw/metadatamanagement/badge.svg?branch=development&service=github)](https://coveralls.io/github/dzhw/metadatamanagement?branch=development) [![Dependency Status](https://www.versioneye.com/user/projects/55af5e7a3865620017000077/badge.svg?style=flat)](https://www.versioneye.com/user/projects/55af5e7a3865620017000077) [![Sauce Test Status](https://saucelabs.com/buildstatus/rreitmann)](https://saucelabs.com/u/rreitmann)
 [![Sauce Build Matrix](https://saucelabs.com/browser-matrix/rreitmann.svg)](https://saucelabs.com/u/rreitmann)
-
+[![forthebadge](http://forthebadge.com/images/badges/built-by-developers.svg)](http://forthebadge.com) [![forthebadge](http://forthebadge.com/images/badges/uses-badges.svg)](http://forthebadge.com)
 # Developing metadatamanagement
 
 Before you can build this project, you must install and configure the following dependencies on your machine:

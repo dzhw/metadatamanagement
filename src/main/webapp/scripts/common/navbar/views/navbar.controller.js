@@ -55,7 +55,7 @@ angular.module('metadatamanagementApp').controller('NavbarController',
     }, function(isLockedOpen) {
       if (isLockedOpen) {
         // hardcoded width of sidenav cause sometimes
-        // the updated width comes too late :-(
+        // the updated width comes too late :(
         $document.find('#content-container').css(
           'margin-left', 320);
         $document.find('.fdz-previous-search-result').css(
