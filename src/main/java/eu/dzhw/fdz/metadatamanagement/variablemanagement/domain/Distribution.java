@@ -49,4 +49,6 @@ public class Distribution {
       "variable-management.error.distribution.valid-responses.unique-value")
   @Valid
   private List<ValidResponse> validResponses;
+  
+  private Integer maxNumberOfDecimalPlaces;
 }

@@ -1,13 +1,13 @@
-/* global _ */
+/* global _,$ */
 'use strict';
 
 angular.module('metadatamanagementApp').filter('formatResponse',
   function($filter, LanguageService) {
-    return function(value, variable, forceDouble) {
+    return function(value, variable, meanValue) {
 
       //Data Type is Numeric
-      if (variable.dataType.en === 'numeric') {
-        if (!forceDouble && variable.storageType === 'integer') {
+      if ($.isNumeric(value) && variable.dataType.en === 'numeric') {
+        if (!meanValue && variable.storageType === 'integer') {
           if (variable.doNotDisplayThousandsSeparator) {
             return value;
           } else {
@@ -17,13 +17,18 @@ angular.module('metadatamanagementApp').filter('formatResponse',
           if (variable.doNotDisplayThousandsSeparator) {
             if (LanguageService.getCurrentInstantly() === 'de') {
               return _.replace(
-                $filter('number')(value, 2), new RegExp('\\.','g'), '');
+                $filter('number')(value, meanValue ? 2 :
+                  variable.distribution.maxNumberOfDecimalPlaces),
+                new RegExp('\\.','g'), '');
             } else {
               return _.replace(
-                $filter('number')(value, 2), new RegExp(',','g'), '');
+                $filter('number')(value, meanValue ? 2 :
+                  variable.distribution.maxNumberOfDecimalPlaces),
+                new RegExp(',','g'), '');
             }
           } else {
-            return $filter('number')(value, 2);
+            return $filter('number')(value, meanValue ? 2 :
+              variable.distribution.maxNumberOfDecimalPlaces);
           }
         }
       }
