@@ -127,13 +127,6 @@ public class RelatedPublicationService {
           DataAcquisitionProject dataAcquisitionProject =
               this.projectRepository.findOne(study.getDataAcquisitionProjectId());
         
-          boolean one = !(oldPublication.getSourceReference()
-              .equals(relatedPublication.getSourceReference()));
-          boolean two = dataAcquisitionProject != null;
-          boolean three = dataAcquisitionProject.getRelease() != null;
-          log.debug("First check:" + one);
-          log.debug("Second Check:" + two);
-          log.debug("Third Check:" + three);
           //Source Reference is not equals
           if (!(oldPublication.getSourceReference()
               .equals(relatedPublication.getSourceReference())) 
