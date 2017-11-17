@@ -27,7 +27,7 @@
     "jszip-utils": "~0.0.2",
     "angular-translate-handler-log": "2.16.0",
     "angular-nvd3": "^1.0.9",
-    "js-xlsx": "^0.11.8",
+    "js-xlsx": "^0.11.9",
     "cheet.js": "^0.3.3",
     "angular-material": "^1.1.5",
     "angular-block-ui": "^0.2.2",
