@@ -52,7 +52,7 @@ body {
     display: none !important;
 }
 
-[ng-cloak].fdz-splash {
+[data-ng-cloak].fdz-splash {
     display: table !important;
 }
 
