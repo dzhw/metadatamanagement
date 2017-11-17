@@ -27,6 +27,9 @@ public interface RelatedPublicationRepository extends BaseRepository<RelatedPubl
   
   @RestResource(exported = false)
   List<RelatedPublication> findByStudyIdsContaining(String studyId);
+  
+  @RestResource(exported = false)
+  RelatedPublication findByIdAndStudyIdsContaining(String id, String studyId);
 
   @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamIdsByStudyIdsContaining(String studyId);
