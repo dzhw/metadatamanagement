@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DaraUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
@@ -43,6 +45,9 @@ public class RelatedPublicationService {
 
   @Autowired
   private RelatedPublicationRepository relatedPublicationRepository;
+  
+  @Autowired
+  private DataAcquisitionProjectRepository projectRepository;
   
   @Autowired
   private StudyRepository studyRepository;
@@ -95,13 +100,21 @@ public class RelatedPublicationService {
     
     for (String studyId : relatedPublication.getStudyIds()) {
       RelatedPublication oldPublication = this.relatedPublicationRepository
-          .findByIdAndStudyIdsContaining(relatedPublication.getId(), studyId);      
+          .findByIdAndStudyIdsContaining(relatedPublication.getId(), studyId);  
+      Study study = studyRepository.findOne(studyId);
+     
       if (oldPublication == null) {        
-        Study study = studyRepository.findOne(studyId);
         if (study != null) {
           log.error("Did not find Related Publication:" + relatedPublication.getId()
               + " with Study Id: " + studyId);
-          daraUpdateQueueService.enqueue(study.getDataAcquisitionProjectId());
+          
+          DataAcquisitionProject dataAcquisitionProject =
+              this.projectRepository.findOne(study.getDataAcquisitionProjectId());
+          
+          if (dataAcquisitionProject != null
+              && dataAcquisitionProject.getRelease() != null) {
+            daraUpdateQueueService.enqueue(study.getDataAcquisitionProjectId());
+          }
         }  
         //no old publication, no known study id? -> Do nothing!        
       } else {
@@ -110,12 +123,26 @@ public class RelatedPublicationService {
         log.debug("Old Source Reference: " + oldPublication.getSourceReference());
         log.debug("New Source Reference: " + relatedPublication.getSourceReference());
         
-        //Source Reference is not equals
-        if (!(oldPublication.getSourceReference()
-            .equals(relatedPublication.getSourceReference()))) {
-          daraUpdateQueueService.enqueue(studyId);
+        if (study != null) {
+          DataAcquisitionProject dataAcquisitionProject =
+              this.projectRepository.findOne(study.getDataAcquisitionProjectId());
+        
+          boolean one = !(oldPublication.getSourceReference()
+              .equals(relatedPublication.getSourceReference()));
+          boolean two = dataAcquisitionProject != null;
+          boolean three = dataAcquisitionProject.getRelease() != null;
+          log.debug("First check:" + one);
+          log.debug("Second Check:" + two);
+          log.debug("Third Check:" + three);
+          //Source Reference is not equals
+          if (!(oldPublication.getSourceReference()
+              .equals(relatedPublication.getSourceReference())) 
+              && dataAcquisitionProject != null
+              && dataAcquisitionProject.getRelease() != null) {
+            daraUpdateQueueService.enqueue(dataAcquisitionProject.getId());
+          }
+          //Source Reference is equal. -> Do nothing.
         }
-        //Source Reference is equal. -> Do nothing.
       }
     }
   }
