@@ -253,7 +253,7 @@
                     {{'variable-management.detail.label.statistics.median' | translate}} <span katex>(\tilde x)</span>: {{variable.distribution.statistics.median | formatResponse: variable}}
                   </div>
                   <div class="fdz-add-bottom-margin" ng-if="variable.distribution.statistics.mode != null">
-                    {{'variable-management.detail.label.statistics.mode' | translate}} <span katex>(h)</span>: {{variable.distribution.statistics.mode}}
+                    {{'variable-management.detail.label.statistics.mode' | translate}} <span katex>(h)</span>: {{variable.distribution.statistics.mode | formatResponse: variable}}
                   </div>
                   <h3 style="font-size: 18px; margin-top: 1.0em; margin-bottom: 0.5em;" ng-if="checkDispersionElements()">
                     {{'variable-management.detail.label.dispersion' | translate}}

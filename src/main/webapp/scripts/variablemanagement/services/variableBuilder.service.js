@@ -5,6 +5,16 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
   function(VariableResource, CleanJSObjectService, DataSetIdBuilderService,
     QuestionIdBuilderService, SurveyIdBuilderService, StudyIdBuilderService,
     VariableIdBuilderService, InstrumentIdBuilderService) {
+    function decimalPlaces(num) {
+      var match = ('' + num).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
+      if (!match) { return 0; }
+      return Math.max(
+       0,
+       // Number of digits right of decimal point.
+       (match[1] ? match[1].length : 0) -
+       // Adjust for scientific notation.
+       (match[2] ? +match[2] : 0));
+    }
     var buildVariable = function(variableFromJson, dataSet) {
       var dataAcquisitionProjectId = dataSet.dataAcquisitionProjectId;
       var variableObj = variableFromJson;
@@ -42,6 +52,17 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
             relatedQuestionStrings: relatedQuestion.relatedQuestionStrings,
           });
       });
+      if (variableObj.dataType.en === 'numeric' && variableObj.distribution) {
+        variableObj.distribution.maxNumberOfDecimalPlaces = 0;
+        if (variableObj.distribution.validResponses &&
+          variableObj.distribution.validResponses.length > 0) {
+          variableObj.distribution.maxNumberOfDecimalPlaces =
+            decimalPlaces(_.maxBy(variableObj.distribution.validResponses,
+              function(validResponse) {
+                return decimalPlaces(validResponse.value);
+              }).value);
+        }
+      }
       return new VariableResource(CleanJSObjectService
         .removeEmptyJsonObjects(variableObj));
     };
