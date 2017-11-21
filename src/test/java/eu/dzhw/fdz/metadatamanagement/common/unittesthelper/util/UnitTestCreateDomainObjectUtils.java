@@ -12,6 +12,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ImageType;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Resolution;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetTypes;
@@ -23,6 +24,7 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAtta
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.QuestionImageMetadata;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.QuestionTypes;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.TechnicalRepresentation;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
@@ -260,11 +262,24 @@ public class UnitTestCreateDomainObjectUtils {
 
   public static Question buildQuestion(String projectId, Integer instrumentNumber,
       String instrumentId, String surveyId) {
+    
+    List<QuestionImageMetadata> questionImageMetadata = new ArrayList<>();
+    questionImageMetadata.add(QuestionImageMetadata.builder()
+        .fileName("TestFileName.PNG")
+        .language("de")
+        .resolution(Resolution.builder()
+            .widthX(800)
+            .heightY(600)
+            .build())
+        .imageType(ImageType.PNG)
+        .containsAnnotations(false)
+        .build());
+    
     return Question.builder().dataAcquisitionProjectId(projectId)
       .id(UnitTestCreateValidIds.buildQuestionId(projectId, instrumentNumber, "123.12"))
       .additionalQuestionText(new I18nString("Zusätzlicher Fragetext", "Additional Question Text"))
       .dataAcquisitionProjectId(projectId)
-      .imageType(ImageType.PNG)
+      .questionImageMetadata(questionImageMetadata)
       .instruction(new I18nString("Instruktionen", "Instruction"))
       .instrumentId(instrumentId)
       .introduction(new I18nString("Einleitung", "Introduction"))

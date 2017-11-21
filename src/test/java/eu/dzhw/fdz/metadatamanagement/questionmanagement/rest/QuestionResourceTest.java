@@ -86,7 +86,7 @@ public class QuestionResourceTest extends AbstractTest {
 
     Question question = UnitTestCreateDomainObjectUtils
       .buildQuestion(project.getId(), 123, "instrument-Id", "SurveyId");
-    question.setImageType(ImageType.PNG);
+    question.getQuestionImageMetadata().get(0).setImageType(ImageType.PNG);
     // Act and Assert
     // create the Question with the given id
     mockMvc.perform(put(API_QUESTIONS_URI + "/" + question.getId())
@@ -119,7 +119,7 @@ public class QuestionResourceTest extends AbstractTest {
 
     Question question = UnitTestCreateDomainObjectUtils
       .buildQuestion(project.getId(), 123, "instrument-Id", "SurveyId");
-    question.setImageType(ImageType.PNG);
+    question.getQuestionImageMetadata().get(0).setImageType(ImageType.PNG);
     // Act and Assert
     // create the variable with the given id
     mockMvc.perform(put(API_QUESTIONS_URI + "/" + question.getId())
@@ -226,7 +226,7 @@ public class QuestionResourceTest extends AbstractTest {
 
     Question question = UnitTestCreateDomainObjectUtils
         .buildQuestion(project.getId(), 123, "instrument-Id", "SurveyId");
-    question.setImageType(null);
+    question.getQuestionImageMetadata().get(0).setImageType(null);
 
     // Act and Assert
     // create the variable with the given id
