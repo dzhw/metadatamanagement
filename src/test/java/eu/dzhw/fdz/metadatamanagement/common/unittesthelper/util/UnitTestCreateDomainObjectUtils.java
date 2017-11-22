@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.DisplayType;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ImageType;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
@@ -272,6 +273,7 @@ public class UnitTestCreateDomainObjectUtils {
             .heightY(600)
             .build())
         .imageType(ImageType.PNG)
+        .displayType(DisplayType.PAPER)
         .containsAnnotations(false)
         .build());
     

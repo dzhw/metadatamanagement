@@ -6,9 +6,11 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.DisplayType;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ImageType;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Resolution;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation.ValidQuestionDisplayType;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation.ValidQuestionImageType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,6 +36,13 @@ public class QuestionImageMetadata {
       message = "question-management.error.question.question-image-metadata.image-type."
         + "valid-question-image-type")
   private ImageType imageType;
+  
+  @NotNull(
+      message = "question-management.error.question.question-image-metadata.display-type.not-null")
+  @ValidQuestionDisplayType(
+      message = "question-management.error.question.question-image-metadata.display-type."
+        + "valid-question-display-type")
+  private DisplayType displayType;
   
   @NotEmpty(
       message = "question-management.error.question.question-image-metadata.language.not-empty")

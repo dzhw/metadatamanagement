@@ -137,7 +137,11 @@ angular.module('metadatamanagementApp').config(
               'size': 'Die Maximallänge des Dateinamens bei den Bildmetadaten ist 32 Zeichen.'
             },
             'contains-annotations': {
-              'not-null': 'Der boolische Wert "Contains Annotations" bei den Bildmetadaten der Frage darf nicht leer sein.',
+              'not-null': 'Der boolische Wert "Contains Annotations" bei den Bildmetadaten der Frage darf nicht leer sein.'
+            },
+            'display-type': {
+              'not-null': 'Der Darstellungstyp bei den Bildmetadaten der Frage darf nicht leer sein.',
+              'valid-question-display-type': 'Der angegebene Darstellungstyp darf nur die Werte "DIGITAL" und "PAPER" haben.'
             }
           },
           'technical-representation': {

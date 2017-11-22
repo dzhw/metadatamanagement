@@ -137,9 +137,13 @@ angular.module('metadatamanagementApp').config(
               'size': 'The max length of the file-name of the question image metadata 32 signs.'
             },
             'contains-annotations': {
-              'not-null': 'The boolean value "Contains Annotations" of the question image metadata must not be empty.',
+              'not-null': 'The boolean value "Contains Annotations" of the question image metadata must not be empty.'
+            },
+            'display-type': {
+              'not-null': 'The display type of the question must not be empty.',
+              'valid-question-display-type': 'The valid values for the display type are: "DIGITAL" and "PAPER".'
             }
-          }
+          },
           'technical-representation': {
             'type': {
               'size': 'The max length of the type of the technical representation is 32 signs.',
