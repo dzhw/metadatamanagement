@@ -284,6 +284,14 @@ angular.module('metadatamanagementApp').config(
             'last-name': {
               'not-empty': 'The last name of a person has to be given.'
             }
+          },
+          'resolution': {
+            'width-x': {
+              'not-null': 'The width of an image (maximum value at the x-axis) has to be given.'
+            },
+            'height-y': {
+              'not-null': 'The height of an image (maximum value at the y-axis) has to be given.'
+            }
           }
         },
         'logos': {

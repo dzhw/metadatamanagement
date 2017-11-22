@@ -103,9 +103,9 @@ angular.module('metadatamanagementApp').config(
             'additional-question-text': {
               'i18n-string-size': 'Die Maximallänge des zusätzlichen Fragetextes ist 1048576 Zeichen.'
             },
-            'image-type': {
-              'not-null': 'Der Bildtyp der Frage darf nicht leer sein.',
-              'valid-question-image-type': 'Der Bildtyp der Frage muss PNG sein.'
+            'question-image-metadata': {
+              'not-empty': 'Die Liste der Bild Metadaten der Frage darf nicht leer sein.',
+              'size': 'Die Liste der Bild Metadaten der Frage muss mindestens ein Element enthalten.',
             },
             'topic': {
               'i18n-string-size': 'Die Maximallänge des Topics ist 2048 Zeichen.'
@@ -121,6 +121,23 @@ angular.module('metadatamanagementApp').config(
             },
             'annotations': {
               'i18n-string-size': 'Die Maximallänge der Anmerkungen ist 2048 Zeichen.'
+            }
+          },
+          'quesion-image-metadata': {
+            'image-type': {
+              'not-null': 'Der Bildtyp bei den Bildmetadaten der Frage darf nicht leer sein.',
+              'valid-question-image-type': 'Der Bildtyp bei den Bildmetadaten der Frage muss PNG sein.'
+            },
+            'language': {
+              'not-empty': 'Die Sprache bei den Bildmetadaten der Frage darf nicht leer sein.',
+              'size': 'Die Maximallänge der Sprache bei den Bildmetadaten ist 32 Zeichen.'
+            },
+            'file-name': {
+              'not-empty': 'Der Dateiname bei den Bildmetadaten der Frage darf nicht leer sein.',
+              'size': 'Die Maximallänge des Dateinamens bei den Bildmetadaten ist 32 Zeichen.'
+            },
+            'contains-annotations': {
+              'not-null': 'Der boolische Wert "Contains Annotations" bei den Bildmetadaten der Frage darf nicht leer sein.',
             }
           },
           'technical-representation': {

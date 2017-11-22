@@ -2,11 +2,13 @@ package eu.dzhw.fdz.metadatamanagement.questionmanagement.domain;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.ImageType;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Resolution;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation.ValidQuestionImageType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,6 +37,8 @@ public class QuestionImageMetadata {
   
   @NotEmpty(
       message = "question-management.error.question.question-image-metadata.language.not-empty")
+  @Size(max = StringLengths.SMALL,
+      message = "question-management.error.question.question-image-metadata.language.size")
   private String language;
   
   @Valid
@@ -42,6 +46,8 @@ public class QuestionImageMetadata {
   
   @NotEmpty(
       message = "question-management.error.question.question-image-metadata.file-name.not-empty")
+  @Size(max = StringLengths.SMALL,
+      message = "question-management.error.question.question-image-metadata.file-name.size")
   private String fileName;
   
   @NotNull(message = "question-management.error.question.question-image-metadata"

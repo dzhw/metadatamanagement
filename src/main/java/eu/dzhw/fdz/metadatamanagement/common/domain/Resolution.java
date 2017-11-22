@@ -19,9 +19,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Resolution {
   
-  @NotNull(message = "common.error.resolution.width-x.not-null")
+  @NotNull(message = "global.error.resolution.width-x.not-null")
   private Integer widthX;
   
-  @NotNull(message = "common.error.resolution.height-y.not-null")
+  @NotNull(message = "global.error.resolution.height-y.not-null")
   private Integer heightY;  
 }

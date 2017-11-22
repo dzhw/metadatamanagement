@@ -36,7 +36,7 @@ angular.module('metadatamanagementApp').config(
             'introduction': 'Introduction',
             'number': 'Question Number',
             'questionText': 'Question Text'
-          },          
+          },
           'predecessors': 'Previous Questions in Questionnaire',
           'successors': 'Subsequent Questions in Questionnaire',
           'technical-representation': 'Technical Representation',
@@ -103,9 +103,9 @@ angular.module('metadatamanagementApp').config(
             'additional-question-text': {
               'i18n-string-size': 'The max length of the additional question text is 1048576 signs.'
             },
-            'image-type': {
-              'not-null': 'The image type of the question must not be empty.',
-              'valid-question-image-type': 'The image type of a question must be PNG.'
+            'question-image-metadata': {
+              'not-empty': 'The list of image metadata of a question must not be empty.',
+              'size': 'The list of image metadata of a question has one element as minimum.',
             },
             'topic': {
               'i18n-string-size': 'The max length of the topic is 2048 signs.'
@@ -123,6 +123,23 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-size': 'The max length of the annotations is 2048 signs.'
             }
           },
+          'question-image-metadata': {
+            'image-type': {
+              'not-null': 'The image type of the question must not be empty.',
+              'valid-question-image-type': 'The image type of a question must be PNG.'
+            },
+            'language': {
+              'not-empty': 'The language of the question image metadata must not be empty.',
+              'size': 'The max length of the language of the question image metadata 32 signs.'
+            },
+            'file-name': {
+              'not-empty': 'The filename of the question image metadata must not be empty.',
+              'size': 'The max length of the file-name of the question image metadata 32 signs.'
+            },
+            'contains-annotations': {
+              'not-null': 'The boolean value "Contains Annotations" of the question image metadata must not be empty.',
+            }
+          }
           'technical-representation': {
             'type': {
               'size': 'The max length of the type of the technical representation is 32 signs.',
