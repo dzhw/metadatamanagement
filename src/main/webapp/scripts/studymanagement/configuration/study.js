@@ -28,4 +28,52 @@ angular.module('metadatamanagementApp')
           ]
         },
       });
+
+      $stateProvider
+        .state('studyEdit', {
+          parent: 'site',
+          url: '/studies/{id}/edit',
+          data: {
+            authorities: ['ROLE_PUBLISHER']
+          },
+          views: {
+            'content@': {
+              templateUrl: 'scripts/studymanagement/views/' +
+                'study-edit-or-create.html.tmpl',
+              controller: 'StudyEditOrCreateController',
+              controllerAs: 'ctrl'
+            }
+          },
+          resolve: {
+            entity: ['$stateParams', 'StudyResource',
+              function($stateParams, StudyResource) {
+                return StudyResource.get({
+                  id: $stateParams.id
+                });
+              }
+            ]
+          },
+        });
+
+        $stateProvider
+          .state('studyCreate', {
+            parent: 'site',
+            url: '/studies/new',
+            data: {
+              authorities: ['ROLE_PUBLISHER']
+            },
+            views: {
+              'content@': {
+                templateUrl: 'scripts/studymanagement/views/' +
+                  'study-edit-or-create.html.tmpl',
+                controller: 'StudyEditOrCreateController',
+                controllerAs: 'ctrl'
+              }
+            },
+            resolve: {
+              entity: function() {
+                return null;
+              }
+            },
+          });
   });
