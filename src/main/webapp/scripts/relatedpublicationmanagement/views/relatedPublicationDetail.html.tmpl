@@ -62,7 +62,7 @@
                             {{'study-management.detail.label.studies' | translate }}: {{'global.messages.error.undocumented' | translate}}
                         </div>
                         <div ng-if="studies.length === 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="studyDetail({'id': studies[0].id})">
+                            <a ui-sref="studyDetail({'id': studies[0].id, 'search-result-index': ctrl.searchResultIndex})">
                                 <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
                                 {{'study-management.detail.label.study' | translate }}:
                                 <span display-i18n-string="studies[0].title"></span>
@@ -87,7 +87,7 @@
                             {{'survey-management.detail.label.surveys' | translate }}: {{'global.messages.error.undocumented' | translate}}
                         </div>
                         <div ng-if="surveys.length === 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="surveyDetail({'id': surveys[0].id})">
+                            <a ui-sref="surveyDetail({'id': surveys[0].id, 'search-result-index': ctrl.searchResultIndex})">
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                                 {{'survey-management.detail.label.survey' | translate }}:
                                 <span display-i18n-string="surveys[0].title"></span>
@@ -112,7 +112,7 @@
                             {{'instrument-management.detail.label.instruments' | translate }}: {{'global.messages.error.undocumented' | translate}}
                         </div>
                         <div ng-if="instruments.length === 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="instrumentDetail({'id': instruments[0].id})">
+                            <a ui-sref="instrumentDetail({'id': instruments[0].id, 'search-result-index': ctrl.searchResultIndex})">
                                 <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
                                 {{'instrument-management.detail.label.instrument' | translate }}:
                                 <span display-i18n-string="instruments[0].description"></span>
@@ -137,7 +137,7 @@
                             {{'question-management.detail.label.questions' | translate }}: {{'global.messages.error.undocumented' | translate}}
                         </div>
                         <div ng-if="questions.length === 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="questionDetail({'id': questions[0].id})">
+                            <a ui-sref="questionDetail({'id': questions[0].id, 'search-result-index': ctrl.searchResultIndex})">
                                 <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
                                 {{'question-management.detail.label.question' | translate }}:
                                 <span display-i18n-string="questions[0].questionText"></span>
@@ -162,7 +162,7 @@
                             {{'data-set-management.detail.label.data-sets' | translate }}: {{'global.messages.error.undocumented' | translate}}
                         </div>
                         <div ng-if="dataSets.length === 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="dataSetDetail({'id': dataSets[0].id})">
+                            <a ui-sref="dataSetDetail({'id': dataSets[0].id, 'search-result-index': ctrl.searchResultIndex})">
                                 <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
                                 {{'data-set-management.detail.label.data-set' | translate }}:
                                 <span display-i18n-string="dataSets[0].description"></span>
@@ -187,7 +187,7 @@
                             {{'variable-management.detail.label.variables' | translate }}: {{'global.messages.error.undocumented' | translate}}
                         </div>
                         <div ng-if="variables.length === 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="variableDetail({'id': variables[0].id})">
+                            <a ui-sref="variableDetail({'id': variables[0].id, 'search-result-index': ctrl.searchResultIndex})">
                                 <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
                                 {{'variable-management.detail.label.variable' | translate }}:
                                 <span display-i18n-string="variables[0].label"></span>
