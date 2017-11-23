@@ -103,10 +103,6 @@ angular.module('metadatamanagementApp').config(
             'additional-question-text': {
               'i18n-string-size': 'Die Maximallänge des zusätzlichen Fragetextes ist 1048576 Zeichen.'
             },
-            'question-image-metadata': {
-              'not-empty': 'Die Liste der Bild Metadaten der Frage darf nicht leer sein.',
-              'size': 'Die Liste der Bild Metadaten der Frage muss mindestens ein Element enthalten.',
-            },
             'topic': {
               'i18n-string-size': 'Die Maximallänge des Topics ist 2048 Zeichen.'
             },
@@ -139,9 +135,11 @@ angular.module('metadatamanagementApp').config(
             'contains-annotations': {
               'not-null': 'Der boolische Wert "Contains Annotations" bei den Bildmetadaten der Frage darf nicht leer sein.'
             },
-            'display-type': {
-              'not-null': 'Der Darstellungstyp bei den Bildmetadaten der Frage darf nicht leer sein.',
-              'valid-question-display-type': 'Der angegebene Darstellungstyp darf nur die Werte "DIGITAL" und "PAPER" haben.'
+            'data-acquisition-project-id': {
+              'not-empty': 'Die FDZ-ID des Projektes darf nicht leer sein!'
+            },
+            'question-id': {
+              'not-empty': 'Die Id der Frage darf nicht leer sein!'
             }
           },
           'technical-representation': {

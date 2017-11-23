@@ -103,12 +103,7 @@ public class Question extends AbstractRdcDomainObject {
   @I18nStringSize(max = StringLengths.X_LARGE, 
       message = "question-management.error.question.additional-question-text.i18n-string-size")
   private I18nString additionalQuestionText;
-  
-  @Size(min = 1, message = "question-management.error.question.question-image-metadata.size")
-  @NotEmpty(message = "question-management.error.question.question-image-metadata.not-empty")
-  @Valid
-  private List<QuestionImageMetadata> questionImageMetadata;
-  
+      
   @I18nStringSize(max = StringLengths.LARGE,
       message = "question-management.error.variable.annotations.i18n-string-size")
   private I18nString annotations;

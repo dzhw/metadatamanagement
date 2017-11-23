@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.DisplayType;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ImageType;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
@@ -264,24 +263,10 @@ public class UnitTestCreateDomainObjectUtils {
   public static Question buildQuestion(String projectId, Integer instrumentNumber,
       String instrumentId, String surveyId) {
     
-    List<QuestionImageMetadata> questionImageMetadata = new ArrayList<>();
-    questionImageMetadata.add(QuestionImageMetadata.builder()
-        .fileName("TestFileName.PNG")
-        .language("de")
-        .resolution(Resolution.builder()
-            .widthX(800)
-            .heightY(600)
-            .build())
-        .imageType(ImageType.PNG)
-        .displayType(DisplayType.PAPER)
-        .containsAnnotations(false)
-        .build());
-    
     return Question.builder().dataAcquisitionProjectId(projectId)
       .id(UnitTestCreateValidIds.buildQuestionId(projectId, instrumentNumber, "123.12"))
       .additionalQuestionText(new I18nString("Zusätzlicher Fragetext", "Additional Question Text"))
       .dataAcquisitionProjectId(projectId)
-      .questionImageMetadata(questionImageMetadata)
       .instruction(new I18nString("Instruktionen", "Instruction"))
       .instrumentId(instrumentId)
       .introduction(new I18nString("Einleitung", "Introduction"))
@@ -299,6 +284,22 @@ public class UnitTestCreateDomainObjectUtils {
           .build())
       .studyId(UnitTestCreateValidIds.buildStudyId(projectId))
       .build();
+  }
+  
+  public static QuestionImageMetadata buildQuestionImageMetadata(String projectId, String questionId) {
+    
+    return QuestionImageMetadata.builder()
+        .fileName("TestFileName.PNG")
+        .language("de")
+        .resolution(Resolution.builder()
+            .widthX(800)
+            .heightY(600)
+            .build())
+        .imageType(ImageType.PNG)
+        .containsAnnotations(false)
+        .dataAcquisitionProjectId(projectId)
+        .questionId(questionId)
+        .build();
   }
 
   public static Instrument buildInstrument(String projectId) {

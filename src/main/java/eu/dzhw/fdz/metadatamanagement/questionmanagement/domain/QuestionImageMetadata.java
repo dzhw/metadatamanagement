@@ -6,11 +6,9 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.DisplayType;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ImageType;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Resolution;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation.ValidQuestionDisplayType;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation.ValidQuestionImageType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,13 +35,6 @@ public class QuestionImageMetadata {
         + "valid-question-image-type")
   private ImageType imageType;
   
-  @NotNull(
-      message = "question-management.error.question.question-image-metadata.display-type.not-null")
-  @ValidQuestionDisplayType(
-      message = "question-management.error.question.question-image-metadata.display-type."
-        + "valid-question-display-type")
-  private DisplayType displayType;
-  
   @NotEmpty(
       message = "question-management.error.question.question-image-metadata.language.not-empty")
   @Size(max = StringLengths.SMALL,
@@ -62,5 +53,14 @@ public class QuestionImageMetadata {
   @NotNull(message = "question-management.error.question.question-image-metadata"
         + ".contains-annotations.not-null")
   private Boolean containsAnnotations;
+  
+  /* Foreign Keys */
+  @NotEmpty(message = "question-management.error.question-image-metadatamanagement"
+      + ".question-id.not-empty")
+  private String questionId;
+    
+  @NotEmpty(message = "question-management.error.question-image-metadatamanagement"
+       + ".data-acquisition-project-id.not-empty")
+  private String dataAcquisitionProjectId;
   
 }

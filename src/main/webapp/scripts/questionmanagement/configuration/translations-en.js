@@ -103,10 +103,6 @@ angular.module('metadatamanagementApp').config(
             'additional-question-text': {
               'i18n-string-size': 'The max length of the additional question text is 1048576 signs.'
             },
-            'question-image-metadata': {
-              'not-empty': 'The list of image metadata of a question must not be empty.',
-              'size': 'The list of image metadata of a question has one element as minimum.',
-            },
             'topic': {
               'i18n-string-size': 'The max length of the topic is 2048 signs.'
             },
@@ -139,9 +135,11 @@ angular.module('metadatamanagementApp').config(
             'contains-annotations': {
               'not-null': 'The boolean value "Contains Annotations" of the question image metadata must not be empty.'
             },
-            'display-type': {
-              'not-null': 'The display type of the question must not be empty.',
-              'valid-question-display-type': 'The valid values for the display type are: "DIGITAL" and "PAPER".'
+            'data-acquisition-project-id': {
+              'not-empty': 'The RDC-ID of the Project must not be empty!'
+            },
+            'question-id': {
+              'not-empty': 'The question id must not be empty!'
             }
           },
           'technical-representation': {
