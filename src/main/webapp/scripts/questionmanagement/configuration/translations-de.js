@@ -135,6 +135,9 @@ angular.module('metadatamanagementApp').config(
             'contains-annotations': {
               'not-null': 'Der boolische Wert "Contains Annotations" bei den Bildmetadaten der Frage darf nicht leer sein.'
             },
+            'index-in-question': {
+              'not-null': 'Der Index eines Bilder bei der Frage darf nicht leer sein.'
+            },
             'data-acquisition-project-id': {
               'not-empty': 'Die FDZ-ID des Projektes darf nicht leer sein!'
             },

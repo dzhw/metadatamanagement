@@ -135,6 +135,9 @@ angular.module('metadatamanagementApp').config(
             'contains-annotations': {
               'not-null': 'The boolean value "Contains Annotations" of the question image metadata must not be empty.'
             },
+            'index-in-question': {
+              'not-null': 'The index of the image of the question must not be empty.'
+            },
             'data-acquisition-project-id': {
               'not-empty': 'The RDC-ID of the Project must not be empty!'
             },

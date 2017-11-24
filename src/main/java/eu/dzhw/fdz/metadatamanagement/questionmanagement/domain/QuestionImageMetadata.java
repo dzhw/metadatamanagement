@@ -54,6 +54,10 @@ public class QuestionImageMetadata {
         + ".contains-annotations.not-null")
   private Boolean containsAnnotations;
   
+  @NotNull(message = "question-management.error.question.question-image-metadata"
+      + ".index-in-question.not-null")
+  private Integer indexInQuestion;
+  
   /* Foreign Keys */
   @NotEmpty(message = "question-management.error.question-image-metadatamanagement"
       + ".question-id.not-empty")
