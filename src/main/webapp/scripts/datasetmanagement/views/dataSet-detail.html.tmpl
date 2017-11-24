@@ -44,7 +44,7 @@
                             {{'study-management.detail.label.study' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
                         <div ng-if="ctrl.study" class="fdz-truncate-string" flex>
-                            <a ui-sref="studyDetail({id: ctrl.study.id})">
+                            <a ui-sref="studyDetail({id: ctrl.study.id, 'search-result-index': ctrl.searchResultIndex})">
                                 <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
                                 {{'study-management.detail.label.study' | translate }}:
                                 <span display-i18n-string="ctrl.study.title"></span>
@@ -60,7 +60,7 @@
                             {{'survey-management.detail.label.surveys' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
                         <div ng-if="ctrl.counts.surveysCount == 1 && ctrl.survey" class="fdz-truncate-string" flex>
-                            <a ui-sref="surveyDetail({'id': ctrl.survey.id})">
+                            <a ui-sref="surveyDetail({'id': ctrl.survey.id, 'search-result-index': ctrl.searchResultIndex})">
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                                 {{'survey-management.detail.label.survey' | translate }}:
                                 <span display-i18n-string="ctrl.survey.title"></span>
@@ -85,7 +85,7 @@
                             {{'variable-management.detail.label.variables' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
                         <div ng-if="ctrl.counts.variablesCount == 1 && ctrl.variable" class="fdz-truncate-string" flex>
-                            <a ui-sref="variableDetail({'id': ctrl.variable.id})">
+                            <a ui-sref="variableDetail({'id': ctrl.variable.id, 'search-result-index': ctrl.searchResultIndex})">
                                 <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
                                 {{'variable-management.detail.label.variable' | translate }}:
                                 <span display-i18n-string="ctrl.variable.label"></span>
@@ -125,7 +125,7 @@
                             {{'related-publication-management.detail.label.publications' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
                         <div ng-if="ctrl.counts.publicationsCount == 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="relatedPublicationDetail({'id': ctrl.relatedPublication.id})">
+                            <a ui-sref="relatedPublicationDetail({'id': ctrl.relatedPublication.id, 'search-result-index': ctrl.searchResultIndex})">
                                 <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
                                 {{'related-publication-management.detail.label.publication' | translate }}: {{ctrl.relatedPublication.title}}
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">

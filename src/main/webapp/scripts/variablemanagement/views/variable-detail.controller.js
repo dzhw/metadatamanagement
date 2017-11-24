@@ -10,6 +10,7 @@ angular.module('metadatamanagementApp')
     SearchResultNavigatorService, $stateParams) {
     SearchResultNavigatorService.registerCurrentSearchResult(
       $stateParams['search-result-index']);
+    $scope.searchResultIndex = $stateParams['search-result-index'];
     $scope.generationCodeToggleFlag = true;
     $scope.filterDetailsCodeToggleFlag = true;
     $scope.notAllRowsVisible = true;

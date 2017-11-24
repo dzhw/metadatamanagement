@@ -9,6 +9,7 @@ angular.module('metadatamanagementApp')
       SearchResultNavigatorService.registerCurrentSearchResult(
           $stateParams['search-result-index']);
       var ctrl = this;
+      ctrl.searchResultIndex = $stateParams['search-result-index'];
       ctrl.imgResolved = false;
       ctrl.counts = {};
       entity.promise.then(function(result) {
