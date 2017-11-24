@@ -6,9 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
-import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
-import org.springframework.data.rest.core.annotation.HandleBeforeDelete;
-import org.springframework.data.rest.core.annotation.HandleBeforeSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -16,9 +13,6 @@ import org.springframework.stereotype.Service;
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DaraUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
@@ -26,10 +20,8 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdat
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * This service for {@link RelatedPublicationService} will wait for delete events 
@@ -40,23 +32,13 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Service
 @RepositoryEventHandler
-@Slf4j
 public class RelatedPublicationService {
 
   @Autowired
   private RelatedPublicationRepository relatedPublicationRepository;
-  
-  @Autowired
-  private DataAcquisitionProjectRepository projectRepository;
-  
-  @Autowired
-  private StudyRepository studyRepository;
 
   @Autowired
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
-  
-  @Autowired
-  private DaraUpdateQueueService daraUpdateQueueService;
   
   /**
    * Enqueue deletion of related publication search document 
@@ -84,60 +66,6 @@ public class RelatedPublicationService {
         relatedPublication.getId(), 
         ElasticsearchType.related_publications, 
         ElasticsearchUpdateQueueAction.UPSERT);
-  }
-  
-  /**
-   * Do checks with the related publication before delete or save operations.
-   * 
-   * @param relatedPublication the updated or deleted related 
-   *     publication before the delete or save process 
-   */
-  @HandleBeforeCreate
-  @HandleBeforeSave
-  @HandleBeforeDelete
-  public void onRelatedPublicationBeforeSavedOrDelete(RelatedPublication relatedPublication) {
-    log.debug("Before Related Publication Save/Create/Delete:");
-    
-    for (String studyId : relatedPublication.getStudyIds()) {
-      RelatedPublication oldPublication = this.relatedPublicationRepository
-          .findByIdAndStudyIdsContaining(relatedPublication.getId(), studyId);  
-      Study study = studyRepository.findOne(studyId);
-     
-      if (oldPublication == null) {        
-        if (study != null) {
-          log.error("Did not find Related Publication:" + relatedPublication.getId()
-              + " with Study Id: " + studyId);
-          
-          DataAcquisitionProject dataAcquisitionProject =
-              this.projectRepository.findOne(study.getDataAcquisitionProjectId());
-          
-          if (dataAcquisitionProject != null
-              && dataAcquisitionProject.getRelease() != null) {
-            daraUpdateQueueService.enqueue(study.getDataAcquisitionProjectId());
-          }
-        }  
-        //no old publication, no known study id? -> Do nothing!        
-      } else {
-        log.debug("Found Related Publication:" + relatedPublication.getId()
-            + " with Study Id: " + studyId);
-        log.debug("Old Source Reference: " + oldPublication.getSourceReference());
-        log.debug("New Source Reference: " + relatedPublication.getSourceReference());
-        
-        if (study != null) {
-          DataAcquisitionProject dataAcquisitionProject =
-              this.projectRepository.findOne(study.getDataAcquisitionProjectId());
-        
-          //Source Reference is not equals
-          if (!(oldPublication.getSourceReference()
-              .equals(relatedPublication.getSourceReference())) 
-              && dataAcquisitionProject != null
-              && dataAcquisitionProject.getRelease() != null) {
-            daraUpdateQueueService.enqueue(dataAcquisitionProject.getId());
-          }
-          //Source Reference is equal. -> Do nothing.
-        }
-      }
-    }
   }
   
   /**

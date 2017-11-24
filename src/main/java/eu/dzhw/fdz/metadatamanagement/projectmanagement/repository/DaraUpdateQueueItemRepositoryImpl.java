@@ -24,7 +24,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DaraUpdateQueueIt
 public class DaraUpdateQueueItemRepositoryImpl implements DaraUpdateQueueItemRepositoryCustom {
 
   //update lock is valid for 10 minutes
-  private static final int UPDATE_LOCK_EXPIRED = 30;
+  private static final int UPDATE_LOCK_EXPIRED = 10;
 
   //number of queue items to be processed in one batch
   private static final int BULK_SIZE = 5;

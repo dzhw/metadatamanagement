@@ -7,11 +7,20 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
+import org.springframework.data.rest.core.annotation.HandleBeforeDelete;
+import org.springframework.data.rest.core.annotation.HandleBeforeSave;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DaraUpdateQueueItem;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DaraUpdateQueueItemRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 import freemarker.template.TemplateException;
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,11 +41,74 @@ public class DaraUpdateQueueService {
   @Autowired
   private DaraUpdateQueueItemRepository queueItemRepository;
   
+  @Autowired
+  private DataAcquisitionProjectRepository projectRepository;
+  
+  @Autowired
+  private StudyRepository studyRepository;
+  
+  @Autowired
+  private RelatedPublicationRepository relatedPublicationRepository;
+  
   /**
    * The Dara Service for updating Studies on Dara.
    */
   @Autowired
   private DaraService daraService;
+  
+  /**
+   * Do checks with the related publication before delete or save operations.
+   * 
+   * @param relatedPublication the updated or deleted related 
+   *     publication before the delete or save process 
+   */
+  @HandleBeforeCreate
+  @HandleBeforeSave
+  @HandleBeforeDelete
+  public void onRelatedPublicationBeforeSavedOrDelete(RelatedPublication relatedPublication) {
+    log.debug("Before Related Publication Save/Create/Delete:");
+    
+    for (String studyId : relatedPublication.getStudyIds()) {
+      RelatedPublication oldPublication = this.relatedPublicationRepository
+          .findByIdAndStudyIdsContaining(relatedPublication.getId(), studyId);  
+      Study study = studyRepository.findOne(studyId);
+     
+      if (oldPublication == null) {        
+        if (study != null) {
+          log.error("Did not find Related Publication:" + relatedPublication.getId()
+              + " with Study Id: " + studyId);
+          
+          DataAcquisitionProject dataAcquisitionProject =
+              this.projectRepository.findOne(study.getDataAcquisitionProjectId());
+          
+          if (dataAcquisitionProject != null
+              && dataAcquisitionProject.getRelease() != null) {
+            this.enqueue(study.getDataAcquisitionProjectId());
+          }
+        }  
+        //no old publication, no known study id? -> Do nothing!        
+      } else {
+        log.debug("Found Related Publication:" + relatedPublication.getId()
+            + " with Study Id: " + studyId);
+        log.debug("Old Source Reference: " + oldPublication.getSourceReference());
+        log.debug("New Source Reference: " + relatedPublication.getSourceReference());
+        
+        if (study != null) {
+          DataAcquisitionProject dataAcquisitionProject =
+              this.projectRepository.findOne(study.getDataAcquisitionProjectId());
+        
+          //Source Reference is not equals
+          if (!(oldPublication.getSourceReference()
+              .equals(relatedPublication.getSourceReference())) 
+              && dataAcquisitionProject != null
+              && dataAcquisitionProject.getRelease() != null) {
+            this.enqueue(dataAcquisitionProject.getId());
+          }
+          //Source Reference is equal. -> Do nothing.
+        }
+      }
+    }
+  }
     
   /**
    * Attach one item to the queue.
@@ -94,8 +166,7 @@ public class DaraUpdateQueueService {
       try {
         this.daraService.registerOrUpdateProjectToDara(lockedItem.getProjectId());
       } catch (IOException | TemplateException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
+        log.error("Error at registration to Dara: " + e.getMessage());
       }
     }
     
