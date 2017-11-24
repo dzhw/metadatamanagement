@@ -10,6 +10,7 @@ angular.module('metadatamanagementApp')
         $stateParams['search-result-index']);
       //Controller Init
       var ctrl = this;
+      ctrl.searchResultIndex = $stateParams['search-result-index'];
       ctrl.survey = null;
       ctrl.attachments = null;
       ctrl.study = null;
