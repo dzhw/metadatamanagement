@@ -29,7 +29,7 @@ public interface RelatedPublicationRepository extends BaseRepository<RelatedPubl
   List<RelatedPublication> findByStudyIdsContaining(String studyId);
   
   @RestResource(exported = false)
-  RelatedPublication findByIdAndStudyIdsContaining(String id, String studyId);
+  RelatedPublication findById(String id);
 
   @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamIdsByStudyIdsContaining(String studyId);

@@ -68,15 +68,16 @@ public class DaraUpdateQueueService {
   public void onRelatedPublicationBeforeSavedOrDelete(RelatedPublication relatedPublication) {
     log.debug("Before Related Publication Save/Create/Delete:");
     
+    RelatedPublication oldPublication = this.relatedPublicationRepository
+        .findById(relatedPublication.getId());  
+    
     for (String studyId : relatedPublication.getStudyIds()) {
-      RelatedPublication oldPublication = this.relatedPublicationRepository
-          .findByIdAndStudyIdsContaining(relatedPublication.getId(), studyId);  
+      
       Study study = studyRepository.findOne(studyId);
      
       if (oldPublication == null) {        
         if (study != null) {
-          log.error("Did not find Related Publication:" + relatedPublication.getId()
-              + " with Study Id: " + studyId);
+          log.error("Did not find Related Publication:" + relatedPublication.getId());
           
           DataAcquisitionProject dataAcquisitionProject =
               this.projectRepository.findOne(study.getDataAcquisitionProjectId());
@@ -88,8 +89,7 @@ public class DaraUpdateQueueService {
         }  
         //no old publication, no known study id? -> Do nothing!        
       } else {
-        log.debug("Found Related Publication:" + relatedPublication.getId()
-            + " with Study Id: " + studyId);
+        log.debug("Found Related Publication:" + relatedPublication.getId());
         log.debug("Old Source Reference: " + oldPublication.getSourceReference());
         log.debug("New Source Reference: " + relatedPublication.getSourceReference());
         
@@ -105,6 +105,9 @@ public class DaraUpdateQueueService {
             this.enqueue(dataAcquisitionProject.getId());
           }
           //Source Reference is equal. -> Do nothing.
+        } else {
+          log.error("Found Related Publication:" + relatedPublication.getId() 
+              + " but unknown StudyId: " + studyId);
         }
       }
     }
