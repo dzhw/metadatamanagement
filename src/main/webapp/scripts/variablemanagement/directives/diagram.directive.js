@@ -16,8 +16,8 @@ angular.module('metadatamanagementApp').directive('diagram',
         $timeout(function() {
           var layout = {
             margin: {
-              l: 40,
-              r: 40,
+              l: 45,
+              r: 30,
               t: 30,
               b: 30
             },
@@ -38,9 +38,11 @@ angular.module('metadatamanagementApp').directive('diagram',
               }
             } else {
               if (scope.variable.doNotDisplayThousandsSeparator) {
-                layout.xaxis.tickformat = '.2f';
+                layout.xaxis.tickformat = '.' +
+                  scope.variable.distribution.maxNumberOfDecimalPlaces + 'f';
               } else {
-                layout.xaxis.tickformat = ',.2f';
+                layout.xaxis.tickformat = ',.' +
+                  scope.variable.distribution.maxNumberOfDecimalPlaces + 'f';
               }
             }
           }
@@ -110,7 +112,7 @@ angular.module('metadatamanagementApp').directive('diagram',
             width: document.getElementById('diagramContainer').offsetWidth
           };
           Plotly.relayout('diagram', update);
-        });
+        }, 500);
       }
 
       angular.element($window).on('resize', resizeDiagram);

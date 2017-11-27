@@ -12,6 +12,7 @@ angular.module('metadatamanagementApp')
       SearchResultNavigatorService.registerCurrentSearchResult(
             $stateParams['search-result-index']);
       var ctrl = this;
+      ctrl.searchResultIndex = $stateParams['search-result-index'];
       this.representationCodeToggleFlag = true;
       ctrl.predecessors = [];
       ctrl.successors = [];
