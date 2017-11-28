@@ -93,7 +93,7 @@
                             {{'survey-management.detail.label.surveys' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
                         <div ng-if="ctrl.counts.surveysCount == 1 && ctrl.survey" class="fdz-truncate-string" flex>
-                            <a ui-sref="surveyDetail({'id': ctrl.survey.id})">
+                            <a ui-sref="surveyDetail({'id': ctrl.survey.id, 'search-result-index': ctrl.searchResultIndex})">
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                                 {{'survey-management.detail.label.survey' | translate }}:
                                 <span display-i18n-string="ctrl.survey.title"></span>
@@ -118,7 +118,7 @@
                             {{'instrument-management.detail.label.instrument' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
                         <div ng-if="ctrl.counts.instrumentsCount == 1 && ctrl.instrument" class="fdz-truncate-string" flex>
-                            <a ui-sref="instrumentDetail({'id': ctrl.instrument.id})">
+                            <a ui-sref="instrumentDetail({'id': ctrl.instrument.id, 'search-result-index': ctrl.searchResultIndex})">
                                 <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
                                 {{'instrument-management.detail.label.instrument' | translate }}: <span display-i18n-string="ctrl.instrument.description"></span>
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
@@ -142,7 +142,7 @@
                             {{'question-management.detail.label.questions' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
                         <div ng-if="ctrl.counts.questionsCount == 1 && ctrl.question" class="fdz-truncate-string" flex>
-                            <a ui-sref="questionDetail({'id': question.id})">
+                            <a ui-sref="questionDetail({'id': question.id, 'search-result-index': ctrl.searchResultIndex})">
                                 <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
                                 {{'question-management.detail.label.question' | translate }}: <span display-i18n-string="ctrl.question.questionText"></span>
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 20">
@@ -166,7 +166,7 @@
                             {{'data-set-management.detail.label.data-sets' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
                         <div ng-if="ctrl.counts.dataSetsCount == 1 && ctrl.dataSet" class="fdz-truncate-string" flex>
-                            <a ui-sref="dataSetDetail({'id': ctrl.dataSet.id})">
+                            <a ui-sref="dataSetDetail({'id': ctrl.dataSet.id, 'search-result-index': ctrl.searchResultIndex})">
                                 <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
                                 {{'data-set-management.detail.label.data-set' | translate }}:
                                 <span display-i18n-string="ctrl.dataSet.description"></span>
@@ -191,7 +191,7 @@
                             {{'variable-management.detail.label.variables' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
                         <div ng-if="ctrl.counts.variablesCount == 1 && ctrl.variable" class="fdz-truncate-string" flex>
-                            <a ui-sref="variableDetail({'id': ctrl.variable.id})">
+                            <a ui-sref="variableDetail({'id': ctrl.variable.id, 'search-result-index': ctrl.searchResultIndex})">
                                 <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
                                 {{'variable-management.detail.label.variable' | translate }}:
                                 <span display-i18n-string="ctrl.variable.label"></span>
@@ -216,7 +216,7 @@
                             {{'related-publication-management.detail.label.publications' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
                         <div ng-if="ctrl.counts.publicationsCount == 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="relatedPublicationDetail({'id': ctrl.relatedPublication.id})">
+                            <a ui-sref="relatedPublicationDetail({'id': ctrl.relatedPublication.id, 'search-result-index': ctrl.searchResultIndex})">
                                 <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
                                 {{'related-publication-management.detail.label.publication' | translate }}: {{ctrl.relatedPublication.title}}
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
@@ -310,7 +310,7 @@
             <md-divider></md-divider>
             <md-content style="background-color:white;">
                 <div ng-repeat="result in ctrl.dataSets | orderBy:['_source.number']">
-                  <dataset-search-result search-result="result._source" current-language="currentLanguage" bowser="bowser" add-margin="$mdMedia('gt-sm')"></dataset-search-result>
+                  <dataset-search-result search-result="result._source" current-language="currentLanguage" bowser="bowser" add-margin="$mdMedia('gt-sm')" search-result-index="ctrl.searchResultIndex"></dataset-search-result>
                 </div>
             </md-content>
         </md-card>
@@ -325,7 +325,7 @@
             <md-divider></md-divider>
             <md-content style="background-color:white;">
                 <div ng-repeat="result in ctrl.study.surveys | orderBy:['number']">
-                  <survey-search-result search-result="result" current-language="currentLanguage" bowser="bowser" add-margin="$mdMedia('gt-sm')"></survey-search-result>
+                  <survey-search-result search-result="result" current-language="currentLanguage" bowser="bowser" add-margin="$mdMedia('gt-sm')" search-result-index="ctrl.searchResultIndex"></survey-search-result>
                 </div>
             </md-content>
         </md-card>
