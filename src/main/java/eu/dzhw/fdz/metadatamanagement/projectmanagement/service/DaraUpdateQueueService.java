@@ -3,6 +3,8 @@ package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
 import org.springframework.data.rest.core.annotation.HandleBeforeDelete;
 import org.springframework.data.rest.core.annotation.HandleBeforeSave;
+import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +34,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Service
 @Slf4j
+@RepositoryEventHandler
 public class DaraUpdateQueueService {
   // id used to synchronize multiple jvm instances
   private String jvmId = ManagementFactory.getRuntimeMXBean().getName();
@@ -65,51 +69,24 @@ public class DaraUpdateQueueService {
   @HandleBeforeCreate
   @HandleBeforeSave
   @HandleBeforeDelete
-  public void onRelatedPublicationBeforeSavedOrDelete(RelatedPublication relatedPublication) {
-    log.debug("Before Related Publication Save/Create/Delete:");
-    
+  public void onRelatedPublicationBeforeSavedOrDeleted(RelatedPublication relatedPublication) {
     RelatedPublication oldPublication = this.relatedPublicationRepository
-        .findById(relatedPublication.getId());  
+        .findOne(relatedPublication.getId());
     
-    for (String studyId : relatedPublication.getStudyIds()) {
+    if (oldPublication != null) {      
+      List<String> deletedStudyIds = new ArrayList<String>(oldPublication.getStudyIds());
+      deletedStudyIds.removeAll(relatedPublication.getStudyIds());
+      enqueueStudiesIfProjectIsReleased(deletedStudyIds);
       
-      Study study = studyRepository.findOne(studyId);
-     
-      if (oldPublication == null) {        
-        if (study != null) {
-          log.error("Did not find Related Publication:" + relatedPublication.getId());
-          
-          DataAcquisitionProject dataAcquisitionProject =
-              this.projectRepository.findOne(study.getDataAcquisitionProjectId());
-          
-          if (dataAcquisitionProject != null
-              && dataAcquisitionProject.getRelease() != null) {
-            this.enqueue(study.getDataAcquisitionProjectId());
-          }
-        }  
-        //no old publication, no known study id? -> Do nothing!        
-      } else {
-        log.debug("Found Related Publication:" + relatedPublication.getId());
-        log.debug("Old Source Reference: " + oldPublication.getSourceReference());
-        log.debug("New Source Reference: " + relatedPublication.getSourceReference());
-        
-        if (study != null) {
-          DataAcquisitionProject dataAcquisitionProject =
-              this.projectRepository.findOne(study.getDataAcquisitionProjectId());
-        
-          //Source Reference is not equals
-          if (!(oldPublication.getSourceReference()
-              .equals(relatedPublication.getSourceReference())) 
-              && dataAcquisitionProject != null
-              && dataAcquisitionProject.getRelease() != null) {
-            this.enqueue(dataAcquisitionProject.getId());
-          }
-          //Source Reference is equal. -> Do nothing.
-        } else {
-          log.error("Found Related Publication:" + relatedPublication.getId() 
-              + " but unknown StudyId: " + studyId);
-        }
+      List<String> addedStudyIds = new ArrayList<String>(relatedPublication.getStudyIds());
+      addedStudyIds.removeAll(oldPublication.getStudyIds());
+      enqueueStudiesIfProjectIsReleased(addedStudyIds);
+      
+      if (!oldPublication.getSourceReference().equals(relatedPublication.getSourceReference())) {
+        enqueueStudiesIfProjectIsReleased(relatedPublication.getStudyIds());
       }
+    } else {
+      enqueueStudiesIfProjectIsReleased(relatedPublication.getStudyIds());
     }
   }
     
@@ -144,7 +121,7 @@ public class DaraUpdateQueueService {
         queueItemRepository.findOldestLockedItems(jvmId, updateStart);
 
     while (!lockedItems.isEmpty()) {
-      executeQueueItem(lockedItems);
+      executeQueueItems(lockedItems);
 
       // check if there are more locked items to process
       lockedItems = queueItemRepository.findOldestLockedItems(jvmId, updateStart);
@@ -158,18 +135,38 @@ public class DaraUpdateQueueService {
   public void clearQueue() {
     queueItemRepository.deleteAll();
   }
+  
+  private void enqueueStudiesIfProjectIsReleased(Collection<String> studyIds) {
+    for (String studyId : studyIds) {
+      Study study = studyRepository.findOne(studyId);
+      if (study != null) {
+        DataAcquisitionProject dataAcquisitionProject =
+            this.projectRepository.findOne(study.getDataAcquisitionProjectId());
+        
+        if (dataAcquisitionProject != null
+            && dataAcquisitionProject.getRelease() != null) {
+          this.enqueue(study.getDataAcquisitionProjectId());
+        }
+      } else {
+        log.error("Unable to find study with ID {}", studyId);
+      }
+    }
+  }
 
   /**
    * Execute locked items from the MongoDB Queue Repository.
    * 
    * @param lockedItems A list of locked queues items.
    */
-  private void executeQueueItem(List<DaraUpdateQueueItem> lockedItems) {
+  private void executeQueueItems(List<DaraUpdateQueueItem> lockedItems) {
     for (DaraUpdateQueueItem lockedItem : lockedItems) {
       try {
         this.daraService.registerOrUpdateProjectToDara(lockedItem.getProjectId());
       } catch (IOException | TemplateException e) {
         log.error("Error at registration to Dara: " + e.getMessage());
+        // do not delete the queue item (has to be retried later)
+        // TODO dkatzberg send error mail to user 
+        return;
       }
     }
     
