@@ -89,7 +89,7 @@ public class QuestionService {
    */
   @HandleAfterDelete
   public void onQuestionDeleted(Question question) {
-    imageService.deleteQuestionImage(question.getId());
+    imageService.deleteQuestionImages(question.getId());
     elasticsearchUpdateQueueService.enqueue(
         question.getId(),
         ElasticsearchType.questions,

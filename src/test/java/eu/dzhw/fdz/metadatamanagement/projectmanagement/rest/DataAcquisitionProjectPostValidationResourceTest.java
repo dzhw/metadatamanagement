@@ -33,6 +33,7 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.Instrument
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.QuestionImageMetadata;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.service.QuestionImageService;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
@@ -143,7 +144,9 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), 1, instrument.getId(), 
         survey.getId());
     this.questionRepository.save(question);
-    UnitTestImageHelper.saveQuestionImage(this.questionImageService, question.getId());
+    QuestionImageMetadata questionImageMetadata = 
+        UnitTestCreateDomainObjectUtils.buildQuestionImageMetadata(project.getId(), question.getId());
+    UnitTestImageHelper.saveQuestionImage(this.questionImageService, questionImageMetadata);
     
     
     Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());    
@@ -192,7 +195,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     instrument.setSurveyIds(listOfSurveyIds);
     this.instrumentRepository.save(instrument);
     
-    //Atomic Question
+    //Question
     Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), 123, instrument.getId(), 
         survey.getId());
     this.questionRepository.save(question);
@@ -261,7 +264,9 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
         survey.getId());
     question.getSuccessors().add("testProject-WrongQuestion");
     this.questionRepository.save(question);
-    UnitTestImageHelper.saveQuestionImage(this.questionImageService, question.getId());
+    QuestionImageMetadata questionImageMetadata = 
+        UnitTestCreateDomainObjectUtils.buildQuestionImageMetadata(project.getId(), question.getId());
+    UnitTestImageHelper.saveQuestionImage(this.questionImageService, questionImageMetadata);
     
 
     // Act & Assert
@@ -319,7 +324,9 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), 123, instrument.getId(), 
         survey.getId());    
     this.questionRepository.save(question);
-    UnitTestImageHelper.saveQuestionImage(this.questionImageService, question.getId());
+    QuestionImageMetadata questionImageMetadata = 
+        UnitTestCreateDomainObjectUtils.buildQuestionImageMetadata(project.getId(), question.getId());
+    UnitTestImageHelper.saveQuestionImage(this.questionImageService, questionImageMetadata);
     
 
     // Act & Assert
@@ -375,7 +382,9 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), 123, instrument.getId(), 
         survey.getId());    
     this.questionRepository.save(question);
-    UnitTestImageHelper.saveQuestionImage(this.questionImageService, question.getId());
+    QuestionImageMetadata questionImageMetadata = 
+        UnitTestCreateDomainObjectUtils.buildQuestionImageMetadata(project.getId(), question.getId());
+    UnitTestImageHelper.saveQuestionImage(this.questionImageService, questionImageMetadata);
     
     // Act & Assert
     mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
@@ -430,7 +439,9 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), 123, instrument.getId(), 
         survey.getId());    
     this.questionRepository.save(question);
-    UnitTestImageHelper.saveQuestionImage(this.questionImageService, question.getId());
+    QuestionImageMetadata questionImageMetadata = 
+        UnitTestCreateDomainObjectUtils.buildQuestionImageMetadata(project.getId(), question.getId());
+    UnitTestImageHelper.saveQuestionImage(this.questionImageService, questionImageMetadata);
     
     // Act & Assert
     mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))

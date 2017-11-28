@@ -6,6 +6,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ImageType;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Resolution;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
@@ -13,7 +14,9 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation.Valid
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * The metadata for question images. An question image display the question in one language with
@@ -23,10 +26,12 @@ import lombok.NoArgsConstructor;
  *
  */
 @Data
+@EqualsAndHashCode(callSuper = false, of = "id")
+@ToString(callSuper = true)
 @NoArgsConstructor 
 @AllArgsConstructor
 @Builder
-public class QuestionImageMetadata {
+public class QuestionImageMetadata extends AbstractRdcDomainObject {
 
   @NotNull(
       message = "question-management.error.question.question-image-metadata.image-type.not-null")
@@ -65,6 +70,10 @@ public class QuestionImageMetadata {
     
   @NotEmpty(message = "question-management.error.question-image-metadatamanagement"
        + ".data-acquisition-project-id.not-empty")
-  private String dataAcquisitionProjectId;
+  private String dataAcquisitionProjectId;  
   
+  @Override
+  public String getId() {
+    return "/public/files/questions/" + questionId + "/images/" + fileName;
+  }
 }

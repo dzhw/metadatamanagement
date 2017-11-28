@@ -60,7 +60,7 @@ public class PostValidationService {
    *
    * @param dataAcquisitionProjectId The id of the data acquisition project id.
    * @return a list of all post validation errors.
-   */
+   */  
   public List<PostValidationMessageDto> postValidate(String dataAcquisitionProjectId) {
 
     List<PostValidationMessageDto> errors = new ArrayList<>();
@@ -147,7 +147,7 @@ public class PostValidationService {
       }
       
       //check the image for question
-      if (this.questionImageService.findQuestionImage(question.getId()) == null) {
+      if (this.questionImageService.findQuestionImages(question.getId()).isEmpty()) {
         String[] information = {question.getId()};
         errors.add(new PostValidationMessageDto("question-management.error."
             + "post-validation.question-has-no-image", Arrays.asList(information)));

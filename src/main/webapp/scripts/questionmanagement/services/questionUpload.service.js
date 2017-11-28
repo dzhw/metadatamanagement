@@ -27,7 +27,8 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
         }
         var pathLength = path.length;
         var fileName = _.last(path);
-        if (_.endsWith(fileName, '.json')) {
+        //Question Json File in the basic path
+        if (_.endsWith(fileName, '.json') && pathLength === 3) {
           if (!filesMap[path[pathLength - 2]]) {
             filesMap[path[pathLength - 2]] = {};
             filesMap[path[pathLength - 2]].dataAcquisitionProjectId =
@@ -40,28 +41,60 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
               instrumentIndex;
             filesMap[path[pathLength - 2]].jsonFiles = {};
             filesMap[path[pathLength - 2]].pngFiles = {};
+            filesMap[path[pathLength - 2]].jsonFilesForImages = {};
             instrumentIndex++;
           }
           filesMap[path[pathLength - 2]]
             .jsonFiles[_.split(fileName, '.json')[0]] = file;
         }
-        if (_.endsWith(fileName, '.png')) {
-          if (!filesMap[path[pathLength - 3]]) {
-            filesMap[path[pathLength - 3]] = {};
-            filesMap[path[pathLength - 3]].dataAcquisitionProjectId =
-              dataAcquisitionProjectId;
-            filesMap[path[pathLength - 3]].instrumentName =
-              path[pathLength - 3];
-            filesMap[path[pathLength - 3]].instrumentNumber =
-              _.split(path[pathLength - 3], 'ins')[1];
-            filesMap[path[pathLength - 3]].instrumentIndex =
-              instrumentIndex;
-            filesMap[path[pathLength - 3]].pngFiles = {};
-            filesMap[path[pathLength - 3]].jsonFiles = {};
-            instrumentIndex++;
+        //Image file
+        if (pathLength === 5) {
+          if (_.endsWith(fileName, '.png')) {
+            if (!filesMap[path[pathLength - 4]]) {
+              filesMap[path[pathLength - 4]] = {};
+              filesMap[path[pathLength - 4]].dataAcquisitionProjectId =
+                dataAcquisitionProjectId;
+              filesMap[path[pathLength - 4]].instrumentName =
+                path[pathLength - 4];
+              filesMap[path[pathLength - 4]].instrumentNumber =
+                _.split(path[pathLength - 4], 'ins')[1];
+              filesMap[path[pathLength - 4]].instrumentIndex =
+                instrumentIndex;
+              filesMap[path[pathLength - 4]].questionNumber =
+                filesMap[path[pathLength - 2]];
+              filesMap[path[pathLength - 4]].pngFiles = {};
+              filesMap[path[pathLength - 4]].jsonFiles = {};
+              filesMap[path[pathLength - 4]].jsonFilesForImages = {};
+              instrumentIndex++;
+            }
+            filesMap[path[pathLength - 4]]
+              .pngFiles[_.split(fileName, '.png')[0]] = file;
           }
-          filesMap[path[pathLength - 3]]
-            .pngFiles[_.split(fileName, '.png')[0]] = file;
+          //Specific json file for the image
+          //Json File for images has Metadata for the image
+          if (_.endsWith(fileName, '.json')) {
+            if (!filesMap[path[pathLength - 4]]) {
+              filesMap[path[pathLength - 4]] = {};
+              filesMap[path[pathLength - 4]].dataAcquisitionProjectId =
+                dataAcquisitionProjectId;
+              filesMap[path[pathLength - 4]].instrumentName =
+                path[pathLength - 4];
+              filesMap[path[pathLength - 4]].instrumentNumber =
+                _.split(path[pathLength - 4], 'ins')[1];
+              filesMap[path[pathLength - 4]].instrumentIndex =
+                instrumentIndex;
+              filesMap[path[pathLength - 4]].questionNumber =
+                filesMap[path[pathLength - 2]];
+              filesMap[path[pathLength - 4]].pngFiles = {};
+              filesMap[path[pathLength - 4]].jsonFiles = {};
+              filesMap[path[pathLength - 4]].jsonFilesForImages = {};
+              instrumentIndex++;
+              //TODO Problem ... ich kann nicht json / png den instrumenten
+              //hoch zählen ...
+            }
+            filesMap[path[pathLength - 4]]
+              .jsonFilesForImages[_.split(fileName, '.json')[0]] = file;
+          }
         }
       });
     };
@@ -142,6 +175,8 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
           });
       });
     };
+
+    //TODO DKatzberg Create Question Metadata Resource
 
     var deleteAllQuestionsNotPresentInJson = function() {
       var promiseChain = $q.when();
@@ -281,6 +316,8 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
               uploadInstruments(instrumentIndex + 1);
             });
           });
+        //TODO DKatzberg for iteration for question metadata
+        //var chainedQuestionMetadataResourceBuilder = $q.when();
       }
     };
 
