@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
@@ -24,7 +25,6 @@ import lombok.ToString;
  */
 @Document(collection = "dara_update_queue_item")
 @CompoundIndexes({
-    @CompoundIndex(def = "{projectId: 1}", unique = true),
     @CompoundIndex(def = "{updateStartedAt: 1, updateStartedBy: 1, createdDate: 1}")
     })
 @Data
@@ -40,6 +40,7 @@ public class DaraUpdateQueueItem extends AbstractRdcDomainObject {
   private String id;
 
   @NotEmpty
+  @Indexed(unique = true)
   private String projectId;
 
   private LocalDateTime updateStartedAt;
