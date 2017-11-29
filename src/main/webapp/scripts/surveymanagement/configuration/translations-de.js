@@ -96,9 +96,7 @@ angular.module('metadatamanagementApp').config(
               }
             },
             'population': {
-              'not-null': 'Die Population der Erhebung darf nicht leer sein!',
-              'i18n-string-not-empty': 'Die Population der Erhebung muss mindestens in einer Sprache vorliegen.',
-              'i18n-string-size': 'Die Maximallänge der Population der Erhebung ist 2048 Zeichen.'
+              'not-null': 'Die Population der Erhebung darf nicht leer sein!'
             },
             'sample': {
               'not-null': 'Die Stichprobe der Erhebung darf nicht leer sein!',
@@ -126,6 +124,18 @@ angular.module('metadatamanagementApp').config(
             'data-type': {
               'not-null': 'Der Erhebungsdatentyp der Erhebung darf nicht leer sein.',
               'valid-data-type': 'Der Erhebungsdatentyp einer Erhebung darf nur folgende Werte einnehmen: de = "Quantitative Daten" und en = "Quantitative Data" oder de = "Qualitative Daten" und en = "Qualitative Data" '
+            }
+          },
+          'population': {
+            'title': {
+              'not-null': 'Der Titel der Population darf nicht leer sein!',
+              'i18n-string-not-empty': 'Der Titel der Population muss mindestens in einer Sprache vorliegen.',
+              'i18n-string-size': 'Die Maximallänge des Populationstitel ist 128 Zeichen.'
+            },
+            'description': {
+              'not-null': 'Der Titel der Population darf nicht leer sein!',
+              'i18n-string-not-empty': 'Der Titel der Population muss mindestens in einer Sprache vorliegen.',
+              'i18n-string-size': 'Die Maximallänge des Populationsbeschreibung ist 2048 Zeichen.'
             }
           },
           'survey-attachment-metadata': {
