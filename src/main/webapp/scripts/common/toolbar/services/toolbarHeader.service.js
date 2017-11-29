@@ -44,6 +44,18 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         'iconType': 'font',
         'icon': 'search'
       },
+      'studyCreate': {
+        'type': 'study-management.detail.label.study',
+        'translateString': 'global.tooltips.toolbarHeader.study',
+        'iconType': 'svg',
+        'icon': 'assets/images/icons/study.svg'
+      },
+      'studyEdit': {
+        'type': 'study-management.detail.label.study',
+        'translateString': 'global.tooltips.toolbarHeader.study',
+        'iconType': 'svg',
+        'icon': 'assets/images/icons/study.svg'
+      },
       'studyDetail': {
         'type': 'study-management.detail.label.study',
         'translateString': 'global.tooltips.toolbarHeader.study',
@@ -237,6 +249,12 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         case 'studyDetail':
           $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem);
           break;
+        case 'studyEdit':
+          $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem);
+        break;
+        case 'studyCreate':
+          $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem);
+        break;
         case 'questionDetail':
           questionItem = {
             'state': 'questionDetail',

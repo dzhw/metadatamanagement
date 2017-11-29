@@ -44,6 +44,16 @@ angular.module('metadatamanagementApp')
               controllerAs: 'ctrl'
             }
           },
+          onEnter: function($rootScope, $timeout) {
+            $timeout(function() {
+              $rootScope.$broadcast('domain-object-editing-started');
+            }, 500);
+          },
+          onExit: function($rootScope, $timeout) {
+            $timeout(function() {
+              $rootScope.$broadcast('domain-object-editing-stopped');
+            }, 500);
+          },
           resolve: {
             entity: ['$stateParams', 'StudyResource',
               function($stateParams, StudyResource) {
@@ -69,6 +79,18 @@ angular.module('metadatamanagementApp')
                 controller: 'StudyEditOrCreateController',
                 controllerAs: 'ctrl'
               }
+            },
+            onEnter: function($rootScope, $timeout) {
+              $rootScope.$broadcast('domain-object-creating-started');
+              $timeout(function() {
+                $rootScope.$broadcast('domain-object-editing-started');
+              }, 500);
+            },
+            onExit: function($rootScope, $timeout) {
+              $rootScope.$broadcast('domain-object-creating-stopped');
+              $timeout(function() {
+                $rootScope.$broadcast('domain-object-editing-stopped');
+              }, 500);
             },
             resolve: {
               entity: function() {

@@ -171,6 +171,17 @@ angular.module('metadatamanagementApp').config(
               'not-empty': 'Der Dateiname des Attachments darf nicht leer sein.'
             }
           }
+        },
+        'edit': {
+          'edit-page-title': 'Studie {{studyId}} bearbeiten',
+          'create-page-title': 'Studie {{studyId}} anlegen',
+          'label': {
+            'edit-study': 'Studie bearbeiten:',
+            'create-study': 'Studie anlegen:',
+            'first-name': 'Vorname',
+            'middle-name': 'Zweiter Vorname',
+            'last-name': 'Nachname'
+          }
         }
       }
       //jscs:enable

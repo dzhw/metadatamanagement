@@ -3,32 +3,63 @@
 angular.module('metadatamanagementApp')
   .controller('StudyEditOrCreateController',
     function(entity, PageTitleService, LanguageService, $document, $timeout,
-      $state, ToolbarHeaderService, Principal, SimpleMessageToastService) {
+      $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
+      CurrentProjectService, StudyIdBuilderService, StudyResource) {
       var ctrl = this;
-      if (Principal.hasAuthority('ROLE_PUBLISHER')) {
-        if (entity) {
-          entity.$promise.then(function(study) {
-            ctrl.study = study;
-            console.log(study);
-            PageTitleService.setPageTitle('study-management.detail.title', {
-              title: study.title[LanguageService.getCurrentInstantly()],
-              studyId: study.id
-            });
-            ToolbarHeaderService.updateToolbarHeader({
-              'stateName': $state.current.name,
-              'id': study.id,
-              'studyIsPresent': true,
-              'projectId': study.dataAcquisitionProjectId});
+
+      var updateToolbarHeaderAndPageTitle = function() {
+        if (ctrl.createMode) {
+          PageTitleService.setPageTitle(
+            'study-management.edit.create-page-title', {
+            studyId: ctrl.study.id
           });
         } else {
-          ctrl.createMode = true;
-          ctrl.study = { authors: [{firstName: '', lastName:''}]};
+          PageTitleService.setPageTitle(
+            'study-management.edit.edit-page-title', {
+            studyId: ctrl.study.id
+          });
         }
-      } else {
-        /*SimpleMessageToastService.openSimpleMessageToast(
-        'study-management.detail.not-released-toast', {id: study.id}
-      );*/
-      }
+        ToolbarHeaderService.updateToolbarHeader({
+          'stateName': $state.current.name,
+          'id': ctrl.study.id,
+          'studyIsPresent': !ctrl.createMode,
+          'projectId': ctrl.study.dataAcquisitionProjectId
+        });
+      };
+
+      var init = function() {
+        if (Principal.hasAuthority('ROLE_PUBLISHER')) {
+          if (entity) {
+            entity.$promise.then(function(study) {
+              ctrl.study = study;
+              updateToolbarHeaderAndPageTitle();
+            });
+          } else {
+            StudyResource.get({
+              id: StudyIdBuilderService.buildStudyId(
+                CurrentProjectService.getCurrentProject().id)
+            }).$promise.then(function(study) {
+              ctrl.study = study;
+              updateToolbarHeaderAndPageTitle();
+            }).catch(function() {
+              ctrl.createMode = true;
+              ctrl.study = {
+                id: StudyIdBuilderService.buildStudyId(
+                  CurrentProjectService.getCurrentProject().id),
+                dataAcquisitionProjectId:
+                  CurrentProjectService.getCurrentProject().id,
+                authors: [{firstName: '', lastName:''}]
+              };
+              updateToolbarHeaderAndPageTitle();
+            });
+          }
+        } else {
+          // TODO show not authorized message
+          /*SimpleMessageToastService.openSimpleMessageToast(
+          'study-management.detail.not-released-toast', {id: study.id}
+        );*/
+        }
+      };
 
       ctrl.dataAvailabilities = [
         {de: 'Verfügbar', en:'Available'},
@@ -90,4 +121,5 @@ angular.module('metadatamanagementApp')
           .focus();
       };
 
+      init();
     });

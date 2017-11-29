@@ -171,6 +171,17 @@ angular.module('metadatamanagementApp').config(
               'not-empty': 'The filename of the attachment must not be empty!'
             }
           }
+        },
+        'edit': {
+          'edit-page-title': 'Edit Study {{studyId}}',
+          'create-page-title': 'Create Study {{studyId}}',
+          'label': {
+            'edit-study': 'Edit Study:',
+            'create-study': 'Create Study:',
+            'first-name': 'First Name',
+            'middle-name': 'Middle Name',
+            'last-name': 'Last Name'
+          }
         }
       }
       //jscs:enable

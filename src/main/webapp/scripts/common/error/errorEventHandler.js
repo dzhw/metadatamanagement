@@ -8,6 +8,21 @@ based on the Error Event.*/
 
 angular.module('metadatamanagementApp').run(
   function($rootScope, SimpleMessageToastService) {
+    var isCreatingDomainObject = false;
+
+    $rootScope.$on('domain-object-creating-started', function() {
+      isCreatingDomainObject = true;
+    });
+
+    $rootScope.$on('domain-object-creating-stopped', function() {
+      isCreatingDomainObject = false;
+    });
+
+    $rootScope.$on('serverNotReachableError', function() {
+      SimpleMessageToastService.openSimpleMessageToast('global.error.' +
+        'server-not-reachable');
+    });
+
     // Server or network down
     $rootScope.$on('serverNotReachableError', function() {
       SimpleMessageToastService.openSimpleMessageToast('global.error.' +
@@ -31,8 +46,10 @@ angular.module('metadatamanagementApp').run(
     //Client Error 404
     $rootScope.$on('notFoundError',
     function(event, response) { // jshint ignore:line
-      SimpleMessageToastService.openSimpleMessageToast('global.error.' +
-        'client-error.not-found-error', {status: response.status});
+      if (!isCreatingDomainObject) {
+        SimpleMessageToastService.openSimpleMessageToast('global.error.' +
+          'client-error.not-found-error', {status: response.status});
+      }
     });
 
     //Server Error 500 to 511

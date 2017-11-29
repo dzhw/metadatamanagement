@@ -330,4 +330,12 @@
             </md-content>
         </md-card>
     </div>
+    <div data-has-authority="ROLE_PUBLISHER" class="fdz-fab-button-container" layout="column">
+      <md-button class="md-fab md-raised md-accent" ui-sref="studyEdit({id: ctrl.study.id})">
+          <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+              {{'search-management.buttons.edit-study-tooltip' | translate}}
+          </md-tooltip>
+          <md-icon md-font-set="material-icons">mode_edit</md-icon>
+      </md-button>
+    </div>
 </div>
