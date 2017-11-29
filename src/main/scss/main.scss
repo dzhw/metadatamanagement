@@ -866,15 +866,19 @@ md-sidenav#SideNavBar, .md-sidenav-backdrop {
    color: grey;
  }
 
- .fdz-input-hint.ng-hide,
- .fdz-input-hint.ng-enter,
- .fdz-input-hint.ng-leave.ng-leave-active {
+md-select + .fdz-input-hint {
+  bottom: -16px;
+}
+
+.fdz-input-hint.ng-hide,
+.fdz-input-hint.ng-enter,
+.fdz-input-hint.ng-leave.ng-leave-active {
    bottom: 26px;
    opacity: 0;
- }
+}
 
- .fdz-input-hint.ng-leave,
- .fdz-input-hint.ng-enter.ng-enter-active {
-   bottom: 7px;
-   opacity: 1;
- }
+.fdz-input-hint.ng-leave,
+.fdz-input-hint.ng-enter.ng-enter-active {
+ bottom: 7px;
+ opacity: 1;
+}

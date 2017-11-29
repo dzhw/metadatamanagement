@@ -18,6 +18,8 @@ angular.module('metadatamanagementApp').config(
             'wave': 'Available Waves',
             'survey-data-type': 'Survey Data Type',
             'version': 'Version of Data Sets',
+            'title': 'Title',
+            'dataAvailability': 'Data Availability',
             'attachments': {
               'type': 'Type',
               'title': 'Title',
@@ -122,7 +124,7 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-size': 'The max length of the survey series is 128 signs.'
             },
             'data-availability': {
-              'not-null': 'The data avaibility of the study must not be empty!',
+              'not-null': 'The data availability of the study must not be empty!',
               'valid-data-availability': 'The allowed values for data availability of the study are: Available, In preparation, Not available.'
             },
             'survey-design': {

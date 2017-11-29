@@ -18,6 +18,8 @@ angular.module('metadatamanagementApp').config(
             'annotations': 'Anmerkungen',
             'wave': 'Verfügbare Wellen',
             'survey-data-type': 'Erhebungsdatentyp',
+            'title': 'Titel',
+            'dataAvailability': 'Datenverfügbarkeit',
             'attachments': {
               'type': 'Typ',
               'title': 'Titel',

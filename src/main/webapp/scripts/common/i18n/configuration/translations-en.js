@@ -11,6 +11,8 @@ angular.module('metadatamanagementApp').config(
         'dzhw-alt-text': 'The German Centre for Research on Higher Education and Science Studies',
         'bmbf-alt-text': 'Sponsored by the FMER',
         'search': 'Search',
+        'in-german': 'in German',
+        'in-english': 'in English',
         'toolbar': {
           'buttons': {
             'fdz-staff-area-tooltip': {

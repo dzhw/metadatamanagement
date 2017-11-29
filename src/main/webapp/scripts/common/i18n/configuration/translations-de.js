@@ -11,6 +11,8 @@ angular.module('metadatamanagementApp').config(
         'dzhw-alt-text': 'Deutsches Zentrum für Hochschul- und Wissenschaftsforschung DZHW GmbH',
         'bmbf-alt-text': 'Gefördert vom BMBF',
         'search': 'Suche',
+        'in-german': 'auf Deutsch',
+        'in-english': 'auf Englisch',
         'toolbar': {
           'buttons': {
             'fdz-staff-area-tooltip': {

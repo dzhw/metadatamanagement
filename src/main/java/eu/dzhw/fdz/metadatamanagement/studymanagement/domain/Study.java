@@ -107,7 +107,7 @@ public class Study extends AbstractRdcDomainObject {
   private String doi;
   
   @I18nStringSize(max = StringLengths.LARGE,
-      message = "study-management.error.variable.annotations.i18n-string-size")
+      message = "study-management.error.study.annotations.i18n-string-size")
   private I18nString annotations;
   
   public Study(Study study) {
