@@ -86,6 +86,12 @@
 	             </endDate>
 	            </#if>
             </temporalCoverageFormal>
+            <temporalCoveragesFree>
+                <temporalCoverageFree>
+                    <language>de</language>
+                    <freetext></freetext>
+                </temporalCoverageFree>
+            </temporalCoveragesFree>
         </temporalCoverage>
         </#if>
         </#list>
@@ -130,7 +136,7 @@
     </#if>
     <#if dataSets?? && dataSets?size gt 0>
     <dataSets>
-        <#list dataSets as dataSet>        
+        <#list dataSets as dataSet>
         <#list dataSet.subDataSets as subDataSet>
         <#if subDataSet.numberOfObservations?? && numberObservationMap[dataSet.id]?? && subDataSet.name??>
         <dataSet>

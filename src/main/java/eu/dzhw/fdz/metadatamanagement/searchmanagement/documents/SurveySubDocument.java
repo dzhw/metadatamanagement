@@ -4,6 +4,7 @@ import org.springframework.beans.BeanUtils;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Population;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.SurveySubDocumentProjection;
 
 /**
@@ -19,7 +20,7 @@ public class SurveySubDocument implements SurveySubDocumentProjection {
 
   private Integer number;
 
-  private I18nString population;
+  private Population population;
 
   private I18nString surveyMethod;
 
@@ -70,11 +71,11 @@ public class SurveySubDocument implements SurveySubDocumentProjection {
   }
 
   @Override
-  public I18nString getPopulation() {
+  public Population getPopulation() {
     return population;
   }
 
-  public void setPopulation(I18nString population) {
+  public void setPopulation(Population population) {
     this.population = population;
   }
 

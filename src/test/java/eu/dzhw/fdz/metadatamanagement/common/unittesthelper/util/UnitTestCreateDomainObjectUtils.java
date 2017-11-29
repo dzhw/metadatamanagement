@@ -31,6 +31,7 @@ import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudyAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudyAttachmentTypes;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.SurveyDesigns;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Population;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.AccessWays;
@@ -106,8 +107,19 @@ public class UnitTestCreateDomainObjectUtils {
         .doi("10.5072/DZHW:" + projectId)
         .build();
   }
-
+    
   public static Survey buildSurvey(String projectId) {
+    Population population = Population.builder()
+        .title(I18nString.builder()
+            .de("Population Titel")
+            .en("popultion title")
+            .build())
+        .description(I18nString.builder()
+            .de("Population Beschreibung")
+            .en("Population Description")
+            .build())
+        .build();
+    
     return Survey.builder()
       .id(UnitTestCreateValidIds.buildSurveyId(projectId, 1))
       .dataAcquisitionProjectId(projectId)
@@ -118,9 +130,7 @@ public class UnitTestCreateDomainObjectUtils {
       .title(I18nString.builder().de("Titel")
         .en("title")
         .build())
-      .population(I18nString.builder().de("Population DE")
-          .en("Population EN")
-          .build())
+      .population(population)
       .sample(I18nString.builder().de("Sample DE")
         .en("Sample EN")
         .build())
