@@ -129,13 +129,13 @@
                 <#if survey.surveyMethod.de??>
                 <collectionModeFree>
                     <language>de</language>
-                    <freetext>${survey.surveyMethod.de}</freetext>
+                    <freetext>${survey.wave}. Welle: ${survey.population.title.de}: ${survey.surveyMethod.de}</freetext>
                 </collectionModeFree>
                 </#if>
                 <#if survey.surveyMethod.en??>
                 <collectionModeFree>
                     <language>en</language>
-                    <freetext>${survey.surveyMethod.en}</freetext>
+                    <freetext>${survey.wave}. Wave: ${survey.population.title.en}: ${survey.surveyMethod.en}</freetext>
                 </collectionModeFree>
                 </#if>
             </collectionModesFree>
