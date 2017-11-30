@@ -68,5 +68,20 @@ public class DaraUpdateQueueItemRepositoryImpl implements DaraUpdateQueueItemRep
         Criteria.where("updateStartedAt").lte(LocalDateTime.now()
             .minusMinutes(UPDATE_LOCK_EXPIRED)),
         Criteria.where("updateStartedAt").exists(false));
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see eu.dzhw.fdz.metadatamanagement.projectmanagement
+   *    .repository.DaraUpdateQueueItemRepositoryCustom#unlockItem
+   *    (eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DaraUpdateQueueItem)
+   */
+  @Override
+  public void unlockItem(DaraUpdateQueueItem item) {
+    Query query = new Query(Criteria.where("id").is(item.getId()));
+    Update update = new Update()
+        .unset("updateStartedAt")
+        .unset("updateStartedBy");
+    mongoOperations.updateFirst(query, update, DaraUpdateQueueItem.class);    
   }  
 }

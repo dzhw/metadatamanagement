@@ -15,7 +15,6 @@ import org.springframework.data.rest.core.annotation.HandleBeforeSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
 import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DaraUpdateQueueItem;
@@ -122,7 +121,7 @@ public class DaraUpdateQueueService {
   /**
    * Process the update queue every minute.
    */
-  @Scheduled(fixedRate = 1000 * 60, initialDelay = 1000 * 60)
+  @Scheduled(fixedRate = 1000 * 300, initialDelay = 1000 * 60)
   public void processAllQueueItems() {
     log.info("Starting processing of DaraUpdateQueue...");
     LocalDateTime updateStart = LocalDateTime.now();
@@ -133,7 +132,7 @@ public class DaraUpdateQueueService {
         queueItemRepository.findOldestLockedItems(jvmId, updateStart);
 
     while (!lockedItems.isEmpty()) {
-      executeQueueItems(lockedItems);
+      executeQueueItems(lockedItems);      
 
       // check if there are more locked items to process
       lockedItems = queueItemRepository.findOldestLockedItems(jvmId, updateStart);
@@ -174,12 +173,13 @@ public class DaraUpdateQueueService {
     for (DaraUpdateQueueItem lockedItem : lockedItems) {
       try {
         this.daraService.registerOrUpdateProjectToDara(lockedItem.getProjectId());
-      } catch (IOException | TemplateException | HttpClientErrorException e) {
+      } catch (IOException | TemplateException e) {
         log.error("Error at registration to Dara: " + e.getMessage());
         // do not delete the queue item (has to be retried later)
         List<User> admins = userRepository.findAllByAuthoritiesContaining(
             new Authority(AuthoritiesConstants.ADMIN));
         mailService.sendMailOnDaraAutomaticUpdateError(admins, lockedItem.getProjectId());
+        this.queueItemRepository.unlockItem(lockedItem);
         return;
       }
     }
