@@ -15,7 +15,9 @@ import org.springframework.data.rest.core.annotation.HandleBeforeSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
+import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DaraUpdateQueueItem;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DaraUpdateQueueItemRepository;
@@ -24,6 +26,10 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.Relate
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.Authority;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import freemarker.template.TemplateException;
 import lombok.extern.slf4j.Slf4j;
 
@@ -54,6 +60,9 @@ public class DaraUpdateQueueService {
   @Autowired
   private RelatedPublicationRepository relatedPublicationRepository;
   
+  @Autowired
+  private UserRepository userRepository;
+  
   /**
    * The Dara Service for updating Studies on Dara.
    */
@@ -74,11 +83,11 @@ public class DaraUpdateQueueService {
         .findOne(relatedPublication.getId());
     
     if (oldPublication != null) {      
-      List<String> deletedStudyIds = new ArrayList<String>(oldPublication.getStudyIds());
+      List<String> deletedStudyIds = new ArrayList<>(oldPublication.getStudyIds());
       deletedStudyIds.removeAll(relatedPublication.getStudyIds());
       enqueueStudiesIfProjectIsReleased(deletedStudyIds);
       
-      List<String> addedStudyIds = new ArrayList<String>(relatedPublication.getStudyIds());
+      List<String> addedStudyIds = new ArrayList<>(relatedPublication.getStudyIds());
       addedStudyIds.removeAll(oldPublication.getStudyIds());
       enqueueStudiesIfProjectIsReleased(addedStudyIds);
       
@@ -162,10 +171,13 @@ public class DaraUpdateQueueService {
     for (DaraUpdateQueueItem lockedItem : lockedItems) {
       try {
         this.daraService.registerOrUpdateProjectToDara(lockedItem.getProjectId());
-      } catch (IOException | TemplateException e) {
+      } catch (IOException | TemplateException | HttpClientErrorException e) {
         log.error("Error at registration to Dara: " + e.getMessage());
         // do not delete the queue item (has to be retried later)
-        // TODO dkatzberg send error mail to user 
+        MailService mailService = new MailService();
+        List<User> admins = userRepository.findAllByAuthoritiesContaining(
+            new Authority(AuthoritiesConstants.ADMIN));
+        mailService.sendMailOnDaraAutomaticUpdateError(admins, lockedItem.getProjectId());
         return;
       }
     }
