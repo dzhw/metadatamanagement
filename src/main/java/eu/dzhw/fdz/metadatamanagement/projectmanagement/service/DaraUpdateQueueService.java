@@ -63,6 +63,9 @@ public class DaraUpdateQueueService {
   @Autowired
   private UserRepository userRepository;
   
+  @Autowired
+  private MailService mailService;
+  
   /**
    * The Dara Service for updating Studies on Dara.
    */
@@ -174,7 +177,6 @@ public class DaraUpdateQueueService {
       } catch (IOException | TemplateException | HttpClientErrorException e) {
         log.error("Error at registration to Dara: " + e.getMessage());
         // do not delete the queue item (has to be retried later)
-        MailService mailService = new MailService();
         List<User> admins = userRepository.findAllByAuthoritiesContaining(
             new Authority(AuthoritiesConstants.ADMIN));
         mailService.sendMailOnDaraAutomaticUpdateError(admins, lockedItem.getProjectId());
