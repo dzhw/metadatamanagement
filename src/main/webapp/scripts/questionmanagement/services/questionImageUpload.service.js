@@ -2,12 +2,12 @@
 
 angular.module('metadatamanagementApp').service('QuestionImageUploadService',
   function(Upload, $q, $http) {
-    var uploadImage = function(image, questionId) {
+    var uploadImage = function(image, questionImageMetadata) {
       var deferred = $q.defer();
       Upload.upload({
         url: '/api/questions/images',
         fields: {
-          'questionId': questionId,
+          'questionImageMetadata': questionImageMetadata,
           'image': image
         },
       }).success(function() {
@@ -18,8 +18,9 @@ angular.module('metadatamanagementApp').service('QuestionImageUploadService',
       return deferred.promise;
     };
 
-    var deleteAllImages = function(questionId) {
-      return $http.delete('/api/questions/' + encodeURIComponent(questionId) +
+    var deleteAllImages = function(questionImageMetadata) {
+      return $http.delete('/api/questions/' + encodeURIComponent(
+        questionImageMetadata.questionId) +
       '/images');
     };
 

@@ -90,7 +90,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
               filesMap[path[pathLength - 4]].jsonFilesForImages = {};
               instrumentIndex++;
               //TODO Problem ... ich kann nicht json / png den instrumenten
-              //hoch zählen ...
+              //hoch zählen ... Oder?
             }
             filesMap[path[pathLength - 4]]
               .jsonFilesForImages[_.split(fileName, '.json')[0]] = file;
@@ -177,6 +177,14 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
     };
 
     //TODO DKatzberg Create Question Metadata Resource
+    //The question Image is incomplete and has to be enriched with more
+    //information
+    var createQuestionImageMetadataResource = function(
+      questionImageJson, image) {
+      console.log(questionImageJson);
+      console.log(image);
+      //TODO The Json file is here. read the file and extend it.
+    };
 
     var deleteAllQuestionsNotPresentInJson = function() {
       var promiseChain = $q.when();
@@ -194,9 +202,9 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
       return promiseChain;
     };
 
-    var deleteAllImages = function(questionId) {
+    var deleteAllImages = function(questionImageMetadata) {
       var deferred = $q.defer();
-      QuestionImageUploadService.deleteAllImages(questionId)
+      QuestionImageUploadService.deleteAllImages(questionImageMetadata)
       .catch(function(error) {
         console.log('Unable to delete images:' + error);
       }).finally(function() {
@@ -205,7 +213,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
       return deferred.promise;
     };
 
-    var uploadQuestion = function(question, image) {
+    var uploadQuestion = function(question, image, questionImageMetadata) {
       return $q(function(resolve) {
         question.$save().then(function() {
           JobLoggingService.success({
@@ -236,9 +244,9 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
             });
           }
 
-          deleteAllImages(question.id).finally(function() {
+          deleteAllImages(questionImageMetadata).finally(function() {
             QuestionImageUploadService.uploadImage(image,
-              question.id)
+              questionImageMetadata)
               .then(function() {
                 JobLoggingService.success({
                   objectType: 'image'
@@ -304,20 +312,31 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
         });
         chainedQuestionResourceBuilder.finally(
           function() {
-            var chainedQuestionUploads = $q.when();
+            var chainedQuestionImageMetadataResourceBuilder = $q.when();
             questionResources.forEach(function(question) {
-              chainedQuestionUploads = chainedQuestionUploads.then(
-                function() {
-                  return uploadQuestion(question,
+              chainedQuestionImageMetadataResourceBuilder =
+                  chainedQuestionImageMetadataResourceBuilder
+                .then(function() {
+                  return createQuestionImageMetadataResource(
+                    instrument.jsonFilesForImages[question.number],
                     instrument.pngFiles[question.number]);
                 });
             });
-            chainedQuestionUploads.finally(function() {
-              uploadInstruments(instrumentIndex + 1);
-            });
+            chainedQuestionImageMetadataResourceBuilder.finally(
+              function() {
+                var chainedQuestionUploads = $q.when();
+                questionResources.forEach(function(question) {
+                  chainedQuestionUploads = chainedQuestionUploads.then(
+                    function() {
+                      return uploadQuestion(question,
+                        instrument.pngFiles[question.number]);
+                    });
+                });
+                chainedQuestionUploads.finally(function() {
+                  uploadInstruments(instrumentIndex + 1);
+                });
+              });
           });
-        //TODO DKatzberg for iteration for question metadata
-        //var chainedQuestionMetadataResourceBuilder = $q.when();
       }
     };
 
@@ -327,6 +346,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
       uploadInstruments(0);
     };
 
+    //TODO DKatzberg extend for question metadata
     var uploadQuestions = function(files, dataAcquisitionProjectId) {
       existingQuestions = {};
       usedIndexInInstrument = {};
