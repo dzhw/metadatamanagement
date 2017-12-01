@@ -2,9 +2,10 @@
 
 angular.module('metadatamanagementApp')
   .controller('StudyEditOrCreateController',
-    function(entity, PageTitleService, LanguageService, $document, $timeout,
+    function(entity, PageTitleService, $document, $timeout,
       $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
-      CurrentProjectService, StudyIdBuilderService, StudyResource) {
+      CurrentProjectService, StudyIdBuilderService, StudyResource, $scope,
+      ElasticSearchAdminService, StudyVersionsResource, $mdDialog) {
       var ctrl = this;
 
       var updateToolbarHeaderAndPageTitle = function() {
@@ -22,8 +23,10 @@ angular.module('metadatamanagementApp')
         ToolbarHeaderService.updateToolbarHeader({
           'stateName': $state.current.name,
           'id': ctrl.study.id,
+          'studyId': ctrl.study.id,
           'studyIsPresent': !ctrl.createMode,
-          'projectId': ctrl.study.dataAcquisitionProjectId
+          'projectId': ctrl.study.dataAcquisitionProjectId,
+          'enableLastItem': true
         });
       };
 
@@ -43,13 +46,15 @@ angular.module('metadatamanagementApp')
               updateToolbarHeaderAndPageTitle();
             }).catch(function() {
               ctrl.createMode = true;
-              ctrl.study = {
+              ctrl.study = new StudyResource({
                 id: StudyIdBuilderService.buildStudyId(
                   CurrentProjectService.getCurrentProject().id),
                 dataAcquisitionProjectId:
                   CurrentProjectService.getCurrentProject().id,
-                authors: [{firstName: '', lastName:''}]
-              };
+                authors: [{firstName: '', lastName: ''}],
+                doi: StudyIdBuilderService.buildDoi(
+                  CurrentProjectService.getCurrentProject().id)
+              });
               updateToolbarHeaderAndPageTitle();
             });
           }
@@ -62,18 +67,19 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.dataAvailabilities = [
-        {de: 'Verfügbar', en:'Available'},
-        {de: 'In Aufbereitung', en:'In preparation'},
-        {de: 'Nicht Verfügbar', en:'Not available'}
+        {de: 'Verfügbar', en: 'Available'},
+        {de: 'In Aufbereitung', en: 'In preparation'},
+        {de: 'Nicht Verfügbar', en: 'Not available'}
       ];
 
       ctrl.surveyDesigns = [
-        {de: 'Panel', en:'Panel'},
-        {de: 'Querschnitt', en:'Cross-Section'}
+        {de: 'Panel', en: 'Panel'},
+        {de: 'Querschnitt', en: 'Cross-Section'}
       ];
 
       ctrl.deleteAuthor = function(index) {
         ctrl.study.authors.splice(index, 1);
+        $scope.studyForm.$setDirty();
       };
 
       ctrl.addAuthor = function() {
@@ -94,7 +100,7 @@ angular.module('metadatamanagementApp')
         if (event.relatedTarget && (
           event.relatedTarget.id === 'move-author-up-button' ||
           event.relatedTarget.id === 'move-author-down-button')) {
-            return;
+          return;
         }
         delete ctrl.currentAuthor;
       };
@@ -106,8 +112,9 @@ angular.module('metadatamanagementApp')
         ctrl.study.authors[ctrl.currentAuthor] = a;
         ctrl.currentAuthorInputName = ctrl.currentAuthorInputName
           .replace('_' + ctrl.currentAuthor, '_' + (ctrl.currentAuthor - 1));
-        $document.find('input[name="'+ ctrl.currentAuthorInputName + '"]')
+        $document.find('input[name="' + ctrl.currentAuthorInputName + '"]')
           .focus();
+        $scope.studyForm.$setDirty();
       };
 
       ctrl.moveCurrentAuthorDown = function() {
@@ -117,8 +124,51 @@ angular.module('metadatamanagementApp')
         ctrl.study.authors[ctrl.currentAuthor] = a;
         ctrl.currentAuthorInputName = ctrl.currentAuthorInputName
           .replace('_' + ctrl.currentAuthor, '_' + (ctrl.currentAuthor + 1));
-        $document.find('input[name="'+ ctrl.currentAuthorInputName + '"]')
+        $document.find('input[name="' + ctrl.currentAuthorInputName + '"]')
           .focus();
+        $scope.studyForm.$setDirty();
+      };
+
+      ctrl.saveStudy = function() {
+        ctrl.study.$save()
+        .then(ctrl.updateElasticSearchIndex)
+        .then(ctrl.onSavedSuccessfully)
+        .catch(function(error) {
+          console.log(error);
+          SimpleMessageToastService.openSimpleMessageToast(
+            'study-management.edit.error-on-save-toast',
+            {studyId: ctrl.study.id});
+        });
+      };
+
+      ctrl.updateElasticSearchIndex = function() {
+        return ElasticSearchAdminService.processUpdateQueue('studies');
+      };
+
+      ctrl.onSavedSuccessfully = function() {
+        $scope.studyForm.$setPristine();
+        SimpleMessageToastService.openSimpleMessageToast(
+          'study-management.edit.success-on-save-toast',
+          {studyId: ctrl.study.id});
+        if (ctrl.createMode) {
+          $state.go('studyEdit', {id: ctrl.study.id});
+        }
+      };
+
+      ctrl.openRestorePreviousVersionDialog = function() {
+        $mdDialog.show({
+            controller: 'ChoosePreviousStudyVersionController',
+            templateUrl: 'scripts/studymanagement/' +
+              'views/choose-previous-study-version.html.tmpl',
+            clickOutsideToClose: false,
+            fullscreen: true,
+            locals: {
+              studyId: ctrl.study.id
+            }
+          })
+          .then(function(study) {
+            ctrl.study = study;
+          });
       };
 
       init();

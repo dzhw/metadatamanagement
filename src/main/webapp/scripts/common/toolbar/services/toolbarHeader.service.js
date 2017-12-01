@@ -153,6 +153,7 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         studyItem.state = 'studyDetail({"id":"' + item.studyId + '"})';
         studyItem.tooltip = translationStringsMap.studyDetail.translateString;
         studyItem.projectId = item.projectId;
+        studyItem.enableLastItem = item.enableLastItem;
       } else {
         studyItem.notFound = '?';
       }

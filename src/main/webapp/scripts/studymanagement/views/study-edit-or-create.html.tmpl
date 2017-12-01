@@ -203,10 +203,10 @@
                 </md-button>
             </div>
         </md-card-content>
-        <md-card-actions layout="row" layout-align="end center" style="margin-top: 0px;">
+        <md-card-actions layout="row" layout-align="begin center" style="margin-top: 0px;">
             <md-button class="md-primary md-raised md-icon-button" ng-click="ctrl.addAuthor()">
                 <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                    {{'study-management.edit.tooltip.delete-author' | translate}}
+                    {{'study-management.edit.tooltip.add-author' | translate}}
                 </md-tooltip>
                 <md-icon md-font-set="material-icons">add</md-icon>
             </md-button>
@@ -224,16 +224,18 @@
             </md-button>
         </md-card-actions>
     </md-card>
-    <md-button class="md-raised" ng-click="closeDialog()">
-        <span>{{'global.entity.action.cancel' | translate}}</span>
-        <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
-            {{'user-management.user-messages.dialog-tooltip.close' | translate }}
-        </md-tooltip>
-    </md-button>
-    <md-button class="md-raised" type="submit" ng-click="sendMessageToAllUsers()" ng-disabled="studyForm.$invalid">
-        <span>{{'user-management.user-messages.buttons.send' | translate}}</span>
-        <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
-            {{'user-management.user-messages.dialog-tooltip.send' | translate }}
-        </md-tooltip>
-    </md-button>
+    <div class="fdz-fab-button-container" layout="column">
+      <md-button class="md-fab md-raised md-primary" ng-click="ctrl.openRestorePreviousVersionDialog()" ng-disabled="ctrl.createMode">
+          <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+              {{'search-management.buttons.restore-study-version-tooltip' | translate}}
+          </md-tooltip>
+          <md-icon md-font-set="material-icons">undo</md-icon>
+      </md-button>
+      <md-button class="md-fab md-raised md-accent" type="submit" ng-click="ctrl.saveStudy()" ng-disabled="studyForm.$invalid || !studyForm.$dirty">
+          <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+              {{'search-management.buttons.save-study-tooltip' | translate}}
+          </md-tooltip>
+          <md-icon md-font-set="material-icons">cloud_upload</md-icon>
+      </md-button>
+    </div>
 </form>

@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.studymanagement.repository;
 import java.util.List;
 import java.util.stream.Stream;
 
+import org.javers.spring.annotation.JaversSpringDataAuditable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
@@ -18,6 +19,7 @@ import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySub
  * @author Daniel Katzberg
  */
 @RepositoryRestResource(path = "/studies")
+@JaversSpringDataAuditable
 public interface StudyRepository extends BaseRepository<Study, String> {
   
   @RestResource(exported = false)

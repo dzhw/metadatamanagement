@@ -35,7 +35,7 @@
                     <span class="fdz-truncate-string">{{item.notFound}}</span>
                 </md-button>
                 <md-icon md-font-set="material-icons" ng-class="{'hide-xs': $mdMedia('xs'), 'hide-sm': $mdMedia('sm') && !$first}" ng-if="!$last">forward</md-icon>
-                <md-button class="fdz-truncate-string" ng-if="$last && !item.notFound" disabled="true" style="max-width: 250px; margin-left: 2px; color: rgba(255,255,255,0.87);">
+                <md-button class="fdz-truncate-string" ng-if="$last && !item.notFound" ng-disabled="!item.enableLastItem" ng-class="{'md-raised': item.enableLastItem, 'md-primary': item.enableLastItem, 'fdz-toolbar-button': item.enableLastItem}" style="max-width: 250px; margin-left: 2px; color: rgba(255,255,255,0.87);" ui-sref="{{item.state}}">
                     <md-icon ng-if="item.iconType == 'font'" md-font-set="material-icons" style="color: rgba(255,255,255,0.87);" aria-label="">{{item.icon}}</md-icon>
                     <md-icon ng-if="item.iconType == 'svg'" md-svg-icon="{{item.icon}}" style="fill: rgba(255,255,255,0.87);" aria-label=""></md-icon>
                     {{item.type | translate}}
@@ -44,6 +44,14 @@
                     <span class="fdz-truncate-string" ng-if="item.number">{{item.number}}</span>
                     <span class="fdz-truncate-string" ng-if="item.projectId">{{item.projectId}}</span>
                     <span class="fdz-truncate-string" ng-if="item.name">{{item.name}}</span>
+                    <md-tooltip ng-if="item.enableLastItem" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                      <span ng-if="item.tabName" translate='{{item.tooltip}}' translate-value-tabname="{{item.tabName | translate}}"></span>
+                      <span ng-if="item.id" translate='{{item.tooltip}}' translate-value-param="{{item.id}}"></span>
+                      <span ng-if="item.number" translate='{{item.tooltip}}' translate-value-param="{{item.number}}"></span>
+                      <span ng-if="item.numbers" translate='{{item.tooltip}}' translate-value-param="{{item.numbers}}"></span>
+                      <span ng-if="item.projectId" translate='{{item.tooltip}}' translate-value-param="{{item.projectId}}"></span>
+                      <span ng-if="item.name" translate='{{item.tooltip}}' translate-value-param="{{item.name}}"></span>
+                    </md-tooltip>
                 </md-button>
             </div>
         </div>

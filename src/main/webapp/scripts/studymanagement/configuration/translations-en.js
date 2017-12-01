@@ -175,6 +175,8 @@ angular.module('metadatamanagementApp').config(
         'edit': {
           'edit-page-title': 'Edit Study {{studyId}}',
           'create-page-title': 'Create Study {{studyId}}',
+          'success-on-save-toast': 'Study {{studyId}} has been saved successfully.',
+          'error-on-save-toast': 'An error occurred during saving of Study {{studyId}}!',
           'label': {
             'edit-study': 'Edit Study:',
             'create-study': 'Create Study:',
