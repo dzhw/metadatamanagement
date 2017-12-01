@@ -17,6 +17,4 @@ public interface DaraUpdateQueueItemRepositoryCustom {
     
   List<DaraUpdateQueueItem> findOldestLockedItems(String updateStartedBy,
       LocalDateTime updateStartedAt);
-  
-  void unlockItem(DaraUpdateQueueItem item);
 }

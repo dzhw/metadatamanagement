@@ -201,7 +201,7 @@ public class DaraService {
             .equals("A resource with the given doiProposal exists in the system.")) {
         return HttpStatus.CREATED;
       } else {
-        return httpClientError.getStatusCode();
+        throw httpClientError;
       }
     }
   }

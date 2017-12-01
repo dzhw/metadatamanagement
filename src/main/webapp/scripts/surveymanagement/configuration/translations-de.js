@@ -133,8 +133,8 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-size': 'Die Maximallänge des Populationstitel ist 128 Zeichen.'
             },
             'description': {
-              'not-null': 'Der Titel der Population darf nicht leer sein!',
-              'i18n-string-not-empty': 'Der Titel der Population muss mindestens in einer Sprache vorliegen.',
+              'not-null': 'Die Beschreibung der Population darf nicht leer sein!',
+              'i18n-string-not-empty': 'Die Beschreibung der Population muss mindestens in einer Sprache vorliegen.',
               'i18n-string-size': 'Die Maximallänge des Populationsbeschreibung ist 2048 Zeichen.'
             }
           },

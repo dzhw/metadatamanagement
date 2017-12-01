@@ -1,6 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
-import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -29,7 +28,6 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.Authority;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
-import freemarker.template.TemplateException;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -119,7 +117,7 @@ public class DaraUpdateQueueService {
   }
 
   /**
-   * Process the update queue every minute.
+   * Process the update queue every 5 minutes.
    */
   @Scheduled(fixedRate = 1000 * 300, initialDelay = 1000 * 60)
   public void processAllQueueItems() {
@@ -173,18 +171,24 @@ public class DaraUpdateQueueService {
     for (DaraUpdateQueueItem lockedItem : lockedItems) {
       try {
         this.daraService.registerOrUpdateProjectToDara(lockedItem.getProjectId());
-      } catch (IOException | TemplateException e) {
+      } catch (Exception e) {
         log.error("Error at registration to Dara: " + e.getMessage());
         // do not delete the queue item (has to be retried later)
         List<User> admins = userRepository.findAllByAuthoritiesContaining(
             new Authority(AuthoritiesConstants.ADMIN));
         mailService.sendMailOnDaraAutomaticUpdateError(admins, lockedItem.getProjectId());
-        this.queueItemRepository.unlockItem(lockedItem);
+        this.unlock(lockedItem);
         return;
       }
     }
     
     // finally delete the queue items
     queueItemRepository.delete(lockedItems);
+  }
+  
+  private void unlock(DaraUpdateQueueItem item) {
+    item.setUpdateStartedAt(null);
+    item.setUpdateStartedBy(null);
+    this.queueItemRepository.save(item);
   }
 }

@@ -86,22 +86,16 @@
 	             </endDate>
 	            </#if>
             </temporalCoverageFormal>
-            <#if survey.population?? && survey.population.title??>
             <temporalCoveragesFree>
-                <#if survey.population.title.de??>
                 <temporalCoverageFree>
                     <language>de</language>
                     <freetext>${survey.wave}. Welle: ${survey.population.title.de}</freetext>
                 </temporalCoverageFree>
-                </#if>
-                <#if survey.population.title.en??>
                 <temporalCoverageFree>
                     <language>en</language>
                     <freetext>${survey.wave}. Wave: ${survey.population.title.en}</freetext>
                 </temporalCoverageFree>
-                </#if>
             </temporalCoveragesFree>
-            </#if>
         </temporalCoverage>
         </#if>
         </#list>
@@ -129,13 +123,13 @@
                 <#if survey.surveyMethod.de??>
                 <collectionModeFree>
                     <language>de</language>
-                    <freetext>${survey.wave}. Welle: ${survey.population.title.de}: ${survey.surveyMethod.de}</freetext>
+                    <freetext>${survey.wave}. Welle (${survey.population.title.de}): ${survey.surveyMethod.de}</freetext>
                 </collectionModeFree>
                 </#if>
                 <#if survey.surveyMethod.en??>
                 <collectionModeFree>
                     <language>en</language>
-                    <freetext>${survey.wave}. Wave: ${survey.population.title.en}: ${survey.surveyMethod.en}</freetext>
+                    <freetext>${survey.wave}. Wave (${survey.population.title.en}): ${survey.surveyMethod.en}</freetext>
                 </collectionModeFree>
                 </#if>
             </collectionModesFree>
