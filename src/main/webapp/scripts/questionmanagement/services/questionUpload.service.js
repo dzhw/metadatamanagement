@@ -13,6 +13,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
     var _URL = window.URL || window.webkitURL;
     var filesMap;
     var questionResources;
+    var questionImageMetadataResources;
     // map questionId -> presentInJson true/false
     var existingQuestions = {};
     var usedIndexInInstrument = {};
@@ -183,7 +184,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
     //The question Image is incomplete and has to be enriched with more
     //information
     var createQuestionImageMetadataResource = function(
-      questionImageJson, image, projectId, questionId) {
+      questionImageJson, image, question) {
       console.log(image);
       //TODO The Json file is here. read the file and extend it.
 
@@ -194,28 +195,9 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
               var questionImageMetadata = CleanJSObjectService
                 .removeEmptyJsonObjects(JSON.parse(result));
               questionImageMetadata.dataAcquisitionProjectId =
-                  projectId;
-              questionImageMetadata.questionId = questionId;
-              questionImageMetadata.fileName = image.path;
-
-              //TODO DKatzberg ggf. eines höher schieben? auf jeden fall vor
-              //dem laden der resolution ...
-              /*if (!image) {
-                JobLoggingService.error({
-                  message: 'question-' +
-                    'management.log-messages.question-image-metadata.' +
-                    'not-found-image-file',
-                  messageParams: {
-                    questionNumber: questionNumber,
-                    instrument: instrument.instrumentName
-                  },
-                  objectType: 'questionImageMetadata'
-                });
-              } else {
-                //TODO DKatzberg question image metadata resource?
-                //questionResources.push(new QuestionResource(question));
-              }*/
-
+                  question.dataAcquisitionProjectId;
+              questionImageMetadata.questionId = question.id;
+              questionImageMetadata.fileName = image.name;
               questionImageMetadata.imageType = 'PNG';
               questionImageMetadata.resolution = {};
               var img = new Image();
@@ -224,8 +206,10 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                 questionImageMetadata.resolution.heightY = this.height;
               };
               img.src = _URL.createObjectURL(image);
-              //TODO check for resolution. if no resolution -> error message
-
+              //TODO DKatzberg check for resolution.
+              //if no resolution -> error message
+              questionImageMetadataResources[question.number] =
+                  questionImageMetadata;
               resolve();
             } catch (e) {
               /*JobLoggingService.error({
@@ -368,6 +352,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
           return filesObject.instrumentIndex === instrumentIndex;
         })[0];
         questionResources = [];
+        questionImageMetadataResources = [];
         var chainedQuestionResourceBuilder = $q.when();
         _.forEach(instrument.jsonFiles, function(questionAsJson,
           questionNumber) {
@@ -388,8 +373,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                   return createQuestionImageMetadataResource(
                     instrument.jsonFilesForImages[question.number],
                     instrument.pngFiles[question.number],
-                    instrument.dataAcquisitionProjectId,
-                    question.id);
+                    question);
                 });
             });
             chainedQuestionImageMetadataResourceBuilder.finally(
@@ -399,7 +383,8 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                   chainedQuestionUploads = chainedQuestionUploads.then(
                     function() {
                       return uploadQuestion(question,
-                        instrument.pngFiles[question.number]);
+                        instrument.pngFiles[question.number],
+                        questionImageMetadataResources[question.number]);
                     });
                 });
                 chainedQuestionUploads.finally(function() {
@@ -416,7 +401,6 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
       uploadInstruments(0);
     };
 
-    //TODO DKatzberg extend for question metadata
     var uploadQuestions = function(files, dataAcquisitionProjectId) {
       existingQuestions = {};
       usedIndexInInstrument = {};

@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp').service('QuestionImageUploadService',
       Upload.upload({
         url: '/api/questions/images',
         fields: {
-          'questionImageMetadata': questionImageMetadata,
+          'questionImageMetadata': Upload.jsonBlob(questionImageMetadata),
           'image': image
         },
       }).success(function() {

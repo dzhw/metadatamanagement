@@ -48,6 +48,7 @@ public class QuestionImageResource {
   public ResponseEntity<String> uploadImage(@RequestParam("image") MultipartFile multiPartFile,
       @RequestPart("questionImageMetadata") 
       @Valid QuestionImageMetadata questionImageMetadata) throws IOException, URISyntaxException {
+    System.out.println(questionImageMetadata);
     if (!multiPartFile.isEmpty()) {
       String gridFsFileName = imageService.saveQuestionImage(multiPartFile, 
           questionImageMetadata);
