@@ -142,11 +142,11 @@
     <dataSets>
         <#list dataSets as dataSet>
         <#list dataSet.subDataSets as subDataSet>
-        <#if subDataSet.numberOfObservations?? && numberObservationMap[dataSet.id]?? && subDataSet.name??>
+        <#if subDataSet.numberOfObservations?? && numberOfVariablesMap[dataSet.id]?? && subDataSet.name??>
         <dataSet>
             <unitType>Individual</unitType>
             <numberUnits>${subDataSet.numberOfObservations}</numberUnits>
-            <numberVariables>${numberObservationMap[dataSet.id]}</numberVariables>
+            <numberVariables>${numberOfVariablesMap[dataSet.id]}</numberVariables>
             <files>
                 <file>
                     <name>${subDataSet.name}</name>

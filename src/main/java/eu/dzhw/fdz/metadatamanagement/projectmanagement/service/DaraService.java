@@ -228,19 +228,20 @@ public class DaraService {
     dataForTemplate.put("study", study);
     
     //Get Surveys Information
-    List<Survey> surveys = this.surveyRepository.findByDataAcquisitionProjectId(projectId);
+    List<Survey> surveys = this.surveyRepository
+        .findByDataAcquisitionProjectIdOrderByNumber(projectId);
     dataForTemplate.put("surveys", surveys);
     
     //Get Datasets Information
     List<DataSet> dataSets = this.dataSetRepository.findByDataAcquisitionProjectId(projectId);
     dataForTemplate.put("dataSets", dataSets);
-    HashMap<String, Long> dataSetNumberObservationMap = new HashMap<>();
+    HashMap<String, Long> dataSetNumberOfVariablesMap = new HashMap<>();
     
     for (DataSet dataSet : dataSets) {
       long numberVariables = this.variableRepository.countByDataSetId(dataSet.getId());
-      dataSetNumberObservationMap.put(dataSet.getId(), numberVariables);
+      dataSetNumberOfVariablesMap.put(dataSet.getId(), numberVariables);
     }
-    dataForTemplate.put("numberObservationMap", dataSetNumberObservationMap);
+    dataForTemplate.put("numberOfVariablesMap", dataSetNumberOfVariablesMap);
     
     //Get Related Publications
     List<RelatedPublication> relatedPublications = 
