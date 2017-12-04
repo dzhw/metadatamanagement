@@ -1,5 +1,7 @@
 /*jshint loopfunc: true */
 /* global _ */
+/* global window */
+/* global Image */
 'use strict';
 
 angular.module('metadatamanagementApp').service('QuestionUploadService',
@@ -198,7 +200,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
 
               //TODO DKatzberg ggf. eines höher schieben? auf jeden fall vor
               //dem laden der resolution ...
-              if (!image) {
+              /*if (!image) {
                 JobLoggingService.error({
                   message: 'question-' +
                     'management.log-messages.question-image-metadata.' +
@@ -212,7 +214,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
               } else {
                 //TODO DKatzberg question image metadata resource?
                 //questionResources.push(new QuestionResource(question));
-              }
+              }*/
 
               questionImageMetadata.imageType = 'PNG';
               questionImageMetadata.resolution = {};
@@ -226,7 +228,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
 
               resolve();
             } catch (e) {
-              JobLoggingService.error({
+              /*JobLoggingService.error({
                 message: 'question-management.log-messages.' +
                   'question-image-metadata.unable-to-parse-json-file',
                 messageParams: {
@@ -234,11 +236,11 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                   instrument: instrument.instrumentName
                 },
                 objectType: 'questionImageMetadata'
-              });
+              });*/
               resolve();
             }
           }, function() {
-            JobLoggingService.error({
+            /*JobLoggingService.error({
               message: 'question-management.log-messages.' +
                 'question-image-metadata.unable-to-read-file',
               messageParams: {
@@ -246,7 +248,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                 instrument: instrument.instrumentName
               },
               objectType: 'questionImageMetadata'
-            });
+            });*/
             resolve();
           });
       });
