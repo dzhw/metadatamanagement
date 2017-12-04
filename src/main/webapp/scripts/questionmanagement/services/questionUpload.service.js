@@ -8,6 +8,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
     ErrorMessageResolverService, $q, ElasticSearchAdminService, $rootScope,
     $translate, $mdDialog, QuestionIdBuilderService, StudyIdBuilderService,
     InstrumentIdBuilderService) {
+    var _URL = window.URL || window.webkitURL;
     var filesMap;
     var questionResources;
     // map questionId -> presentInJson true/false
@@ -180,10 +181,75 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
     //The question Image is incomplete and has to be enriched with more
     //information
     var createQuestionImageMetadataResource = function(
-      questionImageJson, image) {
-      console.log(questionImageJson);
+      questionImageJson, image, projectId, questionId) {
       console.log(image);
       //TODO The Json file is here. read the file and extend it.
+
+      return $q(function(resolve) {
+        FileReaderService.readAsText(questionImageJson)
+          .then(function(result) {
+            try {
+              var questionImageMetadata = CleanJSObjectService
+                .removeEmptyJsonObjects(JSON.parse(result));
+              questionImageMetadata.dataAcquisitionProjectId =
+                  projectId;
+              questionImageMetadata.questionId = questionId;
+              questionImageMetadata.fileName = image.path;
+
+              //TODO DKatzberg ggf. eines höher schieben? auf jeden fall vor
+              //dem laden der resolution ...
+              if (!image) {
+                JobLoggingService.error({
+                  message: 'question-' +
+                    'management.log-messages.question-image-metadata.' +
+                    'not-found-image-file',
+                  messageParams: {
+                    questionNumber: questionNumber,
+                    instrument: instrument.instrumentName
+                  },
+                  objectType: 'questionImageMetadata'
+                });
+              } else {
+                //TODO DKatzberg question image metadata resource?
+                //questionResources.push(new QuestionResource(question));
+              }
+
+              questionImageMetadata.imageType = 'PNG';
+              questionImageMetadata.resolution = {};
+              var img = new Image();
+              img.onload = function() {
+                questionImageMetadata.resolution.widthX = this.width;
+                questionImageMetadata.resolution.heightY = this.height;
+              };
+              img.src = _URL.createObjectURL(image);
+              //TODO check for resolution. if no resolution -> error message
+
+              resolve();
+            } catch (e) {
+              JobLoggingService.error({
+                message: 'question-management.log-messages.' +
+                  'question-image-metadata.unable-to-parse-json-file',
+                messageParams: {
+                  file: questionNumber + '.json',
+                  instrument: instrument.instrumentName
+                },
+                objectType: 'questionImageMetadata'
+              });
+              resolve();
+            }
+          }, function() {
+            JobLoggingService.error({
+              message: 'question-management.log-messages.' +
+                'question-image-metadata.unable-to-read-file',
+              messageParams: {
+                file: questionNumber + '.json',
+                instrument: instrument.instrumentName
+              },
+              objectType: 'questionImageMetadata'
+            });
+            resolve();
+          });
+      });
     };
 
     var deleteAllQuestionsNotPresentInJson = function() {
@@ -319,7 +385,9 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                 .then(function() {
                   return createQuestionImageMetadataResource(
                     instrument.jsonFilesForImages[question.number],
-                    instrument.pngFiles[question.number]);
+                    instrument.pngFiles[question.number],
+                    instrument.dataAcquisitionProjectId,
+                    question.id);
                 });
             });
             chainedQuestionImageMetadataResourceBuilder.finally(
