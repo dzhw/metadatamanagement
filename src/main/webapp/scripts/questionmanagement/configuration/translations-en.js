@@ -20,6 +20,11 @@ angular.module('metadatamanagementApp').config(
             'unable-to-parse-json-file': 'The JSON file "{{file}}" in Instrument {{instrument}} does not contain valid JSON!',
             'unable-to-read-file': 'The file "{{file}}" in Instrument {{instrument}} could not be read!',
             'non-unique-index-in-instrument': 'At least two questions ({{firstQuestionId}}, {{secondQuestionId}}) have the same index "{{index}}" in an instrument.'
+          },
+          'question-image-metadata': {
+            'unable-to-parse-json-file': 'The JSON file "{{file}}" to the question with number {{questionNumber}} does not contain valid JSON!',
+            'unable-to-read-file': 'The file "{{file}}" to the question with number {{questionNumber}} could not be read!',
+            'unable-to-read-resolution': 'The resolution of the image "{{file}}" to the question with number {{questionNumber}} could not be read!'
           }
         },
         'home': {

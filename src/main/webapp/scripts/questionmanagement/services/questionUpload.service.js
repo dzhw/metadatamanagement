@@ -93,8 +93,8 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
               filesMap[path[pathLength - 4]].jsonFiles = {};
               filesMap[path[pathLength - 4]].jsonFilesForImages = {};
               instrumentIndex++;
-              //TODO Problem ... ich kann nicht json / png den instrumenten
-              //hoch zählen ... Oder?
+              //TODO DKatzberg Problem ... ich kann nicht json / png den
+              //instrumenten hoch zählen ... Oder?
             }
             filesMap[path[pathLength - 4]]
               .jsonFilesForImages[_.split(fileName, '.json')[0]] = file;
@@ -180,14 +180,9 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
       });
     };
 
-    //TODO DKatzberg Create Question Metadata Resource
-    //The question Image is incomplete and has to be enriched with more
-    //information
     var createQuestionImageMetadataResource = function(
       questionImageJson, image, question) {
       console.log(image);
-      //TODO The Json file is here. read the file and extend it.
-
       return $q(function(resolve) {
         FileReaderService.readAsText(questionImageJson)
           .then(function(result) {
@@ -206,33 +201,49 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                 questionImageMetadata.resolution.heightY = this.height;
               };
               img.src = _URL.createObjectURL(image);
-              //TODO DKatzberg check for resolution.
+
+              if (CleanJSObjectService
+                .isNullOrEmpty(questionImageMetadata.resolution.widthX) ||
+                CleanJSObjectService
+                  .isNullOrEmpty(questionImageMetadata.resolution.heightY)) {
+                JobLoggingService.error({
+                  message: 'question-management.log-messages.' +
+                    'question-image-metadata.unable-to-read-resolution',
+                  messageParams: {
+                    file: image.name,
+                    questionNumber: question.number
+                  },
+                  objectType: 'questionImageMetadata'
+                });
+                resolve();
+              }
+
               //if no resolution -> error message
               questionImageMetadataResources[question.number] =
                   questionImageMetadata;
               resolve();
             } catch (e) {
-              /*JobLoggingService.error({
+              JobLoggingService.error({
                 message: 'question-management.log-messages.' +
                   'question-image-metadata.unable-to-parse-json-file',
                 messageParams: {
-                  file: questionNumber + '.json',
-                  instrument: instrument.instrumentName
+                  file: questionImageJson.name,
+                  questionNumber: question.number
                 },
                 objectType: 'questionImageMetadata'
-              });*/
+              });
               resolve();
             }
           }, function() {
-            /*JobLoggingService.error({
+            JobLoggingService.error({
               message: 'question-management.log-messages.' +
                 'question-image-metadata.unable-to-read-file',
               messageParams: {
-                file: questionNumber + '.json',
-                instrument: instrument.instrumentName
+                file: questionImageJson.name,
+                questionNumber: question.number
               },
               objectType: 'questionImageMetadata'
-            });*/
+            });
             resolve();
           });
       });
