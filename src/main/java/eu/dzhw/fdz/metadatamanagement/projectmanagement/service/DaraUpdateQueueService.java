@@ -8,8 +8,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
-import org.springframework.data.rest.core.annotation.HandleBeforeDelete;
 import org.springframework.data.rest.core.annotation.HandleBeforeSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -77,8 +77,7 @@ public class DaraUpdateQueueService {
    */
   @HandleBeforeCreate
   @HandleBeforeSave
-  @HandleBeforeDelete
-  public void onRelatedPublicationBeforeSavedOrDeleted(RelatedPublication relatedPublication) {
+  public void onRelatedPublicationBeforeSavedOrCreated(RelatedPublication relatedPublication) {
     RelatedPublication oldPublication = this.relatedPublicationRepository
         .findOne(relatedPublication.getId());
     
@@ -97,6 +96,11 @@ public class DaraUpdateQueueService {
     } else {
       enqueueStudiesIfProjectIsReleased(relatedPublication.getStudyIds());
     }
+  }
+  
+  @HandleAfterDelete
+  public void onRelatedPublicationDeleted(RelatedPublication relatedPublication) {
+    enqueueStudiesIfProjectIsReleased(relatedPublication.getStudyIds());
   }
     
   /**
