@@ -14,6 +14,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
     var filesMap;
     var questionResources;
     var questionImageMetadataResources;
+    var questionImageArrayByQuestionNumber;
     // map questionId -> presentInJson true/false
     var existingQuestions = {};
     var usedIndexInInstrument = {};
@@ -65,7 +66,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
               filesMap[path[pathLength - 4]].instrumentIndex =
                 instrumentIndex;
               filesMap[path[pathLength - 4]].questionNumber =
-                filesMap[path[pathLength - 2]];
+                path[pathLength - 2];
               filesMap[path[pathLength - 4]].pngFiles = {};
               filesMap[path[pathLength - 4]].jsonFiles = {};
               filesMap[path[pathLength - 4]].jsonFilesForImages = {};
@@ -73,6 +74,9 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
             }
             filesMap[path[pathLength - 4]]
               .pngFiles[_.split(fileName, '.png')[0]] = file;
+            filesMap[path[pathLength - 4]]
+              .pngFiles[_.split(fileName, '.png')[0]].questionNumber =
+              path[pathLength - 2];
           }
           //Specific json file for the image
           //Json File for images has Metadata for the image
@@ -88,16 +92,17 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
               filesMap[path[pathLength - 4]].instrumentIndex =
                 instrumentIndex;
               filesMap[path[pathLength - 4]].questionNumber =
-                filesMap[path[pathLength - 2]];
+                path[pathLength - 2];
               filesMap[path[pathLength - 4]].pngFiles = {};
               filesMap[path[pathLength - 4]].jsonFiles = {};
               filesMap[path[pathLength - 4]].jsonFilesForImages = {};
               instrumentIndex++;
-              //TODO DKatzberg Problem ... ich kann nicht json / png den
-              //instrumenten hoch zählen ... Oder?
             }
             filesMap[path[pathLength - 4]]
               .jsonFilesForImages[_.split(fileName, '.json')[0]] = file;
+            filesMap[path[pathLength - 4]]
+              .jsonFilesForImages[_.split(fileName, '.json')[0]]
+              .questionNumber = path[pathLength - 2];
           }
         }
       });
@@ -139,7 +144,8 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
               question.studyId = StudyIdBuilderService
                 .buildStudyId(question.dataAcquisitionProjectId);
               question.imageType = 'PNG';
-              if (!instrument.pngFiles[questionNumber]) {
+              //TODO DKatzberg Check move to json for image metadata
+              /*if (!instrument.pngFiles[questionNumber]) {
                 JobLoggingService.error({
                   message: 'question-' +
                     'management.log-messages.question.not-found-image-file',
@@ -149,9 +155,8 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                   },
                   objectType: 'question'
                 });
-              } else {
-                questionResources.push(new QuestionResource(question));
-              }
+              } else {}*/
+              questionResources.push(new QuestionResource(question));
               resolve();
             } catch (e) {
               JobLoggingService.error({
@@ -201,8 +206,8 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                 questionImageMetadata.resolution.heightY = this.height;
               };
               img.src = _URL.createObjectURL(image);
-
-              if (CleanJSObjectService
+              //TODO DKatzberg Delete?
+              /*if (CleanJSObjectService
                 .isNullOrEmpty(questionImageMetadata.resolution.widthX) ||
                 CleanJSObjectService
                   .isNullOrEmpty(questionImageMetadata.resolution.heightY)) {
@@ -216,11 +221,12 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                   objectType: 'questionImageMetadata'
                 });
                 resolve();
-              }
+              }*/
 
               //if no resolution -> error message
-              questionImageMetadataResources[question.number] =
-                  questionImageMetadata;
+              questionImageMetadataResources
+                [_.split(questionImageJson.name, '.json')[0]] =
+                questionImageMetadata;
               resolve();
             } catch (e) {
               JobLoggingService.error({
@@ -363,7 +369,8 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
           return filesObject.instrumentIndex === instrumentIndex;
         })[0];
         questionResources = [];
-        questionImageMetadataResources = [];
+        questionImageMetadataResources = {};
+        questionImageArrayByQuestionNumber = {};
         var chainedQuestionResourceBuilder = $q.when();
         _.forEach(instrument.jsonFiles, function(questionAsJson,
           questionNumber) {
@@ -377,16 +384,43 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
         chainedQuestionResourceBuilder.finally(
           function() {
             var chainedQuestionImageMetadataResourceBuilder = $q.when();
-            questionResources.forEach(function(question) {
-              chainedQuestionImageMetadataResourceBuilder =
-                  chainedQuestionImageMetadataResourceBuilder
-                .then(function() {
-                  return createQuestionImageMetadataResource(
-                    instrument.jsonFilesForImages[question.number],
-                    instrument.pngFiles[question.number],
-                    question);
+            for (var property in instrument.jsonFilesForImages) {
+              questionResources.forEach(function(question) {
+                  if (instrument.jsonFilesForImages[property]
+                    .questionNumber === question.number) {
+                    chainedQuestionImageMetadataResourceBuilder =
+                        chainedQuestionImageMetadataResourceBuilder
+                      .then(function() {
+                          if (instrument.jsonFilesForImages
+                            .hasOwnProperty(property)) {
+                            if (CleanJSObjectService.isNullOrEmpty(
+                                questionImageMetadataResources
+                                [question.number])) {
+                              questionImageMetadataResources
+                              [question.number] = [];
+                            }
+                            questionImageMetadataResources[question.number]
+                              .push(createQuestionImageMetadataResource(
+                                instrument.jsonFilesForImages[property],
+                                instrument.pngFiles[property],
+                                question));
+                          }
+
+                          if (instrument.pngFiles
+                            .hasOwnProperty(property)) {
+                            if (CleanJSObjectService.isNullOrEmpty(
+                                questionImageArrayByQuestionNumber
+                                [question.number])) {
+                              questionImageArrayByQuestionNumber
+                              [question.number] = [];
+                            }
+                            questionImageArrayByQuestionNumber[question.number]
+                              .push(instrument.pngFiles[property]);
+                          }
+                        });
+                  }
                 });
-            });
+            }
             chainedQuestionImageMetadataResourceBuilder.finally(
               function() {
                 var chainedQuestionUploads = $q.when();
@@ -394,7 +428,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                   chainedQuestionUploads = chainedQuestionUploads.then(
                     function() {
                       return uploadQuestion(question,
-                        instrument.pngFiles[question.number],
+                        questionImageArrayByQuestionNumber[question.number],
                         questionImageMetadataResources[question.number]);
                     });
                 });
