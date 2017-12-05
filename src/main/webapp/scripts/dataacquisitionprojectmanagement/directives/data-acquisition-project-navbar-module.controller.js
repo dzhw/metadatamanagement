@@ -39,12 +39,12 @@ angular.module('metadatamanagementApp')
       $scope.$on('domain-object-editing-started',
         function() {
           ctrl.projectChooserDisabled = true;
-      });
+        });
 
       $scope.$on('domain-object-editing-stopped',
         function() {
           ctrl.projectChooserDisabled = false;
-      });
+        });
 
       //Load the projects for the drop menu
       function loadProjects() {

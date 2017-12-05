@@ -177,12 +177,23 @@ angular.module('metadatamanagementApp').config(
           'create-page-title': 'Studie {{studyId}} anlegen',
           'success-on-save-toast': 'Studie {{studyId}} wurde erfolgreich gespeichert',
           'error-on-save-toast': 'Ein Fehler trat beim Speichern von Studie {{studyId}} auf!',
+          'previous-version-restored-toast': 'Die ältere Version von Studie {{ studyId }} kann jetzt gespeichert werden.',
           'label': {
             'edit-study': 'Studie bearbeiten:',
             'create-study': 'Studie anlegen:',
             'first-name': 'Vorname',
             'middle-name': 'Zweiter Vorname',
             'last-name': 'Nachname'
+          },
+          'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version dieser Studie wieder herzustellen.',
+          'save-tooltip': 'Klicken, um die Studie zu speichern.',
+          'choose-previous-version': {
+            'title': 'Ältere Versionen der Studie {{ studyId }}',
+            'cancel-tooltip': 'Klicken, um ohne eine Studie auszuwählen zurückzukehren.',
+            'no-versions-found': 'Es wurden keine älteren Versionen von Studie {{ studyId }} gefunden.',
+            'study-title': 'Titel',
+            'lastModifiedDate': 'Gespeichert am',
+            'lastModifiedBy': 'Gespeichert von'
           }
         }
       }

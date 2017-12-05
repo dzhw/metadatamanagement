@@ -177,12 +177,23 @@ angular.module('metadatamanagementApp').config(
           'create-page-title': 'Create Study {{studyId}}',
           'success-on-save-toast': 'Study {{studyId}} has been saved successfully.',
           'error-on-save-toast': 'An error occurred during saving of Study {{studyId}}!',
+          'previous-version-restored-toast': 'Previous version of Studie {{ studyId }} can be saved now.',
           'label': {
             'edit-study': 'Edit Study:',
             'create-study': 'Create Study:',
             'first-name': 'First Name',
             'middle-name': 'Middle Name',
             'last-name': 'Last Name'
+          },
+          'open-choose-previous-version-tooltip': 'Click for restoring a previous version of this study.',
+          'save-tooltip': 'Click to save this study.',
+          'choose-previous-version': {
+            'title': 'Previous Versions of Study {{ studyId }}',
+            'cancel-tooltip': 'Click to return without choosing a study.',
+            'no-versions-found': 'There are no previous versions of study {{ studyId }}.',
+            'study-title': 'Title',
+            'lastModifiedDate': 'Saved at',
+            'lastModifiedBy': 'Saved by'
           }
         }
       }

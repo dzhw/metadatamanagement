@@ -57,7 +57,7 @@
         <md-fab-speed-dial ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='studies'" md-direction="left" class="md-scale md-hover-full" md-open="speedDial.isOpen" ng-mouseenter="speedDial.isOpen=true;" ng-mouseleave="speedDial.isOpen=false;">
           <md-fab-trigger>
             <md-button class="md-accent md-fab" ng-disabled="!currentProject || currentProject.release">
-                <md-tooltip md-autohide="true" md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                     {{'search-management.buttons.upload-or-create-studies-tooltip' | translate}}
                 </md-tooltip>
                 <md-icon md-font-set="material-icons">add</md-icon>

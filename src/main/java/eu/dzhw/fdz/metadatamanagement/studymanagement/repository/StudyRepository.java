@@ -49,4 +49,7 @@ public interface StudyRepository extends BaseRepository<Study, String> {
 
   @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamIdsByDataAcquisitionProjectId(String id);
+  
+  @RestResource(exported = false)
+  Stream<Study> streamAllBy();
 }

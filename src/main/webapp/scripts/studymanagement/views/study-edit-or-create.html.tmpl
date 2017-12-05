@@ -14,7 +14,7 @@
             <div layout-gt-sm="row" layout="column">
                 <md-input-container flex="50" style="margin-right: 8px;">
                     <label>{{'study-management.detail.label.title' | translate}} ({{'global.in-german' | translate}})</label>
-                    <input ng-trim="true" md-maxlength="2048" required ng-model="ctrl.study.title.de" name="titleDe" lang="de"></input>
+                    <input ng-trim="true" md-maxlength="2048" required ng-model="ctrl.study.title.de" name="titleDe" lang="de">
                     <div ng-show="!studyForm.titleDe.$touched && !ctrl.study.title.de" class="fdz-input-hint">{{'study-management.edit.hints.title.de' | translate}}</div>
                     <div ng-messages="studyForm.titleDe.$error" multiple>
                         <div ng-message="required">{{'study-management.error.study.title.i18n-string-entire-not-empty' | translate}}</div>
@@ -23,7 +23,7 @@
                 </md-input-container>
                 <md-input-container flex="50">
                     <label>{{'study-management.detail.label.title' | translate}} ({{'global.in-english' | translate}})</label>
-                    <input md-maxlength="2048" required ng-model="ctrl.study.title.en" name="titleEn" lang="en"></input>
+                    <input md-maxlength="2048" required ng-model="ctrl.study.title.en" name="titleEn" lang="en">
                     <div ng-show="!studyForm.titleEn.$touched && !ctrl.study.title.en" class="fdz-input-hint">{{'study-management.edit.hints.title.en' | translate}}</div>
                     <div ng-messages="studyForm.titleEn.$error" multiple>
                         <div ng-message="required">{{'study-management.error.study.title.i18n-string-entire-not-empty' | translate}}</div>
@@ -34,7 +34,7 @@
             <div layout-gt-sm="row" layout="column">
                 <md-input-container flex="50" style="margin-right: 8px;">
                     <label>{{'study-management.detail.label.surveySeries' | translate}} ({{'global.in-german' | translate}})</label>
-                    <input md-maxlength="128" ng-model="ctrl.study.surveySeries.de" name="surveySeriesDe" lang="de"></input>
+                    <input md-maxlength="128" ng-model="ctrl.study.surveySeries.de" name="surveySeriesDe" lang="de">
                     <div ng-show="!studyForm.surveySeriesDe.$touched && !ctrl.study.surveySeries.de" class="fdz-input-hint">{{'study-management.edit.hints.survey-series.de' | translate}}</div>
                     <div ng-messages="studyForm.surveySeriesDe.$error" multiple>
                         <div ng-message="md-maxlength">{{'study-management.error.study.survey-series.i18n-string-size' | translate}}</div>
@@ -42,7 +42,7 @@
                 </md-input-container>
                 <md-input-container flex="50">
                     <label>{{'study-management.detail.label.surveySeries' | translate}} ({{'global.in-english' | translate}})</label>
-                    <input md-maxlength="128" ng-model="ctrl.study.surveySeries.en" name="surveySeriesEn" lang="en"></input>
+                    <input md-maxlength="128" ng-model="ctrl.study.surveySeries.en" name="surveySeriesEn" lang="en">
                     <div ng-show="!studyForm.surveySeriesEn.$touched && !ctrl.study.surveySeries.en" class="fdz-input-hint">{{'study-management.edit.hints.survey-series.en' | translate}}</div>
                     <div ng-messages="studyForm.surveySeriesEn.$error" multiple>
                         <div ng-message="md-maxlength">{{'study-management.error.study.survey-series.i18n-string-size' | translate}}</div>
@@ -52,7 +52,7 @@
             <div layout-gt-sm="row" layout="column">
                 <md-input-container flex="50" style="margin-right: 8px;">
                     <label>{{'study-management.detail.label.institution' | translate}} ({{'global.in-german' | translate}})</label>
-                    <input md-maxlength="128" ng-required="!ctrl.study.institution.en" ng-model="ctrl.study.institution.de" name="institutionDe" lang="de"></input>
+                    <input md-maxlength="128" ng-required="!ctrl.study.institution.en" ng-model="ctrl.study.institution.de" name="institutionDe" lang="de">
                     <div ng-show="!studyForm.institutionDe.$touched && !ctrl.study.institution.de" class="fdz-input-hint">{{'study-management.edit.hints.institution.de' | translate}}</div>
                     <div ng-messages="studyForm.institutionDe.$error" multiple>
                         <div ng-message="required">{{'study-management.error.study.institution.i18n-string-not-empty' | translate}}</div>
@@ -61,7 +61,7 @@
                 </md-input-container>
                 <md-input-container flex="50">
                     <label>{{'study-management.detail.label.institution' | translate}} ({{'global.in-english' | translate}})</label>
-                    <input md-maxlength="128" ng-required="!ctrl.study.institution.de" ng-model="ctrl.study.institution.en" name="institutionEn" lang="en"></input>
+                    <input md-maxlength="128" ng-required="!ctrl.study.institution.de" ng-model="ctrl.study.institution.en" name="institutionEn" lang="en">
                     <div ng-show="!studyForm.institutionEn.$touched && !ctrl.study.institution.en" class="fdz-input-hint">{{'study-management.edit.hints.institution.en' | translate}}</div>
                     <div ng-messages="studyForm.institutionEn.$error" multiple>
                         <div ng-message="required">{{'study-management.error.study.institution.i18n-string-not-empty' | translate}}</div>
@@ -72,7 +72,7 @@
             <div layout-gt-sm="row" layout="column">
                 <md-input-container flex="50" style="margin-right: 8px;">
                     <label>{{'study-management.detail.label.sponsors' | translate}} ({{'global.in-german' | translate}})</label>
-                    <input md-maxlength="128" ng-model="ctrl.study.sponsor.de" name="sponsorDe" lang="de"></input>
+                    <input md-maxlength="128" ng-model="ctrl.study.sponsor.de" name="sponsorDe" lang="de">
                     <div ng-show="!studyForm.sponsorDe.$touched && !ctrl.study.sponsor.de" class="fdz-input-hint">{{'study-management.edit.sponsor.de' | translate}}</div>
                     <div ng-messages="studyForm.sponsorDe.$error" multiple>
                         <div ng-message="md-maxlength">{{'study-management.error.study.survey-series.i18n-string-size' | translate}}</div>
@@ -80,7 +80,7 @@
                 </md-input-container>
                 <md-input-container flex="50">
                     <label>{{'study-management.detail.label.sponsors' | translate}} ({{'global.in-english' | translate}})</label>
-                    <input md-maxlength="128" ng-model="ctrl.study.sponsor.en" name="sponsorEn" lang="en"></input>
+                    <input md-maxlength="128" ng-model="ctrl.study.sponsor.en" name="sponsorEn" lang="en">
                     <div ng-show="!studyForm.sponsorEn.$touched && !ctrl.study.sponsor.en" class="fdz-input-hint">{{'study-management.edit.hints.sponsor.en' | translate}}</div>
                     <div ng-messages="studyForm.sponsorEn.$error" multiple>
                         <div ng-message="md-maxlength">{{'study-management.error.study.survey-series.i18n-string-size' | translate}}</div>
@@ -174,7 +174,7 @@
             <div layout="row" ng-repeat="person in ctrl.study.authors track by $index">
                 <md-input-container flex="33">
                     <label>{{'study-management.edit.label.first-name' | translate}}</label>
-                    <input required ng-model="person.firstName" name="authorsFirstName_{{$index}}" ng-blur="ctrl.deleteCurrentAuthor($event)" ng-focus="ctrl.setCurrentAuthor($index,$event)"></input>
+                    <input required ng-model="person.firstName" name="authorsFirstName_{{$index}}" ng-blur="ctrl.deleteCurrentAuthor($event)" ng-focus="ctrl.setCurrentAuthor($index,$event)">
                     <div ng-show="!studyForm['authorsFirstName_' + $index].$touched && !person.firstName" class="fdz-input-hint">{{'study-management.edit.hints.authors.first-name' | translate}}</div>
                     <div ng-messages="studyForm['authorsFirstName_' + $index].$error" multiple>
                         <div ng-message="required">{{'global.error.person.first-name.not-empty' | translate}}</div>
@@ -182,14 +182,14 @@
                 </md-input-container>
                 <md-input-container flex>
                     <label>{{'study-management.edit.label.middle-name' | translate}}</label>
-                    <input ng-model="person.middleName" name="authorsMiddleName_{{$index}}" ng-blur="ctrl.deleteCurrentAuthor($event)" ng-focus="ctrl.setCurrentAuthor($index,$event)"></input>
+                    <input ng-model="person.middleName" name="authorsMiddleName_{{$index}}" ng-blur="ctrl.deleteCurrentAuthor($event)" ng-focus="ctrl.setCurrentAuthor($index,$event)">
                     <div ng-show="!studyForm['authorsMiddleName_' + $index].$touched && !person.middleName" class="fdz-input-hint">{{'study-management.edit.hints.authors.middle-name' | translate}}</div>
                     <div ng-messages="studyForm['authorsMiddleName_' + $index].$error" multiple>
                     </div>
                 </md-input-container>
                 <md-input-container flex="33">
                     <label>{{'study-management.edit.label.last-name' | translate}}</label>
-                    <input required ng-model="person.lastName" name="authorsLastName_{{$index}}" ng-blur="ctrl.deleteCurrentAuthor($event)" ng-focus="ctrl.setCurrentAuthor($index,$event)"></input>
+                    <input required ng-model="person.lastName" name="authorsLastName_{{$index}}" ng-blur="ctrl.deleteCurrentAuthor($event)" ng-focus="ctrl.setCurrentAuthor($index,$event)">
                     <div ng-show="!studyForm['authorsLastName_' + $index].$touched && !person.lastName" class="fdz-input-hint">{{'study-management.edit.hints.authors.last-name' | translate}}</div>
                     <div ng-messages="studyForm['authorsLastName_' + $index].$error" multiple>
                         <div ng-message="required">{{'global.error.person.last-name.not-empty' | translate}}</div>
@@ -225,15 +225,15 @@
         </md-card-actions>
     </md-card>
     <div class="fdz-fab-button-container" layout="column">
-      <md-button class="md-fab md-raised md-primary" ng-click="ctrl.openRestorePreviousVersionDialog()" ng-disabled="ctrl.createMode">
+      <md-button class="md-fab md-raised md-primary" ng-click="ctrl.openRestorePreviousVersionDialog($event)" ng-disabled="ctrl.createMode">
           <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-              {{'search-management.buttons.restore-study-version-tooltip' | translate}}
+              {{'study-management.edit.open-choose-previous-version-tooltip' | translate}}
           </md-tooltip>
           <md-icon md-font-set="material-icons">undo</md-icon>
       </md-button>
       <md-button class="md-fab md-raised md-accent" type="submit" ng-click="ctrl.saveStudy()" ng-disabled="studyForm.$invalid || !studyForm.$dirty">
           <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-              {{'search-management.buttons.save-study-tooltip' | translate}}
+              {{'study-management.edit.save-tooltip' | translate}}
           </md-tooltip>
           <md-icon md-font-set="material-icons">cloud_upload</md-icon>
       </md-button>

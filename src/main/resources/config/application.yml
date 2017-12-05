@@ -68,6 +68,9 @@ endpoints:
     sensitive: false
   info:
     sensitive: false
+
+javers:
+  algorithm: levenshtein_distance
  
 # ===================================================================
 # JHipster specific properties

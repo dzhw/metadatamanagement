@@ -252,10 +252,10 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
           break;
         case 'studyEdit':
           $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem);
-        break;
+          break;
         case 'studyCreate':
           $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem);
-        break;
+          break;
         case 'questionDetail':
           questionItem = {
             'state': 'questionDetail',

@@ -1,11 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.studymanagement.rest;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-import org.javers.core.Javers;
-import org.javers.repository.jql.QueryBuilder;
-import org.javers.shadow.Shadow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.service.StudyVersionsService;
 
 /**
  * Rest Controller for retrieving previous version of the study domain object.
@@ -26,8 +23,8 @@ import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 public class StudyVersionsResource {
   
   @Autowired
-  private Javers javers;
-  
+  private StudyVersionsService studyVersionsService;
+    
   /**
    * Get the previous 10 versions of the study.
    * 
@@ -41,15 +38,14 @@ public class StudyVersionsResource {
   public ResponseEntity<?> findPreviousStudyVersions(@PathVariable String id,
       @RequestParam(name = "limit", defaultValue = "10") Integer limit,
       @RequestParam(name = "skip", defaultValue = "1") Integer skip) {
-    QueryBuilder jqlQuery =
-        QueryBuilder.byInstanceId(id, Study.class)
-        .withChildValueObjects()
-        .limit(limit).skip(skip);
-
-    List<Shadow<Study>> previousVersions = javers.findShadows(jqlQuery.build());
-
+    List<Study> studyVersions = studyVersionsService.findPreviousStudyVersions(id, limit, skip);
+    
+    if (studyVersions == null) {
+      return ResponseEntity.notFound().build();
+    }
+    
     return ResponseEntity.ok()
         .cacheControl(CacheControl.noStore())
-        .body(previousVersions.stream().map(shadow -> shadow.get()).collect(Collectors.toList()));
+        .body(studyVersions);
   }
 }

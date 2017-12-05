@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp')
     function(entity, PageTitleService, $document, $timeout,
       $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
       CurrentProjectService, StudyIdBuilderService, StudyResource, $scope,
-      ElasticSearchAdminService, StudyVersionsResource, $mdDialog) {
+      ElasticSearchAdminService, $mdDialog) {
       var ctrl = this;
 
       var updateToolbarHeaderAndPageTitle = function() {
@@ -69,7 +69,7 @@ angular.module('metadatamanagementApp')
       ctrl.dataAvailabilities = [
         {de: 'Verfügbar', en: 'Available'},
         {de: 'In Aufbereitung', en: 'In preparation'},
-        {de: 'Nicht Verfügbar', en: 'Not available'}
+        {de: 'Nicht verfügbar', en: 'Not available'}
       ];
 
       ctrl.surveyDesigns = [
@@ -149,13 +149,13 @@ angular.module('metadatamanagementApp')
         $scope.studyForm.$setPristine();
         SimpleMessageToastService.openSimpleMessageToast(
           'study-management.edit.success-on-save-toast',
-          {studyId: ctrl.study.id});
+          {studyId: ctrl.study.id}, true);
         if (ctrl.createMode) {
           $state.go('studyEdit', {id: ctrl.study.id});
         }
       };
 
-      ctrl.openRestorePreviousVersionDialog = function() {
+      ctrl.openRestorePreviousVersionDialog = function(event) {
         $mdDialog.show({
             controller: 'ChoosePreviousStudyVersionController',
             templateUrl: 'scripts/studymanagement/' +
@@ -164,10 +164,17 @@ angular.module('metadatamanagementApp')
             fullscreen: true,
             locals: {
               studyId: ctrl.study.id
-            }
+            },
+            targetEvent: event
           })
           .then(function(study) {
-            ctrl.study = study;
+            ctrl.study = new StudyResource(study);
+            $scope.studyForm.$setDirty();
+            SimpleMessageToastService.openSimpleMessageToast(
+              'study-management.edit.previous-version-restored-toast',
+              {
+                studyId: ctrl.study.id
+              }, true);
           });
       };
 

@@ -1,3 +1,70 @@
-<div ng-repeat="study in studies">
-  <span>{{ study.version }} {{study.lastModifiedDate}} {{study.lastModifiedBy}}</span>
-</div>
+<md-dialog aria-label="{{'study-management.edit.choose-previous-version.title' | translate:studyId }}">
+    <md-toolbar>
+        <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+            <h2 class="fdz-truncate-string">
+                <span>{{'study-management.edit.choose-previous-version.title' | translate:studyId }}</span>
+            </h2>
+            <md-button class="md-icon-button" ng-click="closeDialog()">
+                <md-icon md-font-set="material-icons">clear</md-icon>
+                <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
+                    {{'study-management.edit.choose-previous-version.cancel-tooltip' | translate }}
+                </md-tooltip>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content layout-padding>
+        <table md-autofocus fdz-table ng-if="studies && studies.length > 0">
+            <thead>
+                <tr>
+                    <th>{{'study-management.edit.choose-previous-version.study-title' | translate }}
+                        <md-tooltip hide-gt-xs md-direction="right">
+                            {{'study-management.edit.choose-previous-version.study-title' | translate }}
+                        </md-tooltip>
+                    </th>
+                    <th>{{'study-management.edit.choose-previous-version.lastModifiedDate' | translate }}
+                        <md-tooltip hide-gt-xs md-direction="right">
+                            {{'study-management.edit.choose-previous-version.lastModifiedDate' | translate }}
+                        </md-tooltip>
+                    </th>
+                    <th>{{'study-management.edit.choose-previous-version.lastModifiedBy' | translate }}
+                        <md-tooltip hide-gt-xs md-direction="right">
+                            {{'study-management.edit.choose-previous-version.lastModifiedBy' | translate }}
+                        </md-tooltip>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="study in studies" ng-click="select(study)">
+                    <td display-i18n-string="study.title" class="fdz-table-nowrap"></td>
+                    <td class="fdz-table-nowrap">{{ study.lastModifiedDate + 'Z' | date:'fullDate'}} {{ study.lastModifiedDate + 'Z' | date:'mediumTime'}}<span ng-if="currentLanguage === 'de'"> Uhr</span>&nbsp;</td>
+                    <td class="fdz-table-nowrap">{{ study.lastModifiedBy }}&nbsp;</td>
+                </tr>
+            </tbody>
+        </table>
+        <div ng-if="!studies || studies.length === 0">
+            <span>{{'study-management.edit.choose-previous-version.no-versions-found' | translate:studyId }}</span>
+        </div>
+        <div ng-hide="(!studies || studies.length === 0) && (currentPage.number === 0)" layout="row" layout-align="space-between center">
+          <md-button ng-disabled="currentPage.number === 0" class="md-raised md-primary md-icon-button" ng-click="previousPage()">
+              <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
+                  {{'study-management.edit.choose-previous-version.previous-page-tooltip' | translate }}
+              </md-tooltip>
+              <md-icon md-font-set="material-icons">navigate_before</md-icon>
+          </md-button>
+          <md-button ng-disabled="!studies || studies.length === 0 || studies.length < currentPage.limit" class="md-raised md-primary md-icon-button" ng-click="nextPage()">
+              <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
+                  {{'study-management.edit.choose-previous-version.next-page-tooltip' | translate }}
+              </md-tooltip>
+              <md-icon md-font-set="material-icons">navigate_next</md-icon>
+          </md-button>
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row" style="padding-right: 1em;">
+        <md-button class="md-raised" ng-click="closeDialog()">
+            <span>{{'global.entity.action.cancel' | translate}}</span>
+            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
+                {{'study-management.edit.choose-previous-version.cancel-tooltip' | translate }}
+            </md-tooltip>
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>
