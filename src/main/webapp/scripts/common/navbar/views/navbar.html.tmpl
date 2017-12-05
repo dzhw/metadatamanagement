@@ -6,12 +6,12 @@
                 {{'global.menu.skip-navigation-tooltip'|translate}}
             </md-tooltip>
         </md-button>
-        <md-button style="max-width: 95%;" ng-href="#!/{{currentLanguage}}/search" ng-click="close()">
-            <img src="assets/images/FDZ_Logo.svg" style="width: 100%; height: auto;" alt="{{'global.rdc-alt-text'|translate}}">
-            <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                {{'global.menu.back-to-search'|translate}}
-            </md-tooltip>
-        </md-button>
+        <a ng-href="#!/{{currentLanguage}}/search" ng-click="close()" style="height: 79px;">
+          <iframe src="assets/images/reindeer.svg" style="width: 320px; height: 79px; border: none; pointer-events: none;"></iframe>
+          <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+            {{'global.menu.back-to-search'|translate}}
+          </md-tooltip>
+        </a>
     </md-toolbar>
     <md-divider></md-divider>
     <md-content ng-switch="isAuthenticated()" flex layout="column" role="navigation">
