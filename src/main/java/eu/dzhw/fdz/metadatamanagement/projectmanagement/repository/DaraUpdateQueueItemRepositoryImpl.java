@@ -25,6 +25,7 @@ public class DaraUpdateQueueItemRepositoryImpl implements DaraUpdateQueueItemRep
 
   //update lock is valid for 10 minutes
   private static final int UPDATE_LOCK_EXPIRED = 10;
+  private static final int MINIMUM_AGE_SECONDS = 30;
 
   //number of queue items to be processed in one batch
   private static final int BULK_SIZE = 5;
@@ -64,9 +65,12 @@ public class DaraUpdateQueueItemRepositoryImpl implements DaraUpdateQueueItemRep
   }  
   
   private Criteria getUnlockedOrExpiredCriteria() {
-    return new Criteria().orOperator(
-        Criteria.where("updateStartedAt").lte(LocalDateTime.now()
-            .minusMinutes(UPDATE_LOCK_EXPIRED)),
-        Criteria.where("updateStartedAt").exists(false));
+    return new Criteria().andOperator(
+          new Criteria().orOperator(
+              Criteria.where("updateStartedAt").lte(LocalDateTime.now()
+                  .minusMinutes(UPDATE_LOCK_EXPIRED)),
+              Criteria.where("updateStartedAt").exists(false)),
+          Criteria.where("lastModifiedDate").lte(LocalDateTime.now()
+              .minusSeconds(MINIMUM_AGE_SECONDS)));
   }
 }
