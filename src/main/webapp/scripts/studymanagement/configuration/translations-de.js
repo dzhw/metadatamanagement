@@ -178,6 +178,7 @@ angular.module('metadatamanagementApp').config(
           'success-on-save-toast': 'Studie {{studyId}} wurde erfolgreich gespeichert',
           'error-on-save-toast': 'Ein Fehler trat beim Speichern von Studie {{studyId}} auf!',
           'previous-version-restored-toast': 'Die ältere Version von Studie {{ studyId }} kann jetzt gespeichert werden.',
+          'current-version-restored-toast': 'Die aktuelle Version von Studie {{ studyId }} wurde wiederhergestellt.',
           'label': {
             'edit-study': 'Studie bearbeiten:',
             'create-study': 'Studie anlegen:',

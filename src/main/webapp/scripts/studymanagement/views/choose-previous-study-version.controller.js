@@ -7,10 +7,10 @@ angular.module('metadatamanagementApp')
       $scope.currentPage = {
         number: 0,
         limit: 5,
-        skip: 1
+        skip: 0
       };
       $scope.currentLanguage = LanguageService.getCurrentInstantly();
-      $scope.studyId = {
+      $scope.translationParams = {
         studyId: studyId
       };
 
@@ -29,22 +29,29 @@ angular.module('metadatamanagementApp')
         $mdDialog.cancel();
       };
 
-      $scope.select = function(study) {
-        $mdDialog.hide(study);
+      $scope.select = function(study, index) {
+        $mdDialog.hide({
+          study: study,
+          isCurrentVersion: $scope.isCurrentVersion(index)
+        });
       };
 
       $scope.nextPage = function() {
         $scope.currentPage.number++;
         $scope.currentPage.skip = ($scope.currentPage.limit *
-          $scope.currentPage.number) + 1;
+          $scope.currentPage.number);
         $scope.getStudyVersions();
       };
 
       $scope.previousPage = function() {
         $scope.currentPage.number--;
         $scope.currentPage.skip = ($scope.currentPage.limit *
-          $scope.currentPage.number) + 1;
+          $scope.currentPage.number);
         $scope.getStudyVersions();
+      };
+
+      $scope.isCurrentVersion = function(index) {
+        return (index === 0 && $scope.currentPage.number === 0);
       };
 
       $scope.getStudyVersions();

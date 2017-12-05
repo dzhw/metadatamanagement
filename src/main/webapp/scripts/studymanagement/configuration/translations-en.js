@@ -177,7 +177,8 @@ angular.module('metadatamanagementApp').config(
           'create-page-title': 'Create Study {{studyId}}',
           'success-on-save-toast': 'Study {{studyId}} has been saved successfully.',
           'error-on-save-toast': 'An error occurred during saving of Study {{studyId}}!',
-          'previous-version-restored-toast': 'Previous version of Studie {{ studyId }} can be saved now.',
+          'previous-version-restored-toast': 'Previous version of Study {{ studyId }} can be saved now.',
+          'current-version-restored-toast': 'Current version of Study {{ studyId }} has been restored.',
           'label': {
             'edit-study': 'Edit Study:',
             'create-study': 'Create Study:',

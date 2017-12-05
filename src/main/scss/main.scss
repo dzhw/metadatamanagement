@@ -879,6 +879,15 @@ md-select + .fdz-input-hint {
 
 .fdz-input-hint.ng-leave,
 .fdz-input-hint.ng-enter.ng-enter-active {
- bottom: 7px;
- opacity: 1;
+  bottom: 7px;
+  opacity: 1;
+}
+
+.fdz-current-version {
+  background-color: $brand-success;
+  color: white;
+}
+
+.fdz-current-version:hover {
+  color: black;
 }

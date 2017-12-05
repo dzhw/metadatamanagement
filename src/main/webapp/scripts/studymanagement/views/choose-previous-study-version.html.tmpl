@@ -1,8 +1,8 @@
-<md-dialog aria-label="{{'study-management.edit.choose-previous-version.title' | translate:studyId }}">
+<md-dialog aria-label="{{'study-management.edit.choose-previous-version.title' | translate:translationParams }}">
     <md-toolbar>
         <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
             <h2 class="fdz-truncate-string">
-                <span>{{'study-management.edit.choose-previous-version.title' | translate:studyId }}</span>
+                <span>{{'study-management.edit.choose-previous-version.title' | translate:translationParams }}</span>
             </h2>
             <md-button class="md-icon-button" ng-click="closeDialog()">
                 <md-icon md-font-set="material-icons">clear</md-icon>
@@ -34,7 +34,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="study in studies" ng-click="select(study)">
+                <tr ng-repeat="study in studies" ng-click="select(study, $index)" ng-class="{'fdz-current-version': isCurrentVersion($index)}">
                     <td display-i18n-string="study.title" class="fdz-table-nowrap"></td>
                     <td class="fdz-table-nowrap">{{ study.lastModifiedDate + 'Z' | date:'fullDate'}} {{ study.lastModifiedDate + 'Z' | date:'mediumTime'}}<span ng-if="currentLanguage === 'de'"> Uhr</span>&nbsp;</td>
                     <td class="fdz-table-nowrap">{{ study.lastModifiedBy }}&nbsp;</td>
@@ -42,7 +42,7 @@
             </tbody>
         </table>
         <div ng-if="!studies || studies.length === 0">
-            <span>{{'study-management.edit.choose-previous-version.no-versions-found' | translate:studyId }}</span>
+            <span>{{'study-management.edit.choose-previous-version.no-versions-found' | translate:translationParams }}</span>
         </div>
         <div ng-hide="(!studies || studies.length === 0) && (currentPage.number === 0)" layout="row" layout-align="space-between center">
           <md-button ng-disabled="currentPage.number === 0" class="md-raised md-primary md-icon-button" ng-click="previousPage()">

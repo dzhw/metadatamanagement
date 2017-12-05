@@ -167,14 +167,23 @@ angular.module('metadatamanagementApp')
             },
             targetEvent: event
           })
-          .then(function(study) {
-            ctrl.study = new StudyResource(study);
-            $scope.studyForm.$setDirty();
-            SimpleMessageToastService.openSimpleMessageToast(
-              'study-management.edit.previous-version-restored-toast',
-              {
-                studyId: ctrl.study.id
-              }, true);
+          .then(function(studyWrapper) {
+            ctrl.study = new StudyResource(studyWrapper.study);
+            if (studyWrapper.isCurrentVersion) {
+              $scope.studyForm.$setPristine();
+              SimpleMessageToastService.openSimpleMessageToast(
+                'study-management.edit.current-version-restored-toast',
+                {
+                  studyId: ctrl.study.id
+                }, true);
+            } else {
+              $scope.studyForm.$setDirty();
+              SimpleMessageToastService.openSimpleMessageToast(
+                'study-management.edit.previous-version-restored-toast',
+                {
+                  studyId: ctrl.study.id
+                }, true);
+            }
           });
       };
 
