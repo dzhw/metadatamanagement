@@ -14,6 +14,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DaraUpdateQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
@@ -58,6 +59,9 @@ public abstract class AbstractTest {
   @Autowired
   private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
   
+  @Autowired
+  private DaraUpdateQueueItemRepository daraUpdateQueueItemRepository;
+  
   @After
   public void ensureMongoHasBeenCleanedUp() {
     assertEquals(0, this.studyRepository.count());
@@ -68,5 +72,6 @@ public abstract class AbstractTest {
     assertEquals(0, this.variableRepository.count());
     assertEquals(0, this.relatedPublicationRepository.count());
     assertEquals(0, this.elasticsearchUpdateQueueItemRepository.count());
+    assertEquals(0, this.daraUpdateQueueItemRepository.count());
   }
 }

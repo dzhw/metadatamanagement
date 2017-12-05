@@ -135,29 +135,65 @@
 			"population": {
 				"type": "object",
 				"properties": {
-					"de": {
-						"type": "text",
-						"index": "no",
-						"include_in_all": true,
-						"fields": {
-							"ngrams": {
+					"title": {
+						"type": "object",
+						"properties": {
+							"de": {
 								"type": "text",
-								"index": "analyzed",
-								"analyzer": "ngrams",
-								"norms": false
+								"index": "no",
+								"include_in_all": true,
+								"fields": {
+									"ngrams": {
+										"type": "text",
+										"index": "analyzed",
+										"analyzer": "ngrams",
+										"norms": false
+									}
+								}
+							},
+							"en": {
+								"type": "text",
+								"index": "no",
+								"include_in_all": true,
+								"fields": {
+									"ngrams": {
+										"type": "text",
+										"index": "analyzed",
+										"analyzer": "ngrams",
+										"norms": false
+									}
+								}
 							}
 						}
 					},
-					"en": {
-						"type": "text",
-						"index": "no",
-						"include_in_all": true,
-						"fields": {
-							"ngrams": {
+					"description": {
+						"type": "object",
+						"properties": {
+							"de": {
 								"type": "text",
-								"index": "analyzed",
-								"analyzer": "ngrams",
-								"norms": false
+								"index": "no",
+								"include_in_all": true,
+								"fields": {
+									"ngrams": {
+										"type": "text",
+										"index": "analyzed",
+										"analyzer": "ngrams",
+										"norms": false
+									}
+								}
+							},
+							"en": {
+								"type": "text",
+								"index": "no",
+								"include_in_all": true,
+								"fields": {
+									"ngrams": {
+										"type": "text",
+										"index": "analyzed",
+										"analyzer": "ngrams",
+										"norms": false
+									}
+								}
 							}
 						}
 					}
