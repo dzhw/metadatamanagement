@@ -187,7 +187,6 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
 
     var createQuestionImageMetadataResource = function(
       questionImageJson, image, question) {
-      console.log(image);
       return $q(function(resolve) {
         FileReaderService.readAsText(questionImageJson)
           .then(function(result) {
@@ -317,9 +316,9 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
           }
 
           //TODO DKatzberg auch prüfen, ob die Metadaten gelöscht werden
-          questionImageMetadataList[question.number]
-            .forEach(function(questionImageMetadata) {
+          questionImageMetadataList.forEach(function(questionImageMetadata) {
               deleteAllImages(questionImageMetadata).finally(function() {
+                var image = images[questionImageMetadata.fileName];
                 QuestionImageUploadService.uploadImage(image,
                   questionImageMetadata)
                   .then(function() {
@@ -332,7 +331,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                       message: 'question-management.log-messages.' +
                       'question.unable-to-upload-image-file',
                       messageParams: {
-                        file: question.number + '.png'
+                        file: image.name
                       },
                       objectType: 'image'
                     });
@@ -391,20 +390,18 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
         chainedQuestionResourceBuilder.finally(
           function() {
             var chainedQuestionImageMetadataResourceBuilder = $q.when();
-            for (var property in instrument.jsonFilesForImages) {
+            Object.keys(instrument.jsonFilesForImages)
+              .forEach(function(property) {
               questionResources.forEach(function(question) {
-                  if (instrument.jsonFilesForImages[property]
-                    .questionNumber === question.number) {
+                  if (instrument.jsonFilesForImages[property].questionNumber ===
+                    question.number) {
                     chainedQuestionImageMetadataResourceBuilder =
                         chainedQuestionImageMetadataResourceBuilder
                       .then(function() {
-                          if (instrument.jsonFilesForImages
-                          .hasOwnProperty(property)) {
-                            return createQuestionImageMetadataResource(
-                              instrument.jsonFilesForImages[property],
-                              instrument.pngFiles[property],
-                              question);
-                          }
+                          return createQuestionImageMetadataResource(
+                            instrument.jsonFilesForImages[property],
+                            instrument.pngFiles[property],
+                            question);
                         })
                       .then(function() {
                         if (instrument.pngFiles
@@ -413,15 +410,18 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                               questionImageArrayByQuestionNumber
                               [question.number])) {
                             questionImageArrayByQuestionNumber
-                            [question.number] = [];
+                            [question.number] = {};
                           }
-                          questionImageArrayByQuestionNumber[question.number]
-                            .push(instrument.pngFiles[property]);
+                          var mapForQuestionImages =
+                            questionImageArrayByQuestionNumber[question.number];
+                          mapForQuestionImages
+                            [instrument.pngFiles[property].name] =
+                            instrument.pngFiles[property];
                         }
                       });
                   }
                 });
-            }
+            });
             chainedQuestionImageMetadataResourceBuilder.finally(
               function() {
                 var chainedQuestionUploads = $q.when();
