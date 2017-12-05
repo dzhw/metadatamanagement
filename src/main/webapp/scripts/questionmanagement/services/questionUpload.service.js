@@ -224,9 +224,12 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
               }*/
 
               //if no resolution -> error message
-              questionImageMetadataResources
-                [_.split(questionImageJson.name, '.json')[0]] =
-                questionImageMetadata;
+              if (CleanJSObjectService.isNullOrEmpty(
+                  questionImageMetadataResources[question.number])) {
+                questionImageMetadataResources[question.number] = [];
+              }
+              questionImageMetadataResources[question.number]
+                .push(questionImageMetadata);
               resolve();
             } catch (e) {
               JobLoggingService.error({
@@ -282,7 +285,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
       return deferred.promise;
     };
 
-    var uploadQuestion = function(question, image, questionImageMetadata) {
+    var uploadQuestion = function(question, images, questionImageMetadataList) {
       return $q(function(resolve) {
         question.$save().then(function() {
           JobLoggingService.success({
@@ -313,26 +316,30 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
             });
           }
 
-          deleteAllImages(questionImageMetadata).finally(function() {
-            QuestionImageUploadService.uploadImage(image,
-              questionImageMetadata)
-              .then(function() {
-                JobLoggingService.success({
-                  objectType: 'image'
-                });
-                resolve();
-              }, function() {
-                JobLoggingService.error({
-                  message: 'question-management.log-messages.' +
-                  'question.unable-to-upload-image-file',
-                  messageParams: {
-                    file: question.number + '.png'
-                  },
-                  objectType: 'image'
-                });
-                resolve();
+          //TODO DKatzberg auch prüfen, ob die Metadaten gelöscht werden
+          questionImageMetadataList[question.number]
+            .forEach(function(questionImageMetadata) {
+              deleteAllImages(questionImageMetadata).finally(function() {
+                QuestionImageUploadService.uploadImage(image,
+                  questionImageMetadata)
+                  .then(function() {
+                    JobLoggingService.success({
+                      objectType: 'image'
+                    });
+                    resolve();
+                  }, function() {
+                    JobLoggingService.error({
+                      message: 'question-management.log-messages.' +
+                      'question.unable-to-upload-image-file',
+                      messageParams: {
+                        file: question.number + '.png'
+                      },
+                      objectType: 'image'
+                    });
+                    resolve();
+                  });
               });
-          });
+            });
         }, function(error) {
           var errorMessages = ErrorMessageResolverService
             .getErrorMessage(error, 'question');
@@ -392,32 +399,26 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                         chainedQuestionImageMetadataResourceBuilder
                       .then(function() {
                           if (instrument.jsonFilesForImages
-                            .hasOwnProperty(property)) {
-                            if (CleanJSObjectService.isNullOrEmpty(
-                                questionImageMetadataResources
-                                [question.number])) {
-                              questionImageMetadataResources
-                              [question.number] = [];
-                            }
-                            questionImageMetadataResources[question.number]
-                              .push(createQuestionImageMetadataResource(
-                                instrument.jsonFilesForImages[property],
-                                instrument.pngFiles[property],
-                                question));
+                          .hasOwnProperty(property)) {
+                            return createQuestionImageMetadataResource(
+                              instrument.jsonFilesForImages[property],
+                              instrument.pngFiles[property],
+                              question);
                           }
-
-                          if (instrument.pngFiles
-                            .hasOwnProperty(property)) {
-                            if (CleanJSObjectService.isNullOrEmpty(
-                                questionImageArrayByQuestionNumber
-                                [question.number])) {
+                        })
+                      .then(function() {
+                        if (instrument.pngFiles
+                          .hasOwnProperty(property)) {
+                          if (CleanJSObjectService.isNullOrEmpty(
                               questionImageArrayByQuestionNumber
-                              [question.number] = [];
-                            }
-                            questionImageArrayByQuestionNumber[question.number]
-                              .push(instrument.pngFiles[property]);
+                              [question.number])) {
+                            questionImageArrayByQuestionNumber
+                            [question.number] = [];
                           }
-                        });
+                          questionImageArrayByQuestionNumber[question.number]
+                            .push(instrument.pngFiles[property]);
+                        }
+                      });
                   }
                 });
             }
