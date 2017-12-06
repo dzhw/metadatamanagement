@@ -15,7 +15,6 @@ angular.module('metadatamanagementApp').config(
             'unable-to-upload-image-file': 'Die Bilddatei "{{ file }}" in Instrument "{{instrument}}" konnte nicht hochgeladen werden!',
             'unable-to-read-image-file': 'Die Bilddatei "{{ file }}" in Instrument "{{instrument}}" konnte nicht gelesen werden!',
             'cancelled': 'Upload von Fragen Abgebrochen!',
-            'not-found-image-file': 'Zu der Frage "{{questionNumber}}" in Instrument "{{instrument}}" konnte kein Bild gefunden werden!',
             'technical-representation-success-copy-to-clipboard': 'Die technische Representation wurde erfolgreich in die Zwischenablage kopiert.',
             'unable-to-parse-json-file': 'Die JSON Datei "{{file}}" in Instrument "{{instrument}}" enthält kein valides JSON!',
             'unable-to-read-file': 'Die Datei "{{file}}" in Instrument "{{instrument}}" konnte nicht gelesen werden!',
@@ -25,7 +24,8 @@ angular.module('metadatamanagementApp').config(
             'unable-to-parse-json-file': 'Die JSON Datei "{{file}}" zur Fragennummer "{{questionNumber}}" enthält kein valides JSON!',
             'unable-to-read-file': 'Die Datei "{{file}}" zur Fragennumber "{{questionNumber}}" konnte nicht gelesen werden!',
             'unable-to-read-resolution': 'Die Auflösung des Bildes "{{file}}" zur Fragennumber "{{questionNumber}}" konnte nicht ausgegelesen werden!',
-            'not-found-image-file': 'Zu der Frage "{{questionNumber}}" in Instrument {{instrument}} konnte kein Bild mit dem Namen {{imageFilename}} gefunden werden!'
+            'not-found-image-or-metadata-file': 'Zu der Frage "{{questionNumber}}" in Instrument "{{instrument}}" konnte kein Bild mit dem Namen "{{imageFilename}}" oder keine dazugehörige JSON Metadatendatei mit dem Namen "{{metadataFilename}}" gefunden werden!',
+            'not-depending-image-metadata': 'Zu der Frage "{{questionNumber}}" in Instrument "{{instrument}}" konnten keine Bild-Metadaten zugeordnet werden. Daher wurden keine Bilder zu dieser Frage hochgeladen.'
           }
         },
         'home': {

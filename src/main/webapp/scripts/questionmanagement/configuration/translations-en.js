@@ -12,7 +12,6 @@ angular.module('metadatamanagementApp').config(
             'missing-id': 'Question {{ index }} does not contain a RDC-ID and has not been saved!',
             'upload-terminated': 'Finished upload of {{ totalQuestions }} Questions and {{ totalImages }} Images with {{totalWarnings}} warnings and {{ totalErrors }} errors.',
             'unable-to-delete': 'The questions could not be deleted!',
-            'not-found-image-file': 'There is no image for the question "{{questionNumber}}" in Instrument {{instrument}}!',
             'unable-to-upload-image-file': 'Image file "{{ file }}" could not be uploaded!',
             'unable-to-read-image-file': 'Image file "{{ file }}" could not be read!',
             'technical-representation-success-copy-to-clipboard': 'The Technical Representation was successfully copied into the clipboard.',
@@ -22,10 +21,11 @@ angular.module('metadatamanagementApp').config(
             'non-unique-index-in-instrument': 'At least two questions ({{firstQuestionId}}, {{secondQuestionId}}) have the same index "{{index}}" in an instrument.'
           },
           'question-image-metadata': {
-            'unable-to-parse-json-file': 'The JSON file "{{file}}" to the question with number {{questionNumber}} does not contain valid JSON!',
-            'unable-to-read-file': 'The file "{{file}}" to the question with number {{questionNumber}} could not be read!',
-            'unable-to-read-resolution': 'The resolution of the image "{{file}}" to the question with number {{questionNumber}} could not be read!',
-            'not-found-image-file': 'There is no image with the name {{imageFilename}} for the question "{{questionNumber}}" in Instrument {{instrument}}!'
+            'unable-to-parse-json-file': 'The JSON file "{{file}}" to the question with number "{{questionNumber}}" does not contain valid JSON!',
+            'unable-to-read-file': 'The file "{{file}}" to the question with number "{{questionNumber}}" could not be read!',
+            'unable-to-read-resolution': 'The resolution of the image "{{file}}" to the question with number "{{questionNumber}}" could not be read!',
+            'not-found-image-or-metadata-file': 'There is no image with the name "{{imageFilename}}" or no JSON metadata file with the name  "{{metdadataFilename}}" for the question "{{questionNumber}}" in Instrument "{{instrument}}"!',
+            'not-depending-image-metadata': 'The question with the number "{{questionNumber}}" in Instrument "{{instrument}}" has no related image metadata. No images were uploaded for this question.'
           }
         },
         'home': {
