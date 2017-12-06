@@ -1,3 +1,4 @@
+/* global bowser */
 /* Author Daniel Katzberg */
 'use strict';
 
@@ -81,7 +82,7 @@ angular.module('metadatamanagementApp').controller('NavbarController',
       $timeout(function() {
         var container = $document.find('#reindeer-container');
         container.append(reindeer);
-      }, 500);
+      }, bowser.msie ? 200 : 0);
     };
 
   });
