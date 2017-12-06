@@ -24,7 +24,8 @@ angular.module('metadatamanagementApp').config(
           'question-image-metadata': {
             'unable-to-parse-json-file': 'Die JSON Datei "{{file}}" zur Fragennummer "{{questionNumber}}" enthält kein valides JSON!',
             'unable-to-read-file': 'Die Datei "{{file}}" zur Fragennumber "{{questionNumber}}" konnte nicht gelesen werden!',
-            'unable-to-read-resolution': 'Die Auflösung des Bildes "{{file}}" zur Fragennumber "{{questionNumber}}" konnte nicht ausgegelesen werden!'
+            'unable-to-read-resolution': 'Die Auflösung des Bildes "{{file}}" zur Fragennumber "{{questionNumber}}" konnte nicht ausgegelesen werden!',
+            'not-found-image-file': 'Zu der Frage "{{questionNumber}}" in Instrument {{instrument}} konnte kein Bild mit dem Namen {{imageFilename}} gefunden werden!'
           }
         },
         'home': {

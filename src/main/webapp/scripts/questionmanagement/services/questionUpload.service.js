@@ -144,18 +144,6 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
               question.studyId = StudyIdBuilderService
                 .buildStudyId(question.dataAcquisitionProjectId);
               question.imageType = 'PNG';
-              //TODO DKatzberg Check move to json for image metadata
-              /*if (!instrument.pngFiles[questionNumber]) {
-                JobLoggingService.error({
-                  message: 'question-' +
-                    'management.log-messages.question.not-found-image-file',
-                  messageParams: {
-                    questionNumber: questionNumber,
-                    instrument: instrument.instrumentName
-                  },
-                  objectType: 'question'
-                });
-              } else {}*/
               questionResources.push(new QuestionResource(question));
               resolve();
             } catch (e) {
@@ -205,22 +193,6 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                 questionImageMetadata.resolution.heightY = this.height;
               };
               img.src = _URL.createObjectURL(image);
-              //TODO DKatzberg Delete?
-              /*if (CleanJSObjectService
-                .isNullOrEmpty(questionImageMetadata.resolution.widthX) ||
-                CleanJSObjectService
-                  .isNullOrEmpty(questionImageMetadata.resolution.heightY)) {
-                JobLoggingService.error({
-                  message: 'question-management.log-messages.' +
-                    'question-image-metadata.unable-to-read-resolution',
-                  messageParams: {
-                    file: image.name,
-                    questionNumber: question.number
-                  },
-                  objectType: 'questionImageMetadata'
-                });
-                resolve();
-              }*/
 
               //if no resolution -> error message
               if (CleanJSObjectService.isNullOrEmpty(
@@ -315,28 +287,40 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
             });
           }
 
-          //TODO DKatzberg auch prüfen, ob die Metadaten gelöscht werden
           questionImageMetadataList.forEach(function(questionImageMetadata) {
               deleteAllImages(questionImageMetadata).finally(function() {
                 var image = images[questionImageMetadata.fileName];
-                QuestionImageUploadService.uploadImage(image,
-                  questionImageMetadata)
-                  .then(function() {
-                    JobLoggingService.success({
-                      objectType: 'image'
-                    });
-                    resolve();
-                  }, function() {
-                    JobLoggingService.error({
-                      message: 'question-management.log-messages.' +
-                      'question.unable-to-upload-image-file',
-                      messageParams: {
-                        file: image.name
-                      },
-                      objectType: 'image'
-                    });
-                    resolve();
+                if (!image) {
+                  JobLoggingService.error({
+                    message: 'question-management.log-messages.' +
+                      'question-image-management.not-found-image-file',
+                    messageParams: {
+                      questionNumber: question.number,
+                      instrument: question.instrumentNumber,
+                      imageFilename: questionImageMetadata.fileName
+                    },
+                    objectType: 'questionImageMetadata'
                   });
+                } else {
+                  QuestionImageUploadService.uploadImage(image,
+                    questionImageMetadata)
+                    .then(function() {
+                      JobLoggingService.success({
+                        objectType: 'image'
+                      });
+                      resolve();
+                    }, function() {
+                      JobLoggingService.error({
+                        message: 'question-management.log-messages.' +
+                        'question.unable-to-upload-image-file',
+                        messageParams: {
+                          file: image.name
+                        },
+                        objectType: 'image'
+                      });
+                      resolve();
+                    });
+                }
               });
             });
         }, function(error) {
@@ -426,11 +410,24 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
               function() {
                 var chainedQuestionUploads = $q.when();
                 questionResources.forEach(function(question) {
-                  chainedQuestionUploads = chainedQuestionUploads.then(
-                    function() {
-                      return uploadQuestion(question,
-                        questionImageArrayByQuestionNumber[question.number],
-                        questionImageMetadataResources[question.number]);
+                  chainedQuestionUploads = chainedQuestionUploads
+                  .then(function() {
+                      if (!questionImageArrayByQuestionNumber
+                          [question.number]) {
+                        JobLoggingService.error({
+                          message: 'question-management.log-messages.' +
+                            'question.not-found-image-file',
+                          messageParams: {
+                            questionNumber: question,
+                            instrument: question.instrumentNumber
+                          },
+                          objectType: 'question'
+                        });
+                      } else {
+                        return uploadQuestion(question,
+                          questionImageArrayByQuestionNumber[question.number],
+                          questionImageMetadataResources[question.number]);
+                      }
                     });
                 });
                 chainedQuestionUploads.finally(function() {
