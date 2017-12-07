@@ -1,3 +1,4 @@
+/* global bowser */
 /* Author Daniel Katzberg */
 'use strict';
 
@@ -60,6 +61,7 @@ angular.module('metadatamanagementApp').controller('NavbarController',
           'margin-left', 320);
         $document.find('.fdz-previous-search-result').css(
           'left', 320);
+        $scope.reloadReindeer();
       } else {
         $document.find('#content-container').css(
           'margin-left', 0);
@@ -67,4 +69,20 @@ angular.module('metadatamanagementApp').controller('NavbarController',
           'left', 0);
       }
     }, true);
+
+    $scope.$watch('sidenavIsOpen', function(newValue) {
+      if (newValue) {
+        $scope.reloadReindeer();
+      }
+    });
+
+    $scope.reloadReindeer = function() {
+      var reindeer = $document.find('#reindeer');
+      reindeer.remove();
+      $timeout(function() {
+        var container = $document.find('#reindeer-container');
+        container.append(reindeer);
+      }, bowser.msie ? 200 : 0);
+    };
+
   });

@@ -16,7 +16,6 @@ The [`demos` directory](demos/) includes sample projects for:
 - [`requirejs`](demos/requirejs/)
 - [`rollup`](demos/rollup/)
 - [`systemjs`](demos/systemjs/)
-- [`typescript`](demos/typescript/)
 - [`webpack 2.x`](demos/webpack/)
 
 **Platforms and Integrations**

@@ -33,6 +33,9 @@ public interface SurveyRepository
       @Param("dataAcquisitionProjectId") String dataAcquisitionProjectId);
   
   @RestResource(exported = false)
+  List<Survey> findByDataAcquisitionProjectIdOrderByNumber(String dataAcquisitionProjectId);
+  
+  @RestResource(exported = false)
   List<IdAndVersionProjection> findIdsByNumberAndDataAcquisitionProjectId(Integer number, 
       String dataAcquisitionProjectId);
 

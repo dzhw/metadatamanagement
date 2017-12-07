@@ -19,8 +19,14 @@ angular.module('metadatamanagementApp').service('SurveyBuilderService',
             end: data['fieldPeriod.end']
           },
           population: {
-            en: data['population.en'],
-            de: data['population.de']
+            title: {
+              en: data['population.title.en'],
+              de: data['population.title.de']
+            },
+            description: {
+              en: data['population.description.en'],
+              de: data['population.description.de']
+            }
           },
           sample: {
             en: data['sample.en'],

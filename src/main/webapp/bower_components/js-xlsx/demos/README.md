@@ -31,7 +31,6 @@ can be installed with Bash on Windows or with `cygwin`.
 - [`requirejs`](requirejs/)
 - [`rollup`](rollup/)
 - [`systemjs`](systemjs/)
-- [`typescript`](typescript/)
 - [`webpack 2.x`](webpack/)
 
 **Platforms and Integrations**

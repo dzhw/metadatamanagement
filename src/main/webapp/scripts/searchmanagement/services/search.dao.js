@@ -107,9 +107,14 @@ angular.module('metadatamanagementApp').service('SearchDao',
             boolQuery.should.push(createConstantScoreQuery(
               'id.ngrams', queryTerm, standardMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
-              'population.de.ngrams', queryTerm, germanMinorBoost));
+              'population.description.de.ngrams', queryTerm, germanMinorBoost));
             boolQuery.should.push(createConstantScoreQuery(
-              'population.en.ngrams', queryTerm, englishMinorBoost));
+              'population.description.en.ngrams',
+              queryTerm, englishMinorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'population.title.de.ngrams', queryTerm, germanMinorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'population.title.en.ngrams', queryTerm, englishMinorBoost));
             boolQuery.should.push(createConstantScoreQuery(
               'sample.de.ngrams', queryTerm, germanMinorBoost));
             boolQuery.should.push(createConstantScoreQuery(

@@ -96,9 +96,7 @@ angular.module('metadatamanagementApp').config(
               }
             },
             'population': {
-              'not-null': 'The Population of a Survey must not be empty!',
-              'i18n-string-not-empty': 'The Population of the Survey has to be given for one language.',
-              'i18n-string-size': 'The max length of the population of the survey is 2048 signs.'
+              'not-null': 'The Population of a Survey must not be empty!'              
             },
             'sample': {
               'not-null': 'The Sample of a Survey must not be empty!',
@@ -126,6 +124,18 @@ angular.module('metadatamanagementApp').config(
             'data-type': {
               'not-null': 'The Survey Data Type of the survey must not be empty.',
               'valid-data-type': 'The Survey Data Type of the survey allows only following valus: de = "Quantitative Daten" and en = "Quantitative Data" or de = "Qualitative Daten" and en = "Qualitative Data"'
+            }
+          },
+          'population': {
+            'title': {
+              'not-null': 'The title of the Population must not be empty!',
+              'i18n-string-not-empty': 'The title of the Population has to be given for one language.',
+              'i18n-string-size': 'The max length of the population title is 128 signs.'
+            },
+            'description': {
+              'not-null': 'The description of the Population must not be empty!',
+              'i18n-string-not-empty': 'The description of the Population has to be given for one language.',
+              'i18n-string-size': 'The max length of the population description is 2048 signs.'
             }
           },
           'survey-attachment-metadata': {

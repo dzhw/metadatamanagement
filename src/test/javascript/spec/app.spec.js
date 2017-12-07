@@ -64,6 +64,11 @@ describe('Specification for app ', function() {
     it('should set LanguageService to de ', function() {
       expect(LanguageService.getCurrentInstantly()).toBe('de');
     });
+    it('should set LanguageService to en ', function() {
+      $location.path('/en/');
+      $rootScope.$apply();
+      expect(LanguageService.getCurrentInstantly()).toBe('en');
+    });
     // TODO should be changed, because we use $transitons
     xdescribe('run functions', function() {
       xdescribe('on stateChangeStart', function() {
@@ -136,6 +141,26 @@ describe('Specification for app ', function() {
       $scope.back();
       expect($scope.back).toHaveBeenCalled();
       expect($state.go).toHaveBeenCalled();
+    });
+    it('should call back function', function() {
+      fromState = {};
+      fromParams = {};
+      toState = {};
+      toParams = {};
+      $rootScope.toState = toState;
+      $rootScope.previousStateName = 'previousStateName';
+      $rootScope.toState = toState;
+      $rootScope.fromState = fromState;
+      $rootScope.toParams = toParams;
+      $rootScope.fromParams = fromParams;
+      spyOn($scope, 'back').and.callThrough();
+      spyOn($state, 'go').and.callThrough();
+      $scope.previousStateName = 'activate';
+      $scope.back();
+      expect($scope.back).toHaveBeenCalled();
+      expect($state.go).toHaveBeenCalledWith('search', {
+        lang: 'en'
+      });
     });
   });
   describe('metadatamanagementApp configuration ', function() {

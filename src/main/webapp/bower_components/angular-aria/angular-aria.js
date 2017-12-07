@@ -1,5 +1,5 @@
 /**
- * @license AngularJS v1.6.7
+ * @license AngularJS v1.6.6
  * (c) 2010-2017 Google, Inc. http://angularjs.org
  * License: MIT
  */
@@ -14,6 +14,8 @@
  * [<abbr title="Accessible Rich Internet Applications">ARIA</abbr>](http://www.w3.org/TR/wai-aria/)
  * attributes that convey state or semantic information about the application for users
  * of assistive technologies, such as screen readers.
+ *
+ * <div doc-module-components="ngAria"></div>
  *
  * ## Usage
  *
@@ -57,7 +59,7 @@
  * {@link guide/accessibility Developer Guide}.
  */
 var ngAriaModule = angular.module('ngAria', ['ng']).
-                        info({ angularVersion: '1.6.7' }).
+                        info({ angularVersion: '1.6.6' }).
                         provider('$aria', $AriaProvider);
 
 /**

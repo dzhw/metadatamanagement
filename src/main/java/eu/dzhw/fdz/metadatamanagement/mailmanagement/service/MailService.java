@@ -70,7 +70,7 @@ public class MailService {
           Arrays.toString(to), e.getMessage());
     }
 
-    return new AsyncResult<Void>(null);
+    return new AsyncResult<>(null);
   }
 
   /**
@@ -113,6 +113,21 @@ public class MailService {
     context.setVariable("user", newUser);
     String content = templateEngine.process("newAccountActivatedEmail", context);
     String subject = "New account " + newUser.getLogin() + " activated";
+    List<String> emailAddresses = admins.stream().map(User::getEmail).collect(Collectors.toList());
+    return sendEmail(emailAddresses.toArray(new String[emailAddresses.size()]), 
+        subject, content, false, true);
+  }
+  
+  /**
+   * Send an mail, if an automatic update to dara was not successful.
+   */
+  @Async
+  public Future<Void> sendMailOnDaraAutomaticUpdateError(List<User> admins, String projectId) {
+    log.debug("Sending 'automatic update to dara was not successful' mail");
+    Context context = new Context();
+    context.setVariable("projectId", projectId);
+    String content = templateEngine.process("automaticDaraUpdateFailed", context);
+    String subject = "Automatic Update to da|ra was not successful";
     List<String> emailAddresses = admins.stream().map(User::getEmail).collect(Collectors.toList());
     return sendEmail(emailAddresses.toArray(new String[emailAddresses.size()]), 
         subject, content, false, true);

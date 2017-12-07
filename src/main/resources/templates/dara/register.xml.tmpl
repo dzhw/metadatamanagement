@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<resource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-    xsi:noNamespaceSchemaLocation="http://www.da-ra.de/fileadmin/media/da-ra.de/Technik/dara_v3.1_de_en_18112014.xsd">
+<resource xmlns="http://da-ra.de/schema/kernel-4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://da-ra.de/schema/kernel-4 http://www.da-ra.de/fileadmin/media/da-ra.de/Technik/4.0/dara.xsd">
     <resourceType>${resourceType}</resourceType>
     <resourceIdentifier>
         <identifier>dzhw:${study.dataAcquisitionProjectId}:1.0.0</identifier>
@@ -22,14 +21,21 @@
             <person>
                 <firstName>${author.firstName}</firstName>
                 <#if author.middleName??>
-                <middleName>${author.middleName}</middleName>
-                <#else>
-                <middleName/>
+                    <middleName>${author.middleName}</middleName>
                 </#if>
                 <lastName>${author.lastName}</lastName>
             </person>
         </creator>
         </#list>
+        <creator>
+            <institution>
+                <#if study.institution.de??>
+                <institutionName>${study.institution.de}</institutionName>
+                <#else>
+                <institutionName>${study.institution.en}</institutionName>
+                </#if>
+            </institution>
+        </creator>
     </creators>
     <dataURLs>
         <dataURL>
@@ -37,14 +43,132 @@
         </dataURL>
     </dataURLs>
     <#if !isDaraTest>
-    <doiProposal>${study.doi}</doiProposal>
-    <#else>
-    <doiProposal>${study.doi?replace("10.21249", "10.5072")}</doiProposal>
+        <doiProposal>${study.doi}</doiProposal>
+        <#else>
+        <doiProposal>${study.doi?replace("10.21249", "10.5072")}</doiProposal>
     </#if>
     <publicationDate>
         <date>${releaseDate}</date>
     </publicationDate>
     <availability>
-        <availabilityControlled>${availabilityControlled}</availabilityControlled>
+        <availabilityType>${availabilityControlled}</availabilityType>
     </availability>
+    <#if study.description??>
+    <descriptions>
+        <#if study.description.de??>
+        <description>
+            <language>de</language>
+            <freetext>${study.description.de}</freetext>
+            <descriptionType>Abstract</descriptionType>
+        </description>
+        </#if>
+        <#if study.description.en??>
+        <description>
+            <language>en</language>
+            <freetext>${study.description.en}</freetext>
+            <descriptionType>Abstract</descriptionType>
+        </description>
+        </#if>
+    </descriptions>
+    </#if>
+    <#if surveys?? && surveys?size gt 0>
+    <temporalCoverages>
+        <#list surveys as survey>
+        <#if survey.fieldPeriod.start??>
+        <temporalCoverage>
+            <temporalCoverageFormal>
+	            <startDate>
+	               <date>${survey.fieldPeriod.start}</date>
+	            </startDate>
+	            <#if survey.fieldPeriod.end??>
+	             <endDate>
+	               <date>${survey.fieldPeriod.end}</date>
+	             </endDate>
+	            </#if>
+            </temporalCoverageFormal>
+            <temporalCoveragesFree>
+                <temporalCoverageFree>
+                    <language>de</language>
+                    <freetext>${survey.wave}. Welle: ${survey.population.title.de}</freetext>
+                </temporalCoverageFree>
+                <temporalCoverageFree>
+                    <language>en</language>
+                    <freetext>${survey.wave}. Wave: ${survey.population.title.en}</freetext>
+                </temporalCoverageFree>
+            </temporalCoveragesFree>
+        </temporalCoverage>
+        </#if>
+        </#list>
+    </temporalCoverages>
+    </#if>
+    <#if study.sponsor??>
+    <fundingReferences>
+        <fundingReference>
+            <institution>
+                <#if study.sponsor.de??>
+                    <institutionName>${study.sponsor.de}</institutionName>
+                <#else>
+                    <institutionName>${study.sponsor.en}</institutionName>
+                </#if>
+            </institution>
+        </fundingReference>
+    </fundingReferences>
+    </#if>
+    <#if surveys?? && surveys?size gt 0>
+    <collectionModes>
+        <#list surveys as survey>
+        <#if survey.surveyMethod??>
+         <collectionMode>
+            <collectionModesFree>
+                <#if survey.surveyMethod.de??>
+                <collectionModeFree>
+                    <language>de</language>
+                    <freetext>${survey.wave}. Welle (${survey.population.title.de}): ${survey.surveyMethod.de}</freetext>
+                </collectionModeFree>
+                </#if>
+                <#if survey.surveyMethod.en??>
+                <collectionModeFree>
+                    <language>en</language>
+                    <freetext>${survey.wave}. Wave (${survey.population.title.en}): ${survey.surveyMethod.en}</freetext>
+                </collectionModeFree>
+                </#if>
+            </collectionModesFree>
+         </collectionMode>
+         </#if>
+        </#list>
+    </collectionModes>
+    </#if>
+    <#if dataSets?? && dataSets?size gt 0>
+    <dataSets>
+        <#list dataSets as dataSet>
+        <#list dataSet.subDataSets as subDataSet>
+        <#if subDataSet.numberOfObservations?? && numberOfVariablesMap[dataSet.id]?? && subDataSet.name??>
+        <dataSet>
+            <unitType>Individual</unitType>
+            <numberUnits>${subDataSet.numberOfObservations}</numberUnits>
+            <numberVariables>${numberOfVariablesMap[dataSet.id]}</numberVariables>
+            <files>
+                <file>
+                    <name>${subDataSet.name}</name>
+                </file>
+            </files>
+        </dataSet>
+        </#if>
+        </#list>
+        </#list>
+    </dataSets>
+    </#if>
+    <#if relatedPublications?? && relatedPublications?size gt 0>
+    <publications>
+        <#list relatedPublications as publication>
+        <#if publication.sourceReference??>
+        <publication>
+            <unstructuredPublication>
+                <freetext>${publication.sourceReference}</freetext>
+            </unstructuredPublication>
+        </publication>
+        </#if>
+        </#list>
+    </publications>
+    </#if>
 </resource>

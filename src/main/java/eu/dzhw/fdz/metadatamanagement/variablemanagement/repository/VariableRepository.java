@@ -80,4 +80,7 @@ public interface VariableRepository
 
   @RestResource(exported = false)
   List<VariableSubDocumentProjection> findSubDocumentsByStudyId(String studyId);
+  
+  @RestResource(exported = false)
+  Long countByDataSetId(String dataSetId);
 }
