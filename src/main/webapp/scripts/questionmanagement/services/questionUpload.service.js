@@ -341,7 +341,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                 questionNumber: question.number,
                 instrument: question.instrumentNumber
               },
-              objectType: 'question'
+              objectType: 'image'
             });
             resolve();
           } else {
