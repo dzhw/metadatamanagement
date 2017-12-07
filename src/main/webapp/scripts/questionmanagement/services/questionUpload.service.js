@@ -176,50 +176,93 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
     var createQuestionImageMetadataResource = function(
       questionImageJson, image, question, property) {
       return $q(function(resolve) {
-        if (!image || !questionImageJson) {
-          JobLoggingService.error({
-            message: 'question-management.log-messages.' +
-              'question-image-metadata.not-found-image-or-metadata-file',
-            messageParams: {
-              questionNumber: question.number,
-              instrument: question.instrumentNumber,
-              imageFilename: property + '.png',
-              metadataFilename: property + '.json'
-            },
-            objectType: 'questionImageMetadata'
-          });
-          resolve();
-        } else {
-          FileReaderService.readAsText(questionImageJson)
-            .then(function(result) {
-              try {
-                var questionImageMetadata = CleanJSObjectService
-                  .removeEmptyJsonObjects(JSON.parse(result));
-                questionImageMetadata.dataAcquisitionProjectId =
-                    question.dataAcquisitionProjectId;
-                questionImageMetadata.questionId = question.id;
-                questionImageMetadata.fileName = image.name;
-                questionImageMetadata.imageType = 'PNG';
-                questionImageMetadata.resolution = {};
-                var img = new Image();
-                img.onload = function() {
-                  questionImageMetadata.resolution.widthX = this.width;
-                  questionImageMetadata.resolution.heightY = this.height;
-                };
-                img.src = _URL.createObjectURL(image);
 
-                //if no resolution -> error message
-                if (CleanJSObjectService.isNullOrEmpty(
-                    questionImageMetadataResources[question.number])) {
-                  questionImageMetadataResources[question.number] = [];
-                }
-                questionImageMetadataResources[question.number]
-                  .push(questionImageMetadata);
-                resolve();
-              } catch (e) {
+          if (!image || !questionImageJson) {
+            if (!image && !questionImageJson) {
+              JobLoggingService.error({
+                message: 'question-management.log-messages.' +
+                  'question-image-metadata.not-found-image-and-metadata-file',
+                messageParams: {
+                  questionNumber: question.number,
+                  instrument: question.instrumentNumber,
+                  imageFilename: property + '.png',
+                  metadataFilename: property + '.json'
+                },
+                objectType: 'questionImageMetadata'
+              });
+            } else {
+              if (!image) {
                 JobLoggingService.error({
                   message: 'question-management.log-messages.' +
-                    'question-image-metadata.unable-to-parse-json-file',
+                    'question-image-metadata.not-found-image-file',
+                  messageParams: {
+                    questionNumber: question.number,
+                    instrument: question.instrumentNumber,
+                    imageFilename: property + '.png',
+                    metadataFilename: property + '.json'
+                  },
+                  objectType: 'questionImageMetadata'
+                });
+              }
+
+              if (!questionImageJson) {
+                JobLoggingService.error({
+                  message: 'question-management.log-messages.' +
+                    'question-image-metadata.not-found-metadata-file',
+                  messageParams: {
+                    questionNumber: question.number,
+                    instrument: question.instrumentNumber,
+                    imageFilename: property + '.png',
+                    metadataFilename: property + '.json'
+                  },
+                  objectType: 'questionImageMetadata'
+                });
+              }
+            }
+            resolve();
+          } else {
+            FileReaderService.readAsText(questionImageJson)
+              .then(function(result) {
+                try {
+                  var questionImageMetadata = CleanJSObjectService
+                    .removeEmptyJsonObjects(JSON.parse(result));
+                  questionImageMetadata.dataAcquisitionProjectId =
+                      question.dataAcquisitionProjectId;
+                  questionImageMetadata.questionId = question.id;
+                  questionImageMetadata.fileName = image.name;
+                  questionImageMetadata.imageType = 'PNG';
+                  questionImageMetadata.resolution = {};
+                  var img = new Image();
+                  img.onload = function() {
+                    questionImageMetadata.resolution.widthX = this.width;
+                    questionImageMetadata.resolution.heightY = this.height;
+                  };
+                  img.src = _URL.createObjectURL(image);
+
+                  //if no resolution -> error message
+                  if (CleanJSObjectService.isNullOrEmpty(
+                      questionImageMetadataResources[question.number])) {
+                    questionImageMetadataResources[question.number] = [];
+                  }
+                  questionImageMetadataResources[question.number]
+                    .push(questionImageMetadata);
+                  resolve();
+                } catch (e) {
+                  JobLoggingService.error({
+                    message: 'question-management.log-messages.' +
+                      'question-image-metadata.unable-to-parse-json-file',
+                    messageParams: {
+                      file: questionImageJson.name,
+                      questionNumber: question.number
+                    },
+                    objectType: 'questionImageMetadata'
+                  });
+                  resolve();
+                }
+              }, function() {
+                JobLoggingService.error({
+                  message: 'question-management.log-messages.' +
+                    'question-image-metadata.unable-to-read-file',
                   messageParams: {
                     file: questionImageJson.name,
                     questionNumber: question.number
@@ -227,21 +270,9 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                   objectType: 'questionImageMetadata'
                 });
                 resolve();
-              }
-            }, function() {
-              JobLoggingService.error({
-                message: 'question-management.log-messages.' +
-                  'question-image-metadata.unable-to-read-file',
-                messageParams: {
-                  file: questionImageJson.name,
-                  questionNumber: question.number
-                },
-                objectType: 'questionImageMetadata'
               });
-              resolve();
-            });
-        }
-      });
+          }
+        });
     };
 
     var deleteAllQuestionsNotPresentInJson = function() {
