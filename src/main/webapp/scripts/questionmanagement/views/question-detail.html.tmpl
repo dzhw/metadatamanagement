@@ -163,19 +163,11 @@
     <div layout="column" layout-gt-sm="row">
         <div flex-gt-sm="50" layout="column">
             <md-card flex="auto" class="fdz-reset-top-margin">
-                <div class="fdz-overlay-outer-box">
-                    <div style="max-height:211px; overflow-y:hidden;">
-                        <img display-i18n-string="ctrl.question.questionText" alt="" style="width: 100%; height: auto" ng-src="public/files/questions/{{ctrl.question.id}}" />
-                    </div>
-                    <div class="fdz-overlay-inner-box-bottom">
-                        <md-button class="md-fab md-mini md-primary" ng-href="/public/files/questions/{{ctrl.question.id}}" target="_blank">
-                            <md-icon md-svg-src="/assets/images/icons/arrow-expand.svg"></md-icon>
-                            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                                {{'global.tooltips.images' | translate}}
-                            </md-tooltip>
-                        </md-button>
-                    </div>
-                </div>
+              <ul rn-carousel class="image">
+                <li ng-repeat="image in questionImages">
+                  <div class="layer">{{ image }}</div>
+                </li>
+              </ul>
             </md-card>
         </div>
         <div flex-gt-sm="50">

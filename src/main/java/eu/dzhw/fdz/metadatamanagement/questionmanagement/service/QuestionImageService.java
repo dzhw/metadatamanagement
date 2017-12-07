@@ -76,9 +76,8 @@ public class QuestionImageService {
    * a null value.
    * @param questionId The id of a question
    */
-  public List<QuestionImageMetadata> findQuestionImages(String questionId) {
-    Query query = new Query(GridFsCriteria.whereFilename()
-        .regex("^" + Pattern.quote(buildFileNamePrefix(questionId))));
+  public List<QuestionImageMetadata> findByQuestionId(String questionId) {
+    Query query = new Query(new GridFsCriteria("metadata.questionId").is(questionId));
     return this.operations.find(query).stream().map(gridfsFile -> {
       return mongoTemplate.getConverter().read(QuestionImageMetadata.class, 
           gridfsFile.getMetaData());
@@ -90,8 +89,7 @@ public class QuestionImageService {
    * @param questionId the id of the question to which the image belongs
    */
   public void deleteQuestionImages(String questionId) {
-    Query query = new Query(GridFsCriteria.whereFilename()
-        .regex("^" + Pattern.quote(buildFileNamePrefix(questionId))));
+    Query query = new Query(new GridFsCriteria("metadata.questionId").is(questionId));
     this.operations.delete(query);
   }
   

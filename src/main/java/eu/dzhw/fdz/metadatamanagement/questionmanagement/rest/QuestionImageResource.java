@@ -3,10 +3,12 @@ package eu.dzhw.fdz.metadatamanagement.questionmanagement.rest;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -54,6 +56,27 @@ public class QuestionImageResource {
           questionImageMetadata);
       return ResponseEntity.created(new URI("/public/files" + gridFsFileName))
         .body(null);
+    } else {
+      return ResponseEntity.badRequest()
+        .body(null);
+    }
+  }
+  
+  /**
+   * Load all images with metadata objects for the given question id.
+   * 
+   * @param questionId The id of an question.
+   * @return A list of image metadata objects.
+   */
+  @RequestMapping(path = "/questions/{questionId}/images", method = RequestMethod.GET,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  @Timed
+  public ResponseEntity<?> findByQuestionId(@PathVariable("questionId") String questionId) {
+    if (!StringUtils.isEmpty(questionId)) {
+      List<QuestionImageMetadata> metadata =          
+          imageService.findByQuestionId(questionId);
+      return ResponseEntity.ok()
+          .body(metadata);
     } else {
       return ResponseEntity.badRequest()
         .body(null);

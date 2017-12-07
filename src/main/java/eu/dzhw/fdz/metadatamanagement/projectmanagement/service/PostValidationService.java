@@ -147,7 +147,7 @@ public class PostValidationService {
       }
       
       //check the image for question
-      if (this.questionImageService.findQuestionImages(question.getId()).isEmpty()) {
+      if (this.questionImageService.findByQuestionId(question.getId()).isEmpty()) {
         String[] information = {question.getId()};
         errors.add(new PostValidationMessageDto("question-management.error."
             + "post-validation.question-has-no-image", Arrays.asList(information)));

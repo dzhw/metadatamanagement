@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp')
     function(entity, $state, ToolbarHeaderService,
       SimpleMessageToastService, QuestionSearchService, CleanJSObjectService,
       PageTitleService, $rootScope, Principal, SearchResultNavigatorService,
-      $stateParams) {
+      $stateParams, QuestionImageMetadataResource) {
       SearchResultNavigatorService.registerCurrentSearchResult(
             $stateParams['search-result-index']);
       var ctrl = this;
@@ -17,6 +17,7 @@ angular.module('metadatamanagementApp')
       ctrl.predecessors = [];
       ctrl.successors = [];
       ctrl.counts = {};
+      ctrl.images = [];
 
       entity.promise.then(function(result) {
         var title = {
@@ -65,6 +66,14 @@ angular.module('metadatamanagementApp')
               ctrl.successors = successors.docs;
             });
           }
+          QuestionImageMetadataResource.findByQuestionId({
+            id: ctrl.question.id
+          }).$promise.then(
+            function(images) {
+              if (images.length > 0) {
+                ctrl.images = images;
+              }
+            });
           if (ctrl.question.technicalRepresentation) {
             //default value is no beautify
             ctrl.technicalRepresentationBeauty =
