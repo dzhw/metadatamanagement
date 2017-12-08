@@ -56,6 +56,7 @@ dist: dist-deps $(TARGET) bower.json ## Prepare JS files for distribution
 	mkdir -p dist
 	<$(TARGET) sed "s/require('stream')/{}/g;s/require('....*')/undefined/g" > dist/$(TARGET)
 	cp LICENSE dist/
+	uglifyjs shim.js $(UGLIFYOPTS) -o dist/shim.min.js --preamble "$$(head -n 1 bits/00_header.js)"
 	uglifyjs $(DISTHDR) dist/$(TARGET) $(UGLIFYOPTS) -o dist/$(LIB).min.js --source-map dist/$(LIB).min.map --preamble "$$(head -n 1 bits/00_header.js)"
 	misc/strip_sourcemap.sh dist/$(LIB).min.js
 	uglifyjs $(DISTHDR) $(REQS) dist/$(TARGET) $(UGLIFYOPTS) -o dist/$(LIB).core.min.js --source-map dist/$(LIB).core.min.map --preamble "$$(head -n 1 bits/00_header.js)"
@@ -89,7 +90,14 @@ legend.png: misc/legend.dot
 nexe: xlsx.exe ## Build nexe standalone executable
 
 xlsx.exe: bin/xlsx.njs xlsx.js
-	nexe -i $< -o $@ --flags
+	tail -n+2 $< | sed 's#\.\./#./xlsx#g' > nexe.js
+	nexe -i nexe.js -o $@
+	head nexe.js
+	rm nexe.js
+
+.PHONY: pkg
+pkg: bin/xlsx.njs xlsx.js ## Build pkg standalone executable
+	pkg $<
 
 ## Testing
 
