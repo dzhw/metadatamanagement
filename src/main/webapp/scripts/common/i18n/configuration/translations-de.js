@@ -322,6 +322,14 @@ angular.module('metadatamanagementApp').config(
             'created-by': 'Erstellt durch Metadatensuche, am'
           },
           'block-ui-message': '{{warnings}} Warnungen und {{ errors }} Fehler bei {{ total }} Objekten'
+        },
+        'common-dialogs': {
+          'yes': 'Ja',
+          'no': 'Nein',
+          'confirm-dirty': {
+            'title': 'Änderungen verwerfern?',
+            'content': 'Sie haben ungespeicherte Änderungen. Wollen Sie diese verwerfen?'
+          }
         }
       }
       //jscs:enable

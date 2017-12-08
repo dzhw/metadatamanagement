@@ -179,6 +179,8 @@ angular.module('metadatamanagementApp').config(
           'error-on-save-toast': 'Ein Fehler trat beim Speichern von Studie {{studyId}} auf!',
           'previous-version-restored-toast': 'Die ältere Version von Studie {{ studyId }} kann jetzt gespeichert werden.',
           'current-version-restored-toast': 'Die aktuelle Version von Studie {{ studyId }} wurde wiederhergestellt.',
+          'not-authorized-toast': 'Sie sind nicht berechtigt Studien zu bearbeiten oder anzulegen!',
+          'choose-unreleased-project-toast': 'Bitte wählen Sie ein Projekt aus, welches aktuell nicht freigegeben ist!',
           'label': {
             'edit-study': 'Studie bearbeiten:',
             'create-study': 'Studie anlegen:',
@@ -189,12 +191,16 @@ angular.module('metadatamanagementApp').config(
           'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version dieser Studie wieder herzustellen.',
           'save-tooltip': 'Klicken, um die Studie zu speichern.',
           'choose-previous-version': {
-            'title': 'Ältere Versionen der Studie {{ studyId }}',
-            'cancel-tooltip': 'Klicken, um ohne eine Studie auszuwählen zurückzukehren.',
+            'next-page-tooltip': 'Klicken, um ältere Versionen anzuzeigen.',
+            'previous-page-tooltip': 'Klicken, um aktuellere Versionen anzuzeigen.',
+            'title': 'Ältere Version der Studie {{ studyId }} wiederherstellen',
+            'text': 'Wählen Sie eine ältere Studienversion aus, die wiederhergestellt werden soll:',
+            'cancel-tooltip': 'Klicken, um ohne eine ältere Studienversion auszuwählen zurückzukehren.',
             'no-versions-found': 'Es wurden keine älteren Versionen von Studie {{ studyId }} gefunden.',
             'study-title': 'Titel',
-            'lastModifiedDate': 'Gespeichert am',
-            'lastModifiedBy': 'Gespeichert von'
+            'lastModified': 'Geändert',
+            'lastModifiedBy': 'von',
+            'current-version-tooltip': 'Dies ist die aktuelle Version!'
           }
         }
       }

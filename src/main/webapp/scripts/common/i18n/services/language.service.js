@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp').factory('LanguageService',
   function($q, $translate, $location, $rootScope,
-    tmhDynamicLocale, LANGUAGES) {
+    tmhDynamicLocale, LANGUAGES, amMoment) {
     return {
       getCurrent: function() {
         var deferred = $q.defer();
@@ -26,6 +26,7 @@ angular.module('metadatamanagementApp').factory('LanguageService',
           return;
         }
         $rootScope.currentLanguage = language;
+        amMoment.changeLocale(language);
         $rootScope.$broadcast('current-language-changed', language);
         $translate.storage().set('NG_TRANSLATE_LANG_KEY', language);
         tmhDynamicLocale.set(language).then(function() {

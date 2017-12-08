@@ -3,7 +3,7 @@
 angular.module('metadatamanagementApp')
   .controller('ChoosePreviousStudyVersionController',
     function(StudyVersionsResource, studyId, $scope, $mdDialog,
-      LanguageService) {
+      LanguageService, $translate) {
       $scope.currentPage = {
         number: 0,
         limit: 5,
@@ -52,6 +52,14 @@ angular.module('metadatamanagementApp')
 
       $scope.isCurrentVersion = function(index) {
         return (index === 0 && $scope.currentPage.number === 0);
+      };
+
+      $scope.getVersionTitle = function(index) {
+        if ($scope.isCurrentVersion(index)) {
+          return $translate.instant(
+            'study-management' +
+            '.edit.choose-previous-version.current-version-tooltip');
+        }
       };
 
       $scope.getStudyVersions();

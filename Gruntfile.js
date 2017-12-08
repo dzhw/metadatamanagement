@@ -291,7 +291,9 @@ module.exports = function(grunt) {
               'md-auto-hide',
               'du-scroll-container',
               'layout-align',
-              'layout-fill'
+              'layout-fill',
+              'flex',
+              'am-time-ago'
             ]
           },
           files: {

@@ -179,6 +179,8 @@ angular.module('metadatamanagementApp').config(
           'error-on-save-toast': 'An error occurred during saving of Study {{studyId}}!',
           'previous-version-restored-toast': 'Previous version of Study {{ studyId }} can be saved now.',
           'current-version-restored-toast': 'Current version of Study {{ studyId }} has been restored.',
+          'not-authorized-toast': 'You are not authorized to create or edit studies!',
+          'choose-unreleased-project-toast': 'Please choose a project which is currently not released!',
           'label': {
             'edit-study': 'Edit Study:',
             'create-study': 'Create Study:',
@@ -189,12 +191,16 @@ angular.module('metadatamanagementApp').config(
           'open-choose-previous-version-tooltip': 'Click for restoring a previous version of this study.',
           'save-tooltip': 'Click to save this study.',
           'choose-previous-version': {
-            'title': 'Previous Versions of Study {{ studyId }}',
-            'cancel-tooltip': 'Click to return without choosing a study.',
+            'next-page-tooltip': 'Click to show older versions.',
+            'previous-page-tooltip': 'Click to more recent versions.',
+            'title': 'Restore Previous Version of Study {{ studyId }}',
+            'text': 'Choose a previous version of this study which shall be restored:',
+            'cancel-tooltip': 'Click to return without choosing a previous study version.',
             'no-versions-found': 'There are no previous versions of study {{ studyId }}.',
             'study-title': 'Title',
-            'lastModifiedDate': 'Saved at',
-            'lastModifiedBy': 'Saved by'
+            'lastModified': 'Modified',
+            'lastModifiedBy': 'by',
+            'current-version-tooltip': 'This is the current version!'
           }
         }
       }

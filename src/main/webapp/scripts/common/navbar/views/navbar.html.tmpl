@@ -17,14 +17,14 @@
     <md-content ng-switch="isAuthenticated()" flex layout="column" role="navigation">
         <ul style="padding: 0px; margin: 0px;">
             <li class="fdz-navbar-menu">
-                <md-button lang="en" id="changeLanguageToEn" ng-click="changeLanguage('en')" ng-if="currentLanguage!='en'" class="fdz-navbar-button">
+                <md-button ng-disabled="changeLanguageButtonDisabled" lang="en" id="changeLanguageToEn" ng-click="changeLanguage('en')" ng-if="currentLanguage!='en'" class="fdz-navbar-button">
                     <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                         {{'global.toolbar.buttons.change-language' | translate}}
                     </md-tooltip>
                     <md-icon md-font-set="material-icons">language</md-icon>
                     <span>Show Pages in English</span>
                 </md-button>
-                <md-button lang="de" id="changeLanguageToDe" ng-click="changeLanguage('de')" ng-if="currentLanguage!='de'" class="fdz-navbar-button">
+                <md-button ng-disabled="changeLanguageButtonDisabled" lang="de" id="changeLanguageToDe" ng-click="changeLanguage('de')" ng-if="currentLanguage!='de'" class="fdz-navbar-button">
                     <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                         {{'global.toolbar.buttons.change-language' | translate}}
                     </md-tooltip>
@@ -34,7 +34,7 @@
                 <md-divider></md-divider>
             </li>
             <li ng-switch-when="true" class="fdz-navbar-menu">
-                <md-button id="logout" ng-click="logout()" class="fdz-navbar-button">
+                <md-button ng-disabled="logoutButtonDisabled" id="logout" ng-click="logout()" class="fdz-navbar-button">
                     <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                         {{'global.toolbar.buttons.logout-tooltip' | translate : '{username:"' + identity.login + '"}'}}
                     </md-tooltip>

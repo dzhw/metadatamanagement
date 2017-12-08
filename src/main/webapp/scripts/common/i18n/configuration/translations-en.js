@@ -322,6 +322,14 @@ angular.module('metadatamanagementApp').config(
             'created-by': 'Created by Metadata Search, at'
           },
           'block-ui-message': '{{warnings}} Warnings and {{ errors }} Errors on {{ total }} Objects'
+        },
+        'common-dialogs': {
+          'yes': 'Yes',
+          'no': 'No',
+          'confirm-dirty': {
+            'title': 'Discard Changes?',
+            'content': 'There are unsaved changes. Do you want to discard these changes?'
+          }
         }
       }
       //jscs:enable

@@ -5,8 +5,11 @@ angular.module('metadatamanagementApp')
     function(entity, PageTitleService, $document, $timeout,
       $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
       CurrentProjectService, StudyIdBuilderService, StudyResource, $scope,
-      ElasticSearchAdminService, $mdDialog) {
+      ElasticSearchAdminService, $mdDialog, $transitions,
+      CommonDialogsService, LanguageService, StudySearchService) {
+
       var ctrl = this;
+      var surveySeriesCache = {};
 
       var updateToolbarHeaderAndPageTitle = function() {
         if (ctrl.createMode) {
@@ -36,33 +39,46 @@ angular.module('metadatamanagementApp')
             entity.$promise.then(function(study) {
               ctrl.study = study;
               updateToolbarHeaderAndPageTitle();
+              $scope.registerConfirmOnDirtyHook();
             });
           } else {
-            StudyResource.get({
-              id: StudyIdBuilderService.buildStudyId(
-                CurrentProjectService.getCurrentProject().id)
-            }).$promise.then(function(study) {
-              ctrl.study = study;
-              updateToolbarHeaderAndPageTitle();
-            }).catch(function() {
-              ctrl.createMode = true;
-              ctrl.study = new StudyResource({
+            if (CurrentProjectService.getCurrentProject() &&
+              !CurrentProjectService.getCurrentProject().release) {
+              StudyResource.get({
                 id: StudyIdBuilderService.buildStudyId(
-                  CurrentProjectService.getCurrentProject().id),
-                dataAcquisitionProjectId:
-                  CurrentProjectService.getCurrentProject().id,
-                authors: [{firstName: '', lastName: ''}],
-                doi: StudyIdBuilderService.buildDoi(
                   CurrentProjectService.getCurrentProject().id)
-              });
-              updateToolbarHeaderAndPageTitle();
-            });
+              }).$promise.then(function(study) {
+                  ctrl.study = study;
+                  updateToolbarHeaderAndPageTitle();
+                  $scope.registerConfirmOnDirtyHook();
+                }).catch(function() {
+                  ctrl.createMode = true;
+                  ctrl.study = new StudyResource({
+                    id: StudyIdBuilderService.buildStudyId(
+                      CurrentProjectService.getCurrentProject().id),
+                    dataAcquisitionProjectId:
+                    CurrentProjectService.getCurrentProject().id,
+                    authors: [{firstName: '', lastName: ''}],
+                    doi: StudyIdBuilderService.buildDoi(
+                      CurrentProjectService.getCurrentProject().id)
+                  });
+                  updateToolbarHeaderAndPageTitle();
+                  $scope.registerConfirmOnDirtyHook();
+                });
+            } else {
+              SimpleMessageToastService.openSimpleMessageToast(
+              'study-management.edit.choose-unreleased-project-toast');
+              $timeout(function() {
+                $state.go('search', {
+                  lang: LanguageService.getCurrentInstantly(),
+                  type: 'studies'
+                });
+              }, 1000);
+            }
           }
         } else {
-          // TODO show not authorized message
-          /*SimpleMessageToastService.openSimpleMessageToast(
-          'study-management.detail.not-released-toast', {id: study.id}
-        );*/
+          SimpleMessageToastService.openSimpleMessageToast(
+          'study-management.edit.not-authorized-toast');
         }
       };
 
@@ -185,6 +201,34 @@ angular.module('metadatamanagementApp')
                 }, true);
             }
           });
+      };
+
+      $scope.registerConfirmOnDirtyHook = function() {
+        var unregisterTransitionHook = $transitions.onBefore({}, function() {
+          if ($scope.studyForm.$dirty) {
+            return CommonDialogsService.showConfirmOnDirtyDialog();
+          }
+        });
+
+        $scope.$on('$destroy', unregisterTransitionHook);
+      };
+
+      $scope.searchSurveySeries = function(searchText, language) {
+        if (searchText === surveySeriesCache.searchText &&
+          language === surveySeriesCache.language) {
+          return surveySeriesCache.searchResult;
+        }
+
+        //Search Call to Elasticsearch
+        return StudySearchService.findSurveySeries(searchText, {},
+          language)
+          .then(function(surveySeries) {
+            surveySeriesCache.searchText = searchText;
+            surveySeriesCache.language = language;
+            surveySeriesCache.searchResult = surveySeries;
+            return surveySeries;
+          }
+        );
       };
 
       init();
