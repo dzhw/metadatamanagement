@@ -851,3 +851,11 @@ md-sidenav#SideNavBar, .md-sidenav-backdrop {
 .fdz-previous-search-result:hover, .fdz-previous-search-result:focus, .fdz-next-search-result:hover, .fdz-next-search-result:focus {
   width: 40px !important;
 }
+
+.jk-carousel .md-icon-button md-icon {
+      color: rgba(0,0,0,0.54) !important;
+}
+
+.jk-carousel .radio-buttons-container md-radio-button .md-off {
+    border-color: rgba(0,0,0,0.54) !important;
+}

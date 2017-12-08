@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsCriteria;
@@ -77,7 +78,8 @@ public class QuestionImageService {
    * @param questionId The id of a question
    */
   public List<QuestionImageMetadata> findByQuestionId(String questionId) {
-    Query query = new Query(new GridFsCriteria("metadata.questionId").is(questionId));
+    Query query = new Query(new GridFsCriteria("metadata.questionId").is(questionId))
+        .with(new Sort(Sort.Direction.ASC, "metadata.indexInQuestion"));
     return this.operations.find(query).stream().map(gridfsFile -> {
       return mongoTemplate.getConverter().read(QuestionImageMetadata.class, 
           gridfsFile.getMetaData());
