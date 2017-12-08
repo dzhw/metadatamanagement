@@ -81,7 +81,7 @@
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'study-management.detail.tooltips.surveys.one' | translate}}
                                 </md-tooltip>
-                              </a>
+                            </a>
                         </div>
                         <div ng-if="ctrl.counts.surveysCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'surveys', 'question': ctrl.question.id, 'study': ctrl.question.studyId, 'instrument': ctrl.question.instrumentId})">
@@ -163,8 +163,8 @@
     <div layout="column" layout-gt-sm="row">
         <div flex-gt-sm="50" layout="column">
             <md-card flex="auto" class="fdz-reset-top-margin">
-              <md-content style="background-color:white;">
-            </md-content>
+                <jk-carousel data="ctrl.images" item-template-url="'scripts/questionmanagement/views/question-image-template.html.tmpl'" current-index="ctrl.currentIndex" max-height="211px">
+                </jk-carousel>
             </md-card>
         </div>
         <div flex-gt-sm="50">

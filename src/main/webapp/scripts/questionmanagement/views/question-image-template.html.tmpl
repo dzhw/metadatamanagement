@@ -1,0 +1,13 @@
+<div class="fdz-overlay-outer-box">
+    <div style="max-height:211px; overflow-y:hidden;">
+        <img display-i18n-string="ctrl.question.questionText" alt="" style="width: 100%; height: auto" ng-src="{{slideItem.id}}" />
+    </div>
+    <div class="fdz-overlay-inner-box-bottom">
+        <md-button class="md-fab md-mini md-primary" ng-href="{{slideItem.id}}" target="_blank">
+            <md-icon md-svg-src="/assets/images/icons/arrow-expand.svg"></md-icon>
+            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                {{'global.tooltips.images' | translate}}
+            </md-tooltip>
+        </md-button>
+    </div>
+</div>

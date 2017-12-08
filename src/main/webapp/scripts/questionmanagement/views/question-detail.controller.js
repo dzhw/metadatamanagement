@@ -18,6 +18,7 @@ angular.module('metadatamanagementApp')
       ctrl.successors = [];
       ctrl.counts = {};
       ctrl.images = [];
+      ctrl.currentIndex = 0;
 
       entity.promise.then(function(result) {
         var title = {
