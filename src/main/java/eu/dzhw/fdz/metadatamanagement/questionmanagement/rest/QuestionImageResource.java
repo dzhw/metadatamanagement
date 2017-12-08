@@ -73,8 +73,7 @@ public class QuestionImageResource {
   @Timed
   public ResponseEntity<?> findByQuestionId(@PathVariable("questionId") String questionId) {
     if (!StringUtils.isEmpty(questionId)) {
-      List<QuestionImageMetadata> metadata =          
-          imageService.findByQuestionId(questionId);
+      List<QuestionImageMetadata> metadata = imageService.findByQuestionId(questionId);
       return ResponseEntity.ok()
           .body(metadata);
     } else {
