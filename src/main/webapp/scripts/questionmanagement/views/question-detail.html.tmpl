@@ -163,6 +163,20 @@
     <div layout="column" layout-gt-sm="row">
         <div flex-gt-sm="50" layout="column">
             <md-card flex="auto" class="fdz-reset-top-margin">
+              <div layout="column" layout-gt-sm="row">
+                <div flex-gt-sm="50" layout="column">
+                </div>
+                <div flex-gt-sm="50" layout="column">
+                <md-input-container>
+                    <label>{{'question-management.detail.label.languages' | translate }}</label>
+                    <md-select ng-model="ctrl.imageLanguage">
+                        <md-option ng-repeat="language in ctrl.imageLanguages" ng-value="language">
+                            {{language}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+              </div>
+            </div>
                 <jk-carousel data="ctrl.images" item-template-url="'scripts/questionmanagement/views/question-image-template.html.tmpl'" current-index="ctrl.currentIndex" max-height="211px">
                 </jk-carousel>
             </md-card>

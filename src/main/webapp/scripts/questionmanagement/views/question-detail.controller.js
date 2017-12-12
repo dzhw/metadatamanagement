@@ -19,6 +19,8 @@ angular.module('metadatamanagementApp')
       ctrl.counts = {};
       ctrl.images = [];
       ctrl.currentIndex = 0;
+      ctrl.imageLanguage = '';
+      ctrl.imageLanguages = [];
 
       entity.promise.then(function(result) {
         var title = {
@@ -73,6 +75,12 @@ angular.module('metadatamanagementApp')
             function(images) {
               if (images.length > 0) {
                 ctrl.images = images;
+                ctrl.images.forEach(function(metadata) {
+                  if (ctrl.imageLanguages.indexOf(metadata.language) === -1) {
+                    ctrl.imageLanguages.push(metadata.language);
+                  }
+                });
+                ctrl.imageLanguage = ctrl.imageLanguages[0];
               }
             });
           if (ctrl.question.technicalRepresentation) {

@@ -43,7 +43,8 @@ angular.module('metadatamanagementApp').config(
             'instruction': 'Instruction',
             'introduction': 'Introduction',
             'number': 'Question Number',
-            'questionText': 'Question Text'
+            'questionText': 'Question Text',
+            'languages': 'Languages'
           },
           'predecessors': 'Previous Questions in Questionnaire',
           'successors': 'Subsequent Questions in Questionnaire',
