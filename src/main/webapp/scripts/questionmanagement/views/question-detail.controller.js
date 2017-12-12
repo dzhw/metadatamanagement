@@ -17,10 +17,10 @@ angular.module('metadatamanagementApp')
       ctrl.predecessors = [];
       ctrl.successors = [];
       ctrl.counts = {};
-      ctrl.images = [];
       ctrl.currentIndex = 0;
       ctrl.imageLanguage = '';
       ctrl.imageLanguages = [];
+      ctrl.imagesByLanguage = {};
 
       entity.promise.then(function(result) {
         var title = {
@@ -74,11 +74,12 @@ angular.module('metadatamanagementApp')
           }).$promise.then(
             function(images) {
               if (images.length > 0) {
-                ctrl.images = images;
-                ctrl.images.forEach(function(metadata) {
+                images.forEach(function(metadata) {
                   if (ctrl.imageLanguages.indexOf(metadata.language) === -1) {
                     ctrl.imageLanguages.push(metadata.language);
+                    ctrl.imagesByLanguage[metadata.language] = [];
                   }
+                  ctrl.imagesByLanguage[metadata.language].push(metadata);
                 });
                 ctrl.imageLanguage = ctrl.imageLanguages[0];
               }
