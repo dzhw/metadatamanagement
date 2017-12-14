@@ -128,6 +128,7 @@ enhancements, additional features by request, and dedicated support.
     + [Data Interchange Format (DIF)](#data-interchange-format-dif)
     + [HTML](#html)
     + [Rich Text Format (RTF)](#rich-text-format-rtf)
+    + [Ethercalc Record Format (ETH)](#ethercalc-record-format-eth)
 - [Testing](#testing)
   * [Node](#node)
   * [Browser](#browser)
@@ -200,6 +201,7 @@ The [`demos` directory](demos/) includes sample projects for:
 - [`requirejs`](demos/requirejs/)
 - [`rollup`](demos/rollup/)
 - [`systemjs`](demos/systemjs/)
+- [`typescript`](demos/typescript/)
 - [`webpack 2.x`](demos/webpack/)
 
 **Platforms and Integrations**
@@ -569,6 +571,7 @@ files and output the contents in various formats.  The source is available at
 Some helper functions in `XLSX.utils` generate different views of the sheets:
 
 - `XLSX.utils.sheet_to_csv` generates CSV
+- `XLSX.utils.sheet_to_txt` generates UTF16 Formatted Text
 - `XLSX.utils.sheet_to_html` generates HTML
 - `XLSX.utils.sheet_to_json` generates an array of objects
 - `XLSX.utils.sheet_to_formulae` generates a list of formulae
@@ -730,6 +733,7 @@ Utilities are available in the `XLSX.utils` object and are described in the
 
 - `sheet_to_json` converts a worksheet object to an array of JSON objects.
 - `sheet_to_csv` generates delimiter-separated-values output.
+- `sheet_to_txt` generates UTF16 formatted text.
 - `sheet_to_html` generates HTML output.
 - `sheet_to_formulae` generates a list of the formulae (with value fallbacks).
 
@@ -1583,6 +1587,7 @@ Plain text format guessing follows the priority order:
 | DSV    | more unquoted `";"` chars than `"\t"` or `","` in the first 1024    |
 | TSV    | more unquoted `"\t"` chars than `","` chars in the first 1024       |
 | CSV    | one of the first 1024 characters is a comma `","`                   |
+| ETH    | starts with `socialcalc:version:`                                   |
 | PRN    | (default)                                                           |
 
 - HTML tags include: `html`, `table`, `head`, `meta`, `script`, `style`, `div`
@@ -1658,6 +1663,7 @@ output formats.  The specific file type is controlled with `bookType` option:
 | `dbf`      | `.dbf`   |   none    | single | dBASE II + VFP Extensions (DBF) |
 | `rtf`      | `.rtf`   |   none    | single | Rich Text Format (RTF)          |
 | `prn`      | `.prn`   |   none    | single | Lotus Formatted Text            |
+| `eth`      | `.eth`   |   none    | single | Ethercalc Record Format (ETH)   |
 
 - `compression` only applies to formats with ZIP containers.
 - Formats that only support a single sheet require a `sheet` option specifying
@@ -1850,6 +1856,8 @@ The `txt` output type uses the tab character as the field separator.  If the
 `codepage` library is available (included in full distribution but not core),
 the output will be encoded in `CP1200` and the BOM will be prepended.
 
+`XLSX.utils.sheet_to_txt` takes the same arguments as `sheet_to_csv`.
+
 ### HTML Output
 
 As an alternative to the `writeFile` HTML type, `XLSX.utils.sheet_to_html` also
@@ -1995,6 +2003,7 @@ Despite the library name `xlsx`, it supports numerous spreadsheet file formats:
 | **Other Common Spreadsheet Output Formats**                  |:-----:|:-----:|
 | HTML Tables                                                  |  :o:  |  :o:  |
 | Rich Text Format tables (RTF)                                |       |  :o:  |
+| Ethercalc Record Format (ETH)                                |  :o:  |  :o:  |
 
 ### Excel 2007+ XML (XLSX/XLSM)
 
@@ -2227,6 +2236,16 @@ the metadata the output is valid HTML, although it does accept bare `&` symbols.
 
 Excel RTF worksheets are stored in clipboard when copying cells or ranges from a
 worksheet.  The supported codes are a subset of the Word RTF support.
+
+</details>
+
+#### Ethercalc Record Format (ETH)
+
+<details>
+  <summary>(click to show)</summary>
+
+[Ethercalc](https://ethercalc.net/) is an open source web spreadsheet powered by
+a record format reminiscent of SYLK wrapped in a MIME multi-part message.
 
 </details>
 

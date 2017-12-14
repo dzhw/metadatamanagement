@@ -4,7 +4,7 @@
 /*global global, exports, module, require:false, process:false, Buffer:false */
 var XLSX = {};
 (function make_xlsx(XLSX){
-XLSX.version = '0.11.10';
+XLSX.version = '0.11.12';
 var current_codepage = 1200;
 /*:: declare var cptable:any; */
 /*global cptable:true */
@@ -106,7 +106,7 @@ function s2a(s/*:string*/) {
 
 var bconcat = function(bufs) { return [].concat.apply([], bufs); };
 
-var chr0 = /\u0000/g, chr1 = /[\u0001-\u0006]/;
+var chr0 = /\u0000/g, chr1 = /[\u0001-\u0006]/g;
 /*::
 declare type Block = any;
 declare type BufArray = {
@@ -1089,7 +1089,7 @@ type CFBFiles = {[n:string]:CFBEntry};
 /* [MS-CFB] v20130118 */
 var CFB = (function _CFB(){
 var exports/*:CFBModule*/ = /*::(*/{}/*:: :any)*/;
-exports.version = '1.0.0';
+exports.version = '1.0.1';
 /* [MS-CFB] 2.6.4 */
 function namecmp(l/*:string*/, r/*:string*/)/*:number*/ {
 	var L = l.split("/"), R = r.split("/");
@@ -2385,6 +2385,12 @@ function ReadShift(size/*:number*/, t/*:?string*/)/*:number|string*/ {
 				loc+=2;
 			} o = oo.join(""); size *= 2; break;
 
+		case 'cpstr':
+			if(typeof cptable !== 'undefined') {
+				o = cptable.utils.decode(current_codepage, this.slice(this.l, this.l + size));
+				break;
+			}
+		/* falls through */
 		case 'sbcs-cont': o = ""; loc = this.l;
 			for(i = 0; i != size; ++i) {
 				if(this.lens && this.lens.indexOf(loc) !== -1) {
@@ -4436,7 +4442,7 @@ function parse_XLUnicodeString2(blob, length, opts) {
 	if(opts.biff > 5) return parse_XLUnicodeString(blob, length, opts);
 	var cch = blob.read_shift(1);
 	if(cch === 0) { blob.l++; return ""; }
-	return blob.read_shift(cch, 'sbcs-cont');
+	return blob.read_shift(cch, opts.biff == 4 ? 'cpstr' : 'sbcs-cont');
 }
 /* TODO: BIFF5 and lower, codepage awareness */
 function write_XLUnicodeString(str, opts, o) {
@@ -6079,6 +6085,105 @@ var DIF = (function() {
 	};
 })();
 
+var ETH = (function() {
+	function decode(s/*:string*/)/*:string*/ { return s.replace(/\\b/g,"\\").replace(/\\c/g,":").replace(/\\n/g,"\n"); }
+	function encode(s/*:string*/)/*:string*/ { return s.replace(/\\/g, "\\b").replace(/:/g, "\\c").replace(/\n/g,"\\n"); }
+
+	function eth_to_aoa(str/*:string*/, opts)/*:AOA*/ {
+		var records = str.split('\n'), R = -1, C = -1, ri = 0, arr = [];
+		for (; ri !== records.length; ++ri) {
+			var record = records[ri].trim().split(":");
+			if(record[0] !== 'cell') continue;
+			var addr = decode_cell(record[1]);
+			if(arr.length <= addr.r) for(R = arr.length; R <= addr.r; ++R) if(!arr[R]) arr[R] = [];
+			R = addr.r; C = addr.c;
+			switch(record[2]) {
+				case 't': arr[R][C] = decode(record[3]); break;
+				case 'v': arr[R][C] = +record[3]; break;
+				case 'vtf': var _f = record[record.length - 1];
+					/* falls through */
+				case 'vtc':
+					switch(record[3]) {
+						case 'nl': arr[R][C] = +record[4] ? true : false; break;
+						default: arr[R][C] = +record[4]; break;
+					}
+					if(record[2] == 'vtf') arr[R][C] = [arr[R][C], _f];
+			}
+		}
+		return arr;
+	}
+
+	function eth_to_sheet(d/*:string*/, opts)/*:Worksheet*/ { return aoa_to_sheet(eth_to_aoa(d, opts), opts); }
+	function eth_to_workbook(d/*:string*/, opts)/*:Workbook*/ { return sheet_to_workbook(eth_to_sheet(d, opts), opts); }
+
+	var header = [
+		"socialcalc:version:1.5",
+		"MIME-Version: 1.0",
+		"Content-Type: multipart/mixed; boundary=SocialCalcSpreadsheetControlSave"
+	].join("\n");
+
+	var sep = [
+		"--SocialCalcSpreadsheetControlSave",
+		"Content-type: text/plain; charset=UTF-8"
+	].join("\n") + "\n";
+
+	/* TODO: the other parts */
+	var meta = [
+		"# SocialCalc Spreadsheet Control Save",
+		"part:sheet"
+	].join("\n");
+
+	var end = "--SocialCalcSpreadsheetControlSave--";
+
+	function sheet_to_eth_data(ws/*:Worksheet*/)/*:string*/ {
+		if(!ws || !ws['!ref']) return "";
+		var o = [], oo = [], cell, coord;
+		var r = decode_range(ws['!ref']);
+		var dense = Array.isArray(ws);
+		for(var R = r.s.r; R <= r.e.r; ++R) {
+			for(var C = r.s.c; C <= r.e.c; ++C) {
+				coord = encode_cell({r:R,c:C});
+				cell = dense ? (ws[R]||[])[C] : ws[coord];
+				if(!cell || cell.v == null || cell.t === 'z') continue;
+				oo = ["cell", coord, 't'];
+				switch(cell.t) {
+					case 's': case 'str': oo.push(encode(cell.v)); break;
+					case 'n':
+						if(!cell.f) { oo[2]='v'; oo[3]=cell.v; }
+						else { oo[2]='vtf'; oo[3]='n'; oo[4]=cell.v; oo[5]=encode(cell.f); }
+						break;
+					case 'b':
+						oo[2] = 'vt'+(cell.f?'f':'c'); oo[3]='nl'; oo[4]=+!!cell.v;
+						oo[5] = encode(cell.f||(cell.v?'TRUE':'FALSE'));
+						break;
+					case 'd':
+						var t = datenum(parseDate(cell.v));
+						oo[2] = 'vtc'; oo[3] = 'nd'; oo[4] = t;
+						oo[5] = cell.w || SSF.format(cell.z || SSF._table[14], t);
+						break;
+					case 'e': continue;
+				}
+				o.push(oo.join(":"));
+			}
+		}
+		o.push("sheet:c:" + (r.e.c-r.s.c+1) + ":r:" + (r.e.r-r.s.r+1) + ":tvf:1");
+		o.push("valueformat:1:text-wiki");
+		//o.push("copiedfrom:" + ws['!ref']); // clipboard only
+		return o.join("\n");
+	}
+
+	function sheet_to_eth(ws/*:Worksheet*/, opts/*:?any*/)/*:string*/ {
+		return [header, sep, meta, sep, sheet_to_eth_data(ws), end].join("\n");
+		// return ["version:1.5", sheet_to_eth_data(ws)].join("\n"); // clipboard form
+	}
+
+	return {
+		to_workbook: eth_to_workbook,
+		to_sheet: eth_to_sheet,
+		from_sheet: sheet_to_eth
+	};
+})();
+
 var PRN = (function() {
 	function set_text_arr(data/*:string*/, arr/*:AOA*/, R/*:number*/, C/*:number*/, o/*:any*/) {
 		if(o.raw) arr[R][C] = data;
@@ -6212,7 +6317,7 @@ var PRN = (function() {
 	}
 
 	function prn_to_sheet_str(str/*:string*/, opts)/*:Worksheet*/ {
-		if(str.substr(0,4) == "sep=") return dsv_to_sheet_str(str, opts);
+		if(str.slice(0,4) == "sep=") return dsv_to_sheet_str(str, opts);
 		if(str.indexOf("\t") >= 0 || str.indexOf(",") >= 0 || str.indexOf(";") >= 0) return dsv_to_sheet_str(str, opts);
 		return aoa_to_sheet(prn_to_aoa_str(str, opts), opts);
 	}
@@ -6228,6 +6333,7 @@ var PRN = (function() {
 			default: throw new Error("Unrecognized type " + opts.type);
 		}
 		if(bytes[0] == 0xEF && bytes[1] == 0xBB && bytes[2] == 0xBF) str = utf8read(str.slice(3));
+		if(str.slice(0,19) == "socialcalc:version:") return ETH.to_sheet(opts.type == 'string' ? str : utf8read(str), opts);
 		return prn_to_sheet_str(str, opts);
 	}
 
@@ -6930,6 +7036,7 @@ function parse_DataSpaceMapEntry(blob) {
 	}
 	o.name = blob.read_shift(0, 'lpp4');
 	o.comps = comps;
+	if(blob.l != end) throw new Error("Bad DataSpaceMapEntry: " + blob.l + " != " + end);
 	return o;
 }
 
@@ -6958,7 +7065,7 @@ function parse_TransformInfoHeader(blob, length) {
 	var tgt = blob.l + len - 4;
 	blob.l += 4; // must be 0x1
 	o.id = blob.read_shift(0, 'lpp4');
-	// tgt == len
+	if(tgt != blob.l) throw new Error("Bad TransformInfoHeader record: " + blob.l + " != " + tgt);
 	o.name = blob.read_shift(0, 'lpp4');
 	o.R = parse_CRYPTOVersion(blob, 4);
 	o.U = parse_CRYPTOVersion(blob, 4);
@@ -7037,12 +7144,28 @@ function parse_EncInfoStd(blob, vers) {
 function parse_EncInfoExt(blob, vers) { throw new Error("File is password-protected: ECMA-376 Extensible"); }
 /* [MS-OFFCRYPTO] 2.3.4.10 EncryptionInfo Stream (Agile Encryption) */
 function parse_EncInfoAgl(blob, vers) {
+	var KeyData = ["saltSize","blockSize","keyBits","hashSize","cipherAlgorithm","cipherChaining","hashAlgorithm","saltValue"];
 	blob.l+=4;
-	return blob.read_shift(blob.length - blob.l, 'utf8');
+	var xml = blob.read_shift(blob.length - blob.l, 'utf8');
+	var o = {};
+	xml.replace(tagregex, function xml_agile(x, idx) {
+		var y/*:any*/ = parsexmltag(x);
+		switch(strip_ns(y[0])) {
+			case '<?xml': break;
+			case '<encryption': case '</encryption>': break;
+			case '<keyData': KeyData.forEach(function(k) { o[k] = y[k]; }); break;
+			case '<dataIntegrity': o.encryptedHmacKey = y.encryptedHmacKey; o.encryptedHmacValue = y.encryptedHmacValue; break;
+			case '<keyEncryptors>': case '<keyEncryptors': o.encs = []; break;
+			case '</keyEncryptors>': break;
+
+			case '<keyEncryptor': o.uri = y.uri; break;
+			case '</keyEncryptor>': break;
+			case '<encryptedKey': o.encs.push(y); break;
+			default: throw y[0];
+		}
+	});
+	return o;
 }
-
-
-
 
 /* [MS-OFFCRYPTO] 2.3.5.1 RC4 CryptoAPI Encryption Header */
 function parse_RC4CryptoHeader(blob, length/*:number*/) {
@@ -15291,7 +15414,12 @@ function parse_workbook(blob, options/*:ParseOpts*/)/*:Workbook*/ {
 					sst = val;
 				} break;
 				case 'Format': { /* val = [id, fmt] */
-					SSF.load(val[1], val[0]);
+					if(opts.biff == 4) {
+						BIFF2FmtTable[BIFF2Fmt++] = val[1];
+						for(var b4idx = 0; b4idx < BIFF2Fmt + 163; ++b4idx) if(SSF._table[b4idx] == val[1]) break;
+						if(b4idx >= 163) SSF.load(val[1], BIFF2Fmt + 163);
+					}
+					else SSF.load(val[1], val[0]);
 				} break;
 				case 'BIFF2FORMAT': {
 					BIFF2FmtTable[BIFF2Fmt++] = val;
@@ -18126,6 +18254,7 @@ var write_rtf_str = write_obj_str(RTF);
 var write_txt_str = write_obj_str({from_sheet:sheet_to_txt});
 // $FlowIgnore
 var write_dbf_buf = write_obj_str(DBF);
+var write_eth_str = write_obj_str(ETH);
 
 function fix_opts_func(defaults/*:Array<Array<any> >*/)/*:{(o:any):void}*/ {
 	return function fix_opts(opts) {
@@ -18348,40 +18477,42 @@ function parse_zip(zip/*:ZIP*/, opts/*:?ParseOpts*/)/*:Workbook*/ {
 	return out;
 }
 
-/* references to [MS-OFFCRYPTO] */
-function parse_xlsxcfb(cfb, opts/*:?ParseOpts*/)/*:Workbook*/ {
-	var f = 'Version';
-	var data = CFB.find(cfb, f);
-	if(!data || !data.content) throw new Error("ECMA-376 Encrypted file missing " + f);
+/* [MS-OFFCRYPTO] 2.1.1 */
+function parse_xlsxcfb(cfb, _opts/*:?ParseOpts*/)/*:Workbook*/ {
+	var opts = _opts || {};
+	var f = '/!DataSpaces/Version';
+	var data = CFB.find(cfb, f); if(!data || !data.content) throw new Error("ECMA-376 Encrypted file missing " + f);
 	var version = parse_DataSpaceVersionInfo(data.content);
 
 	/* 2.3.4.1 */
-	f = 'DataSpaceMap';
-	data = CFB.find(cfb, f);
-	if(!data || !data.content) throw new Error("ECMA-376 Encrypted file missing " + f);
+	f = '/!DataSpaces/DataSpaceMap';
+	data = CFB.find(cfb, f); if(!data || !data.content) throw new Error("ECMA-376 Encrypted file missing " + f);
 	var dsm = parse_DataSpaceMap(data.content);
 	if(dsm.length !== 1 || dsm[0].comps.length !== 1 || dsm[0].comps[0].t !== 0 || dsm[0].name !== "StrongEncryptionDataSpace" || dsm[0].comps[0].v !== "EncryptedPackage")
 		throw new Error("ECMA-376 Encrypted file bad " + f);
 
-	f = 'StrongEncryptionDataSpace';
-	data = CFB.find(cfb, f);
-	if(!data || !data.content) throw new Error("ECMA-376 Encrypted file missing " + f);
+	/* 2.3.4.2 */
+	f = '/!DataSpaces/DataSpaceInfo/StrongEncryptionDataSpace';
+	data = CFB.find(cfb, f); if(!data || !data.content) throw new Error("ECMA-376 Encrypted file missing " + f);
 	var seds = parse_DataSpaceDefinition(data.content);
 	if(seds.length != 1 || seds[0] != "StrongEncryptionTransform")
 		throw new Error("ECMA-376 Encrypted file bad " + f);
 
 	/* 2.3.4.3 */
-	f = '!Primary';
-	data = CFB.find(cfb, f);
-	if(!data || !data.content) throw new Error("ECMA-376 Encrypted file missing " + f);
+	f = '/!DataSpaces/TransformInfo/StrongEncryptionTransform/!Primary';
+	data = CFB.find(cfb, f); if(!data || !data.content) throw new Error("ECMA-376 Encrypted file missing " + f);
 	var hdr = parse_Primary(data.content);
 
-	f = 'EncryptionInfo';
-	data = CFB.find(cfb, f);
-	if(!data || !data.content) throw new Error("ECMA-376 Encrypted file missing " + f);
+	f = '/EncryptionInfo';
+	data = CFB.find(cfb, f); if(!data || !data.content) throw new Error("ECMA-376 Encrypted file missing " + f);
 	var einfo = parse_EncryptionInfo(data.content);
 
-	if(einfo[0] == 0x04) throw new Error("File is password-protected: ECMA-376 Agile");
+	/* 2.3.4.4 */
+	f = '/EncryptedPackage';
+	data = CFB.find(cfb, f); if(!data || !data.content) throw new Error("ECMA-376 Encrypted file missing " + f);
+
+/*:: declare var decrypt_agile:any; */
+	if(einfo[0] == 0x04 && typeof decrypt_agile !== 'undefined') return decrypt_agile(einfo[1], data.content, opts.password || "", opts);
 	throw new Error("File is password-protected");
 }
 
@@ -18708,6 +18839,7 @@ function writeSync(wb/*:Workbook*/, opts/*:?WriteOpts*/) {
 		case 'dbf': return write_binary_type(write_dbf_buf(wb, o), o);
 		case 'prn': return write_string_type(write_prn_str(wb, o), o);
 		case 'rtf': return write_string_type(write_rtf_str(wb, o), o);
+		case 'eth': return write_string_type(write_eth_str(wb, o), o);
 		case 'fods': return write_string_type(write_ods(wb, o), o);
 		case 'biff2': if(!o.biff) o.biff = 2; /* falls through */
 		case 'biff3': if(!o.biff) o.biff = 3; /* falls through */
@@ -18729,6 +18861,7 @@ function resolve_book_type(o/*:WriteFileOpts*/) {
 		"xls": "biff8",
 		"htm": "html",
 		"slk": "sylk",
+		"socialcalc": "eth",
 		"Sh33tJS": "WTF"
 	};
 	var ext = o.file.slice(o.file.lastIndexOf(".")).toLowerCase();
@@ -18972,8 +19105,12 @@ var utils/*:any*/ = {
 	table_to_sheet: parse_dom_table,
 	table_to_book: table_to_book,
 	sheet_to_csv: sheet_to_csv,
+	sheet_to_txt: sheet_to_txt,
 	sheet_to_json: sheet_to_json,
 	sheet_to_html: HTML_.from_sheet,
+	sheet_to_dif: DIF.from_sheet,
+	sheet_to_slk: SYLK.from_sheet,
+	sheet_to_eth: ETH.from_sheet,
 	sheet_to_formulae: sheet_to_formulae,
 	sheet_to_row_object_array: sheet_to_json
 };
