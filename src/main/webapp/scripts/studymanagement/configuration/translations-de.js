@@ -36,7 +36,10 @@ angular.module('metadatamanagementApp').config(
             'doi': 'DOI'
           },
           'attachments': {
-            'table-title': 'Materialien zu der Studie'
+            'table-title': 'Materialien zu der Studie',
+            'attachment-deleted-toast': 'Datei "{{ filename }}" wurde gelöscht!',
+            'delete-attachment-tooltip': 'Klicken, um die Datei "{{ filename }}" zu löschen!',
+            'edit-attachment-tooltip': 'Klicken, um die Metadaten zu der Datei "{{ filename }}" zu bearbeiten.',
           },
           'data-set': {
             'card-title': 'Verfügbare Datensätze'

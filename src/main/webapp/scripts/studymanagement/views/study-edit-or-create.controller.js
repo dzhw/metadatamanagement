@@ -109,7 +109,7 @@ angular.module('metadatamanagementApp')
 
       ctrl.setCurrentAuthor = function(index, event) {
         ctrl.currentAuthorInputName = event.target.name;
-        ctrl.currentAuthor = index;
+        ctrl.currentAuthorIndex = index;
       };
 
       ctrl.deleteCurrentAuthor = function(event) {
@@ -118,28 +118,30 @@ angular.module('metadatamanagementApp')
           event.relatedTarget.id === 'move-author-down-button')) {
           return;
         }
-        delete ctrl.currentAuthor;
+        delete ctrl.currentAuthorIndex;
       };
 
       ctrl.moveCurrentAuthorUp = function() {
-        var a = ctrl.study.authors[ctrl.currentAuthor - 1];
-        ctrl.study.authors[ctrl.currentAuthor - 1] =
-          ctrl.study.authors[ctrl.currentAuthor];
-        ctrl.study.authors[ctrl.currentAuthor] = a;
+        var a = ctrl.study.authors[ctrl.currentAuthorIndex - 1];
+        ctrl.study.authors[ctrl.currentAuthorIndex - 1] =
+          ctrl.study.authors[ctrl.currentAuthorIndex];
+        ctrl.study.authors[ctrl.currentAuthorIndex] = a;
         ctrl.currentAuthorInputName = ctrl.currentAuthorInputName
-          .replace('_' + ctrl.currentAuthor, '_' + (ctrl.currentAuthor - 1));
+          .replace('_' + ctrl.currentAuthorIndex,
+            '_' + (ctrl.currentAuthorIndex - 1));
         $document.find('input[name="' + ctrl.currentAuthorInputName + '"]')
           .focus();
         $scope.studyForm.$setDirty();
       };
 
       ctrl.moveCurrentAuthorDown = function() {
-        var a = ctrl.study.authors[ctrl.currentAuthor + 1];
-        ctrl.study.authors[ctrl.currentAuthor + 1] =
-          ctrl.study.authors[ctrl.currentAuthor];
-        ctrl.study.authors[ctrl.currentAuthor] = a;
+        var a = ctrl.study.authors[ctrl.currentAuthorIndex + 1];
+        ctrl.study.authors[ctrl.currentAuthorIndex + 1] =
+          ctrl.study.authors[ctrl.currentAuthorIndex];
+        ctrl.study.authors[ctrl.currentAuthorIndex] = a;
         ctrl.currentAuthorInputName = ctrl.currentAuthorInputName
-          .replace('_' + ctrl.currentAuthor, '_' + (ctrl.currentAuthor + 1));
+          .replace('_' + ctrl.currentAuthorIndex,
+            '_' + (ctrl.currentAuthorIndex + 1));
         $document.find('input[name="' + ctrl.currentAuthorInputName + '"]')
           .focus();
         $scope.studyForm.$setDirty();

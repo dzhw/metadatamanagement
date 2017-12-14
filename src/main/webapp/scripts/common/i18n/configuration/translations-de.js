@@ -329,6 +329,10 @@ angular.module('metadatamanagementApp').config(
           'confirm-dirty': {
             'title': 'Änderungen verwerfern?',
             'content': 'Sie haben ungespeicherte Änderungen. Wollen Sie diese verwerfen?'
+          },
+          'confirm-file-delete': {
+            'title': 'Datei "{{ filename }}" löschen?',
+            'content': 'Wollen Sie die Datei "{{ filename }}" wirklich löschen?'
           }
         }
       }

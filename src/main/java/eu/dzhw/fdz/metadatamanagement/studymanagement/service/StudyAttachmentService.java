@@ -16,6 +16,9 @@ import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSFile;
 
 import eu.dzhw.fdz.metadatamanagement.filemanagement.util.MimeTypeDetector;
@@ -61,6 +64,24 @@ public class StudyAttachmentService {
   }
   
   /**
+   * Update the metadata of the attachment.
+   * 
+   * @param metadata The new metadata.
+   */
+  public void updateAttachmentMetadata(StudyAttachmentMetadata metadata) {
+    metadata.setVersion(metadata.getVersion() + 1);
+    String currentUser = SecurityUtils.getCurrentUserLogin();
+    metadata.setLastModifiedBy(currentUser);
+    metadata.setLastModifiedDate(LocalDateTime.now());
+    GridFSDBFile file = operations.findOne(
+        new Query(GridFsCriteria.whereFilename().is(buildFileName(metadata))));
+    DBObject dbObject = new BasicDBObject();
+    mongoTemplate.getConverter().write(metadata, dbObject); 
+    file.setMetaData(dbObject);
+    file.save();
+  }
+  
+  /**
    * Delete all attachments of the given study.
    * @param studyId the id of the study.
    */
@@ -100,5 +121,15 @@ public class StudyAttachmentService {
     Query query = new Query(GridFsCriteria.whereFilename()
         .regex("^" + Pattern.quote("/studies/") + ".*" + Pattern.quote("/attachments/")));
     this.operations.delete(query);
+  }
+
+  /**
+   * Delete the attachment and its metadata from gridfs.
+   * @param studyId The id of the study.
+   * @param filename The filename of the attachment.
+   */
+  public void deleteByStudyIdAndFilename(String studyId, String filename) {
+    this.operations.delete(new Query(GridFsCriteria.whereFilename().is(
+        buildFileNamePrefix(studyId) + filename)));
   }
 }

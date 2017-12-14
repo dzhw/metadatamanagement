@@ -329,6 +329,10 @@ angular.module('metadatamanagementApp').config(
           'confirm-dirty': {
             'title': 'Discard Changes?',
             'content': 'There are unsaved changes. Do you want to discard these changes?'
+          },
+          'confirm-file-delete': {
+            'title': 'Delete File "{{ filename }}"?',
+            'content': 'Do you really want to delete File "{{ filename }}"?'
           }
         }
       }

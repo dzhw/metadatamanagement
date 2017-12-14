@@ -252,7 +252,7 @@
         </md-card>
     </div>
     <div layout="row">
-      <md-card  ng-if="ctrl.attachments" flex class="fdz-reset-top-margin">
+      <md-card  ng-if="(ctrl.attachments && ctrl.attachments.length > 0) || (!ctrl.study.release && ctrl.hasAuthority('ROLE_PUBLISHER'))" flex class="fdz-reset-top-margin">
         <md-card-header layout-align="center center">
           <md-card-header-text>
             <h2 class="md-title">{{'study-management.detail.attachments.table-title' | translate | fdzHyphenate}}</h2>
@@ -261,6 +261,8 @@
         <table fdz-table>
           <thead>
             <tr>
+              <th ng-if="!ctrl.study.release" data-has-authority="ROLE_PUBLISHER">
+              </th>
               <th>{{'study-management.detail.label.attachments.type' | translate }}
                 <md-tooltip hide-gt-xs md-direction="right">
                   {{'study-management.detail.label.attachments.type' | translate }}
@@ -286,18 +288,69 @@
                   {{'study-management.detail.label.attachments.file' | translate }}
                 </md-tooltip>
               </th>
+              <th ng-if="!ctrl.study.release" data-has-authority="ROLE_PUBLISHER">
+              </th>
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="row in ctrl.attachments">
+            <tr ng-repeat="row in ctrl.attachments" ng-class="{'fdz-selected-table-row': $index === ctrl.currentAttachmentIndex}">
+              <td class="fdz-table-nowrap" ng-if="!ctrl.study.release" data-has-authority="ROLE_PUBLISHER" style="padding-right: 0px; padding-left: 25px;">
+                <md-radio-group ng-model="ctrl.currentAttachmentIndex" class="md-primary">
+                  <md-radio-button ng-value="$index" style="margin-bottom: 0px;">
+                    <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                      <span data-translate="study-management.detail.attachments.select-attachment-tooltip" data-translate-values="{filename: row.fileName}"></span>
+                    </md-tooltip>
+                  </md-radio-button>
+                </md-radio-group>
+              </td>
               <td class="fdz-table-nowrap" display-i18n-string="row.type"></td>
               <td display-i18n-string="row.description" fdz-hyphenate class="fdz-text-block"></td>
-              <td lang="{{row.language}}" fdz-hyphenate>{{row.title}}&nbsp;</td>
+              <td lang="{{row.language}}">{{row.title}}&nbsp;</td>
               <td>{{row.language | displayIsoLanguage: currentLanguage}}&nbsp;</td>
               <td><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">{{'global.tooltips.files.download' | translate: {filename: row.fileName} }}</md-tooltip></a>&nbsp;</td>
+              <td ng-if="!ctrl.study.release" data-has-authority="ROLE_PUBLISHER" class="fdz-table-nowrap" style="padding: 0px;">
+                <md-button class="md-primary md-icon-button" ng-click="ctrl.editAttachment(row, $event)" style="margin: 0px;">
+                  <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    <span data-translate="study-management.detail.attachments.edit-attachment-tooltip" data-translate-values="{filename: row.fileName}"></span>
+                  </md-tooltip>
+                  <md-icon md-font-set="material-icons" style="margin-right: 0px;">mode_edit</md-icon>
+                </md-button>
+                <md-button class="md-primary md-icon-button" ng-click="ctrl.deleteAttachment(row, $index)" style="margin: 0px;">
+                  <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    <span data-translate="study-management.detail.attachments.delete-attachment-tooltip" data-translate-values="{filename: row.fileName}"></span>
+                  </md-tooltip>
+                  <md-icon md-font-set="material-icons">delete_forever</md-icon>
+                </md-button>
+              </td>
             </tr>
           </tbody>
         </table>
+        <md-card-actions ng-if="!ctrl.study.release" data-has-authority="ROLE_PUBLISHER" layout="row" layout-align="begin center">
+            <md-button class="md-primary md-raised md-icon-button" ng-click="ctrl.addAttachment($event)" style="margin-left: 6px;">
+                <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    {{'study-management.detail.attachments.add-attachment-tooltip' | translate}}
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">add</md-icon>
+            </md-button>
+            <md-button ng-disabled="ctrl.currentAttachmentIndex == null || ctrl.currentAttachmentIndex === 0" class="md-primary md-raised md-icon-button" ng-click="ctrl.moveAttachmentUp()">
+                <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    {{'study-management.detail.attachments.move-attachment-up-tooltip' | translate}}
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">keyboard_arrow_up</md-icon>
+            </md-button>
+            <md-button ng-disabled="ctrl.currentAttachmentIndex == null || ctrl.currentAttachmentIndex === ctrl.attachments.length - 1" class="md-primary md-raised md-icon-button" ng-click="ctrl.moveAttachmentDown()">
+                <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    {{'study-management.detail.attachments.move-attachment-down-tooltip' | translate}}
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">keyboard_arrow_down</md-icon>
+            </md-button>
+            <md-button ng-disabled="!ctrl.attachmentOrderIsDirty" class="md-accent md-raised md-icon-button" ng-click="ctrl.saveAttachmentOrder()">
+                <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    {{'study-management.detail.attachments.save-attachment-order-tooltip' | translate}}
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">cloud_upload</md-icon>
+            </md-button>
+        </md-card-actions>
       </md-card>
     </div>
     <div layout="row">
@@ -330,7 +383,7 @@
             </md-content>
         </md-card>
     </div>
-    <div data-has-authority="ROLE_PUBLISHER" class="fdz-fab-button-container" layout="column">
+    <div ng-if="!ctrl.study.release" data-has-authority="ROLE_PUBLISHER" class="fdz-fab-button-container" layout="column">
       <md-button class="md-fab md-raised md-accent" ui-sref="studyEdit({id: ctrl.study.id})">
           <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
               {{'search-management.buttons.edit-study-tooltip' | translate}}
