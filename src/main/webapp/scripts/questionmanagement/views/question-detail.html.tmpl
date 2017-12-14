@@ -169,7 +169,7 @@
                 <div flex-gt-sm="50" layout="column">
                 <md-input-container>
                     <label>{{'question-management.detail.label.languages' | translate }}</label>
-                    <md-select ng-model="ctrl.imageLanguage">
+                    <md-select ng-model="ctrl.currentImageLanguage">
                         <md-option ng-repeat="language in ctrl.imageLanguages" ng-value="language">
                             {{language}}
                         </md-option>
@@ -177,17 +177,17 @@
                 </md-input-container>
               </div>
             </div>
-              <div ng-if="ctrl.imagesByLanguage[ctrl.imageLanguage].length > 1">
-                <jk-carousel data="ctrl.imagesByLanguage[ctrl.imageLanguage]" item-template-url="'scripts/questionmanagement/views/question-image-template.html.tmpl'" current-index="ctrl.currentIndex" max-height="211px">
+              <div ng-if="ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage].length > 1">
+                <jk-carousel data="ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage]" item-template-url="'scripts/questionmanagement/views/question-image-template.html.tmpl'" current-index="ctrl.currentIndex" max-height="211px">
                 </jk-carousel>
               </div>
-              <div ng-if="ctrl.imagesByLanguage[ctrl.imageLanguage].length === 1">
+              <div ng-if="ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage].length === 1">
                 <div class="fdz-overlay-outer-box">
                     <div style="max-height:211px; overflow-y:hidden;">
-                        <img display-i18n-string="ctrl.question.questionText" alt="" style="width: 100%; height: auto" ng-src="{{ctrl.imagesByLanguage[ctrl.imageLanguage][0].id}}" />
+                        <img display-i18n-string="ctrl.question.questionText" alt="" style="width: 100%; height: auto" ng-src="{{ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][0].id}}" />
                     </div>
                     <div class="fdz-overlay-inner-box-bottom">
-                        <md-button class="md-fab md-mini md-primary" ng-href="{{ctrl.imagesByLanguage[ctrl.imageLanguage][0].id}}" target="_blank">
+                        <md-button class="md-fab md-mini md-primary" ng-href="{{ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][0].id}}" target="_blank">
                             <md-icon md-svg-src="/assets/images/icons/arrow-expand.svg"></md-icon>
                             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                 {{'global.tooltips.images' | translate}}
