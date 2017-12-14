@@ -177,8 +177,25 @@
                 </md-input-container>
               </div>
             </div>
+              <div ng-if="ctrl.imagesByLanguage[ctrl.imageLanguage].length > 1">
                 <jk-carousel data="ctrl.imagesByLanguage[ctrl.imageLanguage]" item-template-url="'scripts/questionmanagement/views/question-image-template.html.tmpl'" current-index="ctrl.currentIndex" max-height="211px">
                 </jk-carousel>
+              </div>
+              <div ng-if="ctrl.imagesByLanguage[ctrl.imageLanguage].length === 1">
+                <div class="fdz-overlay-outer-box">
+                    <div style="max-height:211px; overflow-y:hidden;">
+                        <img display-i18n-string="ctrl.question.questionText" alt="" style="width: 100%; height: auto" ng-src="{{ctrl.imagesByLanguage[ctrl.imageLanguage][0].id}}" />
+                    </div>
+                    <div class="fdz-overlay-inner-box-bottom">
+                        <md-button class="md-fab md-mini md-primary" ng-href="{{ctrl.imagesByLanguage[ctrl.imageLanguage][0].id}}" target="_blank">
+                            <md-icon md-svg-src="/assets/images/icons/arrow-expand.svg"></md-icon>
+                            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                {{'global.tooltips.images' | translate}}
+                            </md-tooltip>
+                        </md-button>
+                    </div>
+                </div>
+              </div>
             </md-card>
         </div>
         <div flex-gt-sm="50">
