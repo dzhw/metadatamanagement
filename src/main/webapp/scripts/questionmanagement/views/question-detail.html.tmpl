@@ -163,8 +163,17 @@
     <div layout="column" layout-gt-sm="row">
         <div flex-gt-sm="50" layout="column">
             <md-card flex="auto" class="fdz-reset-top-margin">
+              <md-card-content>
               <div layout="column" layout-gt-sm="row">
                 <div flex-gt-sm="50" layout="column">
+                  <div class="fdz-add-bottom-margin fdz-text-block">
+                    <span style="font-weight: bold;">Annotationen:</span>
+                    <span>{{ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][ctrl.currentIndex].containsAnnotations}}</span>
+                  </div>
+                  <div class="fdz-add-bottom-margin fdz-text-block">
+                    <span style="font-weight: bold;">Auflösung:</span>
+                    <span>{{ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][ctrl.currentIndex].resolution.widthX}} x {{ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][ctrl.currentIndex].resolution.heightY}}</span>
+                  </div>
                 </div>
                 <div flex-gt-sm="50" layout="column">
                 <md-input-container>
@@ -196,6 +205,7 @@
                     </div>
                 </div>
               </div>
+              <md-card-content>
             </md-card>
         </div>
         <div flex-gt-sm="50">
