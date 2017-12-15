@@ -46,7 +46,8 @@ angular.module('metadatamanagementApp').config(
             'questionText': 'Question Text',
             'languages': 'Languages',
             'yes': 'Yes',
-            'no': 'No'
+            'no': 'No',
+            'papi-instrument-no-resolution': 'Paper based instrument'
           },
           'predecessors': 'Previous Questions in Questionnaire',
           'successors': 'Subsequent Questions in Questionnaire',

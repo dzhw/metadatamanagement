@@ -172,7 +172,8 @@
                   </div>
                   <div class="fdz-add-bottom-margin fdz-text-block">
                     <span style="font-weight: bold;">Auflösung:</span>
-                    <span>{{ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][ctrl.currentIndex].resolution.widthX}} x {{ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][ctrl.currentIndex].resolution.heightY}}</span>
+                    <span ng-if="ctrl.question.instrument.type != 'PAPI'">{{ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][ctrl.currentIndex].resolution.widthX}} x {{ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][ctrl.currentIndex].resolution.heightY}}</span>
+                    <span ng-if="ctrl.question.instrument.type == 'PAPI'">{{'question-management.detail.label.papi-instrument-no-resolution' | translate}}</span>
                   </div>
                 </div>
                 <div flex-gt-sm="50" layout="column">
