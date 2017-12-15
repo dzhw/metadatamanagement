@@ -1372,6 +1372,7 @@ sense when the producer and consumer of files are in the same locale, but that
 is not always the case over the Internet.  To get around this ambiguity, parse
 functions accept the `dateNF` option to override the interpretation of that
 specific format string.
+
 #### Hyperlinks
 
 Hyperlinks are stored in the `l` key of cell objects.  The `Target` field of the
@@ -1388,6 +1389,13 @@ ws['A3'].l = { Target:"http://sheetjs.com", Tooltip:"Find us @ SheetJS.com!" };
 
 Note that Excel does not automatically style hyperlinks -- they will generally
 be displayed as normal text.
+
+Links where the target is a cell or range or defined name in the same workbook
+("Internal Links") are marked with a leading hash character:
+
+```js
+ws['A2'].l = { Target:"#E2" }; /* link to cell E2 */
+```
 
 #### Cell Comments
 
@@ -1493,6 +1501,7 @@ The exported `read` and `readFile` functions accept an options argument:
 | :---------- | ------: | :--------------------------------------------------- |
 |`type`       |         | Input data encoding (see Input Type below)           |
 |`raw`        | false   | If true, plain text parsing will not parse values ** |
+|`codepage`   |         | If specified, use code page when appropriate **      |
 |`cellFormula`| true    | Save formulae to the .f field                        |
 |`cellHTML`   | true    | Parse rich text and save HTML to the `.h` field      |
 |`cellNF`     | false   | Save number format string to the `.z` field          |
@@ -1526,6 +1535,8 @@ The exported `read` and `readFile` functions accept an options argument:
   XLSM and XLSB store the VBA CFB object in `xl/vbaProject.bin`. BIFF8 XLS mixes
   the VBA entries alongside the core Workbook entry, so the library generates a
   new XLSB-compatible blob from the XLS CFB container.
+- `codepage` is applied to BIFF2 - BIFF5 files without `CodePage` records and to
+  CSV files without BOM in `type:"binary"`.  BIFF8 XLS always defaults to 1200.
 - Currently only XOR encryption is supported.  Unsupported error will be thrown
   for files employing other encryption methods.
 - WTF is mainly for development.  By default, the parser will suppress read
@@ -2226,6 +2237,11 @@ behavior from Excel.  In particular, Excel extends DIF in incompatible ways:
 Excel HTML worksheets include special metadata encoded in styles.  For example,
 `mso-number-format` is a localized string containing the number format.  Despite
 the metadata the output is valid HTML, although it does accept bare `&` symbols.
+
+The writer adds type metadata to the TD elements via the `t` tag.  The parser
+looks for those tags and overrides the default interpretation. For example, text
+like `<td>12345</td>` will be parsed as numbers but `<td t="s">12345</td>` will
+be parsed as text.
 
 </details>
 
