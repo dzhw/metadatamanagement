@@ -168,7 +168,7 @@
                 <div flex-gt-sm="50" layout="column">
                   <div class="fdz-add-bottom-margin fdz-text-block">
                     <span style="font-weight: bold;">Annotationen:</span>
-                    <span>{{ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][ctrl.currentIndex].containsAnnotations}}</span>
+                    <span>{{ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][ctrl.currentIndex].containsAnnotations ? 'question-management.detail.label.yes' : 'question-management.detail.label.no' | translate }}</span>
                   </div>
                   <div class="fdz-add-bottom-margin fdz-text-block">
                     <span style="font-weight: bold;">Auflösung:</span>
