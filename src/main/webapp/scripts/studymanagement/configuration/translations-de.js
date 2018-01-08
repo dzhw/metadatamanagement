@@ -39,7 +39,34 @@ angular.module('metadatamanagementApp').config(
             'table-title': 'Materialien zu der Studie',
             'attachment-deleted-toast': 'Datei "{{ filename }}" wurde gelöscht!',
             'delete-attachment-tooltip': 'Klicken, um die Datei "{{ filename }}" zu löschen!',
-            'edit-attachment-tooltip': 'Klicken, um die Metadaten zu der Datei "{{ filename }}" zu bearbeiten.',
+            'edit-attachment-tooltip': 'Klicken, um die Datei "{{ filename }}" zu bearbeiten.',
+            'select-attachment-tooltip': 'Klicken, um Datei "{{ filename }}" zum Verschieben auszuwählen.',
+            'move-attachment-up-tooltip': 'Klicken, um die ausgewählte Datei nach oben zu verschieben.',
+            'move-attachment-down-tooltip': 'Klicken, um die ausgewählte Datei nach unten zu verschieben.',
+            'save-attachment-order-tooltip': 'Klicken, um die geänderte Reihenfolge der Dateien zu speichern.',
+            'attachment-order-saved-toast': 'Die geänderte Reihenfolge der Dateien wurde gespeichert.',
+            'add-attachment-tooltip': 'Klicken, um einen neue Datei zu dieser Studie hinzuzufügen.',
+            'edit-title': 'Datei "{{ filename }}" von Studie "{{ studyId }}" bearbeiten',
+            'create-title': 'Neue Datei zu Studie "{{ studyId }}" hinzufügen',
+            'cancel-tooltip': 'Klicken, um den Dialog ohne zu speichern zu schließen.',
+            'save-tooltip': 'Klicken, um die Datei zu speichern.',
+            'attachment-saved-toast': 'Datei "{{ filename }}" wurde gespeichert.',
+            'change-file-tooltip': 'Klicken, um eine Datei auszuwählen.',
+            'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version der Metadaten wiederherzustellen.',
+            'current-version-restored-toast': 'Die aktuelle Version der Metadaten von Datei "{{ filename }}" wurde wiederhergestellt.',
+            'previous-version-restored-toast': 'Die ältere Version der Metadaten von Datei "{{ filename }}" kann jetzt gespeichert werden.',
+            'choose-previous-version': {
+              'title': 'Ältere Version der Metadaten zu Datei "{{ filename }}" wiederherstellen',
+              'text': 'Wählen Sie eine ältere Version der Metadaten zu Datei "{{ filename }}" aus, die wiederhergestellt werden soll:',
+              'attachment-description': 'Beschreibung (auf Deutsch)',
+              'lastModified': 'Geändert',
+              'lastModifiedBy': 'von',
+              'cancel-tooltip': 'Klicken, um ohne eine ältere Version der Metadaten auszuwählen zurückzukehren.',
+              'current-version-tooltip': 'Dies ist die aktuelle Version!',
+              'next-page-tooltip': 'Klicken, um ältere Versionen anzuzeigen.',
+              'previous-page-tooltip': 'Klicken, um aktuellere Versionen anzuzeigen.'
+            },
+            'language-not-found': 'Keine gültige Sprache gefunden!'
           },
           'data-set': {
             'card-title': 'Verfügbare Datensätze'
@@ -171,7 +198,8 @@ angular.module('metadatamanagementApp').config(
               'not-supported': 'Die Sprache muss eine gültige zweibuchstabige Abkürzung gemäß ISO 639-1 sein.'
             },
             'filename': {
-              'not-empty': 'Der Dateiname des Attachments darf nicht leer sein.'
+              'not-empty': 'Der Dateiname des Attachments darf nicht leer sein.',
+              'not-unique': 'Es gibt bereits ein Attachment mit diesem Dateinamen.'
             }
           }
         },

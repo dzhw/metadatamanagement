@@ -37,9 +37,36 @@ angular.module('metadatamanagementApp').config(
           },
           'attachments': {
             'table-title': 'Documents related to the Study',
-            'attachment-deleted-toast': 'File "{{ filename }}" has been deleted!',
-            'delete-attachment-tooltip': 'Click to delete file "{{ filename }}"!',
-            'edit-attachment-tooltip': 'Click to edit the metadata for file "{{ filename }}".'
+            'attachment-deleted-toast': 'Document "{{ filename }}" has been deleted!',
+            'delete-attachment-tooltip': 'Click to delete document "{{ filename }}"!',
+            'edit-attachment-tooltip': 'Click to edit the metadata for document "{{ filename }}".',
+            'select-attachment-tooltip': 'Click to select document "{{ filename }}" for moving it up or down.',
+            'move-attachment-down-tooltip': 'Click to move the selected document down.',
+            'move-attachment-up-tooltip': 'Click to move the selected document up.',
+            'save-attachment-order-tooltip': 'Click to save the modified order of the documents.',
+            'attachment-order-saved-toast': 'The modified order of the documents has been saved.',
+            'add-attachment-tooltip': 'Click to add a new document to this study.',
+            'edit-title': 'Modify Document "{{ filename }}" of Study "{{ studyId }}"',
+            'create-title': 'Add new Document to Study "{{ studyId }}"',
+            'cancel-tooltip': 'Click to close this dialog without saving.',
+            'save-tooltip': 'Click to save this document.',
+            'change-file-tooltip': 'Click to choose a file.',
+            'attachment-saved-toast': 'Document "{{ filename }}" has been saved.',
+            'open-choose-previous-version-tooltip': 'Click to restore a previous version of the metadata.',
+            'current-version-restored-toast': 'Current version of the metadata for document "{{ filename }}" has been restored.',
+            'previous-version-restored-toast': 'Previous version of the metadata for document "{{ filename }}" can be saved now.',
+            'choose-previous-version': {
+              'title': 'Restore Previous Version of the Metadata for Document "{{ filename }}"',
+              'text': 'Choose a previous version of the metadata for document "{{ filename }}" which shall be restored:',
+              'attachment-description': 'Description (in English)',
+              'lastModified': 'Modified',
+              'lastModifiedBy': 'by',
+              'cancel-tooltip': 'Click to return without choosing a previous metadata version.',
+              'current-version-tooltip': 'This is the current version!',
+              'next-page-tooltip': 'Click to show older versions.',
+              'previous-page-tooltip': 'Click to more recent versions.'
+            },
+            'language-not-found': 'No valid language found!'
           },
           'data-set': {
             'card-title': 'Available Data Sets'
@@ -171,7 +198,8 @@ angular.module('metadatamanagementApp').config(
               'not-supported': 'The language of the attachment must be a two-letter abbreviation according to ISO 639-1!'
             },
             'filename': {
-              'not-empty': 'The filename of the attachment must not be empty!'
+              'not-empty': 'The filename of the attachment must not be empty!',
+              'not-unique': 'There is already an attachment with this name!'
             }
           }
         },

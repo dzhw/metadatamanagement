@@ -293,7 +293,8 @@ module.exports = function(grunt) {
               'layout-align',
               'layout-fill',
               'flex',
-              'am-time-ago'
+              'am-time-ago',
+              'fdz-required'
             ]
           },
           files: {

@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp')
     function(entity, PageTitleService, LanguageService, DataSetSearchService,
       $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
       StudyAttachmentResource, SearchResultNavigatorService, $stateParams,
-      CommonDialogsService, $mdDialog, $q, $transitions, $scope) {
+      CommonDialogsService, $mdDialog, $q, $transitions, $scope, $rootScope) {
       SearchResultNavigatorService.registerCurrentSearchResult(
           $stateParams['search-result-index']);
       var ctrl = this;
@@ -168,7 +168,8 @@ angular.module('metadatamanagementApp')
         });
         $q.all(promises).then(function() {
           SimpleMessageToastService.openSimpleMessageToast(
-          'study-management.detail.attachments.attachment-order-saved');
+          'study-management.detail.attachments.attachment-order-saved-toast',
+          {}, true);
           ctrl.attachmentOrderIsDirty = false;
         });
       };
@@ -182,6 +183,24 @@ angular.module('metadatamanagementApp')
 
         $scope.$on('$destroy', unregisterTransitionHook);
       };
+
+      ctrl.selectAttachment = function(index) {
+        if (Principal.hasAuthority('ROLE_PUBLISHER')) {
+          ctrl.currentAttachmentIndex = index;
+        }
+      };
+
+      $scope.$watch('ctrl.attachmentOrderIsDirty', function(isDirty) {
+        if (isDirty) {
+          $rootScope.$broadcast('domain-object-editing-started');
+        } else {
+          $rootScope.$broadcast('domain-object-editing-stopped');
+        }
+      });
+
+      $scope.$on('$destroy', function() {
+        $rootScope.$broadcast('domain-object-editing-stopped');
+      });
 
       ctrl.registerConfirmOnDirtyHook();
     });

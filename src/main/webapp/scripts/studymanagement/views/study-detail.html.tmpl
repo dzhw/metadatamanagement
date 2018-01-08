@@ -247,7 +247,7 @@
             </md-card-header>
             <md-divider></md-divider>
             <md-card-content>
-                <p display-i18n-string="ctrl.study.description" fdz-hyphenate class="fdz-text-block"></p>
+                <p display-i18n-string="ctrl.study.description" fdz-hyphenate class="fdz-text-block md-dialog-content-body"></p>
             </md-card-content>
         </md-card>
     </div>
@@ -262,6 +262,7 @@
           <thead>
             <tr>
               <th ng-if="!ctrl.study.release" data-has-authority="ROLE_PUBLISHER">
+                &nbsp;
               </th>
               <th>{{'study-management.detail.label.attachments.type' | translate }}
                 <md-tooltip hide-gt-xs md-direction="right">
@@ -289,16 +290,17 @@
                 </md-tooltip>
               </th>
               <th ng-if="!ctrl.study.release" data-has-authority="ROLE_PUBLISHER">
+                &nbsp;
               </th>
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="row in ctrl.attachments" ng-class="{'fdz-selected-table-row': $index === ctrl.currentAttachmentIndex}">
+            <tr ng-repeat="row in ctrl.attachments" ng-click="ctrl.selectAttachment($index)" ng-class="{'fdz-selected-table-row': $index === ctrl.currentAttachmentIndex}" ng-init="translationParams = {filename: row.fileName}">
               <td class="fdz-table-nowrap" ng-if="!ctrl.study.release" data-has-authority="ROLE_PUBLISHER" style="padding-right: 0px; padding-left: 25px;">
                 <md-radio-group ng-model="ctrl.currentAttachmentIndex" class="md-primary">
                   <md-radio-button ng-value="$index" style="margin-bottom: 0px;">
                     <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                      <span data-translate="study-management.detail.attachments.select-attachment-tooltip" data-translate-values="{filename: row.fileName}"></span>
+                      {{'study-management.detail.attachments.select-attachment-tooltip' | translate:translationParams }}
                     </md-tooltip>
                   </md-radio-button>
                 </md-radio-group>
@@ -311,13 +313,13 @@
               <td ng-if="!ctrl.study.release" data-has-authority="ROLE_PUBLISHER" class="fdz-table-nowrap" style="padding: 0px;">
                 <md-button class="md-primary md-icon-button" ng-click="ctrl.editAttachment(row, $event)" style="margin: 0px;">
                   <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                    <span data-translate="study-management.detail.attachments.edit-attachment-tooltip" data-translate-values="{filename: row.fileName}"></span>
+                    {{'study-management.detail.attachments.edit-attachment-tooltip' | translate:translationParams }}
                   </md-tooltip>
                   <md-icon md-font-set="material-icons" style="margin-right: 0px;">mode_edit</md-icon>
                 </md-button>
                 <md-button class="md-primary md-icon-button" ng-click="ctrl.deleteAttachment(row, $index)" style="margin: 0px;">
                   <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                    <span data-translate="study-management.detail.attachments.delete-attachment-tooltip" data-translate-values="{filename: row.fileName}"></span>
+                    {{'study-management.detail.attachments.delete-attachment-tooltip' | translate:translationParams }}
                   </md-tooltip>
                   <md-icon md-font-set="material-icons">delete_forever</md-icon>
                 </md-button>

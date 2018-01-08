@@ -6,6 +6,8 @@ angular.module('metadatamanagementApp').factory('CommonDialogsService',
     var translationPrefixDirty = 'global.common-dialogs.confirm-dirty.';
     var translationPrefixFileDelete =
       'global.common-dialogs.confirm-file-delete.';
+    var translationPrefixFilenameChange =
+      'global.common-dialogs.confirm-filename-change.';
 
     var focusCancelButton = function() {
       var $actionsSection = angular.element(
@@ -17,16 +19,15 @@ angular.module('metadatamanagementApp').factory('CommonDialogsService',
       $cancelButton.focus();
     };
 
-    var confirmOnDirtyDialog = $mdDialog.confirm({
-      onComplete: focusCancelButton,
-      multiple: true
-    }).title($translate.instant(translationPrefixDirty + 'title'))
-      .textContent($translate.instant(translationPrefixDirty + 'content'))
-      .ok($translate.instant('global.common-dialogs.yes'))
-      .cancel($translate.instant('global.common-dialogs.no'))
-      .multiple(true);
-
     var showConfirmOnDirtyDialog = function() {
+      var confirmOnDirtyDialog = $mdDialog.confirm({
+        onComplete: focusCancelButton,
+        multiple: true
+      }).title($translate.instant(translationPrefixDirty + 'title'))
+        .textContent($translate.instant(translationPrefixDirty + 'content'))
+        .ok($translate.instant('global.common-dialogs.yes'))
+        .cancel($translate.instant('global.common-dialogs.no'))
+        .multiple(true);
       return $mdDialog.show(confirmOnDirtyDialog);
     };
 
@@ -43,8 +44,26 @@ angular.module('metadatamanagementApp').factory('CommonDialogsService',
       return $mdDialog.show(confirmOnFileDeletionDialog);
     };
 
+    var showConfirmFilenameChangedDialog = function(oldFilename, newFilename) {
+      var confirmOnFilenameChangedDialog = $mdDialog.confirm({
+        onComplete: focusCancelButton,
+        multiple: true
+      }).title($translate.instant(translationPrefixFilenameChange + 'title', {
+        oldFilename: oldFilename,
+        newFilename: newFilename
+      })).textContent(
+        $translate.instant(translationPrefixFilenameChange + 'content', {
+          oldFilename: oldFilename,
+          newFilename: newFilename
+        })).ok($translate.instant('global.common-dialogs.yes'))
+        .cancel($translate.instant('global.common-dialogs.no'))
+        .multiple(true);
+      return $mdDialog.show(confirmOnFilenameChangedDialog);
+    };
+
     return {
       showConfirmOnDirtyDialog: showConfirmOnDirtyDialog,
-      showConfirmFileDeletionDialog: showConfirmFileDeletionDialog
+      showConfirmFileDeletionDialog: showConfirmFileDeletionDialog,
+      showConfirmFilenameChangedDialog: showConfirmFilenameChangedDialog
     };
   });

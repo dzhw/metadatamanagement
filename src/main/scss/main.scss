@@ -522,6 +522,10 @@ md-dialog h2 {
     background-color: rgba(158, 158, 158, 0.2);
 }
 
+tr:focus {
+    outline: $brand-warning auto 5px;
+}
+
 .fdz-table-absorbing-column {
     width: 100%;
 }
@@ -585,7 +589,6 @@ md-dialog h2 {
     padding-left: 0;
     margin-left: 0;
     min-height: 0;
-    height: 18px;
 }
 
 .fdz-table-rotated th:last-child {
@@ -601,7 +604,6 @@ md-dialog h2 {
 
 .fdz-table-rotated thead tr {
     display: block;
-    border-right: 1px solid #ddd;
 }
 
 .fdz-table-rotated tbody tr {
@@ -610,6 +612,10 @@ md-dialog h2 {
     border-collapse: collapse;
     border-right: 1px solid #ddd;
     border-bottom: 0;
+}
+
+.fdz-table-rotated tbody tr:first-child {
+  border-left: 1px solid #ddd;
 }
 
 .hljs {

@@ -5,25 +5,38 @@ angular.module('metadatamanagementApp')
   .controller('StudyAttachmentEditOrCreateController',
     function($mdDialog, studyAttachmentMetadata, $scope, CommonDialogsService,
       LanguageService, isoLanguages, SimpleMessageToastService,
-      StudyAttachmentUploadService) {
+      StudyAttachmentUploadService, StudyAttachmentResource) {
       var ctrl = this;
+      $scope.translationParams = {
+        studyId: studyAttachmentMetadata.studyId,
+        filename: studyAttachmentMetadata.fileName
+      };
+      var isInitialisingSelectedLanguage = false;
+
       $scope.currentLanguage = LanguageService.getCurrentInstantly();
+
       var isoLanguagesArray = Object.keys(isoLanguages).map(function(key) {
         return {
           code: key,
           'displayLanguage': isoLanguages[key]
         };
       });
+
+      ctrl.initSelectedLanguage = function() {
+        isInitialisingSelectedLanguage = true;
+        ctrl.selectedLanguage = _.filter(isoLanguagesArray,
+          function(isoLanguage) {
+            return isoLanguage.code === ctrl.studyAttachmentMetadata.language;
+          })[0];
+      };
+
       if (!studyAttachmentMetadata.id) {
         ctrl.isCreateMode = true;
         ctrl.studyAttachmentMetadata = studyAttachmentMetadata;
       } else {
         ctrl.studyAttachmentMetadata = angular.copy(studyAttachmentMetadata);
         ctrl.originalStudyAttachmentMetadata = studyAttachmentMetadata;
-        ctrl.selectedLanguage = _.filter(isoLanguagesArray,
-          function(isoLanguage) {
-            return isoLanguage.code === ctrl.studyAttachmentMetadata.language;
-          })[0];
+        ctrl.initSelectedLanguage();
       }
 
       ctrl.cancel = function() {
@@ -40,8 +53,20 @@ angular.module('metadatamanagementApp')
         SimpleMessageToastService.openSimpleMessageToast(
           'study-management.detail.attachments.attachment-saved-toast',
           {
-            filename: ctrl.studyAttachmentMetadata.filename
+            filename: ctrl.studyAttachmentMetadata.fileName
           }, true);
+      };
+
+      ctrl.onUploadFailed = function(response) {
+        if (response.errors && response.errors.length > 0) {
+          SimpleMessageToastService.openSimpleMessageToast(
+            response.errors[0].message,
+            {
+              filename: ctrl.studyAttachmentMetadata.fileName
+            }, true);
+          $scope.studyAttachmentForm.filename.$setValidity(
+            'unique', false);
+        }
       };
 
       ctrl.saveAttachment = function() {
@@ -52,12 +77,12 @@ angular.module('metadatamanagementApp')
             ctrl.originalStudyAttachmentMetadata.$delete().then(function() {
               StudyAttachmentUploadService.uploadAttachment(
                 ctrl.selectedFile, ctrl.studyAttachmentMetadata
-              ).then(ctrl.onSavedSuccessfully);
+              ).then(ctrl.onSavedSuccessfully).catch(ctrl.onUploadFailed);
             });
           } else {
             StudyAttachmentUploadService.uploadAttachment(
               ctrl.selectedFile, ctrl.studyAttachmentMetadata
-            ).then(ctrl.onSavedSuccessfully);
+            ).then(ctrl.onSavedSuccessfully).catch(ctrl.onUploadFailed);
           }
         }
       };
@@ -84,12 +109,66 @@ angular.module('metadatamanagementApp')
         } else {
           delete ctrl.studyAttachmentMetadata.language;
         }
-        $scope.studyAttachmentForm.$setDirty();
+        if (!isInitialisingSelectedLanguage) {
+          $scope.studyAttachmentForm.$setDirty();
+        }
+        isInitialisingSelectedLanguage = false;
       };
 
       ctrl.upload = function(file) {
-        ctrl.selectedFile = file;
-        ctrl.studyAttachmentMetadata.fileName = file.name;
-        $scope.studyAttachmentForm.filename.$setDirty();
+        if (file.name !== ctrl.studyAttachmentMetadata.fileName &&
+          !ctrl.isCreateMode) {
+          CommonDialogsService.showConfirmFilenameChangedDialog(
+            ctrl.studyAttachmentMetadata.fileName, file.name).then(
+            function() {
+              ctrl.isCreateMode = true;
+              ctrl.selectedFile = file;
+              ctrl.studyAttachmentMetadata.fileName = file.name;
+              $scope.studyAttachmentForm.filename.$setDirty();
+            }
+          );
+        } else {
+          ctrl.selectedFile = file;
+          ctrl.studyAttachmentMetadata.fileName = file.name;
+          $scope.studyAttachmentForm.filename.$setDirty();
+        }
+      };
+
+      ctrl.openRestorePreviousVersionDialog = function(event) {
+        $mdDialog.show({
+            controller: 'ChoosePreviousStudyAttachmentVersionController',
+            templateUrl: 'scripts/studymanagement/' +
+              'views/choose-previous-study-attachment-version.html.tmpl',
+            clickOutsideToClose: false,
+            fullscreen: true,
+            locals: {
+              studyId: ctrl.studyAttachmentMetadata.studyId,
+              filename: ctrl.studyAttachmentMetadata.fileName
+            },
+            multiple: true,
+            targetEvent: event
+          })
+          .then(function(studyAttachmentWrapper) {
+            ctrl.studyAttachmentMetadata = new StudyAttachmentResource(
+              studyAttachmentWrapper.studyAttachment);
+            ctrl.initSelectedLanguage();
+            if (studyAttachmentWrapper.isCurrentVersion) {
+              SimpleMessageToastService.openSimpleMessageToast(
+                'study-management.detail.attachments' +
+                '.current-version-restored-toast',
+                {
+                  filename: ctrl.studyAttachmentMetadata.fileName
+                }, true);
+              $scope.studyAttachmentForm.$setPristine();
+            } else {
+              $scope.studyAttachmentForm.$setDirty();
+              SimpleMessageToastService.openSimpleMessageToast(
+                'study-management.detail.attachments' +
+                '.previous-version-restored-toast',
+                {
+                  filename: ctrl.studyAttachmentMetadata.fileName
+                }, true);
+            }
+          });
       };
     });
