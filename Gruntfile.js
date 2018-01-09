@@ -254,7 +254,9 @@ module.exports = function(grunt) {
               'Element “li” not allowed as child of element “body”' +
               ' in this context.',
               'An element with “role=menuitem” must be contained in, or owned' +
-              ' by, an element with “role=menubar” or “role=menu”.'
+              ' by, an element with “role=menubar” or “role=menu”.',
+              'The element “iframe” must not appear as a descendant of the' +
+              ' “a” element.'
             ],
             customattrs: [
               'show-validation',
