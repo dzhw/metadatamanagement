@@ -87,7 +87,7 @@
                     <md-input-container flex="50" style="margin-right: 8px;" md-is-error="!studyForm.sponsorDe.$valid && (studyForm.sponsorDe.$dirty || studyForm.sponsorDe.$touched)">
                         <label>{{'study-management.detail.label.sponsors' | translate}} ({{'global.in-german' | translate}})</label>
                         <input md-maxlength="128" ng-model="ctrl.study.sponsor.de" name="sponsorDe" lang="de">
-                        <div ng-if="!studyForm.sponsorDe.$dirty && !studyForm.sponsorDe.$touched" class="fdz-input-hint">{{'study-management.edit.sponsor.de' | translate}}</div>
+                        <div ng-if="!studyForm.sponsorDe.$dirty && !studyForm.sponsorDe.$touched" class="fdz-input-hint">{{'study-management.edit.hints.sponsor.de' | translate}}</div>
                         <div ng-messages="studyForm.sponsorDe.$error" multiple>
                             <div ng-message="md-maxlength">{{'study-management.error.study.survey-series.i18n-string-size' | translate}}</div>
                         </div>

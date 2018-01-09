@@ -30,8 +30,9 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="study in studies" ng-click="select(study, $index)" ng-class="{'fdz-current-version': isCurrentVersion($index)}">
-                    <td display-i18n-string="study.title" class="fdz-truncate-string" style="max-width: 600px;" title="{{ getVersionTitle($index) }}"></td>
+                <tr ng-repeat="study in studies" ng-click="study.id && select(study, $index)" ng-class="{'fdz-current-version': isCurrentVersion($index), 'fdz-deleted-version': !study.id}">
+                    <td ng-if="study.id" display-i18n-string="study.title" class="fdz-truncate-string" style="max-width: 600px;" title="{{ getVersionTitle($index) }}"></td>
+                    <td ng-if="!study.id" class="fdz-truncate-string" style="max-width: 600px;" title="{{'study-management.edit.choose-previous-version.study-deleted' | translate}}"></td>
                     <td class="fdz-table-nowrap" title="{{ study.lastModifiedDate + 'Z'| date:'fullDate'}} {{ study.lastModifiedDate + 'Z'| date:'mediumTime'}}">
                       <span am-time-ago="study.lastModifiedDate | amUtc | amLocal"></span> {{ 'study-management.edit.choose-previous-version.lastModifiedBy' | translate }} {{ study.lastModifiedBy }}
                     </td>

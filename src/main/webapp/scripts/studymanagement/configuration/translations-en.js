@@ -64,9 +64,20 @@ angular.module('metadatamanagementApp').config(
               'cancel-tooltip': 'Click to return without choosing a previous metadata version.',
               'current-version-tooltip': 'This is the current version!',
               'next-page-tooltip': 'Click to show older versions.',
-              'previous-page-tooltip': 'Click to more recent versions.'
+              'previous-page-tooltip': 'Click to more recent versions.',
+              'attachment-deleted': 'Metadata has been deleted!'
             },
-            'language-not-found': 'No valid language found!'
+            'language-not-found': 'No valid language found!',
+            'hints': {
+              'filename': 'Choose a file which you want to attach to the study.',
+              'type': 'Choose the type of the file.',
+              'language': 'Select the language which has been used in the file.',
+              'title': 'Enter the title of the file in the language of the file.',
+              'description': {
+                'de': 'Please enter a description for the file in German.',
+                'en': 'Please enter a description for the file in English.'
+              }
+            }
           },
           'data-set': {
             'card-title': 'Available Data Sets'
@@ -232,6 +243,39 @@ angular.module('metadatamanagementApp').config(
             'lastModified': 'Modified',
             'lastModifiedBy': 'by',
             'current-version-tooltip': 'This is the current version!'
+          },
+          'hints': {
+            'title': {
+              'de': 'Please enter the title of this study in German.',
+              'en': 'Please enter the title of this study in English.'
+            },
+            'survey-series': {
+              'de': 'If available enter the name of the study series in German.',
+              'en': 'If available enter the name of the study series in English.'
+            },
+            'institution': {
+              'de': 'If available enter the german name of the institution which has conducted the surveys.',
+              'en': 'If available enter the english name of the institution which has conducted the surveys.'
+            },
+            'sponsor': {
+              'de': 'Enter the german name of the sponsor of this study.',
+              'en': 'Enter the english name of the sponsor of this study.'
+            },
+            'survey-design': 'Choose the survey design of this study.',
+            'annotations': {
+              'de': 'Enter additional annotations for this study in German.',
+              'en': 'Enter additional annotations for this study in English.'
+            },
+            'data-availability': 'Choose the state which best describes the current availability of the data of this study.',
+            'description': {
+              'de': 'Enter a description of this study in German.',
+              'en': 'Enter a description of this study in English'
+            },
+            'authors': {
+              'first-name': 'Enter the first name of this project member.',
+              'middle-name': 'If available enter the middle-name of this project member.',
+              'last-name': 'Enter the last name of this project member.'
+            }
           }
         }
       }

@@ -64,9 +64,20 @@ angular.module('metadatamanagementApp').config(
               'cancel-tooltip': 'Klicken, um ohne eine ältere Version der Metadaten auszuwählen zurückzukehren.',
               'current-version-tooltip': 'Dies ist die aktuelle Version!',
               'next-page-tooltip': 'Klicken, um ältere Versionen anzuzeigen.',
-              'previous-page-tooltip': 'Klicken, um aktuellere Versionen anzuzeigen.'
+              'previous-page-tooltip': 'Klicken, um aktuellere Versionen anzuzeigen.',
+              'attachment-deleted': 'Metadaten wurden gelöscht!'
             },
-            'language-not-found': 'Keine gültige Sprache gefunden!'
+            'language-not-found': 'Keine gültige Sprache gefunden!',
+            'hints': {
+              'filename': 'Wählen Sie eine Datei aus, die Sie der Studie hinzufügen wollen.',
+              'type': 'Wählen Sie den Typ der Datei aus.',
+              'language': 'Wählen Sie die Sprache, die in der Datei verwendet wurde, aus.',
+              'title': 'Geben Sie den Titel der Datei in der Dokumentensprache ein.',
+              'description': {
+                'de': 'Geben Sie eine Beschreibung dieser Datei auf Deutsch ein.',
+                'en': 'Geben Sie eine Beschreibung dieser Datei auf Englisch ein.'
+              }
+            }
           },
           'data-set': {
             'card-title': 'Verfügbare Datensätze'
@@ -232,6 +243,39 @@ angular.module('metadatamanagementApp').config(
             'lastModified': 'Geändert',
             'lastModifiedBy': 'von',
             'current-version-tooltip': 'Dies ist die aktuelle Version!'
+          },
+          'hints': {
+            'title': {
+              'de': 'Geben Sie den Titel der Studie auf Deutsch ein.',
+              'en': 'Geben Sie den Titel der Studie auf Englisch ein.'
+            },
+            'survey-series': {
+              'de': 'Geben Sie, falls vorhanden, den Namen der Studienreihe auf Deutsch ein.',
+              'en': 'Geben Sie, falls vorhanden, den Namen der Studienreihe auf Englisch ein.'
+            },
+            'institution': {
+              'de': 'Geben Sie, falls vorhanden, den deutschen Namen der Institution ein, die die Erhebungen durchgeführt hat.',
+              'en': 'Geben Sie, falls vorhanden, den englischen Namen der Institution ein, die die Erhebungen durchgeführt hat.'
+            },
+            'sponsor': {
+              'de': 'Geben Sie den deutschen Namen des Geldgebers für diese Studie ein.',
+              'en': 'Geben Sie den englischen Namen des Geldgebers für diese Studie ein.'
+            },
+            'survey-design': 'Wählen Sie das Erhebungsdesign dieser Studie aus.',
+            'annotations': {
+              'de': 'Geben Sie zusätzliche Anmerkungen zur Studie auf Deutsch ein.',
+              'en': 'Geben Sie zusätzliche Anmerkungen zur Studie auf Englisch ein.'
+            },
+            'data-availability': 'Wählen Sie den Status aus, der die aktuelle Verfügbarkeit der Daten am Besten beschreibt.',
+            'description': {
+              'de': 'Geben Sie eine Beschreibung der Studie auf Deutsch ein.',
+              'en': 'Geben Sie eine Beschreibung zur Studie auf Englisch ein.'
+            },
+            'authors': {
+              'first-name': 'Geben Sie den Vornamen des Projektmitarbeiters ein.',
+              'middle-name': 'Geben Sie, falls vorhanden, den zweiten Vornamen des Projektmitarbeiters ein.',
+              'last-name': 'Geben Sie den Nachnamen des Projektmitarbeiters ein.'
+            }
           }
         }
       }
