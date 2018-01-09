@@ -31,7 +31,7 @@ if(typeof process != 'undefined' && ((process||{}).env)) {
 	if(process.env.FMTS) ex=process.env.FMTS.split(":").map(function(x){return x[0]==="."?x:"."+x;});
 }
 var exp = ex.map(function(x){ return x + ".pending"; });
-function test_file(x){ return ex.indexOf(x.substr(-5))>=0||exp.indexOf(x.substr(-13))>=0 || ex.indexOf(x.substr(-4))>=0||exp.indexOf(x.substr(-12))>=0; }
+function test_file(x){ return ex.indexOf(x.slice(-5))>=0||exp.indexOf(x.slice(-13))>=0 || ex.indexOf(x.slice(-4))>=0||exp.indexOf(x.slice(-12))>=0; }
 
 var files = browser ? [] : (fs.existsSync('tests.lst') ? fs.readFileSync('tests.lst', 'utf-8').split("\n").map(function(x) { return x.trim(); }) : fs.readdirSync('test_files')).filter(test_file);
 var fileA = browser ? [] : (fs.existsSync('tests/testA.lst') ? fs.readFileSync('tests/testA.lst', 'utf-8').split("\n").map(function(x) { return x.trim(); }) : []).filter(test_file);
@@ -129,6 +129,13 @@ var paths = {
 	hlxlsx:  dir + 'hyperlink_stress_test_2011.xlsx',
 	hlxlsb:  dir + 'hyperlink_stress_test_2011.xlsb',
 
+	ilxls:   dir + 'internal_link.xls',
+	ilxls5:  dir + 'internal_link.biff5',
+	ilxml:   dir + 'internal_link.xml',
+	ilxlsx:  dir + 'internal_link.xlsx',
+	ilxlsb:  dir + 'internal_link.xlsb',
+	ilods:   dir + 'internal_link.ods',
+
 	lonxls: dir + 'LONumbers.xls',
 	lonxlsx: dir + 'LONumbers.xlsx',
 
@@ -183,6 +190,7 @@ var NFPaths =  pathit("nf",  ["xlsx", "xlsb", "xls", "xml"]);
 var DTPaths =  pathit("dt",  ["xlsx", "xlsb", "xls", "xml"]);
 var NFPaths =  pathit("nf",  ["xlsx", "xlsb", "xls", "xml"]);
 var HLPaths =  pathit("hl",  ["xlsx", "xlsb", "xls", "xml"]);
+var ILPaths =  pathit("il",  ["xlsx", "xlsb", "xls", "xml", "ods", "xls5"]);
 var OLPaths =  pathit("ol",  ["xlsx", "xlsb", "xls", "ods", "xls5"]);
 var PMPaths =  pathit("pm",  ["xlsx", "xlsb", "xls", "xml", "xls5"]);
 var SVPaths =  pathit("sv",  ["xlsx", "xlsb", "xls", "xml", "xls5"]);
@@ -623,7 +631,7 @@ describe('output formats', function() {
 		["csv",    true,   true],
 		["txt",    true,   true],
 		["sylk",  false,   true],
-		["eth",    true,   true],
+		["eth",   false,   true],
 		["html",   true,   true],
 		["dif",   false,   true],
 		["dbf",   false,  false],
@@ -714,20 +722,28 @@ function diffsty(ws, r1,r2) {
 	});
 }
 
-function hlink(ws) {
-	[
-		["A1", "http://www.sheetjs.com"],
-		["A2", "http://oss.sheetjs.com"],
-		["A3", "http://oss.sheetjs.com#foo"],
-		["A4", "mailto:dev@sheetjs.com"],
-		["A5", "mailto:dev@sheetjs.com?subject=hyperlink"],
-		["A6", "../../sheetjs/Documents/Test.xlsx"],
-		["A7", "http://sheetjs.com", "foo bar baz"]
-	].forEach(function(r) {
-		assert.equal(get_cell(ws, r[0]).l.Target, r[1]);
-		assert.equal(get_cell(ws, r[0]).l.Tooltip, r[2]);
-	});
-}
+function hlink1(ws) {[
+	["A1", "http://www.sheetjs.com"],
+	["A2", "http://oss.sheetjs.com"],
+	["A3", "http://oss.sheetjs.com#foo"],
+	["A4", "mailto:dev@sheetjs.com"],
+	["A5", "mailto:dev@sheetjs.com?subject=hyperlink"],
+	["A6", "../../sheetjs/Documents/Test.xlsx"],
+	["A7", "http://sheetjs.com", "foo bar baz"]
+].forEach(function(r) {
+	assert.equal(get_cell(ws, r[0]).l.Target, r[1]);
+	if(r[2]) assert.equal(get_cell(ws, r[0]).l.Tooltip, r[2]);
+}); }
+
+function hlink2(ws) { [
+	["A1", "#Sheet2!A1"],
+	["A2", "#WBScope"],
+	["A3", "#Sheet1!WSScope1", "#Sheet1!C7:E8"],
+	["A5", "#Sheet1!A5"]
+].forEach(function(r) {
+	if(r[2] && get_cell(ws, r[0]).l.Target == r[2]) return;
+	assert.equal(get_cell(ws, r[0]).l.Target, r[1]);
+}); }
 
 function check_margin(margins, exp) {
 	["left", "right", "top", "bottom", "header", "footer"].forEach(function(m,i) {
@@ -977,16 +993,20 @@ describe('parse features', function() {
 	});
 
 	describe('should find hyperlinks', function() {
-		var wbs;
+		var wb1, wb2;
 		var bef = (function() {
 			X = require(modp);
-			wbs = HLPaths.map(function(p) { return X.read(fs.readFileSync(p), {type:TYPE}); });
+			wb1 = HLPaths.map(function(p) { return X.read(fs.readFileSync(p), {type:TYPE}); });
+			wb2 = ILPaths.map(function(p) { return X.read(fs.readFileSync(p), {type:TYPE}); });
 		});
 		if(typeof before != 'undefined') before(bef);
 		else it('before', bef);
 
-		['XLSX', 'XLSB', 'XLS', 'XML'].forEach(function(x, i) {
-			it(x, function() { hlink(wbs[i].Sheets.Sheet1); });
+		['xlsx', 'xlsb', 'xls', 'xml'].forEach(function(x, i) {
+			it(x + " external", function() { hlink1(wb1[i].Sheets.Sheet1); });
+		});
+		['xlsx', 'xlsb', 'xls', 'xml', 'ods'].forEach(function(x, i) {
+			it(x + " internal", function() { hlink2(wb2[i].Sheets.Sheet1); });
 		});
 	});
 
@@ -1351,13 +1371,19 @@ describe('roundtrip features', function() {
 	}); }); });
 
 	describe('should preserve hyperlink', function() { [
-		['xlml', paths.hlxml],
-		['xlsx', paths.hlxlsx],
-		['xlsb', paths.hlxlsb]
-	].forEach(function(w) { it(w[0], function() {
-		var wb = X.read(fs.readFileSync(w[1]), {type:TYPE});
-		hlink(wb.Sheets.Sheet1);
-		wb = X.read(X.write(wb, {bookType:w[0], type:TYPE}), {type:TYPE});
+		['xlml', paths.hlxml,   true],
+		['xls',  paths.hlxls,   true],
+		['xlsx', paths.hlxlsx,  true],
+		['xlsb', paths.hlxlsb,  true],
+		['xlml', paths.ilxml,  false],
+		['xls',  paths.ilxls,  false],
+		['xlsx', paths.ilxlsx, false],
+		['xlsb', paths.ilxlsb, false],
+		['ods',  paths.ilods,  false]
+	].forEach(function(w) { it(w[0]+" "+(w[2]?"ex":"in")+ "ternal", function() {
+		var wb = X.read(fs.readFileSync(w[1]), {type:TYPE, WTF:opts.WTF});
+		var hlink = (w[2] ? hlink1 : hlink2); hlink(wb.Sheets.Sheet1);
+		wb = X.read(X.write(wb, {bookType:w[0], type:TYPE, WTF:opts.WTF}), {type:TYPE, WTF:opts.WTF});
 		hlink(wb.Sheets.Sheet1);
 	}); }); });
 
@@ -1686,7 +1712,7 @@ var html_bstr = make_html_str(1), html_str = make_html_str(0);
 var csv_bstr = make_csv_str(1), csv_str = make_csv_str(0);
 
 
-describe('csv', function() {
+describe('CSV', function() {
 	describe('input', function(){
 		var b = "1,2,3,\nTRUE,FALSE,,sheetjs\nfoo,bar,2/19/14,0.3\n,,,\nbaz,,qux,\n";
 		it('should generate date numbers by default', function() {
@@ -1742,6 +1768,13 @@ describe('csv', function() {
 			assert.equal(get_cell(sheet, "B1").f, '1+1');
 			assert.equal(get_cell(sheet, "C1").t, 's');
 			assert.equal(get_cell(sheet, "C1").v, '100');
+		});
+		if(!browser || typeof cptable !== 'undefined') it('should honor codepage for binary strings', function() {
+			var data = "abc,def\nghi,j\xD3l";
+			[[1251, 'У'],[1252, 'Ó'], [1253, 'Σ'], [1254, 'Ó'], [1255, '׃'], [1256, 'س'], [10000, '”']].forEach(function(m) {
+				var ws = X.read(data, {type:"binary", codepage:m[0]}).Sheets.Sheet1;
+				assert.equal(get_cell(ws, "B2").v,  "j" + m[1] + "l");
+			});
 		});
 	});
 	describe('output', function(){
@@ -1867,6 +1900,26 @@ describe('HTML', function() {
 			var wb = X.utils.table_to_book(table);
 			assert.equal(get_cell(wb.Sheets.Sheet1, "A1").v, "foo\nbar");
 		});
+	});
+	if(domtest) it('should handle entities', function() {
+		var html = "<table><tr><td>A&amp;B</td><td>A&middot;B</td></tr></table>";
+		var ws = X.utils.table_to_sheet(get_dom_element(html));
+		assert.equal(get_cell(ws, "A1").v, "A&B");
+		assert.equal(get_cell(ws, "B1").v, "A·B");
+	});
+	describe('type override', function() {
+		function chk(ws) {
+			assert.equal(get_cell(ws, "A1").t, "s");
+			assert.equal(get_cell(ws, "A1").v, "1234567890");
+			assert.equal(get_cell(ws, "B1").t, "n");
+			assert.equal(get_cell(ws, "B1").v, 1234567890);
+		}
+		var html = "<table><tr><td t=\"s\">1234567890</td><td>1234567890</td></tr></table>";
+		it('HTML string', function() {
+			var ws = X.read(html, {type:'string'}).Sheets.Sheet1; chk(ws);
+			chk(X.read(X.utils.sheet_to_html(ws), {type:'string'}).Sheets.Sheet1);
+		});
+		if(domtest) it('DOM', function() { chk(X.utils.table_to_sheet(get_dom_element(html))); });
 	});
 });
 

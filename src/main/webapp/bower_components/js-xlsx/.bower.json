@@ -19,14 +19,14 @@
     "js-xls",
     "js-xlsx"
   ],
-  "version": "0.11.12",
-  "_release": "0.11.12",
+  "version": "0.11.14",
+  "_release": "0.11.14",
   "_resolution": {
     "type": "version",
-    "tag": "v0.11.12",
-    "commit": "eff7d153e83ce146684aaabf4b1289ca4ada0538"
+    "tag": "v0.11.14",
+    "commit": "b3873ea61583549a0ce1790b724e2a129ee38eb5"
   },
   "_source": "https://github.com/SheetJS/js-xlsx.git",
-  "_target": "^0.11.12",
+  "_target": "^0.11.14",
   "_originalSource": "js-xlsx"
 }

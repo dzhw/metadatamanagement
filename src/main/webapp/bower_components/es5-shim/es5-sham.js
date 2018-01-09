@@ -42,12 +42,12 @@
     var lookupSetter;
     var supportsAccessors = owns(prototypeOfObject, '__defineGetter__');
     if (supportsAccessors) {
-        /* eslint-disable no-underscore-dangle */
+        /* eslint-disable no-underscore-dangle, no-restricted-properties */
         defineGetter = call.bind(prototypeOfObject.__defineGetter__);
         defineSetter = call.bind(prototypeOfObject.__defineSetter__);
         lookupGetter = call.bind(prototypeOfObject.__lookupGetter__);
         lookupSetter = call.bind(prototypeOfObject.__lookupSetter__);
-        /* eslint-enable no-underscore-dangle */
+        /* eslint-enable no-underscore-dangle, no-restricted-properties */
     }
 
     var isPrimitive = function isPrimitive(o) {
@@ -65,9 +65,8 @@
         // ... this will nerever possibly return null
         // ... Opera Mini breaks here with infinite loops
         Object.getPrototypeOf = function getPrototypeOf(object) {
-            /* eslint-disable no-proto */
+            // eslint-disable-next-line no-proto
             var proto = object.__proto__;
-            /* eslint-enable no-proto */
             if (proto || proto === null) {
                 return proto;
             } else if (toStr(object.constructor) === '[object Function]') {
@@ -99,8 +98,8 @@
     // check whether getOwnPropertyDescriptor works if it's given. Otherwise, shim partially.
     if (Object.defineProperty) {
         var getOwnPropertyDescriptorWorksOnObject = doesGetOwnPropertyDescriptorWork({});
-        var getOwnPropertyDescriptorWorksOnDom = typeof document === 'undefined' ||
-        doesGetOwnPropertyDescriptorWork(document.createElement('div'));
+        var getOwnPropertyDescriptorWorksOnDom = typeof document === 'undefined'
+            || doesGetOwnPropertyDescriptorWork(document.createElement('div'));
         if (!getOwnPropertyDescriptorWorksOnDom || !getOwnPropertyDescriptorWorksOnObject) {
             var getOwnPropertyDescriptorFallback = Object.getOwnPropertyDescriptor;
         }
@@ -201,9 +200,9 @@
         // Contributed by Brandon Benvie, October, 2012
         var createEmpty;
         var supportsProto = !({ __proto__: null } instanceof Object);
-                            // the following produces false positives
-                            // in Opera Mini => not a reliable check
-                            // Object.prototype.__proto__ === null
+        // the following produces false positives
+        // in Opera Mini => not a reliable check
+        // Object.prototype.__proto__ === null
 
         // Check for document.domain and active x support
         // No need to use active x approach when document.domain is not set
@@ -252,9 +251,8 @@
 
             iframe.style.display = 'none';
             parent.appendChild(iframe);
-            /* eslint-disable no-script-url */
+            // eslint-disable-next-line no-script-url
             iframe.src = 'javascript:';
-            /* eslint-enable no-script-url */
 
             empty = iframe.contentWindow.Object.prototype;
             parent.removeChild(iframe);
@@ -319,9 +317,8 @@
                 // neither `__proto__`, but this manually setting `__proto__` will
                 // guarantee that `Object.getPrototypeOf` will work as expected with
                 // objects created using `Object.create`
-                /* eslint-disable no-proto */
+                // eslint-disable-next-line no-proto
                 object.__proto__ = prototype;
-                /* eslint-enable no-proto */
             }
 
             if (properties !== void 0) {
@@ -357,8 +354,8 @@
     // shim partially.
     if (Object.defineProperty) {
         var definePropertyWorksOnObject = doesDefinePropertyWork({});
-        var definePropertyWorksOnDom = typeof document === 'undefined' ||
-            doesDefinePropertyWork(document.createElement('div'));
+        var definePropertyWorksOnDom = typeof document === 'undefined'
+            || doesDefinePropertyWork(document.createElement('div'));
         if (!definePropertyWorksOnObject || !definePropertyWorksOnDom) {
             var definePropertyFallback = Object.defineProperty,
                 definePropertiesFallback = Object.defineProperties;
