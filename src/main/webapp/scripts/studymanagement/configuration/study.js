@@ -81,13 +81,13 @@ angular.module('metadatamanagementApp')
           }
         },
         onEnter: function($rootScope, $timeout) {
-          $rootScope.$broadcast('domain-object-creating-started');
+          $rootScope.$broadcast('start-ignoring-404');
           $timeout(function() {
             $rootScope.$broadcast('domain-object-editing-started');
           }, 500);
         },
         onExit: function($rootScope, $timeout) {
-          $rootScope.$broadcast('domain-object-creating-stopped');
+          $rootScope.$broadcast('stop-ignoring-404');
           $timeout(function() {
             $rootScope.$broadcast('domain-object-editing-stopped');
           }, 500);

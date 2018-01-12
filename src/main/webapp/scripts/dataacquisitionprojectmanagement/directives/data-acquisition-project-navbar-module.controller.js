@@ -98,7 +98,7 @@ angular.module('metadatamanagementApp')
                   .openSimpleMessageToast(
                     i18nPrefix + 'saved', {
                       id: project.id
-                    });
+                    }, true);
                 ctrl.selectedProject = project;
                 CurrentProjectService.setCurrentProject(project);
                 loadProjects();
@@ -144,7 +144,7 @@ angular.module('metadatamanagementApp')
                   SimpleMessageToastService.openSimpleMessageToast(
                     i18nPrefix + 'deleted-successfully-project', {
                       id: ctrl.selectedProject.id
-                    });
+                    }, true);
                   loadProjects();
                 });
             },
@@ -222,7 +222,7 @@ angular.module('metadatamanagementApp')
               SimpleMessageToastService.openSimpleMessageToast(
                 i18nPrefix + 'unreleased-successfully', {
                   id: ctrl.selectedProject.id
-                });
+                }, true);
             });
         });
       };

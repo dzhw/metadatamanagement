@@ -33,9 +33,9 @@
                     </md-input-container>
                 </div>
                 <div layout-gt-sm="row" layout="column">
-                    <md-autocomplete md-delay="250" flex="50" md-input-name="surveySeriesDe" md-input-maxlength="128" md-floating-label="{{'study-management.detail.label.surveySeries' | translate}} ({{'global.in-german' | translate}})" md-min-length="0" md-require-match="false" md-select-on-match="true"
-                      md-selected-item="currentSurveySeries" md-search-text="ctrl.study.surveySeries.de" md-items="item in searchSurveySeries(ctrl.study.surveySeries.de, 'de')" md-item-text="item.de"
-                      md-clear-button="true" md-no-cache="true" md-selected-item-change="studyForm.$setDirty()" md-is-error="!studyForm.surveySeriesDe.$valid && (studyForm.surveySeriesDe.$dirty studyForm.surveySeriesDe.$touched) ">
+                    <md-autocomplete md-delay="250" flex="50" md-input-name="surveySeriesDe" md-input-maxlength="128" md-floating-label="{{'study-management.detail.label.surveySeries' | translate}} ({{'global.in-german' | translate}})" md-min-length="0" md-require-match="false"
+                      md-select-on-match="true" md-selected-item="currentSurveySeries" md-search-text="ctrl.study.surveySeries.de" md-items="item in searchSurveySeries(ctrl.study.surveySeries.de, 'de')" md-item-text="item.de" md-clear-button="true" md-no-cache="true"
+                      md-selected-item-change="studyForm.$setDirty()" md-is-error="!studyForm.surveySeriesDe.$valid && (studyForm.surveySeriesDe.$dirty studyForm.surveySeriesDe.$touched) ">
                         <md-item-template>
                             <span class="md-title" style="font-size: 14px;">{{item.de}}</span>
                         </md-item-template>
@@ -47,10 +47,9 @@
                             <div ng-message="maxlength">{{'study-management.error.study.survey-series.i18n-string-size' | translate}}</div>
                         </div>
                     </md-autocomplete>
-                    <md-autocomplete md-delay="250" flex="50" md-input-name="surveySeriesEn" md-input-maxlength="128" md-floating-label="{{'study-management.detail.label.surveySeries' | translate}} ({{'global.in-english' | translate}})" md-min-length="0" md-require-match="false" md-select-on-match="true"
-                      md-selected-item="currentSurveySeries" md-search-text="ctrl.study.surveySeries.en" md-items="item in searchSurveySeries(ctrl.study.surveySeries.en, 'en')" md-item-text="item.en"
-                      md-clear-button="true" md-no-cache="true" md-selected-item-change="studyForm.$setDirty()"
-                      md-is-error="!studyForm.surveySeriesEn.$valid && (studyForm.surveySeriesEn.$dirty || studyForm.surveySeriesEn.$touched)">
+                    <md-autocomplete md-delay="250" flex="50" md-input-name="surveySeriesEn" md-input-maxlength="128" md-floating-label="{{'study-management.detail.label.surveySeries' | translate}} ({{'global.in-english' | translate}})" md-min-length="0" md-require-match="false"
+                      md-select-on-match="true" md-selected-item="currentSurveySeries" md-search-text="ctrl.study.surveySeries.en" md-items="item in searchSurveySeries(ctrl.study.surveySeries.en, 'en')" md-item-text="item.en" md-clear-button="true" md-no-cache="true"
+                      md-selected-item-change="studyForm.$setDirty()" md-is-error="!studyForm.surveySeriesEn.$valid && (studyForm.surveySeriesEn.$dirty || studyForm.surveySeriesEn.$touched)">
                         <md-item-template>
                             <span class="md-title" style="font-size: 14px;">{{item.en}}</span>
                         </md-item-template>
@@ -184,8 +183,15 @@
                 </md-card-header-text>
             </md-card-header>
             <md-divider></md-divider>
-            <md-card-content style="padding-bottom: 0px;">
+            <md-card-content style="padding-bottom: 0px; padding-left: 0px;">
                 <div layout="row" ng-repeat="person in ctrl.study.authors track by $index">
+                    <md-button ng-if="ctrl.study.authors.length > 1" class="md-primary md-icon-button" ng-click="ctrl.deleteAuthor($index)" style="margin-top: 18px; margin-left: 0px; margin-right: 0px;">
+                        <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                            {{'study-management.edit.delete-author-tooltip' | translate}}
+                        </md-tooltip>
+                        <md-icon md-font-set="material-icons">delete_forever</md-icon>
+                    </md-button>
+                    <div ng-if="ctrl.study.authors.length <= 1" style="margin-left: 16px;"></div>
                     <md-input-container flex="33" md-is-error="!studyForm['authorsFirstName_' + $index].$valid && (studyForm['authorsFirstName_' + $index].$dirty || studyForm['authorsFirstName_' + $index].$touched)">
                         <label>{{'study-management.edit.label.first-name' | translate}}</label>
                         <input fdz-required ng-model="person.firstName" name="authorsFirstName_{{$index}}" ng-blur="ctrl.deleteCurrentAuthor($event)" ng-focus="ctrl.setCurrentAuthor($index,$event)">
@@ -209,48 +215,149 @@
                             <div ng-message="fdz-required">{{'global.error.person.last-name.not-empty' | translate}}</div>
                         </div>
                     </md-input-container>
-                    <md-button ng-if="ctrl.study.authors.length > 1" class="md-primary md-icon-button" ng-click="ctrl.deleteAuthor($index)" style="margin-top: 18px; margin-left: 0px; margin-right: 0px;">
-                        <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                            {{'study-management.edit.tooltip.delete-author' | translate}}
-                        </md-tooltip>
-                        <md-icon md-font-set="material-icons">delete_forever</md-icon>
-                    </md-button>
                 </div>
             </md-card-content>
             <md-card-actions layout="row" layout-align="begin center" style="margin-top: 0px;">
                 <md-button class="md-primary md-raised md-icon-button" ng-click="ctrl.addAuthor()">
                     <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                        {{'study-management.edit.tooltip.add-author' | translate}}
+                        {{'study-management.edit.add-author-tooltip' | translate}}
                     </md-tooltip>
                     <md-icon md-font-set="material-icons">add</md-icon>
                 </md-button>
                 <md-button id="move-author-up-button" ng-disabled="ctrl.currentAuthorIndex == null || ctrl.currentAuthorIndex === 0" class="md-primary md-raised md-icon-button" ng-click="ctrl.moveCurrentAuthorUp()">
                     <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                        {{'study-management.edit.tooltip.move-author-up' | translate}}
+                        {{'study-management.edit.move-author-up-tooltip' | translate}}
                     </md-tooltip>
                     <md-icon md-font-set="material-icons">keyboard_arrow_up</md-icon>
                 </md-button>
                 <md-button id="move-author-down-button" ng-disabled="ctrl.currentAuthorIndex == null || ctrl.currentAuthorIndex === ctrl.study.authors.length - 1" class="md-primary md-raised md-icon-button" ng-click="ctrl.moveCurrentAuthorDown()">
                     <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                        {{'study-management.edit.tooltip.move-author-down' | translate}}
+                        {{'study-management.edit.move-author-down-tooltip' | translate}}
                     </md-tooltip>
                     <md-icon md-font-set="material-icons">keyboard_arrow_down</md-icon>
                 </md-button>
             </md-card-actions>
         </md-card>
-        <div class="fdz-fab-button-container" layout="column">
-            <md-button class="md-fab md-raised md-primary" ng-click="ctrl.openRestorePreviousVersionDialog($event)" ng-disabled="ctrl.createMode">
-                <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                    {{'study-management.edit.open-choose-previous-version-tooltip' | translate}}
-                </md-tooltip>
-                <md-icon md-font-set="material-icons">undo</md-icon>
-            </md-button>
-            <md-button class="md-fab md-raised md-accent" type="submit" ng-click="ctrl.saveStudy()" ng-disabled="studyForm.$invalid || !studyForm.$dirty">
-                <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                    {{'study-management.edit.save-tooltip' | translate}}
-                </md-tooltip>
-                <md-icon md-font-set="material-icons">cloud_upload</md-icon>
-            </md-button>
-        </div>
     </div>
 </form>
+<md-card ng-if="ctrl.study.id && !ctrl.createMode" class="fdz-reset-top-margin">
+    <md-card-header layout-align="center center">
+        <md-card-header-text>
+            <h2 class="md-title">{{'study-management.detail.attachments.table-title' | translate | fdzHyphenate}}</h2>
+        </md-card-header-text>
+    </md-card-header>
+    <table ng-if="ctrl.attachments && ctrl.attachments.length > 0" fdz-table>
+        <thead>
+            <tr>
+                <th>
+                    &nbsp;
+                </th>
+                <th>
+                    &nbsp;
+                </th>
+                <th>
+                    &nbsp;
+                </th>
+                <th>{{'study-management.detail.label.attachments.type' | translate }}
+                    <md-tooltip hide-gt-xs md-direction="right">
+                        {{'study-management.detail.label.attachments.type' | translate }}
+                    </md-tooltip>
+                </th>
+                <th class="fdz-table-half-absorbing-column">{{'study-management.detail.label.attachments.description' | translate }}
+                    <md-tooltip hide-gt-xs md-direction="right">
+                        {{'study-management.detail.label.attachments.description' | translate }}
+                    </md-tooltip>
+                </th>
+                <th class="fdz-table-half-absorbing-column">{{'study-management.detail.label.attachments.title' | translate }}
+                    <md-tooltip hide-gt-xs md-direction="right">
+                        {{'study-management.detail.label.attachments.title' | translate }}
+                    </md-tooltip>
+                </th>
+                <th>{{'study-management.detail.label.attachments.language' | translate }}
+                    <md-tooltip hide-gt-xs md-direction="right">
+                        {{'study-management.detail.label.attachments.language' | translate }}
+                    </md-tooltip>
+                </th>
+                <th>{{'study-management.detail.label.attachments.file' | translate }}
+                    <md-tooltip hide-gt-xs md-direction="right">
+                        {{'study-management.detail.label.attachments.file' | translate }}
+                    </md-tooltip>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="row in ctrl.attachments" ng-click="ctrl.selectAttachment($index)" ng-class="{'fdz-selected-table-row': $index === ctrl.currentAttachmentIndex}" ng-init="translationParams = {filename: row.fileName}">
+                <td class="fdz-table-nowrap" style="padding-right: 0px;">
+                    <md-radio-group ng-model="ctrl.currentAttachmentIndex" class="md-primary">
+                        <md-radio-button ng-value="$index" style="margin-bottom: 0px;">
+                            <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                {{'study-management.detail.attachments.select-attachment-tooltip' | translate:translationParams }}
+                            </md-tooltip>
+                        </md-radio-button>
+                    </md-radio-group>
+                </td>
+                <td class="fdz-table-nowrap" style="padding: 0px;">
+                    <md-button class="md-primary md-icon-button" ng-click="ctrl.editAttachment(row, $event)" style="margin: 0px;">
+                        <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                            {{'study-management.detail.attachments.edit-attachment-tooltip' | translate:translationParams }}
+                        </md-tooltip>
+                        <md-icon md-font-set="material-icons">mode_edit</md-icon>
+                    </md-button>
+                </td>
+                <td class="fdz-table-nowrap" style="padding: 0px;">
+                    <md-button class="md-primary md-icon-button" ng-click="ctrl.deleteAttachment(row, $index)" style="margin: 0px;">
+                        <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                            {{'study-management.detail.attachments.delete-attachment-tooltip' | translate:translationParams }}
+                        </md-tooltip>
+                        <md-icon md-font-set="material-icons">delete_forever</md-icon>
+                    </md-button>
+                </td>
+                <td class="fdz-table-nowrap" display-i18n-string="row.type"></td>
+                <td display-i18n-string="row.description" fdz-hyphenate class="fdz-text-block"></td>
+                <td lang="{{row.language}}">{{row.title}}&nbsp;</td>
+                <td>{{row.language | displayIsoLanguage: currentLanguage}}&nbsp;</td>
+                <td><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">{{'global.tooltips.files.download' | translate: {filename: row.fileName} }}</md-tooltip></a>&nbsp;</td>
+            </tr>
+        </tbody>
+    </table>
+    <md-card-actions layout="row" layout-align="begin center">
+        <md-button class="md-primary md-raised md-icon-button" ng-click="ctrl.addAttachment($event)" style="margin-left: 6px;">
+            <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                {{'study-management.detail.attachments.add-attachment-tooltip' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">add</md-icon>
+        </md-button>
+        <md-button ng-disabled="ctrl.currentAttachmentIndex == null || ctrl.currentAttachmentIndex === 0" class="md-primary md-raised md-icon-button" ng-click="ctrl.moveAttachmentUp()">
+            <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                {{'study-management.detail.attachments.move-attachment-up-tooltip' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">keyboard_arrow_up</md-icon>
+        </md-button>
+        <md-button ng-disabled="ctrl.currentAttachmentIndex == null || ctrl.currentAttachmentIndex === ctrl.attachments.length - 1" class="md-primary md-raised md-icon-button" ng-click="ctrl.moveAttachmentDown()">
+            <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                {{'study-management.detail.attachments.move-attachment-down-tooltip' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">keyboard_arrow_down</md-icon>
+        </md-button>
+        <md-button ng-disabled="!ctrl.attachmentOrderIsDirty" class="md-accent md-raised md-icon-button" ng-click="ctrl.saveAttachmentOrder()">
+            <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                {{'study-management.detail.attachments.save-attachment-order-tooltip' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">save</md-icon>
+        </md-button>
+    </md-card-actions>
+</md-card>
+<div ng-if="ctrl.study.id" class="fdz-fab-button-container" layout="column">
+    <md-button class="md-fab md-raised md-primary" ng-click="ctrl.openRestorePreviousVersionDialog($event)" ng-disabled="ctrl.createMode">
+        <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+            {{'study-management.edit.open-choose-previous-version-tooltip' | translate}}
+        </md-tooltip>
+        <md-icon md-font-set="material-icons">undo</md-icon>
+    </md-button>
+    <md-button class="md-fab md-raised md-accent" type="submit" ng-click="ctrl.saveStudy()" ng-disabled="studyForm.$invalid || !studyForm.$dirty">
+        <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+            {{'study-management.edit.save-tooltip' | translate}}
+        </md-tooltip>
+        <md-icon md-font-set="material-icons">save</md-icon>
+    </md-button>
+</div>

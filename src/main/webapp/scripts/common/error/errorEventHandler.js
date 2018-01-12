@@ -8,14 +8,14 @@ based on the Error Event.*/
 
 angular.module('metadatamanagementApp').run(
   function($rootScope, SimpleMessageToastService) {
-    var isCreatingDomainObject = false;
+    var ignore404 = false;
 
-    $rootScope.$on('domain-object-creating-started', function() {
-      isCreatingDomainObject = true;
+    $rootScope.$on('start-ignoring-404', function() {
+      ignore404 = true;
     });
 
-    $rootScope.$on('domain-object-creating-stopped', function() {
-      isCreatingDomainObject = false;
+    $rootScope.$on('stop-ignoring-404', function() {
+      ignore404 = false;
     });
 
     $rootScope.$on('serverNotReachableError', function() {
@@ -46,7 +46,7 @@ angular.module('metadatamanagementApp').run(
     //Client Error 404
     $rootScope.$on('notFoundError',
     function(event, response) { // jshint ignore:line
-      if (!isCreatingDomainObject) {
+      if (!ignore404) {
         SimpleMessageToastService.openSimpleMessageToast('global.error.' +
           'client-error.not-found-error', {status: response.status});
       }

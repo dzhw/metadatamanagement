@@ -232,6 +232,10 @@ angular.module('metadatamanagementApp').config(
           },
           'open-choose-previous-version-tooltip': 'Click for restoring a previous version of this study.',
           'save-tooltip': 'Click to save this study.',
+          'move-author-up-tooltip': 'Click to move the selected author up.',
+          'move-author-down-tooltip': 'Click to move the selected author down.',
+          'add-author-tooltip': 'Click to add a new author to this study.',
+          'delete-author-tooltip': 'Click to remove the author from this study.',
           'choose-previous-version': {
             'next-page-tooltip': 'Click to show older versions.',
             'previous-page-tooltip': 'Click to more recent versions.',

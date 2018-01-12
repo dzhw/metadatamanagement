@@ -56,11 +56,17 @@
         <!-- Index 1 = Study Tab -->
         <md-fab-speed-dial ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='studies'" md-direction="left" class="md-scale md-hover-full" md-open="speedDial.isOpen" ng-mouseenter="speedDial.isOpen=true;" ng-mouseleave="speedDial.isOpen=false;">
           <md-fab-trigger>
-            <md-button class="md-accent md-fab" ng-disabled="!currentProject || currentProject.release">
+            <md-button ng-if="!currentStudy" class="md-accent md-fab" ng-disabled="!currentProject || currentProject.release">
                 <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                     {{'search-management.buttons.upload-or-create-studies-tooltip' | translate}}
                 </md-tooltip>
                 <md-icon md-font-set="material-icons">add</md-icon>
+            </md-button>
+            <md-button ng-if="currentStudy" class="md-accent md-fab" ng-disabled="!currentProject || currentProject.release">
+                <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    {{'search-management.buttons.upload-or-edit-studies-tooltip' | translate}}
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">mode_edit</md-icon>
             </md-button>
           </md-fab-trigger>
           <md-fab-actions ng-if="currentProject && !currentProject.release">
@@ -71,9 +77,15 @@
                 </md-tooltip>
                 <md-icon md-svg-src="/assets/images/icons/folder-upload.svg"></md-icon>
             </md-button>
-            <md-button class="md-fab md-raised md-mini" ui-sref="studyCreate()">
+            <md-button ng-if="!currentStudy" class="md-fab md-raised md-mini" ui-sref="studyCreate()">
                 <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                     {{'search-management.buttons.create-study-tooltip' | translate}}
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">add</md-icon>
+            </md-button>
+            <md-button ng-if="currentStudy" class="md-fab md-raised md-mini" ui-sref="studyEdit({id: currentStudy.id})">
+                <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    {{'search-management.buttons.edit-study-tooltip' | translate}}
                 </md-tooltip>
                 <md-icon md-font-set="material-icons">mode_edit</md-icon>
             </md-button>

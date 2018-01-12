@@ -232,6 +232,10 @@ angular.module('metadatamanagementApp').config(
           },
           'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version dieser Studie wieder herzustellen.',
           'save-tooltip': 'Klicken, um die Studie zu speichern.',
+          'move-author-up-tooltip': 'Klicken, um den ausgewählten Mitarbeiter nach oben zu verschieben.',
+          'move-author-down-tooltip': 'Klicken, um den ausgewählten Mitarbeiter nach unten zu verschieben.',
+          'add-author-tooltip': 'Klicken, um einen neuen Mitarbeiter dieser Studie hinzuzufügen.',
+          'delete-author-tooltip': 'Klicken, um den Projektmitarbeiter aus dieser Studie zu löschen.',
           'choose-previous-version': {
             'next-page-tooltip': 'Klicken, um ältere Versionen anzuzeigen.',
             'previous-page-tooltip': 'Klicken, um aktuellere Versionen anzuzeigen.',

@@ -1,3 +1,4 @@
+/* global _*/
 'use strict';
 
 angular.module('metadatamanagementApp')
@@ -6,7 +7,8 @@ angular.module('metadatamanagementApp')
       $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
       CurrentProjectService, StudyIdBuilderService, StudyResource, $scope,
       ElasticSearchAdminService, $mdDialog, $transitions,
-      CommonDialogsService, LanguageService, StudySearchService) {
+      CommonDialogsService, LanguageService, StudySearchService,
+      StudyAttachmentResource, $q) {
 
       var ctrl = this;
       var surveySeriesCache = {};
@@ -37,7 +39,9 @@ angular.module('metadatamanagementApp')
         if (Principal.hasAuthority('ROLE_PUBLISHER')) {
           if (entity) {
             entity.$promise.then(function(study) {
+              ctrl.createMode = false;
               ctrl.study = study;
+              ctrl.loadAttachments();
               updateToolbarHeaderAndPageTitle();
               $scope.registerConfirmOnDirtyHook();
             });
@@ -48,7 +52,9 @@ angular.module('metadatamanagementApp')
                 id: StudyIdBuilderService.buildStudyId(
                   CurrentProjectService.getCurrentProject().id)
               }).$promise.then(function(study) {
+                  ctrl.createMode = false;
                   ctrl.study = study;
+                  ctrl.loadAttachments();
                   updateToolbarHeaderAndPageTitle();
                   $scope.registerConfirmOnDirtyHook();
                 }).catch(function() {
@@ -207,7 +213,7 @@ angular.module('metadatamanagementApp')
 
       $scope.registerConfirmOnDirtyHook = function() {
         var unregisterTransitionHook = $transitions.onBefore({}, function() {
-          if ($scope.studyForm.$dirty) {
+          if ($scope.studyForm.$dirty || ctrl.attachmentOrderIsDirty) {
             return CommonDialogsService.showConfirmOnDirtyDialog();
           }
         });
@@ -231,6 +237,120 @@ angular.module('metadatamanagementApp')
             return surveySeries;
           }
         );
+      };
+
+      ctrl.loadAttachments = function(selectLastAttachment) {
+        StudyAttachmentResource.findByStudyId({
+            studyId: ctrl.study.id
+          }).$promise.then(
+            function(attachments) {
+              if (attachments.length > 0) {
+                ctrl.attachments = attachments;
+                if (selectLastAttachment) {
+                  ctrl.currentAttachmentIndex = attachments.length - 1;
+                }
+              }
+            });
+      };
+
+      ctrl.deleteAttachment = function(attachment, index) {
+        CommonDialogsService.showConfirmFileDeletionDialog(attachment.fileName)
+        .then(function() {
+          attachment.$delete().then(function() {
+            SimpleMessageToastService.openSimpleMessageToast(
+              'study-management.detail.attachments.attachment-deleted-toast',
+              {filename: attachment.fileName},
+              true
+            );
+            ctrl.attachments.splice(index, 1);
+            delete ctrl.currentAttachmentIndex;
+          });
+        });
+      };
+
+      ctrl.editAttachment = function(attachment, event) {
+        $mdDialog.show({
+            controller: 'StudyAttachmentEditOrCreateController',
+            controllerAs: 'ctrl',
+            templateUrl: 'scripts/studymanagement/' +
+              'views/study-attachment-edit-or-create.html.tmpl',
+            clickOutsideToClose: false,
+            fullscreen: true,
+            locals: {
+              studyAttachmentMetadata: attachment
+            },
+            targetEvent: event
+          }).then(function() {
+          ctrl.loadAttachments();
+        });
+      };
+
+      ctrl.getNextIndexInStudy = function() {
+        if (!ctrl.attachments || ctrl.attachments.length === 0) {
+          return 0;
+        }
+        return _.maxBy(ctrl.attachments, function(attachment) {
+          return attachment.indexInStudy;
+        }).indexInStudy + 1;
+      };
+
+      ctrl.addAttachment = function(event) {
+        $mdDialog.show({
+            controller: 'StudyAttachmentEditOrCreateController',
+            controllerAs: 'ctrl',
+            templateUrl: 'scripts/studymanagement/' +
+              'views/study-attachment-edit-or-create.html.tmpl',
+            clickOutsideToClose: false,
+            fullscreen: true,
+            locals: {
+              studyAttachmentMetadata: {
+                indexInStudy: ctrl.getNextIndexInStudy(),
+                studyId: ctrl.study.id,
+                dataAcquisitionProjectId: ctrl.study.dataAcquisitionProjectId
+              }
+            },
+            targetEvent: event
+          }).then(function() {
+          ctrl.loadAttachments(true);
+        });
+      };
+
+      ctrl.moveAttachmentUp = function() {
+        var a = ctrl.attachments[ctrl.currentAttachmentIndex - 1];
+        ctrl.attachments[ctrl.currentAttachmentIndex - 1] =
+          ctrl.attachments[ctrl.currentAttachmentIndex];
+        ctrl.attachments[ctrl.currentAttachmentIndex] = a;
+        ctrl.currentAttachmentIndex--;
+        ctrl.attachmentOrderIsDirty = true;
+      };
+
+      ctrl.moveAttachmentDown = function() {
+        var a = ctrl.attachments[ctrl.currentAttachmentIndex + 1];
+        ctrl.attachments[ctrl.currentAttachmentIndex + 1] =
+          ctrl.attachments[ctrl.currentAttachmentIndex];
+        ctrl.attachments[ctrl.currentAttachmentIndex] = a;
+        ctrl.currentAttachmentIndex++;
+        ctrl.attachmentOrderIsDirty = true;
+      };
+
+      ctrl.saveAttachmentOrder = function() {
+        var promises = [];
+        ctrl.attachments.forEach(function(attachment, index) {
+          attachment.indexInStudy = index;
+          promises.push(attachment.$save());
+        });
+        $q.all(promises).then(function() {
+          SimpleMessageToastService.openSimpleMessageToast(
+          'study-management.detail.attachments.attachment-order-saved-toast',
+          {}, true);
+          ctrl.attachmentOrderIsDirty = false;
+        });
+      };
+
+      ctrl.selectAttachment = function(index) {
+        if (Principal.hasAuthority('ROLE_PUBLISHER')) {
+          ctrl.currentAttachmentIndex = index;
+        }
       };
 
       init();
