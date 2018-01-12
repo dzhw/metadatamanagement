@@ -1,5 +1,5 @@
 /**
-* Copyright 2012-2017, Plotly, Inc.
+* Copyright 2012-2018, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
@@ -14,6 +14,9 @@ var BADNUM = require('../../constants/numerical').BADNUM;
 
 var calcMarkerColorscale = require('../scatter/colorscale_calc');
 var arraysToCalcdata = require('../scatter/arrays_to_calcdata');
+var calcSelection = require('../scatter/calc_selection');
+
+var _ = require('../../lib')._;
 
 module.exports = function calc(gd, trace) {
     var hasLocationData = Array.isArray(trace.locations);
@@ -37,6 +40,16 @@ module.exports = function calc(gd, trace) {
 
     arraysToCalcdata(calcTrace, trace);
     calcMarkerColorscale(trace);
+    calcSelection(calcTrace, trace);
+
+    if(len) {
+        calcTrace[0].t = {
+            labels: {
+                lat: _(gd, 'lat:') + ' ',
+                lon: _(gd, 'lon:') + ' '
+            }
+        };
+    }
 
     return calcTrace;
 };

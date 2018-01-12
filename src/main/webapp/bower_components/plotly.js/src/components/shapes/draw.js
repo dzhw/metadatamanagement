@@ -1,5 +1,5 @@
 /**
-* Copyright 2012-2017, Plotly, Inc.
+* Copyright 2012-2018, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
@@ -57,7 +57,7 @@ function draw(gd) {
 function drawOne(gd, index) {
     // remove the existing shape if there is one.
     // because indices can change, we need to look in all shape layers
-    gd._fullLayout._paper
+    gd._fullLayout._paperdiv
         .selectAll('.shapelayer [data-index="' + index + '"]')
         .remove();
 
@@ -211,11 +211,9 @@ function setupDragElement(gd, shapePath, shapeOptions, index) {
         dragOptions.moveFn = (dragMode === 'move') ? moveShape : resizeShape;
     }
 
-    function endDrag(dragged) {
+    function endDrag() {
         setCursor(shapePath);
-        if(dragged) {
-            Plotly.relayout(gd, update);
-        }
+        Plotly.relayout(gd, update);
     }
 
     function moveShape(dx, dy) {
