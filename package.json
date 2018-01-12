@@ -20,7 +20,7 @@
     "grunt-contrib-jshint": "1.1.0",
     "grunt-contrib-uglify": "3.2.1",
     "grunt-contrib-watch": "1.0.0",
-    "grunt-html-angular-validate": "^0.5.9",
+    "grunt-html-angular-validate": "^0.6.0",
     "grunt-jscs": "3.0.1",
     "grunt-karma": "2.0.0",
     "grunt-ng-annotate": "3.0.0",
