@@ -217,8 +217,8 @@
                     </md-input-container>
                 </div>
             </md-card-content>
-            <md-card-actions layout="row" layout-align="begin center" style="margin-top: 0px;">
-                <md-button class="md-primary md-raised md-icon-button" ng-click="ctrl.addAuthor()">
+            <md-card-actions style="margin-top: 0px; margin-bottom: 12px;" layout="row" layout-align="begin center">
+                <md-button class="md-primary md-raised md-icon-button" ng-click="ctrl.addAuthor()" style="margin-left: 6px;">
                     <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                         {{'study-management.edit.add-author-tooltip' | translate}}
                     </md-tooltip>
@@ -240,22 +240,22 @@
         </md-card>
     </div>
 </form>
-<md-card ng-if="ctrl.study.id && !ctrl.createMode" class="fdz-reset-top-margin">
+<md-card ng-if="ctrl.study.id" class="fdz-reset-top-margin">
     <md-card-header layout-align="center center">
         <md-card-header-text>
             <h2 class="md-title">{{'study-management.detail.attachments.table-title' | translate | fdzHyphenate}}</h2>
         </md-card-header-text>
     </md-card-header>
-    <table ng-if="ctrl.attachments && ctrl.attachments.length > 0" fdz-table>
+    <table ng-if="!ctrl.createMode && ctrl.attachments && ctrl.attachments.length > 0" fdz-table>
         <thead>
             <tr>
                 <th>
                     &nbsp;
                 </th>
-                <th>
+                <th style="min-height: 40px;">
                     &nbsp;
                 </th>
-                <th>
+                <th style="min-height: 40px;">
                     &nbsp;
                 </th>
                 <th>{{'study-management.detail.label.attachments.type' | translate }}
@@ -320,7 +320,11 @@
             </tr>
         </tbody>
     </table>
-    <md-card-actions layout="row" layout-align="begin center">
+    <md-divider ng-if="ctrl.createMode"></md-divider>
+    <md-card-content ng-if="ctrl.createMode">
+      {{'study-management.detail.attachments.save-study-before-adding-attachment' | translate}}
+    </md-card-content>
+    <md-card-actions ng-if="!ctrl.createMode" style="margin-top: 12px; margin-bottom: 12px;" layout="row" layout-align="begin center">
         <md-button class="md-primary md-raised md-icon-button" ng-click="ctrl.addAttachment($event)" style="margin-left: 6px;">
             <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{'study-management.detail.attachments.add-attachment-tooltip' | translate}}

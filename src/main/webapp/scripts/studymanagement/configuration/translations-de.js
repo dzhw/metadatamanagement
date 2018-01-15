@@ -68,6 +68,7 @@ angular.module('metadatamanagementApp').config(
               'attachment-deleted': 'Metadaten wurden gelöscht!'
             },
             'language-not-found': 'Keine gültige Sprache gefunden!',
+            'save-study-before-adding-attachment': 'Die Studie muss erst gespeichert werden, bevor Materialien hinzugefügt werden können.',
             'hints': {
               'filename': 'Wählen Sie eine Datei aus, die Sie der Studie hinzufügen wollen.',
               'type': 'Wählen Sie den Typ der Datei aus.',
