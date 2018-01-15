@@ -1,5 +1,5 @@
 /**
-* Copyright 2012-2017, Plotly, Inc.
+* Copyright 2012-2018, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
@@ -33,7 +33,8 @@ module.exports = extendFlat({
     autocontour: contourAttrs.autocontour,
     ncontours: contourAttrs.ncontours,
     contours: contourAttrs.contours,
-    line: contourAttrs.line
+    line: contourAttrs.line,
+    zhoverformat: histogram2dAttrs.zhoverformat
 },
     colorscaleAttrs, {
         zmin: extendFlat({}, colorscaleAttrs.zmin, {editType: 'calc'}),

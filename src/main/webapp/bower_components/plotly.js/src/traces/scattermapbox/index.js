@@ -1,5 +1,5 @@
 /**
-* Copyright 2012-2017, Plotly, Inc.
+* Copyright 2012-2018, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
@@ -19,6 +19,13 @@ ScatterMapbox.plot = require('./plot');
 ScatterMapbox.hoverPoints = require('./hover');
 ScatterMapbox.eventData = require('./event_data');
 ScatterMapbox.selectPoints = require('./select');
+
+ScatterMapbox.style = function(_, cd) {
+    if(cd) {
+        var trace = cd[0].trace;
+        trace._glTrace.update(cd);
+    }
+};
 
 ScatterMapbox.moduleType = 'trace';
 ScatterMapbox.name = 'scattermapbox';
