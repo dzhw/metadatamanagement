@@ -16,13 +16,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
-import eu.dzhw.fdz.metadatamanagement.common.domain.ImageType;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation.ValidQuestionIdName;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation.ValidQuestionImageType;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation.ValidQuestionType;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation.ValidUniqueQuestionNumber;
 import io.searchbox.annotations.JestId;
@@ -105,12 +103,7 @@ public class Question extends AbstractRdcDomainObject {
   @I18nStringSize(max = StringLengths.X_LARGE, 
       message = "question-management.error.question.additional-question-text.i18n-string-size")
   private I18nString additionalQuestionText;
-  
-  @NotNull(message = "question-management.error.question.image-type.not-null")
-  @ValidQuestionImageType(
-      message = "question-management.error.question.image-type.valid-question-image-type")
-  private ImageType imageType;
-  
+      
   @I18nStringSize(max = StringLengths.LARGE,
       message = "question-management.error.variable.annotations.i18n-string-size")
   private I18nString annotations;

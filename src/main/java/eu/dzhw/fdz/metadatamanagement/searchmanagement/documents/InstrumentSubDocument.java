@@ -27,6 +27,8 @@ public class InstrumentSubDocument implements InstrumentSubDocumentProjection {
   
   private Integer number;
   
+  private String type;
+  
   private List<String> surveyIds;
   
   public InstrumentSubDocument() {
@@ -99,5 +101,14 @@ public class InstrumentSubDocument implements InstrumentSubDocumentProjection {
 
   public void setSubtitle(I18nString subtitle) {
     this.subtitle = subtitle;
+  }
+
+  @Override
+  public java.lang.String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
   }  
 }

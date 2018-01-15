@@ -284,6 +284,14 @@ angular.module('metadatamanagementApp').config(
             'last-name': {
               'not-empty': 'Der Nachname einer Person muss gefüllt sein.'
             }
+          },
+          'resolution': {
+            'width-x': {
+              'not-null': 'Die Angabe der Weite eines Bildes (maximaler Wert auf der X-Achse) muss gefüllt sein.'
+            },
+            'height-y': {
+              'not-null': 'Die Angabe der Höhe eines Bildes (maximaler Wert auf der Y-Achse) muss gefüllt sein.'
+            }
           }
         },
         'logos': {
