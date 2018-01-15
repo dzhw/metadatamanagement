@@ -12,6 +12,19 @@ angular.module('metadatamanagementApp').controller('NavbarController',
     $scope.isAdminMenuOpen = false;
     $scope.isAccountMenuOpen = false;
 
+    $scope.changeLanguageButtonDisabled = false;
+    $scope.logoutButtonDisabled = false;
+
+    $scope.$on('domain-object-editing-started', function() {
+      $scope.changeLanguageButtonDisabled = true;
+      $scope.logoutButtonDisabled = true;
+    });
+
+    $scope.$on('domain-object-editing-stopped', function() {
+      $scope.changeLanguageButtonDisabled = false;
+      $scope.logoutButtonDisabled = false;
+    });
+
     $scope.openDialog = function() {
       var openByNavbarFeedbackButton = true;
       FdzWelcomeDialogService.showDialog(openByNavbarFeedbackButton);

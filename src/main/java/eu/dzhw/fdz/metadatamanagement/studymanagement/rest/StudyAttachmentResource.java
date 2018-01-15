@@ -14,6 +14,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -96,5 +97,39 @@ public class StudyAttachmentResource {
       return ResponseEntity.badRequest()
         .body(null);
     }
+  }
+  
+  /**
+   * Delete the given attachments of the given study.
+   * 
+   * @param studyId The id of the study.
+   * 
+   */
+  @RequestMapping(path = "/studies/{studyId}/attachments/{filename:.+}", 
+      method = RequestMethod.DELETE)
+  @Timed
+  @Secured(AuthoritiesConstants.PUBLISHER)
+  public ResponseEntity<?> delete(@PathVariable("studyId") String studyId, 
+      @PathVariable("filename") String filename) {
+    if (!StringUtils.isEmpty(studyId) && !StringUtils.isEmpty(filename)) {
+      studyAttachmentService.deleteByStudyIdAndFilename(studyId, filename);
+      return ResponseEntity.noContent().build();
+    } else {
+      return ResponseEntity.badRequest()
+        .body(null);
+    }
+  }
+  
+  /**
+   * Update the metadata of the given attachment of the given study.
+   */
+  @RequestMapping(path = "/studies/{studyId}/attachments/{filename:.+}", 
+      method = RequestMethod.PUT)
+  @Timed
+  @Secured(AuthoritiesConstants.PUBLISHER)
+  public ResponseEntity<?> update(
+      @Valid @RequestBody StudyAttachmentMetadata studyAttachmentMetadata) {
+    studyAttachmentService.updateAttachmentMetadata(studyAttachmentMetadata);
+    return ResponseEntity.noContent().build();    
   }
 }

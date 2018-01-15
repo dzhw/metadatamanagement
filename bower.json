@@ -50,7 +50,8 @@
     "es6-shim": "^0.35.3",
     "hyphenator": "Hyphenator#^5.3.0",
     "ng-shortcut": "^0.1.4",
-    "angular-jk-carousel": "^0.5.0"
+    "angular-jk-carousel": "^0.5.0",
+    "angular-moment": "^1.2.0"
   },
   "overrides": {
     "elasticsearch": {
@@ -73,6 +74,12 @@
       "main": [
         "es6-shim.js",
         "es6-sham.js"
+      ]
+    },
+    "moment": {
+      "main": [
+        "moment.js",
+        "locale/de.js"
       ]
     }
   },

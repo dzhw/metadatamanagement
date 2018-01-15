@@ -24,11 +24,10 @@ h2,
 h3 {
     margin: 0;
 }
-
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-  img[src$=".svg"] {
-    width: 100%;
-  }
+    img[src$=".svg"] {
+        width: 100%;
+    }
 }
 
 body {
@@ -81,6 +80,10 @@ body {
     width: 100%;
     height: 100%;
     background-color: rgba(255, 255, 255, 0.5);
+}
+
+.block-ui-container {
+    z-index: 100000;
 }
 @keyframes spin {
     100% {
@@ -227,7 +230,7 @@ body {
     padding: 10px;
 }
 /* wait autoprefixer update to allow simple generation of high pixel density media query */
-@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and ( min--moz-device-pixel-ratio: 2), only screen and ( -o-min-device-pixel-ratio: 2/1), only screen and ( min-device-pixel-ratio: 2), only screen and ( min-resolution: 192dpi), only screen and ( min-resolution: 2dppx) {
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
     .hipster {
         background: url("../images/hipster2x.png") no-repeat center top;
         background-size: contain;
@@ -515,8 +518,12 @@ md-dialog h2 {
     white-space: nowrap;
 }
 
-.fdz-table-wide tbody > tr:hover {
+.fdz-table-wide tbody > tr:hover, .fdz-selected-table-row {
     background-color: rgba(158, 158, 158, 0.2);
+}
+
+tr:focus {
+    outline: $brand-warning auto 5px;
 }
 
 .fdz-table-absorbing-column {
@@ -572,17 +579,16 @@ md-dialog h2 {
 }
 
 .fdz-table-wide td .md-icon-button {
-  padding: 0px;
-  height: auto;
+    padding: 0;
+    height: auto;
 }
 
 .fdz-table-rotated td .md-icon-button {
-    padding-top: 0px;
-    padding-bottom: 0px;
-    padding-left: 0px;
-    margin-left: 0px;
-    min-height: 0px;
-    height: 18px;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    margin-left: 0;
+    min-height: 0;
 }
 
 .fdz-table-rotated th:last-child {
@@ -598,7 +604,6 @@ md-dialog h2 {
 
 .fdz-table-rotated thead tr {
     display: block;
-    border-right: 1px solid #ddd;
 }
 
 .fdz-table-rotated tbody tr {
@@ -607,6 +612,10 @@ md-dialog h2 {
     border-collapse: collapse;
     border-right: 1px solid #ddd;
     border-bottom: 0;
+}
+
+.fdz-table-rotated tbody tr:first-child {
+  border-left: 1px solid #ddd;
 }
 
 .hljs {
@@ -620,11 +629,6 @@ pre {
 .fdz-card-header-with-button {
     padding-top: 1px;
     padding-bottom: 1px;
-}
-
-.md-dialog-container {
-    z-index: 10000;
-    counter-reset: section;
 }
 
 .fdz-InfiniteScroll #vertical-container {
@@ -756,7 +760,7 @@ md-tab-item:hover {
 }
 
 .md-select-menu-ie11-fix {
-  max-height: 15em;
+    max-height: 15em;
 }
 
 .fdz-select-header {
@@ -805,51 +809,108 @@ input::-ms-clear {
 }
 
 .md-dialog-content-body {
-  white-space: pre-line;
+    white-space: pre-line;
 }
 
 md-toolbar#toolbar {
-  position: fixed;
+    position: fixed;
 }
 
-md-sidenav#SideNavBar, .md-sidenav-backdrop {
-  position: fixed;
-  min-height: 100vh;
+.md-sidenav-backdrop,
+md-sidenav#SideNavBar {
+    position: fixed;
+    min-height: 100vh;
 }
 
 .fdz-previous-search-result {
-  position: fixed;
-  top: 50%;
-  margin-left: 0px;
-  padding-left: 0px;
-  border-bottom-left-radius: 0px !important;
-  border-top-left-radius: 0px !important;
-  width: 20px !important;
-  transition: width 0.25s !important;
-  z-index: 100 !important;
+    position: fixed;
+    top: 50%;
+    margin-left: 0;
+    padding-left: 0;
+    border-bottom-left-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+    width: 20px !important;
+    transition: width 0.25s !important;
+    z-index: 100 !important;
 }
 
 .fdz-previous-search-result > md-icon {
-  min-width: 20px;
-  width: 20px;
-  direction: rtl;
+    min-width: 20px;
+    width: 20px;
+    direction: rtl;
 }
 
 .fdz-next-search-result {
-  position: fixed;
-  right: 0;
-  top: 50%;
-  margin-right: 0px;
-  padding-left: 1px;
-  border-bottom-right-radius: 0px !important;
-  border-top-right-radius: 0px !important;
-  width: 20px !important;
-  transition: width 0.25s !important;
-  z-index: 100 !important;
+    position: fixed;
+    right: 0;
+    top: 50%;
+    margin-right: 0;
+    padding-left: 1px;
+    border-bottom-right-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+    width: 20px !important;
+    transition: width 0.25s !important;
+    z-index: 100 !important;
 }
 
-.fdz-previous-search-result:hover, .fdz-previous-search-result:focus, .fdz-next-search-result:hover, .fdz-next-search-result:focus {
-  width: 40px !important;
+.fdz-next-search-result:focus,
+.fdz-next-search-result:hover,
+.fdz-previous-search-result:focus,
+.fdz-previous-search-result:hover {
+    width: 40px !important;
+}
+
+.fdz-input-hint {
+    /* Position the hint */
+    position: relative;
+    clear: left;
+    padding-top: 5px;
+    /* Copy styles from ng-messages */
+    font-size: 12px;
+    line-height: 14px;
+    /* Set our own color */
+    color: grey;
+}
+
+.fdz-current-version {
+    background-color: $brand-success;
+    color: white;
+}
+
+.fdz-current-version:hover {
+  background-color: $brand-success !important;
+  opacity: 0.5;
+}
+
+.fdz-deleted-version {
+    background-color: $brand-danger;
+    color: white;
+    cursor: default;
+}
+
+.fdz-deleted-version:hover {
+    background-color: $brand-danger !important;
+    opacity: 0.5;
+}
+
+.md-dialog-backdrop {
+    z-index: 78;
+}
+
+.md-dialog-backdrop ~ .md-dialog-backdrop {
+    z-index: 79;
+}
+
+md-backdrop.md-dialog-backdrop {
+    z-index: 78;
+}
+
+.md-dialog-container {
+    z-index: 78;
+}
+
+.md-dialog-container ~ .md-dialog-container {
+    z-index: 80;
 }
 
 .jk-carousel .md-icon-button md-icon {

@@ -49,7 +49,7 @@
             <i class="material-icons">hourglass_empty</i>
         </div>
     </div>
-    <div style="position: fixed; width: 100%; height: 100%; pointer-events: none; z-index: 1000;" data-layout="column">
+    <div style="position: fixed; bottom: 0; right 0; width: 100%; height: 100%; pointer-events: none; z-index: 1000;" data-layout="column">
       <div data-flex id="toast-container"></div>
     </div>
     <fdz-navbar ng-cloak></fdz-navbar>
@@ -120,6 +120,9 @@
     <script src="bower_components/hyphenator/patterns/en-us.js"></script>
     <script src="bower_components/ng-shortcut/ng-shortcut.js"></script>
     <script src="bower_components/angular-jk-carousel/dist/jk-carousel.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
+    <script src="bower_components/moment/locale/de.js"></script>
+    <script src="bower_components/angular-moment/angular-moment.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -219,10 +222,12 @@
     <script src="scripts/common/fdzwelcomedialog/services/fdz-welcome-dialog.js"></script>
     <script src="scripts/common/input/fdz-clear-input.directive.js"></script>
     <script src="scripts/common/input/fdz-select-search-input.directive.js"></script>
+    <script src="scripts/common/input/fdz-required-validator.directive.js"></script>
     <script src="scripts/common/hyphenator/fdz-hyphenate.directive.js"></script>
     <script src="scripts/common/hyphenator/fdz-hyphenate.filter.js"></script>
     <script src="scripts/common/websocket/websocket.service.js"></script>
     <script src="scripts/common/plotly/plotly.service.js"></script>
+    <script src="scripts/common/dialogs/services/commonDialogs.service.js"></script>
 
     <script src="scripts/filemanagement/resources/file.resource.js"></script>
     <script src="scripts/filemanagement/services/zipReader.service.js"></script>
@@ -300,14 +305,20 @@
     <script src="scripts/studymanagement/configuration/translations-de.js"></script>
     <script src="scripts/studymanagement/configuration/translations-en.js"></script>
     <script src="scripts/studymanagement/resources/study.resource.js"></script>
+    <script src="scripts/studymanagement/resources/studyAttachment.resource.js"></script>
+    <script src="scripts/studymanagement/resources/studyVersions.resource.js"></script>
+    <script src="scripts/studymanagement/resources/studyAttachmentVersions.resource.js"></script>
     <script src="scripts/studymanagement/services/studyBuilder.service.js"></script>
     <script src="scripts/studymanagement/services/studyIdBuilder.service.js"></script>
     <script src="scripts/studymanagement/services/studyUpload.service.js"></script>
     <script src="scripts/studymanagement/services/studyRepositoryClient.service.js"></script>
-    <script src="scripts/studymanagement/views/study-detail.controller.js"></script>
     <script src="scripts/studymanagement/services/studySearch.service.js"></script>
     <script src="scripts/studymanagement/services/studyAttachmentUpload.service.js"></script>
-    <script src="scripts/studymanagement/resources/studyAttachment.resource.js"></script>
+    <script src="scripts/studymanagement/views/study-detail.controller.js"></script>
+    <script src="scripts/studymanagement/views/choose-previous-study-version.controller.js"></script>
+    <script src="scripts/studymanagement/views/study-edit-or-create.controller.js"></script>
+    <script src="scripts/studymanagement/views/study-attachment-edit-or-create.controller.js"></script>
+    <script src="scripts/studymanagement/views/choose-previous-study-attachment-version.controller.js"></script>
 
     <script src="scripts/instrumentmanagement/configuration/instrument.js"></script>
     <script src="scripts/instrumentmanagement/configuration/translations-de.js"></script>

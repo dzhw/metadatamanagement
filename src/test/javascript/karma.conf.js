@@ -70,6 +70,9 @@ module.exports = function(config) {
       'src/main/webapp/bower_components/hyphenator/patterns/en-us.js',
       'src/main/webapp/bower_components/ng-shortcut/ng-shortcut.js',
       'src/main/webapp/bower_components/angular-jk-carousel/dist/jk-carousel.js',
+      'src/main/webapp/bower_components/moment/moment.js',
+      'src/main/webapp/bower_components/moment/locale/de.js',
+      'src/main/webapp/bower_components/angular-moment/angular-moment.js',
       'src/main/webapp/bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'src/main/webapp/bower_components/elasticsearch/elasticsearch.angular.js',

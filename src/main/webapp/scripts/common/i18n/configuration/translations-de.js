@@ -11,6 +11,8 @@ angular.module('metadatamanagementApp').config(
         'dzhw-alt-text': 'Deutsches Zentrum für Hochschul- und Wissenschaftsforschung DZHW GmbH',
         'bmbf-alt-text': 'Gefördert vom BMBF',
         'search': 'Suche',
+        'in-german': 'auf Deutsch',
+        'in-english': 'auf Englisch',
         'toolbar': {
           'buttons': {
             'fdz-staff-area-tooltip': {
@@ -54,6 +56,8 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'cards': {
+          'metadata': 'Metadaten zu der Datei',
+          'file': 'Datei',
           'details': 'Details',
           'related-objects': 'Verbundene Objekte',
           'labels-surveyed-in': 'Erhoben in'
@@ -263,7 +267,8 @@ angular.module('metadatamanagementApp').config(
             'json-parsing-error': 'Der Import des Objektes "{{entity}}" aus einer JSON Daei schlug fehl, denn das Feld "{{property}}" hat einen ungültigen Wert: {{invalidValue}}',
             'excel-parsing-error': 'Der Import des Objektes "{{entity}}" aus einer Excel Datei in Zeile {{index}} schlug fehl, denn das Feld "{{property}}" hat einen ungültigen Wert: {{invalidValue}}',
             'no-json-mapping': 'Ein serverseitiger Fehler trat beim Import eines Objektes auf.',
-            'file-size-limit-exceeded': 'Die Datei "{{ entity }}" ist größer 10MB!'
+            'file-size-limit-exceeded': 'Die Datei "{{ entity }}" ist größer 10MB!',
+            'file-already-exists': 'Das Speichern ist fehlgeschlagen, weil es bereits eine Datei mit dem Namen "{{ filename }}" gibt!'
           },
           'server-error': {
             'internal-server-error': 'Sorry, etwas ist schief gelaufen :( ({{ status }}).',
@@ -328,6 +333,22 @@ angular.module('metadatamanagementApp').config(
             'created-by': 'Erstellt durch Metadatensuche, am'
           },
           'block-ui-message': '{{warnings}} Warnungen und {{ errors }} Fehler bei {{ total }} Objekten'
+        },
+        'common-dialogs': {
+          'yes': 'Ja',
+          'no': 'Nein',
+          'confirm-dirty': {
+            'title': 'Änderungen verwerfern?',
+            'content': 'Sie haben ungespeicherte Änderungen. Wollen Sie diese verwerfen?'
+          },
+          'confirm-file-delete': {
+            'title': 'Datei "{{ filename }}" löschen?',
+            'content': 'Wollen Sie die Datei "{{ filename }}" wirklich löschen?'
+          },
+          'confirm-filename-change': {
+            'title': 'Dateinamen ändern?',
+            'content': 'Wollen Sie wirklich den Dateinamen von "{{ oldFilename }}" nach "{{ newFilename }}" ändern?\n\nHierdurch geht die Historie der Metadaten der Datei verloren!'
+          }
         }
       }
       //jscs:enable
