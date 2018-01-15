@@ -236,7 +236,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
           'surveyMethod', 'fieldPeriod', 'label', 'name', 'dataType',
           'sample',
           'scaleLevel', 'dataAcquisitionProjectId', 'dataSetNumber',
-          'population',
+          'population', 'release',
           'instrumentNumber', 'instrument.description', 'surveys.title',
           'language', 'subDataSets', 'accessWays', 'maxNumberOfObservations'
         ];

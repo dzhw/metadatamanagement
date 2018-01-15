@@ -12,7 +12,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
     DataSetUploadService, StudyUploadService, SurveyUploadService,
     CleanJSObjectService, InstrumentUploadService,
     CurrentProjectService, $timeout, PageTitleService, ToolbarHeaderService,
-    SearchHelperService, SearchResultNavigatorService) {
+    SearchHelperService, SearchResultNavigatorService, StudyResource,
+    StudyIdBuilderService, $rootScope) {
 
     var queryChangedOnInit = false;
     var tabChangedOnInitFlag = false;
@@ -115,6 +116,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       };
       readSearchParamsFromLocation();
       writeSearchParamsToLocation();
+      $scope.loadStudyForProject();
       $scope.search();
     };
 
@@ -201,7 +203,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
           if (!selectedTabChangeIsBeingHandled) {
             $scope.search();
           }
-
+          $scope.loadStudyForProject();
           currentProjectChangeIsBeingHandled = false;
         });
       });
@@ -263,6 +265,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
             if (!currentProjectChangeIsBeingHandled) {
               $scope.search();
             }
+            $scope.loadStudyForProject();
           }
           tabChangedOnInitFlag = false;
           selectedTabChangeIsBeingHandled = false;
@@ -436,5 +439,24 @@ angular.module('metadatamanagementApp').controller('SearchController',
       return $index + 1 +
         (($scope.pageObject.page - 1) * $scope.pageObject.size);
     };
+
+    $scope.loadStudyForProject = function() {
+          if ($scope.currentProject && !$scope.currentProject.release &&
+            $scope.tabs[$scope.searchParams.selectedTabIndex]
+            .elasticSearchType === 'studies') {
+            $rootScope.$broadcast('start-ignoring-404');
+            StudyResource.get({id: StudyIdBuilderService.buildStudyId(
+              $scope.currentProject.id)}).$promise.then(function(study) {
+                $scope.currentStudy = study;
+              }).catch(function() {
+                $scope.currentStudy = undefined;
+              }).finally(function() {
+                $rootScope.$broadcast('stop-ignoring-404');
+              });
+          } else {
+            $scope.currentStudy = undefined;
+          }
+        };
+
     init();
   });
