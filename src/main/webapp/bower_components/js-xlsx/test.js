@@ -655,6 +655,7 @@ describe('output formats', function() {
 	it('should write binary strings', function() { RT('binary'); });
 	it('should write base64 strings', function() { RT('base64'); });
 	it('should write JS strings', function() { RT('string'); });
+	if(typeof ArrayBuffer !== 'undefined' && (typeof process == 'undefined' || !process.version.match(/v0.12/))) it('should write array buffers', function() { RT('array'); });
 	if(!browser) it('should write buffers', function() { RT('buffer'); });
 	it('should throw if format is unknown', function() { assert.throws(function() { RT('dafuq'); }); });
 });
@@ -673,6 +674,20 @@ describe('API', function() {
 		X.utils.book_append_sheet(wb, X.utils.aoa_to_sheet([[1,2,3],[4],[5]]), "B");
 		X.utils.book_append_sheet(wb, X.utils.aoa_to_sheet([[1,2,3],[4],[5]]));
 		eqarr(wb.SheetNames, ["A","Sheet1","Sheet2","B","Sheet3"]);
+	});
+	it('sheet_add_json', function() {
+		var ws = X.utils.json_to_sheet([{A:"S", B:"h", C:"e", D:"e", E:"t", F:"J", G:"S"}], {header:["A","B","C","D","E","F","G"], skipHeader:true});
+		X.utils.sheet_add_json(ws, [{A:1, B:2}, {A:2, B:3}, {A:3, B:4}], {skipHeader:true, origin:"A2"});
+		X.utils.sheet_add_json(ws, [{A:5, B:6, C:7}, {A:6, B:7, C:8}, {A:7, B:8, C:9}], {skipHeader:true, origin:{r:1, c:4}, header:["A","B","C"]});
+		X.utils.sheet_add_json(ws, [{A:4, B:5, C:6, D:7, E:8, F:9, G:0}], {header:["A","B","C","D","E","F","G"], skipHeader:true, origin:-1});
+		assert.equal(X.utils.sheet_to_csv(ws).trim(), "S,h,e,e,t,J,S\n1,2,,,5,6,7\n2,3,,,6,7,8\n3,4,,,7,8,9\n4,5,6,7,8,9,0");
+	});
+	it('sheet_add_aoa', function() {
+		var ws = X.utils.aoa_to_sheet([ "SheetJS".split("") ]);
+		X.utils.sheet_add_aoa(ws, [[1,2], [2,3], [3,4]], {origin: "A2"});
+		X.utils.sheet_add_aoa(ws, [[5,6,7], [6,7,8], [7,8,9]], {origin:{r:1, c:4}});
+		X.utils.sheet_add_aoa(ws, [[4,5,6,7,8,9,0]], {origin: -1});
+		assert.equal(X.utils.sheet_to_csv(ws).trim(), "S,h,e,e,t,J,S\n1,2,,,5,6,7\n2,3,,,6,7,8\n3,4,,,7,8,9\n4,5,6,7,8,9,0");
 	});
 });
 
@@ -819,10 +834,10 @@ describe('parse features', function() {
 		var wbs=[];
 		var bef = (function() {
 			wbs = [
-				X.read(fs.readFileSync(paths.cpxlsx), {type:TYPE}),
-				X.read(fs.readFileSync(paths.cpxlsb), {type:TYPE}),
-				X.read(fs.readFileSync(paths.cpxls), {type:TYPE}),
-				X.read(fs.readFileSync(paths.cpxml), {type:TYPE})
+				X.read(fs.readFileSync(paths.cpxlsx), {type:TYPE, WTF:1}),
+				X.read(fs.readFileSync(paths.cpxlsb), {type:TYPE, WTF:1}),
+				X.read(fs.readFileSync(paths.cpxls), {type:TYPE, WTF:1}),
+				X.read(fs.readFileSync(paths.cpxml), {type:TYPE, WTF:1})
 			];
 		});
 		if(typeof before != 'undefined') before(bef);
@@ -1319,7 +1334,7 @@ describe('roundtrip features', function() {
 	}); });
 
 	describe('should preserve merge cells', function() {
-		["xlsx", "xlsb", "xlml", "ods"].forEach(function(f) { it(f, function() {
+		["xlsx", "xlsb", "xlml", "ods", "biff8"].forEach(function(f) { it(f, function() {
 			var wb1 = X.read(fs.readFileSync(paths.mcxlsx), {type:TYPE});
 			var wb2 = X.read(X.write(wb1,{bookType:f,type:'binary'}),{type:'binary'});
 			var m1 = wb1.Sheets.Merge['!merges'].map(X.utils.encode_range);
@@ -1673,6 +1688,15 @@ describe('json output', function() {
 		assert.equal(json1[2][1], 5);
 		assert.equal(json1[2][3], 3);
 	});
+	it('should preserve values when column header is missing', function() {
+		/*jshint elision:true */
+		var _data = [[,"a","b",,"c"], [1,2,3,,5],[,3,4,5,6]];
+		/*jshint elision:false */
+		var _ws = X.utils.aoa_to_sheet(_data);
+		var json1 = X.utils.sheet_to_json(_ws, { raw: true });
+		assert.equal(json1[0].__EMPTY, 1);
+		assert.equal(json1[1].__EMPTY_1, 5);
+	});
 });
 
 
@@ -1891,14 +1915,26 @@ describe('HTML', function() {
 		it('should interpret values by default', function() { plaintext_test(X.read(html_bstr, {type:"binary"}), false, false); });
 		it('should generate strings if raw option is passed', function() { plaintext_test(X.read(html_bstr, {type:"binary", raw:true}), true, false); });
 		it('should handle "string" type', function() { plaintext_test(X.read(html_str, {type:"string"}), false, false); });
+		it('should handle newlines correctly', function() {
+			var table = "<table><tr><td>foo<br/>bar</td><td>baz</td></tr></table>";
+			var wb = X.read(table, {type:"string"});
+			assert.equal(get_cell(wb.Sheets.Sheet1, "A1").v, "foo\nbar");
+		});
 	});
 	(domtest ? describe : describe.skip)('input DOM', function() {
 		it('should interpret values by default', function() { plaintext_test(X.utils.table_to_book(get_dom_element(html_str)), false, true); });
 		it('should generate strings if raw option is passed', function() { plaintext_test(X.utils.table_to_book(get_dom_element(html_str), {raw:true}), true, true); });
 		it('should handle newlines correctly', function() {
 			var table = get_dom_element("<table><tr><td>foo<br/>bar</td><td>baz</td></tr></table>");
-			var wb = X.utils.table_to_book(table);
-			assert.equal(get_cell(wb.Sheets.Sheet1, "A1").v, "foo\nbar");
+			var ws = X.utils.table_to_sheet(table);
+			assert.equal(get_cell(ws, "A1").v, "foo\nbar");
+		});
+		it('should trim whitespace', function() {
+			if(get_dom_element("foo <br> bar").innerHTML != "foo <br> bar") return;
+			var table = get_dom_element("<table><tr><td>   foo  <br/>  bar   </td><td>  baz  qux  </td></tr></table>");
+			var ws = X.utils.table_to_sheet(table);
+			assert.equal(get_cell(ws, "A1").v.replace(/\n/g, "|"), "foo | bar");
+			assert.equal(get_cell(ws, "B1").v, "baz qux");
 		});
 	});
 	if(domtest) it('should handle entities', function() {
@@ -2010,6 +2046,21 @@ describe('corner cases', function() {
 	});
 	it('codepage', function() {
 		X.read(fs.readFileSync(dir + "biff5/number_format_greek.xls"), {type:TYPE});
+	});
+	it('large binary files', function() {
+		var data = [["Row Number"]];
+		for(var j = 0; j < 19; ++j) data[0].push("Column " + j+1);
+		for(var i = 0; i < 499; ++i) {
+			var o = ["Row " + i];
+			for(j = 0; j < 19; ++j) o.push(i + j);
+			data.push(o);
+		}
+		var ws = X.utils.aoa_to_sheet(data);
+		var wb = { Sheets:{ Sheet1: ws }, SheetNames: ["Sheet1"] };
+		var type = "binary";
+		["xlsb", "biff8", "biff5", "biff2"].forEach(function(btype) {
+			void X.read(X.write(wb, {bookType:btype, type:type}), {type:type});
+		});
 	});
 });
 

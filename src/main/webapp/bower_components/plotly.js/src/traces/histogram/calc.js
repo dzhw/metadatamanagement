@@ -1,5 +1,5 @@
 /**
-* Copyright 2012-2017, Plotly, Inc.
+* Copyright 2012-2018, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
@@ -20,7 +20,7 @@ var normFunctions = require('./norm_functions');
 var doAvg = require('./average');
 var cleanBins = require('./clean_bins');
 var oneMonth = require('../../constants/numerical').ONEAVGMONTH;
-
+var getBinSpanLabelRound = require('./bin_label_vals');
 
 module.exports = function calc(gd, trace) {
     // ignore as much processing as possible (and including in autorange) if bar is not visible
@@ -45,10 +45,12 @@ module.exports = function calc(gd, trace) {
     var pos0 = binsAndPos[1];
 
     var nonuniformBins = typeof binSpec.size === 'string';
-    var bins = nonuniformBins ? [] : binSpec;
+    var binEdges = [];
+    var bins = nonuniformBins ? binEdges : binSpec;
     // make the empty bin array
     var inc = [];
     var counts = [];
+    var inputPoints = [];
     var total = 0;
     var norm = trace.histnorm;
     var func = trace.histfunc;
@@ -87,9 +89,10 @@ module.exports = function calc(gd, trace) {
         i2 = Axes.tickIncrement(i, binSpec.size, false, calendar);
         pos.push((i + i2) / 2);
         size.push(sizeInit);
+        inputPoints.push([]);
         // nonuniform bins (like months) we need to search,
         // rather than straight calculate the bin we're in
-        if(nonuniformBins) bins.push(i);
+        binEdges.push(i);
         // nonuniform bins also need nonuniform normalization factors
         if(densityNorm) inc.push(1 / (i2 - i));
         if(isAvg) counts.push(0);
@@ -97,6 +100,7 @@ module.exports = function calc(gd, trace) {
         if(i2 <= i) break;
         i = i2;
     }
+    binEdges.push(i);
 
     // for date axes we need bin bounds to be calcdata. For nonuniform bins
     // we already have this, but uniform with start/end/size they're still strings.
@@ -108,11 +112,32 @@ module.exports = function calc(gd, trace) {
         };
     }
 
-    var nMax = size.length;
     // bin the data
+    // and make histogram-specific pt-number-to-cd-index map object
+    var nMax = size.length;
+    var uniqueValsPerBin = true;
+    var leftGap = Infinity;
+    var rightGap = Infinity;
+    var ptNumber2cdIndex = {};
     for(i = 0; i < pos0.length; i++) {
-        n = Lib.findBin(pos0[i], bins);
-        if(n >= 0 && n < nMax) total += binFunc(n, i, size, rawCounterData, counts);
+        var posi = pos0[i];
+        n = Lib.findBin(posi, bins);
+        if(n >= 0 && n < nMax) {
+            total += binFunc(n, i, size, rawCounterData, counts);
+            if(uniqueValsPerBin && inputPoints[n].length && posi !== pos0[inputPoints[n][0]]) {
+                uniqueValsPerBin = false;
+            }
+            inputPoints[n].push(i);
+            ptNumber2cdIndex[i] = n;
+
+            leftGap = Math.min(leftGap, posi - binEdges[n]);
+            rightGap = Math.min(rightGap, binEdges[n + 1] - posi);
+        }
+    }
+
+    var roundFn;
+    if(!uniqueValsPerBin) {
+        roundFn = getBinSpanLabelRound(leftGap, rightGap, binEdges, pa, calendar);
     }
 
     // average and/or normalize the data, if needed
@@ -145,7 +170,24 @@ module.exports = function calc(gd, trace) {
     // create the "calculated data" to plot
     for(i = firstNonzero; i <= lastNonzero; i++) {
         if((isNumeric(pos[i]) && isNumeric(size[i]))) {
-            cd.push({p: pos[i], s: size[i], b: 0});
+            var cdi = {
+                p: pos[i],
+                s: size[i],
+                b: 0
+            };
+
+            // pts and p0/p1 don't seem to make much sense for cumulative distributions
+            if(!cumulativeSpec.enabled) {
+                cdi.pts = inputPoints[i];
+                if(uniqueValsPerBin) {
+                    cdi.p0 = cdi.p1 = (inputPoints[i].length) ? pos0[inputPoints[i][0]] : pos[i];
+                }
+                else {
+                    cdi.p0 = roundFn(binEdges[i]);
+                    cdi.p1 = roundFn(binEdges[i + 1], true);
+                }
+            }
+            cd.push(cdi);
         }
     }
 
@@ -156,6 +198,10 @@ module.exports = function calc(gd, trace) {
     }
 
     arraysToCalcdata(cd, trace);
+
+    if(Array.isArray(trace.selectedpoints)) {
+        Lib.tagSelected(cd, trace, ptNumber2cdIndex);
+    }
 
     return cd;
 };

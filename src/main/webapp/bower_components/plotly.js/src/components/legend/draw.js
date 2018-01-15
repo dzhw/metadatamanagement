@@ -1,5 +1,5 @@
 /**
-* Copyright 2012-2017, Plotly, Inc.
+* Copyright 2012-2018, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
@@ -334,25 +334,28 @@ module.exports = function draw(gd) {
                 xf = dragElement.align(newX, 0, gs.l, gs.l + gs.w, opts.xanchor);
                 yf = dragElement.align(newY, 0, gs.t + gs.h, gs.t, opts.yanchor);
             },
-            doneFn: function(dragged, numClicks, e) {
-                if(dragged && xf !== undefined && yf !== undefined) {
+            doneFn: function() {
+                if(xf !== undefined && yf !== undefined) {
                     Plotly.relayout(gd, {'legend.x': xf, 'legend.y': yf});
-                } else {
-                    var clickedTrace =
-                        fullLayout._infolayer.selectAll('g.traces').filter(function() {
-                            var bbox = this.getBoundingClientRect();
-                            return (e.clientX >= bbox.left && e.clientX <= bbox.right &&
-                                e.clientY >= bbox.top && e.clientY <= bbox.bottom);
-                        });
-                    if(clickedTrace.size() > 0) {
-                        if(numClicks === 1) {
-                            legend._clickTimeout = setTimeout(function() { handleClick(clickedTrace, gd, numClicks); }, DBLCLICKDELAY);
-                        } else if(numClicks === 2) {
-                            if(legend._clickTimeout) {
-                                clearTimeout(legend._clickTimeout);
-                            }
+                }
+            },
+            clickFn: function(numClicks, e) {
+                var clickedTrace =
+                    fullLayout._infolayer.selectAll('g.traces').filter(function() {
+                        var bbox = this.getBoundingClientRect();
+                        return (e.clientX >= bbox.left && e.clientX <= bbox.right &&
+                            e.clientY >= bbox.top && e.clientY <= bbox.bottom);
+                    });
+                if(clickedTrace.size() > 0) {
+                    if(numClicks === 1) {
+                        legend._clickTimeout = setTimeout(function() {
                             handleClick(clickedTrace, gd, numClicks);
+                        }, DBLCLICKDELAY);
+                    } else if(numClicks === 2) {
+                        if(legend._clickTimeout) {
+                            clearTimeout(legend._clickTimeout);
                         }
+                        handleClick(clickedTrace, gd, numClicks);
                     }
                 }
             }
@@ -608,17 +611,22 @@ function computeLegendDimensions(gd, groups, traces) {
         var rowHeight = 0,
             maxTraceHeight = 0,
             maxTraceWidth = 0,
-            offsetX = 0;
+            offsetX = 0,
+            fullTracesWidth = 0,
+            traceGap = opts.tracegroupgap || 5,
+            oneRowLegend;
 
         // calculate largest width for traces and use for width of all legend items
         traces.each(function(d) {
             maxTraceWidth = Math.max(40 + d[0].width, maxTraceWidth);
+            fullTracesWidth += 40 + d[0].width + traceGap;
         });
 
+        // check if legend fits in one row
+        oneRowLegend = (fullLayout.width - (fullLayout.margin.r + fullLayout.margin.l)) > borderwidth + fullTracesWidth - traceGap;
         traces.each(function(d) {
             var legendItem = d[0],
-                traceWidth = maxTraceWidth,
-                traceGap = opts.tracegroupgap || 5;
+                traceWidth = oneRowLegend ? 40 + d[0].width : maxTraceWidth;
 
             if((borderwidth + offsetX + traceGap + traceWidth) > (fullLayout.width - (fullLayout.margin.r + fullLayout.margin.l))) {
                 offsetX = 0;
