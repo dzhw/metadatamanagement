@@ -1,5 +1,5 @@
 /**
-* Copyright 2012-2017, Plotly, Inc.
+* Copyright 2012-2018, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
@@ -10,6 +10,7 @@
 
 var c = require('./constants');
 var extendFlat = require('../../lib/extend').extendFlat;
+var isNumeric = require('fast-isnumeric');
 
 // pure functions, don't alter but passes on `gd` and parts of `trace` without deep copying
 module.exports = function calc(gd, trace) {
@@ -32,9 +33,10 @@ module.exports = function calc(gd, trace) {
     var uniqueKeys = {};
     var columnOrder = trace._fullInput.columnorder;
     var columnWidths = headerValues.map(function(d, i) {
-        return Array.isArray(trace.columnwidth) ?
+        var value = Array.isArray(trace.columnwidth) ?
             trace.columnwidth[Math.min(i, trace.columnwidth.length - 1)] :
-            isFinite(trace.columnwidth) && trace.columnwidth !== null ? trace.columnwidth : 1;
+            trace.columnwidth;
+        return isNumeric(value) ? Number(value) : 1;
     });
     var totalColumnWidths = columnWidths.reduce(function(p, n) {return p + n;}, 0);
 

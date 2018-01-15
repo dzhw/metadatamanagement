@@ -1,5 +1,5 @@
 /**
-* Copyright 2012-2017, Plotly, Inc.
+* Copyright 2012-2018, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
@@ -106,6 +106,17 @@ module.exports = overrideAll({
 
     textfont: mapboxAttrs.layers.symbol.textfont,
     textposition: mapboxAttrs.layers.symbol.textposition,
+
+    selected: {
+        marker: {
+            opacity: scatterAttrs.selected.marker.opacity
+        }
+    },
+    unselected: {
+        marker: {
+            opacity: scatterAttrs.unselected.marker.opacity
+        }
+    },
 
     hoverinfo: extendFlat({}, plotAttrs.hoverinfo, {
         flags: ['lon', 'lat', 'text', 'name']

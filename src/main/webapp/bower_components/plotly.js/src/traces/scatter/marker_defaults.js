@@ -1,5 +1,5 @@
 /**
-* Copyright 2012-2017, Plotly, Inc.
+* Copyright 2012-2018, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
@@ -19,6 +19,7 @@ var subTypes = require('./subtypes');
  * opts: object of flags to control features not all marker users support
  *   noLine: caller does not support marker lines
  *   gradient: caller supports gradients
+ *   noSelect: caller does not support selected/unselected attribute containers
  */
 module.exports = function markerDefaults(traceIn, traceOut, defaultColor, layout, coerce, opts) {
     var isBubble = subTypes.isBubble(traceIn),
@@ -37,6 +38,13 @@ module.exports = function markerDefaults(traceIn, traceOut, defaultColor, layout
     coerce('marker.color', defaultColor);
     if(hasColorscale(traceIn, 'marker')) {
         colorscaleDefaults(traceIn, traceOut, layout, coerce, {prefix: 'marker.', cLetter: 'c'});
+    }
+
+    if(!opts.noSelect) {
+        coerce('selected.marker.color');
+        coerce('unselected.marker.color');
+        coerce('selected.marker.size');
+        coerce('unselected.marker.size');
     }
 
     if(!opts.noLine) {

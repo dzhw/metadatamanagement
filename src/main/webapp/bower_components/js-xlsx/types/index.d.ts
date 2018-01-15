@@ -110,6 +110,9 @@ export interface ParsingOptions extends CommonOptions {
     /** Input data encoding */
     type?: 'base64' | 'binary' | 'buffer' | 'file' | 'array';
 
+    /** Default codepage */
+    codepage?: number;
+
     /**
      * Save formulae to the .f field
      * @default true
@@ -188,7 +191,7 @@ export interface ParsingOptions extends CommonOptions {
 /** Options for write and writeFile */
 export interface WritingOptions extends CommonOptions {
     /** Output data encoding */
-    type?: 'base64' | 'binary' | 'buffer' | 'file';
+    type?: 'base64' | 'binary' | 'buffer' | 'file' | 'array';
 
     /**
      * Generate Shared String Table
@@ -271,8 +274,17 @@ export interface WBProps {
     /** Defined Names */
     Names?: DefinedName[];
 
+    /** Workbook Views */
+    Views?: WBView[];
+
     /** Other Workbook Properties */
     WBProps?: WorkbookProperties;
+}
+
+/** Workbook View */
+export interface WBView {
+    /** Right-to-left mode */
+    RTL?: boolean;
 }
 
 /** Other Workbook Properties */
@@ -490,7 +502,7 @@ export type ExcelDataType = 'b' | 'n' | 'e' | 's' | 'd' | 'z';
  * Type of generated workbook
  * @default 'xlsx'
  */
-export type BookType = 'xlsx' | 'xlsm' | 'xlsb' | 'xls' | 'biff8' | 'biff5' | 'biff2' | 'xlml' | 'ods' | 'fods' | 'csv' | 'txt' | 'sylk' | 'html' | 'dif' | 'rtf' | 'prn' | 'eth';
+export type BookType = 'xlsx' | 'xlsm' | 'xlsb' | 'xls' | 'xla' | 'biff8' | 'biff5' | 'biff2' | 'xlml' | 'ods' | 'fods' | 'csv' | 'txt' | 'sylk' | 'html' | 'dif' | 'rtf' | 'prn' | 'eth';
 
 /** Comment element */
 export interface Comment {
@@ -584,6 +596,11 @@ export interface Sheet2CSVOpts extends DateNFOption {
     skipHidden?: boolean;
 }
 
+export interface OriginOption {
+    /** Top-Left cell for operation (CellAddress or A1 string or row) */
+    origin?: number | string | CellAddress;
+}
+
 export interface Sheet2HTMLOpts {
     /** Add contenteditable to every cell */
     editable?: boolean;
@@ -620,10 +637,17 @@ export interface AOA2SheetOpts extends CommonOptions, DateNFOption {
     sheetStubs?: boolean;
 }
 
+export interface SheetAOAOpts extends AOA2SheetOpts, OriginOption {}
+
 export interface JSON2SheetOpts extends CommonOptions, DateNFOption {
     /** Use specified column order */
     header?: string[];
+
+    /** Skip header row in generated sheet */
+    skipHeader?: boolean;
 }
+
+export interface SheetJSONOpts extends JSON2SheetOpts, OriginOption {}
 
 export interface Table2SheetOpts extends CommonOptions, DateNFOption {
     /* If true, plaintext parsing will not parse values */
@@ -726,6 +750,15 @@ export interface XLSX$Utils {
 
     /** Assign an Array Formula to a range */
     sheet_set_array_formula(ws: WorkSheet, range: Range|string, formula: string): WorkSheet;
+
+    /** Add an array of arrays of JS data to a worksheet */
+    sheet_add_aoa<T>(ws: WorkSheet, data: T[][], opts?: SheetAOAOpts): WorkSheet;
+    sheet_add_aoa(ws: WorkSheet, data: any[][], opts?: SheetAOAOpts): WorkSheet;
+
+    /** Add an array of JS objects to a worksheet */
+    sheet_add_json(ws: WorkSheet, data: any[], opts?: SheetJSONOpts): WorkSheet;
+    sheet_add_json<T>(ws: WorkSheet, data: T[], opts?: SheetJSONOpts): WorkSheet;
+
 
     consts: XLSX$Consts;
 }
