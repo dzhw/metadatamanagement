@@ -31,6 +31,7 @@ declare namespace bowser {
 
     export interface IBowserVersions {
         chrome: boolean;
+        chromium: boolean;
         firefox: boolean;
         msie: boolean;
         msedge: boolean;
@@ -96,6 +97,7 @@ declare namespace bowser {
         (): IBowserDetection;
         test(browserList: string[]): boolean;
         _detect(ua: string): IBowser;
+        detect(ua: string): IBowser;
         compareVersions(versions: string[]): number;
         check(minVersions: IBowserMinVersions, strictMode?: boolean|string, ua?: string): Boolean;
         isUnsupportedBrowser(minVersions: IBowserMinVersions, strictMode?: boolean|string, ua?: string): boolean;

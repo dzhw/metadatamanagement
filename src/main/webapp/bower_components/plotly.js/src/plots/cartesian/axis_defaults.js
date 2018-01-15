@@ -1,5 +1,5 @@
 /**
-* Copyright 2012-2017, Plotly, Inc.
+* Copyright 2012-2018, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
@@ -37,11 +37,8 @@ var orderedCategories = require('./ordered_categories');
  *  bgColor: the plot background color, to calculate default gridline colors
  */
 module.exports = function handleAxisDefaults(containerIn, containerOut, coerce, options, layoutOut) {
-    var letter = options.letter,
-        font = options.font || {},
-        defaultTitle = 'Click to enter ' +
-            (options.title || (letter.toUpperCase() + ' axis')) +
-            ' title';
+    var letter = options.letter;
+    var font = options.font || {};
 
     function coerce2(attr, dflt) {
         return Lib.coerce2(containerIn, containerOut, layoutAttributes, attr, dflt);
@@ -77,7 +74,7 @@ module.exports = function handleAxisDefaults(containerIn, containerOut, coerce, 
     // inherit from global font color in case that was provided.
     var dfltFontColor = (dfltColor === containerIn.color) ? dfltColor : font.color;
 
-    coerce('title', defaultTitle);
+    coerce('title', layoutOut._dfltTitle[letter]);
     Lib.coerceFont(coerce, 'titlefont', {
         family: font.family,
         size: Math.round(font.size * 1.2),

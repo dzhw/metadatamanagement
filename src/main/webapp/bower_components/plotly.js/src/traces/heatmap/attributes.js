@@ -1,5 +1,5 @@
 /**
-* Copyright 2012-2017, Plotly, Inc.
+* Copyright 2012-2018, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
@@ -99,6 +99,17 @@ module.exports = extendFlat({}, {
         role: 'style',
         editType: 'plot',
         description: 'Sets the vertical gap (in pixels) between bricks.'
+    },
+    zhoverformat: {
+        valType: 'string',
+        dflt: '',
+        role: 'style',
+        editType: 'none',
+        description: [
+            'Sets the hover text formatting rule using d3 formatting mini-languages',
+            'which are very similar to those in Python. See:',
+            'https://github.com/d3/d3-format/blob/master/README.md#locale_format'
+        ].join(' ')
     },
 },
     colorscaleAttrs,

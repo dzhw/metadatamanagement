@@ -1,5 +1,5 @@
 /**
-* Copyright 2012-2017, Plotly, Inc.
+* Copyright 2012-2018, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
@@ -23,6 +23,9 @@ module.exports = function selectPoints(searchInfo, polygon) {
         y;
 
     var glTrace = cd[0]._glTrace;
+
+    if(!glTrace) return;
+
     var scene = glTrace.scene;
 
     var hasOnlyLines = (!subtypes.hasMarkers(trace) && !subtypes.hasText(trace));
@@ -41,8 +44,8 @@ module.exports = function selectPoints(searchInfo, polygon) {
             if(polygon.contains([x, y])) {
                 selection.push({
                     pointNumber: i,
-                    x: di.x,
-                    y: di.y
+                    x: xa.c2d(di.x),
+                    y: ya.c2d(di.y)
                 });
                 di.dim = 0;
             }

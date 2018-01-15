@@ -1,5 +1,5 @@
 /**
-* Copyright 2012-2017, Plotly, Inc.
+* Copyright 2012-2018, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
@@ -20,7 +20,6 @@ var handleTextDefaults = require('../scatter/text_defaults');
 var handleFillColorDefaults = require('../scatter/fillcolor_defaults');
 
 var attributes = require('./attributes');
-
 
 module.exports = function supplyDefaults(traceIn, traceOut, defaultColor, layout) {
     function coerce(attr, dflt) {
@@ -84,4 +83,6 @@ module.exports = function supplyDefaults(traceIn, traceOut, defaultColor, layout
         dfltHoverOn.push('fills');
     }
     coerce('hoveron', dfltHoverOn.join('+') || 'points');
+
+    Lib.coerceSelectionMarkerOpacity(traceOut, coerce);
 };

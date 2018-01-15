@@ -1,5 +1,5 @@
 /**
-* Copyright 2012-2017, Plotly, Inc.
+* Copyright 2012-2018, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
@@ -23,7 +23,7 @@ ScatterGl.selectPoints = require('./select');
 ScatterGl.moduleType = 'trace';
 ScatterGl.name = 'scattergl';
 ScatterGl.basePlotModule = require('../../plots/gl2d');
-ScatterGl.categories = ['gl2d', 'symbols', 'errorBarsOK', 'markerColorscale', 'showLegend', 'scatter-like'];
+ScatterGl.categories = ['gl', 'gl2d', 'symbols', 'errorBarsOK', 'markerColorscale', 'showLegend', 'scatter-like'];
 ScatterGl.meta = {
     description: [
         'The data visualized as scatter point or lines is set in `x` and `y`',

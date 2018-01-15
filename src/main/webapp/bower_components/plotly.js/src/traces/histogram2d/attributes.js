@@ -1,5 +1,5 @@
 /**
-* Copyright 2012-2017, Plotly, Inc.
+* Copyright 2012-2018, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
@@ -45,7 +45,8 @@ module.exports = extendFlat({},
 
         xgap: heatmapAttrs.xgap,
         ygap: heatmapAttrs.ygap,
-        zsmooth: heatmapAttrs.zsmooth
+        zsmooth: heatmapAttrs.zsmooth,
+        zhoverformat: heatmapAttrs.zhoverformat
     },
     colorscaleAttrs,
     { autocolorscale: extendFlat({}, colorscaleAttrs.autocolorscale, {dflt: false}) },

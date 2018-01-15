@@ -1,5 +1,5 @@
 /**
-* Copyright 2012-2017, Plotly, Inc.
+* Copyright 2012-2018, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
@@ -22,12 +22,14 @@ var createOptions = require('./convert');
 var createCamera = require('./camera');
 var convertHTMLToUnicode = require('../../lib/html2unicode');
 var showNoWebGlMsg = require('../../lib/show_no_webgl_msg');
-var axisConstraints = require('../../plots/cartesian/constraints');
+var axisConstraints = require('../cartesian/constraints');
 var enforceAxisConstraints = axisConstraints.enforce;
 var cleanAxisConstraints = axisConstraints.clean;
 
 var AXES = ['xaxis', 'yaxis'];
 var STATIC_CANVAS, STATIC_CONTEXT;
+
+var SUBPLOT_PATTERN = require('../cartesian/constants').SUBPLOT_PATTERN;
 
 
 function Scene2D(options, fullLayout) {
@@ -112,10 +114,11 @@ proto.makeFramework = function() {
         this.gl = STATIC_CONTEXT;
     }
     else {
-        var liveCanvas = document.createElement('canvas');
+        var liveCanvas = this.container.querySelector('.gl-canvas-focus');
 
         var gl = getContext({
             canvas: liveCanvas,
+            preserveDrawingBuffer: true,
             premultipliedAlpha: true
         });
 
@@ -140,7 +143,7 @@ proto.makeFramework = function() {
     // disabling user select on the canvas
     // sanitizes double-clicks interactions
     // ref: https://github.com/plotly/plotly.js/issues/744
-    canvas.className += 'user-select-none';
+    canvas.className += ' user-select-none';
 
     // create SVG container for hover text
     var svgContainer = this.svgContainer = document.createElementNS(
@@ -157,9 +160,11 @@ proto.makeFramework = function() {
     mouseContainer.style.position = 'absolute';
     mouseContainer.style['pointer-events'] = 'auto';
 
+    this.pickCanvas = this.container.querySelector('.gl-canvas-pick');
+
+
     // append canvas, hover svg and mouse div to container
     var container = this.container;
-    container.appendChild(canvas);
     container.appendChild(svgContainer);
     container.appendChild(mouseContainer);
 
@@ -177,19 +182,23 @@ proto.toImage = function(format) {
     if(!format) format = 'png';
 
     this.stopped = true;
+
     if(this.staticPlot) this.container.appendChild(STATIC_CANVAS);
 
     // update canvas size
     this.updateSize(this.canvas);
 
-    // force redraw
-    this.glplot.setDirty();
-    this.glplot.draw();
 
     // grab context and yank out pixels
     var gl = this.glplot.gl,
         w = gl.drawingBufferWidth,
         h = gl.drawingBufferHeight;
+
+    // force redraw
+    gl.clearColor(1, 1, 1, 0);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    this.glplot.setDirty();
+    this.glplot.draw();
 
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
 
@@ -294,9 +303,9 @@ function compareTicks(a, b) {
 proto.updateRefs = function(newFullLayout) {
     this.fullLayout = newFullLayout;
 
-    var spmatch = Axes.subplotMatch,
-        xaxisName = 'xaxis' + this.id.match(spmatch)[1],
-        yaxisName = 'yaxis' + this.id.match(spmatch)[2];
+    var spmatch = this.id.match(SUBPLOT_PATTERN);
+    var xaxisName = 'xaxis' + spmatch[1];
+    var yaxisName = 'yaxis' + spmatch[2];
 
     this.xaxis = this.fullLayout[xaxisName];
     this.yaxis = this.fullLayout[yaxisName];
@@ -370,7 +379,6 @@ proto.destroy = function() {
 
     this.glplot.dispose();
 
-    if(!this.staticPlot) this.container.removeChild(this.canvas);
     this.container.removeChild(this.svgContainer);
     this.container.removeChild(this.mouseContainer);
 
@@ -533,8 +541,10 @@ proto.updateTraces = function(fullData, calcData) {
 proto.updateFx = function(dragmode) {
     // switch to svg interactions in lasso/select mode
     if(dragmode === 'lasso' || dragmode === 'select') {
+        this.pickCanvas.style['pointer-events'] = 'none';
         this.mouseContainer.style['pointer-events'] = 'none';
     } else {
+        this.pickCanvas.style['pointer-events'] = 'auto';
         this.mouseContainer.style['pointer-events'] = 'auto';
     }
 

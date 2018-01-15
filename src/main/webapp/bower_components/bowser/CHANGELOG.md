@@ -1,5 +1,12 @@
 # Bowser Changelog
 
+### 1.9.1 (December 22, 2017)
+- [FIX] Fix `typings.d.ts` — add `chromium` flag to interface
+
+### 1.9.0 (December 20, 2017)
+- [ADD] Add a public method `.detect()` (#205)
+- [DOCS] Fix description of `chromium` flag in docs (#206)
+
 ### 1.8.1 (October 7, 2017)
 - [FIX] Fix detection of MS Edge on Android and iOS (#201)
 

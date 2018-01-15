@@ -1,5 +1,5 @@
 /**
-* Copyright 2012-2017, Plotly, Inc.
+* Copyright 2012-2018, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
@@ -372,7 +372,8 @@ function drawRangePlot(rangeSlider, gd, axisOpts, opts) {
                 width: opts._width,
                 height: opts._height,
                 margin: { t: 0, b: 0, l: 0, r: 0 }
-            }
+            },
+            _context: gd._context
         };
 
         mockFigure.layout[oppAxisName] = {

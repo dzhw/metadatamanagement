@@ -3,12 +3,6 @@
 [![npm version](https://badge.fury.io/js/plotly.js.svg)](https://badge.fury.io/js/plotly.js)
 [![circle ci](https://circleci.com/gh/plotly/plotly.js.png?&style=shield&circle-token=1f42a03b242bd969756fc3e53ede204af9b507c0)](https://circleci.com/gh/plotly/plotly.js)
 
-#### 📢 Announcement!
-#### Seats are still available for a 2 day, Plotly.js master class in NYC, November 18-19.
-#### [Registration here](https://plotcon.plot.ly/workshops) 🎨 📈 🗽
-
-***
-
 Built on top of [d3.js](http://d3js.org/) and [stack.gl](http://stack.gl/),
 plotly.js is a high-level, declarative charting library. plotly.js ships with over 20
 chart types, including scientific charts, 3D graphs, statistical charts, SVG maps, financial charts,
@@ -60,13 +54,13 @@ and require plotly.js using CommonJS as `var Plotly = require('plotly.js');` or 
 #### Use the plotly.js CDN hosted by Fastly
 ```html
 <!-- Latest compiled and minified plotly.js JavaScript -->
-<script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
 <!-- OR use a specific plotly.js release (e.g. version 1.5.0) -->
-<script type="text/javascript" src="https://cdn.plot.ly/plotly-1.5.0.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-1.5.0.min.js"></script>
 
 <!-- OR an un-minified version is also available -->
-<script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.js"></script>
+<script src="https://cdn.plot.ly/plotly-latest.js"></script>
 ```
 
 and use the `Plotly` object in the window scope.
@@ -105,7 +99,7 @@ To learn more about the plotly.js module architecture, refer to our [modularizin
 Important: the plotly.js code base contains some non-ascii characters. Therefore, please make sure to set the `charset` attribute to `"utf-8"` in the script tag that imports your plotly.js bundle. For example:
 
 ```html
-<script type="text/javascript" src="my-plotly-bundle.js" charset="utf-8"></script>
+<script src="my-plotly-bundle.js" charset="utf-8"></script>
 ```
 
 
@@ -193,7 +187,7 @@ plotly.js charts can also be created and saved online for free at [plot.ly/creat
 
 ## Copyright and license
 
-Code and documentation copyright 2017 Plotly, Inc.
+Code and documentation copyright 2018 Plotly, Inc.
 
 Code released under the [MIT license](https://github.com/plotly/plotly.js/blob/master/LICENSE).
 

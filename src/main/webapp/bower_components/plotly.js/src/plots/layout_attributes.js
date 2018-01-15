@@ -1,5 +1,5 @@
 /**
-* Copyright 2012-2017, Plotly, Inc.
+* Copyright 2012-2018, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
@@ -28,7 +28,6 @@ module.exports = {
     title: {
         valType: 'string',
         role: 'info',
-        dflt: 'Click to enter Plot title',
         editType: 'layoutstyle',
         description: [
             'Sets the plot\'s title.'
@@ -135,7 +134,7 @@ module.exports = {
         description: 'Sets the color of paper where the graph is drawn.'
     },
     plot_bgcolor: {
-        // defined here, but set in Axes.supplyLayoutDefaults
+        // defined here, but set in cartesian.supplyLayoutDefaults
         // because it needs to know if there are (2D) axes or not
         valType: 'color',
         role: 'style',
@@ -148,12 +147,12 @@ module.exports = {
     separators: {
         valType: 'string',
         role: 'style',
-        dflt: '.,',
         editType: 'plot',
         description: [
             'Sets the decimal and thousand separators.',
-            'For example, *. * puts a \'.\' before decimals and',
-            'a space between thousands.'
+            'For example, *. * puts a \'.\' before decimals and a space',
+            'between thousands. In English locales, dflt is *.,* but',
+            'other locales may alter this default.'
         ].join(' ')
     },
     hidesources: {
@@ -168,14 +167,6 @@ module.exports = {
             'forked graphs from the plotly service (at https://plot.ly or on-premise).'
         ].join(' ')
     },
-    smith: {
-        // will become a boolean if/when we implement this
-        valType: 'enumerated',
-        role: 'info',
-        values: [false],
-        dflt: false,
-        editType: 'none'
-    },
     showlegend: {
         // handled in legend.supplyLayoutDefaults
         // but included here because it's not in the legend object
@@ -183,5 +174,12 @@ module.exports = {
         role: 'info',
         editType: 'legend',
         description: 'Determines whether or not a legend is drawn.'
-    }
+    },
+    colorway: {
+        valType: 'colorlist',
+        dflt: colorAttrs.defaults,
+        role: 'style',
+        editType: 'calc',
+        description: 'Sets the default trace colors.'
+    },
 };
