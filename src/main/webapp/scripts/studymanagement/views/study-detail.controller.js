@@ -10,6 +10,18 @@ angular.module('metadatamanagementApp')
       var ctrl = this;
       ctrl.searchResultIndex = $stateParams['search-result-index'];
       ctrl.counts = {};
+
+      ctrl.loadAttachments = function() {
+        StudyAttachmentResource.findByStudyId({
+            studyId: ctrl.study.id
+          }).$promise.then(
+            function(attachments) {
+              if (attachments.length > 0) {
+                ctrl.attachments = attachments;
+              }
+            });
+      };
+
       entity.promise.then(function(result) {
         PageTitleService.setPageTitle('study-management.detail.title', {
           title: result.title[LanguageService.getCurrentInstantly()],
@@ -54,14 +66,7 @@ angular.module('metadatamanagementApp')
             .then(function(dataSets) {
               ctrl.dataSets = dataSets.hits.hits;
             });
-          StudyAttachmentResource.findByStudyId({
-              id: ctrl.study.id
-            }).$promise.then(
-              function(attachments) {
-                if (attachments.length > 0) {
-                  ctrl.attachments = attachments;
-                }
-              });
+          ctrl.loadAttachments();
         } else {
           SimpleMessageToastService.openSimpleMessageToast(
           'study-management.detail.not-released-toast', {id: result.id}

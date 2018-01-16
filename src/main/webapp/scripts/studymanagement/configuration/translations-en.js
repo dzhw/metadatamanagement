@@ -18,6 +18,8 @@ angular.module('metadatamanagementApp').config(
             'wave': 'Available Waves',
             'survey-data-type': 'Survey Data Type',
             'version': 'Version of Data Sets',
+            'title': 'Title',
+            'dataAvailability': 'Data Availability',
             'attachments': {
               'type': 'Type',
               'title': 'Title',
@@ -34,7 +36,49 @@ angular.module('metadatamanagementApp').config(
             'doi': 'DOI'
           },
           'attachments': {
-            'table-title': 'Documents related to the Study'
+            'table-title': 'Documents related to the Study',
+            'attachment-deleted-toast': 'Document "{{ filename }}" has been deleted!',
+            'delete-attachment-tooltip': 'Click to delete document "{{ filename }}"!',
+            'edit-attachment-tooltip': 'Click to edit the metadata for document "{{ filename }}".',
+            'select-attachment-tooltip': 'Click to select document "{{ filename }}" for moving it up or down.',
+            'move-attachment-down-tooltip': 'Click to move the selected document down.',
+            'move-attachment-up-tooltip': 'Click to move the selected document up.',
+            'save-attachment-order-tooltip': 'Click to save the modified order of the documents.',
+            'attachment-order-saved-toast': 'The modified order of the documents has been saved.',
+            'add-attachment-tooltip': 'Click to add a new document to this study.',
+            'edit-title': 'Modify Document "{{ filename }}" of Study "{{ studyId }}"',
+            'create-title': 'Add new Document to Study "{{ studyId }}"',
+            'cancel-tooltip': 'Click to close this dialog without saving.',
+            'save-tooltip': 'Click to save this document.',
+            'change-file-tooltip': 'Click to choose a file.',
+            'attachment-saved-toast': 'Document "{{ filename }}" has been saved.',
+            'open-choose-previous-version-tooltip': 'Click to restore a previous version of the metadata.',
+            'current-version-restored-toast': 'Current version of the metadata for document "{{ filename }}" has been restored.',
+            'previous-version-restored-toast': 'Previous version of the metadata for document "{{ filename }}" can be saved now.',
+            'choose-previous-version': {
+              'title': 'Restore Previous Version of the Metadata for Document "{{ filename }}"',
+              'text': 'Choose a previous version of the metadata for document "{{ filename }}" which shall be restored:',
+              'attachment-description': 'Description (in English)',
+              'lastModified': 'Modified',
+              'lastModifiedBy': 'by',
+              'cancel-tooltip': 'Click to return without choosing a previous metadata version.',
+              'current-version-tooltip': 'This is the current version!',
+              'next-page-tooltip': 'Click to show older versions.',
+              'previous-page-tooltip': 'Click to more recent versions.',
+              'attachment-deleted': 'Metadata has been deleted!'
+            },
+            'language-not-found': 'No valid language found!',
+            'save-study-before-adding-attachment': 'The Study has to be saved to enable attaching documents.',
+            'hints': {
+              'filename': 'Choose a file which you want to attach to the study.',
+              'type': 'Choose the type of the file.',
+              'language': 'Select the language which has been used in the file.',
+              'title': 'Enter the title of the file in the language of the file.',
+              'description': {
+                'de': 'Please enter a description for the file in German.',
+                'en': 'Please enter a description for the file in English.'
+              }
+            }
           },
           'data-set': {
             'card-title': 'Available Data Sets'
@@ -122,7 +166,7 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-size': 'The max length of the survey series is 128 signs.'
             },
             'data-availability': {
-              'not-null': 'The data avaibility of the study must not be empty!',
+              'not-null': 'The data availability of the study must not be empty!',
               'valid-data-availability': 'The allowed values for data availability of the study are: Available, In preparation, Not available.'
             },
             'survey-design': {
@@ -166,7 +210,76 @@ angular.module('metadatamanagementApp').config(
               'not-supported': 'The language of the attachment must be a two-letter abbreviation according to ISO 639-1!'
             },
             'filename': {
-              'not-empty': 'The filename of the attachment must not be empty!'
+              'not-empty': 'The filename of the attachment must not be empty!',
+              'not-unique': 'There is already an attachment with this name!'
+            }
+          }
+        },
+        'edit': {
+          'edit-page-title': 'Edit Study {{studyId}}',
+          'create-page-title': 'Create Study {{studyId}}',
+          'success-on-save-toast': 'Study {{studyId}} has been saved successfully.',
+          'error-on-save-toast': 'An error occurred during saving of Study {{studyId}}!',
+          'previous-version-restored-toast': 'Previous version of Study {{ studyId }} can be saved now.',
+          'current-version-restored-toast': 'Current version of Study {{ studyId }} has been restored.',
+          'not-authorized-toast': 'You are not authorized to create or edit studies!',
+          'choose-unreleased-project-toast': 'Please choose a project which is currently not released!',
+          'label': {
+            'edit-study': 'Edit Study:',
+            'create-study': 'Create Study:',
+            'first-name': 'First Name',
+            'middle-name': 'Middle Name',
+            'last-name': 'Last Name'
+          },
+          'open-choose-previous-version-tooltip': 'Click for restoring a previous version of this study.',
+          'save-tooltip': 'Click to save this study.',
+          'move-author-up-tooltip': 'Click to move the selected author up.',
+          'move-author-down-tooltip': 'Click to move the selected author down.',
+          'add-author-tooltip': 'Click to add a new author to this study.',
+          'delete-author-tooltip': 'Click to remove the author from this study.',
+          'choose-previous-version': {
+            'next-page-tooltip': 'Click to show older versions.',
+            'previous-page-tooltip': 'Click to more recent versions.',
+            'title': 'Restore Previous Version of Study {{ studyId }}',
+            'text': 'Choose a previous version of this study which shall be restored:',
+            'cancel-tooltip': 'Click to return without choosing a previous study version.',
+            'no-versions-found': 'There are no previous versions of study {{ studyId }}.',
+            'study-title': 'Title',
+            'lastModified': 'Modified',
+            'lastModifiedBy': 'by',
+            'current-version-tooltip': 'This is the current version!'
+          },
+          'hints': {
+            'title': {
+              'de': 'Please enter the title of this study in German.',
+              'en': 'Please enter the title of this study in English.'
+            },
+            'survey-series': {
+              'de': 'If available enter the name of the study series in German.',
+              'en': 'If available enter the name of the study series in English.'
+            },
+            'institution': {
+              'de': 'If available enter the german name of the institution which has conducted the surveys.',
+              'en': 'If available enter the english name of the institution which has conducted the surveys.'
+            },
+            'sponsor': {
+              'de': 'Enter the german name of the sponsor of this study.',
+              'en': 'Enter the english name of the sponsor of this study.'
+            },
+            'survey-design': 'Choose the survey design of this study.',
+            'annotations': {
+              'de': 'Enter additional annotations for this study in German.',
+              'en': 'Enter additional annotations for this study in English.'
+            },
+            'data-availability': 'Choose the state which best describes the current availability of the data of this study.',
+            'description': {
+              'de': 'Enter a description of this study in German.',
+              'en': 'Enter a description of this study in English'
+            },
+            'authors': {
+              'first-name': 'Enter the first name of this project member.',
+              'middle-name': 'If available enter the middle-name of this project member.',
+              'last-name': 'Enter the last name of this project member.'
             }
           }
         }

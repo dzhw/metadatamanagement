@@ -39,7 +39,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
  *
  */
 @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
-public class StudyResourceTest extends AbstractTest {
+public class StudyResourceControllerTest extends AbstractTest {
   private static final String API_STUDY_URI = "/api/studies";
   
   @Autowired

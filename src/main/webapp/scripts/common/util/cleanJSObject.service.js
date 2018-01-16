@@ -20,16 +20,26 @@ angular.module('metadatamanagementApp').service('CleanJSObjectService',
         (jQuery.isPlainObject(object) && jQuery.isEmptyObject(object)));
     };
 
+    var deleteEmptyStrings = function(object) {
+      for (var key in object) {
+        if (object.hasOwnProperty(key)) {
+          if (object[key] === '') {
+            delete object[key];
+          } else if (jQuery.isPlainObject(object[key])) {
+            deleteEmptyStrings(object[key]);
+          }
+        }
+      }
+    };
+
     var removeEmptyJsonObjects = function(json) {
-      if (jQuery.isPlainObject(json)) {
-        for (var key in json) {
+      for (var key in json) {
+        if (isNullOrEmpty(json[key])) {
+          delete json[key];
+        } else if (jQuery.isPlainObject(json[key])) {
+          removeEmptyJsonObjects(json[key]);
           if (isNullOrEmpty(json[key])) {
             delete json[key];
-          } else {
-            removeEmptyJsonObjects(json[key]);
-            if (isNullOrEmpty(json[key])) {
-              delete json[key];
-            }
           }
         }
       }
@@ -38,6 +48,7 @@ angular.module('metadatamanagementApp').service('CleanJSObjectService',
     return {
       removeWhiteSpace: removeWhiteSpace,
       removeEmptyJsonObjects: removeEmptyJsonObjects,
-      isNullOrEmpty: isNullOrEmpty
+      isNullOrEmpty: isNullOrEmpty,
+      deleteEmptyStrings: deleteEmptyStrings
     };
   });
