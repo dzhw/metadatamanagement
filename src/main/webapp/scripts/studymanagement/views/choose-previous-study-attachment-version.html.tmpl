@@ -1,0 +1,68 @@
+<md-dialog aria-label="{{'study-management.detail.attachments.choose-previous-version.title' | translate:translationParams }}" flex="75" style="min-height: 454px;" layout="column">
+    <md-toolbar>
+        <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+            <h2 class="fdz-truncate-string">
+                <span>{{'study-management.detail.attachments.choose-previous-version.title' | translate:translationParams }}</span>
+            </h2>
+            <md-button class="md-icon-button" ng-click="closeDialog()">
+                <md-icon md-font-set="material-icons">clear</md-icon>
+                <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
+                    {{'study-management.detail.attachments.choose-previous-version.cancel-tooltip' | translate }}
+                </md-tooltip>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content layout-padding flex layout="column">
+        <p ng-if="studyAttachments && studyAttachments.length > 0" style="margin: 0px;">{{'study-management.detail.attachments.choose-previous-version.text' | translate:translationParams }}</p>
+        <table md-autofocus fdz-table ng-if="studyAttachments && studyAttachments.length > 0" style="width: 100%;" flex>
+            <thead>
+                <tr>
+                    <th style="max-width: 600px;">{{'study-management.detail.attachments.choose-previous-version.attachment-description' | translate }}
+                        <md-tooltip hide-gt-xs md-direction="right">
+                            {{'study-management.detail.attachments.choose-previous-version.attachment-description' | translate }}
+                        </md-tooltip>
+                    </th>
+                    <th>{{'study-management.detail.attachments.choose-previous-version.lastModified' | translate }}
+                        <md-tooltip hide-gt-xs md-direction="right">
+                            {{'study-management.detail.attachments.choose-previous-version.attachment-title.lastModified' | translate }}
+                        </md-tooltip>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="attachment in studyAttachments" ng-click="attachment.id && select(attachment, $index)" ng-class="{'fdz-current-version': isCurrentVersion($index), 'fdz-deleted-version': !attachment.id}">
+                    <td ng-if="attachment.id" display-i18n-string="attachment.description" class="fdz-truncate-string" style="max-width: 600px;" title="{{ getVersionTitle($index) }}"></td>
+                    <td ng-if="!attachment.id" class="fdz-truncate-string" style="max-width: 600px;" title="{{'study-management.detail.attachments.choose-previous-version.attachment-deleted' | translate}}"></td>
+                    <td class="fdz-table-nowrap" title="{{ attachment.lastModifiedDate + 'Z'| date:'fullDate'}} {{ attachment.lastModifiedDate + 'Z'| date:'mediumTime'}}">
+                      <span am-time-ago="attachment.lastModifiedDate | amUtc | amLocal"></span> {{ 'study-management.detail.attachments.choose-previous-version.lastModifiedBy' | translate }} {{ attachment.lastModifiedBy }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div ng-if="!studyAttachments || attachments.studyAttachments === 0" flex>
+            <span>{{'study-management.detail.attachments.choose-previous-version.no-versions-found' | translate:translationParams }}</span>
+        </div>
+        <div ng-hide="(!studyAttachments || studyAttachments.length === 0) && (currentPage.number === 0)" layout="row" layout-align="space-between center" style="margin-top: 8px;">
+          <md-button ng-disabled="currentPage.number === 0" class="md-raised md-primary md-icon-button" ng-click="previousPage()">
+              <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
+                  {{'study-management.detail.attachments.choose-previous-version.previous-page-tooltip' | translate }}
+              </md-tooltip>
+              <md-icon md-font-set="material-icons">navigate_before</md-icon>
+          </md-button>
+          <md-button ng-disabled="!studyAttachments || studyAttachments.length === 0 || studyAttachments.length < currentPage.limit" class="md-raised md-primary md-icon-button" ng-click="nextPage()">
+              <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
+                  {{'study-management.detail.attachments.choose-previous-version.next-page-tooltip' | translate }}
+              </md-tooltip>
+              <md-icon md-font-set="material-icons">navigate_next</md-icon>
+          </md-button>
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row" style="padding-right: 1em;">
+        <md-button class="md-raised" ng-click="closeDialog()">
+            <span>{{'global.entity.action.cancel' | translate}}</span>
+            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
+                {{'study-management.detail.attachments.choose-previous-version.cancel-tooltip' | translate }}
+            </md-tooltip>
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

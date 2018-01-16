@@ -8,6 +8,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.javers.core.metamodel.annotation.Entity;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -40,6 +41,7 @@ import lombok.ToString;
  * @author Daniel Katzberg
  *
  */
+@Entity
 @Document(collection = "studies")
 @ValidStudyId(message = "study-management.error.study.id.not-valid-id")
 @Data
@@ -110,7 +112,7 @@ public class Study extends AbstractRdcDomainObject {
   private String doi;
   
   @I18nStringSize(max = StringLengths.LARGE,
-      message = "study-management.error.variable.annotations.i18n-string-size")
+      message = "study-management.error.study.annotations.i18n-string-size")
   private I18nString annotations;
   
   public Study(Study study) {

@@ -18,6 +18,8 @@ angular.module('metadatamanagementApp').config(
             'annotations': 'Anmerkungen',
             'wave': 'Verfügbare Wellen',
             'survey-data-type': 'Erhebungsdatentyp',
+            'title': 'Titel',
+            'dataAvailability': 'Datenverfügbarkeit',
             'attachments': {
               'type': 'Typ',
               'title': 'Titel',
@@ -34,7 +36,49 @@ angular.module('metadatamanagementApp').config(
             'doi': 'DOI'
           },
           'attachments': {
-            'table-title': 'Materialien zu der Studie'
+            'table-title': 'Materialien zu der Studie',
+            'attachment-deleted-toast': 'Datei "{{ filename }}" wurde gelöscht!',
+            'delete-attachment-tooltip': 'Klicken, um die Datei "{{ filename }}" zu löschen!',
+            'edit-attachment-tooltip': 'Klicken, um die Datei "{{ filename }}" zu bearbeiten.',
+            'select-attachment-tooltip': 'Klicken, um Datei "{{ filename }}" zum Verschieben auszuwählen.',
+            'move-attachment-up-tooltip': 'Klicken, um die ausgewählte Datei nach oben zu verschieben.',
+            'move-attachment-down-tooltip': 'Klicken, um die ausgewählte Datei nach unten zu verschieben.',
+            'save-attachment-order-tooltip': 'Klicken, um die geänderte Reihenfolge der Dateien zu speichern.',
+            'attachment-order-saved-toast': 'Die geänderte Reihenfolge der Dateien wurde gespeichert.',
+            'add-attachment-tooltip': 'Klicken, um einen neue Datei zu dieser Studie hinzuzufügen.',
+            'edit-title': 'Datei "{{ filename }}" von Studie "{{ studyId }}" bearbeiten',
+            'create-title': 'Neue Datei zu Studie "{{ studyId }}" hinzufügen',
+            'cancel-tooltip': 'Klicken, um den Dialog ohne zu speichern zu schließen.',
+            'save-tooltip': 'Klicken, um die Datei zu speichern.',
+            'attachment-saved-toast': 'Datei "{{ filename }}" wurde gespeichert.',
+            'change-file-tooltip': 'Klicken, um eine Datei auszuwählen.',
+            'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version der Metadaten wiederherzustellen.',
+            'current-version-restored-toast': 'Die aktuelle Version der Metadaten von Datei "{{ filename }}" wurde wiederhergestellt.',
+            'previous-version-restored-toast': 'Die ältere Version der Metadaten von Datei "{{ filename }}" kann jetzt gespeichert werden.',
+            'choose-previous-version': {
+              'title': 'Ältere Version der Metadaten zu Datei "{{ filename }}" wiederherstellen',
+              'text': 'Wählen Sie eine ältere Version der Metadaten zu Datei "{{ filename }}" aus, die wiederhergestellt werden soll:',
+              'attachment-description': 'Beschreibung (auf Deutsch)',
+              'lastModified': 'Geändert',
+              'lastModifiedBy': 'von',
+              'cancel-tooltip': 'Klicken, um ohne eine ältere Version der Metadaten auszuwählen zurückzukehren.',
+              'current-version-tooltip': 'Dies ist die aktuelle Version!',
+              'next-page-tooltip': 'Klicken, um ältere Versionen anzuzeigen.',
+              'previous-page-tooltip': 'Klicken, um aktuellere Versionen anzuzeigen.',
+              'attachment-deleted': 'Metadaten wurden gelöscht!'
+            },
+            'language-not-found': 'Keine gültige Sprache gefunden!',
+            'save-study-before-adding-attachment': 'Die Studie muss erst gespeichert werden, bevor Materialien hinzugefügt werden können.',
+            'hints': {
+              'filename': 'Wählen Sie eine Datei aus, die Sie der Studie hinzufügen wollen.',
+              'type': 'Wählen Sie den Typ der Datei aus.',
+              'language': 'Wählen Sie die Sprache, die in der Datei verwendet wurde, aus.',
+              'title': 'Geben Sie den Titel der Datei in der Dokumentensprache ein.',
+              'description': {
+                'de': 'Geben Sie eine Beschreibung dieser Datei auf Deutsch ein.',
+                'en': 'Geben Sie eine Beschreibung dieser Datei auf Englisch ein.'
+              }
+            }
           },
           'data-set': {
             'card-title': 'Verfügbare Datensätze'
@@ -168,7 +212,76 @@ angular.module('metadatamanagementApp').config(
               'not-supported': 'Die Sprache muss eine gültige zweibuchstabige Abkürzung gemäß ISO 639-1 sein.'
             },
             'filename': {
-              'not-empty': 'Der Dateiname des Attachments darf nicht leer sein.'
+              'not-empty': 'Der Dateiname des Attachments darf nicht leer sein.',
+              'not-unique': 'Es gibt bereits ein Attachment mit diesem Dateinamen.'
+            }
+          }
+        },
+        'edit': {
+          'edit-page-title': 'Studie {{studyId}} bearbeiten',
+          'create-page-title': 'Studie {{studyId}} anlegen',
+          'success-on-save-toast': 'Studie {{studyId}} wurde erfolgreich gespeichert',
+          'error-on-save-toast': 'Ein Fehler trat beim Speichern von Studie {{studyId}} auf!',
+          'previous-version-restored-toast': 'Die ältere Version von Studie {{ studyId }} kann jetzt gespeichert werden.',
+          'current-version-restored-toast': 'Die aktuelle Version von Studie {{ studyId }} wurde wiederhergestellt.',
+          'not-authorized-toast': 'Sie sind nicht berechtigt Studien zu bearbeiten oder anzulegen!',
+          'choose-unreleased-project-toast': 'Bitte wählen Sie ein Projekt aus, welches aktuell nicht freigegeben ist!',
+          'label': {
+            'edit-study': 'Studie bearbeiten:',
+            'create-study': 'Studie anlegen:',
+            'first-name': 'Vorname',
+            'middle-name': 'Zweiter Vorname',
+            'last-name': 'Nachname'
+          },
+          'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version dieser Studie wieder herzustellen.',
+          'save-tooltip': 'Klicken, um die Studie zu speichern.',
+          'move-author-up-tooltip': 'Klicken, um den ausgewählten Mitarbeiter nach oben zu verschieben.',
+          'move-author-down-tooltip': 'Klicken, um den ausgewählten Mitarbeiter nach unten zu verschieben.',
+          'add-author-tooltip': 'Klicken, um einen neuen Mitarbeiter dieser Studie hinzuzufügen.',
+          'delete-author-tooltip': 'Klicken, um den Projektmitarbeiter aus dieser Studie zu löschen.',
+          'choose-previous-version': {
+            'next-page-tooltip': 'Klicken, um ältere Versionen anzuzeigen.',
+            'previous-page-tooltip': 'Klicken, um aktuellere Versionen anzuzeigen.',
+            'title': 'Ältere Version der Studie {{ studyId }} wiederherstellen',
+            'text': 'Wählen Sie eine ältere Studienversion aus, die wiederhergestellt werden soll:',
+            'cancel-tooltip': 'Klicken, um ohne eine ältere Studienversion auszuwählen zurückzukehren.',
+            'no-versions-found': 'Es wurden keine älteren Versionen von Studie {{ studyId }} gefunden.',
+            'study-title': 'Titel',
+            'lastModified': 'Geändert',
+            'lastModifiedBy': 'von',
+            'current-version-tooltip': 'Dies ist die aktuelle Version!'
+          },
+          'hints': {
+            'title': {
+              'de': 'Geben Sie den Titel der Studie auf Deutsch ein.',
+              'en': 'Geben Sie den Titel der Studie auf Englisch ein.'
+            },
+            'survey-series': {
+              'de': 'Geben Sie, falls vorhanden, den Namen der Studienreihe auf Deutsch ein.',
+              'en': 'Geben Sie, falls vorhanden, den Namen der Studienreihe auf Englisch ein.'
+            },
+            'institution': {
+              'de': 'Geben Sie, falls vorhanden, den deutschen Namen der Institution ein, die die Erhebungen durchgeführt hat.',
+              'en': 'Geben Sie, falls vorhanden, den englischen Namen der Institution ein, die die Erhebungen durchgeführt hat.'
+            },
+            'sponsor': {
+              'de': 'Geben Sie den deutschen Namen des Geldgebers für diese Studie ein.',
+              'en': 'Geben Sie den englischen Namen des Geldgebers für diese Studie ein.'
+            },
+            'survey-design': 'Wählen Sie das Erhebungsdesign dieser Studie aus.',
+            'annotations': {
+              'de': 'Geben Sie zusätzliche Anmerkungen zur Studie auf Deutsch ein.',
+              'en': 'Geben Sie zusätzliche Anmerkungen zur Studie auf Englisch ein.'
+            },
+            'data-availability': 'Wählen Sie den Status aus, der die aktuelle Verfügbarkeit der Daten am Besten beschreibt.',
+            'description': {
+              'de': 'Geben Sie eine Beschreibung der Studie auf Deutsch ein.',
+              'en': 'Geben Sie eine Beschreibung zur Studie auf Englisch ein.'
+            },
+            'authors': {
+              'first-name': 'Geben Sie den Vornamen des Projektmitarbeiters ein.',
+              'middle-name': 'Geben Sie, falls vorhanden, den zweiten Vornamen des Projektmitarbeiters ein.',
+              'last-name': 'Geben Sie den Nachnamen des Projektmitarbeiters ein.'
             }
           }
         }

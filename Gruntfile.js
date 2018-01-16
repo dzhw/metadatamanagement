@@ -254,7 +254,9 @@ module.exports = function(grunt) {
               'Element “li” not allowed as child of element “body”' +
               ' in this context.',
               'An element with “role=menuitem” must be contained in, or owned' +
-              ' by, an element with “role=menubar” or “role=menu”.'
+              ' by, an element with “role=menubar” or “role=menu”.',
+              'A table row was 3 columns wide and exceeded the column count' +
+              ' established by the first row (2).'
             ],
             customattrs: [
               'show-validation',
@@ -291,7 +293,10 @@ module.exports = function(grunt) {
               'md-auto-hide',
               'du-scroll-container',
               'layout-align',
-              'layout-fill'
+              'layout-fill',
+              'flex',
+              'am-time-ago',
+              'fdz-required'
             ]
           },
           files: {

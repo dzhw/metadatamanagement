@@ -34,6 +34,16 @@ angular.module('metadatamanagementApp')
           ctrl.selectedProject = project;
         });
 
+      $scope.$on('domain-object-editing-started',
+        function() {
+          ctrl.projectChooserDisabled = true;
+        });
+
+      $scope.$on('domain-object-editing-stopped',
+        function() {
+          ctrl.projectChooserDisabled = false;
+        });
+
       //Load the projects for the drop menu
       function loadProjects() {
         DataAcquisitionProjectSearchResource.findAll(
@@ -88,7 +98,7 @@ angular.module('metadatamanagementApp')
                   .openSimpleMessageToast(
                     i18nPrefix + 'saved', {
                       id: project.id
-                    });
+                    }, true);
                 ctrl.selectedProject = project;
                 CurrentProjectService.setCurrentProject(project);
                 loadProjects();
@@ -134,7 +144,7 @@ angular.module('metadatamanagementApp')
                   SimpleMessageToastService.openSimpleMessageToast(
                     i18nPrefix + 'deleted-successfully-project', {
                       id: ctrl.selectedProject.id
-                    });
+                    }, true);
                   loadProjects();
                 });
             },
@@ -212,7 +222,7 @@ angular.module('metadatamanagementApp')
               SimpleMessageToastService.openSimpleMessageToast(
                 i18nPrefix + 'unreleased-successfully', {
                   id: ctrl.selectedProject.id
-                });
+                }, true);
             });
         });
       };
