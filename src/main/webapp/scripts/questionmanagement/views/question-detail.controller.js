@@ -17,7 +17,7 @@ angular.module('metadatamanagementApp')
       ctrl.predecessors = [];
       ctrl.successors = [];
       ctrl.counts = {};
-      ctrl.currentIndex = 0;
+      ctrl.currentImageIndex = 0;
       ctrl.currentImageLanguage = '';
       ctrl.imageLanguages = [];
       ctrl.imagesGroupedByLanguage = {};

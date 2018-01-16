@@ -292,7 +292,7 @@ angular.module('metadatamanagementApp').config(
           },
           'resolution': {
             'width-x': {
-              'not-null': 'Die Angabe der Weite eines Bildes (maximaler Wert auf der X-Achse) muss gefüllt sein.'
+              'not-null': 'Die Angabe der Breite eines Bildes (maximaler Wert auf der X-Achse) muss gefüllt sein.'
             },
             'height-y': {
               'not-null': 'Die Angabe der Höhe eines Bildes (maximaler Wert auf der Y-Achse) muss gefüllt sein.'

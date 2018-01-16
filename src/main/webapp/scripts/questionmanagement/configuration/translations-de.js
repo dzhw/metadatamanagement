@@ -21,9 +21,9 @@ angular.module('metadatamanagementApp').config(
             'non-unique-index-in-instrument': 'Mindestens zwei Fragen ({{firstQuestionId}}, {{secondQuestionId}}) haben den gleichen Index "{{index}}" innerhalb eines Instrument.'
           },
           'question-image-metadata': {
-            'unable-to-parse-json-file': 'Die JSON Datei "{{file}}" zur Fragennummer "{{questionNumber}}" enthält kein valides JSON!',
-            'unable-to-read-file': 'Die Datei "{{file}}" zur Fragennumber "{{questionNumber}}" konnte nicht gelesen werden!',
-            'unable-to-read-resolution': 'Die Auflösung des Bildes "{{file}}" zur Fragennumber "{{questionNumber}}" konnte nicht ausgegelesen werden!',
+            'unable-to-parse-json-file': 'Die JSON Datei "{{file}}" zur Fragenummer "{{questionNumber}}" enthält kein valides JSON!',
+            'unable-to-read-file': 'Die Datei "{{file}}" zur Fragenumber "{{questionNumber}}" konnte nicht gelesen werden!',
+            'unable-to-read-resolution': 'Die Auflösung des Bildes "{{file}}" zur Fragenummer "{{questionNumber}}" konnte nicht ausgegelesen werden!',
             'not-found-image-and-metadata-file': 'Zu der Frage "{{questionNumber}}" in Instrument "{{instrument}}" konnte kein Bild mit dem Namen "{{imageFilename}}" und keine dazugehörige JSON Metadatendatei mit dem Namen "{{metadataFilename}}" gefunden werden!',
             'not-found-image-file': 'Zu der Frage "{{questionNumber}}" in Instrument "{{instrument}}" konnte kein Bild mit dem Namen "{{imageFilename}}" gefunden werden!',
             'not-found-metadata-file': 'Zu der Frage "{{questionNumber}}" in Instrument "{{instrument}}" konnte keine dazugehörige JSON Metadatendatei mit dem Namen "{{metadataFilename}}" gefunden werden!',
@@ -82,7 +82,7 @@ angular.module('metadatamanagementApp').config(
         },
         'error': {
           'question': {
-            'valid-question-id-name': 'Die FDZ-ID der Frage entspricht nicht dem Muster: "que" + {FDZID} + "-ins" + {InstrumentNummer} + "-" + {FragenNummer} + "$".',
+            'valid-question-id-name': 'Die FDZ-ID der Frage entspricht nicht dem Muster: "que" + {FDZID} + "-ins" + {InstrumentNummer} + "-" + {FrageNummer} + "$".',
             'unique-question-name': 'Der Name einer Frage muss eindeutig innerhalb einer Befragung sein.',
             'unique-question-number': 'Die Nummer einer Frage muss eindeutig innerhalb einer Befragung sein.',
             'id': {
@@ -145,10 +145,10 @@ angular.module('metadatamanagementApp').config(
               'size': 'Die Maximallänge des Dateinamens bei den Bildmetadaten ist 32 Zeichen.'
             },
             'contains-annotations': {
-              'not-null': 'Der boolische Wert "Contains Annotations" bei den Bildmetadaten der Frage darf nicht leer sein.'
+              'not-null': 'Der boolesche Wert "Contains Annotations" bei den Bildmetadaten der Frage darf nicht leer sein.'
             },
             'index-in-question': {
-              'not-null': 'Der Index eines Bilder bei der Frage darf nicht leer sein.'
+              'not-null': 'Der Index eines Bildes darf nicht leer sein.'
             },
             'data-acquisition-project-id': {
               'not-empty': 'Die FDZ-ID des Projektes darf nicht leer sein!'

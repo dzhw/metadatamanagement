@@ -168,11 +168,11 @@
                         <div flex-gt-sm="50" layout="column">
                             <div class="fdz-add-bottom-margin fdz-text-block">
                                 <span style="font-weight: bold;">Annotationen:</span>
-                                <span>{{ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][ctrl.currentIndex].containsAnnotations ? 'question-management.detail.label.yes' : 'question-management.detail.label.no' | translate }}</span>
+                                <span>{{ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][ctrl.currentImageIndex].containsAnnotations ? 'question-management.detail.label.yes' : 'question-management.detail.label.no' | translate }}</span>
                             </div>
                             <div class="fdz-add-bottom-margin fdz-text-block">
                                 <span style="font-weight: bold;">Auflösung:</span>
-                                <span ng-if="ctrl.question.instrument.type != 'PAPI'">{{ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][ctrl.currentIndex].resolution.widthX}} x {{ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][ctrl.currentIndex].resolution.heightY}}</span>
+                                <span ng-if="ctrl.question.instrument.type != 'PAPI'">{{ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][ctrl.currentImageIndex].resolution.widthX}} x {{ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][ctrl.currentImageIndex].resolution.heightY}}</span>
                                 <span ng-if="ctrl.question.instrument.type == 'PAPI'">{{'question-management.detail.label.papi-instrument-no-resolution' | translate}}</span>
                             </div>
                         </div>
@@ -188,7 +188,7 @@
                         </div>
                     </div>
                     <div ng-if="ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage].length > 1">
-                        <jk-carousel data="ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage]" item-template-url="'scripts/questionmanagement/views/question-image-template.html.tmpl'" current-index="ctrl.currentIndex" max-height="211px">
+                        <jk-carousel data="ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage]" item-template-url="'scripts/questionmanagement/views/question-image-template.html.tmpl'" current-index="ctrl.currentImageIndex" max-height="211px">
                         </jk-carousel>
                     </div>
                     <div ng-if="ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage].length === 1">
