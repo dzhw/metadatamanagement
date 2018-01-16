@@ -163,7 +163,8 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-size': 'The max length of the sponsor of the study is 128.'
             },
             'survey-series': {
-              'i18n-string-size': 'The max length of the survey series is 128 signs.'
+              'i18n-string-size': 'The max length of the survey series is 128 signs.',
+              'i18n-string-entire-not-empty-optional': 'If the survey series is given in one language, it has to be set in all languages.'
             },
             'data-availability': {
               'not-null': 'The data availability of the study must not be empty!',
