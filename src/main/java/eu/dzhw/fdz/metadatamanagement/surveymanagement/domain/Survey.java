@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.domain;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -15,6 +16,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringEntireNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
@@ -61,6 +63,8 @@ public class Survey extends AbstractRdcDomainObject {
 
   @I18nStringSize(max = StringLengths.LARGE,
       message = "survey-management.error.survey.title.i18n-string-size")
+  @I18nStringEntireNotEmpty(
+      message = "survey-management.error.survey.title.i18n-string-entire-not-empty")
   private I18nString title;
 
   @NotNull(message = "survey-management.error.survey.population.not-null")  
@@ -87,6 +91,7 @@ public class Survey extends AbstractRdcDomainObject {
   private I18nString sample;
   
   @NotNull(message = "survey-management.error.survey.wave.not-null")
+  @Min(value = 1, message = "survey-management.error.survey.wave.min")
   private Integer wave;
 
   private Integer grossSampleSize;
