@@ -178,10 +178,10 @@
                         </div>
                         <div flex-gt-sm="50" layout="column">
                             <md-input-container>
-                                <label>{{'question-management.detail.label.languages' | translate }}</label>
+                                <label>{{'question-management.detail.label.language' | translate }}</label>
                                 <md-select ng-model="ctrl.currentImageLanguage">
                                     <md-option ng-repeat="language in ctrl.imageLanguages" ng-value="language">
-                                        {{language}}
+                                        {{language | displayIsoLanguage:currentLanguage}}
                                     </md-option>
                                 </md-select>
                             </md-input-container>

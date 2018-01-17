@@ -10,6 +10,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ImageType;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Resolution;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidIsoLanguage;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation.ValidQuestionImageType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -44,6 +45,8 @@ public class QuestionImageMetadata extends AbstractRdcDomainObject {
       message = "question-management.error.question.question-image-metadata.language.not-empty")
   @Size(max = StringLengths.SMALL,
       message = "question-management.error.question.question-image-metadata.language.size")
+  @ValidIsoLanguage(message = 
+      "question-management.error.question.question-image-metadata.language.not-supported")
   private String language;
   
   @Valid

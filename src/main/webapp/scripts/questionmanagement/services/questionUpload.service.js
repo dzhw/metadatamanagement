@@ -1,4 +1,3 @@
-/*jshint loopfunc: true */
 /* global _ */
 /* global window */
 /* global Image */

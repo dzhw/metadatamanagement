@@ -44,7 +44,7 @@ angular.module('metadatamanagementApp').config(
             'introduction': 'Einführung',
             'number': 'Fragenummer',
             'questionText': 'Fragetext',
-            'languages': 'Sprachen',
+            'language': 'Sprache',
             'yes': 'Ja',
             'no': 'Nein',
             'papi-instrument-no-resolution': 'Papierbasiertes Instrument'
@@ -138,7 +138,8 @@ angular.module('metadatamanagementApp').config(
             },
             'language': {
               'not-empty': 'Die Sprache bei den Bildmetadaten der Frage darf nicht leer sein.',
-              'size': 'Die Maximallänge der Sprache bei den Bildmetadaten ist 32 Zeichen.'
+              'size': 'Die Maximallänge der Sprache bei den Bildmetadaten ist 32 Zeichen.',
+              'not-supported': 'Die Sprache muss eine gültige zweibuchstabige Abkürzung gemäß ISO 639-1 sein.'
             },
             'file-name': {
               'not-empty': 'Der Dateiname bei den Bildmetadaten der Frage darf nicht leer sein.',

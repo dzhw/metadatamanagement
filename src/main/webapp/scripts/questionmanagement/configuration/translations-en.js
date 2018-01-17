@@ -44,7 +44,7 @@ angular.module('metadatamanagementApp').config(
             'introduction': 'Introduction',
             'number': 'Question Number',
             'questionText': 'Question Text',
-            'languages': 'Languages',
+            'language': 'Language',
             'yes': 'Yes',
             'no': 'No',
             'papi-instrument-no-resolution': 'Paper based instrument'
@@ -138,7 +138,8 @@ angular.module('metadatamanagementApp').config(
             },
             'language': {
               'not-empty': 'The language of the question image metadata must not be empty.',
-              'size': 'The max length of the language of the question image metadata 32 signs.'
+              'size': 'The max length of the language of the question image metadata 32 signs.',
+              'not-supported': 'The language of the attachment must be a two-letter abbreviation according to ISO 639-1!'
             },
             'file-name': {
               'not-empty': 'The filename of the question image metadata must not be empty.',
