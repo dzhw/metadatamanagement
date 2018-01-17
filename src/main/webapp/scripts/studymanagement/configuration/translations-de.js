@@ -162,7 +162,7 @@ angular.module('metadatamanagementApp').config(
             'sponsor': {
               'not-null': 'Der Sponsor einer Studie darf nicht leer sein!',
               'i18n-string-size': 'Die Maximallänge des Sponsors einer Studie ist 128 Zeichen.',
-              'i18n-string-entire-not-empty': 'Der Sponsor einer Studie muss in beiden Sprache vorhanden sein.'
+              'i18n-string-entire-not-empty': 'Der Sponsor einer Studie muss in beiden Sprachen vorhanden sein.'
             },
             'survey-series': {
               'i18n-string-size': 'Die Maximallänge der Erhebungsreihe einer Studie ist 128 Zeichen.'
