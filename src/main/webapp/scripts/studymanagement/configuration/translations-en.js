@@ -160,7 +160,9 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-not-empty': 'The institution of the study must not be empty at least for one language.'
             },
             'sponsor': {
-              'i18n-string-size': 'The max length of the sponsor of the study is 128.'
+              'not-null': 'The sponsor of the study must not be empty!',
+              'i18n-string-size': 'The max length of the sponsor of the study is 128.',
+              'i18n-string-not-empty': 'The sponsor of the study must not be empty at both languages.'
             },
             'survey-series': {
               'i18n-string-size': 'The max length of the survey series is 128 signs.'
