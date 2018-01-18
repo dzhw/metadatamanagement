@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp').config(
           'label': {
             'study': 'Study',
             'studies': 'Studies',
-            'studySeries': 'Survey Series',
+            'studySeries': 'Study Series',
             'institution': 'Institution',
             'authors': 'Authors',
             'sponsors': 'Sponsored by',
@@ -116,7 +116,7 @@ angular.module('metadatamanagementApp').config(
               'many': 'Click to show all instruments of this study'
             },
             'studies': {
-              'study-series': 'Click to show all studies of the survey series.'
+              'study-series': 'Click to show all studies of the study series.'
             }
           },
           'doi-tooltip': 'Click to open the DOI in a new Tab'
@@ -165,7 +165,7 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-not-empty': 'The sponsor of the study must not be empty at both languages.'
             },
             'study-series': {
-              'i18n-string-size': 'The max length of the survey series is 128 signs.'
+              'i18n-string-size': 'The max length of the study series is 128 signs.'
             },
             'data-availability': {
               'not-null': 'The data availability of the study must not be empty!',

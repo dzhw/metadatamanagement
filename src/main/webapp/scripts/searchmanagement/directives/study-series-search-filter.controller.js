@@ -14,7 +14,7 @@ angular.module('metadatamanagementApp')
       var lastSearchResult;
       var currentFilterByLanguage;
 
-      //Search Method for Survey Series, call Elasticsearch
+      //Search Method for Study Series, call Elasticsearch
       $scope.searchStudySeries = function(searchText, language) {
         var cleanedFilter = _.omit($scope.currentSearchParams.filter,
           'study-series-' + language);
@@ -36,7 +36,7 @@ angular.module('metadatamanagementApp')
         );
       };
 
-      //Init the de and en filter of survey series
+      //Init the de and en filter of study series
       var init = function(currentLanguage) {
 
         //Just a change? No Init!
@@ -56,16 +56,16 @@ angular.module('metadatamanagementApp')
             $scope.currentSearchParams.filter['study-series-' +
               currentLanguage];
 
-          //Search Survey Series and for Validation
+          //Search Study Series and for Validation
           $scope.searchStudySeries(currentFilterByLanguage, currentLanguage)
             .then(function(studySeries) {
 
-                //Just one Survey Series exists
+                //Just one Study Series exists
                 if (studySeries.length === 1) {
                   $scope.currentStudySeries = studySeries[0];
                   return;
                 } else if (studySeries.length > 1) {
-                  //Standard Case, there are many Survey Series
+                  //Standard Case, there are many Study Series
                   studySeries.forEach(function(surveySerie) {
                     if (surveySerie[currentLanguage] ===
                         currentFilterByLanguage) {
@@ -75,7 +75,7 @@ angular.module('metadatamanagementApp')
                   });
                 }
 
-                //Survey Series was not found check the language
+                //Study Series was not found check the language
                 if (!$scope.currentStudySeries) {
                   $scope.currentStudySeries =
                     $scope.currentSearchParams.filter['study-series-' +
@@ -124,7 +124,7 @@ angular.module('metadatamanagementApp')
         }
       };
 
-      //Set the Filter, if the user changed the Survey Series Filter
+      //Set the Filter, if the user changed the Study Series Filter
       $scope.onSelectionChanged = function(studySeries) {
         if (initializing) {
           initializing = false;
@@ -135,19 +135,19 @@ angular.module('metadatamanagementApp')
           $scope.currentSearchParams.filter = {};
         }
 
-        //Set the Survey Series Filter in the URL
+        //Set the Study Series Filter in the URL
         if (studySeries) {
           $scope.currentSearchParams.filter['study-series-' +
             $scope.currentLanguage] = studySeries[$scope.currentLanguage];
         } else {
-          //No Survey Series is chosen, delete the Parameter in the URL
+          //No Study Series is chosen, delete the Parameter in the URL
           delete $scope.currentSearchParams.filter['study-series-' +
             $scope.currentLanguage];
         }
         $scope.studySeriesChangedCallback();
       };
 
-      //Initialize and watch the current Survey Series Filter
+      //Initialize and watch the current Study Series Filter
       $scope.$watch('currentSearchParams.filter["study-series-' +
         $scope.currentLanguage + '"]',
         function() {

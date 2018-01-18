@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp').config(
           'label': {
             'study': 'Studie',
             'studies': 'Studien',
-            'studySeries': 'Erhebungsreihe',
+            'studySeries': 'Studienreihe',
             'institution': 'Erhebende Institution',
             'authors': 'Projektmitarbeiter(innen)',
             'sponsors': 'Gefördert von',
@@ -116,7 +116,7 @@ angular.module('metadatamanagementApp').config(
               'many': 'Klicken, um die Instrumente dieser Studie anzuzeigen.'
             },
             'studies': {
-              'study-series': 'Klicken, um alle Studien aus der Erhebungsreihe anzuzeigen.'
+              'study-series': 'Klicken, um alle Studien aus der Studienreihe anzuzeigen.'
             }
           },
           'doi-tooltip': 'Klicken, um die DOI in einem neuen Tab zu öffnen'
@@ -165,7 +165,7 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-entire-not-empty': 'Der Sponsor einer Studie muss in beiden Sprachen vorhanden sein.'
             },
             'study-series': {
-              'i18n-string-size': 'Die Maximallänge der Erhebungsreihe einer Studie ist 128 Zeichen.'
+              'i18n-string-size': 'Die Maximallänge der Studienreihe einer Studie ist 128 Zeichen.'
             },
             'data-availability': {
               'not-null': 'Die Datenerreichbarkeit einer Studie darf nicht leer sein!',
