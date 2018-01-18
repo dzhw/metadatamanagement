@@ -128,7 +128,7 @@
 					}
 				}
 			},
-			"surveySeries": {
+			"studySeries": {
                 "type": "object",
                 "properties": {
                     "de": {
