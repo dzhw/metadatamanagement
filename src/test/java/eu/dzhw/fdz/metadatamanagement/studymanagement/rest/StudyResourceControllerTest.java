@@ -91,12 +91,12 @@ public class StudyResourceControllerTest extends AbstractTest {
   }
   
   @Test
-  public void testCreateStudyWithTooSurveySeries() throws IOException, Exception {
+  public void testCreateStudyWithTooStudySeries() throws IOException, Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     this.dataAcquisitionProjectRepository.save(project);
     
     Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
-      study.setSurveySeries(I18nString.builder()
+      study.setStudySeries(I18nString.builder()
           .de("Zufallsstringhsdfosdhgfodsfvfsdhvdfaghscdqwdpqwubdpiempfuvgnrtgfnoeugfudgsfvoudgsvnauehgvenogfweuigfuzegnfvouiegsnfgaoseiufgvnuzewgfvnouagesfuenpvugfupewgn")
           .en("Randomstringhsdfosdhgfodsfvfsdhvdfaghscdqwdpqwubdpiempfuvgnrtgfnoeugfudgsfvoudgsvnauehgvenogfweuigfuzegnfvouiegsnfgaoseiufgvnuzewgfvnouagesfuenpvugfupewgn")
           .build());

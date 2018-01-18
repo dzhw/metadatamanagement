@@ -16,7 +16,7 @@ public interface StudySubDocumentProjection {
 
   String getDataAcquisitionProjectId();
 
-  I18nString getSurveySeries();
+  I18nString getStudySeries();
 
   I18nString getTitle();
 
