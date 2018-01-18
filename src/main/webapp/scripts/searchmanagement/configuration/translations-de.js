@@ -170,7 +170,7 @@ angular.module('metadatamanagementApp').config(
             'no-valid-selected': 'Kein gültiger Zugangsweg ausgewählt!'
           },
           'survey-series-filter': {
-            'not-found': 'Keine Erhebungsreihen gefunden!',
+            'not-found': 'Keine vorhandene Erhebungsreihe gefunden.',
             'no-valid-selected': 'Keine gültige Erhebungsreihe ausgewählt!'
           }
         }

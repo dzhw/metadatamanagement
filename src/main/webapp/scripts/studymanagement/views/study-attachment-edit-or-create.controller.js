@@ -70,20 +70,33 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.saveAttachment = function() {
-        if (!ctrl.selectedFile) {
-          ctrl.studyAttachmentMetadata.$save().then(ctrl.onSavedSuccessfully);
-        } else {
-          if (ctrl.originalStudyAttachmentMetadata) {
-            ctrl.originalStudyAttachmentMetadata.$delete().then(function() {
+        if ($scope.studyAttachmentForm.$valid) {
+          if (!ctrl.selectedFile) {
+            ctrl.studyAttachmentMetadata.$save().then(ctrl.onSavedSuccessfully);
+          } else {
+            if (ctrl.originalStudyAttachmentMetadata) {
+              ctrl.originalStudyAttachmentMetadata.$delete().then(function() {
+                StudyAttachmentUploadService.uploadAttachment(
+                  ctrl.selectedFile, ctrl.studyAttachmentMetadata
+                ).then(ctrl.onSavedSuccessfully).catch(ctrl.onUploadFailed);
+              });
+            } else {
               StudyAttachmentUploadService.uploadAttachment(
                 ctrl.selectedFile, ctrl.studyAttachmentMetadata
               ).then(ctrl.onSavedSuccessfully).catch(ctrl.onUploadFailed);
-            });
-          } else {
-            StudyAttachmentUploadService.uploadAttachment(
-              ctrl.selectedFile, ctrl.studyAttachmentMetadata
-            ).then(ctrl.onSavedSuccessfully).catch(ctrl.onUploadFailed);
+            }
           }
+        } else {
+          // ensure that all validation errors are visible
+          angular.forEach($scope.studyAttachmentForm.$error, function(field) {
+            angular.forEach(field, function(errorField) {
+              errorField.$setTouched();
+            });
+          });
+          SimpleMessageToastService.openSimpleMessageToast(
+            'study-management.detail.attachments' +
+            '.attachment-has-validation-errors-toast',
+            null, true);
         }
       };
 

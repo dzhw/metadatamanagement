@@ -13,8 +13,8 @@
             </md-button>
         </div>
     </md-toolbar>
-    <md-content flex>
-        <form name="studyAttachmentForm">
+    <form name="studyAttachmentForm">
+        <md-content>
             <md-card ngf-drop="ctrl.upload($file)" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-select="ctrl.upload($file)" style="cursor: pointer;">
                 <md-card-header>
                     <md-card-header-text>
@@ -24,11 +24,10 @@
                 <md-divider></md-divider>
                 <md-card-content>
                     <div layout="column">
-                        <md-input-container style="padding: 0px;" md-is-error="!studyAttachmentForm.filename.$valid && studyAttachmentForm.filename.$dirty">
+                        <md-input-container style="padding: 0px;" md-is-error="!studyAttachmentForm.filename.$valid && (studyAttachmentForm.filename.$dirty || studyAttachmentForm.filename.$touched)">
                             <label>{{'study-management.detail.label.attachments.file' | translate }}</label>
                             <input disabled required ng-model="ctrl.studyAttachmentMetadata.fileName" name="filename" style="cursor: pointer; border-bottom: 1px rgba(0,0,0,0.12) solid; background-image: none;">
-
-                            <div ng-if="!studyAttachmentForm.filename.$dirty" class="fdz-input-hint">{{'study-management.detail.attachments.hints.filename' | translate}}</div>
+                            <div ng-if="!studyAttachmentForm.filename.$dirty && !studyAttachmentForm.filename.$touched" class="fdz-input-hint">{{'study-management.detail.attachments.hints.filename' | translate}}</div>
                             <div ng-messages="studyAttachmentForm.filename.$error" multiple>
                                 <div ng-message="required">{{'study-management.error.study-attachment-metadata.filename.not-empty' | translate}}</div>
                                 <div ng-message="unique">{{'study-management.error.study-attachment-metadata.filename.not-unique' | translate}}</div>
@@ -54,12 +53,12 @@
                 <md-divider></md-divider>
                 <md-card-content>
                     <div layout-gt-sm="row" layout="column">
-                        <md-input-container flex="50" style="margin-bottom: 42px;" md-is-error="!studyAttachmentForm.type.$valid && studyAttachmentForm.type.$touched">
+                        <md-input-container flex="50" style="margin-bottom: 42px;" md-is-error="!studyAttachmentForm.type.$valid && (studyAttachmentForm.type.$dirty || studyAttachmentForm.type.$touched)">
                             <label>{{'study-management.detail.label.attachments.type' | translate}}</label>
                             <md-select required ng-model="ctrl.studyAttachmentMetadata.type" ng-model-options="{trackBy: '$value.de'}" name="type">
                                 <md-option ng-value="type" ng-repeat="type in ctrl.studyAttachmentTypes">{{type[currentLanguage]}}</md-option>
                             </md-select>
-                            <div ng-if="!studyAttachmentForm.type.$touched" class="fdz-input-hint">{{'study-management.detail.attachments.hints.type' | translate}}</div>
+                            <div ng-if="!studyAttachmentForm.type.$dirty && !studyAttachmentForm.type.$touched" class="fdz-input-hint">{{'study-management.detail.attachments.hints.type' | translate}}</div>
                             <div ng-messages="studyAttachmentForm.type.$error" multiple>
                                 <div ng-message="required">{{'study-management.error.study-attachment-metadata.type.not-null' | translate}}</div>
                             </div>
@@ -96,8 +95,8 @@
                     </div>
                     <div layout-gt-sm="row" layout="column">
                         <md-input-container flex="50" style="margin-right: 8px;" md-is-error="!studyAttachmentForm.descriptionDe.$valid && (studyAttachmentForm.descriptionDe.$dirty || studyAttachmentForm.descriptionDe.$touched)">
-                            <label>{{'study-management.detail.label.attachments.description' | translate}} ({{'global.in-german' | translate}})</label>
-                            <input fdz-required="!ctrl.studyAttachmentMetadata.description.en" md-maxlength="128" ng-model="ctrl.studyAttachmentMetadata.description.de" name="descriptionDe" lang="de">
+                            <label class="fdz-input-required">{{'study-management.detail.label.attachments.description' | translate}} ({{'global.in-german' | translate}})</label>
+                            <input fdz-required="!ctrl.studyAttachmentMetadata.description.en" md-maxlength="128" ng-model="ctrl.studyAttachmentMetadata.description.de" name="descriptionDe" lang="de" md-no-asterisk>
                             <div ng-if="!studyAttachmentForm.descriptionDe.$dirty && !studyAttachmentForm.descriptionDe.$touched" class="fdz-input-hint">{{'study-management.detail.attachments.hints.description.de' | translate}}</div>
                             <div ng-messages="studyAttachmentForm.descriptionDe.$error" multiple>
                                 <div ng-message="fdz-required">{{'study-management.error.study-attachment-metadata.description.i18n-string-not-empty' | translate}}</div>
@@ -105,8 +104,8 @@
                             </div>
                         </md-input-container>
                         <md-input-container flex="50" style="margin-right: 8px;" md-is-error="!studyAttachmentForm.descriptionEn.$valid && (studyAttachmentForm.descriptionEn.$dirty || studyAttachmentForm.descriptionEn.$touched)">
-                            <label>{{'study-management.detail.label.attachments.description' | translate}} ({{'global.in-english' | translate}})</label>
-                            <input fdz-required="!ctrl.studyAttachmentMetadata.description.de" md-maxlength="128" ng-model="ctrl.studyAttachmentMetadata.description.en" name="descriptionEn" lang="en">
+                            <label class="fdz-input-required">{{'study-management.detail.label.attachments.description' | translate}} ({{'global.in-english' | translate}})</label>
+                            <input fdz-required="!ctrl.studyAttachmentMetadata.description.de" md-maxlength="128" ng-model="ctrl.studyAttachmentMetadata.description.en" name="descriptionEn" lang="en" md-no-asterisk>
                             <div ng-if="!studyAttachmentForm.descriptionEn.$dirty && !studyAttachmentForm.descriptionEn.$touched" class="fdz-input-hint">{{'study-management.detail.attachments.hints.description.en' | translate}}</div>
                             <div ng-messages="studyAttachmentForm.descriptionEn.$error" multiple>
                                 <div ng-message="fdz-required">{{'study-management.error.study-attachment-metadata.description.i18n-string-not-empty' | translate}}</div>
@@ -116,20 +115,20 @@
                     </div>
                 </md-card-content>
             </md-card>
-            <div class="fdz-fab-button-container" layout="column">
-                <md-button ng-if="!ctrl.isCreateMode" class="md-fab md-raised md-primary" ng-click="ctrl.openRestorePreviousVersionDialog($event)" ng-disabled="ctrl.createMode">
-                    <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                        {{'study-management.detail.attachments.open-choose-previous-version-tooltip' | translate}}
-                    </md-tooltip>
-                    <md-icon md-font-set="material-icons">undo</md-icon>
-                </md-button>
-                <md-button class="md-fab md-raised md-accent" type="submit" ng-click="ctrl.saveAttachment()" ng-disabled="studyAttachmentForm.$invalid || !studyAttachmentForm.$dirty">
-                    <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                        {{'study-management.detail.attachments.save-tooltip' | translate}}
-                    </md-tooltip>
-                    <md-icon md-font-set="material-icons">save</md-icon>
-                </md-button>
-            </div>
-        </form>
-    </md-content>
+        </md-content>
+        <div class="fdz-fab-button-container" layout="column">
+            <md-button ng-if="!ctrl.isCreateMode" class="md-fab md-raised md-primary" ng-click="ctrl.openRestorePreviousVersionDialog($event)" ng-disabled="ctrl.createMode">
+                <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    {{'study-management.detail.attachments.open-choose-previous-version-tooltip' | translate}}
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">undo</md-icon>
+            </md-button>
+            <md-button class="md-fab md-raised md-accent" type="submit" ng-click="ctrl.saveAttachment()" ng-disabled="!studyAttachmentForm.$dirty">
+                <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    {{'study-management.detail.attachments.save-tooltip' | translate}}
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">save</md-icon>
+            </md-button>
+        </div>
+    </form>
 </md-dialog>
