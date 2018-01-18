@@ -170,7 +170,7 @@ angular.module('metadatamanagementApp').config(
             'no-valid-selected': 'No valid access way selected!'
           },
           'study-series-filter': {
-            'not-found': 'No study series found!',
+            'not-found': 'No existing study series found!',
             'no-valid-selected': 'No valid study series selected!'
           }
         }

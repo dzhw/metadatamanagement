@@ -170,7 +170,7 @@ angular.module('metadatamanagementApp').config(
             'no-valid-selected': 'Kein gültiger Zugangsweg ausgewählt!'
           },
           'study-series-filter': {
-            'not-found': 'Keine Studienreihen gefunden!',
+            'not-found': 'Keine vorhandene Studienreihen gefunden!',
             'no-valid-selected': 'Keine gültige Studienreihe ausgewählt!'
           }
         }

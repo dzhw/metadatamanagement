@@ -52,6 +52,7 @@ angular.module('metadatamanagementApp').config(
             'save-tooltip': 'Click to save this document.',
             'change-file-tooltip': 'Click to choose a file.',
             'attachment-saved-toast': 'Document "{{ filename }}" has been saved.',
+            'attachment-has-validation-errors-toast': 'The document has not been saved because there are invalid fields.',
             'open-choose-previous-version-tooltip': 'Click to restore a previous version of the metadata.',
             'current-version-restored-toast': 'Current version of the metadata for document "{{ filename }}" has been restored.',
             'previous-version-restored-toast': 'Previous version of the metadata for document "{{ filename }}" can be saved now.',
@@ -141,7 +142,7 @@ angular.module('metadatamanagementApp').config(
             'id': {
               'not-empty': 'The RDC-ID of the Study must not be empty!',
               'size': 'The max length of the RDC-ID is 128 signs.',
-              'pattern': 'Use only alphanumeric signs, german umlauts, ß and space, underscore, exclamation mark and minus for the RDC-ID.',
+              'pattern': 'Use only alphanumeric signs, German umlauts, ß and space, underscore, exclamation mark and minus for the RDC-ID.',
               'not-valid-id': 'The study id must be equal to the id scheme "stu-" + {ProjectId} + "$" .'
             },
             'title': {
@@ -222,6 +223,7 @@ angular.module('metadatamanagementApp').config(
           'create-page-title': 'Create Study {{studyId}}',
           'success-on-save-toast': 'Study {{studyId}} has been saved successfully.',
           'error-on-save-toast': 'An error occurred during saving of Study {{studyId}}!',
+          'study-has-validation-errors-toast': 'Study has not been saved because there are invalid fields!',
           'previous-version-restored-toast': 'Previous version of Study {{ studyId }} can be saved now.',
           'current-version-restored-toast': 'Current version of Study {{ studyId }} has been restored.',
           'not-authorized-toast': 'You are not authorized to create or edit studies!',
@@ -261,12 +263,12 @@ angular.module('metadatamanagementApp').config(
               'en': 'If available enter the name of the study series in English.'
             },
             'institution': {
-              'de': 'If available enter the german name of the institution which has conducted the surveys.',
-              'en': 'If available enter the english name of the institution which has conducted the surveys.'
+              'de': 'Please enter the German name of the institution which has conducted the surveys.',
+              'en': 'Please enter the English name of the institution which has conducted the surveys.'
             },
             'sponsor': {
-              'de': 'Enter the german name of the sponsor of this study.',
-              'en': 'Enter the english name of the sponsor of this study.'
+              'de': 'Enter the German name of the sponsor of this study.',
+              'en': 'Enter the English name of the sponsor of this study.'
             },
             'survey-design': 'Choose the survey design of this study.',
             'annotations': {
