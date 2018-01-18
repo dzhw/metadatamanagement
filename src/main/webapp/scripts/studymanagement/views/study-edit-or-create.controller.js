@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp')
       StudyAttachmentResource, $q) {
 
       var ctrl = this;
-      var surveySeriesCache = {};
+      var studySeriesCache = {};
 
       var updateToolbarHeaderAndPageTitle = function() {
         if (ctrl.createMode) {
@@ -221,20 +221,20 @@ angular.module('metadatamanagementApp')
         $scope.$on('$destroy', unregisterTransitionHook);
       };
 
-      $scope.searchSurveySeries = function(searchText, language) {
-        if (searchText === surveySeriesCache.searchText &&
-          language === surveySeriesCache.language) {
-          return surveySeriesCache.searchResult;
+      $scope.searchStudySeries = function(searchText, language) {
+        if (searchText === studySeriesCache.searchText &&
+          language === studySeriesCache.language) {
+          return studySeriesCache.searchResult;
         }
 
         //Search Call to Elasticsearch
-        return StudySearchService.findSurveySeries(searchText, {},
+        return StudySearchService.findStudySeries(searchText, {},
           language)
-          .then(function(surveySeries) {
-            surveySeriesCache.searchText = searchText;
-            surveySeriesCache.language = language;
-            surveySeriesCache.searchResult = surveySeries;
-            return surveySeries;
+          .then(function(studySeries) {
+            studySeriesCache.searchText = searchText;
+            studySeriesCache.language = language;
+            studySeriesCache.searchResult = studySeries;
+            return studySeries;
           }
         );
       };

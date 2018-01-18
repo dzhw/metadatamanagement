@@ -99,9 +99,9 @@ angular.module('metadatamanagementApp').config(
           'instrument': 'Instrument',
           'variable': 'Variable',
           'survey': 'Erhebung',
-          'survey-series': 'Erhebungsreihe',
-          'survey-series-de': 'Erhebungsreihe',
-          'survey-series-en': 'Erhebungsreihe',
+          'study-series': 'Erhebungsreihe',
+          'study-series-de': 'Erhebungsreihe',
+          'study-series-en': 'Erhebungsreihe',
           'floating-label': {
             'survey': 'Nach welcher Erhebung wollen Sie filtern?',
             'instrument': 'Nach welchem Instrument wollen Sie filtern?',
@@ -113,7 +113,7 @@ angular.module('metadatamanagementApp').config(
             'access-way': 'Nach welchem Zugangsweg wollen Sie filtern?',
             'variable': 'Nach welcher Variable wollen Sie filtern?',
             'question': 'Nach welcher Frage wollen Sie filtern?',
-            'survey-series': 'Nach welcher Erhebungsreihe wollen Sie filtern?'
+            'study-series': 'Nach welcher Erhebungsreihe wollen Sie filtern?'
           },
           'input-label': {
             'studies': 'Filter für die Studiensuche...',
@@ -169,7 +169,7 @@ angular.module('metadatamanagementApp').config(
             'not-found': 'Kein Zugangsweg gefunden!',
             'no-valid-selected': 'Kein gültiger Zugangsweg ausgewählt!'
           },
-          'survey-series-filter': {
+          'study-series-filter': {
             'not-found': 'Keine Erhebungsreihen gefunden!',
             'no-valid-selected': 'Keine gültige Erhebungsreihe ausgewählt!'
           }

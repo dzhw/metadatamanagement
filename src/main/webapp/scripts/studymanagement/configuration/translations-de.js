@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp').config(
           'label': {
             'study': 'Studie',
             'studies': 'Studien',
-            'surveySeries': 'Erhebungsreihe',
+            'studySeries': 'Erhebungsreihe',
             'institution': 'Erhebende Institution',
             'authors': 'Projektmitarbeiter(innen)',
             'sponsors': 'Gefördert von',
@@ -116,7 +116,7 @@ angular.module('metadatamanagementApp').config(
               'many': 'Klicken, um die Instrumente dieser Studie anzuzeigen.'
             },
             'studies': {
-              'survey-series': 'Klicken, um alle Studien aus der Erhebungsreihe anzuzeigen.'
+              'study-series': 'Klicken, um alle Studien aus der Erhebungsreihe anzuzeigen.'
             }
           },
           'doi-tooltip': 'Klicken, um die DOI in einem neuen Tab zu öffnen'
@@ -164,7 +164,7 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-size': 'Die Maximallänge des Sponsors einer Studie ist 128 Zeichen.',
               'i18n-string-entire-not-empty': 'Der Sponsor einer Studie muss in beiden Sprachen vorhanden sein.'
             },
-            'survey-series': {
+            'study-series': {
               'i18n-string-size': 'Die Maximallänge der Erhebungsreihe einer Studie ist 128 Zeichen.'
             },
             'data-availability': {
@@ -256,7 +256,7 @@ angular.module('metadatamanagementApp').config(
               'de': 'Geben Sie den Titel der Studie auf Deutsch ein.',
               'en': 'Geben Sie den Titel der Studie auf Englisch ein.'
             },
-            'survey-series': {
+            'study-series': {
               'de': 'Geben Sie, falls vorhanden, den Namen der Studienreihe auf Deutsch ein.',
               'en': 'Geben Sie, falls vorhanden, den Namen der Studienreihe auf Englisch ein.'
             },

@@ -1,19 +1,19 @@
 /* @Author Daniel Katzberg */
 'use strict';
 
-angular.module('metadatamanagementApp').directive('surveySeriesSearchFilter',
+angular.module('metadatamanagementApp').directive('studySeriesSearchFilter',
   function() {
     return {
       restrict: 'E',
       templateUrl: 'scripts/searchmanagement/directives/' +
-        'survey-series-search-filter.html.tmpl',
+        'study-series-search-filter.html.tmpl',
       scope: {
         currentSearchParams: '=',
-        surveySeriesChangedCallback: '=',
+        studySeriesChangedCallback: '=',
         currentLanguage: '=',
         selectedFilters: '=',
         bowser: '='
       },
-      controller: 'SurveySeriesSearchFilterController'
+      controller: 'StudySeriesSearchFilterController'
     };
   });
