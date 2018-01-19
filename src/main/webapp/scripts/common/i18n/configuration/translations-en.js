@@ -341,6 +341,9 @@ angular.module('metadatamanagementApp').config(
             'title': 'Change filename?',
             'content': 'Do you really want to change the filename from "{{ oldFilename }}" to "{{ newFilename }}"?\n\nIf you do so, you will loose the history of the metadata of the document!'
           }
+        },
+        'edit': {
+          'internet-explorer-not-supported': 'Editing with the Internet Explorer is not supported. Please use Chrome, Firefox or Edge.'
         }
       }
       //jscs:enable

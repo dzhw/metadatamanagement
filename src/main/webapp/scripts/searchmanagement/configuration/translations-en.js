@@ -170,7 +170,7 @@ angular.module('metadatamanagementApp').config(
             'no-valid-selected': 'No valid access way selected!'
           },
           'survey-series-filter': {
-            'not-found': 'No survey series found!',
+            'not-found': 'No existing survey series found.',
             'no-valid-selected': 'No valid survey series selected!'
           }
         }
