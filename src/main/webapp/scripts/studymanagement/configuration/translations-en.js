@@ -278,7 +278,7 @@ angular.module('metadatamanagementApp').config(
             'data-availability': 'Choose the state which best describes the current availability of the data of this study.',
             'description': {
               'de': 'Enter a description of this study in German.',
-              'en': 'Enter a description of this study in English'
+              'en': 'Enter a description of this study in English.'
             },
             'authors': {
               'first-name': 'Enter the first name of this project member.',
