@@ -20,9 +20,9 @@ angular.module('metadatamanagementApp').service('StudyBuilderService',
           en: studyFromExcel['institution.en'],
           de: studyFromExcel['institution.de']
         },
-        surveySeries: {
-          en: studyFromExcel['surveySeries.en'],
-          de: studyFromExcel['surveySeries.de']
+        studySeries: {
+          en: studyFromExcel['studySeries.en'],
+          de: studyFromExcel['studySeries.de']
         },
         sponsor: {
           en: studyFromExcel['sponsor.en'],

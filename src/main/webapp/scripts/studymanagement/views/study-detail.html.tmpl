@@ -14,21 +14,21 @@
                 </md-card-header>
                 <md-divider></md-divider>
                 <md-card-content>
-                    <div ng-if="ctrl.study.surveySeries && currentLanguage === 'de'" class="fdz-add-bottom-margin">
-                      <span style="font-weight: bold;">{{'study-management.detail.label.surveySeries' | translate }}:</span>
-                      <a ui-sref="search({'type': 'studies', 'survey-series-de': ctrl.study.surveySeries.de})">
-                          <span display-i18n-string="ctrl.study.surveySeries" fdz-hyphenate></span>
+                    <div ng-if="ctrl.study.studySeries && currentLanguage === 'de'" class="fdz-add-bottom-margin">
+                      <span style="font-weight: bold;">{{'study-management.detail.label.studySeries' | translate }}:</span>
+                      <a ui-sref="search({'type': 'studies', 'study-series-de': ctrl.study.studySeries.de})">
+                          <span display-i18n-string="ctrl.study.studySeries" fdz-hyphenate></span>
                           <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                              {{'study-management.detail.tooltips.studies.survey-series' | translate}}
+                              {{'study-management.detail.tooltips.studies.study-series' | translate}}
                           </md-tooltip>
                       </a>
                     </div>
-                    <div ng-if="ctrl.study.surveySeries && currentLanguage === 'en'" class="fdz-add-bottom-margin">
-                      <span style="font-weight: bold;">{{'study-management.detail.label.surveySeries' | translate }}:</span>
-                      <a ui-sref="search({'type': 'studies', 'survey-series-en': ctrl.study.surveySeries.en})">
-                          <span display-i18n-string="ctrl.study.surveySeries" fdz-hyphenate></span>
+                    <div ng-if="ctrl.study.studySeries && currentLanguage === 'en'" class="fdz-add-bottom-margin">
+                      <span style="font-weight: bold;">{{'study-management.detail.label.studySeries' | translate }}:</span>
+                      <a ui-sref="search({'type': 'studies', 'study-series-en': ctrl.study.studySeries.en})">
+                          <span display-i18n-string="ctrl.study.studySeries" fdz-hyphenate></span>
                           <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                              {{'study-management.detail.tooltips.studies.survey-series' | translate}}
+                              {{'study-management.detail.tooltips.studies.study-series' | translate}}
                           </md-tooltip>
                       </a>
                     </div>

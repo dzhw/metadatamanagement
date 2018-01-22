@@ -1,12 +1,12 @@
 {
-  "id" : "ATestProject",
+  "id": "ATestProject",
   "panelName": {
     "de": "Deutscher Panelname",
     "en": "English panel name"
   },
-  "surveySeries": {
-    "de": "Erhebungsreihe Test",
-    "en": "Survey series Test"
+  "studySeries": {
+    "de": "Studienreihe Test",
+    "en": "Study series Test"
   },
   "releases": [{
     "version": "1.0",
