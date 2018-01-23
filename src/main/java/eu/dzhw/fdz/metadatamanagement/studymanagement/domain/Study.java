@@ -36,9 +36,9 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
- * The study domain object represents a study. A study can has more than one release. 
+ * The study domain object represents a study. A study can has more than one release.
  * Every {@link DataAcquisitionProject} has exact one Study.
- * 
+ *
  * @author Daniel Katzberg
  *
  */
@@ -48,11 +48,11 @@ import lombok.ToString;
 @Data
 @EqualsAndHashCode(callSuper = false, of = "id")
 @ToString(callSuper = true)
-@NoArgsConstructor 
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Study extends AbstractRdcDomainObject {
-  
+
   @Id
   @JestId
   @NotEmpty(message = "study-management.error.study.id.not-empty")
@@ -60,64 +60,64 @@ public class Study extends AbstractRdcDomainObject {
   @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOLLAR,
       message = "study-management.error.study.id.pattern")
   private String id;
-  
+
   @Indexed
   @NotEmpty(message = "study-management.error.study.data-acquisition-project.id.not-empty")
   private String dataAcquisitionProjectId;
-  
+
   @NotNull(message = "study-management.error.study.title.not-null")
   @I18nStringSize(max = StringLengths.LARGE,
       message = "study-management.error.study.title.i18n-string-size")
   @I18nStringEntireNotEmpty(
       message = "study-management.error.study.title.i18n-string-entire-not-empty")
   private I18nString title;
-  
+
   @NotNull(message = "study-management.error.study.description.not-null")
   @I18nStringSize(max = StringLengths.LARGE,
       message = "study-management.error.study.description.i18n-string-size")
   @I18nStringNotEmpty(message = "study-management.error.study.description.i18n-string-not-empty")
   private I18nString description;
-  
+
   @NotNull(message = "study-management.error.study.institution.not-null")
   @I18nStringSize(max = StringLengths.MEDIUM,
       message = "study-management.error.study.institution.i18n-string-size")
   @I18nStringNotEmpty(message = "study-management.error.study.institution.i18n-string-not-empty")
   private I18nString institution;
-  
+
   @I18nStringSize(max = StringLengths.MEDIUM,
-      message = "study-management.error.study.survey-series.i18n-string-size")
+      message = "study-management.error.study.study-series.i18n-string-size")
   @I18nStringEntireNotEmptyOptional(
-      message = "study-management.error.study.survey-series.i18n-string-entire-not-empty-optional")
-  private I18nString surveySeries;
-  
+      message = "study-management.error.study.study-series.i18n-string-entire-not-empty-optional")
+  private I18nString studySeries;
+
   @NotNull(message = "study-management.error.study.sponsor.not-null")
   @I18nStringSize(max = StringLengths.MEDIUM,
       message = "study-management.error.study.sponsor.i18n-string-size")
   @I18nStringEntireNotEmpty(
       message = "study-management.error.sponsor.institution.i18n-string-entire-not-empty")
   private I18nString sponsor;
-  
+
   @Valid
   @NotEmpty(message = "study-management.error.study.authors.not-empty")
-  private List<Person> authors;  
-  
+  private List<Person> authors;
+
   @NotNull(message = "study-management.error.study.data-availability.not-null")
   @ValidDataAvailability(
       message = "study-management.error.study.data-availability.valid-data-availability")
   private I18nString dataAvailability;
-  
+
   @NotNull(message = "study-management.error.study.survey-design.not-null")
   @ValidSurveyDesign(
       message = "study-management.error.study.survey-design.valid-survey-design")
   private I18nString surveyDesign;
-  
+
   @NotEmpty(message = "study-management.error.study.doi.not-empty")
   private String doi;
-  
+
   @I18nStringSize(max = StringLengths.LARGE,
       message = "study-management.error.study.annotations.i18n-string-size")
   private I18nString annotations;
-  
+
   public Study(Study study) {
     super();
     BeanUtils.copyProperties(study, this);
