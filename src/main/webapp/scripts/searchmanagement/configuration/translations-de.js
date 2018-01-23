@@ -30,7 +30,11 @@ angular.module('metadatamanagementApp').config(
           'upload-surveys-tooltip': 'Klicken, um Erhebungen für das ausgewählte Datenaufbereitungsprojekt hochzuladen',
           'upload-data-sets-tooltip': 'Klicken, um Datensätze für das ausgewählte Datenaufbereitungsprojekt hochzuladen',
           'upload-questions-tooltip': 'Klicken, um Fragen für das ausgewählte Datenaufbereitungsprojekt hochzuladen',
-          'upload-studies-tooltip': 'Klicken, um Studie für das ausgewählte Datenaufbereitungsprojekt hochzuladen',
+          'upload-studies-tooltip': 'Klicken, um die Studie mit Attachments hochzuladen',
+          'upload-or-create-studies-tooltip': 'Klicken, um die Studie hochzuladen oder manuell zu erstellen',
+          'upload-or-edit-studies-tooltip': 'Klicken, um die Studie hochzuladen oder manuell zu bearbeiten',
+          'create-study-tooltip': 'Klicken, um die Studie manuell zu erstellen',
+          'edit-study-tooltip': 'Klicken, um die Studie manuell zu bearbeiten',
           'upload-related-publications-tooltip': 'Klicken, um Publikationen hochzuladen',
           'post-validate-related-publications-tooltip': 'Klicken, um Publikationen zu validieren',
           'upload-instruments-tooltip': 'Klicken, um Instrumente für das ausgewählte Datenaufbereitungsprojekt hochzuladen',
@@ -166,7 +170,7 @@ angular.module('metadatamanagementApp').config(
             'no-valid-selected': 'Kein gültiger Zugangsweg ausgewählt!'
           },
           'survey-series-filter': {
-            'not-found': 'Keine Erhebungsreihen gefunden!',
+            'not-found': 'Keine vorhandene Erhebungsreihe gefunden.',
             'no-valid-selected': 'Keine gültige Erhebungsreihe ausgewählt!'
           }
         }

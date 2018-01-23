@@ -1,5 +1,5 @@
 /**
-* Copyright 2012-2017, Plotly, Inc.
+* Copyright 2012-2018, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
@@ -34,6 +34,7 @@ lib.coerce = coerceModule.coerce;
 lib.coerce2 = coerceModule.coerce2;
 lib.coerceFont = coerceModule.coerceFont;
 lib.coerceHoverinfo = coerceModule.coerceHoverinfo;
+lib.coerceSelectionMarkerOpacity = coerceModule.coerceSelectionMarkerOpacity;
 lib.validate = coerceModule.validate;
 
 var datesModule = require('./dates');
@@ -76,12 +77,19 @@ lib.rotationXYMatrix = matrixModule.rotationXYMatrix;
 lib.apply2DTransform = matrixModule.apply2DTransform;
 lib.apply2DTransform2 = matrixModule.apply2DTransform2;
 
+var anglesModule = require('./angles');
+lib.deg2rad = anglesModule.deg2rad;
+lib.rad2deg = anglesModule.rad2deg;
+lib.wrap360 = anglesModule.wrap360;
+lib.wrap180 = anglesModule.wrap180;
+
 var geom2dModule = require('./geometry2d');
 lib.segmentsIntersect = geom2dModule.segmentsIntersect;
 lib.segmentDistance = geom2dModule.segmentDistance;
 lib.getTextLocation = geom2dModule.getTextLocation;
 lib.clearLocationCache = geom2dModule.clearLocationCache;
 lib.getVisibleSegment = geom2dModule.getVisibleSegment;
+lib.findPointOnPath = geom2dModule.findPointOnPath;
 
 var extendModule = require('./extend');
 lib.extendFlat = extendModule.extendFlat;
@@ -103,6 +111,8 @@ lib.throttleDone = throttleModule.done;
 lib.clearThrottle = throttleModule.clear;
 
 lib.getGraphDiv = require('./get_graph_div');
+
+lib._ = require('./localize');
 
 lib.notifier = require('./notifier');
 
@@ -464,6 +474,57 @@ lib.extractOption = function(calcPt, trace, calcKey, traceKey) {
     if(!Array.isArray(traceVal)) return traceVal;
 };
 
+/** Tag selected calcdata items
+ *
+ * N.B. note that point 'index' corresponds to input data array index
+ *  whereas 'number' is its post-transform version.
+ *
+ * @param {array} calcTrace
+ * @param {object} trace
+ *  - selectedpoints {array}
+ *  - _indexToPoints {object}
+ * @param {ptNumber2cdIndex} ptNumber2cdIndex (optional)
+ *  optional map object for trace types that do not have 1-to-1 point number to
+ *  calcdata item index correspondence (e.g. histogram)
+ */
+lib.tagSelected = function(calcTrace, trace, ptNumber2cdIndex) {
+    var selectedpoints = trace.selectedpoints;
+    var indexToPoints = trace._indexToPoints;
+    var ptIndex2ptNumber;
+
+    // make pt index-to-number map object, which takes care of transformed traces
+    if(indexToPoints) {
+        ptIndex2ptNumber = {};
+        for(var k in indexToPoints) {
+            var pts = indexToPoints[k];
+            for(var j = 0; j < pts.length; j++) {
+                ptIndex2ptNumber[pts[j]] = k;
+            }
+        }
+    }
+
+    function isPtIndexValid(v) {
+        return isNumeric(v) && v >= 0 && v % 1 === 0;
+    }
+
+    function isCdIndexValid(v) {
+        return v !== undefined && v < calcTrace.length;
+    }
+
+    for(var i = 0; i < selectedpoints.length; i++) {
+        var ptIndex = selectedpoints[i];
+
+        if(isPtIndexValid(ptIndex)) {
+            var ptNumber = ptIndex2ptNumber ? ptIndex2ptNumber[ptIndex] : ptIndex;
+            var cdIndex = ptNumber2cdIndex ? ptNumber2cdIndex[ptNumber] : ptNumber;
+
+            if(isCdIndexValid(cdIndex)) {
+                calcTrace[cdIndex].selected = 1;
+            }
+        }
+    }
+};
+
 /** Returns target as set by 'target' transform attribute
  *
  * @param {object} trace : full trace object
@@ -802,4 +863,52 @@ lib.templateString = function(string, obj) {
         getterCache[key] = getterCache[key] || lib.nestedProperty(obj, key).get;
         return getterCache[key]() || '';
     });
+};
+
+/*
+ * alphanumeric string sort, tailored for subplot IDs like scene2, scene10, x10y13 etc
+ */
+var char0 = 48;
+var char9 = 57;
+lib.subplotSort = function(a, b) {
+    var l = Math.min(a.length, b.length) + 1;
+    var numA = 0;
+    var numB = 0;
+    for(var i = 0; i < l; i++) {
+        var charA = a.charCodeAt(i) || 0;
+        var charB = b.charCodeAt(i) || 0;
+        var isNumA = charA >= char0 && charA <= char9;
+        var isNumB = charB >= char0 && charB <= char9;
+
+        if(isNumA) numA = 10 * numA + charA - char0;
+        if(isNumB) numB = 10 * numB + charB - char0;
+
+        if(!isNumA || !isNumB) {
+            if(numA !== numB) return numA - numB;
+            if(charA !== charB) return charA - charB;
+        }
+    }
+    return numB - numA;
+};
+
+/*
+ * test if event listener options supported
+ */
+lib.eventListenerOptionsSupported = function() {
+    var supported = false;
+
+    try {
+        var opts = Object.defineProperty({}, 'passive', {
+            get: function() {
+                supported = true;
+            }
+        });
+
+        window.addEventListener('test', null, opts);
+        window.removeEventListener('test', null, opts);
+    } catch(e) {
+        supported = false;
+    }
+
+    return supported;
 };

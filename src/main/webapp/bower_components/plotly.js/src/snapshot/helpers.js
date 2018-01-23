@@ -1,5 +1,5 @@
 /**
-* Copyright 2012-2017, Plotly, Inc.
+* Copyright 2012-2018, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
@@ -19,9 +19,12 @@ exports.getDelay = function(fullLayout) {
 };
 
 exports.getRedrawFunc = function(gd) {
+    var fullLayout = gd._fullLayout || {};
+    var hasPolar = fullLayout._has && fullLayout._has('polar');
+    var hasLegacyPolar = !hasPolar && gd.data && gd.data[0] && gd.data[0].r;
 
-    // do not work if polar is present
-    if((gd.data && gd.data[0] && gd.data[0].r)) return;
+    // do not work for legacy polar
+    if(hasLegacyPolar) return;
 
     return function() {
         (gd.calcdata || []).forEach(function(d) {

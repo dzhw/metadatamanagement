@@ -1,5 +1,5 @@
 /**
-* Copyright 2012-2017, Plotly, Inc.
+* Copyright 2012-2018, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
@@ -276,14 +276,16 @@ module.exports = function setConvert(ax, fullLayout) {
      * optional param rangeAttr: operate on a different attribute, like
      * ax._r, rather than ax.range
      */
-    ax.cleanRange = function(rangeAttr) {
+    ax.cleanRange = function(rangeAttr, opts) {
+        if(!opts) opts = {};
         if(!rangeAttr) rangeAttr = 'range';
-        var range = Lib.nestedProperty(ax, rangeAttr).get(),
-            i, dflt;
+
+        var range = Lib.nestedProperty(ax, rangeAttr).get();
+        var i, dflt;
 
         if(ax.type === 'date') dflt = Lib.dfltRange(ax.calendar);
         else if(axLetter === 'y') dflt = constants.DFLTRANGEY;
-        else dflt = constants.DFLTRANGEX;
+        else dflt = opts.dfltRange || constants.DFLTRANGEX;
 
         // make sure we don't later mutate the defaults
         dflt = dflt.slice();
@@ -381,11 +383,8 @@ module.exports = function setConvert(ax, fullLayout) {
         }
 
         if(!isFinite(ax._m) || !isFinite(ax._b)) {
-            Lib.notifier(
-                'Something went wrong with axis scaling',
-                'long');
             fullLayout._replotting = false;
-            throw new Error('axis scaling');
+            throw new Error('Something went wrong with axis scaling');
         }
     };
 
@@ -435,17 +434,14 @@ module.exports = function setConvert(ax, fullLayout) {
         );
     };
 
-    if(axLetter === 'x') {
-        ax.isPtWithinRange = function(d) {
-            var x = d.x;
-            return x >= ax.range[0] && x <= ax.range[1];
-        };
-    } else {
-        ax.isPtWithinRange = function(d) {
-            var y = d.y;
-            return y >= ax.range[0] && y <= ax.range[1];
-        };
-    }
+    ax.isPtWithinRange = function(d, calendar) {
+        var coord = ax.c2l(d[axLetter], null, calendar);
+
+        return (
+            coord >= ax.r2l(ax.range[0]) &&
+            coord <= ax.r2l(ax.range[1])
+        );
+    };
 
     // for autoranging: arrays of objects:
     //      {val: axis value, pad: pixel padding}
@@ -453,9 +449,19 @@ module.exports = function setConvert(ax, fullLayout) {
     ax._min = [];
     ax._max = [];
 
-    // copy ref to fullLayout.separators so that
+    // Propagate localization into the axis so that
     // methods in Axes can use it w/o having to pass fullLayout
+    // Default (non-d3) number formatting uses separators directly
+    // dates and d3-formatted numbers use the d3 locale
+    // Fall back on default format for dummy axes that don't care about formatting
+    var locale = fullLayout._d3locale;
+    if(ax.type === 'date') {
+        ax._dateFormat = locale ? locale.timeFormat.utc : d3.time.format.utc;
+    }
+    // occasionally we need _numFormat to pass through
+    // even though it won't be needed by this axis
     ax._separators = fullLayout.separators;
+    ax._numFormat = locale ? locale.numberFormat : d3.format;
 
     // and for bar charts and box plots: reset forced minimum tick spacing
     delete ax._minDtick;

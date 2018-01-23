@@ -56,6 +56,8 @@ server:
 # ===================================================================
 
 metadatamanagement:
+  server:
+    instance-index: 0
   elasticsearch-client:
     url: http://localhost:9234
     read-timeout: 60000

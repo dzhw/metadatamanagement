@@ -11,6 +11,8 @@ angular.module('metadatamanagementApp').config(
         'dzhw-alt-text': 'The German Centre for Research on Higher Education and Science Studies',
         'bmbf-alt-text': 'Sponsored by the FMER',
         'search': 'Search',
+        'in-german': 'in German',
+        'in-english': 'in English',
         'toolbar': {
           'buttons': {
             'fdz-staff-area-tooltip': {
@@ -54,6 +56,8 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'cards': {
+          'metadata': 'Metadata for the File',
+          'file': 'File',
           'details': 'Details',
           'related-objects': 'Related objects',
           'labels-surveyed-in': 'Surveyed in'
@@ -263,7 +267,8 @@ angular.module('metadatamanagementApp').config(
             'json-parsing-error': 'The import of the object "{{entity}}" from an json file failed, because the field "{{property}}" has an invalid value: {{invalidValue}}',
             'excel-parsing-error': 'The import of the object "{{entity}}" from an excel file from line {{index}} failed, because the field "{{property}}" has an invalid value: {{invalidValue}}',
             'no-json-mapping': 'A server side error happened during the import of an object.',
-            'file-size-limit-exceeded': 'The file "{{ entity }}" exceeds the limit of 10MB!'
+            'file-size-limit-exceeded': 'The file "{{ entity }}" exceeds the limit of 10MB!',
+            'file-already-exists': 'Saving failed because there is already a file with the name {{ filename }}!'
           },
           'server-error': {
             'internal-server-error': 'Sorry, something went wrong :( ({{ status }}).',
@@ -320,6 +325,25 @@ angular.module('metadatamanagementApp').config(
             'created-by': 'Created by Metadata Search, at'
           },
           'block-ui-message': '{{warnings}} Warnings and {{ errors }} Errors on {{ total }} Objects'
+        },
+        'common-dialogs': {
+          'yes': 'Yes',
+          'no': 'No',
+          'confirm-dirty': {
+            'title': 'Discard Changes?',
+            'content': 'There are unsaved changes. Do you want to discard these changes?'
+          },
+          'confirm-file-delete': {
+            'title': 'Delete File "{{ filename }}"?',
+            'content': 'Do you really want to delete File "{{ filename }}"?'
+          },
+          'confirm-filename-change': {
+            'title': 'Change filename?',
+            'content': 'Do you really want to change the filename from "{{ oldFilename }}" to "{{ newFilename }}"?\n\nIf you do so, you will loose the history of the metadata of the document!'
+          }
+        },
+        'edit': {
+          'internet-explorer-not-supported': 'Editing with the Internet Explorer is not supported. Please use Chrome, Firefox or Edge.'
         }
       }
       //jscs:enable

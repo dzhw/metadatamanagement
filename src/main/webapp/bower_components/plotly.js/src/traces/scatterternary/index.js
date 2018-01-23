@@ -1,5 +1,5 @@
 /**
-* Copyright 2012-2017, Plotly, Inc.
+* Copyright 2012-2018, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
@@ -15,9 +15,10 @@ ScatterTernary.supplyDefaults = require('./defaults');
 ScatterTernary.colorbar = require('../scatter/colorbar');
 ScatterTernary.calc = require('./calc');
 ScatterTernary.plot = require('./plot');
-ScatterTernary.style = require('./style');
+ScatterTernary.style = require('../scatter/style').style;
 ScatterTernary.hoverPoints = require('./hover');
-ScatterTernary.selectPoints = require('./select');
+ScatterTernary.selectPoints = require('../scatter/select');
+ScatterTernary.eventData = require('./event_data');
 
 ScatterTernary.moduleType = 'trace';
 ScatterTernary.name = 'scatterternary';

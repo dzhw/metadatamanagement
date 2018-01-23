@@ -1,5 +1,5 @@
 /**
-* Copyright 2012-2017, Plotly, Inc.
+* Copyright 2012-2018, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
@@ -238,6 +238,9 @@ module.exports = {
                 // from yaxis if they only apply to x (rangeselector/rangeslider)
                 yaxis: {calendar: axisAttrs},
                 zaxis: {calendar: axisAttrs}
+            },
+            polar: {
+                radialaxis: {calendar: axisAttrs}
             }
         },
         transforms: {

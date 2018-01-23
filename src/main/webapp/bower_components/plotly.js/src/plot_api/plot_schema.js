@@ -1,5 +1,5 @@
 /**
-* Copyright 2012-2017, Plotly, Inc.
+* Copyright 2012-2018, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
@@ -18,8 +18,8 @@ var frameAttributes = require('../plots/frame_attributes');
 var animationAttributes = require('../plots/animation_attributes');
 
 // polar attributes are not part of the Registry yet
-var polarAreaAttrs = require('../plots/polar/area_attributes');
-var polarAxisAttrs = require('../plots/polar/axis_attributes');
+var polarAreaAttrs = require('../plots/polar/legacy/area_attributes');
+var polarAxisAttrs = require('../plots/polar/legacy/axis_attributes');
 
 var editTypes = require('./edit_types');
 

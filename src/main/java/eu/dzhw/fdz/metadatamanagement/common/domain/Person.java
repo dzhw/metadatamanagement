@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.common.domain;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.javers.core.metamodel.annotation.ValueObject;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,6 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor 
 @AllArgsConstructor
 @Builder
+@ValueObject
 public class Person {
 
   @NotEmpty(message = "global.error.person.first-name.not-empty")

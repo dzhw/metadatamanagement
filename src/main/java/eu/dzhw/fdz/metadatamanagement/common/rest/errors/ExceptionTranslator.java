@@ -25,6 +25,7 @@ import com.fasterxml.jackson.core.json.UTF8StreamJsonParser;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.node.TreeTraversingParser;
+import com.mongodb.DuplicateKeyException;
 
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.exception.TemplateIncompleteException;
 import freemarker.core.InvalidReferenceException;
@@ -336,5 +337,20 @@ public class ExceptionTranslator {
     } else {
       return findFileSizeLimitExceededException(exception.getCause());
     }
+  }
+  
+  @ExceptionHandler
+  @ResponseBody
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  ErrorListDto handleDuplicateKeyException(DuplicateKeyException exception) {
+    ErrorListDto errorListDto = new ErrorListDto();
+    if (exception.getErrorMessage().contains("filename")) {
+      ErrorDto error = new ErrorDto(null, 
+          "global.error.import.file-already-exists", null,"filename");
+      errorListDto.add(error);
+    } else {
+      throw exception;
+    }
+    return errorListDto;
   }
 }

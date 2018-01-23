@@ -1,5 +1,5 @@
 /**
-* Copyright 2012-2017, Plotly, Inc.
+* Copyright 2012-2018, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
@@ -21,7 +21,7 @@ Plotly.register([
     require('./pie'),
     require('./contour'),
     require('./scatterternary'),
-    require('./sankey'),
+    require('./violin'),
 
     require('./scatter3d'),
     require('./surface'),
@@ -34,16 +34,22 @@ Plotly.register([
     require('./pointcloud'),
     require('./heatmapgl'),
     require('./parcoords'),
-    require('./table'),
 
     require('./scattermapbox'),
+
+    require('./sankey'),
+
+    require('./table'),
 
     require('./carpet'),
     require('./scattercarpet'),
     require('./contourcarpet'),
 
     require('./ohlc'),
-    require('./candlestick')
+    require('./candlestick'),
+
+    require('./scatterpolar'),
+    require('./scatterpolargl')
 ]);
 
 // transforms

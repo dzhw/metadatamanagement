@@ -1,5 +1,5 @@
 /**
-* Copyright 2012-2017, Plotly, Inc.
+* Copyright 2012-2018, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
@@ -22,7 +22,7 @@ var Queue = require('../lib/queue');
 var Registry = require('../registry');
 var PlotSchema = require('./plot_schema');
 var Plots = require('../plots/plots');
-var Polar = require('../plots/polar');
+var Polar = require('../plots/polar/legacy');
 var initInteractions = require('../plots/cartesian/graph_interact');
 
 var Drawing = require('../components/drawing');
@@ -144,8 +144,11 @@ Plotly.plot = function(gd, data, layout, config) {
 
     var fullLayout = gd._fullLayout;
 
-    // Polar plots
-    if(data && data[0] && data[0].r) return plotPolar(gd, data, layout);
+    // Legacy polar plots
+    if(!fullLayout._has('polar') && data && data[0] && data[0].r) {
+        Lib.log('Legacy polar charts are deprecated!');
+        return plotPolar(gd, data, layout);
+    }
 
     // so we don't try to re-call Plotly.plot from inside
     // legend and colorbar, if margins changed
@@ -195,6 +198,38 @@ Plotly.plot = function(gd, data, layout, config) {
             }
         }
 
+        if(!fullLayout._glcanvas && fullLayout._has('gl')) {
+            fullLayout._glcanvas = fullLayout._glcontainer.selectAll('.gl-canvas').data([{
+                key: 'contextLayer',
+                context: true,
+                pick: false
+            }, {
+                key: 'focusLayer',
+                context: false,
+                pick: false
+            }, {
+                key: 'pickLayer',
+                context: false,
+                pick: true
+            }], function(d) { return d.key; });
+
+            fullLayout._glcanvas.enter().append('canvas')
+                .attr('class', function(d) {
+                    return 'gl-canvas gl-canvas-' + d.key.replace('Layer', '');
+                })
+                .style({
+                    'position': 'absolute',
+                    'top': 0,
+                    'left': 0,
+                    'width': '100%',
+                    'height': '100%',
+                    'overflow': 'visible',
+                    'pointer-events': 'none'
+                })
+                .attr('width', fullLayout.width)
+                .attr('height', fullLayout.height);
+        }
+
         return Lib.syncOrAsync([
             subroutines.layoutStyles
         ], gd);
@@ -239,7 +274,7 @@ Plotly.plot = function(gd, data, layout, config) {
             return;
         }
 
-        var subplots = Plots.getSubplotIds(fullLayout, 'cartesian');
+        var subplots = fullLayout._subplots.cartesian;
         var modules = fullLayout._modules;
         var setPositionsArray = [];
 
@@ -528,7 +563,6 @@ function plotPolar(gd, data, layout) {
     var opacity = 1;
     var txt = gd._fullLayout.title;
     if(txt === '' || !txt) opacity = 0;
-    var placeholderText = 'Click to enter title';
 
     var titleLayout = function() {
         this.call(svgTextUtils.convertToTspans, gd);
@@ -540,6 +574,7 @@ function plotPolar(gd, data, layout) {
         .call(titleLayout);
 
     if(gd._context.edits.titleText) {
+        var placeholderText = Lib._(gd, 'Click to enter Plot title');
         if(!txt || txt === placeholderText) {
             opacity = 0.2;
             // placeholder is not going through convertToTspans
@@ -1904,6 +1939,16 @@ function _relayout(gd, aobj) {
                     ax.range = (ax.range[1] > ax.range[0]) ? [1, 2] : [2, 1];
                 }
 
+                // clear polar view initial stash for radial range so that
+                // value get recomputed in correct units
+                if(Array.isArray(fullLayout._subplots.polar) &&
+                    fullLayout._subplots.polar.length &&
+                    fullLayout[p.parts[0]] &&
+                    p.parts[1] === 'radialaxis'
+                ) {
+                    delete fullLayout[p.parts[0]]._subplot.viewInitial['radialaxis.range'];
+                }
+
                 // Annotations and images also need to convert to/from linearized coords
                 // Shapes do not need this :)
                 Registry.getComponentMethod('annotations', 'convertCoords')(gd, parentFull, vi, doextra);
@@ -1993,7 +2038,7 @@ function _relayout(gd, aobj) {
             else flags.plot = true;
         }
         else {
-            if(fullLayout._has('gl2d') &&
+            if((fullLayout._has('gl2d') || fullLayout._has('regl')) &&
                 (ai === 'dragmode' &&
                 (vi === 'lasso' || vi === 'select') &&
                 !(vOld === 'lasso' || vOld === 'select'))
@@ -2015,7 +2060,7 @@ function _relayout(gd, aobj) {
     }
 
     // figure out if we need to recalculate axis constraints
-    var constraints = fullLayout._axisConstraintGroups;
+    var constraints = fullLayout._axisConstraintGroups || [];
     for(axId in rangesAltered) {
         for(i = 0; i < constraints.length; i++) {
             var group = constraints[i];
@@ -2764,10 +2809,15 @@ function makePlotFramework(gd) {
     // right, rather than enter/exit which can muck up the order
     // TODO: sort out all the ordering so we don't have to
     // explicitly delete anything
+    // FIXME: parcoords reuses this object, not the best pattern
     fullLayout._glcontainer = fullLayout._paperdiv.selectAll('.gl-container')
-        .data([0]);
+        .data([{}]);
+
     fullLayout._glcontainer.enter().append('div')
         .classed('gl-container', true);
+
+    // That is initialized in drawFramework if there are `gl` traces
+    fullLayout._glcanvas = null;
 
     fullLayout._paperdiv.selectAll('.main-svg').remove();
 
@@ -2824,20 +2874,14 @@ function makePlotFramework(gd) {
     // single cartesian layer for the whole plot
     fullLayout._cartesianlayer = fullLayout._paper.append('g').classed('cartesianlayer', true);
 
+    // single polar layer for the whole plot
+    fullLayout._polarlayer = fullLayout._paper.append('g').classed('polarlayer', true);
+
     // single ternary layer for the whole plot
     fullLayout._ternarylayer = fullLayout._paper.append('g').classed('ternarylayer', true);
 
     // single geo layer for the whole plot
     fullLayout._geolayer = fullLayout._paper.append('g').classed('geolayer', true);
-
-    // upper shape layer
-    // (only for shapes to be drawn above the whole plot, including subplots)
-    var layerAbove = fullLayout._paper.append('g')
-        .classed('layer-above', true);
-    fullLayout._imageUpperLayer = layerAbove.append('g')
-        .classed('imagelayer', true);
-    fullLayout._shapeUpperLayer = layerAbove.append('g')
-        .classed('shapelayer', true);
 
     // single pie layer for the whole plot
     fullLayout._pielayer = fullLayout._paper.append('g').classed('pielayer', true);
@@ -2845,10 +2889,19 @@ function makePlotFramework(gd) {
     // fill in image server scrape-svg
     fullLayout._glimages = fullLayout._paper.append('g').classed('glimages', true);
 
-    // lastly info (legend, annotations) and hover layers go on top
+    // lastly upper shapes, info (legend, annotations) and hover layers go on top
     // these are in a different svg element normally, but get collapsed into a single
     // svg when exporting (after inserting 3D)
+    // upper shapes/images are only those drawn above the whole plot, including subplots
+    var layerAbove = fullLayout._toppaper.append('g')
+        .classed('layer-above', true);
+    fullLayout._imageUpperLayer = layerAbove.append('g')
+        .classed('imagelayer', true);
+    fullLayout._shapeUpperLayer = layerAbove.append('g')
+        .classed('shapelayer', true);
+
     fullLayout._infolayer = fullLayout._toppaper.append('g').classed('infolayer', true);
+    fullLayout._menulayer = fullLayout._toppaper.append('g').classed('menulayer', true);
     fullLayout._zoomlayer = fullLayout._toppaper.append('g').classed('zoomlayer', true);
     fullLayout._hoverlayer = fullLayout._toppaper.append('g').classed('hoverlayer', true);
 

@@ -85,7 +85,8 @@ angular.module('metadatamanagementApp').config(
               'pattern': 'Es dürfen für die FDZ-ID nur alphanumerische Zeichen, deutsche Umlaute, ß, Ausrufezeichen, Minus und der Unterstrich verwendet werden.'
             },
             'title': {
-              'i18n-string-size': 'Die Maximallänge des Titels der Erhebung ist 2048 Zeichen.'
+              'i18n-string-size': 'Die Maximallänge des Titels der Erhebung ist 2048 Zeichen.',
+              'i18n-string-entire-not-empty': 'Der Titel der Erhebung muss in allen Sprachen vorhanden sein.'
             },
             'field-period': {
               'not-null': 'Der Zeitraum der Erhebung darf nicht leer sein!'
@@ -105,6 +106,7 @@ angular.module('metadatamanagementApp').config(
             },
             'wave': {
               'not-null': 'Die Welle der Erhebung darf nicht leer sein!',
+              'min': 'Die Anzahl der Wellen muss mindestens 1 sein!'
             },
             'survey-method': {
               'not-null': 'Die Erhebungsmethode darf nicht leer sein!',

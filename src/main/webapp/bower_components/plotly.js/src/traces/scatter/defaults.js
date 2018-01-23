@@ -1,5 +1,5 @@
 /**
-* Copyright 2012-2017, Plotly, Inc.
+* Copyright 2012-2018, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
@@ -21,7 +21,6 @@ var handleLineShapeDefaults = require('./line_shape_defaults');
 var handleTextDefaults = require('./text_defaults');
 var handleFillColorDefaults = require('./fillcolor_defaults');
 var errorBarsSupplyDefaults = require('../../components/errorbars/defaults');
-
 
 module.exports = function supplyDefaults(traceIn, traceOut, defaultColor, layout) {
     function coerce(attr, dflt) {
@@ -58,6 +57,7 @@ module.exports = function supplyDefaults(traceIn, traceOut, defaultColor, layout
     var dfltHoverOn = [];
 
     if(subTypes.hasMarkers(traceOut) || subTypes.hasText(traceOut)) {
+        coerce('cliponaxis');
         coerce('marker.maxdisplayed');
         dfltHoverOn.push('points');
     }
@@ -76,5 +76,5 @@ module.exports = function supplyDefaults(traceIn, traceOut, defaultColor, layout
     errorBarsSupplyDefaults(traceIn, traceOut, defaultColor, {axis: 'y'});
     errorBarsSupplyDefaults(traceIn, traceOut, defaultColor, {axis: 'x', inherit: 'y'});
 
-    coerce('cliponaxis');
+    Lib.coerceSelectionMarkerOpacity(traceOut, coerce);
 };

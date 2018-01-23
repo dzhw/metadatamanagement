@@ -1,5 +1,5 @@
 /**
-* Copyright 2012-2017, Plotly, Inc.
+* Copyright 2012-2018, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
@@ -50,7 +50,7 @@ module.exports = function hoverPoints(pointData, xval, yval, hovermode) {
     // TODO: nice formatting, and label by axis title, for a, b, and c?
 
     var trace = newPointData.trace;
-    var ternary = trace._ternary;
+    var ternary = newPointData.subplot;
     var hoverinfo = cdi.hi || trace.hoverinfo;
     var parts = hoverinfo.split('+');
     var text = [];

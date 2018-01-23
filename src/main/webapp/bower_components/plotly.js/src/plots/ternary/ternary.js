@@ -1,5 +1,5 @@
 /**
-* Copyright 2012-2017, Plotly, Inc.
+* Copyright 2012-2018, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
@@ -14,6 +14,7 @@ var tinycolor = require('tinycolor2');
 
 var Plotly = require('../../plotly');
 var Lib = require('../../lib');
+var _ = Lib._;
 var Color = require('../../components/color');
 var Drawing = require('../../components/drawing');
 var setConvert = require('../cartesian/set_convert');
@@ -63,7 +64,7 @@ proto.plot = function(ternaryCalcData, fullLayout) {
 
     _this.updateLayers(ternaryLayout);
     _this.adjustLayout(ternaryLayout, graphSize);
-    Plots.generalUpdatePerTraceModule(_this, ternaryCalcData, ternaryLayout);
+    Plots.generalUpdatePerTraceModule(_this.graphDiv, _this, ternaryCalcData, ternaryLayout);
     _this.layers.plotbg.select('path').call(Color.fill, ternaryLayout.bgcolor);
 };
 
@@ -155,6 +156,9 @@ proto.updateLayers = function(ternaryLayout) {
             } else if(d === 'grids') {
                 grids.forEach(function(d) {
                     layers[d] = s.append('g').classed('grid ' + d, true);
+
+                    var fictID = (d === 'bgrid') ? 'x' : 'y';
+                    layers[d].append('g').classed(fictID, true);
                 });
             }
         });
@@ -317,16 +321,19 @@ proto.adjustLayout = function(ternaryLayout, graphSize) {
 
     // TODO: shift axes to accommodate linewidth*sin(30) tick mark angle
 
-    var bTransform = 'translate(' + x0 + ',' + (y0 + h) + ')';
+    // TODO: there's probably an easier way to handle these translations/offsets now...
+    var bTransform = 'translate(' + (x0 - baxis._offset) + ',' + (y0 + h) + ')';
 
     _this.layers.baxis.attr('transform', bTransform);
     _this.layers.bgrid.attr('transform', bTransform);
 
-    var aTransform = 'translate(' + (x0 + w / 2) + ',' + y0 + ')rotate(30)';
+    var aTransform = 'translate(' + (x0 + w / 2) + ',' + y0 +
+        ')rotate(30)translate(0,-' + aaxis._offset + ')';
     _this.layers.aaxis.attr('transform', aTransform);
     _this.layers.agrid.attr('transform', aTransform);
 
-    var cTransform = 'translate(' + (x0 + w / 2) + ',' + y0 + ')rotate(-30)';
+    var cTransform = 'translate(' + (x0 + w / 2) + ',' + y0 +
+        ')rotate(-30)translate(0,-' + caxis._offset + ')';
     _this.layers.caxis.attr('transform', cTransform);
     _this.layers.cgrid.attr('transform', cTransform);
 
@@ -379,10 +386,10 @@ proto.drawAxes = function(doTitles) {
         var apad = Math.max(aaxis.showticklabels ? aaxis.tickfont.size / 2 : 0,
             (caxis.showticklabels ? caxis.tickfont.size * 0.75 : 0) +
             (caxis.ticks === 'outside' ? caxis.ticklen * 0.87 : 0));
-        Titles.draw(gd, 'a' + titlesuffix, {
+        _this.layers['a-title'] = Titles.draw(gd, 'a' + titlesuffix, {
             propContainer: aaxis,
             propName: _this.id + '.aaxis.title',
-            dfltName: 'Component A',
+            placeholder: _(gd, 'Click to enter Component A title'),
             attributes: {
                 x: _this.x0 + _this.w / 2,
                 y: _this.y0 - aaxis.titlefont.size / 3 - apad,
@@ -390,13 +397,14 @@ proto.drawAxes = function(doTitles) {
             }
         });
 
+
         var bpad = (baxis.showticklabels ? baxis.tickfont.size : 0) +
             (baxis.ticks === 'outside' ? baxis.ticklen : 0) + 3;
 
-        Titles.draw(gd, 'b' + titlesuffix, {
+        _this.layers['b-title'] = Titles.draw(gd, 'b' + titlesuffix, {
             propContainer: baxis,
             propName: _this.id + '.baxis.title',
-            dfltName: 'Component B',
+            placeholder: _(gd, 'Click to enter Component B title'),
             attributes: {
                 x: _this.x0 - bpad,
                 y: _this.y0 + _this.h + baxis.titlefont.size * 0.83 + bpad,
@@ -404,10 +412,10 @@ proto.drawAxes = function(doTitles) {
             }
         });
 
-        Titles.draw(gd, 'c' + titlesuffix, {
+        _this.layers['c-title'] = Titles.draw(gd, 'c' + titlesuffix, {
             propContainer: caxis,
             propName: _this.id + '.caxis.title',
-            dfltName: 'Component C',
+            placeholder: _(gd, 'Click to enter Component C title'),
             attributes: {
                 x: _this.x0 + _this.w + bpad,
                 y: _this.y0 + _this.h + caxis.titlefont.size * 0.83 + bpad,
@@ -449,7 +457,6 @@ proto.initInteractions = function() {
             xaxis: _this.xaxis,
             yaxis: _this.yaxis
         },
-        doubleclick: doubleClick,
         subplot: _this.id,
         prepFn: function(e, startX, startY) {
             // these aren't available yet when initInteractions
@@ -479,6 +486,19 @@ proto.initInteractions = function() {
             else if(dragModeNow === 'select' || dragModeNow === 'lasso') {
                 prepSelect(e, startX, startY, dragOptions, dragModeNow);
             }
+        },
+        clickFn: function(numClicks, evt) {
+            removeZoombox(gd);
+
+            if(numClicks === 2) {
+                var attrs = {};
+                attrs[_this.id + '.aaxis.min'] = 0;
+                attrs[_this.id + '.baxis.min'] = 0;
+                attrs[_this.id + '.caxis.min'] = 0;
+                gd.emit('plotly_doubleclick', null);
+                Plotly.relayout(gd, attrs);
+            }
+            Fx.click(gd, evt, _this.id);
         }
     };
 
@@ -571,14 +591,10 @@ proto.initInteractions = function() {
         }
     }
 
-    function zoomDone(dragged, numClicks) {
-        if(mins === mins0) {
-            if(numClicks === 2) doubleClick();
-
-            return removeZoombox(gd);
-        }
-
+    function zoomDone() {
         removeZoombox(gd);
+
+        if(mins === mins0) return;
 
         var attrs = {};
         attrs[_this.id + '.aaxis.min'] = mins.a;
@@ -588,7 +604,7 @@ proto.initInteractions = function() {
         Plotly.relayout(gd, attrs);
 
         if(SHOWZOOMOUTTIP && gd.data && gd._context.showTips) {
-            Lib.notifier('Double-click to<br>zoom back out', 'long');
+            Lib.notifier(_(gd, 'Double-click to zoom back out'), 'long');
             SHOWZOOMOUTTIP = false;
         }
     }
@@ -652,27 +668,19 @@ proto.initInteractions = function() {
         _this.plotContainer.selectAll('.crisp').classed('crisp', false);
 
         if(_this._hasClipOnAxisFalse) {
-            var scatterPoints = _this.plotContainer
-                .select('.scatterlayer').selectAll('.points');
-
-            scatterPoints.selectAll('.point')
-                .call(Drawing.hideOutsideRangePoints, _this);
-
-            scatterPoints.selectAll('.textpoint')
+            _this.plotContainer
+                .select('.scatterlayer').selectAll('.trace')
                 .call(Drawing.hideOutsideRangePoints, _this);
         }
     }
 
-    function dragDone(dragged, numClicks) {
-        if(dragged) {
-            var attrs = {};
-            attrs[_this.id + '.aaxis.min'] = mins.a;
-            attrs[_this.id + '.baxis.min'] = mins.b;
-            attrs[_this.id + '.caxis.min'] = mins.c;
+    function dragDone() {
+        var attrs = {};
+        attrs[_this.id + '.aaxis.min'] = mins.a;
+        attrs[_this.id + '.baxis.min'] = mins.b;
+        attrs[_this.id + '.caxis.min'] = mins.c;
 
-            Plotly.relayout(gd, attrs);
-        }
-        else if(numClicks === 2) doubleClick();
+        Plotly.relayout(gd, attrs);
     }
 
     function clearSelect() {
@@ -680,15 +688,6 @@ proto.initInteractions = function() {
         // here. The selection itself will be removed when the plot redraws
         // at the end.
         zoomContainer.selectAll('.select-outline').remove();
-    }
-
-    function doubleClick() {
-        var attrs = {};
-        attrs[_this.id + '.aaxis.min'] = 0;
-        attrs[_this.id + '.baxis.min'] = 0;
-        attrs[_this.id + '.caxis.min'] = 0;
-        gd.emit('plotly_doubleclick', null);
-        Plotly.relayout(gd, attrs);
     }
 
     // finally, set up hover and click
@@ -704,10 +703,6 @@ proto.initInteractions = function() {
         if(gd._dragging) return;
 
         dragElement.unhover(gd, evt);
-    };
-
-    dragger.onclick = function(evt) {
-        Fx.click(gd, evt, _this.id);
     };
 
     dragElement.init(dragOptions);

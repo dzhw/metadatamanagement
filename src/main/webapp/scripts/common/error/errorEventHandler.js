@@ -8,6 +8,21 @@ based on the Error Event.*/
 
 angular.module('metadatamanagementApp').run(
   function($rootScope, SimpleMessageToastService) {
+    var ignore404 = false;
+
+    $rootScope.$on('start-ignoring-404', function() {
+      ignore404 = true;
+    });
+
+    $rootScope.$on('stop-ignoring-404', function() {
+      ignore404 = false;
+    });
+
+    $rootScope.$on('serverNotReachableError', function() {
+      SimpleMessageToastService.openSimpleMessageToast('global.error.' +
+        'server-not-reachable');
+    });
+
     // Server or network down
     $rootScope.$on('serverNotReachableError', function() {
       SimpleMessageToastService.openSimpleMessageToast('global.error.' +
@@ -31,8 +46,10 @@ angular.module('metadatamanagementApp').run(
     //Client Error 404
     $rootScope.$on('notFoundError',
     function(event, response) { // jshint ignore:line
-      SimpleMessageToastService.openSimpleMessageToast('global.error.' +
-        'client-error.not-found-error', {status: response.status});
+      if (!ignore404) {
+        SimpleMessageToastService.openSimpleMessageToast('global.error.' +
+          'client-error.not-found-error', {status: response.status});
+      }
     });
 
     //Server Error 500 to 511

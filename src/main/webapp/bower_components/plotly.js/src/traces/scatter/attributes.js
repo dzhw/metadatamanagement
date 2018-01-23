@@ -1,5 +1,5 @@
 /**
-* Copyright 2012-2017, Plotly, Inc.
+* Copyright 2012-2018, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
@@ -377,6 +377,79 @@ module.exports = {
     },
         colorAttributes('marker')
     ),
+    selected: {
+        marker: {
+            opacity: {
+                valType: 'number',
+                min: 0,
+                max: 1,
+                role: 'style',
+                editType: 'style',
+                description: 'Sets the marker opacity of selected points.'
+            },
+            color: {
+                valType: 'color',
+                role: 'style',
+                editType: 'style',
+                description: 'Sets the marker color of selected points.'
+            },
+            size: {
+                valType: 'number',
+                min: 0,
+                role: 'style',
+                editType: 'style',
+                description: 'Sets the marker size of selected points.'
+            },
+            editType: 'style'
+        },
+        textfont: {
+            color: {
+                valType: 'color',
+                role: 'style',
+                editType: 'style',
+                description: 'Sets the text font color of selected points.'
+            },
+            editType: 'style'
+        },
+        editType: 'style'
+    },
+    unselected: {
+        marker: {
+            opacity: {
+                valType: 'number',
+                min: 0,
+                max: 1,
+                role: 'style',
+                editType: 'style',
+                description: 'Sets the marker opacity of unselected points, applied only when a selection exists.'
+            },
+            color: {
+                valType: 'color',
+                role: 'style',
+                editType: 'style',
+                description: 'Sets the marker color of unselected points, applied only when a selection exists.'
+            },
+            size: {
+                valType: 'number',
+                min: 0,
+                role: 'style',
+                editType: 'style',
+                description: 'Sets the marker size of unselected points, applied only when a selection exists.'
+            },
+            editType: 'style'
+        },
+        textfont: {
+            color: {
+                valType: 'color',
+                role: 'style',
+                editType: 'style',
+                description: 'Sets the text font color of unselected points, applied only when a selection exists.'
+            },
+            editType: 'style'
+        },
+        editType: 'style'
+    },
+
     textposition: {
         valType: 'enumerated',
         values: [
@@ -404,7 +477,8 @@ module.exports = {
         valType: 'data_array',
         editType: 'calc',
         description: [
-            'For polar chart only.',
+            'For legacy polar chart only.',
+            'Please switch to *scatterpolar* trace type.',
             'Sets the radial coordinates.'
         ].join('')
     },
@@ -412,7 +486,8 @@ module.exports = {
         valType: 'data_array',
         editType: 'calc',
         description: [
-            'For polar chart only.',
+            'For legacy polar chart only.',
+            'Please switch to *scatterpolar* trace type.',
             'Sets the angular coordinates.'
         ].join('')
     },

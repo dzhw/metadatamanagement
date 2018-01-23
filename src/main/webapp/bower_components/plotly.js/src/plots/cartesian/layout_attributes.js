@@ -1,5 +1,5 @@
 /**
-* Copyright 2012-2017, Plotly, Inc.
+* Copyright 2012-2018, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
@@ -387,6 +387,14 @@ module.exports = {
             'plotted on'
         ].join(' ')
     },
+    spikesnap: {
+        valType: 'enumerated',
+        values: ['data', 'cursor'],
+        dflt: 'data',
+        role: 'style',
+        editType: 'none',
+        description: 'Determines whether spikelines are stuck to the cursor or to the closest datapoints.'
+    },
     tickfont: fontAttrs({
         editType: 'ticks',
         description: 'Sets the tick font.'
@@ -491,6 +499,34 @@ module.exports = {
             'with n digits. For example, *2016-10-13 09:15:23.456* with tickformat',
             '*%H~%M~%S.%2f* would display *09~15~23.46*'
         ].join(' ')
+    },
+    tickformatstops: {
+        _isLinkedToArray: 'tickformatstop',
+
+        dtickrange: {
+            valType: 'info_array',
+            role: 'info',
+            items: [
+                {valType: 'any', editType: 'ticks'},
+                {valType: 'any', editType: 'ticks'}
+            ],
+            editType: 'ticks',
+            description: [
+                'range [*min*, *max*], where *min*, *max* - dtick values',
+                'which describe some zoom level, it is possible to omit *min*',
+                'or *max* value by passing *null*'
+            ].join(' ')
+        },
+        value: {
+            valType: 'string',
+            dflt: '',
+            role: 'style',
+            editType: 'ticks',
+            description: [
+                'string - dtickformat for described zoom level, the same as *tickformat*'
+            ].join(' ')
+        },
+        editType: 'ticks'
     },
     hoverformat: {
         valType: 'string',

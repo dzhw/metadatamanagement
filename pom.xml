@@ -11,7 +11,7 @@
 
     <groupId>eu.dzhw.fdz.metadatamanagement</groupId>
     <artifactId>metadatamanagement</artifactId>
-    <version>1.0.60</version>
+    <version>1.0.61</version>
     <packaging>war</packaging>
     <name>metadatamanagement</name>
 
@@ -104,7 +104,7 @@
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <version>4.1.16.Final</version>
+            <version>4.1.19.Final</version>
         </dependency>
         <!-- Reactor for websocket relay to MQ -->
         <dependency>
@@ -143,6 +143,11 @@
             <artifactId>transport-netty4-client</artifactId>
             <version>${elasticsearch.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.javers</groupId>
+            <artifactId>javers-spring-boot-starter-mongo</artifactId>
+            <version>3.7.0</version>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>

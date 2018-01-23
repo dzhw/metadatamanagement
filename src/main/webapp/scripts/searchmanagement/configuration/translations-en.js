@@ -30,7 +30,11 @@ angular.module('metadatamanagementApp').config(
           'upload-surveys-tooltip': 'Click to upload surveys for the selected data acquisition project',
           'upload-data-sets-tooltip': 'Click to upload data sets for the selected data acquisition project',
           'upload-questions-tooltip': 'Click to upload questions for the selected data acquisition project',
-          'upload-studies-tooltip': 'Click to upload a study for the selected data acquisition project',
+          'upload-studies-tooltip': 'Click to upload the study with attachments',
+          'upload-or-create-studies-tooltip': 'Click to upload or manually create the study',
+          'upload-or-edit-studies-tooltip': 'Click to upload or manually edit the study',
+          'create-study-tooltip': 'Click to manually create the study',
+          'edit-study-tooltip': 'Click to manually edit the study',
           'upload-related-publications-tooltip': 'Click to upload publications',
           'post-validate-related-publications-tooltip': 'Click to validate the publications',
           'upload-instruments-tooltip': 'Click to upload instruments for the selected data acquisition project',
@@ -166,7 +170,7 @@ angular.module('metadatamanagementApp').config(
             'no-valid-selected': 'No valid access way selected!'
           },
           'survey-series-filter': {
-            'not-found': 'No survey series found!',
+            'not-found': 'No existing survey series found.',
             'no-valid-selected': 'No valid survey series selected!'
           }
         }

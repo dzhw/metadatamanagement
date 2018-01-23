@@ -1,5 +1,5 @@
 /**
-* Copyright 2012-2017, Plotly, Inc.
+* Copyright 2012-2018, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
@@ -14,6 +14,8 @@ var Fx = require('../../components/fx');
 var Color = require('../../components/color');
 var Lib = require('../../lib');
 var cn = require('./constants').cn;
+
+var _ = Lib._;
 
 function renderableValuePresent(d) {return d !== '';}
 
@@ -128,11 +130,17 @@ module.exports = function plot(gd, calcData) {
     };
 
     var linkHover = function(element, d, sankey) {
-        var evt = d.link;
-        evt.originalEvent = d3.event;
         d3.select(element).call(linkHoveredStyle.bind(0, d, sankey, true));
-        Fx.hover(gd, evt, 'sankey');
+        gd.emit('plotly_hover', {
+            event: d3.event,
+            points: [d.link]
+        });
     };
+
+    var sourceLabel = _(gd, 'source:') + ' ';
+    var targetLabel = _(gd, 'target:') + ' ';
+    var incomingLabel = _(gd, 'incoming flow count:') + ' ';
+    var outgoingLabel = _(gd, 'outgoing flow count:') + ' ';
 
     var linkHoverFollow = function(element, d) {
         var trace = d.link.trace;
@@ -147,8 +155,8 @@ module.exports = function plot(gd, calcData) {
             name: d3.format(d.valueFormat)(d.link.value) + d.valueSuffix,
             text: [
                 d.link.label || '',
-                ['Source:', d.link.source.label].join(' '),
-                ['Target:', d.link.target.label].join(' ')
+                sourceLabel + d.link.source.label,
+                targetLabel + d.link.target.label
             ].filter(renderableValuePresent).join('<br>'),
             color: castHoverOption(trace, 'bgcolor') || Color.addOpacity(d.tinyColorHue, 1),
             borderColor: castHoverOption(trace, 'bordercolor'),
@@ -185,10 +193,11 @@ module.exports = function plot(gd, calcData) {
     };
 
     var nodeHover = function(element, d, sankey) {
-        var evt = d.node;
-        evt.originalEvent = d3.event;
         d3.select(element).call(nodeHoveredStyle, d, sankey);
-        Fx.hover(gd, evt, 'sankey');
+        gd.emit('plotly_hover', {
+            event: d3.event,
+            points: [d.node]
+        });
     };
 
     var nodeHoverFollow = function(element, d) {
@@ -207,8 +216,8 @@ module.exports = function plot(gd, calcData) {
             name: d3.format(d.valueFormat)(d.node.value) + d.valueSuffix,
             text: [
                 d.node.label,
-                ['Incoming flow count:', d.node.targetLinks.length].join(' '),
-                ['Outgoing flow count:', d.node.sourceLinks.length].join(' ')
+                incomingLabel + d.node.targetLinks.length,
+                outgoingLabel + d.node.sourceLinks.length
             ].filter(renderableValuePresent).join('<br>'),
             color: castHoverOption(trace, 'bgcolor') || d.tinyColorHue,
             borderColor: castHoverOption(trace, 'bordercolor'),

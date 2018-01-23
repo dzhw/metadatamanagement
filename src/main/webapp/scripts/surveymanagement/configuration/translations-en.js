@@ -85,7 +85,8 @@ angular.module('metadatamanagementApp').config(
               'pattern': 'Use only alphanumeric signs, german umlauts, ß and space, underscore, excemation sign and minus for the RDC-ID.'
             },
             'title': {
-              'i18n-string-size': 'The max length of the title is 2048 signs.'
+              'i18n-string-size': 'The max length of the title is 2048 signs.',
+              'i18n-string-entire-not-empty': 'The title of the survey has to be given in all languages.'
             },
             'field-period': {
               'not-null': 'The Field Period of a Survey must not be empty!'
@@ -96,7 +97,7 @@ angular.module('metadatamanagementApp').config(
               }
             },
             'population': {
-              'not-null': 'The Population of a Survey must not be empty!'              
+              'not-null': 'The Population of a Survey must not be empty!'
             },
             'sample': {
               'not-null': 'The Sample of a Survey must not be empty!',
@@ -105,6 +106,7 @@ angular.module('metadatamanagementApp').config(
             },
             'wave': {
               'not-null': 'The Wave of a Survey must not be empty!',
+              'min': 'The number of waves has to be 1 or higher.'
             },
             'survey-method': {
               'not-null': 'The Survey-Method must not be empty!',

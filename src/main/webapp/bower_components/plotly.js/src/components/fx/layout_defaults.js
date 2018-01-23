@@ -1,5 +1,5 @@
 /**
-* Copyright 2012-2017, Plotly, Inc.
+* Copyright 2012-2018, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
@@ -27,7 +27,11 @@ module.exports = function supplyLayoutDefaults(layoutIn, layoutOut, fullData) {
     }
     else hovermodeDflt = 'closest';
 
-    coerce('hovermode', hovermodeDflt);
+    var hoverMode = coerce('hovermode', hovermodeDflt);
+    if(hoverMode) {
+        coerce('hoverdistance');
+        coerce('spikedistance');
+    }
 
     // if only mapbox or geo subplots is present on graph,
     // reset 'zoom' dragmode to 'pan' until 'zoom' is implemented,

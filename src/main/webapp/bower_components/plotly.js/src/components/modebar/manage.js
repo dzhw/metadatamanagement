@@ -1,5 +1,5 @@
 /**
-* Copyright 2012-2017, Plotly, Inc.
+* Copyright 2012-2018, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
@@ -9,7 +9,7 @@
 
 'use strict';
 
-var Axes = require('../../plots/cartesian/axes');
+var axisIds = require('../../plots/cartesian/axis_ids');
 var scatterSubTypes = require('../../traces/scatter/subtypes');
 var Registry = require('../../registry');
 
@@ -81,6 +81,7 @@ function getButtonGroups(gd, buttonsToRemove, buttonsToAdd) {
     var hasGL2D = fullLayout._has('gl2d');
     var hasTernary = fullLayout._has('ternary');
     var hasMapbox = fullLayout._has('mapbox');
+    var hasPolar = fullLayout._has('polar');
 
     var groups = [];
 
@@ -121,6 +122,9 @@ function getButtonGroups(gd, buttonsToRemove, buttonsToAdd) {
     if(hasMapbox || hasGeo) {
         dragModeGroup = ['pan2d'];
     }
+    if(hasPolar) {
+        dragModeGroup = ['zoom2d'];
+    }
     if(isSelectable(fullData)) {
         dragModeGroup.push('select2d');
         dragModeGroup.push('lasso2d');
@@ -150,17 +154,15 @@ function getButtonGroups(gd, buttonsToRemove, buttonsToAdd) {
 }
 
 function areAllAxesFixed(fullLayout) {
-    var axList = Axes.list({_fullLayout: fullLayout}, null, true);
-    var allFixed = true;
+    var axList = axisIds.list({_fullLayout: fullLayout}, null, true);
 
     for(var i = 0; i < axList.length; i++) {
         if(!axList[i].fixedrange) {
-            allFixed = false;
-            break;
+            return false;
         }
     }
 
-    return allFixed;
+    return true;
 }
 
 // look for traces that support selection
@@ -177,6 +179,10 @@ function isSelectable(fullData) {
 
         if(Registry.traceIs(trace, 'scatter-like')) {
             if(scatterSubTypes.hasMarkers(trace) || scatterSubTypes.hasText(trace)) {
+                selectable = true;
+            }
+        } else if(Registry.traceIs(trace, 'box-violin')) {
+            if(trace.boxpoints === 'all' || trace.points === 'all') {
                 selectable = true;
             }
         }
