@@ -18,11 +18,6 @@ angular.module('metadatamanagementApp').run(
       ignore404 = false;
     });
 
-    $rootScope.$on('serverNotReachableError', function() {
-      SimpleMessageToastService.openSimpleMessageToast('global.error.' +
-        'server-not-reachable');
-    });
-
     // Server or network down
     $rootScope.$on('serverNotReachableError', function() {
       SimpleMessageToastService.openSimpleMessageToast('global.error.' +

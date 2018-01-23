@@ -214,7 +214,8 @@ angular.module('metadatamanagementApp').config(
             },
             'filename': {
               'not-empty': 'The filename of the attachment must not be empty!',
-              'not-unique': 'There is already an attachment with this name!'
+              'not-unique': 'There is already an attachment with this name!',
+              'not-valid': 'The filename is invalid.'
             }
           }
         },

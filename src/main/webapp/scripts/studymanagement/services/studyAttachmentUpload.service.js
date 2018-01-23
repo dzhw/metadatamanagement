@@ -4,6 +4,10 @@ angular.module('metadatamanagementApp').service(
   function(Upload, $q, $http) {
     var uploadAttachment = function(attachment, metadata) {
         var deferred = $q.defer();
+        if (!Upload.isFile(attachment) || attachment.size <= 0) {
+          deferred.reject({invalidFile: true});
+          return deferred.promise;
+        }
         Upload.upload({
           url: '/api/studies/attachments',
           data: {
