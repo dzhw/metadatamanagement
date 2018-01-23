@@ -84,8 +84,8 @@ public class Study extends AbstractRdcDomainObject {
   private I18nString institution;
   
   @I18nStringSize(max = StringLengths.MEDIUM,
-      message = "study-management.error.study.survey-series.i18n-string-size")
-  private I18nString surveySeries;
+      message = "study-management.error.study.study-series.i18n-string-size")
+  private I18nString studySeries;
   
   @NotNull(message = "study-management.error.study.sponsor.not-null")
   @I18nStringSize(max = StringLengths.MEDIUM,

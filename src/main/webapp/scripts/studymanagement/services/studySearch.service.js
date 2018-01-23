@@ -46,7 +46,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       return deferred;
     };
 
-    var findSurveySeries = function(searchText, filter, language) {
+    var findStudySeries = function(searchText, filter, language) {
       language = language || LanguageService.getCurrentInstantly();
       var query = createQueryObject();
       var termFilters = createTermFilters(filter);
@@ -54,14 +54,14 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       query.body = {
         'size': 0,
         'aggs': {
-            'surveySeriesDe': {
+            'studySeriesDe': {
                 'terms': {
-                  'field': 'surveySeries.de'
+                  'field': 'studySeries.de'
                 },
                 'aggs': {
-                  'surveySeriesEn': {
+                  'studySeriesEn': {
                     'terms': {
-                      'field': 'surveySeries.en'
+                      'field': 'studySeries.en'
                     }
                   }
                 }
@@ -80,7 +80,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       };
 
       query.body.query.bool.must[0].match
-        ['surveySeries.' + language + '.ngrams'] = {
+        ['studySeries.' + language + '.ngrams'] = {
         'query': searchText,
         'operator': 'AND',
         'minimum_should_match': '100%',
@@ -92,21 +92,21 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       }
 
       return ElasticSearchClient.search(query).then(function(result) {
-        var surveySeries = [];
-        var surveySeriesElement = {};
-        result.aggregations.surveySeriesDe.buckets.forEach(function(bucket) {
-            surveySeriesElement = {
+        var studySeries = [];
+        var studySeriesElement = {};
+        result.aggregations.studySeriesDe.buckets.forEach(function(bucket) {
+            studySeriesElement = {
               'de': bucket.key,
-              'en': bucket.surveySeriesEn.buckets[0].key
+              'en': bucket.studySeriesEn.buckets[0].key
             };
-            surveySeries.push(surveySeriesElement);
+            studySeries.push(studySeriesElement);
           });
-        return surveySeries;
+        return studySeries;
       });
     };
 
     return {
       findOneById: findOneById,
-      findSurveySeries: findSurveySeries
+      findStudySeries: findStudySeries
     };
   });

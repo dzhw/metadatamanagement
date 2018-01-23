@@ -23,7 +23,7 @@ public class StudySubDocument implements StudySubDocumentProjection {
   
   private I18nString sponsor;
   
-  private I18nString surveySeries;
+  private I18nString studySeries;
   
   private I18nString title;
   
@@ -86,14 +86,15 @@ public class StudySubDocument implements StudySubDocumentProjection {
   public void setSponsor(I18nString sponsor) {
     this.sponsor = sponsor;
   }
-
+  
+  
   @Override
-  public I18nString getSurveySeries() {
-    return surveySeries;
+  public I18nString getStudySeries() {
+    return studySeries;
   }
 
-  public void setSurveySeries(I18nString surveySeries) {
-    this.surveySeries = surveySeries;
+  public void setStudySeries(I18nString studySeries) {
+    this.studySeries = studySeries;
   }
 
   @Override

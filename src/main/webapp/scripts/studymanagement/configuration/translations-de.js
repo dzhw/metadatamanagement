@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp').config(
           'label': {
             'study': 'Studie',
             'studies': 'Studien',
-            'surveySeries': 'Erhebungsreihe',
+            'studySeries': 'Studienreihe',
             'institution': 'Erhebende Institution',
             'authors': 'Projektmitarbeiter(innen)',
             'sponsors': 'Gefördert von',
@@ -51,6 +51,7 @@ angular.module('metadatamanagementApp').config(
             'cancel-tooltip': 'Klicken, um den Dialog ohne zu speichern zu schließen.',
             'save-tooltip': 'Klicken, um die Datei zu speichern.',
             'attachment-saved-toast': 'Datei "{{ filename }}" wurde gespeichert.',
+            'attachment-has-validation-errors-toast': 'Die Datei wurde nicht gespeichert, weil es noch ungültige Felder gibt.',
             'change-file-tooltip': 'Klicken, um eine Datei auszuwählen.',
             'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version der Metadaten wiederherzustellen.',
             'current-version-restored-toast': 'Die aktuelle Version der Metadaten von Datei "{{ filename }}" wurde wiederhergestellt.',
@@ -116,7 +117,7 @@ angular.module('metadatamanagementApp').config(
               'many': 'Klicken, um die Instrumente dieser Studie anzuzeigen.'
             },
             'studies': {
-              'survey-series': 'Klicken, um alle Studien aus der Erhebungsreihe anzuzeigen.'
+              'study-series': 'Klicken, um alle Studien aus der Studienreihe anzuzeigen.'
             }
           },
           'doi-tooltip': 'Klicken, um die DOI in einem neuen Tab zu öffnen'
@@ -164,8 +165,8 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-size': 'Die Maximallänge des Sponsors einer Studie ist 128 Zeichen.',
               'i18n-string-entire-not-empty': 'Der Sponsor einer Studie muss in beiden Sprachen vorhanden sein.'
             },
-            'survey-series': {
-              'i18n-string-size': 'Die Maximallänge der Erhebungsreihe einer Studie ist 128 Zeichen.'
+            'study-series': {
+              'i18n-string-size': 'Die Maximallänge der Studienreihe einer Studie ist 128 Zeichen.'
             },
             'data-availability': {
               'not-null': 'Die Datenerreichbarkeit einer Studie darf nicht leer sein!',
@@ -222,6 +223,7 @@ angular.module('metadatamanagementApp').config(
           'create-page-title': 'Studie {{studyId}} anlegen',
           'success-on-save-toast': 'Studie {{studyId}} wurde erfolgreich gespeichert',
           'error-on-save-toast': 'Ein Fehler trat beim Speichern von Studie {{studyId}} auf!',
+          'study-has-validation-errors-toast': 'Die Studie wurde nicht gespeichert, weil es noch ungültige Felder gibt!',
           'previous-version-restored-toast': 'Die ältere Version von Studie {{ studyId }} kann jetzt gespeichert werden.',
           'current-version-restored-toast': 'Die aktuelle Version von Studie {{ studyId }} wurde wiederhergestellt.',
           'not-authorized-toast': 'Sie sind nicht berechtigt Studien zu bearbeiten oder anzulegen!',
@@ -256,13 +258,13 @@ angular.module('metadatamanagementApp').config(
               'de': 'Geben Sie den Titel der Studie auf Deutsch ein.',
               'en': 'Geben Sie den Titel der Studie auf Englisch ein.'
             },
-            'survey-series': {
+            'study-series': {
               'de': 'Geben Sie, falls vorhanden, den Namen der Studienreihe auf Deutsch ein.',
               'en': 'Geben Sie, falls vorhanden, den Namen der Studienreihe auf Englisch ein.'
             },
             'institution': {
-              'de': 'Geben Sie, falls vorhanden, den deutschen Namen der Institution ein, die die Erhebungen durchgeführt hat.',
-              'en': 'Geben Sie, falls vorhanden, den englischen Namen der Institution ein, die die Erhebungen durchgeführt hat.'
+              'de': 'Geben Sie den deutschen Namen der Institution ein, die die Erhebungen durchgeführt hat.',
+              'en': 'Geben Sie den englischen Namen der Institution ein, die die Erhebungen durchgeführt hat.'
             },
             'sponsor': {
               'de': 'Geben Sie den deutschen Namen des Geldgebers für diese Studie ein.',
@@ -276,7 +278,7 @@ angular.module('metadatamanagementApp').config(
             'data-availability': 'Wählen Sie den Status aus, der die aktuelle Verfügbarkeit der Daten am Besten beschreibt.',
             'description': {
               'de': 'Geben Sie eine Beschreibung der Studie auf Deutsch ein.',
-              'en': 'Geben Sie eine Beschreibung zur Studie auf Englisch ein.'
+              'en': 'Geben Sie eine Beschreibung der Studie auf Englisch ein.'
             },
             'authors': {
               'first-name': 'Geben Sie den Vornamen des Projektmitarbeiters ein.',

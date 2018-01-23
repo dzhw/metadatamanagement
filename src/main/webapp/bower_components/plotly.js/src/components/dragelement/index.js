@@ -27,6 +27,8 @@ var unhover = require('./unhover');
 dragElement.unhover = unhover.wrapped;
 dragElement.unhoverRaw = unhover.raw;
 
+var supportsPassive = Lib.eventListenerOptionsSupported();
+
 /**
  * Abstracts click & drag interactions
  *
@@ -76,6 +78,10 @@ dragElement.unhoverRaw = unhover.raw;
  *          numClicks is how many clicks we've registered within
  *          a doubleclick time
  *          e is the original mousedown event
+ *      clampFn (optional, function(dx, dy) return [dx2, dy2])
+ *          Provide custom clamping function for small displacements.
+ *          By default, clamping is done using `minDrag` to x and y displacements
+ *          independently.
  */
 dragElement.init = function init(options) {
     var gd = options.gd;
@@ -97,7 +103,25 @@ dragElement.init = function init(options) {
     element.style.pointerEvents = 'all';
 
     element.onmousedown = onStart;
-    element.ontouchstart = onStart;
+
+    if(!supportsPassive) {
+        element.ontouchstart = onStart;
+    }
+    else {
+        if(element._ontouchstart) {
+            element.removeEventListener('touchstart', element._ontouchstart);
+        }
+        element._ontouchstart = onStart;
+        element.addEventListener('touchstart', onStart, {passive: false});
+    }
+
+    function _clampFn(dx, dy, minDrag) {
+        if(Math.abs(dx) < minDrag) dx = 0;
+        if(Math.abs(dy) < minDrag) dy = 0;
+        return [dx, dy];
+    }
+
+    var clampFn = options.clampFn || _clampFn;
 
     function onStart(e) {
         // make dragging and dragged into properties of gd
@@ -145,12 +169,11 @@ dragElement.init = function init(options) {
 
     function onMove(e) {
         var offset = pointerOffset(e);
-        var dx = offset[0] - startX;
-        var dy = offset[1] - startY;
         var minDrag = options.minDrag || constants.MINDRAG;
+        var dxdy = clampFn(offset[0] - startX, offset[1] - startY, minDrag);
+        var dx = dxdy[0];
+        var dy = dxdy[1];
 
-        if(Math.abs(dx) < minDrag) dx = 0;
-        if(Math.abs(dy) < minDrag) dy = 0;
         if(dx || dy) {
             gd._dragged = true;
             dragElement.unhover(gd);

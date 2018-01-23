@@ -1,4 +1,4 @@
-/* global _*/
+/* global _, bowser*/
 'use strict';
 
 angular.module('metadatamanagementApp')
@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp')
       StudyAttachmentResource, $q) {
 
       var ctrl = this;
-      var surveySeriesCache = {};
+      var studySeriesCache = {};
 
       var updateToolbarHeaderAndPageTitle = function() {
         if (ctrl.createMode) {
@@ -37,50 +37,55 @@ angular.module('metadatamanagementApp')
 
       var init = function() {
         if (Principal.hasAuthority('ROLE_PUBLISHER')) {
-          if (entity) {
-            entity.$promise.then(function(study) {
-              ctrl.createMode = false;
-              ctrl.study = study;
-              ctrl.loadAttachments();
-              updateToolbarHeaderAndPageTitle();
-              $scope.registerConfirmOnDirtyHook();
-            });
-          } else {
-            if (CurrentProjectService.getCurrentProject() &&
-              !CurrentProjectService.getCurrentProject().release) {
-              StudyResource.get({
-                id: StudyIdBuilderService.buildStudyId(
-                  CurrentProjectService.getCurrentProject().id)
-              }).$promise.then(function(study) {
-                  ctrl.createMode = false;
-                  ctrl.study = study;
-                  ctrl.loadAttachments();
-                  updateToolbarHeaderAndPageTitle();
-                  $scope.registerConfirmOnDirtyHook();
-                }).catch(function() {
-                  ctrl.createMode = true;
-                  ctrl.study = new StudyResource({
-                    id: StudyIdBuilderService.buildStudyId(
-                      CurrentProjectService.getCurrentProject().id),
-                    dataAcquisitionProjectId:
-                    CurrentProjectService.getCurrentProject().id,
-                    authors: [{firstName: '', lastName: ''}],
-                    doi: StudyIdBuilderService.buildDoi(
-                      CurrentProjectService.getCurrentProject().id)
-                  });
-                  updateToolbarHeaderAndPageTitle();
-                  $scope.registerConfirmOnDirtyHook();
-                });
+          if (!bowser.msie) {
+            if (entity) {
+              entity.$promise.then(function(study) {
+                ctrl.createMode = false;
+                ctrl.study = study;
+                ctrl.loadAttachments();
+                updateToolbarHeaderAndPageTitle();
+                $scope.registerConfirmOnDirtyHook();
+              });
             } else {
-              SimpleMessageToastService.openSimpleMessageToast(
-              'study-management.edit.choose-unreleased-project-toast');
-              $timeout(function() {
-                $state.go('search', {
-                  lang: LanguageService.getCurrentInstantly(),
-                  type: 'studies'
-                });
-              }, 1000);
+              if (CurrentProjectService.getCurrentProject() &&
+              !CurrentProjectService.getCurrentProject().release) {
+                StudyResource.get({
+                  id: StudyIdBuilderService.buildStudyId(
+                    CurrentProjectService.getCurrentProject().id)
+                }).$promise.then(function(study) {
+                    ctrl.createMode = false;
+                    ctrl.study = study;
+                    ctrl.loadAttachments();
+                    updateToolbarHeaderAndPageTitle();
+                    $scope.registerConfirmOnDirtyHook();
+                  }).catch(function() {
+                        ctrl.createMode = true;
+                        ctrl.study = new StudyResource({
+                          id: StudyIdBuilderService.buildStudyId(
+                            CurrentProjectService.getCurrentProject().id),
+                          dataAcquisitionProjectId:
+                          CurrentProjectService.getCurrentProject().id,
+                          authors: [{firstName: '', lastName: ''}],
+                          doi: StudyIdBuilderService.buildDoi(
+                            CurrentProjectService.getCurrentProject().id)
+                        });
+                        updateToolbarHeaderAndPageTitle();
+                        $scope.registerConfirmOnDirtyHook();
+                      });
+              } else {
+                SimpleMessageToastService.openSimpleMessageToast(
+                  'study-management.edit.choose-unreleased-project-toast');
+                $timeout(function() {
+                  $state.go('search', {
+                    lang: LanguageService.getCurrentInstantly(),
+                    type: 'studies'
+                  });
+                }, 1000);
+              }
             }
+          } else {
+            SimpleMessageToastService.openSimpleMessageToast(
+              'global.edit.internet-explorer-not-supported');
           }
         } else {
           SimpleMessageToastService.openSimpleMessageToast(
@@ -154,15 +159,27 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.saveStudy = function() {
-        ctrl.study.$save()
-        .then(ctrl.updateElasticSearchIndex)
-        .then(ctrl.onSavedSuccessfully)
-        .catch(function(error) {
-          console.log(error);
+        if ($scope.studyForm.$valid) {
+          ctrl.study.$save()
+          .then(ctrl.updateElasticSearchIndex)
+          .then(ctrl.onSavedSuccessfully)
+          .catch(function(error) {
+              console.log(error);
+              SimpleMessageToastService.openSimpleMessageToast(
+                'study-management.edit.error-on-save-toast',
+                {studyId: ctrl.study.id});
+            });
+        } else {
+          // ensure that all validation errors are visible
+          angular.forEach($scope.studyForm.$error, function(field) {
+            angular.forEach(field, function(errorField) {
+              errorField.$setTouched();
+            });
+          });
           SimpleMessageToastService.openSimpleMessageToast(
-            'study-management.edit.error-on-save-toast',
-            {studyId: ctrl.study.id});
-        });
+            'study-management.edit.study-has-validation-errors-toast',
+            null, true);
+        }
       };
 
       ctrl.updateElasticSearchIndex = function() {
@@ -221,20 +238,20 @@ angular.module('metadatamanagementApp')
         $scope.$on('$destroy', unregisterTransitionHook);
       };
 
-      $scope.searchSurveySeries = function(searchText, language) {
-        if (searchText === surveySeriesCache.searchText &&
-          language === surveySeriesCache.language) {
-          return surveySeriesCache.searchResult;
+      $scope.searchStudySeries = function(searchText, language) {
+        if (searchText === studySeriesCache.searchText &&
+          language === studySeriesCache.language) {
+          return studySeriesCache.searchResult;
         }
 
         //Search Call to Elasticsearch
-        return StudySearchService.findSurveySeries(searchText, {},
+        return StudySearchService.findStudySeries(searchText, {},
           language)
-          .then(function(surveySeries) {
-            surveySeriesCache.searchText = searchText;
-            surveySeriesCache.language = language;
-            surveySeriesCache.searchResult = surveySeries;
-            return surveySeries;
+          .then(function(studySeries) {
+            studySeriesCache.searchText = searchText;
+            studySeriesCache.language = language;
+            studySeriesCache.searchResult = studySeries;
+            return studySeries;
           }
         );
       };
