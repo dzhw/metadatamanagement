@@ -36,7 +36,7 @@ public class StudyVersionsResource {
    */
   @RequestMapping("/studies/{id}/versions")
   public ResponseEntity<?> findPreviousStudyVersions(@PathVariable String id,
-      @RequestParam(name = "limit", defaultValue = "10") Integer limit,
+      @RequestParam(name = "limit", defaultValue = "5") Integer limit,
       @RequestParam(name = "skip", defaultValue = "0") Integer skip) {
     List<Study> studyVersions = studyVersionsService.findPreviousStudyVersions(id, limit, skip);
     

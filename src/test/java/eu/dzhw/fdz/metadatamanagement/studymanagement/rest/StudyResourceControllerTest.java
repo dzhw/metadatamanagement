@@ -24,6 +24,7 @@ import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
+import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
@@ -56,6 +57,9 @@ public class StudyResourceControllerTest extends AbstractTest {
   
   @Autowired
   private ElasticsearchAdminService elasticsearchAdminService;
+  
+  @Autowired
+  private JaversService javersService;
 
   private MockMvc mockMvc;
 
@@ -71,6 +75,7 @@ public class StudyResourceControllerTest extends AbstractTest {
     dataAcquisitionProjectRepository.deleteAll();
     studyRepository.deleteAll();
     elasticsearchUpdateQueueItemRepository.deleteAll();
+    javersService.deleteAll();
   }
   
   @Test

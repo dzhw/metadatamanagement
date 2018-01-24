@@ -81,7 +81,7 @@ public class StudyVersionsService {
     }
     
     QueryBuilder jqlQuery = QueryBuilder.byInstance(study)
-        .withScopeDeepPlus(100)
+        .withScopeDeepPlus(Integer.MAX_VALUE)
         .limit(limit).skip(skip);
 
     List<Shadow<Study>> previousVersions = javers.findShadows(jqlQuery.build());
