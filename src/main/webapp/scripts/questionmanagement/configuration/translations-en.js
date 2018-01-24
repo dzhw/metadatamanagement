@@ -45,9 +45,8 @@ angular.module('metadatamanagementApp').config(
             'number': 'Question Number',
             'questionText': 'Question Text',
             'language': 'Language',
-            'yes': 'Yes',
-            'no': 'No',
-            'papi-instrument-no-resolution': 'Paper based instrument'
+            'note': 'Note',
+            'has-annotations': 'This image has additional information, which is not visible for the interviewed person.'
           },
           'predecessors': 'Previous Questions in Questionnaire',
           'successors': 'Subsequent Questions in Questionnaire',
