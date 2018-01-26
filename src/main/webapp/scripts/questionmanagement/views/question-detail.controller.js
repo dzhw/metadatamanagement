@@ -117,6 +117,11 @@ angular.module('metadatamanagementApp')
           );
         }
       });
+
+      ctrl.changeCurrentImageLanguage = function(language) {
+        ctrl.currentImageLanguage = language;
+      };
+
       ctrl.openSuccessCopyToClipboardToast = function(message) {
         SimpleMessageToastService.openSimpleMessageToast(message, []);
       };
