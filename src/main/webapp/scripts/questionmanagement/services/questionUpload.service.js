@@ -1,6 +1,4 @@
 /* global _ */
-/* global window */
-/* global Image */
 'use strict';
 
 angular.module('metadatamanagementApp').service('QuestionUploadService',
@@ -8,8 +6,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
     JobLoggingService, QuestionImageUploadService, CleanJSObjectService,
     ErrorMessageResolverService, $q, ElasticSearchAdminService, $rootScope,
     $translate, $mdDialog, QuestionIdBuilderService, StudyIdBuilderService,
-    InstrumentIdBuilderService) {
-    var _URL = window.URL || window.webkitURL;
+    InstrumentIdBuilderService, Upload) {
     var filesMap;
     var questionResources;
     var questionImageMetadataResources;
@@ -231,12 +228,13 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                   questionImageMetadata.fileName = image.name;
                   questionImageMetadata.imageType = 'PNG';
                   questionImageMetadata.resolution = {};
-                  var img = new Image();
-                  img.onload = function() {
-                    questionImageMetadata.resolution.widthX = this.width;
-                    questionImageMetadata.resolution.heightY = this.height;
-                  };
-                  img.src = _URL.createObjectURL(image);
+
+                  // Get image file dimensions
+                  Upload.imageDimensions(image).then(function(dimensions) {
+                    questionImageMetadata.resolution.widthX = dimensions.width;
+                    questionImageMetadata.resolution.heightY =
+                      dimensions.height;
+                  });
 
                   //if no resolution -> error message
                   if (CleanJSObjectService.isNullOrEmpty(
