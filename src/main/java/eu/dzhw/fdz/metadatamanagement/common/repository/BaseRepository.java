@@ -2,9 +2,11 @@ package eu.dzhw.fdz.metadatamanagement.common.repository;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.repository.NoRepositoryBean;
+import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.security.access.annotation.Secured;
 
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
@@ -52,4 +54,7 @@ public interface BaseRepository<T, ID extends Serializable>
   @Override
   @Secured(AuthoritiesConstants.PUBLISHER)
   <S extends T> S insert(S entity);
+  
+  @RestResource(exported = false)
+  <S extends T> Stream<S> streamAllBy();
 }

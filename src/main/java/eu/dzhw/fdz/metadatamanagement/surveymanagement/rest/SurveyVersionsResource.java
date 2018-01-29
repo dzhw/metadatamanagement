@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.studymanagement.rest;
+package eu.dzhw.fdz.metadatamanagement.surveymanagement.rest;
 
 import java.util.List;
 
@@ -10,42 +10,42 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.service.StudyVersionsService;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.SurveyVersionsService;
 
 /**
- * Rest Controller for retrieving previous version of the study domain object.
+ * Rest Controller for retrieving previous version of the {@link Survey} domain object.
  * 
  * @author René Reitmann
  */
 @RestController
 @RequestMapping("/api")
-public class StudyVersionsResource {
+public class SurveyVersionsResource {
   
   @Autowired
-  private StudyVersionsService studyVersionsService;
+  private SurveyVersionsService surveyVersionsService;
     
   /**
-   * Get the previous 5 versions of the study.
+   * Get the previous 5 versions of the survey.
    * 
-   * @param id The id of the study
+   * @param id The id of the survey
    * @param limit like page size
    * @param skip for skipping n versions
    * 
-   * @return A list of previous study versions
+   * @return A list of previous survey versions
    */
-  @RequestMapping("/studies/{id}/versions")
-  public ResponseEntity<?> findPreviousStudyVersions(@PathVariable String id,
+  @RequestMapping("/surveys/{id}/versions")
+  public ResponseEntity<?> findPreviousSurveyVersions(@PathVariable String id,
       @RequestParam(name = "limit", defaultValue = "5") Integer limit,
       @RequestParam(name = "skip", defaultValue = "0") Integer skip) {
-    List<Study> studyVersions = studyVersionsService.findPreviousVersions(id, limit, skip);
+    List<Survey> surveyVersions = surveyVersionsService.findPreviousVersions(id, limit, skip);
     
-    if (studyVersions == null) {
+    if (surveyVersions == null) {
       return ResponseEntity.notFound().build();
     }
     
     return ResponseEntity.ok()
         .cacheControl(CacheControl.noStore())
-        .body(studyVersions);
+        .body(surveyVersions);
   }
 }

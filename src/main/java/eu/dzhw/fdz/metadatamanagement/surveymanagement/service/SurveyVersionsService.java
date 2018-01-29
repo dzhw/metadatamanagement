@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.studymanagement.service;
+package eu.dzhw.fdz.metadatamanagement.surveymanagement.service;
 
 import javax.annotation.PostConstruct;
 
@@ -8,24 +8,24 @@ import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.common.service.GenericDomainObjectVersionsService;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 
 /**
- * Service responsible for retrieving an initializing the study history.
+ * Service for retrieving previous {@link Survey} versions.
  * 
  * @author René Reitmann
  */
 @Service
-public class StudyVersionsService 
-    extends GenericDomainObjectVersionsService<Study, StudyRepository> {
+public class SurveyVersionsService
+    extends GenericDomainObjectVersionsService<Survey, SurveyRepository> {
   /**
    * Construct the service.
    */
   @Autowired
-  public StudyVersionsService(Javers javers, StudyRepository studyRepository,
+  public SurveyVersionsService(Javers javers, SurveyRepository surveyRepository,
       MetadataManagementProperties metadataManagementProperties) {
-    super(Study.class, javers, studyRepository, metadataManagementProperties);
+    super(Survey.class, javers, surveyRepository, metadataManagementProperties);
   }
 
   /**

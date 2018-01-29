@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
 
+import org.javers.spring.annotation.JaversSpringDataAuditable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
@@ -19,6 +20,7 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.Survey
  * @author Daniel Katzberg
  */
 @RepositoryRestResource(path = "/surveys")
+@JaversSpringDataAuditable
 public interface SurveyRepository
     extends BaseRepository<Survey, String> {
 
