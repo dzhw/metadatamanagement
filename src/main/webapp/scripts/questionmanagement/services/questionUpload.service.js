@@ -8,7 +8,6 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
     $translate, $mdDialog, QuestionIdBuilderService, StudyIdBuilderService,
     InstrumentIdBuilderService, Upload) {
     var filesMap;
-    var questionResources;
     var questionImageMetadataResources;
     var questionImageArrayByQuestionNumber;
     // map questionId -> presentInJson true/false
@@ -338,7 +337,6 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
             },
             objectType: 'image'
           });
-          resolve();
         } else {
           questionImageMetadataList.forEach(function(questionImageMetadata) {
               deleteAllImages(questionImageMetadata).finally(function() {
@@ -349,7 +347,6 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                     JobLoggingService.success({
                       objectType: 'image'
                     });
-                    resolve();
                   }, function() {
                     JobLoggingService.error({
                       message: 'question-management.log-messages.' +
@@ -359,7 +356,6 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                       },
                       objectType: 'image'
                     });
-                    resolve();
                   });
               });
             });
@@ -373,7 +369,6 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
           subMessages: errorMessages.subMessages,
           objectType: 'question'
         });
-        resolve();
       });
     };
 
