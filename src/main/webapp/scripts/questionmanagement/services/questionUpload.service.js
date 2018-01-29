@@ -300,84 +300,148 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
     };
 
     var uploadQuestion = function(question, images, questionImageMetadataList) {
-      return $q(function(resolve) {
-        question.$save().then(function() {
-          JobLoggingService.success({
-            objectType: 'question'
+      question.$save().then(function() {
+        JobLoggingService.success({
+          objectType: 'question'
+        });
+
+        if (CleanJSObjectService
+          .isNullOrEmpty(usedIndexInInstrument[question.instrumentId])) {
+          usedIndexInInstrument[question.instrumentId] = {};
+        }
+
+        if (CleanJSObjectService
+          .isNullOrEmpty(usedIndexInInstrument[question.instrumentId]
+            [question.indexInInstrument])) {
+          usedIndexInInstrument[question.instrumentId]
+            [question.indexInInstrument] = question.id;
+        } else {
+          JobLoggingService.warning({
+            message: 'question-management.log-messages.' +
+              'question.non-unique-index-in-instrument',
+            messageParams: {
+              index: question.indexInInstrument,
+              firstQuestionId:
+                usedIndexInInstrument[question.instrumentId]
+                  [question.indexInInstrument],
+              secondQuestionId: question.id
+            }
           });
+        }
 
-          if (CleanJSObjectService
-            .isNullOrEmpty(usedIndexInInstrument[question.instrumentId])) {
-            usedIndexInInstrument[question.instrumentId] = {};
-          }
-
-          if (CleanJSObjectService
-            .isNullOrEmpty(usedIndexInInstrument[question.instrumentId]
-              [question.indexInInstrument])) {
-            usedIndexInInstrument[question.instrumentId]
-              [question.indexInInstrument] = question.id;
-          } else {
-            JobLoggingService.warning({
-              message: 'question-management.log-messages.' +
-                'question.non-unique-index-in-instrument',
-              messageParams: {
-                index: question.indexInInstrument,
-                firstQuestionId:
-                  usedIndexInInstrument[question.instrumentId]
-                    [question.indexInInstrument],
-                secondQuestionId: question.id
-              }
-            });
-          }
-
-          if (CleanJSObjectService.isNullOrEmpty(questionImageMetadataList)) {
-            JobLoggingService.error({
-              message: 'question-management.log-messages.' +
-                'question-image-metadata.not-depending-image-metadata',
-              messageParams: {
-                questionNumber: question.number,
-                instrument: question.instrumentNumber
-              },
-              objectType: 'image'
-            });
-            resolve();
-          } else {
-            questionImageMetadataList.forEach(function(questionImageMetadata) {
-                deleteAllImages(questionImageMetadata).finally(function() {
-                  var image = images[questionImageMetadata.fileName];
-                  QuestionImageUploadService.uploadImage(image,
-                    questionImageMetadata)
-                    .then(function() {
-                      JobLoggingService.success({
-                        objectType: 'image'
-                      });
-                      resolve();
-                    }, function() {
-                      JobLoggingService.error({
-                        message: 'question-management.log-messages.' +
-                        'question.unable-to-upload-image-file',
-                        messageParams: {
-                          file: image.name
-                        },
-                        objectType: 'image'
-                      });
-                      resolve();
-                    });
-                });
-              });
-          }
-        }, function(error) {
-          var errorMessages = ErrorMessageResolverService
-            .getErrorMessage(error, 'question');
+        if (CleanJSObjectService.isNullOrEmpty(questionImageMetadataList)) {
           JobLoggingService.error({
-            message: errorMessages.message,
-            messageParams: errorMessages.translationParams,
-            subMessages: errorMessages.subMessages,
-            objectType: 'question'
+            message: 'question-management.log-messages.' +
+              'question-image-metadata.not-depending-image-metadata',
+            messageParams: {
+              questionNumber: question.number,
+              instrument: question.instrumentNumber
+            },
+            objectType: 'image'
           });
           resolve();
+        } else {
+          questionImageMetadataList.forEach(function(questionImageMetadata) {
+              deleteAllImages(questionImageMetadata).finally(function() {
+                var image = images[questionImageMetadata.fileName];
+                QuestionImageUploadService.uploadImage(image,
+                  questionImageMetadata)
+                  .then(function() {
+                    JobLoggingService.success({
+                      objectType: 'image'
+                    });
+                    resolve();
+                  }, function() {
+                    JobLoggingService.error({
+                      message: 'question-management.log-messages.' +
+                      'question.unable-to-upload-image-file',
+                      messageParams: {
+                        file: image.name
+                      },
+                      objectType: 'image'
+                    });
+                    resolve();
+                  });
+              });
+            });
+        }
+      }, function(error) {
+        var errorMessages = ErrorMessageResolverService
+          .getErrorMessage(error, 'question');
+        JobLoggingService.error({
+          message: errorMessages.message,
+          messageParams: errorMessages.translationParams,
+          subMessages: errorMessages.subMessages,
+          objectType: 'question'
         });
+        resolve();
       });
+    };
+
+    var createQuestionUploadChain = function(instrument) {
+      questionResources = [];
+      questionImageMetadataResources = {};
+      questionImageArrayByQuestionNumber = {};
+      var chainedQuestionResourceBuilder = $q.when();
+      _.forEach(instrument.jsonFiles, function(questionAsJson,
+        questionNumber) {
+        chainedQuestionResourceBuilder =
+          chainedQuestionResourceBuilder
+          .then(function() {
+            return createQuestionResource(
+              instrument, questionAsJson, questionNumber);
+          });
+      });
+      chainedQuestionResourceBuilder.finally(
+        function() {
+          var chainedQuestionImageMetadataResourceBuilder = $q.when();
+          Object.keys(instrument.jsonFilesForImages)
+            .forEach(function(property) {
+            questionResources.forEach(function(question) {
+                if (instrument.jsonFilesForImages[property].questionNumber ===
+                  question.number) {
+                  chainedQuestionImageMetadataResourceBuilder =
+                      chainedQuestionImageMetadataResourceBuilder
+                    .then(function() {
+                        return createQuestionImageMetadataResource(
+                          instrument.jsonFilesForImages[property],
+                          instrument.pngFiles[property],
+                          question, property);
+                      })
+                    .then(function() {
+                      if (instrument.pngFiles
+                        .hasOwnProperty(property)) {
+                        if (CleanJSObjectService.isNullOrEmpty(
+                            questionImageArrayByQuestionNumber
+                            [question.number])) {
+                          questionImageArrayByQuestionNumber
+                          [question.number] = {};
+                        }
+                        var mapForQuestionImages =
+                          questionImageArrayByQuestionNumber[question.number];
+                        mapForQuestionImages
+                          [instrument.pngFiles[property].name] =
+                          instrument.pngFiles[property];
+                      }
+                    });
+                }
+              });
+          });
+          chainedQuestionImageMetadataResourceBuilder.finally(
+            function() {
+              var chainedQuestionUploads = $q.when();
+              questionResources.forEach(function(question) {
+                chainedQuestionUploads = chainedQuestionUploads
+                .then(function() {
+                    return uploadQuestion(question,
+                      questionImageArrayByQuestionNumber[question.number],
+                      questionImageMetadataResources[question.number]);
+                  });
+              });
+            });
+        });
+
+      return chainedQuestionResourceBuilder;
     };
 
     var uploadInstruments = function(instrumentIndex) {
@@ -401,69 +465,8 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
         var instrument = _.filter(filesMap, function(filesObject) {
           return filesObject.instrumentIndex === instrumentIndex;
         })[0];
-        questionResources = [];
-        questionImageMetadataResources = {};
-        questionImageArrayByQuestionNumber = {};
-        var chainedQuestionResourceBuilder = $q.when();
-        _.forEach(instrument.jsonFiles, function(questionAsJson,
-          questionNumber) {
-          chainedQuestionResourceBuilder =
-            chainedQuestionResourceBuilder
-            .then(function() {
-              return createQuestionResource(
-                instrument, questionAsJson, questionNumber);
-            });
-        });
-        chainedQuestionResourceBuilder.finally(
-          function() {
-            var chainedQuestionImageMetadataResourceBuilder = $q.when();
-            Object.keys(instrument.jsonFilesForImages)
-              .forEach(function(property) {
-              questionResources.forEach(function(question) {
-                  if (instrument.jsonFilesForImages[property].questionNumber ===
-                    question.number) {
-                    chainedQuestionImageMetadataResourceBuilder =
-                        chainedQuestionImageMetadataResourceBuilder
-                      .then(function() {
-                          return createQuestionImageMetadataResource(
-                            instrument.jsonFilesForImages[property],
-                            instrument.pngFiles[property],
-                            question, property);
-                        })
-                      .then(function() {
-                        if (instrument.pngFiles
-                          .hasOwnProperty(property)) {
-                          if (CleanJSObjectService.isNullOrEmpty(
-                              questionImageArrayByQuestionNumber
-                              [question.number])) {
-                            questionImageArrayByQuestionNumber
-                            [question.number] = {};
-                          }
-                          var mapForQuestionImages =
-                            questionImageArrayByQuestionNumber[question.number];
-                          mapForQuestionImages
-                            [instrument.pngFiles[property].name] =
-                            instrument.pngFiles[property];
-                        }
-                      });
-                  }
-                });
-            });
-            chainedQuestionImageMetadataResourceBuilder.finally(
-              function() {
-                var chainedQuestionUploads = $q.when();
-                questionResources.forEach(function(question) {
-                  chainedQuestionUploads = chainedQuestionUploads
-                  .then(function() {
-                      return uploadQuestion(question,
-                        questionImageArrayByQuestionNumber[question.number],
-                        questionImageMetadataResources[question.number]);
-                    });
-                });
-                chainedQuestionUploads.finally(function() {
-                  uploadInstruments(instrumentIndex + 1);
-                });
-              });
+        createQuestionUploadChain(instrument).finally(function() {
+            uploadInstruments(instrumentIndex + 1);
           });
       }
     };
