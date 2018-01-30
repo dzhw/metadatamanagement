@@ -407,16 +407,9 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                         questionImageMap[questionNumber] = {};
                       }
 
-                      if (CleanJSObjectService.isNullOrEmpty(
-                          questionImageMap[questionNumber]
-                          [instrument.pngFiles[property].name])) {
-                        questionImageMap[questionNumber]
-                          [instrument.pngFiles[property].name] = [];
-                      }
-
                       questionImageMap[questionNumber]
-                        [instrument.pngFiles[property].name]
-                        .push(instrument.pngFiles[property]);
+                        [instrument.pngFiles[property].name] =
+                        instrument.pngFiles[property];
                     }
                   });
               }
