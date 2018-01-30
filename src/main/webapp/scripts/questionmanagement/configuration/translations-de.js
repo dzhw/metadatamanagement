@@ -50,6 +50,7 @@ angular.module('metadatamanagementApp').config(
           },
           'predecessors': 'Vorangegangene Fragen im Fragebogen',
           'successors': 'Nachfolgende Fragen im Fragebogen',
+          'images-for-question': 'Bilder zur Frage',
           'technical-representation': 'Technische Repräsentation',
           'title': 'Frage {{ questionNumber }}: {{ instrumentDescription }} ({{ questionId }})',
           'no-predecessors': 'Keine vorangegangenen Fragen im Fragebogen',

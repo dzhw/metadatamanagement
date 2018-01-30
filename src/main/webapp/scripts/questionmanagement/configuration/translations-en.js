@@ -50,6 +50,7 @@ angular.module('metadatamanagementApp').config(
           },
           'predecessors': 'Previous Questions in Questionnaire',
           'successors': 'Subsequent Questions in Questionnaire',
+          'images-for-question': 'Images for Questionnaire',
           'technical-representation': 'Technical Representation',
           'title': 'Question {{ questionNumber }}: {{ instrumentDescription }} ({{ questionId }})',
           'no-predecessors': 'No previous Questions in the Questionnaire',
