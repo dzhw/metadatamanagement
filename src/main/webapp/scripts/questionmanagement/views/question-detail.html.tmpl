@@ -169,7 +169,7 @@
                 </md-card-header-text>
                </md-card-header>
                <md-divider></md-divider>
-                <md-card-content>
+                <md-card-content style="padding-left: 0px; padding-right: 0px;">
                     <div class="fdz-overlay-outer-box">
                         <div class="fdz-overlay-inner-box-top" ng-if="ctrl.imageLanguages.length > 1">
                             <md-menu>
@@ -203,18 +203,18 @@
                             </md-button>
                         </div>
                     </div>
-                    <div layout="column" layout-gt-sm="row">
-                        <div layout="column">
-                            <div ng-if="ctrl.question.instrument.type != 'PAPI'" class="fdz-add-bottom-margin fdz-text-block">
-                                <span style="font-weight: bold;">Auflösung: </span>
-                                <span>{{ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][ctrl.currentImageIndex].resolution.widthX}} x {{ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][ctrl.currentImageIndex].resolution.heightY}}</span>
-                            </div>
-                            <div ng-if="ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][ctrl.currentImageIndex].containsAnnotations" class="fdz-add-bottom-margin fdz-text-block">
-                                <span style="font-weight: bold;">{{'question-management.detail.label.note' | translate }}: </span>
-                                <span>{{'question-management.detail.label.has-annotations' | translate }}</span>
-                            </div>
+                    <div layout="column" layout-gt-sm="row" layout-padding>
+                      <div layout="column">
+                        <div ng-if="ctrl.question.instrument.type != 'PAPI'" class="fdz-add-bottom-margin fdz-text-block">
+                            <span style="font-weight: bold;">Auflösung: </span>
+                            <span>{{ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][ctrl.currentImageIndex].resolution.widthX}} x {{ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][ctrl.currentImageIndex].resolution.heightY}}</span>
                         </div>
-                    </div>
+                        <div ng-if="ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][ctrl.currentImageIndex].containsAnnotations"  class="fdz-add-bottom-margin fdz-text-block">
+                            <span style="font-weight: bold;">{{'question-management.detail.label.note' | translate }}: </span>
+                            <span>{{'question-management.detail.label.has-annotations' | translate }}</span>
+                        </div>
+                      </div>
+                    </div
                 </md-card-content>
             </md-card>
         </div>
