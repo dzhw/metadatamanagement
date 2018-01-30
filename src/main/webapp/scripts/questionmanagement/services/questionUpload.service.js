@@ -373,7 +373,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
     var createQuestionUploadChain = function(instrument) {
       var questionImageMetadataResources = {};
       var questionImageMap = {};
-      var questionMap = {};
+      var questionResourceMap = {};
       var chainedQuestionUploads = $q.when();
       _.forEach(instrument.jsonFiles, function(questionAsJson,
         questionNumber) {
@@ -385,7 +385,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
         })
         //Build Question Image Resource
         .then(function(question) {
-          questionMap[questionNumber] = question;
+          questionResourceMap[questionNumber] = question;
           var chainedQuestionImageMetadataResourceBuilder = $q.when();
           Object.keys(instrument.jsonFilesForImages)
             .forEach(function(property) {
@@ -425,7 +425,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
           return chainedQuestionImageMetadataResourceBuilder;
         }).then(function() {
           //Upload Question
-          return uploadQuestion(questionMap[questionNumber],
+          return uploadQuestion(questionResourceMap[questionNumber],
             questionImageMap[questionNumber],
             questionImageMetadataResources[questionNumber]);
         });
