@@ -365,8 +365,8 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
     };
 
     var createQuestionUploadChain = function(instrument) {
-      var questionImageMetadataResources;
-      var questionImageMap;
+      var questionImageMetadataResources = {};
+      var questionImageMap = {};
       var chainedQuestionUploads = $q.when();
       _.forEach(instrument.jsonFiles, function(questionAsJson,
         questionNumber) {
@@ -378,8 +378,6 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
         })
         //Build Question Image Resource
         .then(function(question) {
-          questionImageMetadataResources = [];
-          questionImageMap = [];
           var chainedQuestionImageMetadataResourceBuilder = $q.when();
           Object.keys(instrument.jsonFilesForImages)
             .forEach(function(property) {
@@ -394,12 +392,31 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                         question, property);
                     })
                   .then(function(questionImageMetadataResource) {
-                    questionImageMetadataResources
+
+                    if (CleanJSObjectService.isNullOrEmpty(
+                        questionImageMetadataResources[questionNumber])) {
+                      questionImageMetadataResources[questionNumber] = [];
+                    }
+                    questionImageMetadataResources[questionNumber]
                       .push(questionImageMetadataResource);
-                    if (instrument.pngFiles
-                      .hasOwnProperty(property)) {
-                      questionImageMap[instrument.pngFiles[property].name] =
-                        instrument.pngFiles[property];
+
+                    if (instrument.pngFiles.hasOwnProperty(property)) {
+
+                      if (CleanJSObjectService.isNullOrEmpty(
+                          questionImageMap[questionNumber])) {
+                        questionImageMap[questionNumber] = {};
+                      }
+
+                      if (CleanJSObjectService.isNullOrEmpty(
+                          questionImageMap[questionNumber]
+                          [instrument.pngFiles[property].name])) {
+                        questionImageMap[questionNumber]
+                          [instrument.pngFiles[property].name] = [];
+                      }
+
+                      questionImageMap[questionNumber]
+                        [instrument.pngFiles[property].name]
+                        .push(instrument.pngFiles[property]);
                     }
                   });
               }
@@ -407,8 +424,8 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
 
           //Upload Question
           chainedQuestionImageMetadataResourceBuilder.finally(function() {
-            return uploadQuestion(question, questionImageMap,
-              questionImageMetadataResources);
+            return uploadQuestion(question, questionImageMap[questionNumber],
+              questionImageMetadataResources[questionNumber]);
           });
         });
       });
