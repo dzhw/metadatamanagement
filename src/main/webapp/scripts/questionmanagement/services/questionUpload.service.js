@@ -290,76 +290,82 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
     };
 
     var uploadQuestion = function(question, images, questionImageMetadataList) {
-      question.$save().then(function() {
-        JobLoggingService.success({
-          objectType: 'question'
-        });
-
-        if (CleanJSObjectService
-          .isNullOrEmpty(usedIndexInInstrument[question.instrumentId])) {
-          usedIndexInInstrument[question.instrumentId] = {};
-        }
-
-        if (CleanJSObjectService
-          .isNullOrEmpty(usedIndexInInstrument[question.instrumentId]
-            [question.indexInInstrument])) {
-          usedIndexInInstrument[question.instrumentId]
-            [question.indexInInstrument] = question.id;
-        } else {
-          JobLoggingService.warning({
-            message: 'question-management.log-messages.' +
-              'question.non-unique-index-in-instrument',
-            messageParams: {
-              index: question.indexInInstrument,
-              firstQuestionId:
-                usedIndexInInstrument[question.instrumentId]
-                  [question.indexInInstrument],
-              secondQuestionId: question.id
-            }
+      return $q(function(resolve) {
+        question.$save().then(function() {
+          JobLoggingService.success({
+            objectType: 'question'
           });
-        }
 
-        if (CleanJSObjectService.isNullOrEmpty(questionImageMetadataList)) {
-          JobLoggingService.error({
-            message: 'question-management.log-messages.' +
-              'question-image-metadata.not-depending-image-metadata',
-            messageParams: {
-              questionNumber: question.number,
-              instrument: question.instrumentNumber
-            },
-            objectType: 'image'
-          });
-        } else {
-          questionImageMetadataList.forEach(function(questionImageMetadata) {
-              deleteAllImages(questionImageMetadata).finally(function() {
-                var image = images[questionImageMetadata.fileName];
-                QuestionImageUploadService.uploadImage(image,
-                  questionImageMetadata)
-                  .then(function() {
-                    JobLoggingService.success({
-                      objectType: 'image'
-                    });
-                  }, function() {
-                    JobLoggingService.error({
-                      message: 'question-management.log-messages.' +
-                      'question.unable-to-upload-image-file',
-                      messageParams: {
-                        file: image.name
-                      },
-                      objectType: 'image'
-                    });
-                  });
-              });
+          if (CleanJSObjectService
+            .isNullOrEmpty(usedIndexInInstrument[question.instrumentId])) {
+            usedIndexInInstrument[question.instrumentId] = {};
+          }
+
+          if (CleanJSObjectService
+            .isNullOrEmpty(usedIndexInInstrument[question.instrumentId]
+              [question.indexInInstrument])) {
+            usedIndexInInstrument[question.instrumentId]
+              [question.indexInInstrument] = question.id;
+          } else {
+            JobLoggingService.warning({
+              message: 'question-management.log-messages.' +
+                'question.non-unique-index-in-instrument',
+              messageParams: {
+                index: question.indexInInstrument,
+                firstQuestionId:
+                  usedIndexInInstrument[question.instrumentId]
+                    [question.indexInInstrument],
+                secondQuestionId: question.id
+              }
             });
-        }
-      }, function(error) {
-        var errorMessages = ErrorMessageResolverService
-          .getErrorMessage(error, 'question');
-        JobLoggingService.error({
-          message: errorMessages.message,
-          messageParams: errorMessages.translationParams,
-          subMessages: errorMessages.subMessages,
-          objectType: 'question'
+            resolve();
+          }
+
+          if (CleanJSObjectService.isNullOrEmpty(questionImageMetadataList)) {
+            JobLoggingService.error({
+              message: 'question-management.log-messages.' +
+                'question-image-metadata.not-depending-image-metadata',
+              messageParams: {
+                questionNumber: question.number,
+                instrument: question.instrumentNumber
+              },
+              objectType: 'image'
+            });
+            resolve();
+          } else {
+            questionImageMetadataList.forEach(function(questionImageMetadata) {
+                deleteAllImages(questionImageMetadata).finally(function() {
+                  var image = images[questionImageMetadata.fileName];
+                  QuestionImageUploadService.uploadImage(image,
+                    questionImageMetadata)
+                    .then(function() {
+                      JobLoggingService.success({
+                        objectType: 'image'
+                      });
+                    }, function() {
+                      JobLoggingService.error({
+                        message: 'question-management.log-messages.' +
+                        'question.unable-to-upload-image-file',
+                        messageParams: {
+                          file: image.name
+                        },
+                        objectType: 'image'
+                      });
+                    });
+                });
+                resolve();
+              });
+          }
+        }, function(error) {
+          var errorMessages = ErrorMessageResolverService
+            .getErrorMessage(error, 'question');
+          JobLoggingService.error({
+            message: errorMessages.message,
+            messageParams: errorMessages.translationParams,
+            subMessages: errorMessages.subMessages,
+            objectType: 'question'
+          });
+          resolve();
         });
       });
     };
@@ -367,6 +373,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
     var createQuestionUploadChain = function(instrument) {
       var questionImageMetadataResources = {};
       var questionImageMap = {};
+      var questionMap = {};
       var chainedQuestionUploads = $q.when();
       _.forEach(instrument.jsonFiles, function(questionAsJson,
         questionNumber) {
@@ -378,6 +385,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
         })
         //Build Question Image Resource
         .then(function(question) {
+          questionMap[questionNumber] = question;
           var chainedQuestionImageMetadataResourceBuilder = $q.when();
           Object.keys(instrument.jsonFilesForImages)
             .forEach(function(property) {
@@ -414,12 +422,12 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                   });
               }
             });
-
+          return chainedQuestionImageMetadataResourceBuilder;
+        }).then(function() {
           //Upload Question
-          chainedQuestionImageMetadataResourceBuilder.finally(function() {
-            return uploadQuestion(question, questionImageMap[questionNumber],
-              questionImageMetadataResources[questionNumber]);
-          });
+          return uploadQuestion(questionMap[questionNumber],
+            questionImageMap[questionNumber],
+            questionImageMetadataResources[questionNumber]);
         });
       });
 
