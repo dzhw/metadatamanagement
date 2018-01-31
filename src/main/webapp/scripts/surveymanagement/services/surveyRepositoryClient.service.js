@@ -20,7 +20,19 @@ angular.module('metadatamanagementApp').factory('SurveyRepositoryClient',
       });
     };
 
+    var findLastSurvey = function(projectId) {
+      return $http({
+        method: 'GET',
+        url: '/api/surveys/search/' +
+         'findFirstByDataAcquisitionProjectIdOrderByNumberDesc',
+        params: {
+          dataAcquisitionProjectId: projectId
+        }
+      });
+    };
+
     return {
-      findByDataAcquisitionProjectId: findByDataAcquisitionProjectId
+      findByDataAcquisitionProjectId: findByDataAcquisitionProjectId,
+      findLastSurvey: findLastSurvey
     };
   });

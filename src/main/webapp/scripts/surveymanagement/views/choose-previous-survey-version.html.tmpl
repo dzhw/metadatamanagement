@@ -1,0 +1,68 @@
+<md-dialog aria-label="{{'survey-management.edit.choose-previous-version.title' | translate:translationParams }}" flex="75" style="min-height: 454px;" layout="column">
+    <md-toolbar>
+        <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+            <h2 class="fdz-truncate-string">
+                <span>{{'survey-management.edit.choose-previous-version.title' | translate:translationParams }}</span>
+            </h2>
+            <md-button class="md-icon-button" ng-click="closeDialog()">
+                <md-icon md-font-set="material-icons">clear</md-icon>
+                <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
+                    {{'survey-management.edit.choose-previous-version.cancel-tooltip' | translate }}
+                </md-tooltip>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content layout-padding flex layout="column">
+        <p ng-if="surveys && surveys.length > 0" style="margin: 0px;">{{'survey-management.edit.choose-previous-version.text' | translate }}</p>
+        <table md-autofocus fdz-table ng-if="surveys && surveys.length > 0" style="width: 100%;" flex>
+            <thead>
+                <tr>
+                    <th style="max-width: 600px;">{{'survey-management.edit.choose-previous-version.survey-title' | translate }}
+                        <md-tooltip hide-gt-xs md-direction="right">
+                            {{'survey-management.edit.choose-previous-version.survey-title' | translate }}
+                        </md-tooltip>
+                    </th>
+                    <th>{{'survey-management.edit.choose-previous-version.lastModified' | translate }}
+                        <md-tooltip hide-gt-xs md-direction="right">
+                            {{'survey-management.edit.choose-previous-version.lastModified' | translate }}
+                        </md-tooltip>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="survey in surveys" ng-click="survey.id && select(survey, $index)" ng-class="{'fdz-current-version': isCurrentVersion($index), 'fdz-deleted-version': !survey.id}">
+                    <td ng-if="survey.id" display-i18n-string="survey.title" class="fdz-truncate-string" style="max-width: 600px;" title="{{ getVersionTitle($index) }}"></td>
+                    <td ng-if="!survey.id" class="fdz-truncate-string" style="max-width: 600px;" title="{{'survey-management.edit.choose-previous-version.survey-deleted' | translate}}"></td>
+                    <td class="fdz-table-nowrap" title="{{ survey.lastModifiedDate + 'Z'| date:'fullDate'}} {{ survey.lastModifiedDate + 'Z'| date:'mediumTime'}}">
+                      <span am-time-ago="survey.lastModifiedDate | amUtc | amLocal"></span> {{ 'survey-management.edit.choose-previous-version.lastModifiedBy' | translate }} {{ survey.lastModifiedBy }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div ng-if="!surveys || surveys.length === 0" flex>
+            <span>{{'survey-management.edit.choose-previous-version.no-versions-found' | translate:translationParams }}</span>
+        </div>
+        <div ng-hide="(!surveys || surveys.length === 0) && (currentPage.number === 0)" layout="row" layout-align="space-between center" style="margin-top: 8px;">
+          <md-button ng-disabled="currentPage.number === 0" class="md-raised md-primary md-icon-button" ng-click="previousPage()">
+              <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
+                  {{'survey-management.edit.choose-previous-version.previous-page-tooltip' | translate }}
+              </md-tooltip>
+              <md-icon md-font-set="material-icons">navigate_before</md-icon>
+          </md-button>
+          <md-button ng-disabled="!surveys || surveys.length === 0 || surveys.length < currentPage.limit" class="md-raised md-primary md-icon-button" ng-click="nextPage()">
+              <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
+                  {{'survey-management.edit.choose-previous-version.next-page-tooltip' | translate }}
+              </md-tooltip>
+              <md-icon md-font-set="material-icons">navigate_next</md-icon>
+          </md-button>
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row" style="padding-right: 1em;">
+        <md-button class="md-raised" ng-click="closeDialog()">
+            <span>{{'global.entity.action.cancel' | translate}}</span>
+            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
+                {{'survey-management.edit.choose-previous-version.cancel-tooltip' | translate }}
+            </md-tooltip>
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

@@ -468,6 +468,10 @@ md-input-container.fdz-search-input label:not(.md-container-ignore) {
     background-color: $brand-success !important;
 }
 
+.fdz-file-drop-reject {
+    background-color: $brand-danger !important;
+}
+
 .fdz-released {
     color: $brand-success;
 }

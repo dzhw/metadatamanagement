@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.surveymanagement.repository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.javers.spring.annotation.JaversSpringDataAuditable;
@@ -55,4 +56,8 @@ public interface SurveyRepository
 
   @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamIdsByDataAcquisitionProjectId(String projectId);
+  
+  @RestResource(exported = true)
+  Optional<Survey> findFirstByDataAcquisitionProjectIdOrderByNumberDesc(
+      @Param("dataAcquisitionProjectId") String dataAcquisitionProjectId);
 }

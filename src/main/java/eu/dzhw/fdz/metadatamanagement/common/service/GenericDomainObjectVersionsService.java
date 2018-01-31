@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
  * @param <S> The corresponding repository type
  */
 @Slf4j
-public class GenericDomainObjectVersionsService<T extends AbstractRdcDomainObject, 
+public abstract class GenericDomainObjectVersionsService<T extends AbstractRdcDomainObject, 
     S extends BaseRepository<T, String>> {
   protected Javers javers;
   private S repository;
