@@ -296,7 +296,8 @@ module.exports = function(grunt) {
               'layout-fill',
               'flex',
               'am-time-ago',
-              'fdz-required'
+              'fdz-required',
+              'read-element-size'
             ]
           },
           files: {

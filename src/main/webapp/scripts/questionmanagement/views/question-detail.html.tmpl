@@ -169,7 +169,7 @@
                 </md-card-header-text>
                </md-card-header>
                <md-divider></md-divider>
-                <md-card-content style="padding-left: 0px; padding-right: 0px;">
+                <md-card-content read-element-size style="padding-left: 0px; padding-right: 0px;">
                     <div class="fdz-overlay-outer-box">
                         <div class="fdz-overlay-inner-box-top" ng-if="ctrl.imageLanguages.length > 1">
                             <md-menu>
@@ -184,7 +184,7 @@
                             </md-menu>
                         </div>
                         <div ng-if="ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage].length > 1">
-                            <jk-carousel data="ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage]" item-template-url="'scripts/questionmanagement/views/question-image-template.html.tmpl'" current-index="ctrl.currentImageIndex" max-height="211px">
+                            <jk-carousel data="ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage]" item-template-url="'scripts/questionmanagement/views/question-image-template.html.tmpl'" current-index="ctrl.currentImageIndex" max-height="211px" max-width="{{windowWidth}}px">
                             </jk-carousel>
                         </div>
                         <div ng-if="ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage].length === 1">
@@ -214,7 +214,7 @@
                             <span>{{'question-management.detail.label.has-annotations' | translate }}</span>
                         </div>
                       </div>
-                    </div
+                    </div>
                 </md-card-content>
             </md-card>
         </div>
