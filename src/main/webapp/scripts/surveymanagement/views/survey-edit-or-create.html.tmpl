@@ -13,7 +13,7 @@
             <md-divider></md-divider>
             <md-card-content>
                 <div layout-gt-sm="row" layout="column">
-                    <md-input-container flex="50" style="margin-right: 8px;" md-is-error="!surveyForm.titleDe.$valid && (surveyForm.titleDe.$dirty || surveyForm.titleDe.$touched)">
+                    <md-input-container flex="50" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!surveyForm.titleDe.$valid && (surveyForm.titleDe.$dirty || surveyForm.titleDe.$touched)">
                         <label class="fdz-input-required">{{'survey-management.detail.label.title' | translate}} ({{'global.in-german' | translate}})</label>
                         <input ng-trim="true" md-maxlength="2048" fdz-required ng-model="ctrl.survey.title.de" name="titleDe" lang="de" md-no-asterisk>
                         <div ng-if="!surveyForm.titleDe.$dirty && !surveyForm.titleDe.$touched" class="fdz-input-hint">{{'survey-management.edit.hints.title.de' | translate}}</div>
@@ -69,7 +69,7 @@
                     <div flex="50"></div>
                 </div>
                 <div layout-gt-sm="row" layout="column">
-                    <md-input-container flex="50" style="margin-right: 8px;" md-is-error="!surveyForm.surveyMethodDe.$valid && (surveyForm.surveyMethodDe.$dirty || surveyForm.surveyMethodDe.$touched)">
+                    <md-input-container flex="50" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!surveyForm.surveyMethodDe.$valid && (surveyForm.surveyMethodDe.$dirty || surveyForm.surveyMethodDe.$touched)">
                         <label class="fdz-input-required">{{'survey-management.detail.label.survey-method' | translate}} ({{'global.in-german' | translate}})</label>
                         <input ng-trim="true" md-maxlength="128" fdz-required="!ctrl.survey.surveyMethod.en" ng-model="ctrl.survey.surveyMethod.de" name="surveyMethodDe" lang="de" md-no-asterisk>
                         <div ng-if="!surveyForm.surveyMethodDe.$dirty && !surveyForm.surveyMethodDe.$touched" class="fdz-input-hint">{{'survey-management.edit.hints.surveyMethod.de' | translate}}</div>
@@ -102,7 +102,7 @@
                     <div flex="50"></div>
                 </div>
                 <div layout-gt-sm="row" layout="column">
-                    <md-input-container flex="50" style="margin-right: 8px;" md-is-error="!surveyForm.populationTitleDe.$valid && (surveyForm.populationTitleDe.$dirty || surveyForm.populationTitleDe.$touched)">
+                    <md-input-container flex="50" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!surveyForm.populationTitleDe.$valid && (surveyForm.populationTitleDe.$dirty || surveyForm.populationTitleDe.$touched)">
                         <label class="fdz-input-required">{{'survey-management.detail.label.population.title' | translate}} ({{'global.in-german' | translate}})</label>
                         <input ng-trim="true" md-maxlength="128" fdz-required="!ctrl.survey.population.title.en" ng-model="ctrl.survey.population.title.de" name="populationTitleDe" lang="de" md-no-asterisk>
                         <div ng-if="!surveyForm.populationTitleDe.$dirty && !surveyForm.populationTitleDe.$touched" class="fdz-input-hint">{{'survey-management.edit.hints.population.title.de' | translate}}</div>
@@ -111,7 +111,7 @@
                             <div ng-message="md-maxlength">{{'survey-management.error.population.title.i18n-string-size' | translate}}</div>
                         </div>
                     </md-input-container>
-                    <md-input-container flex="50" style="margin-right: 8px;" md-is-error="!surveyForm.populationTitleEn.$valid && (surveyForm.populationTitleEn.$dirty || surveyForm.populationTitleEn.$touched)">
+                    <md-input-container flex="50" md-is-error="!surveyForm.populationTitleEn.$valid && (surveyForm.populationTitleEn.$dirty || surveyForm.populationTitleEn.$touched)">
                         <label class="fdz-input-required">{{'survey-management.detail.label.population.title' | translate}} ({{'global.in-english' | translate}})</label>
                         <input ng-trim="true" md-maxlength="128" fdz-required="!ctrl.survey.population.title.de" ng-model="ctrl.survey.population.title.en" name="populationTitleEn" lang="en" md-no-asterisk>
                         <div ng-if="!surveyForm.populationTitleEn.$dirty && !surveyForm.populationTitleEn.$touched" class="fdz-input-hint">{{'survey-management.edit.hints.population.title.en' | translate}}</div>
@@ -122,7 +122,7 @@
                     </md-input-container>
                 </div>
                 <div layout-gt-sm="row" layout="column">
-                    <md-input-container flex="50" style="margin-right: 8px;" md-is-error="!surveyForm.populationDescriptionDe.$valid && (surveyForm.populationDescriptionDe.$dirty || surveyForm.populationDescriptionDe.$touched)">
+                    <md-input-container flex="50" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!surveyForm.populationDescriptionDe.$valid && (surveyForm.populationDescriptionDe.$dirty || surveyForm.populationDescriptionDe.$touched)">
                         <label class="fdz-input-required">{{'survey-management.detail.label.population.description' | translate}} ({{'global.in-german' | translate}})</label>
                         <textarea rows="4" md-maxlength="2048" fdz-required="!ctrl.survey.population.description.en" ng-model="ctrl.survey.population.description.de" name="populationDescriptionDe" lang="de" md-no-asterisk></textarea>
                         <div ng-if="!surveyForm.populationDescriptionDe.$dirty && !surveyForm.populationDescriptionDe.$touched" class="fdz-input-hint">{{'survey-management.edit.hints.population.description.de' | translate}}</div>
@@ -131,7 +131,7 @@
                             <div ng-message="md-maxlength">{{'survey-management.error.population.description.i18n-string-size' | translate}}</div>
                         </div>
                     </md-input-container>
-                    <md-input-container flex="50" style="margin-right: 8px;" md-is-error="!surveyForm.populationDescriptionEn.$valid && (surveyForm.populationDescriptionEn.$dirty || surveyForm.populationDescriptionEn.$touched)">
+                    <md-input-container flex="50" md-is-error="!surveyForm.populationDescriptionEn.$valid && (surveyForm.populationDescriptionEn.$dirty || surveyForm.populationDescriptionEn.$touched)">
                         <label class="fdz-input-required">{{'survey-management.detail.label.population.description' | translate}} ({{'global.in-english' | translate}})</label>
                         <textarea rows="4" md-maxlength="2048" fdz-required="!ctrl.survey.population.description.de" ng-model="ctrl.survey.population.description.en" name="populationDescriptionEn" lang="en" md-no-asterisk></textarea>
                         <div ng-if="!surveyForm.populationDescriptionEn.$dirty && !surveyForm.populationDescriptionEn.$touched" class="fdz-input-hint">{{'survey-management.edit.hints.population.description.en' | translate}}</div>
@@ -142,7 +142,7 @@
                     </md-input-container>
                 </div>
                 <div layout-gt-sm="row" layout="column">
-                    <md-input-container flex="50" style="margin-right: 8px;" md-is-error="!surveyForm.sampleDe.$valid && (surveyForm.sampleDe.$dirty || surveyForm.sampleDe.$touched)">
+                    <md-input-container flex="50" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!surveyForm.sampleDe.$valid && (surveyForm.sampleDe.$dirty || surveyForm.sampleDe.$touched)">
                         <label class="fdz-input-required">{{'survey-management.detail.label.sample' | translate}} ({{'global.in-german' | translate}})</label>
                         <textarea rows="4" md-maxlength="2048" fdz-required="!ctrl.survey.sample.en" ng-model="ctrl.survey.sample.de" name="sampleDe" lang="de" md-no-asterisk></textarea>
                         <div ng-if="!surveyForm.sampleDe.$dirty && !surveyForm.sampleDe.$touched" class="fdz-input-hint">{{'survey-management.edit.hints.sample.de' | translate}}</div>
@@ -151,7 +151,7 @@
                             <div ng-message="md-maxlength">{{'survey-management.error.survey.sample.i18n-string-size' | translate}}</div>
                         </div>
                     </md-input-container>
-                    <md-input-container flex="50" style="margin-right: 8px;" md-is-error="!surveyForm.sampleEn.$valid && (surveyForm.sampleEn.$dirty || surveyForm.sampleEn.$touched)">
+                    <md-input-container flex="50" md-is-error="!surveyForm.sampleEn.$valid && (surveyForm.sampleEn.$dirty || surveyForm.sampleEn.$touched)">
                         <label class="fdz-input-required">{{'survey-management.detail.label.sample' | translate}} ({{'global.in-english' | translate}})</label>
                         <textarea rows="4" md-maxlength="2048" fdz-required="!ctrl.survey.sample.de" ng-model="ctrl.survey.sample.en" name="sampleEn" lang="en" md-no-asterisk></textarea>
                         <div ng-if="!surveyForm.sampleEn.$dirty && !surveyForm.sampleEn.$touched" class="fdz-input-hint">{{'survey-management.edit.hints.sample.en' | translate}}</div>
@@ -202,7 +202,7 @@
                     <div flex="50"></div>
                 </div>
                 <div layout-gt-sm="row" layout="column">
-                    <md-input-container flex="50" style="margin-right: 8px;" md-is-error="!surveyForm.annotationsDe.$valid && (surveyForm.annotationsDe.$dirty || surveyForm.annotationsDe.$touched)">
+                    <md-input-container flex="50" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!surveyForm.annotationsDe.$valid && (surveyForm.annotationsDe.$dirty || surveyForm.annotationsDe.$touched)">
                         <label>{{'survey-management.detail.label.annotations' | translate}} ({{'global.in-german' | translate}})</label>
                         <textarea rows="4" md-maxlength="2048" ng-model="ctrl.survey.annotations.de" name="annotationsDe" lang="de" md-no-asterisk></textarea>
                         <div ng-if="!surveyForm.annotationsDe.$dirty && !surveyForm.annotationsDe.$touched" class="fdz-input-hint">{{'survey-management.edit.hints.annotations.de' | translate}}</div>
@@ -211,7 +211,7 @@
                             <div ng-message="md-maxlength">{{'survey-management.error.survey.annotations.i18n-string-size' | translate}}</div>
                         </div>
                     </md-input-container>
-                    <md-input-container flex="50" style="margin-right: 8px;" md-is-error="!surveyForm.annotationsEn.$valid && (surveyForm.annotationsEn.$dirty || surveyForm.annotationsEn.$touched)">
+                    <md-input-container flex="50" md-is-error="!surveyForm.annotationsEn.$valid && (surveyForm.annotationsEn.$dirty || surveyForm.annotationsEn.$touched)">
                         <label>{{'survey-management.detail.label.annotations' | translate}} ({{'global.in-english' | translate}})</label>
                         <textarea rows="4" md-maxlength="2048" ng-model="ctrl.survey.annotations.en" name="annotationsEn" lang="en" md-no-asterisk></textarea>
                         <div ng-if="!surveyForm.annotationsEn.$dirty && !surveyForm.annotationsEn.$touched" class="fdz-input-hint">{{'survey-management.edit.hints.annotations.en' | translate}}</div>
@@ -264,7 +264,7 @@
             </md-button>
         </md-card-actions>
     </md-card>
-    <md-card flex="50" class="fdz-reset-top-margin fdz-reset-left-margin">
+    <md-card flex="50" class="fdz-reset-top-margin" ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm')}">
         <md-card-header>
             <md-card-header-text>
                 <h2 class="md-title">{{'survey-management.detail.response-rate-information' | translate | fdzHyphenate }} ({{'global.in-english' | translate}})</h2>

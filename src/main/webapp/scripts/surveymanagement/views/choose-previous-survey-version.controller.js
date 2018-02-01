@@ -1,9 +1,11 @@
+/* global bowser */
 'use strict';
 
 angular.module('metadatamanagementApp')
   .controller('ChoosePreviousSurveyVersionController',
     function(SurveyVersionsResource, surveyId, $scope, $mdDialog,
       LanguageService, $translate) {
+      $scope.bowser = bowser;
       $scope.currentPage = {
         number: 0,
         limit: 5,
