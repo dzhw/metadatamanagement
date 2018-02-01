@@ -31,6 +31,7 @@ import com.google.gson.JsonSyntaxException;
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
+import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
@@ -75,7 +76,9 @@ public class VariableResourceTest extends AbstractTest {
   @Autowired
   private ElasticsearchUpdateQueueService queueService;
   
-
+  @Autowired
+  private JaversService javersService;
+  
   private MockMvc mockMvc;
 
   @Before
@@ -91,6 +94,7 @@ public class VariableResourceTest extends AbstractTest {
     surveyRepository.deleteAll();
     variableRepository.deleteAll();
     queueService.clearQueue();
+    javersService.deleteAll();
   }
 
   @Test

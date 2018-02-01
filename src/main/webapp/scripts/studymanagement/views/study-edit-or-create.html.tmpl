@@ -13,7 +13,7 @@
             <md-divider></md-divider>
             <md-card-content>
                 <div layout-gt-sm="row" layout="column">
-                    <md-input-container flex="50" style="margin-right: 8px;" md-is-error="!studyForm.titleDe.$valid && (studyForm.titleDe.$dirty || studyForm.titleDe.$touched)">
+                    <md-input-container flex="50" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!studyForm.titleDe.$valid && (studyForm.titleDe.$dirty || studyForm.titleDe.$touched)">
                         <label class="fdz-input-required">{{'study-management.detail.label.title' | translate}} ({{'global.in-german' | translate}})</label>
                         <input ng-trim="true" md-maxlength="2048" fdz-required ng-model="ctrl.study.title.de" name="titleDe" lang="de" md-no-asterisk>
                         <div ng-if="!studyForm.titleDe.$dirty && !studyForm.titleDe.$touched" class="fdz-input-hint">{{'study-management.edit.hints.title.de' | translate}}</div>
@@ -62,7 +62,7 @@
                     </md-autocomplete>
                 </div>
                 <div layout-gt-sm="row" layout="column">
-                    <md-input-container flex="50" style="margin-right: 8px;" md-is-error="!studyForm.institutionDe.$valid && (studyForm.institutionDe.$dirty || studyForm.institutionDe.$touched)">
+                    <md-input-container flex="50" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!studyForm.institutionDe.$valid && (studyForm.institutionDe.$dirty || studyForm.institutionDe.$touched)">
                         <label class="fdz-input-required">{{'study-management.detail.label.institution' | translate}} ({{'global.in-german' | translate}})</label>
                         <input md-maxlength="128" fdz-required="!ctrl.study.institution.en" ng-model="ctrl.study.institution.de" name="institutionDe" lang="de" md-no-asterisk>
                         <div ng-if="!studyForm.institutionDe.$dirty && !studyForm.institutionDe.$touched" class="fdz-input-hint">{{'study-management.edit.hints.institution.de' | translate}}</div>
@@ -82,7 +82,7 @@
                     </md-input-container>
                 </div>
                 <div layout-gt-sm="row" layout="column">
-                    <md-input-container flex="50" style="margin-right: 8px;" md-is-error="!studyForm.sponsorDe.$valid && (studyForm.sponsorDe.$dirty || studyForm.sponsorDe.$touched)">
+                    <md-input-container flex="50" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!studyForm.sponsorDe.$valid && (studyForm.sponsorDe.$dirty || studyForm.sponsorDe.$touched)">
                         <label class="fdz-input-required">{{'study-management.detail.label.sponsors' | translate}} ({{'global.in-german' | translate}})</label>
                         <input md-maxlength="128" fdz-required ng-model="ctrl.study.sponsor.de" name="sponsorDe" lang="de" md-no-asterisk>
                         <div ng-if="!studyForm.sponsorDe.$dirty && !studyForm.sponsorDe.$touched" class="fdz-input-hint">{{'study-management.edit.hints.sponsor.de' | translate}}</div>
@@ -115,7 +115,7 @@
                     <div flex="50"></div>
                 </div>
                 <div layout-gt-sm="row" layout="column">
-                    <md-input-container flex="50" style="margin-right: 8px;" md-is-error="!studyForm.annotationsDe.$valid && (studyForm.annotationsDe.$dirty || studyForm.annotationsDe.$touched)">
+                    <md-input-container flex="50" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!studyForm.annotationsDe.$valid && (studyForm.annotationsDe.$dirty || studyForm.annotationsDe.$touched)">
                         <label>{{'study-management.detail.label.annotations' | translate}} ({{'global.in-german' | translate}})</label>
                         <textarea rows="4" md-maxlength="2048" ng-model="ctrl.study.annotations.de" name="annotationsDe" lang="de"></textarea>
                         <div ng-if="!studyForm.annotationsDe.$dirty && !studyForm.annotationsDe.$touched" class="fdz-input-hint">{{'study-management.edit.hints.annotations.de' | translate}}</div>
@@ -156,7 +156,7 @@
             <md-divider></md-divider>
             <md-card-content>
                 <div layout-gt-sm="row" layout="column">
-                    <md-input-container flex="50" style="margin-right: 8px;" md-is-error="!studyForm.descriptionDe.$valid && (studyForm.descriptionDe.$dirty || studyForm.descriptionDe.$touched)">
+                    <md-input-container flex="50" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!studyForm.descriptionDe.$valid && (studyForm.descriptionDe.$dirty || studyForm.descriptionDe.$touched)">
                         <label class="fdz-input-required">{{'study-management.detail.description' | translate}} ({{'global.in-german' | translate}})</label>
                         <textarea rows="4" md-maxlength="2048" fdz-required="!ctrl.study.description.en" ng-model="ctrl.study.description.de" name="descriptionDe" lang="de" md-no-asterisk></textarea>
                         <div ng-if="!studyForm.descriptionDe.$dirty && !studyForm.descriptionDe.$touched" class="fdz-input-hint">{{'study-management.edit.hints.description.de' | translate}}</div>

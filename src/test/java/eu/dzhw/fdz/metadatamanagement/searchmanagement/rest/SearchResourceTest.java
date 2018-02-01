@@ -18,6 +18,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.util.NestedServletException;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestUserManagementUtils;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
@@ -42,6 +43,9 @@ public class SearchResourceTest extends AbstractTest {
 
   @Autowired
   private ElasticsearchAdminService elasticsearchAdminService;
+  
+  @Autowired
+  private JaversService javersService;
 
   private MockMvc mockMvc;
 
@@ -57,6 +61,7 @@ public class SearchResourceTest extends AbstractTest {
     dataAcquisitionProjectRepository.deleteAll();
     surveyRepository.deleteAll();
     variableRepository.deleteAll();
+    javersService.deleteAll();
     UnitTestUserManagementUtils.logout();
   }
 

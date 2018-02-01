@@ -108,7 +108,7 @@ public class StudyAttachmentVersionsService {
         StudyAttachmentMetadata.class, file.getMetaData());
     
     QueryBuilder jqlQuery = QueryBuilder.byInstance(studyAttachmentMetadata)
-        .withScopeDeepPlus(100)
+        .withScopeDeepPlus(Integer.MAX_VALUE)
         .limit(limit).skip(skip);
 
     List<Shadow<StudyAttachmentMetadata>> previousVersions = javers.findShadows(jqlQuery.build());

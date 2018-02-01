@@ -38,13 +38,33 @@ public class SurveyResponseRateImageService {
   public String saveSurveyImage(MultipartFile multipartFile,
       String surveyId, String fileName) throws IOException {
     try (InputStream in = multipartFile.getInputStream()) {
-      String relativePathWithName = "/surveys/" + surveyId + "/" + fileName;
       String contentType = mimeTypeDetector.detect(multipartFile);
+      // ensure there is no existing image
+      deleteSurveyImage(surveyId, fileName);
+      String relativePathWithName = buildFilename(surveyId, fileName);
       GridFSFile gridFsFile = this.operations.store(in, relativePathWithName, contentType);
       gridFsFile.validate();
       
       return gridFsFile.getFilename();      
     }
+  }
+  
+  /**
+   * Delete the image from GridFS.
+   * 
+   * @param surveyId The id of the survey.
+   * @param fileName The filename of the response rate image.
+   * @throws IOException if gridfs access fails
+   */
+  public void deleteSurveyImage(String surveyId, String fileName) throws IOException {
+    String filename = buildFilename(surveyId, fileName);
+    Query query = new Query(GridFsCriteria.whereFilename()
+        .is(filename));
+    this.operations.delete(query);
+  }
+  
+  private String buildFilename(String surveyId, String fileName) {
+    return "/surveys/" + surveyId + "/" + fileName;
   }
   
   /**

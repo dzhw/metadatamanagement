@@ -27,6 +27,7 @@ import com.google.gson.JsonSyntaxException;
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
+import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
@@ -63,6 +64,9 @@ public class DataSetResourceTest extends AbstractTest {
   
   @Autowired
   private ElasticsearchAdminService elasticsearchAdminService;
+  
+  @Autowired
+  private JaversService javersService;
 
   private MockMvc mockMvc;
 
@@ -79,6 +83,7 @@ public class DataSetResourceTest extends AbstractTest {
     this.dataSetRepository.deleteAll();
     this.elasticsearchUpdateQueueService.clearQueue();
     this.elasticsearchAdminService.recreateAllIndices();
+    this.javersService.deleteAll();
   }
 
 

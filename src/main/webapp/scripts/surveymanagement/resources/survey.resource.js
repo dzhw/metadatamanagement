@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .factory('SurveyResource', function($resource) {
+  .factory('SurveyResource', function($resource, CleanJSObjectService) {
     return $resource('/api/surveys/:id', {
       id: '@id'
     }, {
@@ -12,7 +12,13 @@ angular.module('metadatamanagementApp')
         }
       },
       'save': {
-        method: 'PUT'
+        method: 'PUT',
+        transformRequest: function(study) {
+          var copy = angular.copy(study);
+          CleanJSObjectService.deleteEmptyStrings(copy);
+          CleanJSObjectService.removeEmptyJsonObjects(copy);
+          return angular.toJson(copy);
+        }
       },
       'delete': {
         method: 'DELETE'
