@@ -49,7 +49,8 @@ angular.module('metadatamanagementApp')
       };
 
       var init = function() {
-        if (Principal.hasAuthority('ROLE_PUBLISHER')) {
+        if (Principal.hasAuthority('ROLE_PUBLISHER') ||
+          Principal.hasAuthority('ROLE_DATA_PROVIDER')) {
           if (!bowser.msie) {
             if (entity) {
               entity.$promise.then(function(survey) {
@@ -322,7 +323,8 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.selectAttachment = function(index) {
-        if (Principal.hasAuthority('ROLE_PUBLISHER')) {
+        if (Principal.hasAuthority('ROLE_PUBLISHER') ||
+          Principal.hasAuthority('ROLE_DATA_PROVIDER')) {
           ctrl.currentAttachmentIndex = index;
         }
       };

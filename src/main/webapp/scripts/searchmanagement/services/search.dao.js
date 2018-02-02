@@ -298,8 +298,9 @@ angular.module('metadatamanagementApp').service('SearchDao',
           };
         }
 
-        //only publisher see unreleased projects
-        if (!Principal.hasAuthority('ROLE_PUBLISHER')) {
+        //only publisher and data provider see unreleased projects
+        if (!Principal.hasAuthority('ROLE_PUBLISHER') ||
+          !Principal.hasAuthority('ROLE_DATA_PROVIDER')) {
           query.body.query.bool.filter = [];
           query.body.query.bool.filter.push({
             'exists': {

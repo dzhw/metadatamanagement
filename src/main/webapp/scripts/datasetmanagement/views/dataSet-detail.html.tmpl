@@ -1,4 +1,4 @@
-<div ng-if="ctrl.dataSet.id" flex ngf-drop="ctrl.uploadTexTemplate($files)" ngf-multiple="true" ngf-include-dir="false" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-drop-disabled="!ctrl.isAuthenticated() || !ctrl.hasAuthority('ROLE_PUBLISHER')">
+<div ng-if="ctrl.dataSet.id" flex ngf-drop="ctrl.uploadTexTemplate($files)" ngf-multiple="true" ngf-include-dir="false" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-drop-disabled="!ctrl.isAuthenticated() || !ctrl.hasAuthority('ROLE_PUBLISHER') || !ctrl.hasAuthority('ROLE_DATA_PROVIDER') ">
     <previous-search-result bowser="bowser" current-language="currentLanguage"></previous-search-result>
     <next-search-result bowser="bowser" current-language="currentLanguage"></next-search-result>
     <div layout="row" style="margin-bottom: 0px;" layout-margin>
@@ -262,7 +262,7 @@
         </md-card>
     </div>
     <div class="fdz-fab-button-container" layout="column">
-        <md-button ng-if="ctrl.isAuthenticated() && ctrl.hasAuthority('ROLE_PUBLISHER')" type="file" ngf-select="ctrl.uploadTexTemplate($files)" ngf-multiple="true" directory webkitdirectory class="md-accent md-fab">
+        <md-button ng-if="ctrl.isAuthenticated() && (ctrl.hasAuthority('ROLE_PUBLISHER') || ctrl.hasAuthority('ROLE_DATA_PROVIDER'))" type="file" ngf-select="ctrl.uploadTexTemplate($files)" ngf-multiple="true" directory webkitdirectory class="md-accent md-fab">
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{'data-set-management.detail.generate-variable-report-tooltip' | translate}}
             </md-tooltip>

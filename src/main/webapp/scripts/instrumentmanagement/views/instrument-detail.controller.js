@@ -36,7 +36,8 @@ angular.module('metadatamanagementApp')
           result.description[secondLanguage],
           instrumentId: result.id
         });
-        if (result.release || Principal.hasAuthority('ROLE_PUBLISHER')) {
+        if (result.release || Principal.hasAuthority('ROLE_PUBLISHER') ||
+            Principal.hasAuthority('ROLE_DATA_PROVIDER')) {
           ctrl.instrument = result;
           //load all related objects in parallel
           InstrumentAttachmentResource.findByInstrumentId({

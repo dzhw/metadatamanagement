@@ -42,7 +42,8 @@ angular.module('metadatamanagementApp')
           'studyIsPresent': CleanJSObjectService.
           isNullOrEmpty(result.study) ? false : true,
           'projectId': result.dataAcquisitionProjectId});
-        if (result.release || Principal.hasAuthority('ROLE_PUBLISHER')) {
+        if (result.release || Principal.hasAuthority('ROLE_PUBLISHER') ||
+            Principal.hasAuthority('ROLE_DATA_PROVIDER')) {
           ctrl.question = result;
           QuestionSearchService.findAllPredeccessors(ctrl.question.id, ['id',
             'instrumentNumber', 'questionText', 'type','instrumentNmber',
