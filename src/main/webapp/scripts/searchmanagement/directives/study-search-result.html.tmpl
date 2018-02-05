@@ -7,11 +7,11 @@
             <md-card-header-text class="fdz-truncate-string">
                 <div class="md-title fdz-truncate-string"><span display-i18n-string="searchResult.title"></span> <span class="label label-as-badge label-default">{{searchResult.id}}</span></div>
                 <div class="md-subhead fdz-truncate-string">
-                  <span ng-repeat="author in searchResult.authors">
+                    <span ng-repeat="author in searchResult.authors">
                     <span>{{author.lastName}}, </span>
                     <span ng-if="!author.middleName">{{author.firstName}}{{!$last?';':''}}</span>
                     <span ng-if="author.middleName">{{author.firstName}} {{author.middleName}}{{!$last?';':''}}</span>
-                  </span>
+                    </span>
                 </div>
             </md-card-header-text>
         </md-card-header>
@@ -19,13 +19,15 @@
             <div display-i18n-string="searchResult.description" limit-to="256" fdz-hyphenate class="fdz-text-block"></div>
         </md-card-content>
         <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-          {{'search-management.cards.study-tooltip' | translate: {id:searchResult.id} }}
+            {{'search-management.cards.study-tooltip' | translate: {id:searchResult.id} }}
         </md-tooltip>
     </a>
-    <md-button ng-if="!searchResult.release && !bowser.msie" data-has-authority="ROLE_PUBLISHER" class="md-icon-button md-primary" ui-sref="studyEdit({id: searchResult.id})" style="position: absolute; right: 8px; margin-top: 8px; z-index: 0;">
-      <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-        {{'search-management.buttons.edit-study-tooltip' | translate}}
-      </md-tooltip>
-      <md-icon md-font-set="material-icons">mode_edit</md-icon>
-    </md-button>
+    <div class="fdz-search-result-actions-container" ng-if="!searchResult.release && !bowser.msie" data-has-authority="ROLE_PUBLISHER">
+        <md-button class="md-icon-button md-primary" ui-sref="studyEdit({id: searchResult.id})">
+            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                {{'search-management.buttons.edit-study-tooltip' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">mode_edit</md-icon>
+        </md-button>
+    </div>
 </md-card>

@@ -81,4 +81,26 @@ public class SurveyResponseRateImageResource {
         .body(null);
     }
   }
+  
+  /**
+   * Delete the given image of the given survey.
+   * 
+   * @param surveyId The id of the survey.
+   * @param filename The name of the image file
+   * @throws IOException if gridfs access fails
+   */
+  @RequestMapping(path = "/surveys/{surveyId}/images/{filename:.+}", 
+      method = RequestMethod.DELETE)
+  @Timed
+  @Secured(AuthoritiesConstants.PUBLISHER)
+  public ResponseEntity<?> deleteImage(@PathVariable("surveyId") String surveyId, 
+      @PathVariable("filename") String filename) throws IOException {
+    if (!StringUtils.isEmpty(surveyId) && !StringUtils.isEmpty(filename)) {
+      surveyResponseRateImageService.deleteSurveyImage(surveyId, filename);
+      return ResponseEntity.noContent().build();
+    } else {
+      return ResponseEntity.badRequest()
+        .body(null);
+    }
+  }
 }

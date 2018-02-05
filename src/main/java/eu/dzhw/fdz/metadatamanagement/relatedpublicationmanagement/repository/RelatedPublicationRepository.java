@@ -75,7 +75,4 @@ public interface RelatedPublicationRepository extends BaseRepository<RelatedPubl
   
   @RestResource(exported = true)
   List<RelatedPublication> findAllBy();
-  
-  @RestResource(exported = false)
-  Stream<RelatedPublication> streamAllBy();
 }

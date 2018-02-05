@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateValidIds;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestImageHelper;
@@ -78,6 +79,9 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
   
   @Autowired 
   private QuestionImageService questionImageService;
+  
+  @Autowired
+  private JaversService javersService;
 
   private MockMvc mockMvc;
 
@@ -97,6 +101,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     this.questionRepository.deleteAll();
     this.studyRepository.deleteAll();
     this.questionImageService.deleteAll();
+    this.javersService.deleteAll();
   }
   
   @Test

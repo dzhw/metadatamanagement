@@ -1,4 +1,4 @@
-/* global _*/
+/* global _, bowser */
 'use strict';
 
 angular.module('metadatamanagementApp')
@@ -6,6 +6,7 @@ angular.module('metadatamanagementApp')
     function($mdDialog, studyAttachmentMetadata, $scope, CommonDialogsService,
       LanguageService, isoLanguages, SimpleMessageToastService,
       StudyAttachmentUploadService, StudyAttachmentResource) {
+      $scope.bowser = bowser;
       var ctrl = this;
       $scope.translationParams = {
         studyId: studyAttachmentMetadata.studyId,

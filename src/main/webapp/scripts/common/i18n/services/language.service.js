@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp').factory('LanguageService',
   function($q, $translate, $location, $rootScope,
-    tmhDynamicLocale, LANGUAGES, amMoment) {
+    tmhDynamicLocale, LANGUAGES, amMoment, $mdDateLocale, moment) {
     return {
       getCurrent: function() {
         var deferred = $q.defer();
@@ -27,6 +27,22 @@ angular.module('metadatamanagementApp').factory('LanguageService',
         }
         $rootScope.currentLanguage = language;
         amMoment.changeLocale(language);
+        $mdDateLocale.firstDayOfWeek = 1;
+        $mdDateLocale.parseDate = function(dateString) {
+          if (dateString != null && dateString !== '') {
+            var m = moment(dateString, 'L', true);
+            return m.isValid() ? m.toDate() : new Date(NaN);
+          }
+          return new Date(NaN);
+        };
+        $mdDateLocale.formatDate = function(date) {
+          if (date) {
+            var m = moment(date);
+            return m.isValid() ? m.format('L') : '';
+          } else {
+            return '';
+          }
+        };
         $rootScope.$broadcast('current-language-changed', language);
         $translate.storage().set('NG_TRANSLATE_LANG_KEY', language);
         tmhDynamicLocale.set(language).then(function() {
