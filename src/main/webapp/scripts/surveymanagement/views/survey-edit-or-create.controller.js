@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp')
       $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
       CurrentProjectService, SurveyIdBuilderService, SurveyResource, $scope,
       ElasticSearchAdminService, $mdDialog, $transitions, StudyResource,
-      CommonDialogsService, LanguageService, SurveyRepositoryClient,
+      CommonDialogsService, LanguageService, AvailableSurveyNumbersResource,
       SurveyAttachmentResource, $q, StudyIdBuilderService, moment, Upload,
       SurveyResponseRateImageUploadService) {
       var ctrl = this;
@@ -76,42 +76,56 @@ angular.module('metadatamanagementApp')
               if (CurrentProjectService.getCurrentProject() &&
               !CurrentProjectService.getCurrentProject().release) {
                 ctrl.createMode = true;
-                SurveyRepositoryClient.findLastSurvey(
-                  CurrentProjectService.getCurrentProject().id).then(
-                    function(response) {
-                      ctrl.survey = new SurveyResource({
-                        id: SurveyIdBuilderService.buildSurveyId(
+                AvailableSurveyNumbersResource.get({
+                  id: CurrentProjectService.getCurrentProject().id
+                }).$promise.then(
+                    function(surveyNumbers) {
+                      if (surveyNumbers.length === 1) {
+                        ctrl.survey = new SurveyResource({
+                          id: SurveyIdBuilderService.buildSurveyId(
+                            CurrentProjectService.getCurrentProject().id,
+                            surveyNumbers[0]
+                          ),
+                          number: surveyNumbers[0],
+                          dataAcquisitionProjectId:
                           CurrentProjectService.getCurrentProject().id,
-                          response.data.number ? response.data.number + 1 : 1
-                        ),
-                        number:
-                          response.data.number ? response.data.number + 1 : 1,
-                        dataAcquisitionProjectId:
-                        CurrentProjectService.getCurrentProject().id,
-                        studyId: StudyIdBuilderService.buildStudyId(
-                          CurrentProjectService.getCurrentProject().id
-                        ),
-                        wave: 1
-                      });
-                      updateToolbarHeaderAndPageTitle();
-                      $scope.registerConfirmOnDirtyHook();
-                    }).catch(function() {
-                    ctrl.survey = new SurveyResource({
-                      id: SurveyIdBuilderService.buildSurveyId(
-                        CurrentProjectService.getCurrentProject().id,
-                        1
-                      ),
-                      number: 1,
-                      dataAcquisitionProjectId:
-                      CurrentProjectService.getCurrentProject().id,
-                      studyId: StudyIdBuilderService.buildStudyId(
-                        CurrentProjectService.getCurrentProject().id
-                      ),
-                      wave: 1
+                          studyId: StudyIdBuilderService.buildStudyId(
+                            CurrentProjectService.getCurrentProject().id
+                          ),
+                          wave: 1
+                        });
+                        updateToolbarHeaderAndPageTitle();
+                        $scope.registerConfirmOnDirtyHook();
+                      } else {
+                        $mdDialog.show({
+                            controller: 'ChooseSurveyNumberController',
+                            templateUrl: 'scripts/surveymanagement/' +
+                              'views/choose-survey-number.html.tmpl',
+                            clickOutsideToClose: false,
+                            fullscreen: true,
+                            locals: {
+                              availableSurveyNumbers: surveyNumbers
+                            }
+                          })
+                          .then(function(response) {
+                            ctrl.survey = new SurveyResource({
+                              id: SurveyIdBuilderService.buildSurveyId(
+                                CurrentProjectService.getCurrentProject().id,
+                                response.surveyNumber
+                              ),
+                              number: response.surveyNumber,
+                              dataAcquisitionProjectId:
+                              CurrentProjectService.getCurrentProject().id,
+                              studyId: StudyIdBuilderService.buildStudyId(
+                                CurrentProjectService.getCurrentProject().id
+                              ),
+                              wave: 1
+                            });
+                            updateToolbarHeaderAndPageTitle();
+                            $scope.registerConfirmOnDirtyHook();
+                          });
+                      }
                     });
-                    updateToolbarHeaderAndPageTitle();
-                    $scope.registerConfirmOnDirtyHook();
-                  });
               } else {
                 SimpleMessageToastService.openSimpleMessageToast(
                   'survey-management.edit.choose-unreleased-project-toast');
