@@ -39,7 +39,7 @@ public class DataAcquisitionProjectPostValidationResource {
   @RequestMapping(value = "/data-acquisition-projects/{id}/post-validate",
       method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
   @Timed
-  @Secured(AuthoritiesConstants.PUBLISHER)
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<PostValidationErrorsDto> postValidate(@PathVariable String id) {
     log.debug("REST request for post validation : {}", id);
     return new ResponseEntity<>(

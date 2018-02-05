@@ -48,7 +48,7 @@ public class StudyAttachmentResource {
    */
   @RequestMapping(path = "/studies/attachments", method = RequestMethod.POST)
   @Timed
-  @Secured(AuthoritiesConstants.PUBLISHER)
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<String> uploadAttachment(@RequestPart("file") MultipartFile multiPartFile,
       @RequestPart("studyAttachmentMetadata") 
       @Valid StudyAttachmentMetadata studyAttachmentMetadata)
@@ -88,7 +88,7 @@ public class StudyAttachmentResource {
    */
   @RequestMapping(path = "/studies/{studyId}/attachments", method = RequestMethod.DELETE)
   @Timed
-  @Secured(AuthoritiesConstants.PUBLISHER)
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> deleteAllByStudyId(@PathVariable("studyId") String studyId) {
     if (!StringUtils.isEmpty(studyId)) {
       studyAttachmentService.deleteAllByStudyId(studyId);
@@ -108,7 +108,7 @@ public class StudyAttachmentResource {
   @RequestMapping(path = "/studies/{studyId}/attachments/{filename:.+}", 
       method = RequestMethod.DELETE)
   @Timed
-  @Secured(AuthoritiesConstants.PUBLISHER)
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> delete(@PathVariable("studyId") String studyId, 
       @PathVariable("filename") String filename) {
     if (!StringUtils.isEmpty(studyId) && !StringUtils.isEmpty(filename)) {
@@ -126,7 +126,7 @@ public class StudyAttachmentResource {
   @RequestMapping(path = "/studies/{studyId}/attachments/{filename:.+}", 
       method = RequestMethod.PUT)
   @Timed
-  @Secured(AuthoritiesConstants.PUBLISHER)
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> update(
       @Valid @RequestBody StudyAttachmentMetadata studyAttachmentMetadata) {
     studyAttachmentService.updateAttachmentMetadata(studyAttachmentMetadata);

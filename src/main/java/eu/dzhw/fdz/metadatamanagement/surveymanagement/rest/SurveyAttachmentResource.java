@@ -47,7 +47,7 @@ public class SurveyAttachmentResource {
    */
   @RequestMapping(path = "/surveys/attachments", method = RequestMethod.POST)
   @Timed
-  @Secured(AuthoritiesConstants.PUBLISHER)
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<String> uploadAttachment(@RequestPart("file") MultipartFile multiPartFile,
       @RequestPart("surveyAttachmentMetadata") 
       @Valid SurveyAttachmentMetadata surveyAttachmentMetadata)
@@ -87,7 +87,7 @@ public class SurveyAttachmentResource {
    */
   @RequestMapping(path = "/surveys/{surveyId}/attachments", method = RequestMethod.DELETE)
   @Timed
-  @Secured(AuthoritiesConstants.PUBLISHER)
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> deleteAllBySurveyId(@PathVariable("surveyId") String surveyId) {
     if (!StringUtils.isEmpty(surveyId)) {
       surveyAttachmentService.deleteAllBySurveyId(surveyId);

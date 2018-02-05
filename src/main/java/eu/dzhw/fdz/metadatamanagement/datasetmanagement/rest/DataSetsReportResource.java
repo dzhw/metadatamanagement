@@ -41,7 +41,7 @@ public class DataSetsReportResource {
    */
   @RequestMapping(value = "/data-sets/report")
   @Timed
-  @Secured(AuthoritiesConstants.PUBLISHER)
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile multiPartFile,
       @RequestParam("id") String dataSetId) throws IOException, TemplateException, 
       TemplateIncompleteException {

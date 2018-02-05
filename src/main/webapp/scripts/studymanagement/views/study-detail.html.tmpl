@@ -330,7 +330,7 @@
             </md-content>
         </md-card>
     </div>
-    <div ng-if="!ctrl.study.release" data-has-authority="ROLE_PUBLISHER" class="fdz-fab-button-container" layout="column">
+    <div ng-if="!ctrl.study.release" data-has-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER" class="fdz-fab-button-container" layout="column">
       <md-button class="md-fab md-raised md-accent" ui-sref="studyEdit({id: ctrl.study.id})">
           <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
               {{'search-management.buttons.edit-study-tooltip' | translate}}

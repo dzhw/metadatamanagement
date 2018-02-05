@@ -24,35 +24,35 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
 public interface BaseRepository<T, ID extends Serializable>
     extends MongoRepository<T, ID> {
   @Override
-  @Secured(AuthoritiesConstants.PUBLISHER)
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   void delete(T entity);
   
   @Override
-  @Secured(AuthoritiesConstants.PUBLISHER)
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   void delete(ID id);
   
   @Override
-  @Secured(AuthoritiesConstants.PUBLISHER)
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   void delete(Iterable<? extends T> entities);
   
   @Override
-  @Secured(AuthoritiesConstants.PUBLISHER)
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   void deleteAll();
   
   @Override
-  @Secured(AuthoritiesConstants.PUBLISHER)
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   <S extends T> List<S> save(Iterable<S> entites);
   
   @Override
-  @Secured(AuthoritiesConstants.PUBLISHER)
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   <S extends T> S save(S entity);
   
   @Override
-  @Secured(AuthoritiesConstants.PUBLISHER)
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   <S extends T> List<S> insert(Iterable<S> entities);
   
   @Override
-  @Secured(AuthoritiesConstants.PUBLISHER)
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   <S extends T> S insert(S entity);
   
   @RestResource(exported = false)
