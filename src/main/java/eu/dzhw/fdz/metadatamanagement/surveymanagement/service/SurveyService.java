@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.surveymanagement.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -226,18 +227,17 @@ public class SurveyService {
     List<Integer> result = new ArrayList<>();
     List<IdAndNumberSurveyProjection> existingNumbers = surveyRepository
         .findSurveyNumbersByDataAcquisitionProjectId(dataAcquisitionProjectId);
-    IdAndNumberSurveyProjection max = existingNumbers.stream()
-        .max((survey1, survey2) -> Integer.compare(survey1.getNumber(), survey2.getNumber()))
-        .get();
-    if (max == null) {
+    Optional<IdAndNumberSurveyProjection> max = existingNumbers.stream()
+        .max((survey1, survey2) -> Integer.compare(survey1.getNumber(), survey2.getNumber()));
+    if (!max.isPresent()) {
       result.add(1);
     } else {
-      for (int i = 1; i < max.getNumber(); i++) {
+      for (int i = 1; i < max.get().getNumber(); i++) {
         if (!surveyNumberExists(existingNumbers, i)) {
           result.add(i);
         }
       }
-      result.add(max.getNumber() + 1);
+      result.add(max.get().getNumber() + 1);
     }
     return result;
   }
