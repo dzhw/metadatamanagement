@@ -1,5 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,7 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.IdAndNumberSurveyProjection;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 
@@ -211,5 +215,35 @@ public class SurveyService {
             ElasticsearchType.surveys, ElasticsearchUpdateQueueAction.UPSERT);
       });      
     }
+  }
+  
+  /**
+   * Get a list of available survey numbers for creating a new survey.
+   * @param dataAcquisitionProjectId The project id.
+   * @return A list of available survey numbers.
+   */
+  public List<Integer> getFreeSurveyNumbers(String dataAcquisitionProjectId) {
+    List<Integer> result = new ArrayList<>();
+    List<IdAndNumberSurveyProjection> existingNumbers = surveyRepository
+        .findSurveyNumbersByDataAcquisitionProjectId(dataAcquisitionProjectId);
+    IdAndNumberSurveyProjection max = existingNumbers.stream()
+        .max((survey1, survey2) -> Integer.compare(survey1.getNumber(), survey2.getNumber()))
+        .get();
+    if (max == null) {
+      result.add(1);
+    } else {
+      for (int i = 1; i < max.getNumber(); i++) {
+        if (!surveyNumberExists(existingNumbers, i)) {
+          result.add(i);
+        }
+      }
+      result.add(max.getNumber() + 1);
+    }
+    return result;
+  }
+  
+  private boolean surveyNumberExists(List<IdAndNumberSurveyProjection> surveys, Integer number) {
+    Predicate<IdAndNumberSurveyProjection> predicate = survey -> survey.getNumber().equals(number);
+    return surveys.stream().filter(predicate).findFirst().isPresent();
   }
 }

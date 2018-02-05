@@ -1,6 +1,6 @@
 'use strict';
 
-/* Instrument Resource */
+/* Survey Attachment Resource */
 angular.module('metadatamanagementApp')
   .factory('SurveyAttachmentResource', function($resource) {
     return $resource('/api/surveys/:id/attachments', {
