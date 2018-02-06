@@ -306,7 +306,7 @@
         </md-card-actions>
     </md-card>
 </div>
-<md-card ng-if="ctrl.survey.id && false" class="fdz-reset-top-margin">
+<md-card ng-if="ctrl.survey.id" class="fdz-reset-top-margin">
     <md-card-header layout-align="center center">
         <md-card-header-text>
             <h2 class="md-title">{{'survey-management.detail.attachments.table-title' | translate | fdzHyphenate}}</h2>
@@ -324,19 +324,14 @@
                 <th style="min-height: 40px;">
                     &nbsp;
                 </th>
-                <th>{{'survey-management.detail.label.attachments.type' | translate }}
+                <th>{{'survey-management.detail.label.attachments.title' | translate }}
                     <md-tooltip hide-gt-xs md-direction="right">
-                        {{'survey-management.detail.label.attachments.type' | translate }}
+                        {{'survey-management.detail.label.attachments.title' | translate }}
                     </md-tooltip>
                 </th>
                 <th class="fdz-table-half-absorbing-column">{{'survey-management.detail.label.attachments.description' | translate }}
                     <md-tooltip hide-gt-xs md-direction="right">
                         {{'survey-management.detail.label.attachments.description' | translate }}
-                    </md-tooltip>
-                </th>
-                <th class="fdz-table-half-absorbing-column">{{'survey-management.detail.label.attachments.title' | translate }}
-                    <md-tooltip hide-gt-xs md-direction="right">
-                        {{'survey-management.detail.label.attachments.title' | translate }}
                     </md-tooltip>
                 </th>
                 <th>{{'survey-management.detail.label.attachments.language' | translate }}
@@ -378,9 +373,8 @@
                         <md-icon md-font-set="material-icons">delete_forever</md-icon>
                     </md-button>
                 </td>
-                <td class="fdz-table-nowrap" display-i18n-string="row.type"></td>
-                <td display-i18n-string="row.description" fdz-hyphenate class="fdz-text-block"></td>
                 <td lang="{{row.language}}">{{row.title}}&nbsp;</td>
+                <td display-i18n-string="row.description" fdz-hyphenate class="fdz-text-block"></td>
                 <td>{{row.language | displayIsoLanguage: currentLanguage}}&nbsp;</td>
                 <td><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">{{'global.tooltips.files.download' | translate: {filename: row.fileName} }}</md-tooltip></a>&nbsp;</td>
             </tr>

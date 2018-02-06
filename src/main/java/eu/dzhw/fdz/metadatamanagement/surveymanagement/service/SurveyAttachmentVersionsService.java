@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.studymanagement.service;
+package eu.dzhw.fdz.metadatamanagement.surveymanagement.service;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,17 +21,17 @@ import com.mongodb.DBObject;
 import com.mongodb.gridfs.GridFSDBFile;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudyAttachmentMetadata;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyAttachmentMetadata;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Service responsible for retrieving an initializing the study attachment history.
+ * Service responsible for retrieving an initializing the survey attachment history.
  * 
  * @author René Reitmann
  */
 @Service
 @Slf4j
-public class StudyAttachmentVersionsService {
+public class SurveyAttachmentVersionsService {
   private Javers javers;
   
   private GridFsOperations operations;
@@ -44,7 +44,7 @@ public class StudyAttachmentVersionsService {
    * Construct the service.
    */
   @Autowired
-  public StudyAttachmentVersionsService(Javers javers, GridFsOperations operations, 
+  public SurveyAttachmentVersionsService(Javers javers, GridFsOperations operations, 
       MongoTemplate mongoTemplate, MetadataManagementProperties metadataManagementProperties) {
     this.javers = javers;
     this.operations = operations;
@@ -53,68 +53,68 @@ public class StudyAttachmentVersionsService {
   }
 
   /**
-   * Init Javers with all current study attachments if there are no 
-   * study attachment commits in Javers yet.
+   * Init Javers with all current survey attachments if there are no 
+   * survey attachment commits in Javers yet.
    */
   @PostConstruct
-  public void initJaversForStudyAttachments() {
+  public void initJaversForSurveyAttachments() {
     if (!metadataManagementProperties.getServer().getInstanceIndex().equals(0)) {
-      log.debug("This is server instance {} therefore skipping javers init for study attachments.", 
+      log.debug("This is server instance {} therefore skipping javers init for survey attachments.",
           metadataManagementProperties.getServer().getInstanceIndex());
       return;
     }
     List<CdoSnapshot> snapshots =
-        javers.findSnapshots(QueryBuilder.byClass(StudyAttachmentMetadata.class).limit(1).build());
+        javers.findSnapshots(QueryBuilder.byClass(SurveyAttachmentMetadata.class).limit(1).build());
     // only init if there are no studies yet
     if (snapshots.isEmpty()) {
-      log.debug("Going to init javers with all current study attachments");
+      log.debug("Going to init javers with all current survey attachments");
       List<GridFSDBFile> files = operations.find(
           new Query(GridFsCriteria.whereFilename().regex(
-              StudyAttachmentFilenameBuilder.ALL_STUDY_ATTACHMENTS)));
+              SurveyAttachmentFilenameBuilder.ALL_SURVEY_ATTACHMENTS)));
       files.stream().forEach(file -> {
-        StudyAttachmentMetadata studyAttachmentMetadata = mongoTemplate.getConverter().read(
-            StudyAttachmentMetadata.class, file.getMetaData());
-        studyAttachmentMetadata.generateId();
+        SurveyAttachmentMetadata surveyAttachmentMetadata = mongoTemplate.getConverter().read(
+            SurveyAttachmentMetadata.class, file.getMetaData());
+        surveyAttachmentMetadata.generateId();
         DBObject dbObject = new BasicDBObject();
-        mongoTemplate.getConverter().write(studyAttachmentMetadata, dbObject);
+        mongoTemplate.getConverter().write(surveyAttachmentMetadata, dbObject);
         file.setMetaData(dbObject);
         file.save();
-        javers.commit(studyAttachmentMetadata.getLastModifiedBy(), studyAttachmentMetadata);
+        javers.commit(surveyAttachmentMetadata.getLastModifiedBy(), surveyAttachmentMetadata);
       });
     }
   }
 
   /**
-   * Get the previous 10 versions of the study attachment.
+   * Get the previous 10 versions of the survey attachment.
    * 
-   * @param studyId The id of the study
+   * @param surveyId The id of the survey
    * @param filename The filename of the attachment
    * @param limit like page size
    * @param skip for skipping n versions
    * 
-   * @return A list of previous study versions or null if no study found
+   * @return A list of previous survey versions or null if no survey found
    */
-  public List<StudyAttachmentMetadata> findPreviousStudyAttachmentVersions(String studyId,
+  public List<SurveyAttachmentMetadata> findPreviousSurveyAttachmentVersions(String surveyId,
       String filename, int limit, int skip) {
     GridFSDBFile file = operations.findOne(
         new Query(GridFsCriteria.whereFilename().is(
-            StudyAttachmentFilenameBuilder.buildFileName(studyId, filename))));
+            SurveyAttachmentFilenameBuilder.buildFileName(surveyId, filename))));
     
     if (file == null) {
       return null;
     }
     
-    StudyAttachmentMetadata studyAttachmentMetadata = mongoTemplate.getConverter().read(
-        StudyAttachmentMetadata.class, file.getMetaData());
+    SurveyAttachmentMetadata surveyAttachmentMetadata = mongoTemplate.getConverter().read(
+        SurveyAttachmentMetadata.class, file.getMetaData());
     
-    QueryBuilder jqlQuery = QueryBuilder.byInstance(studyAttachmentMetadata)
+    QueryBuilder jqlQuery = QueryBuilder.byInstance(surveyAttachmentMetadata)
         .withScopeDeepPlus(Integer.MAX_VALUE)
         .limit(limit).skip(skip);
 
-    List<Shadow<StudyAttachmentMetadata>> previousVersions = javers.findShadows(jqlQuery.build());
+    List<Shadow<SurveyAttachmentMetadata>> previousVersions = javers.findShadows(jqlQuery.build());
 
     return previousVersions.stream().map(shadow -> {
-      StudyAttachmentMetadata metadata = shadow.get();
+      SurveyAttachmentMetadata metadata = shadow.get();
       if (metadata.getId() == null) {
         // deleted shadow        
         metadata.setLastModifiedBy(shadow.getCommitMetadata().getAuthor());
