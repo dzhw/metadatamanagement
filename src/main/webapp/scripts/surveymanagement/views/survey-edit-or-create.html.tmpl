@@ -14,7 +14,7 @@
             <md-card-content>
                 <div layout-gt-sm="row" layout="column">
                     <md-input-container flex="50" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!surveyForm.titleDe.$valid && (surveyForm.titleDe.$dirty || surveyForm.titleDe.$touched)">
-                        <label class="fdz-input-required">{{'survey-management.detail.label.title' | translate}} ({{'global.in-german' | translate}})</label>
+                        <label class="fdz-input-required">{{'survey-management.edit.label.title' | translate}} ({{'global.in-german' | translate}})</label>
                         <input ng-trim="true" md-maxlength="2048" fdz-required ng-model="ctrl.survey.title.de" name="titleDe" lang="de" md-no-asterisk>
                         <div ng-if="!surveyForm.titleDe.$dirty && !surveyForm.titleDe.$touched" class="fdz-input-hint">{{'survey-management.edit.hints.title.de' | translate}}</div>
                         <div ng-messages="surveyForm.titleDe.$error" multiple>
@@ -23,7 +23,7 @@
                         </div>
                     </md-input-container>
                     <md-input-container flex="50" md-is-error="!surveyForm.titleEn.$valid && (surveyForm.titleEn.$dirty || surveyForm.titleEn.$touched)">
-                        <label class="fdz-input-required">{{'survey-management.detail.label.title' | translate}} ({{'global.in-english' | translate}})</label>
+                        <label class="fdz-input-required">{{'survey-management.edit.label.title' | translate}} ({{'global.in-english' | translate}})</label>
                         <input md-maxlength="2048" fdz-required ng-model="ctrl.survey.title.en" name="titleEn" lang="en" md-no-asterisk>
                         <div ng-if="!surveyForm.titleEn.$dirty && !surveyForm.titleEn.$touched" class="fdz-input-hint">{{'survey-management.edit.hints.title.en' | translate}}</div>
                         <div ng-messages="surveyForm.titleEn.$error" multiple>
@@ -34,7 +34,7 @@
                 </div>
                 <div layout-gt-sm="row" layout="column">
                     <md-input-container flex="50" md-is-error="!surveyForm.wave.$valid && (surveyForm.wave.$dirty || surveyForm.wave.$touched)">
-                        <label>{{'survey-management.detail.label.wave' | translate}}</label>
+                        <label>{{'survey-management.edit.label.wave' | translate}}</label>
                         <input required ng-model="ctrl.survey.wave" name="wave" type="number" step="1" min="1">
                         <div ng-if="!surveyForm.wave.$dirty && !surveyForm.wave.$touched" class="fdz-input-hint">{{'survey-management.edit.hints.wave' | translate}}</div>
                         <div ng-messages="surveyForm.wave.$error" multiple>
@@ -49,16 +49,18 @@
                 <div layout-gt-sm="row" layout="column">
                     <div flex="50" layout-gt-xs="row" layout="column">
                         <md-input-container flex="50">
-                            <label>{{'survey-management.detail.label.field-period-start' | translate}}</label>
+                            <label>{{'survey-management.edit.label.field-period-start' | translate}}</label>
                             <md-datepicker ng-change="ctrl.validatePeriod()" md-hide-icons="calendar" ng-required="true" ng-model="ctrl.survey.fieldPeriod.start" name="fieldPeriodStart"></md-datepicker>
+                            <div ng-if="!surveyForm.fieldPeriodStart.$dirty && !surveyForm.fieldPeriodStart.$touched" class="fdz-input-hint">{{'survey-management.edit.hints.field-period-start' | translate}}</div>
                             <div ng-messages="surveyForm.fieldPeriodStart.$error">
                                 <div ng-message="valid">{{'global.error.period.valid-period' | translate}}</div>
                                 <div ng-message="required">{{'global.error.period.valid-period' | translate}}</div>
                             </div>
                         </md-input-container>
                         <md-input-container flex="50">
-                            <label>{{'survey-management.detail.label.field-period-end' | translate}}</label>
+                            <label>{{'survey-management.edit.label.field-period-end' | translate}}</label>
                             <md-datepicker md-hide-icons="calendar" ng-required="true" ng-model="ctrl.survey.fieldPeriod.end" name="fieldPeriodEnd" md-min-date="ctrl.survey.fieldPeriod.start"></md-datepicker>
+                            <div ng-if="!surveyForm.fieldPeriodEnd.$dirty && !surveyForm.fieldPeriodEnd.$touched" class="fdz-input-hint">{{'survey-management.edit.hints.field-period-end' | translate}}</div>
                             <div ng-messages="surveyForm.fieldPeriodEnd.$error">
                                 <div ng-message="valid">{{'global.error.period.valid-period' | translate}}</div>
                                 <div ng-message="required">{{'global.error.period.valid-period' | translate}}</div>
@@ -72,7 +74,7 @@
                     <md-input-container flex="50" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!surveyForm.surveyMethodDe.$valid && (surveyForm.surveyMethodDe.$dirty || surveyForm.surveyMethodDe.$touched)">
                         <label class="fdz-input-required">{{'survey-management.detail.label.survey-method' | translate}} ({{'global.in-german' | translate}})</label>
                         <input ng-trim="true" md-maxlength="128" fdz-required="!ctrl.survey.surveyMethod.en" ng-model="ctrl.survey.surveyMethod.de" name="surveyMethodDe" lang="de" md-no-asterisk>
-                        <div ng-if="!surveyForm.surveyMethodDe.$dirty && !surveyForm.surveyMethodDe.$touched" class="fdz-input-hint">{{'survey-management.edit.hints.surveyMethod.de' | translate}}</div>
+                        <div ng-if="!surveyForm.surveyMethodDe.$dirty && !surveyForm.surveyMethodDe.$touched" class="fdz-input-hint">{{'survey-management.edit.hints.survey-method.de' | translate}}</div>
                         <div ng-messages="surveyForm.surveyMethodDe.$error" multiple>
                             <div ng-message="fdz-required">{{'survey-management.error.survey.survey-method.i18n-string-not-empty' | translate}}</div>
                             <div ng-message="md-maxlength">{{'survey-management.error.survey.survey-method.i18n-string-size' | translate}}</div>
@@ -81,7 +83,7 @@
                     <md-input-container flex="50" md-is-error="!surveyForm.surveyMethodEn.$valid && (surveyForm.surveyMethodEn.$dirty || surveyForm.surveyMethodEn.$touched)">
                         <label class="fdz-input-required">{{'survey-management.detail.label.survey-method' | translate}} ({{'global.in-english' | translate}})</label>
                         <input md-maxlength="128" fdz-required="!ctrl.survey.surveyMethod.de" ng-model="ctrl.survey.surveyMethod.en" name="surveyMethodEn" lang="en" md-no-asterisk>
-                        <div ng-if="!surveyForm.surveyMethodEn.$dirty && !surveyForm.surveyMethodEn.$touched" class="fdz-input-hint">{{'survey-management.edit.hints.surveyMethod.en' | translate}}</div>
+                        <div ng-if="!surveyForm.surveyMethodEn.$dirty && !surveyForm.surveyMethodEn.$touched" class="fdz-input-hint">{{'survey-management.edit.hints.survey-method.en' | translate}}</div>
                         <div ng-messages="surveyForm.surveyMethodEn.$error" multiple>
                             <div ng-message="fdz-required">{{'survey-management.error.survey.survey-method.i18n-string-not-empty' | translate}}</div>
                             <div ng-message="md-maxlength">{{'survey-management.error.survey.survey-method.i18n-string-size' | translate}}</div>
@@ -103,7 +105,7 @@
                 </div>
                 <div layout-gt-sm="row" layout="column">
                     <md-input-container flex="50" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!surveyForm.populationTitleDe.$valid && (surveyForm.populationTitleDe.$dirty || surveyForm.populationTitleDe.$touched)">
-                        <label class="fdz-input-required">{{'survey-management.detail.label.population.title' | translate}} ({{'global.in-german' | translate}})</label>
+                        <label class="fdz-input-required">{{'survey-management.edit.label.population.title' | translate}} ({{'global.in-german' | translate}})</label>
                         <input ng-trim="true" md-maxlength="128" fdz-required="!ctrl.survey.population.title.en" ng-model="ctrl.survey.population.title.de" name="populationTitleDe" lang="de" md-no-asterisk>
                         <div ng-if="!surveyForm.populationTitleDe.$dirty && !surveyForm.populationTitleDe.$touched" class="fdz-input-hint">{{'survey-management.edit.hints.population.title.de' | translate}}</div>
                         <div ng-messages="surveyForm.populationTitleDe.$error" multiple>
@@ -112,7 +114,7 @@
                         </div>
                     </md-input-container>
                     <md-input-container flex="50" md-is-error="!surveyForm.populationTitleEn.$valid && (surveyForm.populationTitleEn.$dirty || surveyForm.populationTitleEn.$touched)">
-                        <label class="fdz-input-required">{{'survey-management.detail.label.population.title' | translate}} ({{'global.in-english' | translate}})</label>
+                        <label class="fdz-input-required">{{'survey-management.edit.label.population.title' | translate}} ({{'global.in-english' | translate}})</label>
                         <input ng-trim="true" md-maxlength="128" fdz-required="!ctrl.survey.population.title.de" ng-model="ctrl.survey.population.title.en" name="populationTitleEn" lang="en" md-no-asterisk>
                         <div ng-if="!surveyForm.populationTitleEn.$dirty && !surveyForm.populationTitleEn.$touched" class="fdz-input-hint">{{'survey-management.edit.hints.population.title.en' | translate}}</div>
                         <div ng-messages="surveyForm.populationTitleEn.$error" multiple>
@@ -123,7 +125,7 @@
                 </div>
                 <div layout-gt-sm="row" layout="column">
                     <md-input-container flex="50" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!surveyForm.populationDescriptionDe.$valid && (surveyForm.populationDescriptionDe.$dirty || surveyForm.populationDescriptionDe.$touched)">
-                        <label class="fdz-input-required">{{'survey-management.detail.label.population.description' | translate}} ({{'global.in-german' | translate}})</label>
+                        <label class="fdz-input-required">{{'survey-management.edit.label.population.description' | translate}} ({{'global.in-german' | translate}})</label>
                         <textarea rows="4" md-maxlength="2048" fdz-required="!ctrl.survey.population.description.en" ng-model="ctrl.survey.population.description.de" name="populationDescriptionDe" lang="de" md-no-asterisk></textarea>
                         <div ng-if="!surveyForm.populationDescriptionDe.$dirty && !surveyForm.populationDescriptionDe.$touched" class="fdz-input-hint">{{'survey-management.edit.hints.population.description.de' | translate}}</div>
                         <div ng-messages="surveyForm.populationDescriptionDe.$error" multiple>
@@ -132,7 +134,7 @@
                         </div>
                     </md-input-container>
                     <md-input-container flex="50" md-is-error="!surveyForm.populationDescriptionEn.$valid && (surveyForm.populationDescriptionEn.$dirty || surveyForm.populationDescriptionEn.$touched)">
-                        <label class="fdz-input-required">{{'survey-management.detail.label.population.description' | translate}} ({{'global.in-english' | translate}})</label>
+                        <label class="fdz-input-required">{{'survey-management.edit.label.population.description' | translate}} ({{'global.in-english' | translate}})</label>
                         <textarea rows="4" md-maxlength="2048" fdz-required="!ctrl.survey.population.description.de" ng-model="ctrl.survey.population.description.en" name="populationDescriptionEn" lang="en" md-no-asterisk></textarea>
                         <div ng-if="!surveyForm.populationDescriptionEn.$dirty && !surveyForm.populationDescriptionEn.$touched" class="fdz-input-hint">{{'survey-management.edit.hints.population.description.en' | translate}}</div>
                         <div ng-messages="surveyForm.populationDescriptionEn.$error" multiple>
@@ -163,7 +165,7 @@
                 </div>
                 <div layout-gt-sm="row" layout="column">
                     <md-input-container flex="50" md-is-error="!surveyForm.grossSampleSize.$valid && (surveyForm.grossSampleSize.$dirty || surveyForm.grossSampleSize.$touched)">
-                        <label>{{'survey-management.detail.label.gross-sample-size' | translate}}</label>
+                        <label>{{'survey-management.detail.label.grossSampleSize' | translate}}</label>
                         <input ng-model="ctrl.survey.grossSampleSize" name="grossSampleSize" type="number" step="1" min="0">
                         <div ng-if="!surveyForm.grossSampleSize.$dirty && !surveyForm.grossSampleSize.$touched" class="fdz-input-hint">{{'survey-management.edit.hints.grossSampleSize' | translate}}</div>
                         <div ng-messages="surveyForm.grossSampleSize.$error" multiple>
@@ -176,7 +178,7 @@
                 </div>
                 <div layout-gt-sm="row" layout="column">
                     <md-input-container flex="50" md-is-error="!surveyForm.sampleSize.$valid && (surveyForm.sampleSize.$dirty || surveyForm.sampleSize.$touched)">
-                        <label>{{'survey-management.detail.label.sample-size' | translate}}</label>
+                        <label>{{'survey-management.detail.label.sampleSize' | translate}}</label>
                         <input required ng-model="ctrl.survey.sampleSize" name="sampleSize" type="number" step="1" min="0">
                         <div ng-if="!surveyForm.sampleSize.$dirty && !surveyForm.sampleSize.$touched" class="fdz-input-hint">{{'survey-management.edit.hints.sampleSize' | translate}}</div>
                         <div ng-messages="surveyForm.sampleSize.$error" multiple>
@@ -190,7 +192,7 @@
                 </div>
                 <div layout-gt-sm="row" layout="column">
                     <md-input-container flex="50" md-is-error="!surveyForm.responseRate.$valid && (surveyForm.responseRate.$dirty || surveyForm.responseRate.$touched)">
-                        <label>{{'survey-management.detail.label.response-rate' | translate}} (in %)</label>
+                        <label>{{'survey-management.detail.label.responseRate' | translate}} (in %)</label>
                         <input ng-model="ctrl.survey.responseRate" name="responseRate" type="number" step="0.01" min="0">
                         <div ng-if="!surveyForm.responseRate.$dirty && !surveyForm.responseRate.$touched" class="fdz-input-hint">{{'survey-management.edit.hints.responseRate' | translate}}</div>
                         <div ng-messages="surveyForm.responseRate.$error" multiple>
@@ -245,20 +247,20 @@
         <md-card-actions ng-if="!ctrl.createMode" style="margin-top: 12px; margin-bottom: 12px;" layout="row" layout-align="begin center">
             <md-button class="md-primary md-raised md-icon-button" style="margin-left: 6px;" ngf-select="ctrl.saveResponseRateImageDe($file)" ngf-accept="'image/svg+xml'">
                 <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                    {{'survey-management.edit.reponse-rate-image.add-german-image-tooltip' | translate}}
+                    {{'survey-management.edit.response-rate-image.add-german-image-tooltip' | translate}}
                 </md-tooltip>
                 <md-icon ng-if="!ctrl.responseRateImageDe" md-font-set="material-icons">add</md-icon>
                 <md-icon ng-if="ctrl.responseRateImageDe" md-font-set="material-icons">edit</md-icon>
             </md-button>
             <md-button class="md-primary md-raised md-icon-button" style="margin-left: 6px;" ng-click="ctrl.deleteResponseRateImageDe()" ng-disabled="!ctrl.responseRateImageDe">
                 <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                    {{'survey-management.edit.reponse-rate-image.delete-german-image-tooltip' | translate}}
+                    {{'survey-management.edit.response-rate-image.delete-german-image-tooltip' | translate}}
                 </md-tooltip>
                 <md-icon md-font-set="material-icons">delete_forever</md-icon>
             </md-button>
             <md-button class="md-raised md-accent md-icon-button" ng-click="ctrl.uploadOrDeleteResponseRateImageDe()" ng-disabled="!ctrl.responseRateImageDeDirty">
                 <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                    {{'survey-management.edit.reponse-rate-image.upload-or-delete-german-image-tooltip' | translate}}
+                    {{'survey-management.edit.response-rate-image.upload-or-delete-german-image-tooltip' | translate}}
                 </md-tooltip>
                 <md-icon md-font-set="material-icons">save</md-icon>
             </md-button>
@@ -284,27 +286,27 @@
         <md-card-actions ng-if="!ctrl.createMode" style="margin-top: 12px; margin-bottom: 12px;" layout="row" layout-align="begin center">
             <md-button class="md-primary md-raised md-icon-button" style="margin-left: 6px;" ngf-select="ctrl.saveResponseRateImageEn($file)" ngf-accept="'image/svg+xml'">
                 <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                    {{'survey-management.edit.reponse-rate-image.add-english-image-tooltip' | translate}}
+                    {{'survey-management.edit.response-rate-image.add-english-image-tooltip' | translate}}
                 </md-tooltip>
                 <md-icon ng-if="!ctrl.responseRateImageEn" md-font-set="material-icons">add</md-icon>
                 <md-icon ng-if="ctrl.responseRateImageEn" md-font-set="material-icons">edit</md-icon>
             </md-button>
             <md-button class="md-primary md-raised md-icon-button" style="margin-left: 6px;" ng-click="ctrl.deleteResponseRateImageEn()" ng-disabled="!ctrl.responseRateImageEn">
                 <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                    {{'survey-management.edit.reponse-rate-image.delete-english-image-tooltip' | translate}}
+                    {{'survey-management.edit.response-rate-image.delete-english-image-tooltip' | translate}}
                 </md-tooltip>
                 <md-icon md-font-set="material-icons">delete_forever</md-icon>
             </md-button>
             <md-button class="md-raised md-accent md-icon-button" ng-click="ctrl.uploadOrDeleteResponseRateImageEn()" ng-disabled="!ctrl.responseRateImageEnDirty">
                 <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                    {{'survey-management.edit.reponse-rate-image.upload-or-delete-english-image-tooltip' | translate}}
+                    {{'survey-management.edit.response-rate-image.upload-or-delete-english-image-tooltip' | translate}}
                 </md-tooltip>
                 <md-icon md-font-set="material-icons">save</md-icon>
             </md-button>
         </md-card-actions>
     </md-card>
 </div>
-<md-card ng-if="ctrl.survey.id" class="fdz-reset-top-margin">
+<md-card ng-if="ctrl.survey.id && false" class="fdz-reset-top-margin">
     <md-card-header layout-align="center center">
         <md-card-header-text>
             <h2 class="md-title">{{'survey-management.detail.attachments.table-title' | translate | fdzHyphenate}}</h2>

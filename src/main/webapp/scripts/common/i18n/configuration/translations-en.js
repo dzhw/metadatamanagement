@@ -340,6 +340,10 @@ angular.module('metadatamanagementApp').config(
           'confirm-filename-change': {
             'title': 'Change filename?',
             'content': 'Do you really want to change the filename from "{{ oldFilename }}" to "{{ newFilename }}"?\n\nIf you do so, you will loose the history of the metadata of the document!'
+          },
+          'confirm-delete-survey': {
+            'title': 'Delete Survey "{{ id }}"?',
+            'content': 'Do you really want to delete Survey "{{ id }}"?'
           }
         },
         'edit': {

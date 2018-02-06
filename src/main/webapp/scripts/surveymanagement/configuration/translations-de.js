@@ -97,7 +97,7 @@ angular.module('metadatamanagementApp').config(
               }
             },
             'population': {
-              'not-null': 'Die Population der Erhebung darf nicht leer sein!'
+              'not-null': 'Die Grundgesamtheit der Erhebung darf nicht leer sein!'
             },
             'sample': {
               'not-null': 'Die Stichprobe der Erhebung darf nicht leer sein!',
@@ -130,14 +130,14 @@ angular.module('metadatamanagementApp').config(
           },
           'population': {
             'title': {
-              'not-null': 'Der Titel der Population darf nicht leer sein!',
-              'i18n-string-not-empty': 'Der Titel der Population muss mindestens in einer Sprache vorliegen.',
-              'i18n-string-size': 'Die Maximallänge des Populationstitel ist 128 Zeichen.'
+              'not-null': 'Der Titel der Grundgesamtheit darf nicht leer sein!',
+              'i18n-string-not-empty': 'Der Titel der Grundgesamtheit muss mindestens in einer Sprache vorliegen.',
+              'i18n-string-size': 'Die Maximallänge des Titels der Grundgesamtheit ist 128 Zeichen.'
             },
             'description': {
-              'not-null': 'Die Beschreibung der Population darf nicht leer sein!',
-              'i18n-string-not-empty': 'Die Beschreibung der Population muss mindestens in einer Sprache vorliegen.',
-              'i18n-string-size': 'Die Maximallänge des Populationsbeschreibung ist 2048 Zeichen.'
+              'not-null': 'Die Beschreibung der Grundgesamtheit darf nicht leer sein!',
+              'i18n-string-not-empty': 'Die Beschreibung der Grundgesamtheit muss mindestens in einer Sprache vorliegen.',
+              'i18n-string-size': 'Die Maximallänge des Beschreibung der Grundgesamtheit ist 2048 Zeichen.'
             }
           },
           'survey-attachment-metadata': {
@@ -166,6 +166,101 @@ angular.module('metadatamanagementApp').config(
             'filename': {
               'not-empty': 'Der Dateiname des Attachments darf nicht leer sein.'
             }
+          }
+        },
+        'edit': {
+          'edit-page-title': 'Erhebung {{surveyId}} bearbeiten',
+          'create-page-title': 'Erhebung {{surveyId}} anlegen',
+          'success-on-save-toast': 'Erhebung {{surveyId}} wurde erfolgreich gespeichert.',
+          'error-on-save-toast': 'Ein Fehler trat beim Speichern von Erhebung {{surveyId}} auf!',
+          'survey-has-validation-errors-toast': 'Die Erhebung wurde nicht gespeichert, weil es noch ungültige Felder gibt!',
+          'previous-version-restored-toast': 'Die ältere Version von Erhebung {{ surveyId }} kann jetzt gespeichert werden.',
+          'current-version-restored-toast': 'Die aktuelle Version von Erhebung {{ surveyId }} wurde wiederhergestellt.',
+          'not-authorized-toast': 'Sie sind nicht berechtigt Erhebungen zu bearbeiten oder anzulegen!',
+          'choose-unreleased-project-toast': 'Bitte wählen Sie ein Projekt aus, welches aktuell nicht freigegeben ist!',
+          'survey-image-saved-toast': 'Die grafische Darstellung des Rücklaufs wurde gespeichert.',
+          'survey-image-deleted-toast': 'Die grafische Darstellung des Rücklaufs wurde gelöscht.',
+          'survey-deleted-toast': 'Die Erhebung {{ id }} wurde gelöscht.',
+          'label': {
+            'edit-survey': 'Erhebung bearbeiten:',
+            'create-survey': 'Erhebung anlegen:',
+            'title': 'Titel',
+            'wave': 'Welle',
+            'field-period-start': 'Beginn Feldzeit',
+            'field-period-end': 'Ende Feldzeit',
+            'population': {
+              'title': 'Titel der Grundgesamtheit',
+              'description': 'Beschreibung der Grundgesamtheit'
+            }
+          },
+          'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version dieser Erhebung wieder herzustellen.',
+          'save-tooltip': 'Klicken, um die Erhebung zu speichern.',
+          'choose-previous-version': {
+            'next-page-tooltip': 'Klicken, um ältere Versionen anzuzeigen.',
+            'previous-page-tooltip': 'Klicken, um aktuellere Versionen anzuzeigen.',
+            'title': 'Ältere Version der Erhebung {{ surveyId }} wiederherstellen',
+            'text': 'Wählen Sie eine ältere Version der Erhebung aus, die wiederhergestellt werden soll:',
+            'cancel-tooltip': 'Klicken, um ohne eine ältere Version der Erhebung auszuwählen zurückzukehren.',
+            'no-versions-found': 'Es wurden keine älteren Versionen der Erhebung {{ surveyId }} gefunden.',
+            'survey-title': 'Titel',
+            'lastModified': 'Geändert',
+            'lastModifiedBy': 'von',
+            'current-version-tooltip': 'Dies ist die aktuelle Version!',
+            'survey-deleted': 'Die Erhebung wurde gelöscht!'
+          },
+          'choose-survey-number': {
+            'title': 'Auswahl einer freien Erhebungsnummer',
+            'label': 'Freie Erhebungsnummern',
+            'ok-tooltip': 'Klicken, um die Auswahl der Erhebungsnummer zu bestätigen.'
+          },
+          'response-rate-image': {
+            'add-german-image-tooltip': 'Klicken, um ein deutschsprachiges Bild auszuwählen.',
+            'add-english-image-tooltip': 'Klicken, um ein englischsprachiges Bild auszuwählen.',
+            'delete-german-image-tooltip': 'Klicken, um das deutschsprachige Bild zu löschen.',
+            'delete-english-image-tooltip': 'Klicken, um das englischsprachige Bild zu löschen.',
+            'upload-or-delete-german-image-tooltip': 'Klicken, um die Änderungen am deutschsprachigen Bild zu speichern.',
+            'upload-or-delete-english-image-tooltip': 'Klicken, um die Änderungen am englischsprachigen Bild zu speichern.'
+          },
+          'hints': {
+            'title': {
+              'de': 'Geben Sie den Titel der Erhebung auf Deutsch ein.',
+              'en': 'Geben Sie den Titel der Erhebung auf Englisch ein.'
+            },
+            'wave': 'Geben Sie die Nummer der Welle an bzw. lassen Sie die Nummer auf 1 falls nicht zutreffend.',
+            'field-period-start': 'Geben Sie den Beginn der Feldzeit ein.',
+            'field-period-end': 'Geben Sie das Ende der Feldzeit ein.',
+            'survey-method': {
+              'de': 'Beschreiben Sie die Erhebungsmethode auf Deutsch.',
+              'en': 'Beschreiben Sie die Erhebungsmethode auf Englisch.'
+            },
+            'data-type': 'Wählen Sie den Erhebungsdatentyp aus.',
+            'population': {
+              'title': {
+                'de': 'Geben Sie einen Titel für die Grundgesamtheit auf Deutsch an.',
+                'en': 'Geben Sie einen Titel für die Grundgesamtheit auf Englisch an.'
+              },
+              'description': {
+                'de': 'Beschreiben Sie die Grundgesamtheit auf Deutsch.',
+                'en': 'Beschreiben Sie die Grundgesamtheit auf Englisch.'
+              }
+            },
+            'sample': {
+              'de': 'Beschreiben Sie die Stichprobe auf Deutsch.',
+              'en': 'Beschreiben Sie die Stichprobe auf Englisch.'
+            },
+            'grossSampleSize': 'Geben Sie die Größe Ihrer Stichprobe (brutto) an.',
+            'sampleSize': 'Geben Sie die tatsächliche Größe Ihrer Stichprobe (netto) an.',
+            'responseRate': 'Geben Sie die Rücklaufquote in Prozent an.',
+            'annotations': {
+              'de': 'Geben Sie zusätzliche Anmerkungen zu der Erhebung hier auf Deutsch an.',
+              'en': 'Geben Sie zusätzliche Anmerkungen zu der Erhebung hier auf Englisch an.',
+            },
+            'response-rate-image': {
+              'available-after-save': 'Grafische Darstellungen des Verlaufs des Rücklaufs können nach dem Speichern der Erhebung hinzugefügt werden.',
+              'de': 'Laden Sie eine grafische Darstellung (SVG) des Verlaufs des Rücklaufs (auf Deutsch) hoch.',
+              'en': 'Laden Sie eine grafische Darstellung (SVG) des Verlaufs des Rücklaufs (auf Englisch) hoch.'
+            },
+            'survey-number': 'Wählen Sie eine freie Nummer für die neue Erhebung aus.'
           }
         }
       }

@@ -224,7 +224,7 @@ angular.module('metadatamanagementApp').config(
           'create-page-title': 'Create Study {{studyId}}',
           'success-on-save-toast': 'Study {{studyId}} has been saved successfully.',
           'error-on-save-toast': 'An error occurred during saving of Study {{studyId}}!',
-          'study-has-validation-errors-toast': 'Study has not been saved because there are invalid fields!',
+          'study-has-validation-errors-toast': 'The Study has not been saved because there are invalid fields!',
           'previous-version-restored-toast': 'Previous version of Study {{ studyId }} can be saved now.',
           'current-version-restored-toast': 'Current version of Study {{ studyId }} has been restored.',
           'not-authorized-toast': 'You are not authorized to create or edit studies!',
@@ -244,7 +244,7 @@ angular.module('metadatamanagementApp').config(
           'delete-author-tooltip': 'Click to remove the author from this study.',
           'choose-previous-version': {
             'next-page-tooltip': 'Click to show older versions.',
-            'previous-page-tooltip': 'Click to more recent versions.',
+            'previous-page-tooltip': 'Click to show more recent versions.',
             'title': 'Restore Previous Version of Study {{ studyId }}',
             'text': 'Choose a previous version of this study which shall be restored:',
             'cancel-tooltip': 'Click to return without choosing a previous study version.',

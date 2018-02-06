@@ -167,6 +167,101 @@ angular.module('metadatamanagementApp').config(
               'not-empty': 'The filename of the attachment must not be empty!'
             }
           }
+        },
+        'edit': {
+          'edit-page-title': 'Edit Survey {{surveyId}}',
+          'create-page-title': 'Create Survey {{surveyId}}',
+          'success-on-save-toast': 'Survey {{surveyId}} has been saved successfully.',
+          'error-on-save-toast': 'An error occurred during saving of Survey {{surveyId}}!',
+          'survey-has-validation-errors-toast': 'The Survey has not been saved because there are invalid fields!',
+          'previous-version-restored-toast': 'Previous version of Survey {{ surveyId }} can be saved now.',
+          'current-version-restored-toast': 'Current version of Survey {{ surveyId }} has been restored.',
+          'not-authorized-toast': 'You are not authorized to create or edit surveys!',
+          'choose-unreleased-project-toast': 'Please choose a project which is currently not released!',
+          'survey-image-saved-toast': 'The graphical representation of the response rate has been saved.',
+          'survey-image-deleted-toast': 'The graphical representation of the response rate has been deleted.',
+          'survey-deleted-toast': 'The Survey {{ id }} has been deleted.',
+          'label': {
+            'edit-survey': 'Edit Survey:',
+            'create-survey': 'Create Survey:',
+            'title': 'Title',
+            'wave': 'Wave',
+            'field-period-start': 'Field Period Start',
+            'field-period-end': 'Field Period End',
+            'population': {
+              'title': 'Title of Population',
+              'description': 'Description of Population'
+            }
+          },
+          'open-choose-previous-version-tooltip': 'Click for restoring a previous version of this survey.',
+          'save-tooltip': 'Click to save this survey.',
+          'choose-previous-version': {
+            'next-page-tooltip': 'Click to show older versions.',
+            'previous-page-tooltip': 'Click to show more recent versions.',
+            'title': 'Restore Previous Version of Survey {{ surveyId }}',
+            'text': 'Choose a previous version of this survey which shall be restored:',
+            'cancel-tooltip': 'Click to return without choosing a previous survey version.',
+            'no-versions-found': 'There are no previous versions of survey {{ surveyId }}.',
+            'survey-title': 'Title',
+            'lastModified': 'Modified',
+            'lastModifiedBy': 'by',
+            'current-version-tooltip': 'This is the current version!',
+            'survey-deleted': 'The survey has been deleted!'
+          },
+          'choose-survey-number': {
+            'title': 'Choose a survey number',
+            'label': 'Available Survey Numbers',
+            'ok-tooltip': 'Click to use the selected survey number.'
+          },
+          'response-rate-image': {
+            'add-german-image-tooltip': 'Click to select a german image.',
+            'add-english-image-tooltip': 'Click to select an english image.',
+            'delete-german-image-tooltip': 'Click to delete the german image.',
+            'delete-english-image-tooltip': 'Click to delete the english image.',
+            'upload-or-delete-german-image-tooltip': 'Click to save the changes of the german image.',
+            'upload-or-delete-english-image-tooltip': 'Click to save the changes of the english image.'
+          },
+          'hints': {
+            'title': {
+              'de': 'Please enter the title of this survey in German.',
+              'en': 'Please enter the title of this survey in English.'
+            },
+            'wave': 'Please enter the number of the wave for this survey or keep 1 if not relevant.',
+            'field-period-start': 'Please enter the beginning of the field period.',
+            'field-period-end': 'Please enter the end of the field period.',
+            'survey-method': {
+              'de': 'Please describe the survey method in German.',
+              'en': 'Please describe the survey method in English.'
+            },
+            'data-type': 'Please select the data type of this survey.',
+            'population': {
+              'title': {
+                'de': 'Please enter a title for the population of this survey in German.',
+                'en': 'Please enter a title for the population of this survey in English.'
+              },
+              'description': {
+                'de': 'Please enter a description for the population of this survey in German.',
+                'en': 'Please enter a description for the population of this survey in English.'
+              }
+            },
+            'sample': {
+              'de': 'Please describe the sample of this survey in German.',
+              'en': 'Please describe the sample of this survey in English.'
+            },
+            'grossSampleSize': 'Please enter the gross sample size.',
+            'sampleSize': 'Please enter the real (net) sample size.',
+            'responseRate': 'Please enter the response rate in percent.',
+            'annotations': {
+              'de': 'Please provide additional annotations (in German) to this survey here.',
+              'en': 'Please provide additional annotations (in English) to this survey here.'
+            },
+            'response-rate-image': {
+              'available-after-save': 'Graphical representations of the response rate can be uploaded after saving the survey.',
+              'de': 'Upload a graphical representation (SVG) of the response rate in German.',
+              'en': 'Upload a graphical representation (SVG) of the response rate in English.'
+            },
+            'survey-number': 'Please select a survey number for the new survey.'
+          }
         }
       }
       //jscs:enable
