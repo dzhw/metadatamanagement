@@ -1,11 +1,13 @@
 package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
@@ -62,6 +64,9 @@ public class InstrumentAttachmentMetadata extends AbstractRdcDomainObject {
 
   @NotEmpty(message =
       "instrument-management.error.instrument-attachment-metadata.filename.not-empty")
+  @Pattern(message =
+      "instrument-management.error.instrument-attachment-metadata.filename.not-valid",
+       regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOT)
   private String fileName;
 
   @NotNull(message =

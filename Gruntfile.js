@@ -300,6 +300,7 @@ module.exports = function(grunt) {
               'am-time-ago',
               'fdz-required',
               'layout-gt-xs',
+              'layout'
             ]
           },
           files: {
