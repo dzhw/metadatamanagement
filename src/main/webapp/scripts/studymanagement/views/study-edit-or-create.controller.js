@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp')
       CurrentProjectService, StudyIdBuilderService, StudyResource, $scope,
       ElasticSearchAdminService, $mdDialog, $transitions,
       CommonDialogsService, LanguageService, StudySearchService,
-      StudyAttachmentResource, $q) {
+      StudyAttachmentResource, $q, CleanJSObjectService) {
 
       var ctrl = this;
       var studySeriesCache = {};
@@ -368,6 +368,50 @@ angular.module('metadatamanagementApp')
         if (Principal.hasAuthority('ROLE_PUBLISHER')) {
           ctrl.currentAttachmentIndex = index;
         }
+      };
+
+      ctrl.onStudySeriesEnChanged = function() {
+        if (CleanJSObjectService
+            .isNullOrEmpty($scope.studyForm.studySeriesDe.$modelValue) &&
+            !CleanJSObjectService
+            .isNullOrEmpty($scope.studyForm.studySeriesEn.$modelValue)) {
+          $scope.studyForm.studySeriesDe.$setValidity('fdz-required', false);
+        }
+
+        if ((CleanJSObjectService
+            .isNullOrEmpty($scope.studyForm.studySeriesDe.$modelValue) &&
+            CleanJSObjectService
+            .isNullOrEmpty($scope.studyForm.studySeriesEn.$modelValue)) ||
+            (!CleanJSObjectService
+            .isNullOrEmpty($scope.studyForm.studySeriesDe.$modelValue) &&
+            !CleanJSObjectService
+            .isNullOrEmpty($scope.studyForm.studySeriesEn.$modelValue))) {
+          $scope.studyForm.studySeriesDe.$setValidity('fdz-required', true);
+          $scope.studyForm.studySeriesEn.$setValidity('fdz-required', true);
+        }
+        $scope.studyForm.studyForm.$setDirty();
+      };
+
+      ctrl.onStudySeriesDeChanged = function() {
+        if (CleanJSObjectService
+            .isNullOrEmpty($scope.studyForm.studySeriesEn.$modelValue) &&
+            !CleanJSObjectService
+            .isNullOrEmpty($scope.studyForm.studySeriesDe.$modelValue)) {
+          $scope.studyForm.studySeriesEn.$setValidity('fdz-required', false);
+        }
+
+        if ((CleanJSObjectService
+            .isNullOrEmpty($scope.studyForm.studySeriesDe.$modelValue) &&
+            CleanJSObjectService
+            .isNullOrEmpty($scope.studyForm.studySeriesEn.$modelValue)) ||
+            (!CleanJSObjectService
+            .isNullOrEmpty($scope.studyForm.studySeriesDe.$modelValue) &&
+            !CleanJSObjectService
+            .isNullOrEmpty($scope.studyForm.studySeriesEn.$modelValue))) {
+          $scope.studyForm.studySeriesDe.$setValidity('fdz-required', true);
+          $scope.studyForm.studySeriesEn.$setValidity('fdz-required', true);
+        }
+        $scope.studyForm.studyForm.$setDirty();
       };
 
       init();
