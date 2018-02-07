@@ -33,7 +33,7 @@
                     </md-input-container>
                 </div>
                 <div layout-gt-sm="row" layout="column">
-                    <md-autocomplete md-delay="250" flex="50" md-input-name="studySeriesDe" md-input-maxlength="128" md-floating-label="{{'study-management.detail.label.studySeries' | translate}} ({{'global.in-german' | translate}})" md-min-length="0" md-require-match="false" md-select-on-match="true" md-selected-item="currentStudySeries" md-search-text="ctrl.study.studySeries.de" md-items="item in searchStudySeries(ctrl.study.studySeries.de, 'de')" md-item-text="item.de" md-clear-button="true" md-no-cache="true" md-selected-item-change="ctrl.onStudySeriesDeChanged()" md-search-text-change="ctrl.onStudySeriesDeChanged()" md-is-error="!studyForm.studySeriesDe.$valid && (studyForm.studySeriesDe.$dirty studyForm.studySeriesDe.$touched) ">
+                    <md-autocomplete md-delay="250" flex="50" md-input-name="studySeriesDe" md-input-maxlength="128" md-floating-label="{{'study-management.detail.label.studySeries' | translate}} ({{'global.in-german' | translate}})" md-min-length="0" md-require-match="false" md-select-on-match="true" md-selected-item="currentStudySeries" md-search-text="ctrl.study.studySeries.de" md-items="item in searchStudySeries(ctrl.study.studySeries.de, 'de')" md-item-text="item.de" md-clear-button="true" md-no-cache="true" md-selected-item-change="ctrl.onStudySeriesChanged()" md-search-text-change="ctrl.onStudySeriesChanged()" md-is-error="!studyForm.studySeriesDe.$valid && (studyForm.studySeriesDe.$dirty studyForm.studySeriesDe.$touched) ">
                         <md-item-template>
                             <span class="md-title" style="font-size: 14px;">{{item.de}}</span>
                         </md-item-template>
@@ -47,7 +47,7 @@
                         </div>
                     </md-autocomplete>
                     <md-autocomplete md-delay="250" flex="50" md-input-name="studySeriesEn" md-input-maxlength="128" md-floating-label="{{'study-management.detail.label.studySeries' | translate}} ({{'global.in-english' | translate}})" md-min-length="0" md-require-match="false"
-                      md-select-on-match="true" md-selected-item="currentStudySeries" md-search-text="ctrl.study.studySeries.en" md-items="item in searchStudySeries(ctrl.study.studySeries.en, 'en')" md-item-text="item.en" md-clear-button="true" md-no-cache="true" md-selected-item-change="ctrl.onStudySeriesEnChanged()" md-search-text-change="ctrl.onStudySeriesEnChanged()" md-is-error="!studyForm.studySeriesEn.$valid && (studyForm.studySeriesEn.$dirty || studyForm.studySeriesEn.$touched)">
+                      md-select-on-match="true" md-selected-item="currentStudySeries" md-search-text="ctrl.study.studySeries.en" md-items="item in searchStudySeries(ctrl.study.studySeries.en, 'en')" md-item-text="item.en" md-clear-button="true" md-no-cache="true" md-selected-item-change="ctrl.onStudySeriesChanged()" md-search-text-change="ctrl.onStudySeriesChanged()" md-is-error="!studyForm.studySeriesEn.$valid && (studyForm.studySeriesEn.$dirty || studyForm.studySeriesEn.$touched)">
                         <md-item-template>
                             <span class="md-title" style="font-size: 14px;">{{item.en}}</span>
                         </md-item-template>
