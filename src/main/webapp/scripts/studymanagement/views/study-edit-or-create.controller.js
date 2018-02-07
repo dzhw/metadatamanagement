@@ -13,6 +13,14 @@ angular.module('metadatamanagementApp')
       var ctrl = this;
       var studySeriesCache = {};
 
+      $scope.$watch('ctrl.study.studySeries.de', function() {
+        ctrl.onStudySeriesChanged();
+      });
+
+      $scope.$watch('ctrl.study.studySeries.en', function() {
+        ctrl.onStudySeriesChanged();
+      });
+
       var updateToolbarHeaderAndPageTitle = function() {
         if (ctrl.createMode) {
           PageTitleService.setPageTitle(
@@ -390,6 +398,14 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.onStudySeriesChanged = function() {
+
+        //The fields of study series are undefined
+        //at the moment of the first initial Call
+        if (!$scope.studyForm.studySeriesDe ||
+            !$scope.studyForm.studySeriesEn) {
+          return;
+        }
+
         if (CleanJSObjectService
           .isNullOrEmpty($scope.studyForm.studySeriesDe.$modelValue) &&
           !CleanJSObjectService
