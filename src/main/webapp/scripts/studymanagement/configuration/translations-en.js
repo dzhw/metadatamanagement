@@ -212,7 +212,8 @@ angular.module('metadatamanagementApp').config(
             },
             'language': {
               'not-null': 'The language of the attachment must not be empty!',
-              'not-supported': 'The language of the attachment must be a two-letter abbreviation according to ISO 639-1!'
+              'not-supported': 'The language of the attachment must be a two-letter abbreviation according to ISO 639-1!',
+              'not-valid': 'Please select a supported language.'
             },
             'filename': {
               'not-empty': 'The filename of the attachment must not be empty!',

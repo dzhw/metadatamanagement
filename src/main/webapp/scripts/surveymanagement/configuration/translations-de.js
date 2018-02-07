@@ -151,13 +151,24 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'Die Welle der Erhebung darf nicht leer sein!',
               'min': 'Die Anzahl der Wellen muss mindestens 1 sein!'
             },
+            'response-rate': {
+              'min': 'Die Rücklaufquote darf nicht kleiner als 0% sein.',
+              'max': 'Die Rücklaufquote darf nicht größer als 100% sein.',
+              'invalid-number': 'Geben Sie eine gültige Zahl ein.'
+            },
             'survey-method': {
               'not-null': 'Die Erhebungsmethode darf nicht leer sein!',
               'i18n-string-not-empty': 'Die Erhebungsmethode muss mindestens in einer Sprache vorliegen.',
               'i18n-string-size': 'Die Maximallänge der Erhebungsmethode ist 128 Zeichen.'
             },
             'sample-size': {
-              'not-null': 'Die Sample-Size der Erhebung darf nicht leer sein!'
+              'min': 'Die Stichprobengröße darf nicht kleiner als 0 sein.',
+              'not-null': 'Die Stichprobengröße der Erhebung darf nicht leer sein!',
+              'invalid-number': 'Geben Sie eine gültige Zahl ein.'
+            },
+            'gross-sample-size': {
+              'min': 'Die Stichprobengröße darf nicht kleiner als 0 sein.',
+              'invalid-number': 'Geben Sie eine gültige Zahl ein.'
             },
             'unique-survey-number': 'Die Nummer einer Erhebung muss eindeutig innerhalb eines Datenaufbereitungsprojektes sein!',
             'number': {
@@ -204,7 +215,8 @@ angular.module('metadatamanagementApp').config(
             },
             'language': {
               'not-null': 'Die Sprache des Attachments darf nicht leer sein.',
-              'not-supported': 'Die Sprache muss eine gültige zweibuchstabige Abkürzung gemäß ISO 639-1 sein.'
+              'not-supported': 'Die Sprache muss eine gültige zweibuchstabige Abkürzung gemäß ISO 639-1 sein.',
+              'not-valid': 'Bitte wählen Sie eine vorgeschlagene Sprache aus.'
             },
             'filename': {
               'not-empty': 'Der Dateiname des Attachments darf nicht leer sein.'
