@@ -66,7 +66,8 @@ angular.module('metadatamanagementApp').config(
               'current-version-tooltip': 'Dies ist die aktuelle Version!',
               'next-page-tooltip': 'Klicken, um ältere Versionen anzuzeigen.',
               'previous-page-tooltip': 'Klicken, um aktuellere Versionen anzuzeigen.',
-              'attachment-deleted': 'Metadaten wurden gelöscht!'
+              'attachment-deleted': 'Metadaten wurden gelöscht!',
+              'no-versions-found': 'Es wurden keine älteren Versionen der Metadaten gefunden.'
             },
             'language-not-found': 'Keine gültige Sprache gefunden!',
             'save-study-before-adding-attachment': 'Die Studie muss erst gespeichert werden, bevor Materialien hinzugefügt werden können.',

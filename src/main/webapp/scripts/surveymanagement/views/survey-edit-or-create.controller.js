@@ -11,7 +11,6 @@ angular.module('metadatamanagementApp')
       SurveyAttachmentResource, $q, StudyIdBuilderService, moment, Upload,
       SurveyResponseRateImageUploadService) {
       var ctrl = this;
-
       var updateToolbarHeaderAndPageTitle = function() {
         if (ctrl.createMode) {
           PageTitleService.setPageTitle(
