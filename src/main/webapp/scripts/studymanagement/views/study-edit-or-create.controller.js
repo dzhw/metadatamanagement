@@ -13,13 +13,9 @@ angular.module('metadatamanagementApp')
       var ctrl = this;
       var studySeriesCache = {};
 
-      $scope.$watch('ctrl.study.studySeries.de', function() {
+      $scope.$watch('ctrl.study.studySeries', function() {
         ctrl.onStudySeriesChanged();
-      });
-
-      $scope.$watch('ctrl.study.studySeries.en', function() {
-        ctrl.onStudySeriesChanged();
-      });
+      }, true);
 
       var updateToolbarHeaderAndPageTitle = function() {
         if (ctrl.createMode) {
@@ -398,7 +394,6 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.onStudySeriesChanged = function() {
-
         //The fields of study series are undefined
         //at the moment of the first initial Call
         if (!$scope.studyForm.studySeriesDe ||
@@ -407,27 +402,27 @@ angular.module('metadatamanagementApp')
         }
 
         if (CleanJSObjectService
-          .isNullOrEmpty($scope.studyForm.studySeriesDe.$modelValue) &&
+          .isNullOrEmpty(ctrl.study.studySeries.de) &&
           !CleanJSObjectService
-          .isNullOrEmpty($scope.studyForm.studySeriesEn.$modelValue)) {
+          .isNullOrEmpty(ctrl.study.studySeries.en)) {
           $scope.studyForm.studySeriesDe.$setValidity('fdz-required', false);
         }
 
         if (CleanJSObjectService
-          .isNullOrEmpty($scope.studyForm.studySeriesEn.$modelValue) &&
+          .isNullOrEmpty(ctrl.study.studySeries.en) &&
           !CleanJSObjectService
-          .isNullOrEmpty($scope.studyForm.studySeriesDe.$modelValue)) {
+          .isNullOrEmpty(ctrl.study.studySeries.de)) {
           $scope.studyForm.studySeriesEn.$setValidity('fdz-required', false);
         }
 
         if ((CleanJSObjectService
-            .isNullOrEmpty($scope.studyForm.studySeriesDe.$modelValue) &&
+            .isNullOrEmpty(ctrl.study.studySeries.de) &&
             CleanJSObjectService
-            .isNullOrEmpty($scope.studyForm.studySeriesEn.$modelValue)) ||
+            .isNullOrEmpty(ctrl.study.studySeries.en)) ||
           (!CleanJSObjectService
-            .isNullOrEmpty($scope.studyForm.studySeriesDe.$modelValue) &&
+            .isNullOrEmpty(ctrl.study.studySeries.de) &&
             !CleanJSObjectService
-            .isNullOrEmpty($scope.studyForm.studySeriesEn.$modelValue))) {
+            .isNullOrEmpty(ctrl.study.studySeries.en))) {
           $scope.studyForm.studySeriesDe.$setValidity('fdz-required', true);
           $scope.studyForm.studySeriesEn.$setValidity('fdz-required', true);
         }
