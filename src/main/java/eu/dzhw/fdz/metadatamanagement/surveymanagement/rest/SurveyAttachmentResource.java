@@ -39,7 +39,7 @@ public class SurveyAttachmentResource {
 
   /**
    * REST method for for uploading an survey attachment.
-   * 
+   *
    * @param multiPartFile the attachment
    * @param surveyAttachmentMetadata the metadata for the attachment
    * @return response 201 if the attachment was created
@@ -50,7 +50,7 @@ public class SurveyAttachmentResource {
   @Timed
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<String> uploadAttachment(@RequestPart("file") MultipartFile multiPartFile,
-      @RequestPart("surveyAttachmentMetadata") 
+      @RequestPart("surveyAttachmentMetadata")
       @Valid SurveyAttachmentMetadata surveyAttachmentMetadata)
       throws URISyntaxException, IOException {
     surveyAttachmentService.createSurveyAttachment(multiPartFile,
@@ -62,7 +62,7 @@ public class SurveyAttachmentResource {
 
   /**
    * Load all attachment metadata objects for the given survey id.
-   * 
+   *
    * @param surveyId The id of an survey.
    * @return A list of metadata objects.
    */
@@ -80,10 +80,10 @@ public class SurveyAttachmentResource {
         .body(null);
     }
   }
-  
+
   /**
    * Delete all attachments of the given survey.
-   * 
+   *
    * @param surveyId The id of an survey.
    */
   @RequestMapping(path = "/surveys/{surveyId}/attachments", method = RequestMethod.DELETE)
@@ -98,18 +98,18 @@ public class SurveyAttachmentResource {
         .body(null);
     }
   }
-  
+
   /**
    * Delete the given attachment of the given survey.
-   * 
+   *
    * @param surveyId The id of the survey.
-   * 
+   *
    */
-  @RequestMapping(path = "/surveys/{surveyId}/attachments/{filename:.+}", 
+  @RequestMapping(path = "/surveys/{surveyId}/attachments/{filename:.+}",
       method = RequestMethod.DELETE)
   @Timed
-  @Secured(AuthoritiesConstants.PUBLISHER)
-  public ResponseEntity<?> delete(@PathVariable("surveyId") String surveyId, 
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
+  public ResponseEntity<?> delete(@PathVariable("surveyId") String surveyId,
       @PathVariable("filename") String filename) {
     if (!StringUtils.isEmpty(surveyId) && !StringUtils.isEmpty(filename)) {
       surveyAttachmentService.deleteBySurveyIdAndFilename(surveyId, filename);
@@ -119,17 +119,17 @@ public class SurveyAttachmentResource {
         .body(null);
     }
   }
-  
+
   /**
    * Update the metadata of the given attachment of the given survey.
    */
-  @RequestMapping(path = "/surveys/{surveyId}/attachments/{filename:.+}", 
+  @RequestMapping(path = "/surveys/{surveyId}/attachments/{filename:.+}",
       method = RequestMethod.PUT)
   @Timed
-  @Secured(AuthoritiesConstants.PUBLISHER)
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> update(
       @Valid @RequestBody SurveyAttachmentMetadata surveyAttachmentMetadata) {
     surveyAttachmentService.updateAttachmentMetadata(surveyAttachmentMetadata);
-    return ResponseEntity.noContent().build();    
+    return ResponseEntity.noContent().build();
   }
 }
