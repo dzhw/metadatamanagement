@@ -32,7 +32,7 @@
             <tbody>
                 <tr ng-repeat="survey in surveys" ng-click="survey.id && select(survey, $index)" ng-class="{'fdz-current-version': isCurrentVersion($index), 'fdz-deleted-version': !survey.id}">
                     <td ng-if="survey.id" display-i18n-string="survey.title" class="fdz-truncate-string" style="max-width: 600px;" title="{{ getVersionTitle($index) }}"></td>
-                    <td ng-if="!survey.id" class="fdz-truncate-string" style="max-width: 600px;" title="{{'survey-management.edit.choose-previous-version.survey-deleted' | translate}}"></td>
+                    <td ng-if="!survey.id" class="fdz-truncate-string" style="max-width: 600px;" title="{{'survey-management.edit.choose-previous-version.survey-deleted' | translate}}">{{'survey-management.edit.choose-previous-version.survey-deleted' | translate}}</td>
                     <td class="fdz-table-nowrap" title="{{ survey.lastModifiedDate + 'Z'| date:'fullDate'}} {{ survey.lastModifiedDate + 'Z'| date:'mediumTime'}}">
                       <span am-time-ago="survey.lastModifiedDate | amUtc | amLocal"></span> {{ 'survey-management.edit.choose-previous-version.lastModifiedBy' | translate }} {{ survey.lastModifiedBy }}
                     </td>
