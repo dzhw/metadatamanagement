@@ -151,15 +151,26 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'The Wave of a Survey must not be empty!',
               'min': 'The number of waves has to be 1 or higher.'
             },
+            'response-rate': {
+              'min': 'The response rate must not be less than 0%.',
+              'max': 'The response rate must not be greater than 100%.',
+              'invalid-number': 'Please enter a valid number.'
+            },
             'survey-method': {
               'not-null': 'The Survey-Method must not be empty!',
               'i18n-string-not-empty': 'The Survey-Method has to be given for one language.',
               'i18n-string-size': 'The max length of the Survey-Method is 128 signs.'
             },
             'sample-size': {
-              'not-null': 'The Sample Size of a Survey must not be empty!'
+              'min': 'The sample size must not be less than 0.',
+              'not-null': 'The sample size of a survey must not be empty!',
+              'invalid-number': 'Please enter a valid number.'
             },
-            'unique-survey-number': 'The Number of a Survey has to be unique within a Data Acquisition Project!',
+            'gross-sample-size': {
+              'min': 'The sample size must not be less than 0.',
+              'invalid-number': 'Please enter a valid number.'
+            },
+            'unique-survey-number': 'The Number of a survey has to be unique within a Data Acquisition Project!',
             'number': {
               'not-null': 'The Number of the Survey must not be empty!'
             },
@@ -204,7 +215,8 @@ angular.module('metadatamanagementApp').config(
             },
             'language': {
               'not-null': 'The language of the attachment must not be empty!',
-              'not-supported': 'The language of the attachment must be a two-letter abbreviation according to ISO 639-1!'
+              'not-supported': 'The language of the attachment must be a two-letter abbreviation according to ISO 639-1!',
+              'not-valid': 'Please select a supported language.'
             },
             'filename': {
               'not-empty': 'The filename of the attachment must not be empty!'

@@ -12,6 +12,7 @@ angular.module('metadatamanagementApp').config(
         'bmbf-alt-text': 'Gefördert vom BMBF',
         'search': 'Suche',
         'in-german': 'auf Deutsch',
+        'in': 'auf',
         'in-english': 'auf Englisch',
         'toolbar': {
           'buttons': {

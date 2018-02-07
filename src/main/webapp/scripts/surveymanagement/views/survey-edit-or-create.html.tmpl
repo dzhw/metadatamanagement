@@ -193,12 +193,13 @@
                 <div layout-gt-sm="row" layout="column">
                     <md-input-container flex="50" md-is-error="!surveyForm.responseRate.$valid && (surveyForm.responseRate.$dirty || surveyForm.responseRate.$touched)">
                         <label>{{'survey-management.detail.label.responseRate' | translate}} (in %)</label>
-                        <input ng-model="ctrl.survey.responseRate" name="responseRate" type="number" step="0.01" min="0">
+                        <input ng-model="ctrl.survey.responseRate" name="responseRate" type="number" step="0.01" min="0" max="100">
                         <div ng-if="!surveyForm.responseRate.$dirty && !surveyForm.responseRate.$touched" class="fdz-input-hint">{{'survey-management.edit.hints.responseRate' | translate}}</div>
                         <div ng-messages="surveyForm.responseRate.$error" multiple>
                             <div ng-message="step">{{'survey-management.error.survey.response-rate.invalid-number' | translate}}</div>
                             <div ng-message="number">{{'survey-management.error.survey.response-rate.invalid-number' | translate}}</div>
                             <div ng-message="min">{{'survey-management.error.survey.response-rate.min' | translate}}</div>
+                            <div ng-message="max">{{'survey-management.error.survey.response-rate.max' | translate}}</div>
                         </div>
                     </md-input-container>
                     <div flex="50"></div>
@@ -324,7 +325,7 @@
                 <th style="min-height: 40px;">
                     &nbsp;
                 </th>
-                <th>{{'survey-management.detail.label.attachments.title' | translate }}
+                <th class="fdz-table-half-absorbing-column">{{'survey-management.detail.label.attachments.title' | translate }}
                     <md-tooltip hide-gt-xs md-direction="right">
                         {{'survey-management.detail.label.attachments.title' | translate }}
                     </md-tooltip>

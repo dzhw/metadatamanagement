@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.domain;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -94,11 +95,15 @@ public class Survey extends AbstractRdcDomainObject {
   @Min(value = 1, message = "survey-management.error.survey.wave.min")
   private Integer wave;
 
+  @Min(value = 0, message = "survey-management.error.survey.gross-sample-size.min")
   private Integer grossSampleSize;
 
   @NotNull(message = "survey-management.error.survey.sample-size.not-null")
+  @Min(value = 0, message = "survey-management.error.survey.sample-size.min")
   private Integer sampleSize;
 
+  @Min(value = 0, message = "survey-management.error.survey.response-rate.min")
+  @Max(value = 100, message = "survey-management.error.survey.response-rate.max")
   private Double responseRate;
   
   @NotNull(message = "survey-management.error.survey.data-type.not-null")

@@ -12,6 +12,7 @@ angular.module('metadatamanagementApp').config(
         'bmbf-alt-text': 'Sponsored by the FMER',
         'search': 'Search',
         'in-german': 'in German',
+        'in': 'in',
         'in-english': 'in English',
         'toolbar': {
           'buttons': {
