@@ -39,7 +39,7 @@
                 </tr>
             </tbody>
         </table>
-        <div ng-if="!surveyAttachments || attachments.surveyAttachments === 0" flex>
+        <div ng-if="!surveyAttachments || surveyAttachments.length === 0" flex>
             <span>{{'survey-management.detail.attachments.choose-previous-version.no-versions-found' | translate:translationParams }}</span>
         </div>
         <div ng-hide="(!surveyAttachments || surveyAttachments.length === 0) && (currentPage.number === 0)" layout="row" layout-align="space-between center" style="margin-top: 8px;">

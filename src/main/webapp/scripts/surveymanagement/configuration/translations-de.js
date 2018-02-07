@@ -47,7 +47,50 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'attachments': {
-            'table-title': 'Materialien zu der Erhebung'
+            'table-title': 'Materialien zu der Erhebung',
+            'attachment-deleted-toast': 'Datei "{{ filename }}" wurde gelöscht!',
+            'delete-attachment-tooltip': 'Klicken, um die Datei "{{ filename }}" zu löschen!',
+            'edit-attachment-tooltip': 'Klicken, um die Datei "{{ filename }}" zu bearbeiten.',
+            'select-attachment-tooltip': 'Klicken, um Datei "{{ filename }}" zum Verschieben auszuwählen.',
+            'move-attachment-up-tooltip': 'Klicken, um die ausgewählte Datei nach oben zu verschieben.',
+            'move-attachment-down-tooltip': 'Klicken, um die ausgewählte Datei nach unten zu verschieben.',
+            'save-attachment-order-tooltip': 'Klicken, um die geänderte Reihenfolge der Dateien zu speichern.',
+            'attachment-order-saved-toast': 'Die geänderte Reihenfolge der Dateien wurde gespeichert.',
+            'add-attachment-tooltip': 'Klicken, um einen neue Datei zu dieser Erhebung hinzuzufügen.',
+            'edit-title': 'Datei "{{ filename }}" von Erhebung "{{ surveyId }}" bearbeiten',
+            'create-title': 'Neue Datei zu Erhebung "{{ surveyId }}" hinzufügen',
+            'cancel-tooltip': 'Klicken, um den Dialog ohne zu speichern zu schließen.',
+            'save-tooltip': 'Klicken, um die Datei zu speichern.',
+            'attachment-saved-toast': 'Datei "{{ filename }}" wurde gespeichert.',
+            'attachment-has-validation-errors-toast': 'Die Datei wurde nicht gespeichert, weil es noch ungültige Felder gibt.',
+            'change-file-tooltip': 'Klicken, um eine Datei auszuwählen.',
+            'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version der Metadaten wiederherzustellen.',
+            'current-version-restored-toast': 'Die aktuelle Version der Metadaten von Datei "{{ filename }}" wurde wiederhergestellt.',
+            'previous-version-restored-toast': 'Die ältere Version der Metadaten von Datei "{{ filename }}" kann jetzt gespeichert werden.',
+            'choose-previous-version': {
+              'title': 'Ältere Version der Metadaten zu Datei "{{ filename }}" wiederherstellen',
+              'text': 'Wählen Sie eine ältere Version der Metadaten zu Datei "{{ filename }}" aus, die wiederhergestellt werden soll:',
+              'attachment-description': 'Beschreibung (auf Deutsch)',
+              'lastModified': 'Geändert',
+              'lastModifiedBy': 'von',
+              'cancel-tooltip': 'Klicken, um ohne eine ältere Version der Metadaten auszuwählen zurückzukehren.',
+              'current-version-tooltip': 'Dies ist die aktuelle Version!',
+              'next-page-tooltip': 'Klicken, um ältere Versionen anzuzeigen.',
+              'previous-page-tooltip': 'Klicken, um aktuellere Versionen anzuzeigen.',
+              'attachment-deleted': 'Metadaten wurden gelöscht!',
+              'no-versions-found': 'Es wurden keine älteren Versionen der Metadaten gefunden.'
+            },
+            'language-not-found': 'Keine gültige Sprache gefunden!',
+            'save-survey-before-adding-attachment': 'Die Erhebung muss erst gespeichert werden, bevor Materialien hinzugefügt werden können.',
+            'hints': {
+              'filename': 'Wählen Sie eine Datei aus, die Sie der Erhebung hinzufügen wollen.',
+              'language': 'Wählen Sie die Sprache, die in der Datei verwendet wurde, aus.',
+              'title': 'Geben Sie den Titel der Datei in der Dokumentensprache ein.',
+              'description': {
+                'de': 'Geben Sie eine Beschreibung dieser Datei auf Deutsch ein.',
+                'en': 'Geben Sie eine Beschreibung dieser Datei auf Englisch ein.'
+              }
+            }
           },
           'title': '{{ title }} ({{ surveyId }})',
           'response-rate-information': 'Weitere Informationen zum Rücklauf',

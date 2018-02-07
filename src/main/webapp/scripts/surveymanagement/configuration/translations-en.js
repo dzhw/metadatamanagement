@@ -47,7 +47,50 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'attachments': {
-            'table-title': 'Documents related to the Survey'
+            'table-title': 'Documents related to the Survey',
+            'attachment-deleted-toast': 'Document "{{ filename }}" has been deleted!',
+            'delete-attachment-tooltip': 'Click to delete document "{{ filename }}"!',
+            'edit-attachment-tooltip': 'Click to edit the metadata for document "{{ filename }}".',
+            'select-attachment-tooltip': 'Click to select document "{{ filename }}" for moving it up or down.',
+            'move-attachment-down-tooltip': 'Click to move the selected document down.',
+            'move-attachment-up-tooltip': 'Click to move the selected document up.',
+            'save-attachment-order-tooltip': 'Click to save the modified order of the documents.',
+            'attachment-order-saved-toast': 'The modified order of the documents has been saved.',
+            'add-attachment-tooltip': 'Click to add a new document to this survey.',
+            'edit-title': 'Modify Document "{{ filename }}" of Survey "{{ surveyId }}"',
+            'create-title': 'Add new Document to Survey "{{ surveyId }}"',
+            'cancel-tooltip': 'Click to close this dialog without saving.',
+            'save-tooltip': 'Click to save this document.',
+            'change-file-tooltip': 'Click to choose a file.',
+            'attachment-saved-toast': 'Document "{{ filename }}" has been saved.',
+            'attachment-has-validation-errors-toast': 'The document has not been saved because there are invalid fields.',
+            'open-choose-previous-version-tooltip': 'Click to restore a previous version of the metadata.',
+            'current-version-restored-toast': 'Current version of the metadata for document "{{ filename }}" has been restored.',
+            'previous-version-restored-toast': 'Previous version of the metadata for document "{{ filename }}" can be saved now.',
+            'choose-previous-version': {
+              'title': 'Restore Previous Version of the Metadata for Document "{{ filename }}"',
+              'text': 'Choose a previous version of the metadata for document "{{ filename }}" which shall be restored:',
+              'attachment-description': 'Description (in English)',
+              'lastModified': 'Modified',
+              'lastModifiedBy': 'by',
+              'cancel-tooltip': 'Click to return without choosing a previous metadata version.',
+              'current-version-tooltip': 'This is the current version!',
+              'next-page-tooltip': 'Click to show older versions.',
+              'previous-page-tooltip': 'Click to more recent versions.',
+              'attachment-deleted': 'Metadata has been deleted!',
+              'no-versions-found': 'There are no previous versions of the metadata.'
+            },
+            'language-not-found': 'No valid language found!',
+            'save-survey-before-adding-attachment': 'The Survey has to be saved to enable attaching documents.',
+            'hints': {
+              'filename': 'Choose a file which you want to attach to the survey.',
+              'language': 'Select the language which has been used in the file.',
+              'title': 'Enter the title of the file in the language of the file.',
+              'description': {
+                'de': 'Please enter a description for the file in German.',
+                'en': 'Please enter a description for the file in English.'
+              }
+            }
           },
           'title': '{{ title }} ({{ surveyId }})',
           'response-rate-information': 'Further Information about the Response Rate',
