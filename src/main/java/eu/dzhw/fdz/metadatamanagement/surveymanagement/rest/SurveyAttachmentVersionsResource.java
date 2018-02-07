@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.studymanagement.rest;
+package eu.dzhw.fdz.metadatamanagement.surveymanagement.rest;
 
 import java.util.List;
 
@@ -10,46 +10,46 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudyAttachmentMetadata;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.service.StudyAttachmentVersionsService;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyAttachmentMetadata;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.SurveyAttachmentVersionsService;
 
 /**
  * Rest Controller for retrieving previous version of the 
- * {@link StudyAttachmentMetadata} domain object.
+ * {@link SurveyAttachmentMetadata} domain object.
  * 
  * @author René Reitmann
  */
 @RestController
 @RequestMapping("/api")
-public class StudyAttachmentVersionsResource {
+public class SurveyAttachmentVersionsResource {
   
   @Autowired
-  private StudyAttachmentVersionsService studyAttachmentVersionsService;
+  private SurveyAttachmentVersionsService surveyAttachmentVersionsService;
     
   /**
-   * Get the previous 10 versions of the study attachment metadata.
+   * Get the previous 10 versions of the survey attachment metadata.
    * 
-   * @param studyId The id of the study
+   * @param surveyId The id of the survey
    * @param filename The filename of the attachment
    * @param limit like page size
    * @param skip for skipping n versions
    * 
-   * @return A list of previous study versions
+   * @return A list of previous survey versions
    */
-  @RequestMapping("/studies/{studyId}/attachments/{filename:.+}/versions")
-  public ResponseEntity<?> findPreviousStudyAttachmentVersions(@PathVariable String studyId,
+  @RequestMapping("/surveys/{surveyId}/attachments/{filename:.+}/versions")
+  public ResponseEntity<?> findPreviousSurveyAttachmentVersions(@PathVariable String surveyId,
       @PathVariable String filename,
       @RequestParam(name = "limit", defaultValue = "5") Integer limit,
       @RequestParam(name = "skip", defaultValue = "0") Integer skip) {
-    List<StudyAttachmentMetadata> studyAttachmentVersions = studyAttachmentVersionsService
-        .findPreviousStudyAttachmentVersions(studyId, filename, limit, skip);
+    List<SurveyAttachmentMetadata> surveyAttachmentVersions = surveyAttachmentVersionsService
+        .findPreviousSurveyAttachmentVersions(surveyId, filename, limit, skip);
     
-    if (studyAttachmentVersions == null) {
+    if (surveyAttachmentVersions == null) {
       return ResponseEntity.notFound().build();
     }
     
     return ResponseEntity.ok()
         .cacheControl(CacheControl.noStore())
-        .body(studyAttachmentVersions);
+        .body(surveyAttachmentVersions);
   }
 }

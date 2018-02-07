@@ -11,7 +11,6 @@ angular.module('metadatamanagementApp')
       SurveyAttachmentResource, $q, StudyIdBuilderService, moment, Upload,
       SurveyResponseRateImageUploadService) {
       var ctrl = this;
-
       var updateToolbarHeaderAndPageTitle = function() {
         if (ctrl.createMode) {
           PageTitleService.setPageTitle(
@@ -230,7 +229,7 @@ angular.module('metadatamanagementApp')
 
       ctrl.loadAttachments = function(selectLastAttachment) {
         SurveyAttachmentResource.findBySurveyId({
-            id: ctrl.survey.id
+            surveyId: ctrl.survey.id
           }).$promise.then(
             function(attachments) {
               if (attachments.length > 0) {
@@ -295,6 +294,7 @@ angular.module('metadatamanagementApp')
               surveyAttachmentMetadata: {
                 indexInSurvey: ctrl.getNextIndexInSurvey(),
                 surveyId: ctrl.survey.id,
+                surveyNumber: ctrl.survey.number,
                 dataAcquisitionProjectId: ctrl.survey.dataAcquisitionProjectId
               }
             },

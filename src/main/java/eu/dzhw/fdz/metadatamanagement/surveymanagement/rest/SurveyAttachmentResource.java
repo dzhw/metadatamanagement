@@ -14,6 +14,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -96,5 +97,39 @@ public class SurveyAttachmentResource {
       return ResponseEntity.badRequest()
         .body(null);
     }
+  }
+  
+  /**
+   * Delete the given attachment of the given survey.
+   * 
+   * @param surveyId The id of the survey.
+   * 
+   */
+  @RequestMapping(path = "/surveys/{surveyId}/attachments/{filename:.+}", 
+      method = RequestMethod.DELETE)
+  @Timed
+  @Secured(AuthoritiesConstants.PUBLISHER)
+  public ResponseEntity<?> delete(@PathVariable("surveyId") String surveyId, 
+      @PathVariable("filename") String filename) {
+    if (!StringUtils.isEmpty(surveyId) && !StringUtils.isEmpty(filename)) {
+      surveyAttachmentService.deleteBySurveyIdAndFilename(surveyId, filename);
+      return ResponseEntity.noContent().build();
+    } else {
+      return ResponseEntity.badRequest()
+        .body(null);
+    }
+  }
+  
+  /**
+   * Update the metadata of the given attachment of the given survey.
+   */
+  @RequestMapping(path = "/surveys/{surveyId}/attachments/{filename:.+}", 
+      method = RequestMethod.PUT)
+  @Timed
+  @Secured(AuthoritiesConstants.PUBLISHER)
+  public ResponseEntity<?> update(
+      @Valid @RequestBody SurveyAttachmentMetadata surveyAttachmentMetadata) {
+    surveyAttachmentService.updateAttachmentMetadata(surveyAttachmentMetadata);
+    return ResponseEntity.noContent().build();    
   }
 }
