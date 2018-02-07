@@ -167,7 +167,8 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-entire-not-empty': 'Der Sponsor einer Studie muss in beiden Sprachen vorhanden sein.'
             },
             'study-series': {
-              'i18n-string-size': 'Die Maximallänge der Studienreihe einer Studie ist 128 Zeichen.'
+              'i18n-string-size': 'Die Maximallänge der Studienreihe ist 128 Zeichen.',
+              'i18n-string-entire-not-empty-optional': 'Wenn die Studienreihe in einer Sprache vorliegt, muss sie in allen Sprachen vorliegen.'
             },
             'data-availability': {
               'not-null': 'Die Datenerreichbarkeit einer Studie darf nicht leer sein!',
