@@ -47,7 +47,7 @@ angular.module('metadatamanagementApp')
             ctrl.instrument = result.instruments[0];
           }
           SurveyAttachmentResource.findBySurveyId({
-            id: ctrl.survey.id
+            surveyId: ctrl.survey.id
           }).$promise.then(
             function(attachments) {
               if (attachments.length > 0) {

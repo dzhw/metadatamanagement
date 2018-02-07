@@ -5,6 +5,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.data.annotation.Id;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
@@ -30,6 +31,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 public class SurveyAttachmentMetadata extends AbstractRdcDomainObject {
+  @Id
+  private String id;
+  
   @NotEmpty(message =
       "survey-management.error.survey-attachment-metadata.survey-id.not-empty")
   private String surveyId;
@@ -73,8 +77,8 @@ public class SurveyAttachmentMetadata extends AbstractRdcDomainObject {
       "survey-management.error.survey-attachment-metadata.index-in-survey.not-null")
   private Integer indexInSurvey;
 
-  @Override
-  public String getId() {
-    return "/public/files/surveys/" + surveyId + "/attachments/" + fileName;
+  public void generateId() {
+    // hack to satisfy javers
+    this.id = "/public/files/surveys/" + surveyId + "/attachments/" + fileName;
   }
 }
