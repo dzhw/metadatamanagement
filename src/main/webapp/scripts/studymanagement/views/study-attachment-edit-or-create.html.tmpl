@@ -80,14 +80,14 @@
                             <div ng-if="!studyAttachmentForm.language.$dirty && !studyAttachmentForm.language.$touched" class="fdz-input-hint">{{'study-management.detail.attachments.hints.language' | translate}}</div>
                             <div ng-messages="studyAttachmentForm.language.$error" multiple>
                                 <div ng-message="required">{{'study-management.error.study-attachment-metadata.language.not-null' | translate}}</div>
-                                <div ng-message="md-require-match">{{'study-management.error.study-attachment-metadata.language.not-supported' | translate}}</div>
+                                <div ng-message="md-require-match">{{'study-management.error.study-attachment-metadata.language.not-valid' | translate}}</div>
                             </div>
                         </md-autocomplete>
                         <div flex="50"></div>
                     </div>
                     <div layout="row">
                         <md-input-container flex style="margin-right: 8px;" md-is-error="!studyAttachmentForm.title.$valid && (studyAttachmentForm.title.$dirty || studyAttachmentForm.title.$touched)">
-                            <label>{{'study-management.detail.label.attachments.title' | translate}} ({{ctrl.selectedLanguage.displayLanguage[currentLanguage]}})</label>
+                            <label>{{'study-management.detail.label.attachments.title' | translate}} ({{'global.in' | translate}} {{ctrl.selectedLanguage.displayLanguage[currentLanguage]?ctrl.selectedLanguage.displayLanguage[currentLanguage]:'?'}})</label>
                             <textarea rows="4" md-maxlength="2048" ng-model="ctrl.studyAttachmentMetadata.title" name="title"></textarea>
                             <div ng-if="!studyAttachmentForm.title.$dirty && !studyAttachmentForm.title.$touched" class="fdz-input-hint">{{'study-management.detail.attachments.hints.title' | translate}}</div>
                             <div ng-messages="studyAttachmentForm.title.$error" multiple>

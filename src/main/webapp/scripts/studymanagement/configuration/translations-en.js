@@ -167,7 +167,8 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-not-empty': 'The sponsor of the study must not be empty at both languages.'
             },
             'study-series': {
-              'i18n-string-size': 'The max length of the study series is 128 signs.'
+              'i18n-string-size': 'The max length of the study series is 128 signs.',
+              'i18n-string-entire-not-empty-optional': 'If the study series is given in one language, it has to be set in all languages.'
             },
             'data-availability': {
               'not-null': 'The data availability of the study must not be empty!',
@@ -211,7 +212,8 @@ angular.module('metadatamanagementApp').config(
             },
             'language': {
               'not-null': 'The language of the attachment must not be empty!',
-              'not-supported': 'The language of the attachment must be a two-letter abbreviation according to ISO 639-1!'
+              'not-supported': 'The language of the attachment must be a two-letter abbreviation according to ISO 639-1!',
+              'not-valid': 'Please select a supported language.'
             },
             'filename': {
               'not-empty': 'The filename of the attachment must not be empty!',
