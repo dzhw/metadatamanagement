@@ -1,0 +1,41 @@
+{
+  "name": "angular-jk-carousel",
+  "description": "An Amazing Fully Responsive AngularJS 1 Carousel that works with Angular Material.",
+  "main": [
+    "./dist/jk-carousel.js",
+    "./dist/jk-carousel.css"
+  ],
+  "authors": [
+    "Juan Carlos Morales Mora <juank.memphis@gmail.com>",
+    "Pablo Gonzalez <pablohgm@gmail.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "angular",
+    "angular-material",
+    "carousel",
+    "slider"
+  ],
+  "homepage": "https://github.com/juank11memphis/angular-jk-carousel",
+  "moduleType": [
+    "globals"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "version": "0.5.0",
+  "_release": "0.5.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.5.0",
+    "commit": "d13804336ce7e708fc91be8fa852fc711e0f5571"
+  },
+  "_source": "https://github.com/juank11memphis/angular-jk-carousel.git",
+  "_target": "^0.5.0",
+  "_originalSource": "angular-jk-carousel",
+  "_direct": true
+}

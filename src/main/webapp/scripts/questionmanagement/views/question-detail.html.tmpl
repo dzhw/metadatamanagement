@@ -81,7 +81,7 @@
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'study-management.detail.tooltips.surveys.one' | translate}}
                                 </md-tooltip>
-                              </a>
+                            </a>
                         </div>
                         <div ng-if="ctrl.counts.surveysCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'surveys', 'question': ctrl.question.id, 'study': ctrl.question.studyId, 'instrument': ctrl.question.instrumentId})">
@@ -163,19 +163,61 @@
     <div layout="column" layout-gt-sm="row">
         <div flex-gt-sm="50" layout="column">
             <md-card flex="auto" class="fdz-reset-top-margin">
-                <div class="fdz-overlay-outer-box">
-                    <div style="max-height:211px; overflow-y:hidden;">
-                        <img display-i18n-string="ctrl.question.questionText" alt="" style="width: 100%; height: auto" ng-src="public/files/questions/{{ctrl.question.id}}" />
+                <md-card-header>
+                    <md-card-header-text>
+                        <h2 class="md-title">{{'question-management.detail.images-for-question' | translate }}</h2>
+                    </md-card-header-text>
+                </md-card-header>
+                <md-divider></md-divider>
+                <md-card-content read-element-size style="padding: 0px;">
+                    <div class="fdz-overlay-outer-box">
+                        <div class="fdz-overlay-inner-box-top" ng-if="ctrl.imageLanguages.length > 1">
+                            <md-menu>
+                                <md-button class="md-fab md-mini md-primary" ng-click="$mdMenu.open($event)">
+                                    <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                        {{'question-management.detail.change-image-language-tooltip' | translate}}
+                                    </md-tooltip>
+                                    <md-icon md-font-set="material-icons">language</md-icon>
+                                </md-button>
+                                <md-menu-content width="4">
+                                    <md-menu-item ng-repeat="language in ctrl.imageLanguages">
+                                        <md-button md-prevent-menu-close="md-prevent-menu-close" ng-click="ctrl.changeCurrentImageLanguage(language)">{{language | displayIsoLanguage:currentLanguage}}</md-button>
+                                    </md-menu-item>
+                                </md-menu-content>
+                            </md-menu>
+                        </div>
+                        <div ng-if="ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage].length > 1">
+                            <jk-carousel data="ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage]" item-template-url="'scripts/questionmanagement/views/question-image-template.html.tmpl'" current-index="ctrl.currentImageIndex" max-height="211px" max-width="{{windowWidth}}px">
+                            </jk-carousel>
+                        </div>
+                        <div ng-if="ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage].length === 1">
+                            <div class="fdz-overlay-outer-box">
+                                <div style="max-height:211px; overflow-y:hidden;">
+                                    <img display-i18n-string="ctrl.question.questionText" alt="" style="width: 100%; height: auto" ng-src="{{ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][0].id}}" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fdz-overlay-inner-box-bottom">
+                            <md-button class="md-fab md-mini md-primary" ng-href="{{ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][ctrl.currentImageIndex].id}}" target="_blank">
+                                <md-icon md-svg-src="/assets/images/icons/arrow-expand.svg"></md-icon>
+                                <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                    {{'global.tooltips.images' | translate}}
+                                </md-tooltip>
+                            </md-button>
+                        </div>
                     </div>
-                    <div class="fdz-overlay-inner-box-bottom">
-                        <md-button class="md-fab md-mini md-primary" ng-href="/public/files/questions/{{ctrl.question.id}}" target="_blank">
-                            <md-icon md-svg-src="/assets/images/icons/arrow-expand.svg"></md-icon>
-                            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                                {{'global.tooltips.images' | translate}}
-                            </md-tooltip>
-                        </md-button>
-                    </div>
-                </div>
+                    <md-divider ng-if="ctrl.question.instrument.type != 'PAPI' || ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][ctrl.currentImageIndex].containsAnnotations"></md-divider>
+                    <md-card-content ng-if="ctrl.question.instrument.type != 'PAPI' || ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][ctrl.currentImageIndex].containsAnnotations" layout="column">
+                        <div ng-if="ctrl.question.instrument.type != 'PAPI'" class="fdz-text-block" ng-class="{'fdz-add-bottom-margin': ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][ctrl.currentImageIndex].containsAnnotations}">
+                            <span style="font-weight: bold;">{{'question-management.detail.label.resolution' | translate }}: </span>
+                            <span ng-if="ctrl.currentImageIndex < ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage].length">{{ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][ctrl.currentImageIndex].resolution.widthX}} x {{ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][ctrl.currentImageIndex].resolution.heightY}}</span>
+                        </div>
+                        <div ng-if="ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][ctrl.currentImageIndex].containsAnnotations" class="fdz-text-block">
+                            <span style="font-weight: bold;">{{'question-management.detail.label.note' | translate }}: </span>
+                            <span>{{'question-management.detail.label.has-annotations' | translate }}</span>
+                        </div>
+                    </md-card-content>
+                </md-card-content>
             </md-card>
         </div>
         <div flex-gt-sm="50">

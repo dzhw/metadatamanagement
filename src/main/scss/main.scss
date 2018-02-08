@@ -941,3 +941,11 @@ md-backdrop.md-dialog-backdrop {
 .md-dialog-container ~ .md-dialog-container {
     z-index: 80;
 }
+
+.jk-carousel .md-icon-button md-icon {
+      color: rgba(0,0,0,0.54) !important;
+}
+
+.jk-carousel .radio-buttons-container md-radio-button .md-off {
+    border-color: rgba(0,0,0,0.54) !important;
+}

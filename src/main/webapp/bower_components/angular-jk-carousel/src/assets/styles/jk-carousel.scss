@@ -1,0 +1,66 @@
+.jk-carousel {
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+
+  .slides-container {
+    height: 100%;
+    position: relative;
+
+    .slide {
+
+      .ng-scope {
+
+        img:first-child {
+          max-width: 100%;
+          max-height: 100%;
+        }
+      }
+    }
+  }
+
+  .left-arrow-button,
+  .right-arrow-button {
+    position: absolute;
+    margin: auto !important;
+    top: 0;
+    bottom: 0;
+  }
+
+  .right-arrow-button {
+    right: 0;
+  }
+
+  .md-icon-button {
+    width: 48px;
+    height: 48px;
+    margin: 0;
+    padding: 0;
+
+    md-icon {
+      color: #ffffff;
+      width: 48px;
+      height: 48px;
+      font-size: 48px;
+      cursor: pointer;
+      outline: none !important;
+    }
+  }
+
+  .radio-buttons-container {
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 20px;
+    width: 100%;
+
+    md-radio-button {
+      margin-right: 5px;
+      outline: none;
+
+      .md-off {
+        border-color: #ffffff;
+      }
+    }
+  }
+
+}

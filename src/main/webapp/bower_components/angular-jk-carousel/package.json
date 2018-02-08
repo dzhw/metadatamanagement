@@ -1,0 +1,54 @@
+{
+  "name": "angular-jk-carousel",
+  "main": "dist/jk-carousel.js",
+  "style": "./dist/jk-carousel.css",
+  "version": "0.5.0",
+  "description": "Amazing carousel for angular material",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/juank11memphis/angular-jk-carousel.git"
+  },
+  "scripts": {
+    "prepublish": "gulp build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/juank11memphis/angular-jk-carousel/issues"
+  },
+  "homepage": "https://github.com/juank11memphis/angular-jk-carousel#readme",
+  "author": "Juan Carlos Morales Mora <juank.memphis@gmail.com>",
+  "contributors": [
+    {
+      "name": "Pablo Gonzalez",
+      "email": "pablohgm@gmail.com"
+    }
+  ],
+  "license": "MIT",
+  "keywords": [
+    "angular",
+    "angular-material",
+    "carousel",
+    "slider"
+  ],
+  "devDependencies": {
+    "gulp": "3.9.0",
+    "require-dir": "0.3.0",
+    "run-sequence": "1.1.5",
+    "gulp-sass": "2.1.1",
+    "gulp-autoprefixer": "3.1.0",
+    "gulp-concat": "2.6.0",
+    "gulp-size": "2.0.0",
+    "del": "2.2.0",
+    "gulp-cache": "0.4.1",
+    "gulp-angular-templatecache": "1.8.0",
+    "gulp-csso": "1.0.1",
+    "systemjs-builder": "0.14.15",
+    "gulp-uglify": "1.5.1",
+    "uglify-save-license": "0.4.1",
+    "gulp-util": "3.0.7",
+    "gulp-rename": "1.2.2",
+    "gulp-jshint": "1.10.0",
+    "jshint-stylish": "2.1.0",
+    "gulp-util": "3.0.7"
+  }
+}
