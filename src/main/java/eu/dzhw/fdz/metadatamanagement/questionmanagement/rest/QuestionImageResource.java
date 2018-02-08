@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.questionmanagement.rest;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -35,35 +36,36 @@ public class QuestionImageResource {
 
   @Autowired
   private QuestionImageService imageService;
-  
+
   /**
    * REST method for for uploading images to a question with metadata.
    * @param multiPartFile the image
    * @param questionImageMetadata the metadata of the image
    * @return response
-   * @throws IOException write Exception 
+   * @throws IOException write Exception
    * @throws URISyntaxException if the file has an invalid URI
    */
   @RequestMapping(path = "/questions/images", method = RequestMethod.POST)
   @Timed
   @Secured(AuthoritiesConstants.PUBLISHER)
   public ResponseEntity<String> uploadImage(@RequestParam("image") MultipartFile multiPartFile,
-      @RequestPart("questionImageMetadata") 
+      @RequestPart("questionImageMetadata")
       @Valid QuestionImageMetadata questionImageMetadata) throws IOException, URISyntaxException {
     if (!multiPartFile.isEmpty()) {
-      String gridFsFileName = imageService.saveQuestionImage(multiPartFile, 
+      String gridFsFileName = imageService.saveQuestionImage(multiPartFile,
           questionImageMetadata);
-      return ResponseEntity.created(new URI("/public/files" + gridFsFileName))
+      return ResponseEntity.created(new URI("/public/files"
+        + URLEncoder.encode(gridFsFileName, "UTF-8")))
         .body(null);
     } else {
       return ResponseEntity.badRequest()
         .body(null);
     }
   }
-  
+
   /**
    * Load all images with metadata objects for the given question id.
-   * 
+   *
    * @param questionId The id of an question.
    * @return A list of image metadata objects.
    */
@@ -80,10 +82,10 @@ public class QuestionImageResource {
         .body(null);
     }
   }
-  
+
   /**
    * Delete all images of the given question.
-   * 
+   *
    * @param questionId The id of a question.
    */
   @RequestMapping(path = "/questions/{questionId}/images", method = RequestMethod.DELETE)

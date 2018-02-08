@@ -12,13 +12,15 @@ angular.module('metadatamanagementApp').config(
             'missing-id': 'Question {{ index }} does not contain a RDC-ID and has not been saved!',
             'upload-terminated': 'Finished upload of {{ totalQuestions }} Questions and {{ totalImages }} Images with {{totalWarnings}} warnings and {{ totalErrors }} errors.',
             'unable-to-delete': 'The questions could not be deleted!',
-            'unable-to-upload-image-file': 'Image file "{{ file }}" could not be uploaded!',
             'unable-to-read-image-file': 'Image file "{{ file }}" could not be read!',
             'technical-representation-success-copy-to-clipboard': 'The Technical Representation was successfully copied into the clipboard.',
             'question-has-no-image': 'No image was found for the question {{id}}.',
             'unable-to-parse-json-file': 'The JSON file "{{file}}" in Instrument {{instrument}} does not contain valid JSON!',
             'unable-to-read-file': 'The file "{{file}}" in Instrument {{instrument}} could not be read!',
             'non-unique-index-in-instrument': 'At least two questions ({{firstQuestionId}}, {{secondQuestionId}}) have the same index "{{index}}" in an instrument.'
+          },
+          'question-image': {
+            'not-saved': 'Image file "{{ id }}" of Instrument {{ instrument }} could not be uploaded!'
           },
           'question-image-metadata': {
             'unable-to-parse-json-file': 'The JSON file "{{file}}" of the question with number "{{questionNumber}}" does not contain valid JSON!',
@@ -46,11 +48,12 @@ angular.module('metadatamanagementApp').config(
             'questionText': 'Question Text',
             'language': 'Language',
             'note': 'Note',
-            'has-annotations': 'This image has additional information, which is not visible for the interviewed person.'
+            'resolution': 'Resolution',
+            'has-annotations': 'This image contains additional information, which have not been visible for the interviewed person.'
           },
           'predecessors': 'Previous Questions in Questionnaire',
           'successors': 'Subsequent Questions in Questionnaire',
-          'images-for-question': 'Images for Questionnaire',
+          'images-for-question': 'Images of this Question',
           'technical-representation': 'Technical Representation',
           'title': 'Question {{ questionNumber }}: {{ instrumentDescription }} ({{ questionId }})',
           'no-predecessors': 'No previous Questions in the Questionnaire',
@@ -62,6 +65,7 @@ angular.module('metadatamanagementApp').config(
             'true': 'Click to show the complete technical representation',
             'false': 'Click to minimize the content area of the technical representation'
           },
+          'change-image-language-tooltip': 'Click to change the language of the images',
           'not-released-toast': 'Question "{{ id }}" has not yet been released to all users!',
           'tooltips': {
             'publications': {
@@ -143,7 +147,7 @@ angular.module('metadatamanagementApp').config(
             },
             'file-name': {
               'not-empty': 'The filename of the question image metadata must not be empty.',
-              'size': 'The max length of the file-name of the question image metadata 32 signs.'
+              'not-valid': 'The filename is invalid.'
             },
             'contains-annotations': {
               'not-null': 'The boolean value "Contains Annotations" of the question image metadata must not be empty.'

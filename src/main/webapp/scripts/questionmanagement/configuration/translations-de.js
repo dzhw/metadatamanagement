@@ -12,13 +12,15 @@ angular.module('metadatamanagementApp').config(
             'missing-id': 'Die {{ index }}. Frage enthält keine FDZ-ID und wurde nicht gespeichert!',
             'upload-terminated': 'Upload von {{ totalQuestions }} Fragen und {{ totalImages }} Bildern mit {{totalWarnings}} Warnungen und {{ totalErrors }} Fehlern beendet!',
             'unable-to-delete': 'Die Fragen konnten nicht gelöscht werden!',
-            'unable-to-upload-image-file': 'Die Bilddatei "{{ file }}" in Instrument "{{instrument}}" konnte nicht hochgeladen werden!',
             'unable-to-read-image-file': 'Die Bilddatei "{{ file }}" in Instrument "{{instrument}}" konnte nicht gelesen werden!',
             'cancelled': 'Upload von Fragen Abgebrochen!',
             'technical-representation-success-copy-to-clipboard': 'Die technische Representation wurde erfolgreich in die Zwischenablage kopiert.',
             'unable-to-parse-json-file': 'Die JSON Datei "{{file}}" in Instrument "{{instrument}}" enthält kein valides JSON!',
             'unable-to-read-file': 'Die Datei "{{file}}" in Instrument "{{instrument}}" konnte nicht gelesen werden!',
             'non-unique-index-in-instrument': 'Mindestens zwei Fragen ({{firstQuestionId}}, {{secondQuestionId}}) haben den gleichen Index "{{index}}" innerhalb eines Instrument.'
+          },
+          'question-image': {
+            'not-saved': 'Die Bilddatei "{{ id }}" in Instrument "{{instrument}}" konnte nicht hochgeladen werden!'
           },
           'question-image-metadata': {
             'unable-to-parse-json-file': 'Die JSON Datei "{{file}}" zur Fragenummer "{{questionNumber}}" enthält kein valides JSON!',
@@ -46,7 +48,8 @@ angular.module('metadatamanagementApp').config(
             'questionText': 'Fragetext',
             'language': 'Sprache',
             'note': 'Hinweis',
-            'has-annotations': 'Dieses Bild enthält zusätzliche Informationen, die den Befragten nicht dargestellt werden.'
+            'resolution': 'Auflösung',
+            'has-annotations': 'Dieses Bild enthält zusätzliche Informationen, die den Befragten nicht dargestellt wurden.'
           },
           'predecessors': 'Vorangegangene Fragen im Fragebogen',
           'successors': 'Nachfolgende Fragen im Fragebogen',
@@ -62,6 +65,7 @@ angular.module('metadatamanagementApp').config(
             'true': 'Klicken, um die gesamte technische Representation zu zeigen',
             'false': 'Klicken, um den Inhaltsbereich der technischen Representation zu minimieren'
           },
+          'change-image-language-tooltip': 'Klicken, um die Sprache der Bilder zu ändern',
           'not-released-toast': 'Die Frage "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!',
           'tooltips': {
             'publications': {
@@ -131,7 +135,7 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-size': 'Die Maximallänge der Anmerkungen ist 2048 Zeichen.'
             }
           },
-          'quesion-image-metadata': {
+          'question-image-metadata': {
             'image-type': {
               'not-null': 'Der Bildtyp bei den Bildmetadaten der Frage darf nicht leer sein.',
               'valid-question-image-type': 'Der Bildtyp bei den Bildmetadaten der Frage muss PNG sein.'
@@ -143,7 +147,7 @@ angular.module('metadatamanagementApp').config(
             },
             'file-name': {
               'not-empty': 'Der Dateiname bei den Bildmetadaten der Frage darf nicht leer sein.',
-              'size': 'Die Maximallänge des Dateinamens bei den Bildmetadaten ist 32 Zeichen.'
+              'not-valid': 'Der Dateiname ist ungültig.'
             },
             'contains-annotations': {
               'not-null': 'Der boolesche Wert "Contains Annotations" bei den Bildmetadaten der Frage darf nicht leer sein.'

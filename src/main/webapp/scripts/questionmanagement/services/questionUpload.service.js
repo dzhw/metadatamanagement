@@ -278,9 +278,9 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
       return promiseChain;
     };
 
-    var deleteAllImages = function(questionImageMetadata) {
+    var deleteAllImages = function(questionId) {
       var deferred = $q.defer();
-      QuestionImageUploadService.deleteAllImages(questionImageMetadata)
+      QuestionImageUploadService.deleteAllImages(questionId)
       .catch(function(error) {
         console.log('Unable to delete images:' + error);
       }).finally(function() {
@@ -333,28 +333,33 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
             });
             resolve();
           } else {
-            questionImageMetadataList.forEach(function(questionImageMetadata) {
-                deleteAllImages(questionImageMetadata).finally(function() {
+            deleteAllImages(question.id).finally(function() {
+              var imageUploads = [];
+              questionImageMetadataList.forEach(
+                function(questionImageMetadata) {
                   var image = images[questionImageMetadata.fileName];
-                  QuestionImageUploadService.uploadImage(image,
-                    questionImageMetadata)
+                  imageUploads.push(QuestionImageUploadService
+                    .uploadImage(image, questionImageMetadata)
                     .then(function() {
                       JobLoggingService.success({
                         objectType: 'image'
                       });
-                    }, function() {
+                    }, function(error) {
+                      var errorMessages = ErrorMessageResolverService
+                        .getErrorMessage(error, 'question', 'question-image',
+                        questionImageMetadata.fileName);
+                      errorMessages.translationParams.instrument =
+                        question.instrumentNumber;
                       JobLoggingService.error({
-                        message: 'question-management.log-messages.' +
-                        'question.unable-to-upload-image-file',
-                        messageParams: {
-                          file: image.name
-                        },
+                        message: errorMessages.message,
+                        messageParams: errorMessages.translationParams,
+                        subMessages: errorMessages.subMessages,
                         objectType: 'image'
                       });
-                    });
+                    }));
                 });
-                resolve();
-              });
+              $q.all(imageUploads).finally(resolve);
+            });
           }
         }, function(error) {
           var errorMessages = ErrorMessageResolverService
@@ -400,24 +405,24 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                         question, property);
                     })
                   .then(function(questionImageMetadataResource) {
-
-                    if (CleanJSObjectService.isNullOrEmpty(
-                        questionImageMetadataResources[questionNumber])) {
-                      questionImageMetadataResources[questionNumber] = [];
-                    }
-                    questionImageMetadataResources[questionNumber]
-                      .push(questionImageMetadataResource);
-
-                    if (instrument.pngFiles.hasOwnProperty(property)) {
-
+                    if (questionImageMetadataResource) {
                       if (CleanJSObjectService.isNullOrEmpty(
-                          questionImageMap[questionNumber])) {
-                        questionImageMap[questionNumber] = {};
+                        questionImageMetadataResources[questionNumber])) {
+                        questionImageMetadataResources[questionNumber] = [];
                       }
+                      questionImageMetadataResources[questionNumber]
+                        .push(questionImageMetadataResource);
 
-                      questionImageMap[questionNumber]
-                        [instrument.pngFiles[property].name] =
+                      if (instrument.pngFiles.hasOwnProperty(property)) {
+                        if (CleanJSObjectService.isNullOrEmpty(
+                          questionImageMap[questionNumber])) {
+                          questionImageMap[questionNumber] = {};
+                        }
+
+                        questionImageMap[questionNumber]
+                          [instrument.pngFiles[property].name] =
                         instrument.pngFiles[property];
+                      }
                     }
                   });
               }

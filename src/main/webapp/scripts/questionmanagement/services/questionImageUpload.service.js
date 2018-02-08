@@ -18,9 +18,8 @@ angular.module('metadatamanagementApp').service('QuestionImageUploadService',
       return deferred.promise;
     };
 
-    var deleteAllImages = function(questionImageMetadata) {
-      return $http.delete('/api/questions/' + encodeURIComponent(
-        questionImageMetadata.questionId) +
+    var deleteAllImages = function(questionId) {
+      return $http.delete('/api/questions/' + encodeURIComponent(questionId) +
       '/images');
     };
 
