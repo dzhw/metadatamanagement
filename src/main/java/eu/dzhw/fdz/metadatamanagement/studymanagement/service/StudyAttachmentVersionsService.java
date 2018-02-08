@@ -67,7 +67,7 @@ public class StudyAttachmentVersionsService {
         javers.findSnapshots(QueryBuilder.byClass(StudyAttachmentMetadata.class).limit(1).build());
     // only init if there are no studies yet
     if (snapshots.isEmpty()) {
-      log.debug("Going to init javers with all current study attachment");
+      log.debug("Going to init javers with all current study attachments");
       List<GridFSDBFile> files = operations.find(
           new Query(GridFsCriteria.whereFilename().regex(
               StudyAttachmentFilenameBuilder.ALL_STUDY_ATTACHMENTS)));
@@ -108,7 +108,7 @@ public class StudyAttachmentVersionsService {
         StudyAttachmentMetadata.class, file.getMetaData());
     
     QueryBuilder jqlQuery = QueryBuilder.byInstance(studyAttachmentMetadata)
-        .withScopeDeepPlus(100)
+        .withScopeDeepPlus(Integer.MAX_VALUE)
         .limit(limit).skip(skip);
 
     List<Shadow<StudyAttachmentMetadata>> previousVersions = javers.findShadows(jqlQuery.build());

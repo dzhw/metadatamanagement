@@ -7,15 +7,15 @@ based on the Error Event.*/
 'use strict';
 
 angular.module('metadatamanagementApp').run(
-  function($rootScope, SimpleMessageToastService) {
-    var ignore404 = false;
+  function($rootScope, SimpleMessageToastService, PageTitleService) {
+    var ignore404 = 0;
 
     $rootScope.$on('start-ignoring-404', function() {
-      ignore404 = true;
+      ignore404++;
     });
 
     $rootScope.$on('stop-ignoring-404', function() {
-      ignore404 = false;
+      ignore404--;
     });
 
     // Server or network down
@@ -41,9 +41,10 @@ angular.module('metadatamanagementApp').run(
     //Client Error 404
     $rootScope.$on('notFoundError',
     function(event, response) { // jshint ignore:line
-      if (!ignore404) {
+      if (ignore404 === 0) {
         SimpleMessageToastService.openSimpleMessageToast('global.error.' +
           'client-error.not-found-error', {status: response.status});
+        PageTitleService.setPageTitle('global.title');
       }
     });
 

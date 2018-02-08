@@ -219,6 +219,7 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         surveyItem.tooltip = translationStringsMap.surveyDetail.
         translateString;
         surveyItem.number = surveys[0].number;
+        surveyItem.enableLastItem = surveys[0].enableLastItem;
       }
       if (surveys.length > 1) {
         var stateParams = {'type': 'surveys'};
@@ -287,6 +288,16 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
           surveyItem, dataSetItem, variableItem);
           break;
         case 'surveyDetail':
+          surveyItem = createRelatedSurveyItem([item]);
+          $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
+          surveyItem);
+          break;
+        case 'surveyEdit':
+          surveyItem = createRelatedSurveyItem([item]);
+          $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
+          surveyItem);
+          break;
+        case 'surveyCreate':
           surveyItem = createRelatedSurveyItem([item]);
           $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
           surveyItem);

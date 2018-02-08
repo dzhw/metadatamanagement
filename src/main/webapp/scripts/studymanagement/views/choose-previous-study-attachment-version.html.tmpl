@@ -1,4 +1,4 @@
-<md-dialog aria-label="{{'study-management.detail.attachments.choose-previous-version.title' | translate:translationParams }}" flex="75" style="min-height: 454px;" layout="column">
+<md-dialog aria-label="{{'study-management.detail.attachments.choose-previous-version.title' | translate:translationParams }}" layout="column">
     <md-toolbar>
         <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
             <h2 class="fdz-truncate-string">
@@ -39,7 +39,7 @@
                 </tr>
             </tbody>
         </table>
-        <div ng-if="!studyAttachments || attachments.studyAttachments === 0" flex>
+        <div ng-if="!studyAttachments || studyAttachments.length === 0" flex>
             <span>{{'study-management.detail.attachments.choose-previous-version.no-versions-found' | translate:translationParams }}</span>
         </div>
         <div ng-hide="(!studyAttachments || studyAttachments.length === 0) && (currentPage.number === 0)" layout="row" layout-align="space-between center" style="margin-top: 8px;">

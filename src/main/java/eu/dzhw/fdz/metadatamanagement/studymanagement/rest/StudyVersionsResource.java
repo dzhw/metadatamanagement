@@ -26,7 +26,7 @@ public class StudyVersionsResource {
   private StudyVersionsService studyVersionsService;
     
   /**
-   * Get the previous 10 versions of the study.
+   * Get the previous 5 versions of the study.
    * 
    * @param id The id of the study
    * @param limit like page size
@@ -36,9 +36,9 @@ public class StudyVersionsResource {
    */
   @RequestMapping("/studies/{id}/versions")
   public ResponseEntity<?> findPreviousStudyVersions(@PathVariable String id,
-      @RequestParam(name = "limit", defaultValue = "10") Integer limit,
+      @RequestParam(name = "limit", defaultValue = "5") Integer limit,
       @RequestParam(name = "skip", defaultValue = "0") Integer skip) {
-    List<Study> studyVersions = studyVersionsService.findPreviousStudyVersions(id, limit, skip);
+    List<Study> studyVersions = studyVersionsService.findPreviousVersions(id, limit, skip);
     
     if (studyVersions == null) {
       return ResponseEntity.notFound().build();

@@ -22,6 +22,7 @@ import org.springframework.web.context.WebApplicationContext;
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
+import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
@@ -42,6 +43,9 @@ public class StudyAttachmentResourceTest extends AbstractTest {
   
   @Autowired
   private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
+  
+  @Autowired
+  private JaversService javersService;
 
   private MockMvc mockMvc;
 
@@ -56,6 +60,7 @@ public class StudyAttachmentResourceTest extends AbstractTest {
     this.studyRepository.deleteAll();
     this.studyAttachmentService.deleteAll();
     this.elasticsearchUpdateQueueItemRepository.deleteAll();
+    this.javersService.deleteAll();
   }
 
   @Test

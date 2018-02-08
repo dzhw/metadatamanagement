@@ -106,13 +106,31 @@
             </md-tooltip>
             <md-icon md-font-set="material-icons">add</md-icon>
         </md-button>
-        <md-button aria-label="{{'search-management.buttons.upload-surveys' | translate}}" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='surveys'" type="file" ngf-select="uploadSurveys($files)" class="md-accent md-fab" ngf-multiple="true" directory
-            webkitdirectory ng-disabled="!currentProject || currentProject.release">
-            <md-tooltip ng-hide="!currentProject || currentProject.release" md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                {{'search-management.buttons.upload-surveys-tooltip' | translate}}
-            </md-tooltip>
-            <md-icon md-font-set="material-icons">add</md-icon>
-        </md-button>
+        <md-fab-speed-dial ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='surveys'" md-direction="left" class="md-scale md-hover-full" md-open="speedDial.isOpen" ng-mouseenter="speedDial.isOpen=true;" ng-mouseleave="speedDial.isOpen=false;">
+          <md-fab-trigger>
+            <md-button class="md-accent md-fab" ng-disabled="!currentProject || currentProject.release">
+                <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    {{'search-management.buttons.upload-or-create-surveys-tooltip' | translate}}
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">add</md-icon>
+            </md-button>
+          </md-fab-trigger>
+          <md-fab-actions ng-if="currentProject && !currentProject.release">
+            <md-button type="file" ngf-select="uploadSurveys($files)" ngf-multiple="true" class="md-fab md-raised md-mini" directory
+                webkitdirectory>
+                <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    {{'search-management.buttons.upload-surveys-tooltip' | translate}}
+                </md-tooltip>
+                <md-icon md-svg-src="/assets/images/icons/folder-upload.svg"></md-icon>
+            </md-button>
+            <md-button class="md-fab md-raised md-mini" ui-sref="surveyCreate()">
+                <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    {{'search-management.buttons.create-survey-tooltip' | translate}}
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">add</md-icon>
+            </md-button>
+          </md-fab-actions>
+        </md-fab-speed-dial>
         <md-button aria-label="{{'search-management.buttons.upload-data-sets' | translate}}" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='data_sets'" type="file" ngf-select="uploadDataSets($files)" class="md-accent md-fab" ngf-multiple="true"
             directory webkitdirectory ng-disabled="!currentProject || currentProject.release">
             <md-tooltip ng-hide="!currentProject || currentProject.release" md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">

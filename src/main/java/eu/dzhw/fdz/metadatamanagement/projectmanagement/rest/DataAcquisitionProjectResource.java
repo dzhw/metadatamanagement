@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.codahale.metrics.annotation.Timed;
 
+import eu.dzhw.fdz.metadatamanagement.common.rest.GenericDomainObjectResourceController;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionProjectService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,9 +22,30 @@ import lombok.extern.slf4j.Slf4j;
  */
 @RepositoryRestController
 @Slf4j
-public class DataAcquisitionProjectDeleteResource {
-  @Autowired
+public class DataAcquisitionProjectResource 
+    extends GenericDomainObjectResourceController<DataAcquisitionProject, 
+    DataAcquisitionProjectRepository> {
+
   private DataAcquisitionProjectService dataAcquisitionProjectService;
+
+  @Autowired
+  public DataAcquisitionProjectResource(DataAcquisitionProjectRepository projectRepository,
+      DataAcquisitionProjectService dataAcquisitionProjectService) {
+    super(projectRepository);
+    this.dataAcquisitionProjectService = dataAcquisitionProjectService;
+  }
+
+  /**
+   * Override default get by id since it does not set cache headers correctly.
+   * 
+   * @param id a {@link DataAcquisitionProject} id
+   * @return the {@link DataAcquisitionProject} or not found
+   */
+  @RequestMapping(method = RequestMethod.GET, value = "/data-acquisition-projects/{id:.+}")
+  @Timed
+  public ResponseEntity<DataAcquisitionProject> findProject(@PathVariable String id) {
+    return super.findDomainObject(id); 
+  }
 
   /**
    * Overwriting the delete data acquisition proect api method from mongo db.

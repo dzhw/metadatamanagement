@@ -1,3 +1,4 @@
+/* global Blob */
 'use strict';
 
 angular.module('metadatamanagementApp')
@@ -5,12 +6,12 @@ angular.module('metadatamanagementApp')
     function(entity, LanguageService, CleanJSObjectService,
       PageTitleService, $state, ToolbarHeaderService, SurveySearchService,
       SurveyAttachmentResource, Principal, SimpleMessageToastService,
-      SearchResultNavigatorService, $stateParams) {
+      SearchResultNavigatorService, $stateParams,
+      SurveyResponseRateImageUploadService) {
       SearchResultNavigatorService.registerCurrentSearchResult(
           $stateParams['search-result-index']);
       var ctrl = this;
       ctrl.searchResultIndex = $stateParams['search-result-index'];
-      ctrl.imgResolved = false;
       ctrl.counts = {};
       entity.promise.then(function(result) {
         var currenLanguage = LanguageService.getCurrentInstantly();
@@ -45,7 +46,7 @@ angular.module('metadatamanagementApp')
             ctrl.instrument = result.instruments[0];
           }
           SurveyAttachmentResource.findBySurveyId({
-            id: ctrl.survey.id
+            surveyId: ctrl.survey.id
           }).$promise.then(
             function(attachments) {
               if (attachments.length > 0) {
@@ -56,13 +57,16 @@ angular.module('metadatamanagementApp')
           if (ctrl.counts.publicationsCount === 1) {
             ctrl.relatedPublication = result.relatedPublications[0];
           }
+          SurveyResponseRateImageUploadService.getImage(
+            ctrl.survey.id, ctrl.survey.number, currenLanguage)
+            .then(function(image) {
+              ctrl.responseRateImage = new Blob(
+                [image],{type: 'image/svg+xml'});
+            });
         } else {
           SimpleMessageToastService.openSimpleMessageToast(
             'survey-management.detail.not-released-toast', {id: result.id}
           );
         }
       });
-      ctrl.setImgResolved = function() {
-        ctrl.imgResolved = true;
-      };
     });

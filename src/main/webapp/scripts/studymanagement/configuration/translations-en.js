@@ -66,7 +66,8 @@ angular.module('metadatamanagementApp').config(
               'current-version-tooltip': 'This is the current version!',
               'next-page-tooltip': 'Click to show older versions.',
               'previous-page-tooltip': 'Click to more recent versions.',
-              'attachment-deleted': 'Metadata has been deleted!'
+              'attachment-deleted': 'Metadata has been deleted!',
+              'no-versions-found': 'There are no previous versions of the metadata.'
             },
             'language-not-found': 'No valid language found!',
             'save-study-before-adding-attachment': 'The Study has to be saved to enable attaching documents.',
@@ -166,7 +167,8 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-not-empty': 'The sponsor of the study must not be empty at both languages.'
             },
             'study-series': {
-              'i18n-string-size': 'The max length of the study series is 128 signs.'
+              'i18n-string-size': 'The max length of the study series is 128 signs.',
+              'i18n-string-entire-not-empty-optional': 'If the study series is given in one language, it has to be set in all languages.'
             },
             'data-availability': {
               'not-null': 'The data availability of the study must not be empty!',
@@ -210,7 +212,8 @@ angular.module('metadatamanagementApp').config(
             },
             'language': {
               'not-null': 'The language of the attachment must not be empty!',
-              'not-supported': 'The language of the attachment must be a two-letter abbreviation according to ISO 639-1!'
+              'not-supported': 'The language of the attachment must be a two-letter abbreviation according to ISO 639-1!',
+              'not-valid': 'Please select a supported language.'
             },
             'filename': {
               'not-empty': 'The filename of the attachment must not be empty!',
@@ -224,7 +227,7 @@ angular.module('metadatamanagementApp').config(
           'create-page-title': 'Create Study {{studyId}}',
           'success-on-save-toast': 'Study {{studyId}} has been saved successfully.',
           'error-on-save-toast': 'An error occurred during saving of Study {{studyId}}!',
-          'study-has-validation-errors-toast': 'Study has not been saved because there are invalid fields!',
+          'study-has-validation-errors-toast': 'The Study has not been saved because there are invalid fields!',
           'previous-version-restored-toast': 'Previous version of Study {{ studyId }} can be saved now.',
           'current-version-restored-toast': 'Current version of Study {{ studyId }} has been restored.',
           'not-authorized-toast': 'You are not authorized to create or edit studies!',
@@ -244,7 +247,7 @@ angular.module('metadatamanagementApp').config(
           'delete-author-tooltip': 'Click to remove the author from this study.',
           'choose-previous-version': {
             'next-page-tooltip': 'Click to show older versions.',
-            'previous-page-tooltip': 'Click to more recent versions.',
+            'previous-page-tooltip': 'Click to show more recent versions.',
             'title': 'Restore Previous Version of Study {{ studyId }}',
             'text': 'Choose a previous version of this study which shall be restored:',
             'cancel-tooltip': 'Click to return without choosing a previous study version.',

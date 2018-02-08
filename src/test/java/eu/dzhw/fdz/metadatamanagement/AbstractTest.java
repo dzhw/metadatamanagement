@@ -2,6 +2,8 @@ package eu.dzhw.fdz.metadatamanagement;
 
 import static org.junit.Assert.assertEquals;
 
+import org.javers.core.Javers;
+import org.javers.repository.jql.QueryBuilder;
 import org.junit.After;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +64,9 @@ public abstract class AbstractTest {
   @Autowired
   private DaraUpdateQueueItemRepository daraUpdateQueueItemRepository;
   
+  @Autowired
+  private Javers javers;
+  
   @After
   public void ensureMongoHasBeenCleanedUp() {
     assertEquals(0, this.studyRepository.count());
@@ -73,5 +78,6 @@ public abstract class AbstractTest {
     assertEquals(0, this.relatedPublicationRepository.count());
     assertEquals(0, this.elasticsearchUpdateQueueItemRepository.count());
     assertEquals(0, this.daraUpdateQueueItemRepository.count());
+    assertEquals(0, this.javers.findSnapshots(QueryBuilder.anyDomainObject().build()).size());
   }
 }

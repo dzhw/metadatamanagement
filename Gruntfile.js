@@ -256,7 +256,9 @@ module.exports = function(grunt) {
               'An element with “role=menuitem” must be contained in, or owned' +
               ' by, an element with “role=menubar” or “role=menu”.',
               'A table row was 3 columns wide and exceeded the column count' +
-              ' established by the first row (2).'
+              ' established by the first row (2).',
+              'Bad value “” for attribute “src” on element “img”: ' +
+              'Must be non-empty.'
             ],
             customattrs: [
               'show-validation',
@@ -297,7 +299,9 @@ module.exports = function(grunt) {
               'flex',
               'am-time-ago',
               'fdz-required',
-              'read-element-size'
+              'read-element-size',
+              'layout-gt-xs',
+              'layout'
             ]
           },
           files: {

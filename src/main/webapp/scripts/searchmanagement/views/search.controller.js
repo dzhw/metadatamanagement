@@ -342,6 +342,12 @@ angular.module('metadatamanagementApp').controller('SearchController',
       $timeout($scope.search, 2000);
     });
 
+    $scope.$on('deletion-completed', function() {
+      //wait for 1 seconds until refresh
+      //in order to wait for elasticsearch reindex
+      $timeout($scope.search, 2000);
+    });
+
     //Information for the different tabs
     $scope.tabs = [{
       title: 'search-management.tabs.all',

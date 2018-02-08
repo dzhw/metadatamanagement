@@ -18,6 +18,7 @@ import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
@@ -41,11 +42,15 @@ public class DaraServiceTest extends AbstractTest{
   
   @Autowired
   private StudyRepository studyRepository;
+  
+  @Autowired
+  private JaversService javersService;
 
   @After
   public void cleanUp() {
     dataAcquisitionProjectRepository.deleteAll();
     studyRepository.deleteAll();
+    javersService.deleteAll();
   }
   
   @Test

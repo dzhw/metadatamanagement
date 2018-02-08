@@ -8,22 +8,26 @@ angular.module('metadatamanagementApp')
       CurrentProjectService, StudyIdBuilderService, StudyResource, $scope,
       ElasticSearchAdminService, $mdDialog, $transitions,
       CommonDialogsService, LanguageService, StudySearchService,
-      StudyAttachmentResource, $q) {
+      StudyAttachmentResource, $q, CleanJSObjectService) {
 
       var ctrl = this;
       var studySeriesCache = {};
+
+      $scope.$watch('ctrl.study.studySeries', function() {
+        ctrl.onStudySeriesChanged();
+      }, true);
 
       var updateToolbarHeaderAndPageTitle = function() {
         if (ctrl.createMode) {
           PageTitleService.setPageTitle(
             'study-management.edit.create-page-title', {
-            studyId: ctrl.study.id
-          });
+              studyId: ctrl.study.id
+            });
         } else {
           PageTitleService.setPageTitle(
             'study-management.edit.edit-page-title', {
-            studyId: ctrl.study.id
-          });
+              studyId: ctrl.study.id
+            });
         }
         ToolbarHeaderService.updateToolbarHeader({
           'stateName': $state.current.name,
@@ -48,30 +52,34 @@ angular.module('metadatamanagementApp')
               });
             } else {
               if (CurrentProjectService.getCurrentProject() &&
-              !CurrentProjectService.getCurrentProject().release) {
+                !CurrentProjectService.getCurrentProject().release) {
                 StudyResource.get({
                   id: StudyIdBuilderService.buildStudyId(
                     CurrentProjectService.getCurrentProject().id)
                 }).$promise.then(function(study) {
-                    ctrl.createMode = false;
-                    ctrl.study = study;
-                    ctrl.loadAttachments();
-                    updateToolbarHeaderAndPageTitle();
-                    $scope.registerConfirmOnDirtyHook();
-                  }).catch(function() {
-                        ctrl.createMode = true;
-                        ctrl.study = new StudyResource({
-                          id: StudyIdBuilderService.buildStudyId(
-                            CurrentProjectService.getCurrentProject().id),
-                          dataAcquisitionProjectId:
-                          CurrentProjectService.getCurrentProject().id,
-                          authors: [{firstName: '', lastName: ''}],
-                          doi: StudyIdBuilderService.buildDoi(
-                            CurrentProjectService.getCurrentProject().id)
-                        });
-                        updateToolbarHeaderAndPageTitle();
-                        $scope.registerConfirmOnDirtyHook();
-                      });
+                  ctrl.createMode = false;
+                  ctrl.study = study;
+                  ctrl.loadAttachments();
+                  updateToolbarHeaderAndPageTitle();
+                  $scope.registerConfirmOnDirtyHook();
+                }).catch(function() {
+                  ctrl.createMode = true;
+                  ctrl.study = new StudyResource({
+                    id: StudyIdBuilderService.buildStudyId(
+                      CurrentProjectService.getCurrentProject().id),
+                    dataAcquisitionProjectId: CurrentProjectService
+                      .getCurrentProject()
+                      .id,
+                    authors: [{
+                      firstName: '',
+                      lastName: ''
+                    }],
+                    doi: StudyIdBuilderService.buildDoi(
+                      CurrentProjectService.getCurrentProject().id)
+                  });
+                  updateToolbarHeaderAndPageTitle();
+                  $scope.registerConfirmOnDirtyHook();
+                });
               } else {
                 SimpleMessageToastService.openSimpleMessageToast(
                   'study-management.edit.choose-unreleased-project-toast');
@@ -89,20 +97,28 @@ angular.module('metadatamanagementApp')
           }
         } else {
           SimpleMessageToastService.openSimpleMessageToast(
-          'study-management.edit.not-authorized-toast');
+            'study-management.edit.not-authorized-toast');
         }
       };
 
-      ctrl.dataAvailabilities = [
-        {de: 'Verfügbar', en: 'Available'},
-        {de: 'In Aufbereitung', en: 'In preparation'},
-        {de: 'Nicht verfügbar', en: 'Not available'}
-      ];
+      ctrl.dataAvailabilities = [{
+        de: 'Verfügbar',
+        en: 'Available'
+      }, {
+        de: 'In Aufbereitung',
+        en: 'In preparation'
+      }, {
+        de: 'Nicht verfügbar',
+        en: 'Not available'
+      }];
 
-      ctrl.surveyDesigns = [
-        {de: 'Panel', en: 'Panel'},
-        {de: 'Querschnitt', en: 'Cross-Section'}
-      ];
+      ctrl.surveyDesigns = [{
+        de: 'Panel',
+        en: 'Panel'
+      }, {
+        de: 'Querschnitt',
+        en: 'Cross-Section'
+      }];
 
       ctrl.deleteAuthor = function(index) {
         ctrl.study.authors.splice(index, 1);
@@ -110,10 +126,13 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.addAuthor = function() {
-        ctrl.study.authors.push({firstName: '', lastName: ''});
+        ctrl.study.authors.push({
+          firstName: '',
+          lastName: ''
+        });
         $timeout(function() {
           $document.find('input[name="authorsFirstName_' +
-            (ctrl.study.authors.length - 1) + '"]')
+              (ctrl.study.authors.length - 1) + '"]')
             .focus();
         });
       };
@@ -125,8 +144,8 @@ angular.module('metadatamanagementApp')
 
       ctrl.deleteCurrentAuthor = function(event) {
         if (event.relatedTarget && (
-          event.relatedTarget.id === 'move-author-up-button' ||
-          event.relatedTarget.id === 'move-author-down-button')) {
+            event.relatedTarget.id === 'move-author-up-button' ||
+            event.relatedTarget.id === 'move-author-down-button')) {
           return;
         }
         delete ctrl.currentAuthorIndex;
@@ -161,13 +180,14 @@ angular.module('metadatamanagementApp')
       ctrl.saveStudy = function() {
         if ($scope.studyForm.$valid) {
           ctrl.study.$save()
-          .then(ctrl.updateElasticSearchIndex)
-          .then(ctrl.onSavedSuccessfully)
-          .catch(function(error) {
+            .then(ctrl.updateElasticSearchIndex)
+            .then(ctrl.onSavedSuccessfully)
+            .catch(function(error) {
               console.log(error);
               SimpleMessageToastService.openSimpleMessageToast(
-                'study-management.edit.error-on-save-toast',
-                {studyId: ctrl.study.id});
+                'study-management.edit.error-on-save-toast', {
+                  studyId: ctrl.study.id
+                });
             });
         } else {
           // ensure that all validation errors are visible
@@ -189,10 +209,13 @@ angular.module('metadatamanagementApp')
       ctrl.onSavedSuccessfully = function() {
         $scope.studyForm.$setPristine();
         SimpleMessageToastService.openSimpleMessageToast(
-          'study-management.edit.success-on-save-toast',
-          {studyId: ctrl.study.id}, true);
+          'study-management.edit.success-on-save-toast', {
+            studyId: ctrl.study.id
+          }, true);
         if (ctrl.createMode) {
-          $state.go('studyEdit', {id: ctrl.study.id});
+          $state.go('studyEdit', {
+            id: ctrl.study.id
+          });
         }
       };
 
@@ -213,15 +236,13 @@ angular.module('metadatamanagementApp')
             if (studyWrapper.isCurrentVersion) {
               $scope.studyForm.$setPristine();
               SimpleMessageToastService.openSimpleMessageToast(
-                'study-management.edit.current-version-restored-toast',
-                {
+                'study-management.edit.current-version-restored-toast', {
                   studyId: ctrl.study.id
                 }, true);
             } else {
               $scope.studyForm.$setDirty();
               SimpleMessageToastService.openSimpleMessageToast(
-                'study-management.edit.previous-version-restored-toast',
-                {
+                'study-management.edit.previous-version-restored-toast', {
                   studyId: ctrl.study.id
                 }, true);
             }
@@ -246,58 +267,59 @@ angular.module('metadatamanagementApp')
 
         //Search Call to Elasticsearch
         return StudySearchService.findStudySeries(searchText, {},
-          language)
+            language)
           .then(function(studySeries) {
             studySeriesCache.searchText = searchText;
             studySeriesCache.language = language;
             studySeriesCache.searchResult = studySeries;
             return studySeries;
-          }
-        );
+          });
       };
 
       ctrl.loadAttachments = function(selectLastAttachment) {
         StudyAttachmentResource.findByStudyId({
-            studyId: ctrl.study.id
-          }).$promise.then(
-            function(attachments) {
-              if (attachments.length > 0) {
-                ctrl.attachments = attachments;
-                if (selectLastAttachment) {
-                  ctrl.currentAttachmentIndex = attachments.length - 1;
-                }
+          studyId: ctrl.study.id
+        }).$promise.then(
+          function(attachments) {
+            if (attachments.length > 0) {
+              ctrl.attachments = attachments;
+              if (selectLastAttachment) {
+                ctrl.currentAttachmentIndex = attachments.length - 1;
               }
-            });
+            }
+          });
       };
 
       ctrl.deleteAttachment = function(attachment, index) {
         CommonDialogsService.showConfirmFileDeletionDialog(attachment.fileName)
-        .then(function() {
-          attachment.$delete().then(function() {
-            SimpleMessageToastService.openSimpleMessageToast(
-              'study-management.detail.attachments.attachment-deleted-toast',
-              {filename: attachment.fileName},
-              true
-            );
-            ctrl.attachments.splice(index, 1);
-            delete ctrl.currentAttachmentIndex;
+          .then(function() {
+            attachment.$delete().then(function() {
+              SimpleMessageToastService.openSimpleMessageToast(
+                'study-management.detail.attachments.attachment-deleted-toast',
+                {
+                  filename: attachment.fileName
+                },
+                true
+              );
+              ctrl.attachments.splice(index, 1);
+              delete ctrl.currentAttachmentIndex;
+            });
           });
-        });
       };
 
       ctrl.editAttachment = function(attachment, event) {
         $mdDialog.show({
-            controller: 'StudyAttachmentEditOrCreateController',
-            controllerAs: 'ctrl',
-            templateUrl: 'scripts/studymanagement/' +
-              'views/study-attachment-edit-or-create.html.tmpl',
-            clickOutsideToClose: false,
-            fullscreen: true,
-            locals: {
-              studyAttachmentMetadata: attachment
-            },
-            targetEvent: event
-          }).then(function() {
+          controller: 'StudyAttachmentEditOrCreateController',
+          controllerAs: 'ctrl',
+          templateUrl: 'scripts/studymanagement/' +
+            'views/study-attachment-edit-or-create.html.tmpl',
+          clickOutsideToClose: false,
+          fullscreen: true,
+          locals: {
+            studyAttachmentMetadata: attachment
+          },
+          targetEvent: event
+        }).then(function() {
           ctrl.loadAttachments();
         });
       };
@@ -313,21 +335,21 @@ angular.module('metadatamanagementApp')
 
       ctrl.addAttachment = function(event) {
         $mdDialog.show({
-            controller: 'StudyAttachmentEditOrCreateController',
-            controllerAs: 'ctrl',
-            templateUrl: 'scripts/studymanagement/' +
-              'views/study-attachment-edit-or-create.html.tmpl',
-            clickOutsideToClose: false,
-            fullscreen: true,
-            locals: {
-              studyAttachmentMetadata: {
-                indexInStudy: ctrl.getNextIndexInStudy(),
-                studyId: ctrl.study.id,
-                dataAcquisitionProjectId: ctrl.study.dataAcquisitionProjectId
-              }
-            },
-            targetEvent: event
-          }).then(function() {
+          controller: 'StudyAttachmentEditOrCreateController',
+          controllerAs: 'ctrl',
+          templateUrl: 'scripts/studymanagement/' +
+            'views/study-attachment-edit-or-create.html.tmpl',
+          clickOutsideToClose: false,
+          fullscreen: true,
+          locals: {
+            studyAttachmentMetadata: {
+              indexInStudy: ctrl.getNextIndexInStudy(),
+              studyId: ctrl.study.id,
+              dataAcquisitionProjectId: ctrl.study.dataAcquisitionProjectId
+            }
+          },
+          targetEvent: event
+        }).then(function() {
           ctrl.loadAttachments(true);
         });
       };
@@ -358,8 +380,9 @@ angular.module('metadatamanagementApp')
         });
         $q.all(promises).then(function() {
           SimpleMessageToastService.openSimpleMessageToast(
-          'study-management.detail.attachments.attachment-order-saved-toast',
-          {}, true);
+            'study-management.detail.attachments.attachment-order-saved-toast',
+            {},
+            true);
           ctrl.attachmentOrderIsDirty = false;
         });
       };
@@ -368,6 +391,43 @@ angular.module('metadatamanagementApp')
         if (Principal.hasAuthority('ROLE_PUBLISHER')) {
           ctrl.currentAttachmentIndex = index;
         }
+      };
+
+      ctrl.onStudySeriesChanged = function() {
+        //The fields of study series are undefined
+        //at the moment of the first initial Call
+        if (!$scope.studyForm.studySeriesDe ||
+            !$scope.studyForm.studySeriesEn) {
+          return;
+        }
+
+        if (CleanJSObjectService
+          .isNullOrEmpty(ctrl.study.studySeries.de) &&
+          !CleanJSObjectService
+          .isNullOrEmpty(ctrl.study.studySeries.en)) {
+          $scope.studyForm.studySeriesDe.$setValidity('fdz-required', false);
+        }
+
+        if (CleanJSObjectService
+          .isNullOrEmpty(ctrl.study.studySeries.en) &&
+          !CleanJSObjectService
+          .isNullOrEmpty(ctrl.study.studySeries.de)) {
+          $scope.studyForm.studySeriesEn.$setValidity('fdz-required', false);
+        }
+
+        if ((CleanJSObjectService
+            .isNullOrEmpty(ctrl.study.studySeries.de) &&
+            CleanJSObjectService
+            .isNullOrEmpty(ctrl.study.studySeries.en)) ||
+          (!CleanJSObjectService
+            .isNullOrEmpty(ctrl.study.studySeries.de) &&
+            !CleanJSObjectService
+            .isNullOrEmpty(ctrl.study.studySeries.en))) {
+          $scope.studyForm.studySeriesDe.$setValidity('fdz-required', true);
+          $scope.studyForm.studySeriesEn.$setValidity('fdz-required', true);
+        }
+
+        $scope.studyForm.$setDirty();
       };
 
       init();

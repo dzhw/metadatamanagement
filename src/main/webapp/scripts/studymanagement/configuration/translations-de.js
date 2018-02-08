@@ -66,7 +66,8 @@ angular.module('metadatamanagementApp').config(
               'current-version-tooltip': 'Dies ist die aktuelle Version!',
               'next-page-tooltip': 'Klicken, um ältere Versionen anzuzeigen.',
               'previous-page-tooltip': 'Klicken, um aktuellere Versionen anzuzeigen.',
-              'attachment-deleted': 'Metadaten wurden gelöscht!'
+              'attachment-deleted': 'Metadaten wurden gelöscht!',
+              'no-versions-found': 'Es wurden keine älteren Versionen der Metadaten gefunden.'
             },
             'language-not-found': 'Keine gültige Sprache gefunden!',
             'save-study-before-adding-attachment': 'Die Studie muss erst gespeichert werden, bevor Materialien hinzugefügt werden können.',
@@ -166,7 +167,8 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-entire-not-empty': 'Der Sponsor einer Studie muss in beiden Sprachen vorhanden sein.'
             },
             'study-series': {
-              'i18n-string-size': 'Die Maximallänge der Studienreihe einer Studie ist 128 Zeichen.'
+              'i18n-string-size': 'Die Maximallänge der Studienreihe ist 128 Zeichen.',
+              'i18n-string-entire-not-empty-optional': 'Wenn die Studienreihe in einer Sprache vorliegt, muss sie in allen Sprachen vorliegen.'
             },
             'data-availability': {
               'not-null': 'Die Datenerreichbarkeit einer Studie darf nicht leer sein!',
@@ -210,7 +212,8 @@ angular.module('metadatamanagementApp').config(
             },
             'language': {
               'not-null': 'Die Sprache des Attachments darf nicht leer sein.',
-              'not-supported': 'Die Sprache muss eine gültige zweibuchstabige Abkürzung gemäß ISO 639-1 sein.'
+              'not-supported': 'Die Sprache muss eine gültige zweibuchstabige Abkürzung gemäß ISO 639-1 sein.',
+              'not-valid': 'Bitte wählen Sie eine vorgeschlagene Sprache aus.'
             },
             'filename': {
               'not-empty': 'Der Dateiname des Attachments darf nicht leer sein.',
