@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp')
     function(entity, $state, ToolbarHeaderService,
       SimpleMessageToastService, QuestionSearchService, CleanJSObjectService,
       PageTitleService, $rootScope, Principal, SearchResultNavigatorService,
-      $stateParams, QuestionImageMetadataResource) {
+      $stateParams, QuestionImageMetadataResource, $mdMenu, $timeout) {
       SearchResultNavigatorService.registerCurrentSearchResult(
             $stateParams['search-result-index']);
       var ctrl = this;
@@ -120,6 +120,8 @@ angular.module('metadatamanagementApp')
 
       ctrl.changeCurrentImageLanguage = function(language) {
         ctrl.currentImageLanguage = language;
+        ctrl.currentImageIndex = 0;
+        $timeout($mdMenu.hide);
       };
 
       ctrl.openSuccessCopyToClipboardToast = function(message) {
