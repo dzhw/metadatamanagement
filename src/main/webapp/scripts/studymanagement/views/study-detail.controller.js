@@ -32,8 +32,8 @@ angular.module('metadatamanagementApp')
           'id': result.id,
           'studyIsPresent': true,
           'projectId': result.dataAcquisitionProjectId});
-        if (result.release || Principal.hasAuthority('ROLE_PUBLISHER') ||
-          Principal.hasAuthority('ROLE_DATA_PROVIDER')) {
+        if (result.release || Principal
+            .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           ctrl.study = result;
           ctrl.counts.surveysCount = result.surveys.length;
           if (ctrl.counts.surveysCount === 1) {

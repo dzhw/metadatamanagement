@@ -40,8 +40,8 @@ angular.module('metadatamanagementApp')
         isNullOrEmpty(result.study) ? false : true,
         'projectId': result.dataAcquisitionProjectId
       });
-      if (result.release || Principal.hasAuthority('ROLE_PUBLISHER') ||
-          Principal.hasAuthority('ROLE_DATA_PROVIDER')) {
+      if (result.release || Principal.hasAnyAuthority(['ROLE_PUBLISHER',
+          'ROLE_DATA_PROVIDER'])) {
         $scope.variable = result;
         if (!CleanJSObjectService.isNullOrEmpty($scope
             .variable.distribution.missings) || !CleanJSObjectService
