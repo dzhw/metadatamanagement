@@ -8,9 +8,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
-import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,8 +38,4 @@ public class Release {
 
   @NotNull(message = "data-acquisition-project.error.release.date.not-null")
   private LocalDateTime date;
-
-  @I18nStringSize(max = StringLengths.LARGE, 
-      message = "data-acquisition-project.error.release.notes.i18n-string-size")
-  private I18nString notes;
 }

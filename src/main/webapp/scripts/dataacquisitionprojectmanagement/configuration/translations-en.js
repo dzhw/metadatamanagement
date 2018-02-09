@@ -7,11 +7,7 @@ angular.module('metadatamanagementApp').config(
       'data-acquisition-project-management': {
         'name': 'Name of the Data Acquisition Projects',
         'release': {
-          'version': 'Version of the Data Acquisition Projects',
-          'notes': {
-            'de': 'Release Notes (in German)',
-            'en': 'Release Notes (in English)'
-          }
+          'version': 'Version of the Data Acquisition Projects'
         },
         'home': {
           'title': 'Data Acquisition Projects',

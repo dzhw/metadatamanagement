@@ -7,11 +7,7 @@ angular.module('metadatamanagementApp').config(
       'data-acquisition-project-management': {
         'name': 'Name des Datenaufbereitungsprojektes',
         'release': {
-          'version': 'Version des Datenaufbereitungsprojektes',
-          'notes': {
-            'de': 'Freigabebemerkungen (auf Deutsch)',
-            'en': 'Freigabebemerkungen (auf Englisch)'
-          }
+          'version': 'Version des Datenaufbereitungsprojektes'
         },
         'home': {
           'title': 'Datenaufbereitungsprojekte',

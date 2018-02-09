@@ -25,20 +25,6 @@
                     <div ng-message="pattern">{{'global.entity.validation.data-acquisition-project.release.version' | translate }}</div>
                 </div>
             </md-input-container>
-            <md-input-container class="md-block">
-              <label>{{'data-acquisition-project-management.release.notes.de' | translate}}</label>
-              <textarea name="notes.de" ng-model="release.notes.de" md-maxlength="2048" rows="5"></textarea>
-              <div ng-messages="releaseForm.notes.de.$error" data-multiple data-md-auto-hide="false">
-                  <div ng-message="md-maxlength">{{'global.entity.validation.maxlength' | translate:'{ max: "2048" }'}}</div>
-              </div>
-            </md-input-container>
-            <md-input-container class="md-block">
-              <label>{{'data-acquisition-project-management.release.notes.en' | translate}}</label>
-              <textarea name="notes.en" ng-model="release.notes.en" md-maxlength="2048" rows="5"></textarea>
-              <div ng-messages="releaseForm.notes.en.$error" data-multiple data-md-auto-hide="false">
-                  <div ng-message="md-maxlength">{{'global.entity.validation.maxlength' | translate:'{ max: "2048" }'}}</div>
-              </div>
-            </md-input-container>
         </md-dialog-content>
         <md-dialog-actions layout="row" style="padding: 0 1.5em 1em 0;">
             <md-button class="md-raised" ng-click="cancel()">
