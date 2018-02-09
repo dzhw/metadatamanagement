@@ -1,4 +1,4 @@
-/* global _, bowser, Blob*/
+/* global _, bowser*/
 'use strict';
 
 angular.module('metadatamanagementApp')
@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp')
       CurrentProjectService, SurveyIdBuilderService, SurveyResource, $scope,
       ElasticSearchAdminService, $mdDialog, $transitions, StudyResource,
       CommonDialogsService, LanguageService, AvailableSurveyNumbersResource,
-      SurveyAttachmentResource, $q, StudyIdBuilderService, moment, Upload,
+      SurveyAttachmentResource, $q, StudyIdBuilderService, moment,
       SurveyResponseRateImageUploadService) {
       var ctrl = this;
       var updateToolbarHeaderAndPageTitle = function() {
@@ -55,20 +55,19 @@ angular.module('metadatamanagementApp')
               entity.$promise.then(function(survey) {
                 ctrl.createMode = false;
                 ctrl.survey = survey;
+                $scope.responseRateInitializing = true;
                 ctrl.loadAttachments();
                 updateToolbarHeaderAndPageTitle();
                 $scope.registerConfirmOnDirtyHook();
                 SurveyResponseRateImageUploadService.getImage(
                   ctrl.survey.id, ctrl.survey.number, 'en')
                   .then(function(image) {
-                    ctrl.responseRateImageEn = new Blob(
-                      [image],{type: 'image/svg+xml'});
+                    ctrl.responseRateImageEn = image;
                   });
                 SurveyResponseRateImageUploadService.getImage(
                   ctrl.survey.id, ctrl.survey.number, 'de')
                   .then(function(image) {
-                    ctrl.responseRateImageDe = new Blob(
-                      [image],{type: 'image/svg+xml'});
+                    ctrl.responseRateImageDe = image;
                   });
               });
             } else {
@@ -93,6 +92,7 @@ angular.module('metadatamanagementApp')
                           ),
                           wave: 1
                         });
+                        $scope.responseRateInitializing = true;
                         updateToolbarHeaderAndPageTitle();
                         $scope.registerConfirmOnDirtyHook();
                       } else {
@@ -120,6 +120,7 @@ angular.module('metadatamanagementApp')
                               ),
                               wave: 1
                             });
+                            $scope.responseRateInitializing = true;
                             updateToolbarHeaderAndPageTitle();
                             $scope.registerConfirmOnDirtyHook();
                           });
@@ -198,6 +199,7 @@ angular.module('metadatamanagementApp')
           })
           .then(function(surveyWrapper) {
             ctrl.survey = new SurveyResource(surveyWrapper.survey);
+            $scope.responseRateInitializing = true;
             if (surveyWrapper.isCurrentVersion) {
               $scope.surveyForm.$setPristine();
               SimpleMessageToastService.openSimpleMessageToast(
@@ -361,9 +363,7 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.saveResponseRateImageDe = function(file) {
-        ctrl.responseRateImageDe = Upload.rename(file,
-          SurveyResponseRateImageUploadService.buildImageFilename(
-            ctrl.survey.number, 'de'));
+        ctrl.responseRateImageDe = file;
         ctrl.responseRateImageDeDirty = true;
       };
 
@@ -384,7 +384,8 @@ angular.module('metadatamanagementApp')
           });
         } else {
           SurveyResponseRateImageUploadService.uploadImage(
-            ctrl.responseRateImageDe, ctrl.survey.id).then(function() {
+            ctrl.responseRateImageDe, ctrl.survey.id, ctrl.survey.number, 'de')
+            .then(function() {
               SimpleMessageToastService.openSimpleMessageToast(
                 'survey-management.edit.survey-image-saved-toast',
                 null, true);
@@ -394,9 +395,7 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.saveResponseRateImageEn = function(file) {
-        ctrl.responseRateImageEn = Upload.rename(file,
-          SurveyResponseRateImageUploadService.buildImageFilename(
-            ctrl.survey.number, 'en'));
+        ctrl.responseRateImageEn = file;
         ctrl.responseRateImageEnDirty = true;
       };
 
@@ -417,7 +416,8 @@ angular.module('metadatamanagementApp')
           });
         } else {
           SurveyResponseRateImageUploadService.uploadImage(
-            ctrl.responseRateImageEn, ctrl.survey.id).then(function() {
+            ctrl.responseRateImageEn, ctrl.survey.id, ctrl.survey.number, 'en')
+            .then(function() {
               SimpleMessageToastService.openSimpleMessageToast(
                 'survey-management.edit.survey-image-saved-toast',
                 null, true);
@@ -425,6 +425,20 @@ angular.module('metadatamanagementApp')
             });
         }
       };
+
+      $scope.$watchGroup(['ctrl.survey.sampleSize',
+        'ctrl.survey.grossSampleSize'], function() {
+            if (!$scope.responseRateInitializing) {
+              if (ctrl.survey.sampleSize != null &&
+                ctrl.survey.grossSampleSize) {
+                ctrl.survey.responseRate = Number((
+                  ctrl.survey.sampleSize / ctrl.survey.grossSampleSize * 100
+                ).toFixed(2));
+                $scope.surveyForm.responseRate.$setTouched();
+              }
+            }
+            $scope.responseRateInitializing = false;
+          });
 
       init();
     });

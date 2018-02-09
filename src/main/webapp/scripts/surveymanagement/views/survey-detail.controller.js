@@ -1,4 +1,3 @@
-/* global Blob */
 'use strict';
 
 angular.module('metadatamanagementApp')
@@ -61,8 +60,7 @@ angular.module('metadatamanagementApp')
           SurveyResponseRateImageUploadService.getImage(
             ctrl.survey.id, ctrl.survey.number, currenLanguage)
             .then(function(image) {
-              ctrl.responseRateImage = new Blob(
-                [image],{type: 'image/svg+xml'});
+              ctrl.responseRateImage = image;
             });
         } else {
           SimpleMessageToastService.openSimpleMessageToast(

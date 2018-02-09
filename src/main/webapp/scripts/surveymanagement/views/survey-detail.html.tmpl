@@ -205,7 +205,7 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="row in ctrl.attachments">
-                        <td lang="{{row.language}}" fdz-hyphenate>{{row.title}}&nbsp;</td>
+                        <td lang="{{row.language}}">{{row.title}}&nbsp;</td>
                         <td display-i18n-string="row.description" fdz-hyphenate class="fdz-text-block"></td>
                         <td>{{row.language | displayIsoLanguage: currentLanguage}}&nbsp;</td>
                         <td><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
@@ -225,7 +225,7 @@
                     </md-card-header-text>
                 </md-card-header>
                 <md-divider></md-divider>
-                <a ng-href="{{'/public/files/surveys/' + ctrl.survey.id + '/' + ctrl.survey.number + '_responserate_' + currentLanguage + '.svg'}}" target="_blank">
+                <a ng-href="{{'/public/files/surveys/' + ctrl.survey.id + '/' + ctrl.survey.number + '_responserate_' + currentLanguage}}" target="_blank">
                     <img src="" ngf-src="ctrl.responseRateImage" alt="{{'survey-management.detail.response-rate-information-alt-text' | translate}}" style="width:100%;top:0;left:0;bottom:0;right:0;"/>
                     <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                         {{'global.tooltips.images' | translate}}
