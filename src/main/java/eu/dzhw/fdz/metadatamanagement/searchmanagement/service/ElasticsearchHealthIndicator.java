@@ -1,10 +1,11 @@
-package eu.dzhw.fdz.metadatamanagement.searchmanagement.dao;
+package eu.dzhw.fdz.metadatamanagement.searchmanagement.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.health.AbstractHealthIndicator;
 import org.springframework.boot.actuate.health.Health.Builder;
 import org.springframework.stereotype.Component;
 
+import com.codahale.metrics.annotation.Timed;
 import com.google.gson.JsonObject;
 
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
@@ -32,6 +33,7 @@ public class ElasticsearchHealthIndicator extends AbstractHealthIndicator {
   }
 
   @Override
+  @Timed
   protected void doHealthCheck(Builder builder) throws Exception {
     JestResult result = jestClient.execute(new Stats.Builder().addIndex("_all").build());
     JsonObject map = result.getJsonObject();

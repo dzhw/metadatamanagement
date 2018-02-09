@@ -11,6 +11,8 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.web.authentication.session.SessionAuthenticationException;
 import org.springframework.stereotype.Controller;
 
+import com.codahale.metrics.annotation.Timed;
+
 import eu.dzhw.fdz.metadatamanagement.usermanagement.websocket.dto.MessageDto;
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,6 +36,7 @@ public class UserMessagesController {
    */
   @MessageMapping("/user-messages")
   @SendTo("/topic/user-messages")
+  @Timed
   public MessageDto sendMessageToAllUsers(MessageDto message, 
       @Header("access_token") String accessToken) throws Exception {
     OAuth2AccessToken oauth2accessToken = tokenStore.readAccessToken(accessToken);

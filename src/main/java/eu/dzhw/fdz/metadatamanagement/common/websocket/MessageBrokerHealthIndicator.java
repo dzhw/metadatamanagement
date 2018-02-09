@@ -7,6 +7,8 @@ import org.springframework.core.env.Environment;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
+import com.codahale.metrics.annotation.Timed;
+
 import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
 import eu.dzhw.fdz.metadatamanagement.common.websocket.repository.ActiveWebSocketSessionRepository;
 
@@ -40,6 +42,7 @@ public class MessageBrokerHealthIndicator extends AbstractHealthIndicator {
   }
 
   @Override
+  @Timed
   protected void doHealthCheck(Builder builder) throws Exception {
     if (env.acceptsProfiles(Constants.SPRING_PROFILE_LOCAL)) {
       builder.withDetail("Message Broker", "Simple (local)");
