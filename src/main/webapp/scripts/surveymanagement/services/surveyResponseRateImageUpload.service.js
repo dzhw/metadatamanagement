@@ -1,14 +1,16 @@
+/* global Blob */
 'use strict';
 
 angular.module('metadatamanagementApp').service(
   'SurveyResponseRateImageUploadService',
   function(Upload, $q, $http, $rootScope) {
     var buildImageFilename = function(surveyNumber, language) {
-      return surveyNumber + '_responserate_' + language + '.svg';
+      return surveyNumber + '_responserate_' + language;
     };
 
-    var uploadImage = function(image, surveyId) {
+    var uploadImage = function(image, surveyId, surveyNumber, language) {
       var deferred = $q.defer();
+      image = Upload.rename(image, buildImageFilename(surveyNumber, language));
       Upload.upload({
         url: '/api/surveys/images',
         fields: {
@@ -38,9 +40,11 @@ angular.module('metadatamanagementApp').service(
       var filename = buildImageFilename(surveyNumber, language);
       $rootScope.$broadcast('start-ignoring-404');
       return $http.get('/public/files/surveys/' + encodeURIComponent(surveyId) +
-      '/' + encodeURIComponent(filename)).then(function(response) {
+        '/' + encodeURIComponent(filename),
+        {responseType: 'arraybuffer'}).then(function(response) {
         $rootScope.$broadcast('stop-ignoring-404');
-        return response.data;
+        return new Blob([response.data],
+          {type: response.headers('content-type')});
       }).catch(function(error) {
         $rootScope.$broadcast('stop-ignoring-404');
         return $q.reject(error);

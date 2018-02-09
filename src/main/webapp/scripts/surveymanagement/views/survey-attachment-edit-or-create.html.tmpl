@@ -74,7 +74,7 @@
                     </div>
                     <div layout="row">
                         <md-input-container flex style="margin-right: 8px;" md-is-error="!surveyAttachmentForm.title.$valid && (surveyAttachmentForm.title.$dirty || surveyAttachmentForm.title.$touched)">
-                            <label>{{'survey-management.detail.label.attachments.title' | translate}} ({{'global.in' | translate}} {{ctrl.selectedLanguage.displayLanguage[currentLanguage]?ctrl.selectedLanguage.displayLanguage[currentLanguage]:'?'}})</label>
+                            <label class="fdz-input-required">{{'survey-management.detail.label.attachments.title' | translate}} ({{'global.in' | translate}} {{ctrl.selectedLanguage.displayLanguage[currentLanguage]?ctrl.selectedLanguage.displayLanguage[currentLanguage]:'?'}})</label>
                             <textarea fdz-required rows="4" md-maxlength="2048" ng-model="ctrl.surveyAttachmentMetadata.title" name="title"></textarea>
                             <div ng-if="!surveyAttachmentForm.title.$dirty && !surveyAttachmentForm.title.$touched" class="fdz-input-hint">{{'survey-management.detail.attachments.hints.title' | translate}}</div>
                             <div ng-messages="surveyAttachmentForm.title.$error" multiple>

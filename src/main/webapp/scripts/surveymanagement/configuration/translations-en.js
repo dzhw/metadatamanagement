@@ -207,7 +207,7 @@ angular.module('metadatamanagementApp').config(
             'description': {
               'not-null': 'The description of the attachment must not be empty!',
               'i18n-string-size': 'The description is mandatory and must in at least one language and must not contain more than 128 characters.',
-              'i18n-string-not-empty': 'The description must not be empty!'
+              'i18n-string-not-empty': 'The description must not be empty at least for one language.'
             },
             'title': {
               'not-null': 'The title of the attachment must not be empty!',
@@ -312,8 +312,8 @@ angular.module('metadatamanagementApp').config(
             },
             'response-rate-image': {
               'available-after-save': 'Graphical representations of the response rate can be uploaded after saving the survey.',
-              'de': 'Upload a graphical representation (SVG) of the response rate in German.',
-              'en': 'Upload a graphical representation (SVG) of the response rate in English.'
+              'de': 'Upload a graphical representation of the response rate in German.',
+              'en': 'Upload a graphical representation of the response rate in English.'
             },
             'survey-number': 'Please select a survey number for the new survey.'
           }

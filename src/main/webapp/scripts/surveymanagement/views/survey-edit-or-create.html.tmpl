@@ -228,84 +228,86 @@
     </div>
 </form>
 <div ng-if="ctrl.survey.id" layout-gt-sm="row" layout="column">
-    <md-card flex="50" class="fdz-reset-top-margin">
-        <md-card-header>
-            <md-card-header-text>
-                <h2 class="md-title">{{'survey-management.detail.response-rate-information' | translate | fdzHyphenate }} ({{'global.in-german' | translate}})</h2>
-            </md-card-header-text>
-        </md-card-header>
-        <md-divider></md-divider>
-        <md-card-content ng-if="!ctrl.createMode" flex ngf-drop="ctrl.saveResponseRateImageDe($file)" ngf-drag-over-class="{accept:'fdz-file-drop-accept', reject:'fdz-file-drop-reject', delay:0}" ngf-select="ctrl.saveResponseRateImageDe($file)" style="cursor: pointer;"
-          ngf-pattern="'image/svg+xml'" ngf-accept="'image/svg+xml'">
-            <img src="" alt="" ngf-src="ctrl.responseRateImageDe" style="width:100%;top:0;left:0;bottom:0;right:0;">
-            <div ng-if="!ctrl.responseRateImageDe">
-                {{'survey-management.edit.hints.response-rate-image.de' | translate}}
-            </div>
-        </md-card-content>
-        <md-card-content ng-if="ctrl.createMode">
-            {{'survey-management.edit.hints.response-rate-image.available-after-save' | translate}}
-        </md-card-content>
-        <md-card-actions ng-if="!ctrl.createMode" style="margin-top: 12px; margin-bottom: 12px;" layout="row" layout-align="begin center">
-            <md-button class="md-primary md-raised md-icon-button" style="margin-left: 6px;" ngf-select="ctrl.saveResponseRateImageDe($file)" ngf-accept="'image/svg+xml'">
-                <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                    {{'survey-management.edit.response-rate-image.add-german-image-tooltip' | translate}}
-                </md-tooltip>
-                <md-icon ng-if="!ctrl.responseRateImageDe" md-font-set="material-icons">add</md-icon>
-                <md-icon ng-if="ctrl.responseRateImageDe" md-font-set="material-icons">edit</md-icon>
-            </md-button>
-            <md-button class="md-primary md-raised md-icon-button" style="margin-left: 6px;" ng-click="ctrl.deleteResponseRateImageDe()" ng-disabled="!ctrl.responseRateImageDe">
-                <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                    {{'survey-management.edit.response-rate-image.delete-german-image-tooltip' | translate}}
-                </md-tooltip>
-                <md-icon md-font-set="material-icons">delete_forever</md-icon>
-            </md-button>
-            <md-button class="md-raised md-accent md-icon-button" ng-click="ctrl.uploadOrDeleteResponseRateImageDe()" ng-disabled="!ctrl.responseRateImageDeDirty">
-                <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                    {{'survey-management.edit.response-rate-image.upload-or-delete-german-image-tooltip' | translate}}
-                </md-tooltip>
-                <md-icon md-font-set="material-icons">save</md-icon>
-            </md-button>
-        </md-card-actions>
-    </md-card>
-    <md-card flex="50" class="fdz-reset-top-margin" ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm')}">
-        <md-card-header>
-            <md-card-header-text>
-                <h2 class="md-title">{{'survey-management.detail.response-rate-information' | translate | fdzHyphenate }} ({{'global.in-english' | translate}})</h2>
-            </md-card-header-text>
-        </md-card-header>
-        <md-divider></md-divider>
-        <md-card-content ng-if="!ctrl.createMode" flex ngf-drop="ctrl.saveResponseRateImageEn($file)" ngf-drag-over-class="{accept:'fdz-file-drop-accept', reject:'fdz-file-drop-reject', delay:0}" ngf-select="ctrl.saveResponseRateImageEn($file)" style="cursor: pointer;"
-          ngf-pattern="'image/svg+xml'" ngf-accept="'image/svg+xml'">
-            <img src="" alt="" ngf-src="ctrl.responseRateImageEn" style="width:100%;top:0;left:0;bottom:0;right:0;">
-            <div ng-if="!ctrl.responseRateImageEn">
-                {{'survey-management.edit.hints.response-rate-image.en' | translate}}
-            </div>
-        </md-card-content>
-        <md-card-content ng-if="ctrl.createMode">
-            {{'survey-management.edit.hints.response-rate-image.available-after-save' | translate}}
-        </md-card-content>
-        <md-card-actions ng-if="!ctrl.createMode" style="margin-top: 12px; margin-bottom: 12px;" layout="row" layout-align="begin center">
-            <md-button class="md-primary md-raised md-icon-button" style="margin-left: 6px;" ngf-select="ctrl.saveResponseRateImageEn($file)" ngf-accept="'image/svg+xml'">
-                <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                    {{'survey-management.edit.response-rate-image.add-english-image-tooltip' | translate}}
-                </md-tooltip>
-                <md-icon ng-if="!ctrl.responseRateImageEn" md-font-set="material-icons">add</md-icon>
-                <md-icon ng-if="ctrl.responseRateImageEn" md-font-set="material-icons">edit</md-icon>
-            </md-button>
-            <md-button class="md-primary md-raised md-icon-button" style="margin-left: 6px;" ng-click="ctrl.deleteResponseRateImageEn()" ng-disabled="!ctrl.responseRateImageEn">
-                <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                    {{'survey-management.edit.response-rate-image.delete-english-image-tooltip' | translate}}
-                </md-tooltip>
-                <md-icon md-font-set="material-icons">delete_forever</md-icon>
-            </md-button>
-            <md-button class="md-raised md-accent md-icon-button" ng-click="ctrl.uploadOrDeleteResponseRateImageEn()" ng-disabled="!ctrl.responseRateImageEnDirty">
-                <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                    {{'survey-management.edit.response-rate-image.upload-or-delete-english-image-tooltip' | translate}}
-                </md-tooltip>
-                <md-icon md-font-set="material-icons">save</md-icon>
-            </md-button>
-        </md-card-actions>
-    </md-card>
+    <div flex-gt-sm="50">
+        <md-card class="fdz-reset-top-margin">
+            <md-card-header>
+                <md-card-header-text>
+                    <h2 class="md-title">{{'survey-management.detail.response-rate-information' | translate | fdzHyphenate }} ({{'global.in-german' | translate}})</h2>
+                </md-card-header-text>
+            </md-card-header>
+            <md-divider></md-divider>
+            <md-card-content ng-if="!ctrl.createMode" ngf-drop="ctrl.saveResponseRateImageDe($file)" ngf-drag-over-class="{accept:'fdz-file-drop-accept', reject:'fdz-file-drop-reject', delay:0}" ngf-select="ctrl.saveResponseRateImageDe($file)" style="cursor: pointer;">
+                <img src="" alt="" ngf-src="ctrl.responseRateImageDe" style="width:100%;top:0;left:0;bottom:0;right:0;">
+                <div ng-if="!ctrl.responseRateImageDe">
+                    {{'survey-management.edit.hints.response-rate-image.de' | translate}}
+                </div>
+            </md-card-content>
+            <md-card-content ng-if="ctrl.createMode">
+                {{'survey-management.edit.hints.response-rate-image.available-after-save' | translate}}
+            </md-card-content>
+            <md-card-actions ng-if="!ctrl.createMode" style="margin-top: 12px; margin-bottom: 12px;" layout="row" layout-align="begin center">
+                <md-button class="md-primary md-raised md-icon-button" style="margin-left: 6px;" ngf-select="ctrl.saveResponseRateImageDe($file)">
+                    <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                        {{'survey-management.edit.response-rate-image.add-german-image-tooltip' | translate}}
+                    </md-tooltip>
+                    <md-icon ng-if="!ctrl.responseRateImageDe" md-font-set="material-icons">add</md-icon>
+                    <md-icon ng-if="ctrl.responseRateImageDe" md-font-set="material-icons">edit</md-icon>
+                </md-button>
+                <md-button class="md-primary md-raised md-icon-button" style="margin-left: 6px;" ng-click="ctrl.deleteResponseRateImageDe()" ng-disabled="!ctrl.responseRateImageDe">
+                    <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                        {{'survey-management.edit.response-rate-image.delete-german-image-tooltip' | translate}}
+                    </md-tooltip>
+                    <md-icon md-font-set="material-icons">delete_forever</md-icon>
+                </md-button>
+                <md-button class="md-raised md-accent md-icon-button" ng-click="ctrl.uploadOrDeleteResponseRateImageDe()" ng-disabled="!ctrl.responseRateImageDeDirty">
+                    <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                        {{'survey-management.edit.response-rate-image.upload-or-delete-german-image-tooltip' | translate}}
+                    </md-tooltip>
+                    <md-icon md-font-set="material-icons">save</md-icon>
+                </md-button>
+            </md-card-actions>
+        </md-card>
+    </div>
+    <div flex-gt-sm="50">
+        <md-card class="fdz-reset-top-margin" ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm')}">
+            <md-card-header>
+                <md-card-header-text>
+                    <h2 class="md-title">{{'survey-management.detail.response-rate-information' | translate | fdzHyphenate }} ({{'global.in-english' | translate}})</h2>
+                </md-card-header-text>
+            </md-card-header>
+            <md-divider></md-divider>
+            <md-card-content ng-if="!ctrl.createMode" ngf-drop="ctrl.saveResponseRateImageEn($file)" ngf-drag-over-class="{accept:'fdz-file-drop-accept', reject:'fdz-file-drop-reject', delay:0}" ngf-select="ctrl.saveResponseRateImageEn($file)" style="cursor: pointer;">
+                <img src="" alt="" ngf-src="ctrl.responseRateImageEn" style="width:100%;top:0;left:0;bottom:0;right:0;">
+                <div ng-if="!ctrl.responseRateImageEn">
+                    {{'survey-management.edit.hints.response-rate-image.en' | translate}}
+                </div>
+            </md-card-content>
+            <md-card-content ng-if="ctrl.createMode">
+                {{'survey-management.edit.hints.response-rate-image.available-after-save' | translate}}
+            </md-card-content>
+            <md-card-actions ng-if="!ctrl.createMode" style="margin-top: 12px; margin-bottom: 12px;" layout="row" layout-align="begin center">
+                <md-button class="md-primary md-raised md-icon-button" style="margin-left: 6px;" ngf-select="ctrl.saveResponseRateImageEn($file)">
+                    <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                        {{'survey-management.edit.response-rate-image.add-english-image-tooltip' | translate}}
+                    </md-tooltip>
+                    <md-icon ng-if="!ctrl.responseRateImageEn" md-font-set="material-icons">add</md-icon>
+                    <md-icon ng-if="ctrl.responseRateImageEn" md-font-set="material-icons">edit</md-icon>
+                </md-button>
+                <md-button class="md-primary md-raised md-icon-button" style="margin-left: 6px;" ng-click="ctrl.deleteResponseRateImageEn()" ng-disabled="!ctrl.responseRateImageEn">
+                    <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                        {{'survey-management.edit.response-rate-image.delete-english-image-tooltip' | translate}}
+                    </md-tooltip>
+                    <md-icon md-font-set="material-icons">delete_forever</md-icon>
+                </md-button>
+                <md-button class="md-raised md-accent md-icon-button" ng-click="ctrl.uploadOrDeleteResponseRateImageEn()" ng-disabled="!ctrl.responseRateImageEnDirty">
+                    <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                        {{'survey-management.edit.response-rate-image.upload-or-delete-english-image-tooltip' | translate}}
+                    </md-tooltip>
+                    <md-icon md-font-set="material-icons">save</md-icon>
+                </md-button>
+            </md-card-actions>
+        </md-card>
+    </div>
 </div>
 <md-card ng-if="ctrl.survey.id" class="fdz-reset-top-margin">
     <md-card-header layout-align="center center">
