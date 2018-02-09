@@ -31,7 +31,7 @@
     "cheet.js": "^0.3.3",
     "angular-material": "^1.1.6",
     "angular-block-ui": "^0.2.2",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.5",
     "plotly.js": "^1.33.1",
     "highlightjs": "^9.12.0",
     "angular-highlightjs": "^0.7.1",
