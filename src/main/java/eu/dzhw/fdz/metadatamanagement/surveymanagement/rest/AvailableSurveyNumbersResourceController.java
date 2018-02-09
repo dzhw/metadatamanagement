@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.codahale.metrics.annotation.Timed;
+
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.SurveyService;
 
 /**
@@ -33,6 +35,7 @@ public class AvailableSurveyNumbersResourceController {
    */
   @RequestMapping(method = RequestMethod.GET, 
        value = "/data-acquisition-projects/{id:.+}/available-survey-numbers")
+  @Timed
   public ResponseEntity<List<Integer>> findAvailableSurveyNumbers(@PathVariable String id) {
     if (StringUtils.isEmpty(id)) {
       return ResponseEntity.badRequest().build();
