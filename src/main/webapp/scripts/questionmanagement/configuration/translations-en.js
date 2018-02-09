@@ -12,14 +12,24 @@ angular.module('metadatamanagementApp').config(
             'missing-id': 'Question {{ index }} does not contain a RDC-ID and has not been saved!',
             'upload-terminated': 'Finished upload of {{ totalQuestions }} Questions and {{ totalImages }} Images with {{totalWarnings}} warnings and {{ totalErrors }} errors.',
             'unable-to-delete': 'The questions could not be deleted!',
-            'not-found-image-file': 'There is no image for the question "{{questionNumber}}" in Instrument {{instrument}}!',
-            'unable-to-upload-image-file': 'Image file "{{ file }}" could not be uploaded!',
             'unable-to-read-image-file': 'Image file "{{ file }}" could not be read!',
             'technical-representation-success-copy-to-clipboard': 'The Technical Representation was successfully copied into the clipboard.',
             'question-has-no-image': 'No image was found for the question {{id}}.',
             'unable-to-parse-json-file': 'The JSON file "{{file}}" in Instrument {{instrument}} does not contain valid JSON!',
             'unable-to-read-file': 'The file "{{file}}" in Instrument {{instrument}} could not be read!',
             'non-unique-index-in-instrument': 'At least two questions ({{firstQuestionId}}, {{secondQuestionId}}) have the same index "{{index}}" in an instrument.'
+          },
+          'question-image': {
+            'not-saved': 'Image file "{{ id }}" of Instrument {{ instrument }} could not be uploaded!'
+          },
+          'question-image-metadata': {
+            'unable-to-parse-json-file': 'The JSON file "{{file}}" of the question with number "{{questionNumber}}" does not contain valid JSON!',
+            'unable-to-read-file': 'The file "{{file}}" of the question with number "{{questionNumber}}" could not be read!',
+            'unable-to-read-resolution': 'The resolution of the image "{{file}}" of the question with number "{{questionNumber}}" could not be read!',
+            'not-found-image-and-metadata-file': 'There is no image with the name "{{imageFilename}}" and no JSON metadata file with the name "{{metdadataFilename}}" for the question "{{questionNumber}}" in Instrument "{{instrument}}"!',
+            'not-found-image-file': 'There is no image with the name "{{imageFilename}}" for the question "{{questionNumber}}" in Instrument "{{instrument}}"!',
+            'not-found-metadata-file': 'There is no JSON metadata file with the name "{{metdadataFilename}}" for the question "{{questionNumber}}" in Instrument "{{instrument}}"!',
+            'not-depending-image-metadata': 'The question with the number "{{questionNumber}}" in Instrument "{{instrument}}" has no related image metadata. No images were uploaded for this question.'
           }
         },
         'home': {
@@ -35,10 +45,15 @@ angular.module('metadatamanagementApp').config(
             'instruction': 'Instruction',
             'introduction': 'Introduction',
             'number': 'Question Number',
-            'questionText': 'Question Text'
-          },          
+            'questionText': 'Question Text',
+            'language': 'Language',
+            'note': 'Note',
+            'resolution': 'Resolution',
+            'has-annotations': 'This image contains additional information, which have not been visible for the interviewed person.'
+          },
           'predecessors': 'Previous Questions in Questionnaire',
           'successors': 'Subsequent Questions in Questionnaire',
+          'images-for-question': 'Images of this Question',
           'technical-representation': 'Technical Representation',
           'title': 'Question {{ questionNumber }}: {{ instrumentDescription }} ({{ questionId }})',
           'no-predecessors': 'No previous Questions in the Questionnaire',
@@ -50,6 +65,7 @@ angular.module('metadatamanagementApp').config(
             'true': 'Click to show the complete technical representation',
             'false': 'Click to minimize the content area of the technical representation'
           },
+          'change-image-language-tooltip': 'Click to change the language of the images',
           'not-released-toast': 'Question "{{ id }}" has not yet been released to all users!',
           'tooltips': {
             'publications': {
@@ -103,10 +119,6 @@ angular.module('metadatamanagementApp').config(
             'additional-question-text': {
               'i18n-string-size': 'The max length of the additional question text is 1048576 signs.'
             },
-            'image-type': {
-              'not-null': 'The image type of the question must not be empty.',
-              'valid-question-image-type': 'The image type of a question must be PNG.'
-            },
             'topic': {
               'i18n-string-size': 'The max length of the topic is 2048 signs.'
             },
@@ -121,6 +133,33 @@ angular.module('metadatamanagementApp').config(
             },
             'annotations': {
               'i18n-string-size': 'The max length of the annotations is 2048 signs.'
+            }
+          },
+          'question-image-metadata': {
+            'image-type': {
+              'not-null': 'The image type of the question must not be empty.',
+              'valid-question-image-type': 'The image type of a question must be PNG.'
+            },
+            'language': {
+              'not-empty': 'The language of the question image metadata must not be empty.',
+              'size': 'The max length of the language of the question image metadata 32 signs.',
+              'not-supported': 'The language of the attachment must be a two-letter abbreviation according to ISO 639-1!'
+            },
+            'file-name': {
+              'not-empty': 'The filename of the question image metadata must not be empty.',
+              'not-valid': 'The filename is invalid.'
+            },
+            'contains-annotations': {
+              'not-null': 'The boolean value "Contains Annotations" of the question image metadata must not be empty.'
+            },
+            'index-in-question': {
+              'not-null': 'The index of the image of the question must not be empty.'
+            },
+            'data-acquisition-project-id': {
+              'not-empty': 'The RDC-ID of the Project must not be empty!'
+            },
+            'question-id': {
+              'not-empty': 'The question id must not be empty!'
             }
           },
           'technical-representation': {

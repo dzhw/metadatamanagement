@@ -2,12 +2,12 @@
 
 angular.module('metadatamanagementApp').service('QuestionImageUploadService',
   function(Upload, $q, $http) {
-    var uploadImage = function(image, questionId) {
+    var uploadImage = function(image, questionImageMetadata) {
       var deferred = $q.defer();
       Upload.upload({
         url: '/api/questions/images',
         fields: {
-          'questionId': questionId,
+          'questionImageMetadata': Upload.jsonBlob(questionImageMetadata),
           'image': image
         },
       }).success(function() {

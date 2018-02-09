@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.codahale.metrics.annotation.Timed;
+
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudyAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.service.StudyAttachmentVersionsService;
 
@@ -37,6 +39,7 @@ public class StudyAttachmentVersionsResource {
    * @return A list of previous study versions
    */
   @RequestMapping("/studies/{studyId}/attachments/{filename:.+}/versions")
+  @Timed
   public ResponseEntity<?> findPreviousStudyAttachmentVersions(@PathVariable String studyId,
       @PathVariable String filename,
       @RequestParam(name = "limit", defaultValue = "5") Integer limit,

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.codahale.metrics.annotation.Timed;
+
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.SurveyVersionsService;
 
@@ -35,6 +37,7 @@ public class SurveyVersionsResource {
    * @return A list of previous survey versions
    */
   @RequestMapping("/surveys/{id}/versions")
+  @Timed
   public ResponseEntity<?> findPreviousSurveyVersions(@PathVariable String id,
       @RequestParam(name = "limit", defaultValue = "5") Integer limit,
       @RequestParam(name = "skip", defaultValue = "0") Integer skip) {

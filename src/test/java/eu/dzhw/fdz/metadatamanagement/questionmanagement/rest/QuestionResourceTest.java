@@ -25,7 +25,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
-import eu.dzhw.fdz.metadatamanagement.common.domain.ImageType;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
@@ -91,7 +90,6 @@ public class QuestionResourceTest extends AbstractTest {
 
     Question question = UnitTestCreateDomainObjectUtils
       .buildQuestion(project.getId(), 123, "instrument-Id", "SurveyId");
-    question.setImageType(ImageType.PNG);
     // Act and Assert
     // create the Question with the given id
     mockMvc.perform(put(API_QUESTIONS_URI + "/" + question.getId())
@@ -124,7 +122,6 @@ public class QuestionResourceTest extends AbstractTest {
 
     Question question = UnitTestCreateDomainObjectUtils
       .buildQuestion(project.getId(), 123, "instrument-Id", "SurveyId");
-    question.setImageType(ImageType.PNG);
     // Act and Assert
     // create the variable with the given id
     mockMvc.perform(put(API_QUESTIONS_URI + "/" + question.getId())
@@ -222,24 +219,7 @@ public class QuestionResourceTest extends AbstractTest {
       .content(TestUtil.convertObjectToJsonBytes(question)))
       .andExpect(status().isBadRequest());
   }
-
-  @Test
-  public void testCreateQuestionWithoutImageType() throws Exception {
-    // Arrange
-    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
-    this.dataAcquisitionProjectRepository.save(project);
-
-    Question question = UnitTestCreateDomainObjectUtils
-        .buildQuestion(project.getId(), 123, "instrument-Id", "SurveyId");
-    question.setImageType(null);
-
-    // Act and Assert
-    // create the variable with the given id
-    mockMvc.perform(put(API_QUESTIONS_URI + "/" + question.getId())
-      .content(TestUtil.convertObjectToJsonBytes(question)))
-      .andExpect(status().isBadRequest());
-  }
-
+  
   @Test
   public void testCreateQuestionWithoutNumber() throws Exception {
     // Arrange

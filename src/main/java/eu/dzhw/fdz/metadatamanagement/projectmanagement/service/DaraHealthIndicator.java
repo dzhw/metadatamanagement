@@ -1,7 +1,11 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.health.AbstractHealthIndicator;
 import org.springframework.boot.actuate.health.Health.Builder;
+import org.springframework.stereotype.Component;
+
+import com.codahale.metrics.annotation.Timed;
 
 /**
  * Health Indicator for Dara.
@@ -9,6 +13,7 @@ import org.springframework.boot.actuate.health.Health.Builder;
  * @author Daniel Katzberg
  *
  */
+@Component
 public class DaraHealthIndicator extends AbstractHealthIndicator {
   
   private DaraService daraService;
@@ -18,6 +23,7 @@ public class DaraHealthIndicator extends AbstractHealthIndicator {
    * 
    * @param daraService The rest resource for calling the rest api of dara.
    */
+  @Autowired
   public DaraHealthIndicator(DaraService daraService) {
     this.daraService = daraService;
   }
@@ -28,6 +34,7 @@ public class DaraHealthIndicator extends AbstractHealthIndicator {
    * .AbstractHealthIndicator#doHealthCheck(org.springframework.boot.actuate.health.Health.Builder)
    */
   @Override
+  @Timed
   protected void doHealthCheck(Builder builder) throws Exception {
     
     //check dara health

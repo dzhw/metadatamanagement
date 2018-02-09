@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.codahale.metrics.annotation.Timed;
+
 import eu.dzhw.fdz.metadatamanagement.common.rest.GenericDomainObjectResourceController;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
@@ -32,6 +34,7 @@ public class SurveyResourceController
    * @return the survey or not found
    */
   @RequestMapping(method = RequestMethod.GET, value = "/surveys/{id:.+}")
+  @Timed
   public ResponseEntity<Survey> findSurvey(@PathVariable String id) {
     return super.findDomainObject(id); 
   }

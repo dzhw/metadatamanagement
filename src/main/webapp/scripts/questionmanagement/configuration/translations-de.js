@@ -12,14 +12,24 @@ angular.module('metadatamanagementApp').config(
             'missing-id': 'Die {{ index }}. Frage enthält keine FDZ-ID und wurde nicht gespeichert!',
             'upload-terminated': 'Upload von {{ totalQuestions }} Fragen und {{ totalImages }} Bildern mit {{totalWarnings}} Warnungen und {{ totalErrors }} Fehlern beendet!',
             'unable-to-delete': 'Die Fragen konnten nicht gelöscht werden!',
-            'unable-to-upload-image-file': 'Die Bilddatei "{{ file }}" in Instrument "{{instrument}}" konnte nicht hochgeladen werden!',
             'unable-to-read-image-file': 'Die Bilddatei "{{ file }}" in Instrument "{{instrument}}" konnte nicht gelesen werden!',
             'cancelled': 'Upload von Fragen Abgebrochen!',
-            'not-found-image-file': 'Zu der Frage "{{questionNumber}}" in Instrument "{{instrument}}" konnte kein Bild gefunden werden!',
             'technical-representation-success-copy-to-clipboard': 'Die technische Representation wurde erfolgreich in die Zwischenablage kopiert.',
             'unable-to-parse-json-file': 'Die JSON Datei "{{file}}" in Instrument "{{instrument}}" enthält kein valides JSON!',
             'unable-to-read-file': 'Die Datei "{{file}}" in Instrument "{{instrument}}" konnte nicht gelesen werden!',
             'non-unique-index-in-instrument': 'Mindestens zwei Fragen ({{firstQuestionId}}, {{secondQuestionId}}) haben den gleichen Index "{{index}}" innerhalb eines Instrument.'
+          },
+          'question-image': {
+            'not-saved': 'Die Bilddatei "{{ id }}" in Instrument "{{instrument}}" konnte nicht hochgeladen werden!'
+          },
+          'question-image-metadata': {
+            'unable-to-parse-json-file': 'Die JSON Datei "{{file}}" zur Fragenummer "{{questionNumber}}" enthält kein valides JSON!',
+            'unable-to-read-file': 'Die Datei "{{file}}" zur Fragenumber "{{questionNumber}}" konnte nicht gelesen werden!',
+            'unable-to-read-resolution': 'Die Auflösung des Bildes "{{file}}" zur Fragenummer "{{questionNumber}}" konnte nicht ausgegelesen werden!',
+            'not-found-image-and-metadata-file': 'Zu der Frage "{{questionNumber}}" in Instrument "{{instrument}}" konnte kein Bild mit dem Namen "{{imageFilename}}" und keine dazugehörige JSON Metadatendatei mit dem Namen "{{metadataFilename}}" gefunden werden!',
+            'not-found-image-file': 'Zu der Frage "{{questionNumber}}" in Instrument "{{instrument}}" konnte kein Bild mit dem Namen "{{imageFilename}}" gefunden werden!',
+            'not-found-metadata-file': 'Zu der Frage "{{questionNumber}}" in Instrument "{{instrument}}" konnte keine dazugehörige JSON Metadatendatei mit dem Namen "{{metadataFilename}}" gefunden werden!',
+            'not-depending-image-metadata': 'Zu der Frage "{{questionNumber}}" in Instrument "{{instrument}}" konnten keine Bild-Metadaten zugeordnet werden. Daher wurden keine Bilder zu dieser Frage hochgeladen.'
           }
         },
         'home': {
@@ -35,10 +45,15 @@ angular.module('metadatamanagementApp').config(
             'instruction': 'Anleitung',
             'introduction': 'Einführung',
             'number': 'Fragenummer',
-            'questionText': 'Fragetext'
+            'questionText': 'Fragetext',
+            'language': 'Sprache',
+            'note': 'Hinweis',
+            'resolution': 'Auflösung',
+            'has-annotations': 'Dieses Bild enthält zusätzliche Informationen, die den Befragten nicht dargestellt wurden.'
           },
           'predecessors': 'Vorangegangene Fragen im Fragebogen',
           'successors': 'Nachfolgende Fragen im Fragebogen',
+          'images-for-question': 'Bilder zur Frage',
           'technical-representation': 'Technische Repräsentation',
           'title': 'Frage {{ questionNumber }}: {{ instrumentDescription }} ({{ questionId }})',
           'no-predecessors': 'Keine vorangegangenen Fragen im Fragebogen',
@@ -50,6 +65,7 @@ angular.module('metadatamanagementApp').config(
             'true': 'Klicken, um die gesamte technische Representation zu zeigen',
             'false': 'Klicken, um den Inhaltsbereich der technischen Representation zu minimieren'
           },
+          'change-image-language-tooltip': 'Klicken, um die Sprache der Bilder zu ändern',
           'not-released-toast': 'Die Frage "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!',
           'tooltips': {
             'publications': {
@@ -70,7 +86,7 @@ angular.module('metadatamanagementApp').config(
         },
         'error': {
           'question': {
-            'valid-question-id-name': 'Die FDZ-ID der Frage entspricht nicht dem Muster: "que" + {FDZID} + "-ins" + {InstrumentNummer} + "-" + {FragenNummer} + "$".',
+            'valid-question-id-name': 'Die FDZ-ID der Frage entspricht nicht dem Muster: "que" + {FDZID} + "-ins" + {InstrumentNummer} + "-" + {FrageNummer} + "$".',
             'unique-question-name': 'Der Name einer Frage muss eindeutig innerhalb einer Befragung sein.',
             'unique-question-number': 'Die Nummer einer Frage muss eindeutig innerhalb einer Befragung sein.',
             'id': {
@@ -103,10 +119,6 @@ angular.module('metadatamanagementApp').config(
             'additional-question-text': {
               'i18n-string-size': 'Die Maximallänge des zusätzlichen Fragetextes ist 1048576 Zeichen.'
             },
-            'image-type': {
-              'not-null': 'Der Bildtyp der Frage darf nicht leer sein.',
-              'valid-question-image-type': 'Der Bildtyp der Frage muss PNG sein.'
-            },
             'topic': {
               'i18n-string-size': 'Die Maximallänge des Topics ist 2048 Zeichen.'
             },
@@ -121,6 +133,33 @@ angular.module('metadatamanagementApp').config(
             },
             'annotations': {
               'i18n-string-size': 'Die Maximallänge der Anmerkungen ist 2048 Zeichen.'
+            }
+          },
+          'question-image-metadata': {
+            'image-type': {
+              'not-null': 'Der Bildtyp bei den Bildmetadaten der Frage darf nicht leer sein.',
+              'valid-question-image-type': 'Der Bildtyp bei den Bildmetadaten der Frage muss PNG sein.'
+            },
+            'language': {
+              'not-empty': 'Die Sprache bei den Bildmetadaten der Frage darf nicht leer sein.',
+              'size': 'Die Maximallänge der Sprache bei den Bildmetadaten ist 32 Zeichen.',
+              'not-supported': 'Die Sprache muss eine gültige zweibuchstabige Abkürzung gemäß ISO 639-1 sein.'
+            },
+            'file-name': {
+              'not-empty': 'Der Dateiname bei den Bildmetadaten der Frage darf nicht leer sein.',
+              'not-valid': 'Der Dateiname ist ungültig.'
+            },
+            'contains-annotations': {
+              'not-null': 'Der boolesche Wert "Contains Annotations" bei den Bildmetadaten der Frage darf nicht leer sein.'
+            },
+            'index-in-question': {
+              'not-null': 'Der Index eines Bildes darf nicht leer sein.'
+            },
+            'data-acquisition-project-id': {
+              'not-empty': 'Die FDZ-ID des Projektes darf nicht leer sein!'
+            },
+            'question-id': {
+              'not-empty': 'Die Id der Frage darf nicht leer sein!'
             }
           },
           'technical-representation': {
