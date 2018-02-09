@@ -101,7 +101,7 @@ public class SurveyResponseRateImageService {
   private String getResponseRateFileNameGerman(String surveyId) {
     String[] surveyNumberWithDollar = surveyId.split("-sy");
     String[] surveyNumber = surveyNumberWithDollar[1].split("\\$");
-    return surveyNumber[0] + "_responserate_de.svg";
+    return surveyNumber[0] + "_responserate_de";
   }
   
   /**
@@ -111,7 +111,7 @@ public class SurveyResponseRateImageService {
   private String getResponseRateFileNameEnglish(String surveyId) {
     String[] surveyNumberWithDollar = surveyId.split("-sy");
     String[] surveyNumber = surveyNumberWithDollar[1].split("\\$");
-    return surveyNumber[0] + "_responserate_en.svg";
+    return surveyNumber[0] + "_responserate_en";
   }
   
 }

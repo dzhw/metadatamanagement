@@ -213,7 +213,8 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
                       asyncFilesUpload = asyncFilesUpload.then(function() {
                           return SurveyResponseRateImageUploadService.
                           uploadImage(surveyDetailObject.images.de,
-                            surveyDetailObject.survey.id);
+                            surveyDetailObject.survey.id,
+                            surveyDetailObject.survey.number, 'de');
                         }).then(function() {
                           JobLoggingService.success({
                             objectType: 'image'
@@ -223,8 +224,7 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
                             message: 'survey-management.log-messages.' +
                             'survey.unable-to-upload-image-file',
                             messageParams: {
-                              file: surveyDetailObject.survey.number +
-                              '_responserate_de.png'
+                              file: surveyDetailObject.images.de.filename
                             },
                             objectType: 'image'
                           });
@@ -234,7 +234,8 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
                       asyncFilesUpload = asyncFilesUpload.then(function() {
                               return SurveyResponseRateImageUploadService.
                             uploadImage(surveyDetailObject.images.en,
-                              surveyDetailObject.survey.id);
+                              surveyDetailObject.survey.id,
+                              surveyDetailObject.survey.number, 'en');
                             }).then(function() {
                               JobLoggingService.success({
                                 objectType: 'image'
@@ -244,8 +245,7 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
                                 message: 'survey-management.log-messages.' +
                                 'survey.unable-to-upload-image-file',
                                 messageParams: {
-                                  file: surveyDetailObject.survey.number +
-                                  '_responserate_en.png'
+                                  file: surveyDetailObject.images.en.filename
                                 },
                                 objectType: 'image'
                               });
