@@ -29,7 +29,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     Principal.identity().then(function(account) {
       $scope.account = account;
       $scope.isAuthenticated = Principal.isAuthenticated;
-      $scope.hasAuthority = Principal.hasAuthority;
+      $scope.hasAnyAuthority = Principal.hasAnyAuthority;
     });
     // write the searchParams object to the location with the correct types
     var writeSearchParamsToLocation = function() {

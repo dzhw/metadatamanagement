@@ -13,7 +13,7 @@ angular.module('metadatamanagementApp')
       var ctrl = this;
       ctrl.searchResultIndex = $stateParams['search-result-index'];
       ctrl.isAuthenticated = Principal.isAuthenticated;
-      ctrl.hasAuthority = Principal.hasAuthority;
+      ctrl.hasAnyAuthority = Principal.hasAnyAuthority;
       ctrl.counts = {};
 
       ctrl.openDialog = function(subDataSet) {
