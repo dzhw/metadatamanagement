@@ -216,8 +216,8 @@ public class ExceptionTranslator {
         (UTF8StreamJsonParser) invalidFormatException.getProcessor();
 
     //Create Json Parsing Error. Just the first will be returned
-    try {            
-      String domainObject = ((Class<?>) invalidFormatException.getPath().get(0).getFrom())
+    try {
+      String domainObject = invalidFormatException.getPath().get(0).getFrom().getClass()
           .getSimpleName();
       
       String property = processor.getCurrentName();
