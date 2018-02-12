@@ -219,7 +219,9 @@ angular.module('metadatamanagementApp').config(
               'not-valid': 'Bitte wählen Sie eine vorgeschlagene Sprache aus.'
             },
             'filename': {
-              'not-empty': 'Der Dateiname des Attachments darf nicht leer sein.'
+              'not-empty': 'Der Dateiname des Attachments darf nicht leer sein.',
+              'not-unique': 'Es gibt bereits ein Attachment mit diesem Dateinamen.',
+              'not-valid': 'Der Dateiname ist ungültig.'
             }
           }
         },

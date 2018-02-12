@@ -114,6 +114,10 @@ public class RelatedPublicationPostValidationService {
     
     List<String> studyIds = relatedPublication.getStudyIds();
     
+    if (studyIds == null) {
+      return errors;
+    }
+    
     //check all referenced study ids
     for (String studyId : studyIds) {
       Study study = this.studyRepository.findOne(studyId);
@@ -139,6 +143,10 @@ public class RelatedPublicationPostValidationService {
   private List<PostValidationMessageDto> postValidateVariables(
       RelatedPublication relatedPublication, List<PostValidationMessageDto> errors) {
     List<String> variableIds = relatedPublication.getVariableIds();
+    
+    if (variableIds == null) {
+      return errors;
+    }
     
     //check all referenced variable ids
     for (String variableId : variableIds) {
@@ -172,6 +180,10 @@ public class RelatedPublicationPostValidationService {
   private List<PostValidationMessageDto> postValidateSurveys(RelatedPublication relatedPublication,
       List<PostValidationMessageDto> errors) {
     List<String> surveyIds = relatedPublication.getSurveyIds();
+    
+    if (surveyIds == null) {
+      return errors;
+    }
     
     //check all referenced survey ids
     for (String surveyId : surveyIds) {
@@ -207,6 +219,9 @@ public class RelatedPublicationPostValidationService {
     
     List<String> dataSetIds = relatedPublication.getDataSetIds();
     
+    if (dataSetIds == null) {
+      return errors;
+    }
     //check all referenced data set ids
     for (String dataSetId : dataSetIds) {
       DataSet dataSet = this.dataSetRepository.findOne(dataSetId);
@@ -241,6 +256,9 @@ public class RelatedPublicationPostValidationService {
     
     List<String> instrumentIds = relatedPublication.getInstrumentIds();
     
+    if (instrumentIds == null) {
+      return errors;
+    }
     //check all referenced instrument ids
     for (String instrumentId : instrumentIds) {
       Instrument instrument = this.instrumentRepository.findOne(instrumentId);
@@ -276,6 +294,9 @@ public class RelatedPublicationPostValidationService {
     
     List<String> questionIds = relatedPublication.getQuestionIds();
     
+    if (questionIds == null) {
+      return errors;
+    }
     //check all referenced question ids
     for (String questionId : questionIds) {
       Question question = this.questionRepository.findOne(questionId);

@@ -22,6 +22,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     var selectedTabChangeIsBeingHandled = false;
     var queryChangeIsBeingHandled = false;
     $scope.isSearching = 0;
+    $scope.isDropZoneDisabled = true;
 
     // set the page title in toolbar and window.title
     PageTitleService.setPageTitle('global.menu.search.title');
@@ -125,6 +126,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       var projectId = $scope.currentProject ?
         $scope.currentProject.id : undefined;
       $scope.isSearching++;
+      $scope.setDropZoneDisabled();
       SearchResultNavigatorService.setCurrentSearchParams(
         $scope.searchParams, projectId,
         $scope.tabs[$scope.searchParams.selectedTabIndex].elasticSearchType,
@@ -464,5 +466,26 @@ angular.module('metadatamanagementApp').controller('SearchController',
           }
         };
 
+    $scope.setDropZoneDisabled = function() {
+      if (!$scope.tabs[$scope.searchParams.selectedTabIndex].uploadFunction) {
+        $scope.isDropZoneDisabled = true;
+        return;
+      }
+      if ($scope.tabs[$scope.searchParams.selectedTabIndex]
+        .elasticSearchType !== 'related_publications') {
+        if (!$scope.currentProject || $scope.currentProject.release ||
+          !Principal.hasAnyAuthority(
+            ['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
+          $scope.isDropZoneDisabled = true;
+          return;
+        }
+      } else {
+        if (!Principal.hasAuthority('ROLE_PUBLISHER')) {
+          $scope.isDropZoneDisabled = true;
+          return;
+        }
+      }
+      $scope.isDropZoneDisabled = false;
+    };
     init();
   });

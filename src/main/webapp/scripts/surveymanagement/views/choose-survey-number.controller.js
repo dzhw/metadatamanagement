@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp')
       $scope.bowser = bowser;
       $scope.availableSurveyNumbers = availableSurveyNumbers;
       $scope.selectedSurveyNumber =
-        availableSurveyNumbers[availableSurveyNumbers.length - 1];
+        availableSurveyNumbers[0];
 
       $scope.closeDialog = function() {
         $mdDialog.hide({
