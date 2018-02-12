@@ -40,7 +40,8 @@ angular.module('metadatamanagementApp')
       };
 
       var init = function() {
-        if (Principal.hasAuthority('ROLE_PUBLISHER')) {
+        if (Principal
+            .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           if (!bowser.msie) {
             if (entity) {
               entity.$promise.then(function(study) {
@@ -388,7 +389,8 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.selectAttachment = function(index) {
-        if (Principal.hasAuthority('ROLE_PUBLISHER')) {
+        if (Principal
+            .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           ctrl.currentAttachmentIndex = index;
         }
       };

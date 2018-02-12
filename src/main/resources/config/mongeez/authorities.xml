@@ -4,6 +4,7 @@
             db.jhi_authority.insert({"_id" : "ROLE_ADMIN"});
             db.jhi_authority.insert({"_id" : "ROLE_USER"});
             db.jhi_authority.insert({"_id" : "ROLE_PUBLISHER"});
+            db.jhi_authority.insert({"_id" : "ROLE_DATA_PROVIDER"});
         </script>
     </changeSet>
 </mongoChangeLog>

@@ -26,19 +26,20 @@
         <span>{{'global.toolbar.not-released' | translate}}</span>
     </div>
     <div style="margin-top: 1em;">
-        <md-button class="md-primary md-raised md-icon-button" ng-click="ctrl.deleteProject()" style="margin-right: 0px; margin-left: 0px;" ng-disabled="!ctrl.selectedProject || ctrl.selectedProject.hasBeenReleasedBefore || ctrl.projectChooserDisabled">
+        <md-button class="md-primary md-raised md-icon-button" ng-class="{'fdz-reset-left-margin': ctrl.hasAuthority('ROLE_PUBLISHER')}" ng-click="ctrl.deleteProject()" style="margin-right: 0px;" ng-disabled="!ctrl.selectedProject || ctrl.selectedProject.hasBeenReleasedBefore || ctrl.projectChooserDisabled"
+          data-has-authority="ROLE_PUBLISHER">
             <md-tooltip ng-hide="!ctrl.selectedProject" md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{'global.tooltips.delete-project' | translate}}
             </md-tooltip>
             <md-icon>&#xE872;</md-icon>
         </md-button>
-        <md-button class="md-primary md-raised md-icon-button" ng-click="ctrl.postValidateProject()" style="margin-right: 0px;" ng-disabled="!ctrl.selectedProject">
+        <md-button class="md-primary md-raised md-icon-button" ng-class="{'fdz-reset-left-margin': !ctrl.hasAuthority('ROLE_PUBLISHER')}" ng-click="ctrl.postValidateProject()" style="margin-right: 0px;" ng-disabled="!ctrl.selectedProject">
             <md-tooltip ng-hide="!ctrl.selectedProject" md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{'global.tooltips.post-validation' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">playlist_add_check</md-icon>
         </md-button>
-        <md-button class="md-primary md-raised md-icon-button" style="margin-right: 0px;" ng-disabled="!ctrl.selectedProject" ng-click="ctrl.toggleReleaseProject()">
+        <md-button class="md-primary md-raised md-icon-button" style="margin-right: 0px;" ng-disabled="!ctrl.selectedProject" ng-click="ctrl.toggleReleaseProject()" data-has-authority="ROLE_PUBLISHER">
             <md-tooltip ng-hide="!ctrl.selectedProject" md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{ctrl.selectedProject.release?'global.tooltips.unrelease-project':'global.tooltips.release-project' | translate}}
             </md-tooltip>

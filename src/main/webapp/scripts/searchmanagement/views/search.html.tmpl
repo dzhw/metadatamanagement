@@ -1,4 +1,4 @@
-<div flex layout="column" ng-switch="isAuthenticated()" ngf-drop="tabs[searchParams.selectedTabIndex].uploadFunction($files)" ngf-multiple="true" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-drop-disabled="((!currentProject || currentProject.release) && tabs[searchParams.selectedTabIndex].elasticSearchType !== 'related_publications') || !hasAuthority('ROLE_PUBLISHER') || !tabs[searchParams.selectedTabIndex].uploadFunction">
+<div flex layout="column" ng-switch="isAuthenticated()" ngf-drop="tabs[searchParams.selectedTabIndex].uploadFunction($files)" ngf-multiple="true" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-drop-disabled="isDropZoneDisabled">
     <md-card style="margin-bottom: 0px; display: block;">
           <md-tabs md-selected="searchParams.selectedTabIndex" md-dynamic-height md-border-bottom>
             <md-tab ng-repeat="tab in tabs" md-on-select="onSelectedTabChanged()" ng-disabled="tab.disabled">
@@ -44,7 +44,7 @@
           </md-card>
         </div>
     </div>
-    <div ng-switch-when="true" data-has-authority="ROLE_PUBLISHER" class="fdz-fab-button-container" layout="column">
+    <div ng-switch-when="true" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER" class="fdz-fab-button-container" layout="column">
         <div layout="row" layout-align="end center">
             <md-button class="md-primary md-fab" ng-click="refresh()">
               <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
@@ -145,13 +145,13 @@
             </md-tooltip>
             <md-icon md-font-set="material-icons">add</md-icon>
         </md-button>
-        <md-button ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='related_publications'" ng-click="postValidateRelatedPublications()" class="md-primary md-fab">
+        <md-button data-has-authority="ROLE_PUBLISHER" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='related_publications'" ng-click="postValidateRelatedPublications()" class="md-primary md-fab">
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{'search-management.buttons.post-validate-related-publications-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">playlist_add_check</md-icon>
         </md-button>
-        <md-button ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='related_publications'" type="file" ngf-select="uploadRelatedPublications($file)" accept=".xls"
+        <md-button data-has-authority="ROLE_PUBLISHER" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='related_publications'" type="file" ngf-select="uploadRelatedPublications($file)" accept=".xls"
             class="md-accent md-fab">
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{'search-management.buttons.upload-related-publications-tooltip' | translate}}

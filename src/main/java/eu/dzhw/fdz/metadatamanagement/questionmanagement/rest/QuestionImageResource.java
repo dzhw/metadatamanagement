@@ -47,7 +47,7 @@ public class QuestionImageResource {
    */
   @RequestMapping(path = "/questions/images", method = RequestMethod.POST)
   @Timed
-  @Secured(AuthoritiesConstants.PUBLISHER)
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<String> uploadImage(@RequestParam("image") MultipartFile multiPartFile,
       @RequestPart("questionImageMetadata")
       @Valid QuestionImageMetadata questionImageMetadata) throws IOException, URISyntaxException {
@@ -90,7 +90,7 @@ public class QuestionImageResource {
    */
   @RequestMapping(path = "/questions/{questionId}/images", method = RequestMethod.DELETE)
   @Timed
-  @Secured(AuthoritiesConstants.PUBLISHER)
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> deleteAllByQuestionId(@PathVariable("questionId") String questionId) {
     if (!StringUtils.isEmpty(questionId)) {
       imageService.deleteQuestionImages(questionId);

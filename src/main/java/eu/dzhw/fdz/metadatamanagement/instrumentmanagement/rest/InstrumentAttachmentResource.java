@@ -47,7 +47,7 @@ public class InstrumentAttachmentResource {
    */
   @RequestMapping(path = "/instruments/attachments", method = RequestMethod.POST)
   @Timed
-  @Secured(AuthoritiesConstants.PUBLISHER)
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<String> uploadAttachment(@RequestPart("file") MultipartFile multiPartFile,
       @RequestPart("instrumentAttachmentMetadata") 
       @Valid InstrumentAttachmentMetadata instrumentAttachmentMetadata)
@@ -87,7 +87,7 @@ public class InstrumentAttachmentResource {
    */
   @RequestMapping(path = "/instruments/{instrumentId}/attachments", method = RequestMethod.DELETE)
   @Timed
-  @Secured(AuthoritiesConstants.PUBLISHER)
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> deleteAllByInstrumentId(
       @PathVariable("instrumentId") String instrumentId) {
     if (!StringUtils.isEmpty(instrumentId)) {

@@ -22,7 +22,7 @@
             {{'search-management.cards.study-tooltip' | translate: {id:searchResult.id} }}
         </md-tooltip>
     </a>
-    <div class="fdz-search-result-actions-container" ng-if="!searchResult.release && !bowser.msie" data-has-authority="ROLE_PUBLISHER">
+    <div class="fdz-search-result-actions-container" ng-if="!searchResult.release && !bowser.msie" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER">
         <md-button class="md-icon-button md-primary" ui-sref="studyEdit({id: searchResult.id})">
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{'search-management.buttons.edit-study-tooltip' | translate}}

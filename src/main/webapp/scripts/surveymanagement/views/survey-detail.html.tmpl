@@ -237,7 +237,7 @@
             <div class="fdz-fake-empty-card fdz-reset-top-margin" ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm')}"></div>
         </div>
     </div>
-    <div ng-if="!ctrl.survey.release" data-has-authority="ROLE_PUBLISHER" class="fdz-fab-button-container" layout="column">
+    <div ng-if="!ctrl.survey.release" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER" class="fdz-fab-button-container" layout="column">
       <md-button class="md-fab md-raised md-accent" ui-sref="surveyEdit({id: ctrl.survey.id})">
           <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
               {{'search-management.buttons.edit-survey-tooltip' | translate}}
