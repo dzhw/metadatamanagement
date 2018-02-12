@@ -47,6 +47,7 @@ angular.module('metadatamanagementApp')
               entity.$promise.then(function(study) {
                 ctrl.createMode = false;
                 ctrl.study = study;
+                ctrl.isInitializingStudySeries = true;
                 ctrl.loadAttachments();
                 updateToolbarHeaderAndPageTitle();
                 $scope.registerConfirmOnDirtyHook();
@@ -60,6 +61,7 @@ angular.module('metadatamanagementApp')
                 }).$promise.then(function(study) {
                   ctrl.createMode = false;
                   ctrl.study = study;
+                  ctrl.isInitializingStudySeries = true;
                   ctrl.loadAttachments();
                   updateToolbarHeaderAndPageTitle();
                   $scope.registerConfirmOnDirtyHook();
@@ -429,7 +431,11 @@ angular.module('metadatamanagementApp')
           $scope.studyForm.studySeriesEn.$setValidity('fdz-required', true);
         }
 
-        $scope.studyForm.$setDirty();
+        if (!ctrl.isInitializingStudySeries) {
+          $scope.studyForm.$setDirty();
+        } else {
+          ctrl.isInitializingStudySeries = false;
+        }
       };
 
       init();

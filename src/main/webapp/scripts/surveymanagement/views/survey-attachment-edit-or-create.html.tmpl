@@ -55,17 +55,17 @@
                 <md-divider></md-divider>
                 <md-card-content>
                     <div layout-gt-sm="row" layout="column">
-                        <md-autocomplete required flex="50" md-input-name="language" md-floating-label="{{'survey-management.detail.label.attachments.language' | translate}}" md-require-match="true" md-select-on-match="true" md-match-case-insensitive="true" md-selected-item="ctrl.selectedLanguage"
+                        <md-autocomplete required flex="50" md-input-name="language2" md-floating-label="{{'survey-management.detail.label.attachments.language' | translate}}" md-require-match="true" md-select-on-match="true" md-match-case-insensitive="true" md-selected-item="ctrl.selectedLanguage"
                           md-min-length="0" md-search-text="ctrl.languageSearchText" md-items="item in ctrl.searchLanguages(ctrl.languageSearchText)" md-item-text="item.displayLanguage[currentLanguage]" md-clear-button="true" md-no-cache="true" md-selected-item-change="ctrl.selectedLanguageChanged()"
-                          md-is-error="!surveyAttachmentForm.language.$valid && (surveyAttachmentForm.language.$dirty || surveyAttachmentForm.language.$touched)">
+                          md-is-error="!surveyAttachmentForm.language2.$valid && (surveyAttachmentForm.language2.$dirty || surveyAttachmentForm.language2.$touched)">
                             <md-item-template>
                                 <span class="md-title" style="font-size: 14px;">{{item.displayLanguage[currentLanguage]}}</span>
                             </md-item-template>
                             <md-not-found>
                                 {{'survey-management.detail.attachments.language-not-found' | translate}}
                             </md-not-found>
-                            <div ng-if="!surveyAttachmentForm.language.$dirty && !surveyAttachmentForm.language.$touched" class="fdz-input-hint">{{'survey-management.detail.attachments.hints.language' | translate}}</div>
-                            <div ng-messages="surveyAttachmentForm.language.$error" multiple>
+                            <div ng-if="!surveyAttachmentForm.language2.$dirty && !surveyAttachmentForm.language2.$touched" class="fdz-input-hint">{{'survey-management.detail.attachments.hints.language' | translate}}</div>
+                            <div ng-messages="surveyAttachmentForm.language2.$error" multiple>
                                 <div ng-message="required">{{'survey-management.error.survey-attachment-metadata.language.not-null' | translate}}</div>
                                 <div ng-message="md-require-match">{{'survey-management.error.survey-attachment-metadata.language.not-valid' | translate}}</div>
                             </div>
