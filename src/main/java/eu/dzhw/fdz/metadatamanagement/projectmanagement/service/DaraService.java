@@ -124,6 +124,32 @@ public class DaraService {
 
   /**
    * Registers or updates a dataset with a given doi to dara.
+   * @param project The Project.
+   * @return The HttpStatus from Dara
+   *        Returns a false, if something gone wrong.
+   * @throws IOException the io exception for non readable xml file.
+   * @throws TemplateException Exception for filling the template.
+   */
+  public HttpStatus registerOrUpdateProjectToDara(DataAcquisitionProject project)
+      throws IOException, TemplateException {
+
+    //Read register xml
+    String registerXmlStr = IOUtils.toString(this.registerXml.getInputStream(), Charsets.UTF_8);
+
+    //Fill template
+    String filledTemplate = this.fillTemplate(registerXmlStr,
+            this.getTemplateConfiguration(),
+            this.getDataForTemplate(project, AVAILABILITY_CONTROLLED_DELIVERY),
+            KEY_REGISTER_XML_TMPL);
+
+    //Send Rest Call for Registration
+    HttpStatus httpStatusFromDara =
+        this.postToDaraImportXml(filledTemplate);
+    return httpStatusFromDara;
+  }
+  
+  /**
+   * Registers or updates a dataset with a given doi to dara.
    * @param projectId The id of the Project.
    * @return The HttpStatus from Dara
    *        Returns a false, if something gone wrong.
@@ -132,32 +158,20 @@ public class DaraService {
    */
   public HttpStatus registerOrUpdateProjectToDara(String projectId)
       throws IOException, TemplateException {
-
+    
     //Load Project
     DataAcquisitionProject project = this.projectRepository.findOne(projectId);
-
-    //Read register xml
-    String registerXmlStr = IOUtils.toString(this.registerXml.getInputStream(), Charsets.UTF_8);
-
-    //Fill template
-    String filledTemplate = this.fillTemplate(registerXmlStr,
-            this.getTemplateConfiguration(),
-            this.getDataForTemplate(projectId, AVAILABILITY_CONTROLLED_DELIVERY),
-            KEY_REGISTER_XML_TMPL);
-
-    //Send Rest Call for Registration
-    HttpStatus httpStatusFromDara =
-        this.postToDaraImportXml(filledTemplate, project.getHasBeenReleasedBefore());
-    return httpStatusFromDara;
+    return this.registerOrUpdateProjectToDara(project);
   }
 
   /**
    * This is the kernel method for registration, update and unregister of a doi element.
    * @param filledTemplate The filled and used template.
-   * @param hasBeenReleasedBefore The parameter for the project, which is released before or not.
    * @return the HttpStatus from Dara.
    */
-  private HttpStatus postToDaraImportXml(String filledTemplate, boolean hasBeenReleasedBefore) {
+  private HttpStatus postToDaraImportXml(String filledTemplate) {
+    //TODO DKatzberg
+    //Was a paramater before: hasBeenReleasedBefore
     
     log.debug("The filled Template for dara:");
     log.debug(filledTemplate);
@@ -176,8 +190,11 @@ public class DaraService {
     headers.add("Authorization", "Basic " + new String(encodedAuth, Charsets.UTF_8));
 
     //Build
+    //TODO DKatzberg Change? Delete? WIP
+    /*UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(daraEndpoint)
+        .queryParam("registration", Boolean.valueOf(!hasBeenReleasedBefore).toString());*/
     UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(daraEndpoint)
-        .queryParam("registration", Boolean.valueOf(!hasBeenReleasedBefore).toString());
+        .queryParam("registration", "true");
 
     //Build Request
     HttpEntity<String> request = new HttpEntity<>(filledTemplate, headers);
@@ -212,19 +229,26 @@ public class DaraService {
    *    releaseDate
    *    availabilityControlled
    *    resourceType
-   * @param projectId The id of the project to find the study.
+   * @param project The project to find the study.
    * @param availabilityControlled The availability of the data.
    * @return Returns a Map of names and the depending objects.
    *     If the key is 'study' so the study object is the value.
    *     Study is the name for the object use in freemarker.
    */
-  private Map<String, Object> getDataForTemplate(String projectId,
+  private Map<String, Object> getDataForTemplate(DataAcquisitionProject project,
       String availabilityControlled) {
 
     Map<String, Object> dataForTemplate = new HashMap<>();
+    String projectId = project.getId();
+    
+    //Get Project Information
+    dataForTemplate.put("dataAcquisitionProject", project);
 
     //Get Study Information
     Study study = this.studyRepository.findOneByDataAcquisitionProjectId(projectId);
+    if (project.getRelease() != null) {
+      study = this.updateDoi(study, project.getRelease().getVersion());
+    } 
     dataForTemplate.put("study", study);
     
     //Get Surveys Information
@@ -298,6 +322,21 @@ public class DaraService {
       stringWriter.flush();
       return stringWriter.toString();
     }
+  }
+  
+  /**
+   * Updated the locally. Important: This method does not a save operation!!
+   * @param study The actual Study Representation
+   * @param newVersion the new version for the doi link
+   * @return the updated study object (just locally!)
+   */
+  public Study updateDoi(Study study, String newVersion) {
+    
+    int lastIndexBeforeDoi = study.getDoi().lastIndexOf(":") + 1;
+    String newDoi = study.getDoi().substring(0, lastIndexBeforeDoi) + newVersion;
+    study.setDoi(newDoi);
+    
+    return study;
   }
 
   /**

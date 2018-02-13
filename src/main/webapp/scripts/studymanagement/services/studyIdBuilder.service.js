@@ -2,13 +2,20 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('StudyIdBuilderService',
-function() {
+function(CleanJSObjectService) {
   var buildStudyId = function(dataAcquisitionProjectId) {
     return 'stu-' + dataAcquisitionProjectId + '$';
   };
 
-  var buildDoi = function(dataAcquisitionProjectId) {
-    return '10.21249/DZHW:' + dataAcquisitionProjectId + ':1.0.0';
+  var buildDoi = function(dataAcquisitionProject) {
+    var version = '0.0.0';
+    if (!CleanJSObjectService
+      .isNullOrEmpty(dataAcquisitionProject.release.version)) {
+      version = dataAcquisitionProject.release.version;
+    }
+
+    //TODO DKatzberg VALIDATE VERSION
+    return '10.21249/DZHW:' + dataAcquisitionProject.id + ':' + version;
   };
 
   return {

@@ -15,9 +15,8 @@ angular.module('metadatamanagementApp')
     $scope.ok = function(release) {
       release.date = new Date().toISOString();
       project.release = release;
-      DaraReleaseResource.release({
-        id: project.id
-      }).$promise.then(function() {
+      DaraReleaseResource.release(project)
+        .$promise.then(function() {
         project.hasBeenReleasedBefore = true;
         DataAcquisitionProjectResource.save(project).$promise
           .then(function() {

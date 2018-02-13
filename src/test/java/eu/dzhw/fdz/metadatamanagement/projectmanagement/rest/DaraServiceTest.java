@@ -21,6 +21,7 @@ import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DaraService;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
@@ -80,6 +81,8 @@ public class DaraServiceTest extends AbstractTest{
       .expect(requestTo(this.daraService.getApiEndpoint() + DaraService.REGISTRATION_ENDPOINT + "?registration=true"))
       .andRespond(withStatus(HttpStatus.CREATED));
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    Release release = UnitTestCreateDomainObjectUtils.buildRelease();
+    project.setRelease(release);
     dataAcquisitionProjectRepository.save(project);    
     Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
     this.studyRepository.save(study);
@@ -90,5 +93,4 @@ public class DaraServiceTest extends AbstractTest{
     //ASSERT
     assertThat(isRegistered, is(HttpStatus.CREATED));
   }
-
 }
