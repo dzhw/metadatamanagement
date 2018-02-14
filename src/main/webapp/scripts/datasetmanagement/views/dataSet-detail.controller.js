@@ -13,7 +13,7 @@ angular.module('metadatamanagementApp')
       var ctrl = this;
       ctrl.searchResultIndex = $stateParams['search-result-index'];
       ctrl.isAuthenticated = Principal.isAuthenticated;
-      ctrl.hasAuthority = Principal.hasAuthority;
+      ctrl.hasAnyAuthority = Principal.hasAnyAuthority;
       ctrl.counts = {};
 
       ctrl.openDialog = function(subDataSet) {
@@ -38,7 +38,8 @@ angular.module('metadatamanagementApp')
           'studyIsPresent': CleanJSObjectService.
           isNullOrEmpty(result.study) ? false : true,
           'projectId': result.dataAcquisitionProjectId});
-        if (result.release || Principal.hasAuthority('ROLE_PUBLISHER')) {
+        if (result.release || Principal
+            .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           ctrl.dataSet = result;
           ctrl.study = result.study;
           ctrl.counts.surveysCount = result.surveys.length;

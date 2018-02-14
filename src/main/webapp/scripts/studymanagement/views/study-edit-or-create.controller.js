@@ -40,12 +40,14 @@ angular.module('metadatamanagementApp')
       };
 
       var init = function() {
-        if (Principal.hasAuthority('ROLE_PUBLISHER')) {
+        if (Principal
+            .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           if (!bowser.msie) {
             if (entity) {
               entity.$promise.then(function(study) {
                 ctrl.createMode = false;
                 ctrl.study = study;
+                ctrl.isInitializingStudySeries = true;
                 ctrl.loadAttachments();
                 updateToolbarHeaderAndPageTitle();
                 $scope.registerConfirmOnDirtyHook();
@@ -59,6 +61,7 @@ angular.module('metadatamanagementApp')
                 }).$promise.then(function(study) {
                   ctrl.createMode = false;
                   ctrl.study = study;
+                  ctrl.isInitializingStudySeries = true;
                   ctrl.loadAttachments();
                   updateToolbarHeaderAndPageTitle();
                   $scope.registerConfirmOnDirtyHook();
@@ -388,7 +391,8 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.selectAttachment = function(index) {
-        if (Principal.hasAuthority('ROLE_PUBLISHER')) {
+        if (Principal
+            .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           ctrl.currentAttachmentIndex = index;
         }
       };
@@ -427,7 +431,11 @@ angular.module('metadatamanagementApp')
           $scope.studyForm.studySeriesEn.$setValidity('fdz-required', true);
         }
 
-        $scope.studyForm.$setDirty();
+        if (!ctrl.isInitializingStudySeries) {
+          $scope.studyForm.$setDirty();
+        } else {
+          ctrl.isInitializingStudySeries = false;
+        }
       };
 
       init();

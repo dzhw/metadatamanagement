@@ -44,8 +44,8 @@ public class DaraReleaseResource {
    */
   @RequestMapping(value = "/data-acquisition-projects/{id}/release",
       method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-  @Timed  
-  @Secured(AuthoritiesConstants.PUBLISHER)
+  @Timed
+  @Secured(value = {AuthoritiesConstants.PUBLISHER})
   public ResponseEntity<?> release(@PathVariable String id,
         @RequestBody @Valid DataAcquisitionProject project) throws IOException, TemplateException {
     HttpStatus status = this.daraService.registerOrUpdateProjectToDara(project);

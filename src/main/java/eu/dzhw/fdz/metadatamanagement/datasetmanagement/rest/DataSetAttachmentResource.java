@@ -47,7 +47,7 @@ public class DataSetAttachmentResource {
    */ 
   @RequestMapping(path = "/data-sets/attachments", method = RequestMethod.POST)
   @Timed
-  @Secured(AuthoritiesConstants.PUBLISHER)
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<String> uploadAttachment(@RequestPart("file") MultipartFile multiPartFile,
       @RequestPart("dataSetAttachmentMetadata") 
       @Valid DataSetAttachmentMetadata dataSetAttachmentMetadata)
@@ -87,7 +87,7 @@ public class DataSetAttachmentResource {
    */
   @RequestMapping(path = "/data-sets/{dataSetId}/attachments", method = RequestMethod.DELETE)
   @Timed
-  @Secured(AuthoritiesConstants.PUBLISHER)
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> deleteAllByDataSetId(@PathVariable("dataSetId") String dataSetId) {
     if (!StringUtils.isEmpty(dataSetId)) {
       dataSetAttachmentService.deleteAllByDataSetId(dataSetId);

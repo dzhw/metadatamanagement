@@ -34,7 +34,7 @@ angular.module('metadatamanagementApp')
         parent: 'site',
         url: '/surveys/{id}/edit',
         data: {
-          authorities: ['ROLE_PUBLISHER']
+          authorities: ['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER']
         },
         views: {
           'content@': {
@@ -70,7 +70,7 @@ angular.module('metadatamanagementApp')
         parent: 'site',
         url: '/surveys/new',
         data: {
-          authorities: ['ROLE_PUBLISHER']
+          authorities: ['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER']
         },
         views: {
           'content@': {

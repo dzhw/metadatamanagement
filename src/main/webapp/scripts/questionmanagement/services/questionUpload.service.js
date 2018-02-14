@@ -11,22 +11,32 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
     // map questionId -> presentInJson true/false
     var existingQuestions = {};
     var usedIndexInInstrument = {};
+
+    var getPath = function(file) {
+      var path;
+      if (file.path) {
+        path = _.split(file.path, '/');
+      } else {
+        if (file.webkitRelativePath) {
+          path = _.split(file.webkitRelativePath, '/');
+        }
+      }
+      return path;
+    };
+
     var createInstrumentsFileMap = function(files, dataAcquisitionProjectId) {
       filesMap = {};
       var instrumentIndex = 0;
+      var basicPathLength = 0;
+      if (files.length > 1) {
+        basicPathLength = getPath(files[0]).length;
+      }
       files.forEach(function(file) {
-        var path;
-        if (file.path) {
-          path = _.split(file.path, '/');
-        } else {
-          if (file.webkitRelativePath) {
-            path = _.split(file.webkitRelativePath, '/');
-          }
-        }
+        var path = getPath(file);
         var pathLength = path.length;
         var fileName = _.last(path);
         //Question Json File in the basic path
-        if (_.endsWith(fileName, '.json') && pathLength === 3) {
+        if (_.endsWith(fileName, '.json') && pathLength === basicPathLength) {
           if (!filesMap[path[pathLength - 2]]) {
             filesMap[path[pathLength - 2]] = {};
             filesMap[path[pathLength - 2]].dataAcquisitionProjectId =
@@ -46,7 +56,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
             .jsonFiles[_.split(fileName, '.json')[0]] = file;
         }
         //Image file
-        if (pathLength === 5) {
+        if (pathLength === (basicPathLength + 2)) {
           if (_.endsWith(fileName, '.png')) {
             if (!filesMap[path[pathLength - 4]]) {
               filesMap[path[pathLength - 4]] = {};

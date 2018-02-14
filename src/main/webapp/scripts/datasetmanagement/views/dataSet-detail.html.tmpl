@@ -1,4 +1,4 @@
-<div ng-if="ctrl.dataSet.id" flex ngf-drop="ctrl.uploadTexTemplate($files)" ngf-multiple="true" ngf-include-dir="false" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-drop-disabled="!ctrl.isAuthenticated() || !ctrl.hasAuthority('ROLE_PUBLISHER')">
+<div ng-if="ctrl.dataSet.id" flex ngf-drop="ctrl.uploadTexTemplate($files)" ngf-multiple="true" ngf-include-dir="false" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-drop-disabled="!ctrl.isAuthenticated() && !ctrl.hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER']) ">
     <previous-search-result bowser="bowser" current-language="currentLanguage"></previous-search-result>
     <next-search-result bowser="bowser" current-language="currentLanguage"></next-search-result>
     <div layout="row" style="margin-bottom: 0px;" layout-margin>
@@ -82,7 +82,7 @@
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                         <div ng-if="ctrl.counts.variablesCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
-                            {{'variable-management.detail.label.variables' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                            {{'variable-management.detail.label.variables' | translate }}: {{'global.messages.error.undocumented' | translate}}
                         </div>
                         <div ng-if="ctrl.counts.variablesCount == 1 && ctrl.variable" class="fdz-truncate-string" flex>
                             <a ui-sref="variableDetail({'id': ctrl.variable.id, 'search-result-index': ctrl.searchResultIndex})">
@@ -97,7 +97,7 @@
                         <div ng-if="ctrl.counts.variablesCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'variables', 'data-set': ctrl.dataSet.id, 'study': ctrl.dataSet.studyId})">
                                 <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
-                                {{'variable-management.detail.label.variables' | translate }}: ({{ctrl.counts.variablesCount}})
+                                {{'variable-management.detail.label.variables' | translate }}: ({{ctrl.counts.variablesCount| number: 0}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                     {{'data-set-management.detail.tooltips.variables.many' | translate}}
                                 </md-tooltip>
@@ -122,7 +122,7 @@
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                         <div ng-if="ctrl.counts.publicationsCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
-                            {{'related-publication-management.detail.label.publications' | translate }}: {{'global.messages.error.unavailable' | translate}}
+                            {{'related-publication-management.detail.label.publications' | translate }}: {{'global.messages.error.undocumented' | translate}}
                         </div>
                         <div ng-if="ctrl.counts.publicationsCount == 1" class="fdz-truncate-string" flex>
                             <a ui-sref="relatedPublicationDetail({'id': ctrl.relatedPublication.id, 'search-result-index': ctrl.searchResultIndex})">
@@ -172,6 +172,11 @@
                                 {{'data-set-management.detail.label.sub-data-sets.name' | translate }}
                             </md-tooltip>
                         </th>
+                        <th>{{'variable-management.detail.label.variables' | translate }}
+                            <md-tooltip hide-gt-xs md-direction="right">
+                                {{'variable-management.detail.label.variables' | translate }}
+                            </md-tooltip>
+                        </th>
                         <th>{{'data-set-management.detail.label.sub-data-sets.numberOfAnalyzedVariables' | translate }}
                             <md-tooltip hide-gt-xs md-direction="right">
                                 {{'data-set-management.detail.label.sub-data-sets.numberOfAnalyzedVariables' | translate }}
@@ -195,8 +200,29 @@
                         <td class="fdz-table-nowrap">{{row.accessWay}}</td>
                         <td display-i18n-string="row.description" fdz-hyphenate class="fdz-text-block"></td>
                         <td class="fdz-table-nowrap">{{row.name}}&nbsp;</td>
-                        <td ng-class="{'fdz-table-number' : ctrl.counts.variablesCount > 0}"><span ng-if="ctrl.counts.variablesCount == 0">{{'data-set-management.detail.label.sub-data-sets.unknownNumberOfAnalyzedVariables' | translate }}</span>
-                            <a ng-if="ctrl.counts.variablesCount > 0" ui-sref="search({'type': 'variables', 'data-set':ctrl.dataSet.id, 'study': ctrl.dataSet.studyId, 'access-way': row.accessWay})">
+                        <td ng-class="{'fdz-table-number' : ctrl.counts.variablesCount > 0}">
+                          <div ng-if="ctrl.counts.variablesCount == 0" class="fdz-truncate-string">
+                              {{'data-set-management.detail.label.sub-data-sets.unknownNumberOfAnalyzedVariables' | translate }}
+                          </div>
+                          <div ng-if="ctrl.counts.variablesCount == 1 && ctrl.variable">
+                              <a ui-sref="variableDetail({'id': ctrl.variable.id, 'search-result-index': ctrl.searchResultIndex})">
+                                  {{ctrl.counts.variablesCount}}
+                                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                      {{'data-set-management.detail.tooltips.variables.one' | translate}}
+                                  </md-tooltip>
+                              </a>
+                          </div>
+                          <div ng-if="ctrl.counts.variablesCount > 1">
+                              <a ui-sref="search({'type': 'variables', 'data-set': ctrl.dataSet.id, 'study': ctrl.dataSet.studyId})">
+                                  {{ctrl.counts.variablesCount| number: 0}}
+                                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                      {{'data-set-management.detail.tooltips.variables.many' | translate}}
+                                  </md-tooltip>
+                              </a>
+                          </div>
+                        </td>
+                        <td ng-class="{'fdz-table-number' : ctrl.counts[row.name] > 0}"><span ng-if="ctrl.counts[row.name] == 0">{{'data-set-management.detail.label.sub-data-sets.unknownNumberOfAnalyzedVariables' | translate }}</span>
+                            <a ng-if="ctrl.counts[row.name] > 0" ui-sref="search({'type': 'variables', 'data-set':ctrl.dataSet.id, 'study': ctrl.dataSet.studyId, 'access-way': row.accessWay})">
                           {{ctrl.counts[row.name] | number: 0}}&nbsp;<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                 {{'data-set-management.detail.label.sub-data-sets.numberOfAnalyzedVariables-tooltip' | translate}}
                             </md-tooltip></a>
@@ -262,7 +288,7 @@
         </md-card>
     </div>
     <div class="fdz-fab-button-container" layout="column">
-        <md-button ng-if="ctrl.isAuthenticated() && ctrl.hasAuthority('ROLE_PUBLISHER')" type="file" ngf-select="ctrl.uploadTexTemplate($files)" ngf-multiple="true" directory webkitdirectory class="md-accent md-fab">
+        <md-button ng-if="ctrl.isAuthenticated() && ctrl.hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])" type="file" ngf-select="ctrl.uploadTexTemplate($files)" ngf-multiple="true" directory webkitdirectory class="md-accent md-fab">
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{'data-set-management.detail.generate-variable-report-tooltip' | translate}}
             </md-tooltip>
