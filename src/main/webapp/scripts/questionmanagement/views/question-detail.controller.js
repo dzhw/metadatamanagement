@@ -83,7 +83,15 @@ angular.module('metadatamanagementApp')
                   ctrl.imagesGroupedByLanguage[metadata.language]
                     .push(metadata);
                 });
-                ctrl.currentImageLanguage = ctrl.imageLanguages[0];
+                if (ctrl.imageLanguages
+                  .indexOf($rootScope.currentLanguage) !== -1) {
+                  var index =
+                    ctrl.imageLanguages.indexOf($rootScope.currentLanguage);
+                  ctrl.currentImageLanguage =
+                    ctrl.imageLanguages[index];
+                } else {
+                  ctrl.currentImageLanguage = ctrl.imageLanguages[0];
+                }
               }
             });
           if (ctrl.question.technicalRepresentation) {
@@ -120,9 +128,11 @@ angular.module('metadatamanagementApp')
       });
 
       ctrl.changeCurrentImageLanguage = function(language) {
-        ctrl.currentImageLanguage = language;
-        ctrl.currentImageIndex = 0;
-        $timeout($mdMenu.hide);
+        if (ctrl.imageLanguages.indexOf(language) !== -1) {
+          ctrl.currentImageLanguage = language;
+          ctrl.currentImageIndex = 0;
+          $timeout($mdMenu.hide);
+        }
       };
 
       ctrl.openSuccessCopyToClipboardToast = function(message) {
