@@ -22,6 +22,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
+import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
@@ -44,6 +45,9 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
   private DataAcquisitionProjectRepository rdcProjectRepository;
 
   private MockMvc mockMvc;
+  
+  @Autowired
+  private JaversService javersService;
 
   @Before
   public void setup() {
@@ -54,6 +58,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
   @After
   public void cleanUp() {
     rdcProjectRepository.deleteAll();
+    javersService.deleteAll();
   }
 
   @Test

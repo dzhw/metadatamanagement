@@ -6,6 +6,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.javers.core.metamodel.annotation.Entity;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -24,6 +25,7 @@ import lombok.ToString;
  *
  * @author Daniel Katzberg
  */
+@Entity
 @Document(collection = "data_acquisition_projects")
 @SetHasBeenReleasedBeforeOnlyOnce(message = "data-acquisition-project."
     + "error.data-acquisition-project."
