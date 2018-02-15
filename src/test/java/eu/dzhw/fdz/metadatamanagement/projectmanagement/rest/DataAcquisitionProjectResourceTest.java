@@ -180,5 +180,5 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
       .andExpect(status().isBadRequest())
       .andExpect(
           jsonPath("$.errors[0].message", containsString("data-acquisition-project.error.data-acquisition-project.id.not-empty")));
-  }
+  }  
 }
