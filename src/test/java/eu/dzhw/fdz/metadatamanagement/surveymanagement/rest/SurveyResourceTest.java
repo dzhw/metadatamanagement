@@ -220,8 +220,6 @@ public class SurveyResourceTest extends AbstractTest {
         + "\"title\":{\"en\":\"High school graduates 2008: Third Wave\","
         + "\"de\":\"Bildungs-, Berufs- und Lebenswege - Dritte Befragung der Schulabsolventinnen und -absolventen des Jahrgangs 2007/2008\"},"
         + "\"fieldPeriod\":{\"start\":\"2012-12-01\",\"end\":\"2013-04-01d\"}}";
-    
-    System.out.println(survey);
 
     // create the survey with the given id but without a project
     mockMvc.perform(put(API_SURVEYS_URI + "/6").content(survey))
