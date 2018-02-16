@@ -250,6 +250,16 @@ plots.sendDataToCloud = function(gd) {
     return false;
 };
 
+var d3FormatKeys = [
+    'days', 'shortDays', 'months', 'shortMonths', 'periods',
+    'dateTime', 'date', 'time',
+    'decimal', 'thousands', 'grouping', 'currency'
+];
+
+var extraFormatKeys = [
+    'year', 'month', 'dayMonth', 'dayMonthYear'
+];
+
 // Fill in default values:
 //
 // gd.data, gd.layout:
@@ -271,13 +281,21 @@ plots.sendDataToCloud = function(gd) {
 //   is a list of all the transform modules invoked.
 //
 plots.supplyDefaults = function(gd) {
-    var oldFullLayout = gd._fullLayout || {},
-        newFullLayout = gd._fullLayout = {},
-        newLayout = gd.layout || {};
+    var oldFullLayout = gd._fullLayout || {};
 
-    var oldFullData = gd._fullData || [],
-        newFullData = gd._fullData = [],
-        newData = gd.data || [];
+    if(oldFullLayout._skipDefaults) {
+        delete oldFullLayout._skipDefaults;
+        return;
+    }
+
+    var newFullLayout = gd._fullLayout = {};
+    var newLayout = gd.layout || {};
+
+    var oldFullData = gd._fullData || [];
+    var newFullData = gd._fullData = [];
+    var newData = gd.data || [];
+
+    var context = gd._context || {};
 
     var i;
 
@@ -304,7 +322,10 @@ plots.supplyDefaults = function(gd) {
     };
     newFullLayout._traceWord = _(gd, 'trace');
 
-    var formatObj = getD3FormatObj(gd);
+    var formatObj = getFormatObj(gd, d3FormatKeys);
+
+    // stash the token from context so mapbox subplots can use it as default
+    newFullLayout._mapboxAccessToken = context.mapboxAccessToken;
 
     // first fill in what we can of layout without looking at data
     // because fullData needs a few things from layout
@@ -327,7 +348,7 @@ plots.supplyDefaults = function(gd) {
 
         var missingWidthOrHeight = (!newLayout.width || !newLayout.height),
             autosize = newFullLayout.autosize,
-            autosizable = gd._context && gd._context.autosizable,
+            autosizable = context.autosizable,
             initialAutoSize = missingWidthOrHeight && (autosize || autosizable);
 
         if(initialAutoSize) plots.plotAutoSize(gd, newLayout, newFullLayout);
@@ -341,6 +362,7 @@ plots.supplyDefaults = function(gd) {
     }
 
     newFullLayout._d3locale = getFormatter(formatObj, newFullLayout.separators);
+    newFullLayout._extraFormat = getFormatObj(gd, extraFormatKeys);
 
     newFullLayout._initialAutoSizeIsDone = true;
 
@@ -480,21 +502,18 @@ function remapTransformedArrays(cd0, newTrace) {
     }
 }
 
-var formatKeys = [
-    'days', 'shortDays', 'months', 'shortMonths', 'periods',
-    'dateTime', 'date', 'time',
-    'decimal', 'thousands', 'grouping', 'currency'
-];
-
 /**
- * getD3FormatObj: use _context to get the d3.locale argument object.
+ * getFormatObj: use _context to get the format object from locale.
+ * Used to get d3.locale argument object and extraFormat argument object
+ *
+ * Regarding d3.locale argument :
  * decimal and thousands can be overridden later by layout.separators
  * grouping and currency are not presently used by our automatic number
  * formatting system but can be used by custom formats.
  *
  * @returns {object} d3.locale format object
  */
-function getD3FormatObj(gd) {
+function getFormatObj(gd, formatKeys) {
     var locale = gd._context.locale;
     if(!locale) locale === 'en-US';
 
@@ -1238,6 +1257,8 @@ plots.supplyLayoutGlobalDefaults = function(layoutIn, layoutOut, formatObj) {
 
     coerce('colorway');
 
+    coerce('datarevision');
+
     Registry.getComponentMethod(
         'calendars',
         'handleDefaults'
@@ -1771,7 +1792,7 @@ plots.graphJson = function(gd, dataonly, mode, output, useDefaults) {
 plots.modifyFrames = function(gd, operations) {
     var i, op, frame;
     var _frames = gd._transitionData._frames;
-    var _hash = gd._transitionData._frameHash;
+    var _frameHash = gd._transitionData._frameHash;
 
     for(i = 0; i < operations.length; i++) {
         op = operations[i];
@@ -1780,32 +1801,32 @@ plots.modifyFrames = function(gd, operations) {
             // No reason this couldn't exist, but is currently unused/untested:
             /* case 'rename':
                 frame = _frames[op.index];
-                delete _hash[frame.name];
-                _hash[op.name] = frame;
+                delete _frameHash[frame.name];
+                _frameHash[op.name] = frame;
                 frame.name = op.name;
                 break;*/
             case 'replace':
                 frame = op.value;
                 var oldName = (_frames[op.index] || {}).name;
                 var newName = frame.name;
-                _frames[op.index] = _hash[newName] = frame;
+                _frames[op.index] = _frameHash[newName] = frame;
 
                 if(newName !== oldName) {
                     // If name has changed in addition to replacement, then update
                     // the lookup table:
-                    delete _hash[oldName];
-                    _hash[newName] = frame;
+                    delete _frameHash[oldName];
+                    _frameHash[newName] = frame;
                 }
 
                 break;
             case 'insert':
                 frame = op.value;
-                _hash[frame.name] = frame;
+                _frameHash[frame.name] = frame;
                 _frames.splice(op.index, 0, frame);
                 break;
             case 'delete':
                 frame = _frames[op.index];
-                delete _hash[frame.name];
+                delete _frameHash[frame.name];
                 _frames.splice(op.index, 1);
                 break;
         }
@@ -1991,7 +2012,7 @@ plots.extendObjectWithContainers = function(dest, src, containerPaths) {
     return dest;
 };
 
-plots.dataArrayContainers = ['transforms'];
+plots.dataArrayContainers = ['transforms', 'dimensions'];
 plots.layoutArrayContainers = Registry.layoutArrayContainers;
 
 /*
@@ -2244,14 +2265,6 @@ plots.transition = function(gd, data, layout, traces, frameOpts, transitionOpts)
         var module = contFull._module;
 
         if(!module) continue;
-
-        if(!module.animatable) {
-            var thisUpdate = {};
-
-            for(var ai in data[i]) {
-                thisUpdate[ai] = [data[i][ai]];
-            }
-        }
     }
 
     var seq = [plots.previousPromises, interruptPreviousTransitions, prepareTransitions, plots.rehover, executeTransitions];
