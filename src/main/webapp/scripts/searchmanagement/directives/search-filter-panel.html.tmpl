@@ -29,7 +29,7 @@
         <md-icon ng-if="!filtersCollapsed" md-svg-src="/assets/images/icons/arrow-compress.svg"></md-icon>
     </md-button>
 </div>
-<div ng-if="selectedFilters && selectedFilters.length !== 0" layout="column" style="margin: 0px 16px 0px 16px;" ng-hide="filtersCollapsed">
+<div ng-if="selectedFilters && selectedFilters.length !== 0" layout="column" style="margin: 0px 16px 0px 16px;" ng-style="getFilterPanelStyle()" ng-hide="filtersCollapsed">
     <form role="search" ng-submit="hideMobileKeyboard()">
         <study-series-search-filter ng-if="selectedFilters.indexOf('study-series-de') >= 0 || selectedFilters.indexOf('study-series-en') >= 0" current-language="currentLanguage" current-search-params="currentSearchParams" selected-filters="selectedFilters" study-series-changed-callback="onOneFilterChanged" bowser="bowser"></study-series-search-filter>
         <study-search-filter ng-if="selectedFilters.indexOf('study') >= 0" current-language="currentLanguage" current-search-params="currentSearchParams" study-changed-callback="onOneFilterChanged" bowser="bowser"></study-search-filter>
