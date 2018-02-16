@@ -96,6 +96,11 @@ public abstract class GenericDomainObjectVersionsService<T extends AbstractRdcDo
     }).collect(Collectors.toList());
   }
   
+  /**
+   * Get the last change of a property of a domain object.
+   * @param id the id of the domain object
+   * @param changedProperty the property which is needed for this last change
+   */
   public void findLastChange(String id, String changedProperty) {
     T domainObject = repository.findOne(id);
     QueryBuilder jqlQuery = QueryBuilder
@@ -106,8 +111,6 @@ public abstract class GenericDomainObjectVersionsService<T extends AbstractRdcDo
     changes.stream().map(change -> {
       System.out.println(change.getClass().toString());
       return change.toString();
-     }).collect(Collectors.toList());
-    
-    return;
+    }).collect(Collectors.toList());
   }
 }
