@@ -52,7 +52,7 @@
         <dependency>
             <groupId>com.icegreen</groupId>
             <artifactId>greenmail</artifactId>
-            <version>1.5.6</version>
+            <version>1.5.7</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -122,7 +122,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-compress</artifactId>
-            <version>1.16</version>
+            <version>1.16.1</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>

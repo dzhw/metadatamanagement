@@ -1292,7 +1292,7 @@ function formatDate(ax, out, hover, extraPrecision) {
         else tr = {y: 'm', m: 'd', d: 'M', M: 'S', S: 4}[tr];
     }
 
-    var dateStr = Lib.formatDate(out.x, fmt, tr, ax._dateFormat, ax.calendar),
+    var dateStr = Lib.formatDate(out.x, fmt, tr, ax._dateFormat, ax.calendar, ax._extraFormat),
         headStr;
 
     var splitIndex = dateStr.indexOf('\n');
@@ -1814,17 +1814,6 @@ axes.doTicks = function(gd, axid, skipTitle) {
                     return axDone;
                 };
             }));
-        }
-    }
-
-    // make sure we only have allowed options for exponents
-    // (others can make confusing errors)
-    if(!ax.tickformat) {
-        if(['none', 'e', 'E', 'power', 'SI', 'B'].indexOf(ax.exponentformat) === -1) {
-            ax.exponentformat = 'e';
-        }
-        if(['all', 'first', 'last', 'none'].indexOf(ax.showexponent) === -1) {
-            ax.showexponent = 'all';
         }
     }
 
