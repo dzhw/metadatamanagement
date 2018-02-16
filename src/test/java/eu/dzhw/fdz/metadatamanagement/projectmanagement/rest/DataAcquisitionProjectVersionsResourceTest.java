@@ -9,6 +9,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.io.IOException;
 
+import org.javers.core.Javers;
+import org.javers.core.JaversBuilder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,6 +26,7 @@ import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionProjectVersionsService;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
@@ -42,6 +45,9 @@ public class DataAcquisitionProjectVersionsResourceTest extends AbstractTest {
   
   @Autowired
   private JaversService javersService;
+  
+  @Autowired
+  private DataAcquisitionProjectVersionsService versionsService;
   
   private MockMvc mockMvc;
   
@@ -113,7 +119,7 @@ public class DataAcquisitionProjectVersionsResourceTest extends AbstractTest {
       //.andExpect(jsonPath("$[2].release", isNull()));
   }
   
-  /*@Test
+  @Test
   public void testReleaseCompare() throws IOException, Exception {
     //Arrange
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
@@ -135,32 +141,8 @@ public class DataAcquisitionProjectVersionsResourceTest extends AbstractTest {
     this.mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId()));
     
     //Get the information about 1.0.0
-    List<DataAcquisitionProject> previous = 
-        this.versionsService.findPreviousVersions(project.getId(), 5, 0);
-    assertThat(previous.size(), is(3));
-    List<Change> changes = javers.findChanges( 
-        QueryBuilder
-          .byClass(DataAcquisitionProject.class)
-          .withChangedProperty("id")
-          .build());
+    this.versionsService.findLastChange(project.getId(), "hasBeenReleasedBefore");
     
-    log.info("Size of changes" + changes.size());
-    for (Change change : changes) {
-      log.info(change.getAffectedObject().getClass().toString());
-    }
-    
-    List<Shadow<DataAcquisitionProject>> shadows = javers.findShadows( 
-        QueryBuilder
-          .byInstanceId(project.getId(), DataAcquisitionProject.class)
-          .limit(5)
-          .build() );
-    log.info("Size of shadows" + shadows.size());
-    for (Shadow<DataAcquisitionProject> shadow : shadows) {
-      log.info(shadow.get().getRelease() + "");
-    }*/
-    
-    //Assert
-    /*assertThat(shadows.size(), is(3));
-    assertThat(changes.size(), is(3));
-  }*/
+    //Assert    
+  }
 }
