@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.projectmanagement.rest;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -9,8 +10,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.io.IOException;
 
-import org.javers.core.Javers;
-import org.javers.core.JaversBuilder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -119,30 +118,40 @@ public class DataAcquisitionProjectVersionsResourceTest extends AbstractTest {
       //.andExpect(jsonPath("$[2].release", isNull()));
   }
   
-  //TODO DKatzberg @Test
+  @Test
   public void testReleaseCompare() throws IOException, Exception {
     //Arrange
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
-    Javers javers = JaversBuilder.javers().build();
     
     //Act
     //Save first time with Release    
-    project.setHasBeenReleasedBefore(true);
+    project.setHasBeenReleasedBefore(false);
     project.setRelease(UnitTestCreateDomainObjectUtils.buildRelease());
-    this.mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId()));
+    this.mockMvc.perform(
+        put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
+          .content(TestUtil.convertObjectToJsonBytes(project)))
+          .andExpect(status().isCreated());
     
     //Save second time without Release (simulates unrelease)
+    project.setHasBeenReleasedBefore(true);
     project.setRelease(null);
-    this.mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId()));
+    this.mockMvc.perform(
+        put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
+        .content(TestUtil.convertObjectToJsonBytes(project)))
+        .andExpect(status().isNoContent());
     
     //Save third time with new release and a higher version
     project.setRelease(UnitTestCreateDomainObjectUtils.buildRelease());
     project.getRelease().setVersion("1.0.1");
-    this.mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId()));
+    this.mockMvc.perform(
+        put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
+        .content(TestUtil.convertObjectToJsonBytes(project)))
+        .andExpect(status().isNoContent());;
     
     //Get the information about 1.0.0
-    this.versionsService.findLastChange(project.getId(), "hasBeenReleasedBefore");
+    String lastVersion = this.versionsService.findLastReleaseVersion(project.getId());    
     
     //Assert    
+    assertThat(lastVersion, is("1.0.1"));
   }
 }

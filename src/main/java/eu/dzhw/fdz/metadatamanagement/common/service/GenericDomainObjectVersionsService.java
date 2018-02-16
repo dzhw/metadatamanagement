@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.javers.core.Javers;
-import org.javers.core.diff.Change;
 import org.javers.core.metamodel.object.CdoSnapshot;
 import org.javers.repository.jql.QueryBuilder;
 import org.javers.shadow.Shadow;
@@ -95,22 +94,8 @@ public abstract class GenericDomainObjectVersionsService<T extends AbstractRdcDo
       return domainObjectVersion;
     }).collect(Collectors.toList());
   }
-  
-  /**
-   * Get the last change of a property of a domain object.
-   * @param id the id of the domain object
-   * @param changedProperty the property which is needed for this last change
-   */
-  public void findLastChange(String id, String changedProperty) {
-    T domainObject = repository.findOne(id);
-    QueryBuilder jqlQuery = QueryBuilder
-        .byInstance(domainObject)
-        .withChangedProperty(changedProperty);
-    List<Change> changes = javers.findChanges(jqlQuery.build());
-    
-    changes.stream().map(change -> {
-      System.out.println(change.getClass().toString());
-      return change.toString();
-    }).collect(Collectors.toList());
+
+  protected S getRepository() {
+    return repository;
   }
 }
