@@ -5,15 +5,15 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 
 import org.javers.core.Javers;
-import org.javers.core.diff.Change;
-import org.javers.core.diff.changetype.ValueChange;
 import org.javers.repository.jql.QueryBuilder;
+import org.javers.shadow.Shadow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.common.service.GenericDomainObjectVersionsService;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 
 /**
@@ -52,20 +52,15 @@ public class DataAcquisitionProjectVersionsService
   public String findLastReleaseVersion(String id) {
     //Find last changes
     QueryBuilder jqlQuery = QueryBuilder
-        .byInstanceId(id, DataAcquisitionProject.class)
-        .withChildValueObjects()
-        .withChangedProperty("version");
-    List<Change> changes = javers.findChanges(jqlQuery.build());    
+        .byValueObjectId(id, DataAcquisitionProject.class, "release")
+        .withChangedProperty("version")
+        .limit(1);
+    List<Shadow<Release>> shadows = javers.findShadows(jqlQuery.build());    
     
-    //Check for Release Versions. Project has two version fields: 
-    //project.release.version and project.version.
-    for (Change change : changes) {
-      String lastVersion = ((ValueChange) change).getRight().toString();
-      if (lastVersion.contains(".")) {
-        return lastVersion;
-      }      
+    if (shadows.size() > 0) {
+      return shadows.get(0).get().getVersion();
+    } else {
+      return null;
     }
-    
-    return null;
   }
 }
