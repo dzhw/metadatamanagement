@@ -6,7 +6,7 @@ import javax.annotation.PostConstruct;
 
 import org.javers.core.Javers;
 import org.javers.core.diff.Change;
-import org.javers.core.diff.changetype.ReferenceChange;
+import org.javers.core.diff.changetype.ValueChange;
 import org.javers.repository.jql.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,23 +46,26 @@ public class DataAcquisitionProjectVersionsService
   }
   
   /**
-   * Get the last change of a property of a domain object.
-   * @param id the id of the domain object
+   * Get the last release version of a data acquisition project.
+   * @param id the id of the data acquisition project.
    */
   public String findLastReleaseVersion(String id) {
+    //Find last changes
     QueryBuilder jqlQuery = QueryBuilder
         .byInstanceId(id, DataAcquisitionProject.class)
         .withChildValueObjects()
-        .withChangedProperty("release");
-    List<Change> changes = javers.findChanges(jqlQuery.build());
+        .withChangedProperty("version");
+    List<Change> changes = javers.findChanges(jqlQuery.build());    
     
-    if (changes.size() >= 1) {
-      ReferenceChange change = (ReferenceChange) changes.get(changes.size() - 1);
-      System.out.println(change);
-      System.out.println("Left-Object:" + change.getLeftObject().get().toString());
-      System.out.println(change.getLeft().value());
+    //Check for Release Versions. Project has two version fields: 
+    //project.release.version and project.version.
+    for (Change change : changes) {
+      String lastVersion = ((ValueChange) change).getRight().toString();
+      if (lastVersion.contains(".")) {
+        return lastVersion;
+      }      
     }
     
-    return "1.0.1";
+    return null;
   }
 }
