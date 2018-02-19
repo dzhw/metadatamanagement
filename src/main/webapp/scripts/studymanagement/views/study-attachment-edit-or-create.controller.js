@@ -1,4 +1,4 @@
-/* global _*/
+/* global _, bowser */
 'use strict';
 
 angular.module('metadatamanagementApp')
@@ -6,6 +6,7 @@ angular.module('metadatamanagementApp')
     function($mdDialog, studyAttachmentMetadata, $scope, CommonDialogsService,
       LanguageService, isoLanguages, SimpleMessageToastService,
       StudyAttachmentUploadService, StudyAttachmentResource) {
+      $scope.bowser = bowser;
       var ctrl = this;
       $scope.translationParams = {
         studyId: studyAttachmentMetadata.studyId,
@@ -58,6 +59,15 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.onUploadFailed = function(response) {
+        if (response.invalidFile) {
+          SimpleMessageToastService.openSimpleMessageToast(
+            'study-management.log-messages.study-attachment.file-not-found',
+            {
+              filename: ctrl.studyAttachmentMetadata.fileName
+            }, true);
+          $scope.studyAttachmentForm.filename.$setValidity(
+            'valid', false);
+        }
         if (response.errors && response.errors.length > 0) {
           SimpleMessageToastService.openSimpleMessageToast(
             response.errors[0].message,
@@ -138,12 +148,20 @@ angular.module('metadatamanagementApp')
               ctrl.selectedFile = file;
               ctrl.studyAttachmentMetadata.fileName = file.name;
               $scope.studyAttachmentForm.filename.$setDirty();
+              $scope.studyAttachmentForm.filename.$setValidity(
+                'valid', true);
+              $scope.studyAttachmentForm.filename.$setValidity(
+                'unique', true);
             }
           );
         } else {
           ctrl.selectedFile = file;
           ctrl.studyAttachmentMetadata.fileName = file.name;
           $scope.studyAttachmentForm.filename.$setDirty();
+          $scope.studyAttachmentForm.filename.$setValidity(
+            'valid', true);
+          $scope.studyAttachmentForm.filename.$setValidity(
+            'unique', true);
         }
       };
 

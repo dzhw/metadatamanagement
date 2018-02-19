@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp').config(
           'label': {
             'study': 'Studie',
             'studies': 'Studien',
-            'surveySeries': 'Erhebungsreihe',
+            'studySeries': 'Studienreihe',
             'institution': 'Erhebende Institution',
             'authors': 'Projektmitarbeiter(innen)',
             'sponsors': 'Gefördert von',
@@ -66,7 +66,8 @@ angular.module('metadatamanagementApp').config(
               'current-version-tooltip': 'Dies ist die aktuelle Version!',
               'next-page-tooltip': 'Klicken, um ältere Versionen anzuzeigen.',
               'previous-page-tooltip': 'Klicken, um aktuellere Versionen anzuzeigen.',
-              'attachment-deleted': 'Metadaten wurden gelöscht!'
+              'attachment-deleted': 'Metadaten wurden gelöscht!',
+              'no-versions-found': 'Es wurden keine älteren Versionen der Metadaten gefunden.'
             },
             'language-not-found': 'Keine gültige Sprache gefunden!',
             'save-study-before-adding-attachment': 'Die Studie muss erst gespeichert werden, bevor Materialien hinzugefügt werden können.',
@@ -117,7 +118,7 @@ angular.module('metadatamanagementApp').config(
               'many': 'Klicken, um die Instrumente dieser Studie anzuzeigen.'
             },
             'studies': {
-              'survey-series': 'Klicken, um alle Studien aus der Erhebungsreihe anzuzeigen.'
+              'study-series': 'Klicken, um alle Studien aus der Studienreihe anzuzeigen.'
             }
           },
           'doi-tooltip': 'Klicken, um die DOI in einem neuen Tab zu öffnen'
@@ -165,8 +166,9 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-size': 'Die Maximallänge des Sponsors einer Studie ist 128 Zeichen.',
               'i18n-string-entire-not-empty': 'Der Sponsor einer Studie muss in beiden Sprachen vorhanden sein.'
             },
-            'survey-series': {
-              'i18n-string-size': 'Die Maximallänge der Erhebungsreihe einer Studie ist 128 Zeichen.'
+            'study-series': {
+              'i18n-string-size': 'Die Maximallänge der Studienreihe ist 128 Zeichen.',
+              'i18n-string-entire-not-empty-optional': 'Wenn die Studienreihe in einer Sprache vorliegt, muss sie in allen Sprachen vorliegen.'
             },
             'data-availability': {
               'not-null': 'Die Datenerreichbarkeit einer Studie darf nicht leer sein!',
@@ -203,18 +205,20 @@ angular.module('metadatamanagementApp').config(
             'description': {
               'not-null': 'Die Beschreibung des Attachments darf nicht leer sein.',
               'i18n-string-size': 'Die Beschreibung muss in mindestens einer Sprache angegeben werden und darf nicht länger als 128 Zeichen sein.',
-              'i18n-string-not-empty': 'Die Beschreibung darf nicht leer sein.'
+              'i18n-string-not-empty': 'Die Beschreibung muss in mindestens einer Sprache vorhanden sein.'
             },
             'title': {
               'string-size': 'Der Title des Attachments darf nicht länger als 2048 Zeichen sein.'
             },
             'language': {
               'not-null': 'Die Sprache des Attachments darf nicht leer sein.',
-              'not-supported': 'Die Sprache muss eine gültige zweibuchstabige Abkürzung gemäß ISO 639-1 sein.'
+              'not-supported': 'Die Sprache muss eine gültige zweibuchstabige Abkürzung gemäß ISO 639-1 sein.',
+              'not-valid': 'Bitte wählen Sie eine vorgeschlagene Sprache aus.'
             },
             'filename': {
               'not-empty': 'Der Dateiname des Attachments darf nicht leer sein.',
-              'not-unique': 'Es gibt bereits ein Attachment mit diesem Dateinamen.'
+              'not-unique': 'Es gibt bereits ein Attachment mit diesem Dateinamen.',
+              'not-valid': 'Der Dateiname ist ungültig.'
             }
           }
         },
@@ -258,7 +262,7 @@ angular.module('metadatamanagementApp').config(
               'de': 'Geben Sie den Titel der Studie auf Deutsch ein.',
               'en': 'Geben Sie den Titel der Studie auf Englisch ein.'
             },
-            'survey-series': {
+            'study-series': {
               'de': 'Geben Sie, falls vorhanden, den Namen der Studienreihe auf Deutsch ein.',
               'en': 'Geben Sie, falls vorhanden, den Namen der Studienreihe auf Englisch ein.'
             },

@@ -398,15 +398,16 @@ module.exports = function setConvert(ax, fullLayout) {
     // in case the expected data isn't there, make a list of
     // integers based on the opposite data
     ax.makeCalcdata = function(trace, axLetter) {
-        var arrayIn, arrayOut, i;
+        var arrayIn, arrayOut, i, len;
 
         var cal = ax.type === 'date' && trace[axLetter + 'calendar'];
 
         if(axLetter in trace) {
             arrayIn = trace[axLetter];
-            arrayOut = new Array(arrayIn.length);
+            len = trace._length || arrayIn.length;
+            arrayOut = new Array(len);
 
-            for(i = 0; i < arrayIn.length; i++) {
+            for(i = 0; i < len; i++) {
                 arrayOut[i] = ax.d2c(arrayIn[i], 0, cal);
             }
         }
@@ -418,9 +419,10 @@ module.exports = function setConvert(ax, fullLayout) {
 
             // the opposing data, for size if we have x and dx etc
             arrayIn = trace[{x: 'y', y: 'x'}[axLetter]];
-            arrayOut = new Array(arrayIn.length);
+            len = trace._length || arrayIn.length;
+            arrayOut = new Array(len);
 
-            for(i = 0; i < arrayIn.length; i++) arrayOut[i] = v0 + i * dv;
+            for(i = 0; i < len; i++) arrayOut[i] = v0 + i * dv;
         }
         return arrayOut;
     };
@@ -457,6 +459,7 @@ module.exports = function setConvert(ax, fullLayout) {
     var locale = fullLayout._d3locale;
     if(ax.type === 'date') {
         ax._dateFormat = locale ? locale.timeFormat.utc : d3.time.format.utc;
+        ax._extraFormat = fullLayout._extraFormat;
     }
     // occasionally we need _numFormat to pass through
     // even though it won't be needed by this axis

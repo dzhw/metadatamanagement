@@ -43,7 +43,7 @@ public class SurveyResponseRateImageResource {
    */
   @RequestMapping(path = "/surveys/images", method = RequestMethod.POST)
   @Timed
-  @Secured(AuthoritiesConstants.PUBLISHER)
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<String> uploadImage(@RequestParam("image") MultipartFile multiPartFile,
       @RequestParam("surveyId") String surveyId) throws IOException, URISyntaxException {
     if (!multiPartFile.isEmpty() && this.surveyResponseRateImageService
@@ -71,10 +71,32 @@ public class SurveyResponseRateImageResource {
    */
   @RequestMapping(path = "/surveys/{surveyId}/images", method = RequestMethod.DELETE)
   @Timed
-  @Secured(AuthoritiesConstants.PUBLISHER)
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> deleteAllBySurveyId(@PathVariable("surveyId") String surveyId) {
     if (!StringUtils.isEmpty(surveyId)) {
       surveyResponseRateImageService.deleteAllSurveyImagesById(surveyId);
+      return ResponseEntity.noContent().build();
+    } else {
+      return ResponseEntity.badRequest()
+        .body(null);
+    }
+  }
+  
+  /**
+   * Delete the given image of the given survey.
+   * 
+   * @param surveyId The id of the survey.
+   * @param filename The name of the image file
+   * @throws IOException if gridfs access fails
+   */
+  @RequestMapping(path = "/surveys/{surveyId}/images/{filename:.+}", 
+      method = RequestMethod.DELETE)
+  @Timed
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
+  public ResponseEntity<?> deleteImage(@PathVariable("surveyId") String surveyId, 
+      @PathVariable("filename") String filename) throws IOException {
+    if (!StringUtils.isEmpty(surveyId) && !StringUtils.isEmpty(filename)) {
+      surveyResponseRateImageService.deleteSurveyImage(surveyId, filename);
       return ResponseEntity.noContent().build();
     } else {
       return ResponseEntity.badRequest()

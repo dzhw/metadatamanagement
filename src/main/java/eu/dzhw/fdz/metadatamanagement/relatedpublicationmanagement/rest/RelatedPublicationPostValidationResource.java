@@ -38,7 +38,7 @@ public class RelatedPublicationPostValidationResource {
   @RequestMapping(value = "/related-publications/post-validate",
       method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
   @Timed
-  @Secured(AuthoritiesConstants.PUBLISHER)
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<PostValidationErrorsDto> postValidate() {
     return new ResponseEntity<>(
           new PostValidationErrorsDto(

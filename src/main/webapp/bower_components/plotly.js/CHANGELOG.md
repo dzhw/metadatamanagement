@@ -10,6 +10,54 @@ https://github.com/plotly/plotly.js/compare/vX.Y.Z...master
 where X.Y.Z is the semver of most recent plotly.js release.
 
 
+## [1.34.0] -- 2018-02-12
+
+### Added
+- Add `Plotly.react`, a new do-it-all API method that creates and update graphs
+  using the same API signature [#2341]
+- Add constraint-type contours to `contour` traces [#2270]
+- Add `notched` and `notchwidth` attributes to `box` traces [#2305]
+- Add localization machinery to auto-formatted date axis ticks [#2261]
+- Add support for `text` in `mesh3d` traces [#2327]
+- Add support for scalar `text` in `surface` traces [#2327]
+- Make mode bar for graphs with multiple subplot types more usable [#2339]
+- Add `npm@5` package-lock file [#2323]
+
+### Changed
+- All of gl-vis dependencies now use `gl-shader@4.2.1` [#2293, #2306]
+- All our dependencies and source now use `glslify@6.1.0` [#2326]
+
+### Fixed
+- Prevent page scroll on mobile device on `gl2d` and `gl3d` subplots [#2296]
+- Fix multi-marker `scattergl` selection errors (bug introduced in `1.33.0`) [#2295]
+- Fix `Plotly.addTraces` in `scattergl` selection call backs (bug introduced in `1.33.0`) [#2298]
+- Fix trace `opacity` restyle for `scattergl` traces (bug introduced in `1.33.0`) [#2299]
+- Fix `scattergl` handling of `selectedpoints` across multiple traces [#2311]
+- Fix `scattergl` horizontal and vertical line rendering [#2340]
+- Fix restyle for scalar `hoverinfo` for `scatter3d`, `surface` and `mesh3d` traces [#2327]
+- Fix `table` when content-less cells and headers are supplied [#2314]
+- Fix `Plotly.animate` for attribute nested in `dimensions` containers [#2324]
+- Fix `hoverformat` on `visible: false` cartesian axes (bug introduced in `1.33.0`) [#2329]
+- Fix handling of double negative translate transform values [#2339]
+- Fix compare `hovermode` fallback for non-cartesian subplot types [#2339]
+- Fix animation error messages when overriding and ignoring frames updates [#2313]
+
+
+## [1.33.1] -- 2018-01-24
+
+### Fixed
+
+- Fix selection on `scattergl` plots with >20k points [#2266]
+- Update Spanish localization with new strings [#2268]
+- Fix test_dashboard overly rigid restriction so parcoods works there [#2273]
+- Make `layout.colorway` compatible with `sankey` traces [#2277]
+- Fix click events on `fixedrange` subplots [#2279]
+- Remove ghost fill when trace data is emptied out [#2280]
+- Fix resizing of new `scattergl` plots [#2283]
+- Fix positioning of carpet axis titles for `cheaterslope` edge cases [#2285]
+- Fix coloring and hover info for heatmaps and contour maps with nonuniform bins [#2288]
+
+
 ## [1.33.0] -- 2018-01-18
 
 ### Added

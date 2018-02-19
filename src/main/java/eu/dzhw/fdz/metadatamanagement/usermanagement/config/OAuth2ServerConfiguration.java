@@ -132,7 +132,7 @@ public class OAuth2ServerConfiguration {
           .getClientid())
           .scopes("read", "write")
           .authorities(AuthoritiesConstants.ADMIN, AuthoritiesConstants.USER, 
-              AuthoritiesConstants.PUBLISHER)
+              AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER)
           .authorizedGrantTypes("password", "refresh_token")
           .secret(jhipsterProperties.getSecurity()
           .getAuthentication()

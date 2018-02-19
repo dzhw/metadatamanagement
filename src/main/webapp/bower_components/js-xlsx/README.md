@@ -196,9 +196,12 @@ The [`demos` directory](demos/) includes sample projects for:
 - [`vue 2.x and weex`](demos/vue/)
 - [`XMLHttpRequest and fetch`](demos/xhr/)
 - [`nodejs server`](demos/server/)
+- [`databases and key/value stores`](demos/database/)
 
 **Bundlers and Tooling**
 - [`browserify`](demos/browserify/)
+- [`fusebox`](demos/fusebox/)
+- [`parcel`](demos/parcel/)
 - [`requirejs`](demos/requirejs/)
 - [`rollup`](demos/rollup/)
 - [`systemjs`](demos/systemjs/)
@@ -212,6 +215,7 @@ The [`demos` directory](demos/) includes sample projects for:
 - [`Headless Browsers`](demos/headless/)
 - [`canvas-datagrid`](demos/datagrid/)
 - [`Swift JSC and other engines`](demos/altjs/)
+- [`internet explorer`](demos/oldie/)
 
 ### Optional Modules
 
@@ -313,6 +317,23 @@ var workbook = XLSX.readFile('test.xlsx');
 </details>
 
 <details>
+  <summary><b>Photoshop ExtendScript read a file</b> (click to show)</summary>
+
+`readFile` wraps the `File` logic in Photoshop and other ExtendScript targets.
+The specified path should be an absolute path:
+
+```js
+#include "xlsx.extendscript.js"
+/* Read test.xlsx from the Documents folder */
+var workbook = XLSX.readFile(Folder.myDocuments + '/' + 'test.xlsx');
+/* DO SOMETHING WITH workbook HERE */
+```
+
+The [`extendscript` demo](demos/extendscript/) includes a more complex example.
+
+</details>
+
+<details>
   <summary><b>Browser read TABLE element from page</b> (click to show)</summary>
 
 The `table_to_book` and `table_to_sheet` utility functions take a DOM TABLE
@@ -336,7 +357,7 @@ var worksheet = XLSX.read(htmlstr, {type:'string'});
   <summary><b>Browser download file (ajax)</b> (click to show)</summary>
 
 Note: for a more complete example that works in older browsers, check the demo
-at <http://oss.sheetjs.com/js-xlsx/ajax.html>).  The <demos/xhr/> directory also
+at <http://oss.sheetjs.com/js-xlsx/ajax.html>).  The [`xhr` demo](demos/xhr/)
 includes more examples with `XMLHttpRequest` and `fetch`.
 
 ```js
@@ -409,8 +430,12 @@ function handleFile(e) {
 input_dom_element.addEventListener('change', handleFile, false);
 ```
 
+The [`oldie` demo](demos/oldie/) shows an IE-compatible fallback scenario.
+
 </details>
 
+More specialized cases, including mobile app file processing, are covered in the
+[included demos](demos/)
 
 ### Parsing Examples
 
@@ -587,8 +612,7 @@ Assuming `workbook` is a workbook object:
 <details>
   <summary><b>nodejs write a file</b> (click to show)</summary>
 
-`writeFile` is only available in server environments. Browsers have no API for
-writing arbitrary files given a path, so another strategy must be used.
+`XLSX.writeFile` uses `fs.writeFileSync` in server environments:
 
 ```js
 if(typeof require !== 'undefined') XLSX = require('xlsx');
@@ -600,7 +624,24 @@ XLSX.writeFile(workbook, 'out.xlsb');
 </details>
 
 <details>
-  <summary><b>Browser add to web page</b> (click to show)</summary>
+  <summary><b>Photoshop ExtendScript write a file</b> (click to show)</summary>
+
+`writeFile` wraps the `File` logic in Photoshop and other ExtendScript targets.
+The specified path should be an absolute path:
+
+```js
+#include "xlsx.extendscript.js"
+/* output format determined by filename */
+XLSX.writeFile(workbook, 'out.xlsx');
+/* at this point, out.xlsx is a file that you can distribute */
+```
+
+The [`extendscript` demo](demos/extendscript/) includes a more complex example.
+
+</details>
+
+<details>
+  <summary><b>Browser add TABLE element to page</b> (click to show)</summary>
 
 The `sheet_to_html` utility function generates HTML code that can be added to
 any DOM element.
@@ -611,29 +652,10 @@ var container = document.getElementById('tableau');
 container.innerHTML = XLSX.utils.sheet_to_html(worksheet);
 ```
 
-
 </details>
 
 <details>
-  <summary><b>Browser save file</b> (click to show)</summary>
-
-Note: browser generates binary blob and forces a "download" to client.  This
-example uses [FileSaver](https://github.com/eligrey/FileSaver.js/):
-
-```js
-/* bookType can be any supported output type */
-var wopts = { bookType:'xlsx', bookSST:false, type:'array' };
-
-var wbout = XLSX.write(workbook,wopts);
-
-/* the saveAs call downloads a file on the local machine */
-saveAs(new Blob([wbout],{type:"application/octet-stream"}), "test.xlsx");
-```
-
-</details>
-
-<details>
-  <summary><b>Browser upload to server</b> (click to show)</summary>
+  <summary><b>Browser upload file (ajax)</b> (click to show)</summary>
 
 A complete example using XHR is [included in the XHR demo](demos/xhr/), along
 with examples for fetch and wrapper libraries.  This example assumes the server
@@ -654,6 +676,65 @@ req.send(formdata);
 ```
 
 </details>
+
+<details>
+  <summary><b>Browser save file</b> (click to show)</summary>
+
+`XLSX.writeFile` wraps a few techniques for triggering a file save:
+
+- `URL` browser API creates an object URL for the file, which the library uses
+  by creating a link and forcing a click. It is supported in modern browsers.
+- `msSaveBlob` is an IE10+ API for triggering a file save.
+- `IE_FileSave` uses VBScript and ActiveX to write a file in IE6+ for Windows
+  XP and Windows 7.  The shim must be included in the containing HTML page.
+
+There is no standard way to determine if the actual file has been downloaded.
+
+```js
+/* output format determined by filename */
+XLSX.writeFile(workbook, 'out.xlsb');
+/* at this point, out.xlsb will have been downloaded */
+```
+
+</details>
+
+<details>
+  <summary><b>Browser save file (compatibility)</b> (click to show)</summary>
+
+`XLSX.writeFile` techniques work for most modern browsers as well as older IE.
+For much older browsers, there are workarounds implemented by wrapper libraries.
+
+[`FileSaver.js`](https://github.com/eligrey/FileSaver.js/) implements `saveAs`.
+Note: `XLSX.writeFile` will automatically call `saveAs` if available.
+
+```js
+/* bookType can be any supported output type */
+var wopts = { bookType:'xlsx', bookSST:false, type:'array' };
+
+var wbout = XLSX.write(workbook,wopts);
+
+/* the saveAs call downloads a file on the local machine */
+saveAs(new Blob([wbout],{type:"application/octet-stream"}), "test.xlsx");
+```
+
+[`Downloadify`](https://github.com/dcneiner/downloadify) uses a Flash SWF button
+to generate local files, suitable for environments where ActiveX is unavailable:
+
+```js
+Downloadify.create(id,{
+	/* other options are required! read the downloadify docs for more info */
+	filename: "test.xlsx",
+	data: function() { return XLSX.write(wb, {bookType:"xlsx", type:'base64'}); },
+	append: false,
+	dataType: 'base64'
+});
+```
+
+The [`oldie` demo](demos/oldie/) shows an IE-compatible fallback scenario.
+
+</details>
+
+The [included demos](demos/) cover mobile apps and other special deployments.
 
 ### Writing Examples
 
@@ -702,7 +783,8 @@ Parse options are described in the [Parsing Options](#parsing-options) section.
 
 `XLSX.write(wb, write_opts)` attempts to write the workbook `wb`
 
-`XLSX.writeFile(wb, filename, write_opts)` attempts to write `wb` to `filename`
+`XLSX.writeFile(wb, filename, write_opts)` attempts to write `wb` to `filename`.
+In browser-based environments, it will attempt to force a client-side download.
 
 `XLSX.writeFileAsync(filename, wb, o, cb)` attempts to write `wb` to `filename`.
 If `o` is omitted, the writer will use the third argument as the callback.
@@ -769,11 +851,13 @@ for(var R = range.s.r; R <= range.e.r; ++R) {
 
 ### Cell Object
 
+Cell objects are plain JS objects with keys and values following the convention:
+
 | Key | Description                                                            |
 | --- | ---------------------------------------------------------------------- |
 | `v` | raw value (see Data Types section for more info)                       |
 | `w` | formatted text (if applicable)                                         |
-| `t` | cell type: `b` Boolean, `n` Number, `e` error, `s` String, `d` Date    |
+| `t` | type: `b` Boolean, `e` Error, `n` Number, `d` Date, `s` Text, `z` Stub |
 | `f` | cell formula encoded as an A1-style string (if applicable)             |
 | `F` | range of enclosing array if formula is array formula (if applicable)   |
 | `r` | rich text encoding (if applicable)                                     |
@@ -793,11 +877,18 @@ array range.  Other cells in the range will omit the `f` field.
 
 #### Data Types
 
-The raw value is stored in the `v` field, interpreted based on the `t` field.
+The raw value is stored in the `v` value property, interpreted based on the `t`
+type property.  This separation allows for representation of numbers as well as
+numeric text.  There are 6 valid cell types:
 
-Type `b` is the Boolean type.  `v` is interpreted according to JS truth tables.
-
-Type `e` is the Error type. `v` holds the number and `w` holds the common name:
+| Type | Description                                                           |
+| :--: | :-------------------------------------------------------------------- |
+| `b`  | Boolean: value interpreted as JS `boolean`                            |
+| `e`  | Error: value is a numeric code and `w` property stores common name ** |
+| `n`  | Number: value is a JS `number` **                                     |
+| `d`  | Date: value is a JS `Date` object or string to be parsed as Date **   |
+| `s`  | Text: value interpreted as JS `string` and written as text **         |
+| `z`  | Stub: blank stub cell that is ignored by data processing utilities ** |
 
 <details>
   <summary><b>Error values and interpretation</b> (click to show)</summary>
@@ -826,14 +917,17 @@ Since JSON does not have a natural Date type, parsers are generally expected to
 store ISO 8601 Date strings like you would get from `date.toISOString()`.  On
 the other hand, writers and exporters should be able to handle date strings and
 JS Date objects.  Note that Excel disregards timezone modifiers and treats all
-dates in the local timezone.  js-xlsx does not correct for this error.
+dates in the local timezone.  The library does not correct for this error.
 
-Type `s` is the String type.  `v` should be explicitly stored as a string to
-avoid possible confusion.
+Type `s` is the String type.  Values are explicitly stored as text.  Excel will
+interpret these cells as "number stored as text".  Generated Excel files
+automatically suppress that class of error, but other formats may elicit errors.
 
-Type `z` represents blank stub cells.  These do not have any data or type, and
-are not processed by any of the core library functions.  By default these cells
-will not be generated; the parser `sheetStubs` option must be set to `true`.
+Type `z` represents blank stub cells.  They are generated in cases where cells
+have no assigned value but hold comments or other metadata. They are ignored by
+the core library data processing utility functions.  By default these cells are
+not generated; the parser `sheetStubs` option must be set to `true`.
+
 
 #### Dates
 
@@ -2012,6 +2106,7 @@ produces HTML output.  The function takes an options argument:
 
 | Option Name |  Default | Description                                         |
 | :---------- | :------: | :-------------------------------------------------- |
+|`id`         |          | Specify the `id` attribute for the `TABLE` element  |
 |`editable`   |  false   | If true, set `contenteditable="true"` for every TD  |
 |`header`     |          | Override header (default `html body`)               |
 |`footer`     |          | Override footer (default `/body /html`)             |

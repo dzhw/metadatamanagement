@@ -34,6 +34,13 @@ var grid = canvasDatagrid({
 });
 ```
 
+For large data sets, it's necessary to constrain the size of the grid.
+
+```js
+grid.style.height = '100%';
+grid.style.width = '100%';
+```
+
 Once the workbook is read and the worksheet is selected, assigning the data
 variable automatically updates the view:
 
@@ -75,7 +82,8 @@ var ws = XLSX.utils.aoa_to_sheet(prep(grid.data));
 var wb = XLSX.utils.book_new();
 XLSX.utils.book_append_sheet(wb, ws, 'SheetJS');
 
-/* .. generate download (see documentation for examples) .. */
+/* generate download */
+XLSX.writeFile(wb, "SheetJS.xlsx");
 ```
 
 ## Additional Features

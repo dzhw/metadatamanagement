@@ -24,6 +24,7 @@ import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
+import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
@@ -57,6 +58,9 @@ public class SurveyResourceTest extends AbstractTest {
   
   @Autowired
   private ElasticsearchAdminService elasticsearchAdminService;
+  
+  @Autowired
+  private JaversService javersService;
 
   private MockMvc mockMvc;
 
@@ -72,6 +76,7 @@ public class SurveyResourceTest extends AbstractTest {
     rdcProjectRepository.deleteAll();
     surveyRepository.deleteAll();
     elasticsearchUpdateQueueService.clearQueue();
+    javersService.deleteAll();
   }
 
   @Test
@@ -218,11 +223,11 @@ public class SurveyResourceTest extends AbstractTest {
 
     // create the survey with the given id but without a project
     mockMvc.perform(put(API_SURVEYS_URI + "/6").content(survey))
-      .andExpect(status().isBadRequest())
+      .andExpect(status().isBadRequest())     
       .andExpect(jsonPath("$.errors[0].invalidValue", is("2013-04-01d")))
       .andExpect(jsonPath("$.errors[0].property", is("end")))
       .andExpect(jsonPath("$.errors[0].entity", is("Survey")))
-      .andExpect(jsonPath("$.errors[0].message", is("global.error.import.json-parsing-error")));
+      .andExpect(jsonPath("$.errors[0].message", is("global.error.import.json-parsing-error")));    
   }
   
   @Test

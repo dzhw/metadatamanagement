@@ -116,7 +116,7 @@
 			"studies": {
 				"type": "object",
 				"properties": {
-					"surveySeries": {
+					"studySeries": {
 						"type": "object",
 						"properties": {
 							"de": {

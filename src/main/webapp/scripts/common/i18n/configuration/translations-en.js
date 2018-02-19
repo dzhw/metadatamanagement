@@ -12,6 +12,7 @@ angular.module('metadatamanagementApp').config(
         'bmbf-alt-text': 'Sponsored by the FMER',
         'search': 'Search',
         'in-german': 'in German',
+        'in': 'in',
         'in-english': 'in English',
         'toolbar': {
           'buttons': {
@@ -289,6 +290,14 @@ angular.module('metadatamanagementApp').config(
             'last-name': {
               'not-empty': 'The last name of a person has to be given.'
             }
+          },
+          'resolution': {
+            'width-x': {
+              'not-null': 'The width of an image (maximum value at the x-axis) has to be given.'
+            },
+            'height-y': {
+              'not-null': 'The height of an image (maximum value at the y-axis) has to be given.'
+            }
           }
         },
         'logos': {
@@ -340,6 +349,10 @@ angular.module('metadatamanagementApp').config(
           'confirm-filename-change': {
             'title': 'Change filename?',
             'content': 'Do you really want to change the filename from "{{ oldFilename }}" to "{{ newFilename }}"?\n\nIf you do so, you will loose the history of the metadata of the document!'
+          },
+          'confirm-delete-survey': {
+            'title': 'Delete Survey "{{ id }}"?',
+            'content': 'Do you really want to delete Survey "{{ id }}"?'
           }
         },
         'edit': {

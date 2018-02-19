@@ -12,6 +12,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ImageType;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Resolution;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetTypes;
@@ -23,6 +24,7 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAtta
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.QuestionImageMetadata;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.QuestionTypes;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.TechnicalRepresentation;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
@@ -82,17 +84,13 @@ public class UnitTestCreateDomainObjectUtils {
             .de("Institution De")
             .en("Institution En")
             .build())
-        .surveySeries(I18nString.builder()
-            .de("Survey Series De")
-            .en("Survey Series En")
+        .studySeries(I18nString.builder()
+            .de("Study Series De")
+            .en("Study Series En")
             .build())
         .sponsor(I18nString.builder()
             .de("Sponsor De")
             .en("Sponsor En")
-            .build())
-        .surveySeries(I18nString.builder()
-            .de("Survey Series De")
-            .en("Survey Series En")
             .build())
         .title(I18nString.builder()
             .de("Titel De")
@@ -270,11 +268,11 @@ public class UnitTestCreateDomainObjectUtils {
 
   public static Question buildQuestion(String projectId, Integer instrumentNumber,
       String instrumentId, String surveyId) {
+    
     return Question.builder().dataAcquisitionProjectId(projectId)
       .id(UnitTestCreateValidIds.buildQuestionId(projectId, instrumentNumber, "123.12"))
       .additionalQuestionText(new I18nString("Zusätzlicher Fragetext", "Additional Question Text"))
       .dataAcquisitionProjectId(projectId)
-      .imageType(ImageType.PNG)
       .instruction(new I18nString("Instruktionen", "Instruction"))
       .instrumentId(instrumentId)
       .introduction(new I18nString("Einleitung", "Introduction"))
@@ -292,6 +290,22 @@ public class UnitTestCreateDomainObjectUtils {
           .build())
       .studyId(UnitTestCreateValidIds.buildStudyId(projectId))
       .build();
+  }
+  
+  public static QuestionImageMetadata buildQuestionImageMetadata(String projectId, String questionId) {
+    
+    return QuestionImageMetadata.builder()
+        .fileName("TestFileName.PNG")
+        .language("de")
+        .resolution(Resolution.builder()
+            .widthX(800)
+            .heightY(600)
+            .build())
+        .imageType(ImageType.PNG)
+        .containsAnnotations(false)
+        .dataAcquisitionProjectId(projectId)
+        .questionId(questionId)
+        .build();
   }
 
   public static Instrument buildInstrument(String projectId) {

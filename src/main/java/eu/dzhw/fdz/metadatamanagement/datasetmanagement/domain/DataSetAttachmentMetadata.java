@@ -1,12 +1,14 @@
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
@@ -59,6 +61,9 @@ public class DataSetAttachmentMetadata extends AbstractRdcDomainObject {
 
   @NotEmpty(message =
       "data-set-management.error.data-set-attachment-metadata.filename.not-empty")
+  @Pattern(message =
+      "data-set-management.error.data-set-attachment-metadata.filename.not-valid",
+      regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOT)
   private String fileName;
 
   @NotNull(message =

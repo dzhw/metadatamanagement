@@ -12,6 +12,7 @@ angular.module('metadatamanagementApp').config(
         'bmbf-alt-text': 'Gefördert vom BMBF',
         'search': 'Suche',
         'in-german': 'auf Deutsch',
+        'in': 'auf',
         'in-english': 'auf Englisch',
         'toolbar': {
           'buttons': {
@@ -289,6 +290,14 @@ angular.module('metadatamanagementApp').config(
             'last-name': {
               'not-empty': 'Der Nachname einer Person muss gefüllt sein.'
             }
+          },
+          'resolution': {
+            'width-x': {
+              'not-null': 'Die Angabe der Breite eines Bildes (maximaler Wert auf der X-Achse) muss gefüllt sein.'
+            },
+            'height-y': {
+              'not-null': 'Die Angabe der Höhe eines Bildes (maximaler Wert auf der Y-Achse) muss gefüllt sein.'
+            }
           }
         },
         'logos': {
@@ -340,6 +349,10 @@ angular.module('metadatamanagementApp').config(
           'confirm-filename-change': {
             'title': 'Dateinamen ändern?',
             'content': 'Wollen Sie wirklich den Dateinamen von "{{ oldFilename }}" nach "{{ newFilename }}" ändern?\n\nHierdurch geht die Historie der Metadaten der Datei verloren!'
+          },
+          'confirm-delete-survey': {
+            'title': 'Erhebung "{{ id }}" löschen?',
+            'content': 'Wollen Sie die Erhebung "{{ id }}" wirklich löschen?'
           }
         },
         'edit': {

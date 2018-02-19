@@ -8,6 +8,8 @@ angular.module('metadatamanagementApp').factory('CommonDialogsService',
       'global.common-dialogs.confirm-file-delete.';
     var translationPrefixFilenameChange =
       'global.common-dialogs.confirm-filename-change.';
+    var translationPrefixDeleteObject =
+      'global.common-dialogs.confirm-delete-';
 
     var focusCancelButton = function() {
       var $actionsSection = angular.element(
@@ -28,7 +30,11 @@ angular.module('metadatamanagementApp').factory('CommonDialogsService',
         .ok($translate.instant('global.common-dialogs.yes'))
         .cancel($translate.instant('global.common-dialogs.no'))
         .multiple(true);
-      return $mdDialog.show(confirmOnDirtyDialog);
+      return $mdDialog.show(confirmOnDirtyDialog).finally(function() {
+        //ensure that scroll bars remain visible
+        angular.element(document.querySelector('body'))
+          .css('overflow', 'visible');
+      });
     };
 
     var showConfirmFileDeletionDialog = function(filename) {
@@ -42,6 +48,21 @@ angular.module('metadatamanagementApp').factory('CommonDialogsService',
         })).ok($translate.instant('global.common-dialogs.yes'))
         .cancel($translate.instant('global.common-dialogs.no'));
       return $mdDialog.show(confirmOnFileDeletionDialog);
+    };
+
+    var showConfirmDeletionDialog = function(options) {
+      var confirmOnDeletionDialog = $mdDialog.confirm({
+        onComplete: focusCancelButton
+      }).title($translate.instant(translationPrefixDeleteObject + options.type +
+        '.title', {
+        id: options.id
+      })).textContent(
+        $translate.instant(translationPrefixDeleteObject + options.type +
+          '.content', {
+          id: options.id
+        })).ok($translate.instant('global.common-dialogs.yes'))
+        .cancel($translate.instant('global.common-dialogs.no'));
+      return $mdDialog.show(confirmOnDeletionDialog);
     };
 
     var showConfirmFilenameChangedDialog = function(oldFilename, newFilename) {
@@ -64,6 +85,7 @@ angular.module('metadatamanagementApp').factory('CommonDialogsService',
     return {
       showConfirmOnDirtyDialog: showConfirmOnDirtyDialog,
       showConfirmFileDeletionDialog: showConfirmFileDeletionDialog,
-      showConfirmFilenameChangedDialog: showConfirmFilenameChangedDialog
+      showConfirmFilenameChangedDialog: showConfirmFilenameChangedDialog,
+      showConfirmDeletionDialog: showConfirmDeletionDialog
     };
   });

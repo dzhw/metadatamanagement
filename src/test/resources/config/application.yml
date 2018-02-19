@@ -42,6 +42,7 @@ logging:
       root: warn
       eu.dzhw.fdz.metadatamanagement: error
       org.springframework: error
+      org.javers.core: warn
 
 security:
     basic:

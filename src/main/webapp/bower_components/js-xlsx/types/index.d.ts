@@ -1,5 +1,6 @@
 /* index.d.ts (C) 2015-present SheetJS and contributors */
 // TypeScript Version: 2.2
+import * as CFB from "cfb";
 
 /** Version string */
 export const version: string;
@@ -8,13 +9,13 @@ export const version: string;
 export const SSF: any;
 
 /** CFB Library */
-export const CFB: any;
+export { CFB };
 
-/** Attempts to read filename and parse */
+/** NODE ONLY! Attempts to read filename and parse */
 export function readFile(filename: string, opts?: ParsingOptions): WorkBook;
 /** Attempts to parse data */
 export function read(data: any, opts?: ParsingOptions): WorkBook;
-/** NODE ONLY! Attempts to write workbook data to filename */
+/** Attempts to write or download workbook data to file */
 export function writeFile(data: WorkBook, filename: string, opts?: WritingOptions): any;
 /** Attempts to write the workbook data */
 export function write(data: WorkBook, opts?: WritingOptions): any;
@@ -602,6 +603,9 @@ export interface OriginOption {
 }
 
 export interface Sheet2HTMLOpts {
+    /** TABLE element id attribute */
+    id?: string;
+
     /** Add contenteditable to every cell */
     editable?: boolean;
 

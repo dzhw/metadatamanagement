@@ -161,7 +161,7 @@ public class DaraUpdateQueueService {
           this.enqueue(study.getDataAcquisitionProjectId());
         }
       } else {
-        log.error("Unable to find study with ID {}", studyId);
+        log.warn("Unable to find study with ID {}", studyId);
       }
     }
   }

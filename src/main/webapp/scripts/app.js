@@ -9,7 +9,8 @@ angular
       'elasticsearch', 'hljs', 'ngclipboard',
       'ngResource', 'ui.router', 'ngCookies', 'ngAria',
       'ngFileUpload', 'ngMaterial',
-      'blockUI', 'LocalStorageModule', 'angularMoment',
+      'blockUI', 'LocalStorageModule', 'jkAngularCarousel',
+      'angularMoment',
       'ngMessages', 'katex', 'ngFileSaver', 'duScroll', 'ngShortcut'
     ])
 

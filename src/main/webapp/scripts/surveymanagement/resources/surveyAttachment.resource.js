@@ -1,14 +1,25 @@
 'use strict';
 
-/* Instrument Resource */
+/* Survey Attachment Resource */
 angular.module('metadatamanagementApp')
-  .factory('SurveyAttachmentResource', function($resource) {
-    return $resource('/api/surveys/:id/attachments', {
-      id: '@id'
+  .factory('SurveyAttachmentResource', function($resource,
+    CleanJSObjectService) {
+    return $resource('/api/surveys/:surveyId/attachments/:fileName', {
+      surveyId: '@surveyId',
+      fileName: '@fileName'
     }, {
       'findBySurveyId': {
         method: 'GET',
         isArray: true
+      },
+      'save': {
+        method: 'PUT',
+        transformRequest: function(attachment) {
+          var copy = angular.copy(attachment);
+          CleanJSObjectService.deleteEmptyStrings(copy);
+          CleanJSObjectService.removeEmptyJsonObjects(copy);
+          return angular.toJson(copy);
+        }
       }
     });
   });

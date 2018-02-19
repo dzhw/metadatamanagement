@@ -33,6 +33,7 @@
     <link rel="stylesheet" href="bower_components/angular-block-ui/dist/angular-block-ui.css" />
     <link rel="stylesheet" href="bower_components/highlightjs/styles/default.css" />
     <link rel="stylesheet" href="bower_components/katex/dist/katex.css" />
+    <link rel="stylesheet" href="bower_components/angular-jk-carousel/dist/jk-carousel.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css assets/styles/main.css -->
@@ -48,7 +49,7 @@
             <i class="material-icons">hourglass_empty</i>
         </div>
     </div>
-    <div style="position: fixed; bottom: 0; right 0; width: 100%; height: 100%; pointer-events: none; z-index: 1000;" data-layout="column">
+    <div style="position: fixed; bottom: 0; right: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1000;" data-layout="column">
       <div data-flex id="toast-container"></div>
     </div>
     <fdz-navbar ng-cloak></fdz-navbar>
@@ -118,6 +119,7 @@
     <script src="bower_components/hyphenator/patterns/de.js"></script>
     <script src="bower_components/hyphenator/patterns/en-us.js"></script>
     <script src="bower_components/ng-shortcut/ng-shortcut.js"></script>
+    <script src="bower_components/angular-jk-carousel/dist/jk-carousel.js"></script>
     <script src="bower_components/moment/moment.js"></script>
     <script src="bower_components/moment/locale/de.js"></script>
     <script src="bower_components/angular-moment/angular-moment.js"></script>
@@ -226,6 +228,7 @@
     <script src="scripts/common/websocket/websocket.service.js"></script>
     <script src="scripts/common/plotly/plotly.service.js"></script>
     <script src="scripts/common/dialogs/services/commonDialogs.service.js"></script>
+    <script src="scripts/common/window/directives/readElementSize.directive.js"></script>
 
     <script src="scripts/filemanagement/resources/file.resource.js"></script>
     <script src="scripts/filemanagement/services/zipReader.service.js"></script>
@@ -263,11 +266,19 @@
     <script src="scripts/surveymanagement/services/surveyIdBuilder.service.js"></script>
     <script src="scripts/surveymanagement/services/surveyUpload.service.js"></script>
     <script src="scripts/surveymanagement/views/survey-detail.controller.js"></script>
+    <script src="scripts/surveymanagement/views/survey-edit-or-create.controller.js"></script>
+    <script src="scripts/surveymanagement/views/survey-attachment-edit-or-create.controller.js"></script>
+    <script src="scripts/surveymanagement/views/choose-previous-survey-version.controller.js"></script>
+    <script src="scripts/surveymanagement/views/choose-previous-survey-attachment-version.controller.js"></script>
+    <script src="scripts/surveymanagement/views/choose-survey-number.controller.js"></script>
     <script src="scripts/surveymanagement/services/surveyResponseRateImageUpload.service.js"></script>
     <script src="scripts/surveymanagement/services/surveySearch.service.js"></script>
     <script src="scripts/surveymanagement/services/surveyAttachmentUpload.service.js"></script>
     <script src="scripts/surveymanagement/services/surveyRepositoryClient.service.js"></script>
     <script src="scripts/surveymanagement/resources/surveyAttachment.resource.js"></script>
+    <script src="scripts/surveymanagement/resources/surveyVersions.resource.js"></script>
+    <script src="scripts/surveymanagement/resources/surveyAttachmentVersions.resource.js"></script>
+    <script src="scripts/surveymanagement/resources/availableSurveyNumbers.resource.js"></script>
 
     <script src="scripts/datasetmanagement/configuration/dataSet.js"></script>
     <script src="scripts/datasetmanagement/configuration/translations-de.js"></script>
@@ -291,6 +302,7 @@
     <script src="scripts/questionmanagement/configuration/translations-en.js"></script>
     <script src="scripts/questionmanagement/resources/question.resource.js"></script>
     <script src="scripts/questionmanagement/resources/questionCollection.resource.js"></script>
+    <script src="scripts/questionmanagement/resources/questionImageMetadata.resource.js"></script>
     <script src="scripts/questionmanagement/services/questionSearch.service.js"></script>
     <script src="scripts/questionmanagement/services/questionUpload.service.js"></script>
     <script src="scripts/questionmanagement/services/questionIdBuilder.service.js"></script>
@@ -395,8 +407,8 @@
     <script src="scripts/searchmanagement/directives/search-filter-panel.controller.js"></script>
     <script src="scripts/searchmanagement/directives/related-publication-search-result.directive.js"></script>
     <script src="scripts/searchmanagement/directives/instrument-search-result.directive.js"></script>
-    <script src="scripts/searchmanagement/directives/survey-series-search-filter.directive.js"></script>
-    <script src="scripts/searchmanagement/directives/survey-series-search-filter.controller.js"></script>
+    <script src="scripts/searchmanagement/directives/study-series-search-filter.directive.js"></script>
+    <script src="scripts/searchmanagement/directives/study-series-search-filter.controller.js"></script>
     <script src="scripts/searchmanagement/directives/next-search-result.directive.js"></script>
     <script src="scripts/searchmanagement/directives/previous-search-result.directive.js"></script>
 

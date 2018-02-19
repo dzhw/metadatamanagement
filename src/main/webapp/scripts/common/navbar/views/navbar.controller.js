@@ -63,6 +63,12 @@ angular.module('metadatamanagementApp').controller('NavbarController',
       $scope.close();
     };
 
+    var fixTextareaHeight = function() {
+      $timeout(function() {
+        $scope.$broadcast('md-resize-textarea');
+      });
+    };
+
     $scope.$watch(function() {
       return $mdSidenav('SideNavBar').isLockedOpen();
     }, function(isLockedOpen) {
@@ -73,11 +79,13 @@ angular.module('metadatamanagementApp').controller('NavbarController',
           'margin-left', 320);
         $document.find('.fdz-previous-search-result').css(
           'left', 320);
+        fixTextareaHeight();
       } else {
         $document.find('#content-container').css(
           'margin-left', 0);
         $document.find('.fdz-previous-search-result').css(
           'left', 0);
+        fixTextareaHeight();
       }
     }, true);
   });

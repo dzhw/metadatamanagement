@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp')
     function(entity, $state, ToolbarHeaderService,
       SimpleMessageToastService, QuestionSearchService, CleanJSObjectService,
       PageTitleService, $rootScope, Principal, SearchResultNavigatorService,
-      $stateParams) {
+      $stateParams, QuestionImageMetadataResource, $mdMenu, $timeout) {
       SearchResultNavigatorService.registerCurrentSearchResult(
             $stateParams['search-result-index']);
       var ctrl = this;
@@ -17,6 +17,10 @@ angular.module('metadatamanagementApp')
       ctrl.predecessors = [];
       ctrl.successors = [];
       ctrl.counts = {};
+      ctrl.currentImageIndex = 0;
+      ctrl.currentImageLanguage = '';
+      ctrl.imageLanguages = [];
+      ctrl.imagesGroupedByLanguage = {};
 
       entity.promise.then(function(result) {
         var title = {
@@ -42,7 +46,8 @@ angular.module('metadatamanagementApp')
           'studyIsPresent': CleanJSObjectService.
           isNullOrEmpty(result.study) ? false : true,
           'projectId': result.dataAcquisitionProjectId});
-        if (result.release || Principal.hasAuthority('ROLE_PUBLISHER')) {
+        if (result.release || Principal
+            .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           ctrl.question = result;
           QuestionSearchService.findAllPredeccessors(ctrl.question.id, ['id',
             'instrumentNumber', 'questionText', 'type','instrumentNmber',
@@ -65,6 +70,30 @@ angular.module('metadatamanagementApp')
               ctrl.successors = successors.docs;
             });
           }
+          QuestionImageMetadataResource.findByQuestionId({
+            id: ctrl.question.id
+          }).$promise.then(
+            function(images) {
+              if (images.length > 0) {
+                images.forEach(function(metadata) {
+                  if (ctrl.imageLanguages.indexOf(metadata.language) === -1) {
+                    ctrl.imageLanguages.push(metadata.language);
+                    ctrl.imagesGroupedByLanguage[metadata.language] = [];
+                  }
+                  ctrl.imagesGroupedByLanguage[metadata.language]
+                    .push(metadata);
+                });
+                if (ctrl.imageLanguages
+                  .indexOf($rootScope.currentLanguage) !== -1) {
+                  var index =
+                    ctrl.imageLanguages.indexOf($rootScope.currentLanguage);
+                  ctrl.currentImageLanguage =
+                    ctrl.imageLanguages[index];
+                } else {
+                  ctrl.currentImageLanguage = ctrl.imageLanguages[0];
+                }
+              }
+            });
           if (ctrl.question.technicalRepresentation) {
             //default value is no beautify
             ctrl.technicalRepresentationBeauty =
@@ -97,6 +126,15 @@ angular.module('metadatamanagementApp')
           );
         }
       });
+
+      ctrl.changeCurrentImageLanguage = function(language) {
+        if (ctrl.imageLanguages.indexOf(language) !== -1) {
+          ctrl.currentImageLanguage = language;
+          ctrl.currentImageIndex = 0;
+          $timeout($mdMenu.hide);
+        }
+      };
+
       ctrl.openSuccessCopyToClipboardToast = function(message) {
         SimpleMessageToastService.openSimpleMessageToast(message, []);
       };

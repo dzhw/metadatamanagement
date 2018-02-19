@@ -144,5 +144,10 @@ angular.module('metadatamanagementApp')
       $scope.hideMobileKeyboard = function() {
         document.activeElement.blur();
       };
+
+      $scope.getFilterPanelStyle = function() {
+        var minHeight = (56 * $scope.selectedFilters.length) + 'px';
+        return {'min-height': minHeight};
+      };
     }
   ]);

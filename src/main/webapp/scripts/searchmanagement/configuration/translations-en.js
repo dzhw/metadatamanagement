@@ -31,10 +31,14 @@ angular.module('metadatamanagementApp').config(
           'upload-data-sets-tooltip': 'Click to upload data sets for the selected data acquisition project',
           'upload-questions-tooltip': 'Click to upload questions for the selected data acquisition project',
           'upload-studies-tooltip': 'Click to upload the study with attachments',
-          'upload-or-create-studies-tooltip': 'Click to upload or manually create the study',
+          'upload-or-create-studies-tooltip': 'Upload or manually create the study',
+          'upload-or-create-surveys-tooltip': 'Upload all surveys or manually create one survey',
           'upload-or-edit-studies-tooltip': 'Click to upload or manually edit the study',
           'create-study-tooltip': 'Click to manually create the study',
+          'create-survey-tooltip': 'Click to manually create a new survey',
           'edit-study-tooltip': 'Click to manually edit the study',
+          'edit-survey-tooltip': 'Click to manually edit the survey',
+          'delete-survey-tooltip': 'Click to delete the survey',
           'upload-related-publications-tooltip': 'Click to upload publications',
           'post-validate-related-publications-tooltip': 'Click to validate the publications',
           'upload-instruments-tooltip': 'Click to upload instruments for the selected data acquisition project',
@@ -99,9 +103,9 @@ angular.module('metadatamanagementApp').config(
           'instrument': 'Instrument',
           'variable': 'Variable',
           'survey': 'Survey',
-          'survey-series': 'Survey Series',
-          'survey-series-de': 'Survey Series',
-          'survey-series-en': 'Survey Series',
+          'study-series': 'Study Series',
+          'study-series-de': 'Study Series',
+          'study-series-en': 'Study Series',
           'floating-label': {
             'survey': 'Which survey do you want to filter?',
             'instrument': 'Which instrument do you want to filter?',
@@ -113,7 +117,7 @@ angular.module('metadatamanagementApp').config(
             'access-way': 'Which access way do you want to filter?',
             'variable': 'Which variable do you want to filter?',
             'question': 'Which question do you want to filter?',
-            'survey-series': 'Which survey series do you want to filter?',
+            'study-series': 'Which study series do you want to filter?',
           },
           'input-label': {
             'studies': 'Select filters for Study Search...',
@@ -169,9 +173,9 @@ angular.module('metadatamanagementApp').config(
             'not-found': 'No access way found!',
             'no-valid-selected': 'No valid access way selected!'
           },
-          'survey-series-filter': {
-            'not-found': 'No existing survey series found.',
-            'no-valid-selected': 'No valid survey series selected!'
+          'study-series-filter': {
+            'not-found': 'No existing study series found!',
+            'no-valid-selected': 'No valid study series selected!'
           }
         }
       }

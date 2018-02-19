@@ -6,13 +6,14 @@ angular.module('metadatamanagementApp')
     'CurrentProjectService', 'DataAcquisitionProjectPostValidationService',
     'DataAcquisitionProjectSearchResource', 'DataAcquisitionProjectResource',
     '$mdDialog', 'SimpleMessageToastService', '$translate',
-    'ElasticSearchAdminService', '$scope',
+    'ElasticSearchAdminService', '$scope', 'Principal',
     function(CurrentProjectService,
       DataAcquisitionProjectPostValidationService,
       DataAcquisitionProjectSearchResource, DataAcquisitionProjectResource,
       $mdDialog, SimpleMessageToastService, $translate,
-      ElasticSearchAdminService, $scope) {
+      ElasticSearchAdminService, $scope, Principal) {
       var ctrl = this;
+      ctrl.hasAuthority = Principal.hasAuthority;
       var i18nPrefix = 'data-acquisition-project-management.log-messages.' +
         'data-acquisition-project.';
       //For Project Handling
