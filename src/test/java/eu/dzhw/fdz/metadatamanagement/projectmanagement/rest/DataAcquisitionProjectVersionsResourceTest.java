@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.projectmanagement.rest;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -124,23 +125,41 @@ public class DataAcquisitionProjectVersionsResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     
     //Act
-    //Save first time with Release    
+    //Save first time without release    
     project.setHasBeenReleasedBefore(false);
-    project.setRelease(UnitTestCreateDomainObjectUtils.buildRelease());
     this.mockMvc.perform(
         put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
           .content(TestUtil.convertObjectToJsonBytes(project)))
           .andExpect(status().isCreated());
     
-    //Save second time without Release (simulates unrelease)
+    //Assert that the last version is null
+    String lastVersion = this.versionsService.findLastReleaseVersion(project.getId());        
+    assertNull(lastVersion);
+        
+    //Save second time with release (simulates first release)
     project.setHasBeenReleasedBefore(true);
+    project.setRelease(UnitTestCreateDomainObjectUtils.buildRelease());
+    this.mockMvc.perform(
+        put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
+        .content(TestUtil.convertObjectToJsonBytes(project)))
+    .andExpect(status().isNoContent());
+    
+    //Assert that the last version is 1.0.0
+    lastVersion = this.versionsService.findLastReleaseVersion(project.getId());
+    assertThat(lastVersion, is("1.0.0"));
+    
+    //Save third time without release (simulates unrelease)
     project.setRelease(null);
     this.mockMvc.perform(
         put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
         .content(TestUtil.convertObjectToJsonBytes(project)))
-        .andExpect(status().isNoContent());
+    .andExpect(status().isNoContent());
     
-    //Save third time with new release and a higher version
+    //Assert that the last version is still 1.0.0
+    lastVersion = this.versionsService.findLastReleaseVersion(project.getId());    
+    assertThat(lastVersion, is("1.0.0"));
+    
+    //Save fourth time with new release and a higher version
     project.setRelease(UnitTestCreateDomainObjectUtils.buildRelease());
     project.getRelease().setVersion("1.0.1");
     this.mockMvc.perform(
@@ -148,10 +167,8 @@ public class DataAcquisitionProjectVersionsResourceTest extends AbstractTest {
         .content(TestUtil.convertObjectToJsonBytes(project)))
         .andExpect(status().isNoContent());;
     
-    //Get the information about 1.0.0
-    String lastVersion = this.versionsService.findLastReleaseVersion(project.getId());    
-    
-    //Assert    
+    //Assert that the last version is 1.0.1
+    lastVersion = this.versionsService.findLastReleaseVersion(project.getId());    
     assertThat(lastVersion, is("1.0.1"));
   }
 }
