@@ -12,11 +12,13 @@ import javax.mail.internet.MimeMessage;
 import org.apache.commons.lang.CharEncoding;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 
@@ -45,6 +47,9 @@ public class MailService {
 
   @Autowired
   private SpringTemplateEngine templateEngine;
+  
+  @Autowired
+  private Environment env;
 
   @Async
   private Future<Void> sendEmail(String[] to, String subject, String content, boolean isMultipart,
@@ -107,12 +112,15 @@ public class MailService {
    * Send new account activated mail.
    */
   @Async
-  public Future<Void> sendNewAccountActivatedMail(List<User> admins, User newUser) {
+  public Future<Void> sendNewAccountActivatedMail(List<User> admins, User newUser, String baseUrl) {
     log.debug("Sending new account e-mail to all admins");
     Context context = new Context();
     context.setVariable("user", newUser);
+    context.setVariable("profiles", env.getActiveProfiles());
+    context.setVariable("baseUrl", baseUrl);
     String content = templateEngine.process("newAccountActivatedEmail", context);
-    String subject = "New account " + newUser.getLogin() + " activated";
+    String subject = "New account " + newUser.getLogin() + " activated (" 
+        + StringUtils.arrayToCommaDelimitedString(env.getActiveProfiles()) + ")";
     List<String> emailAddresses = admins.stream().map(User::getEmail).collect(Collectors.toList());
     return sendEmail(emailAddresses.toArray(new String[emailAddresses.size()]), 
         subject, content, false, true);
