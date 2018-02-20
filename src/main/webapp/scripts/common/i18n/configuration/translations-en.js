@@ -47,7 +47,6 @@ angular.module('metadatamanagementApp').config(
         'dialog': {
           'tooltip': {
             'close': 'Click to close the dialog',
-            'closeDialogForEver': 'Click to close this message forever',
             'save': 'Click to save the protocol'
           }
         },
@@ -68,7 +67,6 @@ angular.module('metadatamanagementApp').config(
           'ok': 'OK',
           'save': 'Save',
           'cancel': 'Cancel',
-          'closeDialogForEver': 'Don\'t show this message again',
           'closeDialogTemporarily': 'Not yet!'
         },
         'tooltips': {
@@ -105,7 +103,6 @@ angular.module('metadatamanagementApp').config(
         },
         'welcome-dialog': {
           'toolbar-head': 'Give Feedback or report Bugs',
-          'content-head': 'This is a pre-release version of our Metadata Management System.',
           'content-body-feedback': 'You can submit bugs and request enhancements ...',
           'content-body-via': '... via',
           'content-body-thanks': 'Thank you for taking the time to send us feedback!',
