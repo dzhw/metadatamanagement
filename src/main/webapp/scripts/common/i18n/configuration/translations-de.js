@@ -59,8 +59,7 @@ angular.module('metadatamanagementApp').config(
           'metadata': 'Metadaten zu der Datei',
           'file': 'Datei',
           'details': 'Details',
-          'related-objects': 'Verbundene Objekte',
-          'labels-surveyed-in': 'Erhoben in'
+          'related-objects': 'Verbundene Objekte'
         },
         'buttons': {
           'close': 'Schließen',
