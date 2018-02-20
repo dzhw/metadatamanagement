@@ -3,7 +3,7 @@
 angular.module('metadatamanagementApp')
   .controller('ReleaseProjectDialogController', function($scope, $mdDialog,
     project, SimpleMessageToastService, DataAcquisitionProjectResource,
-    DaraReleaseResource, $rootScope) {
+    DaraReleaseResource, $rootScope, CurrentProjectService) {
     $scope.bowser = $rootScope.bowser;
     $scope.project = project;
     var i18nPrefix = 'data-acquisition-project-management.log-messages.' +
@@ -25,6 +25,7 @@ angular.module('metadatamanagementApp')
               i18nPrefix + 'released-successfully', {
                 id: project.id
               });
+            CurrentProjectService.setCurrentProject(project);
           });
       }).catch(function() {
         delete project.release;
