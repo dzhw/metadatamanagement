@@ -28,8 +28,10 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
       filesMap = {};
       var instrumentIndex = 0;
       var basicPathLength = 0;
-      if (files.length > 1) {
-        basicPathLength = getPath(files[0]).length;
+      if (files.length >= 1) {
+        basicPathLength = getPath(_.minBy(files, function(file) {
+          return getPath(file).length;
+        })).length;
       }
       files.forEach(function(file) {
         var path = getPath(file);

@@ -91,7 +91,7 @@
                         </div>
                     </div>
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                      <div ng-if="counts.surveysCount == 0" class="fdz-truncate-string" flex>
+                      <div ng-if="counts.surveysCount == 1 && !survey" class="fdz-truncate-string" flex>
                         <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                         {{'survey-management.detail.label.surveys' | translate }}: {{'global.messages.error.unavailable' | translate}}
                       </div>
@@ -130,7 +130,7 @@
                         </div>
                     </div>
                     <div ng-if="variable.relatedQuestions && variable.relatedQuestions.length > 0" style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                        <div ng-if="counts.questionsCount == 0" class="fdz-truncate-string" flex>
+                        <div ng-if="counts.questionsCount == 1 && !question" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
                             {{'question-management.detail.label.questions' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
