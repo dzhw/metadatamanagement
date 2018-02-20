@@ -52,6 +52,7 @@ angular.module('metadatamanagementApp').config(
               'unknownNumberOfAnalyzedVariables': 'Unknown',
               'numberOfAnalyzedVariables-tooltip': 'Click to show all analyzable variables of this sub data set',
               'numberOfObservations': 'Observations',
+              'numberOfEpisodes': 'Episodes',
               'citate': 'Citate',
               'citation': 'Citation',
               'citate-tooltipp': 'Click to show citation information and to copy them.',

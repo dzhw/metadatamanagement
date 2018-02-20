@@ -25,7 +25,7 @@
                         <span>{{searchResult.accessWays.join(', ')}}</span>
                     </div>
                     <div ng-if="searchResult.maxNumberOfObservations">
-                      <span style="font-weight: bold;">{{'study-management.detail.label.data-set.maxNumberOfObservations' | translate }} <span katex>(max)</span>:&nbsp;</span>
+                      <span style="font-weight: bold;">{{(searchResult.type.en !== 'Spell Data'?'study-management.detail.label.data-set.maxNumberOfObservations':'study-management.detail.label.data-set.maxNumberOfEpisodes')| translate }} <span katex>(max)</span>:&nbsp;</span>
                         <span>{{searchResult.maxNumberOfObservations | number: 0}}</span>
                     </div>
                 </div>

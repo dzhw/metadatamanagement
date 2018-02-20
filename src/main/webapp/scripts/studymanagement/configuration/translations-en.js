@@ -31,7 +31,8 @@ angular.module('metadatamanagementApp').config(
               'accessWays': 'Access Ways',
               'description': 'Description',
               'description-tooltip': 'Click to show data set "{{id}}"',
-              'maxNumberOfObservations': 'Observations'
+              'maxNumberOfObservations': 'Observations',
+              'maxNumberOfEpisodes': 'Episodes'
             },
             'doi': 'DOI'
           },
