@@ -16,9 +16,6 @@ var protractorWaitHelper = require('../utils/protractorWaitHelper');
 describe('Home page', function() {
   function callHomePage() {
     browser.get('#!/de/search');
-    protractorWaitHelper.waitFor('closeWelcomeDialog').then(function(button) {
-      button.click();
-    });
   }
 
   function testHomePage(description, language) {
