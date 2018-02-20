@@ -52,4 +52,26 @@ public class DataAcquisitionProjectVersionsResource {
         .cacheControl(CacheControl.noStore())
         .body(projectsVersions);
   }
+  
+  /**
+   * Get the last released version number of a project.
+   * 
+   * @param id The id of the project
+   * 
+   * @return A list of previous data acquisition project versions
+   */
+  @RequestMapping("/data-acquisition-projects/{id}/last-released-version")
+  @Timed
+  public ResponseEntity<?> findLastReleasedProjectVersion(@PathVariable String id) {
+    String lastReleasedProjectVersion =
+        this.projectVersionsService.findLastReleaseVersion(id);
+    
+    if (lastReleasedProjectVersion == null) {
+      return ResponseEntity.notFound().build();
+    }
+    
+    return ResponseEntity.ok()
+        .cacheControl(CacheControl.noStore())
+        .body(lastReleasedProjectVersion);
+  }
 }

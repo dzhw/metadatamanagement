@@ -57,10 +57,10 @@ public class DataAcquisitionProjectVersionsService
         .limit(1);
     List<Shadow<Release>> shadows = javers.findShadows(jqlQuery.build());    
     
-    if (shadows.size() > 0) {
-      return shadows.get(0).get().getVersion();
-    } else {
+    if (shadows.isEmpty()) {
       return null;
+    } else {
+      return shadows.get(0).get().getVersion();
     }
   }
 }
