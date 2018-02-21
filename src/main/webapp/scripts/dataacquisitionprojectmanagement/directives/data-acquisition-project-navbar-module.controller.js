@@ -167,21 +167,6 @@ angular.module('metadatamanagementApp')
           .postValidate(ctrl.selectedProject.id);
       };
 
-      var getLastReleasedVersion = function() {
-        /* TODO DKatzberg: Faked Return...
-        DataAcquisitionProjectLastReleasedVersionResource.lastReleasedVersion({
-            id: ctrl.selectedProject.id
-          })
-        .then(function(lastReleasedVersion) {
-          if (lastReleasedVersion.length === 0) {
-            return '0.0.0';
-          } else {
-            return JSON.stringify(lastReleasedVersion);
-          }
-        });*/
-        return '0.0.0';
-      };
-
       var doRelease = function() {
         $mdDialog.show({
           controller: 'ReleaseProjectDialogController',
@@ -199,13 +184,7 @@ angular.module('metadatamanagementApp')
       var releaseProject = function() {
         DataAcquisitionProjectPostValidationService
           .postValidate(ctrl.selectedProject.id)
-          .then(getLastReleasedVersion)
-          .then(function(lastVersion) {
-            //TODO DKatzberg
-            console.log('Last Version: ' + lastVersion);
-            doRelease();
-          },
-            function() {
+          .then(doRelease, function() {
             $mdDialog.show($mdDialog.alert()
               .title($translate.instant(
                 i18nPrefix + 'release-not-possible-title', {
