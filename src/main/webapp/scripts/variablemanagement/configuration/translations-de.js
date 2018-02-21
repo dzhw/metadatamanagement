@@ -122,10 +122,6 @@ angular.module('metadatamanagementApp').config(
             }
           }
         },
-        'labels': {
-          'part-of-data-set': 'Enthalten in Datensatz:',
-          'surveyed-in': 'Erhoben in:'
-        },
         'error': {
           'distribution': {
             'valid-responses': {

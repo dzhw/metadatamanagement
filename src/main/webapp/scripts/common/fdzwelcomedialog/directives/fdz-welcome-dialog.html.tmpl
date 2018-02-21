@@ -11,8 +11,6 @@
         </div>
     </md-toolbar>
     <div class="md-dialog-content" layout="column">
-        <strong>{{"global.welcome-dialog.content-head" | translate}}</strong>
-        <br>
         <span>{{"global.welcome-dialog.content-body-feedback" | translate}}</span>
         <span>
           {{"global.welcome-dialog.content-body-via" | translate}}
@@ -35,11 +33,6 @@
         <span>{{"global.welcome-dialog.content-body-thanks" | translate}}</span>
     </div>
     <md-dialog-actions>
-        <span>
-        <md-checkbox ng-model="checkBox.closeWelcomeDialogForever" ng-if="showCheckbox">
-            {{"global.buttons.closeDialogForEver" | translate}}
-        </md-checkbox>
-      </span>
         <span flex></span>
         <md-button class="md-primary md-raised" id="closeWelcomeDialog" ng-click="closeDialog()">
             {{"global.buttons.close" | translate}}

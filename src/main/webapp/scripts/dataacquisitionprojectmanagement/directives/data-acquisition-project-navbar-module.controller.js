@@ -189,7 +189,7 @@ angular.module('metadatamanagementApp')
             'views/release-project-dialog.html.tmpl',
           clickOutsideToClose: false,
           locals: {
-            project: ctrl.selectedProject
+            project: angular.copy(ctrl.selectedProject)
           }
         }).catch(function() {
           // user cancellled
@@ -237,14 +237,16 @@ angular.module('metadatamanagementApp')
           .ok($translate.instant('global.buttons.ok'))
           .cancel($translate.instant('global.buttons.cancel'));
         $mdDialog.show(confirmDialog).then(function() {
-          delete ctrl.selectedProject.release;
-          DataAcquisitionProjectResource.save(ctrl.selectedProject)
+          var projectCopy = angular.copy(ctrl.selectedProject);
+          delete projectCopy.release;
+          DataAcquisitionProjectResource.save(projectCopy)
             .$promise
             .then(function() {
               SimpleMessageToastService.openSimpleMessageToast(
                 i18nPrefix + 'unreleased-successfully', {
                   id: ctrl.selectedProject.id
                 }, true);
+              CurrentProjectService.setCurrentProject(projectCopy);
             });
         });
       };
