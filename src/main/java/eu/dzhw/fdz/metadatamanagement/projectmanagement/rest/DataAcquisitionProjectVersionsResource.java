@@ -57,8 +57,6 @@ public class DataAcquisitionProjectVersionsResource {
    * Get the last released version number of a project.
    * 
    * @param id The id of the project
-   * @param limit like page size
-   * @param skip for skipping n versions
    * 
    * @return A list of previous data acquisition project versions
    */
