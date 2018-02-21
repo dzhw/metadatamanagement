@@ -5,7 +5,8 @@
 */
 
 angular.module('metadatamanagementApp')
-  .factory('DataAcquisitionProjectLastReleaseResource', function($resource) {
+  .factory('DataAcquisitionProjectLastReleasedVersionResource',
+    function($resource) {
     return $resource(
       '/api/data-acquisition-projects/:id/last-released-version', {
       id: '@id'
