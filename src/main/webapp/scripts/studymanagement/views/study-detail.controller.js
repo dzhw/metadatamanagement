@@ -4,12 +4,14 @@ angular.module('metadatamanagementApp')
   .controller('StudyDetailController',
     function(entity, PageTitleService, LanguageService, DataSetSearchService,
       $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
-      StudyAttachmentResource, SearchResultNavigatorService, $stateParams) {
+      StudyAttachmentResource, SearchResultNavigatorService, $stateParams,
+      $rootScope) {
       SearchResultNavigatorService.registerCurrentSearchResult(
           $stateParams['search-result-index']);
       var ctrl = this;
       ctrl.searchResultIndex = $stateParams['search-result-index'];
       ctrl.counts = {};
+      var bowser = $rootScope.bowser;
 
       ctrl.loadAttachments = function() {
         StudyAttachmentResource.findByStudyId({
@@ -20,6 +22,12 @@ angular.module('metadatamanagementApp')
                 ctrl.attachments = attachments;
               }
             });
+      };
+
+      ctrl.isBetaRelease = function() {
+        //TODO DKatzberg Fake Check ...
+        var checkForBetaRelease = bowser.compareVersions(['1.0.0', '0.5.1']);
+        return checkForBetaRelease === 1;
       };
 
       entity.promise.then(function(result) {

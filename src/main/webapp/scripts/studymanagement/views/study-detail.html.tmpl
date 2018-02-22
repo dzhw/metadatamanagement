@@ -60,7 +60,7 @@
                         <span style="font-weight: bold;">{{'study-management.detail.label.survey-data-type' | translate }}:</span>
                         <span display-i18n-string="ctrl.study.surveyDataType" fdz-hyphenate></span>
                     </div>
-                    <div class="fdz-add-bottom-margin" ng-if="ctrl.study.doi">
+                    <div class="fdz-add-bottom-margin" ng-if="ctrl.study.doi && !ctrl.isBetaRelease()">
                         <span style="font-weight: bold;">{{'study-management.detail.label.doi' | translate }}:</span>
                         <a ng-href="https://dx.doi.org/{{ctrl.study.doi}}" target="_blank">{{ctrl.study.doi}}<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                             {{'study-management.detail.doi-tooltip' | translate}}
