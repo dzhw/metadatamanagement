@@ -8,10 +8,12 @@ angular.module('metadatamanagementApp')
       $rootScope) {
       SearchResultNavigatorService.registerCurrentSearchResult(
           $stateParams['search-result-index']);
+      var versionFromUrl = $stateParams.version;
       var ctrl = this;
       ctrl.searchResultIndex = $stateParams['search-result-index'];
       ctrl.counts = {};
       var bowser = $rootScope.bowser;
+      var actualVersion;
 
       ctrl.loadAttachments = function() {
         StudyAttachmentResource.findByStudyId({
@@ -26,7 +28,7 @@ angular.module('metadatamanagementApp')
 
       ctrl.isBetaRelease = function() {
         //TODO DKatzberg Fake Check ...
-        var checkForBetaRelease = bowser.compareVersions(['1.0.0', '0.5.1']);
+        var checkForBetaRelease = bowser.compareVersions(['1.0.0', '1.5.1']);
         return checkForBetaRelease === 1;
       };
 
@@ -76,6 +78,19 @@ angular.module('metadatamanagementApp')
               ctrl.dataSets = dataSets.hits.hits;
             });
           ctrl.loadAttachments();
+
+          //TODO DKatzberg Fake Check, need info in search document
+          actualVersion = '1.5.1';
+          if (bowser.compareVersions([versionFromUrl, actualVersion]) === -1) {
+            SimpleMessageToastService.openSimpleMessageToast(
+              'study-management.detail.old-version',
+              {
+                id: result.id,
+                versionFromUrl: versionFromUrl,
+                actualVersion: actualVersion
+              }
+            );
+          }
         } else {
           SimpleMessageToastService.openSimpleMessageToast(
           'study-management.detail.not-released-toast', {id: result.id}

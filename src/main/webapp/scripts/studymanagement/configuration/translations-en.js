@@ -94,6 +94,7 @@ angular.module('metadatamanagementApp').config(
           'not-found-references': 'The id {{id}} has no References to Studies.',
           'not-yet-released': 'Not yet released',
           'not-released-toast': 'Study "{{ id }}" has not yet been released to all users!',
+          'old-version': 'The used link refers to an old version ({{versionFromUrl}}). This page displays the actual version ({{actualVersion}}) of the study {{id}}.',
           'tooltips': {
             'surveys': {
               'one': 'Click to show the survey of this study',
