@@ -3,7 +3,8 @@
 angular.module('metadatamanagementApp')
   .controller('ReleaseProjectDialogController', function($scope, $mdDialog,
     project, SimpleMessageToastService, DataAcquisitionProjectResource,
-    DaraReleaseResource, $rootScope, CurrentProjectService) {
+    DaraReleaseResource, $rootScope, CurrentProjectService,
+    StudyIdBuilderService, StudyResource) {
     $scope.bowser = $rootScope.bowser;
     $scope.project = project;
     var ctrl = this;
@@ -28,6 +29,27 @@ angular.module('metadatamanagementApp')
       return '0.5.0';
     };
 
+    ctrl.saveProject = function(project) {
+      DataAcquisitionProjectResource.save(project).$promise
+        .then(function() {
+          SimpleMessageToastService.openSimpleMessageToast(
+            i18nPrefix + 'released-beta-successfully', {
+              id: project.id
+            });
+          CurrentProjectService.setCurrentProject(project);
+        });
+    };
+
+    ctrl.saveStudy = function(project) {
+      var studyId = StudyIdBuilderService.buildStudyId(project.id);
+      StudyResource.get({id: studyId})
+        .$promise
+        .then(function(study) {
+          study.doi = StudyIdBuilderService.buildDoi(project);
+          StudyResource.save(study);
+        });
+    };
+
     $scope.ok = function(release) {
       var lastReleasedVersion =  ctrl.getLastReleasedVersion();
       var compareForBeta = $scope.bowser
@@ -45,14 +67,7 @@ angular.module('metadatamanagementApp')
           //BETA RELEASE
           release.date = new Date().toISOString();
           project.release = release;
-          DataAcquisitionProjectResource.save(project).$promise
-            .then(function() {
-              SimpleMessageToastService.openSimpleMessageToast(
-                i18nPrefix + 'released-beta-successfully', {
-                  id: project.id
-                });
-              CurrentProjectService.setCurrentProject(project);
-            });
+          ctrl.saveProject(project);
         } else {
           //REGULAR RELEASE
           release.date = new Date().toISOString();
@@ -60,14 +75,8 @@ angular.module('metadatamanagementApp')
           DaraReleaseResource.release(project)
             .$promise.then(function() {
             project.hasBeenReleasedBefore = true;
-            DataAcquisitionProjectResource.save(project).$promise
-              .then(function() {
-                SimpleMessageToastService.openSimpleMessageToast(
-                  i18nPrefix + 'released-successfully', {
-                    id: project.id
-                  });
-                CurrentProjectService.setCurrentProject(project);
-              });
+            ctrl.saveProject(project);
+            ctrl.saveStudy(project);
           }).catch(function() {
             delete project.release;
             SimpleMessageToastService.openSimpleMessageToast(
