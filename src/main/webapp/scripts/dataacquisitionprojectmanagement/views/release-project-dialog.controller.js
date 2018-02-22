@@ -38,12 +38,21 @@ angular.module('metadatamanagementApp')
       //No higher version -> always break up
       //1 = old Version is higher, 0 = Same Version Number
       if (compareForHigherVersion === 1 || compareForHigherVersion === 0) {
-        //TODO DKatzberg NO HIGHER VERSION -> NO RELASE
+        //TODO DKatzberg NO HIGHER VERSION -> NO RELEASE
         console.log('No Higher Version!');
       } else {
         if (compareForBeta === 1) {
-          //TODO Dkatzberg BETA RELEASE
-          console.log('Beta Release');
+          //BETA RELEASE
+          release.date = new Date().toISOString();
+          project.release = release;
+          DataAcquisitionProjectResource.save(project).$promise
+            .then(function() {
+              SimpleMessageToastService.openSimpleMessageToast(
+                i18nPrefix + 'released-beta-successfully', {
+                  id: project.id
+                });
+              CurrentProjectService.setCurrentProject(project);
+            });
         } else {
           //REGULAR RELEASE
           release.date = new Date().toISOString();

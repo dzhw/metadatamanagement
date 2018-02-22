@@ -31,6 +31,7 @@ angular.module('metadatamanagementApp').config(
             'deleted-successfully-project': 'Successfully deleted Data Acquisition Project "{{ id }}"!',
             'deleted-not-successfully-project': 'Could not delete Data Acquisition Project "{{ id }}"!',
             'released-successfully': 'The data of the project "{{ id }}" will be visible to all users in about 10 minutes.',
+            'released-beta-successfully': 'The data of the project "{{ id }}" will be visible to all users in about 10 minutes. This is Beta release and there is no registration for a DOI at da|ra.',
             'unreleased-successfully': 'The data of the project "{{ id }}" will be visible to RDC employees only in about 10 minutes.',
             'dara-released-not-successfully': 'The data of the project "{{ id }}" could not be released. It happened an error on the registration / update of the DOI at Dara.',
             'unrelease-title': 'Unrelease Project "{{ id }}"?',
