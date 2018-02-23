@@ -13,8 +13,6 @@ function(CleanJSObjectService) {
       .isNullOrEmpty(dataAcquisitionProject.release.version)) {
       version = dataAcquisitionProject.release.version;
     }
-
-    //TODO DKatzberg VALIDATE VERSION
     return '10.21249/DZHW:' + dataAcquisitionProject.id + ':' + version;
   };
 
