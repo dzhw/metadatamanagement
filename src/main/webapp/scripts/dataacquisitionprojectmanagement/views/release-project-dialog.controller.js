@@ -4,7 +4,7 @@ angular.module('metadatamanagementApp')
   .controller('ReleaseProjectDialogController', function($scope, $mdDialog,
     project, SimpleMessageToastService, DataAcquisitionProjectResource,
     DaraReleaseResource, $rootScope, CurrentProjectService,
-    StudyIdBuilderService, StudyResource,
+    StudyIdBuilderService, StudyResource, $q,
     DataAcquisitionProjectLastReleasedVersionResource) {
     $scope.bowser = $rootScope.bowser;
     $scope.project = project;
@@ -16,22 +16,28 @@ angular.module('metadatamanagementApp')
     };
 
     ctrl.getLastReleasedVersion = function() {
+      var deferred = $q.defer();
       //TODO DKatzberg
       $rootScope.$broadcast('start-ignoring-404');
       DataAcquisitionProjectLastReleasedVersionResource
       .lastReleasedVersion({
         id: project.id
-      })
-      .$promise
-      .then(function(lastReleasedVersion) {
-        return JSON.stringify(lastReleasedVersion);
-      })
-      .catch(function() {
-        return '0.0.0';
-      })
-      .finally(function() {
+      },
+      function(result) {
+        var resultStr = '';
+        Object.values(result).forEach(function(value) {
+          if (typeof value === 'string') {
+            resultStr = resultStr.concat(value);
+          }
+        });
         $rootScope.$broadcast('stop-ignoring-404');
+        deferred.resolve(resultStr);
+      },
+      function(error) {
+        $rootScope.$broadcast('stop-ignoring-404');
+        deferred.resolve('0.0.0');
       });
+      return deferred.promise;
     };
 
     ctrl.saveProject = function(project) {
@@ -93,7 +99,6 @@ angular.module('metadatamanagementApp')
           }
         }
       });
-
       $mdDialog.hide();
     };
   });
