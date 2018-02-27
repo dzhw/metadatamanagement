@@ -169,10 +169,7 @@ public class DaraService {
    * @param filledTemplate The filled and used template.
    * @return the HttpStatus from Dara.
    */
-  private HttpStatus postToDaraImportXml(String filledTemplate) {
-    //TODO DKatzberg
-    //Was a paramater before: hasBeenReleasedBefore
-    
+  private HttpStatus postToDaraImportXml(String filledTemplate) {    
     log.debug("The filled Template for dara:");
     log.debug(filledTemplate);
 
@@ -190,9 +187,8 @@ public class DaraService {
     headers.add("Authorization", "Basic " + new String(encodedAuth, Charsets.UTF_8));
 
     //Build
-    //TODO DKatzberg Change? Delete? WIP
-    /*UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(daraEndpoint)
-        .queryParam("registration", Boolean.valueOf(!hasBeenReleasedBefore).toString());*/
+    //It is always true, because every new release will have 
+    //a new doi based on the new release version.
     UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(daraEndpoint)
         .queryParam("registration", "true");
 

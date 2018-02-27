@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.rest;
 
@@ -29,21 +29,21 @@ import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 /**
- * @author dkatzberg
+ * @author Daniel Katzberg
  *
  */
 @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
 public class DaraServiceTest extends AbstractTest{
-  
+
   @Autowired
   private DaraService daraService;
-    
+
   @Autowired
   private DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
-  
+
   @Autowired
   private StudyRepository studyRepository;
-  
+
   @Autowired
   private JaversService javersService;
 
@@ -53,27 +53,27 @@ public class DaraServiceTest extends AbstractTest{
     studyRepository.deleteAll();
     javersService.deleteAll();
   }
-  
+
   @Test
   public void testHealthCheck() throws Exception {
-    
+
     //ASSERT
     RestTemplate restTemplate = this.daraService.getRestTemplate();
     MockRestServiceServer mockServer = MockRestServiceServer.bindTo(restTemplate).build();
     mockServer
       .expect(requestTo(this.daraService.getApiEndpoint() + DaraService.IS_ALiVE_ENDPOINT))
       .andRespond(withSuccess());
-    
+
     //ACT
     boolean health = this.daraService.isDaraHealthy();
-    
+
     //ASSERT
     assertThat(health, is(true));
   }
-  
+
   @Test
   public void testRelease() throws Exception {
-    
+
     //ASSERT
     RestTemplate restTemplate = this.daraService.getRestTemplate();
     MockRestServiceServer mockServer = MockRestServiceServer.bindTo(restTemplate).build();
@@ -83,13 +83,13 @@ public class DaraServiceTest extends AbstractTest{
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     Release release = UnitTestCreateDomainObjectUtils.buildRelease();
     project.setRelease(release);
-    dataAcquisitionProjectRepository.save(project);    
+    dataAcquisitionProjectRepository.save(project);
     Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
     this.studyRepository.save(study);
-    
+
     //ACT
-    HttpStatus isRegistered = this.daraService.registerOrUpdateProjectToDara(project.getId()); 
-    
+    HttpStatus isRegistered = this.daraService.registerOrUpdateProjectToDara(project.getId());
+
     //ASSERT
     assertThat(isRegistered, is(HttpStatus.CREATED));
   }
