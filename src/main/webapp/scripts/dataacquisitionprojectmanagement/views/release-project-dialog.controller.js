@@ -4,8 +4,7 @@ angular.module('metadatamanagementApp')
   .controller('ReleaseProjectDialogController', function($scope, $mdDialog,
     project, SimpleMessageToastService, DataAcquisitionProjectResource,
     DaraReleaseResource, $rootScope, CurrentProjectService,
-    StudyIdBuilderService, StudyResource, $q,
-    DataAcquisitionProjectLastReleasedVersionResource) {
+    StudyIdBuilderService, StudyResource, LastReleasedProjectVersionService) {
     $scope.bowser = $rootScope.bowser;
     $scope.project = project;
     var ctrl = this;
@@ -13,30 +12,6 @@ angular.module('metadatamanagementApp')
       'data-acquisition-project.';
     $scope.cancel = function() {
       $mdDialog.cancel();
-    };
-
-    ctrl.getLastReleasedVersion = function() {
-      var deferred = $q.defer();
-      $rootScope.$broadcast('start-ignoring-404');
-      DataAcquisitionProjectLastReleasedVersionResource
-      .lastReleasedVersion({
-        id: project.id
-      },
-      function(result) {
-        var resultStr = '';
-        Object.values(result).forEach(function(value) {
-          if (typeof value === 'string') {
-            resultStr = resultStr.concat(value);
-          }
-        });
-        $rootScope.$broadcast('stop-ignoring-404');
-        deferred.resolve(resultStr);
-      },
-      function() {
-        $rootScope.$broadcast('stop-ignoring-404');
-        deferred.resolve('0.0.0');
-      });
-      return deferred.promise;
     };
 
     ctrl.saveProject = function(project) {
@@ -61,7 +36,7 @@ angular.module('metadatamanagementApp')
     };
 
     $scope.ok = function(release) {
-      ctrl.getLastReleasedVersion()
+      LastReleasedProjectVersionService.getLastReleasedVersion(project.id)
       .then(function(lastReleasedVersion) {
         var compareForBeta = $scope.bowser
           .compareVersions(['1.0.0', release.version]);
