@@ -34,6 +34,7 @@ angular.module('metadatamanagementApp').config(
             'released-beta-successfully': 'The data of the project "{{ id }}" will be visible to all users in about 10 minutes. This is Beta release and there is no registration for a DOI at da|ra.',
             'unreleased-successfully': 'The data of the project "{{ id }}" will be visible to RDC employees only in about 10 minutes.',
             'dara-released-not-successfully': 'The data of the project "{{ id }}" could not be released. It happened an error on the registration / update of the DOI at Dara.',
+            'no-higher-version': 'The last release version is "{{ lastReleasedVersion }}". It must be a higher version.',
             'unrelease-title': 'Unrelease Project "{{ id }}"?',
             'unrelease': 'Do you really want to reduce visibility of the project "{{ id }}" to RDC employees only?',
             'release-not-possible-title': 'Project "{{ id }}" cannot be released!',

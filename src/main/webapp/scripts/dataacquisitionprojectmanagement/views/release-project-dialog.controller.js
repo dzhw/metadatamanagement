@@ -17,7 +17,6 @@ angular.module('metadatamanagementApp')
 
     ctrl.getLastReleasedVersion = function() {
       var deferred = $q.defer();
-      //TODO DKatzberg
       $rootScope.$broadcast('start-ignoring-404');
       DataAcquisitionProjectLastReleasedVersionResource
       .lastReleasedVersion({
@@ -33,7 +32,7 @@ angular.module('metadatamanagementApp')
         $rootScope.$broadcast('stop-ignoring-404');
         deferred.resolve(resultStr);
       },
-      function(error) {
+      function() {
         $rootScope.$broadcast('stop-ignoring-404');
         deferred.resolve('0.0.0');
       });
@@ -72,14 +71,18 @@ angular.module('metadatamanagementApp')
         //No higher version -> always break up
         //1 = old Version is higher, 0 = Same Version Number
         if (compareForHigherVersion !== -1) {
-          //TODO DKatzberg NO HIGHER VERSION -> NO RELEASE
           console.log('No Higher Version!');
+          SimpleMessageToastService.openSimpleMessageToast(
+            i18nPrefix + 'no-higher-version', {
+              lastReleasedVersion: lastReleasedVersion
+            });
         } else {
           if (compareForBeta === 1) {
             //BETA RELEASE
             release.date = new Date().toISOString();
             project.release = release;
             ctrl.saveProject(project);
+            $mdDialog.hide();
           } else {
             //REGULAR RELEASE
             release.date = new Date().toISOString();
@@ -96,9 +99,9 @@ angular.module('metadatamanagementApp')
                   id: project.id
                 });
             });
+            $mdDialog.hide();
           }
         }
       });
-      $mdDialog.hide();
     };
   });
