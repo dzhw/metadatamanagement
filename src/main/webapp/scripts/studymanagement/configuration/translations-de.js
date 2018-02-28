@@ -95,6 +95,7 @@ angular.module('metadatamanagementApp').config(
           'not-yet-released': 'Noch nicht freigegeben',
           'not-released-toast': 'Die Studie "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!',
           'old-version': 'Der verwendete Link verweist auf eine ältere Version ({{versionFromUrl}}). Hier wird die aktuelle Version ({{actualVersion}}) der Studie {{title}} dargestellt.',
+          'beta-release-no-doi': 'Dies ist ein vorläufiger BETA Release und enthält noch keine DOI.',
           'tooltips': {
             'surveys': {
               'one': 'Klicken, um die Erhebung dieser Studie anzuzeigen',

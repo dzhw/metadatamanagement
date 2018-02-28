@@ -67,6 +67,12 @@
                         </md-tooltip>
                         </a>
                     </div>
+
+                    <div class="fdz-add-bottom-margin" ng-if="ctrl.isBetaRelease(ctrl.study)">
+                        <span style="font-weight: bold;">{{'study-management.detail.label.doi' | translate }}:</span>
+                        <span>{{'study-management.detail.beta-release-no-doi' | translate }}</span>
+                    </div>
+
                     <div class="fdz-add-bottom-margin">
                         <span style="font-weight: bold;">{{'study-management.detail.label.version' | translate }}:</span>
                         <span>{{ctrl.study.release?ctrl.study.release.version: ('study-management.detail.not-yet-released' | translate)}}</span>

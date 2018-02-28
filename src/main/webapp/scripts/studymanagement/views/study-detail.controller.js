@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp')
     function(entity, PageTitleService, LanguageService, DataSetSearchService,
       $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
       StudyAttachmentResource, SearchResultNavigatorService, $stateParams,
-      $rootScope, LastReleasedProjectVersionService) {
+      $rootScope, LastReleasedProjectVersionService, CleanJSObjectService) {
       SearchResultNavigatorService.registerCurrentSearchResult(
           $stateParams['search-result-index']);
       var versionFromUrl = $stateParams.version;
@@ -35,6 +35,9 @@ angular.module('metadatamanagementApp')
           actualVersion =
             LastReleasedProjectVersionService
               .getLastReleasedVersion(study.dataAcquisitionProjectId);
+          if (CleanJSObjectService.isNullOrEmpty(actualVersion)) {
+            actualVersion = '0.0.0';
+          }
         }
 
         //A check for 0.0.0 string is not necessary!
@@ -97,6 +100,9 @@ angular.module('metadatamanagementApp')
             actualVersion =
               LastReleasedProjectVersionService
                 .getLastReleasedVersion(result.dataAcquisitionProjectId);
+            if (CleanJSObjectService.isNullOrEmpty(actualVersion)) {
+              actualVersion = '0.0.0';
+            }
           }
 
           if (actualVersion !== '0.0.0' &&
