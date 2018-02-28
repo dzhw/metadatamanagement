@@ -104,7 +104,7 @@ angular.module('metadatamanagementApp')
             SimpleMessageToastService.openSimpleMessageToast(
               'study-management.detail.old-version',
               {
-                id: result.id,
+                title: result.title[LanguageService.getCurrentInstantly()],
                 versionFromUrl: versionFromUrl,
                 actualVersion: actualVersion
               }
