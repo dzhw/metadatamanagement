@@ -10,7 +10,7 @@ function(CleanJSObjectService) {
   var buildDoi = function(dataAcquisitionProject) {
     var version = '0.0.0';
     if (!CleanJSObjectService
-      .isNullOrEmpty(dataAcquisitionProject.release.version)) {
+      .isNullOrEmpty(dataAcquisitionProject.release)) {
       version = dataAcquisitionProject.release.version;
     }
     return '10.21249/DZHW:' + dataAcquisitionProject.id + ':' + version;
