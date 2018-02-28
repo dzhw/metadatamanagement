@@ -124,7 +124,7 @@ angular.module('metadatamanagementApp').config(
             'id': {
               'valid-survey-id-name': 'The RDC-ID of the Survey is not valid for the Pattern: "sur-" + {RDCID} + "-sy" + {Number} + "$".',
               'not-empty': 'The RDC-ID of the Survey must not be empty!',
-              'size': 'The max length of the RDC-ID is 128 signs.',
+              'size': 'The max length of the RDC-ID is 512 signs.',
               'pattern': 'Use only alphanumeric signs, german umlauts, ß and space, underscore, excemation sign and minus for the RDC-ID.'
             },
             'title': {
@@ -159,7 +159,7 @@ angular.module('metadatamanagementApp').config(
             'survey-method': {
               'not-null': 'The Survey-Method must not be empty!',
               'i18n-string-not-empty': 'The Survey-Method has to be given for one language.',
-              'i18n-string-size': 'The max length of the Survey-Method is 128 signs.'
+              'i18n-string-size': 'The max length of the Survey-Method is 512 signs.'
             },
             'sample-size': {
               'min': 'The sample size must not be less than 0.',
@@ -186,7 +186,7 @@ angular.module('metadatamanagementApp').config(
             'title': {
               'not-null': 'The title of the Population must not be empty!',
               'i18n-string-not-empty': 'The title of the Population has to be given for one language.',
-              'i18n-string-size': 'The max length of the population title is 128 signs.'
+              'i18n-string-size': 'The max length of the population title is 512 signs.'
             },
             'description': {
               'not-null': 'The description of the Population must not be empty!',
@@ -206,7 +206,7 @@ angular.module('metadatamanagementApp').config(
             },
             'description': {
               'not-null': 'The description of the attachment must not be empty!',
-              'i18n-string-size': 'The description is mandatory and must in at least one language and must not contain more than 128 characters.',
+              'i18n-string-size': 'The description is mandatory and must in at least one language and must not contain more than 512 characters.',
               'i18n-string-not-empty': 'The description must not be empty at least for one language.'
             },
             'title': {

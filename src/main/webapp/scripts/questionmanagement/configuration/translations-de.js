@@ -91,7 +91,7 @@ angular.module('metadatamanagementApp').config(
             'unique-question-number': 'Die Nummer einer Frage muss eindeutig innerhalb einer Befragung sein.',
             'id': {
               'not-empty': 'Die FDZ-ID der Frage darf nicht leer sein!',
-              'size': 'Die Maximallänge der FDZ-ID ist 128 Zeichen.',
+              'size': 'Die Maximallänge der FDZ-ID ist 512 Zeichen.',
               'pattern': 'Es dürfen nur alphanumerische Zeichen, deutsche Umlaute, ß, Leerzeichen, Ausrufezeichen und Minus für die FDZ - ID verwendet werden.'
             },
             'number': {
