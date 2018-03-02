@@ -145,7 +145,7 @@ describe('Specification for app ', function() {
     it('should call back function', function() {
       fromState = {};
       fromParams = {};
-      toState = function() {};
+      toState = {};
       toParams = {};
       $rootScope.toState = toState;
       $rootScope.previousStateName = 'previousStateName';
