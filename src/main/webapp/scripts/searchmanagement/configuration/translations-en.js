@@ -184,6 +184,10 @@ angular.module('metadatamanagementApp').config(
           'institution-filter': {
             'not-found': 'No existing institution found!',
             'no-valid-selected': 'No valid institution selected!'
+          },
+          'survey-method-filter': {
+            'not-found': 'No existing survey method found!',
+            'no-valid-selected': 'No valid survey method selected!'
           }
         }
       }

@@ -61,12 +61,8 @@
                         </div>
                     </md-autocomplete>
                 </div>
-
-
-
-
                 <div layout-gt-sm="row" layout="column">
-                    <md-autocomplete md-delay="250" flex="50" md-input-name="institutionDE" md-input-maxlength="128" md-floating-label="{{'study-management.detail.label.institution' | translate}} ({{'global.in-german' | translate}})" md-min-length="0" md-require-match="false" md-select-on-match="true" md-selected-item="currentInstitution" md-search-text="ctrl.study.institution.de" md-items="item in searchInstitutions(ctrl.study.institution.de, 'de')" md-item-text="item.de" md-clear-button="true" md-no-cache="true" md-is-error="!studyForm.institutionDe.$valid && (studyForm.institutionDe.$dirty studyForm.institutionDe.$touched) ">
+                    <md-autocomplete md-delay="250" flex="50" md-input-name="institutionDe" md-input-maxlength="128" md-floating-label="{{'study-management.detail.label.institution' | translate}} ({{'global.in-german' | translate}})" md-min-length="0" md-require-match="false" md-select-on-match="true" md-selected-item="currentInstitution" md-search-text="ctrl.study.institution.de" md-items="item in searchInstitutions(ctrl.study.institution.de, 'de')" md-item-text="item.de" md-clear-button="true" md-no-cache="true" md-is-error="!studyForm.institutionDe.$valid && (studyForm.institutionDe.$dirty studyForm.institutionDe.$touched) ">
                         <md-item-template>
                             <span class="md-title" style="font-size: 14px;">{{item.de}}</span>
                         </md-item-template>
@@ -94,13 +90,8 @@
                         </div>
                     </md-autocomplete>
                 </div>
-
-                
-
-
-
                 <div layout-gt-sm="row" layout="column">
-                    <md-autocomplete md-delay="250" flex="50" md-input-name="sponsorDE" md-input-maxlength="128" md-floating-label="{{'study-management.detail.label.sponsors' | translate}} ({{'global.in-german' | translate}})" md-min-length="0" md-require-match="false" md-select-on-match="true" md-selected-item="currentSponsor" md-search-text="ctrl.study.sponsor.de" md-items="item in searchSponsors(ctrl.study.sponsor.de, 'de')" md-item-text="item.de" md-clear-button="true" md-no-cache="true" md-is-error="!studyForm.sponsorDe.$valid && (studyForm.sponsorDe.$dirty studyForm.sponsorDe.$touched) ">
+                    <md-autocomplete md-delay="250" flex="50" md-input-name="sponsorDe" md-input-maxlength="128" md-floating-label="{{'study-management.detail.label.sponsors' | translate}} ({{'global.in-german' | translate}})" md-min-length="0" md-require-match="false" md-select-on-match="true" md-selected-item="currentSponsor" md-search-text="ctrl.study.sponsor.de" md-items="item in searchSponsors(ctrl.study.sponsor.de, 'de')" md-item-text="item.de" md-clear-button="true" md-no-cache="true" md-is-error="!studyForm.sponsorDe.$valid && (studyForm.sponsorDe.$dirty studyForm.sponsorDe.$touched) ">
                         <md-item-template>
                             <span class="md-title" style="font-size: 14px;">{{item.de}}</span>
                         </md-item-template>

@@ -184,6 +184,10 @@ angular.module('metadatamanagementApp').config(
           'institution-filter': {
             'not-found': 'Kein vorhandenes Institut gefunden!',
             'no-valid-selected': 'Kein gültiges Institut ausgewählt!'
+          },
+          'survey-method-filter': {
+            'not-found': 'Keine vorhandene Erhebungsmethode gefunden!',
+            'no-valid-selected': 'Keine gültige Erhebungsmethode ausgewählt!'
           }
         }
       }

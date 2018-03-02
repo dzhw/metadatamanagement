@@ -71,24 +71,33 @@
                     <div flex="50"></div>
                 </div>
                 <div layout-gt-sm="row" layout="column">
-                    <md-input-container flex="50" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!surveyForm.surveyMethodDe.$valid && (surveyForm.surveyMethodDe.$dirty || surveyForm.surveyMethodDe.$touched)">
-                        <label class="fdz-input-required">{{'survey-management.detail.label.survey-method' | translate}} ({{'global.in-german' | translate}})</label>
-                        <input ng-trim="true" md-maxlength="128" fdz-required="!ctrl.survey.surveyMethod.en" ng-model="ctrl.survey.surveyMethod.de" name="surveyMethodDe" lang="de" md-no-asterisk>
+                    <md-autocomplete md-delay="250" flex="50" md-input-name="surveyMethodDe" md-input-maxlength="128" md-floating-label="{{'survey-management.detail.label.survey-method' | translate}} ({{'global.in-german' | translate}})" md-min-length="0" md-require-match="false" md-select-on-match="true" md-selected-item="currentSurveyMethod" md-search-text="ctrl.survey.surveyMethod.de" md-items="item in ctrl.searchSurveyMethods(ctrl.survey.surveyMethod.de, 'de')" md-item-text="item.de" md-clear-button="true" md-no-cache="true" md-is-error="!surveyForm.surveyMethodDe.$valid && (surveyForm.surveyMethodDe.$dirty surveyForm.surveyMethodDe.$touched) ">
+                        <md-item-template>
+                            <span class="md-title" style="font-size: 14px;">{{item.de}}</span>
+                        </md-item-template>
+                        <md-not-found>
+                            {{'search-management.filter.survey-method-filter.not-found' | translate}}
+                        </md-not-found>
                         <div ng-if="!surveyForm.surveyMethodDe.$dirty && !surveyForm.surveyMethodDe.$touched" class="fdz-input-hint">{{'survey-management.edit.hints.survey-method.de' | translate}}</div>
                         <div ng-messages="surveyForm.surveyMethodDe.$error" multiple>
-                            <div ng-message="fdz-required">{{'survey-management.error.survey.survey-method.i18n-string-not-empty' | translate}}</div>
-                            <div ng-message="md-maxlength">{{'survey-management.error.survey.survey-method.i18n-string-size' | translate}}</div>
+                            <div ng-message="fdz-required">{{'survey-management.error.survey.survey-method.i18n-string-entire-not-empty-optional' | translate}}</div>
+                            <div ng-message="maxlength">{{'survey-management.error.survey.survey-method.i18n-string-size' | translate}}</div>
                         </div>
-                    </md-input-container>
-                    <md-input-container flex="50" md-is-error="!surveyForm.surveyMethodEn.$valid && (surveyForm.surveyMethodEn.$dirty || surveyForm.surveyMethodEn.$touched)">
-                        <label class="fdz-input-required">{{'survey-management.detail.label.survey-method' | translate}} ({{'global.in-english' | translate}})</label>
-                        <input md-maxlength="128" fdz-required="!ctrl.survey.surveyMethod.de" ng-model="ctrl.survey.surveyMethod.en" name="surveyMethodEn" lang="en" md-no-asterisk>
+                    </md-autocomplete>
+                    <md-autocomplete md-delay="250" flex="50" md-input-name="surveyMethodEn" md-input-maxlength="128" md-floating-label="{{'survey-management.detail.label.survey-method' | translate}} ({{'global.in-english' | translate}})" md-min-length="0" md-require-match="false"
+                      md-select-on-match="true" md-selected-item="currentSurveyMethod" md-search-text="ctrl.survey.surveyMethod.en" md-items="item in ctrl.searchSurveyMethods(ctrl.survey.surveyMethod.en, 'en')" md-item-text="item.en" md-clear-button="true" md-no-cache="true" md-is-error="!surveyForm.surveyMethodEn.$valid && (surveyForm.surveyMethodEn.$dirty || surveyForm.surveyMethodEn.$touched)">
+                        <md-item-template>
+                            <span class="md-title" style="font-size: 14px;">{{item.en}}</span>
+                        </md-item-template>
+                        <md-not-found>
+                            {{'search-management.filter.surveyMethod.not-found' | translate}}
+                        </md-not-found>
                         <div ng-if="!surveyForm.surveyMethodEn.$dirty && !surveyForm.surveyMethodEn.$touched" class="fdz-input-hint">{{'survey-management.edit.hints.survey-method.en' | translate}}</div>
                         <div ng-messages="surveyForm.surveyMethodEn.$error" multiple>
-                            <div ng-message="fdz-required">{{'survey-management.error.survey.survey-method.i18n-string-not-empty' | translate}}</div>
-                            <div ng-message="md-maxlength">{{'survey-management.error.survey.survey-method.i18n-string-size' | translate}}</div>
+                          <div ng-message="fdz-required">{{'survey-management.error.survey.survey-method.i18n-string-entire-not-empty-optional' | translate}}</div>
+                            <div ng-message="maxlength">{{'survey-management.error.survey.survey-method.i18n-string-size' | translate}}</div>
                         </div>
-                    </md-input-container>
+                    </md-autocomplete>
                 </div>
                 <div layout-gt-sm="row" layout="column">
                     <md-input-container flex="50" md-is-error="!surveyForm.dataType.$valid && (surveyForm.dataType.$dirty || surveyForm.dataType.$touched)">
