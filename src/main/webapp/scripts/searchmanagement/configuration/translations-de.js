@@ -180,6 +180,10 @@ angular.module('metadatamanagementApp').config(
           'sponsor-filter': {
             'not-found': 'Kein vorhandener Förderer gefunden!',
             'no-valid-selected': 'Kein gültiger Förderer ausgewählt!'
+          },
+          'institution-filter': {
+            'not-found': 'Kein vorhandenes Institut gefunden!',
+            'no-valid-selected': 'Kein gültiges Institut ausgewählt!'
           }
         }
       }

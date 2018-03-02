@@ -61,26 +61,41 @@
                         </div>
                     </md-autocomplete>
                 </div>
+
+
+
+
                 <div layout-gt-sm="row" layout="column">
-                    <md-input-container flex="50" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!studyForm.institutionDe.$valid && (studyForm.institutionDe.$dirty || studyForm.institutionDe.$touched)">
-                        <label class="fdz-input-required">{{'study-management.detail.label.institution' | translate}} ({{'global.in-german' | translate}})</label>
-                        <input md-maxlength="128" fdz-required="!ctrl.study.institution.en" ng-model="ctrl.study.institution.de" name="institutionDe" lang="de" md-no-asterisk>
+                    <md-autocomplete md-delay="250" flex="50" md-input-name="institutionDE" md-input-maxlength="128" md-floating-label="{{'study-management.detail.label.institution' | translate}} ({{'global.in-german' | translate}})" md-min-length="0" md-require-match="false" md-select-on-match="true" md-selected-item="currentInstitution" md-search-text="ctrl.study.institution.de" md-items="item in searchInstitutions(ctrl.study.institution.de, 'de')" md-item-text="item.de" md-clear-button="true" md-no-cache="true" md-is-error="!studyForm.institutionDe.$valid && (studyForm.institutionDe.$dirty studyForm.institutionDe.$touched) ">
+                        <md-item-template>
+                            <span class="md-title" style="font-size: 14px;">{{item.de}}</span>
+                        </md-item-template>
+                        <md-not-found>
+                            {{'search-management.filter.institution-filter.not-found' | translate}}
+                        </md-not-found>
                         <div ng-if="!studyForm.institutionDe.$dirty && !studyForm.institutionDe.$touched" class="fdz-input-hint">{{'study-management.edit.hints.institution.de' | translate}}</div>
                         <div ng-messages="studyForm.institutionDe.$error" multiple>
-                            <div ng-message="fdz-required">{{'study-management.error.study.institution.i18n-string-not-empty' | translate}}</div>
-                            <div ng-message="md-maxlength">{{'study-management.error.study.institution.i18n-string-size' | translate}}</div>
+                            <div ng-message="fdz-required">{{'study-management.error.study.institution.i18n-string-entire-not-empty-optional' | translate}}</div>
+                            <div ng-message="maxlength">{{'study-management.error.study.institution.i18n-string-size' | translate}}</div>
                         </div>
-                    </md-input-container>
-                    <md-input-container flex="50" md-is-error="!studyForm.institutionEn.$valid && (studyForm.institutionEn.$dirty || studyForm.institutionEn.$touched)">
-                        <label class="fdz-input-required">{{'study-management.detail.label.institution' | translate}} ({{'global.in-english' | translate}})</label>
-                        <input md-maxlength="128" fdz-required="!ctrl.study.institution.de" ng-model="ctrl.study.institution.en" name="institutionEn" lang="en" md-no-asterisk>
+                    </md-autocomplete>
+                    <md-autocomplete md-delay="250" flex="50" md-input-name="institutionEn" md-input-maxlength="128" md-floating-label="{{'study-management.detail.label.institution' | translate}} ({{'global.in-english' | translate}})" md-min-length="0" md-require-match="false"
+                      md-select-on-match="true" md-selected-item="currentInstitution" md-search-text="ctrl.study.institution.en" md-items="item in searchInstitutions(ctrl.study.institution.en, 'en')" md-item-text="item.en" md-clear-button="true" md-no-cache="true" md-is-error="!studyForm.institutionEn.$valid && (studyForm.institutionEn.$dirty || studyForm.institutionEn.$touched)">
+                        <md-item-template>
+                            <span class="md-title" style="font-size: 14px;">{{item.en}}</span>
+                        </md-item-template>
+                        <md-not-found>
+                            {{'search-management.filter.institution-filter.not-found' | translate}}
+                        </md-not-found>
                         <div ng-if="!studyForm.institutionEn.$dirty && !studyForm.institutionEn.$touched" class="fdz-input-hint">{{'study-management.edit.hints.institution.en' | translate}}</div>
                         <div ng-messages="studyForm.institutionEn.$error" multiple>
-                            <div ng-message="fdz-required">{{'study-management.error.study.institution.i18n-string-not-empty' | translate}}</div>
-                            <div ng-message="md-maxlength">{{'study-management.error.study.institution.i18n-string-size' | translate}}</div>
+                          <div ng-message="fdz-required">{{'study-management.error.study.institution.i18n-string-entire-not-empty-optional' | translate}}</div>
+                            <div ng-message="maxlength">{{'study-management.error.study.institution.i18n-string-size' | translate}}</div>
                         </div>
-                    </md-input-container>
+                    </md-autocomplete>
                 </div>
+
+                
 
 
 
@@ -113,9 +128,6 @@
                         </div>
                     </md-autocomplete>
                 </div>
-
-
-
                 <div layout-gt-sm="row" layout="column">
                     <md-input-container flex="50" md-is-error="!studyForm.surveyDesign.$valid && (studyForm.surveyDesign.$dirty || studyForm.surveyDesign.$touched)">
                         <label>{{'study-management.detail.label.surveyDesign' | translate}}</label>

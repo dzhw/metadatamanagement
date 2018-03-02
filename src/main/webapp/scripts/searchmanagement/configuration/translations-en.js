@@ -180,6 +180,10 @@ angular.module('metadatamanagementApp').config(
           'sponsor-filter': {
             'not-found': 'No existing sponsor found!',
             'no-valid-selected': 'No valid sponsor selected!'
+          },
+          'institution-filter': {
+            'not-found': 'No existing institution found!',
+            'no-valid-selected': 'No valid institution selected!'
           }
         }
       }

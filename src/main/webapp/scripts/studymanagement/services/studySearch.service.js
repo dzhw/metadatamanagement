@@ -164,9 +164,69 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       });
     };
 
+    var findInstitutions = function(searchText, filter, language) {
+      language = language || LanguageService.getCurrentInstantly();
+      var query = createQueryObject();
+      var termFilters = createTermFilters(filter);
+
+      query.body = {
+        'size': 0,
+        'aggs': {
+            'institutionDe': {
+                'terms': {
+                  'field': 'institution.de'
+                },
+                'aggs': {
+                  'institutionEn': {
+                    'terms': {
+                      'field': 'institution.en'
+                    }
+                  }
+                }
+              }
+          }
+      };
+
+      query.body.query = {
+        'bool': {
+          'must': [{
+              'match': {
+              }
+            }],
+          'disable_coord': true
+        }
+      };
+
+      query.body.query.bool.must[0].match
+        ['institution.' + language + '.ngrams'] = {
+        'query': searchText,
+        'operator': 'AND',
+        'minimum_should_match': '100%',
+        'zero_terms_query': 'ALL'
+      };
+
+      if (termFilters) {
+        query.body.query.bool.filter = termFilters;
+      }
+
+      return ElasticSearchClient.search(query).then(function(result) {
+        var institutions = [];
+        var institutionElement = {};
+        result.aggregations.institutionDe.buckets.forEach(function(bucket) {
+            institutionElement = {
+              'de': bucket.key,
+              'en': bucket.institutionEn.buckets[0].key
+            };
+            institutions.push(institutionElement);
+          });
+        return institutions;
+      });
+    };
+
     return {
       findOneById: findOneById,
       findStudySeries: findStudySeries,
-      findSponsors: findSponsors
+      findSponsors: findSponsors,
+      findInstitutions: findInstitutions
     };
   });
