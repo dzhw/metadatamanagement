@@ -12,6 +12,7 @@ angular.module('metadatamanagementApp')
 
       var ctrl = this;
       var studySeriesCache = {};
+      var sponsorsCache = {};
 
       $scope.$watch('ctrl.study.studySeries', function() {
         ctrl.onStudySeriesChanged();
@@ -276,6 +277,23 @@ angular.module('metadatamanagementApp')
             studySeriesCache.language = language;
             studySeriesCache.searchResult = studySeries;
             return studySeries;
+          });
+      };
+
+      $scope.searchSponsors = function(searchText, language) {
+        if (searchText === sponsorsCache.searchText &&
+          language === sponsorsCache.language) {
+          return sponsorsCache.searchResult;
+        }
+
+        //Search Call to Elasticsearch
+        return StudySearchService.findSponsors(searchText, {},
+            language)
+          .then(function(sponsors) {
+            sponsorsCache.searchText = searchText;
+            sponsorsCache.language = language;
+            sponsorsCache.searchResult = sponsors;
+            return sponsors;
           });
       };
 

@@ -176,6 +176,10 @@ angular.module('metadatamanagementApp').config(
           'study-series-filter': {
             'not-found': 'No existing study series found!',
             'no-valid-selected': 'No valid study series selected!'
+          },
+          'sponsor-filter': {
+            'not-found': 'No existing sponsor found!',
+            'no-valid-selected': 'No valid sponsor selected!'
           }
         }
       }

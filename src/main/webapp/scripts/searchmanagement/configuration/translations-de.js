@@ -176,6 +176,10 @@ angular.module('metadatamanagementApp').config(
           'study-series-filter': {
             'not-found': 'Keine vorhandene Studienreihen gefunden!',
             'no-valid-selected': 'Keine gültige Studienreihe ausgewählt!'
+          },
+          'sponsor-filter': {
+            'not-found': 'Kein vorhandener Förderer gefunden!',
+            'no-valid-selected': 'Kein gültiger Förderer ausgewählt!'
           }
         }
       }

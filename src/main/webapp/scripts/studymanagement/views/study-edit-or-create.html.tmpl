@@ -81,26 +81,41 @@
                         </div>
                     </md-input-container>
                 </div>
+
+
+
                 <div layout-gt-sm="row" layout="column">
-                    <md-input-container flex="50" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!studyForm.sponsorDe.$valid && (studyForm.sponsorDe.$dirty || studyForm.sponsorDe.$touched)">
-                        <label class="fdz-input-required">{{'study-management.detail.label.sponsors' | translate}} ({{'global.in-german' | translate}})</label>
-                        <input md-maxlength="128" fdz-required ng-model="ctrl.study.sponsor.de" name="sponsorDe" lang="de" md-no-asterisk>
+                    <md-autocomplete md-delay="250" flex="50" md-input-name="sponsorDE" md-input-maxlength="128" md-floating-label="{{'study-management.detail.label.sponsors' | translate}} ({{'global.in-german' | translate}})" md-min-length="0" md-require-match="false" md-select-on-match="true" md-selected-item="currentSponsor" md-search-text="ctrl.study.sponsor.de" md-items="item in searchSponsors(ctrl.study.sponsor.de, 'de')" md-item-text="item.de" md-clear-button="true" md-no-cache="true" md-is-error="!studyForm.sponsorDe.$valid && (studyForm.sponsorDe.$dirty studyForm.sponsorDe.$touched) ">
+                        <md-item-template>
+                            <span class="md-title" style="font-size: 14px;">{{item.de}}</span>
+                        </md-item-template>
+                        <md-not-found>
+                            {{'search-management.filter.sponsor-filter.not-found' | translate}}
+                        </md-not-found>
                         <div ng-if="!studyForm.sponsorDe.$dirty && !studyForm.sponsorDe.$touched" class="fdz-input-hint">{{'study-management.edit.hints.sponsor.de' | translate}}</div>
                         <div ng-messages="studyForm.sponsorDe.$error" multiple>
-                            <div ng-message="fdz-required">{{'study-management.error.study.sponsor.i18n-string-entire-not-empty' | translate}}</div>
-                            <div ng-message="md-maxlength">{{'study-management.error.study.sponsor.i18n-string-size' | translate}}</div>
+                            <div ng-message="fdz-required">{{'study-management.error.study.sponsors.i18n-string-entire-not-empty-optional' | translate}}</div>
+                            <div ng-message="maxlength">{{'study-management.error.study.sponsors.i18n-string-size' | translate}}</div>
                         </div>
-                    </md-input-container>
-                    <md-input-container flex="50" md-is-error="!studyForm.sponsorEn.$valid && (studyForm.sponsorEn.$dirty || studyForm.sponsorEn.$touched)">
-                        <label class="fdz-input-required">{{'study-management.detail.label.sponsors' | translate}} ({{'global.in-english' | translate}})</label>
-                        <input md-maxlength="128" fdz-required ng-model="ctrl.study.sponsor.en" name="sponsorEn" lang="en" md-no-asterisk>
+                    </md-autocomplete>
+                    <md-autocomplete md-delay="250" flex="50" md-input-name="sponsorEn" md-input-maxlength="128" md-floating-label="{{'study-management.detail.label.sponsors' | translate}} ({{'global.in-english' | translate}})" md-min-length="0" md-require-match="false"
+                      md-select-on-match="true" md-selected-item="currentSponsor" md-search-text="ctrl.study.sponsor.en" md-items="item in searchsponsors(ctrl.study.sponsor.en, 'en')" md-item-text="item.en" md-clear-button="true" md-no-cache="true" md-is-error="!studyForm.sponsorEn.$valid && (studyForm.sponsorEn.$dirty || studyForm.sponsorEn.$touched)">
+                        <md-item-template>
+                            <span class="md-title" style="font-size: 14px;">{{item.en}}</span>
+                        </md-item-template>
+                        <md-not-found>
+                            {{'search-management.filter.sponsor-filter.not-found' | translate}}
+                        </md-not-found>
                         <div ng-if="!studyForm.sponsorEn.$dirty && !studyForm.sponsorEn.$touched" class="fdz-input-hint">{{'study-management.edit.hints.sponsor.en' | translate}}</div>
                         <div ng-messages="studyForm.sponsorEn.$error" multiple>
-                            <div ng-message="fdz-required">{{'study-management.error.study.sponsor.i18n-string-entire-not-empty' | translate}}</div>
-                            <div ng-message="md-maxlength">{{'study-management.error.study.sponsor.i18n-string-size' | translate}}</div>
+                          <div ng-message="fdz-required">{{'study-management.error.study.sponsors.i18n-string-entire-not-empty-optional' | translate}}</div>
+                            <div ng-message="maxlength">{{'study-management.error.study.sponsors.i18n-string-size' | translate}}</div>
                         </div>
-                    </md-input-container>
+                    </md-autocomplete>
                 </div>
+
+
+
                 <div layout-gt-sm="row" layout="column">
                     <md-input-container flex="50" md-is-error="!studyForm.surveyDesign.$valid && (studyForm.surveyDesign.$dirty || studyForm.surveyDesign.$touched)">
                         <label>{{'study-management.detail.label.surveyDesign' | translate}}</label>
