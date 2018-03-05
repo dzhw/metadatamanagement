@@ -182,9 +182,9 @@
                                 {{'data-set-management.detail.label.sub-data-sets.numberOfAnalyzedVariables' | translate }}
                             </md-tooltip>
                         </th>
-                        <th>{{'data-set-management.detail.label.sub-data-sets.numberOfObservations' | translate }}
+                        <th>{{(ctrl.dataSet.type.en !== 'Spell Data'?'data-set-management.detail.label.sub-data-sets.numberOfObservations' : 'data-set-management.detail.label.sub-data-sets.numberOfEpisodes')| translate }}
                             <md-tooltip hide-gt-xs md-direction="right">
-                                {{'data-set-management.detail.label.sub-data-sets.numberOfObservations' | translate }}
+                                {{(ctrl.dataSet.type.en !== 'Spell Data'?'data-set-management.detail.label.sub-data-sets.numberOfObservations' : 'data-set-management.detail.label.sub-data-sets.numberOfEpisodes')| translate }}
                             </md-tooltip>
                         </th>
                         <th>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title th:text="${'New account ' + user.login + ' activated'}">New account username activated</title>
+        <title th:text="${'New account ' + user.login + ' activated (' + #strings.arrayJoin(profiles,',') + ')'}">New account username activated</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     </head>
     <body>
@@ -14,9 +14,14 @@
             <a th:href="${'mailto:' + user.email}" th:text="${user.login}">username</a>
         </p>
         <p>
+            <span>Go to user management and assign appropriate roles:</span>
+            <br/>
+            <a th:href="@{|${baseUrl}/#!/de/user-management|}" th:text="${'User Management (' + #strings.arrayJoin(profiles,',') + ')'}">user-management</a>
+        </p>
+        <p>
             <span>Regards,</span>
             <br/>
-            <em>Your Metadatasystem ;-)</em>
+            <em>Your Metadatasystem ;)</em>
         </p>
     </body>
 </html>

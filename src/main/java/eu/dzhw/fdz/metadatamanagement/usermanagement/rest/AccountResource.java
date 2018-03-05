@@ -63,13 +63,7 @@ public class AccountResource {
               userDto.getFirstName(), userDto.getLastName(), userDto.getEmail()
                 .toLowerCase(),
               userDto.getLangKey());
-          String baseUrl = request.getScheme() + // "http"
-              "://" + // "://"
-              request.getServerName() + // "myhost"
-              ":" + // ":"
-              request.getServerPort(); // "80"
-
-          mailService.sendActivationEmail(user, baseUrl);
+          mailService.sendActivationEmail(user, getBaseUrl(request));
           return new ResponseEntity<>(HttpStatus.CREATED);
         }));
   }
@@ -80,12 +74,13 @@ public class AccountResource {
   @RequestMapping(value = "/activate", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
   @Timed
-  public ResponseEntity<String> activateAccount(@RequestParam(value = "key") String key) {
+  public ResponseEntity<String> activateAccount(@RequestParam(value = "key") String key,
+      HttpServletRequest request) {
     return userService.activateRegistration(key)
       .map(user -> {
         List<User> admins = userRepository.findAllByAuthoritiesContaining(
             new Authority(AuthoritiesConstants.ADMIN));
-        mailService.sendNewAccountActivatedMail(admins, user);
+        mailService.sendNewAccountActivatedMail(admins, user, getBaseUrl(request));
         return new ResponseEntity<String>(HttpStatus.OK);
       })
       .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
@@ -156,9 +151,7 @@ public class AccountResource {
       HttpServletRequest request) {
     return userService.requestPasswordReset(mail)
       .map(user -> {
-        String baseUrl =
-            request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
-        mailService.sendPasswordResetMail(user, baseUrl);
+        mailService.sendPasswordResetMail(user, getBaseUrl(request));
         return new ResponseEntity<>("e-mail was sent", HttpStatus.OK);
       })
       .orElse(new ResponseEntity<>("e-mail address not registered", HttpStatus.BAD_REQUEST));
@@ -183,5 +176,13 @@ public class AccountResource {
   private boolean checkPasswordLength(String password) {
     return !StringUtils.isEmpty(password) && password.length() >= UserDto.PASSWORD_MIN_LENGTH
         && password.length() <= UserDto.PASSWORD_MAX_LENGTH;
+  }
+  
+  private String getBaseUrl(HttpServletRequest request) {
+    return request.getScheme() + // "http"
+        "://" + // "://"
+        request.getServerName() + // "myhost"
+        ":" + // ":"
+        request.getServerPort(); // "80"
   }
 }

@@ -2,13 +2,9 @@
 /* Author Daniel Katzberg */
 'use strict';
 angular.module('metadatamanagementApp').controller('FdzWelcomeDialogController',
-  function($scope, $mdDialog, localStorageService, bowser, $location,
-      $translate, showCheckbox) {
+  function($scope, $mdDialog, bowser, $location,
+      $translate) {
     $scope.bowser = bowser;
-    $scope.checkBox = {
-      closeWelcomeDialogForever: false
-    };
-    $scope.showCheckbox = showCheckbox;
 
     var checkDomainManagement = function() {
       var domainManagement = 'crosscutting';
@@ -67,9 +63,6 @@ angular.module('metadatamanagementApp').controller('FdzWelcomeDialogController',
     };
 
     $scope.closeDialog = function() {
-      if ($scope.checkBox.closeWelcomeDialogForever) {
-        localStorageService.set('closeWelcomeDialogForever', true);
-      }
       $mdDialog.hide();
     };
   });
