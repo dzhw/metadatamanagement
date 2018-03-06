@@ -98,7 +98,7 @@
                     <div layout-gt-sm="row" layout="column">
                         <md-input-container flex="50" style="margin-right: 8px;" md-is-error="!studyAttachmentForm.descriptionDe.$valid && (studyAttachmentForm.descriptionDe.$dirty || studyAttachmentForm.descriptionDe.$touched)">
                             <label class="fdz-input-required">{{'study-management.detail.label.attachments.description' | translate}} ({{'global.in-german' | translate}})</label>
-                            <input fdz-required="!ctrl.studyAttachmentMetadata.description.en" md-maxlength="128" ng-model="ctrl.studyAttachmentMetadata.description.de" name="descriptionDe" lang="de" md-no-asterisk>
+                            <input fdz-required="!ctrl.studyAttachmentMetadata.description.en" md-maxlength="512" ng-model="ctrl.studyAttachmentMetadata.description.de" name="descriptionDe" lang="de" md-no-asterisk>
                             <div ng-if="!studyAttachmentForm.descriptionDe.$dirty && !studyAttachmentForm.descriptionDe.$touched" class="fdz-input-hint">{{'study-management.detail.attachments.hints.description.de' | translate}}</div>
                             <div ng-messages="studyAttachmentForm.descriptionDe.$error" multiple>
                                 <div ng-message="fdz-required">{{'study-management.error.study-attachment-metadata.description.i18n-string-not-empty' | translate}}</div>
@@ -107,7 +107,7 @@
                         </md-input-container>
                         <md-input-container flex="50" style="margin-right: 8px;" md-is-error="!studyAttachmentForm.descriptionEn.$valid && (studyAttachmentForm.descriptionEn.$dirty || studyAttachmentForm.descriptionEn.$touched)">
                             <label class="fdz-input-required">{{'study-management.detail.label.attachments.description' | translate}} ({{'global.in-english' | translate}})</label>
-                            <input fdz-required="!ctrl.studyAttachmentMetadata.description.de" md-maxlength="128" ng-model="ctrl.studyAttachmentMetadata.description.en" name="descriptionEn" lang="en" md-no-asterisk>
+                            <input fdz-required="!ctrl.studyAttachmentMetadata.description.de" md-maxlength="512" ng-model="ctrl.studyAttachmentMetadata.description.en" name="descriptionEn" lang="en" md-no-asterisk>
                             <div ng-if="!studyAttachmentForm.descriptionEn.$dirty && !studyAttachmentForm.descriptionEn.$touched" class="fdz-input-hint">{{'study-management.detail.attachments.hints.description.en' | translate}}</div>
                             <div ng-messages="studyAttachmentForm.descriptionEn.$error" multiple>
                                 <div ng-message="fdz-required">{{'study-management.error.study-attachment-metadata.description.i18n-string-not-empty' | translate}}</div>

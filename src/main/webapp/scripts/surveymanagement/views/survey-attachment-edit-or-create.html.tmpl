@@ -86,7 +86,7 @@
                     <div layout-gt-sm="row" layout="column">
                         <md-input-container flex="50" style="margin-right: 8px;" md-is-error="!surveyAttachmentForm.descriptionDe.$valid && (surveyAttachmentForm.descriptionDe.$dirty || surveyAttachmentForm.descriptionDe.$touched)">
                             <label class="fdz-input-required">{{'survey-management.detail.label.attachments.description' | translate}} ({{'global.in-german' | translate}})</label>
-                            <input fdz-required="!ctrl.surveyAttachmentMetadata.description.en" md-maxlength="128" ng-model="ctrl.surveyAttachmentMetadata.description.de" name="descriptionDe" lang="de" md-no-asterisk>
+                            <input fdz-required="!ctrl.surveyAttachmentMetadata.description.en" md-maxlength="512" ng-model="ctrl.surveyAttachmentMetadata.description.de" name="descriptionDe" lang="de" md-no-asterisk>
                             <div ng-if="!surveyAttachmentForm.descriptionDe.$dirty && !surveyAttachmentForm.descriptionDe.$touched" class="fdz-input-hint">{{'survey-management.detail.attachments.hints.description.de' | translate}}</div>
                             <div ng-messages="surveyAttachmentForm.descriptionDe.$error" multiple>
                                 <div ng-message="fdz-required">{{'survey-management.error.survey-attachment-metadata.description.i18n-string-not-empty' | translate}}</div>
@@ -95,7 +95,7 @@
                         </md-input-container>
                         <md-input-container flex="50" style="margin-right: 8px;" md-is-error="!surveyAttachmentForm.descriptionEn.$valid && (surveyAttachmentForm.descriptionEn.$dirty || surveyAttachmentForm.descriptionEn.$touched)">
                             <label class="fdz-input-required">{{'survey-management.detail.label.attachments.description' | translate}} ({{'global.in-english' | translate}})</label>
-                            <input fdz-required="!ctrl.surveyAttachmentMetadata.description.de" md-maxlength="128" ng-model="ctrl.surveyAttachmentMetadata.description.en" name="descriptionEn" lang="en" md-no-asterisk>
+                            <input fdz-required="!ctrl.surveyAttachmentMetadata.description.de" md-maxlength="512" ng-model="ctrl.surveyAttachmentMetadata.description.en" name="descriptionEn" lang="en" md-no-asterisk>
                             <div ng-if="!surveyAttachmentForm.descriptionEn.$dirty && !surveyAttachmentForm.descriptionEn.$touched" class="fdz-input-hint">{{'survey-management.detail.attachments.hints.description.en' | translate}}</div>
                             <div ng-messages="surveyAttachmentForm.descriptionEn.$error" multiple>
                                 <div ng-message="fdz-required">{{'survey-management.error.survey-attachment-metadata.description.i18n-string-not-empty' | translate}}</div>
