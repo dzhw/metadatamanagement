@@ -149,7 +149,6 @@ describe('Specification for app ', function() {
       toParams = {};
       $rootScope.toState = toState;
       $rootScope.previousStateName = 'previousStateName';
-      $rootScope.toState = toState;
       $rootScope.fromState = fromState;
       $rootScope.toParams = toParams;
       $rootScope.fromParams = fromParams;
