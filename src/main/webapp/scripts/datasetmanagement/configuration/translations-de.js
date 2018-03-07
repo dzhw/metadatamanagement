@@ -111,7 +111,7 @@ angular.module('metadatamanagementApp').config(
             'id': {
               'valid-data-set-id-name': 'Die FDZ-ID des Datensatzes entspricht nicht dem Muster: "dat-" + {FDZID} + "-ds" + {Number} + "$".',
               'not-empty': 'Die FDZ-ID des Datensatzes darf nicht leer sein!',
-              'size': 'Die Maximallänge der FDZ-ID ist 128 Zeichen.',
+              'size': 'Die Maximallänge der FDZ-ID ist 512 Zeichen.',
               'pattern': 'Die FDZ-ID darf nur alphanumerische Zeichen, deutsche Umlaute, Ausrufezeichen und ß beinhalten.'
             },
             'description': {
@@ -165,7 +165,7 @@ angular.module('metadatamanagementApp').config(
             },
             'description': {
               'not-null': 'Die Beschreibung des Attachments darf nicht leer sein.',
-              'i18n-string-size': 'Die Beschreibung muss in mindestens einer Sprache angegeben werden und darf nicht länger als 128 Zeichen sein.',
+              'i18n-string-size': 'Die Beschreibung muss in mindestens einer Sprache angegeben werden und darf nicht länger als 512 Zeichen sein.',
               'i18n-string-not-empty': 'Die Beschreibung darf nicht leer sein.'
             },
             'title': {
@@ -187,7 +187,7 @@ angular.module('metadatamanagementApp').config(
             },
             'description': {
               'i18n-string-not-empty': 'Die Beschreibung des {{index}}. Sub-Daten-Satzes darf nicht leer sein!',
-              'i18n-string-size': 'Die Maximallänge der Beschreibung des {{index}}. Sub-Daten-Satzes ist 128 Zeichen.'
+              'i18n-string-size': 'Die Maximallänge der Beschreibung des {{index}}. Sub-Daten-Satzes ist 512 Zeichen.'
             },
             'citation-hint': {
               'i18n-string-size': 'Die Maximallänge des Zitationshinweises eines Subdatensatzes ist 2048 Zeichen.'

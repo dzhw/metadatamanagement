@@ -13,9 +13,9 @@ public class StringLengths {
   public static final int SMALL = 32;
   
   /**
-   * Medium is 128.
+   * Medium is 512.
    */
-  public static final int MEDIUM = 128;
+  public static final int MEDIUM = 512;
   
   /**
    * Large is 2048 (2 KB).

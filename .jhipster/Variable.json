@@ -33,7 +33,7 @@
       "required",
       "maxlength"
     ],
-    "fieldValidateRulesMaxlength": "128"
+    "fieldValidateRulesMaxlength": "512"
   }],
   "dto": "no",
   "pagination": "pagination"

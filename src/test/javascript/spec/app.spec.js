@@ -52,11 +52,6 @@ describe('Specification for app ', function() {
       $httpBackend.whenGET(dataAcquisitionProjectJson).respond({});
       $httpBackend.whenGET(variableJson).respond({});
       $httpBackend.whenGET(questionJson).respond({});
-      $httpBackend.expectGET(/scripts\/common\/navbar\/views\/navbar.html.tmpl/)
-        .respond(200, '');
-      $httpBackend.
-      expectGET(/scripts\/common\/toolbar\/views\/toolbar.html.tmpl/).
-      respond(200, '');
       $httpBackend.
       expectGET(/scripts\/searchmanagement\/views\/search.html.tmpl/).
       respond(200, '');
