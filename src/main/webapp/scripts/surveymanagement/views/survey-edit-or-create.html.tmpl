@@ -146,7 +146,7 @@
                 <div layout-gt-sm="row" layout="column">
                     <md-input-container flex="50" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!surveyForm.sampleDe.$valid && (surveyForm.sampleDe.$dirty || surveyForm.sampleDe.$touched)">
                         <label class="fdz-input-required">{{'survey-management.detail.label.sample' | translate}} ({{'global.in-german' | translate}})</label>
-                        <textarea rows="4" md-maxlength="2048" fdz-required="!ctrl.survey.sample.en" ng-model="ctrl.survey.sample.de" name="sampleDe" lang="de" md-no-asterisk></textarea>
+                        <input md-maxlength="2048" fdz-required="!ctrl.survey.sample.en" ng-model="ctrl.survey.sample.de" name="sampleDe" lang="de" md-no-asterisk>
                         <div ng-if="!surveyForm.sampleDe.$dirty && !surveyForm.sampleDe.$touched" class="fdz-input-hint">{{'survey-management.edit.hints.sample.de' | translate}}</div>
                         <div ng-messages="surveyForm.sampleDe.$error" multiple>
                             <div ng-message="fdz-required">{{'survey-management.error.survey.sample.i18n-string-not-empty' | translate}}</div>
@@ -155,7 +155,7 @@
                     </md-input-container>
                     <md-input-container flex="50" md-is-error="!surveyForm.sampleEn.$valid && (surveyForm.sampleEn.$dirty || surveyForm.sampleEn.$touched)">
                         <label class="fdz-input-required">{{'survey-management.detail.label.sample' | translate}} ({{'global.in-english' | translate}})</label>
-                        <textarea rows="4" md-maxlength="2048" fdz-required="!ctrl.survey.sample.de" ng-model="ctrl.survey.sample.en" name="sampleEn" lang="en" md-no-asterisk></textarea>
+                        <input md-maxlength="2048" fdz-required="!ctrl.survey.sample.de" ng-model="ctrl.survey.sample.en" name="sampleEn" lang="en" md-no-asterisk>
                         <div ng-if="!surveyForm.sampleEn.$dirty && !surveyForm.sampleEn.$touched" class="fdz-input-hint">{{'survey-management.edit.hints.sample.en' | translate}}</div>
                         <div ng-messages="surveyForm.sampleEn.$error" multiple>
                             <div ng-message="fdz-required">{{'survey-management.error.survey.sample.i18n-string-not-empty' | translate}}</div>
