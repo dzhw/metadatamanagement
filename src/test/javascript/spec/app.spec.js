@@ -128,7 +128,7 @@ describe('Specification for app ', function() {
       });
     });
   });
-  describe('back function', function() {
+  xdescribe('back function', function() {
     it('should call back function', function() {
       spyOn($scope, 'back').and.callThrough();
       spyOn($state, 'go').and.callThrough();
