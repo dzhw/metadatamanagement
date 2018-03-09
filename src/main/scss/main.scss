@@ -537,7 +537,8 @@ md-dialog h2 {
     white-space: nowrap;
 }
 
-.fdz-table-wide tbody > tr:hover, .fdz-selected-table-row {
+.fdz-selected-table-row,
+.fdz-table-wide tbody > tr:hover {
     background-color: rgba(158, 158, 158, 0.2);
 }
 
@@ -634,7 +635,7 @@ tr:focus {
 }
 
 .fdz-table-rotated tbody tr:first-child {
-  border-left: 1px solid #ddd;
+    border-left: 1px solid #ddd;
 }
 
 .hljs {
@@ -892,13 +893,13 @@ md-sidenav#SideNavBar {
 }
 
 .fdz-input-required:after {
-  content: ' *';
-  font-size: 13px;
-  vertical-align: top;
+    content: ' *';
+    font-size: 13px;
+    vertical-align: top;
 }
 
 .md-input-focused .fdz-input-required:after {
-  color: $brand-danger;
+    color: $brand-danger;
 }
 
 .fdz-current-version {
@@ -907,8 +908,8 @@ md-sidenav#SideNavBar {
 }
 
 .fdz-current-version:hover {
-  background-color: $brand-success !important;
-  opacity: 0.5;
+    background-color: $brand-success !important;
+    opacity: 0.5;
 }
 
 .fdz-deleted-version {
@@ -943,9 +944,13 @@ md-backdrop.md-dialog-backdrop {
 }
 
 .jk-carousel .md-icon-button md-icon {
-      color: rgba(0,0,0,0.54) !important;
+    color: rgba(0,0,0,0.54) !important;
 }
 
 .jk-carousel .radio-buttons-container md-radio-button .md-off {
     border-color: rgba(0,0,0,0.54) !important;
+}
+
+.fdz-multiline-property {
+    white-space: pre-line;
 }

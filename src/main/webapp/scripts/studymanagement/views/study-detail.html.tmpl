@@ -73,7 +73,7 @@
                     </div>
                     <div class="fdz-add-bottom-margin fdz-text-block" ng-if="ctrl.study.annotations">
                         <span style="font-weight: bold;">{{'study-management.detail.label.annotations' | translate }}:</span>
-                        <span display-i18n-string="ctrl.study.annotations" fdz-hyphenate></span>
+                        <span class="fdz-multiline-property" display-i18n-string="ctrl.study.annotations" fdz-hyphenate></span>
                     </div>
                 </md-card-content>
             </md-card>
@@ -247,7 +247,7 @@
             </md-card-header>
             <md-divider></md-divider>
             <md-card-content>
-                <p display-i18n-string="ctrl.study.description" fdz-hyphenate class="fdz-text-block md-dialog-content-body"></p>
+                <p display-i18n-string="ctrl.study.description" fdz-hyphenate class="fdz-text-block fdz-multiline-property"></p>
             </md-card-content>
         </md-card>
     </div>

@@ -24,7 +24,7 @@
                     </div>
                     <div class="fdz-add-bottom-margin fdz-text-block" ng-if="ctrl.dataSet.annotations">
                         <span style="font-weight: bold;">{{'data-set-management.detail.label.annotations' | translate }}:</span>
-                        <span display-i18n-string="ctrl.dataSet.annotations" fdz-hyphenate></span>
+                        <span class="fdz-multiline-property" display-i18n-string="ctrl.dataSet.annotations" fdz-hyphenate></span>
                     </div>
                 </md-card-content>
             </md-card>
@@ -252,12 +252,12 @@
             <table fdz-table>
                 <thead>
                     <tr>
-                        <th>{{'data-set-management.detail.attachments.title' | translate }}
+                        <th class="fdz-table-half-absorbing-column">{{'data-set-management.detail.label.attachments.title' | translate }}
                             <md-tooltip hide-gt-xs md-direction="right">
-                                {{'data-set-management.detail.attachments.title' | translate }}
+                                {{'data-set-management.detail.label.attachments.title' | translate }}
                             </md-tooltip>
                         </th>
-                        <th class="fdz-table-absorbing-column">{{'data-set-management.detail.label.attachments.description' | translate }}
+                        <th class="fdz-table-half-absorbing-column">{{'data-set-management.detail.label.attachments.description' | translate }}
                             <md-tooltip hide-gt-xs md-direction="right">
                                 {{'data-set-management.detail.label.attachments.description' | translate }}
                             </md-tooltip>

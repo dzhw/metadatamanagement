@@ -171,7 +171,7 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'Der Code eines Missings darf nicht leer sein!'
             },
             'label': {
-              'i18n-string-size': 'Die Maximallänge des Labels eines Missings ist 128 Zeichen.'
+              'i18n-string-size': 'Die Maximallänge des Labels eines Missings ist 512 Zeichen.'
             },
             'absolute-frequency': {
               'not-null': 'Die absolute Häufigkeit eines Missings darf nicht leer sein.'
@@ -227,9 +227,9 @@ angular.module('metadatamanagementApp').config(
             'related-question-instrument-number-not-empty': 'Ein Instrument hat keine Nummer',
             'valid-panel-identifier': 'Die Panel-Kennung der Variable entspricht nicht dem Muster: DataAcquisitionProjectId + "-" + "ds" + "dataSetNumber" + "-" + string',
             'valid-derived-variables-identifier': 'Die Kennung der abgeleiteten Variablen entspricht nicht dem Muster: DataAcquisitionProjectId + "-" + "ds" + "dataSetNumber" + "-" + string',
-            'panel-identifier-size': 'Die Maximallänge der Panel-Kennung der Variable ist 128 Zeichen.',
+            'panel-identifier-size': 'Die Maximallänge der Panel-Kennung der Variable ist 512 Zeichen.',
             'panel-identifier-pattern': 'Für die Panel-Kennung der Variable dürfen nur alphanumerische Zeichen, deutsche Umlaute, ß und das Minus verwendet werden.',
-            'derived-variables-identifier-size': 'Die Maximallänge der Kennung der abgeleiteten Variablen ist 128 Zeichen.',
+            'derived-variables-identifier-size': 'Die Maximallänge der Kennung der abgeleiteten Variablen ist 512 Zeichen.',
             'derived-variables-identifier-pattern': 'Für die Kennung der abgeleiteten Variablen dürfen nur alphanumerische Zeichen, deutsche Umlaute, ß und das Minus verwendet werden.',
             'only-ordinal-scale-level-for-date-data-type': 'Das Skalenniveau einer Datumsvariable muss ordinal sein.',
             'valid-response-value-must-be-a-number-on-numeric-data-type': 'Wenn der Datentyp einer Variable numerisch ist, müssen die Werte von gültigen Antworten numerisch sein.',
@@ -246,7 +246,7 @@ angular.module('metadatamanagementApp').config(
             'statistics-third-quartile-must-be-an-iso-date-on-date-data-type': 'Wenn der Datentyp einer Variable ein Datum ist, muss das dritte Quartile von den Statistiken dem Format yyyy-MM-dd entsprechen.',
             'id': {
               'not-empty': 'Die FDZ - ID der Variable darf nicht leer sein!',
-              'size': 'Die Maximallänge der FDZ - ID ist 128 Zeichen.',
+              'size': 'Die Maximallänge der FDZ - ID ist 512 Zeichen.',
               'pattern': 'Es dürfen für die FDZ - ID nur alphanumerische Zeichen, deutsche Umlaute, ß, Minus, Ausrufezeichen und der Unterstrich verwendet werden.'
             },
             'data-type': {
@@ -268,7 +268,7 @@ angular.module('metadatamanagementApp').config(
             },
             'label': {
               'not-null': 'Das Label der Variable darf nicht leer sein!',
-              'i18n-string-size': 'Die die Maximallänge für die Label ist 128 Zeichen.',
+              'i18n-string-size': 'Die die Maximallänge für die Label ist 512 Zeichen.',
               'i18n-string-not-empty': 'Mindestens ein deutsches oder ein englisches Label muss angegeben werden!'
             },
             'annotations': {

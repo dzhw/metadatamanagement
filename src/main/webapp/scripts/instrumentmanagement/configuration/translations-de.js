@@ -68,7 +68,7 @@ angular.module('metadatamanagementApp').config(
           'instrument': {
             'id': {
               'not-empty': 'Die FDZ-ID des Instruments darf nicht leer sein!',
-              'size': 'Die Maximallänge der FDZ-ID ist 128 Zeichen.',
+              'size': 'Die Maximallänge der FDZ-ID ist 512 Zeichen.',
               'pattern': 'Es dürfen nur alphanumerische Zeichen, deutsche Umlaute, ß, Leerzeichen, Ausrufezeichen und Minus für die FDZ-ID verwendet werden.'
             },
             'title': {
@@ -81,7 +81,7 @@ angular.module('metadatamanagementApp').config(
             },
             'description': {
               'not-null': 'Die Beschreibung des Instruments darf nicht leer sein!',
-              'i18n-string-size': 'Die Beschreibung muss in beiden Sprachen angegeben werden und darf nicht länger als 128 Zeichen sein.',
+              'i18n-string-size': 'Die Beschreibung muss in beiden Sprachen angegeben werden und darf nicht länger als 512 Zeichen sein.',
               'i18n-string-not-empty': 'Die Beschreibung darf nicht leer sein.'
             },
             'annotations': {
@@ -121,7 +121,7 @@ angular.module('metadatamanagementApp').config(
             },
             'description': {
               'not-null': 'Die Beschreibung des Attachments darf nicht leer sein.',
-              'i18n-string-size': 'Die Beschreibung muss in mindestens einer Sprache angegeben werden und darf nicht länger als 128 Zeichen sein.',
+              'i18n-string-size': 'Die Beschreibung muss in mindestens einer Sprache angegeben werden und darf nicht länger als 512 Zeichen sein.',
               'i18n-string-not-empty': 'Die Beschreibung darf nicht leer sein.'
             },
             'language': {

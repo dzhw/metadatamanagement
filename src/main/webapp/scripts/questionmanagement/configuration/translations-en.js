@@ -91,7 +91,7 @@ angular.module('metadatamanagementApp').config(
             'unique-question-number': 'The number of a question has to be unique within a instrument.',
             'id': {
               'not-empty': 'The RDC-ID of an Atomic Question must not be empty!',
-              'size': 'The max length of the RDC-ID is 128 signs.',
+              'size': 'The max length of the RDC-ID is 512 signs.',
               'pattern': 'Use only alphanumeric signs, german umlauts, ß, space, underscore, exclamation sign and minus for the RDC-ID.'
             },
             'number': {

@@ -69,7 +69,7 @@ angular.module('metadatamanagementApp').config(
             'valid-related-publication-id': 'Die Id einer Publikation muss dem Muster "pub-" + {IdAusCitavi} + "$".',
             'id': {
               'not-empty': 'Die FDZ-ID der Publikation darf nicht leer sein!',
-              'size': 'Die Maximallänge der FDZ-ID ist 128 Zeichen.',
+              'size': 'Die Maximallänge der FDZ-ID ist 512 Zeichen.',
               'pattern': 'Die FDZ-ID darf keine Leerzeichen enthalten.'
             },
             'source-reference': {
@@ -80,7 +80,7 @@ angular.module('metadatamanagementApp').config(
               'size': 'Die Maximallänge des Abstrakts der Publikation ist 1048576 Zeichen.'
             },
             'doi': {
-              'size': 'Die Maximallänge der DOI der Publikation ist 128 Zeichen.'
+              'size': 'Die Maximallänge der DOI der Publikation ist 512 Zeichen.'
             },
             'source-link': {
               'pattern': 'Der Link der Quelle der Publikation ist keine gültige URL'
