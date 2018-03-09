@@ -161,7 +161,7 @@ angular.module('metadatamanagementApp').config(
             'institution': {
               'not-null': 'Die Institution einer Studie darf nicht leer sein!',
               'i18n-string-size': 'Die Maximallänge der Institution einer Studie ist 512 Zeichen.',
-              'i18n-string-not-empty': 'Die Institution einer Studie muss in mindestens einer Sprache vorhanden sein.'
+              'i18n-string-entire-not-empty': 'Die Institution einer Studie muss in beiden Sprachen vorhanden sein.'
             },
             'sponsor': {
               'not-null': 'Der Sponsor einer Studie darf nicht leer sein!',

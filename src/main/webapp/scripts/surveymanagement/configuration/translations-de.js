@@ -158,7 +158,7 @@ angular.module('metadatamanagementApp').config(
             },
             'survey-method': {
               'not-null': 'Die Erhebungsmethode darf nicht leer sein!',
-              'i18n-string-not-empty': 'Die Erhebungsmethode muss mindestens in einer Sprache vorliegen.',
+              'i18n-string-entire-not-empty': 'Die Erhebungsmethode muss in beiden Sprachen vorliegen.',
               'i18n-string-size': 'Die Maximallänge der Erhebungsmethode ist 512 Zeichen.'
             },
             'sample-size': {

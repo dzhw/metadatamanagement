@@ -157,9 +157,9 @@ angular.module('metadatamanagementApp').config(
               'invalid-number': 'Please enter a valid number.'
             },
             'survey-method': {
-              'not-null': 'The Survey-Method must not be empty!',
-              'i18n-string-not-empty': 'The Survey-Method has to be given for one language.',
-              'i18n-string-size': 'The max length of the Survey-Method is 512 signs.'
+              'not-null': 'The survey method must not be empty!',
+              'i18n-string-entire-not-empty': 'The survey method must not be empty for both languages.',
+              'i18n-string-size': 'The max length of the survey method is 512 signs.'
             },
             'sample-size': {
               'min': 'The sample size must not be less than 0.',

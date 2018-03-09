@@ -174,12 +174,12 @@ angular.module('metadatamanagementApp').config(
             'no-valid-selected': 'Kein gültiger Zugangsweg ausgewählt!'
           },
           'study-series-filter': {
-            'not-found': 'Keine vorhandene Studienreihen gefunden!',
+            'not-found': 'Keine vorhandene Studienreihe gefunden!',
             'no-valid-selected': 'Keine gültige Studienreihe ausgewählt!'
           },
           'sponsor-filter': {
-            'not-found': 'Kein vorhandener Förderer gefunden!',
-            'no-valid-selected': 'Kein gültiger Förderer ausgewählt!'
+            'not-found': 'Kein vorhandener Sponsor gefunden!',
+            'no-valid-selected': 'Kein gültiger Sponsor ausgewählt!'
           },
           'institution-filter': {
             'not-found': 'Kein vorhandenes Institut gefunden!',

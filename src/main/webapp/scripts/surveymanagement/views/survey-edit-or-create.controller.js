@@ -56,6 +56,7 @@ angular.module('metadatamanagementApp')
               entity.$promise.then(function(survey) {
                 ctrl.createMode = false;
                 ctrl.survey = survey;
+                ctrl.currentSurveyMethod = survey.surveyMethod;
                 $scope.responseRateInitializing = true;
                 ctrl.loadAttachments();
                 updateToolbarHeaderAndPageTitle();

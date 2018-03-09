@@ -301,7 +301,8 @@ module.exports = function(grunt) {
               'fdz-required',
               'read-element-size',
               'layout-gt-xs',
-              'layout'
+              'layout',
+              'md-highlight-flags'
             ]
           },
           files: {

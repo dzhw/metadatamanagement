@@ -49,6 +49,9 @@ angular.module('metadatamanagementApp')
               entity.$promise.then(function(study) {
                 ctrl.createMode = false;
                 ctrl.study = study;
+                ctrl.currentStudySeries = study.studySeries;
+                ctrl.currentInstitution = study.institution;
+                ctrl.currentSponsor = study.sponsor;
                 ctrl.isInitializingStudySeries = true;
                 ctrl.loadAttachments();
                 updateToolbarHeaderAndPageTitle();
@@ -63,6 +66,9 @@ angular.module('metadatamanagementApp')
                 }).$promise.then(function(study) {
                   ctrl.createMode = false;
                   ctrl.study = study;
+                  ctrl.currentStudySeries = study.studySeries;
+                  ctrl.currentInstitution = study.institution;
+                  ctrl.currentSponsor = study.sponsor;
                   ctrl.isInitializingStudySeries = true;
                   ctrl.loadAttachments();
                   updateToolbarHeaderAndPageTitle();
