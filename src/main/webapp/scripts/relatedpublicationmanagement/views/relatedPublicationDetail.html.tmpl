@@ -19,26 +19,22 @@
                         <span>{{ctrl.relatedPublication.authors}}</span>
                     </div>
                     <div class="fdz-add-bottom-margin" ng-if="ctrl.relatedPublication.year">
-                        <span style="font-weight: bold;">{{'related-publication-management.detail.label.year' | translate }}:
-              </span>
+                        <span style="font-weight: bold;">{{'related-publication-management.detail.label.year' | translate }}:</span>
                         <span>{{ctrl.relatedPublication.year}}</span>
                     </div>
                     <div class="fdz-add-bottom-margin" ng-if="ctrl.relatedPublication.sourceReference">
-                        <span style="font-weight: bold;">{{'related-publication-management.detail.label.source-reference' | translate }}:
-              </span>
-                        <span lang="{{ctrl.relatedPublication.language}}">{{ctrl.relatedPublication.sourceReference}}</span>
+                        <span style="font-weight: bold;">{{'related-publication-management.detail.label.source-reference' | translate }}:</span>
+                        <span lang="{{ctrl.relatedPublication.language}}" class="fdz-multiline-property">{{ctrl.relatedPublication.sourceReference}}</span>
                     </div>
                     <div class="fdz-add-bottom-margin" ng-if="ctrl.relatedPublication.doi">
-                        <span style="font-weight: bold;">{{'related-publication-management.detail.label.doi' | translate }}:
-              </span>
+                        <span style="font-weight: bold;">{{'related-publication-management.detail.label.doi' | translate }}:</span>
                         <a ng-href="https://dx.doi.org/{{ctrl.relatedPublication.doi}}" target="_blank">{{ctrl.relatedPublication.doi}}<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                             {{'related-publication-management.detail.doi-tooltip' | translate}}
                         </md-tooltip>
                         </a>
                     </div>
                     <div class="fdz-add-bottom-margin" ng-if="ctrl.relatedPublication.sourceLink" layout="row">
-                        <span style="font-weight: bold;">{{'related-publication-management.detail.label.sourceLink' | translate }}:&nbsp;
-              </span>
+                        <span style="font-weight: bold;">{{'related-publication-management.detail.label.sourceLink' | translate }}:&nbsp;</span>
                         <a class="fdz-truncate-string" target="_blank" style="display: block;" ng-href="{{ctrl.relatedPublication.sourceLink}}">{{ctrl.relatedPublication.sourceLink}}<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                             {{'related-publication-management.detail.sourceLink-tooltip' | translate}}
                         </md-tooltip></a>
@@ -224,12 +220,11 @@
             <md-divider></md-divider>
             <md-card-content>
                 <div class="fdz-add-bottom-margin fdz-text-block">
-                    <span lang="{{ctrl.relatedPublication.language}}" fdz-hyphenate>{{ctrl.relatedPublication.publicationAbstract}}</span>
+                    <span lang="{{ctrl.relatedPublication.language}}" fdz-hyphenate class="fdz-multiline-property">{{ctrl.relatedPublication.publicationAbstract}}</span>
                 </div>
                 <div class="fdz-add-bottom-margin" ng-if="ctrl.relatedPublication.abstractSource">
-                    <span style="font-weight: bold;">{{'related-publication-management.detail.label.abstract-source' | translate }}:
-                 </span>
-                    <span display-i18n-string="ctrl.relatedPublication.abstractSource"></span>
+                    <span style="font-weight: bold;">{{'related-publication-management.detail.label.abstract-source' | translate }}:</span>
+                    <span display-i18n-string="ctrl.relatedPublication.abstractSource" class="fdz-multiline-property"></span>
                 </div>
             </md-card-content>
         </md-card>

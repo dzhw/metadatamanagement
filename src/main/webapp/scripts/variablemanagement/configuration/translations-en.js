@@ -171,7 +171,7 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'The code of a missing must be not empty!'
             },
             'label': {
-              'i18n-string-size': 'The max length of the label of a missing is 128 signs.'
+              'i18n-string-size': 'The max length of the label of a missing is 512 signs.'
             },
             'absolute-frequency': {
               'not-null': 'The absolute frequency of a missing must not be empty!'
@@ -227,9 +227,9 @@ angular.module('metadatamanagementApp').config(
             'related-question-instrument-number-not-empty': 'An Instrument doesn\'t have a Number!',
             'valid-panel-identifier': 'The Panel Identifier of the Variable is not valid for the Pattern: DataAcquisitionProjectId + "-" + "ds" + "dataSetNumber" + "-" + string.',
             'valid-derived-variables-identifier': 'The Identifier of the derived Variable is not valid for the Pattern: DataAcquisitionProjectId + "-" + "ds" + "dataSetNumber" + "-" + string.',
-            'panel-identifier-size': 'The max length of Panel Identifier of the Variable is 128 signs.',
+            'panel-identifier-size': 'The max length of Panel Identifier of the Variable is 512 signs.',
             'panel-identifier-pattern': 'Use only alphanumeric signs, german umlauts, ß and minus for the Panel Identifier of the Variable.',
-            'derived-variables-identifier-size': 'The max length of derived Variables Identifier of the Variable is 128 signs.',
+            'derived-variables-identifier-size': 'The max length of derived Variables Identifier of the Variable is 512 signs.',
             'derived-variables-identifier-pattern': 'Use only alphanumeric signs, german umlauts, ß and minus for the derived Variables Identifier of the Variable.',
             'only-ordinal-scale-level-for-date-data-type': 'The scale level of a date variable must be ordinal.',
             'valid-response-value-must-be-a-number-on-numeric-data-type': 'If the variable has a numeric data type, the values of valid responses have to be numeric!',
@@ -246,7 +246,7 @@ angular.module('metadatamanagementApp').config(
             'statistics-third-quartile-must-be-an-iso-date-on-date-data-type': 'If the variable has a date data type, the third quartile of statistics have to be matchable by the pattern yyyy-MM-dd.',
             'id': {
               'not-empty': 'The RDC-ID of the Variable must not be empty!',
-              'size': 'The max length of the RDC-ID is 128 signs.',
+              'size': 'The max length of the RDC-ID is 512 signs.',
               'pattern': 'Use only alphanumeric signs, german umlauts, ß and space, underscore, exclamation sign and minus for the RDC-ID.'
             },
             'data-type': {
@@ -268,7 +268,7 @@ angular.module('metadatamanagementApp').config(
             },
             'label': {
               'not-null': 'The label of the Variable must not be empty!',
-              'i18n-string-size': 'The max length of the label is 128 signs.',
+              'i18n-string-size': 'The max length of the label is 512 signs.',
               'i18n-string-not-empty': 'At least an english or a german label must be given!'
             },
             'annotations': {

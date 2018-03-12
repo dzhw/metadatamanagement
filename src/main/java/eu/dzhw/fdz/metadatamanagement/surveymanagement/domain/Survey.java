@@ -72,8 +72,8 @@ public class Survey extends AbstractRdcDomainObject {
   private Population population;
 
   @NotNull(message = "survey-management.error.survey.survey-method.not-null")
-  @I18nStringNotEmpty(
-      message = "survey-management.error.survey.survey-method.i18n-string-not-empty")
+  @I18nStringEntireNotEmpty(
+      message = "survey-management.error.survey.survey-method.i18n-string-entire-not-empty")
   @I18nStringSize(max = StringLengths.MEDIUM,
       message = "survey-management.error.survey.survey-method.i18n-string-size")
   private I18nString surveyMethod;

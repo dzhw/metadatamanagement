@@ -68,7 +68,7 @@ angular.module('metadatamanagementApp').config(
           'instrument': {
             'id': {
               'not-empty': 'The RDC-ID of the Instrument must not be empty!',
-              'size': 'The max length of the RDC-ID is 128 signs.',
+              'size': 'The max length of the RDC-ID is 512 signs.',
               'pattern': 'Use only alphanumeric signs, german umlauts, ß and space, underscore, exclamation sign and minus for the RDC-ID.'
             },
             'title': {
@@ -81,7 +81,7 @@ angular.module('metadatamanagementApp').config(
             },
             'description': {
               'not-null': 'The description of the Instrument must not be empty!',
-              'i18n-string-size': 'The description is mandatory in both languages and must not contain more than 128 characters.',
+              'i18n-string-size': 'The description is mandatory in both languages and must not contain more than 512 characters.',
               'i18n-string-not-empty': 'The description must not be empty!'
             },
             'annotations': {
@@ -121,7 +121,7 @@ angular.module('metadatamanagementApp').config(
             },
             'description': {
               'not-null': 'The description of the attachment must not be empty!',
-              'i18n-string-size': 'The description is mandatory and must in at least one language and must not contain more than 128 characters.',
+              'i18n-string-size': 'The description is mandatory and must in at least one language and must not contain more than 512 characters.',
               'i18n-string-not-empty': 'The description must not be empty!'
             },
             'language': {

@@ -9,8 +9,9 @@ angular.module('metadatamanagementApp')
       ElasticSearchAdminService, $mdDialog, $transitions, StudyResource,
       CommonDialogsService, LanguageService, AvailableSurveyNumbersResource,
       SurveyAttachmentResource, $q, StudyIdBuilderService, moment,
-      SurveyResponseRateImageUploadService) {
+      SurveyResponseRateImageUploadService, SurveySearchService) {
       var ctrl = this;
+      var surveyMethodCache = {};
       var updateToolbarHeaderAndPageTitle = function() {
         if (ctrl.createMode) {
           PageTitleService.setPageTitle(
@@ -55,6 +56,7 @@ angular.module('metadatamanagementApp')
               entity.$promise.then(function(survey) {
                 ctrl.createMode = false;
                 ctrl.survey = survey;
+                ctrl.currentSurveyMethod = survey.surveyMethod;
                 $scope.responseRateInitializing = true;
                 ctrl.loadAttachments();
                 updateToolbarHeaderAndPageTitle();
@@ -426,9 +428,26 @@ angular.module('metadatamanagementApp')
         }
       };
 
+      ctrl.searchSurveyMethods = function(searchText, language) {
+        if (searchText === surveyMethodCache.searchText &&
+          language === surveyMethodCache.language) {
+          return surveyMethodCache.searchResult;
+        }
+
+        //Search Call to Elasticsearch
+        return SurveySearchService.findSurveyMethods(searchText, {},
+            language)
+          .then(function(surveyMethods) {
+            surveyMethodCache.searchText = searchText;
+            surveyMethodCache.language = language;
+            surveyMethodCache.searchResult = surveyMethods;
+            return surveyMethods;
+          });
+      };
+
       $scope.$watchGroup(['ctrl.survey.sampleSize',
         'ctrl.survey.grossSampleSize'], function() {
-            if (!$scope.responseRateInitializing) {
+            if (!$scope.responseRateInitializing && ctrl.survey) {
               if (ctrl.survey.sampleSize != null &&
                 ctrl.survey.grossSampleSize) {
                 ctrl.survey.responseRate = Number((

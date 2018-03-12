@@ -7,17 +7,15 @@
 			"analyzer": "ngrams",
 			"norms": false
 		},
-		"dynamic_templates": [
-			{
-				"default_mapping": {
-					"match": "*",
-					"mapping": {
-						"index": "no",
-						"include_in_all": true
-					}
+		"dynamic_templates": [{
+			"default_mapping": {
+				"match": "*",
+				"mapping": {
+					"index": "no",
+					"include_in_all": true
 				}
 			}
-		],
+		}],
 		"properties": {
 			"id": {
 				"type": "keyword",
@@ -43,9 +41,10 @@
 				"type": "object",
 				"properties": {
 					"de": {
-						"type": "text",
-						"index": "no",
+						"type": "keyword",
+						"index": "not_analyzed",
 						"include_in_all": true,
+						"norms": false,
 						"fields": {
 							"ngrams": {
 								"type": "text",
@@ -56,9 +55,10 @@
 						}
 					},
 					"en": {
-						"type": "text",
-						"index": "no",
+						"type": "keyword",
+						"index": "not_analyzed",
 						"include_in_all": true,
+						"norms": false,
 						"fields": {
 							"ngrams": {
 								"type": "text",
@@ -234,38 +234,38 @@
 				"type": "object",
 				"properties": {
 					"studySeries": {
-               			"type": "object",
-                		"properties": {
-                    		"de": {
-                        		"type": "keyword",
-                        		"index": "not_analyzed",
-                        		"include_in_all": true,
-                        		"norms": false,
-                        		"fields": {
-		                            "ngrams": {
-                                		"type": "text",
-                                		"index": "analyzed",
-                                		"analyzer": "ngrams",
- 		                            	"norms": false
-                            		}
-                        		}
-                    		},
-                    		"en": {
-                        		"type": "keyword",
-                        		"index": "not_analyzed",
-                        		"include_in_all": true,
-                        		"norms": false,
-                        		"fields": {
-                            		"ngrams": {
-                                		"type": "text",
-                                		"index": "analyzed",
-                                		"analyzer": "ngrams",
-                                		"norms": false
-                            		}
-                        		}
-                    		}
-                		}
-            		}
+						"type": "object",
+						"properties": {
+							"de": {
+								"type": "keyword",
+								"index": "not_analyzed",
+								"include_in_all": true,
+								"norms": false,
+								"fields": {
+									"ngrams": {
+										"type": "text",
+										"index": "analyzed",
+										"analyzer": "ngrams",
+										"norms": false
+									}
+								}
+							},
+							"en": {
+								"type": "keyword",
+								"index": "not_analyzed",
+								"include_in_all": true,
+								"norms": false,
+								"fields": {
+									"ngrams": {
+										"type": "text",
+										"index": "analyzed",
+										"analyzer": "ngrams",
+										"norms": false
+									}
+								}
+							}
+						}
+					}
 				}
 			},
 			"relatedPublications": {

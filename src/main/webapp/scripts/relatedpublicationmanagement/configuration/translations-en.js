@@ -69,7 +69,7 @@ angular.module('metadatamanagementApp').config(
             'valid-related-publication-id': 'The Id of Publication have to be build up after the pattern: "pub-" + {IdFromCitavi} + "$".',
             'id': {
               'not-empty': 'The RDC-ID of the Publication must not be empty!',
-              'size': 'The max length of the RDC-ID is 128 signs.',
+              'size': 'The max length of the RDC-ID is 512 signs.',
               'pattern': 'The RDC-ID must not contain any whitespaces.'
             },
             'source-reference': {
@@ -80,7 +80,7 @@ angular.module('metadatamanagementApp').config(
               'size': 'The max length of the publication abstract of the Publication is 1048576 signs.'
             },
             'doi': {
-              'size': 'The max length of the DOI of the Publication is 128 signs.'
+              'size': 'The max length of the DOI of the Publication is 512 signs.'
             },
             'source-link': {
               'pattern': 'The source link of the Publication is not a valid URL.'

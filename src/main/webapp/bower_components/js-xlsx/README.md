@@ -257,10 +257,14 @@ To use the shim, add the shim before the script tag that loads `xlsx.js`:
 
 ```html
 <!-- add the shim first -->
-<script type="text/javascript" src="shim.js"></script>
+<script type="text/javascript" src="shim.min.js"></script>
 <!-- after the shim is referenced, add the library -->
 <script type="text/javascript" src="xlsx.full.min.js"></script>
 ```
+
+The script also includes `IE_LoadFile` and `IE_SaveFile` for loading and saving
+files in Internet Explorer versions 6-9.  The `xlsx.extendscript.js` script
+bundles the shim in a format suitable for Photoshop and other Adobe products.
 
 ## Philosophy
 
@@ -1716,7 +1720,7 @@ expected number of rows or columns.  Extracting the range is extremely simple:
 
 ```js
 var range = XLSX.utils.decode_range(worksheet['!ref']);
-var ncols = range.e.c - range.r.c + 1, nrows = range.e.r - range.s.r + 1;
+var ncols = range.e.c - range.s.c + 1, nrows = range.e.r - range.s.r + 1;
 ```
 
 </details>
@@ -2050,7 +2054,7 @@ For the example sheet:
 
 ```js
 > var o = XLSX.utils.sheet_to_formulae(ws);
-> o.filter(function(v, i) { return i % 5 === 0; });
+> [o[0], o[5], o[10], o[15], o[20]];
 [ 'A1=\'S', 'F1=\'J', 'D2=4', 'B3=3', 'G3=8' ]
 ```
 </details>
