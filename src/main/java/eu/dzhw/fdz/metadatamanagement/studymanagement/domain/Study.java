@@ -95,7 +95,7 @@ public class Study extends AbstractRdcDomainObject {
   @I18nStringSize(max = StringLengths.MEDIUM,
       message = "study-management.error.study.sponsor.i18n-string-size")
   @I18nStringEntireNotEmpty(
-      message = "study-management.error.sponsor.institution.i18n-string-entire-not-empty")
+      message = "study-management.error.study.sponsor.i18n-string-entire-not-empty")
   private I18nString sponsor;
 
   @Valid
