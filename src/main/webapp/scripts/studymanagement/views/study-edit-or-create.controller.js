@@ -84,9 +84,7 @@ angular.module('metadatamanagementApp')
                     authors: [{
                       firstName: '',
                       lastName: ''
-                    }],
-                    doi: StudyIdBuilderService.buildDoi(
-                      CurrentProjectService.getCurrentProject().id)
+                    }]
                   });
                   updateToolbarHeaderAndPageTitle();
                   $scope.registerConfirmOnDirtyHook();

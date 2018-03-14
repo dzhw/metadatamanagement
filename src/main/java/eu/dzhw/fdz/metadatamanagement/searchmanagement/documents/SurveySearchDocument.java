@@ -62,10 +62,11 @@ public class SurveySearchDocument extends Survey implements SearchDocumentInterf
       List<RelatedPublicationSubDocumentProjection> relatedPublications,
       List<InstrumentSubDocumentProjection> instruments,
       List<QuestionSubDocumentProjection> questions,
-      Release release) {
+      Release release,
+      String doi) {
     super(survey);
     if (study != null) {
-      this.study = new StudySubDocument(study);      
+      this.study = new StudySubDocument(study, doi);      
     }
     if (dataSets != null) {
       this.dataSets = dataSets.stream()

@@ -94,8 +94,4 @@ public abstract class GenericDomainObjectVersionsService<T extends AbstractRdcDo
       return domainObjectVersion;
     }).collect(Collectors.toList());
   }
-
-  protected S getRepository() {
-    return repository;
-  }
 }

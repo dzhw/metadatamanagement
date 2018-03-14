@@ -41,8 +41,7 @@ angular.module('metadatamanagementApp').service('StudyBuilderService',
           de: studyFromExcel['annotations.de']
         },
         authors: authors,
-        dataAcquisitionProjectId: dataAcquisitionProjectId,
-        doi: StudyIdBuilderService.buildDoi(dataAcquisitionProjectId)
+        dataAcquisitionProjectId: dataAcquisitionProjectId
       };
       var cleanedStudyObject = CleanJSObjectService
         .removeEmptyJsonObjects(study);

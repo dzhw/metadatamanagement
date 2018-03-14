@@ -25,13 +25,14 @@ import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionProjectVersionsService;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
-public class DataAcquisitionProjectVersionsResourceTest extends AbstractTest {
+public class DataAcquisitionProjectLastReleaseResourceTest extends AbstractTest {
   private static final String API_DATA_ACQUISITION_PROJECTS_URI = "/api/data-acquisition-projects";
   
   @Autowired
@@ -133,8 +134,8 @@ public class DataAcquisitionProjectVersionsResourceTest extends AbstractTest {
           .andExpect(status().isCreated());
     
     //Assert that the last version is null
-    String lastVersion = this.versionsService.findLastReleaseVersion(project.getId());        
-    assertNull(lastVersion);
+    Release lastRelease = this.versionsService.findLastRelease(project.getId());        
+    assertNull(lastRelease);
         
     //Save second time with release (simulates first release)
     project.setHasBeenReleasedBefore(true);
@@ -145,8 +146,8 @@ public class DataAcquisitionProjectVersionsResourceTest extends AbstractTest {
     .andExpect(status().isNoContent());
     
     //Assert that the last version is 1.0.0
-    lastVersion = this.versionsService.findLastReleaseVersion(project.getId());
-    assertThat(lastVersion, is("1.0.0"));
+    lastRelease = this.versionsService.findLastRelease(project.getId());
+    assertThat(lastRelease.getVersion(), is("1.0.0"));
     
     //Save third time without release (simulates unrelease)
     project.setRelease(null);
@@ -156,8 +157,8 @@ public class DataAcquisitionProjectVersionsResourceTest extends AbstractTest {
     .andExpect(status().isNoContent());
     
     //Assert that the last version is still 1.0.0
-    lastVersion = this.versionsService.findLastReleaseVersion(project.getId());    
-    assertThat(lastVersion, is("1.0.0"));
+    lastRelease = this.versionsService.findLastRelease(project.getId());    
+    assertThat(lastRelease.getVersion(), is("1.0.0"));
     
     //Save fourth time with new release and a higher version
     project.setRelease(UnitTestCreateDomainObjectUtils.buildRelease());
@@ -168,7 +169,7 @@ public class DataAcquisitionProjectVersionsResourceTest extends AbstractTest {
         .andExpect(status().isNoContent());;
     
     //Assert that the last version is 1.0.1
-    lastVersion = this.versionsService.findLastReleaseVersion(project.getId());    
-    assertThat(lastVersion, is("1.0.1"));
+    lastRelease = this.versionsService.findLastRelease(project.getId());    
+    assertThat(lastRelease.getVersion(), is("1.0.1"));
   }
 }

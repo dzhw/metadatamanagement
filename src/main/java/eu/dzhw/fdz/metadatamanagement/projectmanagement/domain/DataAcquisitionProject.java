@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation.SetHasBeenReleasedBeforeOnlyOnce;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation.ValidSemanticVersion;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,6 +31,8 @@ import lombok.ToString;
 @SetHasBeenReleasedBeforeOnlyOnce(message = "data-acquisition-project."
     + "error.data-acquisition-project."
     + "has-been-released-before.set-has-been-released-before-only-once")
+@ValidSemanticVersion(
+    message = "data-acquisition-project.error.release.version.not-parsable-or-not-incremented")
 @Data
 @EqualsAndHashCode(callSuper = false, of = "id")
 @ToString(callSuper = true)

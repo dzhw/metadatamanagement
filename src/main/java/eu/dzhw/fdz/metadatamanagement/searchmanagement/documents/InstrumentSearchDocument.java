@@ -60,10 +60,11 @@ public class InstrumentSearchDocument extends Instrument implements SearchDocume
       List<VariableSubDocumentProjection> variables,
       List<DataSetSubDocumentProjection> dataSets,
       List<RelatedPublicationSubDocumentProjection> relatedPublications,
-      Release release) {
+      Release release,
+      String doi) {
     super(instrument);
     if (study != null) {
-      this.study = new StudySubDocument(study);      
+      this.study = new StudySubDocument(study, doi);      
     }
     if (surveys != null) {
       this.surveys = surveys.stream()

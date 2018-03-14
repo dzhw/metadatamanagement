@@ -46,10 +46,10 @@ public class DataAcquisitionProjectVersionsService
   }
   
   /**
-   * Get the last release version of a data acquisition project.
+   * Get the last release of a data acquisition project.
    * @param id the id of the data acquisition project.
    */
-  public String findLastReleaseVersion(String id) {
+  public Release findLastRelease(String id) {
     //Find last changes
     QueryBuilder jqlQuery = QueryBuilder
         .byValueObjectId(id, DataAcquisitionProject.class, "release")
@@ -60,7 +60,7 @@ public class DataAcquisitionProjectVersionsService
     if (shadows.isEmpty()) {
       return null;
     } else {
-      return shadows.get(0).get().getVersion();
+      return shadows.get(0).get();
     }
   }
 }

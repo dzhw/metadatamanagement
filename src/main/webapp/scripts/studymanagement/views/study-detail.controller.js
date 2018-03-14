@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp')
     function(entity, PageTitleService, LanguageService, DataSetSearchService,
       $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
       StudyAttachmentResource, SearchResultNavigatorService, $stateParams,
-      $rootScope, LastReleasedProjectVersionService, CleanJSObjectService) {
+      $rootScope) {
       SearchResultNavigatorService.registerCurrentSearchResult(
           $stateParams['search-result-index']);
       var versionFromUrl = $stateParams.version;
@@ -13,7 +13,6 @@ angular.module('metadatamanagementApp')
       ctrl.searchResultIndex = $stateParams['search-result-index'];
       ctrl.counts = {};
       var bowser = $rootScope.bowser;
-      var actualVersion;
 
       ctrl.loadAttachments = function() {
         StudyAttachmentResource.findByStudyId({
@@ -27,23 +26,10 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.isBetaRelease = function(study) {
-        var actualVersion;
-        //get actual version or load the last version from history
         if (study.release) {
-          actualVersion = study.release.version;
-        } else {
-          actualVersion =
-            LastReleasedProjectVersionService
-              .getLastReleasedVersion(study.dataAcquisitionProjectId);
-          if (CleanJSObjectService.isNullOrEmpty(actualVersion)) {
-            actualVersion = '0.0.0';
-          }
+          return bowser.compareVersions(['1.0.0', study.release.version]) === 1;
         }
-
-        //A check for 0.0.0 string is not necessary!
-        var checkForBetaRelease =
-          bowser.compareVersions(['1.0.0', actualVersion]);
-        return checkForBetaRelease === 1; //1 means 1.0.0 is higher
+        return false;
       };
 
       entity.promise.then(function(result) {
@@ -93,28 +79,16 @@ angular.module('metadatamanagementApp')
             });
           ctrl.loadAttachments();
 
-          //get actual version or load the last version from history
-          if (result.release) {
-            actualVersion = result.release.version;
-          } else {
-            actualVersion =
-              LastReleasedProjectVersionService
-                .getLastReleasedVersion(result.dataAcquisitionProjectId);
-            if (CleanJSObjectService.isNullOrEmpty(actualVersion)) {
-              actualVersion = '0.0.0';
-            }
-          }
-
-          if (actualVersion !== '0.0.0' &&
-            bowser.compareVersions([versionFromUrl, actualVersion]) === -1) {
+          if (result.release &&
+            bowser.compareVersions(
+              [versionFromUrl, result.release.version]) === -1) {
             SimpleMessageToastService.openSimpleMessageToast(
               'study-management.detail.old-version',
               {
                 title: result.title[LanguageService.getCurrentInstantly()],
                 versionFromUrl: versionFromUrl,
-                actualVersion: actualVersion
-              }
-            );
+                actualVersion: result.release.version
+              });
           }
         } else {
           SimpleMessageToastService.openSimpleMessageToast(

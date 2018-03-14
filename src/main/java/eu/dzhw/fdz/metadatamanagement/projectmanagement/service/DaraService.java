@@ -15,7 +15,6 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -30,7 +29,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.google.common.base.Charsets;
 
-import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
@@ -86,7 +84,7 @@ public class DaraService {
   private Resource registerXml;
 
   @Autowired
-  private Environment env;
+  private DoiBuilder doiBuilder;
 
   private RestTemplate restTemplate;
 
@@ -242,11 +240,11 @@ public class DaraService {
 
     //Get Study Information
     Study study = this.studyRepository.findOneByDataAcquisitionProjectId(projectId);
-    if (project.getRelease() != null) {
-      study = this.updateDoi(study, project.getRelease().getVersion());
-    } 
     dataForTemplate.put("study", study);
     
+    String doi = doiBuilder.buildStudyDoi(study, project.getRelease());
+    dataForTemplate.put("doi", doi);
+
     //Get Surveys Information
     List<Survey> surveys = this.surveyRepository
         .findByDataAcquisitionProjectIdOrderByNumber(projectId);
@@ -277,8 +275,6 @@ public class DaraService {
 
     //Add Resource Type
     dataForTemplate.put("resourceType", RESOURCE_TYPE_DATASET);
-
-    dataForTemplate.put("isDaraTest", !env.acceptsProfiles(Constants.SPRING_PROFILE_PROD));
 
     return dataForTemplate;
   }
@@ -318,21 +314,6 @@ public class DaraService {
       stringWriter.flush();
       return stringWriter.toString();
     }
-  }
-  
-  /**
-   * Updated the locally. Important: This method does not a save operation!!
-   * @param study The actual Study Representation
-   * @param newVersion the new version for the doi link
-   * @return the updated study object (just locally!)
-   */
-  public Study updateDoi(Study study, String newVersion) {
-    
-    int lastIndexBeforeDoi = study.getDoi().lastIndexOf(":") + 1;
-    String newDoi = study.getDoi().substring(0, lastIndexBeforeDoi) + newVersion;
-    study.setDoi(newDoi);
-    
-    return study;
   }
 
   /**

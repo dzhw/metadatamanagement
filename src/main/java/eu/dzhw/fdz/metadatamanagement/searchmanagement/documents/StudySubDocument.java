@@ -37,9 +37,15 @@ public class StudySubDocument implements StudySubDocumentProjection {
     super();
   }
   
-  public StudySubDocument(StudySubDocumentProjection projection) {
+  /**
+   * Create a StudySubdocument from a projection and a doi.
+   * @param projection a study projection
+   * @param doi a doi or null
+   */
+  public StudySubDocument(StudySubDocumentProjection projection, String doi) {
     super();
     BeanUtils.copyProperties(projection, this);
+    this.doi = doi;
   }
 
   @Override
@@ -106,7 +112,6 @@ public class StudySubDocument implements StudySubDocumentProjection {
     this.title = title;
   }
 
-  @Override
   public String getDoi() {
     return doi;
   }

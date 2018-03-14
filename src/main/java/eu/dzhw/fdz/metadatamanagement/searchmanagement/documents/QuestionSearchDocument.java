@@ -56,10 +56,11 @@ public class QuestionSearchDocument extends Question implements SearchDocumentIn
       List<SurveySubDocumentProjection> surveys, List<VariableSubDocumentProjection> variables,
       List<DataSetSubDocumentProjection> dataSets,
       List<RelatedPublicationSubDocumentProjection> relatedPublications,
-      Release release) {
+      Release release,
+      String doi) {
     super(question);
     if (study != null) {
-      this.study = new StudySubDocument(study);            
+      this.study = new StudySubDocument(study, doi);            
     }
     if (instrument != null) {
       this.instrument = new InstrumentSubDocument(instrument);      

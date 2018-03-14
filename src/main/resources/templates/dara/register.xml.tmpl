@@ -42,11 +42,7 @@
             https://metadata.fdz.dzhw.eu/#!/de/studies/${study.id}?version=${dataAcquisitionProject.release.version}
         </dataURL>
     </dataURLs>
-    <#if !isDaraTest>
-        <doiProposal>${study.doi}</doiProposal>
-        <#else>
-        <doiProposal>${study.doi?replace("10.21249", "10.5072")}</doiProposal>
-    </#if>
+    <doiProposal>${doi}</doiProposal>
     <publicationDate>
         <date>${releaseDate}</date>
     </publicationDate>
