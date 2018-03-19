@@ -9,6 +9,7 @@ based on the Error Event.*/
 angular.module('metadatamanagementApp').run(
   function($rootScope, SimpleMessageToastService, PageTitleService) {
     var ignore404 = 0;
+    var ignore401 = 0;
 
     $rootScope.$on('start-ignoring-404', function() {
       ignore404++;
@@ -16,6 +17,14 @@ angular.module('metadatamanagementApp').run(
 
     $rootScope.$on('stop-ignoring-404', function() {
       ignore404--;
+    });
+
+    $rootScope.$on('start-ignoring-401', function() {
+      ignore401++;
+    });
+
+    $rootScope.$on('stop-ignoring-401', function() {
+      ignore401--;
     });
 
     // Server or network down
@@ -27,8 +36,10 @@ angular.module('metadatamanagementApp').run(
     //Client Error 401
     $rootScope.$on('unauthorizedError',
     function(event, response) { // jshint ignore:line
-      SimpleMessageToastService.openSimpleMessageToast('global.error.' +
+      if (ignore401 === 0) {
+        SimpleMessageToastService.openSimpleMessageToast('global.error.' +
         'client-error.unauthorized-error', {status: response.status});
+      }
     });
 
     //Client Error 403

@@ -26,6 +26,7 @@ import eu.dzhw.fdz.metadatamanagement.common.rest.util.PaginationUtil;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.Authority;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.AuthorityRepository;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.MongoDbTokenStore;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.ManagedUserDto;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
@@ -70,6 +71,9 @@ public class UserResource {
 
   @Autowired
   private AuthorityRepository authorityRepository;
+  
+  @Autowired
+  private MongoDbTokenStore tokenStore;
 
   @Autowired
   private UserService userService;
@@ -86,6 +90,7 @@ public class UserResource {
     log.debug("REST request to update User : {}", managedUserDto);
     return Optional.of(userRepository.findOne(managedUserDto.getId()))
       .map(user -> {
+        tokenStore.removeTokensByUserName(user.getLogin());
         user.setLogin(managedUserDto.getLogin());
         user.setFirstName(managedUserDto.getFirstName());
         user.setLastName(managedUserDto.getLastName());
