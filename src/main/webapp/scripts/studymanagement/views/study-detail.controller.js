@@ -82,7 +82,7 @@ angular.module('metadatamanagementApp')
           if (result.release &&
             bowser.compareVersions(
               [versionFromUrl, result.release.version]) === -1) {
-            SimpleMessageToastService.openSimpleMessageToast(
+            SimpleMessageToastService.openAlertMessageToast(
               'study-management.detail.old-version',
               {
                 title: result.title[LanguageService.getCurrentInstantly()],
@@ -91,7 +91,7 @@ angular.module('metadatamanagementApp')
               });
           }
         } else {
-          SimpleMessageToastService.openSimpleMessageToast(
+          SimpleMessageToastService.openAlertMessageToast(
           'study-management.detail.not-released-toast', {id: result.id}
           );
         }

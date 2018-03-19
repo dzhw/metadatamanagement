@@ -179,6 +179,8 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
         post(API_DATA_ACQUISITION_PROJECTS_URI).content(TestUtil.convertObjectToJsonBytes(project)))
       .andExpect(status().isBadRequest())
       .andExpect(
-          jsonPath("$.errors[0].message", containsString("data-acquisition-project.error.data-acquisition-project.id.not-empty")));
+          jsonPath("$.errors[0].message", 
+              containsString("data-acquisition-project-management"
+                  + ".error.data-acquisition-project.id.not-empty")));
   }  
 }

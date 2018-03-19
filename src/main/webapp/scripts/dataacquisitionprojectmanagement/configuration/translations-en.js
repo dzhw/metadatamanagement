@@ -30,11 +30,10 @@ angular.module('metadatamanagementApp').config(
             'delete': 'Do you really want to delete the Project "{{ id }}"? This cannot be undone.',
             'deleted-successfully-project': 'Successfully deleted Data Acquisition Project "{{ id }}"!',
             'deleted-not-successfully-project': 'Could not delete Data Acquisition Project "{{ id }}"!',
-            'released-successfully': 'The data of the project "{{ id }}" will be visible to all users in about 10 minutes.',
-            'released-beta-successfully': 'The data of the project "{{ id }}" will be visible to all users in about 10 minutes. This is Beta release and there is no registration for a DOI at da|ra.',
+            'released-successfully': 'A DOI has been registered at da|ra and the data of the project "{{ id }}" will be visible to all users in about 10 minutes.',
+            'released-beta-successfully': 'The data of the project "{{ id }}" will be visible to all users in about 10 minutes. No DOI has been registered at da|ra.',
             'unreleased-successfully': 'The data of the project "{{ id }}" will be visible to RDC employees only in about 10 minutes.',
-            'dara-released-not-successfully': 'The data of the project "{{ id }}" could not be released. It happened an error on the registration / update of the DOI at Dara.',
-            'no-higher-version': 'The last release version is "{{ lastReleasedVersion }}". It must be a higher version.',
+            'dara-released-not-successfully': 'The data of the project "{{ id }}" could not be released. An error occured during registration of the DOI at da|ra.',
             'unrelease-title': 'Unrelease Project "{{ id }}"?',
             'unrelease': 'Do you really want to reduce visibility of the project "{{ id }}" to RDC employees only?',
             'release-not-possible-title': 'Project "{{ id }}" cannot be released!',
@@ -45,11 +44,19 @@ angular.module('metadatamanagementApp').config(
           'data-acquisition-project': {
             'id': {
               'not-empty': 'The RDC-ID of Data Acquisition Project must not be empty!',
-              'pattern': 'The RDC-ID must contain only alphanumeric signs, german umlauts and ß.',
+              'pattern': 'The name of the project must contain only lowercase letters (a-z) and digits.',
               'size': 'The max length of the RDC-ID is 32 signs.'
             },
             'has-been-released-before': {
               'not-null': 'The information is missing, that a Data Acquisition Project has been relesed before.'
+            }
+          },
+          'release': {
+            'version': {
+              'not-empty': 'The version must not be empty.',
+              'pattern': 'The version must match the pattern "major.minor.patch" (e.g. "1.0.0").',
+              'not-parsable-or-not-incremented': 'The version must be incremented with every release. The previous version is "{{lastVersion}}".',
+              'size': 'The version must not contain more than 32 characters.'
             }
           },
           'post-validation': {

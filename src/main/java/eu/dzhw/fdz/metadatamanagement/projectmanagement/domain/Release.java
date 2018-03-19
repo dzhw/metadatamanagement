@@ -28,14 +28,14 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Release {
   
-  @NotEmpty(message = "data-acquisition-project." 
+  @NotEmpty(message = "data-acquisition-project-management." 
       + "error.release.version.not-empty")
   @Size(max = StringLengths.SMALL, 
-      message = "data-acquisition-project.error.release.version.size")
-  @Pattern(regexp = Patterns.NUMERIC_WITH_DOT, 
-      message = "data-acquisition-project.error.release.version.pattern")
+      message = "data-acquisition-project-management.error.release.version.size")
+  @Pattern(regexp = Patterns.SEMVER, 
+      message = "data-acquisition-project-management.error.release.version.pattern")
   private String version;
 
-  @NotNull(message = "data-acquisition-project.error.release.date.not-null")
+  @NotNull(message = "data-acquisition-project-management.error.release.date.not-null")
   private LocalDateTime date;
 }

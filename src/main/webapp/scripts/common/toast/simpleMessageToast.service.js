@@ -5,7 +5,6 @@ angular.module('metadatamanagementApp').service('SimpleMessageToastService',
   function(SynchronizedMdToast) {
     var toastParent = angular.element('#toast-container');
 
-    //The Toast for the upload complete
     function openSimpleMessageToast(messageId, messageParams,
       useDefaultHideDelay) {
       SynchronizedMdToast.show({
@@ -16,13 +15,30 @@ angular.module('metadatamanagementApp').service('SimpleMessageToastService',
         parent: toastParent,
         locals: {
           messageId: messageId,
-          messageParams: messageParams
+          messageParams: messageParams,
+          alert: false
+        }
+      });
+    }
+
+    function openAlertMessageToast(messageId, messageParams) {
+      SynchronizedMdToast.show({
+        controller: 'SimpleMessageToastController',
+        templateUrl: 'scripts/common/toast/simple-message-toast.html.tmpl',
+        hideDelay: 0,
+        position: 'top right',
+        parent: toastParent,
+        locals: {
+          messageId: messageId,
+          messageParams: messageParams,
+          alert: true
         }
       });
     }
 
     return {
-      openSimpleMessageToast: openSimpleMessageToast
+      openSimpleMessageToast: openSimpleMessageToast,
+      openAlertMessageToast: openAlertMessageToast
     };
 
   });

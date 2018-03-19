@@ -92,10 +92,10 @@ angular.module('metadatamanagementApp').config(
           'basic-data-of-surveys': 'Eckdaten der Erhebungen',
           'not-found': 'Die id {{id}} referenziert auf eine unbekannte Studie.',
           'not-found-references': 'Die id {{id}} hat keine Referenzen auf Studien.',
-          'not-yet-released': 'Noch nicht freigegeben',
-          'not-released-toast': 'Die Studie "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!',
-          'old-version': 'Der verwendete Link verweist auf eine ältere Version ({{versionFromUrl}}). Hier wird die aktuelle Version ({{actualVersion}}) der Studie {{title}} dargestellt.',
-          'beta-release-no-doi': 'Dies ist ein vorläufiger BETA Release und enthält noch keine DOI.',
+          'not-yet-released': 'Aktuell nicht freigegeben',
+          'not-released-toast': 'Die Studie "{{ id }}" wird aktuell bearbeitet und ist daher nicht für alle Benutzer freigegeben!',
+          'old-version': 'Ihr Link verweist auf eine ältere Version ({{versionFromUrl}}) dieser Studie. Hier wird die aktuelle Version ({{actualVersion}}) der Studie "{{title}}" dargestellt.',
+          'beta-release-no-doi': 'Dies ist ein BETA Release und enthält noch keine DOI.',
           'tooltips': {
             'surveys': {
               'one': 'Klicken, um die Erhebung dieser Studie anzuzeigen',

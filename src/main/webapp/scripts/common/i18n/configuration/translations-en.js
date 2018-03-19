@@ -231,19 +231,7 @@ angular.module('metadatamanagementApp').config(
             'pattern': 'This field should follow pattern {{pattern}}.',
             'number': 'This field should be a number.',
             'datetimelocal': 'This field should be a date and time.',
-            'rdc-id': 'The RDC ID must contain only letters, digits and underscore.',
-            'variable': {
-              'name': 'The name of a variable must contain only letters, digits and underscore.'
-            },
-            'survey': {
-              'period': 'The begin of the field period must be before the end.'
-            },
-            'data-acquisition-project': {
-              'id': 'The name of the project must contain only lowercase letters (a-z) and digits.',
-              'release': {
-                'version': 'The version must contain only digits and dots.'
-              }
-            }
+            'rdc-id': 'The RDC ID must contain only letters, digits and underscore.'
           }
         },
         'error': {

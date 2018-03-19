@@ -302,7 +302,8 @@ module.exports = function(grunt) {
               'read-element-size',
               'layout-gt-xs',
               'layout',
-              'md-highlight-flags'
+              'md-highlight-flags',
+              'valid-project-version'
             ]
           },
           files: {
