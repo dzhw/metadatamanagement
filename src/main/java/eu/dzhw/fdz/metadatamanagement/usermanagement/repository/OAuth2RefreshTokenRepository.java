@@ -13,4 +13,6 @@ public interface OAuth2RefreshTokenRepository
     extends MongoRepository<OAuth2AuthenticationRefreshToken, String> {
 
   OAuth2AuthenticationRefreshToken findByTokenId(String tokenId);
+  
+  void deleteByTokenId(String tokenId);
 }

@@ -113,6 +113,17 @@ public class MongoDbTokenStore implements TokenStore {
         oauth2AccessTokenRepository.findByClientId(clientId);
     return extractAccessTokens(tokens);
   }
+  
+  /**
+   * Remove access and refresh tokens of the given user.
+   * @param userName The login of the user.
+   */
+  public void removeTokensByUserName(String userName) {
+    oauth2AccessTokenRepository.findByUserName(userName).stream().forEach(token -> {
+      oauth2RefreshTokenRepository.deleteByTokenId(token.getRefreshToken());
+      oauth2AccessTokenRepository.delete(token);
+    });
+  }
 
   @Override
   public Collection<OAuth2AccessToken> findTokensByClientIdAndUserName(String clientId,
