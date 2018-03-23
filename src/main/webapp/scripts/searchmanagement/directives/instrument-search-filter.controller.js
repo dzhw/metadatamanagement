@@ -4,9 +4,9 @@
 angular.module('metadatamanagementApp')
   .controller('InstrumentSearchFilterController', [
     '$scope', 'SearchDao', 'InstrumentSearchService', '$timeout',
-    'CurrentProjectService',
+    'CurrentProjectService', '$rootScope',
     function($scope, SearchDao, InstrumentSearchService, $timeout,
-      CurrentProjectService) {
+      CurrentProjectService, $rootScope) {
       // prevent instrument changed events during init
       var initializing = true;
       var selectionChanging = false;
@@ -22,9 +22,11 @@ angular.module('metadatamanagementApp')
         initializing = true;
         if ($scope.currentSearchParams.filter &&
           $scope.currentSearchParams.filter.instrument) {
+          $rootScope.$broadcast('start-ignoring-404');
           InstrumentSearchService.findOneById(
             $scope.currentSearchParams.filter.instrument).promise
             .then(function(result) {
+              $rootScope.$broadcast('stop-ignoring-404');
               if (result) {
                 $scope.currentInstrument = {_source: result};
               } else {
@@ -35,6 +37,7 @@ angular.module('metadatamanagementApp')
                 };
               }
             }, function() {
+                $rootScope.$broadcast('stop-ignoring-404');
                 $scope.currentInstrument = {
                   _source: {
                     id: $scope.currentSearchParams.filter.instrument

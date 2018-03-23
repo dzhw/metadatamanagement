@@ -1,9 +1,11 @@
 package eu.dzhw.fdz.metadatamanagement.common.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.rest.core.event.ValidatingRepositoryEventListener;
-import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter;
+import org.springframework.data.mapping.context.PersistentEntities;
+import org.springframework.data.mongodb.core.mapping.event.BeforeSaveEvent;
+import org.springframework.data.rest.core.event.BeforeCreateEvent;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 /**
@@ -13,15 +15,25 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
  * @author René Reitmann
  */
 @Configuration
-public class RepositoryRestConfiguration extends RepositoryRestConfigurerAdapter {
+public class RepositoryRestConfiguration {
 
-  @Autowired
-  private LocalValidatorFactoryBean validator;
-
-  @Override
-  public void configureValidatingRepositoryEventListener(
-      ValidatingRepositoryEventListener validatingListener) {
-    validatingListener.addValidator("beforeCreate", validator);
-    validatingListener.addValidator("beforeSave", validator);
+  /**
+   * Register a custom validator which validates incoming REST requests before throwing
+   * {@link BeforeSaveEvent} and {@link BeforeCreateEvent}.
+   * 
+   * @param persistentEntitiesFactory see {@link ObjectFactory}
+   * @param validator the JSR-303 validator
+   * 
+   * @return The bean to register
+   */
+  @Bean
+  public PrioritizedValidatingRepositoryEventListener prioritizedValidatingRepositoryEventListener(
+      ObjectFactory<PersistentEntities> persistentEntitiesFactory,
+      LocalValidatorFactoryBean validator) {
+    PrioritizedValidatingRepositoryEventListener prioritizedValidatingListener = 
+        new PrioritizedValidatingRepositoryEventListener(persistentEntitiesFactory);
+    prioritizedValidatingListener.addValidator("beforeCreate", validator);
+    prioritizedValidatingListener.addValidator("beforeSave", validator);
+    return prioritizedValidatingListener;
   }
 }

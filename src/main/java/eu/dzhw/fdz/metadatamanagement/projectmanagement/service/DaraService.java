@@ -264,6 +264,8 @@ public class DaraService {
   }
 
   /**
+   * Get the configuration for freemarker.
+   * 
    * @return a configratution object for the registration.
    */
   private Configuration getTemplateConfiguration() {

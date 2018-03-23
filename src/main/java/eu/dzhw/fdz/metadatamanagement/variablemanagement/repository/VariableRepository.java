@@ -18,7 +18,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.Vari
  */
 @RepositoryRestResource(path = "/variables")
 public interface VariableRepository
-    extends BaseRepository<Variable, String> {
+    extends BaseRepository<Variable, String> , CacheableRepositoryMethods {
   @RestResource(exported = false)
   Stream<Variable> streamByDataAcquisitionProjectId(String dataAcquisitionProjectId);
   
@@ -49,6 +49,7 @@ public interface VariableRepository
   List<VariableSubDocumentProjection> findSubDocumentsByIdIn(Collection<String> variableIds);
   
   @RestResource(exported = false)
+  @Override
   List<IdAndVersionProjection> findIdsByNameAndDataSetId(String name, String dataSetId);
   
   @RestResource(exported = false)

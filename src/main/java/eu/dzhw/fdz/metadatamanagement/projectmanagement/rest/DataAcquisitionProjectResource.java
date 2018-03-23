@@ -58,7 +58,8 @@ public class DataAcquisitionProjectResource
   public ResponseEntity<?> deleteDataAcquisitionProject(@PathVariable String id) {
     
     //load project
-    DataAcquisitionProject dataAcquisitionProject = this.dataAcquisitionProjectService.findOne(id);
+    DataAcquisitionProject dataAcquisitionProject = super.repository
+        .findOne(id);
     
     //project could not be found
     if (dataAcquisitionProject == null) {

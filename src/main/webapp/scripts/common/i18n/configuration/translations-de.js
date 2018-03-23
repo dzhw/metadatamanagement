@@ -275,9 +275,9 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'client-error': {
-            'unauthorized-error': 'Sie sind nicht berechtigt diese Aktion durchzuführen (Status {{ status }}).',
-            'forbidden-error': 'Sie sind nicht berechtigt diese Aktion durchzuführen (Status {{ status }}).',
-            'not-found-error': 'Sorry, etwas ist schief gelaufen :( ({{ status }}).'
+            'unauthorized-error': 'Sie sind nicht angemeldet und können daher diese Aktion nicht durchführen (Status {{ status }}).',
+            'forbidden-error': 'Sie haben nicht die Berechtigung (Rolle), um diese Aktion durchzuführen (Status {{ status }}).',
+            'not-found-error': 'Die angeforderte Seite wurde nicht gefunden ({{ status }}).'
           },
           'person': {
             'first-name': {

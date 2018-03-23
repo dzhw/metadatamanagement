@@ -248,6 +248,7 @@ public class ElasticsearchAdminService {
   }
   
   /**
+   * Get the number of all documents in elastic search.
    * 
    * @return An Double Value with the number of count documents.
    */

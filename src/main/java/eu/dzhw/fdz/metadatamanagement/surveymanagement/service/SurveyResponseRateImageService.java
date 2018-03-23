@@ -95,6 +95,8 @@ public class SurveyResponseRateImageService {
   }
   
   /** 
+   * Get the file name of the german response rate image.
+   * 
    * @param surveyId The id of a survey.
    * @return The name of a response rate image in german. 
    */
@@ -105,6 +107,8 @@ public class SurveyResponseRateImageService {
   }
   
   /**
+   * Get the file name of the english response rate image.
+   * 
    * @param surveyId The id of a survey.
    * @return The name of a response rate image in english.
    */

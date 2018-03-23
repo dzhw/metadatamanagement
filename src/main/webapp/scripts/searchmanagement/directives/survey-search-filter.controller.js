@@ -4,9 +4,9 @@
 angular.module('metadatamanagementApp')
   .controller('SurveySearchFilterController', [
     '$scope', 'SearchDao', 'SurveySearchService', '$timeout',
-    'CurrentProjectService',
+    'CurrentProjectService', '$rootScope',
     function($scope, SearchDao, SurveySearchService, $timeout,
-      CurrentProjectService) {
+      CurrentProjectService, $rootScope) {
       // prevent survey changed events during init
       var initializing = true;
       var selectionChanging = false;
@@ -22,9 +22,11 @@ angular.module('metadatamanagementApp')
         initializing = true;
         if ($scope.currentSearchParams.filter &&
           $scope.currentSearchParams.filter.survey) {
+          $rootScope.$broadcast('start-ignoring-404');
           SurveySearchService.findOneById(
             $scope.currentSearchParams.filter.survey).promise
             .then(function(result) {
+              $rootScope.$broadcast('stop-ignoring-404');
               if (result) {
                 $scope.currentSurvey = {_source: result};
               } else {
@@ -35,6 +37,7 @@ angular.module('metadatamanagementApp')
                 };
               }
             }, function() {
+                $rootScope.$broadcast('stop-ignoring-404');
                 $scope.currentSurvey = {
                   _source: {
                     id: $scope.currentSearchParams.filter.survey

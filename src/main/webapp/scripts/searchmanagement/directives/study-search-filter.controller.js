@@ -4,9 +4,9 @@
 angular.module('metadatamanagementApp')
   .controller('StudySearchFilterController', [
     '$scope', 'SearchDao', 'StudySearchService', '$timeout',
-    'CurrentProjectService',
+    'CurrentProjectService', '$rootScope',
     function($scope, SearchDao, StudySearchService, $timeout,
-      CurrentProjectService) {
+      CurrentProjectService, $rootScope) {
       // prevent study changed events during init
       var initializing = true;
       var selectionChanging = false;
@@ -22,9 +22,11 @@ angular.module('metadatamanagementApp')
         initializing = true;
         if ($scope.currentSearchParams.filter &&
           $scope.currentSearchParams.filter.study) {
+          $rootScope.$broadcast('start-ignoring-404');
           StudySearchService.findOneById(
             $scope.currentSearchParams.filter.study).promise
             .then(function(result) {
+              $rootScope.$broadcast('stop-ignoring-404');
               if (result) {
                 $scope.currentStudy = {_source: result};
               } else {
@@ -35,6 +37,7 @@ angular.module('metadatamanagementApp')
                 };
               }
             }, function() {
+                $rootScope.$broadcast('stop-ignoring-404');
                 $scope.currentStudy = {
                   _source: {
                     id: $scope.currentSearchParams.filter.study

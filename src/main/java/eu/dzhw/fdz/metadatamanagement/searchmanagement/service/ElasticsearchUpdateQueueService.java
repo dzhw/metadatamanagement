@@ -7,13 +7,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataSetSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
@@ -567,5 +570,34 @@ public class ElasticsearchUpdateQueueService {
       lockedItems = queueItemRepository.findOldestLockedItemsByType(jvmId, updateStart, type);
     }
     log.info("Finished processing of ElasticsearchUpdateQueue for type: " + type.name());
+  }
+  
+  /**
+   * Asynchronously attach the given documents to the update queue.
+   * 
+   * @param documents The documents to attach
+   * @param type The {@link ElasticsearchType} of the documents.
+   */
+  @Async
+  public void enqueueUpsertsAsync(Stream<IdAndVersionProjection> documents, 
+      ElasticsearchType type) {
+    try (Stream<IdAndVersionProjection> documentStream = documents) {
+      documentStream.forEach(document -> {
+        this.enqueue(document.getId(),
+            type, ElasticsearchUpdateQueueAction.UPSERT);
+      });      
+    }
+  }
+  
+  /**
+   * Asynchronously attach the given document to the update queue.
+   * 
+   * @param document The document to attach
+   * @param type The {@link ElasticsearchType} of the document.
+   */
+  @Async
+  public void enqueueUpsertAsync(IdAndVersionProjection document, ElasticsearchType type) {
+    this.enqueue(document.getId(),
+        type, ElasticsearchUpdateQueueAction.UPSERT);
   }
 }

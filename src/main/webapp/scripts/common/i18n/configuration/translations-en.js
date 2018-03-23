@@ -275,9 +275,9 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'client-error': {
-            'unauthorized-error': 'You are not authorized to do this (Status {{ status }}).',
-            'forbidden-error': 'You are not authorized to do this (Status {{ status }}).',
-            'not-found-error': 'Sorry, something went wrong :( ({{ status }}).'
+            'unauthorized-error': 'You are not logged in. Therefore you are not authorized to do this (Status {{ status }}).',
+            'forbidden-error': 'You do not have the permission (role) to do this (Status {{ status }}).',
+            'not-found-error': 'The requested page has not been found ({{ status }}).'
           },
           'person': {
             'first-name': {

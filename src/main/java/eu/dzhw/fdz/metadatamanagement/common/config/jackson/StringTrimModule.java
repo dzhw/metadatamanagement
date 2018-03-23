@@ -9,8 +9,7 @@ import com.fasterxml.jackson.databind.deser.std.StdScalarDeserializer;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
 /**
- * Trims all String of imported data. 
- * Reference (Code Idea from): {@link https://stackoverflow.com/a/33765854/8080153}
+ * Trims all String of imported data.
  * 
  * @author Daniel Katzberg
  */

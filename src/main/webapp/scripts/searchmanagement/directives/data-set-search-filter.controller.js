@@ -4,9 +4,9 @@
 angular.module('metadatamanagementApp')
   .controller('DataSetSearchFilterController', [
     '$scope', 'SearchDao', 'DataSetSearchService', '$timeout',
-    'CurrentProjectService',
+    'CurrentProjectService', '$rootScope',
     function($scope, SearchDao, DataSetSearchService, $timeout,
-      CurrentProjectService) {
+      CurrentProjectService, $rootScope) {
       // prevent data-set changed events during init
       var initializing = true;
       var selectionChanging = false;
@@ -22,9 +22,11 @@ angular.module('metadatamanagementApp')
         initializing = true;
         if ($scope.currentSearchParams.filter &&
           $scope.currentSearchParams.filter['data-set']) {
+          $rootScope.$broadcast('start-ignoring-404');
           DataSetSearchService.findOneById(
             $scope.currentSearchParams.filter['data-set']).promise
             .then(function(result) {
+              $rootScope.$broadcast('stop-ignoring-404');
               if (result) {
                 $scope.currentDataSet = {_source: result};
               } else {
@@ -35,6 +37,7 @@ angular.module('metadatamanagementApp')
                 };
               }
             }, function() {
+                $rootScope.$broadcast('stop-ignoring-404');
                 $scope.currentDataSet = {
                   _source: {
                     id: $scope.currentSearchParams.filter['data-set']
