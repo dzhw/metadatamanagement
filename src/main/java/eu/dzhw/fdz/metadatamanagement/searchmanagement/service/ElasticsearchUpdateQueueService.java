@@ -33,6 +33,7 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.Relate
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projections.RelatedPublicationSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.ElasticsearchDao;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchBulkOperationException;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataSetSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.InstrumentSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.QuestionSearchDocument;
@@ -187,7 +188,11 @@ public class ElasticsearchUpdateQueueService {
     }
 
     // execute the bulk update/delete
-    elasticsearchDao.executeBulk(bulkBuilder.build());
+    try {
+      elasticsearchDao.executeBulk(bulkBuilder.build());      
+    } catch (ElasticsearchBulkOperationException ex) {
+      log.error("Some documents in Elasticsearch could not be updated!", ex);
+    }
 
     // finally delete the queue items
     queueItemRepository.delete(lockedItems);
