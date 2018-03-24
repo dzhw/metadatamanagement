@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,6 @@ import org.springframework.data.rest.core.event.AfterDeleteEvent;
 import org.springframework.data.rest.core.event.BeforeDeleteEvent;
 import org.springframework.stereotype.Service;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
@@ -79,7 +79,8 @@ public class InstrumentService {
   @HandleAfterSave
   public void onDataAcquisitionProjectUpdated(DataAcquisitionProject dataAcquisitionProject) {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        instrumentRepository.streamIdsByDataAcquisitionProjectId(dataAcquisitionProject.getId()),
+        () -> instrumentRepository.streamIdsByDataAcquisitionProjectId(
+            dataAcquisitionProject.getId()),
         ElasticsearchType.variables);
   }
 
@@ -154,7 +155,8 @@ public class InstrumentService {
   @HandleAfterDelete
   public void onStudyChanged(Study study) {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        instrumentRepository.streamIdsByStudyId(study.getId()), ElasticsearchType.instruments);
+        () -> instrumentRepository.streamIdsByStudyId(study.getId()),
+        ElasticsearchType.instruments);
   }
 
   /**
@@ -167,7 +169,8 @@ public class InstrumentService {
   @HandleAfterDelete
   public void onSurveyChanged(Survey survey) {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        instrumentRepository.streamIdsBySurveyIdsContaining(survey.getId()),
+        () -> instrumentRepository.streamIdsBySurveyIdsContaining(
+            survey.getId()),
         ElasticsearchType.instruments);
   }
 
@@ -180,11 +183,10 @@ public class InstrumentService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onQuestionChanged(Question question) {
-    IdAndVersionProjection instrument =
-        instrumentRepository.findOneIdAndVersionById(question.getInstrumentId());
-    if (instrument != null) {
-      elasticsearchUpdateQueueService.enqueueUpsertAsync(instrument, ElasticsearchType.instruments);
-    }
+    elasticsearchUpdateQueueService.enqueueUpsertAsync(
+        () -> instrumentRepository.findOneIdAndVersionById(
+            question.getInstrumentId()),
+        ElasticsearchType.instruments);
   }
 
   /**
@@ -196,9 +198,10 @@ public class InstrumentService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onVariableChanged(Variable variable) {
+    List<String> instrumentIds = variableChangesProvider
+        .getAffectedInstrumentIds(variable.getId());
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        instrumentRepository.streamIdsByIdIn(variableChangesProvider
-            .getAffectedInstrumentIds(variable.getId())),
+        () -> instrumentRepository.streamIdsByIdIn(instrumentIds),
         ElasticsearchType.instruments);
   }
 
@@ -211,9 +214,10 @@ public class InstrumentService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onRelatedPublicationChanged(RelatedPublication relatedPublication) {
+    List<String> instrumentIds = relatedPublicationChangesProvider.getAffectedInstrumentIds(
+        relatedPublication.getId()); 
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        instrumentRepository.streamIdsByIdIn(
-            relatedPublicationChangesProvider.getAffectedInstrumentIds(relatedPublication.getId())),
+        () -> instrumentRepository.streamIdsByIdIn(instrumentIds),
         ElasticsearchType.instruments);
   }
 }

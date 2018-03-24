@@ -580,29 +580,59 @@ public class ElasticsearchUpdateQueueService {
   /**
    * Asynchronously attach the given documents to the update queue.
    * 
-   * @param documents The documents to attach
+   * @param streamProvider A closure returning a stream of {@link IdAndVersionProjection}s
    * @param type The {@link ElasticsearchType} of the documents.
    */
   @Async
-  public void enqueueUpsertsAsync(Stream<IdAndVersionProjection> documents, 
+  public void enqueueUpsertsAsync(IdStreamProvider streamProvider, 
       ElasticsearchType type) {
-    try (Stream<IdAndVersionProjection> documentStream = documents) {
-      documentStream.forEach(document -> {
-        this.enqueue(document.getId(),
-            type, ElasticsearchUpdateQueueAction.UPSERT);
-      });      
+    Stream<IdAndVersionProjection> idStream = streamProvider.get();
+    enqueueStreamUpserts(type, idStream);
+  }
+
+  
+  /**
+   * Asynchronously attach the given documents to the update queue.
+   * 
+   * @param streamsProvider A closure returning a list of streams of {@link IdAndVersionProjection}s
+   * @param type The {@link ElasticsearchType} of the documents.
+   */
+  @Async
+  public void enqueueUpsertsAsync(MultipleIdStreamsProvider streamsProvider, 
+      ElasticsearchType type) {
+    List<Stream<IdAndVersionProjection>> streams = streamsProvider.get();
+    if (streams != null) {
+      for (Stream<IdAndVersionProjection> stream : streams) {
+        enqueueStreamUpserts(type, stream);
+      }
+    }
+  }
+  
+  private void enqueueStreamUpserts(ElasticsearchType type,
+      Stream<IdAndVersionProjection> idStream) {
+    if (idStream != null) {
+      try (Stream<IdAndVersionProjection> stream = idStream) {
+        stream.forEach(document -> {
+          this.enqueue(document.getId(),
+              type, ElasticsearchUpdateQueueAction.UPSERT);
+        });      
+      }      
     }
   }
   
   /**
    * Asynchronously attach the given document to the update queue.
    * 
-   * @param document The document to attach
+   * @param idProvider A closure returning a {@link IdAndVersionProjection}
    * @param type The {@link ElasticsearchType} of the document.
    */
   @Async
-  public void enqueueUpsertAsync(IdAndVersionProjection document, ElasticsearchType type) {
-    this.enqueue(document.getId(),
-        type, ElasticsearchUpdateQueueAction.UPSERT);
+  public void enqueueUpsertAsync(IdProvider idProvider, ElasticsearchType type) {
+    IdAndVersionProjection document = idProvider.get();
+    if (document != null) {      
+      this.enqueue(document.getId(),
+          type, ElasticsearchUpdateQueueAction.UPSERT);
+    }
   }
 }
+ 

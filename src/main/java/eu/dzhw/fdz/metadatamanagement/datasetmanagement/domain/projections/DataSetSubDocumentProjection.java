@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections;
 import java.util.List;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.AbstractRdcDomainObjectProjection;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.SubDataSet;
 
 /**
@@ -11,9 +12,8 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.SubDataSet;
  * 
  * @author René Reitmann
  */
-public interface DataSetSubDocumentProjection {
-  
-  String getId();
+public interface DataSetSubDocumentProjection
+    extends AbstractRdcDomainObjectProjection {
   
   String getDataAcquisitionProjectId();
 

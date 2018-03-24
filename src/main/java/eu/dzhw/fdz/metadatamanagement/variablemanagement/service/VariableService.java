@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.service;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,8 +72,9 @@ public class VariableService {
    */
   @HandleAfterSave
   public void onDataAcquisitionProjectUpdated(DataAcquisitionProject dataAcquisitionProject) {
-    elasticsearchUpdateQueueService.enqueueUpsertsAsync(variableRepository
-        .streamIdsByDataAcquisitionProjectId(dataAcquisitionProject.getId()),
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> variableRepository.streamIdsByDataAcquisitionProjectId(
+            dataAcquisitionProject.getId()),
         ElasticsearchType.variables);
   }
   
@@ -148,8 +150,9 @@ public class VariableService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onDataSetChanged(DataSet dataSet) {
-    elasticsearchUpdateQueueService.enqueueUpsertsAsync(variableRepository
-        .streamIdsByDataSetId(dataSet.getId()), ElasticsearchType.variables);
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> variableRepository.streamIdsByDataSetId(dataSet.getId()),
+        ElasticsearchType.variables);
   }
   
   /**
@@ -161,8 +164,9 @@ public class VariableService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onStudyChanged(Study study) {
-    elasticsearchUpdateQueueService.enqueueUpsertsAsync(variableRepository
-        .streamIdsByStudyId(study.getId()), ElasticsearchType.variables);
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> variableRepository.streamIdsByStudyId(study.getId()),
+        ElasticsearchType.variables);
   }
   
   /**
@@ -174,9 +178,11 @@ public class VariableService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onRelatedPublicationChanged(RelatedPublication relatedPublication) {
-    elasticsearchUpdateQueueService.enqueueUpsertsAsync(variableRepository
-        .streamIdsByIdIn(relatedPublicationChangesProvider
-            .getAffectedVariableIds(relatedPublication.getId())), ElasticsearchType.variables); 
+    List<String> variableIds = relatedPublicationChangesProvider
+        .getAffectedVariableIds(relatedPublication.getId());
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> variableRepository.streamIdsByIdIn(variableIds),
+        ElasticsearchType.variables); 
   }
   
   /**
@@ -188,8 +194,9 @@ public class VariableService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onInstrumentChanged(Instrument instrument) {
-    elasticsearchUpdateQueueService.enqueueUpsertsAsync(variableRepository
-        .streamIdsByRelatedQuestionsInstrumentId(instrument.getId()),
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> variableRepository.streamIdsByRelatedQuestionsInstrumentId(
+            instrument.getId()),
         ElasticsearchType.variables);
   }
   
@@ -202,8 +209,9 @@ public class VariableService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onSurveyChanged(Survey survey) {
-    elasticsearchUpdateQueueService.enqueueUpsertsAsync(variableRepository
-        .streamIdsBySurveyIdsContaining(survey.getId()),
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> variableRepository.streamIdsBySurveyIdsContaining(
+            survey.getId()),
         ElasticsearchType.variables);
   }
 }

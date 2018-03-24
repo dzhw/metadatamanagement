@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.service;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,6 @@ import org.springframework.data.rest.core.event.AfterDeleteEvent;
 import org.springframework.data.rest.core.event.BeforeDeleteEvent;
 import org.springframework.stereotype.Service;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
@@ -74,8 +74,9 @@ public class DataSetService {
    */
   @HandleAfterSave
   public void onDataAcquisitionProjectUpdated(DataAcquisitionProject dataAcquisitionProject) {
-    elasticsearchUpdateQueueService.enqueueUpsertsAsync(dataSetRepository
-        .streamIdsByDataAcquisitionProjectId(dataAcquisitionProject.getId()),
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> dataSetRepository.streamIdsByDataAcquisitionProjectId(
+            dataAcquisitionProject.getId()),
         ElasticsearchType.data_sets);
   }
   
@@ -152,8 +153,9 @@ public class DataSetService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onStudyChanged(Study study) {
-    elasticsearchUpdateQueueService.enqueueUpsertsAsync(dataSetRepository
-        .streamIdsByStudyId(study.getId()), ElasticsearchType.data_sets);
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> dataSetRepository.streamIdsByStudyId(study.getId()),
+        ElasticsearchType.data_sets);
   }
   
   /**
@@ -165,8 +167,10 @@ public class DataSetService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onSurveyChanged(Survey survey) {
-    elasticsearchUpdateQueueService.enqueueUpsertsAsync(dataSetRepository
-        .streamIdsBySurveyIdsContaining(survey.getId()), ElasticsearchType.data_sets);
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> dataSetRepository.streamIdsBySurveyIdsContaining(
+            survey.getId()),
+        ElasticsearchType.data_sets);
   }
   
   /**
@@ -177,13 +181,11 @@ public class DataSetService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
-  public void onVariableChanged(Variable variable) {
-    IdAndVersionProjection dataSet = dataSetRepository.findOneIdById(variable.getDataSetId());
-    if (dataSet != null) {
-      elasticsearchUpdateQueueService.enqueueUpsertAsync(
-          dataSet, 
-          ElasticsearchType.data_sets);            
-    }
+  public void onVariableChanged(Variable variable) {    
+    elasticsearchUpdateQueueService.enqueueUpsertAsync(
+        () -> dataSetRepository.findOneIdById(variable.getDataSetId()), 
+        ElasticsearchType.data_sets);            
+    
   }
   
   /**
@@ -195,8 +197,10 @@ public class DataSetService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onRelatedPublicationChanged(RelatedPublication relatedPublication) {
-    elasticsearchUpdateQueueService.enqueueUpsertsAsync(dataSetRepository
-        .streamIdsByIdIn(relatedPublicationChangesProvider
-            .getAffectedDataSetIds(relatedPublication.getId())), ElasticsearchType.data_sets);
+    List<String> dataSetIds = relatedPublicationChangesProvider.getAffectedDataSetIds(
+        relatedPublication.getId()); 
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> dataSetRepository.streamIdsByIdIn(dataSetIds),
+        ElasticsearchType.data_sets);
   }
 }

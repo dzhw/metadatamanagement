@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.InstrumentSubDocumentProjection;
 
@@ -13,8 +14,8 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.In
  * @author René Reitmann
  */
 @SuppressWarnings("CPD-START")
-public class InstrumentSubDocument implements InstrumentSubDocumentProjection {
-
+public class InstrumentSubDocument extends AbstractRdcDomainObject
+    implements InstrumentSubDocumentProjection {
   private String id;
   
   private String dataAcquisitionProjectId;

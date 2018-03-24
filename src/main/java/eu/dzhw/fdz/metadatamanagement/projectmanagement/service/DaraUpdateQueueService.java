@@ -71,7 +71,7 @@ public class DaraUpdateQueueService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
-  public void onRelatedPublicationBeforeSavedOrCreated(RelatedPublication relatedPublication) {
+  public void onRelatedPublicationChanged(RelatedPublication relatedPublication) {
     enqueueStudiesIfProjectIsReleased(
         relatedPublicationChangesProvider.getAffectedStudyIds(relatedPublication.getId()));
   }

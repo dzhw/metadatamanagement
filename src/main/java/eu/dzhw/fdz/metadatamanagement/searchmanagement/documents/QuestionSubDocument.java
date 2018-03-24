@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
 import org.springframework.beans.BeanUtils;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.projections.QuestionSubDocumentProjection;
 
@@ -11,8 +12,8 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.projections.Ques
  * @author René Reitmann
  */
 @SuppressWarnings("CPD-START")
-public class QuestionSubDocument implements QuestionSubDocumentProjection {
-  
+public class QuestionSubDocument extends AbstractRdcDomainObject
+    implements QuestionSubDocumentProjection {
   private String id;
   
   private String dataAcquisitionProjectId;

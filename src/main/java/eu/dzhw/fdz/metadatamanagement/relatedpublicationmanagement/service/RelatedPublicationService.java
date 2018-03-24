@@ -100,8 +100,9 @@ public class RelatedPublicationService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onStudyChanged(Study study) {
-    elasticsearchUpdateQueueService.enqueueUpsertsAsync(relatedPublicationRepository
-        .streamIdsByStudyIdsContaining(study.getId()),
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> relatedPublicationRepository.streamIdsByStudyIdsContaining(
+            study.getId()),
         ElasticsearchType.related_publications);
   }
   
@@ -114,8 +115,9 @@ public class RelatedPublicationService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onQuestionChanged(Question question) {
-    elasticsearchUpdateQueueService.enqueueUpsertsAsync(relatedPublicationRepository
-        .streamIdsByQuestionIdsContaining(question.getId()),
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> relatedPublicationRepository.streamIdsByQuestionIdsContaining(
+            question.getId()),
         ElasticsearchType.related_publications);
   }
   
@@ -128,8 +130,9 @@ public class RelatedPublicationService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onInstrumentChanged(Instrument instrument) {
-    elasticsearchUpdateQueueService.enqueueUpsertsAsync(relatedPublicationRepository
-        .streamIdsByInstrumentIdsContaining(instrument.getId()),
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> relatedPublicationRepository.streamIdsByInstrumentIdsContaining(
+            instrument.getId()),
         ElasticsearchType.related_publications);
   }
   
@@ -142,8 +145,9 @@ public class RelatedPublicationService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onSurveyChanged(Survey survey) {
-    elasticsearchUpdateQueueService.enqueueUpsertsAsync(relatedPublicationRepository
-        .streamIdsBySurveyIdsContaining(survey.getId()),
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> relatedPublicationRepository.streamIdsBySurveyIdsContaining(
+            survey.getId()),
         ElasticsearchType.related_publications);
   }
   
@@ -156,8 +160,9 @@ public class RelatedPublicationService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onDataSetChanged(DataSet dataSet) {
-    elasticsearchUpdateQueueService.enqueueUpsertsAsync(relatedPublicationRepository
-        .streamIdsByDataSetIdsContaining(dataSet.getId()),
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> relatedPublicationRepository.streamIdsByDataSetIdsContaining(
+            dataSet.getId()),
         ElasticsearchType.related_publications);
   }
   
@@ -170,8 +175,9 @@ public class RelatedPublicationService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onVariableChanged(Variable variable) {
-    elasticsearchUpdateQueueService.enqueueUpsertsAsync(relatedPublicationRepository
-        .streamIdsByVariableIdsContaining(variable.getId()),
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> relatedPublicationRepository.streamIdsByVariableIdsContaining(
+            variable.getId()),
         ElasticsearchType.related_publications);
   }
 }

@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.questionmanagement.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +32,8 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.service.VariableChangesProvider;
 
 /**
- * Service for creating and updating questions. Used for updating questions in mongo
- * and elasticsearch.
+ * Service for creating and updating questions. Used for updating questions in mongo and
+ * elasticsearch.
  */
 @Service
 @RepositoryEventHandler
@@ -39,16 +41,16 @@ public class QuestionService {
 
   @Autowired
   private QuestionRepository questionRepository;
-  
+
   @Autowired
   private InstrumentRepository instrumentRepository;
- 
+
   @Autowired
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
   @Autowired
   private QuestionImageService imageService;
-  
+
   @Autowired
   private ApplicationEventPublisher eventPublisher;
 
@@ -67,7 +69,7 @@ public class QuestionService {
   public void onDataAcquisitionProjectDeleted(DataAcquisitionProject dataAcquisitionProject) {
     deleteQuestionsByProjectId(dataAcquisitionProject.getId());
   }
-  
+
   /**
    * Update all {@link QuestionSearchDocument}s when the project is released.
    * 
@@ -75,24 +77,26 @@ public class QuestionService {
    */
   @HandleAfterSave
   public void onDataAcquisitionProjectUpdated(DataAcquisitionProject dataAcquisitionProject) {
-    elasticsearchUpdateQueueService.enqueueUpsertsAsync(questionRepository
-        .streamIdsByDataAcquisitionProjectId(dataAcquisitionProject.getId()),
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> questionRepository
+            .streamIdsByDataAcquisitionProjectId(dataAcquisitionProject.getId()),
         ElasticsearchType.questions);
   }
 
   /**
    * A service method for deletion of questions within a data acquisition project.
+   * 
    * @param dataAcquisitionProjectId the id for to the data acquisition project.
    */
   private void deleteQuestionsByProjectId(String dataAcquisitionProjectId) {
-    try (Stream<Question> questions = questionRepository
-        .streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
+    try (Stream<Question> questions =
+        questionRepository.streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
       questions.forEach(question -> {
         eventPublisher.publishEvent(new BeforeDeleteEvent(question));
         questionRepository.delete(question);
-        eventPublisher.publishEvent(new AfterDeleteEvent(question));        
+        eventPublisher.publishEvent(new AfterDeleteEvent(question));
       });
-    }    
+    }
   }
 
   /**
@@ -103,9 +107,7 @@ public class QuestionService {
   @HandleAfterDelete
   public void onQuestionDeleted(Question question) {
     imageService.deleteQuestionImages(question.getId());
-    elasticsearchUpdateQueueService.enqueue(
-        question.getId(),
-        ElasticsearchType.questions,
+    elasticsearchUpdateQueueService.enqueue(question.getId(), ElasticsearchType.questions,
         ElasticsearchUpdateQueueAction.DELETE);
   }
 
@@ -117,12 +119,10 @@ public class QuestionService {
   @HandleAfterCreate
   @HandleAfterSave
   public void onQuestionSaved(Question question) {
-    elasticsearchUpdateQueueService.enqueue(
-        question.getId(),
-        ElasticsearchType.questions,
+    elasticsearchUpdateQueueService.enqueue(question.getId(), ElasticsearchType.questions,
         ElasticsearchUpdateQueueAction.UPSERT);
   }
-  
+
   /**
    * Enqueue update of question search documents when the study is changed.
    * 
@@ -132,11 +132,10 @@ public class QuestionService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onStudyChanged(Study study) {
-    elasticsearchUpdateQueueService.enqueueUpsertsAsync(questionRepository
-        .streamIdsByStudyId(study.getId()),
-        ElasticsearchType.questions);
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> questionRepository.streamIdsByStudyId(study.getId()), ElasticsearchType.questions);
   }
-  
+
   /**
    * Enqueue update of question search documents when the instrument is changed.
    * 
@@ -146,11 +145,11 @@ public class QuestionService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onInstrumentChanged(Instrument instrument) {
-    elasticsearchUpdateQueueService.enqueueUpsertsAsync(questionRepository
-        .streamIdsByInstrumentId(instrument.getId()),
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> questionRepository.streamIdsByInstrumentId(instrument.getId()),
         ElasticsearchType.questions);
   }
-  
+
   /**
    * Enqueue update of question search documents when the survey is changed.
    * 
@@ -160,14 +159,14 @@ public class QuestionService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onSurveyChanged(Survey survey) {
-    try (Stream<IdAndVersionProjection> instruments = instrumentRepository
-        .streamIdsBySurveyIdsContaining(survey.getId())) {
-      instruments.forEach(instrument -> {
-        elasticsearchUpdateQueueService.enqueueUpsertsAsync(questionRepository
-            .streamIdsByInstrumentId(instrument.getId()),
-            ElasticsearchType.questions);
-      });      
-    }
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(() -> {
+      try (Stream<IdAndVersionProjection> instruments =
+          instrumentRepository.streamIdsBySurveyIdsContaining(survey.getId())) {
+        return instruments.map(instrument -> {
+          return questionRepository.streamIdsByInstrumentId(instrument.getId());
+        }).collect(Collectors.toList());
+      }
+    }, ElasticsearchType.questions);
   }
 
   /**
@@ -179,14 +178,15 @@ public class QuestionService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onVariableChanged(Variable variable) {
-    elasticsearchUpdateQueueService.enqueueUpsertsAsync(questionRepository
-        .streamIdsByIdIn(variableChangesProvider.getAffectedQuestionIds(variable.getId())),
+    List<String> questionIds = variableChangesProvider.getAffectedQuestionIds(
+        variable.getId()); 
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> questionRepository.streamIdsByIdIn(questionIds),
         ElasticsearchType.questions);
   }
-  
+
   /**
-   * Enqueue update of question search document when the related publication 
-   * is changed.
+   * Enqueue update of question search document when the related publication is changed.
    * 
    * @param relatedPublication the updated, created or deleted publication.
    */
@@ -194,8 +194,10 @@ public class QuestionService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onRelatedPublicationChanged(RelatedPublication relatedPublication) {
-    elasticsearchUpdateQueueService.enqueueUpsertsAsync(questionRepository
-        .streamIdsByIdIn(relatedPublicationChangesProvider
-            .getAffectedQuestionIds(relatedPublication.getId())), ElasticsearchType.questions);
+    List<String> questionIds = relatedPublicationChangesProvider.getAffectedQuestionIds(
+        relatedPublication.getId()); 
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> questionRepository.streamIdsByIdIn(questionIds),
+        ElasticsearchType.questions);
   }
 }

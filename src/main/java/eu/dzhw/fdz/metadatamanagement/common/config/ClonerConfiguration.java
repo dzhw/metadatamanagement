@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.rits.cloning.Cloner;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.AbstractRdcDomainObjectProjection;
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 
 /**
@@ -24,6 +25,7 @@ public class ClonerConfiguration {
   public Cloner cloner() {
     Cloner cloner = new Cloner();
     cloner.dontCloneInstanceOf(IdAndVersionProjection.class);
+    cloner.dontCloneInstanceOf(AbstractRdcDomainObjectProjection.class);
     return cloner;
   }
 }
