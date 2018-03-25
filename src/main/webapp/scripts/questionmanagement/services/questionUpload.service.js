@@ -391,16 +391,12 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
       var questionImageMetadataResources = {};
       var questionImageMap = {};
       var questionResourceMap = {};
-      var chainedQuestionUploads = $q.when();
+      var questionUploadPromises = [];
       _.forEach(instrument.jsonFiles, function(questionAsJson,
         questionNumber) {
-        chainedQuestionUploads = chainedQuestionUploads
-        //Build Question Resource
-        .then(function() {
-          return createQuestionResource(
-            instrument, questionAsJson, questionNumber);
-        })
-        //Build Question Image Resource
+        questionUploadPromises.push(createQuestionResource(
+          instrument, questionAsJson, questionNumber)
+          //Build Question Image Resource
         .then(function(question) {
           questionResourceMap[questionNumber] = question;
           var chainedQuestionImageMetadataResourceBuilder = $q.when();
@@ -445,10 +441,9 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
           return uploadQuestion(questionResourceMap[questionNumber],
             questionImageMap[questionNumber],
             questionImageMetadataResources[questionNumber]);
-        });
+        }));
       });
-
-      return chainedQuestionUploads;
+      return $q.all(questionUploadPromises);
     };
 
     var uploadInstruments = function(instrumentIndex) {

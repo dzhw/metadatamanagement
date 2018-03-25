@@ -106,16 +106,13 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
       });
     };
 
-    var createVariableUploadChain = function(dataSet) {
-      var uploadChain = $q.when();
+    var createParallelVariableUploadPromise = function(dataSet) {
+      var uploadPromises = [];
       _.forEach(dataSet.jsonFiles, function(jsonFile, variableName) {
-          uploadChain = uploadChain.then(
-            function() {
-              return createVariableResourceFromFile(variableName, dataSet,
-                jsonFile);
-            }).then(uploadVariable);
+          uploadPromises.push(createVariableResourceFromFile(variableName,
+            dataSet, jsonFile).then(uploadVariable));
         });
-      return uploadChain;
+      return $q.all(uploadPromises);
     };
 
     var deleteAllVariablesNotProvidedByUser = function() {
@@ -156,7 +153,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
         var dataSet = _.filter(filesMap, function(filesObject) {
           return filesObject.dataSetIndex === dataSetIndex;
         })[0];
-        createVariableUploadChain(dataSet).finally(function() {
+        createParallelVariableUploadPromise(dataSet).finally(function() {
             uploadDataSets(dataSetIndex + 1);
           });
       }
