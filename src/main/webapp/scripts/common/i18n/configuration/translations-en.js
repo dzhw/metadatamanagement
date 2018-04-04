@@ -17,8 +17,8 @@ angular.module('metadatamanagementApp').config(
         'toolbar': {
           'buttons': {
             'fdz-staff-area-tooltip': {
-              'false': 'Click to open menu "Access for RDC Employees"',
-              'true': 'Click to close menu "Access for RDC Employees"'
+              'false': 'Click to open menu "Access for Data Providers"',
+              'true': 'Click to close menu "Access for Data Providers"'
             },
             'logout': 'Sign out {{username}}',
             'logout-tooltip': 'Click to sign out "{{username}}"',
@@ -124,7 +124,7 @@ angular.module('metadatamanagementApp').config(
             'title': 'Metadata Search'
           },
           'account': {
-            'main': 'Access for RDC Employees',
+            'main': 'Access for Data Providers',
             'settings': 'Edit Account',
             'password': 'Change Password',
             'sessions': 'Sessions'

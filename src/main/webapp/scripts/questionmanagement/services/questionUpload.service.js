@@ -289,7 +289,6 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                   // Get image file dimensions
                   getImageDimensions(image)
                   .then(function(dimensions) {
-                    console.log(dimensions);
                     questionImageMetadata.resolution.widthX = dimensions.width;
                     questionImageMetadata.resolution.heightY =
                       dimensions.height;
