@@ -107,11 +107,20 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
     };
 
     var createParallelVariableUploadPromise = function(dataSet) {
+      var chunkSize = 16;
+      var variableNames = Object.keys(dataSet.jsonFiles);
       var uploadPromises = [];
-      _.forEach(dataSet.jsonFiles, function(jsonFile, variableName) {
-          uploadPromises.push(createVariableResourceFromFile(variableName,
-            dataSet, jsonFile).then(uploadVariable));
-        });
+      for (var i = 0; i < chunkSize; i++) {
+        uploadPromises.push($q.when());
+      }
+      variableNames.map(function(variableName, index) {
+        var chainIndex = index % chunkSize;
+        var promiseChain = uploadPromises[chainIndex];
+        uploadPromises[chainIndex] = promiseChain.then(function() {
+          return createVariableResourceFromFile(variableName,
+            dataSet, dataSet.jsonFiles[variableName]);
+        }).then(uploadVariable);
+      });
       return $q.all(uploadPromises);
     };
 
