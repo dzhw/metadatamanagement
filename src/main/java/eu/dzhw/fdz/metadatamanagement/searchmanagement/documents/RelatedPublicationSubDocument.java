@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
 import org.springframework.beans.BeanUtils;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projections.RelatedPublicationSubDocumentProjection;
 
 /**
@@ -10,8 +11,8 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projec
  * @author René Reitmann
  */
 @SuppressWarnings("CPD-START")
-public class RelatedPublicationSubDocument implements RelatedPublicationSubDocumentProjection {
-
+public class RelatedPublicationSubDocument extends AbstractRdcDomainObject
+    implements RelatedPublicationSubDocumentProjection {
   private String id;
   
   private String doi;

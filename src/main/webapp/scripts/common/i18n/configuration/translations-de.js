@@ -17,8 +17,8 @@ angular.module('metadatamanagementApp').config(
         'toolbar': {
           'buttons': {
             'fdz-staff-area-tooltip': {
-              'false': 'Klicken, um das Menü "Zugang für FDZ Mitarbeiter" zu öffnen',
-              'true': 'Klicken, um das Menü "Zugang für FDZ Mitarbeiter" zu schließen'
+              'false': 'Klicken, um das Menü "Zugang für Datengeber" zu öffnen',
+              'true': 'Klicken, um das Menü "Zugang für Datengeber" zu schließen'
             },
             'logout': '{{username}} abmelden',
             'logout-tooltip': 'Klicken, um "{{username}}" abzumelden',
@@ -124,7 +124,7 @@ angular.module('metadatamanagementApp').config(
             'title': 'Metadatensuche'
           },
           'account': {
-            'main': 'Zugang für FDZ Mitarbeiter',
+            'main': 'Zugang für Datengeber',
             'settings': 'Konto bearbeiten',
             'password': 'Passwort ändern',
             'sessions': 'Sitzungen'
@@ -263,9 +263,9 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'client-error': {
-            'unauthorized-error': 'Sie sind nicht berechtigt diese Aktion durchzuführen (Status {{ status }}).',
-            'forbidden-error': 'Sie sind nicht berechtigt diese Aktion durchzuführen (Status {{ status }}).',
-            'not-found-error': 'Sorry, etwas ist schief gelaufen :( ({{ status }}).'
+            'unauthorized-error': 'Sie sind nicht angemeldet und können daher diese Aktion nicht durchführen (Status {{ status }}).',
+            'forbidden-error': 'Sie haben nicht die Berechtigung (Rolle), um diese Aktion durchzuführen (Status {{ status }}).',
+            'not-found-error': 'Die angeforderte Seite wurde nicht gefunden ({{ status }}).'
           },
           'person': {
             'first-name': {

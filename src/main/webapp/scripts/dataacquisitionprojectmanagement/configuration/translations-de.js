@@ -55,7 +55,7 @@ angular.module('metadatamanagementApp').config(
             'version': {
               'not-empty': 'Die Version darf nicht leer sein.',
               'pattern': 'Die Version muss von der Form "major.minor.patch" (z.B. "1.0.0") sein.',
-              'not-parsable-or-not-incremented': 'Die Version muss bei jedem Release erhöht werden. Die letzte Version war "{{lastVersion}}".',
+              'not-parsable-or-not-incremented': 'Die Versionsnummer muss mindestens so hoch sein wie die letzte Version. Die letzte Version war "{{lastVersion}}".',
               'size': 'Die Version darf nicht länger als 32 Zeichen sein.'
             }
           },

@@ -21,9 +21,8 @@ angular.module('metadatamanagementApp')
             return true;
           }
 
-          // it is invalid
           return $rootScope.bowser
-            .compareVersions([scope.validProjectVersion, modelValue]) === -1;
+            .compareVersions([scope.validProjectVersion, modelValue]) <= 0;
         };
       }
     };

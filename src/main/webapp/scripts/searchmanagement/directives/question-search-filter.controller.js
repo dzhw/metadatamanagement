@@ -4,9 +4,9 @@
 angular.module('metadatamanagementApp')
   .controller('QuestionSearchFilterController', [
     '$scope', 'SearchDao', 'QuestionSearchService', '$timeout',
-    'CurrentProjectService',
+    'CurrentProjectService', '$rootScope',
     function($scope, SearchDao, QuestionSearchService, $timeout,
-      CurrentProjectService) {
+      CurrentProjectService, $rootScope) {
       // prevent question changed events during init
       var initializing = true;
       var selectionChanging = false;
@@ -22,9 +22,11 @@ angular.module('metadatamanagementApp')
         initializing = true;
         if ($scope.currentSearchParams.filter &&
           $scope.currentSearchParams.filter.question) {
+          $rootScope.$broadcast('start-ignoring-404');
           QuestionSearchService.findOneById(
             $scope.currentSearchParams.filter.question).promise
             .then(function(result) {
+              $rootScope.$broadcast('stop-ignoring-404');
               if (result) {
                 $scope.currentQuestion = {_source: result};
               } else {
@@ -35,6 +37,7 @@ angular.module('metadatamanagementApp')
                 };
               }
             }, function() {
+                $rootScope.$broadcast('stop-ignoring-404');
                 $scope.currentQuestion = {
                   _source: {
                     id: $scope.currentSearchParams.filter.question

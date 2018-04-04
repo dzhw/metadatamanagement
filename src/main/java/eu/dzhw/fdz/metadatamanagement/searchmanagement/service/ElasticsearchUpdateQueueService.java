@@ -7,13 +7,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataSetSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
@@ -31,6 +34,7 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.Relate
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projections.RelatedPublicationSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.ElasticsearchDao;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchBulkOperationException;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataSetSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.InstrumentSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.QuestionSearchDocument;
@@ -189,7 +193,11 @@ public class ElasticsearchUpdateQueueService {
     }
 
     // execute the bulk update/delete
-    elasticsearchDao.executeBulk(bulkBuilder.build());
+    try {
+      elasticsearchDao.executeBulk(bulkBuilder.build());      
+    } catch (ElasticsearchBulkOperationException ex) {
+      log.error("Some documents in Elasticsearch could not be updated!", ex);
+    }
 
     // finally delete the queue items
     queueItemRepository.delete(lockedItems);
@@ -586,4 +594,63 @@ public class ElasticsearchUpdateQueueService {
     }
     log.info("Finished processing of ElasticsearchUpdateQueue for type: " + type.name());
   }
+  
+  /**
+   * Asynchronously attach the given documents to the update queue.
+   * 
+   * @param streamProvider A closure returning a stream of {@link IdAndVersionProjection}s
+   * @param type The {@link ElasticsearchType} of the documents.
+   */
+  @Async
+  public void enqueueUpsertsAsync(IdStreamProvider streamProvider, 
+      ElasticsearchType type) {
+    Stream<IdAndVersionProjection> idStream = streamProvider.get();
+    enqueueStreamUpserts(type, idStream);
+  }
+
+  
+  /**
+   * Asynchronously attach the given documents to the update queue.
+   * 
+   * @param streamsProvider A closure returning a list of streams of {@link IdAndVersionProjection}s
+   * @param type The {@link ElasticsearchType} of the documents.
+   */
+  @Async
+  public void enqueueUpsertsAsync(MultipleIdStreamsProvider streamsProvider, 
+      ElasticsearchType type) {
+    List<Stream<IdAndVersionProjection>> streams = streamsProvider.get();
+    if (streams != null) {
+      for (Stream<IdAndVersionProjection> stream : streams) {
+        enqueueStreamUpserts(type, stream);
+      }
+    }
+  }
+  
+  private void enqueueStreamUpserts(ElasticsearchType type,
+      Stream<IdAndVersionProjection> idStream) {
+    if (idStream != null) {
+      try (Stream<IdAndVersionProjection> stream = idStream) {
+        stream.forEach(document -> {
+          this.enqueue(document.getId(),
+              type, ElasticsearchUpdateQueueAction.UPSERT);
+        });      
+      }      
+    }
+  }
+  
+  /**
+   * Asynchronously attach the given document to the update queue.
+   * 
+   * @param idProvider A closure returning a {@link IdAndVersionProjection}
+   * @param type The {@link ElasticsearchType} of the document.
+   */
+  @Async
+  public void enqueueUpsertAsync(IdProvider idProvider, ElasticsearchType type) {
+    IdAndVersionProjection document = idProvider.get();
+    if (document != null) {      
+      this.enqueue(document.getId(),
+          type, ElasticsearchUpdateQueueAction.UPSERT);
+    }
+  }
 }
+ 

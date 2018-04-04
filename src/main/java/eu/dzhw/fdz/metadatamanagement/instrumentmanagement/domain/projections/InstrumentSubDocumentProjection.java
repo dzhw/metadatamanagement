@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections;
 import java.util.List;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.AbstractRdcDomainObjectProjection;
 
 /**
  * Subset of instrument attributes which can be used in other search documents
@@ -10,10 +11,8 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
  * 
  * @author René Reitmann
  */
-public interface InstrumentSubDocumentProjection  {
-  
-  String getId();
-  
+public interface InstrumentSubDocumentProjection 
+    extends AbstractRdcDomainObjectProjection {
   String getDataAcquisitionProjectId();
   
   I18nString getTitle();

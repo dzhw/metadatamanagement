@@ -4,6 +4,7 @@ import java.util.List;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.AbstractRdcDomainObjectProjection;
 
 /**
  * Subset of study attributes which can be used in other search documents
@@ -11,9 +12,8 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
  * 
  * @author René Reitmann
  */
-public interface StudySubDocumentProjection {
-  String getId();
-
+public interface StudySubDocumentProjection 
+    extends AbstractRdcDomainObjectProjection {
   String getDataAcquisitionProjectId();
 
   I18nString getStudySeries();

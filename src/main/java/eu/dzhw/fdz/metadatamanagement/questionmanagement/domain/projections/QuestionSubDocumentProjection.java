@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.projections;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.AbstractRdcDomainObjectProjection;
 
 /**
  * Subset of question attributes which can be used in other search documents
@@ -8,10 +9,8 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
  * 
  * @author René Reitmann
  */
-public interface QuestionSubDocumentProjection {
-
-  String getId();
-  
+public interface QuestionSubDocumentProjection 
+    extends AbstractRdcDomainObjectProjection {
   String getDataAcquisitionProjectId();
 
   String getInstrumentId();

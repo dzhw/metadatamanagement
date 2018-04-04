@@ -4,9 +4,9 @@
 angular.module('metadatamanagementApp')
   .controller('RelatedPublicationSearchFilterController', [
     '$scope', 'SearchDao', 'RelatedPublicationSearchService', '$timeout',
-    'CurrentProjectService',
+    'CurrentProjectService', '$rootScope',
     function($scope, SearchDao, RelatedPublicationSearchService, $timeout,
-      CurrentProjectService) {
+      CurrentProjectService, $rootScope) {
       // prevent related-publication changed events during init
       var initializing = true;
       var selectionChanging = false;
@@ -22,9 +22,11 @@ angular.module('metadatamanagementApp')
         initializing = true;
         if ($scope.currentSearchParams.filter &&
           $scope.currentSearchParams.filter['related-publication']) {
+          $rootScope.$broadcast('start-ignoring-404');
           RelatedPublicationSearchService.findOneById(
             $scope.currentSearchParams.filter['related-publication']).promise
             .then(function(result) {
+              $rootScope.$broadcast('stop-ignoring-404');
               if (result) {
                 $scope.currentRelatedPublication = {_source: result};
               } else {
@@ -35,6 +37,7 @@ angular.module('metadatamanagementApp')
                 };
               }
             }, function() {
+                $rootScope.$broadcast('stop-ignoring-404');
                 $scope.currentRelatedPublication = {
                   _source: {
                     id: $scope.currentSearchParams.filter['related-publication']

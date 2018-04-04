@@ -8,16 +8,24 @@ import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.client.MockRestServiceServer;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.WebApplicationContext;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
@@ -33,7 +41,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
  *
  */
 @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
-public class DaraServiceTest extends AbstractTest{
+public class DaraServiceTest extends AbstractTest {
 
   @Autowired
   private DaraService daraService;
@@ -46,6 +54,17 @@ public class DaraServiceTest extends AbstractTest{
 
   @Autowired
   private JaversService javersService;
+
+  @Autowired
+  private WebApplicationContext wac;
+
+  private MockMvc mockMvc;
+
+  @Before
+  public void setup() {
+    this.mockMvc = MockMvcBuilders.webAppContextSetup(wac)
+      .build();
+  }
 
   @After
   public void cleanUp() {
@@ -87,10 +106,9 @@ public class DaraServiceTest extends AbstractTest{
     Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
     this.studyRepository.save(study);
 
-    //ACT
-    HttpStatus isRegistered = this.daraService.registerOrUpdateProjectToDara(project.getId());
-
-    //ASSERT
-    assertThat(isRegistered, is(HttpStatus.CREATED));
+    mockMvc.perform(post("/api/data-acquisition-projects/" + project.getId() + "/release")
+        .content(TestUtil.convertObjectToJsonBytes(project))
+        .contentType(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(status().isCreated());
   }
 }

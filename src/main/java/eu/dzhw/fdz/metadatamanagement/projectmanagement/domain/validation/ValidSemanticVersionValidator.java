@@ -55,7 +55,7 @@ public class ValidSemanticVersionValidator implements
       Release lastRelease = dataAcquisitionProjectVersionsService.findLastRelease(project.getId());
       if (lastRelease != null) {
         lastVersion = Version.valueOf(lastRelease.getVersion());
-        if (currentVersion.greaterThan(lastVersion)) {
+        if (currentVersion.greaterThanOrEqualTo(lastVersion)) {
           return true;
         } else {
           return false;

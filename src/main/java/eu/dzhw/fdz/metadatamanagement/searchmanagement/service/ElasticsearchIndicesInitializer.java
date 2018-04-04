@@ -73,7 +73,7 @@ public class ElasticsearchIndicesInitializer {
   private JsonObject loadIndicesVersion() {
     try (InputStream inputStream = resourceLoader
         .getResource("classpath:elasticsearch/indices_version.json").getInputStream();
-       Reader reader = new InputStreamReader(inputStream,"UTF-8");) {
+        Reader reader = new InputStreamReader(inputStream, "UTF-8");) {
       JsonObject mappingsVersion = jsonParser.parse(reader).getAsJsonObject();
       return mappingsVersion;
     } catch (IOException e) {

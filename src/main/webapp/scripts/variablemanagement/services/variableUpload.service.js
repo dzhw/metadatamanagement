@@ -106,16 +106,22 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
       });
     };
 
-    var createVariableUploadChain = function(dataSet) {
-      var uploadChain = $q.when();
-      _.forEach(dataSet.jsonFiles, function(jsonFile, variableName) {
-          uploadChain = uploadChain.then(
-            function() {
-              return createVariableResourceFromFile(variableName, dataSet,
-                jsonFile);
-            }).then(uploadVariable);
-        });
-      return uploadChain;
+    var createParallelVariableUploadPromise = function(dataSet) {
+      var chunkSize = 16;
+      var variableNames = Object.keys(dataSet.jsonFiles);
+      var uploadPromises = [];
+      for (var i = 0; i < chunkSize; i++) {
+        uploadPromises.push($q.when());
+      }
+      variableNames.map(function(variableName, index) {
+        var chainIndex = index % chunkSize;
+        var promiseChain = uploadPromises[chainIndex];
+        uploadPromises[chainIndex] = promiseChain.then(function() {
+          return createVariableResourceFromFile(variableName,
+            dataSet, dataSet.jsonFiles[variableName]);
+        }).then(uploadVariable);
+      });
+      return $q.all(uploadPromises);
     };
 
     var deleteAllVariablesNotProvidedByUser = function() {
@@ -156,7 +162,7 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
         var dataSet = _.filter(filesMap, function(filesObject) {
           return filesObject.dataSetIndex === dataSetIndex;
         })[0];
-        createVariableUploadChain(dataSet).finally(function() {
+        createParallelVariableUploadPromise(dataSet).finally(function() {
             uploadDataSets(dataSetIndex + 1);
           });
       }

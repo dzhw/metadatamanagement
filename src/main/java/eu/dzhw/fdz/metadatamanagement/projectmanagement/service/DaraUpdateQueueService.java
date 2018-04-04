@@ -2,15 +2,14 @@ package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
 import java.lang.management.ManagementFactory;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
-import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
-import org.springframework.data.rest.core.annotation.HandleBeforeSave;
+import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -21,7 +20,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DaraUpdateQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service.RelatedPublicationChangesProvider;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.Authority;
@@ -55,7 +54,7 @@ public class DaraUpdateQueueService {
   private StudyRepository studyRepository;
   
   @Autowired
-  private RelatedPublicationRepository relatedPublicationRepository;
+  private RelatedPublicationChangesProvider relatedPublicationChangesProvider;
   
   @Autowired
   private UserRepository userRepository;
@@ -69,38 +68,12 @@ public class DaraUpdateQueueService {
   @Autowired
   private DaraService daraService;
   
-  /**
-   * Do checks with the related publication before delete or save operations.
-   * 
-   * @param relatedPublication the updated or deleted related 
-   *     publication before the delete or save process 
-   */
-  @HandleBeforeCreate
-  @HandleBeforeSave
-  public void onRelatedPublicationBeforeSavedOrCreated(RelatedPublication relatedPublication) {
-    RelatedPublication oldPublication = this.relatedPublicationRepository
-        .findOne(relatedPublication.getId());
-    
-    if (oldPublication != null) {      
-      List<String> deletedStudyIds = new ArrayList<>(oldPublication.getStudyIds());
-      deletedStudyIds.removeAll(relatedPublication.getStudyIds());
-      enqueueStudiesIfProjectIsReleased(deletedStudyIds);
-      
-      List<String> addedStudyIds = new ArrayList<>(relatedPublication.getStudyIds());
-      addedStudyIds.removeAll(oldPublication.getStudyIds());
-      enqueueStudiesIfProjectIsReleased(addedStudyIds);
-      
-      if (!oldPublication.getSourceReference().equals(relatedPublication.getSourceReference())) {
-        enqueueStudiesIfProjectIsReleased(relatedPublication.getStudyIds());
-      }
-    } else {
-      enqueueStudiesIfProjectIsReleased(relatedPublication.getStudyIds());
-    }
-  }
-  
+  @HandleAfterCreate
+  @HandleAfterSave
   @HandleAfterDelete
-  public void onRelatedPublicationDeleted(RelatedPublication relatedPublication) {
-    enqueueStudiesIfProjectIsReleased(relatedPublication.getStudyIds());
+  public void onRelatedPublicationChanged(RelatedPublication relatedPublication) {
+    enqueueStudiesIfProjectIsReleased(
+        relatedPublicationChangesProvider.getAffectedStudyIds(relatedPublication.getId()));
   }
     
   /**

@@ -20,7 +20,7 @@ import eu.dzhw.fdz.metadatamanagement.common.repository.BaseRepository;
 public abstract class GenericDomainObjectResourceController<T extends AbstractRdcDomainObject,
     S extends BaseRepository<T, String>> {
 
-  private S repository;
+  protected S repository;
 
   /**
    * Create resource controller.

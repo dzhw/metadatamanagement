@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
 import org.springframework.beans.BeanUtils;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Population;
@@ -13,7 +14,8 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.Survey
  * @author René Reitmann
  */
 @SuppressWarnings("CPD-START")
-public class SurveySubDocument implements SurveySubDocumentProjection {
+public class SurveySubDocument extends AbstractRdcDomainObject
+    implements SurveySubDocumentProjection {
   private String id;
 
   private String dataAcquisitionProjectId;

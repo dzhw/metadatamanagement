@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.SubDataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataSetSubDocumentProjection;
@@ -14,8 +15,8 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataS
  *  
  * @author René Reitmann
  */
-public class DataSetSubDocument implements DataSetSubDocumentProjection {
-
+public class DataSetSubDocument extends AbstractRdcDomainObject 
+    implements DataSetSubDocumentProjection {
   private String id;
   
   private String dataAcquisitionProjectId;

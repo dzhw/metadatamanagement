@@ -17,10 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 @Aspect
 @Slf4j
 public class LoggingAspect {
-  @Pointcut(
-      "within(eu.dzhw.fdz.metadatamanagement.repository..*)"
-      + " || within(eu.dzhw.fdz.metadatamanagement.service..*)"
-      + " || within(eu.dzhw.fdz.metadatamanagement.web.rest..*)")
+  @Pointcut("within(eu.dzhw.fdz.metadatamanagement.*.rest..*)"
+      + " || within(eu.dzhw.fdz.metadatamanagement.*.service..*)")
   public void loggingPointcut() {}
 
   /**

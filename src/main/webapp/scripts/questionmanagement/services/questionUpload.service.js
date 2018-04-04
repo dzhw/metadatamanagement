@@ -1,4 +1,4 @@
-/* global _ */
+/* global _, document */
 'use strict';
 
 angular.module('metadatamanagementApp').service('QuestionUploadService',
@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
     JobLoggingService, QuestionImageUploadService, CleanJSObjectService,
     ErrorMessageResolverService, $q, ElasticSearchAdminService, $rootScope,
     $translate, $mdDialog, QuestionIdBuilderService, StudyIdBuilderService,
-    InstrumentIdBuilderService, Upload) {
+    InstrumentIdBuilderService, Upload, $timeout) {
     var filesMap;
     // map questionId -> presentInJson true/false
     var existingQuestions = {};
@@ -177,6 +177,55 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
       });
     };
 
+    var getImageDimensions = function(image) {
+      var deferred = $q.defer();
+      Upload.dataUrl(image).then(function(dataUrl) {
+        var img = angular.element('<img>').attr('src', dataUrl)
+          .css('visibility', 'hidden').css('position', 'fixed')
+          .css('max-width', 'none !important')
+          .css('max-height', 'none !important');
+
+        function success() {
+          var width = img[0].naturalWidth || img[0].clientWidth;
+          var height = img[0].naturalHeight || img[0].clientHeight;
+          img.remove();
+          image.$ngfWidth = width;
+          image.$ngfHeight = height;
+          deferred.resolve({width: width, height: height});
+        }
+
+        function error() {
+          img.remove();
+          deferred.reject('load error');
+        }
+
+        img.on('load', success);
+        img.on('error', error);
+
+        var secondsCounter = 0;
+        function checkLoadErrorInCaseOfNoCallback() {
+          $timeout(function() {
+            if (img[0].parentNode) {
+              if (img[0].clientWidth) {
+                success();
+              } else if (secondsCounter++ > 10) {
+                error();
+              } else {
+                checkLoadErrorInCaseOfNoCallback();
+              }
+            }
+          }, 1000);
+        }
+
+        checkLoadErrorInCaseOfNoCallback();
+
+        angular.element(document.getElementsByTagName('body')[0]).append(img);
+      }, function() {
+        deferred.reject('load error');
+      });
+      return deferred.promise;
+    };
+
     var createQuestionImageMetadataResource = function(
       questionImageJson, image, question, property) {
       return $q(function(resolve) {
@@ -238,11 +287,14 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                   questionImageMetadata.resolution = {};
 
                   // Get image file dimensions
-                  Upload.imageDimensions(image)
+                  getImageDimensions(image)
                   .then(function(dimensions) {
                     questionImageMetadata.resolution.widthX = dimensions.width;
                     questionImageMetadata.resolution.heightY =
                       dimensions.height;
+                    resolve(questionImageMetadata);
+                  }).catch(function(error) {
+                    console.log('Unable to detect image dimensions:' + error);
                     resolve(questionImageMetadata);
                   });
 
@@ -387,20 +439,24 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
       });
     };
 
-    var createQuestionUploadChain = function(instrument) {
+    var createParallelQuestionUploadPromise = function(instrument) {
       var questionImageMetadataResources = {};
       var questionImageMap = {};
       var questionResourceMap = {};
-      var chainedQuestionUploads = $q.when();
-      _.forEach(instrument.jsonFiles, function(questionAsJson,
-        questionNumber) {
-        chainedQuestionUploads = chainedQuestionUploads
-        //Build Question Resource
-        .then(function() {
+      var questionUploadPromises = [];
+      var chunkSize = 16;
+      var questionNumbers = Object.keys(instrument.jsonFiles);
+      for (var i = 0; i < chunkSize; i++) {
+        questionUploadPromises.push($q.when());
+      }
+      questionNumbers.map(function(questionNumber, index) {
+        var chainIndex = index % chunkSize;
+        var promiseChain = questionUploadPromises[chainIndex];
+        questionUploadPromises[chainIndex] = promiseChain.then(function() {
           return createQuestionResource(
-            instrument, questionAsJson, questionNumber);
+            instrument, instrument.jsonFiles[questionNumber], questionNumber);
         })
-        //Build Question Image Resource
+          //Build Question Image Resource
         .then(function(question) {
           questionResourceMap[questionNumber] = question;
           var chainedQuestionImageMetadataResourceBuilder = $q.when();
@@ -447,8 +503,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
             questionImageMetadataResources[questionNumber]);
         });
       });
-
-      return chainedQuestionUploads;
+      return $q.all(questionUploadPromises);
     };
 
     var uploadInstruments = function(instrumentIndex) {
@@ -472,7 +527,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
         var instrument = _.filter(filesMap, function(filesObject) {
           return filesObject.instrumentIndex === instrumentIndex;
         })[0];
-        createQuestionUploadChain(instrument).finally(function() {
+        createParallelQuestionUploadPromise(instrument).finally(function() {
             uploadInstruments(instrumentIndex + 1);
           });
       }

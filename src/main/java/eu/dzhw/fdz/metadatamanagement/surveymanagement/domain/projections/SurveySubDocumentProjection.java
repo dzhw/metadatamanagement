@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.AbstractRdcDomainObjectProjection;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Population;
 
 /**
@@ -10,10 +11,8 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Population;
  *
  * @author René Reitmann
  */
-public interface SurveySubDocumentProjection {
-
-  String getId();
-
+public interface SurveySubDocumentProjection 
+    extends AbstractRdcDomainObjectProjection {
   String getDataAcquisitionProjectId();
 
   I18nString getTitle();
