@@ -85,6 +85,9 @@ public class DaraService {
 
   @Autowired
   private DoiBuilder doiBuilder;
+  
+  @Autowired
+  private DataAcquisitionProjectVersionsService dataAcquisitionProjectVersionsService;
 
   private RestTemplate restTemplate;
 
@@ -244,6 +247,10 @@ public class DaraService {
     
     String doi = doiBuilder.buildStudyDoi(study, project.getRelease());
     dataForTemplate.put("doi", doi);
+    
+    String previousDoi = doiBuilder.buildStudyDoi(study, dataAcquisitionProjectVersionsService
+        .findPreviousRelease(project.getId(), project.getRelease()));
+    dataForTemplate.put("previousDoi", previousDoi);
 
     //Get Surveys Information
     List<Survey> surveys = this.surveyRepository

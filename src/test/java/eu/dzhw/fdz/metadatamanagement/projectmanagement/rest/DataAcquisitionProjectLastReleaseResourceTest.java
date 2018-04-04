@@ -171,5 +171,9 @@ public class DataAcquisitionProjectLastReleaseResourceTest extends AbstractTest 
     //Assert that the last version is 1.0.1
     lastRelease = this.versionsService.findLastRelease(project.getId());    
     assertThat(lastRelease.getVersion(), is("1.0.1"));
+    
+    //Assert that the previous version is 1.0.0
+    lastRelease = this.versionsService.findPreviousRelease(project.getId(), project.getRelease());    
+    assertThat(lastRelease.getVersion(), is("1.0.0"));
   }
 }

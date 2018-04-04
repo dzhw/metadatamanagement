@@ -29,7 +29,7 @@ angular.module('metadatamanagementApp').run(
 
     // Server or network down
     $rootScope.$on('serverNotReachableError', function() {
-      SimpleMessageToastService.openSimpleMessageToast('global.error.' +
+      SimpleMessageToastService.openAlertMessageToast('global.error.' +
         'server-not-reachable');
     });
 
@@ -37,7 +37,7 @@ angular.module('metadatamanagementApp').run(
     $rootScope.$on('unauthorizedError',
     function(event, response) { // jshint ignore:line
       if (ignore401 === 0) {
-        SimpleMessageToastService.openSimpleMessageToast('global.error.' +
+        SimpleMessageToastService.openAlertMessageToast('global.error.' +
         'client-error.unauthorized-error', {status: response.status});
       }
     });
@@ -45,7 +45,7 @@ angular.module('metadatamanagementApp').run(
     //Client Error 403
     $rootScope.$on('forbiddenError',
     function(event, response) { // jshint ignore:line
-      SimpleMessageToastService.openSimpleMessageToast('global.error.' +
+      SimpleMessageToastService.openAlertMessageToast('global.error.' +
         'client-error.forbidden-error', {status: response.status});
     });
 
@@ -53,7 +53,7 @@ angular.module('metadatamanagementApp').run(
     $rootScope.$on('notFoundError',
     function(event, response) { // jshint ignore:line
       if (ignore404 === 0) {
-        SimpleMessageToastService.openSimpleMessageToast('global.error.' +
+        SimpleMessageToastService.openAlertMessageToast('global.error.' +
           'client-error.not-found-error', {status: response.status});
         PageTitleService.setPageTitle('global.title');
       }
@@ -62,7 +62,7 @@ angular.module('metadatamanagementApp').run(
     //Server Error 500 to 511
     $rootScope.$on('internalServerError',
     function(event, response) { // jshint ignore:line
-      SimpleMessageToastService.openSimpleMessageToast('global.error.' +
+      SimpleMessageToastService.openAlertMessageToast('global.error.' +
         'server-error.internal-server-error', {status: response.status});
     });
   });

@@ -46,21 +46,40 @@ public class DataAcquisitionProjectVersionsService
   }
   
   /**
-   * Get the last release of a data acquisition project.
+   * Get the last saved release for the given project id. 
    * @param id the id of the data acquisition project.
+   * @return the last saved release or null
    */
   public Release findLastRelease(String id) {
+    return findPreviousRelease(id, null);
+  }
+  
+  /**
+   * Get the previous release of a data acquisition project. The release before currentRelease.
+   * @param id the id of the data acquisition project.
+   * @param currentRelease get the release saved before this release
+   * @return the previous release or null
+   */
+  public Release findPreviousRelease(String id, Release currentRelease) {
     //Find last changes
     QueryBuilder jqlQuery = QueryBuilder
         .byValueObjectId(id, DataAcquisitionProject.class, "release")
         .withChangedProperty("version")
-        .limit(1);
+        .limit(2);
     List<Shadow<Release>> shadows = javers.findShadows(jqlQuery.build());    
     
     if (shadows.isEmpty()) {
       return null;
     } else {
-      return shadows.get(0).get();
+      if (currentRelease == null) {
+        return shadows.get(0).get();
+      }
+      for (Shadow<Release> shadow : shadows) {
+        if (!shadow.get().getVersion().equals(currentRelease.getVersion())) {
+          return shadow.get();
+        }
+      }
+      return null;
     }
   }
 }

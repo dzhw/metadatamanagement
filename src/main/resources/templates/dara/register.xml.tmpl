@@ -2,7 +2,7 @@
 <resource xmlns="http://da-ra.de/schema/kernel-4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://da-ra.de/schema/kernel-4 http://www.da-ra.de/fileadmin/media/da-ra.de/Technik/4.0/dara.xsd">
     <resourceType>${resourceType}</resourceType>
     <resourceIdentifier>
-        <identifier>dzhw:${study.dataAcquisitionProjectId}:${dataAcquisitionProject.release.version}</identifier>
+        <identifier>dzhw:${study.dataAcquisitionProjectId}:1.0.0</identifier>
         <currentVersion>${dataAcquisitionProject.release.version}</currentVersion>
     </resourceIdentifier>
     <titles>
@@ -153,6 +153,15 @@
         </#list>
         </#list>
     </dataSets>
+    </#if>
+    <#if previousDoi??>
+    <relations>
+    	<relation>
+    		<identifier>${previousDoi}</identifier>
+    		<identifierType>DOI</identifierType>
+    		<relationType>IsNewVersionOf</relationType>
+    	</relation>
+    </relations>
     </#if>
     <#if relatedPublications?? && relatedPublications?size gt 0>
     <publications>
