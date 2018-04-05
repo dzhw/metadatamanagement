@@ -40,7 +40,13 @@ angular.module('metadatamanagementApp')
               }, true);
             CurrentProjectService.setCurrentProject(project);
             $mdDialog.hide();
-          });
+          }).catch(function() {
+          delete project.release;
+          SimpleMessageToastService.openAlertMessageToast(
+            i18nPrefix + 'dara-released-not-successfully', {
+              id: project.id
+            });
+        });
       } else {
         //REGULAR RELEASE
         DaraReleaseResource.release(project)
@@ -56,7 +62,7 @@ angular.module('metadatamanagementApp')
               });
           }).catch(function() {
           delete project.release;
-          SimpleMessageToastService.openSimpleMessageToast(
+          SimpleMessageToastService.openAlertMessageToast(
             i18nPrefix + 'dara-released-not-successfully', {
               id: project.id
             });

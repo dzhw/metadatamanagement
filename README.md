@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/dzhw/metadatamanagement.svg?branch=development)](https://travis-ci.org/dzhw/metadatamanagement)  [![Sauce Test Status](https://saucelabs.com/buildstatus/rreitmann)](https://saucelabs.com/u/rreitmann) [![Coverage Status](https://coveralls.io/repos/dzhw/metadatamanagement/badge.svg?branch=development&service=github)](https://coveralls.io/github/dzhw/metadatamanagement?branch=development) [![Dependency Status](https://www.versioneye.com/user/projects/55af5e7a3865620017000077/badge.svg?style=flat)](https://www.versioneye.com/user/projects/55af5e7a3865620017000077) [![Built with Grunt](https://cdn.gruntjs.com/builtwith.svg)](https://gruntjs.com/) 
+[![Build Status](https://travis-ci.org/dzhw/metadatamanagement.svg?branch=development)](https://travis-ci.org/dzhw/metadatamanagement)  [![Sauce Test Status](https://saucelabs.com/buildstatus/rreitmann)](https://saucelabs.com/u/rreitmann) [![Coverage Status](https://coveralls.io/repos/dzhw/metadatamanagement/badge.svg?branch=development&service=github)](https://coveralls.io/github/dzhw/metadatamanagement?branch=development) [![Built with Grunt](https://cdn.gruntjs.com/builtwith.svg)](https://gruntjs.com/)
 
 [![Sauce Build Matrix](https://saucelabs.com/browser-matrix/rreitmann.svg)](https://saucelabs.com/u/rreitmann)
 
@@ -43,6 +43,11 @@ You can build and deploy the jar to the dev environment by running
 ## Pivotal Cloudfoundry
 This project is currently built and deployed to Pivotal Cloudfoundry by Travis CI. You can test the latest version on https://metadatamanagement-dev.cfapps.io/
 
+## Big Thanks
+
+Cross-browser Testing Platform and Open Source <3 Provided by [Sauce Labs][saucelabs]
+
+[saucelabs]: https://saucelabs.com
 [JHipster]: https://jhipster.github.io/
 [Node.js]: https://nodejs.org/
 [Bower]: http://bower.io/
