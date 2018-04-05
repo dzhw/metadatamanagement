@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -125,5 +126,56 @@ public class RelatedPublicationChangesProvider {
     if (oldPublication != null) {      
       oldPublications.put(oldPublication.getId(), oldPublication);
     }
+  }
+  
+  /**
+   * Detect if changes need to be send to Dara.
+   * @param relatedPublicationId The id of the related publication
+   * @return true if the changes need to be send to dara
+   */
+  public boolean hasChangesRelevantForDara(String relatedPublicationId) {
+    if (newPublications.get(relatedPublicationId) == null 
+        || oldPublications.get(relatedPublicationId) == null) {
+      return true;
+    }
+    return !oldPublications.get(relatedPublicationId).getSourceReference()
+        .equals(newPublications.get(relatedPublicationId).getSourceReference());
+  }
+  
+  /**
+   * Get the list of study ids which have been removed from the publication.
+   * @param relatedPublicationId the id of the publication
+   * @return list of study ids which have been removed from the publications
+   */
+  public List<String> getDeletedStudyIds(String relatedPublicationId) {
+    if (oldPublications.get(relatedPublicationId) == null) {
+      return new ArrayList<>();
+    }
+    if (newPublications.get(relatedPublicationId) == null) {
+      return oldPublications.get(relatedPublicationId).getStudyIds();
+    }
+    List<String> deletedStudyIds = new ArrayList<>(oldPublications.get(relatedPublicationId)
+        .getStudyIds());
+    deletedStudyIds.removeAll(newPublications.get(relatedPublicationId).getStudyIds());
+    return deletedStudyIds;
+  }
+  
+  /**
+   * Get the list of study ids which have been added to the publication.
+   * @param relatedPublicationId the id of the publication
+   * @return list of study ids which have been added to the publications
+   */
+  public List<String> getAddedStudyIds(String relatedPublicationId) {
+    if (oldPublications.get(relatedPublicationId) == null) {
+      return newPublications.get(relatedPublicationId).getStudyIds();
+    }
+    if (newPublications.get(relatedPublicationId) == null) {
+      return new ArrayList<>();
+    }
+    List<String> addedStudyIds = new ArrayList<>(newPublications.get(relatedPublicationId)
+        .getStudyIds());
+    addedStudyIds.removeAll(oldPublications.get(relatedPublicationId)
+        .getStudyIds());
+    return addedStudyIds;
   }
 }

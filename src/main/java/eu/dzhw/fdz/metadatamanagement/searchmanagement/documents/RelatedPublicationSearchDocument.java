@@ -9,7 +9,6 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataS
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.InstrumentSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.projections.QuestionSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.SurveySubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.VariableSubDocumentProjection;
 import lombok.EqualsAndHashCode;
@@ -58,7 +57,7 @@ public class RelatedPublicationSearchDocument extends RelatedPublication
    */
   @SuppressWarnings("CPD-START")
   public RelatedPublicationSearchDocument(RelatedPublication relatedPublication,
-      List<StudySubDocumentProjection> studies, 
+      List<StudySubDocument> studies, 
       List<QuestionSubDocumentProjection> questions, 
       List<InstrumentSubDocumentProjection> instruments,
       List<SurveySubDocumentProjection> surveys, 
@@ -66,8 +65,7 @@ public class RelatedPublicationSearchDocument extends RelatedPublication
       List<VariableSubDocumentProjection> variables) {
     super(relatedPublication);
     if (studies != null) {
-      this.studies = studies.stream()
-          .map(StudySubDocument::new).collect(Collectors.toList());      
+      this.studies = studies;      
     }
     if (questions != null) {
       this.questions = questions.stream()

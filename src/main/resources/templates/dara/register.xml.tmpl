@@ -3,7 +3,7 @@
     <resourceType>${resourceType}</resourceType>
     <resourceIdentifier>
         <identifier>dzhw:${study.dataAcquisitionProjectId}:1.0.0</identifier>
-        <currentVersion>1.0.0</currentVersion>
+        <currentVersion>${dataAcquisitionProject.release.version}</currentVersion>
     </resourceIdentifier>
     <titles>
         <title>
@@ -39,14 +39,10 @@
     </creators>
     <dataURLs>
         <dataURL>
-            https://metadata.fdz.dzhw.eu/#!/de/studies/${study.id}
+            https://metadata.fdz.dzhw.eu/#!/de/studies/${study.id}?version=${dataAcquisitionProject.release.version}
         </dataURL>
     </dataURLs>
-    <#if !isDaraTest>
-        <doiProposal>${study.doi}</doiProposal>
-        <#else>
-        <doiProposal>${study.doi?replace("10.21249", "10.5072")}</doiProposal>
-    </#if>
+    <doiProposal>${doi}</doiProposal>
     <publicationDate>
         <date>${releaseDate}</date>
     </publicationDate>
@@ -157,6 +153,15 @@
         </#list>
         </#list>
     </dataSets>
+    </#if>
+    <#if previousDoi??>
+    <relations>
+    	<relation>
+    		<identifier>${previousDoi}</identifier>
+    		<identifierType>DOI</identifierType>
+    		<relationType>IsNewVersionOf</relationType>
+    	</relation>
+    </relations>
     </#if>
     <#if relatedPublications?? && relatedPublications?size gt 0>
     <publications>

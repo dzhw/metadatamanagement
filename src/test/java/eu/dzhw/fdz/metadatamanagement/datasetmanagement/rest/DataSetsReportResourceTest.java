@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
@@ -46,6 +47,10 @@ public class DataSetsReportResourceTest extends AbstractTest {
 
   @Autowired
   private FileService fileService;
+  
+  @Autowired
+  private JaversService javersService;
+
 
   private MockMvc mockMvc;
 
@@ -60,6 +65,7 @@ public class DataSetsReportResourceTest extends AbstractTest {
     this.dataAcquisitionProjectRepository.deleteAll();
     this.dataSetRepository.deleteAll();
     this.fileService.deleteTempFiles();
+    this.javersService.deleteAll();
   }
 
   @Test

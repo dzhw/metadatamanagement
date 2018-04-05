@@ -92,8 +92,10 @@ angular.module('metadatamanagementApp').config(
           'basic-data-of-surveys': 'Basic Data of Surveys',
           'not-found': 'The {{id}} references to an unknown Study.',
           'not-found-references': 'The id {{id}} has no References to Studies.',
-          'not-yet-released': 'Not yet released',
-          'not-released-toast': 'Study "{{ id }}" has not yet been released to all users!',
+          'not-yet-released': 'Currently not released',
+          'not-released-toast': 'Study "{{ id }}" is being worked on. Therefore it is not visible to all users at the moment!',
+          'old-version': 'Your link refers to a former version ({{versionFromUrl}}) of this study. This page displays the current version ({{actualVersion}}) of the study "{{title}}".',
+          'beta-release-no-doi': 'This is a BETA release and has no DOI at the moment.',
           'tooltips': {
             'surveys': {
               'one': 'Click to show the survey of this study',

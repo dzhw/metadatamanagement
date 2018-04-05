@@ -19,4 +19,8 @@ public interface Patterns {
   String GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOT_AND_DOLLAR =
       "^[_A-Za-z0-9äöüÄÖÜß\\-\\.\\$]*$";
   String NO_WHITESPACE = "^[^\\s]*$";
+  
+  String SEMVER = "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)"
+      + "(-(0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)"
+      + "(\\.(0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*)?(\\+[0-9a-zA-Z-]+(\\.[0-9a-zA-Z-]+)*)?$";
 }

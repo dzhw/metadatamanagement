@@ -26,6 +26,7 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.Instrument
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DoiBuilder;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.projections.QuestionSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
@@ -39,6 +40,7 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.InstrumentSearc
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.QuestionSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.RelatedPublicationSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.StudySearchDocument;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.StudySubDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.SurveySearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.VariableSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.VariableSubDocument;
@@ -114,6 +116,9 @@ public class ElasticsearchUpdateQueueService {
   
   @Autowired
   private DataAcquisitionProjectRepository projectRepository;
+  
+  @Autowired
+  private DoiBuilder doiBuilder; 
 
   /**
    * Attach one item to the queue.
@@ -276,8 +281,9 @@ public class ElasticsearchUpdateQueueService {
       if (project != null) {
         release = project.getRelease();
       }
+      String doi = doiBuilder.buildStudyDoi(study, release);
       InstrumentSearchDocument searchDocument = new InstrumentSearchDocument(instrument, 
-          study, surveys, questions, variables, dataSets, relatedPublications, release);
+          study, surveys, questions, variables, dataSets, relatedPublications, release, doi);
       
       bulkBuilder.addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType()
           .name())
@@ -294,9 +300,16 @@ public class ElasticsearchUpdateQueueService {
     RelatedPublication relatedPublication =
         relatedPublicationRepository.findOne(lockedItem.getDocumentId());
     if (relatedPublication != null) {
-      List<StudySubDocumentProjection> studies = new ArrayList<StudySubDocumentProjection>();
+      List<StudySubDocument> studySubDocuments = null;
       if (relatedPublication.getStudyIds() != null) {
-        studies = studyRepository.findSubDocumentsByIdIn(relatedPublication.getStudyIds());
+        List<StudySubDocumentProjection> studies = studyRepository
+            .findSubDocumentsByIdIn(relatedPublication.getStudyIds());
+        studySubDocuments = studies.stream().map(study -> {
+          DataAcquisitionProject project = projectRepository.findOne(study
+              .getDataAcquisitionProjectId());
+          return new StudySubDocument(study, 
+              doiBuilder.buildStudyDoi(study, project.getRelease()));
+        }).collect(Collectors.toList());
       }
       List<QuestionSubDocumentProjection> questions = 
           new ArrayList<QuestionSubDocumentProjection>();
@@ -323,7 +336,7 @@ public class ElasticsearchUpdateQueueService {
         variables = variableRepository.findSubDocumentsByIdIn(relatedPublication.getVariableIds());
       }
       RelatedPublicationSearchDocument searchDocument =
-          new RelatedPublicationSearchDocument(relatedPublication, studies, questions,
+          new RelatedPublicationSearchDocument(relatedPublication, studySubDocuments, questions,
               instruments, surveys, dataSets, variables);
 
       bulkBuilder.addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType()
@@ -373,8 +386,9 @@ public class ElasticsearchUpdateQueueService {
       }
       StudySubDocumentProjection study = studyRepository
           .findOneSubDocumentById(dataSet.getStudyId());
+      String doi = doiBuilder.buildStudyDoi(study, release);
       DataSetSearchDocument searchDocument = new DataSetSearchDocument(dataSet, study,
-          variableProjections, relatedPublications, surveys, instruments, questions, release);
+          variableProjections, relatedPublications, surveys, instruments, questions, release, doi);
       
       bulkBuilder.addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType()
           .name())
@@ -410,9 +424,10 @@ public class ElasticsearchUpdateQueueService {
       if (project != null) {
         release = project.getRelease();
       }
+      String doi = doiBuilder.buildStudyDoi(study, release);
       SurveySearchDocument searchDocument =
            new SurveySearchDocument(survey, study, 
-               dataSets, variables, relatedPublications, instruments, questions, release);
+               dataSets, variables, relatedPublications, instruments, questions, release, doi);
 
       bulkBuilder.addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType()
           .name())
@@ -455,8 +470,9 @@ public class ElasticsearchUpdateQueueService {
       if (project != null) {
         release = project.getRelease();
       }
+      String doi = doiBuilder.buildStudyDoi(study, release);
       VariableSearchDocument searchDocument = new VariableSearchDocument(variable,
-          dataSet, study, relatedPublications, surveys, instruments, release);
+          dataSet, study, relatedPublications, surveys, instruments, release, doi);
 
       bulkBuilder.addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType()
           .name())
@@ -501,9 +517,10 @@ public class ElasticsearchUpdateQueueService {
       if (project != null) {
         release = project.getRelease();
       }
+      String doi = doiBuilder.buildStudyDoi(study, release);
       QuestionSearchDocument searchDocument =
             new QuestionSearchDocument(question, study, instrument, surveys, variables,
-                dataSets, relatedPublications, release);
+                dataSets, relatedPublications, release, doi);
 
       bulkBuilder.addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType()
           .name())
@@ -543,8 +560,9 @@ public class ElasticsearchUpdateQueueService {
       if (project != null) {
         release = project.getRelease();
       }
+      String doi = doiBuilder.buildStudyDoi(study, release);
       StudySearchDocument searchDocument = new StudySearchDocument(study, dataSets, variables,
-          relatedPublications, surveys, questions, instruments, release);
+          relatedPublications, surveys, questions, instruments, release, doi);
 
       bulkBuilder.addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType()
           .name())

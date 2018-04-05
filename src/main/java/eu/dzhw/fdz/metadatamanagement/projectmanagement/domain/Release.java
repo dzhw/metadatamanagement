@@ -8,9 +8,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
-import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,18 +28,14 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Release {
   
-  @NotEmpty(message = "data-acquisition-project." 
+  @NotEmpty(message = "data-acquisition-project-management." 
       + "error.release.version.not-empty")
   @Size(max = StringLengths.SMALL, 
-      message = "data-acquisition-project.error.release.version.size")
-  @Pattern(regexp = Patterns.NUMERIC_WITH_DOT, 
-      message = "data-acquisition-project.error.release.version.pattern")
+      message = "data-acquisition-project-management.error.release.version.size")
+  @Pattern(regexp = Patterns.SEMVER, 
+      message = "data-acquisition-project-management.error.release.version.pattern")
   private String version;
 
-  @NotNull(message = "data-acquisition-project.error.release.date.not-null")
+  @NotNull(message = "data-acquisition-project-management.error.release.date.not-null")
   private LocalDateTime date;
-
-  @I18nStringSize(max = StringLengths.LARGE, 
-      message = "data-acquisition-project.error.release.notes.i18n-string-size")
-  private I18nString notes;
 }

@@ -68,12 +68,22 @@ public class DaraUpdateQueueService {
   @Autowired
   private DaraService daraService;
   
+  /**
+   * Update study metadata at dara if necessary.
+   * @param relatedPublication the changed publication
+   */
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
   public void onRelatedPublicationChanged(RelatedPublication relatedPublication) {
-    enqueueStudiesIfProjectIsReleased(
-        relatedPublicationChangesProvider.getAffectedStudyIds(relatedPublication.getId()));
+    enqueueStudiesIfProjectIsReleased(relatedPublicationChangesProvider
+        .getAddedStudyIds(relatedPublication.getId()));
+    enqueueStudiesIfProjectIsReleased(relatedPublicationChangesProvider
+        .getDeletedStudyIds(relatedPublication.getId()));
+    if (relatedPublicationChangesProvider.hasChangesRelevantForDara(relatedPublication.getId())) {
+      enqueueStudiesIfProjectIsReleased(
+          relatedPublicationChangesProvider.getAffectedStudyIds(relatedPublication.getId()));      
+    }
   }
     
   /**
@@ -94,9 +104,9 @@ public class DaraUpdateQueueService {
   }
 
   /**
-   * Process the update queue every 5 minutes.
+   * Process the update queue every minute.
    */
-  @Scheduled(fixedRate = 1000 * 300, initialDelay = 1000 * 60)
+  @Scheduled(fixedRate = 1000 * 60, initialDelay = 1000 * 60)
   public void processAllQueueItems() {
     log.info("Starting processing of DaraUpdateQueue...");
     LocalDateTime updateStart = LocalDateTime.now();

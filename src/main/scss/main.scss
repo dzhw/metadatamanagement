@@ -959,3 +959,10 @@ md-backdrop.md-dialog-backdrop {
     background-color: $brand-warning;
     color: black !important;
 }
+
+md-toast.md-accent > .md-toast-content {
+    font-weight: bold;
+    border: 1px solid black;
+    background-color: $brand-warning;
+    color: black !important;
+}

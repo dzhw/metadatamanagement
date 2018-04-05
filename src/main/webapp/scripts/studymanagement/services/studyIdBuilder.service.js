@@ -7,12 +7,7 @@ function() {
     return 'stu-' + dataAcquisitionProjectId + '$';
   };
 
-  var buildDoi = function(dataAcquisitionProjectId) {
-    return '10.21249/DZHW:' + dataAcquisitionProjectId + ':1.0.0';
-  };
-
   return {
-    buildStudyId: buildStudyId,
-    buildDoi: buildDoi
+    buildStudyId: buildStudyId
   };
 });

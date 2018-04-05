@@ -231,19 +231,7 @@ angular.module('metadatamanagementApp').config(
             'pattern': 'Dieses Feld muss das Muster {{pattern}} erfüllen.',
             'number': 'Dieses Feld muss eine Zahl sein.',
             'datetimelocal': 'Dieses Feld muss eine Datums- und Zeitangabe enthalten.',
-            'rdc-id': 'Die FDZ-ID darf nur aus Zahlen, Buchstaben und "_" bestehen.',
-            'variable': {
-              'name': 'Der Name einer Variablen darf nur aus Zahlen, Buchstaben und "_" bestehen.'
-            },
-            'survey': {
-              'period': 'Der Feldzeitbeginn muss vor dem Ende liegen.'
-            },
-            'data-acquisition-project': {
-              'id': 'Der Name eines Projektes darf nur aus Zahlen und kleinen Buchstaben (a-z) bestehen.',
-              'release': {
-                'version': 'Die Version darf nur aus Zahlen und Punkten bestehen.'
-              }
-            }
+            'rdc-id': 'Die FDZ-ID darf nur aus Zahlen, Buchstaben und "_" bestehen.'
           }
         },
         'error': {

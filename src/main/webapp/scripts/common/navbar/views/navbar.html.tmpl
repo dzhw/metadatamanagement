@@ -195,6 +195,12 @@
               {{'global.logos.bmbf-tooltip'|translate}}
            </md-tooltip>
         </a>
+        <a ng-if="ENV === 'dev' || ENV === 'local'" href="https://saucelabs.com/u/rreitmann" target="_blank">
+          <img style="width: 100%;" alt="Testing Powered by Sauce Labs" src="./assets/images/sauce_labs.svg"/>
+          <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+             Testing powered by Sauce Labs
+          </md-tooltip>
+        </a>
       </div>
     </md-content>
 </md-sidenav>

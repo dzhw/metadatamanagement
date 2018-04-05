@@ -7,11 +7,7 @@ angular.module('metadatamanagementApp').config(
       'data-acquisition-project-management': {
         'name': 'Name des Datenaufbereitungsprojektes',
         'release': {
-          'version': 'Version des Datenaufbereitungsprojektes',
-          'notes': {
-            'de': 'Freigabebemerkungen (auf Deutsch)',
-            'en': 'Freigabebemerkungen (auf Englisch)'
-          }
+          'version': 'Version des Datenaufbereitungsprojektes'
         },
         'home': {
           'title': 'Datenaufbereitungsprojekte',
@@ -34,8 +30,9 @@ angular.module('metadatamanagementApp').config(
             'delete': 'Möchten Sie wirklich das Projekt "{{ id }}" löschen? Das Projekt kann hiernach nicht wieder hergestellt werden.',
             'deleted-successfully-project': 'Das Datenaufbereitungsprojekt "{{ id }}" wurde erfolgreich gelöscht.',
             'deleted-not-successfully-project': 'Das Datenaufbereitungsprojekt "{{ id }}" konnte nicht gelöscht werden!',
-            'released-successfully': 'Die Daten des Projektes "{{ id }}" werden in ca. 10 Minuten für alle Benutzer sichtbar sein.',
-            'dara-released-not-successfully': 'Die Daten des Projektes "{{ id }}" können nicht veröffentlicht werden. Es trat ein Fehler bei der Registrierung / Update der DOI bei Dara auf.',
+            'released-successfully': 'Es wurde eine DOI bei da|ra registriert und die Daten des Projektes "{{ id }}" werden in ca. 10 Minuten für alle Benutzer sichtbar sein.',
+            'released-beta-successfully': 'Die Daten des Projektes "{{ id }}" werden in ca. 10 Minuten für alle Benutzer sichtbar sein. Es wurde keine DOI bei da|ra registriert.',
+            'dara-released-not-successfully': 'Die Daten des Projektes "{{ id }}" können nicht veröffentlicht werden. Es trat ein Fehler bei der Registrierung der DOI bei da|ra auf.',
             'unreleased-successfully': 'Die Daten des Projektes "{{ id }}" werden in ca. 10 Minuten nur noch für FDZ Mitarbeiter sichtbar sein.',
             'unrelease-title': 'Freigabe für Projekt "{{ id }}" zurücknehmen?',
             'unrelease': 'Möchten Sie wirklich, dass das Projekt "{{ id }}" nur noch für FDZ Mitarbeiter sichtbar ist?',
@@ -47,11 +44,19 @@ angular.module('metadatamanagementApp').config(
           'data-acquisition-project': {
             'id': {
               'not-empty': 'Die FDZ-ID des Datenaufbereitungsprojekts darf nicht leer sein!',
-              'pattern': 'Die FDZ-ID darf nur alphanumerische Zeichen, deutsche Umlaute und ß beinhalten.',
+              'pattern': 'Der Name eines Projektes darf nur aus Zahlen und kleinen Buchstaben (a-z) bestehen.',
               'size': 'Die Maximallänge der FDZ-ID ist 32 Zeichen.'
             },
             'has-been-released-before': {
               'not-null': 'Es muss angegeben sein, ob ein des Datenaufbereitungsprojekts schon einmal veröffentlicht wurde oder nicht.'
+            }
+          },
+          'release': {
+            'version': {
+              'not-empty': 'Die Version darf nicht leer sein.',
+              'pattern': 'Die Version muss von der Form "major.minor.patch" (z.B. "1.0.0") sein.',
+              'not-parsable-or-not-incremented': 'Die Versionsnummer muss mindestens so hoch sein wie die letzte Version. Die letzte Version war "{{lastVersion}}".',
+              'size': 'Die Version darf nicht länger als 32 Zeichen sein.'
             }
           },
           'post-validation': {
