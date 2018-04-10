@@ -11,8 +11,11 @@ import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
+import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+
+import com.github.zafarkhaja.semver.Version;
 
 import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DaraUpdateQueueItem;
@@ -76,12 +79,12 @@ public class DaraUpdateQueueService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onRelatedPublicationChanged(RelatedPublication relatedPublication) {
-    enqueueStudiesIfProjectIsReleased(relatedPublicationChangesProvider
+    enqueueStudiesIfProjectIsCurrentlyReleasedToDara(relatedPublicationChangesProvider
         .getAddedStudyIds(relatedPublication.getId()));
-    enqueueStudiesIfProjectIsReleased(relatedPublicationChangesProvider
+    enqueueStudiesIfProjectIsCurrentlyReleasedToDara(relatedPublicationChangesProvider
         .getDeletedStudyIds(relatedPublication.getId()));
     if (relatedPublicationChangesProvider.hasChangesRelevantForDara(relatedPublication.getId())) {
-      enqueueStudiesIfProjectIsReleased(
+      enqueueStudiesIfProjectIsCurrentlyReleasedToDara(
           relatedPublicationChangesProvider.getAffectedStudyIds(relatedPublication.getId()));      
     }
   }
@@ -132,7 +135,7 @@ public class DaraUpdateQueueService {
     queueItemRepository.deleteAll();
   }
   
-  private void enqueueStudiesIfProjectIsReleased(Collection<String> studyIds) {
+  private void enqueueStudiesIfProjectIsCurrentlyReleasedToDara(Collection<String> studyIds) {
     for (String studyId : studyIds) {
       Study study = studyRepository.findOne(studyId);
       if (study != null) {
@@ -140,7 +143,9 @@ public class DaraUpdateQueueService {
             this.projectRepository.findOne(study.getDataAcquisitionProjectId());
         
         if (dataAcquisitionProject != null
-            && dataAcquisitionProject.getRelease() != null) {
+            && dataAcquisitionProject.getRelease() != null
+            && Version.valueOf(dataAcquisitionProject.getRelease().getVersion())
+            .greaterThanOrEqualTo(Version.valueOf("1.0.0"))) {
           this.enqueue(study.getDataAcquisitionProjectId());
         }
       } else {
@@ -157,20 +162,29 @@ public class DaraUpdateQueueService {
   private void executeQueueItems(List<DaraUpdateQueueItem> lockedItems) {
     for (DaraUpdateQueueItem lockedItem : lockedItems) {
       try {
-        this.daraService.registerOrUpdateProjectToDara(lockedItem.getProjectId());
+        HttpStatus responseStatus = this.daraService
+            .registerOrUpdateProjectToDara(lockedItem.getProjectId());
+        if (!responseStatus.is2xxSuccessful()) {
+          handleDaraCommunicationError(lockedItem);
+          continue;
+        }
       } catch (Exception e) {
         log.error("Error at registration to Dara: " + e.getMessage());
         // do not delete the queue item (has to be retried later)
-        List<User> admins = userRepository.findAllByAuthoritiesContaining(
-            new Authority(AuthoritiesConstants.ADMIN));
-        mailService.sendMailOnDaraAutomaticUpdateError(admins, lockedItem.getProjectId());
-        this.unlock(lockedItem);
-        return;
+        handleDaraCommunicationError(lockedItem);
+        continue;
       }
     }
     
     // finally delete the queue items
     queueItemRepository.delete(lockedItems);
+  }
+
+  private void handleDaraCommunicationError(DaraUpdateQueueItem lockedItem) {
+    List<User> admins = userRepository.findAllByAuthoritiesContaining(
+        new Authority(AuthoritiesConstants.ADMIN));
+    mailService.sendMailOnDaraAutomaticUpdateError(admins, lockedItem.getProjectId());
+    this.unlock(lockedItem);
   }
   
   private void unlock(DaraUpdateQueueItem item) {
