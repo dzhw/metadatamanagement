@@ -1,10 +1,13 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
 import org.javers.core.Javers;
+import org.javers.core.metamodel.object.CdoSnapshot;
 import org.javers.repository.jql.QueryBuilder;
 import org.javers.shadow.Shadow;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +69,16 @@ public class DataAcquisitionProjectVersionsService
         .byValueObjectId(id, DataAcquisitionProject.class, "release")
         .withChangedProperty("version")
         .limit(2);
-    List<Shadow<Release>> shadows = javers.findShadows(jqlQuery.build());    
+    List<CdoSnapshot> snapshots = javers.findSnapshots(jqlQuery.build());
+    if (snapshots.isEmpty()) {
+      return null;
+    }
+    List<BigDecimal> commitIds = snapshots.stream()
+        .map(snapshot -> snapshot.getCommitId().valueAsNumber())
+        .collect(Collectors.toList());
+    List<Shadow<Release>> shadows = javers.findShadows(
+        QueryBuilder.byValueObjectId(id, DataAcquisitionProject.class, "release")
+        .withCommitIds(commitIds).build());    
     
     if (shadows.isEmpty()) {
       return null;
