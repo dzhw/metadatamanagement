@@ -10,8 +10,6 @@ import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.mongodb.gridfs.GridFSFile;
-
 import eu.dzhw.fdz.metadatamanagement.filemanagement.util.MimeTypeDetector;
 
 /**
@@ -42,10 +40,8 @@ public class SurveyResponseRateImageService {
       // ensure there is no existing image
       deleteSurveyImage(surveyId, fileName);
       String relativePathWithName = buildFilename(surveyId, fileName);
-      GridFSFile gridFsFile = this.operations.store(in, relativePathWithName, contentType);
-      gridFsFile.validate();
-      
-      return gridFsFile.getFilename();      
+      this.operations.store(in, relativePathWithName, contentType);   
+      return relativePathWithName;      
     }
   }
   

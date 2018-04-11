@@ -9,10 +9,10 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
-import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
-import org.springframework.boot.context.embedded.MimeMappings;
+import org.springframework.boot.web.server.MimeMappings;
+import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
+import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
@@ -26,7 +26,8 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 @Slf4j
 public class WebConfigurer
-    implements ServletContextInitializer, EmbeddedServletContainerCustomizer {
+    implements ServletContextInitializer, 
+    WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> {
   @Autowired
   private Environment env;
 
@@ -47,7 +48,7 @@ public class WebConfigurer
    * Set up Mime types.
    */
   @Override
-  public void customize(ConfigurableEmbeddedServletContainer container) {
+  public void customize(ConfigurableServletWebServerFactory container) {
     MimeMappings mappings = new MimeMappings(MimeMappings.DEFAULT);
     // IE issue, see https://github.com/jhipster/generator-jhipster/pull/711
     mappings.add("html", "text/html;charset=utf-8");

@@ -1,6 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.common.config;
 
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -13,6 +12,7 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
+import org.springframework.boot.autoconfigure.mongo.MongoClientFactory;
 import org.springframework.boot.autoconfigure.mongo.MongoProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -23,7 +23,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
-import org.springframework.data.mongodb.core.convert.CustomConversions;
+import org.springframework.data.mongodb.core.convert.MongoCustomConversions;
 import org.springframework.data.mongodb.core.mapping.event.ValidatingMongoEventListener;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
@@ -31,6 +31,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
+import com.mongodb.gridfs.GridFS;
 
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.OAuth2AuthenticationReadConverter;
 import lombok.extern.slf4j.Slf4j;
@@ -45,12 +46,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MongoDbConfiguration extends AbstractMongoConfiguration {
   private MongoProperties mongoProperties;
-
-  private Environment environment;
   
   private MongoClientOptions options;
 
   private MongoClient mongo;
+  
+  private MongoClientFactory factory;
   
   /**
    * Constructor from {@link MongoAutoConfiguration}.
@@ -60,7 +61,7 @@ public class MongoDbConfiguration extends AbstractMongoConfiguration {
       ObjectProvider<MongoClientOptions> options, Environment environment) {
     this.mongoProperties = properties;
     this.options = options.getIfAvailable();
-    this.environment = environment;
+    this.factory = new MongoClientFactory(properties, environment);
   }
 
   /**
@@ -96,10 +97,10 @@ public class MongoDbConfiguration extends AbstractMongoConfiguration {
    * Register custom converters for mongo access.
    */
   @Bean
-  public CustomConversions customConversions() {
+  public MongoCustomConversions customConversions() {
     List<Converter<?, ?>> converters = new ArrayList<>();
     converters.add(new OAuth2AuthenticationReadConverter());
-    return new CustomConversions(converters);
+    return new MongoCustomConversions(converters);
   }
 
   /**
@@ -127,9 +128,14 @@ public class MongoDbConfiguration extends AbstractMongoConfiguration {
   @Bean
   @ConditionalOnMissingBean
   @Override
-  public MongoClient mongo() throws UnknownHostException {
-    mongo = this.mongoProperties.createMongoClient(this.options, this.environment);
+  public MongoClient mongoClient() {
+    mongo = this.factory.createMongoClient(this.options);
     return mongo;
+  }
+  
+  @Bean
+  public GridFS gridFs(MongoClient mongoClient) {
+    return new GridFS(mongoClient.getDB(this.getDatabaseName()));
   }
   
   @Override

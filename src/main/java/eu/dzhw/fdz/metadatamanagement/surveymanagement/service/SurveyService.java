@@ -164,9 +164,9 @@ public class SurveyService {
   @HandleAfterDelete
   public void onQuestionChanged(Question question) {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(() -> {
-      Instrument instrument = instrumentRepository.findOne(question.getInstrumentId());
-      if (instrument != null && instrument.getSurveyIds() != null) {
-        return surveyRepository.streamIdsByIdIn(instrument.getSurveyIds());
+      Optional<Instrument> optional = instrumentRepository.findById(question.getInstrumentId());
+      if (optional.isPresent() && optional.get().getSurveyIds() != null) {
+        return surveyRepository.streamIdsByIdIn(optional.get().getSurveyIds());
       }
       return null;
     }, ElasticsearchType.surveys);

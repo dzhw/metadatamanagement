@@ -132,7 +132,7 @@ public class InstrumentService {
   @HandleBeforeSave
   public void onBeforeInstrumentSaved(Instrument instrument) {
     instrumentChangesProvider.put(instrument, 
-        instrumentRepository.findOne(instrument.getId()));
+        instrumentRepository.findById(instrument.getId()).get());
   }
   
   @HandleBeforeCreate

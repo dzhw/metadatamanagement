@@ -3,9 +3,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>spring-boot-starter-parent</artifactId>
         <groupId>org.springframework.boot</groupId>
-        <version>1.5.10.RELEASE</version>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.1.RELEASE</version>
         <relativePath />
     </parent>
 
@@ -15,14 +15,9 @@
     <packaging>war</packaging>
     <name>metadatamanagement</name>
 
-    <prerequisites>
-        <maven>3.0.0</maven>
-    </prerequisites>
-
     <properties>
         <commons-io.version>2.6</commons-io.version>
         <commons-lang.version>2.6</commons-lang.version>
-        <dropwizard-metrics.version>3.2.5</dropwizard-metrics.version>
         <elasticsearch.version>5.5.2</elasticsearch.version>
         <jacoco-maven-plugin.version>0.7.9</jacoco-maven-plugin.version>
         <java.version>1.8</java.version>
@@ -39,10 +34,6 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
-        </dependency>
         <dependency>
             <groupId>com.github.zafarkhaja</groupId>
             <artifactId>java-semver</artifactId>
@@ -99,26 +90,14 @@
         <dependency>
             <groupId>io.dropwizard.metrics</groupId>
             <artifactId>metrics-jvm</artifactId>
-            <version>${dropwizard-metrics.version}</version>
         </dependency>
         <dependency>
             <groupId>io.dropwizard.metrics</groupId>
             <artifactId>metrics-servlet</artifactId>
-            <version>${dropwizard-metrics.version}</version>
         </dependency>
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <version>4.1.19.Final</version>
-        </dependency>
-        <!-- Reactor for websocket relay to MQ -->
-        <dependency>
-            <groupId>io.projectreactor</groupId>
-            <artifactId>reactor-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.projectreactor</groupId>
-            <artifactId>reactor-net</artifactId>
         </dependency>
         <dependency>
             <groupId>io.searchbox</groupId>
@@ -222,18 +201,32 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-json</artifactId>
+        </dependency>
         <!-- security -->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-data</artifactId>
         </dependency>
         <dependency>
+    		<groupId>org.springframework.security.oauth.boot</groupId>
+    		<artifactId>spring-security-oauth2-autoconfigure</artifactId>
+    		<version>2.0.0.RELEASE</version>
+		</dependency>
+        <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.security.oauth</groupId>
-            <artifactId>spring-security-oauth2</artifactId>
+	          <groupId>org.springframework.boot</groupId>
+	          <artifactId>spring-boot-properties-migrator</artifactId>
+	          <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>uk.com.robust-it</groupId>
@@ -419,12 +412,12 @@
                 <configuration>
                     <rules>
                         <requireMavenVersion>
-                            <message>You are running an older version of Maven. JHipster
+                            <message>You are running an older version of Maven. Our app
 								requires at least Maven 3.0</message>
                             <version>[3.0.0,)</version>
                         </requireMavenVersion>
                         <requireJavaVersion>
-                            <message>You are running an older version of Java. JHipster
+                            <message>You are running an older version of Java. Our app
 								requires at least JDK ${java.version}</message>
                             <version>[${java.version}.0,)</version>
                         </requireJavaVersion>
@@ -457,6 +450,13 @@
                     <argLine>-Xmx256m ${surefireArgLine}</argLine>
                     <!-- Force alphabetical order to have a reproducible build -->
                     <runOrder>alphabetical</runOrder>
+                    <includes>
+			                   <include>**/*Tests.java</include>
+			                   <include>**/*Test.java</include>
+		                </includes>
+		                <excludes>
+			                   <exclude>**/Abstract*.java</exclude>
+		                </excludes>
                 </configuration>
             </plugin>
             <!-- Findbugs and fail the build -->
@@ -555,7 +555,7 @@
                     <finalName>metadatamanagement-${project.activeProfiles[0].id}</finalName>
                     <jvmArguments>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005</jvmArguments>
                     <arguments>
-                        <argument>--spring.profiles.active=local</argument>
+                        <argument>--spring-boot.run.profiles=local</argument>
                     </arguments>
                 </configuration>
             </plugin>

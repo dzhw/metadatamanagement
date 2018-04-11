@@ -12,11 +12,9 @@ import org.springframework.data.mongodb.core.index.Index;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
+import org.springframework.data.mongodb.gridfs.GridFsResource;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-
-import com.mongodb.gridfs.GridFSDBFile;
-import com.mongodb.gridfs.GridFSFile;
 
 /**
  * This service handles the download of generic files from the GridFS / MongoDB.
@@ -28,7 +26,7 @@ import com.mongodb.gridfs.GridFSFile;
 public class FileService {
 
   @Autowired
-  private GridFsOperations gridfOperations;
+  private GridFsOperations gridfsOperations;
   
   @Autowired
   private MongoOperations mongoOperations;
@@ -49,12 +47,8 @@ public class FileService {
    * @param fileName The name of the file.
    * @return The GridFS representation of the file in the database.
    */
-  public GridFSDBFile findFile(String fileName) {
-    //Check for filename
-    Query query = new Query(GridFsCriteria.whereFilename()
-        .is(fileName));
-        
-    return this.gridfOperations.findOne(query);
+  public GridFsResource findFile(String fileName) {      
+    return this.gridfsOperations.getResource(fileName);
   }
 
   /**
@@ -67,7 +61,7 @@ public class FileService {
     Query query = new Query(GridFsCriteria.whereFilename()
         .regex("^/tmp/"));
 
-    this.gridfOperations.delete(query);
+    this.gridfsOperations.delete(query);
   }
   
   /**
@@ -79,7 +73,7 @@ public class FileService {
     Query query = new Query(GridFsCriteria.whereFilename()
         .is("/tmp/" + fileName));
 
-    this.gridfOperations.delete(query);
+    this.gridfsOperations.delete(query);
   }
   
   /**
@@ -94,10 +88,9 @@ public class FileService {
   public String saveTempFile(InputStream stream, String fileName, String contentType)
       throws IOException {
     try (InputStream inputStream = stream) {
-      GridFSFile gridFsFile = 
-          this.gridfOperations.store(inputStream, "/tmp/" + fileName, contentType);
-      gridFsFile.validate();
-      return gridFsFile.getFilename();      
+      String filename = "/tmp/" + fileName;
+      this.gridfsOperations.store(inputStream, filename, contentType);
+      return filename;      
     }
   }
 }

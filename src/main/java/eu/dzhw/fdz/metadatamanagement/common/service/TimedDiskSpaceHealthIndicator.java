@@ -1,10 +1,10 @@
 package eu.dzhw.fdz.metadatamanagement.common.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.health.DiskSpaceHealthIndicator;
-import org.springframework.boot.actuate.health.DiskSpaceHealthIndicatorProperties;
+import java.io.File;
+
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
+import org.springframework.boot.actuate.system.DiskSpaceHealthIndicator;
 import org.springframework.stereotype.Component;
 
 import com.codahale.metrics.annotation.Timed;
@@ -17,9 +17,8 @@ import com.codahale.metrics.annotation.Timed;
 @Component("diskSpaceHealthIndicator")
 public class TimedDiskSpaceHealthIndicator extends DiskSpaceHealthIndicator {
 
-  @Autowired
-  public TimedDiskSpaceHealthIndicator(DiskSpaceHealthIndicatorProperties properties) {
-    super(properties);
+  public TimedDiskSpaceHealthIndicator(File path, long threshold) {
+    super(path, threshold);
   }
 
   @Override

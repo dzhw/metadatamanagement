@@ -3,7 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.common.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.health.Health.Builder;
 import org.springframework.boot.actuate.health.HealthIndicator;
-import org.springframework.boot.actuate.health.MailHealthIndicator;
+import org.springframework.boot.actuate.mail.MailHealthIndicator;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Component;
 

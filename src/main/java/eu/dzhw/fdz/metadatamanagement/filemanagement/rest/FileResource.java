@@ -1,11 +1,12 @@
 package eu.dzhw.fdz.metadatamanagement.filemanagement.rest;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
+import org.springframework.data.mongodb.gridfs.GridFsResource;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.HandlerMapping;
 
 import com.codahale.metrics.annotation.Timed;
-import com.mongodb.gridfs.GridFSDBFile;
 
 import eu.dzhw.fdz.metadatamanagement.filemanagement.service.FileService;
 
@@ -34,15 +34,16 @@ public class FileResource {
 
   /**
    * Download a file from the GridFS / MongoDB by a given filename.
+   * @throws IOException If the file cannot be accessed
    */
   @RequestMapping(value = "/files/**")
   @Timed
-  public ResponseEntity<?> downloadFile(HttpServletRequest request) {
+  public ResponseEntity<?> downloadFile(HttpServletRequest request) throws IOException {
     String completePath =
         (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
     String fileName = completePath.replaceFirst("/public/files", "");
     // find file in grid fs / mongo db
-    GridFSDBFile gridFsFile = this.fileService.findFile(fileName);
+    GridFsResource gridFsFile = this.fileService.findFile(fileName);
 
     if (gridFsFile == null) {
       return ResponseEntity.notFound().build();
@@ -53,16 +54,19 @@ public class FileResource {
     // Return Status 200 or 304 if not modified
     return ResponseEntity.ok()
       .headers(headers)
-      .contentLength(gridFsFile.getLength())
+      .contentLength(gridFsFile.contentLength())
       .cacheControl(CacheControl.maxAge(0, TimeUnit.MILLISECONDS).mustRevalidate()
           .cachePrivate().cachePublic())
-      .eTag(String.valueOf(gridFsFile.getUploadDate().getTime()))
-      .lastModified(gridFsFile.getUploadDate().getTime())
+      .eTag(String.valueOf(gridFsFile.lastModified()))
+      .lastModified(gridFsFile.lastModified())
       .contentType(MediaType.parseMediaType(gridFsFile.getContentType()))
-      .body(new InputStreamResource(gridFsFile.getInputStream()));
+      .body(gridFsFile);
   }
   
   private String removeFolders(String filename) {
+    if (filename == null) {
+      return "";
+    }
     int index = filename.lastIndexOf('/');
     if (index > -1) {
       return filename.substring(index + 1, filename.length());
