@@ -18,7 +18,7 @@
     "grunt-contrib-cssmin": "2.2.1",
     "grunt-contrib-htmlmin": "2.4.0",
     "grunt-contrib-jshint": "1.1.0",
-    "grunt-contrib-uglify-es": "^3.3.0",
+    "grunt-contrib-uglify-es": "git://github.com/gruntjs/grunt-contrib-uglify.git#harmony",
     "grunt-contrib-watch": "1.0.0",
     "grunt-html-angular-validate": "^0.6.1",
     "grunt-jscs": "3.0.1",
@@ -43,7 +43,6 @@
     "karma-script-launcher": "1.0.0",
     "load-grunt-tasks": "3.5.2",
     "lodash": "4.17.5",
-    "node-sass": "^4.8.3",
     "phantomjs-prebuilt": "2.1.16",
     "protractor": "5.3.0",
     "requirejs": "2.3",
@@ -53,6 +52,6 @@
     "zeparser": "0.0.7"
   },
   "engines": {
-    "node": ">=9.11.0"
+    "node": ">=5.0.0"
   }
 }
