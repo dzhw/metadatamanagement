@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.Base64;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.crypto.codec.Base64;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -75,7 +75,7 @@ public class SearchResource {
     String credentials = url.getUserInfo();
     if (!StringUtils.isEmpty(credentials)) {
       byte[] plainCredsBytes = credentials.getBytes("UTF-8");
-      byte[] base64CredsBytes = Base64.encode(plainCredsBytes);
+      byte[] base64CredsBytes = Base64.getEncoder().encode(plainCredsBytes);
       base64Credentials = new String(base64CredsBytes, "UTF-8");
     }
     // prevent throwing exception on error codes

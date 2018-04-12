@@ -83,7 +83,7 @@ public class StudyAttachmentService {
     metadata.setLastModifiedDate(LocalDateTime.now());
     GridFSDBFile file = gridFs.findOne(metadata.getFileName());
     DBObject dbObject = (DBObject) mongoTemplate.getConverter().convertToMongoType(metadata);
-    file.setMetaData(dbObject);;
+    file.setMetaData(dbObject);
     file.save();
     javers.commit(currentUser, metadata);
   }

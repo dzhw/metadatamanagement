@@ -4,11 +4,11 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Set;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.Email;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;

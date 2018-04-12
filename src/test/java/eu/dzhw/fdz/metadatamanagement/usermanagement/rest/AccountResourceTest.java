@@ -3,8 +3,8 @@ package eu.dzhw.fdz.metadatamanagement.usermanagement.rest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -78,7 +78,7 @@ public class AccountResourceTest extends AbstractTest {
   @Before
   public void setup() {
     MockitoAnnotations.initMocks(this);
-    when(mockMailService.sendActivationEmail((User) anyObject(), anyString())).thenReturn(null);
+    when(mockMailService.sendActivationEmail(any(User.class), anyString())).thenReturn(null);
 
     AccountResource accountResource = new AccountResource();
     ReflectionTestUtils.setField(accountResource, "userRepository", userRepository);
@@ -469,7 +469,7 @@ public class AccountResourceTest extends AbstractTest {
     assertThat(userDup.isPresent()).isTrue();
     assertThat(userDup.get()
       .getAuthorities()).hasSize(1)
-        .containsExactly(authorityRepository.findOne(AuthoritiesConstants.USER));
+        .containsExactly(authorityRepository.findById(AuthoritiesConstants.USER).get());
     
     userRepository.deleteByEmail(u.getEmail());
   }

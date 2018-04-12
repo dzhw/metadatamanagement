@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.common.config;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.web.util.UriComponents;
@@ -188,9 +189,9 @@ public class MetadataManagementProperties {
       this.uri = uri;
       UriComponents uriComponents = UriComponentsBuilder.fromUriString(uri).build();
       this.host = uriComponents.getHost();
-      this.virtualHost = uriComponents.getPath().replaceFirst("/", "");
-      this.username = uriComponents.getUserInfo().split(":")[0];
-      this.password = uriComponents.getUserInfo().split(":")[1];
+      this.virtualHost = Optional.of(uriComponents.getPath()).orElse("").replaceFirst("/", "");
+      this.username = Optional.of(uriComponents.getUserInfo()).orElse("").split(":")[0];
+      this.password = Optional.of(uriComponents.getUserInfo()).orElse("").split(":")[1];
     }
 
     public String getUsername() {

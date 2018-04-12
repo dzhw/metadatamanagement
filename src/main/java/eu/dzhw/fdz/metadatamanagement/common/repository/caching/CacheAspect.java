@@ -21,8 +21,8 @@ public class CacheAspect {
   private RequestScopeCache requestScopeCache;
 
   @Pointcut("within(eu.dzhw.fdz.metadatamanagement.common.repository.BaseRepository+) && "
-      + "execution(* findOne*(..))")
-  public void repositoryFindOnePointcut() {}
+      + "execution(* findById(..))")
+  public void repositoryFindByIdPointcut() {}
   
   @Pointcut("execution(* eu.dzhw.fdz.metadatamanagement.*.repository"
       + ".CacheableRepositoryMethods.*(..))")
@@ -57,7 +57,7 @@ public class CacheAspect {
     return result;
   }
   
-  @Around("repositoryFindOnePointcut()")
+  @Around("repositoryFindByIdPointcut()")
   public Object aroundFindOneMethods(ProceedingJoinPoint pjp) throws Throwable {
     return this.cache(pjp);
   }

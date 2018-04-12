@@ -70,7 +70,7 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
     MockMultipartFile metadata = new MockMultipartFile("dataSetAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(dataSetAttachmentMetadata));
 
-    mockMvc.perform(MockMvcRequestBuilders.fileUpload("/api/data-sets/attachments")
+    mockMvc.perform(MockMvcRequestBuilders.multipart("/api/data-sets/attachments")
       .file(attachment)
       .file(metadata))    
       .andExpect(status().isCreated());
@@ -97,7 +97,7 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
     MockMultipartFile metadata = new MockMultipartFile("dataSetAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(dataSetAttachmentMetadata));
 
-    mockMvc.perform(MockMvcRequestBuilders.fileUpload("/api/data-sets/attachments")
+    mockMvc.perform(MockMvcRequestBuilders.multipart("/api/data-sets/attachments")
       .file(attachment)
       .file(metadata))
       .andExpect(status().isBadRequest())
@@ -118,7 +118,7 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
     MockMultipartFile metadata = new MockMultipartFile("dataSetAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(dataSetAttachmentMetadata));
 
-    mockMvc.perform(MockMvcRequestBuilders.fileUpload("/api/data-sets/attachments")
+    mockMvc.perform(MockMvcRequestBuilders.multipart("/api/data-sets/attachments")
       .file(attachment)
       .file(metadata))
       .andExpect(status().isBadRequest())
@@ -146,7 +146,7 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
     MockMultipartFile metadata = new MockMultipartFile("dataSetAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(dataSetAttachmentMetadata));
 
-    mockMvc.perform(MockMvcRequestBuilders.fileUpload("/api/data-sets/attachments")
+    mockMvc.perform(MockMvcRequestBuilders.multipart("/api/data-sets/attachments")
       .file(attachment)
       .file(metadata))
       .andExpect(status().isCreated());

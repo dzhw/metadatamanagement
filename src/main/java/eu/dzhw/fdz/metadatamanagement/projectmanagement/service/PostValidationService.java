@@ -129,7 +129,7 @@ public class PostValidationService {
     for (Question question : questions) {
       
       // question.instrumentId: there must be a instrument with that id
-      if (this.instrumentRepository.findOne(question.getInstrumentId()) == null) {
+      if (!this.instrumentRepository.findById(question.getInstrumentId()).isPresent()) {
         String[] information = {question.getId(), question.getInstrumentId()};
         errors.add(new PostValidationMessageDto("question-management.error."
             + "post-validation.question-has-invalid-instrument-id", Arrays.asList(information)));
@@ -138,7 +138,7 @@ public class PostValidationService {
       // question.successors: there must be a question with that id
       if (question.getSuccessors() != null && !question.getSuccessors().isEmpty()) {
         for (String successor : question.getSuccessors()) {
-          if (questionRepository.findOne(successor) == null) {
+          if (!questionRepository.findById(successor).isPresent()) {
             String[] information = {question.getId(), successor};
             errors.add(new PostValidationMessageDto("question-management.error."
                 + "post-validation.question-has-invalid-successor", Arrays.asList(information)));
@@ -169,7 +169,7 @@ public class PostValidationService {
       
       // dataSet.SurveyIds: there must be a survey with that id
       for (String surveyId : dataSet.getSurveyIds()) {
-        if (this.surveyRepository.findOne(surveyId) == null) {
+        if (!this.surveyRepository.findById(surveyId).isPresent()) {
           String[] information = {dataSet.getId(), surveyId};
           errors.add(new PostValidationMessageDto("data-set-management.error."
               + "post-validation.data-set-has-invalid-survey-id", Arrays.asList(information)));
@@ -192,7 +192,7 @@ public class PostValidationService {
       
       for (String surveyId : instrument.getSurveyIds()) {
         // surveyId: there must be a survey with that id
-        if (this.surveyRepository.findOne(surveyId) == null) {
+        if (!this.surveyRepository.findById(surveyId).isPresent()) {
           String[] information = {instrument.getId(), surveyId};
           errors.add(new PostValidationMessageDto("instrument-management.error."
               + "post-validation.instrument-has-invalid-survey-id", Arrays.asList(information)));
@@ -215,7 +215,7 @@ public class PostValidationService {
 
       // variable.SurveyId: there must be a survey with that id
       for (String surveyId : variable.getSurveyIds()) {
-        if (this.surveyRepository.findOne(surveyId) == null) {
+        if (!this.surveyRepository.findById(surveyId).isPresent()) {
           String[] information = {variable.getId(), surveyId};
           errors.add(new PostValidationMessageDto("variable-management.error."
               + "post-validation.variable-has-invalid-survey-id", Arrays.asList(information)));
@@ -228,7 +228,7 @@ public class PostValidationService {
       if (variable.getRelatedQuestions() != null) {
         for (RelatedQuestion relatedQuestion : variable.getRelatedQuestions()) {
           if (relatedQuestion.getQuestionId() != null
-              && this.questionRepository.findOne(relatedQuestion.getQuestionId()) == null) {
+              && !this.questionRepository.findById(relatedQuestion.getQuestionId()).isPresent()) {
             String[] information = {variable.getId(), relatedQuestion.getQuestionId()};
             errors.add(new PostValidationMessageDto("variable-management.error."
                 + "post-validation.variable-has-invalid-question-id", Arrays.asList(information)));
@@ -238,7 +238,7 @@ public class PostValidationService {
       
       //variable.dataSetId: Check for for the data set id
       if (variable.getDataSetId() != null) {
-        DataSet dataSet =  this.dataSetRepository.findOne(variable.getDataSetId());
+        DataSet dataSet =  this.dataSetRepository.findById(variable.getDataSetId()).orElse(null);
         if (dataSet == null) {
           String[] information = {variable.getId(), variable.getDataSetId()};
           errors.add(new PostValidationMessageDto("variable-management.error."
@@ -258,7 +258,7 @@ public class PostValidationService {
       //variable.relatedVariables: Check for variable ids
       if (variable.getRelatedVariables() != null) {
         for (String variableId : variable.getRelatedVariables()) {
-          if (this.variableRepository.findOne(variableId) == null) {
+          if (!this.variableRepository.findById(variableId).isPresent()) {
             String[] information = {variable.getId(), variableId};
             errors.add(new PostValidationMessageDto("variable-management.error."
                 + "post-validation.variable-id-is-not-valid-in-related-variables",

@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.common.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.javers.core.Javers;
@@ -73,12 +74,13 @@ public abstract class GenericDomainObjectVersionsService<T extends AbstractRdcDo
    * @return A list of previous versions or null if no domain found
    */
   public List<T> findPreviousVersions(String id, int limit, int skip) {
-    T domainObject = repository.findOne(id);
+    Optional<T> optional = repository.findById(id);
 
-    if (domainObject == null) {
+    if (!optional.isPresent()) {
       return null;
     }
-
+    
+    T domainObject = optional.get();
     QueryBuilder jqlQuery = QueryBuilder.byInstance(domainObject)
         .withScopeDeepPlus(Integer.MAX_VALUE).limit(limit).skip(skip);
 

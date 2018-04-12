@@ -25,11 +25,12 @@ spring:
         favicon:
             enabled: false
     thymeleaf:
-        mode: XHTML
+        mode: HTML
     http:
       encoding:
         force: false
-      multipart:
+    servlet:
+      multipart: 
         max-file-size: 10MB
         max-request-size: 15MB
         
@@ -46,13 +47,6 @@ server:
     compression:
         enabled: true
         mime-types: text/html,text/xml,text/plain,text/css, application/javascript, application/json
-
-security:
-    basic:
-        enabled: false
-    oauth2:
-      resource:
-        filter-order: 3
 
 management:
   context-path: /management
@@ -83,10 +77,7 @@ jhipster:
         authentication:
             oauth:
                 clientid: metadatamanagementapp
-                secret: mySecretOAuthSecret
-        rememberme:
-            # security key (this key should be unique for your application, and kept secret)
-            key: 786cea5f182ffdd133864bbc75f69f8d008b5bc3
+                secret: $2a$04$1M3yLuQsTu2dJGl0Rj60c.d9dLt1hHpRNMLzilziLM50VgGJ52ckG
     http:
         cache: # Used by the CachingHttpHeadersFilter
             timeToLiveInDays: 31

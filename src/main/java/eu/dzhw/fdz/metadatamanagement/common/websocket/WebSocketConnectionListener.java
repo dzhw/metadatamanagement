@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.common.websocket;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
@@ -40,9 +41,14 @@ public class WebSocketConnectionListener {
   @Async
   public void onSessionConnectEvent(SessionConnectEvent event) {
     StompHeaderAccessor sha = StompHeaderAccessor.wrap(event.getMessage());
+    Map<String, Object> sessionAttributes = sha.getSessionAttributes();
+    String ipAddress = null;
+    if (sessionAttributes != null) {
+      ipAddress = sessionAttributes.get(WebSocketConfig.IP_ADDRESS).toString();
+    }
     ActiveWebsocketSession session = new ActiveWebsocketSession(
         sha.getSessionId(), 
-        sha.getSessionAttributes().get(WebSocketConfig.IP_ADDRESS).toString(),
+        ipAddress,
         sha.getFirstNativeHeader(BROWSER),
         sha.getFirstNativeHeader(BROWSER_MAJOR_VERSION),
         sha.getFirstNativeHeader(CLIENT_OS),
@@ -50,8 +56,7 @@ public class WebSocketConnectionListener {
         sha.getAcceptVersion(),
         LocalDateTime.now());
     activeWebSocketSessionRepository.save(session);
-    log.debug("New websocket connection {}",
-        sha.getSessionAttributes().get(WebSocketConfig.IP_ADDRESS));
+    log.debug("New websocket connection {}", ipAddress);
   }
 
   /**
@@ -61,9 +66,15 @@ public class WebSocketConnectionListener {
   @EventListener
   public void onSessionDisconnectEvent(SessionDisconnectEvent event) {
     StompHeaderAccessor sha = StompHeaderAccessor.wrap(event.getMessage());
-    activeWebSocketSessionRepository.delete(sha.getSessionId());
-    log.debug("Closed websocket connection {}", 
-        sha.getSessionAttributes().get(WebSocketConfig.IP_ADDRESS));
+    String sessionId = sha.getSessionId();
+    Map<String, Object> sessionAttributes = sha.getSessionAttributes();
+    if (sessionId != null) {
+      activeWebSocketSessionRepository.deleteById(sessionId);
+      if (sessionAttributes != null) {        
+        log.debug("Closed websocket connection {}", 
+            sessionAttributes.get(WebSocketConfig.IP_ADDRESS));      
+      }
+    }
   }
 
 }

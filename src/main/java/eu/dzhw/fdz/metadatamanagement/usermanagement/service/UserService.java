@@ -106,7 +106,7 @@ public class UserService {
     newUser.setActivated(false);
     // new user gets registration key
     newUser.setActivationKey(RandomUtil.generateActivationKey());
-    Authority authority = authorityRepository.findOne(AuthoritiesConstants.USER);
+    Authority authority = authorityRepository.findById(AuthoritiesConstants.USER).get();
     Set<Authority> authorities = new HashSet<>();
     authorities.add(authority);
     newUser.setAuthorities(authorities);
@@ -161,7 +161,7 @@ public class UserService {
    * Find the user by id.
    */
   public User getUserWithAuthorities(String id) {
-    User user = userRepository.findOne(id);
+    User user = userRepository.findById(id).get();
     int size = user.getAuthorities()
         .size(); // eagerly load the association
     log.debug("user.getAuthorities().size() = " + size);

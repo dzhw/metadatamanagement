@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mapping.context.PersistentEntities;
 import org.springframework.data.mongodb.core.mapping.event.BeforeSaveEvent;
 import org.springframework.data.rest.core.event.BeforeCreateEvent;
+import org.springframework.data.rest.core.event.ValidatingRepositoryEventListener;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 /**
@@ -21,17 +22,17 @@ public class RepositoryRestConfiguration {
    * Register a custom validator which validates incoming REST requests before throwing
    * {@link BeforeSaveEvent} and {@link BeforeCreateEvent}.
    * 
-   * @param persistentEntitiesFactory see {@link ObjectFactory}
+   * @param entities see {@link ObjectFactory}
    * @param validator the JSR-303 validator
    * 
    * @return The bean to register
    */
   @Bean
-  public PrioritizedValidatingRepositoryEventListener prioritizedValidatingRepositoryEventListener(
-      ObjectFactory<PersistentEntities> persistentEntitiesFactory,
+  public ValidatingRepositoryEventListener validatingRepositoryEventListener(
+      ObjectFactory<PersistentEntities> entities,
       LocalValidatorFactoryBean validator) {
     PrioritizedValidatingRepositoryEventListener prioritizedValidatingListener = 
-        new PrioritizedValidatingRepositoryEventListener(persistentEntitiesFactory);
+        new PrioritizedValidatingRepositoryEventListener(entities);
     prioritizedValidatingListener.addValidator("beforeCreate", validator);
     prioritizedValidatingListener.addValidator("beforeSave", validator);
     return prioritizedValidatingListener;

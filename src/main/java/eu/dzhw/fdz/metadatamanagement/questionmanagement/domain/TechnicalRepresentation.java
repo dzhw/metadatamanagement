@@ -1,8 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.questionmanagement.domain;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.NotEmpty;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import lombok.AllArgsConstructor;

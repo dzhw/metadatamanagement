@@ -1,11 +1,10 @@
 package eu.dzhw.fdz.metadatamanagement.questionmanagement.domain;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.NotEmpty;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ImageType;

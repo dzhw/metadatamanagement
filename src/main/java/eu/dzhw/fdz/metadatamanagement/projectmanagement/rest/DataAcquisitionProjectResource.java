@@ -59,7 +59,7 @@ public class DataAcquisitionProjectResource
     
     //load project
     DataAcquisitionProject dataAcquisitionProject = super.repository
-        .findOne(id);
+        .findById(id).orElse(null);
     
     //project could not be found
     if (dataAcquisitionProject == null) {

@@ -126,18 +126,13 @@ public class OAuth2ServerConfiguration {
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
       clients.inMemory()
-          .withClient(jhipsterProperties.getSecurity()
-          .getAuthentication()
-          .getOauth()
-          .getClientid())
+          .withClient(jhipsterProperties.getSecurity().getAuthentication().getOauth().getClientid())
           .scopes("read", "write")
           .authorities(AuthoritiesConstants.ADMIN, AuthoritiesConstants.USER, 
               AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER)
           .authorizedGrantTypes("password", "refresh_token")
-          .secret(jhipsterProperties.getSecurity()
-          .getAuthentication()
-          .getOauth()
-          .getSecret()).accessTokenValiditySeconds(0);
+          .secret(jhipsterProperties.getSecurity().getAuthentication().getOauth().getSecret())
+          .accessTokenValiditySeconds(0);
     }
   }
 }

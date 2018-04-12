@@ -22,7 +22,7 @@ angular
                 'Accept': 'application/json',
                 'Authorization': 'Basic ' +
                   Base64.encode('metadatamanagementapp' + ':' +
-                    'mySecretOAuthSecret')
+                    'metadatamanagementClient')
               }
             }).then(
             function(response) {

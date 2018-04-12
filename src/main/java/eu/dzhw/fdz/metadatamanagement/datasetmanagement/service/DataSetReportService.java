@@ -299,11 +299,8 @@ public class DataSetReportService {
   private Map<String, Object> createDataSetMap(Map<String, Object> dataForTemplate,
       String dataSetId) {
     // Get DataSet and check the valid result
-    DataSet dataSet = this.dataSetRepository.findOne(dataSetId);
-    if (dataSet == null) {
-      throw new IllegalArgumentException(
-          "No Data Set was found with given id: " + dataSetId);
-    }
+    DataSet dataSet = this.dataSetRepository.findById(dataSetId).get();
+  
     dataForTemplate.put("dataSet", dataSet);
 
     return dataForTemplate;
@@ -355,7 +352,8 @@ public class DataSetReportService {
         for (RelatedQuestion relatedQuestion : variable.getRelatedQuestions()) {
           //question is unknown. add it to the question map.
           if (!questionsMap.containsKey(relatedQuestion.getQuestionId())) {
-            Question question = this.questionRepository.findOne(relatedQuestion.getQuestionId());
+            Question question = this.questionRepository.findById(relatedQuestion.getQuestionId())
+                .orElse(null);
             questionsMap.put(relatedQuestion.getQuestionId(), question);
           }          
         }
@@ -365,7 +363,8 @@ public class DataSetReportService {
       if (!questionsMap.isEmpty()) {
         questionsMap.values().forEach(question -> {
           if (!instrumentMap.containsKey(question.getInstrumentId())) {
-            Instrument instrument = this.instrumentRepository.findOne(question.getInstrumentId());
+            Instrument instrument = this.instrumentRepository.findById(question.getInstrumentId())
+                .orElse(null);
             instrumentMap.put(question.getInstrumentId(), instrument);
           }
         });

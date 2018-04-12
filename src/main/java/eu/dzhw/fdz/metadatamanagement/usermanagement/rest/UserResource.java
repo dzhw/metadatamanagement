@@ -2,7 +2,6 @@ package eu.dzhw.fdz.metadatamanagement.usermanagement.rest;
 
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -88,7 +87,7 @@ public class UserResource {
   public ResponseEntity<ManagedUserDto> updateUser(@RequestBody ManagedUserDto managedUserDto)
       throws URISyntaxException {
     log.debug("REST request to update User : {}", managedUserDto);
-    return Optional.of(userRepository.findOne(managedUserDto.getId()))
+    return userRepository.findById(managedUserDto.getId())
       .map(user -> {
         tokenStore.removeTokensByUserName(user.getLogin());
         user.setLogin(managedUserDto.getLogin());
@@ -101,10 +100,10 @@ public class UserResource {
         authorities.clear();
         managedUserDto.getAuthorities()
           .stream()
-          .forEach(authority -> authorities.add(authorityRepository.findOne(authority)));
+          .forEach(authority -> authorities.add(authorityRepository.findById(authority).get()));
         userRepository.save(user);
         return ResponseEntity.ok()
-          .body(new ManagedUserDto(userRepository.findOne(managedUserDto.getId())));
+          .body(new ManagedUserDto(userRepository.findById(managedUserDto.getId()).get()));
       })
       .orElseGet(() -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
   }

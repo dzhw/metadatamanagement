@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.data.mongodb.gridfs.GridFsResource;
+import org.springframework.lang.Nullable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -47,6 +48,7 @@ public class FileService {
    * @param fileName The name of the file.
    * @return The GridFS representation of the file in the database.
    */
+  @Nullable
   public GridFsResource findFile(String fileName) {      
     return this.gridfsOperations.getResource(fileName);
   }

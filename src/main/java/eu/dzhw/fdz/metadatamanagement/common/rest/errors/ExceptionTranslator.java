@@ -73,14 +73,14 @@ public class ExceptionTranslator {
 
     //handle field errors
     for (FieldError fieldError : fieldErrors) {
-      String rejectedValue = null;
-
-      if (fieldError.getRejectedValue() != null) {
-        rejectedValue = fieldError.getRejectedValue().toString();
+      String rejectedValueString = null;
+      Object rejectedValue = fieldError.getRejectedValue();
+      if (rejectedValue != null) {
+        rejectedValueString = rejectedValue.toString();
       }
 
       errorListDto.add(new ErrorDto(fieldError.getObjectName(), fieldError.getDefaultMessage(),
-          rejectedValue, fieldError.getField()));
+          rejectedValueString, fieldError.getField()));
     }
 
     return errorListDto;
@@ -150,9 +150,9 @@ public class ExceptionTranslator {
       return createJsonMappingError(jsonMappingException);
     } else {
       String errorMessage;
-      if (exception.getRootCause() != null) {
-        errorMessage = exception.getRootCause()
-          .getLocalizedMessage();
+      Throwable rootCause = exception.getRootCause();
+      if (rootCause != null) {
+        errorMessage = rootCause.getLocalizedMessage();
       } else {
         errorMessage = exception.getLocalizedMessage();
       }

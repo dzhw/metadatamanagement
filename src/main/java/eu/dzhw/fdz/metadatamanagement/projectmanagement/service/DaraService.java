@@ -161,7 +161,7 @@ public class DaraService {
       throws IOException, TemplateException {
     
     //Load Project
-    DataAcquisitionProject project = this.projectRepository.findOne(projectId);
+    DataAcquisitionProject project = this.projectRepository.findById(projectId).get();
     return this.registerOrUpdateProjectToDara(project);
   }
 
