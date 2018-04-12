@@ -258,7 +258,9 @@ module.exports = function(grunt) {
               'A table row was 3 columns wide and exceeded the column count' +
               ' established by the first row (2).',
               'Bad value “” for attribute “src” on element “img”: ' +
-              'Must be non-empty.'
+              'Must be non-empty.',
+              'Bad value “{{currentLanguage}}” for attribute “lang” on ' +
+              'element “html”: Subtags must not exceed 8 characters in length.'
             ],
             customattrs: [
               'show-validation',
@@ -301,7 +303,9 @@ module.exports = function(grunt) {
               'fdz-required',
               'read-element-size',
               'layout-gt-xs',
-              'layout'
+              'layout',
+              'md-highlight-flags',
+              'valid-project-version'
             ]
           },
           files: {
@@ -316,7 +320,11 @@ module.exports = function(grunt) {
             reportpath: 'target/html-angular-index-validate-report.json',
             reportCheckstylePath: 'target/' +
               'html-angular-validate-index-report-checkstyle.xml',
-            tmplext: '.html.tmpl'
+            tmplext: '.html.tmpl',
+            relaxerror: [
+              'Bad value “{{currentLanguage}}” for attribute “lang” on ' +
+              'element “html”: Subtags must not exceed 8 characters in length.'
+            ]
           },
           files: {
             src: [

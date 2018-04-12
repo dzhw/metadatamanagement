@@ -12,6 +12,8 @@ angular.module('metadatamanagementApp')
 
       var ctrl = this;
       var studySeriesCache = {};
+      var sponsorsCache = {};
+      var institutionCache = {};
 
       $scope.$watch('ctrl.study.studySeries', function() {
         ctrl.onStudySeriesChanged();
@@ -47,6 +49,9 @@ angular.module('metadatamanagementApp')
               entity.$promise.then(function(study) {
                 ctrl.createMode = false;
                 ctrl.study = study;
+                ctrl.currentStudySeries = study.studySeries;
+                ctrl.currentInstitution = study.institution;
+                ctrl.currentSponsor = study.sponsor;
                 ctrl.isInitializingStudySeries = true;
                 ctrl.loadAttachments();
                 updateToolbarHeaderAndPageTitle();
@@ -61,6 +66,9 @@ angular.module('metadatamanagementApp')
                 }).$promise.then(function(study) {
                   ctrl.createMode = false;
                   ctrl.study = study;
+                  ctrl.currentStudySeries = study.studySeries;
+                  ctrl.currentInstitution = study.institution;
+                  ctrl.currentSponsor = study.sponsor;
                   ctrl.isInitializingStudySeries = true;
                   ctrl.loadAttachments();
                   updateToolbarHeaderAndPageTitle();
@@ -76,9 +84,7 @@ angular.module('metadatamanagementApp')
                     authors: [{
                       firstName: '',
                       lastName: ''
-                    }],
-                    doi: StudyIdBuilderService.buildDoi(
-                      CurrentProjectService.getCurrentProject().id)
+                    }]
                   });
                   updateToolbarHeaderAndPageTitle();
                   $scope.registerConfirmOnDirtyHook();
@@ -276,6 +282,40 @@ angular.module('metadatamanagementApp')
             studySeriesCache.language = language;
             studySeriesCache.searchResult = studySeries;
             return studySeries;
+          });
+      };
+
+      $scope.searchSponsors = function(searchText, language) {
+        if (searchText === sponsorsCache.searchText &&
+          language === sponsorsCache.language) {
+          return sponsorsCache.searchResult;
+        }
+
+        //Search Call to Elasticsearch
+        return StudySearchService.findSponsors(searchText, {},
+            language)
+          .then(function(sponsors) {
+            sponsorsCache.searchText = searchText;
+            sponsorsCache.language = language;
+            sponsorsCache.searchResult = sponsors;
+            return sponsors;
+          });
+      };
+
+      $scope.searchInstitutions = function(searchText, language) {
+        if (searchText === institutionCache.searchText &&
+          language === institutionCache.language) {
+          return institutionCache.searchResult;
+        }
+
+        //Search Call to Elasticsearch
+        return StudySearchService.findInstitutions(searchText, {},
+            language)
+          .then(function(institutions) {
+            institutionCache.searchText = searchText;
+            institutionCache.language = language;
+            institutionCache.searchResult = institutions;
+            return institutions;
           });
       };
 

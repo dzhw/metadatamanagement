@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.AbstractRdcDomainObjectProjection;
 
 /**
  * Subset of variable attributes which can be used in other search documents
@@ -8,10 +9,8 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
  * 
  * @author René Reitmann
  */
-public interface VariableSubDocumentProjection {
-  
-  String getId();
-  
+public interface VariableSubDocumentProjection 
+    extends AbstractRdcDomainObjectProjection {
   String getDataAcquisitionProjectId();
   
   String getName();

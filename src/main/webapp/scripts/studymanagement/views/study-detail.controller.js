@@ -4,12 +4,15 @@ angular.module('metadatamanagementApp')
   .controller('StudyDetailController',
     function(entity, PageTitleService, LanguageService, DataSetSearchService,
       $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
-      StudyAttachmentResource, SearchResultNavigatorService, $stateParams) {
+      StudyAttachmentResource, SearchResultNavigatorService, $stateParams,
+      $rootScope) {
       SearchResultNavigatorService.registerCurrentSearchResult(
           $stateParams['search-result-index']);
+      var versionFromUrl = $stateParams.version;
       var ctrl = this;
       ctrl.searchResultIndex = $stateParams['search-result-index'];
       ctrl.counts = {};
+      var bowser = $rootScope.bowser;
 
       ctrl.loadAttachments = function() {
         StudyAttachmentResource.findByStudyId({
@@ -20,6 +23,13 @@ angular.module('metadatamanagementApp')
                 ctrl.attachments = attachments;
               }
             });
+      };
+
+      ctrl.isBetaRelease = function(study) {
+        if (study.release) {
+          return bowser.compareVersions(['1.0.0', study.release.version]) === 1;
+        }
+        return false;
       };
 
       entity.promise.then(function(result) {
@@ -68,8 +78,20 @@ angular.module('metadatamanagementApp')
               ctrl.dataSets = dataSets.hits.hits;
             });
           ctrl.loadAttachments();
+
+          if (result.release &&
+            bowser.compareVersions(
+              [versionFromUrl, result.release.version]) === -1) {
+            SimpleMessageToastService.openAlertMessageToast(
+              'study-management.detail.old-version',
+              {
+                title: result.title[LanguageService.getCurrentInstantly()],
+                versionFromUrl: versionFromUrl,
+                actualVersion: result.release.version
+              });
+          }
         } else {
-          SimpleMessageToastService.openSimpleMessageToast(
+          SimpleMessageToastService.openAlertMessageToast(
           'study-management.detail.not-released-toast', {id: result.id}
           );
         }

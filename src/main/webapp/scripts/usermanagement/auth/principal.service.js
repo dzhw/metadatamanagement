@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp').factory(
   'Principal',
-  function Principal($q, AccountResource, AuthServerProvider) {
+  function Principal($q, AccountResource, AuthServerProvider, $rootScope) {
     var _identity;
     var _authenticated = false;
 
@@ -55,12 +55,15 @@ angular.module('metadatamanagementApp').factory(
 
         // retrieve the identity data from the server, update the
         // identity object, and then resolve.
-        if (AuthServerProvider.hasValidToken()) {
+        if (AuthServerProvider.hasToken()) {
+          $rootScope.$broadcast('start-ignoring-401');
           AccountResource.get().$promise.then(function(account) {
+            $rootScope.$broadcast('stop-ignoring-401');
             _identity = account.data;
             _authenticated = true;
             deferred.resolve(_identity);
           }).catch(function() {
+            $rootScope.$broadcast('stop-ignoring-401');
             AuthServerProvider.deleteToken();
             _identity = null;
             _authenticated = false;

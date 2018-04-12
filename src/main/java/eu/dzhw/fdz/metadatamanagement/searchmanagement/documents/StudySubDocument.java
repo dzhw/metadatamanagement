@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySubDocumentProjection;
@@ -14,7 +15,8 @@ import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySub
  * @author René Reitmann
  */
 @SuppressWarnings("CPD-START")
-public class StudySubDocument implements StudySubDocumentProjection {
+public class StudySubDocument extends AbstractRdcDomainObject
+    implements StudySubDocumentProjection {
   private String id;
   
   private String dataAcquisitionProjectId;
@@ -37,9 +39,15 @@ public class StudySubDocument implements StudySubDocumentProjection {
     super();
   }
   
-  public StudySubDocument(StudySubDocumentProjection projection) {
+  /**
+   * Create a StudySubdocument from a projection and a doi.
+   * @param projection a study projection
+   * @param doi a doi or null
+   */
+  public StudySubDocument(StudySubDocumentProjection projection, String doi) {
     super();
     BeanUtils.copyProperties(projection, this);
+    this.doi = doi;
   }
 
   @Override
@@ -106,7 +114,6 @@ public class StudySubDocument implements StudySubDocumentProjection {
     this.title = title;
   }
 
-  @Override
   public String getDoi() {
     return doi;
   }

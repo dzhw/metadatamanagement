@@ -7,13 +7,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataSetSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
@@ -23,6 +26,7 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.Instrument
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DoiBuilder;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.projections.QuestionSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
@@ -30,11 +34,13 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.Relate
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projections.RelatedPublicationSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.ElasticsearchDao;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchBulkOperationException;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataSetSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.InstrumentSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.QuestionSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.RelatedPublicationSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.StudySearchDocument;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.StudySubDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.SurveySearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.VariableSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.VariableSubDocument;
@@ -110,6 +116,9 @@ public class ElasticsearchUpdateQueueService {
   
   @Autowired
   private DataAcquisitionProjectRepository projectRepository;
+  
+  @Autowired
+  private DoiBuilder doiBuilder; 
 
   /**
    * Attach one item to the queue.
@@ -184,7 +193,11 @@ public class ElasticsearchUpdateQueueService {
     }
 
     // execute the bulk update/delete
-    elasticsearchDao.executeBulk(bulkBuilder.build());
+    try {
+      elasticsearchDao.executeBulk(bulkBuilder.build());      
+    } catch (ElasticsearchBulkOperationException ex) {
+      log.error("Some documents in Elasticsearch could not be updated!", ex);
+    }
 
     // finally delete the queue items
     queueItemRepository.delete(lockedItems);
@@ -268,8 +281,9 @@ public class ElasticsearchUpdateQueueService {
       if (project != null) {
         release = project.getRelease();
       }
+      String doi = doiBuilder.buildStudyDoi(study, release);
       InstrumentSearchDocument searchDocument = new InstrumentSearchDocument(instrument, 
-          study, surveys, questions, variables, dataSets, relatedPublications, release);
+          study, surveys, questions, variables, dataSets, relatedPublications, release, doi);
       
       bulkBuilder.addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType()
           .name())
@@ -286,9 +300,16 @@ public class ElasticsearchUpdateQueueService {
     RelatedPublication relatedPublication =
         relatedPublicationRepository.findOne(lockedItem.getDocumentId());
     if (relatedPublication != null) {
-      List<StudySubDocumentProjection> studies = new ArrayList<StudySubDocumentProjection>();
+      List<StudySubDocument> studySubDocuments = null;
       if (relatedPublication.getStudyIds() != null) {
-        studies = studyRepository.findSubDocumentsByIdIn(relatedPublication.getStudyIds());
+        List<StudySubDocumentProjection> studies = studyRepository
+            .findSubDocumentsByIdIn(relatedPublication.getStudyIds());
+        studySubDocuments = studies.stream().map(study -> {
+          DataAcquisitionProject project = projectRepository.findOne(study
+              .getDataAcquisitionProjectId());
+          return new StudySubDocument(study, 
+              doiBuilder.buildStudyDoi(study, project.getRelease()));
+        }).collect(Collectors.toList());
       }
       List<QuestionSubDocumentProjection> questions = 
           new ArrayList<QuestionSubDocumentProjection>();
@@ -315,7 +336,7 @@ public class ElasticsearchUpdateQueueService {
         variables = variableRepository.findSubDocumentsByIdIn(relatedPublication.getVariableIds());
       }
       RelatedPublicationSearchDocument searchDocument =
-          new RelatedPublicationSearchDocument(relatedPublication, studies, questions,
+          new RelatedPublicationSearchDocument(relatedPublication, studySubDocuments, questions,
               instruments, surveys, dataSets, variables);
 
       bulkBuilder.addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType()
@@ -365,8 +386,9 @@ public class ElasticsearchUpdateQueueService {
       }
       StudySubDocumentProjection study = studyRepository
           .findOneSubDocumentById(dataSet.getStudyId());
+      String doi = doiBuilder.buildStudyDoi(study, release);
       DataSetSearchDocument searchDocument = new DataSetSearchDocument(dataSet, study,
-          variableProjections, relatedPublications, surveys, instruments, questions, release);
+          variableProjections, relatedPublications, surveys, instruments, questions, release, doi);
       
       bulkBuilder.addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType()
           .name())
@@ -402,9 +424,10 @@ public class ElasticsearchUpdateQueueService {
       if (project != null) {
         release = project.getRelease();
       }
+      String doi = doiBuilder.buildStudyDoi(study, release);
       SurveySearchDocument searchDocument =
            new SurveySearchDocument(survey, study, 
-               dataSets, variables, relatedPublications, instruments, questions, release);
+               dataSets, variables, relatedPublications, instruments, questions, release, doi);
 
       bulkBuilder.addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType()
           .name())
@@ -447,8 +470,9 @@ public class ElasticsearchUpdateQueueService {
       if (project != null) {
         release = project.getRelease();
       }
+      String doi = doiBuilder.buildStudyDoi(study, release);
       VariableSearchDocument searchDocument = new VariableSearchDocument(variable,
-          dataSet, study, relatedPublications, surveys, instruments, release);
+          dataSet, study, relatedPublications, surveys, instruments, release, doi);
 
       bulkBuilder.addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType()
           .name())
@@ -493,9 +517,10 @@ public class ElasticsearchUpdateQueueService {
       if (project != null) {
         release = project.getRelease();
       }
+      String doi = doiBuilder.buildStudyDoi(study, release);
       QuestionSearchDocument searchDocument =
             new QuestionSearchDocument(question, study, instrument, surveys, variables,
-                dataSets, relatedPublications, release);
+                dataSets, relatedPublications, release, doi);
 
       bulkBuilder.addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType()
           .name())
@@ -535,8 +560,9 @@ public class ElasticsearchUpdateQueueService {
       if (project != null) {
         release = project.getRelease();
       }
+      String doi = doiBuilder.buildStudyDoi(study, release);
       StudySearchDocument searchDocument = new StudySearchDocument(study, dataSets, variables,
-          relatedPublications, surveys, questions, instruments, release);
+          relatedPublications, surveys, questions, instruments, release, doi);
 
       bulkBuilder.addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType()
           .name())
@@ -568,4 +594,63 @@ public class ElasticsearchUpdateQueueService {
     }
     log.info("Finished processing of ElasticsearchUpdateQueue for type: " + type.name());
   }
+  
+  /**
+   * Asynchronously attach the given documents to the update queue.
+   * 
+   * @param streamProvider A closure returning a stream of {@link IdAndVersionProjection}s
+   * @param type The {@link ElasticsearchType} of the documents.
+   */
+  @Async
+  public void enqueueUpsertsAsync(IdStreamProvider streamProvider, 
+      ElasticsearchType type) {
+    Stream<IdAndVersionProjection> idStream = streamProvider.get();
+    enqueueStreamUpserts(type, idStream);
+  }
+
+  
+  /**
+   * Asynchronously attach the given documents to the update queue.
+   * 
+   * @param streamsProvider A closure returning a list of streams of {@link IdAndVersionProjection}s
+   * @param type The {@link ElasticsearchType} of the documents.
+   */
+  @Async
+  public void enqueueUpsertsAsync(MultipleIdStreamsProvider streamsProvider, 
+      ElasticsearchType type) {
+    List<Stream<IdAndVersionProjection>> streams = streamsProvider.get();
+    if (streams != null) {
+      for (Stream<IdAndVersionProjection> stream : streams) {
+        enqueueStreamUpserts(type, stream);
+      }
+    }
+  }
+  
+  private void enqueueStreamUpserts(ElasticsearchType type,
+      Stream<IdAndVersionProjection> idStream) {
+    if (idStream != null) {
+      try (Stream<IdAndVersionProjection> stream = idStream) {
+        stream.forEach(document -> {
+          this.enqueue(document.getId(),
+              type, ElasticsearchUpdateQueueAction.UPSERT);
+        });      
+      }      
+    }
+  }
+  
+  /**
+   * Asynchronously attach the given document to the update queue.
+   * 
+   * @param idProvider A closure returning a {@link IdAndVersionProjection}
+   * @param type The {@link ElasticsearchType} of the document.
+   */
+  @Async
+  public void enqueueUpsertAsync(IdProvider idProvider, ElasticsearchType type) {
+    IdAndVersionProjection document = idProvider.get();
+    if (document != null) {      
+      this.enqueue(document.getId(),
+          type, ElasticsearchUpdateQueueAction.UPSERT);
+    }
+  }
 }
+ 

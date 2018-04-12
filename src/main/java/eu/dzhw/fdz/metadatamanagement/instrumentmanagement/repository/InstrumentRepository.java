@@ -21,7 +21,7 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.In
  */
 @RepositoryRestResource(path = "/instruments")
 public interface InstrumentRepository
-    extends BaseRepository<Instrument, String> {
+    extends BaseRepository<Instrument, String>, CacheableRepositoryMethods {
 
   @RestResource(exported = false)
   Stream<Instrument> streamByDataAcquisitionProjectId(String dataAcquisitionProjectId);
@@ -34,6 +34,7 @@ public interface InstrumentRepository
       @Param("dataAcquisitionProjectId") String dataAcquisitionProjectId);
   
   @RestResource(exported = false)
+  @Override
   List<IdAndVersionProjection> findIdsByNumberAndDataAcquisitionProjectId(Integer number,
       String dataAcquisitionProjectId);
 

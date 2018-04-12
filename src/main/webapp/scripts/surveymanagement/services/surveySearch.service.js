@@ -2,12 +2,34 @@
 'use strict';
 
 angular.module('metadatamanagementApp').factory('SurveySearchService',
-  function(ElasticSearchClient, $q) {
+  function(ElasticSearchClient, $q, LanguageService, SearchHelperService,
+    CleanJSObjectService) {
     var createQueryObject = function() {
       return {
         index: 'surveys',
         type: 'surveys'
       };
+    };
+
+    var createTermFilters = function(filter, dataAcquisitionProjectId) {
+      var termFilter;
+      if (!CleanJSObjectService.isNullOrEmpty(filter) ||
+        !CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
+        termFilter = [];
+      }
+      if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
+        var projectFilter = {
+          term: {
+            dataAcquisitionProjectId: dataAcquisitionProjectId
+          }
+        };
+        termFilter.push(projectFilter);
+      }
+      if (!CleanJSObjectService.isNullOrEmpty(filter)) {
+        termFilter = _.concat(termFilter,
+          SearchHelperService.createTermFilters('surveys', filter));
+      }
+      return termFilter;
     };
 
     var findOneById = function(id) {
@@ -151,6 +173,66 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
       query.body.query.bool.filter.push(mustTerm);
       return ElasticSearchClient.count(query);
     };
+
+    var findSurveyMethods = function(searchText, filter, language) {
+      language = language || LanguageService.getCurrentInstantly();
+      var query = createQueryObject();
+      var termFilters = createTermFilters(filter);
+
+      query.body = {
+        'size': 0,
+        'aggs': {
+            'surveyMethodDe': {
+                'terms': {
+                  'field': 'surveyMethod.de'
+                },
+                'aggs': {
+                  'surveyMethodEn': {
+                    'terms': {
+                      'field': 'surveyMethod.en'
+                    }
+                  }
+                }
+              }
+          }
+      };
+
+      query.body.query = {
+        'bool': {
+          'must': [{
+              'match': {
+              }
+            }],
+          'disable_coord': true
+        }
+      };
+
+      query.body.query.bool.must[0].match
+        ['surveyMethod.' + language + '.ngrams'] = {
+        'query': searchText,
+        'operator': 'AND',
+        'minimum_should_match': '100%',
+        'zero_terms_query': 'ALL'
+      };
+
+      if (termFilters) {
+        query.body.query.bool.filter = termFilters;
+      }
+
+      return ElasticSearchClient.search(query).then(function(result) {
+        var surveyMethods = [];
+        var surveyMethodElement = {};
+        result.aggregations.surveyMethodDe.buckets.forEach(function(bucket) {
+            surveyMethodElement = {
+              'de': bucket.key,
+              'en': bucket.surveyMethodEn.buckets[0].key
+            };
+            surveyMethods.push(surveyMethodElement);
+          });
+        return surveyMethods;
+      });
+    };
+
     return {
       findOneById: findOneById,
       findSurveys: findSurveys,
@@ -158,6 +240,7 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
       findByStudyId: findByStudyId,
       findByDataSetId: findByDataSetId,
       findByVariableId: findByVariableId,
-      countBy: countBy
+      countBy: countBy,
+      findSurveyMethods: findSurveyMethods
     };
   });

@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.filemanagement.service.FileService;
 
 /**
@@ -31,6 +32,9 @@ public class FileResourceTest extends AbstractTest {
 
   @Autowired
   private FileService fileService;
+  
+  @Autowired
+  private JaversService javersService;
 
   private MockMvc mockMvc;
 
@@ -43,6 +47,7 @@ public class FileResourceTest extends AbstractTest {
   @After
   public void cleanUp() {
     this.fileService.deleteTempFiles();
+    this.javersService.deleteAll();
   }
 
   @Test

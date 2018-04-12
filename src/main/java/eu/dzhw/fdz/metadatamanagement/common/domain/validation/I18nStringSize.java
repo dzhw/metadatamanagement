@@ -9,6 +9,8 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+
 /**
  * Annotation for i18n String (de/en Strings).
  * @author Daniel Katzberg
@@ -37,11 +39,15 @@ public @interface I18nStringSize {
   Class<? extends Payload>[]payload() default {};
   
   /**
+   * Get the max length of the {@link I18nString}.
+   * 
    * @return size the element must be equal or lower to.
    */
   int max() default Integer.MAX_VALUE;
 
   /**
+   * Get the min length of the {@link I18nString}.
+   * 
    * @return size the element must be equal or higher to.
    */
   int min() default 0;

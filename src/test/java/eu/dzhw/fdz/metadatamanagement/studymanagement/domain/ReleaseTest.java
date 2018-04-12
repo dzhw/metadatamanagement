@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 
 import org.junit.Test;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 
 /**
@@ -24,9 +23,6 @@ public class ReleaseTest {
 
     // Arrange
     Release release = Release.builder()
-      .notes(I18nString.builder().de("Eine Notiz für die Version 1.0")
-        .en("A notice for the version 1.0.")
-        .build())
       .version("1.0")
       .date(LocalDateTime.now())
       .build();
@@ -34,10 +30,6 @@ public class ReleaseTest {
     // Act
 
     // Assert
-    assertThat(release.getNotes()
-      .getDe(), is("Eine Notiz für die Version 1.0"));
-    assertThat(release.getNotes()
-      .getEn(), is("A notice for the version 1.0."));
     assertThat(release.getVersion(), is("1.0"));
   }
 
@@ -45,9 +37,6 @@ public class ReleaseTest {
   public void testToString() {
     // Arrange
     Release release = Release.builder()
-      .notes(I18nString.builder().de("Eine Notiz für die Version 1.0")
-        .en("A notice for the version 1.0.")
-        .build())
       .version("1.0")
       .build();
 
@@ -56,7 +45,7 @@ public class ReleaseTest {
 
     // Assert
     assertThat(toString, is(
-        "Release(version=1.0, date=null, notes=I18nString(de=Eine Notiz für die Version 1.0, en=A notice for the version 1.0.))"));
+        "Release(version=1.0, date=null)"));
 
   }
 

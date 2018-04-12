@@ -53,6 +53,8 @@ public class StudySearchDocument extends Study implements SearchDocumentInterfac
   
   private Integer numberOfWaves;
   
+  private String doi;
+  
   private I18nString guiLabels = StudyDetailsGuiLabels.GUI_LABELS;
   
   /**
@@ -73,7 +75,8 @@ public class StudySearchDocument extends Study implements SearchDocumentInterfac
       List<SurveySubDocumentProjection> surveys,
       List<QuestionSubDocumentProjection> questions, 
       List<InstrumentSubDocumentProjection> instruments,
-      Release release) {
+      Release release,
+      String doi) {
     super(study);
     if (dataSets != null) {
       this.dataSets = dataSets.stream()
@@ -102,6 +105,7 @@ public class StudySearchDocument extends Study implements SearchDocumentInterfac
           .map(InstrumentSubDocument::new).collect(Collectors.toList());      
     }
     this.release = release;
+    this.doi = doi;
   }
   
   /**
@@ -110,10 +114,10 @@ public class StudySearchDocument extends Study implements SearchDocumentInterfac
    * @return The highest (max) wave number.
    */
   private Integer generateNumberOfWaves(List<SurveySubDocumentProjection> surveys) {
-    Integer numberOfWaves = null;
+    Integer numberOfWaves = 0;
     
     for (SurveySubDocumentProjection survey : surveys) {
-      if (numberOfWaves == null || survey.getWave() > numberOfWaves) {
+      if (survey.getWave() > numberOfWaves) {
         numberOfWaves = survey.getWave();
       }
     }

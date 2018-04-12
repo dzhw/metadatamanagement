@@ -22,7 +22,8 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
  *
  */
 @RepositoryRestResource(path = "/related-publications")
-public interface RelatedPublicationRepository extends BaseRepository<RelatedPublication, String> {
+public interface RelatedPublicationRepository 
+    extends BaseRepository<RelatedPublication, String>, CacheableRepositoryMethods {
   @Override
   @Secured(value = AuthoritiesConstants.PUBLISHER)
   void delete(RelatedPublication entity);

@@ -66,10 +66,11 @@ public class DataSetSearchDocument extends DataSet implements SearchDocumentInte
       List<SurveySubDocumentProjection> surveys,
       List<InstrumentSubDocumentProjection> instruments,
       List<QuestionSubDocumentProjection> questions,
-      Release release) {
+      Release release,
+      String doi) {
     super(dataSet);
     if (study != null) {
-      this.study = new StudySubDocument(study);            
+      this.study = new StudySubDocument(study, doi);            
     }
     if (variables != null) {
       this.variables = variables.stream()

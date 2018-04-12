@@ -56,13 +56,14 @@ public class VariableSearchDocument extends Variable implements SearchDocumentIn
       List<RelatedPublicationSubDocumentProjection> relatedPublications, 
       List<SurveySubDocumentProjection> surveys, 
       List<InstrumentSubDocumentProjection> instruments,
-      Release release) {
+      Release release,
+      String doi) {
     super(variable);
     if (dataSet != null) {
       this.dataSet = new DataSetSubDocument(dataSet);      
     }
     if (study != null) {
-      this.study = new StudySubDocument(study);            
+      this.study = new StudySubDocument(study, doi);            
     }
     if (relatedPublications != null) {
       this.relatedPublications = relatedPublications.stream()

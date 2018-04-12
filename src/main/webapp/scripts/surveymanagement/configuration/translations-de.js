@@ -124,7 +124,7 @@ angular.module('metadatamanagementApp').config(
             'id': {
               'valid-survey-id-name': 'Die FDZ-ID der Erhebung entspricht nicht dem Muster: "sur-" + {FDZID} + "-sy" + {Number} + "$".',
               'not-empty': 'Die FDZ-ID der Erhebung darf nicht leer sein!',
-              'size': 'Die Maximallänge der FDZ-ID der Erhebung ist 128 Zeichen.',
+              'size': 'Die Maximallänge der FDZ-ID der Erhebung ist 512 Zeichen.',
               'pattern': 'Es dürfen für die FDZ-ID nur alphanumerische Zeichen, deutsche Umlaute, ß, Ausrufezeichen, Minus und der Unterstrich verwendet werden.'
             },
             'title': {
@@ -158,8 +158,8 @@ angular.module('metadatamanagementApp').config(
             },
             'survey-method': {
               'not-null': 'Die Erhebungsmethode darf nicht leer sein!',
-              'i18n-string-not-empty': 'Die Erhebungsmethode muss mindestens in einer Sprache vorliegen.',
-              'i18n-string-size': 'Die Maximallänge der Erhebungsmethode ist 128 Zeichen.'
+              'i18n-string-entire-not-empty': 'Die Erhebungsmethode muss in beiden Sprachen vorliegen.',
+              'i18n-string-size': 'Die Maximallänge der Erhebungsmethode ist 512 Zeichen.'
             },
             'sample-size': {
               'min': 'Die Stichprobengröße darf nicht kleiner als 0 sein.',
@@ -186,7 +186,7 @@ angular.module('metadatamanagementApp').config(
             'title': {
               'not-null': 'Der Titel der Grundgesamtheit darf nicht leer sein!',
               'i18n-string-not-empty': 'Der Titel der Grundgesamtheit muss mindestens in einer Sprache vorliegen.',
-              'i18n-string-size': 'Die Maximallänge des Titels der Grundgesamtheit ist 128 Zeichen.'
+              'i18n-string-size': 'Die Maximallänge des Titels der Grundgesamtheit ist 512 Zeichen.'
             },
             'description': {
               'not-null': 'Die Beschreibung der Grundgesamtheit darf nicht leer sein!',
@@ -206,7 +206,7 @@ angular.module('metadatamanagementApp').config(
             },
             'description': {
               'not-null': 'Die Beschreibung des Attachments darf nicht leer sein.',
-              'i18n-string-size': 'Die Beschreibung muss in mindestens einer Sprache angegeben werden und darf nicht länger als 128 Zeichen sein.',
+              'i18n-string-size': 'Die Beschreibung muss in mindestens einer Sprache angegeben werden und darf nicht länger als 512 Zeichen sein.',
               'i18n-string-not-empty': 'Die Beschreibung muss in mindestens einer Sprache vorhanden sein.'
             },
             'title': {

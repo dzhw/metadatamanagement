@@ -102,7 +102,6 @@ public class UnitTestCreateDomainObjectUtils {
         .dataAvailability(DataAvailabilities.AVAILABLE)
         .surveyDesign(SurveyDesigns.PANEL)
         .dataAcquisitionProjectId(projectId)
-        .doi("10.5072/DZHW:" + projectId)
         .build();
   }
     
@@ -405,10 +404,7 @@ public class UnitTestCreateDomainObjectUtils {
 
   public static Release buildRelease() {
     return Release.builder()
-      .notes(I18nString.builder().de("Eine Notiz für die Version 1.0")
-        .en("A notice for the version 1.0.")
-        .build())
-      .version("1.0")
+      .version("1.0.0")
       .date(LocalDateTime.now())
       .build();
   }

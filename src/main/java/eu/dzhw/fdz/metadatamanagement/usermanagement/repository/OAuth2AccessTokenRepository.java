@@ -23,4 +23,6 @@ public interface OAuth2AccessTokenRepository
   List<OAuth2AuthenticationAccessToken> findByClientIdAndUserName(String clientId, String userName);
 
   List<OAuth2AuthenticationAccessToken> findByClientId(String clientId);
+  
+  List<OAuth2AuthenticationAccessToken> findByUserName(String userName);
 }

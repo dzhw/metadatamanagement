@@ -123,6 +123,10 @@ angular
       };
 
       $rootScope.showNextSearchResult = function() {
+        if (!bowser.mobile && !bowser.tablet) {
+          //ignore swiping on desktop
+          return;
+        }
         var nextButton = $document.find('.fdz-next-search-result');
         if (nextButton.length === 1) {
           $timeout(function() {
@@ -132,6 +136,10 @@ angular
       };
 
       $rootScope.showPreviousSearchResult = function() {
+        if (!bowser.mobile && !bowser.tablet) {
+          //ignore swiping on desktop
+          return;
+        }
         var previousButton = $document.find('.fdz-previous-search-result');
         if (previousButton.length === 1) {
           $timeout(function() {

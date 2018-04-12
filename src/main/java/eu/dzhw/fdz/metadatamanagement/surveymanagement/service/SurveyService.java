@@ -13,16 +13,19 @@ import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.data.rest.core.event.AfterDeleteEvent;
-import org.springframework.scheduling.annotation.Async;
+import org.springframework.data.rest.core.event.BeforeDeleteEvent;
 import org.springframework.stereotype.Service;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetChangesProvider;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.InstrumentChangesProvider;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service.RelatedPublicationChangesProvider;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.SurveySearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
@@ -31,6 +34,7 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.IdAndNumberSurveyProjection;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.service.VariableChangesProvider;
 
 /**
  * Service which deletes surveys when the corresponding dataAcquisitionProject has been deleted.
@@ -43,21 +47,33 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 public class SurveyService {
   @Autowired
   private SurveyRepository surveyRepository;
-  
+
+  @Autowired
+  private InstrumentChangesProvider instrumentChangesProvider;
+
   @Autowired
   private InstrumentRepository instrumentRepository;
-  
+
+  @Autowired
+  private VariableChangesProvider variableChangesProvider;
+
+  @Autowired
+  private DataSetChangesProvider dataSetChangesProvider;
+
   @Autowired
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
-  
-  @Autowired 
+
+  @Autowired
   private SurveyResponseRateImageService imageService;
-  
-  @Autowired 
+
+  @Autowired
   private SurveyAttachmentService surveyAttachmentService;
-  
+
   @Autowired
   private ApplicationEventPublisher eventPublisher;
+
+  @Autowired
+  private RelatedPublicationChangesProvider relatedPublicationChangesProvider;
 
   /**
    * Listener, which will be activate by a deletion of a data acquisition project.
@@ -68,27 +84,35 @@ public class SurveyService {
   public void onDataAcquisitionProjectDeleted(DataAcquisitionProject dataAcquisitionProject) {
     deleteAllSurveysByProjectId(dataAcquisitionProject.getId());
   }
-  
+
+  /**
+   * Update all {@link SurveySearchDocument} when the project is released.
+   * 
+   * @param dataAcquisitionProject The changed project
+   */
   @HandleAfterSave
   public void onDataAcquisitionProjectUpdated(DataAcquisitionProject dataAcquisitionProject) {
-    enqueueUpserts(surveyRepository
-        .streamIdsByDataAcquisitionProjectId(dataAcquisitionProject.getId()));
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> surveyRepository.streamIdsByDataAcquisitionProjectId(dataAcquisitionProject.getId()),
+        ElasticsearchType.surveys);
   }
-  
+
   /**
    * A service method for deletion of surveys within a data acquisition project.
+   * 
    * @param dataAcquisitionProjectId the id for to the data acquisition project.
    */
   private void deleteAllSurveysByProjectId(String dataAcquisitionProjectId) {
-    try (Stream<Survey> surveys = surveyRepository
-        .streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
+    try (Stream<Survey> surveys =
+        surveyRepository.streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
       surveys.forEach(survey -> {
+        eventPublisher.publishEvent(new BeforeDeleteEvent(survey));
         surveyRepository.delete(survey);
         eventPublisher.publishEvent(new AfterDeleteEvent(survey));
       });
     }
   }
-   
+
   /**
    * Enqueue deletion of survey search document when the survey is deleted.
    * 
@@ -98,12 +122,10 @@ public class SurveyService {
   public void onSurveyDeleted(Survey survey) {
     this.imageService.deleteAllSurveyImagesById(survey.getId());
     this.surveyAttachmentService.deleteAllBySurveyId(survey.getId());
-    elasticsearchUpdateQueueService.enqueue(
-        survey.getId(), 
-        ElasticsearchType.surveys, 
+    elasticsearchUpdateQueueService.enqueue(survey.getId(), ElasticsearchType.surveys,
         ElasticsearchUpdateQueueAction.DELETE);
   }
-  
+
   /**
    * Enqueue update of survey search document when the survey is updated.
    * 
@@ -112,12 +134,10 @@ public class SurveyService {
   @HandleAfterCreate
   @HandleAfterSave
   public void onSurveySaved(Survey survey) {
-    elasticsearchUpdateQueueService.enqueue(
-        survey.getId(), 
-        ElasticsearchType.surveys, 
+    elasticsearchUpdateQueueService.enqueue(survey.getId(), ElasticsearchType.surveys,
         ElasticsearchUpdateQueueAction.UPSERT);
   }
-  
+
   /**
    * Enqueue update of survey search documents when the instrument is changed.
    * 
@@ -126,13 +146,14 @@ public class SurveyService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
-  @Async
   public void onInstrumentChanged(Instrument instrument) {
-    if (instrument.getSurveyIds() != null) {
-      enqueueUpserts(surveyRepository.streamIdsByIdIn(instrument.getSurveyIds()));
-    }
+    List<String> surveyIds = instrumentChangesProvider.getAffectedSurveyIds(
+        instrument.getId());
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> surveyRepository.streamIdsByIdIn(surveyIds),
+        ElasticsearchType.surveys);
   }
-  
+
   /**
    * Enqueue update of survey search documents when the question is changed.
    * 
@@ -141,14 +162,16 @@ public class SurveyService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
-  @Async
   public void onQuestionChanged(Question question) {
-    Instrument instrument = instrumentRepository.findOne(question.getInstrumentId());
-    if (instrument != null && instrument.getSurveyIds() != null) {
-      enqueueUpserts(surveyRepository.streamIdsByIdIn(instrument.getSurveyIds()));
-    }
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(() -> {
+      Instrument instrument = instrumentRepository.findOne(question.getInstrumentId());
+      if (instrument != null && instrument.getSurveyIds() != null) {
+        return surveyRepository.streamIdsByIdIn(instrument.getSurveyIds());
+      }
+      return null;
+    }, ElasticsearchType.surveys);
   }
-  
+
   /**
    * Enqueue update of survey search documents when the study is changed.
    * 
@@ -157,11 +180,12 @@ public class SurveyService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
-  @Async
   public void onStudyChanged(Study study) {
-    enqueueUpserts(surveyRepository.streamIdsByStudyId(study.getId()));
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> surveyRepository.streamIdsByStudyId(study.getId()),
+        ElasticsearchType.surveys);
   }
-  
+
   /**
    * Enqueue update of survey search document when the variable is changed.
    * 
@@ -170,13 +194,14 @@ public class SurveyService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
-  @Async
   public void onVariableChanged(Variable variable) {
-    if (variable.getSurveyIds() != null) {
-      enqueueUpserts(surveyRepository.streamIdsByIdIn(variable.getSurveyIds()));
-    }
+    List<String> surveyIds = variableChangesProvider.getAffectedSurveyIds(
+        variable.getId()); 
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> surveyRepository.streamIdsByIdIn(surveyIds),
+        ElasticsearchType.surveys);
   }
-  
+
   /**
    * Enqueue update of survey search document when the dataSet is updated.
    * 
@@ -185,13 +210,13 @@ public class SurveyService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
-  @Async
   public void onDataSetChanged(DataSet dataSet) {
-    if (dataSet.getSurveyIds() != null) {
-      enqueueUpserts(surveyRepository.streamIdsByIdIn(dataSet.getSurveyIds()));
-    }
+    List<String> surveyIds = dataSetChangesProvider.getAffectedSurveyIds(dataSet.getId()); 
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> surveyRepository.streamIdsByIdIn(surveyIds),
+        ElasticsearchType.surveys);
   }
-  
+
   /**
    * Enqueue update of survey search document when the related publication is updated.
    * 
@@ -200,33 +225,24 @@ public class SurveyService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
-  @Async
   public void onRelatedPublicationChanged(RelatedPublication relatedPublication) {
-    if (relatedPublication.getSurveyIds() != null) {
-      enqueueUpserts(surveyRepository
-          .streamIdsByIdIn(relatedPublication.getSurveyIds()));
-            
-    }
+    List<String> surveyIds = relatedPublicationChangesProvider.getAffectedSurveyIds(
+        relatedPublication.getId()); 
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> surveyRepository.streamIdsByIdIn(surveyIds),
+        ElasticsearchType.surveys);
   }
-  
-  private void enqueueUpserts(Stream<IdAndVersionProjection> surveys) {
-    try (Stream<IdAndVersionProjection> surveyStream = surveys) {
-      surveyStream.forEach(survey -> {
-        elasticsearchUpdateQueueService.enqueue(survey.getId(),
-            ElasticsearchType.surveys, ElasticsearchUpdateQueueAction.UPSERT);
-      });      
-    }
-  }
-  
+
   /**
    * Get a list of available survey numbers for creating a new survey.
+   * 
    * @param dataAcquisitionProjectId The project id.
    * @return A list of available survey numbers.
    */
   public List<Integer> getFreeSurveyNumbers(String dataAcquisitionProjectId) {
     List<Integer> result = new ArrayList<>();
-    List<IdAndNumberSurveyProjection> existingNumbers = surveyRepository
-        .findSurveyNumbersByDataAcquisitionProjectId(dataAcquisitionProjectId);
+    List<IdAndNumberSurveyProjection> existingNumbers =
+        surveyRepository.findSurveyNumbersByDataAcquisitionProjectId(dataAcquisitionProjectId);
     Optional<IdAndNumberSurveyProjection> max = existingNumbers.stream()
         .max((survey1, survey2) -> Integer.compare(survey1.getNumber(), survey2.getNumber()));
     if (!max.isPresent()) {
@@ -241,7 +257,7 @@ public class SurveyService {
     }
     return result;
   }
-  
+
   private boolean surveyNumberExists(List<IdAndNumberSurveyProjection> surveys, Integer number) {
     Predicate<IdAndNumberSurveyProjection> predicate = survey -> survey.getNumber().equals(number);
     return surveys.stream().filter(predicate).findFirst().isPresent();

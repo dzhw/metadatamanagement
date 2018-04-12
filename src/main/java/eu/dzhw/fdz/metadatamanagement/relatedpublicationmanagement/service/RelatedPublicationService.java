@@ -1,16 +1,15 @@
 package eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service;
 
-import java.util.stream.Stream;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
+import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
+import org.springframework.data.rest.core.annotation.HandleBeforeDelete;
+import org.springframework.data.rest.core.annotation.HandleBeforeSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
@@ -36,6 +35,9 @@ public class RelatedPublicationService {
 
   @Autowired
   private RelatedPublicationRepository relatedPublicationRepository;
+  
+  @Autowired
+  private RelatedPublicationChangesProvider relatedPublicationChangesProvider;
 
   @Autowired
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
@@ -69,6 +71,27 @@ public class RelatedPublicationService {
   }
   
   /**
+   * Remember the old and new related publication.
+   * 
+   * @param relatedPublication the new related publication
+   */
+  @HandleBeforeSave
+  public void onBeforeRelatedPublicationSaved(RelatedPublication relatedPublication) {
+    relatedPublicationChangesProvider.put(relatedPublication, 
+        relatedPublicationRepository.findOne(relatedPublication.getId()));
+  }
+  
+  @HandleBeforeCreate
+  public void onBeforeRelatedPublicationCreated(RelatedPublication relatedPublication) {
+    relatedPublicationChangesProvider.put(relatedPublication, null);
+  }
+  
+  @HandleBeforeDelete
+  public void onBeforeRelatedPublicationDeleted(RelatedPublication relatedPublication) {
+    relatedPublicationChangesProvider.put(null, relatedPublication);
+  }
+  
+  /**
    * Enqueue update of related publication search documents when the study changed.
    * 
    * @param study the updated, created or deleted study.
@@ -76,10 +99,11 @@ public class RelatedPublicationService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
-  @Async
   public void onStudyChanged(Study study) {
-    enqueueUpserts(relatedPublicationRepository
-        .streamIdsByStudyIdsContaining(study.getId()));
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> relatedPublicationRepository.streamIdsByStudyIdsContaining(
+            study.getId()),
+        ElasticsearchType.related_publications);
   }
   
   /**
@@ -90,10 +114,11 @@ public class RelatedPublicationService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
-  @Async
   public void onQuestionChanged(Question question) {
-    enqueueUpserts(relatedPublicationRepository
-        .streamIdsByQuestionIdsContaining(question.getId()));
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> relatedPublicationRepository.streamIdsByQuestionIdsContaining(
+            question.getId()),
+        ElasticsearchType.related_publications);
   }
   
   /**
@@ -104,10 +129,11 @@ public class RelatedPublicationService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
-  @Async
   public void onInstrumentChanged(Instrument instrument) {
-    enqueueUpserts(relatedPublicationRepository
-        .streamIdsByInstrumentIdsContaining(instrument.getId()));
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> relatedPublicationRepository.streamIdsByInstrumentIdsContaining(
+            instrument.getId()),
+        ElasticsearchType.related_publications);
   }
   
   /**
@@ -118,10 +144,11 @@ public class RelatedPublicationService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
-  @Async
   public void onSurveyChanged(Survey survey) {
-    enqueueUpserts(relatedPublicationRepository
-        .streamIdsBySurveyIdsContaining(survey.getId()));
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> relatedPublicationRepository.streamIdsBySurveyIdsContaining(
+            survey.getId()),
+        ElasticsearchType.related_publications);
   }
   
   /**
@@ -132,10 +159,11 @@ public class RelatedPublicationService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
-  @Async
   public void onDataSetChanged(DataSet dataSet) {
-    enqueueUpserts(relatedPublicationRepository
-        .streamIdsByDataSetIdsContaining(dataSet.getId()));
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> relatedPublicationRepository.streamIdsByDataSetIdsContaining(
+            dataSet.getId()),
+        ElasticsearchType.related_publications);
   }
   
   /**
@@ -146,18 +174,10 @@ public class RelatedPublicationService {
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
-  @Async
   public void onVariableChanged(Variable variable) {
-    enqueueUpserts(relatedPublicationRepository
-        .streamIdsByVariableIdsContaining(variable.getId()));
-  }
-  
-  private void enqueueUpserts(Stream<IdAndVersionProjection> relatedPublications) {
-    try (Stream<IdAndVersionProjection> relatedPublicationStream = relatedPublications) {
-      relatedPublicationStream.forEach(relatedPublication -> {
-        elasticsearchUpdateQueueService.enqueue(relatedPublication.getId(),
-            ElasticsearchType.related_publications, ElasticsearchUpdateQueueAction.UPSERT);
-      });      
-    }
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> relatedPublicationRepository.streamIdsByVariableIdsContaining(
+            variable.getId()),
+        ElasticsearchType.related_publications);
   }
 }

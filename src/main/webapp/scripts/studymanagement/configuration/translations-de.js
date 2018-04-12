@@ -92,8 +92,10 @@ angular.module('metadatamanagementApp').config(
           'basic-data-of-surveys': 'Eckdaten der Erhebungen',
           'not-found': 'Die id {{id}} referenziert auf eine unbekannte Studie.',
           'not-found-references': 'Die id {{id}} hat keine Referenzen auf Studien.',
-          'not-yet-released': 'Noch nicht freigegeben',
-          'not-released-toast': 'Die Studie "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!',
+          'not-yet-released': 'Aktuell nicht freigegeben',
+          'not-released-toast': 'Die Studie "{{ id }}" wird aktuell bearbeitet und ist daher nicht für alle Benutzer freigegeben!',
+          'old-version': 'Ihr Link verweist auf eine ältere Version ({{versionFromUrl}}) dieser Studie. Hier wird die aktuelle Version ({{actualVersion}}) der Studie "{{title}}" dargestellt.',
+          'beta-release-no-doi': 'Dies ist ein BETA Release und enthält noch keine DOI.',
           'tooltips': {
             'surveys': {
               'one': 'Klicken, um die Erhebung dieser Studie anzuzeigen',
@@ -144,7 +146,7 @@ angular.module('metadatamanagementApp').config(
           'study': {
             'id': {
               'not-empty': 'Die FDZ-ID der Studie darf nicht leer sein!',
-              'size': 'Die Maximallänge der FDZ-ID ist 128 Zeichen.',
+              'size': 'Die Maximallänge der FDZ-ID ist 512 Zeichen.',
               'pattern': 'Es dürfen für die FDZ-ID nur alphanumerische Zeichen, deutsche Umlaute, ß, Minus, Ausrufezeichen und der Unterstrich verwendet werden.',
               'not-valid-id': 'Die FDZ-ID der Studie muss der Form "stu-" + {ProjektID} + "$" entsprechen.'
             },
@@ -160,16 +162,16 @@ angular.module('metadatamanagementApp').config(
             },
             'institution': {
               'not-null': 'Die Institution einer Studie darf nicht leer sein!',
-              'i18n-string-size': 'Die Maximallänge der Institution einer Studie ist 128 Zeichen.',
-              'i18n-string-not-empty': 'Die Institution einer Studie muss in mindestens einer Sprache vorhanden sein.'
+              'i18n-string-size': 'Die Maximallänge der Institution einer Studie ist 512 Zeichen.',
+              'i18n-string-entire-not-empty': 'Die Institution einer Studie muss in beiden Sprachen vorhanden sein.'
             },
             'sponsor': {
               'not-null': 'Der Sponsor einer Studie darf nicht leer sein!',
-              'i18n-string-size': 'Die Maximallänge des Sponsors einer Studie ist 128 Zeichen.',
+              'i18n-string-size': 'Die Maximallänge des Sponsors einer Studie ist 512 Zeichen.',
               'i18n-string-entire-not-empty': 'Der Sponsor einer Studie muss in beiden Sprachen vorhanden sein.'
             },
             'study-series': {
-              'i18n-string-size': 'Die Maximallänge der Studienreihe ist 128 Zeichen.',
+              'i18n-string-size': 'Die Maximallänge der Studienreihe ist 512 Zeichen.',
               'i18n-string-entire-not-empty-optional': 'Wenn die Studienreihe in einer Sprache vorliegt, muss sie in allen Sprachen vorliegen.'
             },
             'data-availability': {
@@ -206,7 +208,7 @@ angular.module('metadatamanagementApp').config(
             },
             'description': {
               'not-null': 'Die Beschreibung des Attachments darf nicht leer sein.',
-              'i18n-string-size': 'Die Beschreibung muss in mindestens einer Sprache angegeben werden und darf nicht länger als 128 Zeichen sein.',
+              'i18n-string-size': 'Die Beschreibung muss in mindestens einer Sprache angegeben werden und darf nicht länger als 512 Zeichen sein.',
               'i18n-string-not-empty': 'Die Beschreibung muss in mindestens einer Sprache vorhanden sein.'
             },
             'title': {

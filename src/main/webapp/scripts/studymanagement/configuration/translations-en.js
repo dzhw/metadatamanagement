@@ -92,8 +92,10 @@ angular.module('metadatamanagementApp').config(
           'basic-data-of-surveys': 'Basic Data of Surveys',
           'not-found': 'The {{id}} references to an unknown Study.',
           'not-found-references': 'The id {{id}} has no References to Studies.',
-          'not-yet-released': 'Not yet released',
-          'not-released-toast': 'Study "{{ id }}" has not yet been released to all users!',
+          'not-yet-released': 'Currently not released',
+          'not-released-toast': 'Study "{{ id }}" is being worked on. Therefore it is not visible to all users at the moment!',
+          'old-version': 'Your link refers to a former version ({{versionFromUrl}}) of this study. This page displays the current version ({{actualVersion}}) of the study "{{title}}".',
+          'beta-release-no-doi': 'This is a BETA release and has no DOI at the moment.',
           'tooltips': {
             'surveys': {
               'one': 'Click to show the survey of this study',
@@ -144,7 +146,7 @@ angular.module('metadatamanagementApp').config(
           'study': {
             'id': {
               'not-empty': 'The RDC-ID of the Study must not be empty!',
-              'size': 'The max length of the RDC-ID is 128 signs.',
+              'size': 'The max length of the RDC-ID is 512 signs.',
               'pattern': 'Use only alphanumeric signs, German umlauts, ß and space, underscore, exclamation mark and minus for the RDC-ID.',
               'not-valid-id': 'The study id must be equal to the id scheme "stu-" + {ProjectId} + "$" .'
             },
@@ -160,16 +162,16 @@ angular.module('metadatamanagementApp').config(
             },
             'institution': {
               'not-null': 'The institution of the study must not be empty!',
-              'i18n-string-size': 'The max length of the institution is 128.',
-              'i18n-string-not-empty': 'The institution of the study must not be empty at least for one language.'
+              'i18n-string-size': 'The max length of the institution is 512.',
+              'i18n-string-entire-not-empty': 'The institution of the study must not be empty for both languages.'
             },
             'sponsor': {
               'not-null': 'The sponsor of the study must not be empty!',
-              'i18n-string-size': 'The max length of the sponsor of the study is 128.',
-              'i18n-string-not-empty': 'The sponsor of the study must not be empty at both languages.'
+              'i18n-string-size': 'The max length of the sponsor of the study is 512.',
+              'i18n-string-not-empty': 'The sponsor of the study must not be empty for both languages.'
             },
             'study-series': {
-              'i18n-string-size': 'The max length of the study series is 128 signs.',
+              'i18n-string-size': 'The max length of the study series is 512 signs.',
               'i18n-string-entire-not-empty-optional': 'If the study series is given in one language, it has to be set in all languages.'
             },
             'data-availability': {
@@ -206,7 +208,7 @@ angular.module('metadatamanagementApp').config(
             },
             'description': {
               'not-null': 'The description of the attachment must not be empty!',
-              'i18n-string-size': 'The description is mandatory and must in at least one language and must not contain more than 128 characters.',
+              'i18n-string-size': 'The description is mandatory and must in at least one language and must not contain more than 512 characters.',
               'i18n-string-not-empty': 'The description must not be empty at least for one language.'
             },
             'title': {

@@ -23,7 +23,7 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.Survey
 @RepositoryRestResource(path = "/surveys")
 @JaversSpringDataAuditable
 public interface SurveyRepository
-    extends BaseRepository<Survey, String> {
+    extends BaseRepository<Survey, String>, CacheableRepositoryMethods {
 
   @RestResource(exported = false)
   Stream<Survey> streamByDataAcquisitionProjectId(String dataAcquisitionProjectId);
@@ -39,6 +39,7 @@ public interface SurveyRepository
   List<Survey> findByDataAcquisitionProjectIdOrderByNumber(String dataAcquisitionProjectId);
   
   @RestResource(exported = false)
+  @Override
   List<IdAndVersionProjection> findIdsByNumberAndDataAcquisitionProjectId(Integer number, 
       String dataAcquisitionProjectId);
 

@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.projectmanagement.repository;
 
 import java.util.List;
 
+import org.javers.spring.annotation.JaversSpringDataAuditable;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
@@ -13,6 +14,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
  * 
  * @author Daniel Katzberg
  */
+@JaversSpringDataAuditable
 @RepositoryRestResource(path = "/data-acquisition-projects")
 public interface DataAcquisitionProjectRepository
     extends BaseRepository<DataAcquisitionProject, String> {

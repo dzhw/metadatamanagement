@@ -24,6 +24,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpt
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.validation.ValidDataAvailability;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.validation.ValidStudyId;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.validation.ValidSurveyDesign;
@@ -51,7 +52,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Study extends AbstractRdcDomainObject {
+public class Study extends AbstractRdcDomainObject implements StudySubDocumentProjection {
 
   @Id
   @JestId
@@ -81,7 +82,8 @@ public class Study extends AbstractRdcDomainObject {
   @NotNull(message = "study-management.error.study.institution.not-null")
   @I18nStringSize(max = StringLengths.MEDIUM,
       message = "study-management.error.study.institution.i18n-string-size")
-  @I18nStringNotEmpty(message = "study-management.error.study.institution.i18n-string-not-empty")
+  @I18nStringEntireNotEmpty(
+      message = "study-management.error.study.institution.i18n-string-entire-not-empty")
   private I18nString institution;
 
   @I18nStringSize(max = StringLengths.MEDIUM,
@@ -94,7 +96,7 @@ public class Study extends AbstractRdcDomainObject {
   @I18nStringSize(max = StringLengths.MEDIUM,
       message = "study-management.error.study.sponsor.i18n-string-size")
   @I18nStringEntireNotEmpty(
-      message = "study-management.error.sponsor.institution.i18n-string-entire-not-empty")
+      message = "study-management.error.study.sponsor.i18n-string-entire-not-empty")
   private I18nString sponsor;
 
   @Valid
@@ -110,9 +112,6 @@ public class Study extends AbstractRdcDomainObject {
   @ValidSurveyDesign(
       message = "study-management.error.study.survey-design.valid-survey-design")
   private I18nString surveyDesign;
-
-  @NotEmpty(message = "study-management.error.study.doi.not-empty")
-  private String doi;
 
   @I18nStringSize(max = StringLengths.LARGE,
       message = "study-management.error.study.annotations.i18n-string-size")

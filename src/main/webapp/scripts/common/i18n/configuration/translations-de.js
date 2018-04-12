@@ -17,8 +17,8 @@ angular.module('metadatamanagementApp').config(
         'toolbar': {
           'buttons': {
             'fdz-staff-area-tooltip': {
-              'false': 'Klicken, um das Menü "Zugang für FDZ Mitarbeiter" zu öffnen',
-              'true': 'Klicken, um das Menü "Zugang für FDZ Mitarbeiter" zu schließen'
+              'false': 'Klicken, um das Menü "Zugang für Datengeber" zu öffnen',
+              'true': 'Klicken, um das Menü "Zugang für Datengeber" zu schließen'
             },
             'logout': '{{username}} abmelden',
             'logout-tooltip': 'Klicken, um "{{username}}" abzumelden',
@@ -124,7 +124,7 @@ angular.module('metadatamanagementApp').config(
             'title': 'Metadatensuche'
           },
           'account': {
-            'main': 'Zugang für FDZ Mitarbeiter',
+            'main': 'Zugang für Datengeber',
             'settings': 'Konto bearbeiten',
             'password': 'Passwort ändern',
             'sessions': 'Sitzungen'
@@ -231,19 +231,7 @@ angular.module('metadatamanagementApp').config(
             'pattern': 'Dieses Feld muss das Muster {{pattern}} erfüllen.',
             'number': 'Dieses Feld muss eine Zahl sein.',
             'datetimelocal': 'Dieses Feld muss eine Datums- und Zeitangabe enthalten.',
-            'rdc-id': 'Die FDZ-ID darf nur aus Zahlen, Buchstaben und "_" bestehen.',
-            'variable': {
-              'name': 'Der Name einer Variablen darf nur aus Zahlen, Buchstaben und "_" bestehen.'
-            },
-            'survey': {
-              'period': 'Der Feldzeitbeginn muss vor dem Ende liegen.'
-            },
-            'data-acquisition-project': {
-              'id': 'Der Name eines Projektes darf nur aus Zahlen und kleinen Buchstaben (a-z) bestehen.',
-              'release': {
-                'version': 'Die Version darf nur aus Zahlen und Punkten bestehen.'
-              }
-            }
+            'rdc-id': 'Die FDZ-ID darf nur aus Zahlen, Buchstaben und "_" bestehen.'
           }
         },
         'error': {
@@ -275,9 +263,9 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'client-error': {
-            'unauthorized-error': 'Sie sind nicht berechtigt diese Aktion durchzuführen (Status {{ status }}).',
-            'forbidden-error': 'Sie sind nicht berechtigt diese Aktion durchzuführen (Status {{ status }}).',
-            'not-found-error': 'Sorry, etwas ist schief gelaufen :( ({{ status }}).'
+            'unauthorized-error': 'Sie sind nicht angemeldet und können daher diese Aktion nicht durchführen (Status {{ status }}).',
+            'forbidden-error': 'Sie haben nicht die Berechtigung (Rolle), um diese Aktion durchzuführen (Status {{ status }}).',
+            'not-found-error': 'Die angeforderte Seite wurde nicht gefunden ({{ status }}).'
           },
           'person': {
             'first-name': {

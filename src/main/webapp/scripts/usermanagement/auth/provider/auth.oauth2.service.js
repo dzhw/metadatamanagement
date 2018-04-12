@@ -42,7 +42,7 @@ angular
         deleteToken: function() {
           localStorageService.remove('token');
         },
-        hasValidToken: function() {
+        hasToken: function() {
           var token = this.getToken();
           //jscs:disable
           if (token) {

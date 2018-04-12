@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
 import org.springframework.beans.BeanUtils;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.VariableSubDocumentProjection;
@@ -12,7 +13,8 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.Vari
  * @author René Reitmann
  */
 @SuppressWarnings("CPD-START")
-public class VariableSubDocument implements VariableSubDocumentProjection {
+public class VariableSubDocument extends AbstractRdcDomainObject
+    implements VariableSubDocumentProjection {
   private String id;
   
   private String dataAcquisitionProjectId;

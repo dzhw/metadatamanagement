@@ -4,9 +4,9 @@
 angular.module('metadatamanagementApp')
   .controller('VariableSearchFilterController', [
     '$scope', 'SearchDao', 'VariableSearchService', '$timeout',
-    'CurrentProjectService',
+    'CurrentProjectService', '$rootScope',
     function($scope, SearchDao, VariableSearchService, $timeout,
-      CurrentProjectService) {
+      CurrentProjectService, $rootScope) {
       // prevent variable changed events during init
       var initializing = true;
       var selectionChanging = false;
@@ -22,9 +22,11 @@ angular.module('metadatamanagementApp')
         initializing = true;
         if ($scope.currentSearchParams.filter &&
           $scope.currentSearchParams.filter.variable) {
+          $rootScope.$broadcast('start-ignoring-404');
           VariableSearchService.findOneById(
             $scope.currentSearchParams.filter.variable).promise
             .then(function(result) {
+              $rootScope.$broadcast('stop-ignoring-404');
               if (result) {
                 $scope.currentVariable = {_source: result};
               } else {
@@ -35,6 +37,7 @@ angular.module('metadatamanagementApp')
                 };
               }
             }, function() {
+                $rootScope.$broadcast('stop-ignoring-404');
                 $scope.currentVariable = {
                   _source: {
                     id: $scope.currentSearchParams.filter.variable

@@ -15,7 +15,6 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -30,7 +29,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.google.common.base.Charsets;
 
-import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
@@ -86,7 +84,10 @@ public class DaraService {
   private Resource registerXml;
 
   @Autowired
-  private Environment env;
+  private DoiBuilder doiBuilder;
+  
+  @Autowired
+  private DataAcquisitionProjectVersionsService dataAcquisitionProjectVersionsService;
 
   private RestTemplate restTemplate;
 
@@ -124,6 +125,32 @@ public class DaraService {
 
   /**
    * Registers or updates a dataset with a given doi to dara.
+   * @param project The Project.
+   * @return The HttpStatus from Dara
+   *        Returns a false, if something gone wrong.
+   * @throws IOException the io exception for non readable xml file.
+   * @throws TemplateException Exception for filling the template.
+   */
+  public HttpStatus registerOrUpdateProjectToDara(DataAcquisitionProject project)
+      throws IOException, TemplateException {
+
+    //Read register xml
+    String registerXmlStr = IOUtils.toString(this.registerXml.getInputStream(), Charsets.UTF_8);
+
+    //Fill template
+    String filledTemplate = this.fillTemplate(registerXmlStr,
+            this.getTemplateConfiguration(),
+            this.getDataForTemplate(project, AVAILABILITY_CONTROLLED_DELIVERY),
+            KEY_REGISTER_XML_TMPL);
+
+    //Send Rest Call for Registration
+    HttpStatus httpStatusFromDara =
+        this.postToDaraImportXml(filledTemplate);
+    return httpStatusFromDara;
+  }
+  
+  /**
+   * Registers or updates a dataset with a given doi to dara.
    * @param projectId The id of the Project.
    * @return The HttpStatus from Dara
    *        Returns a false, if something gone wrong.
@@ -132,33 +159,18 @@ public class DaraService {
    */
   public HttpStatus registerOrUpdateProjectToDara(String projectId)
       throws IOException, TemplateException {
-
+    
     //Load Project
     DataAcquisitionProject project = this.projectRepository.findOne(projectId);
-
-    //Read register xml
-    String registerXmlStr = IOUtils.toString(this.registerXml.getInputStream(), Charsets.UTF_8);
-
-    //Fill template
-    String filledTemplate = this.fillTemplate(registerXmlStr,
-            this.getTemplateConfiguration(),
-            this.getDataForTemplate(projectId, AVAILABILITY_CONTROLLED_DELIVERY),
-            KEY_REGISTER_XML_TMPL);
-
-    //Send Rest Call for Registration
-    HttpStatus httpStatusFromDara =
-        this.postToDaraImportXml(filledTemplate, project.getHasBeenReleasedBefore());
-    return httpStatusFromDara;
+    return this.registerOrUpdateProjectToDara(project);
   }
 
   /**
    * This is the kernel method for registration, update and unregister of a doi element.
    * @param filledTemplate The filled and used template.
-   * @param hasBeenReleasedBefore The parameter for the project, which is released before or not.
    * @return the HttpStatus from Dara.
    */
-  private HttpStatus postToDaraImportXml(String filledTemplate, boolean hasBeenReleasedBefore) {
-    
+  private HttpStatus postToDaraImportXml(String filledTemplate) {    
     log.debug("The filled Template for dara:");
     log.debug(filledTemplate);
 
@@ -176,8 +188,10 @@ public class DaraService {
     headers.add("Authorization", "Basic " + new String(encodedAuth, Charsets.UTF_8));
 
     //Build
+    //It is always true, because every new release will have 
+    //a new doi based on the new release version.
     UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(daraEndpoint)
-        .queryParam("registration", Boolean.valueOf(!hasBeenReleasedBefore).toString());
+        .queryParam("registration", "true");
 
     //Build Request
     HttpEntity<String> request = new HttpEntity<>(filledTemplate, headers);
@@ -212,21 +226,32 @@ public class DaraService {
    *    releaseDate
    *    availabilityControlled
    *    resourceType
-   * @param projectId The id of the project to find the study.
+   * @param project The project to find the study.
    * @param availabilityControlled The availability of the data.
    * @return Returns a Map of names and the depending objects.
    *     If the key is 'study' so the study object is the value.
    *     Study is the name for the object use in freemarker.
    */
-  private Map<String, Object> getDataForTemplate(String projectId,
+  private Map<String, Object> getDataForTemplate(DataAcquisitionProject project,
       String availabilityControlled) {
 
     Map<String, Object> dataForTemplate = new HashMap<>();
+    String projectId = project.getId();
+    
+    //Get Project Information
+    dataForTemplate.put("dataAcquisitionProject", project);
 
     //Get Study Information
     Study study = this.studyRepository.findOneByDataAcquisitionProjectId(projectId);
     dataForTemplate.put("study", study);
     
+    String doi = doiBuilder.buildStudyDoi(study, project.getRelease());
+    dataForTemplate.put("doi", doi);
+    
+    String previousDoi = doiBuilder.buildStudyDoi(study, dataAcquisitionProjectVersionsService
+        .findPreviousRelease(project.getId(), project.getRelease()));
+    dataForTemplate.put("previousDoi", previousDoi);
+
     //Get Surveys Information
     List<Survey> surveys = this.surveyRepository
         .findByDataAcquisitionProjectIdOrderByNumber(projectId);
@@ -258,12 +283,12 @@ public class DaraService {
     //Add Resource Type
     dataForTemplate.put("resourceType", RESOURCE_TYPE_DATASET);
 
-    dataForTemplate.put("isDaraTest", !env.acceptsProfiles(Constants.SPRING_PROFILE_PROD));
-
     return dataForTemplate;
   }
 
   /**
+   * Get the configuration for freemarker.
+   * 
    * @return a configratution object for the registration.
    */
   private Configuration getTemplateConfiguration() {

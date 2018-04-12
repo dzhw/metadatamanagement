@@ -83,7 +83,8 @@ angular.module('metadatamanagementApp')
             $scope.nextVariables = resultNextVariable.hits.hits;
           });
 
-        $scope.counts.surveysCount = $scope.variable.surveys.length;
+        $scope.counts.surveysCount = $scope.variable.surveyNumbers ?
+          $scope.variable.surveyNumbers.length : 0;
         if ($scope.counts.surveysCount === 1) {
           $scope.survey = $scope.variable.surveys[0];
         }
