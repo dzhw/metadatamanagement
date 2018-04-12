@@ -53,6 +53,7 @@ This project is currently built and deployed to Pivotal Cloudfoundry by [Travis 
 ## Big Thanks
 
 Cross-browser Testing Platform and Open Source :heart: Provided by [Sauce Labs][saucelabs]
+
 Continous Integration Platform provided by [Travis CI][TravisCI]
 
 [saucelabs]: https://saucelabs.com
