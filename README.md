@@ -1,26 +1,35 @@
 [![Build Status](https://travis-ci.org/dzhw/metadatamanagement.svg?branch=development)](https://travis-ci.org/dzhw/metadatamanagement)  [![Sauce Test Status](https://saucelabs.com/buildstatus/rreitmann)](https://saucelabs.com/u/rreitmann)
-[![Dependency Status](https://beta.gemnasium.com/badges/github.com/dzhw/metadatamanagement.svg)](https://beta.gemnasium.com/projects/github.com/dzhw/metadatamanagement)[![Coverage Status](https://coveralls.io/repos/dzhw/metadatamanagement/badge.svg?branch=development&service=github)](https://coveralls.io/github/dzhw/metadatamanagement?branch=development) [![Built with Grunt](https://cdn.gruntjs.com/builtwith.svg)](https://gruntjs.com/)
+[![Dependency Status](https://beta.gemnasium.com/badges/github.com/dzhw/metadatamanagement.svg)](https://beta.gemnasium.com/projects/github.com/dzhw/metadatamanagement)[![Coverage Status](https://coveralls.io/repos/dzhw/metadatamanagement/badge.svg?branch=development&service=github)](https://coveralls.io/github/dzhw/metadatamanagement?branch=master) [![Built with Grunt](https://cdn.gruntjs.com/builtwith.svg)](https://gruntjs.com/)
 
 [![Sauce Build Matrix](https://saucelabs.com/browser-matrix/rreitmann.svg)](https://saucelabs.com/u/rreitmann)
 
 [![forthebadge](http://forthebadge.com/images/badges/built-by-developers.svg)](http://forthebadge.com) [![forthebadge](http://forthebadge.com/images/badges/uses-badges.svg)](http://forthebadge.com)
-# Developing metadatamanagement
+# Developing the MDM system
+
+Please checkout the development branch before starting to code and create a new branch starting with your username followed by the backlog items issue number you will be working on:
+
+    git checkout development
+    git checkout -b rreitmann/issue1234
 
 Before you can build this project, you must install and configure the following dependencies on your machine:
 
-1. Java: You need to install java 8 sdk on your system.
-2. Maven: You need to install maven 3 on your system.
-3. [Node.js][]: Node.js and npm (coming with node.js) are required as well. On Ubuntu you should install node using [NVM][]
-4. Mongodb: Mongodb must be running on the default port, on ubuntu you should install it from here https://docs.mongodb.org/manual/tutorial/install-mongodb-on-ubuntu/
-5. Elasticsearch: Elasticsearch must be running on its default port. You can download it from here https://www.elastic.co/downloads/elasticsearch
+1. Java: You need to install java 8 sdk on your system. On Ubuntu you should use [SDKMAN!][]
+2. Maven: You need to install maven 3 on your system. On Ubuntu you should use [SDKMAN!][]
+3. [Node.js][]: Node.js (latest) and npm (coming with node.js) are required as well. On Ubuntu you should install node using [NVM][]
 
-We use [Grunt][] as our build system. Install the grunt command-line tool globally with:
+We use [Grunt][] as our client build system. Install the grunt command-line tool globally with:
 
     npm install -g grunt-cli
 
-You should install [Bower][] globally as well:
+You need to install [Bower][] globally as well:
 
     npm install -g bower
+
+## Running on your local machine
+
+Before starting the app on your local machine you need to start the following Document Stores:
+1. Mongodb: Mongodb must be running on the default port, on ubuntu you should install it from here https://docs.mongodb.org/manual/tutorial/install-mongodb-on-ubuntu/
+2. Elasticsearch (5.2.2): Elasticsearch must be running on its default port. You can download it from here https://www.elastic.co/downloads/elasticsearch
 
 Run the following commands in two separate terminals to create a blissful development experience where your browser
 auto-refreshes when files change on your hard drive.
@@ -28,25 +37,29 @@ auto-refreshes when files change on your hard drive.
     mvn
     grunt
 
-# Building for the dev environment
+## Building for the dev environment
 
 To optimize the metadatamanagement client for the dev environment, run:
 
-    mvn -Pdev clean package
+    mvn -Pdev clean install
 
-This will concatenate and minify CSS and JavaScript files. It will also modify `index.html` so it references
+This will concatenate and minify CSS and JavaScript files using grunt. It will also modify `index.html` so it references
 these new files.
+
+Before deploying the dev system you need to [install the cloudfoundry cli](https://docs.cloudfoundry.org/cf-cli/install-go-cli.html#-linux-installation).
 
 You can build and deploy the jar to the dev environment by running
 
-    mvn -Pdev clean package cf:push-only
+    ./deploy/build-and-deploy.sh dev
 
 ## Pivotal Cloudfoundry
-This project is currently built and deployed to Pivotal Cloudfoundry by Travis CI. You can test the latest version on https://metadatamanagement-dev.cfapps.io/
+This project is currently built and deployed to Pivotal Cloudfoundry by [Travis CI][TravisCI]. You can test the latest version on https://metadatamanagement-dev.cfapps.io/
 
 ## Big Thanks
 
-Cross-browser Testing Platform and Open Source <3 Provided by [Sauce Labs][saucelabs]
+Cross-browser Testing Platform and Open Source :heart: Provided by [Sauce Labs][saucelabs]
+
+Continous Integration Platform provided by [Travis CI][TravisCI]
 
 [saucelabs]: https://saucelabs.com
 [JHipster]: https://jhipster.github.io/
@@ -58,3 +71,5 @@ Cross-browser Testing Platform and Open Source <3 Provided by [Sauce Labs][sauce
 [Jasmine]: http://jasmine.github.io/2.0/introduction.html
 [Protractor]: https://angular.github.io/protractor/
 [NVM]: https://github.com/creationix/nvm
+[SDKMAN!]:http://sdkman.io/install.html
+[TravisCI]:https://travis-ci.org/
