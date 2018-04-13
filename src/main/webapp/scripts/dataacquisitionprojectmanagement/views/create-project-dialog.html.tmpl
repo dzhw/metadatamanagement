@@ -7,7 +7,7 @@
             <md-button class="md-icon-button" ng-click="closeDialog()">
                 <md-icon md-font-set="material-icons">clear</md-icon>
                 <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
-                  {{'data-acquisition-project-management.home.dialog-tooltip.close' | translate }}
+                  {{'data-acquisition-project-management.home.dialog-tooltip.create-cancel' | translate }}
                 </md-tooltip>
             </md-button>
         </div>
@@ -29,13 +29,13 @@
             <md-button class="md-raised" ng-click="closeDialog()">
               <span>{{'global.entity.action.cancel' | translate}}</span>
             <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
-              {{'data-acquisition-project-management.home.dialog-tooltip.cancel' | translate }}
+              {{'data-acquisition-project-management.home.dialog-tooltip.create-cancel' | translate }}
             </md-tooltip>
             </md-button>
             <md-button class="md-raised" type="submit" ng-click="ok(project)" ng-disabled="projectForm.$invalid">
               <span>{{'global.entity.action.ok' | translate}}</span>
               <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
-                {{'data-acquisition-project-management.home.dialog-tooltip.ok' | translate }}
+                {{'data-acquisition-project-management.home.dialog-tooltip.create-ok' | translate }}
               </md-tooltip>
             </md-button>
         </md-dialog-actions>

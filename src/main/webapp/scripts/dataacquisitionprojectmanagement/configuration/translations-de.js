@@ -14,9 +14,10 @@ angular.module('metadatamanagementApp').config(
           'createLabel': 'Neues Datenaufbereitungsprojekt anlegen',
           'releaseLabel': 'Das Datenaufbereitungsprojekt "{{ id }}" freigeben',
           'dialog-tooltip': {
-            'ok': 'Klicken, um das Datenaufbereitungsprojekt zu erzeugen',
-            'cancel': 'Klicken, um abzubrechen',
-            'close': 'Klicken, um den Dialog zu schließen'
+            'create-ok': 'Klicken, um das Datenaufbereitungsprojekt zu erzeugen',
+            'create-cancel': 'Klicken, um den Dialog zu schließen ohne ein Projekt anzulegen',
+            'release-ok': 'Klicken, um das Projekt freizugeben',
+            'release-cancel': 'Klicken, um den Dialog zu schließen ohne das Projekt freizugeben'
           }
         },
         'delete': {
@@ -30,12 +31,12 @@ angular.module('metadatamanagementApp').config(
             'delete': 'Möchten Sie wirklich das Projekt "{{ id }}" löschen? Das Projekt kann hiernach nicht wieder hergestellt werden.',
             'deleted-successfully-project': 'Das Datenaufbereitungsprojekt "{{ id }}" wurde erfolgreich gelöscht.',
             'deleted-not-successfully-project': 'Das Datenaufbereitungsprojekt "{{ id }}" konnte nicht gelöscht werden!',
-            'released-successfully': 'Es wurde eine DOI bei da|ra registriert und die Daten des Projektes "{{ id }}" werden in ca. 10 Minuten für alle Benutzer sichtbar sein.',
-            'released-beta-successfully': 'Die Daten des Projektes "{{ id }}" werden in ca. 10 Minuten für alle Benutzer sichtbar sein. Es wurde keine DOI bei da|ra registriert.',
-            'dara-released-not-successfully': 'Die Daten des Projektes "{{ id }}" können nicht veröffentlicht werden. Es trat ein Fehler bei der Registrierung der DOI bei da|ra auf.',
-            'unreleased-successfully': 'Die Daten des Projektes "{{ id }}" werden in ca. 10 Minuten nur noch für FDZ Mitarbeiter sichtbar sein.',
+            'released-successfully': 'Die Metadaten des Projektes wurden bei da|ra gespeichert und die Daten des Projektes "{{ id }}" werden in ca. 10 Minuten für alle Benutzer sichtbar sein.',
+            'released-beta-successfully': 'Die Daten des Projektes "{{ id }}" werden in ca. 10 Minuten für alle Benutzer sichtbar sein. Es wurde keine Metadaten zu da|ra gesendet.',
+            'dara-released-not-successfully': 'Die Daten des Projektes "{{ id }}" können nicht veröffentlicht werden. Es trat ein Fehler beim Senden der Metadaten zu da|ra auf.',
+            'unreleased-successfully': 'Die Daten des Projektes "{{ id }}" werden in ca. 10 Minuten nur noch für FDZ Datengeber sichtbar sein.',
             'unrelease-title': 'Freigabe für Projekt "{{ id }}" zurücknehmen?',
-            'unrelease': 'Möchten Sie wirklich, dass das Projekt "{{ id }}" nur noch für FDZ Mitarbeiter sichtbar ist?',
+            'unrelease': 'Möchten Sie wirklich, dass das Projekt "{{ id }}" nur noch für Datengeber sichtbar ist?',
             'release-not-possible-title': 'Projekt "{{ id }}" kann nicht freigegeben werden!',
             'release-not-possible': 'Das Projekt "{{ id }}" kann nicht freigegeben werden, weil bei der Post-Validierung Fehler aufgetreten sind!'
           }
