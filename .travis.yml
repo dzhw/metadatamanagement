@@ -9,9 +9,6 @@ cache:
   directories:
   - $HOME/.m2
   - ./node_modules
-env:
-  - CXX=g++-4.9
-  - NODE_OPTIONS=--max-old-space-size=4096
 addons:
   apt:
     sources:
@@ -19,6 +16,8 @@ addons:
     packages:
       - g++-4.9
 before_install:
+  - export CXX=g++-4.9
+  - export NODE_OPTIONS=--max-old-space-size=4096
   - sudo rm -vf /etc/apt/sources.list.d/*riak*
   - wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
   - echo "deb http://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
