@@ -1,7 +1,7 @@
 /* global cheet, document, jQuery*/
 'use strict';
 
-cheet('k i m h u r z', function() {
+cheet('d a n k e k i m', function() {
   var showThankYou = function() {
     var node = document.createElement('div');
     node.id = 'egg-thank-you-container';

@@ -6,7 +6,7 @@
 /* global location */
 'use strict';
 
-cheet('shift h u r z', function() {
+cheet('h u r z', function() {
   function initGame() {
     window.addEventListener('keyup', function(e) {
       if (e.keyCode === 27) {
@@ -246,7 +246,7 @@ cheet('shift h u r z', function() {
   }
 
   jQuery.ajax({
-    url: 'https://cdnjs.cloudflare.com/ajax/libs/phaser/2.4.4/phaser.min.js',
+    url: 'https://cdnjs.cloudflare.com/ajax/libs/phaser/2.6.2/phaser.min.js',
     dataType: 'script',
     cache: true,
     success: function() {
