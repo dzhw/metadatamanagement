@@ -9,11 +9,16 @@ Suite Teardown    Close Browser
 
 
 *** Test Cases ***
-SideNavBar Visibility
+SideNavBar Visibility with small frame
         Set Window Size  800  600
         NavBar should be hidden
-				Click Button  xpath=//*[@id="toolbar"]/div[2]/button
+
+SideNavBar Visibility when clicked
+        Sleep         0.2s
+				Click Button  xpath=//md-toolbar/descendant::button[md-icon[text()='menu']]
 				NavBar should be open
+
+SideNavBar Visibility with max frame
 				Maximize Browser Window
 				NavBar should be forced open
 
