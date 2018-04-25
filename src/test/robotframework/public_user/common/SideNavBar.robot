@@ -9,23 +9,23 @@ Suite Teardown    Close Browser
 
 
 *** Test Cases ***
-SideNavBar Visibility with small frame
+SideNavBar Visibility
         Set Window Size  800  600
+        Wait Until Element Is Visible  xpath=//md-toolbar/descendant::button[md-icon[text()='menu']]
         NavBar should be hidden
-        Sleep         0.5s
 				Click Button  xpath=//md-toolbar/descendant::button[md-icon[text()='menu']]
 				NavBar should be open
 				Maximize Browser Window
-				NavBar should be forced open
+				NavBar should be always open
 
 
 *** Keywords ***
 
 NavBar should be hidden
-        Page Should Contain Element  dom="ng-isolate-scope _md md-whiteframe-4dp layout-column md-closed"
+        Page Should Contain Element  xpath=//md-sidenav[contains(@class, 'md-closed')]
 
 NavBar should be open
-        Page Should Contain Element  dom="ng-isolate-scope _md md-whitefrane-4dp layout-column"
+        Page Should Not Contain Element  xpath=//md-sidenav[contains(@class, 'md-closed')]
 
-NavBar should be forced open
-        Page Should Contain Element  dom="ng-isolate-scope _md md-whiteframe-4dp layout-column md-locked-open"
+NavBar should be always open
+        Page Should Contain Element  xpath=//md-sidenav[contains(@class, 'md-locked-open')]
