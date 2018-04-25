@@ -7,11 +7,24 @@ Documentation     Tests if side bar is visible when browser window is maximized 
 Suite Setup       Open Browser To Home Page
 Suite Teardown    Close Browser
 
+
 *** Test Cases ***
 SideNavBar Visibility
         Set Window Size  800  600
-        Page Should Contain Element  dom="ng-isolate-scope _md md-whiteframe-4dp layout-column md-closed"
+        NavBar should be hidden
 				Click Button  xpath=//*[@id="toolbar"]/div[2]/button
-				Page Should Contain Element  dom="ng-isolate-scope _md md-whitefrane-4dp layout-column"
+				NavBar should be open
 				Maximize Browser Window
-				Page Should Contain Element  dom="ng-isolate-scope _md md-whiteframe-4dp layout-column md-locked-open"
+				NavBar should be forced open
+
+
+*** Keywords ***
+
+NavBar should be hidden
+        Page Should Contain Element  dom="ng-isolate-scope _md md-whiteframe-4dp layout-column md-closed"
+
+NavBar should be open
+        Page Should Contain Element  dom="ng-isolate-scope _md md-whitefrane-4dp layout-column"
+
+NavBar should be forced open
+        Page Should Contain Element  dom="ng-isolate-scope _md md-whiteframe-4dp layout-column md-locked-open"
