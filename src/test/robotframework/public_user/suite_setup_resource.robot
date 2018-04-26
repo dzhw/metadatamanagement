@@ -15,7 +15,7 @@ Open Local Browser
     Open Browser  ${WEBSITE}  ${BROWSER}
 
 Open Saucelabs Browser
-    Set To Dictionary   ${CAPABILITIES.${BROWSER}}  sauceBuild=%{TRAVIS_BUILD_NUMBER}
+    Set To Dictionary   ${CAPABILITIES.${BROWSER}}  build=%{TRAVIS_BUILD_NUMBER}
     Open Browser  ${WEBSITE}  ${BROWSER}
     ...           remote_url=${SAUCELABS_URL}
     ...           desired_capabilities=${CAPABILITIES.${BROWSER}}
