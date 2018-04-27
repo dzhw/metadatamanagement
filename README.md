@@ -69,7 +69,6 @@ Continous Integration Platform provided by [Travis CI][TravisCI]
 [BrowserSync]: http://www.browsersync.io/
 [Karma]: http://karma-runner.github.io/
 [Jasmine]: http://jasmine.github.io/2.0/introduction.html
-[Protractor]: https://angular.github.io/protractor/
 [NVM]: https://github.com/creationix/nvm
 [SDKMAN!]:http://sdkman.io/install.html
 [TravisCI]:https://travis-ci.org/
