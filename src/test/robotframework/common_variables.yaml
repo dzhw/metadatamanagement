@@ -6,25 +6,21 @@ capabilities:
     browserName: chrome
     version: latest
     screenResolution: 1280x1024
-    sauceBuild: local
   firefox:
     name: Win10/Firefox
     platform: Windows 10
     browserName: firefox
     version: latest
     screenResolution: 1280x1024
-    sauceBuild: local
   edge:
     name: Win10/Edge
     platform: Windows 10
     browserName: MicrosoftEdge
     version: latest
     screenResolution: 1280x1024
-    sauceBuild: local
   ie:
     name: Win10/IE11
     platform: Windows 10
     browserName: internet explorer
     version: latest
     screenResolution: 1280x1024
-    sauceBuild: local

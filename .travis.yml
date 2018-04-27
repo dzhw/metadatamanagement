@@ -43,10 +43,10 @@ script:
   - cf login -u $CI_DEPLOY_USERNAME -p $CI_DEPLOY_PASSWORD -o DZHW -s dev -a https://api.run.pivotal.io
   - cf push -f ./deploy/manifest-dev.yml
 #  - robot -d target/test/robotframework/logs -v BROWSER:firefox -v DESIRED_CAPABILITIES=tunnel-identifier:$TRAVIS_JOB_NUMBER ./src/test/robotframework/public_user
-  - robot -P ./src/test/robotframework -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:chrome ./src/test/robotframework
-  - robot -P ./src/test/robotframework -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:firefox ./src/test/robotframework
-  - robot -P ./src/test/robotframework -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:ie ./src/test/robotframework
-  - robot -P ./src/test/robotframework -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:edge ./src/test/robotframework
+  - robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:chrome ./src/test/robotframework
+  - robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:firefox ./src/test/robotframework
+  - robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:ie ./src/test/robotframework
+  - robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:edge ./src/test/robotframework
 #  - ./node_modules/protractor/bin/webdriver-manager update
 #  - ./node_modules/protractor/bin/protractor ./src/test/protractor/protractor.conf.js
 after_script:
