@@ -1,0 +1,26 @@
+website: https://metadatamanagement-dev.cfapps.io/
+capabilities:
+  chrome:
+    name: Win10/Chrome
+    platform: Windows 10
+    browserName: chrome
+    version: latest
+    screenResolution: 1280x1024
+  firefox:
+    name: Win10/Firefox
+    platform: Windows 10
+    browserName: firefox
+    version: latest
+    screenResolution: 1280x1024
+  edge:
+    name: Win10/Edge
+    platform: Windows 10
+    browserName: MicrosoftEdge
+    version: latest
+    screenResolution: 1280x1024
+  ie:
+    name: Win10/IE11
+    platform: Windows 10
+    browserName: internet explorer
+    version: latest
+    screenResolution: 1280x1024
