@@ -14,6 +14,7 @@ ${BUILD_NUMBER}   local
 *** Keywords ***
 Open Local Browser
     Open Browser  ${WEBSITE}  ${BROWSER}
+    ...           desired_capabilities=${CAPABILITIES.${BROWSER}}
 
 Open Saucelabs Browser
     ${BUILD_NUMBER} =   Get Environment Variable  TRAVIS_BUILD_NUMBER  ${EMPTY}
