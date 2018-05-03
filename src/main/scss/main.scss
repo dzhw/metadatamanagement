@@ -131,12 +131,20 @@ body {
 }
 
 .bmbf_logo {
-    background-color: transparent;
-    background-position: center center;
-    background-repeat: no-repeat;
-    width: 221px;
-    height: 157px;
-    background-size: 221px 157px;
+    width: 100%;
+    height: 150px;
+    padding: 8px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.saucelabs_logo {
+    width: 100%;
+    height: 80px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .fdz-search-result-icon {
@@ -965,4 +973,43 @@ md-toast.md-accent > .md-toast-content {
     border: 1px solid black;
     background-color: $brand-warning;
     color: black !important;
+}
+
+#egg-thank-you-container {
+    background-color: $brand-primary;
+    position: absolute;
+    z-index: 999999;
+    width: 100%;
+    height: 100%;
+}
+
+#egg-thank-you {
+    display: block;
+    max-width: 400px;
+    margin: 0 auto;
+    stroke: white;
+}
+
+.egg-path-first {
+    stroke-dasharray: 1800;
+}
+
+.egg-path-second {
+    stroke-dasharray: 300;
+}
+
+.egg-path-third {
+    stroke-dasharray: 200;
+}
+
+.egg-path-fourth {
+    stroke-dasharray: 300;
+}
+
+.egg-path-fifth {
+    stroke-dasharray: 800;
+}
+
+.egg-path-sixth {
+    stroke-dasharray: 600;
 }

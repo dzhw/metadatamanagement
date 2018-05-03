@@ -1,10 +1,15 @@
 [![Build Status](https://travis-ci.org/dzhw/metadatamanagement.svg?branch=master)](https://travis-ci.org/dzhw/metadatamanagement)  [![Sauce Test Status](https://saucelabs.com/buildstatus/rreitmann)](https://saucelabs.com/u/rreitmann)
-[![Dependency Status](https://beta.gemnasium.com/badges/github.com/dzhw/metadatamanagement.svg)](https://beta.gemnasium.com/projects/github.com/dzhw/metadatamanagement)[![Coverage Status](https://coveralls.io/repos/dzhw/metadatamanagement/badge.svg?branch=development&service=github)](https://coveralls.io/github/dzhw/metadatamanagement?branch=master) [![Built with Grunt](https://cdn.gruntjs.com/builtwith.svg)](https://gruntjs.com/)
+[![Dependency Status](https://beta.gemnasium.com/badges/github.com/dzhw/metadatamanagement.svg)](https://beta.gemnasium.com/projects/github.com/dzhw/metadatamanagement)[![Coverage Status](https://coveralls.io/repos/dzhw/metadatamanagement/badge.svg?branch=master&service=github)](https://coveralls.io/github/dzhw/metadatamanagement?branch=master) [![Built with Grunt](https://cdn.gruntjs.com/builtwith.svg)](https://gruntjs.com/)
 
 [![Sauce Build Matrix](https://saucelabs.com/browser-matrix/rreitmann.svg)](https://saucelabs.com/u/rreitmann)
 
 [![forthebadge](http://forthebadge.com/images/badges/built-by-developers.svg)](http://forthebadge.com) [![forthebadge](http://forthebadge.com/images/badges/uses-badges.svg)](http://forthebadge.com)
 # Developing the MDM system
+
+Please checkout the development branch before starting to code and create a new branch starting with your username followed by the backlog items issue number you will be working on:
+
+    git checkout development
+    git checkout -b rreitmann/issue1234
 
 Before you can build this project, you must install and configure the following dependencies on your machine:
 
@@ -64,7 +69,6 @@ Continous Integration Platform provided by [Travis CI][TravisCI]
 [BrowserSync]: http://www.browsersync.io/
 [Karma]: http://karma-runner.github.io/
 [Jasmine]: http://jasmine.github.io/2.0/introduction.html
-[Protractor]: https://angular.github.io/protractor/
 [NVM]: https://github.com/creationix/nvm
 [SDKMAN!]:http://sdkman.io/install.html
 [TravisCI]:https://travis-ci.org/

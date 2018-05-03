@@ -121,6 +121,7 @@ Desktop.ini
 *.*~
 *~
 .merge_file*
+*.pyc
 
 ######################
 # Gradle Wrapper

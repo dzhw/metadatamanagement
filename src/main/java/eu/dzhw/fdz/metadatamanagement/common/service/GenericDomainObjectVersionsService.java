@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.common.service;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -73,16 +75,21 @@ public abstract class GenericDomainObjectVersionsService<T extends AbstractRdcDo
    * @return A list of previous versions or null if no domain found
    */
   public List<T> findPreviousVersions(String id, int limit, int skip) {
-    T domainObject = repository.findOne(id);
+    QueryBuilder snapshotQuery = QueryBuilder.byInstanceId(id, domainObjectClass)
+        .limit(limit).skip(skip);
 
-    if (domainObject == null) {
-      return null;
+    List<CdoSnapshot> snapshots = javers.findSnapshots(snapshotQuery.build());
+    if (snapshots.isEmpty()) {
+      return new ArrayList<>();
     }
-
-    QueryBuilder jqlQuery = QueryBuilder.byInstance(domainObject)
-        .withScopeDeepPlus(Integer.MAX_VALUE).limit(limit).skip(skip);
-
-    List<Shadow<T>> previousVersions = javers.findShadows(jqlQuery.build());
+    
+    List<BigDecimal> commitIds = snapshots.stream().map(
+        snapshot -> snapshot.getCommitId().valueAsNumber())
+        .collect(Collectors.toList());
+    
+    List<Shadow<T>> previousVersions = javers.findShadows(
+        QueryBuilder.byInstanceId(id, domainObjectClass)
+        .withCommitIds(commitIds).build());
 
     return previousVersions.stream().map(shadow -> {
       T domainObjectVersion = shadow.get();

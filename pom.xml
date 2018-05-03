@@ -11,7 +11,7 @@
 
     <groupId>eu.dzhw.fdz.metadatamanagement</groupId>
     <artifactId>metadatamanagement</artifactId>
-    <version>1.0.65</version>
+    <version>1.0.66</version>
     <packaging>war</packaging>
     <name>metadatamanagement</name>
 
@@ -21,7 +21,7 @@
 
     <properties>
         <commons-io.version>2.6</commons-io.version>
-        <commons-lang.version>2.6</commons-lang.version>
+        <commons-lang.version>3.7</commons-lang.version>
         <dropwizard-metrics.version>3.2.5</dropwizard-metrics.version>
         <elasticsearch.version>5.5.2</elasticsearch.version>
         <jacoco-maven-plugin.version>0.7.9</jacoco-maven-plugin.version>
@@ -77,11 +77,6 @@
             <version>${commons-io.version}</version>
         </dependency>
         <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>${commons-lang.version}</version>
-        </dependency>
-        <dependency>
             <groupId>commons-validator</groupId>
             <artifactId>commons-validator</artifactId>
             <version>1.6</version>
@@ -109,7 +104,7 @@
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <version>4.1.19.Final</version>
+            <version>4.1.23.Final</version>
         </dependency>
         <!-- Reactor for websocket relay to MQ -->
         <dependency>
@@ -128,6 +123,11 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-compress</artifactId>
             <version>1.16.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
@@ -152,7 +152,7 @@
         <dependency>
             <groupId>org.javers</groupId>
             <artifactId>javers-spring-boot-starter-mongo</artifactId>
-            <version>3.7.0</version>
+            <version>3.9.0</version>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
@@ -238,7 +238,7 @@
         <dependency>
             <groupId>uk.com.robust-it</groupId>
             <artifactId>cloning</artifactId>
-            <version>1.9.9</version>
+            <version>1.9.10</version>
         </dependency>
     </dependencies>
 

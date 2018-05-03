@@ -131,5 +131,20 @@ public class StudyVersionsResourceTest extends AbstractTest {
       .andExpect(jsonPath("$[2].title.de", is(firstTitle)))
       .andExpect(jsonPath("$[2].authors.length()", is(equalTo(study.getAuthors().size()))))
       .andExpect(jsonPath("$[2].authors[0].firstName", is(study.getAuthors().get(0).getFirstName())));
+    
+    // read the first two study versions
+    mockMvc.perform(get(API_STUDY_URI + "/" + study.getId() + "/versions?skip=1"))
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$.length()", is(equalTo(2))))
+      .andExpect(jsonPath("$[0].id", is(study.getId())))
+      .andExpect(jsonPath("$[0].title.de", is("hurzDe2")))
+      .andExpect(jsonPath("$[0].version", is(equalTo(1))))
+      .andExpect(jsonPath("$[0].authors.length()", is(equalTo(study.getAuthors().size()))))
+      .andExpect(jsonPath("$[0].authors[0].firstName", is(study.getAuthors().get(0).getFirstName())))
+      .andExpect(jsonPath("$[1].id", is(study.getId())))
+      .andExpect(jsonPath("$[1].version", is(equalTo(0))))
+      .andExpect(jsonPath("$[1].title.de", is(firstTitle)))
+      .andExpect(jsonPath("$[1].authors.length()", is(equalTo(study.getAuthors().size()))))
+      .andExpect(jsonPath("$[1].authors[0].firstName", is(study.getAuthors().get(0).getFirstName())));
   }
 }
