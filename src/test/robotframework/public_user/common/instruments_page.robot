@@ -23,7 +23,7 @@ Looking for Graduate Panel 2005s questionnaire first wave in english
 
 *** Keywords ***
 Click on Instrumente/Instruments
-#           Mouse Over  xpath=//md-pagination-wrapper/md-tab-item[3]
+#           Run Keyword If    '${USE_SAUCELABS}' == '${EMPTY}'  Mouse Over  xpath=//md-pagination-wrapper/md-tab-item[3]
            Wait Until Keyword Succeeds  5s  1s  Click Element  xpath=//md-pagination-wrapper/md-tab-item[3]
 Search for Absolventenpanel 2005 Fragebogen Erste Welle
            Input Text             id=query        Absolventenpanel 2005 Fragebogen Erste Welle
@@ -40,6 +40,7 @@ Get back to home page
 Change language to english
            Wait Until Keyword Succeeds  5s  1s  Click Button  id=changeLanguageToEn
 Get back to german home page
+           Run Keyword If    '${USE_SAUCELABS}' == '${EMPTY}'  Mouse Over  id=changeLanguageToDe
            Click Button   id=changeLanguageToDe
-           Mouse over  xpath=//md-sidenav//md-toolbar//a
+           Run Keyword If    '${USE_SAUCELABS}' == '${EMPTY}'  Mouse Over  xpath=//md-sidenav//md-toolbar//a
            Click Element  xpath=//md-sidenav//md-toolbar//a

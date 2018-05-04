@@ -9,13 +9,13 @@ Suite Teardown    Finish Test
 Looking for Absolventenpanel 2005 in german
         Search for Absolventenpanel 2005
         Click on the search result
-        Look whether german study page opens right
+        Look whether german study page opens correctly
         [Teardown]  Get back to home page
 Looking for Graduate Panel 2005 in english
         [Setup]   Change language to english
         Search for DZHW Graduate Panel 2005
         Click on the search result
-        Look whether english study page opens right
+        Look whether english study page opens correctly
         [Teardown]  Get back to german home page
 
 
@@ -29,10 +29,10 @@ Search for Absolventenpanel 2005
 Search for DZHW Graduate Panel 2005
            Input Text             id=query        Graduate Panel 2005
 
-Look whether german study page opens right
+Look whether german study page opens correctly
             Page Should Contain  Wirt­schafts- und Fi­nanz­kri­se
 
-Look whether english study page opens right
+Look whether english study page opens correctly
             Page Should Contain  eco­nomic and fi­nan­cial cri­sis
 
 Click on the search result
@@ -40,7 +40,7 @@ Click on the search result
 
 Get back to home page
            Click Element  xpath=//md-sidenav//md-toolbar//a
-
 Get back to german home page
+           Run Keyword If    '${USE_SAUCELABS}' == '${EMPTY}'  Mouse Over  id=changeLanguageToDe
            Click Button   id=changeLanguageToDe
            Click Element  xpath=//md-sidenav//md-toolbar//a

@@ -40,6 +40,7 @@ Get back to home page
 Change language to english
            Wait Until Keyword Succeeds  5s  1s  Click Button  id=changeLanguageToEn
 Get back to german home page
+           Mouse Over  id=changeLanguageToDe
            Click Button   id=changeLanguageToDe
-           Mouse over  xpath=//md-sidenav//md-toolbar//a
+           Run Keyword If    '${USE_SAUCELABS}' == '${EMPTY}'  Mouse Over  xpath=//md-sidenav//md-toolbar//a
            Click Element  xpath=//md-sidenav//md-toolbar//a
