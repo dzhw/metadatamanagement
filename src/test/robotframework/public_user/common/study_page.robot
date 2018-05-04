@@ -7,7 +7,7 @@ Suite Teardown    Finish Test
 *** Test Cases ***
 
 Looking for Absolventenpanel 2005 in german
-        Search for Absolventepanel 2005
+        Search for Absolventenpanel 2005
         Click on the search result
         Look whether german study page opens right
         [Teardown]  Get back to home page
@@ -23,7 +23,7 @@ Looking for Graduate Panel 2005 in english
 Change language to english
            Wait Until Keyword Succeeds  5s  1s  Click Button  id=changeLanguageToEn
 
-Search for Absolventepanel 2005
+Search for Absolventenpanel 2005
            Input Text             id=query        Absolventenpanel 2005
 
 Search for DZHW Graduate Panel 2005
