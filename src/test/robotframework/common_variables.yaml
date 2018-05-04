@@ -24,14 +24,14 @@ capabilities:
     browserName: internet explorer
     version: latest
     screenResolution: 1280x1024
-  #  nativeEvents: false
-  #  unexpectedAlertBehaviour: accept
-  #  ignoreProtectedModeSettings: true
-  #  disable-popup-blocking: true
-  #  enablePersistentHover: true
-  #  ignoreZoomSetting: true
-  #  requireWindowFocus: true
-  #  javascriptEnabled: true
-  #  ensureCleanSession: true
-  #  logLevel: 'TRACE'
-  #  logFile: 'ie.log'
+    nativeEvents: false
+    unexpectedAlertBehaviour: accept
+    ignoreProtectedModeSettings: true
+    disable-popup-blocking: true
+    enablePersistentHover: true
+    ignoreZoomSetting: true
+    requireWindowFocus: true
+    javascriptEnabled: true
+    ensureCleanSession: true
+    logLevel: 'TRACE'
+    logFile: 'ie.log'
