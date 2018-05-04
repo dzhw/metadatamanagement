@@ -31,9 +31,9 @@ Search for DZHW Graduate Panel 2005 First Wave
            Input Text             id=query        Graduate Panel 2005 First Wave
 Click on the search result
            Wait Until Keyword Succeeds  5s  1s  Click Element          xpath=//survey-search-result//span[text()='sur-gra2005-sy3$']
-Look whether german survey page opens right
+Look whether german survey page opens correctly
            Page Should Contain  n = 1.622
-Look whether english survey page opens right
+Look whether english survey page opens correctly
            Page Should Contain  n = 1,622
 Get back to home page
            Click Element  xpath=//md-sidenav//md-toolbar//a
