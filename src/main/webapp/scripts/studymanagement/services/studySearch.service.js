@@ -52,16 +52,17 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       var termFilters = createTermFilters(filter);
 
       query.body = {
-        'size': 0,
         'aggs': {
             'studySeriesDe': {
                 'terms': {
-                  'field': 'studySeries.de'
+                  'field': 'studySeries.de',
+                  'size': 100
                 },
                 'aggs': {
                   'studySeriesEn': {
                     'terms': {
-                      'field': 'studySeries.en'
+                      'field': 'studySeries.en',
+                      'size': 100
                     }
                   }
                 }
@@ -111,16 +112,17 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       var termFilters = createTermFilters(filter);
 
       query.body = {
-        'size': 0,
         'aggs': {
             'sponsorDe': {
                 'terms': {
-                  'field': 'sponsor.de'
+                  'field': 'sponsor.de',
+                  'size': 100
                 },
                 'aggs': {
                   'sponsorEn': {
                     'terms': {
-                      'field': 'sponsor.en'
+                      'field': 'sponsor.en',
+                      'size': 100
                     }
                   }
                 }
@@ -170,16 +172,17 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       var termFilters = createTermFilters(filter);
 
       query.body = {
-        'size': 0,
         'aggs': {
             'institutionDe': {
                 'terms': {
-                  'field': 'institution.de'
+                  'field': 'institution.de',
+                  'size': 100
                 },
                 'aggs': {
                   'institutionEn': {
                     'terms': {
-                      'field': 'institution.en'
+                      'field': 'institution.en',
+                      'size': 100
                     }
                   }
                 }
