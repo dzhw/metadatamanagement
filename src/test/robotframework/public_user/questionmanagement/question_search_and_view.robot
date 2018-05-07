@@ -1,29 +1,24 @@
 *** Settings ***
 Documentation     Tests the user experience of searching & finding a specific question of the Graduate Panel 2005
-Resource          ../resources/suite_setup_resource.robot
-Resource          ../resources/search_resource.robot
-Resource          ../resources/home_page_resource.robot
-Suite Setup       Open Home Page
-Suite Teardown    Finish Test
-
+Resource    ../resources/search_resource.robot
+Resource    ../resources/home_page_resource.robot
 
 *** Test Cases ***
 Looking for Absolventenpanel 2005s Fragebogen Erste Welle in german
-        Click on questions tab
-        Search for  Wel­che Er­fah­run­gen haben Sie (bis­her) in Ihrer Aus­bil­dungs- bzw. Prak­ti­kums­pha­se ge­macht?
-        Click on search result by id  que-gra2005-ins1-3.3$
-        Page Should Contain  Bilder zur Frage
-        [Teardown]  Get back to home page
+  Click on questions tab
+  Search for  Wel­che Er­fah­run­gen haben Sie (bis­her) in Ihrer Aus­bil­dungs- bzw. Prak­ti­kums­pha­se ge­macht?
+  Click on search result by id  que-gra2005-ins1-3.3$
+  Page Should Contain  Bilder zur Frage
+  [Teardown]  Get back to home page
 
 Looking for Graduate Panel 2005s questionnaire first wave in english
-        [Setup]   Change language to english
-        Click on questions tab
-        Search for  What experiences have you had (so far) during your training/internship?
-        Click on search result by id  que-gra2005-ins1-3.3$
-        Page Should Contain  Images of this Question
-        [Teardown]  Get back to german home page
+  [Setup]   Change language to english
+  Click on questions tab
+  Search for  What experiences have you had (so far) during your training/internship?
+  Click on search result by id  que-gra2005-ins1-3.3$
+  Page Should Contain  Images of this Question
+  [Teardown]  Get back to german home page
 
 *** Keywords ***
 Click on questions tab
-           Run Keyword If    '${USE_SAUCELABS}' == '${EMPTY}'  Mouse Over  xpath=//md-pagination-wrapper/md-tab-item[4]
-           Wait Until Keyword Succeeds  5s  1s  Click Element  xpath=//md-pagination-wrapper/md-tab-item[4]
+  Wait Until Keyword Succeeds  5s  1s  Click Element Through Tooltips  xpath=//md-pagination-wrapper/md-tab-item[4]
