@@ -1,6 +1,8 @@
 *** Settings ***
 Documentation     Tests if side bar is visible when browser window is maximized and not visible when browser window is small.
-Resource          ../suite_setup_resource.robot
+Resource          ../resources/suite_setup_resource.robot
+Resource          ../resources/search_resource.robot
+Resource          ../resources/home_page_resource.robot
 Suite Setup       Open Home Page
 Suite Teardown    Finish Test
 
