@@ -13,7 +13,7 @@ angular.module('metadatamanagementApp').config(
             'institution': 'Erhebende Institution',
             'authors': 'Projektmitarbeiter(innen)',
             'sponsors': 'Gefördert von',
-            'version': 'Version der Datensätze',
+            'version': 'Version',
             'surveyDesign': 'Erhebungsdesign',
             'annotations': 'Anmerkungen',
             'wave': 'Verfügbare Wellen',
