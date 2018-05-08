@@ -6,12 +6,12 @@ angular.module('metadatamanagementApp')
     'CurrentProjectService', 'DataAcquisitionProjectPostValidationService',
     'DataAcquisitionProjectSearchResource', 'DataAcquisitionProjectResource',
     '$mdDialog', 'SimpleMessageToastService', '$translate',
-    'ElasticSearchAdminService', '$scope', 'Principal',
+    'ElasticSearchAdminService', '$scope', 'Principal', '$state',
     function(CurrentProjectService,
       DataAcquisitionProjectPostValidationService,
       DataAcquisitionProjectSearchResource, DataAcquisitionProjectResource,
       $mdDialog, SimpleMessageToastService, $translate,
-      ElasticSearchAdminService, $scope, Principal) {
+      ElasticSearchAdminService, $scope, Principal, $state) {
       var ctrl = this;
       ctrl.hasAuthority = Principal.hasAuthority;
       var i18nPrefix = 'data-acquisition-project-management.log-messages.' +
@@ -226,6 +226,7 @@ angular.module('metadatamanagementApp')
                   id: ctrl.selectedProject.id
                 }, true);
               CurrentProjectService.setCurrentProject(projectCopy);
+              $state.forceReload();
             });
         });
       };

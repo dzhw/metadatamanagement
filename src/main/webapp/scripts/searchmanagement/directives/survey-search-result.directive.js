@@ -14,7 +14,17 @@ angular.module('metadatamanagementApp').directive('surveySearchResult',
         searchResultIndex: '='
       },
       controller: function($scope, CommonDialogsService, SurveyResource,
-        ElasticSearchAdminService, $rootScope, SimpleMessageToastService) {
+        ElasticSearchAdminService, $rootScope, SimpleMessageToastService,
+        DataAcquisitionProjectResource, Principal) {
+        $scope.projectIsCurrentlyReleased = true;
+        if (Principal
+            .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
+          DataAcquisitionProjectResource.get({
+            id: $scope.searchResult.dataAcquisitionProjectId
+          }).$promise.then(function(project) {
+            $scope.projectIsCurrentlyReleased = (project.release != null);
+          });
+        }
         $scope.deleteSurvey = function(surveyId) {
           CommonDialogsService.showConfirmDeletionDialog({
             type: 'survey',

@@ -6,13 +6,22 @@ angular.module('metadatamanagementApp')
       PageTitleService, $state, ToolbarHeaderService, SurveySearchService,
       SurveyAttachmentResource, Principal, SimpleMessageToastService,
       SearchResultNavigatorService, $stateParams,
-      SurveyResponseRateImageUploadService) {
+      SurveyResponseRateImageUploadService, DataAcquisitionProjectResource) {
       SearchResultNavigatorService.registerCurrentSearchResult(
           $stateParams['search-result-index']);
       var ctrl = this;
       ctrl.searchResultIndex = $stateParams['search-result-index'];
       ctrl.counts = {};
+      ctrl.projectIsCurrentlyReleased = true;
       entity.promise.then(function(result) {
+        if (Principal
+            .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
+          DataAcquisitionProjectResource.get({
+            id: result.dataAcquisitionProjectId
+          }).$promise.then(function(project) {
+            ctrl.projectIsCurrentlyReleased = (project.release != null);
+          });
+        }
         var currenLanguage = LanguageService.getCurrentInstantly();
         var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';
         PageTitleService.setPageTitle('survey-management.detail.title', {

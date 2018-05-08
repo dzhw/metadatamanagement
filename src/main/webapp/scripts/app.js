@@ -152,7 +152,7 @@ angular
     function($stateProvider, $urlRouterProvider,
       $httpProvider, $locationProvider, $translateProvider,
       tmhDynamicLocaleProvider, blockUIConfig, $mdThemingProvider,
-      localStorageServiceProvider, $qProvider) {
+      localStorageServiceProvider, $qProvider, $provide) {
       localStorageServiceProvider
         .setPrefix('metadatamanagementApp')
         .setStorageType('localStorage')
@@ -284,6 +284,17 @@ angular
         });
 
       $qProvider.errorOnUnhandledRejections(false);
+
+      $provide.decorator('$state', function($delegate, $stateParams) {
+        $delegate.forceReload = function() {
+            return $delegate.go($delegate.current, $stateParams, {
+                reload: true,
+                inherit: false,
+                notify: true
+              });
+          };
+        return $delegate;
+      });
     })
     .value('duScrollDuration', 500)
     .value('duScrollEasing', function easeInCubic(t) {

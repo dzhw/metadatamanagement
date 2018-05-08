@@ -9,7 +9,8 @@ angular.module('metadatamanagementApp')
       ElasticSearchAdminService, $mdDialog, $transitions, StudyResource,
       CommonDialogsService, LanguageService, AvailableSurveyNumbersResource,
       SurveyAttachmentResource, $q, StudyIdBuilderService, moment,
-      SurveyResponseRateImageUploadService, SurveySearchService) {
+      SurveyResponseRateImageUploadService, SurveySearchService,
+      DataAcquisitionProjectResource) {
       var ctrl = this;
       var surveyMethodCache = {};
       var updateToolbarHeaderAndPageTitle = function() {
@@ -48,6 +49,17 @@ angular.module('metadatamanagementApp')
         });
       };
 
+      var handleReleasedProject = function() {
+        SimpleMessageToastService.openAlertMessageToast(
+          'survey-management.edit.choose-unreleased-project-toast');
+        $timeout(function() {
+          $state.go('search', {
+            lang: LanguageService.getCurrentInstantly(),
+            type: 'surveys'
+          });
+        }, 1000);
+      };
+
       var init = function() {
         if (Principal.hasAnyAuthority(['ROLE_PUBLISHER',
             'ROLE_DATA_PROVIDER'])) {
@@ -55,22 +67,30 @@ angular.module('metadatamanagementApp')
             if (entity) {
               entity.$promise.then(function(survey) {
                 ctrl.createMode = false;
-                ctrl.survey = survey;
-                ctrl.currentSurveyMethod = survey.surveyMethod;
-                $scope.responseRateInitializing = true;
-                ctrl.loadAttachments();
-                updateToolbarHeaderAndPageTitle();
-                $scope.registerConfirmOnDirtyHook();
-                SurveyResponseRateImageUploadService.getImage(
-                  ctrl.survey.id, ctrl.survey.number, 'en')
-                  .then(function(image) {
-                    ctrl.responseRateImageEn = image;
-                  });
-                SurveyResponseRateImageUploadService.getImage(
-                  ctrl.survey.id, ctrl.survey.number, 'de')
-                  .then(function(image) {
-                    ctrl.responseRateImageDe = image;
-                  });
+                DataAcquisitionProjectResource.get({
+                  id: survey.dataAcquisitionProjectId
+                }).$promise.then(function(project) {
+                  if (project.release != null) {
+                    handleReleasedProject();
+                  } else {
+                    ctrl.survey = survey;
+                    ctrl.currentSurveyMethod = survey.surveyMethod;
+                    $scope.responseRateInitializing = true;
+                    ctrl.loadAttachments();
+                    updateToolbarHeaderAndPageTitle();
+                    $scope.registerConfirmOnDirtyHook();
+                    SurveyResponseRateImageUploadService.getImage(
+                      ctrl.survey.id, ctrl.survey.number, 'en')
+                      .then(function(image) {
+                        ctrl.responseRateImageEn = image;
+                      });
+                    SurveyResponseRateImageUploadService.getImage(
+                      ctrl.survey.id, ctrl.survey.number, 'de')
+                      .then(function(image) {
+                        ctrl.responseRateImageDe = image;
+                      });
+                  }
+                });
               });
             } else {
               if (CurrentProjectService.getCurrentProject() &&
@@ -129,14 +149,7 @@ angular.module('metadatamanagementApp')
                       }
                     });
               } else {
-                SimpleMessageToastService.openSimpleMessageToast(
-                  'survey-management.edit.choose-unreleased-project-toast');
-                $timeout(function() {
-                  $state.go('search', {
-                    lang: LanguageService.getCurrentInstantly(),
-                    type: 'surveys'
-                  });
-                }, 1000);
+                handleReleasedProject();
               }
             }
           } else {

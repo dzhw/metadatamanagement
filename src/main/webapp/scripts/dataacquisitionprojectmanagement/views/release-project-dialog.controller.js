@@ -4,7 +4,7 @@ angular.module('metadatamanagementApp')
   .controller('ReleaseProjectDialogController', function($scope, $mdDialog,
     project, SimpleMessageToastService, DataAcquisitionProjectResource,
     DaraReleaseResource, $rootScope, CurrentProjectService,
-    DataAcquisitionProjectLastReleaseResource) {
+    DataAcquisitionProjectLastReleaseResource, $state) {
     $scope.bowser = $rootScope.bowser;
     $scope.project = project;
 
@@ -59,6 +59,7 @@ angular.module('metadatamanagementApp')
                   }, true);
                 CurrentProjectService.setCurrentProject(project);
                 $mdDialog.hide();
+                $state.forceReload();
               });
           }).catch(function() {
           delete project.release;
