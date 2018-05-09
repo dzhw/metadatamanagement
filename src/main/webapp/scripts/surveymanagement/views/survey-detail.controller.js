@@ -72,7 +72,7 @@ angular.module('metadatamanagementApp')
               ctrl.responseRateImage = image;
             });
         } else {
-          SimpleMessageToastService.openSimpleMessageToast(
+          SimpleMessageToastService.openAlertMessageToast(
             'survey-management.detail.not-released-toast', {id: result.id}
           );
         }

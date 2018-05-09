@@ -1459,7 +1459,8 @@ md-content {
   display: block;
   position: relative;
   overflow: auto;
-  -webkit-overflow-scrolling: touch; }
+  -webkit-overflow-scrolling: touch;
+  }
   md-content[md-scroll-y] {
     overflow-y: auto;
     overflow-x: hidden; }

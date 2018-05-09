@@ -75,7 +75,7 @@ angular.module('metadatamanagementApp')
               }
             });
         } else {
-          SimpleMessageToastService.openSimpleMessageToast(
+          SimpleMessageToastService.openAlertMessageToast(
           'data-set-management.detail.not-released-toast', {id: result.id}
           );
         }

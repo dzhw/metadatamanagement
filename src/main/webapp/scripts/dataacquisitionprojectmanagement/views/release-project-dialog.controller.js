@@ -37,7 +37,7 @@ angular.module('metadatamanagementApp')
             SimpleMessageToastService.openSimpleMessageToast(
               i18nPrefix + 'released-beta-successfully', {
                 id: project.id
-              }, true);
+              });
             CurrentProjectService.setCurrentProject(project);
             $mdDialog.hide();
           }).catch(function() {
@@ -56,7 +56,7 @@ angular.module('metadatamanagementApp')
                 SimpleMessageToastService.openSimpleMessageToast(
                   i18nPrefix + 'released-successfully', {
                     id: project.id
-                  }, true);
+                  });
                 CurrentProjectService.setCurrentProject(project);
                 $mdDialog.hide();
                 $state.forceReload();

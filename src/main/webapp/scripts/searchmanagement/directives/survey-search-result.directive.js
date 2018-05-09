@@ -37,7 +37,7 @@ angular.module('metadatamanagementApp').directive('surveySearchResult',
             $rootScope.$broadcast('deletion-completed');
             SimpleMessageToastService.openSimpleMessageToast(
               'survey-management.edit.survey-deleted-toast',
-              {id: surveyId}, true);
+              {id: surveyId});
           });
         };
       }

@@ -202,7 +202,7 @@ angular.module('metadatamanagementApp')
             .then(ctrl.onSavedSuccessfully)
             .catch(function(error) {
               console.log(error);
-              SimpleMessageToastService.openSimpleMessageToast(
+              SimpleMessageToastService.openAlertMessageToast(
                 'study-management.edit.error-on-save-toast', {
                   studyId: ctrl.study.id
                 });
@@ -214,9 +214,9 @@ angular.module('metadatamanagementApp')
               errorField.$setTouched();
             });
           });
-          SimpleMessageToastService.openSimpleMessageToast(
+          SimpleMessageToastService.openAlertMessageToast(
             'study-management.edit.study-has-validation-errors-toast',
-            null, true);
+            null);
         }
       };
 
@@ -229,7 +229,7 @@ angular.module('metadatamanagementApp')
         SimpleMessageToastService.openSimpleMessageToast(
           'study-management.edit.success-on-save-toast', {
             studyId: ctrl.study.id
-          }, true);
+          });
         if (ctrl.createMode) {
           $state.go('studyEdit', {
             id: ctrl.study.id
@@ -256,13 +256,13 @@ angular.module('metadatamanagementApp')
               SimpleMessageToastService.openSimpleMessageToast(
                 'study-management.edit.current-version-restored-toast', {
                   studyId: ctrl.study.id
-                }, true);
+                });
             } else {
               $scope.studyForm.$setDirty();
               SimpleMessageToastService.openSimpleMessageToast(
                 'study-management.edit.previous-version-restored-toast', {
                   studyId: ctrl.study.id
-                }, true);
+                });
             }
           });
       };
@@ -350,8 +350,7 @@ angular.module('metadatamanagementApp')
                 'study-management.detail.attachments.attachment-deleted-toast',
                 {
                   filename: attachment.fileName
-                },
-                true
+                }
               );
               ctrl.attachments.splice(index, 1);
               delete ctrl.currentAttachmentIndex;
@@ -433,8 +432,7 @@ angular.module('metadatamanagementApp')
         $q.all(promises).then(function() {
           SimpleMessageToastService.openSimpleMessageToast(
             'study-management.detail.attachments.attachment-order-saved-toast',
-            {},
-            true);
+            {});
           ctrl.attachmentOrderIsDirty = false;
         });
       };

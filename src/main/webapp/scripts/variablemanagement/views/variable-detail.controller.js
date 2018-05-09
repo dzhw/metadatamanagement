@@ -121,7 +121,7 @@ angular.module('metadatamanagementApp')
           html_beautify($scope.variable.generationDetails.rule); //jscs:ignore
         }
       } else {
-        SimpleMessageToastService.openSimpleMessageToast(
+        SimpleMessageToastService.openAlertMessageToast(
           'variable-management.detail.not-released-toast', {
             id: result.id
           }

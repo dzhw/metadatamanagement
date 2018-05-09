@@ -32,15 +32,9 @@ h3 {
 
 body {
     font-family: Roboto, "Helvetica Neue", sans-serif;
-    min-height: 100%;
-    height: auto;
     z-index: 0;
     background-color: rgb(250,250,250);
     -ms-overflow-style: scrollbar;
-}
-
-.content {
-    margin-top: 50px;
 }
 
 .ng-cloak,
@@ -85,6 +79,7 @@ body {
 .block-ui-container {
     z-index: 100000;
 }
+
 @keyframes spin {
     100% {
         transform: rotate(360deg);
@@ -735,11 +730,6 @@ button:focus {
     border: 1px solid $brand-warning !important;
 }
 
-.fdz-content {
-    z-index: 0;
-    background-color: rgb(250,250,250);
-}
-
 .fdz-content:focus {
     background-color: rgba(158, 158, 158, 0.2) !important;
     border: 1px solid $brand-warning !important;
@@ -840,16 +830,6 @@ input::-ms-clear {
     white-space: pre-line;
 }
 
-md-toolbar#toolbar {
-    position: fixed;
-}
-
-.md-sidenav-backdrop,
-md-sidenav#SideNavBar {
-    position: fixed;
-    min-height: 100vh;
-}
-
 .fdz-previous-search-result {
     position: fixed;
     top: 50%;
@@ -859,7 +839,7 @@ md-sidenav#SideNavBar {
     border-top-left-radius: 0 !important;
     width: 20px !important;
     transition: width 0.25s !important;
-    z-index: 100 !important;
+    z-index: 50 !important;
 }
 
 .fdz-previous-search-result > md-icon {
@@ -878,7 +858,7 @@ md-sidenav#SideNavBar {
     border-top-right-radius: 0 !important;
     width: 20px !important;
     transition: width 0.25s !important;
-    z-index: 100 !important;
+    z-index: 50 !important;
 }
 
 .fdz-next-search-result:focus,

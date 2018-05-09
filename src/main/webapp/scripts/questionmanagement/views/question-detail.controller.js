@@ -121,7 +121,7 @@ angular.module('metadatamanagementApp')
             ctrl.relatedPublication = result.relatedPublications[0];
           }
         } else {
-          SimpleMessageToastService.openSimpleMessageToast(
+          SimpleMessageToastService.openAlertMessageToast(
           'question-management.detail.not-released-toast', {id: result.id}
           );
         }
