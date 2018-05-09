@@ -40,6 +40,7 @@ angular.module('metadatamanagementApp')
               });
             CurrentProjectService.setCurrentProject(project);
             $mdDialog.hide();
+            $state.forceReload();
           }).catch(function() {
           delete project.release;
           SimpleMessageToastService.openAlertMessageToast(
