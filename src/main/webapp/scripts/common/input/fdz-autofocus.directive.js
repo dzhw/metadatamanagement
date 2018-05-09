@@ -18,7 +18,7 @@ angular.module('metadatamanagementApp').directive('fdzAutofocus',
                       }
                       deleteObserver();
                     });
-                }, 1000);
+                }, 800);
               };
             }
           };
