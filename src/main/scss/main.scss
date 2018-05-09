@@ -500,7 +500,8 @@ md-dialog h2 {
 }
 
 .fdz-table-wide {
-    width: 100%;
+    width: fit-content;
+    min-width: 100%;
     table-layout: auto;
     border-collapse: collapse;
     text-align: left;

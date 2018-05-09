@@ -16,8 +16,8 @@ angular.module('metadatamanagementApp')
       ctrl.hasAnyAuthority = Principal.hasAnyAuthority;
       ctrl.counts = {};
 
-      ctrl.openDialog = function(subDataSet) {
-        DataSetCitateDialogService.showDialog(subDataSet.citationHint);
+      ctrl.openDialog = function(subDataSet, event) {
+        DataSetCitateDialogService.showDialog(subDataSet.citationHint, event);
       };
 
       entity.promise.then(function(result) {
