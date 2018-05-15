@@ -21,4 +21,4 @@ Looking for Graduate Panel 2005s individual data bachelor in english
 
 *** Keywords ***
 Click on publications tab
-  Wait Until Keyword Succeeds  5s  1s  Click Element  xpath=//md-pagination-wrapper/md-tab-item[7]
+  Wait Until Keyword Succeeds  5s  0.5s  Click Element  xpath=//md-pagination-wrapper/md-tab-item[7]

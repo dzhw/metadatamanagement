@@ -21,4 +21,4 @@ Looking for Graduate Panel 2005s questionnaire first wave in english
 
 *** Keywords ***
 Click on instruments tab
-  Wait Until Keyword Succeeds  5s  1s  Click Element  xpath=//md-pagination-wrapper/md-tab-item[3]
+  Wait Until Keyword Succeeds  5s  0.5s  Click Element  xpath=//md-pagination-wrapper/md-tab-item[3]

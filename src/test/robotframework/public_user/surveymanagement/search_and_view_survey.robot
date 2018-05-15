@@ -21,4 +21,4 @@ Looking for Graduate Panel 2005s first wave survey in english
 
 *** Keywords ***
 Click on surveys tab
-  Wait Until Keyword Succeeds  5s  1s  Click Element Through Tooltips  xpath=//md-pagination-wrapper/md-tab-item[2]
+  Wait Until Keyword Succeeds  5s  0.5s  Click Element Through Tooltips  xpath=//md-pagination-wrapper/md-tab-item[2]

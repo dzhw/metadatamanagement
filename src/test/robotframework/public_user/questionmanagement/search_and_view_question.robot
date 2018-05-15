@@ -20,5 +20,3 @@ Looking for Graduate Panel 2005s questionnaire first wave in english
   [Teardown]  Get back to german home page
 
 *** Keywords ***
-Click on questions tab
-  Wait Until Keyword Succeeds  5s  1s  Click Element Through Tooltips  xpath=//md-pagination-wrapper/md-tab-item[4]

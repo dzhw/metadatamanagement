@@ -23,4 +23,4 @@ Click Element Through Tooltips
     Run Keyword If  '${BROWSER}' != 'firefox'
     ...             Mouse Over  ${xpath_string}
     Run Keyword If  '${BROWSER}' != 'firefox'
-    ...             Wait Until Keyword Succeeds  5s  1s  Click Element  ${xpath_string}
+    ...             Wait Until Keyword Succeeds  5s  0.5s  Click Element  ${xpath_string}
