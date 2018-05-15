@@ -11,3 +11,5 @@ Search for
 Click on search result by id
   [Arguments]    ${arg_name}
   Wait Until Keyword Succeeds  5s  1s  Click Element Through Tooltips   xpath=//a//span[text()='${arg_name}']
+Click on questions tab
+  Wait Until Keyword Succeeds  5s  1s  Click Element Through Tooltips  xpath=//md-pagination-wrapper/md-tab-item[4]
