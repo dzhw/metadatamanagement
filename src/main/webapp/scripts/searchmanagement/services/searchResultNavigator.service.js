@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp').factory(
   'SearchResultNavigatorService',
-  function(SearchDao, $q, ToolbarHeaderService, $location) {
+  function(SearchDao, $q, ToolbarHeaderService, $location, $transitions) {
     var lastSearchParams = {};
     var lastProjectId;
     var lastPageObject;
@@ -10,6 +10,27 @@ angular.module('metadatamanagementApp').factory(
     var currentSearchResultIndex;
     var previousSearchResult = $q.resolve();
     var nextSearchResult = $q.resolve();
+    var previousLocation = $location.absUrl();
+
+    $transitions.onBefore({}, function(transition) {
+      var toState       = transition.to();
+      var toStateName   = toState.name;
+      var toStateParams = transition.params();
+      var toLocation = transition.router.stateService.href(
+        toStateName, toStateParams);
+      var fromState       = transition.from();
+      var fromStateName   = fromState.name;
+      var fromStateParams = transition.params('from');
+      var fromLocation = transition.router.stateService.href(
+        fromStateName, fromStateParams);
+      if (toLocation === previousLocation &&
+        fromStateName === 'search' && toStateName !== 'search') {
+        lastPageObject = null;
+      }
+      if (!(fromStateName === 'search' && toStateName === 'search')) {
+        previousLocation = fromLocation;
+      }
+    });
 
     function setCurrentSearchParams(searchParams,
       projectId, elasticSearchType, pageObject) {
@@ -25,7 +46,7 @@ angular.module('metadatamanagementApp').factory(
       if (searchResultIndex != null && lastPageObject) {
         currentSearchResultIndex = parseInt(searchResultIndex);
         var currentPage = Math.floor((currentSearchResultIndex - 1) /
-          lastPageObject.size) + 1;
+        lastPageObject.size) + 1;
         ToolbarHeaderService.setCurrentSearchPage(currentPage);
         if (currentSearchResultIndex < lastPageObject.totalHits &&
           currentSearchResultIndex < 10000) {
@@ -51,7 +72,7 @@ angular.module('metadatamanagementApp').factory(
             });
         }
       } else {
-        $location.search('search-result-index', null);
+        $location.search('search-result-index', null).replace();
       }
     }
 

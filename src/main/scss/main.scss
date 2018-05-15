@@ -743,12 +743,16 @@ md-tab-item:hover {
     margin: 0;
 }
 
+.fdz-search-filter-component md-input-container input {
+    margin-top: 8px;
+}
+
 .fdz-search-filter-component {
     margin-bottom: 0 !important;
 }
 
 .fdz-search-filter-component button {
-    top: 2px !important;
+    top: 10px !important;
 }
 
 .fdz-search-filter-component md-progress-linear {
@@ -757,11 +761,11 @@ md-tab-item:hover {
 
 .fdz-search-filter-component md-input-container.md-input-focused label,
 .fdz-search-filter-component md-input-container.md-input-has-value label {
-    bottom: 80% !important;
+    bottom: 70% !important;
 }
 
 .fdz-search-filter-component md-input-container label:not(.md-container-ignore) {
-    bottom: 91%;
+    bottom: 85%;
 }
 
 .fdz-search-filter-component .ng-active div[ng-message] {
@@ -1003,18 +1007,18 @@ md-toast.md-accent > .md-toast-content {
 }
 
 @media screen and (max-width: 1280px) {
-  md-content::-webkit-scrollbar, .md-virtual-repeat-scroller::-webkit-scrollbar {
-    min-height: 12px;
+  ::-webkit-scrollbar {
+    height: 4px;
     width: 4px;
   }
 
-  md-content::-webkit-scrollbar-thumb, .md-virtual-repeat-scroller::-webkit-scrollbar-thumb {
+  ::-webkit-scrollbar-thumb {
     background-color: $brand-primary;
     min-height: 2em;
     border-radius: 8px;
   }
 
-  md-content, .md-virtual-repeat-scroller {
+  md-content, .md-virtual-repeat-scroller, tbody {
     overflow: overlay;
   }
 }

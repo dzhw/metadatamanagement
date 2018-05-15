@@ -17,7 +17,7 @@ angular
 .run(
     function($rootScope, $location, $state, LanguageService, Auth, Principal,
       ENV, VERSION, $mdMedia, $transitions, $timeout, $window,
-      WebSocketService, $urlRouter, $document) {
+      WebSocketService, $urlRouter) {
       // sometimes urlRouter does not load the state automatically on startup
       $urlRouter.sync();
       WebSocketService.connect();
@@ -119,32 +119,6 @@ angular
         } else {
           $state.go($rootScope.previousStateName,
             $rootScope.previousStateParams);
-        }
-      };
-
-      $rootScope.showNextSearchResult = function() {
-        if (!bowser.mobile && !bowser.tablet) {
-          //ignore swiping on desktop
-          return;
-        }
-        var nextButton = $document.find('.fdz-next-search-result');
-        if (nextButton.length === 1) {
-          $timeout(function() {
-            nextButton.click();
-          });
-        }
-      };
-
-      $rootScope.showPreviousSearchResult = function() {
-        if (!bowser.mobile && !bowser.tablet) {
-          //ignore swiping on desktop
-          return;
-        }
-        var previousButton = $document.find('.fdz-previous-search-result');
-        if (previousButton.length === 1) {
-          $timeout(function() {
-            previousButton.click();
-          });
         }
       };
     })
