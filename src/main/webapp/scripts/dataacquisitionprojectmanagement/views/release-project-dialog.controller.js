@@ -4,7 +4,7 @@ angular.module('metadatamanagementApp')
   .controller('ReleaseProjectDialogController', function($scope, $mdDialog,
     project, SimpleMessageToastService, DataAcquisitionProjectResource,
     DaraReleaseResource, $rootScope, CurrentProjectService,
-    DataAcquisitionProjectLastReleaseResource) {
+    DataAcquisitionProjectLastReleaseResource, $state) {
     $scope.bowser = $rootScope.bowser;
     $scope.project = project;
 
@@ -37,9 +37,10 @@ angular.module('metadatamanagementApp')
             SimpleMessageToastService.openSimpleMessageToast(
               i18nPrefix + 'released-beta-successfully', {
                 id: project.id
-              }, true);
+              });
             CurrentProjectService.setCurrentProject(project);
             $mdDialog.hide();
+            $state.forceReload();
           }).catch(function() {
           delete project.release;
           SimpleMessageToastService.openAlertMessageToast(
@@ -56,9 +57,10 @@ angular.module('metadatamanagementApp')
                 SimpleMessageToastService.openSimpleMessageToast(
                   i18nPrefix + 'released-successfully', {
                     id: project.id
-                  }, true);
+                  });
                 CurrentProjectService.setCurrentProject(project);
                 $mdDialog.hide();
+                $state.forceReload();
               });
           }).catch(function() {
           delete project.release;

@@ -161,8 +161,11 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
             'accessWays': {
                 'terms': {
                   'field': 'accessWays',
-                  'include': '.*' + term + '.*',
-                  'size': 100
+                  'include': '.*' + term.toLowerCase() + '.*',
+                  'size': 100,
+                  'order': {
+                    '_term': 'asc'
+                  }
                 }
               }
           }
@@ -189,8 +192,11 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
             'panelIdentifiers': {
                 'terms': {
                   'field': 'panelIdentifier',
-                  'include': '.*' + term + '.*',
-                  'size': 100
+                  'include': '.*' + term.toLowerCase() + '.*',
+                  'size': 100,
+                  'order': {
+                    '_term': 'asc'
+                  }
                 }
               }
           }
@@ -218,8 +224,11 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
             'derivedVariablesIdentifiers': {
                 'terms': {
                   'field': 'derivedVariablesIdentifier',
-                  'include': '.*' + term + '.*',
-                  'size': 100
+                  'include': '.*' + term.toLowerCase() + '.*',
+                  'size': 100,
+                  'order': {
+                    '_term': 'asc'
+                  }
                 }
               }
           }

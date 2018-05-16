@@ -17,7 +17,7 @@ angular
 .run(
     function($rootScope, $location, $state, LanguageService, Auth, Principal,
       ENV, VERSION, $mdMedia, $transitions, $timeout, $window,
-      WebSocketService, $urlRouter, $document) {
+      WebSocketService, $urlRouter) {
       // sometimes urlRouter does not load the state automatically on startup
       $urlRouter.sync();
       WebSocketService.connect();
@@ -121,38 +121,12 @@ angular
             $rootScope.previousStateParams);
         }
       };
-
-      $rootScope.showNextSearchResult = function() {
-        if (!bowser.mobile && !bowser.tablet) {
-          //ignore swiping on desktop
-          return;
-        }
-        var nextButton = $document.find('.fdz-next-search-result');
-        if (nextButton.length === 1) {
-          $timeout(function() {
-            nextButton.click();
-          });
-        }
-      };
-
-      $rootScope.showPreviousSearchResult = function() {
-        if (!bowser.mobile && !bowser.tablet) {
-          //ignore swiping on desktop
-          return;
-        }
-        var previousButton = $document.find('.fdz-previous-search-result');
-        if (previousButton.length === 1) {
-          $timeout(function() {
-            previousButton.click();
-          });
-        }
-      };
     })
   .config(
     function($stateProvider, $urlRouterProvider,
       $httpProvider, $locationProvider, $translateProvider,
       tmhDynamicLocaleProvider, blockUIConfig, $mdThemingProvider,
-      localStorageServiceProvider, $qProvider) {
+      localStorageServiceProvider, $qProvider, $provide) {
       localStorageServiceProvider
         .setPrefix('metadatamanagementApp')
         .setStorageType('localStorage')
@@ -202,7 +176,9 @@ angular
       // Tell the blockUI service to ignore certain requests
       blockUIConfig.requestFilter = function(config) {
         // If the request contains '/api/search' ...
-        if (config.url.indexOf('_search') !== -1) {
+        if (config.url.indexOf('_search') !== -1 ||
+            (config.url.indexOf('/api/data-acquisition-projects') !== -1 &&
+              config.method === 'GET')) {
           return false; // ... don't block it.
         }
       };
@@ -284,6 +260,17 @@ angular
         });
 
       $qProvider.errorOnUnhandledRejections(false);
+
+      $provide.decorator('$state', function($delegate, $stateParams) {
+        $delegate.forceReload = function() {
+            return $delegate.go($delegate.current, $stateParams, {
+                reload: true,
+                inherit: false,
+                notify: true
+              });
+          };
+        return $delegate;
+      });
     })
     .value('duScrollDuration', 500)
     .value('duScrollEasing', function easeInCubic(t) {

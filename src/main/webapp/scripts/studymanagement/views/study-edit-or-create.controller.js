@@ -8,7 +8,8 @@ angular.module('metadatamanagementApp')
       CurrentProjectService, StudyIdBuilderService, StudyResource, $scope,
       ElasticSearchAdminService, $mdDialog, $transitions,
       CommonDialogsService, LanguageService, StudySearchService,
-      StudyAttachmentResource, $q, CleanJSObjectService) {
+      StudyAttachmentResource, $q, CleanJSObjectService,
+      DataAcquisitionProjectResource) {
 
       var ctrl = this;
       var studySeriesCache = {};
@@ -41,21 +42,44 @@ angular.module('metadatamanagementApp')
         });
       };
 
+      var handleReleasedProject = function() {
+        SimpleMessageToastService.openAlertMessageToast(
+          'study-management.edit.choose-unreleased-project-toast');
+        $timeout(function() {
+          $state.go('search', {
+            lang: LanguageService.getCurrentInstantly(),
+            type: 'studies'
+          });
+        }, 1000);
+      };
+
+      var initEditMode = function(study) {
+        ctrl.createMode = false;
+        DataAcquisitionProjectResource.get({
+          id: study.dataAcquisitionProjectId
+        }).$promise.then(function(project) {
+          if (project.release != null) {
+            handleReleasedProject();
+          } else {
+            ctrl.study = study;
+            ctrl.currentStudySeries = study.studySeries;
+            ctrl.currentInstitution = study.institution;
+            ctrl.currentSponsor = study.sponsor;
+            ctrl.isInitializingStudySeries = true;
+            ctrl.loadAttachments();
+            updateToolbarHeaderAndPageTitle();
+            $scope.registerConfirmOnDirtyHook();
+          }
+        });
+      };
+
       var init = function() {
         if (Principal
             .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           if (!bowser.msie) {
             if (entity) {
               entity.$promise.then(function(study) {
-                ctrl.createMode = false;
-                ctrl.study = study;
-                ctrl.currentStudySeries = study.studySeries;
-                ctrl.currentInstitution = study.institution;
-                ctrl.currentSponsor = study.sponsor;
-                ctrl.isInitializingStudySeries = true;
-                ctrl.loadAttachments();
-                updateToolbarHeaderAndPageTitle();
-                $scope.registerConfirmOnDirtyHook();
+                initEditMode(study);
               });
             } else {
               if (CurrentProjectService.getCurrentProject() &&
@@ -64,15 +88,7 @@ angular.module('metadatamanagementApp')
                   id: StudyIdBuilderService.buildStudyId(
                     CurrentProjectService.getCurrentProject().id)
                 }).$promise.then(function(study) {
-                  ctrl.createMode = false;
-                  ctrl.study = study;
-                  ctrl.currentStudySeries = study.studySeries;
-                  ctrl.currentInstitution = study.institution;
-                  ctrl.currentSponsor = study.sponsor;
-                  ctrl.isInitializingStudySeries = true;
-                  ctrl.loadAttachments();
-                  updateToolbarHeaderAndPageTitle();
-                  $scope.registerConfirmOnDirtyHook();
+                  initEditMode(study);
                 }).catch(function() {
                   ctrl.createMode = true;
                   ctrl.study = new StudyResource({
@@ -90,22 +106,15 @@ angular.module('metadatamanagementApp')
                   $scope.registerConfirmOnDirtyHook();
                 });
               } else {
-                SimpleMessageToastService.openSimpleMessageToast(
-                  'study-management.edit.choose-unreleased-project-toast');
-                $timeout(function() {
-                  $state.go('search', {
-                    lang: LanguageService.getCurrentInstantly(),
-                    type: 'studies'
-                  });
-                }, 1000);
+                handleReleasedProject();
               }
             }
           } else {
-            SimpleMessageToastService.openSimpleMessageToast(
+            SimpleMessageToastService.openAlertMessageToast(
               'global.edit.internet-explorer-not-supported');
           }
         } else {
-          SimpleMessageToastService.openSimpleMessageToast(
+          SimpleMessageToastService.openAlertMessageToast(
             'study-management.edit.not-authorized-toast');
         }
       };
@@ -193,7 +202,7 @@ angular.module('metadatamanagementApp')
             .then(ctrl.onSavedSuccessfully)
             .catch(function(error) {
               console.log(error);
-              SimpleMessageToastService.openSimpleMessageToast(
+              SimpleMessageToastService.openAlertMessageToast(
                 'study-management.edit.error-on-save-toast', {
                   studyId: ctrl.study.id
                 });
@@ -205,9 +214,9 @@ angular.module('metadatamanagementApp')
               errorField.$setTouched();
             });
           });
-          SimpleMessageToastService.openSimpleMessageToast(
+          SimpleMessageToastService.openAlertMessageToast(
             'study-management.edit.study-has-validation-errors-toast',
-            null, true);
+            null);
         }
       };
 
@@ -220,7 +229,7 @@ angular.module('metadatamanagementApp')
         SimpleMessageToastService.openSimpleMessageToast(
           'study-management.edit.success-on-save-toast', {
             studyId: ctrl.study.id
-          }, true);
+          });
         if (ctrl.createMode) {
           $state.go('studyEdit', {
             id: ctrl.study.id
@@ -247,13 +256,13 @@ angular.module('metadatamanagementApp')
               SimpleMessageToastService.openSimpleMessageToast(
                 'study-management.edit.current-version-restored-toast', {
                   studyId: ctrl.study.id
-                }, true);
+                });
             } else {
               $scope.studyForm.$setDirty();
               SimpleMessageToastService.openSimpleMessageToast(
                 'study-management.edit.previous-version-restored-toast', {
                   studyId: ctrl.study.id
-                }, true);
+                });
             }
           });
       };
@@ -341,8 +350,7 @@ angular.module('metadatamanagementApp')
                 'study-management.detail.attachments.attachment-deleted-toast',
                 {
                   filename: attachment.fileName
-                },
-                true
+                }
               );
               ctrl.attachments.splice(index, 1);
               delete ctrl.currentAttachmentIndex;
@@ -424,8 +432,7 @@ angular.module('metadatamanagementApp')
         $q.all(promises).then(function() {
           SimpleMessageToastService.openSimpleMessageToast(
             'study-management.detail.attachments.attachment-order-saved-toast',
-            {},
-            true);
+            {});
           ctrl.attachmentOrderIsDirty = false;
         });
       };

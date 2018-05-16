@@ -17,7 +17,7 @@ angular.module('metadatamanagementApp').config(
             'annotations': 'Annotations',
             'wave': 'Available Waves',
             'survey-data-type': 'Survey Data Type',
-            'version': 'Version of Data Sets',
+            'version': 'Version',
             'title': 'Title',
             'dataAvailability': 'Data Availability',
             'attachments': {
@@ -235,7 +235,7 @@ angular.module('metadatamanagementApp').config(
           'previous-version-restored-toast': 'Previous version of Study {{ studyId }} can be saved now.',
           'current-version-restored-toast': 'Current version of Study {{ studyId }} has been restored.',
           'not-authorized-toast': 'You are not authorized to create or edit studies!',
-          'choose-unreleased-project-toast': 'Please choose a project which is currently not released!',
+          'choose-unreleased-project-toast': 'Studies may be edited if and only if the project is currently not released!',
           'label': {
             'edit-study': 'Edit Study:',
             'create-study': 'Create Study:',
