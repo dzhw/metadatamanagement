@@ -18,7 +18,3 @@ Looking for Graduate Panel 2005s individual data bachelor in english
   Click on search result by id  dat-gra2005-ds3$
   Page Should Contain  can be down­loaded after the con­clu­sion of a data use agree­ment
   [Teardown]  Get back to german home page
-
-*** Keywords ***
-Click on data set tab
-  Wait Until Keyword Succeeds  5s  0.5s  Click Element  xpath=//md-pagination-wrapper/md-tab-item[5]

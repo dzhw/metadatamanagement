@@ -18,7 +18,3 @@ Looking for Graduate Panel 2005s questionnaire first wave in english
   Click on search result by id  ins-gra2005-ins1$
   Page Should Contain  gra2005_W1_Questionnaire_en.pdf
   [Teardown]  Get back to german home page
-
-*** Keywords ***
-Click on instruments tab
-  Wait Until Keyword Succeeds  5s  0.5s  Click Element  xpath=//md-pagination-wrapper/md-tab-item[3]

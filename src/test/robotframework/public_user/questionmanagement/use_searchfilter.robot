@@ -4,7 +4,6 @@ Resource    ../resources/search_resource.robot
 Resource    ../resources/home_page_resource.robot
 
 *** Test Cases ***
-
 Use of Searchfilters to find XY
   Click on questions tab
   Click Filter Selection
@@ -15,7 +14,6 @@ Use of Searchfilters to find XY
   [Teardown]  Get back to home page
 
 *** Keywords ***
-
 Click Filter Selection
   Wait Until Keyword Succeeds    5s    1s    Click Element Through Tooltips  xpath=//search-filter-panel//md-select
 Choose Third Filter

@@ -18,5 +18,3 @@ Looking for Graduate Panel 2005s questionnaire first wave in english
   Click on search result by id  que-gra2005-ins1-3.3$
   Page Should Contain  Images of this Question
   [Teardown]  Get back to german home page
-
-*** Keywords ***

@@ -18,7 +18,3 @@ Looking for Graduate Panel 2005s individual data bachelor in english
   Click on search result by id  var-gra2005-ds3-astu11z$
   Page Should Contain  ordinal
   [Teardown]  Get back to german home page
-
-*** Keywords ***
-Click on variable tab
-  Wait Until Keyword Succeeds  5s  0.5s  Click Element  xpath=//md-pagination-wrapper/md-tab-item[6]

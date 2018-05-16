@@ -18,7 +18,3 @@ Looking for Graduate Panel 2005s individual data bachelor in english
   Click on search result by id  pub-Jaksztat.2014$
   Page Should Contain  http://www.zfs-online.org/index.php/zfs/article/view/3175/2712
   [Teardown]  Get back to german home page
-
-*** Keywords ***
-Click on publications tab
-  Wait Until Keyword Succeeds  5s  0.5s  Click Element  xpath=//md-pagination-wrapper/md-tab-item[7]

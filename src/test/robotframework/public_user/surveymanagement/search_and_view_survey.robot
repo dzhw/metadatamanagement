@@ -18,7 +18,3 @@ Looking for Graduate Panel 2005s first wave survey in english
   Click on search result by id  sur-gra2005-sy3$
   Page Should Contain  n = 1,622
   [Teardown]  Get back to german home page
-
-*** Keywords ***
-Click on surveys tab
-  Wait Until Keyword Succeeds  5s  0.5s  Click Element Through Tooltips  xpath=//md-pagination-wrapper/md-tab-item[2]
