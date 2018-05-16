@@ -192,7 +192,7 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
             'panelIdentifiers': {
                 'terms': {
                   'field': 'panelIdentifier',
-                  'include': '.*' + term.toLowerCase() + '.*',
+                  'include': '.*' + term + '.*',
                   'size': 100,
                   'order': {
                     '_term': 'asc'
@@ -224,7 +224,7 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
             'derivedVariablesIdentifiers': {
                 'terms': {
                   'field': 'derivedVariablesIdentifier',
-                  'include': '.*' + term.toLowerCase() + '.*',
+                  'include': '.*' + term + '.*',
                   'size': 100,
                   'order': {
                     '_term': 'asc'
