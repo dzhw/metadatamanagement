@@ -1,6 +1,6 @@
 <div ng-form="derivedVariablesIdentifierFilterForm" layout="row" layout-align="center center">
     <md-autocomplete fdz-autofocus="!currentSearchParams.filter['derived-variables-identifier']" md-delay="250" class="fdz-search-filter-component" md-input-name="derivedVariablesIdentifierFilter" md-floating-label="{{'search-management.filter.floating-label.derived-variables-identifier' | translate}}" flex md-min-length="0" md-require-match="true" md-select-on-match="true"
-      md-selected-item="currentDerivedVariablesIdentifier" md-selected-item-change="onSelectionChanged(currentDerivedVariablesIdentifier)" md-search-text="searchText" md-items="item in searchDerivedVariablesIdentifiers(searchText)" md-item-text="item" md-clear-button="true" md-no-cache="true">
+      md-selected-item="currentDerivedVariablesIdentifier" md-selected-item-change="onSelectionChanged(currentDerivedVariablesIdentifier)" md-search-text="searchText" md-items="item in searchDerivedVariablesIdentifiers(searchText)" md-item-text="item" md-clear-button="true" md-no-cache="true" md-select-on-focus>
         <md-item-template>
             <span class="md-title" style="font-size: 14px;">{{item}}</span>
         </md-item-template>
