@@ -1,5 +1,7 @@
-*** Settings ***
-Documentation     Resource used by all test cases of the public user
+*** Setting ***
+Documentation     Common setup and teardown for all tests
+Suite Setup       Open Home Page
+Suite Teardown    Finish Tests
 Library           ExtendedSelenium2Library
 Library           Collections
 Library           OperatingSystem
@@ -14,6 +16,7 @@ ${BUILD_NUMBER}   local
 *** Keywords ***
 Open Local Browser
     Open Browser  ${WEBSITE}  ${BROWSER}
+    ...           desired_capabilities=${CAPABILITIES.${BROWSER}}
 
 Open Saucelabs Browser
     ${BUILD_NUMBER} =   Get Environment Variable  TRAVIS_BUILD_NUMBER  ${EMPTY}
@@ -29,7 +32,7 @@ Open Home Page
     Set Window Size  800  600
     Maximize Browser Window
 
-Finish Test
+Finish Tests
     Run Keyword If    '${USE_SAUCELABS}' != '${EMPTY}'
     ...               Import Library    SauceLabs
     Run Keyword If    '${USE_SAUCELABS}' != '${EMPTY}'
