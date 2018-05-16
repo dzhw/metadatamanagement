@@ -306,7 +306,8 @@ module.exports = function(grunt) {
               'layout',
               'md-highlight-flags',
               'valid-project-version',
-              'project-does-not-exist'
+              'project-does-not-exist',
+              'md-select-on-focus'
             ]
           },
           files: {
