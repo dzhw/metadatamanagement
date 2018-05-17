@@ -63,7 +63,7 @@ angular.module('metadatamanagementApp')
       }
       //Helper method for query the project list
       function createFilterFor(query) {
-        var lowercaseQuery = angular.lowercase(query);
+        var lowercaseQuery = query ? query.toLowerCase() : '';
         return function filterFn(project) {
           return (project.id.indexOf(lowercaseQuery) === 0);
         };
