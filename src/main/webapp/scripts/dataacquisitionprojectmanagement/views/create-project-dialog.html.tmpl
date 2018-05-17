@@ -7,21 +7,22 @@
             <md-button class="md-icon-button" ng-click="closeDialog()">
                 <md-icon md-font-set="material-icons">clear</md-icon>
                 <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
-                  {{'data-acquisition-project-management.home.dialog-tooltip.close' | translate }}
+                  {{'data-acquisition-project-management.home.dialog-tooltip.create-cancel' | translate }}
                 </md-tooltip>
             </md-button>
         </div>
     </md-toolbar>
-    <form name="projectForm">
+    <form name="projectForm" autocomplete="off">
         <md-dialog-content style="padding: 1.5em 1.5em 0 1.5em;">
             <md-input-container class="md-block" md-is-error="!projectForm.id.$valid" md-no-float>
                 <label>{{'data-acquisition-project-management.name' | translate}}
                 </label>
-                <input data-md-maxlength="32" required translate-attr="{'title':'global.entity.validation.required'}" data-md-no-asterisk ng-model="project.id" name="id" ng-pattern="/^[a-z0-9]*$/" data-md-autofocus>
+                <input data-md-maxlength="32" required translate-attr="{'title':'global.entity.validation.required'}" data-md-no-asterisk ng-model="project.id" name="id" ng-pattern="/^[a-z0-9]*$/" data-md-autofocus project-does-not-exist>
                 <div ng-messages="projectForm.id.$error" data-multiple data-md-auto-hide="false">
                     <div ng-message="required">{{'global.entity.validation.required' | translate}}</div>
                     <div ng-message="md-maxlength">{{'global.entity.validation.maxlength' | translate:'{ max: "32" }'}}</div>
                     <div ng-message="pattern">{{'data-acquisition-project-management.error.data-acquisition-project.id.pattern' | translate }}</div>
+                    <div ng-message="project-does-not-exist">{{'data-acquisition-project-management.error.data-acquisition-project.id.exists' | translate }}</div>
                 </div>
             </md-input-container>
         </md-dialog-content>
@@ -29,13 +30,13 @@
             <md-button class="md-raised" ng-click="closeDialog()">
               <span>{{'global.entity.action.cancel' | translate}}</span>
             <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
-              {{'data-acquisition-project-management.home.dialog-tooltip.cancel' | translate }}
+              {{'data-acquisition-project-management.home.dialog-tooltip.create-cancel' | translate }}
             </md-tooltip>
             </md-button>
-            <md-button class="md-raised" type="submit" ng-click="ok(project)" ng-disabled="projectForm.$invalid">
+            <md-button class="md-raised" type="submit" ng-click="ok(project)" ng-disabled="projectForm.$invalid || projectForm.$pending">
               <span>{{'global.entity.action.ok' | translate}}</span>
               <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
-                {{'data-acquisition-project-management.home.dialog-tooltip.ok' | translate }}
+                {{'data-acquisition-project-management.home.dialog-tooltip.create-ok' | translate }}
               </md-tooltip>
             </md-button>
         </md-dialog-actions>

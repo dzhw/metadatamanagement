@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.studymanagement.service;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -101,10 +103,19 @@ public class StudyAttachmentVersionsService {
         StudyAttachmentMetadata.class, file.getMetadata());
     
     QueryBuilder jqlQuery = QueryBuilder.byInstance(studyAttachmentMetadata)
-        .withScopeDeepPlus(Integer.MAX_VALUE)
         .limit(limit).skip(skip);
 
-    List<Shadow<StudyAttachmentMetadata>> previousVersions = javers.findShadows(jqlQuery.build());
+    List<CdoSnapshot> snapshots = javers.findSnapshots(jqlQuery.build());
+    if (snapshots.isEmpty()) {
+      return new ArrayList<>();
+    }
+    List<BigDecimal> commitIds = snapshots.stream()
+        .map(snapshot -> snapshot.getCommitId().valueAsNumber())
+        .collect(Collectors.toList());
+    
+    List<Shadow<StudyAttachmentMetadata>> previousVersions = javers.findShadows(
+        QueryBuilder.byInstance(studyAttachmentMetadata)
+        .withCommitIds(commitIds).build());
 
     return previousVersions.stream().map(shadow -> {
       StudyAttachmentMetadata metadata = shadow.get();

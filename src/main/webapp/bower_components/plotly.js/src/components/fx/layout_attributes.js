@@ -46,7 +46,11 @@ module.exports = {
         editType: 'none',
         description: [
             'Sets the default distance (in pixels) to look for data',
-            'to add hover labels (-1 means no cutoff, 0 means no looking for data)'
+            'to add hover labels (-1 means no cutoff, 0 means no looking for data).',
+            'This is only a real distance for hovering on point-like objects,',
+            'like scatter points. For area-like objects (bars, scatter fills, etc)',
+            'hovering is on inside the area and off outside, but these objects',
+            'will not supersede hover on point-like objects in case of conflict.'
         ].join(' ')
     },
     spikedistance: {
@@ -57,7 +61,10 @@ module.exports = {
         editType: 'none',
         description: [
             'Sets the default distance (in pixels) to look for data to draw',
-            'spikelines to (-1 means no cutoff, 0 means no looking for data).'
+            'spikelines to (-1 means no cutoff, 0 means no looking for data).',
+            'As with hoverdistance, distance does not apply to area-like objects.',
+            'In addition, some objects can be hovered on but will not generate',
+            'spikelines, such as scatter fills.'
         ].join(' ')
     },
     hoverlabel: {
@@ -93,6 +100,18 @@ module.exports = {
                 '`namelength - 3` characters and add an ellipsis.'
             ].join(' ')
         },
+        editType: 'none'
+    },
+    selectdirection: {
+        valType: 'enumerated',
+        role: 'info',
+        values: ['h', 'v', 'd', 'any'],
+        dflt: 'any',
+        description: [
+            'When "dragmode" is set to "select", this limits the selection of the drag to',
+            'horizontal, vertical or diagonal. "h" only allows horizontal selection,',
+            '"v" only vertical, "d" only diagonal and "any" sets no limit.'
+        ].join(' '),
         editType: 'none'
     }
 };

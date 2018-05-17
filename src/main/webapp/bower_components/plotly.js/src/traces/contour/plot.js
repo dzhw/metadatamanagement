@@ -16,6 +16,7 @@ var Drawing = require('../../components/drawing');
 var svgTextUtils = require('../../lib/svg_text_utils');
 var Axes = require('../../plots/cartesian/axes');
 var setConvert = require('../../plots/cartesian/set_convert');
+var getUidsFromCalcData = require('../../plots/get_data').getUidsFromCalcData;
 
 var heatmapPlot = require('../heatmap/plot');
 var makeCrossings = require('./make_crossings');
@@ -26,32 +27,34 @@ var closeBoundaries = require('./close_boundaries');
 var constants = require('./constants');
 var costConstants = constants.LABELOPTIMIZER;
 
+exports.plot = function plot(gd, plotinfo, cdcontours, contourLayer) {
+    var uidLookup = getUidsFromCalcData(cdcontours);
 
-exports.plot = function plot(gd, plotinfo, cdcontours) {
+    contourLayer.selectAll('g.contour').each(function(d) {
+        if(!uidLookup[d.trace.uid]) {
+            d3.select(this).remove();
+        }
+    });
+
     for(var i = 0; i < cdcontours.length; i++) {
-        plotOne(gd, plotinfo, cdcontours[i]);
+        plotOne(gd, plotinfo, cdcontours[i], contourLayer);
     }
 };
 
-function plotOne(gd, plotinfo, cd) {
-    var trace = cd[0].trace,
-        x = cd[0].x,
-        y = cd[0].y,
-        contours = trace.contours,
-        uid = trace.uid,
-        xa = plotinfo.xaxis,
-        ya = plotinfo.yaxis,
-        fullLayout = gd._fullLayout,
-        id = 'contour' + uid,
-        pathinfo = emptyPathinfo(contours, plotinfo, cd[0]);
-
-    if(trace.visible !== true) {
-        fullLayout._paper.selectAll('.' + id + ',.hm' + uid).remove();
-        fullLayout._infolayer.selectAll('.cb' + uid).remove();
-        return;
-    }
+function plotOne(gd, plotinfo, cd, contourLayer) {
+    var trace = cd[0].trace;
+    var x = cd[0].x;
+    var y = cd[0].y;
+    var contours = trace.contours;
+    var id = 'contour' + trace.uid;
+    var xa = plotinfo.xaxis;
+    var ya = plotinfo.yaxis;
+    var fullLayout = gd._fullLayout;
+    var pathinfo = emptyPathinfo(contours, plotinfo, cd[0]);
 
     // use a heatmap to fill - draw it behind the lines
+    var heatmapColoringLayer = Lib.ensureSingle(contourLayer, 'g', 'heatmapcoloring');
+    var cdheatmaps = [];
     if(contours.coloring === 'heatmap') {
         if(trace.zauto && (trace.autocontour === false)) {
             trace._input.zmin = trace.zmin =
@@ -59,15 +62,9 @@ function plotOne(gd, plotinfo, cd) {
             trace._input.zmax = trace.zmax =
                 trace.zmin + pathinfo.length * contours.size;
         }
-
-        heatmapPlot(gd, plotinfo, [cd]);
+        cdheatmaps = [cd];
     }
-    // in case this used to be a heatmap (or have heatmap fill)
-    else {
-        fullLayout._paper.selectAll('.hm' + uid).remove();
-        fullLayout._infolayer.selectAll('g.rangeslider-container')
-            .selectAll('.hm' + uid).remove();
-    }
+    heatmapPlot(gd, plotinfo, cdheatmaps, heatmapColoringLayer);
 
     makeCrossings(pathinfo);
     findAllPaths(pathinfo);
@@ -90,15 +87,15 @@ function plotOne(gd, plotinfo, cd) {
     }
 
     // draw everything
-    var plotGroup = exports.makeContourGroup(plotinfo, cd, id);
+    var plotGroup = exports.makeContourGroup(contourLayer, cd, id);
     makeBackground(plotGroup, perimeter, contours);
     makeFills(plotGroup, fillPathinfo, perimeter, contours);
     makeLinesAndLabels(plotGroup, pathinfo, gd, cd[0], contours, perimeter);
     clipGaps(plotGroup, plotinfo, fullLayout._clips, cd[0], perimeter);
 }
 
-exports.makeContourGroup = function(plotinfo, cd, id) {
-    var plotgroup = plotinfo.plot.select('.maplayer')
+exports.makeContourGroup = function(layer, cd, id) {
+    var plotgroup = layer
         .selectAll('g.contour.' + id)
         .data(cd);
 
@@ -112,8 +109,7 @@ exports.makeContourGroup = function(plotinfo, cd, id) {
 };
 
 function makeBackground(plotgroup, perimeter, contours) {
-    var bggroup = plotgroup.selectAll('g.contourbg').data([0]);
-    bggroup.enter().append('g').classed('contourbg', true);
+    var bggroup = Lib.ensureSingle(plotgroup, 'g', 'contourbg');
 
     var bgfill = bggroup.selectAll('path')
         .data(contours.coloring === 'fill' ? [0] : []);
@@ -125,10 +121,7 @@ function makeBackground(plotgroup, perimeter, contours) {
 }
 
 function makeFills(plotgroup, pathinfo, perimeter, contours) {
-    var fillgroup = plotgroup.selectAll('g.contourfill')
-        .data([0]);
-    fillgroup.enter().append('g')
-        .classed('contourfill', true);
+    var fillgroup = Lib.ensureSingle(plotgroup, 'g', 'contourfill');
 
     var fillitems = fillgroup.selectAll('path')
         .data(contours.coloring === 'fill' || (contours.type === 'constraint' && contours._operation !== '=') ? pathinfo : []);
@@ -252,11 +245,7 @@ function joinAllPaths(pi, perimeter) {
 }
 
 function makeLinesAndLabels(plotgroup, pathinfo, gd, cd0, contours, perimeter) {
-    var lineContainer = plotgroup.selectAll('g.contourlines').data([0]);
-
-    lineContainer.enter().append('g')
-        .classed('contourlines', true);
-
+    var lineContainer = Lib.ensureSingle(plotgroup, 'g', 'contourlines');
     var showLines = contours.showlines !== false;
     var showLabels = contours.showlabels;
     var clipLinesForLabels = showLines && showLabels;
@@ -428,19 +417,19 @@ exports.labelFormatter = function(contours, colorbar, fullLayout) {
                     formatAxis.range = [value[0], value[value.length - 1]];
                 }
                 else formatAxis.range = [value, value];
-
-                if(formatAxis.range[0] === formatAxis.range[1]) {
-                    formatAxis.range[1] += formatAxis.range[0] || 1;
-                }
-                formatAxis.nticks = 1000;
             }
             else {
                 formatAxis.range = [contours.start, contours.end];
                 formatAxis.nticks = (contours.end - contours.start) / contours.size;
             }
 
+            if(formatAxis.range[0] === formatAxis.range[1]) {
+                formatAxis.range[1] += formatAxis.range[0] || 1;
+            }
+            if(!formatAxis.nticks) formatAxis.nticks = 1000;
+
             setConvert(formatAxis, fullLayout);
-            Axes.calcTicks(formatAxis);
+            Axes.prepTicks(formatAxis);
             formatAxis._tmin = null;
             formatAxis._tmax = null;
         }
@@ -626,8 +615,7 @@ exports.drawLabels = function(labelGroup, labelData, gd, lineClip, labelClipPath
             clipPath += 'M' + labelClipPathData[i].join('L') + 'Z';
         }
 
-        var lineClipPath = lineClip.selectAll('path').data([0]);
-        lineClipPath.enter().append('path');
+        var lineClipPath = Lib.ensureSingle(lineClip, 'path', '');
         lineClipPath.attr('d', clipPath);
     }
 };
@@ -666,9 +654,7 @@ function clipGaps(plotGroup, plotinfo, clips, cd0, perimeter) {
         findAllPaths([clipPathInfo]);
         var fullpath = joinAllPaths(clipPathInfo, perimeter);
 
-        var path = clipPath.selectAll('path')
-            .data([0]);
-        path.enter().append('path');
+        var path = Lib.ensureSingle(clipPath, 'path', '');
         path.attr('d', fullpath);
     }
     else clipId = null;

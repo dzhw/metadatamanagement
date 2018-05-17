@@ -234,7 +234,7 @@ angular.module('metadatamanagementApp').config(
           'previous-version-restored-toast': 'Die ältere Version von Erhebung {{ surveyId }} kann jetzt gespeichert werden.',
           'current-version-restored-toast': 'Die aktuelle Version von Erhebung {{ surveyId }} wurde wiederhergestellt.',
           'not-authorized-toast': 'Sie sind nicht berechtigt Erhebungen zu bearbeiten oder anzulegen!',
-          'choose-unreleased-project-toast': 'Bitte wählen Sie ein Projekt aus, welches aktuell nicht freigegeben ist!',
+          'choose-unreleased-project-toast': 'Erhebungen dürfen nur bearbeitet werden, wenn das Projekt aktuell nicht freigegeben ist!',
           'survey-image-saved-toast': 'Die grafische Darstellung des Rücklaufs wurde gespeichert.',
           'survey-image-deleted-toast': 'Die grafische Darstellung des Rücklaufs wurde gelöscht.',
           'survey-deleted-toast': 'Die Erhebung {{ id }} wurde gelöscht.',

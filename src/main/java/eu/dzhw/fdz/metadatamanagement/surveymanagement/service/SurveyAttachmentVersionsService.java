@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.service;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -100,11 +102,21 @@ public class SurveyAttachmentVersionsService {
     SurveyAttachmentMetadata surveyAttachmentMetadata = mongoTemplate.getConverter().read(
         SurveyAttachmentMetadata.class, file.getMetadata());
     
-    QueryBuilder jqlQuery = QueryBuilder.byInstance(surveyAttachmentMetadata)
-        .withScopeDeepPlus(Integer.MAX_VALUE)
+    QueryBuilder jqlQuery = QueryBuilder
+        .byInstanceId(surveyAttachmentMetadata.getId(),SurveyAttachmentMetadata.class)
         .limit(limit).skip(skip);
 
-    List<Shadow<SurveyAttachmentMetadata>> previousVersions = javers.findShadows(jqlQuery.build());
+    List<CdoSnapshot> snapshots = javers.findSnapshots(jqlQuery.build());
+    if (snapshots.isEmpty()) {
+      return new ArrayList<>();
+    }
+    List<BigDecimal> commitIds = snapshots.stream()
+        .map(snapshot -> snapshot.getCommitId().valueAsNumber())
+        .collect(Collectors.toList());
+    
+    List<Shadow<SurveyAttachmentMetadata>> previousVersions = javers.findShadows(
+        QueryBuilder.byInstance(surveyAttachmentMetadata)
+        .withCommitIds(commitIds).build());
 
     return previousVersions.stream().map(shadow -> {
       SurveyAttachmentMetadata metadata = shadow.get();

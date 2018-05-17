@@ -41,6 +41,7 @@ import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
+import freemarker.core.XMLOutputFormat;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -297,6 +298,7 @@ public class DaraService {
     templateConfiguration.setDefaultEncoding(StandardCharsets.UTF_8.toString());
     templateConfiguration.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
     templateConfiguration.setNumberFormat("0.######");
+    templateConfiguration.setOutputFormat(XMLOutputFormat.INSTANCE);
 
     return templateConfiguration;
   }

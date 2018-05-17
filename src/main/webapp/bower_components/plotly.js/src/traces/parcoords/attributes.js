@@ -13,7 +13,7 @@ var colorbarAttrs = require('../../components/colorbar/attributes');
 var colorscales = require('../../components/colorscale/scales');
 var axesAttrs = require('../../plots/cartesian/layout_attributes');
 var fontAttrs = require('../../plots/font_attributes');
-var domainAttrs = require('../../plots/domain_attributes');
+var domainAttrs = require('../../plots/domain').attributes;
 
 var extend = require('../../lib/extend');
 var extendDeepAll = extend.extendDeepAll;
@@ -43,6 +43,8 @@ module.exports = {
             editType: 'calc',
             description: 'The shown name of the dimension.'
         },
+        // TODO: better way to determine ordinal vs continuous axes,
+        // so users can use tickvals/ticktext with a continuous axis.
         tickvals: extendFlat({}, axesAttrs.tickvals, {editType: 'calc'}),
         ticktext: extendFlat({}, axesAttrs.ticktext, {editType: 'calc'}),
         tickformat: {
@@ -79,6 +81,8 @@ module.exports = {
         constraintrange: {
             valType: 'info_array',
             role: 'info',
+            freeLength: true,
+            dimensions: '1-2',
             items: [
                 {valType: 'number', editType: 'calc'},
                 {valType: 'number', editType: 'calc'}
@@ -86,13 +90,20 @@ module.exports = {
             editType: 'calc',
             description: [
                 'The domain range to which the filter on the dimension is constrained. Must be an array',
-                'of `[fromValue, toValue]` with finite numbers as elements.'
+                'of `[fromValue, toValue]` with `fromValue <= toValue`, or if `multiselect` is not',
+                'disabled, you may give an array of arrays, where each inner array is `[fromValue, toValue]`.'
             ].join(' ')
+        },
+        multiselect: {
+            valType: 'boolean',
+            dflt: true,
+            role: 'info',
+            editType: 'calc',
+            description: 'Do we allow multiple selection ranges or just a single range?'
         },
         values: {
             valType: 'data_array',
             role: 'info',
-            dflt: [],
             editType: 'calc',
             description: [
                 'Dimension values. `values[n]` represents the value of the `n`th point in the dataset,',

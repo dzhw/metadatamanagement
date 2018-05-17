@@ -66,26 +66,12 @@ angular.module('metadatamanagementApp').controller('NavbarController',
     var fixTextareaHeight = function() {
       $timeout(function() {
         $scope.$broadcast('md-resize-textarea');
-      });
+      }, 100);
     };
 
     $scope.$watch(function() {
       return $mdSidenav('SideNavBar').isLockedOpen();
-    }, function(isLockedOpen) {
-      if (isLockedOpen) {
-        // hardcoded width of sidenav cause sometimes
-        // the updated width comes too late :(
-        $document.find('#content-container').css(
-          'margin-left', 320);
-        $document.find('.fdz-previous-search-result').css(
-          'left', 320);
-        fixTextareaHeight();
-      } else {
-        $document.find('#content-container').css(
-          'margin-left', 0);
-        $document.find('.fdz-previous-search-result').css(
-          'left', 0);
-        fixTextareaHeight();
-      }
+    }, function() {
+      fixTextareaHeight();
     }, true);
   });

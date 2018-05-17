@@ -6,11 +6,11 @@ angular.module('metadatamanagementApp').service('SimpleMessageToastService',
     var toastParent = angular.element('#toast-container');
 
     function openSimpleMessageToast(messageId, messageParams,
-      useDefaultHideDelay) {
+      preventAutomaticalHiding) {
       SynchronizedMdToast.show({
         controller: 'SimpleMessageToastController',
         templateUrl: 'scripts/common/toast/simple-message-toast.html.tmpl',
-        hideDelay: useDefaultHideDelay ? 5000 : 0,
+        hideDelay: !preventAutomaticalHiding ? 5000 : 0,
         position: 'top right',
         parent: toastParent,
         locals: {

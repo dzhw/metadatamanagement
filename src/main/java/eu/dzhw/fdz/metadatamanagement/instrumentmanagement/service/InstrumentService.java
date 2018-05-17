@@ -81,7 +81,7 @@ public class InstrumentService {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
         () -> instrumentRepository.streamIdsByDataAcquisitionProjectId(
             dataAcquisitionProject.getId()),
-        ElasticsearchType.variables);
+        ElasticsearchType.instruments);
   }
 
   /**

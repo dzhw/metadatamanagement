@@ -157,12 +157,15 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
       var query = createQueryObject();
       var termFilters = createTermFilters(filter, dataAcquisitionProjectId);
       query.body = {
-        'size': 0,
         'aggs': {
             'accessWays': {
                 'terms': {
                   'field': 'accessWays',
-                  'include': '.*' + term + '.*'
+                  'include': '.*' + term.toLowerCase() + '.*',
+                  'size': 100,
+                  'order': {
+                    '_term': 'asc'
+                  }
                 }
               }
           }
@@ -185,12 +188,15 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
       var query = createQueryObject();
       var termFilters = createTermFilters(filter, dataAcquisitionProjectId);
       query.body = {
-        'size': 0,
         'aggs': {
             'panelIdentifiers': {
                 'terms': {
                   'field': 'panelIdentifier',
-                  'include': '.*' + term + '.*'
+                  'include': '.*' + term.toLowerCase() + '.*',
+                  'size': 100,
+                  'order': {
+                    '_term': 'asc'
+                  }
                 }
               }
           }
@@ -214,12 +220,15 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
       var query = createQueryObject();
       var termFilters = createTermFilters(filter, dataAcquisitionProjectId);
       query.body = {
-        'size': 0,
         'aggs': {
             'derivedVariablesIdentifiers': {
                 'terms': {
                   'field': 'derivedVariablesIdentifier',
-                  'include': '.*' + term + '.*'
+                  'include': '.*' + term.toLowerCase() + '.*',
+                  'size': 100,
+                  'order': {
+                    '_term': 'asc'
+                  }
                 }
               }
           }

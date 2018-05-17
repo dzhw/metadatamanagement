@@ -6,15 +6,15 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.0.1.RELEASE</version>
+		<version>2.0.2.RELEASE</version>
 		<relativePath />
 	</parent>
 
-	<groupId>eu.dzhw.fdz.metadatamanagement</groupId>
-	<artifactId>metadatamanagement</artifactId>
-	<version>1.0.65-SNAPSHOT</version>
-	<packaging>war</packaging>
-	<name>metadatamanagement</name>
+    <groupId>eu.dzhw.fdz.metadatamanagement</groupId>
+    <artifactId>metadatamanagement</artifactId>
+    <version>1.0.67-SNAPSHOT</version>
+    <packaging>war</packaging>
+    <name>metadatamanagement</name>
 
 	<properties>
 		<commons-io.version>2.6</commons-io.version>
@@ -132,7 +132,7 @@
 		<dependency>
 			<groupId>org.javers</groupId>
 			<artifactId>javers-spring-boot-starter-mongo</artifactId>
-			<version>3.7.0</version>
+			<version>3.9.6</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mapstruct</groupId>
@@ -277,7 +277,7 @@
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>3.7.0</version>
 				</plugin>
-				<!--This plugin's configuration is used to store Eclipse m2e settings 
+				<!--This plugin's configuration is used to store Eclipse m2e settings
 					only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
@@ -510,7 +510,7 @@
 						<configuration>
 							<!-- Sets the path to the file which contains the execution data. -->
 							<destFile>${project.testresult.directory}/coverage/jacoco/jacoco.exec</destFile>
-							<!-- Sets the name of the property containing the settings for JaCoCo 
+							<!-- Sets the name of the property containing the settings for JaCoCo
 								runtime agent. -->
 							<propertyName>surefireArgLine</propertyName>
 							<excludes>
@@ -520,7 +520,7 @@
 							</excludes>
 						</configuration>
 					</execution>
-					<!-- Ensures that the code coverage report for unit tests is created 
+					<!-- Ensures that the code coverage report for unit tests is created
 						after unit tests have been run -->
 					<execution>
 						<id>post-unit-test</id>

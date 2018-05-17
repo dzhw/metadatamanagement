@@ -17,7 +17,7 @@ module.exports = function(config) {
       'src/main/webapp/bower_components/angular-aria/angular-aria.js',
       'src/main/webapp/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
       'src/main/webapp/bower_components/angular-cookies/angular-cookies.js',
-      'src/main/webapp/bower_components/angular-dynamic-locale/src/tmhDynamicLocale.js',
+      'src/main/webapp/bower_components/angular-dynamic-locale/dist/tmhDynamicLocale.js',
       'src/main/webapp/bower_components/angular-local-storage/dist/angular-local-storage.js',
       'src/main/webapp/bower_components/angular-resource/angular-resource.js',
       'src/main/webapp/bower_components/angular-sanitize/angular-sanitize.js',

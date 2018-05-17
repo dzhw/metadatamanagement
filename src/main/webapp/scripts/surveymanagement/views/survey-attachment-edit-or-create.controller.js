@@ -55,7 +55,7 @@ angular.module('metadatamanagementApp')
           'survey-management.detail.attachments.attachment-saved-toast',
           {
             filename: ctrl.surveyAttachmentMetadata.fileName
-          }, true);
+          });
       };
 
       ctrl.onUploadFailed = function(response) {
@@ -64,16 +64,16 @@ angular.module('metadatamanagementApp')
             'survey-management.log-messages.survey-attachment.file-not-found',
             {
               filename: ctrl.surveyAttachmentMetadata.fileName
-            }, true);
+            });
           $scope.surveyAttachmentForm.filename.$setValidity(
             'valid', false);
         }
         if (response.errors && response.errors.length > 0) {
-          SimpleMessageToastService.openSimpleMessageToast(
+          SimpleMessageToastService.openAlertMessageToast(
             response.errors[0].message,
             {
               filename: ctrl.surveyAttachmentMetadata.fileName
-            }, true);
+            });
           $scope.surveyAttachmentForm.filename.$setValidity(
             'unique', false);
         }
@@ -104,10 +104,10 @@ angular.module('metadatamanagementApp')
               errorField.$setTouched();
             });
           });
-          SimpleMessageToastService.openSimpleMessageToast(
+          SimpleMessageToastService.openAlertMessageToast(
             'survey-management.detail.attachments' +
             '.attachment-has-validation-errors-toast',
-            null, true);
+            null);
         }
       };
 
@@ -185,7 +185,7 @@ angular.module('metadatamanagementApp')
                 '.current-version-restored-toast',
                 {
                   filename: ctrl.surveyAttachmentMetadata.fileName
-                }, true);
+                });
               $scope.surveyAttachmentForm.$setPristine();
             } else {
               $scope.surveyAttachmentForm.$setDirty();
@@ -194,7 +194,7 @@ angular.module('metadatamanagementApp')
                 '.previous-version-restored-toast',
                 {
                   filename: ctrl.surveyAttachmentMetadata.fileName
-                }, true);
+                });
             }
           });
       };

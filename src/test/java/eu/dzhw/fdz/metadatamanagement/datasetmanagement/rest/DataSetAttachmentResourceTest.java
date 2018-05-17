@@ -66,7 +66,7 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
     MockMultipartFile attachment =
         new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
     DataSetAttachmentMetadata dataSetAttachmentMetadata = UnitTestCreateDomainObjectUtils
-      .buildDataSetAttachmentMetadata("projectId", 1);
+      .buildDataSetAttachmentMetadata("projectid", 1);
     MockMultipartFile metadata = new MockMultipartFile("dataSetAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(dataSetAttachmentMetadata));
 
@@ -92,7 +92,7 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
     MockMultipartFile attachment =
         new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
     DataSetAttachmentMetadata dataSetAttachmentMetadata = UnitTestCreateDomainObjectUtils
-      .buildDataSetAttachmentMetadata("projectId", 1);
+      .buildDataSetAttachmentMetadata("projectid", 1);
     dataSetAttachmentMetadata.setLanguage("test");
     MockMultipartFile metadata = new MockMultipartFile("dataSetAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(dataSetAttachmentMetadata));
@@ -112,7 +112,7 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
     MockMultipartFile attachment =
         new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
     DataSetAttachmentMetadata dataSetAttachmentMetadata = UnitTestCreateDomainObjectUtils
-      .buildDataSetAttachmentMetadata("projectId", 1);
+      .buildDataSetAttachmentMetadata("projectid", 1);
     dataSetAttachmentMetadata.setDescription(new I18nString());
 
     MockMultipartFile metadata = new MockMultipartFile("dataSetAttachmentMetadata", "Blob",
@@ -131,7 +131,7 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
   public void testAttachmentIsDeletedWithDataSet() throws Exception {
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey("projectId");
     DataSet dataSet =
-        UnitTestCreateDomainObjectUtils.buildDataSet("projectId", survey.getId() , survey.getNumber());
+        UnitTestCreateDomainObjectUtils.buildDataSet("projectid", survey.getId() , survey.getNumber());
 
     // create the dataSet with the given id
     mockMvc.perform(put("/api/data-sets/" + dataSet.getId())

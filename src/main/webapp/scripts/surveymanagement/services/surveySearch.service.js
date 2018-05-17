@@ -180,16 +180,17 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
       var termFilters = createTermFilters(filter);
 
       query.body = {
-        'size': 0,
         'aggs': {
             'surveyMethodDe': {
                 'terms': {
-                  'field': 'surveyMethod.de'
+                  'field': 'surveyMethod.de',
+                  'size': 100
                 },
                 'aggs': {
                   'surveyMethodEn': {
                     'terms': {
-                      'field': 'surveyMethod.en'
+                      'field': 'surveyMethod.en',
+                      'size': 100
                     }
                   }
                 }

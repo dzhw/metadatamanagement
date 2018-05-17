@@ -9,7 +9,7 @@ import org.javers.core.diff.ListCompareAlgorithm;
 import org.javers.repository.api.JaversRepository;
 import org.javers.repository.mongo.MongoRepository;
 import org.javers.spring.boot.mongo.JaversMongoAutoConfiguration;
-import org.javers.spring.boot.mongo.JaversProperties;
+import org.javers.spring.boot.mongo.JaversMongoProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.mongo.MongoProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -22,15 +22,15 @@ import com.mongodb.client.MongoDatabase;
 /**
  * Setting cache size for javers snapshots to zero. Heavily copied from
  * {@link JaversMongoAutoConfiguration}.
- * 
+ *
  * @author René Reitmann
  */
 @Configuration
-@EnableConfigurationProperties({JaversProperties.class})
+@EnableConfigurationProperties({JaversMongoProperties.class})
 public class JaversConfiguration {
 
   @Autowired
-  private JaversProperties javersProperties;
+  private JaversMongoProperties javersMongoProperties;
 
   @Autowired
   private MongoClient mongoClient;
@@ -40,7 +40,7 @@ public class JaversConfiguration {
 
   /**
    * Creating {@link Javers} bean without caching.
-   * 
+   *
    * @return The {@link Javers} bean.
    */
   @Bean(name = "javers")
@@ -53,13 +53,13 @@ public class JaversConfiguration {
     return JaversBuilder.javers()
         .withListCompareAlgorithm(
             ListCompareAlgorithm.valueOf(
-                javersProperties.getAlgorithm().toUpperCase(Locale.ROOT)))
+                javersMongoProperties.getAlgorithm().toUpperCase(Locale.ROOT)))
         .withMappingStyle(MappingStyle.valueOf(
-            javersProperties.getMappingStyle().toUpperCase(Locale.ROOT)))
-        .withNewObjectsSnapshot(javersProperties.isNewObjectSnapshot())
-        .withPrettyPrint(javersProperties.isPrettyPrint())
-        .withTypeSafeValues(javersProperties.isTypeSafeValues())
+            javersMongoProperties.getMappingStyle().toUpperCase(Locale.ROOT)))
+        .withNewObjectsSnapshot(javersMongoProperties.isNewObjectSnapshot())
+        .withPrettyPrint(javersMongoProperties.isPrettyPrint())
+        .withTypeSafeValues(javersMongoProperties.isTypeSafeValues())
         .registerJaversRepository(javersRepository)
-        .withPackagesToScan(javersProperties.getPackagesToScan()).build();
+        .withPackagesToScan(javersMongoProperties.getPackagesToScan()).build();
   }
 }

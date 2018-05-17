@@ -6,10 +6,11 @@
 * LICENSE file in the root directory of this source tree.
 */
 
-
 'use strict';
 
+var Lib = require('../../lib');
 var subtypes = require('../scatter/subtypes');
+var BADNUM = require('../../constants/numerical').BADNUM;
 
 module.exports = function selectPoints(searchInfo, polygon) {
     var cd = searchInfo.cd;
@@ -17,8 +18,7 @@ module.exports = function selectPoints(searchInfo, polygon) {
     var ya = searchInfo.yaxis;
     var selection = [];
     var trace = cd[0].trace;
-
-    var di, lonlat, x, y, i;
+    var i;
 
     if(!subtypes.hasMarkers(trace)) return [];
 
@@ -28,20 +28,23 @@ module.exports = function selectPoints(searchInfo, polygon) {
         }
     } else {
         for(i = 0; i < cd.length; i++) {
-            di = cd[i];
-            lonlat = di.lonlat;
-            x = xa.c2p(lonlat);
-            y = ya.c2p(lonlat);
+            var di = cd[i];
+            var lonlat = di.lonlat;
 
-            if(polygon.contains([x, y])) {
-                selection.push({
-                    pointNumber: i,
-                    lon: lonlat[0],
-                    lat: lonlat[1]
-                });
-                di.selected = 1;
-            } else {
-                di.selected = 0;
+            if(lonlat[0] !== BADNUM) {
+                var lonlat2 = [Lib.wrap180(lonlat[0]), lonlat[1]];
+                var xy = [xa.c2p(lonlat2), ya.c2p(lonlat2)];
+
+                if(polygon.contains(xy)) {
+                    selection.push({
+                        pointNumber: i,
+                        lon: lonlat[0],
+                        lat: lonlat[1]
+                    });
+                    di.selected = 1;
+                } else {
+                    di.selected = 0;
+                }
             }
         }
     }

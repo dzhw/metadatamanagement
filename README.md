@@ -6,6 +6,11 @@
 [![forthebadge](http://forthebadge.com/images/badges/built-by-developers.svg)](http://forthebadge.com) [![forthebadge](http://forthebadge.com/images/badges/uses-badges.svg)](http://forthebadge.com)
 # Developing the MDM system
 
+Please checkout the development branch before starting to code and create a new branch starting with your username followed by the backlog items issue number you will be working on:
+
+    git checkout development
+    git checkout -b rreitmann/issue1234
+
 Before you can build this project, you must install and configure the following dependencies on your machine:
 
 1. Java: You need to install java 8 sdk on your system. On Ubuntu you should use [SDKMAN!][]
@@ -53,6 +58,7 @@ This project is currently built and deployed to Pivotal Cloudfoundry by [Travis 
 ## Big Thanks
 
 Cross-browser Testing Platform and Open Source :heart: Provided by [Sauce Labs][saucelabs]
+
 Continous Integration Platform provided by [Travis CI][TravisCI]
 
 [saucelabs]: https://saucelabs.com
@@ -63,7 +69,6 @@ Continous Integration Platform provided by [Travis CI][TravisCI]
 [BrowserSync]: http://www.browsersync.io/
 [Karma]: http://karma-runner.github.io/
 [Jasmine]: http://jasmine.github.io/2.0/introduction.html
-[Protractor]: https://angular.github.io/protractor/
 [NVM]: https://github.com/creationix/nvm
 [SDKMAN!]:http://sdkman.io/install.html
 [TravisCI]:https://travis-ci.org/

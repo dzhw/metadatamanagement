@@ -1,17 +1,22 @@
 {
   "author": "Lucas Galfaso",
   "name": "angular-dynamic-locale",
-  "main": "src/tmhDynamicLocale.js",
+  "main": "dist/tmhDynamicLocale.js",
   "description": "Angular Dynamic Locale",
-  "version": "0.1.32",
+  "ignore": [
+    "node_modules",
+    "bower_components",
+    "test"
+  ],
+  "version": "0.1.35",
   "homepage": "https://github.com/lgalfaso/angular-dynamic-locale",
-  "_release": "0.1.32",
+  "_release": "0.1.35",
   "_resolution": {
     "type": "version",
-    "tag": "0.1.32",
-    "commit": "ac7143c1e87b58b87cc0c1821af86969553df0da"
+    "tag": "0.1.35",
+    "commit": "15a493e3075e6cc86f752134b1793ee6d98f78d0"
   },
   "_source": "https://github.com/lgalfaso/angular-dynamic-locale.git",
-  "_target": "0.1.32",
+  "_target": "0.1.35",
   "_originalSource": "angular-dynamic-locale"
 }

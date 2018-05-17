@@ -2,14 +2,12 @@
 
 angular.module('metadatamanagementApp').directive('previousSearchResult',
   function(SearchResultNavigatorService, SearchTypeToDetailsStateMapper,
-     LanguageService, $mdSidenav) {
+     LanguageService) {
     return {
       restrict: 'E',
       templateUrl: 'scripts/searchmanagement/directives/' +
         'previous-search-result.html.tmpl',
       link: function(scope) {
-        scope.leftMarginStyle = $mdSidenav('SideNavBar').isLockedOpen() ?
-          {left: 320} : {left: 0} ;
         SearchResultNavigatorService.getPreviousSearchResult().promise.
           then(function(data) {
             if (data.hits.hits.length === 1) {

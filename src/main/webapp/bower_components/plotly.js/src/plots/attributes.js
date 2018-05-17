@@ -81,7 +81,8 @@ module.exports = {
         editType: 'calc',
         description: [
             'Assigns id labels to each datum.',
-            'These ids for object constancy of data points during animation.'
+            'These ids for object constancy of data points during animation.',
+            'Should be an array of strings, not numbers or any other type.'
         ].join(' ')
     },
     customdata: {
@@ -155,5 +156,13 @@ module.exports = {
             ].join(' ')
         },
         editType: 'calc'
+    },
+    transforms: {
+        _isLinkedToArray: 'transform',
+        editType: 'calc',
+        description: [
+            'An array of operations that manipulate the trace data,',
+            'for example filtering or sorting the data arrays.'
+        ].join(' ')
     }
 };

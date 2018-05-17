@@ -7,12 +7,14 @@
                 </h2>
             </div>
             <div>
-                <span style="margin-right: 1em;" class="label label-as-badge label-success">{{'global.joblogging.protocol-dialog.success' | translate}}:
-                {{job.successes || 0}}</span>
-                <span style="margin-right: 1em;" class="label label-as-badge label-warning">{{'global.joblogging.protocol-dialog.warning' | translate}}:
-                {{job.warnings || 0}}</span>
-                <span class="label label-as-badge label-danger">{{'global.joblogging.protocol-dialog.error' | translate}}:
-                {{job.errors || 0}}</span>
+                <span hide-xs hide-sm>
+                  <span style="margin-right: 1em;" class="label label-as-badge label-success">{{'global.joblogging.protocol-dialog.success' | translate}}:
+                      {{job.successes || 0}}</span>
+                    <span style="margin-right: 1em;" class="label label-as-badge label-warning">{{'global.joblogging.protocol-dialog.warning' | translate}}:
+                      {{job.warnings || 0}}</span>
+                    <span class="label label-as-badge label-danger">{{'global.joblogging.protocol-dialog.error' | translate}}:
+                      {{job.errors || 0}}</span>
+                </span>
                 <md-button class="md-icon-button" ng-click="closeDialog()">
                     <md-icon md-font-set="material-icons">clear</md-icon>
                     <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">

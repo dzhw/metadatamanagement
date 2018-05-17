@@ -12,15 +12,17 @@
 var d3 = require('d3');
 var isNumeric = require('fast-isnumeric');
 
-var Plotly = require('../../plotly');
 var Plots = require('../../plots/plots');
+var Registry = require('../../registry');
 var Lib = require('../../lib');
 var Drawing = require('../drawing');
 var Color = require('../color');
 var svgTextUtils = require('../../lib/svg_text_utils');
 var interactConstants = require('../../constants/interactions');
 
-var Titles = module.exports = {};
+module.exports = {
+    draw: draw
+};
 
 var numStripRE = / [XY][0-9]* /;
 
@@ -54,7 +56,7 @@ var numStripRE = / [XY][0-9]* /;
  *
  *  @return {selection} d3 selection of title container group
  */
-Titles.draw = function(gd, titleClass, options) {
+function draw(gd, titleClass, options) {
     var cont = options.propContainer;
     var prop = options.propName;
     var placeholder = options.placeholder;
@@ -96,10 +98,7 @@ Titles.draw = function(gd, titleClass, options) {
     var elShouldExist = txt || editable;
 
     if(!group) {
-        group = fullLayout._infolayer.selectAll('.g-' + titleClass)
-            .data([0]);
-        group.enter().append('g')
-            .classed('g-' + titleClass, true);
+        group = Lib.ensureSingle(fullLayout._infolayer, 'g', 'g-' + titleClass);
     }
 
     var el = group.selectAll('text')
@@ -237,8 +236,11 @@ Titles.draw = function(gd, titleClass, options) {
 
         el.call(svgTextUtils.makeEditable, {gd: gd})
             .on('edit', function(text) {
-                if(traceIndex !== undefined) Plotly.restyle(gd, prop, text, traceIndex);
-                else Plotly.relayout(gd, prop, text);
+                if(traceIndex !== undefined) {
+                    Registry.call('restyle', gd, prop, text, traceIndex);
+                } else {
+                    Registry.call('relayout', gd, prop, text);
+                }
             })
             .on('cancel', function() {
                 this.text(this.attr('data-unformatted'))
@@ -252,4 +254,4 @@ Titles.draw = function(gd, titleClass, options) {
     el.classed('js-placeholder', isplaceholder);
 
     return group;
-};
+}

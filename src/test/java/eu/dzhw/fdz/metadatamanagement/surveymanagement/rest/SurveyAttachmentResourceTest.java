@@ -70,7 +70,7 @@ public class SurveyAttachmentResourceTest extends AbstractTest {
     MockMultipartFile attachment =
         new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
     SurveyAttachmentMetadata surveyAttachmentMetadata = UnitTestCreateDomainObjectUtils
-      .buildSurveyAttachmentMetadata("projectId", 1);
+      .buildSurveyAttachmentMetadata("projectid", 1);
     MockMultipartFile metadata = new MockMultipartFile("surveyAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(surveyAttachmentMetadata));
 
@@ -96,7 +96,7 @@ public class SurveyAttachmentResourceTest extends AbstractTest {
     MockMultipartFile attachment =
         new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
     SurveyAttachmentMetadata surveyAttachmentMetadata = UnitTestCreateDomainObjectUtils
-      .buildSurveyAttachmentMetadata("projectId", 1);
+      .buildSurveyAttachmentMetadata("projectid", 1);
     surveyAttachmentMetadata.setLanguage("test");
     MockMultipartFile metadata = new MockMultipartFile("surveyAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(surveyAttachmentMetadata));
@@ -116,7 +116,7 @@ public class SurveyAttachmentResourceTest extends AbstractTest {
     MockMultipartFile attachment =
         new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
     SurveyAttachmentMetadata surveyAttachmentMetadata = UnitTestCreateDomainObjectUtils
-      .buildSurveyAttachmentMetadata("projectId", 1);
+      .buildSurveyAttachmentMetadata("projectid", 1);
     surveyAttachmentMetadata.setDescription(new I18nString());
 
     MockMultipartFile metadata = new MockMultipartFile("surveyAttachmentMetadata", "Blob",
@@ -134,7 +134,7 @@ public class SurveyAttachmentResourceTest extends AbstractTest {
   @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testAttachmentIsDeletedWithSurvey() throws Exception {
     Survey survey =
-        UnitTestCreateDomainObjectUtils.buildSurvey("projectId");
+        UnitTestCreateDomainObjectUtils.buildSurvey("projectid");
 
     // create the survey with the given id
     mockMvc.perform(put("/api/surveys/" + survey.getId())

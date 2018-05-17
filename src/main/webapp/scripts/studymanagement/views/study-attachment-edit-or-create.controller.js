@@ -55,25 +55,25 @@ angular.module('metadatamanagementApp')
           'study-management.detail.attachments.attachment-saved-toast',
           {
             filename: ctrl.studyAttachmentMetadata.fileName
-          }, true);
+          });
       };
 
       ctrl.onUploadFailed = function(response) {
         if (response.invalidFile) {
-          SimpleMessageToastService.openSimpleMessageToast(
+          SimpleMessageToastService.openAlertMessageToast(
             'study-management.log-messages.study-attachment.file-not-found',
             {
               filename: ctrl.studyAttachmentMetadata.fileName
-            }, true);
+            });
           $scope.studyAttachmentForm.filename.$setValidity(
             'valid', false);
         }
         if (response.errors && response.errors.length > 0) {
-          SimpleMessageToastService.openSimpleMessageToast(
+          SimpleMessageToastService.openAlertMessageToast(
             response.errors[0].message,
             {
               filename: ctrl.studyAttachmentMetadata.fileName
-            }, true);
+            });
           $scope.studyAttachmentForm.filename.$setValidity(
             'unique', false);
         }
@@ -103,10 +103,10 @@ angular.module('metadatamanagementApp')
               errorField.$setTouched();
             });
           });
-          SimpleMessageToastService.openSimpleMessageToast(
+          SimpleMessageToastService.openAlertMessageToast(
             'study-management.detail.attachments' +
             '.attachment-has-validation-errors-toast',
-            null, true);
+            null);
         }
       };
 
@@ -189,7 +189,7 @@ angular.module('metadatamanagementApp')
                 '.current-version-restored-toast',
                 {
                   filename: ctrl.studyAttachmentMetadata.fileName
-                }, true);
+                });
               $scope.studyAttachmentForm.$setPristine();
             } else {
               $scope.studyAttachmentForm.$setDirty();
@@ -198,7 +198,7 @@ angular.module('metadatamanagementApp')
                 '.previous-version-restored-toast',
                 {
                   filename: ctrl.studyAttachmentMetadata.fileName
-                }, true);
+                });
             }
           });
       };

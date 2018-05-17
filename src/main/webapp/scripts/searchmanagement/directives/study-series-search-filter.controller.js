@@ -97,8 +97,9 @@ angular.module('metadatamanagementApp')
             i18nAnotherEnding = 'de';
           }
 
-          if ($scope.currentSearchParams.filter['study-series-' +
-            i18nAnotherEnding]) {
+          if ($scope.currentSearchParams.filter &&
+              $scope.currentSearchParams.filter['study-series-' +
+                i18nAnotherEnding]) {
             $scope.searchStudySeries(
               $scope.currentSearchParams.filter['study-series-' +
               i18nAnotherEnding], i18nAnotherEnding)

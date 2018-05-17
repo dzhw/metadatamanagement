@@ -5,16 +5,16 @@ $brand-success: #28A745 !default;
 $brand-info: #028AA4 !default;
 $brand-warning: #F69F24 !default;
 $brand-danger: #C91630 !default;
-$state-success-text: #000000 !default;
+$state-success-text: $brand-success !default;
 $state-success-bg: #F0EFCE !default;
 $state-success-border: $brand-success !default;
-$state-info-text: #000000 !default;
+$state-info-text: $brand-info !default;
 $state-info-bg: #CCE8ED !default;
 $state-info-border: $brand-info !default;
-$state-warning-text: #000000 !default;
+$state-warning-text: $brand-warning !default;
 $state-warning-bg: #FDECD3 !default;
 $state-warning-border: $brand-warning !default;
-$state-danger-text: #000000 !default;
+$state-danger-text: $brand-danger !default;
 $state-danger-bg: #F5D0D0 !default;
 $state-danger-border: $brand-danger !default; // bower:scss
  @import "bootstrap-sass/assets/stylesheets/_bootstrap.scss";
@@ -32,15 +32,12 @@ h3 {
 
 body {
     font-family: Roboto, "Helvetica Neue", sans-serif;
-    min-height: 100%;
-    height: auto;
     z-index: 0;
     background-color: rgb(250,250,250);
-    -ms-overflow-style: scrollbar;
 }
 
-.content {
-    margin-top: 50px;
+ui-view:focus {
+    outline: none;
 }
 
 .ng-cloak,
@@ -85,6 +82,7 @@ body {
 .block-ui-container {
     z-index: 100000;
 }
+
 @keyframes spin {
     100% {
         transform: rotate(360deg);
@@ -131,12 +129,20 @@ body {
 }
 
 .bmbf_logo {
-    background-color: transparent;
-    background-position: center center;
-    background-repeat: no-repeat;
-    width: 221px;
-    height: 157px;
-    background-size: 221px 157px;
+    width: 100%;
+    height: 150px;
+    padding: 8px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.saucelabs_logo {
+    width: 100%;
+    height: 80px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .fdz-search-result-icon {
@@ -453,14 +459,6 @@ md-input-container.fdz-search-input label:not(.md-container-ignore) {
     pointer-events: all;
 }
 
-.fdz-toast {
-    background-color: black;
-    color: white;
-    padding: 0 18px;
-    border-radius: 2px;
-    margin: 4px;
-}
-
 .md-table-pagination div div.label {
     color: #757575;
 }
@@ -497,7 +495,8 @@ md-dialog h2 {
 }
 
 .fdz-table-wide {
-    width: 100%;
+    width: fit-content;
+    min-width: 100%;
     table-layout: auto;
     border-collapse: collapse;
     text-align: left;
@@ -727,11 +726,6 @@ button:focus {
     border: 1px solid $brand-warning !important;
 }
 
-.fdz-content {
-    z-index: 0;
-    background-color: rgb(250,250,250);
-}
-
 .fdz-content:focus {
     background-color: rgba(158, 158, 158, 0.2) !important;
     border: 1px solid $brand-warning !important;
@@ -749,12 +743,16 @@ md-tab-item:hover {
     margin: 0;
 }
 
+.fdz-search-filter-component md-input-container input {
+    margin-top: 8px;
+}
+
 .fdz-search-filter-component {
     margin-bottom: 0 !important;
 }
 
 .fdz-search-filter-component button {
-    top: 2px !important;
+    top: 10px !important;
 }
 
 .fdz-search-filter-component md-progress-linear {
@@ -763,11 +761,11 @@ md-tab-item:hover {
 
 .fdz-search-filter-component md-input-container.md-input-focused label,
 .fdz-search-filter-component md-input-container.md-input-has-value label {
-    bottom: 80% !important;
+    bottom: 70% !important;
 }
 
 .fdz-search-filter-component md-input-container label:not(.md-container-ignore) {
-    bottom: 91%;
+    bottom: 85%;
 }
 
 .fdz-search-filter-component .ng-active div[ng-message] {
@@ -832,16 +830,6 @@ input::-ms-clear {
     white-space: pre-line;
 }
 
-md-toolbar#toolbar {
-    position: fixed;
-}
-
-.md-sidenav-backdrop,
-md-sidenav#SideNavBar {
-    position: fixed;
-    min-height: 100vh;
-}
-
 .fdz-previous-search-result {
     position: fixed;
     top: 50%;
@@ -851,7 +839,7 @@ md-sidenav#SideNavBar {
     border-top-left-radius: 0 !important;
     width: 20px !important;
     transition: width 0.25s !important;
-    z-index: 100 !important;
+    z-index: 50 !important;
 }
 
 .fdz-previous-search-result > md-icon {
@@ -870,7 +858,7 @@ md-sidenav#SideNavBar {
     border-top-right-radius: 0 !important;
     width: 20px !important;
     transition: width 0.25s !important;
-    z-index: 100 !important;
+    z-index: 50 !important;
 }
 
 .fdz-next-search-result:focus,
@@ -965,4 +953,72 @@ md-toast.md-accent > .md-toast-content {
     border: 1px solid black;
     background-color: $brand-warning;
     color: black !important;
+}
+
+#egg-thank-you-container {
+    background-color: $brand-primary;
+    position: absolute;
+    z-index: 999999;
+    width: 100%;
+    height: 100%;
+}
+
+#egg-thank-you {
+    display: block;
+    max-width: 400px;
+    margin: 0 auto;
+    stroke: white;
+}
+
+.egg-path-first {
+    stroke-dasharray: 1800;
+}
+
+.egg-path-second {
+    stroke-dasharray: 300;
+}
+
+.egg-path-third {
+    stroke-dasharray: 200;
+}
+
+.egg-path-fourth {
+    stroke-dasharray: 300;
+}
+
+.egg-path-fifth {
+    stroke-dasharray: 800;
+}
+
+.egg-path-sixth {
+    stroke-dasharray: 600;
+}
+
+.alert.alert-warning, .alert.alert-warning .alert-link {
+    color: black;
+}
+
+.alert.alert-danger, .alert.alert-danger .alert-link {
+    color: black;
+}
+
+.alert.alert-success, .alert.alert-success .alert-link {
+    color: black;
+}
+
+@media screen and (max-width: 1280px) {
+  ::-webkit-scrollbar {
+    height: 4px;
+    width: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: $brand-primary;
+    min-height: 2em;
+    border-radius: 8px;
+  }
+
+  md-content, .md-virtual-repeat-scroller, tbody {
+    overflow: overlay;
+  }
 }

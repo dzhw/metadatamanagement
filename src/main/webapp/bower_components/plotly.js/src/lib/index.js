@@ -22,11 +22,15 @@ lib.nestedProperty = require('./nested_property');
 lib.keyedContainer = require('./keyed_container');
 lib.relativeAttr = require('./relative_attr');
 lib.isPlainObject = require('./is_plain_object');
-lib.isArray = require('./is_array');
 lib.mod = require('./mod');
 lib.toLogRange = require('./to_log_range');
 lib.relinkPrivateKeys = require('./relink_private');
 lib.ensureArray = require('./ensure_array');
+
+var isArrayModule = require('./is_array');
+lib.isTypedArray = isArrayModule.isTypedArray;
+lib.isArrayOrTypedArray = isArrayModule.isArrayOrTypedArray;
+lib.isArray1D = isArrayModule.isArray1D;
 
 var coerceModule = require('./coerce');
 lib.valObjectMeta = coerceModule.valObjectMeta;
@@ -389,7 +393,7 @@ lib.noneOrAll = function(containerIn, containerOut, attrList) {
  * @param {string} cdAttr : calcdata key
  */
 lib.mergeArray = function(traceAttr, cd, cdAttr) {
-    if(Array.isArray(traceAttr)) {
+    if(lib.isArrayOrTypedArray(traceAttr)) {
         var imax = Math.min(traceAttr.length, cd.length);
         for(var i = 0; i < imax; i++) cd[i][cdAttr] = traceAttr[i];
     }
@@ -408,7 +412,7 @@ lib.mergeArray = function(traceAttr, cd, cdAttr) {
 lib.fillArray = function(traceAttr, cd, cdAttr, fn) {
     fn = fn || lib.identity;
 
-    if(Array.isArray(traceAttr)) {
+    if(lib.isArrayOrTypedArray(traceAttr)) {
         for(var i = 0; i < cd.length; i++) {
             cd[i][cdAttr] = fn(traceAttr[i]);
         }
@@ -429,8 +433,8 @@ lib.castOption = function(trace, ptNumber, astr, fn) {
 
     var val = lib.nestedProperty(trace, astr).get();
 
-    if(Array.isArray(val)) {
-        if(Array.isArray(ptNumber) && Array.isArray(val[ptNumber[0]])) {
+    if(lib.isArrayOrTypedArray(val)) {
+        if(Array.isArray(ptNumber) && lib.isArrayOrTypedArray(val[ptNumber[0]])) {
             return fn(val[ptNumber[0]][ptNumber[1]]);
         } else {
             return fn(val[ptNumber]);
@@ -629,6 +633,63 @@ lib.isD3Selection = function(obj) {
     return obj && (typeof obj.classed === 'function');
 };
 
+/**
+ * Append element to DOM only if not present.
+ *
+ * @param {d3 selection} parent : parent selection of the element in question
+ * @param {string} nodeType : node type of element to append
+ * @param {string} className : class name of element in question
+ * @param {fn} enterFn (optional) : optional fn applied to entering elements only
+ * @return {d3 selection} selection of new layer
+ *
+ * Previously, we were using the following pattern:
+ *
+ * ```
+ * var sel = parent.selectAll('.' + className)
+ *     .data([0]);
+ *
+ * sel.enter().append(nodeType)
+ *     .classed(className, true);
+ *
+ * return sel;
+ * ```
+ *
+ * in numerous places in our codebase to achieve the same behavior.
+ *
+ * The logic below performs much better, mostly as we are using
+ * `.select` instead `.selectAll` that is `querySelector` instead of
+ * `querySelectorAll`.
+ *
+ */
+lib.ensureSingle = function(parent, nodeType, className, enterFn) {
+    var sel = parent.select(nodeType + (className ? '.' + className : ''));
+    if(sel.size()) return sel;
+
+    var layer = parent.append(nodeType).classed(className, true);
+    if(enterFn) layer.call(enterFn);
+
+    return layer;
+};
+
+/**
+ * Same as Lib.ensureSingle, but using id as selector.
+ * This version is mostly used for clipPath nodes.
+ *
+ * @param {d3 selection} parent : parent selection of the element in question
+ * @param {string} nodeType : node type of element to append
+ * @param {string} id : id of element in question
+ * @param {fn} enterFn (optional) : optional fn applied to entering elements only
+ * @return {d3 selection} selection of new layer
+ */
+lib.ensureSingleById = function(parent, nodeType, id, enterFn) {
+    var sel = parent.select(nodeType + '#' + id);
+    if(sel.size()) return sel;
+
+    var layer = parent.append(nodeType).attr('id', id);
+    if(enterFn) layer.call(enterFn);
+
+    return layer;
+};
 
 /**
  * Converts a string path to an object.
@@ -875,4 +936,20 @@ lib.subplotSort = function(a, b) {
         }
     }
     return numB - numA;
+};
+
+// repeatable pseudorandom generator
+var randSeed = 2000000000;
+
+lib.seedPseudoRandom = function() {
+    randSeed = 2000000000;
+};
+
+lib.pseudoRandom = function() {
+    var lastVal = randSeed;
+    randSeed = (69069 * randSeed + 1) % 4294967296;
+    // don't let consecutive vals be too close together
+    // gets away from really trying to be random, in favor of better local uniformity
+    if(Math.abs(randSeed - lastVal) < 429496729) return lib.pseudoRandom();
+    return randSeed / 4294967296;
 };

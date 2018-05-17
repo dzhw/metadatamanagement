@@ -44,10 +44,6 @@ logging:
       org.springframework: error
       org.javers.core: warn
 
-security:
-    basic:
-        enabled: false
-
 server:
     port: 10344
     address: localhost

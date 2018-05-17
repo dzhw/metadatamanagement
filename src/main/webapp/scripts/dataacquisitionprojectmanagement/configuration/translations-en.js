@@ -14,9 +14,10 @@ angular.module('metadatamanagementApp').config(
           'createLabel': 'Create a new Data Acquisition Project',
           'releaseLabel': 'Release Data Acquisition Project "{{ id }}"',
           'dialog-tooltip': {
-            'ok': 'Click to create the Data Acquisition Project',
-            'cancel': 'Click to cancel',
-            'close': 'Click to close the dialog'
+            'create-ok': 'Click to create the Data Acquisition Project',
+            'create-cancel': 'Click to close the dialog without creating a project',
+            'release-ok': 'Click to release the project',
+            'release-cancel': 'Click to close the dialog without releasing the project'
           }
         },
         'delete': {
@@ -30,12 +31,12 @@ angular.module('metadatamanagementApp').config(
             'delete': 'Do you really want to delete the Project "{{ id }}"? This cannot be undone.',
             'deleted-successfully-project': 'Successfully deleted Data Acquisition Project "{{ id }}"!',
             'deleted-not-successfully-project': 'Could not delete Data Acquisition Project "{{ id }}"!',
-            'released-successfully': 'A DOI has been registered at da|ra and the data of the project "{{ id }}" will be visible to all users in about 10 minutes.',
-            'released-beta-successfully': 'The data of the project "{{ id }}" will be visible to all users in about 10 minutes. No DOI has been registered at da|ra.',
-            'unreleased-successfully': 'The data of the project "{{ id }}" will be visible to RDC employees only in about 10 minutes.',
-            'dara-released-not-successfully': 'The data of the project "{{ id }}" could not be released. An error occured during registration of the DOI at da|ra.',
+            'released-successfully': 'The projects metadata has been sent to da|ra and the data of the project "{{ id }}" will be visible to all users in about 10 minutes.',
+            'released-beta-successfully': 'The data of the project "{{ id }}" will be visible to all users in about 10 minutes. No metadata has been sent to da|ra.',
+            'unreleased-successfully': 'The data of the project "{{ id }}" will be visible to Data Providers only in about 10 minutes.',
+            'dara-released-not-successfully': 'The data of the project "{{ id }}" could not be released. An error occured during sending metadata to da|ra.',
             'unrelease-title': 'Unrelease Project "{{ id }}"?',
-            'unrelease': 'Do you really want to reduce visibility of the project "{{ id }}" to RDC employees only?',
+            'unrelease': 'Do you really want to reduce visibility of the project "{{ id }}" to Data Providers only?',
             'release-not-possible-title': 'Project "{{ id }}" cannot be released!',
             'release-not-possible': 'The project "{{ id }}" cannot be released, since there are post-validation errors.'
           }
@@ -43,9 +44,10 @@ angular.module('metadatamanagementApp').config(
         'error': {
           'data-acquisition-project': {
             'id': {
-              'not-empty': 'The RDC-ID of Data Acquisition Project must not be empty!',
+              'not-empty': 'The name of the Data Acquisition Project must not be empty!',
               'pattern': 'The name of the project must contain only lowercase letters (a-z) and digits.',
-              'size': 'The max length of the RDC-ID is 32 signs.'
+              'size': 'The max length of the name is 32 signs.',
+              'exists': 'There is already a Data Acquisition Project with this name.'
             },
             'has-been-released-before': {
               'not-null': 'The information is missing, that a Data Acquisition Project has been relesed before.'
