@@ -12,13 +12,13 @@ var plotAttrs = require('../../plots/attributes');
 var scatterAttrs = require('../scatter/attributes');
 var colorAttrs = require('../../components/colorscale/color_attributes');
 
-var DASHES = require('../../constants/gl2d_dashes');
 var extendFlat = require('../../lib/extend').extendFlat;
 var overrideAll = require('../../plot_api/edit_types').overrideAll;
+var DASHES = require('./constants').DASHES;
 
-var scatterLineAttrs = scatterAttrs.line,
-    scatterMarkerAttrs = scatterAttrs.marker,
-    scatterMarkerLineAttrs = scatterMarkerAttrs.line;
+var scatterLineAttrs = scatterAttrs.line;
+var scatterMarkerAttrs = scatterAttrs.marker;
+var scatterMarkerLineAttrs = scatterMarkerAttrs.line;
 
 var attrs = module.exports = overrideAll({
     x: scatterAttrs.x,
@@ -83,12 +83,8 @@ var attrs = module.exports = overrideAll({
         marker: scatterAttrs.unselected.marker
     },
 
-    opacity: extendFlat({}, plotAttrs.opacity, {
-        editType: 'calc'
-    }),
+    opacity: plotAttrs.opacity
 
-    error_y: scatterAttrs.error_y,
-    error_x: scatterAttrs.error_x
 }, 'calc', 'nested');
 
 attrs.x.editType = attrs.y.editType = attrs.x0.editType = attrs.y0.editType = 'calc+clearAxisTypes';

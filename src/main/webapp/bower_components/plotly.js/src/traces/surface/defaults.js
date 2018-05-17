@@ -32,7 +32,7 @@ module.exports = function supplyDefaults(traceIn, traceOut, defaultColor, layout
     var x = coerce('x');
     coerce('y');
 
-    traceOut._xlength = (Array.isArray(x) && Array.isArray(x[0])) ? z.length : z[0].length;
+    traceOut._xlength = (Array.isArray(x) && Lib.isArrayOrTypedArray(x[0])) ? z.length : z[0].length;
     traceOut._ylength = z.length;
 
     var handleCalendarDefaults = Registry.getComponentMethod('calendars', 'handleTraceDefaults');
@@ -96,6 +96,10 @@ module.exports = function supplyDefaults(traceIn, traceOut, defaultColor, layout
     colorscaleDefaults(
         traceIn, traceOut, layout, coerce, {prefix: '', cLetter: 'c'}
     );
+
+    // disable 1D transforms - currently surface does NOT support column data like heatmap does
+    // you can use mesh3d for this use case, but not surface
+    traceOut._length = null;
 };
 
 function mapLegacy(traceIn, oldAttr, newAttr) {

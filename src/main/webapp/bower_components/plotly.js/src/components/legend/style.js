@@ -6,7 +6,6 @@
 * LICENSE file in the root directory of this source tree.
 */
 
-
 'use strict';
 
 var d3 = require('d3');
@@ -19,15 +18,11 @@ var Color = require('../color');
 var subTypes = require('../../traces/scatter/subtypes');
 var stylePie = require('../../traces/pie/style_one');
 
-
 module.exports = function style(s, gd) {
     s.each(function(d) {
         var traceGroup = d3.select(this);
 
-        var layers = traceGroup.selectAll('g.layers')
-            .data([0]);
-        layers.enter().append('g')
-            .classed('layers', true);
+        var layers = Lib.ensureSingle(traceGroup, 'g', 'layers');
         layers.style('opacity', d[0].trace.opacity);
 
         var fill = layers
@@ -57,7 +52,9 @@ module.exports = function style(s, gd) {
     .each(styleBoxes)
     .each(stylePies)
     .each(styleLines)
-    .each(stylePoints);
+    .each(stylePoints)
+    .each(styleCandles)
+    .each(styleOHLC);
 
     function styleLines(d) {
         var trace = d[0].trace;
@@ -113,8 +110,8 @@ module.exports = function style(s, gd) {
 
         // constrain text, markers, etc so they'll fit on the legend
         if(showMarkers || showText || showLines) {
-            var dEdit = {},
-                tEdit = {};
+            var dEdit = {};
+            var tEdit = {};
 
             if(showMarkers) {
                 dEdit.mc = boundVal('marker.color', pickFirst);
@@ -145,6 +142,9 @@ module.exports = function style(s, gd) {
 
             dMod = [Lib.minExtend(d0, dEdit)];
             tMod = Lib.minExtend(trace, tEdit);
+
+            // always show legend items in base state
+            tMod.selectedpoints = null;
         }
 
         var ptgroup = d3.select(this).select('g.legendpoints');
@@ -212,7 +212,61 @@ module.exports = function style(s, gd) {
                 .call(Color.fill, trace.fillcolor);
 
             if(w) {
-                p.call(Color.stroke, trace.line.color);
+                Color.stroke(p, trace.line.color);
+            }
+        });
+    }
+
+    function styleCandles(d) {
+        var trace = d[0].trace,
+            pts = d3.select(this).select('g.legendpoints')
+                .selectAll('path.legendcandle')
+                .data(trace.type === 'candlestick' && trace.visible ? [d, d] : []);
+        pts.enter().append('path').classed('legendcandle', true)
+            .attr('d', function(_, i) {
+                if(i) return 'M-15,0H-8M-8,6V-6H8Z'; // increasing
+                return 'M15,0H8M8,-6V6H-8Z'; // decreasing
+            })
+            .attr('transform', 'translate(20,0)')
+            .style('stroke-miterlimit', 1);
+        pts.exit().remove();
+        pts.each(function(_, i) {
+            var container = trace[i ? 'increasing' : 'decreasing'];
+            var w = container.line.width,
+                p = d3.select(this);
+
+            p.style('stroke-width', w + 'px')
+                .call(Color.fill, container.fillcolor);
+
+            if(w) {
+                Color.stroke(p, container.line.color);
+            }
+        });
+    }
+
+    function styleOHLC(d) {
+        var trace = d[0].trace,
+            pts = d3.select(this).select('g.legendpoints')
+                .selectAll('path.legendohlc')
+                .data(trace.type === 'ohlc' && trace.visible ? [d, d] : []);
+        pts.enter().append('path').classed('legendohlc', true)
+            .attr('d', function(_, i) {
+                if(i) return 'M-15,0H0M-8,-6V0'; // increasing
+                return 'M15,0H0M8,6V0'; // decreasing
+            })
+            .attr('transform', 'translate(20,0)')
+            .style('stroke-miterlimit', 1);
+        pts.exit().remove();
+        pts.each(function(_, i) {
+            var container = trace[i ? 'increasing' : 'decreasing'];
+            var w = container.line.width,
+                p = d3.select(this);
+
+            p.style('fill', 'none')
+                .call(Drawing.dashLine, container.line.dash, w);
+
+            if(w) {
+                Color.stroke(p, container.line.color);
             }
         });
     }

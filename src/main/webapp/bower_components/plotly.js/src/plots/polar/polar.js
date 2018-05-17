@@ -11,18 +11,19 @@
 var d3 = require('d3');
 var tinycolor = require('tinycolor2');
 
-var Plotly = require('../../plotly');
 var Registry = require('../../registry');
 var Lib = require('../../lib');
 var Color = require('../../components/color');
 var Drawing = require('../../components/drawing');
 var Plots = require('../plots');
 var Axes = require('../cartesian/axes');
+var doAutoRange = require('../cartesian/autorange').doAutoRange;
 var dragElement = require('../../components/dragelement');
 var dragBox = require('../cartesian/dragbox');
 var Fx = require('../../components/fx');
 var Titles = require('../../components/titles');
-var prepSelect = require('../cartesian/select');
+var prepSelect = require('../cartesian/select').prepSelect;
+var clearSelect = require('../cartesian/select').clearSelect;
 var setCursor = require('../../lib/setcursor');
 
 var MID_SHIFT = require('../../constants/alignment').MID_SHIFT;
@@ -286,11 +287,14 @@ proto.updateRadialAxis = function(fullLayout, polarLayout) {
         position: 0,
 
         // dummy truthy value to make Axes.doTicks draw the grid
-        _counteraxis: true
+        _counteraxis: true,
+
+        // don't use automargins routine for labels
+        automargin: false
     });
 
     setScale(ax, radialLayout, fullLayout);
-    Axes.doAutoRange(ax);
+    doAutoRange(ax);
     radialLayout.range = ax.range.slice();
     radialLayout._input.range = ax.range.slice();
     _this.fillViewInitialKey('radialaxis.range', ax.range.slice());
@@ -410,14 +414,18 @@ proto.updateAngularAxis = function(fullLayout, polarLayout) {
         position: 0,
 
         // dummy truthy value to make Axes.doTicks draw the grid
-        _counteraxis: true
+        _counteraxis: true,
+
+        // don't use automargins routine for labels
+        automargin: false,
+
+        // don't pass through autorange logic
+        autorange: false
     });
 
     // Set the angular range in degrees to make auto-tick computation cleaner,
     // changing rotation/direction should not affect the angular tick labels.
     if(ax.type === 'linear') {
-        ax.autorange = false;
-
         if(isFullCircle(sector)) {
             ax.range = sector.slice();
         } else {
@@ -429,11 +437,18 @@ proto.updateAngularAxis = function(fullLayout, polarLayout) {
             ax.tick0 = rad2deg(ax.tick0);
             ax.dtick = rad2deg(ax.dtick);
         }
+
     }
     // Use tickval filter for category axes instead of tweaking
     // the range w.r.t sector, so that sectors that cross 360 can
     // show all their ticks.
     else if(ax.type === 'category') {
+        var period = angularLayout.period ?
+            Math.max(angularLayout.period, angularLayout._categories.length) :
+            angularLayout._categories.length;
+
+        ax.range = [0, period];
+
         ax._tickFilter = function(d) {
             return _this.isPtWithinSector({
                 r: _this.radialAxis.range[1],
@@ -443,7 +458,6 @@ proto.updateAngularAxis = function(fullLayout, polarLayout) {
     }
 
     setScale(ax, angularLayout, fullLayout);
-    Axes.doAutoRange(ax);
 
     // wrapper around c2rad from setConvertAngular
     // note that linear ranges are always set in degrees for Axes.doTicks
@@ -621,7 +635,7 @@ proto.updateMainDrag = function(fullLayout, polarLayout) {
         zb = dragBox.makeZoombox(zoomlayer, lum, cx, cy, path0);
         zb.attr('fill-rule', 'evenodd');
         corners = dragBox.makeCorners(zoomlayer, cx, cy);
-        dragBox.clearSelect(zoomlayer);
+        clearSelect(zoomlayer);
     }
 
     function zoomMove(dx, dy) {
@@ -685,7 +699,7 @@ proto.updateMainDrag = function(fullLayout, polarLayout) {
             radialRange[0] + r1 * drange / radius
         ];
 
-        Plotly.relayout(gd, updateObj);
+        Registry.call('relayout', gd, updateObj);
     }
 
     dragOpts.prepFn = function(evt, startX, startY) {
@@ -719,7 +733,7 @@ proto.updateMainDrag = function(fullLayout, polarLayout) {
             }
 
             gd.emit('plotly_doubleclick', null);
-            Plotly.relayout(gd, updateObj);
+            Registry.call('relayout', gd, updateObj);
         }
 
         Fx.click(gd, evt, _this.id);
@@ -789,9 +803,9 @@ proto.updateRadialDrag = function(fullLayout, polarLayout) {
 
     function doneFn() {
         if(angle1 !== null) {
-            Plotly.relayout(gd, _this.id + '.radialaxis.angle', angle1);
+            Registry.call('relayout', gd, _this.id + '.radialaxis.angle', angle1);
         } else if(rng1 !== null) {
-            Plotly.relayout(gd, _this.id + '.radialaxis.range[1]', rng1);
+            Registry.call('relayout', gd, _this.id + '.radialaxis.range[1]', rng1);
         }
     }
 
@@ -855,7 +869,7 @@ proto.updateRadialDrag = function(fullLayout, polarLayout) {
         dragOpts.moveFn = moveFn;
         dragOpts.doneFn = doneFn;
 
-        dragBox.clearSelect(fullLayout._zoomlayer);
+        clearSelect(fullLayout._zoomlayer);
     };
 
     dragOpts.clampFn = function(dx, dy) {
@@ -971,7 +985,7 @@ proto.updateAngularDrag = function(fullLayout, polarLayout) {
         scatterTextPoints.select('text').attr('transform', null);
         var updateObj = {};
         updateObj[_this.id + '.angularaxis.rotation'] = rot1;
-        Plotly.relayout(gd, updateObj);
+        Registry.call('relayout', gd, updateObj);
     }
 
     dragOpts.prepFn = function(evt, startX, startY) {
@@ -987,7 +1001,7 @@ proto.updateAngularDrag = function(fullLayout, polarLayout) {
         dragOpts.moveFn = moveFn;
         dragOpts.doneFn = doneFn;
 
-        dragBox.clearSelect(fullLayout._zoomlayer);
+        clearSelect(fullLayout._zoomlayer);
     };
 
     dragElement.init(dragOpts);

@@ -12,6 +12,7 @@ var Lib = require('../../lib');
 var attributes = require('./attributes');
 var Color = require('../../components/color');
 var tinycolor = require('tinycolor2');
+var handleDomainDefaults = require('../../plots/domain').defaults;
 
 module.exports = function supplyDefaults(traceIn, traceOut, defaultColor, layout) {
     function coerce(attr, dflt) {
@@ -45,8 +46,8 @@ module.exports = function supplyDefaults(traceIn, traceOut, defaultColor, layout
             'rgba(0, 0, 0, 0.2)';
     }));
 
-    coerce('domain.x');
-    coerce('domain.y');
+    handleDomainDefaults(traceOut, layout, coerce);
+
     coerce('orientation');
     coerce('valueformat');
     coerce('valuesuffix');
@@ -62,4 +63,8 @@ module.exports = function supplyDefaults(traceIn, traceOut, defaultColor, layout
     if(traceOut.node.label.some(missing)) {
         Lib.warn('Some of the nodes are neither sources nor targets, they will not be displayed.');
     }
+
+    // disable 1D transforms - arrays here are 1D but their lengths/meanings
+    // don't match, between nodes and links
+    traceOut._length = null;
 };

@@ -110,7 +110,7 @@ export interface DateNFOption {
 /** Options for read and readFile */
 export interface ParsingOptions extends CommonOptions {
     /** Input data encoding */
-    type?: 'base64' | 'binary' | 'buffer' | 'file' | 'array';
+    type?: 'base64' | 'binary' | 'buffer' | 'file' | 'array' | 'string';
 
     /** Default codepage */
     codepage?: number;
@@ -193,7 +193,7 @@ export interface ParsingOptions extends CommonOptions {
 /** Options for write and writeFile */
 export interface WritingOptions extends CommonOptions {
     /** Output data encoding */
-    type?: 'base64' | 'binary' | 'buffer' | 'file' | 'array';
+    type?: 'base64' | 'binary' | 'buffer' | 'file' | 'array' | 'string';
 
     /**
      * Generate Shared String Table
@@ -234,11 +234,11 @@ export interface WorkBook {
     /** Ordered list of the sheet names in the workbook */
     SheetNames: string[];
 
-    /**
-     * an object storing the standard properties. wb.Custprops stores custom properties.
-     * Since the XLS standard properties deviate from the XLSX standard, XLS parsing stores core properties in both places.
-     */
+    /** Standard workbook Properties */
     Props?: FullProperties;
+
+    /** Custom workbook Properties */
+    Custprops?: object;
 
     Workbook?: WBProps;
 
@@ -657,6 +657,12 @@ export interface SheetJSONOpts extends JSON2SheetOpts, OriginOption {}
 export interface Table2SheetOpts extends CommonOptions, DateNFOption {
     /* If true, plaintext parsing will not parse values */
     raw?: boolean;
+
+    /**
+     * If >0, read the first sheetRows rows
+     * @default 0
+     */
+    sheetRows?: number;
 }
 
 /** General utilities */
@@ -729,6 +735,9 @@ export interface XLSX$Utils {
 
     /** Converts A1 range to 0-indexed form */
     decode_range(range: string): Range;
+
+    /** Format cell */
+    format_cell(cell: CellObject, v?: any, opts?: any): string;
 
     /* --- General Utilities --- */
 

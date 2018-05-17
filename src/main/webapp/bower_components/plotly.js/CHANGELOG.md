@@ -10,6 +10,169 @@ https://github.com/plotly/plotly.js/compare/vX.Y.Z...master
 where X.Y.Z is the semver of most recent plotly.js release.
 
 
+## [1.37.1] -- 2018-05-02
+
+### Fixed
+- Fix `Plotly.react` when adding/removing traces (bug introduced in 1.37.0) [#2603]
+
+
+## [1.37.0] -- 2018-05-01
+
+### Added
+- Add `plotly_legendclick` and `plotly_legenddoubleclick` events [#2581]
+- Add Swahili (`sw`) locale [#2526]
+
+### Changed
+- Improve cartesian trace update and removal by using more d3-iomatic patterns.
+  This results in some performance improvements during redraws [#2574]
+- Our internal `Lib.nestedProperty` no longer prunes empty containers in
+  `gd.data`, `gd.layout`, `gd._fullData` and `gd._fulllayout`.
+  We made this change to clean up some of the `Plotly.react` internals.
+  This also lead to a slight performance boost [#2577]
+
+### Fixed
+- Fix `Plotly.react`'s handling of transformed traces [#2577]
+- Fix Safari support for `scattergl` and `splom` traces [#2593]
+- Fix `scattergl` point clustering edge cases [#2593]
+- Fix `scattergl` selection after double-click on graphs
+  with more than 1e5 points [#2593]
+- Fix artificial number of lines limit in `scattergl` traces [#2568]
+- Fix typed array support in color array in `scattergl` traces [#2596]
+- Fix typed array support for `splom` traces [#2596]
+- Make `scatter` and `scattercarpet` coexist on same subplot [#2574]
+- Fix incorrect fallback border color for axis common hover labels [#2557]
+- Fix handling of blank editable legend items [#2587]
+- Fix spikelines positioning in Firefox [#2590]
+- Fix `Plotly.react` modebar updates when the locale changes [#2592]
+- Fix `scatter` selection performance regression (dating back to 1.32.0) [#2583]
+- Fix `plotly_beforeplot` and `plotly_beforehover` event handlers when attached
+  with `gd.once` [#2581]
+
+
+## [1.36.1] -- 2018-04-18
+
+### Fixed
+- Fix `scattergl` in dist and CDN bundles
+  (due to `browser-pack-flat` discrepancy introduced in 1.36.0)
+  by removing `browser-pack-flat` from our bundling pipeline [#2572]
+
+
+## [1.36.0] -- 2018-04-17
+
+### Added
+- Add `splom` (aka scatter plot matrix) traces [#2505]
+- Add multi-selection and click-to-select on `parcoords` axes [#2415]
+- Add selection and improve legend items for `ohlc` and `candlestick` [#2561]
+- Add 'fixed size' layout shapes through new shape attributes
+  `xsizemode`, `ysizemode`, `xanchor`  and `yanchor` [#2532]
+- Add layout attribute `selectdirection` to restrict select-box direction [#2506]
+- Add support for selections on graphs with range sliders [#2561]
+- Add support for ragged `table` inputs [#2511]
+- Add Czech (`cs`) locale [#2483]
+- Add Japanese (`ja`) locale [#2558]
+
+### Changed
+- Multiple performance improvements for cartesian subplots, most noticeable
+  on graphs with many cartesian subplots [#2474, #2487, #2527]
+- Use new `gl-mesh3d` version that attempts to make lighting results less
+  hardware-dependent [#2365]
+- New and improved point-clustering algorithm for `scattergl` [#2499]
+- Improved `regl-line2d` component [#2556]
+
+### Fixed
+- Fix memory leak in `parcoords` traces [#2415]
+- Fix `scattergl` `selectedpoints` clearance under select/lasso drag modes [#2492]
+- Fix `scattergl` horizontal lines rendering [#2564]
+- Fix `scattergl` unselected marker opacity for array marker opacity traces [#2503]
+- Fix `scattergl` hover over data gaps [#2499]
+- Fix `ohlc` on category axes [#2561]
+- Fix inconsistencies in `ohlc` and `candlestick` event data [#2561]
+- Fix hover `text` for `candlestick` traces [#2561]
+- Fix `scattermapbox` selections for traces with data gaps [#2513]
+- Fix `table` border cases that got previously cut off [#2511]
+- Fix `box` traces with one jittered outlier [#2530]
+- Fix `cliponfalse: false` on reversed axes [#2533]
+- Fix buggy `plot_bgcolor` rendering when updating axis `overlaying` attribute [#2516]
+- Fix buggy `Plotly.react` behavior for `carpet`, `contourcarpet`, `scattercarpet`,
+  `table` and x/y/z column `heatmap` traces [#2525]
+- Fix buggy `Plotly.react` behavior for `ohlc` and `candlestick` traces [#2561]
+- Fix ordered categories on graphs with `visible: false` traces [#2489]
+- Fix ordered categories in multi-subplot graphs [#2489]
+- Fix inconsistencies when ordering number and numeric string categories [#2489]
+- Fix format `days` in English locale [#2490]
+- Handle HTML links with encoded URIs correctly in svg text labels [#2471]
+
+
+## [1.35.2] -- 2018-03-09
+
+### Fixed
+- Ping `mapbox-gl` to `0.44.1` so that users on fresh
+  `npm install` do not get the wrong mapbox-gl version message [#2467]
+- Fix swapping between `scatter` and `scatter3d` traces and other
+  potential problems caused by incorrect axis constraints resetting [#2465]
+
+
+## [1.35.1] -- 2018-03-08
+
+### Fixed
+- Fix `scatterpolar` in dist and CDN bundles
+  (due to `browser-pack-flat` discrepancy introduced in 1.35.0) [#2458]
+- Fix removing and adding scatter(gl) as not the first module [#2455]
+- Ensure we don't draw ticks if there are none to draw [#2454]
+
+
+## [1.35.0] -- 2018-03-07
+
+### Added
+- Add `automargin` attribute to cartesian axes which auto-expands margins
+  when ticks, tick labels and/or axis titles do not fit on the graph [#2243]
+- Add support for typed arrays as data array inputs [#2388]
+- Add layout `grids` attribute for easy subplot generation [#2399]
+- Implement `cliponaxis: false` for bar text [#2378]
+- Add opposite axis attributes for range slider to control y axis range behavior [#2364]
+- Generalize `hoverdistance` and `spikedistance` for area-like objects [#2379]
+- Bring `scattergl` auto-range logic to par with SVG `scatter` [#2404]
+- Add selected/unselected marker color size support to `scattermapbox` traces [#2361]
+
+### Changed
+- Remove all circular dependencies in our `src/` directory [#2429]
+- Build our CDN bundles with `browser-pack-flat` browserify plugin [#2447]
+- Bump `mapbox-gl` to `v0.44.0` [#2361]
+- Bump `glslify` to `v6.1.1` [#2377]
+- Stop relinking `customdata`, `ids` and any matching objects
+  in `gd._fullLayout` during `Plots.supplyDefaults` [#2375]
+
+### Fixed
+- Fix buggy auto-range / auto-margin interaction
+  leading to axis range inconsistencies on redraws
+  (this bug was mostly noticeable on graphs with legends) [#2437]
+- Bring back `scattergl` lines under select/lasso `dragmode`
+  (bug introduced in `1.33.0`) [#2377]
+- Fix `scattergl` visible toggling for graphs with multiple traces
+  with different modes (bug introduced in `1.33.0`) [#2442]
+- Bring back `spikelines` for traces other than `scatter`
+  (bug introduced in `1.33.0`) [#2379]
+- Fix `Plotly.Fx.hover` acting on multiple subplots
+  (bug introduced in `1.32.0`) [#2379]
+- Fix range slider with stacked y axes positioning
+  (bug introduced in `1.32.0`) [#2451]
+- Fix `scattergl` color clustering [#2377]
+- Fix `Plotly.restyle` for `scattergl` `fill` [#2377]
+- Fix multi-line y-axis label positioning [#2424]
+- Fix centered hover labels edge cases [#2440, #2445]
+- Fix hover labels in bar groups in compare mode [#2414]
+- Fix axes and axis lines removal [#2416]
+- Fix auto-sizing in `Plotly.react` [#2437]
+- Fix error bars for `Plotly.react` and uneven data arrays [#2360]
+- Fix edits for date-string referenced annotations [#2368]
+- Fix `z` hover labels with exponents [#2422]
+- Fix yet another histogram edge case [#2413]
+- Fix fall back for contour labels when there's only one contour [#2411]
+- Fix `scatterpolar` category angular period calculations [#2449]
+- Clear select outlines on mapbox zoomstart [#2361]
+- Fix legend click to causes legend scroll bug [#2426]
+
+
 ## [1.34.0] -- 2018-02-12
 
 ### Added
