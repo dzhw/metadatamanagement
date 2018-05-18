@@ -16,6 +16,7 @@ import java.util.HashSet;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -32,6 +33,7 @@ import eu.dzhw.fdz.metadatamanagement.AbstractTest;
  * @author Daniel Katzberg
  *
  */
+@Ignore
 public class MongoDBTokenStoreTest extends AbstractTest {
 
   @Autowired

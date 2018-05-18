@@ -59,7 +59,7 @@ metadatamanagement:
     url: http://localhost:9234
     read-timeout: 60000
   dara:
-    endpoint: dara_endpoint
+    endpoint: http://fakedaraendpoint/
     username: dara_username
     password: dara_password
 
@@ -69,8 +69,5 @@ jhipster:
             oauth:
                 clientid: metadatamanagementapp
                 secret: mySecretOAuthSecret
-        rememberme:
-            # security key (this key should be unique for your application, and kept secret)
-            key: 786cea5f182ffdd133864bbc75f69f8d008b5bc3
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true

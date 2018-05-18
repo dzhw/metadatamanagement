@@ -4,7 +4,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+
 import org.apache.tomcat.util.http.fileupload.FileUploadBase.FileSizeLimitExceededException;
+import org.hibernate.validator.internal.engine.path.PathImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -180,18 +184,15 @@ public class ExceptionTranslator {
   private ErrorListDto createParsingError(InvalidFormatException invalidFormatException) {
 
     //Get the Name of the Processor
-    String nameOfProcessor = invalidFormatException.getProcessor().getClass().getSimpleName();
+    Class<?> processorClass = invalidFormatException.getProcessor().getClass();
 
     //Decide between different input types like excel or json files
-    switch (nameOfProcessor) {
-      //Excel Parsing Error
-      case "TreeTraversingParser":
-        return this.createExcelParsingError(invalidFormatException);
-      //Json Parsing Error
-      case "UTF8StreamJsonParser":
-        return this.createJsonParsingError(invalidFormatException);
-      default:
-        return new ErrorListDto();
+    if (processorClass.equals(TreeTraversingParser.class)) {
+      return this.createExcelParsingError(invalidFormatException);
+    } else if (processorClass.equals(UTF8StreamJsonParser.class)) {
+      return this.createJsonParsingError(invalidFormatException);
+    } else {
+      return new ErrorListDto();
     }
   }
 
@@ -273,6 +274,32 @@ public class ExceptionTranslator {
           String.format("%s", fieldError.getRejectedValue()), fieldError.getField()));
     }
 
+    return errorListDto;
+  }
+  
+  /**
+   * Handles {@link ConstraintViolationException}s by returning {@code 400 Bad Request}.
+   * Introduces a custom dto for validation errors of spring data rest repositories.
+   * This is necessary due to issue #706.
+   * @param exception the exception to handle.
+   * @return 400 bad request
+   */
+  @ExceptionHandler
+  @ResponseBody
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  ErrorListDto handleConstraintViolationException(
+      ConstraintViolationException exception) {
+
+    ErrorListDto errorListDto = new ErrorListDto();
+    
+    for (ConstraintViolation<?> violation : exception.getConstraintViolations()) {
+      String message = violation.getMessage();
+      errorListDto.add(
+          new ErrorDto(violation.getRootBeanClass().getSimpleName(),
+              message,
+              null,
+              ((PathImpl)violation.getPropertyPath()).getLeafNode().getName()));
+    }
     return errorListDto;
   }
 

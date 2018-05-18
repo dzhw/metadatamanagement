@@ -37,7 +37,7 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpda
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
-public class InstrumentResourceTest extends AbstractTest {
+public class InstrumentResourceControllerTest extends AbstractTest {
   private static final String API_INSTRUMENTS_URI = "/api/instruments";
 
   @Autowired
@@ -201,7 +201,7 @@ public class InstrumentResourceTest extends AbstractTest {
       .content(TestUtil.convertObjectToJsonBytes(instrument)))
       .andExpect(status().isBadRequest())
       .andExpect(jsonPath("$.errors[0].message",
-          is("instrument-management.error" + ".instrument.valid-instrument-id-pattern")));
+          is("instrument-management.error" + ".instrument.id.pattern")));
   }
 
   @Test

@@ -55,7 +55,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepo
  * @author Daniel Katzberg
  */
 @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
-public class VariableResourceTest extends AbstractTest {
+public class VariableResourceControllerTest extends AbstractTest {
   private static final String API_VARIABLES_URI = "/api/variables";
 
   @Autowired
