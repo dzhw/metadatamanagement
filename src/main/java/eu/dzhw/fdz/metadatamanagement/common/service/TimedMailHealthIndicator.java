@@ -9,12 +9,15 @@ import org.springframework.stereotype.Component;
 
 import com.codahale.metrics.annotation.Timed;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * {@link HealthIndicator} for the E-Mail Service measuring the response times.
  *  
  * @author René Reitmann
  */
 @Component("mailHealthIndicator")
+@Slf4j
 public class TimedMailHealthIndicator extends MailHealthIndicator {
 
   @Autowired
@@ -24,6 +27,11 @@ public class TimedMailHealthIndicator extends MailHealthIndicator {
   
   @Timed
   protected void doHealthCheck(Builder builder) throws Exception {
-    super.doHealthCheck(builder);
+    try {
+      super.doHealthCheck(builder);      
+    } catch (Exception e) {
+      log.error("Mail health check failed:", e);
+      builder.down(e);
+    }
   }
 }
