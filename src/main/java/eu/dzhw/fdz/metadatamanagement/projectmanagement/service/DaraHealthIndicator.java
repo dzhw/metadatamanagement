@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 
 import com.codahale.metrics.annotation.Timed;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Health Indicator for Dara.
  * 
@@ -14,6 +16,7 @@ import com.codahale.metrics.annotation.Timed;
  *
  */
 @Component
+@Slf4j
 public class DaraHealthIndicator extends AbstractHealthIndicator {
   
   private DaraService daraService;
@@ -36,13 +39,17 @@ public class DaraHealthIndicator extends AbstractHealthIndicator {
   @Override
   @Timed
   protected void doHealthCheck(Builder builder) throws Exception {
-    
-    //check dara health
-    if (this.daraService.isDaraHealthy()) {
-      builder.up();
-      builder.withDetail("location", this.daraService.getApiEndpoint());
-    } else {
-      builder.down();
+    try {      
+      //check dara health
+      if (this.daraService.isDaraHealthy()) {
+        builder.up();
+        builder.withDetail("location", this.daraService.getApiEndpoint());
+      } else {
+        builder.down();
+      }
+    } catch (Exception e) {
+      log.error("Dara health check failed:", e);
+      builder.down(e);
     }
   }
 
