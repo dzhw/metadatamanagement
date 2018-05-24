@@ -4,7 +4,6 @@
 
 [![Sauce Build Matrix](https://saucelabs.com/browser-matrix/rreitmann.svg)](https://saucelabs.com/u/rreitmann)
 
-[![forthebadge](http://forthebadge.com/images/badges/built-by-developers.svg)](http://forthebadge.com) [![forthebadge](http://forthebadge.com/images/badges/uses-badges.svg)](http://forthebadge.com)
 # Developing the MDM system
 
 Please checkout the development branch before starting to code and create a new branch starting with your username followed by the backlog items issue number you will be working on:
@@ -73,3 +72,6 @@ Continous Integration Platform provided by [Travis CI][TravisCI]
 [NVM]: https://github.com/creationix/nvm
 [SDKMAN!]:http://sdkman.io/install.html
 [TravisCI]:https://travis-ci.org/
+
+[![forthebadge](http://forthebadge.com/images/badges/built-by-developers.svg)](http://forthebadge.com)  [![forthebadge](https://forthebadge.com/images/badges/built-with-science.svg)](https://forthebadge.com)
+ [![forthebadge](https://forthebadge.com/images/badges/60-percent-of-the-time-works-every-time.svg)](https://forthebadge.com) [![forthebadge](http://forthebadge.com/images/badges/uses-badges.svg)](http://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/makes-people-smile.svg)](https://forthebadge.com)
