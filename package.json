@@ -3,9 +3,11 @@
   "version": "0.0.0",
   "description": "Description for metadatamanagement",
   "private": true,
-  "dependencies": {},
+  "dependencies": {
+    "snyk": "^1.80.1"
+  },
   "devDependencies": {
-    "browser-sync": "2.23.6",
+    "browser-sync": "2.24.0",
     "event-stream": "3.3.4",
     "grunt": "1.0.2",
     "grunt-angular-templates": "1.1.0",
@@ -19,7 +21,7 @@
     "grunt-contrib-htmlmin": "2.4.0",
     "grunt-contrib-jshint": "1.1.0",
     "grunt-contrib-uglify-es": "git://github.com/gruntjs/grunt-contrib-uglify.git#harmony",
-    "grunt-contrib-watch": "1.0.0",
+    "grunt-contrib-watch": "1.1.0",
     "grunt-html-angular-validate": "0.6.1",
     "grunt-jscs": "3.0.1",
     "grunt-karma": "2.0.0",
@@ -35,7 +37,7 @@
     "jshint-stylish": "2.2.1",
     "karma": "2.0.0",
     "karma-chrome-launcher": "2.2.0",
-    "karma-coverage": "1.1.1",
+    "karma-coverage": "1.1.2",
     "karma-html2js-preprocessor": "1.1.0",
     "karma-jasmine": "1.1.1",
     "karma-phantomjs-launcher": "1.0.4",
@@ -52,5 +54,10 @@
   },
   "engines": {
     "node": ">=9.11.0"
-  }
+  },
+  "scripts": {
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
+  },
+  "snyk": true
 }
