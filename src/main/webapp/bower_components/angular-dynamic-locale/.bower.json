@@ -8,15 +8,15 @@
     "bower_components",
     "test"
   ],
-  "version": "0.1.35",
+  "version": "0.1.36",
   "homepage": "https://github.com/lgalfaso/angular-dynamic-locale",
-  "_release": "0.1.35",
+  "_release": "0.1.36",
   "_resolution": {
     "type": "version",
-    "tag": "0.1.35",
-    "commit": "15a493e3075e6cc86f752134b1793ee6d98f78d0"
+    "tag": "0.1.36",
+    "commit": "6862d4b8f700c91eedf91f161d136590ed8090af"
   },
   "_source": "https://github.com/lgalfaso/angular-dynamic-locale.git",
-  "_target": "0.1.35",
+  "_target": "0.1.36",
   "_originalSource": "angular-dynamic-locale"
 }

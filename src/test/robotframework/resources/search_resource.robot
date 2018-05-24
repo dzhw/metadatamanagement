@@ -13,20 +13,46 @@ Click on search result by id
   [Arguments]    ${id}
   Wait Until Keyword Succeeds  5s  0.5s  Click Element Through Tooltips   xpath=//a//span[text()='${id}']
 
-Click on questions tab
-  Wait Until Keyword Succeeds  5s  0.5s  Click Element Through Tooltips  xpath=//md-pagination-wrapper/md-tab-item[4]
+Activate Filter by name
+  [Arguments]    ${filtername}
+  Wait Until Keyword Succeeds    5s    1s    Click Element Through Tooltips  xpath=//search-filter-panel//md-select
+  Wait Until Keyword Succeeds    5s    1s    Click Element Through Tooltips  xpath=//md-select-menu//md-option[contains(., "${filtername}")]
 
-Click on variable tab
-  Wait Until Keyword Succeeds  5s  0.5s  Click Element  xpath=//md-pagination-wrapper/md-tab-item[6]
+Choose Filter Option by id
+  [Arguments]    ${id}
+  Wait Until Keyword Succeeds    5s    1s    Click Element Through Tooltips  xpath=//md-virtual-repeat-container//li[contains(.,"${id}")]
+
+Click on study tab
+  ${url} =  Get Location
+  Run Keyword If   '/de/' in '${url}'    Click Element Through Tooltips  xpath=//md-pagination-wrapper/md-tab-item[contains(.,"Studie")]
+  Run Keyword If   '/en/' in '${url}'    Click Element Through Tooltips  xpath=//md-pagination-wrapper/md-tab-item[contains(.,"Study")]
 
 Click on surveys tab
-  Wait Until Keyword Succeeds  5s  0.5s  Click Element Through Tooltips  xpath=//md-pagination-wrapper/md-tab-item[2]
-
-Click on publications tab
-  Wait Until Keyword Succeeds  5s  0.5s  Click Element  xpath=//md-pagination-wrapper/md-tab-item[7]
+  ${url} =  Get Location
+  Run Keyword If   '/de/' in '${url}'    Click Element Through Tooltips  xpath=//md-pagination-wrapper/md-tab-item[contains(.,"Erhebung")]
+  Run Keyword If   '/en/' in '${url}'    Click Element Through Tooltips  xpath=//md-pagination-wrapper/md-tab-item[contains(.,"Survey")]
 
 Click on instruments tab
-  Wait Until Keyword Succeeds  5s  0.5s  Click Element  xpath=//md-pagination-wrapper/md-tab-item[3]
+  ${url} =  Get Location
+  Run Keyword If   '/de/' in '${url}'    Click Element Through Tooltips  xpath=//md-pagination-wrapper/md-tab-item[contains(.,"Instrumente")]
+  Run Keyword If   '/en/' in '${url}'    Click Element Through Tooltips  xpath=//md-pagination-wrapper/md-tab-item[contains(.,"Instruments")]
+
+Click on questions tab
+  ${url} =  Get Location
+  Run Keyword If   '/de/' in '${url}'    Click Element Through Tooltips  xpath=//md-pagination-wrapper/md-tab-item[contains(.,"Fragen")]
+  Run Keyword If   '/en/' in '${url}'    Click Element Through Tooltips  xpath=//md-pagination-wrapper/md-tab-item[contains(.,"Questions")]
 
 Click on data set tab
-  Wait Until Keyword Succeeds  5s  0.5s  Click Element  xpath=//md-pagination-wrapper/md-tab-item[5]
+  ${url} =  Get Location
+  Run Keyword If   '/de/' in '${url}'    Click Element Through Tooltips  xpath=//md-pagination-wrapper/md-tab-item[contains(.,"Datensätze")]
+  Run Keyword If   '/en/' in '${url}'    Click Element Through Tooltips  xpath=//md-pagination-wrapper/md-tab-item[contains(.,"Data Sets")]
+
+Click on variable tab
+  ${url} =  Get Location
+  Run Keyword If   '/de/' in '${url}'    Click Element Through Tooltips  xpath=//md-pagination-wrapper/md-tab-item[contains(.,"Variablen")]
+  Run Keyword If   '/en/' in '${url}'    Click Element Through Tooltips  xpath=//md-pagination-wrapper/md-tab-item[contains(.,"Variables")]
+
+Click on publications tab
+  ${url} =  Get Location
+  Run Keyword If   '/de/' in '${url}'    Click Element Through Tooltips  xpath=//md-pagination-wrapper/md-tab-item[contains(.,"Publikationen")]
+  Run Keyword If   '/en/' in '${url}'    Click Element Through Tooltips  xpath=//md-pagination-wrapper/md-tab-item[contains(.,"Publications")]
