@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/dzhw/metadatamanagement.svg?branch=development)](https://travis-ci.org/dzhw/metadatamanagement)  [![Sauce Test Status](https://saucelabs.com/buildstatus/rreitmann)](https://saucelabs.com/u/rreitmann)
+[![Build Status](https://travis-ci.org/dzhw/metadatamanagement.svg?branch=development)](https://travis-ci.org/dzhw/metadatamanagement) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fdzhw%2Fmetadatamanagement.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fdzhw%2Fmetadatamanagement?ref=badge_shield)
+ [![Sauce Test Status](https://saucelabs.com/buildstatus/rreitmann)](https://saucelabs.com/u/rreitmann)
 [![Dependency Status](https://beta.gemnasium.com/badges/github.com/dzhw/metadatamanagement.svg)](https://beta.gemnasium.com/projects/github.com/dzhw/metadatamanagement)[![Coverage Status](https://coveralls.io/repos/dzhw/metadatamanagement/badge.svg?branch=development&service=github)](https://coveralls.io/github/dzhw/metadatamanagement?branch=development) [![Built with Grunt](https://cdn.gruntjs.com/builtwith.svg)](https://gruntjs.com/)
 
 [![Sauce Build Matrix](https://saucelabs.com/browser-matrix/rreitmann.svg)](https://saucelabs.com/u/rreitmann)
@@ -72,3 +73,7 @@ Continous Integration Platform provided by [Travis CI][TravisCI]
 [NVM]: https://github.com/creationix/nvm
 [SDKMAN!]:http://sdkman.io/install.html
 [TravisCI]:https://travis-ci.org/
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fdzhw%2Fmetadatamanagement.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fdzhw%2Fmetadatamanagement?ref=badge_large)
