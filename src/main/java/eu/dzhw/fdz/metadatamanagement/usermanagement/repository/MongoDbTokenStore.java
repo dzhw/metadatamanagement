@@ -1,14 +1,23 @@
 package eu.dzhw.fdz.metadatamanagement.usermanagement.repository;
 
-import java.util.ArrayList;
+import static java.util.Objects.nonNull;
+import static org.springframework.security.oauth2.common.util.SerializationUtils.deserialize;
+import static org.springframework.security.oauth2.common.util.SerializationUtils.serialize;
+
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2RefreshToken;
+import org.springframework.security.oauth2.common.util.SerializationUtils;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.AuthenticationKeyGenerator;
-import org.springframework.security.oauth2.provider.token.DefaultAuthenticationKeyGenerator;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.OAuth2AuthenticationAccessToken;
@@ -23,122 +32,272 @@ public class MongoDbTokenStore implements TokenStore {
 
   private final OAuth2RefreshTokenRepository oauth2RefreshTokenRepository;
 
-  private AuthenticationKeyGenerator authenticationKeyGenerator =
-      new DefaultAuthenticationKeyGenerator();
+  private AuthenticationKeyGenerator authenticationKeyGenerator;
 
+  /**
+   * Create the token store.
+   * 
+   * @param oauth2AccessTokenRepository the repo holding the access tokens
+   * @param oauth2RefreshTokenRepository the repo holding the refresh tokens
+   * @param authenticationKeyGenerator the authentication key generator
+   */
   public MongoDbTokenStore(final OAuth2AccessTokenRepository oauth2AccessTokenRepository,
-      final OAuth2RefreshTokenRepository oauth2RefreshTokenRepository) {
+      final OAuth2RefreshTokenRepository oauth2RefreshTokenRepository,
+      final AuthenticationKeyGenerator authenticationKeyGenerator) {
     this.oauth2AccessTokenRepository = oauth2AccessTokenRepository;
     this.oauth2RefreshTokenRepository = oauth2RefreshTokenRepository;
+    this.authenticationKeyGenerator = authenticationKeyGenerator;
   }
 
   @Override
-  public OAuth2Authentication readAuthentication(OAuth2AccessToken token) {
+  public OAuth2Authentication readAuthentication(final OAuth2AccessToken token) {
     return readAuthentication(token.getValue());
   }
 
   @Override
-  public OAuth2Authentication readAuthentication(String tokenId) {
-    return oauth2AccessTokenRepository.findByTokenId(tokenId)
-      .getAuthentication();
-  }
+  public OAuth2Authentication readAuthentication(final String token) {
+    final String tokenId = extractTokenKey(token);
 
-  @Override
-  public void storeAccessToken(OAuth2AccessToken token, OAuth2Authentication authentication) {
-    OAuth2AuthenticationAccessToken oauth2AuthenticationAccessToken =
-        new OAuth2AuthenticationAccessToken(token, authentication,
-            authenticationKeyGenerator.extractKey(authentication));
-    oauth2AccessTokenRepository.save(oauth2AuthenticationAccessToken);
-  }
+    final OAuth2AuthenticationAccessToken mongoOAuth2AccessToken =
+        oauth2AccessTokenRepository.findByTokenId(tokenId);
 
-  @Override
-  public OAuth2AccessToken readAccessToken(String tokenValue) {
-    OAuth2AuthenticationAccessToken token = oauth2AccessTokenRepository.findByTokenId(tokenValue);
-    if (token == null) {
-      return null;
+    if (nonNull(mongoOAuth2AccessToken)) {
+      try {
+        return deserializeAuthentication(mongoOAuth2AccessToken.getAuthentication());
+      } catch (IllegalArgumentException e) {
+        removeAccessToken(token);
+      }
     }
-    return token.getoAuth2AccessToken();
+
+    return null;
   }
 
   @Override
-  public void removeAccessToken(OAuth2AccessToken token) {
-    OAuth2AuthenticationAccessToken accessToken =
-        oauth2AccessTokenRepository.findByTokenId(token.getValue());
-    if (accessToken != null) {
-      oauth2AccessTokenRepository.delete(accessToken);
+  public void storeAccessToken(final OAuth2AccessToken token,
+      final OAuth2Authentication authentication) {
+    String refreshToken = null;
+    if (nonNull(token.getRefreshToken())) {
+      refreshToken = token.getRefreshToken().getValue();
     }
+
+    if (nonNull(readAccessToken(token.getValue()))) {
+      removeAccessToken(token.getValue());
+    }
+
+    final String tokenKey = extractTokenKey(token.getValue());
+
+    final OAuth2AuthenticationAccessToken oAuth2AccessToken = new OAuth2AuthenticationAccessToken(
+        tokenKey,
+        serializeAccessToken(token), authenticationKeyGenerator.extractKey(authentication),
+        authentication.isClientOnly() ? null : authentication.getName(),
+        authentication.getOAuth2Request().getClientId(), serializeAuthentication(authentication),
+        extractTokenKey(refreshToken));
+
+    oauth2AccessTokenRepository.save(oAuth2AccessToken);
   }
 
   @Override
-  public void storeRefreshToken(OAuth2RefreshToken refreshToken,
-      OAuth2Authentication authentication) {
-    oauth2RefreshTokenRepository
-      .save(new OAuth2AuthenticationRefreshToken(refreshToken, authentication));
+  public OAuth2AccessToken readAccessToken(final String tokenValue) {
+    final String tokenKey = extractTokenKey(tokenValue);
+    final OAuth2AuthenticationAccessToken mongoOAuth2AccessToken =
+        oauth2AccessTokenRepository.findByTokenId(tokenKey);
+    if (nonNull(mongoOAuth2AccessToken)) {
+      try {
+        return deserializeAccessToken(mongoOAuth2AccessToken.getToken());
+      } catch (IllegalArgumentException e) {
+        removeAccessToken(tokenValue);
+      }
+    }
+    return null;
   }
 
   @Override
-  public OAuth2RefreshToken readRefreshToken(String tokenValue) {
-    return oauth2RefreshTokenRepository.findByTokenId(tokenValue)
-      .getoAuth2RefreshToken();
+  public void removeAccessToken(final OAuth2AccessToken token) {
+    removeAccessToken(token.getValue());
+  }
+  
+  private void removeAccessToken(final String tokenValue) {
+    final String tokenKey = extractTokenKey(tokenValue);
+    oauth2AccessTokenRepository.deleteByTokenId(tokenKey);
   }
 
   @Override
-  public OAuth2Authentication readAuthenticationForRefreshToken(OAuth2RefreshToken token) {
-    return oauth2RefreshTokenRepository.findByTokenId(token.getValue())
-      .getAuthentication();
+  public void storeRefreshToken(final OAuth2RefreshToken refreshToken,
+      final OAuth2Authentication oauth2Authentication) {
+    final String tokenKey = extractTokenKey(refreshToken.getValue());
+    final byte[] token = serializeRefreshToken(refreshToken);
+    final byte[] authentication = serializeAuthentication(oauth2Authentication);
+
+    final OAuth2AuthenticationRefreshToken oAuth2RefreshToken =
+        new OAuth2AuthenticationRefreshToken(tokenKey, token, authentication);
+
+    oauth2RefreshTokenRepository.save(oAuth2RefreshToken);
   }
 
   @Override
-  public void removeRefreshToken(OAuth2RefreshToken token) {
-    oauth2RefreshTokenRepository
-      .delete(oauth2RefreshTokenRepository.findByTokenId(token.getValue()));
+  public OAuth2RefreshToken readRefreshToken(final String tokenValue) {
+    final String tokenKey = extractTokenKey(tokenValue);
+    final OAuth2AuthenticationRefreshToken mongoOAuth2RefreshToken =
+        oauth2RefreshTokenRepository.findByTokenId(tokenKey);
+
+    if (nonNull(mongoOAuth2RefreshToken)) {
+      try {
+        return deserializeRefreshToken(mongoOAuth2RefreshToken.getToken());
+      } catch (IllegalArgumentException e) {
+        removeRefreshToken(tokenValue);
+      }
+    }
+
+    return null;
   }
 
   @Override
-  public void removeAccessTokenUsingRefreshToken(OAuth2RefreshToken refreshToken) {
-    oauth2AccessTokenRepository
-      .delete(oauth2AccessTokenRepository.findByRefreshToken(refreshToken.getValue()));
-  }
-
-  @Override
-  public OAuth2AccessToken getAccessToken(OAuth2Authentication authentication) {
-    OAuth2AuthenticationAccessToken token = oauth2AccessTokenRepository
-        .findByAuthenticationId(authenticationKeyGenerator.extractKey(authentication));
-    return token == null ? null : token.getoAuth2AccessToken();
-  }
-
-  @Override
-  public Collection<OAuth2AccessToken> findTokensByClientId(String clientId) {
-    List<OAuth2AuthenticationAccessToken> tokens =
-        oauth2AccessTokenRepository.findByClientId(clientId);
-    return extractAccessTokens(tokens);
+  public OAuth2Authentication readAuthenticationForRefreshToken(final OAuth2RefreshToken token) {
+    return readAuthenticationForRefreshToken(token.getValue());
   }
   
   /**
-   * Remove access and refresh tokens of the given user.
-   * @param userName The login of the user.
+   * Read the refresh token.
+   * 
+   * @param value a refresh tokens value
+   * @return the authentication originally used to grant the refresh token
    */
-  public void removeTokensByUserName(String userName) {
-    oauth2AccessTokenRepository.findByUserName(userName).stream().forEach(token -> {
-      oauth2RefreshTokenRepository.deleteByTokenId(token.getRefreshToken());
-      oauth2AccessTokenRepository.delete(token);
-    });
+  public OAuth2Authentication readAuthenticationForRefreshToken(final String value) {
+    final String tokenId = extractTokenKey(value);
+
+    final OAuth2AuthenticationRefreshToken mongoOAuth2RefreshToken =
+        oauth2RefreshTokenRepository.findByTokenId(tokenId);
+
+    if (nonNull(mongoOAuth2RefreshToken)) {
+      try {
+        return deserializeAuthentication(mongoOAuth2RefreshToken.getAuthentication());
+      } catch (IllegalArgumentException e) {
+        removeRefreshToken(value);
+      }
+    }
+
+    return null;
+  }
+
+  @Override
+  public void removeRefreshToken(final OAuth2RefreshToken token) {
+    removeRefreshToken(token.getValue());
+  }
+  
+  private void removeRefreshToken(final String token) {
+    final String tokenId = extractTokenKey(token);
+    oauth2RefreshTokenRepository.deleteByTokenId(tokenId);
+  }
+
+  @Override
+  public void removeAccessTokenUsingRefreshToken(final OAuth2RefreshToken refreshToken) {
+    removeAccessTokenUsingRefreshToken(refreshToken.getValue());
+  }
+  
+  private void removeAccessTokenUsingRefreshToken(final String refreshToken) {
+    final String tokenId = extractTokenKey(refreshToken);
+    oauth2AccessTokenRepository.deleteByRefreshTokenId(tokenId);
+  }
+
+  @Override
+  public OAuth2AccessToken getAccessToken(final OAuth2Authentication authentication) {
+    OAuth2AccessToken accessToken = null;
+
+    String key = authenticationKeyGenerator.extractKey(authentication);
+
+    final OAuth2AuthenticationAccessToken oAuth2AccessToken =
+        oauth2AccessTokenRepository.findByAuthenticationId(key);
+
+    if (oAuth2AccessToken != null) {
+      accessToken = deserializeAccessToken(oAuth2AccessToken.getToken());
+    }
+
+    if (accessToken != null && !key.equals(
+        authenticationKeyGenerator.extractKey(readAuthentication(accessToken.getValue())))) {
+      removeAccessToken(accessToken.getValue());
+      // Keep the store consistent (maybe the same user is represented by this authentication but
+      // the details have
+      // changed)
+      storeAccessToken(accessToken, authentication);
+    }
+    return accessToken;
   }
 
   @Override
   public Collection<OAuth2AccessToken> findTokensByClientIdAndUserName(String clientId,
       String userName) {
-    List<OAuth2AuthenticationAccessToken> tokens =
-        oauth2AccessTokenRepository.findByClientIdAndUserName(clientId, userName);
-    return extractAccessTokens(tokens);
+    final List<OAuth2AuthenticationAccessToken> oAuth2AccessTokens =
+        oauth2AccessTokenRepository.findByUsernameAndClientId(userName, clientId);
+    return transformToOAuth2AccessTokens(oAuth2AccessTokens);
   }
 
-  private Collection<OAuth2AccessToken> extractAccessTokens(
-      List<OAuth2AuthenticationAccessToken> tokens) {
-    List<OAuth2AccessToken> accessTokens = new ArrayList<OAuth2AccessToken>();
-    for (OAuth2AuthenticationAccessToken token : tokens) {
-      accessTokens.add(token.getoAuth2AccessToken());
+  @Override
+  public Collection<OAuth2AccessToken> findTokensByClientId(final String clientId) {
+    final List<OAuth2AuthenticationAccessToken> oAuth2AccessTokens =
+        oauth2AccessTokenRepository.findByClientId(clientId);
+    return transformToOAuth2AccessTokens(oAuth2AccessTokens);
+  }
+  
+  /**
+   * Remove access and refresh tokens of the given user.
+   * @param username The login of the user.
+   */
+  public void removeTokensByUsername(String username) {
+    oauth2AccessTokenRepository.findByUsername(username).stream().forEach(token -> {
+      oauth2RefreshTokenRepository.deleteByTokenId(token.getRefreshToken());
+      oauth2AccessTokenRepository.delete(token);
+    });
+  }
+
+  protected String extractTokenKey(final String value) {
+    if (Objects.isNull(value)) {
+      return null;
     }
-    return accessTokens;
+    MessageDigest digest;
+    try {
+      digest = MessageDigest.getInstance("MD5");
+    } catch (NoSuchAlgorithmException e) {
+      throw new IllegalStateException(
+          "MD5 algorithm not available.  Fatal (should be in the JDK).");
+    }
+
+    try {
+      byte[] bytes = digest.digest(value.getBytes("UTF-8"));
+      return String.format("%032x", new BigInteger(1, bytes));
+    } catch (UnsupportedEncodingException e) {
+      throw new IllegalStateException(
+          "UTF-8 encoding not available.  Fatal (should be in the JDK).");
+    }
+  }
+
+  protected byte[] serializeAccessToken(final OAuth2AccessToken token) {
+    return serialize(token);
+  }
+
+  protected byte[] serializeRefreshToken(final OAuth2RefreshToken token) {
+    return serialize(token);
+  }
+
+  protected byte[] serializeAuthentication(final OAuth2Authentication authentication) {
+    return serialize(authentication);
+  }
+
+  protected OAuth2AccessToken deserializeAccessToken(final byte[] token) {
+    return deserialize(token);
+  }
+
+  protected OAuth2RefreshToken deserializeRefreshToken(final byte[] token) {
+    return deserialize(token);
+  }
+
+  protected OAuth2Authentication deserializeAuthentication(final byte[] authentication) {
+    return deserialize(authentication);
+  }
+
+  private Collection<OAuth2AccessToken> transformToOAuth2AccessTokens(
+      final List<OAuth2AuthenticationAccessToken> oauth2AccessTokens) {
+    return oauth2AccessTokens.stream().filter(Objects::nonNull)
+        .map(token -> SerializationUtils.<OAuth2AccessToken>deserialize(token.getToken()))
+        .collect(Collectors.toList());
   }
 }

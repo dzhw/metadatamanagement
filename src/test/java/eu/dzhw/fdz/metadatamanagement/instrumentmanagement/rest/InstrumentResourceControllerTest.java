@@ -194,14 +194,14 @@ public class InstrumentResourceControllerTest extends AbstractTest {
 
     // Act and Assert
     // set inconsistent id
-    instrument.setId("HURZ");
+    instrument.setId("hurz");
 
     // create the instrument with the given id
     mockMvc.perform(put(API_INSTRUMENTS_URI + "/" + instrument.getId())
       .content(TestUtil.convertObjectToJsonBytes(instrument)))
       .andExpect(status().isBadRequest())
       .andExpect(jsonPath("$.errors[0].message",
-          is("instrument-management.error" + ".instrument.id.pattern")));
+          is("instrument-management.error" + ".instrument.valid-instrument-id-pattern")));
   }
 
   @Test

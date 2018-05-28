@@ -16,7 +16,6 @@ import java.util.HashSet;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,6 +25,7 @@ import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2RefreshToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.OAuth2Request;
+import org.springframework.security.oauth2.provider.token.DefaultAuthenticationKeyGenerator;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 
@@ -33,7 +33,6 @@ import eu.dzhw.fdz.metadatamanagement.AbstractTest;
  * @author Daniel Katzberg
  *
  */
-@Ignore
 public class MongoDBTokenStoreTest extends AbstractTest {
 
   @Autowired
@@ -50,7 +49,9 @@ public class MongoDBTokenStoreTest extends AbstractTest {
   @Before
   public void beforeEachTest() {
     this.mongoDBTokenStore =
-        new MongoDbTokenStore(oAuth2AccessTokenRepository, oAuth2RefreshTokenRepository);
+        new MongoDbTokenStore(oAuth2AccessTokenRepository, 
+            oAuth2RefreshTokenRepository,
+            new DefaultAuthenticationKeyGenerator());
 
     OAuth2Request storedRequest = new OAuth2Request(new HashMap<>(), "clientId", new ArrayList<>(),
         true, new HashSet<>(), new HashSet<>(), "/", new HashSet<>(), new HashMap<>());

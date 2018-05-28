@@ -89,7 +89,7 @@ public class UserResource {
     log.debug("REST request to update User : {}", managedUserDto);
     return userRepository.findById(managedUserDto.getId())
       .map(user -> {
-        tokenStore.removeTokensByUserName(user.getLogin());
+        tokenStore.removeTokensByUsername(user.getLogin());
         user.setLogin(managedUserDto.getLogin());
         user.setFirstName(managedUserDto.getFirstName());
         user.setLastName(managedUserDto.getLastName());
