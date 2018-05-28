@@ -26,3 +26,4 @@ Click Element Through Tooltips
     ...             Mouse Over  ${xpath_string}
     Run Keyword If  '${BROWSER}' == 'ie'
     ...             Wait Until Keyword Succeeds  5s  0.5s  Click Element  ${xpath_string}
+    Wait Until Angular Ready	10s
