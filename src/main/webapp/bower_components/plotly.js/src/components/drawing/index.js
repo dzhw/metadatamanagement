@@ -110,8 +110,9 @@ drawing.hideOutsideRangePoints = function(traceGroups, subplot) {
         var trace = d[0].trace;
         var xcalendar = trace.xcalendar;
         var ycalendar = trace.ycalendar;
+        var selector = trace.type === 'bar' ? '.bartext' : '.point,.textpoint';
 
-        traceGroups.selectAll('.point,.textpoint').each(function(d) {
+        traceGroups.selectAll(selector).each(function(d) {
             drawing.hideOutsideRangePoint(d, d3.select(this), xa, ya, xcalendar, ycalendar);
         });
     });
@@ -263,107 +264,6 @@ function makePointPath(symbolNumber, r) {
     return drawing.symbolFuncs[base](r) + (symbolNumber >= 200 ? DOTPATH : '');
 }
 
-function singlePointStyle(d, sel, trace, markerScale, lineScale, marker, markerLine, gd) {
-    if(Registry.traceIs(trace, 'symbols')) {
-        var sizeFn = makeBubbleSizeFn(trace);
-
-        sel.attr('d', function(d) {
-            var r;
-
-            // handle multi-trace graph edit case
-            if(d.ms === 'various' || marker.size === 'various') {
-                r = 3;
-            } else {
-                r = subTypes.isBubble(trace) ?
-                        sizeFn(d.ms) : (marker.size || 6) / 2;
-            }
-
-            // store the calculated size so hover can use it
-            d.mrc = r;
-
-            // turn the symbol into a sanitized number
-            var x = drawing.symbolNumber(d.mx || marker.symbol) || 0;
-
-            // save if this marker is open
-            // because that impacts how to handle colors
-            d.om = x % 200 >= 100;
-
-            return makePointPath(x, r);
-        });
-    }
-
-    sel.style('opacity', function(d) {
-        return (d.mo + 1 || marker.opacity + 1) - 1;
-    });
-
-    var perPointGradient = false;
-
-    // 'so' is suspected outliers, for box plots
-    var fillColor,
-        lineColor,
-        lineWidth;
-    if(d.so) {
-        lineWidth = markerLine.outlierwidth;
-        lineColor = markerLine.outliercolor;
-        fillColor = marker.outliercolor;
-    }
-    else {
-        lineWidth = (d.mlw + 1 || markerLine.width + 1 ||
-            // TODO: we need the latter for legends... can we get rid of it?
-            (d.trace ? d.trace.marker.line.width : 0) + 1) - 1;
-
-        if('mlc' in d) lineColor = d.mlcc = lineScale(d.mlc);
-        // weird case: array wasn't long enough to apply to every point
-        else if(Array.isArray(markerLine.color)) lineColor = Color.defaultLine;
-        else lineColor = markerLine.color;
-
-        if(Array.isArray(marker.color)) {
-            fillColor = Color.defaultLine;
-            perPointGradient = true;
-        }
-
-        if('mc' in d) fillColor = d.mcc = markerScale(d.mc);
-        else fillColor = marker.color || 'rgba(0,0,0,0)';
-    }
-
-    if(d.om) {
-        // open markers can't have zero linewidth, default to 1px,
-        // and use fill color as stroke color
-        sel.call(Color.stroke, fillColor)
-            .style({
-                'stroke-width': (lineWidth || 1) + 'px',
-                fill: 'none'
-            });
-    }
-    else {
-        sel.style('stroke-width', lineWidth + 'px');
-
-        var markerGradient = marker.gradient;
-
-        var gradientType = d.mgt;
-        if(gradientType) perPointGradient = true;
-        else gradientType = markerGradient && markerGradient.type;
-
-        if(gradientType && gradientType !== 'none') {
-            var gradientColor = d.mgc;
-            if(gradientColor) perPointGradient = true;
-            else gradientColor = markerGradient.color;
-
-            var gradientID = 'g' + gd._fullLayout._uid + '-' + trace.uid;
-            if(perPointGradient) gradientID += '-' + d.i;
-
-            sel.call(drawing.gradient, gd, gradientID, gradientType, fillColor, gradientColor);
-        }
-        else {
-            sel.call(Color.fill, fillColor);
-        }
-
-        if(lineWidth) {
-            sel.call(Color.stroke, lineColor);
-        }
-    }
-}
-
 var HORZGRADIENT = {x1: 1, x2: 0, y1: 0, y2: 0};
 var VERTGRADIENT = {x1: 0, x2: 0, y1: 1, y2: 0};
 
@@ -413,34 +313,151 @@ drawing.gradient = function(sel, gd, gradientID, type, color1, color2) {
  * The upside of this is arbitrary points can share gradient defs
  */
 drawing.initGradients = function(gd) {
-    var gradientsGroup = gd._fullLayout._defs.selectAll('.gradients').data([0]);
-    gradientsGroup.enter().append('g').classed('gradients', true);
-
+    var gradientsGroup = Lib.ensureSingle(gd._fullLayout._defs, 'g', 'gradients');
     gradientsGroup.selectAll('linearGradient,radialGradient').remove();
 };
 
-drawing.singlePointStyle = function(d, sel, trace, markerScale, lineScale, gd) {
-    var marker = trace.marker;
-
-    singlePointStyle(d, sel, trace, markerScale, lineScale, marker, marker.line, gd);
-};
 
 drawing.pointStyle = function(s, trace, gd) {
     if(!s.size()) return;
 
-    // allow array marker and marker line colors to be
-    // scaled by given max and min to colorscales
-    var marker = trace.marker;
-    var markerScale = drawing.tryColorscale(marker, '');
-    var lineScale = drawing.tryColorscale(marker, 'line');
+    var fns = drawing.makePointStyleFns(trace);
 
     s.each(function(d) {
-        drawing.singlePointStyle(d, d3.select(this), trace, markerScale, lineScale, gd);
+        drawing.singlePointStyle(d, d3.select(this), trace, fns, gd);
     });
 };
 
-drawing.selectedPointStyle = function(s, trace) {
-    if(!s.size() || !trace.selectedpoints) return;
+drawing.singlePointStyle = function(d, sel, trace, fns, gd) {
+    var marker = trace.marker;
+    var markerLine = marker.line;
+
+    sel.style('opacity',
+        fns.selectedOpacityFn ? fns.selectedOpacityFn(d) :
+            (d.mo === undefined ? marker.opacity : d.mo)
+    );
+
+    if(fns.ms2mrc) {
+        var r;
+
+        // handle multi-trace graph edit case
+        if(d.ms === 'various' || marker.size === 'various') {
+            r = 3;
+        } else {
+            r = fns.ms2mrc(d.ms);
+        }
+
+        // store the calculated size so hover can use it
+        d.mrc = r;
+
+        if(fns.selectedSizeFn) {
+            r = d.mrc = fns.selectedSizeFn(d);
+        }
+
+        // turn the symbol into a sanitized number
+        var x = drawing.symbolNumber(d.mx || marker.symbol) || 0;
+
+        // save if this marker is open
+        // because that impacts how to handle colors
+        d.om = x % 200 >= 100;
+
+        sel.attr('d', makePointPath(x, r));
+    }
+
+    var perPointGradient = false;
+    var fillColor, lineColor, lineWidth;
+
+    // 'so' is suspected outliers, for box plots
+    if(d.so) {
+        lineWidth = markerLine.outlierwidth;
+        lineColor = markerLine.outliercolor;
+        fillColor = marker.outliercolor;
+    } else {
+        lineWidth = (d.mlw + 1 || markerLine.width + 1 ||
+            // TODO: we need the latter for legends... can we get rid of it?
+            (d.trace ? d.trace.marker.line.width : 0) + 1) - 1;
+
+        if('mlc' in d) lineColor = d.mlcc = fns.lineScale(d.mlc);
+        // weird case: array wasn't long enough to apply to every point
+        else if(Lib.isArrayOrTypedArray(markerLine.color)) lineColor = Color.defaultLine;
+        else lineColor = markerLine.color;
+
+        if(Lib.isArrayOrTypedArray(marker.color)) {
+            fillColor = Color.defaultLine;
+            perPointGradient = true;
+        }
+
+        if('mc' in d) {
+            fillColor = d.mcc = fns.markerScale(d.mc);
+        } else {
+            fillColor = marker.color || 'rgba(0,0,0,0)';
+        }
+
+        if(fns.selectedColorFn) {
+            fillColor = fns.selectedColorFn(d);
+        }
+    }
+
+    if(d.om) {
+        // open markers can't have zero linewidth, default to 1px,
+        // and use fill color as stroke color
+        sel.call(Color.stroke, fillColor)
+            .style({
+                'stroke-width': (lineWidth || 1) + 'px',
+                fill: 'none'
+            });
+    } else {
+        sel.style('stroke-width', lineWidth + 'px');
+
+        var markerGradient = marker.gradient;
+
+        var gradientType = d.mgt;
+        if(gradientType) perPointGradient = true;
+        else gradientType = markerGradient && markerGradient.type;
+
+        if(gradientType && gradientType !== 'none') {
+            var gradientColor = d.mgc;
+            if(gradientColor) perPointGradient = true;
+            else gradientColor = markerGradient.color;
+
+            var gradientID = 'g' + gd._fullLayout._uid + '-' + trace.uid;
+            if(perPointGradient) gradientID += '-' + d.i;
+
+            sel.call(drawing.gradient, gd, gradientID, gradientType, fillColor, gradientColor);
+        } else {
+            sel.call(Color.fill, fillColor);
+        }
+
+        if(lineWidth) {
+            sel.call(Color.stroke, lineColor);
+        }
+    }
+};
+
+drawing.makePointStyleFns = function(trace) {
+    var out = {};
+    var marker = trace.marker;
+
+    // allow array marker and marker line colors to be
+    // scaled by given max and min to colorscales
+    out.markerScale = drawing.tryColorscale(marker, '');
+    out.lineScale = drawing.tryColorscale(marker, 'line');
+
+    if(Registry.traceIs(trace, 'symbols')) {
+        out.ms2mrc = subTypes.isBubble(trace) ?
+            makeBubbleSizeFn(trace) :
+            function() { return (marker.size || 6) / 2; };
+    }
+
+    if(trace.selectedpoints) {
+        Lib.extendFlat(out, drawing.makeSelectedPointStyleFns(trace));
+    }
+
+    return out;
+};
+
+drawing.makeSelectedPointStyleFns = function(trace) {
+    var out = {};
 
     var selectedAttrs = trace.selected || {};
     var unselectedAttrs = trace.unselected || {};
@@ -455,64 +472,120 @@ drawing.selectedPointStyle = function(s, trace) {
     var smoIsDefined = smo !== undefined;
     var usmoIsDefined = usmo !== undefined;
 
-    s.each(function(d) {
-        var pt = d3.select(this);
-        var dmo = d.mo;
-        var dmoIsDefined = dmo !== undefined;
-        var mo2;
+    if(Lib.isArrayOrTypedArray(mo) || smoIsDefined || usmoIsDefined) {
+        out.selectedOpacityFn = function(d) {
+            var base = d.mo === undefined ? marker.opacity : d.mo;
 
-        if(dmoIsDefined || smoIsDefined || usmoIsDefined) {
             if(d.selected) {
-                if(smoIsDefined) mo2 = smo;
+                return smoIsDefined ? smo : base;
             } else {
-                if(usmoIsDefined) mo2 = usmo;
-                else mo2 = DESELECTDIM * (dmoIsDefined ? dmo : mo);
+                return usmoIsDefined ? usmo : DESELECTDIM * base;
             }
-        }
+        };
+    }
 
-        if(mo2 !== undefined) pt.style('opacity', mo2);
-    });
-
+    var mc = marker.color;
     var smc = selectedMarker.color;
     var usmc = unselectedMarker.color;
 
     if(smc || usmc) {
-        s.each(function(d) {
-            var pt = d3.select(this);
-            var mc2;
+        out.selectedColorFn = function(d) {
+            var base = d.mcc || mc;
 
             if(d.selected) {
-                if(smc) mc2 = smc;
+                return smc || base;
             } else {
-                if(usmc) mc2 = usmc;
+                return usmc || base;
             }
-
-            if(mc2) Color.fill(pt, mc2);
-        });
+        };
     }
 
+    var ms = marker.size;
     var sms = selectedMarker.size;
     var usms = unselectedMarker.size;
     var smsIsDefined = sms !== undefined;
     var usmsIsDefined = usms !== undefined;
 
     if(Registry.traceIs(trace, 'symbols') && (smsIsDefined || usmsIsDefined)) {
-        s.each(function(d) {
-            var pt = d3.select(this);
-            var mrc = d.mrc;
-            var mx = d.mx || marker.symbol || 0;
-            var mrc2;
+        out.selectedSizeFn = function(d) {
+            var base = d.mrc || ms / 2;
 
             if(d.selected) {
-                mrc2 = (smsIsDefined) ? sms / 2 : mrc;
+                return smsIsDefined ? sms / 2 : base;
             } else {
-                mrc2 = (usmsIsDefined) ? usms / 2 : mrc;
+                return usmsIsDefined ? usms / 2 : base;
             }
+        };
+    }
+
+    return out;
+};
+
+drawing.makeSelectedTextStyleFns = function(trace) {
+    var out = {};
+
+    var selectedAttrs = trace.selected || {};
+    var unselectedAttrs = trace.unselected || {};
+
+    var textFont = trace.textfont || {};
+    var selectedTextFont = selectedAttrs.textfont || {};
+    var unselectedTextFont = unselectedAttrs.textfont || {};
+
+    var tc = textFont.color;
+    var stc = selectedTextFont.color;
+    var utc = unselectedTextFont.color;
+
+    out.selectedTextColorFn = function(d) {
+        var base = d.tc || tc;
+
+        if(d.selected) {
+            return stc || base;
+        } else {
+            if(utc) return utc;
+            else return stc ? base : Color.addOpacity(base, DESELECTDIM);
+        }
+    };
+
+    return out;
+};
+
+drawing.selectedPointStyle = function(s, trace) {
+    if(!s.size() || !trace.selectedpoints) return;
+
+    var fns = drawing.makeSelectedPointStyleFns(trace);
+    var marker = trace.marker || {};
+    var seq = [];
+
+    if(fns.selectedOpacityFn) {
+        seq.push(function(pt, d) {
+            pt.style('opacity', fns.selectedOpacityFn(d));
+        });
+    }
+
+    if(fns.selectedColorFn) {
+        seq.push(function(pt, d) {
+            Color.fill(pt, fns.selectedColorFn(d));
+        });
+    }
+
+    if(fns.selectedSizeFn) {
+        seq.push(function(pt, d) {
+            var mx = d.mx || marker.symbol || 0;
+            var mrc2 = fns.selectedSizeFn(d);
 
             pt.attr('d', makePointPath(drawing.symbolNumber(mx), mrc2));
 
-            // save for selectedTextStyle
+            // save for Drawing.selectedTextStyle
             d.mrc2 = mrc2;
+        });
+    }
+
+    if(seq.length) {
+        s.each(function(d) {
+            var pt = d3.select(this);
+            for(var i = 0; i < seq.length; i++) {
+                seq[i](pt, d);
+            }
         });
     }
 };
@@ -522,7 +595,7 @@ drawing.tryColorscale = function(marker, prefix) {
         scl = cont.colorscale,
         colorArray = cont.color;
 
-    if(scl && Array.isArray(colorArray)) {
+    if(scl && Lib.isArrayOrTypedArray(colorArray)) {
         return Colorscale.makeColorScaleFunc(
             Colorscale.extractScale(scl, cont.cmin, cont.cmax)
         );
@@ -564,6 +637,15 @@ function extracTextFontSize(d, trace) {
 
 // draw text at points
 drawing.textPointStyle = function(s, trace, gd) {
+    if(!s.size()) return;
+
+    var selectedTextColorFn;
+
+    if(trace.selectedpoints) {
+        var fns = drawing.makeSelectedTextStyleFns(trace);
+        selectedTextColorFn = fns.selectedTextColorFn;
+    }
+
     s.each(function(d) {
         var p = d3.select(this);
         var text = Lib.extractOption(d, trace, 'tx', 'text');
@@ -575,11 +657,14 @@ drawing.textPointStyle = function(s, trace, gd) {
 
         var pos = d.tp || trace.textposition;
         var fontSize = extracTextFontSize(d, trace);
+        var fontColor = selectedTextColorFn ?
+            selectedTextColorFn(d) :
+            (d.tc || trace.textfont.color);
 
         p.call(drawing.font,
                 d.tf || trace.textfont.family,
                 fontSize,
-                d.tc || trace.textfont.color)
+                fontColor)
             .text(text)
             .call(svgTextUtils.convertToTspans, gd)
             .call(textPointPosition, pos, fontSize, d.mrc);
@@ -589,26 +674,15 @@ drawing.textPointStyle = function(s, trace, gd) {
 drawing.selectedTextStyle = function(s, trace) {
     if(!s.size() || !trace.selectedpoints) return;
 
-    var selectedAttrs = trace.selected || {};
-    var unselectedAttrs = trace.unselected || {};
+    var fns = drawing.makeSelectedTextStyleFns(trace);
 
     s.each(function(d) {
         var tx = d3.select(this);
-        var tc = d.tc || trace.textfont.color;
+        var tc = fns.selectedTextColorFn(d);
         var tp = d.tp || trace.textposition;
         var fontSize = extracTextFontSize(d, trace);
-        var stc = (selectedAttrs.textfont || {}).color;
-        var utc = (unselectedAttrs.textfont || {}).color;
-        var tc2;
 
-        if(d.selected) {
-            if(stc) tc2 = stc;
-        } else {
-            if(utc) tc2 = utc;
-            else if(!stc) tc2 = Color.addOpacity(tc, DESELECTDIM);
-        }
-
-        if(tc2) Color.fill(tx, tc2);
+        Color.fill(tx, tc);
         textPointPosition(tx, tp, fontSize, d.mrc2 || d.mrc);
     });
 };
@@ -709,33 +783,28 @@ drawing.steps = function(shape) {
 // off-screen svg render testing element, shared by the whole page
 // uses the id 'js-plotly-tester' and stores it in drawing.tester
 drawing.makeTester = function() {
-    var tester = d3.select('body')
-        .selectAll('#js-plotly-tester')
-        .data([0]);
-
-    tester.enter().append('svg')
-        .attr('id', 'js-plotly-tester')
-        .attr(xmlnsNamespaces.svgAttrs)
-        .style({
-            position: 'absolute',
-            left: '-10000px',
-            top: '-10000px',
-            width: '9000px',
-            height: '9000px',
-            'z-index': '1'
-        });
+    var tester = Lib.ensureSingleById(d3.select('body'), 'svg', 'js-plotly-tester', function(s) {
+        s.attr(xmlnsNamespaces.svgAttrs)
+            .style({
+                position: 'absolute',
+                left: '-10000px',
+                top: '-10000px',
+                width: '9000px',
+                height: '9000px',
+                'z-index': '1'
+            });
+    });
 
     // browsers differ on how they describe the bounding rect of
     // the svg if its contents spill over... so make a 1x1px
     // reference point we can measure off of.
-    var testref = tester.selectAll('.js-reference-point').data([0]);
-    testref.enter().append('path')
-        .classed('js-reference-point', true)
-        .attr('d', 'M0,0H1V1H0Z')
-        .style({
-            'stroke-width': 0,
-            fill: 'black'
-        });
+    var testref = Lib.ensureSingle(tester, 'path', 'js-reference-point', function(s) {
+        s.attr('d', 'M0,0H1V1H0Z')
+            .style({
+                'stroke-width': 0,
+                fill: 'black'
+            });
+    });
 
     drawing.tester = tester;
     drawing.testref = testref;
@@ -897,15 +966,21 @@ drawing.setClipUrl = function(s, localId) {
         return;
     }
 
-    var url = '#' + localId,
-        base = d3.select('base');
+    if(drawing.baseUrl === undefined) {
+        var base = d3.select('base');
 
-    // add id to location href w/o hashes if any)
-    if(base.size() && base.attr('href')) {
-        url = window.location.href.split('#')[0] + url;
+        // Stash base url once and for all!
+        // We may have to stash this elsewhere when
+        // we'll try to support for child windows
+        // more info -> https://github.com/plotly/plotly.js/issues/702
+        if(base.size() && base.attr('href')) {
+            drawing.baseUrl = window.location.href.split('#')[0];
+        } else {
+            drawing.baseUrl = '';
+        }
     }
 
-    s.attr('clip-path', 'url(' + url + ')');
+    s.attr('clip-path', 'url(' + drawing.baseUrl + '#' + localId + ')');
 };
 
 drawing.getTranslate = function(element) {
@@ -981,38 +1056,32 @@ drawing.setScale = function(element, x, y) {
     return transform;
 };
 
-drawing.setPointGroupScale = function(selection, x, y) {
-    var t, scale, re;
+var SCALE_RE = /\s*sc.*/;
 
-    x = x || 1;
-    y = y || 1;
+drawing.setPointGroupScale = function(selection, xScale, yScale) {
+    xScale = xScale || 1;
+    yScale = yScale || 1;
 
-    if(x === 1 && y === 1) {
-        scale = '';
-    } else {
-        // The same scale transform for every point:
-        scale = ' scale(' + x + ',' + y + ')';
-    }
+    if(!selection) return;
 
-    // A regex to strip any existing scale:
-    re = /\s*sc.*/;
+    // The same scale transform for every point:
+    var scale = (xScale === 1 && yScale === 1) ?
+        '' :
+        ' scale(' + xScale + ',' + yScale + ')';
 
     selection.each(function() {
-        // Get the transform:
-        t = (this.getAttribute('transform') || '').replace(re, '');
+        var t = (this.getAttribute('transform') || '').replace(SCALE_RE, '');
         t += scale;
         t = t.trim();
-
-        // Append the scale transform
         this.setAttribute('transform', t);
     });
-
-    return scale;
 };
 
 var TEXT_POINT_LAST_TRANSLATION_RE = /translate\([^)]*\)\s*$/;
 
 drawing.setTextPointsScale = function(selection, xScale, yScale) {
+    if(!selection) return;
+
     selection.each(function() {
         var transforms;
         var el = d3.select(this);

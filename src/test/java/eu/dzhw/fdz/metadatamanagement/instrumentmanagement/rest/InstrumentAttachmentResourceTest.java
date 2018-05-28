@@ -70,7 +70,7 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
     MockMultipartFile attachment =
         new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
     InstrumentAttachmentMetadata instrumentAttachmentMetadata = UnitTestCreateDomainObjectUtils
-      .buildInstrumentAttachmentMetadata("projectId", 1);
+      .buildInstrumentAttachmentMetadata("projectid", 1);
     MockMultipartFile metadata = new MockMultipartFile("instrumentAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(instrumentAttachmentMetadata));
 
@@ -96,7 +96,7 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
     MockMultipartFile attachment =
         new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
     InstrumentAttachmentMetadata instrumentAttachmentMetadata = UnitTestCreateDomainObjectUtils
-      .buildInstrumentAttachmentMetadata("projectId", 1);
+      .buildInstrumentAttachmentMetadata("projectid", 1);
     instrumentAttachmentMetadata.getType().setDe("hurz");
     MockMultipartFile metadata = new MockMultipartFile("instrumentAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(instrumentAttachmentMetadata));
@@ -116,7 +116,7 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
     MockMultipartFile attachment =
         new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
     InstrumentAttachmentMetadata instrumentAttachmentMetadata = UnitTestCreateDomainObjectUtils
-      .buildInstrumentAttachmentMetadata("projectId", 1);
+      .buildInstrumentAttachmentMetadata("projectid", 1);
     instrumentAttachmentMetadata.setDescription(new I18nString());
 
     MockMultipartFile metadata = new MockMultipartFile("instrumentAttachmentMetadata", "Blob",
@@ -134,7 +134,7 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
   @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testAttachmentIsDeletedWithInstrument() throws Exception {
     Instrument instrument =
-        UnitTestCreateDomainObjectUtils.buildInstrument("projectId", "projectId-sy1");
+        UnitTestCreateDomainObjectUtils.buildInstrument("projectid", "projectid-sy1");
 
     // create the instrument with the given id
     mockMvc.perform(put("/api/instruments/" + instrument.getId())

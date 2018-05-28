@@ -5,11 +5,12 @@ angular.module('metadatamanagementApp')
     function(entity, PageTitleService, LanguageService, DataSetSearchService,
       $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
       StudyAttachmentResource, SearchResultNavigatorService, $stateParams,
-      $rootScope) {
+      $rootScope, DataAcquisitionProjectResource) {
       SearchResultNavigatorService.registerCurrentSearchResult(
           $stateParams['search-result-index']);
       var versionFromUrl = $stateParams.version;
       var ctrl = this;
+      ctrl.projectIsCurrentlyReleased = true;
       ctrl.searchResultIndex = $stateParams['search-result-index'];
       ctrl.counts = {};
       var bowser = $rootScope.bowser;
@@ -33,6 +34,14 @@ angular.module('metadatamanagementApp')
       };
 
       entity.promise.then(function(result) {
+        if (Principal
+            .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
+          DataAcquisitionProjectResource.get({
+            id: result.dataAcquisitionProjectId
+          }).$promise.then(function(project) {
+            ctrl.projectIsCurrentlyReleased = (project.release != null);
+          });
+        }
         PageTitleService.setPageTitle('study-management.detail.title', {
           title: result.title[LanguageService.getCurrentInstantly()],
           studyId: result.id

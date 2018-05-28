@@ -30,11 +30,7 @@ angular.module('metadatamanagementApp').factory('CommonDialogsService',
         .ok($translate.instant('global.common-dialogs.yes'))
         .cancel($translate.instant('global.common-dialogs.no'))
         .multiple(true);
-      return $mdDialog.show(confirmOnDirtyDialog).finally(function() {
-        //ensure that scroll bars remain visible
-        angular.element(document.querySelector('body'))
-          .css('overflow', 'visible');
-      });
+      return $mdDialog.show(confirmOnDirtyDialog);
     };
 
     var showConfirmFileDeletionDialog = function(filename) {

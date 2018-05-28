@@ -11,6 +11,7 @@ import com.codahale.metrics.annotation.Timed;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
 import eu.dzhw.fdz.metadatamanagement.common.websocket.repository.ActiveWebSocketSessionRepository;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Ping the message broker (rabbitMq when running in the cloud) for the health check.
@@ -18,14 +19,15 @@ import eu.dzhw.fdz.metadatamanagement.common.websocket.repository.ActiveWebSocke
  * @author René Reitmann
  */
 @Component
+@Slf4j
 public class MessageBrokerHealthIndicator extends AbstractHealthIndicator {
 
   private final SimpMessagingTemplate messagingTemplate;
-  
+
   private final Environment env;
-  
+
   private final ActiveWebSocketSessionRepository activeWebSocketSessionRepository;
-  
+
   /**
    * Create the health indicator.
    * 
@@ -44,13 +46,18 @@ public class MessageBrokerHealthIndicator extends AbstractHealthIndicator {
   @Override
   @Timed
   protected void doHealthCheck(Builder builder) throws Exception {
-    if (env.acceptsProfiles(Constants.SPRING_PROFILE_LOCAL)) {
-      builder.withDetail("Message Broker", "Simple (local)");
-    } else {
-      builder.withDetail("Message Broker", "CloudAMQP (RabbitMQ)");
+    try {
+      if (env.acceptsProfiles(Constants.SPRING_PROFILE_LOCAL)) {
+        builder.withDetail("Message Broker", "Simple (local)");
+      } else {
+        builder.withDetail("Message Broker", "CloudAMQP (RabbitMQ)");
+      }
+      builder.withDetail("Active Websocket Sessions", activeWebSocketSessionRepository.count());
+      messagingTemplate.convertAndSend("/topic", "Ping");
+      builder.up();
+    } catch (Exception e) {
+      log.error("Message Broker health check failed:", e);
+      builder.down(e);
     }
-    builder.withDetail("Active Websocket Sessions", activeWebSocketSessionRepository.count());
-    messagingTemplate.convertAndSend("/topic", "Ping");
-    builder.up();      
   }
 }

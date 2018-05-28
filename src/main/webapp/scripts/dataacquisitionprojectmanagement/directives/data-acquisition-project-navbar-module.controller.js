@@ -6,12 +6,12 @@ angular.module('metadatamanagementApp')
     'CurrentProjectService', 'DataAcquisitionProjectPostValidationService',
     'DataAcquisitionProjectSearchResource', 'DataAcquisitionProjectResource',
     '$mdDialog', 'SimpleMessageToastService', '$translate',
-    'ElasticSearchAdminService', '$scope', 'Principal',
+    'ElasticSearchAdminService', '$scope', 'Principal', '$state',
     function(CurrentProjectService,
       DataAcquisitionProjectPostValidationService,
       DataAcquisitionProjectSearchResource, DataAcquisitionProjectResource,
       $mdDialog, SimpleMessageToastService, $translate,
-      ElasticSearchAdminService, $scope, Principal) {
+      ElasticSearchAdminService, $scope, Principal, $state) {
       var ctrl = this;
       ctrl.hasAuthority = Principal.hasAuthority;
       var i18nPrefix = 'data-acquisition-project-management.log-messages.' +
@@ -63,7 +63,7 @@ angular.module('metadatamanagementApp')
       }
       //Helper method for query the project list
       function createFilterFor(query) {
-        var lowercaseQuery = angular.lowercase(query);
+        var lowercaseQuery = query ? query.toLowerCase() : '';
         return function filterFn(project) {
           return (project.id.indexOf(lowercaseQuery) === 0);
         };
@@ -99,7 +99,7 @@ angular.module('metadatamanagementApp')
                   .openSimpleMessageToast(
                     i18nPrefix + 'saved', {
                       id: project.id
-                    }, true);
+                    });
                 ctrl.selectedProject = project;
                 CurrentProjectService.setCurrentProject(project);
                 loadProjects();
@@ -107,7 +107,7 @@ angular.module('metadatamanagementApp')
               //Server Error
               function(errorMsg) {
                 SimpleMessageToastService
-                  .openSimpleMessageToast(
+                  .openAlertMessageToast(
                     i18nPrefix + 'server-error' + errorMsg);
                 loadProjects();
               }
@@ -145,12 +145,12 @@ angular.module('metadatamanagementApp')
                   SimpleMessageToastService.openSimpleMessageToast(
                     i18nPrefix + 'deleted-successfully-project', {
                       id: ctrl.selectedProject.id
-                    }, true);
+                    });
                   loadProjects();
                 });
             },
             function() {
-              SimpleMessageToastService.openSimpleMessageToast(
+              SimpleMessageToastService.openAlertMessageToast(
                 i18nPrefix + 'deleted-not-successfully-project', {
                   id: ctrl.selectedProject.id
                 });
@@ -224,8 +224,9 @@ angular.module('metadatamanagementApp')
               SimpleMessageToastService.openSimpleMessageToast(
                 i18nPrefix + 'unreleased-successfully', {
                   id: ctrl.selectedProject.id
-                }, true);
+                });
               CurrentProjectService.setCurrentProject(projectCopy);
+              $state.forceReload();
             });
         });
       };

@@ -13,7 +13,7 @@ angular.module('metadatamanagementApp').config(
             'institution': 'Erhebende Institution',
             'authors': 'Projektmitarbeiter(innen)',
             'sponsors': 'Gefördert von',
-            'version': 'Version der Datensätze',
+            'version': 'Version',
             'surveyDesign': 'Erhebungsdesign',
             'annotations': 'Anmerkungen',
             'wave': 'Verfügbare Wellen',
@@ -235,7 +235,7 @@ angular.module('metadatamanagementApp').config(
           'previous-version-restored-toast': 'Die ältere Version von Studie {{ studyId }} kann jetzt gespeichert werden.',
           'current-version-restored-toast': 'Die aktuelle Version von Studie {{ studyId }} wurde wiederhergestellt.',
           'not-authorized-toast': 'Sie sind nicht berechtigt Studien zu bearbeiten oder anzulegen!',
-          'choose-unreleased-project-toast': 'Bitte wählen Sie ein Projekt aus, welches aktuell nicht freigegeben ist!',
+          'choose-unreleased-project-toast': 'Studien dürfen nur bearbeitet werden, wenn das Projekt aktuell nicht freigegeben ist!',
           'label': {
             'edit-study': 'Studie bearbeiten:',
             'create-study': 'Studie anlegen:',

@@ -16,8 +16,8 @@ angular.module('metadatamanagementApp')
       ctrl.hasAnyAuthority = Principal.hasAnyAuthority;
       ctrl.counts = {};
 
-      ctrl.openDialog = function(subDataSet) {
-        DataSetCitateDialogService.showDialog(subDataSet.citationHint);
+      ctrl.openDialog = function(subDataSet, event) {
+        DataSetCitateDialogService.showDialog(subDataSet.citationHint, event);
       };
 
       entity.promise.then(function(result) {
@@ -75,7 +75,7 @@ angular.module('metadatamanagementApp')
               }
             });
         } else {
-          SimpleMessageToastService.openSimpleMessageToast(
+          SimpleMessageToastService.openAlertMessageToast(
           'data-set-management.detail.not-released-toast', {id: result.id}
           );
         }

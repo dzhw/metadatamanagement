@@ -70,7 +70,7 @@ public class StudyAttachmentResourceTest extends AbstractTest {
     MockMultipartFile attachment =
         new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
     StudyAttachmentMetadata studyAttachmentMetadata = UnitTestCreateDomainObjectUtils
-      .buildStudyAttachmentMetadata("projectId");
+      .buildStudyAttachmentMetadata("projectid");
     MockMultipartFile metadata = new MockMultipartFile("studyAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(studyAttachmentMetadata));
 
@@ -96,7 +96,7 @@ public class StudyAttachmentResourceTest extends AbstractTest {
     MockMultipartFile attachment =
         new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
     StudyAttachmentMetadata studyAttachmentMetadata = UnitTestCreateDomainObjectUtils
-      .buildStudyAttachmentMetadata("projectId");
+      .buildStudyAttachmentMetadata("projectid");
     studyAttachmentMetadata.getType().setDe("hurz");
     MockMultipartFile metadata = new MockMultipartFile("studyAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(studyAttachmentMetadata));
@@ -116,7 +116,7 @@ public class StudyAttachmentResourceTest extends AbstractTest {
     MockMultipartFile attachment =
         new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
     StudyAttachmentMetadata studyAttachmentMetadata = UnitTestCreateDomainObjectUtils
-      .buildStudyAttachmentMetadata("projectId");
+      .buildStudyAttachmentMetadata("projectid");
     studyAttachmentMetadata.setDescription(new I18nString());
 
     MockMultipartFile metadata = new MockMultipartFile("studyAttachmentMetadata", "Blob",
@@ -134,7 +134,7 @@ public class StudyAttachmentResourceTest extends AbstractTest {
   @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testAttachmentIsDeletedWithStudy() throws Exception {
     Study study =
-        UnitTestCreateDomainObjectUtils.buildStudy("projectId");
+        UnitTestCreateDomainObjectUtils.buildStudy("projectid");
 
     // create the study with the given id
     mockMvc.perform(put("/api/studies/" + study.getId())

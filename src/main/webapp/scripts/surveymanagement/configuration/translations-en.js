@@ -234,7 +234,7 @@ angular.module('metadatamanagementApp').config(
           'previous-version-restored-toast': 'Previous version of Survey {{ surveyId }} can be saved now.',
           'current-version-restored-toast': 'Current version of Survey {{ surveyId }} has been restored.',
           'not-authorized-toast': 'You are not authorized to create or edit surveys!',
-          'choose-unreleased-project-toast': 'Please choose a project which is currently not released!',
+          'choose-unreleased-project-toast': 'Surveys may be edited if and only if the project is currently not released!',
           'survey-image-saved-toast': 'The graphical representation of the response rate has been saved.',
           'survey-image-deleted-toast': 'The graphical representation of the response rate has been deleted.',
           'survey-deleted-toast': 'The Survey {{ id }} has been deleted.',

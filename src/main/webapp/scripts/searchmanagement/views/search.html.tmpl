@@ -13,7 +13,7 @@
                 <md-input-container class="fdz-search-input">
                     <label>{{tabs[searchParams.selectedTabIndex].inputLabel|translate}}</label>
                     <md-icon md-font-set="material-icons">search</md-icon>
-                    <input id="query" type="search" ng-model="searchParams.query" ng-model-options="{debounce: 250}" autocomplete="off" tabindex="0" fdz-clear-input>
+                    <input id="query" type="search" ng-model="searchParams.query" ng-model-options="{debounce: 250}" autocomplete="off" tabindex="0" fdz-clear-input md-select-on-focus>
                 </md-input-container>
                 <input type="submit" ng-hide="true">
             </form>
@@ -54,7 +54,7 @@
             </md-button>
         </div>
         <!-- Index 1 = Study Tab -->
-        <md-fab-speed-dial ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='studies'" md-direction="left" class="md-scale md-hover-full" md-open="speedDial.isOpen" ng-mouseenter="speedDial.isOpen=true;" ng-mouseleave="speedDial.isOpen=false;">
+        <md-fab-speed-dial ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='studies'" md-direction="left" class="md-scale" md-open="speedDial.isOpen">
           <md-fab-trigger>
             <md-button ng-if="!currentStudy" class="md-accent md-fab" ng-disabled="!currentProject || currentProject.release">
                 <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
@@ -106,7 +106,7 @@
             </md-tooltip>
             <md-icon md-font-set="material-icons">add</md-icon>
         </md-button>
-        <md-fab-speed-dial ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='surveys'" md-direction="left" class="md-scale md-hover-full" md-open="speedDial.isOpen" ng-mouseenter="speedDial.isOpen=true;" ng-mouseleave="speedDial.isOpen=false;">
+        <md-fab-speed-dial ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='surveys'" md-direction="left" class="md-scale" md-open="speedDial.isOpen">
           <md-fab-trigger>
             <md-button class="md-accent md-fab" ng-disabled="!currentProject || currentProject.release">
                 <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">

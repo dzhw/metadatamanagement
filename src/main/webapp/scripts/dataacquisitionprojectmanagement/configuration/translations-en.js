@@ -44,9 +44,10 @@ angular.module('metadatamanagementApp').config(
         'error': {
           'data-acquisition-project': {
             'id': {
-              'not-empty': 'The RDC-ID of Data Acquisition Project must not be empty!',
+              'not-empty': 'The name of the Data Acquisition Project must not be empty!',
               'pattern': 'The name of the project must contain only lowercase letters (a-z) and digits.',
-              'size': 'The max length of the RDC-ID is 32 signs.'
+              'size': 'The max length of the name is 32 signs.',
+              'exists': 'There is already a Data Acquisition Project with this name.'
             },
             'has-been-released-before': {
               'not-null': 'The information is missing, that a Data Acquisition Project has been relesed before.'

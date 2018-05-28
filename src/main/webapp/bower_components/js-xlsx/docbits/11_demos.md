@@ -3,7 +3,7 @@
 The [`demos` directory](demos/) includes sample projects for:
 
 **Frameworks and APIs**
-- [`angular 1.x`](demos/angular/)
+- [`angularjs`](demos/angular/)
 - [`angular 2 / 4 / 5 and ionic`](demos/angular2/)
 - [`meteor`](demos/meteor/)
 - [`react and react-native`](demos/react/)
@@ -11,6 +11,7 @@ The [`demos` directory](demos/) includes sample projects for:
 - [`XMLHttpRequest and fetch`](demos/xhr/)
 - [`nodejs server`](demos/server/)
 - [`databases and key/value stores`](demos/database/)
+- [`typed arrays and math`](demos/array/)
 
 **Bundlers and Tooling**
 - [`browserify`](demos/browserify/)
@@ -25,9 +26,11 @@ The [`demos` directory](demos/) includes sample projects for:
 **Platforms and Integrations**
 - [`electron application`](demos/electron/)
 - [`nw.js application`](demos/nwjs/)
+- [`Chrome / Chromium extensions`](demos/chrome/)
 - [`Adobe ExtendScript`](demos/extendscript/)
 - [`Headless Browsers`](demos/headless/)
 - [`canvas-datagrid`](demos/datagrid/)
 - [`Swift JSC and other engines`](demos/altjs/)
+- [`"serverless" functions`](demos/function/)
 - [`internet explorer`](demos/oldie/)
 

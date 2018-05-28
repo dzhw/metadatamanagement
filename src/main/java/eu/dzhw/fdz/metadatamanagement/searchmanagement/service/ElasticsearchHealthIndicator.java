@@ -12,6 +12,7 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchU
 import io.searchbox.client.JestClient;
 import io.searchbox.client.JestResult;
 import io.searchbox.indices.Stats;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * HealthIndicator for Spring Boot Actuator which uses the {@link JestClient} for indicating health.
@@ -19,10 +20,11 @@ import io.searchbox.indices.Stats;
  * @author René Reitmann
  */
 @Component
+@Slf4j
 public class ElasticsearchHealthIndicator extends AbstractHealthIndicator {
 
   private final JestClient jestClient;
-  
+
   private final ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
 
   @Autowired
@@ -35,17 +37,22 @@ public class ElasticsearchHealthIndicator extends AbstractHealthIndicator {
   @Override
   @Timed
   protected void doHealthCheck(Builder builder) throws Exception {
-    JestResult result = jestClient.execute(new Stats.Builder().addIndex("_all").build());
-    JsonObject map = result.getJsonObject();
+    try {
+      JestResult result = jestClient.execute(new Stats.Builder().addIndex("_all").build());
+      JsonObject map = result.getJsonObject();
 
-    if (result.isSucceeded()) {
-      builder.up();
-      fillStatsForIndex(map, builder);
-    } else {
-      builder.down();
+      if (result.isSucceeded()) {
+        builder.up();
+        fillStatsForIndex(map, builder);
+      } else {
+        builder.down();
+      }
+      builder.withDetail("Number of Update Queue Items",
+          elasticsearchUpdateQueueItemRepository.count());
+    } catch (Exception e) {
+      log.error("Elasticsearch health check failed:", e);
+      builder.down(e);
     }
-    builder.withDetail("Number of Update Queue Items", 
-        elasticsearchUpdateQueueItemRepository.count());
   }
 
   /**

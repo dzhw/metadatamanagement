@@ -43,10 +43,11 @@ angular.module('metadatamanagementApp')
       if (result.release || Principal.hasAnyAuthority(['ROLE_PUBLISHER',
           'ROLE_DATA_PROVIDER'])) {
         $scope.variable = result;
-        if (!CleanJSObjectService.isNullOrEmpty($scope
-            .variable.distribution.missings) || !CleanJSObjectService
-          .isNullOrEmpty($scope.variable
-            .distribution.validResponses)) {
+        if ($scope.variable.distribution != null && (
+            !CleanJSObjectService.isNullOrEmpty($scope
+              .variable.distribution.missings) ||
+            !CleanJSObjectService.isNullOrEmpty($scope
+              .variable.distribution.validResponses))) {
           $scope.validResponsesOrMissingsAvailable = true;
         }
         $scope.study = $scope.variable.study;
@@ -120,7 +121,7 @@ angular.module('metadatamanagementApp')
           html_beautify($scope.variable.generationDetails.rule); //jscs:ignore
         }
       } else {
-        SimpleMessageToastService.openSimpleMessageToast(
+        SimpleMessageToastService.openAlertMessageToast(
           'variable-management.detail.not-released-toast', {
             id: result.id
           }
@@ -175,7 +176,7 @@ angular.module('metadatamanagementApp')
     };
 
     $scope.isDiagramVisible = function() {
-      return $scope.variable.distribution &&
+      return $scope.variable.distribution != null &&
         $scope.variable.distribution.validResponses &&
         $scope.variable.distribution.validResponses.length > 0;
     };

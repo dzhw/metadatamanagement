@@ -6,22 +6,26 @@
 * LICENSE file in the root directory of this source tree.
 */
 
-
 'use strict';
 
 var d3 = require('d3');
-var Plotly = require('../plotly');
 var Registry = require('../registry');
 var Plots = require('../plots/plots');
+
 var Lib = require('../lib');
+var clearGlCanvases = require('../lib/clear_gl_canvases');
 
 var Color = require('../components/color');
 var Drawing = require('../components/drawing');
 var Titles = require('../components/titles');
 var ModeBar = require('../components/modebar');
-var initInteractions = require('../plots/cartesian/graph_interact');
-var cartesianConstants = require('../plots/cartesian/constants');
+
+var Axes = require('../plots/cartesian/axes');
 var alignmentConstants = require('../constants/alignment');
+var axisConstraints = require('../plots/cartesian/constraints');
+var enforceAxisConstraints = axisConstraints.enforce;
+var cleanAxisConstraints = axisConstraints.clean;
+var doAutoRange = require('../plots/cartesian/autorange').doAutoRange;
 
 exports.layoutStyles = function(gd) {
     return Lib.syncOrAsync([Plots.doAutoMargin, exports.lsInner], gd);
@@ -46,7 +50,7 @@ exports.lsInner = function(gd) {
     var fullLayout = gd._fullLayout;
     var gs = fullLayout._size;
     var pad = gs.p;
-    var axList = Plotly.Axes.list(gd);
+    var axList = Axes.list(gd, '', true);
 
     // _has('cartesian') means SVG specifically, not GL2D - but GL2D
     // can still get here because it makes some of the SVG structure
@@ -91,6 +95,11 @@ exports.lsInner = function(gd) {
         ax._mainMirrorPosition = (ax.mirror && counterAx) ?
             getLinePosition(ax, counterAx,
                 alignmentConstants.OPPOSITE_SIDE[ax.side]) : null;
+
+        // Figure out which subplot to draw ticks, labels, & axis lines on
+        // do this as a separate loop so we already have all the
+        // _mainAxis and _anchorAxis links set
+        ax._mainSubplot = findMainSubplot(ax, fullLayout);
     }
 
     fullLayout._paperdiv
@@ -125,31 +134,17 @@ exports.lsInner = function(gd) {
 
         var xDomain = plotinfo.xaxis.domain;
         var yDomain = plotinfo.yaxis.domain;
-        var plotgroupBgData = [];
+        var plotgroup = plotinfo.plotgroup;
 
         if(overlappingDomain(xDomain, yDomain, lowerDomains)) {
-            plotgroupBgData = [0];
-        }
-        else {
+            var pgNode = plotgroup.node();
+            var plotgroupBg = plotinfo.bg = Lib.ensureSingle(plotgroup, 'rect', 'bg');
+            pgNode.insertBefore(plotgroupBg.node(), pgNode.childNodes[0]);
+        } else {
+            plotgroup.select('rect.bg').remove();
             lowerBackgroundIDs.push(subplot);
             lowerDomains.push([xDomain, yDomain]);
         }
-
-        // create the plot group backgrounds now, since
-        // they're all independent selections
-        var plotgroupBg = plotinfo.plotgroup.selectAll('.bg')
-            .data(plotgroupBgData);
-
-        plotgroupBg.enter().append('rect')
-            .classed('bg', true);
-
-        plotgroupBg.exit().remove();
-
-        plotgroupBg.each(function() {
-            plotinfo.bg = plotgroupBg;
-            var pgNode = plotinfo.plotgroup.node();
-            pgNode.insertBefore(this, pgNode.childNodes[0]);
-        });
     });
 
     // now create all the lower-layer backgrounds at once now that
@@ -181,23 +176,17 @@ exports.lsInner = function(gd) {
         }
 
         // Clip so that data only shows up on the plot area.
-        plotinfo.clipId = 'clip' + fullLayout._uid + subplot + 'plot';
+        var clipId = plotinfo.clipId = 'clip' + fullLayout._uid + subplot + 'plot';
 
-        var plotClip = fullLayout._clips.selectAll('#' + plotinfo.clipId)
-            .data([0]);
+        var plotClip = Lib.ensureSingleById(fullLayout._clips, 'clipPath', clipId, function(s) {
+            s.classed('plotclip', true)
+                .append('rect');
+        });
 
-        plotClip.enter().append('clipPath')
-            .attr({
-                'class': 'plotclip',
-                'id': plotinfo.clipId
-            })
-            .append('rect');
-
-        plotClip.selectAll('rect')
-            .attr({
-                'width': xa._length,
-                'height': ya._length
-            });
+        plotinfo.clipRect = plotClip.select('rect').attr({
+            width: xa._length,
+            height: ya._length
+        });
 
         Drawing.setTranslate(plotinfo.plot, xa._offset, ya._offset);
 
@@ -206,23 +195,17 @@ exports.lsInner = function(gd) {
 
         if(plotinfo._hasClipOnAxisFalse) {
             plotClipId = null;
-            layerClipId = plotinfo.clipId;
+            layerClipId = clipId;
         } else {
-            plotClipId = plotinfo.clipId;
+            plotClipId = clipId;
             layerClipId = null;
         }
 
         Drawing.setClipUrl(plotinfo.plot, plotClipId);
 
-        for(i = 0; i < cartesianConstants.traceLayerClasses.length; i++) {
-            var layer = cartesianConstants.traceLayerClasses[i];
-            if(layer !== 'scatterlayer') {
-                plotinfo.plot.selectAll('g.' + layer).call(Drawing.setClipUrl, layerClipId);
-            }
-        }
-
         // stash layer clipId value (null or same as clipId)
-        // to DRY up Drawing.setClipUrl calls downstream
+        // to DRY up Drawing.setClipUrl calls on trace-module and trace layers
+        // downstream
         plotinfo.layerClipId = layerClipId;
 
         // figure out extra axis line and tick positions as needed
@@ -272,6 +255,7 @@ exports.lsInner = function(gd) {
          *    -----
          *     x2
          */
+        var xPath = 'M0,0';
         if(shouldShowLinesOrTicks(xa, subplot)) {
             leftYLineWidth = findCounterAxisLineWidth(xa, 'left', ya, axList);
             xLinesXLeft = xa._offset - (leftYLineWidth ? (pad + leftYLineWidth) : 0);
@@ -288,17 +272,17 @@ exports.lsInner = function(gd) {
                 xa._linepositions[subplot] = [xLinesYBottom, xLinesYTop];
             }
 
-            var xPath = mainPath(xa, xLinePath, xLinePathFree);
+            xPath = mainPath(xa, xLinePath, xLinePathFree);
             if(extraSubplot && xa.showline && (xa.mirror === 'all' || xa.mirror === 'allticks')) {
                 xPath += xLinePath(xLinesYBottom) + xLinePath(xLinesYTop);
             }
 
             plotinfo.xlines
-                .attr('d', xPath || 'M0,0')
                 .style('stroke-width', xa._lw + 'px')
                 .call(Color.stroke, xa.showline ?
                     xa.linecolor : 'rgba(0,0,0,0)');
         }
+        plotinfo.xlines.attr('d', xPath);
 
         /*
          * y lines that meet x axes get longer only by margin.pad, because
@@ -311,6 +295,7 @@ exports.lsInner = function(gd) {
          *       |
          *       +-----
          */
+        var yPath = 'M0,0';
         if(shouldShowLinesOrTicks(ya, subplot)) {
             connectYBottom = findCounterAxisLineWidth(ya, 'bottom', xa, axList);
             yLinesYBottom = ya._offset + ya._length + (connectYBottom ? pad : 0);
@@ -324,25 +309,67 @@ exports.lsInner = function(gd) {
                 ya._linepositions[subplot] = [yLinesXLeft, yLinesXRight];
             }
 
-            var yPath = mainPath(ya, yLinePath, yLinePathFree);
+            yPath = mainPath(ya, yLinePath, yLinePathFree);
             if(extraSubplot && ya.showline && (ya.mirror === 'all' || ya.mirror === 'allticks')) {
                 yPath += yLinePath(yLinesXLeft) + yLinePath(yLinesXRight);
             }
 
             plotinfo.ylines
-                .attr('d', yPath || 'M0,0')
                 .style('stroke-width', ya._lw + 'px')
                 .call(Color.stroke, ya.showline ?
                     ya.linecolor : 'rgba(0,0,0,0)');
         }
+        plotinfo.ylines.attr('d', yPath);
     });
 
-    Plotly.Axes.makeClipPaths(gd);
+    Axes.makeClipPaths(gd);
     exports.drawMainTitle(gd);
     ModeBar.manage(gd);
 
     return gd._promises.length && Promise.all(gd._promises);
 };
+
+function findMainSubplot(ax, fullLayout) {
+    var subplotList = fullLayout._subplots;
+    var ids = subplotList.cartesian.concat(subplotList.gl2d || []);
+    var mockGd = {_fullLayout: fullLayout};
+
+    var isX = ax._id.charAt(0) === 'x';
+    var anchorAx = ax._mainAxis._anchorAxis;
+    var mainSubplotID = '';
+    var nextBestMainSubplotID = '';
+    var anchorID = '';
+
+    // First try the main ID with the anchor
+    if(anchorAx) {
+        anchorID = anchorAx._mainAxis._id;
+        mainSubplotID = isX ? (ax._id + anchorID) : (anchorID + ax._id);
+    }
+
+    // Then look for a subplot with the counteraxis overlaying the anchor
+    // If that fails just use the first subplot including this axis
+    if(!mainSubplotID || !fullLayout._plots[mainSubplotID]) {
+        mainSubplotID = '';
+
+        for(var j = 0; j < ids.length; j++) {
+            var id = ids[j];
+            var yIndex = id.indexOf('y');
+            var idPart = isX ? id.substr(0, yIndex) : id.substr(yIndex);
+            var counterPart = isX ? id.substr(yIndex) : id.substr(0, yIndex);
+
+            if(idPart === ax._id) {
+                if(!nextBestMainSubplotID) nextBestMainSubplotID = id;
+                var counterAx = Axes.getFromId(mockGd, counterPart);
+                if(anchorID && counterAx.overlaying === anchorID) {
+                    mainSubplotID = id;
+                    break;
+                }
+            }
+        }
+    }
+
+    return mainSubplotID || nextBestMainSubplotID;
+}
 
 function shouldShowLinesOrTicks(ax, subplot) {
     return (ax.ticks || ax.showline) &&
@@ -460,7 +487,7 @@ exports.doColorBars = function(gd) {
 exports.layoutReplot = function(gd) {
     var layout = gd.layout;
     gd.layout = undefined;
-    return Plotly.plot(gd, '', layout);
+    return Registry.call('plot', gd, '', layout);
 };
 
 exports.doLegend = function(gd) {
@@ -468,8 +495,18 @@ exports.doLegend = function(gd) {
     return Plots.previousPromises(gd);
 };
 
-exports.doTicksRelayout = function(gd) {
-    Plotly.Axes.doTicks(gd, 'redraw');
+exports.doTicksRelayout = function(gd, rangesAltered) {
+    if(rangesAltered) {
+        Axes.doTicks(gd, Object.keys(rangesAltered), true);
+    } else {
+        Axes.doTicks(gd, 'redraw');
+    }
+
+    if(gd._fullLayout._hasOnlyLargeSploms) {
+        clearGlCanvases(gd);
+        Registry.subplotsRegistry.splom.plot(gd);
+    }
+
     exports.drawMainTitle(gd);
     return Plots.previousPromises(gd);
 };
@@ -478,7 +515,6 @@ exports.doModeBar = function(gd) {
     var fullLayout = gd._fullLayout;
 
     ModeBar.manage(gd);
-    initInteractions(gd);
 
     for(var i = 0; i < fullLayout._basePlotModules.length; i++) {
         var updateFx = fullLayout._basePlotModules[i].updateFx;
@@ -498,4 +534,64 @@ exports.doCamera = function(gd) {
 
         scene.setCamera(sceneLayout.camera);
     }
+};
+
+exports.drawData = function(gd) {
+    var fullLayout = gd._fullLayout;
+    var calcdata = gd.calcdata;
+    var i;
+
+    // remove old colorbars explicitly
+    for(i = 0; i < calcdata.length; i++) {
+        var trace = calcdata[i][0].trace;
+        if(trace.visible !== true || !trace._module.colorbar) {
+            fullLayout._infolayer.select('.cb' + trace.uid).remove();
+        }
+    }
+
+    clearGlCanvases(gd);
+
+    // loop over the base plot modules present on graph
+    var basePlotModules = fullLayout._basePlotModules;
+    for(i = 0; i < basePlotModules.length; i++) {
+        basePlotModules[i].plot(gd);
+    }
+
+    // styling separate from drawing
+    Plots.style(gd);
+
+    // show annotations and shapes
+    Registry.getComponentMethod('shapes', 'draw')(gd);
+    Registry.getComponentMethod('annotations', 'draw')(gd);
+
+    // Mark the first render as complete
+    fullLayout._replotting = false;
+
+    return Plots.previousPromises(gd);
+};
+
+exports.doAutoRangeAndConstraints = function(gd) {
+    var axList = Axes.list(gd, '', true);
+
+    for(var i = 0; i < axList.length; i++) {
+        var ax = axList[i];
+        cleanAxisConstraints(gd, ax);
+        doAutoRange(ax);
+    }
+
+    enforceAxisConstraints(gd);
+};
+
+// An initial paint must be completed before these components can be
+// correctly sized and the whole plot re-margined. fullLayout._replotting must
+// be set to false before these will work properly.
+exports.finalDraw = function(gd) {
+    Registry.getComponentMethod('shapes', 'draw')(gd);
+    Registry.getComponentMethod('images', 'draw')(gd);
+    Registry.getComponentMethod('annotations', 'draw')(gd);
+    Registry.getComponentMethod('legend', 'draw')(gd);
+    Registry.getComponentMethod('rangeslider', 'draw')(gd);
+    Registry.getComponentMethod('rangeselector', 'draw')(gd);
+    Registry.getComponentMethod('sliders', 'draw')(gd);
+    Registry.getComponentMethod('updatemenus', 'draw')(gd);
 };

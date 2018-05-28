@@ -10,10 +10,10 @@
 
 var d3 = require('d3');
 
-var Plotly = require('../../plotly');
 var Lib = require('../../lib');
 var Plots = require('../../plots/plots');
 var Registry = require('../../registry');
+var Events = require('../../lib/events');
 var dragElement = require('../dragelement');
 var Drawing = require('../drawing');
 var Color = require('../color');
@@ -42,9 +42,9 @@ module.exports = function draw(gd) {
 
     if(!gd._legendMouseDownTime) gd._legendMouseDownTime = 0;
 
-    var opts = fullLayout.legend,
-        legendData = fullLayout.showlegend && getLegendData(gd.calcdata, opts),
-        hiddenSlices = fullLayout.hiddenlabels || [];
+    var opts = fullLayout.legend;
+    var legendData = fullLayout.showlegend && getLegendData(gd.calcdata, opts);
+    var hiddenSlices = fullLayout.hiddenlabels || [];
 
     if(!fullLayout.showlegend || !legendData.length) {
         fullLayout._infolayer.selectAll('.legend').remove();
@@ -54,52 +54,46 @@ module.exports = function draw(gd) {
         return;
     }
 
-    var legend = fullLayout._infolayer.selectAll('g.legend')
-        .data([0]);
+    var maxLength = 0;
+    for(var i = 0; i < legendData.length; i++) {
+        for(var j = 0; j < legendData[i].length; j++) {
+            var item = legendData[i][j][0];
+            var trace = item.trace;
+            var isPie = Registry.traceIs(trace, 'pie');
+            var name = isPie ? item.label : trace.name;
+            maxLength = Math.max(maxLength, name && name.length || 0);
+        }
+    }
 
-    legend.enter().append('g')
-        .attr({
-            'class': 'legend',
-            'pointer-events': 'all'
-        });
-
-    var clipPath = fullLayout._topdefs.selectAll('#' + clipId)
-        .data([0]);
-
-    clipPath.enter().append('clipPath')
-        .attr('id', clipId)
-        .append('rect');
-
-    var bg = legend.selectAll('rect.bg')
-        .data([0]);
-
-    bg.enter().append('rect').attr({
-        'class': 'bg',
-        'shape-rendering': 'crispEdges'
+    var firstRender = false;
+    var legend = Lib.ensureSingle(fullLayout._infolayer, 'g', 'legend', function(s) {
+        s.attr('pointer-events', 'all');
+        firstRender = true;
     });
 
-    bg.call(Color.stroke, opts.bordercolor);
-    bg.call(Color.fill, opts.bgcolor);
-    bg.style('stroke-width', opts.borderwidth + 'px');
+    var clipPath = Lib.ensureSingleById(fullLayout._topdefs, 'clipPath', clipId, function(s) {
+        s.append('rect');
+    });
 
-    var scrollBox = legend.selectAll('g.scrollbox')
-        .data([0]);
+    var bg = Lib.ensureSingle(legend, 'rect', 'bg', function(s) {
+        s.attr('shape-rendering', 'crispEdges');
+    });
 
-    scrollBox.enter().append('g')
-        .attr('class', 'scrollbox');
+    bg.call(Color.stroke, opts.bordercolor)
+        .call(Color.fill, opts.bgcolor)
+        .style('stroke-width', opts.borderwidth + 'px');
 
-    var scrollBar = legend.selectAll('rect.scrollbar')
-        .data([0]);
+    var scrollBox = Lib.ensureSingle(legend, 'g', 'scrollbox');
 
-    scrollBar.enter().append('rect')
-        .attr({
-            'class': 'scrollbar',
-            'rx': 20,
-            'ry': 2,
-            'width': 0,
-            'height': 0
+    var scrollBar = Lib.ensureSingle(legend, 'rect', 'scrollbar', function(s) {
+        s.attr({
+            rx: 20,
+            ry: 3,
+            width: 0,
+            height: 0
         })
         .call(Color.fill, '#808BA4');
+    });
 
     var groups = scrollBox.selectAll('g.groups')
         .data(legendData);
@@ -126,11 +120,10 @@ module.exports = function draw(gd) {
         })
         .each(function() {
             d3.select(this)
-                .call(drawTexts, gd)
+                .call(drawTexts, gd, maxLength)
                 .call(setupTraceToggle, gd);
         });
 
-    var firstRender = legend.enter().size() !== 0;
     if(firstRender) {
         computeLegendDimensions(gd, groups, traces);
         expandMargin(gd);
@@ -207,12 +200,9 @@ module.exports = function draw(gd) {
     // legend, background and border, scroll box and scroll bar
     Drawing.setTranslate(legend, lx, ly);
 
-    var scrollBarYMax = legendHeight -
-            constants.scrollBarHeight -
-            2 * constants.scrollBarMargin,
-        scrollBoxYMax = opts._height - legendHeight,
-        scrollBarY,
-        scrollBoxY;
+    // to be safe, remove previous listeners
+    scrollBar.on('.drag', null);
+    legend.on('wheel', null);
 
     if(opts._height <= legendHeight || gd._context.staticPlot) {
         // if scrollbar should not be shown.
@@ -232,11 +222,21 @@ module.exports = function draw(gd) {
             y: opts.borderwidth
         });
 
-        scrollBox.call(Drawing.setClipUrl, clipId);
+        Drawing.setClipUrl(scrollBox, clipId);
+
+        Drawing.setRect(scrollBar, 0, 0, 0, 0);
+        delete opts._scrollY;
     }
     else {
-        scrollBarY = constants.scrollBarMargin,
-        scrollBoxY = scrollBox.attr('data-scroll') || 0;
+        var scrollBarHeight = Math.max(constants.scrollBarMinHeight,
+            legendHeight * legendHeight / opts._height);
+        var scrollBarYMax = legendHeight -
+            scrollBarHeight -
+            2 * constants.scrollBarMargin;
+        var scrollBoxYMax = opts._height - legendHeight;
+        var scrollRatio = scrollBarYMax / scrollBoxYMax;
+
+        var scrollBoxY = Math.min(opts._scrollY || 0, scrollBoxYMax);
 
         // increase the background and clip-path width
         // by the scrollbar width and margin
@@ -257,60 +257,58 @@ module.exports = function draw(gd) {
                 constants.scrollBarMargin,
             height: legendHeight - 2 * opts.borderwidth,
             x: opts.borderwidth,
-            y: opts.borderwidth - scrollBoxY
+            y: opts.borderwidth + scrollBoxY
         });
 
-        scrollBox.call(Drawing.setClipUrl, clipId);
+        Drawing.setClipUrl(scrollBox, clipId);
 
-        if(firstRender) scrollHandler(scrollBarY, scrollBoxY);
+        scrollHandler(scrollBoxY, scrollBarHeight, scrollRatio);
 
-        legend.on('wheel', null);  // to be safe, remove previous listeners
         legend.on('wheel', function() {
             scrollBoxY = Lib.constrain(
-                scrollBox.attr('data-scroll') -
+                opts._scrollY +
                     d3.event.deltaY / scrollBarYMax * scrollBoxYMax,
-                -scrollBoxYMax, 0);
-            scrollBarY = constants.scrollBarMargin -
-                scrollBoxY / scrollBoxYMax * scrollBarYMax;
-            scrollHandler(scrollBarY, scrollBoxY);
-            if(scrollBoxY !== 0 && scrollBoxY !== -scrollBoxYMax) {
+                0, scrollBoxYMax);
+            scrollHandler(scrollBoxY, scrollBarHeight, scrollRatio);
+            if(scrollBoxY !== 0 && scrollBoxY !== scrollBoxYMax) {
                 d3.event.preventDefault();
             }
         });
 
-        // to be safe, remove previous listeners
-        scrollBar.on('.drag', null);
-        scrollBox.on('.drag', null);
+        var eventY0, scrollBoxY0;
 
-        var drag = d3.behavior.drag().on('drag', function() {
-            scrollBarY = Lib.constrain(
-                d3.event.y - constants.scrollBarHeight / 2,
-                constants.scrollBarMargin,
-                constants.scrollBarMargin + scrollBarYMax);
-            scrollBoxY = - (scrollBarY - constants.scrollBarMargin) /
-                scrollBarYMax * scrollBoxYMax;
-            scrollHandler(scrollBarY, scrollBoxY);
+        var drag = d3.behavior.drag()
+        .on('dragstart', function() {
+            eventY0 = d3.event.sourceEvent.clientY;
+            scrollBoxY0 = scrollBoxY;
+        })
+        .on('drag', function() {
+            var e = d3.event.sourceEvent;
+            if(e.buttons === 2 || e.ctrlKey) return;
+
+            scrollBoxY = Lib.constrain(
+                (e.clientY - eventY0) / scrollRatio + scrollBoxY0,
+                0, scrollBoxYMax);
+            scrollHandler(scrollBoxY, scrollBarHeight, scrollRatio);
         });
 
         scrollBar.call(drag);
-        scrollBox.call(drag);
     }
 
 
-    function scrollHandler(scrollBarY, scrollBoxY) {
-        scrollBox
-            .attr('data-scroll', scrollBoxY)
-            .call(Drawing.setTranslate, 0, scrollBoxY);
+    function scrollHandler(scrollBoxY, scrollBarHeight, scrollRatio) {
+        opts._scrollY = gd._fullLayout.legend._scrollY = scrollBoxY;
+        Drawing.setTranslate(scrollBox, 0, -scrollBoxY);
 
-        scrollBar.call(
-            Drawing.setRect,
+        Drawing.setRect(
+            scrollBar,
             legendWidth,
-            scrollBarY,
+            constants.scrollBarMargin + scrollBoxY * scrollRatio,
             constants.scrollBarWidth,
-            constants.scrollBarHeight
+            scrollBarHeight
         );
         clipPath.select('rect').attr({
-            y: opts.borderwidth - scrollBoxY
+            y: opts.borderwidth + scrollBoxY
         });
     }
 
@@ -339,7 +337,7 @@ module.exports = function draw(gd) {
             },
             doneFn: function() {
                 if(xf !== undefined && yf !== undefined) {
-                    Plotly.relayout(gd, {'legend.x': xf, 'legend.y': yf});
+                    Registry.call('relayout', gd, {'legend.x': xf, 'legend.y': yf});
                 }
             },
             clickFn: function(numClicks, e) {
@@ -350,39 +348,68 @@ module.exports = function draw(gd) {
                             e.clientY >= bbox.top && e.clientY <= bbox.bottom);
                     });
                 if(clickedTrace.size() > 0) {
-                    if(numClicks === 1) {
-                        legend._clickTimeout = setTimeout(function() {
-                            handleClick(clickedTrace, gd, numClicks);
-                        }, DBLCLICKDELAY);
-                    } else if(numClicks === 2) {
-                        if(legend._clickTimeout) {
-                            clearTimeout(legend._clickTimeout);
-                        }
-                        handleClick(clickedTrace, gd, numClicks);
-                    }
+                    clickOrDoubleClick(gd, legend, clickedTrace, numClicks, e);
                 }
             }
         });
     }
 };
 
-function drawTexts(g, gd) {
-    var legendItem = g.data()[0][0],
-        fullLayout = gd._fullLayout,
-        trace = legendItem.trace,
-        isPie = Registry.traceIs(trace, 'pie'),
-        traceIndex = trace.index,
-        name = isPie ? legendItem.label : trace.name;
+function clickOrDoubleClick(gd, legend, legendItem, numClicks, evt) {
+    var trace = legendItem.data()[0][0].trace;
 
-    var text = g.selectAll('text.legendtext')
-        .data([0]);
+    var evtData = {
+        event: evt,
+        node: legendItem.node(),
+        curveNumber: trace.index,
+        expandedIndex: trace._expandedIndex,
+        data: gd.data,
+        layout: gd.layout,
+        frames: gd._transitionData._frames,
+        config: gd._context,
+        fullData: gd._fullData,
+        fullLayout: gd._fullLayout
+    };
 
-    text.enter().append('text').classed('legendtext', true);
+    if(trace._group) {
+        evtData.group = trace._group;
+    }
+    if(trace.type === 'pie') {
+        evtData.label = legendItem.datum()[0].label;
+    }
 
-    text.attr('text-anchor', 'start')
+    var clickVal = Events.triggerHandler(gd, 'plotly_legendclick', evtData);
+    if(clickVal === false) return;
+
+    if(numClicks === 1) {
+        legend._clickTimeout = setTimeout(function() {
+            handleClick(legendItem, gd, numClicks);
+        }, DBLCLICKDELAY);
+    }
+    else if(numClicks === 2) {
+        if(legend._clickTimeout) clearTimeout(legend._clickTimeout);
+        gd._legendMouseDownTime = 0;
+
+        var dblClickVal = Events.triggerHandler(gd, 'plotly_legenddoubleclick', evtData);
+        if(dblClickVal !== false) handleClick(legendItem, gd, numClicks);
+    }
+}
+
+function drawTexts(g, gd, maxLength) {
+    var legendItem = g.data()[0][0];
+    var fullLayout = gd._fullLayout;
+    var trace = legendItem.trace;
+    var isPie = Registry.traceIs(trace, 'pie');
+    var traceIndex = trace.index;
+    var name = isPie ? legendItem.label : trace.name;
+    var isEditable = gd._context.edits.legendText && !isPie;
+
+    var textEl = Lib.ensureSingle(g, 'text', 'legendtext');
+
+    textEl.attr('text-anchor', 'start')
         .classed('user-select-none', true)
         .call(Drawing.font, fullLayout.legend.font)
-        .text(name);
+        .text(isEditable ? ensureLength(name, maxLength) : name);
 
     function textLayout(s) {
         svgTextUtils.convertToTspans(s, gd, function() {
@@ -390,67 +417,60 @@ function drawTexts(g, gd) {
         });
     }
 
-    if(gd._context.edits.legendText && !isPie) {
-        text.call(svgTextUtils.makeEditable, {gd: gd})
+    if(isEditable) {
+        textEl.call(svgTextUtils.makeEditable, {gd: gd, text: name})
             .call(textLayout)
-            .on('edit', function(text) {
-                this.text(text)
+            .on('edit', function(newName) {
+                this.text(ensureLength(newName, maxLength))
                     .call(textLayout);
 
-                var origText = text;
-
-                if(!this.text()) text = ' \u0020\u0020 ';
-
-                var transforms, direction;
                 var fullInput = legendItem.trace._fullInput || {};
                 var update = {};
 
-                // N.B. this block isn't super clean,
-                // is unfortunately untested at the moment,
-                // and only works for for 'ohlc' and 'candlestick',
-                // but should be generalized for other one-to-many transforms
-                if(['ohlc', 'candlestick'].indexOf(fullInput.type) !== -1) {
-                    transforms = legendItem.trace.transforms;
-                    direction = transforms[transforms.length - 1].direction;
-
-                    update[direction + '.name'] = text;
-                } else if(Registry.hasTransform(fullInput, 'groupby')) {
+                if(Registry.hasTransform(fullInput, 'groupby')) {
                     var groupbyIndices = Registry.getTransformIndices(fullInput, 'groupby');
                     var index = groupbyIndices[groupbyIndices.length - 1];
 
                     var kcont = Lib.keyedContainer(fullInput, 'transforms[' + index + '].styles', 'target', 'value.name');
 
-                    if(origText === '') {
-                        kcont.remove(legendItem.trace._group);
-                    } else {
-                        kcont.set(legendItem.trace._group, text);
-                    }
+                    kcont.set(legendItem.trace._group, newName);
 
                     update = kcont.constructUpdate();
                 } else {
-                    update.name = text;
+                    update.name = newName;
                 }
 
-                return Plotly.restyle(gd, update, traceIndex);
+                return Registry.call('restyle', gd, update, traceIndex);
             });
     } else {
-        text.call(textLayout);
+        textLayout(textEl);
     }
+}
+
+/*
+ * Make sure we have a reasonably clickable region.
+ * If this string is missing or very short, pad it with spaces out to at least
+ * 4 characters, up to the max length of other labels, on the assumption that
+ * most characters are wider than spaces so a string of spaces will usually be
+ * no wider than the real labels.
+ */
+function ensureLength(str, maxLength) {
+    var targetLength = Math.max(4, maxLength);
+    if(str && str.trim().length >= targetLength / 2) return str;
+    str = str || '';
+    for(var i = targetLength - str.length; i > 0; i--) str += ' ';
+    return str;
 }
 
 function setupTraceToggle(g, gd) {
     var newMouseDownTime,
         numClicks = 1;
 
-    var traceToggle = g.selectAll('rect')
-        .data([0]);
-
-    traceToggle.enter().append('rect')
-        .classed('legendtoggle', true)
-        .style('cursor', 'pointer')
-        .attr('pointer-events', 'all')
-        .call(Color.fill, 'rgba(0,0,0,0)');
-
+    var traceToggle = Lib.ensureSingle(g, 'rect', 'legendtoggle', function(s) {
+        s.style('cursor', 'pointer')
+            .attr('pointer-events', 'all')
+            .call(Color.fill, 'rgba(0,0,0,0)');
+    });
 
     traceToggle.on('mousedown', function() {
         newMouseDownTime = (new Date()).getTime();
@@ -472,15 +492,7 @@ function setupTraceToggle(g, gd) {
             numClicks = Math.max(numClicks - 1, 1);
         }
 
-        if(numClicks === 1) {
-            legend._clickTimeout = setTimeout(function() { handleClick(g, gd, numClicks); }, DBLCLICKDELAY);
-        } else if(numClicks === 2) {
-            if(legend._clickTimeout) {
-                clearTimeout(legend._clickTimeout);
-            }
-            gd._legendMouseDownTime = 0;
-            handleClick(g, gd, numClicks);
-        }
+        clickOrDoubleClick(gd, legend, g, numClicks, d3.event);
     });
 }
 
@@ -664,7 +676,7 @@ function computeLegendDimensions(gd, groups, traces) {
         var legendItem = d[0],
             bg = d3.select(this).select('.legendtoggle');
 
-        bg.call(Drawing.setRect,
+        Drawing.setRect(bg,
             0,
             -legendItem.height / 2,
             (gd._context.edits.legendText ? 0 : opts._width) + extraWidth,

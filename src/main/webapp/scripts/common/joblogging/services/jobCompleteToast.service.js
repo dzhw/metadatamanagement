@@ -12,7 +12,6 @@ angular.module('metadatamanagementApp').service('JobCompleteToastService',
         templateUrl: 'scripts/common/joblogging/views/' +
           'job-complete-toast.html.tmpl',
         hideDelay: 0,
-        autoWrap: false,
         position: 'top right',
         parent: toastParent,
         locals: {

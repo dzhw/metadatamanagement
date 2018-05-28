@@ -12,7 +12,6 @@
 var d3 = require('d3');
 var tinycolor = require('tinycolor2');
 
-var Plotly = require('../../plotly');
 var Plots = require('../../plots/plots');
 var Registry = require('../../registry');
 var Axes = require('../../plots/cartesian/axes');
@@ -246,20 +245,21 @@ module.exports = function draw(gd, id) {
         cbAxisOut.setScale();
 
         // now draw the elements
-        var container = fullLayout._infolayer.selectAll('g.' + id).data([0]);
-        container.enter().append('g').classed(id, true)
-            .classed(cn.colorbar, true)
-            .each(function() {
-                var s = d3.select(this);
-                s.append('rect').classed(cn.cbbg, true);
-                s.append('g').classed(cn.cbfills, true);
-                s.append('g').classed(cn.cblines, true);
-                s.append('g').classed(cn.cbaxis, true).classed(cn.crisp, true);
-                s.append('g').classed(cn.cbtitleunshift, true)
-                    .append('g').classed(cn.cbtitle, true);
-                s.append('rect').classed(cn.cboutline, true);
-                s.select('.cbtitle').datum(0);
-            });
+        var container = Lib.ensureSingle(fullLayout._infolayer, 'g', id, function(s) {
+            s.classed(cn.colorbar, true)
+                .each(function() {
+                    var s = d3.select(this);
+                    s.append('rect').classed(cn.cbbg, true);
+                    s.append('g').classed(cn.cbfills, true);
+                    s.append('g').classed(cn.cblines, true);
+                    s.append('g').classed(cn.cbaxis, true).classed(cn.crisp, true);
+                    s.append('g').classed(cn.cbtitleunshift, true)
+                        .append('g').classed(cn.cbtitle, true);
+                    s.append('rect').classed(cn.cboutline, true);
+                    s.select('.cbtitle').datum(0);
+                });
+        });
+
         container.attr('transform', 'translate(' + Math.round(gs.l) +
             ',' + Math.round(gs.t) + ')');
         // TODO: this opposite transform is a hack until we make it
@@ -418,7 +418,7 @@ module.exports = function draw(gd, id) {
             // this title call only handles side=right
             return Lib.syncOrAsync([
                 function() {
-                    return Axes.doTicks(gd, cbAxisOut, true);
+                    return Axes.doTicksSingle(gd, cbAxisOut, true);
                 },
                 function() {
                     if(['top', 'bottom'].indexOf(opts.titleside) === -1) {
@@ -588,9 +588,11 @@ module.exports = function draw(gd, id) {
                     setCursor(container);
 
                     if(xf !== undefined && yf !== undefined) {
-                        Plotly.restyle(gd,
+                        Registry.call('restyle',
+                            gd,
                             {'colorbar.x': xf, 'colorbar.y': yf},
-                            getTrace().index);
+                            getTrace().index
+                        );
                     }
                 }
             });

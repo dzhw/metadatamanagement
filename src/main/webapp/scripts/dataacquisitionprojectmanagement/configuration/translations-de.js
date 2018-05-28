@@ -44,9 +44,10 @@ angular.module('metadatamanagementApp').config(
         'error': {
           'data-acquisition-project': {
             'id': {
-              'not-empty': 'Die FDZ-ID des Datenaufbereitungsprojekts darf nicht leer sein!',
+              'not-empty': 'Der Name des Datenaufbereitungsprojekts darf nicht leer sein!',
               'pattern': 'Der Name eines Projektes darf nur aus Zahlen und kleinen Buchstaben (a-z) bestehen.',
-              'size': 'Die Maximallänge der FDZ-ID ist 32 Zeichen.'
+              'size': 'Die Maximallänge des Names ist 32 Zeichen.',
+              'exists': 'Es gibt bereits ein Datenaufbereitungsprojekt mit diesem Namen.'
             },
             'has-been-released-before': {
               'not-null': 'Es muss angegeben sein, ob ein des Datenaufbereitungsprojekts schon einmal veröffentlicht wurde oder nicht.'

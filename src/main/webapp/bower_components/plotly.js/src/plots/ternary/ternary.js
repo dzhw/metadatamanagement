@@ -12,7 +12,7 @@
 var d3 = require('d3');
 var tinycolor = require('tinycolor2');
 
-var Plotly = require('../../plotly');
+var Registry = require('../../registry');
 var Lib = require('../../lib');
 var _ = Lib._;
 var Color = require('../../components/color');
@@ -24,9 +24,9 @@ var Axes = require('../cartesian/axes');
 var dragElement = require('../../components/dragelement');
 var Fx = require('../../components/fx');
 var Titles = require('../../components/titles');
-var prepSelect = require('../cartesian/select');
+var prepSelect = require('../cartesian/select').prepSelect;
+var clearSelect = require('../cartesian/select').clearSelect;
 var constants = require('../cartesian/constants');
-
 
 function Ternary(options, fullLayout) {
     this.id = options.id;
@@ -71,27 +71,22 @@ proto.plot = function(ternaryCalcData, fullLayout) {
 proto.makeFramework = function(fullLayout) {
     var _this = this;
     var ternaryLayout = fullLayout[_this.id];
+
     var clipId = _this.clipId = 'clip' + _this.layoutId + _this.id;
+    var clipIdRelative = _this.clipIdRelative = 'clip-relative' + _this.layoutId + _this.id;
 
     // clippath for this ternary subplot
-    _this.clipDef = fullLayout._clips.selectAll('#' + clipId)
-        .data([0]);
-    _this.clipDef.enter().append('clipPath').attr('id', clipId)
-        .append('path').attr('d', 'M0,0Z');
+    _this.clipDef = Lib.ensureSingleById(fullLayout._clips, 'clipPath', clipId, function(s) {
+        s.append('path').attr('d', 'M0,0Z');
+    });
 
     // 'relative' clippath (i.e. no translation) for this ternary subplot
-    var clipIdRelative = _this.clipIdRelative = 'clip-relative' + _this.layoutId + _this.id;
-    _this.clipDefRelative = fullLayout._clips.selectAll('#' + clipIdRelative)
-        .data([0]);
-    _this.clipDefRelative.enter().append('clipPath').attr('id', clipIdRelative)
-        .append('path').attr('d', 'M0,0Z');
+    _this.clipDefRelative = Lib.ensureSingleById(fullLayout._clips, 'clipPath', clipIdRelative, function(s) {
+        s.append('path').attr('d', 'M0,0Z');
+    });
 
     // container for everything in this ternary subplot
-    _this.plotContainer = _this.container.selectAll('g.' + _this.id)
-        .data([0]);
-    _this.plotContainer.enter().append('g')
-        .classed(_this.id, true);
-
+    _this.plotContainer = Lib.ensureSingle(_this.container, 'g', _this.id);
     _this.updateLayers(ternaryLayout);
 
     Drawing.setClipUrl(_this.layers.backplot, clipId);
@@ -261,7 +256,8 @@ proto.adjustLayout = function(ternaryLayout, graphSize) {
         _pos: 0, // _this.xaxis.domain[0] * graphSize.w,
         _id: 'y',
         _length: w,
-        _gridpath: 'M0,0l' + h + ',-' + (w / 2)
+        _gridpath: 'M0,0l' + h + ',-' + (w / 2),
+        automargin: false // don't use automargins routine for labels
     });
     setConvert(aaxis, _this.graphDiv._fullLayout);
     aaxis.setScale();
@@ -280,7 +276,8 @@ proto.adjustLayout = function(ternaryLayout, graphSize) {
         _pos: 0, // (1 - yDomain0) * graphSize.h,
         _id: 'x',
         _length: w,
-        _gridpath: 'M0,0l-' + (w / 2) + ',-' + h
+        _gridpath: 'M0,0l-' + (w / 2) + ',-' + h,
+        automargin: false // don't use automargins routine for labels
     });
     setConvert(baxis, _this.graphDiv._fullLayout);
     baxis.setScale();
@@ -301,7 +298,8 @@ proto.adjustLayout = function(ternaryLayout, graphSize) {
         _pos: 0, // _this.xaxis.domain[1] * graphSize.w,
         _id: 'y',
         _length: w,
-        _gridpath: 'M0,0l-' + h + ',' + (w / 2)
+        _gridpath: 'M0,0l-' + h + ',' + (w / 2),
+        automargin: false // don't use automargins routine for labels
     });
     setConvert(caxis, _this.graphDiv._fullLayout);
     caxis.setScale();
@@ -378,9 +376,9 @@ proto.drawAxes = function(doTitles) {
         caxis = _this.caxis;
     // 3rd arg true below skips titles, so we can configure them
     // correctly later on.
-    Axes.doTicks(gd, aaxis, true);
-    Axes.doTicks(gd, baxis, true);
-    Axes.doTicks(gd, caxis, true);
+    Axes.doTicksSingle(gd, aaxis, true);
+    Axes.doTicksSingle(gd, baxis, true);
+    Axes.doTicksSingle(gd, caxis, true);
 
     if(doTitles) {
         var apad = Math.max(aaxis.showticklabels ? aaxis.tickfont.size / 2 : 0,
@@ -481,7 +479,7 @@ proto.initInteractions = function() {
                 dragOptions.moveFn = plotDrag;
                 dragOptions.doneFn = dragDone;
                 panPrep();
-                clearSelect();
+                clearSelect(zoomContainer);
             }
             else if(dragModeNow === 'select' || dragModeNow === 'lasso') {
                 prepSelect(e, startX, startY, dragOptions, dragModeNow);
@@ -496,7 +494,7 @@ proto.initInteractions = function() {
                 attrs[_this.id + '.baxis.min'] = 0;
                 attrs[_this.id + '.caxis.min'] = 0;
                 gd.emit('plotly_doubleclick', null);
-                Plotly.relayout(gd, attrs);
+                Registry.call('relayout', gd, attrs);
             }
             Fx.click(gd, evt, _this.id);
         }
@@ -539,7 +537,7 @@ proto.initInteractions = function() {
             })
             .attr('d', 'M0,0Z');
 
-        clearSelect();
+        clearSelect(zoomContainer);
     }
 
     function getAFrac(x, y) { return 1 - (y / _this.h); }
@@ -601,7 +599,7 @@ proto.initInteractions = function() {
         attrs[_this.id + '.baxis.min'] = mins.b;
         attrs[_this.id + '.caxis.min'] = mins.c;
 
-        Plotly.relayout(gd, attrs);
+        Registry.call('relayout', gd, attrs);
 
         if(SHOWZOOMOUTTIP && gd.data && gd._context.showTips) {
             Lib.notifier(_(gd, 'Double-click to zoom back out'), 'long');
@@ -680,14 +678,7 @@ proto.initInteractions = function() {
         attrs[_this.id + '.baxis.min'] = mins.b;
         attrs[_this.id + '.caxis.min'] = mins.c;
 
-        Plotly.relayout(gd, attrs);
-    }
-
-    function clearSelect() {
-        // until we get around to persistent selections, remove the outline
-        // here. The selection itself will be removed when the plot redraws
-        // at the end.
-        zoomContainer.selectAll('.select-outline').remove();
+        Registry.call('relayout', gd, attrs);
     }
 
     // finally, set up hover and click

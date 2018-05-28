@@ -24,7 +24,7 @@ module.exports = function supplyDefaults(traceIn, traceOut, defaultColor, layout
         var ret = array.map(function(attr) {
             var result = coerce(attr);
 
-            if(result && Array.isArray(result)) return result;
+            if(result && Lib.isArrayOrTypedArray(result)) return result;
             return null;
         });
 
@@ -86,4 +86,9 @@ module.exports = function supplyDefaults(traceIn, traceOut, defaultColor, layout
     }
 
     coerce('text');
+
+    // disable 1D transforms
+    // x/y/z should match lengths, and i/j/k should match as well, but
+    // the two sets have different lengths so transforms wouldn't work.
+    traceOut._length = null;
 };

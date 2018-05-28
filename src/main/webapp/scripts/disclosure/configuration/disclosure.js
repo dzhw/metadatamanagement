@@ -5,6 +5,7 @@ angular.module('metadatamanagementApp').config(
     $stateProvider.state('disclosure', {
       parent: 'site',
       url: '/disclosure',
+      reloadOnSearch: false,
       data: {
         authorities: []
       },
@@ -14,6 +15,14 @@ angular.module('metadatamanagementApp').config(
             'disclosure.html.tmpl',
           controller: 'DisclosureController'
         }
+      },
+      onEnter: function($document, $timeout) {
+        $timeout(function() {
+          var top = angular.element($document.find('#top'));
+          var scrollContainer = angular.element(
+            $document.find('md-content[du-scroll-container]'));
+          scrollContainer.scrollToElementAnimated(top);
+        });
       }
     });
   });
