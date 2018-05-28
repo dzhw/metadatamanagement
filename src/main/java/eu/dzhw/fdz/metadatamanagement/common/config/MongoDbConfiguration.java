@@ -89,16 +89,6 @@ public class MongoDbConfiguration extends AbstractMongoConfiguration {
   }
 
   /**
-   * Register custom converters for mongo access.
-   */
-//  @Bean
-//  public MongoCustomConversions customConversions() {
-//    List<Converter<?, ?>> converters = new ArrayList<>();
-//    converters.add(new OAuth2AuthenticationReadConverter());
-//    return new MongoCustomConversions(converters);
-//  }
-
-  /**
    * Configure Mongeez for schema management.
    * 
    * @deprecated It is not working on cloudfoundry!
