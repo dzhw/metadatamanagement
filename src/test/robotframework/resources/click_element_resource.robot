@@ -18,11 +18,11 @@ Click Element Through Tooltips
     # escape " characters of xpath
     ${var} =  Replace String      ${xpath_string}        xpath=  ${EMPTY}
     ${element_xpath} =  Replace String      ${var}        \"  \\\"
-    Run Keyword If  '${BROWSER}' == 'firefox'
+    Run Keyword If  '${BROWSER}' != 'ie'
     ...             Wait Until Keyword Succeeds  5s  0.5s  Execute JavaScript  window.document.evaluate("${element_xpath}", document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null).snapshotItem(0).click();
-    Run Keyword If  '${BROWSER}' != 'firefox'
+    Run Keyword If  '${BROWSER}' == 'ie'
     ...             Focus  ${xpath_string}
-    Run Keyword If  '${BROWSER}' != 'firefox'
+    Run Keyword If  '${BROWSER}' == 'ie'
     ...             Mouse Over  ${xpath_string}
-    Run Keyword If  '${BROWSER}' != 'firefox'
+    Run Keyword If  '${BROWSER}' == 'ie'
     ...             Wait Until Keyword Succeeds  5s  0.5s  Click Element  ${xpath_string}

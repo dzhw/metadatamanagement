@@ -20,7 +20,7 @@ Activate Filter by name
 
 Choose Filter Option by id
   [Arguments]    ${id}
-  Wait Until Keyword Succeeds    5s    1s    Click Element Through Tooltips  xpath=//md-virtual-repeat-container//li[contains(.,"${id}")]
+  Wait Until Keyword Succeeds    5s    1s    Click Element Through Tooltips  xpath=//md-virtual-repeat-container//li//span[text()="${id}"]
 
 Click on study tab
   ${url} =  Get Location
