@@ -30,7 +30,8 @@ angular.module('metadatamanagementApp').config(
             'mongo': 'MongoDB',
             'elasticsearch': 'ElasticSearch',
             'dara': 'Dara',
-            'messageBroker': 'Message Broker (for Websockets)'
+            'messageBroker': 'Message Broker (for Websockets)',
+            'rabbit': 'RabbitMQ'
           },
           'table': {
             'service': 'Service name',

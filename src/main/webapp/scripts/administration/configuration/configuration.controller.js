@@ -1,3 +1,4 @@
+/* global _ */
 'use strict';
 
 angular.module('metadatamanagementApp').controller('ConfigurationController',
@@ -5,7 +6,7 @@ angular.module('metadatamanagementApp').controller('ConfigurationController',
     PageTitleService) {
     PageTitleService.setPageTitle('administration.configuration.title');
     ConfigurationService.get().then(function(configuration) {
-      $scope.configuration = configuration;
+      $scope.configuration = _.values(configuration[0].application.beans);
     });
     ToolbarHeaderService.updateToolbarHeader({'stateName': $state.current.
     name});

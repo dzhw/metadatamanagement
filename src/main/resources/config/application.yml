@@ -49,20 +49,22 @@ server:
         mime-types: text/html,text/xml,text/plain,text/css, application/javascript, application/json
 
 management:
-  context-path: /management
+  endpoints:
+    web:
+      base-path: /management
+      exposure:
+        include:
+        - info
+        - health
+        - configprops
+        - metrics
+  endpoint:
+    health:
+      show-details: always
   info:
     git:
       mode: full
-  security:
-    roles: ROLE_ADMIN
-    
-endpoints:
-  sensitive: true
-  health:
-    sensitive: false
-  info:
-    sensitive: false
-
+      
 javers:
   algorithm: levenshtein_distance
  
