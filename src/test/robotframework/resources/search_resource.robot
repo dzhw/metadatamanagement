@@ -11,16 +11,16 @@ Search for
 
 Click on search result by id
   [Arguments]    ${id}
-  Wait Until Keyword Succeeds  5s  0.5s  Click Element Through Tooltips   xpath=//a//span[text()='${id}']
+  Click Element Through Tooltips   xpath=//a//span[text()='${id}']
 
 Activate Filter by name
   [Arguments]    ${filtername}
-  Wait Until Keyword Succeeds    5s    1s    Click Element Through Tooltips  xpath=//search-filter-panel//md-select
-  Wait Until Keyword Succeeds    5s    1s    Click Element Through Tooltips  xpath=//md-select-menu//md-option[contains(., "${filtername}")]
+  Click Element Through Tooltips  xpath=//search-filter-panel//md-select
+  Click Element Through Tooltips  xpath=//md-select-menu//md-option[contains(., "${filtername}")]
 
 Choose Filter Option by id
   [Arguments]    ${id}
-  Wait Until Keyword Succeeds    5s    1s    Click Element Through Tooltips  xpath=//md-virtual-repeat-container//li//span[text()="${id}"]
+  Click Element Through Tooltips  xpath=//md-virtual-repeat-container//li//span[text()="${id}"]
 
 Click on study tab
   ${url} =  Get Location
