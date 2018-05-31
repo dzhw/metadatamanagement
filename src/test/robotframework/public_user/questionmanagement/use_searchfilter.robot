@@ -2,7 +2,7 @@
 Documentation     Tests the user experience of using a survey filter for finding a connected question
 Resource    ../resources/search_resource.robot
 Resource    ../resources/home_page_resource.robot
-Default Tags  Short
+Default Tags  smoketest
 
 *** Test Cases ***
 Use of Searchfilters to find a question
