@@ -356,7 +356,9 @@ public class DataSetReportService {
           //question is unknown. add it to the question map.
           if (!questionsMap.containsKey(relatedQuestion.getQuestionId())) {
             Question question = this.questionRepository.findOne(relatedQuestion.getQuestionId());
-            questionsMap.put(relatedQuestion.getQuestionId(), question);
+            if (question != null) {              
+              questionsMap.put(relatedQuestion.getQuestionId(), question);
+            }
           }          
         }
       }
@@ -366,7 +368,9 @@ public class DataSetReportService {
         questionsMap.values().forEach(question -> {
           if (!instrumentMap.containsKey(question.getInstrumentId())) {
             Instrument instrument = this.instrumentRepository.findOne(question.getInstrumentId());
-            instrumentMap.put(question.getInstrumentId(), instrument);
+            if (instrument != null) {              
+              instrumentMap.put(question.getInstrumentId(), instrument);
+            }
           }
         });
       }
