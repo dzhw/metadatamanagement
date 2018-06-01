@@ -62,11 +62,15 @@ function(FileReaderService, $q) {
           zip.folder(pathToFile).file(lastPath, file.result);
         }
       });
-      var blob = zip.generate({type: 'blob'});
-      if (rootFolderNames && rootFolderNames.length === 1) {
-        blob.name =  rootFolderNames[0] + '.zip';
-      }
-      deferred.resolve(blob);
+      zip.generateAsync({type: 'blob'}).then(function(blob) {
+        if (rootFolderNames && rootFolderNames.length === 1) {
+          blob.name =  rootFolderNames[0] + '.zip';
+        }
+        deferred.resolve(blob);
+      }).catch(function(error) {
+        console.log('Error while writing zip file:' + error);
+        deferred.reject(error);
+      });
     });
     return deferred.promise;
   };

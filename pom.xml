@@ -100,6 +100,16 @@
             <artifactId>netty-all</artifactId>
         </dependency>
         <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-core</artifactId>
+            <version>3.1.7.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>io.projectreactor.ipc</groupId>
+            <artifactId>reactor-netty</artifactId>
+            <version>0.7.7.RELEASE</version>
+        </dependency>
+        <dependency>
             <groupId>io.searchbox</groupId>
             <artifactId>jest</artifactId>
         </dependency>
@@ -149,16 +159,16 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-properties-migrator</artifactId>
             <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -234,19 +244,9 @@
             <version>2.0.0.RELEASE</version>
         </dependency>
         <dependency>
-            <groupId>io.projectreactor</groupId>
-            <artifactId>reactor-core</artifactId>
-            <version>3.1.7.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>io.projectreactor.ipc</groupId>
-            <artifactId>reactor-netty</artifactId>
-            <version>0.7.7.RELEASE</version>
-        </dependency>
-        <dependency>
-            <version>1.9.9</version>
             <groupId>uk.com.robust-it</groupId>
             <artifactId>cloning</artifactId>
+            <version>1.9.9</version>
         </dependency>
     </dependencies>
 
