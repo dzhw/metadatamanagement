@@ -12,7 +12,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 /**
  * The oauth2 refresh token.
  */
-@Document(collection = "OAUTH_AUTHENTICATION_REFRESH_TOKEN")
+@Document(collection = "oauth2_authentication_refresh_tokens")
 @SuppressFBWarnings(value = { "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
 public class OAuth2AuthenticationRefreshToken {
 

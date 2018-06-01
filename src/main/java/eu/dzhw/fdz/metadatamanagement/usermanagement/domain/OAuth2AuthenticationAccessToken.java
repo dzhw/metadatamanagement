@@ -11,7 +11,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 /**
  * The OAuth2 AccessToken.
  */
-@Document(collection = "OAUTH_AUTHENTICATION_ACCESS_TOKEN")
+@Document(collection = "oauth2_authentication_access_tokens")
 @SuppressFBWarnings(value = { "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
 public class OAuth2AuthenticationAccessToken {
 
