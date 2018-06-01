@@ -44,6 +44,7 @@
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>findbugs</artifactId>
             <version>3.0.1</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.icegreen</groupId>
@@ -186,12 +187,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-logging</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>log4j-to-slf4j</artifactId>
-                    <groupId>org.apache.logging.log4j</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -439,6 +434,9 @@
                     <excludes>
                         <exclude>**/Abstract*.java</exclude>
                     </excludes>
+                    <classpathDependencyExcludes>
+                        <classpathDependencyExcludes>org.apache.logging.log4j:log4j-to-slf4j</classpathDependencyExcludes>
+                    </classpathDependencyExcludes>
                 </configuration>
             </plugin>
             <plugin>
