@@ -18,7 +18,7 @@ Fileupload in survey Editor
   Sleep  2s
   Save Response Rate Changes
   Get To Survey Page
-  Page Should Contain Element  xpath=//md-content//a[@ng-href='/public/files/surveys/sur-fileuploadproject-sy1$/1_responserate_de']
+  Page Should Contain Element  xpath=//md-content//a[@ng-href="/public/files/surveys/sur-fileuploadproject-sy1$/1_responserate_de"]
   Click Survey Edit Button
   Delete Response Rate Upload
 #Same Reason as above
