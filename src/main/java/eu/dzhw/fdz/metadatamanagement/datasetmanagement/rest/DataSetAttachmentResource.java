@@ -21,8 +21,6 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriUtils;
 
-import com.codahale.metrics.annotation.Timed;
-
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetAttachmentService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
@@ -47,7 +45,6 @@ public class DataSetAttachmentResource {
    * @throws IOException If the attachment cannot be read
    */ 
   @RequestMapping(path = "/data-sets/attachments", method = RequestMethod.POST)
-  @Timed
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<String> uploadAttachment(@RequestPart("file") MultipartFile multiPartFile,
       @RequestPart("dataSetAttachmentMetadata") 
@@ -68,7 +65,6 @@ public class DataSetAttachmentResource {
    */
   @RequestMapping(path = "/data-sets/{dataSetId}/attachments", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  @Timed
   public ResponseEntity<?> findByDataSetId(@PathVariable("dataSetId") String dataSetId) {
     if (!StringUtils.isEmpty(dataSetId)) {
       List<DataSetAttachmentMetadata> metadata =
@@ -87,7 +83,6 @@ public class DataSetAttachmentResource {
    * @param dataSetId The id of an data set.
    */
   @RequestMapping(path = "/data-sets/{dataSetId}/attachments", method = RequestMethod.DELETE)
-  @Timed
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> deleteAllByDataSetId(@PathVariable("dataSetId") String dataSetId) {
     if (!StringUtils.isEmpty(dataSetId)) {

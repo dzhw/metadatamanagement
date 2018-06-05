@@ -15,8 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.HandlerMapping;
 
-import com.codahale.metrics.annotation.Timed;
-
 import eu.dzhw.fdz.metadatamanagement.filemanagement.service.FileService;
 
 /**
@@ -37,7 +35,6 @@ public class FileResource {
    * @throws IOException If the file cannot be accessed
    */
   @RequestMapping(value = "/files/**")
-  @Timed
   public ResponseEntity<?> downloadFile(HttpServletRequest request) throws IOException {
     String completePath =
         (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);

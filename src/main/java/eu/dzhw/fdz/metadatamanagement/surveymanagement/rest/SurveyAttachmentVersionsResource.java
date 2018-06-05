@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codahale.metrics.annotation.Timed;
-
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.SurveyAttachmentVersionsService;
 
@@ -39,7 +37,6 @@ public class SurveyAttachmentVersionsResource {
    * @return A list of previous survey versions
    */
   @RequestMapping("/surveys/{surveyId}/attachments/{filename:.+}/versions")
-  @Timed
   public ResponseEntity<?> findPreviousSurveyAttachmentVersions(@PathVariable String surveyId,
       @PathVariable String filename,
       @RequestParam(name = "limit", defaultValue = "5") Integer limit,

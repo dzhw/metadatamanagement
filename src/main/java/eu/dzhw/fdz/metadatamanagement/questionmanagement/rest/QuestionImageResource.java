@@ -22,8 +22,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.codahale.metrics.annotation.Timed;
-
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.QuestionImageMetadata;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.service.QuestionImageService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
@@ -47,7 +45,6 @@ public class QuestionImageResource {
    * @throws URISyntaxException if the file has an invalid URI
    */
   @RequestMapping(path = "/questions/images", method = RequestMethod.POST)
-  @Timed
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<String> uploadImage(@RequestParam("image") MultipartFile multiPartFile,
       @RequestPart("questionImageMetadata")
@@ -72,7 +69,6 @@ public class QuestionImageResource {
    */
   @RequestMapping(path = "/questions/{questionId}/images", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  @Timed
   public ResponseEntity<?> findByQuestionId(@PathVariable("questionId") String questionId) {
     if (!StringUtils.isEmpty(questionId)) {
       List<QuestionImageMetadata> metadata = imageService.findByQuestionId(questionId);
@@ -90,7 +86,6 @@ public class QuestionImageResource {
    * @param questionId The id of a question.
    */
   @RequestMapping(path = "/questions/{questionId}/images", method = RequestMethod.DELETE)
-  @Timed
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> deleteAllByQuestionId(@PathVariable("questionId") String questionId) {
     if (!StringUtils.isEmpty(questionId)) {

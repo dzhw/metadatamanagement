@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codahale.metrics.annotation.Timed;
-
 import eu.dzhw.fdz.metadatamanagement.common.rest.util.PaginationUtil;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.Authority;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
@@ -83,7 +81,6 @@ public class UserResource {
    */
   @RequestMapping(value = "/users", method = RequestMethod.PUT,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  @Timed
   @Secured(AuthoritiesConstants.ADMIN)
   public ResponseEntity<ManagedUserDto> updateUser(@RequestBody ManagedUserDto managedUserDto)
       throws URISyntaxException {
@@ -114,7 +111,6 @@ public class UserResource {
    */
   @RequestMapping(value = "/users", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  @Timed
   @Secured(AuthoritiesConstants.ADMIN)
   public ResponseEntity<List<ManagedUserDto>> getAllUsers(Pageable pageable)
       throws URISyntaxException {
@@ -133,7 +129,6 @@ public class UserResource {
    */
   @RequestMapping(value = "/users/{login}", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  @Timed
   @Secured(AuthoritiesConstants.ADMIN)
   public ResponseEntity<ManagedUserDto> getUser(@PathVariable String login) {
     log.debug("REST request to get User : {}", login);

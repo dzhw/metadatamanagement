@@ -22,8 +22,6 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriUtils;
 
-import com.codahale.metrics.annotation.Timed;
-
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudyAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.service.StudyAttachmentService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
@@ -48,7 +46,6 @@ public class StudyAttachmentResource {
    * @throws IOException If the attachment cannot be read
    */
   @RequestMapping(path = "/studies/attachments", method = RequestMethod.POST)
-  @Timed
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<String> uploadAttachment(@RequestPart("file") MultipartFile multiPartFile,
       @RequestPart("studyAttachmentMetadata") 
@@ -69,7 +66,6 @@ public class StudyAttachmentResource {
    */
   @RequestMapping(path = "/studies/{studyId}/attachments", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  @Timed
   public ResponseEntity<?> findByStudyId(@PathVariable("studyId") String studyId) {
     if (!StringUtils.isEmpty(studyId)) {
       List<StudyAttachmentMetadata> metadata =
@@ -88,7 +84,6 @@ public class StudyAttachmentResource {
    * @param studyId The id of the study.
    */
   @RequestMapping(path = "/studies/{studyId}/attachments", method = RequestMethod.DELETE)
-  @Timed
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> deleteAllByStudyId(@PathVariable("studyId") String studyId) {
     if (!StringUtils.isEmpty(studyId)) {
@@ -108,7 +103,6 @@ public class StudyAttachmentResource {
    */
   @RequestMapping(path = "/studies/{studyId}/attachments/{filename:.+}", 
       method = RequestMethod.DELETE)
-  @Timed
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> delete(@PathVariable("studyId") String studyId, 
       @PathVariable("filename") String filename) {
@@ -126,7 +120,6 @@ public class StudyAttachmentResource {
    */
   @RequestMapping(path = "/studies/{studyId}/attachments/{filename:.+}", 
       method = RequestMethod.PUT)
-  @Timed
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> update(
       @Valid @RequestBody StudyAttachmentMetadata studyAttachmentMetadata) {

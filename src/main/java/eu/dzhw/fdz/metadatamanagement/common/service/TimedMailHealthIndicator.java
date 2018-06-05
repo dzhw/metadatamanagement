@@ -7,8 +7,7 @@ import org.springframework.boot.actuate.mail.MailHealthIndicator;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Component;
 
-import com.codahale.metrics.annotation.Timed;
-
+import io.micrometer.core.annotation.Timed;
 import lombok.extern.slf4j.Slf4j;
 
 /**

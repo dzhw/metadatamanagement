@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codahale.metrics.annotation.Timed;
-
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
 import eu.dzhw.fdz.metadatamanagement.common.rest.dto.LoggerDto;
@@ -32,7 +30,6 @@ public class LogsResource {
    */
   @RequestMapping(value = "/logs", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  @Timed
   @Secured(AuthoritiesConstants.ADMIN)
   public List<LoggerDto> getList() {
     LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
@@ -47,7 +44,6 @@ public class LogsResource {
    */
   @RequestMapping(value = "/logs", method = RequestMethod.PUT)
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  @Timed
   @Secured(AuthoritiesConstants.ADMIN)
   public void changeLevel(@RequestBody LoggerDto jsonLogger) {
     LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();

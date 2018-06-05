@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codahale.metrics.annotation.Timed;
-
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionProjectVersionsService;
 
@@ -34,7 +32,6 @@ public class DataAcquisitionProjectLastReleaseResource {
    */
   @RequestMapping(value = "/data-acquisition-projects/{projectId}/releases/last",
       method = RequestMethod.GET)
-  @Timed
   public ResponseEntity<Release> findLastRelease(@PathVariable String projectId) {
     Release lastRelease =
         this.projectVersionsService.findLastRelease(projectId);

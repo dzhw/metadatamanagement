@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.bson.Document;
 import org.javers.core.Javers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -17,7 +18,7 @@ import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.mongodb.DBObject;
+import com.mongodb.BasicDBObject;
 import com.mongodb.client.gridfs.model.GridFSFile;
 import com.mongodb.gridfs.GridFS;
 import com.mongodb.gridfs.GridFSDBFile;
@@ -136,8 +137,10 @@ public class SurveyAttachmentService {
     String currentUser = SecurityUtils.getCurrentUserLogin();
     metadata.setLastModifiedBy(currentUser);
     metadata.setLastModifiedDate(LocalDateTime.now());
-    GridFSDBFile file = gridFs.findOne(metadata.getFileName());
-    DBObject dbObject = (DBObject) mongoTemplate.getConverter().convertToMongoType(metadata);
+    GridFSDBFile file = gridFs.findOne(SurveyAttachmentFilenameBuilder.buildFileName(
+        metadata.getSurveyId(), metadata.getFileName()));
+    BasicDBObject dbObject = new BasicDBObject(
+        (Document) mongoTemplate.getConverter().convertToMongoType(metadata));
     file.setMetaData(dbObject);
     file.save();
     javers.commit(currentUser, metadata);

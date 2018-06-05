@@ -10,6 +10,8 @@ import java.util.Base64;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.metrics.web.client.MetricsRestTemplateCustomizer;
+import org.springframework.boot.actuate.metrics.web.client.RestTemplateExchangeTagsProvider;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -31,13 +33,12 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.HandlerMapping;
 
-import com.codahale.metrics.annotation.Timed;
-
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import io.micrometer.core.instrument.MeterRegistry;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -65,7 +66,8 @@ public class SearchResource {
    */
   @Autowired
   @SuppressFBWarnings("SIC_INNER_SHOULD_BE_STATIC_ANON")
-  public SearchResource(String elasticSearchConnectionUrl)
+  public SearchResource(String elasticSearchConnectionUrl, MeterRegistry meterRegistry,
+      RestTemplateExchangeTagsProvider tagProvider)
       throws UnsupportedEncodingException, MalformedURLException {
     this.connectionUrl = elasticSearchConnectionUrl;
     URL url = new URL(elasticSearchConnectionUrl);
@@ -84,6 +86,9 @@ public class SearchResource {
           return false;
       }
     });
+    MetricsRestTemplateCustomizer customizer = new MetricsRestTemplateCustomizer(
+        meterRegistry, tagProvider, "elasticsearch.client.requests");
+    customizer.customize(restTemplate);
   }
 
   /**
@@ -92,7 +97,6 @@ public class SearchResource {
    * @return The search results
    */
   @RequestMapping(value = {"/api/search/**"})
-  @Timed
   public ResponseEntity<String> search(@RequestBody(required = false) String body,
       HttpMethod method,
       @RequestHeader MultiValueMap<String, String> headers, HttpServletRequest request)
@@ -129,7 +133,6 @@ public class SearchResource {
    */
   @RequestMapping(value = "/api/search/recreate", method = RequestMethod.POST,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  @Timed
   @Secured(AuthoritiesConstants.ADMIN)
   public ResponseEntity<?> recreateAllElasticsearchIndices() throws URISyntaxException {
     log.debug("REST request to recreate all elasticsearch indices.");
@@ -142,7 +145,6 @@ public class SearchResource {
    */
   @RequestMapping(value = "/api/search/process-queue", method = RequestMethod.POST,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  @Timed
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> processElasticsearchUpdateQueue(
       @RequestParam(required = false) ElasticsearchType type) throws URISyntaxException {

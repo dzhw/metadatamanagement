@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.codahale.metrics.annotation.Timed;
-
 import eu.dzhw.fdz.metadatamanagement.common.rest.GenericDomainObjectResourceController;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
@@ -34,7 +32,6 @@ public class QuestionResourceController
    * @return the Question or not found
    */
   @RequestMapping(method = RequestMethod.GET, value = "/questions/{id:.+}")
-  @Timed
   public ResponseEntity<Question> findQuestion(@PathVariable String id) {
     return super.findDomainObject(id);
   }

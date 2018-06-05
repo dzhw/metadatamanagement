@@ -22,8 +22,6 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriUtils;
 
-import com.codahale.metrics.annotation.Timed;
-
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.SurveyAttachmentService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
@@ -48,7 +46,6 @@ public class SurveyAttachmentResource {
    * @throws IOException If the attachment cannot be read
    */
   @RequestMapping(path = "/surveys/attachments", method = RequestMethod.POST)
-  @Timed
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<String> uploadAttachment(@RequestPart("file") MultipartFile multiPartFile,
       @RequestPart("surveyAttachmentMetadata")
@@ -69,7 +66,6 @@ public class SurveyAttachmentResource {
    */
   @RequestMapping(path = "/surveys/{surveyId}/attachments", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  @Timed
   public ResponseEntity<?> findBySurveyId(@PathVariable("surveyId") String surveyId) {
     if (!StringUtils.isEmpty(surveyId)) {
       List<SurveyAttachmentMetadata> metadata =
@@ -88,7 +84,6 @@ public class SurveyAttachmentResource {
    * @param surveyId The id of an survey.
    */
   @RequestMapping(path = "/surveys/{surveyId}/attachments", method = RequestMethod.DELETE)
-  @Timed
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> deleteAllBySurveyId(@PathVariable("surveyId") String surveyId) {
     if (!StringUtils.isEmpty(surveyId)) {
@@ -108,7 +103,6 @@ public class SurveyAttachmentResource {
    */
   @RequestMapping(path = "/surveys/{surveyId}/attachments/{filename:.+}",
       method = RequestMethod.DELETE)
-  @Timed
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> delete(@PathVariable("surveyId") String surveyId,
       @PathVariable("filename") String filename) {
@@ -126,7 +120,6 @@ public class SurveyAttachmentResource {
    */
   @RequestMapping(path = "/surveys/{surveyId}/attachments/{filename:.+}",
       method = RequestMethod.PUT)
-  @Timed
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> update(
       @Valid @RequestBody SurveyAttachmentMetadata surveyAttachmentMetadata) {

@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.codahale.metrics.annotation.Timed;
-
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.SurveyResponseRateImageService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
@@ -42,7 +40,6 @@ public class SurveyResponseRateImageResource {
    * @throws URISyntaxException write uri exception
    */
   @RequestMapping(path = "/surveys/images", method = RequestMethod.POST)
-  @Timed
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<String> uploadImage(@RequestParam("image") MultipartFile multiPartFile,
       @RequestParam("surveyId") String surveyId) throws IOException, URISyntaxException {
@@ -70,7 +67,6 @@ public class SurveyResponseRateImageResource {
    * @param surveyId The id of an survey.
    */
   @RequestMapping(path = "/surveys/{surveyId}/images", method = RequestMethod.DELETE)
-  @Timed
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> deleteAllBySurveyId(@PathVariable("surveyId") String surveyId) {
     if (!StringUtils.isEmpty(surveyId)) {
@@ -91,7 +87,6 @@ public class SurveyResponseRateImageResource {
    */
   @RequestMapping(path = "/surveys/{surveyId}/images/{filename:.+}", 
       method = RequestMethod.DELETE)
-  @Timed
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> deleteImage(@PathVariable("surveyId") String surveyId, 
       @PathVariable("filename") String filename) throws IOException {
