@@ -24,4 +24,12 @@ Fileupload in survey Editor
 #Same Reason as above
   Sleep  2s
   Click Element Through Tooltips  xpath=//md-card//button[contains(.,"save")]
-  [Teardown]  Get back to home page
+  [Teardown]  Get back to home page and deselect project
+
+
+*** Keywords ***
+
+Get back to home page and deselect project
+  Get back to home page
+  Click Element Through Tooltips  xpath=//md-sidenav//project-navbar-module//button[@aria-label="Clear Input"]
+  Sleep  2s
