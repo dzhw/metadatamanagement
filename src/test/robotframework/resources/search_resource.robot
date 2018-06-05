@@ -16,7 +16,7 @@ Select project by name
 
 Click on search result by id
   [Arguments]    ${id}
-  Click Element Through Tooltips   xpath=//a//span[text()='${id}']
+  Click Element Through Tooltips   xpath=//a//span[text()="${id}""]
 
 Activate Filter by name
   [Arguments]    ${filtername}

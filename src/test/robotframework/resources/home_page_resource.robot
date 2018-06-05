@@ -12,5 +12,5 @@ Change language to english
   Wait Until Keyword Succeeds  5s  0.5s  Click Button  id=changeLanguageToEn
 
 Get back to german home page
-  Click Element Through Tooltips  xpath=//*[@id = 'changeLanguageToDe']
+  Click Element Through Tooltips  xpath=//*[@id = "changeLanguageToDe"]
   Get back to home page

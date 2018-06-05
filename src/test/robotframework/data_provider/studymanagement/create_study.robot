@@ -6,17 +6,8 @@ Resource      ../resources/login_resource.robot
 Default Tags  Long
 
 *** Test Cases ***
-
-Create RobotsProject
-  Pass Execution If    '${BROWSER}' == 'ie'  Study Creation not possible in IE
-  Login as dataprovider
-  Click Element Through Tooltips		xpath=//md-sidenav//button[md-icon[text()="add"]]
-  Input Text			name=id		robotsproject
-  Wait Until Keyword Succeeds  5s  0.5s    Page Should Contain Element  xpath=//button[@type="submit" and not(contains(@disabled, 'disabled'))]
-  Click Element Through Tooltips		xpath=//button[@type='submit']
-#  Run Keyword If  '${BROWSER}' in ['firefox', 'chrome']  Page Should Contain Element		xpath=//md-toast/descendant::span[text()='Datenaufbereitungsprojekt "robotsproject" wurde erfolgreich gespeichert!']
-
 Create Study
+  [Setup]  Create RobotsProject
   Pass Execution If    '${BROWSER}' == 'ie'  Study Creation not possible in IE
   Click on study tab
   Click Element Through Tooltips          xpath=//ui-view/descendant::button[md-icon[text()='add']]
@@ -46,6 +37,16 @@ Create Study
   Input Text    name=authorsMiddleName_1     D2
   Input Text    name=authorsLastName_1       noLastName
   Click Element Through Tooltips  xpath=//md-card/descendant::button[md-icon[text()='keyboard_arrow_up']]
-  Click Element Through Tooltips  xpath=//ui-view/descendant::button[md-icon[text()='save']]
+  Save Changes
 #  Run Keyword If  '${BROWSER}' in ['firefox', 'chrome']  Page Should Contain  Studie stu-robotsproject$ wurde erfolgreich gespeichert
   [Teardown]  Delete Robotsproject
+
+*** Keywords ***
+Create RobotsProject
+  Pass Execution If    '${BROWSER}' == 'ie'  Study Creation not possible in IE
+  Login as dataprovider
+  Click Element Through Tooltips		xpath=//md-sidenav//button[md-icon[text()="add"]]
+  Input Text			name=id		robotsproject
+  Wait Until Keyword Succeeds  5s  0.5s    Page Should Contain Element  xpath=//button[@type="submit" and not(contains(@disabled, 'disabled'))]
+  Click Element Through Tooltips		xpath=//button[@type='submit']
+#  Run Keyword If  '${BROWSER}' in ['firefox', 'chrome']  Page Should Contain Element		xpath=//md-toast/descendant::span[text()='Datenaufbereitungsprojekt "robotsproject" wurde erfolgreich gespeichert!']

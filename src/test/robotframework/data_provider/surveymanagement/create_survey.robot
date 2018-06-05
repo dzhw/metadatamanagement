@@ -29,16 +29,6 @@ Invalid ResponseRate  Irgendetwas  Something  1  01.05.2018  01.06.2018  Versuch
 
 
 *** Keywords ***
-Go To Survey Create Page
-  Pass Execution If    '${BROWSER}' == 'ie'  Survey Creation not possible in IE
-  Login as dataprovider
-  Input Text  xpath=//md-sidenav//input[@type="search"]  robotsproject
-  Wait Until Angular Ready	6s
-  Click on surveys tab
-  Click Element Through Tooltips          xpath=//ui-view/descendant::button[md-icon[text()='add']]
-  Wait Until Element Is Visible   xpath=//ui-view/descendant::a[md-icon[text()='add']]
-  Click Element Through Tooltips          xpath=//ui-view/descendant::a[md-icon[text()='add']]
-
 Survey Page With Empty Options Should Fail
   Pass Execution If    '${BROWSER}' == 'ie'  Survey Creation not possible in IE
   [Arguments]  ${GTitle}  ${ETitle}  ${Wave}  ${FieldPeriodStart}  ${FieldPeriodEnd}  ${GSurveyMethod}  ${ESurveyMethod}  ${GPopTitle}  ${EPopTitle}  ${GPopDesc}  ${EPopDesc}  ${GSample}  ${ESample}  ${NetSampleSize}  ${ResponseRate}
@@ -59,18 +49,24 @@ Survey Page With Empty Options Should Fail
   Input Text  name=sampleEn                 ${ESample}
   Input Text  name=sampleSize               ${NetSampleSize}
   Input Text  name=responseRate             ${ResponseRate}
-  Click Element Through Tooltips  xpath=//ui-view/descendant::button[md-icon[text()='save']]
+  Save Changes
   Page Should Contain  Die Erhebung wurde nicht gespeichert, weil es noch ungültige Felder gibt!
+
+Go To Survey Create Page
+  Pass Execution If    '${BROWSER}' == 'ie'  Survey Creation not possible in IE
+  Login as dataprovider
+  Select project by name    robotsproject
+  Wait Until Angular Ready	6s
+  Click on surveys tab
+  Click Element Through Tooltips          xpath=//ui-view/descendant::button[md-icon[text()="add"]]
+  Wait Until Element Is Visible   xpath=//ui-view/descendant::a[md-icon[text()="add"]]
+  Click Element Through Tooltips          xpath=//ui-view/descendant::a[md-icon[text()="add"]]
+
 
 Close Survey Editor And Log Out
   Pass Execution If    '${BROWSER}' == 'ie'  Survey Creation not possible in IE
   Click Element Through Tooltips  xpath=//md-icon[text()="close"]
   Get back to home page
-#  ${present}=  Run Keyword And Return Status    Page Should Contain  Sie haben ungespeicherte Änderungen.
-#  Run Keyword If    ${present} == "True"
   Click Element Through Tooltips  xpath=//button[text()="Ja"]
   Sleep  1s
-#  Wait Until Keyword Succeeds  2s  1s  Page Should Contain Element  xpath=//button[@id="logout" and not(contains(.,"disabled"))]
-#  Click Element Through Tooltips  xpath=//button[@id="logout"]
-#  Click Element Through Tooltips  xpath=//md-sidenav//span[text()="dataprovider abmelden"]
   Click Element Through Tooltips  xpath=//button[@id="logout"]

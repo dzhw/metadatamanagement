@@ -7,17 +7,17 @@ Variables   ../common_variables.yaml
 *** Keywords ***
 
 Login as dataprovider
-  Click Element Through Tooltips  xpath=//*[@id = 'account-menu-toggle']
-  Click Element Through Tooltips  xpath=//*[@id = 'login']
+  Click Element Through Tooltips  xpath=//*[@id = "account-menu-toggle"]
+  Click Element Through Tooltips  xpath=//*[@id = "login"]
   Input Text  id=username  dataprovider
   Input Password  id=password  dataprovider
-  Click Element Through Tooltips  xpath=//button[@type='submit']
+  Click Element Through Tooltips  xpath=//button[@type="submit"]
 
 Login as publisher after logout
-  Click Element Through Tooltips  xpath=//*[@id = 'login']
+  Click Element Through Tooltips  xpath=//*[@id = "login"]
   Input Text  id=username  publisher
   Input Password  id=password  publisher
-  Click Element Through Tooltips  xpath=//button[@type='submit']
+  Click Element Through Tooltips  xpath=//button[@type="submit"]
 
 Delete Robotsproject
   Pass Execution If    '${BROWSER}' == 'ie'  Study Creation not possible in IE
@@ -27,5 +27,8 @@ Delete Robotsproject
   Click Element Through Tooltips  xpath=//button[contains(.,"abmelden")]
   Login as publisher after logout
   Input Text			xpath=//input[@placeholder = "Projekt auswählen"]		robotsproject
-  Click Element Through Tooltips		xpath=//md-sidenav/descendant::button[md-icon[text()='']]
-  Click Element Through Tooltips		xpath=//button[text()='OK']
+  Click Element Through Tooltips		xpath=//md-sidenav/descendant::button[md-icon[text()=""]]
+  Click Element Through Tooltips		xpath=//button[text()="OK"]
+
+Save Changes
+  Click Element Through Tooltips  xpath=//ui-view/descendant::button[md-icon[text()="save"]]
