@@ -17,16 +17,16 @@ Create Study
   Input Text    name=titleEn                 Test Study
   Input Text    name=studySeriesDe           Roboter Studien
   Input Text    name=studySeriesEn           Robot Studies
-  Click Element Through Tooltips             xpath=//md-select[@name = "surveyDesign"]
-  Click Element Through Tooltips             xpath=//md-select-menu//md-option[contains(., "Panel")]
+  Click Element Through Tooltips             xpath=//md-select[@name = 'surveyDesign']
+  Click Element Through Tooltips             xpath=//md-select-menu//md-option[contains(., 'Panel')]
   Input Text    name=institutionDe           DZHW
   Input Text    name=institutionEn           DZHW
   Input Text    name=sponsorDe               BMBF
   Input Text    name=sponsorEn               BMBF
   Input Text    name=annotationsDe           Diese Studie wurde von Robot automatisch erstellt.
   Input Text    name=annotationsEn           This study was created automatically by Robot.x
-  Click Element Through Tooltips             xpath=//md-select[@name = "dataAvailability"]
-  Click Element Through Tooltips             xpath=//md-select-menu//md-option[contains(., "In Aufbereitung")]
+  Click Element Through Tooltips             xpath=//md-select[@name = 'dataAvailability']
+  Click Element Through Tooltips             xpath=//md-select-menu//md-option[contains(., 'In Aufbereitung')]
   Input Text    name=descriptionDe           Diese Studie wurde automatisch erstellt und überprüft die Eingabe valider Eigenschaften.
   Input Text    name=descriptionEn           This study was created automatically and test the input of valid attributes.
   Input Text    name=authorsFirstName_0      Anne
@@ -45,8 +45,8 @@ Create Study
 Create RobotsProject
   Pass Execution If    '${BROWSER}' == 'ie'  Study Creation not possible in IE
   Login as dataprovider
-  Click Element Through Tooltips		xpath=//md-sidenav//button[md-icon[text()="add"]]
+  Click Element Through Tooltips		xpath=//md-sidenav//button[md-icon[text()='add']]
   Input Text			name=id		robotsproject
-  Wait Until Keyword Succeeds  5s  0.5s    Page Should Contain Element  xpath=//button[@type="submit" and not(contains(@disabled, 'disabled'))]
+  Wait Until Keyword Succeeds  5s  0.5s    Page Should Contain Element  xpath=//button[@type='submit' and not(contains(@disabled, 'disabled'))]
   Click Element Through Tooltips		xpath=//button[@type='submit']
-#  Run Keyword If  '${BROWSER}' in ['firefox', 'chrome']  Page Should Contain Element		xpath=//md-toast/descendant::span[text()='Datenaufbereitungsprojekt "robotsproject" wurde erfolgreich gespeichert!']
+#  Run Keyword If  '${BROWSER}' in ['firefox', 'chrome']  Page Should Contain Element		xpath=//md-toast/descendant::span[text()='Datenaufbereitungsprojekt 'robotsproject' wurde erfolgreich gespeichert!']

@@ -18,7 +18,7 @@ Fileupload in survey Editor
   Sleep  2s
   Save Response Rate Changes
   Get To Survey Page
-  Page Should Contain Element  xpath=//md-content//a[@ng-href="/public/files/surveys/sur-fileuploadproject-sy1$/1_responserate_de"]
+  Page Should Contain Element  xpath=//md-content//a[@ng-href='/public/files/surveys/sur-fileuploadproject-sy1$/1_responserate_de']
   Click Survey Edit Button
   Delete Response Rate Upload
 #Same Reason as above
@@ -30,20 +30,20 @@ Fileupload in survey Editor
 *** Keywords ***
 Get back to home page and deselect project and logout
   Get back to home page
-  Click Element Through Tooltips  xpath=//md-sidenav//project-navbar-module//button[@aria-label="Clear Input"]
-  Click Element Through Tooltips  xpath=//button[@id="logout"]
+  Click Element Through Tooltips  xpath=//md-sidenav//project-navbar-module//button[@aria-label='Clear Input']
+  Click Element Through Tooltips  xpath=//button[@id='logout']
 
 Click Survey Edit Button
-  Click Element Through Tooltips          xpath=//ui-view//a/md-icon[text()="mode_edit"]
+  Click Element Through Tooltips          xpath=//ui-view//a/md-icon[text()='mode_edit']
 
 Delete Response Rate Upload
-  Click Element Through Tooltips  xpath=//md-card//button[contains(.,"delete_forever")]
+  Click Element Through Tooltips  xpath=//md-card//button[contains(.,'delete_forever')]
 
 Save Response Rate Changes
-  Click Element Through Tooltips  xpath=//md-card//button[contains(.,"save")]
+  Click Element Through Tooltips  xpath=//md-card//button[contains(.,'save')]
 
 Get To Survey Page
-  Click Element Through Tooltips  xpath=//md-toolbar//a[span[text()="1"]]
+  Click Element Through Tooltips  xpath=//md-toolbar//a[span[text()='1']]
 
 Upload Response Response Rate
-  Choose File  xpath=//input[@type="file"][@ngf-select="ctrl.saveResponseRateImageDe($file)"][1]    ${CURDIR}/images/1_responserate_de.svg
+  Choose File  xpath=//input[@type='file'][@ngf-select='ctrl.saveResponseRateImageDe($file)'][1]    ${CURDIR}/images/1_responserate_de.svg

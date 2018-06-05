@@ -35,12 +35,12 @@ Survey Page With Empty Or Invalid Options Should Fail
   Input Text  name=titleDe                  ${GTitle}
   Input Text  name=titleEn                  ${ETitle}
   Input Text  name=wave                     ${Wave}
-  Input Text  xpath=//md-datepicker[@name="fieldPeriodStart"]//input  ${FieldPeriodStart}
-  Input Text  xpath=//md-datepicker[@name="fieldPeriodEnd"]//input  ${FieldPeriodEnd}
+  Input Text  xpath=//md-datepicker[@name='fieldPeriodStart']//input  ${FieldPeriodStart}
+  Input Text  xpath=//md-datepicker[@name='fieldPeriodEnd']//input  ${FieldPeriodEnd}
   Input Text  name=surveyMethodDe           ${GSurveyMethod}
   Input Text  name=surveyMethodEn           ${ESurveyMethod}
-  Click Element Through Tooltips            xpath=//md-select[@name = "dataType"]
-  Click Element Through Tooltips            xpath=//md-select-menu//md-option[contains(., "Quantitative Daten")]
+  Click Element Through Tooltips            xpath=//md-select[@name = 'dataType']
+  Click Element Through Tooltips            xpath=//md-select-menu//md-option[contains(., 'Quantitative Daten')]
   Input Text  name=populationTitleDe        ${GPopTitle}
   Input Text  name=populationTitleEn        ${EPopTitle}
   Input Text  name=populationDescriptionDe  ${GPopDesc}
@@ -58,15 +58,15 @@ Go To Survey Create Page
   Select project by name    robotsproject
   Wait Until Angular Ready	6s
   Click on surveys tab
-  Click Element Through Tooltips          xpath=//ui-view/descendant::button[md-icon[text()="add"]]
-  Wait Until Element Is Visible   xpath=//ui-view/descendant::a[md-icon[text()="add"]]
-  Click Element Through Tooltips          xpath=//ui-view/descendant::a[md-icon[text()="add"]]
+  Click Element Through Tooltips          xpath=//ui-view/descendant::button[md-icon[text()='add']]
+  Wait Until Element Is Visible   xpath=//ui-view/descendant::a[md-icon[text()='add']]
+  Click Element Through Tooltips          xpath=//ui-view/descendant::a[md-icon[text()='add']]
 
 
 Close Survey Editor And Log Out
   Pass Execution If    '${BROWSER}' == 'ie'  Survey Creation not possible in IE
-  Click Element Through Tooltips  xpath=//md-icon[text()="close"]
+  Click Element Through Tooltips  xpath=//md-icon[text()='close']
   Get back to home page
-  Click Element Through Tooltips  xpath=//button[text()="Ja"]
+  Click Element Through Tooltips  xpath=//button[text()='Ja']
   Sleep  1s
-  Click Element Through Tooltips  xpath=//button[@id="logout"]
+  Click Element Through Tooltips  xpath=//button[@id='logout']

@@ -23,10 +23,10 @@ Delete Robotsproject
   Pass Execution If    '${BROWSER}' == 'ie'  Study Creation not possible in IE
   Get back to home page
   ${present}=  Run Keyword And Return Status    Page Should Contain  Sie haben ungespeicherte Änderungen.
-  Run Keyword If    ${present} == "True"   Click Element Through Tooltips  xpath=//button[contains(.,'Ja')]
+  Run Keyword If    ${present} == 'True'   Click Element Through Tooltips  xpath=//button[contains(.,'Ja')]
   Click Element Through Tooltips  xpath=//button[contains(.,'abmelden')]
   Login as publisher after logout
-  Input Text			xpath=//input[@placeholder = "Projekt auswählen"]		robotsproject
+  Input Text			xpath=//input[@placeholder = 'Projekt auswählen']		robotsproject
   Click Element Through Tooltips		xpath=//md-sidenav/descendant::button[md-icon[text()='']]
   Click Element Through Tooltips		xpath=//button[text()='OK']
 
