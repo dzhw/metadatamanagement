@@ -9,6 +9,11 @@ Search for
   [Arguments]    ${query}
   Input Text     id=query    ${query}
 
+Select project by name
+  [Arguments]    ${projectname}
+  Input Text  xpath=//md-sidenav//input[@type="search"]  ${projectname}
+
+
 Click on search result by id
   [Arguments]    ${id}
   Click Element Through Tooltips   xpath=//a//span[text()='${id}']

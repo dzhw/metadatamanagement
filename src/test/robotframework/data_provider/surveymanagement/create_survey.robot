@@ -46,13 +46,7 @@ Survey Page With Empty Options Should Fail
   Input Text  name=titleEn                  ${ETitle}
   Input Text  name=wave                     ${Wave}
   Input Text  xpath=//md-datepicker[@name="fieldPeriodStart"]//input  ${FieldPeriodStart}
-#  Click Button    xpath=//md-input-container[1]//md-datepicker//button
-#  Click Element Through Tooltips  xpath=//td[contains(.,"${Month}")]//span[text()="15"]
-#  Click Element   css=#md-0-month-2018-5-9 > span:nth-child(1)
   Input Text  xpath=//md-datepicker[@name="fieldPeriodEnd"]//input  ${FieldPeriodEnd}
-#  Click Button    xpath=//md-input-container[2]//md-datepicker//button
-#  Click Element Through Tooltips  xpath=//td[contains(.,"${Month}")]//span[text()="22"]
-#  Click Element   css=#md-1-month-2018-5-16 > span:nth-child(1)
   Input Text  name=surveyMethodDe           ${GSurveyMethod}
   Input Text  name=surveyMethodEn           ${ESurveyMethod}
   Click Element Through Tooltips            xpath=//md-select[@name = "dataType"]
