@@ -39,8 +39,7 @@ Survey Page With Empty Or Invalid Options Should Fail
   Input Text  xpath=//md-datepicker[@name='fieldPeriodEnd']//input  ${FieldPeriodEnd}
   Input Text  name=surveyMethodDe           ${GSurveyMethod}
   Input Text  name=surveyMethodEn           ${ESurveyMethod}
-  Click Element Through Tooltips            xpath=//md-select[@name = 'dataType']
-  Click Element Through Tooltips            xpath=//md-select-menu//md-option[contains(., 'Quantitative Daten')]
+  Choose Quantitative Daten As Data Type
   Input Text  name=populationTitleDe        ${GPopTitle}
   Input Text  name=populationTitleEn        ${EPopTitle}
   Input Text  name=populationDescriptionDe  ${GPopDesc}
@@ -70,3 +69,7 @@ Close Survey Editor And Log Out
   Click Element Through Tooltips  xpath=//button[text()='Ja']
   Sleep  1s
   Click Element Through Tooltips  xpath=//button[@id='logout']
+
+Choose Quantitative Daten As Data Type
+  Click Element Through Tooltips            xpath=//md-select[@name = 'dataType']
+  Click Element Through Tooltips            xpath=//md-select-menu//md-option[contains(., 'Quantitative Daten')]
