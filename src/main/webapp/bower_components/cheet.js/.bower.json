@@ -26,8 +26,7 @@
     "tag": "0.3.3",
     "commit": "b9498b01b942a8d15e7e17b498c9717be629f865"
   },
-  "_source": "git://github.com/namuol/cheet.js.git",
+  "_source": "https://github.com/namuol/cheet.js.git",
   "_target": "^0.3.3",
-  "_originalSource": "cheet.js",
-  "_direct": true
+  "_originalSource": "cheet.js"
 }
