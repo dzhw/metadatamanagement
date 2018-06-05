@@ -24,7 +24,7 @@ Fileupload in survey Editor
 #Same Reason as above
   Sleep  2s
   Save Response Rate Changes
-  [Teardown]  Get back to home page and deselect project
+  [Teardown]  Get back to home page and deselect project and logout
 
 
 *** Keywords ***
