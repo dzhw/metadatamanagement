@@ -16,16 +16,16 @@ Select project by name
 
 Click on search result by id
   [Arguments]    ${id}
-  Click Element Through Tooltips   xpath=//a//span[text()="${id}""]
+  Click Element Through Tooltips   xpath=//a//span[text()='${id}']
 
 Activate Filter by name
   [Arguments]    ${filtername}
   Click Element Through Tooltips  xpath=//search-filter-panel//md-select
-  Click Element Through Tooltips  xpath=//md-select-menu//md-option[contains(., "${filtername}")]
+  Click Element Through Tooltips  xpath=//md-select-menu//md-option[contains(., '${filtername}')]
 
 Choose Filter Option by id
   [Arguments]    ${id}
-  Click Element Through Tooltips  xpath=//md-virtual-repeat-container//li//span[text()="${id}"]
+  Click Element Through Tooltips  xpath=//md-virtual-repeat-container//li//span[text()='${id}']
 
 Click on study tab
   ${url} =  Get Location
