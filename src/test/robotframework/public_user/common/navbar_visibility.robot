@@ -21,16 +21,16 @@ Navbar is visible on large devices
 
 *** Keywords ***
 Navbar should be hidden
-  Page Should Contain Element  xpath=//md-sidenav[contains(@class, 'md-closed')]
+  Page Should Contain Element  xpath=//md-sidenav[contains(@class, "md-closed")]
 
 Navbar should be open
-  Page Should Contain Element  xpath=//md-sidenav[not(contains(@class, 'md-closed'))]
+  Page Should Contain Element  xpath=//md-sidenav[not(contains(@class, "md-closed"))]
 
 Navbar should be always open
-  Page Should Contain Element  xpath=//md-sidenav[contains(@class, 'md-locked-open')]
+  Page Should Contain Element  xpath=//md-sidenav[contains(@class, "md-locked-open")]
 
 Click menu button
-  Wait Until Keyword Succeeds  5s  1s  Click Button  xpath=//md-toolbar/descendant::button[md-icon[text()='menu']]
+  Wait Until Keyword Succeeds  5s  1s  Click Button  xpath=//md-toolbar/descendant::button[md-icon[text()="menu"]]
 
 Set small device size
   Set Window Size  800  600
