@@ -37,9 +37,9 @@ public class WebConfigurer
         Arrays.toString(env.getActiveProfiles()));
     EnumSet<DispatcherType> disps =
         EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.ASYNC);
+    initCachingHttpHeadersFilter(servletContext, disps);
     if (env.acceptsProfiles("!" + Constants.SPRING_PROFILE_LOCAL)) {
       initStaticResourcesProductionFilter(servletContext, disps);
-      initCachingHttpHeadersFilter(servletContext, disps);
     }
     log.info("Web application fully configured");
   }
@@ -53,7 +53,7 @@ public class WebConfigurer
     // IE issue, see https://github.com/jhipster/generator-jhipster/pull/711
     mappings.add("html", "text/html;charset=utf-8");
     // CloudFoundry issue, see https://github.com/cloudfoundry/gorouter/issues/64
-    mappings.add("json", "text/html;charset=utf-8");
+    mappings.add("json", "application/json;charset=utf-8");
 
     mappings.add("svg", "image/svg+xml");
     mappings.add("ttf", "application/x-font-ttf");
@@ -68,6 +68,7 @@ public class WebConfigurer
     mappings.add("jpeg", "image/jpeg");
     mappings.add("png", "image/png");
     mappings.add("gif", "image/gif");
+    mappings.add("txt", "text/plain");
 
     container.setMimeMappings(mappings);
   }
@@ -100,8 +101,11 @@ public class WebConfigurer
 
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/dist/*");
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/index.html");
+    cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/robots.txt");
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/manifest.json");  
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/bower_components/*");
+    cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/assets/*");
+    cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/scripts/*");
     cachingHttpHeadersFilter.setAsyncSupported(true);
   }
 }

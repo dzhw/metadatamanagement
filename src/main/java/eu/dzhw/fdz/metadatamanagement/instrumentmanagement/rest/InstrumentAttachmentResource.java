@@ -8,6 +8,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -72,7 +73,7 @@ public class InstrumentAttachmentResource {
     if (!StringUtils.isEmpty(instrumentId)) {
       List<InstrumentAttachmentMetadata> metadata =
           instrumentAttachmentService.findAllByInstrument(instrumentId);
-      return ResponseEntity.ok()
+      return ResponseEntity.ok().cacheControl(CacheControl.noStore())
           .body(metadata);
     } else {
       return ResponseEntity.badRequest()

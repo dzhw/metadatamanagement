@@ -55,8 +55,6 @@ public class OAuth2ServerConfiguration {
             .disable().headers()
             .frameOptions().disable()
         .and()
-          .headers().cacheControl().disable()
-        .and()
         // disable csrf protection for api
           .csrf().ignoringAntMatchers("/api/**", "/management/**")
         .and()

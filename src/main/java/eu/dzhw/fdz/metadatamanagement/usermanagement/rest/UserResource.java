@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -123,6 +124,7 @@ public class UserResource {
         .map(user -> new ManagedUserDto(user))
         .collect(Collectors.toList());
     HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users");
+    headers.setCacheControl(CacheControl.noStore());
     return new ResponseEntity<>(managedUserDtos, headers, HttpStatus.OK);
   }
 
@@ -137,7 +139,8 @@ public class UserResource {
     log.debug("REST request to get User : {}", login);
     return userService.getUserWithAuthoritiesByLogin(login)
       .map(user -> new ManagedUserDto(user))
-      .map(managedUserDTO -> new ResponseEntity<>(managedUserDTO, HttpStatus.OK))
+      .map(managedUserDTO -> ResponseEntity.ok().cacheControl(CacheControl.noCache())
+          .body(managedUserDTO))
       .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
   }
 }

@@ -8,6 +8,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -73,7 +74,7 @@ public class StudyAttachmentResource {
     if (!StringUtils.isEmpty(studyId)) {
       List<StudyAttachmentMetadata> metadata =
           studyAttachmentService.findAllByStudy(studyId);
-      return ResponseEntity.ok()
+      return ResponseEntity.ok().cacheControl(CacheControl.noStore())
           .body(metadata);
     } else {
       return ResponseEntity.badRequest()
