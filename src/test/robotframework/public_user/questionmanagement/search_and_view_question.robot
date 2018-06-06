@@ -13,7 +13,7 @@ Looking for Absolventenpanel 2005s Fragebogen Erste Welle in german
   [Teardown]  Get back to home page
 
 Looking for Graduate Panel 2005s questionnaire first wave in english
-  [Tags]  noedge
+  [Tags]  noslowpoke
   [Setup]   Change language to english
   Click on questions tab
   Search for  What experiences have you had (so far) during your training/internship?
