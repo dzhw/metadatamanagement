@@ -222,7 +222,7 @@ public class UserServiceTest extends AbstractTest {
       .get()
       .getId(), is(user.getId()));
 
-    this.userRepository.delete(user.getId());
+    this.userRepository.deleteById(user.getId());
     UnitTestUserManagementUtils.logout();
   }
 }

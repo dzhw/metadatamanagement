@@ -131,7 +131,7 @@ public class DataSetService {
   @HandleBeforeSave
   public void onBeforeDataSetSaved(DataSet dataSet) {
     dataSetChangesProvider.put(dataSet, 
-        dataSetRepository.findOne(dataSet.getId()));
+        dataSetRepository.findById(dataSet.getId()).get());
   }
   
   @HandleBeforeCreate

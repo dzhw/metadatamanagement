@@ -8,6 +8,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -19,8 +20,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriUtils;
-
-import com.codahale.metrics.annotation.Timed;
 
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetAttachmentService;
@@ -46,7 +45,6 @@ public class DataSetAttachmentResource {
    * @throws IOException If the attachment cannot be read
    */ 
   @RequestMapping(path = "/data-sets/attachments", method = RequestMethod.POST)
-  @Timed
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<String> uploadAttachment(@RequestPart("file") MultipartFile multiPartFile,
       @RequestPart("dataSetAttachmentMetadata") 
@@ -67,12 +65,11 @@ public class DataSetAttachmentResource {
    */
   @RequestMapping(path = "/data-sets/{dataSetId}/attachments", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  @Timed
   public ResponseEntity<?> findByDataSetId(@PathVariable("dataSetId") String dataSetId) {
     if (!StringUtils.isEmpty(dataSetId)) {
       List<DataSetAttachmentMetadata> metadata =
           dataSetAttachmentService.findAllByDataSet(dataSetId);
-      return ResponseEntity.ok()
+      return ResponseEntity.ok().cacheControl(CacheControl.noStore())
           .body(metadata);
     } else {
       return ResponseEntity.badRequest()
@@ -86,7 +83,6 @@ public class DataSetAttachmentResource {
    * @param dataSetId The id of an data set.
    */
   @RequestMapping(path = "/data-sets/{dataSetId}/attachments", method = RequestMethod.DELETE)
-  @Timed
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> deleteAllByDataSetId(@PathVariable("dataSetId") String dataSetId) {
     if (!StringUtils.isEmpty(dataSetId)) {

@@ -1,6 +1,6 @@
 {
   "name": "clipboard",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Modern copy to clipboard. No Flash. Just 3kb",
   "license": "MIT",
   "main": "dist/clipboard.js",
@@ -20,11 +20,11 @@
     "cut"
   ],
   "homepage": "https://github.com/zenorocha/clipboard.js",
-  "_release": "2.0.0",
+  "_release": "2.0.1",
   "_resolution": {
     "type": "version",
-    "tag": "v2.0.0",
-    "commit": "43beb07bac8323a1ee04001d73d131f7634223cc"
+    "tag": "v2.0.1",
+    "commit": "829ab52bddbe4da4af79ffa2632bae3a21491a19"
   },
   "_source": "https://github.com/zenorocha/clipboard.js.git",
   "_target": "^2.0.0",

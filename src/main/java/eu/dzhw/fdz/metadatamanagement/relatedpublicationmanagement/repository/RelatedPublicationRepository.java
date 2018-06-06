@@ -30,11 +30,11 @@ public interface RelatedPublicationRepository
   
   @Override
   @Secured(value = AuthoritiesConstants.PUBLISHER)
-  void delete(String id);
+  void deleteById(String id);
   
   @Override
   @Secured(value = AuthoritiesConstants.PUBLISHER)
-  void delete(Iterable<? extends RelatedPublication> entities);
+  void deleteAll(Iterable<? extends RelatedPublication> entities);
   
   @Override
   @Secured(value = AuthoritiesConstants.PUBLISHER)
@@ -42,7 +42,7 @@ public interface RelatedPublicationRepository
   
   @Override
   @Secured(value = AuthoritiesConstants.PUBLISHER)
-  <S extends RelatedPublication> List<S> save(Iterable<S> entites);
+  <S extends RelatedPublication> List<S> saveAll(Iterable<S> entites);
   
   @Override
   @Secured(value = AuthoritiesConstants.PUBLISHER)

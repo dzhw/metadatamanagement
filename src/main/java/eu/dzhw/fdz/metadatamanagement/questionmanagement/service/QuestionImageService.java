@@ -3,9 +3,9 @@ package eu.dzhw.fdz.metadatamanagement.questionmanagement.service;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -16,7 +16,7 @@ import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.mongodb.gridfs.GridFSFile;
+import com.mongodb.client.gridfs.model.GridFSFile;
 
 import eu.dzhw.fdz.metadatamanagement.filemanagement.util.MimeTypeDetector;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.QuestionImageMetadata;
@@ -56,11 +56,9 @@ public class QuestionImageService {
       questionImageMetadata.setLastModifiedBy(currentUser);
       questionImageMetadata.setLastModifiedDate(LocalDateTime.now());
       String filename = buildFileName(questionImageMetadata);
-      String contentType = mimeTypeDetector.detect(multipartFile);
-      GridFSFile gridFsFile = 
-          this.operations.store(in, filename, contentType, questionImageMetadata);
-      gridFsFile.validate();
-      return gridFsFile.getFilename();      
+      String contentType = mimeTypeDetector.detect(multipartFile); 
+      this.operations.store(in, filename, contentType, questionImageMetadata);
+      return filename;      
     }
   }
   
@@ -73,17 +71,19 @@ public class QuestionImageService {
   }
   
   /**
-   * This method finds images from GridFS/MongoDB. If no image was found, it returns by default
-   * a null value.
+   * This method finds images from GridFS/MongoDB.
    * @param questionId The id of a question
    */
   public List<QuestionImageMetadata> findByQuestionId(String questionId) {
     Query query = new Query(new GridFsCriteria("metadata.questionId").is(questionId))
         .with(new Sort(Sort.Direction.ASC, "metadata.indexInQuestion"));
-    return this.operations.find(query).stream().map(gridfsFile -> {
-      return mongoTemplate.getConverter().read(QuestionImageMetadata.class, 
-          gridfsFile.getMetaData());
-    }).collect(Collectors.toList());
+    Iterable<GridFSFile> files = this.operations.find(query);
+    List<QuestionImageMetadata> result = new ArrayList<>();
+    files.forEach(gridfsFile -> {
+      result.add(mongoTemplate.getConverter().read(QuestionImageMetadata.class, 
+          gridfsFile.getMetadata()));
+    });
+    return result;
   }
   
   /**

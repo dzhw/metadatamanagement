@@ -58,13 +58,13 @@ public class DataSetReportService {
 
   @Autowired
   private DataSetRepository dataSetRepository;
-  
+
   @Autowired
   private VariableRepository variableRepository;
 
   @Autowired
   private QuestionRepository questionRepository;
-  
+
   @Autowired
   private InstrumentRepository instrumentRepository;
 
@@ -97,11 +97,11 @@ public class DataSetReportService {
 
   /**
    * Files which will be filled by the freemarker code.
-   */  
+   */
   private static final String KEY_VARIABLELIST = "Variablelist.tex";
-  private static final String KEY_MAIN = "Main.tex";  
+  private static final String KEY_MAIN = "Main.tex";
   private static final String KEY_VARIABLE = "variables/Variable.tex";
-  
+
   /**
    * This service method will receive a tex template as a string and an id of a data set. With this
    * id, the service will load the data set for receiving all depending information, which are
@@ -121,54 +121,54 @@ public class DataSetReportService {
     templateConfiguration.setDefaultEncoding(StandardCharsets.UTF_8.toString());
     templateConfiguration.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
     templateConfiguration.setNumberFormat("0.######");
-    
+
     //Prepare Zip enviroment config
     Map<String, String> env = new HashMap<>();
     env.put("create", "true");
     env.put("encoding", StandardCharsets.UTF_8.name());
-    
+
     //Create tmp file
     Path zipTmpFilePath = Files.createTempFile(dataSetId.replace("!", ""), ".zip");
     File zipTmpFile = zipTmpFilePath.toFile();
     multiPartFile.transferTo(zipTmpFile);
-    zipTmpFile.setWritable(true); 
+    zipTmpFile.setWritable(true);
     URI uriOfZipFile = URI.create("jar:" + zipTmpFilePath.toUri());
     try (FileSystem zipFileSystem = FileSystems.newFileSystem(uriOfZipFile, env);) {
       //Check missing files.
       List<String> missingTexFiles = this.validateDataSetReportStructure(zipFileSystem);
       if (!missingTexFiles.isEmpty()) {
         throw new TemplateIncompleteException("data-set-management.error"
-            + ".files-in-template-zip-incomplete", missingTexFiles);      
+            + ".files-in-template-zip-incomplete", missingTexFiles);
       }
-      
-      //Read the three files with freemarker code 
+
+      //Read the three files with freemarker code
       Path pathToMainTexFile = zipFileSystem.getPath(KEY_MAIN);
-      String texMainFileStr = ZipUtil.readFileFromZip(pathToMainTexFile);    
+      String texMainFileStr = ZipUtil.readFileFromZip(pathToMainTexFile);
       Path pathToVariableListTexFile = zipFileSystem.getPath(KEY_VARIABLELIST);
       String texVariableListFileStr = ZipUtil.readFileFromZip(pathToVariableListTexFile);
       Path pathToVariableTexFile = zipFileSystem.getPath(KEY_VARIABLE);
       String texVariableFileStr = ZipUtil.readFileFromZip(pathToVariableTexFile);
-      
+
       // Load data for template only once
       Map<String, Object> dataForTemplate = this.loadDataForTemplateFilling(dataSetId);
-      String variableListFilledStr = 
+      String variableListFilledStr =
           this.fillTemplate(texVariableListFileStr, templateConfiguration, dataForTemplate,
               KEY_VARIABLELIST);
       ZipUtil.writeFileToZip(pathToVariableListTexFile, variableListFilledStr);
-      String mainFilledStr = 
+      String mainFilledStr =
           this.fillTemplate(texMainFileStr, templateConfiguration, dataForTemplate,
               KEY_MAIN);
       ZipUtil.writeFileToZip(pathToMainTexFile, mainFilledStr);
-      
+
       // Create Variables pages
       @SuppressWarnings("unchecked")
       Map<String, Variable> variablesMap = (Map<String, Variable>) dataForTemplate.get("variables");
       Collection<Variable> variables = variablesMap.values();
-      
+
       for (Variable variable : variables) {
         //filledTemplates.put("variables/" + variable.getName() + ".tex",
         dataForTemplate.put("variable", variable);
-        String filledVariablesFile = 
+        String filledVariablesFile =
             fillTemplate(texVariableFileStr, templateConfiguration, dataForTemplate,
                 KEY_VARIABLE);
         Path pathOfVariable = Paths.get("variables/" + variable.getName() + ".tex");
@@ -176,15 +176,15 @@ public class DataSetReportService {
         final Path dest = zipFileSystem.getPath(root.toString(), pathOfVariable.toString());
         ZipUtil.writeFileToZip(dest, filledVariablesFile);
       }
-      
+
       //Delete Variables.tex file from zip
       Files.delete(pathToVariableTexFile);
     }
-    
-    // Save into MongoDB / GridFS   
+
+    // Save into MongoDB / GridFS
     return this.saveCompleteZipFile(zipTmpFile, multiPartFile.getOriginalFilename());
   }
-  
+
   /**
    * Checks for all files which are included for the tex template.
    * @param zipFileSystem The zip file as file system
@@ -192,29 +192,29 @@ public class DataSetReportService {
    */
   private List<String> validateDataSetReportStructure(FileSystem zipFileSystem) {
     List<String> missingTexFiles = new ArrayList<>();
-    
+
     // NO Check for References.bib. This file is just optional has has to be added manually.
-    
+
     Path mainFile = zipFileSystem.getPath(zipFileSystem.getPath("/").toString(), KEY_MAIN);
     if (!Files.exists(mainFile)) {
       missingTexFiles.add(KEY_MAIN);
     }
-    
+
     Path variableFile = zipFileSystem.getPath(zipFileSystem.getPath("/").toString(), KEY_VARIABLE);
     if (!Files.exists(variableFile)) {
       missingTexFiles.add(KEY_VARIABLE);
     }
-    
+
     Path variableListFile = zipFileSystem
         .getPath(zipFileSystem.getPath("/").toString(), KEY_VARIABLELIST);
     if (!Files.exists(variableListFile)) {
       missingTexFiles.add(KEY_VARIABLELIST);
     }
-    
+
     return missingTexFiles;
   }
-  
-  
+
+
 
   /**
    * This method fills the tex templates.
@@ -232,21 +232,21 @@ public class DataSetReportService {
       Configuration templateConfiguration, Map<String, Object> dataForTemplate,
       String fileName)
       throws IOException, TemplateException {
-    
+
     String templateName = "texTemplate";
     if (fileName != null && fileName.trim().length() > 0 ) {
       templateName = fileName;
     }
-    
+
     // Read Template and escape elements
     Template texTemplate =  new Template(templateName,
           (ESCAPE_PREFIX + templateContent + ESCAPE_SUFFIX), templateConfiguration);
-    
+
     try (Writer stringWriter = new StringWriter()) {
       texTemplate.process(dataForTemplate, stringWriter);
-      
+
       stringWriter.flush();
-      return stringWriter.toString();      
+      return stringWriter.toString();
     }
   }
 
@@ -260,12 +260,12 @@ public class DataSetReportService {
    */
   @SuppressFBWarnings("OBL_UNSATISFIED_OBLIGATION")
   private String saveCompleteZipFile(File zipFile,
-      String fileName) throws IOException {      
+      String fileName) throws IOException {
     // No Update by API, so we have to delete first.
     fileService.deleteTempFile(fileName);
-    
+
     // Save tex file
-    return fileService.saveTempFile(new FileInputStream(zipFile), fileName, CONTENT_TYPE_ZIP);      
+    return fileService.saveTempFile(new FileInputStream(zipFile), fileName, CONTENT_TYPE_ZIP);
   }
 
   /**
@@ -299,11 +299,8 @@ public class DataSetReportService {
   private Map<String, Object> createDataSetMap(Map<String, Object> dataForTemplate,
       String dataSetId) {
     // Get DataSet and check the valid result
-    DataSet dataSet = this.dataSetRepository.findOne(dataSetId);
-    if (dataSet == null) {
-      throw new IllegalArgumentException(
-          "No Data Set was found with given id: " + dataSetId);
-    }
+    DataSet dataSet = this.dataSetRepository.findById(dataSetId).get();
+
     dataForTemplate.put("dataSet", dataSet);
 
     return dataForTemplate;
@@ -312,7 +309,7 @@ public class DataSetReportService {
   /**
    * Fluent Method for creating Map Objects for the latex template. Creates the follow Maps:
    * questions : Map with all question, which are connected by variables of a given data set (key is
-   * variable.questionId) 
+   * variable.questionId)
    * isAMissingCounterMap: A map with counter, how many isAMissing Values a variable has
    *    (key is variable.id)
    * firstTenValues: The first ten isAMissing values for one tex template layout.
@@ -350,27 +347,23 @@ public class DataSetReportService {
       }
 
       // Create a Map with Questions
-      if (variable.getRelatedQuestions() != null 
-          && !variable.getRelatedQuestions().isEmpty()) {        
+      if (variable.getRelatedQuestions() != null
+          && !variable.getRelatedQuestions().isEmpty()) {
         for (RelatedQuestion relatedQuestion : variable.getRelatedQuestions()) {
           //question is unknown. add it to the question map.
           if (!questionsMap.containsKey(relatedQuestion.getQuestionId())) {
-            Question question = this.questionRepository.findOne(relatedQuestion.getQuestionId());
-            if (question != null) {              
-              questionsMap.put(relatedQuestion.getQuestionId(), question);
-            }
-          }          
+            this.questionRepository.findById(relatedQuestion.getQuestionId())
+                .ifPresent(question -> questionsMap.put(relatedQuestion.getQuestionId(), question));
+          }
         }
       }
-      
+
       //Create a Map with Instruments
       if (!questionsMap.isEmpty()) {
         questionsMap.values().forEach(question -> {
           if (!instrumentMap.containsKey(question.getInstrumentId())) {
-            Instrument instrument = this.instrumentRepository.findOne(question.getInstrumentId());
-            if (instrument != null) {              
-              instrumentMap.put(question.getInstrumentId(), instrument);
-            }
+            this.instrumentRepository.findById(question.getInstrumentId())
+                .ifPresent(instrument -> instrumentMap.put(question.getInstrumentId(), instrument));
           }
         });
       }
@@ -385,8 +378,8 @@ public class DataSetReportService {
               .getValidResponses()
               .subList(sizeValidResponses - 10, sizeValidResponses));
       }
-      
-      if (variable.getPanelIdentifier() != null) {       
+
+      if (variable.getPanelIdentifier() != null) {
         List<IdAndVersionProjection> otherVariablesInPanel = this.variableRepository
             .findAllIdsByPanelIdentifierAndIdNot(
                 variable.getPanelIdentifier(), variable.getId());

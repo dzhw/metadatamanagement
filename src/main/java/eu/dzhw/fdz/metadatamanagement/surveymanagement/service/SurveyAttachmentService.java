@@ -3,10 +3,11 @@ package eu.dzhw.fdz.metadatamanagement.surveymanagement.service;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
+import org.bson.Document;
 import org.javers.core.Javers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -18,9 +19,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
+import com.mongodb.client.gridfs.model.GridFSFile;
+import com.mongodb.gridfs.GridFS;
 import com.mongodb.gridfs.GridFSDBFile;
-import com.mongodb.gridfs.GridFSFile;
 
 import eu.dzhw.fdz.metadatamanagement.filemanagement.util.MimeTypeDetector;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyAttachmentMetadata;
@@ -35,6 +36,9 @@ public class SurveyAttachmentService {
 
   @Autowired
   private GridFsOperations operations;
+  
+  @Autowired
+  private GridFS gridFs;
 
   @Autowired
   private MongoTemplate mongoTemplate;
@@ -64,10 +68,9 @@ public class SurveyAttachmentService {
       metadata.generateId();
       String contentType = mimeTypeDetector.detect(multipartFile);
       String filename = SurveyAttachmentFilenameBuilder.buildFileName(metadata);
-      GridFSFile gridFsFile = this.operations.store(in, filename, contentType, metadata);
-      gridFsFile.validate();
+      this.operations.store(in, filename, contentType, metadata);
       javers.commit(currentUser, metadata);
-      return gridFsFile.getFilename();
+      return filename;
     }
   }
 
@@ -80,10 +83,10 @@ public class SurveyAttachmentService {
     String currentUser = SecurityUtils.getCurrentUserLogin();
     Query query = new Query(GridFsCriteria.whereFilename()
         .regex("^" + Pattern.quote(SurveyAttachmentFilenameBuilder.buildFileNamePrefix(surveyId))));
-    List<GridFSDBFile> files = this.operations.find(query);
-    files.stream().forEach(file -> {
+    Iterable<GridFSFile> files = this.operations.find(query);
+    files.forEach(file -> {
       SurveyAttachmentMetadata metadata =
-          mongoTemplate.getConverter().read(SurveyAttachmentMetadata.class, file.getMetaData());
+          mongoTemplate.getConverter().read(SurveyAttachmentMetadata.class, file.getMetadata());
       javers.commitShallowDelete(currentUser, metadata);
     });
     this.operations.delete(query);
@@ -99,10 +102,13 @@ public class SurveyAttachmentService {
     Query query = new Query(GridFsCriteria.whereFilename()
         .regex("^" + Pattern.quote(SurveyAttachmentFilenameBuilder.buildFileNamePrefix(surveyId))));
     query.with(new Sort(Sort.Direction.ASC, "metadata.indexInSurvey"));
-    return this.operations.find(query).stream().map(gridfsFile -> {
-      return mongoTemplate.getConverter().read(SurveyAttachmentMetadata.class,
-          gridfsFile.getMetaData());
-    }).collect(Collectors.toList());
+    Iterable<GridFSFile> files = this.operations.find(query);
+    List<SurveyAttachmentMetadata> result = new ArrayList<>();
+    files.forEach(gridfsFile -> {
+      result.add(mongoTemplate.getConverter().read(SurveyAttachmentMetadata.class, 
+          gridfsFile.getMetadata()));
+    });
+    return result;
   }
 
   /**
@@ -112,10 +118,10 @@ public class SurveyAttachmentService {
     String currentUser = SecurityUtils.getCurrentUserLogin();
     Query query = new Query(GridFsCriteria.whereFilename()
         .regex(SurveyAttachmentFilenameBuilder.ALL_SURVEY_ATTACHMENTS));
-    List<GridFSDBFile> files = this.operations.find(query);
-    files.stream().forEach(file -> {
+    Iterable<GridFSFile> files = this.operations.find(query);
+    files.forEach(file -> {
       SurveyAttachmentMetadata metadata = mongoTemplate.getConverter().read(
-          SurveyAttachmentMetadata.class, file.getMetaData());
+          SurveyAttachmentMetadata.class, file.getMetadata());
       javers.commitShallowDelete(currentUser, metadata);
     });
     this.operations.delete(query);
@@ -131,10 +137,10 @@ public class SurveyAttachmentService {
     String currentUser = SecurityUtils.getCurrentUserLogin();
     metadata.setLastModifiedBy(currentUser);
     metadata.setLastModifiedDate(LocalDateTime.now());
-    GridFSDBFile file = operations.findOne(new Query(GridFsCriteria.whereFilename()
-        .is(SurveyAttachmentFilenameBuilder.buildFileName(metadata))));
-    DBObject dbObject = new BasicDBObject();
-    mongoTemplate.getConverter().write(metadata, dbObject);
+    GridFSDBFile file = gridFs.findOne(SurveyAttachmentFilenameBuilder.buildFileName(
+        metadata.getSurveyId(), metadata.getFileName()));
+    BasicDBObject dbObject = new BasicDBObject(
+        (Document) mongoTemplate.getConverter().convertToMongoType(metadata));
     file.setMetaData(dbObject);
     file.save();
     javers.commit(currentUser, metadata);
@@ -149,12 +155,12 @@ public class SurveyAttachmentService {
   public void deleteBySurveyIdAndFilename(String surveyId, String filename) {
     Query fileQuery = new Query(GridFsCriteria.whereFilename()
         .is(SurveyAttachmentFilenameBuilder.buildFileName(surveyId, filename)));
-    GridFSDBFile file = this.operations.findOne(fileQuery);
+    GridFSFile file = this.operations.findOne(fileQuery);
     if (file == null) {
       return;
     }
     SurveyAttachmentMetadata metadata =
-        mongoTemplate.getConverter().read(SurveyAttachmentMetadata.class, file.getMetaData());
+        mongoTemplate.getConverter().read(SurveyAttachmentMetadata.class, file.getMetadata());
     String currentUser = SecurityUtils.getCurrentUserLogin();
     this.operations.delete(fileQuery);
     javers.commitShallowDelete(currentUser, metadata);

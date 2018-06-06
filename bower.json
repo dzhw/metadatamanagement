@@ -89,7 +89,6 @@
   },
   "resolutions": {
     "angular": "1.7.0",
-    "angular-ui-router": "1.0.18",
     "angular-translate": "2.18.1"
   }
 }

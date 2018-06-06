@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.common.rest;
 
 import java.time.ZoneId;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.http.CacheControl;
@@ -39,11 +40,12 @@ public abstract class GenericDomainObjectResourceController<T extends AbstractRd
    * @return The http response
    */
   protected ResponseEntity<T> findDomainObject(String id) {
-    T domainObject = repository.findOne(id);
+    Optional<T> optional = repository.findById(id);
 
-    if (domainObject == null) {
+    if (!optional.isPresent()) {
       return ResponseEntity.notFound().build();
     }
+    T domainObject = optional.get();
     return ResponseEntity.ok()
         .cacheControl(CacheControl.maxAge(0, TimeUnit.DAYS).mustRevalidate().cachePublic())
         .eTag(domainObject.getVersion().toString())

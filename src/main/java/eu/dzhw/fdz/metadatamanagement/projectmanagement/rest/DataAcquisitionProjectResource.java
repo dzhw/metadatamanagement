@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.codahale.metrics.annotation.Timed;
-
 import eu.dzhw.fdz.metadatamanagement.common.rest.GenericDomainObjectResourceController;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
@@ -42,7 +40,6 @@ public class DataAcquisitionProjectResource
    * @return the {@link DataAcquisitionProject} or not found
    */
   @RequestMapping(method = RequestMethod.GET, value = "/data-acquisition-projects/{id:.+}")
-  @Timed
   public ResponseEntity<DataAcquisitionProject> findProject(@PathVariable String id) {
     return super.findDomainObject(id); 
   }
@@ -54,12 +51,11 @@ public class DataAcquisitionProjectResource
    *     if it has been released before and deleting is forbidden.
    */
   @RequestMapping(value = "/data-acquisition-projects/{id}", method = RequestMethod.DELETE)
-  @Timed
   public ResponseEntity<?> deleteDataAcquisitionProject(@PathVariable String id) {
     
     //load project
     DataAcquisitionProject dataAcquisitionProject = super.repository
-        .findOne(id);
+        .findById(id).orElse(null);
     
     //project could not be found
     if (dataAcquisitionProject == null) {

@@ -34,7 +34,6 @@ angular.module('metadatamanagementApp').config(
               'true': 'Klicken, um das Menü "Administration" zu schließen'
             },
             'user-management-tooltip': 'Klicken, um die Benutzerverwaltung zu öffnen',
-            'metrics-tooltip': 'Klicken, um die Servermetriken anzuzeigen',
             'health-tooltip': 'Klicken, um die Verfügbarkeit aller externen Dienste zu prüfen',
             'configuration-tooltip': 'Klicken, um die Spring-Konfiguration anzuzeigen',
             'logs-tooltip': 'Klicken, um Loglevel zu ändern',
@@ -132,7 +131,6 @@ angular.module('metadatamanagementApp').config(
           'admin': {
             'main': 'Administration',
             'user-management': 'Benutzerverwaltung',
-            'metrics': 'Servermetriken',
             'health': 'Verfügbarkeit externer Dienste',
             'configuration': 'Spring-Konfiguration',
             'logs': 'Loglevel',

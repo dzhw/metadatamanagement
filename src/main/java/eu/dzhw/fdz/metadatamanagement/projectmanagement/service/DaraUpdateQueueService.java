@@ -98,7 +98,7 @@ public class DaraUpdateQueueService {
     try {      
       DaraUpdateQueueItem existingItem = queueItemRepository.findOneByProjectId(projectId);
       if (existingItem != null) {
-        queueItemRepository.delete(existingItem.getId());
+        queueItemRepository.deleteById(existingItem.getId());
       }
       queueItemRepository.insert(new DaraUpdateQueueItem(projectId));
     } catch (DuplicateKeyException ex) {
@@ -137,10 +137,11 @@ public class DaraUpdateQueueService {
   
   private void enqueueStudiesIfProjectIsCurrentlyReleasedToDara(Collection<String> studyIds) {
     for (String studyId : studyIds) {
-      Study study = studyRepository.findOne(studyId);
+      Study study = studyRepository.findById(studyId).orElse(null);
       if (study != null) {
         DataAcquisitionProject dataAcquisitionProject =
-            this.projectRepository.findOne(study.getDataAcquisitionProjectId());
+            this.projectRepository.findById(study.getDataAcquisitionProjectId())
+            .orElse(null);
         
         if (dataAcquisitionProject != null
             && dataAcquisitionProject.getRelease() != null
@@ -177,7 +178,7 @@ public class DaraUpdateQueueService {
     }
     
     // finally delete the queue items
-    queueItemRepository.delete(lockedItems);
+    queueItemRepository.deleteAll(lockedItems);
   }
 
   private void handleDaraCommunicationError(DaraUpdateQueueItem lockedItem) {

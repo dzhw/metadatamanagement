@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.codahale.metrics.annotation.Timed;
-
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.exception.TemplateIncompleteException;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetReportService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
@@ -40,7 +38,6 @@ public class DataSetsReportResource {
    * @throws TemplateException Handles template exceptions. (Freemarker Templates)
    */
   @RequestMapping(value = "/data-sets/report")
-  @Timed
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile multiPartFile,
       @RequestParam("id") String dataSetId) throws IOException, TemplateException, 
