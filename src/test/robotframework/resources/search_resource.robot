@@ -7,6 +7,7 @@ Variables   ../common_variables.yaml
 *** Keywords ***
 Search for
   [Arguments]    ${query}
+  Click Element Through Tooltips  xpath=//input[@id='query']
   Input Text     id=query    ${query}
 
 Select project by name

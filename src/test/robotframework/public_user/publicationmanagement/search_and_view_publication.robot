@@ -13,6 +13,7 @@ Looking for Bildungsherkunft und Promotionen
   [Teardown]  Get back to home page
 
 Looking for Graduate Panel 2005s individual data bachelor in english
+  [Tags] noedge
   [Setup]   Change language to english
   Click on publications tab
   Search for  Bildungsherkunft und Promotionen
