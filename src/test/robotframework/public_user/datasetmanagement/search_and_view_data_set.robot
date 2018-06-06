@@ -13,7 +13,7 @@ Looking for Absolventenpanel 2005s individual data bachelor in german
   [Teardown]  Get back to home page
 
 Looking for Graduate Panel 2005s individual data bachelor in english
-  [Tags]  noedge
+  [Tags]  noslowpoke
   [Setup]   Change language to english
   Click on data set tab
   Search for  Graduate Panel 2005 Questionnaire First Wave
