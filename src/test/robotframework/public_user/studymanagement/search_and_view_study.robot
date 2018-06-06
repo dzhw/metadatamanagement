@@ -12,7 +12,7 @@ Looking for Absolventenpanel 2005 in german
   [Teardown]  Get back to home page
 
 Looking for Graduate Panel 2005 in english
-  [Tags] noedge
+  [Tags]  noedge
   [Setup]   Change language to english
   Search for  Graduate Panel 2005
   Click on search result by id  stu-gra2005$

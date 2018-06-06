@@ -13,7 +13,7 @@ Looking for Absolventenpanel 2005s first wave survey in german
   [Teardown]  Get back to home page
 
 Looking for Graduate Panel 2005s first wave survey in english
-  [Tags] noedge
+  [Tags]  noedge
   [Setup]   Change language to english
   Click on surveys tab
   Search for  DZHW Graduate Panel 2005 First Wave
