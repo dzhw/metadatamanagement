@@ -54,12 +54,13 @@ public class CachingHttpHeadersFilter implements Filter {
         httpResponse.setHeader(HttpHeaders.PRAGMA, "no-cache");
         httpResponse.setDateHeader(HttpHeaders.EXPIRES, LAST_MODIFIED);
       } else {
-        if (requestUri.endsWith("index.html")) {
+        if (requestUri.endsWith("index.html") || requestUri.contains("bower_components") 
+            || requestUri.endsWith("robots.txt") || requestUri.endsWith("manifest.json")) {
           // index.html can be cached but must be revalidated
           httpResponse.setHeader(HttpHeaders.CACHE_CONTROL, "max-age=0, must-revalidate, public");
         } else {
           httpResponse.setHeader(HttpHeaders.CACHE_CONTROL,
-              "max-age=2629000, must-revalidate, public");
+              "max-age=2629000, immutable, public");
         }
         httpResponse.setHeader(HttpHeaders.PRAGMA, "cache");
       }
