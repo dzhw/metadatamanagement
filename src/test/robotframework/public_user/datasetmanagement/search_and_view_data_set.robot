@@ -2,7 +2,7 @@
 Documentation     Tests the user experience of searching & finding the Graduate Panel 2005 and opening a data set page
 Resource    ../resources/search_resource.robot
 Resource    ../resources/home_page_resource.robot
-Default Tags  smoketest
+Force Tags  smoketest
 
 *** Test Cases ***
 Looking for Absolventenpanel 2005s individual data bachelor in german
@@ -13,6 +13,7 @@ Looking for Absolventenpanel 2005s individual data bachelor in german
   [Teardown]  Get back to home page
 
 Looking for Graduate Panel 2005s individual data bachelor in english
+  [Tags]  noedge
   [Setup]   Change language to english
   Click on data set tab
   Search for  Graduate Panel 2005 Questionnaire First Wave
