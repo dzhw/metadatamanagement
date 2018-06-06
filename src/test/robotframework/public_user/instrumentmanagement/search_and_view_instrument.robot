@@ -13,7 +13,7 @@ Looking for Absolventenpanel 2005s Fragebogen Erste Welle in german
   [Teardown]  Get back to home page
 
 Looking for Graduate Panel 2005s questionnaire first wave in english
-  [Tags] noedge
+  [Tags]  noedge
   [Setup]   Change language to english
   Click on instruments tab
   Search for  Graduate Panel 2005 Questionnaire First Wave
