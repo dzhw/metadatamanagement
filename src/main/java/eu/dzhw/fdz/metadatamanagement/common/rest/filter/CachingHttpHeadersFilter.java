@@ -64,10 +64,6 @@ public class CachingHttpHeadersFilter implements Filter {
         httpResponse.setHeader(HttpHeaders.PRAGMA, "cache");
       }
 
-      // Setting the Last-Modified and etag header, for browser caching
-      httpResponse.setDateHeader(HttpHeaders.LAST_MODIFIED, LAST_MODIFIED);
-      httpResponse.setHeader(HttpHeaders.ETAG, String.valueOf(LAST_MODIFIED));
-
       chain.doFilter(request, response);
     }
   }
