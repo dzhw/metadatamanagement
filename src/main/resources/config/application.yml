@@ -60,6 +60,7 @@ management:
         - health
         - configprops
         - metrics
+        - httptrace
   endpoint:
     health:
       show-details: always

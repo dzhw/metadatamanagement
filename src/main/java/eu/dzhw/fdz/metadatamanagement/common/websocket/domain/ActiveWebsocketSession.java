@@ -20,8 +20,6 @@ public class ActiveWebsocketSession {
   @Id
   private String id;
   
-  private String ipAddress;
-  
   private String browser;
   
   private String browserMajorVersion;
@@ -37,19 +35,17 @@ public class ActiveWebsocketSession {
   /**
    * Generate a new session.
    * @param id The websockets session id
-   * @param ipAddress the remote ipaddress of the user
    * @param browser the clients browser
    * @param browserMajorVersion the clients browser version
    * @param clientOs the name of the clients operation system
    * @param clientOsVersion the version of the clients operationg system
    * @param connectedAt the date and time when the connection has been established
    */
-  public ActiveWebsocketSession(String id, String ipAddress, String browser,
+  public ActiveWebsocketSession(String id, String browser,
       String browserMajorVersion, String clientOs, String clientOsVersion,
       Set<String> stompVersions, LocalDateTime connectedAt) {
     super();
     this.id = id;
-    this.ipAddress = ipAddress;
     this.browser = browser;
     this.browserMajorVersion = browserMajorVersion;
     this.clientOs = clientOs;
@@ -64,14 +60,6 @@ public class ActiveWebsocketSession {
 
   public void setId(String id) {
     this.id = id;
-  }
-
-  public String getIpAddress() {
-    return ipAddress;
-  }
-
-  public void setIpAddress(String ipAddress) {
-    this.ipAddress = ipAddress;
   }
 
   public Set<String> getStompVersions() {
@@ -143,7 +131,6 @@ public class ActiveWebsocketSession {
   public String toString() {
     return MoreObjects.toStringHelper(this)
       .add("id", id)
-      .add("ipAddress", ipAddress)
       .add("browser", browser)
       .add("browserMajorVersion", browserMajorVersion)
       .add("clientOs", clientOs)

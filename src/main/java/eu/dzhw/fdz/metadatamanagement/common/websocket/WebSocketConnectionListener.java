@@ -48,7 +48,6 @@ public class WebSocketConnectionListener {
     }
     ActiveWebsocketSession session = new ActiveWebsocketSession(
         sha.getSessionId(), 
-        ipAddress,
         sha.getFirstNativeHeader(BROWSER),
         sha.getFirstNativeHeader(BROWSER_MAJOR_VERSION),
         sha.getFirstNativeHeader(CLIENT_OS),
