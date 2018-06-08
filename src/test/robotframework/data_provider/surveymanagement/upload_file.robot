@@ -21,7 +21,7 @@ Upload file in survey editor
   Page Should Contain Element  xpath=//md-content//a[@ng-href="/public/files/surveys/sur-fileuploadproject-sy1$/1_responserate_de"]
   Click Survey Edit Button
   Delete Response Rate Upload
-#Same Reason as above
+  # Same Reason as above
   Sleep  2s
   Save Response Rate Changes
   [Teardown]  Get back to home page and deselect project and logout
