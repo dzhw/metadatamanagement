@@ -52,9 +52,9 @@ You can build and deploy the jar to the dev environment by running
 
     ./deploy/build-and-deploy.sh dev
 
+We test our project continously with the Robot Framework. Test Developers can get further info [here](https://github.com/dzhw/metadatamanagement/wiki/Robot-Framework). 
 ## Pivotal Cloudfoundry
 This project is currently built and deployed to Pivotal Cloudfoundry by [Travis CI][TravisCI]. You can test the latest version on https://metadatamanagement-dev.cfapps.io/
-We test our project with Robot Framework https://github.com/dzhw/metadatamanagement/wiki/Robot-Framework
 
 ## Big Thanks
 
