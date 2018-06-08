@@ -10,7 +10,7 @@ Looking for Absolventenpanel 2005s Fragebogen Erste Welle in german
   Search for  Absolventenpanel 2005 Fragebogen Erste Welle
   Click on search result by id  ins-gra2005-ins1$
   Page Should Contain  gra2005_W1_Questionnaire_de.pdf
-  [Teardown]  Get back to home page
+  [Teardown]  Get back to german home page
 
 Looking for Graduate Panel 2005s questionnaire first wave in english
   [Tags]  noslowpoke

@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     Tests the user experience of searching & finding the Graduate Panel 2005 and opening the questionnaire
+Documentation     Tests downloading an instrument attachment
 Resource    ../resources/search_resource.robot
 Resource    ../resources/home_page_resource.robot
 Force Tags  smoketest  firefox
@@ -12,7 +12,7 @@ Looking for Absolventenpanel 2005s Fragebogen Erste Welle in german
   Click on questionnaire
   Sleep  2s
   Switch windows forth and back
-  [Teardown]  Get back to home page
+  [Teardown]  Get back to german home page
 
 *** Keywords ***
 Click on questionnaire

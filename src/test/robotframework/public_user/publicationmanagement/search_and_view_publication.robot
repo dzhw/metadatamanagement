@@ -10,7 +10,7 @@ Looking for Bildungsherkunft und Promotionen
   Search for  Bildungsherkunft und Promotionen
   Click on search result by id  pub-Jaksztat.2014$
   Page Should Contain  http://www.zfs-online.org/index.php/zfs/article/view/3175/2712
-  [Teardown]  Get back to home page
+  [Teardown]  Get back to german home page
 
 Looking for Graduate Panel 2005s individual data bachelor in english
   [Tags]  noslowpoke

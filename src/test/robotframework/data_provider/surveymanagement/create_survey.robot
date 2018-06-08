@@ -30,8 +30,8 @@ Invalid ResponseRate           Irgendetwas  Something  1         01.05.2018     
 
 *** Keywords ***
 Survey Page With Empty Or Invalid Options Should Fail
-  Pass Execution If    '${BROWSER}' == 'ie'  Survey Creation not possible in IE
   [Arguments]  ${GTitle}  ${ETitle}  ${Wave}  ${FieldPeriodStart}  ${FieldPeriodEnd}  ${GSurveyMethod}  ${ESurveyMethod}  ${GPopTitle}  ${EPopTitle}  ${GPopDesc}  ${EPopDesc}  ${GSample}  ${ESample}  ${NetSampleSize}  ${ResponseRate}
+  Pass Execution If    '${BROWSER}' == 'ie'  Survey Creation not possible in IE
   Input Text  name=titleDe                  ${GTitle}
   Input Text  name=titleEn                  ${ETitle}
   Input Text  name=wave                     ${Wave}
@@ -65,8 +65,9 @@ Go To Survey Create Page
 Close Survey Editor And Log Out
   Pass Execution If    '${BROWSER}' == 'ie'  Survey Creation not possible in IE
   Click Element Through Tooltips  xpath=//md-icon[text()='close']
-  Get back to home page
+  Get back to german home page
   Click Element Through Tooltips  xpath=//button[text()='Ja']
+  #Probleme mit allen anderen Optionen, merkwürdiges Resultat wenn zuschnell ausgeloggt wird.
   Sleep  1s
   Click Element Through Tooltips  xpath=//button[@id='logout']
 

@@ -9,7 +9,7 @@ Looking for Absolventenpanel 2005 in german
   Search for  Absolventenpanel 2005
   Click on search result by id  stu-gra2005$
   Page Should Contain  Wirt­schafts- und Fi­nanz­kri­se
-  [Teardown]  Get back to home page
+  [Teardown]  Get back to german home page
 
 Looking for Graduate Panel 2005 in english
   [Tags]  noslowpoke

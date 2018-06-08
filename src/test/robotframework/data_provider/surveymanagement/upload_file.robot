@@ -7,14 +7,14 @@ Default Tags  chromeonly
 
 
 *** Test Cases ***
-Fileupload in survey Editor
+Upload file in survey editor
   Login as dataprovider
   Select project by name  fileuploadproject
   Click on surveys tab
   Click on search result by id    sur-fileuploadproject-sy1$
   Click Survey Edit Button
   Upload Response Response Rate
-# Sleep is needed as the save button is too soon available and the upload wouldn't be done.
+  # Sleep is needed as the save button is too soon available and the upload wouldn't be done.
   Sleep  2s
   Save Response Rate Changes
   Get To Survey Page
@@ -29,7 +29,7 @@ Fileupload in survey Editor
 
 *** Keywords ***
 Get back to home page and deselect project and logout
-  Get back to home page
+  Get back to german home page
   Click Element Through Tooltips  xpath=//md-sidenav//project-navbar-module//button[@aria-label='Clear Input']
   Click Element Through Tooltips  xpath=//button[@id='logout']
 
@@ -46,4 +46,4 @@ Get To Survey Page
   Click Element Through Tooltips  xpath=//md-toolbar//a[span[text()='1']]
 
 Upload Response Response Rate
-  Choose File  xpath=//input[@type='file'][@ngf-select='ctrl.saveResponseRateImageDe($file)'][1]    ${CURDIR}/images/1_responserate_de.svg
+  Choose File  xpath=//input[@type='file'][@ngf-select='ctrl.saveResponseRateImageDe($file)'][1]    ${CURDIR}/data/1_responserate_de.svg

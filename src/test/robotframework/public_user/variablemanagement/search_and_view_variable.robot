@@ -10,7 +10,7 @@ Looking for Absolventenpanel 2005s individual data bachelor in german
   Search for  Absolventenpanel 2005 Personendatensatz Bachelor studienberatung
   Click on search result by id  var-gra2005-ds3-astu11z$
   Page Should Contain  ordinal
-  [Teardown]  Get back to home page
+  [Teardown]  Get back to german home page
 
 Looking for Graduate Panel 2005s individual data bachelor in english
   [Tags]  noslowpoke

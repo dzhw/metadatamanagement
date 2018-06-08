@@ -15,7 +15,7 @@ Editing survey attachement and check versioning
   Input Text  name=title  Test1337
   Click Attachment Save Button
   Click Edit Attachment Button
-  Click Attachment Version Menu
+  Click Attachment Restore Dialogue
   Page Should Contain  vor ein paar Sekunden
   Revise to second latest version
   Click Attachment Save Button
@@ -24,7 +24,7 @@ Editing survey attachement and check versioning
 
 *** Keywords ***
 Get back to home page and logout
-  Get back to home page
+  Get back to german home page
   ${present}=  Run Keyword And Return Status    Page Should Contain  Sie haben ungespeicherte Änderungen.
   Run Keyword If    ${present} == 'True'   Click Element Through Tooltips  xpath=//button[contains(.,'Ja')]
   Click Element Through Tooltips  xpath=//button[@id='logout']
@@ -38,5 +38,5 @@ Click Attachment Save Button
 Revise to second latest version
   Click Element Through Tooltips  xpath=//md-dialog//table//tr[2]
 
-Click Attachment Version Menu
+Click Attachment Restore Dialogue
   Click Element Through Tooltips  xpath=//form//button[md-icon[text()='undo']]

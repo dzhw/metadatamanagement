@@ -10,7 +10,7 @@ Looking for Absolventenpanel 2005s Fragebogen Erste Welle in german
   Search for  Wel­che Er­fah­run­gen haben Sie (bis­her) in Ihrer Aus­bil­dungs- bzw. Prak­ti­kums­pha­se ge­macht?
   Click on search result by id  que-gra2005-ins1-3.3$
   Page Should Contain  Bilder zur Frage
-  [Teardown]  Get back to home page
+  [Teardown]  Get back to german home page
 
 Looking for Graduate Panel 2005s questionnaire first wave in english
   [Tags]  noslowpoke

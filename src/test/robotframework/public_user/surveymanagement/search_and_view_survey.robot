@@ -10,7 +10,7 @@ Looking for Absolventenpanel 2005s first wave survey in german
   Search for  Absolventenpanel 2005 Erste Welle
   Click on search result by id  sur-gra2005-sy3$
   Page Should Contain  n = 1.622
-  [Teardown]  Get back to home page
+  [Teardown]  Get back to german home page
 
 Looking for Graduate Panel 2005s first wave survey in english
   [Tags]  noslowpoke
