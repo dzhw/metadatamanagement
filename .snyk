@@ -37,3 +37,8 @@ patch:
         patched: '2018-05-24T11:09:10.607Z'
     - grunt-browser-sync > browser-sync > serve-index > debug > ms:
         patched: '2018-05-24T11:09:10.607Z'
+  'npm:tunnel-agent:20170305':
+    - grunt-sass > node-sass > request > tunnel-agent:
+        patched: '2018-06-25T22:11:59.333Z'
+    - karma > log4js > loggly > request > tunnel-agent:
+        patched: '2018-06-25T22:11:59.333Z'

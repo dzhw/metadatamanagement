@@ -4,7 +4,7 @@
   "description": "Description for metadatamanagement",
   "private": true,
   "dependencies": {
-    "snyk": "^1.80.1"
+    "snyk": "^1.85.0"
   },
   "devDependencies": {
     "browser-sync": "2.24.0",
