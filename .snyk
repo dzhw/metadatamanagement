@@ -62,3 +62,8 @@ patch:
         patched: '2018-06-19T01:53:57.614Z'
     - karma > log4js > loggly > request > hawk > cryptiles > boom > hoek:
         patched: '2018-06-19T01:53:57.614Z'
+  'npm:tunnel-agent:20170305':
+    - grunt-sass > node-sass > request > tunnel-agent:
+        patched: '2018-06-25T22:11:59.333Z'
+    - karma > log4js > loggly > request > tunnel-agent:
+        patched: '2018-06-25T22:11:59.333Z'
