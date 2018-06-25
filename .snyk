@@ -37,6 +37,31 @@ patch:
         patched: '2018-05-24T11:09:10.607Z'
     - grunt-browser-sync > browser-sync > serve-index > debug > ms:
         patched: '2018-05-24T11:09:10.607Z'
+  'npm:hoek:20180212':
+    - grunt-sass > node-sass > node-gyp > request > hawk > sntp > hoek:
+        patched: '2018-06-19T01:53:57.614Z'
+    - grunt-sass > node-sass > request > hawk > hoek:
+        patched: '2018-06-19T01:53:57.614Z'
+    - grunt-sass > node-sass > request > hawk > sntp > hoek:
+        patched: '2018-06-19T01:53:57.614Z'
+    - grunt-sass > node-sass > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-06-19T01:53:57.614Z'
+    - grunt-sass > node-sass > node-gyp > request > hawk > hoek:
+        patched: '2018-06-19T01:53:57.614Z'
+    - grunt-sass > node-sass > node-gyp > request > hawk > boom > hoek:
+        patched: '2018-06-19T01:53:57.614Z'
+    - grunt-sass > node-sass > request > hawk > boom > hoek:
+        patched: '2018-06-19T01:53:57.614Z'
+    - grunt-sass > node-sass > node-gyp > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-06-19T01:53:57.614Z'
+    - karma > log4js > loggly > request > hawk > hoek:
+        patched: '2018-06-19T01:53:57.614Z'
+    - karma > log4js > loggly > request > hawk > boom > hoek:
+        patched: '2018-06-19T01:53:57.614Z'
+    - karma > log4js > loggly > request > hawk > sntp > hoek:
+        patched: '2018-06-19T01:53:57.614Z'
+    - karma > log4js > loggly > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-06-19T01:53:57.614Z'
   'npm:tunnel-agent:20170305':
     - grunt-sass > node-sass > request > tunnel-agent:
         patched: '2018-06-25T22:11:59.333Z'
