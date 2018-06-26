@@ -11,20 +11,29 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+
+import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
 
 /**
- * This filter is used in test, dev and prod to put HTTP cache headers with a 
- * long (1 month) expiration time for static resources (in /dist). 
+ * This filter sets HTTP cache headers depending on the current profile. For prod, test and dev it
+ * sets a long (1 month) expiration time for static resources (in /dist).
  */
 public class CachingHttpHeadersFilter implements Filter {
 
   // We consider the last modified date is the start up time of the server
   private static final long LAST_MODIFIED = System.currentTimeMillis();
-  
+
+  @Autowired
+  private Environment env;
 
   @Override
   public void init(FilterConfig filterConfig) throws ServletException {
+    SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this,
+        filterConfig.getServletContext());
   }
 
   @Override
@@ -38,22 +47,24 @@ public class CachingHttpHeadersFilter implements Filter {
 
     if (response instanceof HttpServletResponse && request instanceof HttpServletRequest) {
       HttpServletRequest httpRequest = (HttpServletRequest) request;
-      HttpServletResponse httpResponse = (HttpServletResponse) response;      
+      HttpServletResponse httpResponse = (HttpServletResponse) response;
       String requestUri = httpRequest.getRequestURI();
-      if (requestUri.endsWith("index.html")) {
-        // index.html can be cached but must be revalidated
-        httpResponse.setHeader(HttpHeaders.CACHE_CONTROL, 
-            "max-age=0, must-revalidate, public");
+      if (env.acceptsProfiles(Constants.SPRING_PROFILE_LOCAL)) {
+        httpResponse.setHeader(HttpHeaders.CACHE_CONTROL, "no-cache, no-store, must-revalidate");
+        httpResponse.setHeader(HttpHeaders.PRAGMA, "no-cache");
+        httpResponse.setDateHeader(HttpHeaders.EXPIRES, LAST_MODIFIED);
       } else {
-        httpResponse.setHeader(HttpHeaders.CACHE_CONTROL, 
-            "max-age=2629000, must-revalidate, public");        
+        if (requestUri.endsWith("index.html") || requestUri.contains("bower_components") 
+            || requestUri.endsWith("robots.txt") || requestUri.endsWith("manifest.json")) {
+          // index.html can be cached but must be revalidated
+          httpResponse.setHeader(HttpHeaders.CACHE_CONTROL, "max-age=0, must-revalidate, public");
+        } else {
+          httpResponse.setHeader(HttpHeaders.CACHE_CONTROL,
+              "max-age=2629000, immutable, public");
+        }
+        httpResponse.setHeader(HttpHeaders.PRAGMA, "cache");
       }
-      httpResponse.setHeader(HttpHeaders.PRAGMA, "cache");
-      
-      // Setting the Last-Modified and etag header, for browser caching
-      httpResponse.setDateHeader(HttpHeaders.LAST_MODIFIED, LAST_MODIFIED);
-      httpResponse.setHeader(HttpHeaders.ETAG, String.valueOf(LAST_MODIFIED));
-      
+
       chain.doFilter(request, response);
     }
   }

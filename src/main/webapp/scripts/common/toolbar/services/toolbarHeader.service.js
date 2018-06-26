@@ -73,9 +73,6 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
       'login': {
         'type': 'global.toolbar.buttons.login'
       },
-      'metrics': {
-        'type': 'global.menu.admin.metrics'
-      },
       'health': {
         'type': 'global.menu.admin.health'
       },
@@ -359,13 +356,6 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
             'type': translationStringsMap.login.type
           };
           $rootScope.toolbarHeaderItems.push(loginItem);
-          break;
-        case 'metrics':
-          var metricsItem = {
-            'state': 'metrics',
-            'type': translationStringsMap.metrics.type
-          };
-          $rootScope.toolbarHeaderItems.push(metricsItem);
           break;
         case 'health':
           var healthItem = {

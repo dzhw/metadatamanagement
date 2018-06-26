@@ -1,8 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.domain;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.mongodb.core.index.Indexed;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;

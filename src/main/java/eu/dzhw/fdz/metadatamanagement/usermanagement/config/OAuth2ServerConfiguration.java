@@ -4,19 +4,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.provider.token.DefaultAuthenticationKeyGenerator;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
 import eu.dzhw.fdz.metadatamanagement.common.config.JHipsterProperties;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.MongoDbTokenStore;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.OAuth2AccessTokenRepository;
@@ -44,50 +44,43 @@ public class OAuth2ServerConfiguration {
     @Autowired
     private AjaxLogoutSuccessHandler ajaxLogoutSuccessHandler;
 
-    @Autowired
-    private Environment environment;
-
     @Override
     public void configure(HttpSecurity http) throws Exception {
       http.exceptionHandling()
         .authenticationEntryPoint(authenticationEntryPoint)
         .and()
-        .logout()
-        .logoutUrl("/api/logout")
-        .logoutSuccessHandler(ajaxLogoutSuccessHandler)
+          .logout().logoutUrl("/api/logout").logoutSuccessHandler(ajaxLogoutSuccessHandler)
         .and()
-        .csrf()
-        .requireCsrfProtectionMatcher(new AntPathRequestMatcher("/oauth/authorize"))
-        .disable()
-        .headers()
-        .frameOptions()
-        .disable()
-        .and().headers().cacheControl().disable()
+          .csrf().requireCsrfProtectionMatcher(new AntPathRequestMatcher("/oauth/authorize"))
+            .disable().headers()
+            .frameOptions().disable()
         .and()
         // disable csrf protection for api
-        .csrf()
-        .ignoringAntMatchers("/api/**")
+          .csrf().ignoringAntMatchers("/api/**", "/management/**")
         .and()
-        .authorizeRequests()
-        .antMatchers("/api/authenticate")
-        .permitAll()
-        .antMatchers("/api/register")
-        .permitAll()
+          .authorizeRequests()
+            .antMatchers("/api/authenticate").permitAll()
+            .antMatchers("/api/register").permitAll()
         // enable basic http for /api
         .and()
-        .authorizeRequests()
-        .antMatchers("/api/**")
-        .authenticated()
+          .authorizeRequests()
+            .antMatchers("/api/**").authenticated()
         .and()
-        .httpBasic();
+          .httpBasic()
+        .and()
+           .authorizeRequests()
+           .antMatchers("/management/info")
+               .permitAll()
+           .antMatchers("/management/**")
+              .hasAuthority("ROLE_ADMIN")
+        .and()
+          .sessionManagement()
+          .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+          .enableSessionUrlRewriting(false);
 
-      // Enforce HTTPS except on local machine
-      if (environment.acceptsProfiles("!" + Constants.SPRING_PROFILE_LOCAL)) {
-        http.requiresChannel()
-          .anyRequest()
-          .requiresSecure();
-      }
-
+      // Enforce HTTPS when the request comes through a proxy/load balancer
+      http.requiresChannel()
+        .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null).requiresSecure();
     }
   }
 
@@ -110,7 +103,9 @@ public class OAuth2ServerConfiguration {
 
     @Bean
     public TokenStore tokenStore() {
-      return new MongoDbTokenStore(oauth2AccessTokenRepository, oauth2RefreshTokenRepository);
+      return new MongoDbTokenStore(oauth2AccessTokenRepository,
+          oauth2RefreshTokenRepository,
+          new DefaultAuthenticationKeyGenerator());
     }
 
     @Autowired
@@ -127,18 +122,13 @@ public class OAuth2ServerConfiguration {
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
       clients.inMemory()
-          .withClient(jhipsterProperties.getSecurity()
-          .getAuthentication()
-          .getOauth()
-          .getClientid())
+          .withClient(jhipsterProperties.getSecurity().getAuthentication().getOauth().getClientid())
           .scopes("read", "write")
-          .authorities(AuthoritiesConstants.ADMIN, AuthoritiesConstants.USER, 
+          .authorities(AuthoritiesConstants.ADMIN, AuthoritiesConstants.USER,
               AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER)
           .authorizedGrantTypes("password", "refresh_token")
-          .secret(jhipsterProperties.getSecurity()
-          .getAuthentication()
-          .getOauth()
-          .getSecret()).accessTokenValiditySeconds(0);
+          .secret(jhipsterProperties.getSecurity().getAuthentication().getOauth().getSecret())
+          .accessTokenValiditySeconds(0);
     }
   }
 }

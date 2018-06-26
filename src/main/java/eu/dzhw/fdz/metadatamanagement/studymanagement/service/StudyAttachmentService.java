@@ -3,10 +3,11 @@ package eu.dzhw.fdz.metadatamanagement.studymanagement.service;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
+import org.bson.Document;
 import org.javers.core.Javers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -18,9 +19,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
+import com.mongodb.client.gridfs.model.GridFSFile;
+import com.mongodb.gridfs.GridFS;
 import com.mongodb.gridfs.GridFSDBFile;
-import com.mongodb.gridfs.GridFSFile;
 
 import eu.dzhw.fdz.metadatamanagement.filemanagement.util.MimeTypeDetector;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudyAttachmentMetadata;
@@ -32,6 +33,9 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 @Service
 public class StudyAttachmentService {
 
+  @Autowired
+  private GridFS gridFs;
+  
   @Autowired
   private GridFsOperations operations;
   
@@ -61,11 +65,10 @@ public class StudyAttachmentService {
       metadata.setLastModifiedDate(LocalDateTime.now());
       metadata.generateId();
       String contentType = mimeTypeDetector.detect(multipartFile);
-      GridFSFile gridFsFile = this.operations.store(in, 
-          StudyAttachmentFilenameBuilder.buildFileName(metadata), contentType, metadata);
-      gridFsFile.validate();
+      String filename = StudyAttachmentFilenameBuilder.buildFileName(metadata); 
+      this.operations.store(in, filename, contentType, metadata);
       javers.commit(currentUser, metadata);
-      return gridFsFile.getFilename();      
+      return filename;      
     }
   }
   
@@ -79,11 +82,10 @@ public class StudyAttachmentService {
     String currentUser = SecurityUtils.getCurrentUserLogin();
     metadata.setLastModifiedBy(currentUser);
     metadata.setLastModifiedDate(LocalDateTime.now());
-    GridFSDBFile file = operations.findOne(
-        new Query(GridFsCriteria.whereFilename().is(
-            StudyAttachmentFilenameBuilder.buildFileName(metadata))));
-    DBObject dbObject = new BasicDBObject();
-    mongoTemplate.getConverter().write(metadata, dbObject); 
+    GridFSDBFile file = gridFs.findOne(StudyAttachmentFilenameBuilder.buildFileName(
+        metadata.getStudyId(), metadata.getFileName()));
+    BasicDBObject dbObject = new BasicDBObject(
+        (Document) mongoTemplate.getConverter().convertToMongoType(metadata));
     file.setMetaData(dbObject);
     file.save();
     javers.commit(currentUser, metadata);
@@ -98,10 +100,10 @@ public class StudyAttachmentService {
     Query query = new Query(GridFsCriteria.whereFilename()
         .regex("^" + Pattern.quote(
             StudyAttachmentFilenameBuilder.buildFileNamePrefix(studyId))));
-    List<GridFSDBFile> files = this.operations.find(query);
-    files.stream().forEach(file -> {
+    Iterable<GridFSFile> files = this.operations.find(query);
+    files.forEach(file -> {
       StudyAttachmentMetadata metadata = mongoTemplate.getConverter().read(
-          StudyAttachmentMetadata.class, file.getMetaData());
+          StudyAttachmentMetadata.class, file.getMetadata());
       javers.commitShallowDelete(currentUser, metadata);
     });
     this.operations.delete(query);
@@ -117,10 +119,13 @@ public class StudyAttachmentService {
         .regex("^" + Pattern.quote(
             StudyAttachmentFilenameBuilder.buildFileNamePrefix(studyId))));
     query.with(new Sort(Sort.Direction.ASC, "metadata.indexInStudy"));
-    return this.operations.find(query).stream().map(gridfsFile -> {
-      return mongoTemplate.getConverter().read(StudyAttachmentMetadata.class, 
-          gridfsFile.getMetaData());
-    }).collect(Collectors.toList());
+    Iterable<GridFSFile> files = this.operations.find(query);
+    List<StudyAttachmentMetadata> result = new ArrayList<>();
+    files.forEach(gridfsFile -> {
+      result.add(mongoTemplate.getConverter().read(StudyAttachmentMetadata.class, 
+          gridfsFile.getMetadata()));
+    });
+    return result;
   }
   
   
@@ -132,10 +137,10 @@ public class StudyAttachmentService {
     String currentUser = SecurityUtils.getCurrentUserLogin();
     Query query = new Query(GridFsCriteria.whereFilename()
         .regex("^" + Pattern.quote("/studies/") + ".*" + Pattern.quote("/attachments/")));
-    List<GridFSDBFile> files = this.operations.find(query);
-    files.stream().forEach(file -> {
+    Iterable<GridFSFile> files = this.operations.find(query);
+    files.forEach(file -> {
       StudyAttachmentMetadata metadata = mongoTemplate.getConverter().read(
-          StudyAttachmentMetadata.class, file.getMetaData());
+          StudyAttachmentMetadata.class, file.getMetadata());
       javers.commitShallowDelete(currentUser, metadata);
     });
     this.operations.delete(query);
@@ -149,12 +154,12 @@ public class StudyAttachmentService {
   public void deleteByStudyIdAndFilename(String studyId, String filename) {
     Query fileQuery = new Query(GridFsCriteria.whereFilename().is(
         StudyAttachmentFilenameBuilder.buildFileName(studyId, filename)));
-    GridFSDBFile file = this.operations.findOne(fileQuery);
+    GridFSFile file = this.operations.findOne(fileQuery);
     if (file == null) {
       return;
     }
     StudyAttachmentMetadata metadata = mongoTemplate.getConverter().read(
-        StudyAttachmentMetadata.class, file.getMetaData());
+        StudyAttachmentMetadata.class, file.getMetadata());
     String currentUser = SecurityUtils.getCurrentUserLogin();
     this.operations.delete(fileQuery);
     javers.commitShallowDelete(currentUser, metadata);

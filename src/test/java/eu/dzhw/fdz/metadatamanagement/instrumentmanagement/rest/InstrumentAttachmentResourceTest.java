@@ -74,7 +74,7 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
     MockMultipartFile metadata = new MockMultipartFile("instrumentAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(instrumentAttachmentMetadata));
 
-    mockMvc.perform(MockMvcRequestBuilders.fileUpload("/api/instruments/attachments")
+    mockMvc.perform(MockMvcRequestBuilders.multipart("/api/instruments/attachments")
       .file(attachment)
       .file(metadata))
       .andExpect(status().isCreated());
@@ -101,7 +101,7 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
     MockMultipartFile metadata = new MockMultipartFile("instrumentAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(instrumentAttachmentMetadata));
 
-    mockMvc.perform(MockMvcRequestBuilders.fileUpload("/api/instruments/attachments")
+    mockMvc.perform(MockMvcRequestBuilders.multipart("/api/instruments/attachments")
       .file(attachment)
       .file(metadata))
       .andExpect(status().isBadRequest())
@@ -122,7 +122,7 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
     MockMultipartFile metadata = new MockMultipartFile("instrumentAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(instrumentAttachmentMetadata));
 
-    mockMvc.perform(MockMvcRequestBuilders.fileUpload("/api/instruments/attachments")
+    mockMvc.perform(MockMvcRequestBuilders.multipart("/api/instruments/attachments")
       .file(attachment)
       .file(metadata))
       .andExpect(status().isBadRequest())
@@ -149,7 +149,7 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
     MockMultipartFile metadata = new MockMultipartFile("instrumentAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(instrumentAttachmentMetadata));
 
-    mockMvc.perform(MockMvcRequestBuilders.fileUpload("/api/instruments/attachments")
+    mockMvc.perform(MockMvcRequestBuilders.multipart("/api/instruments/attachments")
       .file(attachment)
       .file(metadata))
       .andExpect(status().isCreated());

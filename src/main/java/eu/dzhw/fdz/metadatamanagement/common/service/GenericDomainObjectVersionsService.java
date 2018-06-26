@@ -17,14 +17,14 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * Generic Service for initing and retrieving the history or our domain objects.
- * 
+ *
  * @author René Reitmann
  *
  * @param <T> The domain object type
  * @param <S> The corresponding repository type
  */
 @Slf4j
-public abstract class GenericDomainObjectVersionsService<T extends AbstractRdcDomainObject, 
+public abstract class GenericDomainObjectVersionsService<T extends AbstractRdcDomainObject,
     S extends BaseRepository<T, String>> {
   protected Javers javers;
   private S repository;
@@ -33,7 +33,7 @@ public abstract class GenericDomainObjectVersionsService<T extends AbstractRdcDo
 
   /**
    * Create the service.
-   * 
+   *
    * @param domainObjectClass The class of the domain objects being versioned.
    * @param javers The javers bean.
    * @param repository The repository managing the domain objects being versioned.
@@ -67,11 +67,11 @@ public abstract class GenericDomainObjectVersionsService<T extends AbstractRdcDo
 
   /**
    * Get the previous 10 versions of the domain object.
-   * 
+   *
    * @param id this id of the domain object
    * @param limit like page size
    * @param skip for skipping n versions
-   * 
+   *
    * @return A list of previous versions or null if no domain found
    */
   public List<T> findPreviousVersions(String id, int limit, int skip) {
@@ -82,11 +82,11 @@ public abstract class GenericDomainObjectVersionsService<T extends AbstractRdcDo
     if (snapshots.isEmpty()) {
       return new ArrayList<>();
     }
-    
+
     List<BigDecimal> commitIds = snapshots.stream().map(
         snapshot -> snapshot.getCommitId().valueAsNumber())
         .collect(Collectors.toList());
-    
+
     List<Shadow<T>> previousVersions = javers.findShadows(
         QueryBuilder.byInstanceId(id, domainObjectClass)
         .withCommitIds(commitIds).build());

@@ -133,7 +133,7 @@ public class ElasticsearchUpdateQueueService {
       ElasticsearchUpdateQueueItem existingItem = queueItemRepository
           .findOneByDocumentTypeAndDocumentIdAndAction(documentType, documentId, action);
       if (existingItem != null) {
-        queueItemRepository.delete(existingItem.getId());
+        queueItemRepository.deleteById(existingItem.getId());
       }
       queueItemRepository
         .insert(new ElasticsearchUpdateQueueItem(documentId, documentType, action));
@@ -200,7 +200,7 @@ public class ElasticsearchUpdateQueueService {
     }
 
     // finally delete the queue items
-    queueItemRepository.delete(lockedItems);
+    queueItemRepository.deleteAll(lockedItems);
   }
 
   /**
@@ -254,7 +254,8 @@ public class ElasticsearchUpdateQueueService {
 
   private void addUpsertActionForInstrument(ElasticsearchUpdateQueueItem lockedItem,
       Builder bulkBuilder) {
-    Instrument instrument = instrumentRepository.findOne(lockedItem.getDocumentId());
+    Instrument instrument = instrumentRepository.findById(lockedItem.getDocumentId())
+        .orElse(null);
 
     if (instrument != null) {
       StudySubDocumentProjection study = studyRepository
@@ -275,8 +276,8 @@ public class ElasticsearchUpdateQueueService {
       List<RelatedPublicationSubDocumentProjection> relatedPublications = 
           relatedPublicationRepository.findSubDocumentsByInstrumentIdsContaining(
               instrument.getId());
-      DataAcquisitionProject project = projectRepository.findOne(
-          instrument.getDataAcquisitionProjectId());
+      DataAcquisitionProject project = projectRepository.findById(
+          instrument.getDataAcquisitionProjectId()).orElse(null);
       Release release = null;
       if (project != null) {
         release = project.getRelease();
@@ -298,15 +299,16 @@ public class ElasticsearchUpdateQueueService {
       Builder bulkBuilder) {
 
     RelatedPublication relatedPublication =
-        relatedPublicationRepository.findOne(lockedItem.getDocumentId());
+        relatedPublicationRepository.findById(lockedItem.getDocumentId())
+        .orElse(null);
     if (relatedPublication != null) {
       List<StudySubDocument> studySubDocuments = null;
       if (relatedPublication.getStudyIds() != null) {
         List<StudySubDocumentProjection> studies = studyRepository
             .findSubDocumentsByIdIn(relatedPublication.getStudyIds());
         studySubDocuments = studies.stream().map(study -> {
-          DataAcquisitionProject project = projectRepository.findOne(study
-              .getDataAcquisitionProjectId());
+          DataAcquisitionProject project = projectRepository.findById(study
+              .getDataAcquisitionProjectId()).get();
           return new StudySubDocument(study, 
               doiBuilder.buildStudyDoi(study, project.getRelease()));
         }).collect(Collectors.toList());
@@ -350,7 +352,7 @@ public class ElasticsearchUpdateQueueService {
 
   private void addUpsertActionForDataSet(ElasticsearchUpdateQueueItem lockedItem,
       Builder bulkBuilder) {
-    DataSet dataSet = dataSetRepository.findOne(lockedItem.getDocumentId());
+    DataSet dataSet = dataSetRepository.findById(lockedItem.getDocumentId()).orElse(null);
 
     if (dataSet != null) {
       List<Variable> variables = variableRepository
@@ -378,8 +380,8 @@ public class ElasticsearchUpdateQueueService {
       if (dataSet.getSurveyIds() != null) {        
         surveys = surveyRepository.findSubDocumentByIdIn(dataSet.getSurveyIds());
       }
-      DataAcquisitionProject project = projectRepository.findOne(
-          dataSet.getDataAcquisitionProjectId());
+      DataAcquisitionProject project = projectRepository.findById(
+          dataSet.getDataAcquisitionProjectId()).orElse(null);
       Release release = null;
       if (project != null) {
         release = project.getRelease();
@@ -401,7 +403,7 @@ public class ElasticsearchUpdateQueueService {
 
   private void addUpsertActionForSurvey(ElasticsearchUpdateQueueItem lockedItem,
       Builder bulkBuilder) {
-    Survey survey = surveyRepository.findOne(lockedItem.getDocumentId());
+    Survey survey = surveyRepository.findById(lockedItem.getDocumentId()).orElse(null);
     if (survey != null) {
       StudySubDocumentProjection study = studyRepository
           .findOneSubDocumentById(survey.getStudyId());        
@@ -418,8 +420,8 @@ public class ElasticsearchUpdateQueueService {
           .map(InstrumentSubDocumentProjection::getId).collect(Collectors.toList());
       List<QuestionSubDocumentProjection> questions = questionRepository
           .findSubDocumentsByInstrumentIdIn(instrumentIds);
-      DataAcquisitionProject project = projectRepository.findOne(
-          survey.getDataAcquisitionProjectId());
+      DataAcquisitionProject project = projectRepository.findById(
+          survey.getDataAcquisitionProjectId()).orElse(null);
       Release release = null;
       if (project != null) {
         release = project.getRelease();
@@ -445,7 +447,7 @@ public class ElasticsearchUpdateQueueService {
    */
   private void addUpsertActionForVariable(ElasticsearchUpdateQueueItem lockedItem,
       Builder bulkBuilder) {
-    Variable variable = variableRepository.findOne(lockedItem.getDocumentId());
+    Variable variable = variableRepository.findById(lockedItem.getDocumentId()).orElse(null);
     if (variable != null) {
       final StudySubDocumentProjection study = studyRepository
           .findOneSubDocumentById(variable.getStudyId());
@@ -464,8 +466,8 @@ public class ElasticsearchUpdateQueueService {
             .map(RelatedQuestion::getInstrumentId).collect(Collectors.toList());
         instruments = instrumentRepository.findSubDocumentsByIdIn(instrumentIds);
       }
-      DataAcquisitionProject project = projectRepository.findOne(
-          variable.getDataAcquisitionProjectId());
+      DataAcquisitionProject project = projectRepository.findById(
+          variable.getDataAcquisitionProjectId()).orElse(null);
       Release release = null;
       if (project != null) {
         release = project.getRelease();
@@ -491,7 +493,7 @@ public class ElasticsearchUpdateQueueService {
    */
   private void addUpsertActionForQuestion(ElasticsearchUpdateQueueItem lockedItem,
       Builder bulkBuilder) {
-    Question question = questionRepository.findOne(lockedItem.getDocumentId());
+    Question question = questionRepository.findById(lockedItem.getDocumentId()).orElse(null);
     if (question != null) {
       StudySubDocumentProjection study = studyRepository
           .findOneSubDocumentById(question.getStudyId());
@@ -511,8 +513,8 @@ public class ElasticsearchUpdateQueueService {
       List<RelatedPublicationSubDocumentProjection> relatedPublications = 
           relatedPublicationRepository
             .findSubDocumentsByQuestionIdsContaining(question.getId());
-      DataAcquisitionProject project = projectRepository.findOne(
-          question.getDataAcquisitionProjectId());
+      DataAcquisitionProject project = projectRepository.findById(
+          question.getDataAcquisitionProjectId()).orElse(null);
       Release release = null;
       if (project != null) {
         release = project.getRelease();
@@ -539,7 +541,7 @@ public class ElasticsearchUpdateQueueService {
    */
   private void addUpsertActionForStudy(ElasticsearchUpdateQueueItem lockedItem,
       Builder bulkBuilder) {
-    Study study = this.studyRepository.findOne(lockedItem.getDocumentId());
+    Study study = this.studyRepository.findById(lockedItem.getDocumentId()).orElse(null);
     if (study != null) {
       List<DataSetSubDocumentProjection> dataSets = dataSetRepository
           .findSubDocumentsByStudyId(study.getId());
@@ -554,8 +556,8 @@ public class ElasticsearchUpdateQueueService {
           .findSubDocumentsByStudyId(study.getId());
       List<InstrumentSubDocumentProjection> instruments = instrumentRepository
           .findSubDocumentsByStudyId(study.getId());
-      DataAcquisitionProject project = projectRepository.findOne(
-          study.getDataAcquisitionProjectId());
+      DataAcquisitionProject project = projectRepository.findById(
+          study.getDataAcquisitionProjectId()).orElse(null);
       Release release = null;
       if (project != null) {
         release = project.getRelease();

@@ -3,9 +3,9 @@ package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -16,7 +16,7 @@ import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.mongodb.gridfs.GridFSFile;
+import com.mongodb.client.gridfs.model.GridFSFile;
 
 import eu.dzhw.fdz.metadatamanagement.filemanagement.util.MimeTypeDetector;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAttachmentMetadata;
@@ -55,10 +55,9 @@ public class InstrumentAttachmentService {
       metadata.setLastModifiedBy(currentUser);
       metadata.setLastModifiedDate(LocalDateTime.now());
       String contentType = mimeTypeDetector.detect(multipartFile);
-      GridFSFile gridFsFile = this.operations.store(in, 
-          buildFileName(metadata), contentType, metadata);
-      gridFsFile.validate();
-      return gridFsFile.getFilename();      
+      String filename = buildFileName(metadata); 
+      this.operations.store(in, filename, contentType, metadata);
+      return filename;      
     }
   }
   
@@ -81,10 +80,13 @@ public class InstrumentAttachmentService {
     Query query = new Query(GridFsCriteria.whereFilename()
         .regex("^" + Pattern.quote(buildFileNamePrefix(instrumentId))));
     query.with(new Sort(Sort.Direction.ASC, "metadata.indexInInstrument"));
-    return this.operations.find(query).stream().map(gridfsFile -> {
-      return mongoTemplate.getConverter().read(InstrumentAttachmentMetadata.class, 
-          gridfsFile.getMetaData());
-    }).collect(Collectors.toList());
+    Iterable<GridFSFile> files = this.operations.find(query);
+    List<InstrumentAttachmentMetadata> result = new ArrayList<>();
+    files.forEach(gridfsFile -> {
+      result.add(mongoTemplate.getConverter().read(InstrumentAttachmentMetadata.class, 
+          gridfsFile.getMetadata()));
+    });
+    return result;
   }
   
   private String buildFileName(InstrumentAttachmentMetadata metadata) {

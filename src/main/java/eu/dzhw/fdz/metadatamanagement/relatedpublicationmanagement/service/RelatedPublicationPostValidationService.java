@@ -68,7 +68,7 @@ public class RelatedPublicationPostValidationService {
 
     List<PostValidationMessageDto> errors = new ArrayList<>();
     
-    Pageable pageable = new PageRequest(0, 100);
+    Pageable pageable = PageRequest.of(0, 100);
     Slice<RelatedPublication> relatedPublicationsPage = 
         this.relatedPublicationRepository.findBy(pageable);
     
@@ -120,7 +120,7 @@ public class RelatedPublicationPostValidationService {
     
     //check all referenced study ids
     for (String studyId : studyIds) {
-      Study study = this.studyRepository.findOne(studyId);
+      Study study = this.studyRepository.findById(studyId).orElse(null);
       
       //check for exting referenced
       if (study == null) {
@@ -150,7 +150,7 @@ public class RelatedPublicationPostValidationService {
     
     //check all referenced variable ids
     for (String variableId : variableIds) {
-      Variable variable = this.variableRepository.findOne(variableId);
+      Variable variable = this.variableRepository.findById(variableId).orElse(null);
       
       //check for exting referenced
       if (variable == null) {
@@ -187,7 +187,7 @@ public class RelatedPublicationPostValidationService {
     
     //check all referenced survey ids
     for (String surveyId : surveyIds) {
-      Survey survey = this.surveyRepository.findOne(surveyId);
+      Survey survey = this.surveyRepository.findById(surveyId).orElse(null);
       
       //check for exting referenced
       if (survey == null) {
@@ -224,7 +224,7 @@ public class RelatedPublicationPostValidationService {
     }
     //check all referenced data set ids
     for (String dataSetId : dataSetIds) {
-      DataSet dataSet = this.dataSetRepository.findOne(dataSetId);
+      DataSet dataSet = this.dataSetRepository.findById(dataSetId).orElse(null);
       
       //check for exting referenced
       if (dataSet == null) {
@@ -261,7 +261,7 @@ public class RelatedPublicationPostValidationService {
     }
     //check all referenced instrument ids
     for (String instrumentId : instrumentIds) {
-      Instrument instrument = this.instrumentRepository.findOne(instrumentId);
+      Instrument instrument = this.instrumentRepository.findById(instrumentId).orElse(null);
       
       //check for exting referenced
       if (instrument == null) {
@@ -299,7 +299,7 @@ public class RelatedPublicationPostValidationService {
     }
     //check all referenced question ids
     for (String questionId : questionIds) {
-      Question question = this.questionRepository.findOne(questionId);
+      Question question = this.questionRepository.findById(questionId).orElse(null);
       
       //check for exting referenced
       if (question == null) {

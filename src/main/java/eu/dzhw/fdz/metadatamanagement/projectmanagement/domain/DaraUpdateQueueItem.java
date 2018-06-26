@@ -2,7 +2,8 @@ package eu.dzhw.fdz.metadatamanagement.projectmanagement.domain;
 
 import java.time.LocalDateTime;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.NotEmpty;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;

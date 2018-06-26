@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.security.access.annotation.Secured;
@@ -22,18 +23,18 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
  */
 @NoRepositoryBean
 public interface BaseRepository<T, ID extends Serializable>
-    extends MongoRepository<T, ID> {
+    extends MongoRepository<T, ID>, CrudRepository<T, ID> {
   @Override
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   void delete(T entity);
   
   @Override
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
-  void delete(ID id);
+  void deleteById(ID id);
   
   @Override
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
-  void delete(Iterable<? extends T> entities);
+  void deleteAll(Iterable<? extends T> entities);
   
   @Override
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
@@ -41,7 +42,7 @@ public interface BaseRepository<T, ID extends Serializable>
   
   @Override
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
-  <S extends T> List<S> save(Iterable<S> entites);
+  <S extends T> List<S> saveAll(Iterable<S> entites);
   
   @Override
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})

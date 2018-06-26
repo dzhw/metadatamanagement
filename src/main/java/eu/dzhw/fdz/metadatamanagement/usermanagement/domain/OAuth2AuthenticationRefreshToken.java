@@ -1,72 +1,76 @@
 package eu.dzhw.fdz.metadatamanagement.usermanagement.domain;
 
-import java.util.UUID;
-
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.security.oauth2.common.OAuth2RefreshToken;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * The oauth2 refresh token.
  */
-@Document(collection = "OAUTH_AUTHENTICATION_REFRESH_TOKEN")
+@Document(collection = "oauth2_authentication_refresh_tokens")
+@SuppressFBWarnings(value = { "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
 public class OAuth2AuthenticationRefreshToken {
 
   @Id
-  private String id;
-
   private String tokenId;
+  private byte[] token;
+  private byte[] authentication;
 
-  private OAuth2RefreshToken oauth2RefreshToken;
-
-  private OAuth2Authentication authentication;
+  public OAuth2AuthenticationRefreshToken() {}
 
   /**
    * Create the refresh token.
    */
-  public OAuth2AuthenticationRefreshToken(OAuth2RefreshToken oauth2RefreshToken,
-      OAuth2Authentication authentication) {
-    this.id = UUID.randomUUID()
-      .toString();
-    this.oauth2RefreshToken = oauth2RefreshToken;
+  @PersistenceConstructor
+  public OAuth2AuthenticationRefreshToken(final String tokenId, final byte[] token,
+      final byte[] authentication) {
+    this.tokenId = tokenId;
+    this.token = token;
     this.authentication = authentication;
-    this.tokenId = oauth2RefreshToken.getValue();
   }
 
   public String getTokenId() {
     return tokenId;
   }
 
-  public OAuth2RefreshToken getoAuth2RefreshToken() {
-    return oauth2RefreshToken;
+  public byte[] getToken() {
+    return token;
   }
 
-  public OAuth2Authentication getAuthentication() {
+  public byte[] getAuthentication() {
     return authentication;
   }
 
-
   @Override
-  public boolean equals(Object object) {
-    if (this == object) {
-      return true;      
-    }
-    if (object == null || getClass() != object.getClass()) {
-      return false;      
+  public boolean equals(Object other) {
+    if (this == other) {      
+      return true;
     }
 
-    OAuth2AuthenticationRefreshToken that = (OAuth2AuthenticationRefreshToken) object;
-
-    if (id != null ? !id.equals(that.id) : that.id != null) {
-      return false;      
+    if (!(other instanceof OAuth2AuthenticationRefreshToken)) {      
+      return false;
     }
 
-    return true;
+    OAuth2AuthenticationRefreshToken that = (OAuth2AuthenticationRefreshToken) other;
+
+    return new EqualsBuilder().append(tokenId, that.tokenId).append(token, that.token)
+        .append(authentication, that.authentication).isEquals();
   }
 
   @Override
   public int hashCode() {
-    return id != null ? id.hashCode() : 0;
+    return new HashCodeBuilder(17, 37).append(tokenId).append(token).append(authentication)
+        .toHashCode();
+  }
+
+  @Override
+  public String toString() {
+    return new ToStringBuilder(this).append("tokenId", tokenId).append("token", token)
+        .append("authentication", authentication).toString();
   }
 }

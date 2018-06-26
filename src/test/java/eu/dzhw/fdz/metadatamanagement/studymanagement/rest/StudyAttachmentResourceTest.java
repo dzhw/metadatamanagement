@@ -74,7 +74,7 @@ public class StudyAttachmentResourceTest extends AbstractTest {
     MockMultipartFile metadata = new MockMultipartFile("studyAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(studyAttachmentMetadata));
 
-    mockMvc.perform(MockMvcRequestBuilders.fileUpload("/api/studies/attachments")
+    mockMvc.perform(MockMvcRequestBuilders.multipart("/api/studies/attachments")
       .file(attachment)
       .file(metadata))
       .andExpect(status().isCreated());
@@ -101,7 +101,7 @@ public class StudyAttachmentResourceTest extends AbstractTest {
     MockMultipartFile metadata = new MockMultipartFile("studyAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(studyAttachmentMetadata));
 
-    mockMvc.perform(MockMvcRequestBuilders.fileUpload("/api/studies/attachments")
+    mockMvc.perform(MockMvcRequestBuilders.multipart("/api/studies/attachments")
       .file(attachment)
       .file(metadata))
       .andExpect(status().isBadRequest())
@@ -122,7 +122,7 @@ public class StudyAttachmentResourceTest extends AbstractTest {
     MockMultipartFile metadata = new MockMultipartFile("studyAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(studyAttachmentMetadata));
 
-    mockMvc.perform(MockMvcRequestBuilders.fileUpload("/api/studies/attachments")
+    mockMvc.perform(MockMvcRequestBuilders.multipart("/api/studies/attachments")
       .file(attachment)
       .file(metadata))
       .andExpect(status().isBadRequest())
@@ -149,7 +149,7 @@ public class StudyAttachmentResourceTest extends AbstractTest {
     MockMultipartFile metadata = new MockMultipartFile("studyAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(studyAttachmentMetadata));
 
-    mockMvc.perform(MockMvcRequestBuilders.fileUpload("/api/studies/attachments")
+    mockMvc.perform(MockMvcRequestBuilders.multipart("/api/studies/attachments")
       .file(attachment)
       .file(metadata))
       .andExpect(status().isCreated());

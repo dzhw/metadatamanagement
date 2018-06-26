@@ -3,12 +3,11 @@ package eu.dzhw.fdz.metadatamanagement.common.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
-import org.springframework.boot.actuate.health.MongoHealthIndicator;
+import org.springframework.boot.actuate.mongo.MongoHealthIndicator;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 
-import com.codahale.metrics.annotation.Timed;
-
+import io.micrometer.core.annotation.Timed;
 import lombok.extern.slf4j.Slf4j;
 
 /**

@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.codahale.metrics.annotation.Timed;
-
 import eu.dzhw.fdz.metadatamanagement.common.rest.GenericDomainObjectResourceController;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
@@ -34,7 +32,6 @@ public class VariableResourceController
    * @return the Variable or not found
    */
   @RequestMapping(method = RequestMethod.GET, value = "/variables/{id:.+}")
-  @Timed
   public ResponseEntity<Variable> findVariable(@PathVariable String id) {
     return super.findDomainObject(id);
   }

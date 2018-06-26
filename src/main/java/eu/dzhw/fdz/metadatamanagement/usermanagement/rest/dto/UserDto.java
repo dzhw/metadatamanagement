@@ -3,11 +3,10 @@ package eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.Email;
 
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.Authority;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;

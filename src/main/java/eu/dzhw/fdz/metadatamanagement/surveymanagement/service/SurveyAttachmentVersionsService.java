@@ -18,9 +18,7 @@ import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.stereotype.Service;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
-import com.mongodb.gridfs.GridFSDBFile;
+import com.mongodb.client.gridfs.model.GridFSFile;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyAttachmentMetadata;
@@ -70,17 +68,12 @@ public class SurveyAttachmentVersionsService {
     // only init if there are no studies yet
     if (snapshots.isEmpty()) {
       log.debug("Going to init javers with all current survey attachments");
-      List<GridFSDBFile> files = operations.find(
+      Iterable<GridFSFile> files = operations.find(
           new Query(GridFsCriteria.whereFilename().regex(
               SurveyAttachmentFilenameBuilder.ALL_SURVEY_ATTACHMENTS)));
-      files.stream().forEach(file -> {
+      files.forEach(file -> {
         SurveyAttachmentMetadata surveyAttachmentMetadata = mongoTemplate.getConverter().read(
-            SurveyAttachmentMetadata.class, file.getMetaData());
-        surveyAttachmentMetadata.generateId();
-        DBObject dbObject = new BasicDBObject();
-        mongoTemplate.getConverter().write(surveyAttachmentMetadata, dbObject);
-        file.setMetaData(dbObject);
-        file.save();
+            SurveyAttachmentMetadata.class, file.getMetadata());
         javers.commit(surveyAttachmentMetadata.getLastModifiedBy(), surveyAttachmentMetadata);
       });
     }
@@ -98,7 +91,7 @@ public class SurveyAttachmentVersionsService {
    */
   public List<SurveyAttachmentMetadata> findPreviousSurveyAttachmentVersions(String surveyId,
       String filename, int limit, int skip) {
-    GridFSDBFile file = operations.findOne(
+    GridFSFile file = operations.findOne(
         new Query(GridFsCriteria.whereFilename().is(
             SurveyAttachmentFilenameBuilder.buildFileName(surveyId, filename))));
     
@@ -107,7 +100,7 @@ public class SurveyAttachmentVersionsService {
     }
     
     SurveyAttachmentMetadata surveyAttachmentMetadata = mongoTemplate.getConverter().read(
-        SurveyAttachmentMetadata.class, file.getMetaData());
+        SurveyAttachmentMetadata.class, file.getMetadata());
     
     QueryBuilder jqlQuery = QueryBuilder
         .byInstanceId(surveyAttachmentMetadata.getId(),SurveyAttachmentMetadata.class)

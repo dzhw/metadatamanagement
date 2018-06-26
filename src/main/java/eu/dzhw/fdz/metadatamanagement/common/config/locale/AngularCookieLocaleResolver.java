@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.common.config.locale;
 
 import java.util.Locale;
+import java.util.Optional;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -40,7 +41,8 @@ public class AngularCookieLocaleResolver extends CookieLocaleResolver {
   private void parseLocaleCookieIfNecessary(HttpServletRequest request) {
     if (request.getAttribute(LOCALE_REQUEST_ATTRIBUTE_NAME) == null) {
       // Retrieve and parse cookie value.
-      Cookie cookie = WebUtils.getCookie(request, getCookieName());
+      String cookieName = Optional.ofNullable(getCookieName()).orElse("");
+      Cookie cookie = WebUtils.getCookie(request, cookieName);
       Locale locale = null;
       if (cookie != null) {
         String localePart = cookie.getValue();

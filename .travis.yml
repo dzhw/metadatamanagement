@@ -43,10 +43,10 @@ script:
   - mvn -Pdev --settings ./buildconfig/settings.xml -B -DrepoToken=$COVERALLS_TOKEN package
   - cf login -u $CI_DEPLOY_USERNAME -p $CI_DEPLOY_PASSWORD -o DZHW -s dev -a https://api.run.pivotal.io
   - cf push -f ./deploy/manifest-dev.yml
-  - robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:chrome ./src/test/robotframework
-  - robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:firefox ./src/test/robotframework
-  - robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:ie ./src/test/robotframework
-  - robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:edge ./src/test/robotframework
+  - robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:chrome --include smoketest --exclude firefox ./src/test/robotframework
+  - robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:firefox --include smoketest ./src/test/robotframework
+  - robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:ie --include smoketest --exclude firefox ./src/test/robotframework
+  - robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:edge --include smoketest --exclude firefox ./src/test/robotframework
 after_script:
  - mvn coveralls:report
 notifications:

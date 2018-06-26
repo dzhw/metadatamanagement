@@ -25,6 +25,7 @@ import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2RefreshToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.OAuth2Request;
+import org.springframework.security.oauth2.provider.token.DefaultAuthenticationKeyGenerator;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 
@@ -48,7 +49,9 @@ public class MongoDBTokenStoreTest extends AbstractTest {
   @Before
   public void beforeEachTest() {
     this.mongoDBTokenStore =
-        new MongoDbTokenStore(oAuth2AccessTokenRepository, oAuth2RefreshTokenRepository);
+        new MongoDbTokenStore(oAuth2AccessTokenRepository, 
+            oAuth2RefreshTokenRepository,
+            new DefaultAuthenticationKeyGenerator());
 
     OAuth2Request storedRequest = new OAuth2Request(new HashMap<>(), "clientId", new ArrayList<>(),
         true, new HashSet<>(), new HashSet<>(), "/", new HashSet<>(), new HashMap<>());

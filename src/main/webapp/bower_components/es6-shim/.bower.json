@@ -36,6 +36,5 @@
   },
   "_source": "https://github.com/paulmillr/es6-shim.git",
   "_target": "^0.35.3",
-  "_originalSource": "es6-shim",
-  "_direct": true
+  "_originalSource": "es6-shim"
 }

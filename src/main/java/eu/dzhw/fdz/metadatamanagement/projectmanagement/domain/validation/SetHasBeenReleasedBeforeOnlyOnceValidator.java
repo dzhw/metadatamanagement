@@ -39,7 +39,8 @@ public class SetHasBeenReleasedBeforeOnlyOnceValidator
     }
     
     DataAcquisitionProject oldProjectState = 
-        this.dataAcquisitionProjectRepository.findOne(value.getId());
+        this.dataAcquisitionProjectRepository.findById(value.getId())
+        .orElse(null);
 
     //No old version. Project will be saved the first time
     if (oldProjectState == null) {

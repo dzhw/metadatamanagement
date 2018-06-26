@@ -12,17 +12,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.OAuth2Authentication
  */
 @RepositoryRestResource(exported = false)
 public interface OAuth2AccessTokenRepository
-    extends MongoRepository<OAuth2AuthenticationAccessToken, String> {
-
-  OAuth2AuthenticationAccessToken findByTokenId(String tokenId);
-
-  OAuth2AuthenticationAccessToken findByRefreshToken(String refreshToken);
-
-  OAuth2AuthenticationAccessToken findByAuthenticationId(String authenticationId);
-
-  List<OAuth2AuthenticationAccessToken> findByClientIdAndUserName(String clientId, String userName);
-
-  List<OAuth2AuthenticationAccessToken> findByClientId(String clientId);
-  
-  List<OAuth2AuthenticationAccessToken> findByUserName(String userName);
+    extends MongoRepository<OAuth2AuthenticationAccessToken, String>, 
+      OAuth2AccessTokenRepositoryCustom {
+  List<OAuth2AuthenticationAccessToken> findByUsername(String username);
 }

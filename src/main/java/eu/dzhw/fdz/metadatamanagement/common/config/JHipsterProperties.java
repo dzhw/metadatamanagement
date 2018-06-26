@@ -1,7 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.common.config;
 
-import javax.validation.constraints.NotNull;
-
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -112,13 +110,7 @@ public class JHipsterProperties {
    */
   public static class Security {
 
-    private final Rememberme rememberme = new Rememberme();
-
     private final Authentication authentication = new Authentication();
-
-    public Rememberme getRememberme() {
-      return rememberme;
-    }
 
     public Authentication getAuthentication() {
       return authentication;
@@ -160,23 +152,6 @@ public class JHipsterProperties {
         public void setSecret(String secret) {
           this.secret = secret;
         }
-      }
-    }
-    
-    /**
-     * JHipster rememberme configuration.
-     */
-    public static class Rememberme {
-
-      @NotNull
-      private String key;
-
-      public String getKey() {
-        return key;
-      }
-
-      public void setKey(String key) {
-        this.key = key;
       }
     }
   }

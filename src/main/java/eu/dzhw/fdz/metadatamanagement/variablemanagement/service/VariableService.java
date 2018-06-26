@@ -128,7 +128,7 @@ public class VariableService {
   @HandleBeforeSave
   public void onBeforeVariableSaved(Variable variable) {
     variableChangesProvider.put(variable, 
-        variableRepository.findOne(variable.getId()));
+        variableRepository.findById(variable.getId()).orElse(null));
   }
 
   @HandleBeforeCreate

@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codahale.metrics.annotation.Timed;
-
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionProjectVersionsService;
 
@@ -37,7 +35,6 @@ public class DataAcquisitionProjectVersionsResource {
    * @return A list of previous data acquisition project versions
    */
   @RequestMapping("/data-acquisition-projects/{id}/versions")
-  @Timed
   public ResponseEntity<?> findPreviousDataAcquisitionVersions(@PathVariable String id,
       @RequestParam(name = "limit", defaultValue = "5") Integer limit,
       @RequestParam(name = "skip", defaultValue = "0") Integer skip) {

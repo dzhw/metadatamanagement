@@ -11,6 +11,5 @@
   },
   "_source": "https://github.com/jmesnil/stomp-websocket.git",
   "_target": "^2.3.4",
-  "_originalSource": "stomp-websocket",
-  "_direct": true
+  "_originalSource": "stomp-websocket"
 }

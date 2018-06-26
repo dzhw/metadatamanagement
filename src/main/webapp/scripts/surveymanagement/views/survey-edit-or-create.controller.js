@@ -10,7 +10,7 @@ angular.module('metadatamanagementApp')
       CommonDialogsService, LanguageService, AvailableSurveyNumbersResource,
       SurveyAttachmentResource, $q, StudyIdBuilderService, moment,
       SurveyResponseRateImageUploadService, SurveySearchService,
-      DataAcquisitionProjectResource) {
+      DataAcquisitionProjectResource, $rootScope) {
       var ctrl = this;
       var surveyMethodCache = {};
       var updateToolbarHeaderAndPageTitle = function() {
@@ -25,6 +25,7 @@ angular.module('metadatamanagementApp')
             surveyId: ctrl.survey.id
           });
         }
+        $rootScope.$broadcast('start-ignoring-404');
         StudyResource.get({id: ctrl.survey.studyId}).$promise
           .then(function(study) {
           ToolbarHeaderService.updateToolbarHeader({
@@ -46,6 +47,8 @@ angular.module('metadatamanagementApp')
             'projectId': ctrl.survey.dataAcquisitionProjectId,
             'enableLastItem': !ctrl.createMode
           });
+        }).finally(function() {
+          $rootScope.$broadcast('stop-ignoring-404');
         });
       };
 

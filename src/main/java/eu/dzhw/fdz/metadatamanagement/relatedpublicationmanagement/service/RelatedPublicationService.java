@@ -78,7 +78,8 @@ public class RelatedPublicationService {
   @HandleBeforeSave
   public void onBeforeRelatedPublicationSaved(RelatedPublication relatedPublication) {
     relatedPublicationChangesProvider.put(relatedPublication, 
-        relatedPublicationRepository.findOne(relatedPublication.getId()));
+        relatedPublicationRepository.findById(relatedPublication.getId())
+        .orElse(null));
   }
   
   @HandleBeforeCreate

@@ -9,7 +9,6 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SpringSecurityAuditorAware;
 
 /**
  * No Integration Test. No need for application Context.
@@ -25,7 +24,7 @@ public class SpringSecurityAuditorAwareTest {
 
     // Act
     SpringSecurityAuditorAware aware = new SpringSecurityAuditorAware();
-    String auditor = aware.getCurrentAuditor();
+    String auditor = aware.getCurrentAuditor().get();
 
     // Assert
     assertThat(auditor, is(Constants.SYSTEM_ACCOUNT));

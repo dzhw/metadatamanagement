@@ -2,13 +2,13 @@ package eu.dzhw.fdz.metadatamanagement.usermanagement.rest;
 
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.codahale.metrics.annotation.Timed;
 
 import eu.dzhw.fdz.metadatamanagement.common.rest.util.PaginationUtil;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.Authority;
@@ -83,14 +81,13 @@ public class UserResource {
    */
   @RequestMapping(value = "/users", method = RequestMethod.PUT,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  @Timed
   @Secured(AuthoritiesConstants.ADMIN)
   public ResponseEntity<ManagedUserDto> updateUser(@RequestBody ManagedUserDto managedUserDto)
       throws URISyntaxException {
     log.debug("REST request to update User : {}", managedUserDto);
-    return Optional.of(userRepository.findOne(managedUserDto.getId()))
+    return userRepository.findById(managedUserDto.getId())
       .map(user -> {
-        tokenStore.removeTokensByUserName(user.getLogin());
+        tokenStore.removeTokensByUsername(user.getLogin());
         user.setLogin(managedUserDto.getLogin());
         user.setFirstName(managedUserDto.getFirstName());
         user.setLastName(managedUserDto.getLastName());
@@ -101,10 +98,10 @@ public class UserResource {
         authorities.clear();
         managedUserDto.getAuthorities()
           .stream()
-          .forEach(authority -> authorities.add(authorityRepository.findOne(authority)));
+          .forEach(authority -> authorities.add(authorityRepository.findById(authority).get()));
         userRepository.save(user);
         return ResponseEntity.ok()
-          .body(new ManagedUserDto(userRepository.findOne(managedUserDto.getId())));
+          .body(new ManagedUserDto(userRepository.findById(managedUserDto.getId()).get()));
       })
       .orElseGet(() -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
   }
@@ -114,7 +111,6 @@ public class UserResource {
    */
   @RequestMapping(value = "/users", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  @Timed
   @Secured(AuthoritiesConstants.ADMIN)
   public ResponseEntity<List<ManagedUserDto>> getAllUsers(Pageable pageable)
       throws URISyntaxException {
@@ -124,6 +120,7 @@ public class UserResource {
         .map(user -> new ManagedUserDto(user))
         .collect(Collectors.toList());
     HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users");
+    headers.setCacheControl(CacheControl.noStore());
     return new ResponseEntity<>(managedUserDtos, headers, HttpStatus.OK);
   }
 
@@ -132,13 +129,13 @@ public class UserResource {
    */
   @RequestMapping(value = "/users/{login}", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  @Timed
   @Secured(AuthoritiesConstants.ADMIN)
   public ResponseEntity<ManagedUserDto> getUser(@PathVariable String login) {
     log.debug("REST request to get User : {}", login);
     return userService.getUserWithAuthoritiesByLogin(login)
       .map(user -> new ManagedUserDto(user))
-      .map(managedUserDTO -> new ResponseEntity<>(managedUserDTO, HttpStatus.OK))
+      .map(managedUserDTO -> ResponseEntity.ok().cacheControl(CacheControl.noCache())
+          .body(managedUserDTO))
       .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
   }
 }

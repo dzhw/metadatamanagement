@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.codahale.metrics.annotation.Timed;
-
 import eu.dzhw.fdz.metadatamanagement.common.rest.GenericDomainObjectResourceController;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
@@ -34,7 +32,6 @@ public class InstrumentResourceController
    * @return the Instrument or not found
    */
   @RequestMapping(method = RequestMethod.GET, value = "/instruments/{id:.+}")
-  @Timed
   public ResponseEntity<Instrument> findInstrument(@PathVariable String id) {
     return super.findDomainObject(id);
   }

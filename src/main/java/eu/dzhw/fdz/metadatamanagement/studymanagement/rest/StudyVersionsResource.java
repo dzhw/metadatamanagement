@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codahale.metrics.annotation.Timed;
-
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.service.StudyVersionsService;
 
@@ -37,7 +35,6 @@ public class StudyVersionsResource {
    * @return A list of previous study versions
    */
   @RequestMapping("/studies/{id}/versions")
-  @Timed
   public ResponseEntity<?> findPreviousStudyVersions(@PathVariable String id,
       @RequestParam(name = "limit", defaultValue = "5") Integer limit,
       @RequestParam(name = "skip", defaultValue = "0") Integer skip) {

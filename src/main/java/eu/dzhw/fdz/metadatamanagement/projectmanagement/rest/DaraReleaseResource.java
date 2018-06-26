@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codahale.metrics.annotation.Timed;
-
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DaraService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
@@ -43,7 +41,6 @@ public class DaraReleaseResource {
    */
   @RequestMapping(value = "/data-acquisition-projects/{id}/release",
       method = RequestMethod.POST)
-  @Timed
   @Secured(value = {AuthoritiesConstants.PUBLISHER})
   public ResponseEntity<?> release(@PathVariable String id,
         @RequestBody @Valid DataAcquisitionProject project) throws IOException, TemplateException {

@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.codahale.metrics.annotation.Timed;
 
 import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.Authority;
@@ -51,7 +50,6 @@ public class AccountResource {
    */
   @RequestMapping(value = "/register", method = RequestMethod.POST,
       produces = MediaType.TEXT_PLAIN_VALUE)
-  @Timed
   public ResponseEntity<?> registerAccount(@Valid @RequestBody UserDto userDto,
       HttpServletRequest request) {
     return userRepository.findOneByLogin(userDto.getLogin())
@@ -73,7 +71,6 @@ public class AccountResource {
    */
   @RequestMapping(value = "/activate", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  @Timed
   public ResponseEntity<String> activateAccount(@RequestParam(value = "key") String key,
       HttpServletRequest request) {
     return userService.activateRegistration(key)
@@ -81,9 +78,9 @@ public class AccountResource {
         List<User> admins = userRepository.findAllByAuthoritiesContaining(
             new Authority(AuthoritiesConstants.ADMIN));
         mailService.sendNewAccountActivatedMail(admins, user, getBaseUrl(request));
-        return new ResponseEntity<String>(HttpStatus.OK);
+        return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body("");
       })
-      .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
+      .orElse(new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR));
   }
 
   /**
@@ -91,10 +88,9 @@ public class AccountResource {
    */
   @RequestMapping(value = "/authenticate", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  @Timed
-  public String isAuthenticated(HttpServletRequest request) {
+  public ResponseEntity<String> isAuthenticated(HttpServletRequest request) {
     log.debug("REST request to check if the current user is authenticated");
-    return request.getRemoteUser();
+    return ResponseEntity.ok().cacheControl(CacheControl.noCache()).body(request.getRemoteUser());
   }
 
   /**
@@ -102,10 +98,9 @@ public class AccountResource {
    */
   @RequestMapping(value = "/account", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  @Timed
   public ResponseEntity<UserDto> getAccount() {
     return Optional.ofNullable(userService.getUserWithAuthorities())
-      .map(user -> new ResponseEntity<>(new UserDto(user), HttpStatus.OK))
+      .map(user -> ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(new UserDto(user)))
       .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
   }
 
@@ -114,7 +109,6 @@ public class AccountResource {
    */
   @RequestMapping(value = "/account", method = RequestMethod.POST,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  @Timed
   public ResponseEntity<String> saveAccount(@RequestBody UserDto userDto) {
     return userRepository.findOneByLogin(userDto.getLogin())
       .filter(u -> u.getLogin()
@@ -132,7 +126,6 @@ public class AccountResource {
    */
   @RequestMapping(value = "/account/change-password", method = RequestMethod.POST,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  @Timed
   public ResponseEntity<?> changePassword(@RequestBody String password) {
     if (!checkPasswordLength(password)) {
       return new ResponseEntity<>("Incorrect password", HttpStatus.BAD_REQUEST);
@@ -146,7 +139,6 @@ public class AccountResource {
    */
   @RequestMapping(value = "/account/reset-password/init", method = RequestMethod.POST,
       produces = MediaType.TEXT_PLAIN_VALUE)
-  @Timed
   public ResponseEntity<?> requestPasswordReset(@RequestBody String mail,
       HttpServletRequest request) {
     return userService.requestPasswordReset(mail)
@@ -162,7 +154,6 @@ public class AccountResource {
    */
   @RequestMapping(value = "/account/reset-password/finish", method = RequestMethod.POST,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  @Timed
   public ResponseEntity<String> finishPasswordReset(@RequestBody KeyAndPasswordDto keyAndPassword) {
     if (!checkPasswordLength(keyAndPassword.getNewPassword())) {
       return new ResponseEntity<>("Incorrect password", HttpStatus.BAD_REQUEST);

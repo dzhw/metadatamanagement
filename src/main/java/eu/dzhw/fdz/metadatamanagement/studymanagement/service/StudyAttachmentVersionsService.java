@@ -18,9 +18,7 @@ import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.stereotype.Service;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
-import com.mongodb.gridfs.GridFSDBFile;
+import com.mongodb.client.gridfs.model.GridFSFile;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudyAttachmentMetadata;
@@ -70,17 +68,12 @@ public class StudyAttachmentVersionsService {
     // only init if there are no studies yet
     if (snapshots.isEmpty()) {
       log.debug("Going to init javers with all current study attachments");
-      List<GridFSDBFile> files = operations.find(
+      Iterable<GridFSFile> files = operations.find(
           new Query(GridFsCriteria.whereFilename().regex(
               StudyAttachmentFilenameBuilder.ALL_STUDY_ATTACHMENTS)));
-      files.stream().forEach(file -> {
+      files.forEach(file -> {
         StudyAttachmentMetadata studyAttachmentMetadata = mongoTemplate.getConverter().read(
-            StudyAttachmentMetadata.class, file.getMetaData());
-        studyAttachmentMetadata.generateId();
-        DBObject dbObject = new BasicDBObject();
-        mongoTemplate.getConverter().write(studyAttachmentMetadata, dbObject);
-        file.setMetaData(dbObject);
-        file.save();
+            StudyAttachmentMetadata.class, file.getMetadata());
         javers.commit(studyAttachmentMetadata.getLastModifiedBy(), studyAttachmentMetadata);
       });
     }
@@ -98,7 +91,7 @@ public class StudyAttachmentVersionsService {
    */
   public List<StudyAttachmentMetadata> findPreviousStudyAttachmentVersions(String studyId,
       String filename, int limit, int skip) {
-    GridFSDBFile file = operations.findOne(
+    GridFSFile file = operations.findOne(
         new Query(GridFsCriteria.whereFilename().is(
             StudyAttachmentFilenameBuilder.buildFileName(studyId, filename))));
     
@@ -107,7 +100,7 @@ public class StudyAttachmentVersionsService {
     }
     
     StudyAttachmentMetadata studyAttachmentMetadata = mongoTemplate.getConverter().read(
-        StudyAttachmentMetadata.class, file.getMetaData());
+        StudyAttachmentMetadata.class, file.getMetadata());
     
     QueryBuilder jqlQuery = QueryBuilder.byInstance(studyAttachmentMetadata)
         .limit(limit).skip(skip);

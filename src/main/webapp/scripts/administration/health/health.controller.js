@@ -49,7 +49,7 @@ angular.module('metadatamanagementApp').controller(
     };
 
     $scope.flattenHealthData = function(result, path, data) {
-      angular.forEach(data, function(value, key) {
+      angular.forEach(data.details, function(value, key) {
         if ($scope.isHealthObject(value)) {
           if ($scope.hasSubSystem(value)) {
             $scope.addHealthObject(result, false, value, $scope

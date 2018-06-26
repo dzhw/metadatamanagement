@@ -9,10 +9,10 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
-import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
-import org.springframework.boot.context.embedded.MimeMappings;
+import org.springframework.boot.web.server.MimeMappings;
+import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
+import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
@@ -26,7 +26,8 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 @Slf4j
 public class WebConfigurer
-    implements ServletContextInitializer, EmbeddedServletContainerCustomizer {
+    implements ServletContextInitializer, 
+    WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> {
   @Autowired
   private Environment env;
 
@@ -36,9 +37,9 @@ public class WebConfigurer
         Arrays.toString(env.getActiveProfiles()));
     EnumSet<DispatcherType> disps =
         EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.ASYNC);
+    initCachingHttpHeadersFilter(servletContext, disps);
     if (env.acceptsProfiles("!" + Constants.SPRING_PROFILE_LOCAL)) {
       initStaticResourcesProductionFilter(servletContext, disps);
-      initCachingHttpHeadersFilter(servletContext, disps);
     }
     log.info("Web application fully configured");
   }
@@ -47,12 +48,12 @@ public class WebConfigurer
    * Set up Mime types.
    */
   @Override
-  public void customize(ConfigurableEmbeddedServletContainer container) {
+  public void customize(ConfigurableServletWebServerFactory container) {
     MimeMappings mappings = new MimeMappings(MimeMappings.DEFAULT);
     // IE issue, see https://github.com/jhipster/generator-jhipster/pull/711
     mappings.add("html", "text/html;charset=utf-8");
     // CloudFoundry issue, see https://github.com/cloudfoundry/gorouter/issues/64
-    mappings.add("json", "text/html;charset=utf-8");
+    mappings.add("json", "application/json;charset=utf-8");
 
     mappings.add("svg", "image/svg+xml");
     mappings.add("ttf", "application/x-font-ttf");
@@ -67,6 +68,7 @@ public class WebConfigurer
     mappings.add("jpeg", "image/jpeg");
     mappings.add("png", "image/png");
     mappings.add("gif", "image/gif");
+    mappings.add("txt", "text/plain");
 
     container.setMimeMappings(mappings);
   }
@@ -99,8 +101,11 @@ public class WebConfigurer
 
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/dist/*");
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/index.html");
+    cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/robots.txt");
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/manifest.json");  
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/bower_components/*");
+    cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/assets/*");
+    cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/scripts/*");
     cachingHttpHeadersFilter.setAsyncSupported(true);
   }
 }

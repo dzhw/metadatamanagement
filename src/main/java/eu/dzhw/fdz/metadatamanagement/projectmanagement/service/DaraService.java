@@ -15,6 +15,8 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.actuate.metrics.web.client.MetricsRestTemplateCustomizer;
+import org.springframework.boot.actuate.metrics.web.client.RestTemplateExchangeTagsProvider;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -46,6 +48,7 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
+import io.micrometer.core.instrument.MeterRegistry;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -104,10 +107,15 @@ public class DaraService {
   /**
    * Constructor for Dara Services. Set the Rest Template.
    */
-  public DaraService() {
+  @Autowired
+  public DaraService(MeterRegistry meterRegistry,
+      RestTemplateExchangeTagsProvider tagProvider) {
     this.restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
     this.restTemplate.getMessageConverters()
       .add(0, new StringHttpMessageConverter(Charset.forName("UTF-8")));
+    MetricsRestTemplateCustomizer customizer = new MetricsRestTemplateCustomizer(
+        meterRegistry, tagProvider, "dara.client.requests");
+    customizer.customize(this.restTemplate);
   }
 
   /**
@@ -162,7 +170,7 @@ public class DaraService {
       throws IOException, TemplateException {
     
     //Load Project
-    DataAcquisitionProject project = this.projectRepository.findOne(projectId);
+    DataAcquisitionProject project = this.projectRepository.findById(projectId).get();
     return this.registerOrUpdateProjectToDara(project);
   }
 

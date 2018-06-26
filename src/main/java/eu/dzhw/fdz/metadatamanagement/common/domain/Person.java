@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.common.domain;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.NotEmpty;
+
 import org.javers.core.metamodel.annotation.ValueObject;
 
 import lombok.AllArgsConstructor;

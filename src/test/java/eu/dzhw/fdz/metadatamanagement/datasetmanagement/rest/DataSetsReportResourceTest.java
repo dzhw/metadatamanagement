@@ -93,7 +93,7 @@ public class DataSetsReportResourceTest extends AbstractTest {
     MockMultipartFile multipartFile =
         new MockMultipartFile("file", "TemplateExample.zip", "application/zip", texTemplate);
 
-    this.mockMvc.perform(MockMvcRequestBuilders.fileUpload(API_DATASETS_REPORTS_URI)
+    this.mockMvc.perform(MockMvcRequestBuilders.multipart(API_DATASETS_REPORTS_URI)
       .file(multipartFile)
       .param("id", dataSet.getId()))
       .andExpect(status().isOk());
@@ -125,7 +125,7 @@ public class DataSetsReportResourceTest extends AbstractTest {
     MockMultipartFile multipartFile =
         new MockMultipartFile("file", "TemplateExampleIncomplete.zip", "application/zip", texTemplate);
 
-    this.mockMvc.perform(MockMvcRequestBuilders.fileUpload(API_DATASETS_REPORTS_URI)
+    this.mockMvc.perform(MockMvcRequestBuilders.multipart(API_DATASETS_REPORTS_URI)
       .file(multipartFile)
       .param("id", dataSet.getId()))
       .andExpect(status().isBadRequest());
@@ -145,7 +145,7 @@ public class DataSetsReportResourceTest extends AbstractTest {
 
     // Act and Assert
     MockMultipartFile multipartFile = new MockMultipartFile("file", empty);
-    this.mockMvc.perform(MockMvcRequestBuilders.fileUpload(API_DATASETS_REPORTS_URI)
+    this.mockMvc.perform(MockMvcRequestBuilders.multipart(API_DATASETS_REPORTS_URI)
       .file(multipartFile)
       .param("id", dataSet.getId()))
       .andExpect(status().isBadRequest());
