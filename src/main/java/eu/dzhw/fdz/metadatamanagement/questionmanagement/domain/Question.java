@@ -88,7 +88,7 @@ public class Question extends AbstractRdcDomainObject {
   @NotNull(message = "question-management.error.question.instrument-number.not-null")
   private Integer instrumentNumber;
 
-  @I18nStringSize(max = StringLengths.LARGE,
+  @I18nStringSize(max = StringLengths.X_LARGE,
       message = "question-management.error.question.instruction.i18n-string-size")
   private I18nString instruction;
 
