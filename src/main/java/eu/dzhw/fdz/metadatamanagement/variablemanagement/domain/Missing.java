@@ -19,8 +19,8 @@ import lombok.NoArgsConstructor;
  *
  * @author Daniel Katzberg
  */
+@NoArgsConstructor
 @Data
-@NoArgsConstructor 
 @AllArgsConstructor
 @Builder
 public class Missing {

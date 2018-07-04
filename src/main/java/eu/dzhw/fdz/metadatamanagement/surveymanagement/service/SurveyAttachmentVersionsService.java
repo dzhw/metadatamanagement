@@ -1,9 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.service;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.annotation.PostConstruct;
 
@@ -103,22 +102,13 @@ public class SurveyAttachmentVersionsService {
         SurveyAttachmentMetadata.class, file.getMetadata());
     
     QueryBuilder jqlQuery = QueryBuilder
-        .byInstanceId(surveyAttachmentMetadata.getId(),SurveyAttachmentMetadata.class)
-        .limit(limit).skip(skip);
+        .byInstanceId(surveyAttachmentMetadata.getId(),SurveyAttachmentMetadata.class);
 
-    List<CdoSnapshot> snapshots = javers.findSnapshots(jqlQuery.build());
-    if (snapshots.isEmpty()) {
-      return new ArrayList<>();
-    }
-    List<BigDecimal> commitIds = snapshots.stream()
-        .map(snapshot -> snapshot.getCommitId().valueAsNumber())
-        .collect(Collectors.toList());
-    
-    List<Shadow<SurveyAttachmentMetadata>> previousVersions = javers.findShadows(
-        QueryBuilder.byInstance(surveyAttachmentMetadata)
-        .withCommitIds(commitIds).build());
+    Stream<Shadow<SurveyAttachmentMetadata>> shadows = javers.findShadowsAndStream(
+        jqlQuery.build());
+    shadows = shadows.skip(skip).limit(limit);
 
-    return previousVersions.stream().map(shadow -> {
+    return shadows.map(shadow -> {
       SurveyAttachmentMetadata metadata = shadow.get();
       if (metadata.getId() == null) {
         // deleted shadow        

@@ -24,16 +24,16 @@ import lombok.ToString;
 /**
  * Metadata which will be stored in GridFS with each attachment for surveys.
  */
-@Data
 @EqualsAndHashCode(callSuper = false, of = "id")
 @ToString(callSuper = true)
-@NoArgsConstructor 
+@NoArgsConstructor
+@Data
 @AllArgsConstructor
 @Builder
 public class SurveyAttachmentMetadata extends AbstractRdcDomainObject {
   @Id
   private String id;
-  
+
   @NotEmpty(message =
       "survey-management.error.survey-attachment-metadata.survey-id.not-empty")
   private String surveyId;
@@ -72,7 +72,7 @@ public class SurveyAttachmentMetadata extends AbstractRdcDomainObject {
   @NotNull(message =
       "survey-management.error.survey-attachment-metadata.survey-number.not-null")
   private Integer surveyNumber;
-  
+
   @NotNull(message =
       "survey-management.error.survey-attachment-metadata.index-in-survey.not-null")
   private Integer indexInSurvey;

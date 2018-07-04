@@ -15,8 +15,8 @@ import lombok.NoArgsConstructor;
  * @author René Reitmann
  */
 @ValidPeriod(message = "global.error.period.valid-period")
+@NoArgsConstructor
 @Data
-@NoArgsConstructor 
 @AllArgsConstructor
 @Builder
 public class Period implements Serializable {
@@ -44,7 +44,7 @@ public class Period implements Serializable {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.lang.Object#hashCode()
    */
   @Override
@@ -58,7 +58,7 @@ public class Period implements Serializable {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.lang.Object#equals(java.lang.Object)
    */
   @Override

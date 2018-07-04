@@ -21,7 +21,7 @@ import lombok.ToString;
 
 /**
  * Elasticsearch indices are updated asynchronously by processing these queue items.
- * 
+ *
  * @author René Reitmann
  */
 @Document(collection = "elasticsearch_update_queue_item")
@@ -31,10 +31,10 @@ import lombok.ToString;
     @CompoundIndex(def = "{updateStartedAt: 1, updateStartedBy: 1, createdDate: 1}"),
     @CompoundIndex(def = "{updateStartedAt: 1, updateStartedBy: 1, documentType: 1,"
         + " createdDate: 1}", name = "locked_items_per_type")})
-@Data
 @EqualsAndHashCode(callSuper = false, of = "id")
 @ToString(callSuper = true)
-@NoArgsConstructor 
+@NoArgsConstructor
+@Data
 @AllArgsConstructor
 @Builder
 public class ElasticsearchUpdateQueueItem extends AbstractRdcDomainObject {
@@ -55,7 +55,7 @@ public class ElasticsearchUpdateQueueItem extends AbstractRdcDomainObject {
 
   @NotNull
   private ElasticsearchUpdateQueueAction action;
-  
+
   /**
    * Construct a queue item with the mandatory params.
    * @param documentId The id of the document to update or delete

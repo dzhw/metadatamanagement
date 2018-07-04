@@ -28,10 +28,10 @@ import lombok.ToString;
  * A user.
  */
 @Document(collection = "jhi_user")
-@Data
 @EqualsAndHashCode(callSuper = false, of = "login")
 @ToString(callSuper = true)
-@NoArgsConstructor 
+@NoArgsConstructor
+@Data
 @AllArgsConstructor
 @Builder
 public class User extends AbstractRdcDomainObject implements Serializable {

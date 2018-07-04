@@ -34,10 +34,10 @@ import lombok.ToString;
 @ValidSemanticVersion(
     message = "data-acquisition-project-management.error.release."
         + "version.not-parsable-or-not-incremented")
-@Data
 @EqualsAndHashCode(callSuper = false, of = "id")
 @ToString(callSuper = true)
-@NoArgsConstructor 
+@NoArgsConstructor
+@Data
 @AllArgsConstructor
 @Builder
 public class DataAcquisitionProject extends AbstractRdcDomainObject {
@@ -51,11 +51,11 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
   @Size(max = StringLengths.SMALL,
       message = "data-acquisition-project-management.error.data-acquisition-project.id.size")
   private String id;
-  
+
   @NotNull(message = "data-acquisition-project-management.error.data-acquisition-project."
       + "has-been-released-before.not-null")
   private Boolean hasBeenReleasedBefore;
-  
+
   @Valid
   private Release release;
 }

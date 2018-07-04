@@ -14,18 +14,18 @@ import lombok.NoArgsConstructor;
 
 /**
  * FilterDetails of variable.
- * 
+ *
  * @author Daniel Katzberg
  *
  */
+@NoArgsConstructor
 @Data
-@NoArgsConstructor 
 @AllArgsConstructor
 @Builder
 public class FilterDetails {
-  
+
   @NotEmpty(message = "variable-management.error.filter-details.expression.not-empty")
-  @Size(max = StringLengths.LARGE, 
+  @Size(max = StringLengths.LARGE,
       message = "variable-management.error.filter-details.expression.size")
   private String expression;
 
@@ -33,10 +33,10 @@ public class FilterDetails {
       message = "variable-management.error.filter-details.description.i18n-string-size")
   private I18nString description;
 
-  @NotEmpty(message = "variable-management.error.filter-details." 
+  @NotEmpty(message = "variable-management.error.filter-details."
       + "expression-language.not-empty")
   @ValidFilterExpressionLanguage(
-      message = "variable-management.error.filter-details." 
+      message = "variable-management.error.filter-details."
           + "expression-language.valid-filter-expression-language")
   private String expressionLanguage;
 }

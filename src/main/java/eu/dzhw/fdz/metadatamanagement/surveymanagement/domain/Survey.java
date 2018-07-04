@@ -41,10 +41,10 @@ import lombok.ToString;
 @ValidSurveyIdName(message = "survey-management.error.survey.id.valid-survey-id-name")
 @ValidUniqueSurveyNumber(message = "survey-management.error"
     + ".survey.unique-survey-number")
-@Data
 @EqualsAndHashCode(callSuper = false, of = "id")
 @ToString(callSuper = true)
-@NoArgsConstructor 
+@NoArgsConstructor
+@Data
 @AllArgsConstructor
 @Builder
 public class Survey extends AbstractRdcDomainObject {
@@ -68,7 +68,7 @@ public class Survey extends AbstractRdcDomainObject {
       message = "survey-management.error.survey.title.i18n-string-entire-not-empty")
   private I18nString title;
 
-  @NotNull(message = "survey-management.error.survey.population.not-null")  
+  @NotNull(message = "survey-management.error.survey.population.not-null")
   private Population population;
 
   @NotNull(message = "survey-management.error.survey.survey-method.not-null")
@@ -90,7 +90,7 @@ public class Survey extends AbstractRdcDomainObject {
   @I18nStringSize(max = StringLengths.LARGE,
       message = "survey-management.error.survey.sample.i18n-string-size")
   private I18nString sample;
-  
+
   @NotNull(message = "survey-management.error.survey.wave.not-null")
   @Min(value = 1, message = "survey-management.error.survey.wave.min")
   private Integer wave;
@@ -105,7 +105,7 @@ public class Survey extends AbstractRdcDomainObject {
   @Min(value = 0, message = "survey-management.error.survey.response-rate.min")
   @Max(value = 100, message = "survey-management.error.survey.response-rate.max")
   private Double responseRate;
-  
+
   @NotNull(message = "survey-management.error.survey.data-type.not-null")
   @ValidDataType(message = "survey-management.error.survey.data-type.valid-data-type")
   private I18nString dataType;

@@ -27,10 +27,10 @@ import lombok.ToString;
  * @author Daniel Katzberg
  *
  */
-@Data
 @EqualsAndHashCode(callSuper = false, of = "id")
 @ToString(callSuper = true)
 @NoArgsConstructor
+@Data
 @AllArgsConstructor
 @Builder
 public class QuestionImageMetadata extends AbstractRdcDomainObject {

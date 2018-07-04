@@ -1,9 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.common.service;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.javers.core.Javers;
 import org.javers.core.metamodel.object.CdoSnapshot;
@@ -75,23 +74,12 @@ public abstract class GenericDomainObjectVersionsService<T extends AbstractRdcDo
    * @return A list of previous versions or null if no domain found
    */
   public List<T> findPreviousVersions(String id, int limit, int skip) {
-    QueryBuilder snapshotQuery = QueryBuilder.byInstanceId(id, domainObjectClass)
-        .limit(limit).skip(skip);
-
-    List<CdoSnapshot> snapshots = javers.findSnapshots(snapshotQuery.build());
-    if (snapshots.isEmpty()) {
-      return new ArrayList<>();
-    }
-
-    List<BigDecimal> commitIds = snapshots.stream().map(
-        snapshot -> snapshot.getCommitId().valueAsNumber())
-        .collect(Collectors.toList());
-
-    List<Shadow<T>> previousVersions = javers.findShadows(
-        QueryBuilder.byInstanceId(id, domainObjectClass)
-        .withCommitIds(commitIds).build());
-
-    return previousVersions.stream().map(shadow -> {
+    QueryBuilder snapshotQuery = QueryBuilder.byInstanceId(id, domainObjectClass);
+    
+    Stream<Shadow<T>> shadows = javers.findShadowsAndStream(snapshotQuery.build());
+    shadows = shadows.skip(skip).limit(limit);
+   
+    return shadows.map(shadow -> {
       T domainObjectVersion = shadow.get();
       if (domainObjectVersion.getId() == null) {
         // deleted shadow

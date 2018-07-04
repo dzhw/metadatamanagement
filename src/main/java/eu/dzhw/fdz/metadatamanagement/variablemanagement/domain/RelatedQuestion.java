@@ -14,14 +14,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * The related Question includes the references to the question and instrument. This is a sub 
+ * The related Question includes the references to the question and instrument. This is a sub
  * element by the variable.
- * 
+ *
  * @author Daniel Katzberg
  *
  */
+@NoArgsConstructor
 @Data
-@NoArgsConstructor 
 @AllArgsConstructor
 @Builder
 public class RelatedQuestion {
@@ -30,24 +30,24 @@ public class RelatedQuestion {
   @NotEmpty(message = "variable-management.error.variable."
       + "related-question-instrument-number-not-empty")
   private String instrumentNumber;
-  
+
   @Size(max = StringLengths.SMALL,
       message = "variable-management.error.variable."
       + "related-question-number-size")
   @NotEmpty(message = "variable-management.error.variable."
       + "related-question-number-not-empty")
   private String questionNumber;
-  
+
   @I18nStringSize(max = StringLengths.LARGE,
       message = "variable-management.error.variable.related-question-strings.i18n-string-size")
   private I18nString relatedQuestionStrings;
-  
+
   /* Nested Objects */
-  
+
   /* Foreign Keys */
   @Indexed
   private String questionId;
-  
+
   @Indexed
   private String instrumentId;
 }

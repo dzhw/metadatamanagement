@@ -104,10 +104,10 @@ import lombok.ToString;
 @StatisticsThirdQuartileMustBeANumberOnNumericDataType(
     message = "variable-management.error.variable."
         + "statistics-third-quartile-must-be-a-number-on-numeric-data-type")
-@Data
 @EqualsAndHashCode(callSuper = false, of = "id")
 @ToString(callSuper = true)
 @NoArgsConstructor
+@Data
 @AllArgsConstructor
 @Builder
 public class Variable extends AbstractRdcDomainObject {
@@ -198,7 +198,7 @@ public class Variable extends AbstractRdcDomainObject {
 
   @Valid
   private List<RelatedQuestion> relatedQuestions;
-  
+
   @Builder.Default
   private Boolean doNotDisplayThousandsSeparator = false;
 

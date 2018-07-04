@@ -33,7 +33,7 @@ import lombok.ToString;
 
 /**
  * Domain Object for the Related Publications.
- * 
+ *
  * @author Daniel Katzberg
  *
  */
@@ -42,14 +42,14 @@ import lombok.ToString;
     message = "related-publication-management.error.related-publication.one-foreign-key-is-used")
 @OneStudyIsUsed(
     message = "related-publication-management.error.related-publication.one-study-is-used")
-@ValidPublicationYear(message = "related-publication-management.error.related-publication." 
+@ValidPublicationYear(message = "related-publication-management.error.related-publication."
     + "year.valid")
-@ValidRelatedPublicationId(message = 
+@ValidRelatedPublicationId(message =
     "related-publication-management.error.related-publication.valid-related-publication-id")
-@Data
 @EqualsAndHashCode(callSuper = false, of = "id")
 @ToString(callSuper = true)
-@NoArgsConstructor 
+@NoArgsConstructor
+@Data
 @AllArgsConstructor
 @Builder
 public class RelatedPublication extends AbstractRdcDomainObject {
@@ -75,32 +75,32 @@ public class RelatedPublication extends AbstractRdcDomainObject {
   @NotEmpty(
       message = "related-publication-management.error.related-publication." + "authors.not-empty")
   private String authors;
-  
-  @NotEmpty(message = "related-publication-management.error.related-publication." 
+
+  @NotEmpty(message = "related-publication-management.error.related-publication."
       + "source-reference.not-empty")
   @Size(max = StringLengths.LARGE,
-      message = "related-publication-management.error.related-publication." 
+      message = "related-publication-management.error.related-publication."
           + "source-reference.size")
   private String sourceReference;
-  
+
   @Size(max = StringLengths.X_LARGE,
-      message = "related-publication-management.error.related-publication." 
+      message = "related-publication-management.error.related-publication."
           + "publication-abstract.size")
   private String publicationAbstract;
-  
+
   @ValidUrl(message = "related-publication-management.error."
       + "related-publication.source-link.pattern")
   private String sourceLink;
-  
-  @NotNull(message = "related-publication-management.error.related-publication." 
+
+  @NotNull(message = "related-publication-management.error.related-publication."
       + "year.not-null")
   private Integer year;
-  
-  @I18nStringSize(max = StringLengths.LARGE, 
-      message = "related-publication-management.error.related-publication" 
+
+  @I18nStringSize(max = StringLengths.LARGE,
+      message = "related-publication-management.error.related-publication"
       + ".abstract-source.i18n-string-size")
   private I18nString abstractSource;
-  
+
   @NotNull(message =
       "related-publication-management.error.related-publication.language.not-null")
   @ValidIsoLanguage(message =
@@ -110,22 +110,22 @@ public class RelatedPublication extends AbstractRdcDomainObject {
   /* Foreign Keys */
   @Indexed
   private List<String> questionIds;
-  
+
   @Indexed
   private List<String> surveyIds;
-  
+
   @Indexed
   private List<String> variableIds;
-  
+
   @Indexed
   private List<String> dataSetIds;
-  
+
   @Indexed
   private List<String> studyIds;
-  
+
   @Indexed
   private List<String> instrumentIds;
-  
+
   public RelatedPublication(RelatedPublication relatedPublication) {
     super();
     BeanUtils.copyProperties(relatedPublication, this);
