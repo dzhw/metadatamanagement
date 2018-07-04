@@ -948,6 +948,18 @@ md-backdrop.md-dialog-backdrop {
     color: black !important;
 }
 
+.fdz-no-js {
+  background-color: $brand-warning;
+  color: black !important;
+  animation: blinker 2s linear;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
 md-toast.md-accent > .md-toast-content {
     font-weight: bold;
     border: 1px solid black;
