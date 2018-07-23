@@ -24,10 +24,10 @@ import lombok.ToString;
  *
  * @author René Reitmann
  */
-@Data
 @EqualsAndHashCode(callSuper = false, of = "id")
 @ToString(callSuper = true)
-@NoArgsConstructor 
+@NoArgsConstructor
+@Data
 @AllArgsConstructor
 @Builder
 public class InstrumentAttachmentMetadata extends AbstractRdcDomainObject {
@@ -71,7 +71,7 @@ public class InstrumentAttachmentMetadata extends AbstractRdcDomainObject {
   @NotNull(message =
       "instrument-management.error.instrument-attachment-metadata.instrument-number.not-null")
   private Integer instrumentNumber;
-  
+
   @NotNull(message =
       "instrument-management.error.instrument-attachment-metadata.index-in-instrument.not-null")
   private Integer indexInInstrument;

@@ -46,10 +46,10 @@ import lombok.ToString;
 @Entity
 @Document(collection = "studies")
 @ValidStudyId(message = "study-management.error.study.id.not-valid-id")
-@Data
 @EqualsAndHashCode(callSuper = false, of = "id")
 @ToString(callSuper = true)
 @NoArgsConstructor
+@Data
 @AllArgsConstructor
 @Builder
 public class Study extends AbstractRdcDomainObject implements StudySubDocumentProjection {

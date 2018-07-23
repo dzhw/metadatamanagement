@@ -27,16 +27,16 @@ import lombok.ToString;
  * Metadata which will be stored in GridFS with each attachment for studies.
  */
 @Entity
-@Data
 @EqualsAndHashCode(callSuper = false, of = "id")
 @ToString(callSuper = true)
-@NoArgsConstructor 
+@NoArgsConstructor
+@Data
 @AllArgsConstructor
 @Builder
 public class StudyAttachmentMetadata extends AbstractRdcDomainObject {
   @Id
   private String id;
-  
+
   @NotEmpty(message =
       "study-management.error.study-attachment-metadata.study-id.not-empty")
   private String studyId;
@@ -52,7 +52,7 @@ public class StudyAttachmentMetadata extends AbstractRdcDomainObject {
   @Size(max = StringLengths.LARGE, message =
       "study-management.error.study-attachment-metadata.title.string-size")
   private String title;
-  
+
   @NotNull(message =
       "study-management.error.study-attachment-metadata.description.not-null")
   @I18nStringSize(max = StringLengths.MEDIUM, message =
@@ -81,7 +81,7 @@ public class StudyAttachmentMetadata extends AbstractRdcDomainObject {
   @ValidIsoLanguage(message =
       "study-management.error.study-attachment-metadata.language.not-supported")
   private String language;
-  
+
   public void generateId() {
     // hack to satisfy javers
     this.id = "/public/files/studies/" + studyId + "/attachments/" + fileName;

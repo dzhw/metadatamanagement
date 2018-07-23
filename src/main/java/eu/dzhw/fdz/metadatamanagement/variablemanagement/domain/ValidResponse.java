@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 /**
  * The value includes the value itself, a label and frequencies. There are no calculations of the
  * frequencies.
- * 
+ *
  * @author Daniel Katzberg
  */
 @Data
@@ -38,7 +38,7 @@ public class ValidResponse {
   private Double relativeFrequency;
 
   @NotEmpty(message = "variable-management.error.valid-response.value.not-null")
-  @Size(max = 256, 
+  @Size(max = 256,
       message = "variable-management.error.valid-response.value.size")
   private String value;
 

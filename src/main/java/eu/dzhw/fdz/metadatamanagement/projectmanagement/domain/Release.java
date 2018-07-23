@@ -18,20 +18,20 @@ import lombok.NoArgsConstructor;
  * The release includes all additional information for a release of a data acquisition project. It
  * is not a regular domain object with a own id, because it is additional for the Data Aquisition
  * Project.
- * 
+ *
  * @author Daniel Katzberg
  */
+@NoArgsConstructor
 @Data
-@NoArgsConstructor 
 @AllArgsConstructor
 @Builder
 public class Release {
-  
-  @NotEmpty(message = "data-acquisition-project-management." 
+
+  @NotEmpty(message = "data-acquisition-project-management."
       + "error.release.version.not-empty")
-  @Size(max = StringLengths.SMALL, 
+  @Size(max = StringLengths.SMALL,
       message = "data-acquisition-project-management.error.release.version.size")
-  @Pattern(regexp = Patterns.SEMVER, 
+  @Pattern(regexp = Patterns.SEMVER,
       message = "data-acquisition-project-management.error.release.version.pattern")
   private String version;
 

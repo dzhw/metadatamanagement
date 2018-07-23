@@ -34,7 +34,7 @@ import lombok.ToString;
 
 /**
  * Data Set.
- * 
+ *
  * @author Daniel Katzberg
  *
  */
@@ -43,14 +43,14 @@ import lombok.ToString;
 @UniqueDatasetNumberInProject(
     message = "data-set-management.error.data-set.unique-data-set-number-in-project")
 @CompoundIndex(def = "{number: 1, dataAcquisitionProjectId: 1}", unique = true)
-@Data
 @EqualsAndHashCode(callSuper = false, of = "id")
 @ToString(callSuper = true)
-@NoArgsConstructor 
+@NoArgsConstructor
+@Data
 @AllArgsConstructor
 @Builder
 public class DataSet extends AbstractRdcDomainObject {
-  
+
   @Id
   @JestId
   @NotEmpty(message = "data-set-management.error.data-set.id.not-empty")
@@ -58,32 +58,32 @@ public class DataSet extends AbstractRdcDomainObject {
   @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOLLAR,
       message = "data-set-management.error.data-set.id.pattern")
   private String id;
-  
+
   @Indexed
   @NotEmpty(message = "data-set-management.error.data-set.data-acquisition-project.id.not-empty")
   private String dataAcquisitionProjectId;
-  
+
   @I18nStringSize(max = StringLengths.LARGE,
       message = "data-set-management.error.data-set.description.i18n-string-size")
   private I18nString description;
-  
+
   @NotNull(message = "data-set-management.error.data-set.number.not-null")
   private Integer number;
-  
+
   @ValidFormat(message = "data-set-management.error.data-set.format.valid-format")
   private I18nString format;
-  
+
   @NotNull(message = "data-set-management.error.data-set.type.not-null")
   @ValidDataSetType(message = "data-set-management.error.data-set.type.valid-type")
   private I18nString type;
-  
+
   @I18nStringSize(max = StringLengths.LARGE,
       message = "data-set-management.error.variable.annotations.i18n-string-size")
   private I18nString annotations;
-  
+
   @NotEmpty(message = "data-set-management.error.data-set.survey-numbers.not-empty")
   private List<Integer> surveyNumbers;
-  
+
   /* Foreign Keys */
   @Indexed
   @NotEmpty(message = "data-set-management.error.data-set.study.id.not-empty")
@@ -92,7 +92,7 @@ public class DataSet extends AbstractRdcDomainObject {
   @Indexed
   @NotEmpty(message = "data-set-management.error.data-set.survey.ids.not-empty")
   private List<String> surveyIds;
-  
+
   /* Nested Objects */
   @Valid
   @NotEmpty(message = "data-set-management.error.data-set.sub-data-sets.not-empty")

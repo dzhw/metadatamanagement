@@ -67,3 +67,18 @@ patch:
         patched: '2018-06-25T22:11:59.333Z'
     - karma > log4js > loggly > request > tunnel-agent:
         patched: '2018-06-25T22:11:59.333Z'
+  'npm:lodash:20180130':
+    - grunt-karma > lodash:
+        patched: '2018-07-03T01:23:38.040Z'
+    - browser-sync > easy-extender > lodash:
+        patched: '2018-07-03T01:23:38.040Z'
+    - grunt-browser-sync > browser-sync > easy-extender > lodash:
+        patched: '2018-07-03T01:23:38.040Z'
+    - grunt-usemin > lodash:
+        patched: '2018-07-03T01:23:38.040Z'
+    - grunt-jscs > jscs > lodash:
+        patched: '2018-07-03T01:23:38.040Z'
+    - grunt-jscs > jscs > jscs-jsdoc > jsdoctypeparser > lodash:
+        patched: '2018-07-03T01:23:38.040Z'
+    - grunt-jscs > jscs > xmlbuilder > lodash:
+        patched: '2018-07-03T01:23:38.040Z'

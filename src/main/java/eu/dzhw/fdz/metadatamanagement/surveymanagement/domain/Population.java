@@ -13,22 +13,22 @@ import lombok.NoArgsConstructor;
 
 /**
  * The representation of the population for the survey.
- * 
+ *
  * @author Daniel Katzberg
  */
+@NoArgsConstructor
 @Data
-@NoArgsConstructor 
 @AllArgsConstructor
 @Builder
 public class Population {
-  
-  @NotNull(message = "survey-management.error.population.title.not-null")  
+
+  @NotNull(message = "survey-management.error.population.title.not-null")
   @I18nStringNotEmpty(message = "survey-management.error.population.title.i18n-string-not-empty")
   @I18nStringSize(max = StringLengths.MEDIUM,
       message = "survey-management.error.population.title.i18n-string-size")
   private I18nString title;
-  
-  @NotNull(message = "survey-management.error.population.description.not-null")  
+
+  @NotNull(message = "survey-management.error.population.description.not-null")
   @I18nStringNotEmpty(
       message = "survey-management.error.population.description.i18n-string-not-empty")
   @I18nStringSize(max = StringLengths.LARGE,

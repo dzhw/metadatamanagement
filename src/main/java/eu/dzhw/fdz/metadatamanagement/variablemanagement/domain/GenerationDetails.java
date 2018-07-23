@@ -25,8 +25,8 @@ import lombok.NoArgsConstructor;
 @RuleExpressionLanguageAndRuleFilledOrEmpty(
     message = "variable-management.error.generation-details."
         + "rule-expression-language-and-rule-filled-or-empty")
+@NoArgsConstructor
 @Data
-@NoArgsConstructor 
 @AllArgsConstructor
 @Builder
 public class GenerationDetails {

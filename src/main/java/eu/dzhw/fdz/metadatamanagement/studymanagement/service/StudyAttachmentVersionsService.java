@@ -1,9 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.studymanagement.service;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.annotation.PostConstruct;
 
@@ -102,22 +101,12 @@ public class StudyAttachmentVersionsService {
     StudyAttachmentMetadata studyAttachmentMetadata = mongoTemplate.getConverter().read(
         StudyAttachmentMetadata.class, file.getMetadata());
     
-    QueryBuilder jqlQuery = QueryBuilder.byInstance(studyAttachmentMetadata)
-        .limit(limit).skip(skip);
+    QueryBuilder jqlQuery = QueryBuilder.byInstance(studyAttachmentMetadata);
 
-    List<CdoSnapshot> snapshots = javers.findSnapshots(jqlQuery.build());
-    if (snapshots.isEmpty()) {
-      return new ArrayList<>();
-    }
-    List<BigDecimal> commitIds = snapshots.stream()
-        .map(snapshot -> snapshot.getCommitId().valueAsNumber())
-        .collect(Collectors.toList());
-    
-    List<Shadow<StudyAttachmentMetadata>> previousVersions = javers.findShadows(
-        QueryBuilder.byInstance(studyAttachmentMetadata)
-        .withCommitIds(commitIds).build());
+    Stream<Shadow<StudyAttachmentMetadata>> shadows = javers.findShadowsAndStream(jqlQuery.build());
+    shadows = shadows.skip(skip).limit(limit);
 
-    return previousVersions.stream().map(shadow -> {
+    return shadows.map(shadow -> {
       StudyAttachmentMetadata metadata = shadow.get();
       if (metadata.getId() == null) {
         // deleted shadow        

@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 
 /**
  * Class representing Strings that can be internationalized.
- * 
+ *
  * @author René Reitmann
  * @author Daniel Katzberg
  */
+@NoArgsConstructor
 @Data
-@NoArgsConstructor 
 @AllArgsConstructor
 @Builder
 @ValueObject

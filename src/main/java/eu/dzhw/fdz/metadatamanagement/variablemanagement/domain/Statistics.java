@@ -11,12 +11,12 @@ import lombok.NoArgsConstructor;
 /**
  * This statics class has statistical information about a variable. The information of this class
  * will be represented for a boxplot on the frontend.
- * 
+ *
  * @author Daniel Katzberg
  *
  */
+@NoArgsConstructor
 @Data
-@NoArgsConstructor 
 @AllArgsConstructor
 @Builder
 public class Statistics {
@@ -52,10 +52,10 @@ public class Statistics {
   private Double lowWhisker;
 
   private Double highWhisker;
-  
+
   private String mode;
-  
+
   private Double deviance;
- 
+
   private Double meanDeviation;
 }

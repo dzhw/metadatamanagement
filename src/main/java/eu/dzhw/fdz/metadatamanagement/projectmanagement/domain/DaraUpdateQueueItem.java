@@ -20,7 +20,7 @@ import lombok.ToString;
 
 /**
  * Dara entries will be updated asynchronously this using these items.
- * 
+ *
  * @author Daniel Katzberg
  *
  */
@@ -28,14 +28,14 @@ import lombok.ToString;
 @CompoundIndexes({
     @CompoundIndex(def = "{updateStartedAt: 1, updateStartedBy: 1, createdDate: 1}")
     })
-@Data
 @EqualsAndHashCode(callSuper = false, of = "id")
 @ToString(callSuper = true)
 @NoArgsConstructor
+@Data
 @AllArgsConstructor
 @Builder
 public class DaraUpdateQueueItem extends AbstractRdcDomainObject {
-  
+
   /* Domain Object Attributes */
   @Id
   private String id;
@@ -47,7 +47,7 @@ public class DaraUpdateQueueItem extends AbstractRdcDomainObject {
   private LocalDateTime updateStartedAt;
 
   private String updateStartedBy;
-  
+
   /**
    * Construct a dara queue item with a project id.
    * @param projectId The id of a study.

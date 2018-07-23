@@ -23,10 +23,10 @@ import lombok.ToString;
  * Metadata which will be stored in GridFS with each attachment for data sets.
  *
  */
-@Data
 @EqualsAndHashCode(callSuper = false, of = "id")
 @ToString(callSuper = true)
-@NoArgsConstructor 
+@NoArgsConstructor
+@Data
 @AllArgsConstructor
 @Builder
 public class DataSetAttachmentMetadata extends AbstractRdcDomainObject {
@@ -68,7 +68,7 @@ public class DataSetAttachmentMetadata extends AbstractRdcDomainObject {
   @NotNull(message =
       "data-set-management.error.data-set-attachment-metadata.data-set-number.not-null")
   private Integer dataSetNumber;
-  
+
   @NotNull(message =
       "data-set-management.error.data-set-attachment-metadata.index-in-data-set.not-null")
   private Integer indexInDataSet;

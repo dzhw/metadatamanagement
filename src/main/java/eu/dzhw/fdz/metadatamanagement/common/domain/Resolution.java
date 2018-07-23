@@ -7,21 +7,21 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**  
+/**
  * This class is a representation of the resolution of images.
- * 
+ *
  * @author Daniel Katzberg
  *
  */
+@NoArgsConstructor
 @Data
-@NoArgsConstructor 
 @AllArgsConstructor
 @Builder
 public class Resolution {
-  
+
   @NotNull(message = "global.error.resolution.width-x.not-null")
   private Integer widthX;
-  
+
   @NotNull(message = "global.error.resolution.height-y.not-null")
-  private Integer heightY;  
+  private Integer heightY;
 }

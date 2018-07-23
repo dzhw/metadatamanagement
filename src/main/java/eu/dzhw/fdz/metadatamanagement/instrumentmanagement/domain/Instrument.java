@@ -42,10 +42,10 @@ import lombok.ToString;
 @ValidUniqueInstrumentNumber(message = "instrument-management.error"
     + ".instrument.unique-instrument-number")
 @CompoundIndex(def = "{number: 1, dataAcquisitionProjectId: 1}", unique = true)
-@Data
 @EqualsAndHashCode(callSuper = false, of = "id")
 @ToString(callSuper = true)
-@NoArgsConstructor 
+@NoArgsConstructor
+@Data
 @AllArgsConstructor
 @Builder
 public class Instrument extends AbstractRdcDomainObject {
@@ -69,7 +69,7 @@ public class Instrument extends AbstractRdcDomainObject {
   @I18nStringNotEmpty(message = "instrument-management.error.instrument.title."
       + "i18n-string-not-empty")
   private I18nString title;
-  
+
   @I18nStringSize(max = StringLengths.LARGE, message = "instrument-"
       + "management.error.instrument.subtitle.i18n-string-size")
   private I18nString subtitle;

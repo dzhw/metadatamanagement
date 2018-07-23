@@ -1,6 +1,8 @@
 <!DOCTYPE html>
+<!--[if lt IE 11]> <html class="no-js lt-ie11" lang="en"><![endif]-->
+<!--[if gt IE 10]><!-->
 <html class="no-js" data-ng-app="metadatamanagementApp" lang="{{currentLanguage}}">
-
+<!--<![endif]-->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -42,8 +44,15 @@
 </head>
 
 <body data-layout="row">
-    <!--[if lt IE 11]> <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p> <![endif]-->
     <div class="fdz-splash" data-ng-cloak>
+        <!--[if lt IE 11]><p class=fdz-no-js>Your browser is <em>ancient!</em> <a href="https://browsehappy.com/">Upgrade to a different browser</a> to experience this site.</p><![endif]-->
+        <noscript style="display: table-header-group;">
+          <div class="fdz-no-js">
+            For any functionality of this site it is necessary to enable JavaScript.
+            Here are the <a href="https://www.enable-javascript.com/" target="_blank">
+            instructions how to enable JavaScript in your web browser</a>.
+          </div>
+        </noscript>
         <div>
             <p>Metadatamanagement...</p>
             <i class="material-icons">hourglass_empty</i>
@@ -62,7 +71,6 @@
           </div>
         </md-content>
     </div>
-
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>

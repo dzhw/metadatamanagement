@@ -33,7 +33,7 @@ import lombok.ToString;
 
 /**
  * Question.
- * 
+ *
  * @author Daniel Katzberg
  */
 @Document(collection = "questions")
@@ -42,14 +42,14 @@ import lombok.ToString;
     + ".question.unique-question-number")
 @ValidQuestionIdName(message = "question-management.error"
     + ".question.valid-question-id-name")
-@Data
 @EqualsAndHashCode(callSuper = false, of = "id")
 @ToString(callSuper = true)
-@NoArgsConstructor 
+@NoArgsConstructor
+@Data
 @AllArgsConstructor
 @Builder
 public class Question extends AbstractRdcDomainObject {
-  
+
   @Id
   @JestId
   @NotEmpty(message = "question-management.error.question.id.not-empty")
@@ -58,64 +58,64 @@ public class Question extends AbstractRdcDomainObject {
       message = "question-management.error.question.id.pattern")
   @Size(max = StringLengths.MEDIUM, message = "question-management.error.question.id.size")
   private String id;
-  
+
   @Indexed
   @NotEmpty(message = "question-management.error.question.data-acquisition-project-id.not-empty")
   private String dataAcquisitionProjectId;
-  
+
   @NotEmpty(message = "question-management.error.question.number.not-empty")
   @Size(max = StringLengths.SMALL, message = "question-management.error.question.number.size")
   private String number;
-  
+
   @NotNull(message = "question-management.error.question.question-text.not-null")
   @I18nStringNotEmpty(
       message = "question-management.error.question.question-text.i18n-string-not-empty")
   @I18nStringSize(max = StringLengths.LARGE,
       message = "question-management.error.question.question-text.i18n-string-size")
   private I18nString questionText;
-  
+
   @I18nStringSize(max = StringLengths.LARGE,
       message = "question-management.error.question.topic.i18n-string-size")
   private I18nString topic;
-  
+
   @NotNull(message = "question-management.error.question.indexInInstrument.not-null")
   private Integer indexInInstrument;
-  
+
   @NotEmpty
   @Indexed
   private String instrumentId;
-  
+
   @NotNull(message = "question-management.error.question.instrument-number.not-null")
   private Integer instrumentNumber;
 
-  @I18nStringSize(max = StringLengths.LARGE, 
+  @I18nStringSize(max = StringLengths.X_LARGE,
       message = "question-management.error.question.instruction.i18n-string-size")
   private I18nString instruction;
-  
-  @I18nStringSize(max = StringLengths.LARGE, 
+
+  @I18nStringSize(max = StringLengths.LARGE,
       message = "question-management.error.question.introduction.i18n-string-size")
   private I18nString introduction;
-  
+
   @NotNull(message = "question-management.error.question.type.not-null")
   @ValidQuestionType(message = "question-management.error.question.type.valid-question-type")
   private I18nString type;
-  
-  @I18nStringSize(max = StringLengths.X_LARGE, 
+
+  @I18nStringSize(max = StringLengths.X_LARGE,
       message = "question-management.error.question.additional-question-text.i18n-string-size")
   private I18nString additionalQuestionText;
-      
+
   @I18nStringSize(max = StringLengths.LARGE,
       message = "question-management.error.variable.annotations.i18n-string-size")
   private I18nString annotations;
-  
+
   @Valid
   private TechnicalRepresentation technicalRepresentation;
-  
+
   private List<String> successorNumbers;
-  
+
   @Indexed
   private List<String> successors;
-      
+
   /* Foreign Keys */
   @Indexed
   @NotEmpty(message = "question-management.error.question.study-id.not-empty")
