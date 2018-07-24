@@ -61,14 +61,14 @@ ui-view:focus {
     color: white;
 }
 
-.fdz-splash div {
+.fdz-splash .fdz-app-title {
     display: table-cell;
     vertical-align: middle;
     text-align: center;
     font-size: 26px;
 }
 
-.fdz-splash i {
+.fdz-splash .fdz-app-title i {
     font-size: 40px;
     animation: spin 2s linear infinite;
 }
@@ -952,10 +952,22 @@ md-backdrop.md-dialog-backdrop {
   background-color: $brand-warning;
   color: black !important;
   animation: blinker 2s linear;
+  margin: 6px;
+  border-radius: 6px;
+  padding: 6px;
+  font-size: 26px;
+}
+
+.fdz-no-js p {
+  margin: 0px;
+}
+
+.fdz-splash .fdz-bootstrap-error {
+  display: none;
 }
 
 @keyframes blinker {
-  50% {
+  0% {
     opacity: 0;
   }
 }

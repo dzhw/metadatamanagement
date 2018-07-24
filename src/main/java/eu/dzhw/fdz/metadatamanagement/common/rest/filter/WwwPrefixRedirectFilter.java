@@ -24,13 +24,15 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class WwwPrefixRedirectFilter extends OncePerRequestFilter {
-
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
       FilterChain filterChain) throws ServletException, IOException {
     if (request.getServerName().startsWith("www.")) {
       ServletUriComponentsBuilder builder = ServletUriComponentsBuilder.fromRequest(request);
       builder.host(request.getServerName().replaceFirst("www.", ""));
+      if (request.getHeader("X-Forwarded-Proto") != null) {        
+        builder.scheme("https");
+      }
       response.setStatus(HttpStatus.MOVED_PERMANENTLY.value());
       response.setHeader(HttpHeaders.LOCATION, builder.toUriString());
     } else {

@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<!--[if lt IE 11]> <html class="no-js lt-ie11" lang="en"><![endif]-->
-<!--[if gt IE 10]><!-->
-<html class="no-js" data-ng-app="metadatamanagementApp" lang="{{currentLanguage}}">
-<!--<![endif]-->
+<html data-ng-app="metadatamanagementApp" lang="{{currentLanguage}}">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -45,15 +42,20 @@
 
 <body data-layout="row">
     <div class="fdz-splash" data-ng-cloak>
-        <!--[if lt IE 11]><p class=fdz-no-js>Your browser is <em>ancient!</em> <a href="https://browsehappy.com/">Upgrade to a different browser</a> to experience this site.</p><![endif]-->
+        <div class="fdz-bootstrap-error">
+          <div class="fdz-no-js">
+            <p>The app could not be started successfully!</p>
+            <p><a href="https://browsehappy.com/">Upgrade or use a different browser</a> to experience this app.</p>
+          </div>
+        </div>
         <noscript style="display: table-header-group;">
           <div class="fdz-no-js">
-            For any functionality of this site it is necessary to enable JavaScript.
-            Here are the <a href="https://www.enable-javascript.com/" target="_blank">
-            instructions how to enable JavaScript in your web browser</a>.
+            <p>For any functionality of this app it is necessary to enable JavaScript!</p>
+            <p>Here are the <a href="https://www.enable-javascript.com/" target="_blank">
+            instructions how to enable JavaScript in your web browser</a>.</p>
           </div>
         </noscript>
-        <div>
+        <div class="fdz-app-title">
             <p>Metadatamanagement...</p>
             <i class="material-icons">hourglass_empty</i>
         </div>
@@ -419,7 +421,6 @@
     <script src="scripts/searchmanagement/directives/study-series-search-filter.controller.js"></script>
     <script src="scripts/searchmanagement/directives/next-search-result.directive.js"></script>
     <script src="scripts/searchmanagement/directives/previous-search-result.directive.js"></script>
-
     <!-- endbuild -->
 </body>
 
