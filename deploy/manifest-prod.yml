@@ -22,4 +22,5 @@ applications:
   health-check-http-endpoint: /management/info
   routes:
   - route: metadata.fdz.dzhw.eu
+  - route: www.metadata.fdz.dzhw.eu
   - route: metadatamanagement.cfapps.io
