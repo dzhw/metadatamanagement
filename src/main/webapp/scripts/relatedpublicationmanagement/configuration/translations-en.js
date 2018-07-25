@@ -65,8 +65,9 @@ angular.module('metadatamanagementApp').config(
         'error': {
           'related-publication': {
             'one-foreign-key-is-used': 'The Publication has no connection to any other object.',
-            'one-study-is-used': 'The publication has no connection to any study.',
+            'one-study-or-study-series-is-used': 'The publication has no connection to any study or any study series.',
             'valid-related-publication-id': 'The Id of Publication have to be build up after the pattern: "pub-" + {IdFromCitavi} + "$".',
+            'study-exists': 'There is no Study with RDC-ID "{{invalidValue}}"!',
             'id': {
               'not-empty': 'The RDC-ID of the Publication must not be empty!',
               'size': 'The max length of the RDC-ID is 512 signs.',

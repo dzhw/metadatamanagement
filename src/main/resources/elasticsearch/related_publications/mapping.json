@@ -63,7 +63,7 @@
 					}
 				}
 			},
-			"publicationAbstract": {
+			"sourceReference": {
 				"type": "text",
 				"index": "no",
 				"include_in_all": true,

@@ -24,11 +24,16 @@ import org.springframework.web.context.WebApplicationContext;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
+import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 /**
@@ -37,7 +42,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
  *
  */
 @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
-public class RelatedPublicationResourceTest  extends AbstractTest {
+public class RelatedPublicationResourceTest extends AbstractTest {
   private static final String API_RELATED_PUBLICATION_URI = "/api/related-publications";
   
   @Autowired
@@ -47,10 +52,19 @@ public class RelatedPublicationResourceTest  extends AbstractTest {
   private RelatedPublicationRepository publicationRepository;
   
   @Autowired
+  private StudyRepository studyRepository;
+  
+  @Autowired
+  private DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
+  
+  @Autowired
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
   
   @Autowired
   private ElasticsearchAdminService elasticsearchAdminService;
+  
+  @Autowired
+  private JaversService javersService;
   
   private MockMvc mockMvc;
 
@@ -63,15 +77,21 @@ public class RelatedPublicationResourceTest  extends AbstractTest {
   @After
   public void cleanUp() {
     this.publicationRepository.deleteAll();
+    this.studyRepository.deleteAll();
+    this.dataAcquisitionProjectRepository.deleteAll();
     this.elasticsearchUpdateQueueService.clearQueue();
     this.elasticsearchAdminService.recreateAllIndices();
+    this.javersService.deleteAll();
   }
   
   @Test
   public void testCreateRelatedPublications() throws IOException, Exception {
     //ARRANGE
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    dataAcquisitionProjectRepository.save(project);
+    Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
+    studyRepository.save(study);
     RelatedPublication relatedPublication = UnitTestCreateDomainObjectUtils.buildRelatedPublication();
-    
     //ACT
     // create the related publication with the given id
     this.mockMvc.perform(put(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId())
@@ -87,12 +107,16 @@ public class RelatedPublicationResourceTest  extends AbstractTest {
 
     // check that there is one data set document
     elasticsearchAdminService.refreshAllIndices();
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1.0));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2.0));
   }
   
   @Test
   public void testCreateRelatedPublicationsWithoutAuthors() throws IOException, Exception {
     //ARRANGE
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    dataAcquisitionProjectRepository.save(project);
+    Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
+    studyRepository.save(study);
     RelatedPublication relatedPublication = UnitTestCreateDomainObjectUtils.buildRelatedPublication(null, 2017);
     
     //ACT
@@ -105,6 +129,10 @@ public class RelatedPublicationResourceTest  extends AbstractTest {
   @Test
   public void testCreateRelatedPublicationsWithInvalidYearInPast() throws IOException, Exception {
     //ARRANGE
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    dataAcquisitionProjectRepository.save(project);
+    Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
+    studyRepository.save(study);
     RelatedPublication relatedPublication = UnitTestCreateDomainObjectUtils.buildRelatedPublication("TestAuthors", 1959);
     
     //ACT
@@ -117,6 +145,10 @@ public class RelatedPublicationResourceTest  extends AbstractTest {
   @Test
   public void testCreateRelatedPublicationsWithInvalidYearInFuture() throws IOException, Exception {
     //ARRANGE
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    dataAcquisitionProjectRepository.save(project);
+    Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
+    studyRepository.save(study);
     LocalDate date = new LocalDate();
     RelatedPublication relatedPublication = UnitTestCreateDomainObjectUtils.buildRelatedPublication("TestAuthors", date.getYear() + 1);
     
@@ -130,6 +162,10 @@ public class RelatedPublicationResourceTest  extends AbstractTest {
   @Test
   public void testUpdateRelatedPublications() throws IOException, Exception {
     //ARRANGE
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    dataAcquisitionProjectRepository.save(project);
+    Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
+    studyRepository.save(study);
     RelatedPublication relatedPublication = UnitTestCreateDomainObjectUtils.buildRelatedPublication();
     
     //ACT
@@ -156,12 +192,16 @@ public class RelatedPublicationResourceTest  extends AbstractTest {
 
     // check that there are one data set document
     elasticsearchAdminService.refreshAllIndices();
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1.0));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2.0));
   }
   
   @Test
   public void testDeleteRelatedPublications() throws IOException, Exception {
     //ARRANGE
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    dataAcquisitionProjectRepository.save(project);
+    Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
+    studyRepository.save(study);
     RelatedPublication relatedPublication = UnitTestCreateDomainObjectUtils.buildRelatedPublication();
     
     //ACT
@@ -178,6 +218,7 @@ public class RelatedPublicationResourceTest  extends AbstractTest {
     mockMvc.perform(get(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId()))
       .andExpect(status().isNotFound());
     
+    studyRepository.deleteById(study.getId());
     elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there are two data set documents plus two surveys
@@ -188,6 +229,10 @@ public class RelatedPublicationResourceTest  extends AbstractTest {
   @Test
   public void testUpdateStudyWithInvalidReleaseDoi() throws IOException, Exception {
   //ARRANGE
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    dataAcquisitionProjectRepository.save(project);
+    Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
+    studyRepository.save(study);
     RelatedPublication relatedPublication = UnitTestCreateDomainObjectUtils.buildRelatedPublication();
     
     

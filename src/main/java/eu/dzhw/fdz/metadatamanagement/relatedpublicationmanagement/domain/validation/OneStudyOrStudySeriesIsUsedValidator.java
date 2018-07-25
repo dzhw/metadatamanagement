@@ -9,8 +9,8 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.Relate
 /**
  * Checks for the study list. The list has to be filled.
  */
-public class OneStudyIsUsedValidator
-    implements ConstraintValidator<OneStudyIsUsed, RelatedPublication> {
+public class OneStudyOrStudySeriesIsUsedValidator
+    implements ConstraintValidator<OneStudyOrStudySeriesIsUsed, RelatedPublication> {
 
   /*
    * (non-Javadoc)
@@ -18,7 +18,7 @@ public class OneStudyIsUsedValidator
    * @see javax.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
    */
   @Override
-  public void initialize(OneStudyIsUsed constraintAnnotation) {}
+  public void initialize(OneStudyOrStudySeriesIsUsed constraintAnnotation) {}
 
   /*
    * (non-Javadoc)
@@ -29,11 +29,19 @@ public class OneStudyIsUsedValidator
   @Override
   public boolean isValid(RelatedPublication relatedPublication, 
       ConstraintValidatorContext context) {
-    if (relatedPublication.getStudyIds() == null) {
+    if (relatedPublication.getStudyIds() == null 
+        && relatedPublication.getStudySerieses() == null) {
       return false;
     }
+    if (relatedPublication.getStudyIds() == null) {
+      return !relatedPublication.getStudySerieses().isEmpty();
+    }
+    if (relatedPublication.getStudySerieses() == null) {
+      return !relatedPublication.getStudyIds().isEmpty();
+    }
     
-    return !relatedPublication.getStudyIds().isEmpty();
+    return !relatedPublication.getStudyIds().isEmpty() 
+        || !relatedPublication.getStudySerieses().isEmpty();
   }
 
 }

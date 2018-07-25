@@ -13,10 +13,10 @@ import javax.validation.Payload;
  * Checks for the study list. This list should be empty.
  */
 @Documented
-@Constraint(validatedBy = {OneStudyIsUsedValidator.class})
+@Constraint(validatedBy = {OneStudyOrStudySeriesIsUsedValidator.class})
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface OneStudyIsUsed {
+public @interface OneStudyOrStudySeriesIsUsed {
 
   /**
    * Defines the default error message.

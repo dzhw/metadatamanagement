@@ -19,7 +19,8 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidIsoLanguage;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.OneForeignKeyIsUsed;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.OneStudyIsUsed;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.OneStudyOrStudySeriesIsUsed;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.StudyExists;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidPublicationYear;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidRelatedPublicationId;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidUrl;
@@ -40,8 +41,9 @@ import lombok.ToString;
 @Document(collection = "related_publications")
 @OneForeignKeyIsUsed(
     message = "related-publication-management.error.related-publication.one-foreign-key-is-used")
-@OneStudyIsUsed(
-    message = "related-publication-management.error.related-publication.one-study-is-used")
+@OneStudyOrStudySeriesIsUsed(
+    message = "related-publication-management.error.related-publication."
+        + "one-study-or-study-series-is-used")
 @ValidPublicationYear(message = "related-publication-management.error.related-publication."
     + "year.valid")
 @ValidRelatedPublicationId(message =
@@ -121,10 +123,13 @@ public class RelatedPublication extends AbstractRdcDomainObject {
   private List<String> dataSetIds;
 
   @Indexed
-  private List<String> studyIds;
+  private List<@StudyExists String> studyIds;
 
   @Indexed
   private List<String> instrumentIds;
+  
+  @Indexed
+  private List<I18nString> studySerieses;
 
   public RelatedPublication(RelatedPublication relatedPublication) {
     super();

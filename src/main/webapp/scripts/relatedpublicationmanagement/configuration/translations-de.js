@@ -30,7 +30,7 @@ angular.module('metadatamanagementApp').config(
             'year': 'Erscheinungsjahr',
             'source-reference': 'Referenz',
             'abstract-source': 'Quelle'
-          },          
+          },
           'abstract': 'Abstract',
           'title': '{{ title }} ({{publicationId}})',
           'doi-tooltip': 'Klicken, um die DOI in einem neuen Tab zu öffnen',
@@ -65,8 +65,9 @@ angular.module('metadatamanagementApp').config(
         'error': {
           'related-publication': {
             'one-foreign-key-is-used': 'Die Publikation hat keine Verknüpfung zu einem anderen Objekt.',
-            'one-study-is-used': 'Die Publikation hat keine Verknüpfung zu einer Studie',
+            'one-study-or-study-series-is-used': 'Die Publikation hat keine Verknüpfung zu einer Studie oder einer Studienreihe',
             'valid-related-publication-id': 'Die Id einer Publikation muss dem Muster "pub-" + {IdAusCitavi} + "$".',
+            'study-exists': 'Es gibt keine Studie mit der FDZ-ID "{{invalidValue}}"!',
             'id': {
               'not-empty': 'Die FDZ-ID der Publikation darf nicht leer sein!',
               'size': 'Die Maximallänge der FDZ-ID ist 512 Zeichen.',
