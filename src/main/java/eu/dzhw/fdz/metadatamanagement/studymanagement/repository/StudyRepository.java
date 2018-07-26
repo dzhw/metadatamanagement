@@ -12,7 +12,6 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.common.repository.BaseRepository;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySeriesProjection;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySubDocumentProjection;
 
 /**
@@ -55,7 +54,4 @@ public interface StudyRepository
 
   @RestResource(exported = false)
   boolean existsByStudySeries(I18nString studySeries);
-  
-  @RestResource(exported = true)
-  Stream<StudySeriesProjection> findAllDistinctStudySeriesBy();
 }
