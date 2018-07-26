@@ -68,6 +68,12 @@ angular.module('metadatamanagementApp').config(
             'one-study-or-study-series-is-used': 'The publication has no connection to any study or any study series.',
             'valid-related-publication-id': 'The Id of Publication have to be build up after the pattern: "pub-" + {IdFromCitavi} + "$".',
             'study-exists': 'There is no Study with RDC-ID "{{invalidValue}}"!',
+            'survey-exists': 'There is no Survey with RDC-ID "{{invalidValue}}"!',
+            'dataset-exists': 'There is no Data Set with RDC-ID "{{invalidValue}}"!',
+            'variable-exists': 'There is no Variable with RDC-ID "{{invalidValue}}"!',
+            'instrument-exists': 'There is no Instrument with RDC-ID "{{invalidValue}}"!',
+            'question-exists': 'There is no Question with RDC-ID "{{invalidValue}}"!',
+            'study-series-exists': 'There is no Study with Study Series "{{invalidValue.de}}"!',
             'id': {
               'not-empty': 'The RDC-ID of the Publication must not be empty!',
               'size': 'The max length of the RDC-ID is 512 signs.',

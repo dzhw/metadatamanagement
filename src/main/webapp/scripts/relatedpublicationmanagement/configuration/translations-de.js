@@ -68,6 +68,12 @@ angular.module('metadatamanagementApp').config(
             'one-study-or-study-series-is-used': 'Die Publikation hat keine Verknüpfung zu einer Studie oder einer Studienreihe',
             'valid-related-publication-id': 'Die Id einer Publikation muss dem Muster "pub-" + {IdAusCitavi} + "$".',
             'study-exists': 'Es gibt keine Studie mit der FDZ-ID "{{invalidValue}}"!',
+            'survey-exists': 'Es gibt keine Erhebung mit der FDZ-ID "{{invalidValue}}"!',
+            'dataset-exists': 'Es gibt keinen Datensatz mit der FDZ-ID "{{invalidValue}}"!',
+            'variable-exists': 'Es gibt keine Variable mit der FDZ-ID "{{invalidValue}}"!',
+            'instrument-exists': 'Es gibt kein Instrument mit der FDZ-ID "{{invalidValue}}"!',
+            'question-exists': 'Es gibt keine Frage mit der FDZ-ID "{{invalidValue}}"!',
+            'study-series-exists': 'Es gibt keine Studie mit der Studienreihe "{{invalidValue.de}}"!',
             'id': {
               'not-empty': 'Die FDZ-ID der Publikation darf nicht leer sein!',
               'size': 'Die Maximallänge der FDZ-ID ist 512 Zeichen.',
