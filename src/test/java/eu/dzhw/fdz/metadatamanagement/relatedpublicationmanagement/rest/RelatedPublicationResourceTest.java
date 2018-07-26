@@ -11,6 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.IOException;
+import java.util.Collections;
 
 import org.joda.time.LocalDate;
 import org.junit.After;
@@ -23,6 +24,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
@@ -250,5 +252,55 @@ public class RelatedPublicationResourceTest extends AbstractTest {
     this.mockMvc.perform(put(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId())
       .content(TestUtil.convertObjectToJsonBytes(relatedPublication)))
       .andExpect(status().is4xxClientError());
+  }
+  
+  @Test
+  public void testCreateRelatedPublicationWithInvalidStudySeries() throws IOException, Exception {
+    //ARRANGE
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    dataAcquisitionProjectRepository.save(project);
+    Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
+    studyRepository.save(study);
+    RelatedPublication relatedPublication = UnitTestCreateDomainObjectUtils.buildRelatedPublication();
+    I18nString studySeries = I18nString.builder().de("test").en("test").build();
+    relatedPublication.setStudySerieses(Collections.singletonList(studySeries));
+    
+    // ACT and Assert
+    this.mockMvc.perform(put(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId())
+      .content(TestUtil.convertObjectToJsonBytes(relatedPublication)))
+    .andExpect(status().isBadRequest())
+    .andExpect(jsonPath("$.errors[0].message", 
+        containsString("related-publication-management.error.related-publication.study-series-exists")));
+  }
+  
+  @Test
+  public void testCreateRelatedPublicationWithValidStudySeries() throws IOException, Exception {
+    //ARRANGE
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    dataAcquisitionProjectRepository.save(project);
+    I18nString studySeries = I18nString.builder().de("test").en("test").build();
+    Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
+    study.setStudySeries(studySeries);
+    studyRepository.save(study);
+    RelatedPublication relatedPublication = UnitTestCreateDomainObjectUtils.buildRelatedPublication();
+    relatedPublication.setStudySerieses(Collections.singletonList(studySeries));
+    
+    // ACT and Assert
+    this.mockMvc.perform(put(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId())
+      .content(TestUtil.convertObjectToJsonBytes(relatedPublication)))
+    .andExpect(status().isCreated());
+    
+    // read the related publication under the new url
+    mockMvc.perform(get(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId() + "?projection=complete"))
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$.id", is(relatedPublication.getId())))
+      .andExpect(jsonPath("$.studySerieses[0].de", is(studySeries.getDe())))
+      .andExpect(jsonPath("$.studySerieses[0].en", is(studySeries.getEn())));
+    
+    elasticsearchUpdateQueueService.processAllQueueItems();
+
+    // check that there are two documents (study and related publication)
+    elasticsearchAdminService.refreshAllIndices();
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2.0));
   }
 }

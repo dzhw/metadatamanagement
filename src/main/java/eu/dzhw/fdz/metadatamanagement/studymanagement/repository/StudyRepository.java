@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.common.repository.BaseRepository;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
@@ -50,4 +51,7 @@ public interface StudyRepository
 
   @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamIdsByDataAcquisitionProjectId(String id);
+
+  @RestResource(exported = false)
+  boolean existsByStudySeries(I18nString studySeries);
 }

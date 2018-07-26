@@ -18,12 +18,18 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidIsoLanguage;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.DataSetExists;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.InstrumentExists;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.OneForeignKeyIsUsed;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.OneStudyOrStudySeriesIsUsed;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.QuestionExists;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.StudyExists;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.SurveyExists;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.StudySeriesExists;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidPublicationYear;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidRelatedPublicationId;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidUrl;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.VariableExists;
 import io.searchbox.annotations.JestId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -111,25 +117,25 @@ public class RelatedPublication extends AbstractRdcDomainObject {
 
   /* Foreign Keys */
   @Indexed
-  private List<String> questionIds;
+  private List<@QuestionExists String> questionIds;
 
   @Indexed
-  private List<String> surveyIds;
+  private List<@SurveyExists String> surveyIds;
 
   @Indexed
-  private List<String> variableIds;
+  private List<@VariableExists String> variableIds;
 
   @Indexed
-  private List<String> dataSetIds;
+  private List<@DataSetExists String> dataSetIds;
 
   @Indexed
   private List<@StudyExists String> studyIds;
 
   @Indexed
-  private List<String> instrumentIds;
+  private List<@InstrumentExists String> instrumentIds;
   
   @Indexed
-  private List<I18nString> studySerieses;
+  private List<@StudySeriesExists I18nString> studySerieses;
 
   public RelatedPublication(RelatedPublication relatedPublication) {
     super();
