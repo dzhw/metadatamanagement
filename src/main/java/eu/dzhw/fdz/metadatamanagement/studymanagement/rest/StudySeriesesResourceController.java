@@ -17,13 +17,13 @@ import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository
  * 
  * @author René Reitmann
  */
-@RestController("/studies/study-serieses")
-public class StudySeriesResourceController {
+@RestController("/study-serieses")
+public class StudySeriesesResourceController {
 
   private StudyRepository studyRepository;
   
   @Autowired
-  public StudySeriesResourceController(StudyRepository studyRepository) {
+  public StudySeriesesResourceController(StudyRepository studyRepository) {
     this.studyRepository = studyRepository;
   }
 
