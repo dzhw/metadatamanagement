@@ -13,11 +13,12 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 
 /**
- * Study REST Controller which overrides default spring data rest methods.
+ * Study Series REST Controller which retrieves all study serieses present in 
+ * the primary data store.
  * 
  * @author René Reitmann
  */
-@RestController("/study-serieses")
+@RestController
 public class StudySeriesesResourceController {
 
   private StudyRepository studyRepository;
@@ -30,7 +31,7 @@ public class StudySeriesesResourceController {
   /**
    * Get all available study serieses.
    */
-  @RequestMapping(method = RequestMethod.GET)
+  @RequestMapping(value = "/api/study-serieses", method = RequestMethod.GET)
   public ResponseEntity<List<I18nString>> findAllStudySerieses() {
     List<I18nString> studySerieses = studyRepository.findAllStudySerieses();
     return ResponseEntity.ok().cacheControl(CacheControl.noStore())
