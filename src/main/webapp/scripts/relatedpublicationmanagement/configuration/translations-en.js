@@ -30,7 +30,8 @@ angular.module('metadatamanagementApp').config(
             'authors': 'Authors',
             'year': 'Year of publication',
             'source-reference': 'Reference',
-            'abstract-source': 'Source'
+            'abstract-source': 'Source',
+            'studySerieses': 'Study Serieses'
           },
           'abstract': 'Abstract',
           'title': '{{ title }} ({{publicationId}})',
@@ -60,7 +61,8 @@ angular.module('metadatamanagementApp').config(
             'studies':{
               'one': 'Click to show the study for which this publication has been written',
               'many': 'Click to show all studies for which this publication has been written'
-            }
+            },
+            'studies-series' : 'Click to show all studies for this study series'
           }
         },
         'error': {

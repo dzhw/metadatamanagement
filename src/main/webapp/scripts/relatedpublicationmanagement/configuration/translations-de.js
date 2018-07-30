@@ -30,7 +30,8 @@ angular.module('metadatamanagementApp').config(
             'authors': 'Autor(inn)en',
             'year': 'Erscheinungsjahr',
             'source-reference': 'Referenz',
-            'abstract-source': 'Quelle'
+            'abstract-source': 'Quelle',
+            'studySerieses': 'Studienreihen'
           },
           'abstract': 'Abstract',
           'title': '{{ title }} ({{publicationId}})',
@@ -60,7 +61,8 @@ angular.module('metadatamanagementApp').config(
             'studies':{
               'one': 'Klicken, um die Studie anzuzeigen, zu der diese Publikation verfasst wurde',
               'many': 'Klicken, um alle Studien anzuzeigen, zu denen diese Publikation verfasst wurde'
-            }
+            },
+            'studies-series' : 'Klicken, um alle Studien dieser Studienreihe anzuzeigen'
           }
         },
         'error': {

@@ -556,6 +556,11 @@ public class ElasticsearchUpdateQueueService {
           .findSubDocumentsByStudyId(study.getId());
       List<InstrumentSubDocumentProjection> instruments = instrumentRepository
           .findSubDocumentsByStudyId(study.getId());
+      List<RelatedPublicationSubDocumentProjection> seriesPublications = null;
+      if (study.getStudySeries() != null) {
+        seriesPublications = relatedPublicationRepository
+            .findSubDocumentsByStudySeriesesContaining(study.getStudySeries()); 
+      }
       DataAcquisitionProject project = projectRepository.findById(
           study.getDataAcquisitionProjectId()).orElse(null);
       Release release = null;
@@ -564,7 +569,7 @@ public class ElasticsearchUpdateQueueService {
       }
       String doi = doiBuilder.buildStudyDoi(study, release);
       StudySearchDocument searchDocument = new StudySearchDocument(study, dataSets, variables,
-          relatedPublications, surveys, questions, instruments, release, doi);
+          relatedPublications, surveys, questions, instruments, seriesPublications, release, doi);
 
       bulkBuilder.addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType()
           .name())
