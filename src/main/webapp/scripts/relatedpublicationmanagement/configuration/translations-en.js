@@ -15,6 +15,7 @@ angular.module('metadatamanagementApp').config(
             'missing-id': 'Publication {{ index }} does not contain a RDC-ID and has not been saved!',
             'duplicate-id': 'The RDC-ID ({{ id }}) of Publication {{ index }} has already been used.',
             'upload-terminated': 'Finished upload of {{ total }} Publications with {{warnings}} warnings and {{ errors }} errors.',
+            'unable-to-load-study-serieses': 'Available Study Serieses could not be retrieved from the server!',
             'unable-to-delete': 'Publications could not be deleted!',
             'cancelled': 'Publications upload cancelled!'
           }

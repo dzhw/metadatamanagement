@@ -15,6 +15,7 @@ angular.module('metadatamanagementApp').config(
             'missing-id': 'Der {{ index }}. Die Publikation enthält keine FDZ-ID und wurde nicht gespeichert!',
             'duplicate-id': 'Die FDZ-ID ({{ id }}) der {{ index }}. Publikation wurde bereits verwendet.',
             'upload-terminated': 'Upload von {{ total }} Publikationen mit {{warnings}} Warnungen und {{ errors }} Fehlern beendet!',
+            'unable-to-load-study-serieses': 'Die verfügbaren Studienreihen konnten nicht geladen werden!',
             'unable-to-delete': 'Die Publikationen konnten nicht gelöscht werden!',
             'cancelled': 'Upload von Publikationen abgebrochen'
           }

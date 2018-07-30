@@ -77,14 +77,10 @@ public class ExceptionTranslator {
 
     //handle field errors
     for (FieldError fieldError : fieldErrors) {
-      String rejectedValueString = null;
       Object rejectedValue = fieldError.getRejectedValue();
-      if (rejectedValue != null) {
-        rejectedValueString = rejectedValue.toString();
-      }
-
+    
       errorListDto.add(new ErrorDto(fieldError.getObjectName(), fieldError.getDefaultMessage(),
-          rejectedValueString, fieldError.getField()));
+          rejectedValue, fieldError.getField()));
     }
 
     return errorListDto;
@@ -271,7 +267,7 @@ public class ExceptionTranslator {
       String message = this.messageSourceAccessor.getMessage(fieldError);
 
       errorListDto.add(new ErrorDto(fieldError.getObjectName(), message,
-          String.format("%s", fieldError.getRejectedValue()), fieldError.getField()));
+          fieldError.getRejectedValue(), fieldError.getField()));
     }
 
     return errorListDto;
