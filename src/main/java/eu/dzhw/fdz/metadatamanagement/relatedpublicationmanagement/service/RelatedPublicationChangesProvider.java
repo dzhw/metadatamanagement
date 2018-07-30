@@ -156,7 +156,8 @@ public class RelatedPublicationChangesProvider {
         || oldPublications.get(relatedPublicationId).getStudyIds() == null) {
       return new ArrayList<>();
     }
-    if (newPublications.get(relatedPublicationId) == null) {
+    if (newPublications.get(relatedPublicationId) == null
+        || newPublications.get(relatedPublicationId).getStudyIds() == null) {
       return oldPublications.get(relatedPublicationId).getStudyIds();
     }
     List<String> deletedStudyIds = new ArrayList<>(oldPublications.get(relatedPublicationId)
@@ -176,7 +177,8 @@ public class RelatedPublicationChangesProvider {
         .getStudyIds() == null) {
       return new ArrayList<>();
     }
-    if (oldPublications.get(relatedPublicationId) == null) {
+    if (oldPublications.get(relatedPublicationId) == null
+        || oldPublications.get(relatedPublicationId).getStudyIds() == null) {
       return newPublications.get(relatedPublicationId).getStudyIds();
     }
     List<String> addedStudyIds = new ArrayList<>(newPublications.get(relatedPublicationId)
