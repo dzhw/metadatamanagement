@@ -127,6 +127,7 @@ angular.module('metadatamanagementApp').config(
             'variables': 'Filter für die Variablensuche...',
             'related_publications': 'Filter für die Publikationssuche...'
           },
+          'clear-filters-tooltip': 'Klicken, um alle Filter zu entfernen',
           'uncollapse-filters-tooltip': {
             'true': 'Klicken, um die ausgewählten Filter einzublenden',
             'false': 'Klicken, um die ausgewählten Filter auszublenden'

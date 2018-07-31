@@ -127,6 +127,7 @@ angular.module('metadatamanagementApp').config(
             'variables': 'Select filters for Variable Search...',
             'related_publications': 'Select filters for Publication Search...'
           },
+          'clear-filters-tooltip': 'Click to unselect all filters',
           'uncollapse-filters-tooltip': {
             'true': 'Click to show selected filters',
             'false': 'Click to hide selected filters'

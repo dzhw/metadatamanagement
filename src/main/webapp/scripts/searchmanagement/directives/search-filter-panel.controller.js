@@ -9,6 +9,7 @@ angular.module('metadatamanagementApp')
       StudyIdBuilderService, CurrentProjectService, $element,
       CleanJSObjectService, $mdSelect) {
       var elasticSearchTypeChanged = false;
+      var searchParamsFilterChanged = false;
       $scope.filtersCollapsed = false;
 
       var selectStudyForProject = function() {
@@ -93,7 +94,7 @@ angular.module('metadatamanagementApp')
             $element.find('.fdz-filter-select').addClass('md-input-has-value');
           });
         }
-        if (elasticSearchTypeChanged) {
+        if (elasticSearchTypeChanged || searchParamsFilterChanged) {
           return;
         }
         var unselectedFilters = _.difference(
@@ -120,6 +121,20 @@ angular.module('metadatamanagementApp')
             delete $scope.currentSearchParams.filter.study;
           }
         }
+      });
+
+      $scope.$watch('currentSearchParams.filter', function() {
+        searchParamsFilterChanged = true;
+        $scope.selectedFilters = [];
+        if ($scope.currentSearchParams.filter) {
+          $scope.selectedFilters = _.intersection(
+            _.keys($scope.currentSearchParams.filter),
+            _.union($scope.availableFilters, $scope.availableHiddenFilters)
+          );
+        }
+        $timeout(function() {
+          searchParamsFilterChanged = false;
+        });
       });
 
       $element.find('#searchFilterInput').on('keydown', function(event) {

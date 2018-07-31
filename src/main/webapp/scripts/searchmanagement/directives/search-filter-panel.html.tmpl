@@ -21,12 +21,18 @@
         </md-select>
     </md-input-container>
     <div flex-gt-sm></div>
-    <md-button ng-show="selectedFilters && selectedFilters.length !== 0" class="md-icon-button" ng-click="filtersCollapsed = !filtersCollapsed" style="margin-right: 10px; margin-top: 16px;">
+    <md-button ng-show="selectedFilters && selectedFilters.length !== 0" class="md-icon-button" ng-click="filtersCollapsed = !filtersCollapsed" style="margin-right: 0px; margin-top: 16px;">
+      <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+        {{'search-management.filter.uncollapse-filters-tooltip.' +  filtersCollapsed | translate}}
+      </md-tooltip>
+      <md-icon ng-if="filtersCollapsed" md-svg-src="/assets/images/icons/arrow-expand.svg"></md-icon>
+      <md-icon ng-if="!filtersCollapsed" md-svg-src="/assets/images/icons/arrow-compress.svg"></md-icon>
+    </md-button>
+    <md-button ng-show="selectedFilters && selectedFilters.length !== 0" class="md-icon-button" ng-click="selectedFilters = []" style="margin-right: 16px; margin-top: 16px;">
         <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-            {{'search-management.filter.uncollapse-filters-tooltip.' +  filtersCollapsed | translate}}
+            {{'search-management.filter.clear-filters-tooltip' | translate}}
         </md-tooltip>
-        <md-icon ng-if="filtersCollapsed" md-svg-src="/assets/images/icons/arrow-expand.svg"></md-icon>
-        <md-icon ng-if="!filtersCollapsed" md-svg-src="/assets/images/icons/arrow-compress.svg"></md-icon>
+        <md-icon md-font-set="material-icons">clear</md-icon>
     </md-button>
 </div>
 <div ng-if="selectedFilters && selectedFilters.length !== 0" layout="column" style="margin: 0px 16px 0px 16px;" ng-style="getFilterPanelStyle()" ng-hide="filtersCollapsed">
