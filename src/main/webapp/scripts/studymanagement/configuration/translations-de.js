@@ -96,6 +96,8 @@ angular.module('metadatamanagementApp').config(
           'not-released-toast': 'Die Studie "{{ id }}" wird aktuell bearbeitet und ist daher nicht für alle Benutzer freigegeben!',
           'old-version': 'Ihr Link verweist auf eine ältere Version ({{versionFromUrl}}) dieser Studie. Hier wird die aktuelle Version ({{actualVersion}}) der Studie "{{title}}" dargestellt.',
           'beta-release-no-doi': 'Dies ist ein BETA Release und enthält noch keine DOI.',
+          'publications-for-series': 'Publikationen zur Studienreihe "{{studySeries}}"',
+          'publications-for-study': 'Publikationen zu dieser Studie',
           'tooltips': {
             'surveys': {
               'one': 'Klicken, um die Erhebung dieser Studie anzuzeigen',
@@ -105,6 +107,7 @@ angular.module('metadatamanagementApp').config(
               'one': 'Klicken, um den Datensatz dieser Studie anzuzeigen',
               'many': 'Klicken, um alle Datensätze dieser Studie anzuzeigen',
             },
+            'series-publications': 'Klicken, um alle Publikationen zu dieser Studienreihe anzuzeigen',
             'publications': {
               'one': 'Klicken, um die Publikation zu dieser Studie anzuzeigen',
               'many': 'Klicken, um alle Publikationen zu dieser Studie anzuzeigen'
@@ -172,7 +175,8 @@ angular.module('metadatamanagementApp').config(
             },
             'study-series': {
               'i18n-string-size': 'Die Maximallänge der Studienreihe ist 512 Zeichen.',
-              'i18n-string-entire-not-empty-optional': 'Wenn die Studienreihe in einer Sprache vorliegt, muss sie in allen Sprachen vorliegen.'
+              'i18n-string-entire-not-empty-optional': 'Wenn die Studienreihe in einer Sprache vorliegt, muss sie in allen Sprachen vorliegen.',
+              'i18n-string-must-not-contain-comma': 'Die Studienreihe darf keine Kommata enthalten.'
             },
             'data-availability': {
               'not-null': 'Die Datenerreichbarkeit einer Studie darf nicht leer sein!',

@@ -1,11 +1,30 @@
+/* global _ */
 'use strict';
-/* @author Daniel Katzberg */
 
 angular.module('metadatamanagementApp')
   .service('RelatedPublicationBuilderService',
     function(RelatedPublicationResource, CleanJSObjectService,
       RelatedPublicationIdBuilderService) {
-      var getRelatedPublications = function(relatedPublications) {
+      var getStudySerieses = function(desiredStudySerieses,
+        availableStudySeries) {
+          var result = [];
+          _.forEach(desiredStudySerieses, function(desiredSeries) {
+            var match = _.find(availableStudySeries, function(availableSeries) {
+              return desiredSeries.toLowerCase() ===
+                availableSeries.de.toLowerCase();
+            });
+            if (match) {
+              result.push(match);
+            } else {
+              result.push({
+                de: desiredSeries
+              });
+            }
+          });
+          return result;
+        };
+      var getRelatedPublications = function(relatedPublications,
+        availableStudySerieses) {
         var relatedPublicationsObjArray = [];
         for (var i = 0; i < relatedPublications.length; i++) {
           var data = relatedPublications[i];
@@ -32,7 +51,10 @@ angular.module('metadatamanagementApp')
               en: data['abstractSource.en'],
               de: data['abstractSource.de']
             },
-            language: data.language
+            language: data.language,
+            studySerieses: getStudySerieses(
+              CleanJSObjectService.parseAndTrim(data['studySerieses.de']),
+              availableStudySerieses)
           };
           var cleanedRelatedPublicationObject = CleanJSObjectService
             .removeEmptyJsonObjects(relatedPublicationObj);

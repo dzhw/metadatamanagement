@@ -423,7 +423,7 @@ public class UnitTestCreateDomainObjectUtils {
   public static RelatedPublication buildRelatedPublication() {
 
     List<String> studyIds = new ArrayList<>();
-    studyIds.add("Study-IdExample");
+    studyIds.add(UnitTestCreateValidIds.buildStudyId("testproject"));
 
     return RelatedPublication.builder()
         .doi("A DOI")
@@ -446,7 +446,7 @@ public class UnitTestCreateDomainObjectUtils {
   public static RelatedPublication buildRelatedPublication(String authorsString, int publicationYear) {
 
     List<String> studyIds = new ArrayList<>();
-    studyIds.add("Study-IdExample");
+    studyIds.add(UnitTestCreateValidIds.buildStudyId("testproject"));
 
     return RelatedPublication.builder()
         .doi("A DOI")

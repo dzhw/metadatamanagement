@@ -40,7 +40,6 @@ angular.module('metadatamanagementApp').config(
           'edit-survey-tooltip': 'Click to manually edit the survey',
           'delete-survey-tooltip': 'Click to delete the survey',
           'upload-related-publications-tooltip': 'Click to upload publications',
-          'post-validate-related-publications-tooltip': 'Click to validate the publications',
           'upload-instruments-tooltip': 'Click to upload instruments for the selected data acquisition project',
           'previous-search-result-tooltip': 'Click (or CTRL+"\u21E6") to show search result {{ index }} ({{ id }})',
           'next-search-result-tooltip': 'Click (or CTRL+"\u21E8") to show search result {{ index }} ({{ id }})'

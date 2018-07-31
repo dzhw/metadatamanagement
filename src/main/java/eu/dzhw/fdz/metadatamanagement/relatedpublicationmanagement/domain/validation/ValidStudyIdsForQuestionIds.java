@@ -10,18 +10,21 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- * Checks for the study list. This list should be empty.
+ * When a question is linked the study must be linked as well.
+ * 
+ * @author René Reitmann
  */
 @Documented
-@Constraint(validatedBy = {OneStudyIsUsedValidator.class})
+@Constraint(validatedBy = {ValidStudyIdsForQuestionIdsValidator.class})
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface OneStudyIsUsed {
-
+public @interface ValidStudyIdsForQuestionIds {
+  
   /**
    * Defines the default error message.
    */
-  String message() default "{OneStudyIsUsed}";
+  String message() default "{eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement" 
+   + ".domain.validation.validStudyIdsForQuestionIds.message}";
 
   /**
    * This contains groups.
@@ -32,4 +35,5 @@ public @interface OneStudyIsUsed {
    * This method contains the payload.
    */
   Class<? extends Payload>[] payload() default {};
+
 }

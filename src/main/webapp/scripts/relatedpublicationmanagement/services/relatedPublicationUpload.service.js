@@ -8,7 +8,8 @@ angular.module('metadatamanagementApp')
     function(ExcelReaderService, RelatedPublicationBuilderService,
       RelatedPublicationRepositoryClient, JobLoggingService, $q,
       ErrorMessageResolverService, ElasticSearchAdminService, $rootScope,
-      $translate, $mdDialog, RelatedPublicationResource) {
+      $translate, $mdDialog, RelatedPublicationResource,
+      StudySeriesesResource) {
       var objects;
       var uploadCount;
       // a map publication.id -> true
@@ -103,17 +104,23 @@ angular.module('metadatamanagementApp')
         objects = [];
         previouslyUploadedPublicationIds = {};
         JobLoggingService.start('related-publication');
-        ExcelReaderService.readFileAsync(file)
+        StudySeriesesResource.get().$promise.then(function(availableSerieses) {
+          ExcelReaderService.readFileAsync(file)
           .then(function(relatedPublications) {
             objects = RelatedPublicationBuilderService
-              .getRelatedPublications(relatedPublications);
+            .getRelatedPublications(relatedPublications, availableSerieses);
             upload();
           }, function() {
             JobLoggingService
-              .cancel('global.log-messages.unable-to-read-file', {
-                file: 'relatedPublications.xls'
-              });
+            .cancel('global.log-messages.unable-to-read-file', {
+              file: 'relatedPublications.xls'
+            });
           });
+        }).catch(function() {
+          JobLoggingService
+          .cancel('related-publication-management.log-messages' +
+            '.unable-to-load-study-serieses');
+        });
       };
 
       var uploadRelatedPublications = function(file) {

@@ -309,6 +309,15 @@
 					}
 				}
 			},
+			"seriesPublications": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "keyword",
+						"index": "not_analyzed"
+					}
+				}
+			},
 			"dataSets": {
 				"type": "object",
 				"properties": {

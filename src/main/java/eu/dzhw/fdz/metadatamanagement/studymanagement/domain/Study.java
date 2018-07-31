@@ -20,6 +20,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringEntireNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringEntireNotEmptyOptional;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringMustNotContainComma;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
@@ -90,6 +91,8 @@ public class Study extends AbstractRdcDomainObject implements StudySubDocumentPr
       message = "study-management.error.study.study-series.i18n-string-size")
   @I18nStringEntireNotEmptyOptional(
       message = "study-management.error.study.study-series.i18n-string-entire-not-empty-optional")
+  @I18nStringMustNotContainComma(
+      message = "study-management.error.study.study-series.i18n-string-must-not-contain-comma")
   private I18nString studySeries;
 
   @NotNull(message = "study-management.error.study.sponsor.not-null")

@@ -15,6 +15,7 @@ angular.module('metadatamanagementApp').config(
             'missing-id': 'Der {{ index }}. Die Publikation enthält keine FDZ-ID und wurde nicht gespeichert!',
             'duplicate-id': 'Die FDZ-ID ({{ id }}) der {{ index }}. Publikation wurde bereits verwendet.',
             'upload-terminated': 'Upload von {{ total }} Publikationen mit {{warnings}} Warnungen und {{ errors }} Fehlern beendet!',
+            'unable-to-load-study-serieses': 'Die verfügbaren Studienreihen konnten nicht geladen werden!',
             'unable-to-delete': 'Die Publikationen konnten nicht gelöscht werden!',
             'cancelled': 'Upload von Publikationen abgebrochen'
           }
@@ -29,8 +30,9 @@ angular.module('metadatamanagementApp').config(
             'authors': 'Autor(inn)en',
             'year': 'Erscheinungsjahr',
             'source-reference': 'Referenz',
-            'abstract-source': 'Quelle'
-          },          
+            'abstract-source': 'Quelle',
+            'studySerieses': 'Studienreihen'
+          },
           'abstract': 'Abstract',
           'title': '{{ title }} ({{publicationId}})',
           'doi-tooltip': 'Klicken, um die DOI in einem neuen Tab zu öffnen',
@@ -59,14 +61,22 @@ angular.module('metadatamanagementApp').config(
             'studies':{
               'one': 'Klicken, um die Studie anzuzeigen, zu der diese Publikation verfasst wurde',
               'many': 'Klicken, um alle Studien anzuzeigen, zu denen diese Publikation verfasst wurde'
-            }
+            },
+            'studies-series' : 'Klicken, um alle Studien dieser Studienreihe anzuzeigen'
           }
         },
         'error': {
           'related-publication': {
             'one-foreign-key-is-used': 'Die Publikation hat keine Verknüpfung zu einem anderen Objekt.',
-            'one-study-is-used': 'Die Publikation hat keine Verknüpfung zu einer Studie',
+            'one-study-or-study-series-is-used': 'Die Publikation hat keine Verknüpfung zu einer Studie oder einer Studienreihe',
             'valid-related-publication-id': 'Die Id einer Publikation muss dem Muster "pub-" + {IdAusCitavi} + "$".',
+            'study-exists': 'Es gibt keine Studie mit der FDZ-ID "{{invalidValue}}"!',
+            'survey-exists': 'Es gibt keine Erhebung mit der FDZ-ID "{{invalidValue}}"!',
+            'dataset-exists': 'Es gibt keinen Datensatz mit der FDZ-ID "{{invalidValue}}"!',
+            'variable-exists': 'Es gibt keine Variable mit der FDZ-ID "{{invalidValue}}"!',
+            'instrument-exists': 'Es gibt kein Instrument mit der FDZ-ID "{{invalidValue}}"!',
+            'question-exists': 'Es gibt keine Frage mit der FDZ-ID "{{invalidValue}}"!',
+            'study-series-exists': 'Es gibt keine Studie mit der Studienreihe "{{invalidValue.de}}"!',
             'id': {
               'not-empty': 'Die FDZ-ID der Publikation darf nicht leer sein!',
               'size': 'Die Maximallänge der FDZ-ID ist 512 Zeichen.',
@@ -106,17 +116,11 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'post-validation': {
-            'study-unknown': 'Die Studie {{id}}, die bei der Publikation ({{toBereferenzedId}}) verlinkt ist, konnte nicht gefunden werden.',
-            'variable-unknown': 'Die Variable {{id}}, die bei der Publikation ({{toBereferenzedId}}) verlinkt ist, konnte nicht gefunden werden.',
-            'variable-has-not-a-referenced-study': 'Die Variable {{id}} referenziert auf eine Studie ({{additionalId}}), die nicht mit der Publikation ({{toBereferenzedId}}) verknüpft ist.',
-            'survey-unknown': 'Die Erhebung {{id}}, die bei der Publikation ({{toBereferenzedId}}) verlinkt ist, konnte nicht gefunden werden.',
-            'survey-has-not-a-referenced-study': 'Die Erhebung {{id}} referenziert auf eine Studie ({{additionalId}}), die nicht mit der Publikation ({{toBereferenzedId}}) verknüpft ist.',
-            'data-set-unknown': 'Der Datensatz {{id}}, die bei der Publikation ({{toBereferenzedId}}) verlinkt ist, konnte nicht gefunden werden.',
-            'data-set-has-not-a-referenced-study': 'Der Datensatz {{id}} referenziert auf eine Studie ({{additionalId}}), die nicht mit der Publikation ({{toBereferenzedId}}) verknüpft ist.',
-            'instrument-unknown': 'Das Instrument {{id}}, die bei der Publikation ({{toBereferenzedId}}) verlinkt ist, konnte nicht gefunden werden.',
-            'instrument-has-not-a-referenced-study': 'Das Instrument {{id}} referenziert auf eine Studie ({{additionalId}}), die nicht mit der Publikation ({{toBereferenzedId}}) verknüpft ist.',
-            'question-unknown': 'Die Frage {{id}}, die bei der Publikation ({{toBereferenzedId}}) verlinkt ist, konnte nicht gefunden werden.',
-            'question-has-not-a-referenced-study': 'Die Frage {{id}} referenziert auf eine Studie ({{additionalId}}), die nicht mit der Publikation ({{toBereferenzedId}}) verknüpft ist.'
+            'variable-has-not-a-referenced-study': 'Die Variable "{{invalidValue}}" gehört zu einer Studie, die nicht mit der Publikation verknüpft ist.',
+            'survey-has-not-a-referenced-study': 'Die Erhebung "{{invalidValue}}" gehört zu einer Studie, die nicht mit der Publikation verknüpft ist.',
+            'data-set-has-not-a-referenced-study': 'Der Datensatz "{{invalidValue}}" gehört zu einer Studie, die nicht mit der Publikation verknüpft ist.',
+            'instrument-has-not-a-referenced-study': 'Das Instrument "{{invalidValue}}" gehört zu einer Studie, die nicht mit der Publikation verknüpft ist.',
+            'question-has-not-a-referenced-study': 'Die Frage "{{invalidValue}}" gehört zu einer Studie, die nicht mit der Publikation verknüpft ist.'
           }
         }
       }
