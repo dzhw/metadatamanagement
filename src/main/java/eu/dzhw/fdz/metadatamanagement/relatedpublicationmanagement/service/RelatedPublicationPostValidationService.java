@@ -159,7 +159,7 @@ public class RelatedPublicationPostValidationService {
             + "post-validation.variable-unknown", Arrays.asList(information)));
       } else { //All other checks, where variable is != null
         //is the same study id referenced to the related publication
-        if (!relatedPublication.getStudyIds().contains(variable.getDataAcquisitionProjectId())) {
+        if (!relatedPublication.getStudyIds().contains(variable.getStudyId())) {
           String[] information = {variableId, relatedPublication.getId(), 
               variable.getDataAcquisitionProjectId()};
           errors.add(new PostValidationMessageDto("related-publication-management.error."
@@ -196,7 +196,7 @@ public class RelatedPublicationPostValidationService {
             + "post-validation.survey-unknown", Arrays.asList(information)));
       } else { //All other checks, where survey is != null
         //is the same study id referenced to the related publication
-        if (!relatedPublication.getStudyIds().contains(survey.getDataAcquisitionProjectId())) {
+        if (!relatedPublication.getStudyIds().contains(survey.getStudyId())) {
           String[] information = {surveyId, relatedPublication.getId(), 
               survey.getDataAcquisitionProjectId()};
           errors.add(new PostValidationMessageDto("related-publication-management.error."
@@ -233,7 +233,7 @@ public class RelatedPublicationPostValidationService {
             + "post-validation.data-set-unknown", Arrays.asList(information)));
       } else { //All other checks, where data sets is != null
         //is the same study id referenced to the related publication
-        if (!relatedPublication.getStudyIds().contains(dataSet.getDataAcquisitionProjectId())) {
+        if (!relatedPublication.getStudyIds().contains(dataSet.getStudyId())) {
           String[] information = {dataSetId, relatedPublication.getId(), 
               dataSet.getDataAcquisitionProjectId()};
           errors.add(new PostValidationMessageDto("related-publication-management.error."
@@ -270,7 +270,7 @@ public class RelatedPublicationPostValidationService {
             + "post-validation.instrument-unknown", Arrays.asList(information)));
       } else { //All other checks, where instrument is != null
         //is the same study id referenced to the related publication
-        if (!relatedPublication.getStudyIds().contains(instrument.getDataAcquisitionProjectId())) {
+        if (!relatedPublication.getStudyIds().contains(instrument.getStudyId())) {
           String[] information = {instrumentId, relatedPublication.getId(), 
               instrument.getDataAcquisitionProjectId()};
           errors.add(new PostValidationMessageDto("related-publication-management.error."
@@ -308,7 +308,7 @@ public class RelatedPublicationPostValidationService {
             + "post-validation.question-unknown", Arrays.asList(information)));
       } else { //All other checks, where question is != null
         //is the same study id referenced to the related publication
-        if (!relatedPublication.getStudyIds().contains(question.getDataAcquisitionProjectId())) {
+        if (!relatedPublication.getStudyIds().contains(question.getStudyId())) {
           String[] information = {questionId, relatedPublication.getId(), 
               question.getDataAcquisitionProjectId()};
           errors.add(new PostValidationMessageDto("related-publication-management.error."

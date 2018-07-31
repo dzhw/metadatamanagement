@@ -116,17 +116,11 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'post-validation': {
-            'study-unknown': 'Die Studie {{id}}, die bei der Publikation ({{toBereferenzedId}}) verlinkt ist, konnte nicht gefunden werden.',
-            'variable-unknown': 'Die Variable {{id}}, die bei der Publikation ({{toBereferenzedId}}) verlinkt ist, konnte nicht gefunden werden.',
-            'variable-has-not-a-referenced-study': 'Die Variable {{id}} referenziert auf eine Studie ({{additionalId}}), die nicht mit der Publikation ({{toBereferenzedId}}) verknüpft ist.',
-            'survey-unknown': 'Die Erhebung {{id}}, die bei der Publikation ({{toBereferenzedId}}) verlinkt ist, konnte nicht gefunden werden.',
-            'survey-has-not-a-referenced-study': 'Die Erhebung {{id}} referenziert auf eine Studie ({{additionalId}}), die nicht mit der Publikation ({{toBereferenzedId}}) verknüpft ist.',
-            'data-set-unknown': 'Der Datensatz {{id}}, die bei der Publikation ({{toBereferenzedId}}) verlinkt ist, konnte nicht gefunden werden.',
-            'data-set-has-not-a-referenced-study': 'Der Datensatz {{id}} referenziert auf eine Studie ({{additionalId}}), die nicht mit der Publikation ({{toBereferenzedId}}) verknüpft ist.',
-            'instrument-unknown': 'Das Instrument {{id}}, die bei der Publikation ({{toBereferenzedId}}) verlinkt ist, konnte nicht gefunden werden.',
-            'instrument-has-not-a-referenced-study': 'Das Instrument {{id}} referenziert auf eine Studie ({{additionalId}}), die nicht mit der Publikation ({{toBereferenzedId}}) verknüpft ist.',
-            'question-unknown': 'Die Frage {{id}}, die bei der Publikation ({{toBereferenzedId}}) verlinkt ist, konnte nicht gefunden werden.',
-            'question-has-not-a-referenced-study': 'Die Frage {{id}} referenziert auf eine Studie ({{additionalId}}), die nicht mit der Publikation ({{toBereferenzedId}}) verknüpft ist.'
+            'variable-has-not-a-referenced-study': 'Die Variable "{{invalidValue}}" gehört zu einer Studie, die nicht mit der Publikation verknüpft ist.',
+            'survey-has-not-a-referenced-study': 'Die Erhebung "{{invalidValue}}" gehört zu einer Studie, die nicht mit der Publikation verknüpft ist.',
+            'data-set-has-not-a-referenced-study': 'Der Datensatz "{{invalidValue}}" gehört zu einer Studie, die nicht mit der Publikation verknüpft ist.',
+            'instrument-has-not-a-referenced-study': 'Das Instrument "{{invalidValue}}" gehört zu einer Studie, die nicht mit der Publikation verknüpft ist.',
+            'question-has-not-a-referenced-study': 'Die Frage "{{invalidValue}}" gehört zu einer Studie, die nicht mit der Publikation verknüpft ist.'
           }
         }
       }
