@@ -175,7 +175,8 @@ angular.module('metadatamanagementApp').config(
             },
             'study-series': {
               'i18n-string-size': 'Die Maximallänge der Studienreihe ist 512 Zeichen.',
-              'i18n-string-entire-not-empty-optional': 'Wenn die Studienreihe in einer Sprache vorliegt, muss sie in allen Sprachen vorliegen.'
+              'i18n-string-entire-not-empty-optional': 'Wenn die Studienreihe in einer Sprache vorliegt, muss sie in allen Sprachen vorliegen.',
+              'i18n-string-must-not-contain-comma': 'Die Studienreihe darf keine Kommata enthalten.'
             },
             'data-availability': {
               'not-null': 'Die Datenerreichbarkeit einer Studie darf nicht leer sein!',

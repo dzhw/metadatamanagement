@@ -33,7 +33,7 @@
                     </md-input-container>
                 </div>
                 <div layout-gt-sm="row" layout="column">
-                    <md-autocomplete md-delay="250" flex="50" md-input-name="studySeriesDe" md-input-maxlength="512" md-floating-label="{{'study-management.detail.label.studySeries' | translate}} ({{'global.in-german' | translate}})" md-min-length="0" md-require-match="false"
+                    <md-autocomplete md-delay="250" flex="50" md-input-name="studySeriesDe" md-input-maxlength="512" md-floating-label="{{'study-management.detail.label.studySeries' | translate}} ({{'global.in-german' | translate}})" md-min-length="0" md-require-match="false" ng-pattern="/^[^,]*$/"
                       md-select-on-match="true" md-match-case-insensitive="true" md-selected-item="ctrl.currentStudySeries" md-search-text="ctrl.study.studySeries.de" md-items="item in searchStudySeries(ctrl.study.studySeries.de, 'de')" md-item-text="item.de" md-clear-button="true" md-no-cache="true"
                       md-is-error="!studyForm.studySeriesDe.$valid && (studyForm.studySeriesDe.$dirty studyForm.studySeriesDe.$touched) ">
                         <md-item-template>
@@ -45,10 +45,11 @@
                         <div ng-if="!studyForm.studySeriesDe.$dirty && !studyForm.studySeriesDe.$touched" class="fdz-input-hint">{{'study-management.edit.hints.study-series.de' | translate}}</div>
                         <div ng-messages="studyForm.studySeriesDe.$error" multiple>
                             <div ng-message="fdz-required">{{'study-management.error.study.study-series.i18n-string-entire-not-empty-optional' | translate}}</div>
+                            <div ng-message="pattern">{{'study-management.error.study.study-series.i18n-string-must-not-contain-comma' | translate}}</div>
                             <div ng-message="maxlength">{{'study-management.error.study.study-series.i18n-string-size' | translate}}</div>
                         </div>
                     </md-autocomplete>
-                    <md-autocomplete md-delay="250" flex="50" md-input-name="studySeriesEn" md-input-maxlength="512" md-floating-label="{{'study-management.detail.label.studySeries' | translate}} ({{'global.in-english' | translate}})" md-min-length="0" md-require-match="false"
+                    <md-autocomplete md-delay="250" flex="50" md-input-name="studySeriesEn" md-input-maxlength="512" md-floating-label="{{'study-management.detail.label.studySeries' | translate}} ({{'global.in-english' | translate}})" md-min-length="0" md-require-match="false" ng-pattern="/^[^,]*$/"
                       md-select-on-match="true" md-match-case-insensitive="true" md-selected-item="ctrl.currentStudySeries" md-search-text="ctrl.study.studySeries.en" md-items="item in searchStudySeries(ctrl.study.studySeries.en, 'en')" md-item-text="item.en" md-clear-button="true" md-no-cache="true"
                       md-is-error="!studyForm.studySeriesEn.$valid && (studyForm.studySeriesEn.$dirty || studyForm.studySeriesEn.$touched)">
                         <md-item-template>
@@ -60,6 +61,7 @@
                         <div ng-if="!studyForm.studySeriesEn.$dirty && !studyForm.studySeriesEn.$touched" class="fdz-input-hint">{{'study-management.edit.hints.study-series.en' | translate}}</div>
                         <div ng-messages="studyForm.studySeriesEn.$error" multiple>
                             <div ng-message="fdz-required">{{'study-management.error.study.study-series.i18n-string-entire-not-empty-optional' | translate}}</div>
+                            <div ng-message="pattern">{{'study-management.error.study.study-series.i18n-string-must-not-contain-comma' | translate}}</div>
                             <div ng-message="maxlength">{{'study-management.error.study.study-series.i18n-string-size' | translate}}</div>
                         </div>
                     </md-autocomplete>

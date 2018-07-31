@@ -175,7 +175,8 @@ angular.module('metadatamanagementApp').config(
             },
             'study-series': {
               'i18n-string-size': 'The max length of the study series is 512 signs.',
-              'i18n-string-entire-not-empty-optional': 'If the study series is given in one language, it has to be set in all languages.'
+              'i18n-string-entire-not-empty-optional': 'If the study series is given in one language, it has to be set in all languages.',
+              'i18n-string-must-not-contain-comma': 'The study series must not contain comma.'
             },
             'data-availability': {
               'not-null': 'The data availability of the study must not be empty!',
