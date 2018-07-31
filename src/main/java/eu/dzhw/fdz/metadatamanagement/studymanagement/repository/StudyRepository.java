@@ -22,7 +22,7 @@ import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySub
 @RepositoryRestResource(path = "/studies")
 @JaversSpringDataAuditable
 public interface StudyRepository 
-    extends BaseRepository<Study, String>, CacheableRepositoryMethods, StudyRepositoryCustom {
+    extends BaseRepository<Study, String>, StudyRepositoryCustom {
   
   @RestResource(exported = false)
   IdAndVersionProjection findOneIdAndVersionById(String id);

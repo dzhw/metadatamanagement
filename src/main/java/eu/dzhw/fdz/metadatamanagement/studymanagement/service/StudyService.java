@@ -8,6 +8,9 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
+import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
+import org.springframework.data.rest.core.annotation.HandleBeforeDelete;
+import org.springframework.data.rest.core.annotation.HandleBeforeSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.data.rest.core.event.AfterDeleteEvent;
 import org.springframework.data.rest.core.event.BeforeDeleteEvent;
@@ -41,6 +44,9 @@ public class StudyService {
 
   @Autowired
   private StudyAttachmentService studyAttachmentService;
+  
+  @Autowired
+  private StudyChangesProvider studyChangesProvider;
 
   @Autowired
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
@@ -50,7 +56,7 @@ public class StudyService {
 
   @Autowired
   private RelatedPublicationChangesProvider relatedPublicationChangesProvider;
-
+  
   /**
    * Delete all studies when the dataAcquisitionProject was deleted.
    * 
@@ -71,6 +77,27 @@ public class StudyService {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
         () -> studyRepository.streamIdsByDataAcquisitionProjectId(dataAcquisitionProject.getId()),
         ElasticsearchType.studies);
+  }
+  
+  /**
+   * Remember the old and new study.
+   * 
+   * @param study the new study
+   */
+  @HandleBeforeSave
+  public void onBeforeStudySaved(Study study) {
+    Study oldStudy = studyRepository.findById(study.getId()).orElse(null);
+    studyChangesProvider.put(study, oldStudy);
+  }
+  
+  @HandleBeforeCreate
+  public void onBeforeStudyCreated(Study study) {
+    studyChangesProvider.put(study, null);
+  }
+  
+  @HandleBeforeDelete
+  public void onBeforeStudyDeleted(Study study) {
+    studyChangesProvider.put(null, study);
   }
 
   /**
