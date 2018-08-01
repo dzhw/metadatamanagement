@@ -390,6 +390,12 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.uploadOrDeleteResponseRateImageDe = function() {
+        var metadata = {
+          dataAcquisitionProjectId: ctrl.survey
+            .dataAcquisitionProjectId,
+          surveyId: ctrl.survey.id,
+          surveyNumber: ctrl.survey.number
+        };
         if (!ctrl.responseRateImageDe) {
           SurveyResponseRateImageUploadService.deleteImage(
             ctrl.survey.id, ctrl.survey.number, 'de'
@@ -401,7 +407,7 @@ angular.module('metadatamanagementApp')
           });
         } else {
           SurveyResponseRateImageUploadService.uploadImage(
-            ctrl.responseRateImageDe, ctrl.survey.id, ctrl.survey.number, 'de')
+            ctrl.responseRateImageDe, metadata, ctrl.survey.number, 'de')
             .then(function() {
               SimpleMessageToastService.openSimpleMessageToast(
                 'survey-management.edit.survey-image-saved-toast',
@@ -422,6 +428,12 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.uploadOrDeleteResponseRateImageEn = function() {
+        var metadata = {
+          dataAcquisitionProjectId: ctrl.survey
+            .dataAcquisitionProjectId,
+          surveyId: ctrl.survey.id,
+          surveyNumber: ctrl.survey.number
+        };
         if (!ctrl.responseRateImageEn) {
           SurveyResponseRateImageUploadService.deleteImage(
             ctrl.survey.id, ctrl.survey.number, 'en'
@@ -433,7 +445,7 @@ angular.module('metadatamanagementApp')
           });
         } else {
           SurveyResponseRateImageUploadService.uploadImage(
-            ctrl.responseRateImageEn, ctrl.survey.id, ctrl.survey.number, 'en')
+            ctrl.responseRateImageEn, metadata, ctrl.survey.number, 'en')
             .then(function() {
               SimpleMessageToastService.openSimpleMessageToast(
                 'survey-management.edit.survey-image-saved-toast',
