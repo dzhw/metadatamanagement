@@ -88,6 +88,7 @@ angular.module('metadatamanagementApp')
 
       $scope.$watch('selectedFilters', function(newSelectedFilters,
         oldSelectedFilters) {
+        $scope.filtersCollapsed = false;
         if ($scope.selectedFilters && !_.isEmpty($scope.selectedFilters)) {
           $timeout(function() {
             // add md class manually to fix overlapping labels

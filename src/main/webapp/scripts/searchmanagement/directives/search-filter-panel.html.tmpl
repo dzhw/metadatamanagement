@@ -1,4 +1,3 @@
-<md-divider></md-divider>
 <div layout="row">
     <md-input-container flex-gt-sm="50" flex class="fdz-filter-select" ng-style="!selectedFilters || selectedFilters.length === 0 ? {'margin-right':'16px'} : {}">
         <md-icon md-svg-src="/assets/images/icons/filter.svg"></md-icon>
@@ -21,7 +20,7 @@
         </md-select>
     </md-input-container>
     <div flex-gt-sm></div>
-    <md-button ng-show="selectedFilters && selectedFilters.length !== 0" class="md-icon-button" ng-click="filtersCollapsed = !filtersCollapsed" style="margin-right: 0px; margin-top: 16px;">
+    <md-button ng-class="{'md-primary': filtersCollapsed}" ng-show="selectedFilters && selectedFilters.length !== 0" class="md-icon-button" ng-click="filtersCollapsed = !filtersCollapsed" style="margin-right: 0px; margin-top: 16px;">
       <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
         {{'search-management.filter.uncollapse-filters-tooltip.' +  filtersCollapsed | translate}}
       </md-tooltip>
@@ -51,3 +50,4 @@
         <input type="submit" ng-hide="true">
     </form>
 </div>
+<md-progress-linear md-mode="indeterminate" ng-disabled="!isSearching"></md-progress-linear>
