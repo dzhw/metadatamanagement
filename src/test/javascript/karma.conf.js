@@ -45,6 +45,7 @@ module.exports = function(config) {
       'src/main/webapp/bower_components/angular-block-ui/dist/angular-block-ui.js',
       'src/main/webapp/bower_components/lodash/lodash.js',
       'src/main/webapp/bower_components/plotly.js/dist/plotly.js',
+      'src/main/webapp/bower_components/plotly.js/dist/plotly-locale-de.js',
       'src/main/webapp/bower_components/highlightjs/highlight.pack.js',
       'src/main/webapp/bower_components/angular-highlightjs/build/angular-highlightjs.js',
       'src/main/webapp/bower_components/js-beautify/js/lib/beautify.js',

@@ -81,6 +81,12 @@
         "moment.js",
         "locale/de.js"
       ]
+    },
+    "plotly.js": {
+      "main": [
+        "dist/plotly.js",
+        "dist/plotly-locale-de.js"
+      ]
     }
   },
   "devDependencies": {
