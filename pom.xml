@@ -16,7 +16,7 @@
     <name>metadatamanagement</name>
 
     <properties>
-        <elasticsearch.version>5.5.2</elasticsearch.version>
+        <elasticsearch.version>6.2.1</elasticsearch.version>
         <jacoco-maven-plugin.version>0.7.9</jacoco-maven-plugin.version>
         <java.version>1.8</java.version>
         <jest.version>2.4.0</jest.version>
@@ -108,6 +108,7 @@
         <dependency>
             <groupId>org.elasticsearch</groupId>
             <artifactId>elasticsearch</artifactId>
+             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.elasticsearch.plugin</groupId>

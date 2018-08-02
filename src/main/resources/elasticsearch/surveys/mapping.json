@@ -1,54 +1,47 @@
 {
 	"surveys": {
-		"_all": {
-			"type": "text",
-			"index": "analyzed",
-			"enabled": true,
-			"analyzer": "ngrams",
-			"norms": false
-		},
 		"dynamic_templates": [{
 			"default_mapping": {
 				"match": "*",
 				"mapping": {
-					"index": "no",
-					"include_in_all": true
+					"index": false,
+					"copy_to": "all"
 				}
 			}
 		}],
 		"properties": {
+			"all": {
+				"type": "text",
+				"index": true,
+				"analyzer": "ngrams",
+				"norms": false
+			},
 			"id": {
 				"type": "keyword",
-				"index": "not_analyzed",
 				"fields": {
 					"ngrams": {
 						"type": "text",
-						"index": "analyzed",
 						"analyzer": "ngrams",
 						"norms": false
 					}
 				}
 			},
 			"dataAcquisitionProjectId": {
-				"type": "keyword",
-				"index": "not_analyzed"
+				"type": "keyword"
 			},
 			"studyId": {
-				"type": "keyword",
-				"index": "not_analyzed"
+				"type": "keyword"
 			},
 			"surveyMethod": {
 				"type": "object",
 				"properties": {
 					"de": {
 						"type": "keyword",
-						"index": "not_analyzed",
-						"include_in_all": true,
+						"copy_to": "all",
 						"norms": false,
 						"fields": {
 							"ngrams": {
 								"type": "text",
-								"index": "analyzed",
 								"analyzer": "ngrams",
 								"norms": false
 							}
@@ -56,13 +49,11 @@
 					},
 					"en": {
 						"type": "keyword",
-						"index": "not_analyzed",
-						"include_in_all": true,
+						"copy_to": "all",
 						"norms": false,
 						"fields": {
 							"ngrams": {
 								"type": "text",
-								"index": "analyzed",
 								"analyzer": "ngrams",
 								"norms": false
 							}
@@ -75,12 +66,11 @@
 				"properties": {
 					"de": {
 						"type": "text",
-						"index": "no",
-						"include_in_all": true,
+						"index": false,
+						"copy_to": "all",
 						"fields": {
 							"ngrams": {
 								"type": "text",
-								"index": "analyzed",
 								"analyzer": "ngrams",
 								"norms": false
 							}
@@ -88,12 +78,11 @@
 					},
 					"en": {
 						"type": "text",
-						"index": "no",
-						"include_in_all": true,
+						"index": false,
+						"copy_to": "all",
 						"fields": {
 							"ngrams": {
 								"type": "text",
-								"index": "analyzed",
 								"analyzer": "ngrams",
 								"norms": false
 							}
@@ -105,26 +94,24 @@
 				"type": "object",
 				"properties": {
 					"de": {
-						"type": "text",
-						"index": "no",
-						"include_in_all": true,
+						"type": "keyword",
+						"index": false,
+						"copy_to": "all",
 						"fields": {
 							"ngrams": {
 								"type": "text",
-								"index": "analyzed",
 								"analyzer": "ngrams",
 								"norms": false
 							}
 						}
 					},
 					"en": {
-						"type": "text",
-						"index": "no",
-						"include_in_all": true,
+						"type": "keyword",
+						"index": false,
+						"copy_to": "all",
 						"fields": {
 							"ngrams": {
 								"type": "text",
-								"index": "analyzed",
 								"analyzer": "ngrams",
 								"norms": false
 							}
@@ -140,12 +127,11 @@
 						"properties": {
 							"de": {
 								"type": "text",
-								"index": "no",
-								"include_in_all": true,
+								"index": false,
+								"copy_to": "all",
 								"fields": {
 									"ngrams": {
 										"type": "text",
-										"index": "analyzed",
 										"analyzer": "ngrams",
 										"norms": false
 									}
@@ -153,12 +139,11 @@
 							},
 							"en": {
 								"type": "text",
-								"index": "no",
-								"include_in_all": true,
+								"index": false,
+								"copy_to": "all",
 								"fields": {
 									"ngrams": {
 										"type": "text",
-										"index": "analyzed",
 										"analyzer": "ngrams",
 										"norms": false
 									}
@@ -171,12 +156,11 @@
 						"properties": {
 							"de": {
 								"type": "text",
-								"index": "no",
-								"include_in_all": true,
+								"index": false,
+								"copy_to": "all",
 								"fields": {
 									"ngrams": {
 										"type": "text",
-										"index": "analyzed",
 										"analyzer": "ngrams",
 										"norms": false
 									}
@@ -184,12 +168,11 @@
 							},
 							"en": {
 								"type": "text",
-								"index": "no",
-								"include_in_all": true,
+								"index": false,
+								"copy_to": "all",
 								"fields": {
 									"ngrams": {
 										"type": "text",
-										"index": "analyzed",
 										"analyzer": "ngrams",
 										"norms": false
 									}
@@ -204,12 +187,11 @@
 				"properties": {
 					"de": {
 						"type": "text",
-						"index": "no",
-						"include_in_all": true,
+						"index": false,
+						"copy_to": "all",
 						"fields": {
 							"ngrams": {
 								"type": "text",
-								"index": "analyzed",
 								"analyzer": "ngrams",
 								"norms": false
 							}
@@ -217,12 +199,11 @@
 					},
 					"en": {
 						"type": "text",
-						"index": "no",
-						"include_in_all": true,
+						"index": false,
+						"copy_to": "all",
 						"fields": {
 							"ngrams": {
 								"type": "text",
-								"index": "analyzed",
 								"analyzer": "ngrams",
 								"norms": false
 							}
@@ -238,13 +219,11 @@
 						"properties": {
 							"de": {
 								"type": "keyword",
-								"index": "not_analyzed",
-								"include_in_all": true,
+								"copy_to": "all",
 								"norms": false,
 								"fields": {
 									"ngrams": {
 										"type": "text",
-										"index": "analyzed",
 										"analyzer": "ngrams",
 										"norms": false
 									}
@@ -252,13 +231,11 @@
 							},
 							"en": {
 								"type": "keyword",
-								"index": "not_analyzed",
-								"include_in_all": true,
+								"copy_to": "all",
 								"norms": false,
 								"fields": {
 									"ngrams": {
 										"type": "text",
-										"index": "analyzed",
 										"analyzer": "ngrams",
 										"norms": false
 									}
@@ -272,8 +249,7 @@
 				"type": "object",
 				"properties": {
 					"id": {
-						"type": "keyword",
-						"index": "not_analyzed"
+						"type": "keyword"
 					}
 				}
 			},
@@ -281,8 +257,7 @@
 				"type": "object",
 				"properties": {
 					"id": {
-						"type": "keyword",
-						"index": "not_analyzed"
+						"type": "keyword"
 					}
 				}
 			},
@@ -290,8 +265,7 @@
 				"type": "object",
 				"properties": {
 					"id": {
-						"type": "keyword",
-						"index": "not_analyzed"
+						"type": "keyword"
 					}
 				}
 			},
@@ -299,13 +273,11 @@
 				"type": "object",
 				"properties": {
 					"id": {
-						"type": "keyword",
-						"index": "not_analyzed"
+						"type": "keyword"
 					},
 					"surveyIds": {
 						"type": "keyword",
-						"index": "no",
-						"include_in_all": false
+						"index": false
 					}
 				}
 			},
@@ -313,8 +285,7 @@
 				"type": "object",
 				"properties": {
 					"id": {
-						"type": "keyword",
-						"index": "not_analyzed"
+						"type": "keyword"
 					}
 				}
 			}

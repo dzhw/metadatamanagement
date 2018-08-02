@@ -45,14 +45,14 @@ angular.module('metadatamanagementApp').service('SearchDao',
         lenient) {
         var constantScoreQuery = {
           'constant_score': {
-            'query': {
+            'filter': {
               'match': {}
             },
             'boost': boost
           }
         };
         // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
-        constantScoreQuery.constant_score.query.match[fieldName] = {
+        constantScoreQuery.constant_score.filter.match[fieldName] = {
           'query': queryTerm,
           'operator': 'and',
           'minimum_should_match': '100%',
@@ -251,9 +251,9 @@ angular.module('metadatamanagementApp').service('SearchDao',
               'must': [
                 {
                 'constant_score': {
-                  'query': {
+                  'filter': {
                     'match': {
-                      '_all': {
+                      'all': {
                         'query': queryterm,
                         'operator': 'AND',
                         'minimum_should_match': '100%',
