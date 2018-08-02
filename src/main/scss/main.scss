@@ -169,6 +169,16 @@ ui-view:focus {
     cursor: pointer;
 }
 
+.fdz-fade-in.ng-enter {
+     -webkit-transition: 1s;
+     transition: 1s;
+     opacity:0;
+ }
+
+.fdz-fade-in.ng-enter-active {
+     opacity:1;
+ }
+
 .fdz-search-result:focus,
 .fdz-search-result:hover {
     color: black;
