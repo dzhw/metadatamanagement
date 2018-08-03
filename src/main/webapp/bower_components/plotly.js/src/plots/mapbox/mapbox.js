@@ -130,6 +130,8 @@ proto.createMap = function(calcData, fullLayout, resolve, reject) {
 
     if(self.isStatic) return;
 
+    var wheeling = false;
+
     // keep track of pan / zoom in user layout and emit relayout event
     map.on('moveend', function(eventData) {
         if(!self.map) return;
@@ -149,11 +151,14 @@ proto.createMap = function(calcData, fullLayout, resolve, reject) {
         // mouse target (filtering out API calls) to not
         // duplicate 'plotly_relayout' events.
 
-        if(eventData.originalEvent) {
-            var update = {};
-            update[self.id] = Lib.extendFlat({}, view);
-            gd.emit('plotly_relayout', update);
+        if(eventData.originalEvent || wheeling) {
+            emitRelayoutFromView(view);
         }
+        wheeling = false;
+    });
+
+    map.on('wheel', function() {
+        wheeling = true;
     });
 
     map.on('mousemove', function(evt) {
@@ -188,6 +193,8 @@ proto.createMap = function(calcData, fullLayout, resolve, reject) {
     map.on('zoomstart', unhover);
 
     map.on('dblclick', function() {
+        gd.emit('plotly_doubleclick', null);
+
         var viewInitial = self.viewInitial;
 
         map.setCenter(convertCenter(viewInitial.center));
@@ -202,8 +209,17 @@ proto.createMap = function(calcData, fullLayout, resolve, reject) {
         opts._input.bearing = opts.bearing = viewNow.bearing;
         opts._input.pitch = opts.pitch = viewNow.pitch;
 
-        gd.emit('plotly_doubleclick', null);
+        emitRelayoutFromView(viewNow);
     });
+
+    function emitRelayoutFromView(view) {
+        var id = self.id;
+        var evtData = {};
+        for(var k in view) {
+            evtData[id + '.' + k] = view[k];
+        }
+        gd.emit('plotly_relayout', evtData);
+    }
 
     // define clear select on map creation, to keep one ref per map,
     // so that map.on / map.off in updateFx works as expected

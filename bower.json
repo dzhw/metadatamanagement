@@ -9,7 +9,7 @@
     "angular-aria": "1.7.2",
     "angular-bootstrap": "2.5.0",
     "angular-cookies": "1.7.2",
-    "angular-dynamic-locale": "0.1.36",
+    "angular-dynamic-locale": "0.1.37",
     "angular-i18n": "1.7.2",
     "angular-local-storage": "0.7.1",
     "angular-resource": "1.7.2",
@@ -17,7 +17,7 @@
     "angular-translate": "2.18.1",
     "angular-translate-interpolation-messageformat": "2.18.1",
     "angular-translate-storage-cookie": "2.18.1",
-    "angular-ui-router": "1.0.18",
+    "angular-ui-router": "1.0.19",
     "bootstrap-sass": "3.3.7",
     "json3": "3.3.2",
     "ng-file-upload": "12.2.13",
@@ -27,20 +27,20 @@
     "jszip-utils": "~0.0.2",
     "angular-translate-handler-log": "2.18.1",
     "angular-nvd3": "^1.0.9",
-    "js-xlsx": "^0.12.13",
+    "js-xlsx": "^0.13.3",
     "cheet.js": "^0.3.3",
-    "angular-material": "^1.1.9",
+    "angular-material": "^1.1.10",
     "angular-block-ui": "^0.2.2",
     "lodash": "^4.17.10",
-    "plotly.js": "^1.38.0",
+    "plotly.js": "^1.39.4",
     "highlightjs": "^9.12.0",
     "angular-highlightjs": "^0.7.1",
     "js-beautify": "^1.7.5",
     "ngclipboard": "^2.0.0",
     "angular-katex": "^0.10.0",
     "angular-animate": "^1.7.2",
-    "angular-messages": "1.7.0",
-    "bowser": "^1.9.3",
+    "angular-messages": "1.7.2",
+    "bowser": "^1.9.4",
     "angular-file-saver": "^1.1.3",
     "clientjs": "0.1.5",
     "angular-scroll": "^1.0.2",
@@ -90,11 +90,7 @@
     }
   },
   "devDependencies": {
-    "angular-mocks": "1.7.0",
-    "angular-scenario": "1.7.0"
-  },
-  "resolutions": {
-    "angular": "1.7.0",
-    "angular-translate": "2.18.1"
+    "angular-mocks": "1.7.2",
+    "angular-scenario": "1.7.2"
   }
 }

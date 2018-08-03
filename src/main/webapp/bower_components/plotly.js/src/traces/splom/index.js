@@ -20,8 +20,8 @@ var subTypes = require('../scatter/subtypes');
 var calcMarkerSize = require('../scatter/calc').calcMarkerSize;
 var calcAxisExpansion = require('../scatter/calc').calcAxisExpansion;
 var calcColorscales = require('../scatter/colorscale_calc');
-var convertMarkerSelection = require('../scattergl/convert').convertMarkerSelection;
-var convertMarkerStyle = require('../scattergl/convert').convertMarkerStyle;
+var convertMarkerSelection = require('../scattergl/convert').markerSelection;
+var convertMarkerStyle = require('../scattergl/convert').markerStyle;
 var calcHover = require('../scattergl').calcHover;
 
 var BADNUM = require('../../constants/numerical').BADNUM;
@@ -460,10 +460,11 @@ module.exports = {
     name: 'splom',
 
     basePlotModule: require('./base_plot'),
-    categories: ['gl', 'regl', 'cartesian', 'symbols', 'markerColorscale', 'showLegend', 'scatter-like'],
+    categories: ['gl', 'regl', 'cartesian', 'symbols', 'showLegend', 'scatter-like'],
 
     attributes: require('./attributes'),
     supplyDefaults: require('./defaults'),
+    colorbar: require('../scatter/marker_colorbar'),
 
     calc: calc,
     plot: plot,
