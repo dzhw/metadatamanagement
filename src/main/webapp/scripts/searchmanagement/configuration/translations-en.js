@@ -22,7 +22,7 @@ angular.module('metadatamanagementApp').config(
           'delete-instruments': 'Are you sure you want to replace all Instruments within the Data Acquisition Project with RDC-ID "{{ id }}"?'
         },
         'detail': {
-          'search': 'Search'
+          'search': 'Data Search'
         },
         'buttons': {
           'refresh-tooltip': 'Click to refresh the search results',

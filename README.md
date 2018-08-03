@@ -3,6 +3,9 @@
 )[![Coverage Status](https://coveralls.io/repos/dzhw/metadatamanagement/badge.svg?branch=development&service=github)](https://coveralls.io/github/dzhw/metadatamanagement?branch=development) [![Built with Grunt](https://cdn.gruntjs.com/builtwith.svg)](https://gruntjs.com/)
 
 [![Sauce Build Matrix](https://saucelabs.com/browser-matrix/rreitmann.svg)](https://saucelabs.com/u/rreitmann)
+# Metadatamanagement (MDM)
+
+The MDM holds the metadata of the studies which are available as data products in our Research Data Center [FDZ](https://fdz.dzhw.eu). It enables researchers to browse our data products before signing a contract for using the data.
 
 # Developing the MDM system
 
@@ -52,7 +55,7 @@ You can build and deploy the jar to the dev environment by running
 
     ./deploy/build-and-deploy.sh dev
 
-We test our project continously with the Robot Framework. Test Developers can get further info [here](https://github.com/dzhw/metadatamanagement/wiki/Robot-Framework). 
+We test our project continously with the Robot Framework. Test Developers can get further info [here](https://github.com/dzhw/metadatamanagement/wiki/Robot-Framework).
 ## Pivotal Cloudfoundry
 This project is currently built and deployed to Pivotal Cloudfoundry by [Travis CI][TravisCI]. You can test the latest version on https://metadatamanagement-dev.cfapps.io/
 

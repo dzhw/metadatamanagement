@@ -62,15 +62,25 @@ ui-view:focus {
 }
 
 .fdz-splash .fdz-app-title {
+    padding: 8px;
     display: table-cell;
     vertical-align: middle;
     text-align: center;
-    font-size: 26px;
+    font-size: 20px;
 }
 
-.fdz-splash .fdz-app-title i {
-    font-size: 40px;
-    animation: spin 2s linear infinite;
+.fdz-splash .fdz-app-title h1 {
+    font-size: 25px;
+    margin-bottom: 6px;
+}
+
+.fdz-splash .fdz-app-title p {
+    font-size: 20px;
+}
+
+.fdz-splash progress {
+    height: 1em;
+    width: 10em;
 }
 
 .fdz-block-ui-overlay {
