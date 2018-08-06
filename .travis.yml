@@ -30,6 +30,7 @@ before_install:
   - sudo apt-get install cf-cli -y
   - sudo apt-get -y install python-pip python-dev
   - pip install urllib3[secure] --user -I
+  - pip install requests[security] --user -I
   - pip install robotframework --user
   - pip install robotframework-extendedselenium2library --user
   - pip install pyyaml --user
@@ -54,4 +55,3 @@ notifications:
   email:
     recipients:
       - secure: "Rf1Buy3jin0Ge66oyBsjGH6HuW111g9kjt5miW4aSi6Y5jZH5z8E27nDvZrxspMq4oW3j2pvbR1ru/+lEqPmgdtXQs5UxmiSBwMoEQXhMMrZNKzBHgK9MaEMrlx6dXBpwPYhsMqL+ojKmGDgG+X6M9D9SQ/FNQFbTTZWco1YUMlzBUG+eG5iAqsLmJMIn1R3n1VnaOaU5uqdonKfIkmI3uq7vF89oqWvlrHGmXrmahuOie0RwLiyb1cN0pskhszUMe7rmIw+sljS5Ic3JcxgPVWh1Ii5+jdt7GpaMgybMIB5lGQjs9jfftP2QllBqZlAMQLAGmuG44lxgB9AnFdszJqi3NurV+vJG97a9NSWNirKY2Emsb05lqYFeHDE38kqbfyfRX2g2JojdhEymOJoiYRToCFmv2uDvYMslNgpp9BEkQk3xse90uZZ2ropSdwPFMIR4yLhLOaQVl8dmCmtwCun6vEVdmU3GcO82nRuYedkE8midlWbkig6o3lvyaiHTcyk5E9sD6ETTlgxIVnJSLSwKEPi5cVrpU5yXox2duoJVTvxA/MUudtZV3r9Yrar0cT/25FF40RnxR59yWNel/NjR7mLcvWAEQ5g8EAU5mSAWIAjlQr7hZt1dBPQTKA3M2D6LfpSI04vKcf6vXy1mscPHI0Nu6Otti98SzXt5us="
-      
