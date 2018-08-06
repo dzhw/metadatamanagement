@@ -5,7 +5,7 @@
 				"match": "*",
 				"mapping": {
 					"index": false,
-					"copy_to": "_all"
+					"copy_to": "all"
 				}
 			}
 		}],
@@ -25,6 +25,18 @@
 						"norms": false
 					}
 				}
+			},
+			"lastModifiedDate": {
+				"type": "date"
+			},
+			"lastModifiedBy": {
+				"type": "keyword"
+			},
+			"createdDate": {
+				"type": "date"
+			},
+			"createdBy": {
+				"type": "keyword"
 			},
 			"dataAcquisitionProjectId": {
 				"type": "keyword"

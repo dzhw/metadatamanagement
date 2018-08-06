@@ -26,11 +26,26 @@
 					}
 				}
 			},
+			"lastModifiedDate": {
+				"type": "date"
+			},
+			"lastModifiedBy": {
+				"type": "keyword"
+			},
+			"createdDate": {
+				"type": "date"
+			},
+			"createdBy": {
+				"type": "keyword"
+			},
 			"dataAcquisitionProjectId": {
 				"type": "keyword"
 			},
 			"studyId": {
 				"type": "keyword"
+			},
+			"number": {
+				"type": "integer"
 			},
 			"surveyMethod": {
 				"type": "object",

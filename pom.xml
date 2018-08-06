@@ -106,16 +106,6 @@
             <version>1.18</version>
         </dependency>
         <dependency>
-            <groupId>org.elasticsearch</groupId>
-            <artifactId>elasticsearch</artifactId>
-             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.elasticsearch.plugin</groupId>
-            <artifactId>transport-netty4-client</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.javers</groupId>
             <artifactId>javers-spring-boot-starter-mongo</artifactId>
             <version>3.10.2</version>
@@ -205,6 +195,12 @@
             <groupId>org.springframework.security.oauth.boot</groupId>
             <artifactId>spring-security-oauth2-autoconfigure</artifactId>
             <version>2.0.1.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>pl.allegro.tech</groupId>
+            <artifactId>embedded-elasticsearch</artifactId>
+            <version>2.7.0</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>uk.com.robust-it</groupId>
@@ -413,9 +409,6 @@
                     <excludes>
                         <exclude>**/Abstract*.java</exclude>
                     </excludes>
-                    <classpathDependencyExcludes>
-                        <classpathDependencyExcludes>org.apache.logging.log4j:log4j-to-slf4j</classpathDependencyExcludes>
-                    </classpathDependencyExcludes>
                 </configuration>
             </plugin>
             <plugin>
