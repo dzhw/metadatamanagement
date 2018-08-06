@@ -30,7 +30,6 @@ before_install:
   - sudo apt-get install cf-cli -y
   - sudo apt-get -y install python-pip python-dev
   - pip install urllib3[secure] --user -I
-  - pip install requests[security] --user -I
   - pip install robotframework --user
   - pip install robotframework-extendedselenium2library --user
   - pip install pyyaml --user
@@ -45,7 +44,7 @@ script:
   - mvn -Pdev --settings ./buildconfig/settings.xml -B -DrepoToken=$COVERALLS_TOKEN package
   - cf login -u $CI_DEPLOY_USERNAME -p $CI_DEPLOY_PASSWORD -o DZHW -s dev -a https://api.run.pivotal.io
   - cf push -f ./deploy/manifest-dev.yml
-  - export PYTHONWARNINGS="ignore:Unverified HTTPS request"
+  - export PYTHONWARNINGS="ignore"
   - robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:chrome --include smoketest --exclude firefox ./src/test/robotframework
   - robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:firefox --include smoketest ./src/test/robotframework
   - robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:ie --include smoketest --exclude firefox ./src/test/robotframework
