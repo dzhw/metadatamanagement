@@ -4,6 +4,14 @@ This log is intended to keep track of backwards-incompatible changes, including
 but not limited to API changes and file location changes.  Minor behavioral
 changes may not be included if they are not expected to break existing code.
 
+## 0.13.2 (2018-07-08)
+
+* Buffer.from shim replaced, will not be defined in node `<=0.12`
+
+## 0.13.0 (2018-06-01)
+
+* Library reshaped to support AMD out of the box
+
 ## 0.12.11 (2018-04-27)
 
 * XLS/XLSX/XLSB range truncation (errors in `WTF` mode)

@@ -6,7 +6,7 @@ Emphasis on parsing and writing robustness, cross-format feature compatibility
 with a unified JS representation, and ES3/ES5 browser compatibility back to IE6.
 
 This is the community version.  We also offer a pro version with performance
-enhancements, additional features by request, and dedicated support.
+enhancements, additional features like styling, and dedicated support.
 
 
 [**Pro Version**](http://sheetjs.com/pro)
@@ -191,7 +191,8 @@ The [`demos` directory](demos/) includes sample projects for:
 
 **Frameworks and APIs**
 - [`angularjs`](demos/angular/)
-- [`angular 2 / 4 / 5 and ionic`](demos/angular2/)
+- [`angular 2 / 4 / 5 / 6 and ionic`](demos/angular2/)
+- [`knockout`](demos/knockout/)
 - [`meteor`](demos/meteor/)
 - [`react and react-native`](demos/react/)
 - [`vue 2.x and weex`](demos/vue/)
@@ -303,6 +304,10 @@ space and open much faster!  Even though an XLSX writer is available, other
 format writers are available so users can take advantage of the unique
 characteristics of each format.
 
+The primary focus of the Community Edition is correct data interchange, focused
+on extracting data from any compatible data representation and exporting data in
+various formats suitable for any third party interface.
+
 </details>
 
 ## Parsing Workbooks
@@ -359,11 +364,11 @@ Multiple tables on a web page can be converted to individual worksheets:
 var workbook = XLSX.utils.book_new();
 
 /* convert table 'table1' to worksheet named "Sheet1" */
-var ws1 = XLSX.utils.table_to_book(document.getElementById('table1'));
+var ws1 = XLSX.utils.table_to_sheet(document.getElementById('table1'));
 XLSX.utils.book_append_sheet(workbook, ws1, "Sheet1");
 
 /* convert table 'table2' to worksheet named "Sheet2" */
-var ws2 = XLSX.utils.table_to_book(document.getElementById('table2'));
+var ws2 = XLSX.utils.table_to_sheet(document.getElementById('table2'));
 XLSX.utils.book_append_sheet(workbook, ws2, "Sheet2");
 
 /* workbook now has 2 worksheets */
@@ -787,6 +792,7 @@ Stream.  They are only exposed in NodeJS.
 
 - `XLSX.stream.to_csv` is the streaming version of `XLSX.utils.sheet_to_csv`.
 - `XLSX.stream.to_html` is the streaming version of `XLSX.utils.sheet_to_html`.
+- `XLSX.stream.to_json` is the streaming version of `XLSX.utils.sheet_to_json`.
 
 <details>
   <summary><b>nodejs convert to CSV and write file</b> (click to show)</summary>
@@ -795,6 +801,22 @@ Stream.  They are only exposed in NodeJS.
 var output_file_name = "out.csv";
 var stream = XLSX.stream.to_csv(worksheet);
 stream.pipe(fs.createWriteStream(output_file_name));
+```
+
+</details>
+
+<details>
+  <summary><b>nodejs write JSON stream to screen</b> (click to show)</summary>
+
+```js
+/* to_json returns an object-mode stream */
+var stream = XLSX.stream.to_json(worksheet, {raw:true});
+
+/* the following stream converts JS objects to text via JSON.stringify */
+var conv = new Transform({writableObjectMode:true});
+conv._transform = function(obj, e, cb){ cb(null, JSON.stringify(obj) + "\n"); };
+
+stream.pipe(conv); conv.pipe(process.stdout);
 ```
 
 </details>
@@ -1550,6 +1572,17 @@ ws.A1.c.push({a:"SheetJS", t:"I'm a little comment, short and stout!"});
 Note: XLSB enforces a 54 character limit on the Author name.  Names longer than
 54 characters may cause issues with other formats.
 
+To mark a comment as normally hidden, set the `hidden` property:
+
+```js
+if(!ws.A1.c) ws.A1.c = [];
+ws.A1.c.push({a:"SheetJS", t:"This comment is visible"});
+
+if(!ws.A2.c) ws.A2.c = [];
+ws.A2.c.hidden = true;
+ws.A2.c.push({a:"SheetJS", t:"This comment will be hidden"});
+```
+
 #### Sheet Visibility
 
 Excel enables hiding sheets in the lower tab bar.  The sheet data is stored in
@@ -2050,6 +2083,7 @@ Both functions accept options arguments:
 |`dateNF`     |  FMT 14  | Use specified date format in string output          |
 |`cellDates`  |  false   | Store dates as type `d` (default is `n`)            |
 |`sheetRows`  |    0     | If >0, read the first `sheetRows` rows of the table |
+|`display`    |  false   | If true, hidden rows and cells will not be parsed   |
 
 
 <details>

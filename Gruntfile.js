@@ -1,7 +1,6 @@
-// Generated on 2015-11-09 using generator-jhipster 2.23.0
 'use strict';
 var fs = require('fs');
-
+const sass = require('node-sass');
 var parseString = require('xml2js').parseString;
 
 // Returns the second occurence of the version number
@@ -380,7 +379,8 @@ module.exports = function(grunt) {
       },
       sass: {
         options: {
-          includePaths: ['src/main/webapp/bower_components']
+          includePaths: ['src/main/webapp/bower_components'],
+          implementation: sass
         },
         server: {
           files: [{

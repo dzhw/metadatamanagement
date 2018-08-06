@@ -1,7 +1,7 @@
 /**
  * State-based routing for AngularJS 1.x
  * This bundle requires the ui-router-core.js bundle from the @uirouter/core package.
- * @version v1.0.18
+ * @version v1.0.19
  * @link https://ui-router.github.io
  * @license MIT License, http://www.opensource.org/licenses/MIT
  */
@@ -521,6 +521,9 @@
             html5Mode = core.isObject(html5Mode) ? html5Mode.enabled : html5Mode;
             return html5Mode && this.$sniffer.history;
         };
+        Ng1LocationServices.prototype.baseHref = function () {
+            return this._baseHref || (this._baseHref = this.$browser.baseHref() || this.$window.location.pathname);
+        };
         Ng1LocationServices.prototype.url = function (newUrl, replace, state) {
             if (replace === void 0) { replace = false; }
             if (core.isDefined(newUrl))
@@ -531,20 +534,19 @@
                 this.$location.state(state);
             return this.$location.url();
         };
-        Ng1LocationServices.prototype._runtimeServices = function ($rootScope, $location, $sniffer, $browser) {
+        Ng1LocationServices.prototype._runtimeServices = function ($rootScope, $location, $sniffer, $browser, $window) {
             var _this = this;
             this.$location = $location;
             this.$sniffer = $sniffer;
+            this.$browser = $browser;
+            this.$window = $window;
             // Bind $locationChangeSuccess to the listeners registered in LocationService.onChange
             $rootScope.$on('$locationChangeSuccess', function (evt) { return _this._urlListeners.forEach(function (fn) { return fn(evt); }); });
             var _loc = core.val($location);
-            var _browser = core.val($browser);
             // Bind these LocationService functions to $location
             core.createProxyFunctions(_loc, this, _loc, ['replace', 'path', 'search', 'hash']);
             // Bind these LocationConfig functions to $location
             core.createProxyFunctions(_loc, this, _loc, ['port', 'protocol', 'host']);
-            // Bind these LocationConfig functions to $browser
-            core.createProxyFunctions(_browser, this, _browser, ['baseHref']);
         };
         return Ng1LocationServices;
     }());
@@ -753,7 +755,7 @@
      * @module ng1
      * @preferred
      */
-    ng.module("ui.router.angular1", []);
+    ng.module('ui.router.angular1', []);
     var mod_init = ng.module('ui.router.init', ['ng']);
     var mod_util = ng.module('ui.router.util', ['ui.router.init']);
     var mod_rtr = ng.module('ui.router.router', ['ui.router.util']);
@@ -778,9 +780,9 @@
         // backwards compat: also expose router instance as $uiRouterProvider.router
         router['router'] = router;
         router['$get'] = $get;
-        $get.$inject = ['$location', '$browser', '$sniffer', '$rootScope', '$http', '$templateCache'];
-        function $get($location, $browser, $sniffer, $rootScope, $http, $templateCache) {
-            ng1LocationService._runtimeServices($rootScope, $location, $sniffer, $browser);
+        $get.$inject = ['$location', '$browser', '$window', '$sniffer', '$rootScope', '$http', '$templateCache'];
+        function $get($location, $browser, $window, $sniffer, $rootScope, $http, $templateCache) {
+            ng1LocationService._runtimeServices($rootScope, $location, $sniffer, $browser, $window);
             delete router['router'];
             delete router['$get'];
             return router;
@@ -800,6 +802,15 @@
     function runBlock($injector, $q, $uiRouter) {
         core.services.$injector = $injector;
         core.services.$q = $q;
+        // https://github.com/angular-ui/ui-router/issues/3678
+        if (!$injector.hasOwnProperty('strictDi')) {
+            try {
+                $injector.invoke(function (checkStrictDi) { });
+            }
+            catch (error) {
+                $injector.strictDi = !!/strict mode/.exec(error && error.toString());
+            }
+        }
         // The $injector is now available.
         // Find any resolvables that had dependency annotation deferred
         $uiRouter.stateRegistry
@@ -1898,7 +1909,7 @@
                     var locals = resolveCtx && getLocals(resolveCtx);
                     scope[resolveAs] = locals;
                     if (controller) {
-                        var controllerInstance = $controller(controller, core.extend({}, locals, { $scope: scope, $element: $element }));
+                        var controllerInstance = ($controller(controller, core.extend({}, locals, { $scope: scope, $element: $element })));
                         if (controllerAs) {
                             scope[controllerAs] = controllerInstance;
                             scope[controllerAs][resolveAs] = locals;
@@ -1912,15 +1923,14 @@
                         registerControllerCallbacks($q, $transitions, controllerInstance, scope, cfg);
                     }
                     // Wait for the component to appear in the DOM
-                    if (core.isString(cfg.viewDecl.component)) {
-                        var cmp_1 = cfg.viewDecl.component;
-                        var kebobName = core.kebobString(cmp_1);
+                    if (core.isString(cfg.component)) {
+                        var kebobName = core.kebobString(cfg.component);
                         var tagRegexp_1 = new RegExp("^(x-|data-)?" + kebobName + "$", 'i');
                         var getComponentController = function () {
                             var directiveEl = [].slice
                                 .call($element[0].children)
                                 .filter(function (el) { return el && el.tagName && tagRegexp_1.exec(el.tagName); });
-                            return directiveEl && ng.element(directiveEl).data("$" + cmp_1 + "Controller");
+                            return directiveEl && ng.element(directiveEl).data("$" + cfg.component + "Controller");
                         };
                         var deregisterWatch_1 = scope.$watch(getComponentController, function (ctrlInstance) {
                             if (!ctrlInstance)

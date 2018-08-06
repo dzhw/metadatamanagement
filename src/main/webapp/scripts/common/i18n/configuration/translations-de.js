@@ -5,12 +5,12 @@ angular.module('metadatamanagementApp').config(
     var translations = {
       //jscs:disable
       'global': {
-        'title': 'metadatamanagement',
+        'title': 'Metadatamanagement (MDM)',
         'browsehappy': 'Sie benutzen einen <strong>veralteten</strong> Browser. Bitte <a href="http://browsehappy.com/?locale=de/">aktualisieren Sie Ihren Browser</a>, um die Benutzerfreundlichkeit zu erhöhen.',
         'rdc-alt-text': 'Logo des Forschungsdatenzentrums des Deutschen Zentrum für Hochschul- und Wissenschaftsforschung',
         'dzhw-alt-text': 'Deutsches Zentrum für Hochschul- und Wissenschaftsforschung DZHW GmbH',
         'bmbf-alt-text': 'Gefördert vom BMBF',
-        'search': 'Suche',
+        'search': 'Datensuche',
         'in-german': 'auf Deutsch',
         'in': 'auf',
         'in-english': 'auf Englisch',
@@ -120,7 +120,7 @@ angular.module('metadatamanagementApp').config(
             'unknown-project': '{{projectId}} ist unbekannt.'
           },
           'search': {
-            'title': 'Metadatensuche'
+            'title': 'Metadatamanagement (MDM) - Datensuche für die Hochschul- und Wissenschaftsforschung'
           },
           'account': {
             'main': 'Zugang für Datengeber',
@@ -313,7 +313,7 @@ angular.module('metadatamanagementApp').config(
             'info': 'Information'
           },
           'protocol': {
-            'created-by': 'Erstellt durch Metadatensuche, am'
+            'created-by': 'Erstellt durch das MDM, am'
           },
           'block-ui-message': '{{warnings}} Warnungen und {{ errors }} Fehler bei {{ total }} Objekten'
         },
