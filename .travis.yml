@@ -29,8 +29,9 @@ before_install:
   - sudo apt-get update -qq
   - sudo apt-get install cf-cli -y
   - sudo apt-get -y install python-pip python-dev
+  - sudo apt-get -y install libffi-dev libssl-dev
+  - pip install -U requests[security] --user
   - pip install urllib3[secure] --user -I
-  - pip install requests[security] --user -I
   - pip install robotframework --user
   - pip install robotframework-extendedselenium2library --user
   - pip install pyyaml --user
