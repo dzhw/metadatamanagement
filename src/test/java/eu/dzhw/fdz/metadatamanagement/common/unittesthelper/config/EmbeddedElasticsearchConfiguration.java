@@ -7,9 +7,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import pl.allegro.tech.embeddedelasticsearch.EmbeddedElastic;
 import pl.allegro.tech.embeddedelasticsearch.PopularProperties;
 
@@ -23,10 +25,13 @@ import pl.allegro.tech.embeddedelasticsearch.PopularProperties;
 @Configuration
 public class EmbeddedElasticsearchConfiguration {
 
+  @Autowired
+  private MetadataManagementProperties properties;
+  
   @Bean
   public EmbeddedElastic embeddedElastic() throws IOException, InterruptedException {
     final EmbeddedElastic embeddedElastic = EmbeddedElastic.builder()
-        .withElasticVersion("6.2.4")
+        .withElasticVersion(properties.getElasticsearch().getVersion())
         .withEsJavaOpts("-Xms128m -Xmx512m")
         .withSetting(PopularProperties.HTTP_PORT, 9234)
         .withSetting(PopularProperties.CLUSTER_NAME, "metadatamanagement-test")

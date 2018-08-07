@@ -32,7 +32,7 @@ You need to install [Bower][] globally as well:
 
 Before starting the app on your local machine you need to start the following Document Stores:
 1. Mongodb: Mongodb must be running on the default port, on ubuntu you should install it from here https://docs.mongodb.org/manual/tutorial/install-mongodb-on-ubuntu/
-2. Elasticsearch (5.2.2): Elasticsearch must be running on its default port. You can download it from here https://www.elastic.co/downloads/elasticsearch
+2. Elasticsearch (6.3.2): Elasticsearch must be running on its default port. You can download it from here https://www.elastic.co/downloads/elasticsearch
 
 Run the following commands in two separate terminals to create a blissful development experience where your browser
 auto-refreshes when files change on your hard drive.
