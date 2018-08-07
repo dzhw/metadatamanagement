@@ -18,6 +18,7 @@
 			},
 			"id": {
 				"type": "keyword",
+				"copy_to": "all",
 				"fields": {
 					"ngrams": {
 						"type": "text",
@@ -30,16 +31,19 @@
 				"type": "date"
 			},
 			"lastModifiedBy": {
-				"type": "keyword"
+				"type": "keyword",
+				"copy_to": "all"
 			},
 			"createdDate": {
 				"type": "date"
 			},
 			"createdBy": {
-				"type": "keyword"
+				"type": "keyword",
+				"copy_to": "all"
 			},
 			"dataAcquisitionProjectId": {
-				"type": "keyword"
+				"type": "keyword",
+				"copy_to": "all"
 			},
 			"title": {
 				"type": "object",
@@ -289,7 +293,8 @@
 				"type": "object",
 				"properties": {
 					"id": {
-						"type": "keyword"
+						"type": "keyword",
+						"copy_to": "all"
 					}
 				}
 			},
@@ -297,7 +302,8 @@
 				"type": "object",
 				"properties": {
 					"id": {
-						"type": "keyword"
+						"type": "keyword",
+						"copy_to": "all"
 					}
 				}
 			},
@@ -305,7 +311,8 @@
 				"type": "object",
 				"properties": {
 					"id": {
-						"type": "keyword"
+						"type": "keyword",
+						"copy_to": "all"
 					}
 				}
 			},
@@ -313,7 +320,8 @@
 				"type": "object",
 				"properties": {
 					"id": {
-						"type": "keyword"
+						"type": "keyword",
+						"copy_to": "all"
 					}
 				}
 			},
@@ -321,7 +329,8 @@
 				"type": "object",
 				"properties": {
 					"id": {
-						"type": "keyword"
+						"type": "keyword",
+						"copy_to": "all"
 					}
 				}
 			},
@@ -329,7 +338,8 @@
 				"type": "object",
 				"properties": {
 					"id": {
-						"type": "keyword"
+						"type": "keyword",
+						"copy_to": "all"
 					}
 				}
 			},
@@ -337,7 +347,8 @@
 				"type": "object",
 				"properties": {
 					"id": {
-						"type": "keyword"
+						"type": "keyword",
+						"copy_to": "all"
 					},
 					"surveyIds": {
 						"type": "keyword",

@@ -18,6 +18,7 @@
 			},
 			"id": {
 				"type": "keyword",
+				"copy_to": "all",
 				"fields": {
 					"ngrams": {
 						"type": "text",
@@ -30,16 +31,19 @@
 				"type": "date"
 			},
 			"lastModifiedBy": {
-				"type": "keyword"
+				"type": "keyword",
+				"copy_to": "all"
 			},
 			"createdDate": {
 				"type": "date"
 			},
 			"createdBy": {
-				"type": "keyword"
+				"type": "keyword",
+				"copy_to": "all"
 			},
 			"dataAcquisitionProjectId": {
-				"type": "keyword"
+				"type": "keyword",
+				"copy_to": "all"
 			},
 			"title": {
 				"type": "text",
@@ -84,7 +88,8 @@
 				"type": "integer"
 			},
 			"studyIds": {
-				"type": "keyword"
+				"type": "keyword",
+				"copy_to": "all"
 			},
 			"studySerieses": {
 				"type": "object",
@@ -116,19 +121,24 @@
 				}
 			},
 			"dataSetIds": {
-				"type": "keyword"
+				"type": "keyword",
+				"copy_to": "all"
 			},
 			"variableIds": {
-				"type": "keyword"
+				"type": "keyword",
+				"copy_to": "all"
 			},
 			"instrumentIds": {
-				"type": "keyword"
+				"type": "keyword",
+				"copy_to": "all"
 			},
 			"questionIds": {
-				"type": "keyword"
+				"type": "keyword",
+				"copy_to": "all"
 			},
 			"surveyIds": {
-				"type": "keyword"
+				"type": "keyword",
+				"copy_to": "all"
 			},
 			"instruments": {
 				"type": "object",
@@ -146,28 +156,12 @@
 						"type": "object",
 						"properties": {
 							"de": {
-								"type": "keyword",
-								"copy_to": "all",
-								"norms": false,
-								"fields": {
-									"ngrams": {
-										"type": "text",
-										"analyzer": "ngrams",
-										"norms": false
-									}
-								}
+								"type": "text",
+								"index": false
 							},
 							"en": {
-								"type": "keyword",
-								"copy_to": "all",
-								"norms": false,
-								"fields": {
-									"ngrams": {
-										"type": "text",
-										"analyzer": "ngrams",
-										"norms": false
-									}
-								}
+								"type": "text",
+								"index": false
 							}
 						}
 					}
