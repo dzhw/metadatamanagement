@@ -112,6 +112,8 @@ angular.module('metadatamanagementApp').config(
           'category': 'Kategorie'
         },
         'menu': {
+          'show-english-pages': 'Show              Pages in English',
+          'show-german-pages': 'Seiten              auf Deutsch anzeigen',
           'entities': {
             'main': 'Entitäten',
             'rdcProject': 'Datenaufbereitungsprojekte:',
