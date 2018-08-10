@@ -24,6 +24,7 @@
         <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
+        <org.slf4j.simpleLogger.log.pl.project13.maven.git>WARN</org.slf4j.simpleLogger.log.pl.project13.maven.git>
         <!-- Sonar properties -->
         <project.testresult.directory>${project.build.directory}/test-results</project.testresult.directory>
         <run.addResources>false</run.addResources>
@@ -569,6 +570,7 @@
                                 </goals>
                                 <configuration>
                                     <skipTests>true</skipTests>
+                                    <bowerInstallArgs>install</bowerInstallArgs>
                                     <buildTool>grunt</buildTool>
                                     <buildArgs>builddev</buildArgs>
                                 </configuration>
@@ -618,6 +620,7 @@
                                 </goals>
                                 <configuration>
                                     <skipTests>true</skipTests>
+                                    <bowerInstallArgs>install</bowerInstallArgs>
                                     <buildTool>grunt</buildTool>
                                     <buildArgs>buildtest</buildArgs>
                                 </configuration>
@@ -667,6 +670,7 @@
                                 </goals>
                                 <configuration>
                                     <skipTests>true</skipTests>
+                                    <bowerInstallArgs>install</bowerInstallArgs>
                                     <buildTool>grunt</buildTool>
                                     <buildArgs>buildprod</buildArgs>
                                 </configuration>

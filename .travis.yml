@@ -23,6 +23,7 @@ addons:
 before_install:
   - export CXX=g++-4.9
   - export NODE_OPTIONS=--max-old-space-size=4096
+  - export MAVEN_OPTS=-Dorg.slf4j.simpleLogger.log.pl.project13.maven.git=WARN
   - sudo rm -vf /etc/apt/sources.list.d/*riak*
   - wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
   - echo "deb http://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
