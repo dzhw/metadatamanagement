@@ -36,14 +36,13 @@ Before starting the app on your local machine you need to start the following Do
 
 In order to have all dependencies for the client and its build you need to run:
 
-    npm install
-    bower install
+    mvn clean install
 
 Run the following commands in two separate terminals to create a blissful development experience where your browser
 auto-refreshes when files change on your hard drive.
 
+    mvn -Dyo.skip=true
     grunt
-    mvn
 
 ## Building for the dev environment
 
