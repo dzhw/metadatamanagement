@@ -34,28 +34,34 @@ Before starting the app on your local machine you need to start the following Do
 1. Mongodb: Mongodb must be running on the default port, on ubuntu you should install it from here https://docs.mongodb.org/manual/tutorial/install-mongodb-on-ubuntu/
 2. Elasticsearch (6.3.2): Elasticsearch must be running on its default port. You can download it from here https://www.elastic.co/downloads/elasticsearch
 
+In order to have all dependencies for the client and its build you need to run:
+
+    npm install
+    bower install
+
 Run the following commands in two separate terminals to create a blissful development experience where your browser
 auto-refreshes when files change on your hard drive.
 
-    mvn
     grunt
+    mvn
 
 ## Building for the dev environment
 
-To optimize the metadatamanagement client for the dev environment, run:
+Our CI pipleline will do some automatic checks and tests and it will optimize the metadatamanagement client for the dev environment. So before pushing to Github you should run in order to be sure you won't fail the build:
 
     mvn -Pdev clean install
 
 This will concatenate and minify CSS and JavaScript files using grunt. It will also modify `index.html` so it references
 these new files.
 
-Before deploying the dev system you need to [install the cloudfoundry cli](https://docs.cloudfoundry.org/cf-cli/install-go-cli.html#-linux-installation).
+Before deploying the `{dev|test|prod}` system you need to [install the cloudfoundry cli](https://docs.cloudfoundry.org/cf-cli/install-go-cli.html#-linux-installation).
 
-You can build and deploy the jar to the dev environment by running
+You can build and deploy the jar to the desired environment by running
 
-    ./deploy/build-and-deploy.sh dev
+    ./deploy/build-and-deploy.sh {dev|test|prod}
 
 We test our project continously with the Robot Framework. Test Developers can get further info [here](https://github.com/dzhw/metadatamanagement/wiki/Robot-Framework).
+
 ## Pivotal Cloudfoundry
 This project is currently built and deployed to Pivotal Cloudfoundry by [Travis CI][TravisCI]. You can test the latest version on https://metadatamanagement-dev.cfapps.io/
 
@@ -63,7 +69,7 @@ This project is currently built and deployed to Pivotal Cloudfoundry by [Travis 
 
 Cross-browser Testing Platform and Open Source :heart: Provided by [Sauce Labs][saucelabs]
 
-Continous Integration Platform provided by [Travis CI][TravisCI]
+Continuous Integration Platform provided by [Travis CI][TravisCI]
 
 [saucelabs]: https://saucelabs.com
 [JHipster]: https://jhipster.github.io/

@@ -130,6 +130,11 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
         <dependency>
@@ -539,53 +544,13 @@
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.github.trecloux</groupId>
-                        <artifactId>yeoman-maven-plugin</artifactId>
-                        <version>0.5</version>
-                        <executions>
-                            <execution>
-                                <id>generate-gui-label-sources</id>
-                                <phase>generate-sources</phase>
-                                <goals>
-                                    <goal>build</goal>
-                                </goals>
-                                <configuration>
-                                    <skipTests>true</skipTests>
-                                    <buildTool>grunt</buildTool>
-                                    <buildArgs>createJavaSourceCodeFromTranslations</buildArgs>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>run-grunt</id>
-                                <phase>generate-resources</phase>
-                                <goals>
-                                    <goal>build</goal>
-                                </goals>
-                                <configuration>
-                                    <skipTests>true</skipTests>
-                                    <buildTool>grunt</buildTool>
-                                    <buildArgs>buildlocal</buildArgs>
-                                    <npmInstallArgs>--version</npmInstallArgs>
-                                    <bowerInstallArgs>--version</bowerInstallArgs>
-                                </configuration>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <yeomanProjectDirectory>${project.basedir}</yeomanProjectDirectory>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-            <dependencies>
-                <dependency>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-devtools</artifactId>
-                    <optional>true</optional>
-                </dependency>
-            </dependencies>
+            <properties>
+                <checkstyle.skip>true</checkstyle.skip>
+                <findbugs.skip>true</findbugs.skip>
+                <jacoco.skip>true</jacoco.skip>
+                <maven.gitcommitid.skip>true</maven.gitcommitid.skip>
+                <pmd.skip>true</pmd.skip>
+            </properties>
         </profile>
         <profile>
             <id>dev</id>
@@ -597,18 +562,6 @@
                         <version>0.5</version>
                         <executions>
                             <execution>
-                                <id>generate-gui-label-sources</id>
-                                <phase>generate-sources</phase>
-                                <goals>
-                                    <goal>build</goal>
-                                </goals>
-                                <configuration>
-                                    <skipTests>true</skipTests>
-                                    <buildTool>grunt</buildTool>
-                                    <buildArgs>createJavaSourceCodeFromTranslations</buildArgs>
-                                </configuration>
-                            </execution>
-                            <execution>
                                 <id>run-frontend-build</id>
                                 <phase>generate-resources</phase>
                                 <goals>
@@ -618,8 +571,6 @@
                                     <skipTests>true</skipTests>
                                     <buildTool>grunt</buildTool>
                                     <buildArgs>builddev</buildArgs>
-                                    <npmInstallArgs>--version</npmInstallArgs>
-                                    <bowerInstallArgs>--version</bowerInstallArgs>
                                 </configuration>
                             </execution>
                         </executions>
@@ -660,18 +611,6 @@
                         <version>0.5</version>
                         <executions>
                             <execution>
-                                <id>generate-gui-label-sources</id>
-                                <phase>generate-sources</phase>
-                                <goals>
-                                    <goal>build</goal>
-                                </goals>
-                                <configuration>
-                                    <skipTests>true</skipTests>
-                                    <buildTool>grunt</buildTool>
-                                    <buildArgs>createJavaSourceCodeFromTranslations</buildArgs>
-                                </configuration>
-                            </execution>
-                            <execution>
                                 <id>run-frontend-build</id>
                                 <phase>generate-resources</phase>
                                 <goals>
@@ -681,8 +620,6 @@
                                     <skipTests>true</skipTests>
                                     <buildTool>grunt</buildTool>
                                     <buildArgs>buildtest</buildArgs>
-                                    <npmInstallArgs>--version</npmInstallArgs>
-                                    <bowerInstallArgs>--version</bowerInstallArgs>
                                 </configuration>
                             </execution>
                         </executions>
@@ -723,18 +660,6 @@
                         <version>0.5</version>
                         <executions>
                             <execution>
-                                <id>generate-gui-label-sources</id>
-                                <phase>generate-sources</phase>
-                                <goals>
-                                    <goal>build</goal>
-                                </goals>
-                                <configuration>
-                                    <skipTests>true</skipTests>
-                                    <buildTool>grunt</buildTool>
-                                    <buildArgs>createJavaSourceCodeFromTranslations</buildArgs>
-                                </configuration>
-                            </execution>
-                            <execution>
                                 <id>run-frontend-build</id>
                                 <phase>generate-resources</phase>
                                 <goals>
@@ -744,8 +669,6 @@
                                     <skipTests>true</skipTests>
                                     <buildTool>grunt</buildTool>
                                     <buildArgs>buildprod</buildArgs>
-                                    <npmInstallArgs>--version</npmInstallArgs>
-                                    <bowerInstallArgs>--version</bowerInstallArgs>
                                 </configuration>
                             </execution>
                         </executions>
