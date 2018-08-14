@@ -34,7 +34,13 @@ Before starting the app on your local machine you need to start the following Do
 1. Mongodb: Mongodb must be running on the default port, on ubuntu you should install it from here https://docs.mongodb.org/manual/tutorial/install-mongodb-on-ubuntu/
 2. Elasticsearch (6.3.2): Elasticsearch must be running on its default port. You can download it from here https://www.elastic.co/downloads/elasticsearch
 
-In order to have all dependencies for the client and its build you need to run:
+Alternatively you can run
+
+    docker-compose start
+
+to start all services the metadatamanagement depends on. Mongodb and Elasticsearch will be listening on its default ports.
+
+In order to have all java dependencies for the server and  all bower dependencies for the client and in order to build everything, simply run (and lean back for a while):
 
     mvn clean install
 
@@ -44,13 +50,21 @@ auto-refreshes when files change on your hard drive.
     mvn -Dyo.skip=true
     grunt
 
+If you want to build a docker image for the metadatamanagement server app you can run
+
+    mvn package dockerfile:build
+
+This image can be run with all its dependend containers by
+
+    docker-compose -f docker-compose-app.yml -f docker-compose.yml start
+
 ## Building for the dev environment
 
-Our CI pipleline will do some automatic checks and tests and it will optimize the metadatamanagement client for the dev environment. So before pushing to Github you should run in order to be sure you won't fail the build:
+Our CI pipleline will do some automatic checks and tests and it will optimize the metadatamanagement client for the dev environment. So before pushing to Github in order to be sure you won't fail the build you should run:
 
     mvn -Pdev clean install
 
-This will concatenate and minify CSS and JavaScript files using grunt. It will also modify `index.html` so it references
+This will concatenate and minify CSS and JavaScript files using grunt. It will also modify the `index.html` so it references
 these new files.
 
 Before deploying the `{dev|test|prod}` system you need to [install the cloudfoundry cli](https://docs.cloudfoundry.org/cf-cli/install-go-cli.html#-linux-installation).
@@ -79,8 +93,8 @@ Continuous Integration Platform provided by [Travis CI][TravisCI]
 [Karma]: http://karma-runner.github.io/
 [Jasmine]: http://jasmine.github.io/2.0/introduction.html
 [NVM]: https://github.com/creationix/nvm
-[SDKMAN!]:http://sdkman.io/install.html
-[TravisCI]:https://travis-ci.org/
+[SDKMAN!]: http://sdkman.io/install.html
+[TravisCI]: https://travis-ci.org/
 
 [![forthebadge](http://forthebadge.com/images/badges/built-by-developers.svg)](http://forthebadge.com)  [![forthebadge](https://forthebadge.com/images/badges/built-with-science.svg)](https://forthebadge.com)
  [![forthebadge](https://forthebadge.com/images/badges/60-percent-of-the-time-works-every-time.svg)](https://forthebadge.com) [![forthebadge](http://forthebadge.com/images/badges/uses-badges.svg)](http://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/makes-people-smile.svg)](https://forthebadge.com)

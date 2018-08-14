@@ -1,0 +1,34 @@
+# start all external services for the metadatamanagement app
+# mongo and elasticsearch will be available on its default ports
+# docker-compose start
+version: "3.1"
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    environment:
+      - MONGO_DATA_DIR=/data/mongodb/data
+      - MONGO_LOG_DIR=/data/mongodb/logs
+    volumes:
+      - ./data/mongodb/db:/data/mongodb/db
+      - ./data/mongodb/logs:/data/mongodb/logs
+    command: mongod --smallfiles
+    ports:
+      - "27017:27017"
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.3.2
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+    # ensure group has rwx on this directory
+    volumes:
+      - ./data/elasticsearch/data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+  maildev:
+    image: djfarrelly/maildev
+    container_name: maildev
+    # goto localhost:8081 for viewing mail sent via smtp
+    ports:
+      - "8081:80"
+      - "1025:25"
