@@ -17,9 +17,6 @@ addons:
       - ubuntu-toolchain-r-test
     packages:
       - g++-4.9
-    sauce_connect:
-      username: $SAUCE_USERNAME
-      access_key: $SAUCE_ACCESS_KEY
 before_install:
   - export CXX=g++-4.9
   - export NODE_OPTIONS=--max-old-space-size=4096

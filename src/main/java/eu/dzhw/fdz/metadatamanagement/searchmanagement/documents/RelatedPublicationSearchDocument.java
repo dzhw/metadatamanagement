@@ -25,26 +25,26 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @Getter
 @Setter
-public class RelatedPublicationSearchDocument extends RelatedPublication 
+public class RelatedPublicationSearchDocument extends RelatedPublication
     implements SearchDocumentInterface {
-  private List<StudySubDocument> studies = 
+  private List<StudySubDocument> studies =
       new ArrayList<>();
-  private List<QuestionSubDocument> questions = 
+  private List<QuestionSubDocument> questions =
       new ArrayList<>();
-  private List<InstrumentSubDocument> instruments = 
+  private List<InstrumentSubDocument> instruments =
       new ArrayList<>();
-  private List<SurveySubDocument> surveys = 
+  private List<SurveySubDocument> surveys =
       new ArrayList<>();
-  private List<DataSetSubDocument> dataSets = 
+  private List<DataSetSubDocument> dataSets =
       new ArrayList<>();
-  private List<VariableSubDocument> variables = 
+  private List<VariableSubDocument> variables =
       new ArrayList<>();
-  
+
   // dummy string which ensures that related publications are always released
-  private String release = "__";
-  
+  private String release = "released";
+
   private I18nString guiLabels = RelatedPublicationDetailsGuiLabels.GUI_LABELS;
-  
+
   /**
    * Construct the search document with all related subdocuments.
    * @param relatedPublication the related publication to be searched for
@@ -57,35 +57,35 @@ public class RelatedPublicationSearchDocument extends RelatedPublication
    */
   @SuppressWarnings("CPD-START")
   public RelatedPublicationSearchDocument(RelatedPublication relatedPublication,
-      List<StudySubDocument> studies, 
-      List<QuestionSubDocumentProjection> questions, 
+      List<StudySubDocument> studies,
+      List<QuestionSubDocumentProjection> questions,
       List<InstrumentSubDocumentProjection> instruments,
-      List<SurveySubDocumentProjection> surveys, 
-      List<DataSetSubDocumentProjection> dataSets, 
+      List<SurveySubDocumentProjection> surveys,
+      List<DataSetSubDocumentProjection> dataSets,
       List<VariableSubDocumentProjection> variables) {
     super(relatedPublication);
     if (studies != null) {
-      this.studies = studies;      
+      this.studies = studies;
     }
     if (questions != null) {
       this.questions = questions.stream()
-          .map(QuestionSubDocument::new).collect(Collectors.toList());      
+          .map(QuestionSubDocument::new).collect(Collectors.toList());
     }
     if (instruments != null) {
       this.instruments = instruments.stream()
-          .map(InstrumentSubDocument::new).collect(Collectors.toList());      
+          .map(InstrumentSubDocument::new).collect(Collectors.toList());
     }
     if (surveys != null) {
       this.surveys = surveys.stream()
-          .map(SurveySubDocument::new).collect(Collectors.toList());      
+          .map(SurveySubDocument::new).collect(Collectors.toList());
     }
     if (dataSets != null) {
       this.dataSets = dataSets.stream()
-          .map(DataSetSubDocument::new).collect(Collectors.toList());      
+          .map(DataSetSubDocument::new).collect(Collectors.toList());
     }
     if (variables != null) {
       this.variables = variables.stream()
-          .map(VariableSubDocument::new).collect(Collectors.toList());      
+          .map(VariableSubDocument::new).collect(Collectors.toList());
     }
   }
 }

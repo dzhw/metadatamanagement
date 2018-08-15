@@ -2,7 +2,7 @@
 Documentation     Tests the user experience of searching & finding the Graduate Panel 2005 and opening a data set page
 Resource    ../resources/search_resource.robot
 Resource    ../resources/home_page_resource.robot
-Force Tags  Long
+Force Tags  smoketest
 
 *** Test Cases ***
 Looking for Absolventenpanel 2005s individual data bachelor in german

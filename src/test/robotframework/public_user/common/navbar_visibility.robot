@@ -2,7 +2,7 @@
 Documentation     Tests if side bar is visible when browser window is maximized and not visible when browser window is small.
 Resource    ../resources/search_resource.robot
 Resource    ../resources/home_page_resource.robot
-Default Tags  smoketest
+Force Tags  smoketest
 
 *** Test Cases ***
 Navbar is hidden on small devices

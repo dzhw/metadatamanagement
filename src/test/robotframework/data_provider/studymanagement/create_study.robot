@@ -3,7 +3,6 @@ Documentation     Tests if study can be created.
 Resource      ../resources/home_page_resource.robot
 Resource      ../resources/search_resource.robot
 Resource      ../resources/login_resource.robot
-Default Tags  Long
 
 *** Test Cases ***
 Create Study

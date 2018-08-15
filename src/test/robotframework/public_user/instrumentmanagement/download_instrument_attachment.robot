@@ -2,7 +2,7 @@
 Documentation     Tests downloading an instrument attachment
 Resource    ../resources/search_resource.robot
 Resource    ../resources/home_page_resource.robot
-Force Tags  smoketest  firefox
+Force Tags  smoketest  firefoxonly
 
 *** Test Cases ***
 Looking for Absolventenpanel 2005s Fragebogen Erste Welle in german
