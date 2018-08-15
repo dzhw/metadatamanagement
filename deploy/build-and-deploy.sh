@@ -8,6 +8,14 @@ fi
 PROFILE="$1"
 USERNAME="$2"
 PASSWORD="$3"
+TRAVIS_BRANCH="$4"
+COVERALLS_TOKEN="$5"
+if [ -n ${TRAVIS_BRANCH} ]; then
+  PROFILE="dev"
+fi
+if [ "${TRAVIS_BRANCH}" = "master" ]; then
+  PROFILE="prod"
+fi
 if [ -z ${PROFILE} ]; then
   echo "Please provide a valid profile e.g.: $0 dev"
   exit -1
@@ -22,7 +30,11 @@ if [ $? -ne 0 ]; then
     echo "cf login failed!"
     exit -1
 fi
-mvn -P${PROFILE} clean package
+if [ -z ${COVERALLS_TOKEN} ]; then
+  mvn -P${PROFILE} clean package
+else
+  mvn -P${PROFILE} clean -DrepoToken=$COVERALLS_TOKEN package coveralls:report
+fi
 if [ $? -ne 0 ]; then
     echo "Maven build failed!"
     exit -1
@@ -31,4 +43,15 @@ cf push -f ./deploy/manifest-${PROFILE}.yml
 if [ $? -ne 0 ]; then
     echo "cf push failed!"
     exit -1
+fi
+if [ "${PROFILE}" = "dev" ]; then
+  export PYTHONWARNINGS="ignore"
+  robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:chrome --include smoketest --exclude firefox ./src/test/robotframework
+  robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:firefox --include smoketest ./src/test/robotframework
+  robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:ie --include smoketest --exclude firefox ./src/test/robotframework
+  robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:edge --include smoketest --exclude firefox ./src/test/robotframework
+  if [ $? -ne 0 ]; then
+      echo "E2E tests with robotframework failed!"
+      exit -1
+  fi
 fi
