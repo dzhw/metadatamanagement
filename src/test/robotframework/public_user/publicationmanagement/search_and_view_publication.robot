@@ -2,7 +2,7 @@
 Documentation     Tests the user experience of searching & finding the Graduate Panel 2005 and opening a publication page
 Resource    ../resources/search_resource.robot
 Resource    ../resources/home_page_resource.robot
-Force Tags  smoketest
+Force Tags  smoketest  noslowpoke
 
 *** Test Cases ***
 Looking for Bildungsherkunft und Promotionen
@@ -13,7 +13,6 @@ Looking for Bildungsherkunft und Promotionen
   [Teardown]  Get back to german home page
 
 Looking for Graduate Panel 2005s individual data bachelor in english
-  [Tags]  noslowpoke
   [Setup]   Change language to english
   Click on publications tab
   Search for  Bildungsherkunft und Promotionen

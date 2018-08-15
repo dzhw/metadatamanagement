@@ -26,14 +26,14 @@ if [ "${TRAVIS_EVENT_TYPE}" = "cron" ]; then
       echo "E2E test with Firefox failed!"
       exit -1
   fi
-  echo "Testing E2E with IE11:"
-  robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:ie --exclude smoketest --exclude firefoxonly --exclude chromeonly --exclude noslowpoke ./src/test/robotframework
+  echo "Running slowpoke E2E with IE11:"
+  robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:ie --exclude smoketest --exclude firefoxonly --exclude chromeonly --include noslowpoke ./src/test/robotframework
   if [ $? -ne 0 ]; then
       echo "E2E test with IE11 failed!"
       exit -1
   fi
-  echo "Testing E2E with Edge:"
-  robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:edge --exclude smoketest --exclude firefoxonly --exclude chromeonly --exclude noslowpoke ./src/test/robotframework
+  echo "Running slowpoke E2E tests with Edge:"
+  robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:edge --exclude smoketest --exclude firefoxonly --exclude chromeonly --include noslowpoke ./src/test/robotframework
   if [ $? -ne 0 ]; then
       echo "E2E test with Edge failed!"
       exit -1

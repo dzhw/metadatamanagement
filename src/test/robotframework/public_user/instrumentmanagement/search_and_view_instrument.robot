@@ -2,7 +2,7 @@
 Documentation     Tests the user experience of searching & finding the Graduate Panel 2005 and opening the questionnaire
 Resource    ../resources/search_resource.robot
 Resource    ../resources/home_page_resource.robot
-Force Tags  smoketest
+Force Tags  smoketest  noslowpoke
 
 *** Test Cases ***
 Looking for Absolventenpanel 2005s Fragebogen Erste Welle in german
@@ -13,7 +13,6 @@ Looking for Absolventenpanel 2005s Fragebogen Erste Welle in german
   [Teardown]  Get back to german home page
 
 Looking for Graduate Panel 2005s questionnaire first wave in english
-  [Tags]  noslowpoke
   [Setup]   Change language to english
   Click on instruments tab
   Search for  Graduate Panel 2005 Questionnaire First Wave
