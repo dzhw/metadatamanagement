@@ -2,7 +2,7 @@
 Documentation     Tests the user experience of searching & finding a specific question of the Graduate Panel 2005
 Resource    ../resources/search_resource.robot
 Resource    ../resources/home_page_resource.robot
-Force Tags  smoketest  noslowpoke
+
 
 *** Test Cases ***
 Looking for Absolventenpanel 2005s Fragebogen Erste Welle in german
