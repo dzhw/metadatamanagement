@@ -3,7 +3,7 @@ Documentation  Test editing survey page and versioning
 Resource  ../resources/login_resource.robot
 Resource  ../resources/home_page_resource.robot
 Resource  ../resources/search_resource.robot
-Force Tags  chromeonly
+Force Tags  smoketest  chromeonly
 
 *** Test Cases ***
 Editing survey attachement and check versioning

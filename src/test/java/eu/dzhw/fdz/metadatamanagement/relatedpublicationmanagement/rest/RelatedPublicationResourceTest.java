@@ -11,9 +11,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Collections;
 
-import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -151,7 +151,7 @@ public class RelatedPublicationResourceTest extends AbstractTest {
     dataAcquisitionProjectRepository.save(project);
     Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
     studyRepository.save(study);
-    LocalDate date = new LocalDate();
+    LocalDate date = LocalDate.now();
     RelatedPublication relatedPublication = UnitTestCreateDomainObjectUtils.buildRelatedPublication("TestAuthors", date.getYear() + 1);
     
     //ACT

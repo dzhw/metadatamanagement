@@ -71,6 +71,9 @@ management:
 javers:
   algorithm: levenshtein_distance
 
+metadatamanagement:
+  elasticsearch:
+    version: 6.3.2 
 # ===================================================================
 # JHipster specific properties
 # ===================================================================

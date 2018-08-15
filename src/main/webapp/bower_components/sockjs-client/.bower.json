@@ -35,6 +35,6 @@
     "commit": "06becfc508639a8855c4d4ed4e6c73e19e508a37"
   },
   "_source": "https://github.com/sockjs/sockjs-client.git",
-  "_target": "^1.1.4",
+  "_target": "^1.1.5",
   "_originalSource": "sockjs-client"
 }

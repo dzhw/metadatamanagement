@@ -1,0 +1,24 @@
+# start the app container with this compose configuration
+# you can build the app image by running:
+# mvn clean package dockerfile:build
+# then run the following command to start the app with all
+# dependencies:
+# docker-compose -f docker-compose.yml -f docker-compose-app.yml start
+version: "3.1"
+services:
+  app:
+    image: dzhw/metadatamanagement:1.0.70-SNAPSHOT
+    environment:
+      - SPRING_DATA_MONGODB_HOST=mongodb
+      - METADATAMANAGEMENT_ELASTICSEARCH-CLIENT_URL=http://elasticsearch:9200
+      - SPRING_MAIL_HOST=maildev
+      - SPRING_MAIL_PORT=25
+      - METADATAMANAGEMENT_DARA_ENDPOINT=${DARA_ENDPOINT}
+      - METADATAMANAGEMENT_DARA_USERNAME=${DARA_USERNAME}
+      - METADATAMANAGEMENT_DARA_PASSWORD=${DARA_PASSWORD}
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongodb
+      - elasticsearch
+      - maildev

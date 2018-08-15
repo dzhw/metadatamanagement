@@ -1,46 +1,57 @@
 {
 	"related_publications": {
-		"_all": {
-			"type": "text",
-			"index": "analyzed",
-			"enabled": true,
-			"analyzer": "ngrams",
-			"norms": false
-		},
 		"dynamic_templates": [{
 			"default_mapping": {
 				"match": "*",
 				"mapping": {
-					"index": "no",
-					"include_in_all": true
+					"index": false,
+					"copy_to": "all"
 				}
 			}
 		}],
 		"properties": {
+			"all": {
+				"type": "text",
+				"index": true,
+				"analyzer": "ngrams",
+				"norms": false
+			},
 			"id": {
 				"type": "keyword",
-				"index": "not_analyzed",
+				"copy_to": "all",
 				"fields": {
 					"ngrams": {
 						"type": "text",
-						"index": "analyzed",
 						"analyzer": "ngrams",
 						"norms": false
 					}
 				}
 			},
+			"lastModifiedDate": {
+				"type": "date"
+			},
+			"lastModifiedBy": {
+				"type": "keyword",
+				"copy_to": "all"
+			},
+			"createdDate": {
+				"type": "date"
+			},
+			"createdBy": {
+				"type": "keyword",
+				"copy_to": "all"
+			},
 			"dataAcquisitionProjectId": {
 				"type": "keyword",
-				"index": "not_analyzed"
+				"copy_to": "all"
 			},
 			"title": {
 				"type": "text",
-				"index": "no",
-				"include_in_all": true,
+				"index": false,
+				"copy_to": "all",
 				"fields": {
 					"ngrams": {
 						"type": "text",
-						"index": "analyzed",
 						"analyzer": "ngrams",
 						"norms": false
 					}
@@ -48,29 +59,26 @@
 			},
 			"authors": {
 				"type": "text",
-				"index": "no",
-				"include_in_all": true,
+				"index": false,
+				"copy_to": "all",
 				"fields": {
 					"ngrams": {
 						"type": "text",
-						"index": "analyzed",
 						"analyzer": "ngrams",
 						"norms": false
 					},
 					"keyword": {
-						"type": "keyword",
-						"index": "not_analyzed"
+						"type": "keyword"
 					}
 				}
 			},
 			"sourceReference": {
 				"type": "text",
-				"index": "no",
-				"include_in_all": true,
+				"index": false,
+				"copy_to": "all",
 				"fields": {
 					"ngrams": {
 						"type": "text",
-						"index": "analyzed",
 						"analyzer": "ngrams",
 						"norms": false
 					}
@@ -81,20 +89,18 @@
 			},
 			"studyIds": {
 				"type": "keyword",
-				"index": "not_analyzed"
+				"copy_to": "all"
 			},
 			"studySerieses": {
 				"type": "object",
 				"properties": {
 					"de": {
 						"type": "keyword",
-						"index": "not_analyzed",
-						"include_in_all": true,
+						"copy_to": "all",
 						"norms": false,
 						"fields": {
 							"ngrams": {
 								"type": "text",
-								"index": "analyzed",
 								"analyzer": "ngrams",
 								"norms": false
 							}
@@ -102,13 +108,11 @@
 					},
 					"en": {
 						"type": "keyword",
-						"index": "not_analyzed",
-						"include_in_all": true,
+						"copy_to": "all",
 						"norms": false,
 						"fields": {
 							"ngrams": {
 								"type": "text",
-								"index": "analyzed",
 								"analyzer": "ngrams",
 								"norms": false
 							}
@@ -116,33 +120,35 @@
 					}
 				}
 			},
+			"release": {
+				"type": "keyword"
+			},
 			"dataSetIds": {
 				"type": "keyword",
-				"index": "not_analyzed"
+				"copy_to": "all"
 			},
 			"variableIds": {
 				"type": "keyword",
-				"index": "not_analyzed"
+				"copy_to": "all"
 			},
 			"instrumentIds": {
 				"type": "keyword",
-				"index": "not_analyzed"
+				"copy_to": "all"
 			},
 			"questionIds": {
 				"type": "keyword",
-				"index": "not_analyzed"
+				"copy_to": "all"
 			},
 			"surveyIds": {
 				"type": "keyword",
-				"index": "not_analyzed"
+				"copy_to": "all"
 			},
 			"instruments": {
 				"type": "object",
 				"properties": {
 					"surveyIds": {
 						"type": "keyword",
-						"index": "no",
-						"include_in_all": false
+						"index": false
 					}
 				}
 			},
@@ -153,32 +159,12 @@
 						"type": "object",
 						"properties": {
 							"de": {
-								"type": "keyword",
-								"index": "not_analyzed",
-								"include_in_all": true,
-								"norms": false,
-								"fields": {
-									"ngrams": {
-										"type": "text",
-										"index": "analyzed",
-										"analyzer": "ngrams",
-										"norms": false
-									}
-								}
+								"type": "text",
+								"index": false
 							},
 							"en": {
-								"type": "keyword",
-								"index": "not_analyzed",
-								"include_in_all": true,
-								"norms": false,
-								"fields": {
-									"ngrams": {
-										"type": "text",
-										"index": "analyzed",
-										"analyzer": "ngrams",
-										"norms": false
-									}
-								}
+								"type": "text",
+								"index": false
 							}
 						}
 					}
@@ -192,13 +178,11 @@
 						"properties": {
 							"de": {
 								"type": "text",
-								"index": "no",
-								"include_in_all": false
+								"index": false
 							},
 							"en": {
 								"type": "text",
-								"index": "no",
-								"include_in_all": false
+								"index": false
 							}
 						}
 					}

@@ -4,4 +4,5 @@
     <logger name="org.springframework" level="WARN"/>
     <logger name="eu.dzhw.fdz.metadatamanagement" level="WARN"/>
     <logger name="org.javers" level="WARN"/>
+    <logger name="pl.allegro.tech.embeddedelasticsearch" level="WARN"/>
 </configuration>
