@@ -22,9 +22,9 @@ if [ -z ${PROFILE} ]; then
 fi
 echo "Going to run maven build and cloudfoundry deployment with profile: ${PROFILE}"
 if [ -z ${USERNAME} ] || [ -z ${PASSWORD} ]; then
-  cf login -o DZHW -s ${PROFILE}
+  cf login -o DZHW -s ${PROFILE} -a https://api.run.pivotal.io
 else
-  cf login -o DZHW -s ${PROFILE} -u ${USERNAME} -p ${PASSWORD}
+  cf login -o DZHW -s ${PROFILE} -u ${USERNAME} -p ${PASSWORD} -a https://api.run.pivotal.io
 fi
 if [ $? -ne 0 ]; then
     echo "cf login failed!"
