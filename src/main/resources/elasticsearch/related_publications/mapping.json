@@ -120,6 +120,9 @@
 					}
 				}
 			},
+			"release": {
+				"type": "keyword"
+			},
 			"dataSetIds": {
 				"type": "keyword",
 				"copy_to": "all"
