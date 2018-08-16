@@ -12,7 +12,7 @@ applications:
     JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{ enabled: false }'
   services:
   - mongodb
-  - elasticsearch
+  - elastic
   - email
   - dara
   - rabbitmq

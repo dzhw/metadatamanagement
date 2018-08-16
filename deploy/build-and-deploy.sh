@@ -41,7 +41,7 @@ if [ "${TRAVIS_EVENT_TYPE}" = "cron" ]; then
   echo "All E2E Tests passed."
   exit 0
 fi
-if [ -n ${TRAVIS_BRANCH} ]; then
+if [ -n "${TRAVIS_BRANCH}" ]; then
   PROFILE="dev"
 fi
 if [ "${TRAVIS_BRANCH}" = "master" ]; then
