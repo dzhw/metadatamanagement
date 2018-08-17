@@ -31,7 +31,7 @@ Create Study
   Input Text    name=authorsFirstName_1      R2
   Input Text    name=authorsMiddleName_1     D2
   Input Text    name=authorsLastName_1       noLastName
-  Move Second Autor To Place One
+  Move Second Author To Place One
   Save Changes
   Page Should Contain Element  xpath=//md-toolbar//a[contains(.,'robotsproject')]
   [Teardown]  Delete Robotsproject
