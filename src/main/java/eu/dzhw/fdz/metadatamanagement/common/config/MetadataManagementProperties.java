@@ -22,6 +22,8 @@ import io.searchbox.client.JestClient;
  */
 @ConfigurationProperties(prefix = "metadatamanagement", ignoreUnknownFields = false)
 public class MetadataManagementProperties {
+  
+  private final Elasticsearch elasticsearch = new Elasticsearch();
 
   private final ElasticsearchClient elasticsearchClient = new ElasticsearchClient();
 
@@ -36,6 +38,10 @@ public class MetadataManagementProperties {
   
   private final Server server = new Server();
 
+  public Elasticsearch getElasticsearch() {
+    return elasticsearch;
+  }
+  
   public ElasticsearchClient getElasticsearchClient() {
     return elasticsearchClient;
   }
@@ -60,6 +66,24 @@ public class MetadataManagementProperties {
     return server;
   }
 
+  /**
+   * Configure the current elasticsearch server version for testing.
+   * 
+   * @author René Reitmann
+   */
+  public static class Elasticsearch {
+    private String version = "6.3.2";
+
+    public String getVersion() {
+      return version;
+    }
+
+    public void setVersion(String version) {
+      this.version = version;
+    }
+    
+  }
+  
   /**
    * Configuration Properties for the {@link JestClient}.
    *

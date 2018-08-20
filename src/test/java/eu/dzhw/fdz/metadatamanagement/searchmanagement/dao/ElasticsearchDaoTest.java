@@ -20,7 +20,6 @@ import com.google.gson.JsonParser;
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchIndexCreateException;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchIndexDeleteException;
-import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchPutMappingException;
 
 /**
  * Test which checks index creation and mapping creation.
@@ -60,29 +59,6 @@ public class ElasticsearchDaoTest extends AbstractTest {
           .get(NUMBER_OF_REPLICAS)));
   }
 
-  @Test
-  public void testPutMapping() throws IOException {
-    createTestIndex();
-
-    Reader reader = new InputStreamReader(
-        resourceLoader.getResource("classpath:elasticsearch/testindex/mapping.json")
-          .getInputStream());
-
-    JsonObject mapping = jsonParser.parse(reader)
-      .getAsJsonObject();
-
-    elasticsearchDao.putMapping(TEST_INDEX, TEST_TYPE, mapping);
-
-    assertThat(elasticsearchDao.getMapping(TEST_INDEX, TEST_TYPE)
-      .getAsJsonObject(TEST_TYPE)
-      .getAsJsonObject("properties")
-      .getAsJsonObject("allStringsAsNgrams"),
-        equalTo(mapping.getAsJsonObject(TEST_TYPE)
-          .getAsJsonObject("properties")
-          .getAsJsonObject("allStringsAsNgrams")));
-
-  }
-
   @Test(expected = ElasticsearchIndexCreateException.class)
   public void testCreateIndexWithError() {
     // Arrange
@@ -102,24 +78,6 @@ public class ElasticsearchDaoTest extends AbstractTest {
 
     // Assert
     assertThat(jsonObject, is(nullValue()));
-  }
-
-  @Test(expected = ElasticsearchPutMappingException.class)
-  public void testPutMappingWithError() throws IOException {
-
-    // The error is produced by no existing index.
-
-    // Arrange
-    Reader reader = new InputStreamReader(
-        resourceLoader.getResource("classpath:elasticsearch/testindex/mapping.json")
-          .getInputStream());
-    JsonObject mapping = jsonParser.parse(reader)
-      .getAsJsonObject();
-
-    // Act
-    elasticsearchDao.putMapping(TEST_INDEX, TEST_TYPE, mapping);
-
-    // Assert
   }
 
   @Test

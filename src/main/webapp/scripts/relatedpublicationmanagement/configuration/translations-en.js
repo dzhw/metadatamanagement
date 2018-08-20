@@ -15,6 +15,7 @@ angular.module('metadatamanagementApp').config(
             'missing-id': 'Publication {{ index }} does not contain a RDC-ID and has not been saved!',
             'duplicate-id': 'The RDC-ID ({{ id }}) of Publication {{ index }} has already been used.',
             'upload-terminated': 'Finished upload of {{ total }} Publications with {{warnings}} warnings and {{ errors }} errors.',
+            'unable-to-load-study-serieses': 'Available Study Serieses could not be retrieved from the server!',
             'unable-to-delete': 'Publications could not be deleted!',
             'cancelled': 'Publications upload cancelled!'
           }
@@ -29,7 +30,8 @@ angular.module('metadatamanagementApp').config(
             'authors': 'Authors',
             'year': 'Year of publication',
             'source-reference': 'Reference',
-            'abstract-source': 'Source'
+            'abstract-source': 'Source',
+            'studySerieses': 'Study Serieses'
           },
           'abstract': 'Abstract',
           'title': '{{ title }} ({{publicationId}})',
@@ -59,14 +61,22 @@ angular.module('metadatamanagementApp').config(
             'studies':{
               'one': 'Click to show the study for which this publication has been written',
               'many': 'Click to show all studies for which this publication has been written'
-            }
+            },
+            'studies-series' : 'Click to show all studies for this study series'
           }
         },
         'error': {
           'related-publication': {
             'one-foreign-key-is-used': 'The Publication has no connection to any other object.',
-            'one-study-is-used': 'The publication has no connection to any study.',
+            'one-study-or-study-series-is-used': 'The publication has no connection to any study or any study series.',
             'valid-related-publication-id': 'The Id of Publication have to be build up after the pattern: "pub-" + {IdFromCitavi} + "$".',
+            'study-exists': 'There is no Study with RDC-ID "{{invalidValue}}"!',
+            'survey-exists': 'There is no Survey with RDC-ID "{{invalidValue}}"!',
+            'dataset-exists': 'There is no Data Set with RDC-ID "{{invalidValue}}"!',
+            'variable-exists': 'There is no Variable with RDC-ID "{{invalidValue}}"!',
+            'instrument-exists': 'There is no Instrument with RDC-ID "{{invalidValue}}"!',
+            'question-exists': 'There is no Question with RDC-ID "{{invalidValue}}"!',
+            'study-series-exists': 'There is no Study with Study Series "{{invalidValue.de}}"!',
             'id': {
               'not-empty': 'The RDC-ID of the Publication must not be empty!',
               'size': 'The max length of the RDC-ID is 512 signs.',
@@ -106,17 +116,11 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'post-validation': {
-            'study-unknown': 'The Study {{id}} could not be found. It is referenced by the publication ({{toBereferenzedId}}).',
-            'variable-unknown': 'The Variable {{id}} could not be found. It is referenced by the publication ({{toBereferenzedId}}).',
-            'variable-has-not-a-referenced-study': 'The Variable {{id}} has a reference to the Study ({{additionalId}}). This Study is not refereced by the publication ({{toBereferenzedId}}).',
-            'survey-unknown': 'The Survey {{id}} could not be found. It is referenced by the publication ({{toBereferenzedId}}).',
-            'survey-has-not-a-referenced-study': 'The Survey {{id}} has a reference to the Study ({{additionalId}}). This Study is not refereced by the publication ({{toBereferenzedId}}).',
-            'data-set-unknown': 'The Data Set {{id}} could not be found. It is referenced by the publication ({{toBereferenzedId}}).',
-            'data-set-has-not-a-referenced-study': 'The Data Set {{id}} has a reference to the Study ({{additionalId}}). This Study is not refereced by the publication ({{toBereferenzedId}}).',
-            'instrument-unknown': 'The instrument {{id}} could not be found. It is referenced by the publication ({{toBereferenzedId}}).',
-            'instrument-has-not-a-referenced-study': 'The instrument {{id}} has a reference to the Study ({{additionalId}}). This Study is not refereced by the publication ({{toBereferenzedId}}).',
-            'question-unknown': 'The Question {{id}} could not be found. It is referenced by the publication ({{toBereferenzedId}}).',
-            'question-has-not-a-referenced-study': 'The Question {{id}} has a reference to the Study ({{additionalId}}). This Study is not refereced by the publication ({{toBereferenzedId}}).'
+            'variable-has-not-a-referenced-study': 'Variable "{{invalidValue}}" belongs to a study which has not been linked to this publication.',
+            'survey-has-not-a-referenced-study': 'Survey "{{invalidValue}}" belongs to a study which has not been linked to this publication.',
+            'data-set-has-not-a-referenced-study': 'Data Set "{{invalidValue}}" belongs to a study which has not been linked to this publication.',
+            'instrument-has-not-a-referenced-study': 'Instrument "{{invalidValue}}" belongs to a study which has not been linked to this publication.',
+            'question-has-not-a-referenced-study': 'Question "{{invalidValue}}" belongs to a study which has not been linked to this publication.'
           }
         }
       }

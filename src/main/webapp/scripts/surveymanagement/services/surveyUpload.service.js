@@ -209,11 +209,17 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
                 deleteImagesAndAttachments(surveyDetailObject.survey.id).
                 then(function() {
                     var asyncFilesUpload = $q.when();
+                    var metadata = {
+                      dataAcquisitionProjectId: surveyDetailObject
+                        .survey.dataAcquisitionProjectId,
+                      surveyId: surveyDetailObject.survey.id,
+                      surveyNumber: surveyDetailObject.survey.number
+                    };
                     if (surveyDetailObject.images.de) {
                       asyncFilesUpload = asyncFilesUpload.then(function() {
                           return SurveyResponseRateImageUploadService.
                           uploadImage(surveyDetailObject.images.de,
-                            surveyDetailObject.survey.id,
+                            metadata,
                             surveyDetailObject.survey.number, 'de');
                         }).then(function() {
                           JobLoggingService.success({
@@ -234,7 +240,7 @@ angular.module('metadatamanagementApp').service('SurveyUploadService',
                       asyncFilesUpload = asyncFilesUpload.then(function() {
                               return SurveyResponseRateImageUploadService.
                             uploadImage(surveyDetailObject.images.en,
-                              surveyDetailObject.survey.id,
+                              metadata,
                               surveyDetailObject.survey.number, 'en');
                             }).then(function() {
                               JobLoggingService.success({

@@ -45,6 +45,7 @@ module.exports = function(config) {
       'src/main/webapp/bower_components/angular-block-ui/dist/angular-block-ui.js',
       'src/main/webapp/bower_components/lodash/lodash.js',
       'src/main/webapp/bower_components/plotly.js/dist/plotly.js',
+      'src/main/webapp/bower_components/plotly.js/dist/plotly-locale-de.js',
       'src/main/webapp/bower_components/highlightjs/highlight.pack.js',
       'src/main/webapp/bower_components/angular-highlightjs/build/angular-highlightjs.js',
       'src/main/webapp/bower_components/js-beautify/js/lib/beautify.js',
@@ -96,7 +97,7 @@ module.exports = function(config) {
       'src/main/webapp/scripts/**/*.js': ['coverage']
     },
 
-    reporters: ['dots', 'coverage', 'progress'],
+    reporters: ['dots', 'coverage'],
 
     coverageReporter: {
 
@@ -119,8 +120,8 @@ module.exports = function(config) {
 
     // level of logging
     // possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG
-    logLevel: config.LOG_INFO,
-
+    logLevel: config.LOG_ERROR,
+    browserConsoleLogOptions: {level: 'error', format: '%b %T: %m', terminal: false},
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: false,
 

@@ -14,6 +14,19 @@ angular.module('metadatamanagementApp').service('CleanJSObjectService',
       return cleanedArray;
     };
 
+    var parseAndTrim = function(data) {
+      var cleanedArray;
+      if (data) {
+        cleanedArray = data.split(',').map(function(value) {
+          return value.trim();
+        });
+        cleanedArray = cleanedArray.filter(function(value) {
+          return value !== '';
+        });
+      }
+      return cleanedArray;
+    };
+
     var isNullOrEmpty = function(object) {
       return (object === null || object === undefined || object.length ===
         0 ||
@@ -49,6 +62,7 @@ angular.module('metadatamanagementApp').service('CleanJSObjectService',
       removeWhiteSpace: removeWhiteSpace,
       removeEmptyJsonObjects: removeEmptyJsonObjects,
       isNullOrEmpty: isNullOrEmpty,
-      deleteEmptyStrings: deleteEmptyStrings
+      deleteEmptyStrings: deleteEmptyStrings,
+      parseAndTrim: parseAndTrim
     };
   });

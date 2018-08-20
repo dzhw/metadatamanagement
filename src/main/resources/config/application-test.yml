@@ -30,10 +30,10 @@ metadatamanagement:
   server:
     instance-index: ${cf.instance.index}
   elasticsearch-client:
-    url: ${vcap.services.elasticsearch.credentials.sslUri}
+    url: ${vcap.services.elastic.credentials.sslUri}
     read-timeout: 60000
   elasticsearch-angular-client:
-    apiVersion: '5.1'
+    apiVersion: '6.3'
     logLevel: error
     pageSize: 10
   dara:
@@ -43,5 +43,5 @@ metadatamanagement:
   rabbitmq:
     uri: ${vcap.services.rabbitmq.credentials.uri}
   websockets:
-    allowed-origins: 
+    allowed-origins:
       - https://metadatamanagement-test.cfapps.io

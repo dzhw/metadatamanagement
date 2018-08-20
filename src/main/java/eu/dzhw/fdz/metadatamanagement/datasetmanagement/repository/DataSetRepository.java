@@ -21,7 +21,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataS
  */
 @RepositoryRestResource(path = "/data-sets")
 public interface DataSetRepository
-    extends BaseRepository<DataSet, String>, CacheableRepositoryMethods {
+    extends BaseRepository<DataSet, String> {
 
   @RestResource(exported = false)
   Stream<DataSet> streamByDataAcquisitionProjectId(String dataAcquisitionProjectId);
@@ -34,7 +34,6 @@ public interface DataSetRepository
   Stream<IdAndVersionProjection> streamIdsByStudyId(String studyId);
   
   @RestResource(exported = false)
-  @Override
   List<IdAndVersionProjection> findIdsByDataAcquisitionProjectIdAndNumber(
       String dataAcquisitionProjectId, Integer number);
 

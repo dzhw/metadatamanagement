@@ -6,7 +6,6 @@ Resource    ../resources/login_resource.robot
 Test Template  Survey Page With Empty Or Invalid Options Should Fail
 Test Setup  Go To Survey Create Page
 Test Teardown  Close Survey Editor And Log Out
-Default Tags  Long
 
 *** Test Cases ***             GerTitle     EngTitle   Wave      FielPeriodStart  FieldPeriodEnd  GerSurvMeth  EngSurvMeth  GerPopTitle  EngPopTitle  GerPopDesc    EngPopDesc          GerSample  EngSample  NetSampleSize   ResponseRate
 Empty German Title             ${Empty}     Something  1         01.05.2018       31.05.2018      Versuch      Trial        Alle         All          Na eben alle  Of course everyone  Alle       All        1400            10
@@ -24,7 +23,7 @@ Empty PopDescription           Irgendetwas  Something  1         01.05.2018     
 Empty Sample                   Irgendetwas  Something  1         01.05.2018       01.06.2018      Versuch      Trial        Alle         All          Na eben alle  Of course everyone  ${Empty}   ${Empty}   1400            10
 Empty SampleSize               Irgendetwas  Something  1         01.05.2018       01.06.2018      Versuch      Trial        Alle         All          Na eben alle  Of course everyone  Alle       All        ${Empty}        10
 Invalid SampleSize First       Irgendetwas  Something  1         01.05.2018       01.06.2018      Versuch      Trial        Alle         All          Na eben alle  Of course everyone  Alle       All        -5              10
-Invalid SampleSize First       Irgendetwas  Something  1         01.05.2018       01.06.2018      Versuch      Trial        Alle         All          Na eben alle  Of course everyone  Alle       All        Testsamplesize  10
+Invalid SampleSize Second      Irgendetwas  Something  1         01.05.2018       01.06.2018      Versuch      Trial        Alle         All          Na eben alle  Of course everyone  Alle       All        Testsamplesize  10
 Invalid ResponseRate           Irgendetwas  Something  1         01.05.2018       01.06.2018      Versuch      Trial        Alle         All          Na eben alle  Of course everyone  Alle       All        Testsamplesize  E
 
 

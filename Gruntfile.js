@@ -1,7 +1,6 @@
-// Generated on 2015-11-09 using generator-jhipster 2.23.0
 'use strict';
 var fs = require('fs');
-
+const sass = require('node-sass');
 var parseString = require('xml2js').parseString;
 
 // Returns the second occurence of the version number
@@ -52,6 +51,20 @@ module.exports = function(grunt) {
         dist: 'src/main/webapp/dist'
       },
       watch: {
+        scripts: {
+          files: ['src/main/webapp/scripts/**/*.js'],
+          tasks: ['jshint'],
+          options: {
+            spawn: false,
+          },
+        },
+        templates: {
+          files: ['src/main/webapp/scripts/**/html.tmpl'],
+          tasks: ['jshint', 'jscs'],
+          options: {
+            spawn: false,
+          },
+        },
         bower: {
           files: ['bower.json'],
           tasks: ['wiredep']
@@ -342,7 +355,7 @@ module.exports = function(grunt) {
               'src/main/webapp/**/*.html',
               'src/main/webapp/**/*.json',
               'src/main/webapp/assets/styles/**/*.css',
-              'src/main/webapp/scripts/**/*.{js,html}',
+              'src/main/webapp/scripts/**/*.{js,html.tmpl}',
               'src/main/webapp/assets/images/**/*.' +
               '{png,jpg,jpeg,gif,webp,svg}',
               'tmp/**/*.{css,js}'
@@ -380,7 +393,8 @@ module.exports = function(grunt) {
       },
       sass: {
         options: {
-          includePaths: ['src/main/webapp/bower_components']
+          includePaths: ['src/main/webapp/bower_components'],
+          implementation: sass
         },
         server: {
           files: [{
@@ -770,7 +784,8 @@ module.exports = function(grunt) {
       }
     });
 
-  grunt.registerTask('serve', ['clean:server', 'wiredep', 'ngconstant:local',
+  grunt.registerTask('serve', ['createJavaSourceCodeFromTranslations',
+    'clean:server', 'wiredep', 'ngconstant:local',
     'sass:server', 'copy:localfonts', 'browserSync', 'watch'
   ]);
 
@@ -785,7 +800,8 @@ module.exports = function(grunt) {
     'jshint', 'jscs'
   ]);
 
-  grunt.registerTask('builddev', ['test', 'htmlangular:default',
+  grunt.registerTask('builddev', ['createJavaSourceCodeFromTranslations',
+    'test', 'htmlangular:default',
     'htmlangular:index', 'clean:dist',
     'wiredep:app', 'ngconstant:dev',
     'useminPrepare', 'ngtemplates', 'svgmin',
@@ -793,7 +809,8 @@ module.exports = function(grunt) {
     'autoprefixer', 'uglify', 'rev', 'usemin', 'htmlmin'
   ]);
 
-  grunt.registerTask('buildtest', ['test', 'htmlangular:default',
+  grunt.registerTask('buildtest', ['createJavaSourceCodeFromTranslations',
+    'test', 'htmlangular:default',
     'htmlangular:index', 'clean:dist',
     'wiredep:app', 'ngconstant:test',
     'useminPrepare', 'ngtemplates', 'svgmin',
@@ -801,7 +818,8 @@ module.exports = function(grunt) {
     'autoprefixer', 'uglify', 'rev', 'usemin', 'htmlmin'
   ]);
 
-  grunt.registerTask('buildprod', ['test', 'htmlangular:default',
+  grunt.registerTask('buildprod', ['createJavaSourceCodeFromTranslations',
+    'test', 'htmlangular:default',
     'htmlangular:index', 'clean:dist',
     'wiredep:app', 'ngconstant:prod',
     'useminPrepare', 'ngtemplates', 'svgmin',
@@ -809,7 +827,8 @@ module.exports = function(grunt) {
     'autoprefixer', 'uglify', 'rev', 'usemin', 'htmlmin'
   ]);
 
-  grunt.registerTask('buildlocal', ['test', 'clean:dist', 'copy:localfonts',
+  grunt.registerTask('buildlocal', ['createJavaSourceCodeFromTranslations',
+    'test', 'clean:dist', 'copy:localfonts',
     'wiredep:app', 'ngconstant:local', 'ngAnnotate'
   ]);
 

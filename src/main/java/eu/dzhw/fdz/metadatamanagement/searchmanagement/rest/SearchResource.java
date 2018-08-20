@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.metrics.web.client.MetricsRestTemplateCustomizer;
 import org.springframework.boot.actuate.metrics.web.client.RestTemplateExchangeTagsProvider;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,10 +21,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -98,17 +97,12 @@ public class SearchResource {
    */
   @RequestMapping(value = {"/api/search/**"})
   public ResponseEntity<String> search(@RequestBody(required = false) String body,
-      HttpMethod method,
-      @RequestHeader MultiValueMap<String, String> headers, HttpServletRequest request)
+      HttpMethod method, HttpServletRequest request)
       throws RestClientException, URISyntaxException {
-    headers.remove("authorization");
-    headers.remove("cookie");
-    headers.remove("x-forwarded-proto");
-    headers.remove("x-forwarded-port");
-    headers.remove("x-request-start");
-    headers.remove("x-vcap-request-id");
-    headers.remove("x-cf-applicationid");
-    headers.remove("x-cf-instanceid");
+    HttpHeaders headers = new HttpHeaders();
+    headers.add(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_UTF8_VALUE);
+    headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
+    
     if (base64Credentials != null) {
       headers.add("authorization", "Basic " + base64Credentials);
     }

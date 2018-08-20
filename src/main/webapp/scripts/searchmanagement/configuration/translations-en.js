@@ -22,7 +22,7 @@ angular.module('metadatamanagementApp').config(
           'delete-instruments': 'Are you sure you want to replace all Instruments within the Data Acquisition Project with RDC-ID "{{ id }}"?'
         },
         'detail': {
-          'search': 'Search'
+          'search': 'Data Search'
         },
         'buttons': {
           'refresh-tooltip': 'Click to refresh the search results',
@@ -40,7 +40,6 @@ angular.module('metadatamanagementApp').config(
           'edit-survey-tooltip': 'Click to manually edit the survey',
           'delete-survey-tooltip': 'Click to delete the survey',
           'upload-related-publications-tooltip': 'Click to upload publications',
-          'post-validate-related-publications-tooltip': 'Click to validate the publications',
           'upload-instruments-tooltip': 'Click to upload instruments for the selected data acquisition project',
           'previous-search-result-tooltip': 'Click (or CTRL+"\u21E6") to show search result {{ index }} ({{ id }})',
           'next-search-result-tooltip': 'Click (or CTRL+"\u21E8") to show search result {{ index }} ({{ id }})'
@@ -128,6 +127,7 @@ angular.module('metadatamanagementApp').config(
             'variables': 'Select filters for Variable Search...',
             'related_publications': 'Select filters for Publication Search...'
           },
+          'clear-filters-tooltip': 'Click to unselect all filters',
           'uncollapse-filters-tooltip': {
             'true': 'Click to show selected filters',
             'false': 'Click to hide selected filters'

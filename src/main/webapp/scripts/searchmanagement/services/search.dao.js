@@ -45,14 +45,14 @@ angular.module('metadatamanagementApp').service('SearchDao',
         lenient) {
         var constantScoreQuery = {
           'constant_score': {
-            'query': {
+            'filter': {
               'match': {}
             },
             'boost': boost
           }
         };
         // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
-        constantScoreQuery.constant_score.query.match[fieldName] = {
+        constantScoreQuery.constant_score.filter.match[fieldName] = {
           'query': queryTerm,
           'operator': 'and',
           'minimum_should_match': '100%',
@@ -208,7 +208,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
             boolQuery.should.push(createConstantScoreQuery(
               'year', queryTerm, standardSuperBoost, true));
             boolQuery.should.push(createConstantScoreQuery(
-              'publicationAbstract.ngrams', queryTerm, standardMinorBoost));
+              'sourceReference.ngrams', queryTerm, standardMinorBoost));
             break;
         }
       });
@@ -232,7 +232,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
         query.body = {};
         //use source filtering for returning only required attributes
         query.body._source = ['id', 'number', 'questionText', 'title',
-          'description', 'type', 'year', 'publicationAbstract', 'authors',
+          'description', 'type', 'year', 'sourceReference', 'authors',
           'surveyMethod', 'fieldPeriod', 'label', 'name', 'dataType',
           'sample',
           'scaleLevel', 'dataAcquisitionProjectId', 'dataSetNumber',
@@ -251,9 +251,9 @@ angular.module('metadatamanagementApp').service('SearchDao',
               'must': [
                 {
                 'constant_score': {
-                  'query': {
+                  'filter': {
                     'match': {
-                      '_all': {
+                      'all': {
                         'query': queryterm,
                         'operator': 'AND',
                         'minimum_should_match': '100%',

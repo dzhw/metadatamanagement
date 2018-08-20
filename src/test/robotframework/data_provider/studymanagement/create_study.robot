@@ -3,7 +3,6 @@ Documentation     Tests if study can be created.
 Resource      ../resources/home_page_resource.robot
 Resource      ../resources/search_resource.robot
 Resource      ../resources/login_resource.robot
-Default Tags  Long
 
 *** Test Cases ***
 Create Study
@@ -32,7 +31,7 @@ Create Study
   Input Text    name=authorsFirstName_1      R2
   Input Text    name=authorsMiddleName_1     D2
   Input Text    name=authorsLastName_1       noLastName
-  Move Second Autor To Place One
+  Move Second Author To Place One
   Save Changes
   Page Should Contain Element  xpath=//md-toolbar//a[contains(.,'robotsproject')]
   [Teardown]  Delete Robotsproject

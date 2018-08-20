@@ -3,7 +3,7 @@ Documentation     Tests the upload on the survey edit site.
 Resource    ../resources/home_page_resource.robot
 Resource    ../resources/search_resource.robot
 Resource    ../resources/login_resource.robot
-Default Tags  chromeonly
+Force Tags  smoketest  chromeonly
 
 
 *** Test Cases ***

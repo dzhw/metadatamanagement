@@ -14,7 +14,7 @@ public class ErrorDto implements Serializable {
     
   private final String entity;
   private final String message;
-  private final String invalidValue;
+  private final Object invalidValue;
   private final String property;
   
   
@@ -25,7 +25,7 @@ public class ErrorDto implements Serializable {
    * @param invalidValue the rejected value of the property
    * @param property the name of the property (empty for global errors)
    */
-  public ErrorDto(String entity, String message, String invalidValue, String property) {
+  public ErrorDto(String entity, String message, Object invalidValue, String property) {
     this.entity = entity;
     this.message = message;
     this.invalidValue = invalidValue;
@@ -40,7 +40,7 @@ public class ErrorDto implements Serializable {
     return message;
   }
 
-  public String getInvalidValue() {
+  public Object getInvalidValue() {
     return invalidValue;
   }
 

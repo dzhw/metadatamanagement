@@ -46,6 +46,9 @@ public class StudySearchDocument extends Study implements SearchDocumentInterfac
   
   private List<InstrumentSubDocument> instruments = 
       new ArrayList<>();
+  
+  private List<RelatedPublicationSubDocument> seriesPublications = 
+      new ArrayList<>();
       
   private Release release = null;
   
@@ -75,6 +78,7 @@ public class StudySearchDocument extends Study implements SearchDocumentInterfac
       List<SurveySubDocumentProjection> surveys,
       List<QuestionSubDocumentProjection> questions, 
       List<InstrumentSubDocumentProjection> instruments,
+      List<RelatedPublicationSubDocumentProjection> seriesPublications,
       Release release,
       String doi) {
     super(study);
@@ -103,6 +107,10 @@ public class StudySearchDocument extends Study implements SearchDocumentInterfac
     if (instruments != null) {
       this.instruments = instruments.stream()
           .map(InstrumentSubDocument::new).collect(Collectors.toList());      
+    }
+    if (seriesPublications != null) {
+      this.seriesPublications = seriesPublications.stream()
+          .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());
     }
     this.release = release;
     this.doi = doi;

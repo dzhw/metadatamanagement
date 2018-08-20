@@ -21,9 +21,9 @@ Click Element Through Tooltips
     Run Keyword If  '${BROWSER}' != 'ie'
     ...             Wait Until Keyword Succeeds  10s  0.5s  Execute JavaScript  window.document.evaluate("${element_xpath}", document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null).snapshotItem(0).click();
     Run Keyword If  '${BROWSER}' == 'ie'
-    ...             Focus  ${xpath_string}
+    ...             Wait Until Keyword Succeeds  10s  0.5s  Focus  ${xpath_string}
     Run Keyword If  '${BROWSER}' == 'ie'
-    ...             Mouse Over  ${xpath_string}
+    ...             Wait Until Keyword Succeeds  10s  0.5s  Mouse Over  ${xpath_string}
     Run Keyword If  '${BROWSER}' == 'ie'
-    ...             Wait Until Keyword Succeeds  5s  0.5s  Click Element  ${xpath_string}
+    ...             Wait Until Keyword Succeeds  10s  0.5s  Click Element  ${xpath_string}
     Wait Until Angular Ready	10s

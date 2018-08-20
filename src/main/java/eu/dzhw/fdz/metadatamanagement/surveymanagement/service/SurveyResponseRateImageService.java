@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.surveymanagement.service;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Query;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import eu.dzhw.fdz.metadatamanagement.filemanagement.util.MimeTypeDetector;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyResponseRateImageMetadata;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 
 /**
  * Service for creating and updating survey images. Used for updating images in mongo
@@ -29,18 +32,25 @@ public class SurveyResponseRateImageService {
   /**
    * This method save an image into GridFS/MongoDB based on a byteArrayOutputStream.
    * Existing image should be deleted before saving/updating an image
-   * @param surveyId The id of the question to be saved
+   * @param metadata the metadata for the image
    * @return return the name of the saved image in the GridFS / MongoDB.
    * @throws IOException thrown if the input stream cannot be closed
    */
   public String saveSurveyImage(MultipartFile multipartFile,
-      String surveyId, String fileName) throws IOException {
+      SurveyResponseRateImageMetadata metadata, String fileName) throws IOException {
     try (InputStream in = multipartFile.getInputStream()) {
-      String contentType = mimeTypeDetector.detect(multipartFile);
+      String currentUser = SecurityUtils.getCurrentUserLogin();
+      metadata.setVersion(0L);
+      metadata.setCreatedDate(LocalDateTime.now());
+      metadata.setCreatedBy(currentUser);
+      metadata.setLastModifiedBy(currentUser);
+      metadata.setLastModifiedDate(LocalDateTime.now());
+      metadata.generateId();
       // ensure there is no existing image
-      deleteSurveyImage(surveyId, fileName);
-      String relativePathWithName = buildFilename(surveyId, fileName);
-      this.operations.store(in, relativePathWithName, contentType);   
+      deleteSurveyImage(metadata.getSurveyId(), fileName);
+      String relativePathWithName = buildFilename(metadata.getSurveyId(), fileName);
+      String contentType = mimeTypeDetector.detect(multipartFile);
+      this.operations.store(in, relativePathWithName, contentType, metadata);   
       return relativePathWithName;      
     }
   }

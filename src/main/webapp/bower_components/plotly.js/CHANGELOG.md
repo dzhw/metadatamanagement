@@ -10,6 +10,107 @@ https://github.com/plotly/plotly.js/compare/vX.Y.Z...master
 where X.Y.Z is the semver of most recent plotly.js release.
 
 
+## [1.39.4] -- 2018-08-02
+
+### Fixed
+- Fix tenths of milliseconds handling in old numeric date data
+  (bug introduced in 1.21.0) [#2847]
+- Fix `yaxis` overlaying `yaxis2` layouts
+  (bug introduced in 1.39.3) [#2857]
+
+
+## [1.39.3] -- 2018-07-25
+
+### Fixed
+- Fix overlaying subplot configuration relayouts [#2831]
+- Fix trace toggling from position-editable horizontal legends [#2829]
+- Fix `[un]selected.marker.opacity` settings on `scattergeo` traces [#2827]
+- Fix selections on some Robinson projections [#2827]
+
+
+## [1.39.2] -- 2018-07-16
+
+### Fixed
+- Fix scattergl selection after resize relayouts [#2801]
+- Fix scattergl layout replot edits [#2793]
+- Fix cartesian axis range animations (bug introduced in 1.37.0) [#2788]
+- Fix contour labels that require thousands suffixes [#2806]
+- Fix 'legendonly' legend items link to array `marker.symbol` [#2816]
+- Fix handling of duplicate points under `line.simplify` [#2814]
+- Fix transform removal via `Plotly.react` [#2805]
+- Fix out-of-subplot scroll zoom on some geo projection types [#2811]
+- Fix hover label in RTL pages [#2790]
+- Reduce minified bundle back to their 1.39.0 sizes [#2792]
+
+
+## [1.39.1] -- 2018-07-09
+
+### Fixed
+- Fix mapbox subplots in our minified bundles (bug introduced in 1.39.0) [#2789]
+- Fix box and violin traces inner parts removal (bug introduced in 1.37.0) [#2785]
+
+
+## [1.39.0] -- 2018-07-05
+
+### Added
+- Add distributed npm packages for the main plotly.js bundle and all our partial
+  bundles for easy installation and bundling [#2670]
+- Add template machinery along with helpers methods `Plotly.makeTemplate` and
+  `Plotly.validateTemplate` [#2764]
+- Add 3D `streamtube` traces [#2658]
+- Add support for on-graph text in `scattergl` traces [#2737, #2783]
+- Add `gridshape` attribute to polar subplots with values `'circular'` (the
+  default) and `'linear'` (to draw polygon grids) [#2739]
+- Add `'range'` and `'change'` `aggregate` transform functions [#2764]
+- Add `visible` attribute to `rangeselector` and `updatemenu` buttons,  slider
+  steps and `mapbox` layout layers as well as `tickformatstops` items [#2761]
+- Add support for colorbar linked to `marker.color` values for `splom`,
+  `scatterpolar` and `scatterpolargl` traces [#2681]
+- Revamp icon settings in custom mode bar buttons, allowing users to specify
+  their own dimensions and SVG transforms [#2762]
+- Add `plotlyServerURL` config option [#2760]
+- Added no-WebGL warnings for graphs with `scattergl`, `scatterpolargl`, `splom`
+  and `parcoords` traces [#2697]
+
+### Changed
+- `plotly_afterplot` is now emitted after all edit types [#2773]
+- Trace `uid` is no longer mutated into user trace objects [#2681]
+- No longer add `marker.line` in `scattermapbox` fullData [#2766]
+- Use `regl@1.3.6` [#2694]
+- Use `mapbox-gl@0.45.0` [#2709]
+
+### Fixed
+- Fix `Plotly.react`'s handling of changing auto-margins [#2681]
+- Make plotting/updating WebGL-based traces fail gracefully when WebGL isn't
+  supported [#2697]
+- Fix mapbox layout layer updates [#2734]
+- Fix mapbox event inconsistencies [#2766]
+- Correctly emit `plotly_relayout` at end of scroll on mapbox subplots [#2709]
+- Fix `scatter3d` scalar `hovertext` handling [#2698]
+- Fix line decimation for segments crossing the viewport [#2705]
+- Fix `surface` trace contours when first level has length zero [#2712]
+- Fix `contour(x|y|z).highlight` partial settings [#2712]
+- Fix old date timezone precision in Chrome 67+ [#2747]
+- Fix `Plotly.validate` for attribute with trailing numbers (e.g. `x0`, `y1`) [#2761]
+- Fix x-only zoom moves when `xaxis.fixedrange: true`[#2776]
+- Fix colorbar edits for `parcoords` and `histogram` traces [#2681]
+- Fix bandwidth for single-value violins [#2775]
+- Sanitize `margin` after 'autosize' relayouts [#2758]
+- Make `Plots.resize` work when `layout` attribute is gone from graph div [#2710]
+- Fix `colorscale` attribute descriptions [#2658]
+
+
+## [1.38.3] -- 2018-06-11
+
+### Fixed
+- Fix `cone` axis padding when under `sizemode: 'absolute'` [#2715]
+- Fix `cone` scaling on irregular grids [#2715]
+- Fix `cone` `sizemode: 'absolute'` scaling and attribute description [#2715]
+- Improve `cone` hover picking [#2715]
+- Fix exception during histogram cross-trace computation [#2724]
+- Fix handling of custom transforms that make their own data arrays [#2714]
+
+
 ## [1.38.2] -- 2018-06-04
 
 ### Fixed

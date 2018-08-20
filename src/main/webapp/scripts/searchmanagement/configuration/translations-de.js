@@ -22,7 +22,7 @@ angular.module('metadatamanagementApp').config(
           'delete-instruments': 'Sind Sie sicher, dass Sie alle Instrumente innerhalb des Datenaufbereitungsprojekts mit der FDZ-ID "{{ id }}" mit den übergebenen Daten ersetzen möchten?'
         },
         'detail': {
-          'search': 'Suche'
+          'search': 'Datensuche'
         },
         'buttons': {
           'refresh-tooltip': 'Klicken, um die Suche zu aktualisieren',
@@ -40,7 +40,6 @@ angular.module('metadatamanagementApp').config(
           'edit-survey-tooltip': 'Klicken, um die Erhebung manuell zu bearbeiten',
           'delete-survey-tooltip': 'Klicken, um die Erhebung zu löschen',
           'upload-related-publications-tooltip': 'Klicken, um Publikationen hochzuladen',
-          'post-validate-related-publications-tooltip': 'Klicken, um Publikationen zu validieren',
           'upload-instruments-tooltip': 'Klicken, um Instrumente für das ausgewählte Datenaufbereitungsprojekt hochzuladen',
           'previous-search-result-tooltip': 'Klicken (oder STRG+"\u21E6"), um das {{ index }}. Suchergebnis ({{ id }}) anzuzeigen',
           'next-search-result-tooltip': 'Klicken (oder STRG+"\u21E8"), um das {{ index }}. Suchergebnis ({{ id }}) anzuzeigen'
@@ -128,6 +127,7 @@ angular.module('metadatamanagementApp').config(
             'variables': 'Filter für die Variablensuche...',
             'related_publications': 'Filter für die Publikationssuche...'
           },
+          'clear-filters-tooltip': 'Klicken, um alle Filter zu entfernen',
           'uncollapse-filters-tooltip': {
             'true': 'Klicken, um die ausgewählten Filter einzublenden',
             'false': 'Klicken, um die ausgewählten Filter auszublenden'

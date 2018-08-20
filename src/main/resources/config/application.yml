@@ -30,10 +30,10 @@ spring:
       encoding:
         force: false
     servlet:
-      multipart: 
-        max-file-size: 10MB
+      multipart:
+        max-file-size: 15MB
         max-request-size: 15MB
-        
+
 logging:
   level:
     root: warn
@@ -67,10 +67,13 @@ management:
   info:
     git:
       mode: full
-      
+
 javers:
   algorithm: levenshtein_distance
- 
+
+metadatamanagement:
+  elasticsearch:
+    version: 6.3.2 
 # ===================================================================
 # JHipster specific properties
 # ===================================================================
