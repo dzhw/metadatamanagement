@@ -37,6 +37,7 @@ public class OneForeignKeyIsUsedValidator
     boolean notEmptyStudyIds = false;
     boolean notEmptySurveyIds = false;
     boolean notEmptyVariableIds = false;
+    boolean notEmptyStudySerieses = false;
     
     
     //check all lists for null and set the isEmpty Value
@@ -58,10 +59,13 @@ public class OneForeignKeyIsUsedValidator
     if (relatedPublication.getVariableIds() != null) {
       notEmptyVariableIds = !relatedPublication.getVariableIds().isEmpty();
     }
+    if (relatedPublication.getStudySerieses() != null) {
+      notEmptyStudySerieses = !relatedPublication.getStudySerieses().isEmpty();
+    }
        
     
     return notEmptyDataSetIds || notEmptyInstrumentIds || notEmptyQuestionIds || notEmptyStudyIds
-          || notEmptySurveyIds || notEmptyVariableIds;
+          || notEmptySurveyIds || notEmptyVariableIds || notEmptyStudySerieses;
   }
 
 }

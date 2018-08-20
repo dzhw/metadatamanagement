@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<!--[if lt IE 11]> <html class="no-js lt-ie11" lang="en"><![endif]-->
-<!--[if gt IE 10]><!-->
-<html class="no-js" data-ng-app="metadatamanagementApp" lang="{{currentLanguage}}">
-<!--<![endif]-->
+<html data-ng-app="metadatamanagementApp" lang="{{currentLanguage}}">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,7 +9,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#006AB2">
-    <title data-translate="{{pageTitleKey}}" data-translate-values="{{pageTitleParams}}" data-translate-default="Metadatamanagement">Metadatamanagement</title>
+    <title data-translate="{{pageTitleKey}}" data-translate-values="{{pageTitleParams}}" data-translate-default="Metadatamanagement (MDM) - Data Search for Higher Education Research and Science Studies">Metadatamanagement (MDM) - Data Search for Higher Education Research and Science Studies</title>
     <meta name="apple-mobile-web-app-title" content="Metadatamanagement">
     <link rel="icon" type="image/png" href="assets/images/webapp/96-Gesamte-App.png">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -45,17 +42,23 @@
 
 <body data-layout="row">
     <div class="fdz-splash" data-ng-cloak>
-        <!--[if lt IE 11]><p class=fdz-no-js>Your browser is <em>ancient!</em> <a href="https://browsehappy.com/">Upgrade to a different browser</a> to experience this site.</p><![endif]-->
+        <div class="fdz-bootstrap-error">
+          <div class="fdz-no-js">
+            <p>The app could not be started successfully!</p>
+            <p><a href="https://browsehappy.com/">Upgrade or use a different browser</a> to experience this app.</p>
+          </div>
+        </div>
         <noscript style="display: table-header-group;">
           <div class="fdz-no-js">
-            For any functionality of this site it is necessary to enable JavaScript.
-            Here are the <a href="https://www.enable-javascript.com/" target="_blank">
-            instructions how to enable JavaScript in your web browser</a>.
+            <p>For any functionality of this app it is necessary to enable JavaScript!</p>
+            <p>Here are the <a href="https://www.enable-javascript.com/" target="_blank">
+            instructions how to enable JavaScript in your web browser</a>.</p>
           </div>
         </noscript>
-        <div>
-            <p>Metadatamanagement...</p>
-            <i class="material-icons">hourglass_empty</i>
+        <div class="fdz-app-title">
+            <h1>Metadatamanagement (MDM)</h1>
+            <p>Data Search for Higher Education Research and Science Studies</p>
+            <progress></progress>
         </div>
     </div>
     <div style="position: fixed; bottom: 0; right: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1000; padding-top: 64px;" data-layout="column">
@@ -106,6 +109,7 @@
     <script src="bower_components/angular-block-ui/dist/angular-block-ui.js"></script>
     <script src="bower_components/lodash/lodash.js"></script>
     <script src="bower_components/plotly.js/dist/plotly.js"></script>
+    <script src="bower_components/plotly.js/dist/plotly-locale-de.js"></script>
     <script src="bower_components/highlightjs/highlight.pack.js"></script>
     <script src="bower_components/angular-highlightjs/build/angular-highlightjs.js"></script>
     <script src="bower_components/js-beautify/js/lib/beautify.js"></script>
@@ -323,6 +327,7 @@
     <script src="scripts/studymanagement/resources/studyAttachment.resource.js"></script>
     <script src="scripts/studymanagement/resources/studyVersions.resource.js"></script>
     <script src="scripts/studymanagement/resources/studyAttachmentVersions.resource.js"></script>
+    <script src="scripts/studymanagement/resources/studySerieses.resource.js"></script>
     <script src="scripts/studymanagement/services/studyBuilder.service.js"></script>
     <script src="scripts/studymanagement/services/studyIdBuilder.service.js"></script>
     <script src="scripts/studymanagement/services/studyUpload.service.js"></script>
@@ -352,11 +357,9 @@
     <script src="scripts/relatedpublicationmanagement/configuration/translations-de.js"></script>
     <script src="scripts/relatedpublicationmanagement/configuration/translations-en.js"></script>
     <script src="scripts/relatedpublicationmanagement/resources/relatedPublication.resource.js"></script>
-    <script src="scripts/relatedpublicationmanagement/resources/relatedPublicationsPostValidation.resource.js"></script>
     <script src="scripts/relatedpublicationmanagement/services/relatedPublicationBuilder.service.js"></script>
     <script src="scripts/relatedpublicationmanagement/services/relatedPublicationIdBuilder.service.js"></script>
     <script src="scripts/relatedpublicationmanagement/services/relatedPublicationUpload.service.js"></script>
-    <script src="scripts/relatedpublicationmanagement/services/relatedPublicationsPostValidation.service.js"></script>
     <script src="scripts/relatedpublicationmanagement/services/relatedPublicationRepositoryClient.service.js"></script>
     <script src="scripts/relatedpublicationmanagement/views/relatedPublicationDetail.controller.js"></script>
     <script src="scripts/relatedpublicationmanagement/services/relatedPublicationSearch.service.js"></script>
@@ -419,7 +422,6 @@
     <script src="scripts/searchmanagement/directives/study-series-search-filter.controller.js"></script>
     <script src="scripts/searchmanagement/directives/next-search-result.directive.js"></script>
     <script src="scripts/searchmanagement/directives/previous-search-result.directive.js"></script>
-
     <!-- endbuild -->
 </body>
 

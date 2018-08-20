@@ -1,5 +1,8 @@
 {
-  "name": "Metadata Management",
+  "name": "Metadatamanagement",
+  "short_name": "MDM",
+  "description": "Data Search for Higher Education Research and Science Studies",
+  "start_url": ".",
   "display": "standalone",
   "theme_color": "#006AB2",
   "background_color": "#006AB2",
@@ -24,6 +27,5 @@
   }, {
     "src": "assets/images/icons/colored-mdm-app.svg",
     "sizes": "193x193"
-  }],
-  "start_url": "index.html"
+  }]
 }

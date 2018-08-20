@@ -69,8 +69,8 @@ angular.module('metadatamanagementApp').factory(
         'related-publication': 'relatedPublications.id'
       },
       'related_publications': {
-        'study-series-de': 'studies.studySeries.de',
-        'study-series-en': 'studies.studySeries.en',
+        'study-series-de': 'studySerieses.de',
+        'study-series-en': 'studySerieses.en',
         'study': 'studyIds',
         'survey': 'surveyIds',
         'instrument': 'instrumentIds',

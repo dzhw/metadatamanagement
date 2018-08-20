@@ -663,6 +663,9 @@ export interface Table2SheetOpts extends CommonOptions, DateNFOption {
      * @default 0
      */
     sheetRows?: number;
+
+    /** If true, hidden rows and cells will not be parsed */
+    display?: boolean;
 }
 
 /** General utilities */
@@ -796,4 +799,6 @@ export interface StreamUtils {
     to_csv(sheet: WorkSheet, opts?: Sheet2CSVOpts): any;
     /** HTML output stream, generate one line at a time */
     to_html(sheet: WorkSheet, opts?: Sheet2HTMLOpts): any;
+    /** JSON object stream, generate one row at a time */
+    to_json(sheet: WorkSheet, opts?: Sheet2JSONOpts): any;
 }

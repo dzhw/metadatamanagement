@@ -47,10 +47,14 @@ public class RelatedPublicationChangesProvider {
     List<String> oldIds = null;
     List<String> newIds = null;
     if (oldPublications.get(relatedPublicationId) != null) {
-      oldIds = oldPublications.get(relatedPublicationId).getStudyIds();
+      oldIds = oldPublications.get(relatedPublicationId).getStudyIds() != null 
+          ? oldPublications.get(relatedPublicationId).getStudyIds()
+          : new ArrayList<>();
     }
     if (newPublications.get(relatedPublicationId) != null) {
-      newIds = newPublications.get(relatedPublicationId).getStudyIds();
+      newIds = newPublications.get(relatedPublicationId).getStudyIds() != null
+          ? newPublications.get(relatedPublicationId).getStudyIds()
+          : new ArrayList<>();
     }
     return ListUtils.combineUniquely(newIds, oldIds);
   }
@@ -148,10 +152,12 @@ public class RelatedPublicationChangesProvider {
    * @return list of study ids which have been removed from the publications
    */
   public List<String> getDeletedStudyIds(String relatedPublicationId) {
-    if (oldPublications.get(relatedPublicationId) == null) {
+    if (oldPublications.get(relatedPublicationId) == null 
+        || oldPublications.get(relatedPublicationId).getStudyIds() == null) {
       return new ArrayList<>();
     }
-    if (newPublications.get(relatedPublicationId) == null) {
+    if (newPublications.get(relatedPublicationId) == null
+        || newPublications.get(relatedPublicationId).getStudyIds() == null) {
       return oldPublications.get(relatedPublicationId).getStudyIds();
     }
     List<String> deletedStudyIds = new ArrayList<>(oldPublications.get(relatedPublicationId)
@@ -166,11 +172,14 @@ public class RelatedPublicationChangesProvider {
    * @return list of study ids which have been added to the publications
    */
   public List<String> getAddedStudyIds(String relatedPublicationId) {
-    if (oldPublications.get(relatedPublicationId) == null) {
-      return newPublications.get(relatedPublicationId).getStudyIds();
-    }
-    if (newPublications.get(relatedPublicationId) == null) {
+    if (newPublications.get(relatedPublicationId) == null 
+        || newPublications.get(relatedPublicationId)
+        .getStudyIds() == null) {
       return new ArrayList<>();
+    }
+    if (oldPublications.get(relatedPublicationId) == null
+        || oldPublications.get(relatedPublicationId).getStudyIds() == null) {
+      return newPublications.get(relatedPublicationId).getStudyIds();
     }
     List<String> addedStudyIds = new ArrayList<>(newPublications.get(relatedPublicationId)
         .getStudyIds());

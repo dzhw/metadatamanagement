@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +16,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyResponseRateImageMetadata;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.SurveyResponseRateImageService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
@@ -34,7 +38,7 @@ public class SurveyResponseRateImageResource {
   /**
    * REST method for for uploading an image.
    * @param multiPartFile the image
-   * @param surveyId id of the survey
+   * @param surveyResponseRateImageMetadata the metadata for the image
    * @return response
    * @throws IOException write Exception 
    * @throws URISyntaxException write uri exception
@@ -42,14 +46,18 @@ public class SurveyResponseRateImageResource {
   @RequestMapping(path = "/surveys/images", method = RequestMethod.POST)
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<String> uploadImage(@RequestParam("image") MultipartFile multiPartFile,
-      @RequestParam("surveyId") String surveyId) throws IOException, URISyntaxException {
+      @RequestPart("surveyResponseRateImageMetadata")
+      @Valid SurveyResponseRateImageMetadata surveyResponseRateImageMetadata) 
+          throws IOException, URISyntaxException {
     if (!multiPartFile.isEmpty() && this.surveyResponseRateImageService
-            .checkResponseRateFileName(surveyId, multiPartFile.getOriginalFilename())) {    
+            .checkResponseRateFileName(surveyResponseRateImageMetadata.getSurveyId(),
+                multiPartFile.getOriginalFilename())) {    
       //We need the original file, because we do not know if it is a german or english file.
       //We just know it is a valid name.
       String imageName = this.surveyResponseRateImageService
           .saveSurveyImage(multiPartFile, 
-           surveyId, multiPartFile.getOriginalFilename());
+           surveyResponseRateImageMetadata,
+           multiPartFile.getOriginalFilename());
       return ResponseEntity
         .created(new URI("/public/files" + imageName))
         .contentLength(imageName.length())

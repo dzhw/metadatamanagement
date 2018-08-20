@@ -96,6 +96,8 @@ angular.module('metadatamanagementApp').config(
           'not-released-toast': 'Study "{{ id }}" is being worked on. Therefore it is not visible to all users at the moment!',
           'old-version': 'Your link refers to a former version ({{versionFromUrl}}) of this study. This page displays the current version ({{actualVersion}}) of the study "{{title}}".',
           'beta-release-no-doi': 'This is a BETA release and has no DOI at the moment.',
+          'publications-for-series': 'Publications related to Series "{{studySeries}}"',
+          'publications-for-study': 'Publications related to this Study',
           'tooltips': {
             'surveys': {
               'one': 'Click to show the survey of this study',
@@ -105,6 +107,7 @@ angular.module('metadatamanagementApp').config(
               'one': 'Click to show the data set of this study',
               'many': 'Click to show all data sets of this study',
             },
+            'series-publications': 'Click to show all publications related to this study series',
             'publications': {
               'one': 'Click to show the publication related to this study',
               'many': 'Click to show all publications related to this study'
@@ -172,7 +175,8 @@ angular.module('metadatamanagementApp').config(
             },
             'study-series': {
               'i18n-string-size': 'The max length of the study series is 512 signs.',
-              'i18n-string-entire-not-empty-optional': 'If the study series is given in one language, it has to be set in all languages.'
+              'i18n-string-entire-not-empty-optional': 'If the study series is given in one language, it has to be set in all languages.',
+              'i18n-string-must-not-contain-comma': 'The study series must not contain comma.'
             },
             'data-availability': {
               'not-null': 'The data availability of the study must not be empty!',

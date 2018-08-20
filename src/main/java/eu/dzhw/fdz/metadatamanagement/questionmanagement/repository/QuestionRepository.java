@@ -19,7 +19,7 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.projections.Ques
  */
 @RepositoryRestResource(path = "/questions")
 public interface QuestionRepository
-    extends BaseRepository<Question, String>, CacheableRepositoryMethods {
+    extends BaseRepository<Question, String> {
 
   @RestResource(exported = false)
   Stream<Question> streamByDataAcquisitionProjectId(String dataAcquisitionProjectId);
@@ -29,7 +29,6 @@ public interface QuestionRepository
       @Param("dataAcquisitionProjectId") String dataAcquisitionProjectId);
   
   @RestResource(exported = false)
-  @Override
   List<IdAndVersionProjection> findIdsByInstrumentIdAndNumber(String instrumentId, String number);
 
   @RestResource(exported = false)

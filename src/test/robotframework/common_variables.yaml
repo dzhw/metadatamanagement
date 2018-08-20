@@ -6,18 +6,21 @@ capabilities:
     browserName: chrome
     version: latest
     screenResolution: 1920x1080
+    maxDuration: 10800
   firefox:
     name: Win10/Firefox
     platform: Windows 10
     browserName: firefox
     version: latest
     screenResolution: 1920x1080
+    maxDuration: 10800
   edge:
     name: Win10/Edge
     platform: Windows 10
     browserName: MicrosoftEdge
     version: latest
     screenResolution: 1920x1080
+    maxDuration: 10800
   ie:
     name: Win10/IE11
     platform: Windows 10
@@ -35,3 +38,4 @@ capabilities:
     ensureCleanSession: true
     logLevel: 'TRACE'
     logFile: 'ie.log'
+    maxDuration: 10800

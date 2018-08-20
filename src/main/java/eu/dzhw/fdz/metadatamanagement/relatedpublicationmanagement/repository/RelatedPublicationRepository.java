@@ -9,6 +9,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.security.access.annotation.Secured;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.common.repository.BaseRepository;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
@@ -23,7 +24,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
  */
 @RepositoryRestResource(path = "/related-publications")
 public interface RelatedPublicationRepository 
-    extends BaseRepository<RelatedPublication, String>, CacheableRepositoryMethods {
+    extends BaseRepository<RelatedPublication, String> {
   @Override
   @Secured(value = AuthoritiesConstants.PUBLISHER)
   void delete(RelatedPublication entity);
@@ -103,6 +104,14 @@ public interface RelatedPublicationRepository
   @RestResource(exported = false)
   List<RelatedPublicationSubDocumentProjection> findSubDocumentsByInstrumentIdsContaining(
       String instrumentId);
+  
+  @RestResource(exported = false)
+  List<RelatedPublicationSubDocumentProjection> findSubDocumentsByStudySeriesesContaining(
+      I18nString studySeries);
+  
+  @RestResource(exported = false)
+  Stream<RelatedPublication> streamByStudySeriesesContaining(
+      I18nString studySeries);
 
   @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamAllIdAndVersionsBy();

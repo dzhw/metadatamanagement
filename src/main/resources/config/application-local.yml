@@ -32,7 +32,7 @@ spring:
     resources:
       static-locations:
         - file:src/main/webapp/
-        
+
 logging:
     level:
       eu.dzhw.fdz.metadatamanagement: debug
@@ -59,7 +59,7 @@ metadatamanagement:
     url: http://localhost:9200
     read-timeout: 60000
   elasticsearch-angular-client:
-    apiVersion: '5.1'
+    apiVersion: '6.3'
     logLevel: error
     pageSize: 10
   dara:
@@ -67,5 +67,5 @@ metadatamanagement:
     username: ${DARA_USERNAME}
     password: ${DARA_PASSWORD}
   websockets:
-    allowed-origins: 
+    allowed-origins:
       - "*"

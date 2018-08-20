@@ -12,7 +12,8 @@ angular.module('metadatamanagementApp').directive('searchFilterPanel',
         filterChangedCallback: '=',
         currentLanguage: '=',
         currentElasticsearchType: '=',
-        bowser: '='
+        bowser: '=',
+        isSearching: '='
       },
       controller: 'SearchFilterPanelController'
     };

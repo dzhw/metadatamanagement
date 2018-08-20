@@ -45,4 +45,6 @@ interface CompleteRelatedPublicationProjection extends AbstractRdcDomainObjectPr
 
   List<String> getInstrumentIds();
   
+  I18nString getStudySeries();
+  
 }

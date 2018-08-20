@@ -8,13 +8,16 @@ angular.module('metadatamanagementApp').service(
       return surveyNumber + '_responserate_' + language;
     };
 
-    var uploadImage = function(image, surveyId, surveyNumber, language) {
+    var uploadImage = function(image, metadata, surveyNumber, language) {
       var deferred = $q.defer();
-      image = Upload.rename(image, buildImageFilename(surveyNumber, language));
+      var filename = buildImageFilename(surveyNumber, language);
+      metadata.fileName = filename;
+      metadata.language = language;
+      image = Upload.rename(image, filename);
       Upload.upload({
         url: '/api/surveys/images',
         fields: {
-          'surveyId': surveyId,
+          surveyResponseRateImageMetadata: Upload.jsonBlob(metadata),
           'image': image
         },
       }).success(function() {

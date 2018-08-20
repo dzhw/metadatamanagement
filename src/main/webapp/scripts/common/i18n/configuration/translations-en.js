@@ -5,12 +5,12 @@ angular.module('metadatamanagementApp').config(
     var translations = {
       //jscs:disable
       'global': {
-        'title': 'metadatamanagement',
+        'title': 'Metadatamanagement (MDM)',
         'browsehappy': 'You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/?locale=en">upgrade your browser</a> to improve your experience.',
         'rdc-alt-text': 'Logo of the Research Data Center of the German Center for Research on Higher Education and Science Studies',
         'dzhw-alt-text': 'The German Centre for Research on Higher Education and Science Studies',
         'bmbf-alt-text': 'Sponsored by the FMER',
-        'search': 'Search',
+        'search': 'Data Search',
         'in-german': 'in German',
         'in': 'in',
         'in-english': 'in English',
@@ -112,6 +112,8 @@ angular.module('metadatamanagementApp').config(
           'category': 'Category'
         },
         'menu': {
+          'show-english-pages': 'Show              Pages in English',
+          'show-german-pages': 'Seiten             auf Deutsch anzeigen',
           'entities': {
             'main': 'Entities',
             'rdcProject': 'Data Acquisition Projects',
@@ -120,7 +122,7 @@ angular.module('metadatamanagementApp').config(
             'unknown-project': '{{projectId}} is unknown.'
           },
           'search': {
-            'title': 'Metadata Search'
+            'title': 'Metadatamanagement (MDM) - Data Search for Higher Education Research and Science Studies'
           },
           'account': {
             'main': 'Access for Data Providers',
@@ -138,8 +140,8 @@ angular.module('metadatamanagementApp').config(
             'database': 'Database'
           },
           'skip-navigation': 'Skip to Content',
-          'skip-navigation-tooltip': 'Click to skip menu',
-          'back-to-search': 'Click to show search page',
+          'skip-navigation-tooltip': 'Click to skip the menu',
+          'back-to-search': 'Click to show the search page',
           'language': 'Language',
           'data-access': 'Data Access',
           'disclosure': 'Disclosure',
@@ -250,7 +252,7 @@ angular.module('metadatamanagementApp').config(
             'json-parsing-error': 'The import of the object "{{entity}}" from an json file failed, because the field "{{property}}" has an invalid value: {{invalidValue}}',
             'excel-parsing-error': 'The import of the object "{{entity}}" from an excel file from line {{index}} failed, because the field "{{property}}" has an invalid value: {{invalidValue}}',
             'no-json-mapping': 'A server side error happened during the import of an object.',
-            'file-size-limit-exceeded': 'The file "{{ entity }}" exceeds the limit of 10MB!',
+            'file-size-limit-exceeded': 'The file "{{ entity }}" exceeds the limit of 15MB!',
             'file-already-exists': 'Saving failed because there is already a file with the name {{ filename }}!'
           },
           'server-error': {
@@ -313,7 +315,7 @@ angular.module('metadatamanagementApp').config(
             'info': 'Information'
           },
           'protocol': {
-            'created-by': 'Created by Metadata Search, at'
+            'created-by': 'Created by the MDM, at'
           },
           'block-ui-message': '{{warnings}} Warnings and {{ errors }} Errors on {{ total }} Objects'
         },
