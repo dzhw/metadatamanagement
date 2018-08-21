@@ -45,22 +45,6 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
         });
       return deferred;
     };
-    var findSurveys = function(surveyIds, selectedAttributes) {
-      var ids = _.split(surveyIds, ',');
-      var query = createQueryObject();
-      query.body = {};
-      query.body.query = {};
-      query.body.query.docs = [];
-      _.forEach(ids, function(id) {
-        query.body.query.docs.push({
-          '_id': id,
-          '_source': {
-              'include': selectedAttributes
-            }
-        });
-      });
-      return ElasticSearchClient.mget(query);
-    };
     var findByProjectId = function(dataAcquisitionProjectId, selectedAttributes,
       from, size, excludedSurveyId) {
       var query = createQueryObject();
@@ -236,7 +220,6 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
 
     return {
       findOneById: findOneById,
-      findSurveys: findSurveys,
       findByProjectId: findByProjectId,
       findByStudyId: findByStudyId,
       findByDataSetId: findByDataSetId,

@@ -1,4 +1,3 @@
-/* global _*/
 'use strict';
 
 angular.module('metadatamanagementApp').factory('InstrumentSearchService',
@@ -22,23 +21,6 @@ angular.module('metadatamanagementApp').factory('InstrumentSearchService',
           }
         });
       return deferred;
-    };
-
-    var findInstruments = function(instrumentIds, selectedAttributes) {
-      var ids = _.split(instrumentIds, ',');
-      var query = createQueryObject();
-      query.body = {};
-      query.body.query = {};
-      query.body.query.docs = [];
-      _.forEach(ids, function(id) {
-        query.body.query.docs.push({
-          '_id': id,
-          '_source': {
-              'include': selectedAttributes
-            }
-        });
-      });
-      return ElasticSearchClient.mget(query);
     };
 
     var findBySurveyId = function(surveyId, selectedAttributes, from,
@@ -104,7 +86,6 @@ angular.module('metadatamanagementApp').factory('InstrumentSearchService',
     };
     return {
       findOneById: findOneById,
-      findInstruments: findInstruments,
       findBySurveyId: findBySurveyId,
       findByProjectId: findByProjectId,
       countBy: countBy
