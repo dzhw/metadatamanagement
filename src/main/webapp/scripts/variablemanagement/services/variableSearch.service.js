@@ -25,22 +25,6 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
       return deferred;
     };
 
-    var findVariables = function(variableIds, selectedAttributes) {
-      var ids = _.split(variableIds, ',');
-      var query = createQueryObject();
-      query.body = {};
-      query.body.query = {};
-      query.body.query.docs = [];
-      _.forEach(ids, function(id) {
-        query.body.query.docs.push({
-          '_id': id,
-          '_source': {
-              'include': selectedAttributes
-            }
-        });
-      });
-      return ElasticSearchClient.mget(query);
-    };
     var findByQuestionId = function(questionId, selectedAttributes, from,
       size) {
       var query = createQueryObject();
@@ -251,7 +235,6 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
     return {
       findOneById: findOneById,
       findByQuestionId: findByQuestionId,
-      findVariables: findVariables,
       findByDataSetId: findByDataSetId,
       countBy: countBy,
       findAccessWays: findAccessWays,

@@ -61,13 +61,10 @@ angular.module('metadatamanagementApp')
           if (ctrl.question.successors) {
             QuestionSearchService.findAllSuccessors(ctrl.question.successors,
               ['id', 'instrumentNumber', 'questionText', 'type',
-              'instrumentNmber', 'number', 'dataAcquisitionProjectId',
+              'number', 'dataAcquisitionProjectId',
               'instrument.description'], 0, 100)
             .then(function(successors) {
-              _.pullAllBy(successors.docs, [{
-                'found': false
-              }], 'found');
-              ctrl.successors = successors.docs;
+              ctrl.successors = successors.hits.hits;
             });
           }
           QuestionImageMetadataResource.findByQuestionId({

@@ -1,4 +1,3 @@
-/* global  _*/
 'use strict';
 
 angular.module('metadatamanagementApp').factory('DataSetSearchService',
@@ -22,22 +21,6 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
           }
         });
       return deferred;
-    };
-    var findDataSets = function(dataSetIds, selectedAttributes) {
-      var ids = _.split(dataSetIds, ',');
-      var query =  createQueryObject();
-      query.body = {};
-      query.body.query = {};
-      query.body.query.docs = [];
-      _.forEach(ids, function(id) {
-        query.body.query.docs.push({
-          '_id': id,
-          '_source': {
-              'include': selectedAttributes
-            }
-        });
-      });
-      return ElasticSearchClient.mget(query);
     };
     var findOneByVariableId = function(variableId, selectedAttributes) {
       var query =  createQueryObject();
@@ -155,7 +138,6 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
       findBySurveyId: findBySurveyId,
       findByProjectId: findByProjectId,
       findByStudyId: findByStudyId,
-      findDataSets: findDataSets,
       countBy: countBy
     };
   });
