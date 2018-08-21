@@ -40,7 +40,9 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
       'search': {
         'type': 'search-management.detail.search',
         'translateString': 'global.tooltips.toolbarHeader.search',
-        'tab': 'search-management.tabs.'
+        'tab': 'search-management.tabs.',
+        'iconType': 'font',
+        'icon': 'search'
       },
       'studyCreate': {
         'type': 'study-management.detail.label.study',
