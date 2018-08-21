@@ -17,6 +17,7 @@ addons:
       - ubuntu-toolchain-r-test
     packages:
       - g++-4.9
+      - parallel
 before_install:
   - export CXX=g++-4.9
   - export NODE_OPTIONS=--max-old-space-size=4096
