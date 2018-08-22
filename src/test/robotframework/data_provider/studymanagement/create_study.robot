@@ -33,7 +33,7 @@ Create Study
   Input Text    name=authorsLastName_1       noLastName
   Move Second Author To Place One
   Save Changes
-  Page Should Contain Element  xpath=//md-toolbar//a[contains(.,'robotsproject')]
+  Page Should Contain Element  xpath=//md-toolbar//a[contains(.,'robotsproject${BROWSER}')]
   [Teardown]  Delete Robotsproject
 
 *** Keywords ***
