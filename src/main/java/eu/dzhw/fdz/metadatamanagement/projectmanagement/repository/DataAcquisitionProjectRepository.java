@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.projectmanagement.repository;
 import java.util.List;
 
 import org.javers.spring.annotation.JaversSpringDataAuditable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
@@ -20,5 +21,8 @@ public interface DataAcquisitionProjectRepository
     extends BaseRepository<DataAcquisitionProject, String> {
   
   @RestResource(path = "findAll", rel = "findAll")
-  List<DataAcquisitionProject> findAllBy();  
+  List<DataAcquisitionProject> findAllBy();
+  
+  @RestResource(path = "findByIdLikeOrderByIdAsc", rel = "findByIdLikeOrderByIdAsc")
+  List<DataAcquisitionProject> findByIdLikeOrderByIdAsc(@Param("id") String id);
 }

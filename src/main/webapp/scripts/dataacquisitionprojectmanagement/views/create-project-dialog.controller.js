@@ -3,8 +3,9 @@
 
 angular.module('metadatamanagementApp')
   .controller('CreateProjectDialogController', function($scope, $mdDialog,
-    $rootScope) {
+    $rootScope, id) {
     $scope.bowser = $rootScope.bowser;
+    $scope.project = {id: id};
     /* Close Dialog without return value for hiding */
     $scope.closeDialog = function() {
       $mdDialog.cancel();

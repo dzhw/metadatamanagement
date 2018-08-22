@@ -4,34 +4,22 @@
 angular.module('metadatamanagementApp')
   .controller('DataAcquisitionProjectNavbarController', [
     'CurrentProjectService', 'DataAcquisitionProjectPostValidationService',
-    'DataAcquisitionProjectSearchResource', 'DataAcquisitionProjectResource',
+    'DataAcquisitionProjectRepositoryClient', 'DataAcquisitionProjectResource',
     '$mdDialog', 'SimpleMessageToastService', '$translate',
     'ElasticSearchAdminService', '$scope', 'Principal', '$state',
     function(CurrentProjectService,
       DataAcquisitionProjectPostValidationService,
-      DataAcquisitionProjectSearchResource, DataAcquisitionProjectResource,
+      DataAcquisitionProjectRepositoryClient, DataAcquisitionProjectResource,
       $mdDialog, SimpleMessageToastService, $translate,
       ElasticSearchAdminService, $scope, Principal, $state) {
       var ctrl = this;
       ctrl.hasAuthority = Principal.hasAuthority;
       var i18nPrefix = 'data-acquisition-project-management.log-messages.' +
         'data-acquisition-project.';
-      //For Project Handling
-      ctrl.dataAcquisitionProjects = null;
       ctrl.searchText = '';
-
-      // init the input controle with the current project
-      if (CurrentProjectService.getCurrentProject()) {
-        ctrl.searchText = CurrentProjectService.getCurrentProject().id;
-      }
 
       $scope.$on('current-project-changed',
         function(event, project) { // jshint ignore:line
-          if (project) {
-            ctrl.searchText = project.id;
-          } else {
-            ctrl.searchText = '';
-          }
           ctrl.selectedProject = project;
         });
 
@@ -45,35 +33,12 @@ angular.module('metadatamanagementApp')
           ctrl.projectChooserDisabled = false;
         });
 
-      //Load the projects for the drop menu
-      function loadProjects() {
-        DataAcquisitionProjectSearchResource.findAll(
-          function(result) {
-            ctrl.dataAcquisitionProjects =
-              result._embedded.dataAcquisitionProjects;
-            var projects = ctrl.searchProjects(ctrl.searchText);
-            if (projects.length === 1) {
-              ctrl.selectedProject = projects[0];
-              ctrl.searchText = projects[0].id;
-            } else {
-              ctrl.selectedProject = null;
-              ctrl.searchText = '';
-            }
-          });
-      }
-      //Helper method for query the project list
-      function createFilterFor(query) {
-        var lowercaseQuery = query ? query.toLowerCase() : '';
-        return function filterFn(project) {
-          return (project.id.indexOf(lowercaseQuery) === 0);
-        };
-      }
-
       //Query for searching in project list
       ctrl.searchProjects = function(query) {
-        var results = query ? ctrl.dataAcquisitionProjects.filter(
-          createFilterFor(query)) : ctrl.dataAcquisitionProjects;
-        return results;
+        return DataAcquisitionProjectRepositoryClient
+          .findByIdLikeOrderByIdAsc(query).then(function(result) {
+            return result.data;
+          });
       };
 
       //Update the state for the current project
@@ -88,7 +53,8 @@ angular.module('metadatamanagementApp')
             templateUrl: 'scripts/dataacquisitionprojectmanagement/' +
               'views/create-project-dialog.html.tmpl',
             clickOutsideToClose: false,
-            fullscreen: true
+            fullscreen: true,
+            locals: {id: ctrl.selectedProject ? null : ctrl.searchText}
           })
           .then(function(project) {
             project.hasBeenReleasedBefore = false;
@@ -102,14 +68,12 @@ angular.module('metadatamanagementApp')
                     });
                 ctrl.selectedProject = project;
                 CurrentProjectService.setCurrentProject(project);
-                loadProjects();
               },
               //Server Error
               function(errorMsg) {
                 SimpleMessageToastService
                   .openAlertMessageToast(
                     i18nPrefix + 'server-error' + errorMsg);
-                loadProjects();
               }
             );
           });
@@ -146,7 +110,7 @@ angular.module('metadatamanagementApp')
                     i18nPrefix + 'deleted-successfully-project', {
                       id: ctrl.selectedProject.id
                     });
-                  loadProjects();
+                  ctrl.selectedProject = null;
                 });
             },
             function() {
@@ -238,6 +202,15 @@ angular.module('metadatamanagementApp')
           releaseProject();
         }
       };
-      loadProjects();
+
+      // init the input controle with the current project
+      if (CurrentProjectService.getCurrentProject()) {
+        ctrl.searchProjects(CurrentProjectService.getCurrentProject().id)
+          .then(function(projects) {
+          if (projects.length === 1) {
+            ctrl.selectedProject = projects[0];
+          }
+        });
+      }
     }
   ]);
