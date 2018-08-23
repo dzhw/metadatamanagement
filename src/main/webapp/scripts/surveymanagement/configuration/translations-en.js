@@ -34,7 +34,7 @@ angular.module('metadatamanagementApp').config(
             'population': 'Population',
             'survey-method': 'Survey Method',
             'data-type': 'Survey Data Type',
-            'sample': 'Sample',
+            'sample': 'Sampling Procedure',
             'grossSampleSize': 'Gross Sample Size',
             'sampleSize': 'Net Sample Size',
             'responseRate': 'Response Rate',
@@ -143,9 +143,9 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'The Population of a Survey must not be empty!'
             },
             'sample': {
-              'not-null': 'The Sample of a Survey must not be empty!',
-              'i18n-string-not-empty': 'The Sample of the Survey has to be given for one language.',
-              'i18n-string-size': 'The max length of the sample of the survey is 2048 signs.'
+              'not-null': 'The sampling procedure of a survey must not be empty!',
+              'i18n-string-not-empty': 'The sampling procedure of the survey has to be given for one language.',
+              'i18n-string-size': 'The max length of the sampling procedure of the survey is 2048 signs.'
             },
             'wave': {
               'not-null': 'The Wave of a Survey must not be empty!',
@@ -302,8 +302,8 @@ angular.module('metadatamanagementApp').config(
               }
             },
             'sample': {
-              'de': 'Please describe the sample of this survey in German.',
-              'en': 'Please describe the sample of this survey in English.'
+              'de': 'Please describe the sampling procedure of this survey in German.',
+              'en': 'Please describe the sampling procedure of this survey in English.'
             },
             'grossSampleSize': 'Please enter the gross sample size.',
             'sampleSize': 'Please enter the real (net) sample size.',

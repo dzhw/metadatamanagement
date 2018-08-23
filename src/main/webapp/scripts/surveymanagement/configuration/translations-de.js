@@ -34,7 +34,7 @@ angular.module('metadatamanagementApp').config(
             'population': 'Grundgesamtheit',
             'data-type': 'Erhebungsdatentyp',
             'survey-method': 'Erhebungsmethode',
-            'sample': 'Stichprobe',
+            'sample': 'Stichprobenverfahren',
             'annotations': 'Anmerkungen',
             'grossSampleSize': 'Bruttostichprobe',
             'sampleSize': 'Nettostichprobe',
@@ -143,9 +143,9 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'Die Grundgesamtheit der Erhebung darf nicht leer sein!'
             },
             'sample': {
-              'not-null': 'Die Stichprobe der Erhebung darf nicht leer sein!',
-              'i18n-string-not-empty': 'Die Stichprobe der Erhebung muss mindestens in einer Sprache vorliegen.',
-              'i18n-string-size': 'Die Maximallänge der Stichprobe der Erhebung ist 2048 Zeichen.'
+              'not-null': 'Das Stichprobenverfahren der Erhebung darf nicht leer sein!',
+              'i18n-string-not-empty': 'Das Stichprobenverfahren der Erhebung muss mindestens in einer Sprache vorliegen.',
+              'i18n-string-size': 'Die Maximallänge des Stichprobenverfahrens der Erhebung ist 2048 Zeichen.'
             },
             'wave': {
               'not-null': 'Die Welle der Erhebung darf nicht leer sein!',
@@ -302,8 +302,8 @@ angular.module('metadatamanagementApp').config(
               }
             },
             'sample': {
-              'de': 'Beschreiben Sie die Stichprobe auf Deutsch.',
-              'en': 'Beschreiben Sie die Stichprobe auf Englisch.'
+              'de': 'Beschreiben Sie das Stichprobenverfahren auf Deutsch.',
+              'en': 'Beschreiben Sie das Stichprobenverfahren auf Englisch.'
             },
             'grossSampleSize': 'Geben Sie die Größe Ihrer Stichprobe (brutto) an.',
             'sampleSize': 'Geben Sie die tatsächliche Größe Ihrer Stichprobe (netto) an.',
