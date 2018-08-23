@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').factory(
   'SearchHelperService',
-  function(CleanJSObjectService) {
+  function(CleanJSObjectService, Principal) {
     var keyMapping = {
       'studies': {
         'study-series-de': 'studySeries.de',
@@ -194,12 +194,28 @@ angular.module('metadatamanagementApp').factory(
       return _.keys(hiddenFiltersKeyMapping[elasticsearchType]);
     };
 
+    var addReleaseFilter = function(query) {
+      //only publisher and data provider see unreleased projects
+      if (!Principal
+          .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
+        query.body.query = query.body.query || {};
+        query.body.query.bool = query.body.query.bool || {};
+        query.body.query.bool.filter = query.body.query.bool.filter || [];
+        query.body.query.bool.filter.push({
+          'exists': {
+            'field': 'release'
+          }
+        });
+      }
+    };
+
     return {
       createTermFilters: createTermFilters,
       removeIrrelevantFilters: removeIrrelevantFilters,
       getAvailableFilters: getAvailableFilters,
       getHiddenFilters: getHiddenFilters,
-      createSortByCriteria: createSortByCriteria
+      createSortByCriteria: createSortByCriteria,
+      addReleaseFilter: addReleaseFilter
     };
   }
 );

@@ -204,6 +204,8 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
         query.body.query.bool.filter = termFilters;
       }
 
+      SearchHelperService.addReleaseFilter(query);
+
       return ElasticSearchClient.search(query).then(function(result) {
         var surveyMethods = [];
         var surveyMethodElement = {};

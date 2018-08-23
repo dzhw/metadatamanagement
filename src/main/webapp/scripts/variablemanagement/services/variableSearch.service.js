@@ -162,6 +162,9 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
         };
         query.body.query.bool.filter = termFilters;
       }
+
+      SearchHelperService.addReleaseFilter(query);
+
       return ElasticSearchClient.search(query).then(function(result) {
         return _.map(result.aggregations.accessWays.buckets, 'key');
       });
@@ -194,6 +197,8 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
         query.body.query.bool.filter = termFilters;
       }
 
+      SearchHelperService.addReleaseFilter(query);
+
       return ElasticSearchClient.search(query).then(function(result) {
         return _.map(result.aggregations.panelIdentifiers.buckets, 'key');
       });
@@ -225,6 +230,8 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
         };
         query.body.query.bool.filter = termFilters;
       }
+
+      SearchHelperService.addReleaseFilter(query);
 
       return ElasticSearchClient.search(query).then(function(result) {
         return _.map(result.aggregations
