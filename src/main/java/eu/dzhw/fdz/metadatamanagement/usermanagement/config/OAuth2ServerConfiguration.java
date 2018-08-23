@@ -13,7 +13,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
-import org.springframework.security.oauth2.provider.token.DefaultAuthenticationKeyGenerator;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -46,41 +45,22 @@ public class OAuth2ServerConfiguration {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-      http.exceptionHandling()
-        .authenticationEntryPoint(authenticationEntryPoint)
-        .and()
-          .logout().logoutUrl("/api/logout").logoutSuccessHandler(ajaxLogoutSuccessHandler)
-        .and()
-          .csrf().requireCsrfProtectionMatcher(new AntPathRequestMatcher("/oauth/authorize"))
-            .disable().headers()
-            .frameOptions().disable()
-        .and()
-        // disable csrf protection for api
-          .csrf().ignoringAntMatchers("/api/**", "/management/**")
-        .and()
-          .authorizeRequests()
-            .antMatchers("/api/authenticate").permitAll()
-            .antMatchers("/api/register").permitAll()
-        // enable basic http for /api
-        .and()
-          .authorizeRequests()
-            .antMatchers("/api/**").authenticated()
-        .and()
-          .httpBasic()
-        .and()
-           .authorizeRequests()
-           .antMatchers("/management/info")
-               .permitAll()
-           .antMatchers("/management/**")
-              .hasAuthority("ROLE_ADMIN")
-        .and()
-          .sessionManagement()
-          .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-          .enableSessionUrlRewriting(false);
+      http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint).and().logout()
+          .logoutUrl("/api/logout").logoutSuccessHandler(ajaxLogoutSuccessHandler).and().csrf()
+          .requireCsrfProtectionMatcher(new AntPathRequestMatcher("/oauth/authorize")).disable()
+          .headers().frameOptions().disable().and()
+          // disable csrf protection for api
+          .csrf().ignoringAntMatchers("/api/**", "/management/**").and().authorizeRequests()
+          .antMatchers("/api/authenticate").permitAll().antMatchers("/api/register").permitAll()
+          // enable basic http for /api
+          .and().authorizeRequests().antMatchers("/api/**").authenticated().and().httpBasic().and()
+          .authorizeRequests().antMatchers("/management/info").permitAll()
+          .antMatchers("/management/**").hasAuthority("ROLE_ADMIN").and().sessionManagement()
+          .sessionCreationPolicy(SessionCreationPolicy.STATELESS).enableSessionUrlRewriting(false);
 
       // Enforce HTTPS when the request comes through a proxy/load balancer
-      http.requiresChannel()
-        .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null).requiresSecure();
+      http.requiresChannel().requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
+          .requiresSecure();
     }
   }
 
@@ -103,9 +83,8 @@ public class OAuth2ServerConfiguration {
 
     @Bean
     public TokenStore tokenStore() {
-      return new MongoDbTokenStore(oauth2AccessTokenRepository,
-          oauth2RefreshTokenRepository,
-          new DefaultAuthenticationKeyGenerator());
+      return new MongoDbTokenStore(oauth2AccessTokenRepository, oauth2RefreshTokenRepository,
+          new UniqueAuthenticationKeyGenerator());
     }
 
     @Autowired
@@ -115,8 +94,7 @@ public class OAuth2ServerConfiguration {
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 
-      endpoints.tokenStore(tokenStore())
-        .authenticationManager(authenticationManager);
+      endpoints.tokenStore(tokenStore()).authenticationManager(authenticationManager);
     }
 
     @Override
