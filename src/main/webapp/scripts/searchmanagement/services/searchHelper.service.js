@@ -209,13 +209,37 @@ angular.module('metadatamanagementApp').factory(
       }
     };
 
+    var addQuery = function(query, queryterm) {
+      if (!CleanJSObjectService.isNullOrEmpty(queryterm)) {
+        query.body.query = query.body.query || {};
+        query.body.query.bool = query.body.query.bool || {};
+        query.body.query.bool.must = query.body.query.bool.must || [];
+        query.body.query.bool.must.push({
+          'constant_score': {
+            'filter': {
+              'match': {
+                'all': {
+                  'query': queryterm,
+                  'operator': 'AND',
+                  'minimum_should_match': '100%',
+                  'zero_terms_query': 'NONE',
+                  'boost': 1 //constant base score of 1 for matches
+                }
+              }
+            }
+          }
+        });
+      }
+    };
+
     return {
       createTermFilters: createTermFilters,
       removeIrrelevantFilters: removeIrrelevantFilters,
       getAvailableFilters: getAvailableFilters,
       getHiddenFilters: getHiddenFilters,
       createSortByCriteria: createSortByCriteria,
-      addReleaseFilter: addReleaseFilter
+      addReleaseFilter: addReleaseFilter,
+      addQuery: addQuery
     };
   }
 );

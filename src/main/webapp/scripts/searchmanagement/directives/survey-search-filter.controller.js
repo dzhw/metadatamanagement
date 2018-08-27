@@ -3,17 +3,21 @@
 
 angular.module('metadatamanagementApp')
   .controller('SurveySearchFilterController', [
-    '$scope', 'SearchDao', 'SurveySearchService', '$timeout',
-    'CurrentProjectService', '$rootScope',
-    function($scope, SearchDao, SurveySearchService, $timeout,
-      CurrentProjectService, $rootScope) {
+    '$scope', 'SurveySearchService', '$timeout',
+    'CurrentProjectService', '$rootScope', '$location',
+    function($scope, SurveySearchService, $timeout,
+      CurrentProjectService, $rootScope, $location) {
       // prevent survey changed events during init
       var initializing = true;
       var selectionChanging = false;
-      var lastSearchText;
-      var lastFilter;
-      var lastProjectId;
-      var lastSearchResult;
+      var cache = {
+        seachText: null,
+        filter: null,
+        type: null,
+        query: null,
+        projectId: null,
+        searchResult: null
+      };
       var init = function() {
         if (selectionChanging) {
           selectionChanging = false;
@@ -28,20 +32,16 @@ angular.module('metadatamanagementApp')
             .then(function(result) {
               $rootScope.$broadcast('stop-ignoring-404');
               if (result) {
-                $scope.currentSurvey = {_source: result};
+                $scope.currentSurvey = result;
               } else {
                 $scope.currentSurvey = {
-                  _source: {
-                    id: $scope.currentSearchParams.filter.survey
-                  }
+                  id: $scope.currentSearchParams.filter.survey
                 };
               }
             }, function() {
                 $rootScope.$broadcast('stop-ignoring-404');
                 $scope.currentSurvey = {
-                  _source: {
-                    id: $scope.currentSearchParams.filter.survey
-                  }
+                  id: $scope.currentSearchParams.filter.survey
                 };
                 $timeout(function() {
                   $scope.surveyFilterForm.surveyFilter.$setValidity(
@@ -63,7 +63,7 @@ angular.module('metadatamanagementApp')
           $scope.currentSearchParams.filter = {};
         }
         if (survey) {
-          $scope.currentSearchParams.filter.survey = survey._source.id;
+          $scope.currentSearchParams.filter.survey = survey.id;
         } else {
           delete $scope.currentSearchParams.filter.survey;
         }
@@ -71,26 +71,35 @@ angular.module('metadatamanagementApp')
       };
 
       $scope.searchSurveys = function(searchText) {
+        $scope.type = $location.search().type;
+        $scope.query = $location.search().query;
+        $scope.projectId = CurrentProjectService.getCurrentProject() ?
+          CurrentProjectService.getCurrentProject().id : null;
         var cleanedFilter = _.omit($scope.currentSearchParams.filter,
           'survey');
-        var currentProjectId = CurrentProjectService.getCurrentProject() ?
-            CurrentProjectService.getCurrentProject().id : null;
-        if (searchText === lastSearchText &&
-          _.isEqual(lastFilter, cleanedFilter) &&
-          lastProjectId === currentProjectId) {
-          return lastSearchResult;
+
+        if (searchText === cache.searchText &&
+            $scope.type === cache.type &&
+            _.isEqual(cache.filter, cleanedFilter) &&
+            $scope.query === cache.query &&
+            $scope.projectId === cache.projectId
+          ) {
+          return cache.searchResult;
         }
-        return SearchDao.search(searchText, 1,
-            currentProjectId, cleanedFilter,
-            'surveys',
-            100).then(function(data) {
-              lastSearchText = searchText;
-              lastFilter = _.cloneDeep(cleanedFilter);
-              lastProjectId = currentProjectId;
-              lastSearchResult = data.hits.hits;
-              return data.hits.hits;
-            }
-          );
+
+        //Search Call to Elasticsearch
+        return SurveySearchService.findSurveyTitles(searchText, cleanedFilter,
+           $scope.type, $scope.query, $scope.projectId)
+          .then(function(surveyTitles) {
+            cache.searchText = searchText;
+            cache.filter = _.cloneDeep(cleanedFilter);
+            cache.searchResult = surveyTitles;
+            cache.type = $scope.type;
+            cache.query = $scope.query;
+            cache.projectId = $scope.projectId;
+            return surveyTitles;
+          }
+        );
       };
       $scope.$watch('currentSearchParams.filter.survey', function() {
         init();

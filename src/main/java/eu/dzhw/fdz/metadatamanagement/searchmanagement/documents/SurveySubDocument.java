@@ -2,7 +2,6 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
 import org.springframework.beans.BeanUtils;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Population;
@@ -14,7 +13,7 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.Survey
  * @author René Reitmann
  */
 @SuppressWarnings("CPD-START")
-public class SurveySubDocument extends AbstractRdcDomainObject
+public class SurveySubDocument extends AbstractSubDocument
     implements SurveySubDocumentProjection {
   private String id;
 
@@ -36,13 +35,27 @@ public class SurveySubDocument extends AbstractRdcDomainObject
 
   private I18nString dataType;
 
+  private I18nString completeTitle;
+
   public SurveySubDocument() {
     super();
   }
 
+  /**
+   * Create the subdocument.
+   * 
+   * @param projection The projection coming from mongo.
+   */
   public SurveySubDocument(SurveySubDocumentProjection projection) {
     super();
     BeanUtils.copyProperties(projection, this);
+    this.completeTitle =
+        I18nString.builder()
+            .de((projection.getTitle().getDe() != null ? projection.getTitle().getDe()
+                : projection.getTitle().getEn()) + " (" + projection.getId() + ")")
+            .en((projection.getTitle().getEn() != null ? projection.getTitle().getEn()
+                : projection.getTitle().getDe()) + " (" + projection.getId() + ")")
+            .build();
   }
 
   @Override
@@ -133,5 +146,10 @@ public class SurveySubDocument extends AbstractRdcDomainObject
 
   public void setDataType(I18nString dataType) {
     this.dataType = dataType;
+  }
+
+  @Override
+  public I18nString getCompleteTitle() {
+    return completeTitle;
   }
 }

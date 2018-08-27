@@ -2,7 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
 import org.springframework.beans.BeanUtils;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projections.RelatedPublicationSubDocumentProjection;
 
 /**
@@ -11,7 +11,7 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projec
  * @author René Reitmann
  */
 @SuppressWarnings("CPD-START")
-public class RelatedPublicationSubDocument extends AbstractRdcDomainObject
+public class RelatedPublicationSubDocument extends AbstractSubDocument
     implements RelatedPublicationSubDocumentProjection {
   private String id;
   
@@ -23,13 +23,23 @@ public class RelatedPublicationSubDocument extends AbstractRdcDomainObject
   
   private String language;
   
+  private I18nString completeTitle;
+
   public RelatedPublicationSubDocument() {
     super();
   }
   
+  /**
+   * Create the subdocument.
+   * 
+   * @param projection The projection coming from mongo.
+   */
   public RelatedPublicationSubDocument(RelatedPublicationSubDocumentProjection projection) {
     super();
     BeanUtils.copyProperties(projection, this);
+    this.completeTitle =
+        I18nString.builder().de(projection.getTitle() + " (" + projection.getId() + ")")
+            .en(projection.getTitle() + " (" + projection.getId() + ")").build();
   }
 
   @Override
@@ -74,5 +84,10 @@ public class RelatedPublicationSubDocument extends AbstractRdcDomainObject
 
   public void setLanguage(String language) {
     this.language = language;
+  }
+
+  @Override
+  public I18nString getCompleteTitle() {
+    return completeTitle;
   }
 }

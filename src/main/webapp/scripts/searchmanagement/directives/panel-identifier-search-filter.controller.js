@@ -4,14 +4,19 @@
 angular.module('metadatamanagementApp')
   .controller('PanelIdentifierSearchFilterController', [
     '$scope', 'VariableSearchService', '$timeout', 'CurrentProjectService',
-    function($scope, VariableSearchService, $timeout, CurrentProjectService) {
+    '$location',
+    function($scope, VariableSearchService, $timeout, CurrentProjectService,
+      $location) {
       // prevent panel-identifier changed events during init
       var initializing = true;
       var selectionChanging = false;
-      var lastSearchText;
-      var lastFilter;
-      var lastProjectId;
-      var lastSearchResult;
+      var cache = {
+        searchText: null,
+        filter: null,
+        query: null,
+        projectId: null,
+        searchResult: null
+      };
       var init = function() {
         if (selectionChanging) {
           selectionChanging = false;
@@ -59,7 +64,7 @@ angular.module('metadatamanagementApp')
         }
         if (panelIdentifier) {
           $scope.currentSearchParams.filter['panel-identifier'] =
-          panelIdentifier;
+          panelIdentifier.key;
         } else {
           delete $scope.currentSearchParams.filter['panel-identifier'];
         }
@@ -71,19 +76,22 @@ angular.module('metadatamanagementApp')
           'panel-identifier');
         var currentProjectId = CurrentProjectService.getCurrentProject() ?
           CurrentProjectService.getCurrentProject().id : null;
-        if (searchText === lastSearchText &&
-          _.isEqual(lastFilter, cleanedFilter) &&
-          lastProjectId === currentProjectId) {
-          return lastSearchResult;
+        var query = $location.search().query || null;
+        if (searchText === cache.searchText &&
+          _.isEqual(cache.filter, cleanedFilter) &&
+          cache.projectId === currentProjectId &&
+          cache.query === query) {
+          return cache.searchResult;
         }
         return VariableSearchService.findPanelIdentifiers(
           searchText, cleanedFilter,
-          currentProjectId)
+          currentProjectId, query)
           .then(function(panelIdentifiers) {
-            lastSearchText = searchText;
-            lastFilter = _.cloneDeep(cleanedFilter);
-            lastProjectId = currentProjectId;
-            lastSearchResult = panelIdentifiers;
+            cache.searchText = searchText;
+            cache.filter = _.cloneDeep(cleanedFilter);
+            cache.projectId = currentProjectId;
+            cache.query = query;
+            cache.searchResult = panelIdentifiers;
             return panelIdentifiers;
           }
         );

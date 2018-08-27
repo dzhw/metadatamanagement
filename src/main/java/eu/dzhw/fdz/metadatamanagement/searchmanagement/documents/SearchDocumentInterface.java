@@ -12,4 +12,5 @@ public interface SearchDocumentInterface {
 
   I18nString getGuiLabels();
 
+  I18nString getCompleteTitle();
 }

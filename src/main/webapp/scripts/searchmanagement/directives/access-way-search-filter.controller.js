@@ -4,14 +4,19 @@
 angular.module('metadatamanagementApp')
   .controller('AccessWaySearchFilterController', [
     '$scope', 'VariableSearchService', '$timeout', 'CurrentProjectService',
-    function($scope, VariableSearchService, $timeout, CurrentProjectService) {
+    '$location',
+    function($scope, VariableSearchService, $timeout, CurrentProjectService,
+      $location) {
       // prevent access-way changed events during init
       var initializing = true;
       var selectionChanging = false;
-      var lastSearchText;
-      var lastFilter;
-      var lastProjectId;
-      var lastSearchResult;
+      var cache = {
+        searchText: null,
+        filter: null,
+        query: null,
+        projectId: null,
+        searchResult: null
+      };
       var init = function() {
         if (selectionChanging) {
           selectionChanging = false;
@@ -49,7 +54,7 @@ angular.module('metadatamanagementApp')
           $scope.currentSearchParams.filter = {};
         }
         if (accessWay) {
-          $scope.currentSearchParams.filter['access-way'] = accessWay;
+          $scope.currentSearchParams.filter['access-way'] = accessWay.key;
         } else {
           delete $scope.currentSearchParams.filter['access-way'];
         }
@@ -61,18 +66,22 @@ angular.module('metadatamanagementApp')
           'access-way');
         var currentProjectId = CurrentProjectService.getCurrentProject() ?
             CurrentProjectService.getCurrentProject().id : null;
-        if (searchText === lastSearchText &&
-          _.isEqual(lastFilter, cleanedFilter) &&
-           lastProjectId === currentProjectId) {
-          return lastSearchResult;
+        var query = $location.search().query;
+        if (searchText === cache.SearchText &&
+          _.isEqual(cache.filter, cleanedFilter) &&
+           cache.projectId === currentProjectId &&
+           query === cache.query
+          ) {
+          return cache.searchResult;
         }
         return VariableSearchService.findAccessWays(
-          searchText, cleanedFilter, currentProjectId)
+          searchText, cleanedFilter, currentProjectId, query)
           .then(function(accessWays) {
-            lastSearchText = searchText;
-            lastFilter = _.cloneDeep(cleanedFilter);
-            lastProjectId = currentProjectId;
-            lastSearchResult = accessWays;
+            cache.searchText = searchText;
+            cache.filter = _.cloneDeep(cleanedFilter);
+            cache.projectId = currentProjectId;
+            cache.query = query;
+            cache.searchResult = accessWays;
             return accessWays;
           }
         );

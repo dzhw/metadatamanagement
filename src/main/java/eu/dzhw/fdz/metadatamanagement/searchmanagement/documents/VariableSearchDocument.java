@@ -40,6 +40,8 @@ public class VariableSearchDocument extends Variable implements SearchDocumentIn
   
   private I18nString guiLabels = VariableDetailsGuiLabels.GUI_LABELS;
   
+  private I18nString completeTitle;
+
   /**
    * Construct the search document with all related subdocuments.
    * @param variable the variable to be searched for
@@ -78,5 +80,11 @@ public class VariableSearchDocument extends Variable implements SearchDocumentIn
           .map(InstrumentSubDocument::new).collect(Collectors.toList());
     }
     this.release = release;
+    this.completeTitle = I18nString.builder()
+        .de((variable.getLabel().getDe() != null ? variable.getLabel().getDe()
+            : variable.getLabel().getEn()) + " (" + variable.getId() + ")")
+        .en((variable.getLabel().getEn() != null ? variable.getLabel().getEn()
+            : variable.getLabel().getDe()) + " (" + variable.getId() + ")")
+        .build();
   }
 }

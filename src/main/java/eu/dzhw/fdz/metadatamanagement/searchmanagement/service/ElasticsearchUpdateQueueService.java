@@ -3,9 +3,12 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.service;
 import java.lang.management.ManagementFactory;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -318,11 +321,12 @@ public class ElasticsearchUpdateQueueService {
       if (relatedPublication.getQuestionIds() != null) {
         questions = questionRepository.findSubDocumentsByIdIn(relatedPublication.getQuestionIds());
       }
-      List<InstrumentSubDocumentProjection> instruments = 
-          new ArrayList<InstrumentSubDocumentProjection>();
+      Map<String, InstrumentSubDocumentProjection> instruments =
+          new HashMap<String, InstrumentSubDocumentProjection>();
       if (relatedPublication.getInstrumentIds() != null) {
         instruments = instrumentRepository
-            .findSubDocumentsByIdIn(relatedPublication.getInstrumentIds());
+            .findSubDocumentsByIdIn(relatedPublication.getInstrumentIds()).stream().collect(
+                Collectors.toMap(InstrumentSubDocumentProjection::getId, Function.identity()));
       }
       List<SurveySubDocumentProjection> surveys = new ArrayList<SurveySubDocumentProjection>();
       if (relatedPublication.getSurveyIds() != null) {
@@ -369,8 +373,9 @@ public class ElasticsearchUpdateQueueService {
           });
         }
       });
-      List<InstrumentSubDocumentProjection> instruments = instrumentRepository
-          .findSubDocumentsByIdIn(instrumentIds);
+      Map<String, InstrumentSubDocumentProjection> instruments =
+          instrumentRepository.findSubDocumentsByIdIn(instrumentIds).stream().collect(
+              Collectors.toMap(InstrumentSubDocumentProjection::getId, Function.identity()));
       List<QuestionSubDocumentProjection> questions = questionRepository
           .findSubDocumentsByIdIn(questionIds);
       List<RelatedPublicationSubDocumentProjection> relatedPublications = 
@@ -414,9 +419,10 @@ public class ElasticsearchUpdateQueueService {
       List<RelatedPublicationSubDocumentProjection> relatedPublications = 
           relatedPublicationRepository
             .findSubDocumentsBySurveyIdsContaining(survey.getId());
-      List<InstrumentSubDocumentProjection> instruments = instrumentRepository
-          .findSubDocumentsBySurveyIdsContaining(survey.getId());
-      List<String> instrumentIds = instruments.stream()
+      Map<String, InstrumentSubDocumentProjection> instruments = instrumentRepository
+          .findSubDocumentsBySurveyIdsContaining(survey.getId()).stream()
+          .collect(Collectors.toMap(InstrumentSubDocumentProjection::getId, Function.identity()));
+      List<String> instrumentIds = instruments.values().stream()
           .map(InstrumentSubDocumentProjection::getId).collect(Collectors.toList());
       List<QuestionSubDocumentProjection> questions = questionRepository
           .findSubDocumentsByInstrumentIdIn(instrumentIds);
@@ -554,8 +560,9 @@ public class ElasticsearchUpdateQueueService {
           .findSubDocumentByStudyId(study.getId());
       List<QuestionSubDocumentProjection> questions = questionRepository
           .findSubDocumentsByStudyId(study.getId());
-      List<InstrumentSubDocumentProjection> instruments = instrumentRepository
-          .findSubDocumentsByStudyId(study.getId());
+      Map<String, InstrumentSubDocumentProjection> instruments =
+          instrumentRepository.findSubDocumentsByStudyId(study.getId()).stream().collect(
+              Collectors.toMap(InstrumentSubDocumentProjection::getId, Function.identity()));
       List<RelatedPublicationSubDocumentProjection> seriesPublications = null;
       if (study.getStudySeries() != null) {
         seriesPublications = relatedPublicationRepository

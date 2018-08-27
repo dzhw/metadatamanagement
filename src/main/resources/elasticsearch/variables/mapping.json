@@ -1,14 +1,16 @@
 {
 	"variables": {
-		"dynamic_templates": [{
-			"default_mapping": {
-				"match": "*",
-				"mapping": {
-					"index": false,
-					"copy_to": "all"
+		"dynamic_templates": [
+			{
+				"default_mapping": {
+					"match": "*",
+					"mapping": {
+						"index": false,
+						"copy_to": "all"
+					}
 				}
 			}
-		}],
+		],
 		"properties": {
 			"all": {
 				"type": "text",
@@ -21,6 +23,21 @@
 				"copy_to": "all",
 				"fields": {
 					"ngrams": {
+						"type": "text",
+						"analyzer": "ngrams",
+						"norms": false
+					}
+				}
+			},
+			"completeTitle": {
+				"type": "object",
+				"properties": {
+					"de": {
+						"type": "text",
+						"analyzer": "ngrams",
+						"norms": false
+					},
+					"en": {
 						"type": "text",
 						"analyzer": "ngrams",
 						"norms": false
@@ -191,35 +208,73 @@
 			"study": {
 				"type": "object",
 				"properties": {
+					"completeTitle": {
+						"type": "object",
+						"properties": {
+							"de": {
+								"type": "text",
+								"analyzer": "ngrams",
+								"norms": false
+							},
+							"en": {
+								"type": "text",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
+					},
+					"id": {
+						"type": "keyword",
+						"copy_to": [
+							"all"
+						]
+					},
+					"title": {
+						"type": "object",
+						"properties": {
+							"de": {
+								"type": "keyword",
+								"copy_to": [
+									"all"
+								]
+							},
+							"en": {
+								"type": "keyword",
+								"copy_to": [
+									"all"
+								]
+							}
+						}
+					},
 					"studySeries": {
-               			"type": "object",
-                		"properties": {
-                    		"de": {
-                        		"type": "keyword",
-                        		"copy_to": "all",
-                        		"norms": false,
-                        		"fields": {
-		                            "ngrams": {
-                                		"type": "text",
-                                		"analyzer": "ngrams",
- 		                            		"norms": false
-                            		}
-                        		}
-                    		},
-                    		"en": {
-                        		"type": "keyword",
-                        		"copy_to": "all",
-                        		"norms": false,
-                        		"fields": {
-                            		"ngrams": {
-                                		"type": "text",
-                                		"analyzer": "ngrams",
-                                		"norms": false
-                            		}
-                        		}
-                    		}
-                		}
-            		}
+						"type": "object",
+						"properties": {
+							"de": {
+								"type": "keyword",
+								"copy_to": "all",
+								"norms": false,
+								"fields": {
+									"ngrams": {
+										"type": "text",
+										"analyzer": "ngrams",
+										"norms": false
+									}
+								}
+							},
+							"en": {
+								"type": "keyword",
+								"copy_to": "all",
+								"norms": false,
+								"fields": {
+									"ngrams": {
+										"type": "text",
+										"analyzer": "ngrams",
+										"norms": false
+									}
+								}
+							}
+						}
+					}
 				}
 			},
 			"relatedPublications": {
@@ -247,9 +302,26 @@
 			"surveys": {
 				"type": "object",
 				"properties": {
+					"completeTitle": {
+						"type": "object",
+						"properties": {
+							"de": {
+								"type": "text",
+								"analyzer": "ngrams",
+								"norms": false
+							},
+							"en": {
+								"type": "text",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
+					},
 					"id": {
 						"type": "keyword",
-						"copy_to": "all"
+						"copy_to": [
+							"all"
+						]
 					},
 					"population": {
 						"type": "object",
@@ -268,8 +340,7 @@
 						"type": "object",
 						"properties": {
 							"de": {
-								"type": "text",
-								"index": false,
+								"type": "keyword",
 								"copy_to": "all",
 								"fields": {
 									"ngrams": {
@@ -280,8 +351,7 @@
 								}
 							},
 							"en": {
-								"type": "text",
-								"index": false,
+								"type": "keyword",
 								"copy_to": "all",
 								"fields": {
 									"ngrams": {

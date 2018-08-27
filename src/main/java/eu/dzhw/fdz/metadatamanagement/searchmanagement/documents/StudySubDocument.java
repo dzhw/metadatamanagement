@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySubDocumentProjection;
@@ -15,7 +14,7 @@ import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySub
  * @author René Reitmann
  */
 @SuppressWarnings("CPD-START")
-public class StudySubDocument extends AbstractRdcDomainObject
+public class StudySubDocument extends AbstractSubDocument
     implements StudySubDocumentProjection {
   private String id;
   
@@ -35,6 +34,8 @@ public class StudySubDocument extends AbstractRdcDomainObject
   
   private I18nString surveyDesign;
   
+  private I18nString completeTitle;
+
   public StudySubDocument() {
     super();
   }
@@ -48,6 +49,12 @@ public class StudySubDocument extends AbstractRdcDomainObject
     super();
     BeanUtils.copyProperties(projection, this);
     this.doi = doi;
+    this.completeTitle = I18nString.builder()
+        .de((projection.getTitle().getDe() != null ? projection.getTitle().getDe()
+            : projection.getTitle().getEn()) + " (" + projection.getId() + ")")
+        .en((projection.getTitle().getEn() != null ? projection.getTitle().getEn()
+            : projection.getTitle().getDe()) + " (" + projection.getId() + ")")
+        .build();
   }
 
   @Override
@@ -129,5 +136,10 @@ public class StudySubDocument extends AbstractRdcDomainObject
 
   public void setSurveyDesign(I18nString surveyDesign) {
     this.surveyDesign = surveyDesign;
+  }
+  
+  @Override
+  public I18nString getCompleteTitle() {
+    return completeTitle;
   }
 }

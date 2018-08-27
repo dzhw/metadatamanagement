@@ -4,14 +4,19 @@
 angular.module('metadatamanagementApp')
   .controller('DerivedVariablesIdentifierSearchFilterController', [
     '$scope', 'VariableSearchService', '$timeout', 'CurrentProjectService',
-    function($scope, VariableSearchService, $timeout, CurrentProjectService) {
+    '$location',
+    function($scope, VariableSearchService, $timeout, CurrentProjectService,
+      $location) {
       // prevent derived-variables-identifier changed events during init
       var initializing = true;
       var selectionChanging = false;
-      var lastSearchText;
-      var lastFilter;
-      var lastProjectId;
-      var lastSearchResult;
+      var cache = {
+        searchText: null,
+        filter: null,
+        query: null,
+        projectId: null,
+        searchResult: null
+      };
       var init = function() {
         if (selectionChanging) {
           selectionChanging = false;
@@ -65,7 +70,7 @@ angular.module('metadatamanagementApp')
         }
         if (derivedVariablesIdentifier) {
           $scope.currentSearchParams.filter['derived-variables-identifier'] =
-          derivedVariablesIdentifier;
+          derivedVariablesIdentifier.key;
         } else {
           delete $scope.currentSearchParams
             .filter['derived-variables-identifier'];
@@ -78,19 +83,22 @@ angular.module('metadatamanagementApp')
           'derived-variables-identifier');
         var currentProjectId = CurrentProjectService.getCurrentProject() ?
           CurrentProjectService.getCurrentProject().id : null;
-        if (searchText === lastSearchText &&
-          _.isEqual(lastFilter, cleanedFilter) &&
-          lastProjectId === currentProjectId) {
-          return lastSearchResult;
+        var query = $location.search().query || null;
+        if (searchText === cache.searchText &&
+          _.isEqual(cache.filter, cleanedFilter) &&
+          cache.projectId === currentProjectId &&
+          cache.query === query) {
+          return cache.searchResult;
         }
         return VariableSearchService.findDerivedVariablesIdentifiers(
           searchText, cleanedFilter,
-          currentProjectId)
+          currentProjectId, query)
           .then(function(derivedVariablesIdentifiers) {
-            lastSearchText = searchText;
-            lastFilter = _.cloneDeep(cleanedFilter);
-            lastProjectId = currentProjectId;
-            lastSearchResult = derivedVariablesIdentifiers;
+            cache.searchText = searchText;
+            cache.filter = _.cloneDeep(cleanedFilter);
+            cache.projectId = currentProjectId;
+            cache.query = query;
+            cache.searchResult = derivedVariablesIdentifiers;
             return derivedVariablesIdentifiers;
           }
         );

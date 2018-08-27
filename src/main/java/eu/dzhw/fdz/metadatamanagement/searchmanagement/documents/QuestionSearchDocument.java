@@ -40,6 +40,8 @@ public class QuestionSearchDocument extends Question implements SearchDocumentIn
   
   private I18nString guiLabels = QuestionDetailsGuiLabels.GUI_LABELS;
   
+  private I18nString completeTitle;
+
   /**
    * Construct the search document with all related subdocuments.
    * @param question the question to be searched for
@@ -82,5 +84,21 @@ public class QuestionSearchDocument extends Question implements SearchDocumentIn
           .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());      
     }
     this.release = release;
+    if (instrument != null) {
+      this.completeTitle = I18nString.builder()
+          .de("Frage " + question.getNumber() + ": "
+              + (instrument.getTitle().getDe() != null ? instrument.getTitle().getDe()
+                  : instrument.getTitle().getEn())
+              + " (" + question.getId() + ")")
+          .en("Question " + question.getNumber() + ": "
+              + (instrument.getTitle().getEn() != null ? instrument.getTitle().getEn()
+                  : instrument.getTitle().getDe())
+              + " (" + question.getId() + ")")
+          .build();
+    } else {
+      this.completeTitle =
+          I18nString.builder().de("Frage " + question.getNumber() + ": " + question.getId())
+              .en("Question " + question.getNumber() + ": " + question.getId()).build();
+    }
   }
 }

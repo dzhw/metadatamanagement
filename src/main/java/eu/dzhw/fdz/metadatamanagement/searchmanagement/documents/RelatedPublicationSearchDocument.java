@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
@@ -45,6 +46,8 @@ public class RelatedPublicationSearchDocument extends RelatedPublication
 
   private I18nString guiLabels = RelatedPublicationDetailsGuiLabels.GUI_LABELS;
 
+  private I18nString completeTitle;
+
   /**
    * Construct the search document with all related subdocuments.
    * @param relatedPublication the related publication to be searched for
@@ -59,7 +62,7 @@ public class RelatedPublicationSearchDocument extends RelatedPublication
   public RelatedPublicationSearchDocument(RelatedPublication relatedPublication,
       List<StudySubDocument> studies,
       List<QuestionSubDocumentProjection> questions,
-      List<InstrumentSubDocumentProjection> instruments,
+      Map<String, InstrumentSubDocumentProjection> instruments,
       List<SurveySubDocumentProjection> surveys,
       List<DataSetSubDocumentProjection> dataSets,
       List<VariableSubDocumentProjection> variables) {
@@ -69,10 +72,12 @@ public class RelatedPublicationSearchDocument extends RelatedPublication
     }
     if (questions != null) {
       this.questions = questions.stream()
-          .map(QuestionSubDocument::new).collect(Collectors.toList());
+          .map(question -> new QuestionSubDocument(question,
+              instruments.get(question.getInstrumentId()).getTitle()))
+          .collect(Collectors.toList());
     }
     if (instruments != null) {
-      this.instruments = instruments.stream()
+      this.instruments = instruments.values().stream()
           .map(InstrumentSubDocument::new).collect(Collectors.toList());
     }
     if (surveys != null) {
@@ -87,5 +92,8 @@ public class RelatedPublicationSearchDocument extends RelatedPublication
       this.variables = variables.stream()
           .map(VariableSubDocument::new).collect(Collectors.toList());
     }
+    this.completeTitle = I18nString.builder()
+        .de(relatedPublication.getTitle() + " (" + relatedPublication.getId() + ")")
+        .en(relatedPublication.getTitle() + " (" + relatedPublication.getId() + ")").build();
   }
 }

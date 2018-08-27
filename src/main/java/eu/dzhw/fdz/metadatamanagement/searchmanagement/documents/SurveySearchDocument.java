@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
@@ -44,6 +45,8 @@ public class SurveySearchDocument extends Survey implements SearchDocumentInterf
   
   private I18nString guiLabels = SurveyDetailsGuiLabels.GUI_LABELS;
   
+  private I18nString completeTitle;
+
   /**
    * Construct the search document with all related subdocuments.
    * @param survey the survey to be searched for
@@ -60,7 +63,7 @@ public class SurveySearchDocument extends Survey implements SearchDocumentInterf
       List<DataSetSubDocumentProjection> dataSets, 
       List<VariableSubDocumentProjection> variables, 
       List<RelatedPublicationSubDocumentProjection> relatedPublications,
-      List<InstrumentSubDocumentProjection> instruments,
+      Map<String, InstrumentSubDocumentProjection> instruments,
       List<QuestionSubDocumentProjection> questions,
       Release release,
       String doi) {
@@ -81,13 +84,21 @@ public class SurveySearchDocument extends Survey implements SearchDocumentInterf
           .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());      
     }
     if (instruments != null) {
-      this.instruments = instruments.stream()
+      this.instruments = instruments.values().stream()
           .map(InstrumentSubDocument::new).collect(Collectors.toList());      
     }
     if (questions != null) {
       this.questions = questions.stream()
-          .map(QuestionSubDocument::new).collect(Collectors.toList());      
+          .map(question -> new QuestionSubDocument(question,
+              instruments.get(question.getInstrumentId()).getTitle()))
+          .collect(Collectors.toList());
     }
     this.release = release;
+    this.completeTitle = I18nString.builder()
+        .de((survey.getTitle().getDe() != null ? survey.getTitle().getDe()
+            : survey.getTitle().getEn()) + " (" + survey.getId() + ")")
+        .en((survey.getTitle().getEn() != null ? survey.getTitle().getEn()
+            : survey.getTitle().getDe()) + " (" + survey.getId() + ")")
+        .build();
   }
 }

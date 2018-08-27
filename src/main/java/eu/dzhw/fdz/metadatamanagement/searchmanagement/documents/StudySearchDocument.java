@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
@@ -60,6 +61,8 @@ public class StudySearchDocument extends Study implements SearchDocumentInterfac
   
   private I18nString guiLabels = StudyDetailsGuiLabels.GUI_LABELS;
   
+  private I18nString completeTitle;
+
   /**
    * Construct the search document with all related subdocuments.
    * @param study The study to be searched for
@@ -77,7 +80,7 @@ public class StudySearchDocument extends Study implements SearchDocumentInterfac
       List<RelatedPublicationSubDocumentProjection> relatedPublications,
       List<SurveySubDocumentProjection> surveys,
       List<QuestionSubDocumentProjection> questions, 
-      List<InstrumentSubDocumentProjection> instruments,
+      Map<String, InstrumentSubDocumentProjection> instruments,
       List<RelatedPublicationSubDocumentProjection> seriesPublications,
       Release release,
       String doi) {
@@ -102,10 +105,12 @@ public class StudySearchDocument extends Study implements SearchDocumentInterfac
     }
     if (questions != null) {
       this.questions = questions.stream()
-          .map(QuestionSubDocument::new).collect(Collectors.toList());      
+          .map(question -> new QuestionSubDocument(question,
+              instruments.get(question.getInstrumentId()).getTitle()))
+          .collect(Collectors.toList());
     }
     if (instruments != null) {
-      this.instruments = instruments.stream()
+      this.instruments = instruments.values().stream()
           .map(InstrumentSubDocument::new).collect(Collectors.toList());      
     }
     if (seriesPublications != null) {
@@ -114,6 +119,12 @@ public class StudySearchDocument extends Study implements SearchDocumentInterfac
     }
     this.release = release;
     this.doi = doi;
+    this.completeTitle = I18nString.builder()
+        .de((study.getTitle().getDe() != null ? study.getTitle().getDe() : study.getTitle().getEn())
+            + " (" + study.getId() + ")")
+        .en((study.getTitle().getEn() != null ? study.getTitle().getEn() : study.getTitle().getDe())
+            + " (" + study.getId() + ")")
+        .build();
   }
   
   /**

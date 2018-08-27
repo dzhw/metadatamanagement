@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.InstrumentSubDocumentProjection;
 
@@ -14,7 +13,7 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.In
  * @author René Reitmann
  */
 @SuppressWarnings("CPD-START")
-public class InstrumentSubDocument extends AbstractRdcDomainObject
+public class InstrumentSubDocument extends AbstractSubDocument
     implements InstrumentSubDocumentProjection {
   private String id;
   
@@ -32,13 +31,26 @@ public class InstrumentSubDocument extends AbstractRdcDomainObject
   
   private List<String> surveyIds;
   
+  private I18nString completeTitle;
+
   public InstrumentSubDocument() {
     super();
   }
 
+  /**
+   * Create the subdocument.
+   * 
+   * @param projection The projection loaded from mongo.
+   */
   public InstrumentSubDocument(InstrumentSubDocumentProjection projection) {
     super();
     BeanUtils.copyProperties(projection, this);
+    this.completeTitle = I18nString.builder()
+        .de((projection.getDescription().getDe() != null ? projection.getDescription().getDe()
+            : projection.getDescription().getEn()) + " (" + projection.getId() + ")")
+        .en((projection.getDescription().getEn() != null ? projection.getDescription().getEn()
+            : projection.getDescription().getDe()) + " (" + projection.getId() + ")")
+        .build();
   }
   
   @Override
@@ -111,5 +123,10 @@ public class InstrumentSubDocument extends AbstractRdcDomainObject
 
   public void setType(String type) {
     this.type = type;
+  }
+
+  @Override
+  public I18nString getCompleteTitle() {
+    return completeTitle;
   }  
 }

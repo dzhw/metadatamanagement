@@ -4,33 +4,51 @@
 
 angular.module('metadatamanagementApp')
   .controller('StudySeriesSearchFilterController', [
-    '$scope', 'StudySearchService', '$timeout',
-    function($scope, StudySearchService, $timeout) {
+    '$scope', 'StudySearchService', '$timeout', '$location',
+    'CurrentProjectService',
+    function($scope, StudySearchService, $timeout, $location,
+      CurrentProjectService) {
       // prevent study-series changed events during init
       var initializing = true;
       var selectionChanging = false;
-      var lastSearchText;
-      var lastFilter;
-      var lastSearchResult;
+      var cache = {
+        searchText: null,
+        filter: null,
+        type: null,
+        query: null,
+        projectId: null,
+        searchResult: null
+      };
       var currentFilterByLanguage;
 
       //Search Method for Study Series, call Elasticsearch
       $scope.searchStudySeries = function(searchText, language) {
+        $scope.type = $location.search().type;
+        $scope.query = $location.search().query;
+        $scope.projectId = CurrentProjectService.getCurrentProject() ?
+          CurrentProjectService.getCurrentProject().id : null;
         var cleanedFilter = _.omit($scope.currentSearchParams.filter,
           'study-series-' + language);
 
-        if (searchText === lastSearchText &&
-          _.isEqual(lastFilter, cleanedFilter)) {
-          return lastSearchResult;
+        if (searchText === cache.searchText &&
+            $scope.type === cache.type &&
+            _.isEqual(cache.filter, cleanedFilter) &&
+            $scope.query === cache.query &&
+            $scope.projectId === cache.projectId
+          ) {
+          return cache.searchResult;
         }
 
         //Search Call to Elasticsearch
         return StudySearchService.findStudySeries(searchText, cleanedFilter,
-          language)
+          language, $scope.type, $scope.query, $scope.projectId)
           .then(function(studySeries) {
-            lastSearchText = searchText;
-            lastFilter = _.cloneDeep(cleanedFilter);
-            lastSearchResult = studySeries;
+            cache.searchText = searchText;
+            cache.filter = _.cloneDeep(cleanedFilter);
+            cache.searchResult = studySeries;
+            cache.type = $scope.type;
+            cache.query = $scope.query;
+            cache.projectId = $scope.projectId;
             return studySeries;
           }
         );
@@ -38,7 +56,6 @@ angular.module('metadatamanagementApp')
 
       //Init the de and en filter of study series
       var init = function(currentLanguage) {
-
         //Just a change? No Init!
         if (selectionChanging) {
           selectionChanging = false;

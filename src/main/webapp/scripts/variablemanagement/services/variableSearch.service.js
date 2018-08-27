@@ -137,7 +137,8 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
       return termFilter;
     };
 
-    var findAccessWays = function(term, filter, dataAcquisitionProjectId) {
+    var findAccessWays = function(term, filter, dataAcquisitionProjectId,
+      queryterm) {
       var query = createQueryObject();
       var termFilters = createTermFilters(filter, dataAcquisitionProjectId);
       query.body = {
@@ -148,7 +149,7 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
                   'include': '.*' + term.toLowerCase() + '.*',
                   'size': 100,
                   'order': {
-                    '_term': 'asc'
+                    '_key': 'asc'
                   }
                 }
               }
@@ -163,15 +164,17 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
         query.body.query.bool.filter = termFilters;
       }
 
+      SearchHelperService.addQuery(query, queryterm);
+
       SearchHelperService.addReleaseFilter(query);
 
       return ElasticSearchClient.search(query).then(function(result) {
-        return _.map(result.aggregations.accessWays.buckets, 'key');
+        return result.aggregations.accessWays.buckets;
       });
     };
 
     var findPanelIdentifiers = function(term, filter,
-      dataAcquisitionProjectId) {
+      dataAcquisitionProjectId, queryterm) {
       var query = createQueryObject();
       var termFilters = createTermFilters(filter, dataAcquisitionProjectId);
       query.body = {
@@ -182,7 +185,7 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
                   'include': '.*' + term.toLowerCase() + '.*',
                   'size': 100,
                   'order': {
-                    '_term': 'asc'
+                    '_key': 'asc'
                   }
                 }
               }
@@ -197,15 +200,17 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
         query.body.query.bool.filter = termFilters;
       }
 
+      SearchHelperService.addQuery(query, queryterm);
+
       SearchHelperService.addReleaseFilter(query);
 
       return ElasticSearchClient.search(query).then(function(result) {
-        return _.map(result.aggregations.panelIdentifiers.buckets, 'key');
+        return result.aggregations.panelIdentifiers.buckets;
       });
     };
 
     var findDerivedVariablesIdentifiers = function(term, filter,
-      dataAcquisitionProjectId) {
+      dataAcquisitionProjectId, queryterm) {
       var query = createQueryObject();
       var termFilters = createTermFilters(filter, dataAcquisitionProjectId);
       query.body = {
@@ -216,7 +221,7 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
                   'include': '.*' + term.toLowerCase() + '.*',
                   'size': 100,
                   'order': {
-                    '_term': 'asc'
+                    '_key': 'asc'
                   }
                 }
               }
@@ -231,11 +236,12 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
         query.body.query.bool.filter = termFilters;
       }
 
+      SearchHelperService.addQuery(query, queryterm);
+
       SearchHelperService.addReleaseFilter(query);
 
       return ElasticSearchClient.search(query).then(function(result) {
-        return _.map(result.aggregations
-            .derivedVariablesIdentifiers.buckets, 'key');
+        return result.aggregations.derivedVariablesIdentifiers.buckets;
       });
     };
 

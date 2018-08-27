@@ -3,36 +3,13 @@
 
 angular.module('metadatamanagementApp')
   .controller('SearchFilterPanelController', [
-    '$scope', 'SearchHelperService', '$timeout', 'StudyIdBuilderService',
-    'CurrentProjectService', '$element', 'CleanJSObjectService', '$mdSelect',
+    '$scope', 'SearchHelperService', '$timeout',
+    '$element', 'CleanJSObjectService', '$mdSelect',
     function($scope, SearchHelperService, $timeout,
-      StudyIdBuilderService, CurrentProjectService, $element,
-      CleanJSObjectService, $mdSelect) {
+      $element, CleanJSObjectService, $mdSelect) {
       var elasticSearchTypeChanged = false;
       var searchParamsFilterChanged = false;
       $scope.filtersCollapsed = false;
-
-      var selectStudyForProject = function() {
-        if (!_.includes($scope.availableFilters, 'study')) {
-          return;
-        }
-        var currentProject = CurrentProjectService.getCurrentProject();
-        if (currentProject) {
-          if (!$scope.currentSearchParams.filter) {
-            $scope.currentSearchParams.filter = {};
-          }
-          $scope.currentSearchParams.filter.study =
-            StudyIdBuilderService.buildStudyId(currentProject.id);
-          if (!_.includes($scope.selectedFilters, 'study')) {
-            $scope.selectedFilters.push('study');
-            $timeout(function() {
-              // add md class manually to fix overlapping labels
-              $element.find('.fdz-filter-select')
-                .addClass('md-input-has-value');
-            });
-          }
-        }
-      };
 
       var createDisplayAvailableFilterList = function(availableFilters) {
         var displayAvailableFilters = [];
@@ -76,7 +53,6 @@ angular.module('metadatamanagementApp')
             _.union($scope.availableFilters, $scope.availableHiddenFilters)
           );
         }
-        selectStudyForProject();
         $timeout(function() {
           elasticSearchTypeChanged = false;
         });
@@ -107,20 +83,6 @@ angular.module('metadatamanagementApp')
           $scope.availableHiddenFilters = _.difference(
             $scope.availableHiddenFilters, unselectedFilters);
           $scope.filterChangedCallback();
-        }
-      });
-
-      $scope.$on('current-project-changed', function() {
-        var currentProject = CurrentProjectService.getCurrentProject();
-        if (currentProject) {
-          selectStudyForProject();
-        } else {
-          if (_.includes($scope.selectedFilters, 'study')) {
-            _.remove($scope.selectedFilters, function(selectedFilter) {
-              return selectedFilter === 'study';
-            });
-            delete $scope.currentSearchParams.filter.study;
-          }
         }
       });
 

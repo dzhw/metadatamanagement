@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.SubDataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataSetSubDocumentProjection;
@@ -15,7 +14,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataS
  *  
  * @author René Reitmann
  */
-public class DataSetSubDocument extends AbstractRdcDomainObject 
+public class DataSetSubDocument extends AbstractSubDocument
     implements DataSetSubDocumentProjection {
   private String id;
   
@@ -34,6 +33,8 @@ public class DataSetSubDocument extends AbstractRdcDomainObject
   private Integer maxNumberOfObservations;
   
   private List<String> accessWays;
+
+  private I18nString completeTitle;
  
   /**
    * Create the sub document from the given projection.
@@ -46,6 +47,12 @@ public class DataSetSubDocument extends AbstractRdcDomainObject
         .map(subDataSet -> subDataSet.getNumberOfObservations()).reduce(Integer::max).get();
     this.accessWays = projection.getSubDataSets().stream()
         .map(subDataSet -> subDataSet.getAccessWay()).collect(Collectors.toList());
+    this.completeTitle = I18nString.builder()
+        .de((projection.getDescription().getDe() != null ? projection.getDescription().getDe()
+            : projection.getDescription().getEn()) + " (" + projection.getId() + ")")
+        .en((projection.getDescription().getEn() != null ? projection.getDescription().getEn()
+            : projection.getDescription().getDe()) + " (" + projection.getId() + ")")
+        .build();
   }
   
   @Override
@@ -66,6 +73,7 @@ public class DataSetSubDocument extends AbstractRdcDomainObject
     this.dataAcquisitionProjectId = dataAcquisitionProjectId;
   }
   
+  @Override
   public I18nString getType() {
     return type;
   }
@@ -101,6 +109,7 @@ public class DataSetSubDocument extends AbstractRdcDomainObject
     this.number = number;
   }
 
+  @Override
   public List<SubDataSet> getSubDataSets() {
     return subDataSets;
   }
@@ -115,5 +124,10 @@ public class DataSetSubDocument extends AbstractRdcDomainObject
 
   public List<String> getAccessWays() {
     return accessWays;
+  }
+
+  @Override
+  public I18nString getCompleteTitle() {
+    return completeTitle;
   }
 }

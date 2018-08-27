@@ -43,6 +43,8 @@ public class InstrumentSearchDocument extends Instrument implements SearchDocume
   
   private I18nString guiLabels = InstrumentDetailsGuiLabels.GUI_LABELS;
   
+  private I18nString completeTitle;
+
   /**
    * Construct the search document with all related subdocuments.
    * @param instrument the instrument to be searched for
@@ -72,7 +74,8 @@ public class InstrumentSearchDocument extends Instrument implements SearchDocume
     }
     if (questions != null) {
       this.questions = questions.stream()
-          .map(QuestionSubDocument::new).collect(Collectors.toList());      
+          .map(question -> new QuestionSubDocument(question, instrument.getTitle()))
+          .collect(Collectors.toList());
     }
     if (variables != null) {
       this.variables = variables.stream()
@@ -87,5 +90,11 @@ public class InstrumentSearchDocument extends Instrument implements SearchDocume
           .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());
     }
     this.release = release;
+    this.completeTitle = I18nString.builder()
+        .de((instrument.getDescription().getDe() != null ? instrument.getDescription().getDe()
+            : instrument.getDescription().getEn()) + " (" + instrument.getId() + ")")
+        .en((instrument.getDescription().getEn() != null ? instrument.getDescription().getEn()
+            : instrument.getDescription().getDe()) + " (" + instrument.getId() + ")")
+        .build();
   }
 }

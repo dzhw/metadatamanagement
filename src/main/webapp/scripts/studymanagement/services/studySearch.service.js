@@ -4,14 +4,16 @@
 angular.module('metadatamanagementApp').factory('StudySearchService',
   function(ElasticSearchClient, $q, CleanJSObjectService,
     SearchHelperService, LanguageService) {
-    var createQueryObject = function() {
+    var createQueryObject = function(type) {
+      type = type || 'studies';
       return {
-        index: 'studies',
-        type: 'studies'
+        index: type,
+        type: type
       };
     };
 
-    var createTermFilters = function(filter, dataAcquisitionProjectId) {
+    var createTermFilters = function(filter, dataAcquisitionProjectId, type) {
+      type = type || 'studies';
       var termFilter;
       if (!CleanJSObjectService.isNullOrEmpty(filter) ||
         !CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
@@ -27,7 +29,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       }
       if (!CleanJSObjectService.isNullOrEmpty(filter)) {
         termFilter = _.concat(termFilter,
-          SearchHelperService.createTermFilters('studies', filter));
+          SearchHelperService.createTermFilters(type, filter));
       }
       return termFilter;
     };
@@ -46,22 +48,27 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       return deferred;
     };
 
-    var findStudySeries = function(searchText, filter, language) {
+    var findStudySeries = function(searchText, filter, language, type,
+      queryterm, dataAcquisitionProjectId) {
       language = language || LanguageService.getCurrentInstantly();
-      var query = createQueryObject();
-      var termFilters = createTermFilters(filter);
-
+      var query = createQueryObject(type);
+      var termFilters = createTermFilters(filter, dataAcquisitionProjectId,
+        type);
+      var prefix = (type === 'studies' || !type)  ? '' : 'study.';
+      if (type === 'related_publications') {
+        prefix = '';
+      }
       query.body = {
         'aggs': {
             'studySeriesDe': {
                 'terms': {
-                  'field': 'studySeries.de',
+                  'field': prefix + 'studySeries.de',
                   'size': 100
                 },
                 'aggs': {
                   'studySeriesEn': {
                     'terms': {
-                      'field': 'studySeries.en',
+                      'field': prefix + 'studySeries.en',
                       'size': 100
                     }
                   }
@@ -75,13 +82,12 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
           'must': [{
               'match': {
               }
-            }],
-          'disable_coord': true
+            }]
         }
       };
 
       query.body.query.bool.must[0].match
-        ['studySeries.' + language + '.ngrams'] = {
+        [prefix + 'studySeries.' + language + '.ngrams'] = {
         'query': searchText,
         'operator': 'AND',
         'minimum_should_match': '100%',
@@ -92,6 +98,8 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
         query.body.query.bool.filter = termFilters;
       }
 
+      SearchHelperService.addQuery(query, queryterm);
+
       SearchHelperService.addReleaseFilter(query);
 
       return ElasticSearchClient.search(query).then(function(result) {
@@ -100,11 +108,90 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
         result.aggregations.studySeriesDe.buckets.forEach(function(bucket) {
             studySeriesElement = {
               'de': bucket.key,
-              'en': bucket.studySeriesEn.buckets[0].key
+              'en': bucket.studySeriesEn.buckets[0].key,
+              'count': bucket.doc_count
             };
             studySeries.push(studySeriesElement);
           });
         return studySeries;
+      });
+    };
+
+    var findStudyTitles = function(searchText, filter, type,
+      queryterm, dataAcquisitionProjectId) {
+      var language = LanguageService.getCurrentInstantly();
+      var query = createQueryObject(type);
+      var termFilters = createTermFilters(filter, dataAcquisitionProjectId,
+        type);
+      var prefix = (type === 'studies' || !type)  ? '' : 'study.';
+      if (type === 'related_publications') {
+        prefix = 'studies.';
+      }
+      query.body = {
+        'aggs': {
+            'id': {
+                'terms': {
+                  'field': prefix + 'id',
+                  'size': 100
+                },
+                'aggs': {
+                  'titleEn': {
+                    'terms': {
+                      'field': prefix + 'title.en',
+                      'size': 100
+                    }
+                  },
+                  'titleDe': {
+                    'terms': {
+                      'field': prefix + 'title.de',
+                      'size': 100
+                    }
+                  }
+                }
+              }
+          }
+      };
+
+      query.body.query = {
+        'bool': {
+          'must': [{
+              'match': {
+              }
+            }]
+        }
+      };
+
+      query.body.query.bool.must[0].match
+        [prefix + 'completeTitle.' + language] = {
+        'query': searchText,
+        'operator': 'AND',
+        'minimum_should_match': '100%',
+        'zero_terms_query': 'ALL'
+      };
+
+      if (termFilters) {
+        query.body.query.bool.filter = termFilters;
+      }
+
+      SearchHelperService.addQuery(query, queryterm);
+
+      SearchHelperService.addReleaseFilter(query);
+
+      return ElasticSearchClient.search(query).then(function(result) {
+        var studyTitles = [];
+        var studyTitlesElement = {};
+        result.aggregations.id.buckets.forEach(function(bucket) {
+            studyTitlesElement = {
+              title: {
+                'de': bucket.titleDe.buckets[0].key,
+                'en': bucket.titleEn.buckets[0].key,
+              },
+              'id': bucket.key,
+              'count': bucket.doc_count
+            };
+            studyTitles.push(studyTitlesElement);
+          });
+        return studyTitles;
       });
     };
 
@@ -137,8 +224,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
           'must': [{
               'match': {
               }
-            }],
-          'disable_coord': true
+            }]
         }
       };
 
@@ -199,8 +285,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
           'must': [{
               'match': {
               }
-            }],
-          'disable_coord': true
+            }]
         }
       };
 
@@ -236,6 +321,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       findOneById: findOneById,
       findStudySeries: findStudySeries,
       findSponsors: findSponsors,
-      findInstitutions: findInstitutions
+      findInstitutions: findInstitutions,
+      findStudyTitles: findStudyTitles
     };
   });
