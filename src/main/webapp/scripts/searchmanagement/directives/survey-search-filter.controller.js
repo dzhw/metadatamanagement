@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp')
       var initializing = true;
       var selectionChanging = false;
       var cache = {
-        seachText: null,
+        searchText: null,
         filter: null,
         type: null,
         query: null,

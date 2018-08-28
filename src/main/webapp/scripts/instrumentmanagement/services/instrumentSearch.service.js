@@ -1,12 +1,115 @@
+/* global  _*/
 'use strict';
 
 angular.module('metadatamanagementApp').factory('InstrumentSearchService',
-  function(ElasticSearchClient, $q) {
-    var createQueryObject = function() {
+  function(ElasticSearchClient, $q, CleanJSObjectService, SearchHelperService,
+    LanguageService) {
+    var createQueryObject = function(type) {
+      type = type || 'instruments';
       return {
-        index: 'instruments',
-        type: 'instruments'
+        index: type,
+        type: type
       };
+    };
+
+    var createTermFilters = function(filter, dataAcquisitionProjectId, type) {
+      type = type || 'instruments';
+      var termFilter;
+      if (!CleanJSObjectService.isNullOrEmpty(filter) ||
+        !CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
+        termFilter = [];
+      }
+      if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
+        var projectFilter = {
+          term: {
+            dataAcquisitionProjectId: dataAcquisitionProjectId
+          }
+        };
+        termFilter.push(projectFilter);
+      }
+      if (!CleanJSObjectService.isNullOrEmpty(filter)) {
+        termFilter = _.concat(termFilter,
+          SearchHelperService.createTermFilters(type, filter));
+      }
+      return termFilter;
+    };
+
+    var findInstrumentDescriptions = function(searchText, filter, type,
+      queryterm, dataAcquisitionProjectId) {
+      var language = LanguageService.getCurrentInstantly();
+      var query = createQueryObject(type);
+      var termFilters = createTermFilters(filter, dataAcquisitionProjectId,
+        type);
+      var prefix = (type === 'instruments' || !type)  ? '' : 'instruments.';
+      if (type === 'questions') {
+        prefix = 'instrument.';
+      }
+      query.body = {
+        'aggs': {
+            'id': {
+                'terms': {
+                  'field': prefix + 'id',
+                  'size': 100
+                },
+                'aggs': {
+                  'descriptionEn': {
+                    'terms': {
+                      'field': prefix + 'description.en',
+                      'size': 100
+                    }
+                  },
+                  'descriptionDe': {
+                    'terms': {
+                      'field': prefix + 'description.de',
+                      'size': 100
+                    }
+                  }
+                }
+              }
+          }
+      };
+
+      query.body.query = {
+        'bool': {
+          'must': [{
+              'match': {
+              }
+            }]
+        }
+      };
+
+      query.body.query.bool.must[0].match
+        [prefix + 'completeTitle.' + language] = {
+        'query': searchText,
+        'operator': 'AND',
+        'minimum_should_match': '100%',
+        'zero_terms_query': 'ALL'
+      };
+
+      if (termFilters) {
+        query.body.query.bool.filter = termFilters;
+      }
+
+      SearchHelperService.addQuery(query, queryterm);
+
+      SearchHelperService.addReleaseFilter(query);
+
+      return ElasticSearchClient.search(query).then(function(result) {
+        var descriptions = [];
+        var descriptionsElement = {};
+        result.aggregations.id.buckets.forEach(function(bucket) {
+            descriptionsElement = {
+              description: {
+                'de': bucket.descriptionDe.buckets[0].key,
+                'en': bucket.descriptionEn.buckets[0].key,
+              },
+              'id': bucket.key,
+              'count': bucket.doc_count
+            };
+            descriptions.push(descriptionsElement);
+          });
+        return descriptions;
+      });
     };
 
     var findOneById = function(id) {
@@ -88,6 +191,7 @@ angular.module('metadatamanagementApp').factory('InstrumentSearchService',
       findOneById: findOneById,
       findBySurveyId: findBySurveyId,
       findByProjectId: findByProjectId,
-      countBy: countBy
+      countBy: countBy,
+      findInstrumentDescriptions: findInstrumentDescriptions
     };
   });

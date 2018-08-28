@@ -3,17 +3,21 @@
 
 angular.module('metadatamanagementApp')
   .controller('InstrumentSearchFilterController', [
-    '$scope', 'SearchDao', 'InstrumentSearchService', '$timeout',
-    'CurrentProjectService', '$rootScope',
-    function($scope, SearchDao, InstrumentSearchService, $timeout,
-      CurrentProjectService, $rootScope) {
+    '$scope', 'InstrumentSearchService', '$timeout',
+    'CurrentProjectService', '$rootScope', '$location',
+    function($scope, InstrumentSearchService, $timeout,
+      CurrentProjectService, $rootScope, $location) {
       // prevent instrument changed events during init
       var initializing = true;
       var selectionChanging = false;
-      var lastSearchText;
-      var lastFilter;
-      var lastProjectId;
-      var lastSearchResult;
+      var cache = {
+        searchText: null,
+        filter: null,
+        type: null,
+        query: null,
+        projectId: null,
+        searchResult: null
+      };
       var init = function() {
         if (selectionChanging) {
           selectionChanging = false;
@@ -28,20 +32,16 @@ angular.module('metadatamanagementApp')
             .then(function(result) {
               $rootScope.$broadcast('stop-ignoring-404');
               if (result) {
-                $scope.currentInstrument = {_source: result};
+                $scope.currentInstrument = result;
               } else {
                 $scope.currentInstrument = {
-                  _source: {
-                    id: $scope.currentSearchParams.filter.instrument
-                  }
+                  id: $scope.currentSearchParams.filter.instrument
                 };
               }
             }, function() {
                 $rootScope.$broadcast('stop-ignoring-404');
                 $scope.currentInstrument = {
-                  _source: {
-                    id: $scope.currentSearchParams.filter.instrument
-                  }
+                  id: $scope.currentSearchParams.filter.instrument
                 };
                 $timeout(function() {
                   $scope.instrumentFilterForm.instrumentFilter.$setValidity(
@@ -63,7 +63,7 @@ angular.module('metadatamanagementApp')
           $scope.currentSearchParams.filter = {};
         }
         if (instrument) {
-          $scope.currentSearchParams.filter.instrument = instrument._source.id;
+          $scope.currentSearchParams.filter.instrument = instrument.id;
         } else {
           delete $scope.currentSearchParams.filter.instrument;
         }
@@ -71,26 +71,34 @@ angular.module('metadatamanagementApp')
       };
 
       $scope.searchInstruments = function(searchText) {
+        $scope.type = $location.search().type;
+        $scope.query = $location.search().query;
+        $scope.projectId = CurrentProjectService.getCurrentProject() ?
+        CurrentProjectService.getCurrentProject().id : null;
         var cleanedFilter = _.omit($scope.currentSearchParams.filter,
           'instrument');
-        var currentProjectId = CurrentProjectService.getCurrentProject() ?
-            CurrentProjectService.getCurrentProject().id : null;
-        if (searchText === lastSearchText &&
-          _.isEqual(lastFilter, cleanedFilter) &&
-          lastProjectId === currentProjectId) {
-          return lastSearchResult;
+
+        if (searchText === cache.searchText &&
+            $scope.type === cache.type &&
+            _.isEqual(cache.filter, cleanedFilter) &&
+            $scope.query === cache.query &&
+            $scope.projectId === cache.projectId
+          ) {
+          return cache.searchResult;
         }
-        return SearchDao.search(searchText, 1,
-            currentProjectId, cleanedFilter,
-            'instruments',
-            100).then(function(data) {
-              lastSearchText = searchText;
-              lastFilter = _.cloneDeep(cleanedFilter);
-              lastProjectId = currentProjectId;
-              lastSearchResult = data.hits.hits;
-              return data.hits.hits;
-            }
-          );
+        //Search Call to Elasticsearch
+        return InstrumentSearchService.findInstrumentDescriptions(searchText,
+           cleanedFilter, $scope.type, $scope.query, $scope.projectId)
+          .then(function(descriptions) {
+            cache.searchText = searchText;
+            cache.filter = _.cloneDeep(cleanedFilter);
+            cache.searchResult = descriptions;
+            cache.type = $scope.type;
+            cache.query = $scope.query;
+            cache.projectId = $scope.projectId;
+            return descriptions;
+          }
+        );
       };
       $scope.$watch('currentSearchParams.filter.instrument', function() {
         init();

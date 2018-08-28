@@ -29,7 +29,7 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
         }
         if (!CleanJSObjectService.isNullOrEmpty(filter)) {
           termFilter = _.concat(termFilter,
-            SearchHelperService.createTermFilters('surveys', filter));
+            SearchHelperService.createTermFilters(type, filter));
         }
         return termFilter;
       };

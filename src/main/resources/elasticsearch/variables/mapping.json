@@ -293,6 +293,34 @@
 						"type": "keyword",
 						"copy_to": "all"
 					},
+					"completeTitle": {
+						"type": "object",
+						"properties": {
+							"de": {
+								"type": "text",
+								"analyzer": "ngrams",
+								"norms": false
+							},
+							"en": {
+								"type": "text",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
+					},
+					"description": {
+						"type": "object",
+						"properties": {
+							"de": {
+								"type": "keyword",
+								"copy_to": "all"
+							},
+							"en": {
+								"type": "keyword",
+								"copy_to": "all"
+							}
+						}
+					},
 					"surveyIds": {
 						"type": "keyword",
 						"index": false
