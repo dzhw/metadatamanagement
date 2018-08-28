@@ -1,9 +1,10 @@
 <div ng-form="dataSetFilterForm" layout="row" layout-align="center center">
     <md-autocomplete fdz-autofocus="!currentSearchParams.filter['data-set']" md-delay="250" class="fdz-search-filter-component" md-input-name="dataSetFilter" md-floating-label="{{'search-management.filter.floating-label.data-set' | translate}}" flex md-min-length="0" md-require-match="true" md-select-on-match="true" md-selected-item="currentDataSet"
-      md-selected-item-change="onSelectionChanged(currentDataSet)" md-search-text="searchText" md-items="item in searchDataSets(searchText)" md-item-text="(item._source.description | displayI18nString) + ' (' + item._source.id + ')'" md-clear-button="true" md-no-cache="true" md-select-on-focus>
+      md-selected-item-change="onSelectionChanged(currentDataSet)" md-search-text="searchText" md-items="item in searchDataSets(searchText)" md-item-text="(item.description | displayI18nString) + ' (' + item.id + ')'" md-clear-button="true" md-no-cache="true" md-select-on-focus>
         <md-item-template>
-            <span class="md-title" style="font-size: 14px;" display-i18n-string="item._source.description"></span>
-            <span class="label label-as-badge label-default">{{item._source.id}}</span>
+          <span class="md-title" style="font-size: 14px;" md-highlight-text="searchText" md-highlight-flags="ig">{{(item.description | displayI18nString)}}</span>
+          <span class="label label-as-badge label-default" md-highlight-text="searchText" md-highlight-flags="ig">{{item.id}}</span>
+          <span>({{item.count}} {{'search-management.tabs.' + type | translate}})</span>
         </md-item-template>
         <md-not-found>
             {{'search-management.filter.data-set-filter.not-found' | translate}}

@@ -1,12 +1,37 @@
+/* global  _*/
 'use strict';
 
 angular.module('metadatamanagementApp').factory('DataSetSearchService',
-  function(ElasticSearchClient, $q) {
-    var createQueryObject = function() {
+  function(ElasticSearchClient, $q, CleanJSObjectService, SearchHelperService,
+    LanguageService) {
+    var createQueryObject = function(type) {
+      type = type || 'data_sets';
       return {
-        index: 'data_sets',
-        type: 'data_sets'
+        index: type,
+        type: type
       };
+    };
+
+    var createTermFilters = function(filter, dataAcquisitionProjectId, type) {
+      type = type || 'data_sets';
+      var termFilter;
+      if (!CleanJSObjectService.isNullOrEmpty(filter) ||
+        !CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
+        termFilter = [];
+      }
+      if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
+        var projectFilter = {
+          term: {
+            dataAcquisitionProjectId: dataAcquisitionProjectId
+          }
+        };
+        termFilter.push(projectFilter);
+      }
+      if (!CleanJSObjectService.isNullOrEmpty(filter)) {
+        termFilter = _.concat(termFilter,
+          SearchHelperService.createTermFilters(type, filter));
+      }
+      return termFilter;
     };
 
     var findOneById = function(id) {
@@ -132,12 +157,92 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
       query.body.query.bool.filter.push(mustTerm);
       return ElasticSearchClient.count(query);
     };
+
+    var findDataSetDescriptions = function(searchText, filter, type,
+      queryterm, dataAcquisitionProjectId) {
+      var language = LanguageService.getCurrentInstantly();
+      var query = createQueryObject(type);
+      var termFilters = createTermFilters(filter, dataAcquisitionProjectId,
+        type);
+      var prefix = (type === 'data_sets' || !type)  ? '' : 'dataSets.';
+      if (type === 'variables') {
+        prefix = 'dataSet.';
+      }
+      query.body = {
+        'aggs': {
+            'id': {
+                'terms': {
+                  'field': prefix + 'id',
+                  'size': 100
+                },
+                'aggs': {
+                  'descriptionEn': {
+                    'terms': {
+                      'field': prefix + 'description.en',
+                      'size': 100
+                    }
+                  },
+                  'descriptionDe': {
+                    'terms': {
+                      'field': prefix + 'description.de',
+                      'size': 100
+                    }
+                  }
+                }
+              }
+          }
+      };
+
+      query.body.query = {
+        'bool': {
+          'must': [{
+              'match': {
+              }
+            }]
+        }
+      };
+
+      query.body.query.bool.must[0].match
+        [prefix + 'completeTitle.' + language] = {
+        'query': searchText,
+        'operator': 'AND',
+        'minimum_should_match': '100%',
+        'zero_terms_query': 'ALL'
+      };
+
+      if (termFilters) {
+        query.body.query.bool.filter = termFilters;
+      }
+
+      SearchHelperService.addQuery(query, queryterm);
+
+      SearchHelperService.addReleaseFilter(query);
+
+      return ElasticSearchClient.search(query).then(function(result) {
+        var descriptions = [];
+        var descriptionsElement = {};
+        result.aggregations.id.buckets.forEach(function(bucket) {
+            descriptionsElement = {
+              description: {
+                'de': bucket.descriptionDe.buckets[0].key,
+                'en': bucket.descriptionEn.buckets[0].key,
+              },
+              'id': bucket.key,
+              'count': bucket.doc_count
+            };
+            descriptions.push(descriptionsElement);
+          });
+        return descriptions;
+      });
+    };
+
     return {
       findOneById: findOneById,
       findOneByVariableId: findOneByVariableId,
       findBySurveyId: findBySurveyId,
       findByProjectId: findByProjectId,
       findByStudyId: findByStudyId,
-      countBy: countBy
+      countBy: countBy,
+      findDataSetDescriptions: findDataSetDescriptions
     };
   });

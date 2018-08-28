@@ -3,17 +3,21 @@
 
 angular.module('metadatamanagementApp')
   .controller('DataSetSearchFilterController', [
-    '$scope', 'SearchDao', 'DataSetSearchService', '$timeout',
-    'CurrentProjectService', '$rootScope',
-    function($scope, SearchDao, DataSetSearchService, $timeout,
-      CurrentProjectService, $rootScope) {
+    '$scope', 'DataSetSearchService', '$timeout',
+    'CurrentProjectService', '$rootScope', '$location',
+    function($scope, DataSetSearchService, $timeout,
+      CurrentProjectService, $rootScope, $location) {
       // prevent data-set changed events during init
       var initializing = true;
       var selectionChanging = false;
-      var lastSearchText;
-      var lastFilter;
-      var lastProjectId;
-      var lastSearchResult;
+      var cache = {
+        searchText: null,
+        filter: null,
+        type: null,
+        query: null,
+        projectId: null,
+        searchResult: null
+      };
       var init = function() {
         if (selectionChanging) {
           selectionChanging = false;
@@ -28,20 +32,16 @@ angular.module('metadatamanagementApp')
             .then(function(result) {
               $rootScope.$broadcast('stop-ignoring-404');
               if (result) {
-                $scope.currentDataSet = {_source: result};
+                $scope.currentDataSet = result;
               } else {
                 $scope.currentDataSet = {
-                  _source: {
-                    id: $scope.currentSearchParams.filter['data-set']
-                  }
+                  id: $scope.currentSearchParams.filter['data-set']
                 };
               }
             }, function() {
                 $rootScope.$broadcast('stop-ignoring-404');
                 $scope.currentDataSet = {
-                  _source: {
-                    id: $scope.currentSearchParams.filter['data-set']
-                  }
+                  id: $scope.currentSearchParams.filter['data-set']
                 };
                 $timeout(function() {
                   $scope.dataSetFilterForm.dataSetFilter.$setValidity(
@@ -63,7 +63,7 @@ angular.module('metadatamanagementApp')
           $scope.currentSearchParams.filter = {};
         }
         if (dataSet) {
-          $scope.currentSearchParams.filter['data-set'] = dataSet._source.id;
+          $scope.currentSearchParams.filter['data-set'] = dataSet.id;
         } else {
           delete $scope.currentSearchParams.filter['data-set'];
         }
@@ -71,26 +71,34 @@ angular.module('metadatamanagementApp')
       };
 
       $scope.searchDataSets = function(searchText) {
+        $scope.type = $location.search().type;
+        $scope.query = $location.search().query;
+        $scope.projectId = CurrentProjectService.getCurrentProject() ?
+        CurrentProjectService.getCurrentProject().id : null;
         var cleanedFilter = _.omit($scope.currentSearchParams.filter,
           'data-set');
-        var currentProjectId = CurrentProjectService.getCurrentProject() ?
-          CurrentProjectService.getCurrentProject().id : null;
-        if (searchText === lastSearchText &&
-          _.isEqual(lastFilter, cleanedFilter) &&
-          lastProjectId === currentProjectId) {
-          return lastSearchResult;
+
+        if (searchText === cache.searchText &&
+            $scope.type === cache.type &&
+            _.isEqual(cache.filter, cleanedFilter) &&
+            $scope.query === cache.query &&
+            $scope.projectId === cache.projectId
+          ) {
+          return cache.searchResult;
         }
-        return SearchDao.search(searchText, 1,
-            currentProjectId, cleanedFilter,
-            'data_sets',
-            100).then(function(data) {
-              lastSearchText = searchText;
-              lastFilter = _.cloneDeep(cleanedFilter);
-              lastProjectId = currentProjectId;
-              lastSearchResult = data.hits.hits;
-              return data.hits.hits;
-            }
-          );
+        //Search Call to Elasticsearch
+        return DataSetSearchService.findDataSetDescriptions(searchText,
+           cleanedFilter, $scope.type, $scope.query, $scope.projectId)
+          .then(function(descriptions) {
+            cache.searchText = searchText;
+            cache.filter = _.cloneDeep(cleanedFilter);
+            cache.searchResult = descriptions;
+            cache.type = $scope.type;
+            cache.query = $scope.query;
+            cache.projectId = $scope.projectId;
+            return descriptions;
+          }
+        );
       };
       $scope.$watch('currentSearchParams.filter["data-set"]', function() {
         init();
