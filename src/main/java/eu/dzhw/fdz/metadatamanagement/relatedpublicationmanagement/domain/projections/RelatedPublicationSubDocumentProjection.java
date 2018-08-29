@@ -15,4 +15,6 @@ public interface RelatedPublicationSubDocumentProjection
   String getTitle();
 
   String getAuthors();
+
+  String getLanguage();
 }

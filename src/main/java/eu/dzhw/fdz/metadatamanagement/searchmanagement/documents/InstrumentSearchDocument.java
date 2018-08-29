@@ -39,6 +39,7 @@ public class InstrumentSearchDocument extends Instrument implements SearchDocume
       new ArrayList<>();
   private List<RelatedPublicationSubDocument> relatedPublications = 
       new ArrayList<>();
+  private List<RelatedPublicationNestedDocument> nestedRelatedPublications = new ArrayList<>();
   private Release release = null;
   
   private I18nString guiLabels = InstrumentDetailsGuiLabels.GUI_LABELS;
@@ -88,6 +89,8 @@ public class InstrumentSearchDocument extends Instrument implements SearchDocume
     if (relatedPublications != null) {
       this.relatedPublications = relatedPublications.stream()
           .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());
+      this.nestedRelatedPublications = relatedPublications.stream()
+          .map(RelatedPublicationNestedDocument::new).collect(Collectors.toList());
     }
     this.release = release;
     this.completeTitle = I18nString.builder()

@@ -2,7 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
 import org.springframework.beans.BeanUtils;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projections.RelatedPublicationSubDocumentProjection;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -10,8 +10,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * Attributes of a publication which are stored in other search documents.
- *  
+ * NESTED Subdocumentused for filtering by related publications.
+ * 
  * @author René Reitmann
  */
 @SuppressWarnings("CPD-START")
@@ -19,29 +19,25 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @Getter
 @Setter
-public class RelatedPublicationSubDocument extends AbstractRdcDomainObject
-    implements RelatedPublicationSubDocumentProjection {
+public class RelatedPublicationNestedDocument extends AbstractNestedSubDocument {
   private String id;
-  
-  private String doi;
-  
+
   private String title;
-  
-  private String authors;
-  
+
   private String language;
 
-  public RelatedPublicationSubDocument() {
-    super();
-  }
-  
+  private I18nString completeTitle;
+
   /**
    * Create the subdocument.
    * 
    * @param projection The projection coming from mongo.
    */
-  public RelatedPublicationSubDocument(RelatedPublicationSubDocumentProjection projection) {
+  public RelatedPublicationNestedDocument(RelatedPublicationSubDocumentProjection projection) {
     super();
     BeanUtils.copyProperties(projection, this);
+    this.completeTitle =
+        I18nString.builder().de(projection.getTitle() + " (" + projection.getId() + ")")
+            .en(projection.getTitle() + " (" + projection.getId() + ")").build();
   }
 }

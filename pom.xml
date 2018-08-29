@@ -42,6 +42,7 @@
             <artifactId>findbugs</artifactId>
             <version>3.0.1</version>
             <scope>provided</scope>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>com.icegreen</groupId>
@@ -288,7 +289,6 @@
                                     </pluginExecutionFilter>
                                     <action>
                                         <ignore />
-<<<<<<< HEAD
                                     </action>
                                 </pluginExecution>
                                 <pluginExecution>
@@ -315,8 +315,6 @@
                                     </pluginExecutionFilter>
                                     <action>
                                         <ignore />
-=======
->>>>>>> hotfix
                                     </action>
                                 </pluginExecution>
                             </pluginExecutions>

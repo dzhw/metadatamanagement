@@ -62,9 +62,12 @@
 				"type": "keyword",
 				"copy_to": "all"
 			},
+			"language": {
+				"type": "keyword",
+				"copy_to": "all"
+			},
 			"title": {
-				"type": "text",
-				"index": false,
+				"type": "keyword",
 				"copy_to": "all",
 				"fields": {
 					"ngrams": {

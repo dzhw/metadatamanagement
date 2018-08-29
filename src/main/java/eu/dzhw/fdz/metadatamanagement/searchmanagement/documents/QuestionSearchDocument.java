@@ -36,6 +36,7 @@ public class QuestionSearchDocument extends Question implements SearchDocumentIn
       new ArrayList<>();
   private List<RelatedPublicationSubDocument> relatedPublications = 
       new ArrayList<>();
+  private List<RelatedPublicationNestedDocument> nestedRelatedPublications = new ArrayList<>();
   private Release release = null;
   
   private I18nString guiLabels = QuestionDetailsGuiLabels.GUI_LABELS;
@@ -81,7 +82,9 @@ public class QuestionSearchDocument extends Question implements SearchDocumentIn
     }
     if (relatedPublications != null) {
       this.relatedPublications = relatedPublications.stream()
-          .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());      
+          .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());
+      this.nestedRelatedPublications = relatedPublications.stream()
+          .map(RelatedPublicationNestedDocument::new).collect(Collectors.toList());
     }
     this.release = release;
     if (instrument != null) {

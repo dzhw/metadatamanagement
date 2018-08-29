@@ -261,7 +261,7 @@ module.exports = function(grunt) {
               'Document uses the Unicode Private Use Area(s), which should' +
               ' not be used in publicly exchanged documents. (Charmod C073)',
               'Attribute “flex” not allowed on element “span” at this point.',
-              'Bad value “{{item._source.language}}” for attribute “lang” on' +
+              'Bad value “{{item.language}}” for attribute “lang” on' +
               ' element “span”: Subtags must not exceed 8 characters in' +
               ' length.',
               'Element “li” not allowed as child of element “body”' +

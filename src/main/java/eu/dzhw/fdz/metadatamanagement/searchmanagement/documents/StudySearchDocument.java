@@ -36,7 +36,9 @@ public class StudySearchDocument extends Study implements SearchDocumentInterfac
   private List<VariableSubDocument> variables = 
       new ArrayList<>();
   
-  private List<RelatedPublicationSubDocument> relatedPublications = 
+  private List<RelatedPublicationSubDocument> relatedPublications = new ArrayList<>();
+
+  private List<RelatedPublicationNestedDocument> nestedRelatedPublications =
       new ArrayList<>();
   
   private List<SurveySubDocument> surveys = 
@@ -96,6 +98,8 @@ public class StudySearchDocument extends Study implements SearchDocumentInterfac
     if (relatedPublications != null) {
       this.relatedPublications = relatedPublications.stream()
           .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());
+      this.nestedRelatedPublications = relatedPublications.stream()
+          .map(RelatedPublicationNestedDocument::new).collect(Collectors.toList());
     }
     if (surveys != null) {
       this.surveys = surveys.stream()

@@ -32,6 +32,7 @@ public class VariableSearchDocument extends Variable implements SearchDocumentIn
   private StudySubDocument study = null;
   private List<RelatedPublicationSubDocument> relatedPublications = 
       new ArrayList<>();
+  private List<RelatedPublicationNestedDocument> nestedRelatedPublications = new ArrayList<>();
   private List<SurveySubDocument> surveys = 
       new ArrayList<>();
   private List<InstrumentSubDocument> instruments = 
@@ -70,6 +71,8 @@ public class VariableSearchDocument extends Variable implements SearchDocumentIn
     if (relatedPublications != null) {
       this.relatedPublications = relatedPublications.stream()
           .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());
+      this.nestedRelatedPublications = relatedPublications.stream()
+          .map(RelatedPublicationNestedDocument::new).collect(Collectors.toList());
     }
     if (surveys != null) {
       this.surveys = surveys.stream()

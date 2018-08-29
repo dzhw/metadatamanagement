@@ -8,13 +8,21 @@ import org.springframework.beans.BeanUtils;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.SubDataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataSetSubDocumentProjection;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * Attributes of a data set which are stored in other search documents.
  *  
  * @author René Reitmann
  */
-public class DataSetSubDocument extends AbstractSubDocument
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+@Getter
+@Setter
+public class DataSetSubDocument extends AbstractNestedSubDocument
     implements DataSetSubDocumentProjection {
   private String id;
   
@@ -53,81 +61,5 @@ public class DataSetSubDocument extends AbstractSubDocument
         .en((projection.getDescription().getEn() != null ? projection.getDescription().getEn()
             : projection.getDescription().getDe()) + " (" + projection.getId() + ")")
         .build();
-  }
-  
-  @Override
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  @Override
-  public String getDataAcquisitionProjectId() {
-    return dataAcquisitionProjectId;
-  }
-
-  public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
-    this.dataAcquisitionProjectId = dataAcquisitionProjectId;
-  }
-  
-  @Override
-  public I18nString getType() {
-    return type;
-  }
-  
-  public void setType(I18nString type) {
-    this.type = type;
-  }
-
-  @Override
-  public I18nString getDescription() {
-    return description;
-  }
-
-  public void setDescription(I18nString description) {
-    this.description = description;
-  }
-
-  @Override
-  public I18nString getFormat() {
-    return format;
-  }
-
-  public void setFormat(I18nString format) {
-    this.format = format;
-  }
-
-  @Override
-  public Integer getNumber() {
-    return number;
-  }
-
-  public void setNumber(Integer number) {
-    this.number = number;
-  }
-
-  @Override
-  public List<SubDataSet> getSubDataSets() {
-    return subDataSets;
-  }
-
-  public void setSubDataSets(List<SubDataSet> subDataSets) {
-    this.subDataSets = subDataSets;
-  }
-
-  public Integer getMaxNumberOfObservations() {
-    return maxNumberOfObservations;
-  }
-
-  public List<String> getAccessWays() {
-    return accessWays;
-  }
-
-  @Override
-  public I18nString getCompleteTitle() {
-    return completeTitle;
   }
 }

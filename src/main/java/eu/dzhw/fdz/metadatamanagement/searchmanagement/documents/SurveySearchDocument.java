@@ -37,6 +37,7 @@ public class SurveySearchDocument extends Survey implements SearchDocumentInterf
       new ArrayList<>();
   private List<RelatedPublicationSubDocument> relatedPublications = 
       new ArrayList<>();
+  private List<RelatedPublicationNestedDocument> nestedRelatedPublications = new ArrayList<>();
   private List<InstrumentSubDocument> instruments = 
       new ArrayList<>();
   private List<QuestionSubDocument> questions = 
@@ -81,7 +82,9 @@ public class SurveySearchDocument extends Survey implements SearchDocumentInterf
     }
     if (relatedPublications != null) {
       this.relatedPublications = relatedPublications.stream()
-          .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());      
+          .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());
+      this.nestedRelatedPublications = relatedPublications.stream()
+          .map(RelatedPublicationNestedDocument::new).collect(Collectors.toList());
     }
     if (instruments != null) {
       this.instruments = instruments.values().stream()

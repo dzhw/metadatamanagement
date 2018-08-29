@@ -5,6 +5,10 @@ import org.springframework.beans.BeanUtils;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.VariableSubDocumentProjection;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * Attributes of a variable which are stored in other search documents.
@@ -12,7 +16,11 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.Vari
  * @author René Reitmann
  */
 @SuppressWarnings("CPD-START")
-public class VariableSubDocument extends AbstractSubDocument
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+@Getter
+@Setter
+public class VariableSubDocument extends AbstractNestedSubDocument
     implements VariableSubDocumentProjection {
   private String id;
   
@@ -64,64 +72,5 @@ public class VariableSubDocument extends AbstractSubDocument
             .en((variable.getLabel().getEn() != null ? variable.getLabel().getEn()
                 : variable.getLabel().getDe()) + " (" + variable.getId() + ")")
             .build();
-  }
-  
-  @Override
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  @Override
-  public String getDataAcquisitionProjectId() {
-    return dataAcquisitionProjectId;
-  }
-
-  public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
-    this.dataAcquisitionProjectId = dataAcquisitionProjectId;
-  }
-
-  @Override
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  @Override
-  public I18nString getLabel() {
-    return label;
-  }
-
-  public void setLabel(I18nString label) {
-    this.label = label;
-  }
-
-  @Override
-  public String getDataSetId() {
-    return dataSetId;
-  }
-
-  public void setDataSetId(String dataSetId) {
-    this.dataSetId = dataSetId;
-  }
-
-  @Override
-  public Integer getDataSetNumber() {
-    return dataSetNumber;
-  }
-
-  public void setDataSetNumber(Integer dataSetNumber) {
-    this.dataSetNumber = dataSetNumber;
-  }
-
-  @Override
-  public I18nString getCompleteTitle() {
-    return completeTitle;
   }
 }

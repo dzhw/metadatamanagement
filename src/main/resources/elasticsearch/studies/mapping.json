@@ -313,6 +313,38 @@
 					}
 				}
 			},
+			"nestedRelatedPublications": {
+				"type": "nested",
+				"properties": {
+					"id": {
+						"type": "keyword",
+						"copy_to": "all"
+					},
+					"language": {
+						"type": "keyword",
+						"copy_to": "all"
+					},
+					"title": {
+						"type": "keyword",
+						"copy_to": "all"
+					},
+					"completeTitle": {
+						"type": "object",
+						"properties": {
+							"de": {
+								"type": "text",
+								"analyzer": "ngrams",
+								"norms": false
+							},
+							"en": {
+								"type": "text",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
+					}
+				}
+			},
 			"seriesPublications": {
 				"type": "object",
 				"properties": {
