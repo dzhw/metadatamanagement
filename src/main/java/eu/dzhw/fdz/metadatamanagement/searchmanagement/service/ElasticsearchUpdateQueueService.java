@@ -42,6 +42,7 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataSetSearchDo
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.InstrumentSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.QuestionSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.RelatedPublicationSearchDocument;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.StudyNestedDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.StudySearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.StudySubDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.SurveySearchDocument;
@@ -306,6 +307,7 @@ public class ElasticsearchUpdateQueueService {
         .orElse(null);
     if (relatedPublication != null) {
       List<StudySubDocument> studySubDocuments = null;
+      List<StudyNestedDocument> nestedStudyDocuments = null;
       if (relatedPublication.getStudyIds() != null) {
         List<StudySubDocumentProjection> studies = studyRepository
             .findSubDocumentsByIdIn(relatedPublication.getStudyIds());
@@ -315,6 +317,8 @@ public class ElasticsearchUpdateQueueService {
           return new StudySubDocument(study, 
               doiBuilder.buildStudyDoi(study, project.getRelease()));
         }).collect(Collectors.toList());
+        nestedStudyDocuments =
+            studies.stream().map(StudyNestedDocument::new).collect(Collectors.toList());
       }
       List<QuestionSubDocumentProjection> questions = 
           new ArrayList<QuestionSubDocumentProjection>();
@@ -342,8 +346,8 @@ public class ElasticsearchUpdateQueueService {
         variables = variableRepository.findSubDocumentsByIdIn(relatedPublication.getVariableIds());
       }
       RelatedPublicationSearchDocument searchDocument =
-          new RelatedPublicationSearchDocument(relatedPublication, studySubDocuments, questions,
-              instruments, surveys, dataSets, variables);
+          new RelatedPublicationSearchDocument(relatedPublication, studySubDocuments,
+              nestedStudyDocuments, questions, instruments, surveys, dataSets, variables);
 
       bulkBuilder.addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType()
           .name())

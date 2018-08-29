@@ -29,6 +29,7 @@ import lombok.ToString;
 @Setter
 public class InstrumentSearchDocument extends Instrument implements SearchDocumentInterface {
   private StudySubDocument study = null;
+  private StudyNestedDocument nestedStudy = null;
   private List<SurveySubDocument> surveys = 
       new ArrayList<>();
   private List<QuestionSubDocument> questions = 
@@ -67,7 +68,8 @@ public class InstrumentSearchDocument extends Instrument implements SearchDocume
       String doi) {
     super(instrument);
     if (study != null) {
-      this.study = new StudySubDocument(study, doi);      
+      this.study = new StudySubDocument(study, doi);
+      this.nestedStudy = new StudyNestedDocument(study);
     }
     if (surveys != null) {
       this.surveys = surveys.stream()

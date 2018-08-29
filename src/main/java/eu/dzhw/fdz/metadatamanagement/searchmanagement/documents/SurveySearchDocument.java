@@ -31,6 +31,7 @@ import lombok.ToString;
 @Setter
 public class SurveySearchDocument extends Survey implements SearchDocumentInterface {
   private StudySubDocument study = null;
+  private StudyNestedDocument nestedStudy = null;
   private List<DataSetSubDocument> dataSets = 
       new ArrayList<>();
   private List<VariableSubDocument> variables =
@@ -70,7 +71,8 @@ public class SurveySearchDocument extends Survey implements SearchDocumentInterf
       String doi) {
     super(survey);
     if (study != null) {
-      this.study = new StudySubDocument(study, doi);      
+      this.study = new StudySubDocument(study, doi);
+      this.nestedStudy = new StudyNestedDocument(study);
     }
     if (dataSets != null) {
       this.dataSets = dataSets.stream()

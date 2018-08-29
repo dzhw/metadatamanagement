@@ -30,6 +30,7 @@ public class RelatedPublicationSearchDocument extends RelatedPublication
     implements SearchDocumentInterface {
   private List<StudySubDocument> studies =
       new ArrayList<>();
+  private List<StudyNestedDocument> nestedStudies = new ArrayList<>();
   private List<QuestionSubDocument> questions =
       new ArrayList<>();
   private List<InstrumentSubDocument> instruments =
@@ -61,6 +62,7 @@ public class RelatedPublicationSearchDocument extends RelatedPublication
   @SuppressWarnings("CPD-START")
   public RelatedPublicationSearchDocument(RelatedPublication relatedPublication,
       List<StudySubDocument> studies,
+      List<StudyNestedDocument> nestedStudies,
       List<QuestionSubDocumentProjection> questions,
       Map<String, InstrumentSubDocumentProjection> instruments,
       List<SurveySubDocumentProjection> surveys,
@@ -69,6 +71,9 @@ public class RelatedPublicationSearchDocument extends RelatedPublication
     super(relatedPublication);
     if (studies != null) {
       this.studies = studies;
+    }
+    if (nestedStudies != null) {
+      this.nestedStudies = nestedStudies;
     }
     if (questions != null) {
       this.questions = questions.stream()

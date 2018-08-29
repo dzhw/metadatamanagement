@@ -27,6 +27,7 @@ import lombok.ToString;
 @Setter
 public class QuestionSearchDocument extends Question implements SearchDocumentInterface {
   private StudySubDocument study = null;
+  private StudyNestedDocument nestedStudy = null;
   private InstrumentSubDocument instrument = null;
   private List<SurveySubDocument> surveys = 
       new ArrayList<>();
@@ -63,7 +64,8 @@ public class QuestionSearchDocument extends Question implements SearchDocumentIn
       String doi) {
     super(question);
     if (study != null) {
-      this.study = new StudySubDocument(study, doi);            
+      this.study = new StudySubDocument(study, doi);
+      this.nestedStudy = new StudyNestedDocument(study);
     }
     if (instrument != null) {
       this.instrument = new InstrumentSubDocument(instrument);      

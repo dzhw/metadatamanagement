@@ -199,6 +199,46 @@
 			"study": {
 				"type": "object",
 				"properties": {
+					"id": {
+						"type": "keyword",
+						"copy_to": [
+							"all"
+						]
+					},
+					"studySeries": {
+						"type": "object",
+						"properties": {
+							"de": {
+								"type": "keyword",
+								"copy_to": "all",
+								"norms": false,
+								"fields": {
+									"ngrams": {
+										"type": "text",
+										"analyzer": "ngrams",
+										"norms": false
+									}
+								}
+							},
+							"en": {
+								"type": "keyword",
+								"copy_to": "all",
+								"norms": false,
+								"fields": {
+									"ngrams": {
+										"type": "text",
+										"analyzer": "ngrams",
+										"norms": false
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"nestedStudy": {
+				"type": "nested",
+				"properties": {
 					"completeTitle": {
 						"type": "object",
 						"properties": {
@@ -234,35 +274,6 @@
 								"copy_to": [
 									"all"
 								]
-							}
-						}
-					},
-					"studySeries": {
-						"type": "object",
-						"properties": {
-							"de": {
-								"type": "keyword",
-								"copy_to": "all",
-								"norms": false,
-								"fields": {
-									"ngrams": {
-										"type": "text",
-										"analyzer": "ngrams",
-										"norms": false
-									}
-								}
-							},
-							"en": {
-								"type": "keyword",
-								"copy_to": "all",
-								"norms": false,
-								"fields": {
-									"ngrams": {
-										"type": "text",
-										"analyzer": "ngrams",
-										"norms": false
-									}
-								}
 							}
 						}
 					}

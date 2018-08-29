@@ -121,55 +121,83 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       queryterm, dataAcquisitionProjectId) {
       var language = LanguageService.getCurrentInstantly();
       var query = createQueryObject(type);
+      query.size = 0;
+      query.body = {};
       var termFilters = createTermFilters(filter, dataAcquisitionProjectId,
         type);
-      var prefix = (type === 'studies' || !type)  ? '' : 'study.';
+      var prefix = (type === 'studies' || !type)  ? ''
+        : 'nestedStudy.';
       if (type === 'related_publications') {
-        prefix = 'studies.';
+        prefix = 'nestedStudies.';
       }
-      query.body = {
-        'aggs': {
-            'id': {
-                'terms': {
-                  'field': prefix + 'id',
-                  'size': 100
-                },
-                'aggs': {
-                  'titleEn': {
-                    'terms': {
-                      'field': prefix + 'title.en',
-                      'size': 100
+      var aggregation = {
+          'aggs': {
+            'title': {
+              'filter': {
+                'bool': {
+                  'must': [{
+                    'match': {
+
                     }
+                  }]
+                }
+              },
+              'aggs': {
+                'id': {
+                  'terms': {
+                    'field': prefix + 'id',
+                    'size': 100
                   },
-                  'titleDe': {
-                    'terms': {
-                      'field': prefix + 'title.de',
-                      'size': 100
+                  'aggs': {
+                    'titleDe': {
+                      'terms': {
+                        'field': prefix + 'title.de',
+                        'size': 100
+                      },
+                      'aggs': {
+                        'titleEn': {
+                          'terms': {
+                            'field': prefix + 'title.en',
+                            'size': 100
+                          }
+                        }
+                      }
                     }
                   }
                 }
               }
+            }
+          }
+        };
+      var nestedAggregation = {
+        'aggs': {
+            'studies': {
+              'nested': {
+                'path': prefix.replace('.', '')
+              }
+            }
           }
       };
 
-      query.body.query = {
-        'bool': {
-          'must': [{
-              'match': {
-              }
-            }]
-        }
-      };
-
-      query.body.query.bool.must[0].match
-        [prefix + 'completeTitle.' + language] = {
+      aggregation.aggs.title.filter.bool.must[0]
+      .match[prefix + 'completeTitle.' + language] =  {
         'query': searchText,
         'operator': 'AND',
         'minimum_should_match': '100%',
         'zero_terms_query': 'ALL'
       };
 
+      if (prefix !== '') {
+        nestedAggregation.aggs.studies.aggs =
+          aggregation.aggs;
+        query.body.aggs = nestedAggregation.aggs;
+      } else {
+        query.body.aggs = aggregation.aggs;
+      }
+
       if (termFilters) {
+        query.body.query = query.body.query || {};
+        query.body.query.bool = query.body.query.bool || {};
         query.body.query.bool.filter = termFilters;
       }
 
@@ -178,20 +206,26 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       SearchHelperService.addReleaseFilter(query);
 
       return ElasticSearchClient.search(query).then(function(result) {
-        var studyTitles = [];
-        var studyTitlesElement = {};
-        result.aggregations.id.buckets.forEach(function(bucket) {
-            studyTitlesElement = {
+        var titles = [];
+        var titleElement = {};
+        var buckets = [];
+        if (prefix !== '') {
+          buckets = result.aggregations.studies.title.id.buckets;
+        } else {
+          buckets = result.aggregations.title.id.buckets;
+        }
+        buckets.forEach(function(bucket) {
+            titleElement = {
               title: {
-                'de': bucket.titleDe.buckets[0].key,
-                'en': bucket.titleEn.buckets[0].key,
+                de: bucket.titleDe.buckets[0].key,
+                en: bucket.titleDe.buckets[0].titleEn.buckets[0].key
               },
-              'id': bucket.key,
-              'count': bucket.doc_count
+              id: bucket.key,
+              count: bucket.doc_count
             };
-            studyTitles.push(studyTitlesElement);
+            titles.push(titleElement);
           });
-        return studyTitles;
+        return titles;
       });
     };
 

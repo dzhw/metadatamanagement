@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySubDocumentProjection;
@@ -22,7 +23,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @Getter
 @Setter
-public class StudySubDocument extends AbstractNestedSubDocument
+public class StudySubDocument extends AbstractRdcDomainObject
     implements StudySubDocumentProjection {
   private String id;
   
@@ -41,8 +42,6 @@ public class StudySubDocument extends AbstractNestedSubDocument
   private String doi;
   
   private I18nString surveyDesign;
-  
-  private I18nString completeTitle;
 
   public StudySubDocument() {
     super();
@@ -57,11 +56,5 @@ public class StudySubDocument extends AbstractNestedSubDocument
     super();
     BeanUtils.copyProperties(projection, this);
     this.doi = doi;
-    this.completeTitle = I18nString.builder()
-        .de((projection.getTitle().getDe() != null ? projection.getTitle().getDe()
-            : projection.getTitle().getEn()) + " (" + projection.getId() + ")")
-        .en((projection.getTitle().getEn() != null ? projection.getTitle().getEn()
-            : projection.getTitle().getDe()) + " (" + projection.getId() + ")")
-        .build();
   }
 }

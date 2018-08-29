@@ -207,6 +207,30 @@
 			"studies": {
 				"type": "object",
 				"properties": {
+					"id": {
+						"type": "keyword",
+						"copy_to": [
+							"all"
+						]
+					},
+					"studySeries": {
+						"type": "object",
+						"properties": {
+							"de": {
+								"type": "keyword",
+								"index": false
+							},
+							"en": {
+								"type": "text",
+								"index": false
+							}
+						}
+					}
+				}
+			},
+			"nestedStudies": {
+				"type": "nested",
+				"properties": {
 					"completeTitle": {
 						"type": "object",
 						"properties": {
@@ -242,19 +266,6 @@
 								"copy_to": [
 									"all"
 								]
-							}
-						}
-					},
-					"studySeries": {
-						"type": "object",
-						"properties": {
-							"de": {
-								"type": "keyword",
-								"index": false
-							},
-							"en": {
-								"type": "text",
-								"index": false
 							}
 						}
 					}

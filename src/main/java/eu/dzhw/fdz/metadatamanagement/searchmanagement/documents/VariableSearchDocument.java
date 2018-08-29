@@ -30,6 +30,7 @@ import lombok.ToString;
 public class VariableSearchDocument extends Variable implements SearchDocumentInterface {
   private DataSetSubDocument dataSet = null;
   private StudySubDocument study = null;
+  private StudyNestedDocument nestedStudy = null;
   private List<RelatedPublicationSubDocument> relatedPublications = 
       new ArrayList<>();
   private List<RelatedPublicationNestedDocument> nestedRelatedPublications = new ArrayList<>();
@@ -66,7 +67,8 @@ public class VariableSearchDocument extends Variable implements SearchDocumentIn
       this.dataSet = new DataSetSubDocument(dataSet);      
     }
     if (study != null) {
-      this.study = new StudySubDocument(study, doi);            
+      this.study = new StudySubDocument(study, doi);
+      this.nestedStudy = new StudyNestedDocument(study);
     }
     if (relatedPublications != null) {
       this.relatedPublications = relatedPublications.stream()

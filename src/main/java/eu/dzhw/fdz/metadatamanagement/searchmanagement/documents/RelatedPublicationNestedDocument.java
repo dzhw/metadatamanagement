@@ -10,7 +10,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * NESTED Subdocumentused for filtering by related publications.
+ * NESTED subdocument used for filtering by related publications.
  * 
  * @author René Reitmann
  */
