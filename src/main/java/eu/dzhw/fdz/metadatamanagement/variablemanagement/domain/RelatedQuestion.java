@@ -38,7 +38,7 @@ public class RelatedQuestion {
       + "related-question-number-not-empty")
   private String questionNumber;
 
-  @I18nStringSize(max = StringLengths.LARGE,
+  @I18nStringSize(max = StringLengths.X_LARGE,
       message = "variable-management.error.variable.related-question-strings.i18n-string-size")
   private I18nString relatedQuestionStrings;
 

@@ -284,7 +284,7 @@ angular.module('metadatamanagementApp').config(
               }
             },
             'related-question-strings': {
-              'i18n-string-size': 'The max length of the related question strings is 2048 signs.'
+              'i18n-string-size': 'The max length of the related question strings is 1 MB characters.'
             },
             'data-acquisition-project': {
               'id': {
