@@ -288,6 +288,7 @@
                                     </pluginExecutionFilter>
                                     <action>
                                         <ignore />
+<<<<<<< HEAD
                                     </action>
                                 </pluginExecution>
                                 <pluginExecution>
@@ -314,6 +315,8 @@
                                     </pluginExecutionFilter>
                                     <action>
                                         <ignore />
+=======
+>>>>>>> hotfix
                                     </action>
                                 </pluginExecution>
                             </pluginExecutions>
