@@ -284,7 +284,7 @@ angular.module('metadatamanagementApp').config(
               }
             },
             'related-question-strings': {
-              'i18n-string-size': 'Die Maximallänge der zugehörigen Frage-Strings ist 2048 Zeichen.'
+              'i18n-string-size': 'Die Maximallänge der zugehörigen Frage-Strings ist 1 MB Zeichen.'
             },
             'data-acquisition-project': {
               'id': {
