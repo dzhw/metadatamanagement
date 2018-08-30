@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
 import org.springframework.beans.BeanUtils;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Population;
@@ -21,7 +22,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @Getter
 @Setter
-public class SurveySubDocument extends AbstractNestedSubDocument
+public class SurveySubDocument extends AbstractRdcDomainObject
     implements SurveySubDocumentProjection {
   private String id;
 
@@ -43,8 +44,6 @@ public class SurveySubDocument extends AbstractNestedSubDocument
 
   private I18nString dataType;
 
-  private I18nString completeTitle;
-
   public SurveySubDocument() {
     super();
   }
@@ -57,12 +56,5 @@ public class SurveySubDocument extends AbstractNestedSubDocument
   public SurveySubDocument(SurveySubDocumentProjection projection) {
     super();
     BeanUtils.copyProperties(projection, this);
-    this.completeTitle =
-        I18nString.builder()
-            .de((projection.getTitle().getDe() != null ? projection.getTitle().getDe()
-                : projection.getTitle().getEn()) + " (" + projection.getId() + ")")
-            .en((projection.getTitle().getEn() != null ? projection.getTitle().getEn()
-                : projection.getTitle().getDe()) + " (" + projection.getId() + ")")
-            .build();
   }
 }

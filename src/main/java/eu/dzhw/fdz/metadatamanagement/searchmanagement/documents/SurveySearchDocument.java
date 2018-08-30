@@ -34,15 +34,19 @@ public class SurveySearchDocument extends Survey implements SearchDocumentInterf
   private StudyNestedDocument nestedStudy = null;
   private List<DataSetSubDocument> dataSets = 
       new ArrayList<>();
+  private List<DataSetNestedDocument> nestedDataSets = new ArrayList<>();
   private List<VariableSubDocument> variables =
       new ArrayList<>();
+  private List<VariableNestedDocument> nestedVariables = new ArrayList<>();
   private List<RelatedPublicationSubDocument> relatedPublications = 
       new ArrayList<>();
   private List<RelatedPublicationNestedDocument> nestedRelatedPublications = new ArrayList<>();
   private List<InstrumentSubDocument> instruments = 
       new ArrayList<>();
+  private List<InstrumentNestedDocument> nestedInstruments = new ArrayList<>();
   private List<QuestionSubDocument> questions = 
       new ArrayList<>();
+  private List<QuestionNestedDocument> nestedQuestions = new ArrayList<>();
   private Release release = null;
   
   private I18nString guiLabels = SurveyDetailsGuiLabels.GUI_LABELS;
@@ -76,11 +80,15 @@ public class SurveySearchDocument extends Survey implements SearchDocumentInterf
     }
     if (dataSets != null) {
       this.dataSets = dataSets.stream()
-          .map(DataSetSubDocument::new).collect(Collectors.toList());      
+          .map(DataSetSubDocument::new).collect(Collectors.toList());
+      this.nestedDataSets =
+          dataSets.stream().map(DataSetNestedDocument::new).collect(Collectors.toList());
     }
     if (variables != null) {
       this.variables = variables.stream()
-          .map(VariableSubDocument::new).collect(Collectors.toList());      
+          .map(VariableSubDocument::new).collect(Collectors.toList());
+      this.nestedVariables =
+          variables.stream().map(VariableNestedDocument::new).collect(Collectors.toList());
     }
     if (relatedPublications != null) {
       this.relatedPublications = relatedPublications.stream()
@@ -90,12 +98,16 @@ public class SurveySearchDocument extends Survey implements SearchDocumentInterf
     }
     if (instruments != null) {
       this.instruments = instruments.values().stream()
-          .map(InstrumentSubDocument::new).collect(Collectors.toList());      
+          .map(InstrumentSubDocument::new).collect(Collectors.toList());
+      this.nestedInstruments = instruments.values().stream().map(InstrumentNestedDocument::new)
+          .collect(Collectors.toList());
     }
     if (questions != null) {
       this.questions = questions.stream()
-          .map(question -> new QuestionSubDocument(question,
-              instruments.get(question.getInstrumentId()).getTitle()))
+          .map(question -> new QuestionSubDocument(question)).collect(Collectors.toList());
+      this.nestedQuestions = questions.stream()
+          .map(question -> new QuestionNestedDocument(question,
+              instruments.get(question.getInstrumentId())))
           .collect(Collectors.toList());
     }
     this.release = release;

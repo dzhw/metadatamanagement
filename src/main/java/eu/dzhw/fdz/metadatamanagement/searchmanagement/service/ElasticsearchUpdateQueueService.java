@@ -470,11 +470,16 @@ public class ElasticsearchUpdateQueueService {
       if (variable.getSurveyIds() != null) {
         surveys = surveyRepository.findSubDocumentByIdIn(variable.getSurveyIds());        
       }
-      List<InstrumentSubDocumentProjection> instruments = new ArrayList<>();
+      Map<String, InstrumentSubDocumentProjection> instruments = new HashMap<>();
+      List<QuestionSubDocumentProjection> questions = new ArrayList<>();
       if (variable.getRelatedQuestions() != null) {
-        List<String> instrumentIds = variable.getRelatedQuestions().stream()
-            .map(RelatedQuestion::getInstrumentId).collect(Collectors.toList());
-        instruments = instrumentRepository.findSubDocumentsByIdIn(instrumentIds);
+        Set<String> instrumentIds = variable.getRelatedQuestions().stream()
+            .map(RelatedQuestion::getInstrumentId).collect(Collectors.toSet());
+        Set<String> questionIds = variable.getRelatedQuestions().stream()
+            .map(RelatedQuestion::getQuestionId).collect(Collectors.toSet());
+        instruments = instrumentRepository.findSubDocumentsByIdIn(instrumentIds).stream()
+            .collect(Collectors.toMap(InstrumentSubDocumentProjection::getId, Function.identity()));
+        questions = questionRepository.findSubDocumentsByIdIn(questionIds);
       }
       DataAcquisitionProject project = projectRepository.findById(
           variable.getDataAcquisitionProjectId()).orElse(null);
@@ -484,7 +489,7 @@ public class ElasticsearchUpdateQueueService {
       }
       String doi = doiBuilder.buildStudyDoi(study, release);
       VariableSearchDocument searchDocument = new VariableSearchDocument(variable,
-          dataSet, study, relatedPublications, surveys, instruments, release, doi);
+          dataSet, study, relatedPublications, surveys, instruments, questions, release, doi);
 
       bulkBuilder.addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType()
           .name())

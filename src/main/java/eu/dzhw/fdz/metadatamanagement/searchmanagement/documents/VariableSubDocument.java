@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
 import org.springframework.beans.BeanUtils;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.VariableSubDocumentProjection;
@@ -20,7 +21,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @Getter
 @Setter
-public class VariableSubDocument extends AbstractNestedSubDocument
+public class VariableSubDocument extends AbstractRdcDomainObject
     implements VariableSubDocumentProjection {
   private String id;
   
@@ -34,8 +35,6 @@ public class VariableSubDocument extends AbstractNestedSubDocument
   
   private Integer dataSetNumber;
 
-  private I18nString completeTitle;
-
   public VariableSubDocument() {
     super();
   }
@@ -48,13 +47,6 @@ public class VariableSubDocument extends AbstractNestedSubDocument
   public VariableSubDocument(VariableSubDocumentProjection projection) {
     super();
     BeanUtils.copyProperties(projection, this);
-    this.completeTitle =
-        I18nString.builder()
-            .de((projection.getLabel().getDe() != null ? projection.getLabel().getDe()
-                : projection.getLabel().getEn()) + " (" + projection.getId() + ")")
-            .en((projection.getLabel().getEn() != null ? projection.getLabel().getEn()
-                : projection.getLabel().getDe()) + " (" + projection.getId() + ")")
-            .build();
   }
   
   /**
@@ -65,12 +57,5 @@ public class VariableSubDocument extends AbstractNestedSubDocument
   public VariableSubDocument(Variable variable) {
     super();
     BeanUtils.copyProperties(variable, this);
-    this.completeTitle =
-        I18nString.builder()
-            .de((variable.getLabel().getDe() != null ? variable.getLabel().getDe()
-                : variable.getLabel().getEn()) + " (" + variable.getId() + ")")
-            .en((variable.getLabel().getEn() != null ? variable.getLabel().getEn()
-                : variable.getLabel().getDe()) + " (" + variable.getId() + ")")
-            .build();
   }
 }

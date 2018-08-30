@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
 import org.springframework.beans.BeanUtils;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.projections.QuestionSubDocumentProjection;
 import lombok.EqualsAndHashCode;
@@ -19,7 +20,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @Getter
 @Setter
-public class QuestionSubDocument extends AbstractNestedSubDocument
+public class QuestionSubDocument extends AbstractRdcDomainObject
     implements QuestionSubDocumentProjection {
   private String id;
   
@@ -35,8 +36,6 @@ public class QuestionSubDocument extends AbstractNestedSubDocument
   
   private I18nString topic;
   
-  private I18nString completeTitle;
-
   public QuestionSubDocument() {
     super();
   }
@@ -45,26 +44,9 @@ public class QuestionSubDocument extends AbstractNestedSubDocument
    * Create the subdocument.
    * 
    * @param projection the projection coming from mongo.
-   * @param instrumentTitle the instruments title, can be null.
    */
-  public QuestionSubDocument(QuestionSubDocumentProjection projection, I18nString instrumentTitle) {
+  public QuestionSubDocument(QuestionSubDocumentProjection projection) {
     super();
     BeanUtils.copyProperties(projection, this);
-    if (instrumentTitle != null) {
-      this.completeTitle = I18nString.builder()
-          .de("Frage " + projection.getNumber() + ": "
-              + (instrumentTitle.getDe() != null ? instrumentTitle.getDe()
-                  : instrumentTitle.getEn())
-              + " (" + projection.getId() + ")")
-          .en("Question " + projection.getNumber() + ": "
-              + (instrumentTitle.getEn() != null ? instrumentTitle.getEn()
-                  : instrumentTitle.getDe())
-              + " (" + projection.getId() + ")")
-          .build();
-    } else {
-      this.completeTitle =
-          I18nString.builder().de("Frage " + projection.getNumber() + ": " + projection.getId())
-              .en("Question " + projection.getNumber() + ": " + projection.getId()).build();
-    }
   }
 }

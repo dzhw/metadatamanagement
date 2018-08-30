@@ -33,14 +33,19 @@ public class RelatedPublicationSearchDocument extends RelatedPublication
   private List<StudyNestedDocument> nestedStudies = new ArrayList<>();
   private List<QuestionSubDocument> questions =
       new ArrayList<>();
+  private List<QuestionNestedDocument> nestedQuestions = new ArrayList<>();
   private List<InstrumentSubDocument> instruments =
       new ArrayList<>();
+  private List<InstrumentNestedDocument> nestedInstruments = new ArrayList<>();
   private List<SurveySubDocument> surveys =
       new ArrayList<>();
+  private List<SurveyNestedDocument> nestedSurveys = new ArrayList<>();
   private List<DataSetSubDocument> dataSets =
       new ArrayList<>();
+  private List<DataSetNestedDocument> nestedDataSets = new ArrayList<>();
   private List<VariableSubDocument> variables =
       new ArrayList<>();
+  private List<VariableNestedDocument> nestedVariables = new ArrayList<>();
 
   // dummy string which ensures that related publications are always released
   private String release = "released";
@@ -77,25 +82,35 @@ public class RelatedPublicationSearchDocument extends RelatedPublication
     }
     if (questions != null) {
       this.questions = questions.stream()
-          .map(question -> new QuestionSubDocument(question,
-              instruments.get(question.getInstrumentId()).getTitle()))
+          .map(question -> new QuestionSubDocument(question)).collect(Collectors.toList());
+      this.nestedQuestions = questions.stream()
+          .map(question -> new QuestionNestedDocument(question,
+              instruments.get(question.getInstrumentId())))
           .collect(Collectors.toList());
     }
     if (instruments != null) {
       this.instruments = instruments.values().stream()
           .map(InstrumentSubDocument::new).collect(Collectors.toList());
+      this.nestedInstruments = instruments.values().stream().map(InstrumentNestedDocument::new)
+          .collect(Collectors.toList());
     }
     if (surveys != null) {
       this.surveys = surveys.stream()
           .map(SurveySubDocument::new).collect(Collectors.toList());
+      this.nestedSurveys =
+          surveys.stream().map(SurveyNestedDocument::new).collect(Collectors.toList());
     }
     if (dataSets != null) {
       this.dataSets = dataSets.stream()
           .map(DataSetSubDocument::new).collect(Collectors.toList());
+      this.nestedDataSets =
+          dataSets.stream().map(DataSetNestedDocument::new).collect(Collectors.toList());
     }
     if (variables != null) {
       this.variables = variables.stream()
           .map(VariableSubDocument::new).collect(Collectors.toList());
+      this.nestedVariables =
+          variables.stream().map(VariableNestedDocument::new).collect(Collectors.toList());
     }
     this.completeTitle = I18nString.builder()
         .de(relatedPublication.getTitle() + " (" + relatedPublication.getId() + ")")

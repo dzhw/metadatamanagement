@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.SubDataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataSetSubDocumentProjection;
@@ -22,7 +23,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @Getter
 @Setter
-public class DataSetSubDocument extends AbstractNestedSubDocument
+public class DataSetSubDocument extends AbstractRdcDomainObject
     implements DataSetSubDocumentProjection {
   private String id;
   
@@ -41,8 +42,6 @@ public class DataSetSubDocument extends AbstractNestedSubDocument
   private Integer maxNumberOfObservations;
   
   private List<String> accessWays;
-
-  private I18nString completeTitle;
  
   /**
    * Create the sub document from the given projection.
@@ -55,11 +54,5 @@ public class DataSetSubDocument extends AbstractNestedSubDocument
         .map(subDataSet -> subDataSet.getNumberOfObservations()).reduce(Integer::max).get();
     this.accessWays = projection.getSubDataSets().stream()
         .map(subDataSet -> subDataSet.getAccessWay()).collect(Collectors.toList());
-    this.completeTitle = I18nString.builder()
-        .de((projection.getDescription().getDe() != null ? projection.getDescription().getDe()
-            : projection.getDescription().getEn()) + " (" + projection.getId() + ")")
-        .en((projection.getDescription().getEn() != null ? projection.getDescription().getEn()
-            : projection.getDescription().getDe()) + " (" + projection.getId() + ")")
-        .build();
   }
 }
