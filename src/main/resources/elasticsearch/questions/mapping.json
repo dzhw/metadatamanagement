@@ -237,6 +237,57 @@
 			"surveys": {
 				"type": "object",
 				"properties": {
+					"id": {
+						"type": "keyword",
+						"copy_to": [
+							"all"
+						]
+					},
+					"population": {
+						"type": "object",
+						"properties": {
+							"de": {
+								"type": "text",
+								"index": false
+							},
+							"en": {
+								"type": "text",
+								"index": false
+							}
+						}
+					},
+					"title": {
+						"type": "object",
+						"properties": {
+							"de": {
+								"type": "keyword",
+								"copy_to": "all",
+								"fields": {
+									"ngrams": {
+										"type": "text",
+										"analyzer": "ngrams",
+										"norms": false
+									}
+								}
+							},
+							"en": {
+								"type": "keyword",
+								"copy_to": "all",
+								"fields": {
+									"ngrams": {
+										"type": "text",
+										"analyzer": "ngrams",
+										"norms": false
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"nestedSurveys": {
+				"type": "nested",
+				"properties": {
 					"completeTitle": {
 						"type": "object",
 						"properties": {
@@ -253,38 +304,16 @@
 						}
 					},
 					"id": {
-						"type": "keyword",
-						"copy_to": [
-							"all"
-						]
+						"type": "keyword"
 					},
 					"title": {
 						"type": "object",
 						"properties": {
 							"de": {
-								"type": "keyword",
-								"copy_to": [
-									"all"
-								]
+								"type": "keyword"
 							},
 							"en": {
-								"type": "keyword",
-								"copy_to": [
-									"all"
-								]
-							}
-						}
-					},
-					"population": {
-						"type": "object",
-						"properties": {
-							"de": {
-								"type": "text",
-								"index": false
-							},
-							"en": {
-								"type": "text",
-								"index": false
+								"type": "keyword"
 							}
 						}
 					}
@@ -299,12 +328,54 @@
 					}
 				}
 			},
+			"nestedVariables": {
+				"type": "nested",
+				"properties": {
+					"id": {
+						"type": "keyword"
+					},
+					"completeTitle": {
+						"type": "object",
+						"properties": {
+							"de": {
+								"type": "text",
+								"analyzer": "ngrams",
+								"norms": false
+							},
+							"en": {
+								"type": "text",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
+					},
+					"label": {
+						"type": "object",
+						"properties": {
+							"de": {
+								"type": "keyword"
+							},
+							"en": {
+								"type": "keyword"
+							}
+						}
+					}
+				}
+			},
 			"dataSets": {
 				"type": "object",
 				"properties": {
 					"id": {
 						"type": "keyword",
 						"copy_to": "all"
+					}
+				}
+			},
+			"nestedDataSets": {
+				"type": "nested",
+				"properties": {
+					"id": {
+						"type": "keyword"
 					},
 					"completeTitle": {
 						"type": "object",
@@ -325,12 +396,10 @@
 						"type": "object",
 						"properties": {
 							"de": {
-								"type": "keyword",
-								"copy_to": "all"
+								"type": "keyword"
 							},
 							"en": {
-								"type": "keyword",
-								"copy_to": "all"
+								"type": "keyword"
 							}
 						}
 					}
@@ -349,16 +418,13 @@
 				"type": "nested",
 				"properties": {
 					"id": {
-						"type": "keyword",
-						"copy_to": "all"
+						"type": "keyword"
 					},
 					"language": {
-						"type": "keyword",
-						"copy_to": "all"
+						"type": "keyword"
 					},
 					"title": {
-						"type": "keyword",
-						"copy_to": "all"
+						"type": "keyword"
 					},
 					"completeTitle": {
 						"type": "object",
@@ -383,21 +449,6 @@
 					"id": {
 						"type": "keyword",
 						"copy_to": "all"
-					},
-					"completeTitle": {
-						"type": "object",
-						"properties": {
-							"de": {
-								"type": "text",
-								"analyzer": "ngrams",
-								"norms": false
-							},
-							"en": {
-								"type": "text",
-								"analyzer": "ngrams",
-								"norms": false
-							}
-						}
 					},
 					"surveyIds": {
 						"type": "keyword",
@@ -427,6 +478,40 @@
 										"norms": false
 									}
 								}
+							}
+						}
+					}
+				}
+			},
+			"nestedInstrument": {
+				"type": "nested",
+				"properties": {
+					"id": {
+						"type": "keyword"
+					},
+					"completeTitle": {
+						"type": "object",
+						"properties": {
+							"de": {
+								"type": "text",
+								"analyzer": "ngrams",
+								"norms": false
+							},
+							"en": {
+								"type": "text",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
+					},
+					"description": {
+						"type": "object",
+						"properties": {
+							"de": {
+								"type": "keyword"
+							},
+							"en": {
+								"type": "keyword"
 							}
 						}
 					}
