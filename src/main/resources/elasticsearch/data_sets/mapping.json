@@ -431,7 +431,7 @@
 							}
 						}
 					},
-					"instrumentTitle": {
+					"questionText": {
 						"type": "object",
 						"properties": {
 							"de": {

@@ -4,9 +4,9 @@
 angular.module('metadatamanagementApp')
   .controller('DataSetSearchFilterController', [
     '$scope', 'DataSetSearchService', '$timeout',
-    'CurrentProjectService', '$rootScope', '$location',
+    'CurrentProjectService', '$rootScope', '$location', '$q',
     function($scope, DataSetSearchService, $timeout,
-      CurrentProjectService, $rootScope, $location) {
+      CurrentProjectService, $rootScope, $location, $q) {
       // prevent data-set changed events during init
       var initializing = true;
       var selectionChanging = false;
@@ -84,7 +84,7 @@ angular.module('metadatamanagementApp')
             $scope.query === cache.query &&
             $scope.projectId === cache.projectId
           ) {
-          return cache.searchResult;
+          return $q.resolve(cache.searchResult);
         }
         //Search Call to Elasticsearch
         return DataSetSearchService.findDataSetDescriptions(searchText,

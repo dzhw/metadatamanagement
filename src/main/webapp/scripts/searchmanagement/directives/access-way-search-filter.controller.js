@@ -4,9 +4,9 @@
 angular.module('metadatamanagementApp')
   .controller('AccessWaySearchFilterController', [
     '$scope', 'VariableSearchService', '$timeout', 'CurrentProjectService',
-    '$location',
+    '$location', '$q',
     function($scope, VariableSearchService, $timeout, CurrentProjectService,
-      $location) {
+      $location, $q) {
       // prevent access-way changed events during init
       var initializing = true;
       var selectionChanging = false;
@@ -72,7 +72,7 @@ angular.module('metadatamanagementApp')
            cache.projectId === currentProjectId &&
            query === cache.query
           ) {
-          return cache.searchResult;
+          return $q.resolve(cache.searchResult);
         }
         return VariableSearchService.findAccessWays(
           searchText, cleanedFilter, currentProjectId, query)

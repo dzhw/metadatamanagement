@@ -52,6 +52,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       queryterm, dataAcquisitionProjectId) {
       language = language || LanguageService.getCurrentInstantly();
       var query = createQueryObject(type);
+      query.size = 0;
       var termFilters = createTermFilters(filter, dataAcquisitionProjectId,
         type);
       var prefix = (type === 'studies' || !type)  ? '' : 'study.';
@@ -60,15 +61,16 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       }
       query.body = {
         'aggs': {
-            'studySeriesDe': {
+            'firstStudySeries': {
                 'terms': {
-                  'field': prefix + 'studySeries.de',
+                  'field': prefix + 'studySeries.' + language,
                   'size': 100
                 },
                 'aggs': {
-                  'studySeriesEn': {
+                  'secondStudySeries': {
                     'terms': {
-                      'field': prefix + 'studySeries.en',
+                      'field': prefix + 'studySeries.' +
+                        (language === 'de' ? 'en' : 'de'),
                       'size': 100
                     }
                   }
@@ -105,10 +107,12 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       return ElasticSearchClient.search(query).then(function(result) {
         var studySeries = [];
         var studySeriesElement = {};
-        result.aggregations.studySeriesDe.buckets.forEach(function(bucket) {
+        result.aggregations.firstStudySeries.buckets.forEach(function(bucket) {
             studySeriesElement = {
-              'de': bucket.key,
-              'en': bucket.studySeriesEn.buckets[0].key,
+              'de': language === 'de' ? bucket.key
+                : bucket.secondStudySeries.buckets[0].key,
+              'en': language === 'en' ? bucket.key
+                : bucket.secondStudySeries.buckets[0].key,
               'count': bucket.doc_count
             };
             studySeries.push(studySeriesElement);
@@ -233,7 +237,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       language = language || LanguageService.getCurrentInstantly();
       var query = createQueryObject();
       var termFilters = createTermFilters(filter);
-
+      query.size = 0;
       query.body = {
         'aggs': {
             'sponsorDe': {
@@ -294,7 +298,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       language = language || LanguageService.getCurrentInstantly();
       var query = createQueryObject();
       var termFilters = createTermFilters(filter);
-
+      query.size = 0;
       query.body = {
         'aggs': {
             'institutionDe': {

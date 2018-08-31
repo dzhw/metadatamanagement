@@ -106,8 +106,7 @@ public class SurveySearchDocument extends Survey implements SearchDocumentInterf
       this.questions = questions.stream()
           .map(question -> new QuestionSubDocument(question)).collect(Collectors.toList());
       this.nestedQuestions = questions.stream()
-          .map(question -> new QuestionNestedDocument(question,
-              instruments.get(question.getInstrumentId())))
+          .map(question -> new QuestionNestedDocument(question))
           .collect(Collectors.toList());
     }
     this.release = release;

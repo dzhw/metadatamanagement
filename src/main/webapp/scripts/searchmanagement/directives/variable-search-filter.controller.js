@@ -3,17 +3,21 @@
 
 angular.module('metadatamanagementApp')
   .controller('VariableSearchFilterController', [
-    '$scope', 'SearchDao', 'VariableSearchService', '$timeout',
-    'CurrentProjectService', '$rootScope',
-    function($scope, SearchDao, VariableSearchService, $timeout,
-      CurrentProjectService, $rootScope) {
+    '$scope', 'VariableSearchService', '$timeout',
+    'CurrentProjectService', '$rootScope', '$q', '$location',
+    function($scope, VariableSearchService, $timeout,
+      CurrentProjectService, $rootScope, $q, $location) {
       // prevent variable changed events during init
       var initializing = true;
       var selectionChanging = false;
-      var lastSearchText;
-      var lastFilter;
-      var lastProjectId;
-      var lastSearchResult;
+      var cache = {
+        searchText: null,
+        filter: null,
+        type: null,
+        query: null,
+        projectId: null,
+        searchResult: null
+      };
       var init = function() {
         if (selectionChanging) {
           selectionChanging = false;
@@ -28,20 +32,16 @@ angular.module('metadatamanagementApp')
             .then(function(result) {
               $rootScope.$broadcast('stop-ignoring-404');
               if (result) {
-                $scope.currentVariable = {_source: result};
+                $scope.currentVariable = result;
               } else {
                 $scope.currentVariable = {
-                  _source: {
-                    id: $scope.currentSearchParams.filter.variable
-                  }
+                  id: $scope.currentSearchParams.filter.variable
                 };
               }
             }, function() {
                 $rootScope.$broadcast('stop-ignoring-404');
                 $scope.currentVariable = {
-                  _source: {
-                    id: $scope.currentSearchParams.filter.variable
-                  }
+                  id: $scope.currentSearchParams.filter.variable
                 };
                 $timeout(function() {
                   $scope.variableFilterForm.variableFilter.$setValidity(
@@ -63,7 +63,7 @@ angular.module('metadatamanagementApp')
           $scope.currentSearchParams.filter = {};
         }
         if (variable) {
-          $scope.currentSearchParams.filter.variable = variable._source.id;
+          $scope.currentSearchParams.filter.variable = variable.id;
         } else {
           delete $scope.currentSearchParams.filter.variable;
         }
@@ -71,26 +71,35 @@ angular.module('metadatamanagementApp')
       };
 
       $scope.searchVariables = function(searchText) {
+        $scope.type = $location.search().type;
+        $scope.query = $location.search().query;
+        $scope.projectId = CurrentProjectService.getCurrentProject() ?
+          CurrentProjectService.getCurrentProject().id : null;
         var cleanedFilter = _.omit($scope.currentSearchParams.filter,
           'variable');
-        var currentProjectId = CurrentProjectService.getCurrentProject() ?
-            CurrentProjectService.getCurrentProject().id : null;
-        if (searchText === lastSearchText &&
-          _.isEqual(lastFilter, cleanedFilter) &&
-          lastProjectId === currentProjectId) {
-          return lastSearchResult;
+
+        if (searchText === cache.searchText &&
+            $scope.type === cache.type &&
+            _.isEqual(cache.filter, cleanedFilter) &&
+            $scope.query === cache.query &&
+            $scope.projectId === cache.projectId
+          ) {
+          return $q.resolve(cache.searchResult);
         }
-        return SearchDao.search(searchText, 1,
-            currentProjectId, cleanedFilter,
-            'variables',
-            100).then(function(data) {
-              lastSearchText = searchText;
-              lastFilter = _.cloneDeep(cleanedFilter);
-              lastProjectId = currentProjectId;
-              lastSearchResult = data.hits.hits;
-              return data.hits.hits;
-            }
-          );
+
+        //Search Call to Elasticsearch
+        return VariableSearchService.findVariableLabels(searchText,
+           cleanedFilter, $scope.type, $scope.query, $scope.projectId)
+          .then(function(variableLabels) {
+            cache.searchText = searchText;
+            cache.filter = _.cloneDeep(cleanedFilter);
+            cache.searchResult = variableLabels;
+            cache.type = $scope.type;
+            cache.query = $scope.query;
+            cache.projectId = $scope.projectId;
+            return variableLabels;
+          }
+        );
       };
       $scope.$watch('currentSearchParams.filter.variable', function() {
         init();

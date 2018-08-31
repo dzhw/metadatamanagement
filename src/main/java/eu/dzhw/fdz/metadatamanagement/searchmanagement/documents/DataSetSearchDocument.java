@@ -111,8 +111,7 @@ public class DataSetSearchDocument extends DataSet implements SearchDocumentInte
           .map(question -> new QuestionSubDocument(question)).collect(Collectors.toList());
       this.nestedQuestions =
           questions.stream()
-              .map(question -> new QuestionNestedDocument(question,
-                  instruments.get(question.getInstrumentId())))
+              .map(question -> new QuestionNestedDocument(question))
           .collect(Collectors.toList());
     }
     this.maxNumberOfObservations = dataSet.getSubDataSets().stream()

@@ -155,8 +155,7 @@
 				"type": "object",
 				"properties": {
 					"de": {
-						"type": "text",
-						"index": false,
+						"type": "keyword",
 						"copy_to": "all",
 						"fields": {
 							"ngrams": {
@@ -167,8 +166,7 @@
 						}
 					},
 					"en": {
-						"type": "text",
-						"index": false,
+						"type": "keyword",
 						"copy_to": "all",
 						"fields": {
 							"ngrams": {
@@ -229,7 +227,7 @@
 							}
 						}
 					},
-					"instrumentTitle": {
+					"questionText": {
 						"type": "object",
 						"properties": {
 							"de": {
@@ -242,7 +240,7 @@
 					}
 				}
 			},
-			"dataSets": {
+			"dataSet": {
 				"type": "object",
 				"properties": {
 					"id": {
@@ -251,7 +249,7 @@
 					}
 				}
 			},
-			"nestedDataSets": {
+			"nestedDataSet": {
 				"type": "nested",
 				"properties": {
 					"id": {

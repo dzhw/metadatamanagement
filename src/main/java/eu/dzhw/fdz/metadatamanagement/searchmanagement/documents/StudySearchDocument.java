@@ -122,8 +122,7 @@ public class StudySearchDocument extends Study implements SearchDocumentInterfac
       this.questions = questions.stream()
           .map(question -> new QuestionSubDocument(question)).collect(Collectors.toList());
       this.nestedQuestions = questions.stream()
-          .map(question -> new QuestionNestedDocument(question,
-              instruments.get(question.getInstrumentId())))
+          .map(question -> new QuestionNestedDocument(question))
           .collect(Collectors.toList());
     }
     if (instruments != null) {

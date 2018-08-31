@@ -99,8 +99,7 @@ public class VariableSearchDocument extends Variable implements SearchDocumentIn
     }
     if (questions != null) {
       this.nestedQuestions = questions.stream().map(
-          question -> new QuestionNestedDocument(question,
-              instruments.get(question.getInstrumentId())))
+          question -> new QuestionNestedDocument(question))
           .collect(Collectors.toList());
     }
     this.release = release;

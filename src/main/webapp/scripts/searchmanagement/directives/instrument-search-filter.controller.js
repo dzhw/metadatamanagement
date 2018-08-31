@@ -4,9 +4,9 @@
 angular.module('metadatamanagementApp')
   .controller('InstrumentSearchFilterController', [
     '$scope', 'InstrumentSearchService', '$timeout',
-    'CurrentProjectService', '$rootScope', '$location',
+    'CurrentProjectService', '$rootScope', '$location', '$q',
     function($scope, InstrumentSearchService, $timeout,
-      CurrentProjectService, $rootScope, $location) {
+      CurrentProjectService, $rootScope, $location, $q) {
       // prevent instrument changed events during init
       var initializing = true;
       var selectionChanging = false;
@@ -84,7 +84,7 @@ angular.module('metadatamanagementApp')
             $scope.query === cache.query &&
             $scope.projectId === cache.projectId
           ) {
-          return cache.searchResult;
+          return $q.resolve(cache.searchResult);
         }
         //Search Call to Elasticsearch
         return InstrumentSearchService.findInstrumentDescriptions(searchText,

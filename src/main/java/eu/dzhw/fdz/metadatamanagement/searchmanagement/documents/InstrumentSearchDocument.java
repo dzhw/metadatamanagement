@@ -84,8 +84,8 @@ public class InstrumentSearchDocument extends Instrument implements SearchDocume
     if (questions != null) {
       this.questions = questions.stream()
           .map(question -> new QuestionSubDocument(question)).collect(Collectors.toList());
-      this.nestedQuestions = questions.stream().map(question -> new QuestionNestedDocument(question,
-          instrument))
+      this.nestedQuestions = questions.stream()
+          .map(question -> new QuestionNestedDocument(question))
           .collect(Collectors.toList());
     }
     if (variables != null) {

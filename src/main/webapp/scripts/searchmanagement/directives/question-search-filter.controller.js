@@ -3,17 +3,21 @@
 
 angular.module('metadatamanagementApp')
   .controller('QuestionSearchFilterController', [
-    '$scope', 'SearchDao', 'QuestionSearchService', '$timeout',
-    'CurrentProjectService', '$rootScope',
-    function($scope, SearchDao, QuestionSearchService, $timeout,
-      CurrentProjectService, $rootScope) {
+    '$scope', 'QuestionSearchService', '$timeout',
+    'CurrentProjectService', '$rootScope', '$location', '$q',
+    function($scope, QuestionSearchService, $timeout,
+      CurrentProjectService, $rootScope, $location, $q) {
       // prevent question changed events during init
       var initializing = true;
       var selectionChanging = false;
-      var lastSearchText;
-      var lastFilter;
-      var lastProjectId;
-      var lastSearchResult;
+      var cache = {
+        searchText: null,
+        filter: null,
+        type: null,
+        query: null,
+        projectId: null,
+        searchResult: null
+      };
       var init = function() {
         if (selectionChanging) {
           selectionChanging = false;
@@ -28,20 +32,16 @@ angular.module('metadatamanagementApp')
             .then(function(result) {
               $rootScope.$broadcast('stop-ignoring-404');
               if (result) {
-                $scope.currentQuestion = {_source: result};
+                $scope.currentQuestion = result;
               } else {
                 $scope.currentQuestion = {
-                  _source: {
-                    id: $scope.currentSearchParams.filter.question
-                  }
+                  id: $scope.currentSearchParams.filter.question
                 };
               }
             }, function() {
                 $rootScope.$broadcast('stop-ignoring-404');
                 $scope.currentQuestion = {
-                  _source: {
-                    id: $scope.currentSearchParams.filter.question
-                  }
+                  id: $scope.currentSearchParams.filter.question
                 };
                 $timeout(function() {
                   $scope.questionFilterForm.questionFilter.$setValidity(
@@ -63,7 +63,7 @@ angular.module('metadatamanagementApp')
           $scope.currentSearchParams.filter = {};
         }
         if (question) {
-          $scope.currentSearchParams.filter.question = question._source.id;
+          $scope.currentSearchParams.filter.question = question.id;
         } else {
           delete $scope.currentSearchParams.filter.question;
         }
@@ -71,26 +71,35 @@ angular.module('metadatamanagementApp')
       };
 
       $scope.searchQuestions = function(searchText) {
+        $scope.type = $location.search().type;
+        $scope.query = $location.search().query;
+        $scope.projectId = CurrentProjectService.getCurrentProject() ?
+          CurrentProjectService.getCurrentProject().id : null;
         var cleanedFilter = _.omit($scope.currentSearchParams.filter,
           'question');
-        var currentProjectId = CurrentProjectService.getCurrentProject() ?
-            CurrentProjectService.getCurrentProject().id : null;
-        if (searchText === lastSearchText &&
-          _.isEqual(lastFilter, cleanedFilter) &&
-          lastProjectId === currentProjectId) {
-          return lastSearchResult;
+
+        if (searchText === cache.searchText &&
+            $scope.type === cache.type &&
+            _.isEqual(cache.filter, cleanedFilter) &&
+            $scope.query === cache.query &&
+            $scope.projectId === cache.projectId
+          ) {
+          return $q.resolve(cache.searchResult);
         }
-        return SearchDao.search(searchText, 1,
-            currentProjectId, cleanedFilter,
-            'questions',
-            100).then(function(data) {
-              lastSearchText = searchText;
-              lastFilter = _.cloneDeep(cleanedFilter);
-              lastProjectId = currentProjectId;
-              lastSearchResult = data.hits.hits;
-              return data.hits.hits;
-            }
-          );
+
+        //Search Call to Elasticsearch
+        return QuestionSearchService.findQuestionTitles(searchText,
+           cleanedFilter, $scope.type, $scope.query, $scope.projectId)
+          .then(function(questionTitles) {
+            cache.searchText = searchText;
+            cache.filter = _.cloneDeep(cleanedFilter);
+            cache.searchResult = questionTitles;
+            cache.type = $scope.type;
+            cache.query = $scope.query;
+            cache.projectId = $scope.projectId;
+            return questionTitles;
+          }
+        );
       };
       $scope.$watch('currentSearchParams.filter.question', function() {
         init();

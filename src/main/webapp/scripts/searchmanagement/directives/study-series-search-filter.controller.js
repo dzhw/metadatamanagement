@@ -5,9 +5,9 @@
 angular.module('metadatamanagementApp')
   .controller('StudySeriesSearchFilterController', [
     '$scope', 'StudySearchService', '$timeout', '$location',
-    'CurrentProjectService',
+    'CurrentProjectService', '$q',
     function($scope, StudySearchService, $timeout, $location,
-      CurrentProjectService) {
+      CurrentProjectService, $q) {
       // prevent study-series changed events during init
       var initializing = true;
       var selectionChanging = false;
@@ -36,7 +36,7 @@ angular.module('metadatamanagementApp')
             $scope.query === cache.query &&
             $scope.projectId === cache.projectId
           ) {
-          return cache.searchResult;
+          return $q.resolve(cache.searchResult);
         }
 
         //Search Call to Elasticsearch

@@ -44,6 +44,8 @@ public class SurveySubDocument extends AbstractRdcDomainObject
 
   private I18nString dataType;
 
+  private String studyId;
+
   public SurveySubDocument() {
     super();
   }

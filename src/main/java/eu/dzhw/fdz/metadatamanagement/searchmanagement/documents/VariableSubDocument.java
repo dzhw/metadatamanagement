@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
+import java.util.List;
+
 import org.springframework.beans.BeanUtils;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
@@ -34,6 +36,10 @@ public class VariableSubDocument extends AbstractRdcDomainObject
   private String dataSetId;
   
   private Integer dataSetNumber;
+
+  private String studyId;
+
+  private List<String> surveyIds;
 
   public VariableSubDocument() {
     super();

@@ -40,6 +40,8 @@ public class InstrumentSubDocument extends AbstractRdcDomainObject
   
   private List<String> surveyIds;
 
+  private String studyId;
+
   public InstrumentSubDocument() {
     super();
   }

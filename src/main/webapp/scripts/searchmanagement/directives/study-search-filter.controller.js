@@ -4,9 +4,9 @@
 angular.module('metadatamanagementApp')
   .controller('StudySearchFilterController', [
     '$scope', 'StudySearchService', '$timeout',
-    'CurrentProjectService', '$rootScope', '$location',
+    'CurrentProjectService', '$rootScope', '$location', '$q',
     function($scope, StudySearchService, $timeout,
-      CurrentProjectService, $rootScope, $location) {
+      CurrentProjectService, $rootScope, $location, $q) {
       // prevent study changed events during init
       var initializing = true;
       var selectionChanging = false;
@@ -82,7 +82,7 @@ angular.module('metadatamanagementApp')
           cache.projectId === currentProjectId &&
           cache.type === $scope.type &&
           cache.query === query) {
-          return cache.searchResult;
+          return $q.resolve(cache.searchResult);
         }
         return StudySearchService.findStudyTitles(searchText, cleanedFilter,
             $scope.type, query, currentProjectId).then(function(data) {

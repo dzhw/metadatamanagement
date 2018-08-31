@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
+import java.util.List;
+
 import org.springframework.beans.BeanUtils;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
@@ -25,6 +27,10 @@ public class InstrumentNestedDocument extends AbstractNestedSubDocument {
   private I18nString description;
 
   private I18nString completeTitle;
+
+  private String studyId;
+
+  private List<String> surveyIds;
 
   /**
    * Create the subdocument.

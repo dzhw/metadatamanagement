@@ -4,9 +4,9 @@
 angular.module('metadatamanagementApp')
   .controller('DerivedVariablesIdentifierSearchFilterController', [
     '$scope', 'VariableSearchService', '$timeout', 'CurrentProjectService',
-    '$location',
+    '$location', '$q',
     function($scope, VariableSearchService, $timeout, CurrentProjectService,
-      $location) {
+      $location, $q) {
       // prevent derived-variables-identifier changed events during init
       var initializing = true;
       var selectionChanging = false;
@@ -88,7 +88,7 @@ angular.module('metadatamanagementApp')
           _.isEqual(cache.filter, cleanedFilter) &&
           cache.projectId === currentProjectId &&
           cache.query === query) {
-          return cache.searchResult;
+          return $q.resolve(cache.searchResult);
         }
         return VariableSearchService.findDerivedVariablesIdentifiers(
           searchText, cleanedFilter,

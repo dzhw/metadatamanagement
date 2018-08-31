@@ -38,55 +38,82 @@ angular.module('metadatamanagementApp').factory('InstrumentSearchService',
       queryterm, dataAcquisitionProjectId) {
       var language = LanguageService.getCurrentInstantly();
       var query = createQueryObject(type);
+      query.size = 0;
+      query.body = {};
       var termFilters = createTermFilters(filter, dataAcquisitionProjectId,
         type);
-      var prefix = (type === 'instruments' || !type)  ? '' : 'instruments.';
+      var prefix = (type === 'instruments' || !type)  ? ''
+        : 'nestedInstruments.';
       if (type === 'questions') {
-        prefix = 'instrument.';
+        prefix = 'nestedInstrument.';
       }
-      query.body = {
+      var aggregation = {
         'aggs': {
-            'id': {
+          'description': {
+            'filter': {
+              'bool': {
+                'must': [{
+                  'match': {
+                  }
+                }]
+              }
+            },
+            'aggs': {
+              'id': {
                 'terms': {
                   'field': prefix + 'id',
                   'size': 100
                 },
                 'aggs': {
-                  'descriptionEn': {
-                    'terms': {
-                      'field': prefix + 'description.en',
-                      'size': 100
-                    }
-                  },
                   'descriptionDe': {
                     'terms': {
                       'field': prefix + 'description.de',
                       'size': 100
+                    },
+                    'aggs': {
+                      'descriptionEn': {
+                        'terms': {
+                          'field': prefix + 'description.en',
+                          'size': 100
+                        }
+                      }
                     }
                   }
                 }
               }
+            }
           }
+        }
       };
-
-      query.body.query = {
-        'bool': {
-          'must': [{
-              'match': {
-              }
-            }]
+      var nestedAggregation = {
+        'aggs': {
+          'instruments': {
+            'nested': {
+              'path': prefix.replace('.', '')
+            }
+          }
         }
       };
 
-      query.body.query.bool.must[0].match
-        [prefix + 'completeTitle.' + language] = {
-        'query': searchText,
-        'operator': 'AND',
-        'minimum_should_match': '100%',
-        'zero_terms_query': 'ALL'
-      };
+      aggregation.aggs.description.filter.bool.must[0]
+        .match[prefix + 'completeTitle.' + language] =  {
+          'query': searchText,
+          'operator': 'AND',
+          'minimum_should_match': '100%',
+          'zero_terms_query': 'ALL'
+        };
+
+      if (prefix !== '') {
+        nestedAggregation.aggs.instruments.aggs =
+        aggregation.aggs;
+        query.body.aggs = nestedAggregation.aggs;
+      } else {
+        query.body.aggs = aggregation.aggs;
+      }
 
       if (termFilters) {
+        query.body.query = query.body.query || {};
+        query.body.query.bool = query.body.query.bool || {};
         query.body.query.bool.filter = termFilters;
       }
 
@@ -96,18 +123,24 @@ angular.module('metadatamanagementApp').factory('InstrumentSearchService',
 
       return ElasticSearchClient.search(query).then(function(result) {
         var descriptions = [];
-        var descriptionsElement = {};
-        result.aggregations.id.buckets.forEach(function(bucket) {
-            descriptionsElement = {
-              description: {
-                'de': bucket.descriptionDe.buckets[0].key,
-                'en': bucket.descriptionEn.buckets[0].key,
-              },
-              'id': bucket.key,
-              'count': bucket.doc_count
-            };
-            descriptions.push(descriptionsElement);
-          });
+        var descriptionElement = {};
+        var buckets = [];
+        if (prefix !== '') {
+          buckets = result.aggregations.instruments.description.id.buckets;
+        } else {
+          buckets = result.aggregations.description.id.buckets;
+        }
+        buckets.forEach(function(bucket) {
+          descriptionElement = {
+            description: {
+              de: bucket.descriptionDe.buckets[0].key,
+              en: bucket.descriptionDe.buckets[0].descriptionEn.buckets[0].key
+            },
+            id: bucket.key,
+            count: bucket.doc_count
+          };
+          descriptions.push(descriptionElement);
+        });
         return descriptions;
       });
     };

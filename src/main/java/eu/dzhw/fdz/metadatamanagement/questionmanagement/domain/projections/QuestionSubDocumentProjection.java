@@ -22,4 +22,6 @@ public interface QuestionSubDocumentProjection
   I18nString getQuestionText();
 
   I18nString getTopic();
+
+  String getStudyId();
 }
