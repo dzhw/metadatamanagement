@@ -370,6 +370,9 @@
 					"id": {
 						"type": "keyword"
 					},
+					"instrumentId": {
+						"type": "keyword"
+					},
 					"number": {
 						"type": "keyword"
 					},
@@ -416,6 +419,12 @@
 					"id": {
 						"type": "keyword"
 					},
+					"dataSetId": {
+						"type": "keyword"
+					},
+					"surveyIds": {
+						"type": "keyword"
+					},
 					"completeTitle": {
 						"type": "object",
 						"properties": {
@@ -457,6 +466,9 @@
 				"type": "nested",
 				"properties": {
 					"id": {
+						"type": "keyword"
+					},
+					"surveyIds": {
 						"type": "keyword"
 					},
 					"completeTitle": {

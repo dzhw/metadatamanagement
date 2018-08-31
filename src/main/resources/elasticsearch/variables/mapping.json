@@ -209,6 +209,9 @@
 					"id": {
 						"type": "keyword"
 					},
+					"instrumentId": {
+						"type": "keyword"
+					},
 					"number": {
 						"type": "keyword"
 					},
@@ -253,6 +256,9 @@
 				"type": "nested",
 				"properties": {
 					"id": {
+						"type": "keyword"
+					},
+					"surveyIds": {
 						"type": "keyword"
 					},
 					"completeTitle": {
@@ -412,6 +418,9 @@
 				"type": "nested",
 				"properties": {
 					"id": {
+						"type": "keyword"
+					},
+					"surveyIds": {
 						"type": "keyword"
 					},
 					"completeTitle": {

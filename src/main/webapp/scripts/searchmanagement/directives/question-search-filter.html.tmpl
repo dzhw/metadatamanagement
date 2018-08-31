@@ -3,8 +3,7 @@
       md-selected-item-change="onSelectionChanged(currentQuestion)" md-search-text="searchText" md-items="item in searchQuestions(searchText)" md-item-text="('question-management.detail.label.question' | translate) + ' ' + item.number + ': ' + (item.questionText | displayI18nString ) + ' (' + item.id + ')'"
       md-clear-button="true" md-no-cache="true" md-select-on-focus>
         <md-item-template>
-            <span class="md-title" style="font-size: 14px;" md-highlight-text="searchText" md-highlight-flags="ig">{{'question-management.detail.label.question' | translate}} {{item.number}}: </span>
-            <span class="md-title" style="font-size: 14px;" md-highlight-text="searchText" md-highlight-flags="ig">{{(item.questionText | displayI18nString)}}</span>
+            <span class="md-title" style="font-size: 14px;" md-highlight-text="searchText" md-highlight-flags="ig">{{'question-management.detail.label.question' | translate}} {{item.number}}: {{(item.questionText | displayI18nString)}}</span>
             <span class="label label-as-badge label-default" md-highlight-text="searchText" md-highlight-flags="ig">{{item.id}}</span>
             <span>({{item.count}} {{'search-management.tabs.' + type | translate}})</span>
         </md-item-template>

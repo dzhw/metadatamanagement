@@ -12,6 +12,22 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
       };
     };
 
+    var createNestedTermFilters = function(filter, prefix) {
+      var result = [];
+      if (!prefix || prefix === '' ||
+          CleanJSObjectService.isNullOrEmpty(filter)) {
+        return result;
+      }
+      if (filter.survey) {
+        var term = {
+          term: {}
+        };
+        term.term[prefix + 'surveyIds'] = filter.survey;
+        result.push(term);
+      }
+      return result;
+    };
+
     var createTermFilters = function(filter, dataAcquisitionProjectId, type) {
       type = type || 'data_sets';
       var termFilter;
@@ -227,18 +243,22 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
           'zero_terms_query': 'ALL'
         };
 
+      if (termFilters) {
+        query.body.query = query.body.query || {};
+        query.body.query.bool = query.body.query.bool || {};
+        query.body.query.bool.filter = termFilters;
+
+        aggregation.aggs.description.filter.bool.must = _.concat(
+          aggregation.aggs.description.filter.bool.must,
+          createNestedTermFilters(filter, prefix));
+      }
+
       if (prefix !== '') {
         nestedAggregation.aggs.dataSets.aggs =
         aggregation.aggs;
         query.body.aggs = nestedAggregation.aggs;
       } else {
         query.body.aggs = aggregation.aggs;
-      }
-
-      if (termFilters) {
-        query.body.query = query.body.query || {};
-        query.body.query.bool = query.body.query.bool || {};
-        query.body.query.bool.filter = termFilters;
       }
 
       SearchHelperService.addQuery(query, queryterm);

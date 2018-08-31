@@ -12,6 +12,22 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
       };
     };
 
+    var createNestedTermFilters = function(filter, prefix) {
+      var result = [];
+      if (!prefix || prefix === '' ||
+          CleanJSObjectService.isNullOrEmpty(filter)) {
+        return result;
+      }
+      if (filter.instrument) {
+        var term = {
+          term: {}
+        };
+        term.term[prefix + 'instrumentId'] = filter.instrument;
+        result.push(term);
+      }
+      return result;
+    };
+
     var createTermFilters = function(filter, dataAcquisitionProjectId, type) {
       type = type || 'questions';
       var termFilter;
@@ -233,18 +249,22 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
         'zero_terms_query': 'ALL'
       };
 
+      if (termFilters) {
+        query.body.query = query.body.query || {};
+        query.body.query.bool = query.body.query.bool || {};
+        query.body.query.bool.filter = termFilters;
+
+        aggregation.aggs.title.filter.bool.must = _.concat(
+          aggregation.aggs.title.filter.bool.must,
+          createNestedTermFilters(filter, prefix));
+      }
+
       if (prefix !== '') {
         nestedAggregation.aggs.questions.aggs =
           aggregation.aggs;
         query.body.aggs = nestedAggregation.aggs;
       } else {
         query.body.aggs = aggregation.aggs;
-      }
-
-      if (termFilters) {
-        query.body.query = query.body.query || {};
-        query.body.query.bool = query.body.query.bool || {};
-        query.body.query.bool.filter = termFilters;
       }
 
       SearchHelperService.addQuery(query, queryterm);
