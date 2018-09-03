@@ -793,6 +793,20 @@ md-tab-item:hover {
     margin-top: 0;
 }
 
+.fdz-search-filter-items li {
+  border-bottom: 1px solid #ccc;
+  height: auto;
+  padding: 6px;
+  padding-left: 12px;
+  white-space: normal;
+}
+
+.fdz-search-filter-items .item-title,
+.fdz-search-filter-items .item-metadata {
+  display: block;
+  line-height: 1.5;
+}
+
 .md-select-placeholder {
     font-weight: bold;
 }

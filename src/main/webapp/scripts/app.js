@@ -164,6 +164,8 @@ try {
           .addInterpolation('$translateMessageFormatInterpolation');
         $translateProvider
           .useMissingTranslationHandler('translationErrorHandler');
+        $translateProvider
+          .addInterpolation('$translateMessageFormatInterpolation');
 
         tmhDynamicLocaleProvider
           .localeLocationPattern(

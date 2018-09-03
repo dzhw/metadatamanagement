@@ -273,7 +273,10 @@ module.exports = function(grunt) {
               'Bad value “” for attribute “src” on element “img”: ' +
               'Must be non-empty.',
               'Bad value “{{currentLanguage}}” for attribute “lang” on ' +
-              'element “html”: Subtags must not exceed 8 characters in length.'
+              'element “html”: Subtags must not exceed 8 characters in length.',
+              'Bad value “{{item.language}}” for attribute “lang” on ' +
+              'element “strong”: Subtags must not exceed 8 characters in ' +
+              'length.'
             ],
             customattrs: [
               'show-validation',
@@ -318,6 +321,7 @@ module.exports = function(grunt) {
               'layout-gt-xs',
               'layout',
               'md-highlight-flags',
+              'md-highlight-text',
               'valid-project-version',
               'project-does-not-exist',
               'md-select-on-focus'

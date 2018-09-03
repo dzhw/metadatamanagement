@@ -15,7 +15,7 @@
     "angular-resource": "1.7.3",
     "angular-sanitize": "1.7.3",
     "angular-translate": "2.18.1",
-    "angular-translate-interpolation-messageformat": "2.18.1",
+    "angular-translate-interpolation-messageformat": "^2.18.1",
     "angular-translate-storage-cookie": "2.18.1",
     "angular-ui-router": "1.0.19",
     "bootstrap-sass": "3.3.7",
