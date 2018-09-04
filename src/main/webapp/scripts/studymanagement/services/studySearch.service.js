@@ -55,21 +55,23 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       query.size = 0;
       var termFilters = createTermFilters(filter, dataAcquisitionProjectId,
         type);
+      var fieldName = 'studySeries.';
       var prefix = (type === 'studies' || !type)  ? '' : 'study.';
       if (type === 'related_publications') {
         prefix = '';
+        fieldName = 'studySerieses.';
       }
       query.body = {
         'aggs': {
             'firstStudySeries': {
                 'terms': {
-                  'field': prefix + 'studySeries.' + language,
+                  'field': prefix + fieldName + language,
                   'size': 100
                 },
                 'aggs': {
                   'secondStudySeries': {
                     'terms': {
-                      'field': prefix + 'studySeries.' +
+                      'field': prefix + fieldName +
                         (language === 'de' ? 'en' : 'de'),
                       'size': 100
                     }
@@ -89,7 +91,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       };
 
       query.body.query.bool.must[0].match
-        [prefix + 'studySeries.' + language + '.ngrams'] = {
+        [prefix + fieldName + language + '.ngrams'] = {
         'query': searchText,
         'operator': 'AND',
         'minimum_should_match': '100%',
