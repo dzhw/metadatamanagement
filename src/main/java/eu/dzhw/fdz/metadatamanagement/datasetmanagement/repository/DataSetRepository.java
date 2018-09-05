@@ -21,7 +21,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataS
  */
 @RepositoryRestResource(path = "/data-sets")
 public interface DataSetRepository
-    extends BaseRepository<DataSet, String> {
+    extends BaseRepository<DataSet, String>, DataSetRepositoryCustom {
 
   @RestResource(exported = false)
   Stream<DataSet> streamByDataAcquisitionProjectId(String dataAcquisitionProjectId);

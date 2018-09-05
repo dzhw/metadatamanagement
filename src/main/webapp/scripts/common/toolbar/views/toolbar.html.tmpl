@@ -1,7 +1,7 @@
 <md-toolbar md-whiteframe="4">
     <div ng-show="{{ENV === 'local' || ENV === 'dev' || ENV === 'test'}}" class="ribbon" ng-cloak>{{ENV}}</div>
     <div class="md-toolbar-tools" layout="row">
-        <md-button class="md-primary md-raised md-icon-button fdz-toolbar-button" hide-gt-md ng-click="toggleLeft()">
+        <md-button class="md-icon-button md-primary md-raised fdz-toolbar-button" hide-gt-md ng-click="toggleLeft()">
             <md-icon md-font-set="material-icons">menu</md-icon>
             <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 20">
                 {{'global.toolbar.buttons.open-menu-tooltip' | translate}}
@@ -56,5 +56,12 @@
                 </md-button>
             </div>
         </div>
+        <md-button ng-if="!isAuthenticated() || hasAuthority('ROLE_USER')" class="md-primary md-raised md-icon-button fdz-toolbar-button">
+            <md-icon md-font-set="material-icons">shopping_cart</md-icon>
+            <span ng-if="productsCount" class="fdz-shopping-cart-count">{{productsCount}}</span>
+            <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 20">
+                {{'shopping-cart.buttons.open-cart-tooltip' | translate}}
+            </md-tooltip>
+        </md-button>
     </div>
 </md-toolbar>

@@ -261,6 +261,48 @@
             </md-card>
         </div>
     </div>
+    <div ng-if="!ctrl.isAuthenticated() || ctrl.hasAuthority('ROLE_USER')" layout="column" layout-gt-sm="row">
+        <div flex-gt-sm="50">
+            <md-card flex class="fdz-reset-top-margin">
+                <md-card-header>
+                    <md-card-header-text>
+                        <h2 class="md-title">{{'study-management.detail.product-options' | translate | fdzHyphenate}}</h2>
+                    </md-card-header-text>
+                </md-card-header>
+                <md-divider></md-divider>
+                <md-card-content>
+                    <div layout="row">
+                        <md-input-container flex="50">
+                            <label>Zugangsweg der Datensätze</label>
+                            <md-select ng-model="ctrl.selectedAccessWay">
+                                <md-optgroup label="Verfügbare Zugangswege">
+                                    <md-option ng-repeat="item in ctrl.accessWays" ng-value="item">{{item}}</md-option>
+                                </md-optgroup>
+                            </md-select>
+                        </md-input-container>
+                        <md-input-container flex="50">
+                            <label>Version der Studie</label>
+                            <md-select ng-model="ctrl.selectedVersion">
+                                <md-optgroup label="Verfügbare Versionen">
+                                    <md-option ng-repeat="item in ctrl.releases" ng-value="item.version">{{item.version}}{{$first?' (aktuell)':''}}</md-option>
+                                </md-optgroup>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+                    <md-button class="md-raised md-accent" ng-click="ctrl.addToShoppingCart()" style="margin-left: 0px; margin-top: 0px;">
+                        <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                            {{'shopping-cart.buttons.add-study-tooltip' | translate}}
+                        </md-tooltip>
+                        <md-icon md-font-set="material-icons">add_shopping_cart</md-icon>
+                        <span>In den Einkaufswagen</span>
+                    </md-button>
+                </md-card-content>
+            </md-card>
+        </div>
+        <div flex-gt-sm="50">
+            <div class="fdz-fake-empty-card fdz-reset-top-margin" ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm')}"></div>
+        </div>
+    </div>
     <div layout="row">
         <md-card flex class="fdz-reset-top-margin">
             <md-card-header>
@@ -353,8 +395,8 @@
             </md-content>
         </md-card>
     </div>
-    <div ng-if="!ctrl.projectIsCurrentlyReleased && !bowser.msie" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER" class="fdz-fab-button-container" layout="column">
-        <md-button class="md-fab md-raised md-accent" ui-sref="studyEdit({id: ctrl.study.id})">
+    <div class="fdz-fab-button-container" layout="column">
+        <md-button ng-if="!ctrl.projectIsCurrentlyReleased && !bowser.msie" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER" class="md-fab md-raised md-accent" ui-sref="studyEdit({id: ctrl.study.id})">
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{'search-management.buttons.edit-study-tooltip' | translate}}
             </md-tooltip>

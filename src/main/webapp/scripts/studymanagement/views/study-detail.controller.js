@@ -5,7 +5,8 @@ angular.module('metadatamanagementApp')
     function(entity, PageTitleService, LanguageService, DataSetSearchService,
       $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
       StudyAttachmentResource, SearchResultNavigatorService, $stateParams,
-      $rootScope, DataAcquisitionProjectResource) {
+      $rootScope, DataAcquisitionProjectResource, ShoppingCartService,
+      StudyAccessWaysResource, DataAcquisitionProjectReleasesResource) {
       SearchResultNavigatorService.registerCurrentSearchResult(
           $stateParams['search-result-index']);
       var versionFromUrl = $stateParams.version;
@@ -13,6 +14,8 @@ angular.module('metadatamanagementApp')
       ctrl.projectIsCurrentlyReleased = true;
       ctrl.searchResultIndex = $stateParams['search-result-index'];
       ctrl.counts = {};
+      ctrl.isAuthenticated = Principal.isAuthenticated;
+      ctrl.hasAuthority = Principal.hasAuthority;
       var bowser = $rootScope.bowser;
 
       ctrl.loadAttachments = function() {
@@ -42,6 +45,26 @@ angular.module('metadatamanagementApp')
             ctrl.projectIsCurrentlyReleased = (project.release != null);
           });
         }
+        if (!Principal.isAuthenticated() ||
+          Principal.hasAuthority('ROLE_USER')) {
+          StudyAccessWaysResource.get({id: result.id}).$promise.then(
+            function(accessWays) {
+              if (accessWays.length > 0) {
+                ctrl.selectedAccessWay = accessWays[0];
+              }
+              ctrl.accessWays = accessWays;
+            });
+          DataAcquisitionProjectReleasesResource.get(
+            {id: result.dataAcquisitionProjectId})
+            .$promise.then(
+              function(releases) {
+                ctrl.releases = releases;
+                if (releases.length > 0) {
+                  ctrl.selectedVersion = releases[0].version;
+                }
+              });
+        }
+
         PageTitleService.setPageTitle('study-management.detail.title', {
           title: result.title[LanguageService.getCurrentInstantly()],
           studyId: result.id
@@ -107,4 +130,12 @@ angular.module('metadatamanagementApp')
           );
         }
       });
+
+      ctrl.addToShoppingCart = function() {
+        ShoppingCartService.add({
+          studyId: ctrl.study.id,
+          accessWay: ctrl.selectedAccessWay,
+          version: ctrl.selectedVersion,
+        });
+      };
     });

@@ -1080,3 +1080,16 @@ md-toast.md-accent > .md-toast-content {
     overflow: overlay;
   }
 }
+
+.fdz-shopping-cart-count {
+  position: fixed;
+  top: 5px;
+  background: $brand-warning;
+  color: black;
+  border-radius: 50%;
+  max-width: 24px;
+  min-width: 24px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
