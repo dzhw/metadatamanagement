@@ -1,6 +1,6 @@
 /**
  * State-based routing for AngularJS 1.x
- * @version v1.0.19
+ * @version v1.0.20
  * @link https://ui-router.github.io
  * @license MIT License, http://www.opensource.org/licenses/MIT
  */
@@ -10,7 +10,7 @@
     (factory((global['@uirouter/angularjs-resolve-service'] = {}),global['@uirouter/core'],global.angular));
 }(this, (function (exports,core,angular) { 'use strict';
 
-    /** @module ng1 */ /** */
+    /** @publicapi @module ng1 */ /** */
     /**
      * Implementation of the legacy `$resolve` service for angular 1.
      */

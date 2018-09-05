@@ -3,14 +3,19 @@ import sys
 import re
 import copy
 from .options import BeautifierOptions
-from jsbeautifier.core.options import mergeOpts
 from jsbeautifier.core.output import Output
+from jsbeautifier.core.inputscanner import InputScanner
 from jsbeautifier.__version__ import __version__
+
+# This is not pretty, but given how we did the version import
+# it is the only way to do this without having setup.py fail on a missing
+# six dependency.
+six = __import__("six")
 
 #
 # The MIT License (MIT)
 
-# Copyright (c) 2007-2017 Einar Lielmanis, Liam Newman, and contributors.
+# Copyright (c) 2007-2018 Einar Lielmanis, Liam Newman, and contributors.
 
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -31,6 +36,13 @@ from jsbeautifier.__version__ import __version__
 # ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
+
+
+
+whitespaceChar = re.compile(r"\s")
+whitespacePattern = re.compile(r"(?:\s|\n)+")
+
+# WORD_RE = re.compile("[\w$\-_]")
 
 
 def default_options():
@@ -64,175 +76,85 @@ CSS beautifier (http://jsbeautifier.org/)
     else:
         return 0
 
-WHITE_RE = re.compile("^\s+$")
-WORD_RE = re.compile("[\w$\-_]")
-
-
-class Printer:
-
-    def __init__(self, beautifier, indent_char, indent_size, default_indent=""):
-        self.beautifier = beautifier
-        self.newlines_from_last_ws_eat = 0
-        self.indentSize = indent_size
-        self.singleIndent = (indent_size) * indent_char
-        self.indentLevel = 0
-        self.nestedLevel = 0
-
-        self.baseIndentString = default_indent
-        self.output = Output(self.singleIndent, self.baseIndentString)
-
-    def indent(self):
-        self.indentLevel += 1
-
-    def outdent(self):
-        if self.indentLevel > 0:
-            self.indentLevel -= 1
-
-    def preserveSingleSpace(self,isAfterSpace):
-        if isAfterSpace:
-            self.output.space_before_token = True
-
-    def print_string(self, output_string):
-        if self.output.just_added_newline():
-            self.output.set_indent(self.indentLevel)
-
-        self.output.add_token(output_string)
 
 
 class Beautifier:
 
     def __init__(self, source_text, opts=default_options()):
-        import jsbeautifier.core.acorn as acorn
-        self.lineBreak = acorn.lineBreak
-        self.allLineBreaks = acorn.allLineBreaks
+        # in javascript, these two differ
+        # in python they are the same, different methods are called on them
+        # IMPORTANT: This string must be run through six to handle \u chars
+        self.lineBreak = re.compile(six.u(r"\r\n|[\n\r]"))
+        self.allLineBreaks = self.lineBreak
+
+        self.comment_pattern = re.compile(
+            six.u(r"\/\/(?:[^\n\r\u2028\u2029]*)"))
+        self.block_comment_pattern = re.compile(
+            r"\/\*(?:[\s\S]*?)((?:\*\/)|$)")
 
         if not source_text:
             source_text = ''
 
-        opts = mergeOpts(opts, 'css')
+        self.__source_text = source_text
 
-        # Continue to accept deprecated option
-        opts.space_around_combinator = opts.space_around_combinator or opts.space_around_selector_separator
+        self._options = BeautifierOptions(opts)
+        self._input = None
+        self._ch = None
 
-        self.opts = opts
-        self.indentSize = opts.indent_size
-        self.indentChar = opts.indent_char
-        self.pos = -1
-        self.ch = None
-
-        if self.opts.indent_with_tabs:
-            self.indentChar = "\t"
-            self.indentSize = 1
-
-        if self.opts.eol == 'auto':
-            self.opts.eol = '\n'
-            if self.lineBreak.search(source_text or ''):
-                self.opts.eol = self.lineBreak.search(source_text).group()
-
-        self.opts.eol = self.opts.eol.replace('\\r', '\r').replace('\\n', '\n')
-
-        # HACK: newline parsing inconsistent. This brute force normalizes the input newlines.
-        self.source_text = re.sub(self.allLineBreaks, '\n', source_text)
+        self._indentLevel = 0
+        self._nestedLevel = 0
+        self._output = None
 
         # https://developer.mozilla.org/en-US/docs/Web/CSS/At-rule
         # also in CONDITIONAL_GROUP_RULE below
-        self.NESTED_AT_RULE = [ \
-            "@page", \
-            "@font-face", \
-            "@keyframes", \
-            "@media", \
-            "@supports", \
-            "@document"]
-        self.CONDITIONAL_GROUP_RULE = [ \
-            "@media", \
-            "@supports", \
-            "@document"]
-
-        m = re.search("^[\t ]*", self.source_text)
-        self.baseIndentString = m.group(0)
-
-    def next(self):
-        self.pos = self.pos + 1
-        if self.pos < len(self.source_text):
-            self.ch = self.source_text[self.pos]
-        else:
-            self.ch = ''
-        return self.ch
-
-    def peek(self,skipWhitespace=False):
-        start = self.pos
-        if skipWhitespace:
-            self.eatWhitespace()
-        result = ""
-        if self.pos + 1 < len(self.source_text):
-            result = self.source_text[self.pos + 1]
-        if skipWhitespace:
-            self.pos = start - 1
-            self.next()
-
-        return result
+        self.NESTED_AT_RULE = {
+            "@page",
+            "@font-face",
+            "@keyframes",
+            "@media",
+            "@supports",
+            "@document"}
+        self.CONDITIONAL_GROUP_RULE = {
+            "@media",
+            "@supports",
+            "@document"}
 
     def eatString(self, endChars):
-        start = self.pos
-        while self.next():
-            if self.ch == "\\":
-                self.next()
-            elif self.ch in endChars:
-                break
-            elif self.ch == "\n":
-                break
-        return self.source_text[start:self.pos] + self.ch
-
-    def peekString(self, endChar):
-        start = self.pos
-        st = self.eatString(endChar)
-        self.pos = start - 1
-        self.next()
-        return st
-
-    def eatWhitespace(self, preserve_newlines_local=False):
-        result = 0
-        while WHITE_RE.search(self.peek()) is not None:
-            self.next()
-            if self.ch == "\n" and preserve_newlines_local and self.opts.preserve_newlines:
-                self.output.add_new_line(True)
-                result += 1
-        self.newlines_from_last_ws_eat = result
-        return result
-
-    def skipWhitespace(self):
         result = ''
-        if self.ch and WHITE_RE.search(self.ch):
-            result = self.ch
-
-        while WHITE_RE.search(self.next()) is not None:
-            result += self.ch
+        self._ch = self._input.next()
+        while self._ch:
+            result += self._ch
+            if self._ch == "\\":
+                result += self._input.next()
+            elif self._ch in endChars or self._ch == "\n":
+                break
+            self._ch = self._input.next()
         return result
 
-    def eatComment(self):
-        start = self.pos
-        singleLine = self.peek() == "/"
-        self.next()
-        while self.next():
-            if not singleLine and self.ch == "*" and self.peek() == "/":
-                self.next()
-                break
-            elif singleLine and self.ch == "\n":
-                return self.source_text[start:self.pos]
-        return self.source_text[start:self.pos] + self.ch
+    # Skips any white space in the source text from the current position.
+    # When allowAtLeastOneNewLine is true, will output new lines for each
+    # newline character found; if the user has preserve_newlines off, only
+    # the first newline will be output
+    def eatWhitespace(self, allowAtLeastOneNewLine=False):
+        result = whitespaceChar.search(self._input.peek() or '') is not None
+        isFirstNewLine = True
 
-    def lookBack(self, string):
-        past = self.source_text[self.pos - len(string):self.pos]
-        return past.lower() == string
+        while whitespaceChar.search(self._input.peek() or '') is not None:
+            self._ch = self._input.next()
+            if allowAtLeastOneNewLine and self._ch == "\n":
+                if self._options.preserve_newlines or isFirstNewLine:
+                    isFirstNewLine = False
+                    self._output.add_new_line(True)
+        return result
 
     # Nested pseudo-class if we are insideRule
     # and the next special character found opens
     # a new block
     def foundNestedPseudoClass(self):
-        i = self.pos + 1
         openParen = 0
-        while i < len(self.source_text):
-            ch = self.source_text[i]
+        i = 1
+        ch = self._input.peek(i)
+        while ch:
             if ch == "{":
                 return True
             elif ch == "(":
@@ -245,211 +167,294 @@ class Beautifier:
             elif ch == ";" or ch == "}":
                 return False
             i += 1
+            ch = self._input.peek(i)
 
         return False
 
-    def beautify(self):
-        printer = Printer(self, self.indentChar, self.indentSize, self.baseIndentString)
-        self.output = printer.output
-        output = self.output
 
-        self.pos = -1
-        self.ch = None
+    def indent(self):
+        self._indentLevel += 1
+
+    def outdent(self):
+        if self._indentLevel > 0:
+            self._indentLevel -= 1
+
+    def preserveSingleSpace(self, isAfterSpace):
+        if isAfterSpace:
+            self._output.space_before_token = True
+
+    def print_string(self, output_string):
+        if self._output.just_added_newline():
+            self._output.set_indent(self._indentLevel)
+
+        self._output.add_token(output_string)
+
+
+    def beautify(self):
+        if self._options.disabled:
+            return self.__source_text
+
+        source_text = self.__source_text
+
+        if self._options.eol == 'auto':
+            self._options.eol = '\n'
+            if self.lineBreak.search(source_text or ''):
+                self._options.eol = self.lineBreak.search(source_text).group()
+
+
+        # HACK: newline parsing inconsistent. This brute force normalizes the
+        # input newlines.
+        source_text = re.sub(self.allLineBreaks, '\n', source_text)
+        baseIndentString = re.search("^[\t ]*", source_text).group(0)
+
+        self._output = Output(self._options, baseIndentString)
+
+        self._input = InputScanner(source_text)
+
+        self._indentLevel = 0
+        self._nestedLevel = 0
+
+        self._ch = None
+        parenLevel = 0
 
         insideRule = False
         insidePropertyValue = False
         enteringConditionalGroup = False
-        top_ch = ''
-        last_top_ch = ''
-        parenLevel = 0
+        insideAtExtend = False
+        insideAtImport = False
+        topCharacter = self._ch
 
         while True:
-            whitespace = self.skipWhitespace()
+            whitespace = self._input.read(whitespacePattern)
             isAfterSpace = whitespace != ''
-            isAfterNewline = '\n' in whitespace
-            last_top_ch = top_ch
-            top_ch = self.ch
+            previous_ch = topCharacter
+            self._ch = self._input.next()
+            topCharacter = self._ch
 
-            if not self.ch:
+            if not self._ch:
                 break
-            elif self.ch == '/' and self.peek() == '*':
-                header = printer.indentLevel == 0
+            elif self._ch == '/' and self._input.peek() == '*':
+                # /* css comment */
+                # Always start block comments on a new line.
+                # This handles scenarios where a block comment immediately
+                # follows a property definition on the same line or where
+                # minified code is being beautified.
+                self._output.add_new_line()
+                self._input.back()
+                self.print_string(
+                    self._input.read(
+                        self.block_comment_pattern))
 
-                if not isAfterNewline or header:
-                    output.add_new_line()
+                # Ensures any new lines following the comment are preserved
+                self.eatWhitespace(True)
 
-                printer.print_string(self.eatComment())
-                output.add_new_line()
-                if header:
-                    output.add_new_line(True)
-            elif self.ch == '/' and self.peek() == '/':
-                if not isAfterNewline and last_top_ch != '{':
-                    output.trim(True)
+                # Block comments are followed by a new line so they don't
+                # share a line with other properties
+                self._output.add_new_line()
+            elif self._ch == '/' and self._input.peek() == '/':
+                # // single line comment
+                # Preserves the space before a comment
+                # on the same line as a rule
+                self._output.space_before_token = True
+                self._input.back()
+                self.print_string(self._input.read(self.comment_pattern))
 
-                output.space_before_token = True
-                printer.print_string(self.eatComment())
-                output.add_new_line()
-            elif self.ch == '@':
-                printer.preserveSingleSpace(isAfterSpace)
+                # Ensures any new lines following the comment are preserved
+                self.eatWhitespace(True)
+            elif self._ch == '@':
+                self.preserveSingleSpace(isAfterSpace)
 
                 # deal with less propery mixins @{...}
-                if self.peek(True) == '{':
-                    printer.print_string(self.eatString('}'));
+                if self._input.peek() == '{':
+                    self.print_string(self._ch + self.eatString('}'))
                 else:
-                    printer.print_string(self.ch)
-                    # strip trailing space, if present, for hash property check
-                    variableOrRule = self.peekString(": ,;{}()[]/='\"")
+                    self.print_string(self._ch)
+                    # strip trailing space, for hash property check
+                    variableOrRule = self._input.peekUntilAfter(
+                        re.compile(r"[: ,;{}()[\]\/='\"]"))
 
                     if variableOrRule[-1] in ": ":
-                        # wwe have a variable or pseudo-class, add it and insert one space before continuing
-                        self.next()
+                        # wwe have a variable or pseudo-class, add it and
+                        # insert one space before continuing
                         variableOrRule = self.eatString(": ")
                         if variableOrRule[-1].isspace():
                             variableOrRule = variableOrRule[:-1]
-                        printer.print_string(variableOrRule)
-                        output.space_before_token = True
+                        self.print_string(variableOrRule)
+                        self._output.space_before_token = True
 
                     if variableOrRule[-1].isspace():
                         variableOrRule = variableOrRule[:-1]
 
+                    if variableOrRule == "extend":
+                        insideAtExtend = True
+                    elif variableOrRule == "import":
+                        insideAtImport = True
+
                     # might be a nesting at-rule
                     if variableOrRule in self.NESTED_AT_RULE:
-                        printer.nestedLevel += 1
+                        self._nestedLevel += 1
                         if variableOrRule in self.CONDITIONAL_GROUP_RULE:
                             enteringConditionalGroup = True
-            elif self.ch == '#' and self.peek() == '{':
-                printer.preserveSingleSpace(isAfterSpace)
-                printer.print_string(self.eatString('}'));
-            elif self.ch == '{':
-                if self.peek(True) == '}':
-                    self.eatWhitespace()
-                    self.next()
-                    output.space_before_token = True
-                    printer.print_string("{}")
-                    if self.eatWhitespace(True) == 0:
-                        output.add_new_line()
+                    elif not insideRule and parenLevel == 0 and \
+                            variableOrRule[-1] == ":":
+                        insidePropertyValue = True
+                        self.indent()
+            elif self._ch == '#' and self._input.peek() == '{':
+                self.preserveSingleSpace(isAfterSpace)
+                self.print_string(self._ch + self.eatString('}'))
+            elif self._ch == '{':
+                if insidePropertyValue:
+                    insidePropertyValue = False
+                    self.outdent()
+                self.indent()
+                self._output.space_before_token = True
+                self.print_string(self._ch)
 
-                    if self.newlines_from_last_ws_eat < 2 and self.opts.newline_between_rules and printer.indentLevel == 0:
-                        output.add_new_line(True)
+                # when entering conditional groups, only rulesets are
+                # allowed
+                if enteringConditionalGroup:
+                    enteringConditionalGroup = False
+                    insideRule = self._indentLevel > self._nestedLevel
                 else:
-                    printer.indent()
-                    output.space_before_token = True
-                    printer.print_string(self.ch)
-                    if self.eatWhitespace(True) == 0:
-                        output.add_new_line()
+                    # otherwise, declarations are also allowed
+                    insideRule = self._indentLevel >= self._nestedLevel
 
-                    # when entering conditional groups, only rulesets are allowed
-                    if enteringConditionalGroup:
-                        enteringConditionalGroup = False
-                        insideRule = printer.indentLevel > printer.nestedLevel
-                    else:
-                        # otherwise, declarations are also allowed
-                        insideRule = printer.indentLevel >= printer.nestedLevel
-            elif self.ch == '}':
-                printer.outdent()
-                output.add_new_line()
-                printer.print_string(self.ch)
+                if self._options.newline_between_rules and insideRule:
+                    if self._output.previous_line and \
+                            not self._output.previous_line.is_empty() and \
+                            self._output.previous_line.item(-1) != '{':
+                        self._output.ensure_empty_line_above('/', ',')
+                self.eatWhitespace(True)
+                self._output.add_new_line()
+            elif self._ch == '}':
+                self.outdent()
+                self._output.add_new_line()
+                if previous_ch == '{':
+                    self._output.trim(True)
+                insideAtExtend = False
+                insideAtImport = False
+                if insidePropertyValue:
+                    self.outdent()
+                    insidePropertyValue = False
+                self.print_string(self._ch)
                 insideRule = False
-                insidePropertyValue = False
-                if printer.nestedLevel:
-                    printer.nestedLevel -= 1
+                if self._nestedLevel:
+                    self._nestedLevel -= 1
 
-                if self.eatWhitespace(True) == 0:
-                    output.add_new_line()
+                self.eatWhitespace(True)
+                self._output.add_new_line()
 
-
-                if self.newlines_from_last_ws_eat < 2 and self.opts.newline_between_rules and printer.indentLevel == 0:
-                    output.add_new_line(True)
-            elif self.ch == ":":
-                self.eatWhitespace()
+                if self._options.newline_between_rules and \
+                        not self._output.just_added_blankline():
+                    if self._input.peek() != '}':
+                        self._output.add_new_line(True)
+            elif self._ch == ":":
                 if (insideRule or enteringConditionalGroup) and \
-                        not (self.lookBack('&') or self.foundNestedPseudoClass()) and \
-                        not self.lookBack('('):
+                        not (self._input.lookBack('&') or
+                             self.foundNestedPseudoClass()) and \
+                        not self._input.lookBack('(') and not insideAtExtend:
                     # 'property: value' delimiter
                     # which could be in a conditional group query
-                    printer.print_string(":")
+                    self.print_string(":")
                     if not insidePropertyValue:
                         insidePropertyValue = True
-                        output.space_before_token = True
+                        self._output.space_before_token = True
+                        self.eatWhitespace(True)
+                        self.indent()
 
                 else:
                     # sass/less parent reference don't use a space
                     # sass nested pseudo-class don't use a space
 
-                    # preserve space before pseudoclasses/pseudoelements, as it means "in any child"
-                    if self.lookBack(' '):
-                        output.space_before_token = True
-                    if self.peek() == ":":
+                    # preserve space before pseudoclasses/pseudoelements,
+                    # as it means "in any child"
+                    if self._input.lookBack(' '):
+                        self._output.space_before_token = True
+                    if self._input.peek() == ":":
                         # pseudo-element
-                        self.next()
-                        printer.print_string("::")
+                        self._ch = self._input.next()
+                        self.print_string("::")
                     else:
                         # pseudo-element
-                        printer.print_string(":")
-            elif self.ch == '"' or self.ch == '\'':
-                printer.preserveSingleSpace(isAfterSpace)
-                printer.print_string(self.eatString(self.ch))
-            elif self.ch == ';':
-                insidePropertyValue = False
-                printer.print_string(self.ch)
-                if self.eatWhitespace(True) == 0:
-                    output.add_new_line()
-            elif self.ch == '(':
+                        self.print_string(":")
+            elif self._ch == '"' or self._ch == '\'':
+                self.preserveSingleSpace(isAfterSpace)
+                self.print_string(self._ch + self.eatString(self._ch))
+                self.eatWhitespace(True)
+            elif self._ch == ';':
+                if insidePropertyValue:
+                    self.outdent()
+                    insidePropertyValue = False
+                insideAtExtend = False
+                insideAtImport = False
+                self.print_string(self._ch)
+                self.eatWhitespace(True)
+
+                # This maintains single line comments on the same
+                # line. Block comments are also affected, but
+                # a new line is always output before one inside
+                # that section
+                if self._input.peek() is not '/':
+                    self._output.add_new_line()
+            elif self._ch == '(':
                 # may be a url
-                if self.lookBack("url"):
-                    printer.print_string(self.ch)
+                if self._input.lookBack("url"):
+                    self.print_string(self._ch)
                     self.eatWhitespace()
-                    if self.next():
-                        if self.ch is not ')' and self.ch is not '"' \
-                        and self.ch is not '\'':
-                            printer.print_string(self.eatString(')'))
-                        else:
-                            self.pos = self.pos - 1
+                    self._ch = self._input.next()
+                    if self._ch in {')', '"', '\''}:
+                        self._input.back()
+                        parenLevel += 1
+                    elif self._ch is not None:
+                        self.print_string(self._ch + self.eatString(')'))
                 else:
                     parenLevel += 1
-                    printer.preserveSingleSpace(isAfterSpace)
-                    printer.print_string(self.ch)
+                    self.preserveSingleSpace(isAfterSpace)
+                    self.print_string(self._ch)
                     self.eatWhitespace()
-            elif self.ch == ')':
-                printer.print_string(self.ch)
+            elif self._ch == ')':
+                self.print_string(self._ch)
                 parenLevel -= 1
-            elif self.ch == ',':
-                printer.print_string(self.ch)
-                if self.eatWhitespace(True) == 0 and not insidePropertyValue and self.opts.selector_separator_newline and parenLevel < 1:
-                    output.add_new_line()
+            elif self._ch == ',':
+                self.print_string(self._ch)
+                self.eatWhitespace(True)
+                if self._options.selector_separator_newline and \
+                        not insidePropertyValue and parenLevel < 1 and \
+                        not insideAtImport:
+                    self._output.add_new_line()
                 else:
-                    output.space_before_token = True
-            elif (self.ch == '>' or self.ch == '+' or self.ch == '~') and \
-                not insidePropertyValue and parenLevel < 1:
+                    self._output.space_before_token = True
+            elif (self._ch == '>' or self._ch == '+' or self._ch == '~') and \
+                    not insidePropertyValue and parenLevel < 1:
                 # handle combinator spacing
-                if self.opts.space_around_combinator:
-                    output.space_before_token = True
-                    printer.print_string(self.ch)
-                    output.space_before_token = True
+                if self._options.space_around_combinator:
+                    self._output.space_before_token = True
+                    self.print_string(self._ch)
+                    self._output.space_before_token = True
                 else:
-                    printer.print_string(self.ch)
+                    self.print_string(self._ch)
                     self.eatWhitespace()
                     # squash extra whitespace
-                    if self.ch and WHITE_RE.search(self.ch):
-                        self.ch = ''
-            elif self.ch == ']':
-                printer.print_string(self.ch)
-            elif self.ch == '[':
-                printer.preserveSingleSpace(isAfterSpace)
-                printer.print_string(self.ch)
-            elif self.ch == '=':
+                    if self._ch and bool(whitespaceChar.search(self._ch)):
+                        self._ch = ''
+            elif self._ch == ']':
+                self.print_string(self._ch)
+            elif self._ch == '[':
+                self.preserveSingleSpace(isAfterSpace)
+                self.print_string(self._ch)
+            elif self._ch == '=':
                 # no whitespace before or after
                 self.eatWhitespace()
-                printer.print_string('=')
-                if WHITE_RE.search(self.ch):
-                    self.ch = ''
-            elif self.ch == '!':  # !important
-                printer.print_string(' ')
-                printer.print_string(self.ch)
+                self.print_string('=')
+                if bool(whitespaceChar.search(self._ch)):
+                    self._ch = ''
+            elif self._ch == '!':  # !important
+                self.print_string(' ')
+                self.print_string(self._ch)
             else:
-                printer.preserveSingleSpace(isAfterSpace)
-                printer.print_string(self.ch)
+                self.preserveSingleSpace(isAfterSpace)
+                self.print_string(self._ch)
 
-        sweet_code = output.get_code(self.opts.end_with_newline, self.opts.eol)
+        sweet_code = self._output.get_code(self._options.eol)
 
         return sweet_code

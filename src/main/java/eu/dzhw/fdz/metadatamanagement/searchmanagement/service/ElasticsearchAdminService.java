@@ -26,6 +26,7 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdat
 import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Service which sets up all indices.
@@ -33,6 +34,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepo
  * @author René Reitmann
  */
 @Service
+@Slf4j
 public class ElasticsearchAdminService {
   
   @Autowired
@@ -73,17 +75,21 @@ public class ElasticsearchAdminService {
    */
   @Async
   public CompletableFuture<Object> recreateAllIndices() {
-    for (ElasticsearchType type : ElasticsearchType.values()) {
-      recreateIndex(type);      
+    try {
+      for (ElasticsearchType type : ElasticsearchType.values()) {
+        recreateIndex(type);
+      }
+      this.enqueueAllVariables();
+      this.enqueueAllSurveys();
+      this.enqueueAllDataSets();
+      this.enqueueAllQuestions();
+      this.enqueueAllRelatedPublications();
+      this.enqueueAllInstruments();
+      this.enqueueAllStudies();
+      updateQueueService.processAllQueueItems();
+    } catch (Exception e) {
+      log.error("Error during recreation of indices:", e);
     }
-    this.enqueueAllVariables();
-    this.enqueueAllSurveys();
-    this.enqueueAllDataSets();
-    this.enqueueAllQuestions();
-    this.enqueueAllRelatedPublications();
-    this.enqueueAllInstruments();
-    this.enqueueAllStudies();
-    updateQueueService.processAllQueueItems();
     return CompletableFuture.completedFuture(new Object());
   }
   

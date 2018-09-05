@@ -4,7 +4,7 @@
 /*global global, exports, module, require:false, process:false, Buffer:false, ArrayBuffer:false */
 var XLSX = {};
 function make_xlsx_lib(XLSX){
-XLSX.version = '0.13.3';
+XLSX.version = '0.13.5';
 var current_codepage = 1200, current_ansi = 1252;
 /*:: declare var cptable:any; */
 /*global cptable:true, window */
@@ -2224,11 +2224,13 @@ function parsexmltag(tag/*:string*/, skip_root/*:?boolean*/)/*:any*/ {
 		if(j===q.length) {
 			if(q.indexOf("_") > 0) q = q.slice(0, q.indexOf("_")); // from ods
 			z[q] = v;
+			z[q.toLowerCase()] = v;
 		}
 		else {
 			var k = (j===5 && q.slice(0,5)==="xmlns"?"xmlns":"")+q.slice(j+1);
 			if(z[k] && q.slice(j-3,j) == "ext") continue; // from ods
 			z[k] = v;
+			z[k.toLowerCase()] = v;
 		}
 	}
 	return z;
@@ -2267,7 +2269,7 @@ function escapexmltag(text/*:string*/)/*:string*/{ return escapexml(text).replac
 var htmlcharegex = /[\u0000-\u001f]/g;
 function escapehtml(text/*:string*/)/*:string*/{
 	var s = text + '';
-	return s.replace(decregex, function(y) { return rencoding[y]; }).replace(htmlcharegex,function(s) { return "&#x" + ("000"+s.charCodeAt(0).toString(16)).slice(-4) + ";"; });
+	return s.replace(decregex, function(y) { return rencoding[y]; }).replace(/\n/g, "<br/>").replace(htmlcharegex,function(s) { return "&#x" + ("000"+s.charCodeAt(0).toString(16)).slice(-4) + ";"; });
 }
 
 function escapexlml(text/*:string*/)/*:string*/{
@@ -2945,6 +2947,8 @@ function sheet_add_aoa(_ws/*:?Worksheet*/, data/*:AOA*/, opts/*:?any*/)/*:Worksh
 		if(_R == -1) range.e.r = _R = _range.e.r + 1;
 	}
 	for(var R = 0; R != data.length; ++R) {
+		if(!data[R]) continue;
+		if(!Array.isArray(data[R])) throw new Error("aoa_to_sheet expects an array of arrays");
 		for(var C = 0; C != data[R].length; ++C) {
 			if(typeof data[R][C] === 'undefined') continue;
 			var cell/*:Cell*/ = ({v: data[R][C] }/*:any*/);
@@ -6816,13 +6820,17 @@ var PRN = (function() {
 		switch(opts.type) {
 			case 'base64': str = Base64.decode(d); break;
 			case 'binary': str = d; break;
-			case 'buffer': str = d.toString('binary'); break;
+			case 'buffer':
+				if(opts.codepage == 65001) str = d.toString('utf8');
+				else if(opts.codepage && typeof cptable !== 'undefined') str = cptable.utils.decode(opts.codepage, d);
+				else str = d.toString('binary');
+				break;
 			case 'array': str = cc2str(d); break;
 			case 'string': str = d; break;
 			default: throw new Error("Unrecognized type " + opts.type);
 		}
 		if(bytes[0] == 0xEF && bytes[1] == 0xBB && bytes[2] == 0xBF) str = utf8read(str.slice(3));
-		else if((opts.type == 'binary' || opts.type == 'buffer') && typeof cptable !== 'undefined' && opts.codepage)  str = cptable.utils.decode(opts.codepage, cptable.utils.encode(1252,str));
+		else if((opts.type == 'binary') && typeof cptable !== 'undefined' && opts.codepage)  str = cptable.utils.decode(opts.codepage, cptable.utils.encode(1252,str));
 		if(str.slice(0,19) == "socialcalc:version:") return ETH.to_sheet(opts.type == 'string' ? str : utf8read(str), opts);
 		return prn_to_sheet_str(str, opts);
 	}
@@ -6868,7 +6876,6 @@ function read_wb_ID(d, opts) {
 		return PRN.to_workbook(d, opts);
 	}
 }
-
 var WK_ = (function() {
 	function lotushopper(data, cb/*:RecordHopperCB*/, opts/*:any*/) {
 		if(!data) return;
@@ -12700,7 +12707,7 @@ function write_ws_xml(idx/*:number*/, opts, wb/*:Workbook*/, rels)/*:string*/ {
 	/* customProperties */
 	/* cellWatches */
 
-	o[o.length] = writetag("ignoredErrors", writextag("ignoredError", null, {numberStoredAsText:1, sqref:ref}));
+	if(!opts || opts.ignoreEC || (opts.ignoreEC == (void 0))) o[o.length] = writetag("ignoredErrors", writextag("ignoredError", null, {numberStoredAsText:1, sqref:ref}));
 
 	/* smartTags */
 
@@ -13574,7 +13581,7 @@ function write_ws_bin(idx/*:number*/, opts, wb/*:Workbook*/, rels) {
 	/* [COLBRK] */
 	/* *BrtBigName */
 	/* [CELLWATCHES] */
-	write_IGNOREECS(ba, ws);
+	if(!opts || opts.ignoreEC || (opts.ignoreEC == (void 0))) write_IGNOREECS(ba, ws);
 	/* [SMARTTAGS] */
 	/* [BrtDrawing] */
 	write_LEGACYDRAWING(ba, ws, idx, rels);
@@ -13961,13 +13968,13 @@ function parse_wb_xml(data, opts)/*:WorkbookFile*/ {
 			/* 18.2.5    definedName CT_DefinedName + */
 			case '<definedName': {
 				dname = {};
-				dname.Name = y.name;
+				dname.Name = utf8read(y.name);
 				if(y.comment) dname.Comment = y.comment;
 				if(y.localSheetId) dname.Sheet = +y.localSheetId;
 				dnstart = idx + x.length;
 			}	break;
 			case '</definedName>': {
-				dname.Ref = data.slice(dnstart, idx);
+				dname.Ref = unescapexml(utf8read(data.slice(dnstart, idx)));
 				wb.Names.push(dname);
 			} break;
 			case '<definedName/>': break;
@@ -15377,7 +15384,7 @@ function write_ws_xlml_names(ws/*:Worksheet*/, opts, idx/*:number*/, wb/*:Workbo
 	/*:: if(!wb || !wb.Workbook || !wb.Workbook.Names) throw new Error("unreachable"); */
 	var names/*:Array<any>*/ = wb.Workbook.Names;
 	var out/*:Array<string>*/ = [];
-	outer: for(var i = 0; i < names.length; ++i) {
+	for(var i = 0; i < names.length; ++i) {
 		var n = names[i];
 		if(n.Sheet != idx) continue;
 		/*switch(n.Name) {
@@ -15994,6 +16001,7 @@ function parse_workbook(blob, options/*:ParseOpts*/)/*:Workbook*/ {
 						/*::[*/0x0002/*::]*/:2,
 						/*::[*/0x0007/*::]*/:2
 					}[val.BIFFVer] || 8;
+					if(opts.biff == 8 && val.BIFFVer == 0 && val.dt == 16) opts.biff = 2;
 					if(file_depth++) break;
 					cell_valid = true;
 					out = ((options.dense ? [] : {})/*:any*/);
@@ -18249,7 +18257,6 @@ var HTML_ = (function() {
 	function make_html_row(ws/*:Worksheet*/, r/*:Range*/, R/*:number*/, o/*:Sheet2HTMLOpts*/)/*:string*/ {
 		var M/*:Array<Range>*/ = (ws['!merges'] ||[]);
 		var oo/*:Array<string>*/ = [];
-		var nullcell = "<td>" + (o.editable ? '<span contenteditable="true"></span>' : "" ) + "</td>";
 		for(var C = r.s.c; C <= r.e.c; ++C) {
 			var RS = 0, CS = 0;
 			for(var j = 0; j < M.length; ++j) {
@@ -18261,13 +18268,12 @@ var HTML_ = (function() {
 			if(RS < 0) continue;
 			var coord = encode_cell({r:R,c:C});
 			var cell = o.dense ? (ws[R]||[])[C] : ws[coord];
-			if(!cell || cell.v == null) { oo.push(nullcell); continue; }
-			/* TODO: html entities */
-			var w = cell.h || escapexml(cell.w || (format_cell(cell), cell.w) || "");
 			var sp = {};
 			if(RS > 1) sp.rowspan = RS;
 			if(CS > 1) sp.colspan = CS;
-			sp.t = cell.t;
+			/* TODO: html entities */
+			var w = (cell && cell.v != null) && (cell.h || escapehtml(cell.w || (format_cell(cell), cell.w) || "")) || "";
+			sp.t = cell && cell.t || 'z';
 			if(o.editable) w = '<span contenteditable="true">' + w + '</span>';
 			sp.id = "sjs-" + coord;
 			oo.push(writextag('td', w, sp));
@@ -18453,7 +18459,7 @@ var parse_content_xml = (function() {
 					}
 					if(merges.length) ws['!merges'] = merges;
 					if(rowinfo.length) ws["!rows"] = rowinfo;
-					sheetag.name = utf8read(sheetag['名称'] || sheetag.name);
+					sheetag.name = sheetag['名称'] || sheetag.name;
 					if(typeof JSON !== 'undefined') JSON.stringify(sheetag);
 					SheetNames.push(sheetag.name);
 					Sheets[sheetag.name] = ws;

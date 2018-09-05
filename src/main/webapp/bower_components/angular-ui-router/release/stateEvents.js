@@ -1,6 +1,6 @@
 /**
  * State-based routing for AngularJS 1.x
- * @version v1.0.19
+ * @version v1.0.20
  * @link https://ui-router.github.io
  * @license MIT License, http://www.opensource.org/licenses/MIT
  */
@@ -10,8 +10,9 @@
     (factory((global['@uirouter/angularjs-state-events'] = {}),global.angular));
 }(this, (function (exports,ng_from_import) { 'use strict';
 
-    var ng_from_global = angular;
-    var ng = ng_from_import && ng_from_import.module ? ng_from_import : ng_from_global;
+    /** @publicapi @module ng1 */ /** */
+    /** @hidden */ var ng_from_global = angular;
+    /** @hidden */ var ng = ng_from_import && ng_from_import.module ? ng_from_import : ng_from_global;
 
     /**
      * # Legacy state events
@@ -31,7 +32,7 @@
      * angular.module("myApplication", ['ui.router', 'ui.router.state.events']
      * ```
      *
-     * @module ng1_state_events
+     * @publicapi @module ng1_state_events
      */ /** */
     /**
      * An event broadcast on `$rootScope` when the state transition **begins**.

@@ -4,7 +4,7 @@
  *         This causes it to be incompatible with plugins that depend on @uirouter/core.
  *         We recommend switching to the ui-router-core.js and ui-router-angularjs.js bundles instead.
  *         For more information, see https://ui-router.github.io/blog/uirouter-for-angularjs-umd-bundles
- * @version v1.0.19
+ * @version v1.0.20
  * @link https://ui-router.github.io
  * @license MIT License, http://www.opensource.org/licenses/MIT
  */
@@ -14,8 +14,9 @@
     (factory((global['@uirouter/angularjs'] = {}),global.angular));
 }(this, (function (exports,ng_from_import) { 'use strict';
 
-    var ng_from_global = angular;
-    var ng = ng_from_import && ng_from_import.module ? ng_from_import : ng_from_global;
+    /** @publicapi @module ng1 */ /** */
+    /** @hidden */ var ng_from_global = angular;
+    /** @hidden */ var ng = ng_from_import && ng_from_import.module ? ng_from_import : ng_from_global;
 
     /**
      * Higher order functions
@@ -244,7 +245,7 @@
      * Although these functions are exported, they are subject to change without notice.
      *
      * @module common_predicates
-     */
+     */ /** */
     var toStr = Object.prototype.toString;
     var tis = function (t) { return function (x) { return typeof x === t; }; };
     var isUndefined = tis('undefined');
@@ -278,9 +279,12 @@
      */
     var isPromise = and(isObject, pipe(prop('then'), isFunction));
 
-    var notImplemented = function (fnname) { return function () {
-        throw new Error(fnname + "(): No coreservices implementation for UI-Router is loaded.");
+    var noImpl = function (fnname) { return function () {
+        throw new Error("No implementation for " + fnname + ". The framework specific code did not implement this method.");
     }; };
+    var makeStub = function (service, methods) {
+        return methods.reduce(function (acc, key) { return ((acc[key] = noImpl(service + "." + key + "()")), acc); }, {});
+    };
     var services = {
         $q: undefined,
         $injector: undefined,
@@ -291,9 +295,8 @@
      *
      * These functions are exported, but are subject to change without notice.
      *
-     * @preferred
-     * @module common
-     */
+     * @preferred @publicapi @module common
+     */ /** */
     var root = (typeof self === 'object' && self.self === self && self) ||
         (typeof global === 'object' && global.global === global && global) ||
         undefined;
@@ -814,10 +817,7 @@
     var silenceUncaughtInPromise = function (promise) { return promise.catch(function (e) { return 0; }) && promise; };
     var silentRejection = function (error) { return silenceUncaughtInPromise(services.$q.reject(error)); };
 
-    /**
-     * @coreapi
-     * @module core
-     */
+    /** @publicapi @module core */
     /**
      * Matches state names using glob-like pattern strings.
      *
@@ -896,7 +896,7 @@
         return Glob;
     }());
 
-    /** @module common */
+    /** @publicapi @module common */ /** */
     var Queue = /** @class */ (function () {
         function Queue(_items, _limit) {
             if (_items === void 0) { _items = []; }
@@ -944,10 +944,7 @@
         return Queue;
     }());
 
-    /**
-     * @coreapi
-     * @module transition
-     */ /** for typedoc */
+    /** @publicapi @module transition */ /** */
 
     (function (RejectType) {
         /**
@@ -1222,8 +1219,7 @@
      * app.run($trace => $trace.enable());
      * ```
      *
-     * @coreapi
-     * @module trace
+     * @publicapi @module trace
      */
     /** @hidden */
     function uiViewString(uiview) {
@@ -1430,12 +1426,9 @@
      */
     var trace = new Trace();
 
-    /** @module common */ /** for typedoc */
+    /** @publicapi @module common */ /** */
 
-    /**
-     * @coreapi
-     * @module params
-     */
+    /** @publicapi @module params */ /** */
     /**
      * An internal class which implements [[ParamTypeDefinition]].
      *
@@ -1581,10 +1574,7 @@
         });
     }
 
-    /**
-     * @coreapi
-     * @module params
-     */ /** for typedoc */
+    /** @publicapi @module params */ /** */
     /** @hidden */
     var hasOwn = Object.prototype.hasOwnProperty;
     /** @hidden */
@@ -1598,9 +1588,10 @@
         DefType[DefType["SEARCH"] = 1] = "SEARCH";
         DefType[DefType["CONFIG"] = 2] = "CONFIG";
     })(exports.DefType || (exports.DefType = {}));
+    /** @internalapi */
     function getParamDeclaration(paramName, location, state) {
         var noReloadOnSearch = (state.reloadOnSearch === false && location === exports.DefType.SEARCH) || undefined;
-        var dynamic = [state.dynamic, noReloadOnSearch].find(isDefined);
+        var dynamic = find([state.dynamic, noReloadOnSearch], isDefined);
         var defaultConfig = isDefined(dynamic) ? { dynamic: dynamic } : {};
         var paramConfig = unwrapShorthand(state && state.params && state.params[paramName]);
         return extend(defaultConfig, paramConfig);
@@ -1663,15 +1654,15 @@
     }
     /** @internalapi */
     var Param = /** @class */ (function () {
-        function Param(id, type, location, urlMatcherFactory, state) {
+        function Param(id, type, location, urlConfig, state) {
             var config = getParamDeclaration(id, location, state);
-            type = getType(config, type, location, id, urlMatcherFactory.paramTypes);
+            type = getType(config, type, location, id, urlConfig.paramTypes);
             var arrayMode = getArrayMode();
             type = arrayMode ? type.$asArray(arrayMode, location === exports.DefType.SEARCH) : type;
             var isOptional = config.value !== undefined || location === exports.DefType.SEARCH;
             var dynamic = isDefined(config.dynamic) ? !!config.dynamic : !!type.dynamic;
             var raw = isDefined(config.raw) ? !!config.raw : !!type.raw;
-            var squash = getSquashPolicy(config, isOptional, urlMatcherFactory.defaultSquashPolicy());
+            var squash = getSquashPolicy(config, isOptional, urlConfig.defaultSquashPolicy());
             var replace = getReplace(config, arrayMode, isOptional, squash);
             var inherit$$1 = isDefined(config.inherit) ? !!config.inherit : !!type.inherit;
             // array config: param name (param[]) overrides default settings.  explicit config overrides param name.
@@ -1783,10 +1774,7 @@
         return Param;
     }());
 
-    /**
-     * @coreapi
-     * @module params
-     */
+    /** @publicapi @module params */ /** */
     /**
      * A registry for parameter types.
      *
@@ -1803,6 +1791,12 @@
      * - [[date]]
      * - [[json]]
      * - [[any]]
+     *
+     * To register custom parameter types, use [[UrlConfig.type]], i.e.,
+     *
+     * ```js
+     * router.urlService.config.type(customType)
+     * ```
      */
     var ParamTypes = /** @class */ (function () {
         /** @internalapi */
@@ -1934,10 +1928,7 @@
     }
     initDefaultTypes();
 
-    /**
-     * @coreapi
-     * @module params
-     */
+    /** @publicapi @module params */ /** */
     /** @internalapi */
     var StateParams = /** @class */ (function () {
         function StateParams(params) {
@@ -1973,10 +1964,8 @@
         return StateParams;
     }());
 
-    /** @module path */ /** for typedoc */
+    /** @internalapi @module path */ /** */
     /**
-     * @internalapi
-     *
      * A node in a [[TreeChanges]] path
      *
      * For a [[TreeChanges]] path, this class holds the stateful information for a single node in the path.
@@ -2048,10 +2037,7 @@
         return PathNode;
     }());
 
-    /**
-     * @coreapi
-     * @module state
-     */ /** for typedoc */
+    /** @publicapi @module state */ /** */
     /**
      * Encapsulate the target (destination) state/params/options of a [[Transition]].
      *
@@ -2189,7 +2175,7 @@
         return TargetState;
     }());
 
-    /** @module path */ /** for typedoc */
+    /** @internalapi @module path */ /** */
     /**
      * This class contains functions which convert TargetStates, Nodes and paths from one type to another.
      */
@@ -2351,7 +2337,7 @@
         return PathUtils;
     }());
 
-    /** @module path */ /** for typedoc */
+    /** @internalapi @module path */ /** */
 
     /** @internalapi */
     var resolvePolicies = {
@@ -2366,10 +2352,7 @@
         },
     };
 
-    /**
-     * @coreapi
-     * @module resolve
-     */ /** for typedoc */
+    /** @publicapi @module resolve */ /** */
     // TODO: explicitly make this user configurable
     var defaultResolvePolicy = {
         when: 'LAZY',
@@ -2490,7 +2473,7 @@
         return Resolvable;
     }());
 
-    /** @module resolve */
+    /** @publicapi @module resolve */ /** */
     var whens = resolvePolicies.when;
     var ALL_WHENS = [whens.EAGER, whens.LAZY];
     var EAGER_WHENS = [whens.EAGER];
@@ -2652,6 +2635,7 @@
         };
         return ResolveContext;
     }());
+    /** @internalapi */
     var UIInjectorImpl = /** @class */ (function () {
         function UIInjectorImpl(context) {
             this.context = context;
@@ -2682,9 +2666,9 @@
         return UIInjectorImpl;
     }());
 
-    /** @module resolve */ /** for typedoc */
+    /** @publicapi @module resolve */ /** */
 
-    /** @module state */
+    /** @publicapi @module state */ /** */
     var parseUrl = function (url) {
         if (!isString(url))
             return false;
@@ -3068,7 +3052,7 @@
         return StateObject;
     }());
 
-    /** @module state */ /** for typedoc */
+    /** @publicapi @module state */ /** */
     var StateMatcher = /** @class */ (function () {
         function StateMatcher(_states) {
             this._states = _states;
@@ -3126,17 +3110,15 @@
         return StateMatcher;
     }());
 
-    /** @module state */ /** for typedoc */
+    /** @publicapi @module state */ /** */
     /** @internalapi */
     var StateQueueManager = /** @class */ (function () {
-        function StateQueueManager($registry, $urlRouter, states, builder, listeners) {
-            this.$registry = $registry;
-            this.$urlRouter = $urlRouter;
+        function StateQueueManager(router, states, builder, listeners) {
+            this.router = router;
             this.states = states;
             this.builder = builder;
             this.listeners = listeners;
             this.queue = [];
-            this.matcher = $registry.matcher;
         }
         /** @internalapi */
         StateQueueManager.prototype.dispose = function () {
@@ -3179,7 +3161,7 @@
                     var existingFutureState = getState(name_1 + '.**');
                     if (existingFutureState) {
                         // Remove future state of the same name
-                        this.$registry.deregister(existingFutureState);
+                        this.router.stateRegistry.deregister(existingFutureState);
                     }
                     states[name_1] = state;
                     this.attachRoute(state);
@@ -3208,24 +3190,22 @@
         StateQueueManager.prototype.attachRoute = function (state) {
             if (state.abstract || !state.url)
                 return;
-            this.$urlRouter.rule(this.$urlRouter.urlRuleFactory.create(state));
+            var rulesApi = this.router.urlService.rules;
+            rulesApi.rule(rulesApi.urlRuleFactory.create(state));
         };
         return StateQueueManager;
     }());
 
-    /**
-     * @coreapi
-     * @module state
-     */ /** for typedoc */
+    /** @publicapi @module state */ /** */
     var StateRegistry = /** @class */ (function () {
         /** @internalapi */
-        function StateRegistry(_router) {
-            this._router = _router;
+        function StateRegistry(router) {
+            this.router = router;
             this.states = {};
             this.listeners = [];
             this.matcher = new StateMatcher(this.states);
-            this.builder = new StateBuilder(this.matcher, _router.urlMatcherFactory);
-            this.stateQueue = new StateQueueManager(this, _router.urlRouter, this.states, this.builder, this.listeners);
+            this.builder = new StateBuilder(this.matcher, router.urlMatcherFactory);
+            this.stateQueue = new StateQueueManager(router, this.states, this.builder, this.listeners);
             this._registerRoot();
         }
         /** @internalapi */
@@ -3323,12 +3303,12 @@
             var children = getChildren([state]);
             var deregistered = [state].concat(children).reverse();
             deregistered.forEach(function (_state) {
-                var $ur = _this._router.urlRouter;
+                var rulesApi = _this.router.urlService.rules;
                 // Remove URL rule
-                $ur
+                rulesApi
                     .rules()
                     .filter(propEq('state', _state))
-                    .forEach($ur.removeRule.bind($ur));
+                    .forEach(function (rule) { return rulesApi.removeRule(rule); });
                 // Remove state from registry
                 delete _this.states[_state.name];
             });
@@ -3377,10 +3357,7 @@
         TransitionHookScope[TransitionHookScope["STATE"] = 1] = "STATE";
     })(exports.TransitionHookScope || (exports.TransitionHookScope = {}));
 
-    /**
-     * @coreapi
-     * @module transition
-     */
+    /** @publicapi @module transition */ /** */
     var defaultOptions = {
         current: noop,
         transition: null,
@@ -3569,10 +3546,7 @@
         return TransitionHook;
     }());
 
-    /**
-     * @coreapi
-     * @module transition
-     */ /** for typedoc */
+    /** @publicapi @module transition */ /** */
     /**
      * Determines if the given state matches the matchCriteria
      *
@@ -3721,10 +3695,7 @@
         return hookRegistrationFn;
     }
 
-    /**
-     * @coreapi
-     * @module transition
-     */ /** for typedoc */
+    /** @publicapi @module transition */ /** */
     /**
      * This class returns applicable TransitionHooks for a specific Transition instance.
      *
@@ -3836,10 +3807,7 @@
         };
     }
 
-    /**
-     * @coreapi
-     * @module transition
-     */
+    /** @publicapi @module transition */ /** */
     /** @hidden */
     var stateSelf = prop('self');
     /**
@@ -4498,10 +4466,7 @@
         return Transition;
     }());
 
-    /**
-     * @coreapi
-     * @module url
-     */
+    /** @publicapi @module url */ /** */
     /** @hidden */
     function quoteRegExp(str, param) {
         var surroundPattern = ['', ''], result = str.replace(/[\\\[\]\^$*+?.()|{}]/g, '\\$&');
@@ -4525,6 +4490,7 @@
     var memoizeTo = function (obj, _prop, fn) { return (obj[_prop] = obj[_prop] || fn()); };
     /** @hidden */
     var splitOnSlash = splitOnDelim('/');
+    /** @hidden */
     var defaultConfig = {
         state: { params: {} },
         strict: true,
@@ -5037,17 +5003,17 @@
     };
     /** @internalapi */
     var ParamFactory = /** @class */ (function () {
-        function ParamFactory(umf) {
-            this.umf = umf;
+        function ParamFactory(router) {
+            this.router = router;
         }
         ParamFactory.prototype.fromConfig = function (id, type, state) {
-            return new Param(id, type, exports.DefType.CONFIG, this.umf, state);
+            return new Param(id, type, exports.DefType.CONFIG, this.router.urlService.config, state);
         };
         ParamFactory.prototype.fromPath = function (id, type, state) {
-            return new Param(id, type, exports.DefType.PATH, this.umf, state);
+            return new Param(id, type, exports.DefType.PATH, this.router.urlService.config, state);
         };
         ParamFactory.prototype.fromSearch = function (id, type, state) {
-            return new Param(id, type, exports.DefType.SEARCH, this.umf, state);
+            return new Param(id, type, exports.DefType.SEARCH, this.router.urlService.config, state);
         };
         return ParamFactory;
     }());
@@ -5056,31 +5022,28 @@
      *
      * The factory is available to ng1 services as
      * `$urlMatcherFactory` or ng1 providers as `$urlMatcherFactoryProvider`.
+     *
+     * @internalapi
      */
     var UrlMatcherFactory = /** @class */ (function () {
-        function UrlMatcherFactory() {
-            /** @hidden */ this.paramTypes = new ParamTypes();
-            /** @hidden */ this._isCaseInsensitive = false;
-            /** @hidden */ this._isStrictMode = true;
-            /** @hidden */ this._defaultSquashPolicy = false;
+        // TODO: move implementations to UrlConfig (urlService.config)
+        function UrlMatcherFactory(/** @hidden */ router) {
+            var _this = this;
+            this.router = router;
             /** @internalapi Creates a new [[Param]] for a given location (DefType) */
-            this.paramFactory = new ParamFactory(this);
+            this.paramFactory = new ParamFactory(this.router);
+            /** @deprecated use [[UrlConfig.caseInsensitive]] */
+            this.caseInsensitive = function (value) { return _this.router.urlService.config.caseInsensitive(value); };
+            /** @deprecated use [[UrlConfig.defaultSquashPolicy]] */
+            this.defaultSquashPolicy = function (value) { return _this.router.urlService.config.defaultSquashPolicy(value); };
+            /** @deprecated use [[UrlConfig.strictMode]] */
+            this.strictMode = function (value) { return _this.router.urlService.config.strictMode(value); };
+            /** @deprecated use [[UrlConfig.type]] */
+            this.type = function (name, definition, definitionFn) {
+                return _this.router.urlService.config.type(name, definition, definitionFn) || _this;
+            };
             extend(this, { UrlMatcher: UrlMatcher, Param: Param });
         }
-        /** @inheritdoc */
-        UrlMatcherFactory.prototype.caseInsensitive = function (value) {
-            return (this._isCaseInsensitive = isDefined(value) ? value : this._isCaseInsensitive);
-        };
-        /** @inheritdoc */
-        UrlMatcherFactory.prototype.strictMode = function (value) {
-            return (this._isStrictMode = isDefined(value) ? value : this._isStrictMode);
-        };
-        /** @inheritdoc */
-        UrlMatcherFactory.prototype.defaultSquashPolicy = function (value) {
-            if (isDefined(value) && value !== true && value !== false && !isString(value))
-                throw new Error("Invalid squash policy: " + value + ". Valid policies: false, true, arbitrary-string");
-            return (this._defaultSquashPolicy = isDefined(value) ? value : this._defaultSquashPolicy);
-        };
         /**
          * Creates a [[UrlMatcher]] for the specified pattern.
          *
@@ -5088,12 +5051,13 @@
          * @param config  The config object hash.
          * @returns The UrlMatcher.
          */
-        UrlMatcherFactory.prototype.compile = function (pattern, config) {
+        UrlMatcherFactory.prototype.compile = function (pattern$$1, config) {
+            var urlConfig = this.router.urlService.config;
             // backward-compatible support for config.params -> config.state.params
             var params = config && !config.state && config.params;
             config = params ? __assign({ state: { params: params } }, config) : config;
-            var globalConfig = { strict: this._isStrictMode, caseInsensitive: this._isCaseInsensitive };
-            return new UrlMatcher(pattern, this.paramTypes, this.paramFactory, extend(globalConfig, config));
+            var globalConfig = { strict: urlConfig._isStrictMode, caseInsensitive: urlConfig._isCaseInsensitive };
+            return new UrlMatcher(pattern$$1, urlConfig.paramTypes, this.paramFactory, extend(globalConfig, config));
         };
         /**
          * Returns true if the specified object is a [[UrlMatcher]], or false otherwise.
@@ -5107,52 +5071,23 @@
             if (!isObject(object))
                 return false;
             var result = true;
-            forEach(UrlMatcher.prototype, function (val, name) {
-                if (isFunction(val))
+            forEach(UrlMatcher.prototype, function (val$$1, name) {
+                if (isFunction(val$$1))
                     result = result && (isDefined(object[name]) && isFunction(object[name]));
             });
             return result;
         };
-        /**
-         * Creates and registers a custom [[ParamType]] object
-         *
-         * A [[ParamType]] can be used to generate URLs with typed parameters.
-         *
-         * @param name  The type name.
-         * @param definition The type definition. See [[ParamTypeDefinition]] for information on the values accepted.
-         * @param definitionFn A function that is injected before the app runtime starts.
-         *        The result of this function should be a [[ParamTypeDefinition]].
-         *        The result is merged into the existing `definition`.
-         *        See [[ParamType]] for information on the values accepted.
-         *
-         * @returns - if a type was registered: the [[UrlMatcherFactory]]
-         *   - if only the `name` parameter was specified: the currently registered [[ParamType]] object, or undefined
-         *
-         * Note: Register custom types *before using them* in a state definition.
-         *
-         * See [[ParamTypeDefinition]] for examples
-         */
-        UrlMatcherFactory.prototype.type = function (name, definition, definitionFn) {
-            var type = this.paramTypes.type(name, definition, definitionFn);
-            return !isDefined(definition) ? type : this;
-        };
         /** @hidden */
         UrlMatcherFactory.prototype.$get = function () {
-            this.paramTypes.enqueue = false;
-            this.paramTypes._flushTypeQueue();
+            var urlConfig = this.router.urlService.config;
+            urlConfig.paramTypes.enqueue = false;
+            urlConfig.paramTypes._flushTypeQueue();
             return this;
-        };
-        /** @internalapi */
-        UrlMatcherFactory.prototype.dispose = function () {
-            this.paramTypes.dispose();
         };
         return UrlMatcherFactory;
     }());
 
-    /**
-     * @coreapi
-     * @module url
-     */ /** */
+    /** @publicapi @module url */ /** */
     /**
      * Creates a [[UrlRule]]
      *
@@ -5345,10 +5280,7 @@
         return BaseUrlRule;
     }());
 
-    /**
-     * @internalapi
-     * @module url
-     */
+    /** @publicapi @module url */ /** */
     /** @hidden */
     function appendBasePath(url, isHtml5, absolute, baseHref) {
         if (baseHref === '/')
@@ -5359,163 +5291,57 @@
             return baseHref.slice(1) + url;
         return url;
     }
-    /** @hidden */
-    var prioritySort = function (a, b) { return (b.priority || 0) - (a.priority || 0); };
-    /** @hidden */
-    var typeSort = function (a, b) {
-        var weights = { STATE: 4, URLMATCHER: 4, REGEXP: 3, RAW: 2, OTHER: 1 };
-        return (weights[a.type] || 0) - (weights[b.type] || 0);
-    };
-    /** @hidden */
-    var urlMatcherSort = function (a, b) {
-        return !a.urlMatcher || !b.urlMatcher ? 0 : UrlMatcher.compare(a.urlMatcher, b.urlMatcher);
-    };
-    /** @hidden */
-    var idSort = function (a, b) {
-        // Identically sorted STATE and URLMATCHER best rule will be chosen by `matchPriority` after each rule matches the URL
-        var useMatchPriority = { STATE: true, URLMATCHER: true };
-        var equal = useMatchPriority[a.type] && useMatchPriority[b.type];
-        return equal ? 0 : (a.$id || 0) - (b.$id || 0);
-    };
-    /**
-     * Default rule priority sorting function.
-     *
-     * Sorts rules by:
-     *
-     * - Explicit priority (set rule priority using [[UrlRulesApi.when]])
-     * - Rule type (STATE: 4, URLMATCHER: 4, REGEXP: 3, RAW: 2, OTHER: 1)
-     * - `UrlMatcher` specificity ([[UrlMatcher.compare]]): works for STATE and URLMATCHER types to pick the most specific rule.
-     * - Rule registration order (for rule types other than STATE and URLMATCHER)
-     *   - Equally sorted State and UrlMatcher rules will each match the URL.
-     *     Then, the *best* match is chosen based on how many parameter values were matched.
-     *
-     * @coreapi
-     */
-    var defaultRuleSortFn;
-    defaultRuleSortFn = function (a, b) {
-        var cmp = prioritySort(a, b);
-        if (cmp !== 0)
-            return cmp;
-        cmp = typeSort(a, b);
-        if (cmp !== 0)
-            return cmp;
-        cmp = urlMatcherSort(a, b);
-        if (cmp !== 0)
-            return cmp;
-        return idSort(a, b);
-    };
     /**
      * Updates URL and responds to URL changes
      *
      * ### Deprecation warning:
      * This class is now considered to be an internal API
      * Use the [[UrlService]] instead.
-     * For configuring URL rules, use the [[UrlRulesApi]] which can be found as [[UrlService.rules]].
+     * For configuring URL rules, use the [[UrlRules]] which can be found as [[UrlService.rules]].
      *
-     * This class updates the URL when the state changes.
-     * It also responds to changes in the URL.
+     * @internalapi
      */
     var UrlRouter = /** @class */ (function () {
         /** @hidden */
-        function UrlRouter(router) {
-            /** @hidden */ this._sortFn = defaultRuleSortFn;
-            /** @hidden */ this._rules = [];
-            /** @hidden */ this.interceptDeferred = false;
-            /** @hidden */ this._id = 0;
-            /** @hidden */ this._sorted = false;
-            this._router = router;
+        function UrlRouter(/** @hidden */ router) {
+            var _this = this;
+            this.router = router;
+            // Delegate these calls to [[UrlService]]
+            /** @deprecated use [[UrlService.sync]]*/
+            this.sync = function (evt) { return _this.router.urlService.sync(evt); };
+            /** @deprecated use [[UrlService.listen]]*/
+            this.listen = function (enabled) { return _this.router.urlService.listen(enabled); };
+            /** @deprecated use [[UrlService.deferIntercept]]*/
+            this.deferIntercept = function (defer) { return _this.router.urlService.deferIntercept(defer); };
+            /** @deprecated use [[UrlService.match]]*/
+            this.match = function (urlParts) { return _this.router.urlService.match(urlParts); };
+            // Delegate these calls to [[UrlRules]]
+            /** @deprecated use [[UrlRules.initial]]*/
+            this.initial = function (handler) {
+                return _this.router.urlService.rules.initial(handler);
+            };
+            /** @deprecated use [[UrlRules.otherwise]]*/
+            this.otherwise = function (handler) {
+                return _this.router.urlService.rules.otherwise(handler);
+            };
+            /** @deprecated use [[UrlRules.removeRule]]*/
+            this.removeRule = function (rule) { return _this.router.urlService.rules.removeRule(rule); };
+            /** @deprecated use [[UrlRules.rule]]*/
+            this.rule = function (rule) { return _this.router.urlService.rules.rule(rule); };
+            /** @deprecated use [[UrlRules.rules]]*/
+            this.rules = function () { return _this.router.urlService.rules.rules(); };
+            /** @deprecated use [[UrlRules.sort]]*/
+            this.sort = function (compareFn) { return _this.router.urlService.rules.sort(compareFn); };
+            /** @deprecated use [[UrlRules.when]]*/
+            this.when = function (matcher, handler, options) { return _this.router.urlService.rules.when(matcher, handler, options); };
             this.urlRuleFactory = new UrlRuleFactory(router);
-            createProxyFunctions(val(UrlRouter.prototype), this, val(this));
         }
-        /** @internalapi */
-        UrlRouter.prototype.dispose = function () {
-            this.listen(false);
-            this._rules = [];
-            delete this._otherwiseFn;
-        };
-        /** @inheritdoc */
-        UrlRouter.prototype.sort = function (compareFn) {
-            this._rules = this.stableSort(this._rules, (this._sortFn = compareFn || this._sortFn));
-            this._sorted = true;
-        };
-        UrlRouter.prototype.ensureSorted = function () {
-            this._sorted || this.sort();
-        };
-        UrlRouter.prototype.stableSort = function (arr, compareFn) {
-            var arrOfWrapper = arr.map(function (elem, idx) { return ({ elem: elem, idx: idx }); });
-            arrOfWrapper.sort(function (wrapperA, wrapperB) {
-                var cmpDiff = compareFn(wrapperA.elem, wrapperB.elem);
-                return cmpDiff === 0 ? wrapperA.idx - wrapperB.idx : cmpDiff;
-            });
-            return arrOfWrapper.map(function (wrapper) { return wrapper.elem; });
-        };
-        /**
-         * Given a URL, check all rules and return the best [[MatchResult]]
-         * @param url
-         * @returns {MatchResult}
-         */
-        UrlRouter.prototype.match = function (url) {
-            var _this = this;
-            this.ensureSorted();
-            url = extend({ path: '', search: {}, hash: '' }, url);
-            var rules = this.rules();
-            if (this._otherwiseFn)
-                rules.push(this._otherwiseFn);
-            // Checks a single rule. Returns { rule: rule, match: match, weight: weight } if it matched, or undefined
-            var checkRule = function (rule) {
-                var match = rule.match(url, _this._router);
-                return match && { match: match, rule: rule, weight: rule.matchPriority(match) };
-            };
-            // The rules are pre-sorted.
-            // - Find the first matching rule.
-            // - Find any other matching rule that sorted *exactly the same*, according to `.sort()`.
-            // - Choose the rule with the highest match weight.
-            var best;
-            for (var i = 0; i < rules.length; i++) {
-                // Stop when there is a 'best' rule and the next rule sorts differently than it.
-                if (best && this._sortFn(rules[i], best.rule) !== 0)
-                    break;
-                var current = checkRule(rules[i]);
-                // Pick the best MatchResult
-                best = !best || (current && current.weight > best.weight) ? current : best;
-            }
-            return best;
-        };
-        /** @inheritdoc */
-        UrlRouter.prototype.sync = function (evt) {
-            if (evt && evt.defaultPrevented)
-                return;
-            var router = this._router, $url = router.urlService, $state = router.stateService;
-            var url = {
-                path: $url.path(),
-                search: $url.search(),
-                hash: $url.hash(),
-            };
-            var best = this.match(url);
-            var applyResult = pattern([
-                [isString, function (newurl) { return $url.url(newurl, true); }],
-                [TargetState.isDef, function (def) { return $state.go(def.state, def.params, def.options); }],
-                [is(TargetState), function (target) { return $state.go(target.state(), target.params(), target.options()); }],
-            ]);
-            applyResult(best && best.rule.handler(best.match, url, router));
-        };
-        /** @inheritdoc */
-        UrlRouter.prototype.listen = function (enabled) {
-            var _this = this;
-            if (enabled === false) {
-                this._stopFn && this._stopFn();
-                delete this._stopFn;
-            }
-            else {
-                return (this._stopFn = this._stopFn || this._router.urlService.onChange(function (evt) { return _this.sync(evt); }));
-            }
-        };
         /**
          * Internal API.
          * @internalapi
          */
         UrlRouter.prototype.update = function (read) {
-            var $url = this._router.locationService;
+            var $url = this.router.locationService;
             if (read) {
                 this.location = $url.url();
                 return;
@@ -5536,7 +5362,7 @@
          */
         UrlRouter.prototype.push = function (urlMatcher, params, options) {
             var replace = options && !!options.replace;
-            this._router.urlService.url(urlMatcher.format(params || {}), replace);
+            this.router.urlService.url(urlMatcher.format(params || {}), replace);
         };
         /**
          * Builds and returns a URL with interpolated parameters
@@ -5562,7 +5388,7 @@
             if (url == null)
                 return null;
             options = options || { absolute: false };
-            var cfg = this._router.urlService.config;
+            var cfg = this.router.urlService.config;
             var isHtml5 = cfg.html5Mode();
             if (!isHtml5 && url !== null) {
                 url = '#' + cfg.hashPrefix() + url;
@@ -5576,78 +5402,18 @@
             var port = (cfgPort === 80 || cfgPort === 443 ? '' : ':' + cfgPort);
             return [cfg.protocol(), '://', cfg.host(), port, slash, url].join('');
         };
-        /**
-         * Manually adds a URL Rule.
-         *
-         * Usually, a url rule is added using [[StateDeclaration.url]] or [[when]].
-         * This api can be used directly for more control (to register a [[BaseUrlRule]], for example).
-         * Rules can be created using [[UrlRouter.urlRuleFactory]], or create manually as simple objects.
-         *
-         * A rule should have a `match` function which returns truthy if the rule matched.
-         * It should also have a `handler` function which is invoked if the rule is the best match.
-         *
-         * @return a function that deregisters the rule
-         */
-        UrlRouter.prototype.rule = function (rule) {
-            var _this = this;
-            if (!UrlRuleFactory.isUrlRule(rule))
-                throw new Error('invalid rule');
-            rule.$id = this._id++;
-            rule.priority = rule.priority || 0;
-            this._rules.push(rule);
-            this._sorted = false;
-            return function () { return _this.removeRule(rule); };
-        };
-        /** @inheritdoc */
-        UrlRouter.prototype.removeRule = function (rule) {
-            removeFrom(this._rules, rule);
-        };
-        /** @inheritdoc */
-        UrlRouter.prototype.rules = function () {
-            this.ensureSorted();
-            return this._rules.slice();
-        };
-        /** @inheritdoc */
-        UrlRouter.prototype.otherwise = function (handler) {
-            var handlerFn = getHandlerFn(handler);
-            this._otherwiseFn = this.urlRuleFactory.create(val(true), handlerFn);
-            this._sorted = false;
-        };
-        /** @inheritdoc */
-        UrlRouter.prototype.initial = function (handler) {
-            var handlerFn = getHandlerFn(handler);
-            var matchFn = function (urlParts, router) {
-                return router.globals.transitionHistory.size() === 0 && !!/^\/?$/.exec(urlParts.path);
-            };
-            this.rule(this.urlRuleFactory.create(matchFn, handlerFn));
-        };
-        /** @inheritdoc */
-        UrlRouter.prototype.when = function (matcher, handler, options) {
-            var rule = this.urlRuleFactory.create(matcher, handler);
-            if (isDefined(options && options.priority))
-                rule.priority = options.priority;
-            this.rule(rule);
-            return rule;
-        };
-        /** @inheritdoc */
-        UrlRouter.prototype.deferIntercept = function (defer) {
-            if (defer === undefined)
-                defer = true;
-            this.interceptDeferred = defer;
-        };
+        Object.defineProperty(UrlRouter.prototype, "interceptDeferred", {
+            /** @deprecated use [[UrlService.interceptDeferred]]*/
+            get: function () {
+                return this.router.urlService.interceptDeferred;
+            },
+            enumerable: true,
+            configurable: true
+        });
         return UrlRouter;
     }());
-    function getHandlerFn(handler) {
-        if (!isFunction(handler) && !isString(handler) && !is(TargetState)(handler) && !TargetState.isDef(handler)) {
-            throw new Error("'handler' must be a string, function, TargetState, or have a state: 'newtarget' property");
-        }
-        return isFunction(handler) ? handler : val(handler);
-    }
 
-    /**
-     * @coreapi
-     * @module view
-     */ /** for typedoc */
+    /** @publicapi @module view */ /** */
     /**
      * The View service
      *
@@ -5665,13 +5431,15 @@
      *
      */
     var ViewService = /** @class */ (function () {
-        function ViewService(router) {
+        /** @hidden */
+        function ViewService(/** @hidden */ router) {
             var _this = this;
             this.router = router;
-            this._uiViews = [];
-            this._viewConfigs = [];
-            this._viewConfigFactories = {};
-            this._listeners = [];
+            /** @hidden */ this._uiViews = [];
+            /** @hidden */ this._viewConfigs = [];
+            /** @hidden */ this._viewConfigFactories = {};
+            /** @hidden */ this._listeners = [];
+            /** @internalapi */
             this._pluginapi = {
                 _rootViewContext: this._rootViewContext.bind(this),
                 _viewConfigFactory: this._viewConfigFactory.bind(this),
@@ -5726,9 +5494,11 @@
             }
             return { uiViewName: uiViewName, uiViewContextAnchor: uiViewContextAnchor };
         };
+        /** @hidden */
         ViewService.prototype._rootViewContext = function (context) {
             return (this._rootContext = context || this._rootContext);
         };
+        /** @hidden */
         ViewService.prototype._viewConfigFactory = function (viewType, factory) {
             this._viewConfigFactories[viewType] = factory;
         };
@@ -5929,10 +5699,7 @@
         return ViewService;
     }());
 
-    /**
-     * @coreapi
-     * @module core
-     */ /** */
+    /** @publicapi @module core */ /** */
     /**
      * Global router state
      *
@@ -5962,104 +5729,770 @@
         return UIRouterGlobals;
     }());
 
-    /**
-     * @coreapi
-     * @module url
-     */ /** */
     /** @hidden */
-    var makeStub = function (keys) {
-        return keys.reduce(function (acc, key) { return ((acc[key] = notImplemented(key)), acc); }, { dispose: noop });
+    var prioritySort = function (a, b) { return (b.priority || 0) - (a.priority || 0); };
+    /** @hidden */
+    var typeSort = function (a, b) {
+        var weights = { STATE: 4, URLMATCHER: 4, REGEXP: 3, RAW: 2, OTHER: 1 };
+        return (weights[a.type] || 0) - (weights[b.type] || 0);
     };
     /** @hidden */
-    var locationServicesFns = ['url', 'path', 'search', 'hash', 'onChange'];
+    var urlMatcherSort = function (a, b) {
+        return !a.urlMatcher || !b.urlMatcher ? 0 : UrlMatcher.compare(a.urlMatcher, b.urlMatcher);
+    };
     /** @hidden */
-    var locationConfigFns = ['port', 'protocol', 'host', 'baseHref', 'html5Mode', 'hashPrefix'];
-    /** @hidden */
-    var umfFns = ['type', 'caseInsensitive', 'strictMode', 'defaultSquashPolicy'];
-    /** @hidden */
-    var rulesFns = ['sort', 'when', 'initial', 'otherwise', 'rules', 'rule', 'removeRule'];
-    /** @hidden */
-    var syncFns = ['deferIntercept', 'listen', 'sync', 'match'];
+    var idSort = function (a, b) {
+        // Identically sorted STATE and URLMATCHER best rule will be chosen by `matchPriority` after each rule matches the URL
+        var useMatchPriority = { STATE: true, URLMATCHER: true };
+        var equal = useMatchPriority[a.type] && useMatchPriority[b.type];
+        return equal ? 0 : (a.$id || 0) - (b.$id || 0);
+    };
     /**
-     * API for URL management
+     * Default rule priority sorting function.
+     *
+     * Sorts rules by:
+     *
+     * - Explicit priority (set rule priority using [[UrlRules.when]])
+     * - Rule type (STATE: 4, URLMATCHER: 4, REGEXP: 3, RAW: 2, OTHER: 1)
+     * - `UrlMatcher` specificity ([[UrlMatcher.compare]]): works for STATE and URLMATCHER types to pick the most specific rule.
+     * - Rule registration order (for rule types other than STATE and URLMATCHER)
+     *   - Equally sorted State and UrlMatcher rules will each match the URL.
+     *     Then, the *best* match is chosen based on how many parameter values were matched.
+     *
+     * @publicapi
      */
-    var UrlService = /** @class */ (function () {
-        /** @hidden */
-        function UrlService(router, lateBind) {
-            if (lateBind === void 0) { lateBind = true; }
-            this.router = router;
-            this.rules = {};
-            this.config = {};
-            // proxy function calls from UrlService to the LocationService/LocationConfig
-            var locationServices = function () { return router.locationService; };
-            createProxyFunctions(locationServices, this, locationServices, locationServicesFns, lateBind);
-            var locationConfig = function () { return router.locationConfig; };
-            createProxyFunctions(locationConfig, this.config, locationConfig, locationConfigFns, lateBind);
-            var umf = function () { return router.urlMatcherFactory; };
-            createProxyFunctions(umf, this.config, umf, umfFns);
-            var urlRouter = function () { return router.urlRouter; };
-            createProxyFunctions(urlRouter, this.rules, urlRouter, rulesFns);
-            createProxyFunctions(urlRouter, this, urlRouter, syncFns);
+    var defaultRuleSortFn;
+    defaultRuleSortFn = function (a, b) {
+        var cmp = prioritySort(a, b);
+        if (cmp !== 0)
+            return cmp;
+        cmp = typeSort(a, b);
+        if (cmp !== 0)
+            return cmp;
+        cmp = urlMatcherSort(a, b);
+        if (cmp !== 0)
+            return cmp;
+        return idSort(a, b);
+    };
+    /** @hidden */
+    function getHandlerFn(handler) {
+        if (!isFunction(handler) && !isString(handler) && !is(TargetState)(handler) && !TargetState.isDef(handler)) {
+            throw new Error("'handler' must be a string, function, TargetState, or have a state: 'newtarget' property");
         }
-        UrlService.prototype.url = function (newurl, replace, state) {
-            return;
-        };
-        /** @inheritdoc */
-        UrlService.prototype.path = function () {
-            return;
-        };
-        /** @inheritdoc */
-        UrlService.prototype.search = function () {
-            return;
-        };
-        /** @inheritdoc */
-        UrlService.prototype.hash = function () {
-            return;
-        };
-        /** @inheritdoc */
-        UrlService.prototype.onChange = function (callback) {
-            return;
+        return isFunction(handler) ? handler : val(handler);
+    }
+    /**
+     * API for managing URL rules
+     *
+     * This API is used to create and manage URL rules.
+     * URL rules are a mechanism to respond to specific URL patterns.
+     *
+     * The most commonly used methods are [[otherwise]] and [[when]].
+     *
+     * This API is a property of [[UrlService]] as [[UrlService.rules]]
+     *
+     * @publicapi
+     */
+    var UrlRules = /** @class */ (function () {
+        /** @hidden */
+        function UrlRules(/** @hidden */ router) {
+            this.router = router;
+            /** @hidden */ this._sortFn = defaultRuleSortFn;
+            /** @hidden */ this._rules = [];
+            /** @hidden */ this._id = 0;
+            this.urlRuleFactory = new UrlRuleFactory(router);
+        }
+        /** @hidden */
+        UrlRules.prototype.dispose = function (router) {
+            this._rules = [];
+            delete this._otherwiseFn;
         };
         /**
-         * Returns the current URL parts
+         * Defines the initial state, path, or behavior to use when the app starts.
          *
-         * This method returns the current URL components as a [[UrlParts]] object.
+         * This rule defines the initial/starting state for the application.
          *
-         * @returns the current url parts
+         * This rule is triggered the first time the URL is checked (when the app initially loads).
+         * The rule is triggered only when the url matches either `""` or `"/"`.
+         *
+         * Note: The rule is intended to be used when the root of the application is directly linked to.
+         * When the URL is *not* `""` or `"/"` and doesn't match other rules, the [[otherwise]] rule is triggered.
+         * This allows 404-like behavior when an unknown URL is deep-linked.
+         *
+         * #### Example:
+         * Start app at `home` state.
+         * ```js
+         * .initial({ state: 'home' });
+         * ```
+         *
+         * #### Example:
+         * Start app at `/home` (by url)
+         * ```js
+         * .initial('/home');
+         * ```
+         *
+         * #### Example:
+         * When no other url rule matches, go to `home` state
+         * ```js
+         * .initial((matchValue, url, router) => {
+         *   console.log('initial state');
+         *   return { state: 'home' };
+         * })
+         * ```
+         *
+         * @param handler The initial state or url path, or a function which returns the state or url path (or performs custom logic).
+         */
+        UrlRules.prototype.initial = function (handler) {
+            var handlerFn = getHandlerFn(handler);
+            var matchFn = function (urlParts, router) {
+                return router.globals.transitionHistory.size() === 0 && !!/^\/?$/.exec(urlParts.path);
+            };
+            this.rule(this.urlRuleFactory.create(matchFn, handlerFn));
+        };
+        /**
+         * Defines the state, url, or behavior to use when no other rule matches the URL.
+         *
+         * This rule is matched when *no other rule* matches.
+         * It is generally used to handle unknown URLs (similar to "404" behavior, but on the client side).
+         *
+         * - If `handler` a string, it is treated as a url redirect
+         *
+         * #### Example:
+         * When no other url rule matches, redirect to `/index`
+         * ```js
+         * .otherwise('/index');
+         * ```
+         *
+         * - If `handler` is an object with a `state` property, the state is activated.
+         *
+         * #### Example:
+         * When no other url rule matches, redirect to `home` and provide a `dashboard` parameter value.
+         * ```js
+         * .otherwise({ state: 'home', params: { dashboard: 'default' } });
+         * ```
+         *
+         * - If `handler` is a function, the function receives the current url ([[UrlParts]]) and the [[UIRouter]] object.
+         *   The function can perform actions, and/or return a value.
+         *
+         * #### Example:
+         * When no other url rule matches, manually trigger a transition to the `home` state
+         * ```js
+         * .otherwise((matchValue, urlParts, router) => {
+         *   router.stateService.go('home');
+         * });
+         * ```
+         *
+         * #### Example:
+         * When no other url rule matches, go to `home` state
+         * ```js
+         * .otherwise((matchValue, urlParts, router) => {
+         *   return { state: 'home' };
+         * });
+         * ```
+         *
+         * @param handler The url path to redirect to, or a function which returns the url path (or performs custom logic).
+         */
+        UrlRules.prototype.otherwise = function (handler) {
+            var handlerFn = getHandlerFn(handler);
+            this._otherwiseFn = this.urlRuleFactory.create(val(true), handlerFn);
+            this._sorted = false;
+        };
+        /**
+         * Remove a rule previously registered
+         *
+         * @param rule the matcher rule that was previously registered using [[rule]]
+         */
+        UrlRules.prototype.removeRule = function (rule) {
+            removeFrom(this._rules, rule);
+        };
+        /**
+         * Manually adds a URL Rule.
+         *
+         * Usually, a url rule is added using [[StateDeclaration.url]] or [[when]].
+         * This api can be used directly for more control (to register a [[BaseUrlRule]], for example).
+         * Rules can be created using [[urlRuleFactory]], or created manually as simple objects.
+         *
+         * A rule should have a `match` function which returns truthy if the rule matched.
+         * It should also have a `handler` function which is invoked if the rule is the best match.
+         *
+         * @return a function that deregisters the rule
+         */
+        UrlRules.prototype.rule = function (rule) {
+            var _this = this;
+            if (!UrlRuleFactory.isUrlRule(rule))
+                throw new Error('invalid rule');
+            rule.$id = this._id++;
+            rule.priority = rule.priority || 0;
+            this._rules.push(rule);
+            this._sorted = false;
+            return function () { return _this.removeRule(rule); };
+        };
+        /**
+         * Gets all registered rules
+         *
+         * @returns an array of all the registered rules
+         */
+        UrlRules.prototype.rules = function () {
+            this.ensureSorted();
+            return this._rules.concat(this._otherwiseFn ? [this._otherwiseFn] : []);
+        };
+        /**
+         * Defines URL Rule priorities
+         *
+         * More than one rule ([[UrlRule]]) might match a given URL.
+         * This `compareFn` is used to sort the rules by priority.
+         * Higher priority rules should sort earlier.
+         *
+         * The [[defaultRuleSortFn]] is used by default.
+         *
+         * You only need to call this function once.
+         * The `compareFn` will be used to sort the rules as each is registered.
+         *
+         * If called without any parameter, it will re-sort the rules.
+         *
+         * ---
+         *
+         * Url rules may come from multiple sources: states's urls ([[StateDeclaration.url]]), [[when]], and [[rule]].
+         * Each rule has a (user-provided) [[UrlRule.priority]], a [[UrlRule.type]], and a [[UrlRule.$id]]
+         * The `$id` is is the order in which the rule was registered.
+         *
+         * The sort function should use these data, or data found on a specific type
+         * of [[UrlRule]] (such as [[StateRule.state]]), to order the rules as desired.
+         *
+         * #### Example:
+         * This compare function prioritizes rules by the order in which the rules were registered.
+         * A rule registered earlier has higher priority.
+         *
+         * ```js
+         * function compareFn(a, b) {
+         *   return a.$id - b.$id;
+         * }
+         * ```
+         *
+         * @param compareFn a function that compares to [[UrlRule]] objects.
+         *    The `compareFn` should abide by the `Array.sort` compare function rules.
+         *    Given two rules, `a` and `b`, return a negative number if `a` should be higher priority.
+         *    Return a positive number if `b` should be higher priority.
+         *    Return `0` if the rules are identical.
+         *
+         *    See the [mozilla reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort#Description)
+         *    for details.
+         */
+        UrlRules.prototype.sort = function (compareFn) {
+            var sorted = this.stableSort(this._rules, (this._sortFn = compareFn || this._sortFn));
+            // precompute _sortGroup values and apply to each rule
+            var group = 0;
+            for (var i = 0; i < sorted.length; i++) {
+                sorted[i]._group = group;
+                if (i < sorted.length - 1 && this._sortFn(sorted[i], sorted[i + 1]) !== 0) {
+                    group++;
+                }
+            }
+            this._rules = sorted;
+            this._sorted = true;
+        };
+        /** @hidden */
+        UrlRules.prototype.ensureSorted = function () {
+            this._sorted || this.sort();
+        };
+        /** @hidden */
+        UrlRules.prototype.stableSort = function (arr, compareFn) {
+            var arrOfWrapper = arr.map(function (elem, idx) { return ({ elem: elem, idx: idx }); });
+            arrOfWrapper.sort(function (wrapperA, wrapperB) {
+                var cmpDiff = compareFn(wrapperA.elem, wrapperB.elem);
+                return cmpDiff === 0 ? wrapperA.idx - wrapperB.idx : cmpDiff;
+            });
+            return arrOfWrapper.map(function (wrapper) { return wrapper.elem; });
+        };
+        /**
+         * Registers a `matcher` and `handler` for custom URLs handling.
+         *
+         * The `matcher` can be:
+         *
+         * - a [[UrlMatcher]]: See: [[UrlMatcherFactory.compile]]
+         * - a `string`: The string is compiled to a [[UrlMatcher]]
+         * - a `RegExp`: The regexp is used to match the url.
+         *
+         * The `handler` can be:
+         *
+         * - a string: The url is redirected to the value of the string.
+         * - a function: The url is redirected to the return value of the function.
+         *
+         * ---
+         *
+         * When the `handler` is a `string` and the `matcher` is a `UrlMatcher` (or string), the redirect
+         * string is interpolated with parameter values.
+         *
+         * #### Example:
+         * When the URL is `/foo/123` the rule will redirect to `/bar/123`.
+         * ```js
+         * .when("/foo/:param1", "/bar/:param1")
+         * ```
+         *
+         * ---
+         *
+         * When the `handler` is a string and the `matcher` is a `RegExp`, the redirect string is
+         * interpolated with capture groups from the RegExp.
+         *
+         * #### Example:
+         * When the URL is `/foo/123` the rule will redirect to `/bar/123`.
+         * ```js
+         * .when(new RegExp("^/foo/(.*)$"), "/bar/$1");
+         * ```
+         *
+         * ---
+         *
+         * When the handler is a function, it receives the matched value, the current URL, and the `UIRouter` object (See [[UrlRuleHandlerFn]]).
+         * The "matched value" differs based on the `matcher`.
+         * For [[UrlMatcher]]s, it will be the matched state params.
+         * For `RegExp`, it will be the match array from `regexp.exec()`.
+         *
+         * If the handler returns a string, the URL is redirected to the string.
+         *
+         * #### Example:
+         * When the URL is `/foo/123` the rule will redirect to `/bar/123`.
+         * ```js
+         * .when(new RegExp("^/foo/(.*)$"), match => "/bar/" + match[1]);
+         * ```
+         *
+         * Note: the `handler` may also invoke arbitrary code, such as `$state.go()`
+         *
+         * @param matcher A pattern `string` to match, compiled as a [[UrlMatcher]], or a `RegExp`.
+         * @param handler The path to redirect to, or a function that returns the path.
+         * @param options `{ priority: number }`
+         *
+         * @return the registered [[UrlRule]]
+         */
+        UrlRules.prototype.when = function (matcher, handler, options) {
+            var rule = this.urlRuleFactory.create(matcher, handler);
+            if (isDefined(options && options.priority))
+                rule.priority = options.priority;
+            this.rule(rule);
+            return rule;
+        };
+        return UrlRules;
+    }());
+
+    /**
+     * An API to customize the URL behavior and retrieve URL configuration
+     *
+     * This API is used to customize the behavior of the URL.
+     * This includes optional trailing slashes ([[strictMode]]), case sensitivity ([[caseInsensitive]]),
+     * and custom parameter encoding (custom [[type]]).
+     *
+     * It also has information about the location (url) configuration such as [[port]] and [[baseHref]].
+     * This information can be used to build absolute URLs, such as
+     * `https://example.com:443/basepath/state/substate?param1=a#hashvalue`;
+     *
+     * This API is a property of [[UrlService]] as [[UrlService.config]].
+     */
+    var UrlConfig = /** @class */ (function () {
+        /** @hidden */ function UrlConfig(/** @hidden */ router) {
+            var _this = this;
+            this.router = router;
+            /** @hidden */ this.paramTypes = new ParamTypes();
+            /** @hidden */ this._isCaseInsensitive = false;
+            /** @hidden */ this._isStrictMode = true;
+            /** @hidden */ this._defaultSquashPolicy = false;
+            /** @internalapi */ this.dispose = function () { return _this.paramTypes.dispose(); };
+            // Delegate these calls to the current LocationConfig implementation
+            /**
+             * Gets the base Href, e.g., `http://localhost/approot/`
+             *
+             * @return the application's base href
+             */
+            this.baseHref = function () { return _this.router.locationConfig.baseHref(); };
+            /**
+             * Gets or sets the hashPrefix
+             *
+             * This only applies when not running in [[html5Mode]] (pushstate mode)
+             *
+             * If the current url is `http://localhost/app#!/uirouter/path/#anchor`, it returns `!` which is the prefix for the "hashbang" portion.
+             *
+             * @return the hash prefix
+             */
+            this.hashPrefix = function (newprefix) { return _this.router.locationConfig.hashPrefix(newprefix); };
+            /**
+             * Gets the host, e.g., `localhost`
+             *
+             * @return the protocol
+             */
+            this.host = function () { return _this.router.locationConfig.host(); };
+            /**
+             * Returns true when running in pushstate mode
+             *
+             * @return true when running in html5 mode (pushstate mode).
+             */
+            this.html5Mode = function () { return _this.router.locationConfig.html5Mode(); };
+            /**
+             * Gets the port, e.g., `80`
+             *
+             * @return the port number
+             */
+            this.port = function () { return _this.router.locationConfig.port(); };
+            /**
+             * Gets the protocol, e.g., `http`
+             *
+             * @return the protocol
+             */
+            this.protocol = function () { return _this.router.locationConfig.protocol(); };
+        }
+        /**
+         * Defines whether URL matching should be case sensitive (the default behavior), or not.
+         *
+         * #### Example:
+         * ```js
+         * // Allow case insensitive url matches
+         * urlService.config.caseInsensitive(true);
+         * ```
+         *
+         * @param value `false` to match URL in a case sensitive manner; otherwise `true`;
+         * @returns the current value of caseInsensitive
+         */
+        UrlConfig.prototype.caseInsensitive = function (value) {
+            return (this._isCaseInsensitive = isDefined(value) ? value : this._isCaseInsensitive);
+        };
+        /**
+         * Sets the default behavior when generating or matching URLs with default parameter values.
+         *
+         * #### Example:
+         * ```js
+         * // Remove default parameter values from the url
+         * urlService.config.defaultSquashPolicy(true);
+         * ```
+         *
+         * @param value A string that defines the default parameter URL squashing behavior.
+         *    - `nosquash`: When generating an href with a default parameter value, do not squash the parameter value from the URL
+         *    - `slash`: When generating an href with a default parameter value, squash (remove) the parameter value, and, if the
+         *      parameter is surrounded by slashes, squash (remove) one slash from the URL
+         *    - any other string, e.g. "~": When generating an href with a default parameter value, squash (remove)
+         *      the parameter value from the URL and replace it with this string.
+         * @returns the current value of defaultSquashPolicy
+         */
+        UrlConfig.prototype.defaultSquashPolicy = function (value) {
+            if (isDefined(value) && value !== true && value !== false && !isString(value))
+                throw new Error("Invalid squash policy: " + value + ". Valid policies: false, true, arbitrary-string");
+            return (this._defaultSquashPolicy = isDefined(value) ? value : this._defaultSquashPolicy);
+        };
+        /**
+         * Defines whether URLs should match trailing slashes, or not (the default behavior).
+         *
+         * #### Example:
+         * ```js
+         * // Allow optional trailing slashes
+         * urlService.config.strictMode(false);
+         * ```
+         *
+         * @param value `false` to match trailing slashes in URLs, otherwise `true`.
+         * @returns the current value of strictMode
+         */
+        UrlConfig.prototype.strictMode = function (value) {
+            return (this._isStrictMode = isDefined(value) ? value : this._isStrictMode);
+        };
+        /**
+         * Creates and registers a custom [[ParamType]] object
+         *
+         * A custom parameter type can be used to generate URLs with typed parameters or custom encoding/decoding.
+         *
+         * #### Note: Register custom types *before using them* in a state definition.
+         *
+         * #### Example:
+         * ```js
+         * // Encode object parameter as JSON string
+         * urlService.config.type('myjson', {
+         *   encode: (obj) => JSON.stringify(obj),
+         *   decode: (str) => JSON.parse(str),
+         *   is: (val) => typeof(val) === 'object',
+         *   pattern: /[^/]+/,
+         *   equals: (a, b) => _.isEqual(a, b),
+         * });
+         * ```
+         *
+         * See [[ParamTypeDefinition]] for more examples
+         *
+         * @param name The type name.
+         * @param definition The type definition. See [[ParamTypeDefinition]] for information on the values accepted.
+         * @param definitionFn A function that is injected before the app runtime starts.
+         *        The result of this function should be a [[ParamTypeDefinition]].
+         *        The result is merged into the existing `definition`.
+         *        See [[ParamType]] for information on the values accepted.
+         *
+         * @returns if only the `name` parameter was specified: the currently registered [[ParamType]] object, or undefined
+         */
+        UrlConfig.prototype.type = function (name, definition, definitionFn) {
+            var type = this.paramTypes.type(name, definition, definitionFn);
+            return !isDefined(definition) ? type : this;
+        };
+        return UrlConfig;
+    }());
+
+    /** API for URL management */
+    var UrlService = /** @class */ (function () {
+        /** @hidden */
+        function UrlService(/** @hidden */ router) {
+            var _this = this;
+            this.router = router;
+            /** @hidden */ this.interceptDeferred = false;
+            /**
+             * The nested [[UrlRules]] API for managing URL rules and rewrites
+             *
+             * See: [[UrlRules]] for details
+             */
+            this.rules = new UrlRules(this.router);
+            /**
+             * The nested [[UrlConfig]] API to configure the URL and retrieve URL information
+             *
+             * See: [[UrlConfig]] for details
+             */
+            this.config = new UrlConfig(this.router);
+            // Delegate these calls to the current LocationServices implementation
+            /**
+             * Gets the current url, or updates the url
+             *
+             * ### Getting the current URL
+             *
+             * When no arguments are passed, returns the current URL.
+             * The URL is normalized using the internal [[path]]/[[search]]/[[hash]] values.
+             *
+             * For example, the URL may be stored in the hash ([[HashLocationServices]]) or
+             * have a base HREF prepended ([[PushStateLocationServices]]).
+             *
+             * The raw URL in the browser might be:
+             *
+             * ```
+             * http://mysite.com/somepath/index.html#/internal/path/123?param1=foo#anchor
+             * ```
+             *
+             * or
+             *
+             * ```
+             * http://mysite.com/basepath/internal/path/123?param1=foo#anchor
+             * ```
+             *
+             * then this method returns:
+             *
+             * ```
+             * /internal/path/123?param1=foo#anchor
+             * ```
+             *
+             *
+             * #### Example:
+             * ```js
+             * locationServices.url(); // "/some/path?query=value#anchor"
+             * ```
+             *
+             * ### Updating the URL
+             *
+             * When `newurl` arguments is provided, changes the URL to reflect `newurl`
+             *
+             * #### Example:
+             * ```js
+             * locationServices.url("/some/path?query=value#anchor", true);
+             * ```
+             *
+             * @param newurl The new value for the URL.
+             *               This url should reflect only the new internal [[path]], [[search]], and [[hash]] values.
+             *               It should not include the protocol, site, port, or base path of an absolute HREF.
+             * @param replace When true, replaces the current history entry (instead of appending it) with this new url
+             * @param state The history's state object, i.e., pushState (if the LocationServices implementation supports it)
+             *
+             * @return the url (after potentially being processed)
+             */
+            this.url = function (newurl, replace, state) {
+                return _this.router.locationService.url(newurl, replace, state);
+            };
+            /**
+             * Gets the path part of the current url
+             *
+             * If the current URL is `/some/path?query=value#anchor`, this returns `/some/path`
+             *
+             * @return the path portion of the url
+             */
+            this.path = function () { return _this.router.locationService.path(); };
+            /**
+             * Gets the search part of the current url as an object
+             *
+             * If the current URL is `/some/path?query=value#anchor`, this returns `{ query: 'value' }`
+             *
+             * @return the search (query) portion of the url, as an object
+             */
+            this.search = function () { return _this.router.locationService.search(); };
+            /**
+             * Gets the hash part of the current url
+             *
+             * If the current URL is `/some/path?query=value#anchor`, this returns `anchor`
+             *
+             * @return the hash (anchor) portion of the url
+             */
+            this.hash = function () { return _this.router.locationService.hash(); };
+            /**
+             * @internalapi
+             *
+             * Registers a low level url change handler
+             *
+             * Note: Because this is a low level handler, it's not recommended for general use.
+             *
+             * #### Example:
+             * ```js
+             * let deregisterFn = locationServices.onChange((evt) => console.log("url change", evt));
+             * ```
+             *
+             * @param callback a function that will be called when the url is changing
+             * @return a function that de-registers the callback
+             */
+            this.onChange = function (callback) { return _this.router.locationService.onChange(callback); };
+        }
+        /** @hidden */
+        UrlService.prototype.dispose = function () {
+            this.listen(false);
+            this.rules.dispose();
+        };
+        /**
+         * Gets the current URL parts
+         *
+         * This method returns the different parts of the current URL (the [[path]], [[search]], and [[hash]]) as a [[UrlParts]] object.
          */
         UrlService.prototype.parts = function () {
             return { path: this.path(), search: this.search(), hash: this.hash() };
         };
-        UrlService.prototype.dispose = function () { };
-        /** @inheritdoc */
+        /**
+         * Activates the best rule for the current URL
+         *
+         * Checks the current URL for a matching [[UrlRule]], then invokes that rule's handler.
+         * This method is called internally any time the URL has changed.
+         *
+         * This effectively activates the state (or redirect, etc) which matches the current URL.
+         *
+         * #### Example:
+         * ```js
+         * urlService.deferIntercept();
+         *
+         * fetch('/states.json').then(resp => resp.json()).then(data => {
+         *   data.forEach(state => $stateRegistry.register(state));
+         *   urlService.listen();
+         *   // Find the matching URL and invoke the handler.
+         *   urlService.sync();
+         * });
+         * ```
+         */
         UrlService.prototype.sync = function (evt) {
-            return;
+            if (evt && evt.defaultPrevented)
+                return;
+            var _a = this.router, urlService = _a.urlService, stateService = _a.stateService;
+            var url = { path: urlService.path(), search: urlService.search(), hash: urlService.hash() };
+            var best = this.match(url);
+            var applyResult = pattern([
+                [isString, function (newurl) { return urlService.url(newurl, true); }],
+                [TargetState.isDef, function (def) { return stateService.go(def.state, def.params, def.options); }],
+                [is(TargetState), function (target) { return stateService.go(target.state(), target.params(), target.options()); }],
+            ]);
+            applyResult(best && best.rule.handler(best.match, url, this.router));
         };
-        /** @inheritdoc */
+        /**
+         * Starts or stops listening for URL changes
+         *
+         * Call this sometime after calling [[deferIntercept]] to start monitoring the url.
+         * This causes UI-Router to start listening for changes to the URL, if it wasn't already listening.
+         *
+         * If called with `false`, UI-Router will stop listening (call listen(true) to start listening again).
+         *
+         * #### Example:
+         * ```js
+         * urlService.deferIntercept();
+         *
+         * fetch('/states.json').then(resp => resp.json()).then(data => {
+         *   data.forEach(state => $stateRegistry.register(state));
+         *   // Start responding to URL changes
+         *   urlService.listen();
+         *   urlService.sync();
+         * });
+         * ```
+         *
+         * @param enabled `true` or `false` to start or stop listening to URL changes
+         */
         UrlService.prototype.listen = function (enabled) {
-            return;
+            var _this = this;
+            if (enabled === false) {
+                this._stopListeningFn && this._stopListeningFn();
+                delete this._stopListeningFn;
+            }
+            else {
+                return (this._stopListeningFn = this._stopListeningFn || this.router.urlService.onChange(function (evt) { return _this.sync(evt); }));
+            }
         };
-        /** @inheritdoc */
+        /**
+         * Disables monitoring of the URL.
+         *
+         * Call this method before UI-Router has bootstrapped.
+         * It will stop UI-Router from performing the initial url sync.
+         *
+         * This can be useful to perform some asynchronous initialization before the router starts.
+         * Once the initialization is complete, call [[listen]] to tell UI-Router to start watching and synchronizing the URL.
+         *
+         * #### Example:
+         * ```js
+         * // Prevent UI-Router from automatically intercepting URL changes when it starts;
+         * urlService.deferIntercept();
+         *
+         * fetch('/states.json').then(resp => resp.json()).then(data => {
+         *   data.forEach(state => $stateRegistry.register(state));
+         *   urlService.listen();
+         *   urlService.sync();
+         * });
+         * ```
+         *
+         * @param defer Indicates whether to defer location change interception.
+         *        Passing no parameter is equivalent to `true`.
+         */
         UrlService.prototype.deferIntercept = function (defer) {
-            return;
+            if (defer === undefined)
+                defer = true;
+            this.interceptDeferred = defer;
         };
-        /** @inheritdoc */
-        UrlService.prototype.match = function (urlParts) {
-            return;
+        /**
+         * Matches a URL
+         *
+         * Given a URL (as a [[UrlParts]] object), check all rules and determine the best matching rule.
+         * Return the result as a [[MatchResult]].
+         */
+        UrlService.prototype.match = function (url) {
+            var _this = this;
+            url = extend({ path: '', search: {}, hash: '' }, url);
+            var rules = this.rules.rules();
+            // Checks a single rule. Returns { rule: rule, match: match, weight: weight } if it matched, or undefined
+            var checkRule = function (rule) {
+                var match = rule.match(url, _this.router);
+                return match && { match: match, rule: rule, weight: rule.matchPriority(match) };
+            };
+            // The rules are pre-sorted.
+            // - Find the first matching rule.
+            // - Find any other matching rule that sorted *exactly the same*, according to `.sort()`.
+            // - Choose the rule with the highest match weight.
+            var best;
+            for (var i = 0; i < rules.length; i++) {
+                // Stop when there is a 'best' rule and the next rule sorts differently than it.
+                if (best && best.rule._group !== rules[i]._group)
+                    break;
+                var current = checkRule(rules[i]);
+                // Pick the best MatchResult
+                best = !best || (current && current.weight > best.weight) ? current : best;
+            }
+            return best;
         };
-        /** @hidden */
-        UrlService.locationServiceStub = makeStub(locationServicesFns);
-        /** @hidden */
-        UrlService.locationConfigStub = makeStub(locationConfigFns);
         return UrlService;
     }());
 
-    /**
-     * @coreapi
-     * @module core
-     */ /** */
+    /** @publicapi @module core */ /** */
     /** @hidden */
     var _routerInstance = 0;
+    /** @hidden */
+    var locSvcFns = ['url', 'path', 'search', 'hash', 'onChange'];
+    /** @hidden */
+    var locCfgFns = ['port', 'protocol', 'host', 'baseHref', 'html5Mode', 'hashPrefix'];
+    /** @hidden */
+    var locationServiceStub = makeStub('LocationServices', locSvcFns);
+    /** @hidden */
+    var locationConfigStub = makeStub('LocationConfig', locCfgFns);
     /**
      * The master class used to instantiate an instance of UI-Router.
      *
@@ -6084,8 +6517,8 @@
          * @internalapi
          */
         function UIRouter(locationService, locationConfig) {
-            if (locationService === void 0) { locationService = UrlService.locationServiceStub; }
-            if (locationConfig === void 0) { locationConfig = UrlService.locationConfigStub; }
+            if (locationService === void 0) { locationService = locationServiceStub; }
+            if (locationConfig === void 0) { locationConfig = locationConfigStub; }
             this.locationService = locationService;
             this.locationConfig = locationConfig;
             /** @hidden */ this.$id = _routerInstance++;
@@ -6103,18 +6536,18 @@
              * Deprecated for public use. Use [[urlService]] instead.
              * @deprecated Use [[urlService]] instead
              */
-            this.urlMatcherFactory = new UrlMatcherFactory();
+            this.urlMatcherFactory = new UrlMatcherFactory(this);
             /**
              * Deprecated for public use. Use [[urlService]] instead.
              * @deprecated Use [[urlService]] instead
              */
             this.urlRouter = new UrlRouter(this);
+            /** Provides services related to the URL */
+            this.urlService = new UrlService(this);
             /** Provides a registry for states, and related registration services */
             this.stateRegistry = new StateRegistry(this);
             /** Provides services related to states */
             this.stateService = new StateService(this);
-            /** Provides services related to the URL */
-            this.urlService = new UrlService(this);
             /** @hidden plugin instances are registered here */
             this._plugins = {};
             this.viewService._pluginapi._rootViewContext(this.stateRegistry.root());
@@ -6124,7 +6557,7 @@
             this.disposable(this.stateService);
             this.disposable(this.stateRegistry);
             this.disposable(this.transitionService);
-            this.disposable(this.urlRouter);
+            this.disposable(this.urlService);
             this.disposable(locationService);
             this.disposable(locationConfig);
         }
@@ -6224,7 +6657,7 @@
         return UIRouter;
     }());
 
-    /** @module hooks */ /** */
+    /** @internalapi @module hooks */ /** */
     function addCoreResolvables(trans) {
         trans.addResolvable(Resolvable.fromData(UIRouter, trans.router), '');
         trans.addResolvable(Resolvable.fromData(Transition, trans), '');
@@ -6256,7 +6689,7 @@
         });
     };
 
-    /** @module hooks */ /** */
+    /** @internalapi @module hooks */ /** */
     /**
      * A [[TransitionHookFn]] that redirects to a different state or params
      *
@@ -6343,7 +6776,7 @@
         return transitionService.onEnter({ entering: function (state) { return !!state.onEnter; } }, onEnterHook);
     };
 
-    /** @module hooks */
+    /** @internalapi @module hooks */ /** */
     var RESOLVE_HOOK_PRIORITY = 1000;
     /**
      * A [[TransitionHookFn]] which resolves all EAGER Resolvables in the To Path
@@ -6395,7 +6828,7 @@
         return transitionService.onFinish({}, resolveRemaining, { priority: RESOLVE_HOOK_PRIORITY });
     };
 
-    /** @module hooks */ /** for typedoc */
+    /** @internalapi @module hooks */ /** */
     /**
      * A [[TransitionHookFn]] which waits for the views to load
      *
@@ -6612,7 +7045,7 @@
         return TransitionEventType;
     }());
 
-    /** @module hooks */ /** */
+    /** @internalapi @module hooks */ /** */
     /**
      * A [[TransitionHookFn]] that skips a transition if it should be ignored
      *
@@ -6639,7 +7072,7 @@
         return transitionService.onBefore({}, ignoredHook, { priority: -9999 });
     };
 
-    /** @module hooks */ /** */
+    /** @internalapi @module hooks */ /** */
     /**
      * A [[TransitionHookFn]] that rejects the Transition if it is invalid
      *
@@ -6656,10 +7089,7 @@
         return transitionService.onBefore({}, invalidTransitionHook, { priority: -10000 });
     };
 
-    /**
-     * @coreapi
-     * @module transition
-     */
+    /** @publicapi @module transition */ /** */
     /**
      * The default [[Transition]] options.
      *
@@ -6700,13 +7130,13 @@
             this._router = _router;
             this.$view = _router.viewService;
             this._deregisterHookFns = {};
-            this._pluginapi = createProxyFunctions(val(this), {}, val(this), [
+            this._pluginapi = (createProxyFunctions(val(this), {}, val(this), [
                 '_definePathType',
                 '_defineEvent',
                 '_getPathTypes',
                 '_getEvents',
                 'getHooks',
-            ]);
+            ]));
             this._defineCorePaths();
             this._defineCoreEvents();
             this._registerCoreTransitionHooks();
@@ -6896,10 +7326,7 @@
         return TransitionService;
     }());
 
-    /**
-     * @coreapi
-     * @module state
-     */
+    /** @publicapi @module state */ /** */
     /**
      * Provides state related service functions
      *
@@ -6908,7 +7335,7 @@
      */
     var StateService = /** @class */ (function () {
         /** @internalapi */
-        function StateService(router) {
+        function StateService(/** @hidden */ router) {
             this.router = router;
             /** @internalapi */
             this.invalidCallbacks = [];
@@ -7389,9 +7816,7 @@
             if (!nav || nav.url === undefined || nav.url === null) {
                 return null;
             }
-            return this.router.urlRouter.href(nav.url, params, {
-                absolute: options.absolute,
-            });
+            return this.router.urlRouter.href(nav.url, params, { absolute: options.absolute });
         };
         /**
          * Sets or gets the default [[transitionTo]] error handler.
@@ -7460,15 +7885,10 @@
      * - [[Transition]]
      * - [[HookFn]], [[TransitionHookFn]], [[TransitionStateHookFn]], [[HookMatchCriteria]], [[HookResult]]
      *
-     * @coreapi
-     * @preferred
-     * @module transition
-     */ /** for typedoc */
+     * @preferred @publicapi @module transition
+     */ /** */
 
-    /**
-     * @internalapi
-     * @module vanilla
-     */
+    /** @internalapi @module vanilla */ /** */
     /**
      * An angular1-like promise api
      *
@@ -7522,10 +7942,7 @@
         },
     };
 
-    /**
-     * @internalapi
-     * @module vanilla
-     */
+    /** @internalapi @module vanilla */ /** */
     // globally available injectables
     var globals = {};
     var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/gm;
@@ -7618,10 +8035,7 @@
         },
     };
 
-    /**
-     * @internalapi
-     * @module vanilla
-     */
+    /** @internalapi @module vanilla */ /** */
     var keyValsToObjectR = function (accum, _a) {
         var key = _a[0], val$$1 = _a[1];
         if (!accum.hasOwnProperty(key)) {
@@ -7674,10 +8088,7 @@
         };
     }
 
-    /**
-     * @internalapi
-     * @module vanilla
-     */ /** */
+    /** @internalapi @module vanilla */ /** */
     /** A base `LocationServices` */
     var BaseLocationServices = /** @class */ (function () {
         function BaseLocationServices(router, fireAfterUpdate) {
@@ -7858,10 +8269,7 @@
         return MemoryLocationConfig;
     }());
 
-    /**
-     * @internalapi
-     * @module vanilla
-     */
+    /** @internalapi @module vanilla */
     /** A `LocationConfig` that delegates to the browser's `location` object */
     var BrowserLocationConfig = /** @class */ (function () {
         function BrowserLocationConfig(router, _isHtml5) {
@@ -7897,18 +8305,16 @@
         };
         BrowserLocationConfig.prototype.getBaseHref = function () {
             var baseTag = document.getElementsByTagName('base')[0];
-            if (!baseTag || !baseTag.href)
-                return location.pathname || '/';
-            return baseTag.href.replace(/^(https?:)?\/\/[^/]*/, '');
+            if (baseTag && baseTag.href) {
+                return baseTag.href.replace(/^(https?:)?\/\/[^/]*/, '');
+            }
+            return this._isHtml5 ? '/' : location.pathname || '/';
         };
         BrowserLocationConfig.prototype.dispose = function () { };
         return BrowserLocationConfig;
     }());
 
-    /**
-     * @internalapi
-     * @module vanilla
-     */
+    /** @internalapi @module vanilla */ /** */
     function servicesPlugin(router) {
         services.$injector = $injector;
         services.$q = $q;
@@ -7921,10 +8327,7 @@
     /** A `UIRouterPlugin` that gets/sets the current location from an in-memory object */
     var memoryLocationPlugin = locationPluginFactory('vanilla.memoryLocation', false, MemoryLocationService, MemoryLocationConfig);
 
-    /**
-     * @internalapi
-     * @module vanilla
-     */
+    /** @internalapi @module vanilla */ /** */
 
     /**
      * # Core classes and interfaces
@@ -7932,10 +8335,8 @@
      * The classes and interfaces that are core to ui-router and do not belong
      * to a more specific subsystem (such as resolve).
      *
-     * @coreapi
-     * @preferred
-     * @module core
-     */ /** for typedoc */
+     * @preferred @publicapi @module core
+     */ /** */
     /** @internalapi */
     var UIRouterPluginBase = /** @class */ (function () {
         function UIRouterPluginBase() {
@@ -7944,10 +8345,7 @@
         return UIRouterPluginBase;
     }());
 
-    /**
-     * @coreapi
-     * @module common
-     */ /** */
+    /** @publicapi @module common */ /** */
 
     var index = /*#__PURE__*/Object.freeze({
         root: root,
@@ -7997,7 +8395,7 @@
         _extend: _extend,
         silenceUncaughtInPromise: silenceUncaughtInPromise,
         silentRejection: silentRejection,
-        notImplemented: notImplemented,
+        makeStub: makeStub,
         services: services,
         Glob: Glob,
         curry: curry,
@@ -8081,6 +8479,8 @@
         TransitionEventType: TransitionEventType,
         defaultTransOpts: defaultTransOpts,
         TransitionService: TransitionService,
+        UrlRules: UrlRules,
+        UrlConfig: UrlConfig,
         UrlMatcher: UrlMatcher,
         ParamFactory: ParamFactory,
         UrlMatcherFactory: UrlMatcherFactory,
@@ -8111,6 +8511,7 @@
         UIRouterPluginBase: UIRouterPluginBase
     });
 
+    /** @internalapi */
     function getNg1ViewConfigFactory() {
         var templateFactory = null;
         return function (path, view) {
@@ -8118,6 +8519,7 @@
             return [new Ng1ViewConfig(path, view, templateFactory)];
         };
     }
+    /** @internalapi */
     var hasAnyKey = function (keys, obj) { return keys.reduce(function (acc, key) { return acc || isDefined(obj[key]); }, false); };
     /**
      * This is a [[StateBuilder.builder]] function for angular1 `views`.
@@ -8127,6 +8529,8 @@
      *
      * If no `views: {}` property exists on the [[StateDeclaration]], then it creates the `views` object
      * and applies the state-level configuration to a view named `$default`.
+     *
+     * @internalapi
      */
     function ng1ViewsBuilder(state) {
         // Do not process root state
@@ -8166,7 +8570,9 @@
         });
         return views;
     }
+    /** @hidden */
     var id$1 = 0;
+    /** @internalapi */
     var Ng1ViewConfig = /** @class */ (function () {
         function Ng1ViewConfig(path, viewDecl, factory) {
             var _this = this;
@@ -8214,7 +8620,7 @@
         return Ng1ViewConfig;
     }());
 
-    /** @module view */
+    /** @publicapi @module view */ /** */
     /**
      * Service which manages loading of templates from a ViewConfig.
      */
@@ -8413,7 +8819,7 @@
             .map(function (tuple) { return ({ name: tuple[1][2] || tuple[0], type: tuple[1][1] }); });
     };
 
-    /** @module ng1 */ /** for typedoc */
+    /** @publicapi @module ng1 */ /** */
     /**
      * The Angular 1 `StateProvider`
      *
@@ -8549,13 +8955,15 @@
         return StateProvider;
     }());
 
-    /** @module ng1 */ /** */
+    /** @publicapi @module ng1 */ /** */
     /**
      * This is a [[StateBuilder.builder]] function for angular1 `onEnter`, `onExit`,
      * `onRetain` callback hooks on a [[Ng1StateDeclaration]].
      *
      * When the [[StateBuilder]] builds a [[StateObject]] object from a raw [[StateDeclaration]], this builder
      * ensures that those hooks are injectable for @uirouter/angularjs (ng1).
+     *
+     * @internalapi
      */
     var getStateHookBuilder = function (hookName) {
         return function stateHookBuilder(stateObject, parentFn) {
@@ -8571,12 +8979,10 @@
         };
     };
 
-    /**
-     * @internalapi
-     * @module ng1
-     */ /** */
+    /** @publicapi @module ng1 */ /** */
     /**
      * Implements UI-Router LocationServices and LocationConfig using Angular 1's $location service
+     * @internalapi
      */
     var Ng1LocationServices = /** @class */ (function () {
         function Ng1LocationServices($locationProvider) {
@@ -8648,7 +9054,7 @@
         return Ng1LocationServices;
     }());
 
-    /** @module url */ /** */
+    /** @publicapi @module url */ /** */
     /**
      * Manages rules for client-side URL
      *
@@ -8661,24 +9067,24 @@
      *
      * This provider remains for backwards compatibility.
      *
+     * @internalapi
      * @deprecated
      */
     var UrlRouterProvider = /** @class */ (function () {
         /** @hidden */
-        function UrlRouterProvider(router) {
-            this._router = router;
-            this._urlRouter = router.urlRouter;
+        function UrlRouterProvider(/** @hidden */ router) {
+            this.router = router;
         }
         UrlRouterProvider.injectableHandler = function (router, handler) {
             return function (match) { return services.$injector.invoke(handler, null, { $match: match, $stateParams: router.globals.params }); };
         };
         /** @hidden */
         UrlRouterProvider.prototype.$get = function () {
-            var urlRouter = this._urlRouter;
-            urlRouter.update(true);
-            if (!urlRouter.interceptDeferred)
-                urlRouter.listen();
-            return urlRouter;
+            var urlService = this.router.urlService;
+            this.router.urlRouter.update(true);
+            if (!urlService.interceptDeferred)
+                urlService.listen();
+            return this.router.urlRouter;
         };
         /**
          * Registers a url handler function.
@@ -8715,9 +9121,9 @@
             var _this = this;
             if (!isFunction(ruleFn))
                 throw new Error("'rule' must be a function");
-            var match = function () { return ruleFn(services.$injector, _this._router.locationService); };
+            var match = function () { return ruleFn(services.$injector, _this.router.locationService); };
             var rule = new BaseUrlRule(match, identity);
-            this._urlRouter.rule(rule);
+            this.router.urlService.rules.rule(rule);
             return this;
         };
         /**
@@ -8748,12 +9154,12 @@
          */
         UrlRouterProvider.prototype.otherwise = function (rule) {
             var _this = this;
-            var urlRouter = this._urlRouter;
+            var urlRules = this.router.urlService.rules;
             if (isString(rule)) {
-                urlRouter.otherwise(rule);
+                urlRules.otherwise(rule);
             }
             else if (isFunction(rule)) {
-                urlRouter.otherwise(function () { return rule(services.$injector, _this._router.locationService); });
+                urlRules.otherwise(function () { return rule(services.$injector, _this.router.locationService); });
             }
             else {
                 throw new Error("'rule' must be a string or function");
@@ -8800,9 +9206,9 @@
          */
         UrlRouterProvider.prototype.when = function (what, handler) {
             if (isArray(handler) || isFunction(handler)) {
-                handler = UrlRouterProvider.injectableHandler(this._router, handler);
+                handler = UrlRouterProvider.injectableHandler(this.router, handler);
             }
-            this._urlRouter.when(what, handler);
+            this.router.urlService.rules.when(what, handler);
             return this;
         };
         /**
@@ -8836,7 +9242,7 @@
          *        Passing no parameter is equivalent to `true`.
          */
         UrlRouterProvider.prototype.deferIntercept = function (defer) {
-            this._urlRouter.deferIntercept(defer);
+            this.router.urlService.deferIntercept(defer);
         };
         return UrlRouterProvider;
     }());
@@ -8849,9 +9255,8 @@
      *
      * The optional [[$resolve]] service is also documented here.
      *
-     * @module ng1
-     * @preferred
-     */
+     * @preferred @publicapi @module ng1
+     */ /** */
     ng.module('ui.router.angular1', []);
     var mod_init = ng.module('ui.router.init', ['ng']);
     var mod_util = ng.module('ui.router.util', ['ui.router.init']);
@@ -9024,10 +9429,8 @@
      * These are the directives included in UI-Router for Angular 1.
      * These directives are used in templates to create viewports and link/navigate to states.
      *
-     * @ng1api
-     * @preferred
-     * @module directives
-     */ /** for typedoc */
+     * @preferred @publicapi @module directives
+     */ /** */
     /** @hidden */
     function parseStateRef(ref) {
         var parsed;
@@ -9647,7 +10050,7 @@
         .directive('uiSrefActiveEq', uiSrefActiveDirective)
         .directive('uiState', uiStateDirective);
 
-    /** @module ng1 */ /** for typedoc */
+    /** @publicapi @module ng1 */ /** */
     /**
      * `isState` Filter: truthy if the current state is the parameter
      *
@@ -9689,10 +10092,7 @@
         .filter('isState', $IsStateFilter)
         .filter('includedByState', $IncludedByStateFilter);
 
-    /**
-     * @ng1api
-     * @module directives
-     */
+    /** @publicapi @module directives */ /** */
     /**
      * `ui-view`: A viewport directive which is filled in by a view from the active state.
      *
@@ -10114,7 +10514,7 @@
     ng.module('ui.router.state').directive('uiView', uiView);
     ng.module('ui.router.state').directive('uiView', $ViewDirectiveFill);
 
-    /** @module ng1 */ /** */
+    /** @publicapi @module ng1 */ /** */
     /** @hidden */
     function $ViewScrollProvider() {
         var useAnchorScroll = false;
@@ -10138,10 +10538,6 @@
     }
     ng.module('ui.router.state').provider('$uiViewScroll', $ViewScrollProvider);
 
-    /**
-     * Main entry point for angular 1.x build
-     * @module ng1
-     */ /** */
     var index$1 = 'ui.router';
 
     exports.default = index$1;
@@ -10200,7 +10596,7 @@
     exports._extend = _extend;
     exports.silenceUncaughtInPromise = silenceUncaughtInPromise;
     exports.silentRejection = silentRejection;
-    exports.notImplemented = notImplemented;
+    exports.makeStub = makeStub;
     exports.services = services;
     exports.Glob = Glob;
     exports.curry = curry;
@@ -10279,6 +10675,8 @@
     exports.TransitionEventType = TransitionEventType;
     exports.defaultTransOpts = defaultTransOpts;
     exports.TransitionService = TransitionService;
+    exports.UrlRules = UrlRules;
+    exports.UrlConfig = UrlConfig;
     exports.UrlMatcher = UrlMatcher;
     exports.ParamFactory = ParamFactory;
     exports.UrlMatcherFactory = UrlMatcherFactory;

@@ -64,7 +64,7 @@ public class ElasticsearchDaoTest extends AbstractTest {
     // Arrange
 
     // Act
-    this.elasticsearchDao.createIndex("<WrongIndex>", null);
+    this.elasticsearchDao.createIndex("<WrongIndex>", new JsonObject());
 
     // Assert
   }
