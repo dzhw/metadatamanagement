@@ -5,13 +5,13 @@
             <span class="item-title fdz-truncate-string">
               <strong md-highlight-text="searchText" md-highlight-flags="ig">{{item.key}}</strong>
             </span>
-            <span class="item-metadata fdz-truncate-string">{{'search-management.tabs.variables-found' | translate:'{number:' + item.doc_count + '}':'messageformat'}}</span>
+            <span class="item-metadata fdz-truncate-string">{{'search-management.tabs.' + type + '-found' | translate:'{number:' + item.doc_count + '}':'messageformat'}}</span>
         </md-item-template>
         <md-not-found>
             <span class="item-title fdz-truncate-string">
               <strong>{{'search-management.filter.access-way-filter.not-found' | translate}}</strong>
             </span>
-            <span class="item-metadata fdz-truncate-string">{{'search-management.tabs.variables-found' | translate:'{number:0}':'messageformat'}}</span>
+            <span class="item-metadata fdz-truncate-string">{{('search-management.tabs.' + type + '-found') | translate:'{number:0}':'messageformat'}}</span>
         </md-not-found>
         <div ng-messages="accessWayFilterForm.accessWayFilter.$error">
             <div ng-message="md-require-match">

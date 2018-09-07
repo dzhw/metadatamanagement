@@ -4,9 +4,9 @@
 angular.module('metadatamanagementApp')
   .controller('AccessWaySearchFilterController', [
     '$scope', 'VariableSearchService', '$timeout', 'CurrentProjectService',
-    '$location', '$q',
+    '$location', '$q', 'DataSetSearchService',
     function($scope, VariableSearchService, $timeout, CurrentProjectService,
-      $location, $q) {
+      $location, $q, DataSetSearchService) {
       // prevent access-way changed events during init
       var initializing = true;
       var selectionChanging = false;
@@ -14,9 +14,13 @@ angular.module('metadatamanagementApp')
         searchText: null,
         filter: null,
         query: null,
+        type: null,
         projectId: null,
         searchResult: null
       };
+
+      this.findAccessWays = VariableSearchService.findAccessWays;
+
       var init = function() {
         if (selectionChanging) {
           selectionChanging = false;
@@ -67,20 +71,27 @@ angular.module('metadatamanagementApp')
         var currentProjectId = CurrentProjectService.getCurrentProject() ?
             CurrentProjectService.getCurrentProject().id : null;
         var query = $location.search().query;
+        $scope.type = $location.search().type;
         if (searchText === cache.SearchText &&
+          $scope.type === cache.type &&
           _.isEqual(cache.filter, cleanedFilter) &&
            cache.projectId === currentProjectId &&
            query === cache.query
           ) {
           return $q.resolve(cache.searchResult);
         }
-        return VariableSearchService.findAccessWays(
+        var findAccessWays = VariableSearchService.findAccessWays;
+        if ($scope.type === 'data_sets') {
+          findAccessWays = DataSetSearchService.findAccessWays;
+        }
+        return findAccessWays(
           searchText, cleanedFilter, currentProjectId, query)
           .then(function(accessWays) {
             cache.searchText = searchText;
             cache.filter = _.cloneDeep(cleanedFilter);
             cache.projectId = currentProjectId;
             cache.query = query;
+            cache.type = $scope.type;
             cache.searchResult = accessWays;
             return accessWays;
           }

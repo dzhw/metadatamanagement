@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp').config(
       'shopping-cart': {
         'title': 'Einkaufswagen',
         'detail': {
-          'table-title': 'Ausgewählte Datenprodukte',
+          'table-title': 'Von Ihnen ausgewählte Datenprodukte',
           'label': {
             'title': 'Studientitel',
             'access-way': 'Zugangsweg',
@@ -20,9 +20,14 @@ angular.module('metadatamanagementApp').config(
             'available-versions': 'Verfügbare Versionen',
             'available-access-ways': 'Verfügbare Zugangswege',
             'number-data-sets': 'Datensätze',
-            'number-variables': 'Variablen'
+            'number-variables': 'Variablen',
+            'current': 'aktuell',
+            'not-current': 'nicht aktuell',
+            'unknown': 'unbekannt'
           },
-          'empty-cart-text': 'Ihr Einkaufswagen ist aktuell leer. Sie können <a href="#!/de/search?type=studies"><strong>hier</strong></a> nach Studien suchen und diese Ihrem Einkaufswagen hinzufügen.'
+          'empty-cart-text': 'Ihr Einkaufswagen ist aktuell leer. Sie können <a href="#!/de/search?type=studies"><strong>hier</strong></a> nach Datenprodukten suchen und diese Ihrem Einkaufswagen hinzufügen.',
+          'warn-not-current-versions': 'Wenn Sie sich nicht für die aktuelle Version eines Datenproduktes entschieden haben, kann Ihnen dieses System keine genaue Auskunft über die Anzahl an Variablen und Datensätzen des Produktes anzeigen.',
+          'explain-data-product': 'Ein Datenprodukt beinhaltet immer alle Datensätze einer Studie, die für den gewählten Zugangsweg (download, on-site, remote,...) aufbereitet wurden. Sie können sowohl mehrere Datenprodukte, als auch dieselbe Studie mehrmals mit unterschiedlichen Zugangswegen beantragen.'
         },
         'toasts': {
           'checkout-coming-soon': 'Der Bestellvorgang wird demnächst implementiert...',
@@ -30,7 +35,7 @@ angular.module('metadatamanagementApp').config(
           'study-already-in-cart': 'Das Datenprodukt der Studie "{{id}}" mit den gewählten Optionen ist bereits im Einkaufswagen.'
         },
         'buttons': {
-          'checkout': 'Bestellen',
+          'checkout': 'Beantragen',
           'add-study': 'In den Einkaufswagen',
           'add-study-tooltip': 'Klicken, um die Studie mit den ausgewählten Optionen in den Einkaufswagen zu legen.',
           'open-cart': 'Zum Einkaufswagen',

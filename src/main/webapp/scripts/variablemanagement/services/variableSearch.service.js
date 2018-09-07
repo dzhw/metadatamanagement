@@ -386,11 +386,34 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
         });
       };
 
+      var countByMultiple = function(map) {
+        var query =  createQueryObject();
+        query.body = {};
+        query.body.query = {};
+        query.body.query = {
+          'bool': {
+            'must': [{
+              'match_all': {}
+            }],
+            'filter': []
+          }
+        };
+        _.forEach(map, function(value, key) {
+          var mustTerm = {
+            'term': {}
+          };
+          mustTerm.term[key] = value;
+          query.body.query.bool.filter.push(mustTerm);
+        });
+        return ElasticSearchClient.count(query);
+      };
+
       return {
         findOneById: findOneById,
         findByQuestionId: findByQuestionId,
         findByDataSetId: findByDataSetId,
         countBy: countBy,
+        countByMultiple: countByMultiple,
         findAccessWays: findAccessWays,
         findPanelIdentifiers: findPanelIdentifiers,
         findDerivedVariablesIdentifiers: findDerivedVariablesIdentifiers,

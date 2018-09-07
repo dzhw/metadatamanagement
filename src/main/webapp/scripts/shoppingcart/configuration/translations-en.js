@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp').config(
       'shopping-cart': {
         'title': 'Shopping Cart',
         'detail': {
-          'table-title': 'Selected Data Products',
+          'table-title': 'Your selected Data Products',
           'label': {
             'title': 'Study Title',
             'access-way': 'Access Way',
@@ -20,9 +20,14 @@ angular.module('metadatamanagementApp').config(
             'available-versions': 'Available Versions',
             'available-access-ways': 'Available Access Ways',
             'number-data-sets': 'Data Sets',
-            'number-variables': 'Variables'
+            'number-variables': 'Variables',
+            'current': 'current',
+            'not-current': 'not current',
+            'unknown': 'unknown'
           },
-          'empty-cart-text': 'Your shopping cart is currently empty. You can search for studies <a href="#!/en/search?type=studies"><strong>here</strong></a> and add those to your shopping cart.'
+          'empty-cart-text': 'Your shopping cart is currently empty. You can search for data products <a href="#!/en/search?type=studies"><strong>here</strong></a> and add those to your shopping cart.',
+          'warn-not-current-versions': 'If you have not decided on the current version of a data product, this system cannot display exact information about the number of variables and data sets in the product.',
+          'explain-data-product': 'A data product contains all data sets of a given study which have been prepared for the given access way (download, on-site, remote,...). You can request several data products as well as the same study several times with different access ways.'
         },
         'toasts': {
           'checkout-coming-soon': 'Checkout is coming soon...',

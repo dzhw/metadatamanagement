@@ -29,6 +29,7 @@ angular.module('metadatamanagementApp')
 
       ctrl.addToShoppingCart = function() {
         ShoppingCartService.add({
+          projectId: ctrl.projectId,
           studyId: ctrl.studyId,
           accessWay: ctrl.selectedAccessWay,
           version: ctrl.selectedVersion,

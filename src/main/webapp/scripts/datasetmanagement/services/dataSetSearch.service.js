@@ -174,6 +174,28 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
       return ElasticSearchClient.count(query);
     };
 
+    var countByMultiple = function(map) {
+      var query =  createQueryObject();
+      query.body = {};
+      query.body.query = {};
+      query.body.query = {
+        'bool': {
+          'must': [{
+            'match_all': {}
+          }],
+          'filter': []
+        }
+      };
+      _.forEach(map, function(value, key) {
+        var mustTerm = {
+          'term': {}
+        };
+        mustTerm.term[key] = value;
+        query.body.query.bool.filter.push(mustTerm);
+      });
+      return ElasticSearchClient.count(query);
+    };
+
     var findDataSetDescriptions = function(searchText, filter, type,
       queryterm, dataAcquisitionProjectId) {
       var language = LanguageService.getCurrentInstantly();
@@ -289,6 +311,43 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
       });
     };
 
+    var findAccessWays = function(term, filter, dataAcquisitionProjectId,
+      queryterm) {
+      var query = createQueryObject();
+      var termFilters = createTermFilters(filter, dataAcquisitionProjectId);
+      query.size = 0;
+      query.body = {
+        'aggs': {
+            'accessWays': {
+                'terms': {
+                  'field': 'accessWays',
+                  'include': '.*' + term.toLowerCase() + '.*',
+                  'size': 100,
+                  'order': {
+                    '_key': 'asc'
+                  }
+                }
+              }
+          }
+      };
+
+      if (termFilters) {
+        query.body.query = {
+          bool: {
+          }
+        };
+        query.body.query.bool.filter = termFilters;
+      }
+
+      SearchHelperService.addQuery(query, queryterm);
+
+      SearchHelperService.addReleaseFilter(query);
+
+      return ElasticSearchClient.search(query).then(function(result) {
+        return result.aggregations.accessWays.buckets;
+      });
+    };
+
     return {
       findOneById: findOneById,
       findOneByVariableId: findOneByVariableId,
@@ -296,6 +355,8 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
       findByProjectId: findByProjectId,
       findByStudyId: findByStudyId,
       countBy: countBy,
-      findDataSetDescriptions: findDataSetDescriptions
+      countByMultiple: countByMultiple,
+      findDataSetDescriptions: findDataSetDescriptions,
+      findAccessWays: findAccessWays
     };
   });

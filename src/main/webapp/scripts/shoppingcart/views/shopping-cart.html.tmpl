@@ -1,95 +1,102 @@
 <div flex>
-  <div layout="row" style="margin-bottom: 0px;" layout-margin>
-    <h1 class="md-headline fdz-truncate-string" style="margin-left: 0px;">{{'shopping-cart.title' | translate}}</h1>
-  </div>
+    <div layout="row" style="margin-bottom: 0px;" layout-margin>
+        <h1 class="md-headline fdz-truncate-string" style="margin-left: 0px;">{{'shopping-cart.title' | translate}}</h1>
+    </div>
     <md-card ng-if="ctrl.products && ctrl.products.length > 0">
-      <md-card-header layout-align="center center">
-          <md-card-header-text>
-              <h2 class="md-title">{{'shopping-cart.detail.table-title' | translate | fdzHyphenate}}</h2>
-          </md-card-header-text>
-      </md-card-header>
-      <table fdz-table>
-          <thead>
-              <tr>
-                  <th style="min-height: 40px;">
-                      &nbsp;
-                  </th>
-                  <th class="fdz-table-half-absorbing-column">{{'shopping-cart.detail.label.title' | translate }}
-                      <md-tooltip hide-gt-xs md-direction="right">
-                          {{'shopping-cart.detail.label.title' | translate }}
-                      </md-tooltip>
-                  </th>
-                  <th>{{'shopping-cart.detail.label.study-series' | translate }}
-                    <md-tooltip hide-gt-xs md-direction="right">
-                      {{'shopping-cart.detail.label.study-series' | translate }}
+        <md-card-header layout-align="center center">
+            <md-card-header-text>
+                <h2 class="md-title">{{'shopping-cart.detail.table-title' | translate | fdzHyphenate}}</h2>
+            </md-card-header-text>
+        </md-card-header>
+        <table fdz-table>
+            <thead>
+                <tr>
+                    <th style="min-height: 40px;">
+                        &nbsp;
+                    </th>
+                    <th class="fdz-table-half-absorbing-column">{{'shopping-cart.detail.label.title' | translate }}
+                        <md-tooltip hide-gt-xs md-direction="right">
+                            {{'shopping-cart.detail.label.title' | translate }}
+                        </md-tooltip>
+                    </th>
+                    <th>{{'shopping-cart.detail.label.study-series' | translate }}
+                        <md-tooltip hide-gt-xs md-direction="right">
+                            {{'shopping-cart.detail.label.study-series' | translate }}
+                        </md-tooltip>
+                    </th>
+                    <th>{{'shopping-cart.detail.label.access-way' | translate }}
+                        <md-tooltip hide-gt-xs md-direction="right">
+                            {{'shopping-cart.detail.label.access-way' | translate }}
+                        </md-tooltip>
+                    </th>
+                    <th>{{'shopping-cart.detail.label.version' | translate }}
+                        <md-tooltip hide-gt-xs md-direction="right">
+                            {{'shopping-cart.detail.label.version' | translate }}
+                        </md-tooltip>
+                    </th>
+                    <th class="fdz-table-half-absorbing-column">{{'shopping-cart.detail.label.annotations' | translate }}
+                        <md-tooltip hide-gt-xs md-direction="right">
+                            {{'shopping-cart.detail.label.annotations' | translate }}
+                        </md-tooltip>
+                    </th>
+                    <th>{{'shopping-cart.detail.label.number-data-sets' | translate }}
+                        <md-tooltip hide-gt-xs md-direction="right">
+                            {{'shopping-cart.detail.label.number-data-sets' | translate }}
+                        </md-tooltip>
+                    </th>
+                    <th>{{'shopping-cart.detail.label.number-variables' | translate }}
+                        <md-tooltip hide-gt-xs md-direction="right">
+                            {{'shopping-cart.detail.label.number-variables' | translate }}
+                        </md-tooltip>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="row in ctrl.products">
+                    <td class="fdz-table-nowrap" style="padding: 0px;">
+                        <md-button class="md-primary md-icon-button" ng-click="ctrl.deleteProduct(row)" style="margin: 0px;">
+                            <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                {{'shopping-cart.buttons.delete-product-tooltip' | translate}}
+                            </md-tooltip>
+                            <md-icon md-font-set="material-icons">delete_forever</md-icon>
+                        </md-button>
+                    </td>
+                    <td class="fdz-table-nowrap"><a ui-sref="studyDetail({id: row.studyId})">{{ctrl.studies[row.studyId].title | displayI18nString}}</a>&nbsp;</td>
+                    <td class="fdz-table-nowrap"><a ui-sref="search({'type': 'studies', 'study-series-{{currentLanguage}}': ctrl.studies[row.studyId].studySeries[currentLanguage]})">{{ctrl.studies[row.studyId].studySeries | displayI18nString}}</a>&nbsp;</td>
+                    <td class="fdz-table-nowrap">{{row.accessWay}}&nbsp;</td>
+                    <td class="fdz-table-nowrap">{{row.version}} {{ctrl.releases[row.projectId].version === row.version ? ' (' + ('shopping-cart.detail.label.current' | translate) + ')': ' (' + ('shopping-cart.detail.label.not-current' | translate)
+                        + ')'}}&nbsp;</td>
+                    <td class="fdz-table-nowrap">{{ctrl.studies[row.studyId].annotations | displayI18nString}}&nbsp;</td>
+                    <td class="fdz-table-number"><a ui-sref="search({'type': 'data_sets', 'study': row.studyId, 'access-way': row.accessWay})">{{ ctrl.releases[row.projectId].version === row.version && row.dataSets ? (row.dataSets | number) : ('shopping-cart.detail.label.unknown' | translate)}}</a>&nbsp;</td>
+                    <td class="fdz-table-number"><a ui-sref="search({'type': 'variables', 'study': row.studyId, 'access-way': row.accessWay})">{{ ctrl.releases[row.projectId].version === row.version && row.variables ? (row.variables | number) : ('shopping-cart.detail.label.unknown' | translate)}}</a>&nbsp;</td>
+                </tr>
+            </tbody>
+        </table>
+        <md-card-content>
+            <p data-translate="shopping-cart.detail.warn-not-current-versions"></p>
+            <p data-translate="shopping-cart.detail.explain-data-product"></p>
+            <div layout="row">
+                <md-button class="md-raised md-accent fdz-truncate-string" ng-click="ctrl.checkout()" style="margin-left: 0px;">
+                    <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                        {{'shopping-cart.buttons.checkout-tooltip' | translate}}
                     </md-tooltip>
-                  </th>
-                  <th>{{'shopping-cart.detail.label.access-way' | translate }}
-                      <md-tooltip hide-gt-xs md-direction="right">
-                          {{'shopping-cart.detail.label.access-way' | translate }}
-                      </md-tooltip>
-                  </th>
-                  <th>{{'shopping-cart.detail.label.version' | translate }}
-                      <md-tooltip hide-gt-xs md-direction="right">
-                          {{'shopping-cart.detail.label.version' | translate }}
-                      </md-tooltip>
-                  </th>
-                  <th class="fdz-table-half-absorbing-column">{{'shopping-cart.detail.label.annotations' | translate }}
-                      <md-tooltip hide-gt-xs md-direction="right">
-                          {{'shopping-cart.detail.label.annotations' | translate }}
-                      </md-tooltip>
-                  </th>
-                  <th>{{'shopping-cart.detail.label.number-data-sets' | translate }}
-                      <md-tooltip hide-gt-xs md-direction="right">
-                          {{'shopping-cart.detail.label.number-data-sets' | translate }}
-                      </md-tooltip>
-                  </th>
-                  <th>{{'shopping-cart.detail.label.number-variables' | translate }}
-                      <md-tooltip hide-gt-xs md-direction="right">
-                          {{'shopping-cart.detail.label.number-variables' | translate }}
-                      </md-tooltip>
-                  </th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr ng-repeat="row in ctrl.products">
-                  <td class="fdz-table-nowrap" style="padding: 0px;">
-                      <md-button class="md-primary md-icon-button" ng-click="ctrl.deleteProduct(row)" style="margin: 0px;">
-                          <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                              {{'shopping-cart.buttons.delete-product-tooltip' | translate}}
-                          </md-tooltip>
-                          <md-icon md-font-set="material-icons">delete_forever</md-icon>
-                      </md-button>
-                  </td>
-                  <td class="fdz-table-nowrap"><a ui-sref="studyDetail({id: row.studyId})">{{ctrl.studies[row.studyId].title | displayI18nString}}</a>&nbsp;</td>
-                  <td class="fdz-table-nowrap"><a ui-sref="search({'type': 'studies', 'study-series-{{currentLanguage}}': ctrl.studies[row.studyId].studySeries[currentLanguage]})">{{ctrl.studies[row.studyId].studySeries | displayI18nString}}</a>&nbsp;</td>
-                  <td class="fdz-table-nowrap">{{row.accessWay}}&nbsp;</td>
-                  <td class="fdz-table-nowrap">{{row.version}}&nbsp;</td>
-                  <td class="fdz-table-nowrap">{{ctrl.studies[row.studyId].annotations | displayI18nString}}&nbsp;</td>
-                  <td class="fdz-table-number"><a ui-sref="search({'type': 'data_sets', 'study': row.studyId, 'access-way': row.accessWay})">{{ 10 | number}}</a>&nbsp;</td>
-                  <td class="fdz-table-number"><a ui-sref="search({'type': 'variables', 'study': row.studyId, 'access-way': row.accessWay})">{{ 1000 | number}}</a>&nbsp;</td>
-              </tr>
-          </tbody>
-      </table>
-      <md-card-content layout="row">
-        <md-button class="md-raised md-accent fdz-truncate-string" ng-click="ctrl.checkout()">
-          <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-            {{'shopping-cart.buttons.checkout-tooltip' | translate}}
-          </md-tooltip>
-          <md-icon md-font-set="material-icons">thumb_up</md-icon>
-          <span>{{'shopping-cart.buttons.checkout' | translate}}</span>
-        </md-button>
-        <md-button class="md-raised md-primary fdz-truncate-string" ng-click="ctrl.clear()">
-          <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-            {{'shopping-cart.buttons.remove-all-tooltip' | translate}}
-          </md-tooltip>
-          <md-icon md-font-set="material-icons">remove_shopping_cart</md-icon>
-          <span>{{'shopping-cart.buttons.remove-all' | translate}}</span>
-        </md-button>
-      </md-card-content>
+                    <md-icon md-font-set="material-icons">thumb_up</md-icon>
+                    <span>{{'shopping-cart.buttons.checkout' | translate}}</span>
+                </md-button>
+                <md-button class="md-raised md-primary fdz-truncate-string" ng-click="ctrl.clear()">
+                    <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                        {{'shopping-cart.buttons.remove-all-tooltip' | translate}}
+                    </md-tooltip>
+                    <md-icon md-font-set="material-icons">remove_shopping_cart</md-icon>
+                    <span>{{'shopping-cart.buttons.remove-all' | translate}}</span>
+                </md-button>
+            </div>
+        </md-card-content>
     </md-card>
     <md-card ng-if="!(ctrl.products && ctrl.products.length > 0)">
-      <md-card-content layout-align="center center" translate="shopping-cart.detail.empty-cart-text">
-      </md-card-content>
+        <md-card-content layout-align="center center">
+            <p data-translate="shopping-cart.detail.empty-cart-text"></p>
+            <p data-translate="shopping-cart.detail.explain-data-product"></p>
+        </md-card-content>
     </md-card>
 </div>

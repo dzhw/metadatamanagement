@@ -21,7 +21,7 @@
                         <label>{{'shopping-cart.detail.label.version-of-data-sets' | translate }}</label>
                         <md-select ng-model="ctrl.selectedVersion">
                             <md-optgroup label="{{'shopping-cart.detail.label.available-versions' | translate}}">
-                                <md-option ng-repeat="item in ctrl.releases" ng-value="item.version">{{item.version}}{{$first?' (aktuell)':''}}</md-option>
+                                <md-option ng-repeat="item in ctrl.releases" ng-value="item.version">{{item.version}}{{$first?' (' + ('shopping-cart.detail.label.current' | translate) + ')':''}}</md-option>
                             </md-optgroup>
                         </md-select>
                     </md-input-container>
