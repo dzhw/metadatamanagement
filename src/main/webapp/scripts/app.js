@@ -136,7 +136,6 @@ try {
         // enable urls without #
         $locationProvider.html5Mode(false);
         $locationProvider.hashPrefix('!');
-
         $stateProvider.state('site', {
           'abstract': true,
           url: '/{lang:(?:de|en)}',

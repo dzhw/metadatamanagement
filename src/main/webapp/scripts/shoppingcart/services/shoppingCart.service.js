@@ -2,12 +2,12 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('ShoppingCartService',
-  function(localStorageService, SimpleMessageToastService) {
+  function(localStorageService, SimpleMessageToastService, $rootScope) {
     var products = localStorageService.get('shoppingCart') || [];
 
     var add = function(product) {
       var existingIndex = _.findIndex(products, function(item) {
-        return _.isEqual(item, product);
+        return angular.equals(item, product);
       });
       if (existingIndex >= 0) {
         SimpleMessageToastService.openSimpleMessageToast(
@@ -19,30 +19,33 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
         localStorageService.set('shoppingCart', products);
         SimpleMessageToastService.openSimpleMessageToast(
           'shopping-cart.toasts.study-added',
-          {id: product.studyId}
-        );
+          {id: product.studyId});
+        $rootScope.$broadcast('shopping-cart-changed', products.length);
       }
     };
 
     var remove = function(product) {
-      products = _.remove(products, function(item) {
-        return _.isEqual(item, product);
+      _.remove(products, function(item) {
+        return angular.equals(item, product);
       });
       localStorageService.set('shoppingCart', products);
+      $rootScope.$broadcast('shopping-cart-changed', products.length);
     };
 
     var replace = function(oldProduct, newProduct) {
       products = _.map(products, function(item) {
-        if (_.isEqual(item, oldProduct)) {
+        if (angular.equals(item, oldProduct)) {
           return newProduct;
         }
         return item;
       });
+      $rootScope.$broadcast('shopping-cart-changed', products.length);
     };
 
     var clear = function() {
       products = [];
       localStorageService.set('shoppingCart', products);
+      $rootScope.$broadcast('shopping-cart-changed', products.length);
     };
 
     var getProducts = function() {
@@ -53,12 +56,18 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
       return products.length;
     };
 
+    var checkout = function() {
+      SimpleMessageToastService.openAlertMessageToast(
+        'shopping-cart.toasts.checkout-coming-soon');
+    };
+
     return {
       add: add,
       remove: remove,
       replace: replace,
       getProducts: getProducts,
       count: count,
-      clear: clear
+      clear: clear,
+      checkout: checkout
     };
   });

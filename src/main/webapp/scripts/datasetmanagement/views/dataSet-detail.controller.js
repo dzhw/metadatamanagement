@@ -60,7 +60,9 @@ angular.module('metadatamanagementApp')
           .then(function(dataSetsCount) {
             ctrl.counts.dataSetsCount = dataSetsCount.count;
           });
+          ctrl.accessWays = [];
           ctrl.dataSet.subDataSets.forEach(function(subDataSet) {
+            ctrl.accessWays.push(subDataSet.accessWay);
             VariableSearchService.countBy('accessWays',
             subDataSet.accessWay, ctrl.dataSet.id).then(function(counts) {
               ctrl.counts[subDataSet.name] = counts.count;

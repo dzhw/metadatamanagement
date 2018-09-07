@@ -1,3 +1,4 @@
+/* global _ */
 'use strict';
 
 angular.module('metadatamanagementApp')
@@ -5,17 +6,14 @@ angular.module('metadatamanagementApp')
     function(entity, PageTitleService, LanguageService, DataSetSearchService,
       $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
       StudyAttachmentResource, SearchResultNavigatorService, $stateParams,
-      $rootScope, DataAcquisitionProjectResource, ShoppingCartService,
-      StudyAccessWaysResource, DataAcquisitionProjectReleasesResource) {
+      $rootScope, DataAcquisitionProjectResource) {
       SearchResultNavigatorService.registerCurrentSearchResult(
-          $stateParams['search-result-index']);
+         $stateParams['search-result-index']);
       var versionFromUrl = $stateParams.version;
       var ctrl = this;
       ctrl.projectIsCurrentlyReleased = true;
       ctrl.searchResultIndex = $stateParams['search-result-index'];
       ctrl.counts = {};
-      ctrl.isAuthenticated = Principal.isAuthenticated;
-      ctrl.hasAuthority = Principal.hasAuthority;
       var bowser = $rootScope.bowser;
 
       ctrl.loadAttachments = function() {
@@ -45,25 +43,6 @@ angular.module('metadatamanagementApp')
             ctrl.projectIsCurrentlyReleased = (project.release != null);
           });
         }
-        if (!Principal.isAuthenticated() ||
-          Principal.hasAuthority('ROLE_USER')) {
-          StudyAccessWaysResource.get({id: result.id}).$promise.then(
-            function(accessWays) {
-              if (accessWays.length > 0) {
-                ctrl.selectedAccessWay = accessWays[0];
-              }
-              ctrl.accessWays = accessWays;
-            });
-          DataAcquisitionProjectReleasesResource.get(
-            {id: result.dataAcquisitionProjectId})
-            .$promise.then(
-              function(releases) {
-                ctrl.releases = releases;
-                if (releases.length > 0) {
-                  ctrl.selectedVersion = releases[0].version;
-                }
-              });
-        }
 
         PageTitleService.setPageTitle('study-management.detail.title', {
           title: result.title[LanguageService.getCurrentInstantly()],
@@ -74,6 +53,12 @@ angular.module('metadatamanagementApp')
           'id': result.id,
           'studyIsPresent': true,
           'projectId': result.dataAcquisitionProjectId});
+        if (result.dataSets) {
+          ctrl.accessWays = [];
+          result.dataSets.forEach(function(dataSet) {
+            ctrl.accessWays = _.union(dataSet.accessWays, ctrl.accessWays);
+          });
+        }
         if (result.release || Principal
             .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           ctrl.study = result;
@@ -130,12 +115,4 @@ angular.module('metadatamanagementApp')
           );
         }
       });
-
-      ctrl.addToShoppingCart = function() {
-        ShoppingCartService.add({
-          studyId: ctrl.study.id,
-          accessWay: ctrl.selectedAccessWay,
-          version: ctrl.selectedVersion,
-        });
-      };
     });

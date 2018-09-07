@@ -1,3 +1,4 @@
+/* global _ */
 'use strict';
 
 angular.module('metadatamanagementApp')
@@ -37,6 +38,12 @@ angular.module('metadatamanagementApp')
           'studyIsPresent': CleanJSObjectService.
           isNullOrEmpty(result.study) ? false : true,
           'projectId': result.dataAcquisitionProjectId});
+        if (result.dataSets) {
+          ctrl.accessWays = [];
+          result.dataSets.forEach(function(dataSet) {
+            ctrl.accessWays = _.union(dataSet.accessWays, ctrl.accessWays);
+          });
+        }
         if (result.release || Principal.hasAnyAuthority(['ROLE_PUBLISHER',
             'ROLE_DATA_PROVIDER'])) {
           ctrl.survey = result;

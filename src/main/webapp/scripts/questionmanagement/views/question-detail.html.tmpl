@@ -60,7 +60,7 @@
                             {{'study-management.detail.label.study' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
                         <div ng-if="ctrl.study" class="fdz-truncate-string" flex>
-                            <a ui-sref="studyDetail({id: ctrl.study.id, 'search-result-index': ctrl.searchResultIndex})">
+                            <a ui-sref="studyDetail({id: ctrl.study.id})">
                                 <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
                                 {{'study-management.detail.label.study' | translate }}: <span display-i18n-string="ctrl.study.title"></span></a>
                             <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
@@ -74,7 +74,7 @@
                             {{'survey-management.detail.label.surveys' | translate }}: {{'global.messages.error.undocumented' | translate}}
                         </div>
                         <div ng-if="ctrl.counts.surveysCount == 1 && ctrl.survey" class="fdz-truncate-string" flex>
-                            <a ui-sref="surveyDetail({'id': ctrl.survey.id, 'search-result-index': ctrl.searchResultIndex})">
+                            <a ui-sref="surveyDetail({'id': ctrl.survey.id})">
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                                 {{'survey-management.detail.label.survey' | translate }}:
                                 <span display-i18n-string="ctrl.survey.title"></span>
@@ -99,7 +99,7 @@
                             {{'instrument-management.detail.label.instrument' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
                         <div ng-if="ctrl.instrument" class="fdz-truncate-string" flex>
-                            <a ui-sref="instrumentDetail({'id': ctrl.instrument.id, 'search-result-index': ctrl.searchResultIndex})">
+                            <a ui-sref="instrumentDetail({'id': ctrl.instrument.id})">
                                 <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
                                 {{'instrument-management.detail.label.instrument' | translate }}: <span display-i18n-string="ctrl.instrument.description"></span>
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
@@ -114,7 +114,7 @@
                             {{'variable-management.detail.label.variables' | translate }}: {{'global.messages.error.undocumented' | translate}}
                         </div>
                         <div ng-if="ctrl.counts.variablesCount == 1 && ctrl.variable" class="fdz-truncate-string" flex>
-                            <a ui-sref="variableDetail({'id': ctrl.variable.id, 'search-result-index': ctrl.searchResultIndex})">
+                            <a ui-sref="variableDetail({'id': ctrl.variable.id})">
                                 <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
                                 {{'variable-management.detail.label.variable' | translate }}: <span display-i18n-string="ctrl.variable.label"></span>
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
@@ -138,7 +138,7 @@
                             {{'related-publication-management.detail.label.publications' | translate }}: {{'global.messages.error.undocumented' | translate}}
                         </div>
                         <div ng-if="ctrl.counts.publicationsCount == 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="relatedPublicationDetail({'id': ctrl.relatedPublication.id, 'search-result-index': ctrl.searchResultIndex})">
+                            <a ui-sref="relatedPublicationDetail({'id': ctrl.relatedPublication.id})">
                                 <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
                                 {{'related-publication-management.detail.label.publication' | translate }}: {{ctrl.relatedPublication.title}}
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
@@ -160,6 +160,7 @@
             </md-card>
         </div>
     </div>
+    <product-chooser ng-if="ctrl.accessWays" project-id="ctrl.question.dataAcquisitionProjectId" access-ways="ctrl.accessWays" study-id="ctrl.question.studyId"></product-chooser>
     <div layout="column" layout-gt-sm="row">
         <div flex-gt-sm="50" layout="column">
             <md-card flex="auto" class="fdz-reset-top-margin">
@@ -235,7 +236,7 @@
                 <md-divider></md-divider>
                 <md-content style="background-color:white;">
                     <div style="width: 100%;" ng-repeat="predecessor in ctrl.predecessors">
-                        <question-search-result search-result="predecessor._source" current-language="currentLanguage" bowser="bowser" search-result-index="ctrl.searchResultIndex"></question-search-result>
+                        <question-search-result search-result="predecessor._source" current-language="currentLanguage" bowser="bowser"></question-search-result>
                     </div>
                     <div layout="row" layout-align="center center" ng-if="ctrl.predecessors.length == 0" layout-padding>
                         {{'question-management.detail.no-predecessors' | translate}}
@@ -253,7 +254,7 @@
                 <md-divider></md-divider>
                 <md-content style="background-color:white;">
                     <div style="width: 100%;" ng-repeat="successor in ctrl.successors">
-                        <question-search-result search-result="successor._source" current-language="currentLanguage" bowser="bowser" search-result-index="ctrl.searchResultIndex"></question-search-result>
+                        <question-search-result search-result="successor._source" current-language="currentLanguage" bowser="bowser"></question-search-result>
                     </div>
                     <div layout="row" layout-align="center center" ng-if="ctrl.successors.length == 0" layout-padding>
                         {{'question-management.detail.no-successors' | translate }}

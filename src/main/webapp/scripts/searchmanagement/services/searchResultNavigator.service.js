@@ -72,7 +72,9 @@ angular.module('metadatamanagementApp').factory(
             });
         }
       } else {
-        $location.search('search-result-index', null).replace();
+        if (searchResultIndex != null) {
+          $location.search('search-result-index', null).replace();
+        }
       }
     }
 

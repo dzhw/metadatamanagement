@@ -12,12 +12,10 @@ angular.module('metadatamanagementApp').controller(
     $scope.hasAuthority = Principal.hasAuthority;
 
     $scope.productsCount = ShoppingCartService.count();
-
-    $scope.$watch(function() {
-      return ShoppingCartService.count();
-    }, function(newValue) {
-      $scope.productsCount = newValue;
-    });
+    $scope.$on('shopping-cart-changed',
+      function(event, count) { // jshint ignore:line
+        $scope.productsCount = count;
+      });
 
     $scope.$location = $location;
   });
