@@ -2,9 +2,9 @@
 
 angular.module('metadatamanagementApp')
   .controller('ProductChooserController', [
-    '$scope', 'Principal', 'DataAcquisitionProjectReleasesResource',
-    'ShoppingCartService',
-    function($scope, Principal,
+    '$scope', 'Principal', '$rootScope',
+    'DataAcquisitionProjectReleasesResource', 'ShoppingCartService',
+    function($scope, Principal, $rootScope,
       DataAcquisitionProjectReleasesResource, ShoppingCartService) {
       var ctrl = this;
       ctrl.accessWays = $scope.accessWays;
@@ -12,6 +12,7 @@ angular.module('metadatamanagementApp')
       ctrl.studyId = $scope.studyId;
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAuthority = Principal.hasAuthority;
+      $scope.bowser = $rootScope.bowser;
 
       if (ctrl.accessWays.length > 0) {
         ctrl.selectedAccessWay = ctrl.accessWays[0];

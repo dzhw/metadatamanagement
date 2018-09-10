@@ -6,7 +6,8 @@ angular.module('metadatamanagementApp').config(
       parent: 'account',
       url: '/password',
       data: {
-        authorities: ['ROLE_USER']
+        authorities: ['ROLE_USER', 'ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER',
+          'ROLE_ADMIN']
       },
       views: {
         'content@': {

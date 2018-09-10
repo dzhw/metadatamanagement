@@ -12,7 +12,6 @@ angular.module('metadatamanagementApp').config(
             'title': 'Study Title',
             'access-way': 'Access Way',
             'version': 'Version',
-            'study-series': 'Study Series',
             'annotations': 'Annotations',
             'product-options': 'Options of the related Data Product',
             'access-way-of-data-sets': 'Access Way for the Data Sets',
@@ -23,7 +22,13 @@ angular.module('metadatamanagementApp').config(
             'number-variables': 'Variables',
             'current': 'current',
             'not-current': 'not current',
-            'unknown': 'unknown'
+            'about': 'about',
+            'this-data-product': 'This data product',
+            'study-series': 'from study series {{series}}',
+            'contains': 'contains',
+            'variables': '{variables, plural, =0{an unknown amount of variables} =1{one variable} other{{formattedVariables} variables}}',
+            'in': 'in',
+            'data-sets': '{dataSets, plural, =0{an unknown amount of data sets} =1{one data set} other{{formattedDataSets} data sets}}'
           },
           'empty-cart-text': 'Your shopping cart is currently empty. You can search for data products <a href="#!/en/search?type=studies"><strong>here</strong></a> and add those to your shopping cart.',
           'warn-not-current-versions': 'If you have not decided on the current version of a data product, this system cannot display exact information about the number of variables and data sets in the product.',
@@ -31,8 +36,8 @@ angular.module('metadatamanagementApp').config(
         },
         'toasts': {
           'checkout-coming-soon': 'Checkout is coming soon...',
-          'study-added': 'The data product of study "{{id}}" was put in the shopping cart.',
-          'study-already-in-cart': 'The data product of study "{{id}}" with the selected options is already in the shopping cart.'
+          'study-added': 'The data product was put into the shopping cart.',
+          'study-already-in-cart': 'The data product is already in the shopping cart.'
         },
         'buttons': {
           'checkout': 'Order',

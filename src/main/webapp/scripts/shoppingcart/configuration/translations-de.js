@@ -7,12 +7,11 @@ angular.module('metadatamanagementApp').config(
       'shopping-cart': {
         'title': 'Einkaufswagen',
         'detail': {
-          'table-title': 'Von Ihnen ausgewählte Datenprodukte',
+          'table-title': 'Ihre ausgewählten Datenprodukte',
           'label': {
             'title': 'Studientitel',
             'access-way': 'Zugangsweg',
             'version': 'Version',
-            'study-series': 'Studienreihe',
             'annotations': 'Bemerkungen',
             'product-options': 'Optionen des zugehörigen Datenproduktes',
             'access-way-of-data-sets': 'Zugangsweg zu den Datensätzen',
@@ -23,7 +22,13 @@ angular.module('metadatamanagementApp').config(
             'number-variables': 'Variablen',
             'current': 'aktuell',
             'not-current': 'nicht aktuell',
-            'unknown': 'unbekannt'
+            'about': 'ungefähr',
+            'this-data-product': 'Dieses Datenprodukt',
+            'study-series': 'aus der Studienreihe {{series}}',
+            'contains': 'enthält',
+            'variables': '{variables, plural, =0{unbekannt viele Variablen} =1{eine Variable} other{{formattedVariables} Variablen}}',
+            'in': 'in',
+            'data-sets': '{dataSets, plural, =0{unbekannt vielen Datensätze} =1{einem Datensatz} other{{formattedDataSets} Datensätzen}}'
           },
           'empty-cart-text': 'Ihr Einkaufswagen ist aktuell leer. Sie können <a href="#!/de/search?type=studies"><strong>hier</strong></a> nach Datenprodukten suchen und diese Ihrem Einkaufswagen hinzufügen.',
           'warn-not-current-versions': 'Wenn Sie sich nicht für die aktuelle Version eines Datenproduktes entschieden haben, kann Ihnen dieses System keine genaue Auskunft über die Anzahl an Variablen und Datensätzen des Produktes anzeigen.',
@@ -31,8 +36,8 @@ angular.module('metadatamanagementApp').config(
         },
         'toasts': {
           'checkout-coming-soon': 'Der Bestellvorgang wird demnächst implementiert...',
-          'study-added': 'Das Datenprodukt der Studie "{{id}}" wurde in den Einkaufswagen gelegt.',
-          'study-already-in-cart': 'Das Datenprodukt der Studie "{{id}}" mit den gewählten Optionen ist bereits im Einkaufswagen.'
+          'study-added': 'Das Datenprodukt wurde in den Einkaufswagen gelegt.',
+          'study-already-in-cart': 'Das Datenprodukt ist bereits im Einkaufswagen.'
         },
         'buttons': {
           'checkout': 'Beantragen',

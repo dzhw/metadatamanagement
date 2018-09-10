@@ -242,6 +242,8 @@ module.exports = function(grunt) {
               'attribute “lang” on element “td”: Subtags must not exceed 8 ' +
               'characters in length.', 'Bad value “{{currentLanguage}}” for ' +
               'attribute “lang” on element “html”: Subtags must not exceed 8 ' +
+              'characters in length.', 'Bad value “{{currentLanguage}}” for ' +
+              'attribute “lang” on element “span”: Subtags must not exceed 8 ' +
               'characters in length.', 'Bad value “global.toolbarHeader.' +
               'search” for attribute “translate” on element “span”.',
               'Bad value “global.toolbarHeader.default” for attribute ' +
