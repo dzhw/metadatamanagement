@@ -5,7 +5,7 @@
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#006AB2",
-  "background_color": "#006AB2",
+  "background_color": "#FAFAFA",
   "icons": [{
     "src": "/assets/images/webapp/36-Gesamte-App.png",
     "sizes": "36x36"
@@ -25,7 +25,7 @@
     "src": "assets/images/webapp/192-Gesamte-App.png",
     "sizes": "192x192"
   }, {
-    "src": "assets/images/icons/colored-mdm-app.svg",
-    "sizes": "193x193"
+    "src": "assets/images/webapp/196-Gesamte-App.png",
+    "sizes": "196x196"
   }]
 }
