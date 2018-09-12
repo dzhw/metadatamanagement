@@ -1,3 +1,4 @@
+/* global _ */
 'use strict';
 
 angular.module('metadatamanagementApp')
@@ -13,9 +14,17 @@ angular.module('metadatamanagementApp')
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAuthority = Principal.hasAuthority;
       $scope.bowser = $rootScope.bowser;
+      ctrl.noDataSets = false;
+      ctrl.noFinalRelease = false;
 
       if (ctrl.accessWays.length > 0) {
-        ctrl.selectedAccessWay = ctrl.accessWays[0];
+        if (_.includes(ctrl.accessWays, 'not-accessible')) {
+          ctrl.variableNotAccessible = true;
+        } else {
+          ctrl.selectedAccessWay = ctrl.accessWays[0];
+        }
+      } else {
+        ctrl.noDataSets = true;
       }
 
       DataAcquisitionProjectReleasesResource.get(
@@ -25,6 +34,8 @@ angular.module('metadatamanagementApp')
             ctrl.releases = releases;
             if (releases.length > 0) {
               ctrl.selectedVersion = releases[0].version;
+            } else {
+              ctrl.noFinalRelease = true;
             }
           });
 

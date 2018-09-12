@@ -32,7 +32,13 @@ angular.module('metadatamanagementApp').config(
           },
           'empty-cart-text': 'Your shopping cart is currently empty. You can search for data products <a href="#!/en/search?type=studies"><strong>here</strong></a> and add those to your shopping cart.',
           'warn-not-current-versions': 'If you have not decided on the current version of a data product, this system cannot display exact information about the number of variables and data sets in the product.',
-          'explain-data-product': 'A data product contains all data sets of a given study which have been prepared for the given access way (download, on-site, remote,...). You can request several data products as well as the same study several times with different access ways.'
+          'explain-data-product': 'A data product contains all data sets of a given study which have been prepared for the given access way (download, on-site, remote,...). You can request several data products as well as the same study several times with different access ways.',
+          'no-final-release': 'The data products have not yet been created. As soon as they are ready, you can put them in the shopping cart at this point.',
+          'variable-not-accessible': 'Although this variable was collected, it is not available in any data product for data protection reasons.',
+          'study-tooltip': 'Click to display the study.',
+          'study-series-tooltip': 'Click to display all studies of the study series.',
+          'data-sets-tooltip': 'Click to display all datasets of this data product.',
+          'variables-tooltip': 'Click to display all variables of this data product.'
         },
         'toasts': {
           'checkout-coming-soon': 'Checkout is coming soon...',
