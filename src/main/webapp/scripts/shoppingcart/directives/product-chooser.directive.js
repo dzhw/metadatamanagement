@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp').directive('productChooser',
         'product-chooser.html.tmpl',
       scope: {
         projectId: '=',
-        studyId: '=',
+        study: '=',
         accessWays: '='
       },
       controller: 'ProductChooserController',

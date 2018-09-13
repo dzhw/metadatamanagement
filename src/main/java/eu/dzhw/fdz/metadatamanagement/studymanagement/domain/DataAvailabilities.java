@@ -8,7 +8,7 @@ import java.util.Set;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 
 /**
- * Just the values in this class are allowed for the study field DataAvaibilites. This will be
+ * Just the values in this class are allowed for the study field dataAvailability. This will be
  * checked by a validator.
  * 
  * @author Daniel Katzberg

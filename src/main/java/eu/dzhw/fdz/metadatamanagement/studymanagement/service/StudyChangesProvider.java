@@ -37,6 +37,9 @@ public class StudyChangesProvider {
    */
   public boolean hasStudySeriesChanged(String studyId) {
     if (oldStudies.containsKey(studyId) && newStudies.containsKey(studyId)) {
+      if (oldStudies.get(studyId).getStudySeries() == null) {
+        return newStudies.get(studyId).getStudySeries() == null;
+      }
       return !oldStudies.get(studyId).getStudySeries().equals(
           newStudies.get(studyId).getStudySeries());
     }

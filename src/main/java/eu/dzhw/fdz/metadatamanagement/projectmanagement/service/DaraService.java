@@ -38,6 +38,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.DataAvailabilities;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
@@ -103,6 +104,7 @@ public class DaraService {
 
   //Availability Controlled
   private static final String AVAILABILITY_CONTROLLED_DELIVERY = "Delivery";
+  private static final String AVAILABILITY_CONTROLLED_NOT_AVAILABLE = "NotAvailable";
 
   /**
    * Constructor for Dara Services. Set the Rest Template.
@@ -149,7 +151,7 @@ public class DaraService {
     //Fill template
     String filledTemplate = this.fillTemplate(registerXmlStr,
             this.getTemplateConfiguration(),
-            this.getDataForTemplate(project, AVAILABILITY_CONTROLLED_DELIVERY),
+        this.getDataForTemplate(project),
             KEY_REGISTER_XML_TMPL);
 
     //Send Rest Call for Registration
@@ -236,13 +238,11 @@ public class DaraService {
    *    availabilityControlled
    *    resourceType
    * @param project The project to find the study.
-   * @param availabilityControlled The availability of the data.
    * @return Returns a Map of names and the depending objects.
    *     If the key is 'study' so the study object is the value.
    *     Study is the name for the object use in freemarker.
    */
-  private Map<String, Object> getDataForTemplate(DataAcquisitionProject project,
-      String availabilityControlled) {
+  private Map<String, Object> getDataForTemplate(DataAcquisitionProject project) {
 
     Map<String, Object> dataForTemplate = new HashMap<>();
     String projectId = project.getId();
@@ -254,6 +254,11 @@ public class DaraService {
     Study study = this.studyRepository.findOneByDataAcquisitionProjectId(projectId);
     dataForTemplate.put("study", study);
     
+    String availabilityControlled = AVAILABILITY_CONTROLLED_NOT_AVAILABLE;
+    if (study.getDataAvailability().equals(DataAvailabilities.AVAILABLE)) {
+      availabilityControlled = AVAILABILITY_CONTROLLED_DELIVERY;
+    }
+
     String doi = doiBuilder.buildStudyDoi(study, project.getRelease());
     dataForTemplate.put("doi", doi);
     

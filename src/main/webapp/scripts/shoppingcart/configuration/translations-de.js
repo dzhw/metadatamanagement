@@ -35,6 +35,7 @@ angular.module('metadatamanagementApp').config(
           'explain-data-product': 'Ein Datenprodukt beinhaltet immer alle Datensätze einer Studie, die für den gewählten Zugangsweg (download, on-site, remote,...) aufbereitet wurden. Sie können sowohl mehrere Datenprodukte, als auch dieselbe Studie mehrmals mit unterschiedlichen Zugangswegen beantragen.',
           'no-final-release': 'Die Datenprodukte wurden noch nicht erstellt. Sobald diese fertig sind können Sie sie an dieser Stelle in den Einkaufswagen legen.',
           'variable-not-accessible': 'Diese Variable wurde zwar erhoben, ist aber aus datenschutzrechtlichen Gründen in keinem Datenprodukt verfügbar.',
+          'data-not-available': 'Dieses Datenprodukt ist aktuell nicht verfügbar.',
           'study-tooltip': 'Klicken, um die Studie anzuzeigen.',
           'study-series-tooltip': 'Klicken, um alle Studien der Studienreihe anzuzeigen.',
           'data-sets-tooltip': 'Klicken, um alle Datensätze dieses Datenproduktes anzuzeigen.',

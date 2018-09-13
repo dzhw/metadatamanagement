@@ -35,6 +35,7 @@ angular.module('metadatamanagementApp').config(
           'explain-data-product': 'A data product contains all data sets of a given study which have been prepared for the given access way (download, on-site, remote,...). You can request several data products as well as the same study several times with different access ways.',
           'no-final-release': 'The data products have not yet been created. As soon as they are ready, you can put them in the shopping cart at this point.',
           'variable-not-accessible': 'Although this variable was collected, it is not available in any data product for data protection reasons.',
+          'data-not-available': 'This data product is currently not available.',
           'study-tooltip': 'Click to display the study.',
           'study-series-tooltip': 'Click to display all studies of the study series.',
           'data-sets-tooltip': 'Click to display all datasets of this data product.',

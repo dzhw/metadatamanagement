@@ -10,12 +10,13 @@ angular.module('metadatamanagementApp')
       var ctrl = this;
       ctrl.accessWays = $scope.accessWays;
       ctrl.projectId = $scope.projectId;
-      ctrl.studyId = $scope.studyId;
+      ctrl.study = $scope.study;
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAuthority = Principal.hasAuthority;
       $scope.bowser = $rootScope.bowser;
       ctrl.noDataSets = false;
       ctrl.noFinalRelease = false;
+      ctrl.dataNotAvailable = false;
 
       if (ctrl.accessWays.length > 0) {
         if (_.includes(ctrl.accessWays, 'not-accessible')) {
@@ -25,6 +26,14 @@ angular.module('metadatamanagementApp')
         }
       } else {
         ctrl.noDataSets = true;
+      }
+
+      if (ctrl.study.dataAvailability.en === 'Not available') {
+        ctrl.dataNotAvailable = true;
+      }
+
+      if (ctrl.study.dataAvailability.en === 'In preparation') {
+        ctrl.noFinalRelease = true;
       }
 
       DataAcquisitionProjectReleasesResource.get(
@@ -42,7 +51,7 @@ angular.module('metadatamanagementApp')
       ctrl.addToShoppingCart = function() {
         ShoppingCartService.add({
           projectId: ctrl.projectId,
-          studyId: ctrl.studyId,
+          studyId: ctrl.study.id,
           accessWay: ctrl.selectedAccessWay,
           version: ctrl.selectedVersion,
         });

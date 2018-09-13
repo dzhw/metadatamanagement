@@ -27,4 +27,6 @@ public interface StudySubDocumentProjection
   List<Person> getAuthors();
   
   I18nString getSurveyDesign();
+
+  I18nString getDataAvailability();
 }

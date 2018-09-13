@@ -7,7 +7,7 @@
                 </md-card-header-text>
             </md-card-header>
             <md-divider></md-divider>
-            <md-card-content ng-if="!ctrl.noFinalRelease && !ctrl.noDataSets && !ctrl.variableNotAccessible">
+            <md-card-content ng-if="!ctrl.noFinalRelease && !ctrl.noDataSets && !ctrl.variableNotAccessible && !ctrl.dataNotAvailable">
                 <div layout="row">
                     <md-input-container flex="50">
                         <label>{{'shopping-cart.detail.label.access-way-of-data-sets' | translate}}</label>
@@ -43,12 +43,15 @@
                     </md-button>
                 </div>
             </md-card-content>
-            <md-card-content ng-if="ctrl.noFinalRelease || ctrl.noDataSets || ctrl.variableNotAccessible">
-                <p ng-if="!ctrl.variableNotAccessible">
+            <md-card-content ng-if="ctrl.noFinalRelease || ctrl.noDataSets || ctrl.variableNotAccessible || ctrl.dataNotAvailable">
+                <p ng-if="!ctrl.variableNotAccessible && !ctrl.dataNotAvailable">
                   {{'shopping-cart.detail.no-final-release' | translate | fdzHyphenate}}
                 </p>
                 <p ng-if="ctrl.variableNotAccessible">
                   {{'shopping-cart.detail.variable-not-accessible' | translate | fdzHyphenate}}
+                </p>
+                <p ng-if="ctrl.dataNotAvailable">
+                  {{'shopping-cart.detail.data-not-available' | translate | fdzHyphenate}}
                 </p>
             </md-card-content>
         </md-card>

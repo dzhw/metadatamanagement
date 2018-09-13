@@ -43,6 +43,8 @@ public class StudySubDocument extends AbstractRdcDomainObject
   
   private I18nString surveyDesign;
 
+  private I18nString dataAvailability;
+
   public StudySubDocument() {
     super();
   }
