@@ -58,6 +58,15 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
       });
       $q.all(promises).then(function() {
         ctrl.initComplete = true;
+        // remove all product which are not available anymore
+        ctrl.products.forEach(function(product) {
+          if (ctrl.studies[product.studyId]
+              .dataAvailability.en === 'Available') {
+            return;
+          } else {
+            ShoppingCartService.remove(product);
+          }
+        });
       });
     };
 
