@@ -295,5 +295,11 @@
             </md-tooltip>
             <md-icon md-font-set="material-icons">note_add</md-icon>
         </md-button>
+        <md-button ng-if="!ctrl.isAuthenticated() || ctrl.hasAuthority('ROLE_USER')" class="md-fab md-raised md-accent" ng-click="ctrl.addToShoppingCart($event)">
+            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                {{'shopping-cart.buttons.add-study-tooltip' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">add_shopping_cart</md-icon>
+        </md-button>
     </div>
 </div>

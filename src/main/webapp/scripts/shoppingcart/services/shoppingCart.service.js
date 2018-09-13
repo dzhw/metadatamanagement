@@ -10,7 +10,7 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
         return angular.equals(item, product);
       });
       if (existingIndex >= 0) {
-        SimpleMessageToastService.openAlertMessageToast(
+        SimpleMessageToastService.openSimpleMessageToast(
           'shopping-cart.toasts.study-already-in-cart',
           {id: product.studyId}
         );

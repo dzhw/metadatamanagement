@@ -6,11 +6,13 @@ angular.module('metadatamanagementApp')
     function(entity, InstrumentAttachmentResource,
       PageTitleService, LanguageService, $state, CleanJSObjectService,
       ToolbarHeaderService, Principal, SimpleMessageToastService,
-      SearchResultNavigatorService, $stateParams) {
+      SearchResultNavigatorService, $stateParams, ProductChooserDialogService) {
       SearchResultNavigatorService.registerCurrentSearchResult(
         $stateParams['search-result-index']);
       //Controller Init
       var ctrl = this;
+      ctrl.isAuthenticated = Principal.isAuthenticated;
+      ctrl.hasAuthority = Principal.hasAuthority;
       ctrl.searchResultIndex = $stateParams['search-result-index'];
       ctrl.survey = null;
       ctrl.attachments = null;
@@ -78,4 +80,11 @@ angular.module('metadatamanagementApp')
           );
         }
       });
+
+      ctrl.addToShoppingCart = function(event) {
+        ProductChooserDialogService.showDialog(
+          ctrl.instrument.dataAcquisitionProjectId, ctrl.accessWays,
+          ctrl.instrument.study,
+          event);
+      };
     });

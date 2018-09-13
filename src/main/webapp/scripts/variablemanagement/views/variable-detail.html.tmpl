@@ -211,7 +211,6 @@
             </md-card>
         </div>
     </div>
-    <product-chooser project-id="variable.dataAcquisitionProjectId" access-ways="variable.accessWays" study="variable.study"></product-chooser>
     <div layout="column" layout-gt-sm="row">
          <div flex-gt-sm="50" layout="column">
            <md-card flex="auto" ng-if="isDiagramVisible()" class="fdz-reset-top-margin">
@@ -448,5 +447,13 @@
                 </md-content>
             </md-card>
         </div>
+    </div>
+    <div class="fdz-fab-button-container" layout="column">
+      <md-button ng-if="!isAuthenticated() || hasAuthority('ROLE_USER')" class="md-fab md-raised md-accent" ng-click="addToShoppingCart($event)">
+          <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+              {{'shopping-cart.buttons.add-study-tooltip' | translate}}
+          </md-tooltip>
+          <md-icon md-font-set="material-icons">add_shopping_cart</md-icon>
+      </md-button>
     </div>
 </div>

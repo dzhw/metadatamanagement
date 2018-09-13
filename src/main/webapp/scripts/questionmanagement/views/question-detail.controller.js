@@ -8,10 +8,13 @@ angular.module('metadatamanagementApp')
     function(entity, $state, ToolbarHeaderService,
       SimpleMessageToastService, QuestionSearchService, CleanJSObjectService,
       PageTitleService, $rootScope, Principal, SearchResultNavigatorService,
-      $stateParams, QuestionImageMetadataResource, $mdMenu, $timeout) {
+      $stateParams, QuestionImageMetadataResource, $mdMenu, $timeout,
+      ProductChooserDialogService) {
       SearchResultNavigatorService.registerCurrentSearchResult(
             $stateParams['search-result-index']);
       var ctrl = this;
+      ctrl.isAuthenticated = Principal.isAuthenticated;
+      ctrl.hasAuthority = Principal.hasAuthority;
       ctrl.searchResultIndex = $stateParams['search-result-index'];
       this.representationCodeToggleFlag = true;
       ctrl.predecessors = [];
@@ -141,7 +144,15 @@ angular.module('metadatamanagementApp')
       ctrl.openSuccessCopyToClipboardToast = function(message) {
         SimpleMessageToastService.openSimpleMessageToast(message, []);
       };
+
       ctrl.toggleRepresentationCode = function() {
         ctrl.representationCodeToggleFlag = !ctrl.representationCodeToggleFlag;
+      };
+
+      ctrl.addToShoppingCart = function(event) {
+        ProductChooserDialogService.showDialog(
+          ctrl.question.dataAcquisitionProjectId, ctrl.accessWays,
+          ctrl.question.study,
+          event);
       };
     });

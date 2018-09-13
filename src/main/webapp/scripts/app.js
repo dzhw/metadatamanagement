@@ -181,7 +181,8 @@ try {
           // If the request contains '/api/search' ...
           if (config.url.indexOf('_search') !== -1 ||
               (config.url.indexOf('/api/data-acquisition-projects') !== -1 &&
-                config.method === 'GET')) {
+                config.method === 'GET' &&
+                config.url.indexOf('/releases') === -1)) {
             return false; // ... don't block it.
           }
         };

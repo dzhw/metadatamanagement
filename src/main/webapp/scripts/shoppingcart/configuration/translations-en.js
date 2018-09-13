@@ -50,12 +50,13 @@ angular.module('metadatamanagementApp').config(
           'checkout': 'Order',
           'checkout-tooltip': 'Click to order the data products.',
           'add-study': 'Put in Shopping Cart',
-          'add-study-tooltip': 'Click to put the study with the selected options in the shopping cart.',
+          'add-study-tooltip': 'Click to put the data product with the selected options into the shopping cart.',
           'open-cart': 'Go to Shopping Cart',
           'remove-all': 'Empty Shopping Cart',
           'remove-all-tooltip': 'Click to remove all products from the shopping cart.',
           'delete-product-tooltip': 'Click to remove the product from the shopping cart.',
-          'open-cart-tooltip': 'Click to show the contents of the shopping cart.'
+          'open-cart-tooltip': 'Click to show the contents of the shopping cart.',
+          'close-tooltip': 'Click to close the product selection.'
         }
       }
       //jscs:enable

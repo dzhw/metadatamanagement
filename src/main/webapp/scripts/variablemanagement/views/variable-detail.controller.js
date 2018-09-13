@@ -7,9 +7,11 @@ angular.module('metadatamanagementApp')
     QuestionSearchService, VariableSearchService, Principal,
     SimpleMessageToastService, PageTitleService, LanguageService,
     CleanJSObjectService, $state, ToolbarHeaderService,
-    SearchResultNavigatorService, $stateParams) {
+    SearchResultNavigatorService, $stateParams, ProductChooserDialogService) {
     SearchResultNavigatorService.registerCurrentSearchResult(
       $stateParams['search-result-index']);
+    $scope.isAuthenticated = Principal.isAuthenticated;
+    $scope.hasAuthority = Principal.hasAuthority;
     $scope.searchResultIndex = $stateParams['search-result-index'];
     $scope.generationCodeToggleFlag = true;
     $scope.filterDetailsCodeToggleFlag = true;
@@ -179,5 +181,12 @@ angular.module('metadatamanagementApp')
       return $scope.variable.distribution != null &&
         $scope.variable.distribution.validResponses &&
         $scope.variable.distribution.validResponses.length > 0;
+    };
+
+    $scope.addToShoppingCart = function(event) {
+      ProductChooserDialogService.showDialog(
+        $scope.variable.dataAcquisitionProjectId, $scope.variable.accessWays,
+        $scope.variable.study,
+        event);
     };
   });

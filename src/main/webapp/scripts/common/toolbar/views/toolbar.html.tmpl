@@ -56,7 +56,7 @@
                 </md-button>
             </div>
         </div>
-        <md-button ng-if="!isAuthenticated() || hasAuthority('ROLE_USER')" class="md-icon-button" ui-sref="shoppingCart">
+        <md-button id="shoppingCartButton" ng-if="!isAuthenticated() || hasAuthority('ROLE_USER')" class="md-icon-button" ui-sref="shoppingCart">
             <md-icon md-font-set="material-icons">shopping_cart</md-icon>
             <span ng-if="productsCount" class="fdz-shopping-cart-count">{{productsCount}}</span>
             <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 20">

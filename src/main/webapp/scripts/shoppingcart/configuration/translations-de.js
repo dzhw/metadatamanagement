@@ -49,13 +49,14 @@ angular.module('metadatamanagementApp').config(
         'buttons': {
           'checkout': 'Beantragen',
           'add-study': 'In den Einkaufswagen',
-          'add-study-tooltip': 'Klicken, um die Studie mit den ausgewählten Optionen in den Einkaufswagen zu legen.',
+          'add-study-tooltip': 'Klicken, um das Datenprodukt mit den ausgewählten Optionen in den Einkaufswagen zu legen.',
           'open-cart': 'Zum Einkaufswagen',
           'checkout-tooltip': 'Klicken, um die Datenprodukte zu bestellen.',
           'remove-all': 'Einkaufswagen leeren',
           'remove-all-tooltip': 'Klicken, um alle Datenprodukte aus dem Einkaufswagen zu entfernen.',
           'delete-product-tooltip': 'Klicken, um das Datenprodukt aus dem Einkaufswagen zu entfernen.',
-          'open-cart-tooltip': 'Klicken, um die Inhalte des Einkaufswagens anzuzeigen.'
+          'open-cart-tooltip': 'Klicken, um die Inhalte des Einkaufswagens anzuzeigen.',
+          'close-tooltip': 'Klicken, um die Produktauswahl zu verlassen.'
         }
       }
       //jscs:enable

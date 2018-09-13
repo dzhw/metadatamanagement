@@ -7,10 +7,13 @@ angular.module('metadatamanagementApp')
       PageTitleService, $state, ToolbarHeaderService, SurveySearchService,
       SurveyAttachmentResource, Principal, SimpleMessageToastService,
       SearchResultNavigatorService, $stateParams,
-      SurveyResponseRateImageUploadService, DataAcquisitionProjectResource) {
+      SurveyResponseRateImageUploadService, DataAcquisitionProjectResource,
+      ProductChooserDialogService) {
       SearchResultNavigatorService.registerCurrentSearchResult(
           $stateParams['search-result-index']);
       var ctrl = this;
+      ctrl.isAuthenticated = Principal.isAuthenticated;
+      ctrl.hasAuthority = Principal.hasAuthority;
       ctrl.searchResultIndex = $stateParams['search-result-index'];
       ctrl.counts = {};
       ctrl.projectIsCurrentlyReleased = true;
@@ -84,4 +87,11 @@ angular.module('metadatamanagementApp')
           );
         }
       });
+
+      ctrl.addToShoppingCart = function(event) {
+        ProductChooserDialogService.showDialog(
+          ctrl.survey.dataAcquisitionProjectId, ctrl.accessWays,
+          ctrl.survey.study,
+          event);
+      };
     });

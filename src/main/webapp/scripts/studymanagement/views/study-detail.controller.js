@@ -6,11 +6,13 @@ angular.module('metadatamanagementApp')
     function(entity, PageTitleService, LanguageService, DataSetSearchService,
       $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
       StudyAttachmentResource, SearchResultNavigatorService, $stateParams,
-      $rootScope, DataAcquisitionProjectResource) {
+      $rootScope, DataAcquisitionProjectResource, ProductChooserDialogService) {
       SearchResultNavigatorService.registerCurrentSearchResult(
          $stateParams['search-result-index']);
       var versionFromUrl = $stateParams.version;
       var ctrl = this;
+      ctrl.isAuthenticated = Principal.isAuthenticated;
+      ctrl.hasAuthority = Principal.hasAuthority;
       ctrl.projectIsCurrentlyReleased = true;
       ctrl.searchResultIndex = $stateParams['search-result-index'];
       ctrl.counts = {};
@@ -115,4 +117,10 @@ angular.module('metadatamanagementApp')
           );
         }
       });
+
+      ctrl.addToShoppingCart = function(event) {
+        ProductChooserDialogService.showDialog(
+          ctrl.study.dataAcquisitionProjectId, ctrl.accessWays, ctrl.study,
+          event);
+      };
     });

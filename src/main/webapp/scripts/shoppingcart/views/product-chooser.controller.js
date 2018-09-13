@@ -3,14 +3,16 @@
 
 angular.module('metadatamanagementApp')
   .controller('ProductChooserController', [
-    '$scope', 'Principal', '$rootScope',
+    '$scope', 'Principal', '$rootScope', '$mdDialog',
     'DataAcquisitionProjectReleasesResource', 'ShoppingCartService',
-    function($scope, Principal, $rootScope,
-      DataAcquisitionProjectReleasesResource, ShoppingCartService) {
+    'projectId', 'accessWays', 'study',
+    function($scope, Principal, $rootScope, $mdDialog,
+      DataAcquisitionProjectReleasesResource, ShoppingCartService,
+      projectId, accessWays, study) {
       var ctrl = this;
-      ctrl.accessWays = $scope.accessWays;
-      ctrl.projectId = $scope.projectId;
-      ctrl.study = $scope.study;
+      ctrl.accessWays = accessWays;
+      ctrl.projectId = projectId;
+      ctrl.study = study;
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAuthority = Principal.hasAuthority;
       $scope.bowser = $rootScope.bowser;
@@ -55,6 +57,14 @@ angular.module('metadatamanagementApp')
           accessWay: ctrl.selectedAccessWay,
           version: ctrl.selectedVersion,
         });
+      };
+
+      $scope.closeDialog = function() {
+        $mdDialog.cancel();
+      };
+
+      $scope.ok = function() {
+        $mdDialog.hide();
       };
     }
   ]);
