@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
@@ -31,21 +32,28 @@ import lombok.ToString;
 public class StudySearchDocument extends Study implements SearchDocumentInterface {
   private List<DataSetSubDocument> dataSets = 
       new ArrayList<>();
+  private List<DataSetNestedDocument> nestedDataSets = new ArrayList<>();
   
   private List<VariableSubDocument> variables = 
       new ArrayList<>();
+  private List<VariableNestedDocument> nestedVariables = new ArrayList<>();
   
-  private List<RelatedPublicationSubDocument> relatedPublications = 
+  private List<RelatedPublicationSubDocument> relatedPublications = new ArrayList<>();
+
+  private List<RelatedPublicationNestedDocument> nestedRelatedPublications =
       new ArrayList<>();
   
   private List<SurveySubDocument> surveys = 
       new ArrayList<>();
+  private List<SurveyNestedDocument> nestedSurveys = new ArrayList<>();
   
   private List<QuestionSubDocument> questions = 
       new ArrayList<>();
+  private List<QuestionNestedDocument> nestedQuestions = new ArrayList<>();
   
   private List<InstrumentSubDocument> instruments = 
       new ArrayList<>();
+  private List<InstrumentNestedDocument> nestedInstruments = new ArrayList<>();
   
   private List<RelatedPublicationSubDocument> seriesPublications = 
       new ArrayList<>();
@@ -60,6 +68,8 @@ public class StudySearchDocument extends Study implements SearchDocumentInterfac
   
   private I18nString guiLabels = StudyDetailsGuiLabels.GUI_LABELS;
   
+  private I18nString completeTitle;
+
   /**
    * Construct the search document with all related subdocuments.
    * @param study The study to be searched for
@@ -77,36 +87,49 @@ public class StudySearchDocument extends Study implements SearchDocumentInterfac
       List<RelatedPublicationSubDocumentProjection> relatedPublications,
       List<SurveySubDocumentProjection> surveys,
       List<QuestionSubDocumentProjection> questions, 
-      List<InstrumentSubDocumentProjection> instruments,
+      Map<String, InstrumentSubDocumentProjection> instruments,
       List<RelatedPublicationSubDocumentProjection> seriesPublications,
       Release release,
       String doi) {
     super(study);
     if (dataSets != null) {
       this.dataSets = dataSets.stream()
-          .map(DataSetSubDocument::new).collect(Collectors.toList());      
+          .map(DataSetSubDocument::new).collect(Collectors.toList());
+      this.nestedDataSets =
+          dataSets.stream().map(DataSetNestedDocument::new).collect(Collectors.toList());
     }
     if (variables != null) {
       this.variables = variables.stream()
-          .map(VariableSubDocument::new).collect(Collectors.toList());      
+          .map(VariableSubDocument::new).collect(Collectors.toList());
+      this.nestedVariables =
+          variables.stream().map(VariableNestedDocument::new).collect(Collectors.toList());
     }
     if (relatedPublications != null) {
       this.relatedPublications = relatedPublications.stream()
           .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());
+      this.nestedRelatedPublications = relatedPublications.stream()
+          .map(RelatedPublicationNestedDocument::new).collect(Collectors.toList());
     }
     if (surveys != null) {
       this.surveys = surveys.stream()
-          .map(SurveySubDocument::new).collect(Collectors.toList());      
+          .map(SurveySubDocument::new).collect(Collectors.toList());
+      this.nestedSurveys =
+          surveys.stream().map(SurveyNestedDocument::new).collect(Collectors.toList());
       this.surveyDataType = generateSurveyDataType(surveys);
       this.numberOfWaves = generateNumberOfWaves(surveys);
     }
     if (questions != null) {
       this.questions = questions.stream()
-          .map(QuestionSubDocument::new).collect(Collectors.toList());      
+          .map(question -> new QuestionSubDocument(question)).collect(Collectors.toList());
+      this.nestedQuestions = questions.stream()
+          .map(question -> new QuestionNestedDocument(question))
+          .collect(Collectors.toList());
     }
     if (instruments != null) {
-      this.instruments = instruments.stream()
-          .map(InstrumentSubDocument::new).collect(Collectors.toList());      
+      this.instruments = instruments.values().stream()
+          .map(InstrumentSubDocument::new).collect(Collectors.toList());
+      this.nestedInstruments = instruments.values().stream().map(InstrumentNestedDocument::new)
+          .collect(Collectors.toList());
     }
     if (seriesPublications != null) {
       this.seriesPublications = seriesPublications.stream()
@@ -114,6 +137,12 @@ public class StudySearchDocument extends Study implements SearchDocumentInterfac
     }
     this.release = release;
     this.doi = doi;
+    this.completeTitle = I18nString.builder()
+        .de((study.getTitle().getDe() != null ? study.getTitle().getDe() : study.getTitle().getEn())
+            + " (" + study.getId() + ")")
+        .en((study.getTitle().getEn() != null ? study.getTitle().getEn() : study.getTitle().getDe())
+            + " (" + study.getId() + ")")
+        .build();
   }
   
   /**

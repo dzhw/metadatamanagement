@@ -46,7 +46,8 @@ public class ElasticsearchDao {
    * @param settings the settings json
    */
   public void createIndex(String index, JsonObject settings) {
-    JestResult result = execute(new CreateIndex.Builder(index).settings(settings).build());
+    JestResult result =
+        execute(new CreateIndex.Builder(index).settings(settings.toString()).build());
     if (!result.isSucceeded()) {
       throw new ElasticsearchIndexCreateException(index, result.getErrorMessage());
     }
@@ -113,7 +114,7 @@ public class ElasticsearchDao {
    * @param indices the indices to refresh.
    */
   public void refresh(Collection<String> indices) {
-    JestResult result = execute(new Refresh.Builder().addIndex(indices).build());
+    JestResult result = execute(new Refresh.Builder().addIndices(indices).build());
     if (!result.isSucceeded()) {
       log.warn("Unable to refresh indices " + indices + ": " + result.getErrorMessage());
     }

@@ -1,9 +1,9 @@
-/*jshint curly:true, eqeqeq:true, laxbreak:true, noempty:false */
+/*jshint node:true */
 /*
 
   The MIT License (MIT)
 
-  Copyright (c) 2007-2017 Einar Lielmanis, Liam Newman, and contributors.
+  Copyright (c) 2007-2018 Einar Lielmanis, Liam Newman, and contributors.
 
   Permission is hereby granted, free of charge, to any person
   obtaining a copy of this software and associated documentation files
@@ -26,24 +26,29 @@
   SOFTWARE.
 */
 
-function Token(type, text, newlines, whitespace_before, parent) {
-    this.type = type;
-    this.text = text;
+'use strict';
 
-    // comments_before are
-    // comments that have a new line before them
-    // and may or may not have a newline after
-    // this is a set of comments before
-    this.comments_before = /* inline comment*/ [];
+function Token(type, text, newlines, whitespace_before) {
+  this.type = type;
+  this.text = text;
+
+  // comments_before are
+  // comments that have a new line before them
+  // and may or may not have a newline after
+  // this is a set of comments before
+  this.comments_before = null; /* inline comment*/
 
 
-    this.comments_after = []; // no new line before and newline after
-    this.newlines = newlines || 0;
-    this.wanted_newline = newlines > 0;
-    this.whitespace_before = whitespace_before || '';
-    this.parent = parent || null;
-    this.opened = null;
-    this.directives = null;
+  // this.comments_after =  new TokenStream(); // no new line before and newline after
+  this.newlines = newlines || 0;
+  this.whitespace_before = whitespace_before || '';
+  this.parent = null;
+  this.next = null;
+  this.previous = null;
+  this.opened = null;
+  this.closed = null;
+  this.directives = null;
 }
+
 
 module.exports.Token = Token;

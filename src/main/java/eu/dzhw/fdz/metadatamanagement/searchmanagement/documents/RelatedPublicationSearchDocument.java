@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
@@ -29,21 +30,29 @@ public class RelatedPublicationSearchDocument extends RelatedPublication
     implements SearchDocumentInterface {
   private List<StudySubDocument> studies =
       new ArrayList<>();
+  private List<StudyNestedDocument> nestedStudies = new ArrayList<>();
   private List<QuestionSubDocument> questions =
       new ArrayList<>();
+  private List<QuestionNestedDocument> nestedQuestions = new ArrayList<>();
   private List<InstrumentSubDocument> instruments =
       new ArrayList<>();
+  private List<InstrumentNestedDocument> nestedInstruments = new ArrayList<>();
   private List<SurveySubDocument> surveys =
       new ArrayList<>();
+  private List<SurveyNestedDocument> nestedSurveys = new ArrayList<>();
   private List<DataSetSubDocument> dataSets =
       new ArrayList<>();
+  private List<DataSetNestedDocument> nestedDataSets = new ArrayList<>();
   private List<VariableSubDocument> variables =
       new ArrayList<>();
+  private List<VariableNestedDocument> nestedVariables = new ArrayList<>();
 
   // dummy string which ensures that related publications are always released
   private String release = "released";
 
   private I18nString guiLabels = RelatedPublicationDetailsGuiLabels.GUI_LABELS;
+
+  private I18nString completeTitle;
 
   /**
    * Construct the search document with all related subdocuments.
@@ -58,8 +67,9 @@ public class RelatedPublicationSearchDocument extends RelatedPublication
   @SuppressWarnings("CPD-START")
   public RelatedPublicationSearchDocument(RelatedPublication relatedPublication,
       List<StudySubDocument> studies,
+      List<StudyNestedDocument> nestedStudies,
       List<QuestionSubDocumentProjection> questions,
-      List<InstrumentSubDocumentProjection> instruments,
+      Map<String, InstrumentSubDocumentProjection> instruments,
       List<SurveySubDocumentProjection> surveys,
       List<DataSetSubDocumentProjection> dataSets,
       List<VariableSubDocumentProjection> variables) {
@@ -67,25 +77,42 @@ public class RelatedPublicationSearchDocument extends RelatedPublication
     if (studies != null) {
       this.studies = studies;
     }
+    if (nestedStudies != null) {
+      this.nestedStudies = nestedStudies;
+    }
     if (questions != null) {
       this.questions = questions.stream()
-          .map(QuestionSubDocument::new).collect(Collectors.toList());
+          .map(question -> new QuestionSubDocument(question)).collect(Collectors.toList());
+      this.nestedQuestions = questions.stream()
+          .map(question -> new QuestionNestedDocument(question))
+          .collect(Collectors.toList());
     }
     if (instruments != null) {
-      this.instruments = instruments.stream()
+      this.instruments = instruments.values().stream()
           .map(InstrumentSubDocument::new).collect(Collectors.toList());
+      this.nestedInstruments = instruments.values().stream().map(InstrumentNestedDocument::new)
+          .collect(Collectors.toList());
     }
     if (surveys != null) {
       this.surveys = surveys.stream()
           .map(SurveySubDocument::new).collect(Collectors.toList());
+      this.nestedSurveys =
+          surveys.stream().map(SurveyNestedDocument::new).collect(Collectors.toList());
     }
     if (dataSets != null) {
       this.dataSets = dataSets.stream()
           .map(DataSetSubDocument::new).collect(Collectors.toList());
+      this.nestedDataSets =
+          dataSets.stream().map(DataSetNestedDocument::new).collect(Collectors.toList());
     }
     if (variables != null) {
       this.variables = variables.stream()
           .map(VariableSubDocument::new).collect(Collectors.toList());
+      this.nestedVariables =
+          variables.stream().map(VariableNestedDocument::new).collect(Collectors.toList());
     }
+    this.completeTitle = I18nString.builder()
+        .de(relatedPublication.getTitle() + " (" + relatedPublication.getId() + ")")
+        .en(relatedPublication.getTitle() + " (" + relatedPublication.getId() + ")").build();
   }
 }

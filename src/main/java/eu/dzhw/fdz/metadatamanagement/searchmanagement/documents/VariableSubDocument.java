@@ -1,11 +1,17 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
+import java.util.List;
+
 import org.springframework.beans.BeanUtils;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.VariableSubDocumentProjection;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * Attributes of a variable which are stored in other search documents.
@@ -13,6 +19,10 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.Vari
  * @author René Reitmann
  */
 @SuppressWarnings("CPD-START")
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+@Getter
+@Setter
 public class VariableSubDocument extends AbstractRdcDomainObject
     implements VariableSubDocumentProjection {
   private String id;
@@ -27,65 +37,31 @@ public class VariableSubDocument extends AbstractRdcDomainObject
   
   private Integer dataSetNumber;
 
+  private String studyId;
+
+  private List<String> surveyIds;
+
   public VariableSubDocument() {
     super();
   }
   
+  /**
+   * Create the subdocument.
+   * 
+   * @param projection the projection coming from mongo.
+   */
   public VariableSubDocument(VariableSubDocumentProjection projection) {
     super();
     BeanUtils.copyProperties(projection, this);
   }
   
+  /**
+   * Create the subdocument.
+   * 
+   * @param variable the complete variable coming from mongo.
+   */
   public VariableSubDocument(Variable variable) {
     super();
     BeanUtils.copyProperties(variable, this);
-  }
-  
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public String getDataAcquisitionProjectId() {
-    return dataAcquisitionProjectId;
-  }
-
-  public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
-    this.dataAcquisitionProjectId = dataAcquisitionProjectId;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public I18nString getLabel() {
-    return label;
-  }
-
-  public void setLabel(I18nString label) {
-    this.label = label;
-  }
-
-  public String getDataSetId() {
-    return dataSetId;
-  }
-
-  public void setDataSetId(String dataSetId) {
-    this.dataSetId = dataSetId;
-  }
-
-  public Integer getDataSetNumber() {
-    return dataSetNumber;
-  }
-
-  public void setDataSetNumber(Integer dataSetNumber) {
-    this.dataSetNumber = dataSetNumber;
   }
 }

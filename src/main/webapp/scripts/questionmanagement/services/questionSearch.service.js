@@ -2,12 +2,52 @@
 'use strict';
 
 angular.module('metadatamanagementApp').factory('QuestionSearchService',
-  function(ElasticSearchClient, $q) {
-    var createQueryObject = function() {
+  function(ElasticSearchClient, $q, CleanJSObjectService, SearchHelperService,
+    LanguageService) {
+    var createQueryObject = function(type) {
+      type = type || 'questions';
       return {
-        index: 'questions',
-        type: 'questions'
+        index: type,
+        type: type
       };
+    };
+
+    var createNestedTermFilters = function(filter, prefix) {
+      var result = [];
+      if (!prefix || prefix === '' ||
+          CleanJSObjectService.isNullOrEmpty(filter)) {
+        return result;
+      }
+      if (filter.instrument) {
+        var term = {
+          term: {}
+        };
+        term.term[prefix + 'instrumentId'] = filter.instrument;
+        result.push(term);
+      }
+      return result;
+    };
+
+    var createTermFilters = function(filter, dataAcquisitionProjectId, type) {
+      type = type || 'questions';
+      var termFilter;
+      if (!CleanJSObjectService.isNullOrEmpty(filter) ||
+        !CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
+        termFilter = [];
+      }
+      if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
+        var projectFilter = {
+          term: {
+            dataAcquisitionProjectId: dataAcquisitionProjectId
+          }
+        };
+        termFilter.push(projectFilter);
+      }
+      if (!CleanJSObjectService.isNullOrEmpty(filter)) {
+        termFilter = _.concat(termFilter,
+          SearchHelperService.createTermFilters(type, filter));
+      }
+      return termFilter;
     };
 
     var findOneById = function(id) {
@@ -133,6 +173,129 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
       query.body.query.bool.filter.push(mustTerm);
       return ElasticSearchClient.count(query);
     };
+
+    var findQuestionTitles = function(searchText, filter, type,
+      queryterm, dataAcquisitionProjectId) {
+      var language = LanguageService.getCurrentInstantly();
+      var query = createQueryObject(type);
+      query.size = 0;
+      query.body = {};
+      var termFilters = createTermFilters(filter, dataAcquisitionProjectId,
+        type);
+      var prefix = (type === 'questions' || !type)  ? ''
+        : 'nestedQuestions.';
+      var aggregation = {
+          'aggs': {
+            'title': {
+              'filter': {
+                'bool': {
+                  'must': [{
+                    'match': {
+
+                    }
+                  }]
+                }
+              },
+              'aggs': {
+                'id': {
+                  'terms': {
+                    'field': prefix + 'id',
+                    'size': 100
+                  },
+                  'aggs': {
+                    'textDe': {
+                      'terms': {
+                        'field': prefix + 'questionText.de',
+                        'size': 100
+                      },
+                      'aggs': {
+                        'textEn': {
+                          'terms': {
+                            'field': prefix + 'questionText.en',
+                            'size': 100
+                          },
+                          'aggs': {
+                            'number': {
+                              'terms': {
+                                'field': prefix + 'number',
+                                'size': 100
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        };
+      var nestedAggregation = {
+        'aggs': {
+            'questions': {
+              'nested': {
+                'path': prefix.replace('.', '')
+              }
+            }
+          }
+      };
+
+      aggregation.aggs.title.filter.bool.must[0]
+      .match[prefix + 'completeTitle.' + language] =  {
+        'query': searchText,
+        'operator': 'AND',
+        'minimum_should_match': '100%',
+        'zero_terms_query': 'ALL'
+      };
+
+      if (termFilters) {
+        query.body.query = query.body.query || {};
+        query.body.query.bool = query.body.query.bool || {};
+        query.body.query.bool.filter = termFilters;
+
+        aggregation.aggs.title.filter.bool.must = _.concat(
+          aggregation.aggs.title.filter.bool.must,
+          createNestedTermFilters(filter, prefix));
+      }
+
+      if (prefix !== '') {
+        nestedAggregation.aggs.questions.aggs =
+          aggregation.aggs;
+        query.body.aggs = nestedAggregation.aggs;
+      } else {
+        query.body.aggs = aggregation.aggs;
+      }
+
+      SearchHelperService.addQuery(query, queryterm);
+
+      SearchHelperService.addReleaseFilter(query);
+
+      return ElasticSearchClient.search(query).then(function(result) {
+        var titles = [];
+        var titleElement = {};
+        var buckets = [];
+        if (prefix !== '') {
+          buckets = result.aggregations.questions.title.id.buckets;
+        } else {
+          buckets = result.aggregations.title.id.buckets;
+        }
+        buckets.forEach(function(bucket) {
+            titleElement = {
+              questionText: {
+                de: bucket.textDe.buckets[0].key,
+                en: bucket.textDe.buckets[0].textEn.buckets[0].key
+              },
+              number: bucket.textDe.buckets[0].textEn.buckets[0]
+                .number.buckets[0].key,
+              id: bucket.key,
+              count: bucket.doc_count
+            };
+            titles.push(titleElement);
+          });
+        return titles;
+      });
+    };
     return {
       findOneById: findOneById,
       findAllPredeccessors: findAllPredeccessors,
@@ -140,6 +303,7 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
       findByProjectId: findByProjectId,
       findByStudyId: findByProjectId,
       findByVariableId: findByVariableId,
-      countBy: countBy
+      countBy: countBy,
+      findQuestionTitles: findQuestionTitles
     };
   });

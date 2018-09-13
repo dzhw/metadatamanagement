@@ -3,9 +3,12 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.service;
 import java.lang.management.ManagementFactory;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -39,6 +42,7 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataSetSearchDo
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.InstrumentSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.QuestionSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.RelatedPublicationSearchDocument;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.StudyNestedDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.StudySearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.StudySubDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.SurveySearchDocument;
@@ -303,6 +307,7 @@ public class ElasticsearchUpdateQueueService {
         .orElse(null);
     if (relatedPublication != null) {
       List<StudySubDocument> studySubDocuments = null;
+      List<StudyNestedDocument> nestedStudyDocuments = null;
       if (relatedPublication.getStudyIds() != null) {
         List<StudySubDocumentProjection> studies = studyRepository
             .findSubDocumentsByIdIn(relatedPublication.getStudyIds());
@@ -312,17 +317,20 @@ public class ElasticsearchUpdateQueueService {
           return new StudySubDocument(study, 
               doiBuilder.buildStudyDoi(study, project.getRelease()));
         }).collect(Collectors.toList());
+        nestedStudyDocuments =
+            studies.stream().map(StudyNestedDocument::new).collect(Collectors.toList());
       }
       List<QuestionSubDocumentProjection> questions = 
           new ArrayList<QuestionSubDocumentProjection>();
       if (relatedPublication.getQuestionIds() != null) {
         questions = questionRepository.findSubDocumentsByIdIn(relatedPublication.getQuestionIds());
       }
-      List<InstrumentSubDocumentProjection> instruments = 
-          new ArrayList<InstrumentSubDocumentProjection>();
+      Map<String, InstrumentSubDocumentProjection> instruments =
+          new HashMap<String, InstrumentSubDocumentProjection>();
       if (relatedPublication.getInstrumentIds() != null) {
         instruments = instrumentRepository
-            .findSubDocumentsByIdIn(relatedPublication.getInstrumentIds());
+            .findSubDocumentsByIdIn(relatedPublication.getInstrumentIds()).stream().collect(
+                Collectors.toMap(InstrumentSubDocumentProjection::getId, Function.identity()));
       }
       List<SurveySubDocumentProjection> surveys = new ArrayList<SurveySubDocumentProjection>();
       if (relatedPublication.getSurveyIds() != null) {
@@ -338,8 +346,8 @@ public class ElasticsearchUpdateQueueService {
         variables = variableRepository.findSubDocumentsByIdIn(relatedPublication.getVariableIds());
       }
       RelatedPublicationSearchDocument searchDocument =
-          new RelatedPublicationSearchDocument(relatedPublication, studySubDocuments, questions,
-              instruments, surveys, dataSets, variables);
+          new RelatedPublicationSearchDocument(relatedPublication, studySubDocuments,
+              nestedStudyDocuments, questions, instruments, surveys, dataSets, variables);
 
       bulkBuilder.addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType()
           .name())
@@ -369,8 +377,9 @@ public class ElasticsearchUpdateQueueService {
           });
         }
       });
-      List<InstrumentSubDocumentProjection> instruments = instrumentRepository
-          .findSubDocumentsByIdIn(instrumentIds);
+      Map<String, InstrumentSubDocumentProjection> instruments =
+          instrumentRepository.findSubDocumentsByIdIn(instrumentIds).stream().collect(
+              Collectors.toMap(InstrumentSubDocumentProjection::getId, Function.identity()));
       List<QuestionSubDocumentProjection> questions = questionRepository
           .findSubDocumentsByIdIn(questionIds);
       List<RelatedPublicationSubDocumentProjection> relatedPublications = 
@@ -414,9 +423,10 @@ public class ElasticsearchUpdateQueueService {
       List<RelatedPublicationSubDocumentProjection> relatedPublications = 
           relatedPublicationRepository
             .findSubDocumentsBySurveyIdsContaining(survey.getId());
-      List<InstrumentSubDocumentProjection> instruments = instrumentRepository
-          .findSubDocumentsBySurveyIdsContaining(survey.getId());
-      List<String> instrumentIds = instruments.stream()
+      Map<String, InstrumentSubDocumentProjection> instruments = instrumentRepository
+          .findSubDocumentsBySurveyIdsContaining(survey.getId()).stream()
+          .collect(Collectors.toMap(InstrumentSubDocumentProjection::getId, Function.identity()));
+      List<String> instrumentIds = instruments.values().stream()
           .map(InstrumentSubDocumentProjection::getId).collect(Collectors.toList());
       List<QuestionSubDocumentProjection> questions = questionRepository
           .findSubDocumentsByInstrumentIdIn(instrumentIds);
@@ -460,11 +470,16 @@ public class ElasticsearchUpdateQueueService {
       if (variable.getSurveyIds() != null) {
         surveys = surveyRepository.findSubDocumentByIdIn(variable.getSurveyIds());        
       }
-      List<InstrumentSubDocumentProjection> instruments = new ArrayList<>();
+      Map<String, InstrumentSubDocumentProjection> instruments = new HashMap<>();
+      List<QuestionSubDocumentProjection> questions = new ArrayList<>();
       if (variable.getRelatedQuestions() != null) {
-        List<String> instrumentIds = variable.getRelatedQuestions().stream()
-            .map(RelatedQuestion::getInstrumentId).collect(Collectors.toList());
-        instruments = instrumentRepository.findSubDocumentsByIdIn(instrumentIds);
+        Set<String> instrumentIds = variable.getRelatedQuestions().stream()
+            .map(RelatedQuestion::getInstrumentId).collect(Collectors.toSet());
+        Set<String> questionIds = variable.getRelatedQuestions().stream()
+            .map(RelatedQuestion::getQuestionId).collect(Collectors.toSet());
+        instruments = instrumentRepository.findSubDocumentsByIdIn(instrumentIds).stream()
+            .collect(Collectors.toMap(InstrumentSubDocumentProjection::getId, Function.identity()));
+        questions = questionRepository.findSubDocumentsByIdIn(questionIds);
       }
       DataAcquisitionProject project = projectRepository.findById(
           variable.getDataAcquisitionProjectId()).orElse(null);
@@ -474,7 +489,7 @@ public class ElasticsearchUpdateQueueService {
       }
       String doi = doiBuilder.buildStudyDoi(study, release);
       VariableSearchDocument searchDocument = new VariableSearchDocument(variable,
-          dataSet, study, relatedPublications, surveys, instruments, release, doi);
+          dataSet, study, relatedPublications, surveys, instruments, questions, release, doi);
 
       bulkBuilder.addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType()
           .name())
@@ -554,8 +569,9 @@ public class ElasticsearchUpdateQueueService {
           .findSubDocumentByStudyId(study.getId());
       List<QuestionSubDocumentProjection> questions = questionRepository
           .findSubDocumentsByStudyId(study.getId());
-      List<InstrumentSubDocumentProjection> instruments = instrumentRepository
-          .findSubDocumentsByStudyId(study.getId());
+      Map<String, InstrumentSubDocumentProjection> instruments =
+          instrumentRepository.findSubDocumentsByStudyId(study.getId()).stream().collect(
+              Collectors.toMap(InstrumentSubDocumentProjection::getId, Function.identity()));
       List<RelatedPublicationSubDocumentProjection> seriesPublications = null;
       if (study.getStudySeries() != null) {
         seriesPublications = relatedPublicationRepository

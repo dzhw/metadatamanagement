@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
@@ -30,16 +31,22 @@ import lombok.ToString;
 public class DataSetSearchDocument extends DataSet implements SearchDocumentInterface {
   
   private StudySubDocument study = null;
+  private StudyNestedDocument nestedStudy = null;
   private List<VariableSubDocument> variables = 
       new ArrayList<>();
+  private List<VariableNestedDocument> nestedVariables = new ArrayList<>();
   private List<InstrumentSubDocument> instruments = 
       new ArrayList<>();
+  private List<InstrumentNestedDocument> nestedInstruments = new ArrayList<>();
   private List<QuestionSubDocument> questions = 
       new ArrayList<>();
+  private List<QuestionNestedDocument> nestedQuestions = new ArrayList<>();
   private List<RelatedPublicationSubDocument> relatedPublications = 
       new ArrayList<>();
+  private List<RelatedPublicationNestedDocument> nestedRelatedPublications = new ArrayList<>();
   private List<SurveySubDocument> surveys = 
       new ArrayList<>();
+  private List<SurveyNestedDocument> nestedSurveys = new ArrayList<>();
   private Release release = null;
   
   private Integer maxNumberOfObservations;
@@ -48,6 +55,8 @@ public class DataSetSearchDocument extends DataSet implements SearchDocumentInte
   
   private I18nString guiLabels = DataSetDetailsGuiLabels.GUI_LABELS;
   
+  private I18nString completeTitle;
+
   /**
    * Construct the search document with all related subdocuments.
    * @param dataSet The data set to be searched for.
@@ -64,38 +73,57 @@ public class DataSetSearchDocument extends DataSet implements SearchDocumentInte
       List<VariableSubDocumentProjection> variables,
       List<RelatedPublicationSubDocumentProjection> relatedPublications, 
       List<SurveySubDocumentProjection> surveys,
-      List<InstrumentSubDocumentProjection> instruments,
+      Map<String, InstrumentSubDocumentProjection> instruments,
       List<QuestionSubDocumentProjection> questions,
       Release release,
       String doi) {
     super(dataSet);
     if (study != null) {
-      this.study = new StudySubDocument(study, doi);            
+      this.study = new StudySubDocument(study, doi);
+      this.nestedStudy = new StudyNestedDocument(study);
     }
     if (variables != null) {
       this.variables = variables.stream()
-          .map(VariableSubDocument::new).collect(Collectors.toList());      
+          .map(VariableSubDocument::new).collect(Collectors.toList());
+      this.nestedVariables =
+          variables.stream().map(VariableNestedDocument::new).collect(Collectors.toList());
     }
     if (relatedPublications != null) {
       this.relatedPublications = relatedPublications.stream()
           .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());
+      this.nestedRelatedPublications = relatedPublications.stream()
+          .map(RelatedPublicationNestedDocument::new).collect(Collectors.toList());
     }
     if (surveys != null) {
       this.surveys = surveys.stream()
           .map(SurveySubDocument::new).collect(Collectors.toList());
+      this.nestedSurveys =
+          surveys.stream().map(SurveyNestedDocument::new).collect(Collectors.toList());
     }
     if (instruments != null) {
-      this.instruments = instruments.stream()
-          .map(InstrumentSubDocument::new).collect(Collectors.toList());      
+      this.instruments = instruments.values().stream()
+          .map(InstrumentSubDocument::new).collect(Collectors.toList());
+      this.nestedInstruments = instruments.values().stream().map(InstrumentNestedDocument::new)
+          .collect(Collectors.toList());
     }
     if (questions != null) {
       this.questions = questions.stream()
-          .map(QuestionSubDocument::new).collect(Collectors.toList());      
+          .map(question -> new QuestionSubDocument(question)).collect(Collectors.toList());
+      this.nestedQuestions =
+          questions.stream()
+              .map(question -> new QuestionNestedDocument(question))
+          .collect(Collectors.toList());
     }
     this.maxNumberOfObservations = dataSet.getSubDataSets().stream()
         .map(subDataSet -> subDataSet.getNumberOfObservations()).reduce(Integer::max).get();
     this.accessWays = dataSet.getSubDataSets().stream()
         .map(subDataSet -> subDataSet.getAccessWay()).collect(Collectors.toList());
     this.release = release;
+    this.completeTitle = I18nString.builder()
+        .de((dataSet.getDescription().getDe() != null ? dataSet.getDescription().getDe()
+            : dataSet.getDescription().getEn()) + " (" + dataSet.getId() + ")")
+        .en((dataSet.getDescription().getEn() != null ? dataSet.getDescription().getEn()
+            : dataSet.getDescription().getDe()) + " (" + dataSet.getId() + ")")
+        .build();
   }
 }

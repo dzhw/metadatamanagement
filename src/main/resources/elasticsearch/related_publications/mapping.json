@@ -1,14 +1,16 @@
 {
 	"related_publications": {
-		"dynamic_templates": [{
-			"default_mapping": {
-				"match": "*",
-				"mapping": {
-					"index": false,
-					"copy_to": "all"
+		"dynamic_templates": [
+			{
+				"default_mapping": {
+					"match": "*",
+					"mapping": {
+						"index": false,
+						"copy_to": "all"
+					}
 				}
 			}
-		}],
+		],
 		"properties": {
 			"all": {
 				"type": "text",
@@ -21,6 +23,21 @@
 				"copy_to": "all",
 				"fields": {
 					"ngrams": {
+						"type": "text",
+						"analyzer": "ngrams",
+						"norms": false
+					}
+				}
+			},
+			"completeTitle": {
+				"type": "object",
+				"properties": {
+					"de": {
+						"type": "text",
+						"analyzer": "ngrams",
+						"norms": false
+					},
+					"en": {
 						"type": "text",
 						"analyzer": "ngrams",
 						"norms": false
@@ -45,9 +62,12 @@
 				"type": "keyword",
 				"copy_to": "all"
 			},
+			"language": {
+				"type": "keyword",
+				"copy_to": "all"
+			},
 			"title": {
-				"type": "text",
-				"index": false,
+				"type": "keyword",
 				"copy_to": "all",
 				"fields": {
 					"ngrams": {
@@ -146,16 +166,121 @@
 			"instruments": {
 				"type": "object",
 				"properties": {
+					"id": {
+						"type": "keyword",
+						"copy_to": "all"
+					},
 					"surveyIds": {
 						"type": "keyword",
 						"index": false
 					}
 				}
 			},
+			"nestedInstruments": {
+				"type": "nested",
+				"properties": {
+					"id": {
+						"type": "keyword"
+					},
+					"surveyIds": {
+						"type": "keyword"
+					},
+					"completeTitle": {
+						"type": "object",
+						"properties": {
+							"de": {
+								"type": "text",
+								"analyzer": "ngrams",
+								"norms": false
+							},
+							"en": {
+								"type": "text",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
+					},
+					"description": {
+						"type": "object",
+						"properties": {
+							"de": {
+								"type": "keyword"
+							},
+							"en": {
+								"type": "keyword"
+							}
+						}
+					}
+				}
+			},
 			"studies": {
 				"type": "object",
 				"properties": {
+					"id": {
+						"type": "keyword",
+						"copy_to": [
+							"all"
+						]
+					},
 					"studySeries": {
+						"type": "object",
+						"properties": {
+							"de": {
+								"type": "keyword",
+								"index": false
+							},
+							"en": {
+								"type": "text",
+								"index": false
+							}
+						}
+					}
+				}
+			},
+			"nestedStudies": {
+				"type": "nested",
+				"properties": {
+					"completeTitle": {
+						"type": "object",
+						"properties": {
+							"de": {
+								"type": "text",
+								"analyzer": "ngrams",
+								"norms": false
+							},
+							"en": {
+								"type": "text",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
+					},
+					"id": {
+						"type": "keyword"
+					},
+					"title": {
+						"type": "object",
+						"properties": {
+							"de": {
+								"type": "keyword"
+							},
+							"en": {
+								"type": "keyword"
+							}
+						}
+					}
+				}
+			},
+			"surveys": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "keyword",
+						"copy_to": [
+							"all"
+						]
+					},
+					"population": {
 						"type": "object",
 						"properties": {
 							"de": {
@@ -167,22 +292,209 @@
 								"index": false
 							}
 						}
+					},
+					"title": {
+						"type": "object",
+						"properties": {
+							"de": {
+								"type": "keyword",
+								"copy_to": "all",
+								"fields": {
+									"ngrams": {
+										"type": "text",
+										"analyzer": "ngrams",
+										"norms": false
+									}
+								}
+							},
+							"en": {
+								"type": "keyword",
+								"copy_to": "all",
+								"fields": {
+									"ngrams": {
+										"type": "text",
+										"analyzer": "ngrams",
+										"norms": false
+									}
+								}
+							}
+						}
 					}
 				}
 			},
-			"surveys": {
-				"type": "object",
+			"nestedSurveys": {
+				"type": "nested",
 				"properties": {
-					"population": {
+					"completeTitle": {
 						"type": "object",
 						"properties": {
 							"de": {
 								"type": "text",
-								"index": false
+								"analyzer": "ngrams",
+								"norms": false
 							},
 							"en": {
 								"type": "text",
-								"index": false
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
+					},
+					"id": {
+						"type": "keyword"
+					},
+					"title": {
+						"type": "object",
+						"properties": {
+							"de": {
+								"type": "keyword"
+							},
+							"en": {
+								"type": "keyword"
+							}
+						}
+					}
+				}
+			},
+			"dataSets": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "keyword",
+						"copy_to": "all"
+					}
+				}
+			},
+			"nestedDataSets": {
+				"type": "nested",
+				"properties": {
+					"id": {
+						"type": "keyword"
+					},
+					"surveyIds": {
+						"type": "keyword"
+					},
+					"completeTitle": {
+						"type": "object",
+						"properties": {
+							"de": {
+								"type": "text",
+								"analyzer": "ngrams",
+								"norms": false
+							},
+							"en": {
+								"type": "text",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
+					},
+					"description": {
+						"type": "object",
+						"properties": {
+							"de": {
+								"type": "keyword"
+							},
+							"en": {
+								"type": "keyword"
+							}
+						}
+					}
+				}
+			},
+			"questions": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "keyword",
+						"copy_to": "all"
+					}
+				}
+			},
+			"nestedQuestions" : {
+				"type": "nested",
+				"properties": {
+					"id": {
+						"type": "keyword"
+					},
+					"instrumentId": {
+						"type": "keyword"
+					},
+					"number": {
+						"type": "keyword"
+					},
+					"completeTitle": {
+						"type": "object",
+						"properties": {
+							"de": {
+								"type": "text",
+								"analyzer": "ngrams",
+								"norms": false
+							},
+							"en": {
+								"type": "text",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
+					},
+					"questionText": {
+						"type": "object",
+						"properties": {
+							"de": {
+								"type": "keyword"
+							},
+							"en": {
+								"type": "keyword"
+							}
+						}
+					}
+				}
+			},
+			"variables": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "keyword",
+						"copy_to": "all"
+					}
+				}
+			},
+			"nestedVariables": {
+				"type": "nested",
+				"properties": {
+					"id": {
+						"type": "keyword"
+					},
+					"dataSetId": {
+						"type": "keyword"
+					},
+					"surveyIds": {
+						"type": "keyword"
+					},
+					"completeTitle": {
+						"type": "object",
+						"properties": {
+							"de": {
+								"type": "text",
+								"analyzer": "ngrams",
+								"norms": false
+							},
+							"en": {
+								"type": "text",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
+					},
+					"label": {
+						"type": "object",
+						"properties": {
+							"de": {
+								"type": "keyword"
+							},
+							"en": {
+								"type": "keyword"
 							}
 						}
 					}

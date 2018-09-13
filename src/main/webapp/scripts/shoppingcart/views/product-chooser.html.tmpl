@@ -1,0 +1,61 @@
+<md-dialog aria-label="{{'shopping-cart.detail.label.product-options' | translate}}">
+    <md-toolbar>
+        <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+            <h2 class="fdz-truncate-string">
+                <span>{{'shopping-cart.detail.label.product-options' | translate | fdzHyphenate}}</span>
+            </h2>
+            <md-button class="md-icon-button" ng-click="closeDialog()">
+                <md-icon md-font-set="material-icons">clear</md-icon>
+                <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
+                    {{'shopping-cart.buttons.close-tooltip' | translate }}
+                </md-tooltip>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content class="md-padding" style="padding-bottom: 0px;" ng-if="!ctrl.noFinalRelease && !ctrl.noDataSets && !ctrl.variableNotAccessible && !ctrl.dataNotAvailable">
+        <div layout="row" ng-show="ctrl.releases">
+            <md-input-container flex="50">
+                <label>{{'shopping-cart.detail.label.access-way-of-data-sets' | translate}}</label>
+                <md-select ng-model="ctrl.selectedAccessWay">
+                    <md-optgroup label="{{'shopping-cart.detail.label.available-access-ways' | translate}}">
+                        <md-option ng-repeat="item in ctrl.accessWays" ng-value="item">{{item}}</md-option>
+                    </md-optgroup>
+                </md-select>
+            </md-input-container>
+            <md-input-container flex="50">
+                <label>{{'shopping-cart.detail.label.version-of-data-sets' | translate }}</label>
+                <md-select ng-model="ctrl.selectedVersion">
+                    <md-optgroup label="{{'shopping-cart.detail.label.available-versions' | translate}}">
+                        <md-option ng-repeat="item in ctrl.releases" ng-value="item.version">{{item.version}}{{$first?' (' + ('shopping-cart.detail.label.current' | translate) + ')':''}}</md-option>
+                    </md-optgroup>
+                </md-select>
+            </md-input-container>
+        </div>
+    </md-dialog-content>
+    <md-dialog-content class="md-padding" style="padding-bottom: 0px;" ng-if="ctrl.noFinalRelease || ctrl.noDataSets || ctrl.variableNotAccessible || ctrl.dataNotAvailable">
+        <p ng-if="!ctrl.variableNotAccessible && !ctrl.dataNotAvailable">
+            {{'shopping-cart.detail.no-final-release' | translate | fdzHyphenate}}
+        </p>
+        <p ng-if="ctrl.variableNotAccessible">
+            {{'shopping-cart.detail.variable-not-accessible' | translate | fdzHyphenate}}
+        </p>
+        <p ng-if="ctrl.dataNotAvailable">
+            {{'shopping-cart.detail.data-not-available' | translate | fdzHyphenate}}
+        </p>
+    </md-dialog-content>
+    <md-dialog-actions>
+        <md-button class="md-raised" ng-click="closeDialog()">
+            <span>{{'global.buttons.close' | translate}}</span>
+            <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
+                {{'shopping-cart.buttons.close-tooltip' | translate }}
+            </md-tooltip>
+        </md-button>
+        <md-button ng-if="ctrl.releases && !ctrl.noFinalRelease && !ctrl.noDataSets && !ctrl.variableNotAccessible && !ctrl.dataNotAvailable" class="md-raised md-primary fdz-truncate-string" ng-click="ctrl.addToShoppingCart()" ng-disabled="!ctrl.selectedAccessWay || !ctrl.selectedVersion">
+            <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                {{'shopping-cart.buttons.add-study-tooltip' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">add_shopping_cart</md-icon>
+            <span>{{'shopping-cart.buttons.add-study' | translate}}</span>
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

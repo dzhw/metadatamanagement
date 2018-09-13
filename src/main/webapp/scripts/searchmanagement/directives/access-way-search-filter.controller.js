@@ -4,14 +4,23 @@
 angular.module('metadatamanagementApp')
   .controller('AccessWaySearchFilterController', [
     '$scope', 'VariableSearchService', '$timeout', 'CurrentProjectService',
-    function($scope, VariableSearchService, $timeout, CurrentProjectService) {
+    '$location', '$q', 'DataSetSearchService',
+    function($scope, VariableSearchService, $timeout, CurrentProjectService,
+      $location, $q, DataSetSearchService) {
       // prevent access-way changed events during init
       var initializing = true;
       var selectionChanging = false;
-      var lastSearchText;
-      var lastFilter;
-      var lastProjectId;
-      var lastSearchResult;
+      var cache = {
+        searchText: null,
+        filter: null,
+        query: null,
+        type: null,
+        projectId: null,
+        searchResult: null
+      };
+
+      this.findAccessWays = VariableSearchService.findAccessWays;
+
       var init = function() {
         if (selectionChanging) {
           selectionChanging = false;
@@ -49,7 +58,7 @@ angular.module('metadatamanagementApp')
           $scope.currentSearchParams.filter = {};
         }
         if (accessWay) {
-          $scope.currentSearchParams.filter['access-way'] = accessWay;
+          $scope.currentSearchParams.filter['access-way'] = accessWay.key;
         } else {
           delete $scope.currentSearchParams.filter['access-way'];
         }
@@ -61,18 +70,29 @@ angular.module('metadatamanagementApp')
           'access-way');
         var currentProjectId = CurrentProjectService.getCurrentProject() ?
             CurrentProjectService.getCurrentProject().id : null;
-        if (searchText === lastSearchText &&
-          _.isEqual(lastFilter, cleanedFilter) &&
-           lastProjectId === currentProjectId) {
-          return lastSearchResult;
+        var query = $location.search().query;
+        $scope.type = $location.search().type;
+        if (searchText === cache.SearchText &&
+          $scope.type === cache.type &&
+          _.isEqual(cache.filter, cleanedFilter) &&
+           cache.projectId === currentProjectId &&
+           query === cache.query
+          ) {
+          return $q.resolve(cache.searchResult);
         }
-        return VariableSearchService.findAccessWays(
-          searchText, cleanedFilter, currentProjectId)
+        var findAccessWays = VariableSearchService.findAccessWays;
+        if ($scope.type === 'data_sets') {
+          findAccessWays = DataSetSearchService.findAccessWays;
+        }
+        return findAccessWays(
+          searchText, cleanedFilter, currentProjectId, query)
           .then(function(accessWays) {
-            lastSearchText = searchText;
-            lastFilter = _.cloneDeep(cleanedFilter);
-            lastProjectId = currentProjectId;
-            lastSearchResult = accessWays;
+            cache.searchText = searchText;
+            cache.filter = _.cloneDeep(cleanedFilter);
+            cache.projectId = currentProjectId;
+            cache.query = query;
+            cache.type = $scope.type;
+            cache.searchResult = accessWays;
             return accessWays;
           }
         );

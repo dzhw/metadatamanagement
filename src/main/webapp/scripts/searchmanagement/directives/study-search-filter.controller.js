@@ -3,17 +3,21 @@
 
 angular.module('metadatamanagementApp')
   .controller('StudySearchFilterController', [
-    '$scope', 'SearchDao', 'StudySearchService', '$timeout',
-    'CurrentProjectService', '$rootScope',
-    function($scope, SearchDao, StudySearchService, $timeout,
-      CurrentProjectService, $rootScope) {
+    '$scope', 'StudySearchService', '$timeout',
+    'CurrentProjectService', '$rootScope', '$location', '$q',
+    function($scope, StudySearchService, $timeout,
+      CurrentProjectService, $rootScope, $location, $q) {
       // prevent study changed events during init
       var initializing = true;
       var selectionChanging = false;
-      var lastSearchText;
-      var lastFilter;
-      var lastProjectId;
-      var lastSearchResult;
+      var cache = {
+        searchText: null,
+        filter: null,
+        type: null,
+        query: null,
+        projectId: null,
+        searchResult: null
+      };
       var init = function() {
         if (selectionChanging) {
           selectionChanging = false;
@@ -28,21 +32,17 @@ angular.module('metadatamanagementApp')
             .then(function(result) {
               $rootScope.$broadcast('stop-ignoring-404');
               if (result) {
-                $scope.currentStudy = {_source: result};
+                $scope.currentStudy = result;
               } else {
                 $scope.currentStudy = {
-                  _source: {
-                    id: $scope.currentSearchParams.filter.study
-                  }
+                  id: $scope.currentSearchParams.filter.study
                 };
               }
             }, function() {
                 $rootScope.$broadcast('stop-ignoring-404');
                 $scope.currentStudy = {
-                  _source: {
                     id: $scope.currentSearchParams.filter.study
-                  }
-                };
+                  };
                 $timeout(function() {
                   $scope.studyFilterForm.studyFilter.$setValidity(
                     'md-require-match', false);
@@ -63,7 +63,7 @@ angular.module('metadatamanagementApp')
           $scope.currentSearchParams.filter = {};
         }
         if (study) {
-          $scope.currentSearchParams.filter.study = study._source.id;
+          $scope.currentSearchParams.filter.study = study.id;
         } else {
           delete $scope.currentSearchParams.filter.study;
         }
@@ -75,20 +75,24 @@ angular.module('metadatamanagementApp')
           'study');
         var currentProjectId = CurrentProjectService.getCurrentProject() ?
           CurrentProjectService.getCurrentProject().id : null;
-        if (searchText === lastSearchText &&
-          _.isEqual(lastFilter, cleanedFilter) &&
-          lastProjectId === currentProjectId) {
-          return lastSearchResult;
+        $scope.type = $location.search().type;
+        var query = $location.search().query;
+        if (searchText === cache.searchText &&
+          _.isEqual(cache.filter, cleanedFilter) &&
+          cache.projectId === currentProjectId &&
+          cache.type === $scope.type &&
+          cache.query === query) {
+          return $q.resolve(cache.searchResult);
         }
-        return SearchDao.search(searchText, 1,
-            currentProjectId, cleanedFilter,
-            'studies',
-            100).then(function(data) {
-              lastSearchText = searchText;
-              lastFilter = _.cloneDeep(cleanedFilter);
-              lastProjectId = currentProjectId;
-              lastSearchResult = data.hits.hits;
-              return data.hits.hits;
+        return StudySearchService.findStudyTitles(searchText, cleanedFilter,
+            $scope.type, query, currentProjectId).then(function(data) {
+              cache.searchText = searchText;
+              cache.filter = _.cloneDeep(cleanedFilter);
+              cache.projectId = currentProjectId;
+              cache.query = query;
+              cache.type = $scope.type;
+              cache.searchResult = data;
+              return data;
             }
           );
       };

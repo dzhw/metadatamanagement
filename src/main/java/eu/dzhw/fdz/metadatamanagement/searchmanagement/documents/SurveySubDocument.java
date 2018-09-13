@@ -7,6 +7,10 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Population;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.SurveySubDocumentProjection;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * Attributes of a survey which are stored in other search documents.
@@ -14,6 +18,10 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.Survey
  * @author René Reitmann
  */
 @SuppressWarnings("CPD-START")
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+@Getter
+@Setter
 public class SurveySubDocument extends AbstractRdcDomainObject
     implements SurveySubDocumentProjection {
   private String id;
@@ -36,102 +44,19 @@ public class SurveySubDocument extends AbstractRdcDomainObject
 
   private I18nString dataType;
 
+  private String studyId;
+
   public SurveySubDocument() {
     super();
   }
 
+  /**
+   * Create the subdocument.
+   * 
+   * @param projection The projection coming from mongo.
+   */
   public SurveySubDocument(SurveySubDocumentProjection projection) {
     super();
     BeanUtils.copyProperties(projection, this);
-  }
-
-  @Override
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  @Override
-  public String getDataAcquisitionProjectId() {
-    return dataAcquisitionProjectId;
-  }
-
-  public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
-    this.dataAcquisitionProjectId = dataAcquisitionProjectId;
-  }
-
-  @Override
-  public Integer getNumber() {
-    return number;
-  }
-
-  public void setNumber(Integer number) {
-    this.number = number;
-  }
-
-  @Override
-  public Population getPopulation() {
-    return population;
-  }
-
-  public void setPopulation(Population population) {
-    this.population = population;
-  }
-
-  @Override
-  public I18nString getSurveyMethod() {
-    return surveyMethod;
-  }
-
-  public void setSurveyMethod(I18nString surveyMethod) {
-    this.surveyMethod = surveyMethod;
-  }
-
-  @Override
-  public I18nString getTitle() {
-    return title;
-  }
-
-  public void setTitle(I18nString title) {
-    this.title = title;
-  }
-
-  @Override
-  public Period getFieldPeriod() {
-    return fieldPeriod;
-  }
-
-  public void setFieldPeriod(Period fieldPeriod) {
-    this.fieldPeriod = fieldPeriod;
-  }
-
-  @Override
-  public I18nString getSample() {
-    return sample;
-  }
-
-  public void setSample(I18nString sample) {
-    this.sample = sample;
-  }
-
-  @Override
-  public Integer getWave() {
-    return wave;
-  }
-
-  public void setWave(Integer wave) {
-    this.wave = wave;
-  }
-
-  @Override
-  public I18nString getDataType() {
-    return dataType;
-  }
-
-  public void setDataType(I18nString dataType) {
-    this.dataType = dataType;
   }
 }

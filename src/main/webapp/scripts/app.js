@@ -136,7 +136,6 @@ try {
         // enable urls without #
         $locationProvider.html5Mode(false);
         $locationProvider.hashPrefix('!');
-
         $stateProvider.state('site', {
           'abstract': true,
           url: '/{lang:(?:de|en)}',
@@ -164,6 +163,8 @@ try {
           .addInterpolation('$translateMessageFormatInterpolation');
         $translateProvider
           .useMissingTranslationHandler('translationErrorHandler');
+        $translateProvider
+          .addInterpolation('$translateMessageFormatInterpolation');
 
         tmhDynamicLocaleProvider
           .localeLocationPattern(
@@ -180,7 +181,8 @@ try {
           // If the request contains '/api/search' ...
           if (config.url.indexOf('_search') !== -1 ||
               (config.url.indexOf('/api/data-acquisition-projects') !== -1 &&
-                config.method === 'GET')) {
+                config.method === 'GET' &&
+                config.url.indexOf('/releases') === -1)) {
             return false; // ... don't block it.
           }
         };

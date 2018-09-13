@@ -7,13 +7,15 @@ angular.module('metadatamanagementApp')
       DataSetSearchService, DataSetReportService, PageTitleService,
       LanguageService, $state, ToolbarHeaderService, CleanJSObjectService,
       SimpleMessageToastService, DataSetAttachmentResource,
-      DataSetCitateDialogService, SearchResultNavigatorService, $stateParams) {
+      DataSetCitateDialogService, SearchResultNavigatorService, $stateParams,
+      ProductChooserDialogService) {
       SearchResultNavigatorService.registerCurrentSearchResult(
           $stateParams['search-result-index']);
       var ctrl = this;
       ctrl.searchResultIndex = $stateParams['search-result-index'];
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAnyAuthority = Principal.hasAnyAuthority;
+      ctrl.hasAuthority = Principal.hasAuthority;
       ctrl.counts = {};
 
       ctrl.openDialog = function(subDataSet, event) {
@@ -60,7 +62,9 @@ angular.module('metadatamanagementApp')
           .then(function(dataSetsCount) {
             ctrl.counts.dataSetsCount = dataSetsCount.count;
           });
+          ctrl.accessWays = [];
           ctrl.dataSet.subDataSets.forEach(function(subDataSet) {
+            ctrl.accessWays.push(subDataSet.accessWay);
             VariableSearchService.countBy('accessWays',
             subDataSet.accessWay, ctrl.dataSet.id).then(function(counts) {
               ctrl.counts[subDataSet.name] = counts.count;
@@ -85,4 +89,11 @@ angular.module('metadatamanagementApp')
           DataSetReportService.uploadTexTemplate(files, ctrl.dataSet.id);
         }
       };
+
+      ctrl.addToShoppingCart = function(event) {
+          ProductChooserDialogService.showDialog(
+            ctrl.dataSet.dataAcquisitionProjectId, ctrl.dataSet.accessWays,
+            ctrl.dataSet.study,
+            event);
+        };
     });

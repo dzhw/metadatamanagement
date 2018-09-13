@@ -17,7 +17,7 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType
 
 /**
  * Custom repository for retrieving locked and unlocked queue items.
- * 
+ *
  * @author René Reitmann
  */
 @Component
@@ -28,7 +28,7 @@ public class ElasticsearchUpdateQueueItemRepositoryImpl
   private static final int UPDATE_LOCK_EXPIRED = 10;
 
   // number of queue items to be processed in one batch
-  private static final int BULK_SIZE = 500;
+  private static final int BULK_SIZE = 25;
 
   @Autowired
   private MongoOperations mongoOperations;
@@ -56,7 +56,7 @@ public class ElasticsearchUpdateQueueItemRepositoryImpl
   public void lockAllUnlockedOrExpiredItemsByType(LocalDateTime updateStartedAt,
       String updateStartedBy, ElasticsearchType type) {
     Query query = new Query(new Criteria().andOperator(
-        Criteria.where("documentType").is(type), 
+        Criteria.where("documentType").is(type),
         getUnlockedOrExpiredCriteria())).limit(BULK_SIZE);
     Update update = new Update()
         .set("updateStartedAt", updateStartedAt).set("updateStartedBy", updateStartedBy);
@@ -73,7 +73,7 @@ public class ElasticsearchUpdateQueueItemRepositoryImpl
             .with(new Sort(Direction.ASC, "createdDate"));
     return mongoOperations.find(query, ElasticsearchUpdateQueueItem.class);
   }
-  
+
   private Criteria getUnlockedOrExpiredCriteria() {
     return new Criteria().orOperator(
         Criteria.where("updateStartedAt").lte(LocalDateTime.now()

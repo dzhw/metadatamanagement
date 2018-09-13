@@ -68,7 +68,7 @@
                             {{'study-management.detail.label.study' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
                         <div ng-if="ctrl.study" class="fdz-truncate-string" flex>
-                            <a ui-sref="studyDetail({id: ctrl.study.id, 'search-result-index': ctrl.searchResultIndex})">
+                            <a ui-sref="studyDetail({id: ctrl.study.id})">
                                 <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
                                 {{'study-management.detail.label.study' | translate }}:
                                 <span display-i18n-string="ctrl.study.title"></span>
@@ -84,7 +84,7 @@
                             {{'instrument-management.detail.label.instruments' | translate }}: {{'global.messages.error.undocumented' | translate}}
                         </div>
                         <div ng-if="ctrl.counts.instrumentsCount === 1 && ctrl.instrument" class="fdz-truncate-string" flex>
-                          <a ui-sref="instrumentDetail({'id': ctrl.instrument.id, 'search-result-index': ctrl.searchResultIndex})">
+                          <a ui-sref="instrumentDetail({'id': ctrl.instrument.id})">
                               <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
                               {{'instrument-management.detail.label.instrument' | translate }}:
                               <span display-i18n-string="ctrl.instrument.description"></span>
@@ -109,7 +109,7 @@
                             {{'data-set-management.detail.label.data-sets' | translate }}: {{'global.messages.error.undocumented' | translate}}
                         </div>
                         <div ng-if="ctrl.counts.dataSetsCount == 1 && ctrl.dataSet" class="fdz-truncate-string" flex>
-                            <a ui-sref="dataSetDetail({'id': ctrl.dataSet.id, 'search-result-index': ctrl.searchResultIndex})">
+                            <a ui-sref="dataSetDetail({'id': ctrl.dataSet.id})">
                                 <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
                                 {{'data-set-management.detail.label.data-set' | translate }}:
                                 <span display-i18n-string="ctrl.dataSet.description"></span>
@@ -149,7 +149,7 @@
                             {{'related-publication-management.detail.label.publications' | translate }}: {{'global.messages.error.undocumented' | translate}}
                         </div>
                         <div ng-if="ctrl.counts.publicationsCount == 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="relatedPublicationDetail({'id': ctrl.relatedPublication.id, 'search-result-index': ctrl.searchResultIndex})">
+                            <a ui-sref="relatedPublicationDetail({'id': ctrl.relatedPublication.id})">
                                 <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
                                 {{'related-publication-management.detail.label.publication' | translate }}: {{ctrl.relatedPublication.title}}
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
@@ -237,12 +237,18 @@
             <div class="fdz-fake-empty-card fdz-reset-top-margin" ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm')}"></div>
         </div>
     </div>
-    <div ng-if="!ctrl.projectIsCurrentlyReleased && !bowser.msie" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER" class="fdz-fab-button-container" layout="column">
-      <md-button class="md-fab md-raised md-accent" ui-sref="surveyEdit({id: ctrl.survey.id})">
+    <div class="fdz-fab-button-container" layout="column">
+      <md-button ng-if="!ctrl.projectIsCurrentlyReleased && !bowser.msie" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER" class="md-fab md-raised md-accent" ui-sref="surveyEdit({id: ctrl.survey.id})">
           <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
               {{'search-management.buttons.edit-survey-tooltip' | translate}}
           </md-tooltip>
           <md-icon md-font-set="material-icons">mode_edit</md-icon>
+      </md-button>
+      <md-button ng-if="!ctrl.isAuthenticated() || ctrl.hasAuthority('ROLE_USER')" class="md-fab md-raised md-accent" ng-click="ctrl.addToShoppingCart($event)">
+          <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+              {{'shopping-cart.buttons.add-study-tooltip' | translate}}
+          </md-tooltip>
+          <md-icon md-font-set="material-icons">add_shopping_cart</md-icon>
       </md-button>
     </div>
 </div>

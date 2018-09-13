@@ -569,7 +569,7 @@ tr:focus {
     width: 100%;
 }
 
-.fdz-table-half-absorbing-column {
+.fdz-table-wide .fdz-table-half-absorbing-column {
     width: 50%;
 }
 
@@ -584,13 +584,15 @@ tr:focus {
     text-align: left;
     border-collapse: collapse;
     border: 0;
+    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
 }
 
 .fdz-table-rotated thead {
     margin-left: 11px;
     display: block;
     float: left;
-    width: 100px;
+    width: 150px;
 }
 
 .fdz-table-rotated tbody {
@@ -699,6 +701,7 @@ pre {
 
 .fdz-fake-empty-card {
     margin: 8px;
+    margin-bottom: 0px;
 }
 
 .fdz-reset-top-margin {
@@ -791,6 +794,20 @@ md-tab-item:hover {
 .fdz-search-filter-component .ng-active div[ng-message] {
     opacity: 1;
     margin-top: 0;
+}
+
+.fdz-search-filter-items li {
+  border-bottom: 1px solid #ccc;
+  height: auto;
+  padding: 6px;
+  padding-left: 12px;
+  white-space: normal;
+}
+
+.fdz-search-filter-items .item-title,
+.fdz-search-filter-items .item-metadata {
+  display: block;
+  line-height: 1.5;
 }
 
 .md-select-placeholder {
@@ -1065,4 +1082,17 @@ md-toast.md-accent > .md-toast-content {
   md-content, .md-virtual-repeat-scroller, tbody {
     overflow: overlay;
   }
+}
+
+.fdz-shopping-cart-count {
+  position: fixed;
+  top: 5px;
+  background: $brand-warning;
+  color: black;
+  border-radius: 50%;
+  max-width: 24px;
+  min-width: 24px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

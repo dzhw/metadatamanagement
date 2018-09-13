@@ -9,13 +9,21 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.SubDataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataSetSubDocumentProjection;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * Attributes of a data set which are stored in other search documents.
  *  
  * @author René Reitmann
  */
-public class DataSetSubDocument extends AbstractRdcDomainObject 
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+@Getter
+@Setter
+public class DataSetSubDocument extends AbstractRdcDomainObject
     implements DataSetSubDocumentProjection {
   private String id;
   
@@ -34,6 +42,10 @@ public class DataSetSubDocument extends AbstractRdcDomainObject
   private Integer maxNumberOfObservations;
   
   private List<String> accessWays;
+
+  private String studyId;
+
+  private List<String> surveyIds;
  
   /**
    * Create the sub document from the given projection.
@@ -46,74 +58,5 @@ public class DataSetSubDocument extends AbstractRdcDomainObject
         .map(subDataSet -> subDataSet.getNumberOfObservations()).reduce(Integer::max).get();
     this.accessWays = projection.getSubDataSets().stream()
         .map(subDataSet -> subDataSet.getAccessWay()).collect(Collectors.toList());
-  }
-  
-  @Override
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  @Override
-  public String getDataAcquisitionProjectId() {
-    return dataAcquisitionProjectId;
-  }
-
-  public void setDataAcquisitionProjectId(String dataAcquisitionProjectId) {
-    this.dataAcquisitionProjectId = dataAcquisitionProjectId;
-  }
-  
-  public I18nString getType() {
-    return type;
-  }
-  
-  public void setType(I18nString type) {
-    this.type = type;
-  }
-
-  @Override
-  public I18nString getDescription() {
-    return description;
-  }
-
-  public void setDescription(I18nString description) {
-    this.description = description;
-  }
-
-  @Override
-  public I18nString getFormat() {
-    return format;
-  }
-
-  public void setFormat(I18nString format) {
-    this.format = format;
-  }
-
-  @Override
-  public Integer getNumber() {
-    return number;
-  }
-
-  public void setNumber(Integer number) {
-    this.number = number;
-  }
-
-  public List<SubDataSet> getSubDataSets() {
-    return subDataSets;
-  }
-
-  public void setSubDataSets(List<SubDataSet> subDataSets) {
-    this.subDataSets = subDataSets;
-  }
-
-  public Integer getMaxNumberOfObservations() {
-    return maxNumberOfObservations;
-  }
-
-  public List<String> getAccessWays() {
-    return accessWays;
   }
 }

@@ -25,5 +25,7 @@ public interface InstrumentSubDocumentProjection
 
   List<String> getSurveyIds();
   
+  String getStudyId();
+
   String getType();
 }

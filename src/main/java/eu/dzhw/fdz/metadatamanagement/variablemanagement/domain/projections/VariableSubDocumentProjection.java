@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections;
 
+import java.util.List;
+
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.AbstractRdcDomainObjectProjection;
 
@@ -20,4 +22,8 @@ public interface VariableSubDocumentProjection
   String getDataSetId();
 
   Integer getDataSetNumber();
+
+  List<String> getSurveyIds();
+
+  String getStudyId();
 }

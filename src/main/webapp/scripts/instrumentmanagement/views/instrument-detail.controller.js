@@ -1,3 +1,4 @@
+/* global _ */
 'use strict';
 
 angular.module('metadatamanagementApp')
@@ -5,11 +6,13 @@ angular.module('metadatamanagementApp')
     function(entity, InstrumentAttachmentResource,
       PageTitleService, LanguageService, $state, CleanJSObjectService,
       ToolbarHeaderService, Principal, SimpleMessageToastService,
-      SearchResultNavigatorService, $stateParams) {
+      SearchResultNavigatorService, $stateParams, ProductChooserDialogService) {
       SearchResultNavigatorService.registerCurrentSearchResult(
         $stateParams['search-result-index']);
       //Controller Init
       var ctrl = this;
+      ctrl.isAuthenticated = Principal.isAuthenticated;
+      ctrl.hasAuthority = Principal.hasAuthority;
       ctrl.searchResultIndex = $stateParams['search-result-index'];
       ctrl.survey = null;
       ctrl.attachments = null;
@@ -36,6 +39,12 @@ angular.module('metadatamanagementApp')
           result.description[secondLanguage],
           instrumentId: result.id
         });
+        if (result.dataSets) {
+          ctrl.accessWays = [];
+          result.dataSets.forEach(function(dataSet) {
+            ctrl.accessWays = _.union(dataSet.accessWays, ctrl.accessWays);
+          });
+        }
         if (result.release || Principal
             .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           ctrl.instrument = result;
@@ -71,4 +80,11 @@ angular.module('metadatamanagementApp')
           );
         }
       });
+
+      ctrl.addToShoppingCart = function(event) {
+        ProductChooserDialogService.showDialog(
+          ctrl.instrument.dataAcquisitionProjectId, ctrl.accessWays,
+          ctrl.instrument.study,
+          event);
+      };
     });

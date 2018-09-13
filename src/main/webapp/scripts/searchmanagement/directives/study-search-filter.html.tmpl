@@ -1,12 +1,18 @@
 <div ng-form="studyFilterForm" layout="row" layout-align="center center">
     <md-autocomplete fdz-autofocus="!currentSearchParams.filter.study" md-delay="250" class="fdz-search-filter-component" md-input-name="studyFilter" md-floating-label="{{'search-management.filter.floating-label.study' | translate}}" flex md-min-length="0" md-require-match="true" md-select-on-match="true" md-selected-item="currentStudy" md-selected-item-change="onSelectionChanged(currentStudy)"
-      md-search-text="searchText" md-items="item in searchStudies(searchText)" md-item-text="(item._source.title | displayI18nString) + ' (' + item._source.id + ')'" md-clear-button="true" md-no-cache="true" md-select-on-focus>
+      md-search-text="searchText" md-items="item in searchStudies(searchText)" md-item-text="(item.title | displayI18nString) + ' (' + item.id + ')'" md-clear-button="true" md-no-cache="true" md-menu-class="fdz-search-filter-items" md-select-on-focus="true">
         <md-item-template>
-            <span class="md-title" style="font-size: 14px;" display-i18n-string="item._source.title"></span>
-            <span class="label label-as-badge label-default">{{item._source.id}}</span>
+          <span class="item-title fdz-truncate-string">
+            <strong md-highlight-text="searchText" md-highlight-flags="ig">{{(item.title | displayI18nString)}}</strong>
+            <span class="label label-as-badge label-default" md-highlight-text="searchText" md-highlight-flags="ig">{{item.id}}</span>
+          </span>
+          <span class="item-metadata fdz-truncate-string">{{'search-management.tabs.' + type + '-found' | translate:'{number:' + item.count + '}':'messageformat'}}</span>
         </md-item-template>
         <md-not-found>
-            {{'search-management.filter.study-filter.not-found' | translate}}
+          <span class="item-title fdz-truncate-string">
+            <strong>{{'search-management.filter.study-filter.not-found' | translate}}</strong>
+          </span>
+          <span class="item-metadata fdz-truncate-string">{{'search-management.tabs.' + type + '-found' | translate:'{number:0}':'messageformat'}}</span>
         </md-not-found>
         <div ng-messages="studyFilterForm.studyFilter.$error">
             <div ng-message="md-require-match">

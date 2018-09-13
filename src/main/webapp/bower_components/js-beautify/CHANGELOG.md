@@ -1,4 +1,101 @@
 # Changelog
+## v1.8.4
+
+### Description
+Broader adoption of 1.8.x revealed a few more high priority fixes
+
+
+### Closed Issues
+* Multiple newlines added between empty textarea and "unformatted" inline elements  ([#1534](https://github.com/beautify-web/js-beautify/issues/1534))
+* unindent_chained_methods broken ([#1533](https://github.com/beautify-web/js-beautify/issues/1533))
+
+
+## v1.8.3
+
+### Description
+
+
+### Closed Issues
+* Missing Bower Assets ([#1521](https://github.com/beautify-web/js-beautify/issues/1521))
+* Javascript ternary breaked with `await` ([#1519](https://github.com/beautify-web/js-beautify/issues/1519))
+* Object property indented after `await` ([#1517](https://github.com/beautify-web/js-beautify/issues/1517))
+* Handlebars formatting problems ([#870](https://github.com/beautify-web/js-beautify/issues/870))
+* beautify.js doesn't have indent_level option ([#724](https://github.com/beautify-web/js-beautify/issues/724))
+
+
+## v1.8.1
+
+### Description
+
+
+### Closed Issues
+* Why npm is a dependency? ([#1516](https://github.com/beautify-web/js-beautify/issues/1516))
+* indent_inner_html not working in v1.8.0 ([#1514](https://github.com/beautify-web/js-beautify/issues/1514))
+
+
+## v1.8.0
+
+### Description
+Massive set of fixes and improvements.
+
+Thanks to contributors: @cheerypick, @swan46, @MacKLess, @Elrendio, @madman-bob, @amanda-bot, @Hirse, @aeschli, and many more.
+
+Special thanks to @astronomersiva and @garretwilson for finding key bugs in the RC releases,
+and to @MacKLess for driving down the open bug count with tons of regression tests.
+
+Highlights:
+
+* CSS: `newline_between_rules` support for nested rules - CSS/SASS/SCSS/LESS  (@MacKLess)
+* CSS: @import support in CSS (@MacKLess)
+* HTML: inline element support (@madman-bob)
+* HTML: `wrap_attributes` setting `align-multiple` (@cheerypick)
+* HTML: optional close tags do not over indent - li, tr, etc.
+* HTML: Improved line wrapping in HTML - still not fully correct
+* HTML: 10x performance improvement in HTML beautifier
+* JS: ES6 BigInt support (@thejoshwolfe)
+* JS: ES6 Dynamic import support 
+* CSS: :hover for @extend formatting (@MacKLess)
+* HTML: Incorrect line wrapping issue (@andreyvolokitin)
+* JS: Javascript ++ Operator Indentation (@Elrendio)
+* JS: Better packer handling in Python (@swan46)
+
+
+
+
+
+### Closed Issues
+* list items of nested lists get indented backwards ([#1501](https://github.com/beautify-web/js-beautify/issues/1501))
+* Make beautifier auto-convert options with dashes into underscores ([#1497](https://github.com/beautify-web/js-beautify/issues/1497))
+* ReferenceError: token is not defined ([#1496](https://github.com/beautify-web/js-beautify/issues/1496))
+* Publish v1.8.0 ([#1495](https://github.com/beautify-web/js-beautify/issues/1495))
+* still probem #1439 / #1337 ([#1491](https://github.com/beautify-web/js-beautify/issues/1491))
+* Duplicating HTML Code Nested In PHP ([#1483](https://github.com/beautify-web/js-beautify/issues/1483))
+* Handlebars - `if` tags are broken when using helper with `textarea` ([#1482](https://github.com/beautify-web/js-beautify/issues/1482))
+* TypeError: Cannot read property '1' of null ([#1481](https://github.com/beautify-web/js-beautify/issues/1481))
+* Space in Self Closing Tag Issue ([#1478](https://github.com/beautify-web/js-beautify/issues/1478))
+* Weird Formatting in VSCode ([#1475](https://github.com/beautify-web/js-beautify/issues/1475))
+* Indent with tab issue on website ([#1470](https://github.com/beautify-web/js-beautify/issues/1470))
+* Contents of hbs tags are converted to lowercase ([#1464](https://github.com/beautify-web/js-beautify/issues/1464))
+* HTML tags are indented wrongly when attributes are present ([#1462](https://github.com/beautify-web/js-beautify/issues/1462))
+* hbs tags are stripped when there is a comment below or inline ([#1461](https://github.com/beautify-web/js-beautify/issues/1461))
+* Spaces added to handlebars with '=' ([#1460](https://github.com/beautify-web/js-beautify/issues/1460))
+* jsbeautifier.org don't works ([#1445](https://github.com/beautify-web/js-beautify/issues/1445))
+* Commenting code and then beautifying removes line breaks ([#1440](https://github.com/beautify-web/js-beautify/issues/1440))
+* Less: Where is my space? ([#1411](https://github.com/beautify-web/js-beautify/issues/1411))
+* No newline after @import ([#1406](https://github.com/beautify-web/js-beautify/issues/1406))
+* "html.format.wrapAttributes": "force-aligned" adds empty line on long attributes ([#1403](https://github.com/beautify-web/js-beautify/issues/1403))
+* HTML: wrap_line_length is handled incorrectly ([#1401](https://github.com/beautify-web/js-beautify/issues/1401))
+* js-beautify is breaking code by adding space after import ([#1393](https://github.com/beautify-web/js-beautify/issues/1393))
+* JS-Beautify should format XML tags inside HTML files ([#1383](https://github.com/beautify-web/js-beautify/issues/1383))
+* python unpacker can not handle if radix given as [] and not as a number ([#1381](https://github.com/beautify-web/js-beautify/issues/1381))
+* unindent_chained_methods breaks indentation for if statements without brackets  ([#1378](https://github.com/beautify-web/js-beautify/issues/1378))
+* function parameters merged into single line when starting with ! or [ ([#1374](https://github.com/beautify-web/js-beautify/issues/1374))
+* CSS selector issue (header > div[class~="div-all"]) in SCSS file ([#1373](https://github.com/beautify-web/js-beautify/issues/1373))
+* Add "Create Issue for Unexpected Output" button to website ([#1371](https://github.com/beautify-web/js-beautify/issues/1371))
+* Add combobox to control type of beautification ([#1370](https://github.com/beautify-web/js-beautify/issues/1370))
+* Add Options textbox to website for debugging ([#1369](https://github.com/beautify-web/js-beautify/issues/1369))
+
+
 ## v1.7.5
 
 ### Description

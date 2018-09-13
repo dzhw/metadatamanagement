@@ -264,9 +264,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
                   }
                 }
               }
-            ],
-              'disable_coord': true
-            }
+            ]}
           };
 
           addAdditionalShouldQueries(elasticsearchType,

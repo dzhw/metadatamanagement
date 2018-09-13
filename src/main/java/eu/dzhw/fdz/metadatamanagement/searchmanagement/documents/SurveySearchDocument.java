@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
@@ -30,20 +31,28 @@ import lombok.ToString;
 @Setter
 public class SurveySearchDocument extends Survey implements SearchDocumentInterface {
   private StudySubDocument study = null;
+  private StudyNestedDocument nestedStudy = null;
   private List<DataSetSubDocument> dataSets = 
       new ArrayList<>();
+  private List<DataSetNestedDocument> nestedDataSets = new ArrayList<>();
   private List<VariableSubDocument> variables =
       new ArrayList<>();
+  private List<VariableNestedDocument> nestedVariables = new ArrayList<>();
   private List<RelatedPublicationSubDocument> relatedPublications = 
       new ArrayList<>();
+  private List<RelatedPublicationNestedDocument> nestedRelatedPublications = new ArrayList<>();
   private List<InstrumentSubDocument> instruments = 
       new ArrayList<>();
+  private List<InstrumentNestedDocument> nestedInstruments = new ArrayList<>();
   private List<QuestionSubDocument> questions = 
       new ArrayList<>();
+  private List<QuestionNestedDocument> nestedQuestions = new ArrayList<>();
   private Release release = null;
   
   private I18nString guiLabels = SurveyDetailsGuiLabels.GUI_LABELS;
   
+  private I18nString completeTitle;
+
   /**
    * Construct the search document with all related subdocuments.
    * @param survey the survey to be searched for
@@ -60,34 +69,52 @@ public class SurveySearchDocument extends Survey implements SearchDocumentInterf
       List<DataSetSubDocumentProjection> dataSets, 
       List<VariableSubDocumentProjection> variables, 
       List<RelatedPublicationSubDocumentProjection> relatedPublications,
-      List<InstrumentSubDocumentProjection> instruments,
+      Map<String, InstrumentSubDocumentProjection> instruments,
       List<QuestionSubDocumentProjection> questions,
       Release release,
       String doi) {
     super(survey);
     if (study != null) {
-      this.study = new StudySubDocument(study, doi);      
+      this.study = new StudySubDocument(study, doi);
+      this.nestedStudy = new StudyNestedDocument(study);
     }
     if (dataSets != null) {
       this.dataSets = dataSets.stream()
-          .map(DataSetSubDocument::new).collect(Collectors.toList());      
+          .map(DataSetSubDocument::new).collect(Collectors.toList());
+      this.nestedDataSets =
+          dataSets.stream().map(DataSetNestedDocument::new).collect(Collectors.toList());
     }
     if (variables != null) {
       this.variables = variables.stream()
-          .map(VariableSubDocument::new).collect(Collectors.toList());      
+          .map(VariableSubDocument::new).collect(Collectors.toList());
+      this.nestedVariables =
+          variables.stream().map(VariableNestedDocument::new).collect(Collectors.toList());
     }
     if (relatedPublications != null) {
       this.relatedPublications = relatedPublications.stream()
-          .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());      
+          .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());
+      this.nestedRelatedPublications = relatedPublications.stream()
+          .map(RelatedPublicationNestedDocument::new).collect(Collectors.toList());
     }
     if (instruments != null) {
-      this.instruments = instruments.stream()
-          .map(InstrumentSubDocument::new).collect(Collectors.toList());      
+      this.instruments = instruments.values().stream()
+          .map(InstrumentSubDocument::new).collect(Collectors.toList());
+      this.nestedInstruments = instruments.values().stream().map(InstrumentNestedDocument::new)
+          .collect(Collectors.toList());
     }
     if (questions != null) {
       this.questions = questions.stream()
-          .map(QuestionSubDocument::new).collect(Collectors.toList());      
+          .map(question -> new QuestionSubDocument(question)).collect(Collectors.toList());
+      this.nestedQuestions = questions.stream()
+          .map(question -> new QuestionNestedDocument(question))
+          .collect(Collectors.toList());
     }
     this.release = release;
+    this.completeTitle = I18nString.builder()
+        .de((survey.getTitle().getDe() != null ? survey.getTitle().getDe()
+            : survey.getTitle().getEn()) + " (" + survey.getId() + ")")
+        .en((survey.getTitle().getEn() != null ? survey.getTitle().getEn()
+            : survey.getTitle().getDe()) + " (" + survey.getId() + ")")
+        .build();
   }
 }

@@ -27,19 +27,27 @@ import lombok.ToString;
 @Setter
 public class QuestionSearchDocument extends Question implements SearchDocumentInterface {
   private StudySubDocument study = null;
+  private StudyNestedDocument nestedStudy = null;
   private InstrumentSubDocument instrument = null;
+  private InstrumentNestedDocument nestedInstrument = null;
   private List<SurveySubDocument> surveys = 
       new ArrayList<>();
+  private List<SurveyNestedDocument> nestedSurveys = new ArrayList<>();
   private List<VariableSubDocument> variables = 
       new ArrayList<>();
+  private List<VariableNestedDocument> nestedVariables = new ArrayList<>();
   private List<DataSetSubDocument> dataSets = 
       new ArrayList<>();
+  private List<DataSetNestedDocument> nestedDataSets = new ArrayList<>();
   private List<RelatedPublicationSubDocument> relatedPublications = 
       new ArrayList<>();
+  private List<RelatedPublicationNestedDocument> nestedRelatedPublications = new ArrayList<>();
   private Release release = null;
   
   private I18nString guiLabels = QuestionDetailsGuiLabels.GUI_LABELS;
   
+  private I18nString completeTitle;
+
   /**
    * Construct the search document with all related subdocuments.
    * @param question the question to be searched for
@@ -60,27 +68,53 @@ public class QuestionSearchDocument extends Question implements SearchDocumentIn
       String doi) {
     super(question);
     if (study != null) {
-      this.study = new StudySubDocument(study, doi);            
+      this.study = new StudySubDocument(study, doi);
+      this.nestedStudy = new StudyNestedDocument(study);
     }
     if (instrument != null) {
-      this.instrument = new InstrumentSubDocument(instrument);      
+      this.instrument = new InstrumentSubDocument(instrument);
+      this.nestedInstrument = new InstrumentNestedDocument(instrument);
     }
     if (surveys != null) {
       this.surveys = surveys.stream()
-          .map(SurveySubDocument::new).collect(Collectors.toList());      
+          .map(SurveySubDocument::new).collect(Collectors.toList());
+      this.nestedSurveys =
+          surveys.stream().map(SurveyNestedDocument::new).collect(Collectors.toList());
     }
     if (variables != null) {
       this.variables = variables.stream()
           .map(VariableSubDocument::new).collect(Collectors.toList());
+      this.nestedVariables =
+          variables.stream().map(VariableNestedDocument::new).collect(Collectors.toList());
     }
     if (dataSets != null) {
       this.dataSets = dataSets.stream()
           .map(DataSetSubDocument::new).collect(Collectors.toList());
+      this.nestedDataSets =
+          dataSets.stream().map(DataSetNestedDocument::new).collect(Collectors.toList());
     }
     if (relatedPublications != null) {
       this.relatedPublications = relatedPublications.stream()
-          .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());      
+          .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());
+      this.nestedRelatedPublications = relatedPublications.stream()
+          .map(RelatedPublicationNestedDocument::new).collect(Collectors.toList());
     }
     this.release = release;
+    if (instrument != null) {
+      this.completeTitle = I18nString.builder()
+          .de("Frage " + question.getNumber() + ": "
+              + (instrument.getTitle().getDe() != null ? instrument.getTitle().getDe()
+                  : instrument.getTitle().getEn())
+              + " (" + question.getId() + ")")
+          .en("Question " + question.getNumber() + ": "
+              + (instrument.getTitle().getEn() != null ? instrument.getTitle().getEn()
+                  : instrument.getTitle().getDe())
+              + " (" + question.getId() + ")")
+          .build();
+    } else {
+      this.completeTitle =
+          I18nString.builder().de("Frage " + question.getNumber() + ": " + question.getId())
+              .en("Question " + question.getNumber() + ": " + question.getId()).build();
+    }
   }
 }

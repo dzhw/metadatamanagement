@@ -26,4 +26,8 @@ public interface DataSetSubDocumentProjection
   I18nString getFormat();
   
   List<SubDataSet> getSubDataSets();
+
+  String getStudyId();
+
+  List<String> getSurveyIds();
 }

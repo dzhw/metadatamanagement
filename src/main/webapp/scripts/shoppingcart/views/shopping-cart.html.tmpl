@@ -1,0 +1,86 @@
+<div flex>
+    <div layout="row" style="margin-bottom: 0px;" layout-margin>
+        <h1 class="md-headline fdz-truncate-string" style="margin-left: 0px;">{{'shopping-cart.detail.table-title' | translate}}</h1>
+    </div>
+    <div ng-if="ctrl.initComplete" ng-repeat="product in ctrl.products" class="fdz-fade-in">
+        <md-card>
+            <md-card-header class="fdz-card-header-border">
+                <md-card-avatar>
+                    <md-icon md-svg-src="/assets/images/icons/product.svg" class="fdz-search-result-icon"></md-icon>
+                </md-card-avatar>
+                <md-card-header-text class="fdz-truncate-string">
+                    <div class="md-title fdz-truncate-string"><a ui-sref="studyDetail({id: product.studyId})">
+                      {{ctrl.studies[product.studyId].title | displayI18nString}}
+                      <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                          {{'shopping-cart.detail.study-tooltip' | translate}}
+                      </md-tooltip>
+                      </a>
+                    </div>
+                    <div class="md-subhead fdz-truncate-string" style="color: black;"><span>{{product.accessWay}}, </span><span>{{'shopping-cart.detail.label.version' | translate }} {{product.version}}</span> <strong ng-if="!ctrl.isCurrentVersion(product)">{{'(' + ('shopping-cart.detail.label.not-current' | translate) + ')'}}</strong><span ng-if="ctrl.isCurrentVersion(product)">{{' (' + ('shopping-cart.detail.label.current' | translate) + ')'}}</span></div>
+                </md-card-header-text>
+            </md-card-header>
+            <md-card-content>
+                <span>{{'shopping-cart.detail.label.this-data-product' | translate}}</span>
+                <a ui-sref="search({'type': 'studies', 'study-series-{{currentLanguage}}': ctrl.studies[product.studyId].studySeries[currentLanguage]})" ng-if="ctrl.studies[product.studyId].studySeries[currentLanguage]">{{'shopping-cart.detail.label.study-series' | translate:'{series:"'+ ctrl.studies[product.studyId].studySeries[currentLanguage] + '"}'}}
+                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                      {{'shopping-cart.detail.study-series-tooltip' | translate}}
+                  </md-tooltip>
+                </a>
+                <span>{{'shopping-cart.detail.label.contains' | translate}}</span>
+                <strong ng-if="!ctrl.isCurrentVersion(product)">{{'shopping-cart.detail.label.about' | translate}}</strong>
+                <a ui-sref="search({'type': 'variables', 'study': product.studyId, 'access-way': product.accessWay})">{{'shopping-cart.detail.label.variables' | translate:'{variables: ' + ctrl.getNumberOfVariables(product) + ', formattedVariables:"' + (ctrl.getNumberOfVariables(product) | number) + '"}':'messageformat'}}
+                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                      {{'shopping-cart.detail.variables-tooltip' | translate}}
+                  </md-tooltip>
+                </a>
+                <span>{{'shopping-cart.detail.label.in' | translate}}</span>
+                <strong ng-if="!ctrl.isCurrentVersion(product)">{{'shopping-cart.detail.label.about' | translate}}</strong>
+                <a ui-sref="search({'type': 'data_sets', 'study': product.studyId, 'access-way': product.accessWay})">{{'shopping-cart.detail.label.data-sets' | translate:'{dataSets: ' + ctrl.getNumberOfDataSets(product) + ', formattedDataSets:"' + (ctrl.getNumberOfDataSets(product) | number) + '"}':'messageformat'}}
+                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                      {{'shopping-cart.detail.data-sets-tooltip' | translate}}
+                  </md-tooltip>
+                </a>.
+                <div ng-if="ctrl.studies[product.studyId].annotations">
+                  <span style="font-weight: bold;">{{'shopping-cart.detail.label.annotations' | translate }}:&nbsp;</span>
+                  <span fdz-hyphenate class="fdz-text-block fdz-multiline-property" lang="{{currentLanguage}}">{{ctrl.studies[product.studyId].annotations | displayI18nString}}</span>
+                </div>
+            </md-card-content>
+            <div class="fdz-search-result-actions-container">
+                <md-button class="md-icon-button md-primary" ng-click="ctrl.deleteProduct(product)" style="margin-left: 0px;">
+                    <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                        {{'shopping-cart.buttons.delete-product-tooltip' | translate}}
+                    </md-tooltip>
+                    <md-icon md-font-set="material-icons">delete_forever</md-icon>
+                </md-button>
+            </div>
+        </md-card>
+    </div>
+    <md-card ng-if="ctrl.initComplete && ctrl.products && ctrl.products.length > 0" class="fdz-fade-in">
+        <md-card-content>
+            <p data-translate="shopping-cart.detail.warn-not-current-versions"></p>
+            <p data-translate="shopping-cart.detail.explain-data-product"></p>
+            <div layout="row">
+                <md-button class="md-raised md-accent fdz-truncate-string" ng-click="ctrl.checkout()" style="margin-left: 0px;">
+                    <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                        {{'shopping-cart.buttons.checkout-tooltip' | translate}}
+                    </md-tooltip>
+                    <md-icon md-font-set="material-icons">thumb_up</md-icon>
+                    <span>{{'shopping-cart.buttons.checkout' | translate}}</span>
+                </md-button>
+                <md-button class="md-raised md-primary fdz-truncate-string" ng-click="ctrl.clear()">
+                    <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                        {{'shopping-cart.buttons.remove-all-tooltip' | translate}}
+                    </md-tooltip>
+                    <md-icon md-font-set="material-icons">remove_shopping_cart</md-icon>
+                    <span>{{'shopping-cart.buttons.remove-all' | translate}}</span>
+                </md-button>
+            </div>
+        </md-card-content>
+    </md-card>
+    <md-card ng-if="ctrl.initComplete && !(ctrl.products && ctrl.products.length > 0)" class="fdz-fade-in">
+        <md-card-content layout-align="center center">
+            <p data-translate="shopping-cart.detail.empty-cart-text"></p>
+            <p data-translate="shopping-cart.detail.explain-data-product"></p>
+        </md-card-content>
+    </md-card>
+</div>

@@ -1,3 +1,4 @@
+/* global _ */
 'use strict';
 
 angular.module('metadatamanagementApp')
@@ -6,10 +7,13 @@ angular.module('metadatamanagementApp')
       PageTitleService, $state, ToolbarHeaderService, SurveySearchService,
       SurveyAttachmentResource, Principal, SimpleMessageToastService,
       SearchResultNavigatorService, $stateParams,
-      SurveyResponseRateImageUploadService, DataAcquisitionProjectResource) {
+      SurveyResponseRateImageUploadService, DataAcquisitionProjectResource,
+      ProductChooserDialogService) {
       SearchResultNavigatorService.registerCurrentSearchResult(
           $stateParams['search-result-index']);
       var ctrl = this;
+      ctrl.isAuthenticated = Principal.isAuthenticated;
+      ctrl.hasAuthority = Principal.hasAuthority;
       ctrl.searchResultIndex = $stateParams['search-result-index'];
       ctrl.counts = {};
       ctrl.projectIsCurrentlyReleased = true;
@@ -37,6 +41,12 @@ angular.module('metadatamanagementApp')
           'studyIsPresent': CleanJSObjectService.
           isNullOrEmpty(result.study) ? false : true,
           'projectId': result.dataAcquisitionProjectId});
+        if (result.dataSets) {
+          ctrl.accessWays = [];
+          result.dataSets.forEach(function(dataSet) {
+            ctrl.accessWays = _.union(dataSet.accessWays, ctrl.accessWays);
+          });
+        }
         if (result.release || Principal.hasAnyAuthority(['ROLE_PUBLISHER',
             'ROLE_DATA_PROVIDER'])) {
           ctrl.survey = result;
@@ -77,4 +87,11 @@ angular.module('metadatamanagementApp')
           );
         }
       });
+
+      ctrl.addToShoppingCart = function(event) {
+        ProductChooserDialogService.showDialog(
+          ctrl.survey.dataAcquisitionProjectId, ctrl.accessWays,
+          ctrl.survey.study,
+          event);
+      };
     });

@@ -15,6 +15,8 @@ public interface SurveySubDocumentProjection
     extends AbstractRdcDomainObjectProjection {
   String getDataAcquisitionProjectId();
 
+  String getStudyId();
+
   I18nString getTitle();
 
   Population getPopulation();

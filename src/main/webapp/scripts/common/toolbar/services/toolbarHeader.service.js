@@ -40,7 +40,12 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
       'search': {
         'type': 'search-management.detail.search',
         'translateString': 'global.tooltips.toolbarHeader.search',
-        'tab': 'search-management.tabs.'
+        'tab': 'search-management.tabs.',
+        'iconType': 'font',
+        'icon': 'search'
+      },
+      'shoppingCart': {
+        'type': 'shopping-cart.title'
       },
       'studyCreate': {
         'type': 'study-management.detail.label.study',
@@ -326,6 +331,13 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         case 'search':
           searchItem.set(item);
           $rootScope.toolbarHeaderItems.push(searchItem.get());
+          break;
+        case 'shoppingCart':
+          var shoppingCartItem = {
+            'state': 'shoppingCart',
+            'type': translationStringsMap.shoppingCart.type
+          };
+          $rootScope.toolbarHeaderItems.push(shoppingCartItem);
           break;
         case 'disclosure':
           var disclosureItem = {

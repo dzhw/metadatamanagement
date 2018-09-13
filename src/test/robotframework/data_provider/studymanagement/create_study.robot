@@ -12,13 +12,13 @@ Create Study
   Open Study Create Page
   Input Text    name=titleDe                 Test Studie
   Input Text    name=titleEn                 Test Study
-  Input Text    name=studySeriesDe           Roboter Studien
-  Input Text    name=studySeriesEn           Robot Studies
+  Input Text    name=studySeriesDe           Roboter Studien ${BROWSER}
+  Input Text    name=studySeriesEn           Robot Studies ${BROWSER}
   Choose Panel As Survey Design
-  Input Text    name=institutionDe           DZHW
-  Input Text    name=institutionEn           DZHW
-  Input Text    name=sponsorDe               BMBF
-  Input Text    name=sponsorEn               BMBF
+  Input Text    name=institutionDe           DZHW ${BROWSER}
+  Input Text    name=institutionEn           DZHW ${BROWSER}
+  Input Text    name=sponsorDe               BMBF ${BROWSER}
+  Input Text    name=sponsorEn               BMBF ${BROWSER}
   Input Text    name=annotationsDe           Diese Studie wurde von Robot automatisch erstellt.
   Input Text    name=annotationsEn           This study was created automatically by Robot.x
   Choose In Aufbereitung as Data Availibility
@@ -33,7 +33,7 @@ Create Study
   Input Text    name=authorsLastName_1       noLastName
   Move Second Author To Place One
   Save Changes
-  Page Should Contain Element  xpath=//md-toolbar//a[contains(.,'robotsproject')]
+  Page Should Contain Element  xpath=//md-toolbar//a[contains(.,'robotsproject${BROWSER}')]
   [Teardown]  Delete Robotsproject
 
 *** Keywords ***
@@ -41,7 +41,7 @@ Create RobotsProject
   Pass Execution If    '${BROWSER}' == 'ie'  Study Creation not possible in IE
   Login as dataprovider
   Click Element Through Tooltips		xpath=//md-sidenav//button[md-icon[text()='add']]
-  Input Text			name=id		robotsproject
+  Input Text			name=id		robotsproject${BROWSER}
   Wait Until Keyword Succeeds  5s  0.5s    Page Should Contain Element  xpath=//button[@type='submit' and not(contains(@disabled, 'disabled'))]
   Click Element Through Tooltips		xpath=//button[@type='submit']
 
