@@ -28,7 +28,7 @@ angular.module('metadatamanagementApp').config(
             'contains': 'enthält',
             'variables': '{variables, plural, =0{unbekannt viele Variablen} =1{eine Variable} other{{formattedVariables} Variablen}}',
             'in': 'in',
-            'data-sets': '{dataSets, plural, =0{unbekannt vielen Datensätze} =1{einem Datensatz} other{{formattedDataSets} Datensätzen}}'
+            'data-sets': '{dataSets, plural, =0{unbekannt vielen Datensätze.} =1{einem Datensatz.} other{{formattedDataSets} Datensätzen.}}'
           },
           'empty-cart-text': 'Ihr Einkaufswagen ist aktuell leer. Sie können <a href="#!/de/search?type=studies"><strong>hier</strong></a> nach Datenprodukten suchen und diese Ihrem Einkaufswagen hinzufügen.',
           'warn-not-current-versions': 'Wenn Sie sich nicht für die aktuelle Version eines Datenproduktes entschieden haben, kann Ihnen dieses System keine genaue Auskunft über die Anzahl an Variablen und Datensätzen des Produktes anzeigen.',

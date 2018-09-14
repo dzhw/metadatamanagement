@@ -10,9 +10,10 @@
             </md-button>
         </div>
     </md-toolbar>
-    <div class="md-dialog-content" layout="column">
-        <span>{{"global.welcome-dialog.content-body-feedback" | translate}}</span>
-        <span>
+    <div flex layout="column" layout-align="space-between stretch">
+        <div class="md-dialog-content" layout="column">
+            <span>{{"global.welcome-dialog.content-body-feedback" | translate}}</span>
+            <span>
           {{"global.welcome-dialog.content-body-via" | translate}}
           <a ng-href="{{currentUrl()}}" target="_blank">
             <md-icon md-svg-src="/assets/images/icons/github-circle.svg"></md-icon>GitHub
@@ -21,7 +22,7 @@
             </md-tooltip>
           </a>
         </span>
-        <span>{{"global.welcome-dialog.content-body-via" | translate}}
+            <span>{{"global.welcome-dialog.content-body-via" | translate}}
           <a ng-href="mailto:fdz-feedback@dzhw.eu?subject={{mailSubject}}&body={{mailBody}}">
             <md-icon md-font-set="material-icons">email</md-icon>fdz-feedback@dzhw.eu
             <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
@@ -29,16 +30,17 @@
             </md-tooltip>
           </a>
         </span>
-        <br>
-        <span>{{"global.welcome-dialog.content-body-thanks" | translate}}</span>
+            <br>
+            <span>{{"global.welcome-dialog.content-body-thanks" | translate}}</span>
+        </div>
+        <md-dialog-actions style="padding: 0 1.5em 1em 0;">
+            <span flex></span>
+            <md-button class="md-primary md-raised" id="closeWelcomeDialog" ng-click="closeDialog()">
+                {{"global.buttons.close" | translate}}
+                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                    {{"global.dialog.tooltip.close" | translate}}
+                </md-tooltip>
+            </md-button>
+        </md-dialog-actions>
     </div>
-    <md-dialog-actions>
-        <span flex></span>
-        <md-button class="md-primary md-raised" id="closeWelcomeDialog" ng-click="closeDialog()">
-            {{"global.buttons.close" | translate}}
-            <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                {{"global.dialog.tooltip.close" | translate}}
-            </md-tooltip>
-        </md-button>
-    </md-dialog-actions>
 </md-dialog>

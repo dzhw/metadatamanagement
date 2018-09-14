@@ -28,7 +28,7 @@ angular.module('metadatamanagementApp').config(
             'contains': 'contains',
             'variables': '{variables, plural, =0{an unknown amount of variables} =1{one variable} other{{formattedVariables} variables}}',
             'in': 'in',
-            'data-sets': '{dataSets, plural, =0{an unknown amount of data sets} =1{one data set} other{{formattedDataSets} data sets}}'
+            'data-sets': '{dataSets, plural, =0{an unknown amount of data sets.} =1{one data set.} other{{formattedDataSets} data sets.}}'
           },
           'empty-cart-text': 'Your shopping cart is currently empty. You can search for data products <a href="#!/en/search?type=studies"><strong>here</strong></a> and add those to your shopping cart.',
           'warn-not-current-versions': 'If you have not decided on the current version of a data product, this system cannot display exact information about the number of variables and data sets in the product.',
