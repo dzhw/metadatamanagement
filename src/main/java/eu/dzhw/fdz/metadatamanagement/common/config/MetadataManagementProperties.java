@@ -38,6 +38,8 @@ public class MetadataManagementProperties {
   
   private final Server server = new Server();
 
+  private final Ordermanagement ordermanagement = new Ordermanagement();
+
   public Elasticsearch getElasticsearch() {
     return elasticsearch;
   }
@@ -64,6 +66,10 @@ public class MetadataManagementProperties {
   
   public Server getServer() {
     return server;
+  }
+
+  public Ordermanagement getOrdermanagement() {
+    return ordermanagement;
   }
 
   /**
@@ -266,6 +272,23 @@ public class MetadataManagementProperties {
 
     public void setInstanceIndex(Integer instanceIndex) {
       this.instanceIndex = instanceIndex;
+    }
+  }
+
+  /**
+   * Custom Order Management properties.
+   * 
+   * @author René Reitmann
+   */
+  public static class Ordermanagement {
+    private String email = "";
+
+    public String getEmail() {
+      return email;
+    }
+
+    public void setEmail(String email) {
+      this.email = email;
     }
   }
 }

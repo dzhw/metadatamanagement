@@ -53,6 +53,8 @@ server:
 # ===================================================================
 
 metadatamanagement:
+  ordermanagement:
+    email: test@dzhw.eu
   server:
     instance-index: 0
   elasticsearch-client:

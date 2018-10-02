@@ -27,6 +27,8 @@ spring:
 # ===================================================================
 
 metadatamanagement:
+  ordermanagement:
+    email: birkelbach@dzhw.eu
   server:
     instance-index: ${cf.instance.index}
   elasticsearch-client:

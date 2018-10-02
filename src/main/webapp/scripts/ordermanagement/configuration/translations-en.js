@@ -28,10 +28,21 @@ angular.module('metadatamanagementApp').config(
             'contains': 'contains',
             'variables': '{variables, plural, =0{an unknown amount of variables} =1{one variable} other{{formattedVariables} variables}}',
             'in': 'in',
-            'data-sets': '{dataSets, plural, =0{an unknown amount of data sets.} =1{one data set.} other{{formattedDataSets} data sets.}}'
+            'data-sets': '{dataSets, plural, =0{an unknown amount of data sets.} =1{one data set.} other{{formattedDataSets} data sets.}}',
+            'study': 'Study',
+            'customer-name': 'Your Name',
+            'customer-email': 'Your E-mail Address'
           },
+          'hints': {
+            'name': 'Please let us know your full name.',
+            'email': 'Please let us know your e-mail address so that we can contact you.',
+            'accessWay': 'Do you need a CUF or SUF and how would you like to work with the data?',
+            'version': 'Which version of the data sets do you need?'
+          },
+          'thank-you': 'Thank you for your interest in our data products!',
+          'order-placed-text': 'We have sent you a confirmation email and will contact you shortly.',
           'empty-cart-text': 'Your shopping cart is currently empty. You can search for data products <a href="#!/en/search?type=studies"><strong>here</strong></a> and add those to your shopping cart.',
-          'warn-not-current-versions': 'If you have not decided on the current version of a data product, this system cannot display exact information about the number of variables and data sets in the product.',
+          'warn-not-current-versions': 'Since you have not decided on the current version of this data product, this system cannot display exact information about the number of variables and data sets in the product.',
           'explain-data-product': 'A data product contains all data sets of a given study which have been prepared for the given access way (download, on-site, remote,...). You can request several data products as well as the same study several times with different access ways.',
           'no-final-release': 'The data products have not yet been created. As soon as they are ready, you can put them in the shopping cart at this point.',
           'variable-not-accessible': 'Although this variable was collected, it is not available in any data product for data protection reasons.',
@@ -41,10 +52,25 @@ angular.module('metadatamanagementApp').config(
           'data-sets-tooltip': 'Click to display all datasets of this data product.',
           'variables-tooltip': 'Click to display all variables of this data product.'
         },
+        'error': {
+          'customer': {
+            'name': {
+              'empty': 'Your name must not be empty.',
+              'string-size': 'Your name must not exceed 128 characters.'
+            },
+            'email': {
+              'empty': 'Your e-mail address must not be empty.',
+              'string-size': 'Your e-mail address must not exceed 128 characters.',
+              'invalid': 'Your e-mail address is invalid.'
+            }
+          }
+        },
         'toasts': {
           'checkout-coming-soon': 'Checkout is coming soon...',
           'study-added': 'The data product was put into the shopping cart.',
-          'study-already-in-cart': 'The data product is already in the shopping cart.'
+          'study-already-in-cart': 'The data product is already in the shopping cart.',
+          'customer-has-validation-errors-toast': 'You have not yet provided all the necessary information about yourself.',
+          'error-on-saving-order': 'An error occurred while sending your order.'
         },
         'buttons': {
           'checkout': 'Order',

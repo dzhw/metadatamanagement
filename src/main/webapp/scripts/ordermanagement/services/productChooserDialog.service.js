@@ -4,7 +4,7 @@ angular.module('metadatamanagementApp').service('ProductChooserDialogService',
   function($mdDialog) {
     var showDialog = function(projectId, accessWays, study, event) {
       $mdDialog.show({
-        templateUrl: 'scripts/shoppingcart/views/' +
+        templateUrl: 'scripts/ordermanagement/views/' +
         'product-chooser.html.tmpl',
         controller: 'ProductChooserController',
         controllerAs: 'ctrl',

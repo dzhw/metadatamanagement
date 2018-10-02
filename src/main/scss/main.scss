@@ -462,6 +462,10 @@ md-input-container.fdz-search-input label:not(.md-container-ignore) {
     bottom: 89%;
 }
 
+md-input-container label {
+    margin: 0px;
+}
+
 .fdz-log-error-text {
     color: $brand-danger;
 }

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title th:text="#{email.order.created.title}">Ihr Interesse an
+	unseren Datenprodukten</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style>
+	th {
+		font-weight: bold;
+	}
+	th, td {
+		border-bottom: 1px solid black;
+		text-align: left;
+	}
+</style>
+</head>
+<body>
+	<p th:text="#{email.order.created.greeting(${order.customer.name})}">
+		Liebe(r) René,</p>
+	<p>
+		<span th:text="#{email.order.created.text1}">Sie haben
+			Interesse an den folgenden Datenprodukten:</span>
+	</p>
+	<table cellspacing="0" cellpadding="0" width="100%">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Titel</th>
+				<th>Version</th>
+				<th>Zugangsweg</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="product : ${order.products}">
+				<td th:text="${product.study.id}">Id</td>
+				<td th:text="${product.study.title.de}">Studientitel</td>
+				<td th:text="${product.version}">1.0.0</td>
+				<td th:text="${product.accessWay}">download-cuf</td>
+			</tr>
+		</tbody>
+	</table>
+	<p>
+		<span th:text="#{email.order.created.text2}">Wir melden uns...</span>
+	</p>
+	<p>
+		<span th:text="#{email.order.created.regards}">Grüße,</span> <br /> <em
+			th:text="#{email.signature}">Ihr FDZ-Team</em>
+	</p>
+</body>
+</html>

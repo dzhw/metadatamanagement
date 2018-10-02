@@ -73,7 +73,10 @@ javers:
 
 metadatamanagement:
   elasticsearch:
-    version: 6.3.2 
+    version: 6.3.2
+  ordermanagement:
+    email: reitmann@dzhw.eu
+     
 # ===================================================================
 # JHipster specific properties
 # ===================================================================

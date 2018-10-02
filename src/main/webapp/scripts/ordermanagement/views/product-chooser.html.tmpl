@@ -14,24 +14,33 @@
     </md-toolbar>
     <div flex layout="column" layout-align="space-between stretch">
         <md-dialog-content class="md-padding" style="padding-bottom: 0px;" ng-if="!ctrl.noFinalRelease && !ctrl.noDataSets && !ctrl.variableNotAccessible && !ctrl.dataNotAvailable">
+            <div layout="row">
+                <md-input-container flex style="margin-bottom: 0px;">
+                    <label>{{'shopping-cart.detail.label.study' | translate}}</label>
+                    <input disabled ng-model="ctrl.study.title.de" name="studyTitle" style="color: black;">
+                </md-input-container>
+            </div>
             <div layout="row" layout-xs="column" ng-show="ctrl.releases">
                 <md-input-container flex-gt-xs="50">
                     <label>{{'shopping-cart.detail.label.access-way-of-data-sets' | translate}}</label>
-                    <md-select md-autofocus ng-model="ctrl.selectedAccessWay">
+                    <md-select name="accessWay" md-autofocus ng-model="ctrl.selectedAccessWay">
                         <md-optgroup label="{{'shopping-cart.detail.label.available-access-ways' | translate}}">
                             <md-option ng-repeat="item in ctrl.accessWays" ng-value="item">{{item}}</md-option>
                         </md-optgroup>
                     </md-select>
+                    <div class="fdz-input-hint">{{'shopping-cart.detail.hints.accessWay' | translate}}</div>
                 </md-input-container>
                 <md-input-container flex-gt-xs="50">
                     <label>{{'shopping-cart.detail.label.version-of-data-sets' | translate }}</label>
-                    <md-select ng-model="ctrl.selectedVersion">
+                    <md-select name="version" ng-model="ctrl.selectedVersion">
                         <md-optgroup label="{{'shopping-cart.detail.label.available-versions' | translate}}">
                             <md-option ng-repeat="item in ctrl.releases" ng-value="item.version">{{item.version}}{{$first?' (' + ('shopping-cart.detail.label.current' | translate) + ')':''}}</md-option>
                         </md-optgroup>
                     </md-select>
+                    <div class="fdz-input-hint">{{'shopping-cart.detail.hints.version' | translate}}</div>
                 </md-input-container>
             </div>
+            <p data-translate="shopping-cart.detail.explain-data-product"></p>
         </md-dialog-content>
         <md-dialog-content class="md-padding" style="padding-bottom: 0px;" ng-if="ctrl.noFinalRelease || ctrl.noDataSets || ctrl.variableNotAccessible || ctrl.dataNotAvailable">
             <p ng-if="!ctrl.variableNotAccessible && !ctrl.dataNotAvailable">

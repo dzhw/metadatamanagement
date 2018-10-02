@@ -27,6 +27,8 @@ spring:
 # ===================================================================
 
 metadatamanagement:
+  ordermanagement:
+    email: dataservice@dzhw.eu
   server:
     instance-index: ${cf.instance.index}
   elasticsearch-client:

@@ -6546,10 +6546,11 @@ md-toolbar {
 .flex-50 {
   -webkit-box-flex: 1;
   -webkit-flex: 1 1 100%;
-          flex: 1 1 100%;
+  flex: 1 1 100%;
   max-width: 50%;
   max-height: 100%;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  }
 
 .layout-row > .flex-50 {
   -webkit-box-flex: 1;
