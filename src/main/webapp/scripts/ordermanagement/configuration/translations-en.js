@@ -8,6 +8,7 @@ angular.module('metadatamanagementApp').config(
         'title': 'Shopping Cart',
         'detail': {
           'table-title': 'Your selected Data Products',
+          'personal-details': 'Personal Details',
           'label': {
             'title': 'Study Title',
             'access-way': 'Access Way',

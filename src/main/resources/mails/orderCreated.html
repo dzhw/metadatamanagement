@@ -5,13 +5,37 @@
 	unseren Datenprodukten</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <style>
-	th {
-		font-weight: bold;
-	}
-	th, td {
-		border-bottom: 1px solid black;
-		text-align: left;
-	}
+th, td {
+	text-align: left;
+	padding: 6px;
+}
+
+.bottom {
+	border-bottom: 1px solid #006AB2;
+}
+
+table {
+	border-left: 1px solid #006AB2;
+	border-right: 1px solid #006AB2;
+}
+
+th {
+	font-weight: bold;
+}
+
+a {
+	text-decoration: none;
+	color: #006AB2;
+}
+
+body {
+	font-family: Roboto, "Helvetica Neue", sans-serif;
+	color: black;
+}
+
+.even {
+	background-color: #E5F0F7;
+}
 </style>
 </head>
 <body>
@@ -23,20 +47,28 @@
 	</p>
 	<table cellspacing="0" cellpadding="0" width="100%">
 		<thead>
-			<tr>
-				<th>Id</th>
-				<th>Titel</th>
+			<tr style="background-color: #006AB2; color: white;">
+				<th th:text="#{email.order.created.study}">Studie</th>
+				<th th:text="#{email.order.created.access-way}">Zugangsweg</th>
 				<th>Version</th>
-				<th>Zugangsweg</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr th:each="product : ${order.products}">
-				<td th:text="${product.study.id}">Id</td>
-				<td th:text="${product.study.title.de}">Studientitel</td>
-				<td th:text="${product.version}">1.0.0</td>
-				<td th:text="${product.accessWay}">download-cuf</td>
-			</tr>
+			<th:block th:each="product, iterStat : ${order.products}">
+				<tr>
+					<td th:class="${product.study.annotations == null ? 'bottom' : ''}"><a
+						th:href="@{|${baseUrl}/#!/${order.languageKey}/studies/${product.study.id}?version=${product.version}|}"
+						th:text="${product.study.title[order.languageKey] + ' (' + product.study.id + ')'}">Studientitel</a></td>
+					<td	th:class="${product.study.annotations == null ? 'bottom' : ''}" th:text="${product.accessWay}">download-cuf</td>
+					<td	th:class="${product.study.annotations == null ? 'bottom' : ''}" th:text="${product.version}">1.0.0</td>
+				</tr>
+				<tr th:if="${product.study.annotations != null}">
+					<td colspan="3"
+						th:text="${product.study.annotations != null ? product.study.annotations[order.languageKey] : ''}"
+						class="bottom"
+						style="padding-top: 0px; text-align: justify;">...</td>
+				</tr>
+			</th:block>
 		</tbody>
 	</table>
 	<p>

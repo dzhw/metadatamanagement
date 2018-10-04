@@ -8,7 +8,7 @@ Force Tags  smoketest
 Use of Searchfilters to find a question
   Click on questions tab
   Activate Filter by name  Erhebung
-  Choose Filter Option by id  sur-gra2005-sy4$
-  Click on search result by id  que-gra2005-ins2-1.1$
+  Choose Filter Option by id  sur-gra2005-sy1$
+  Click on search result by id  que-gra2005-ins1-1.1$
   Page Should Contain  Verbundene Objekte
   [Teardown]  Get back to german home page

@@ -264,6 +264,8 @@ public class MetadataManagementProperties {
    * @author René Reitmann
    */
   public static class Server {
+    private String contextRoot = null;
+
     private Integer instanceIndex = null;
 
     public Integer getInstanceIndex() {
@@ -272,6 +274,14 @@ public class MetadataManagementProperties {
 
     public void setInstanceIndex(Integer instanceIndex) {
       this.instanceIndex = instanceIndex;
+    }
+
+    public String getContextRoot() {
+      return contextRoot;
+    }
+
+    public void setContextRoot(String contextRoot) {
+      this.contextRoot = contextRoot;
     }
   }
 

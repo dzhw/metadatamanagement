@@ -11,6 +11,7 @@ import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.lang.CharEncoding;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -52,6 +53,9 @@ public class MailService {
   @Autowired
   private Environment env;
 
+  @Value("${metadatamanagement.server.context-root}")
+  private String baseUrl;
+
   private Future<Void> sendEmail(String[] to, String cc, String subject, String content,
       boolean isMultipart, boolean isHtml) {
     log.debug("Send e-mail[multipart '{}' and html '{}'] to '{}' with subject '{}' and content={}",
@@ -85,7 +89,7 @@ public class MailService {
    * Send user activation email.
    */
   @Async
-  public Future<Void> sendActivationEmail(User user, String baseUrl) {
+  public Future<Void> sendActivationEmail(User user) {
     log.debug("Sending activation e-mail to '{}'", user.getEmail());
     Locale locale = Locale.forLanguageTag(user.getLangKey());
     Context context = new Context(locale);
@@ -100,7 +104,7 @@ public class MailService {
    * Send password reset mail.
    */
   @Async
-  public Future<Void> sendPasswordResetMail(User user, String baseUrl) {
+  public Future<Void> sendPasswordResetMail(User user) {
     log.debug("Sending password reset e-mail to '{}'", user.getEmail());
     Locale locale = Locale.forLanguageTag(user.getLangKey());
     Context context = new Context(locale);
@@ -115,7 +119,7 @@ public class MailService {
    * Send new account activated mail.
    */
   @Async
-  public Future<Void> sendNewAccountActivatedMail(List<User> admins, User newUser, String baseUrl) {
+  public Future<Void> sendNewAccountActivatedMail(List<User> admins, User newUser) {
     log.debug("Sending new account e-mail to all admins");
     Context context = new Context();
     context.setVariable("user", newUser);
@@ -152,6 +156,7 @@ public class MailService {
     Locale locale = Locale.forLanguageTag(order.getLanguageKey());
     Context context = new Context(locale);
     context.setVariable("order", order);
+    context.setVariable("baseUrl", baseUrl);
     String content = templateEngine.process("orderCreated", context);
     String subject = messageSource.getMessage("email.order.created.title", null, locale);
     sendEmail(new String[] {order.getCustomer().getEmail()}, cc, subject,
