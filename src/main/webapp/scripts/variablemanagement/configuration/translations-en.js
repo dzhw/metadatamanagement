@@ -125,7 +125,8 @@ angular.module('metadatamanagementApp').config(
         'error': {
           'distribution': {
             'valid-responses': {
-              'unique-value': 'The value has to be unique within the valid responses.'
+              'unique-value': 'The value has to be unique within the valid responses.',
+              'max-size': 'The variable must not contain more than 7000 valid responses.'
             },
             'total-absolute-frequency': {
               'not-null': 'The total absolute frequency must not be empty!'
@@ -137,7 +138,8 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'The total valid relative frequency must not be empty!'
             },
             'missings': {
-              'uniqueCode': 'The code has to be unique within the missings.'
+              'uniqueCode': 'The code has to be unique within the missings.',
+              'max-size': 'The variable must not contain more than 7000 missings.'
             }
           },
           'filter-details': {

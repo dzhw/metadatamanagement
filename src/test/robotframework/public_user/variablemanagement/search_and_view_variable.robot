@@ -2,7 +2,7 @@
 Documentation     Tests the user experience of searching & finding the Graduate Panel 2005 and opening a variable page
 Resource    ../resources/search_resource.robot
 Resource    ../resources/home_page_resource.robot
-
+Force Tags  noslowpoke
 
 *** Test Cases ***
 Looking for Absolventenpanel 2005s individual data bachelor in german

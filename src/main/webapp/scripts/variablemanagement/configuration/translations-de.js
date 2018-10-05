@@ -125,7 +125,8 @@ angular.module('metadatamanagementApp').config(
         'error': {
           'distribution': {
             'valid-responses': {
-              'unique-value': 'Der Wert muss innerhalb der gültigen Antworten eindeutig sein.'
+              'unique-value': 'Der Wert muss innerhalb der gültigen Antworten eindeutig sein.',
+              'max-size': 'Die Variable darf nicht mehr als 7000 gültige Antworten enthalten.'
             },
             'total-absolute-frequency': {
               'not-null': 'Die totale, absolute Häufigkeit darf nicht leer sein!'
@@ -137,7 +138,8 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'Die totale, valide, relative Häufigkeit darf nicht leer sein!'
             },
             'missings': {
-              'uniqueCode': 'Der Code muss innerhalb der Missings eindeutig sein.'
+              'uniqueCode': 'Der Code muss innerhalb der Missings eindeutig sein.',
+              'max-size': 'Die Variable darf nicht mehr als 7000 Missings enthalten.'
             }
           },
           'filter-details': {
