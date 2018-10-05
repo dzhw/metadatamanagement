@@ -4,72 +4,47 @@
 <title th:text="#{email.order.created.title}">Ihr Interesse an
 	unseren Datenprodukten</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<style>
-th, td {
-	text-align: left;
-	padding: 6px;
-}
-
-.bottom {
-	border-bottom: 1px solid #006AB2;
-}
-
-table {
-	border-left: 1px solid #006AB2;
-	border-right: 1px solid #006AB2;
-}
-
-th {
-	font-weight: bold;
-}
-
-a {
-	text-decoration: none;
-	color: #006AB2;
-}
-
-body {
-	font-family: Roboto, "Helvetica Neue", sans-serif;
-	color: black;
-}
-
-.even {
-	background-color: #E5F0F7;
-}
-</style>
 </head>
-<body>
+<body
+	style="font-family: Roboto, 'Helvetica Neue', sans-serif; color: black;">
 	<p th:text="#{email.order.created.greeting(${order.customer.name})}">
 		Liebe(r) René,</p>
 	<p>
 		<span th:text="#{email.order.created.text1}">Sie haben
 			Interesse an den folgenden Datenprodukten:</span>
 	</p>
-	<table cellspacing="0" cellpadding="0" width="100%">
-		<thead>
-			<tr style="background-color: #006AB2; color: white;">
-				<th th:text="#{email.order.created.study}">Studie</th>
-				<th th:text="#{email.order.created.access-way}">Zugangsweg</th>
-				<th>Version</th>
+	<table cellspacing="0" cellpadding="0" width="100%"
+		style="border-left: 1px solid #006AB2; border-right: 1px solid #006AB2;">
+		<tr
+			style="background-color: #006AB2;">
+			<th th:text="#{email.order.created.study}"
+				style="text-align: left; padding: 6px; color: white; font-weight: bold;">Studie</th>
+			<th th:text="#{email.order.created.access-way}"
+				style="text-align: left; padding: 6px; color: white; font-weight: bold;">Zugangsweg</th>
+			<th style="text-align: left; padding: 6px; color: white; font-weight: bold;">Version</th>
+		</tr>
+		<th:block th:each="product, iterStat : ${order.products}">
+			<tr>
+				<td
+					th:style="${product.study.annotations == null ? 'text-align: left; padding: 6px; border-bottom: 1px solid #006AB2;' : 'text-align: left; padding: 6px;'}">
+					<a style="text-decoration: none; color: #006AB2;"
+					th:href="@{|${baseUrl}/#!/${order.languageKey}/studies/${product.study.id}?version=${product.version}|}"
+					th:text="${product.study.title[order.languageKey] + ' (' + product.study.id + ')'}">Studientitel</a>
+				</td>
+				<td
+					th:style="${product.study.annotations == null ? 'text-align: left; padding: 6px; border-bottom: 1px solid #006AB2;' : 'text-align: left; padding: 6px;'}"
+					th:text="${product.accessWay}">download-cuf</td>
+				<td
+					th:style="${product.study.annotations == null ? 'text-align: left; padding: 6px; border-bottom: 1px solid #006AB2;' : 'text-align: left; padding: 6px;'}"
+					th:text="${product.version}">1.0.0</td>
 			</tr>
-		</thead>
-		<tbody>
-			<th:block th:each="product, iterStat : ${order.products}">
-				<tr>
-					<td th:class="${product.study.annotations == null ? 'bottom' : ''}"><a
-						th:href="@{|${baseUrl}/#!/${order.languageKey}/studies/${product.study.id}?version=${product.version}|}"
-						th:text="${product.study.title[order.languageKey] + ' (' + product.study.id + ')'}">Studientitel</a></td>
-					<td	th:class="${product.study.annotations == null ? 'bottom' : ''}" th:text="${product.accessWay}">download-cuf</td>
-					<td	th:class="${product.study.annotations == null ? 'bottom' : ''}" th:text="${product.version}">1.0.0</td>
-				</tr>
-				<tr th:if="${product.study.annotations != null}">
-					<td colspan="3"
-						th:text="${product.study.annotations != null ? product.study.annotations[order.languageKey] : ''}"
-						class="bottom"
-						style="padding-top: 0px; text-align: justify;">...</td>
-				</tr>
-			</th:block>
-		</tbody>
+			<tr th:if="${product.study.annotations != null}">
+				<td colspan="3"
+					th:text="${product.study.annotations != null ? product.study.annotations[order.languageKey] : ''}"
+					class="bottom"
+					style="padding: 0px 6px 6px 6px; text-align: justify; text-align: left; border-bottom: 1px solid #006AB2;">...</td>
+			</tr>
+		</th:block>
 	</table>
 	<p>
 		<span th:text="#{email.order.created.text2}">Wir melden uns...</span>
