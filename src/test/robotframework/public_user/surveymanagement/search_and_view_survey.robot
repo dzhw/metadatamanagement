@@ -2,7 +2,7 @@
 Documentation     Tests the user experience of searching & finding the Graduate Panel 2005 and opening the survey page of the first wave for bachelor graduates
 Resource          ../resources/search_resource.robot
 Resource          ../resources/home_page_resource.robot
-
+Force Tags  smoketest
 
 *** Test Cases ***
 Looking for Absolventenpanel 2005s first wave survey in german
