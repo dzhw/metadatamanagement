@@ -75,7 +75,7 @@
                 <md-input-container flex="50" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!customerForm.name.$valid && (customerForm.name.$dirty || customerForm.name.$touched)" style="margin-bottom: 0px;">
                     <label class="fdz-input-required">{{'shopping-cart.detail.label.customer-name' | translate}}</label>
                     <input ng-trim="true" md-maxlength="128" required ng-model="ctrl.customer.name" name="name" md-no-asterisk autocomplete="name">
-                    <div ng-if="customerForm.name.$valid || !customerForm.name.$dirty" class="fdz-input-hint">{{'shopping-cart.detail.hints.name' | translate}}</div>
+                    <div ng-if="customerForm.name.$valid || !customerForm.name.$touched" class="fdz-input-hint">{{'shopping-cart.detail.hints.name' | translate}}</div>
                     <div ng-messages="customerForm.name.$error" multiple>
                         <div ng-message="required">{{'shopping-cart.error.customer.name.empty' | translate}}</div>
                         <div ng-message="md-maxlength">{{'shopping-cart.error.customer.name.string-size' | translate}}</div>
@@ -84,7 +84,7 @@
                 <md-input-container flex="50" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!customerForm.email.$valid && (customerForm.email.$dirty || customerForm.email.$touched)" style="margin-bottom: 0px;">
                     <label class="fdz-input-required">{{'shopping-cart.detail.label.customer-email' | translate}}</label>
                     <input ng-trim="true" md-maxlength="128" required ng-model="ctrl.customer.email" name="email" type="email" md-no-asterisk autocomplete="email">
-                    <div ng-if="customerForm.email.$valid || !customerForm.email.$dirty" class="fdz-input-hint">{{'shopping-cart.detail.hints.email' | translate}}</div>
+                    <div ng-if="customerForm.email.$valid || !customerForm.email.$touched" class="fdz-input-hint">{{'shopping-cart.detail.hints.email' | translate}}</div>
                     <div ng-messages="customerForm.email.$error" multiple>
                         <div ng-message="required">{{'shopping-cart.error.customer.email.empty' | translate}}</div>
                         <div ng-message="md-maxlength">{{'shopping-cart.error.customer.email.string-size' | translate}}</div>
