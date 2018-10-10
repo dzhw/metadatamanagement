@@ -49,15 +49,15 @@ public class MailService {
 
   @Autowired
   private SpringTemplateEngine templateEngine;
-  
+
   @Autowired
   private Environment env;
 
   @Value("${metadatamanagement.server.context-root}")
   private String baseUrl;
 
-  private Future<Void> sendEmail(String[] to, String cc, String subject, String content,
-      boolean isMultipart, boolean isHtml) {
+  private Future<Void> sendEmail(String from, String[] to, String cc, String subject,
+      String content, boolean isMultipart, boolean isHtml) {
     log.debug("Send e-mail[multipart '{}' and html '{}'] to '{}' with subject '{}' and content={}",
         isMultipart, isHtml, to, subject, content);
 
@@ -70,16 +70,19 @@ public class MailService {
       if (StringUtils.hasText(cc)) {
         message.setCc(cc);
       }
-      message.setFrom(jhipsterProperties.getMail()
-          .getFrom());
+      if (StringUtils.hasText(from)) {
+        message.setFrom(from);
+      } else {
+        message.setFrom(jhipsterProperties.getMail().getFrom());
+      }
       message.setSubject(subject);
       message.setText(content, isHtml);
       javaMailSender.send(mimeMessage);
 
       log.debug("Sent e-mail to users '{}'", Arrays.toString(to));
     } catch (MessagingException e) {
-      log.warn("E-mail could not be sent to users '{}', exception is: {}", 
-          Arrays.toString(to), e.getMessage());
+      log.warn("E-mail could not be sent to users '{}', exception is: {}", Arrays.toString(to),
+          e.getMessage());
     }
 
     return new AsyncResult<>(null);
@@ -97,7 +100,7 @@ public class MailService {
     context.setVariable("baseUrl", baseUrl);
     String content = templateEngine.process("activationEmail", context);
     String subject = messageSource.getMessage("email.activation.title", null, locale);
-    return sendEmail(new String[] {user.getEmail()}, null, subject, content, false, true);
+    return sendEmail(null, new String[] {user.getEmail()}, null, subject, content, false, true);
   }
 
   /**
@@ -112,9 +115,9 @@ public class MailService {
     context.setVariable("baseUrl", baseUrl);
     String content = templateEngine.process("passwordResetEmail", context);
     String subject = messageSource.getMessage("email.reset.title", null, locale);
-    return sendEmail(new String[] {user.getEmail()}, null, subject, content, false, true);
+    return sendEmail(null, new String[] {user.getEmail()}, null, subject, content, false, true);
   }
-  
+
   /**
    * Send new account activated mail.
    */
@@ -126,13 +129,13 @@ public class MailService {
     context.setVariable("profiles", env.getActiveProfiles());
     context.setVariable("baseUrl", baseUrl);
     String content = templateEngine.process("newAccountActivatedEmail", context);
-    String subject = "New account " + newUser.getLogin() + " activated (" 
+    String subject = "New account " + newUser.getLogin() + " activated ("
         + StringUtils.arrayToCommaDelimitedString(env.getActiveProfiles()) + ")";
     List<String> emailAddresses = admins.stream().map(User::getEmail).collect(Collectors.toList());
-    return sendEmail(emailAddresses.toArray(new String[emailAddresses.size()]), 
-        null, subject, content, false, true);
+    return sendEmail(null, emailAddresses.toArray(new String[emailAddresses.size()]), null, subject,
+        content, false, true);
   }
-  
+
   /**
    * Send an mail, if an automatic update to dara was not successful.
    */
@@ -144,8 +147,8 @@ public class MailService {
     String content = templateEngine.process("automaticDaraUpdateFailed", context);
     String subject = "Automatic Update to da|ra was not successful";
     List<String> emailAddresses = admins.stream().map(User::getEmail).collect(Collectors.toList());
-    return sendEmail(emailAddresses.toArray(new String[emailAddresses.size()]), 
-        null, subject, content, false, true);
+    return sendEmail(null, emailAddresses.toArray(new String[emailAddresses.size()]), null, subject,
+        content, false, true);
   }
 
   /**
@@ -159,7 +162,6 @@ public class MailService {
     context.setVariable("baseUrl", baseUrl);
     String content = templateEngine.process("orderCreated", context);
     String subject = messageSource.getMessage("email.order.created.title", null, locale);
-    sendEmail(new String[] {order.getCustomer().getEmail()}, cc, subject,
-        content, false, true);
+    sendEmail(cc, new String[] {order.getCustomer().getEmail()}, cc, subject, content, false, true);
   }
 }

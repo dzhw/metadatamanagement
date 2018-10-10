@@ -83,7 +83,7 @@ metadatamanagement:
 
 jhipster:
     mail:
-        from: fdz@dzhw.eu
+        from: fdz-feedback@dzhw.eu
     security:
         authentication:
             oauth:
