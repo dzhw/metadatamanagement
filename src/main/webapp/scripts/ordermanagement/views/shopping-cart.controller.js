@@ -121,7 +121,9 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
         // ensure that all validation errors are visible
         angular.forEach($scope.customerForm.$error, function(field) {
           angular.forEach(field, function(errorField) {
-            errorField.$setTouched();
+            if (errorField) {
+              errorField.$setTouched();
+            }
           });
         });
         SimpleMessageToastService.openAlertMessageToast(
