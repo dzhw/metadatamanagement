@@ -6,6 +6,7 @@ Resource    ../resources/login_resource.robot
 Test Template  Survey Page With Empty Or Invalid Options Should Fail
 Suite Setup  Go To Survey Create Page
 Suite Teardown  Close Survey Editor And Log Out
+Force Tags  noslowpoke
 
 *** Test Cases ***             GerTitle     EngTitle   Wave      FielPeriodStart  FieldPeriodEnd  GerSurvMeth  EngSurvMeth  GerPopTitle  EngPopTitle  GerPopDesc    EngPopDesc          GerSample  EngSample  NetSampleSize   ResponseRate
 Empty German Title             ${Empty}     Something  1         01.05.2018       31.05.2018      Versuch      Trial        Alle         All          Na eben alle  Of course everyone  Alle       All        1400            10

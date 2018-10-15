@@ -137,6 +137,7 @@ angular.module('metadatamanagementApp')
           templateUrl: 'scripts/dataacquisitionprojectmanagement/' +
             'views/release-project-dialog.html.tmpl',
           clickOutsideToClose: false,
+          fullscreen: true,
           locals: {
             project: angular.copy(ctrl.selectedProject)
           }

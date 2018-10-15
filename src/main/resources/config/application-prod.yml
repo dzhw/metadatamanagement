@@ -27,8 +27,11 @@ spring:
 # ===================================================================
 
 metadatamanagement:
+  ordermanagement:
+    email: dataservice@dzhw.eu
   server:
     instance-index: ${cf.instance.index}
+    context-root: https://metadata.fdz.dzhw.eu
   elasticsearch-client:
     url: ${vcap.services.elastic.credentials.sslUri}
     read-timeout: 60000

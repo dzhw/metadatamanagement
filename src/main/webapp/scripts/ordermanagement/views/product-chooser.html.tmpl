@@ -13,24 +13,33 @@
         </div>
     </md-toolbar>
     <md-dialog-content class="md-padding" style="padding-bottom: 0px;" ng-if="!ctrl.noFinalRelease && !ctrl.noDataSets && !ctrl.variableNotAccessible && !ctrl.dataNotAvailable">
-        <div layout="row" ng-show="ctrl.releases">
-            <md-input-container flex="50">
+        <div layout="row">
+            <md-input-container flex style="margin-bottom: 0px;">
+                <label>{{'shopping-cart.detail.label.study' | translate}}</label>
+                <input disabled ng-model="ctrl.study.title.de" name="studyTitle" style="color: black;">
+            </md-input-container>
+        </div>
+        <div layout="row" layout-xs="column" ng-show="ctrl.releases">
+            <md-input-container flex-gt-xs="50">
                 <label>{{'shopping-cart.detail.label.access-way-of-data-sets' | translate}}</label>
-                <md-select ng-model="ctrl.selectedAccessWay">
+                <md-select name="accessWay" md-autofocus ng-model="ctrl.selectedAccessWay">
                     <md-optgroup label="{{'shopping-cart.detail.label.available-access-ways' | translate}}">
                         <md-option ng-repeat="item in ctrl.accessWays" ng-value="item">{{item}}</md-option>
                     </md-optgroup>
                 </md-select>
+                <div class="fdz-input-hint">{{'shopping-cart.detail.hints.accessWay' | translate}}</div>
             </md-input-container>
-            <md-input-container flex="50">
+            <md-input-container flex-gt-xs="50">
                 <label>{{'shopping-cart.detail.label.version-of-data-sets' | translate }}</label>
-                <md-select ng-model="ctrl.selectedVersion">
+                <md-select name="version" ng-model="ctrl.selectedVersion">
                     <md-optgroup label="{{'shopping-cart.detail.label.available-versions' | translate}}">
                         <md-option ng-repeat="item in ctrl.releases" ng-value="item.version">{{item.version}}{{$first?' (' + ('shopping-cart.detail.label.current' | translate) + ')':''}}</md-option>
                     </md-optgroup>
                 </md-select>
+                <div class="fdz-input-hint">{{'shopping-cart.detail.hints.version' | translate}}</div>
             </md-input-container>
         </div>
+        <p data-translate="shopping-cart.detail.explain-data-product"></p>
     </md-dialog-content>
     <md-dialog-content class="md-padding" style="padding-bottom: 0px;" ng-if="ctrl.noFinalRelease || ctrl.noDataSets || ctrl.variableNotAccessible || ctrl.dataNotAvailable">
         <p ng-if="!ctrl.variableNotAccessible && !ctrl.dataNotAvailable">
@@ -43,7 +52,7 @@
             {{'shopping-cart.detail.data-not-available' | translate | fdzHyphenate}}
         </p>
     </md-dialog-content>
-    <md-dialog-actions>
+    <md-dialog-actions style="padding: 0 1.5em 1em 0;">
         <md-button class="md-raised" ng-click="closeDialog()">
             <span>{{'global.buttons.close' | translate}}</span>
             <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
@@ -51,7 +60,7 @@
             </md-tooltip>
         </md-button>
         <md-button ng-if="ctrl.releases && !ctrl.noFinalRelease && !ctrl.noDataSets && !ctrl.variableNotAccessible && !ctrl.dataNotAvailable" class="md-raised md-primary fdz-truncate-string" ng-click="ctrl.addToShoppingCart()" ng-disabled="!ctrl.selectedAccessWay || !ctrl.selectedVersion">
-            <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+            <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{'shopping-cart.buttons.add-study-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">add_shopping_cart</md-icon>

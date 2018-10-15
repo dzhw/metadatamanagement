@@ -13,26 +13,26 @@
     <div class="md-dialog-content" layout="column">
         <span>{{"global.welcome-dialog.content-body-feedback" | translate}}</span>
         <span>
-          {{"global.welcome-dialog.content-body-via" | translate}}
-          <a ng-href="{{currentUrl()}}" target="_blank">
-            <md-icon md-svg-src="/assets/images/icons/github-circle.svg"></md-icon>GitHub
-            <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                {{"global.tooltips.welcome-dialog.github" | translate}}
-            </md-tooltip>
-          </a>
+            {{"global.welcome-dialog.content-body-via" | translate}}
+            <a ng-href="{{currentUrl()}}" target="_blank">
+                <md-icon md-svg-src="/assets/images/icons/github-circle.svg"></md-icon>GitHub
+                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                    {{"global.tooltips.welcome-dialog.github" | translate}}
+                </md-tooltip>
+            </a>
         </span>
         <span>{{"global.welcome-dialog.content-body-via" | translate}}
-          <a ng-href="mailto:fdz-feedback@dzhw.eu?subject={{mailSubject}}&body={{mailBody}}">
-            <md-icon md-font-set="material-icons">email</md-icon>fdz-feedback@dzhw.eu
-            <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                {{"global.tooltips.welcome-dialog.email" | translate}}
-            </md-tooltip>
-          </a>
+            <a ng-href="mailto:fdz-feedback@dzhw.eu?subject={{mailSubject}}&body={{mailBody}}">
+                <md-icon md-font-set="material-icons">email</md-icon>fdz-feedback@dzhw.eu
+                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                    {{"global.tooltips.welcome-dialog.email" | translate}}
+                </md-tooltip>
+            </a>
         </span>
         <br>
         <span>{{"global.welcome-dialog.content-body-thanks" | translate}}</span>
     </div>
-    <md-dialog-actions>
+    <md-dialog-actions style="padding: 0 1.5em 1em 0;">
         <span flex></span>
         <md-button class="md-primary md-raised" id="closeWelcomeDialog" ng-click="closeDialog()">
             {{"global.buttons.close" | translate}}

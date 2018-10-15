@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp').config(
       },
       views: {
         'content@': {
-          templateUrl: 'scripts/shoppingcart/views/' +
+          templateUrl: 'scripts/ordermanagement/views/' +
             'shopping-cart.html.tmpl',
           controller: 'ShoppingCartController',
           controllerAs: 'ctrl'

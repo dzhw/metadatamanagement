@@ -4,7 +4,8 @@ import org.apache.commons.lang.CharEncoding;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
-import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
+import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
+import org.thymeleaf.templateresolver.ITemplateResolver;
 
 /**
  * Configure Thymeleaf for HTML mails.
@@ -17,9 +18,9 @@ public class ThymeleafConfiguration {
    */
   @Bean
   @Description("Thymeleaf template resolver serving HTML 5 emails")
-  public ClassLoaderTemplateResolver emailTemplateResolver() {
-    ClassLoaderTemplateResolver emailTemplateResolver = new ClassLoaderTemplateResolver();
-    emailTemplateResolver.setPrefix("mails/");
+  public ITemplateResolver emailTemplateResolver() {
+    SpringResourceTemplateResolver emailTemplateResolver = new SpringResourceTemplateResolver();
+    emailTemplateResolver.setPrefix("classpath:/mails/");
     emailTemplateResolver.setSuffix(".html");
     emailTemplateResolver.setTemplateMode("HTML");
     emailTemplateResolver.setCharacterEncoding(CharEncoding.UTF_8);

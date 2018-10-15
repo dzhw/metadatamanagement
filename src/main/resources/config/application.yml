@@ -73,14 +73,17 @@ javers:
 
 metadatamanagement:
   elasticsearch:
-    version: 6.3.2 
+    version: 6.3.2
+  ordermanagement:
+    email: reitmann@dzhw.eu
+     
 # ===================================================================
 # JHipster specific properties
 # ===================================================================
 
 jhipster:
     mail:
-        from: fdz@dzhw.eu
+        from: fdz-feedback@dzhw.eu
     security:
         authentication:
             oauth:

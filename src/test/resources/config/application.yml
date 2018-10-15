@@ -53,7 +53,10 @@ server:
 # ===================================================================
 
 metadatamanagement:
+  ordermanagement:
+    email: test@dzhw.eu
   server:
+    context-root: http://localhost:8080
     instance-index: 0
   elasticsearch-client:
     url: http://localhost:9234

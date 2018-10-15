@@ -52,7 +52,7 @@ public class MailServiceTest extends AbstractTest {
       .build();
 
     // Act
-    Future<Void> futureVoid = this.mailService.sendActivationEmail(user, "/");
+    Future<Void> futureVoid = this.mailService.sendActivationEmail(user);
     futureVoid.get();
     Message[] messages = greenMail.getReceivedMessages();
 
@@ -69,7 +69,7 @@ public class MailServiceTest extends AbstractTest {
       .build();
 
     // Act
-    Future<Void> futureVoid = this.mailService.sendPasswordResetMail(user, "/");
+    Future<Void> futureVoid = this.mailService.sendPasswordResetMail(user);
     futureVoid.get();
     Message[] messages = greenMail.getReceivedMessages();
 

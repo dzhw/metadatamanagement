@@ -21,6 +21,7 @@
 ######################
 *.pydevproject
 .project
+.eclipse-*
 .metadata
 /bin/**
 /tmp/**

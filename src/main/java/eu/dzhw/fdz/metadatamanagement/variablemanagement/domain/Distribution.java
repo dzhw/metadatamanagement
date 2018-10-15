@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.UniqueCode;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.UniqueValue;
@@ -43,11 +44,13 @@ public class Distribution {
   @UniqueCode(message =
       "variable-management.error.distribution.missings.uniqueCode")
   @Valid
+  @Size(max = 7000, message = "variable-management.error.distribution.missings.max-size")
   private List<Missing> missings;
 
   @UniqueValue(message =
       "variable-management.error.distribution.valid-responses.unique-value")
   @Valid
+  @Size(max = 7000, message = "variable-management.error.distribution.valid-responses.max-size")
   private List<ValidResponse> validResponses;
 
   private Integer maxNumberOfDecimalPlaces;

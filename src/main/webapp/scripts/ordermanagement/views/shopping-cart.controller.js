@@ -4,13 +4,15 @@
 angular.module('metadatamanagementApp').controller('ShoppingCartController',
   function(PageTitleService, $state, ToolbarHeaderService,
     ShoppingCartService, $scope, StudyResource, DataSetSearchService,
-    VariableSearchService, DataAcquisitionProjectReleasesResource, $q) {
+    VariableSearchService, DataAcquisitionProjectReleasesResource, $q,
+    OrderResource, LanguageService, SimpleMessageToastService) {
     PageTitleService.setPageTitle('shopping-cart.title');
     ToolbarHeaderService.updateToolbarHeader({'stateName': $state.current.
       name});
     var ctrl = this;
     ctrl.studies = {};
     ctrl.releases = {};
+    ctrl.customer = {};
     ctrl.counts = {};
     ctrl.initComplete = false;
 
@@ -92,8 +94,41 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
       ShoppingCartService.remove(product);
     };
 
-    ctrl.checkout = function() {
-      ShoppingCartService.checkout();
+    ctrl.order = function() {
+      if ($scope.customerForm.$valid) {
+        var order = {
+          languageKey: LanguageService.getCurrentInstantly(),
+          customer: ctrl.customer,
+          products: []
+        };
+        ctrl.products.forEach(function(product) {
+          var completeProduct = {
+            dataAcquisitionProjectId: product.projectId,
+            study: ctrl.studies[product.studyId],
+            accessWay: product.accessWay,
+            version: product.version
+          };
+          order.products.push(completeProduct);
+        });
+        OrderResource.save(order).$promise.then(function() {
+          ShoppingCartService.clear();
+          ctrl.orderSaved = true;
+        }).catch(function() {
+          SimpleMessageToastService.openAlertMessageToast(
+            'shopping-cart.toasts.error-on-saving-order');
+        });
+      } else {
+        // ensure that all validation errors are visible
+        angular.forEach($scope.customerForm.$error, function(field) {
+          angular.forEach(field, function(errorField) {
+            if (errorField) {
+              errorField.$setTouched();
+            }
+          });
+        });
+        SimpleMessageToastService.openAlertMessageToast(
+          'shopping-cart.toasts.customer-has-validation-errors-toast');
+      }
     };
 
     ctrl.clear = function() {

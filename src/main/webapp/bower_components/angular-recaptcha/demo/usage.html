@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>VividCortex reCaptcha Directive Example</title>
+
+        <!-- Bootstrap is NOT required, it's just here to make the demo look better -->
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Include AngularJS -->
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.28/angular.js"></script>
+        <!-- Include the ngReCaptcha directive -->
+        <script src="./angular-recaptcha.js"></script>
+
+        <!-- define your app and make it depend on vcRecaptcha module -->
+        <script>
+            var app = angular.module('testApp', ['vcRecaptcha']);
+
+            app.controller('testCtrl', function ($scope, vcRecaptchaService) {
+                console.log("this is your app's controller");
+                $scope.response = null;
+                $scope.widgetId = null;
+
+                $scope.model = {
+                    key: '=== REPLACE THIS WITH YOUR PUBLIC ReCaptcha KEY ==='
+                };
+
+                $scope.setResponse = function (response) {
+                    console.info('Response available');
+
+                    $scope.response = response;
+                };
+
+                $scope.setWidgetId = function (widgetId) {
+                    console.info('Created widget ID: %s', widgetId);
+
+                    $scope.widgetId = widgetId;
+                };
+
+                $scope.cbExpiration = function() {
+                    console.info('Captcha expired. Resetting response object');
+
+                    vcRecaptchaService.reload($scope.widgetId);
+
+                    $scope.response = null;
+                 };
+
+                $scope.submit = function () {
+                    var valid;
+
+                    /**
+                     * SERVER SIDE VALIDATION
+                     *
+                     * You need to implement your server side validation here.
+                     * Send the reCaptcha response to the server and use some of the server side APIs to validate it
+                     * See https://developers.google.com/recaptcha/docs/verify
+                     */
+                    console.log('sending the captcha response to the server', $scope.response);
+
+                    if (valid) {
+                        console.log('Success');
+                    } else {
+                        console.log('Failed validation');
+
+                        // In case of a failed validation you need to reload the captcha
+                        // because each response can be checked just once
+                        vcRecaptchaService.reload($scope.widgetId);
+                    }
+                };
+            });
+        </script>
+
+    </head>
+    <body>
+    <div class="container" ng-app="testApp" ng-controller="testCtrl">
+
+        <h1>VividCortex reCaptcha Directive Example</h1>
+        <p>
+            This the <b>recommended</b> way of using the reCaptcha directive.
+            Instead of using ng-model to get the challenge and response, you use a service.
+            This way it's safer because we don't depend on a timeout hack that we are currently using in the directive.
+        </p>
+
+        <!-- Call a method in the scope of your controller to handle data submit -->
+        <form ng-submit="submit()">
+            <div
+                vc-recaptcha
+                theme="'light'"
+                key="model.key"
+                on-create="setWidgetId(widgetId)"
+                on-success="setResponse(response)"
+                on-expire="cbExpiration()"
+            ></div>
+            <button class="btn" type="submit">Submit</button>
+        </form>
+
+    </div>
+    </body>
+</html>

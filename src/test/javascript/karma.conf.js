@@ -74,6 +74,7 @@ module.exports = function(config) {
       'src/main/webapp/bower_components/moment/moment.js',
       'src/main/webapp/bower_components/moment/locale/de.js',
       'src/main/webapp/bower_components/angular-moment/angular-moment.js',
+      'src/main/webapp/bower_components/angular-recaptcha/release/angular-recaptcha.js',
       'src/main/webapp/bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'src/main/webapp/bower_components/elasticsearch/elasticsearch.angular.js',

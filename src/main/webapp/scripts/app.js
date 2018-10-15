@@ -12,7 +12,7 @@ try {
         'ngResource', 'ui.router', 'ngCookies', 'ngAria',
         'ngFileUpload', 'ngMaterial',
         'blockUI', 'LocalStorageModule', 'jkAngularCarousel',
-        'angularMoment', 'ngAnimate',
+        'angularMoment', 'ngAnimate', 'vcRecaptcha',
         'ngMessages', 'katex', 'ngFileSaver', 'duScroll', 'ngShortcut'
       ])
 

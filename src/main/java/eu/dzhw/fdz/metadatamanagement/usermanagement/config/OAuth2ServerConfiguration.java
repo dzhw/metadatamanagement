@@ -52,9 +52,11 @@ public class OAuth2ServerConfiguration {
           // disable csrf protection for api
           .csrf().ignoringAntMatchers("/api/**", "/management/**").and().authorizeRequests()
           .antMatchers("/api/authenticate").permitAll().antMatchers("/api/register").permitAll()
+          .antMatchers("/api/order").permitAll()
           // enable basic http for /api
           .and().authorizeRequests().antMatchers("/api/**").authenticated().and().httpBasic().and()
           .authorizeRequests().antMatchers("/management/info").permitAll()
+          .antMatchers("/management/health").permitAll()
           .antMatchers("/management/**").hasAuthority("ROLE_ADMIN").and().sessionManagement()
           .sessionCreationPolicy(SessionCreationPolicy.STATELESS).enableSessionUrlRewriting(false);
 
