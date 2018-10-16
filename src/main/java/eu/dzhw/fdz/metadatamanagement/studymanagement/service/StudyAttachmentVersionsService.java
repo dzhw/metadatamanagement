@@ -73,6 +73,7 @@ public class StudyAttachmentVersionsService {
       files.forEach(file -> {
         StudyAttachmentMetadata studyAttachmentMetadata = mongoTemplate.getConverter().read(
             StudyAttachmentMetadata.class, file.getMetadata());
+        studyAttachmentMetadata.generateId();
         javers.commit(studyAttachmentMetadata.getLastModifiedBy(), studyAttachmentMetadata);
       });
     }

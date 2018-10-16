@@ -4,6 +4,9 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import org.javers.core.metamodel.annotation.Entity;
+import org.springframework.data.annotation.Id;
+
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
@@ -24,6 +27,7 @@ import lombok.ToString;
  *
  * @author René Reitmann
  */
+@Entity
 @EqualsAndHashCode(callSuper = false, of = "id")
 @ToString(callSuper = true)
 @NoArgsConstructor
@@ -31,6 +35,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 public class InstrumentAttachmentMetadata extends AbstractRdcDomainObject {
+  @Id
+  private String id;
+
   @NotEmpty(message =
       "instrument-management.error.instrument-attachment-metadata.instrument-id.not-empty")
   private String instrumentId;
@@ -76,8 +83,7 @@ public class InstrumentAttachmentMetadata extends AbstractRdcDomainObject {
       "instrument-management.error.instrument-attachment-metadata.index-in-instrument.not-null")
   private Integer indexInInstrument;
 
-  @Override
-  public String getId() {
-    return "/public/files/instruments/" + instrumentId + "/attachments/" + fileName;
+  public void generateId() {
+    this.id = "/public/files/instruments/" + instrumentId + "/attachments/" + fileName;
   }
 }
