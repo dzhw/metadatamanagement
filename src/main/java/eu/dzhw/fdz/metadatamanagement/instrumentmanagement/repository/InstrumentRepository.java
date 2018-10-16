@@ -12,6 +12,7 @@ import org.springframework.data.rest.core.annotation.RestResource;
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.common.repository.BaseRepository;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.IdAndNumberInstrumentProjection;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.InstrumentSubDocumentProjection;
 
 /**
@@ -65,4 +66,8 @@ public interface InstrumentRepository
 
   @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamIdsByDataAcquisitionProjectId(String projectId);
+
+  @RestResource(exported = false)
+  List<IdAndNumberInstrumentProjection> findInstrumentNumbersByDataAcquisitionProjectId(
+      @Param("dataAcquisitionProjectId") String dataAcquisitionProjectId);
 }

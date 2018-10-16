@@ -136,13 +136,30 @@
             </md-tooltip>
             <md-icon md-font-set="material-icons">add</md-icon>
         </md-button>
-        <md-button aria-label="{{'search-management.buttons.upload-instruments' | translate}}" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='instruments'" type="file" ngf-select="uploadInstruments($files)" class="md-accent md-fab fdz-fade-in" ngf-multiple="true"
-          directory webkitdirectory ng-disabled="!currentProject || currentProject.release">
-            <md-tooltip ng-hide="!currentProject || currentProject.release" md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                {{'search-management.buttons.upload-instruments-tooltip' | translate}}
-            </md-tooltip>
-            <md-icon md-font-set="material-icons">add</md-icon>
-        </md-button>
+        <md-fab-speed-dial ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='instruments'" md-direction="left" class="md-scale fdz-fade-in" md-open="speedDial.isOpen">
+            <md-fab-trigger>
+                <md-button class="md-accent md-fab" ng-disabled="!currentProject || currentProject.release">
+                    <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                        {{'search-management.buttons.upload-or-create-instruments-tooltip' | translate}}
+                    </md-tooltip>
+                    <md-icon md-font-set="material-icons">add</md-icon>
+                </md-button>
+            </md-fab-trigger>
+            <md-fab-actions ng-if="currentProject && !currentProject.release">
+                <md-button type="file" ngf-select="uploadInstruments($files)" ngf-multiple="true" class="md-fab md-raised md-mini" directory webkitdirectory>
+                    <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                        {{'search-management.buttons.upload-instruments-tooltip' | translate}}
+                    </md-tooltip>
+                    <md-icon md-svg-src="/assets/images/icons/folder-upload.svg"></md-icon>
+                </md-button>
+                <md-button class="md-fab md-raised md-mini" ui-sref="instrumentCreate()">
+                    <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                        {{'search-management.buttons.create-instrument-tooltip' | translate}}
+                    </md-tooltip>
+                    <md-icon md-font-set="material-icons">add</md-icon>
+                </md-button>
+            </md-fab-actions>
+        </md-fab-speed-dial>
         <md-button data-has-authority="ROLE_PUBLISHER" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='related_publications'" type="file" ngf-select="uploadRelatedPublications($file)" accept=".xls" class="md-accent md-fab fdz-fade-in">
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{'search-management.buttons.upload-related-publications-tooltip' | translate}}

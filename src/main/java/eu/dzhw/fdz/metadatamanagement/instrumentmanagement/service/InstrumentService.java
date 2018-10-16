@@ -1,6 +1,9 @@
 package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,7 @@ import org.springframework.data.rest.core.event.BeforeDeleteEvent;
 import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.IdAndNumberInstrumentProjection;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
@@ -42,7 +46,7 @@ public class InstrumentService {
 
   @Autowired
   private InstrumentRepository instrumentRepository;
-  
+
   @Autowired
   private InstrumentChangesProvider instrumentChangesProvider;
 
@@ -79,8 +83,8 @@ public class InstrumentService {
   @HandleAfterSave
   public void onDataAcquisitionProjectUpdated(DataAcquisitionProject dataAcquisitionProject) {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> instrumentRepository.streamIdsByDataAcquisitionProjectId(
-            dataAcquisitionProject.getId()),
+        () -> instrumentRepository
+            .streamIdsByDataAcquisitionProjectId(dataAcquisitionProject.getId()),
         ElasticsearchType.instruments);
   }
 
@@ -123,7 +127,7 @@ public class InstrumentService {
     elasticsearchUpdateQueueService.enqueue(instrument.getId(), ElasticsearchType.instruments,
         ElasticsearchUpdateQueueAction.UPSERT);
   }
-  
+
   /**
    * Remember the old and new instrument.
    * 
@@ -131,15 +135,15 @@ public class InstrumentService {
    */
   @HandleBeforeSave
   public void onBeforeInstrumentSaved(Instrument instrument) {
-    instrumentChangesProvider.put(instrument, 
+    instrumentChangesProvider.put(instrument,
         instrumentRepository.findById(instrument.getId()).get());
   }
-  
+
   @HandleBeforeCreate
   public void onBeforeInstrumentCreated(Instrument instrument) {
     instrumentChangesProvider.put(instrument, null);
   }
-  
+
   @HandleBeforeDelete
   public void onBeforeInstrumentDeleted(Instrument instrument) {
     instrumentChangesProvider.put(null, instrument);
@@ -169,8 +173,7 @@ public class InstrumentService {
   @HandleAfterDelete
   public void onSurveyChanged(Survey survey) {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> instrumentRepository.streamIdsBySurveyIdsContaining(
-            survey.getId()),
+        () -> instrumentRepository.streamIdsBySurveyIdsContaining(survey.getId()),
         ElasticsearchType.instruments);
   }
 
@@ -184,8 +187,7 @@ public class InstrumentService {
   @HandleAfterDelete
   public void onQuestionChanged(Question question) {
     elasticsearchUpdateQueueService.enqueueUpsertAsync(
-        () -> instrumentRepository.findOneIdAndVersionById(
-            question.getInstrumentId()),
+        () -> instrumentRepository.findOneIdAndVersionById(question.getInstrumentId()),
         ElasticsearchType.instruments);
   }
 
@@ -198,11 +200,9 @@ public class InstrumentService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onVariableChanged(Variable variable) {
-    List<String> instrumentIds = variableChangesProvider
-        .getAffectedInstrumentIds(variable.getId());
+    List<String> instrumentIds = variableChangesProvider.getAffectedInstrumentIds(variable.getId());
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> instrumentRepository.streamIdsByIdIn(instrumentIds),
-        ElasticsearchType.instruments);
+        () -> instrumentRepository.streamIdsByIdIn(instrumentIds), ElasticsearchType.instruments);
   }
 
   /**
@@ -214,10 +214,41 @@ public class InstrumentService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onRelatedPublicationChanged(RelatedPublication relatedPublication) {
-    List<String> instrumentIds = relatedPublicationChangesProvider.getAffectedInstrumentIds(
-        relatedPublication.getId()); 
+    List<String> instrumentIds =
+        relatedPublicationChangesProvider.getAffectedInstrumentIds(relatedPublication.getId());
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> instrumentRepository.streamIdsByIdIn(instrumentIds),
-        ElasticsearchType.instruments);
+        () -> instrumentRepository.streamIdsByIdIn(instrumentIds), ElasticsearchType.instruments);
+  }
+
+  /**
+   * Get a list of available instrument numbers for creating a new instrument.
+   * 
+   * @param dataAcquisitionProjectId The project id.
+   * @return A list of available instrument numbers.
+   */
+  public List<Integer> getFreeInstrumentNumbers(String dataAcquisitionProjectId) {
+    List<Integer> result = new ArrayList<>();
+    List<IdAndNumberInstrumentProjection> existingNumbers = instrumentRepository
+        .findInstrumentNumbersByDataAcquisitionProjectId(dataAcquisitionProjectId);
+    Optional<IdAndNumberInstrumentProjection> max = existingNumbers.stream().max((instrument1,
+        instrument2) -> Integer.compare(instrument1.getNumber(), instrument2.getNumber()));
+    if (!max.isPresent()) {
+      result.add(1);
+    } else {
+      for (int i = 1; i < max.get().getNumber(); i++) {
+        if (!instrumentNumberExists(existingNumbers, i)) {
+          result.add(i);
+        }
+      }
+      result.add(max.get().getNumber() + 1);
+    }
+    return result;
+  }
+
+  private boolean instrumentNumberExists(List<IdAndNumberInstrumentProjection> instruments,
+      Integer number) {
+    Predicate<IdAndNumberInstrumentProjection> predicate =
+        instrument -> instrument.getNumber().equals(number);
+    return instruments.stream().filter(predicate).findFirst().isPresent();
   }
 }

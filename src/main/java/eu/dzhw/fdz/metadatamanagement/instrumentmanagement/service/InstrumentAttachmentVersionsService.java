@@ -17,7 +17,10 @@ import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.stereotype.Service;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.client.gridfs.model.GridFSFile;
+import com.mongodb.gridfs.GridFS;
+import com.mongodb.gridfs.GridFSDBFile;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAttachmentMetadata;
@@ -33,6 +36,8 @@ import lombok.extern.slf4j.Slf4j;
 public class InstrumentAttachmentVersionsService {
   private Javers javers;
   
+  private GridFS gridFs;
+
   private GridFsOperations operations;
   
   private MongoTemplate mongoTemplate;
@@ -44,11 +49,13 @@ public class InstrumentAttachmentVersionsService {
    */
   @Autowired
   public InstrumentAttachmentVersionsService(Javers javers, GridFsOperations operations, 
-      MongoTemplate mongoTemplate, MetadataManagementProperties metadataManagementProperties) {
+      MongoTemplate mongoTemplate, MetadataManagementProperties metadataManagementProperties,
+      GridFS gridFs) {
     this.javers = javers;
     this.operations = operations;
     this.mongoTemplate = mongoTemplate;
     this.metadataManagementProperties = metadataManagementProperties;
+    this.gridFs = gridFs;
   }
 
   /**
@@ -69,13 +76,20 @@ public class InstrumentAttachmentVersionsService {
     // only init if there are no instruments yet
     if (snapshots.isEmpty()) {
       log.debug("Going to init javers with all current instrument attachments");
-      Iterable<GridFSFile> files = operations.find(
-          new Query(GridFsCriteria.whereFilename().regex(
-              InstrumentAttachmentFilenameBuilder.ALL_INSTRUMENT_ATTACHMENTS)));
+      BasicDBObject regQuery = new BasicDBObject();
+      regQuery.append("$regex",
+          InstrumentAttachmentFilenameBuilder.ALL_INSTRUMENT_ATTACHMENTS);
+      BasicDBObject filename = new BasicDBObject();
+      filename.append("filename", regQuery);
+      List<GridFSDBFile> files = gridFs.find(filename);
       files.forEach(file -> {
         InstrumentAttachmentMetadata instrumentAttachmentMetadata = mongoTemplate.getConverter()
-            .read(InstrumentAttachmentMetadata.class, file.getMetadata());
+            .read(InstrumentAttachmentMetadata.class, (BasicDBObject) file.getMetaData());
         instrumentAttachmentMetadata.generateId();
+        BasicDBObject metadata = new BasicDBObject();
+        mongoTemplate.getConverter().write(instrumentAttachmentMetadata, metadata);
+        file.setMetaData(metadata);
+        file.save();
         javers.commit(instrumentAttachmentMetadata.getLastModifiedBy(),
             instrumentAttachmentMetadata);
       });

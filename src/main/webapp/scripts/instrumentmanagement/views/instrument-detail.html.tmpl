@@ -14,22 +14,22 @@
                 </md-card-header>
                 <md-divider></md-divider>
                 <md-card-content>
-                  <div class="fdz-add-bottom-margin" ng-if="ctrl.instrument.title">
-                      <span style="font-weight: bold;">{{'instrument-management.detail.label.title' | translate }}:</span>
-                      <span display-i18n-string="ctrl.instrument.title" fdz-hyphenate></span>
-                  </div>
-                  <div class="fdz-add-bottom-margin" ng-if="ctrl.instrument.subtitle">
-                      <span style="font-weight: bold;">{{'instrument-management.detail.label.subtitle' | translate }}:</span>
-                      <span class="fdz-multiline-property" display-i18n-string="ctrl.instrument.subtitle" fdz-hyphenate></span>
-                  </div>
-                  <div class="fdz-add-bottom-margin" ng-if="ctrl.instrument.type">
-                      <span style="font-weight: bold;">{{'instrument-management.detail.label.type' | translate }}:</span>
-                      <span>{{ctrl.instrument.type}}</span>
-                  </div>
-                  <div class="fdz-add-bottom-margin fdz-text-block" ng-if="ctrl.instrument.annotations">
-                      <span style="font-weight: bold;">{{'instrument-management.detail.label.annotations' | translate }}:</span>
-                      <span class="fdz-multiline-property" display-i18n-string="ctrl.instrument.annotations" fdz-hyphenate></span>
-                  </div>
+                    <div class="fdz-add-bottom-margin" ng-if="ctrl.instrument.title">
+                        <span style="font-weight: bold;">{{'instrument-management.detail.label.title' | translate }}:</span>
+                        <span display-i18n-string="ctrl.instrument.title" fdz-hyphenate></span>
+                    </div>
+                    <div class="fdz-add-bottom-margin" ng-if="ctrl.instrument.subtitle">
+                        <span style="font-weight: bold;">{{'instrument-management.detail.label.subtitle' | translate }}:</span>
+                        <span class="fdz-multiline-property" display-i18n-string="ctrl.instrument.subtitle" fdz-hyphenate></span>
+                    </div>
+                    <div class="fdz-add-bottom-margin" ng-if="ctrl.instrument.type">
+                        <span style="font-weight: bold;">{{'instrument-management.detail.label.type' | translate }}:</span>
+                        <span>{{ctrl.instrument.type}}</span>
+                    </div>
+                    <div class="fdz-add-bottom-margin fdz-text-block" ng-if="ctrl.instrument.annotations">
+                        <span style="font-weight: bold;">{{'instrument-management.detail.label.annotations' | translate }}:</span>
+                        <span class="fdz-multiline-property" display-i18n-string="ctrl.instrument.annotations" fdz-hyphenate></span>
+                    </div>
                 </md-card-content>
             </md-card>
         </div>
@@ -48,15 +48,15 @@
                             {{'study-management.detail.label.study' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
                         <div ng-if="ctrl.study" class="fdz-truncate-string" flex>
-                          <a ui-sref="studyDetail({id: ctrl.study.id})">
-                              <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
-                              {{'study-management.detail.label.study' | translate }}:
-                              <span display-i18n-string="ctrl.study.title"></span>
-                              <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                                  {{'instrument-management.detail.tooltips.studies.one' | translate}}
-                              </md-tooltip>
-                          </a>
-                      </div>
+                            <a ui-sref="studyDetail({id: ctrl.study.id})">
+                                <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
+                                {{'study-management.detail.label.study' | translate }}:
+                                <span display-i18n-string="ctrl.study.title"></span>
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                    {{'instrument-management.detail.tooltips.studies.one' | translate}}
+                                </md-tooltip>
+                            </a>
+                        </div>
                     </div>
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
                         <div ng-if="ctrl.surveyCount == 1 && !ctrl.survey" class="fdz-truncate-string" flex>
@@ -64,15 +64,15 @@
                             {{'survey-management.detail.label.surveys' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
                         <div ng-if="ctrl.surveyCount == 1 && ctrl.survey" class="fdz-truncate-string" flex>
-                           <a ui-sref="surveyDetail({'id': ctrl.survey.id})">
-                               <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
-                               {{'survey-management.detail.label.survey' | translate }}:
-                               <span display-i18n-string="ctrl.survey.title"></span>
-                               <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                                   {{'instrument-management.detail.tooltips.surveys.one' | translate}}
-                               </md-tooltip>
+                            <a ui-sref="surveyDetail({'id': ctrl.survey.id})">
+                                <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
+                                {{'survey-management.detail.label.survey' | translate }}:
+                                <span display-i18n-string="ctrl.survey.title"></span>
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                    {{'instrument-management.detail.tooltips.surveys.one' | translate}}
+                                </md-tooltip>
                             </a>
-                       </div>
+                        </div>
                         <div ng-if="ctrl.surveyCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'surveys', 'instrument':ctrl.instrument.id, 'study': ctrl.instrument.studyId})">
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
@@ -89,15 +89,15 @@
                             {{'question-management.detail.label.questions' | translate }}: {{'global.messages.error.undocumented' | translate}}
                         </div>
                         <div ng-if="ctrl.questionCount == 1 && ctrl.question" class="fdz-truncate-string" flex>
-                           <a ui-sref="questionDetail({'id': ctrl.question.id})">
-                               <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
-                               {{'question-management.detail.label.question' | translate }}:
-                               <span display-i18n-string="ctrl.question.questionText"></span>
-                               <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                                   {{'instrument-management.detail.tooltips.questions.one' | translate}}
-                               </md-tooltip>
+                            <a ui-sref="questionDetail({'id': ctrl.question.id})">
+                                <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
+                                {{'question-management.detail.label.question' | translate }}:
+                                <span display-i18n-string="ctrl.question.questionText"></span>
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                    {{'instrument-management.detail.tooltips.questions.one' | translate}}
+                                </md-tooltip>
                             </a>
-                       </div>
+                        </div>
                         <div ng-if="ctrl.questionCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'instrument': ctrl.instrument.id, 'study': ctrl.instrument.studyId, 'type': 'questions'})">
                                 <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
@@ -173,15 +173,23 @@
                         <td display-i18n-string="row.type"></td>
                         <td display-i18n-string="row.description" fdz-hyphenate class="fdz-text-block"></td>
                         <td>{{row.language | displayIsoLanguage: currentLanguage}}&nbsp;</td>
-                        <td><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                              {{'global.tooltips.files.download' | translate: {filename: row.fileName} }}
-                          </md-tooltip></a>&nbsp;</td>
+                        <td><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                    {{'global.tooltips.files.download' | translate: {filename: row.fileName} }}
+                                </md-tooltip>
+                            </a>&nbsp;</td>
                     </tr>
                 </tbody>
             </table>
         </md-card>
     </div>
     <div class="fdz-fab-button-container" layout="column">
+        <md-button ng-if="!ctrl.projectIsCurrentlyReleased && !bowser.msie" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER" class="md-fab md-raised md-accent" ui-sref="instrumentEdit({id: ctrl.instrument.id})">
+            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                {{'search-management.buttons.edit-instrument-tooltip' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">mode_edit</md-icon>
+        </md-button>
         <md-button ng-if="!ctrl.isAuthenticated() || ctrl.hasAuthority('ROLE_USER')" class="md-fab md-raised md-accent" ng-click="ctrl.addToShoppingCart($event)">
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{'shopping-cart.buttons.add-study-tooltip' | translate}}
