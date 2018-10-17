@@ -6,14 +6,13 @@ angular.module('metadatamanagementApp')
     function(entity, PageTitleService, $timeout,
       $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
       CurrentProjectService, InstrumentIdBuilderService, InstrumentResource,
-      $scope,
+      $scope, SurveyIdBuilderService,
       ElasticSearchAdminService, $mdDialog, $transitions, StudyResource,
       CommonDialogsService, LanguageService, AvailableInstrumentNumbersResource,
-      InstrumentAttachmentResource, $q, StudyIdBuilderService, moment,
-      InstrumentSearchService,
+      InstrumentAttachmentResource, $q, StudyIdBuilderService, SearchDao,
       DataAcquisitionProjectResource, $rootScope) {
       var ctrl = this;
-      var instrumentMethodCache = {};
+      ctrl.surveyChips = [];
       var updateToolbarHeaderAndPageTitle = function() {
         if (ctrl.createMode) {
           PageTitleService.setPageTitle(
@@ -78,8 +77,17 @@ angular.module('metadatamanagementApp')
                     handleReleasedProject();
                   } else {
                     ctrl.instrument = instrument;
-                    ctrl.currentInstrumentMethod = instrument.instrumentMethod;
-                    $scope.responseRateInitializing = true;
+                    ctrl.instrument.surveyNumbers.forEach(
+                      function(surveyNumber) {
+                        ctrl.surveyChips.push({
+                          id: SurveyIdBuilderService.buildSurveyId(
+                            ctrl.instrument.dataAcquisitionProjectId,
+                            surveyNumber
+                          ),
+                          number: surveyNumber
+                        });
+
+                      });
                     ctrl.loadAttachments();
                     updateToolbarHeaderAndPageTitle();
                     $scope.registerConfirmOnDirtyHook();
@@ -106,9 +114,7 @@ angular.module('metadatamanagementApp')
                           studyId: StudyIdBuilderService.buildStudyId(
                             CurrentProjectService.getCurrentProject().id
                           ),
-                          wave: 1
                         });
-                        $scope.responseRateInitializing = true;
                         updateToolbarHeaderAndPageTitle();
                         $scope.registerConfirmOnDirtyHook();
                       } else {
@@ -133,8 +139,7 @@ angular.module('metadatamanagementApp')
                               CurrentProjectService.getCurrentProject().id,
                               studyId: StudyIdBuilderService.buildStudyId(
                                 CurrentProjectService.getCurrentProject().id
-                              ),
-                              wave: 1
+                              )
                             });
                             $scope.responseRateInitializing = true;
                             updateToolbarHeaderAndPageTitle();
@@ -356,54 +361,37 @@ angular.module('metadatamanagementApp')
         }
       };
 
-      ctrl.dataTypes = [
-        {de: 'Quantitative Daten', en: 'Quantitative Data'},
-        {de: 'Qualitative Daten', en: 'Qualitative Data'}
+      ctrl.transformChip = function(chip) {
+        return {
+          id: chip._source.id,
+          number: chip._source.number
+        };
+      };
+
+      ctrl.updateSurveyReferences = function() {
+        ctrl.instrument.surveyIds = [];
+        ctrl.instrument.surveyNumbers = [];
+        if (ctrl.surveyChips) {
+          ctrl.surveyChips.forEach(function(chip) {
+            ctrl.instrument.surveyIds.push(chip.id);
+            ctrl.instrument.surveyNumbers.push(chip.number);
+          });
+        }
+      };
+
+      ctrl.searchSurveys = function(query) {
+        return SearchDao.search(
+          query, 1,
+          ctrl.instrument.dataAcquisitionProjectId,
+          null, 'surveys', 100,  ctrl.instrument.surveyIds
+        ).then(function(result) {
+            return result.hits.hits;
+          });
+      };
+
+      ctrl.types = [
+        'PAPI', 'CAPI', 'CATI', 'CAWI'
       ];
-
-      ctrl.validatePeriod = function() {
-        if (!moment(ctrl.instrument.fieldPeriod.start).isSameOrBefore(
-          moment(ctrl.instrument.fieldPeriod.end)
-        )) {
-          $scope.instrumentForm.fieldPeriodEnd.$setValidity('mindate', false);
-          $scope.instrumentForm.fieldPeriodEnd.$setTouched();
-        } else {
-          $scope.instrumentForm.fieldPeriodEnd.$setValidity('mindate', true);
-          $scope.instrumentForm.fieldPeriodEnd.$setTouched();
-        }
-      };
-
-      ctrl.searchInstrumentMethods = function(searchText, language) {
-        if (searchText === instrumentMethodCache.searchText &&
-          language === instrumentMethodCache.language) {
-          return instrumentMethodCache.searchResult;
-        }
-
-        //Search Call to Elasticsearch
-        return InstrumentSearchService.findInstrumentMethods(searchText, {},
-            language)
-          .then(function(instrumentMethods) {
-            instrumentMethodCache.searchText = searchText;
-            instrumentMethodCache.language = language;
-            instrumentMethodCache.searchResult = instrumentMethods;
-            return instrumentMethods;
-          });
-      };
-
-      $scope.$watchGroup(['ctrl.instrument.sampleSize',
-        'ctrl.instrument.grossSampleSize'], function() {
-            if (!$scope.responseRateInitializing && ctrl.instrument) {
-              if (ctrl.instrument.sampleSize != null &&
-                ctrl.instrument.grossSampleSize) {
-                ctrl.instrument.responseRate = Number((
-                  ctrl.instrument.sampleSize / ctrl.instrument.grossSampleSize *
-                  100
-                ).toFixed(2));
-                $scope.instrumentForm.responseRate.$setTouched();
-              }
-            }
-            $scope.responseRateInitializing = false;
-          });
 
       init();
     });

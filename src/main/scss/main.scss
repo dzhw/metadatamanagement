@@ -1100,3 +1100,18 @@ md-toast.md-accent > .md-toast-content {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.md-chips-messages {
+  color: rgb(201,22,48);
+  position: relative;
+  order: 4;
+  overflow: hidden;
+}
+
+.md-chips-messages [ng-message] {
+  font-size: 12px;
+  line-height: 14px;
+  overflow: hidden;
+  margin-top: 0;
+  padding-top: 5px;
+}

@@ -216,7 +216,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
 
     return {
       search: function(queryterm, pageNumber, dataAcquisitionProjectId,
-        filter, elasticsearchType, pageSize) {
+        filter, elasticsearchType, pageSize, idsToExclude) {
         var query = {};
         query.preference = clientId;
         var studyId;
@@ -279,6 +279,16 @@ angular.module('metadatamanagementApp').service('SearchDao',
               }]
             }
           };
+        }
+
+        if (idsToExclude) {
+          // jscs:disable
+          query.body.query.bool.must_not = {
+            'terms': {
+              'id': idsToExclude
+            }
+          };
+          // jscs:enable
         }
         //define from
         query.body.from = (pageNumber - 1) * pageSize;
