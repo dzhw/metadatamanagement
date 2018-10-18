@@ -16,7 +16,8 @@ Looking for Absolventenpanel 2005s Fragebogen Erste Welle in german
 
 *** Keywords ***
 Click on questionnaire
-  Click Element Through Tooltips  xpath=//md-card//a[text()='gra2005_W1_Questionnaire_de.pdf']
+  Click Element Through Tooltips  xpath=//md-card//a[contains(text(),'gra2005_W1_Questionnaire_de.pdf')]
+
 Switch windows forth and back
   Select Window  gra2005_W1_Questionnaire_de.pdf
   Close Window
