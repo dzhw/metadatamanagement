@@ -85,7 +85,7 @@
                 </div>
                 <div layout-gt-sm="row" layout="column">
                     <div flex="50">
-                      <h3 class="md-subhead">{{'instrument-management.edit.hints.surveys' | translate}}</h3>
+                      <h3 class="md-subhead">{{'instrument-management.edit.label.surveys' | translate}}</h3>
                       <md-chips name="surveys" ng-model="ctrl.surveyChips" md-transform-chip="ctrl.transformChip($chip)" md-autocomplete-snap="width" md-require-match="true" ng-change="ctrl.updateSurveyReferences()" ng-required="true">
                         <md-autocomplete md-no-cache="true" md-delay="250" flex md-min-length="0" md-selected-item="ctrl.selectedItem" md-search-text="ctrl.searchText" md-items="item in ctrl.searchSurveys(ctrl.searchText)" placeholder="{{'instrument-management.edit.hints.search-surveys' | translate}}">
                           <md-item-template>
@@ -150,9 +150,9 @@
                 <th style="min-height: 40px;">
                     &nbsp;
                 </th>
-                <th class="fdz-table-half-absorbing-column">{{'instrument-management.detail.label.attachments.title' | translate }}
+                <th>{{'instrument-management.detail.label.attachments.type' | translate }}
                     <md-tooltip hide-gt-xs md-direction="right">
-                        {{'instrument-management.detail.label.attachments.title' | translate }}
+                        {{'instrument-management.detail.label.attachments.type' | translate }}
                     </md-tooltip>
                 </th>
                 <th class="fdz-table-half-absorbing-column">{{'instrument-management.detail.label.attachments.description' | translate }}
@@ -199,7 +199,7 @@
                         <md-icon md-font-set="material-icons">delete_forever</md-icon>
                     </md-button>
                 </td>
-                <td lang="{{row.language}}">{{row.title}}&nbsp;</td>
+                <td lang="{{row.language}}">{{row.type | displayI18nString}}&nbsp;</td>
                 <td display-i18n-string="row.description" fdz-hyphenate class="fdz-text-block"></td>
                 <td>{{row.language | displayIsoLanguage: currentLanguage}}&nbsp;</td>
                 <td><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}

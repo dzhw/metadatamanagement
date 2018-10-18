@@ -30,12 +30,13 @@ angular.module('metadatamanagementApp')
           .then(function(study) {
           ToolbarHeaderService.updateToolbarHeader({
             'stateName': $state.current.name,
-            'id': ctrl.instrument.id,
+            'instrumentId': ctrl.instrument.id,
             'studyId': ctrl.instrument.studyId,
-            'number': ctrl.instrument.number,
+            'instrumentNumber': ctrl.instrument.number,
             'studyIsPresent': study != null,
             'projectId': ctrl.instrument.dataAcquisitionProjectId,
-            'enableLastItem': !ctrl.createMode
+            'enableLastItem': !ctrl.createMode,
+            'instrumentIsPresent': !ctrl.createMode
           });
         }).catch(function() {
           ToolbarHeaderService.updateToolbarHeader({
@@ -63,6 +64,20 @@ angular.module('metadatamanagementApp')
         }, 1000);
       };
 
+      ctrl.initSurveyChips = function() {
+        ctrl.surveyChips = [];
+        ctrl.instrument.surveyNumbers.forEach(
+          function(surveyNumber) {
+            ctrl.surveyChips.push({
+              id: SurveyIdBuilderService.buildSurveyId(
+                ctrl.instrument.dataAcquisitionProjectId,
+                surveyNumber
+              ),
+              number: surveyNumber
+            });
+          });
+      };
+
       var init = function() {
         if (Principal.hasAnyAuthority(['ROLE_PUBLISHER',
             'ROLE_DATA_PROVIDER'])) {
@@ -77,17 +92,7 @@ angular.module('metadatamanagementApp')
                     handleReleasedProject();
                   } else {
                     ctrl.instrument = instrument;
-                    ctrl.instrument.surveyNumbers.forEach(
-                      function(surveyNumber) {
-                        ctrl.surveyChips.push({
-                          id: SurveyIdBuilderService.buildSurveyId(
-                            ctrl.instrument.dataAcquisitionProjectId,
-                            surveyNumber
-                          ),
-                          number: surveyNumber
-                        });
-
-                      });
+                    ctrl.initSurveyChips();
                     ctrl.loadAttachments();
                     updateToolbarHeaderAndPageTitle();
                     $scope.registerConfirmOnDirtyHook();
@@ -214,7 +219,7 @@ angular.module('metadatamanagementApp')
           .then(function(instrumentWrapper) {
             ctrl.instrument = new InstrumentResource(
               instrumentWrapper.instrument);
-            $scope.responseRateInitializing = true;
+            ctrl.initSurveyChips();
             if (instrumentWrapper.isCurrentVersion) {
               $scope.instrumentForm.$setPristine();
               SimpleMessageToastService.openSimpleMessageToast(

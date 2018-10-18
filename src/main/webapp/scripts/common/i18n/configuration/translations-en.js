@@ -337,6 +337,10 @@ angular.module('metadatamanagementApp').config(
           'confirm-delete-survey': {
             'title': 'Delete Survey "{{ id }}"?',
             'content': 'Do you really want to delete Survey "{{ id }}"?'
+          },
+          'confirm-delete-instrument': {
+            'title': 'Delete Instrument "{{ id }}"?',
+            'content': 'Do you really want to delete Instrument "{{ id }}"?'
           }
         },
         'edit': {

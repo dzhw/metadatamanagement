@@ -17,9 +17,9 @@
         <table md-autofocus fdz-table ng-if="instruments && instruments.length > 0" style="width: 100%;" flex>
             <thead>
                 <tr>
-                    <th style="max-width: 600px;">{{'instrument-management.edit.choose-previous-version.instrument-title' | translate }}
+                    <th style="max-width: 600px;">{{'instrument-management.edit.choose-previous-version.instrument-description' | translate }}
                         <md-tooltip hide-gt-xs md-direction="right">
-                            {{'instrument-management.edit.choose-previous-version.instrument-title' | translate }}
+                            {{'instrument-management.edit.choose-previous-version.instrument-description' | translate }}
                         </md-tooltip>
                     </th>
                     <th>{{'instrument-management.edit.choose-previous-version.lastModified' | translate }}
@@ -31,7 +31,7 @@
             </thead>
             <tbody>
                 <tr ng-repeat="instrument in instruments" ng-click="instrument.id && select(instrument, $index)" ng-class="{'fdz-current-version': isCurrentVersion($index), 'fdz-deleted-version': !instrument.id}">
-                    <td ng-if="instrument.id" display-i18n-string="instrument.title" class="fdz-truncate-string" style="max-width: 600px;" title="{{ getVersionTitle($index) }}"></td>
+                    <td ng-if="instrument.id" display-i18n-string="instrument.description" class="fdz-truncate-string" style="max-width: 600px;" title="{{ getVersionTitle($index) }}"></td>
                     <td ng-if="!instrument.id" class="fdz-truncate-string" style="max-width: 600px;" title="{{'instrument-management.edit.choose-previous-version.instrument-deleted' | translate}}">{{'instrument-management.edit.choose-previous-version.instrument-deleted' | translate}}</td>
                     <td class="fdz-table-nowrap" title="{{ instrument.lastModifiedDate + 'Z'| date:'fullDate'}} {{ instrument.lastModifiedDate + 'Z'| date:'mediumTime'}}">
                       <span am-time-ago="instrument.lastModifiedDate | amUtc | amLocal"></span> {{ 'instrument-management.edit.choose-previous-version.lastModifiedBy' | translate }} {{ instrument.lastModifiedBy }}

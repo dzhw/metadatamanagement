@@ -169,6 +169,13 @@ angular.module('metadatamanagementApp')
         }
       };
 
+      ctrl.instrumentAttachmentTypes = [
+        {de: 'Fragebogen', en: 'Questionnaire'},
+        {de: 'Filterführungsdiagramm', en: 'Question Flow'},
+        {de: 'Variablenfragebogen', en: 'Variable Questionnaire'},
+        {de: 'Sonstige', en: 'Other'}
+      ];
+
       ctrl.openRestorePreviousVersionDialog = function(event) {
         $mdDialog.show({
             controller: 'ChoosePreviousInstrumentAttachmentVersionController',
