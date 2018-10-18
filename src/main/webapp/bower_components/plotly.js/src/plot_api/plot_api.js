@@ -191,6 +191,19 @@ exports.plot = function(gd, data, layout, config) {
         gd.calcdata[i][0].trace = gd._fullData[i];
     }
 
+    // make the figure responsive
+    if(gd._context.responsive) {
+        if(!gd._responsiveChartHandler) {
+            // Keep a reference to the resize handler to purge it down the road
+            gd._responsiveChartHandler = function() {Plots.resize(gd);};
+
+            // Listen to window resize
+            window.addEventListener('resize', gd._responsiveChartHandler);
+        }
+    } else {
+        Lib.clearResponsive(gd);
+    }
+
     /*
      * start async-friendly code - now we're actually drawing things
      */
@@ -2362,6 +2375,7 @@ function diffData(gd, oldFullData, newFullData, immutable) {
 
     for(i = 0; i < oldFullData.length; i++) {
         trace = newFullData[i]._fullInput;
+        if(Plots.hasMakesDataTransform(trace)) trace = newFullData[i];
         if(seenUIDs[trace.uid]) continue;
         seenUIDs[trace.uid] = 1;
 
@@ -2430,14 +2444,15 @@ function getDiffFlags(oldContainer, newContainer, outerparts, opts) {
 
         if(key.charAt(0) === '_' || typeof oldVal === 'function' || oldVal === newVal) continue;
 
-        // FIXME: ax.tick0 and dtick get filled in during plotting, and unlike other auto values
-        // they don't make it back into the input, so newContainer won't have them.
-        // similar for axis ranges for 3D
-        // contourcarpet doesn't HAVE zmin/zmax, they're just auto-added. It needs them.
-        if(key === 'tick0' || key === 'dtick') {
+        // FIXME: ax.tick0 and dtick get filled in during plotting (except for geo subplots),
+        // and unlike other auto values they don't make it back into the input,
+        // so newContainer won't have them.
+        if((key === 'tick0' || key === 'dtick') && outerparts[0] !== 'geo') {
             var tickMode = newContainer.tickmode;
             if(tickMode === 'auto' || tickMode === 'array' || !tickMode) continue;
         }
+        // FIXME: Similarly for axis ranges for 3D
+        // contourcarpet doesn't HAVE zmin/zmax, they're just auto-added. It needs them.
         if(key === 'range' && newContainer.autorange) continue;
         if((key === 'zmin' || key === 'zmax') && newContainer.type === 'contourcarpet') continue;
 
