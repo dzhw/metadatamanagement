@@ -458,10 +458,6 @@ md-dialog .fdz-fab-button-container {
     display: none;
 }
 
-md-input-container.fdz-search-input label:not(.md-container-ignore) {
-    bottom: 89%;
-}
-
 md-input-container label {
     margin: 0px;
 }
@@ -788,11 +784,11 @@ md-tab-item:hover {
 
 .fdz-search-filter-component md-input-container.md-input-focused label,
 .fdz-search-filter-component md-input-container.md-input-has-value label {
-    bottom: 70% !important;
+    bottom: 75% !important;
 }
 
 .fdz-search-filter-component md-input-container label:not(.md-container-ignore) {
-    bottom: 85%;
+    bottom: 88%;
 }
 
 .fdz-search-filter-component .ng-active div[ng-message] {
