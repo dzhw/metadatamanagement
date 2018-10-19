@@ -193,7 +193,7 @@ angular.module('metadatamanagementApp').config(function($translateProvider) {
                 'label': {
                     'edit-instrument': 'Edit Instrument:',
                     'create-instrument': 'Create Instrument:',
-                    'surveys': 'Surveys:'
+                    'surveys': 'Surveys *'
                 },
                 'open-choose-previous-version-tooltip': 'Click for restoring a previous version of this instrument.',
                 'save-tooltip': 'Click to save this instrument.',

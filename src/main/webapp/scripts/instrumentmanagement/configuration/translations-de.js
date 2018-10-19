@@ -194,7 +194,7 @@ angular.module('metadatamanagementApp').config(
           'label': {
             'edit-instrument': 'Instrument bearbeiten:',
             'create-instrument': 'Instrument anlegen:',
-            'surveys': 'Erhebungen:'
+            'surveys': 'Erhebungen *'
           },
           'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version dieses Instruments wieder herzustellen.',
           'save-tooltip': 'Klicken, um das Instrument zu speichern.',

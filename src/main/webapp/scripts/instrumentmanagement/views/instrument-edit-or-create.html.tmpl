@@ -85,7 +85,7 @@
                 </div>
                 <div layout-gt-sm="row" layout="column">
                     <div flex="50">
-                      <h3 class="md-subhead">{{'instrument-management.edit.label.surveys' | translate}}</h3>
+                      <label style="color: rgba(0,0,0,0.38); margin: 0px;">{{'instrument-management.edit.label.surveys' | translate}}</label>
                       <md-chips name="surveys" ng-model="ctrl.surveyChips" md-transform-chip="ctrl.transformChip($chip)" md-autocomplete-snap="width" md-require-match="true" ng-change="ctrl.updateSurveyReferences()" ng-required="true">
                         <md-autocomplete md-no-cache="true" md-delay="250" flex md-min-length="0" md-selected-item="ctrl.selectedItem" md-search-text="ctrl.searchText" md-items="item in ctrl.searchSurveys(ctrl.searchText)" placeholder="{{'instrument-management.edit.hints.search-surveys' | translate}}">
                           <md-item-template>

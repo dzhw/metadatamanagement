@@ -41,12 +41,13 @@ angular.module('metadatamanagementApp')
         }).catch(function() {
           ToolbarHeaderService.updateToolbarHeader({
             'stateName': $state.current.name,
-            'id': ctrl.instrument.id,
+            'instrumentId': ctrl.instrument.id,
             'studyId': ctrl.instrument.studyId,
-            'number': ctrl.instrument.number,
+            'instrumentNumber': ctrl.instrument.number,
             'studyIsPresent': false,
             'projectId': ctrl.instrument.dataAcquisitionProjectId,
-            'enableLastItem': !ctrl.createMode
+            'enableLastItem': !ctrl.createMode,
+            'instrumentIsPresent': !ctrl.createMode
           });
         }).finally(function() {
           $rootScope.$broadcast('stop-ignoring-404');
