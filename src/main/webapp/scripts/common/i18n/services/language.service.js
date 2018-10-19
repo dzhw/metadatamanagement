@@ -22,6 +22,15 @@ angular.module('metadatamanagementApp').factory('LanguageService',
       },
 
       setCurrent: function(language) {
+        if (language !== 'de' && language !== 'en') {
+          if (language.indexOf('de-') >= 0) {
+            language = 'de';
+          } else if (language.indexOf('en-') >= 0) {
+            language = 'en';
+          } else {
+            language = 'de';
+          }
+        }
         if ($rootScope.currentLanguage === language) {
           return;
         }

@@ -19,7 +19,7 @@ try {
   .run(
       function($rootScope, $location, $state, LanguageService, Auth, Principal,
         ENV, VERSION, $mdMedia, $transitions, $timeout, $window,
-        WebSocketService, $urlRouter) {
+        WebSocketService, $urlRouter, $translate) {
         // sometimes urlRouter does not load the state automatically on startup
         $urlRouter.sync();
         WebSocketService.connect();
@@ -45,8 +45,10 @@ try {
         //init the current language
         if ($location.path().indexOf('/en/') > -1) {
           LanguageService.setCurrent('en');
-        } else {
+        } else if ($location.path().indexOf('/de/') > -1) {
           LanguageService.setCurrent('de');
+        } else {
+          LanguageService.setCurrent($translate.preferredLanguage());
         }
 
         $transitions.onStart({}, function(trans) {
