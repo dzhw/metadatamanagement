@@ -25,11 +25,8 @@ angular.module('metadatamanagementApp').factory('LanguageService',
         if (language !== 'de' && language !== 'en') {
           if (language.indexOf('de-') >= 0 || language.indexOf('de_') >= 0) {
             language = 'de';
-          } else if (language.indexOf('en-') >= 0 ||
-            language.indexOf('en_') >= 0) {
-            language = 'en';
           } else {
-            language = 'de';
+            language = 'en';
           }
         }
         if ($rootScope.currentLanguage === language) {

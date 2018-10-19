@@ -152,10 +152,10 @@ try {
         $translateProvider.registerAvailableLanguageKeys(['de','en'], {
           'en_*': 'en',
           'de_*': 'de',
-          '*': 'de'
+          '*': 'en'
         });
         $translateProvider.determinePreferredLanguage();
-        $translateProvider.fallbackLanguage('de');
+        $translateProvider.fallbackLanguage('en');
         $translateProvider.useCookieStorage();
         $translateProvider.useSanitizeValueStrategy(null);
         $translateProvider
@@ -177,7 +177,7 @@ try {
         $urlRouterProvider.when('/de/', '/de/search');
         $urlRouterProvider.when('/en', '/en/search');
         $urlRouterProvider.when('/en/', '/en/search');
-        $urlRouterProvider.otherwise('/de/error');
+        $urlRouterProvider.otherwise('/en/error');
 
         $httpProvider.interceptors.push('errorHandlerInterceptor');
         $httpProvider.interceptors.push('authInterceptor');
