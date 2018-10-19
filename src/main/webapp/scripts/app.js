@@ -147,18 +147,15 @@ try {
             }]
           }
         });
-        $urlRouterProvider.when('', '/de/search');
-        $urlRouterProvider.when('/', '/de/search');
-        $urlRouterProvider.when('/de', '/de/search');
-        $urlRouterProvider.when('/de/', '/de/search');
-        $urlRouterProvider.when('/en', '/en/search');
-        $urlRouterProvider.when('/en/', '/en/search');
-        $urlRouterProvider.otherwise('/de/error');
-        $httpProvider.interceptors.push('errorHandlerInterceptor');
-        $httpProvider.interceptors.push('authInterceptor');
 
         // Initialize angular-translate
-        $translateProvider.preferredLanguage('de');
+        $translateProvider.registerAvailableLanguageKeys(['de','en'], {
+          'en_*': 'en',
+          'de_*': 'de',
+          '*': 'de'
+        });
+        $translateProvider.determinePreferredLanguage();
+        $translateProvider.fallbackLanguage('de');
         $translateProvider.useCookieStorage();
         $translateProvider.useSanitizeValueStrategy(null);
         $translateProvider
@@ -174,6 +171,16 @@ try {
         tmhDynamicLocaleProvider.useStorage('$cookies');
         tmhDynamicLocaleProvider.storageKey('NG_TRANSLATE_LANG_KEY');
 
+        $urlRouterProvider.when('', '/');
+        $urlRouterProvider.when('/', '/');
+        $urlRouterProvider.when('/de', '/de/search');
+        $urlRouterProvider.when('/de/', '/de/search');
+        $urlRouterProvider.when('/en', '/en/search');
+        $urlRouterProvider.when('/en/', '/en/search');
+        $urlRouterProvider.otherwise('/de/error');
+
+        $httpProvider.interceptors.push('errorHandlerInterceptor');
+        $httpProvider.interceptors.push('authInterceptor');
         blockUIConfig.templateUrl = 'scripts/common/blockui/blockUI.html.tmpl';
         blockUIConfig.autoInjectBodyBlock = false;
         blockUIConfig.blockBrowserNavigation = true;
