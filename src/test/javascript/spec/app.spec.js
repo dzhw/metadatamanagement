@@ -20,7 +20,6 @@ describe('Specification for app ', function() {
   var $location;
   var LanguageService;
   var $state;
-  var $stateParams;
 
   describe('metadatamanagementApp run function', function() {
     beforeEach(function() {
@@ -55,9 +54,6 @@ describe('Specification for app ', function() {
       $httpBackend.
       expectGET(/scripts\/searchmanagement\/views\/search.html.tmpl/).
       respond(200, '');
-    });
-    it('should set LanguageService to de ', function() {
-      expect(LanguageService.getCurrentInstantly()).toBe('de');
     });
     it('should set LanguageService to en ', function() {
       $location.path('/en/');

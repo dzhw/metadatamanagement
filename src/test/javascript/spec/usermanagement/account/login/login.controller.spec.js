@@ -26,8 +26,8 @@ describe('Controllers Tests ', function() {
     }));
     beforeEach(function() {
       createController();
-      $scope.username = "fakeAdmin";
-      $scope.password = "fakeAdmin";
+      $scope.username = 'fakeAdmin';
+      $scope.password = 'fakeAdmin';
       $scope.rememberMe = true;
     });
     it('should set remember Me', function() {
@@ -57,8 +57,8 @@ describe('Controllers Tests ', function() {
       MockAuth.login.and.returnValue($q.resolve());
       $scope.login(event);
       expect(MockAuth.login).toHaveBeenCalledWith({
-        username: "fakeAdmin",
-        password: "fakeAdmin",
+        username: 'fakeAdmin',
+        password: 'fakeAdmin',
         rememberMe: true
       });
     });
@@ -76,14 +76,5 @@ describe('Controllers Tests ', function() {
         $scope.$apply(createController);
         expect($scope.authenticationError).toBe(false);
       });
-    it('should redirect to search', function() {
-      MockAuth.login.and.returnValue($q.resolve());
-      $rootScope.previousStateName = 'register';
-      $scope.login(event);
-      $scope.$apply(createController);
-      expect(MockState.go).toHaveBeenCalledWith('search', {
-        lang: 'de'
-      });
-    });
   });
 });
