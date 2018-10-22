@@ -1,6 +1,9 @@
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,7 @@ import org.springframework.data.rest.core.event.BeforeDeleteEvent;
 import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.IdAndNumberDataSetProjection;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
@@ -202,5 +206,36 @@ public class DataSetService {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
         () -> dataSetRepository.streamIdsByIdIn(dataSetIds),
         ElasticsearchType.data_sets);
+  }
+
+  /**
+   * Get a list of available dataSet numbers for creating a new dataSet.
+   * 
+   * @param dataAcquisitionProjectId The project id.
+   * @return A list of available dataSet numbers.
+   */
+  public List<Integer> getFreeDataSetNumbers(String dataAcquisitionProjectId) {
+    List<Integer> result = new ArrayList<>();
+    List<IdAndNumberDataSetProjection> existingNumbers =
+        dataSetRepository.findDataSetNumbersByDataAcquisitionProjectId(dataAcquisitionProjectId);
+    Optional<IdAndNumberDataSetProjection> max = existingNumbers.stream()
+        .max((dataSet1, dataSet2) -> Integer.compare(dataSet1.getNumber(), dataSet2.getNumber()));
+    if (!max.isPresent()) {
+      result.add(1);
+    } else {
+      for (int i = 1; i < max.get().getNumber(); i++) {
+        if (!dataSetNumberExists(existingNumbers, i)) {
+          result.add(i);
+        }
+      }
+      result.add(max.get().getNumber() + 1);
+    }
+    return result;
+  }
+
+  private boolean dataSetNumberExists(List<IdAndNumberDataSetProjection> dataSets, Integer number) {
+    Predicate<IdAndNumberDataSetProjection> predicate =
+        dataSet -> dataSet.getNumber().equals(number);
+    return dataSets.stream().filter(predicate).findFirst().isPresent();
   }
 }

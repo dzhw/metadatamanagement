@@ -5,6 +5,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.javers.core.metamodel.annotation.Entity;
+import org.springframework.data.annotation.Id;
+
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
@@ -23,6 +26,7 @@ import lombok.ToString;
  * Metadata which will be stored in GridFS with each attachment for data sets.
  *
  */
+@Entity
 @EqualsAndHashCode(callSuper = false, of = "id")
 @ToString(callSuper = true)
 @NoArgsConstructor
@@ -30,6 +34,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 public class DataSetAttachmentMetadata extends AbstractRdcDomainObject {
+  @Id
+  private String id;
+
   @NotEmpty(message =
       "data-set-management.error.data-set-attachment-metadata.data-set-id.not-empty")
   private String dataSetId;
@@ -73,8 +80,7 @@ public class DataSetAttachmentMetadata extends AbstractRdcDomainObject {
       "data-set-management.error.data-set-attachment-metadata.index-in-data-set.not-null")
   private Integer indexInDataSet;
 
-  @Override
-  public String getId() {
-    return "/public/files/data-sets/" + dataSetId + "/attachments/" + fileName;
+  public void generateId() {
+    this.id = "/public/files/data-sets/" + dataSetId + "/attachments/" + fileName;
   }
 }

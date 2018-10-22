@@ -69,5 +69,5 @@ public interface InstrumentRepository
 
   @RestResource(exported = false)
   List<IdAndNumberInstrumentProjection> findInstrumentNumbersByDataAcquisitionProjectId(
-      @Param("dataAcquisitionProjectId") String dataAcquisitionProjectId);
+      String dataAcquisitionProjectId);
 }

@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.javers.core.metamodel.annotation.Entity;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -37,6 +38,7 @@ import lombok.ToString;
  *
  * @author Daniel Katzberg
  */
+@Entity
 @Document(collection = "surveys")
 @ValidSurveyIdName(message = "survey-management.error.survey.id.valid-survey-id-name")
 @ValidUniqueSurveyNumber(message = "survey-management.error"

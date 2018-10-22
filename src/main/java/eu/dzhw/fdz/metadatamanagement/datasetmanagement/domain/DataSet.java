@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.javers.core.metamodel.annotation.Entity;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
@@ -38,6 +39,7 @@ import lombok.ToString;
  * @author Daniel Katzberg
  *
  */
+@Entity
 @Document(collection = "data_sets")
 @ValidDataSetIdName(message = "data-set-management.error.data-set.id.valid-data-set-id-name")
 @UniqueDatasetNumberInProject(
