@@ -17,6 +17,7 @@ angular.module('metadatamanagementApp')
       var i18nPrefix = 'data-acquisition-project-management.log-messages.' +
         'data-acquisition-project.';
       ctrl.searchText = '';
+      ctrl.selectedProject = CurrentProjectService.getCurrentProject();
 
       $scope.$on('current-project-changed',
         function(event, project) { // jshint ignore:line

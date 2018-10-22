@@ -17,9 +17,9 @@
         <table md-autofocus fdz-table ng-if="dataSetAttachments && dataSetAttachments.length > 0" style="width: 100%;" flex>
             <thead>
                 <tr>
-                    <th style="max-width: 600px;">{{'data-set-management.detail.attachments.choose-previous-version.attachment-description' | translate }}
+                    <th style="max-width: 600px;">{{'data-set-management.detail.attachments.choose-previous-version.attachment-title' | translate }}
                         <md-tooltip hide-gt-xs md-direction="right">
-                            {{'data-set-management.detail.attachments.choose-previous-version.attachment-description' | translate }}
+                            {{'data-set-management.detail.attachments.choose-previous-version.attachment-title' | translate }}
                         </md-tooltip>
                     </th>
                     <th>{{'data-set-management.detail.attachments.choose-previous-version.lastModified' | translate }}
@@ -31,7 +31,7 @@
             </thead>
             <tbody>
                 <tr ng-repeat="attachment in dataSetAttachments" ng-click="attachment.id && select(attachment, $index)" ng-class="{'fdz-current-version': isCurrentVersion($index), 'fdz-deleted-version': !attachment.id}">
-                    <td ng-if="attachment.id" display-i18n-string="attachment.description" class="fdz-truncate-string" style="max-width: 600px;" title="{{ getVersionTitle($index) }}"></td>
+                    <td ng-if="attachment.id" class="fdz-truncate-string" style="max-width: 600px;" title="{{ getVersionTitle($index) }}">{{attachment.title}}</td>
                     <td ng-if="!attachment.id" class="fdz-truncate-string" style="max-width: 600px;" title="{{'data-set-management.detail.attachments.choose-previous-version.attachment-deleted' | translate}}"></td>
                     <td class="fdz-table-nowrap" title="{{ attachment.lastModifiedDate + 'Z'| date:'fullDate'}} {{ attachment.lastModifiedDate + 'Z'| date:'mediumTime'}}">
                       <span am-time-ago="attachment.lastModifiedDate | amUtc | amLocal"></span> {{ 'data-set-management.detail.attachments.choose-previous-version.lastModifiedBy' | translate }} {{ attachment.lastModifiedBy }}

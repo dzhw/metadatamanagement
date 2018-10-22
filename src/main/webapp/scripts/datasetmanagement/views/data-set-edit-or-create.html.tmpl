@@ -15,7 +15,7 @@
                 <div layout-gt-sm="row" layout="column">
                   <md-input-container flex="50" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!dataSetForm.descriptionDe.$valid && (dataSetForm.descriptionDe.$dirty || dataSetForm.descriptionDe.$touched)">
                       <label class="fdz-input-required">{{'data-set-management.detail.label.description' | translate}} ({{'global.in-german' | translate}})</label>
-                      <input md-maxlength="512" fdz-required="!ctrl.dataSet.description.en" ng-model="ctrl.dataSet.description.de" name="descriptionDe" lang="de" md-no-asterisk>
+                      <input md-maxlength="2048" fdz-required="!ctrl.dataSet.description.en" ng-model="ctrl.dataSet.description.de" name="descriptionDe" lang="de" md-no-asterisk>
                       <div ng-if="!dataSetForm.descriptionDe.$dirty && !dataSetForm.descriptionDe.$touched" class="fdz-input-hint">{{'data-set-management.edit.hints.description.de' | translate}}</div>
                       <div ng-messages="dataSetForm.descriptionDe.$error" multiple>
                           <div ng-message="fdz-required">{{'data-set-management.error.dataSet.description.i18n-string-not-empty' | translate}}</div>
@@ -24,7 +24,7 @@
                   </md-input-container>
                   <md-input-container flex="50" md-is-error="!dataSetForm.descriptionEn.$valid && (dataSetForm.descriptionEn.$dirty || dataSetForm.descriptionEn.$touched)">
                       <label class="fdz-input-required">{{'data-set-management.detail.label.description' | translate}} ({{'global.in-english' | translate}})</label>
-                      <input md-maxlength="512" fdz-required="!ctrl.dataSet.description.de" ng-model="ctrl.dataSet.description.en" name="descriptionEn" lang="en" md-no-asterisk>
+                      <input md-maxlength="2048" fdz-required="!ctrl.dataSet.description.de" ng-model="ctrl.dataSet.description.en" name="descriptionEn" lang="en" md-no-asterisk>
                       <div ng-if="!dataSetForm.descriptionEn.$dirty && !dataSetForm.descriptionEn.$touched" class="fdz-input-hint">{{'data-set-management.edit.hints.description.en' | translate}}</div>
                       <div ng-messages="dataSetForm.descriptionEn.$error" multiple>
                           <div ng-message="fdz-required">{{'data-set-management.error.dataSet.description.i18n-string-not-empty' | translate}}</div>
@@ -33,48 +33,22 @@
                   </md-input-container>
                 </div>
                 <div layout-gt-sm="row" layout="column">
-                  <md-input-container flex="50" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!dataSetForm.titleDe.$valid && (dataSetForm.titleDe.$dirty || dataSetForm.titleDe.$touched)">
-                      <label class="fdz-input-required">{{'data-set-management.detail.label.title' | translate}} ({{'global.in-german' | translate}})</label>
-                      <input md-maxlength="2048" fdz-required="!ctrl.dataSet.title.en" ng-model="ctrl.dataSet.title.de" name="titleDe" lang="de" md-no-asterisk>
-                      <div ng-if="!dataSetForm.titleDe.$dirty && !dataSetForm.titleDe.$touched" class="fdz-input-hint">{{'data-set-management.edit.hints.title.de' | translate}}</div>
-                      <div ng-messages="dataSetForm.titleDe.$error" multiple>
-                          <div ng-message="fdz-required">{{'data-set-management.error.dataSet.title.i18n-string-not-empty' | translate}}</div>
-                          <div ng-message="md-maxlength">{{'data-set-management.error.dataSet.title.i18n-string-size' | translate}}</div>
-                      </div>
+                  <md-input-container flex="50" md-is-error="!dataSetForm.format.$valid && (dataSetForm.format.$dirty || dataSetForm.format.$touched)">
+                    <label>{{'data-set-management.detail.label.format' | translate}}</label>
+                    <md-select ng-model="ctrl.dataSet.format" ng-model-options="{trackBy: '$value.de'}" name="format">
+                      <md-option ng-value="format" ng-repeat="format in ctrl.formats">{{format[currentLanguage]}}</md-option>
+                    </md-select>
+                    <div ng-if="!dataSetForm.format.$dirty && !dataSetForm.format.$touched" class="fdz-input-hint">{{'data-set-management.edit.hints.format' | translate}}</div>
+                    <div ng-messages="dataSetForm.format.$error" multiple>
+                    </div>
                   </md-input-container>
-                  <md-input-container flex="50" md-is-error="!dataSetForm.titleEn.$valid && (dataSetForm.titleEn.$dirty || dataSetForm.titleEn.$touched)">
-                      <label class="fdz-input-required">{{'data-set-management.detail.label.title' | translate}} ({{'global.in-english' | translate}})</label>
-                      <input md-maxlength="2048" fdz-required="!ctrl.dataSet.title.de" ng-model="ctrl.dataSet.title.en" name="titleEn" lang="en" md-no-asterisk>
-                      <div ng-if="!dataSetForm.titleEn.$dirty && !dataSetForm.titleEn.$touched" class="fdz-input-hint">{{'data-set-management.edit.hints.title.en' | translate}}</div>
-                      <div ng-messages="dataSetForm.titleEn.$error" multiple>
-                          <div ng-message="fdz-required">{{'data-set-management.error.dataSet.title.i18n-string-not-empty' | translate}}</div>
-                          <div ng-message="md-maxlength">{{'data-set-management.error.dataSet.title.i18n-string-size' | translate}}</div>
-                      </div>
-                  </md-input-container>
-                </div>
-                <div layout-gt-sm="row" layout="column">
-                  <md-input-container flex="50" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!dataSetForm.subtitleDe.$valid && (dataSetForm.subtitleDe.$dirty || dataSetForm.subtitleDe.$touched)">
-                      <label>{{'data-set-management.detail.label.subtitle' | translate}} ({{'global.in-german' | translate}})</label>
-                      <input md-maxlength="2048" ng-model="ctrl.dataSet.subtitle.de" name="subtitleDe" lang="de" md-no-asterisk>
-                      <div ng-if="!dataSetForm.subtitleDe.$dirty && !dataSetForm.subtitleDe.$touched" class="fdz-input-hint">{{'data-set-management.edit.hints.subtitle.de' | translate}}</div>
-                      <div ng-messages="dataSetForm.subtitleDe.$error" multiple>
-                          <div ng-message="md-maxlength">{{'data-set-management.error.dataSet.subtitle.i18n-string-size' | translate}}</div>
-                      </div>
-                  </md-input-container>
-                  <md-input-container flex="50" md-is-error="!dataSetForm.subtitleEn.$valid && (dataSetForm.subtitleEn.$dirty || dataSetForm.subtitleEn.$touched)">
-                      <label>{{'data-set-management.detail.label.subtitle' | translate}} ({{'global.in-english' | translate}})</label>
-                      <input md-maxlength="2048" ng-model="ctrl.dataSet.subtitle.en" name="subtitleEn" lang="en" md-no-asterisk>
-                      <div ng-if="!dataSetForm.subtitleEn.$dirty && !dataSetForm.subtitleEn.$touched" class="fdz-input-hint">{{'data-set-management.edit.hints.subtitle.en' | translate}}</div>
-                      <div ng-messages="dataSetForm.subtitleEn.$error" multiple>
-                          <div ng-message="md-maxlength">{{'data-set-management.error.dataSet.subtitle.i18n-string-size' | translate}}</div>
-                      </div>
-                  </md-input-container>
+                  <div flex="50"></div>
                 </div>
                 <div layout-gt-sm="row" layout="column">
                     <md-input-container flex="50" md-is-error="!dataSetForm.type.$valid && (dataSetForm.type.$dirty || dataSetForm.type.$touched)">
                         <label>{{'data-set-management.detail.label.type' | translate}}</label>
-                        <md-select required ng-model="ctrl.dataSet.type" ng-model-options="{trackBy: '$value'}" name="type">
-                            <md-option ng-value="type" ng-repeat="type in ctrl.types">{{type}}</md-option>
+                        <md-select required ng-model="ctrl.dataSet.type" ng-model-options="{trackBy: '$value.de'}" name="type">
+                            <md-option ng-value="type" ng-repeat="type in ctrl.types">{{type[currentLanguage]}}</md-option>
                         </md-select>
                         <div ng-if="!dataSetForm.type.$dirty && !dataSetForm.type.$touched" class="fdz-input-hint">{{'data-set-management.edit.hints.type' | translate}}</div>
                         <div ng-messages="dataSetForm.type.$error" multiple>
@@ -115,7 +89,6 @@
                         <textarea rows="4" md-maxlength="2048" ng-model="ctrl.dataSet.annotations.de" name="annotationsDe" lang="de" md-no-asterisk></textarea>
                         <div ng-if="!dataSetForm.annotationsDe.$dirty && !dataSetForm.annotationsDe.$touched" class="fdz-input-hint">{{'data-set-management.edit.hints.annotations.de' | translate}}</div>
                         <div ng-messages="dataSetForm.annotationsDe.$error" multiple>
-                            <div ng-message="fdz-required">{{'data-set-management.error.dataSet.annotations.i18n-string-not-empty' | translate}}</div>
                             <div ng-message="md-maxlength">{{'data-set-management.error.dataSet.annotations.i18n-string-size' | translate}}</div>
                         </div>
                     </md-input-container>
@@ -150,9 +123,9 @@
                 <th style="min-height: 40px;">
                     &nbsp;
                 </th>
-                <th>{{'data-set-management.detail.label.attachments.type' | translate }}
+                <th class="fdz-table-half-absorbing-column">{{'data-set-management.detail.label.attachments.title' | translate }}
                     <md-tooltip hide-gt-xs md-direction="right">
-                        {{'data-set-management.detail.label.attachments.type' | translate }}
+                        {{'data-set-management.detail.label.attachments.title' | translate }}
                     </md-tooltip>
                 </th>
                 <th class="fdz-table-half-absorbing-column">{{'data-set-management.detail.label.attachments.description' | translate }}
@@ -199,7 +172,7 @@
                         <md-icon md-font-set="material-icons">delete_forever</md-icon>
                     </md-button>
                 </td>
-                <td lang="{{row.language}}">{{row.type | displayI18nString}}&nbsp;</td>
+                <td lang="{{row.language}}">{{row.title}}&nbsp;</td>
                 <td display-i18n-string="row.description" fdz-hyphenate class="fdz-text-block"></td>
                 <td>{{row.language | displayIsoLanguage: currentLanguage}}&nbsp;</td>
                 <td><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}

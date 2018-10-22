@@ -55,19 +55,6 @@
                 <md-divider></md-divider>
                 <md-card-content>
                     <div layout-gt-sm="row" layout="column">
-                        <md-input-container flex="50" style="margin-bottom: 42px;" md-is-error="!dataSetAttachmentForm.type.$valid && (dataSetAttachmentForm.type.$dirty || dataSetAttachmentForm.type.$touched)">
-                            <label>{{'data-set-management.detail.label.attachments.type' | translate}}</label>
-                            <md-select required ng-model="ctrl.dataSetAttachmentMetadata.type" ng-model-options="{trackBy: '$value.de'}" name="type">
-                                <md-option ng-value="type" ng-repeat="type in ctrl.dataSetAttachmentTypes">{{type[currentLanguage]}}</md-option>
-                            </md-select>
-                            <div ng-if="!dataSetAttachmentForm.type.$dirty && !dataSetAttachmentForm.type.$touched" class="fdz-input-hint">{{'data-set-management.detail.attachments.hints.type' | translate}}</div>
-                            <div ng-messages="dataSetAttachmentForm.type.$error" multiple>
-                                <div ng-message="required">{{'data-set-management.error.data-set-attachment-metadata.type.not-null' | translate}}</div>
-                            </div>
-                        </md-input-container>
-                        <div flex="50"></div>
-                    </div>
-                    <div layout-gt-sm="row" layout="column">
                         <md-autocomplete required flex="50" md-input-name="language2" md-floating-label="{{'data-set-management.detail.label.attachments.language' | translate}}" md-require-match="true" md-select-on-match="true"
                           md-match-case-insensitive="true" md-selected-item="ctrl.selectedLanguage" md-min-length="0" md-search-text="ctrl.languageSearchText" md-items="item in ctrl.searchLanguages(ctrl.languageSearchText)" md-item-text="item.displayLanguage[currentLanguage]"
                           md-clear-button="true" md-no-cache="true" md-selected-item-change="ctrl.selectedLanguageChanged()" md-is-error="!dataSetAttachmentForm.language2.$valid && (dataSetAttachmentForm.language2.$dirty || dataSetAttachmentForm.language2.$touched)">
@@ -84,6 +71,17 @@
                             </div>
                         </md-autocomplete>
                         <div flex="50"></div>
+                    </div>
+                    <div layout="row">
+                        <md-input-container flex style="margin-right: 8px;" md-is-error="!dataSetAttachmentForm.title.$valid && (dataSetAttachmentForm.title.$dirty || dataSetAttachmentForm.title.$touched)">
+                            <label class="fdz-input-required">{{'data-set-management.detail.label.attachments.title' | translate}} ({{'global.in' | translate}} {{ctrl.selectedLanguage.displayLanguage[currentLanguage]?ctrl.selectedLanguage.displayLanguage[currentLanguage]:'?'}})</label>
+                            <textarea fdz-required rows="4" md-maxlength="2048" ng-model="ctrl.dataSetAttachmentMetadata.title" name="title"></textarea>
+                            <div ng-if="!dataSetAttachmentForm.title.$dirty && !dataSetAttachmentForm.title.$touched" class="fdz-input-hint">{{'data-set-management.detail.attachments.hints.title' | translate}}</div>
+                            <div ng-messages="dataSetAttachmentForm.title.$error" multiple>
+                                <div ng-message="md-maxlength">{{'data-set-management.error.data-set-attachment-metadata.title.string-size' | translate}}</div>
+                                <div ng-message="fdz-required">{{'data-set-management.error.data-set-attachment-metadata.title.not-null' | translate}}</div>
+                            </div>
+                        </md-input-container>
                     </div>
                     <div layout-gt-sm="row" layout="column">
                         <md-input-container flex="50" style="margin-right: 8px;" md-is-error="!dataSetAttachmentForm.descriptionDe.$valid && (dataSetAttachmentForm.descriptionDe.$dirty || dataSetAttachmentForm.descriptionDe.$touched)">

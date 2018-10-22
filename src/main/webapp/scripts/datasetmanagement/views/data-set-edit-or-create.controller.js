@@ -60,7 +60,7 @@ angular.module('metadatamanagementApp')
         $timeout(function() {
           $state.go('search', {
             lang: LanguageService.getCurrentInstantly(),
-            type: 'dataSets'
+            type: 'data_sets'
           });
         }, 1000);
       };
@@ -192,7 +192,7 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.updateElasticSearchIndex = function() {
-        return ElasticSearchAdminService.processUpdateQueue('dataSets');
+        return ElasticSearchAdminService.processUpdateQueue('data_sets');
       };
 
       ctrl.onSavedSuccessfully = function() {
@@ -395,8 +395,12 @@ angular.module('metadatamanagementApp')
           });
       };
 
-      ctrl.types = [
-        'PAPI', 'CAPI', 'CATI', 'CAWI'
+      ctrl.types = [{de: 'Personendatensatz', en: 'Individual Data'},
+        {de: 'Episodendatensatz', en: 'Spell Data'}
+      ];
+
+      ctrl.formats = [{de: 'breit', en: 'wide'},
+        {de: 'lang', en: 'long'}
       ];
 
       init();

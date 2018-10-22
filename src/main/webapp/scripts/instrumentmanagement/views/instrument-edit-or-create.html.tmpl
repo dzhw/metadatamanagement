@@ -115,7 +115,6 @@
                         <textarea rows="4" md-maxlength="2048" ng-model="ctrl.instrument.annotations.de" name="annotationsDe" lang="de" md-no-asterisk></textarea>
                         <div ng-if="!instrumentForm.annotationsDe.$dirty && !instrumentForm.annotationsDe.$touched" class="fdz-input-hint">{{'instrument-management.edit.hints.annotations.de' | translate}}</div>
                         <div ng-messages="instrumentForm.annotationsDe.$error" multiple>
-                            <div ng-message="fdz-required">{{'instrument-management.error.instrument.annotations.i18n-string-not-empty' | translate}}</div>
                             <div ng-message="md-maxlength">{{'instrument-management.error.instrument.annotations.i18n-string-size' | translate}}</div>
                         </div>
                     </md-input-container>

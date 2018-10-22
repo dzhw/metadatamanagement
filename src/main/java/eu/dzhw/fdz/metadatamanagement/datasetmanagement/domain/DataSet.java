@@ -18,6 +18,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.UniqueDatasetNumberInProject;
@@ -65,8 +66,11 @@ public class DataSet extends AbstractRdcDomainObject {
   @NotEmpty(message = "data-set-management.error.data-set.data-acquisition-project.id.not-empty")
   private String dataAcquisitionProjectId;
 
+  @NotNull(message = "data-set-management.error.data-set.description.not-null")
   @I18nStringSize(max = StringLengths.LARGE,
       message = "data-set-management.error.data-set.description.i18n-string-size")
+  @I18nStringNotEmpty(
+      message = "data-set-management.error.data-set.description." + "i18n-string-not-empty")
   private I18nString description;
 
   @NotNull(message = "data-set-management.error.data-set.number.not-null")
