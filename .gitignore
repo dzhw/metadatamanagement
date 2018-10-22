@@ -133,3 +133,7 @@ Desktop.ini
 /data/
 /.checkstyle
 /dump/
+########
+# docs #
+########
+/docs/build/
