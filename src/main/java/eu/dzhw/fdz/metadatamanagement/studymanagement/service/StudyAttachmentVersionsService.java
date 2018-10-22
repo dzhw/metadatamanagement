@@ -17,7 +17,10 @@ import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.stereotype.Service;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.client.gridfs.model.GridFSFile;
+import com.mongodb.gridfs.GridFS;
+import com.mongodb.gridfs.GridFSDBFile;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudyAttachmentMetadata;
@@ -33,6 +36,8 @@ import lombok.extern.slf4j.Slf4j;
 public class StudyAttachmentVersionsService {
   private Javers javers;
   
+  private GridFS gridFs;
+
   private GridFsOperations operations;
   
   private MongoTemplate mongoTemplate;
@@ -44,11 +49,13 @@ public class StudyAttachmentVersionsService {
    */
   @Autowired
   public StudyAttachmentVersionsService(Javers javers, GridFsOperations operations, 
-      MongoTemplate mongoTemplate, MetadataManagementProperties metadataManagementProperties) {
+      MongoTemplate mongoTemplate, MetadataManagementProperties metadataManagementProperties,
+      GridFS gridFs) {
     this.javers = javers;
     this.operations = operations;
     this.mongoTemplate = mongoTemplate;
     this.metadataManagementProperties = metadataManagementProperties;
+    this.gridFs = gridFs;
   }
 
   /**
@@ -67,12 +74,19 @@ public class StudyAttachmentVersionsService {
     // only init if there are no studies yet
     if (snapshots.isEmpty()) {
       log.debug("Going to init javers with all current study attachments");
-      Iterable<GridFSFile> files = operations.find(
-          new Query(GridFsCriteria.whereFilename().regex(
-              StudyAttachmentFilenameBuilder.ALL_STUDY_ATTACHMENTS)));
+      BasicDBObject regQuery = new BasicDBObject();
+      regQuery.append("$regex", StudyAttachmentFilenameBuilder.ALL_STUDY_ATTACHMENTS);
+      BasicDBObject filename = new BasicDBObject();
+      filename.append("filename", regQuery);
+      List<GridFSDBFile> files = gridFs.find(filename);
       files.forEach(file -> {
-        StudyAttachmentMetadata studyAttachmentMetadata = mongoTemplate.getConverter().read(
-            StudyAttachmentMetadata.class, file.getMetadata());
+        StudyAttachmentMetadata studyAttachmentMetadata = mongoTemplate.getConverter()
+            .read(StudyAttachmentMetadata.class, (BasicDBObject) file.getMetaData());
+        studyAttachmentMetadata.generateId();
+        BasicDBObject metadata = new BasicDBObject();
+        mongoTemplate.getConverter().write(studyAttachmentMetadata, metadata);
+        file.setMetaData(metadata);
+        file.save();
         javers.commit(studyAttachmentMetadata.getLastModifiedBy(), studyAttachmentMetadata);
       });
     }

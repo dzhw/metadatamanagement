@@ -1,0 +1,126 @@
+<md-dialog aria-label="{{(ctrl.createMode?'instrument-management.detail.attachments.create-title':'instrument-management.detail.attachments.edit-title') | translate:translationParams }}" flex="75" layout="column">
+    <md-toolbar>
+        <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+            <h2 class="fdz-truncate-string">
+                <span ng-if="ctrl.isCreateMode">{{'instrument-management.detail.attachments.create-title' | translate:translationParams }}</span>
+                <span ng-if="!ctrl.isCreateMode">{{'instrument-management.detail.attachments.edit-title' | translate:translationParams }}</span>
+            </h2>
+            <md-button class="md-icon-button" ng-click="ctrl.cancel()">
+                <md-icon md-font-set="material-icons">clear</md-icon>
+                <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
+                    {{'instrument-management.detail.attachments.cancel-tooltip' | translate }}
+                </md-tooltip>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <form name="instrumentAttachmentForm">
+        <md-content>
+            <md-card ngf-drop="ctrl.upload($file)" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-select="ctrl.upload($file)" style="cursor: pointer;">
+                <md-card-header>
+                    <md-card-header-text>
+                        <h2 class="md-title">{{'global.cards.file' | translate }}</h2>
+                    </md-card-header-text>
+                </md-card-header>
+                <md-divider></md-divider>
+                <md-card-content>
+                    <div layout="column">
+                        <md-input-container style="padding: 0px;" md-is-error="!instrumentAttachmentForm.filename.$valid && (instrumentAttachmentForm.filename.$dirty || instrumentAttachmentForm.filename.$touched)">
+                            <label>{{'instrument-management.detail.label.attachments.file' | translate }}</label>
+                            <input disabled ng-pattern="/^[_A-Za-z0-9äöüÄÖÜß\-.]*$/" required ng-model="ctrl.instrumentAttachmentMetadata.fileName" name="filename" style="cursor: pointer; border-bottom: 1px rgba(0,0,0,0.12) solid; background-image: none;">
+                            <div ng-if="!instrumentAttachmentForm.filename.$dirty && !instrumentAttachmentForm.filename.$touched" class="fdz-input-hint">{{'instrument-management.detail.attachments.hints.filename' | translate}}</div>
+                            <div ng-messages="instrumentAttachmentForm.filename.$error" multiple>
+                                <div ng-message="required">{{'instrument-management.error.instrument-attachment-metadata.filename.not-empty' | translate}}</div>
+                                <div ng-message="unique">{{'instrument-management.error.instrument-attachment-metadata.filename.not-unique' | translate}}</div>
+                                <div ng-message="valid">{{'instrument-management.error.instrument-attachment-metadata.filename.not-valid' | translate}}</div>
+                                <div ng-message="pattern">{{'instrument-management.error.instrument-attachment-metadata.filename.not-valid' | translate}}</div>
+                            </div>
+                        </md-input-container>
+                        <div layout="column" layout-align="center end">
+                            <md-button class="md-primary md-raised md-icon-button" type="file" ngf-select="ctrl.upload($file)" style="margin: 8px;">
+                                <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                    {{'instrument-management.detail.attachments.change-file-tooltip' | translate}}
+                                </md-tooltip>
+                                <md-icon md-font-set="material-icons">attach_file</md-icon>
+                            </md-button>
+                        </div>
+                    </div>
+                </md-card-content>
+            </md-card>
+            <md-card>
+                <md-card-header>
+                    <md-card-header-text>
+                        <h2 class="md-title">{{'global.cards.metadata' | translate }}</h2>
+                    </md-card-header-text>
+                </md-card-header>
+                <md-divider></md-divider>
+                <md-card-content>
+                    <div layout-gt-sm="row" layout="column">
+                        <md-input-container flex="50" style="margin-bottom: 42px;" md-is-error="!instrumentAttachmentForm.type.$valid && (instrumentAttachmentForm.type.$dirty || instrumentAttachmentForm.type.$touched)">
+                            <label>{{'instrument-management.detail.label.attachments.type' | translate}}</label>
+                            <md-select required ng-model="ctrl.instrumentAttachmentMetadata.type" ng-model-options="{trackBy: '$value.de'}" name="type">
+                                <md-option ng-value="type" ng-repeat="type in ctrl.instrumentAttachmentTypes">{{type[currentLanguage]}}</md-option>
+                            </md-select>
+                            <div ng-if="!instrumentAttachmentForm.type.$dirty && !instrumentAttachmentForm.type.$touched" class="fdz-input-hint">{{'instrument-management.detail.attachments.hints.type' | translate}}</div>
+                            <div ng-messages="instrumentAttachmentForm.type.$error" multiple>
+                                <div ng-message="required">{{'instrument-management.error.instrument-attachment-metadata.type.not-null' | translate}}</div>
+                            </div>
+                        </md-input-container>
+                        <div flex="50"></div>
+                    </div>
+                    <div layout-gt-sm="row" layout="column">
+                        <md-autocomplete required flex="50" md-input-name="language2" md-floating-label="{{'instrument-management.detail.label.attachments.language' | translate}}" md-require-match="true" md-select-on-match="true"
+                          md-match-case-insensitive="true" md-selected-item="ctrl.selectedLanguage" md-min-length="0" md-search-text="ctrl.languageSearchText" md-items="item in ctrl.searchLanguages(ctrl.languageSearchText)" md-item-text="item.displayLanguage[currentLanguage]"
+                          md-clear-button="true" md-no-cache="true" md-selected-item-change="ctrl.selectedLanguageChanged()" md-is-error="!instrumentAttachmentForm.language2.$valid && (instrumentAttachmentForm.language2.$dirty || instrumentAttachmentForm.language2.$touched)">
+                            <md-item-template>
+                                <span class="md-title" style="font-size: 14px;">{{item.displayLanguage[currentLanguage]}}</span>
+                            </md-item-template>
+                            <md-not-found>
+                                {{'instrument-management.detail.attachments.language-not-found' | translate}}
+                            </md-not-found>
+                            <div ng-if="!instrumentAttachmentForm.language2.$dirty && !instrumentAttachmentForm.language2.$touched" class="fdz-input-hint">{{'instrument-management.detail.attachments.hints.language' | translate}}</div>
+                            <div ng-messages="instrumentAttachmentForm.language2.$error" multiple>
+                                <div ng-message="required">{{'instrument-management.error.instrument-attachment-metadata.language.not-null' | translate}}</div>
+                                <div ng-message="md-require-match">{{'instrument-management.error.instrument-attachment-metadata.language.not-valid' | translate}}</div>
+                            </div>
+                        </md-autocomplete>
+                        <div flex="50"></div>
+                    </div>
+                    <div layout-gt-sm="row" layout="column">
+                        <md-input-container flex="50" style="margin-right: 8px;" md-is-error="!instrumentAttachmentForm.descriptionDe.$valid && (instrumentAttachmentForm.descriptionDe.$dirty || instrumentAttachmentForm.descriptionDe.$touched)">
+                            <label class="fdz-input-required">{{'instrument-management.detail.label.attachments.description' | translate}} ({{'global.in-german' | translate}})</label>
+                            <input fdz-required="!ctrl.instrumentAttachmentMetadata.description.en" md-maxlength="512" ng-model="ctrl.instrumentAttachmentMetadata.description.de" name="descriptionDe" lang="de" md-no-asterisk>
+                            <div ng-if="!instrumentAttachmentForm.descriptionDe.$dirty && !instrumentAttachmentForm.descriptionDe.$touched" class="fdz-input-hint">{{'instrument-management.detail.attachments.hints.description.de' | translate}}</div>
+                            <div ng-messages="instrumentAttachmentForm.descriptionDe.$error" multiple>
+                                <div ng-message="fdz-required">{{'instrument-management.error.instrument-attachment-metadata.description.i18n-string-not-empty' | translate}}</div>
+                                <div ng-message="md-maxlength">{{'instrument-management.error.instrument-attachment-metadata.description.i18n-string-size' | translate}}</div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="50" style="margin-right: 8px;" md-is-error="!instrumentAttachmentForm.descriptionEn.$valid && (instrumentAttachmentForm.descriptionEn.$dirty || instrumentAttachmentForm.descriptionEn.$touched)">
+                            <label class="fdz-input-required">{{'instrument-management.detail.label.attachments.description' | translate}} ({{'global.in-english' | translate}})</label>
+                            <input fdz-required="!ctrl.instrumentAttachmentMetadata.description.de" md-maxlength="512" ng-model="ctrl.instrumentAttachmentMetadata.description.en" name="descriptionEn" lang="en" md-no-asterisk>
+                            <div ng-if="!instrumentAttachmentForm.descriptionEn.$dirty && !instrumentAttachmentForm.descriptionEn.$touched" class="fdz-input-hint">{{'instrument-management.detail.attachments.hints.description.en' | translate}}</div>
+                            <div ng-messages="instrumentAttachmentForm.descriptionEn.$error" multiple>
+                                <div ng-message="fdz-required">{{'instrument-management.error.instrument-attachment-metadata.description.i18n-string-not-empty' | translate}}</div>
+                                <div ng-message="md-maxlength">{{'instrument-management.error.instrument-attachment-metadata.description.i18n-string-size' | translate}}</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </md-card-content>
+            </md-card>
+        </md-content>
+        <div class="fdz-fab-button-container" layout="column">
+            <md-button ng-if="!ctrl.isCreateMode" class="md-fab md-raised md-primary" ng-click="ctrl.openRestorePreviousVersionDialog($event)" ng-disabled="ctrl.createMode">
+                <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    {{'instrument-management.detail.attachments.open-choose-previous-version-tooltip' | translate}}
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">undo</md-icon>
+            </md-button>
+            <md-button class="md-fab md-raised md-accent" type="submit" ng-click="ctrl.saveAttachment()" ng-disabled="!instrumentAttachmentForm.$dirty">
+                <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    {{'instrument-management.detail.attachments.save-tooltip' | translate}}
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">save</md-icon>
+            </md-button>
+        </div>
+    </form>
+</md-dialog>

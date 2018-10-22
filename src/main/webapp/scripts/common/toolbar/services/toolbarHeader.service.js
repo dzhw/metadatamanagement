@@ -177,6 +177,7 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
           instrumentItem.tooltip = translationStringsMap
           .instrumentDetail.translateString;
           instrumentItem.number = item.instrumentNumber;
+          instrumentItem.enableLastItem = item.enableLastItem;
         } else {
           instrumentItem.notFound = '?';
         }
@@ -301,6 +302,20 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
           surveyItem = createRelatedSurveyItem([item]);
           $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
           surveyItem);
+          break;
+        case 'instrumentEdit':
+          instrumentItem = createRelatedInstrumentItem(item);
+          surveyItem = createRelatedSurveyItem([], 'instrument',
+          item.id);
+          $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
+          surveyItem, instrumentItem);
+          break;
+        case 'instrumentCreate':
+          instrumentItem = createRelatedInstrumentItem(item);
+          surveyItem = createRelatedSurveyItem([], 'instrument',
+          item.id);
+          $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
+            surveyItem, instrumentItem);
           break;
         case 'dataSetDetail':
           dataSetItem = createRelatedDataSetItem(item, 'data-set');

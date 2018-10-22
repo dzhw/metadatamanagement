@@ -2249,6 +2249,15 @@ function run_javascript_tests(test_obj, Urlencoded, js_beautify, html_beautify, 
             '    d = 3,\n' +
             '    e = (await foo()),\n' +
             '    f = 4;');
+        bt(
+            'a = {\n' +
+            '    myVar: async function() {\n' +
+            '        return a;\n' +
+            '    },\n' +
+            '    myOtherVar: async function() {\n' +
+            '        yield b;\n' +
+            '    }\n' +
+            '}');
 
 
         //============================================================
@@ -3154,6 +3163,14 @@ function run_javascript_tests(test_obj, Urlencoded, js_beautify, html_beautify, 
         bt(
             'x();\n' +
             '\n' +
+            'function y(){}',
+            //  -- output --
+            'x();\n' +
+            '\n' +
+            'function y() {}');
+        bt(
+            'x();\n' +
+            '\n' +
             'var x = {\n' +
             'x: function(){}\n' +
             '}',
@@ -3162,6 +3179,18 @@ function run_javascript_tests(test_obj, Urlencoded, js_beautify, html_beautify, 
             '\n' +
             'var x = {\n' +
             '    x: function () {}\n' +
+            '}');
+        bt(
+            'x();\n' +
+            '\n' +
+            'var x = {\n' +
+            'x: function y(){}\n' +
+            '}',
+            //  -- output --
+            'x();\n' +
+            '\n' +
+            'var x = {\n' +
+            '    x: function y() {}\n' +
             '}');
         bt(
             'function () {\n' +
@@ -3200,6 +3229,12 @@ function run_javascript_tests(test_obj, Urlencoded, js_beautify, html_beautify, 
             '    c = function () {},\n' +
             '    d = \'\';');
         bt(
+            'var a2, b2, c2, d2 = 0, c = function yoohoo() {}, d = \'\';',
+            //  -- output --
+            'var a2, b2, c2, d2 = 0,\n' +
+            '    c = function yoohoo() {},\n' +
+            '    d = \'\';');
+        bt(
             'var a2, b2, c2, d2 = 0, c = function() {},\n' +
             'd = \'\';',
             //  -- output --
@@ -3215,6 +3250,14 @@ function run_javascript_tests(test_obj, Urlencoded, js_beautify, html_beautify, 
             '    alert(x);\n' +
             '}');
         bt(
+            'var o2=$.extend(a);function yoohoo(){alert(x);}',
+            //  -- output --
+            'var o2 = $.extend(a);\n' +
+            '\n' +
+            'function yoohoo() {\n' +
+            '    alert(x);\n' +
+            '}');
+        bt(
             'function*() {\n' +
             '    yield 1;\n' +
             '}',
@@ -3223,7 +3266,15 @@ function run_javascript_tests(test_obj, Urlencoded, js_beautify, html_beautify, 
             '    yield 1;\n' +
             '}');
         bt(
+            'function* yoohoo() {\n' +
+            '    yield 1;\n' +
+            '}');
+        bt(
             'function* x() {\n' +
+            '    yield 1;\n' +
+            '}');
+        bt(
+            'async x() {\n' +
             '    yield 1;\n' +
             '}');
 
@@ -3247,6 +3298,14 @@ function run_javascript_tests(test_obj, Urlencoded, js_beautify, html_beautify, 
         bt(
             'x();\n' +
             '\n' +
+            'function y(){}',
+            //  -- output --
+            'x();\n' +
+            '\n' +
+            'function y() {}');
+        bt(
+            'x();\n' +
+            '\n' +
             'var x = {\n' +
             'x: function(){}\n' +
             '}',
@@ -3255,6 +3314,18 @@ function run_javascript_tests(test_obj, Urlencoded, js_beautify, html_beautify, 
             '\n' +
             'var x = {\n' +
             '    x: function () {}\n' +
+            '}');
+        bt(
+            'x();\n' +
+            '\n' +
+            'var x = {\n' +
+            'x: function y(){}\n' +
+            '}',
+            //  -- output --
+            'x();\n' +
+            '\n' +
+            'var x = {\n' +
+            '    x: function y() {}\n' +
             '}');
         bt(
             'function () {\n' +
@@ -3293,6 +3364,12 @@ function run_javascript_tests(test_obj, Urlencoded, js_beautify, html_beautify, 
             '    c = function () {},\n' +
             '    d = \'\';');
         bt(
+            'var a2, b2, c2, d2 = 0, c = function yoohoo() {}, d = \'\';',
+            //  -- output --
+            'var a2, b2, c2, d2 = 0,\n' +
+            '    c = function yoohoo() {},\n' +
+            '    d = \'\';');
+        bt(
             'var a2, b2, c2, d2 = 0, c = function() {},\n' +
             'd = \'\';',
             //  -- output --
@@ -3308,6 +3385,14 @@ function run_javascript_tests(test_obj, Urlencoded, js_beautify, html_beautify, 
             '    alert(x);\n' +
             '}');
         bt(
+            'var o2=$.extend(a);function yoohoo(){alert(x);}',
+            //  -- output --
+            'var o2 = $.extend(a);\n' +
+            '\n' +
+            'function yoohoo() {\n' +
+            '    alert(x);\n' +
+            '}');
+        bt(
             'function*() {\n' +
             '    yield 1;\n' +
             '}',
@@ -3316,7 +3401,15 @@ function run_javascript_tests(test_obj, Urlencoded, js_beautify, html_beautify, 
             '    yield 1;\n' +
             '}');
         bt(
+            'function* yoohoo() {\n' +
+            '    yield 1;\n' +
+            '}');
+        bt(
             'function* x() {\n' +
+            '    yield 1;\n' +
+            '}');
+        bt(
+            'async x() {\n' +
             '    yield 1;\n' +
             '}');
 
@@ -3340,6 +3433,14 @@ function run_javascript_tests(test_obj, Urlencoded, js_beautify, html_beautify, 
         bt(
             'x();\n' +
             '\n' +
+            'function y(){}',
+            //  -- output --
+            'x();\n' +
+            '\n' +
+            'function y() {}');
+        bt(
+            'x();\n' +
+            '\n' +
             'var x = {\n' +
             'x: function(){}\n' +
             '}',
@@ -3348,6 +3449,18 @@ function run_javascript_tests(test_obj, Urlencoded, js_beautify, html_beautify, 
             '\n' +
             'var x = {\n' +
             '    x: function () {}\n' +
+            '}');
+        bt(
+            'x();\n' +
+            '\n' +
+            'var x = {\n' +
+            'x: function y(){}\n' +
+            '}',
+            //  -- output --
+            'x();\n' +
+            '\n' +
+            'var x = {\n' +
+            '    x: function y() {}\n' +
             '}');
         bt(
             'function () {\n' +
@@ -3386,6 +3499,12 @@ function run_javascript_tests(test_obj, Urlencoded, js_beautify, html_beautify, 
             '    c = function () {},\n' +
             '    d = \'\';');
         bt(
+            'var a2, b2, c2, d2 = 0, c = function yoohoo() {}, d = \'\';',
+            //  -- output --
+            'var a2, b2, c2, d2 = 0,\n' +
+            '    c = function yoohoo() {},\n' +
+            '    d = \'\';');
+        bt(
             'var a2, b2, c2, d2 = 0, c = function() {},\n' +
             'd = \'\';',
             //  -- output --
@@ -3401,6 +3520,14 @@ function run_javascript_tests(test_obj, Urlencoded, js_beautify, html_beautify, 
             '    alert(x);\n' +
             '}');
         bt(
+            'var o2=$.extend(a);function yoohoo(){alert(x);}',
+            //  -- output --
+            'var o2 = $.extend(a);\n' +
+            '\n' +
+            'function yoohoo() {\n' +
+            '    alert(x);\n' +
+            '}');
+        bt(
             'function*() {\n' +
             '    yield 1;\n' +
             '}',
@@ -3409,7 +3536,15 @@ function run_javascript_tests(test_obj, Urlencoded, js_beautify, html_beautify, 
             '    yield 1;\n' +
             '}');
         bt(
+            'function* yoohoo() {\n' +
+            '    yield 1;\n' +
+            '}');
+        bt(
             'function* x() {\n' +
+            '    yield 1;\n' +
+            '}');
+        bt(
+            'async x() {\n' +
             '    yield 1;\n' +
             '}');
 
@@ -3433,6 +3568,14 @@ function run_javascript_tests(test_obj, Urlencoded, js_beautify, html_beautify, 
         bt(
             'x();\n' +
             '\n' +
+            'function y(){}',
+            //  -- output --
+            'x();\n' +
+            '\n' +
+            'function y() {}');
+        bt(
+            'x();\n' +
+            '\n' +
             'var x = {\n' +
             'x: function(){}\n' +
             '}',
@@ -3441,6 +3584,18 @@ function run_javascript_tests(test_obj, Urlencoded, js_beautify, html_beautify, 
             '\n' +
             'var x = {\n' +
             '    x: function() {}\n' +
+            '}');
+        bt(
+            'x();\n' +
+            '\n' +
+            'var x = {\n' +
+            'x: function y(){}\n' +
+            '}',
+            //  -- output --
+            'x();\n' +
+            '\n' +
+            'var x = {\n' +
+            '    x: function y() {}\n' +
             '}');
         bt(
             'function () {\n' +
@@ -3484,6 +3639,12 @@ function run_javascript_tests(test_obj, Urlencoded, js_beautify, html_beautify, 
             '    c = function() {},\n' +
             '    d = \'\';');
         bt(
+            'var a2, b2, c2, d2 = 0, c = function yoohoo() {}, d = \'\';',
+            //  -- output --
+            'var a2, b2, c2, d2 = 0,\n' +
+            '    c = function yoohoo() {},\n' +
+            '    d = \'\';');
+        bt(
             'var a2, b2, c2, d2 = 0, c = function() {},\n' +
             'd = \'\';',
             //  -- output --
@@ -3499,11 +3660,174 @@ function run_javascript_tests(test_obj, Urlencoded, js_beautify, html_beautify, 
             '    alert(x);\n' +
             '}');
         bt(
+            'var o2=$.extend(a);function yoohoo(){alert(x);}',
+            //  -- output --
+            'var o2 = $.extend(a);\n' +
+            '\n' +
+            'function yoohoo() {\n' +
+            '    alert(x);\n' +
+            '}');
+        bt(
             'function*() {\n' +
             '    yield 1;\n' +
             '}');
         bt(
+            'function* yoohoo() {\n' +
+            '    yield 1;\n' +
+            '}');
+        bt(
             'function* x() {\n' +
+            '    yield 1;\n' +
+            '}');
+        bt(
+            'async x() {\n' +
+            '    yield 1;\n' +
+            '}');
+
+        // jslint and space after anon function - (space_after_named_function = "true")
+        reset_options();
+        set_name('jslint and space after anon function - (space_after_named_function = "true")');
+        opts.space_after_named_function = true;
+        bt(
+            'a=typeof(x)',
+            //  -- output --
+            'a = typeof(x)');
+        bt(
+            'x();\n' +
+            '\n' +
+            'function(){}',
+            //  -- output --
+            'x();\n' +
+            '\n' +
+            'function() {}');
+        bt(
+            'x();\n' +
+            '\n' +
+            'function y(){}',
+            //  -- output --
+            'x();\n' +
+            '\n' +
+            'function y () {}');
+        bt(
+            'x();\n' +
+            '\n' +
+            'var x = {\n' +
+            'x: function(){}\n' +
+            '}',
+            //  -- output --
+            'x();\n' +
+            '\n' +
+            'var x = {\n' +
+            '    x: function() {}\n' +
+            '}');
+        bt(
+            'x();\n' +
+            '\n' +
+            'var x = {\n' +
+            'x: function y(){}\n' +
+            '}',
+            //  -- output --
+            'x();\n' +
+            '\n' +
+            'var x = {\n' +
+            '    x: function y () {}\n' +
+            '}');
+        bt(
+            'function () {\n' +
+            '    var a, b, c, d, e = [],\n' +
+            '        f;\n' +
+            '}',
+            //  -- output --
+            'function() {\n' +
+            '    var a, b, c, d, e = [],\n' +
+            '        f;\n' +
+            '}');
+        bt(
+            'switch(x) {case 0: case 1: a(); break; default: break}',
+            //  -- output --
+            'switch (x) {\n' +
+            '    case 0:\n' +
+            '    case 1:\n' +
+            '        a();\n' +
+            '        break;\n' +
+            '    default:\n' +
+            '        break\n' +
+            '}');
+        bt(
+            'switch(x){case -1:break;case !y:break;}',
+            //  -- output --
+            'switch (x) {\n' +
+            '    case -1:\n' +
+            '        break;\n' +
+            '    case !y:\n' +
+            '        break;\n' +
+            '}');
+        
+        // typical greasemonkey start
+        test_fragment(
+            '// comment 2\n' +
+            '(function()');
+        bt(
+            'var a2, b2, c2, d2 = 0, c = function() {}, d = \'\';',
+            //  -- output --
+            'var a2, b2, c2, d2 = 0,\n' +
+            '    c = function() {},\n' +
+            '    d = \'\';');
+        bt(
+            'var a2, b2, c2, d2 = 0, c = function yoohoo() {}, d = \'\';',
+            //  -- output --
+            'var a2, b2, c2, d2 = 0,\n' +
+            '    c = function yoohoo () {},\n' +
+            '    d = \'\';');
+        bt(
+            'var a2, b2, c2, d2 = 0, c = function() {},\n' +
+            'd = \'\';',
+            //  -- output --
+            'var a2, b2, c2, d2 = 0,\n' +
+            '    c = function() {},\n' +
+            '    d = \'\';');
+        bt(
+            'var o2=$.extend(a);function(){alert(x);}',
+            //  -- output --
+            'var o2 = $.extend(a);\n' +
+            '\n' +
+            'function() {\n' +
+            '    alert(x);\n' +
+            '}');
+        bt(
+            'var o2=$.extend(a);function yoohoo(){alert(x);}',
+            //  -- output --
+            'var o2 = $.extend(a);\n' +
+            '\n' +
+            'function yoohoo () {\n' +
+            '    alert(x);\n' +
+            '}');
+        bt(
+            'function*() {\n' +
+            '    yield 1;\n' +
+            '}');
+        bt(
+            'function* yoohoo() {\n' +
+            '    yield 1;\n' +
+            '}',
+            //  -- output --
+            'function* yoohoo () {\n' +
+            '    yield 1;\n' +
+            '}');
+        bt(
+            'function* x() {\n' +
+            '    yield 1;\n' +
+            '}',
+            //  -- output --
+            'function* x () {\n' +
+            '    yield 1;\n' +
+            '}');
+        bt(
+            'async x() {\n' +
+            '    yield 1;\n' +
+            '}',
+            //  -- output --
+            'async x () {\n' +
             '    yield 1;\n' +
             '}');
 
@@ -3748,6 +4072,17 @@ function run_javascript_tests(test_obj, Urlencoded, js_beautify, html_beautify, 
             '        return 0;\n' +
             '    }\n' +
             '}');
+        
+        // Issue 1544 - Typescript declare formatting (no newline).
+        bt(
+            'declare const require: any;\n' +
+            'declare function greet(greeting: string): void;\n' +
+            'declare var foo: number;\n' +
+            'declare namespace myLib {\n' +
+            '    function makeGreeting(s: string): string;\n' +
+            '    let numberOfGreetings: number;\n' +
+            '}\n' +
+            'declare let test: any;');
         bt(
             'interface Test {\n' +
             '    blah: string[];\n' +
@@ -4408,6 +4743,9 @@ function run_javascript_tests(test_obj, Urlencoded, js_beautify, html_beautify, 
             '} else {\n' +
             '    import("otherdynamic");\n' +
             '}');
+        
+        // Issue #1197 - dynamic import() arrow syntax
+        bt('frontend = Async(() => import("../frontend").then(m => m.default      ))', 'frontend = Async(() => import("../frontend").then(m => m.default))');
         
         // Issue 858 - from is a keyword only after import
         bt(
@@ -5211,6 +5549,21 @@ function run_javascript_tests(test_obj, Urlencoded, js_beautify, html_beautify, 
             '/* comment */');
         test_fragment('#');
         test_fragment('#!');
+        test_fragment('#include');
+        test_fragment('#include "settings.jsxinc"');
+        test_fragment(
+            '#include "settings.jsxinc"\n' +
+            '\n' +
+            '\n' +
+            '/* comment */');
+        test_fragment(
+            '#include "settings.jsxinc"\n' +
+            '\n' +
+            '\n' +
+            '#include "settings.jsxinc"\n' +
+            '\n' +
+            '\n' +
+            '/* comment */');
         bt('function namespace::something()');
         test_fragment(
             '<!--\n' +

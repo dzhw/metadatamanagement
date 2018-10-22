@@ -18,7 +18,7 @@ JavaScript, unpack scripts packed by Dean Edward’s popular packer,
 as well as partly deobfuscate scripts processed by the npm package
 [javascript-obfuscator](https://github.com/javascript-obfuscator/javascript-obfuscator).
 
-Open [jsbeautifier.org](http://jsbeautifier.org/) to try it out.  Options are available via the UI.
+Open [beautifier.io](https://beautifier.io/) to try it out.  Options are available via the UI.
 
 # Contributors Needed
 I'm putting this front and center above because existing owners have very limited time to work on this project currently.
@@ -62,17 +62,17 @@ JS Beautifier is hosted on two CDN services: [cdnjs](https://cdnjs.com/libraries
 
 To pull the latest version from one of these services include one set of the script tags below in your document:
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.8.4/beautify.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.8.4/beautify-css.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.8.4/beautify-html.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.8.8/beautify.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.8.8/beautify-css.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.8.8/beautify-html.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.8.4/beautify.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.8.4/beautify-css.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.8.4/beautify-html.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.8.8/beautify.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.8.8/beautify-css.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.8.8/beautify-html.min.js"></script>
 
-<script src="https://cdn.rawgit.com/beautify-web/js-beautify/v1.8.4/js/lib/beautify.js"></script>
-<script src="https://cdn.rawgit.com/beautify-web/js-beautify/v1.8.4/js/lib/beautify-css.js"></script>
-<script src="https://cdn.rawgit.com/beautify-web/js-beautify/v1.8.4/js/lib/beautify-html.js"></script>
+<script src="https://cdn.rawgit.com/beautify-web/js-beautify/v1.8.8/js/lib/beautify.js"></script>
+<script src="https://cdn.rawgit.com/beautify-web/js-beautify/v1.8.8/js/lib/beautify-css.js"></script>
+<script src="https://cdn.rawgit.com/beautify-web/js-beautify/v1.8.8/js/lib/beautify-html.js"></script>
 ```
 
 Older versions are available by changing the version number.
@@ -92,7 +92,7 @@ $ pip install jsbeautifier
 You can beautify javascript using JS Beautifier in your web browser, or on the command-line using node.js or python.
 
 ## Web Browser
-Open [jsbeautifier.org](http://jsbeautifier.org/).  Options are available via the UI.
+Open [beautifier.io](https://beautifier.io/).  Options are available via the UI.
 
 ## Web Libary
 The script tags above expose three functions: `js_beautify`, `css_beautify`, and `html_beautify`.
@@ -180,6 +180,7 @@ Beautifier Options:
   -E, --space-in-empty-paren        Add a single space inside empty paren, ie. f( )
   -j, --jslint-happy                Enable jslint-stricter mode
   -a, --space-after-anon-function   Add a space before an anonymous function's parens, ie. function ()
+  --space-after-named-function      Add a space before a named function's parens, i.e. function example ()
   -b, --brace-style                 [collapse|expand|end-expand|none][,preserve-inline] [collapse,preserve-inline]
   -u, --unindent-chained-methods    Don't indent chained method calls
   -B, --break-chained-methods       Break chained method calls across subsequent lines
@@ -209,6 +210,7 @@ Which correspond to the underscored option keys for both library interfaces
     "space_in_empty_paren": false,
     "jslint_happy": false,
     "space_after_anon_function": false,
+    "space_after_named_function": false,
     "brace_style": "collapse",
     "unindent_chained_methods": false,
     "break_chained_methods": false,
@@ -327,13 +329,14 @@ HTML Beautifier Options:
   -b, --brace-style                  [collapse-preserve-inline|collapse|expand|end-expand|none] ["collapse"]
   -S, --indent-scripts               [keep|separate|normal] ["normal"]
   -w, --wrap-line-length             Maximum characters per line (0 disables) [250]
-  -A, --wrap-attributes              Wrap attributes to new lines [auto|force|force-aligned|force-expand-multiline|aligned-multiple] ["auto"]
+  -A, --wrap-attributes              Wrap attributes to new lines [auto|force|force-aligned|force-expand-multiline|aligned-multiple|preserve|preserve-aligned] ["auto"]
   -i, --wrap-attributes-indent-size  Indent wrapped attributes to after N characters [indent-size] (ignored if wrap-attributes is "aligned")
   -d, --inline                       List of tags to be considered inline tags
   -U, --unformatted                  List of tags (defaults to inline) that should not be reformatted
   -T, --content_unformatted          List of tags (defaults to pre) whose content should not be reformatted
   -E, --extra_liners                 List of tags (defaults to [head,body,/html] that should have an extra newline before them.
   --editorconfig                     Use EditorConfig to set up the options
+  --indent_scripts                   Sets indent level inside script tags ("normal", "keep", "separate")
 ```
 
 ## Directives to Ignore or Preserve sections (Javascript beautifier only)
@@ -365,13 +368,13 @@ You are free to use this in any way you want, in case you find this useful or wo
 
 # Credits
 
-* Created by Einar Lielmanis, <einar@jsbeautifier.org>
+* Created by Einar Lielmanis, <einar@beautifier.io>
 * Python version flourished by Stefano Sanfilippo <a.little.coder@gmail.com>
 * Command-line for node.js by Daniel Stockman <daniel.stockman@gmail.com>
-* Maintained and expanded by Liam Newman <bitwiseman@gmail.com>
+* Maintained and expanded by Liam Newman <bitwiseman@beautifier.io>
 
 Thanks also to Jason Diamond, Patrick Hof, Nochum Sossonko, Andreas Schneider, Dave
 Vasilevsky, Vital Batmanov, Ron Baldwin, Gabriel Harrison, Chris J. Shull,
 Mathias Bynens, Vittorio Gambaletta and others.
 
-(README.md: js-beautify@1.8.4)
+(README.md: js-beautify@1.8.8)

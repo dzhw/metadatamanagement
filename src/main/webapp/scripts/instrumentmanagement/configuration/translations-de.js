@@ -30,6 +30,7 @@ angular.module('metadatamanagementApp').config(
           'label': {
             'instrument': 'Instrument',
             'instruments': 'Instrumente',
+            'description': 'Beschreibung',
             'title': 'Titel',
             'subtitle': 'Untertitel',
             'type': 'Typ',
@@ -42,7 +43,50 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'attachments': {
-            'table-title': 'Materialien zum Instrument'
+            'table-title': 'Materialien zum Instrument',
+            'attachment-deleted-toast': 'Datei "{{ filename }}" wurde gelöscht!',
+            'delete-attachment-tooltip': 'Klicken, um die Datei "{{ filename }}" zu löschen!',
+            'edit-attachment-tooltip': 'Klicken, um die Datei "{{ filename }}" zu bearbeiten.',
+            'select-attachment-tooltip': 'Klicken, um Datei "{{ filename }}" zum Verschieben auszuwählen.',
+            'move-attachment-up-tooltip': 'Klicken, um die ausgewählte Datei nach oben zu verschieben.',
+            'move-attachment-down-tooltip': 'Klicken, um die ausgewählte Datei nach unten zu verschieben.',
+            'save-attachment-order-tooltip': 'Klicken, um die geänderte Reihenfolge der Dateien zu speichern.',
+            'attachment-order-saved-toast': 'Die geänderte Reihenfolge der Dateien wurde gespeichert.',
+            'add-attachment-tooltip': 'Klicken, um einen neue Datei zu diesem Instrument hinzuzufügen.',
+            'edit-title': 'Datei "{{ filename }}" von Instrument "{{ instrumentId }}" bearbeiten',
+            'create-title': 'Neue Datei zu Instrument "{{ instrumentId }}" hinzufügen',
+            'cancel-tooltip': 'Klicken, um den Dialog ohne zu speichern zu schließen.',
+            'save-tooltip': 'Klicken, um die Datei zu speichern.',
+            'attachment-saved-toast': 'Datei "{{ filename }}" wurde gespeichert.',
+            'attachment-has-validation-errors-toast': 'Die Datei wurde nicht gespeichert, weil es noch ungültige Felder gibt.',
+            'change-file-tooltip': 'Klicken, um eine Datei auszuwählen.',
+            'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version der Metadaten wiederherzustellen.',
+            'current-version-restored-toast': 'Die aktuelle Version der Metadaten von Datei "{{ filename }}" wurde wiederhergestellt.',
+            'previous-version-restored-toast': 'Die ältere Version der Metadaten von Datei "{{ filename }}" kann jetzt gespeichert werden.',
+            'choose-previous-version': {
+              'title': 'Ältere Version der Metadaten zu Datei "{{ filename }}" wiederherstellen',
+              'text': 'Wählen Sie eine ältere Version der Metadaten zu Datei "{{ filename }}" aus, die wiederhergestellt werden soll:',
+              'attachment-description': 'Beschreibung (auf Deutsch)',
+              'lastModified': 'Geändert',
+              'lastModifiedBy': 'von',
+              'cancel-tooltip': 'Klicken, um ohne eine ältere Version der Metadaten auszuwählen zurückzukehren.',
+              'current-version-tooltip': 'Dies ist die aktuelle Version!',
+              'next-page-tooltip': 'Klicken, um ältere Versionen anzuzeigen.',
+              'previous-page-tooltip': 'Klicken, um aktuellere Versionen anzuzeigen.',
+              'attachment-deleted': 'Metadaten wurden gelöscht!',
+              'no-versions-found': 'Es wurden keine älteren Versionen der Metadaten gefunden.'
+            },
+            'language-not-found': 'Keine gültige Sprache gefunden!',
+            'save-instrument-before-adding-attachment': 'Das Instrument muss erst gespeichert werden, bevor Materialien hinzugefügt werden können.',
+            'hints': {
+              'filename': 'Wählen Sie eine Datei aus, die Sie dem Instrument hinzufügen wollen.',
+              'language': 'Wählen Sie die Sprache, die in der Datei verwendet wurde, aus.',
+              'type': 'Wählen Sie den Typ der Datei aus.',
+              'description': {
+                'de': 'Geben Sie eine Beschreibung dieser Datei auf Deutsch ein.',
+                'en': 'Geben Sie eine Beschreibung dieser Datei auf Englisch ein.'
+              }
+            }
           },
           'page-title': '{{ description }} ({{ instrumentId }})',
           'not-released-toast': 'Das Instrument "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!',
@@ -134,6 +178,66 @@ angular.module('metadatamanagementApp').config(
           },
           'post-validation': {
             'instrument-has-invalid-survey-id': 'Das Instrument {{id}} referenziert eine unbekannte Erhebung ({{toBereferenzedId}}).'
+          },
+        },
+        'edit': {
+          'edit-page-title': 'Instrument {{instrumentId}} bearbeiten',
+          'create-page-title': 'Instrument {{instrumentId}} anlegen',
+          'success-on-save-toast': 'Instrument {{instrumentId}} wurde erfolgreich gespeichert.',
+          'error-on-save-toast': 'Ein Fehler trat beim Speichern von Instrument {{instrumentId}} auf!',
+          'instrument-has-validation-errors-toast': 'Das Instrument wurde nicht gespeichert, weil es noch ungültige Felder gibt!',
+          'previous-version-restored-toast': 'Die ältere Version von Instrument {{ instrumentId }} kann jetzt gespeichert werden.',
+          'current-version-restored-toast': 'Die aktuelle Version von Instrument {{ instrumentId }} wurde wiederhergestellt.',
+          'not-authorized-toast': 'Sie sind nicht berechtigt Instrumente zu bearbeiten oder anzulegen!',
+          'choose-unreleased-project-toast': 'Instrumente dürfen nur bearbeitet werden, wenn das Projekt aktuell nicht freigegeben ist!',
+          'instrument-deleted-toast': 'Das Instrument {{ id }} wurde gelöscht.',
+          'label': {
+            'edit-instrument': 'Instrument bearbeiten:',
+            'create-instrument': 'Instrument anlegen:',
+            'surveys': 'Erhebungen *'
+          },
+          'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version dieses Instruments wieder herzustellen.',
+          'save-tooltip': 'Klicken, um das Instrument zu speichern.',
+          'choose-previous-version': {
+            'next-page-tooltip': 'Klicken, um ältere Versionen anzuzeigen.',
+            'previous-page-tooltip': 'Klicken, um aktuellere Versionen anzuzeigen.',
+            'title': 'Ältere Version des Instruments {{ instrumentId }} wiederherstellen',
+            'text': 'Wählen Sie eine ältere Version des Instruments aus, das wiederhergestellt werden soll:',
+            'cancel-tooltip': 'Klicken, um ohne eine ältere Version des Instruments auszuwählen zurückzukehren.',
+            'no-versions-found': 'Es wurden keine älteren Versionen des Instruments {{ instrumentId }} gefunden.',
+            'instrument-description': 'Beschreibung',
+            'lastModified': 'Geändert',
+            'lastModifiedBy': 'von',
+            'current-version-tooltip': 'Dies ist die aktuelle Version!',
+            'instrument-deleted': 'Das Instrument wurde gelöscht!'
+          },
+          'choose-instrument-number': {
+            'title': 'Auswahl einer freien Instrumentnummer',
+            'label': 'Freie Instrumentnummern',
+            'ok-tooltip': 'Klicken, um die Auswahl der Instrumentnummer zu bestätigen.'
+          },
+          'hints': {
+            'description': {
+              'de': 'Geben Sie eine kurze Beschreibung für das Instrument auf Deutsch ein.',
+              'en': 'Geben Sie eine kurze Beschreibung für das Instrument auf Englisch ein.'
+            },
+            'title': {
+              'de': 'Geben Sie den Titel des Instruments auf Deutsch ein.',
+              'en': 'Geben Sie den Titel des Instruments auf Englisch ein.'
+            },
+            'subtitle': {
+              'de': 'Geben Sie den Untertitel des Instruments auf Deutsch ein.',
+              'en': 'Geben Sie den Untertitel des Instruments auf Englisch ein.'
+            },
+            'type': 'Wählen Sie den Typ des Instruments aus.',
+            'surveys': 'Wählen Sie die Erhebungen aus, in denen dieses Instrument verwendet wurde.',
+            'search-surveys': 'Erhebungen suchen...',
+            'no-surveys-found': 'Keine (weiteren) Erhebungen gefunden.',
+            'annotations': {
+              'de': 'Geben Sie zusätzliche Anmerkungen zu dem Instrument hier auf Deutsch an.',
+              'en': 'Geben Sie zusätzliche Anmerkungen zu dem Instrument hier auf Englisch an.',
+            },
+            'instrument-number': 'Wählen Sie eine freie Nummer für die neue Instrument aus.'
           }
         }
       }
