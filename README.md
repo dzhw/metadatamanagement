@@ -4,6 +4,7 @@
 [![DOI](https://zenodo.org/badge/39431147.svg)](https://zenodo.org/badge/latestdoi/39431147)
 
 [![Sauce Build Matrix](https://saucelabs.com/browser-matrix/rreitmann.svg)](https://saucelabs.com/u/rreitmann)
+[![Documentation Status](https://readthedocs.org/projects/metadatamanagement/badge/?version=latest)](https://metadatamanagement.readthedocs.io/de/latest/?badge=latest)
 # Metadatamanagement (MDM)
 
 The MDM holds the metadata of the studies which are available as data products in our Research Data Center [FDZ](https://fdz.dzhw.eu). It enables researchers to browse our data products before signing a contract for using the data.
