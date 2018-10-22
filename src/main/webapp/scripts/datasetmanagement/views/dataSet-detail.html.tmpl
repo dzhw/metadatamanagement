@@ -189,10 +189,10 @@
                             </md-tooltip>
                         </th>
                         <th>
-                          {{'data-set-management.detail.label.sub-data-sets.citation' | translate }}
-                              <md-tooltip hide-gt-xs md-direction="right">
-                                  {{'data-set-management.detail.label.sub-data-sets.citation' | translate }}
-                              </md-tooltip>
+                            {{'data-set-management.detail.label.sub-data-sets.citation' | translate }}
+                            <md-tooltip hide-gt-xs md-direction="right">
+                                {{'data-set-management.detail.label.sub-data-sets.citation' | translate }}
+                            </md-tooltip>
                         </th>
                     </tr>
                 </thead>
@@ -202,40 +202,40 @@
                         <td display-i18n-string="row.description" fdz-hyphenate class="fdz-text-block"></td>
                         <td class="fdz-table-nowrap">{{row.name}}&nbsp;</td>
                         <td ng-class="{'fdz-table-number' : ctrl.counts.variablesCount > 0}">
-                          <div ng-if="ctrl.counts.variablesCount == 0" class="fdz-truncate-string">
-                              {{'data-set-management.detail.label.sub-data-sets.unknownNumberOfAnalyzedVariables' | translate }}
-                          </div>
-                          <div ng-if="ctrl.counts.variablesCount == 1 && ctrl.variable">
-                              <a ui-sref="variableDetail({'id': ctrl.variable.id})">
-                                  {{ctrl.counts.variablesCount}}
-                                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                                      {{'data-set-management.detail.tooltips.variables.one' | translate}}
-                                  </md-tooltip>
-                              </a>
-                          </div>
-                          <div ng-if="ctrl.counts.variablesCount > 1">
-                              <a ui-sref="search({'type': 'variables', 'data-set': ctrl.dataSet.id, 'study': ctrl.dataSet.studyId})">
-                                  {{ctrl.counts.variablesCount| number: 0}}
-                                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                                      {{'data-set-management.detail.tooltips.variables.many' | translate}}
-                                  </md-tooltip>
-                              </a>
-                          </div>
+                            <div ng-if="ctrl.counts.variablesCount == 0" class="fdz-truncate-string">
+                                {{'data-set-management.detail.label.sub-data-sets.unknownNumberOfAnalyzedVariables' | translate }}
+                            </div>
+                            <div ng-if="ctrl.counts.variablesCount == 1 && ctrl.variable">
+                                <a ui-sref="variableDetail({'id': ctrl.variable.id})">
+                                    {{ctrl.counts.variablesCount}}
+                                    <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                        {{'data-set-management.detail.tooltips.variables.one' | translate}}
+                                    </md-tooltip>
+                                </a>
+                            </div>
+                            <div ng-if="ctrl.counts.variablesCount > 1">
+                                <a ui-sref="search({'type': 'variables', 'data-set': ctrl.dataSet.id, 'study': ctrl.dataSet.studyId})">
+                                    {{ctrl.counts.variablesCount| number: 0}}
+                                    <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                        {{'data-set-management.detail.tooltips.variables.many' | translate}}
+                                    </md-tooltip>
+                                </a>
+                            </div>
                         </td>
                         <td ng-class="{'fdz-table-number' : ctrl.counts[row.name] > 0}"><span ng-if="ctrl.counts[row.name] == 0">{{'data-set-management.detail.label.sub-data-sets.unknownNumberOfAnalyzedVariables' | translate }}</span>
                             <a ng-if="ctrl.counts[row.name] > 0" ui-sref="search({'type': 'variables', 'data-set':ctrl.dataSet.id, 'study': ctrl.dataSet.studyId, 'access-way': row.accessWay})">
-                          {{ctrl.counts[row.name] | number: 0}}&nbsp;<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                                {{'data-set-management.detail.label.sub-data-sets.numberOfAnalyzedVariables-tooltip' | translate}}
-                            </md-tooltip></a>
+                                {{ctrl.counts[row.name] | number: 0}}&nbsp;<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                    {{'data-set-management.detail.label.sub-data-sets.numberOfAnalyzedVariables-tooltip' | translate}}
+                                </md-tooltip></a>
                         </td>
                         <td class="fdz-table-number">{{row.numberOfObservations | number: 0}}&nbsp;</td>
                         <td style="padding-top: 0px; padding-bottom: 0px; margin-bottom: 0px;">
-                          <md-button class="md-icon-button md-primary" ng-click="ctrl.openDialog(row, $event)" ng-disabled="!row.citationHint">
-                            <md-icon md-svg-icon="assets/images/icons/citate.svg"></md-icon>
-                            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                              {{'data-set-management.detail.label.sub-data-sets.citate-tooltipp'|translate}}
-                            </md-tooltip>
-                          </md-button>
+                            <md-button class="md-icon-button md-primary" ng-click="ctrl.openDialog(row, $event)" ng-disabled="!row.citationHint">
+                                <md-icon md-svg-icon="assets/images/icons/citate.svg"></md-icon>
+                                <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                    {{'data-set-management.detail.label.sub-data-sets.citate-tooltipp'|translate}}
+                                </md-tooltip>
+                            </md-button>
                         </td>
                     </tr>
                 </tbody>
@@ -280,9 +280,11 @@
                         <td lang="{{row.language}}">{{row.title}}&nbsp;</td>
                         <td display-i18n-string="row.description" fdz-hyphenate class="fdz-text-block"></td>
                         <td>{{row.language | displayIsoLanguage: currentLanguage}}&nbsp;</td>
-                        <td><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-                            {{'global.tooltips.files.download' | translate:{filename: row.fileName} }}
-                        </md-tooltip></a>&nbsp;</td>
+                        <td><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                    {{'global.tooltips.files.download' | translate:{filename: row.fileName} }}
+                                </md-tooltip>
+                            </a>&nbsp;</td>
                     </tr>
                 </tbody>
             </table>
@@ -294,6 +296,12 @@
                 {{'data-set-management.detail.generate-variable-report-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">note_add</md-icon>
+        </md-button>
+        <md-button ng-if="!ctrl.projectIsCurrentlyReleased && !bowser.msie" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER" class="md-fab md-raised md-accent" ui-sref="dataSetEdit({id: ctrl.dataSet.id})">
+          <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+            {{'search-management.buttons.edit-data-set-tooltip' | translate}}
+          </md-tooltip>
+          <md-icon md-font-set="material-icons">mode_edit</md-icon>
         </md-button>
         <md-button ng-if="!ctrl.isAuthenticated() || ctrl.hasAuthority('ROLE_USER')" class="md-fab md-raised md-accent" ng-click="ctrl.addToShoppingCart($event)">
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">

@@ -71,7 +71,7 @@ angular.module('metadatamanagementApp')
             });
           });
           DataSetAttachmentResource.findByDataSetId({
-            id: ctrl.dataSet.id
+            dataSetId: ctrl.dataSet.id
           }).$promise.then(
             function(attachments) {
               if (attachments.length > 0) {

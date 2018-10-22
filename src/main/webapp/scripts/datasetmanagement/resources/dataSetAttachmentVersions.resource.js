@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .factory('InstrumentAttachmentVersionsResource', function($resource) {
+  .factory('DataSetAttachmentVersionsResource', function($resource) {
     return $resource(
-      '/api/instruments/:instrumentId/attachments/:filename/versions', {
-      instrumentId: '@instrumentId',
+      '/api/data-sets/:dataSetId/attachments/:filename/versions', {
+      dataSetId: '@dataSetId',
       filename: '@filename'
     }, {
       'get': {

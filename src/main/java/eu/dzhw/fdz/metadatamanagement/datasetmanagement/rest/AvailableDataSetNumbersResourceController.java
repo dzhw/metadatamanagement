@@ -15,24 +15,24 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetService;
 
 /**
  * REST Controller for retrieving all dataSet numbers available for creating new dataSets.
- * 
+ *
  * @author René Reitmann
  */
 @RestController
 @RequestMapping("/api")
 public class AvailableDataSetNumbersResourceController {
-  
+
   @Autowired
   private DataSetService dataSetService;
-   
+
   /**
    * Get all available dataSet numbers for the given project id.
-   * 
+   *
    * @param id the projects id
    * @return the list of dataSet numbers
    */
-  @RequestMapping(method = RequestMethod.GET, 
-      value = "/data-acquisition-projects/{id:.+}/available-dataSet-numbers")
+  @RequestMapping(method = RequestMethod.GET,
+      value = "/data-acquisition-projects/{id:.+}/available-data-set-numbers")
   public ResponseEntity<List<Integer>> findAvailableDataSetNumbers(@PathVariable String id) {
     if (StringUtils.isEmpty(id)) {
       return ResponseEntity.badRequest().build();
