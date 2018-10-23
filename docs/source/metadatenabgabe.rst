@@ -31,11 +31,11 @@ sind, wird eine umfassende Durchsuchbarkeit aller verfügbaren Daten, die
 vom FDZ des DZHW über das MDM verwaltet werden, ermöglicht. Das System
 ist über die Website https://metadata.fdz.dzhw.eu zu erreichen.
 
-Abbildung 1: Darstellung der verschiedenen Ebenen im MDM, Eben *Studie*
-aktiv
 
-.. image:: ./_static/01_de.png
+.. figure:: ./_static/01_de.png
+   :name: mdm-ebenen
 
+   Darstellung der verschiedenen Ebenen im MDM, Eben *Studie* aktiv
 
 Die eigenständige Abgabe von Metadaten
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -74,8 +74,10 @@ Tabelle 1: Vorgehen bei der Metadateneingabe pro Ebene
 | Erhebungen      | Eingabemaske    | Anhänge (PDF)   | Eingabemaske    |
 |                 |                 |                 | ausfüllen       |
 +-----------------+-----------------+-----------------+-----------------+
-| Erhebungs-instr | Excel-Tabelle   | Anhänge (PDF,   | Ordner ins MDM  |
-| umente          |                 | Excel)          | laden           |
+| Erhebungs-      | Excel-Tabelle/  | Anhänge (PDF,   | Ordner ins MDM  |
+| instrumente     | Eingabemaske    | Excel)          | laden/          |
+|                 |                 |                 | Eingabemaske    |
+|                 |                 |                 | ausfüllen       |
 +-----------------+-----------------+-----------------+-----------------+
 | Fragen          | Excel-Tabelle   | Fragebilder     | Im              |
 |                 | (oder Zofar)    | (.png)          | Vorlage-Ordner  |
@@ -104,9 +106,11 @@ um die Berechtigung für das Anlegen eines Projektes sowie das Hochladen
 von Metadaten zu erhalten. Dies können Sie über die Sidebar links auf
 der Website erledigen:
 
-Abbildung 2: Registrierung im MDM
 
-.. image:: ./_static/02_de.png
+.. figure:: ./_static/02_de.png
+   :name: registrierung
+
+   Registrierung im MDM
 
 Da das FDZ Ihre Registrierungsanfrage zunächst bestätigen muss, kann es
 etwas dauern, bis Sie freigeschaltet sind. Sie bekommen dann eine
@@ -119,28 +123,32 @@ Neues Projekt anlegen
 Nach erfolgreicher Registrierung können Sie ihr Projekt im MDM anlegen,
 indem Sie sich in der Sidebar links anmelden:
 
-Abbildung 3: Anmeldung im MDM
 
-.. image:: ./_static/03_de.png
+.. figure:: ./_static/03_de.png
+   :name: anmelden
+
+   Anmeldung im MDM
 
 Nach erfolgreicher Anmeldung erscheint in der Sidebar das folgende Feld:
 
-Abbildung 4: Bereich für Verwaltung von Projekten im MDM
+.. figure:: ./_static/04_de.png
+   :name: projektverwaltung
 
-.. image:: ./_static/04_de.png
+   Bereich für Verwaltung von Projekten im MDM
 
 Über den Plus-Button können Sie ein neues Projekt anlegen (vgl.
-Abbildung 5). Als Projektname müssen Sie eine bestimmte ID angeben,
+:numref:`neuesprojektanlegen`). Als Projektname müssen Sie eine bestimmte ID angeben,
 welche das FDZ zuvor speziell für Ihr Projekt vergeben hat und Ihnen
 mitteilen muss (z. B. „gra2005“ für das Absolventenpanel 2005). Das
 Projekt ist dadurch im MDM angelegt, aber noch nicht automatisch
 freigegeben. Solange das Projekt noch nicht freigegeben wurde, können
-Sie es jederzeit über den Mülleimer-Button ganz links (vgl. Abbildung 5)
+Sie es jederzeit über den Mülleimer-Button ganz links (vgl. :numref:`neuesprojektanlegen`)
 wieder löschen.
 
-Abbildung 5: Ein neues Projekt im MDM anlegen
+.. figure:: ./_static/05_de.png
+   :name: neuesprojektanlegen
 
-.. image:: ./_static/05_de.png
+   Ein neues Projekt im MDM anlegen
 
 Sie können nun beginnen, Ihr Projekt mit Metadaten zu füllen. Wie genau
 dies funktioniert, wird im Folgenden zunächst prinzipiell erläutert, ehe
@@ -161,15 +169,15 @@ Bearbeitung zugeschickt werden müssen.
 Eingabemasken
 ~~~~~~~~~~~~~
 
-Für die beiden Ebenen Studie und Erhebungen steht bereits die Nutzung
+Für die Ebenenen Studie, Erhebungen und Instrumente steht bereits die Nutzung
 von Eingabemasken im MDM zur Verfügung. Jede Maske umfasst verschiedene
 Felder, welche mit den einzutragenden Informationen beschriftet sind.
 Einige Felder sind verpflichtend auszufüllen und deshalb mit einem
 Sternchen versehen. Sie werden beim Speichern der Eingaben automatisch
 darauf hingewiesen, wenn noch Felder offen sind, die nicht leer bleiben
 dürfen. Die Bedienung der Eingabemasken ist weitgehend intuitiv und an
-vielen Stellen selbsterklärend. Im Rahmen der relevanten Ebenen Studie
-und Erhebungen wird die Handhabung der jeweiligen Eingabemasken dann
+vielen Stellen selbsterklärend. Im Rahmen der relevanten Ebenen Studie,
+Erhebungen und Instrumente wird die Handhabung der jeweiligen Eingabemasken dann
 konkret gezeigt (s. Kapitel 4.1 und 4.2).
 
 Excel-Tabellen
@@ -184,35 +192,35 @@ Spaltenüberschriften in der ersten Zeile der Tabelle. Dort stehen die
 Bezeichnungen der jeweiligen Metadaten, welche auf den ersten Blick
 etwas kryptisch erscheinen, innerhalb der noch folgenden Beschreibung
 der einzelnen Ebenen jedoch näher erläutert werden. Beispiele für
-Spaltenüberschriften in Abbildung 6: *number* = Nummer des Instruments
+Spaltenüberschriften in :numref:`spalten_excel_instruments`: *number* = Nummer des Instruments
 (Spalte A), *surveyNumbers* = Nummern der zugehörigen Erhebungen (Spalte
 B).
 
-Abbildung 6: Spaltenüberschriften, Excel-Vorlage für die Ebene
-*Erhebungsinstrumente*
+.. figure:: ./_static/06_de.png
+   :name: spalten_excel_instruments
 
-.. image:: ./_static/06_de.png
+   Spaltenüberschriften, Excel-Vorlage für die Ebene *Erhebungsinstrumente*
 
 Die Suffixe „.de“ und „.en“ sind Teil vieler Spaltenüberschriften und
 weisen auf die Sprache des einzutragenden Metadatums hin. Beispiel in
-Abbildung 7: Beschreibung des Instruments auf Deutsch (Spalte C),
+:numref:`sprachsuffixe`: Beschreibung des Instruments auf Deutsch (Spalte C),
 Beschreibung des Instruments auf Englisch (Spalte D).
 
-Abbildung 7: Sprachensuffixe, Excel-Vorlage für die Ebene
-*Erhebungsinstrumente*
+.. figure:: ./_static/07_de.png
+   :name: sprachsuffixe
 
-.. image:: ./_static/07_de.png
+   Sprachensuffixe, Excel-Vorlage für die Ebene *Erhebungsinstrumente*
 
 Ab der zweiten Zeile sind die Tabellenvorlagen leer und hier nur für das
-Beispiel bereits gefüllt (vgl. Abbildung 8). Dort können Sie Ihre
+Beispiel bereits gefüllt (vgl. :numref:`beispiele_excelvorlage_instruments`). Dort können Sie Ihre
 Inhalte entsprechend der Spaltenüberschriften eintragen. Inhaltliche
 Hilfen hierfür finden Sie in den Erklärungen zu den einzelnen Ebenen.
 
-Abbildung 8: Beispiele für den Inhalt der einzelnen Metadaten,
-Excel-Vorlage für die Ebene *Erhebungsinstrumente*
 
-.. image:: ./_static/08_de.png
+.. figure:: ./_static/08_de.png
+   :name: beispiele_excelvorlage_instruments
 
+   Beispiele für den Inhalt der einzelnen Metadaten, Excel-Vorlage für die Ebene *Erhebungsinstrumente*
 
 Bitte beachten Sie außerdem:
 
@@ -239,7 +247,7 @@ bestimmten Zelle automatisch der Inhalt der nächsten Zelle folgt. Für
 dieses Szenario sind die Excel-Vorlagen vorbereitet, d. h. in den
 betreffenden Spalten sind über mehrere Zeilen bereits Formeln
 hinterlegt, die die nächste Zelle automatisch füllen und Ihnen viel
-Tipparbeit ersparen (vgl. Abbildung 9). Die Vorlagen sind für alle Fälle
+Tipparbeit ersparen (vgl. :numref:`formel_datensatz`). Die Vorlagen sind für alle Fälle
 vorbereitet, so dass die Formeln auch in höher nummerierten Zeilen
 stehen werden, die Sie voraussichtlich nicht mehr benötigen (bis
 einschließlich Zeile 20 der Excel-Vorlage für die Ebenen Instrumente
@@ -247,30 +255,30 @@ sowie Datensätze, bis einschließlich Zeile 2000 der Excel-Vorlage für
 die Fragen- und Variablenebene). Zum leichteren Erkennen sind die
 betreffenden Zeilen in den Vorlagen bereits grau hinterlegt.
 
-Abbildung 9: Beispiel für eine Formel in einer befüllten Zelle in der
-Excel-Vorlage für die Ebene *Datensätze*
 
-.. image:: ./_static/09_de.png
+.. figure:: ./_static/09_de.png
+   :name: formel_datensatz
 
+   Beispiel für eine Formel in einer befüllten Zelle in der Excel-Vorlage für die Ebene *Datensätze*
 
-Abbildung 10: Beispiel für eine Formel in einer leeren Zelle in der
-Excel-Vorlage für die Ebene *Datensätze*
+.. figure:: ./_static/10_de.png
+   :name: formel_leer
 
-.. image:: ./_static/10_de.png
+   Beispiel für eine Formel in einer leeren Zelle in der Excel-Vorlage für die Ebene *Datensätze*
 
 Da Formeln in solchen Zellen, die nicht mit Inhalt befüllt sind (vgl.
-Abbildung 10), einen fehlerhaften Upload der Excel-Tabelle hervorrufen,
+:numref:`formel_leer`), einen fehlerhaften Upload der Excel-Tabelle hervorrufen,
 müssen die überflüssigen Formeln aus den nicht benötigten Zeilen
 herausgelöscht werden. Dies können Sie erledigen, indem Sie die nicht
 benötigten der grau eingefärbten Zeilen bis einschließlich der Zeile 20
 (für Instrumente und Datensätze) bzw. der Zeile 2000 (für Fragen- und
 Variablenebene) markieren und über das Menü per „Blattzeilen löschen“
-komplett entfernen (vgl. Abbildung 11).
+komplett entfernen (vgl. :numref:`nicht_benötigte_formel`).
 
-Abbildung 11: Beispiel für das Löschen nicht benötigter Formeln aus der
-Excel-Vorlage für die Ebene *Datensätze*
+.. figure:: ./_static/11_de.png
+   :name: nicht_benötigte_formel
 
-.. image:: ./_static/11_de.png
+   Beispiel für das Löschen nicht benötigter Formeln aus der Excel-Vorlage für die Ebene *Datensätze*
 
 Anhänge
 ~~~~~~~
@@ -307,14 +315,16 @@ Dateien im Ordner sowie in den Unterordnern spielt keine Rolle. Da meist
 eine Sortierung nach alphabetischer Reihenfolge voreingestellt ist,
 steht der „attachments“-Ordner an erster Stelle, während die
 Excel-Tabelle erst danach folgt. Die vorliegende Ordnerstruktur am
-Beispiel der Instrumentenebene zeigt Abbildung 12.
+Beispiel der Instrumentenebene zeigt :numref:`ordnerstruktur_instruments`.
 
-Abbildung 12: Ordnerstruktur am Beispiel der Instrumentenebene
 
-.. image:: ./_static/12_de.png
+.. figure:: ./_static/12_de.png
+   :name: ordnerstruktur_instruments
+
+   Ordnerstruktur am Beispiel der Instrumentenebene
 
 Die Abgabe von Metadaten für die einzelnen Ebenen
-
+-------------------------------------------------
 
 Studie (study)
 ~~~~~~~~~~~~~~
@@ -325,10 +335,11 @@ Anhand der Informationen, die Sie bzgl. Ihrer Studie an das MDM liefern,
 wird dort später eine Übersichtsseite erstellt, die im Folgenden am
 Beispiel des Absolventenpanels 2005 dargestellt wird:
 
-Abbildung 13: Studienübersicht im MDM am Beispiel des Absolventenpanels
-2005
 
-.. image:: ./_static/13_de.png
+.. figure:: ./_static/13_de.png
+   :name: studienübersicht
+
+   Studienübersicht im MDM am Beispiel des Absolventenpanels 2005
 
 **Eine neue Studie anlegen**
 
@@ -336,11 +347,12 @@ Nachdem Sie ein neues Projekt erstellt haben (vgl. Kapitel 2.2), können
 Sie nun innerhalb des Projektes eine Studie anlegen. Dazu finden Sie im
 Reiter „Studien“ unten rechts auf der Seite einen orangefarbenen
 Plus-Button. Wenn Sie mit dem Mauszeiger über diesen Button fahren,
-erscheinen links davon zwei weiße Buttons (vgl. Abbildung 14).
+erscheinen links davon zwei weiße Buttons (vgl. :numref:`studien_optionen`).
 
-Abbildung 14: Optionen für das Anlegen einer Studie
+.. figure:: ./_static/14_de.png
+   :name: studien_optionen
 
-.. image:: ./_static/14_de.png
+   Optionen für das Anlegen einer Studie
 
 Über den weißen Ordner-Button können Studieninformationen weiterhin
 mittels Ordner, der eine Excel-Tabelle und Anhänge enthält, hochgeladen
@@ -358,33 +370,35 @@ umfangreichste und wird im Folgenden aufgrund der Veranschaulichung mit
 bereits eingetragenen Informationen dargestellt (hier beispielhaft: 21.
 Sozialerhebung):
 
-Abbildung 15: Eingabemaske auf Studienebene, Abschnitt "Details" am
-Beispiel der 21. Sozialerhebung
 
-.. image:: ./_static/15_de.png
+.. figure:: ./_static/15_de.png
+   :name: studienebene_eingabemaske
+
+   Eingabemaske auf Studienebene, Abschnitt "Details" am Beispiel der 21. Sozialerhebung
 
 Nach dem Öffnen der Eingabemaske erscheint ganz oben die aus ihrem
 Projektnamen automatisch generierte ID für die Studienseite (s. rotes
-Kästchen in Abb. 15). Einige Felder, die Sie frei ausfüllen können,
+Kästchen in :numref:`studienebene_eingabemaske`). Einige Felder, die Sie frei ausfüllen können,
 verfügen über einen Zeichenzähler, der Sie darüber informiert, wie viele
 Zeichen Sie dort insgesamt eintragen dürfen und wie viele Zeichen Sie
-bereits eingetragen haben (s. blaues Kästchen in Abb. 15). Außerdem
+bereits eingetragen haben (s. blaues Kästchen in :numref:`studienebene_eingabemaske`). Außerdem
 finden Sie teilweise Drop-Down-Menüs vor, in denen Sie aus vorgegebenen
-Alternativen auswählen können (s. grünes Kästchen in Abb. 15).
+Alternativen auswählen können (s. grünes Kästchen in :numref:`studienebene_eingabemaske`).
 
 Im zweiten Abschnitt der Eingabemaske müssen Sie eine Beschreibung Ihrer
 Studie sowohl auf Deutsch als auch auf Englisch eingeben. Für ein
 Beispiel ist im Folgenden die Beschreibung der 21. Sozialerhebung
 abgebildet:
 
-Abbildung 16: Eingabemaske auf Studienebene, Abschnitt
-"Studienbeschreibung" am Beispiel der 21. Sozialerhebung
 
-.. image:: ./_static/16_de.png
+.. figure:: ./_static/16_de.png
+   :name: eingabemaske_studienbeschreibung
+
+   Eingabemaske auf Studienebene, Abschnitt "Studienbeschreibung" am Beispiel der 21. Sozialerhebung
 
 Im dritten Abschnitt der Eingabemaske geben Sie die Mitarbeiter(innen)
 Ihres Projekts ein. Für die Eingabe weiterer Personen klicken Sie
-einfach auf den blauen Plus-Button (s. Abb. 17). Wenn mindestens zwei
+einfach auf den blauen Plus-Button (s. :numref:`studienebene_eingabemaske_mitarbeiter`). Wenn mindestens zwei
 Personen eingetragen sind, erscheinen die Pfeil-Buttons als aktiv
 (Farbwechsel von grau zu blau). Dann können Sie die Reihenfolge der
 Personen ändern, indem Sie die Namen nach oben oder unten verschieben.
@@ -395,26 +409,27 @@ rechts können Sie Ihre Eingaben jederzeit abspeichern. Dies müssen Sie
 spätestens jetzt tun, da Sie ansonsten den letzten Abschnitt der
 Eingabemaske („Materialien zu der Studie“) nicht bearbeiten können.
 
-Abbildung 17: Eingabemaske auf Studienebene, Abschnitt
-"Projektmitarbeiter(innen)"
+.. figure:: ./_static/17_de.png
+   :name: studienebene_eingabemaske_mitarbeiter
 
-.. image:: ./_static/17_de.png
+   Eingabemaske auf Studienebene, Abschnitt "Projektmitarbeiter(innen)"
 
 Im vierten und letzten Abschnitt der Eingabemaske können Sie Materialien
-zur Studie ablegen. Dazu klicken Sie auf den blauen Plus-Button (s. Abb.
-18), woraufhin sich ein Dialog öffnet, in dem Sie eine Datei hochladen
-und diese näher beschreiben können. Die hier relevanten Materialien sind
-momentan der deutsch- und englischsprachige Daten- und Methodenbericht
-(DMB) sowie eine englischsprachige *study overview*. [1]_ Die Eingaben
-müssen Sie anschließend über den orangefarbenen Save-Button abspeichern.
+zur Studie ablegen. Dazu klicken Sie auf den blauen Plus-Button (s.
+:numref:`eingabemaske_studie_materialien`), woraufhin sich ein Dialog öffnet,
+in dem Sie eine Datei hochladen und diese näher beschreiben können.
+Die hier relevanten Materialien sind momentan der deutsch- und
+englischsprachige Daten- und Methodenbericht (DMB) sowie eine
+englischsprachige *study overview*. [1]_ Die Eingaben müssen Sie
+anschließend über den orangefarbenen Save-Button abspeichern.
 Mit den Pfeil-Buttons können Sie dann ggf. die Reihenfolge bereits
 eingegebener Materialien verändern. Wenn Sie eine geänderte Reihenfolge
 beibehalten möchten, müssen Sie erneut speichern.
 
-Abbildung 18: Eingabemasken auf Studienebene, Abschnitt "Materialien zu
-der Studie"
+.. figure:: ./_static/18_de.png
+   :name: eingabemaske_studie_materialien
 
-.. image:: ./_static/18_de.png
+   Eingabemasken auf Studienebene, Abschnitt "Materialien zu der Studie"
 
 **Editieren und historisieren**
 
@@ -423,23 +438,26 @@ eingeben und hochladen können oder möchten, ist es immer möglich, dass
 Sie Ihre bisherigen Eingaben abspeichern und zu einem späteren Zeitpunkt
 weiter bearbeiten. Hierfür wird Ihnen im Reiter „Studien“ am rechten
 Rand neben Ihrer Studie ein Stift-Button angezeigt, über den Sie wieder
-in die Eingabemaske gelangen (s. Abb. 19).
+in die Eingabemaske gelangen (s. :numref:`bearbeitung_gespeicherte_studie`).
 
-Abbildung 19: Weitere Bearbeitung einer bereits abgespeicherten Studie
+.. figure:: ./_static/19_de.png
+   :name: bearbeitung_gespeicherte_studie
 
-.. image:: ./_static/19_de.png
+   Weitere Bearbeitung einer bereits abgespeicherten Studie
 
 Ebenso können Sie ältere Versionen Ihrer abgespeicherten Eingaben
 wiederherstellen, indem Sie im Bearbeitungsmodus den
 Historisierungs-Button (blauer Pfeil-Button über dem Save-Button unten
-rechts auf der Seite) verwenden (s. Abb. 20).
+rechts auf der Seite) verwenden (s. :numref:`versionierung`).
 
-Abbildung 20: Ältere Versionen einer Studie wiederherstellen
 
-.. image:: ./_static/20_de.png
+.. figure:: ./_static/20_de.png
+   :name: versionierung
+
+   Ältere Versionen einer Studie wiederherstellen
 
 Bei einem Klick auf den Historisierungs-Button öffnet sich ein Dialog,
-der die verschiedenen Versionen der Studie anzeigt (s. Abb. 21). Zudem
+der die verschiedenen Versionen der Studie anzeigt (s. :numref:`historisierung_studie`). Zudem
 sind der Name des Nutzers, der die entsprechende Version der Studie
 gespeichert hat, sowie das Änderungsdatum sichtbar. Durch Klicken auf
 die Version wird diese wiederhergestellt, aber nicht automatisch als
@@ -447,9 +465,11 @@ aktuelle Version gespeichert. Dies müsste über einen Klick auf den
 Save-Button erfolgen. Zu beachten ist, dass Materialien zur Studie nicht
 historisiert werden.
 
-Abbildung 21: Dialog zur Historisierung innerhalb einer Studie
 
-.. image:: ./_static/21_de.png
+.. figure:: ./_static/21_de.png
+   :name: historisierung_studie
+
+   Dialog zur Historisierung innerhalb einer Studie
 
 Erhebungen (surveys)
 ~~~~~~~~~~~~~~~~~~~~
@@ -460,17 +480,18 @@ Mit den Informationen über die Erhebung(en), die Sie innerhalb Ihrer
 Studie durchgeführt haben, wird im MDM folgende Übersichtsseite
 erstellt:
 
-Abbildung 22: Erhebungsübersicht im MDM am Beispiel der ersten Welle
-(Bachelor) im Absolventenpanel 2005
+.. figure:: ./_static/22_de.png
+   :name: erhebungsübersicht
 
-.. image:: ./_static/22_de.png
+   Erhebungsübersicht im MDM am Beispiel der ersten Welle (Bachelor) im Absolventenpanel 2005
+
 
 **Eine neue Erhebung anlegen**
 
 Wenn Sie eine Studie angelegt haben (vgl. Kapitel 4.1), können Sie über
 den Reiter „Erhebungen“ eine neue Erhebung innerhalb Ihrer Studie
 erstellen. Hierzu finden Sie unten rechts auf der Seite – ebenso wie bei
-der Studie – einen orangefarbenen Plus-Button (vgl. Abbildung 23). Wenn
+der Studie – einen orangefarbenen Plus-Button (vgl. :numref:`optionen_studie_anlegen`). Wenn
 Sie mit dem Mauszeiger darüberfahren, erscheinen die beiden weißen
 Buttons, von denen Sie den Plus-Button anklicken, um die Eingabemaske zu
 öffnen. Bitte beachten Sie, dass Sie mehrere Erhebungen über die
@@ -478,9 +499,10 @@ Eingabemaske in der richtigen Reihenfolge eingeben müssen, da die IDs
 beim Anlegen einer neuen Erhebung automatisch generiert werden und sich
 später nicht mehr verändern lassen.
 
-Abbildung 23: Optionen für das Anlegen einer Erhebung
+.. figure:: ./_static/23_de.png
+   :name: optionen_studie_anlegen
 
-.. image:: ./_static/23_de.png
+   Optionen für das Anlegen einer Erhebung
 
 **Eingabemaske**
 
@@ -489,32 +511,35 @@ Die Eingabemaske auf Erhebungsebene besteht aus den drei Abschnitten
 der Erhebung“. Im Folgenden wird der Abschnitt „Details“ – aufgrund der
 Länge in zwei Teilen – dargestellt:
 
-Abbildung 24: Eingabemaske der Erhebungsebene, Abschnitt "Details" Teil
-1
+.. figure:: ./_static/24_de.png
+   :name: eingabemaske_erhebung_details_1
 
-.. image:: ./_static/24_de.png
+   Eingabemaske der Erhebungsebene, Abschnitt "Details" Teil 1
 
 Beim Anlegen einer Erhebung wird automatisch die ID auf Basis des
-Projektnamens generiert (s. rotes Kästchen, Abb. 24, hier als Beispiel
-der 21. Sozialerhebung). Neben den bereits aus der Studienebene
+Projektnamens generiert (s. rotes Kästchen, :numref:`eingabemaske_erhebung_details_1`,
+hier als Beispiel der 21. Sozialerhebung). Neben den bereits aus der Studienebene
 bekannten Funktionen gibt es in dieser Eingabemaske zusätzlich eine
-Kalenderfunktion (s. blaue Kästchen, Abb. 24), welche die Feldzeit des
-Projekts erfasst und in Abb. 25 dargestellt ist:
+Kalenderfunktion (s. blaue Kästchen, :numref:`eingabemaske_erhebung_details_1`),
+welche die Feldzeit des
+Projekts erfasst und in :numref:`kalender_erhebung` dargestellt ist:
 
-Abbildung 25: Kalenderfunktion auf der Erhebungsebene
 
-.. image:: ./_static/25_de.png
+.. figure:: ./_static/25_de.png
+   :name: kalender_erhebung
+
+   Kalenderfunktion auf der Erhebungsebene
 
 Im zweiten Teil der Eingabemaske für die Erhebungsebene gibt es die
 Besonderheit, dass sich die Rücklaufquote automatisch ermitteln lässt
-(s. Abb. 26). Sie können den Rücklauf auch manuell eingeben. Hierbei ist
+(s. :numref:`eingabemaske_erhebungsebene_details_2`). Sie können den Rücklauf auch manuell eingeben. Hierbei ist
 zu jedoch beachten, dass sich bereits eingegebene Zahlen bei Brutto- und
 Netto-Stichprobe bei nicht automatisch anpassen.
 
-Abbildung 26: Eingabemaske der Erhebungsebene, Abschnitt "Details" Teil
-2
+.. figure:: ./_static/26_de.png
+   :name: eingabemaske_erhebungsebene_details_2
 
-.. image:: ./_static/26_de.png
+   Eingabemaske der Erhebungsebene, Abschnitt "Details" Teil 2
 
 Um den nächsten Abschnitt in der Eingabemaske („Weitere Informationen
 zum Rücklauf“ [2]_) bearbeiten zu können, müssen Sie die bisherigen
@@ -523,21 +548,22 @@ englischsprachige Grafiken zum Rücklauf entweder über den blauen
 Plus-Button oder per Drag & Drop hochladen und dann mit dem Save-Button
 speichern. Diese Grafiken dürfen im svg-, png- oder auch PDF-Format
 vorliegen. Über den Button mit dem Mülleimer-Symbol lassen sich
-hochgeladene Dateien wieder löschen (s. Abb. 27).
+hochgeladene Dateien wieder löschen (s. :numref:`weitere_infos_rücklauf`).
 
-Abbildung 27: Eingabemaske der Erhebungsebene, Abschnitt „Weitere
-Informationen zum Rücklauf“
 
-.. image:: ./_static/27_de.png
+.. figure:: ./_static/27_de.png
+   :name: weitere_infos_rücklauf
+
+   Eingabemaske der Erhebungsebene, Abschnitt „Weitere Informationen zum Rücklauf“
 
 Im letzten Abschnitt der Eingabemaske können – wie auch bei der Studie –
-Materialien hinzugefügt werden (s. Abb. 28). Die Funktionsweise ist
-identisch zu der auf Studienebene. [3]_
+Materialien hinzugefügt werden (s. :numref:`eingabemaske_erhebung_materialien`).
+Die Funktionsweise ist identisch zu der auf Studienebene. [3]_
 
-Abbildung 28: Eingabemaske der Erhebungsebene, Abschnitt „Materialien zu
-der Erhebung“
+.. figure:: ./_static/28_de.png
+   :name: eingabemaske_erhebung_materialien
 
-.. image:: ./_static/28_de.png
+   Eingabemaske der Erhebungsebene, Abschnitt „Materialien zu der Erhebung“
 
 **Editieren und historisieren**
 
@@ -548,23 +574,25 @@ weiter bearbeiten. Hierfür wird Ihnen im Reiter „Erhebungen“ am rechten
 Rand ein Stift-Button angezeigt, über den Sie wieder in die Eingabemaske
 gelangen. Außerdem finden Sie dort auch einen Button mit
 Mülleimer-Symbol, mit dem Sie die Erhebung komplett löschen können (s.
-Abb. 29).
+:numref:`bearbeitung_erhebung`).
 
-Abbildung 29: Weitere Bearbeitung einer bereits abgespeicherten Erhebung
+.. figure:: ./_static/29_de.png
+   :name: bearbeitung_erhebung
 
-.. image:: ./_static/29_de.png
+   Weitere Bearbeitung einer bereits abgespeicherten Erhebung
 
 Es ist außerdem möglich, ältere Versionen der bereits gespeicherten
 Eingaben wiederherzustellen. Im Bearbeitungsmodus gibt es auch auf der
 Erhebungsebene einen Historisierungs-Button, den Sie rechts unten über
-dem Save-Button betätigen können (s. Abb. 30).
+dem Save-Button betätigen können (s. :numref:`version_erhebung_wiederherstellen`).
 
-Abbildung 30: Ältere Versionen einer Erhebung wiederherstellen
+.. figure:: ./_static/30_de.png
+   :name: version_erhebung_wiederherstellen
 
-.. image:: ./_static/30_de.png
+   Ältere Versionen einer Erhebung wiederherstellen
 
 Bei einem Klick auf den Historisierungs-Button öffnet sich ein Dialog,
-der die verschiedenen Versionen der Erhebung anzeigt (s. Abb. 31). Zudem
+der die verschiedenen Versionen der Erhebung anzeigt (s. :numref:`historisierungsdialog_erhebung`). Zudem
 sind der Name des Nutzers, der die entsprechende Version der Studie
 gespeichert hat, sowie das Änderungsdatum sichtbar. Durch Klicken auf
 die Version wird diese wiederhergestellt, aber nicht automatisch als
@@ -572,9 +600,10 @@ aktuelle Version gespeichert. Dies müsste über einen Klick auf den
 Save-Button erfolgen. Zu beachten ist, dass Materialien zur Erhebung
 nicht historisiert werden.
 
-Abbildung 31: Dialog zur Historisierung innerhalb einer Erhebung
+.. figure:: ./_static/31_de.png
+   :name: historisierungsdialog_erhebung
 
-.. image:: ./_static/31_de.png
+   Dialog zur Historisierung innerhalb einer Erhebung
 
 Erhebungsinstrumente (instruments)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -584,10 +613,39 @@ Erhebungsinstrumente (instruments)
 Wenn Sie Informationen über Ihre Erhebungsinstrumente aufnehmen, wird
 folgende Übersicht im MDM erstellt:
 
-Abbildung 32: Instrumentenübersicht im MDM am Beispiel des Fragebogens
-der ersten Welle im Absolventenpanel 2005
+.. figure:: ./_static/32_0.png
+   :name: instrumentenübersicht_fragebogen
 
-.. image:: ./_static/32_0.png
+   Instrumentenübersicht im MDM am Beispiel des Fragebogens der ersten Welle im Absolventenpanel 2005
+
+**Eingabemaske**
+
+Erhebungsinstrumente lassen sich per Eingabemaske erfassen und editieren.
+Dafür darf die Studie aktuell nicht released sein.
+Um ein Erhebungsinstrument mittels Eingabemaske anzulegen muss man sich im Datenaufbereitungsprojekt im
+Instrumentereiter befinden. Anschließend wird der Plusbutton gedrückt und es öffnet sich
+der Dialog um ein neues Instrument anzulegen.
+
+.. figure:: ./_static/add_instrument_de.png
+   :scale: 50 %
+   :name: instruments_plusbutton
+
+   Plusbutton
+
+
+.. figure:: ./_static/add_instrument_manually_de.png
+   :scale: 50 %
+   :name: instruments_manuell_anlegen
+
+   Manuelles Anlegen des Instruments.
+
+
+Die Eingabemaske besteht
+aus den Pflichtfeldern Beschreibung, Titel, Typ und Erhebung, sowie
+den nicht verpflichtenden Feldern Untertitel und Anmerkungen.
+
+Des weiteren können weitere Materialien zum Instrument
+hochgeladen werden.
 
 **Excel-Tabelle**
 
@@ -704,11 +762,12 @@ vorliegen. [5]_ Außerdem können an dieser Stelle Codierlisten, welche
 als Excel-Tabelle vorliegen müssen, erfasst werden. Alle Anhänge werden
 im Ordner *attachments* abgelegt.
 
-Für den Upload der Dateien ins MDM beachten Sie bitte folgende Struktur:
+Für den Upload der Dateien ins MDM muss die Ordnerstruktur wie in :numref:`ordnerstruktur_instruments_2` vorliegen.
 
-**Ordnerstruktur: Inhalt des Ordners instruments**
+.. figure:: ./_static/32_1_de.png
+   :name: ordnerstruktur_instruments_2
 
-.. image:: ./_static/32_1_de.png
+   Ordnerstruktur: Inhalt des Ordners instruments
 
 Hochladen können Sie den Ordner im Reiter Instrumente entweder über den
 orangefarbenen Plus-Button (unten rechts) oder per Drag & Drop.
@@ -722,10 +781,11 @@ Zu den einzelnen Fragen eines Instruments (sprich: Fragebogen) können
 Sie Informationen in das MDM übermitteln, in welchem dann für jede Frage
 folgende Übersichtsseite erstellt wird:
 
-Abbildung 33: Fragenübersicht im MDM am Beispiel der Frage 1.1 des
-Fragebogens der ersten Welle im Absolventenpanel 2005
 
-.. image:: ./_static/33_de.png
+.. figure:: ./_static/33_de.png
+   :name: fragenübersicht
+
+   Fragenübersicht im MDM am Beispiel der Frage 1.1 des Fragebogens der ersten Welle im Absolventenpanel 2005
 
 Auf dieser Ebene werden Informationen über alle Fragen für jedes
 einzelne Erhebungsinstrument einer Studie abgeben. Der
@@ -940,10 +1000,11 @@ Mit den Informationen über die Datensätze, welche Sie aus den Daten
 Ihrer Studie erstellt haben, wird für jeden dieser Datensätze folgende
 Übersicht im MDM angezeigt:
 
-Abbildung 34: Datensatzübersicht im MDM am Beispiel des
-Personendatensatzes (Bachelor) im Absolventenpanel 2005
 
-.. image:: ./_static/34_0.png
+.. figure:: ./_static/34_0.png
+   :name: datensatzübersicht
+
+   Datensatzübersicht im MDM am Beispiel des Personendatensatzes (Bachelor) im Absolventenpanel 2005
 
 **Excel-Tabelle**
 
@@ -1096,7 +1157,7 @@ auf Datensatzebene folgende Ordnerstruktur vorgegeben:
 
 **Ordnerstruktur: Inhalt des Ordners dataSets**
 
-.. image:: ./_static/34_1_de.png
+.. figure:: ./_static/34_1_de.png
 
 Hochladen können Sie den Ordner im Reiter Datensätze entweder über den
 orangefarbenen Plus-Button (unten rechts) oder per Drag & Drop.
@@ -1109,11 +1170,11 @@ Variablen (variables) [10]_
 Anhand der Informationen, die Sie auf Ebene der Variablen abgeben, wird
 für jede Variable eine Übersichtsseite im MDM erstellt:
 
-Abbildung 35: Variablenübersicht im MDM am Beispiel der Variable "1.
-Studium: Beginn (Semester)" im Absolventenpanel 2005, erste Welle
-(Bachelor)
 
-.. image:: ./_static/35_de.png
+.. figure:: ./_static/35_de.png
+   :name: variablenübersicht
+
+   Variablenübersicht im MDM am Beispiel der Variable "1. Studium: Beginn (Semester)" im Absolventenpanel 2005, erste Welle (BA)
 
 Die Erstellung der Variablenebene beinhaltet einerseits recht viel
 Aufwand, da für jeden Datensatz eine eigene Excel-Tabelle mit
@@ -1399,14 +1460,14 @@ Tabellenblatts die Verknüpfung zwischen einer Variablen und der
 dazugehörigen Frage aus dem Erhebungsinstrument erstellt. Für eine
 nachvollziehbare Dokumentation dieser Verbindung ist die Erstellung
 eines Variablenfragebogens sehr hilfreich. Aus diesem kann die
-Verknüpfung aus Variable und Frage problemlos abgelesen werden. Abb. 36
-zeigt beispielhaft, dass den Variablen *astu08a* bis *astu08e* die Frage
+Verknüpfung aus Variable und Frage problemlos abgelesen werden. :numref:`ausschnitt_variablenfragebogen` zeigt beispielhaft, dass den Variablen *astu08a* bis *astu08e* die Frage
 1.8 zugeordnet ist.
 
-Abbildung 36: Ausschnitt aus dem Variablenfragebogen des
-Absolventenpanels 2005, erste Welle, Frage 1.8
+.. figure:: ./_static/36_de.png
+   :name: ausschnitt_variablenfragebogen
 
-.. image:: ./_static/36_de.png
+   Ausschnitt aus dem Variablenfragebogen des Absolventenpanels 2005, erste Welle, Frage 1.8
+
 
 Außer der/den Excel-Tabelle/n müssen Sie für jede Tabelle noch den
 zugehörigen Stata-Datensatz liefern, aus dem die Variablen stammen.
@@ -1426,11 +1487,11 @@ verfasst worden sind, erfasst. Die Informationen, die Sie im Hinblick
 auf Ihre Publikationen abgeben, werden im MDM für jede Veröffentlichung
 wie folgt dargestellt:
 
-Abbildung 37: Publikationsübersicht im MDM am Beispiel einer
-Veröffentlichung, welche im Rahmen des Absolventenpanels 2005 verfasst
-wurde
 
-.. image:: ./_static/37_de.png
+.. figure:: ./_static/37_de.png
+   :name: publikationsübersicht
+
+   Publikationsübersicht im MDM am Beispiel einer Veröffentlichung, welche im Rahmen des Absolventenpanels 2005 verfasst wurde
 
 Wenn Sie Publikationen zu Ihren Daten abgeben möchten, senden Sie dem
 FDZ per Mail die PDF-Datei Ihrer Publikation sowie den dazugehörigen
