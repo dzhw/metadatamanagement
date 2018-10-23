@@ -115,7 +115,8 @@ angular.module('metadatamanagementApp').config(
               'pattern': 'Die FDZ-ID darf nur alphanumerische Zeichen, deutsche Umlaute, Ausrufezeichen und ß beinhalten.'
             },
             'description': {
-              'i18n-string-size': 'Die Maximallänge der Datensatzbeschreibung ist 2048 Zeichen.'
+              'i18n-string-size': 'Die Maximallänge der Datensatzbeschreibung ist 2048 Zeichen.',
+              'i18n-string-not-empty': 'Die Datensatzbeschreibung muss in mindestens einer Sprache angegeben werden.'
             },
             'annotations': {
               'i18n-string-size': 'Die Maximallänge der Anmerkungen ist 2048 Zeichen.'
@@ -131,7 +132,7 @@ angular.module('metadatamanagementApp').config(
               }
             },
             'survey-numbers': {
-              'not-empty': 'Der Datensatz muss mindestens eine Erhebungsnummer beinhalten!'
+              'not-empty': 'Der Datensatz muss mindestens einer Erhebung zugeordnet sein!'
             },
             'number': {
               'not-null': 'Die Nummer des Datensatzes darf nicht leer sein!'
@@ -182,22 +183,22 @@ angular.module('metadatamanagementApp').config(
           },
           'sub-data-set': {
             'name': {
-              'not-empty': 'Der Name des {{index}}. Sub-Daten-Satzes darf bei dem Datensatz nicht leer sein!',
-              'size': 'Die Maximallänge des Namens des {{index}}. Sub-Daten-Satzes ist 32 Zeichen.'
+              'not-empty': 'Der Name eines Subdatensatz darf nicht leer sein!',
+              'size': 'Die Maximallänge des Namens eines Subdatensatz ist 32 Zeichen.'
             },
             'description': {
-              'i18n-string-not-empty': 'Die Beschreibung des {{index}}. Sub-Daten-Satzes darf nicht leer sein!',
-              'i18n-string-size': 'Die Maximallänge der Beschreibung des {{index}}. Sub-Daten-Satzes ist 512 Zeichen.'
+              'i18n-string-not-empty': 'Die Beschreibung eines Subdatensatz darf nicht leer sein!',
+              'i18n-string-size': 'Die Maximallänge der Beschreibung eines Subdatensatz ist 512 Zeichen.'
             },
             'citation-hint': {
               'i18n-string-size': 'Die Maximallänge des Zitationshinweises eines Subdatensatzes ist 2048 Zeichen.'
             },
             'access-way': {
-              'not-null': 'Der Zugangsweg des {{index}}. Sub-Daten-Satzes darf nicht leer sein!',
-              'valid-access-way': 'Der Zugangsweg des {{index}}. Sub-Daten-Satzes ist ungültig. Erlaubt sind nur: download-cuf, download-suf, remote-desktop-suf oder onsite-suf.'
+              'not-null': 'Der Zugangsweg eines Subdatensatz darf nicht leer sein!',
+              'valid-access-way': 'Der Zugangsweg eines Subdatensatz ist ungültig. Erlaubt sind nur: download-cuf, download-suf, remote-desktop-suf oder onsite-suf.'
             },
             'number-of-observations': {
-              'not-null': 'Die Anzahl von Beobachtungen darf bei einem Sub-Daten-Satzes nicht leer sein!'
+              'not-null': 'Die Anzahl von Fälle/Episoden darf bei einem Subdatensatz nicht leer sein!'
             }
           },
           'post-validation': {

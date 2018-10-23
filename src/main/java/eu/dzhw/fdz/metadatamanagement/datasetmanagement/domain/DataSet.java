@@ -70,7 +70,7 @@ public class DataSet extends AbstractRdcDomainObject {
   @I18nStringSize(max = StringLengths.LARGE,
       message = "data-set-management.error.data-set.description.i18n-string-size")
   @I18nStringNotEmpty(
-      message = "data-set-management.error.data-set.description." + "i18n-string-not-empty")
+      message = "data-set-management.error.data-set.description.i18n-string-not-empty")
   private I18nString description;
 
   @NotNull(message = "data-set-management.error.data-set.number.not-null")

@@ -18,8 +18,8 @@
                       <input md-maxlength="2048" fdz-required="!ctrl.dataSet.description.en" ng-model="ctrl.dataSet.description.de" name="descriptionDe" lang="de" md-no-asterisk>
                       <div ng-if="!dataSetForm.descriptionDe.$dirty && !dataSetForm.descriptionDe.$touched" class="fdz-input-hint">{{'data-set-management.edit.hints.description.de' | translate}}</div>
                       <div ng-messages="dataSetForm.descriptionDe.$error" multiple>
-                          <div ng-message="fdz-required">{{'data-set-management.error.dataSet.description.i18n-string-not-empty' | translate}}</div>
-                          <div ng-message="md-maxlength">{{'data-set-management.error.dataSet.description.i18n-string-size' | translate}}</div>
+                          <div ng-message="fdz-required">{{'data-set-management.error.data-set.description.i18n-string-not-empty' | translate}}</div>
+                          <div ng-message="md-maxlength">{{'data-set-management.error.data-set.description.i18n-string-size' | translate}}</div>
                       </div>
                   </md-input-container>
                   <md-input-container flex="50" md-is-error="!dataSetForm.descriptionEn.$valid && (dataSetForm.descriptionEn.$dirty || dataSetForm.descriptionEn.$touched)">
@@ -27,8 +27,8 @@
                       <input md-maxlength="2048" fdz-required="!ctrl.dataSet.description.de" ng-model="ctrl.dataSet.description.en" name="descriptionEn" lang="en" md-no-asterisk>
                       <div ng-if="!dataSetForm.descriptionEn.$dirty && !dataSetForm.descriptionEn.$touched" class="fdz-input-hint">{{'data-set-management.edit.hints.description.en' | translate}}</div>
                       <div ng-messages="dataSetForm.descriptionEn.$error" multiple>
-                          <div ng-message="fdz-required">{{'data-set-management.error.dataSet.description.i18n-string-not-empty' | translate}}</div>
-                          <div ng-message="md-maxlength">{{'data-set-management.error.dataSet.description.i18n-string-size' | translate}}</div>
+                          <div ng-message="fdz-required">{{'data-set-management.error.data-set.description.i18n-string-not-empty' | translate}}</div>
+                          <div ng-message="md-maxlength">{{'data-set-management.error.data-set.description.i18n-string-size' | translate}}</div>
                       </div>
                   </md-input-container>
                 </div>
@@ -52,7 +52,7 @@
                         </md-select>
                         <div ng-if="!dataSetForm.type.$dirty && !dataSetForm.type.$touched" class="fdz-input-hint">{{'data-set-management.edit.hints.type' | translate}}</div>
                         <div ng-messages="dataSetForm.type.$error" multiple>
-                            <div ng-message="required">{{'data-set-management.error.dataSet.type.not-empty' | translate}}</div>
+                            <div ng-message="required">{{'data-set-management.error.data-set.type.not-null' | translate}}</div>
                         </div>
                     </md-input-container>
                     <div flex="50"></div>
@@ -78,7 +78,7 @@
                       </md-chips>
                       <div ng-if="!dataSetForm.surveys.$dirty && !dataSetForm.surveys.$touched" class="fdz-input-hint">{{'data-set-management.edit.hints.surveys' | translate}}</div>
                       <div class="md-chips-messages" ng-show="!dataSetForm.surveys.$valid && (dataSetForm.surveys.$dirty || dataSetForm.surveys.$touched)" ng-messages="dataSetForm.surveys.$error">
-                        <div ng-message="required">{{'data-set-management.error.dataSet.survey-numbers.not-empty' | translate}}</div>
+                        <div ng-message="required">{{'data-set-management.error.data-set.survey-numbers.not-empty' | translate}}</div>
                       </div>
                     </div>
                     <div flex="50"></div>
@@ -89,7 +89,7 @@
                         <textarea rows="4" md-maxlength="2048" ng-model="ctrl.dataSet.annotations.de" name="annotationsDe" lang="de" md-no-asterisk></textarea>
                         <div ng-if="!dataSetForm.annotationsDe.$dirty && !dataSetForm.annotationsDe.$touched" class="fdz-input-hint">{{'data-set-management.edit.hints.annotations.de' | translate}}</div>
                         <div ng-messages="dataSetForm.annotationsDe.$error" multiple>
-                            <div ng-message="md-maxlength">{{'data-set-management.error.dataSet.annotations.i18n-string-size' | translate}}</div>
+                            <div ng-message="md-maxlength">{{'data-set-management.error.data-set.annotations.i18n-string-size' | translate}}</div>
                         </div>
                     </md-input-container>
                     <md-input-container flex="50" md-is-error="!dataSetForm.annotationsEn.$valid && (dataSetForm.annotationsEn.$dirty || dataSetForm.annotationsEn.$touched)">
@@ -97,11 +97,124 @@
                         <textarea rows="4" md-maxlength="2048" ng-model="ctrl.dataSet.annotations.en" name="annotationsEn" lang="en" md-no-asterisk></textarea>
                         <div ng-if="!dataSetForm.annotationsEn.$dirty && !dataSetForm.annotationsEn.$touched" class="fdz-input-hint">{{'data-set-management.edit.hints.annotations.en' | translate}}</div>
                         <div ng-messages="dataSetForm.annotationsEn.$error" multiple>
-                            <div ng-message="md-maxlength">{{'data-set-management.error.dataSet.annotations.i18n-string-size' | translate}}</div>
+                            <div ng-message="md-maxlength">{{'data-set-management.error.data-set.annotations.i18n-string-size' | translate}}</div>
                         </div>
                     </md-input-container>
                 </div>
             </md-card-content>
+        </md-card>
+        <md-card>
+            <md-card-header>
+                <md-card-header-text>
+                    <h2 class="md-title">{{'data-set-management.detail.sub-data-sets.title' | translate }}</h2>
+                </md-card-header-text>
+            </md-card-header>
+            <md-divider></md-divider>
+            <md-card-content style="padding: 0px;">
+                <div layout="column" ng-repeat="subDataSet in ctrl.dataSet.subDataSets track by $index">
+                    <div layout="row" style="padding-right: 16px;">
+                      <md-button ng-if="ctrl.dataSet.subDataSets.length > 1" class="md-primary md-icon-button" ng-click="ctrl.deleteSubDataSet($index)" style="margin-top: 18px; margin-left: 0px; margin-right: 0px;">
+                        <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                          {{'data-set-management.edit.delete-sub-data-set-tooltip' | translate}}
+                        </md-tooltip>
+                        <md-icon md-font-set="material-icons">delete_forever</md-icon>
+                      </md-button>
+                      <div ng-if="ctrl.dataSet.subDataSets.length <= 1" style="margin-left: 16px;"></div>
+                      <div flex layout="row">
+                        <md-input-container flex="33" md-is-error="!dataSetForm['subDataSetsName_' + $index].$valid && (dataSetForm['subDataSetsName_' + $index].$dirty || dataSetForm['subDataSetsName_' + $index].$touched)">
+                          <label class="fdz-input-required">{{'data-set-management.edit.label.sub-data-set.name' | translate}}</label>
+                          <input fdz-required md-maxlength="32" ng-model="subDataSet.name" name="subDataSetsName_{{$index}}" ng-blur="ctrl.deleteCurrentSubDataSet($event)" ng-focus="ctrl.setCurrentSubDataSet($index,$event)" md-no-asterisk>
+                          <div ng-if="!dataSetForm['subDataSetsName_' + $index].$dirty && !dataSetForm['subDataSetsName_' + $index].$touched" class="fdz-input-hint">{{'data-set-management.edit.hints.sub-data-set.name' | translate}}</div>
+                          <div ng-messages="dataSetForm['subDataSetsName_' + $index].$error" multiple>
+                            <div ng-message="fdz-required">{{'data-set-management.error.sub-data-set.name.not-empty' | translate}}</div>
+                            <div ng-message="md-maxlength">{{'data-set-management.error.sub-data-set.name.size' | translate}}</div>
+                          </div>
+                        </md-input-container>
+                        <md-input-container flex="33" md-is-error="!dataSetForm['subDataSetsAccessWay_' + $index].$valid && (dataSetForm['subDataSetsAccessWay_' + $index].$dirty || dataSetForm['subDataSetsAccessWay_' + $index].$touched)">
+                          <label>{{'data-set-management.edit.label.sub-data-set.access-way' | translate}}</label>
+                          <md-select required ng-model="subDataSet.accessWay" ng-model-options="{trackBy: '$value'}" name="subDataSetsAccessWay_{{$index}}">
+                            <md-option ng-value="accessWay" ng-repeat="accessWay in ctrl.availableAccessWays">{{accessWay}}</md-option>
+                            <md-option ng-if="subDataSet.accessWay != null && subDataSet.accessWay !=''" ng-value="subDataSet.accessWay">{{subDataSet.accessWay}}</md-option>
+                          </md-select>
+                          <div ng-if="!dataSetForm['subDataSetsAccessWay_' + $index].$dirty && !dataSetForm['subDataSetsAccessWay_' + $index].$touched" class="fdz-input-hint">{{'data-set-management.edit.hints.sub-data-set.access-way' | translate}}</div>
+                          <div ng-messages="dataSetForm['subDataSetsAccessWay_' + $index].$error" multiple>
+                            <div ng-message="required">{{'data-set-management.error.sub-data-set.access-way.not-null' | translate}}</div>
+                          </div>
+                        </md-input-container>
+                        <md-input-container flex="33" md-is-error="!dataSetForm['subDataSetsNumberOfObservations_' + $index].$valid && (dataSetForm['subDataSetsNumberOfObservations_' + $index].$dirty || dataSetForm['subDataSetsNumberOfObservations_' + $index].$touched)">
+                          <label>{{'data-set-management.edit.label.sub-data-set.number-of-observations' | translate}}</label>
+                          <input required ng-model="subDataSet.numberOfObservations" name="subDataSetsNumberOfObservations_{{$index}}" type="number" step="1" min="0" ng-blur="ctrl.deleteCurrentSubDataSet($event)" ng-focus="ctrl.setCurrentSubDataSet($index,$event)">
+                          <div ng-if="!dataSetForm['subDataSetsNumberOfObservations_' + $index].$dirty && !dataSetForm['subDataSetsNumberOfObservations_' + $index].$touched" class="fdz-input-hint">{{'data-set-management.edit.hints.sub-data-set.number-of-observations' | translate}}</div>
+                          <div ng-messages="dataSetForm['subDataSetsNumberOfObservations_' + $index].$error" multiple>
+                            <div ng-message="required">{{'data-set-management.error.sub-data-set.number-of-observations.not-null' | translate}}</div>
+                            <div ng-message="step">{{'data-set-management.error.sub-data-set.number-of-observations.invalid-number' | translate}}</div>
+                            <div ng-message="number">{{'data-set-management.error.sub-data-set.number-of-observations.invalid-number' | translate}}</div>
+                            <div ng-message="min">{{'data-set-management.error.sub-data-set.number-of-observations.invalid-number' | translate}}</div>
+                          </div>
+                        </md-input-container>
+                      </div>
+                    </div>
+                    <div layout-gt-sm="row" layout="column" style="padding-right: 16px;" ng-style="{'margin-left': ctrl.dataSet.subDataSets.length === 1?'16px':'40px'}">
+                      <md-input-container flex="50" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!dataSetForm['subDataSetsDescriptionDe_' + $index].$valid && (dataSetForm['subDataSetsDescriptionDe_' + $index].$dirty || dataSetForm['subDataSetsDescriptionDe_' + $index].$touched)">
+                          <label class="fdz-input-required">{{'data-set-management.edit.label.sub-data-set.description' | translate}} ({{'global.in-german' | translate}})</label>
+                          <input md-maxlength="512" fdz-required="!subDataSet.description.en" ng-model="subDataSet.description.de" name="subDataSetsDescriptionDe_{{$index}}" lang="de" md-no-asterisk ng-blur="ctrl.deleteCurrentSubDataSet($event)" ng-focus="ctrl.setCurrentSubDataSet($index,$event)">
+                          <div ng-if="!dataSetForm['subDataSetsDescriptionDe_' + $index].$dirty && !dataSetForm['subDataSetsDescriptionDe_' + $index].$touched" class="fdz-input-hint">{{'data-set-management.edit.hints.sub-data-set.description.de' | translate}}</div>
+                          <div ng-messages="dataSetForm['subDataSetsDescriptionDe_' + $index].$error" multiple>
+                              <div ng-message="fdz-required">{{'data-set-management.error.sub-data-set.description.i18n-string-not-empty' | translate}}</div>
+                              <div ng-message="md-maxlength">{{'data-set-management.error.sub-data-set.description.i18n-string-size' | translate}}</div>
+                          </div>
+                      </md-input-container>
+                      <md-input-container flex="50" md-is-error="!dataSetForm['subDataSetsDescriptionEn_' + $index].$valid && (dataSetForm['subDataSetsDescriptionEn_' + $index].$dirty || dataSetForm['subDataSetsDescriptionEn_' + $index].$touched)">
+                          <label class="fdz-input-required">{{'data-set-management.edit.label.sub-data-set.description' | translate}} ({{'global.in-english' | translate}})</label>
+                          <input md-maxlength="512" fdz-required="!subDataSet.description.de" ng-model="subDataSet.description.en" name="subDataSetsDescriptionEn_{{$index}}" lang="en" md-no-asterisk ng-blur="ctrl.deleteCurrentSubDataSet($event)" ng-focus="ctrl.setCurrentSubDataSet($index,$event)">
+                          <div ng-if="!dataSetForm['subDataSetsDescriptionEn_' + $index].$dirty && !dataSetForm['subDataSetsDescriptionEn_' + $index].$touched" class="fdz-input-hint">{{'data-set-management.edit.hints.sub-data-set.description.en' | translate}}</div>
+                          <div ng-messages="dataSetForm['subDataSetsDescriptionEn_' + $index].$error" multiple>
+                              <div ng-message="fdz-required">{{'data-set-management.error.sub-data-set.description.i18n-string-not-empty' | translate}}</div>
+                              <div ng-message="md-maxlength">{{'data-set-management.error.sub-data-set.description.i18n-string-size' | translate}}</div>
+                          </div>
+                      </md-input-container>
+                    </div>
+                    <div layout-gt-sm="row" layout="column" style="padding-right: 16px;" ng-style="{'margin-left': ctrl.dataSet.subDataSets.length === 1?'16px':'40px'}">
+                      <md-input-container flex="50" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!dataSetForm['subDataSetsCitationHintDe_' + $index].$valid && (dataSetForm['subDataSetsCitationHintDe_' + $index].$dirty || dataSetForm['subDataSetsCitationHintDe_' + $index].$touched)">
+                          <label>{{'data-set-management.edit.label.sub-data-set.citation-hint' | translate}} ({{'global.in-german' | translate}})</label>
+                          <textarea md-maxlength="2048" rows="4" ng-model="subDataSet.citationHint.de" name="subDataSetsCitationHintDe_{{$index}}" lang="de" md-no-asterisk ng-blur="ctrl.deleteCurrentSubDataSet($event)" ng-focus="ctrl.setCurrentSubDataSet($index,$event)"></textarea>
+                          <div ng-if="!dataSetForm['subDataSetsCitationHintDe_' + $index].$dirty && !dataSetForm['subDataSetsCitationHintDe_' + $index].$touched" class="fdz-input-hint">{{'data-set-management.edit.hints.sub-data-set.citationHint.de' | translate}}</div>
+                          <div ng-messages="dataSetForm['subDataSetsCitationHintDe_' + $index].$error" multiple>
+                              <div ng-message="md-maxlength">{{'data-set-management.error.sub-data-set.citation-hint.i18n-string-size' | translate}}</div>
+                          </div>
+                      </md-input-container>
+                      <md-input-container flex="50" md-is-error="!dataSetForm['subDataSetsCitationHintEn_' + $index].$valid && (dataSetForm['subDataSetsCitationHintEn_' + $index].$dirty || dataSetForm['subDataSetsCitationHintEn_' + $index].$touched)">
+                          <label>{{'data-set-management.edit.label.sub-data-set.citation-hint' | translate}} ({{'global.in-english' | translate}})</label>
+                          <textarea md-maxlength="2048" rows="4" ng-model="subDataSet.citationHint.en" name="subDataSetsCitationHintEn_{{$index}}" lang="en" md-no-asterisk ng-blur="ctrl.deleteCurrentSubDataSet($event)" ng-focus="ctrl.setCurrentSubDataSet($index,$event)"></textarea>
+                          <div ng-if="!dataSetForm['subDataSetsCitationHintEn_' + $index].$dirty && !dataSetForm['subDataSetsCitationHintEn_' + $index].$touched" class="fdz-input-hint">{{'data-set-management.edit.hints.sub-data-set.citationHint.en' | translate}}</div>
+                          <div ng-messages="dataSetForm['subDataSetsCitationHintEn_' + $index].$error" multiple>
+                              <div ng-message="md-maxlength">{{'data-set-management.error.sub-data-set.citation-hint.i18n-string-size' | translate}}</div>
+                          </div>
+                      </md-input-container>
+                    </div>
+                    <md-divider></md-divider>
+                </div>
+            </md-card-content>
+            <md-card-actions style="margin-top: 12px; margin-bottom: 12px;" layout="row" layout-align="begin center">
+                <md-button class="md-primary md-raised md-icon-button" ng-disabled="ctrl.dataSet.subDataSets.length === ctrl.allAccessWays.length" ng-click="ctrl.addSubDataSet()" style="margin-left: 6px;">
+                    <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                        {{'data-set-management.edit.add-sub-data-set-tooltip' | translate}}
+                    </md-tooltip>
+                    <md-icon md-font-set="material-icons">add</md-icon>
+                </md-button>
+                <md-button id="move-sub-data-set-up-button" ng-disabled="ctrl.currentSubDataSetIndex == null || ctrl.currentSubDataSetIndex === 0" class="md-primary md-raised md-icon-button" ng-click="ctrl.moveCurrentSubDataSetUp()">
+                    <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                        {{'data-set-management.edit.move-sub-data-set-up-tooltip' | translate}}
+                    </md-tooltip>
+                    <md-icon md-font-set="material-icons">keyboard_arrow_up</md-icon>
+                </md-button>
+                <md-button id="move-sub-data-set-down-button" ng-disabled="ctrl.currentSubDataSetIndex == null || ctrl.currentSubDataSetIndex === ctrl.dataSet.subDataSets.length - 1" class="md-primary md-raised md-icon-button" ng-click="ctrl.moveCurrentSubDataSetDown()">
+                    <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                        {{'data-set-management.edit.move-sub-data-set-down-tooltip' | translate}}
+                    </md-tooltip>
+                    <md-icon md-font-set="material-icons">keyboard_arrow_down</md-icon>
+                </md-button>
+            </md-card-actions>
         </md-card>
     </div>
 </form>
@@ -175,7 +288,7 @@
                 <td lang="{{row.language}}">{{row.title}}&nbsp;</td>
                 <td display-i18n-string="row.description" fdz-hyphenate class="fdz-text-block"></td>
                 <td>{{row.language | displayIsoLanguage: currentLanguage}}&nbsp;</td>
-                <td><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}
+                <td style="white-space: nowrap;"><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}
                         <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">{{'global.tooltips.files.download' | translate: {filename: row.fileName} }}</md-tooltip>
                     </a>&nbsp;</td>
             </tr>
