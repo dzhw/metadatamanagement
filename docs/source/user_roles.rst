@@ -10,7 +10,7 @@ Student, Researcher
 
 Data Provider
 -------------
-DZHW interne/externe DatengeberIn
+DZHW interne/externe DatengeberIn, siehe :ref:`metadatenabgabe-label`.
 
 Publisher
 ---------

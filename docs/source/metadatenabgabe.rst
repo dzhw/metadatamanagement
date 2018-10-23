@@ -1,6 +1,8 @@
+    .. _metadatenabgabe-label:
+
 Metadatenabgabe (Data Provider)
 ===============================
-
+.. index:: data provider, Datenaufnahme
 
 Allgemeines
 -----------
@@ -112,6 +114,7 @@ Bestätigung per Email.
 
 Neues Projekt anlegen
 ~~~~~~~~~~~~~~~~~~~~~
+.. index:: data provider, Datenaufnahme, Projekt anlegen
 
 Nach erfolgreicher Registrierung können Sie ihr Projekt im MDM anlegen,
 indem Sie sich in der Sidebar links anmelden:
