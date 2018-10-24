@@ -237,7 +237,7 @@ angular.module('metadatamanagementApp').config(
               'de': 'Geben Sie zusätzliche Anmerkungen zu dem Instrument hier auf Deutsch an.',
               'en': 'Geben Sie zusätzliche Anmerkungen zu dem Instrument hier auf Englisch an.',
             },
-            'instrument-number': 'Wählen Sie eine freie Nummer für die neue Instrument aus.'
+            'instrument-number': 'Wählen Sie eine freie Nummer für das neue Instrument aus.'
           }
         }
       }

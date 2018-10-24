@@ -1,8 +1,8 @@
 <form name="dataSetForm">
     <div ng-if="ctrl.dataSet.id">
         <div layout="row" style="margin-bottom: 0px;" layout-margin>
-            <h1 ng-if="ctrl.createMode" class="md-headline" style="margin-left: 0px;">{{'data-set-management.edit.label.create-dataSet' | translate}} <span class="label label-as-badge label-default">{{ctrl.dataSet.id}}</span></h1>
-            <h1 ng-if="!ctrl.createMode" class="md-headline" style="margin-left: 0px;">{{'data-set-management.edit.label.edit-dataSet' | translate}} <span class="label label-as-badge label-default">{{ctrl.dataSet.id}}</span></h1>
+            <h1 ng-if="ctrl.createMode" class="md-headline" style="margin-left: 0px;">{{'data-set-management.edit.label.create-data-set' | translate}} <span class="label label-as-badge label-default">{{ctrl.dataSet.id}}</span></h1>
+            <h1 ng-if="!ctrl.createMode" class="md-headline" style="margin-left: 0px;">{{'data-set-management.edit.label.edit-data-set' | translate}} <span class="label label-as-badge label-default">{{ctrl.dataSet.id}}</span></h1>
         </div>
         <md-card>
             <md-card-header>
@@ -178,7 +178,7 @@
                       <md-input-container flex="50" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!dataSetForm['subDataSetsCitationHintDe_' + $index].$valid && (dataSetForm['subDataSetsCitationHintDe_' + $index].$dirty || dataSetForm['subDataSetsCitationHintDe_' + $index].$touched)">
                           <label>{{'data-set-management.edit.label.sub-data-set.citation-hint' | translate}} ({{'global.in-german' | translate}})</label>
                           <textarea md-maxlength="2048" rows="4" ng-model="subDataSet.citationHint.de" name="subDataSetsCitationHintDe_{{$index}}" lang="de" md-no-asterisk ng-blur="ctrl.deleteCurrentSubDataSet($event)" ng-focus="ctrl.setCurrentSubDataSet($index,$event)"></textarea>
-                          <div ng-if="!dataSetForm['subDataSetsCitationHintDe_' + $index].$dirty && !dataSetForm['subDataSetsCitationHintDe_' + $index].$touched" class="fdz-input-hint">{{'data-set-management.edit.hints.sub-data-set.citationHint.de' | translate}}</div>
+                          <div ng-if="!dataSetForm['subDataSetsCitationHintDe_' + $index].$dirty && !dataSetForm['subDataSetsCitationHintDe_' + $index].$touched" class="fdz-input-hint">{{'data-set-management.edit.hints.sub-data-set.citation-hint.de' | translate}}</div>
                           <div ng-messages="dataSetForm['subDataSetsCitationHintDe_' + $index].$error" multiple>
                               <div ng-message="md-maxlength">{{'data-set-management.error.sub-data-set.citation-hint.i18n-string-size' | translate}}</div>
                           </div>
@@ -186,7 +186,7 @@
                       <md-input-container flex="50" md-is-error="!dataSetForm['subDataSetsCitationHintEn_' + $index].$valid && (dataSetForm['subDataSetsCitationHintEn_' + $index].$dirty || dataSetForm['subDataSetsCitationHintEn_' + $index].$touched)">
                           <label>{{'data-set-management.edit.label.sub-data-set.citation-hint' | translate}} ({{'global.in-english' | translate}})</label>
                           <textarea md-maxlength="2048" rows="4" ng-model="subDataSet.citationHint.en" name="subDataSetsCitationHintEn_{{$index}}" lang="en" md-no-asterisk ng-blur="ctrl.deleteCurrentSubDataSet($event)" ng-focus="ctrl.setCurrentSubDataSet($index,$event)"></textarea>
-                          <div ng-if="!dataSetForm['subDataSetsCitationHintEn_' + $index].$dirty && !dataSetForm['subDataSetsCitationHintEn_' + $index].$touched" class="fdz-input-hint">{{'data-set-management.edit.hints.sub-data-set.citationHint.en' | translate}}</div>
+                          <div ng-if="!dataSetForm['subDataSetsCitationHintEn_' + $index].$dirty && !dataSetForm['subDataSetsCitationHintEn_' + $index].$touched" class="fdz-input-hint">{{'data-set-management.edit.hints.sub-data-set.citation-hint.en' | translate}}</div>
                           <div ng-messages="dataSetForm['subDataSetsCitationHintEn_' + $index].$error" multiple>
                               <div ng-message="md-maxlength">{{'data-set-management.error.sub-data-set.citation-hint.i18n-string-size' | translate}}</div>
                           </div>
