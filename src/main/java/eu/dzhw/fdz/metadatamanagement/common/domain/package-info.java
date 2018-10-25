@@ -1,7 +1,7 @@
 /**
- * Common domain object, which are not binded directly to a management.
+ * Common domain objects which can be used in all other subdomains of this application.
  * 
- * @author Daniel Katzberg
+ * @author René Reitmann
  *
  */
 package eu.dzhw.fdz.metadatamanagement.common.domain;

@@ -13,7 +13,7 @@ import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySub
 
 /**
  * Generate DOIs which will be sent to DARA on release of a {@link DataAcquisitionProject}.
- * 
+ *
  * @author René Reitmann
  */
 @Component
@@ -22,8 +22,8 @@ public class DoiBuilder {
   private Environment environment;
 
   /**
-   * Create a doi for releases >= 1.0.0.
-   * 
+   * Create a doi for releases greater than or equal to 1.0.0.
+   *
    * @param study the study which gets the doi
    * @param release the release
    * @return a doi (if required)
@@ -32,10 +32,10 @@ public class DoiBuilder {
     if (release != null && study != null
         && Version.valueOf(release.getVersion()).greaterThanOrEqualTo(Version.valueOf("1.0.0"))) {
       if (environment.acceptsProfiles(Constants.SPRING_PROFILE_PROD)) {
-        return "10.21249/DZHW:" + study.getDataAcquisitionProjectId() + ":" 
+        return "10.21249/DZHW:" + study.getDataAcquisitionProjectId() + ":"
             + release.getVersion();
       } else {
-        return "10.5072/DZHW:" + study.getDataAcquisitionProjectId() + ":" 
+        return "10.5072/DZHW:" + study.getDataAcquisitionProjectId() + ":"
             + release.getVersion();
       }
     }

@@ -30,10 +30,8 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * Service for sending e-mails.
- * <p/>
- * <p>
+ 
  * We use the @Async annotation to send e-mails asynchronously.
- * </p>
  */
 @Service
 @Slf4j

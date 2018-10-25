@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * Details of a customer who orders data products.
- * 
+ *
  * @author René Reitmann
  */
 @NoArgsConstructor
@@ -19,6 +19,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Customer {
 
+  /**
+   * Name of the customer as given in the shopping cart.
+   */
   @NotEmpty
   private String name;
 

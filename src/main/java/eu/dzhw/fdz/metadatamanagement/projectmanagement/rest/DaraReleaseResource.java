@@ -35,7 +35,7 @@ public class DaraReleaseResource {
   private DaraService daraService;
 
   /**
-   * POST /data-acquisition-projects/:id/relase -> Release a project to dara (or update it).
+   * Release a project to dara (or update it).
    * @throws TemplateException Template Errors of the XML Freemarker Process.
    * @throws IOException IO Exception for the XML Freemarker Process.
    */
