@@ -588,6 +588,50 @@
                 <groupId>pl.project13.maven</groupId>
                 <artifactId>git-commit-id-plugin</artifactId>
             </plugin>
+            <plugin>
+              <groupId>org.codehaus.mojo</groupId>
+              <artifactId>exec-maven-plugin</artifactId>
+              <version>1.6.0</version>
+              <executions>
+                <execution>
+                  <id>javasphinx-apidoc</id>
+                  <phase>generate-resources</phase>
+                  <goals>
+                    <goal>exec</goal>
+                  </goals>
+                </execution>
+              </executions>
+              <configuration>
+                <executable>javasphinx-apidoc</executable>
+                <arguments>
+                  <argument>src/main/java/eu/dzhw/fdz/metadatamanagement</argument>
+                  <argument>-o</argument>
+                  <argument>./docs/source/javadoc</argument>
+                  <argument>-I</argument>
+                  <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/common/domain</argument>
+                  <argument>-I</argument>
+                  <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/projectmanagement/domain</argument>
+                  <argument>-I</argument>
+                  <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/studymanagement/domain</argument>
+                  <argument>-I</argument>
+                  <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/surveymanagement/domain</argument>
+                  <argument>-I</argument>
+                  <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/instrumentmanagement/domain</argument>
+                  <argument>-I</argument>
+                  <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/questionmanagement/domain</argument>
+                  <argument>-I</argument>
+                  <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/datasetmanagement/domain</argument>
+                  <argument>-I</argument>
+                  <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/variablemanagement/domain</argument>
+                  <argument>-I</argument>
+                  <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/relatedpublicationmanagement/domain</argument>
+                  <argument>-I</argument>
+                  <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/ordermanagement/domain</argument>
+                  <argument>-I</argument>
+                  <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/usermanagement/domain</argument>
+                </arguments>
+            </configuration>
+          </plugin>
         </plugins>
     </build>
 
