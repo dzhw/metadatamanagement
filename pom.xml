@@ -109,7 +109,7 @@
         <dependency>
             <groupId>org.javers</groupId>
             <artifactId>javers-spring-boot-starter-mongo</artifactId>
-            <version>3.11.7</version>
+            <version>3.12.3</version>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
