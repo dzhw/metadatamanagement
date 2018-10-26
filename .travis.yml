@@ -33,7 +33,7 @@ before_install:
   - pip install robotframework-extendedselenium2library --user
   - pip install pyyaml --user
   - pip install six --user
-  - pip install javasphinx --user
+  - pip install git+https://github.com/dzhw/javasphinx.git --user
 # turn off travis default mvn install call and install a recent node version instead
 install:
   - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install 10.12.0
