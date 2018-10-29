@@ -645,7 +645,18 @@ aus den Pflichtfeldern Beschreibung, Titel, Typ und Erhebung, sowie
 den nicht verpflichtenden Feldern Untertitel und Anmerkungen.
 
 Des weiteren können weitere Materialien zum Instrument
-hochgeladen werden.
+hochgeladen werden. Um weitere Materialien hochzuladen muss zunächst das Instrument abgespeichert sein.
+Im Anschluss muss der Plusbutton gedrückt werden, woraufhin sich ein Dialog öffnet (s.
+:numref:`instruments_anhang_dialog`), in welchem der Anhang hochgeladen werden kann und Metadaten zur Datei
+eingegeben werden können. Um die Datei hochzuladen wird auf den Büroklammer-Button gedrückt und es öffnet sich ein
+weiterer Dialog. Alle Felder dieses Dialogs sind verpflichtend. Anschließend lässt sich der Anhang mit dem
+Speichern-Button (Diskettensymbol unten rechts) speichern.
+
+
+.. figure:: ./_static/instruments_anhang_dialog.png
+   :name: instruments_anhang_dialog
+
+   Instrumente Anhang
 
 **Excel-Tabelle**
 
