@@ -32,7 +32,7 @@ angular.module('metadatamanagementApp').directive('datasetSearchResult',
           }).then(function() {
             return DataSetResource.delete({id: dataSetId}).$promise;
           }).then(function() {
-            return ElasticSearchAdminService.processUpdateQueue('dataSets');
+            return ElasticSearchAdminService.processUpdateQueue('data_sets');
           }).then(function() {
             $rootScope.$broadcast('deletion-completed');
             SimpleMessageToastService.openSimpleMessageToast(

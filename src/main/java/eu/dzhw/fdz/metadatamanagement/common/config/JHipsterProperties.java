@@ -7,10 +7,7 @@ import eu.dzhw.fdz.metadatamanagement.common.rest.filter.CachingHttpHeadersFilte
 
 /**
  * Properties specific to JHipster.
- *
- * <p>
  * Properties are configured in the application.yml file.
- * </p>
  */
 @ConfigurationProperties(prefix = "jhipster", ignoreUnknownFields = false)
 public class JHipsterProperties {
@@ -194,7 +191,7 @@ public class JHipsterProperties {
         this.enabled = enabled;
       }
     }
-    
+
     /**
      * Configure Spark.
      */

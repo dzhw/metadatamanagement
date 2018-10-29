@@ -40,6 +40,7 @@ angular.module('metadatamanagementApp').config(
           'label': {
             'data-set': 'Datensatz',
             'data-sets': 'Datensätze',
+            'description': 'Beschreibung',
             'type': 'Typ',
             'format': 'Format',
             'annotations': 'Anmerkungen',
@@ -70,7 +71,50 @@ angular.module('metadatamanagementApp').config(
             'title': 'Verfügbare Subdatensätze'
           },
           'attachments': {
-            'table-title': 'Materialien zu dem Datensatz'
+            'table-title': 'Materialien zu dem Datensatz',
+            'attachment-deleted-toast': 'Datei "{{ filename }}" wurde gelöscht!',
+            'delete-attachment-tooltip': 'Klicken, um die Datei "{{ filename }}" zu löschen!',
+            'edit-attachment-tooltip': 'Klicken, um die Datei "{{ filename }}" zu bearbeiten.',
+            'select-attachment-tooltip': 'Klicken, um Datei "{{ filename }}" zum Verschieben auszuwählen.',
+            'move-attachment-up-tooltip': 'Klicken, um die ausgewählte Datei nach oben zu verschieben.',
+            'move-attachment-down-tooltip': 'Klicken, um die ausgewählte Datei nach unten zu verschieben.',
+            'save-attachment-order-tooltip': 'Klicken, um die geänderte Reihenfolge der Dateien zu speichern.',
+            'attachment-order-saved-toast': 'Die geänderte Reihenfolge der Dateien wurde gespeichert.',
+            'add-attachment-tooltip': 'Klicken, um einen neue Datei zu diesem Datensatz hinzuzufügen.',
+            'edit-title': 'Datei "{{ filename }}" von Datensatz "{{ dataSetId }}" bearbeiten',
+            'create-title': 'Neue Datei zu Datensatz "{{ dataSetId }}" hinzufügen',
+            'cancel-tooltip': 'Klicken, um den Dialog ohne zu speichern zu schließen.',
+            'save-tooltip': 'Klicken, um die Datei zu speichern.',
+            'attachment-saved-toast': 'Datei "{{ filename }}" wurde gespeichert.',
+            'attachment-has-validation-errors-toast': 'Die Datei wurde nicht gespeichert, weil es noch ungültige Felder gibt.',
+            'change-file-tooltip': 'Klicken, um eine Datei auszuwählen.',
+            'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version der Metadaten wiederherzustellen.',
+            'current-version-restored-toast': 'Die aktuelle Version der Metadaten von Datei "{{ filename }}" wurde wiederhergestellt.',
+            'previous-version-restored-toast': 'Die ältere Version der Metadaten von Datei "{{ filename }}" kann jetzt gespeichert werden.',
+            'choose-previous-version': {
+              'title': 'Ältere Version der Metadaten zu Datei "{{ filename }}" wiederherstellen',
+              'text': 'Wählen Sie eine ältere Version der Metadaten zu Datei "{{ filename }}" aus, die wiederhergestellt werden soll:',
+              'attachment-title': 'Titel',
+              'lastModified': 'Geändert',
+              'lastModifiedBy': 'von',
+              'cancel-tooltip': 'Klicken, um ohne eine ältere Version der Metadaten auszuwählen zurückzukehren.',
+              'current-version-tooltip': 'Dies ist die aktuelle Version!',
+              'next-page-tooltip': 'Klicken, um ältere Versionen anzuzeigen.',
+              'previous-page-tooltip': 'Klicken, um aktuellere Versionen anzuzeigen.',
+              'attachment-deleted': 'Metadaten wurden gelöscht!',
+              'no-versions-found': 'Es wurden keine älteren Versionen der Metadaten gefunden.'
+            },
+            'language-not-found': 'Keine gültige Sprache gefunden!',
+            'save-data-set-before-adding-attachment': 'Der Datensatz muss erst gespeichert werden, bevor Materialien hinzugefügt werden können.',
+            'hints': {
+              'filename': 'Wählen Sie eine Datei aus, die Sie dem Datensatz hinzufügen wollen.',
+              'language': 'Wählen Sie die Sprache, die in der Datei verwendet wurde, aus.',
+              'description': {
+                'de': 'Geben Sie eine Beschreibung dieser Datei auf Deutsch ein.',
+                'en': 'Geben Sie eine Beschreibung dieser Datei auf Englisch ein.'
+              },
+              'title': 'Geben Sie den Titel der Datei in der Dokumentensprache ein.'
+            }
           },
           'title': '{{ description }} ({{ dataSetId }})',
           'not-found': 'Die id {{id}} referenziert auf einen unbekannten Datensatz',
@@ -115,7 +159,8 @@ angular.module('metadatamanagementApp').config(
               'pattern': 'Die FDZ-ID darf nur alphanumerische Zeichen, deutsche Umlaute, Ausrufezeichen und ß beinhalten.'
             },
             'description': {
-              'i18n-string-size': 'Die Maximallänge der Datensatzbeschreibung ist 2048 Zeichen.'
+              'i18n-string-size': 'Die Maximallänge der Datensatzbeschreibung ist 2048 Zeichen.',
+              'i18n-string-not-empty': 'Die Datensatzbeschreibung muss in mindestens einer Sprache angegeben werden.'
             },
             'annotations': {
               'i18n-string-size': 'Die Maximallänge der Anmerkungen ist 2048 Zeichen.'
@@ -131,7 +176,7 @@ angular.module('metadatamanagementApp').config(
               }
             },
             'survey-numbers': {
-              'not-empty': 'Der Datensatz muss mindestens eine Erhebungsnummer beinhalten!'
+              'not-empty': 'Der Datensatz muss mindestens einer Erhebung zugeordnet sein!'
             },
             'number': {
               'not-null': 'Die Nummer des Datensatzes darf nicht leer sein!'
@@ -182,29 +227,104 @@ angular.module('metadatamanagementApp').config(
           },
           'sub-data-set': {
             'name': {
-              'not-empty': 'Der Name des {{index}}. Sub-Daten-Satzes darf bei dem Datensatz nicht leer sein!',
-              'size': 'Die Maximallänge des Namens des {{index}}. Sub-Daten-Satzes ist 32 Zeichen.'
+              'not-empty': 'Der Name eines Subdatensatz darf nicht leer sein!',
+              'size': 'Die Maximallänge des Namens eines Subdatensatz ist 32 Zeichen.'
             },
             'description': {
-              'i18n-string-not-empty': 'Die Beschreibung des {{index}}. Sub-Daten-Satzes darf nicht leer sein!',
-              'i18n-string-size': 'Die Maximallänge der Beschreibung des {{index}}. Sub-Daten-Satzes ist 512 Zeichen.'
+              'i18n-string-not-empty': 'Die Beschreibung eines Subdatensatz darf nicht leer sein!',
+              'i18n-string-size': 'Die Maximallänge der Beschreibung eines Subdatensatz ist 512 Zeichen.'
             },
             'citation-hint': {
               'i18n-string-size': 'Die Maximallänge des Zitationshinweises eines Subdatensatzes ist 2048 Zeichen.'
             },
             'access-way': {
-              'not-null': 'Der Zugangsweg des {{index}}. Sub-Daten-Satzes darf nicht leer sein!',
-              'valid-access-way': 'Der Zugangsweg des {{index}}. Sub-Daten-Satzes ist ungültig. Erlaubt sind nur: download-cuf, download-suf, remote-desktop-suf oder onsite-suf.'
+              'not-null': 'Der Zugangsweg eines Subdatensatz darf nicht leer sein!',
+              'valid-access-way': 'Der Zugangsweg eines Subdatensatz ist ungültig. Erlaubt sind nur: download-cuf, download-suf, remote-desktop-suf oder onsite-suf.'
             },
             'number-of-observations': {
-              'not-null': 'Die Anzahl von Beobachtungen darf bei einem Sub-Daten-Satzes nicht leer sein!'
+              'not-null': 'Die Anzahl von Fälle/Episoden darf bei einem Subdatensatz nicht leer sein!',
+              'invalid-number': 'Geben Sie eine positive ganze Zahl an!'
             }
           },
           'post-validation': {
             'data-set-has-invalid-survey-id': 'Der Datensatz {{id}} referenziert eine unbekannte Erhebung({{toBereferenzedId}}).'
           }
+        },
+        'edit': {
+          'edit-page-title': 'Datensatz {{dataSetId}} bearbeiten',
+          'create-page-title': 'Datensatz {{dataSetId}} anlegen',
+          'success-on-save-toast': 'Datensatz {{dataSetId}} wurde erfolgreich gespeichert.',
+          'error-on-save-toast': 'Ein Fehler trat beim Speichern von Datensatz {{dataSetId}} auf!',
+          'data-set-has-validation-errors-toast': 'Der Datensatz wurde nicht gespeichert, weil es noch ungültige Felder gibt!',
+          'previous-version-restored-toast': 'Die ältere Version von Datensatz {{ dataSetId }} kann jetzt gespeichert werden.',
+          'current-version-restored-toast': 'Die aktuelle Version von Datensatz {{ dataSetId }} wurde wiederhergestellt.',
+          'not-authorized-toast': 'Sie sind nicht berechtigt Datensätze zu bearbeiten oder anzulegen!',
+          'choose-unreleased-project-toast': 'Datensätze dürfen nur bearbeitet werden, wenn das Projekt aktuell nicht freigegeben ist!',
+          'data-set-deleted-toast': 'Der Datensatz {{ id }} wurde gelöscht.',
+          'delete-sub-data-set-tooltip': 'Klicken, um den Subdatensatz zu löschen',
+          'label': {
+            'edit-data-set': 'Datensatz bearbeiten:',
+            'create-data-set': 'Datensatz anlegen:',
+            'surveys': 'Erhebungen *',
+            'sub-data-set': {
+              'name': 'Name',
+              'access-way': 'Zugangsweg',
+              'number-of-observations': 'Anzahl Fälle/Episoden',
+              'description': 'Beschreibung',
+              'citation-hint': 'Zitationshinweis'
+            }
+          },
+          'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version dieses Datensatzes wieder herzustellen.',
+          'save-tooltip': 'Klicken, um den Datensatz zu speichern.',
+          'choose-previous-version': {
+            'next-page-tooltip': 'Klicken, um ältere Versionen anzuzeigen.',
+            'previous-page-tooltip': 'Klicken, um aktuellere Versionen anzuzeigen.',
+            'title': 'Ältere Version des Datensatzes {{ dataSetId }} wiederherstellen',
+            'text': 'Wählen Sie eine ältere Version des Datensatzes aus, die wiederhergestellt werden soll:',
+            'cancel-tooltip': 'Klicken, um ohne eine ältere Version des Datensatzes auszuwählen zurückzukehren.',
+            'no-versions-found': 'Es wurden keine älteren Versionen des Datensatzes {{ dataSetId }} gefunden.',
+            'data-set-description': 'Beschreibung',
+            'lastModified': 'Geändert',
+            'lastModifiedBy': 'von',
+            'current-version-tooltip': 'Dies ist die aktuelle Version!',
+            'data-set-deleted': 'Der Datensatz wurde gelöscht!'
+          },
+          'choose-data-set-number': {
+            'title': 'Auswahl einer freien Datensatznummer',
+            'label': 'Freie Datensatznummern',
+            'ok-tooltip': 'Klicken, um die Auswahl der Datensatznummer zu bestätigen.'
+          },
+          'hints': {
+            'description': {
+              'de': 'Geben Sie eine kurze Beschreibung für den Datensatz auf Deutsch ein.',
+              'en': 'Geben Sie eine kurze Beschreibung für den Datensatz auf Englisch ein.'
+            },
+            'format': 'Wählen Sie das Datensatzformat aus.',
+            'type': 'Geben Sie an ob es sich um einen Personen- oder Episodendatensatz handelt.',
+            'surveys': 'Wählen Sie die Erhebungen aus, aus denen dieser Datensatz resultiert.',
+            'search-surveys': 'Erhebungen suchen...',
+            'no-surveys-found': 'Keine (weiteren) Erhebungen gefunden.',
+            'annotations': {
+              'de': 'Geben Sie zusätzliche Anmerkungen zu dem Datensatz hier auf Deutsch an.',
+              'en': 'Geben Sie zusätzliche Anmerkungen zu dem Datensatz hier auf Englisch an.',
+            },
+            'data-set-number': 'Wählen Sie eine freie Nummer für den neuen Datensatz aus.',
+            'sub-data-set': {
+                'name': 'Geben Sie den (Datei-)namen des Subdatensatzes an.',
+                'access-way': 'Auf welchem Weg steht der Subdatensatz zur Verfügung?',
+                'number-of-observations': 'Wieviele Fälle bzw. Epsioden enthält der Subdatensatz?',
+                'description': {
+                  'de': 'Geben Sie eine kurze Beschreibung für den Subdatensatz auf Deutsch ein.',
+                  'en': 'Geben Sie eine kurze Beschreibung für den Subdatensatz auf Englisch ein.'
+                },
+                'citation-hint': {
+                  'de': 'Wie soll der Subdatensatz zitiert werden?',
+                  'en': 'Wie soll der Subdatensatz zitiert werden?'
+                }
+              }
+            }
+          }
         }
-      }
       //jscs:enable
     };
     $translateProvider.translations('de', translations);

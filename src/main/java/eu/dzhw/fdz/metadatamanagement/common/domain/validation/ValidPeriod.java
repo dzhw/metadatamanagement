@@ -10,7 +10,7 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- * Validate that the begin of a period is <= then the end.
+ * Validate that the begin of a period is less than or equal to the end.
  * @author René Reitmann
  */
 @Documented
@@ -18,7 +18,7 @@ import javax.validation.Payload;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidPeriod {
-  
+
   /**
    * Defines the default error message.
    */

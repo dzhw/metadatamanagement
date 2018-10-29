@@ -3,7 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.ImageType;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.ImageType;
 
 /**
  * Validator of the question image type. Only the png value from the enum {@link ImageType} is 

@@ -22,11 +22,20 @@ import lombok.NoArgsConstructor;
 @ValueObject
 public class Person {
 
+  /**
+   * The first name of the person. Must not be empty.
+   */
   @NotEmpty(message = "global.error.person.first-name.not-empty")
   private String firstName;
 
+  /**
+   * The middle name of the person.
+   */
   private String middleName;
 
+  /**
+   * The last name of the person. Must not be empty.
+   */
   @NotEmpty(message = "global.error.person.last-name.not-empty")
   private String lastName;
 }

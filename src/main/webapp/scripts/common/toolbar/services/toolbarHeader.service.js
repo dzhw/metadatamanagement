@@ -202,6 +202,7 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
           dataSetItem.tooltip = translationStringsMap
           .dataSetDetail.translateString;
           dataSetItem.number = dataSet.dataSetNumber;
+          dataSetItem.enableLastItem = dataSet.enableLastItem;
         } else {
           dataSetItem.notFound = '?';
         }
@@ -320,6 +321,20 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         case 'dataSetDetail':
           dataSetItem = createRelatedDataSetItem(item, 'data-set');
           surveyItem = createRelatedSurveyItem(item.surveys, 'data-set',
+          item.id);
+          $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
+          surveyItem, dataSetItem);
+          break;
+        case 'dataSetEdit':
+          dataSetItem = createRelatedDataSetItem(item);
+          surveyItem = createRelatedSurveyItem([], 'data-set',
+          item.id);
+          $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
+          surveyItem, dataSetItem);
+          break;
+        case 'dataSetCreate':
+          dataSetItem = createRelatedDataSetItem(item);
+          surveyItem = createRelatedSurveyItem([], 'data-set',
           item.id);
           $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
           surveyItem, dataSetItem);

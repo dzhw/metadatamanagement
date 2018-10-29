@@ -12,6 +12,7 @@ Metadatamanagement Dokumentation
 
    user_roles
    metadatenabgabe
+   javadoc/packages
 
 
 Indizes und Tabellen

@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp')
     function(entity, PageTitleService, $timeout,
       $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
       CurrentProjectService, DataSetIdBuilderService, DataSetResource,
-      $scope, SurveyIdBuilderService,
+      $scope, SurveyIdBuilderService, $document,
       ElasticSearchAdminService, $mdDialog, $transitions, StudyResource,
       CommonDialogsService, LanguageService, AvailableDataSetNumbersResource,
       DataSetAttachmentResource, $q, StudyIdBuilderService, SearchDao,
@@ -120,6 +120,9 @@ angular.module('metadatamanagementApp')
                           studyId: StudyIdBuilderService.buildStudyId(
                             CurrentProjectService.getCurrentProject().id
                           ),
+                          subDataSets: [{
+                            name: ''
+                          }]
                         });
                         updateToolbarHeaderAndPageTitle();
                         $scope.registerConfirmOnDirtyHook();
@@ -145,7 +148,10 @@ angular.module('metadatamanagementApp')
                               CurrentProjectService.getCurrentProject().id,
                               studyId: StudyIdBuilderService.buildStudyId(
                                 CurrentProjectService.getCurrentProject().id
-                              )
+                              ),
+                              subDataSets: [{
+                                name: ''
+                              }]
                             });
                             $scope.responseRateInitializing = true;
                             updateToolbarHeaderAndPageTitle();
@@ -165,6 +171,75 @@ angular.module('metadatamanagementApp')
           SimpleMessageToastService.openAlertMessageToast(
           'data-set-management.edit.not-authorized-toast');
         }
+      };
+
+      ctrl.allAccessWays = ['download-cuf', 'download-suf',
+        'remote-desktop-suf', 'onsite-suf'];
+      $scope.$watch('ctrl.dataSet.subDataSets', function() {
+          if (ctrl.dataSet) {
+            ctrl.availableAccessWays = ctrl.allAccessWays.slice();
+            ctrl.dataSet.subDataSets.forEach(function(subDataSet) {
+              _.remove(ctrl.availableAccessWays, function(availableAccessWay) {
+                return availableAccessWay === subDataSet.accessWay;
+              });
+            });
+          }
+        }, true);
+
+      ctrl.deleteSubDataSet = function(index) {
+        ctrl.dataSet.subDataSets.splice(index, 1);
+        $scope.dataSetForm.$setDirty();
+      };
+
+      ctrl.addSubDataSet = function() {
+        ctrl.dataSet.subDataSets.push({
+          name: ''
+        });
+        $timeout(function() {
+          $document.find('input[name="subDataSetsName_' +
+              (ctrl.dataSet.subDataSets.length - 1) + '"]')
+            .focus();
+        });
+      };
+
+      ctrl.setCurrentSubDataSet = function(index, event) {
+        ctrl.currentSubDataSetInputName = event.target.name;
+        ctrl.currentSubDataSetIndex = index;
+      };
+
+      ctrl.deleteCurrentSubDataSet = function(event) {
+        if (event.relatedTarget && (
+            event.relatedTarget.id === 'move-sub-data-set-up-button' ||
+            event.relatedTarget.id === 'move-sub-data-set-down-button')) {
+          return;
+        }
+        delete ctrl.currentSubDataSetIndex;
+      };
+
+      ctrl.moveCurrentSubDataSetUp = function() {
+        var a = ctrl.dataSet.subDataSets[ctrl.currentSubDataSetIndex - 1];
+        ctrl.dataSet.subDataSets[ctrl.currentSubDataSetIndex - 1] =
+          ctrl.dataSet.subDataSets[ctrl.currentSubDataSetIndex];
+        ctrl.dataSet.subDataSets[ctrl.currentSubDataSetIndex] = a;
+        ctrl.currentSubDataSetInputName = ctrl.currentSubDataSetInputName
+          .replace('_' + ctrl.currentSubDataSetIndex,
+            '_' + (ctrl.currentSubDataSetIndex - 1));
+        $document.find('*[name="' + ctrl.currentSubDataSetInputName + '"]')
+          .focus();
+        $scope.dataSetForm.$setDirty();
+      };
+
+      ctrl.moveCurrentSubDataSetDown = function() {
+        var a = ctrl.dataSet.subDataSets[ctrl.currentSubDataSetIndex + 1];
+        ctrl.dataSet.subDataSets[ctrl.currentSubDataSetIndex + 1] =
+          ctrl.dataSet.subDataSets[ctrl.currentSubDataSetIndex];
+        ctrl.dataSet.subDataSets[ctrl.currentSubDataSetIndex] = a;
+        ctrl.currentSubDataSetInputName = ctrl.currentSubDataSetInputName
+          .replace('_' + ctrl.currentSubDataSetIndex,
+            '_' + (ctrl.currentSubDataSetIndex + 1));
+        $document.find('*[name="' + ctrl.currentSubDataSetInputName + '"]')
+          .focus();
+        $scope.dataSetForm.$setDirty();
       };
 
       ctrl.saveDataSet = function() {

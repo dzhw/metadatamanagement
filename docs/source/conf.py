@@ -47,6 +47,7 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
+    'javasphinx',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -208,3 +209,5 @@ todo_include_todos = True
 
 # -- Use tags
 html_use_index = True
+def setup(app):
+    app.add_stylesheet('css/custom.css')

@@ -208,7 +208,7 @@
                         <td lang="{{row.language}}">{{row.title}}&nbsp;</td>
                         <td display-i18n-string="row.description" fdz-hyphenate class="fdz-text-block"></td>
                         <td>{{row.language | displayIsoLanguage: currentLanguage}}&nbsp;</td>
-                        <td><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                        <td style="white-space: nowrap;"><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                             {{'global.tooltips.files.download' | translate: {filename: row.fileName} }}
                         </md-tooltip></a>&nbsp;</td>
                     </tr>

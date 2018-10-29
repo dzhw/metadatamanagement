@@ -341,6 +341,10 @@ angular.module('metadatamanagementApp').config(
           'confirm-delete-instrument': {
             'title': 'Delete Instrument "{{ id }}"?',
             'content': 'Do you really want to delete Instrument "{{ id }}"?'
+          },
+          'confirm-delete-data-set': {
+            'title': 'Delete Data Set "{{ id }}"?',
+            'content': 'Do you really want to delete Data Set "{{ id }}"?'
           }
         },
         'edit': {

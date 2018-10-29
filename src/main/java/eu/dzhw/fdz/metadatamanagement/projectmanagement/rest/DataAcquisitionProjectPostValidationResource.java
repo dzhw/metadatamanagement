@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
  * project by the client and called url. Post validation means that all data, collection and foreign
  * keys will be check for valid values. The Post-Validation returns a list of errors, wrapped by a
  * DTO class.
- * 
+ *
  * @author Daniel Katzberg
  *
  */
@@ -32,7 +32,7 @@ public class DataAcquisitionProjectPostValidationResource {
   private PostValidationService postValidationService;
 
   /**
-   * POST /data-acquisition-projects/:id/post-validate -> Validate project by id.
+   * Validate project by id.
    */
   @RequestMapping(value = "/data-acquisition-projects/{id}/post-validate",
       method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)

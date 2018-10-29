@@ -6,14 +6,14 @@ import javax.validation.ConstraintValidatorContext;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
 
 /**
- * Validate that the begin of a period is <= then the end.
+ * Validate that the begin of a period is less than or equal to the end.
  * @author René Reitmann
  */
 public class ValidPeriodValidator implements ConstraintValidator<ValidPeriod, Period> {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see javax.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
    */
   @Override
@@ -21,7 +21,7 @@ public class ValidPeriodValidator implements ConstraintValidator<ValidPeriod, Pe
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see javax.validation.ConstraintValidator#isValid(java.lang.Object,
    * javax.validation.ConstraintValidatorContext)
    */
@@ -37,7 +37,7 @@ public class ValidPeriodValidator implements ConstraintValidator<ValidPeriod, Pe
     if (period.getStart() == null || period.getEnd() == null) {
       return false;
     }
-    
+
     return period.getStart().isBefore(period.getEnd()) || period.getStart().equals(period.getEnd());
   }
 }
