@@ -1,9 +1,7 @@
 eu.dzhw.fdz.metadatamanagement.studymanagement.domain
 =====================================================
 
-The package for the domain objects within the study management.
-
-:author: Daniel Katzberg
+Domain objects describing \ :java:ref:`eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study`\ s.
 
 .. java:package:: eu.dzhw.fdz.metadatamanagement.studymanagement.domain
 

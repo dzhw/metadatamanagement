@@ -8,7 +8,7 @@ import java.util.Set;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 
 /**
- * Question Types.
+ * All valid types of a {@link Question}.
  */
 public class QuestionTypes {
   public static final I18nString OPEN = new I18nString("Offen", "Open");

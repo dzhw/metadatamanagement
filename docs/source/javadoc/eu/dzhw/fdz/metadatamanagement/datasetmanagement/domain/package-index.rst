@@ -1,9 +1,7 @@
 eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain
 =======================================================
 
-Domain objects for the dataset management.
-
-:author: Daniel Katzberg
+Domain objects describing \ :java:ref:`eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet`\ s.
 
 .. java:package:: eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain
 

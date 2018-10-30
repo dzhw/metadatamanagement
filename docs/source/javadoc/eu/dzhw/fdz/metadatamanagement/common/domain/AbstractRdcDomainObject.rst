@@ -20,9 +20,7 @@ AbstractRdcDomainObject
 
 .. java:type:: @Data public abstract class AbstractRdcDomainObject
 
-   Base class for all rdc domain objects.
-
-   :author: René Reitmann
+   Base class for all rdc domain objects. All domain objects inherit the fields from this base class.
 
 Fields
 ------

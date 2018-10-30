@@ -12,9 +12,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * Objects representing periods in time. All periods must have a start date and an end date and the
- * start must be before or equal to the end date.
- *
- * @author René Reitmann
+ * start date must be before or equal to the end date.
  */
 @ValidPeriod(message = "global.error.period.valid-period")
 @NoArgsConstructor
@@ -24,12 +22,16 @@ import lombok.NoArgsConstructor;
 @ValueObject
 public class Period {
   /**
-   * The start date of the period. Mandatory and must not be after end date.
+   * The start date of the period.
+   * 
+   * Mandatory and must not be after end date.
    */
   private LocalDate start;
 
   /**
-   * The end date of the period. Mandatory and must not be before start date.
+   * The end date of the period.
+   * 
+   * Mandatory and must not be before start date.
    */
   private LocalDate end;
 }

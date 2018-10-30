@@ -10,8 +10,6 @@ import lombok.NoArgsConstructor;
 
 /**
  * Counter document which can be used to get an incremented sequence number per document id.
- * 
- * @author René Reitmann
  */
 @Document(collection = "counters")
 @NoArgsConstructor

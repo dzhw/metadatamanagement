@@ -12,6 +12,8 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidIsoLanguage
 
+.. java:import:: eu.dzhw.fdz.metadatamanagement.projectmanagement.domain DataAcquisitionProject
+
 .. java:import:: lombok AllArgsConstructor
 
 .. java:import:: lombok Builder
@@ -32,7 +34,7 @@ SurveyResponseRateImageMetadata
 
 .. java:type:: @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class SurveyResponseRateImageMetadata extends AbstractRdcDomainObject
 
-   Metadata which will be stored in GridFS with each response rate image for surveys.
+   Metadata which will be stored with each response rate image of a \ :java:ref:`Survey`\ .
 
 Fields
 ------
@@ -42,11 +44,15 @@ dataAcquisitionProjectId
 .. java:field:: @NotEmpty private String dataAcquisitionProjectId
    :outertype: SurveyResponseRateImageMetadata
 
+   The id of the \ :java:ref:`DataAcquisitionProject`\  to which the \ :java:ref:`Survey`\  of this response rate image belongs. Must not be empty.
+
 fileName
 ^^^^^^^^
 
 .. java:field:: @NotEmpty @Pattern private String fileName
    :outertype: SurveyResponseRateImageMetadata
+
+   The filename of the image. Must not be empty and must contain only (german) alphanumeric characters and "_" and "-" and ".".
 
 id
 ^^
@@ -54,11 +60,15 @@ id
 .. java:field:: @Id private String id
    :outertype: SurveyResponseRateImageMetadata
 
+   The id of the response rate image. Holds the complete path which can be used to download the file.
+
 language
 ^^^^^^^^
 
 .. java:field:: @NotNull @ValidIsoLanguage private String language
    :outertype: SurveyResponseRateImageMetadata
+
+   The language used in the response rate image. Must be either "de" or "en".
 
 surveyId
 ^^^^^^^^
@@ -66,9 +76,13 @@ surveyId
 .. java:field:: @NotEmpty private String surveyId
    :outertype: SurveyResponseRateImageMetadata
 
+   The id of the \ :java:ref:`Survey`\  to which this response rate image belongs. Must not be empty.
+
 surveyNumber
 ^^^^^^^^^^^^
 
 .. java:field:: @NotNull private Integer surveyNumber
    :outertype: SurveyResponseRateImageMetadata
+
+   The number of the \ :java:ref:`Survey`\  to which this response rate image belongs. Must not be empty.
 

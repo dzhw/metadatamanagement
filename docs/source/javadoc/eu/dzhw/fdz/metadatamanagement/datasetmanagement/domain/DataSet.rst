@@ -76,9 +76,7 @@ DataSet
 
 .. java:type:: @Entity @Document @ValidDataSetIdName @UniqueDatasetNumberInProject @CompoundIndex @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class DataSet extends AbstractRdcDomainObject
 
-   A DataSet contains \ :java:ref:`Variable`\ s. It results from at least one \ :java:ref:`Survey`\ .
-
-   :author: Daniel Katzberg
+   A dataset contains \ :java:ref:`Variable`\ s. It results from at least one \ :java:ref:`Survey`\ .
 
 Fields
 ------
@@ -88,7 +86,7 @@ annotations
 .. java:field:: @I18nStringSize private I18nString annotations
    :outertype: DataSet
 
-   Arbitrary additional text for the DataSet. Must not contain more than 2048 chracters.s
+   Arbitrary additional text for the dataset. Must not contain more than 2048 characters.
 
 dataAcquisitionProjectId
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -96,7 +94,7 @@ dataAcquisitionProjectId
 .. java:field:: @Indexed @NotEmpty private String dataAcquisitionProjectId
    :outertype: DataSet
 
-   The id of the \ :java:ref:`DataAcquisitionProject`\  to which this DataSet belongs. The dataAcquisitionProjectId must not be empty.
+   The id of the \ :java:ref:`DataAcquisitionProject`\  to which this dataset belongs. The dataAcquisitionProjectId must not be empty.
 
 description
 ^^^^^^^^^^^
@@ -104,7 +102,7 @@ description
 .. java:field:: @NotNull @I18nStringSize @I18nStringNotEmpty private I18nString description
    :outertype: DataSet
 
-   A short description of the DataSet. It must be specified in at least one language and it must not contain more than 2048 characters.
+   A short description of the dataset. It must be specified in at least one language and it must not contain more than 2048 characters.
 
 format
 ^^^^^^
@@ -112,7 +110,7 @@ format
 .. java:field:: @ValidFormat private I18nString format
    :outertype: DataSet
 
-   The format of the DataSet. Must be one of \ :java:ref:`Format`\ .
+   The format of the dataset. Must be one of \ :java:ref:`Format`\ .
 
 id
 ^^
@@ -120,7 +118,7 @@ id
 .. java:field:: @Id @JestId @NotEmpty @Size @Pattern private String id
    :outertype: DataSet
 
-   The id of the DataSet which uniquely identifies the DataSet in this application. The id must not be empty and must be of the form dat-{{dataAcquisitionProjectId}}-ds{{number}}$. The id must not contain more than 512 characters.
+   The id of the dataset which uniquely identifies the dataset in this application. The id must not be empty and must be of the form dat-{{dataAcquisitionProjectId}}-ds{{number}}$. The id must not contain more than 512 characters.
 
 number
 ^^^^^^
@@ -128,7 +126,7 @@ number
 .. java:field:: @NotNull private Integer number
    :outertype: DataSet
 
-   The number of the DataSet which must be unique within the \ :java:ref:`DataAcquisitionProject`\ . Must not be empty.
+   The number of the dataset. Must not be empty and must be unique within the \ :java:ref:`DataAcquisitionProject`\ .
 
 studyId
 ^^^^^^^
@@ -136,7 +134,7 @@ studyId
 .. java:field:: @Indexed @NotEmpty private String studyId
    :outertype: DataSet
 
-   The id of the \ :java:ref:`Study`\  to which this DataSet belongs. Must not be empty.
+   The id of the \ :java:ref:`Study`\  to which this dataset belongs. Must not be empty.
 
 subDataSets
 ^^^^^^^^^^^
@@ -144,7 +142,7 @@ subDataSets
 .. java:field:: @Valid @NotEmpty @UniqueSubDatasetAccessWayInDataSet private List<SubDataSet> subDataSets
    :outertype: DataSet
 
-   List of \ :java:ref:`SubDataSet`\ s (concrete accessible files) within this DataSet. Must contain at least one element. There must not be more than one \ :java:ref:`SubDataSet`\  per \ :java:ref:`AccessWays`\ .
+   List of \ :java:ref:`SubDataSet`\ s (concrete accessible files) within this dataset. Must contain at least one element. There must not be more than one \ :java:ref:`SubDataSet`\  per \ :java:ref:`AccessWays`\ .
 
 surveyIds
 ^^^^^^^^^
@@ -152,7 +150,7 @@ surveyIds
 .. java:field:: @Indexed @NotEmpty private List<String> surveyIds
    :outertype: DataSet
 
-   List of ids of \ :java:ref:`Survey`\ s of this \ :java:ref:`DataAcquisitionProject`\ . The DataSet contains results from these \ :java:ref:`Survey`\ s. Must contain at least one element.
+   List of ids of \ :java:ref:`Survey`\ s of this \ :java:ref:`DataAcquisitionProject`\ . The dataset contains results from these \ :java:ref:`Survey`\ s. Must contain at least one element.
 
 surveyNumbers
 ^^^^^^^^^^^^^
@@ -160,7 +158,7 @@ surveyNumbers
 .. java:field:: @NotEmpty private List<Integer> surveyNumbers
    :outertype: DataSet
 
-   List of numbers of \ :java:ref:`Survey`\ s of this \ :java:ref:`DataAcquisitionProject`\ . The DataSet contains results from these \ :java:ref:`Survey`\ s. Must contain at least one element.
+   List of numbers of \ :java:ref:`Survey`\ s of this \ :java:ref:`DataAcquisitionProject`\ . The dataset contains results from these \ :java:ref:`Survey`\ s. Must contain at least one element.
 
 type
 ^^^^
@@ -168,5 +166,5 @@ type
 .. java:field:: @NotNull @ValidDataSetType private I18nString type
    :outertype: DataSet
 
-   The type of the DataSet. Must be one of \ :java:ref:`DataSetTypes`\  and must not be empty.
+   The type of the dataset. Must be one of \ :java:ref:`DataSetTypes`\  and must not be empty.
 

@@ -8,8 +8,7 @@ import java.util.Set;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 
 /**
- * The DataType for Survey enumeration.
- * @author Daniel Katzberg
+ * Types of data, which a {@link Survey} can produce.
  */
 public class DataTypes {
 

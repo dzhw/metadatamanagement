@@ -16,9 +16,7 @@ Format
 
 .. java:type:: public class Format
 
-   Format for Data Sets Enumeration.
-
-   :author: Daniel Katzberg
+   All possible formats of a \ :java:ref:`DataSet`\ .
 
 Fields
 ------
