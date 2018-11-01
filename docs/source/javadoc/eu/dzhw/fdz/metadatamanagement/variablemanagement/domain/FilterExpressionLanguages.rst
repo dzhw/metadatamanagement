@@ -14,9 +14,7 @@ FilterExpressionLanguages
 
 .. java:type:: public class FilterExpressionLanguages
 
-   Filter Expression Languages.
-
-   :author: Daniel Katzberg
+   All supported expression languages for \ :java:ref:`FilterDetails`\ .
 
 Fields
 ------

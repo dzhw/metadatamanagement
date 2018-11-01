@@ -525,8 +525,6 @@
                         <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/relatedpublicationmanagement/domain</argument>
                         <argument>-I</argument>
                         <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/ordermanagement/domain</argument>
-                        <argument>-I</argument>
-                        <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/usermanagement/domain</argument>
                     </arguments>
                 </configuration>
             </plugin>

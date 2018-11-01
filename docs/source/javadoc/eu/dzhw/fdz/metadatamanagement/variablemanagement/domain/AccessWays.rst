@@ -6,6 +6,8 @@
 
 .. java:import:: java.util Set
 
+.. java:import:: eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain DataSet
+
 AccessWays
 ==========
 
@@ -14,9 +16,7 @@ AccessWays
 
 .. java:type:: public class AccessWays
 
-   Access Ways.
-
-   :author: Daniel Katzberg
+   An access way of a \ :java:ref:`Variable`\  or a \ :java:ref:`DataSet`\  indicates how the data user will be able to work with the data.
 
 Fields
 ------

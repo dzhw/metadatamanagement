@@ -13,6 +13,5 @@ Javadoc
    eu/dzhw/fdz/metadatamanagement/relatedpublicationmanagement/domain/package-index
    eu/dzhw/fdz/metadatamanagement/studymanagement/domain/package-index
    eu/dzhw/fdz/metadatamanagement/surveymanagement/domain/package-index
-   eu/dzhw/fdz/metadatamanagement/usermanagement/domain/package-index
    eu/dzhw/fdz/metadatamanagement/variablemanagement/domain/package-index
 
