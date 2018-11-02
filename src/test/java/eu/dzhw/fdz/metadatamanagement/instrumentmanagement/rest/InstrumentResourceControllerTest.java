@@ -20,6 +20,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -100,6 +101,7 @@ public class InstrumentResourceControllerTest extends AbstractTest {
 
     // check that auditing attributes have been set
     mockMvc.perform(get(API_INSTRUMENTS_URI + "/" + instrument.getId()))
+        .andDo(MockMvcResultHandlers.print())
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.createdDate", not(isEmptyOrNullString())))
       .andExpect(jsonPath("$.lastModifiedDate", not(isEmptyOrNullString())))
