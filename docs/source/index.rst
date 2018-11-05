@@ -19,5 +19,3 @@ Indizes und Tabellen
 ====================
 
 * :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
