@@ -19,7 +19,7 @@ numfig = True
 
 # -- Project information -----------------------------------------------------
 
-project = 'MetaDataManagement'
+project = 'Metadatamanagement (MDM)'
 copyright = '2018, Robert Birkelbach, Anne Gärtner, René Reitmann'
 author = 'Robert Birkelbach, Anne Gärtner, René Reitmann'
 

@@ -35,7 +35,7 @@ ist über die Website https://metadata.fdz.dzhw.eu zu erreichen.
 .. figure:: ./_static/01_de.png
    :name: mdm-ebenen
 
-   Darstellung der verschiedenen Ebenen im MDM, Eben *Studie* aktiv
+   Darstellung der verschiedenen Ebenen im MDM, Ebene *Studie* aktiv
 
 Die eigenständige Abgabe von Metadaten
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
