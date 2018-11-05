@@ -38,6 +38,12 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation ValidUniqueInstrumentNumber
 
+.. java:import:: eu.dzhw.fdz.metadatamanagement.ordermanagement.domain Study
+
+.. java:import:: eu.dzhw.fdz.metadatamanagement.projectmanagement.domain DataAcquisitionProject
+
+.. java:import:: eu.dzhw.fdz.metadatamanagement.surveymanagement.domain Survey
+
 .. java:import:: io.searchbox.annotations JestId
 
 .. java:import:: lombok AllArgsConstructor
@@ -60,9 +66,7 @@ Instrument
 
 .. java:type:: @Entity @Document @ValidInstrumentIdPattern @ValidUniqueInstrumentNumber @CompoundIndex @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class Instrument extends AbstractRdcDomainObject
 
-   A Instrument.
-
-   :author: Daniel Katzberg
+   An instrument (e.g. a questionnaire) which was used in at least one \ :java:ref:`Survey`\ .
 
 Fields
 ------
@@ -72,11 +76,15 @@ annotations
 .. java:field:: @I18nStringSize private I18nString annotations
    :outertype: Instrument
 
+   Arbitrary additional text for this instrument. Must not contain more than 2048 characters.
+
 dataAcquisitionProjectId
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. java:field:: @Indexed @NotEmpty private String dataAcquisitionProjectId
    :outertype: Instrument
+
+   The id of the \ :java:ref:`DataAcquisitionProject`\  to which this instrument belongs. The dataAcquisitionProjectId must not be empty.
 
 description
 ^^^^^^^^^^^
@@ -84,11 +92,15 @@ description
 .. java:field:: @NotNull @I18nStringSize @I18nStringNotEmpty private I18nString description
    :outertype: Instrument
 
+   A short description of the instrument. It must be specified in at least one language and it must not contain more than 512 characters.
+
 id
 ^^
 
 .. java:field:: @Id @JestId @NotEmpty @Pattern @Size private String id
    :outertype: Instrument
+
+   The id of the instrument which uniquely identifies the instrument in this application. The id must not be empty and must be of the form ins-{{dataAcquisitionProjectId}}-ins{{number}}$. The id must not contain more than 512 characters.
 
 number
 ^^^^^^
@@ -96,11 +108,15 @@ number
 .. java:field:: @NotNull private Integer number
    :outertype: Instrument
 
+   The number of the instrument. Must not be empty and must be unique within the \ :java:ref:`DataAcquisitionProject`\ .
+
 studyId
 ^^^^^^^
 
 .. java:field:: @Indexed @NotEmpty private String studyId
    :outertype: Instrument
+
+   The id of the \ :java:ref:`Study`\  to which this instrument belongs. Must not be empty.
 
 subtitle
 ^^^^^^^^
@@ -108,11 +124,15 @@ subtitle
 .. java:field:: @I18nStringSize private I18nString subtitle
    :outertype: Instrument
 
+   An optional subtitle of the instrument. It must not contain more than 2048 characters.
+
 surveyIds
 ^^^^^^^^^
 
-.. java:field:: @Indexed private List<String> surveyIds
+.. java:field:: @Indexed @NotEmpty private List<String> surveyIds
    :outertype: Instrument
+
+   List of ids of \ :java:ref:`Survey`\ s of this \ :java:ref:`DataAcquisitionProject`\ . The instrument has been used in these \ :java:ref:`Survey`\ s. Must contain at least one element.
 
 surveyNumbers
 ^^^^^^^^^^^^^
@@ -120,15 +140,21 @@ surveyNumbers
 .. java:field:: @NotEmpty private List<Integer> surveyNumbers
    :outertype: Instrument
 
+   List of numbers of \ :java:ref:`Survey`\ s of this \ :java:ref:`DataAcquisitionProject`\ . The instrument has been used in these \ :java:ref:`Survey`\ s. Must contain at least one element.
+
 title
 ^^^^^
 
 .. java:field:: @NotNull @I18nStringSize @I18nStringNotEmpty private I18nString title
    :outertype: Instrument
 
+   The title of the instrument. It must be specified in at least one language and it must not contain more than 2048 characters.
+
 type
 ^^^^
 
 .. java:field:: @NotEmpty @ValidInstrumentType private String type
    :outertype: Instrument
+
+   The type of this instrument. Must be one of \ :java:ref:`InstrumentTypes`\  and must not be empty.
 

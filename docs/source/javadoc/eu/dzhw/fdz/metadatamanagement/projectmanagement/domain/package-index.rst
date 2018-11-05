@@ -1,9 +1,7 @@
 eu.dzhw.fdz.metadatamanagement.projectmanagement.domain
 =======================================================
 
-Domain Objects for the project management.
-
-:author: Daniel Katzberg
+Domain objects describing \ :java:ref:`eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject`\ s.
 
 .. java:package:: eu.dzhw.fdz.metadatamanagement.projectmanagement.domain
 

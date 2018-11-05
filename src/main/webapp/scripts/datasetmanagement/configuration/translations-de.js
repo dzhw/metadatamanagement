@@ -262,6 +262,9 @@ angular.module('metadatamanagementApp').config(
           'choose-unreleased-project-toast': 'Datensätze dürfen nur bearbeitet werden, wenn das Projekt aktuell nicht freigegeben ist!',
           'data-set-deleted-toast': 'Der Datensatz {{ id }} wurde gelöscht.',
           'delete-sub-data-set-tooltip': 'Klicken, um den Subdatensatz zu löschen',
+          'add-sub-data-set-tooltip': 'Klicken, um einen neuen Subdatensatz hinzuzufügen',
+          'move-sub-data-set-up-tooltip': 'Klicken, um den ausgewählten Subdatensatz nach oben zu verschieben',
+          'move-sub-data-set-down-tooltip': 'Klicken, um den ausgewählten Subdatensatz nach oben zu verschieben',
           'label': {
             'edit-data-set': 'Datensatz bearbeiten:',
             'create-data-set': 'Datensatz anlegen:',

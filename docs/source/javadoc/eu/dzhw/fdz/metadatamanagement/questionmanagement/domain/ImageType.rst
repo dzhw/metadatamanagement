@@ -6,7 +6,7 @@ ImageType
 
 .. java:type:: public enum ImageType
 
-   Enum representing types of supported question images.
+   Enum representing supported types of question images.
 
 Enum Constants
 --------------

@@ -24,3 +24,27 @@ ALL
 .. java:field:: public static final Set<String> ALL
    :outertype: InstrumentTypes
 
+CAPI
+^^^^
+
+.. java:field:: public static final String CAPI
+   :outertype: InstrumentTypes
+
+CATI
+^^^^
+
+.. java:field:: public static final String CATI
+   :outertype: InstrumentTypes
+
+CAWI
+^^^^
+
+.. java:field:: public static final String CAWI
+   :outertype: InstrumentTypes
+
+PAPI
+^^^^
+
+.. java:field:: public static final String PAPI
+   :outertype: InstrumentTypes
+

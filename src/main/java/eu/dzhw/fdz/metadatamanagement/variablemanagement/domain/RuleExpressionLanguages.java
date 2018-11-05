@@ -6,10 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Rule Expression Language.
- * 
- * @author Daniel Katzberg
- *
+ * All supported expression languages for {@link GenerationDetails}.
  */
 public class RuleExpressionLanguages {
 

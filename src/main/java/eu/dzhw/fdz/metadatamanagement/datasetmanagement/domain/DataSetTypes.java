@@ -9,8 +9,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 
 
 /**
- * DataSetTypes.
- *
+ * All possible types of a {@link DataSet}.
  */
 public class DataSetTypes {
 

@@ -14,10 +14,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Generation Details.
- *
- * @author Daniel Katzberg
- *
+ * Generation details describe how a {@link Variable} was generated from one or more input
+ * {@link Variable}s.
  */
 @NotEmptyGenerationDetailsDescriptionOrRule(
     message = "variable-management.error.generation-details."
@@ -31,14 +29,30 @@ import lombok.NoArgsConstructor;
 @Builder
 public class GenerationDetails {
 
+  /**
+   * A description of this generation rule.
+   * 
+   * Must not contain more than 2048 characters
+   */
   @I18nStringSize(max = StringLengths.LARGE,
       message = "variable-management.error.generation-details.description.i18n-string-size")
   private I18nString description;
 
+  /**
+   * The computation rule in the ruleExpressionLanguage which was used to generate this
+   * {@link Variable}.
+   * 
+   * Must not contain more than 1 MB characters.
+   */
   @Size(max = StringLengths.X_LARGE,
       message = "variable-management.error.generation-details.rule.size")
   private String rule;
 
+  /**
+   * The language which was used to describe this rule.
+   * 
+   * Must be one of {@link RuleExpressionLanguages}.
+   */
   @ValidRuleExpressionLanguage(
       message = "variable-management.error.generation-details."
           + "rule-expression-language.valid-rule-expression-language")

@@ -16,7 +16,7 @@ ScaleLevels
 
 .. java:type:: public class ScaleLevels
 
-   The ScaleLevel enumeration.
+   The scale level (or level of measurement) classifies the nature of information within the values assigned to a \ :java:ref:`Variable`\  (\ :java:ref:`ValidResponse`\ s). It determines which mathematical operations can be performed with the values.
 
 Fields
 ------

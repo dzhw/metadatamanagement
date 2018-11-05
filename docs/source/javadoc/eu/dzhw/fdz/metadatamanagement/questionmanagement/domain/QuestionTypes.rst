@@ -16,7 +16,7 @@ QuestionTypes
 
 .. java:type:: public class QuestionTypes
 
-   Question Types.
+   All valid types of a \ :java:ref:`Question`\ .
 
 Fields
 ------

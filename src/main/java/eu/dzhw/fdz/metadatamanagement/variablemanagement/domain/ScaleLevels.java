@@ -8,7 +8,10 @@ import java.util.Set;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 
 /**
- * The ScaleLevel enumeration.
+ * The scale level (or level of measurement) classifies the nature of information within the values
+ * assigned to a {@link Variable} ({@link ValidResponse}s). It determines which mathematical
+ * operations can be performed with the values.
+ * 
  */
 public class ScaleLevels {
   public static final I18nString ORDINAL = new I18nString("ordinal", "ordinal");

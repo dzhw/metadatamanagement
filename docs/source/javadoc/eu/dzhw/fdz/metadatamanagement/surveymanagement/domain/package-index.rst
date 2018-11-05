@@ -1,9 +1,7 @@
 eu.dzhw.fdz.metadatamanagement.surveymanagement.domain
 ======================================================
 
-Domain objects for the survey management.
-
-:author: Daniel Katzberg
+Domain objects describing \ :java:ref:`eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey`\ s.
 
 .. java:package:: eu.dzhw.fdz.metadatamanagement.surveymanagement.domain
 

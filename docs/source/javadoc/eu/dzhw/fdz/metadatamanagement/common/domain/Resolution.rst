@@ -20,8 +20,6 @@ Resolution
 
    Representation of the resolution of images.
 
-   :author: Daniel Katzberg
-
 Fields
 ------
 heightY

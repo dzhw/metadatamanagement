@@ -16,9 +16,7 @@ SurveyDesigns
 
 .. java:type:: public class SurveyDesigns
 
-   Survey Designs for the Scale Level field Survey Designs. Only the values in this class are allowed and will be checked by a validator.
-
-   :author: Daniel Katzberg
+   List of currently supported survey designs.
 
 Fields
 ------

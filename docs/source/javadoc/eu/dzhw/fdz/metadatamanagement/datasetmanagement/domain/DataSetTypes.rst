@@ -16,7 +16,7 @@ DataSetTypes
 
 .. java:type:: public class DataSetTypes
 
-   DataSetTypes.
+   All possible types of a \ :java:ref:`DataSet`\ .
 
 Fields
 ------

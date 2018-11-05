@@ -9,9 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Details of a customer who orders data products.
- *
- * @author René Reitmann
+ * Details of a customer who has ordered {@link Product}s.
  */
 @NoArgsConstructor
 @Data
@@ -21,10 +19,17 @@ public class Customer {
 
   /**
    * Name of the customer as given in the shopping cart.
+   * 
+   * Must not be empty.
    */
   @NotEmpty
   private String name;
 
+  /**
+   * Email address of the customer.
+   * 
+   * Must be a valid email address and must not be empty.
+   */
   @Email
   @NotEmpty
   private String email;

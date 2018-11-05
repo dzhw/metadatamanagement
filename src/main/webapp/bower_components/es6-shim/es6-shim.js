@@ -1,12 +1,12 @@
- /*!
-  * https://github.com/paulmillr/es6-shim
-  * @license es6-shim Copyright 2013-2016 by Paul Miller (http://paulmillr.com)
-  *   and contributors,  MIT License
-  * es6-shim: v0.35.1
-  * see https://github.com/paulmillr/es6-shim/blob/0.35.1/LICENSE
-  * Details and documentation:
-  * https://github.com/paulmillr/es6-shim/
-  */
+/*!
+ * https://github.com/paulmillr/es6-shim
+ * @license es6-shim Copyright 2013-2016 by Paul Miller (http://paulmillr.com)
+ *   and contributors,  MIT License
+ * es6-shim: v0.35.4
+ * see https://github.com/paulmillr/es6-shim/blob/0.35.3/LICENSE
+ * Details and documentation:
+ * https://github.com/paulmillr/es6-shim/
+ */
 
 // UMD (Universal Module Definition)
 // see https://github.com/umdjs/umd/blob/master/returnExports.js
@@ -57,7 +57,7 @@
   var arePropertyDescriptorsSupported = function () {
     // if Object.defineProperty exists but throws, it's IE 8
     return !throwsError(function () {
-      Object.defineProperty({}, 'x', { get: function () {} });
+      return Object.defineProperty({}, 'x', { get: function () { } }); // eslint-disable-line getter-return
     });
   };
   var supportsDescriptors = !!Object.defineProperty && arePropertyDescriptorsSupported();
@@ -230,6 +230,14 @@
     if (number === 0) { return number; }
     if (numberIsNaN(number)) { return number; }
     return number < 0 ? -1 : 1;
+  };
+  var _log1p = function log1p(value) {
+    var x = Number(value);
+    if (x < -1 || numberIsNaN(x)) { return NaN; }
+    if (x === 0 || x === Infinity) { return x; }
+    if (x === -1) { return -Infinity; }
+
+    return (1 + x) - 1 === 0 ? x : x * (_log(1 + x) / ((1 + x) - 1));
   };
 
   // taken directly from https://github.com/ljharb/is-arguments/blob/master/index.js
@@ -856,7 +864,7 @@
   if (String.prototype.startsWith && String.prototype.endsWith) {
     var startsWithRejectsRegex = throwsError(function () {
       /* throws if spec-compliant */
-      '/a/'.startsWith(/a/);
+      return '/a/'.startsWith(/a/);
     });
     var startsWithHandlesInfinity = valueOrFalseIfThrows(function () {
       return 'abc'.startsWith('a', Infinity) === false;
@@ -1067,7 +1075,7 @@
   });
   addIterator(ArrayIterator.prototype);
 
-/*
+  /*
   var orderKeys = function orderKeys(a, b) {
     var aNumeric = String(ES.ToInteger(a)) === a;
     var bNumeric = String(ES.ToInteger(b)) === b;
@@ -1611,7 +1619,7 @@
     }());
   }
 
-  var objectKeysAcceptsPrimitives = !throwsError(function () { Object.keys('foo'); });
+  var objectKeysAcceptsPrimitives = !throwsError(function () { return Object.keys('foo'); });
   if (!objectKeysAcceptsPrimitives) {
     var originalObjectKeys = Object.keys;
     overrideNative(Object, 'keys', function keys(value) {
@@ -1619,7 +1627,7 @@
     });
     keys = Object.keys;
   }
-  var objectKeysRejectsRegex = throwsError(function () { Object.keys(/a/g); });
+  var objectKeysRejectsRegex = throwsError(function () { return Object.keys(/a/g); });
   if (objectKeysRejectsRegex) {
     var regexRejectingObjectKeys = Object.keys;
     overrideNative(Object, 'keys', function keys(value) {
@@ -1638,7 +1646,7 @@
   }
 
   if (Object.getOwnPropertyNames) {
-    var objectGOPNAcceptsPrimitives = !throwsError(function () { Object.getOwnPropertyNames('foo'); });
+    var objectGOPNAcceptsPrimitives = !throwsError(function () { return Object.getOwnPropertyNames('foo'); });
     if (!objectGOPNAcceptsPrimitives) {
       var cachedWindowNames = typeof window === 'object' ? Object.getOwnPropertyNames(window) : [];
       var originalObjectGetOwnPropertyNames = Object.getOwnPropertyNames;
@@ -1657,7 +1665,7 @@
     }
   }
   if (Object.getOwnPropertyDescriptor) {
-    var objectGOPDAcceptsPrimitives = !throwsError(function () { Object.getOwnPropertyDescriptor('foo', 'bar'); });
+    var objectGOPDAcceptsPrimitives = !throwsError(function () { return Object.getOwnPropertyDescriptor('foo', 'bar'); });
     if (!objectGOPDAcceptsPrimitives) {
       var originalObjectGetOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
       overrideNative(Object, 'getOwnPropertyDescriptor', function getOwnPropertyDescriptor(value, property) {
@@ -1666,7 +1674,7 @@
     }
   }
   if (Object.seal) {
-    var objectSealAcceptsPrimitives = !throwsError(function () { Object.seal('foo'); });
+    var objectSealAcceptsPrimitives = !throwsError(function () { return Object.seal('foo'); });
     if (!objectSealAcceptsPrimitives) {
       var originalObjectSeal = Object.seal;
       overrideNative(Object, 'seal', function seal(value) {
@@ -1676,7 +1684,7 @@
     }
   }
   if (Object.isSealed) {
-    var objectIsSealedAcceptsPrimitives = !throwsError(function () { Object.isSealed('foo'); });
+    var objectIsSealedAcceptsPrimitives = !throwsError(function () { return Object.isSealed('foo'); });
     if (!objectIsSealedAcceptsPrimitives) {
       var originalObjectIsSealed = Object.isSealed;
       overrideNative(Object, 'isSealed', function isSealed(value) {
@@ -1686,7 +1694,7 @@
     }
   }
   if (Object.freeze) {
-    var objectFreezeAcceptsPrimitives = !throwsError(function () { Object.freeze('foo'); });
+    var objectFreezeAcceptsPrimitives = !throwsError(function () { return Object.freeze('foo'); });
     if (!objectFreezeAcceptsPrimitives) {
       var originalObjectFreeze = Object.freeze;
       overrideNative(Object, 'freeze', function freeze(value) {
@@ -1696,7 +1704,7 @@
     }
   }
   if (Object.isFrozen) {
-    var objectIsFrozenAcceptsPrimitives = !throwsError(function () { Object.isFrozen('foo'); });
+    var objectIsFrozenAcceptsPrimitives = !throwsError(function () { return Object.isFrozen('foo'); });
     if (!objectIsFrozenAcceptsPrimitives) {
       var originalObjectIsFrozen = Object.isFrozen;
       overrideNative(Object, 'isFrozen', function isFrozen(value) {
@@ -1706,7 +1714,7 @@
     }
   }
   if (Object.preventExtensions) {
-    var objectPreventExtensionsAcceptsPrimitives = !throwsError(function () { Object.preventExtensions('foo'); });
+    var objectPreventExtensionsAcceptsPrimitives = !throwsError(function () { return Object.preventExtensions('foo'); });
     if (!objectPreventExtensionsAcceptsPrimitives) {
       var originalObjectPreventExtensions = Object.preventExtensions;
       overrideNative(Object, 'preventExtensions', function preventExtensions(value) {
@@ -1716,7 +1724,7 @@
     }
   }
   if (Object.isExtensible) {
-    var objectIsExtensibleAcceptsPrimitives = !throwsError(function () { Object.isExtensible('foo'); });
+    var objectIsExtensibleAcceptsPrimitives = !throwsError(function () { return Object.isExtensible('foo'); });
     if (!objectIsExtensibleAcceptsPrimitives) {
       var originalObjectIsExtensible = Object.isExtensible;
       overrideNative(Object, 'isExtensible', function isExtensible(value) {
@@ -1726,7 +1734,7 @@
     }
   }
   if (Object.getPrototypeOf) {
-    var objectGetProtoAcceptsPrimitives = !throwsError(function () { Object.getPrototypeOf('foo'); });
+    var objectGetProtoAcceptsPrimitives = !throwsError(function () { return Object.getPrototypeOf('foo'); });
     if (!objectGetProtoAcceptsPrimitives) {
       var originalGetProto = Object.getPrototypeOf;
       overrideNative(Object, 'getPrototypeOf', function getPrototypeOf(value) {
@@ -1878,7 +1886,13 @@
       if (numberIsNaN(x) || value < 1) { return NaN; }
       if (x === 1) { return 0; }
       if (x === Infinity) { return x; }
-      return _log((x / E) + (_sqrt(x + 1) * _sqrt(x - 1) / E)) + 1;
+
+      var xInvSquared = 1 / (x * x);
+      if (x < 2) {
+        return _log1p(x - 1 + (_sqrt(1 - xInvSquared) * x));
+      }
+      var halfX = x / 2;
+      return _log1p(halfX + (_sqrt(1 - xInvSquared) * halfX) - 1) + (1 / LOG2E);
     },
 
     asinh: function asinh(value) {
@@ -1886,18 +1900,28 @@
       if (x === 0 || !globalIsFinite(x)) {
         return x;
       }
-      return x < 0 ? -asinh(-x) : _log(x + _sqrt((x * x) + 1));
+
+      var a = _abs(x);
+      var aSquared = a * a;
+      var s = _sign(x);
+      if (a < 1) {
+        return s * _log1p(a + (aSquared / (_sqrt(aSquared + 1) + 1)));
+      }
+      return s * (_log1p((a / 2) + (_sqrt(1 + (1 / aSquared)) * a / 2) - 1) + (1 / LOG2E));
     },
 
     atanh: function atanh(value) {
       var x = Number(value);
+
+      if (x === 0) { return x; }
+      if (x === -1) { return -Infinity; }
+      if (x === 1) { return Infinity; }
       if (numberIsNaN(x) || x < -1 || x > 1) {
         return NaN;
       }
-      if (x === -1) { return -Infinity; }
-      if (x === 1) { return Infinity; }
-      if (x === 0) { return x; }
-      return 0.5 * _log((1 + x) / (1 - x));
+
+      var a = _abs(x);
+      return _sign(x) * _log1p(2 * a / (1 - a)) / 2;
     },
 
     cbrt: function cbrt(value) {
@@ -1931,9 +1955,9 @@
       if (x === 0) { return 1; } // +0 or -0
       if (numberIsNaN(x)) { return NaN; }
       if (!globalIsFinite(x)) { return Infinity; }
-      if (x < 0) { x = -x; }
-      if (x > 21) { return _exp(x) / 2; }
-      return (_exp(x) + _exp(-x)) / 2;
+
+      var t = _exp(_abs(x) - 1);
+      return (t + (1 / (t * E * E))) * (E / 2);
     },
 
     expm1: function expm1(value) {
@@ -1980,14 +2004,7 @@
       return _log(value) * LOG10E;
     },
 
-    log1p: function log1p(value) {
-      var x = Number(value);
-      if (x < -1 || numberIsNaN(x)) { return NaN; }
-      if (x === 0 || x === Infinity) { return x; }
-      if (x === -1) { return -Infinity; }
-
-      return (1 + x) - 1 === 0 ? x : x * (_log(1 + x) / ((1 + x) - 1));
-    },
+    log1p: _log1p,
 
     sign: _sign,
 
@@ -1995,10 +2012,13 @@
       var x = Number(value);
       if (!globalIsFinite(x) || x === 0) { return x; }
 
-      if (_abs(x) < 1) {
-        return (Math.expm1(x) - Math.expm1(-x)) / 2;
+      var a = _abs(x);
+      if (a < 1) {
+        var u = Math.expm1(a);
+        return _sign(x) * u * (1 + (1 / (u + 1))) / 2;
       }
-      return (_exp(x - 1) - _exp(-x - 1)) * E / 2;
+      var t = _exp(a - 1);
+      return _sign(x) * (t - (1 / (t * E * E))) * (E / 2);
     },
 
     tanh: function tanh(value) {
@@ -2037,9 +2057,7 @@
       var sign = _sign(v);
       var abs = _abs(v);
       if (abs < BINARY_32_MIN_VALUE) {
-        return sign * roundTiesToEven(
-          abs / BINARY_32_MIN_VALUE / BINARY_32_EPSILON
-        ) * BINARY_32_MIN_VALUE * BINARY_32_EPSILON;
+        return sign * roundTiesToEven(abs / BINARY_32_MIN_VALUE / BINARY_32_EPSILON) * BINARY_32_MIN_VALUE * BINARY_32_EPSILON;
       }
       // Veltkamp's splitting (?)
       var a = (1 + (BINARY_32_EPSILON / Number.EPSILON)) * abs;
@@ -2050,17 +2068,32 @@
       return sign * result;
     }
   };
+
+  var withinULPDistance = function withinULPDistance(result, expected, distance) {
+    return _abs(1 - (result / expected)) / Number.EPSILON < (distance || 8);
+  };
+
   defineProperties(Math, MathShims);
+  // Chrome < 40 sinh returns ∞ for large numbers
+  defineProperty(Math, 'sinh', MathShims.sinh, Math.sinh(710) === Infinity);
+  // Chrome < 40 cosh returns ∞ for large numbers
+  defineProperty(Math, 'cosh', MathShims.cosh, Math.cosh(710) === Infinity);
   // IE 11 TP has an imprecise log1p: reports Math.log1p(-1e-17) as 0
   defineProperty(Math, 'log1p', MathShims.log1p, Math.log1p(-1e-17) !== -1e-17);
   // IE 11 TP has an imprecise asinh: reports Math.asinh(-1e7) as not exactly equal to -Math.asinh(1e7)
   defineProperty(Math, 'asinh', MathShims.asinh, Math.asinh(-1e7) !== -Math.asinh(1e7));
+  // Chrome < 54 asinh returns ∞ for large numbers and should not
+  defineProperty(Math, 'asinh', MathShims.asinh, Math.asinh(1e+300) === Infinity);
+  // Chrome < 54 atanh incorrectly returns 0 for large numbers
+  defineProperty(Math, 'atanh', MathShims.atanh, Math.atanh(1e-300) === 0);
   // Chrome 40 has an imprecise Math.tanh with very small numbers
   defineProperty(Math, 'tanh', MathShims.tanh, Math.tanh(-2e-17) !== -2e-17);
   // Chrome 40 loses Math.acosh precision with high numbers
   defineProperty(Math, 'acosh', MathShims.acosh, Math.acosh(Number.MAX_VALUE) === Infinity);
+  // Chrome < 54 has an inaccurate acosh for EPSILON deltas
+  defineProperty(Math, 'acosh', MathShims.acosh, !withinULPDistance(Math.acosh(1 + Number.EPSILON), Math.sqrt(2 * Number.EPSILON)));
   // Firefox 38 on Windows
-  defineProperty(Math, 'cbrt', MathShims.cbrt, Math.abs(1 - (Math.cbrt(1e-300) / 1e-100)) / Number.EPSILON > 8);
+  defineProperty(Math, 'cbrt', MathShims.cbrt, !withinULPDistance(Math.cbrt(1e-300), 1e-100));
   // node 0.11 has an imprecise Math.sinh with very small numbers
   defineProperty(Math, 'sinh', MathShims.sinh, Math.sinh(-2e-17) !== -2e-17);
   // FF 35 on Linux reports 22025.465794806725 for Math.expm1(10)
@@ -2185,10 +2218,8 @@
     /* jscs:disable disallowMultiLineTernary */
     var enqueue = ES.IsCallable(globals.setImmediate) ?
       globals.setImmediate :
-      typeof process === 'object' && process.nextTick ? process.nextTick :
-      makePromiseAsap() ||
-      (ES.IsCallable(makeZeroTimeout) ? makeZeroTimeout() :
-      function (task) { setTimeout(task, 0); }); // fallback
+      typeof process === 'object' && process.nextTick ? process.nextTick : makePromiseAsap() ||
+      (ES.IsCallable(makeZeroTimeout) ? makeZeroTimeout() : function (task) { setTimeout(task, 0); }); // fallback
     /* jscs:enable disallowMultiLineTernary */
 
     // Constants for Promise implementation
@@ -2416,7 +2447,10 @@
         values[index] = void 0;
         var nextPromise = C.resolve(nextValue);
         var resolveElement = _promiseAllResolver(
-          index, values, resultCapability, remaining
+          index,
+          values,
+          resultCapability,
+          remaining
         );
         remaining.count += 1;
         optimizedThen(nextPromise.then, nextPromise, resolveElement, resultCapability.reject);
@@ -2576,12 +2610,16 @@
         } else if (_promise.state === PROMISE_FULFILLED) {
           value = _promise.result;
           enqueuePromiseReactionJob(
-            fulfillReactionHandler, resultCapability, value
+            fulfillReactionHandler,
+            resultCapability,
+            value
           );
         } else if (_promise.state === PROMISE_REJECTED) {
           value = _promise.result;
           enqueuePromiseReactionJob(
-            rejectReactionHandler, resultCapability, value
+            rejectReactionHandler,
+            resultCapability,
+            value
           );
         } else {
           throw new TypeError('unexpected Promise state');
@@ -2614,9 +2652,9 @@
       return S.resolve(42).then(function () {}) instanceof S;
     });
     var promiseIgnoresNonFunctionThenCallbacks = !throwsError(function () {
-      globals.Promise.reject(42).then(null, 5).then(null, noop);
+      return globals.Promise.reject(42).then(null, 5).then(null, noop);
     });
-    var promiseRequiresObjectContext = throwsError(function () { globals.Promise.call(3, noop); });
+    var promiseRequiresObjectContext = throwsError(function () { return globals.Promise.call(3, noop); });
     // Promise.resolve() was errata'ed late in the ES6 process.
     // See: https://bugzilla.mozilla.org/show_bug.cgi?id=1170742
     //      https://code.google.com/p/v8/issues/detail?id=4161
@@ -2637,6 +2675,7 @@
     // Chrome 46 (probably older too) does not retrieve a thenable's .then synchronously
     var getsThenSynchronously = supportsDescriptors && (function () {
       var count = 0;
+      // eslint-disable-next-line getter-return
       var thenable = Object.defineProperty({}, 'then', { get: function () { count += 1; } });
       Promise.resolve(thenable);
       return count === 1;
@@ -2842,7 +2881,11 @@
         };
 
         MapIterator.prototype = {
+          isMapIterator: true,
           next: function next() {
+            if (!this.isMapIterator) {
+              throw new TypeError('Not a MapIterator');
+            }
             var i = this.i;
             var kind = this.kind;
             var head = this.head;
@@ -3047,7 +3090,7 @@
           },
 
           clear: function clear() {
-             /* eslint no-multi-assign: 1 */
+            /* eslint no-multi-assign: 1 */
             requireMapSlot(this, 'clear');
             this._map = OrigMap ? new OrigMap() : null;
             this._size = 0;
@@ -3225,13 +3268,13 @@
           values: function values() {
             requireSetSlot(this, 'values');
             ensureMap(this);
-            return this['[[SetData]]'].values();
+            return new SetIterator(this['[[SetData]]'].values());
           },
 
           entries: function entries() {
             requireSetSlot(this, 'entries');
             ensureMap(this);
-            return this['[[SetData]]'].entries();
+            return new SetIterator(this['[[SetData]]'].entries());
           },
 
           forEach: function forEach(callback) {
@@ -3251,10 +3294,30 @@
         defineProperty(SetShim.prototype, 'keys', SetShim.prototype.values, true);
         addIterator(SetShim.prototype, SetShim.prototype.values);
 
+        var SetIterator = function SetIterator(it) {
+          this.it = it;
+        };
+        SetIterator.prototype = {
+          isSetIterator: true,
+          next: function next() {
+            if (!this.isSetIterator) {
+              throw new TypeError('Not a SetIterator');
+            }
+            return this.it.next();
+          }
+        };
+        addIterator(SetIterator.prototype);
+
         return SetShim;
       }())
     };
 
+    var isGoogleTranslate = globals.Set && !Set.prototype['delete'] && Set.prototype.remove && Set.prototype.items && Set.prototype.map && Array.isArray(new Set().keys);
+    if (isGoogleTranslate) {
+      // special-case force removal of wildly invalid Set implementation in Google Translate iframes
+      // see https://github.com/paulmillr/es6-shim/issues/438 / https://twitter.com/ljharb/status/849335573114363904
+      globals.Set = collectionShims.Set;
+    }
     if (globals.Map || globals.Set) {
       // Safari 8, for example, doesn't accept an iterable.
       var mapAcceptsArguments = valueOrFalseIfThrows(function () { return new Map([[1, 2]]).get(1) === 2; });
@@ -3302,7 +3365,7 @@
         Value.preserveToString(Map.prototype.has, origMapHas);
       }
       var testSet = new Set();
-      var setUsesSameValueZero = (function (s) {
+      var setUsesSameValueZero = Set.prototype['delete'] && Set.prototype.add && Set.prototype.has && (function (s) {
         s['delete'](0);
         s.add(-0);
         return !s.has(0);
@@ -3531,7 +3594,7 @@
       preventExtensions: function preventExtensions(target) {
         throwUnlessTargetIsObject(target);
         return callAndCatchException(function () {
-          Object.preventExtensions(target);
+          return Object.preventExtensions(target);
         });
       }
     });
@@ -3617,7 +3680,7 @@
       defineProperty: function defineProperty(target, propertyKey, attributes) {
         throwUnlessTargetIsObject(target);
         return callAndCatchException(function () {
-          Object.defineProperty(target, propertyKey, attributes);
+          return Object.defineProperty(target, propertyKey, attributes);
         });
       },
 

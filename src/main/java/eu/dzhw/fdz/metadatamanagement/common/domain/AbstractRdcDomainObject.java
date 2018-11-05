@@ -11,9 +11,8 @@ import org.springframework.data.annotation.Version;
 import lombok.Data;
 
 /**
- * Base class for all rdc domain objects.
- * 
- * @author René Reitmann
+ * Base class for all rdc domain objects. All domain objects inherit the fields from this base
+ * class.
  */
 @Data
 public abstract class AbstractRdcDomainObject {

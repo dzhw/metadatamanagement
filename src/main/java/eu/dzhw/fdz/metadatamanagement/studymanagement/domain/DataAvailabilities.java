@@ -8,11 +8,7 @@ import java.util.Set;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 
 /**
- * Just the values in this class are allowed for the study field dataAvailability. This will be
- * checked by a validator.
- * 
- * @author Daniel Katzberg
- *
+ * The data's availability of a {@link Study} can be in one of these states.
  */
 public class DataAvailabilities {
   public static final I18nString AVAILABLE = new I18nString("Verfügbar", "Available");

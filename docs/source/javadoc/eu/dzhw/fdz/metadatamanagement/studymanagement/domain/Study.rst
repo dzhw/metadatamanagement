@@ -72,9 +72,7 @@ Study
 
 .. java:type:: @Entity @Document @ValidStudyId @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class Study extends AbstractRdcDomainObject implements StudySubDocumentProjection
 
-   The study domain object represents a study. A study can has more than one release. Every \ :java:ref:`DataAcquisitionProject`\  has exact one Study.
-
-   :author: Daniel Katzberg
+   A study contains all metadata of a \ :java:ref:`DataAcquisitionProject`\ . It will get a DOI (Digital Object Identifier) when the \ :java:ref:`DataAcquisitionProject`\  is released.
 
 Fields
 ------
@@ -84,11 +82,15 @@ annotations
 .. java:field:: @I18nStringSize private I18nString annotations
    :outertype: Study
 
+   Arbitrary additional text for this instrument. Must not contain more than 2048 characters.
+
 authors
 ^^^^^^^
 
 .. java:field:: @Valid @NotEmpty private List<Person> authors
    :outertype: Study
+
+   List of \ :java:ref:`Person`\ s which have performed this study. Must not be empty.
 
 dataAcquisitionProjectId
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -96,11 +98,15 @@ dataAcquisitionProjectId
 .. java:field:: @Indexed @NotEmpty private String dataAcquisitionProjectId
    :outertype: Study
 
+   The id of the \ :java:ref:`DataAcquisitionProject`\  to which this study belongs. The dataAcquisitionProjectId must not be empty.
+
 dataAvailability
 ^^^^^^^^^^^^^^^^
 
 .. java:field:: @NotNull @ValidDataAvailability private I18nString dataAvailability
    :outertype: Study
+
+   The current state of the data's availability. Must be one of \ :java:ref:`DataAvailabilities`\  and must not be empty.
 
 description
 ^^^^^^^^^^^
@@ -108,11 +114,15 @@ description
 .. java:field:: @NotNull @I18nStringSize @I18nStringNotEmpty private I18nString description
    :outertype: Study
 
+   A description of the study. It must be specified in at least one language and it must not contain more than 2048 characters.
+
 id
 ^^
 
 .. java:field:: @Id @JestId @NotEmpty @Size @Pattern private String id
    :outertype: Study
+
+   The id of the study which uniquely identifies the study in this application. The id must not be empty and must be of the form stu-{{dataAcquisitionProjectId}}$. The id must not contain more than 512 characters.
 
 institution
 ^^^^^^^^^^^
@@ -120,11 +130,15 @@ institution
 .. java:field:: @NotNull @I18nStringSize @I18nStringEntireNotEmpty private I18nString institution
    :outertype: Study
 
+   The name of the institution which has performed this study. It must be specified in German and English and it must not contain more than 512 characters.
+
 sponsor
 ^^^^^^^
 
 .. java:field:: @NotNull @I18nStringSize @I18nStringEntireNotEmpty private I18nString sponsor
    :outertype: Study
+
+   The name of the sponsor who which has sponsored this study. It must be specified in German and English and it must not contain more than 512 characters.
 
 studySeries
 ^^^^^^^^^^^
@@ -132,15 +146,21 @@ studySeries
 .. java:field:: @I18nStringSize @I18nStringEntireNotEmptyOptional @I18nStringMustNotContainComma private I18nString studySeries
    :outertype: Study
 
+   The name of the series of studies to which this study belongs.. If specified it must be specified in German and English. It must not contain more than 512 characters and must not contain ",".
+
 surveyDesign
 ^^^^^^^^^^^^
 
 .. java:field:: @NotNull @ValidSurveyDesign private I18nString surveyDesign
    :outertype: Study
 
+   The survey design of this \ :java:ref:`Study`\ . Must be one of \ :java:ref:`SurveyDesigns`\  and must not be empty.
+
 title
 ^^^^^
 
 .. java:field:: @NotNull @I18nStringSize @I18nStringEntireNotEmpty private I18nString title
    :outertype: Study
+
+   The title of the study. It must be specified in German and English and it must not contain more than 2048 characters.
 

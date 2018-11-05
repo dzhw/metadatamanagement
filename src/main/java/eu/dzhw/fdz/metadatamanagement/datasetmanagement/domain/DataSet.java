@@ -40,9 +40,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
- * A DataSet contains {@link Variable}s. It results from at least one {@link Survey}.
- *
- * @author Daniel Katzberg
+ * A dataset contains {@link Variable}s. It results from at least one {@link Survey}.
  */
 @Entity
 @Document(collection = "data_sets")
@@ -59,9 +57,11 @@ import lombok.ToString;
 public class DataSet extends AbstractRdcDomainObject {
 
   /**
-   * The id of the DataSet which uniquely identifies the DataSet in this application. The id must
-   * not be empty and must be of the form dat-{{dataAcquisitionProjectId}}-ds{{number}}$. The id
-   * must not contain more than 512 characters.
+   * The id of the dataset which uniquely identifies the dataset in this application.
+   * 
+   * The id must not be empty and must be of the form
+   * dat-{{dataAcquisitionProjectId}}-ds{{number}}$. The id must not contain more than 512
+   * characters.
    */
   @Id
   @JestId
@@ -72,16 +72,19 @@ public class DataSet extends AbstractRdcDomainObject {
   private String id;
 
   /**
-   * The id of the {@link DataAcquisitionProject} to which this DataSet belongs. The
-   * dataAcquisitionProjectId must not be empty.
+   * The id of the {@link DataAcquisitionProject} to which this dataset belongs.
+   * 
+   * The dataAcquisitionProjectId must not be empty.
    */
   @Indexed
   @NotEmpty(message = "data-set-management.error.data-set.data-acquisition-project.id.not-empty")
   private String dataAcquisitionProjectId;
 
   /**
-   * A short description of the DataSet. It must be specified in at least one language and it must
-   * not contain more than 2048 characters.
+   * A short description of the dataset.
+   * 
+   * It must be specified in at least one language and it must not contain more than 2048
+   * characters.
    */
   @NotNull(message = "data-set-management.error.data-set.description.not-null")
   @I18nStringSize(max = StringLengths.LARGE,
@@ -91,57 +94,72 @@ public class DataSet extends AbstractRdcDomainObject {
   private I18nString description;
 
   /**
-   * The number of the DataSet which must be unique within the {@link DataAcquisitionProject}. Must
-   * not be empty.
+   * The number of the dataset.
+   * 
+   * Must not be empty and must be unique within the {@link DataAcquisitionProject}.
    */
   @NotNull(message = "data-set-management.error.data-set.number.not-null")
   private Integer number;
 
   /**
-   * The format of the DataSet. Must be one of {@link Format}.
+   * The format of the dataset.
+   * 
+   * Must be one of {@link Format}.
    */
   @ValidFormat(message = "data-set-management.error.data-set.format.valid-format")
   private I18nString format;
 
   /**
-   * The type of the DataSet. Must be one of {@link DataSetTypes} and must not be empty.
+   * The type of the dataset.
+   * 
+   * Must be one of {@link DataSetTypes} and must not be empty.
    */
   @NotNull(message = "data-set-management.error.data-set.type.not-null")
   @ValidDataSetType(message = "data-set-management.error.data-set.type.valid-type")
   private I18nString type;
 
   /**
-   * Arbitrary additional text for the DataSet. Must not contain more than 2048 chracters.s
+   * Arbitrary additional text for the dataset.
+   * 
+   * Must not contain more than 2048 characters.
    */
   @I18nStringSize(max = StringLengths.LARGE,
       message = "data-set-management.error.variable.annotations.i18n-string-size")
   private I18nString annotations;
 
   /**
-   * List of numbers of {@link Survey}s of this {@link DataAcquisitionProject}. The DataSet contains
-   * results from these {@link Survey}s. Must contain at least one element.
+   * List of numbers of {@link Survey}s of this {@link DataAcquisitionProject}. The dataset contains
+   * results from these {@link Survey}s.
+   * 
+   * Must contain at least one element.
    */
   @NotEmpty(message = "data-set-management.error.data-set.survey-numbers.not-empty")
   private List<Integer> surveyNumbers;
 
   /**
-   * The id of the {@link Study} to which this DataSet belongs. Must not be empty.
+   * The id of the {@link Study} to which this dataset belongs.
+   * 
+   * Must not be empty.
    */
   @Indexed
   @NotEmpty(message = "data-set-management.error.data-set.study.id.not-empty")
   private String studyId;
 
   /**
-   * List of ids of {@link Survey}s of this {@link DataAcquisitionProject}. The DataSet contains
-   * results from these {@link Survey}s. Must contain at least one element.
+   * List of ids of {@link Survey}s of this {@link DataAcquisitionProject}. The dataset contains
+   * results from these {@link Survey}s.
+   * 
+   * Must contain at least one element.
    */
   @Indexed
   @NotEmpty(message = "data-set-management.error.data-set.survey.ids.not-empty")
   private List<String> surveyIds;
 
   /**
-   * List of {@link SubDataSet}s (concrete accessible files) within this DataSet. Must contain at
-   * least one element. There must not be more than one {@link SubDataSet} per {@link AccessWays}.
+   * List of {@link SubDataSet}s (concrete accessible files) within this dataset.
+   * 
+   * Must contain at least one element. There must not be more than one {@link SubDataSet} per
+   * {@link AccessWays}.
    */
   @Valid
   @NotEmpty(message = "data-set-management.error.data-set.sub-data-sets.not-empty")

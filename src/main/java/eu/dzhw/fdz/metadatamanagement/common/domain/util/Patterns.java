@@ -7,13 +7,13 @@ package eu.dzhw.fdz.metadatamanagement.common.domain.util;
  * @author Daniel Katzberg
  */
 public interface Patterns {
-  String ALPHANUMERIC_WITH_UNDERSCORE_NO_NUMBER_AS_FIRST_SIGN = "^[_a-z][_a-z0-9]*$";
-  String GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS = "^[_a-z0-9äöüß\\-]*$";
+  String ALPHANUMERIC_WITH_UNDERSCORE_NO_NUMBER_AS_FIRST_SIGN = "^[_a-zA-Z][_a-zA-Z0-9]*$";
+  String GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS = "^[_A-Za-z0-9äöüÄÖÜß\\-]*$";
   String GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOLLAR  = 
-      "^[_a-z0-9äöüß\\-\\$]*$";
+      "^[_A-Za-z0-9äöüÄÖÜß\\-\\$]*$";
   String GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOT = "^[_A-Za-z0-9äöüÄÖÜß\\-\\.]*$";
   String GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOT_AND_DOLLAR =
-      "^[_a-z0-9äöüÄÖÜß\\-\\.\\$]*$";
+      "^[_A-Za-z0-9äöüÄÖÜß\\-\\.\\$]*$";
   String NO_WHITESPACE = "^[^\\s]*$";
   
   String SEMVER = "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)"

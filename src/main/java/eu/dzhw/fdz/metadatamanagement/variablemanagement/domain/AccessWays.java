@@ -5,11 +5,11 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
+
 /**
- * Access Ways.
- * 
- * @author Daniel Katzberg
- *
+ * An access way of a {@link Variable} or a {@link DataSet} indicates how the data user will be able
+ * to work with the data.
  */
 public class AccessWays {
 

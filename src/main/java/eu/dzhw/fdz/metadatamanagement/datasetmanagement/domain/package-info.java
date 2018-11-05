@@ -1,7 +1,5 @@
 /**
- * Domain objects for the dataset management.
- * 
- * @author Daniel Katzberg
- *
+ * Domain objects describing
+ * {@link eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet}s.
  */
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain;

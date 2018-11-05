@@ -10,6 +10,8 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.surveymanagement.domain DataTypes
 
+.. java:import:: eu.dzhw.fdz.metadatamanagement.surveymanagement.domain Survey
+
 SurveyDataTypes
 ===============
 
@@ -18,9 +20,7 @@ SurveyDataTypes
 
 .. java:type:: public class SurveyDataTypes extends DataTypes
 
-   This is a list of Survey Data Types, which are displayed on a Study Detail Page.
-
-   :author: Daniel Katzberg
+   List of types of data, which a \ :java:ref:`Study`\  can consist of. It will be computed from the \ :java:ref:`Survey`\ s of a \ :java:ref:`Study`\ .
 
 Fields
 ------

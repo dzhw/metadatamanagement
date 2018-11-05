@@ -8,9 +8,7 @@ import java.util.Set;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 
 /**
- * Format for Data Sets Enumeration.
- * @author Daniel Katzberg
- *
+ * All possible formats of a {@link DataSet}.
  */
 public class Format {
 
