@@ -14,7 +14,7 @@ StorageTypes
 
 .. java:type:: public class StorageTypes
 
-   The DataType enumeration.
+   All supported storage types of \ :java:ref:`Variable`\ s.
 
 Fields
 ------

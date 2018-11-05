@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * The DataType enumeration.
+ * All supported storage types of {@link Variable}s.
  */
 public class StorageTypes {
 

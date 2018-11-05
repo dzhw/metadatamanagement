@@ -16,7 +16,7 @@ DataTypes
 
 .. java:type:: public class DataTypes
 
-   The DataType enumeration.
+   The technical type which the \ :java:ref:`ValidResponse`\ s have.
 
 Fields
 ------

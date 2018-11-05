@@ -14,9 +14,7 @@ RuleExpressionLanguages
 
 .. java:type:: public class RuleExpressionLanguages
 
-   Rule Expression Language.
-
-   :author: Daniel Katzberg
+   All supported expression languages for \ :java:ref:`GenerationDetails`\ .
 
 Fields
 ------

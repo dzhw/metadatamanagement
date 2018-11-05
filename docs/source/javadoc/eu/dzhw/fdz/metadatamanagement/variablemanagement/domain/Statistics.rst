@@ -18,9 +18,7 @@ Statistics
 
 .. java:type:: @NoArgsConstructor @Data @AllArgsConstructor @Builder public class Statistics
 
-   This statics class has statistical information about a variable. The information of this class will be represented for a boxplot on the frontend.
-
-   :author: Daniel Katzberg
+   Descriptive metrics of this \ :java:ref:`Variable`\ .
 
 Fields
 ------
@@ -30,11 +28,15 @@ deviance
 .. java:field:: private Double deviance
    :outertype: Statistics
 
+   See \ `Deviance (Wikipedia) <https://en.wikipedia.org/wiki/Deviance_(statistics)>`_\ .
+
 firstQuartile
 ^^^^^^^^^^^^^
 
 .. java:field:: @Size private String firstQuartile
    :outertype: Statistics
+
+   Splits off the lowest 25% of the values (\ :java:ref:`ValidResponse`\ s) of this \ :java:ref:`Variable`\  from the highest 75%. Must not contain more than 32 characters.
 
 highWhisker
 ^^^^^^^^^^^
@@ -42,11 +44,15 @@ highWhisker
 .. java:field:: private Double highWhisker
    :outertype: Statistics
 
+   The highest value still within 1.5 IQR of the third quartile.
+
 kurtosis
 ^^^^^^^^
 
 .. java:field:: private Double kurtosis
    :outertype: Statistics
+
+   See \ `Kurtosis (Wikipedia) <https://en.wikipedia.org/wiki/Kurtosis>`_\ .
 
 lowWhisker
 ^^^^^^^^^^
@@ -54,11 +60,15 @@ lowWhisker
 .. java:field:: private Double lowWhisker
    :outertype: Statistics
 
+   The lowest value still within 1.5 IQR of the first quartile.
+
 maximum
 ^^^^^^^
 
 .. java:field:: @Size private String maximum
    :outertype: Statistics
+
+   The maximum of the values (\ :java:ref:`ValidResponse`\ s) of this \ :java:ref:`Variable`\ . Must not contain more than 32 characters.
 
 meanDeviation
 ^^^^^^^^^^^^^
@@ -66,11 +76,15 @@ meanDeviation
 .. java:field:: private Double meanDeviation
    :outertype: Statistics
 
+   See \ `Mean Absolute Deviation (Wikipedia) <https://en.wikipedia.org/wiki/Average_absolute_deviation>`_\ .
+
 meanValue
 ^^^^^^^^^
 
 .. java:field:: private Double meanValue
    :outertype: Statistics
+
+   The arithmetic mean of the values (\ :java:ref:`ValidResponse`\ s) of this \ :java:ref:`Variable`\ .
 
 median
 ^^^^^^
@@ -78,11 +92,15 @@ median
 .. java:field:: @Size private String median
    :outertype: Statistics
 
+   The median is the value separating the higher half from the lower half of the values (\ :java:ref:`ValidResponse`\ s) of this \ :java:ref:`Variable`\ . Must not contain more than 32 characters.
+
 minimum
 ^^^^^^^
 
 .. java:field:: @Size private String minimum
    :outertype: Statistics
+
+   The minimum of the values (\ :java:ref:`ValidResponse`\ s) of this \ :java:ref:`Variable`\ . Must not contain more than 32 characters.
 
 mode
 ^^^^
@@ -90,11 +108,15 @@ mode
 .. java:field:: private String mode
    :outertype: Statistics
 
+   The mode is the value (\ :java:ref:`ValidResponse`\ ) that appears most often.
+
 skewness
 ^^^^^^^^
 
 .. java:field:: private Double skewness
    :outertype: Statistics
+
+   See \ `Skewness (Wikipedia) <https://en.wikipedia.org/wiki/Skewness>`_\ .
 
 standardDeviation
 ^^^^^^^^^^^^^^^^^
@@ -102,9 +124,13 @@ standardDeviation
 .. java:field:: private Double standardDeviation
    :outertype: Statistics
 
+   Measure that is used to quantify the amount of variation of the values (\ :java:ref:`ValidResponse`\ s) of this \ :java:ref:`Variable`\ .
+
 thirdQuartile
 ^^^^^^^^^^^^^
 
 .. java:field:: @Size private String thirdQuartile
    :outertype: Statistics
+
+   Splits off the highest 25% of the values (\ :java:ref:`ValidResponse`\ s) of this \ :java:ref:`Variable`\  from the lowest 75%. Must not contain more than 32 characters.
 

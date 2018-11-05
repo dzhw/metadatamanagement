@@ -6,10 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Filter Expression Languages.
- * 
- * @author Daniel Katzberg
- *
+ * All supported expression languages for {@link FilterDetails}.
  */
 public class FilterExpressionLanguages {
   public static final String STATA = "Stata";

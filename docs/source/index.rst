@@ -7,8 +7,8 @@ Metadatamanagement Dokumentation
 ================================
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :maxdepth: 5
+   :caption: Inhaltsverzeichnis:
 
    user_roles
    metadatenabgabe
