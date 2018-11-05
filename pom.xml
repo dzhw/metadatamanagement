@@ -668,11 +668,11 @@
             </build>
             <properties>
                 <checkstyle.skip>true</checkstyle.skip>
+                <exec.skip>true</exec.skip>
                 <findbugs.skip>true</findbugs.skip>
                 <jacoco.skip>true</jacoco.skip>
                 <maven.gitcommitid.skip>true</maven.gitcommitid.skip>
                 <pmd.skip>true</pmd.skip>
-                <exec.skip>true</exec.skip>
             </properties>
         </profile>
         <profile>
