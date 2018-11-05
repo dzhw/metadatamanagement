@@ -1017,6 +1017,30 @@ Ihrer Studie erstellt haben, wird für jeden dieser Datensätze folgende
 
    Datensatzübersicht im MDM am Beispiel des Personendatensatzes (Bachelor) im Absolventenpanel 2005
 
+**Eingabemaske**
+
+Datensätze lassen sich auch per Eingabemaske anlegen und editieren.
+Hierfür muss man auf den Reiter Datensätze klicken (:numref:`mdm-ebenen`),
+anschließend auf das Plussymbol (:numref:`neuerdatensatz`) in der unteren rechten Ecke klicken und dann auf das Stiftsymbol (:numref:`stiftdatensatz`)
+("Klicken um einen Datensatz manuell zu erstellen").
+
+.. figure:: ./_static/new_dataset_de.png
+   :name: neuerdatensatz
+
+   Neuen Datensatz hinzufügen.
+
+.. figure:: ./_static/new_dataset_step2_de.png
+   :name: stiftdatensatz
+
+   Klicken um einen Datensatz manuell zu erstellen.
+
+Die mit * markierten Felder sind verpflichtend.
+Die verknüpften Erhebungen werden nach einem Klick in das Feld "Erhebungen" automatisch
+vorgeschlagen und können per Klick ausgewählt werden.
+Im Anschluss werden die Subdatensätze per Eingabemaske auf der selben Seite eingegeben.
+Weitere Subdatensätze können per Klick auf das Plussymbol hinzugefügt werden.
+Nachdem gespeichert wurde, lassen sich weitere Materialien zum Datensatz hinzufügen.
+
 **Excel-Tabelle**
 
 Auf der Datensatzebene werden alle Datensätze und Subdatensätze [8]_,
