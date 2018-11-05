@@ -16,9 +16,7 @@ DataTypes
 
 .. java:type:: public class DataTypes
 
-   The DataType for Survey enumeration.
-
-   :author: Daniel Katzberg
+   Types of data, which a \ :java:ref:`Survey`\  can produce.
 
 Fields
 ------

@@ -18,8 +18,6 @@ I18nString
 
    Strings that can be represented in English and German.
 
-   :author: René Reitmann, Daniel Katzberg
-
 Fields
 ------
 de

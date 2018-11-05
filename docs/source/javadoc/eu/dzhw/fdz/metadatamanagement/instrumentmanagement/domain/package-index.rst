@@ -1,9 +1,7 @@
 eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain
 ==========================================================
 
-Domain objects for the instrument management.
-
-:author: Daniel Katzberg
+Domain objects describing \ :java:ref:`eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument`\ s.
 
 .. java:package:: eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain
 

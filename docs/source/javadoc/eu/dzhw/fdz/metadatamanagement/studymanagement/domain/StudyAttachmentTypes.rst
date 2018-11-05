@@ -16,7 +16,7 @@ StudyAttachmentTypes
 
 .. java:type:: public class StudyAttachmentTypes
 
-   All valid types of an study attachment.
+   All valid types of a \ :java:ref:`StudyAttachmentMetadata`\ .
 
 Fields
 ------

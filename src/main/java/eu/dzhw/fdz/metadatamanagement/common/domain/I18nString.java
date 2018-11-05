@@ -9,9 +9,6 @@ import lombok.NoArgsConstructor;
 
 /**
  * Strings that can be represented in English and German.
- *
- * @author René Reitmann
- * @author Daniel Katzberg
  */
 @NoArgsConstructor
 @Data

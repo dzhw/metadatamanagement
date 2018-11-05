@@ -8,7 +8,7 @@ import java.util.Set;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 
 /**
- * All valid types of an study attachment.
+ * All valid types of a {@link StudyAttachmentMetadata}.
  */
 public class StudyAttachmentTypes {
   public static final I18nString METHOD_REPORT = new I18nString("Daten- und Methodenbericht",

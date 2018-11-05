@@ -262,6 +262,9 @@ angular.module('metadatamanagementApp').config(
             'choose-unreleased-project-toast': 'Data Sets may be edited if and only if the project is currently not released!',
             'data-set-deleted-toast': 'The Data Set {{ id }} has been deleted.',
             'delete-sub-data-set-tooltip': 'Click to delete the subdataset',
+            'add-sub-data-set-tooltip': 'Click to create a new subdataset',
+            'move-sub-data-set-up-tooltip': 'Click to move the selected subdataset up',
+            'move-sub-data-set-down-tooltip': 'Click to move the selected subdataset down',
             'label': {
                 'edit-data-set': 'Edit Data Set:',
                 'create-data-set': 'Create Data Set:',

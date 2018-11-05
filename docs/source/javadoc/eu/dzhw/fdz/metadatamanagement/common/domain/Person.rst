@@ -20,8 +20,6 @@ Person
 
    A representation of a person.
 
-   :author: Daniel Katzberg
-
 Fields
 ------
 firstName

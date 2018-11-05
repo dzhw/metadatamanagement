@@ -18,9 +18,21 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation StringLengths
 
+.. java:import:: eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain DataSet
+
+.. java:import:: eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain Instrument
+
 .. java:import:: eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation SetHasBeenReleasedBeforeOnlyOnce
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation ValidSemanticVersion
+
+.. java:import:: eu.dzhw.fdz.metadatamanagement.questionmanagement.domain Question
+
+.. java:import:: eu.dzhw.fdz.metadatamanagement.studymanagement.domain Study
+
+.. java:import:: eu.dzhw.fdz.metadatamanagement.surveymanagement.domain Survey
+
+.. java:import:: eu.dzhw.fdz.metadatamanagement.variablemanagement.domain Variable
 
 .. java:import:: lombok AllArgsConstructor
 
@@ -42,9 +54,7 @@ DataAcquisitionProject
 
 .. java:type:: @Entity @Document @SetHasBeenReleasedBeforeOnlyOnce @ValidSemanticVersion @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class DataAcquisitionProject extends AbstractRdcDomainObject
 
-   The Data Acquisition Project collects all data which are going to be published by our RDC.
-
-   :author: Daniel Katzberg
+   The data acquisition project collects the metadata for the data products which are published by our RDC. One project can contain one \ :java:ref:`Study`\ , many \ :java:ref:`Survey`\ s, many \ :java:ref:`Instrument`\ s and \ :java:ref:`Question`\ s, and many \ :java:ref:`DataSet`\ s and \ :java:ref:`Variable`\ s. A project can be currently released (visible to public users) or not. When a publisher releases a project and its version is greater than or equal to 1.0.0 then the metadata is published to \ `da|ra <https://www.da-ra.de/home/>`_\ .
 
 Fields
 ------
@@ -54,15 +64,21 @@ hasBeenReleasedBefore
 .. java:field:: @NotNull private Boolean hasBeenReleasedBefore
    :outertype: DataAcquisitionProject
 
+   Flag indicating whether this project has ever been released in its life. It is used to ensure that project cannot be deleted once they have been released.
+
 id
 ^^
 
 .. java:field:: @Id @NotEmpty @Pattern @Size private String id
    :outertype: DataAcquisitionProject
 
+   The id of this project. Must not be empty and must only contain lower cased (english) letters and numbers. Must not contain more than 32 characters.
+
 release
 ^^^^^^^
 
 .. java:field:: @Valid private Release release
    :outertype: DataAcquisitionProject
+
+   A valid \ :java:ref:`Release`\  object. Null if the project is currently not released. The version of a \ :java:ref:`Release`\  must be a syntactically correct according to semver (major.minor.patch) and must not be decreased.
 

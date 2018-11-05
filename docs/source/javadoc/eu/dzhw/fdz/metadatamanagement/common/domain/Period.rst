@@ -20,9 +20,7 @@ Period
 
 .. java:type:: @ValidPeriod @NoArgsConstructor @Data @AllArgsConstructor @Builder @ValueObject public class Period
 
-   Objects representing periods in time. All periods must have a start date and an end date and the start must be before or equal to the end date.
-
-   :author: René Reitmann
+   Objects representing periods in time. All periods must have a start date and an end date and the start date must be before or equal to the end date.
 
 Fields
 ------

@@ -7,11 +7,11 @@ import java.util.Set;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.DataTypes;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 
 /**
- * This is a list of Survey Data Types, which are displayed on a Study Detail Page.
- * @author Daniel Katzberg
- *
+ * List of types of data, which a {@link Study} can consist of. It will be computed from the
+ * {@link Survey}s of a {@link Study}.
  */
 public class SurveyDataTypes extends DataTypes {
 

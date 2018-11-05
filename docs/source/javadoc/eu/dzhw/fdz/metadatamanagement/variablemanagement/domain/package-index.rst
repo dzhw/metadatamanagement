@@ -1,9 +1,7 @@
 eu.dzhw.fdz.metadatamanagement.variablemanagement.domain
 ========================================================
 
-Domain objects for the variable management.
-
-:author: Daniel Katzberg
+Domain objects describing \ :java:ref:`eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable`\ s.
 
 .. java:package:: eu.dzhw.fdz.metadatamanagement.variablemanagement.domain
 

@@ -38,11 +38,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
- * The study domain object represents a study. A study can has more than one release.
- * Every {@link DataAcquisitionProject} has exact one Study.
- *
- * @author Daniel Katzberg
- *
+ * A study contains all metadata of a {@link DataAcquisitionProject}. It will get a DOI (Digital
+ * Object Identifier) when the {@link DataAcquisitionProject} is released.
  */
 @Entity
 @Document(collection = "studies")
@@ -55,6 +52,12 @@ import lombok.ToString;
 @Builder
 public class Study extends AbstractRdcDomainObject implements StudySubDocumentProjection {
 
+  /**
+   * The id of the study which uniquely identifies the study in this application.
+   * 
+   * The id must not be empty and must be of the form stu-{{dataAcquisitionProjectId}}$. The id must
+   * not contain more than 512 characters.
+   */
   @Id
   @JestId
   @NotEmpty(message = "study-management.error.study.id.not-empty")
@@ -63,10 +66,20 @@ public class Study extends AbstractRdcDomainObject implements StudySubDocumentPr
       message = "study-management.error.study.id.pattern")
   private String id;
 
+  /**
+   * The id of the {@link DataAcquisitionProject} to which this study belongs.
+   * 
+   * The dataAcquisitionProjectId must not be empty.
+   */
   @Indexed
   @NotEmpty(message = "study-management.error.study.data-acquisition-project.id.not-empty")
   private String dataAcquisitionProjectId;
 
+  /**
+   * The title of the study.
+   * 
+   * It must be specified in German and English and it must not contain more than 2048 characters.
+   */
   @NotNull(message = "study-management.error.study.title.not-null")
   @I18nStringSize(max = StringLengths.LARGE,
       message = "study-management.error.study.title.i18n-string-size")
@@ -74,12 +87,23 @@ public class Study extends AbstractRdcDomainObject implements StudySubDocumentPr
       message = "study-management.error.study.title.i18n-string-entire-not-empty")
   private I18nString title;
 
+  /**
+   * A description of the study.
+   * 
+   * It must be specified in at least one language and it must not contain more than 2048
+   * characters.
+   */
   @NotNull(message = "study-management.error.study.description.not-null")
   @I18nStringSize(max = StringLengths.LARGE,
       message = "study-management.error.study.description.i18n-string-size")
   @I18nStringNotEmpty(message = "study-management.error.study.description.i18n-string-not-empty")
   private I18nString description;
 
+  /**
+   * The name of the institution which has performed this study.
+   * 
+   * It must be specified in German and English and it must not contain more than 512 characters.
+   */
   @NotNull(message = "study-management.error.study.institution.not-null")
   @I18nStringSize(max = StringLengths.MEDIUM,
       message = "study-management.error.study.institution.i18n-string-size")
@@ -87,6 +111,12 @@ public class Study extends AbstractRdcDomainObject implements StudySubDocumentPr
       message = "study-management.error.study.institution.i18n-string-entire-not-empty")
   private I18nString institution;
 
+  /**
+   * The name of the series of studies to which this study belongs..
+   * 
+   * If specified it must be specified in German and English. It must not contain more than 512
+   * characters and must not contain ",".
+   */
   @I18nStringSize(max = StringLengths.MEDIUM,
       message = "study-management.error.study.study-series.i18n-string-size")
   @I18nStringEntireNotEmptyOptional(
@@ -95,6 +125,11 @@ public class Study extends AbstractRdcDomainObject implements StudySubDocumentPr
       message = "study-management.error.study.study-series.i18n-string-must-not-contain-comma")
   private I18nString studySeries;
 
+  /**
+   * The name of the sponsor who which has sponsored this study.
+   * 
+   * It must be specified in German and English and it must not contain more than 512 characters.
+   */
   @NotNull(message = "study-management.error.study.sponsor.not-null")
   @I18nStringSize(max = StringLengths.MEDIUM,
       message = "study-management.error.study.sponsor.i18n-string-size")
@@ -102,20 +137,40 @@ public class Study extends AbstractRdcDomainObject implements StudySubDocumentPr
       message = "study-management.error.study.sponsor.i18n-string-entire-not-empty")
   private I18nString sponsor;
 
+  /**
+   * List of {@link Person}s which have performed this study.
+   * 
+   * Must not be empty.
+   */
   @Valid
   @NotEmpty(message = "study-management.error.study.authors.not-empty")
   private List<Person> authors;
 
+  /**
+   * The current state of the data's availability.
+   * 
+   * Must be one of {@link DataAvailabilities} and must not be empty.
+   */
   @NotNull(message = "study-management.error.study.data-availability.not-null")
   @ValidDataAvailability(
       message = "study-management.error.study.data-availability.valid-data-availability")
   private I18nString dataAvailability;
 
+  /**
+   * The survey design of this {@link Study}.
+   * 
+   * Must be one of {@link SurveyDesigns} and must not be empty.
+   */
   @NotNull(message = "study-management.error.study.survey-design.not-null")
   @ValidSurveyDesign(
       message = "study-management.error.study.survey-design.valid-survey-design")
   private I18nString surveyDesign;
 
+  /**
+   * Arbitrary additional text for this instrument.
+   * 
+   * Must not contain more than 2048 characters.
+   */
   @I18nStringSize(max = StringLengths.LARGE,
       message = "study-management.error.study.annotations.i18n-string-size")
   private I18nString annotations;

@@ -1,7 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.questionmanagement.domain;
 
 /**
- * Enum representing types of supported question images.
+ * Enum representing supported types of question images.
  */
 public enum ImageType {
   PNG

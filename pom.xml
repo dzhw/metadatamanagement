@@ -109,7 +109,7 @@
         <dependency>
             <groupId>org.javers</groupId>
             <artifactId>javers-spring-boot-starter-mongo</artifactId>
-            <version>3.12.3</version>
+            <version>3.12.4</version>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
@@ -200,7 +200,7 @@
         <dependency>
             <groupId>org.springframework.security.oauth.boot</groupId>
             <artifactId>spring-security-oauth2-autoconfigure</artifactId>
-            <version>2.0.6.RELEASE</version>
+            <version>2.1.0.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>pl.allegro.tech</groupId>
@@ -486,6 +486,48 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <executions>
+                    <execution>
+                        <id>javasphinx-apidoc</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <executable>javasphinx-apidoc</executable>
+                    <arguments>
+                        <argument>src/main/java/eu/dzhw/fdz/metadatamanagement</argument>
+                        <argument>-o</argument>
+                        <argument>./docs/source/javadoc</argument>
+                        <argument>-I</argument>
+                        <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/common/domain</argument>
+                        <argument>-I</argument>
+                        <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/projectmanagement/domain</argument>
+                        <argument>-I</argument>
+                        <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/studymanagement/domain</argument>
+                        <argument>-I</argument>
+                        <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/surveymanagement/domain</argument>
+                        <argument>-I</argument>
+                        <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/instrumentmanagement/domain</argument>
+                        <argument>-I</argument>
+                        <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/questionmanagement/domain</argument>
+                        <argument>-I</argument>
+                        <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/datasetmanagement/domain</argument>
+                        <argument>-I</argument>
+                        <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/variablemanagement/domain</argument>
+                        <argument>-I</argument>
+                        <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/relatedpublicationmanagement/domain</argument>
+                        <argument>-I</argument>
+                        <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/ordermanagement/domain</argument>
+                    </arguments>
+                </configuration>
+            </plugin>
             <!-- Findbugs and fail the build -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -588,50 +630,6 @@
                 <groupId>pl.project13.maven</groupId>
                 <artifactId>git-commit-id-plugin</artifactId>
             </plugin>
-            <plugin>
-              <groupId>org.codehaus.mojo</groupId>
-              <artifactId>exec-maven-plugin</artifactId>
-              <version>1.6.0</version>
-              <executions>
-                <execution>
-                  <id>javasphinx-apidoc</id>
-                  <phase>generate-resources</phase>
-                  <goals>
-                    <goal>exec</goal>
-                  </goals>
-                </execution>
-              </executions>
-              <configuration>
-                <executable>javasphinx-apidoc</executable>
-                <arguments>
-                  <argument>src/main/java/eu/dzhw/fdz/metadatamanagement</argument>
-                  <argument>-o</argument>
-                  <argument>./docs/source/javadoc</argument>
-                  <argument>-I</argument>
-                  <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/common/domain</argument>
-                  <argument>-I</argument>
-                  <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/projectmanagement/domain</argument>
-                  <argument>-I</argument>
-                  <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/studymanagement/domain</argument>
-                  <argument>-I</argument>
-                  <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/surveymanagement/domain</argument>
-                  <argument>-I</argument>
-                  <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/instrumentmanagement/domain</argument>
-                  <argument>-I</argument>
-                  <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/questionmanagement/domain</argument>
-                  <argument>-I</argument>
-                  <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/datasetmanagement/domain</argument>
-                  <argument>-I</argument>
-                  <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/variablemanagement/domain</argument>
-                  <argument>-I</argument>
-                  <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/relatedpublicationmanagement/domain</argument>
-                  <argument>-I</argument>
-                  <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/ordermanagement/domain</argument>
-                  <argument>-I</argument>
-                  <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/usermanagement/domain</argument>
-                </arguments>
-            </configuration>
-          </plugin>
         </plugins>
     </build>
 
@@ -670,6 +668,7 @@
             </build>
             <properties>
                 <checkstyle.skip>true</checkstyle.skip>
+                <exec.skip>true</exec.skip>
                 <findbugs.skip>true</findbugs.skip>
                 <jacoco.skip>true</jacoco.skip>
                 <maven.gitcommitid.skip>true</maven.gitcommitid.skip>
@@ -767,6 +766,9 @@
                                 <fileset>
                                     <directory>.tmp</directory>
                                 </fileset>
+                                <fileset>
+                                    <directory>docs/source/javadoc</directory>
+                                </fileset>
                             </filesets>
                         </configuration>
                     </plugin>
@@ -816,6 +818,9 @@
                                 </fileset>
                                 <fileset>
                                     <directory>.tmp</directory>
+                                </fileset>
+                                <fileset>
+                                    <directory>docs/source/javadoc</directory>
                                 </fileset>
                             </filesets>
                         </configuration>

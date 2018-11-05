@@ -16,9 +16,7 @@ DataAvailabilities
 
 .. java:type:: public class DataAvailabilities
 
-   Just the values in this class are allowed for the study field dataAvailability. This will be checked by a validator.
-
-   :author: Daniel Katzberg
+   The data's availability of a \ :java:ref:`Study`\  can be in one of these states.
 
 Fields
 ------

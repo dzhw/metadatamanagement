@@ -1,7 +1,4 @@
 /**
- * The package for the domain objects within the study management.
- * 
- * @author Daniel Katzberg
- *
+ * Domain objects describing {@link eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study}s.
  */
 package eu.dzhw.fdz.metadatamanagement.studymanagement.domain;

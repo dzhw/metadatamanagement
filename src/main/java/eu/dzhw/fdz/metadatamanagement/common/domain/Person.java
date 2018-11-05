@@ -11,9 +11,6 @@ import lombok.NoArgsConstructor;
 
 /**
  * A representation of a person.
- *
- * @author Daniel Katzberg
- *
  */
 @NoArgsConstructor
 @Data
@@ -23,7 +20,9 @@ import lombok.NoArgsConstructor;
 public class Person {
 
   /**
-   * The first name of the person. Must not be empty.
+   * The first name of the person.
+   * 
+   * Must not be empty.
    */
   @NotEmpty(message = "global.error.person.first-name.not-empty")
   private String firstName;
@@ -34,7 +33,9 @@ public class Person {
   private String middleName;
 
   /**
-   * The last name of the person. Must not be empty.
+   * The last name of the person.
+   * 
+   * Must not be empty.
    */
   @NotEmpty(message = "global.error.person.last-name.not-empty")
   private String lastName;
