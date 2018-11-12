@@ -1,0 +1,124 @@
+<md-dialog aria-label="{{(ctrl.createMode?'data-set-management.detail.attachments.create-title':'data-set-management.detail.attachments.edit-title') | translate:translationParams }}" flex="75" layout="column">
+    <md-toolbar>
+        <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+            <h2 class="fdz-truncate-string">
+                <span ng-if="ctrl.isCreateMode">{{'data-set-management.detail.attachments.create-title' | translate:translationParams }}</span>
+                <span ng-if="!ctrl.isCreateMode">{{'data-set-management.detail.attachments.edit-title' | translate:translationParams }}</span>
+            </h2>
+            <md-button class="md-icon-button" ng-click="ctrl.cancel()">
+                <md-icon md-font-set="material-icons">clear</md-icon>
+                <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
+                    {{'data-set-management.detail.attachments.cancel-tooltip' | translate }}
+                </md-tooltip>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <form name="dataSetAttachmentForm">
+        <md-content>
+            <md-card ngf-drop="ctrl.upload($file)" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-select="ctrl.upload($file)" style="cursor: pointer;">
+                <md-card-header>
+                    <md-card-header-text>
+                        <h2 class="md-title">{{'global.cards.file' | translate }}</h2>
+                    </md-card-header-text>
+                </md-card-header>
+                <md-divider></md-divider>
+                <md-card-content>
+                    <div layout="column">
+                        <md-input-container style="padding: 0px;" md-is-error="!dataSetAttachmentForm.filename.$valid && (dataSetAttachmentForm.filename.$dirty || dataSetAttachmentForm.filename.$touched)">
+                            <label>{{'data-set-management.detail.label.attachments.file' | translate }}</label>
+                            <input disabled ng-pattern="/^[_A-Za-z0-9äöüÄÖÜß\-.]*$/" required ng-model="ctrl.dataSetAttachmentMetadata.fileName" name="filename" style="cursor: pointer; border-bottom: 1px rgba(0,0,0,0.12) solid; background-image: none;">
+                            <div ng-if="!dataSetAttachmentForm.filename.$dirty && !dataSetAttachmentForm.filename.$touched" class="fdz-input-hint">{{'data-set-management.detail.attachments.hints.filename' | translate}}</div>
+                            <div ng-messages="dataSetAttachmentForm.filename.$error" multiple>
+                                <div ng-message="required">{{'data-set-management.error.data-set-attachment-metadata.filename.not-empty' | translate}}</div>
+                                <div ng-message="unique">{{'data-set-management.error.data-set-attachment-metadata.filename.not-unique' | translate}}</div>
+                                <div ng-message="valid">{{'data-set-management.error.data-set-attachment-metadata.filename.not-valid' | translate}}</div>
+                                <div ng-message="pattern">{{'data-set-management.error.data-set-attachment-metadata.filename.not-valid' | translate}}</div>
+                            </div>
+                        </md-input-container>
+                        <div layout="column" layout-align="center end">
+                            <md-button class="md-primary md-raised md-icon-button" type="file" ngf-select="ctrl.upload($file)" style="margin: 8px;">
+                                <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                    {{'data-set-management.detail.attachments.change-file-tooltip' | translate}}
+                                </md-tooltip>
+                                <md-icon md-font-set="material-icons">attach_file</md-icon>
+                            </md-button>
+                        </div>
+                    </div>
+                </md-card-content>
+            </md-card>
+            <md-card>
+                <md-card-header>
+                    <md-card-header-text>
+                        <h2 class="md-title">{{'global.cards.metadata' | translate }}</h2>
+                    </md-card-header-text>
+                </md-card-header>
+                <md-divider></md-divider>
+                <md-card-content>
+                    <div layout-gt-sm="row" layout="column">
+                        <md-autocomplete required flex="50" md-input-name="language2" md-floating-label="{{'data-set-management.detail.label.attachments.language' | translate}}" md-require-match="true" md-select-on-match="true"
+                          md-match-case-insensitive="true" md-selected-item="ctrl.selectedLanguage" md-min-length="0" md-search-text="ctrl.languageSearchText" md-items="item in ctrl.searchLanguages(ctrl.languageSearchText)" md-item-text="item.displayLanguage[currentLanguage]"
+                          md-clear-button="true" md-no-cache="true" md-selected-item-change="ctrl.selectedLanguageChanged()" md-is-error="!dataSetAttachmentForm.language2.$valid && (dataSetAttachmentForm.language2.$dirty || dataSetAttachmentForm.language2.$touched)">
+                            <md-item-template>
+                                <span class="md-title" style="font-size: 14px;">{{item.displayLanguage[currentLanguage]}}</span>
+                            </md-item-template>
+                            <md-not-found>
+                                {{'data-set-management.detail.attachments.language-not-found' | translate}}
+                            </md-not-found>
+                            <div ng-if="!dataSetAttachmentForm.language2.$dirty && !dataSetAttachmentForm.language2.$touched" class="fdz-input-hint">{{'data-set-management.detail.attachments.hints.language' | translate}}</div>
+                            <div ng-messages="dataSetAttachmentForm.language2.$error" multiple>
+                                <div ng-message="required">{{'data-set-management.error.data-set-attachment-metadata.language.not-null' | translate}}</div>
+                                <div ng-message="md-require-match">{{'data-set-management.error.data-set-attachment-metadata.language.not-valid' | translate}}</div>
+                            </div>
+                        </md-autocomplete>
+                        <div flex="50"></div>
+                    </div>
+                    <div layout="row">
+                        <md-input-container flex style="margin-right: 8px;" md-is-error="!dataSetAttachmentForm.title.$valid && (dataSetAttachmentForm.title.$dirty || dataSetAttachmentForm.title.$touched)">
+                            <label class="fdz-input-required">{{'data-set-management.detail.label.attachments.title' | translate}} ({{'global.in' | translate}} {{ctrl.selectedLanguage.displayLanguage[currentLanguage]?ctrl.selectedLanguage.displayLanguage[currentLanguage]:'?'}})</label>
+                            <textarea fdz-required rows="4" md-maxlength="2048" ng-model="ctrl.dataSetAttachmentMetadata.title" name="title"></textarea>
+                            <div ng-if="!dataSetAttachmentForm.title.$dirty && !dataSetAttachmentForm.title.$touched" class="fdz-input-hint">{{'data-set-management.detail.attachments.hints.title' | translate}}</div>
+                            <div ng-messages="dataSetAttachmentForm.title.$error" multiple>
+                                <div ng-message="md-maxlength">{{'data-set-management.error.data-set-attachment-metadata.title.string-size' | translate}}</div>
+                                <div ng-message="fdz-required">{{'data-set-management.error.data-set-attachment-metadata.title.not-null' | translate}}</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                    <div layout-gt-sm="row" layout="column">
+                        <md-input-container flex="50" style="margin-right: 8px;" md-is-error="!dataSetAttachmentForm.descriptionDe.$valid && (dataSetAttachmentForm.descriptionDe.$dirty || dataSetAttachmentForm.descriptionDe.$touched)">
+                            <label class="fdz-input-required">{{'data-set-management.detail.label.attachments.description' | translate}} ({{'global.in-german' | translate}})</label>
+                            <input fdz-required="!ctrl.dataSetAttachmentMetadata.description.en" md-maxlength="512" ng-model="ctrl.dataSetAttachmentMetadata.description.de" name="descriptionDe" lang="de" md-no-asterisk>
+                            <div ng-if="!dataSetAttachmentForm.descriptionDe.$dirty && !dataSetAttachmentForm.descriptionDe.$touched" class="fdz-input-hint">{{'data-set-management.detail.attachments.hints.description.de' | translate}}</div>
+                            <div ng-messages="dataSetAttachmentForm.descriptionDe.$error" multiple>
+                                <div ng-message="fdz-required">{{'data-set-management.error.data-set-attachment-metadata.description.i18n-string-not-empty' | translate}}</div>
+                                <div ng-message="md-maxlength">{{'data-set-management.error.data-set-attachment-metadata.description.i18n-string-size' | translate}}</div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="50" style="margin-right: 8px;" md-is-error="!dataSetAttachmentForm.descriptionEn.$valid && (dataSetAttachmentForm.descriptionEn.$dirty || dataSetAttachmentForm.descriptionEn.$touched)">
+                            <label class="fdz-input-required">{{'data-set-management.detail.label.attachments.description' | translate}} ({{'global.in-english' | translate}})</label>
+                            <input fdz-required="!ctrl.dataSetAttachmentMetadata.description.de" md-maxlength="512" ng-model="ctrl.dataSetAttachmentMetadata.description.en" name="descriptionEn" lang="en" md-no-asterisk>
+                            <div ng-if="!dataSetAttachmentForm.descriptionEn.$dirty && !dataSetAttachmentForm.descriptionEn.$touched" class="fdz-input-hint">{{'data-set-management.detail.attachments.hints.description.en' | translate}}</div>
+                            <div ng-messages="dataSetAttachmentForm.descriptionEn.$error" multiple>
+                                <div ng-message="fdz-required">{{'data-set-management.error.data-set-attachment-metadata.description.i18n-string-not-empty' | translate}}</div>
+                                <div ng-message="md-maxlength">{{'data-set-management.error.data-set-attachment-metadata.description.i18n-string-size' | translate}}</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </md-card-content>
+            </md-card>
+        </md-content>
+        <div class="fdz-fab-button-container" layout="column">
+            <md-button ng-if="!ctrl.isCreateMode" class="md-fab md-raised md-primary" ng-click="ctrl.openRestorePreviousVersionDialog($event)" ng-disabled="ctrl.createMode">
+                <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    {{'data-set-management.detail.attachments.open-choose-previous-version-tooltip' | translate}}
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">undo</md-icon>
+            </md-button>
+            <md-button class="md-fab md-raised md-accent" type="submit" ng-click="ctrl.saveAttachment()" ng-disabled="!dataSetAttachmentForm.$dirty">
+                <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    {{'data-set-management.detail.attachments.save-tooltip' | translate}}
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">save</md-icon>
+            </md-button>
+        </div>
+    </form>
+</md-dialog>

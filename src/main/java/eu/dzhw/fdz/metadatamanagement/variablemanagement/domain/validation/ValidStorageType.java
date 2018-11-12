@@ -9,8 +9,10 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.StorageTypes;
+
 /**
- * Annotation for the validation of storage types. 
+ * Annotation for the validation of storage types.
  * Only values of the {@link StorageTypes} are allowed. *
  */
 @Documented

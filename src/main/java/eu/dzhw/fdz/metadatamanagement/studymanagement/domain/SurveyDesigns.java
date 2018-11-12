@@ -8,11 +8,7 @@ import java.util.Set;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 
 /**
- * Survey Designs for the Scale Level field Survey Designs. Only the values in this class are 
- * allowed and will be checked by a validator.
- * 
- * @author Daniel Katzberg
- *
+ * List of currently supported survey designs.
  */
 public class SurveyDesigns {
   public static final I18nString CROSS_SECTION = new I18nString("Querschnitt", "Cross-Section");

@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.ImageType;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.ImageType;
 
 /**
  * Annotation for the validator of the image type of questions. Only the png value from the enum 

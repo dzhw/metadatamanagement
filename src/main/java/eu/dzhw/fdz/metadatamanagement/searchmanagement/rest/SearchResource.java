@@ -102,7 +102,7 @@ public class SearchResource {
     HttpHeaders headers = new HttpHeaders();
     headers.add(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_UTF8_VALUE);
     headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
-    
+
     if (base64Credentials != null) {
       headers.add("authorization", "Basic " + base64Credentials);
     }
@@ -123,7 +123,7 @@ public class SearchResource {
   }
 
   /**
-   * POST /api/search/recreate -> recreate all elasticsearch indices.
+   * Recreate all elasticsearch indices.
    */
   @RequestMapping(value = "/api/search/recreate", method = RequestMethod.POST,
       produces = MediaType.APPLICATION_JSON_VALUE)
@@ -135,7 +135,7 @@ public class SearchResource {
   }
 
   /**
-   * POST /api/search/process-queue -> trigger processing of elasticsearch updates.
+   * Trigger processing of elasticsearch updates.
    */
   @RequestMapping(value = "/api/search/process-queue", method = RequestMethod.POST,
       produces = MediaType.APPLICATION_JSON_VALUE)
@@ -145,10 +145,10 @@ public class SearchResource {
     log.debug("REST request to process update queue for type: " + type);
     if (type != null) {
       elasticsearchUpdateQueueService.processQueueItems(type);
-      elasticsearchAdminService.refreshIndex(type);      
+      elasticsearchAdminService.refreshIndex(type);
     } else {
       elasticsearchUpdateQueueService.processAllQueueItems();
-      elasticsearchAdminService.refreshAllIndices();      
+      elasticsearchAdminService.refreshAllIndices();
     }
     return ResponseEntity.ok()
       .build();

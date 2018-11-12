@@ -14,6 +14,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpt
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidIsoLanguage;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,7 +23,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
- * Metadata which will be stored in GridFS with each attachment for surveys.
+ * Metadata which will be stored with each attachment of a {@link Survey}.
  */
 @EqualsAndHashCode(callSuper = false, of = "id")
 @ToString(callSuper = true)
@@ -31,17 +32,36 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 public class SurveyAttachmentMetadata extends AbstractRdcDomainObject {
+  /**
+   * The id of the attachment. Holds the complete path which can be used to download the file.
+   */
   @Id
   private String id;
 
+  /**
+   * The id of the {@link Survey} to which this attachment belongs.
+   * 
+   * Must not be empty.
+   */
   @NotEmpty(message =
       "survey-management.error.survey-attachment-metadata.survey-id.not-empty")
   private String surveyId;
 
+  /**
+   * The id of the {@link DataAcquisitionProject} to which the {@link Survey} of this attachment
+   * belongs.
+   * 
+   * Must not be empty.
+   */
   @NotEmpty(message =
       "survey-management.error.survey-attachment-metadata.project-id.not-empty")
   private String dataAcquisitionProjectId;
 
+  /**
+   * A description for this attachment.
+   * 
+   * It must be specified in at least one language and it must not contain more than 512 characters.
+   */
   @NotNull(message =
       "survey-management.error.survey-attachment-metadata.description.not-null")
   @I18nStringSize(max = StringLengths.MEDIUM, message =
@@ -50,18 +70,34 @@ public class SurveyAttachmentMetadata extends AbstractRdcDomainObject {
       + "description.i18n-string-not-empty")
   private I18nString description;
 
+  /**
+   * A title of this attachment in the attachments' language.
+   * 
+   * It must not contain more than 2048 characters.
+   */
   @NotNull(message =
       "survey-management.error.survey-attachment-metadata.title.not-null")
   @Size(max = StringLengths.LARGE, message =
       "survey-management.error.survey-attachment-metadata.title.string-size")
   private String title;
 
+  /**
+   * The language of the attachments content.
+   * 
+   * Must not be empty and must be specified as ISO 639 language code.
+   */
   @NotNull(message =
       "survey-management.error.survey-attachment-metadata.language.not-null")
   @ValidIsoLanguage(message =
       "survey-management.error.survey-attachment-metadata.language.not-supported")
   private String language;
 
+  /**
+   * The filename of the attachment.
+   * 
+   * Must not be empty and must contain only (german) alphanumeric characters and "_" and "-" and
+   * ".".
+   */
   @NotEmpty(message =
       "survey-management.error.survey-attachment-metadata.filename.not-empty")
   @Pattern(message =
@@ -69,14 +105,28 @@ public class SurveyAttachmentMetadata extends AbstractRdcDomainObject {
       regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOT)
   private String fileName;
 
+  /**
+   * The number of the {@link Survey} to which this attachment belongs.
+   * 
+   * Must not be empty.
+   */
   @NotNull(message =
       "survey-management.error.survey-attachment-metadata.survey-number.not-null")
   private Integer surveyNumber;
 
+  /**
+   * The index in the {@link Survey} of this attachment. Used for sorting the attachments of this
+   * {@link Survey}.
+   * 
+   * Must not be empty.
+   */
   @NotNull(message =
       "survey-management.error.survey-attachment-metadata.index-in-survey.not-null")
   private Integer indexInSurvey;
 
+  /**
+   * Generate the id of this attachment from the surveyId and the fileName.
+   */
   public void generateId() {
     // hack to satisfy javers
     this.id = "/public/files/surveys/" + surveyId + "/attachments/" + fileName;

@@ -22,6 +22,13 @@ angular.module('metadatamanagementApp').factory('LanguageService',
       },
 
       setCurrent: function(language) {
+        if (language !== 'de' && language !== 'en') {
+          if (language.indexOf('de-') >= 0 || language.indexOf('de_') >= 0) {
+            language = 'de';
+          } else {
+            language = 'en';
+          }
+        }
         if ($rootScope.currentLanguage === language) {
           return;
         }
@@ -48,6 +55,10 @@ angular.module('metadatamanagementApp').factory('LanguageService',
         tmhDynamicLocale.set(language).then(function() {
           $translate.use(language);
           var currentPath = $location.path();
+          if (!currentPath || currentPath === '' || currentPath === '/') {
+            currentPath = '/' + language + '/search';
+            $location.path(currentPath);
+          }
           if (language === 'en' && currentPath.indexOf('/de/') === 0) {
             currentPath = currentPath.replace('/de/', '/en/');
             $location.path(currentPath);

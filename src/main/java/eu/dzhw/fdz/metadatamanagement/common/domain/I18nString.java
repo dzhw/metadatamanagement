@@ -8,10 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Class representing Strings that can be internationalized.
- *
- * @author René Reitmann
- * @author Daniel Katzberg
+ * Strings that can be represented in English and German.
  */
 @NoArgsConstructor
 @Data
@@ -19,7 +16,13 @@ import lombok.NoArgsConstructor;
 @Builder
 @ValueObject
 public class I18nString {
+  /**
+   * The german version of this string.
+   */
   private String de;
 
+  /**
+   * The english version of this string.
+   */
   private String en;
 }

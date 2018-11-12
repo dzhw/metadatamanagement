@@ -99,7 +99,8 @@ module.exports = {
             'If *tozero*`, the range extends to 0,',
             'regardless of the input data',
             'If *nonnegative*, the range is non-negative,',
-            'regardless of the input data.'
+            'regardless of the input data.',
+            'Applies only to linear axes.'
         ].join(' ')
     },
     range: {
@@ -686,8 +687,11 @@ module.exports = {
         editType: 'plot',
         description: [
             'If set a same-letter axis id, this axis is overlaid on top of',
-            'the corresponding same-letter axis.',
-            'If *false*, this axis does not overlay any same-letter axes.'
+            'the corresponding same-letter axis, with traces and axes visible for both',
+            'axes.',
+            'If *false*, this axis does not overlay any same-letter axes.',
+            'In this case, for axes with overlapping domains only the highest-numbered',
+            'axis will be visible.'
         ].join(' ')
     },
     layer: {

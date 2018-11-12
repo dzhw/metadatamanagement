@@ -20,7 +20,7 @@ angular.module('metadatamanagementApp').config(
           },
           'survey-attachment': {
             'not-saved': 'Attachment "{{ id }}" wurde nicht gespeichert.',
-            'missing-survey-number': 'Das Attachment einer Erhebung aus dem Exceldatei aus dem Arbeitsblatt "attachments" in der Zeile {{ index }} hat keine Erhebungsnummer und wurde daher nicht gespeichert.',
+            'missing-survey-number': 'Das Attachment einer Erhebung aus der Exceldatei aus dem Arbeitsblatt "attachments" in der Zeile {{ index }} hat keine Erhebungsnummer und wurde daher nicht gespeichert.',
             'missing-filename': 'Das Attachment einer Erhebung aus der Exceldatei aus dem Arbeitsblatt "attachments" in der Zeile {{index}} hat keinen Dateinamen und wurde daher nicht gespeichert.',
             'file-not-found': 'Die Datei {{ filename }} wurde nicht gefunden und wurde daher nicht gespeichert!'
           }

@@ -473,7 +473,7 @@ Beautifier.prototype.start_of_statement = function(current_token) {
   var start = false;
   start = start || reserved_array(this._flags.last_token, ['var', 'let', 'const']) && current_token.type === TOKEN.WORD;
   start = start || reserved_word(this._flags.last_token, 'do');
-  start = start || (reserved_array(this._flags.last_token, newline_restricted_tokens) && !current_token.newlines);
+  start = start || (!(this._flags.parent.mode === MODE.ObjectLiteral && this._flags.mode === MODE.Statement)) && reserved_array(this._flags.last_token, newline_restricted_tokens) && !current_token.newlines;
   start = start || reserved_word(this._flags.last_token, 'else') &&
     !(reserved_word(current_token, 'if') && !current_token.comments_before);
   start = start || (this._flags.last_token.type === TOKEN.END_EXPR && (this._previous_flags.mode === MODE.ForInitializer || this._previous_flags.mode === MODE.Conditional));
@@ -567,6 +567,19 @@ Beautifier.prototype.handle_start_expr = function(current_token) {
       }
     } else if (this._flags.last_token.type === TOKEN.WORD) {
       this._output.space_before_token = false;
+
+      // function name() vs function name ()
+      // function* name() vs function* name ()
+      // async name() vs async name ()
+      if (this._options.space_after_named_function) {
+        // peek starts at next character so -1 is current token
+        var peek_back_three = this._tokens.peek(-4);
+        var peek_back_two = this._tokens.peek(-3);
+        if (reserved_array(peek_back_two, ['async', 'function']) ||
+          (reserved_array(peek_back_three, ['async', 'function']) && peek_back_two.text === '*')) {
+          this._output.space_before_token = true;
+        }
+      }
     } else {
       // Support preserving wrapped arrow function expressions
       // a.b('c',
@@ -776,6 +789,8 @@ Beautifier.prototype.handle_word = function(current_token) {
   if (current_token.type === TOKEN.RESERVED) {
     if (in_array(current_token.text, ['set', 'get']) && this._flags.mode !== MODE.ObjectLiteral) {
       current_token.type = TOKEN.WORD;
+    } else if (current_token.text === 'import' && this._tokens.peek().text === '(') {
+      current_token.type = TOKEN.WORD;
     } else if (in_array(current_token.text, ['as', 'from']) && !this._flags.import_block) {
       current_token.type = TOKEN.WORD;
     } else if (this._flags.mode === MODE.ObjectLiteral) {
@@ -866,6 +881,9 @@ Beautifier.prototype.handle_word = function(current_token) {
         this._output.space_before_token = true;
       } else if (reserved_word(this._flags.last_token, 'default') && this._last_last_text === 'export') {
         this._output.space_before_token = true;
+      } else if (this._flags.last_token.text === 'declare') {
+        // accomodates Typescript declare function formatting
+        this._output.space_before_token = true;
       } else {
         this.print_newline();
       }
@@ -953,6 +971,9 @@ Beautifier.prototype.handle_word = function(current_token) {
   } else if (prefix === 'NEWLINE') {
     if (reserved_array(this._flags.last_token, special_words)) {
       // no newline between 'return nnn'
+      this._output.space_before_token = true;
+    } else if (this._flags.last_token.text === 'declare' && reserved_array(current_token, ['var', 'let', 'const'])) {
+      // accomodates Typescript declare formatting
       this._output.space_before_token = true;
     } else if (this._flags.last_token.type !== TOKEN.END_EXPR) {
       if ((this._flags.last_token.type !== TOKEN.START_EXPR || !reserved_array(current_token, ['var', 'let', 'const'])) && this._flags.last_token.text !== ':') {

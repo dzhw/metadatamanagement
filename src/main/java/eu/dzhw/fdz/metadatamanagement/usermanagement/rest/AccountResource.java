@@ -46,7 +46,7 @@ public class AccountResource {
   private MailService mailService;
 
   /**
-   * POST /register -> register the user.
+   * Register the user.
    */
   @RequestMapping(value = "/register", method = RequestMethod.POST,
       produces = MediaType.TEXT_PLAIN_VALUE)
@@ -66,7 +66,7 @@ public class AccountResource {
   }
 
   /**
-   * GET /activate -> activate the registered user.
+   * Activate the registered user.
    */
   @RequestMapping(value = "/activate", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
@@ -81,7 +81,7 @@ public class AccountResource {
   }
 
   /**
-   * GET /authenticate -> check if the user is authenticated, and return its login.
+   * Check if the user is authenticated, and return its login.
    */
   @RequestMapping(value = "/authenticate", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
@@ -91,7 +91,7 @@ public class AccountResource {
   }
 
   /**
-   * GET /account -> get the current user.
+   * Get the current user.
    */
   @RequestMapping(value = "/account", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
@@ -102,7 +102,7 @@ public class AccountResource {
   }
 
   /**
-   * POST /account -> update the current user information.
+   * Update the current user information.
    */
   @RequestMapping(value = "/account", method = RequestMethod.POST,
       produces = MediaType.APPLICATION_JSON_VALUE)
@@ -116,7 +116,7 @@ public class AccountResource {
   }
 
   /**
-   * POST /change-password -> changes the current user's password.
+   * Changes the current user's password.
    */
   @RequestMapping(value = "/account/change-password", method = RequestMethod.POST,
       produces = MediaType.APPLICATION_JSON_VALUE)

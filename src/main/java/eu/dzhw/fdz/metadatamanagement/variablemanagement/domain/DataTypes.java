@@ -8,7 +8,7 @@ import java.util.Set;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 
 /**
- * The DataType enumeration.
+ * The technical type which the {@link ValidResponse}s have.
  */
 public class DataTypes {
 

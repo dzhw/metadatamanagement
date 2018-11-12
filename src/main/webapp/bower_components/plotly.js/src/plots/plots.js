@@ -20,7 +20,6 @@ var Color = require('../components/color');
 var BADNUM = require('../constants/numerical').BADNUM;
 
 var axisIDs = require('../plots/cartesian/axis_ids');
-var sortBasePlotModules = require('./sort_modules').sortBasePlotModules;
 
 var animationAttrs = require('./animation_attributes');
 var frameAttrs = require('./frame_attributes');
@@ -391,6 +390,11 @@ plots.supplyDefaults = function(gd, opts) {
     // initialize splom grid defaults
     newFullLayout._splomGridDflt = {};
 
+    // for stacked area traces to share config across traces
+    newFullLayout._scatterStackOpts = {};
+    // for the first scatter trace on each subplot (so it knows tonext->tozero)
+    newFullLayout._firstScatter = {};
+
     // for traces to request a default rangeslider on their x axes
     // eg set `_requestRangeslider.x2 = true` for xaxis2
     newFullLayout._requestRangeslider = {};
@@ -423,13 +427,6 @@ plots.supplyDefaults = function(gd, opts) {
     // attach helper method to check whether a plot type is present on graph
     newFullLayout._has = plots._hasPlotType.bind(newFullLayout);
 
-    // special cases that introduce interactions between traces
-    var _modules = newFullLayout._visibleModules;
-    for(i = 0; i < _modules.length; i++) {
-        var _module = _modules[i];
-        if(_module.cleanData) _module.cleanData(newFullData);
-    }
-
     if(oldFullData.length === newFullData.length) {
         for(i = 0; i < newFullData.length; i++) {
             relinkPrivateKeys(newFullData[i], oldFullData[i]);
@@ -438,6 +435,20 @@ plots.supplyDefaults = function(gd, opts) {
 
     // finally, fill in the pieces of layout that may need to look at data
     plots.supplyLayoutModuleDefaults(newLayout, newFullLayout, newFullData, gd._transitionData);
+
+    // Special cases that introduce interactions between traces.
+    // This is after relinkPrivateKeys so we can use those in crossTraceDefaults
+    // and after layout module defaults, so we can use eg barmode
+    var _modules = newFullLayout._visibleModules;
+    var crossTraceDefaultsFuncs = [];
+    for(i = 0; i < _modules.length; i++) {
+        var funci = _modules[i].crossTraceDefaults;
+        // some trace types share crossTraceDefaults (ie histogram2d, histogram2dcontour)
+        if(funci) Lib.pushUnique(crossTraceDefaultsFuncs, funci);
+    }
+    for(i = 0; i < crossTraceDefaultsFuncs.length; i++) {
+        crossTraceDefaultsFuncs[i](newFullData, newFullLayout);
+    }
 
     // turn on flag to optimize large splom-only graphs
     // mostly by omitting SVG layers during Cartesian.drawFramework
@@ -463,7 +474,7 @@ plots.supplyDefaults = function(gd, opts) {
     plots.linkSubplots(newFullData, newFullLayout, oldFullData, oldFullLayout);
 
     // clean subplots and other artifacts from previous plot calls
-    plots.cleanPlot(newFullData, newFullLayout, oldFullData, oldFullLayout, oldCalcdata);
+    plots.cleanPlot(newFullData, newFullLayout, oldFullData, oldFullLayout);
 
     // relink functions and _ attributes to promote consistency between plots
     relinkPrivateKeys(newFullLayout, oldFullLayout);
@@ -482,9 +493,6 @@ plots.supplyDefaults = function(gd, opts) {
     if(!skipUpdateCalc && oldCalcdata.length === newFullData.length) {
         plots.supplyDefaultsUpdateCalc(oldCalcdata, newFullData);
     }
-
-    // sort base plot modules for consistent ordering
-    newFullLayout._basePlotModules.sort(sortBasePlotModules);
 };
 
 plots.supplyDefaultsUpdateCalc = function(oldCalcdata, newFullData) {
@@ -713,7 +721,7 @@ plots._hasPlotType = function(category) {
     return false;
 };
 
-plots.cleanPlot = function(newFullData, newFullLayout, oldFullData, oldFullLayout, oldCalcdata) {
+plots.cleanPlot = function(newFullData, newFullLayout, oldFullData, oldFullLayout) {
     var i, j;
 
     var basePlotModules = oldFullLayout._basePlotModules || [];
@@ -721,7 +729,7 @@ plots.cleanPlot = function(newFullData, newFullLayout, oldFullData, oldFullLayou
         var _module = basePlotModules[i];
 
         if(_module.clean) {
-            _module.clean(newFullData, newFullLayout, oldFullData, oldFullLayout, oldCalcdata);
+            _module.clean(newFullData, newFullLayout, oldFullData, oldFullLayout);
         }
     }
 
@@ -938,13 +946,13 @@ plots.supplyDataDefaults = function(dataIn, dataOut, layout, fullLayout) {
         fullTrace.uid = fullLayout._traceUids[i];
         plots.supplyTraceDefaults(trace, fullTrace, colorCnt, fullLayout, i);
 
-        fullTrace.uid = fullLayout._traceUids[i];
-
         fullTrace.index = i;
         fullTrace._input = trace;
         fullTrace._expandedIndex = cnt;
 
         if(fullTrace.transforms && fullTrace.transforms.length) {
+            var sdInvisible = trace.visible !== false && fullTrace.visible === false;
+
             var expandedTraces = applyTransforms(fullTrace, dataOut, layout, fullLayout);
 
             for(var j = 0; j < expandedTraces.length; j++) {
@@ -958,6 +966,17 @@ plots.supplyDataDefaults = function(dataIn, dataOut, layout, fullLayout) {
                     // to promote consistency between update calls
                     uid: fullTrace.uid + j
                 };
+
+                // If the first supplyDefaults created `visible: false`,
+                // clear it before running supplyDefaults a second time,
+                // because sometimes there are items we still want to coerce
+                // inside trace modules before determining that the trace is
+                // again `visible: false`, for example partial visibilities
+                // in `splom` traces.
+                if(sdInvisible && expandedTrace.visible === false) {
+                    delete expandedTrace.visible;
+                }
+
                 plots.supplyTraceDefaults(expandedTrace, fullExpandedTrace, cnt, fullLayout, i);
 
                 // relink private (i.e. underscore) keys expanded trace to full expanded trace so
@@ -1106,6 +1125,7 @@ plots.supplyTraceDefaults = function(traceIn, traceOut, colorIndex, layout, trac
     // we want even invisible traces to make their would-be subplots visible
     // so coerce the subplot id(s) now no matter what
     var _module = plots.getModule(traceOut);
+
     traceOut._module = _module;
     if(_module) {
         var basePlotModule = _module.basePlotModule;
@@ -1139,6 +1159,18 @@ plots.supplyTraceDefaults = function(traceIn, traceOut, colorIndex, layout, trac
         }
     }
 
+    function coerceUnlessPruned(attr, dflt, cb) {
+        if(_module && (attr in _module.attributes) && _module.attributes[attr] === undefined) {
+            // Pruned
+        } else {
+            if(cb && typeof cb === 'function') {
+                cb();
+            } else {
+                coerce(attr, dflt);
+            }
+        }
+    }
+
     if(visible) {
         coerce('customdata');
         coerce('ids');
@@ -1152,10 +1184,12 @@ plots.supplyTraceDefaults = function(traceIn, traceOut, colorIndex, layout, trac
             traceOut._dfltShowLegend = false;
         }
 
-        Registry.getComponentMethod(
-            'fx',
-            'supplyDefaults'
-        )(traceIn, traceOut, defaultColor, layout);
+        coerceUnlessPruned('hoverlabel', '', function() {
+            Registry.getComponentMethod(
+                'fx',
+                'supplyDefaults'
+            )(traceIn, traceOut, defaultColor, layout);
+        });
 
         // TODO add per-base-plot-module trace defaults step
 
@@ -1188,16 +1222,19 @@ plots.supplyTraceDefaults = function(traceIn, traceOut, colorIndex, layout, trac
  * parameters? If so, we should still keep going with supplyDefaults
  * even if the trace is invisible, which may just be because it has no data yet.
  */
-function hasMakesDataTransform(traceIn) {
-    var transformsIn = traceIn.transforms;
-    if(Array.isArray(transformsIn) && transformsIn.length) {
-        for(var i = 0; i < transformsIn.length; i++) {
-            var _module = transformsRegistry[transformsIn[i].type];
+function hasMakesDataTransform(trace) {
+    var transforms = trace.transforms;
+    if(Array.isArray(transforms) && transforms.length) {
+        for(var i = 0; i < transforms.length; i++) {
+            var ti = transforms[i];
+            var _module = ti._module || transformsRegistry[ti.type];
             if(_module && _module.makesData) return true;
         }
     }
     return false;
 }
+
+plots.hasMakesDataTransform = hasMakesDataTransform;
 
 plots.supplyTransformDefaults = function(traceIn, traceOut, layout) {
     // For now we only allow transforms on 1D traces, ie those that specify a _length.
@@ -1328,6 +1365,12 @@ plots.supplyLayoutGlobalDefaults = function(layoutIn, layoutOut, formatObj) {
 
     coerce('datarevision');
 
+    coerce('modebar.orientation');
+    coerce('modebar.bgcolor', Color.addOpacity(layoutOut.paper_bgcolor, 0.5));
+    var modebarDefaultColor = Color.contrast(Color.rgb(layoutOut.modebar.bgcolor));
+    coerce('modebar.color', Color.addOpacity(modebarDefaultColor, 0.3));
+    coerce('modebar.activecolor', Color.addOpacity(modebarDefaultColor, 0.7));
+
     Registry.getComponentMethod(
         'calendars',
         'handleDefaults'
@@ -1359,21 +1402,6 @@ plots.plotAutoSize = function plotAutoSize(gd, layout, fullLayout) {
         // just hide it
         document.body.style.overflow = 'hidden';
     }
-    else if(isNumeric(frameMargins) && frameMargins > 0) {
-        var reservedMargins = calculateReservedMargins(gd._boundingBoxMargins),
-            reservedWidth = reservedMargins.left + reservedMargins.right,
-            reservedHeight = reservedMargins.bottom + reservedMargins.top,
-            factor = 1 - 2 * frameMargins;
-
-        var gdBB = fullLayout._container && fullLayout._container.node ?
-            fullLayout._container.node().getBoundingClientRect() : {
-                width: fullLayout.width,
-                height: fullLayout.height
-            };
-
-        newWidth = Math.round(factor * (gdBB.width - reservedWidth));
-        newHeight = Math.round(factor * (gdBB.height - reservedHeight));
-    }
     else {
         // plotly.js - let the developers do what they want, either
         // provide height and width for the container div,
@@ -1381,8 +1409,14 @@ plots.plotAutoSize = function plotAutoSize(gd, layout, fullLayout) {
         // but don't enforce any ratio restrictions
         var computedStyle = isPlotDiv ? window.getComputedStyle(gd) : {};
 
-        newWidth = parseFloat(computedStyle.width) || fullLayout.width;
-        newHeight = parseFloat(computedStyle.height) || fullLayout.height;
+        newWidth = parseFloat(computedStyle.width) || parseFloat(computedStyle.maxWidth) || fullLayout.width;
+        newHeight = parseFloat(computedStyle.height) || parseFloat(computedStyle.maxHeight) || fullLayout.height;
+
+        if(isNumeric(frameMargins) && frameMargins > 0) {
+            var factor = 1 - 2 * frameMargins;
+            newWidth = Math.round(factor * newWidth);
+            newHeight = Math.round(factor * newHeight);
+        }
     }
 
     var minWidth = plots.layoutAttributes.width.min,
@@ -1408,29 +1442,6 @@ plots.plotAutoSize = function plotAutoSize(gd, layout, fullLayout) {
 
     plots.sanitizeMargins(fullLayout);
 };
-
-/**
- * Reduce all reserved margin objects to a single required margin reservation.
- *
- * @param {Object} margins
- * @returns {{left: number, right: number, bottom: number, top: number}}
- */
-function calculateReservedMargins(margins) {
-    var resultingMargin = {left: 0, right: 0, bottom: 0, top: 0},
-        marginName;
-
-    if(margins) {
-        for(marginName in margins) {
-            if(margins.hasOwnProperty(marginName)) {
-                resultingMargin.left += margins[marginName].left || 0;
-                resultingMargin.right += margins[marginName].right || 0;
-                resultingMargin.bottom += margins[marginName].bottom || 0;
-                resultingMargin.top += margins[marginName].top || 0;
-            }
-        }
-    }
-    return resultingMargin;
-}
 
 plots.supplyLayoutModuleDefaults = function(layoutIn, layoutOut, fullData, transitionData) {
     var componentsRegistry = Registry.componentsRegistry;
@@ -1476,7 +1487,10 @@ plots.supplyLayoutModuleDefaults = function(layoutIn, layoutOut, fullData, trans
     }
 
     // trace module layout defaults
-    var modules = layoutOut._visibleModules;
+    // use _modules rather than _visibleModules so that even
+    // legendonly traces can include settings - eg barmode, which affects
+    // legend.traceorder default value.
+    var modules = layoutOut._modules;
     for(i = 0; i < modules.length; i++) {
         _module = modules[i];
 
@@ -1536,6 +1550,9 @@ plots.purge = function(gd) {
     // remove any planned throttles
     Lib.clearThrottle();
 
+    // remove responsive handler
+    Lib.clearResponsive(gd);
+
     // data and layout
     delete gd.data;
     delete gd.layout;
@@ -1556,7 +1573,6 @@ plots.purge = function(gd) {
     // (and to have a record of them...)
     delete gd._promises;
     delete gd._redrawTimer;
-    delete gd.firstscatter;
     delete gd._hmlumcount;
     delete gd._hmpixcount;
     delete gd._transitionData;
@@ -1884,6 +1900,10 @@ plots.graphJson = function(gd, dataonly, mode, output, useDefaults) {
 
         if(Array.isArray(d)) {
             return d.map(stripObj);
+        }
+
+        if(Lib.isTypedArray(d)) {
+            return Lib.simpleMap(d, Lib.identity);
         }
 
         // convert native dates to date strings...
@@ -2421,8 +2441,6 @@ plots.doCalcdata = function(gd, traces) {
     gd.calcdata = calcdata;
 
     // extra helper variables
-    // firstscatter: fill-to-next on the first trace goes to zero
-    gd.firstscatter = true;
 
     // how many box/violins plots do we have (in case they're grouped)
     fullLayout._numBoxes = 0;
@@ -2602,7 +2620,7 @@ function doCrossTraceCalc(gd) {
                     fullLayout[sp];
 
                 for(j = 0; j < methods.length; j++) {
-                    methods[j](gd, spInfo);
+                    methods[j](gd, spInfo, sp);
                 }
             }
         }

@@ -38,7 +38,7 @@ Plotly.register([
     require('./pointcloud'),
     require('./heatmapgl'),
     require('./parcoords'),
-
+    require('./parcats'),
     require('./scattermapbox'),
 
     require('./sankey'),
@@ -53,7 +53,8 @@ Plotly.register([
     require('./candlestick'),
 
     require('./scatterpolar'),
-    require('./scatterpolargl')
+    require('./scatterpolargl'),
+    require('./barpolar')
 ]);
 
 // transforms

@@ -28,4 +28,74 @@ angular.module('metadatamanagementApp')
           ]
         },
       });
+
+    $stateProvider
+      .state('dataSetEdit', {
+        parent: 'site',
+        url: '/data-sets/{id}/edit',
+        data: {
+          authorities: ['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER']
+        },
+        views: {
+          'content@': {
+            templateUrl: 'scripts/datasetmanagement/views/' +
+              'data-set-edit-or-create.html.tmpl',
+            controller: 'DataSetEditOrCreateController',
+            controllerAs: 'ctrl'
+          }
+        },
+        onEnter: function($rootScope, $timeout) {
+          $timeout(function() {
+            $rootScope.$broadcast('domain-object-editing-started');
+          }, 500);
+        },
+        onExit: function($rootScope, $timeout) {
+          $timeout(function() {
+            $rootScope.$broadcast('domain-object-editing-stopped');
+          }, 500);
+        },
+        resolve: {
+          entity: ['$stateParams', 'DataSetResource',
+            function($stateParams, DataSetResource) {
+              return DataSetResource.get({
+                id: $stateParams.id
+              });
+            }
+          ]
+        },
+      });
+
+    $stateProvider
+      .state('dataSetCreate', {
+        parent: 'site',
+        url: '/data-sets/new',
+        data: {
+          authorities: ['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER']
+        },
+        views: {
+          'content@': {
+            templateUrl: 'scripts/datasetmanagement/views/' +
+              'data-set-edit-or-create.html.tmpl',
+            controller: 'DataSetEditOrCreateController',
+            controllerAs: 'ctrl'
+          }
+        },
+        onEnter: function($rootScope, $timeout) {
+          $rootScope.$broadcast('start-ignoring-404');
+          $timeout(function() {
+            $rootScope.$broadcast('domain-object-editing-started');
+          }, 500);
+        },
+        onExit: function($rootScope, $timeout) {
+          $rootScope.$broadcast('stop-ignoring-404');
+          $timeout(function() {
+            $rootScope.$broadcast('domain-object-editing-stopped');
+          }, 500);
+        },
+        resolve: {
+          entity: function() {
+            return null;
+          }
+        },
+      });
   });

@@ -15,6 +15,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -36,14 +37,14 @@ public class DataSetAttachmentResource {
   private DataSetAttachmentService dataSetAttachmentService;
 
   /**
-   * REST method for for uploading an data sets attachment.
+   * REST method for for uploading an dataSet attachment.
    * 
    * @param multiPartFile the attachment
    * @param dataSetAttachmentMetadata the metadata for the attachment
    * @return response 201 if the attachment was created
    * @throws URISyntaxException if a URI is syntactically wrong
    * @throws IOException If the attachment cannot be read
-   */ 
+   */
   @RequestMapping(path = "/data-sets/attachments", method = RequestMethod.POST)
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<String> uploadAttachment(@RequestPart("file") MultipartFile multiPartFile,
@@ -58,9 +59,9 @@ public class DataSetAttachmentResource {
   }
 
   /**
-   * Load all attachment metadata objects for the given data set id.
+   * Load all attachment metadata objects for the given dataSet id.
    * 
-   * @param dataSetId The id of an data set.
+   * @param dataSetId The id of an dataSet.
    * @return A list of metadata objects.
    */
   @RequestMapping(path = "/data-sets/{dataSetId}/attachments", method = RequestMethod.GET,
@@ -78,9 +79,9 @@ public class DataSetAttachmentResource {
   }
   
   /**
-   * Delete all attachments of the given data set.
+   * Delete all attachments of the given dataSet.
    * 
-   * @param dataSetId The id of an data set.
+   * @param dataSetId The id of the dataSet.
    */
   @RequestMapping(path = "/data-sets/{dataSetId}/attachments", method = RequestMethod.DELETE)
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
@@ -92,5 +93,36 @@ public class DataSetAttachmentResource {
       return ResponseEntity.badRequest()
         .body(null);
     }
+  }
+
+  /**
+   * Delete the given attachments of the given dataSet.
+   * 
+   * @param dataSetId The id of the dataSet.
+   * 
+   */
+  @RequestMapping(path = "/data-sets/{dataSetId}/attachments/{filename:.+}",
+      method = RequestMethod.DELETE)
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
+  public ResponseEntity<?> delete(@PathVariable("dataSetId") String dataSetId,
+      @PathVariable("filename") String filename) {
+    if (!StringUtils.isEmpty(dataSetId) && !StringUtils.isEmpty(filename)) {
+      dataSetAttachmentService.deleteByDataSetIdAndFilename(dataSetId, filename);
+      return ResponseEntity.noContent().build();
+    } else {
+      return ResponseEntity.badRequest().body(null);
+    }
+  }
+
+  /**
+   * Update the metadata of the given attachment of the given dataSet.
+   */
+  @RequestMapping(path = "/data-sets/{dataSetId}/attachments/{filename:.+}",
+      method = RequestMethod.PUT)
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
+  public ResponseEntity<?> update(
+      @Valid @RequestBody DataSetAttachmentMetadata dataSetAttachmentMetadata) {
+    dataSetAttachmentService.updateAttachmentMetadata(dataSetAttachmentMetadata);
+    return ResponseEntity.noContent().build();
   }
 }

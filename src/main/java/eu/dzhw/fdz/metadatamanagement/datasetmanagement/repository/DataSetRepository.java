@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
 
+import org.javers.spring.annotation.JaversSpringDataAuditable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
@@ -12,6 +13,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProj
 import eu.dzhw.fdz.metadatamanagement.common.repository.BaseRepository;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataSetSubDocumentProjection;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.IdAndNumberDataSetProjection;
 
 /**
  * The Repository for {@link DataSet} domain object. The data will be insert with a REST API and
@@ -20,6 +22,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataS
  * @author Daniel Katzberg *
  */
 @RepositoryRestResource(path = "/data-sets")
+@JaversSpringDataAuditable
 public interface DataSetRepository
     extends BaseRepository<DataSet, String>, DataSetRepositoryCustom {
 
@@ -66,4 +69,8 @@ public interface DataSetRepository
 
   @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamIdsByDataAcquisitionProjectId(String projectId);  
+
+  @RestResource(exported = false)
+  List<IdAndNumberDataSetProjection> findDataSetNumbersByDataAcquisitionProjectId(
+      String dataAcquisitionProjectId);
 }

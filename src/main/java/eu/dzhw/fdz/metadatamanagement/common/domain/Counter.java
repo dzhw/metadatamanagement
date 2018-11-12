@@ -9,9 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Counter Document which can be used to get an incremented sequence number per document id.
- * 
- * @author René Reitmann
+ * Counter document which can be used to get an incremented sequence number per document id.
  */
 @Document(collection = "counters")
 @NoArgsConstructor
@@ -19,8 +17,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class Counter {
+  /**
+   * The id of the counter, e.g. "orders".
+   */
   @Id
   private String id;
 
+  /**
+   * The current sequence number.
+   */
   private long seq;
 }

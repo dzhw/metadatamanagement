@@ -50,7 +50,7 @@ angular.module('metadatamanagementApp')
           ctrl.instrument = result;
           //load all related objects in parallel
           InstrumentAttachmentResource.findByInstrumentId({
-            id: ctrl.instrument.id
+            instrumentId: ctrl.instrument.id
           }).$promise.then(
             function(attachments) {
               if (attachments.length > 0) {

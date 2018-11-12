@@ -337,6 +337,14 @@ angular.module('metadatamanagementApp').config(
           'confirm-delete-survey': {
             'title': 'Erhebung "{{ id }}" löschen?',
             'content': 'Wollen Sie die Erhebung "{{ id }}" wirklich löschen?'
+          },
+          'confirm-delete-instrument': {
+            'title': 'Instrument "{{ id }}" löschen?',
+            'content': 'Wollen Sie das Instrument "{{ id }}" wirklich löschen?'
+          },
+          'confirm-delete-data-set': {
+            'title': 'Datensatz "{{ id }}" löschen?',
+            'content': 'Wollen Sie den Datensatz "{{ id }}" wirklich löschen?'
           }
         },
         'edit': {

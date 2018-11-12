@@ -11,7 +11,6 @@
 
 var d3 = require('d3');
 var isNumeric = require('fast-isnumeric');
-var tinycolor = require('tinycolor2');
 
 var Lib = require('../../lib');
 var svgTextUtils = require('../../lib/svg_text_utils');
@@ -22,10 +21,9 @@ var Registry = require('../../registry');
 
 var attributes = require('./attributes'),
     attributeText = attributes.text,
-    attributeTextPosition = attributes.textposition,
-    attributeTextFont = attributes.textfont,
-    attributeInsideTextFont = attributes.insidetextfont,
-    attributeOutsideTextFont = attributes.outsidetextfont;
+    attributeTextPosition = attributes.textposition;
+var helpers = require('./helpers');
+var style = require('./style');
 
 // padding in pixels around text
 var TEXTPAD = 3;
@@ -38,13 +36,9 @@ module.exports = function plot(gd, plotinfo, cdbar, barLayer) {
     var bartraces = Lib.makeTraceGroups(barLayer, cdbar, 'trace bars').each(function(cd) {
         var plotGroup = d3.select(this);
         var cd0 = cd[0];
-        var t = cd0.t;
         var trace = cd0.trace;
 
         if(!plotinfo.isRangePlot) cd0.node3 = plotGroup;
-
-        var poffset = t.poffset;
-        var poffsetIsArray = Array.isArray(poffset);
 
         var pointGroup = Lib.ensureSingle(plotGroup, 'g', 'points');
 
@@ -62,26 +56,21 @@ module.exports = function plot(gd, plotinfo, cdbar, barLayer) {
             // clipped xf/yf (2nd arg true): non-positive
             // log values go off-screen by plotwidth
             // so you see them continue if you drag the plot
-            var p0 = di.p + ((poffsetIsArray) ? poffset[i] : poffset),
-                p1 = p0 + di.w,
-                s0 = di.b,
-                s1 = s0 + di.s;
-
             var x0, x1, y0, y1;
             if(trace.orientation === 'h') {
-                y0 = ya.c2p(p0, true);
-                y1 = ya.c2p(p1, true);
-                x0 = xa.c2p(s0, true);
-                x1 = xa.c2p(s1, true);
+                y0 = ya.c2p(di.p0, true);
+                y1 = ya.c2p(di.p1, true);
+                x0 = xa.c2p(di.s0, true);
+                x1 = xa.c2p(di.s1, true);
 
                 // for selections
                 di.ct = [x1, (y0 + y1) / 2];
             }
             else {
-                x0 = xa.c2p(p0, true);
-                x1 = xa.c2p(p1, true);
-                y0 = ya.c2p(s0, true);
-                y1 = ya.c2p(s1, true);
+                x0 = xa.c2p(di.p0, true);
+                x1 = xa.c2p(di.p1, true);
+                y0 = ya.c2p(di.s0, true);
+                y1 = ya.c2p(di.s1, true);
 
                 // for selections
                 di.ct = [(x0 + x1) / 2, y1];
@@ -186,9 +175,10 @@ function appendBarText(gd, bar, calcTrace, i, x0, x1, y0, y1) {
         return;
     }
 
-    var textFont = getTextFont(trace, i, gd._fullLayout.font),
-        insideTextFont = getInsideTextFont(trace, i, textFont),
-        outsideTextFont = getOutsideTextFont(trace, i, textFont);
+    var layoutFont = gd._fullLayout.font;
+    var barColor = style.getBarColor(calcTrace[i], trace);
+    var insideTextFont = style.getInsideTextFont(trace, i, layoutFont, barColor);
+    var outsideTextFont = style.getOutsideTextFont(trace, i, layoutFont);
 
     // compute text position
     var barmode = gd._fullLayout.barmode,
@@ -208,7 +198,7 @@ function appendBarText(gd, bar, calcTrace, i, x0, x1, y0, y1) {
         textHeight;
 
     if(textPosition === 'outside') {
-        if(!isOutmostBar) textPosition = 'inside';
+        if(!isOutmostBar && !calcBar.hasB) textPosition = 'inside';
     }
 
     if(textPosition === 'auto') {
@@ -438,98 +428,11 @@ function getTransform(textX, textY, targetX, targetY, scale, rotate) {
 }
 
 function getText(trace, index) {
-    var value = getValue(trace.text, index);
-    return coerceString(attributeText, value);
+    var value = helpers.getValue(trace.text, index);
+    return helpers.coerceString(attributeText, value);
 }
 
 function getTextPosition(trace, index) {
-    var value = getValue(trace.textposition, index);
-    return coerceEnumerated(attributeTextPosition, value);
-}
-
-function getTextFont(trace, index, defaultValue) {
-    return getFontValue(
-        attributeTextFont, trace.textfont, index, defaultValue);
-}
-
-function getInsideTextFont(trace, index, defaultValue) {
-    return getFontValue(
-        attributeInsideTextFont, trace.insidetextfont, index, defaultValue);
-}
-
-function getOutsideTextFont(trace, index, defaultValue) {
-    return getFontValue(
-        attributeOutsideTextFont, trace.outsidetextfont, index, defaultValue);
-}
-
-function getFontValue(attributeDefinition, attributeValue, index, defaultValue) {
-    attributeValue = attributeValue || {};
-
-    var familyValue = getValue(attributeValue.family, index),
-        sizeValue = getValue(attributeValue.size, index),
-        colorValue = getValue(attributeValue.color, index);
-
-    return {
-        family: coerceString(
-            attributeDefinition.family, familyValue, defaultValue.family),
-        size: coerceNumber(
-            attributeDefinition.size, sizeValue, defaultValue.size),
-        color: coerceColor(
-            attributeDefinition.color, colorValue, defaultValue.color)
-    };
-}
-
-function getValue(arrayOrScalar, index) {
-    var value;
-    if(!Array.isArray(arrayOrScalar)) value = arrayOrScalar;
-    else if(index < arrayOrScalar.length) value = arrayOrScalar[index];
-    return value;
-}
-
-function coerceString(attributeDefinition, value, defaultValue) {
-    if(typeof value === 'string') {
-        if(value || !attributeDefinition.noBlank) return value;
-    }
-    else if(typeof value === 'number') {
-        if(!attributeDefinition.strict) return String(value);
-    }
-
-    return (defaultValue !== undefined) ?
-        defaultValue :
-        attributeDefinition.dflt;
-}
-
-function coerceEnumerated(attributeDefinition, value, defaultValue) {
-    if(attributeDefinition.coerceNumber) value = +value;
-
-    if(attributeDefinition.values.indexOf(value) !== -1) return value;
-
-    return (defaultValue !== undefined) ?
-        defaultValue :
-        attributeDefinition.dflt;
-}
-
-function coerceNumber(attributeDefinition, value, defaultValue) {
-    if(isNumeric(value)) {
-        value = +value;
-
-        var min = attributeDefinition.min,
-            max = attributeDefinition.max,
-            isOutOfBounds = (min !== undefined && value < min) ||
-                (max !== undefined && value > max);
-
-        if(!isOutOfBounds) return value;
-    }
-
-    return (defaultValue !== undefined) ?
-        defaultValue :
-        attributeDefinition.dflt;
-}
-
-function coerceColor(attributeDefinition, value, defaultValue) {
-    if(tinycolor(value).isValid()) return value;
-
-    return (defaultValue !== undefined) ?
-        defaultValue :
-        attributeDefinition.dflt;
+    var value = helpers.getValue(trace.textposition, index);
+    return helpers.coerceEnumerated(attributeTextPosition, value);
 }

@@ -1825,6 +1825,38 @@ function run_html_tests(test_obj, Urlencoded, js_beautify, html_beautify, css_be
 
 
         //============================================================
+        // Issue #1125 -- Add preserve and preserve_aligned attribute options - (wrap_attributes = ""preserve-aligned"")
+        reset_options();
+        set_name('Issue #1125 -- Add preserve and preserve_aligned attribute options - (wrap_attributes = ""preserve-aligned"")');
+        opts.wrap_attributes = 'preserve-aligned';
+        bth(
+            '<input type="text"     class="form-control"  autocomplete="off"\n' +
+            '[(ngModel)]="myValue"          [disabled]="isDisabled" [placeholder]="placeholder"\n' +
+            '[typeahead]="suggestionsSource" [typeaheadOptionField]="suggestionValueField" [typeaheadItemTemplate]="suggestionTemplate"   [typeaheadWaitMs]="300"\n' +
+            '(typeaheadOnSelect)="onSuggestionSelected($event)" />',
+            //  -- output --
+            '<input type="text" class="form-control" autocomplete="off"\n' +
+            '       [(ngModel)]="myValue" [disabled]="isDisabled" [placeholder]="placeholder"\n' +
+            '       [typeahead]="suggestionsSource" [typeaheadOptionField]="suggestionValueField" [typeaheadItemTemplate]="suggestionTemplate" [typeaheadWaitMs]="300"\n' +
+            '       (typeaheadOnSelect)="onSuggestionSelected($event)" />');
+
+        // Issue #1125 -- Add preserve and preserve_aligned attribute options - (wrap_attributes = ""preserve"")
+        reset_options();
+        set_name('Issue #1125 -- Add preserve and preserve_aligned attribute options - (wrap_attributes = ""preserve"")');
+        opts.wrap_attributes = 'preserve';
+        bth(
+            '<input type="text"     class="form-control"  autocomplete="off"\n' +
+            '[(ngModel)]="myValue"          [disabled]="isDisabled" [placeholder]="placeholder"\n' +
+            '[typeahead]="suggestionsSource" [typeaheadOptionField]="suggestionValueField" [typeaheadItemTemplate]="suggestionTemplate"   [typeaheadWaitMs]="300"\n' +
+            '(typeaheadOnSelect)="onSuggestionSelected($event)" />',
+            //  -- output --
+            '<input type="text" class="form-control" autocomplete="off"\n' +
+            '    [(ngModel)]="myValue" [disabled]="isDisabled" [placeholder]="placeholder"\n' +
+            '    [typeahead]="suggestionsSource" [typeaheadOptionField]="suggestionValueField" [typeaheadItemTemplate]="suggestionTemplate" [typeaheadWaitMs]="300"\n' +
+            '    (typeaheadOnSelect)="onSuggestionSelected($event)" />');
+
+
+        //============================================================
         // Handlebars Indenting Off
         reset_options();
         set_name('Handlebars Indenting Off');
@@ -1858,6 +1890,22 @@ function run_html_tests(test_obj, Urlencoded, js_beautify, html_beautify, css_be
             //  -- output --
             '{{em-input label="Some Labe" property="amt" type="text" placeholder=""}}\n' +
             '{{em-input label="Type*" property="type" type="text" placeholder="(LTD)"}}\n' +
+            '{{em-input label="Place*" property="place" type="text" placeholder=""}}');
+        
+        // Issue #1469 - preserve newlines inside handlebars, including first one. Just treated as text here.
+        bth(
+            '{{em-input\n' +
+            '  label="Some Labe" property="amt"\n' +
+            '  type="text" placeholder=""}}\n' +
+            '   {{em-input label="Type*"\n' +
+            'property="type" type="text" placeholder="(LTD)"}}\n' +
+            '       {{em-input label="Place*" property="place" type="text" placeholder=""}}',
+            //  -- output --
+            '{{em-input\n' +
+            'label="Some Labe" property="amt"\n' +
+            'type="text" placeholder=""}}\n' +
+            '{{em-input label="Type*"\n' +
+            'property="type" type="text" placeholder="(LTD)"}}\n' +
             '{{em-input label="Place*" property="place" type="text" placeholder=""}}');
         bth(
             '{{#if callOn}}\n' +
@@ -1906,6 +1954,24 @@ function run_html_tests(test_obj, Urlencoded, js_beautify, html_beautify, css_be
             '{{ myHelper someValue}}\n' +
             '{{field}}\n' +
             '{{value-title}}');
+        
+        // Issue #1469 - preserve newlines inside handlebars, including first one. BUG: does not fix indenting inside handlebars.
+        bth(
+            '{{em-input\n' +
+            '  label="Some Labe" property="amt"\n' +
+            '  type="text" placeholder=""}}\n' +
+            '{{field}}\n' +
+            '   {{em-input label="Type*"\n' +
+            'property="type" type="text" placeholder="(LTD)"}}\n' +
+            '       {{em-input label="Place*" property="place" type="text" placeholder=""}}',
+            //  -- output --
+            '{{em-input\n' +
+            '  label="Some Labe" property="amt"\n' +
+            '  type="text" placeholder=""}}\n' +
+            '{{field}}\n' +
+            '{{em-input label="Type*"\n' +
+            'property="type" type="text" placeholder="(LTD)"}}\n' +
+            '{{em-input label="Place*" property="place" type="text" placeholder=""}}');
         bth(
             '{{em-input label="Some Labe" property="amt" type="text" placeholder=""}}\n' +
             '{{field}}\n' +
@@ -2144,6 +2210,24 @@ function run_html_tests(test_obj, Urlencoded, js_beautify, html_beautify, css_be
             '{{ myHelper someValue}}\n' +
             '{{em-input label="Some Labe" property="amt" type="text" placeholder=""}}\n' +
             '{{value-title}}');
+        
+        // Issue #1469 - preserve newlines inside handlebars, including first one. BUG: does not fix indenting inside handlebars.
+        bth(
+            '{{em-input\n' +
+            '  label="Some Labe" property="amt"\n' +
+            '  type="text" placeholder=""}}\n' +
+            '{{em-input label="Some Labe" property="amt" type="text" placeholder=""}}\n' +
+            '   {{em-input label="Type*"\n' +
+            'property="type" type="text" placeholder="(LTD)"}}\n' +
+            '       {{em-input label="Place*" property="place" type="text" placeholder=""}}',
+            //  -- output --
+            '{{em-input\n' +
+            '  label="Some Labe" property="amt"\n' +
+            '  type="text" placeholder=""}}\n' +
+            '{{em-input label="Some Labe" property="amt" type="text" placeholder=""}}\n' +
+            '{{em-input label="Type*"\n' +
+            'property="type" type="text" placeholder="(LTD)"}}\n' +
+            '{{em-input label="Place*" property="place" type="text" placeholder=""}}');
         bth(
             '{{em-input label="Some Labe" property="amt" type="text" placeholder=""}}\n' +
             '{{em-input label="Some Labe" property="amt" type="text" placeholder=""}}\n' +
@@ -2382,6 +2466,24 @@ function run_html_tests(test_obj, Urlencoded, js_beautify, html_beautify, css_be
             '{{ myHelper someValue}}\n' +
             '{{! comment}}\n' +
             '{{value-title}}');
+        
+        // Issue #1469 - preserve newlines inside handlebars, including first one. BUG: does not fix indenting inside handlebars.
+        bth(
+            '{{em-input\n' +
+            '  label="Some Labe" property="amt"\n' +
+            '  type="text" placeholder=""}}\n' +
+            '{{! comment}}\n' +
+            '   {{em-input label="Type*"\n' +
+            'property="type" type="text" placeholder="(LTD)"}}\n' +
+            '       {{em-input label="Place*" property="place" type="text" placeholder=""}}',
+            //  -- output --
+            '{{em-input\n' +
+            '  label="Some Labe" property="amt"\n' +
+            '  type="text" placeholder=""}}\n' +
+            '{{! comment}}\n' +
+            '{{em-input label="Type*"\n' +
+            'property="type" type="text" placeholder="(LTD)"}}\n' +
+            '{{em-input label="Place*" property="place" type="text" placeholder=""}}');
         bth(
             '{{em-input label="Some Labe" property="amt" type="text" placeholder=""}}\n' +
             '{{! comment}}\n' +
@@ -2620,6 +2722,24 @@ function run_html_tests(test_obj, Urlencoded, js_beautify, html_beautify, css_be
             '{{ myHelper someValue}}\n' +
             '{{!-- comment--}}\n' +
             '{{value-title}}');
+        
+        // Issue #1469 - preserve newlines inside handlebars, including first one. BUG: does not fix indenting inside handlebars.
+        bth(
+            '{{em-input\n' +
+            '  label="Some Labe" property="amt"\n' +
+            '  type="text" placeholder=""}}\n' +
+            '{{!-- comment--}}\n' +
+            '   {{em-input label="Type*"\n' +
+            'property="type" type="text" placeholder="(LTD)"}}\n' +
+            '       {{em-input label="Place*" property="place" type="text" placeholder=""}}',
+            //  -- output --
+            '{{em-input\n' +
+            '  label="Some Labe" property="amt"\n' +
+            '  type="text" placeholder=""}}\n' +
+            '{{!-- comment--}}\n' +
+            '{{em-input label="Type*"\n' +
+            'property="type" type="text" placeholder="(LTD)"}}\n' +
+            '{{em-input label="Place*" property="place" type="text" placeholder=""}}');
         bth(
             '{{em-input label="Some Labe" property="amt" type="text" placeholder=""}}\n' +
             '{{!-- comment--}}\n' +
@@ -2858,6 +2978,24 @@ function run_html_tests(test_obj, Urlencoded, js_beautify, html_beautify, css_be
             '{{ myHelper someValue}}\n' +
             '{{Hello "woRld"}} {{!-- comment--}} {{heLloWorlD}}\n' +
             '{{value-title}}');
+        
+        // Issue #1469 - preserve newlines inside handlebars, including first one. BUG: does not fix indenting inside handlebars.
+        bth(
+            '{{em-input\n' +
+            '  label="Some Labe" property="amt"\n' +
+            '  type="text" placeholder=""}}\n' +
+            '{{Hello "woRld"}} {{!-- comment--}} {{heLloWorlD}}\n' +
+            '   {{em-input label="Type*"\n' +
+            'property="type" type="text" placeholder="(LTD)"}}\n' +
+            '       {{em-input label="Place*" property="place" type="text" placeholder=""}}',
+            //  -- output --
+            '{{em-input\n' +
+            '  label="Some Labe" property="amt"\n' +
+            '  type="text" placeholder=""}}\n' +
+            '{{Hello "woRld"}} {{!-- comment--}} {{heLloWorlD}}\n' +
+            '{{em-input label="Type*"\n' +
+            'property="type" type="text" placeholder="(LTD)"}}\n' +
+            '{{em-input label="Place*" property="place" type="text" placeholder=""}}');
         bth(
             '{{em-input label="Some Labe" property="amt" type="text" placeholder=""}}\n' +
             '{{Hello "woRld"}} {{!-- comment--}} {{heLloWorlD}}\n' +
@@ -3096,6 +3234,24 @@ function run_html_tests(test_obj, Urlencoded, js_beautify, html_beautify, css_be
             '{{ myHelper someValue}}\n' +
             '{pre{{field1}} {{field2}} {{field3}}post\n' +
             '{{value-title}}');
+        
+        // Issue #1469 - preserve newlines inside handlebars, including first one. BUG: does not fix indenting inside handlebars.
+        bth(
+            '{{em-input\n' +
+            '  label="Some Labe" property="amt"\n' +
+            '  type="text" placeholder=""}}\n' +
+            '{pre{{field1}} {{field2}} {{field3}}post\n' +
+            '   {{em-input label="Type*"\n' +
+            'property="type" type="text" placeholder="(LTD)"}}\n' +
+            '       {{em-input label="Place*" property="place" type="text" placeholder=""}}',
+            //  -- output --
+            '{{em-input\n' +
+            '  label="Some Labe" property="amt"\n' +
+            '  type="text" placeholder=""}}\n' +
+            '{pre{{field1}} {{field2}} {{field3}}post\n' +
+            '{{em-input label="Type*"\n' +
+            'property="type" type="text" placeholder="(LTD)"}}\n' +
+            '{{em-input label="Place*" property="place" type="text" placeholder=""}}');
         bth(
             '{{em-input label="Some Labe" property="amt" type="text" placeholder=""}}\n' +
             '{pre{{field1}} {{field2}} {{field3}}post\n' +
@@ -3346,6 +3502,32 @@ function run_html_tests(test_obj, Urlencoded, js_beautify, html_beautify, css_be
             '     with spacing\n' +
             '}}\n' +
             '{{value-title}}');
+        
+        // Issue #1469 - preserve newlines inside handlebars, including first one. BUG: does not fix indenting inside handlebars.
+        bth(
+            '{{em-input\n' +
+            '  label="Some Labe" property="amt"\n' +
+            '  type="text" placeholder=""}}\n' +
+            '{{! \n' +
+            ' mult-line\n' +
+            'comment  \n' +
+            '     with spacing\n' +
+            '}}\n' +
+            '   {{em-input label="Type*"\n' +
+            'property="type" type="text" placeholder="(LTD)"}}\n' +
+            '       {{em-input label="Place*" property="place" type="text" placeholder=""}}',
+            //  -- output --
+            '{{em-input\n' +
+            '  label="Some Labe" property="amt"\n' +
+            '  type="text" placeholder=""}}\n' +
+            '{{! \n' +
+            ' mult-line\n' +
+            'comment  \n' +
+            '     with spacing\n' +
+            '}}\n' +
+            '{{em-input label="Type*"\n' +
+            'property="type" type="text" placeholder="(LTD)"}}\n' +
+            '{{em-input label="Place*" property="place" type="text" placeholder=""}}');
         bth(
             '{{em-input label="Some Labe" property="amt" type="text" placeholder=""}}\n' +
             '{{! \n' +
@@ -3755,6 +3937,32 @@ function run_html_tests(test_obj, Urlencoded, js_beautify, html_beautify, css_be
             '     with spacing\n' +
             '--}}\n' +
             '{{value-title}}');
+        
+        // Issue #1469 - preserve newlines inside handlebars, including first one. BUG: does not fix indenting inside handlebars.
+        bth(
+            '{{em-input\n' +
+            '  label="Some Labe" property="amt"\n' +
+            '  type="text" placeholder=""}}\n' +
+            '{{!-- \n' +
+            ' mult-line\n' +
+            'comment  \n' +
+            '     with spacing\n' +
+            '--}}\n' +
+            '   {{em-input label="Type*"\n' +
+            'property="type" type="text" placeholder="(LTD)"}}\n' +
+            '       {{em-input label="Place*" property="place" type="text" placeholder=""}}',
+            //  -- output --
+            '{{em-input\n' +
+            '  label="Some Labe" property="amt"\n' +
+            '  type="text" placeholder=""}}\n' +
+            '{{!-- \n' +
+            ' mult-line\n' +
+            'comment  \n' +
+            '     with spacing\n' +
+            '--}}\n' +
+            '{{em-input label="Type*"\n' +
+            'property="type" type="text" placeholder="(LTD)"}}\n' +
+            '{{em-input label="Place*" property="place" type="text" placeholder=""}}');
         bth(
             '{{em-input label="Some Labe" property="amt" type="text" placeholder=""}}\n' +
             '{{!-- \n' +
@@ -4173,6 +4381,38 @@ function run_html_tests(test_obj, Urlencoded, js_beautify, html_beautify, css_be
             '     with spacing\n' +
             ' {{/ component}}--}}\n' +
             '{{value-title}}');
+        
+        // Issue #1469 - preserve newlines inside handlebars, including first one. BUG: does not fix indenting inside handlebars.
+        bth(
+            '{{em-input\n' +
+            '  label="Some Labe" property="amt"\n' +
+            '  type="text" placeholder=""}}\n' +
+            '{{!-- \n' +
+            ' mult-line\n' +
+            'comment \n' +
+            '{{#> component}}\n' +
+            ' mult-line\n' +
+            'comment  \n' +
+            '     with spacing\n' +
+            ' {{/ component}}--}}\n' +
+            '   {{em-input label="Type*"\n' +
+            'property="type" type="text" placeholder="(LTD)"}}\n' +
+            '       {{em-input label="Place*" property="place" type="text" placeholder=""}}',
+            //  -- output --
+            '{{em-input\n' +
+            '  label="Some Labe" property="amt"\n' +
+            '  type="text" placeholder=""}}\n' +
+            '{{!-- \n' +
+            ' mult-line\n' +
+            'comment \n' +
+            '{{#> component}}\n' +
+            ' mult-line\n' +
+            'comment  \n' +
+            '     with spacing\n' +
+            ' {{/ component}}--}}\n' +
+            '{{em-input label="Type*"\n' +
+            'property="type" type="text" placeholder="(LTD)"}}\n' +
+            '{{em-input label="Place*" property="place" type="text" placeholder=""}}');
         bth(
             '{{em-input label="Some Labe" property="amt" type="text" placeholder=""}}\n' +
             '{{!-- \n' +
@@ -4685,6 +4925,24 @@ function run_html_tests(test_obj, Urlencoded, js_beautify, html_beautify, css_be
             '{{ myHelper someValue}}\n' +
             'content\n' +
             '{{value-title}}');
+        
+        // Issue #1469 - preserve newlines inside handlebars, including first one. BUG: does not fix indenting inside handlebars.
+        bth(
+            '{{em-input\n' +
+            '  label="Some Labe" property="amt"\n' +
+            '  type="text" placeholder=""}}\n' +
+            'content\n' +
+            '   {{em-input label="Type*"\n' +
+            'property="type" type="text" placeholder="(LTD)"}}\n' +
+            '       {{em-input label="Place*" property="place" type="text" placeholder=""}}',
+            //  -- output --
+            '{{em-input\n' +
+            '  label="Some Labe" property="amt"\n' +
+            '  type="text" placeholder=""}}\n' +
+            'content\n' +
+            '{{em-input label="Type*"\n' +
+            'property="type" type="text" placeholder="(LTD)"}}\n' +
+            '{{em-input label="Place*" property="place" type="text" placeholder=""}}');
         bth(
             '{{em-input label="Some Labe" property="amt" type="text" placeholder=""}}\n' +
             'content\n' +
@@ -5713,6 +5971,116 @@ function run_html_tests(test_obj, Urlencoded, js_beautify, html_beautify, css_be
             '<body>\n' +
             '  <script src="one.js"></script> <!-- one -->\n' +
             '  <script src="two.js"></script> <!-- two-->\n' +
+            '</body>');
+
+
+        //============================================================
+        // Tests script indent behavior - (indent_scripts = ""normal"")
+        reset_options();
+        set_name('Tests script indent behavior - (indent_scripts = ""normal"")');
+        opts.indent_scripts = 'normal';
+        test_fragment(
+            '<head>\n' +
+            '<script>\n' +
+            'if (a == b) {\n' +
+            'test();\n' +
+            '}\n' +
+            '</script>\n' +
+            '<style>\n' +
+            '.selector {\n' +
+            'font-size: 12px;\n' +
+            '}\n' +
+            '</style>\n' +
+            '</head>',
+            //  -- output --
+            '<head>\n' +
+            '    <script>\n' +
+            '        if (a == b) {\n' +
+            '            test();\n' +
+            '        }\n' +
+            '    </script>\n' +
+            '    <style>\n' +
+            '        .selector {\n' +
+            '            font-size: 12px;\n' +
+            '        }\n' +
+            '    </style>\n' +
+            '</head>');
+        test_fragment(
+            '<body>\n' +
+            '    <script src="one.js"></script> <!-- one -->\n' +
+            '    <script src="two.js"></script> <!-- two-->\n' +
+            '</body>');
+
+        // Tests script indent behavior - (indent_scripts = ""keep"")
+        reset_options();
+        set_name('Tests script indent behavior - (indent_scripts = ""keep"")');
+        opts.indent_scripts = 'keep';
+        test_fragment(
+            '<head>\n' +
+            '<script>\n' +
+            'if (a == b) {\n' +
+            'test();\n' +
+            '}\n' +
+            '</script>\n' +
+            '<style>\n' +
+            '.selector {\n' +
+            'font-size: 12px;\n' +
+            '}\n' +
+            '</style>\n' +
+            '</head>',
+            //  -- output --
+            '<head>\n' +
+            '    <script>\n' +
+            '    if (a == b) {\n' +
+            '        test();\n' +
+            '    }\n' +
+            '    </script>\n' +
+            '    <style>\n' +
+            '    .selector {\n' +
+            '        font-size: 12px;\n' +
+            '    }\n' +
+            '    </style>\n' +
+            '</head>');
+        test_fragment(
+            '<body>\n' +
+            '    <script src="one.js"></script> <!-- one -->\n' +
+            '    <script src="two.js"></script> <!-- two-->\n' +
+            '</body>');
+
+        // Tests script indent behavior - (indent_scripts = ""separate"")
+        reset_options();
+        set_name('Tests script indent behavior - (indent_scripts = ""separate"")');
+        opts.indent_scripts = 'separate';
+        test_fragment(
+            '<head>\n' +
+            '<script>\n' +
+            'if (a == b) {\n' +
+            'test();\n' +
+            '}\n' +
+            '</script>\n' +
+            '<style>\n' +
+            '.selector {\n' +
+            'font-size: 12px;\n' +
+            '}\n' +
+            '</style>\n' +
+            '</head>',
+            //  -- output --
+            '<head>\n' +
+            '    <script>\n' +
+            'if (a == b) {\n' +
+            '    test();\n' +
+            '}\n' +
+            '    </script>\n' +
+            '    <style>\n' +
+            '.selector {\n' +
+            '    font-size: 12px;\n' +
+            '}\n' +
+            '    </style>\n' +
+            '</head>');
+        test_fragment(
+            '<body>\n' +
+            '    <script src="one.js"></script> <!-- one -->\n' +
+            '    <script src="two.js"></script> <!-- two-->\n' +
             '</body>');
 
 

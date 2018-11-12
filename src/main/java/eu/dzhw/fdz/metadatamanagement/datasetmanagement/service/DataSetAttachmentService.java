@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.bson.Document;
+import org.javers.core.Javers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -16,7 +18,10 @@ import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.client.gridfs.model.GridFSFile;
+import com.mongodb.gridfs.GridFS;
+import com.mongodb.gridfs.GridFSDBFile;
 
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.filemanagement.util.MimeTypeDetector;
@@ -30,6 +35,9 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 public class DataSetAttachmentService {
 
   @Autowired
+  private GridFS gridFs;
+
+  @Autowired
   private GridFsOperations operations;
   
   @Autowired
@@ -38,6 +46,9 @@ public class DataSetAttachmentService {
   @Autowired
   private MimeTypeDetector mimeTypeDetector;
   
+  @Autowired
+  private Javers javers;
+
   /**
    * Save the attachment for a data set. 
    * @param metadata The metadata of the attachment.
@@ -53,31 +64,63 @@ public class DataSetAttachmentService {
       metadata.setCreatedBy(currentUser);
       metadata.setLastModifiedBy(currentUser);
       metadata.setLastModifiedDate(LocalDateTime.now());
-      String filename = buildFileName(metadata);
+      metadata.generateId();
       String contentType = mimeTypeDetector.detect(multipartFile);
+      String filename = DataSetAttachmentFilenameBuilder.buildFileName(metadata);
       this.operations.store(in, filename, contentType, metadata);
+      javers.commit(currentUser, metadata);
       return filename;      
     }
   }
   
   /**
-   * Delete all attachments of the given data set.
-   * @param dataSetId the id of the data set.
+   * Update the metadata of the attachment.
+   * 
+   * @param metadata The new metadata.
+   */
+  public void updateAttachmentMetadata(DataSetAttachmentMetadata metadata) {
+    metadata.setVersion(metadata.getVersion() + 1);
+    String currentUser = SecurityUtils.getCurrentUserLogin();
+    metadata.setLastModifiedBy(currentUser);
+    metadata.setLastModifiedDate(LocalDateTime.now());
+    GridFSDBFile file = gridFs.findOne(DataSetAttachmentFilenameBuilder
+        .buildFileName(metadata.getDataSetId(), metadata.getFileName()));
+    BasicDBObject dbObject =
+        new BasicDBObject((Document) mongoTemplate.getConverter().convertToMongoType(metadata));
+    file.setMetaData(dbObject);
+    file.save();
+    javers.commit(currentUser, metadata);
+  }
+
+  /**
+   * Delete all attachments of the given dataSet.
+   * 
+   * @param dataSetId the id of the dataSet.
    */
   public void deleteAllByDataSetId(String dataSetId) {
+    String currentUser = SecurityUtils.getCurrentUserLogin();
     Query query = new Query(GridFsCriteria.whereFilename()
-        .regex("^" + Pattern.quote(buildFileNamePrefix(dataSetId))));
+        .regex(
+            "^" + Pattern.quote(DataSetAttachmentFilenameBuilder.buildFileNamePrefix(dataSetId))));
+    Iterable<GridFSFile> files = this.operations.find(query);
+    files.forEach(file -> {
+      DataSetAttachmentMetadata metadata =
+          mongoTemplate.getConverter().read(DataSetAttachmentMetadata.class, file.getMetadata());
+      javers.commitShallowDelete(currentUser, metadata);
+    });
     this.operations.delete(query);
   }
   
   /**
-   * Load all metadata objects from gridfs.
-   * @param dataSetId the id of the data set.
+   * Load all metadata objects from gridfs (ordered by indexInDataSet).
+   * 
+   * @param dataSetId The id of the dataSet.
    * @return A list of metadata.
    */
   public List<DataSetAttachmentMetadata> findAllByDataSet(String dataSetId) {
     Query query = new Query(GridFsCriteria.whereFilename()
-        .regex("^" + Pattern.quote(buildFileNamePrefix(dataSetId))));
+        .regex(
+            "^" + Pattern.quote(DataSetAttachmentFilenameBuilder.buildFileNamePrefix(dataSetId))));
     query.with(new Sort(Sort.Direction.ASC, "metadata.indexInDataSet"));
     Iterable<GridFSFile> files = this.operations.find(query);
     List<DataSetAttachmentMetadata> result = new ArrayList<>();
@@ -87,21 +130,40 @@ public class DataSetAttachmentService {
     });
     return result;
   }
-  
-  private String buildFileName(DataSetAttachmentMetadata metadata) {
-    return buildFileNamePrefix(metadata.getDataSetId()) + metadata.getFileName(); 
-  }
-  
-  private String buildFileNamePrefix(String dataSetId) {
-    return "/data-sets/" + dataSetId + "/attachments/";
+
+  /**
+   * Delete all attachments of all dataSets.
+   */
+  public void deleteAll() {
+    String currentUser = SecurityUtils.getCurrentUserLogin();
+    Query query = new Query(GridFsCriteria.whereFilename()
+        .regex("^" + Pattern.quote("/data-sets/") + ".*" + Pattern.quote("/attachments/")));
+    Iterable<GridFSFile> files = this.operations.find(query);
+    files.forEach(file -> {
+      DataSetAttachmentMetadata metadata =
+          mongoTemplate.getConverter().read(DataSetAttachmentMetadata.class, file.getMetadata());
+      javers.commitShallowDelete(currentUser, metadata);
+    });
+    this.operations.delete(query);
   }
 
   /**
-   * Delete all attachments of all data sets.
+   * Delete the attachment and its metadata from gridfs.
+   * 
+   * @param dataSetId The id of the dataSet.
+   * @param filename The filename of the attachment.
    */
-  public void deleteAll() {
-    Query query = new Query(GridFsCriteria.whereFilename()
-        .regex("^" + Pattern.quote("/data-sets/") + ".*" + Pattern.quote("/attachments/")));
-    this.operations.delete(query);
+  public void deleteByDataSetIdAndFilename(String dataSetId, String filename) {
+    Query fileQuery = new Query(GridFsCriteria.whereFilename()
+        .is(DataSetAttachmentFilenameBuilder.buildFileName(dataSetId, filename)));
+    GridFSFile file = this.operations.findOne(fileQuery);
+    if (file == null) {
+      return;
+    }
+    DataSetAttachmentMetadata metadata =
+        mongoTemplate.getConverter().read(DataSetAttachmentMetadata.class, file.getMetadata());
+    String currentUser = SecurityUtils.getCurrentUserLogin();
+    this.operations.delete(fileQuery);
+    javers.commitShallowDelete(currentUser, metadata);
   }
 }

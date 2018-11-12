@@ -15,6 +15,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -80,7 +81,7 @@ public class InstrumentAttachmentResource {
   /**
    * Delete all attachments of the given instrument.
    * 
-   * @param instrumentId The id of an instrument.
+   * @param instrumentId The id of the instrument.
    */
   @RequestMapping(path = "/instruments/{instrumentId}/attachments", method = RequestMethod.DELETE)
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
@@ -93,5 +94,36 @@ public class InstrumentAttachmentResource {
       return ResponseEntity.badRequest()
         .body(null);
     }
+  }
+
+  /**
+   * Delete the given attachments of the given instrument.
+   * 
+   * @param instrumentId The id of the instrument.
+   * 
+   */
+  @RequestMapping(path = "/instruments/{instrumentId}/attachments/{filename:.+}",
+      method = RequestMethod.DELETE)
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
+  public ResponseEntity<?> delete(@PathVariable("instrumentId") String instrumentId,
+      @PathVariable("filename") String filename) {
+    if (!StringUtils.isEmpty(instrumentId) && !StringUtils.isEmpty(filename)) {
+      instrumentAttachmentService.deleteByInstrumentIdAndFilename(instrumentId, filename);
+      return ResponseEntity.noContent().build();
+    } else {
+      return ResponseEntity.badRequest().body(null);
+    }
+  }
+
+  /**
+   * Update the metadata of the given attachment of the given instrument.
+   */
+  @RequestMapping(path = "/instruments/{instrumentId}/attachments/{filename:.+}",
+      method = RequestMethod.PUT)
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
+  public ResponseEntity<?> update(
+      @Valid @RequestBody InstrumentAttachmentMetadata instrumentAttachmentMetadata) {
+    instrumentAttachmentService.updateAttachmentMetadata(instrumentAttachmentMetadata);
+    return ResponseEntity.noContent().build();
   }
 }

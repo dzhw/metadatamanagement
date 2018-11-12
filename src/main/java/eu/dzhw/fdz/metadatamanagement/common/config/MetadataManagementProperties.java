@@ -13,16 +13,13 @@ import io.searchbox.client.JestClient;
 
 /**
  * Configuration Properties which are defined by our application.
- *
- * <p>
  * Properties are configured in the application-{profile}.yml file.
- * </p>
  *
  * @author René Reitmann
  */
 @ConfigurationProperties(prefix = "metadatamanagement", ignoreUnknownFields = false)
 public class MetadataManagementProperties {
-  
+
   private final Elasticsearch elasticsearch = new Elasticsearch();
 
   private final ElasticsearchClient elasticsearchClient = new ElasticsearchClient();
@@ -31,11 +28,11 @@ public class MetadataManagementProperties {
       new ElasticsearchAngularClient();
 
   private final Dara dara = new Dara();
-  
+
   private final Rabbitmq rabbitmq = new Rabbitmq();
-  
+
   private final Websockets websockets = new Websockets();
-  
+
   private final Server server = new Server();
 
   private final Ordermanagement ordermanagement = new Ordermanagement();
@@ -43,7 +40,7 @@ public class MetadataManagementProperties {
   public Elasticsearch getElasticsearch() {
     return elasticsearch;
   }
-  
+
   public ElasticsearchClient getElasticsearchClient() {
     return elasticsearchClient;
   }
@@ -55,15 +52,15 @@ public class MetadataManagementProperties {
   public Dara getDara() {
     return dara;
   }
-  
+
   public Rabbitmq getRabbitmq() {
     return rabbitmq;
   }
-  
+
   public Websockets getWebsockets() {
     return websockets;
   }
-  
+
   public Server getServer() {
     return server;
   }
@@ -74,7 +71,7 @@ public class MetadataManagementProperties {
 
   /**
    * Configure the current elasticsearch server version for testing.
-   * 
+   *
    * @author René Reitmann
    */
   public static class Elasticsearch {
@@ -87,9 +84,9 @@ public class MetadataManagementProperties {
     public void setVersion(String version) {
       this.version = version;
     }
-    
+
   }
-  
+
   /**
    * Configuration Properties for the {@link JestClient}.
    *
@@ -196,7 +193,7 @@ public class MetadataManagementProperties {
       this.password = password;
     }
   }
-  
+
   /**
    * Configuration Properties for RabbitMQ (ignored in LOCAL mode).
    */
@@ -240,10 +237,10 @@ public class MetadataManagementProperties {
       return virtualHost;
     }
   }
-  
+
   /**
    * Allowed origins for web socket connections.
-   * 
+   *
    * @author René Reitmann
    */
   public static class Websockets {
@@ -255,12 +252,12 @@ public class MetadataManagementProperties {
 
     public void setAllowedOrigins(List<String> allowedOrigins) {
       this.allowedOrigins = allowedOrigins;
-    }  
+    }
   }
-  
+
   /**
-   * Custom Server properties. 
-   * 
+   * Custom Server properties.
+   *
    * @author René Reitmann
    */
   public static class Server {
@@ -287,7 +284,7 @@ public class MetadataManagementProperties {
 
   /**
    * Custom Order Management properties.
-   * 
+   *
    * @author René Reitmann
    */
   public static class Ordermanagement {

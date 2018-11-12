@@ -3,7 +3,7 @@
 angular.module('metadatamanagementApp')
   .factory('SurveyAttachmentVersionsResource', function($resource) {
     return $resource('/api/surveys/:surveyId/attachments/:filename/versions', {
-      studyId: '@surveyId',
+      surveyId: '@surveyId',
       filename: '@filename'
     }, {
       'get': {
