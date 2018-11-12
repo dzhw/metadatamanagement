@@ -35,8 +35,12 @@ Before starting the app on your local machine you need to start the following Do
 1. Mongodb: Mongodb must be running on the default port, on ubuntu you should install it from here https://docs.mongodb.org/manual/tutorial/install-mongodb-on-ubuntu/
 2. Elasticsearch (6.3.2): Elasticsearch must be running on its default port. You can download it from here https://www.elastic.co/downloads/elasticsearch
 
+Make sure that you have read-write-access on the ***data*** directory (in your project directory) for Elasticsearch.
+
 Alternatively you can run
 
+    docker-compose up
+    # for later use once the containers are created
     docker-compose start
 
 to start all services the metadatamanagement depends on. Mongodb and Elasticsearch will be listening on its default ports.
