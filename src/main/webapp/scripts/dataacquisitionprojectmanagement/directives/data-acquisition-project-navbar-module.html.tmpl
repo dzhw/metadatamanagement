@@ -45,5 +45,11 @@
             </md-tooltip>
             <md-icon md-font-set="material-icons">{{ctrl.selectedProject.release?'stop_screen_share':'screen_share'}}</md-icon>
         </md-button>
+        <md-button ui-sref="projectcockpit" class="md-primary md-raised md-icon-button" style="margin-right: 0px;" ng-disabled="!ctrl.selectedProject" data-has-authority="ROLE_PUBLISHER">
+            <md-tooltip ng-hide="!ctrl.selectedProject" md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                {{'global.tooltips.cockpit-project' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">{{'drive_eta'}}</md-icon>
+        </md-button>
     </div>
 </div>
