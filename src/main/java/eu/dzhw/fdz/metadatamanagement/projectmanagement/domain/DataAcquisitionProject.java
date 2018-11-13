@@ -82,4 +82,10 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
    */
   @Valid
   private Release release;
+
+  /**
+   * Contains the project configuration.
+   */
+  @Valid
+  private Configuration configuration;
 }

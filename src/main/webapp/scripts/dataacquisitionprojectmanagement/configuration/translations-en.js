@@ -53,6 +53,14 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'The information is missing, that a Data Acquisition Project has been relesed before.'
             }
           },
+          'configuration': {
+            'publishers': {
+              'size': 'The project must have at least one publisher.'
+            },
+            'data-providers': {
+              'size': 'The project must have at least one data provider.'
+            }
+          },
           'release': {
             'version': {
               'not-empty': 'The version must not be empty.',

@@ -3,53 +3,35 @@
  */
 package eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Resolution;
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetAttachmentMetadata;
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetTypes;
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.Format;
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.SubDataSet;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.*;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAttachmentTypes;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.ImageType;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.QuestionImageMetadata;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.QuestionTypes;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.TechnicalRepresentation;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.*;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.DataAvailabilities;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudyAttachmentMetadata;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudyAttachmentTypes;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.SurveyDesigns;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.*;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Population;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyAttachmentMetadata;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.AccessWays;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.DataTypes;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Distribution;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.FilterDetails;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.FilterExpressionLanguages;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.GenerationDetails;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Missing;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RelatedQuestion;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RuleExpressionLanguages;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ScaleLevels;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Statistics;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.StorageTypes;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ValidResponse;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.CustomUserDetails;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Daniel Katzberg
@@ -104,7 +86,7 @@ public class UnitTestCreateDomainObjectUtils {
         .dataAcquisitionProjectId(projectId)
         .build();
   }
-    
+
   public static Survey buildSurvey(String projectId) {
     Population population = Population.builder()
         .title(I18nString.builder()
@@ -116,7 +98,7 @@ public class UnitTestCreateDomainObjectUtils {
             .en("Population Description")
             .build())
         .build();
-    
+
     return Survey.builder()
       .id(UnitTestCreateValidIds.buildSurveyId(projectId, 1))
       .dataAcquisitionProjectId(projectId)
@@ -267,7 +249,7 @@ public class UnitTestCreateDomainObjectUtils {
 
   public static Question buildQuestion(String projectId, Integer instrumentNumber,
       String instrumentId, String surveyId) {
-    
+
     return Question.builder().dataAcquisitionProjectId(projectId)
       .id(UnitTestCreateValidIds.buildQuestionId(projectId, instrumentNumber, "123.12"))
       .additionalQuestionText(new I18nString("Zusätzlicher Fragetext", "Additional Question Text"))
@@ -290,9 +272,9 @@ public class UnitTestCreateDomainObjectUtils {
       .studyId(UnitTestCreateValidIds.buildStudyId(projectId))
       .build();
   }
-  
+
   public static QuestionImageMetadata buildQuestionImageMetadata(String projectId, String questionId) {
-    
+
     return QuestionImageMetadata.builder()
         .fileName("TestFileName.PNG")
         .language("de")
@@ -568,5 +550,12 @@ public class UnitTestCreateDomainObjectUtils {
         .middleName(middleName)
         .lastName(lastName)
         .build();
+  }
+
+  public static UserDetails buildUserWithDataProviderRole() {
+    SimpleGrantedAuthority role = new SimpleGrantedAuthority(AuthoritiesConstants.DATA_PROVIDER);
+    Set<GrantedAuthority> authorities = new HashSet<>();
+    authorities.add(role);
+    return new CustomUserDetails("1", "dataProviderUser", "password", authorities, true, true, true, true);
   }
 }

@@ -53,6 +53,14 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'Es muss angegeben sein, ob ein des Datenaufbereitungsprojekts schon einmal veröffentlicht wurde oder nicht.'
             }
           },
+          'configuration': {
+            'publishers': {
+              'size': 'Es muss mindestens ein Herausgeber eingetragen sein.'
+            },
+            'data-providers': {
+              'size': 'Es muss mindestens ein DataProvider eingetragen sein.'
+            }
+          },
           'release': {
             'version': {
               'not-empty': 'Die Version darf nicht leer sein.',
