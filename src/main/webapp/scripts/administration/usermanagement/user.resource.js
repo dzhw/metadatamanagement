@@ -19,6 +19,11 @@ angular.module('metadatamanagementApp').factory('UserResource',
       },
       'update': {
         method: 'PUT'
+      },
+      'search': {
+        url: '/api/users/search/findAllByLoginLike/:login',
+        method: 'GET',
+        isArray: true
       }
     });
   });

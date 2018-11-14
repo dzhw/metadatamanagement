@@ -27,6 +27,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.AuthorityReposit
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.MongoDbTokenStore;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.ManagedUserDto;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.UserDto;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -112,4 +113,15 @@ public class UserResource {
           .body(managedUserDTO))
       .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
   }
+
+  /**
+   * Search for users.
+   */
+  @RequestMapping(value = "/users/search/findAllByLoginLike/{login}", method = RequestMethod.GET,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  @Secured({AuthoritiesConstants.ADMIN, AuthoritiesConstants.DATA_PROVIDER, AuthoritiesConstants.PUBLISHER})
+  public ResponseEntity<List<User>> findAllByLoginLike(@PathVariable String login) {
+    return new ResponseEntity<List<User>>(userRepository.findAllByLoginLike(login), HttpStatus.OK);
+  }
+
 }

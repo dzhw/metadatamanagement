@@ -6,6 +6,10 @@ angular.module('metadatamanagementApp').config(
       //jscs:disable
       'projectcockpit': {
         'title': 'Projekt-Cockpit',
+        'search': {
+          'placeholder': 'Benutzername',
+          'header': 'Benutzer für Projekt'
+        }
     	}
       //jscs:enable
     };
