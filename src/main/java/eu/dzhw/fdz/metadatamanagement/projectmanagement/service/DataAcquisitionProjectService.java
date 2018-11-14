@@ -27,8 +27,13 @@ public class DataAcquisitionProjectService {
 
   private UserAuthenticationProvider userAuthenticationProvider;
 
-  public DataAcquisitionProjectService(DataAcquisitionProjectRepository dataAcquisitionProjectRepository, ApplicationEventPublisher applicationEventPublisher, UserAuthenticationProvider userAuthenticationProvider) {
-    this.acquisitionProjectRepository = dataAcquisitionProjectRepository;
+  /**
+   * Creates a new {@link DataAcquisitionProjectService} instance.
+   */
+  public DataAcquisitionProjectService(DataAcquisitionProjectRepository dataAcquisitionProjectRepo,
+                                       ApplicationEventPublisher applicationEventPublisher,
+                                       UserAuthenticationProvider userAuthenticationProvider) {
+    this.acquisitionProjectRepository = dataAcquisitionProjectRepo;
     this.eventPublisher = applicationEventPublisher;
     this.userAuthenticationProvider = userAuthenticationProvider;
   }
@@ -52,8 +57,8 @@ public class DataAcquisitionProjectService {
   }
 
   /**
-   * Searches for {@link DataAcquisitionProject} items for the given id. The result may be limited if
-   * the current user is not an admin or publisher.
+   * Searches for {@link DataAcquisitionProject} items for the given id. The result
+   * may be limited if the current user is not an admin or publisher.
    *
    * @param projectId Project id
    * @return A list of {@link DataAcquisitionProject}
@@ -64,7 +69,10 @@ public class DataAcquisitionProjectService {
     if (isAdmin(userDetails) || isPublisher(userDetails)) {
       return acquisitionProjectRepository.findByIdLikeOrderByIdAsc(projectId);
     } else {
-      return acquisitionProjectRepository.findAllByIdLikeAndPublisherId(projectId, userDetails.getUsername());
+      return acquisitionProjectRepository.findAllByIdLikeAndPublisherId(
+        projectId,
+        userDetails.getUsername()
+      );
     }
   }
 
@@ -74,7 +82,8 @@ public class DataAcquisitionProjectService {
   }
 
   private boolean isPublisher(UserDetails userDetails) {
-    SimpleGrantedAuthority dataProviderRole = new SimpleGrantedAuthority(AuthoritiesConstants.PUBLISHER);
+    SimpleGrantedAuthority dataProviderRole =
+        new SimpleGrantedAuthority(AuthoritiesConstants.PUBLISHER);
     return userDetails.getAuthorities().contains(dataProviderRole);
   }
 }

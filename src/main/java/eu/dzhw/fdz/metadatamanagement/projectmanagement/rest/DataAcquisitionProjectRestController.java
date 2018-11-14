@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * Used for searching {@link DataAcquisitionProject} items.
+ */
 @RestController
 @RequestMapping("/api/data-acquisition-projects/search")
 public class DataAcquisitionProjectRestController {
@@ -19,22 +22,19 @@ public class DataAcquisitionProjectRestController {
 
   /**
    * Creates a new controller.
-   *
-   * @param dataAcquisitionProjectService
    */
-  public DataAcquisitionProjectRestController(DataAcquisitionProjectService dataAcquisitionProjectService) {
-    this.dataAcquisitionProjectService = dataAcquisitionProjectService;
+  public DataAcquisitionProjectRestController(DataAcquisitionProjectService service) {
+    this.dataAcquisitionProjectService = service;
   }
 
   /**
    * Find projects by (partial) id.
-   *
-   * @param id (Partial) id
-   * @return Returns a list of {@link DataAcquisitionProject}
    */
   @GetMapping("/findByIdLikeOrderByIdAsc")
-  public ResponseEntity<List<DataAcquisitionProject>> findByIdLikeOrderByIdAsc(@RequestParam("id") String id) {
-    List<DataAcquisitionProject> projects = dataAcquisitionProjectService.findDataAcquisitionProjectListById(id);
+  public ResponseEntity<List<DataAcquisitionProject>> findByIdLikeOrderByIdAsc(
+      @RequestParam("id") String id) {
+    List<DataAcquisitionProject> projects = dataAcquisitionProjectService
+        .findDataAcquisitionProjectListById(id);
     return ResponseEntity.ok(projects);
   }
 }

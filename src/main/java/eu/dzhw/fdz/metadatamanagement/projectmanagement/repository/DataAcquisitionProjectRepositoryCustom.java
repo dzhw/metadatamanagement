@@ -5,7 +5,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
 import java.util.List;
 
 /**
- * Custom repository methods for {@link DataAcquisitionProjectRepository}
+ * Custom repository methods for {@link DataAcquisitionProjectRepository}.
  */
 public interface DataAcquisitionProjectRepositoryCustom {
   List<DataAcquisitionProject> findAllByIdLikeAndPublisherId(String projectId, String publisherId);

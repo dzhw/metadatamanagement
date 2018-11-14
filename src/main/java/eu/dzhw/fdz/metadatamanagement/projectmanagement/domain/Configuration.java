@@ -15,14 +15,18 @@ import java.util.List;
 @ValueObject
 public class Configuration {
   /**
-   * User names having the role of a publisher for a project. Must contain at least one user name.
+   * User names having the role of a publisher for a project. Must contain at least one user
+   * name.
    */
-  @Size(min = 1, message = "data-acquisition-project-management.error.configuration.publishers.size")
+  @Size(min = 1, message = "data-acquisition-project-management.error.configuration.publishers"
+      + ".size")
   private List<String> publishers;
 
   /**
-   * User names having the role of a data provider for a project. Must contain at least one user name.
+   * User names having the role of a data provider for a project. Must contain at least one user
+   * name.
    */
-  @Size(min = 1, message = "data-acquisition-project-management.error.configuration.data-providers.size")
+  @Size(min = 1, message = "data-acquisition-project-management.error.configuration."
+      + "data-providers.size")
   private List<String> dataProviders;
 }

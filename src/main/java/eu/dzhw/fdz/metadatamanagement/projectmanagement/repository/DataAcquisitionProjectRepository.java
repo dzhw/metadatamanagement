@@ -16,7 +16,7 @@ import java.util.List;
 @JaversSpringDataAuditable
 @RepositoryRestResource(path = "/data-acquisition-projects")
 public interface DataAcquisitionProjectRepository
-  extends BaseRepository<DataAcquisitionProject, String>, DataAcquisitionProjectRepositoryCustom {
+    extends BaseRepository<DataAcquisitionProject, String>, DataAcquisitionProjectRepositoryCustom {
 
   List<DataAcquisitionProject> findByIdLikeOrderByIdAsc(@Param("id") String id);
 }
