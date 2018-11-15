@@ -49,13 +49,14 @@ public class DataAcquisitionProjectResource
     Optional<DataAcquisitionProject> project = dataAcquisitionProjectService
         .findDataAcquisitionProjectById(id);
 
-    return project.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    return project.map(this::wrapInResponseEntity)
+        .orElseGet(() -> ResponseEntity.notFound().build());
   }
 
   /**
-   * Overwriting the delete data acquisition proect api method from mongo db.
+   * Overwriting the delete data acquisition project api method from mongo db.
    * @param id The id of the data acquisition project.
-   * @return Return a 200 (ok) if successfull deleted or a Bad Request,
+   * @return Return a 200 (ok) if successful deleted or a Bad Request,
    *     if it has been released before and deleting is forbidden.
    */
   @RequestMapping(value = "/data-acquisition-projects/{id}", method = RequestMethod.DELETE)
