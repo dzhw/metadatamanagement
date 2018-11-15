@@ -47,7 +47,7 @@ public class DataAcquisitionProjectResource
   @RequestMapping(method = RequestMethod.GET, value = "/data-acquisition-projects/{id:.+}")
   public ResponseEntity<DataAcquisitionProject> findProject(@PathVariable String id) {
     Optional<DataAcquisitionProject> project = dataAcquisitionProjectService
-      .findDataAcquisitionProjectById(id);
+        .findDataAcquisitionProjectById(id);
 
     return project.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
   }
@@ -86,9 +86,9 @@ public class DataAcquisitionProjectResource
    */
   @GetMapping("/data-acquisition-projects/search/findByIdLikeOrderByIdAsc")
   public ResponseEntity<List<DataAcquisitionProject>> findByIdLikeOrderByIdAsc(
-    @RequestParam(value = "id", required = false, defaultValue = "") String id) {
+      @RequestParam(value = "id", required = false, defaultValue = "") String id) {
     List<DataAcquisitionProject> projects = dataAcquisitionProjectService
-      .findDataAcquisitionProjectListById(id);
+        .findDataAcquisitionProjectListById(id);
     return ResponseEntity.ok(projects);
   }
 }
