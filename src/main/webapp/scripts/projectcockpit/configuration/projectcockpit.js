@@ -10,7 +10,7 @@ angular
           url: '/projectcockpit',
           reloadOnSearch: false,
           data: {
-            authorities: ['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER']
+            authorities: ['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER', 'ROLE_ADMIN']
           },
           views: {
             'content@': {

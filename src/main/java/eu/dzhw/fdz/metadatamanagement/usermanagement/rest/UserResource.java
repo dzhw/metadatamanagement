@@ -115,13 +115,21 @@ public class UserResource {
   }
 
   /**
-   * Search for users.
+   * Search for privileged users.
    */
-  @RequestMapping(value = "/users/search/findAllByLoginLike/{login}", method = RequestMethod.GET,
-      produces = MediaType.APPLICATION_JSON_VALUE)
-  @Secured({AuthoritiesConstants.ADMIN, AuthoritiesConstants.DATA_PROVIDER, AuthoritiesConstants.PUBLISHER})
-  public ResponseEntity<List<User>> findAllByLoginLike(@PathVariable String login) {
-    return new ResponseEntity<List<User>>(userRepository.findAllByLoginLike(login), HttpStatus.OK);
+  @RequestMapping(value = "/users/search/findPrivilegedUsersByLoginLike/{login}",
+      method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  @Secured({AuthoritiesConstants.ADMIN, AuthoritiesConstants.DATA_PROVIDER,
+      AuthoritiesConstants.PUBLISHER})
+  public ResponseEntity<List<UserDto>> findPrivilegedUsersByLoginLike(@PathVariable String login) {
+    return new ResponseEntity<>(userRepository
+      .findAllByLoginLike(login)
+      .stream()
+      .map(user -> new UserDto(user))
+      .filter(user ->
+        user.getAuthorities().contains(AuthoritiesConstants.DATA_PROVIDER) ||
+        user.getAuthorities().contains(AuthoritiesConstants.PUBLISHER))
+      .collect(Collectors.toList()), HttpStatus.OK);
   }
 
 }

@@ -9,8 +9,22 @@ angular.module('metadatamanagementApp').config(
         'search': {
           'placeholder': 'Username',
           'header': 'User for project'
+        },
+        'alert': {
+          'title': 'Attention',
+          'noproject': 'No project selected.',
+          'close': 'Okay'
+        },
+        'label': {
+          'ROLE_USER': 'User',
+          'ROLE_ADMIN': 'Admin',
+          'ROLE_DATA_PROVIDER': 'Data Provider',
+          'ROLE_PUBLISHER': 'Publisher'
+        },
+        'button': {
+          'save': 'Click to save the changes.'
         }
-    	}
+      }
       //jscs:enable
     };
     $translateProvider.translations('en', translations);
