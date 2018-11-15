@@ -11,6 +11,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.*;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAttachmentTypes;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.*;
@@ -49,6 +50,13 @@ public class UnitTestCreateDomainObjectUtils {
         .id(projectId)
         .hasBeenReleasedBefore(false)
         .build();
+  }
+
+  public static Configuration buildDataAcquisitionProjectConfiguration(List<String> publishers, List<String> dataProviders) {
+    Configuration configuration = new Configuration();
+    configuration.setDataProviders(dataProviders);
+    configuration.setPublishers(publishers);
+    return configuration;
   }
 
   public static Study buildStudy(String projectId) {
@@ -550,12 +558,5 @@ public class UnitTestCreateDomainObjectUtils {
         .middleName(middleName)
         .lastName(lastName)
         .build();
-  }
-
-  public static UserDetails buildUserWithDataProviderRole() {
-    SimpleGrantedAuthority role = new SimpleGrantedAuthority(AuthoritiesConstants.DATA_PROVIDER);
-    Set<GrantedAuthority> authorities = new HashSet<>();
-    authorities.add(role);
-    return new CustomUserDetails("1", "dataProviderUser", "password", authorities, true, true, true, true);
   }
 }

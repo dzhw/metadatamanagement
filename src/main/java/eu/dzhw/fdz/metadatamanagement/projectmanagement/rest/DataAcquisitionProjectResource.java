@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.projectmanagement.rest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,6 +13,10 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionProjectService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * If a data acquisition project has been released before, it can not be deleted by anyone.
@@ -41,7 +46,10 @@ public class DataAcquisitionProjectResource
    */
   @RequestMapping(method = RequestMethod.GET, value = "/data-acquisition-projects/{id:.+}")
   public ResponseEntity<DataAcquisitionProject> findProject(@PathVariable String id) {
-    return super.findDomainObject(id); 
+    Optional<DataAcquisitionProject> project = dataAcquisitionProjectService
+      .findDataAcquisitionProjectById(id);
+
+    return project.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
   }
 
   /**
@@ -72,5 +80,15 @@ public class DataAcquisitionProjectResource
       return ResponseEntity.badRequest().build();      
     }   
   }
-  
+
+  /**
+   * Find projects by (partial) id.
+   */
+  @GetMapping("/data-acquisition-projects/search/findByIdLikeOrderByIdAsc")
+  public ResponseEntity<List<DataAcquisitionProject>> findByIdLikeOrderByIdAsc(
+    @RequestParam(value = "id", required = false, defaultValue = "") String id) {
+    List<DataAcquisitionProject> projects = dataAcquisitionProjectService
+      .findDataAcquisitionProjectListById(id);
+    return ResponseEntity.ok(projects);
+  }
 }
