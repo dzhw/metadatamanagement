@@ -29,6 +29,8 @@ You need to install [Bower][] globally as well:
 
     npm install -g bower
 
+On Windows, `patch.exe` has to exist in the PATH. It is distributed as part of git bash, or can be downloaded manually from [GnuWin32][].
+
 ## Running on your local machine
 
 Before starting the app on your local machine you need to start the following Document Stores:
@@ -100,6 +102,7 @@ Continuous Integration Platform provided by [Travis CI][TravisCI]
 [NVM]: https://github.com/creationix/nvm
 [SDKMAN!]: http://sdkman.io/install.html
 [TravisCI]: https://travis-ci.org/
+[GnuWin32]: http://gnuwin32.sourceforge.net/packages/patch.htm
 
 [![forthebadge](http://forthebadge.com/images/badges/built-by-developers.svg)](http://forthebadge.com)  [![forthebadge](https://forthebadge.com/images/badges/built-with-science.svg)](https://forthebadge.com)
  [![forthebadge](https://forthebadge.com/images/badges/60-percent-of-the-time-works-every-time.svg)](https://forthebadge.com) [![forthebadge](http://forthebadge.com/images/badges/uses-badges.svg)](http://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/makes-people-smile.svg)](https://forthebadge.com)
