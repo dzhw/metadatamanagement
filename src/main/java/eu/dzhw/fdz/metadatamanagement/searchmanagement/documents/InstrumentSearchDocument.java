@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataSetSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.projections.QuestionSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projections.RelatedPublicationSubDocumentProjection;
@@ -46,6 +47,7 @@ public class InstrumentSearchDocument extends Instrument implements SearchDocume
       new ArrayList<>();
   private List<RelatedPublicationNestedDocument> nestedRelatedPublications = new ArrayList<>();
   private Release release = null;
+  private Configuration configuration;
   
   private I18nString guiLabels = InstrumentDetailsGuiLabels.GUI_LABELS;
 
@@ -59,17 +61,19 @@ public class InstrumentSearchDocument extends Instrument implements SearchDocume
    * @param questions the questions used by this instrument
    * @param variables the variables used by the questions of this instrument
    * @param relatedPublications the related publications using this instrument
+   * @param configuration the project configuration
    */
   @SuppressWarnings("CPD-START")
-  public InstrumentSearchDocument(Instrument instrument, 
-      StudySubDocumentProjection study, 
-      List<SurveySubDocumentProjection> surveys,
-      List<QuestionSubDocumentProjection> questions, 
-      List<VariableSubDocumentProjection> variables,
-      List<DataSetSubDocumentProjection> dataSets,
-      List<RelatedPublicationSubDocumentProjection> relatedPublications,
-      Release release,
-      String doi) {
+  public InstrumentSearchDocument(Instrument instrument,
+                                  StudySubDocumentProjection study,
+                                  List<SurveySubDocumentProjection> surveys,
+                                  List<QuestionSubDocumentProjection> questions,
+                                  List<VariableSubDocumentProjection> variables,
+                                  List<DataSetSubDocumentProjection> dataSets,
+                                  List<RelatedPublicationSubDocumentProjection> relatedPublications,
+                                  Release release,
+                                  String doi,
+                                  Configuration configuration) {
     super(instrument);
     if (study != null) {
       this.study = new StudySubDocument(study, doi);
@@ -107,6 +111,7 @@ public class InstrumentSearchDocument extends Instrument implements SearchDocume
           .map(RelatedPublicationNestedDocument::new).collect(Collectors.toList());
     }
     this.release = release;
+    this.configuration = configuration;
     this.completeTitle = I18nString.builder()
         .de((instrument.getDescription().getDe() != null ? instrument.getDescription().getDe()
             : instrument.getDescription().getEn()) + " (" + instrument.getId() + ")")
