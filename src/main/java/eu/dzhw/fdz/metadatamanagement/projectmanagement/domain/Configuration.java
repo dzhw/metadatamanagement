@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.javers.core.metamodel.annotation.ValueObject;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 
@@ -18,15 +20,13 @@ public class Configuration {
    * User names having the role of a publisher for a project. Must contain at least one user
    * name.
    */
-  @Size(min = 1, message = "data-acquisition-project-management.error.configuration.publishers"
-      + ".size")
+  @NotEmpty(message = "data-acquisition-project-management.error.configuration.publishers"
+      + ".not-empty")
   private List<String> publishers;
 
   /**
    * User names having the role of a data provider for a project. Must contain at least one user
    * name.
    */
-  @Size(min = 1, message = "data-acquisition-project-management.error.configuration."
-      + "data-providers.size")
   private List<String> dataProviders;
 }

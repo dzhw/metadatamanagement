@@ -87,5 +87,6 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
    * Contains the project configuration.
    */
   @Valid
+  @NotNull(message ="data-acquisition-project-management.error.data-acquisition-project.not-null")
   private Configuration configuration;
 }

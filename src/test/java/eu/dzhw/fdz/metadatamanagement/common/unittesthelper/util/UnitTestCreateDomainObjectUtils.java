@@ -30,6 +30,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -46,9 +47,15 @@ public class UnitTestCreateDomainObjectUtils {
 
     String projectId = "testproject";
 
+    Configuration configuration = buildDataAcquisitionProjectConfiguration(
+        Collections.singletonList("defaultPublisher"),
+        null
+    );
+
     return DataAcquisitionProject.builder()
         .id(projectId)
         .hasBeenReleasedBefore(false)
+        .configuration(configuration)
         .build();
   }
 
