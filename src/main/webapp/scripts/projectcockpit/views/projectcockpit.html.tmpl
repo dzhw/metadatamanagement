@@ -1,10 +1,13 @@
+
 <div>
   <div layout="row" style="margin-bottom: 0px;" layout-margin>
     <h1 id="top" class="md-headline fdz-truncate-string" style="margin-left: 0px;">{{'projectcockpit.title' | translate}}</h1>
   </div>
-
-  <div ng-if="!!selectedProject">
-    <div layout="row" class="layout-margin layout-row md-body-2">{{'projectcockpit.search.header' | translate}} {{selectedProject.id}}:</div>
+  <div ng-if="!account || !project" layout="row" layout-sm="column" layout-align="space-around">
+    <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+  </div>
+  <div ng-if="account && project">
+    <div layout="row" class="layout-margin layout-row md-body-2">{{'projectcockpit.search.header' | translate}} {{project.id}}:</div>
     <md-card>
       <md-autocomplete
         flex
@@ -32,7 +35,7 @@
             </div>
           </md-item-template>
           <md-not-found>
-              <span data-translate="global.menu.entities.unknown-project"></span>
+            <span data-translate="global.menu.entities.unknown-project"></span>
           </md-not-found>
       </md-autocomplete>
 
@@ -46,12 +49,14 @@
           <md-chips readonly="true" ng-if="!!user.authorities" ng-model="user.authorities">
             <md-chip-template class="authority">{{'projectcockpit.label.' + $chip | translate}}</md-chip-template>
           </md-chips>
-          <md-button ng-disabled="user.login == account.login" class="md-primary md-raised" ng-click="removeUser(user)" aria-label="remove user">
+          <md-button ng-disabled="canDeleteUser(user)" class="md-primary md-raised" ng-click="removeUser(user)" aria-label="remove user">
             <md-icon md-font-set="material-icons" class="ng-binding ng-scope material-icons" role="img" aria-hidden="true">delete</md-icon>
           </md-button>
         </md-list-item>
       </md-list>
-
+      <div class="layout-margin" ng-if="!activeUsers || !activeUsers.length">
+        <i>{{'projectcockpit.list.empty' | translate}}</i>
+      </div>
     </md-card>
   </div>
 

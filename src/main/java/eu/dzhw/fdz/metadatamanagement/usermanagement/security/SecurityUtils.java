@@ -94,6 +94,6 @@ public final class SecurityUtils {
   }
   public static boolean isUserInRole(String authority, User user) {
     return user.getAuthorities().stream().anyMatch(
-      userAuthority -> userAuthority.equals(authority));
+      userAuthority -> userAuthority.getName().equals(authority));
   }
 }

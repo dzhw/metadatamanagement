@@ -1,31 +1,22 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('ProjectCockpitController',
-  function($scope, $state, $mdDialog, LanguageService, $translate, UserResource, Principal, PageTitleService, ToolbarHeaderService, CurrentProjectService) {
+  function($scope, $rootScope, $state, $mdDialog, LanguageService, $translate,
+    UserResource, Principal, PageTitleService, ToolbarHeaderService,
+    CurrentProjectService, DataAcquisitionProjectResource, SimpleMessageToastService) {
 
     PageTitleService.setPageTitle('projectcockpit.title');
     ToolbarHeaderService.updateToolbarHeader({
       stateName: $state.current.name
     });
 
-    // Show message and leave page if navigated here without a selected project
-    $scope.selectedProject =  CurrentProjectService.getCurrentProject();
-    if(!$scope.selectedProject) {
-      var alert = $mdDialog.alert({
-        title: $translate.instant('projectcockpit.alert.title'),
-        textContent:  $translate.instant('projectcockpit.alert.noproject'),
-        ok: $translate.instant('projectcockpit.alert.close')
-      });
-      var dialog = $mdDialog
-        .show(alert)
-        .finally(function() {
-          alert = undefined;
-      });
-      dialog.then(function(){
-        $state.go('search', {
-          lang: LanguageService.getCurrentInstantly()
-        });
-      });
+    $scope.$on('current-project-changed', function() {
+      $state.reload();
+    });
+
+    var selectedProject =  CurrentProjectService.getCurrentProject();
+    if(!selectedProject) {
+      return;
     }
 
     Principal.identity().then(function(account) {
@@ -33,7 +24,34 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     });
 
     $scope.saveChanges = function() {
+      if(!$scope.project.configuration) {
+        $scope.project.configuration = {}
+      }
 
+      $scope.project.configuration.publishers = $scope.activeUsers.filter(function(user) {
+        return _.includes(user.authorities, 'ROLE_PUBLISHER');
+      }).map(function(identity) {return identity.login;});
+      $scope.project.configuration.dataProviders = $scope.activeUsers.filter(function(user) {
+        return _.includes(user.authorities, 'ROLE_DATA_PROVIDER');
+      }).map(function(identity) {return identity.login;});
+
+      DataAcquisitionProjectResource.save(
+        $scope.project,
+        //Success
+        function() {
+          SimpleMessageToastService
+            .openSimpleMessageToast(
+              'saved', {
+                id: $scope.project.id
+              });
+        },
+        //Server Error
+        function(error) {
+          SimpleMessageToastService
+            .openAlertMessageToast(
+              'server-error' + error);
+        }
+      );
     }
 
     $scope.changed = false;
@@ -45,10 +63,44 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         $scope.changed = true;
         $scope.searchText = '';
         $scope.selectedUser = null;
-        console.log("selected", user);
       }
     }
     $scope.activeUsers = [];
+
+    // load all users assigned to the currrent project
+    DataAcquisitionProjectResource.get({id: selectedProject.id}).$promise.then(function(project) {
+      $scope.project = project;
+      function getAndAddUsers(key) {
+        if(project.configuration[key]) {
+          project.configuration[key].forEach(function(userLogin) {
+            UserResource.get({
+              login: userLogin
+            }).$promise.then(function(userResult) {
+              if(!_.includes($scope.activeUsers.map(function(u){
+                return u.login;
+              }), userResult.login)) {
+                $scope.activeUsers.push(userResult);
+              }
+            });
+          })
+        }
+      }
+      getAndAddUsers("publishers");
+      getAndAddUsers("dataProviders");
+    })
+
+    $scope.advancedPrivileges = Principal.hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN'])
+    $scope.canDeleteUser = function(user) {
+      function isOnlyRole(role) {
+        return _.includes(user.authorities, role) &&
+          $scope.activeUsers.filter(function(activeUser) {
+            return _.includes(activeUser.authorities, role)
+          }).length > 1;
+      }
+      var isOnlyPublisher = isOnlyRole('ROLE_PUBLISHER');
+      var isOnlyDataProvider = isOnlyRole('ROLE_DATA_PROVIDER');
+      return !((!$scope.advancedPrivileges && isOnlyDataProvider) || isOnlyPublisher);
+    }
 
     $state.currentPromise = null;
     $scope.searchUsers = function(search) {
@@ -60,14 +112,12 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
           login: search
         }).$promise.then(function(result) {
           $state.currentPromise = null;
-          console.log("found", result);
           return result.filter(function(x) {
             // filter out already added users
             return $scope.activeUsers.map(function(u){return u.login;}).indexOf(x.login) < 0;
           });
         });
       }
-      console.log("searching for", search)
       return $state.currentPromise;
     }
 

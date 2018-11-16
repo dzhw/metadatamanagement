@@ -25,7 +25,7 @@
         <md-icon md-font-set="material-icons" class="fdz-not-released">cancel</md-icon>
         <span>{{'global.toolbar.not-released' | translate}}</span>
     </div>
-    <div style="margin-top: 1em;">
+    <div style="margin-top: 1em;" class="layout-row">
         <md-button class="md-primary md-raised md-icon-button" ng-class="{'fdz-reset-left-margin': ctrl.hasAuthority('ROLE_PUBLISHER')}" ng-click="ctrl.deleteProject()" style="margin-right: 0px;" ng-disabled="!ctrl.selectedProject || ctrl.selectedProject.hasBeenReleasedBefore || ctrl.projectChooserDisabled"
           data-has-authority="ROLE_PUBLISHER">
             <md-tooltip ng-hide="!ctrl.selectedProject" md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
@@ -45,6 +45,7 @@
             </md-tooltip>
             <md-icon md-font-set="material-icons">{{ctrl.selectedProject.release?'stop_screen_share':'screen_share'}}</md-icon>
         </md-button>
+        <span flex></span>
         <md-button ui-sref="projectcockpit" class="md-primary md-raised md-icon-button" style="margin-right: 0px;" ng-click="close()" ng-disabled="!ctrl.selectedProject" data-has-authority="ROLE_PUBLISHER">
             <md-tooltip ng-hide="!ctrl.selectedProject" md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{'global.tooltips.cockpit-project' | translate}}

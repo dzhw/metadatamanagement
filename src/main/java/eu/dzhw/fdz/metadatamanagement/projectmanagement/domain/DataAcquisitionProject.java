@@ -87,5 +87,5 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
    * Contains the project configuration.
    */
   @Valid
-  private Configuration configuration;
+  private Configuration configuration = new Configuration();
 }

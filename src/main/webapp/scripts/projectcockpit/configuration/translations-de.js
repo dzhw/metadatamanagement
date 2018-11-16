@@ -23,6 +23,9 @@ angular.module('metadatamanagementApp').config(
         },
         'button': {
           'save': 'Klicken, um die Anpassungen zu speichern.'
+        },
+        'list': {
+          'empty': 'Keine Benutzer für das Projekt vorhanden.'
         }
       }
       //jscs:enable

@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.rest;
 
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.Authority;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
@@ -22,9 +23,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionP
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import javax.validation.Valid;
 
@@ -74,7 +73,10 @@ public class DataAcquisitionProjectResource
 
     if(oldDataProject == null) {
       // add creating publisher to project
-      newDataProject.getConfiguration().getPublishers().add(userService.getUserWithAuthorities().getLogin());
+      Configuration newConfiguration = new Configuration();
+      newConfiguration.setPublishers(Arrays.asList(
+        new String[]{userService.getUserWithAuthorities().getLogin()}));
+      newDataProject.setConfiguration(newConfiguration);
     }
     else {
       // check only authorized users remove or add publishers from project
