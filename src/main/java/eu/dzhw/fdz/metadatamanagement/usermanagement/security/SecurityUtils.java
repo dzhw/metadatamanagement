@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.usermanagement.security;
 
 import java.util.Collection;
 
+import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -90,5 +91,9 @@ public final class SecurityUtils {
         .contains(new SimpleGrantedAuthority(authority));
     }
     return false;
+  }
+  public static boolean isUserInRole(String authority, User user) {
+    return user.getAuthorities().stream().anyMatch(
+      userAuthority -> userAuthority.equals(authority));
   }
 }

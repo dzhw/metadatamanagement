@@ -38,6 +38,14 @@ public class DataAcquisitionProjectService {
   }
 
   /**
+   * Saves a Data Acquisition Project.
+   */
+  public boolean putDataAquisitionProject(DataAcquisitionProject dataAcquisitionProject) {
+    this.acquisitionProjectRepository.save(dataAcquisitionProject);
+    return true;
+  }
+
+  /**
    * Deletes a Data Acquisition Project, it it hasn't been released before.
    *
    * @param dataAcquisitionProject A representation of the Data Acquisition Project.

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -122,13 +124,19 @@ public class UserResource {
   @Secured({AuthoritiesConstants.ADMIN, AuthoritiesConstants.DATA_PROVIDER,
       AuthoritiesConstants.PUBLISHER})
   public ResponseEntity<List<UserDto>> findPrivilegedUsersByLoginLike(@PathVariable String login) {
+    boolean userHasAdvancedPrivileges =
+      SecurityUtils.isUserInRole(AuthoritiesConstants.PUBLISHER) ||
+      SecurityUtils.isUserInRole(AuthoritiesConstants.ADMIN);
+
     return new ResponseEntity<>(userRepository
       .findAllByLoginLike(login)
       .stream()
-      .map(user -> new UserDto(user))
       .filter(user ->
-        user.getAuthorities().contains(AuthoritiesConstants.DATA_PROVIDER) ||
-        user.getAuthorities().contains(AuthoritiesConstants.PUBLISHER))
+        SecurityUtils.isUserInRole(AuthoritiesConstants.DATA_PROVIDER, user) ||
+          (userHasAdvancedPrivileges &&
+            SecurityUtils.isUserInRole(AuthoritiesConstants.PUBLISHER, user)
+          ))
+      .map(user -> new UserDto(user))
       .collect(Collectors.toList()), HttpStatus.OK);
   }
 
