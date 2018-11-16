@@ -305,7 +305,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
             }
           };
         }
-
+       
         //only publisher and data provider see unreleased projects
         if (!Principal
             .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
@@ -316,7 +316,23 @@ angular.module('metadatamanagementApp').service('SearchDao',
             }
           });
         }
-
+        var dataProvider;
+        Principal.identity().then(function(account){
+        	dataProvider = account.login;
+        	var dataProviderFilter = {
+        			'bool': {
+        				'must': [{
+        					'terms': { "array" : dataProvider}
+        				}]	
+        	
+        			}
+        	};
+        	console.log(dataProvider);
+        	query.body.query.bool.filter.push(dataProviderFilter);
+        
+        }
+        
+        );
         if (dataAcquisitionProjectId) {
           studyId = StudyIdBuilderService
             .buildStudyId(dataAcquisitionProjectId);
