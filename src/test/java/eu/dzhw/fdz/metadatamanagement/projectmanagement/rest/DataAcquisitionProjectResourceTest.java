@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.rest;
 
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -10,7 +11,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
 
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,6 +42,10 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
 public class DataAcquisitionProjectResourceTest extends AbstractTest {
   private static final String API_DATA_ACQUISITION_PROJECTS_URI = "/api/data-acquisition-projects";
 
+  private static final String DATA_PROVIDER_USERNAME = "dataProvider";
+
+  private static final String PUBLISHER_USERNAME = "publisher";
+
   @Autowired
   private WebApplicationContext wac;
 
@@ -48,6 +56,9 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
   
   @Autowired
   private JaversService javersService;
+
+  @Autowired
+  private DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
 
   @Before
   public void setup() {
@@ -182,5 +193,88 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
           jsonPath("$.errors[0].message", 
               containsString("data-acquisition-project-management"
                   + ".error.data-acquisition-project.id.not-empty")));
-  }  
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.DATA_PROVIDER, username = DATA_PROVIDER_USERNAME)
+  public void testFindByIdLikeOrderByIdAsc() throws Exception {
+    Configuration shouldBeFoundConfiguration = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProjectConfiguration(
+      Collections.singletonList("aPublisherId"),
+      Collections.singletonList(DATA_PROVIDER_USERNAME)
+    );
+
+    DataAcquisitionProject shouldBeFound = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    shouldBeFound.setId("testid");
+    shouldBeFound.setConfiguration(shouldBeFoundConfiguration);
+
+    Configuration shouldNotBeFoundConfiguration = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProjectConfiguration(
+      Collections.singletonList("bPublisherId"),
+      Collections.singletonList("anotherProviderId")
+    );
+
+    DataAcquisitionProject shouldNotBeFound = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    shouldNotBeFound.setId("shouldnotbefoundid");
+    shouldNotBeFound.setConfiguration(shouldNotBeFoundConfiguration);
+
+    dataAcquisitionProjectRepository.saveAll(Arrays.asList(shouldBeFound, shouldNotBeFound));
+
+    mockMvc.perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/search/findByIdLikeOrderByIdAsc").param("id", "TES"))
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$.length()", equalTo(1)))
+      .andExpect(jsonPath("$[0].id", equalTo(shouldBeFound.getId())));
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = PUBLISHER_USERNAME)
+  public void testFindByIdLikeOrderByIdAsc_asPublisher() throws Exception {
+    Configuration configuration = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProjectConfiguration(
+      Collections.singletonList("completelyDifferentPublisherId"),
+      Collections.singletonList("someDataProvider")
+    );
+
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    project.setConfiguration(configuration);
+
+    dataAcquisitionProjectRepository.save(project);
+
+    mockMvc.perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/search/findByIdLikeOrderByIdAsc"))
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$.length()", equalTo(1)))
+      .andExpect(jsonPath("$[0].id", equalTo(project.getId())));
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.DATA_PROVIDER, username = DATA_PROVIDER_USERNAME)
+  public void testFindById() throws Exception {
+    Configuration configuration = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProjectConfiguration(
+      Collections.singletonList("aPublisherId"),
+      Collections.singletonList(DATA_PROVIDER_USERNAME)
+    );
+
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    project.setConfiguration(configuration);
+
+    dataAcquisitionProjectRepository.save(project);
+
+    mockMvc.perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId()))
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$.id", equalTo(project.getId())));
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.DATA_PROVIDER, username = DATA_PROVIDER_USERNAME)
+  public void testFindById_404() throws Exception {
+    Configuration configuration = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProjectConfiguration(
+      Collections.singletonList("aPublisherId"),
+      Collections.singletonList("anotherDataProviderId")
+    );
+
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    project.setConfiguration(configuration);
+
+    dataAcquisitionProjectRepository.save(project);
+
+    mockMvc.perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId()))
+      .andExpect(status().isNotFound());
+  }
 }

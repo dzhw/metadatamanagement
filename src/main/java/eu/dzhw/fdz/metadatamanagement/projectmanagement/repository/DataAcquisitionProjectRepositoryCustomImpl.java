@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
@@ -28,13 +29,29 @@ class DataAcquisitionProjectRepositoryCustomImpl implements DataAcquisitionProje
 
   @Override
   public List<DataAcquisitionProject> findAllByIdLikeAndPublisherId(String projectId,
-                                                                    String publisherId) {
-    List<String> dataProviderIdValues = Collections.singletonList(publisherId);
+                                                                    String dataProviderId) {
+    List<String> dataProviderIdValues = Collections.singletonList(dataProviderId);
     Criteria criteria = where("configuration.dataProviders")
         .in(dataProviderIdValues)
         .and("_id")
         .regex(projectId, "i");
 
     return mongoTemplate.find(query(criteria), DataAcquisitionProject.class);
+  }
+
+  @Override
+  public Optional<DataAcquisitionProject> findByProjectIdAndDataProviderId(String projectId,
+                                                                           String dataProviderId) {
+    List<String> dataProviderIdValues = Collections.singletonList(dataProviderId);
+    Criteria criteria = where("configuration.dataProviders")
+        .in(dataProviderIdValues)
+        .and("_id")
+        .is(projectId);
+
+    DataAcquisitionProject project = mongoTemplate.findOne(
+        query(criteria),
+        DataAcquisitionProject.class
+    );
+    return Optional.ofNullable(project);
   }
 }
