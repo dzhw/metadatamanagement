@@ -1,6 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.rest;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import eu.dzhw.fdz.metadatamanagement.common.rest.GenericDomainObjectResourceController;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionProjectService;
@@ -74,10 +72,8 @@ public class DataAcquisitionProjectResource extends
 
     if (oldDataProject == null) {
       // add creating publisher to project
-      Configuration newConfiguration = new Configuration();
-      newConfiguration.setPublishers(
-          Arrays.asList(new String[] {userService.getUserWithAuthorities().getLogin()}));
-      newDataProject.setConfiguration(newConfiguration);
+      newDataProject.getConfiguration().getPublishers().add(
+          userService.getUserWithAuthorities().getLogin());
     } else {
       // check only authorized users remove or add publishers from project
       if (!userHasAdvancedPrivileges && !oldDataProject.getConfiguration().getPublishers()

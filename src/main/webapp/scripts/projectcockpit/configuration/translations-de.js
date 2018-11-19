@@ -25,7 +25,7 @@ angular.module('metadatamanagementApp').config(
           'save': 'Klicken, um die Anpassungen zu speichern.'
         },
         'list': {
-          'empty': 'Keine Benutzer für das Projekt vorhanden.'
+          'empty': 'Keine Benutzer sind diesem Projekt zugeteilt.'
         }
       }
       //jscs:enable
