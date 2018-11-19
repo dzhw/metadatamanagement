@@ -9,7 +9,8 @@ import java.util.Optional;
  * Custom repository methods for {@link DataAcquisitionProjectRepository}.
  */
 public interface DataAcquisitionProjectRepositoryCustom {
-  List<DataAcquisitionProject> findAllByIdLikeAndPublisherId(String projectId, String publisherId);
+  List<DataAcquisitionProject> findAllByIdLikeAndPublisherIdOrderByIdAsc(String projectId,
+                                                                         String publisherId);
 
   Optional<DataAcquisitionProject> findByProjectIdAndDataProviderId(
       String projectId,

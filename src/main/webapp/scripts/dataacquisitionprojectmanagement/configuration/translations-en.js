@@ -55,10 +55,7 @@ angular.module('metadatamanagementApp').config(
           },
           'configuration': {
             'publishers': {
-              'size': 'The project must have at least one publisher.'
-            },
-            'data-providers': {
-              'size': 'The project must have at least one data provider.'
+              'not-empty': 'The project must have at least one publisher.'
             }
           },
           'release': {

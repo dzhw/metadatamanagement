@@ -55,10 +55,7 @@ angular.module('metadatamanagementApp').config(
           },
           'configuration': {
             'publishers': {
-              'size': 'Es muss mindestens ein Herausgeber eingetragen sein.'
-            },
-            'data-providers': {
-              'size': 'Es muss mindestens ein DataProvider eingetragen sein.'
+              'not-empty': 'Es muss mindestens ein Herausgeber eingetragen sein.'
             }
           },
           'release': {

@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -98,7 +99,7 @@ public class DataAcquisitionProjectResource extends
       }
     }
 
-    dataAcquisitionProjectService.putDataAquisitionProject(newDataProject);
+    dataAcquisitionProjectService.saveDataAquisitionProject(newDataProject);
 
     return ResponseEntity.ok().build();
   }
@@ -155,7 +156,7 @@ public class DataAcquisitionProjectResource extends
   public ResponseEntity<List<DataAcquisitionProject>> findByIdLikeOrderByIdAsc(
       @RequestParam(value = "id", required = false, defaultValue = "") String id) {
     List<DataAcquisitionProject> projects =
-        dataAcquisitionProjectService.findDataAcquisitionProjectListById(id);
-    return ResponseEntity.ok(projects);
+        dataAcquisitionProjectService.findByIdLikeOrderByIdAsc(id);
+    return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(projects);
   }
 }
