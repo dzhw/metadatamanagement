@@ -322,7 +322,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
         	var dataProviderFilter = {
         			'bool': {
         				'must': [{
-        					'terms': { "array" : dataProvider}
+        					'terms': { 'array' : dataProvider}
         				}]	
         	
         			}

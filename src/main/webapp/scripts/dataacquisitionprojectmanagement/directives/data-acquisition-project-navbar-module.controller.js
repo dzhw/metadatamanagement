@@ -19,6 +19,12 @@ angular.module('metadatamanagementApp')
       ctrl.searchText = '';
       ctrl.selectedProject = CurrentProjectService.getCurrentProject();
 
+      function alertError(errorMsg) {
+        SimpleMessageToastService
+          .openAlertMessageToast(
+            i18nPrefix + 'server-error' + errorMsg);
+      }
+
       $scope.$on('current-project-changed',
         function(event, project) { // jshint ignore:line
           ctrl.selectedProject = project;
@@ -58,25 +64,27 @@ angular.module('metadatamanagementApp')
             locals: {id: ctrl.selectedProject ? null : ctrl.searchText}
           })
           .then(function(project) {
-            project.hasBeenReleasedBefore = false;
-            DataAcquisitionProjectResource.save(project,
-              //Success
-              function() {
-                SimpleMessageToastService
-                  .openSimpleMessageToast(
-                    i18nPrefix + 'saved', {
-                      id: project.id
-                    });
-                ctrl.selectedProject = project;
-                CurrentProjectService.setCurrentProject(project);
-              },
-              //Server Error
-              function(errorMsg) {
-                SimpleMessageToastService
-                  .openAlertMessageToast(
-                    i18nPrefix + 'server-error' + errorMsg);
-              }
-            );
+            Principal.identity().then(function (identity) {
+              project.hasBeenReleasedBefore = false;
+              project.configuration = {
+                publishers: [identity.login]
+              };
+              DataAcquisitionProjectResource.save(project,
+                //Success
+                function () {
+                  SimpleMessageToastService
+                    .openSimpleMessageToast(
+                      i18nPrefix + 'saved', {
+                        id: project.id
+                      });
+                  ctrl.selectedProject = project;
+                  CurrentProjectService.setCurrentProject(project);
+                },
+                //Server Error while creating project
+                alertError
+              );
+              //Server error while querying for Principal
+            }, alertError);
           });
       };
 
