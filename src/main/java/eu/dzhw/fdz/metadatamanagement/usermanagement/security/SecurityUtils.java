@@ -42,12 +42,11 @@ public final class SecurityUtils {
    */
   public static boolean isAuthenticated() {
     SecurityContext securityContext = SecurityContextHolder.getContext();
-    Collection<? extends GrantedAuthority> authorities = securityContext.getAuthentication()
-        .getAuthorities();
+    Collection<? extends GrantedAuthority> authorities =
+        securityContext.getAuthentication().getAuthorities();
     if (authorities != null) {
       for (GrantedAuthority authority : authorities) {
-        if (authority.getAuthority()
-            .equals(AuthoritiesConstants.ANONYMOUS)) {
+        if (authority.getAuthority().equals(AuthoritiesConstants.ANONYMOUS)) {
           return false;
         }
       }
@@ -79,21 +78,21 @@ public final class SecurityUtils {
   }
 
   /**
-   * If the current user has a specific authority (security role).
-   * The name of this method comes from the isUserInRole() method in the Servlet API.
+   * If the current user has a specific authority (security role). The name of this method comes
+   * from the isUserInRole() method in the Servlet API.
    */
   public static boolean isUserInRole(String authority) {
     SecurityContext securityContext = SecurityContextHolder.getContext();
     Authentication authentication = securityContext.getAuthentication();
     if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
       UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
-      return springSecurityUser.getAuthorities()
-        .contains(new SimpleGrantedAuthority(authority));
+      return springSecurityUser.getAuthorities().contains(new SimpleGrantedAuthority(authority));
     }
     return false;
   }
+
   public static boolean isUserInRole(String authority, User user) {
-    return user.getAuthorities().stream().anyMatch(
-      userAuthority -> userAuthority.getName().equals(authority));
+    return user.getAuthorities().stream()
+        .anyMatch(userAuthority -> userAuthority.getName().equals(authority));
   }
 }

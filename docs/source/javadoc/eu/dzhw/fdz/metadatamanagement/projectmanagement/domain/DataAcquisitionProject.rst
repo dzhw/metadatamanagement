@@ -58,6 +58,14 @@ DataAcquisitionProject
 
 Fields
 ------
+configuration
+^^^^^^^^^^^^^
+
+.. java:field:: @Valid private Configuration configuration
+   :outertype: DataAcquisitionProject
+
+   Contains the project configuration.
+
 hasBeenReleasedBefore
 ^^^^^^^^^^^^^^^^^^^^^
 

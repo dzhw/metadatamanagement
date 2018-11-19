@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +29,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.ManagedUserDto;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.UserDto;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -62,25 +61,22 @@ public class UserResource {
   public ResponseEntity<ManagedUserDto> updateUser(@RequestBody ManagedUserDto managedUserDto)
       throws URISyntaxException {
     log.debug("REST request to update User : {}", managedUserDto);
-    return userRepository.findById(managedUserDto.getId())
-      .map(user -> {
-        tokenStore.removeTokensByUsername(user.getLogin());
-        user.setLogin(managedUserDto.getLogin());
-        user.setFirstName(managedUserDto.getFirstName());
-        user.setLastName(managedUserDto.getLastName());
-        user.setEmail(managedUserDto.getEmail());
-        user.setActivated(managedUserDto.isActivated());
-        user.setLangKey(managedUserDto.getLangKey());
-        Set<Authority> authorities = user.getAuthorities();
-        authorities.clear();
-        managedUserDto.getAuthorities()
-          .stream()
+    return userRepository.findById(managedUserDto.getId()).map(user -> {
+      tokenStore.removeTokensByUsername(user.getLogin());
+      user.setLogin(managedUserDto.getLogin());
+      user.setFirstName(managedUserDto.getFirstName());
+      user.setLastName(managedUserDto.getLastName());
+      user.setEmail(managedUserDto.getEmail());
+      user.setActivated(managedUserDto.isActivated());
+      user.setLangKey(managedUserDto.getLangKey());
+      Set<Authority> authorities = user.getAuthorities();
+      authorities.clear();
+      managedUserDto.getAuthorities().stream()
           .forEach(authority -> authorities.add(authorityRepository.findById(authority).get()));
-        userRepository.save(user);
-        return ResponseEntity.ok()
+      userRepository.save(user);
+      return ResponseEntity.ok()
           .body(new ManagedUserDto(userRepository.findById(managedUserDto.getId()).get()));
-      })
-      .orElseGet(() -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
+    }).orElseGet(() -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
   }
 
   /**
@@ -92,10 +88,8 @@ public class UserResource {
   public ResponseEntity<List<ManagedUserDto>> getAllUsers(Pageable pageable)
       throws URISyntaxException {
     Page<User> page = userRepository.findAll(pageable);
-    List<ManagedUserDto> managedUserDtos = page.getContent()
-        .stream()
-        .map(user -> new ManagedUserDto(user))
-        .collect(Collectors.toList());
+    List<ManagedUserDto> managedUserDtos = page.getContent().stream()
+        .map(user -> new ManagedUserDto(user)).collect(Collectors.toList());
     HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users");
     headers.setCacheControl(CacheControl.noStore());
     return new ResponseEntity<>(managedUserDtos, headers, HttpStatus.OK);
@@ -109,11 +103,10 @@ public class UserResource {
   @Secured(AuthoritiesConstants.ADMIN)
   public ResponseEntity<ManagedUserDto> getUser(@PathVariable String login) {
     log.debug("REST request to get User : {}", login);
-    return userService.getUserWithAuthoritiesByLogin(login)
-      .map(user -> new ManagedUserDto(user))
-      .map(managedUserDTO -> ResponseEntity.ok().cacheControl(CacheControl.noCache())
-          .body(managedUserDTO))
-      .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    return userService.getUserWithAuthoritiesByLogin(login).map(user -> new ManagedUserDto(user))
+        .map(managedUserDTO -> ResponseEntity.ok().cacheControl(CacheControl.noCache())
+            .body(managedUserDTO))
+        .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
   }
 
   /**
@@ -124,20 +117,14 @@ public class UserResource {
   @Secured({AuthoritiesConstants.ADMIN, AuthoritiesConstants.DATA_PROVIDER,
       AuthoritiesConstants.PUBLISHER})
   public ResponseEntity<List<UserDto>> findPrivilegedUsersByLoginLike(@PathVariable String login) {
-    boolean userHasAdvancedPrivileges =
-      SecurityUtils.isUserInRole(AuthoritiesConstants.PUBLISHER) ||
-      SecurityUtils.isUserInRole(AuthoritiesConstants.ADMIN);
+    boolean userHasAdvancedPrivileges = SecurityUtils.isUserInRole(AuthoritiesConstants.PUBLISHER)
+        || SecurityUtils.isUserInRole(AuthoritiesConstants.ADMIN);
 
-    return new ResponseEntity<>(userRepository
-      .findAllByLoginLike(login)
-      .stream()
-      .filter(user ->
-        SecurityUtils.isUserInRole(AuthoritiesConstants.DATA_PROVIDER, user) ||
-          (userHasAdvancedPrivileges &&
-            SecurityUtils.isUserInRole(AuthoritiesConstants.PUBLISHER, user)
-          ))
-      .map(user -> new UserDto(user))
-      .collect(Collectors.toList()), HttpStatus.OK);
+    return new ResponseEntity<>(userRepository.findAllByLoginLike(login).stream()
+        .filter(user -> SecurityUtils.isUserInRole(AuthoritiesConstants.DATA_PROVIDER, user)
+            || userHasAdvancedPrivileges
+                && SecurityUtils.isUserInRole(AuthoritiesConstants.PUBLISHER, user))
+        .map(user -> new UserDto(user)).collect(Collectors.toList()), HttpStatus.OK);
   }
 
 }
