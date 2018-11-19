@@ -19,9 +19,8 @@ angular
               controller: 'ProjectCockpitController'
             }
           },
-          onEnter: function($document, $timeout) {
+          onEnter: function($timeout) {
             $timeout(function() {
-
             });
           }
         });

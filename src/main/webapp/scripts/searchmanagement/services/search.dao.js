@@ -4,10 +4,10 @@
 
 angular.module('metadatamanagementApp').service('SearchDao',
   function(ElasticSearchClient, CleanJSObjectService, Principal,
-    LanguageService, StudyIdBuilderService, SearchHelperService,
-    clientId) {
+           LanguageService, StudyIdBuilderService, SearchHelperService,
+           clientId) {
     var addAdditionalShouldQueries = function(elasticsearchType, query,
-      boolQuery) {
+                                              boolQuery) {
       var queryTerms = query.split(' ');
       if (CleanJSObjectService.isNullOrEmpty(boolQuery.should)) {
         boolQuery.should = [];
@@ -42,7 +42,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
       }
 
       var createConstantScoreQuery = function(fieldName, queryTerm, boost,
-        lenient) {
+                                              lenient) {
         var constantScoreQuery = {
           'constant_score': {
             'filter': {
@@ -216,7 +216,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
 
     return {
       search: function(queryterm, pageNumber, dataAcquisitionProjectId,
-        filter, elasticsearchType, pageSize, idsToExclude) {
+                       filter, elasticsearchType, pageSize, idsToExclude) {
         var query = {};
         query.preference = clientId;
         var studyId;
@@ -250,21 +250,22 @@ angular.module('metadatamanagementApp').service('SearchDao',
             'bool': {
               'must': [
                 {
-                'constant_score': {
-                  'filter': {
-                    'match': {
-                      'all': {
-                        'query': queryterm,
-                        'operator': 'AND',
-                        'minimum_should_match': '100%',
-                        'zero_terms_query': 'NONE',
-                        'boost': 1 //constant base score of 1 for matches
+                  'constant_score': {
+                    'filter': {
+                      'match': {
+                        'all': {
+                          'query': queryterm,
+                          'operator': 'AND',
+                          'minimum_should_match': '100%',
+                          'zero_terms_query': 'NONE',
+                          'boost': 1 //constant base score of 1 for matches
+                        }
                       }
                     }
                   }
                 }
-              }
-            ]}
+              ]
+            }
           };
 
           addAdditionalShouldQueries(elasticsearchType,
@@ -305,10 +306,10 @@ angular.module('metadatamanagementApp').service('SearchDao',
             }
           };
         }
-       
+
         //only publisher and data provider see unreleased projects
         if (!Principal
-            .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
+          .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           query.body.query.bool.filter = [];
           query.body.query.bool.filter.push({
             'exists': {
@@ -317,21 +318,19 @@ angular.module('metadatamanagementApp').service('SearchDao',
           });
         }
         var dataProvider;
-        Principal.identity().then(function(account){
-        	dataProvider = account.login;
-        	var dataProviderFilter = {
-        			'bool': {
-        				'must': [{
-        					'terms': { 'array' : dataProvider}
-        				}]	
-        	
-        			}
-        	};
-        	console.log(dataProvider);
-        	query.body.query.bool.filter.push(dataProviderFilter);
-        
-        }
-        
+        Principal.identity().then(function(account) {
+            dataProvider = account.login;
+            var dataProviderFilter = {
+              'bool': {
+                'must': [{
+                  'terms': {'array': dataProvider}
+                }]
+
+              }
+            };
+            query.body.query.bool.filter.push(dataProviderFilter);
+
+          }
         );
         if (dataAcquisitionProjectId) {
           studyId = StudyIdBuilderService
@@ -346,7 +345,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
                 'term': {
                   'dataAcquisitionProjectId': dataAcquisitionProjectId
                 }
-              },{
+              }, {
                 'term': {
                   'studyIds': studyId
                 }
@@ -360,11 +359,11 @@ angular.module('metadatamanagementApp').service('SearchDao',
         if (!CleanJSObjectService.isNullOrEmpty(filter)) {
           if (!query.body.query.bool.filter) {
             query.body.query.bool.filter = SearchHelperService
-            .createTermFilters(elasticsearchType, filter);
+              .createTermFilters(elasticsearchType, filter);
           } else {
             query.body.query.bool.filter = _.concat(
               query.body.query.bool.filter, SearchHelperService
-              .createTermFilters(elasticsearchType, filter));
+                .createTermFilters(elasticsearchType, filter));
           }
         }
 
