@@ -14,7 +14,7 @@ angular
           },
           views: {
             'content@': {
-              templateUrl: 'scripts/projectcockpit/views/' +
+              templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
                 'projectcockpit.html.tmpl',
               controller: 'ProjectCockpitController'
             }
