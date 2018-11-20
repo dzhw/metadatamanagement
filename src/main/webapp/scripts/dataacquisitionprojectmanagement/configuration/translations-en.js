@@ -55,10 +55,7 @@ angular.module('metadatamanagementApp').config(
           },
           'configuration': {
             'publishers': {
-              'size': 'The project must have at least one publisher.'
-            },
-            'data-providers': {
-              'size': 'The project must have at least one data provider.'
+              'not-empty': 'The project must have at least one publisher.'
             }
           },
           'release': {
@@ -71,6 +68,30 @@ angular.module('metadatamanagementApp').config(
           },
           'post-validation': {
             'project-has-no-study': 'The Project with the RDC-ID {{ id }} has no study.'
+          }
+        },
+        'projectcockpit': {
+          'title': 'Project-Cockpit',
+          'search': {
+            'placeholder': 'Username',
+            'header': 'User for project'
+          },
+          'alert': {
+            'title': 'Attention',
+            'noproject': 'No project selected.',
+            'close': 'Okay'
+          },
+          'label': {
+            'ROLE_USER': 'User',
+            'ROLE_ADMIN': 'Admin',
+            'ROLE_DATA_PROVIDER': 'Data Provider',
+            'ROLE_PUBLISHER': 'Publisher'
+          },
+          'button': {
+            'save': 'Click to save the changes.'
+          },
+          'list': {
+            'empty': 'No users are assigned to this project.'
           }
         }
       }

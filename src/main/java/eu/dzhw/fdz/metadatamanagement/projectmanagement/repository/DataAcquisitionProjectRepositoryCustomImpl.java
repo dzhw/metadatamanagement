@@ -1,8 +1,10 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.repository;
 
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -28,15 +30,17 @@ class DataAcquisitionProjectRepositoryCustomImpl implements DataAcquisitionProje
   }
 
   @Override
-  public List<DataAcquisitionProject> findAllByIdLikeAndPublisherId(String projectId,
-                                                                    String dataProviderId) {
+  public List<DataAcquisitionProject> findAllByIdLikeAndPublisherIdOrderByIdAsc(
+      String projectId, String dataProviderId) {
     List<String> dataProviderIdValues = Collections.singletonList(dataProviderId);
     Criteria criteria = where("configuration.dataProviders")
         .in(dataProviderIdValues)
         .and("_id")
         .regex(projectId, "i");
 
-    return mongoTemplate.find(query(criteria), DataAcquisitionProject.class);
+    Query query = query(criteria).with(new Sort(Sort.Direction.ASC, "_id"));
+
+    return mongoTemplate.find(query, DataAcquisitionProject.class);
   }
 
   @Override

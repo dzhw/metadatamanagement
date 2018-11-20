@@ -247,19 +247,30 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = PUBLISHER_USERNAME)
   public void testFindByIdLikeOrderByIdAsc_asPublisher() throws Exception {
-    Configuration configuration =
-        UnitTestCreateDomainObjectUtils.buildDataAcquisitionProjectConfiguration(
-            Collections.singletonList("completelyDifferentPublisherId"),
-            Collections.singletonList("someDataProvider"));
+   
+    Configuration configurationA = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProjectConfiguration(
+        Collections.singletonList(PUBLISHER_USERNAME),
+        Collections.singletonList(PUBLISHER_USERNAME)
+    );
+    DataAcquisitionProject projectA = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    projectA.setId("a");
+    projectA.setConfiguration(configurationA);
 
-    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
-    project.setConfiguration(configuration);
+    Configuration configurationB = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProjectConfiguration(
+      Collections.singletonList("completelyDifferentPublisherId"),
+      Collections.singletonList("someDataProvider")
+    );
+    DataAcquisitionProject projectB = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    projectB.setId("b");
+    projectB.setConfiguration(configurationB);
 
-    dataAcquisitionProjectRepository.save(project);
+    dataAcquisitionProjectRepository.saveAll(Arrays.asList(projectA, projectB));
 
     mockMvc.perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/search/findByIdLikeOrderByIdAsc"))
-        .andExpect(status().isOk()).andExpect(jsonPath("$.length()", equalTo(1)))
-        .andExpect(jsonPath("$[0].id", equalTo(project.getId())));
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$.length()", equalTo(2)))
+      .andExpect(jsonPath("$[0].id", equalTo(projectA.getId())))
+      .andExpect(jsonPath("$[1].id", equalTo(projectB.getId())));
   }
 
   @Test
@@ -275,15 +286,17 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     dataAcquisitionProjectRepository.save(project);
 
     mockMvc.perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId()))
-        .andExpect(status().isOk()).andExpect(jsonPath("$.id", equalTo(project.getId())));
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$.id", equalTo(project.getId())));
   }
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.DATA_PROVIDER, username = DATA_PROVIDER_USERNAME)
   public void testFindById_404() throws Exception {
-    Configuration configuration = UnitTestCreateDomainObjectUtils
-        .buildDataAcquisitionProjectConfiguration(Collections.singletonList("aPublisherId"),
-            Collections.singletonList("anotherDataProviderId"));
+    Configuration configuration = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProjectConfiguration(
+      Collections.singletonList("aPublisherId"),
+      Collections.singletonList("anotherDataProviderId")
+    );
 
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.setConfiguration(configuration);

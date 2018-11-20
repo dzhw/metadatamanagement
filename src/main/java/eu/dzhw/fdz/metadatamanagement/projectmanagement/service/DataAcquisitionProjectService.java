@@ -6,7 +6,9 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.rest.core.event.AfterDeleteEvent;
+import org.springframework.data.rest.core.event.AfterSaveEvent;
 import org.springframework.data.rest.core.event.BeforeDeleteEvent;
+import org.springframework.data.rest.core.event.BeforeSaveEvent;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,9 +42,10 @@ public class DataAcquisitionProjectService {
   /**
    * Saves a Data Acquisition Project.
    */
-  public boolean putDataAquisitionProject(DataAcquisitionProject dataAcquisitionProject) {
+  public void saveDataAquisitionProject(DataAcquisitionProject dataAcquisitionProject) {
+    this.eventPublisher.publishEvent(new BeforeSaveEvent(dataAcquisitionProject));
     this.acquisitionProjectRepository.save(dataAcquisitionProject);
-    return true;
+    this.eventPublisher.publishEvent(new AfterSaveEvent(dataAcquisitionProject));
   }
 
   /**
@@ -70,13 +73,13 @@ public class DataAcquisitionProjectService {
    * @param projectId Project id
    * @return A list of {@link DataAcquisitionProject}
    */
-  public List<DataAcquisitionProject> findDataAcquisitionProjectListById(String projectId) {
+  public List<DataAcquisitionProject> findByIdLikeOrderByIdAsc(String projectId) {
     String loginName = userInformationProvider.getUserLogin();
 
     if (isAdmin() || isPublisher()) {
       return acquisitionProjectRepository.findByIdLikeOrderByIdAsc(projectId);
     } else {
-      return acquisitionProjectRepository.findAllByIdLikeAndPublisherId(
+      return acquisitionProjectRepository.findAllByIdLikeAndPublisherIdOrderByIdAsc(
         projectId,
         loginName
       );

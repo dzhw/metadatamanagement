@@ -24,7 +24,6 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisiti
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionProjectService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -36,12 +35,10 @@ import lombok.extern.slf4j.Slf4j;
 @RepositoryRestController
 @Slf4j
 public class DataAcquisitionProjectResource extends
-    GenericDomainObjectResourceController<DataAcquisitionProject, DataAcquisitionProjectRepository> {
+    GenericDomainObjectResourceController<DataAcquisitionProject,
+      DataAcquisitionProjectRepository> {
 
   private DataAcquisitionProjectService dataAcquisitionProjectService;
-
-  @Autowired
-  private UserService userService;
 
   @Autowired
   public DataAcquisitionProjectResource(DataAcquisitionProjectRepository projectRepository,
@@ -104,7 +101,7 @@ public class DataAcquisitionProjectResource extends
       // saveDataProject.setHasBeenReleasedBefore(newDataProject.getHasBeenReleasedBefore());
     }
 
-    dataAcquisitionProjectService.putDataAquisitionProject(saveDataProject);
+    dataAcquisitionProjectService.saveDataAquisitionProject(saveDataProject);
 
     return ResponseEntity.status(httpStatus).build();
   }
@@ -161,7 +158,7 @@ public class DataAcquisitionProjectResource extends
   public ResponseEntity<List<DataAcquisitionProject>> findByIdLikeOrderByIdAsc(
       @RequestParam(value = "id", required = false, defaultValue = "") String id) {
     List<DataAcquisitionProject> projects =
-        dataAcquisitionProjectService.findDataAcquisitionProjectListById(id);
+        dataAcquisitionProjectService.findByIdLikeOrderByIdAsc(id);
     return ResponseEntity.ok(projects);
   }
 }

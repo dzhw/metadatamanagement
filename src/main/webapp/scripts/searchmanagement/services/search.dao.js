@@ -268,8 +268,8 @@ angular.module('metadatamanagementApp').service('SearchDao',
             }
           };
 
-          addAdditionalShouldQueries(elasticsearchType,
-            queryterm, query.body.query.bool);
+          addAdditionalShouldQueries(elasticsearchType, queryterm,
+            query.body.query.bool);
 
           //no query term
         } else {
@@ -317,21 +317,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
             }
           });
         }
-        var dataProvider;
-        Principal.identity().then(function(account) {
-            dataProvider = account.login;
-            var dataProviderFilter = {
-              'bool': {
-                'must': [{
-                  'terms': {'array': dataProvider}
-                }]
 
-              }
-            };
-            query.body.query.bool.filter.push(dataProviderFilter);
-
-          }
-        );
         if (dataAcquisitionProjectId) {
           studyId = StudyIdBuilderService
             .buildStudyId(dataAcquisitionProjectId);
@@ -367,7 +353,30 @@ angular.module('metadatamanagementApp').service('SearchDao',
           }
         }
 
-        return ElasticSearchClient.search(query);
+        if (Principal.hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN'])) {
+          return ElasticSearchClient.search(query);
+        } else {
+          var loginName = Principal.loginName();
+
+          if (loginName) {
+            var filterCriteria = {
+              'bool': {
+                'must': [{
+                  'term': {'configuration.dataProviders': loginName}
+                }]
+              }
+            };
+
+            var filterArray = _.get(query, 'body.query.bool.filter');
+
+            if (_.isArray(filterArray)) {
+              query.body.query.bool.filter.push(filterCriteria);
+            } else {
+              _.set(query, 'body.query.bool.filter', filterCriteria);
+            }
+          }
+          return ElasticSearchClient.search(query);
+        }
       }
     };
   });

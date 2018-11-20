@@ -1,13 +1,13 @@
 
 <div>
   <div layout="row" style="margin-bottom: 0px;" layout-margin>
-    <h1 id="top" class="md-headline fdz-truncate-string" style="margin-left: 0px;">{{'projectcockpit.title' | translate}}</h1>
+    <h1 id="top" class="md-headline fdz-truncate-string" style="margin-left: 0px;">{{'data-acquisition-project-management.projectcockpit.title' | translate}}</h1>
   </div>
   <div ng-if="!account || !project" layout="row" layout-sm="column" layout-align="space-around">
     <md-progress-circular md-mode="indeterminate"></md-progress-circular>
   </div>
   <div ng-if="account && project">
-    <div layout="row" class="layout-margin layout-row md-body-2">{{'projectcockpit.search.header' | translate}} {{project.id}}:</div>
+    <div layout="row" class="layout-margin layout-row md-body-2">{{'data-acquisition-project-management.projectcockpit.search.header' | translate}} {{project.id}}:</div>
     <md-card>
       <md-autocomplete
         flex
@@ -20,7 +20,7 @@
         md-item-text="user.login"
         md-min-length="1"
         md-delay="250"
-        placeholder="{{'projectcockpit.search.placeholder' | translate}}"
+        placeholder="{{'data-acquisition-project-management.projectcockpit.search.placeholder' | translate}}"
         md-require-match="true"
         md-no-cache="true"
         style="margin-bottom: 8px"
@@ -30,7 +30,7 @@
               <span md-highlight-text="searchText">{{user.login}} ({{user.firstName}} {{user.lastName}})</span>
               <span flex></span>
               <md-chips readonly="true" ng-if="!!user.authorities" ng-model="user.authorities">
-                <md-chip-template class="authority">{{'projectcockpit.label.' + $chip | translate}}</md-chip-template>
+                <md-chip-template class="authority">{{'data-acquisition-project-management.projectcockpit.label.' + $chip | translate}}</md-chip-template>
               </md-chips>
             </div>
           </md-item-template>
@@ -47,7 +47,7 @@
           </div>
           <span flex></span>
           <md-chips readonly="true" ng-if="!!user.authorities" ng-model="user.authorities">
-            <md-chip-template class="authority">{{'projectcockpit.label.' + $chip | translate}}</md-chip-template>
+            <md-chip-template class="authority">{{'data-acquisition-project-management.projectcockpit.label.' + $chip | translate}}</md-chip-template>
           </md-chips>
           <md-button ng-disabled="canDeleteUser(user)" class="md-primary md-raised" ng-click="removeUser(user)" aria-label="remove user">
             <md-icon md-font-set="material-icons" class="ng-binding ng-scope material-icons" role="img" aria-hidden="true">delete</md-icon>
@@ -55,7 +55,7 @@
         </md-list-item>
       </md-list>
       <div class="layout-margin" ng-if="!activeUsers || !activeUsers.length">
-        <i>{{'projectcockpit.list.empty' | translate}}</i>
+        <i>{{'data-acquisition-project-management.projectcockpit.list.empty' | translate}}</i>
       </div>
     </md-card>
   </div>
@@ -63,7 +63,7 @@
   <div class="fdz-fab-button-container" layout="column">
     <md-button class="md-raised md-fab md-primary" ng-click="saveChanges()" ng-disabled="!changed">
     <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-        {{'projectcockpit.button.save' | translate}}
+        {{'data-acquisition-project-management.projectcockpit.button.save' | translate}}
     </md-tooltip>
     <md-icon md-font-set="material-icons">save</md-icon>
     </md-button>
