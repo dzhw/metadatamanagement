@@ -61,7 +61,7 @@ If you want to build a docker image for the metadatamanagement server app you ca
 
     mvn package dockerfile:build
 
-This image can be run with all its dependend containers by
+This image can be run with all its dependent containers by
 
     docker-compose -f docker-compose-app.yml -f docker-compose.yml start
 
@@ -74,13 +74,23 @@ Our CI pipleline will do some automatic checks and tests and it will optimize th
 This will concatenate and minify CSS and JavaScript files using grunt. It will also modify the `index.html` so it references
 these new files.
 
+To make the build runnable with an enabled dev profile, you'll need to install the following dependencies:
+
+* Python
+
+Once Python is installed, run:
+
+    pip install git+https://github.com/dzhw/javasphinx.git --user
+    
+Note that the `--user` flag installs the dependency somewhere in your user directory (e.g. /home/{user}/local/bin on Linux). Make sure that the installed binaries/scripts are on your path.
+
 Before deploying the `{dev|test|prod}` system you need to [install the cloudfoundry cli](https://docs.cloudfoundry.org/cf-cli/install-go-cli.html#-linux-installation).
 
 You can build and deploy the jar to the desired environment by running
 
     ./deploy/build-and-deploy.sh {dev|test|prod}
 
-We test our project continously with the Robot Framework. Test Developers can get further info [here](https://github.com/dzhw/metadatamanagement/wiki/Robot-Framework).
+We test our project continuously with the Robot Framework. Test Developers can get further info [here](https://github.com/dzhw/metadatamanagement/wiki/Robot-Framework).
 
 ## Pivotal Cloudfoundry
 This project is currently built and deployed to Pivotal Cloudfoundry by [Travis CI][TravisCI]. You can test the latest version on https://metadatamanagement-dev.cfapps.io/
