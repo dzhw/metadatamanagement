@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.HttpStatus;
@@ -35,8 +36,7 @@ import lombok.extern.slf4j.Slf4j;
 @RepositoryRestController
 @Slf4j
 public class DataAcquisitionProjectResource extends
-    GenericDomainObjectResourceController<DataAcquisitionProject, 
-    DataAcquisitionProjectRepository> {
+    GenericDomainObjectResourceController<DataAcquisitionProject, DataAcquisitionProjectRepository> {
 
   private DataAcquisitionProjectService dataAcquisitionProjectService;
 
@@ -60,7 +60,7 @@ public class DataAcquisitionProjectResource extends
   public ResponseEntity<?> saveProject(@PathVariable String id,
       @RequestBody @Valid DataAcquisitionProject newDataProject) {
     DataAcquisitionProject oldDataProject = super.repository.findById(id).orElse(null);
-
+    DataAcquisitionProject saveDataProject = oldDataProject;
     boolean userHasAdvancedPrivileges = SecurityUtils.isUserInRole(AuthoritiesConstants.PUBLISHER)
         || SecurityUtils.isUserInRole(AuthoritiesConstants.ADMIN);
 
@@ -69,11 +69,13 @@ public class DataAcquisitionProjectResource extends
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
           .body("not authorized to create new project");
     }
-
+    HttpStatus httpStatus = HttpStatus.NO_CONTENT;
     if (oldDataProject == null) {
+      saveDataProject = newDataProject;
+      httpStatus = HttpStatus.CREATED;
       // add creating publisher to project
-      newDataProject.getConfiguration().getPublishers().add(
-          userService.getUserWithAuthorities().getLogin());
+      // newDataProject.getConfiguration().getPublishers().add(
+      // userService.getUserWithAuthorities().getLogin());
     } else {
       // check only authorized users remove or add publishers from project
       if (!userHasAdvancedPrivileges && !oldDataProject.getConfiguration().getPublishers()
@@ -96,11 +98,15 @@ public class DataAcquisitionProjectResource extends
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
             .body("not authorized to clear data providers");
       }
+      BeanUtils.copyProperties(newDataProject, saveDataProject, "version");
+      // saveDataProject.setConfiguration(newDataProject.getConfiguration());
+      // saveDataProject.setRelease(newDataProject.getRelease());
+      // saveDataProject.setHasBeenReleasedBefore(newDataProject.getHasBeenReleasedBefore());
     }
 
-    dataAcquisitionProjectService.putDataAquisitionProject(newDataProject);
+    dataAcquisitionProjectService.putDataAquisitionProject(saveDataProject);
 
-    return ResponseEntity.ok().build();
+    return ResponseEntity.status(httpStatus).build();
   }
 
   /**
