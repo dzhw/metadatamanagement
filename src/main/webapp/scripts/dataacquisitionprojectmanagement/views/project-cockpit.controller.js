@@ -25,16 +25,12 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         $scope.project.configuration = {};
       }
 
-      $scope.project.configuration.publishers = $scope.activeUsers.filter(
-        function(user) {
-          return _.includes(user.authorities, 'ROLE_PUBLISHER');
-        }).map(function(identity) {
+      $scope.project.configuration.publishers =
+          $scope.activeUsers.publishers.map(function(identity) {
         return identity.login;
       });
-      $scope.project.configuration.dataProviders = $scope.activeUsers.filter(
-        function(user) {
-          return _.includes(user.authorities, 'ROLE_DATA_PROVIDER');
-        }).map(function(identity) {
+      $scope.project.configuration.dataProviders =
+          $scope.activeUsers.dataProviders.map(function(identity) {
         return identity.login;
       });
 
@@ -58,17 +54,30 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     };
 
     $scope.changed = false;
-    $scope.searchText = '';
-    $scope.selectedUser = null;
-    $scope.selectedUserChanged = function(user) {
+
+    $scope.searchText = {
+      publishers: '',
+      dataProviders: ''
+    };
+
+    $scope.selectedUser = {
+      publishers: null,
+      dataProviders: null
+    };
+
+    $scope.selectedUserChanged = function(user, role) {
       if (user) {
-        $scope.activeUsers.push(user);
+        $scope.activeUsers[role].push(user);
         $scope.changed = true;
-        $scope.searchText = '';
-        $scope.selectedUser = null;
+        $scope.searchText[role] = '';
+        $scope.selectedUser[role] = null;
       }
     };
-    $scope.activeUsers = [];
+
+    $scope.activeUsers = {
+      'publishers': [],
+      'dataProviders': []
+    };
 
     $scope.usersFetched = false;
 
@@ -87,10 +96,10 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
                   UserResource.get({
                     login: userLogin
                   }).$promise.then(function(userResult) {
-                    if (!_.includes($scope.activeUsers.map(function(u) {
+                    if (!_.includes($scope.activeUsers[key].map(function(u) {
                       return u.login;
                     }), userResult.login)) {
-                      $scope.activeUsers.push(userResult);
+                      $scope.activeUsers[key].push(userResult);
                     }
                   })
                 );
@@ -115,44 +124,59 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
 
     $scope.advancedPrivileges = Principal.hasAnyAuthority(['ROLE_PUBLISHER',
       'ROLE_ADMIN']);
-    $scope.canDeleteUser = function(user) {
-      function isOnlyRole(role) {
-        return _.includes(user.authorities, role) &&
-          $scope.activeUsers.filter(function(activeUser) {
-            return _.includes(activeUser.authorities, role);
+    $scope.canDeleteUser = function(user, role) {
+
+      function isOnlyRole(roleInternal) {
+        return _.includes(user.authorities, roleInternal) &&
+          $scope.activeUsers[role].filter(function(activeUser) {
+            return _.includes(activeUser.authorities, roleInternal);
           }).length > 1;
       }
 
-      var isOnlyPublisher = isOnlyRole('ROLE_PUBLISHER');
-      var isOnlyDataProvider = isOnlyRole('ROLE_DATA_PROVIDER');
-      return !((!$scope.advancedPrivileges && isOnlyDataProvider) ||
-        isOnlyPublisher);
+      var isOnly = {
+        publishers: isOnlyRole('ROLE_PUBLISHER'),
+        dataProviders: isOnlyRole('ROLE_DATA_PROVIDER')
+      };
+
+      if (isOnly.publishers && role === 'publishers') {
+        return false;
+      }
+      if (isOnly.dataProviders && role === 'dateProviders') {
+        return false;
+      }
+      if (!$scope.advancedPrivilege && role === 'publishers') {
+        return false;
+      }
+      return true;
     };
 
     $state.currentPromise = null;
-    $scope.searchUsers = function(search) {
+    $scope.searchUsers = function(search, role, roleInternal) {
       if (!search) {
         return [];
       }
       if (!$state.currentPromise) {
         $state.currentPromise = UserResource.search({
-          login: search
+          login: search,
+          role: roleInternal
         }).$promise.then(function(result) {
           $state.currentPromise = null;
+
           return result.filter(function(x) {
             // filter out already added users
-            return $scope.activeUsers.map(function(u) {
+            return $scope.activeUsers[role].map(function(u) {
               return u.login;
-            }).indexOf(x.login) < 0;
+            }).indexOf(x.login) < 0 && _.includes(x.authorities, roleInternal);
           });
         });
       }
       return $state.currentPromise;
     };
 
-    $scope.removeUser = function(user) {
+    $scope.removeUser = function(user, role) {
       $scope.changed = true;
-      $scope.activeUsers = $scope.activeUsers.filter(function(item) {
+      $scope.activeUsers[role] = $scope.activeUsers[role]
+          .filter(function(item) {
         return item.login !== user.login;
       });
     };

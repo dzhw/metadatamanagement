@@ -74,7 +74,8 @@ angular.module('metadatamanagementApp').config(
           'title': 'Project-Cockpit',
           'search': {
             'placeholder': 'Username',
-            'header': 'User for project'
+            'header-data-provider': 'Data Providers for project',
+            'header-publisher': 'Publishers for project'
           },
           'alert': {
             'title': 'Attention',
@@ -91,7 +92,8 @@ angular.module('metadatamanagementApp').config(
             'save': 'Click to save the changes.'
           },
           'list': {
-            'empty': 'No users are assigned to this project.'
+            'empty-data-provider': 'No data providers are assigned to this project.',
+            'empty-publisher': 'No publishers are assigned to this project'
           }
         }
       }
