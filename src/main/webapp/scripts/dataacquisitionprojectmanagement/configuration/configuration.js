@@ -5,9 +5,9 @@ angular
   .config(
     function($stateProvider) {
       $stateProvider
-        .state('projectcockpit', {
+        .state('project-cockpit', {
           parent: 'site',
-          url: '/projectcockpit',
+          url: '/project-cockpit',
           reloadOnSearch: false,
           data: {
             authorities: ['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER', 'ROLE_ADMIN']
@@ -15,7 +15,7 @@ angular
           views: {
             'content@': {
               templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
-                'projectcockpit.html.tmpl',
+                'project-cockpit.html.tmpl',
               controller: 'ProjectCockpitController'
             }
           },
