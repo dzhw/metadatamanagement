@@ -112,18 +112,16 @@ public class UserResource {
   /**
    * Search for privileged users.
    */
-  @RequestMapping(value = "/users/search/findPrivilegedUsersByLoginLike/{login}",
+  @RequestMapping(value = "/users/findUserWithRole/{search}/{role}",
       method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   @Secured({AuthoritiesConstants.ADMIN, AuthoritiesConstants.DATA_PROVIDER,
       AuthoritiesConstants.PUBLISHER})
-  public ResponseEntity<List<UserDto>> findPrivilegedUsersByLoginLike(@PathVariable String login) {
+  public ResponseEntity<List<UserDto>> findUserWithRole(@PathVariable String search,
+   @PathVariable String role) {
     boolean userHasAdvancedPrivileges = SecurityUtils.isUserInRole(AuthoritiesConstants.PUBLISHER)
         || SecurityUtils.isUserInRole(AuthoritiesConstants.ADMIN);
-
-    return new ResponseEntity<>(userRepository.findAllByLoginLike(login).stream()
-        .filter(user -> SecurityUtils.isUserInRole(AuthoritiesConstants.DATA_PROVIDER, user)
-            || userHasAdvancedPrivileges
-                && SecurityUtils.isUserInRole(AuthoritiesConstants.PUBLISHER, user))
+    return new ResponseEntity<>(userRepository.findAllByLoginLikeOrEmailLike(search, search)
+        .stream().filter(user -> SecurityUtils.isUserInRole(role, user))
         .map(user -> new UserDto(user)).collect(Collectors.toList()), HttpStatus.OK);
   }
 

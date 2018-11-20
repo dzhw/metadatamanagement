@@ -21,7 +21,7 @@ angular.module('metadatamanagementApp').factory('UserResource',
         method: 'PUT'
       },
       'search': {
-        url: '/api/users/search/findPrivilegedUsersByLoginLike/:login',
+        url: '/api/users/findUserWithRole/:login/:role',
         method: 'GET',
         isArray: true
       }

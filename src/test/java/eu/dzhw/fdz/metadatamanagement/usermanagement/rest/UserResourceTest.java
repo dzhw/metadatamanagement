@@ -21,18 +21,23 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
+import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.config.SecurityConfiguration;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.AuthorityRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.MongoDbTokenStore;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.ManagedUserDto;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
 
 /**
@@ -69,7 +74,7 @@ public class UserResourceTest extends AbstractTest {
     ReflectionTestUtils.setField(userResource, "authorityRepository", this.authorityRepository);
     ReflectionTestUtils.setField(userResource, "tokenStore", this.tokenStore);
     this.restUserMockMvc = MockMvcBuilders.standaloneSetup(userResource)
-      .setCustomArgumentResolvers(pageableArgumentResolver)
+      .setCustomArgumentResolvers(pageableArgumentResolver).alwaysDo(MockMvcResultHandlers.print())
       .build();
   }
 
@@ -154,5 +159,16 @@ public class UserResourceTest extends AbstractTest {
     // Assert
     assertThat(content, not(nullValue()));
     assertThat(jsonObject.getString("email"), is("userMod@localhost"));
+  }
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void findUserWithRole() throws Exception {
+    User testUser = new User();
+//    testUser.setEmail(email);
+//    userRepository.insert(testUser);
+    String role = AuthoritiesConstants.USER;
+    String login = "user";
+    restUserMockMvc.perform(get("/api//users/findUserWithRole/"+login +"/" + role).contentType(TestUtil.APPLICATION_JSON_UTF8).accept(MediaType.APPLICATION_JSON))
+    .andExpect(status().isOk());
   }
 }
