@@ -70,7 +70,7 @@ angular.module('metadatamanagementApp').config(
             'project-has-no-study': 'The Project with the RDC-ID {{ id }} has no study.'
           }
         },
-        'projectcockpit': {
+        'project-cockpit': {
           'title': 'Project-Cockpit',
           'search': {
             'placeholder': 'Username',

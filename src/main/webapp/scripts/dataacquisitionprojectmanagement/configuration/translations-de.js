@@ -70,7 +70,7 @@ angular.module('metadatamanagementApp').config(
             'project-has-no-study': 'Das Projekt mit der FDZID {{ id }} enthält keine Studie.'
           }
         },
-        'projectcockpit': {
+        'project-cockpit': {
           'title': 'Projekt-Cockpit',
           'search': {
             'placeholder': 'Benutzername',

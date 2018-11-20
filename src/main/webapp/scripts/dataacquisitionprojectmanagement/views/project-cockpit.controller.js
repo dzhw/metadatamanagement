@@ -2,11 +2,11 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('ProjectCockpitController',
-  function($scope, $state, UserResource, Principal, PageTitleService,
+  function($q, $scope, $state, UserResource, Principal, PageTitleService,
            ToolbarHeaderService, CurrentProjectService,
            DataAcquisitionProjectResource, SimpleMessageToastService) {
 
-    PageTitleService.setPageTitle('projectcockpit.title');
+    PageTitleService.setPageTitle('project-cockpit.title');
     ToolbarHeaderService.updateToolbarHeader({
       stateName: $state.current.name
     });
@@ -19,10 +19,6 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     if (!selectedProject) {
       return;
     }
-
-    Principal.identity().then(function(account) {
-      $scope.account = account;
-    });
 
     $scope.saveChanges = function() {
       if (!$scope.project.configuration) {
@@ -74,29 +70,47 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     };
     $scope.activeUsers = [];
 
+    $scope.usersFetched = false;
+
     // load all users assigned to the currrent project
     DataAcquisitionProjectResource.get({id: selectedProject.id}).$promise.then(
       function(project) {
         $scope.project = project;
 
         function getAndAddUsers(key) {
+          // get users of type {key} asynchronously
+          // and return promise resolving when all are fetched
           if (project.configuration[key]) {
-            project.configuration[key].forEach(function(userLogin) {
-              UserResource.get({
-                login: userLogin
-              }).$promise.then(function(userResult) {
-                if (!_.includes($scope.activeUsers.map(function(u) {
-                  return u.login;
-                }), userResult.login)) {
-                  $scope.activeUsers.push(userResult);
-                }
-              });
-            });
+            return $q.all(
+              project.configuration[key].map(function(userLogin) {
+                return (
+                  UserResource.get({
+                    login: userLogin
+                  }).$promise.then(function(userResult) {
+                    if (!_.includes($scope.activeUsers.map(function(u) {
+                      return u.login;
+                    }), userResult.login)) {
+                      $scope.activeUsers.push(userResult);
+                    }
+                  })
+                );
+              })
+            );
+          } else {
+            return $q.resolve([]);
           }
         }
 
-        getAndAddUsers('publishers');
-        getAndAddUsers('dataProviders');
+        $q.resolve($q.all([
+          getAndAddUsers('publishers'),
+          getAndAddUsers('dataProviders')
+        ])).then(function() {
+          $scope.usersFetched = true;
+        }).catch(function(error) {
+          SimpleMessageToastService
+            .openAlertMessageToast(
+              'server-error' + error);
+        });
       });
 
     $scope.advancedPrivileges = Principal.hasAnyAuthority(['ROLE_PUBLISHER',
