@@ -101,15 +101,19 @@ public class DataAcquisitionProjectLastReleaseResourceTest extends AbstractTest 
     // update the study with the given id
     project.setHasBeenReleasedBefore(true);
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
+        .contentType(MediaType.APPLICATION_JSON)
         .content(TestUtil.convertObjectToJsonBytes(project))).andExpect(status().isNoContent());
 
     // update the study again with the given id
     project.setRelease(UnitTestCreateDomainObjectUtils.buildRelease());
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
+        .contentType(MediaType.APPLICATION_JSON)
         .content(TestUtil.convertObjectToJsonBytes(project))).andExpect(status().isNoContent());
 
     // read the study versions
-    mockMvc.perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId() + "/versions"))
+    mockMvc
+        .perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId() + "/versions")
+            .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andExpect(jsonPath("$.length()", is(equalTo(3))))
         .andExpect(jsonPath("$[0].id", is(project.getId())))
         .andExpect(jsonPath("$[0].hasBeenReleasedBefore", is(true)))

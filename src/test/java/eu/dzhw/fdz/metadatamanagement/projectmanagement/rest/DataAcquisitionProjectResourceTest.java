@@ -21,6 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -102,7 +104,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
         .perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
             .contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(project)))
-        .andExpect(status().is4xxClientError()).andExpect(jsonPath("$.errors[1].message",
+        .andExpect(status().is4xxClientError()).andExpect(jsonPath("$.errors[0].message",
             containsString("error.data-acquisition-project.id.size")));
   }
 
@@ -158,14 +160,14 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
 
     // update the project
     mockMvc
-        .perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
+        .perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId()).contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(project)))
         .andExpect(status().is2xxSuccessful());
 
     // load the project with the complete projection
     mockMvc
         .perform(
-            get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId() + "?projection=complete"))
+            get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId() + "?projection=complete").contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andExpect(jsonPath("$.id", is(project.getId())))
         .andExpect(jsonPath("$.version", is(1)));
   }
