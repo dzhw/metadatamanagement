@@ -356,11 +356,13 @@ angular.module('metadatamanagementApp').service('SearchDao',
         if (Principal.hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN'])) {
           return ElasticSearchClient.search(query);
         } else {
-          return Principal.identity().then(function(identity) {
-            var dataProviderFilterCriteria = {
+          var loginName = Principal.loginName();
+
+          if (loginName) {
+            var filterCriteria = {
               'bool': {
                 'must': [{
-                  'term': {'configuration.dataProviders': identity.login}
+                  'term': {'configuration.dataProviders': loginName}
                 }]
               }
             };
@@ -368,20 +370,12 @@ angular.module('metadatamanagementApp').service('SearchDao',
             var filterArray = _.get(query, 'body.query.bool.filter');
 
             if (_.isArray(filterArray)) {
-              query.body.query.bool.filter.push(dataProviderFilterCriteria);
+              query.body.query.bool.filter.push(filterCriteria);
             } else {
-              _.assignIn(query, {
-                body: {
-                  query: {
-                    bool: {
-                      filter: dataProviderFilterCriteria
-                    }
-                  }
-                }
-              });
+              _.set(query, 'body.query.bool.filter', filterCriteria);
             }
-            return ElasticSearchClient.search(query);
-          });
+          }
+          return ElasticSearchClient.search(query);
         }
       }
     };
