@@ -6,7 +6,8 @@ angular.module('metadatamanagementApp')
     function(entity, InstrumentAttachmentResource,
       PageTitleService, LanguageService, $state, CleanJSObjectService,
       ToolbarHeaderService, Principal, SimpleMessageToastService,
-      SearchResultNavigatorService, $stateParams, ProductChooserDialogService) {
+      SearchResultNavigatorService, $stateParams, ProductChooserDialogService,
+      DataAcquisitionProjectResource) {
       SearchResultNavigatorService.registerCurrentSearchResult(
         $stateParams['search-result-index']);
       //Controller Init
@@ -18,8 +19,17 @@ angular.module('metadatamanagementApp')
       ctrl.attachments = null;
       ctrl.study = null;
       ctrl.questionCount = null;
+      ctrl.projectIsCurrentlyReleased = true;
       //Wait for instrument Promise
       entity.promise.then(function(result) {
+        if (Principal
+            .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
+          DataAcquisitionProjectResource.get({
+            id: result.dataAcquisitionProjectId
+          }).$promise.then(function(project) {
+            ctrl.projectIsCurrentlyReleased = (project.release != null);
+          });
+        }
         ToolbarHeaderService.updateToolbarHeader({
           'stateName': $state.current.name,
           'id': result.id,

@@ -94,7 +94,8 @@ angular.module('metadatamanagementApp')
              survey titles */
           DataSetSearchService.findByStudyId(result.id,
             ['id', 'number', 'description', 'type', 'surveys',
-              'maxNumberOfObservations', 'accessWays'])
+              'maxNumberOfObservations', 'accessWays',
+              'dataAcquisitionProjectId'])
             .then(function(dataSets) {
               ctrl.dataSets = dataSets.hits.hits;
             });
