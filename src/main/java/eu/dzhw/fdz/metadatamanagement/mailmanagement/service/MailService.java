@@ -1,14 +1,9 @@
 package eu.dzhw.fdz.metadatamanagement.mailmanagement.service;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.Future;
-import java.util.stream.Collectors;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-
+import eu.dzhw.fdz.metadatamanagement.common.config.JHipsterProperties;
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Order;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.CharEncoding;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,14 +18,17 @@ import org.springframework.util.StringUtils;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
-import eu.dzhw.fdz.metadatamanagement.common.config.JHipsterProperties;
-import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Order;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
-import lombok.extern.slf4j.Slf4j;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.Future;
+import java.util.stream.Collectors;
 
 /**
  * Service for sending e-mails.
- 
+ * <p>
  * We use the @Async annotation to send e-mails asynchronously.
  */
 @Service
@@ -55,7 +53,7 @@ public class MailService {
   private String baseUrl;
 
   private Future<Void> sendEmail(String from, String[] to, String cc, String subject,
-      String content, boolean isMultipart, boolean isHtml) {
+                                 String content, boolean isMultipart, boolean isHtml) {
     log.debug("Send e-mail[multipart '{}' and html '{}'] to '{}' with subject '{}' and content={}",
         isMultipart, isHtml, to, subject, content);
 
@@ -98,7 +96,7 @@ public class MailService {
     context.setVariable("baseUrl", baseUrl);
     String content = templateEngine.process("activationEmail", context);
     String subject = messageSource.getMessage("email.activation.title", null, locale);
-    return sendEmail(null, new String[] {user.getEmail()}, null, subject, content, false, true);
+    return sendEmail(null, new String[]{user.getEmail()}, null, subject, content, false, true);
   }
 
   /**
@@ -113,7 +111,7 @@ public class MailService {
     context.setVariable("baseUrl", baseUrl);
     String content = templateEngine.process("passwordResetEmail", context);
     String subject = messageSource.getMessage("email.reset.title", null, locale);
-    return sendEmail(null, new String[] {user.getEmail()}, null, subject, content, false, true);
+    return sendEmail(null, new String[]{user.getEmail()}, null, subject, content, false, true);
   }
 
   /**
@@ -160,6 +158,70 @@ public class MailService {
     context.setVariable("baseUrl", baseUrl);
     String content = templateEngine.process("orderCreated", context);
     String subject = messageSource.getMessage("email.order.created.title", null, locale);
-    sendEmail(cc, new String[] {order.getCustomer().getEmail()}, cc, subject, content, false, true);
+    sendEmail(cc, new String[]{order.getCustomer().getEmail()}, cc, subject, content, false, true);
+  }
+
+  /**
+   * Send a mail to users who were added as publishers to a project.
+   */
+  @Async
+  public void sendPublishersAddedMail(List<User> publishers) {
+    log.debug("Sending 'publishers added' mail");
+    publishers.parallelStream().forEach(publisher -> {
+      Locale locale = Locale.forLanguageTag(publisher.getLangKey());
+      Context context = new Context(locale);
+      context.setVariable("user", publisher);
+      String content = templateEngine.process("publisherAdded", context);
+      String subject = messageSource.getMessage("email.publisher-added.title", null, locale);
+      sendEmail(null, new String[]{publisher.getEmail()}, null, subject, content, false, true);
+    });
+  }
+
+  /**
+   * Send a mail to users who were removed as publishers from a project.
+   */
+  @Async
+  public void sendPublisherRemovedMail(List<User> removedPublisherUsers) {
+    log.debug("Sending 'publishers removed' mail");
+    removedPublisherUsers.parallelStream().forEach(publisher -> {
+      Locale locale = Locale.forLanguageTag(publisher.getLangKey());
+      Context context = new Context(locale);
+      context.setVariable("user", publisher);
+      String content = templateEngine.process("publisherRemoved", context);
+      String subject = messageSource.getMessage("email.publisher-removed.title", null, locale);
+      sendEmail(null, new String[]{publisher.getEmail()}, null, subject, content, false, true);
+    });
+  }
+
+  /**
+   * Send a mail to users who were added as data providers to a project.
+   */
+  @Async
+  public void sendDataProviderAddedMail(List<User> addedDataProviders) {
+    log.debug("Sending 'data providers added' mail");
+    addedDataProviders.parallelStream().forEach(dataProvider -> {
+      Locale locale = Locale.forLanguageTag(dataProvider.getLangKey());
+      Context context = new Context(locale);
+      context.setVariable("user", dataProvider);
+      String content = templateEngine.process("dataProviderAdded", context);
+      String subject = messageSource.getMessage("email.data-provider-added.title", null, locale);
+      sendEmail(null, new String[]{dataProvider.getEmail()}, null, subject, content, false, true);
+    });
+  }
+
+  /**
+   * Send a mail to users who were removed as data providers to a project.
+   */
+  @Async
+  public void sendDataProviderRemovedMail(List<User> removedDataProviders) {
+    log.debug("Sending 'data providers removed' mail");
+    removedDataProviders.parallelStream().forEach(dataProvider -> {
+      Locale locale = Locale.forLanguageTag(dataProvider.getLangKey());
+      Context context = new Context(locale);
+      context.setVariable("user", dataProvider);
+      String content = templateEngine.process("dataProviderRemoved", context);
+      String subject = messageSource.getMessage("email.data-provider-removed.title", null, locale);
+      sendEmail(null, new String[]{dataProvider.getEmail()}, null, subject, content, false, true);
+    });
   }
 }
