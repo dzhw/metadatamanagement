@@ -6,8 +6,8 @@
   <div ng-if="!project || !usersFetched" layout="row" layout-sm="column" layout-align="space-around">
     <md-progress-circular md-mode="indeterminate"></md-progress-circular>
   </div>
-  <div class="layout-row" ng-if="project && usersFetched">
-    <div>
+  <div class="layout-row" layout-sm="column" ng-if="project && usersFetched">
+    <div flex>
       <div class="layout-margin layout-row md-body-2">{{'data-acquisition-project-management.project-cockpit.search.header-publisher' | translate}} {{project.id}}:</div>
       <md-card>
         <md-autocomplete
@@ -27,7 +27,7 @@
           >
             <md-item-template>
               <div layout="row">
-                <span md-highlight-text="searchText">{{user.login}} ({{user.firstName}} {{user.lastName}})</span>
+                <span md-highlight-text="searchText.publishers">{{user.login}} ({{user.firstName}} {{user.lastName}})</span>
                 <span flex></span>
                 <md-chips readonly="true" ng-if="!!user.authorities" ng-model="user.authorities">
                   <md-chip-template class="authority">{{'data-acquisition-project-management.project-cockpit.label.' + $chip | translate}}</md-chip-template>
@@ -59,7 +59,7 @@
       </md-card>
     </div>
 
-    <div class="">
+    <div flex>
       <div class="layout-margin layout-row md-body-2">{{'data-acquisition-project-management.project-cockpit.search.header-data-provider' | translate}} {{project.id}}:</div>
       <md-card>
         <md-autocomplete
@@ -79,7 +79,7 @@
           >
             <md-item-template>
               <div layout="row">
-                <span md-highlight-text="searchText">{{user.login}}</span>
+                <span md-highlight-text="searchText.dataProviders">{{user.login}}</span>
                 <span flex></span>
                 <md-chips readonly="true" ng-if="!!user.authorities" ng-model="user.authorities">
                   <md-chip-template class="authority">{{'data-acquisition-project-management.project-cockpit.label.' + $chip | translate}}</md-chip-template>
