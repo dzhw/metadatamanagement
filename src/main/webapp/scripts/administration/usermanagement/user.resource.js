@@ -33,7 +33,7 @@ angular.module('metadatamanagementApp').factory('UserResource',
       },
       'search': {
         url: '/api/users/findUserWithRole/',
-        params: {search: "@login", role: "@role"},
+        params: {search: '@login', role: '@role'},
         method: 'GET',
         isArray: true
       }
