@@ -192,7 +192,7 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
 
         SearchHelperService.addQuery(query, queryterm);
 
-        SearchHelperService.addReleaseFilter(query);
+        SearchHelperService.addFilter(query);
 
         return ElasticSearchClient.search(query).then(function(result) {
           return result.aggregations.accessWays.buckets;
@@ -229,7 +229,7 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
 
         SearchHelperService.addQuery(query, queryterm);
 
-        SearchHelperService.addReleaseFilter(query);
+        SearchHelperService.addFilter(query);
 
         return ElasticSearchClient.search(query).then(function(result) {
           return result.aggregations.panelIdentifiers.buckets;
@@ -266,7 +266,7 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
 
         SearchHelperService.addQuery(query, queryterm);
 
-        SearchHelperService.addReleaseFilter(query);
+        SearchHelperService.addFilter(query);
 
         return ElasticSearchClient.search(query).then(function(result) {
           return result.aggregations.derivedVariablesIdentifiers.buckets;
@@ -360,7 +360,7 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
 
         SearchHelperService.addQuery(query, queryterm);
 
-        SearchHelperService.addReleaseFilter(query);
+        SearchHelperService.addFilter(query);
 
         return ElasticSearchClient.search(query).then(function(result) {
           var labels = [];

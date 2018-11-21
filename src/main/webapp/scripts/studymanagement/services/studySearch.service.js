@@ -104,7 +104,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
 
       SearchHelperService.addQuery(query, queryterm);
 
-      SearchHelperService.addReleaseFilter(query);
+      SearchHelperService.addFilter(query);
 
       return ElasticSearchClient.search(query).then(function(result) {
         var studySeries = [];
@@ -209,7 +209,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
 
       SearchHelperService.addQuery(query, queryterm);
 
-      SearchHelperService.addReleaseFilter(query);
+      SearchHelperService.addFilter(query);
 
       return ElasticSearchClient.search(query).then(function(result) {
         var titles = [];
@@ -280,7 +280,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
         query.body.query.bool.filter = termFilters;
       }
 
-      SearchHelperService.addReleaseFilter(query);
+      SearchHelperService.addFilter(query);
 
       return ElasticSearchClient.search(query).then(function(result) {
         var sponsors = [];
@@ -341,7 +341,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
         query.body.query.bool.filter = termFilters;
       }
 
-      SearchHelperService.addReleaseFilter(query);
+      SearchHelperService.addFilter(query);
 
       return ElasticSearchClient.search(query).then(function(result) {
         var institutions = [];
