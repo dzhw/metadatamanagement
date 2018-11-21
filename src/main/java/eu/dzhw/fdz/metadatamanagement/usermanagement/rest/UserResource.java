@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import eu.dzhw.fdz.metadatamanagement.common.rest.util.PaginationUtil;
@@ -114,13 +115,13 @@ public class UserResource {
   /**
    * Search for privileged users.
    */
-  @RequestMapping(value = "/users/findUserWithRole/{search}/{role}", method = RequestMethod.GET,
+  @RequestMapping(value = "/users/findUserWithRole", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
   @Secured({AuthoritiesConstants.ADMIN, AuthoritiesConstants.DATA_PROVIDER,
       AuthoritiesConstants.PUBLISHER})
-  public ResponseEntity<List<UserDto>> findUserWithRole(@PathVariable String search,
-      @PathVariable String role) {
-    return new ResponseEntity<>(userRepository.findAllByLoginLikeOrEmailLike(search, search)
+  public ResponseEntity<List<UserDto>> findUserWithRole(@RequestParam String login,
+      @RequestParam String role) {
+    return new ResponseEntity<>(userRepository.findAllByLoginLikeOrEmailLike(login, login)
         .stream().filter(user -> SecurityUtils.isUserInRole(role, user))
         .map(user -> new UserDto(user)).collect(Collectors.toList()), HttpStatus.OK);
   }

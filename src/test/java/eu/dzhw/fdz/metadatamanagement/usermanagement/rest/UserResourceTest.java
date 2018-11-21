@@ -165,21 +165,21 @@ public class UserResourceTest extends AbstractTest {
     String role = AuthoritiesConstants.USER;
     String login = "user";
     restUserMockMvc
-        .perform(get("/api//users/findUserWithRole/" + login + "/" + role)
+        .perform(get("/api//users/findUserWithRole/").param("login", login).param("role", role)
             .contentType(TestUtil.APPLICATION_JSON_UTF8).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andExpect(jsonPath("$.[0].login").value("user"));
     // search with email substring
     login = "admin@local";
     role = AuthoritiesConstants.ADMIN;
     restUserMockMvc
-        .perform(get("/api//users/findUserWithRole/" + login + "/" + role)
+        .perform(get("/api//users/findUserWithRole/").param("login", login).param("role", role)
             .contentType(TestUtil.APPLICATION_JSON_UTF8).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andExpect(jsonPath("$.[0].login").value("admin"));
     // search for user with false role
     login = "user";
     role = AuthoritiesConstants.ADMIN;
     restUserMockMvc
-        .perform(get("/api//users/findUserWithRole/" + login + "/" + role)
+        .perform(get("/api//users/findUserWithRole/").param("login", login).param("role", role)
             .contentType(TestUtil.APPLICATION_JSON_UTF8).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andExpect(content().json("[]"));
 
