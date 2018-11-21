@@ -1,7 +1,10 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
+import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
 import org.springframework.context.ApplicationEventPublisher;
@@ -14,8 +17,10 @@ import org.springframework.data.rest.core.event.BeforeDeleteEvent;
 import org.springframework.data.rest.core.event.BeforeSaveEvent;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Service class for the Data Acquisition Project. Handles calls to the mongo db.
@@ -33,23 +38,31 @@ public class DataAcquisitionProjectService {
 
   private DataAcquisitionProjectChangesProvider changesProvider;
 
+  private UserRepository userRepository;
+
+  private MailService mailService;
+
   /**
    * Creates a new {@link DataAcquisitionProjectService} instance.
    */
   public DataAcquisitionProjectService(DataAcquisitionProjectRepository dataAcquisitionProjectRepo,
                                        ApplicationEventPublisher applicationEventPublisher,
                                        UserInformationProvider userInformationProvider,
-                                       DataAcquisitionProjectChangesProvider changesProvider) {
+                                       DataAcquisitionProjectChangesProvider changesProvider,
+                                       UserRepository userRepository,
+                                       MailService mailService) {
     this.acquisitionProjectRepository = dataAcquisitionProjectRepo;
     this.eventPublisher = applicationEventPublisher;
     this.userInformationProvider = userInformationProvider;
     this.changesProvider = changesProvider;
+    this.userRepository = userRepository;
+    this.mailService = mailService;
   }
 
   /**
    * Saves a Data Acquisition Project.
    */
-  public void saveDataAquisitionProject(DataAcquisitionProject dataAcquisitionProject) {
+  public void saveDataAcquisitionProject(DataAcquisitionProject dataAcquisitionProject) {
     this.eventPublisher.publishEvent(new BeforeSaveEvent(dataAcquisitionProject));
     this.acquisitionProjectRepository.save(dataAcquisitionProject);
     this.eventPublisher.publishEvent(new AfterSaveEvent(dataAcquisitionProject));
@@ -97,7 +110,7 @@ public class DataAcquisitionProjectService {
    * id exists). In all other cases the user must be a data provider for the requested project.
    * @param projectId Project id
    * @return Optional of {@link DataAcquisitionProject}, might contain {@code null} if the project
-   * doesn't exist or if the user has insufficient access rights.
+   *     doesn't exist or if the user has insufficient access rights.
    */
   public Optional<DataAcquisitionProject> findDataAcquisitionProjectById(String projectId) {
     String loginName = userInformationProvider.getUserLogin();
@@ -121,33 +134,80 @@ public class DataAcquisitionProjectService {
   }
 
   @HandleBeforeSave
-  public void onHandleBeforeSave(DataAcquisitionProject newDataAcquisitionProject) {
+  void onHandleBeforeSave(DataAcquisitionProject newDataAcquisitionProject) {
     Optional<DataAcquisitionProject> oldProject = acquisitionProjectRepository
         .findById(newDataAcquisitionProject.getId());
     changesProvider.put(oldProject.orElse(null), newDataAcquisitionProject);
   }
 
   @HandleAfterSave
-  public void onHandleAfterSave(DataAcquisitionProject newDataAcquisitionProject) {
+  void onHandleAfterSave(DataAcquisitionProject newDataAcquisitionProject) {
     final String projectId = newDataAcquisitionProject.getId();
 
     List<String> addedPublishers = changesProvider.getAddedPublisherUserNamesList(projectId);
     List<String> removedPublishers = changesProvider.getRemovedPublisherUserNamesList(projectId);
-    sendMailToPublishers(addedPublishers, removedPublishers);
 
     List<String> addedDataProviders = changesProvider.getAddedDataProviderUserNamesList(projectId);
     List<String> removedDataProviders = changesProvider
         .getRemovedDataProviderUserNamesList(projectId);
-    sendMailToDataProviders(addedDataProviders, removedDataProviders);
+
+    UserFetchResult users = fetchUsersForUserNames(addedPublishers, removedPublishers,
+        addedDataProviders, removedDataProviders);
+
+    sendMailToPublishers(users.addedPublisherUsers, users.removedPublisherUsers);
+    sendMailToDataProviders(users.addedDataProviders, users.removedDataProviders);
   }
 
-  private void sendMailToPublishers(List<String> addedPublishers, List<String> removedPublishers) {
-
+  private void sendMailToPublishers(List<User> addedPublishers, List<User> removedPublishers) {
+    mailService.sendPublishersAddedMail(addedPublishers);
+    mailService.sendPublisherRemovedMail(removedPublishers);
   }
 
-  private void sendMailToDataProviders(List<String> addedDataProviders,
-                                       List<String> removedDataProviders) {
+  private void sendMailToDataProviders(List<User> addedDataProviders,
+                                       List<User> removedDataProviders) {
+    mailService.sendDataProviderAddedMail(addedDataProviders);
+    mailService.sendDataProviderRemovedMail(removedDataProviders);
+  }
 
+  private UserFetchResult fetchUsersForUserNames(List<String> addedPublishers,
+                                                 List<String> removedPublishers,
+                                                 List<String> addedDataProviders,
+                                                 List<String> removedDataProviders) {
+    List<String> userLoginNames = new ArrayList<>(addedPublishers);
+    userLoginNames.addAll(removedPublishers);
+    userLoginNames.addAll(addedDataProviders);
+    userLoginNames.addAll(removedDataProviders);
 
+    List<User> users = userRepository.findAllByLoginIn(userLoginNames);
+
+    List<User> addedPublisherUsers = users.stream()
+        .filter(u -> addedPublishers.contains(u.getLogin())).collect(Collectors.toList());
+    List<User> removedPublisherUsers = users.stream()
+        .filter(u -> removedPublishers.contains(u.getLogin())).collect(Collectors.toList());
+    List<User> addedDataProviderUsers = users.stream()
+        .filter(u -> addedDataProviders.contains(u.getLogin())).collect(Collectors.toList());
+    List<User> removedDataProviderUsers = users.stream()
+        .filter(u -> removedDataProviders.contains(u.getLogin())).collect(Collectors.toList());
+
+    return new UserFetchResult(addedPublisherUsers, removedPublisherUsers, addedDataProviderUsers,
+        removedDataProviderUsers);
+  }
+
+  /**
+   * Encapsulates repository query result for added or removed publishers and data providers.
+   */
+  private static class UserFetchResult {
+    private List<User> addedPublisherUsers;
+    private List<User> removedPublisherUsers;
+    private List<User> addedDataProviders;
+    private List<User> removedDataProviders;
+
+    UserFetchResult(List<User> addedPublisherUsers, List<User> removedPublisherUsers,
+                           List<User> addedDataProviders, List<User> removedDataProviders) {
+      this.addedPublisherUsers = addedPublisherUsers;
+      this.removedPublisherUsers = removedPublisherUsers;
+      this.addedDataProviders = addedDataProviders;
+      this.removedDataProviders = removedDataProviders;
+    }
   }
 }

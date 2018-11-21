@@ -30,7 +30,7 @@ public class ListUtils {
   }
 
   /**
-   * Get the difference between two lists
+   * Get the difference between two lists.
    * @param baseList base list
    * @param secondList elements which should not be contained in the base list
    * @return A new list containing elements from the first list, but not elements also contained in

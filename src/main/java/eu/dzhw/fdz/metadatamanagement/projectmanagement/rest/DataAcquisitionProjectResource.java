@@ -101,7 +101,7 @@ public class DataAcquisitionProjectResource extends
       // saveDataProject.setHasBeenReleasedBefore(newDataProject.getHasBeenReleasedBefore());
     }
 
-    dataAcquisitionProjectService.saveDataAquisitionProject(saveDataProject);
+    dataAcquisitionProjectService.saveDataAcquisitionProject(saveDataProject);
 
     return ResponseEntity.status(httpStatus).build();
   }

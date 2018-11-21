@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Remember the previous version of a related data acquisition project per request
+ * Remember the previous version of a related data acquisition project per request.
  */
 @Component
 @RequestScope
@@ -36,11 +36,8 @@ public class DataAcquisitionProjectChangesProvider {
    * @return list of added publisher user names
    */
   public List<String> getAddedPublisherUserNamesList(String projectId) {
-    List<String> oldPublishers = oldProjects.get(projectId).getConfiguration()
-        .getPublishers();
-    List<String> newPublishers = newProjects.get(projectId).getConfiguration()
-        .getPublishers();
-
+    List<String> oldPublishers = getPublishers(oldProjects.get(projectId));
+    List<String> newPublishers = getPublishers(newProjects.get(projectId));
     return ListUtils.diff(newPublishers, oldPublishers);
   }
 
@@ -50,11 +47,8 @@ public class DataAcquisitionProjectChangesProvider {
    * @return list of removed publisher user names
    */
   public List<String> getRemovedPublisherUserNamesList(String projectId) {
-    List<String> oldPublishers = oldProjects.get(projectId).getConfiguration()
-        .getPublishers();
-    List<String> newPublishers = newProjects.get(projectId).getConfiguration()
-        .getPublishers();
-
+    List<String> oldPublishers = getPublishers(oldProjects.get(projectId));
+    List<String> newPublishers = getPublishers(newProjects.get(projectId));
     return ListUtils.diff(oldPublishers, newPublishers);
   }
 
@@ -64,18 +58,9 @@ public class DataAcquisitionProjectChangesProvider {
    * @return list of added data provider user names
    */
   public List<String> getAddedDataProviderUserNamesList(String projectId) {
-    List<String> oldDataProviders = oldProjects.get(projectId).getConfiguration()
-        .getDataProviders();
-    List<String> newDataProviders = newProjects.get(projectId).getConfiguration()
-        .getDataProviders();
-
-    if (oldDataProviders == null || oldDataProviders.isEmpty()) {
-      return newDataProviders != null ? newDataProviders : Collections.emptyList();
-    } else if (newDataProviders == null || newDataProviders.isEmpty()) {
-      return Collections.emptyList();
-    } else {
-      return ListUtils.diff(newDataProviders, oldDataProviders);
-    }
+    List<String> oldDataProviders = getDataProviders(oldProjects.get(projectId));
+    List<String> newDataProviders = getDataProviders(newProjects.get(projectId));
+    return ListUtils.diff(newDataProviders, oldDataProviders);
   }
 
   /**
@@ -84,17 +69,25 @@ public class DataAcquisitionProjectChangesProvider {
    * @return list of removed data provider user names
    */
   public List<String> getRemovedDataProviderUserNamesList(String projectId) {
-    List<String> oldDataProviders = oldProjects.get(projectId).getConfiguration()
-        .getDataProviders();
-    List<String> newDataProviders = newProjects.get(projectId).getConfiguration()
-        .getDataProviders();
+    List<String> oldDataProviders = getDataProviders(oldProjects.get(projectId));
+    List<String> newDataProviders = getDataProviders(newProjects.get(projectId));
+    return ListUtils.diff(oldDataProviders, newDataProviders);
+  }
 
-    if (oldDataProviders == null || oldDataProviders.isEmpty()) {
-      return newDataProviders != null ? newDataProviders : Collections.emptyList();
-    } else if (newDataProviders == null || newDataProviders.isEmpty()) {
-      return oldDataProviders;
+  private List<String> getPublishers(DataAcquisitionProject project) {
+    if (project != null) {
+      return project.getConfiguration().getPublishers();
     } else {
-      return ListUtils.diff(oldDataProviders, newDataProviders);
+      return Collections.emptyList();
+    }
+  }
+
+  private List<String> getDataProviders(DataAcquisitionProject project) {
+    if (project != null) {
+      List<String> dataProviders = project.getConfiguration().getDataProviders();
+      return dataProviders != null ? dataProviders : Collections.emptyList();
+    } else {
+      return Collections.emptyList();
     }
   }
 }
