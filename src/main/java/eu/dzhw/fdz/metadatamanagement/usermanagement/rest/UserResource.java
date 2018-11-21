@@ -33,6 +33,8 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 
+
+
 /**
  * REST controller for managing users.
  */
@@ -112,14 +114,12 @@ public class UserResource {
   /**
    * Search for privileged users.
    */
-  @RequestMapping(value = "/users/findUserWithRole/{search}/{role}",
-      method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/users/findUserWithRole/{search}/{role}", method = RequestMethod.GET,
+      produces = MediaType.APPLICATION_JSON_VALUE)
   @Secured({AuthoritiesConstants.ADMIN, AuthoritiesConstants.DATA_PROVIDER,
       AuthoritiesConstants.PUBLISHER})
   public ResponseEntity<List<UserDto>> findUserWithRole(@PathVariable String search,
-   @PathVariable String role) {
-    boolean userHasAdvancedPrivileges = SecurityUtils.isUserInRole(AuthoritiesConstants.PUBLISHER)
-        || SecurityUtils.isUserInRole(AuthoritiesConstants.ADMIN);
+      @PathVariable String role) {
     return new ResponseEntity<>(userRepository.findAllByLoginLikeOrEmailLike(search, search)
         .stream().filter(user -> SecurityUtils.isUserInRole(role, user))
         .map(user -> new UserDto(user)).collect(Collectors.toList()), HttpStatus.OK);
