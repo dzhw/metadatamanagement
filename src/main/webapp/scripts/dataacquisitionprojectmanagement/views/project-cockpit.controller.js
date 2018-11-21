@@ -38,17 +38,21 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         $scope.project,
         //Success
         function() {
+          $scope.changed = false;
           SimpleMessageToastService
             .openSimpleMessageToast(
-              'saved', {
+              'data-acquisition-project-management.log-messages.' +
+                  'data-acquisition-project.saved', {
                 id: $scope.project.id
               });
         },
         //Server Error
-        function(error) {
+        function() {
           SimpleMessageToastService
             .openAlertMessageToast(
-              'server-error' + error);
+              'data-acquisition-project-management.log-messages.' +
+                  'data-acquisition-project.server-error'
+            );
         }
       );
     };
