@@ -17,9 +17,10 @@ import org.springframework.data.rest.core.event.BeforeDeleteEvent;
 import org.springframework.data.rest.core.event.BeforeSaveEvent;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -154,26 +155,18 @@ public class DataAcquisitionProjectService {
     UserFetchResult users = fetchUsersForUserNames(addedPublishers, removedPublishers,
         addedDataProviders, removedDataProviders);
 
-    sendMailToPublishers(users.addedPublisherUsers, users.removedPublisherUsers);
-    sendMailToDataProviders(users.addedDataProviders, users.removedDataProviders);
-  }
+    mailService.sendPublishersAddedMail(users.addedPublisherUsers, projectId);
+    mailService.sendPublisherRemovedMail(users.removedPublisherUsers, projectId);
+    mailService.sendDataProviderAddedMail(users.addedDataProviderUsers, projectId);
+    mailService.sendDataProviderRemovedMail(users.removedDataProviderUsers, projectId);
 
-  private void sendMailToPublishers(List<User> addedPublishers, List<User> removedPublishers) {
-    mailService.sendPublishersAddedMail(addedPublishers);
-    mailService.sendPublisherRemovedMail(removedPublishers);
-  }
-
-  private void sendMailToDataProviders(List<User> addedDataProviders,
-                                       List<User> removedDataProviders) {
-    mailService.sendDataProviderAddedMail(addedDataProviders);
-    mailService.sendDataProviderRemovedMail(removedDataProviders);
   }
 
   private UserFetchResult fetchUsersForUserNames(List<String> addedPublishers,
                                                  List<String> removedPublishers,
                                                  List<String> addedDataProviders,
                                                  List<String> removedDataProviders) {
-    List<String> userLoginNames = new ArrayList<>(addedPublishers);
+    Set<String> userLoginNames = new HashSet<>(addedPublishers);
     userLoginNames.addAll(removedPublishers);
     userLoginNames.addAll(addedDataProviders);
     userLoginNames.addAll(removedDataProviders);
@@ -199,15 +192,15 @@ public class DataAcquisitionProjectService {
   private static class UserFetchResult {
     private List<User> addedPublisherUsers;
     private List<User> removedPublisherUsers;
-    private List<User> addedDataProviders;
-    private List<User> removedDataProviders;
+    private List<User> addedDataProviderUsers;
+    private List<User> removedDataProviderUsers;
 
     UserFetchResult(List<User> addedPublisherUsers, List<User> removedPublisherUsers,
-                           List<User> addedDataProviders, List<User> removedDataProviders) {
+                    List<User> addedDataProviderUsers, List<User> removedDataProviderUsers) {
       this.addedPublisherUsers = addedPublisherUsers;
       this.removedPublisherUsers = removedPublisherUsers;
-      this.addedDataProviders = addedDataProviders;
-      this.removedDataProviders = removedDataProviders;
+      this.addedDataProviderUsers = addedDataProviderUsers;
+      this.removedDataProviderUsers = removedDataProviderUsers;
     }
   }
 }
