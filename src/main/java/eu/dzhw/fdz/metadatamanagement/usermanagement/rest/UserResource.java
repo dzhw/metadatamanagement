@@ -113,6 +113,21 @@ public class UserResource {
   }
 
   /**
+   * Get the "login" user with less details.
+   */
+  @RequestMapping(value = "/users/{login}/public", method = RequestMethod.GET,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  @Secured({AuthoritiesConstants.ADMIN, AuthoritiesConstants.DATA_PROVIDER,
+      AuthoritiesConstants.PUBLISHER})
+  public ResponseEntity<UserDto> getUserPublic(@PathVariable String login) {
+    log.debug("REST request to get User : {}", login);
+    return userService.getUserWithAuthoritiesByLogin(login).map(user -> new UserDto(user))
+        .map(userDTO -> ResponseEntity.ok().cacheControl(CacheControl.noCache()).body(userDTO))
+        .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+  }
+
+
+  /**
    * Search for privileged users.
    */
   @RequestMapping(value = "/users/findUserWithRole", method = RequestMethod.GET,
@@ -121,9 +136,9 @@ public class UserResource {
       AuthoritiesConstants.PUBLISHER})
   public ResponseEntity<List<UserDto>> findUserWithRole(@RequestParam String login,
       @RequestParam String role) {
-    return new ResponseEntity<>(userRepository.findAllByLoginLikeOrEmailLike(login, login)
-        .stream().filter(user -> SecurityUtils.isUserInRole(role, user))
-        .map(user -> new UserDto(user)).collect(Collectors.toList()), HttpStatus.OK);
+    return new ResponseEntity<>(userRepository.findAllByLoginLikeOrEmailLike(login, login).stream()
+        .filter(user -> SecurityUtils.isUserInRole(role, user)).map(user -> new UserDto(user))
+        .collect(Collectors.toList()), HttpStatus.OK);
   }
 
 }

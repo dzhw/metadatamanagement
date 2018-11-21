@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
            ToolbarHeaderService, CurrentProjectService,
            DataAcquisitionProjectResource, SimpleMessageToastService) {
 
-    PageTitleService.setPageTitle('project-cockpit.title');
+    PageTitleService.setPageTitle('data-acquisition-project-management.project-cockpit.title');
     ToolbarHeaderService.updateToolbarHeader({
       stateName: $state.current.name
     });
@@ -19,6 +19,10 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     if (!selectedProject) {
       return;
     }
+
+    var currentUser = {
+      login: Principal.loginName()
+    };
 
     $scope.saveChanges = function() {
       if (!$scope.project.configuration) {
@@ -79,8 +83,8 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     };
 
     $scope.activeUsers = {
-      'publishers': [],
-      'dataProviders': []
+      publishers: [],
+      dataProviders: []
     };
 
     $scope.usersFetched = false;
@@ -97,7 +101,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
             return $q.all(
               project.configuration[key].map(function(userLogin) {
                 return (
-                  UserResource.get({
+                  UserResource.getPublic({
                     login: userLogin
                   }).$promise.then(function(userResult) {
                     if (!_.includes($scope.activeUsers[key].map(function(u) {
@@ -120,35 +124,29 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         ])).then(function() {
           $scope.usersFetched = true;
         }).catch(function(error) {
+          console.log(error);
           SimpleMessageToastService
             .openAlertMessageToast(
-              'server-error' + error);
+              'global.error.server-error.internal-server-error', {
+                status: error.data.error_description
+              });
         });
       });
 
     $scope.advancedPrivileges = Principal.hasAnyAuthority(['ROLE_PUBLISHER',
       'ROLE_ADMIN']);
+
     $scope.canDeleteUser = function(user, role) {
-
-      function isOnlyRole(roleInternal) {
-        return _.includes(user.authorities, roleInternal) &&
-          $scope.activeUsers[role].filter(function(activeUser) {
-            return _.includes(activeUser.authorities, roleInternal);
-          }).length > 1;
-      }
-
-      var isOnly = {
-        publishers: isOnlyRole('ROLE_PUBLISHER'),
-        dataProviders: isOnlyRole('ROLE_DATA_PROVIDER')
-      };
-
-      if (isOnly.publishers && role === 'publishers') {
+      if (user.restricted) {
+        // cannot modify user whose details we can't read
         return false;
       }
-      if (isOnly.dataProviders && role === 'dateProviders') {
+      if (!$scope.advancedPrivileges && role === 'publishers') {
+        // cannot remove publishers without advanced privilege
         return false;
       }
-      if (!$scope.advancedPrivilege && role === 'publishers') {
+      if ($scope.activeUsers[role].length <= 1) {
+        // cannot remove the last user in this list
         return false;
       }
       return true;

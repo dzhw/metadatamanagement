@@ -89,7 +89,8 @@ angular.module('metadatamanagementApp').config(
             'ROLE_PUBLISHER': 'Publisher'
           },
           'button': {
-            'save': 'Click to save the changes.'
+            'save': 'Click to save the changes.',
+            'remove-user': 'Remove user'
           },
           'list': {
             'empty-data-provider': 'No data providers are assigned to this project.',

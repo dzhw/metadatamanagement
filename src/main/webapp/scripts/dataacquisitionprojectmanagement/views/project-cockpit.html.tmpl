@@ -1,18 +1,18 @@
 
-<div class="">
+<div>
   <div layout="row" style="margin-bottom: 0px;" layout-margin>
-    <h1 id="top" class="md-headline fdz-truncate-string" style="margin-left: 0px;">{{'data-acquisition-project-management.project-cockpit.title' | translate}}</h1>
+    <h1 id="top" class="md-headline fdz-truncate-string" style="margin-left: 0px;">{{'data-acquisition-project-management.project-cockpit.title' | translate}} <span class="label label-as-badge label-default">{{project.id}}</span></h1>
   </div>
-  <div ng-if="!project || !usersFetched" layout="row" layout-sm="column" layout-align="space-around">
+  <div ng-if="!project || !usersFetched" layout-gt-sm="row" layout="column" layout-align="space-around">
     <md-progress-circular md-mode="indeterminate"></md-progress-circular>
   </div>
-  <div class="layout-row" layout-sm="column" ng-if="project && usersFetched">
+  <div layout-gt-sm="row" layout="column" ng-if="project && usersFetched">
     <div flex>
-      <div class="layout-margin layout-row md-body-2">{{'data-acquisition-project-management.project-cockpit.search.header-publisher' | translate}} {{project.id}}:</div>
+      <div class="layout-margin layout-row md-body-2">{{'data-acquisition-project-management.project-cockpit.search.header-publisher' | translate}}</div>
       <md-card>
         <md-autocomplete
           flex
-          ng-disabled="false"
+          ng-disabled="!advancedPrivileges"
           md-search-text="searchText.publishers"
           md-selected-item="selectedUser.publishers"
           md-selected-item-change="selectedUserChanged(selectedUser.publishers, 'publishers')"
@@ -27,11 +27,9 @@
           >
             <md-item-template>
               <div layout="row">
-                <span md-highlight-text="searchText.publishers">{{user.login}} ({{user.firstName}} {{user.lastName}})</span>
-                <span flex></span>
-                <md-chips readonly="true" ng-if="!!user.authorities" ng-model="user.authorities">
-                  <md-chip-template class="authority">{{'data-acquisition-project-management.project-cockpit.label.' + $chip | translate}}</md-chip-template>
-                </md-chips>
+                <strong><span md-highlight-text="searchText.publishers">{{user.login}}</span></strong>
+                &nbsp;
+                <span md-highlight-text="searchText.publishers">{{user.email}}</span>
               </div>
             </md-item-template>
             <md-not-found>
@@ -40,18 +38,19 @@
         </md-autocomplete>
 
         <md-list ng-repeat="user in activeUsers.publishers">
-          <md-list-item class="layout-row">
+          <md-list-item layout="row">
             <div class="md-list-item-text">
-              <p style="margin:8px;"><strong>{{user.login}}</strong></p>
+              <p style="margin:8px;"><strong>{{user.login}}</strong> {{user.email}}</p>
             </div>
             <span flex></span>
-            <md-chips readonly="true" ng-if="!!user.authorities" ng-model="user.authorities">
-              <md-chip-template class="authority">{{'data-acquisition-project-management.project-cockpit.label.' + $chip | translate}}</md-chip-template>
-            </md-chips>
-            <md-button ng-disabled="!canDeleteUser(user, 'publishers')" class="md-primary md-raised" ng-click="removeUser(user, 'publishers')" aria-label="remove user">
-              <md-icon md-font-set="material-icons" class="ng-binding ng-scope material-icons" role="img" aria-hidden="true">delete</md-icon>
+            <md-button ng-disabled="!canDeleteUser(user, 'publishers')" class="md-icon-button md-primary" ng-click="removeUser(user, 'publishers')" aria-label="remove user">
+              <md-icon md-font-set="material-icons" class="ng-binding ng-scope material-icons" role="img" aria-hidden="true">delete_forever</md-icon>
+              <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                {{'data-acquisition-project-management.project-cockpit.button.remove-user' | translate}}
+              </md-tooltip>
             </md-button>
           </md-list-item>
+          <md-divider></md-divider>
         </md-list>
         <div class="layout-margin" ng-if="!activeUsers.publishers || !activeUsers.publishers.length">
           <i>{{'data-acquisition-project-management.project-cockpit.list.empty-publisher' | translate}}</i>
@@ -60,7 +59,7 @@
     </div>
 
     <div flex>
-      <div class="layout-margin layout-row md-body-2">{{'data-acquisition-project-management.project-cockpit.search.header-data-provider' | translate}} {{project.id}}:</div>
+      <div class="layout-margin layout-row md-body-2">{{'data-acquisition-project-management.project-cockpit.search.header-data-provider' | translate}}</div>
       <md-card>
         <md-autocomplete
           flex
@@ -79,11 +78,9 @@
           >
             <md-item-template>
               <div layout="row">
-                <span md-highlight-text="searchText.dataProviders">{{user.login}}</span>
-                <span flex></span>
-                <md-chips readonly="true" ng-if="!!user.authorities" ng-model="user.authorities">
-                  <md-chip-template class="authority">{{'data-acquisition-project-management.project-cockpit.label.' + $chip | translate}}</md-chip-template>
-                </md-chips>
+                <strong><span md-highlight-text="searchText.dataProviders">{{user.login}}</span></strong>
+                &nbsp;
+                <span md-highlight-text="searchText.dataProviders">{{user.email}}</span>
               </div>
             </md-item-template>
             <md-not-found>
@@ -92,18 +89,19 @@
         </md-autocomplete>
 
         <md-list ng-repeat="user in activeUsers.dataProviders">
-          <md-list-item class="layout-row">
+          <md-list-item layout="row">
             <div class="md-list-item-text">
-              <p style="margin:8px;"><strong>{{user.login}}</strong><p>
+              <p style="margin:8px;"><strong>{{user.login}}</strong> {{user.email}}</p>
             </div>
             <span flex></span>
-            <md-chips readonly="true" ng-if="!!user.authorities" ng-model="user.authorities">
-              <md-chip-template class="authority">{{'data-acquisition-project-management.project-cockpit.label.' + $chip | translate}}</md-chip-template>
-            </md-chips>
-            <md-button ng-disabled="!canDeleteUser(user, 'dataProviders')" class="md-primary md-raised" ng-click="removeUser(user, 'dataProviders')" aria-label="remove user">
-              <md-icon md-font-set="material-icons" class="ng-binding ng-scope material-icons" role="img" aria-hidden="true">delete</md-icon>
+            <md-button ng-disabled="!canDeleteUser(user, 'dataProviders')" class="md-icon-button md-primary" ng-click="removeUser(user, 'dataProviders')" aria-label="remove user">
+              <md-icon md-font-set="material-icons" class="ng-binding ng-scope material-icons" role="img" aria-hidden="true">delete_forever</md-icon>
+              <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                {{'data-acquisition-project-management.project-cockpit.button.remove-user' | translate}}
+              </md-tooltip>
             </md-button>
           </md-list-item>
+          <md-divider></md-divider>
         </md-list>
         <div class="layout-margin" ng-if="!activeUsers.dataProviders || !activeUsers.dataProviders.length">
           <i>{{'data-acquisition-project-management.project-cockpit.list.empty-data-provider' | translate}}</i>
@@ -114,10 +112,10 @@
 
   <div class="fdz-fab-button-container" layout="column">
     <md-button class="md-raised md-fab md-accent" ng-click="saveChanges()" ng-disabled="!changed">
-    <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-        {{'data-acquisition-project-management.project-cockpit.button.save' | translate}}
-    </md-tooltip>
-    <md-icon md-font-set="material-icons">save</md-icon>
+      <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+          {{'data-acquisition-project-management.project-cockpit.button.save' | translate}}
+      </md-tooltip>
+      <md-icon md-font-set="material-icons">save</md-icon>
     </md-button>
   </div>
 </div>
