@@ -25,8 +25,11 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import com.fasterxml.jackson.annotation.JacksonInject.Value;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
@@ -57,7 +60,7 @@ public class UserResourceTest extends AbstractTest {
 
   @Autowired
   private UserService userService;
-  
+
   @Autowired
   private MongoDbTokenStore tokenStore;
 
@@ -74,8 +77,8 @@ public class UserResourceTest extends AbstractTest {
     ReflectionTestUtils.setField(userResource, "authorityRepository", this.authorityRepository);
     ReflectionTestUtils.setField(userResource, "tokenStore", this.tokenStore);
     this.restUserMockMvc = MockMvcBuilders.standaloneSetup(userResource)
-      .setCustomArgumentResolvers(pageableArgumentResolver).alwaysDo(MockMvcResultHandlers.print())
-      .build();
+        .setCustomArgumentResolvers(pageableArgumentResolver)
+        .alwaysDo(MockMvcResultHandlers.print()).build();
   }
 
   @Test
@@ -86,9 +89,9 @@ public class UserResourceTest extends AbstractTest {
 
     // Assert
     restUserMockMvc.perform(get("/api/users/admin").accept(MediaType.APPLICATION_JSON))
-      .andExpect(status().isOk())
-      .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-      .andExpect(jsonPath("$.lastName").value("Administrator"));
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(jsonPath("$.lastName").value("Administrator"));
   }
 
   @Test
@@ -99,21 +102,21 @@ public class UserResourceTest extends AbstractTest {
 
     // Assert
     restUserMockMvc.perform(get("/api/users/unknown").accept(MediaType.APPLICATION_JSON))
-      .andExpect(status().isNotFound());
+        .andExpect(status().isNotFound());
   }
 
   @Test
-  public void testCreateUserWithID() throws Exception {
+  public void testCreateUserWithId() throws Exception {
     // Arrange
-    User user = User.builder().id("testGetAllUser_ID")
-      .build();
+    User user = User.builder().id("testGetAllUser_ID").build();
 
     // Act
 
     // Assert
-    restUserMockMvc.perform(post("/api/users").contentType(TestUtil.APPLICATION_JSON_UTF8)
-      .content(TestUtil.convertObjectToJsonBytes(user)))
-      .andExpect(status().is4xxClientError());
+    restUserMockMvc
+        .perform(post("/api/users").contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(user)))
+        .andExpect(status().is4xxClientError());
   }
 
   @Test
@@ -121,13 +124,10 @@ public class UserResourceTest extends AbstractTest {
     // Arrange
 
     // Act
-    MvcResult mvcResult = restUserMockMvc.perform(get("/api/users"))
-      .andExpect(status().isOk())
-      .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-      .andExpect(status().is2xxSuccessful())
-      .andReturn();
-    String content = mvcResult.getResponse()
-      .getContentAsString();
+    MvcResult mvcResult = restUserMockMvc.perform(get("/api/users")).andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(status().is2xxSuccessful()).andReturn();
+    String content = mvcResult.getResponse().getContentAsString();
     JSONArray jsonArray = new JSONArray(content);
 
     // Assert
@@ -147,28 +147,42 @@ public class UserResourceTest extends AbstractTest {
     ManagedUserDto dto = new ManagedUserDto(user);
 
     // Act
-    MvcResult mvcResult =
-        restUserMockMvc.perform(put("/api/users").contentType(TestUtil.APPLICATION_JSON_UTF8)
-          .content(TestUtil.convertObjectToJsonBytes(dto)))
-          .andExpect(status().isOk())
-          .andReturn();
-    String content = mvcResult.getResponse()
-      .getContentAsString();
+    MvcResult mvcResult = restUserMockMvc
+        .perform(put("/api/users").contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(dto)))
+        .andExpect(status().isOk()).andReturn();
+    String content = mvcResult.getResponse().getContentAsString();
     JSONObject jsonObject = new JSONObject(content);
 
     // Assert
     assertThat(content, not(nullValue()));
     assertThat(jsonObject.getString("email"), is("userMod@localhost"));
   }
+
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void findUserWithRole() throws Exception {
-    User testUser = new User();
-//    testUser.setEmail(email);
-//    userRepository.insert(testUser);
+    // search with login;
     String role = AuthoritiesConstants.USER;
     String login = "user";
-    restUserMockMvc.perform(get("/api//users/findUserWithRole/"+login +"/" + role).contentType(TestUtil.APPLICATION_JSON_UTF8).accept(MediaType.APPLICATION_JSON))
-    .andExpect(status().isOk());
+    restUserMockMvc
+        .perform(get("/api//users/findUserWithRole/" + login + "/" + role)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8).accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk()).andExpect(jsonPath("$.[0].login").value("user"));
+    // search with email substring
+    login = "admin@local";
+    role = AuthoritiesConstants.ADMIN;
+    restUserMockMvc
+        .perform(get("/api//users/findUserWithRole/" + login + "/" + role)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8).accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk()).andExpect(jsonPath("$.[0].login").value("admin"));
+    // search for user with false role
+    login = "user";
+    role = AuthoritiesConstants.ADMIN;
+    restUserMockMvc
+        .perform(get("/api//users/findUserWithRole/" + login + "/" + role)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8).accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk()).andExpect(content().json("[]"));
+
   }
 }
