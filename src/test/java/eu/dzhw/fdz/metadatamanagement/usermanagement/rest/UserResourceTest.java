@@ -77,8 +77,7 @@ public class UserResourceTest extends AbstractTest {
     ReflectionTestUtils.setField(userResource, "authorityRepository", this.authorityRepository);
     ReflectionTestUtils.setField(userResource, "tokenStore", this.tokenStore);
     this.restUserMockMvc = MockMvcBuilders.standaloneSetup(userResource)
-        .setCustomArgumentResolvers(pageableArgumentResolver)
-        .alwaysDo(MockMvcResultHandlers.print()).build();
+        .setCustomArgumentResolvers(pageableArgumentResolver).build();
   }
 
   @Test
