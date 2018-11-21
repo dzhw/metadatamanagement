@@ -89,7 +89,8 @@ angular.module('metadatamanagementApp').config(
             'ROLE_PUBLISHER': 'Publisher'
           },
           'button': {
-            'save': 'Klicken, um die Anpassungen zu speichern.'
+            'save': 'Klicken, um die Anpassungen zu speichern.',
+            'remove-user': 'Nutzer entfernen'
           },
           'list': {
             'empty-data-provider': 'Keine Datengeber sind diesem Projekt zugeteilt.',
