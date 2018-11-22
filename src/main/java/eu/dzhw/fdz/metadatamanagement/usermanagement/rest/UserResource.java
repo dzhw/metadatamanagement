@@ -122,7 +122,8 @@ public class UserResource {
   public ResponseEntity<UserDto> getUserPublic(@PathVariable String login) {
     log.debug("REST request to get User : {}", login);
     return userService.getUserWithAuthoritiesByLogin(login).map(user -> new UserDto(user))
-        .map(userDTO -> ResponseEntity.ok().cacheControl(CacheControl.noCache()).body(userDTO))
+        .map(userDTO -> ResponseEntity.ok().cacheControl(CacheControl.noCache().mustRevalidate())
+            .body(userDTO))
         .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
   }
 
