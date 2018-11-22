@@ -26,13 +26,13 @@
           placeholder="{{'data-acquisition-project-management.project-cockpit.search.placeholder' | translate}}"
           md-require-match="true"
           md-no-cache="true"
-          style="margin-bottom: 8px"
+          style="margin-bottom: 2px"
           >
             <md-item-template>
               <div layout="row">
                 <strong><span md-highlight-text="searchText.publishers">{{user.login}}</span></strong>
                 &nbsp;
-                <span md-highlight-text="searchText.publishers">{{user.email}}</span>
+                <span md-highlight-text="searchText.publishers">({{user.email}})</span>
               </div>
             </md-item-template>
             <md-not-found>
@@ -40,11 +40,11 @@
             </md-not-found>
         </md-autocomplete>
 
-        <md-list ng-if="activeUsers.publishers && activeUsers.publishers.length">
+        <md-list ng-if="activeUsers.publishers && activeUsers.publishers.length" style="padding: 0px;">
           <div ng-repeat="user in activeUsers.publishers">
-            <md-list-item layout="row">
+            <md-list-item layout="row" style="padding-right: 0px;">
               <div class="md-list-item-text">
-              <strong>{{user.login}}</strong> {{user.email}}
+              <strong>{{user.login}}</strong> ({{user.email}})
               </div>
               <span flex></span>
               <md-button ng-disabled="!canDeleteUser(user, 'publishers')" class="md-icon-button md-primary" ng-click="removeUser(user, 'publishers')" aria-label="remove user">
@@ -56,10 +56,10 @@
             </md-list-item>
             <md-divider ng-if=!$last></md-divider>
           </div>
-          <div ng-if="!activeUsers.publishers || !activeUsers.publishers.length">
-            <i>{{'data-acquisition-project-management.project-cockpit.list.empty-publisher' | translate}}</i>
-          </div>
         </md-list>
+        <div style="padding: 14px;" ng-if="!activeUsers.publishers || !activeUsers.publishers.length">
+          <i>{{'data-acquisition-project-management.project-cockpit.list.empty-publisher' | translate}}</i>
+        </div>
       </md-card>
     </div>
 
@@ -79,13 +79,13 @@
           placeholder="{{'data-acquisition-project-management.project-cockpit.search.placeholder' | translate}}"
           md-require-match="true"
           md-no-cache="true"
-          style="margin-bottom: 8px"
+          style="margin-bottom: 2px"
           >
             <md-item-template>
               <div layout="row">
                 <strong><span md-highlight-text="searchText.dataProviders">{{user.login}}</span></strong>
                 &nbsp;
-                <span md-highlight-text="searchText.dataProviders">{{user.email}}</span>
+                <span md-highlight-text="searchText.dataProviders">({{user.email}})</span>
               </div>
             </md-item-template>
             <md-not-found>
@@ -93,11 +93,11 @@
             </md-not-found>
         </md-autocomplete>
 
-        <md-list ng-if="activeUsers.dataProviders && activeUsers.dataProviders.length">
+        <md-list ng-if="activeUsers.dataProviders && activeUsers.dataProviders.length" style="padding: 0px;">
           <div ng-repeat="user in activeUsers.dataProviders">
-            <md-list-item layout="row">
+            <md-list-item layout="row" style="padding-right: 0px;">
               <div class="md-list-item-text">
-                <strong>{{user.login}}</strong> {{user.email}}
+                <strong>{{user.login}}</strong> ({{user.email}})
               </div>
               <span flex></span>
               <md-button ng-disabled="!canDeleteUser(user, 'dataProviders')" class="md-icon-button md-primary" ng-click="removeUser(user, 'dataProviders')" aria-label="remove user">
@@ -110,9 +110,9 @@
             <md-divider ng-if=!$last></md-divider>
           </div>
         </md-list>
-        <md-list ng-if="!activeUsers.dataProviders || !activeUsers.dataProviders.length">
-          <md-list-item layout="row"><i>{{'data-acquisition-project-management.project-cockpit.list.empty-data-provider' | translate}}</i></md-list-item>
-        </md-list>
+        <div style="padding: 14px;" ng-if="!activeUsers.dataProviders || !activeUsers.dataProviders.length">
+          <i>{{'data-acquisition-project-management.project-cockpit.list.empty-data-provider' | translate}}</i>
+        </div>
       </md-card>
     </div>
   </div>
