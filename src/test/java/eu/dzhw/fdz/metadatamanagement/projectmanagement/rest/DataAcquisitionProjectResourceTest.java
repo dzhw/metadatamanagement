@@ -37,7 +37,6 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
 
 /**
  * Test the REST API for {@link DataAcquisitionProject}s.
- *
  * @author René Reitmann
  * @author Daniel Katzberg
  */
@@ -105,7 +104,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
             .contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(project)))
         .andExpect(status().is4xxClientError()).andExpect(jsonPath("$.errors[0].message",
-            containsString("error.data-acquisition-project.id.size")));
+        containsString("error.data-acquisition-project.id.size")));
   }
 
   @Test
@@ -212,8 +211,8 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
         .perform(post(API_DATA_ACQUISITION_PROJECTS_URI).contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(project)))
         .andExpect(status().isBadRequest()).andExpect(
-            jsonPath("$.errors[0].message", containsString("data-acquisition-project-management"
-                + ".error.data-acquisition-project.id.not-empty")));
+        jsonPath("$.errors[0].message", containsString("data-acquisition-project-management"
+            + ".error.data-acquisition-project.id.not-empty")));
   }
 
   @Test
@@ -249,7 +248,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = PUBLISHER_USERNAME)
   public void testFindByIdLikeOrderByIdAsc_asPublisher() throws Exception {
-   
+
     Configuration configurationA = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProjectConfiguration(
         Collections.singletonList(PUBLISHER_USERNAME),
         Collections.singletonList(PUBLISHER_USERNAME)
@@ -259,8 +258,8 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     projectA.setConfiguration(configurationA);
 
     Configuration configurationB = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProjectConfiguration(
-      Collections.singletonList("completelyDifferentPublisherId"),
-      Collections.singletonList("someDataProvider")
+        Collections.singletonList("completelyDifferentPublisherId"),
+        Collections.singletonList("someDataProvider")
     );
     DataAcquisitionProject projectB = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     projectB.setId("b");
@@ -269,10 +268,10 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     dataAcquisitionProjectRepository.saveAll(Arrays.asList(projectA, projectB));
 
     mockMvc.perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/search/findByIdLikeOrderByIdAsc"))
-      .andExpect(status().isOk())
-      .andExpect(jsonPath("$.length()", equalTo(2)))
-      .andExpect(jsonPath("$[0].id", equalTo(projectA.getId())))
-      .andExpect(jsonPath("$[1].id", equalTo(projectB.getId())));
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.length()", equalTo(2)))
+        .andExpect(jsonPath("$[0].id", equalTo(projectA.getId())))
+        .andExpect(jsonPath("$[1].id", equalTo(projectB.getId())));
   }
 
   @Test
@@ -288,16 +287,16 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     dataAcquisitionProjectRepository.save(project);
 
     mockMvc.perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId()))
-      .andExpect(status().isOk())
-      .andExpect(jsonPath("$.id", equalTo(project.getId())));
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.id", equalTo(project.getId())));
   }
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.DATA_PROVIDER, username = DATA_PROVIDER_USERNAME)
   public void testFindById_404() throws Exception {
     Configuration configuration = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProjectConfiguration(
-      Collections.singletonList("aPublisherId"),
-      Collections.singletonList("anotherDataProviderId")
+        Collections.singletonList("aPublisherId"),
+        Collections.singletonList("anotherDataProviderId")
     );
 
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
@@ -307,5 +306,45 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
 
     mockMvc.perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId()))
         .andExpect(status().isNotFound());
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = PUBLISHER_USERNAME)
+  public void testUpdateRequiredObjectTypes() throws Exception {
+    Configuration configuration = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProjectConfiguration(
+        Collections.singletonList(PUBLISHER_USERNAME),
+        Collections.emptyList()
+    );
+
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    project.setConfiguration(configuration);
+
+    dataAcquisitionProjectRepository.save(project);
+
+    mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
+        .content(TestUtil.convertObjectToJsonBytes(project))
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNoContent());
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = PUBLISHER_USERNAME)
+  public void testUpdateRequiredObjectTypes_unauthorized() throws Exception {
+    Configuration configuration = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProjectConfiguration(
+        Collections.singletonList("differentPublisher"),
+        Collections.emptyList()
+    );
+
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    project.setConfiguration(configuration);
+
+    project = dataAcquisitionProjectRepository.save(project);
+
+    project.getConfiguration().getRequiredObjectTypes().setDataSetsRequired(true);
+
+    mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
+        .content(TestUtil.convertObjectToJsonBytes(project))
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isUnauthorized());
   }
 }

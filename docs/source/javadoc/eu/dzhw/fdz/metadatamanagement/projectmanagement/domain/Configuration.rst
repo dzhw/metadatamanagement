@@ -8,7 +8,11 @@
 
 .. java:import:: org.javers.core.metamodel.annotation ValueObject
 
+.. java:import:: javax.validation Valid
+
 .. java:import:: javax.validation.constraints NotEmpty
+
+.. java:import:: javax.validation.constraints NotNull
 
 .. java:import:: java.util ArrayList
 
@@ -41,4 +45,12 @@ publishers
    :outertype: Configuration
 
    User names having the role of a publisher for a project. Must contain at least one user name.
+
+requiredObjectTypes
+^^^^^^^^^^^^^^^^^^^
+
+.. java:field:: @Valid @NotNull private RequiredObjectTypes requiredObjectTypes
+   :outertype: Configuration
+
+   Defines which object types have to be present before a project can be released.
 

@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.RequiredObjectTypes;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
@@ -95,15 +96,35 @@ public class DataAcquisitionProjectResource extends
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
             .body("not authorized to clear data providers");
       }
+
+      if (!isRequiredObjectTypesUpdateValid(newDataProject, oldDataProject)) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+            .body("publishers not assigned to project are not allowed to modify required object"
+                + "types");
+      }
+
       BeanUtils.copyProperties(newDataProject, saveDataProject, "version");
-      // saveDataProject.setConfiguration(newDataProject.getConfiguration());
-      // saveDataProject.setRelease(newDataProject.getRelease());
-      // saveDataProject.setHasBeenReleasedBefore(newDataProject.getHasBeenReleasedBefore());
     }
 
     dataAcquisitionProjectService.saveDataAcquisitionProject(saveDataProject);
 
     return ResponseEntity.status(httpStatus).build();
+  }
+
+  private boolean isRequiredObjectTypesUpdateValid(
+      DataAcquisitionProject dataAcquisitionProject,
+      DataAcquisitionProject oldDataAcquisitionProject) {
+    RequiredObjectTypes requiredObjectTypes = dataAcquisitionProject.getConfiguration()
+        .getRequiredObjectTypes();
+    RequiredObjectTypes oldRequiredObjectTypes = oldDataAcquisitionProject.getConfiguration()
+        .getRequiredObjectTypes();
+
+    if (requiredObjectTypes.equals(oldRequiredObjectTypes)) {
+      return true;
+    }
+
+    return oldDataAcquisitionProject.getConfiguration().getPublishers()
+        .contains(SecurityUtils.getCurrentUserLogin());
   }
 
   /**

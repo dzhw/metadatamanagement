@@ -6,7 +6,8 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
            ToolbarHeaderService, CurrentProjectService,
            DataAcquisitionProjectResource, SimpleMessageToastService) {
 
-    PageTitleService.setPageTitle('data-acquisition-project-management.project-cockpit.title');
+    PageTitleService.setPageTitle(
+      'data-acquisition-project-management.project-cockpit.title');
     ToolbarHeaderService.updateToolbarHeader({
       stateName: $state.current.name
     });
@@ -19,10 +20,6 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     if (!selectedProject) {
       return;
     }
-
-    var currentUser = {
-      login: Principal.loginName()
-    };
 
     $scope.saveChanges = function() {
       if (!$scope.project.configuration) {
