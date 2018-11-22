@@ -7,10 +7,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -21,8 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -65,7 +66,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
 
   @Before
   public void setup() {
-    this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+    this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).alwaysDo(print()).build();
   }
 
   @After
@@ -160,14 +161,16 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
 
     // update the project
     mockMvc
-        .perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId()).contentType(MediaType.APPLICATION_JSON)
+        .perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
+            .contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(project)))
         .andExpect(status().is2xxSuccessful());
 
     // load the project with the complete projection
     mockMvc
         .perform(
-            get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId() + "?projection=complete").contentType(MediaType.APPLICATION_JSON))
+            get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId() + "?projection=complete")
+                .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andExpect(jsonPath("$.id", is(project.getId())))
         .andExpect(jsonPath("$.version", is(1)));
   }
@@ -249,19 +252,18 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = PUBLISHER_USERNAME)
   public void testFindByIdLikeOrderByIdAsc_asPublisher() throws Exception {
-   
-    Configuration configurationA = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProjectConfiguration(
-        Collections.singletonList(PUBLISHER_USERNAME),
-        Collections.singletonList(PUBLISHER_USERNAME)
-    );
+
+    Configuration configurationA = UnitTestCreateDomainObjectUtils
+        .buildDataAcquisitionProjectConfiguration(Collections.singletonList(PUBLISHER_USERNAME),
+            Collections.singletonList(PUBLISHER_USERNAME));
     DataAcquisitionProject projectA = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     projectA.setId("a");
     projectA.setConfiguration(configurationA);
 
-    Configuration configurationB = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProjectConfiguration(
-      Collections.singletonList("completelyDifferentPublisherId"),
-      Collections.singletonList("someDataProvider")
-    );
+    Configuration configurationB =
+        UnitTestCreateDomainObjectUtils.buildDataAcquisitionProjectConfiguration(
+            Collections.singletonList("completelyDifferentPublisherId"),
+            Collections.singletonList("someDataProvider"));
     DataAcquisitionProject projectB = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     projectB.setId("b");
     projectB.setConfiguration(configurationB);
@@ -269,10 +271,9 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     dataAcquisitionProjectRepository.saveAll(Arrays.asList(projectA, projectB));
 
     mockMvc.perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/search/findByIdLikeOrderByIdAsc"))
-      .andExpect(status().isOk())
-      .andExpect(jsonPath("$.length()", equalTo(2)))
-      .andExpect(jsonPath("$[0].id", equalTo(projectA.getId())))
-      .andExpect(jsonPath("$[1].id", equalTo(projectB.getId())));
+        .andExpect(status().isOk()).andExpect(jsonPath("$.length()", equalTo(2)))
+        .andExpect(jsonPath("$[0].id", equalTo(projectA.getId())))
+        .andExpect(jsonPath("$[1].id", equalTo(projectB.getId())));
   }
 
   @Test
@@ -288,17 +289,15 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     dataAcquisitionProjectRepository.save(project);
 
     mockMvc.perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId()))
-      .andExpect(status().isOk())
-      .andExpect(jsonPath("$.id", equalTo(project.getId())));
+        .andExpect(status().isOk()).andExpect(jsonPath("$.id", equalTo(project.getId())));
   }
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.DATA_PROVIDER, username = DATA_PROVIDER_USERNAME)
   public void testFindById_404() throws Exception {
-    Configuration configuration = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProjectConfiguration(
-      Collections.singletonList("aPublisherId"),
-      Collections.singletonList("anotherDataProviderId")
-    );
+    Configuration configuration = UnitTestCreateDomainObjectUtils
+        .buildDataAcquisitionProjectConfiguration(Collections.singletonList("aPublisherId"),
+            Collections.singletonList("anotherDataProviderId"));
 
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.setConfiguration(configuration);
@@ -307,5 +306,42 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
 
     mockMvc.perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId()))
         .andExpect(status().isNotFound());
+  }
+
+  /**
+   * test the user implemented parts of save project
+   * 
+   * @throws Exception
+   */
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void testSaveProjectWithEmptyPublishers() throws Exception {
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+ // create the project with the given id
+    dataAcquisitionProjectRepository.insert(project);
+    Configuration invalidConf = new Configuration();
+    project.setConfiguration(invalidConf);
+    mockMvc
+        .perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(project)))
+        .andExpect(status().isBadRequest())
+        .andExpect(content().string(containsString("cannot clear publishers")));
+  }
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.DATA_PROVIDER)
+  public void testSaveProjectWithEmptyPublishersAsProvider() throws Exception {
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    // create the project with the given id
+    dataAcquisitionProjectRepository.insert(project);
+    Configuration invalidConf = new Configuration();
+    project.setConfiguration(invalidConf);
+    //update with invalid conf
+    mockMvc
+        .perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(project)))
+        .andExpect(status().isUnauthorized())
+        .andExpect(content().string(containsString("not authorized to remove publisher")));
   }
 }
