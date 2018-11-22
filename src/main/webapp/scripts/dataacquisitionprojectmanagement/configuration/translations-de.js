@@ -55,7 +55,7 @@ angular.module('metadatamanagementApp').config(
           },
           'configuration': {
             'publishers': {
-              'not-empty': 'Es muss mindestens ein Herausgeber eingetragen sein.'
+              'not-empty': 'Es muss mindestens ein Publisher eingetragen sein.'
             }
           },
           'release': {
@@ -73,9 +73,9 @@ angular.module('metadatamanagementApp').config(
         'project-cockpit': {
           'title': 'Projekt-Cockpit',
           'search': {
-            'placeholder': 'Benutzername',
-            'header-data-provider': 'Datengeber für Projekt',
-            'header-publisher': 'Publisher für Projekt'
+            'placeholder': 'Suchen Sie Benutzer...',
+            'header-data-provider': 'Datengeber dieses Projekts',
+            'header-publisher': 'Publisher dieses Projekts'
           },
           'alert': {
             'title': 'Achtung',
@@ -85,7 +85,7 @@ angular.module('metadatamanagementApp').config(
           'label': {
             'ROLE_USER': 'User',
             'ROLE_ADMIN': 'Admin',
-            'ROLE_DATA_PROVIDER': 'Data Provider',
+            'ROLE_DATA_PROVIDER': 'Datengeber',
             'ROLE_PUBLISHER': 'Publisher'
           },
           'button': {

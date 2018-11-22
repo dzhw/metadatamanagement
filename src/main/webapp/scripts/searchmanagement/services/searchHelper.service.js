@@ -198,7 +198,8 @@ angular.module('metadatamanagementApp').factory(
     var addReleaseFilter = function(query) {
       //only publisher and data provider see unreleased projects
       if (!Principal
-        .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
+        .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER',
+          'ROLE_ADMIN'])) {
         query.body.query = query.body.query || {};
         query.body.query.bool = query.body.query.bool || {};
         query.body.query.bool.filter = query.body.query.bool.filter || [];

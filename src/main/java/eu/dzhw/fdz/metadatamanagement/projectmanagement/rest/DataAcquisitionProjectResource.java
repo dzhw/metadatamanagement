@@ -72,8 +72,6 @@ public class DataAcquisitionProjectResource extends
       saveDataProject = newDataProject;
       httpStatus = HttpStatus.CREATED;
       // add creating publisher to project
-      // newDataProject.getConfiguration().getPublishers().add(
-      // userService.getUserWithAuthorities().getLogin());
     } else {
       // check only authorized users remove or add publishers from project
       if (!userHasAdvancedPrivileges && !oldDataProject.getConfiguration().getPublishers()
@@ -105,9 +103,7 @@ public class DataAcquisitionProjectResource extends
 
       BeanUtils.copyProperties(newDataProject, saveDataProject, "version");
     }
-
     dataAcquisitionProjectService.saveDataAcquisitionProject(saveDataProject);
-
     return ResponseEntity.status(httpStatus).build();
   }
 

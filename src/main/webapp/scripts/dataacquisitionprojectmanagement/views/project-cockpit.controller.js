@@ -2,22 +2,45 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('ProjectCockpitController',
-  function($q, $scope, $state, UserResource, Principal, PageTitleService,
+  function($q, $scope, $state, $stateParams, $location, UserResource, Principal,
+           PageTitleService, LanguageService,
            ToolbarHeaderService, CurrentProjectService,
            DataAcquisitionProjectResource, SimpleMessageToastService) {
 
     PageTitleService.setPageTitle(
-      'data-acquisition-project-management.project-cockpit.title');
+        'data-acquisition-project-management.project-cockpit.title');
     ToolbarHeaderService.updateToolbarHeader({
       stateName: $state.current.name
     });
 
     $scope.$on('current-project-changed', function() {
-      $state.reload();
+      var changedProject = CurrentProjectService.getCurrentProject();
+      if (changedProject) {
+        $location.url('/' + LanguageService.getCurrentInstantly() +
+          '/projects/' + changedProject.id);
+      }
     });
 
     var selectedProject = CurrentProjectService.getCurrentProject();
+    var requestedProjectId = $stateParams.id;
+
+    if (!selectedProject && !requestedProjectId) {
+      return;
+    } else if (requestedProjectId &&
+        requestedProjectId !== selectedProject.id) {
+      DataAcquisitionProjectResource.get({id: requestedProjectId})
+        .$promise.then(function(project) {
+          if (project.id) {
+            CurrentProjectService.setCurrentProject(project);
+            $state.reload();
+          }
+        });
+      return;
+    }
+
+    selectedProject = CurrentProjectService.getCurrentProject();
     if (!selectedProject) {
+      console.error('no project selected');
       return;
     }
 
@@ -147,7 +170,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
 
     $state.currentPromise = null;
     $scope.searchUsers = function(search, role, roleInternal) {
-      if (!search) {
+      if (!search || !$state.loadComplete) {
         return [];
       }
       if (!$state.currentPromise) {
@@ -175,4 +198,6 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         return item.login !== user.login;
       });
     };
+
+    $state.loadComplete = true;
   });

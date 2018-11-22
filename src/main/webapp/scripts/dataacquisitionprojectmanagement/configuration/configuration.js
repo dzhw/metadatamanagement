@@ -7,7 +7,13 @@ angular
       $stateProvider
         .state('project-cockpit', {
           parent: 'site',
-          url: '/project-cockpit',
+          url: '/projects/:id?',
+          params: {
+            id: {
+              value: null,
+              squash: true
+            }
+          },
           reloadOnSearch: false,
           data: {
             authorities: ['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER', 'ROLE_ADMIN']
