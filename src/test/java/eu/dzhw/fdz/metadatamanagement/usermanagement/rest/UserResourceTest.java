@@ -184,4 +184,12 @@ public class UserResourceTest extends AbstractTest {
         .andExpect(status().isOk()).andExpect(content().json("[]"));
 
   }
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void testGetUserPublic() throws Exception{
+    restUserMockMvc.perform(get("/api/users/unknown/public").accept(MediaType.APPLICATION_JSON))
+    .andExpect(status().isNotFound());
+    restUserMockMvc.perform(get("/api/users/admin/public").accept(MediaType.APPLICATION_JSON))
+    .andExpect(status().isOk()).andExpect(jsonPath("$.login").value("admin"));
+  }
 }
