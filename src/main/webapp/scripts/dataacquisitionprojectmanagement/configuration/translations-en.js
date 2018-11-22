@@ -53,6 +53,11 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'The information is missing, that a Data Acquisition Project has been relesed before.'
             }
           },
+          'configuration': {
+            'publishers': {
+              'not-empty': 'The project must have at least one publisher.'
+            }
+          },
           'release': {
             'version': {
               'not-empty': 'The version must not be empty.',
@@ -63,6 +68,33 @@ angular.module('metadatamanagementApp').config(
           },
           'post-validation': {
             'project-has-no-study': 'The Project with the RDC-ID {{ id }} has no study.'
+          }
+        },
+        'project-cockpit': {
+          'title': 'Project-Cockpit',
+          'search': {
+            'placeholder': 'Search for users...',
+            'header-data-provider': 'Data Providers of this project',
+            'header-publisher': 'Publishers of this project'
+          },
+          'alert': {
+            'title': 'Attention',
+            'noproject': 'No project selected.',
+            'close': 'Okay'
+          },
+          'label': {
+            'ROLE_USER': 'User',
+            'ROLE_ADMIN': 'Admin',
+            'ROLE_DATA_PROVIDER': 'Data Provider',
+            'ROLE_PUBLISHER': 'Publisher'
+          },
+          'button': {
+            'save': 'Click to save the changes.',
+            'remove-user': 'Remove user'
+          },
+          'list': {
+            'empty-data-provider': 'No data providers are assigned to this project.',
+            'empty-publisher': 'No publishers are assigned to this project'
           }
         }
       }
