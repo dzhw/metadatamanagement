@@ -109,6 +109,56 @@
       </md-card>
     </div>
   </div>
+  <md-card ng-if="project.configuration.requiredObjectTypes">
+    <div class="layout-margin layout-row md-body-2">
+      {{'data-acquisition-project-management.project-cockpit.required-object-types.header' | translate}}
+    </div>
+    <md-list>
+      <md-list-item>
+        <md-input-container>
+          <md-checkbox ng-model="project.configuration.requiredObjectTypes.studyRequired" name="study" ng-disabled="true">
+            {{'data-acquisition-project-management.project-cockpit.required-object-types.studies' | translate}}
+          </md-checkbox>
+        </md-input-container>
+      </md-list-item>
+      <md-list-item>
+        <md-input-container>
+          <md-checkbox ng-model="project.configuration.requiredObjectTypes.surveyRequired" name="survey">
+            {{'data-acquisition-project-management.project-cockpit.required-object-types.surveys' | translate}}
+          </md-checkbox>
+        </md-input-container>
+      </md-list-item>
+      <md-list-item>
+        <md-input-container>
+          <md-checkbox ng-model="project.configuration.requiredObjectTypes.instrumentsRequired" name="instruments">
+            {{'data-acquisition-project-management.project-cockpit.required-object-types.instruments' | translate}}
+          </md-checkbox>
+        </md-input-container>
+      </md-list-item>
+      <md-list-item>
+        <md-input-container>
+          <md-checkbox ng-model="project.configuration.requiredObjectTypes.questionsRequired" name="questions">
+            {{'data-acquisition-project-management.project-cockpit.required-object-types.questions' | translate}}
+          </md-checkbox>
+        </md-input-container>
+      </md-list-item>
+      <md-list-item>
+        <md-input-container>
+          <md-checkbox ng-model="project.configuration.requiredObjectTypes.dataSetsRequired" name="dataSet">
+            {{'data-acquisition-project-management.project-cockpit.required-object-types.data-sets' | translate}}
+          </md-checkbox>
+        </md-input-container>
+      </md-list-item>
+      <md-list-item>
+        <md-input-container>
+          <md-checkbox ng-model="project.configuration.requiredObjectTypes.variablesRequired" name="variables">
+            {{'data-acquisition-project-management.project-cockpit.required-object-types.variables' | translate}}
+          </md-checkbox>
+        </md-input-container>
+      </md-list-item>
+    </md-list>
+
+  </md-card>
 
   <div class="fdz-fab-button-container" layout="column">
     <md-button class="md-raised md-fab md-accent" ng-click="saveChanges()" ng-disabled="!changed">

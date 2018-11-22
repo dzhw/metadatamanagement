@@ -142,11 +142,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         // cannot remove publishers without advanced privilege
         return false;
       }
-      if ($scope.activeUsers[role].length <= 1) {
-        // cannot remove the last user in this list
-        return false;
-      }
-      return true;
+      return $scope.activeUsers[role].length > 1;
     };
 
     $state.currentPromise = null;
