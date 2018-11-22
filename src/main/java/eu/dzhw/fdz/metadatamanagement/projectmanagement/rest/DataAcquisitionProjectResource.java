@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.RequiredObjectTypes;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Requirements;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
@@ -110,12 +110,12 @@ public class DataAcquisitionProjectResource extends
   private boolean isRequiredObjectTypesUpdateValid(
       DataAcquisitionProject dataAcquisitionProject,
       DataAcquisitionProject oldDataAcquisitionProject) {
-    RequiredObjectTypes requiredObjectTypes = dataAcquisitionProject.getConfiguration()
-        .getRequiredObjectTypes();
-    RequiredObjectTypes oldRequiredObjectTypes = oldDataAcquisitionProject.getConfiguration()
-        .getRequiredObjectTypes();
+    Requirements requirements = dataAcquisitionProject.getConfiguration()
+        .getRequirements();
+    Requirements oldRequirements = oldDataAcquisitionProject.getConfiguration()
+        .getRequirements();
 
-    if (requiredObjectTypes.equals(oldRequiredObjectTypes)) {
+    if (requirements.equals(oldRequirements)) {
       return true;
     }
 

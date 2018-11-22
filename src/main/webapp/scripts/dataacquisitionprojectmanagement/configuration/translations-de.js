@@ -97,13 +97,14 @@ angular.module('metadatamanagementApp').config(
             'empty-publisher': 'Keine Publisher sind diesem Projekt zugeteilt.'
           },
           'required-object-types': {
-            'header': 'Required Object Types',
-            'studies': 'Studies (obligatorisch)',
-            'surveys': 'Surveys',
-            'instruments': 'Instruments',
-            'questions': 'Questions',
-            'data-sets': 'Data Sets',
-            'variables': 'Variables'
+            'header': 'Project-Pflichtfelder',
+            'studies': 'Studien (obligatorisch)',
+            'surveys': 'Erhebungen',
+            'instruments': 'Instrumente',
+            'questions': 'Fragen',
+            'data-sets': 'Datensätze',
+            'variables': 'Variablen',
+            'setting-info': 'Diese Angaben müssen gemacht merden, bevor ein Projekt veröffentlicht werden kann'
           }
         }
       }

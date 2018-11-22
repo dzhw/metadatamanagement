@@ -23,6 +23,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
 
     var selectedProject = CurrentProjectService.getCurrentProject();
     var requestedProjectId = $stateParams.id;
+    var requiredTypesWatch;
 
     if (!selectedProject && !requestedProjectId) {
       return;
@@ -113,6 +114,20 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     DataAcquisitionProjectResource.get({id: selectedProject.id}).$promise.then(
       function(project) {
         $scope.project = project;
+
+        if(requiredTypesWatch) {
+          requiredTypesWatch();
+        }
+
+        if(project.configuration.requiredObjectTypes) {
+          $scope.$watch(function() {
+            return $scope.project.configuration.requiredObjectTypes;
+          }, function(newVal, oldVal) {
+            if(newVal !== oldVal && !$scope.changed) {
+              $scope.changed = true;
+            }
+          }, true);
+        }
 
         function getAndAddUsers(key) {
           // get users of type {key} asynchronously

@@ -103,7 +103,8 @@ angular.module('metadatamanagementApp').config(
             'instruments': 'Instruments',
             'questions': 'Questions',
             'data-sets': 'Data Sets',
-            'variables': 'Variables'
+            'variables': 'Variables',
+            'setting-info': 'These data types must be provided, before a project is publishable.'
           }
         }
       }

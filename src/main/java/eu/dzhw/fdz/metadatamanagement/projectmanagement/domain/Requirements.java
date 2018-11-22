@@ -19,7 +19,7 @@ import javax.validation.constraints.AssertTrue;
 @AllArgsConstructor
 @ValueObject
 @Builder
-public class RequiredObjectTypes {
+public class Requirements {
 
   /**
    * Defines if study data is required for a release (this object type is mandatory and this setting

@@ -116,55 +116,65 @@
       </md-card>
     </div>
   </div>
-  <md-card ng-if="project.configuration.requiredObjectTypes">
-    <div class="layout-margin layout-row md-body-2">
-      {{'data-acquisition-project-management.project-cockpit.required-object-types.header' | translate}}
-    </div>
-    <md-list>
-      <md-list-item>
-        <md-input-container>
-          <md-checkbox ng-model="project.configuration.requiredObjectTypes.studyRequired" name="study" ng-disabled="true">
-            {{'data-acquisition-project-management.project-cockpit.required-object-types.studies' | translate}}
-          </md-checkbox>
-        </md-input-container>
-      </md-list-item>
-      <md-list-item>
-        <md-input-container>
-          <md-checkbox ng-model="project.configuration.requiredObjectTypes.surveyRequired" name="survey">
-            {{'data-acquisition-project-management.project-cockpit.required-object-types.surveys' | translate}}
-          </md-checkbox>
-        </md-input-container>
-      </md-list-item>
-      <md-list-item>
-        <md-input-container>
-          <md-checkbox ng-model="project.configuration.requiredObjectTypes.instrumentsRequired" name="instruments">
-            {{'data-acquisition-project-management.project-cockpit.required-object-types.instruments' | translate}}
-          </md-checkbox>
-        </md-input-container>
-      </md-list-item>
-      <md-list-item>
-        <md-input-container>
-          <md-checkbox ng-model="project.configuration.requiredObjectTypes.questionsRequired" name="questions">
-            {{'data-acquisition-project-management.project-cockpit.required-object-types.questions' | translate}}
-          </md-checkbox>
-        </md-input-container>
-      </md-list-item>
-      <md-list-item>
-        <md-input-container>
-          <md-checkbox ng-model="project.configuration.requiredObjectTypes.dataSetsRequired" name="dataSet">
-            {{'data-acquisition-project-management.project-cockpit.required-object-types.data-sets' | translate}}
-          </md-checkbox>
-        </md-input-container>
-      </md-list-item>
-      <md-list-item>
-        <md-input-container>
-          <md-checkbox ng-model="project.configuration.requiredObjectTypes.variablesRequired" name="variables">
-            {{'data-acquisition-project-management.project-cockpit.required-object-types.variables' | translate}}
-          </md-checkbox>
-        </md-input-container>
-      </md-list-item>
-    </md-list>
-
+  <md-card ng-if="project.configuration.requirements">
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">
+          {{'data-acquisition-project-management.project-cockpit.required-object-types.header' | translate}}
+        </span>
+      </md-card-title-text>
+    </md-card-title>
+    <md-card-content>
+      <p class="md-body-1">
+        {{'data-acquisition-project-management.project-cockpit.required-object-types.setting-info' | translate}}
+      </p>
+      <form name="requirements" novalidate>
+        <md-list>
+          <md-list-item>
+            <md-input-container ng-class="'no-margin'">
+              <md-checkbox ng-model="project.configuration.requirements.studyRequired" name="study" ng-class="'no-margin'" ng-disabled="true">
+                {{'data-acquisition-project-management.project-cockpit.required-object-types.studies' | translate}}
+              </md-checkbox>
+            </md-input-container>
+          </md-list-item>
+          <md-list-item>
+            <md-input-container ng-class="'no-margin'">
+              <md-checkbox ng-model="project.configuration.requirements.surveyRequired" ng-class="'no-margin'" name="survey">
+                {{'data-acquisition-project-management.project-cockpit.required-object-types.surveys' | translate}}
+              </md-checkbox>
+            </md-input-container>
+          </md-list-item>
+          <md-list-item>
+            <md-input-container ng-class="'no-margin'">
+              <md-checkbox ng-model="project.configuration.requirements.instrumentsRequired" ng-class="'no-margin'" name="instruments">
+                {{'data-acquisition-project-management.project-cockpit.required-object-types.instruments' | translate}}
+              </md-checkbox>
+            </md-input-container>
+          </md-list-item>
+          <md-list-item>
+            <md-input-container ng-class="'no-margin'">
+              <md-checkbox ng-model="project.configuration.requirements.questionsRequired" ng-class="'no-margin'" name="questions">
+                {{'data-acquisition-project-management.project-cockpit.required-object-types.questions' | translate}}
+              </md-checkbox>
+            </md-input-container>
+          </md-list-item>
+          <md-list-item>
+            <md-input-container ng-class="'no-margin'">
+              <md-checkbox ng-model="project.configuration.requirements.dataSetsRequired" ng-class="'no-margin'" name="dataSet">
+                {{'data-acquisition-project-management.project-cockpit.required-object-types.data-sets' | translate}}
+              </md-checkbox>
+            </md-input-container>
+          </md-list-item>
+          <md-list-item>
+            <md-input-container ng-class="'no-margin'">
+              <md-checkbox ng-model="project.configuration.requirements.variablesRequired" ng-class="'no-margin'" name="variables">
+                {{'data-acquisition-project-management.project-cockpit.required-object-types.variables' | translate}}
+              </md-checkbox>
+            </md-input-container>
+          </md-list-item>
+        </md-list>
+      </form>
+    </md-card-content>
   </md-card>
 
   <div class="fdz-fab-button-container" layout="column">

@@ -36,9 +36,9 @@ public class Configuration {
   private List<String> dataProviders = new ArrayList<>();
 
   /**
-   * Defines which object types have to be present before a project can be released.
+   * Defines which object types are required before a project can be released.
    */
   @Valid
   @NotNull(message = "data-acquisition-project-management.error.required-object-types.not-null")
-  private RequiredObjectTypes requiredObjectTypes = new RequiredObjectTypes();
+  private Requirements requirements = new Requirements();
 }

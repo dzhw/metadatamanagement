@@ -374,7 +374,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
 
     project = dataAcquisitionProjectRepository.save(project);
 
-    project.getConfiguration().getRequiredObjectTypes().setDataSetsRequired(true);
+    project.getConfiguration().getRequirements().setDataSetsRequired(true);
 
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
         .content(TestUtil.convertObjectToJsonBytes(project))
