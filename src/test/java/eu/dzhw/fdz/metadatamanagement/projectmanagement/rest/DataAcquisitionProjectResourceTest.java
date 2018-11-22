@@ -6,6 +6,7 @@ import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Requirements;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import org.junit.After;
@@ -63,7 +64,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
 
   @Before
   public void setup() {
-    this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).alwaysDo(print()).build();
+    this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
   }
 
   @After
@@ -94,7 +95,6 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testCreateDataAcquisitionProjectWithTooLongId() throws IOException, Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
-    // project.setConfiguration(UnitTestCreateDomainObjectUtils.buildDataAcquisitionProjectConfiguration(Arrays.asList("testpublisher"),
     // Collections.emptyList()));
     project.setId("thisidistoolongandshouldproduceanerror");
     // create the project with the given id
@@ -110,6 +110,10 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testDeleteDataAcquisitionProject() throws IOException, Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    //delete not created project
+    mockMvc.perform(delete(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
+        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
+    
     // create the project with the given id
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
         .contentType(MediaType.APPLICATION_JSON)
@@ -145,11 +149,6 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testUpdateProject() throws IOException, Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
-    // Configuration projectConfiguration =
-    // UnitTestCreateDomainObjectUtils.buildDataAcquisitionProjectConfiguration(Arrays.asList("testpublisher"),
-    // Collections.emptyList());
-    // project.setConfiguration(projectConfiguration);
-
 
     // create the project with the given id
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
@@ -327,13 +326,25 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
   }
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.DATA_PROVIDER)
-  public void testSaveProjectWithEmptyPublishersAsProvider() throws Exception {
+  public void testSaveProjectWithInvalidConfigAsProvider() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    project.getConfiguration().setDataProviders(Arrays.asList("dataprovider"));
     // create the project with the given id
     dataAcquisitionProjectRepository.insert(project);
-    Configuration invalidConf = new Configuration();
+    Configuration invalidConf = new Configuration(
+        project.getConfiguration().getPublishers(), Collections.emptyList(), new Requirements()
+    );
     project.setConfiguration(invalidConf);
-    //update with invalid conf
+    //update with invalid conf -- no dataprovider
+    mockMvc
+        .perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(project)))
+        .andExpect(status().isUnauthorized())
+        .andExpect(content().string(containsString("not authorized to clear data providers")));
+    invalidConf = new Configuration();
+    project.setConfiguration(invalidConf);
+    //update with invalid conf -- no publisher
     mockMvc
         .perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
             .contentType(MediaType.APPLICATION_JSON)

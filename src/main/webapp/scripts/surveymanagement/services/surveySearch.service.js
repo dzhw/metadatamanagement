@@ -160,7 +160,9 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
         return ElasticSearchClient.count(query);
       };
 
-      var findSurveyMethods = function(searchText, filter, language) {
+      var findSurveyMethods = function(searchText, filter, language,
+        ignoreAuthorization) {
+        ignoreAuthorization = ignoreAuthorization || false;
         language = language || LanguageService.getCurrentInstantly();
         var query = createQueryObject();
         var termFilters = createTermFilters(filter);
@@ -205,7 +207,9 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
           query.body.query.bool.filter = termFilters;
         }
 
-        SearchHelperService.addFilter(query);
+        if (!ignoreAuthorization) {
+          SearchHelperService.addFilter(query);
+        }
 
         return ElasticSearchClient.search(query).then(function(result) {
           var surveyMethods = [];

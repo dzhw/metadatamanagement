@@ -21,7 +21,7 @@
           md-selected-item-change="selectedUserChanged(selectedUser.publishers, 'publishers')"
           md-items="user in searchUsers(searchText.publishers, 'publishers', 'ROLE_PUBLISHER')"
           md-item-text="user.login"
-          md-min-length="1"
+          md-min-length="0"
           md-delay="250"
           placeholder="{{'data-acquisition-project-management.project-cockpit.search.placeholder' | translate}}"
           md-require-match="true"
@@ -44,7 +44,7 @@
           <div ng-repeat="user in activeUsers.publishers">
             <md-list-item layout="row" style="padding-right: 0px;">
               <div class="md-list-item-text">
-              <strong>{{user.login}}</strong> ({{user.email}})
+                <strong>{{user.login}}</strong> (<a href="mailto:{{user.email}}">{{user.email}}</a>)
               </div>
               <span flex></span>
               <md-button ng-disabled="!canDeleteUser(user, 'publishers')" class="md-icon-button md-primary" ng-click="removeUser(user, 'publishers')" aria-label="remove user">
@@ -74,7 +74,7 @@
           md-selected-item-change="selectedUserChanged(selectedUser.dataProviders, 'dataProviders')"
           md-items="user in searchUsers(searchText.dataProviders, 'dataProviders', 'ROLE_DATA_PROVIDER')"
           md-item-text="user.login"
-          md-min-length="1"
+          md-min-length="0"
           md-delay="250"
           placeholder="{{'data-acquisition-project-management.project-cockpit.search.placeholder' | translate}}"
           md-require-match="true"
@@ -97,7 +97,7 @@
           <div ng-repeat="user in activeUsers.dataProviders">
             <md-list-item layout="row" style="padding-right: 0px;">
               <div class="md-list-item-text">
-                <strong>{{user.login}}</strong> ({{user.email}})
+                <strong>{{user.login}}</strong> (<a href="mailto:{{user.email}}">{{user.email}}</a>)
               </div>
               <span flex></span>
               <md-button ng-disabled="!canDeleteUser(user, 'dataProviders')" class="md-icon-button md-primary" ng-click="removeUser(user, 'dataProviders')" aria-label="remove user">
