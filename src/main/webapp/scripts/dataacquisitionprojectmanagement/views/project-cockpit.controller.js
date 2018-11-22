@@ -123,6 +123,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         $scope.changed = true;
         $scope.searchText[role] = '';
         $scope.selectedUser[role] = null;
+        $state.searchCache[role] = {};
       }
     };
 
@@ -196,9 +197,16 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     };
 
     $state.currentPromise = null;
+    $state.searchCache = {
+      publishers: {},
+      dataProviders: {}
+    }
     $scope.searchUsers = function(search, role, roleInternal) {
-      if (!search || !$state.loadComplete) {
+      if (!$state.loadComplete) {
         return [];
+      }
+      if($state.searchCache[role][search]) {
+        return $state.searchCache[role][search];
       }
       if (!$state.currentPromise) {
         $state.currentPromise = UserResource.search({
@@ -206,13 +214,14 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
           role: roleInternal
         }).$promise.then(function(result) {
           $state.currentPromise = null;
-
-          return result.filter(function(x) {
+          var results =  result.filter(function(x) {
             // filter out already added users
             return $scope.activeUsers[role].map(function(u) {
               return u.login;
             }).indexOf(x.login) < 0 && _.includes(x.authorities, roleInternal);
           });
+          $state.searchCache[role][search] = results;
+          return results;
         });
       }
       return $state.currentPromise;
