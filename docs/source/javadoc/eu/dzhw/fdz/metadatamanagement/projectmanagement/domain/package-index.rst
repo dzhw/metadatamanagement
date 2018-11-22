@@ -12,5 +12,5 @@ Domain objects describing \ :java:ref:`eu.dzhw.fdz.metadatamanagement.projectman
    DaraUpdateQueueItem
    DataAcquisitionProject
    Release
-   RequiredObjectTypes
+   Requirements
 

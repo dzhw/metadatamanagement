@@ -14,13 +14,13 @@
 
 .. java:import:: javax.validation.constraints AssertTrue
 
-RequiredObjectTypes
-===================
+Requirements
+============
 
 .. java:package:: eu.dzhw.fdz.metadatamanagement.projectmanagement.domain
    :noindex:
 
-.. java:type:: @Data @NoArgsConstructor @AllArgsConstructor @ValueObject @Builder public class RequiredObjectTypes
+.. java:type:: @Data @NoArgsConstructor @AllArgsConstructor @ValueObject @Builder public class Requirements
 
    This configuration defines which object types have to be delivered before a project can be released.
 
@@ -30,7 +30,7 @@ isDataSetsRequired
 ^^^^^^^^^^^^^^^^^^
 
 .. java:field:: private boolean isDataSetsRequired
-   :outertype: RequiredObjectTypes
+   :outertype: Requirements
 
    Defines if data set data is required for a release.
 
@@ -38,7 +38,7 @@ isInstrumentsRequired
 ^^^^^^^^^^^^^^^^^^^^^
 
 .. java:field:: private boolean isInstrumentsRequired
-   :outertype: RequiredObjectTypes
+   :outertype: Requirements
 
    Defines if instrument data is required for a release.
 
@@ -46,7 +46,7 @@ isQuestionsRequired
 ^^^^^^^^^^^^^^^^^^^
 
 .. java:field:: private boolean isQuestionsRequired
-   :outertype: RequiredObjectTypes
+   :outertype: Requirements
 
    Defines if question data is required for a release.
 
@@ -54,7 +54,7 @@ isStudyRequired
 ^^^^^^^^^^^^^^^
 
 .. java:field:: @AssertTrue @Setter private boolean isStudyRequired
-   :outertype: RequiredObjectTypes
+   :outertype: Requirements
 
    Defines if study data is required for a release (this object type is mandatory and this setting is therefore always \ ``true``\ .
 
@@ -62,7 +62,7 @@ isSurveysRequired
 ^^^^^^^^^^^^^^^^^
 
 .. java:field:: private boolean isSurveysRequired
-   :outertype: RequiredObjectTypes
+   :outertype: Requirements
 
    Defines if survey data is required for a release.
 
@@ -70,7 +70,7 @@ isVariablesRequired
 ^^^^^^^^^^^^^^^^^^^
 
 .. java:field:: private boolean isVariablesRequired
-   :outertype: RequiredObjectTypes
+   :outertype: Requirements
 
    Defines if variable data is required for a release.
 

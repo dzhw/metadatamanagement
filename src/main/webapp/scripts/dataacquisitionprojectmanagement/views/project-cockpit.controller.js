@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
            DataAcquisitionProjectResource, SimpleMessageToastService) {
 
     PageTitleService.setPageTitle(
-        'data-acquisition-project-management.project-cockpit.title');
+      'data-acquisition-project-management.project-cockpit.title');
     ToolbarHeaderService.updateToolbarHeader({
       stateName: $state.current.name
     });
@@ -28,14 +28,14 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     if (!selectedProject && !requestedProjectId) {
       return;
     } else if (requestedProjectId &&
-        requestedProjectId !== selectedProject.id) {
+      requestedProjectId !== selectedProject.id) {
       DataAcquisitionProjectResource.get({id: requestedProjectId})
         .$promise.then(function(project) {
-          if (project.id) {
-            CurrentProjectService.setCurrentProject(project);
-            $state.reload();
-          }
-        });
+        if (project.id) {
+          CurrentProjectService.setCurrentProject(project);
+          $state.reload();
+        }
+      });
       return;
     }
 
@@ -51,13 +51,13 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       }
 
       $scope.project.configuration.publishers =
-          $scope.activeUsers.publishers.map(function(identity) {
-        return identity.login;
-      });
+        $scope.activeUsers.publishers.map(function(identity) {
+          return identity.login;
+        });
       $scope.project.configuration.dataProviders =
-          $scope.activeUsers.dataProviders.map(function(identity) {
-        return identity.login;
-      });
+        $scope.activeUsers.dataProviders.map(function(identity) {
+          return identity.login;
+        });
 
       DataAcquisitionProjectResource.save(
         $scope.project,
@@ -67,7 +67,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
           SimpleMessageToastService
             .openSimpleMessageToast(
               'data-acquisition-project-management.log-messages.' +
-                  'data-acquisition-project.saved', {
+              'data-acquisition-project.saved', {
                 id: $scope.project.id
               });
         },
@@ -76,7 +76,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
           SimpleMessageToastService
             .openAlertMessageToast(
               'data-acquisition-project-management.log-messages.' +
-                  'data-acquisition-project.server-error'
+              'data-acquisition-project.server-error'
             );
         }
       );
@@ -115,15 +115,15 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       function(project) {
         $scope.project = project;
 
-        if(requiredTypesWatch) {
+        if (requiredTypesWatch) {
           requiredTypesWatch();
         }
 
-        if(project.configuration.requiredObjectTypes) {
+        if (project.configuration.requiredObjectTypes) {
           $scope.$watch(function() {
             return $scope.project.configuration.requiredObjectTypes;
           }, function(newVal, oldVal) {
-            if(newVal !== oldVal && !$scope.changed) {
+            if (newVal !== oldVal && !$scope.changed) {
               $scope.changed = true;
             }
           }, true);
@@ -209,9 +209,9 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     $scope.removeUser = function(user, role) {
       $scope.changed = true;
       $scope.activeUsers[role] = $scope.activeUsers[role]
-          .filter(function(item) {
-        return item.login !== user.login;
-      });
+        .filter(function(item) {
+          return item.login !== user.login;
+        });
     };
 
     $state.loadComplete = true;

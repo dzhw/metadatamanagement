@@ -46,11 +46,11 @@ publishers
 
    User names having the role of a publisher for a project. Must contain at least one user name.
 
-requiredObjectTypes
-^^^^^^^^^^^^^^^^^^^
+requirements
+^^^^^^^^^^^^
 
-.. java:field:: @Valid @NotNull private RequiredObjectTypes requiredObjectTypes
+.. java:field:: @Valid @NotNull private Requirements requirements
    :outertype: Configuration
 
-   Defines which object types have to be present before a project can be released.
+   Defines which object types are required before a project can be released.
 
