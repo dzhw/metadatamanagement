@@ -200,12 +200,12 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     $state.searchCache = {
       publishers: {},
       dataProviders: {}
-    }
+    };
     $scope.searchUsers = function(search, role, roleInternal) {
       if (!$state.loadComplete) {
         return [];
       }
-      if($state.searchCache[role][search]) {
+      if ($state.searchCache[role][search]) {
         return $state.searchCache[role][search];
       }
       if (!$state.currentPromise) {
@@ -233,6 +233,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
           .filter(function(item) {
         return item.login !== user.login;
       });
+      $state.searchCache[role] = {};
     };
 
     $state.loadComplete = true;
