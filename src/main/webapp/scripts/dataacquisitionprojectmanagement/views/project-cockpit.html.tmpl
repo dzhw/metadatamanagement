@@ -44,7 +44,7 @@
           <div ng-repeat="user in activeUsers.publishers">
             <md-list-item layout="row" style="padding-right: 0px;">
               <div class="md-list-item-text">
-              <strong>{{user.login}}</strong> ({{user.email}})
+                <strong>{{user.login}}</strong> (<a href="mailto:{{user.email}}">{{user.email}}</a>)
               </div>
               <span flex></span>
               <md-button ng-disabled="!canDeleteUser(user, 'publishers')" class="md-icon-button md-primary" ng-click="removeUser(user, 'publishers')" aria-label="remove user">
@@ -97,7 +97,7 @@
           <div ng-repeat="user in activeUsers.dataProviders">
             <md-list-item layout="row" style="padding-right: 0px;">
               <div class="md-list-item-text">
-                <strong>{{user.login}}</strong> ({{user.email}})
+                <strong>{{user.login}}</strong> (<a href="mailto:{{user.email}}">{{user.email}}</a>)
               </div>
               <span flex></span>
               <md-button ng-disabled="!canDeleteUser(user, 'dataProviders')" class="md-icon-button md-primary" ng-click="removeUser(user, 'dataProviders')" aria-label="remove user">
