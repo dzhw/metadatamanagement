@@ -53,13 +53,6 @@ public class DataAcquisitionProjectLastReleaseResourceTest extends AbstractTest 
 
   private MockMvc mockMvc;
 
-  // private Configuration confPubAndProv
-  // =UnitTestCreateDomainObjectUtils.buildDataAcquisitionProjectConfiguration(Arrays.<String>asList("testpublisher"),
-  // Arrays.<String>asList("testprovider"));
-  // private Configuration confPubInit
-  // =UnitTestCreateDomainObjectUtils.buildDataAcquisitionProjectConfiguration(Arrays.<String>asList("testpublisher"),
-  // Collections.emptyList());
-
   @Before
   public void setup() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
@@ -76,7 +69,6 @@ public class DataAcquisitionProjectLastReleaseResourceTest extends AbstractTest 
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testCreateProjectAndReadVersions() throws IOException, Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
-    // project.setConfiguration(confPubInit);
     // create the study with the given id
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
         .contentType(MediaType.APPLICATION_JSON)
@@ -92,7 +84,6 @@ public class DataAcquisitionProjectLastReleaseResourceTest extends AbstractTest 
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testEditProjectAndReadVersions() throws IOException, Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
-    // project.setConfiguration(confPubInit);
     // create the study with the given id
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
         .contentType(MediaType.APPLICATION_JSON)
@@ -122,11 +113,9 @@ public class DataAcquisitionProjectLastReleaseResourceTest extends AbstractTest 
         .andExpect(jsonPath("$[1].id", is(project.getId())))
         .andExpect(jsonPath("$[1].hasBeenReleasedBefore", is(true)))
         .andExpect(jsonPath("$[1].version", is(equalTo(1))))
-        // .andExpect(jsonPath("$[1].release", isNull()))
         .andExpect(jsonPath("$[2].id", is(project.getId())))
         .andExpect(jsonPath("$[2].version", is(equalTo(0))))
         .andExpect(jsonPath("$[2].hasBeenReleasedBefore", is(false)));
-    // .andExpect(jsonPath("$[2].release", isNull()));
   }
 
   @Test
@@ -142,7 +131,6 @@ public class DataAcquisitionProjectLastReleaseResourceTest extends AbstractTest 
         .contentType(MediaType.APPLICATION_JSON)
         .content(TestUtil.convertObjectToJsonBytes(project))).andExpect(status().isCreated());
 
-    // configuration.getPublishers().add("user"); // get added automatically
     // Assert that the last version is null
     Release lastRelease = this.versionsService.findLastRelease(project.getId());
     assertNull(lastRelease);
