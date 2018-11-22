@@ -309,7 +309,8 @@ angular.module('metadatamanagementApp').service('SearchDao',
 
         //only publisher and data provider see unreleased projects
         if (!Principal
-          .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
+          .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER',
+            'ROLE_ADMIN'])) {
           query.body.query.bool.filter = [];
           query.body.query.bool.filter.push({
             'exists': {

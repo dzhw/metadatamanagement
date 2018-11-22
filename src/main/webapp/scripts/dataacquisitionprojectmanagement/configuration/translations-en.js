@@ -73,9 +73,9 @@ angular.module('metadatamanagementApp').config(
         'project-cockpit': {
           'title': 'Project-Cockpit',
           'search': {
-            'placeholder': 'Username',
-            'header-data-provider': 'Data Providers for project',
-            'header-publisher': 'Publishers for project'
+            'placeholder': 'Search for users...',
+            'header-data-provider': 'Data Providers of this project',
+            'header-publisher': 'Publishers of this project'
           },
           'alert': {
             'title': 'Attention',

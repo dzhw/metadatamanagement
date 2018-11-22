@@ -463,7 +463,7 @@ angular.module('metadatamanagementApp')
 
         //Search Call to Elasticsearch
         return SurveySearchService.findSurveyMethods(searchText, {},
-            language)
+            language, true)
           .then(function(surveyMethods) {
             surveyMethodCache.searchText = searchText;
             surveyMethodCache.language = language;
