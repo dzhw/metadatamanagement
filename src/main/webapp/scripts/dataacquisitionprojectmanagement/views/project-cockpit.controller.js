@@ -174,7 +174,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
 
     $state.currentPromise = null;
     $scope.searchUsers = function(search, role, roleInternal) {
-      if (!search) {
+      if (!search || !$state.loadComplete) {
         return [];
       }
       if (!$state.currentPromise) {
@@ -202,4 +202,6 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         return item.login !== user.login;
       });
     };
+
+    $state.loadComplete = true;
   });
