@@ -165,63 +165,60 @@ public class MailService {
    * Send a mail to users who were added as publishers to a project.
    */
   @Async
-  public void sendPublishersAddedMail(List<User> publishers) {
+  public void sendPublishersAddedMail(List<User> publishers, String projectId) {
     log.debug("Sending 'publishers added' mail");
-    publishers.parallelStream().forEach(publisher -> {
-      Locale locale = Locale.forLanguageTag(publisher.getLangKey());
-      Context context = new Context(locale);
-      context.setVariable("user", publisher);
-      String content = templateEngine.process("publisherAdded", context);
-      String subject = messageSource.getMessage("email.publisher-added.title", null, locale);
-      sendEmail(null, new String[]{publisher.getEmail()}, null, subject, content, false, true);
-    });
+    sendChangedProjectConfigurationMail("addedToProjectConfiguration",
+        "email.project-configuration-added.title", "email.project-configuration.publisher-role",
+        publishers, projectId);
   }
 
   /**
    * Send a mail to users who were removed as publishers from a project.
    */
   @Async
-  public void sendPublisherRemovedMail(List<User> removedPublisherUsers) {
+  public void sendPublisherRemovedMail(List<User> removedPublisherUsers, String projectId) {
     log.debug("Sending 'publishers removed' mail");
-    removedPublisherUsers.parallelStream().forEach(publisher -> {
-      Locale locale = Locale.forLanguageTag(publisher.getLangKey());
-      Context context = new Context(locale);
-      context.setVariable("user", publisher);
-      String content = templateEngine.process("publisherRemoved", context);
-      String subject = messageSource.getMessage("email.publisher-removed.title", null, locale);
-      sendEmail(null, new String[]{publisher.getEmail()}, null, subject, content, false, true);
-    });
+    sendChangedProjectConfigurationMail("removedFromProjectConfiguration",
+        "email.project-configuration-removed.title", "email.project-configuration.publisher-role",
+        removedPublisherUsers, projectId);
   }
 
   /**
    * Send a mail to users who were added as data providers to a project.
    */
   @Async
-  public void sendDataProviderAddedMail(List<User> addedDataProviders) {
+  public void sendDataProviderAddedMail(List<User> addedDataProviders, String projectId) {
     log.debug("Sending 'data providers added' mail");
-    addedDataProviders.parallelStream().forEach(dataProvider -> {
-      Locale locale = Locale.forLanguageTag(dataProvider.getLangKey());
-      Context context = new Context(locale);
-      context.setVariable("user", dataProvider);
-      String content = templateEngine.process("dataProviderAdded", context);
-      String subject = messageSource.getMessage("email.data-provider-added.title", null, locale);
-      sendEmail(null, new String[]{dataProvider.getEmail()}, null, subject, content, false, true);
-    });
+    sendChangedProjectConfigurationMail("addedToProjectConfiguration",
+        "email.project-configuration-added.title",
+        "email.project-configuration.data-provider-role", addedDataProviders, projectId);
   }
 
   /**
    * Send a mail to users who were removed as data providers to a project.
    */
   @Async
-  public void sendDataProviderRemovedMail(List<User> removedDataProviders) {
+  public void sendDataProviderRemovedMail(List<User> removedDataProviders, String projectId) {
     log.debug("Sending 'data providers removed' mail");
-    removedDataProviders.parallelStream().forEach(dataProvider -> {
-      Locale locale = Locale.forLanguageTag(dataProvider.getLangKey());
+    sendChangedProjectConfigurationMail("removedFromProjectConfiguration",
+        "email.project-configuration-removed.title",
+        "email.project-configuration.data-provider-role", removedDataProviders, projectId);
+  }
+
+  private void sendChangedProjectConfigurationMail(String template, String subjectKey,
+                                                   String roleKey, List<User> users,
+                                                   String projectId) {
+    users.parallelStream().forEach(user -> {
+      Locale locale = Locale.forLanguageTag(user.getLangKey());
       Context context = new Context(locale);
-      context.setVariable("user", dataProvider);
-      String content = templateEngine.process("dataProviderRemoved", context);
-      String subject = messageSource.getMessage("email.data-provider-removed.title", null, locale);
-      sendEmail(null, new String[]{dataProvider.getEmail()}, null, subject, content, false, true);
+      context.setVariable("user", user);
+      context.setVariable("projectId", projectId);
+      context.setVariable("baseUrl", baseUrl);
+      context.setVariable("locale", locale);
+      context.setVariable("role", messageSource.getMessage(roleKey, null, locale));
+      String content = templateEngine.process(template, context);
+      String subject = messageSource.getMessage(subjectKey, new Object[]{projectId}, locale);
+      sendEmail(null, new String[]{user.getEmail()}, null, subject, content, false, true);
     });
   }
 }
