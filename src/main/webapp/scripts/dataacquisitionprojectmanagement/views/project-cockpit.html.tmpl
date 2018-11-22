@@ -3,7 +3,10 @@
   <div layout="row" style="margin-bottom: 0px;" layout-margin>
     <h1 id="top" class="md-headline fdz-truncate-string" style="margin-left: 0px;">{{'data-acquisition-project-management.project-cockpit.title' | translate}} <span class="label label-as-badge label-default">{{project.id}}</span></h1>
   </div>
-  <div ng-if="!project || !usersFetched" layout-gt-sm="row" layout="column" layout-align="space-around">
+  <div ng-if="!project">
+    <p>{{'data-acquisition-project-management.project-cockpit.alert.noproject' | translate}}</p>
+  </div>
+  <div ng-if="!usersFetched" layout-gt-sm="row" layout="column" layout-align="space-around">
     <md-progress-circular md-mode="indeterminate"></md-progress-circular>
   </div>
   <div layout-gt-sm="row" layout="column" ng-if="project && usersFetched">
