@@ -39,7 +39,7 @@ Create Study
 *** Keywords ***
 Create RobotsProject
     Pass Execution If    '${BROWSER}' == 'ie'    Study Creation not possible in IE
-    Login as dataprovider
+    Login as publisher after logout
     Click Element Through Tooltips    xpath=//md-sidenav//button[md-icon[text()='add']]
     Input Text    name=id    robotsproject${BROWSER}
     Wait Until Keyword Succeeds    5s    0.5s    Page Should Contain Element    xpath=//button[@type='submit' and not(contains(@disabled, 'disabled'))]
