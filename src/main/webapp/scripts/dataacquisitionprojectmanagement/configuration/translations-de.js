@@ -53,6 +53,11 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'Es muss angegeben sein, ob ein des Datenaufbereitungsprojekts schon einmal veröffentlicht wurde oder nicht.'
             }
           },
+          'configuration': {
+            'publishers': {
+              'not-empty': 'Es muss mindestens ein Publisher eingetragen sein.'
+            }
+          },
           'release': {
             'version': {
               'not-empty': 'Die Version darf nicht leer sein.',
@@ -63,6 +68,33 @@ angular.module('metadatamanagementApp').config(
           },
           'post-validation': {
             'project-has-no-study': 'Das Projekt mit der FDZID {{ id }} enthält keine Studie.'
+          }
+        },
+        'project-cockpit': {
+          'title': 'Projekt-Cockpit',
+          'search': {
+            'placeholder': 'Suchen Sie Benutzer...',
+            'header-data-provider': 'Datengeber dieses Projekts',
+            'header-publisher': 'Publisher dieses Projekts'
+          },
+          'alert': {
+            'title': 'Achtung',
+            'noproject': 'Kein Projekt ausgewählt.',
+            'close': 'Okay'
+          },
+          'label': {
+            'ROLE_USER': 'User',
+            'ROLE_ADMIN': 'Admin',
+            'ROLE_DATA_PROVIDER': 'Datengeber',
+            'ROLE_PUBLISHER': 'Publisher'
+          },
+          'button': {
+            'save': 'Klicken, um die Anpassungen zu speichern.',
+            'remove-user': 'Nutzer entfernen'
+          },
+          'list': {
+            'empty-data-provider': 'Keine Datengeber sind diesem Projekt zugeteilt.',
+            'empty-publisher': 'Keine Publisher sind diesem Projekt zugeteilt.'
           }
         }
       }
