@@ -321,8 +321,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
         .perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
             .contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(project)))
-        .andExpect(status().isBadRequest())
-        .andExpect(content().string(containsString("cannot clear publishers")));
+        .andExpect(status().isBadRequest());
   }
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.DATA_PROVIDER)
@@ -340,8 +339,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
         .perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
             .contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(project)))
-        .andExpect(status().isUnauthorized())
-        .andExpect(content().string(containsString("not authorized to clear data providers")));
+        .andExpect(status().isBadRequest());
     invalidConf = new Configuration();
     project.setConfiguration(invalidConf);
     //update with invalid conf -- no publisher
@@ -349,8 +347,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
         .perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
             .contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(project)))
-        .andExpect(status().isUnauthorized())
-        .andExpect(content().string(containsString("not authorized to remove publisher")));
+        .andExpect(status().isBadRequest());
   }
 
   @Test
@@ -374,7 +371,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = PUBLISHER_USERNAME)
-  public void testUpdateRequiredObjectTypes_forbidden() throws Exception {
+  public void testUpdateRequiredObjectTypes_badRequest() throws Exception {
     Configuration configuration = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProjectConfiguration(
         Collections.singletonList("differentPublisher"),
         Collections.emptyList()
@@ -390,6 +387,6 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
         .content(TestUtil.convertObjectToJsonBytes(project))
         .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isForbidden());
+        .andExpect(status().isBadRequest());
   }
 }

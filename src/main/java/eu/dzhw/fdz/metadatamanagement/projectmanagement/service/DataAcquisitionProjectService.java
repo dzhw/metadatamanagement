@@ -63,10 +63,12 @@ public class DataAcquisitionProjectService {
   /**
    * Saves a Data Acquisition Project.
    */
-  public void saveDataAcquisitionProject(DataAcquisitionProject dataAcquisitionProject) {
+  public DataAcquisitionProject saveDataAcquisitionProject(
+      DataAcquisitionProject dataAcquisitionProject) {
     this.eventPublisher.publishEvent(new BeforeSaveEvent(dataAcquisitionProject));
-    this.acquisitionProjectRepository.save(dataAcquisitionProject);
+    DataAcquisitionProject saved = this.acquisitionProjectRepository.save(dataAcquisitionProject);
     this.eventPublisher.publishEvent(new AfterSaveEvent(dataAcquisitionProject));
+    return saved;
   }
 
   /**
