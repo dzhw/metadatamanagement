@@ -101,9 +101,9 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
           requiredTypesWatch();
         }
 
-        if (project.configuration.requiredObjectTypes) {
+        if (project.configuration.requirements) {
           $scope.$watch(function() {
-            return $scope.project.configuration.requiredObjectTypes;
+            return $scope.project.configuration.requirements;
           }, function(newVal, oldVal) {
             if (newVal !== oldVal && !$scope.changed) {
               $scope.changed = true;

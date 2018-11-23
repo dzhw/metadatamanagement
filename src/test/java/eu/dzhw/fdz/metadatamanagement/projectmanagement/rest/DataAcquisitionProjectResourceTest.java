@@ -374,7 +374,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = PUBLISHER_USERNAME)
-  public void testUpdateRequiredObjectTypes_unauthorized() throws Exception {
+  public void testUpdateRequiredObjectTypes_forbidden() throws Exception {
     Configuration configuration = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProjectConfiguration(
         Collections.singletonList("differentPublisher"),
         Collections.emptyList()
@@ -390,6 +390,6 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
         .content(TestUtil.convertObjectToJsonBytes(project))
         .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isUnauthorized());
+        .andExpect(status().isForbidden());
   }
 }

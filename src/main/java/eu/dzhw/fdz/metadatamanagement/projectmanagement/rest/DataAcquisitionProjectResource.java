@@ -96,7 +96,7 @@ public class DataAcquisitionProjectResource extends
       }
 
       if (!isRequiredObjectTypesUpdateValid(newDataProject, oldDataProject)) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
             .body("publishers not assigned to project are not allowed to modify required object"
                 + "types");
       }
