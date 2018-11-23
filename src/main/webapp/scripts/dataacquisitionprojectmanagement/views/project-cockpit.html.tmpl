@@ -6,10 +6,10 @@
   <div ng-if="!project" class="layout-margin">
     <p>{{'data-acquisition-project-management.project-cockpit.alert.noproject' | translate}}</p>
   </div>
-  <div ng-if="!usersFetched" layout-gt-sm="row" layout="column" layout-align="space-around">
+  <div ng-if="fetching" layout-gt-sm="row" layout="column" layout-align="space-around">
     <md-progress-circular md-mode="indeterminate"></md-progress-circular>
   </div>
-  <div layout-gt-sm="row" layout="column" ng-if="project && usersFetched">
+  <div layout-gt-sm="row" layout="column" ng-if="project && !fetching">
     <div flex>
       <div class="layout-margin layout-row md-body-2">{{'data-acquisition-project-management.project-cockpit.search.header-publisher' | translate}}</div>
       <md-card>
