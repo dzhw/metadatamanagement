@@ -97,7 +97,7 @@ angular.module('metadatamanagementApp').config(
             'empty-publisher': 'No publishers are assigned to this project'
           },
           'requirements': {
-            'header': 'Expected meta data',
+            'header': 'Expected Metadata',
             'studies': 'Studies (mandatory)',
             'surveys': 'Surveys',
             'instruments': 'Instruments',

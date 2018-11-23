@@ -13,6 +13,19 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       stateName: $state.current.name
     });
 
+    var setProjectRequirementsDisabled = function(project) {
+      var loginName = Principal.loginName();
+      var publishers = _.get(project, 'configuration.publishers');
+      var result;
+      if (_.isArray(publishers)) {
+        result = publishers.indexOf(loginName) === -1;
+      } else {
+        result = false;
+      }
+      $scope.isProjectRequirementsDisabled = result;
+      return result;
+    };
+
     var requiredTypesWatch;
 
     $state.loadStarted = true;
@@ -50,6 +63,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
               'data-acquisition-project.saved', {
                 id: $scope.project.id
               });
+          $state.reload();
         },
         //Server Error
         function() {
@@ -95,13 +109,16 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     projectDeferred.promise.then(
       function(project) {
         $scope.project = project;
+        var isProjectRequirementsDisabled =
+          setProjectRequirementsDisabled(project);
         CurrentProjectService.setCurrentProject(project);
 
         if (requiredTypesWatch) {
           requiredTypesWatch();
         }
 
-        if (project.configuration.requirements) {
+        if (!isProjectRequirementsDisabled &&
+          project.configuration.requirements) {
           $scope.$watch(function() {
             return $scope.project.configuration.requirements;
           }, function(newVal, oldVal) {

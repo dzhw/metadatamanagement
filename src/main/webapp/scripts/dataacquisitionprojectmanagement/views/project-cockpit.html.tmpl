@@ -129,8 +129,7 @@
         {{'data-acquisition-project-management.project-cockpit.requirements.setting-info' | translate}}
       </p>
       <form name="requirements" novalidate>
-        <fieldset ng-disabled="!advancedPrivileges">
-          <md-list>
+        <md-list>
           <md-list-item>
             <md-input-container ng-class="'no-margin'">
               <md-checkbox ng-model="project.configuration.requirements.studyRequired" name="study" ng-class="'no-margin'" ng-disabled="true">
@@ -140,41 +139,40 @@
           </md-list-item>
           <md-list-item>
             <md-input-container ng-class="'no-margin'">
-              <md-checkbox ng-model="project.configuration.requirements.surveyRequired" ng-class="'no-margin'" name="survey">
+              <md-checkbox ng-model="project.configuration.requirements.surveyRequired" ng-class="'no-margin'" name="survey" ng-disabled="isProjectRequirementsDisabled">
                 {{'data-acquisition-project-management.project-cockpit.requirements.surveys' | translate}}
               </md-checkbox>
             </md-input-container>
           </md-list-item>
           <md-list-item>
             <md-input-container ng-class="'no-margin'">
-              <md-checkbox ng-model="project.configuration.requirements.instrumentsRequired" ng-class="'no-margin'" name="instruments">
+              <md-checkbox ng-model="project.configuration.requirements.instrumentsRequired" ng-class="'no-margin'" name="instruments" ng-disabled="isProjectRequirementsDisabled">
                 {{'data-acquisition-project-management.project-cockpit.requirements.instruments' | translate}}
               </md-checkbox>
             </md-input-container>
           </md-list-item>
           <md-list-item>
             <md-input-container ng-class="'no-margin'">
-              <md-checkbox ng-model="project.configuration.requirements.questionsRequired" ng-class="'no-margin'" name="questions">
+              <md-checkbox ng-model="project.configuration.requirements.questionsRequired" ng-class="'no-margin'" name="questions" ng-disabled="isProjectRequirementsDisabled">
                 {{'data-acquisition-project-management.project-cockpit.requirements.questions' | translate}}
               </md-checkbox>
             </md-input-container>
           </md-list-item>
           <md-list-item>
             <md-input-container ng-class="'no-margin'">
-              <md-checkbox ng-model="project.configuration.requirements.dataSetsRequired" ng-class="'no-margin'" name="dataSet">
+              <md-checkbox ng-model="project.configuration.requirements.dataSetsRequired" ng-class="'no-margin'" name="dataSet" ng-disabled="isProjectRequirementsDisabled">
                 {{'data-acquisition-project-management.project-cockpit.requirements.data-sets' | translate}}
               </md-checkbox>
             </md-input-container>
           </md-list-item>
           <md-list-item>
             <md-input-container ng-class="'no-margin'">
-              <md-checkbox ng-model="project.configuration.requirements.variablesRequired" ng-class="'no-margin'" name="variables">
+              <md-checkbox ng-model="project.configuration.requirements.variablesRequired" ng-class="'no-margin'" name="variables" ng-disabled="isProjectRequirementsDisabled">
                 {{'data-acquisition-project-management.project-cockpit.requirements.variables' | translate}}
               </md-checkbox>
             </md-input-container>
           </md-list-item>
-        </md-list>
-        </fieldset>
+    </md-list>
       </form>
     </md-card-content>
   </md-card>
