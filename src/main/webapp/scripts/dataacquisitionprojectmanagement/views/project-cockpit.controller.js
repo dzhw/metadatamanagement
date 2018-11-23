@@ -2,71 +2,26 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('ProjectCockpitController',
-  function($q, $scope, $state, $stateParams, $location, UserResource, Principal,
-           PageTitleService, LanguageService,
-           ToolbarHeaderService, CurrentProjectService,
-           DataAcquisitionProjectResource, SimpleMessageToastService) {
+  function($q, $scope, $state, $location, UserResource, Principal,
+           PageTitleService, LanguageService, ToolbarHeaderService,
+           DataAcquisitionProjectResource, SimpleMessageToastService,
+           CurrentProjectService, projectDeferred) {
 
     PageTitleService.setPageTitle(
-        'data-acquisition-project-management.project-cockpit.title');
+      'data-acquisition-project-management.project-cockpit.title');
     ToolbarHeaderService.updateToolbarHeader({
       stateName: $state.current.name
     });
 
-    var selectedProject = CurrentProjectService.getCurrentProject();
-    var requestedProjectId = $stateParams.id;
-
-    // see also: CurrentProjectService
-    if (!selectedProject && !requestedProjectId) {
-      // if neither requested nor already set
-      // display nothing
-      return;
-    } else if (requestedProjectId && !$state.loadStarted) {
-      // if on first page load,
-      // always override project with requested project
-      $state.loadStarted = true;
-      DataAcquisitionProjectResource.get({id: requestedProjectId})
-      .$promise.then(function(project) {
-        if (project.id) {
-          CurrentProjectService.setCurrentProject(project);
-          $state.reload();
-        }
-      });
-      return;
-    } else if (
-        requestedProjectId &&
-        requestedProjectId !== selectedProject.id) {
-      // if project requested and it differs from the selected,
-      // select requested
-      $state.loadStarted = true;
-      DataAcquisitionProjectResource.get({id: requestedProjectId})
-        .$promise.then(function(project) {
-          if (project.id) {
-            CurrentProjectService.setCurrentProject(project);
-            $state.reload();
-          }
-        });
-      return;
-    } else if (!requestedProjectId) {
-      // if none requested,
-      // set url to selected project
-      $location.url('/' + LanguageService.getCurrentInstantly() +
-          '/projects/' + selectedProject.id);
-    }
     $state.loadStarted = true;
 
     $scope.$on('current-project-changed',
-        function(event, changedProject) { // jshint ignore:line
-      if (changedProject) {
-        $location.url('/' + LanguageService.getCurrentInstantly() +
-          '/projects/' + changedProject.id);
-      }
-    });
-
-    selectedProject = CurrentProjectService.getCurrentProject();
-    if (!selectedProject) {
-      return;
-    }
+      function(event, changedProject) { // jshint ignore:line
+        if (changedProject) {
+          $location.url('/' + LanguageService.getCurrentInstantly() +
+            '/projects/' + changedProject.id);
+        }
+      });
 
     $scope.saveChanges = function() {
       if (!$scope.project.configuration) {
@@ -74,13 +29,13 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       }
 
       $scope.project.configuration.publishers =
-          $scope.activeUsers.publishers.map(function(identity) {
-        return identity.login;
-      });
+        $scope.activeUsers.publishers.map(function(identity) {
+          return identity.login;
+        });
       $scope.project.configuration.dataProviders =
-          $scope.activeUsers.dataProviders.map(function(identity) {
-        return identity.login;
-      });
+        $scope.activeUsers.dataProviders.map(function(identity) {
+          return identity.login;
+        });
 
       DataAcquisitionProjectResource.save(
         $scope.project,
@@ -90,7 +45,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
           SimpleMessageToastService
             .openSimpleMessageToast(
               'data-acquisition-project-management.log-messages.' +
-                  'data-acquisition-project.saved', {
+              'data-acquisition-project.saved', {
                 id: $scope.project.id
               });
         },
@@ -99,7 +54,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
           SimpleMessageToastService
             .openAlertMessageToast(
               'data-acquisition-project-management.log-messages.' +
-                  'data-acquisition-project.server-error'
+              'data-acquisition-project.server-error'
             );
         }
       );
@@ -135,9 +90,10 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     $scope.usersFetched = false;
 
     // load all users assigned to the currrent project
-    DataAcquisitionProjectResource.get({id: selectedProject.id}).$promise.then(
+    projectDeferred.promise.then(
       function(project) {
         $scope.project = project;
+        CurrentProjectService.setCurrentProject(project);
 
         function getAndAddUsers(key) {
           // get users of type {key} asynchronously
@@ -175,7 +131,9 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
                 status: error.data.error_description
               });
         });
-      });
+      }).finally(function() {
+      $scope.loadStarted = false;
+    });
 
     $scope.advancedPrivileges = Principal.hasAnyAuthority(['ROLE_PUBLISHER',
       'ROLE_ADMIN']);
@@ -214,7 +172,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
           role: roleInternal
         }).$promise.then(function(result) {
           $state.currentPromise = null;
-          var results =  result.filter(function(x) {
+          var results = result.filter(function(x) {
             // filter out already added users
             return $scope.activeUsers[role].map(function(u) {
               return u.login;
@@ -230,9 +188,9 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     $scope.removeUser = function(user, role) {
       $scope.changed = true;
       $scope.activeUsers[role] = $scope.activeUsers[role]
-          .filter(function(item) {
-        return item.login !== user.login;
-      });
+        .filter(function(item) {
+          return item.login !== user.login;
+        });
       $state.searchCache[role] = {};
     };
 

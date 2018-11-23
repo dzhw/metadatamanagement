@@ -25,6 +25,17 @@ angular
               controller: 'ProjectCockpitController'
             }
           },
+          resolve: {
+            projectDeferred: function($stateParams, $q,
+                                      DataAcquisitionProjectResource) {
+              var deferred = $q.defer();
+              DataAcquisitionProjectResource.get({id: $stateParams.id})
+                .$promise.then(function(project) {
+                deferred.resolve(project);
+              });
+              return deferred;
+            }
+          },
           onEnter: function($timeout) {
             $timeout(function() {
             });
