@@ -97,14 +97,14 @@ angular.module('metadatamanagementApp').config(
             'empty-publisher': 'No publishers are assigned to this project'
           },
           'required-object-types': {
-            'header': 'Required Object Types',
+            'header': 'Expected meta data',
             'studies': 'Studies (mandatory)',
             'surveys': 'Surveys',
             'instruments': 'Instruments',
             'questions': 'Questions',
             'data-sets': 'Data Sets',
             'variables': 'Variables',
-            'setting-info': 'These data types must be provided, before a project is publishable.'
+            'setting-info': 'This meta data must be provided, before a project is publishable:'
           }
         }
       }

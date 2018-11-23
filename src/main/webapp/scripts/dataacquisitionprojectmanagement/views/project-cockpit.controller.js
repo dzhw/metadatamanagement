@@ -2,10 +2,10 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('ProjectCockpitController',
-  function($q, $scope, $state, $stateParams, $location, UserResource, Principal,
-           PageTitleService, LanguageService,
-           ToolbarHeaderService, CurrentProjectService,
-           DataAcquisitionProjectResource, SimpleMessageToastService) {
+  function($q, $scope, $state, $location, UserResource, Principal,
+           PageTitleService, LanguageService, ToolbarHeaderService,
+           DataAcquisitionProjectResource, SimpleMessageToastService,
+           CurrentProjectService, projectDeferred) {
 
     PageTitleService.setPageTitle(
       'data-acquisition-project-management.project-cockpit.title');
@@ -13,61 +13,17 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       stateName: $state.current.name
     });
 
-    var selectedProject = CurrentProjectService.getCurrentProject();
-    var requestedProjectId = $stateParams.id;
     var requiredTypesWatch;
 
-    // see also: CurrentProjectService
-    if (!selectedProject && !requestedProjectId) {
-      // if neither requested nor already set
-      // display nothing
-      return;
-    } else if (requestedProjectId && !$state.loadStarted) {
-      // if on first page load,
-      // always override project with requested project
-      $state.loadStarted = true;
-      DataAcquisitionProjectResource.get({id: requestedProjectId})
-      .$promise.then(function(project) {
-        if (project.id) {
-          CurrentProjectService.setCurrentProject(project);
-          $state.reload();
-        }
-      });
-      return;
-    } else if (
-        requestedProjectId &&
-        requestedProjectId !== selectedProject.id) {
-      // if project requested and it differs from the selected,
-      // select requested
-      $state.loadStarted = true;
-      DataAcquisitionProjectResource.get({id: requestedProjectId})
-        .$promise.then(function(project) {
-        if (project.id) {
-          CurrentProjectService.setCurrentProject(project);
-          $state.reload();
-        }
-      });
-      return;
-    } else if (!requestedProjectId) {
-      // if none requested,
-      // set url to selected project
-      $location.url('/' + LanguageService.getCurrentInstantly() +
-          '/projects/' + selectedProject.id);
-    }
     $state.loadStarted = true;
 
     $scope.$on('current-project-changed',
-        function(event, changedProject) { // jshint ignore:line
-      if (changedProject) {
-        $location.url('/' + LanguageService.getCurrentInstantly() +
-          '/projects/' + changedProject.id);
-      }
-    });
-
-    selectedProject = CurrentProjectService.getCurrentProject();
-    if (!selectedProject) {
-      return;
-    }
+      function(event, changedProject) { // jshint ignore:line
+        if (changedProject) {
+          $location.url('/' + LanguageService.getCurrentInstantly() +
+            '/projects/' + changedProject.id);
+        }
+      });
 
     $scope.saveChanges = function() {
       if (!$scope.project.configuration) {
@@ -136,9 +92,10 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     $scope.usersFetched = false;
 
     // load all users assigned to the currrent project
-    DataAcquisitionProjectResource.get({id: selectedProject.id}).$promise.then(
+    projectDeferred.promise.then(
       function(project) {
         $scope.project = project;
+        CurrentProjectService.setCurrentProject(project);
 
         if (requiredTypesWatch) {
           requiredTypesWatch();
@@ -190,7 +147,9 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
                 status: error.data.error_description
               });
         });
-      });
+      }).finally(function() {
+      $scope.loadStarted = false;
+    });
 
     $scope.advancedPrivileges = Principal.hasAnyAuthority(['ROLE_PUBLISHER',
       'ROLE_ADMIN']);
@@ -204,7 +163,11 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         // cannot remove publishers without advanced privilege
         return false;
       }
-      return $scope.activeUsers[role].length > 1;
+      if ($scope.activeUsers[role].length <= 1) {
+        // cannot remove the last user in this list
+        return false;
+      }
+      return true;
     };
 
     $state.currentPromise = null;
@@ -225,7 +188,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
           role: roleInternal
         }).$promise.then(function(result) {
           $state.currentPromise = null;
-          var results =  result.filter(function(x) {
+          var results = result.filter(function(x) {
             // filter out already added users
             return $scope.activeUsers[role].map(function(u) {
               return u.login;
@@ -241,9 +204,9 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     $scope.removeUser = function(user, role) {
       $scope.changed = true;
       $scope.activeUsers[role] = $scope.activeUsers[role]
-          .filter(function(item) {
-        return item.login !== user.login;
-      });
+        .filter(function(item) {
+          return item.login !== user.login;
+        });
       $state.searchCache[role] = {};
     };
 
