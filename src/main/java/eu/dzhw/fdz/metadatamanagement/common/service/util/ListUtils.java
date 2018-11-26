@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * Common Utility functions for dealing with lists.
- * 
+ *
  * @author René Reitmann
  */
 public class ListUtils {
@@ -23,9 +23,23 @@ public class ListUtils {
     }
     if (listTwo != null) {
       result.removeAll(listTwo);
-      result.addAll(listTwo);      
+      result.addAll(listTwo);
     }
-    
+
     return result;
+  }
+
+  /**
+   * Get the difference between two lists.
+   * @param baseList base list
+   * @param secondList elements which should not be contained in the base list
+   * @return A new list containing elements from the first list, but not elements also contained in
+   *     the second list.
+   */
+  public static <T> List<T> diff(List<T> baseList, List<T> secondList) {
+    List<T> left = new ArrayList<>(baseList);
+    List<T> right = new ArrayList<>(secondList);
+    left.removeAll(right);
+    return left;
   }
 }

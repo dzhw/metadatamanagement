@@ -285,7 +285,7 @@ angular.module('metadatamanagementApp')
 
         //Search Call to Elasticsearch
         return StudySearchService.findStudySeries(searchText, {},
-            language)
+            language, null, null, null, true)
           .then(function(studySeries) {
             studySeriesCache.searchText = searchText;
             studySeriesCache.language = language;
@@ -302,7 +302,7 @@ angular.module('metadatamanagementApp')
 
         //Search Call to Elasticsearch
         return StudySearchService.findSponsors(searchText, {},
-            language)
+            language, true)
           .then(function(sponsors) {
             sponsorsCache.searchText = searchText;
             sponsorsCache.language = language;
@@ -319,7 +319,7 @@ angular.module('metadatamanagementApp')
 
         //Search Call to Elasticsearch
         return StudySearchService.findInstitutions(searchText, {},
-            language)
+            language, true)
           .then(function(institutions) {
             institutionCache.searchText = searchText;
             institutionCache.language = language;

@@ -1,0 +1,128 @@
+
+<div>
+  <div layout="row" style="margin-bottom: 0px;" layout-margin>
+    <h1 id="top" class="md-headline fdz-truncate-string" style="margin-left: 0px;">{{'data-acquisition-project-management.project-cockpit.title' | translate}} <span class="label label-as-badge label-default">{{project.id}}</span></h1>
+  </div>
+  <div ng-if="!project" class="layout-margin">
+    <p>{{'data-acquisition-project-management.project-cockpit.alert.noproject' | translate}}</p>
+  </div>
+  <div ng-if="!usersFetched" layout-gt-sm="row" layout="column" layout-align="space-around">
+    <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+  </div>
+  <div layout-gt-sm="row" layout="column" ng-if="project && usersFetched">
+    <div flex>
+      <div class="layout-margin layout-row md-body-2">{{'data-acquisition-project-management.project-cockpit.search.header-publisher' | translate}}</div>
+      <md-card>
+        <md-autocomplete
+          flex
+          ng-disabled="!advancedPrivileges"
+          md-search-text="searchText.publishers"
+          md-selected-item="selectedUser.publishers"
+          md-selected-item-change="selectedUserChanged(selectedUser.publishers, 'publishers')"
+          md-items="user in searchUsers(searchText.publishers, 'publishers', 'ROLE_PUBLISHER')"
+          md-item-text="user.login"
+          md-min-length="0"
+          md-delay="250"
+          placeholder="{{'data-acquisition-project-management.project-cockpit.search.placeholder' | translate}}"
+          md-require-match="true"
+          md-no-cache="true"
+          style="margin-bottom: 2px"
+          >
+            <md-item-template>
+              <div layout="row">
+                <strong><span md-highlight-text="searchText.publishers">{{user.login}}</span></strong>
+                &nbsp;
+                <span md-highlight-text="searchText.publishers">({{user.email}})</span>
+              </div>
+            </md-item-template>
+            <md-not-found>
+              <span data-translate="global.menu.entities.unknown-project"></span>
+            </md-not-found>
+        </md-autocomplete>
+
+        <md-list ng-if="activeUsers.publishers && activeUsers.publishers.length" style="padding: 0px;">
+          <div ng-repeat="user in activeUsers.publishers">
+            <md-list-item layout="row" style="padding-right: 0px;">
+              <div class="md-list-item-text">
+                <strong>{{user.login}}</strong> (<a href="mailto:{{user.email}}">{{user.email}}</a>)
+              </div>
+              <span flex></span>
+              <md-button ng-disabled="!canDeleteUser(user, 'publishers')" class="md-icon-button md-primary" ng-click="removeUser(user, 'publishers')" aria-label="remove user">
+                <md-icon md-font-set="material-icons" class="ng-binding ng-scope material-icons" role="img" aria-hidden="true">delete_forever</md-icon>
+                <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                  {{'data-acquisition-project-management.project-cockpit.button.remove-user' | translate}}
+                </md-tooltip>
+              </md-button>
+            </md-list-item>
+            <md-divider ng-if=!$last></md-divider>
+          </div>
+        </md-list>
+        <div style="padding: 14px;" ng-if="!activeUsers.publishers || !activeUsers.publishers.length">
+          <i>{{'data-acquisition-project-management.project-cockpit.list.empty-publisher' | translate}}</i>
+        </div>
+      </md-card>
+    </div>
+
+    <div flex>
+      <div class="layout-margin layout-row md-body-2">{{'data-acquisition-project-management.project-cockpit.search.header-data-provider' | translate}}</div>
+      <md-card>
+        <md-autocomplete
+          flex
+          ng-disabled="false"
+          md-search-text="searchText.dataProviders"
+          md-selected-item="selectedUser.dataProviders"
+          md-selected-item-change="selectedUserChanged(selectedUser.dataProviders, 'dataProviders')"
+          md-items="user in searchUsers(searchText.dataProviders, 'dataProviders', 'ROLE_DATA_PROVIDER')"
+          md-item-text="user.login"
+          md-min-length="0"
+          md-delay="250"
+          placeholder="{{'data-acquisition-project-management.project-cockpit.search.placeholder' | translate}}"
+          md-require-match="true"
+          md-no-cache="true"
+          style="margin-bottom: 2px"
+          >
+            <md-item-template>
+              <div layout="row">
+                <strong><span md-highlight-text="searchText.dataProviders">{{user.login}}</span></strong>
+                &nbsp;
+                <span md-highlight-text="searchText.dataProviders">({{user.email}})</span>
+              </div>
+            </md-item-template>
+            <md-not-found>
+              <span data-translate="global.menu.entities.unknown-project"></span>
+            </md-not-found>
+        </md-autocomplete>
+
+        <md-list ng-if="activeUsers.dataProviders && activeUsers.dataProviders.length" style="padding: 0px;">
+          <div ng-repeat="user in activeUsers.dataProviders">
+            <md-list-item layout="row" style="padding-right: 0px;">
+              <div class="md-list-item-text">
+                <strong>{{user.login}}</strong> (<a href="mailto:{{user.email}}">{{user.email}}</a>)
+              </div>
+              <span flex></span>
+              <md-button ng-disabled="!canDeleteUser(user, 'dataProviders')" class="md-icon-button md-primary" ng-click="removeUser(user, 'dataProviders')" aria-label="remove user">
+                <md-icon md-font-set="material-icons" class="ng-binding ng-scope material-icons" role="img" aria-hidden="true">delete_forever</md-icon>
+                <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                  {{'data-acquisition-project-management.project-cockpit.button.remove-user' | translate}}
+                </md-tooltip>
+              </md-button>
+            </md-list-item>
+            <md-divider ng-if=!$last></md-divider>
+          </div>
+        </md-list>
+        <div style="padding: 14px;" ng-if="!activeUsers.dataProviders || !activeUsers.dataProviders.length">
+          <i>{{'data-acquisition-project-management.project-cockpit.list.empty-data-provider' | translate}}</i>
+        </div>
+      </md-card>
+    </div>
+  </div>
+
+  <div class="fdz-fab-button-container" layout="column">
+    <md-button class="md-raised md-fab md-accent" ng-click="saveChanges()" ng-disabled="!changed">
+      <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+          {{'data-acquisition-project-management.project-cockpit.button.save' | translate}}
+      </md-tooltip>
+      <md-icon md-font-set="material-icons">save</md-icon>
+    </md-button>
+  </div>
+</div>

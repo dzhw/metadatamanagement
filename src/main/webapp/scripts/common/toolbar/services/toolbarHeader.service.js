@@ -73,6 +73,9 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         'iconType': 'svg',
         'icon': 'assets/images/icons/survey.svg'
       },
+      'projectCockpit': {
+        'type': 'data-acquisition-project-management.project-cockpit.title'
+      },
       'login': {
         'type': 'global.toolbar.buttons.login'
       },
@@ -375,6 +378,13 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
             'type': translationStringsMap.disclosure.type
           };
           $rootScope.toolbarHeaderItems.push(disclosureItem);
+          break;
+        case 'project-cockpit':
+          var cockpitItem = {
+            'state': 'project-cockpit',
+            'type': translationStringsMap.projectCockpit.type
+          };
+          $rootScope.toolbarHeaderItems.push(cockpitItem);
           break;
         case 'user-management':
           var managementItem = {

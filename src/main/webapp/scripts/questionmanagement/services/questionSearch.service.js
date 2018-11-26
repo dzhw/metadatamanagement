@@ -269,7 +269,7 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
 
       SearchHelperService.addQuery(query, queryterm);
 
-      SearchHelperService.addReleaseFilter(query);
+      SearchHelperService.addFilter(query);
 
       return ElasticSearchClient.search(query).then(function(result) {
         var titles = [];

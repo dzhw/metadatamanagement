@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.InstrumentSubDocumentProjection;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.projections.QuestionSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projections.RelatedPublicationSubDocumentProjection;
@@ -48,6 +49,7 @@ public class DataSetSearchDocument extends DataSet implements SearchDocumentInte
       new ArrayList<>();
   private List<SurveyNestedDocument> nestedSurveys = new ArrayList<>();
   private Release release = null;
+  private Configuration configuration = null;
   
   private Integer maxNumberOfObservations;
   
@@ -66,6 +68,7 @@ public class DataSetSearchDocument extends DataSet implements SearchDocumentInte
    * @param surveys The surveys using this data set.
    * @param instruments The instruments used to create this data set.
    * @param questions The questions used to create this data set.
+   * @param configuration the configuration from data acquisition 
    */
   @SuppressWarnings("CPD-START")
   public DataSetSearchDocument(DataSet dataSet, 
@@ -76,7 +79,8 @@ public class DataSetSearchDocument extends DataSet implements SearchDocumentInte
       Map<String, InstrumentSubDocumentProjection> instruments,
       List<QuestionSubDocumentProjection> questions,
       Release release,
-      String doi) {
+      String doi,
+      Configuration configuration) {
     super(dataSet);
     if (study != null) {
       this.study = new StudySubDocument(study, doi);
@@ -119,6 +123,7 @@ public class DataSetSearchDocument extends DataSet implements SearchDocumentInte
     this.accessWays = dataSet.getSubDataSets().stream()
         .map(subDataSet -> subDataSet.getAccessWay()).collect(Collectors.toList());
     this.release = release;
+    this.configuration = configuration;
     this.completeTitle = I18nString.builder()
         .de((dataSet.getDescription().getDe() != null ? dataSet.getDescription().getDe()
             : dataSet.getDescription().getEn()) + " (" + dataSet.getId() + ")")
