@@ -10,7 +10,7 @@
     <md-progress-circular md-mode="indeterminate"></md-progress-circular>
   </div>
   <div layout-gt-sm="row" layout="column" ng-if="project && !fetching">
-    <div flex>
+    <div flex style="-ms-flex:auto;">
       <div class="layout-margin layout-row md-body-2">{{'data-acquisition-project-management.project-cockpit.search.header-publisher' | translate}}</div>
       <md-card>
         <md-autocomplete
@@ -63,7 +63,7 @@
       </md-card>
     </div>
 
-    <div flex>
+    <div flex style="-ms-flex:auto;">
       <div class="layout-margin layout-row md-body-2">{{'data-acquisition-project-management.project-cockpit.search.header-data-provider' | translate}}</div>
       <md-card>
         <md-autocomplete
