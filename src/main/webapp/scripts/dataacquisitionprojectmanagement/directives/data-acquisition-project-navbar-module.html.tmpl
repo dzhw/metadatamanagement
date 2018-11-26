@@ -10,7 +10,7 @@
                 <span data-translate="global.menu.entities.unknown-project" data-translate-values="{projectId: ctrl.searchText}"></span>
             </md-not-found>
         </md-autocomplete>
-        <md-button ng-disabled="ctrl.projectChooserDisabled" class="md-primary md-raised md-icon-button" ng-click="ctrl.createProject()" style="margin-right: 0px; margin-left: 1em;">
+        <md-button ng-disabled="ctrl.projectChooserDisabled" class="md-primary md-raised md-icon-button" ng-click="ctrl.createProject()" style="margin-right: 0px; margin-left: 1em;" ng-if="ctrl.hasAuthority('ROLE_PUBLISHER')">
             <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{'global.tooltips.create-project' | translate}}
             </md-tooltip>
