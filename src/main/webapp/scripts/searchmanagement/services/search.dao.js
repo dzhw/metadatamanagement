@@ -373,7 +373,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
             if (_.isArray(filterArray)) {
               query.body.query.bool.filter.push(filterCriteria);
             } else {
-              _.set(query, 'body.query.bool.filter', filterCriteria);
+              _.set(query, 'body.query.bool.filter[0]', filterCriteria);
             }
           }
           return ElasticSearchClient.search(query);
