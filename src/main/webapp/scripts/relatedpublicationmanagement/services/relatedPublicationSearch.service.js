@@ -277,7 +277,7 @@ angular.module('metadatamanagementApp')
 
         SearchHelperService.addQuery(query, queryterm);
 
-        SearchHelperService.addReleaseFilter(query);
+        SearchHelperService.addFilter(query);
 
         return ElasticSearchClient.search(query).then(function(result) {
           var titles = [];

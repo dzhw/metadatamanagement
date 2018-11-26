@@ -34,8 +34,12 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetReposi
 import eu.dzhw.fdz.metadatamanagement.filemanagement.service.FileService;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionProjectVersionsService;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RelatedQuestion;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ValidResponse;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
@@ -66,7 +70,13 @@ public class DataSetReportService {
   private QuestionRepository questionRepository;
 
   @Autowired
+  private StudyRepository studyRepository;
+
+  @Autowired
   private InstrumentRepository instrumentRepository;
+
+  @Autowired
+  private DataAcquisitionProjectVersionsService projectVersionsService;
 
   /**
    * The Escape Prefix handles the escaping of special latex signs within data information. This
@@ -281,7 +291,7 @@ public class DataSetReportService {
     Map<String, Object> dataForTemplate = new HashMap<>();
 
     // Create Information for the latex template.
-    dataForTemplate = this.createDataSetMap(dataForTemplate, dataSetId);
+    dataForTemplate = this.addStudyAndDataSetAndLastRelease(dataForTemplate, dataSetId);
     dataForTemplate = this.createVariableDependingMaps(dataForTemplate);
 
     return dataForTemplate;
@@ -296,12 +306,17 @@ public class DataSetReportService {
    * @return The map for the template as fluent result. Added some created elements within this
    *         method.
    */
-  private Map<String, Object> createDataSetMap(Map<String, Object> dataForTemplate,
+  private Map<String, Object> addStudyAndDataSetAndLastRelease(Map<String, Object> dataForTemplate,
       String dataSetId) {
     // Get DataSet and check the valid result
     DataSet dataSet = this.dataSetRepository.findById(dataSetId).get();
+    Study study = this.studyRepository.findById(dataSet.getStudyId()).get();
+    Release lastRelease = projectVersionsService.findLastRelease(
+        dataSet.getDataAcquisitionProjectId());
 
+    dataForTemplate.put("study", study);
     dataForTemplate.put("dataSet", dataSet);
+    dataForTemplate.put("lastRelease", lastRelease);
 
     return dataForTemplate;
   }

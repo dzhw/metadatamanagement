@@ -10,7 +10,7 @@
                 <span data-translate="global.menu.entities.unknown-project" data-translate-values="{projectId: ctrl.searchText}"></span>
             </md-not-found>
         </md-autocomplete>
-        <md-button ng-disabled="ctrl.projectChooserDisabled" class="md-primary md-raised md-icon-button" ng-click="ctrl.createProject()" style="margin-right: 0px; margin-left: 1em;">
+        <md-button ng-disabled="ctrl.projectChooserDisabled" class="md-primary md-raised md-icon-button" ng-click="ctrl.createProject()" style="margin-right: 0px; margin-left: 1em;" ng-if="ctrl.hasAuthority('ROLE_PUBLISHER')">
             <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{'global.tooltips.create-project' | translate}}
             </md-tooltip>
@@ -25,7 +25,7 @@
         <md-icon md-font-set="material-icons" class="fdz-not-released">cancel</md-icon>
         <span>{{'global.toolbar.not-released' | translate}}</span>
     </div>
-    <div style="margin-top: 1em;">
+    <div style="margin-top: 1em;" class="layout-row">
         <md-button class="md-primary md-raised md-icon-button" ng-class="{'fdz-reset-left-margin': ctrl.hasAuthority('ROLE_PUBLISHER')}" ng-click="ctrl.deleteProject()" style="margin-right: 0px;" ng-disabled="!ctrl.selectedProject || ctrl.selectedProject.hasBeenReleasedBefore || ctrl.projectChooserDisabled"
           data-has-authority="ROLE_PUBLISHER">
             <md-tooltip ng-hide="!ctrl.selectedProject" md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
@@ -44,6 +44,13 @@
                 {{ctrl.selectedProject.release?'global.tooltips.unrelease-project':'global.tooltips.release-project' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">{{ctrl.selectedProject.release?'stop_screen_share':'screen_share'}}</md-icon>
+        </md-button>
+        <span flex></span>
+        <md-button ui-sref="project-cockpit({id: ctrl.selectedProject.id})" class="md-primary md-raised md-icon-button" style="margin-right: 0px;" ng-click="close()" ng-disabled="!ctrl.selectedProject">
+            <md-tooltip ng-hide="!ctrl.selectedProject" md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                {{'global.tooltips.cockpit-project' | translate}}
+            </md-tooltip>
+            <md-icon md-svg-src="assets/images/icons/desktop-mac-dashboard.svg"></md-icon>
         </md-button>
     </div>
 </div>

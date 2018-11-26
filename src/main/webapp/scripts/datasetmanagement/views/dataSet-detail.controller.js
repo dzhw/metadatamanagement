@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp')
       LanguageService, $state, ToolbarHeaderService, CleanJSObjectService,
       SimpleMessageToastService, DataSetAttachmentResource,
       DataSetCitateDialogService, SearchResultNavigatorService, $stateParams,
-      ProductChooserDialogService) {
+      ProductChooserDialogService, DataAcquisitionProjectResource) {
       SearchResultNavigatorService.registerCurrentSearchResult(
           $stateParams['search-result-index']);
       var ctrl = this;
@@ -17,12 +17,20 @@ angular.module('metadatamanagementApp')
       ctrl.hasAnyAuthority = Principal.hasAnyAuthority;
       ctrl.hasAuthority = Principal.hasAuthority;
       ctrl.counts = {};
-
+      ctrl.projectIsCurrentlyReleased = true;
       ctrl.openDialog = function(subDataSet, event) {
         DataSetCitateDialogService.showDialog(subDataSet.citationHint, event);
       };
 
       entity.promise.then(function(result) {
+        if (Principal
+            .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
+          DataAcquisitionProjectResource.get({
+            id: result.dataAcquisitionProjectId
+          }).$promise.then(function(project) {
+            ctrl.projectIsCurrentlyReleased = (project.release != null);
+          });
+        }
         var currenLanguage = LanguageService.getCurrentInstantly();
         var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';
         PageTitleService.setPageTitle('data-set-management.detail.title', {

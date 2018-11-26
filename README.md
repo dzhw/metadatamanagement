@@ -29,14 +29,20 @@ You need to install [Bower][] globally as well:
 
     npm install -g bower
 
+On Windows, `patch.exe` has to exist in the PATH. It is distributed as part of git bash, or can be downloaded manually from [GnuWin32][].
+
 ## Running on your local machine
 
 Before starting the app on your local machine you need to start the following Document Stores:
 1. Mongodb: Mongodb must be running on the default port, on ubuntu you should install it from here https://docs.mongodb.org/manual/tutorial/install-mongodb-on-ubuntu/
 2. Elasticsearch (6.3.2): Elasticsearch must be running on its default port. You can download it from here https://www.elastic.co/downloads/elasticsearch
 
+Make sure that you have read-write-access on the ***data*** directory (in your project directory) for Elasticsearch.
+
 Alternatively you can run
 
+    docker-compose up
+    # for later use once the containers are created
     docker-compose start
 
 to start all services the metadatamanagement depends on. Mongodb and Elasticsearch will be listening on its default ports.
@@ -55,7 +61,7 @@ If you want to build a docker image for the metadatamanagement server app you ca
 
     mvn package dockerfile:build
 
-This image can be run with all its dependend containers by
+This image can be run with all its dependent containers by
 
     docker-compose -f docker-compose-app.yml -f docker-compose.yml start
 
@@ -68,13 +74,23 @@ Our CI pipleline will do some automatic checks and tests and it will optimize th
 This will concatenate and minify CSS and JavaScript files using grunt. It will also modify the `index.html` so it references
 these new files.
 
+To make the build runnable with an enabled dev profile, you'll need to install the following dependencies:
+
+* Python
+
+Once Python is installed, run:
+
+    pip install git+https://github.com/dzhw/javasphinx.git --user
+    
+Note that the `--user` flag installs the dependency somewhere in your user directory (e.g. /home/{user}/local/bin on Linux). Make sure that the installed binaries/scripts are on your path.
+
 Before deploying the `{dev|test|prod}` system you need to [install the cloudfoundry cli](https://docs.cloudfoundry.org/cf-cli/install-go-cli.html#-linux-installation).
 
 You can build and deploy the jar to the desired environment by running
 
     ./deploy/build-and-deploy.sh {dev|test|prod}
 
-We test our project continously with the Robot Framework. Test Developers can get further info [here](https://github.com/dzhw/metadatamanagement/wiki/Robot-Framework).
+We test our project continuously with the Robot Framework. Test Developers can get further info [here](https://github.com/dzhw/metadatamanagement/wiki/Robot-Framework).
 
 ## Pivotal Cloudfoundry
 This project is currently built and deployed to Pivotal Cloudfoundry by [Travis CI][TravisCI]. You can test the latest version on https://metadatamanagement-dev.cfapps.io/
@@ -96,6 +112,7 @@ Continuous Integration Platform provided by [Travis CI][TravisCI]
 [NVM]: https://github.com/creationix/nvm
 [SDKMAN!]: http://sdkman.io/install.html
 [TravisCI]: https://travis-ci.org/
+[GnuWin32]: http://gnuwin32.sourceforge.net/packages/patch.htm
 
 [![forthebadge](http://forthebadge.com/images/badges/built-by-developers.svg)](http://forthebadge.com)  [![forthebadge](https://forthebadge.com/images/badges/built-with-science.svg)](https://forthebadge.com)
  [![forthebadge](https://forthebadge.com/images/badges/60-percent-of-the-time-works-every-time.svg)](https://forthebadge.com) [![forthebadge](http://forthebadge.com/images/badges/uses-badges.svg)](http://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/makes-people-smile.svg)](https://forthebadge.com)

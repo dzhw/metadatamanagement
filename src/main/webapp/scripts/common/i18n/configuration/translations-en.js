@@ -72,6 +72,7 @@ angular.module('metadatamanagementApp').config(
           'delete-project': 'Click to delete the selected Data Acquisition Project with all related data.',
           'release-project': 'Click to release the selected project for all users.',
           'unrelease-project': 'Click to unrelease the selected project.',
+          'cockpit-project': 'Click to go to the Project Cockpit.',
           'post-validation': 'Click to validate the selected Data Acquisition Project.',
           'files': {
             'download': 'Click to download file "{{filename}}"'
