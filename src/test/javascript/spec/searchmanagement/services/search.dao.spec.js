@@ -20,6 +20,7 @@ describe("search.dao.js", function() {
 
   // variables injected into search.dao service
   var clientId;
+  var SearchHelperService;
 
   // captured parameter for ElasticSearchClient#search
   var capturedQuery = null;
@@ -27,15 +28,18 @@ describe("search.dao.js", function() {
   beforeEach(function() {
     module('metadatamanagementApp');
 
-    inject(function(_SearchDao_, _ElasticSearchClient_, _Principal_, _clientId_) {
+    inject(function(_SearchDao_, _ElasticSearchClient_, _Principal_, _clientId_, _SearchHelperService_, _LanguageService_) {
       SearchDao = _SearchDao_;
       ElasticSearchClient = _ElasticSearchClient_;
       Principal = _Principal_;
       clientId = _clientId_;
+      SearchHelperService = _SearchHelperService_;
 
       spyOn(ElasticSearchClient, 'search').and.callFake(function(query) {
         capturedQuery = query;
       });
+
+      spyOn(_LanguageService_, 'getCurrentInstantly').and.returnValue('en');
     });
   });
 
@@ -187,6 +191,138 @@ describe("search.dao.js", function() {
       var generatedFilter = _.find(capturedQuery.body.query.bool.filter, predicate);
 
       expect(generatedFilter).toBeUndefined();
+    });
+  });
+
+  describe('::apply filter', function() {
+    it('should apply default filters if some were given', function() {
+      spyOn(SearchHelperService, 'createTermFilters').and.callThrough();
+      var surveyFilter = {
+        survey: 'sur-' + dataAcquisitionProjectId + '-sy1'
+      };
+      SearchDao.search(undefined, page, dataAcquisitionProjectId, surveyFilter, elasticSearchType, pageSize);
+
+      expect(SearchHelperService.createTermFilters).toHaveBeenCalled();
+    });
+  });
+
+  describe('::should query filters', function() {
+    var searchTerm = 'a-search-term';
+
+    var buildPredicate = function(fieldName, searchTerm) {
+      var predicate = {
+        constant_score: {
+          filter: {
+            match: {}
+          }
+        }
+      };
+
+      predicate.constant_score.filter.match[fieldName] = {
+        query: searchTerm
+      };
+      return predicate;
+    };
+
+    var findQueryItem = function(capturedQuery, predicate) {
+      return _.find(capturedQuery.body.query.bool.should, predicate);
+    };
+
+    it('should set "should" filters for "study" type', function() {
+      SearchDao.search(searchTerm, page, dataAcquisitionProjectId, filter, 'studies', pageSize);
+
+      expect(findQueryItem(capturedQuery, buildPredicate('title.de.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('title.en.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('surveyDesign.de.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('surveyDesign.en.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('surveyDataType.de.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('surveyDataType.en.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('id.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('authors.firstName.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('authors.middleName.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('authors.lastName.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('description.de.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('description.en.ngrams', searchTerm))).toBeDefined();
+    });
+
+    it('should set "should" filters for "surveys" type', function() {
+      SearchDao.search(searchTerm, page, dataAcquisitionProjectId, filter, 'surveys', pageSize);
+
+      expect(findQueryItem(capturedQuery, buildPredicate('title.de.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('title.en.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('dataType.de.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('dataType.en.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('surveyMethod.de.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('surveyMethod.en.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('id.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('population.description.de.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('population.description.en.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('population.title.de.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('population.title.en.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('sample.de.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('sample.en.ngrams', searchTerm))).toBeDefined();
+    });
+
+    it('should set "should" filters for "instruments" type', function() {
+      SearchDao.search(searchTerm, page, dataAcquisitionProjectId, filter, 'instruments', pageSize);
+
+      expect(findQueryItem(capturedQuery, buildPredicate('description.de.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('description.en.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('id.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('type.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('title.de.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('title.en.ngrams', searchTerm))).toBeDefined();
+    });
+
+    it('should set "should" filters for "questions" type', function() {
+      SearchDao.search(searchTerm, page, dataAcquisitionProjectId, filter, 'questions', pageSize);
+
+      expect(findQueryItem(capturedQuery, buildPredicate('instrument.description.de.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('instrument.description.en.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('id.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('number.edge_ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('type.de.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('type.en.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('questionText.de.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('questionText.en.ngrams', searchTerm))).toBeDefined();
+    });
+
+    it('should set "should" filters for "data_sets" type', function() {
+      SearchDao.search(searchTerm, page, dataAcquisitionProjectId, filter, 'data_sets', pageSize);
+
+      expect(findQueryItem(capturedQuery, buildPredicate('description.de.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('description.en.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('id.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('type.de.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('type.en.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('surveys.title.de.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('surveys.title.en.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('subDataSets.accessWays.ngrams', searchTerm))).toBeDefined();
+    });
+
+    it('should set "should" filters for "variables" type', function() {
+      SearchDao.search(searchTerm, page, dataAcquisitionProjectId, filter, 'variables', pageSize);
+
+      expect(findQueryItem(capturedQuery, buildPredicate('label.de.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('label.en.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('name.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('id.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('dataType.de.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('dataType.en.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('scaleLevel.de.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('scaleLevel.en.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('surveys.title.de.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('surveys.title.en.ngrams', searchTerm))).toBeDefined();
+    });
+
+    it('should set "should" filters for "related_publications" type', function() {
+      SearchDao.search(searchTerm, page, dataAcquisitionProjectId, filter, 'related_publications', pageSize);
+
+      expect(findQueryItem(capturedQuery, buildPredicate('title.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('authors.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('id.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('year', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('sourceReference.ngrams', searchTerm))).toBeDefined();
     });
   });
 });
