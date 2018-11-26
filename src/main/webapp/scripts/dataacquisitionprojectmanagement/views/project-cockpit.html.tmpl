@@ -6,11 +6,11 @@
   <div ng-if="!project" class="layout-margin">
     <p>{{'data-acquisition-project-management.project-cockpit.alert.noproject' | translate}}</p>
   </div>
-  <div ng-if="!usersFetched" layout-gt-sm="row" layout="column" layout-align="space-around">
+  <div ng-if="fetching" layout-gt-sm="row" layout="column" layout-align="space-around">
     <md-progress-circular md-mode="indeterminate"></md-progress-circular>
   </div>
-  <div layout-gt-sm="row" layout="column" ng-if="project && usersFetched">
-    <div flex>
+  <div layout-gt-sm="row" layout="column" ng-if="project && !fetching">
+    <div flex style="-ms-flex:auto;">
       <div class="layout-margin layout-row md-body-2">{{'data-acquisition-project-management.project-cockpit.search.header-publisher' | translate}}</div>
       <md-card>
         <md-autocomplete
@@ -26,7 +26,7 @@
           placeholder="{{'data-acquisition-project-management.project-cockpit.search.placeholder' | translate}}"
           md-require-match="true"
           md-no-cache="true"
-          style="margin-bottom: 2px"
+          style="margin-bottom: 2px; -ms-flex: auto;"
           >
             <md-item-template>
               <div layout="row">
@@ -36,7 +36,7 @@
               </div>
             </md-item-template>
             <md-not-found>
-              <span data-translate="global.menu.entities.unknown-project"></span>
+              {{searchText.publishers}} <span data-translate="global.menu.entities.unknown-project"></span>
             </md-not-found>
         </md-autocomplete>
 
@@ -63,7 +63,7 @@
       </md-card>
     </div>
 
-    <div flex>
+    <div flex style="-ms-flex:auto;">
       <div class="layout-margin layout-row md-body-2">{{'data-acquisition-project-management.project-cockpit.search.header-data-provider' | translate}}</div>
       <md-card>
         <md-autocomplete
@@ -79,7 +79,7 @@
           placeholder="{{'data-acquisition-project-management.project-cockpit.search.placeholder' | translate}}"
           md-require-match="true"
           md-no-cache="true"
-          style="margin-bottom: 2px"
+          style="margin-bottom: 2px; -ms-flex: auto;"
           >
             <md-item-template>
               <div layout="row">
@@ -89,7 +89,7 @@
               </div>
             </md-item-template>
             <md-not-found>
-              <span data-translate="global.menu.entities.unknown-project"></span>
+              {{searchText.dataProviders}} <span data-translate="global.menu.entities.unknown-project"></span>
             </md-not-found>
         </md-autocomplete>
 

@@ -331,6 +331,11 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
   public void testSaveProjectWithInvalidConfigAsProvider() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.getConfiguration().setDataProviders(Arrays.asList("dataprovider"));
+    mockMvc
+    .perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(TestUtil.convertObjectToJsonBytes(project)))
+    .andExpect(status().isUnauthorized());
     // create the project with the given id
     dataAcquisitionProjectRepository.insert(project);
     Configuration invalidConf = new Configuration(project.getConfiguration().getPublishers(), Collections.emptyList());
