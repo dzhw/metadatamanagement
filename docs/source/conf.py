@@ -26,7 +26,7 @@ author = 'Robert Birkelbach, Anne Gärtner, René Reitmann'
 # The short X.Y version
 version = ''
 # The full version, including alpha/beta/rc tags
-release = '1.0.72'
+release = '1.0.74'
 
 
 # -- General configuration ---------------------------------------------------
