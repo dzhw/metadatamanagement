@@ -1,9 +1,7 @@
 *** Settings ***
 Documentation     Tests if login is possible
 Default Tags      smoketest
-Resource          ../../resources/home_page_resource.robot
 Resource          ../../resources/search_resource.robot
-Resource          ../../resources/login_resource.robot
 
 *** Test Cases ***
 Logged in Publisher Click On First Search Result
@@ -15,7 +13,7 @@ Logged in Publisher Click On First Search Result
 
 *** Keywords ***
 Click on First Search Result
-    Click Element    xpath=//a[@class="fdz-search-result"][1]
+    Click Element    xpath=//a[@class='fdz-search-result'][1]
 
 Click on Next Content
     Click Element    xpath=//md-icon[@md-font-set='material-icons'][contains(.,'navigate_next')]
