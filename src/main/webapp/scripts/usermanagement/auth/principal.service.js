@@ -75,6 +75,9 @@ angular.module('metadatamanagementApp').factory(
           deferred.resolve(_identity);
         }
         return deferred.promise;
+      },
+      loginName: function() {
+        return _identity && _identity.login;
       }
     };
   });

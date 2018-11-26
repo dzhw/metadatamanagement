@@ -91,6 +91,7 @@ public class DaraServiceTest extends AbstractTest {
   }
 
   @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testRelease() throws Exception {
 
     //ASSERT

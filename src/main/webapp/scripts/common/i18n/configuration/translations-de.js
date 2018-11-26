@@ -72,6 +72,7 @@ angular.module('metadatamanagementApp').config(
           'delete-project': 'Klicken, um das ausgewählte Datenaufbereitungsprojekt mit allen verknüpften Daten zu löschen.',
           'release-project': 'Klicken, um das ausgewählte Projekt für alle Benutzer freizugeben.',
           'unrelease-project': 'Klicken, um die Freigabe des ausgewählten Projektes zurückzunehmen.',
+          'cockpit-project': 'Klicken, um zum Projektcockpit zu gehen.',
           'post-validation': 'Klicken, um das ausgewählte Datenaufbereitungsprojekt zu validieren.',
           'files': {
             'download': 'Klicken, um die Datei "{{filename}}" herunterzuladen'

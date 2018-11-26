@@ -278,7 +278,10 @@ module.exports = function(grunt) {
               'element “html”: Subtags must not exceed 8 characters in length.',
               'Bad value “{{item.language}}” for attribute “lang” on ' +
               'element “strong”: Subtags must not exceed 8 characters in ' +
-              'length.'
+              'length.',
+              'Bad value “mailto:{{user.email}}” for attribute “href” on' +
+              ' element “a”: Illegal character in scheme data: “{” is not' +
+              ' allowed.'
             ],
             customattrs: [
               'show-validation',

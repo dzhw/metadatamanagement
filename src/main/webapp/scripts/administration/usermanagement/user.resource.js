@@ -17,8 +17,25 @@ angular.module('metadatamanagementApp').factory('UserResource',
           }
         }
       },
+      'getPublic': {
+        url: '/api/users/:login/public',
+        method: 'GET',
+        transformResponse: function(data) {
+          // data might be empty if 404
+          if (data) {
+            data = angular.fromJson(data);
+            return data;
+          }
+        }
+      },
       'update': {
         method: 'PUT'
+      },
+      'search': {
+        url: '/api/users/findUserWithRole/',
+        params: {search: '@login', role: '@role'},
+        method: 'GET',
+        isArray: true
       }
     });
   });

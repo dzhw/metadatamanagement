@@ -12,7 +12,7 @@
 
         <div class="form-group" ng-class="{'has-error': editForm.login.$invalid}">
             <label data-translate="user-management.login.login">Login</label>
-            <input type="text" class="form-control" name="login" ng-model="user.login" required ng-maxlength="50">
+            <input readonly type="text" class="form-control" name="login" ng-model="user.login" required ng-maxlength="50">
 
             <div ng-show="editForm.login.$invalid">
                 <p class="help-block" ng-show="editForm.login.$error.required" data-translate="global.entity.validation.required">

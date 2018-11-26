@@ -26,6 +26,8 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetReposi
 import eu.dzhw.fdz.metadatamanagement.filemanagement.service.FileService;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 /**
@@ -44,6 +46,9 @@ public class DataSetsReportResourceTest extends AbstractTest {
 
   @Autowired
   private DataSetRepository dataSetRepository;
+  
+  @Autowired
+  private StudyRepository studyRepository;
 
   @Autowired
   private FileService fileService;
@@ -64,6 +69,7 @@ public class DataSetsReportResourceTest extends AbstractTest {
   public void cleanUp() {
     this.dataAcquisitionProjectRepository.deleteAll();
     this.dataSetRepository.deleteAll();
+    this.studyRepository.deleteAll();
     this.fileService.deleteTempFiles();
     this.javersService.deleteAll();
   }
@@ -89,6 +95,9 @@ public class DataSetsReportResourceTest extends AbstractTest {
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), null, null);
     this.dataSetRepository.save(dataSet);
 
+    Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
+    this.studyRepository.save(study);
+    
     // Act and Assert
     MockMultipartFile multipartFile =
         new MockMultipartFile("file", "TemplateExample.zip", "application/zip", texTemplate);

@@ -198,7 +198,8 @@ angular.module('metadatamanagementApp').factory(
     var addReleaseFilter = function(query) {
       //only publisher and data provider see unreleased projects
       if (!Principal
-          .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
+        .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER',
+          'ROLE_ADMIN'])) {
         query.body.query = query.body.query || {};
         query.body.query.bool = query.body.query.bool || {};
         query.body.query.bool.filter = query.body.query.bool.filter || [];
@@ -208,6 +209,36 @@ angular.module('metadatamanagementApp').factory(
           }
         });
       }
+    };
+
+    var addDataProviderFilter = function(query) {
+      //we must hide some filter options if user is only data provider
+      if (Principal.hasAuthority('ROLE_DATA_PROVIDER') &&
+        !Principal.hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN'])) {
+        var loginName = Principal.loginName();
+        if (loginName) {
+          var filterCriteria = {
+            'bool': {
+              'must': [{
+                'term': {'configuration.dataProviders': loginName}
+              }]
+            }
+          };
+
+          var filterArray = _.get(query, 'body.query.bool.filter');
+
+          if (_.isArray(filterArray)) {
+            filterArray.push(filterCriteria);
+          } else {
+            _.set(query, 'body.query.bool.filter', filterCriteria);
+          }
+        }
+      }
+    };
+
+    var addFilter = function(query) {
+      addReleaseFilter(query);
+      addDataProviderFilter(query);
     };
 
     var addQuery = function(query, queryterm) {
@@ -239,7 +270,7 @@ angular.module('metadatamanagementApp').factory(
       getAvailableFilters: getAvailableFilters,
       getHiddenFilters: getHiddenFilters,
       createSortByCriteria: createSortByCriteria,
-      addReleaseFilter: addReleaseFilter,
+      addFilter: addFilter,
       addQuery: addQuery
     };
   }

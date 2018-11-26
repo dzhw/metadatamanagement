@@ -11,7 +11,7 @@
 
     <groupId>eu.dzhw.fdz.metadatamanagement</groupId>
     <artifactId>metadatamanagement</artifactId>
-    <version>1.0.73</version>
+    <version>1.0.74-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>metadatamanagement</name>
 
@@ -323,6 +323,19 @@
                                         <versionRange>[3.0.5,)</versionRange>
                                         <goals>
                                             <goal>check</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore />
+                                    </action>
+                                </pluginExecution>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.codehaus.mojo</groupId>
+                                        <artifactId>exec-maven-plugin</artifactId>
+                                        <versionRange>[1.6.0,)</versionRange>
+                                        <goals>
+                                            <goal>exec</goal>
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
