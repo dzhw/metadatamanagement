@@ -27,12 +27,21 @@ angular
           },
           resolve: {
             projectDeferred: function($stateParams, $q,
-                                      DataAcquisitionProjectResource) {
+                                      DataAcquisitionProjectResource,
+                                      CurrentProjectService) {
               var deferred = $q.defer();
-              DataAcquisitionProjectResource.get({id: $stateParams.id})
-                .$promise.then(function(project) {
-                deferred.resolve(project);
-              });
+              if ($stateParams.id) {
+                DataAcquisitionProjectResource.get({id: $stateParams.id})
+                  .$promise.then(function(project) {
+                  deferred.resolve(project);
+                }).catch(function() {
+                  CurrentProjectService.setCurrentProject(undefined);
+                  deferred.reject();
+                });
+              } else {
+                CurrentProjectService.setCurrentProject(undefined);
+                deferred.reject();
+              }
               return deferred;
             }
           },
