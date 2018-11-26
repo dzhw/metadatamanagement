@@ -285,7 +285,7 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
 
       SearchHelperService.addQuery(query, queryterm);
 
-      SearchHelperService.addReleaseFilter(query);
+      SearchHelperService.addFilter(query);
 
       return ElasticSearchClient.search(query).then(function(result) {
         var descriptions = [];
@@ -341,7 +341,7 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
 
       SearchHelperService.addQuery(query, queryterm);
 
-      SearchHelperService.addReleaseFilter(query);
+      SearchHelperService.addFilter(query);
 
       return ElasticSearchClient.search(query).then(function(result) {
         return result.aggregations.accessWays.buckets;

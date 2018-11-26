@@ -12,7 +12,7 @@ import eu.dzhw.fdz.metadatamanagement.common.repository.BaseRepository;
 
 /**
  * RestController which overrides Spring Datas default caching headers.
- * 
+ *
  * @author René Reitmann
  *
  * @param <T> The domainObject's class
@@ -25,7 +25,7 @@ public abstract class GenericDomainObjectResourceController<T extends AbstractRd
 
   /**
    * Create resource controller.
-   * 
+   *
    * @param repository The repository managing the domain objects being versioned.
    */
   public GenericDomainObjectResourceController(S repository) {
@@ -34,9 +34,9 @@ public abstract class GenericDomainObjectResourceController<T extends AbstractRd
 
   /**
    * Find the domain object and return it with the right caching directives.
-   * 
+   *
    * @param id The id of the domain object
-   * 
+   *
    * @return The http response
    */
   protected ResponseEntity<T> findDomainObject(String id) {
@@ -45,12 +45,15 @@ public abstract class GenericDomainObjectResourceController<T extends AbstractRd
     if (!optional.isPresent()) {
       return ResponseEntity.notFound().build();
     }
-    T domainObject = optional.get();
+    return wrapInResponseEntity(optional.get());
+  }
+
+  protected ResponseEntity<T> wrapInResponseEntity(T entity) {
     return ResponseEntity.ok()
         .cacheControl(CacheControl.maxAge(0, TimeUnit.DAYS).mustRevalidate().cachePublic())
-        .eTag(domainObject.getVersion().toString())
+        .eTag(entity.getVersion().toString())
         .lastModified(
-            domainObject.getLastModifiedDate().atZone(ZoneId.of("GMT")).toInstant().toEpochMilli())
-        .body(domainObject);
+            entity.getLastModifiedDate().atZone(ZoneId.of("GMT")).toInstant().toEpochMilli())
+        .body(entity);
   }
 }

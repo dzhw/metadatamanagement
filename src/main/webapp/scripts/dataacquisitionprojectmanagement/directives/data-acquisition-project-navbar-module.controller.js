@@ -8,16 +8,23 @@ angular.module('metadatamanagementApp')
     '$mdDialog', 'SimpleMessageToastService', '$translate',
     'ElasticSearchAdminService', '$scope', 'Principal', '$state',
     function(CurrentProjectService,
-      DataAcquisitionProjectPostValidationService,
-      DataAcquisitionProjectRepositoryClient, DataAcquisitionProjectResource,
-      $mdDialog, SimpleMessageToastService, $translate,
-      ElasticSearchAdminService, $scope, Principal, $state) {
+             DataAcquisitionProjectPostValidationService,
+             DataAcquisitionProjectRepositoryClient,
+             DataAcquisitionProjectResource, $mdDialog,
+             SimpleMessageToastService, $translate, ElasticSearchAdminService,
+             $scope, Principal, $state) {
       var ctrl = this;
       ctrl.hasAuthority = Principal.hasAuthority;
       var i18nPrefix = 'data-acquisition-project-management.log-messages.' +
         'data-acquisition-project.';
       ctrl.searchText = '';
       ctrl.selectedProject = CurrentProjectService.getCurrentProject();
+
+      function showErrorAlert(errorMsg) {
+        SimpleMessageToastService
+          .openAlertMessageToast(
+            i18nPrefix + 'server-error' + errorMsg);
+      }
 
       $scope.$on('current-project-changed',
         function(event, project) { // jshint ignore:line
@@ -50,33 +57,35 @@ angular.module('metadatamanagementApp')
       /* Function for opening a dialog for creating a new project */
       ctrl.createProject = function() {
         $mdDialog.show({
-            controller: 'CreateProjectDialogController',
-            templateUrl: 'scripts/dataacquisitionprojectmanagement/' +
-              'views/create-project-dialog.html.tmpl',
-            clickOutsideToClose: false,
-            fullscreen: true,
-            locals: {id: ctrl.selectedProject ? null : ctrl.searchText}
-          })
+          controller: 'CreateProjectDialogController',
+          templateUrl: 'scripts/dataacquisitionprojectmanagement/' +
+            'views/create-project-dialog.html.tmpl',
+          clickOutsideToClose: false,
+          fullscreen: true,
+          locals: {id: ctrl.selectedProject ? null : ctrl.searchText}
+        })
           .then(function(project) {
-            project.hasBeenReleasedBefore = false;
-            DataAcquisitionProjectResource.save(project,
-              //Success
-              function() {
-                SimpleMessageToastService
-                  .openSimpleMessageToast(
-                    i18nPrefix + 'saved', {
-                      id: project.id
-                    });
-                ctrl.selectedProject = project;
-                CurrentProjectService.setCurrentProject(project);
-              },
-              //Server Error
-              function(errorMsg) {
-                SimpleMessageToastService
-                  .openAlertMessageToast(
-                    i18nPrefix + 'server-error' + errorMsg);
-              }
-            );
+            Principal.identity().then(function(identity) {
+              project.hasBeenReleasedBefore = false;
+              project.configuration = {
+                publishers: [identity.login]
+              };
+              DataAcquisitionProjectResource.save(project,
+                //Success
+                function() {
+                  SimpleMessageToastService
+                    .openSimpleMessageToast(
+                      i18nPrefix + 'saved', {
+                        id: project.id
+                      });
+                  ctrl.selectedProject = project;
+                  CurrentProjectService.setCurrentProject(project);
+                },
+                //Server Error while creating project
+                showErrorAlert
+              );
+              //Server error while querying for Principal
+            }, showErrorAlert);
           });
       };
 
@@ -209,10 +218,10 @@ angular.module('metadatamanagementApp')
       if (CurrentProjectService.getCurrentProject()) {
         ctrl.searchProjects(CurrentProjectService.getCurrentProject().id)
           .then(function(projects) {
-          if (projects.length === 1) {
-            ctrl.selectedProject = projects[0];
-          }
-        });
+            if (projects.length === 1) {
+              ctrl.selectedProject = projects[0];
+            }
+          });
       }
     }
   ]);
