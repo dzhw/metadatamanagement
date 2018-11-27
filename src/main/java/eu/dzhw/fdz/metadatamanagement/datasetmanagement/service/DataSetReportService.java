@@ -231,8 +231,6 @@ public class DataSetReportService {
    *
    * @param templateContent The content of a tex template.
    * @param templateConfiguration The configuration for freemarker.
-   * @param dataForTemplateThe data for a tex template. All variables, questions and dataset
-   *        information.
    * @param fileName filename of the script which will be filled in this method.
    * @return The filled tex templates as byte array.
    * @throws IOException Handles IO Exception.
@@ -263,7 +261,6 @@ public class DataSetReportService {
   /**
    * This method save a latex file into GridFS/MongoDB based on a byteArrayOutputStream.
    *
-   * @param byteArrayOutputStream The latex file as byteArrayOutputStream
    * @param fileName The name of the file to be saved
    * @return return the file name of the saved latex template in the GridFS / MongoDB.
    * @throws IOException thrown if a stream cannot be closed
