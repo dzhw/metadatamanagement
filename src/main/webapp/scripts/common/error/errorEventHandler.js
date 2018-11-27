@@ -7,7 +7,8 @@ based on the Error Event.*/
 'use strict';
 
 angular.module('metadatamanagementApp').run(
-  function($rootScope, SimpleMessageToastService, PageTitleService) {
+  function($rootScope, $state, SimpleMessageToastService, PageTitleService,
+           LanguageService, Auth) {
     var ignore404 = 0;
     var ignore401 = 0;
 
@@ -39,6 +40,10 @@ angular.module('metadatamanagementApp').run(
       if (ignore401 === 0) {
         SimpleMessageToastService.openAlertMessageToast('global.error.' +
         'client-error.unauthorized-error', {status: response.status});
+        Auth.logout();
+        $state.go('login', {
+          lang: LanguageService.getCurrentInstantly()
+        });
       }
     });
 
