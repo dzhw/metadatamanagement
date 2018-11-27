@@ -6,7 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.javers.core.metamodel.annotation.ValueObject;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,4 +34,11 @@ public class Configuration {
    * name.
    */
   private List<String> dataProviders = new ArrayList<>();
+
+  /**
+   * Defines which object types are required before a project can be released.
+   */
+  @Valid
+  @NotNull(message = "data-acquisition-project-management.error.required-object-types.not-null")
+  private Requirements requirements = new Requirements();
 }
