@@ -104,7 +104,7 @@ angular.module('metadatamanagementApp').config(
             'questions': 'Fragen',
             'data-sets': 'Datensätze',
             'variables': 'Variablen',
-            'setting-info': 'Diese Metadaten müssen gemacht merden, bevor ein Projekt veröffentlicht werden kann:'
+            'setting-info': 'Diese Metadaten müssen bereitgestellt merden, bevor ein Projekt veröffentlicht werden kann:'
           }
         }
       }
