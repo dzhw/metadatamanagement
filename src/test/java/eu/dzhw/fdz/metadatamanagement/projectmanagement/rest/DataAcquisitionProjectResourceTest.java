@@ -332,7 +332,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     .perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .content(TestUtil.convertObjectToJsonBytes(project)))
-    .andExpect(status().isUnauthorized());
+    .andExpect(status().isBadRequest());
     // create the project with the given id
     dataAcquisitionProjectRepository.insert(project);
     Configuration invalidConf = new Configuration(
