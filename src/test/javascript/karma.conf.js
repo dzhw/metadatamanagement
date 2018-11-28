@@ -82,6 +82,7 @@ module.exports = function(config) {
       'src/main/webapp/scripts/app.js',
       'src/main/webapp/scripts/**/*.js',
       'src/main/webapp/scripts/**/*.html',
+      'src/main/webapp/scripts/**/*.html.tmpl',
       'src/test/javascript/spec/helpers/module.js',
       'src/test/javascript/spec/helpers/httpBackend.js',
       'src/main/webapp/bower_components/messageformat/locale/en.js',
@@ -96,7 +97,13 @@ module.exports = function(config) {
     exclude: [],
 
     preprocessors: {
-      'src/main/webapp/scripts/**/*.js': ['coverage']
+      'src/main/webapp/scripts/**/*.js': ['coverage'],
+      '**/*.html.tmpl': ['ng-html2js']
+    },
+
+    ngHtml2JsPreprocessor: {
+      stripPrefix: 'src/main/webapp/',
+      moduleName: 'templates'
     },
 
     reporters: ['dots', 'coverage'],
