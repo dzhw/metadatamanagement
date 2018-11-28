@@ -1,9 +1,9 @@
 package eu.dzhw.fdz.metadatamanagement.studymanagement.rest;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,11 +22,11 @@ public class StudyPublicListResource {
   private StudyListService studylistService;
 
   @GetMapping(value = "/studies")
-  public ResponseEntity<List<StudySearchDocument>> listStudies(
+  public ResponseEntity<Page<StudySearchDocument>> listStudies(
       @RequestParam(value = "page", defaultValue = "0") int page,
       @RequestParam(value = "size", defaultValue = "5") int size) {
     try {
-      List<StudySearchDocument> loadStudies = studylistService.loadStudies(page, size);
+      Page<StudySearchDocument> loadStudies = studylistService.loadStudies(page, size);
       return ResponseEntity.ok().body(loadStudies);
     } catch (IOException e) {
       log.warn("reqzesting the list of studies failed", e);
