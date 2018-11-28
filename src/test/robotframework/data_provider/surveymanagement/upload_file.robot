@@ -23,13 +23,12 @@ Upload file in survey editor
     # Same Reason as above
     Sleep    2s
     Save Response Rate Changes
-    [Teardown]    Get back to home page and deselect project and logout
+    Get back to home page and deselect project
 
 *** Keywords ***
-Get back to home page and deselect project and logout
+Get back to home page and deselect project
     Get back to german home page
     Click Element Through Tooltips    xpath=//md-sidenav//project-navbar-module//button[@aria-label='Clear Input']
-    Click Element Through Tooltips    xpath=//button[@id='logout']
 
 Click Survey Edit Button
     Click Element Through Tooltips    xpath=//ui-view//a/md-icon[text()='mode_edit']

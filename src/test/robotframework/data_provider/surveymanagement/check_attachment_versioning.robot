@@ -7,7 +7,6 @@ Resource          ../../resources/search_resource.robot
 
 *** Test Cases ***
 Editing survey attachement and check versioning
-    Login as dataprovider
     Select project by name    fileuploadproject
     Click on surveys tab
     Click Survey Edit Button

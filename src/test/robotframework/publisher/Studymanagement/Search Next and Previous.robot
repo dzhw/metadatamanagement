@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     Tests if login is possible
+Documentation     Navigating Next and Previous Search Results
 Default Tags      smoketest
 Resource          ../../resources/search_resource.robot
 
