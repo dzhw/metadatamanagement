@@ -98,13 +98,13 @@ angular.module('metadatamanagementApp').config(
           },
           'requirements': {
             'header': 'Expected Metadata',
-            'studies': 'Studies (mandatory)',
+            'studies': 'Studies (always mandatory)',
             'surveys': 'Surveys',
             'instruments': 'Instruments',
             'questions': 'Questions',
             'data-sets': 'Data Sets',
             'variables': 'Variables',
-            'setting-info': 'This meta data must be provided, before a project is publishable:'
+            'setting-info': 'The following Metadata must be provided, before this project can be released to all public users:'
           }
         }
       }

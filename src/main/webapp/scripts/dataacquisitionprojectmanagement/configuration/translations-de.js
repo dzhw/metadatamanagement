@@ -97,14 +97,14 @@ angular.module('metadatamanagementApp').config(
             'empty-publisher': 'Keine Publisher sind diesem Projekt zugeteilt.'
           },
           'requirements': {
-            'header': 'Erwartete Metadaten in diesem Projekt',
-            'studies': 'Studien (obligatorisch)',
+            'header': 'Erwartete Metadaten',
+            'studies': 'Studien (immer obligatorisch)',
             'surveys': 'Erhebungen',
             'instruments': 'Instrumente',
             'questions': 'Fragen',
             'data-sets': 'Datensätze',
             'variables': 'Variablen',
-            'setting-info': 'Diese Metadaten müssen bereitgestellt merden, bevor ein Projekt veröffentlicht werden kann:'
+            'setting-info': 'Die folgenden Metadaten müssen bereitgestellt werden, bevor dieses Projekt für alle Benutzer freigegeben werden kann:'
           }
         }
       }
