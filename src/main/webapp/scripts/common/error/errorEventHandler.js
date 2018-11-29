@@ -7,7 +7,8 @@ based on the Error Event.*/
 'use strict';
 
 angular.module('metadatamanagementApp').run(
-  function($rootScope, SimpleMessageToastService, PageTitleService) {
+  function($rootScope, $state, SimpleMessageToastService, PageTitleService,
+           LanguageService, Auth) {
     var ignore404 = 0;
     var ignore401 = 0;
 
@@ -38,7 +39,8 @@ angular.module('metadatamanagementApp').run(
     function(event, response) { // jshint ignore:line
       if (ignore401 === 0) {
         SimpleMessageToastService.openAlertMessageToast('global.error.' +
-        'client-error.unauthorized-error', {status: response.status});
+          'client-error.unauthorized-error', {status: response.status});
+        $rootScope.$broadcast('userNotAuthorized');
       }
     });
 
@@ -64,5 +66,29 @@ angular.module('metadatamanagementApp').run(
     function(event, response) { // jshint ignore:line
       SimpleMessageToastService.openAlertMessageToast('global.error.' +
         'server-error.internal-server-error', {status: response.status});
+    });
+
+    // user not authorized broadcast
+    var inTransition = false;
+    $rootScope.$on('userNotAuthorized',
+    function(event, response) { // jshint ignore:line
+      // user is not authenticated. store the state
+      // they wanted before you
+      // send them to the signin state, so you can
+      // return them when you're done
+      if (!inTransition &&
+          $rootScope.toStateName &&
+          $rootScope.toStateName !== 'login' &&
+          $rootScope.toStateName !== 'register') {
+        inTransition = true;
+        Auth.logout();
+        $rootScope.previousStateName = $rootScope.toStateName;
+        $rootScope.previousStateParams = $rootScope.toStateParams;
+        $state.go('login', {
+          lang: LanguageService.getCurrentInstantly()
+        }).then(function() {
+          inTransition = false;
+        });
+      }
     });
   });
