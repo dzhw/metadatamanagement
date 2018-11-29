@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp')
       SurveyAttachmentResource, Principal, SimpleMessageToastService,
       SearchResultNavigatorService, $stateParams,
       SurveyResponseRateImageUploadService, DataAcquisitionProjectResource,
-      ProductChooserDialogService) {
+      ProductChooserDialogService, ProjectUpdateAccessService) {
       SearchResultNavigatorService.registerCurrentSearchResult(
           $stateParams['search-result-index']);
       var ctrl = this;
@@ -24,6 +24,7 @@ angular.module('metadatamanagementApp')
             id: result.dataAcquisitionProjectId
           }).$promise.then(function(project) {
             ctrl.projectIsCurrentlyReleased = (project.release != null);
+            ctrl.isUpdateAllowed = ProjectUpdateAccessService.isUpdateAllowed();
           });
         }
         var currenLanguage = LanguageService.getCurrentInstantly();

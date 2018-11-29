@@ -11,6 +11,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.*;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAttachmentTypes;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.AssigneeGroup;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
@@ -56,6 +57,7 @@ public class UnitTestCreateDomainObjectUtils {
         .id(projectId)
         .hasBeenReleasedBefore(false)
         .configuration(configuration)
+        .assigneeGroup(AssigneeGroup.PUBLISHER)
         .build();
   }
 

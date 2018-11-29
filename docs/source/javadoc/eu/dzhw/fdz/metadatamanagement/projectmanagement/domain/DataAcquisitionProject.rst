@@ -58,6 +58,14 @@ DataAcquisitionProject
 
 Fields
 ------
+assigneeGroup
+^^^^^^^^^^^^^
+
+.. java:field:: @NotNull private AssigneeGroup assigneeGroup
+   :outertype: DataAcquisitionProject
+
+   Determines which assignee group is able to edit data on the project.
+
 configuration
 ^^^^^^^^^^^^^
 

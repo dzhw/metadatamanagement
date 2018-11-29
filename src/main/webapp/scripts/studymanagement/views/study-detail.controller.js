@@ -6,7 +6,8 @@ angular.module('metadatamanagementApp')
     function(entity, PageTitleService, LanguageService, DataSetSearchService,
       $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
       StudyAttachmentResource, SearchResultNavigatorService, $stateParams,
-      $rootScope, DataAcquisitionProjectResource, ProductChooserDialogService) {
+      $rootScope, DataAcquisitionProjectResource, ProductChooserDialogService,
+             ProjectUpdateAccessService) {
       SearchResultNavigatorService.registerCurrentSearchResult(
          $stateParams['search-result-index']);
       var versionFromUrl = $stateParams.version;
@@ -43,6 +44,7 @@ angular.module('metadatamanagementApp')
             id: result.dataAcquisitionProjectId
           }).$promise.then(function(project) {
             ctrl.projectIsCurrentlyReleased = (project.release != null);
+            ctrl.isUpdateAllowed = ProjectUpdateAccessService.isUpdateAllowed();
           });
         }
 

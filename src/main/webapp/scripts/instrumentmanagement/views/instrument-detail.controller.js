@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp')
       PageTitleService, LanguageService, $state, CleanJSObjectService,
       ToolbarHeaderService, Principal, SimpleMessageToastService,
       SearchResultNavigatorService, $stateParams, ProductChooserDialogService,
-      DataAcquisitionProjectResource) {
+      DataAcquisitionProjectResource, ProjectUpdateAccessService) {
       SearchResultNavigatorService.registerCurrentSearchResult(
         $stateParams['search-result-index']);
       //Controller Init
@@ -28,6 +28,7 @@ angular.module('metadatamanagementApp')
             id: result.dataAcquisitionProjectId
           }).$promise.then(function(project) {
             ctrl.projectIsCurrentlyReleased = (project.release != null);
+            ctrl.isUpdateAllowed = ProjectUpdateAccessService.isUpdateAllowed();
           });
         }
         ToolbarHeaderService.updateToolbarHeader({

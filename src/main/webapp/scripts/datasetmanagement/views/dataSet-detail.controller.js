@@ -3,7 +3,7 @@
 angular.module('metadatamanagementApp')
   .controller('DataSetDetailController',
     function(entity, Principal,
-      VariableSearchService,
+      VariableSearchService, ProjectUpdateAccessService,
       DataSetSearchService, DataSetReportService, PageTitleService,
       LanguageService, $state, ToolbarHeaderService, CleanJSObjectService,
       SimpleMessageToastService, DataSetAttachmentResource,
@@ -29,13 +29,14 @@ angular.module('metadatamanagementApp')
             id: result.dataAcquisitionProjectId
           }).$promise.then(function(project) {
             ctrl.projectIsCurrentlyReleased = (project.release != null);
+            ctrl.isUpdateAllowed = ProjectUpdateAccessService.isUpdateAllowed();
           });
         }
-        var currenLanguage = LanguageService.getCurrentInstantly();
-        var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';
+        var currentLanguage = LanguageService.getCurrentInstantly();
+        var secondLanguage = currentLanguage === 'de' ? 'en' : 'de';
         PageTitleService.setPageTitle('data-set-management.detail.title', {
-          description: result.description[currenLanguage] ? result
-          .description[currenLanguage] : result.description[secondLanguage],
+          description: result.description[currentLanguage] ? result
+          .description[currentLanguage] : result.description[secondLanguage],
           dataSetId: result.id
         });
         ToolbarHeaderService.updateToolbarHeader({

@@ -38,7 +38,8 @@ public class ValidDataAcquisitionProjectSaveValidator
     if (oldDataProjectOpt.isPresent()) {
       DataAcquisitionProject oldProject = oldDataProjectOpt.get();
 
-      return isPublisherUpdatePermitted(oldProject, dataAcquisitionProject)
+      return isUserInAssignedGroup(oldProject)
+          && isPublisherUpdatePermitted(oldProject, dataAcquisitionProject)
           && isDataProviderUpdatePermitted(oldProject, dataAcquisitionProject)
           && isProjectRequirementsUpdatePermitted(oldProject, dataAcquisitionProject);
 
@@ -93,6 +94,26 @@ public class ValidDataAcquisitionProjectSaveValidator
    */
   private boolean isDataAcquisitionProjectCreatePermitted() {
     return SecurityUtils.isUserInRole(AuthoritiesConstants.PUBLISHER);
+  }
+
+  /**
+   * DataAcquisitionProject can only be updated if the user is a member of the
+   * currently assigned group (role wise) responsible for editing the project.
+   */
+  private boolean isUserInAssignedGroup(DataAcquisitionProject oldProject) {
+    String requiredRole;
+
+    switch (oldProject.getAssigneeGroup()) {
+      case PUBLISHER:
+        requiredRole = AuthoritiesConstants.PUBLISHER;
+        break;
+      case DATA_PROVIDER:
+        requiredRole = AuthoritiesConstants.DATA_PROVIDER;
+        break;
+      default:
+        throw new IllegalStateException("Unknown assignee group " + oldProject.getAssigneeGroup());
+    }
+    return SecurityUtils.isUserInRole(requiredRole);
   }
 
   private boolean isNotModified(Object objA, Object objB) {
