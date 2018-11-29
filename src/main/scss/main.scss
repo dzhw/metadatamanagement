@@ -1112,15 +1112,18 @@ md-toast.md-accent > .md-toast-content {
   padding-top: 5px;
 }
 
-.no-margin {
+.fdz-no-margin {
     margin: 0
 }
+.fdz-no-margin-bottom {
+    margin-bottom: 0;
+}
 
-.no-select {
+.fdz-no-select {
     user-select: none;
 }
 
-.fullscreen-dialog {
+.fdz-fullscreen-dialog {
     max-width: 100%;
     max-height: 100%;
     width: 100%;

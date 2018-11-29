@@ -1,5 +1,6 @@
 /* global document*/
 /* global _*/
+/* global bowser*/
 'use strict';
 
 angular.module('metadatamanagementApp')
@@ -14,6 +15,8 @@ angular.module('metadatamanagementApp')
         excludeFields: '<?'
       },
       link: function($scope) {
+
+        $scope.bowser = bowser;
 
         function DialogController($scope, $mdDialog, content, headerTitle) {
           $scope.cancel = $mdDialog.hide;
