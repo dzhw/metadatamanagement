@@ -242,4 +242,14 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     };
 
     $state.loadComplete = true;
+  }).directive('projectCockpitConfig', function() {
+    return {
+      templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
+        'project-cockpit-config.html.tmpl'
+    };
+  }).directive('projectCockpitStatus', function() {
+    return {
+      templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
+        'project-cockpit-status.html.tmpl'
+    };
   });
