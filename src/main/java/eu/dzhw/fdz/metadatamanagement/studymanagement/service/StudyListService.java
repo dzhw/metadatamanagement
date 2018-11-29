@@ -19,7 +19,11 @@ import io.searchbox.client.JestClient;
 import io.searchbox.client.JestResult;
 import io.searchbox.core.Search;
 import lombok.extern.slf4j.Slf4j;
-
+/**
+ * Service to get released studies out of elastic search.
+ * @author tgehrke
+ *
+ */
 @Slf4j
 @Service
 public class StudyListService {

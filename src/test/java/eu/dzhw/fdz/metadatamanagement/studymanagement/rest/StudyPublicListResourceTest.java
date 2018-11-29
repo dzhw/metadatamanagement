@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.studymanagement.rest;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -26,6 +27,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.StudySearchDocument;
@@ -38,7 +40,10 @@ import io.searchbox.client.JestClient;
 import io.searchbox.core.Delete;
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
-@WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
 public class StudyPublicListResourceTest extends AbstractTest {
   private static final String API_STUDY_URI = "/api/studies";
   @Autowired
@@ -65,7 +70,7 @@ public class StudyPublicListResourceTest extends AbstractTest {
 
   @Before
   public void setup() {
-    this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).alwaysDo(print()).build();
+    this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
     elasticsearchAdminService.recreateAllIndices();
   }
 
@@ -73,7 +78,7 @@ public class StudyPublicListResourceTest extends AbstractTest {
   public void cleanUp() {
     dataAcquisitionProjectRepository.deleteAll();
     studyRepository.deleteAll();
-     elasticsearchUpdateQueueItemRepository.deleteAll();
+    elasticsearchUpdateQueueItemRepository.deleteAll();
     javersService.deleteAll();
   }
 
@@ -87,11 +92,10 @@ public class StudyPublicListResourceTest extends AbstractTest {
    */
   private void addStudyToIndex(String projectId, I18nString tile, boolean isRelaesed)
       throws IOException {
-    Study buildStudy = UnitTestCreateDomainObjectUtils.buildStudy(projectId);
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    Study buildStudy = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
     buildStudy.setTitle(tile);
     buildStudy.setId(projectId);
-    Configuration configuration = UnitTestCreateDomainObjectUtils
-        .buildDataAcquisitionProjectConfiguration(Arrays.asList("publisher"), null);
     String doi = null;
     Release release = null;
     if (isRelaesed) {
@@ -99,26 +103,42 @@ public class StudyPublicListResourceTest extends AbstractTest {
       doi = "doi";
     }
     StudySearchDocument doc = new StudySearchDocument(buildStudy, null, null, null, null, null,
-        null, null, release, doi, configuration);
+        null, null, release, doi, project.getConfiguration());
     Index build = new Index.Builder(doc).index("studies").type("studies").build();
-    
+
     DocumentResult execute = jestClient.execute(build);
+    if (execute.isSucceeded()) {
+      log.info("done insert to elastic");
+    } else {
+      log.warn("insert to elastic not succeded");
+    }
+    elasticsearchAdminService.refreshAllIndices();
   }
 
   private void removeStudy(String id) throws IOException {
     jestClient.execute(new Delete.Builder(id).index("studies").type("studies").build());
+    elasticsearchAdminService.refreshAllIndices();
   }
 
   @Test
-  @Ignore
-  public void test() throws Exception {
+  public void testFindReleased() throws Exception {
     String projectId = "test1";
     boolean isRelaesed = true;
     I18nString title = I18nString.builder().de("Test Studie").en("Test study").build();
     addStudyToIndex(projectId, title, isRelaesed);
     mockMvc.perform(get(API_STUDY_URI)).andExpect(status().isOk())
         .andExpect(jsonPath("$.content[0].id").value(projectId));
-     removeStudy(projectId);
+    removeStudy(projectId);
   }
 
+  @Test
+  public void testNotFindUnReleased() throws Exception {
+    String projectId = "test1";
+    boolean isRelaesed = false;
+    I18nString title = I18nString.builder().de("Test Studie").en("Test study").build();
+    addStudyToIndex(projectId, title, isRelaesed);
+    mockMvc.perform(get(API_STUDY_URI)).andExpect(status().isOk())
+        .andExpect(jsonPath("$.content").isEmpty());
+    removeStudy(projectId);
+  }
 }
