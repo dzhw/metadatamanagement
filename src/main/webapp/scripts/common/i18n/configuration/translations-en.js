@@ -98,7 +98,8 @@ angular.module('metadatamanagementApp').config(
             'github': 'Click to give feedback or report a Bug by Github',
             'email': 'Click to give feedback or report a Bug by an E-Mail.'
           },
-          'navbar-feedback': 'Click to give feedback or report a Bug'
+          'navbar-feedback': 'Click to give feedback or report a Bug',
+          'navbar-documentation': 'Documentation'
         },
         'welcome-dialog': {
           'toolbar-head': 'Give Feedback or report Bugs',
@@ -146,7 +147,8 @@ angular.module('metadatamanagementApp').config(
           'language': 'Language',
           'data-access': 'Data Access',
           'disclosure': 'Disclosure',
-          'notepad': 'Notepad'
+          'notepad': 'Notepad',
+          'documentation': 'Documentation'
         },
         'form': {
           'username': 'Username',
