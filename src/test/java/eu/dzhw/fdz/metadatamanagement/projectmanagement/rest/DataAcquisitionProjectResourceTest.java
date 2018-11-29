@@ -335,9 +335,9 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     .andExpect(status().isBadRequest());
     // create the project with the given id
     dataAcquisitionProjectRepository.insert(project);
-    Configuration invalidConf = new Configuration(
-        project.getConfiguration().getPublishers(), Collections.emptyList(), new Requirements()
-    );
+    new Configuration();
+    Configuration invalidConf = Configuration.builder().publishers(
+        project.getConfiguration().getPublishers()).dataProviders(Collections.emptyList()).build();
     project.setConfiguration(invalidConf);
     //update with invalid conf -- no dataprovider
     mockMvc

@@ -11,6 +11,7 @@ Domain objects describing \ :java:ref:`eu.dzhw.fdz.metadatamanagement.projectman
    Configuration
    DaraUpdateQueueItem
    DataAcquisitionProject
+   ProjectState
    Release
    Requirements
 
