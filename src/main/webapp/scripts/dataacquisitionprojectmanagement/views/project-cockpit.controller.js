@@ -2,16 +2,26 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('ProjectCockpitController',
-  function($q, $scope, $state, $location, UserResource, Principal,
+  function($q, $scope, $state, $location, $transitions, UserResource, Principal,
            PageTitleService, LanguageService, ToolbarHeaderService,
            DataAcquisitionProjectResource, SimpleMessageToastService,
-           CurrentProjectService, projectDeferred) {
+           CurrentProjectService, projectDeferred, CommonDialogsService) {
 
     PageTitleService.setPageTitle(
       'data-acquisition-project-management.project-cockpit.title');
     ToolbarHeaderService.updateToolbarHeader({
       stateName: $state.current.name
     });
+
+    var registerConfirmOnDirtyHook = function() {
+      var unregisterTransitionHook = $transitions.onBefore({}, function() {
+        if ($scope.changed) {
+          return CommonDialogsService.showConfirmOnDirtyDialog();
+        }
+      });
+
+      $scope.$on('$destroy', unregisterTransitionHook);
+    };
 
     var setProjectRequirementsDisabled = function(project) {
       var loginName = Principal.loginName();
@@ -38,7 +48,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         }
       });
 
-    $scope.saveChanges = function() {
+    $scope.saveChanges = function(origin) {
       if (!$scope.project.configuration) {
         $scope.project.configuration = {};
       }
@@ -63,7 +73,9 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
               'data-acquisition-project.saved', {
                 id: $scope.project.id
               });
-          $state.reload();
+          if (origin !== 'requirements') {
+            $state.reload();
+          }
         },
         //Server Error
         function() {
@@ -165,8 +177,10 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
                 status: error.data.error_description
               });
         });
-      }
-    );
+        registerConfirmOnDirtyHook();
+      }).finally(function() {
+      $scope.loadStarted = false;
+    });
 
     $scope.advancedPrivileges = Principal.hasAnyAuthority(['ROLE_PUBLISHER',
       'ROLE_ADMIN']);
