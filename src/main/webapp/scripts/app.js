@@ -77,20 +77,7 @@ try {
               if (!Principal.hasAnyAuthority(
                   $rootScope.toState.data.authorities) ||
                   !Principal.isAuthenticated()) {
-                // user is not authenticated. store the state
-                // they wanted before you
-                // send them to the signin state, so you can
-                // return them when you're done
-                $rootScope.previousStateName =
-                $rootScope.toState.name;
-                $rootScope.previousStateParams =
-                $rootScope.toStateParams;
-                // now, send them to the signin state so they
-                // can log in
-                $state.go('login',
-                {
-                  lang: LanguageService.getCurrentInstantly()
-                });
+                $rootScope.$broadcast('userNotAuthorized');
               }
             }, 1000);
           }
