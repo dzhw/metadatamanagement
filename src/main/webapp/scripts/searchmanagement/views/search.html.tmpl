@@ -55,7 +55,7 @@
         </div>
 
         <div ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='studies'">
-            <md-button ng-if="!currentStudy && currentProject && !currentProject.release" class="md-fab md-raised md-accent" ui-sref="studyCreate()" ng-disabled="!currentProject || currentProject.release">
+            <md-button ng-if="!currentStudy" class="md-fab md-raised md-accent" ui-sref="studyCreate()" ng-disabled="!currentProject || currentProject.release">
                 <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                     {{'search-management.buttons.create-study-tooltip' | translate}}
                 </md-tooltip>
