@@ -2,7 +2,7 @@
 Documentation     Data driven test of survey creation.
 Suite Setup       Go To Survey Create Page
 Suite Teardown    Close Survey Editor And Log Out
-Force Tags        noslowpoke
+Force Tags        smoketest    noslowpoke
 Test Template     Survey Page With Empty Or Invalid Options Should Fail
 Resource          ../../resources/home_page_resource.robot
 Resource          ../../resources/search_resource.robot
@@ -86,7 +86,10 @@ Go To Survey Create Page
     Select project by name    robotproject
     Wait Until Angular Ready    6s
     Click on surveys tab
-    Click Element Through Tooltips    xpath=//ui-view/descendant::button[md-icon[text()='add']]
+    Click Element Through Tooltips    xpath=//ui-view/descendant::a[md-icon[text()='add']]
+    #Click Element Through Tooltips    xpath=//ui-view/descendant::button[md-icon[text()='add']]
+    # Wait Until Element Is Visible    xpath=//ui-view/descendant::a[md-icon[text()='mode_edit']]
+    #Click Element Through Tooltips    xpath=//ui-view/descendant::a[md-icon[text()='mode_edit']]
 
 Close Survey Editor And Log Out
     Pass Execution If    '${BROWSER}' == 'ie'    Survey Creation not possible in IE

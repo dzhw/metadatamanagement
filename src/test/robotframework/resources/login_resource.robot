@@ -2,6 +2,7 @@
 Documentation     Resource used by all search and view test cases
 Library           ExtendedSelenium2Library
 Resource          click_element_resource.robot
+Resource          home_page_resource.robot
 Variables         ../common_variables.yaml
 
 *** Keywords ***
@@ -21,12 +22,19 @@ Login as publisher after logout
 Delete Robotsproject
     Pass Execution If    '${BROWSER}' == 'ie'    Study Creation not possible in IE
     Get back to german home page
+    Publisher Logout
     #Click Element Through Tooltips    xpath=//button[contains(.,'abmelden')]
-    #Login as publisher after logout
+    Login as publisher after logout
     Input Text    xpath=//input[@placeholder = 'Projekt auswählen']    robotsproject${BROWSER}
     Click Element Through Tooltips    xpath=//md-sidenav/descendant::button[md-icon[text()='']]
     Click Element Through Tooltips    xpath=//button[text()='OK']
     #Click Element Through Tooltips    xpath=//button[contains(.,'abmelden')]
+    #Publisher Logout
 
 Save Changes
     Click Element Through Tooltips    xpath=//ui-view/descendant::button[md-icon[text()='save']]
+
+Publisher Logout
+    ${url} =    Get Location
+    Run Keyword If    '/de/' in '${url}'    Click Element Through Tooltips    xpath=//button[contains(.,'abmelden')]
+    Run Keyword If    '/en/' in '${url}'    Click Element Through Tooltips    xpath=//button[contains(.,'logout')]

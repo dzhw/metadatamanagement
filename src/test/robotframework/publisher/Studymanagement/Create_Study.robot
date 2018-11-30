@@ -1,10 +1,9 @@
 *** Settings ***
-Documentation     Navigating Next and Previous Search Results
+Documentation     Publisher Create Study
 Default Tags      smoketest
 Resource          ../../resources/login_resource.robot
 Resource          ../../resources/click_element_resource.robot
 Resource          ../../resources/search_resource.robot
-Resource          ../../resources/home_page_resource.robot
 
 *** Test Cases ***
 Create Study by Publisher
@@ -36,21 +35,19 @@ Create Study by Publisher
     Move Second Author To Place One
     Save Changes
     Page Should Contain Element    xpath=//md-toolbar//a[contains(.,'robotsproject${BROWSER}')]
-    [Teardown]    Delete Robotsproject
+    Delete Robotsproject
+    [Teardown]    Publisher Logout
 
 *** Keywords ***
 Create RobotsProject
     Pass Execution If    '${BROWSER}' == 'ie'    Study Creation not possible in IE
-    # Login as publisher after logout
     Click Element Through Tooltips    xpath=//md-sidenav//button[md-icon[text()='add']]
     Input Text    name=id    robotsproject${BROWSER}
     Wait Until Keyword Succeeds    5s    0.5s    Page Should Contain Element    xpath=//button[@type='submit' and not(contains(@disabled, 'disabled'))]
     Click Element Through Tooltips    xpath=//button[@type='submit']
 
 Open Study Create Page
-    Click Element Through Tooltips    xpath=//ui-view/descendant::button[md-icon[text()='add']]
-    Wait Until Element Is Visible    xpath=//ui-view/descendant::a[md-icon[text()='mode_edit']]
-    Click Element Through Tooltips    xpath=//ui-view/descendant::a[md-icon[text()='mode_edit']]
+    Click Element Through Tooltips    xpath=//ui-view/descendant::a[md-icon[text()='add']]
 
 Choose Panel As Survey Design
     Click Element Through Tooltips    xpath=//md-select[@name = 'surveyDesign']
