@@ -20,6 +20,17 @@ angular.module('metadatamanagementApp')
       ctrl.study = null;
       ctrl.questionCount = null;
       ctrl.projectIsCurrentlyReleased = true;
+      ctrl.enableJsonView = Principal
+        .hasAnyAuthority(['ROLE_PUBLISHER','ROLE_ADMIN']);
+
+      ctrl.jsonExcludes = [
+        'nestedStudy',
+        'nestedSurveys',
+        'nestedQuestions',
+        'nestedVariables',
+        'nestedDataSets',
+        'nestedRelatedPublications'
+      ];
       //Wait for instrument Promise
       entity.promise.then(function(result) {
         if (Principal
