@@ -178,7 +178,7 @@ public class DataAcquisitionProjectService {
 
       if (!userNames.isEmpty()) {
         List<User> users = userRepository.findAllByLoginIn(userNames);
-        mailService.sendAssigneeGroupChangedMail(users);
+        mailService.sendAssigneeGroupChangedMail(users, projectId);
       }
     }
   }
