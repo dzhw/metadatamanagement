@@ -206,7 +206,12 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       publishers: {},
       dataProviders: {}
     };
-    $scope.searchUsers = function(search, role, roleInternal) {
+    var internalRoles = {
+      'publishers': 'ROLE_PUBLISHER',
+      'dataProviders': 'ROLE_DATA_PROVIDER'
+    };
+    $scope.searchUsers = function(search, role) {
+      var roleInternal = internalRoles[role];
       if (!$state.loadComplete) {
         return [];
       }
@@ -244,12 +249,24 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     $state.loadComplete = true;
   }).directive('projectCockpitConfig', function() {
     return {
+      restrict: 'E',
       templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
         'project-cockpit-config.html.tmpl'
     };
   }).directive('projectCockpitStatus', function() {
     return {
+      restrict: 'E',
       templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
         'project-cockpit-status.html.tmpl'
+    };
+  }).directive('projectCockpitUserlist', function() {
+    return {
+      restrict: 'E',
+      templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
+        'project-cockpit-userlist.html.tmpl',
+      scope: true,
+      link: function(scope, elem, attrs) { // jshint ignore:line
+        scope.group = attrs.group;
+      }
     };
   });
