@@ -76,6 +76,8 @@ metadatamanagement:
     version: 6.3.2
   ordermanagement:
     email: reitmann@dzhw.eu
+  projectmanagement:
+    email: reitmann@dzhw.eu
      
 # ===================================================================
 # JHipster specific properties
