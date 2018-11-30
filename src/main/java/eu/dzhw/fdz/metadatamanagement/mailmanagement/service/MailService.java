@@ -165,49 +165,54 @@ public class MailService {
    * Send a mail to users who were added as publishers to a project.
    */
   @Async
-  public void sendPublishersAddedMail(List<User> publishers, String projectId) {
+  public void sendPublishersAddedMail(List<User> publishers, String projectId, String sender) {
     log.debug("Sending 'publishers added' mail");
     sendChangedProjectConfigurationMail("addedToProjectConfiguration",
         "email.project-configuration-added.title", "email.project-configuration.publisher-role",
-        publishers, projectId);
+        publishers, projectId, sender);
   }
 
   /**
    * Send a mail to users who were removed as publishers from a project.
    */
   @Async
-  public void sendPublisherRemovedMail(List<User> removedPublisherUsers, String projectId) {
+  public void sendPublisherRemovedMail(List<User> removedPublisherUsers, String projectId,
+                                       String sender) {
     log.debug("Sending 'publishers removed' mail");
     sendChangedProjectConfigurationMail("removedFromProjectConfiguration",
         "email.project-configuration-removed.title", "email.project-configuration.publisher-role",
-        removedPublisherUsers, projectId);
+        removedPublisherUsers, projectId, sender);
   }
 
   /**
    * Send a mail to users who were added as data providers to a project.
    */
   @Async
-  public void sendDataProviderAddedMail(List<User> addedDataProviders, String projectId) {
+  public void sendDataProviderAddedMail(List<User> addedDataProviders, String projectId,
+                                        String sender) {
     log.debug("Sending 'data providers added' mail");
     sendChangedProjectConfigurationMail("addedToProjectConfiguration",
         "email.project-configuration-added.title",
-        "email.project-configuration.data-provider-role", addedDataProviders, projectId);
+        "email.project-configuration.data-provider-role", addedDataProviders, projectId,
+        sender);
   }
 
   /**
    * Send a mail to users who were removed as data providers to a project.
    */
   @Async
-  public void sendDataProviderRemovedMail(List<User> removedDataProviders, String projectId) {
+  public void sendDataProviderRemovedMail(List<User> removedDataProviders, String projectId,
+                                          String sender) {
     log.debug("Sending 'data providers removed' mail");
     sendChangedProjectConfigurationMail("removedFromProjectConfiguration",
         "email.project-configuration-removed.title",
-        "email.project-configuration.data-provider-role", removedDataProviders, projectId);
+        "email.project-configuration.data-provider-role", removedDataProviders, projectId,
+        sender);
   }
 
   private void sendChangedProjectConfigurationMail(String template, String subjectKey,
                                                    String roleKey, List<User> users,
-                                                   String projectId) {
+                                                   String projectId, String sender) {
     users.parallelStream().forEach(user -> {
       Locale locale = Locale.forLanguageTag(user.getLangKey());
       Context context = new Context(locale);
@@ -218,7 +223,7 @@ public class MailService {
       context.setVariable("role", messageSource.getMessage(roleKey, null, locale));
       String content = templateEngine.process(template, context);
       String subject = messageSource.getMessage(subjectKey, new Object[]{projectId}, locale);
-      sendEmail(null, new String[]{user.getEmail()}, null, subject, content, false, true);
+      sendEmail(sender, new String[]{user.getEmail()}, null, subject, content, false, true);
     });
   }
 }
