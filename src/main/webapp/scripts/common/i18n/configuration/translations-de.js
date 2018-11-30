@@ -98,7 +98,8 @@ angular.module('metadatamanagementApp').config(
             'github': 'Klicken, um auf Github Feedback zu geben oder einen Fehler zu melden',
             'email': 'Klicken, um per E-Mail Feedback zu geben oder einen Fehler zu melden'
           },
-          'navbar-feedback': 'Klicken, um Feedback zu geben oder einen Fehler zu melden'
+          'navbar-feedback': 'Klicken, um Feedback zu geben oder einen Fehler zu melden',
+          'navbar-documentation': 'Klicken, um die Benutzerdokumentation zu öffnen'
         },
         'welcome-dialog': {
           'toolbar-head': 'Feedback geben oder Fehler melden',
@@ -146,7 +147,8 @@ angular.module('metadatamanagementApp').config(
           'language': 'Sprache',
           'data-access': 'Datenzugang',
           'disclosure': 'Impressum',
-          'notepad': 'Merkzettel'
+          'notepad': 'Merkzettel',
+          'documentation': 'Dokumentation'
         },
         'form': {
           'username': 'Benutzername',

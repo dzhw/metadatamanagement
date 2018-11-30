@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
+import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.AssigneeGroup;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
@@ -45,6 +46,8 @@ public class DataAcquisitionProjectService {
 
   private MailService mailService;
 
+  private MetadataManagementProperties metadataManagementProperties;
+
   /**
    * Creates a new {@link DataAcquisitionProjectService} instance.
    */
@@ -53,13 +56,15 @@ public class DataAcquisitionProjectService {
                                        UserInformationProvider userInformationProvider,
                                        DataAcquisitionProjectChangesProvider changesProvider,
                                        UserRepository userRepository,
-                                       MailService mailService) {
+                                       MailService mailService,
+                                       MetadataManagementProperties metadataManagementProperties) {
     this.acquisitionProjectRepository = dataAcquisitionProjectRepo;
     this.eventPublisher = applicationEventPublisher;
     this.userInformationProvider = userInformationProvider;
     this.changesProvider = changesProvider;
     this.userRepository = userRepository;
     this.mailService = mailService;
+    this.metadataManagementProperties = metadataManagementProperties;
   }
 
   /**
@@ -115,7 +120,7 @@ public class DataAcquisitionProjectService {
    * id exists). In all other cases the user must be a data provider for the requested project.
    * @param projectId Project id
    * @return Optional of {@link DataAcquisitionProject}, might contain {@code null} if the project
-   * doesn't exist or if the user has insufficient access rights.
+   *     doesn't exist or if the user has insufficient access rights.
    */
   public Optional<DataAcquisitionProject> findDataAcquisitionProjectById(String projectId) {
     String loginName = userInformationProvider.getUserLogin();
@@ -189,10 +194,13 @@ public class DataAcquisitionProjectService {
     UserFetchResult users = fetchUsersForUserNames(addedPublishers, removedPublishers,
         addedDataProviders, removedDataProviders);
 
-    mailService.sendPublishersAddedMail(users.addedPublisherUsers, projectId);
-    mailService.sendPublisherRemovedMail(users.removedPublisherUsers, projectId);
-    mailService.sendDataProviderAddedMail(users.addedDataProviderUsers, projectId);
-    mailService.sendDataProviderRemovedMail(users.removedDataProviderUsers, projectId);
+    String sender = metadataManagementProperties.getProjectManagement().getEmail();
+
+    mailService.sendPublishersAddedMail(users.addedPublisherUsers, projectId, sender);
+    mailService.sendPublisherRemovedMail(users.removedPublisherUsers, projectId, sender);
+    mailService.sendDataProviderAddedMail(users.addedDataProviderUsers, projectId, sender);
+    mailService.sendDataProviderRemovedMail(users.removedDataProviderUsers, projectId, sender);
+
   }
 
   private UserFetchResult fetchUsersForUserNames(List<String> addedPublishers,
