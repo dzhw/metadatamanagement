@@ -221,4 +221,20 @@ public class MailService {
       sendEmail(null, new String[]{user.getEmail()}, null, subject, content, false, true);
     });
   }
+
+  /**
+   * Send a mail to users who are now able to edit the project.
+   */
+  @Async
+  public void sendAssigneeGroupChangedMail(List<User> users) {
+    users.parallelStream().forEach(user -> {
+      Locale locale = Locale.forLanguageTag(user.getLangKey());
+      Context context = new Context(locale);
+      context.setVariable("user", user);
+      String content = templateEngine.process("assigneeGroupChanged", context);
+      String subject = messageSource.getMessage("email.assignee-group-changed.title", null,
+          locale);
+      sendEmail(null, new String[]{user.getEmail()}, null, subject, content, false, true);
+    });
+  }
 }
