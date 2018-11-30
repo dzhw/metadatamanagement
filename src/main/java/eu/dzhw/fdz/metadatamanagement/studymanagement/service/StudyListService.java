@@ -14,13 +14,15 @@ import org.springframework.stereotype.Service;
 
 import com.google.gson.JsonObject;
 
-import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.StudySearchDocument;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import io.searchbox.client.JestClient;
 import io.searchbox.client.JestResult;
 import io.searchbox.core.Search;
 import lombok.extern.slf4j.Slf4j;
+
 /**
  * Service to get released studies out of elastic search.
+ * 
  * @author tgehrke
  *
  */
@@ -38,13 +40,13 @@ public class StudyListService {
    * @return a list of searched study documents wrapped in a page object.
    * @throws IOException if search failed
    */
-  public Page<StudySearchDocument> loadStudies(int page, int size) throws IOException {
+  public Page<Study> loadStudies(int page, int size) throws IOException {
     SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
     sourceBuilder.query(QueryBuilders.boolQuery().filter(QueryBuilders.existsQuery("release")))
         .from(page * size).size(size).sort("title.de", SortOrder.ASC);
     Search search = new Search.Builder(sourceBuilder.toString()).addIndex("studies").build();
     JestResult searchResult = jestClient.execute(search);
-    List<StudySearchDocument> hits = searchResult.getSourceAsObjectList(StudySearchDocument.class);
+    List<Study> hits = searchResult.getSourceAsObjectList(Study.class);
     long total;
     try {
       JsonObject jsonObject = searchResult.getJsonObject();
@@ -56,8 +58,7 @@ public class StudyListService {
     }
 
     PageRequest pageRequest = PageRequest.of(page, size);
-    Page<StudySearchDocument> resultPage =
-        new PageImpl<StudySearchDocument>(hits, pageRequest, total);
+    Page<Study> resultPage = new PageImpl<Study>(hits, pageRequest, total);
 
     return resultPage;
   }
