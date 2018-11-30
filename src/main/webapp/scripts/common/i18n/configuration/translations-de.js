@@ -99,7 +99,7 @@ angular.module('metadatamanagementApp').config(
             'email': 'Klicken, um per E-Mail Feedback zu geben oder einen Fehler zu melden'
           },
           'navbar-feedback': 'Klicken, um Feedback zu geben oder einen Fehler zu melden',
-          'navbar-documentation': 'Dokumentation'
+          'navbar-documentation': 'Klicken, um die Benutzerdokumentation zu öffnen'
         },
         'welcome-dialog': {
           'toolbar-head': 'Feedback geben oder Fehler melden',
