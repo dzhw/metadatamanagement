@@ -13,7 +13,8 @@ try {
         'ngFileUpload', 'ngMaterial',
         'blockUI', 'LocalStorageModule', 'jkAngularCarousel',
         'angularMoment', 'ngAnimate', 'vcRecaptcha',
-        'ngMessages', 'katex', 'ngFileSaver', 'duScroll', 'ngShortcut'
+        'ngMessages', 'katex', 'ngFileSaver', 'duScroll', 'ngShortcut',
+        'jsonFormatter'
       ])
 
   .run(
@@ -62,7 +63,7 @@ try {
           // an authenticated user can't access to login and
           // register pages
           if (Principal.isAuthenticated() &&
-            $rootScope.toState.parent === 'account' &&
+            $rootScope.toState.parent.name === 'account' &&
             ($rootScope.toState.name === 'login' ||
               $rootScope.toState.name === 'register')) {
             return trans.router.stateService.target('search',

@@ -17,6 +17,18 @@ angular.module('metadatamanagementApp')
       ctrl.searchResultIndex = $stateParams['search-result-index'];
       ctrl.counts = {};
       ctrl.projectIsCurrentlyReleased = true;
+      ctrl.enableJsonView = Principal
+        .hasAnyAuthority(['ROLE_PUBLISHER','ROLE_ADMIN']);
+
+      ctrl.jsonExcludes = [
+        'nestedStudy',
+        'nestedDataSets',
+        'nestedVariables',
+        'nestedRelatedPublications',
+        'nestedInstruments',
+        'nestedQuestions'
+      ];
+
       entity.promise.then(function(result) {
         if (Principal
             .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
