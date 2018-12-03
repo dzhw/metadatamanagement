@@ -4,14 +4,24 @@
 			<span class="md-headline">
 				{{'data-acquisition-project-management.project-cockpit.requirements.'+group | translate}}
 				<span ng-if="count !== null">({{count}})</span>
-				<span><md-icon>sentiment_satisfied</md-icon></span>
+				<span ng-switch="!!project.configuration[group+'State'].dataProviderReady + !!project.configuration[group+'State'].publisherReady">
+					<span ng-switch-when="0">
+						<md-icon>sentiment_very_dissatisfied</md-icon>
+					</span>
+					<span ng-switch-when="2">
+						<md-icon>sentiment_very_satisfied</md-icon>
+					</span>
+					<span ng-switch-default>
+						<md-icon>sentiment_satisfied</md-icon>
+					</span>
+				</span>
 			</span>
 		</md-card-header-text>
 	</md-card-header>
 	<md-card-content>
 		<md-switch ng-model="project.configuration.requirements[group+'Required']" ng-disabled="true">Expected</md-switch>
-		<md-switch ng-model="project.configuration[group+'State'].isDataProviderReady">Data Provider Ready</md-switch>
-		<md-switch ng-model="project.configuration[group+'State'].isPublisherReady">Publisher Ready</md-switch>
+		<md-switch ng-model="project.configuration[group+'State'].dataProviderReady">Data Provider Ready</md-switch>
+		<md-switch ng-model="project.configuration[group+'State'].publisherReady">Publisher Ready</md-switch>
 	</md-card-content>
 	<md-card-actions layout="row" layout-align="end center">
 		<md-button>New</md-button>
