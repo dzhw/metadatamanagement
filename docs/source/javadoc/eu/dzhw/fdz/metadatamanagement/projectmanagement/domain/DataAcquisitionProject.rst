@@ -90,6 +90,14 @@ id
 
    The id of this project. Must not be empty and must only contain lower cased (english) letters and numbers. Must not contain more than 32 characters.
 
+lastAssigneeGroupMessage
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. java:field:: @Size private String lastAssigneeGroupMessage
+   :outertype: DataAcquisitionProject
+
+   The last message provided by an assignee group user before \ :java:ref:`DataAcquisitionProject.assigneeGroup`\  value changed.
+
 release
 ^^^^^^^
 

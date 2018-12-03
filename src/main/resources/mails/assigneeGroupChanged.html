@@ -22,8 +22,12 @@
     <a th:href="@{|${baseUrl}/#!/${#locale.language}/projects/${projectId}|}" th:text="|${projectId}|">project</a>
     <span th:text="#{email-assignee-group-changed.text2}"></span>
 </p>
+<p th:if="${messageToGroup != null && !messageToGroup.isEmpty()}">
+    <span th:text="#{email-assignee-group-changed.text3}">The folliwing message was provided:</span><br>
+    <span th:text="${messageToGroup}">Message from former assignee group</span>
+</p>
 <p>
-    <span th:text="#{email-assignee-group-changed.text3}">Regards,</span> <br />
+    <span th:text="#{email-assignee-group-changed.text4}">Regards,</span> <br />
     <em th:text="#{email.signature}">Your FDZ-Team</em>
 </p>
 </body>

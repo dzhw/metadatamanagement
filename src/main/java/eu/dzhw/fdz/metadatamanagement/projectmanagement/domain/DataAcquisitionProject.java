@@ -94,4 +94,13 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
    */
   @NotNull(message = "data-acquisition-project-management.error.assignee-group.not-null")
   private AssigneeGroup assigneeGroup;
+
+
+  /**
+   * The last message provided by an assignee group user before
+   * {@link DataAcquisitionProject#assigneeGroup} value changed.
+   */
+  @Size(max = StringLengths.LARGE, message = "data-acquisition-project-management.error."
+      + "data-acquisition-project.last-assignee-group-message.size")
+  private String lastAssigneeGroupMessage;
 }
