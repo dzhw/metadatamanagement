@@ -86,7 +86,7 @@ angular.module('metadatamanagementApp')
                   if (project.release != null) {
                     handleReleasedProject();
                   } else if (!ProjectUpdateAccessService
-                    .isUpdateAllowed(project)) {
+                    .isUpdateAllowed(project, 'surveys')) {
                     handleUserNotInAssigneeGroup();
                   } else {
                     ctrl.survey = survey;

@@ -22,11 +22,40 @@ angular.module('metadatamanagementApp').service(
       }
     };
 
-    var isUpdateAllowed = function(project) {
+    var isUpdateAllowed = function(project, type) {
       var test = project || CurrentProjectService.getCurrentProject();
-      return isProjectSelected(test) &&
-        isProjectUnreleased(test) &&
-        isMemberOfAssignedGroup(test);
+      var isTypeReady = false;
+      if (type && Principal.hasAuthority('ROLE_DATA_PROVIDER')) {
+        var conf = project.configuration;
+        switch (type) {
+          case 'studies':
+            isTypeReady = (conf.studyState.dataProviderReady ||
+                conf.studyState.publisherReady);
+            break;
+          case 'surveys':
+            isTypeReady = (conf.surveysState.dataProviderReady ||
+                conf.surveysState.publisherReady);
+            break;
+          case 'instruments':
+            isTypeReady = (conf.instrumentsState.dataProviderReady ||
+                conf.instrumentsState.publisherReady);
+            break;
+          case 'data_sets':
+            isTypeReady = (conf.dataSetsState.dataProviderReady ||
+                conf.dataSetsState.publisherReady);
+            break;
+          case 'questions':
+            isTypeReady = (conf.questionsState.dataProviderReady ||
+                conf.questionsState.publisherReady);
+            break;
+          case 'variables':
+            isTypeReady = (conf.variablesState.dataProviderReady ||
+                conf.variablesState.publisherReady);
+            break;
+        }
+      }
+      return !isTypeReady && isProjectSelected(test) &&
+        isProjectUnreleased(test) && isMemberOfAssignedGroup(test);
     };
 
     return {

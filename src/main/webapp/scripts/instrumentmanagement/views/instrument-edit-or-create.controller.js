@@ -102,7 +102,7 @@ angular.module('metadatamanagementApp')
                   if (project.release != null) {
                     handleReleasedProject();
                   } else if (!ProjectUpdateAccessService
-                    .isUpdateAllowed(project)) {
+                    .isUpdateAllowed(project, 'instruments')) {
                     handleUserNotInAssigneeGroup();
                   } else {
                     ctrl.instrument = instrument;

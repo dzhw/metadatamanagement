@@ -70,7 +70,8 @@ angular.module('metadatamanagementApp')
         }).$promise.then(function(project) {
           if (project.release != null) {
             handleReleasedProject();
-          } else if (!ProjectUpdateAccessService.isUpdateAllowed(project)) {
+          } else if (!ProjectUpdateAccessService
+              .isUpdateAllowed(project, 'studies')) {
             handleUserNotInAssigneeGroup();
           } else {
             ctrl.study = study;

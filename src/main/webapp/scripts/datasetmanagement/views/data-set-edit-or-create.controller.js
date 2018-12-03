@@ -102,7 +102,7 @@ angular.module('metadatamanagementApp')
                   if (project.release != null) {
                     handleReleasedProject();
                   } else if (!ProjectUpdateAccessService
-                    .isUpdateAllowed(project)) {
+                    .isUpdateAllowed(project, 'data_sets')) {
                     handleUserNotInAssigneeGroup(project);
                   }else {
                     ctrl.dataSet = dataSet;

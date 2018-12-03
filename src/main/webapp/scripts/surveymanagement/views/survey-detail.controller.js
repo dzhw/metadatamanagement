@@ -38,7 +38,7 @@ angular.module('metadatamanagementApp')
           }).$promise.then(function(project) {
             ctrl.projectIsCurrentlyReleased = (project.release != null);
             ctrl.isUpdateAllowed = ProjectUpdateAccessService
-              .isUpdateAllowed(project);
+              .isUpdateAllowed(project, 'surveys');
           });
         }
         var currenLanguage = LanguageService.getCurrentInstantly();

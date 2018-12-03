@@ -191,12 +191,15 @@ angular.module('metadatamanagementApp').controller('SearchController',
     $scope.$on('current-project-changed',
       function(event, currentProject) { // jshint ignore:line
         currentProjectChangeIsBeingHandled = true;
+
         //wait for other events (logout, selectedTabIndex)
         $timeout(function() {
+          var dataType = $scope.tabs[
+                $scope.searchParams.selectedTabIndex].elasticSearchType;
           if (currentProject) {
             $scope.currentProject = currentProject;
             $scope.isUpdateAllowed = ProjectUpdateAccessService
-              .isUpdateAllowed(currentProject);
+              .isUpdateAllowed(currentProject, dataType);
           } else {
             $scope.currentProject = undefined;
             $scope.isUpdateAllowed = false;
