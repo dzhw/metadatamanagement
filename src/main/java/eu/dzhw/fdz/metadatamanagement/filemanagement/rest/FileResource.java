@@ -12,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.HandlerMapping;
 
@@ -34,7 +35,7 @@ public class FileResource {
    * Download a file from the GridFS / MongoDB by a given filename.
    * @throws IOException If the file cannot be accessed
    */
-  @RequestMapping(value = "/files/**")
+  @GetMapping(value = "/files/**")
   public ResponseEntity<?> downloadFile(HttpServletRequest request) throws IOException {
     String completePath =
         (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
@@ -42,7 +43,7 @@ public class FileResource {
     // find file in grid fs / mongo db
     GridFsResource gridFsFile = this.fileService.findFile(fileName);
 
-    if (gridFsFile == null) {
+    if (gridFsFile == null || !gridFsFile.exists()) {
       return ResponseEntity.notFound().build();
     }
     HttpHeaders headers = new HttpHeaders();
