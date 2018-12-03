@@ -52,7 +52,7 @@ public class InstrumentResourceControllerTest extends AbstractTest {
 
   @Autowired
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
-  
+
   @Autowired
   private JaversService javersService;
 
@@ -101,7 +101,6 @@ public class InstrumentResourceControllerTest extends AbstractTest {
 
     // check that auditing attributes have been set
     mockMvc.perform(get(API_INSTRUMENTS_URI + "/" + instrument.getId()))
-        .andDo(MockMvcResultHandlers.print())
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.createdDate", not(isEmptyOrNullString())))
       .andExpect(jsonPath("$.lastModifiedDate", not(isEmptyOrNullString())))
