@@ -52,7 +52,7 @@ public class OAuth2ServerConfiguration {
           // disable csrf protection for api
           .csrf().ignoringAntMatchers("/api/**", "/management/**").and().authorizeRequests()
           .antMatchers("/api/authenticate").permitAll().antMatchers("/api/register").permitAll()
-          .antMatchers("/api/order").permitAll()
+          .antMatchers("/api/orders/**").permitAll()
           // enable basic http for /api
           .and().authorizeRequests().antMatchers("/api/**").authenticated().and().httpBasic().and()
           .authorizeRequests().antMatchers("/management/info").permitAll()
