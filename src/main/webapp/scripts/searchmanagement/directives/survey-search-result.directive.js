@@ -11,12 +11,17 @@ angular.module('metadatamanagementApp').directive('surveySearchResult',
         currentLanguage: '=',
         bowser: '=',
         addMargin: '=',
-        searchResultIndex: '='
+        searchResultIndex: '=',
+        isUpdateAllowed: '=?'
       },
       controller: function($scope, CommonDialogsService, SurveyResource,
         ElasticSearchAdminService, $rootScope, SimpleMessageToastService,
         DataAcquisitionProjectResource, Principal) {
         $scope.projectIsCurrentlyReleased = true;
+        if (angular.isUndefined($scope.isUpdateAllowed)) {
+          $scope.isUpdateAllowed = true;
+        }
+
         if (Principal
             .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           DataAcquisitionProjectResource.get({

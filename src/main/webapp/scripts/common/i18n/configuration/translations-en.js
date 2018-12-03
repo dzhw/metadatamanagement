@@ -268,7 +268,8 @@ angular.module('metadatamanagementApp').config(
           'client-error': {
             'unauthorized-error': 'You are not logged in. Therefore you are not authorized to do this (Status {{ status }}).',
             'forbidden-error': 'You do not have the permission (role) to do this (Status {{ status }}).',
-            'not-found-error': 'The requested page has not been found ({{ status }}).'
+            'not-found-error': 'The requested page has not been found ({{ status }}).',
+            'not-in-assignee-group': 'Editing is currently impossible, because the publisher or data provider group is assigned to the project.'
           },
           'person': {
             'first-name': {

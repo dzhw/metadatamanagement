@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,7 +35,7 @@ public class StudyVersionsResource {
    * 
    * @return A list of previous study versions
    */
-  @RequestMapping("/studies/{id}/versions")
+  @GetMapping("/studies/{id}/versions")
   public ResponseEntity<?> findPreviousStudyVersions(@PathVariable String id,
       @RequestParam(name = "limit", defaultValue = "5") Integer limit,
       @RequestParam(name = "skip", defaultValue = "0") Integer skip) {

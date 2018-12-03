@@ -6,7 +6,7 @@
 a result of a type like variable or dataSet and so on. */
 angular.module('metadatamanagementApp').controller('SearchController',
   function($scope, Principal, $location, $state,
-    SearchDao, VariableUploadService,
+    SearchDao, VariableUploadService, ProjectUpdateAccessService,
     QuestionUploadService, RelatedPublicationUploadService,
     CleanJSObjectService, CurrentProjectService, $timeout, PageTitleService,
     ToolbarHeaderService, SearchHelperService, SearchResultNavigatorService,
@@ -100,6 +100,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       });
       $scope.searchResult = {};
       $scope.currentProject = CurrentProjectService.getCurrentProject();
+      $scope.isUpdateAllowed = ProjectUpdateAccessService.isUpdateAllowed();
       if (!$scope.currentProject) {
         $scope.currentProject = undefined;
       }
@@ -194,8 +195,11 @@ angular.module('metadatamanagementApp').controller('SearchController',
         $timeout(function() {
           if (currentProject) {
             $scope.currentProject = currentProject;
+            $scope.isUpdateAllowed = ProjectUpdateAccessService
+              .isUpdateAllowed(currentProject);
           } else {
             $scope.currentProject = undefined;
+            $scope.isUpdateAllowed = false;
           }
           $scope.pageObject.page = 1;
           writeSearchParamsToLocation();

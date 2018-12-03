@@ -25,12 +25,12 @@
     <div flex>
         <div ng-repeat="result in searchResult" ng-switch="result._type" class="fdz-fade-in">
             <variable-search-result ng-switch-when="variables" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)"></variable-search-result>
-            <survey-search-result ng-switch-when="surveys" search-result="result._source" current-language="currentLanguage" bowser="bowser" add-margin="$mdMedia('gt-sm')" search-result-index="computeSearchResultIndex($index)"></survey-search-result>
+            <survey-search-result ng-switch-when="surveys" search-result="result._source" current-language="currentLanguage" bowser="bowser" add-margin="$mdMedia('gt-sm')" search-result-index="computeSearchResultIndex($index)" is-update-allowed="isUpdateAllowed"></survey-search-result>
             <question-search-result ng-switch-when="questions" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)"></question-search-result>
-            <dataset-search-result ng-switch-when="data_sets" search-result="result._source" current-language="currentLanguage" bowser="bowser" add-margin="$mdMedia('gt-sm')" search-result-index="computeSearchResultIndex($index)"></dataset-search-result>
-            <study-search-result ng-switch-when="studies" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)"></study-search-result>
+            <dataset-search-result ng-switch-when="data_sets" search-result="result._source" current-language="currentLanguage" bowser="bowser" add-margin="$mdMedia('gt-sm')" search-result-index="computeSearchResultIndex($index)" is-update-allowed="isUpdateAllowed"></dataset-search-result>
+            <study-search-result ng-switch-when="studies" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)" is-update-allowed="isUpdateAllowed"></study-search-result>
             <related-publication-search-result ng-switch-when="related_publications" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)"></related-publication-search-result>
-            <instrument-search-result ng-switch-when="instruments" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)"></instrument-search-result>
+            <instrument-search-result ng-switch-when="instruments" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)" is-update-allowed="isUpdateAllowed"></instrument-search-result>
         </div>
         <div ng-if="pageObject.totalHits && pageObject.totalHits > pageObject.size" layout="row" layout-align="center">
             <ul template-url="scripts/common/pagination/custom-uib-pagination.html.tmpl" max-size="$mdMedia('gt-xs')?5:3" boundary-link-numbers="true" uib-pagination next-text="{{'global.pagination.next'|translate}}" previous-text="{{'global.pagination.previous'|translate}}"
@@ -55,13 +55,13 @@
         </div>
 
         <div ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='studies'">
-            <md-button ng-if="!currentStudy" class="md-fab md-raised md-accent" ui-sref="studyCreate()" ng-disabled="!currentProject || currentProject.release">
+            <md-button ng-if="!currentStudy" class="md-fab md-raised md-accent" ui-sref="studyCreate()" ng-disabled="!isUpdateAllowed">
                 <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                     {{'search-management.buttons.create-study-tooltip' | translate}}
                 </md-tooltip>
                 <md-icon md-font-set="material-icons">add</md-icon>
             </md-button>
-            <md-button ng-if="currentStudy" class="md-fab md-raised md-accent" ui-sref="studyEdit({id: currentStudy.id})" ng-disabled="!currentProject || currentProject.release">
+            <md-button ng-if="currentStudy" class="md-fab md-raised md-accent" ui-sref="studyEdit({id: currentStudy.id})" ng-disabled="!isUpdateAllowed">
                 <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                     {{'search-management.buttons.edit-study-tooltip' | translate}}
                 </md-tooltip>
@@ -70,7 +70,7 @@
         </div>
         <!-- Index 2 = Questions Tab -->
         <md-button aria-label="{{'search-management.buttons.upload-questions' | translate}}" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='questions'" type="file" ngf-select="uploadQuestions($files)" ngf-multiple="true" class="md-accent md-fab fdz-fade-in"
-          directory webkitdirectory ng-disabled="!currentProject || currentProject.release">
+          directory webkitdirectory ng-disabled="!isUpdateAllowed">
             <md-tooltip ng-hide="!currentProject || currentProject.release" md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{'search-management.buttons.upload-questions-tooltip' | translate}}
             </md-tooltip>
@@ -78,28 +78,28 @@
         </md-button>
 
         <md-button aria-label="{{'search-management.buttons.upload-variables' | translate}}" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='variables'" type="file" ngf-select="uploadVariables($files)" class="md-accent md-fab fdz-fade-in" ngf-multiple="true"
-          directory webkitdirectory ng-disabled="!currentProject || currentProject.release">
+          directory webkitdirectory ng-disabled="!isUpdateAllowed">
             <md-tooltip ng-hide="!currentProject || currentProject.release" md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{'search-management.buttons.upload-variables-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">add</md-icon>
         </md-button>
 
-        <md-button class="md-fab md-raised md-accent" ui-sref="surveyCreate()" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='surveys'" ng-disabled="!currentProject || currentProject.release">
+        <md-button class="md-fab md-raised md-accent" ui-sref="surveyCreate()" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='surveys'" ng-disabled="!isUpdateAllowed">
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{'search-management.buttons.create-survey-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">add</md-icon>
         </md-button>
 
-        <md-button class="md-fab md-raised md-accent" ui-sref="dataSetCreate()" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='data_sets'" ng-disabled="!currentProject || currentProject.release">
+        <md-button class="md-fab md-raised md-accent" ui-sref="dataSetCreate()" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='data_sets'" ng-disabled="!isUpdateAllowed">
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{'search-management.buttons.create-data-set-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">add</md-icon>
         </md-button>
 
-        <md-button class="md-fab md-raised md-accent" ui-sref="instrumentCreate()" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='instruments'" ng-disabled="!currentProject || currentProject.release">
+        <md-button class="md-fab md-raised md-accent" ui-sref="instrumentCreate()" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='instruments'" ng-disabled="!isUpdateAllowed">
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{'search-management.buttons.create-instrument-tooltip' | translate}}
             </md-tooltip>

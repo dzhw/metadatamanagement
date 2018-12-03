@@ -88,4 +88,19 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
   @Valid
   @NotNull(message = "data-acquisition-project-management.error.data-acquisition-project.not-null")
   private Configuration configuration = new Configuration();
+
+  /**
+   * Determines which assignee group is able to edit data on the project.
+   */
+  @NotNull(message = "data-acquisition-project-management.error.assignee-group.not-null")
+  private AssigneeGroup assigneeGroup;
+
+
+  /**
+   * The last message provided by an assignee group user before
+   * {@link DataAcquisitionProject#assigneeGroup} value changed.
+   */
+  @Size(max = StringLengths.LARGE, message = "data-acquisition-project-management.error."
+      + "data-acquisition-project.last-assignee-group-message.size")
+  private String lastAssigneeGroupMessage;
 }

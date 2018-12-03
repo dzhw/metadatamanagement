@@ -70,6 +70,7 @@ angular.module('metadatamanagementApp')
               project.configuration = {
                 publishers: [identity.login]
               };
+              project.assigneeGroup = 'PUBLISHER';
               DataAcquisitionProjectResource.save(project,
                 //Success
                 function() {
