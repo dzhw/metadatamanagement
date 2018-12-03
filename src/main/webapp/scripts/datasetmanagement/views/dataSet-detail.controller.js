@@ -21,7 +21,17 @@ angular.module('metadatamanagementApp')
       ctrl.openDialog = function(subDataSet, event) {
         DataSetCitateDialogService.showDialog(subDataSet.citationHint, event);
       };
+      ctrl.enableJsonView = Principal
+        .hasAnyAuthority(['ROLE_ADMIN','ROLE_PUBLISHER']);
 
+      ctrl.jsonExcludes = [
+        'nestedStudy',
+        'nestedVariables',
+        'nestedInstruments',
+        'nestedQuestions',
+        'nestedRelatedPublications',
+        'nestedSurveys'
+      ];
       entity.promise.then(function(result) {
         if (Principal
             .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
