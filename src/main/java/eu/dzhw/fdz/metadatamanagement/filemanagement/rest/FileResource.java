@@ -42,7 +42,7 @@ public class FileResource {
     // find file in grid fs / mongo db
     GridFsResource gridFsFile = this.fileService.findFile(fileName);
 
-    if (gridFsFile == null) {
+    if (gridFsFile == null || !gridFsFile.exists()) {
       return ResponseEntity.notFound().build();
     }
     HttpHeaders headers = new HttpHeaders();
