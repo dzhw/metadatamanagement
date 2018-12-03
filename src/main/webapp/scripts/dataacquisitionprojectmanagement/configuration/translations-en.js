@@ -90,6 +90,7 @@ angular.module('metadatamanagementApp').config(
           },
           'button': {
             'save': 'Click to save the changes.',
+            'save-assign': 'Click to save the changes and to assign the project.',
             'remove-user': 'Remove user'
           },
           'list': {
@@ -102,7 +103,7 @@ angular.module('metadatamanagementApp').config(
             'surveys': 'Surveys',
             'instruments': 'Instruments',
             'questions': 'Questions',
-            'data-sets': 'Data Sets',
+            'dataSets': 'Data Sets',
             'variables': 'Variables',
             'setting-info': 'The following Metadata must be provided, before this project can be released to all public users:'
           }

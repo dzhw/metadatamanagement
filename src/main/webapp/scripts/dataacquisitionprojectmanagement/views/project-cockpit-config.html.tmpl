@@ -1,4 +1,4 @@
-<div layout-gt-sm="row" layout="column" >
+<div layout-gt-sm="row" layout="column">
   <div flex style="-ms-flex:auto;">
     <div class="layout-margin layout-row md-body-2">{{'data-acquisition-project-management.project-cockpit.search.header-publisher' | translate}}</div>
     <project-cockpit-userlist group="publishers"></project-cockpit-userlist>
@@ -25,7 +25,7 @@
 			<md-list>
 				<md-list-item>
 					<md-input-container ng-class="'fdz-no-margin'">
-						<md-checkbox ng-model="project.configuration.requirements.studyRequired" name="study" ng-class="'fdz-no-margin'" ng-disabled="true">
+						<md-checkbox ng-model="project.configuration.requirements.studiesRequired" name="study" ng-class="'fdz-no-margin'" ng-disabled="true">
 							{{'data-acquisition-project-management.project-cockpit.requirements.studies' | translate}}
 						</md-checkbox>
 					</md-input-container>
@@ -69,4 +69,3 @@
 		</form>
 	</md-card-content>
 </md-card>
-

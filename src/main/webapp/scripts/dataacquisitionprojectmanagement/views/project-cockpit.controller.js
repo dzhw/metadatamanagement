@@ -5,7 +5,8 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
   function($q, $scope, $state, $location, $transitions, UserResource, Principal,
            PageTitleService, LanguageService, ToolbarHeaderService,
            DataAcquisitionProjectResource, SimpleMessageToastService,
-           CurrentProjectService, projectDeferred, CommonDialogsService) {
+           CurrentProjectService, projectDeferred, CommonDialogsService,
+           SearchDao) {
 
     PageTitleService.setPageTitle(
       'data-acquisition-project-management.project-cockpit.title');
@@ -122,6 +123,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       function(project) {
         $scope.project = project;
         $scope.fetching = true;
+
         var isProjectRequirementsDisabled =
           setProjectRequirementsDisabled(project);
         CurrentProjectService.setCurrentProject(project);
@@ -236,6 +238,9 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       }
       return $state.currentPromise;
     };
+    $scope.searchProjectData = function(group) {
+      return SearchDao.search('', 0, $scope.project.id, '', group, 1, '')
+    }
 
     $scope.removeUser = function(user, role) {
       $scope.changed = true;
@@ -245,6 +250,17 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         });
       $state.searchCache[role] = {};
     };
+
+    $scope.shareButtonShown = false
+    $scope.onTabSelect = function(tab) {
+      if (tab === 'config') {
+        $scope.shareButtonShown = false
+      }
+      else if (tab === 'status') {
+        $scope.shareButtonShown = true
+      }
+    }
+
 
     $state.loadComplete = true;
   }).directive('projectCockpitConfig', function() {
@@ -269,4 +285,42 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         scope.group = attrs.group;
       }
     };
+  }).directive('projectCockpitAssignment', function(SearchDao) {
+    return {
+      restrict: 'E',
+      templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
+        'project-cockpit-assignment.html.tmpl',
+      scope: true,
+      replace: true,
+      link: function(scope, elem, attrs) { // jshint ignore:line
+        var elasticSearchType = {
+          studies: 'studies',
+          surveys: 'surveys',
+          instruments: 'instruments',
+          questions: 'questions',
+          dataSets: 'data_sets',
+          variables: 'variables'
+        }
+        scope.group = attrs.group;
+        scope.count = null;
+        scope.$watch(function() {
+          return scope.project &&
+            scope.project.configuration[attrs.group+'State'] ?
+            scope.project.configuration[attrs.group+'State'].
+            isDataProviderReady : null;
+        }, function(newVal, oldVal) {
+          if (newVal !== oldVal) {
+            scope.changed = true;
+          }
+        });
+        scope.searchProjectData(
+          elasticSearchType[attrs.group]
+        ).then(function(data) {
+          scope.count = data.hits.total
+        }).catch(function() {
+          scope.count = 0
+        })
+
+      }
+    }
   });

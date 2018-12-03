@@ -13,17 +13,17 @@
 		md-require-match="true"
 		md-no-cache="true"
 		style="margin-bottom: 2px; -ms-flex: auto;"
-		>
-			<md-item-template>
-				<div layout="row">
-					<strong><span md-highlight-text="searchText[group]">{{user.login}}</span></strong>
-					&nbsp;
-					<span md-highlight-text="searchText[group]">({{user.email}})</span>
-				</div>
-			</md-item-template>
-			<md-not-found>
-				{{searchText[group]}} <span data-translate="global.menu.entities.unknown-project"></span>
-			</md-not-found>
+	>
+		<md-item-template>
+			<div layout="row">
+				<strong><span md-highlight-text="searchText[group]">{{user.login}}</span></strong>
+				&nbsp;
+				<span md-highlight-text="searchText[group]">({{user.email}})</span>
+			</div>
+		</md-item-template>
+		<md-not-found>
+			{{searchText[group]}} <span data-translate="global.menu.entities.unknown-project"></span>
+		</md-not-found>
 	</md-autocomplete>
 
 	<md-list ng-if="activeUsers[group] && activeUsers[group].length" style="padding: 0px;">

@@ -10,7 +10,7 @@
 
 <div ng-cloak ng-if="project && !fetching">
   <md-tabs md-dynamic-height md-border-bottom>
-    <md-tab>
+    <md-tab md-on-select="onTabSelect('status')">
       <md-tab-label>
         <md-icon md-font-set="material-icons">info</md-icon>
         Status
@@ -19,7 +19,7 @@
         <project-cockpit-status></project-cockpit-status>
       </md-tab-body>
     </md-tab>
-    <md-tab>
+    <md-tab md-on-select="onTabSelect('config')">
       <md-tab-label>
         <md-icon md-font-set="material-icons">settings</md-icon>
         Config
@@ -31,7 +31,14 @@
   </md-tabs>
 </div>
 
+
 <div class="fdz-fab-button-container" layout="column">
+  <md-button ng-if="shareButtonShown" class="md-raised md-fab md-accent" ng-click="saveChanges('requirements')" ng-disabled="!changed">
+    <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+        {{'data-acquisition-project-management.project-cockpit.button.save-assign' | translate}}
+    </md-tooltip>
+    <md-icon md-font-set="material-icons">wc</md-icon>
+  </md-button>
   <md-button class="md-raised md-fab md-accent" ng-click="saveChanges('requirements')" ng-disabled="!changed">
     <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
         {{'data-acquisition-project-management.project-cockpit.button.save' | translate}}
