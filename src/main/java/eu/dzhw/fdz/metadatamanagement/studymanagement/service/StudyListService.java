@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.studymanagement.service;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.List;
 
 import org.elasticsearch.index.query.QueryBuilders;
@@ -42,6 +43,9 @@ public class StudyListService {
    */
   public Page<Study> loadStudies(int page, int size) throws IOException {
     SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+    String[] fieldsAsString = geltFieldsFromStudy();
+
+    sourceBuilder.fetchSource(fieldsAsString, null);
     sourceBuilder.query(QueryBuilders.boolQuery().filter(QueryBuilders.existsQuery("release")))
         .from(page * size).size(size).sort("title.de", SortOrder.ASC);
     Search search = new Search.Builder(sourceBuilder.toString()).addIndex("studies").build();
@@ -61,5 +65,19 @@ public class StudyListService {
     Page<Study> resultPage = new PageImpl<Study>(hits, pageRequest, total);
 
     return resultPage;
+  }
+
+  /**
+   * returns the array of fields from {@link Study} as Sting.
+   * 
+   * @return the fields
+   */
+  private String[] geltFieldsFromStudy() {
+    Field[] asList = Study.class.getDeclaredFields();
+    String[] fieldsAsString = new String[asList.length];
+    for (int i = 0; i < asList.length; i++) {
+      fieldsAsString[i] = asList[i].getName();
+    }
+    return fieldsAsString;
   }
 }
