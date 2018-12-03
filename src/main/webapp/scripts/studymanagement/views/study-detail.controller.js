@@ -27,6 +27,7 @@ angular.module('metadatamanagementApp')
       ];
       ctrl.enableJsonView = Principal
         .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN']);
+      ctrl.isUpdateAllowed = false;
       var bowser = $rootScope.bowser;
 
       ctrl.loadAttachments = function() {
@@ -54,7 +55,8 @@ angular.module('metadatamanagementApp')
             id: result.dataAcquisitionProjectId
           }).$promise.then(function(project) {
             ctrl.projectIsCurrentlyReleased = (project.release != null);
-            ctrl.isUpdateAllowed = ProjectUpdateAccessService.isUpdateAllowed();
+            ctrl.isUpdateAllowed = ProjectUpdateAccessService
+              .isUpdateAllowed(project);
           });
         }
 

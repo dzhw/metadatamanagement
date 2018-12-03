@@ -22,11 +22,11 @@ angular.module('metadatamanagementApp').service(
       }
     };
 
-    var isUpdateAllowed = function() {
-      var project = CurrentProjectService.getCurrentProject();
-      return isProjectSelected(project) &&
-        isProjectUnreleased(project) &&
-        isMemberOfAssignedGroup(project);
+    var isUpdateAllowed = function(project) {
+      var test = project || CurrentProjectService.getCurrentProject();
+      return isProjectSelected(test) &&
+        isProjectUnreleased(test) &&
+        isMemberOfAssignedGroup(test);
     };
 
     return {

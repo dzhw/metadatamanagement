@@ -196,7 +196,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
           if (currentProject) {
             $scope.currentProject = currentProject;
             $scope.isUpdateAllowed = ProjectUpdateAccessService
-              .isUpdateAllowed();
+              .isUpdateAllowed(currentProject);
           } else {
             $scope.currentProject = undefined;
             $scope.isUpdateAllowed = false;

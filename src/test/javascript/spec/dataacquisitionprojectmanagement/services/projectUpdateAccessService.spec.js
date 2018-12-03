@@ -59,4 +59,12 @@ describe('ProjectUpdateAccessService', function() {
     });
     expect(ProjectUpdateAccessService.isUpdateAllowed()).toBe(false);
   });
+
+  it('should not call CurrentProjectService if the project was given as a ' +
+    'parameter', function() {
+    var spy = spyOn(CurrentProjectService, 'getCurrentProject').and
+      .callThrough();
+    ProjectUpdateAccessService.isUpdateAllowed({});
+    expect(spy).not.toHaveBeenCalled();
+  });
 });

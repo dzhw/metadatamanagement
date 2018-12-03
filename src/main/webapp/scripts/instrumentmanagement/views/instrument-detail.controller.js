@@ -22,6 +22,7 @@ angular.module('metadatamanagementApp')
       ctrl.projectIsCurrentlyReleased = true;
       ctrl.enableJsonView = Principal
         .hasAnyAuthority(['ROLE_PUBLISHER','ROLE_ADMIN']);
+      ctrl.isUpdateAllowed = false;
 
       ctrl.jsonExcludes = [
         'nestedStudy',
@@ -39,7 +40,8 @@ angular.module('metadatamanagementApp')
             id: result.dataAcquisitionProjectId
           }).$promise.then(function(project) {
             ctrl.projectIsCurrentlyReleased = (project.release != null);
-            ctrl.isUpdateAllowed = ProjectUpdateAccessService.isUpdateAllowed();
+            ctrl.isUpdateAllowed = ProjectUpdateAccessService
+              .isUpdateAllowed(project);
           });
         }
         ToolbarHeaderService.updateToolbarHeader({
