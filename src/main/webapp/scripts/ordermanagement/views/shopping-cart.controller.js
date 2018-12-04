@@ -99,6 +99,7 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
         var order = {
           languageKey: LanguageService.getCurrentInstantly(),
           customer: ctrl.customer,
+          client: 'MDM',
           products: []
         };
         ctrl.products.forEach(function(product) {

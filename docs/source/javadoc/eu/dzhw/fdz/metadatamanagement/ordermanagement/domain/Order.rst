@@ -40,6 +40,14 @@ Order
 
 Fields
 ------
+client
+^^^^^^
+
+.. java:field:: @Indexed @NotNull private OrderClient client
+   :outertype: Order
+
+   The id of the client (one of @link \ :java:ref:`OrderClient`\ ) who has last modified this order.
+
 customer
 ^^^^^^^^
 
