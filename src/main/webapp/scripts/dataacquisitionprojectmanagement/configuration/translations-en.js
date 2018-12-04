@@ -43,6 +43,9 @@ angular.module('metadatamanagementApp').config(
         },
         'error': {
           'data-acquisition-project': {
+            'assignee-group': {
+              'not-null': 'The project must be assigned to the publisher or data provider group.'
+            },
             'id': {
               'not-empty': 'The name of the Data Acquisition Project must not be empty!',
               'pattern': 'The name of the project must contain only lowercase letters (a-z) and digits.',
@@ -57,6 +60,9 @@ angular.module('metadatamanagementApp').config(
             'publishers': {
               'not-empty': 'The project must have at least one publisher.'
             }
+          },
+          'last-assignee-group-message': {
+            'size': 'The message must not be longer than 2048 characters.'
           },
           'release': {
             'version': {
@@ -90,11 +96,16 @@ angular.module('metadatamanagementApp').config(
           },
           'button': {
             'save': 'Click to save the changes.',
+            'save-assign': 'Click to save the changes and to assign the project.',
             'remove-user': 'Remove user'
           },
           'list': {
             'empty-data-provider': 'No data providers are assigned to this project.',
             'empty-publisher': 'No publishers are assigned to this project'
+          },
+          'tabs': {
+            'status': 'Status',
+            'config': 'Config'
           },
           'requirements': {
             'header': 'Expected Metadata',
@@ -102,9 +113,16 @@ angular.module('metadatamanagementApp').config(
             'surveys': 'Surveys',
             'instruments': 'Instruments',
             'questions': 'Questions',
-            'data-sets': 'Data Sets',
+            'dataSets': 'Data Sets',
             'variables': 'Variables',
             'setting-info': 'The following Metadata must be provided, before this project can be released to all public users:'
+          },
+          'config': {
+            'assigned-group': 'Assigned User Group',
+            'released': 'Published',
+            'expected': 'expected',
+            'ready': 'ready',
+            'new': 'New'
           }
         }
       }

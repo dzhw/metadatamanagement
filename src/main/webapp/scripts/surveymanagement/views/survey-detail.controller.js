@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp')
       SurveyAttachmentResource, Principal, SimpleMessageToastService,
       SearchResultNavigatorService, $stateParams,
       SurveyResponseRateImageUploadService, DataAcquisitionProjectResource,
-      ProductChooserDialogService) {
+      ProductChooserDialogService, ProjectUpdateAccessService) {
       SearchResultNavigatorService.registerCurrentSearchResult(
           $stateParams['search-result-index']);
       var ctrl = this;
@@ -19,6 +19,7 @@ angular.module('metadatamanagementApp')
       ctrl.projectIsCurrentlyReleased = true;
       ctrl.enableJsonView = Principal
         .hasAnyAuthority(['ROLE_PUBLISHER','ROLE_ADMIN']);
+      ctrl.isUpdateAllowed = false;
 
       ctrl.jsonExcludes = [
         'nestedStudy',
@@ -36,6 +37,9 @@ angular.module('metadatamanagementApp')
             id: result.dataAcquisitionProjectId
           }).$promise.then(function(project) {
             ctrl.projectIsCurrentlyReleased = (project.release != null);
+            ctrl.isUpdateAllowed = ProjectUpdateAccessService
+              .isUpdateAllowed(project, 'surveys');
+            ctrl.assigneeGroup = project.assigneeGroup;
           });
         }
         var currenLanguage = LanguageService.getCurrentInstantly();

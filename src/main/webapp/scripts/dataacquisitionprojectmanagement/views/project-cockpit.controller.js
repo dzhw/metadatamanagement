@@ -5,7 +5,8 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
   function($q, $scope, $state, $location, $transitions, UserResource, Principal,
            PageTitleService, LanguageService, ToolbarHeaderService,
            DataAcquisitionProjectResource, SimpleMessageToastService,
-           CurrentProjectService, projectDeferred, CommonDialogsService) {
+           CurrentProjectService, projectDeferred, CommonDialogsService,
+           SearchDao) {
 
     PageTitleService.setPageTitle(
       'data-acquisition-project-management.project-cockpit.title');
@@ -34,6 +35,15 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       }
       $scope.isProjectRequirementsDisabled = result;
       return result;
+    };
+    var setAssignedToProject = function() {
+      var name = Principal.loginName();
+      $scope.isAssignedToProject =
+        !!_.find($scope.activeUsers.publishers, function(o) {
+          return o.login === name;
+        }) || !!_.find($scope.activeUsers.publishers, function(o) {
+          return o.login === name;
+        });
     };
 
     var requiredTypesWatch;
@@ -67,6 +77,8 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         //Success
         function() {
           $scope.changed = false;
+          setAssignedToProject();
+          CurrentProjectService.setCurrentProject($scope.project);
           SimpleMessageToastService
             .openSimpleMessageToast(
               'data-acquisition-project-management.log-messages.' +
@@ -117,11 +129,18 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
 
     $scope.fetching = false;
 
+    $scope.advancedPrivileges = Principal.hasAnyAuthority(['ROLE_PUBLISHER',
+    'ROLE_ADMIN']);
+    $scope.isPublisher = Principal.hasAnyAuthority(['ROLE_PUBLISHER']);
+    $scope.isDataProvider = Principal.hasAnyAuthority(['ROLE_DATA_PROVIDER']);
+    $scope.isAssignedToProject = false;
+
     // load all users assigned to the currrent project
     projectDeferred.promise.then(
       function(project) {
         $scope.project = project;
         $scope.fetching = true;
+
         var isProjectRequirementsDisabled =
           setProjectRequirementsDisabled(project);
         CurrentProjectService.setCurrentProject(project);
@@ -170,6 +189,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
           getAndAddUsers('dataProviders')
         ])).then(function() {
           $scope.fetching = false;
+          setAssignedToProject();
         }).catch(function(error) {
           SimpleMessageToastService
             .openAlertMessageToast(
@@ -181,9 +201,6 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       }).finally(function() {
       $scope.loadStarted = false;
     });
-
-    $scope.advancedPrivileges = Principal.hasAnyAuthority(['ROLE_PUBLISHER',
-      'ROLE_ADMIN']);
 
     $scope.canDeleteUser = function(user, role) {
       if (user.restricted) {
@@ -206,7 +223,12 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       publishers: {},
       dataProviders: {}
     };
-    $scope.searchUsers = function(search, role, roleInternal) {
+    var internalRoles = {
+      'publishers': 'ROLE_PUBLISHER',
+      'dataProviders': 'ROLE_DATA_PROVIDER'
+    };
+    $scope.searchUsers = function(search, role) {
+      var roleInternal = internalRoles[role];
       if (!$state.loadComplete) {
         return [];
       }
@@ -231,6 +253,9 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       }
       return $state.currentPromise;
     };
+    $scope.searchProjectData = function(group) {
+      return SearchDao.search('', 0, $scope.project.id, '', group, 1, '');
+    };
 
     $scope.removeUser = function(user, role) {
       $scope.changed = true;
@@ -241,5 +266,95 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       $state.searchCache[role] = {};
     };
 
+    $scope.shareButtonShown = false;
+    $scope.onTabSelect = function(tab) {
+      if (tab === 'config') {
+        $scope.shareButtonShown = false;
+      } else if (tab === 'status') {
+        $scope.shareButtonShown = true;
+      }
+    };
+
+    $scope.setChanged = function(changed) {
+      if (changed === undefined) {
+        changed = true;
+      }
+      $scope.changed = changed;
+    };
+
     $state.loadComplete = true;
+  }).directive('projectCockpitConfig', function() {
+    return {
+      restrict: 'E',
+      templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
+        'project-cockpit-config.html.tmpl'
+    };
+  }).directive('projectCockpitStatus', function() {
+    return {
+      restrict: 'E',
+      templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
+        'project-cockpit-status.html.tmpl'
+    };
+  }).directive('projectCockpitUserlist', function() {
+    return {
+      restrict: 'E',
+      templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
+        'project-cockpit-userlist.html.tmpl',
+      scope: true,
+      link: function(scope, elem, attrs) { // jshint ignore:line
+        scope.group = attrs.group;
+      }
+    };
+  }).directive('projectCockpitAssignment', function($state) {
+    return {
+      restrict: 'E',
+      templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
+        'project-cockpit-assignment.html.tmpl',
+      scope: true,
+      replace: true,
+      link: function(scope, elem, attrs) { // jshint ignore:line
+        var elasticSearchType = {
+          studies: 'studies',
+          surveys: 'surveys',
+          instruments: 'instruments',
+          questions: 'questions',
+          dataSets: 'data_sets',
+          variables: 'variables'
+        };
+        scope.group = attrs.group;
+        scope.create = function() {
+          $state.go(attrs.createstate, {});
+        };
+        scope.count = null;
+        scope.$watch(function() {
+          return scope.project &&
+            scope.project.configuration[attrs.group + 'State'] ?
+            scope.project.configuration[attrs.group + 'State'].
+            dataProviderReady : null;
+        }, function(newVal, oldVal) {
+          if (newVal !== oldVal) {
+            scope.setChanged(true);
+          }
+        });
+        scope.$watch(function() {
+          return scope.project &&
+            scope.project.configuration[attrs.group + 'State'] ?
+            scope.project.configuration[attrs.group + 'State'].
+            publisherReady : null;
+        }, function(newVal, oldVal) {
+          if (newVal !== oldVal) {
+            scope.setChanged(true);
+          }
+        });
+
+        scope.searchProjectData(
+          elasticSearchType[attrs.group]
+        ).then(function(data) {
+          scope.count = data.hits.total;
+        }).catch(function() {
+          scope.count = 0;
+        });
+
+      }
+    };
   });

@@ -4,6 +4,7 @@ import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.AssigneeGroup;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Requirements;
@@ -30,8 +31,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -113,7 +112,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     //delete not created project
     mockMvc.perform(delete(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
         .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
-    
+
     // create the project with the given id
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
         .contentType(MediaType.APPLICATION_JSON)
@@ -306,14 +305,13 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
 
   /**
    * test the user implemented parts of save project
-   *
    * @throws Exception
    */
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testSaveProjectWithEmptyPublishers() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
- // create the project with the given id
+    // create the project with the given id
     dataAcquisitionProjectRepository.insert(project);
     Configuration invalidConf = new Configuration();
     project.setConfiguration(invalidConf);
@@ -323,21 +321,22 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
             .content(TestUtil.convertObjectToJsonBytes(project)))
         .andExpect(status().isBadRequest());
   }
+
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.DATA_PROVIDER)
   public void testSaveProjectWithInvalidConfigAsProvider() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.getConfiguration().setDataProviders(Arrays.asList("dataprovider"));
     mockMvc
-    .perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
-        .contentType(MediaType.APPLICATION_JSON)
-        .content(TestUtil.convertObjectToJsonBytes(project)))
-    .andExpect(status().isBadRequest());
+        .perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(project)))
+        .andExpect(status().isBadRequest());
     // create the project with the given id
     dataAcquisitionProjectRepository.insert(project);
-    Configuration invalidConf = new Configuration(
-        project.getConfiguration().getPublishers(), Collections.emptyList(), new Requirements()
-    );
+    new Configuration();
+    Configuration invalidConf = Configuration.builder().publishers(
+        project.getConfiguration().getPublishers()).dataProviders(Collections.emptyList()).build();
     project.setConfiguration(invalidConf);
     //update with invalid conf -- no dataprovider
     mockMvc
@@ -388,6 +387,34 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     project = dataAcquisitionProjectRepository.save(project);
 
     project.getConfiguration().getRequirements().setDataSetsRequired(true);
+
+    mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
+        .content(TestUtil.convertObjectToJsonBytes(project))
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = PUBLISHER_USERNAME)
+  public void testUpdatDataAcquisitionProject_correct_assignee() throws Exception {
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    project.setAssigneeGroup(AssigneeGroup.PUBLISHER);
+
+    project = dataAcquisitionProjectRepository.save(project);
+
+    mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
+        .content(TestUtil.convertObjectToJsonBytes(project))
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNoContent());
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = PUBLISHER_USERNAME)
+  public void testUpdatDataAcquisitionProject_invalid_assignee() throws Exception {
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    project.setAssigneeGroup(AssigneeGroup.DATA_PROVIDER);
+
+    project = dataAcquisitionProjectRepository.save(project);
 
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
         .content(TestUtil.convertObjectToJsonBytes(project))

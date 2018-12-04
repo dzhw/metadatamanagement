@@ -6,6 +6,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisiti
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -38,7 +39,9 @@ public class ValidDataAcquisitionProjectSaveValidator
     if (oldDataProjectOpt.isPresent()) {
       DataAcquisitionProject oldProject = oldDataProjectOpt.get();
 
-      return isPublisherUpdatePermitted(oldProject, dataAcquisitionProject)
+      return isUserInAssignedGroup(oldProject)
+          && isMessageToAssigneeGroupProvided(oldProject, dataAcquisitionProject)
+          && isPublisherUpdatePermitted(oldProject, dataAcquisitionProject)
           && isDataProviderUpdatePermitted(oldProject, dataAcquisitionProject)
           && isProjectRequirementsUpdatePermitted(oldProject, dataAcquisitionProject);
 
@@ -93,6 +96,42 @@ public class ValidDataAcquisitionProjectSaveValidator
    */
   private boolean isDataAcquisitionProjectCreatePermitted() {
     return SecurityUtils.isUserInRole(AuthoritiesConstants.PUBLISHER);
+  }
+
+  /**
+   * DataAcquisitionProject can only be updated if the user is a member of the
+   * currently assigned group (role wise) responsible for editing the project.
+   */
+  private boolean isUserInAssignedGroup(DataAcquisitionProject oldProject) {
+    String requiredRole;
+
+    switch (oldProject.getAssigneeGroup()) {
+      case PUBLISHER:
+        requiredRole = AuthoritiesConstants.PUBLISHER;
+        break;
+      case DATA_PROVIDER:
+        requiredRole = AuthoritiesConstants.DATA_PROVIDER;
+        break;
+      default:
+        throw new IllegalStateException("Unknown assignee group " + oldProject.getAssigneeGroup());
+    }
+    return SecurityUtils.isUserInRole(requiredRole);
+  }
+
+  /**
+   * Current assignee group must provide a message if the group assignment changes.
+   */
+  private boolean isMessageToAssigneeGroupProvided(DataAcquisitionProject oldProject,
+                                                   DataAcquisitionProject dataAcquisitionProject) {
+    if (oldProject == null) {
+      return true;
+    }
+
+    if (oldProject.getAssigneeGroup() == dataAcquisitionProject.getAssigneeGroup()) {
+      return true;
+    }
+
+    return StringUtils.hasText(dataAcquisitionProject.getLastAssigneeGroupMessage());
   }
 
   private boolean isNotModified(Object objA, Object objB) {

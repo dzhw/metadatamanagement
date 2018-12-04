@@ -6,7 +6,7 @@
 a result of a type like variable or dataSet and so on. */
 angular.module('metadatamanagementApp').controller('SearchController',
   function($scope, Principal, $location, $state,
-    SearchDao, VariableUploadService,
+    SearchDao, VariableUploadService, ProjectUpdateAccessService,
     QuestionUploadService, RelatedPublicationUploadService,
     CleanJSObjectService, CurrentProjectService, $timeout, PageTitleService,
     ToolbarHeaderService, SearchHelperService, SearchResultNavigatorService,
@@ -100,6 +100,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       });
       $scope.searchResult = {};
       $scope.currentProject = CurrentProjectService.getCurrentProject();
+      $scope.isUpdateAllowed = ProjectUpdateAccessService.isUpdateAllowed();
       if (!$scope.currentProject) {
         $scope.currentProject = undefined;
       }
@@ -155,6 +156,12 @@ angular.module('metadatamanagementApp').controller('SearchController',
             $scope.tabs[$scope.searchParams.selectedTabIndex].count =
               data.hits.total;
           });
+          if ($scope.currentProject) {
+            var dataType = $scope.tabs[
+            $scope.searchParams.selectedTabIndex].elasticSearchType;
+            $scope.isUpdateAllowed = ProjectUpdateAccessService
+              .isUpdateAllowed($scope.currentProject, dataType);
+          }
           $scope.isSearching--;
         }, function() {
           $scope.pageObject.totalHits = 0;
@@ -192,10 +199,15 @@ angular.module('metadatamanagementApp').controller('SearchController',
         currentProjectChangeIsBeingHandled = true;
         //wait for other events (logout, selectedTabIndex)
         $timeout(function() {
+          var dataType = $scope.tabs[
+                $scope.searchParams.selectedTabIndex].elasticSearchType;
           if (currentProject) {
             $scope.currentProject = currentProject;
+            $scope.isUpdateAllowed = ProjectUpdateAccessService
+              .isUpdateAllowed(currentProject, dataType);
           } else {
             $scope.currentProject = undefined;
+            $scope.isUpdateAllowed = false;
           }
           $scope.pageObject.page = 1;
           writeSearchParamsToLocation();

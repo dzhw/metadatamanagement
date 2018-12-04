@@ -26,7 +26,7 @@ angular.module('metadatamanagementApp')
               return StudySearchService.findOneById($stateParams.id);
             }
           ]
-        },
+        }
       });
 
     $stateProvider
@@ -62,7 +62,7 @@ angular.module('metadatamanagementApp')
               });
             }
           ]
-        },
+        }
       });
 
     $stateProvider
@@ -96,6 +96,6 @@ angular.module('metadatamanagementApp')
           entity: function() {
             return null;
           }
-        },
+        }
       });
   });

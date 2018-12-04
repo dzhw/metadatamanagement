@@ -43,6 +43,9 @@ angular.module('metadatamanagementApp').config(
         },
         'error': {
           'data-acquisition-project': {
+            'assignee-group': {
+              'not-null': 'Die zuständige Bearbeitergruppe (Publisher oder Datengeber) darf nicht leer sein.'
+            },
             'id': {
               'not-empty': 'Der Name des Datenaufbereitungsprojekts darf nicht leer sein!',
               'pattern': 'Der Name eines Projektes darf nur aus Zahlen und kleinen Buchstaben (a-z) bestehen.',
@@ -57,6 +60,9 @@ angular.module('metadatamanagementApp').config(
             'publishers': {
               'not-empty': 'Es muss mindestens ein Publisher eingetragen sein.'
             }
+          },
+          'last-assignee-group-message': {
+            'size': 'Die Nachricht darf nicht länger als 2048 Zeichen sein.'
           },
           'release': {
             'version': {
@@ -90,11 +96,16 @@ angular.module('metadatamanagementApp').config(
           },
           'button': {
             'save': 'Klicken, um die Anpassungen zu speichern.',
+            'save-assign': 'Klicken, um die Anpassungen zu speichern und das Projekt zuzuweisen.',
             'remove-user': 'Nutzer entfernen'
           },
           'list': {
             'empty-data-provider': 'Keine Datengeber sind diesem Projekt zugeteilt.',
             'empty-publisher': 'Keine Publisher sind diesem Projekt zugeteilt.'
+          },
+          'tabs': {
+            'status': 'Status',
+            'config': 'Config'
           },
           'requirements': {
             'header': 'Erwartete Metadaten',
@@ -102,9 +113,16 @@ angular.module('metadatamanagementApp').config(
             'surveys': 'Erhebungen',
             'instruments': 'Instrumente',
             'questions': 'Fragen',
-            'data-sets': 'Datensätze',
+            'dataSets': 'Datensätze',
             'variables': 'Variablen',
             'setting-info': 'Die folgenden Metadaten müssen bereitgestellt werden, bevor dieses Projekt für alle Benutzer freigegeben werden kann:'
+          },
+          'config': {
+            'assigned-group': 'Zugewiesene Benutzergruppe',
+            'released': 'Veröffentlicht',
+            'expected': 'Erwartet',
+            'ready': 'bereit',
+            'new': 'Neu'
           }
         }
       }

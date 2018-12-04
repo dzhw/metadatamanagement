@@ -6,7 +6,8 @@ angular.module('metadatamanagementApp')
     function(entity, PageTitleService, LanguageService, DataSetSearchService,
       $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
       StudyAttachmentResource, SearchResultNavigatorService, $stateParams,
-      $rootScope, DataAcquisitionProjectResource, ProductChooserDialogService) {
+      $rootScope, DataAcquisitionProjectResource, ProductChooserDialogService,
+             ProjectUpdateAccessService) {
       SearchResultNavigatorService.registerCurrentSearchResult(
          $stateParams['search-result-index']);
       var versionFromUrl = $stateParams.version;
@@ -26,6 +27,7 @@ angular.module('metadatamanagementApp')
       ];
       ctrl.enableJsonView = Principal
         .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN']);
+      ctrl.isUpdateAllowed = false;
       var bowser = $rootScope.bowser;
 
       ctrl.loadAttachments = function() {
@@ -53,6 +55,9 @@ angular.module('metadatamanagementApp')
             id: result.dataAcquisitionProjectId
           }).$promise.then(function(project) {
             ctrl.projectIsCurrentlyReleased = (project.release != null);
+            ctrl.isUpdateAllowed = ProjectUpdateAccessService
+              .isUpdateAllowed(project, 'studies');
+            ctrl.assigneeGroup = project.assigneeGroup;
           });
         }
 

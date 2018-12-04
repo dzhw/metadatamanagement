@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.AssigneeGroup;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
@@ -18,6 +19,7 @@ import org.springframework.data.rest.core.event.BeforeDeleteEvent;
 import org.springframework.data.rest.core.event.BeforeSaveEvent;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -151,7 +153,38 @@ public class DataAcquisitionProjectService {
   @HandleAfterSave
   void onHandleAfterSave(DataAcquisitionProject newDataAcquisitionProject) {
     final String projectId = newDataAcquisitionProject.getId();
+    sendPublishersDataProvidersChangedMails(projectId);
+    sendAssigneeGroupChangedMails(newDataAcquisitionProject);
+  }
 
+  private void sendAssigneeGroupChangedMails(DataAcquisitionProject newDataAcquisitionProject) {
+    String projectId = newDataAcquisitionProject.getId();
+    if (changesProvider.hasAssigneeGroupChanged(projectId)) {
+      AssigneeGroup assigneeGroup = changesProvider.getNewAssigneeGroup(projectId);
+      Set<String> userNames;
+
+      switch (assigneeGroup) {
+        case DATA_PROVIDER:
+          List<String> dataProviders = newDataAcquisitionProject.getConfiguration()
+              .getDataProviders();
+          userNames = dataProviders != null ? new HashSet<>(dataProviders) : Collections.emptySet();
+          break;
+        case PUBLISHER:
+          userNames = new HashSet<>(newDataAcquisitionProject.getConfiguration().getPublishers());
+          break;
+        default:
+          throw new IllegalStateException("Unknown assignee group " + assigneeGroup);
+      }
+
+      if (!userNames.isEmpty()) {
+        List<User> users = userRepository.findAllByLoginIn(userNames);
+        mailService.sendAssigneeGroupChangedMail(users, projectId,
+            newDataAcquisitionProject.getLastAssigneeGroupMessage());
+      }
+    }
+  }
+
+  private void sendPublishersDataProvidersChangedMails(String projectId) {
     List<String> addedPublishers = changesProvider.getAddedPublisherUserNamesList(projectId);
     List<String> removedPublishers = changesProvider.getRemovedPublisherUserNamesList(projectId);
 
@@ -182,17 +215,19 @@ public class DataAcquisitionProjectService {
 
     List<User> users = userRepository.findAllByLoginIn(userLoginNames);
 
-    List<User> addedPublisherUsers = users.stream()
-        .filter(u -> addedPublishers.contains(u.getLogin())).collect(Collectors.toList());
-    List<User> removedPublisherUsers = users.stream()
-        .filter(u -> removedPublishers.contains(u.getLogin())).collect(Collectors.toList());
-    List<User> addedDataProviderUsers = users.stream()
-        .filter(u -> addedDataProviders.contains(u.getLogin())).collect(Collectors.toList());
-    List<User> removedDataProviderUsers = users.stream()
-        .filter(u -> removedDataProviders.contains(u.getLogin())).collect(Collectors.toList());
+    List<User> addedPublisherUsers = filterUsersByUserNames(users, addedPublishers);
+    List<User> removedPublisherUsers = filterUsersByUserNames(users, removedPublishers);
+    List<User> addedDataProviderUsers = filterUsersByUserNames(users, addedDataProviders);
+    List<User> removedDataProviderUsers = filterUsersByUserNames(users,
+        removedDataProviders);
 
     return new UserFetchResult(addedPublisherUsers, removedPublisherUsers, addedDataProviderUsers,
         removedDataProviderUsers);
+  }
+
+  private List<User> filterUsersByUserNames(List<User> users, List<String> userNames) {
+    return users.stream().filter(u -> userNames.contains(u.getLogin()))
+        .collect(Collectors.toList());
   }
 
   /**

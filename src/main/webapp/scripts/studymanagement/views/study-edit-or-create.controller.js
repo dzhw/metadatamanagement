@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp')
       ElasticSearchAdminService, $mdDialog, $transitions,
       CommonDialogsService, LanguageService, StudySearchService,
       StudyAttachmentResource, $q, CleanJSObjectService,
-      DataAcquisitionProjectResource) {
+      DataAcquisitionProjectResource, ProjectUpdateAccessService) {
 
       var ctrl = this;
       var studySeriesCache = {};
@@ -42,15 +42,25 @@ angular.module('metadatamanagementApp')
         });
       };
 
-      var handleReleasedProject = function() {
-        SimpleMessageToastService.openAlertMessageToast(
-          'study-management.edit.choose-unreleased-project-toast');
+      var redirectToSearchView = function() {
         $timeout(function() {
           $state.go('search', {
             lang: LanguageService.getCurrentInstantly(),
             type: 'studies'
           });
         }, 1000);
+      };
+
+      var handleReleasedProject = function() {
+        SimpleMessageToastService.openAlertMessageToast(
+          'study-management.edit.choose-unreleased-project-toast');
+        redirectToSearchView();
+      };
+
+      var handleUserNotInAssigneeGroup = function() {
+        SimpleMessageToastService.openAlertMessageToast(
+          'global.error.client-error.not-in-assignee-group');
+        redirectToSearchView();
       };
 
       var initEditMode = function(study) {
@@ -60,6 +70,9 @@ angular.module('metadatamanagementApp')
         }).$promise.then(function(project) {
           if (project.release != null) {
             handleReleasedProject();
+          } else if (!ProjectUpdateAccessService
+              .isUpdateAllowed(project, 'studies')) {
+            handleUserNotInAssigneeGroup();
           } else {
             ctrl.study = study;
             ctrl.currentStudySeries = study.studySeries;
