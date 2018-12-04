@@ -27,11 +27,17 @@
 		<md-switch ng-model="project.configuration.requirements[group+'Required']" ng-disabled="true">
 			{{'data-acquisition-project-management.project-cockpit.config.expected' | translate}}
 		</md-switch>
-		<md-switch ng-model="project.configuration[group+'State'].dataProviderReady">
+		<md-switch
+			ng-model="project.configuration[group+'State'].dataProviderReady"
+			ng-disabled="!isDataProvider || !isAssignedToProject"
+		>
 			{{'data-acquisition-project-management.project-cockpit.label.ROLE_DATA_PROVIDER' | translate}}
 			{{'data-acquisition-project-management.project-cockpit.config.ready' | translate}}
 		</md-switch>
-		<md-switch ng-model="project.configuration[group+'State'].publisherReady">
+		<md-switch
+			ng-disabled="!isPublisher || !isAssignedToProject"
+			ng-model="project.configuration[group+'State'].publisherReady"
+		>
 			{{'data-acquisition-project-management.project-cockpit.label.ROLE_PUBLISHER' | translate}}
 			{{'data-acquisition-project-management.project-cockpit.config.ready' | translate}}
 		</md-switch>
