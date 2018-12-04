@@ -28,9 +28,9 @@ public class Requirements {
    * is therefore always {@code true}.
    */
   @AssertTrue(message = "data-acquisition-project-management.error.required-object-types"
-      + ".is-study-required.assert-true")
+      + ".is-studies-required.assert-true")
   @Setter(AccessLevel.NONE)
-  private boolean isStudyRequired = true;
+  private boolean isStudiesRequired = true;
 
   /**
    * Defines if survey data is required for a release.
