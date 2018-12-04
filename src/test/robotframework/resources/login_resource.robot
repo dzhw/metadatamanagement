@@ -22,14 +22,10 @@ Login as publisher after logout
 Delete Robotsproject
     Pass Execution If    '${BROWSER}' == 'ie'    Study Creation not possible in IE
     Get back to german home page
-    Publisher Logout
-    #Click Element Through Tooltips    xpath=//button[contains(.,'abmelden')]
-    Login as publisher after logout
     Input Text    xpath=//input[@placeholder = 'Projekt auswählen']    robotsproject${BROWSER}
     Click Element Through Tooltips    xpath=//md-sidenav/descendant::button[md-icon[text()='']]
     Click Element Through Tooltips    xpath=//button[text()='OK']
-    #Click Element Through Tooltips    xpath=//button[contains(.,'abmelden')]
-    #Publisher Logout
+
 
 Save Changes
     Click Element Through Tooltips    xpath=//ui-view/descendant::button[md-icon[text()='save']]

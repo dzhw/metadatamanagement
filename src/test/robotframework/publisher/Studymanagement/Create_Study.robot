@@ -7,7 +7,7 @@ Resource          ../../resources/search_resource.robot
 
 *** Test Cases ***
 Create Study by Publisher
-    [Setup]    Create RobotsProject
+    Create RobotsProject
     Pass Execution If    '${BROWSER}' == 'ie'    Study Creation not possible in IE
     Click on study tab
     Open Study Create Page
@@ -36,7 +36,6 @@ Create Study by Publisher
     Save Changes
     Page Should Contain Element    xpath=//md-toolbar//a[contains(.,'robotsproject${BROWSER}')]
     Delete Robotsproject
-    [Teardown]    Publisher Logout
 
 *** Keywords ***
 Create RobotsProject

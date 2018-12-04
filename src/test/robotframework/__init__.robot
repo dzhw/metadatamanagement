@@ -9,7 +9,7 @@ Variables         common_variables.yaml
 
 *** Variables ***
 ${USE_SAUCELABS}    ${EMPTY}
-${BROWSER}        firefox
+${BROWSER}        chrome
 ${SAUCELABS_URL}    https://%{SAUCE_USERNAME}:%{SAUCE_ACCESS_KEY}@ondemand.saucelabs.com/wd/hub
 ${BUILD_NUMBER}    local
 
