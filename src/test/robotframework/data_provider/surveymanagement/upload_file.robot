@@ -3,7 +3,7 @@ Documentation     Tests the upload on the survey edit site.
 Force Tags        smoketest    chromeonly
 Resource          ../../resources/home_page_resource.robot
 Resource          ../../resources/search_resource.robot
-Resource          ../../resources/login_resource.robot
+
 
 *** Test Cases ***
 Upload file in survey editor

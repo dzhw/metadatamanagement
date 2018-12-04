@@ -86,9 +86,6 @@ Go To Survey Create Page
     Wait Until Angular Ready    6s
     Click on surveys tab
     Click Element Through Tooltips    xpath=//ui-view/descendant::a[md-icon[text()='add']]
-    #Click Element Through Tooltips    xpath=//ui-view/descendant::button[md-icon[text()='add']]
-    # Wait Until Element Is Visible    xpath=//ui-view/descendant::a[md-icon[text()='mode_edit']]
-    #Click Element Through Tooltips    xpath=//ui-view/descendant::a[md-icon[text()='mode_edit']]
 
 Close Survey Editor And Log Out
     Pass Execution If    '${BROWSER}' == 'ie'    Survey Creation not possible in IE
