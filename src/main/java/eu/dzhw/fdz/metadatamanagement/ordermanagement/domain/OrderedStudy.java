@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringEntireNotEmpty;
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 /**
@@ -14,11 +15,15 @@ import lombok.Data;
  * the {@link Customer} places the orders.
  */
 @Data
-public class Study {
+@ApiModel(
+    description = "Go <a href='https://metadatamanagement.readthedocs.io/de/stable/javadoc/eu/dzhw/"
+    + "fdz/metadatamanagement/ordermanagement/domain/OrderedStudy.html'>here</a> "
+    + "for further details.")
+public class OrderedStudy {
 
   /**
    * The id of the {@link eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study}.
-   * 
+   *
    * Must not be empty.
    */
   @NotEmpty
@@ -26,7 +31,7 @@ public class Study {
 
   /**
    * The title of the {@link eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study}.
-   * 
+   *
    * Must not be empty neither in German nor in English.
    */
   @NotNull

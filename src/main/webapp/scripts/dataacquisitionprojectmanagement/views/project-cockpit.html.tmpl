@@ -131,43 +131,43 @@
       <form name="requirements" novalidate>
         <md-list>
           <md-list-item>
-            <md-input-container ng-class="'no-margin'">
-              <md-checkbox ng-model="project.configuration.requirements.studyRequired" name="study" ng-class="'no-margin'" ng-disabled="true">
+            <md-input-container ng-class="'fdz-no-margin'">
+              <md-checkbox ng-model="project.configuration.requirements.studyRequired" name="study" ng-class="'fdz-no-margin'" ng-disabled="true">
                 {{'data-acquisition-project-management.project-cockpit.requirements.studies' | translate}}
               </md-checkbox>
             </md-input-container>
           </md-list-item>
           <md-list-item>
-            <md-input-container ng-class="'no-margin'">
-              <md-checkbox ng-model="project.configuration.requirements.surveysRequired" ng-class="'no-margin'" name="survey" ng-disabled="isProjectRequirementsDisabled">
+            <md-input-container ng-class="'fdz-no-margin'">
+              <md-checkbox ng-model="project.configuration.requirements.surveysRequired" ng-class="'fdz-no-margin'" name="survey" ng-disabled="isProjectRequirementsDisabled">
                 {{'data-acquisition-project-management.project-cockpit.requirements.surveys' | translate}}
               </md-checkbox>
             </md-input-container>
           </md-list-item>
           <md-list-item>
-            <md-input-container ng-class="'no-margin'">
-              <md-checkbox ng-model="project.configuration.requirements.instrumentsRequired" ng-class="'no-margin'" name="instruments" ng-disabled="isProjectRequirementsDisabled">
+            <md-input-container ng-class="'fdz-no-margin'">
+              <md-checkbox ng-model="project.configuration.requirements.instrumentsRequired" ng-class="'fdz-no-margin'" name="instruments" ng-disabled="isProjectRequirementsDisabled">
                 {{'data-acquisition-project-management.project-cockpit.requirements.instruments' | translate}}
               </md-checkbox>
             </md-input-container>
           </md-list-item>
           <md-list-item>
-            <md-input-container ng-class="'no-margin'">
-              <md-checkbox ng-model="project.configuration.requirements.questionsRequired" ng-class="'no-margin'" name="questions" ng-disabled="isProjectRequirementsDisabled">
+            <md-input-container ng-class="'fdz-no-margin'">
+              <md-checkbox ng-model="project.configuration.requirements.questionsRequired" ng-class="'fdz-no-margin'" name="questions" ng-disabled="isProjectRequirementsDisabled">
                 {{'data-acquisition-project-management.project-cockpit.requirements.questions' | translate}}
               </md-checkbox>
             </md-input-container>
           </md-list-item>
           <md-list-item>
-            <md-input-container ng-class="'no-margin'">
-              <md-checkbox ng-model="project.configuration.requirements.dataSetsRequired" ng-class="'no-margin'" name="dataSet" ng-disabled="isProjectRequirementsDisabled">
+            <md-input-container ng-class="'fdz-no-margin'">
+              <md-checkbox ng-model="project.configuration.requirements.dataSetsRequired" ng-class="'fdz-no-margin'" name="dataSet" ng-disabled="isProjectRequirementsDisabled">
                 {{'data-acquisition-project-management.project-cockpit.requirements.data-sets' | translate}}
               </md-checkbox>
             </md-input-container>
           </md-list-item>
           <md-list-item>
-            <md-input-container ng-class="'no-margin'">
-              <md-checkbox ng-model="project.configuration.requirements.variablesRequired" ng-class="'no-margin'" name="variables" ng-disabled="isProjectRequirementsDisabled">
+            <md-input-container ng-class="'fdz-no-margin'">
+              <md-checkbox ng-model="project.configuration.requirements.variablesRequired" ng-class="'fdz-no-margin'" name="variables" ng-disabled="isProjectRequirementsDisabled">
                 {{'data-acquisition-project-management.project-cockpit.requirements.variables' | translate}}
               </md-checkbox>
             </md-input-container>
@@ -178,7 +178,7 @@
   </md-card>
 
   <div class="fdz-fab-button-container" layout="column">
-    <md-button class="md-raised md-fab md-accent" ng-click="saveChanges()" ng-disabled="!changed">
+    <md-button class="md-raised md-fab md-accent" ng-click="saveChanges('requirements')" ng-disabled="!changed">
       <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
           {{'data-acquisition-project-management.project-cockpit.button.save' | translate}}
       </md-tooltip>

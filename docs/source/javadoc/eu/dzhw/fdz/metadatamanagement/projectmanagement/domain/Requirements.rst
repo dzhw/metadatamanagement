@@ -6,6 +6,8 @@
 
 .. java:import:: lombok Data
 
+.. java:import:: lombok EqualsAndHashCode
+
 .. java:import:: lombok NoArgsConstructor
 
 .. java:import:: lombok Setter
@@ -20,7 +22,7 @@ Requirements
 .. java:package:: eu.dzhw.fdz.metadatamanagement.projectmanagement.domain
    :noindex:
 
-.. java:type:: @Data @NoArgsConstructor @AllArgsConstructor @ValueObject @Builder public class Requirements
+.. java:type:: @Data @NoArgsConstructor @AllArgsConstructor @ValueObject @EqualsAndHashCode @Builder public class Requirements
 
    This configuration defines which object types have to be delivered before a project can be released.
 

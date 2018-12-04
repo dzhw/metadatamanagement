@@ -161,6 +161,16 @@
                 </md-button>
                 <md-divider></md-divider>
             </li>
+             <li class="fdz-navbar-menu">
+                <md-button class="fdz-navbar-button" href="https://metadatamanagement.readthedocs.io/de/stable/" target="_blank">
+                    <md-icon md-font-set="material-icons">library_books</md-icon>
+                    <span data-translate="global.menu.documentation">Documentation</span>
+                    <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                        {{'global.tooltips.navbar-documentation' | translate}}
+                    </md-tooltip>
+                </md-button>
+                <md-divider></md-divider>
+            </li>
             <li class="fdz-navbar-menu">
                 <md-button ui-sref="disclosure" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
                     <md-icon md-font-set="material-icons">mail_outline</md-icon>

@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.javers.core.metamodel.annotation.ValueObject;
@@ -18,6 +19,7 @@ import javax.validation.constraints.AssertTrue;
 @NoArgsConstructor
 @AllArgsConstructor
 @ValueObject
+@EqualsAndHashCode
 @Builder
 public class Requirements {
 

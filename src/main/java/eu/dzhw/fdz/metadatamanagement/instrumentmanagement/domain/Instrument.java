@@ -23,7 +23,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation.ValidInstrumentIdPattern;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation.ValidInstrumentType;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation.ValidUniqueInstrumentNumber;
-import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Study;
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderedStudy;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import io.searchbox.annotations.JestId;
@@ -158,7 +158,7 @@ public class Instrument extends AbstractRdcDomainObject {
   private List<Integer> surveyNumbers;
 
   /**
-   * The id of the {@link Study} to which this instrument belongs.
+   * The id of the {@link OrderedStudy} to which this instrument belongs.
    * 
    * Must not be empty.
    */

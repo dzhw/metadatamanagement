@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,7 +37,7 @@ public class DataSetAttachmentVersionsResource {
    * 
    * @return A list of previous dataSet versions
    */
-  @RequestMapping("/data-sets/{dataSetId}/attachments/{filename:.+}/versions")
+  @GetMapping("/data-sets/{dataSetId}/attachments/{filename:.+}/versions")
   public ResponseEntity<?> findPreviousdataSetAttachmentVersions(
       @PathVariable String dataSetId,
       @PathVariable String filename,
