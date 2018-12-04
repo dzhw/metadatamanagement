@@ -16,6 +16,8 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain Counter
 
+.. java:import:: io.swagger.annotations ApiModel
+
 .. java:import:: lombok AllArgsConstructor
 
 .. java:import:: lombok Builder
@@ -34,7 +36,7 @@ Order
 .. java:package:: eu.dzhw.fdz.metadatamanagement.ordermanagement.domain
    :noindex:
 
-.. java:type:: @Document @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class Order extends AbstractRdcDomainObject
+.. java:type:: @Document @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder @ApiModel public class Order extends AbstractRdcDomainObject
 
    Order (DTO) containing all relevant information of a \ :java:ref:`Customer`\  and her \ :java:ref:`Product`\ s.
 

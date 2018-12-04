@@ -30,6 +30,7 @@ import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.validation.ValidDat
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.validation.ValidStudyId;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.validation.ValidSurveyDesign;
 import io.searchbox.annotations.JestId;
+import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -50,6 +51,9 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @Builder
+@ApiModel(
+    description = "Go <a href='https://metadatamanagement.readthedocs.io/de/stable/javadoc/eu/dzhw/"
+    + "fdz/metadatamanagement/studymanagement/domain/Study.html'>here</a> for further details.")
 public class Study extends AbstractRdcDomainObject implements StudySubDocumentProjection {
 
   /**
@@ -162,8 +166,7 @@ public class Study extends AbstractRdcDomainObject implements StudySubDocumentPr
    * Must be one of {@link SurveyDesigns} and must not be empty.
    */
   @NotNull(message = "study-management.error.study.survey-design.not-null")
-  @ValidSurveyDesign(
-      message = "study-management.error.study.survey-design.valid-survey-design")
+  @ValidSurveyDesign(message = "study-management.error.study.survey-design.valid-survey-design")
   private I18nString surveyDesign;
 
   /**

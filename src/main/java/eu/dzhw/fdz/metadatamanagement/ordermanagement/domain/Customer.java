@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.ordermanagement.domain;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
+import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,6 +16,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @Builder
+@ApiModel(
+    description = "Go <a href='https://metadatamanagement.readthedocs.io/de/stable/javadoc/eu/dzhw/"
+    + "fdz/metadatamanagement/ordermanagement/domain/Customer.html'>here</a> for further details.")
 public class Customer {
 
   /**

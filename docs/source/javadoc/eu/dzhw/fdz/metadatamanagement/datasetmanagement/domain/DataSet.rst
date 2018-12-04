@@ -44,7 +44,7 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation ValidFormat
 
-.. java:import:: eu.dzhw.fdz.metadatamanagement.ordermanagement.domain Study
+.. java:import:: eu.dzhw.fdz.metadatamanagement.ordermanagement.domain OrderedStudy
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.projectmanagement.domain DataAcquisitionProject
 
@@ -134,7 +134,7 @@ studyId
 .. java:field:: @Indexed @NotEmpty private String studyId
    :outertype: DataSet
 
-   The id of the \ :java:ref:`Study`\  to which this dataset belongs. Must not be empty.
+   The id of the \ :java:ref:`OrderedStudy`\  to which this dataset belongs. Must not be empty.
 
 subDataSets
 ^^^^^^^^^^^

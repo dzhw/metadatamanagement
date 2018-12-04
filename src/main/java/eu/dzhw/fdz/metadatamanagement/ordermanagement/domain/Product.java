@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,6 +21,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @Builder
+@ApiModel(
+    description = "Go <a href='https://metadatamanagement.readthedocs.io/de/stable/javadoc/eu/dzhw/"
+    + "fdz/metadatamanagement/ordermanagement/domain/Product.html'>here</a> for further details.")
 public class Product {
 
   /**
@@ -31,13 +35,13 @@ public class Product {
   private String dataAcquisitionProjectId;
 
   /**
-   * The (partial) {@link Study} of this product.
+   * The (partial) {@link OrderedStudy} of this product.
    * 
    * Must not be empty.
    */
   @NotNull
   @Valid
-  private Study study;
+  private OrderedStudy study;
 
   /**
    * The access way to the {@link DataSet}s which the {@link Customer} wants to have.
