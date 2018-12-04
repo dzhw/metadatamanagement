@@ -2,7 +2,7 @@
 Documentation     Data driven test of survey creation.
 Suite Setup       Go To Survey Create Page
 Suite Teardown    Close Survey Editor And Log Out
-Force Tags        smoketest    noslowpoke
+Force Tags        noslowpoke
 Test Template     Survey Page With Empty Or Invalid Options Should Fail
 Resource          ../../resources/home_page_resource.robot
 Resource          ../../resources/search_resource.robot
@@ -82,7 +82,6 @@ Survey Page With Empty Or Invalid Options Should Fail
 
 Go To Survey Create Page
     Pass Execution If    '${BROWSER}' == 'ie'    Survey Creation not possible in IE
-    Login as dataprovider
     Select project by name    robotproject
     Wait Until Angular Ready    6s
     Click on surveys tab

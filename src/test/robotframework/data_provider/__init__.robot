@@ -3,7 +3,6 @@ Documentation     Common setup and teardown for all tests
 Suite Setup       Login as dataprovider
 Suite Teardown    Data Provider Logout
 Library           ExtendedSelenium2Library
-Resource          ../resources/home_page_resource.robot
 Resource          ../resources/login_resource.robot
 Resource          ../resources/click_element_resource.robot
 

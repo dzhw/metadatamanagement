@@ -7,7 +7,6 @@ Resource          ../../resources/search_resource.robot
 
 *** Test Cases ***
 Editing survey and check versioning
-    Login as dataprovider
     Select project by name    fileuploadproject
     Click on surveys tab
     Click Survey Edit Button
@@ -18,14 +17,14 @@ Editing survey and check versioning
     Cancel Restore Dialoge
     Input Text    name=titleDe    Test
     Click Submit Button
-    [Teardown]    Get back to home page and logout
+    [Teardown]    Get back to german home page
 
 *** Keywords ***
-Get back to home page and logout
-    Get back to german home page
-    ${present}=    Run Keyword And Return Status    Page Should Contain    Sie haben ungespeicherte Änderungen.
-    Run Keyword If    ${present} == 'True'    Click Element Through Tooltips    xpath=//button[contains(.,'Ja')]
-    Click Element Through Tooltips    xpath=//button[@id='logout']
+#Get back to home page and logout
+#    Get back to german home page
+#    ${present}=    Run Keyword And Return Status    Page Should Contain    Sie haben ungespeicherte Änderungen.
+#    Run Keyword If    ${present} == 'True'    Click Element Through Tooltips    xpath=//button[contains(.,'Ja')]
+#   Click Element Through Tooltips    xpath=//button[@id='logout']
 
 Click Submit Button
     Click Element Through Tooltips    xpath=//button[@type='submit']
