@@ -6,7 +6,10 @@
 					{{'data-acquisition-project-management.project-cockpit.requirements.'+group | translate}}
 				</a>
 				<span ng-if="count !== null">({{count}})</span>
-				<span ng-switch="!!project.configuration[group+'State'].dataProviderReady + !!project.configuration[group+'State'].publisherReady">
+				<span ng-switch="
+					!project.configuration.requirements[group+'Required'] ? 2 :
+					!!project.configuration[group+'State'].dataProviderReady + !!project.configuration[group+'State'].publisherReady
+				">
 					<span ng-switch-when="0">
 						<md-icon>sentiment_very_dissatisfied</md-icon>
 					</span>
