@@ -121,7 +121,8 @@ angular.module('metadatamanagementApp').config(
             'assigned-group': 'Assigned User Group',
             'released': 'Published',
             'expected': 'expected',
-            'ready': 'ready'
+            'ready': 'ready',
+            'new': 'New'
           }
         }
       }

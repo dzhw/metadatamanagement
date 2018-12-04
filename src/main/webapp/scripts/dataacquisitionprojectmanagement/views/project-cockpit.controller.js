@@ -307,7 +307,6 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
           variables: 'variables'
         };
         scope.group = attrs.group;
-        console.log(attrs);
         scope.create = function() {
           $state.go(attrs.createstate, {});
         };
