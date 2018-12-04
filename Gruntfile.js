@@ -322,6 +322,8 @@ module.exports = function(grunt) {
               'flex',
               'am-time-ago',
               'fdz-required',
+              'fdz-require-one',
+              'sibling-path',
               'read-element-size',
               'layout-gt-xs',
               'layout',

@@ -4,6 +4,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.ValidCitation;
 import org.javers.core.metamodel.annotation.ValueObject;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
@@ -75,5 +76,6 @@ public class SubDataSet {
    */
   @I18nStringSize(max = StringLengths.LARGE,
       message = "data-set-management.error.sub-data-set.citation-hint.i18n-string-size")
+  @ValidCitation(message = "data-set-management.error.sub-data-set.citation-hint.valid-citation")
   private I18nString citationHint;
 }
