@@ -51,6 +51,13 @@ public class Order extends AbstractRdcDomainObject {
   private OrderState state;
 
   /**
+   * The id of the client (one of @link {@link OrderClient}) who has last modified this order.
+   */
+  @Indexed
+  @NotNull
+  private OrderClient client;
+
+  /**
    * The {@link Customer} who has placed this order.
    * 
    * Must not be null.
