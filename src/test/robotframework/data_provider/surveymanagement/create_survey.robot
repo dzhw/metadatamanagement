@@ -82,11 +82,10 @@ Survey Page With Empty Or Invalid Options Should Fail
 
 Go To Survey Create Page
     Pass Execution If    '${BROWSER}' == 'ie'    Survey Creation not possible in IE
-    Login as dataprovider
     Select project by name    robotproject
     Wait Until Angular Ready    6s
     Click on surveys tab
-    Click Element Through Tooltips    xpath=//ui-view/descendant::button[md-icon[text()='add']]
+    Click Element Through Tooltips    xpath=//ui-view/descendant::a[md-icon[text()='add']]
 
 Close Survey Editor And Log Out
     Pass Execution If    '${BROWSER}' == 'ie'    Survey Creation not possible in IE

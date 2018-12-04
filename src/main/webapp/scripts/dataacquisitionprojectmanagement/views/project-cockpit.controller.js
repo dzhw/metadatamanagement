@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
            PageTitleService, LanguageService, ToolbarHeaderService,
            DataAcquisitionProjectResource, SimpleMessageToastService,
            CurrentProjectService, projectDeferred, CommonDialogsService,
-           SearchDao) {
+           SearchDao, $translate, $mdDialog) {
 
     PageTitleService.setPageTitle(
       'data-acquisition-project-management.project-cockpit.title');
@@ -36,6 +36,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       $scope.isProjectRequirementsDisabled = result;
       return result;
     };
+
     var setAssignedToProject = function() {
       var name = Principal.loginName();
       $scope.isAssignedToProject =
@@ -58,7 +59,62 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         }
       });
 
-    $scope.saveChanges = function(origin) {
+    var saveProject = function() {
+      return DataAcquisitionProjectResource.save(
+        $scope.project,
+        //Success
+        function() {
+          $scope.changed = false;
+          setAssignedToProject();
+          CurrentProjectService.setCurrentProject($scope.project);
+          SimpleMessageToastService
+            .openSimpleMessageToast(
+              'data-acquisition-project-management.log-messages.' +
+              'data-acquisition-project.saved', {
+                id: $scope.project.id
+              });
+        },
+        //Server Error
+        function() {
+          SimpleMessageToastService
+            .openAlertMessageToast(
+              'data-acquisition-project-management.log-messages.' +
+              'data-acquisition-project.server-error'
+            );
+        }
+      );
+    };
+
+    var showAssigneeGroupMessageDialog = function() {
+      var currentProject = CurrentProjectService.getCurrentProject();
+      var assigneeGroup = _.get(currentProject, 'assigneeGroup');
+      var recipient;
+
+      switch (assigneeGroup) {
+        case 'PUBLISHER':
+          recipient = $translate.instant('data-acquisition' +
+            '-project-management.project-cockpit.label.ROLE_PUBLISHER');
+          break;
+        case 'DATA_PROVIDER':
+          recipient = $translate.instant('data-acquisition' +
+            '-project-management.project-cockpit.label.ROLE_DATA_PROVIDER');
+          break;
+        default:
+          recipient = '';
+      }
+
+      return $mdDialog.show({
+        controller: 'AssigneeMessageDialogController',
+        templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
+          'assignee-message-dialog.html.tmpl',
+        locals: {
+          recipient: recipient
+        }
+      });
+    };
+
+    var prepareProjectForSave = function(assigneeGroupMessage,
+                                         newAssigneeGroup) {
       if (!$scope.project.configuration) {
         $scope.project.configuration = {};
       }
@@ -72,32 +128,42 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
           return identity.login;
         });
 
-      DataAcquisitionProjectResource.save(
-        $scope.project,
-        //Success
-        function() {
-          $scope.changed = false;
-          setAssignedToProject();
-          CurrentProjectService.setCurrentProject($scope.project);
-          SimpleMessageToastService
-            .openSimpleMessageToast(
-              'data-acquisition-project-management.log-messages.' +
-              'data-acquisition-project.saved', {
-                id: $scope.project.id
-              });
-          if (origin !== 'requirements') {
-            $state.reload();
-          }
-        },
-        //Server Error
-        function() {
-          SimpleMessageToastService
-            .openAlertMessageToast(
-              'data-acquisition-project-management.log-messages.' +
-              'data-acquisition-project.server-error'
-            );
+      if (assigneeGroupMessage) {
+        $scope.project.lastAssigneeGroupMessage = assigneeGroupMessage;
+      }
+
+      if (newAssigneeGroup) {
+        $scope.project.assigneeGroup = newAssigneeGroup;
+      }
+    };
+
+    $scope.onSaveChangesAndAssign = function() {
+      showAssigneeGroupMessageDialog().then(function(message) {
+        var newAssigneeGroup;
+
+        switch ($scope.project.assigneeGroup) {
+          case 'DATA_PROVIDER':
+            newAssigneeGroup = 'PUBLISHER';
+            break;
+          case 'PUBLISHER':
+            newAssigneeGroup = 'DATA_PROVIDER';
+            break;
+          default:
+            newAssigneeGroup = $scope.project.assigneeGroup;
         }
-      );
+
+        prepareProjectForSave(message, newAssigneeGroup);
+        saveProject();
+      });
+    };
+
+    $scope.onSaveChanges = function(origin) {
+      prepareProjectForSave();
+      saveProject().$promise.then(function() {
+        if (origin !== 'requirements') {
+          $state.reload();
+        }
+      });
     };
 
     $scope.changed = false;

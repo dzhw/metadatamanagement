@@ -67,6 +67,9 @@ management:
   info:
     git:
       mode: full
+  health:
+    elasticsearch:
+      enabled: false
 
 javers:
   algorithm: levenshtein_distance
