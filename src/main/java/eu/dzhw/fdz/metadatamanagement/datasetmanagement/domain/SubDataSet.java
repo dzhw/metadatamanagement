@@ -1,12 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.ValidCitation;
-import org.javers.core.metamodel.annotation.ValueObject;
-
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
@@ -17,6 +10,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.javers.core.metamodel.annotation.ValueObject;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * A subdataset is part of a {@link DataSet} and describes the concrete analyzable file which is
@@ -76,6 +74,7 @@ public class SubDataSet {
    */
   @I18nStringSize(max = StringLengths.LARGE,
       message = "data-set-management.error.sub-data-set.citation-hint.i18n-string-size")
-  @ValidCitation(message = "data-set-management.error.sub-data-set.citation-hint.valid-citation")
+  @I18nStringNotEmpty(message = "data-set-management.error.sub-data-set.citation-hint."
+      + "valid-citation")
   private I18nString citationHint;
 }

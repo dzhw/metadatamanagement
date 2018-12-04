@@ -7,8 +7,10 @@ describe('fdz-require-one-validator', function() {
   var testForm;
 
   var dom = '<form name="testForm">' +
-    '<input type="text" fdz-require-one="source" name="a" sibling-path="b" ng-model="source.a">' +
-    '<input type="text" fdz-require-one="source" name="b" sibling-path="a" ng-model="source.b">' +
+    '<input type="text" fdz-required="!source.b" name="a"' +
+    ' ng-model="source.a">' +
+    '<input type="text" fdz-required="!source.a" name="b"' +
+    ' ng-model="source.b">' +
     '</form>';
 
   beforeEach(module('metadatamanagementApp'));

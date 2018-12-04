@@ -231,7 +231,7 @@ angular.module('metadatamanagementApp').config(
               'size': 'The max length of the Name of a Subdataset is 32 signs.'
             },
             'description': {
-              'i18n-string-not-empty': 'The Description a Subdataset must not be empty!',
+              'i18n-string-not-empty': 'The Description of a Subdataset must not be empty!',
               'i18n-string-size': 'The max length of the Description of a Subdataset is 32 signs.'
             },
             'citation-hint': {
