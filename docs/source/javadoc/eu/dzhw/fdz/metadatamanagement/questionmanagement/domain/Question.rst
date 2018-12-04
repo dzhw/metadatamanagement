@@ -34,7 +34,7 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain Instrument
 
-.. java:import:: eu.dzhw.fdz.metadatamanagement.ordermanagement.domain Study
+.. java:import:: eu.dzhw.fdz.metadatamanagement.ordermanagement.domain OrderedStudy
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.projectmanagement.domain DataAcquisitionProject
 
@@ -168,7 +168,7 @@ studyId
 .. java:field:: @Indexed @NotEmpty private String studyId
    :outertype: Question
 
-   The id of the \ :java:ref:`Study`\  to which this question belongs. Must not be empty.
+   The id of the \ :java:ref:`OrderedStudy`\  to which this question belongs. Must not be empty.
 
 successorNumbers
 ^^^^^^^^^^^^^^^^

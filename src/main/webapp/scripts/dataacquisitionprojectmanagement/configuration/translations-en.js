@@ -103,6 +103,10 @@ angular.module('metadatamanagementApp').config(
             'empty-data-provider': 'No data providers are assigned to this project.',
             'empty-publisher': 'No publishers are assigned to this project'
           },
+          'tabs': {
+            'status': 'Status',
+            'config': 'Config'
+          },
           'requirements': {
             'header': 'Expected Metadata',
             'studies': 'Studies (always mandatory)',
@@ -112,6 +116,13 @@ angular.module('metadatamanagementApp').config(
             'dataSets': 'Data Sets',
             'variables': 'Variables',
             'setting-info': 'The following Metadata must be provided, before this project can be released to all public users:'
+          },
+          'config': {
+            'assigned-group': 'Assigned User Group',
+            'released': 'Published',
+            'expected': 'expected',
+            'ready': 'ready',
+            'new': 'New'
           }
         }
       }

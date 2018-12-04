@@ -21,7 +21,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpt
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
-import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Study;
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderedStudy;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation.ValidQuestionIdName;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation.ValidQuestionType;
@@ -203,7 +203,7 @@ public class Question extends AbstractRdcDomainObject {
   private List<String> successors;
 
   /**
-   * The id of the {@link Study} to which this question belongs.
+   * The id of the {@link OrderedStudy} to which this question belongs.
    * 
    * Must not be empty.
    */

@@ -36,6 +36,15 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       $scope.isProjectRequirementsDisabled = result;
       return result;
     };
+    var setAssignedToProject = function() {
+      var name = Principal.loginName();
+      $scope.isAssignedToProject =
+        !!_.find($scope.activeUsers.publishers, function(o) {
+          return o.login === name;
+        }) || !!_.find($scope.activeUsers.publishers, function(o) {
+          return o.login === name;
+        });
+    };
 
     var requiredTypesWatch;
 
@@ -68,6 +77,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         //Success
         function() {
           $scope.changed = false;
+          setAssignedToProject();
           CurrentProjectService.setCurrentProject($scope.project);
           SimpleMessageToastService
             .openSimpleMessageToast(
@@ -118,6 +128,12 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     };
 
     $scope.fetching = false;
+
+    $scope.advancedPrivileges = Principal.hasAnyAuthority(['ROLE_PUBLISHER',
+    'ROLE_ADMIN']);
+    $scope.isPublisher = Principal.hasAnyAuthority(['ROLE_PUBLISHER']);
+    $scope.isDataProvider = Principal.hasAnyAuthority(['ROLE_DATA_PROVIDER']);
+    $scope.isAssignedToProject = false;
 
     // load all users assigned to the currrent project
     projectDeferred.promise.then(
@@ -173,6 +189,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
           getAndAddUsers('dataProviders')
         ])).then(function() {
           $scope.fetching = false;
+          setAssignedToProject();
         }).catch(function(error) {
           SimpleMessageToastService
             .openAlertMessageToast(
@@ -184,9 +201,6 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       }).finally(function() {
       $scope.loadStarted = false;
     });
-
-    $scope.advancedPrivileges = Principal.hasAnyAuthority(['ROLE_PUBLISHER',
-      'ROLE_ADMIN']);
 
     $scope.canDeleteUser = function(user, role) {
       if (user.restricted) {
@@ -291,7 +305,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         scope.group = attrs.group;
       }
     };
-  }).directive('projectCockpitAssignment', function() {
+  }).directive('projectCockpitAssignment', function($state) {
     return {
       restrict: 'E',
       templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
@@ -308,6 +322,9 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
           variables: 'variables'
         };
         scope.group = attrs.group;
+        scope.create = function() {
+          $state.go(attrs.createstate, {});
+        };
         scope.count = null;
         scope.$watch(function() {
           return scope.project &&
