@@ -54,7 +54,7 @@ public class StudyPublicListResource {
       Page<Study> loadStudies = studylistService.loadStudies(page, size);
       return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(loadStudies);
     } catch (IOException e) {
-      log.warn("reqzesting the list of studies failed", e);
+      log.warn("requesting the list of studies failed", e);
       return ResponseEntity.badRequest().body(null);
     }
   }

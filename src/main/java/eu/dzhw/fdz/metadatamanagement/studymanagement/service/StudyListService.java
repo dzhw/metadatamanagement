@@ -31,7 +31,9 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class StudyListService {
   @Autowired
-  JestClient jestClient;
+  private JestClient jestClient;
+  
+  private static final String[] studyFields = getFieldsFromStudy();
 
   /**
    * Request released studies sort by title (DE) with a pagination defined by page and size.
@@ -43,9 +45,8 @@ public class StudyListService {
    */
   public Page<Study> loadStudies(int page, int size) throws IOException {
     SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
-    String[] fieldsAsString = geltFieldsFromStudy();
 
-    sourceBuilder.fetchSource(fieldsAsString, null);
+    sourceBuilder.fetchSource(studyFields, null);
     sourceBuilder.query(QueryBuilders.boolQuery().filter(QueryBuilders.existsQuery("release")))
         .from(page * size).size(size).sort("title.de", SortOrder.ASC);
     Search search = new Search.Builder(sourceBuilder.toString()).addIndex("studies").build();
@@ -57,7 +58,7 @@ public class StudyListService {
       String asString = jsonObject.get("hits").getAsJsonObject().get("total").getAsString();
       total = Long.parseLong(asString);
     } catch (Exception e) {
-      log.warn("failed to get total number of elemets from search result", e);
+      log.warn("failed to get total number of elements from search result", e);
       total = 0;
     }
 
@@ -72,7 +73,7 @@ public class StudyListService {
    * 
    * @return the fields
    */
-  private String[] geltFieldsFromStudy() {
+  private static String[] getFieldsFromStudy() {
     Field[] asList = Study.class.getDeclaredFields();
     String[] fieldsAsString = new String[asList.length];
     for (int i = 0; i < asList.length; i++) {
