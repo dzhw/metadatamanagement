@@ -2,6 +2,8 @@
 
 .. java:import:: javax.validation.constraints NotEmpty
 
+.. java:import:: io.swagger.annotations ApiModel
+
 .. java:import:: lombok AllArgsConstructor
 
 .. java:import:: lombok Builder
@@ -16,7 +18,7 @@ Customer
 .. java:package:: eu.dzhw.fdz.metadatamanagement.ordermanagement.domain
    :noindex:
 
-.. java:type:: @NoArgsConstructor @Data @AllArgsConstructor @Builder public class Customer
+.. java:type:: @NoArgsConstructor @Data @AllArgsConstructor @Builder @ApiModel public class Customer
 
    Details of a customer who has ordered \ :java:ref:`Product`\ s.
 

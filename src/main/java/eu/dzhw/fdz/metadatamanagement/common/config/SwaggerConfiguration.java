@@ -3,7 +3,9 @@ package eu.dzhw.fdz.metadatamanagement.common.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.env.Environment;
 
+import io.swagger.annotations.Api;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -23,9 +25,14 @@ public class SwaggerConfiguration {
    * Expose only the docs for the order API.
    */
   @Bean
-  public Docket api() {
+  public Docket api(Environment env) {
+    if (env.acceptsProfiles(Constants.SPRING_PROFILE_LOCAL)) {
+      return new Docket(DocumentationType.SWAGGER_2).useDefaultResponseMessages(false).select()
+      .apis(RequestHandlerSelectors.any())
+      .paths(PathSelectors.any()).build();
+    }
     return new Docket(DocumentationType.SWAGGER_2).useDefaultResponseMessages(false).select()
-        .apis(RequestHandlerSelectors.basePackage("eu.dzhw.fdz.metadatamanagement.ordermanagement"))
+        .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
         .paths(PathSelectors.any()).build();
   }
 }
