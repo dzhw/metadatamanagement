@@ -19,9 +19,17 @@
 		</md-card-header-text>
 	</md-card-header>
 	<md-card-content>
-		<md-switch ng-model="project.configuration.requirements[group+'Required']" ng-disabled="true">Expected</md-switch>
-		<md-switch ng-model="project.configuration[group+'State'].dataProviderReady">Data Provider Ready</md-switch>
-		<md-switch ng-model="project.configuration[group+'State'].publisherReady">Publisher Ready</md-switch>
+		<md-switch ng-model="project.configuration.requirements[group+'Required']" ng-disabled="true">
+			{{'data-acquisition-project-management.project-cockpit.config.expected' | translate}}
+		</md-switch>
+		<md-switch ng-model="project.configuration[group+'State'].dataProviderReady">
+			{{'data-acquisition-project-management.project-cockpit.label.ROLE_DATA_PROVIDER' | translate}}
+			{{'data-acquisition-project-management.project-cockpit.config.ready' | translate}}
+		</md-switch>
+		<md-switch ng-model="project.configuration[group+'State'].publisherReady">
+			{{'data-acquisition-project-management.project-cockpit.label.ROLE_PUBLISHER' | translate}}
+			{{'data-acquisition-project-management.project-cockpit.config.ready' | translate}}
+		</md-switch>
 	</md-card-content>
 	<md-card-actions layout="row" layout-align="end center">
 		<md-button>New</md-button>
