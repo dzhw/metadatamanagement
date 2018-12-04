@@ -1,10 +1,12 @@
+.. java:import:: io.swagger.annotations ApiModel
+
 OrderClient
 ===========
 
 .. java:package:: eu.dzhw.fdz.metadatamanagement.ordermanagement.domain
    :noindex:
 
-.. java:type:: public enum OrderClient
+.. java:type:: @ApiModel public enum OrderClient
 
    Enum holding possible clients with write access to the orders.
 
