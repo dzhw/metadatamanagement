@@ -290,7 +290,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         scope.group = attrs.group;
       }
     };
-  }).directive('projectCockpitAssignment', function() {
+  }).directive('projectCockpitAssignment', function($state) {
     return {
       restrict: 'E',
       templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
@@ -307,6 +307,10 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
           variables: 'variables'
         };
         scope.group = attrs.group;
+        console.log(attrs);
+        scope.create = function() {
+          $state.go(attrs.createstate, {});
+        };
         scope.count = null;
         scope.$watch(function() {
           return scope.project &&
