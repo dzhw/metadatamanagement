@@ -156,6 +156,12 @@ angular.module('metadatamanagementApp').controller('SearchController',
             $scope.tabs[$scope.searchParams.selectedTabIndex].count =
               data.hits.total;
           });
+          if ($scope.currentProject) {
+            var dataType = $scope.tabs[
+            $scope.searchParams.selectedTabIndex].elasticSearchType;
+            $scope.isUpdateAllowed = ProjectUpdateAccessService
+              .isUpdateAllowed($scope.currentProject, dataType);
+          }
           $scope.isSearching--;
         }, function() {
           $scope.pageObject.totalHits = 0;
@@ -191,7 +197,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
     $scope.$on('current-project-changed',
       function(event, currentProject) { // jshint ignore:line
         currentProjectChangeIsBeingHandled = true;
-
         //wait for other events (logout, selectedTabIndex)
         $timeout(function() {
           var dataType = $scope.tabs[

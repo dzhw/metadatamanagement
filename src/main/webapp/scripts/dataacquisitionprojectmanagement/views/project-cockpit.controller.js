@@ -68,6 +68,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         //Success
         function() {
           $scope.changed = false;
+          CurrentProjectService.setCurrentProject($scope.project);
           SimpleMessageToastService
             .openSimpleMessageToast(
               'data-acquisition-project-management.log-messages.' +
