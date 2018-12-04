@@ -42,7 +42,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       $scope.isAssignedToProject =
         !!_.find($scope.activeUsers.publishers, function(o) {
           return o.login === name;
-        }) || !!_.find($scope.activeUsers.publishers, function(o) {
+        }) || !!_.find($scope.activeUsers.dataProviders, function(o) {
           return o.login === name;
         });
     };
