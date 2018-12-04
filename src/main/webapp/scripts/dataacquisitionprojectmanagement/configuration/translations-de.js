@@ -122,6 +122,13 @@ angular.module('metadatamanagementApp').config(
             'released': 'Veröffentlicht',
             'expected': 'Erwartet',
             'ready': 'bereit'
+          },
+          'message-dialog': {
+            'title': 'Nachricht für {{recipient}} eingeben',
+            'description': 'Geben Sie eine Nachricht ein, die nach erfolgter Zuweisung an alle {{recipient}} dieses Projekts per E-Mail verschickt wird. Nach der Zuweisung können Sie nichts am Projekt verändern, bis die {{recipient}}-Gruppe die Zuweisung ändert!',
+            'label': 'Nachricht',
+            'confirm': 'Bestätigen & Zuweisen',
+            'cancel': 'Abbrechen'
           }
         }
       }

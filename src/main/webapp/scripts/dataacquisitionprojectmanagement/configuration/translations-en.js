@@ -122,6 +122,13 @@ angular.module('metadatamanagementApp').config(
             'released': 'Published',
             'expected': 'expected',
             'ready': 'ready'
+          },
+          'message-dialog': {
+            'title': 'Write a message for {{recipient}} group',
+            'description': 'Please provide a message which will be send to all {{recipient}} group members of this project after a successful assignment. After the assignment you won\'t be able to modify anything on this project until the {{recipient}} group changes the assignment again!',
+            'label': 'Message',
+            'confirm': 'Confirm & Assign',
+            'cancel': 'Cancel'
           }
         }
       }

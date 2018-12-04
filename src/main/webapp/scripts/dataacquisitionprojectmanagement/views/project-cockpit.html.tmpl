@@ -33,13 +33,13 @@
 
 
 <div class="fdz-fab-button-container" layout="column">
-  <md-button ng-if="shareButtonShown" class="md-raised md-fab md-accent" ng-click="saveChanges('requirements')" ng-disabled="!changed">
+  <md-button ng-if="shareButtonShown" class="md-raised md-fab md-accent" ng-click="onSaveChangesAndAssign($event)" ng-disabled="!changed">
     <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
         {{'data-acquisition-project-management.project-cockpit.button.save-assign' | translate}}
     </md-tooltip>
     <md-icon md-font-set="material-icons">wc</md-icon>
   </md-button>
-  <md-button class="md-raised md-fab md-accent" ng-click="saveChanges('requirements')" ng-disabled="!changed">
+  <md-button class="md-raised md-fab md-accent" ng-click="onSaveChanges('requirements')" ng-disabled="!changed">
     <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
         {{'data-acquisition-project-management.project-cockpit.button.save' | translate}}
     </md-tooltip>
