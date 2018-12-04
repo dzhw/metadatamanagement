@@ -29,8 +29,8 @@ angular.module('metadatamanagementApp').service(
         var conf = project.configuration;
         switch (type) {
           case 'studies':
-            isTypeReady = (conf.studyState.dataProviderReady ||
-                conf.studyState.publisherReady);
+            isTypeReady = (conf.studiesState.dataProviderReady ||
+                conf.studiesState.publisherReady);
             break;
           case 'surveys':
             isTypeReady = (conf.surveysState.dataProviderReady ||

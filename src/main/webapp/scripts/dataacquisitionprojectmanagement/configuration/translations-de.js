@@ -121,7 +121,8 @@ angular.module('metadatamanagementApp').config(
             'assigned-group': 'Zugewiesene Benutzergruppe',
             'released': 'Veröffentlicht',
             'expected': 'Erwartet',
-            'ready': 'bereit'
+            'ready': 'bereit',
+            'new': 'Neu'
           },
           'message-dialog': {
             'title': 'Nachricht für {{recipient}} eingeben',

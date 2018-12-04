@@ -47,7 +47,7 @@ public class Configuration {
   /**
    * The state of the study.
    */
-  private ProjectState studyState;
+  private ProjectState studiesState;
   /**
    * The State of surveys.
    */
