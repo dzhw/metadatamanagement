@@ -4,6 +4,8 @@
 
 .. java:import:: javax.validation.constraints Size
 
+.. java:import:: eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation ValidCitation
+
 .. java:import:: org.javers.core.metamodel.annotation ValueObject
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain I18nString
@@ -49,7 +51,7 @@ accessWay
 citationHint
 ^^^^^^^^^^^^
 
-.. java:field:: @I18nStringSize private I18nString citationHint
+.. java:field:: @I18nStringSize @ValidCitation private I18nString citationHint
    :outertype: SubDataSet
 
    A hint telling how to cite this subdataset in publications. Must not contain more than 2048 characters.
