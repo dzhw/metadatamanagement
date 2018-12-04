@@ -78,10 +78,10 @@ requirements
 
    Defines which object types are required before a project can be released.
 
-studyState
-^^^^^^^^^^
+studiesState
+^^^^^^^^^^^^
 
-.. java:field:: private ProjectState studyState
+.. java:field:: private ProjectState studiesState
    :outertype: Configuration
 
    The state of the study.

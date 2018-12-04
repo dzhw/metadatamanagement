@@ -34,6 +34,36 @@ describe('ProjectUpdateAccessService', function() {
 
     expect(ProjectUpdateAccessService.isUpdateAllowed()).toBe(true);
   });
+  
+  it('should return true if an updateable project is selected', function() {
+    spyOn(CurrentProjectService, 'getCurrentProject').and.returnValue({
+      assigneeGroup: 'DATA_PROVIDER',
+      configuration : {
+        surveysState : {
+          publisherReady : false,
+          dataProviderReady : false
+        }
+      }
+    });
+    spyOn(Principal, 'hasAuthority').and.returnValue(true);
+
+    expect(ProjectUpdateAccessService.isUpdateAllowed(undefined, 'surveys')).toBe(true);
+  });
+
+  it('should return false if an project is marked as dataProviderReady', function() {
+    spyOn(CurrentProjectService, 'getCurrentProject').and.returnValue({
+      assigneeGroup: 'DATA_PROVIDER',
+      configuration : {
+        surveysState : {
+          publisherReady : false,
+          dataProviderReady : true
+        }
+      }
+    });
+    spyOn(Principal, 'hasAuthority').and.returnValue(true);
+
+    expect(ProjectUpdateAccessService.isUpdateAllowed(undefined, 'surveys')).toBe(false);
+  });
 
   it('should return false if a project has been released', function() {
     spyOn(CurrentProjectService, 'getCurrentProject').and.returnValue({

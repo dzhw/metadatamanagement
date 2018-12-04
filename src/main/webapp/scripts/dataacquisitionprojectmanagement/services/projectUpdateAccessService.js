@@ -26,7 +26,7 @@ angular.module('metadatamanagementApp').service(
       var test = project || CurrentProjectService.getCurrentProject();
       var isTypeReady = false;
       if (type && Principal.hasAuthority('ROLE_DATA_PROVIDER')) {
-        var conf = project.configuration;
+        var conf = test.configuration;
         switch (type) {
           case 'studies':
             isTypeReady = (conf.studiesState.dataProviderReady ||
