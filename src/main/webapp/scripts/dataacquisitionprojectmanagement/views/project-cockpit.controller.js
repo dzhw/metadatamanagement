@@ -119,14 +119,31 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         $scope.project.configuration = {};
       }
 
-      $scope.project.configuration.publishers =
-        $scope.activeUsers.publishers.map(function(identity) {
+      var configuredPublishers = $scope.activeUsers.publishers
+        .map(function(identity) {
           return identity.login;
         });
-      $scope.project.configuration.dataProviders =
-        $scope.activeUsers.dataProviders.map(function(identity) {
+
+      var configuredDataProviders = $scope.activeUsers.dataProviders
+        .map(function(identity) {
           return identity.login;
         });
+
+      if ($scope.project.configuration.publishers) {
+        $scope.project.configuration.publishers =
+          _.union($scope.project.configuration.publishers,
+            configuredPublishers);
+      } else {
+        $scope.project.configuration.publishers = configuredPublishers;
+      }
+
+      if ($scope.project.configuration.dataProviders) {
+        $scope.project.configuration.dataProviders =
+          _.union($scope.project.configuration.dataProviders,
+            configuredDataProviders);
+      } else {
+        $scope.project.configuration.dataProviders = configuredDataProviders;
+      }
 
       if (assigneeGroupMessage) {
         $scope.project.lastAssigneeGroupMessage = assigneeGroupMessage;
@@ -196,7 +213,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     $scope.fetching = false;
 
     $scope.advancedPrivileges = Principal.hasAnyAuthority(['ROLE_PUBLISHER',
-    'ROLE_ADMIN']);
+      'ROLE_ADMIN']);
     $scope.isPublisher = Principal.hasAnyAuthority(['ROLE_PUBLISHER']);
     $scope.isDataProvider = Principal.hasAnyAuthority(['ROLE_DATA_PROVIDER']);
     $scope.isAssignedToProject = false;
@@ -350,77 +367,77 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
 
     $state.loadComplete = true;
   }).directive('projectCockpitConfig', function() {
-    return {
-      restrict: 'E',
-      templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
-        'project-cockpit-config.html.tmpl'
-    };
-  }).directive('projectCockpitStatus', function() {
-    return {
-      restrict: 'E',
-      templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
-        'project-cockpit-status.html.tmpl'
-    };
-  }).directive('projectCockpitUserlist', function() {
-    return {
-      restrict: 'E',
-      templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
-        'project-cockpit-userlist.html.tmpl',
-      scope: true,
-      link: function(scope, elem, attrs) { // jshint ignore:line
-        scope.group = attrs.group;
-      }
-    };
-  }).directive('projectCockpitAssignment', function($state) {
-    return {
-      restrict: 'E',
-      templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
-        'project-cockpit-assignment.html.tmpl',
-      scope: true,
-      replace: true,
-      link: function(scope, elem, attrs) { // jshint ignore:line
-        var elasticSearchType = {
-          studies: 'studies',
-          surveys: 'surveys',
-          instruments: 'instruments',
-          questions: 'questions',
-          dataSets: 'data_sets',
-          variables: 'variables'
-        };
-        scope.group = attrs.group;
-        scope.create = function() {
-          $state.go(attrs.createstate, {});
-        };
-        scope.count = null;
-        scope.$watch(function() {
-          return scope.project &&
-            scope.project.configuration[attrs.group + 'State'] ?
-            scope.project.configuration[attrs.group + 'State'].
-            dataProviderReady : null;
-        }, function(newVal, oldVal) {
-          if (newVal !== oldVal) {
-            scope.setChanged(true);
-          }
-        });
-        scope.$watch(function() {
-          return scope.project &&
-            scope.project.configuration[attrs.group + 'State'] ?
-            scope.project.configuration[attrs.group + 'State'].
-            publisherReady : null;
-        }, function(newVal, oldVal) {
-          if (newVal !== oldVal) {
-            scope.setChanged(true);
-          }
-        });
+  return {
+    restrict: 'E',
+    templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
+      'project-cockpit-config.html.tmpl'
+  };
+}).directive('projectCockpitStatus', function() {
+  return {
+    restrict: 'E',
+    templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
+      'project-cockpit-status.html.tmpl'
+  };
+}).directive('projectCockpitUserlist', function() {
+  return {
+    restrict: 'E',
+    templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
+      'project-cockpit-userlist.html.tmpl',
+    scope: true,
+    link: function(scope, elem, attrs) { // jshint ignore:line
+      scope.group = attrs.group;
+    }
+  };
+}).directive('projectCockpitAssignment', function($state) {
+  return {
+    restrict: 'E',
+    templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
+      'project-cockpit-assignment.html.tmpl',
+    scope: true,
+    replace: true,
+    link: function(scope, elem, attrs) { // jshint ignore:line
+      var elasticSearchType = {
+        studies: 'studies',
+        surveys: 'surveys',
+        instruments: 'instruments',
+        questions: 'questions',
+        dataSets: 'data_sets',
+        variables: 'variables'
+      };
+      scope.group = attrs.group;
+      scope.create = function() {
+        $state.go(attrs.createstate, {});
+      };
+      scope.count = null;
+      scope.$watch(function() {
+        return scope.project &&
+        scope.project.configuration[attrs.group + 'State'] ?
+          scope.project.configuration[attrs.group + 'State']
+            .dataProviderReady : null;
+      }, function(newVal, oldVal) {
+        if (newVal !== oldVal) {
+          scope.setChanged(true);
+        }
+      });
+      scope.$watch(function() {
+        return scope.project &&
+        scope.project.configuration[attrs.group + 'State'] ?
+          scope.project.configuration[attrs.group + 'State']
+            .publisherReady : null;
+      }, function(newVal, oldVal) {
+        if (newVal !== oldVal) {
+          scope.setChanged(true);
+        }
+      });
 
-        scope.searchProjectData(
-          elasticSearchType[attrs.group]
-        ).then(function(data) {
-          scope.count = data.hits.total;
-        }).catch(function() {
-          scope.count = 0;
-        });
+      scope.searchProjectData(
+        elasticSearchType[attrs.group]
+      ).then(function(data) {
+        scope.count = data.hits.total;
+      }).catch(function() {
+        scope.count = 0;
+      });
 
-      }
-    };
-  });
+    }
+  };
+});
