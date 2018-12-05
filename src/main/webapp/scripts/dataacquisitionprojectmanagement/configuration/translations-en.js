@@ -45,7 +45,7 @@ angular.module('metadatamanagementApp').config(
           'data-acquisition-project': {
             'assignee-group': {
               'not-null': 'The project must be assigned to the publisher or data provider group.',
-              'not-assigned': 'This project is currently assigned to another group (publisher or data provider).'
+              'not-assigned': 'Project assignment cannot be changed at this time, because it is assigned to publishers.'
             },
             'id': {
               'not-empty': 'The name of the Data Acquisition Project must not be empty!',
@@ -139,7 +139,7 @@ angular.module('metadatamanagementApp').config(
           },
           'message-dialog': {
             'title': 'Write a message for {{recipient}} group',
-            'description': 'Please provide a message which will be send to all {{recipient}} group members of this project after a successful assignment. After the assignment you won\'t be able to modify anything on this project until the {{recipient}} group changes the assignment again!',
+            'description': 'Please provide a message which will be send to all {{recipient}} group members of this project via e-mail after a successful assignment',
             'label': 'Message',
             'confirm': 'Confirm & Assign',
             'cancel': 'Cancel'
