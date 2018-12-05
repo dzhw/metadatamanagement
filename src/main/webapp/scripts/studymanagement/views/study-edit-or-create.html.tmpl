@@ -12,8 +12,8 @@
             </md-card-header>
             <md-divider></md-divider>
             <md-card-content>
-                <div layout-gt-sm="row" layout="column">
-                    <md-input-container flex="50" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!studyForm.titleDe.$valid && (studyForm.titleDe.$dirty || studyForm.titleDe.$touched)">
+                <div layout-gt-sm="row" layout="column" style="-ms-flex:auto">
+                    <md-input-container flex="50" style="-ms-flex:auto" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!studyForm.titleDe.$valid && (studyForm.titleDe.$dirty || studyForm.titleDe.$touched)">
                         <label class="fdz-input-required">{{'study-management.detail.label.title' | translate}} ({{'global.in-german' | translate}})</label>
                         <input ng-trim="true" md-maxlength="2048" fdz-required ng-model="ctrl.study.title.de" name="titleDe" lang="de" md-no-asterisk>
                         <div ng-if="!studyForm.titleDe.$dirty && !studyForm.titleDe.$touched" class="fdz-input-hint">{{'study-management.edit.hints.title.de' | translate}}</div>
@@ -22,7 +22,7 @@
                             <div ng-message="md-maxlength">{{'study-management.error.study.title.i18n-string-size' | translate}}</div>
                         </div>
                     </md-input-container>
-                    <md-input-container flex="50" md-is-error="!studyForm.titleEn.$valid && (studyForm.titleEn.$dirty || studyForm.titleEn.$touched)">
+                    <md-input-container flex="50" style="-ms-flex:auto" md-is-error="!studyForm.titleEn.$valid && (studyForm.titleEn.$dirty || studyForm.titleEn.$touched)">
                         <label class="fdz-input-required">{{'study-management.detail.label.title' | translate}} ({{'global.in-english' | translate}})</label>
                         <input md-maxlength="2048" fdz-required ng-model="ctrl.study.title.en" name="titleEn" lang="en" md-no-asterisk>
                         <div ng-if="!studyForm.titleEn.$dirty && !studyForm.titleEn.$touched" class="fdz-input-hint">{{'study-management.edit.hints.title.en' | translate}}</div>
@@ -33,7 +33,7 @@
                     </md-input-container>
                 </div>
                 <div layout-gt-sm="row" layout="column">
-                    <md-autocomplete md-delay="250" flex="50" md-input-name="studySeriesDe" md-input-maxlength="512" md-floating-label="{{'study-management.detail.label.studySeries' | translate}} ({{'global.in-german' | translate}})" md-min-length="0" md-require-match="false" ng-pattern="/^[^,]*$/"
+                    <md-autocomplete md-delay="250" flex="50" style="-ms-flex:auto" md-input-name="studySeriesDe" md-input-maxlength="512" md-floating-label="{{'study-management.detail.label.studySeries' | translate}} ({{'global.in-german' | translate}})" md-min-length="0" md-require-match="false" ng-pattern="/^[^,]*$/"
                       md-select-on-match="true" md-match-case-insensitive="true" md-selected-item="ctrl.currentStudySeries" md-search-text="ctrl.study.studySeries.de" md-items="item in searchStudySeries(ctrl.study.studySeries.de, 'de')" md-item-text="item.de" md-clear-button="true" md-no-cache="true"
                       md-is-error="!studyForm.studySeriesDe.$valid && (studyForm.studySeriesDe.$dirty studyForm.studySeriesDe.$touched) ">
                         <md-item-template>
@@ -49,7 +49,7 @@
                             <div ng-message="maxlength">{{'study-management.error.study.study-series.i18n-string-size' | translate}}</div>
                         </div>
                     </md-autocomplete>
-                    <md-autocomplete md-delay="250" flex="50" md-input-name="studySeriesEn" md-input-maxlength="512" md-floating-label="{{'study-management.detail.label.studySeries' | translate}} ({{'global.in-english' | translate}})" md-min-length="0" md-require-match="false" ng-pattern="/^[^,]*$/"
+                    <md-autocomplete md-delay="250" flex="50" style="-ms-flex:auto" md-input-name="studySeriesEn" md-input-maxlength="512" md-floating-label="{{'study-management.detail.label.studySeries' | translate}} ({{'global.in-english' | translate}})" md-min-length="0" md-require-match="false" ng-pattern="/^[^,]*$/"
                       md-select-on-match="true" md-match-case-insensitive="true" md-selected-item="ctrl.currentStudySeries" md-search-text="ctrl.study.studySeries.en" md-items="item in searchStudySeries(ctrl.study.studySeries.en, 'en')" md-item-text="item.en" md-clear-button="true" md-no-cache="true"
                       md-is-error="!studyForm.studySeriesEn.$valid && (studyForm.studySeriesEn.$dirty || studyForm.studySeriesEn.$touched)">
                         <md-item-template>
@@ -66,8 +66,8 @@
                         </div>
                     </md-autocomplete>
                 </div>
-                <div layout-gt-sm="row" layout="column">
-                    <md-autocomplete md-delay="250" flex="50" md-input-name="institutionDe" md-input-maxlength="512" ng-required="true" md-floating-label="{{'study-management.detail.label.institution' | translate}} ({{'global.in-german' | translate}})" md-min-length="0" md-require-match="false"
+                <div layout-gt-sm="row" layout="column" style="-ms-flex:auto">
+                    <md-autocomplete md-delay="250" flex="50" style="-ms-flex:auto" md-input-name="institutionDe" md-input-maxlength="512" ng-required="true" md-floating-label="{{'study-management.detail.label.institution' | translate}} ({{'global.in-german' | translate}})" md-min-length="0" md-require-match="false"
                       md-select-on-match="true" md-match-case-insensitive="true" md-selected-item="ctrl.currentInstitution" md-search-text="ctrl.study.institution.de" md-items="item in searchInstitutions(ctrl.study.institution.de, 'de')" md-item-text="item.de" md-clear-button="true" md-no-cache="true"
                       md-is-error="!studyForm.institutionDe.$valid && (studyForm.institutionDe.$dirty studyForm.institutionDe.$touched) ">
                         <md-item-template>
@@ -82,7 +82,7 @@
                             <div ng-message="maxlength">{{'study-management.error.study.institution.i18n-string-size' | translate}}</div>
                         </div>
                     </md-autocomplete>
-                    <md-autocomplete md-delay="250" flex="50" md-input-name="institutionEn" md-input-maxlength="512" ng-required="true" md-floating-label="{{'study-management.detail.label.institution' | translate}} ({{'global.in-english' | translate}})" md-min-length="0" md-require-match="false"
+                    <md-autocomplete md-delay="250" flex="50" style="-ms-flex:auto" md-input-name="institutionEn" md-input-maxlength="512" ng-required="true" md-floating-label="{{'study-management.detail.label.institution' | translate}} ({{'global.in-english' | translate}})" md-min-length="0" md-require-match="false"
                       md-select-on-match="true" md-match-case-insensitive="true" md-selected-item="ctrl.currentInstitution" md-search-text="ctrl.study.institution.en" md-items="item in searchInstitutions(ctrl.study.institution.en, 'en')" md-item-text="item.en" md-clear-button="true" md-no-cache="true"
                       md-is-error="!studyForm.institutionEn.$valid && (studyForm.institutionEn.$dirty || studyForm.institutionEn.$touched)">
                         <md-item-template>
@@ -98,8 +98,8 @@
                         </div>
                     </md-autocomplete>
                 </div>
-                <div layout-gt-sm="row" layout="column">
-                    <md-autocomplete md-delay="250" flex="50" md-input-name="sponsorDe" md-input-maxlength="512" ng-required="true" md-floating-label="{{'study-management.detail.label.sponsors' | translate}} ({{'global.in-german' | translate}})" md-min-length="0" md-require-match="false" md-select-on-match="true" md-match-case-insensitive="true"
+                <div layout-gt-sm="row" layout="column" style="-ms-flex:auto">
+                    <md-autocomplete md-delay="250" flex="50" style="-ms-flex:auto" md-input-name="sponsorDe" md-input-maxlength="512" ng-required="true" md-floating-label="{{'study-management.detail.label.sponsors' | translate}} ({{'global.in-german' | translate}})" md-min-length="0" md-require-match="false" md-select-on-match="true" md-match-case-insensitive="true"
                       md-selected-item="ctrl.currentSponsor" md-search-text="ctrl.study.sponsor.de" md-items="item in searchSponsors(ctrl.study.sponsor.de, 'de')" md-item-text="item.de" md-clear-button="true" md-no-cache="true" md-is-error="!studyForm.sponsorDe.$valid && (studyForm.sponsorDe.$dirty studyForm.sponsorDe.$touched) ">
                         <md-item-template>
                             <span class="md-title" style="font-size: 14px;" md-highlight-text="ctrl.study.sponsor.de" md-highlight-flags="ig">{{item.de}}</span>
@@ -113,7 +113,7 @@
                             <div ng-message="maxlength">{{'study-management.error.study.sponsor.i18n-string-size' | translate}}</div>
                         </div>
                     </md-autocomplete>
-                    <md-autocomplete md-delay="250" flex="50" md-input-name="sponsorEn" md-input-maxlength="512" ng-required="true" md-floating-label="{{'study-management.detail.label.sponsors' | translate}} ({{'global.in-english' | translate}})" md-min-length="0" md-require-match="false"
+                    <md-autocomplete md-delay="250" flex="50" style="-ms-flex:auto" md-input-name="sponsorEn" md-input-maxlength="512" ng-required="true" md-floating-label="{{'study-management.detail.label.sponsors' | translate}} ({{'global.in-english' | translate}})" md-min-length="0" md-require-match="false"
                       md-select-on-match="true" md-match-case-insensitive="true" md-selected-item="ctrl.currentSponsor" md-search-text="ctrl.study.sponsor.en" md-items="item in searchSponsors(ctrl.study.sponsor.en, 'en')" md-item-text="item.en" md-clear-button="true" md-no-cache="true" md-is-error="!studyForm.sponsorEn.$valid && (studyForm.sponsorEn.$dirty || studyForm.sponsorEn.$touched)">
                         <md-item-template>
                             <span class="md-title" style="font-size: 14px;" md-highlight-text="ctrl.study.sponsor.en" md-highlight-flags="ig">{{item.en}}</span>
@@ -129,7 +129,7 @@
                     </md-autocomplete>
                 </div>
                 <div layout-gt-sm="row" layout="column">
-                    <md-input-container flex="50" md-is-error="!studyForm.surveyDesign.$valid && (studyForm.surveyDesign.$dirty || studyForm.surveyDesign.$touched)">
+                    <md-input-container flex="50" style="-ms-flex:auto" md-is-error="!studyForm.surveyDesign.$valid && (studyForm.surveyDesign.$dirty || studyForm.surveyDesign.$touched)">
                         <label>{{'study-management.detail.label.surveyDesign' | translate}}</label>
                         <md-select required ng-model="ctrl.study.surveyDesign" ng-model-options="{trackBy: '$value.de'}" name="surveyDesign">
                             <md-option ng-value="surveyDesign" ng-repeat="surveyDesign in ctrl.surveyDesigns">{{surveyDesign[currentLanguage]}}</md-option>
@@ -142,7 +142,7 @@
                     <div flex="50"></div>
                 </div>
                 <div layout-gt-sm="row" layout="column">
-                    <md-input-container flex="50" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!studyForm.annotationsDe.$valid && (studyForm.annotationsDe.$dirty || studyForm.annotationsDe.$touched)">
+                    <md-input-container flex="50" style="-ms-flex:auto" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!studyForm.annotationsDe.$valid && (studyForm.annotationsDe.$dirty || studyForm.annotationsDe.$touched)">
                         <label>{{'study-management.detail.label.annotations' | translate}} ({{'global.in-german' | translate}})</label>
                         <textarea rows="4" md-maxlength="2048" ng-model="ctrl.study.annotations.de" name="annotationsDe" lang="de"></textarea>
                         <div ng-if="!studyForm.annotationsDe.$dirty && !studyForm.annotationsDe.$touched" class="fdz-input-hint">{{'study-management.edit.hints.annotations.de' | translate}}</div>
@@ -150,7 +150,7 @@
                             <div ng-message="md-maxlength">{{'study-management.error.study.annotations.i18n-string-size' | translate}}</div>
                         </div>
                     </md-input-container>
-                    <md-input-container flex="50" md-is-error="!studyForm.annotationsEn.$valid && (studyForm.annotationsEn.$dirty || studyForm.annotationsEn.$touched)">
+                    <md-input-container flex="50" style="-ms-flex:auto" md-is-error="!studyForm.annotationsEn.$valid && (studyForm.annotationsEn.$dirty || studyForm.annotationsEn.$touched)">
                         <label>{{'study-management.detail.label.annotations' | translate}} ({{'global.in-english' | translate}})</label>
                         <textarea rows="4" md-maxlength="2048" ng-model="ctrl.study.annotations.en" name="annotationsEn" lang="en"></textarea>
                         <div ng-if="!studyForm.annotationsEn.$dirty && !studyForm.annotationsEn.$touched" class="fdz-input-hint">{{'study-management.edit.hints.annotations.en' | translate}}</div>
@@ -160,7 +160,7 @@
                     </md-input-container>
                 </div>
                 <div layout-gt-sm="row" layout="column">
-                    <md-input-container flex="50" md-is-error="!studyForm.dataAvailability.$valid && (studyForm.dataAvailability.$dirty || studyForm.dataAvailability.$touched)">
+                    <md-input-container flex="50" style="-ms-flex:auto" md-is-error="!studyForm.dataAvailability.$valid && (studyForm.dataAvailability.$dirty || studyForm.dataAvailability.$touched)">
                         <label>{{'study-management.detail.label.dataAvailability' | translate}}</label>
                         <md-select required ng-model="ctrl.study.dataAvailability" ng-model-options="{trackBy: '$value.de'}" name="dataAvailability">
                             <md-option ng-value="dataAvailability" ng-repeat="dataAvailability in ctrl.dataAvailabilities">{{dataAvailability[currentLanguage]}}</md-option>
@@ -183,7 +183,7 @@
             <md-divider></md-divider>
             <md-card-content>
                 <div layout-gt-sm="row" layout="column">
-                    <md-input-container flex="50" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!studyForm.descriptionDe.$valid && (studyForm.descriptionDe.$dirty || studyForm.descriptionDe.$touched)">
+                    <md-input-container flex="50" style="-ms-flex:auto" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!studyForm.descriptionDe.$valid && (studyForm.descriptionDe.$dirty || studyForm.descriptionDe.$touched)">
                         <label class="fdz-input-required">{{'study-management.detail.description' | translate}} ({{'global.in-german' | translate}})</label>
                         <textarea rows="4" md-maxlength="2048" fdz-required="!ctrl.study.description.en" ng-model="ctrl.study.description.de" name="descriptionDe" lang="de" md-no-asterisk></textarea>
                         <div ng-if="!studyForm.descriptionDe.$dirty && !studyForm.descriptionDe.$touched" class="fdz-input-hint">{{'study-management.edit.hints.description.de' | translate}}</div>
@@ -192,7 +192,7 @@
                             <div ng-message="md-maxlength">{{'study-management.error.study.description.i18n-string-size' | translate}}</div>
                         </div>
                     </md-input-container>
-                    <md-input-container flex="50" md-is-error="!studyForm.descriptionEn.$valid && (studyForm.descriptionEn.$dirty || studyForm.descriptionEn.$touched)">
+                    <md-input-container flex="50" style="-ms-flex:auto" md-is-error="!studyForm.descriptionEn.$valid && (studyForm.descriptionEn.$dirty || studyForm.descriptionEn.$touched)">
                         <label class="fdz-input-required">{{'study-management.detail.description' | translate}} ({{'global.in-english' | translate}})</label>
                         <textarea rows="4" md-maxlength="2048" fdz-required="!ctrl.study.description.de" ng-model="ctrl.study.description.en" name="descriptionEn" lang="en" md-no-asterisk></textarea>
                         <div ng-if="!studyForm.descriptionEn.$dirty && !studyForm.descriptionEn.$touched" class="fdz-input-hint">{{'study-management.edit.hints.description.en' | translate}}</div>

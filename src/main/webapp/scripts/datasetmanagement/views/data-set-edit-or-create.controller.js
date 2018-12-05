@@ -1,4 +1,4 @@
-/* global _, bowser*/
+/* global _*/
 'use strict';
 
 angular.module('metadatamanagementApp')
@@ -82,90 +82,85 @@ angular.module('metadatamanagementApp')
       var init = function() {
         if (Principal.hasAnyAuthority(['ROLE_PUBLISHER',
             'ROLE_DATA_PROVIDER'])) {
-          if (!bowser.msie) {
-            if (entity) {
-              entity.$promise.then(function(dataSet) {
-                ctrl.createMode = false;
-                DataAcquisitionProjectResource.get({
-                  id: dataSet.dataAcquisitionProjectId
-                }).$promise.then(function(project) {
-                  if (project.release != null) {
-                    handleReleasedProject();
-                  } else {
-                    ctrl.dataSet = dataSet;
-                    ctrl.initSurveyChips();
-                    ctrl.loadAttachments();
-                    updateToolbarHeaderAndPageTitle();
-                    $scope.registerConfirmOnDirtyHook();
-                  }
-                });
+          if (entity) {
+            entity.$promise.then(function(dataSet) {
+              ctrl.createMode = false;
+              DataAcquisitionProjectResource.get({
+                id: dataSet.dataAcquisitionProjectId
+              }).$promise.then(function(project) {
+                if (project.release != null) {
+                  handleReleasedProject();
+                } else {
+                  ctrl.dataSet = dataSet;
+                  ctrl.initSurveyChips();
+                  ctrl.loadAttachments();
+                  updateToolbarHeaderAndPageTitle();
+                  $scope.registerConfirmOnDirtyHook();
+                }
               });
-            } else {
-              if (CurrentProjectService.getCurrentProject() &&
-              !CurrentProjectService.getCurrentProject().release) {
-                ctrl.createMode = true;
-                AvailableDataSetNumbersResource.get({
-                  id: CurrentProjectService.getCurrentProject().id
-                }).$promise.then(
-                    function(dataSetNumbers) {
-                      if (dataSetNumbers.length === 1) {
-                        ctrl.dataSet = new DataSetResource({
-                          id: DataSetIdBuilderService.buildDataSetId(
-                            CurrentProjectService.getCurrentProject().id,
-                            dataSetNumbers[0]
-                          ),
-                          number: dataSetNumbers[0],
-                          dataAcquisitionProjectId:
-                          CurrentProjectService.getCurrentProject().id,
-                          studyId: StudyIdBuilderService.buildStudyId(
-                            CurrentProjectService.getCurrentProject().id
-                          ),
-                          subDataSets: [{
-                            name: ''
-                          }]
-                        });
-                        updateToolbarHeaderAndPageTitle();
-                        $scope.registerConfirmOnDirtyHook();
-                      } else {
-                        $mdDialog.show({
-                            controller: 'ChooseDataSetNumberController',
-                            templateUrl: 'scripts/datasetmanagement/' +
-                              'views/choose-data-set-number.html.tmpl',
-                            clickOutsideToClose: false,
-                            fullscreen: true,
-                            locals: {
-                              availableDataSetNumbers: dataSetNumbers
-                            }
-                          })
-                          .then(function(response) {
-                            ctrl.dataSet = new DataSetResource({
-                              id: DataSetIdBuilderService.buildDataSetId(
-                                CurrentProjectService.getCurrentProject().id,
-                                response.dataSetNumber
-                              ),
-                              number: response.dataSetNumber,
-                              dataAcquisitionProjectId:
-                              CurrentProjectService.getCurrentProject().id,
-                              studyId: StudyIdBuilderService.buildStudyId(
-                                CurrentProjectService.getCurrentProject().id
-                              ),
-                              subDataSets: [{
-                                name: ''
-                              }]
-                            });
-                            $scope.responseRateInitializing = true;
-                            updateToolbarHeaderAndPageTitle();
-                            $scope.registerConfirmOnDirtyHook();
-                          });
-                      }
-                    });
-              } else {
-                handleReleasedProject();
-              }
-            }
+            });
           } else {
-            SimpleMessageToastService.openAlertMessageToast(
-              'global.edit.internet-explorer-not-supported');
+            if (CurrentProjectService.getCurrentProject() &&
+            !CurrentProjectService.getCurrentProject().release) {
+              ctrl.createMode = true;
+              AvailableDataSetNumbersResource.get({
+                id: CurrentProjectService.getCurrentProject().id
+              }).$promise.then(
+                  function(dataSetNumbers) {
+                    if (dataSetNumbers.length === 1) {
+                      ctrl.dataSet = new DataSetResource({
+                        id: DataSetIdBuilderService.buildDataSetId(
+                          CurrentProjectService.getCurrentProject().id,
+                          dataSetNumbers[0]
+                        ),
+                        number: dataSetNumbers[0],
+                        dataAcquisitionProjectId:
+                        CurrentProjectService.getCurrentProject().id,
+                        studyId: StudyIdBuilderService.buildStudyId(
+                          CurrentProjectService.getCurrentProject().id
+                        ),
+                        subDataSets: [{
+                          name: ''
+                        }]
+                      });
+                      updateToolbarHeaderAndPageTitle();
+                      $scope.registerConfirmOnDirtyHook();
+                    } else {
+                      $mdDialog.show({
+                          controller: 'ChooseDataSetNumberController',
+                          templateUrl: 'scripts/datasetmanagement/' +
+                            'views/choose-data-set-number.html.tmpl',
+                          clickOutsideToClose: false,
+                          fullscreen: true,
+                          locals: {
+                            availableDataSetNumbers: dataSetNumbers
+                          }
+                        })
+                        .then(function(response) {
+                          ctrl.dataSet = new DataSetResource({
+                            id: DataSetIdBuilderService.buildDataSetId(
+                              CurrentProjectService.getCurrentProject().id,
+                              response.dataSetNumber
+                            ),
+                            number: response.dataSetNumber,
+                            dataAcquisitionProjectId:
+                            CurrentProjectService.getCurrentProject().id,
+                            studyId: StudyIdBuilderService.buildStudyId(
+                              CurrentProjectService.getCurrentProject().id
+                            ),
+                            subDataSets: [{
+                              name: ''
+                            }]
+                          });
+                          $scope.responseRateInitializing = true;
+                          updateToolbarHeaderAndPageTitle();
+                          $scope.registerConfirmOnDirtyHook();
+                        });
+                    }
+                  });
+            } else {
+              handleReleasedProject();
+            }
           }
         } else {
           SimpleMessageToastService.openAlertMessageToast(
