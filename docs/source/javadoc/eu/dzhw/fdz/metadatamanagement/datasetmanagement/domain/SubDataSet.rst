@@ -1,11 +1,3 @@
-.. java:import:: javax.validation.constraints NotEmpty
-
-.. java:import:: javax.validation.constraints NotNull
-
-.. java:import:: javax.validation.constraints Size
-
-.. java:import:: org.javers.core.metamodel.annotation ValueObject
-
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain I18nString
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation I18nStringNotEmpty
@@ -25,6 +17,14 @@
 .. java:import:: lombok Data
 
 .. java:import:: lombok NoArgsConstructor
+
+.. java:import:: org.javers.core.metamodel.annotation ValueObject
+
+.. java:import:: javax.validation.constraints NotEmpty
+
+.. java:import:: javax.validation.constraints NotNull
+
+.. java:import:: javax.validation.constraints Size
 
 SubDataSet
 ==========
@@ -49,7 +49,7 @@ accessWay
 citationHint
 ^^^^^^^^^^^^
 
-.. java:field:: @I18nStringSize private I18nString citationHint
+.. java:field:: @I18nStringSize @I18nStringNotEmpty private I18nString citationHint
    :outertype: SubDataSet
 
    A hint telling how to cite this subdataset in publications. Must not contain more than 2048 characters.
