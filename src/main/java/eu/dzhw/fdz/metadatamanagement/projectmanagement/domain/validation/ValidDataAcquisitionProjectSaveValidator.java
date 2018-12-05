@@ -25,6 +25,19 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 public class ValidDataAcquisitionProjectSaveValidator
     implements ConstraintValidator<ValidDataAcquisitionProjectSave, DataAcquisitionProject> {
 
+  private static final String INVALID_ASSIGNEE_GROUP = "data-acquisition-project-" +
+      "management.error.data-acquisition-project.assignee-group.not-assigned";
+  private static final String MISSING_ASSIGNEE_GROUP_MESSAGE = "data-acquisition-project-" +
+      "management.error.data-acquisition-project.last-assignee-group-message.not-empty";
+  private static final String INVALID_PUBLISHER_UPDATE = "data-acquisition-project-" +
+      "management.error.data-acquisition-project.configuration.publishers.unauthorized";
+  private static final String INVALID_DATA_PROVIDER_UPDATE = "data-acquisition-project-" +
+      "management.error.data-acquisition-project.configuration.data-providers.update-not-allowed";
+  private static final String INVALID_REQUIREMENTS_UPDATE = "data-acquisition-project-" +
+      "management.error.data-acquisition-project.configuration.requirements.unauthorized";
+  private static final String CREATE_PROJECT_NOT_ALLOWED = "data-acquisition-project-" +
+      "management.error.data-acquisition-project.create.unauthorized";
+
   @Autowired
   private DataAcquisitionProjectRepository repository;
 
@@ -35,19 +48,58 @@ public class ValidDataAcquisitionProjectSaveValidator
   public boolean isValid(DataAcquisitionProject dataAcquisitionProject,
       ConstraintValidatorContext constraintValidatorContext) {
 
+    constraintValidatorContext.disableDefaultConstraintViolation();
+
     final String id = dataAcquisitionProject.getId();
     Optional<DataAcquisitionProject> oldDataProjectOpt = repository.findById(id);
     if (oldDataProjectOpt.isPresent()) {
       DataAcquisitionProject oldProject = oldDataProjectOpt.get();
 
-      return isUserInAssignedGroup(oldProject)
-          && isMessageToAssigneeGroupProvided(oldProject, dataAcquisitionProject)
-          && isPublisherUpdatePermitted(oldProject, dataAcquisitionProject)
-          && isDataProviderUpdatePermitted(oldProject, dataAcquisitionProject)
-          && isProjectRequirementsUpdatePermitted(oldProject, dataAcquisitionProject);
+      if(!isUserInAssignedGroup(oldProject)) {
+        constraintValidatorContext
+            .buildConstraintViolationWithTemplate(INVALID_ASSIGNEE_GROUP)
+            .addConstraintViolation();
+        return false;
+      }
 
+      if(!isMessageToAssigneeGroupProvided(oldProject, dataAcquisitionProject)) {
+        constraintValidatorContext
+            .buildConstraintViolationWithTemplate(MISSING_ASSIGNEE_GROUP_MESSAGE)
+            .addConstraintViolation();
+        return false;
+      }
+
+      if(!isPublisherUpdatePermitted(oldProject, dataAcquisitionProject)) {
+        constraintValidatorContext
+            .buildConstraintViolationWithTemplate(INVALID_PUBLISHER_UPDATE)
+            .addConstraintViolation();
+        return false;
+      }
+
+      if(!isDataProviderUpdatePermitted(oldProject, dataAcquisitionProject)) {
+        constraintValidatorContext
+            .buildConstraintViolationWithTemplate(INVALID_DATA_PROVIDER_UPDATE)
+            .addConstraintViolation();
+        return false;
+      }
+
+      if(!isProjectRequirementsUpdatePermitted(oldProject, dataAcquisitionProject)) {
+        constraintValidatorContext
+            .buildConstraintViolationWithTemplate(INVALID_REQUIREMENTS_UPDATE)
+            .addConstraintViolation();
+        return false;
+      }
+
+      return true;
     } else {
-      return isDataAcquisitionProjectCreatePermitted();
+      if(!isDataAcquisitionProjectCreatePermitted()) {
+        constraintValidatorContext
+            .buildConstraintViolationWithTemplate(CREATE_PROJECT_NOT_ALLOWED)
+            .addConstraintViolation();
+        return false;
+      } else {
+        return true;
+      }
     }
   }
 

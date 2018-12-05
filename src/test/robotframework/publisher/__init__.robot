@@ -1,6 +1,6 @@
 *** Setting ***
 Documentation     Publisher Common setup and teardown for all tests
-Suite Setup       Login as publisher after logout
+Suite Setup       Login as publisher
 Suite Teardown    Publisher Logout
 Library           ExtendedSelenium2Library
 Resource          ../resources/click_element_resource.robot

@@ -44,7 +44,8 @@ angular.module('metadatamanagementApp').config(
         'error': {
           'data-acquisition-project': {
             'assignee-group': {
-              'not-null': 'Die zuständige Bearbeitergruppe (Publisher oder Datengeber) darf nicht leer sein.'
+              'not-null': 'Die zuständige Bearbeitergruppe (Publisher oder Datengeber) darf nicht leer sein.',
+              'not-assigned': 'Dieses Projekt ist aktuell einer anderen Gruppe (Publisher bzw. Datengeber) zugewiesen'
             },
             'id': {
               'not-empty': 'Der Name des Datenaufbereitungsprojekts darf nicht leer sein!',
@@ -57,12 +58,20 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'configuration': {
+            'data-providers': {
+              'update-not-allowed': 'Es muss mindestens 1 Datengeber eingetragen sein.'
+            },
             'publishers': {
-              'not-empty': 'Es muss mindestens ein Publisher eingetragen sein.'
+              'not-empty': 'Es muss mindestens ein Publisher eingetragen sein.',
+              'unauthorized': 'Publisher dürfen nur durch andere Publisher gesetzt werden.'
+            },
+            'requirements': {
+              'unauthorized': 'Pflichtfelder dürfen nur durch Publishers dieses Projekts geändert werden.'
             }
           },
           'last-assignee-group-message': {
-            'size': 'Die Nachricht darf nicht länger als 2048 Zeichen sein.'
+            'size': 'Die Nachricht darf nicht länger als 2048 Zeichen sein.',
+            'not-empty':'Bei einem Gruppenwechsel muss eine Nachricht angegeben werden.'
           },
           'release': {
             'version': {

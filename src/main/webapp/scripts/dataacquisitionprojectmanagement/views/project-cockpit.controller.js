@@ -59,12 +59,13 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         }
       });
 
-    var saveProject = function() {
+    var saveProject = function(project) {
       return DataAcquisitionProjectResource.save(
-        $scope.project,
+        project,
         //Success
         function() {
           $scope.changed = false;
+          $scope.project = project;
           setAssignedToProject();
           CurrentProjectService.setCurrentProject($scope.project);
           SimpleMessageToastService
@@ -75,12 +76,14 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
               });
         },
         //Server Error
-        function() {
-          SimpleMessageToastService
-            .openAlertMessageToast(
-              'data-acquisition-project-management.log-messages.' +
-              'data-acquisition-project.server-error'
-            );
+        function(response) {
+          var errors = _.get(response, 'data.errors');
+
+          if (errors) {
+            errors.forEach(function(error) {
+              SimpleMessageToastService.openAlertMessageToast(error.message);
+            });
+          }
         }
       );
     };
@@ -93,11 +96,11 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       switch (assigneeGroup) {
         case 'PUBLISHER':
           recipient = $translate.instant('data-acquisition' +
-            '-project-management.project-cockpit.label.ROLE_PUBLISHER');
+            '-project-management.project-cockpit.label.ROLE_DATA_PROVIDER');
           break;
         case 'DATA_PROVIDER':
           recipient = $translate.instant('data-acquisition' +
-            '-project-management.project-cockpit.label.ROLE_DATA_PROVIDER');
+            '-project-management.project-cockpit.label.ROLE_PUBLISHER');
           break;
         default:
           recipient = '';
@@ -107,6 +110,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         controller: 'AssigneeMessageDialogController',
         templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
           'assignee-message-dialog.html.tmpl',
+        fullscreen: true,
         locals: {
           recipient: recipient
         }
@@ -115,7 +119,10 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
 
     var prepareProjectForSave = function(assigneeGroupMessage,
                                          newAssigneeGroup) {
-      if (!$scope.project.configuration) {
+
+      var project = _.assignIn({}, $scope.project);
+
+      if (!project.configuration) {
         $scope.project.configuration = {};
       }
 
@@ -129,29 +136,35 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
           return identity.login;
         });
 
-      if ($scope.project.configuration.publishers) {
-        $scope.project.configuration.publishers =
-          _.union($scope.project.configuration.publishers,
-            configuredPublishers);
+      if (project.configuration.publishers) {
+        project.configuration.publishers =
+          _.filter(_.union(project.configuration.publishers,
+            configuredPublishers), function(val) {
+            return _.includes(configuredPublishers, val);
+          });
       } else {
-        $scope.project.configuration.publishers = configuredPublishers;
+        project.configuration.publishers = configuredPublishers;
       }
 
-      if ($scope.project.configuration.dataProviders) {
-        $scope.project.configuration.dataProviders =
-          _.union($scope.project.configuration.dataProviders,
-            configuredDataProviders);
+      if (project.configuration.dataProviders) {
+        project.configuration.dataProviders =
+          _.filter(_.union(project.configuration.dataProviders,
+            configuredDataProviders), function(val) {
+            return _.includes(configuredDataProviders, val);
+          });
       } else {
-        $scope.project.configuration.dataProviders = configuredDataProviders;
+        project.configuration.dataProviders = configuredDataProviders;
       }
 
       if (assigneeGroupMessage) {
-        $scope.project.lastAssigneeGroupMessage = assigneeGroupMessage;
+        project.lastAssigneeGroupMessage = assigneeGroupMessage;
       }
 
       if (newAssigneeGroup) {
-        $scope.project.assigneeGroup = newAssigneeGroup;
+        project.assigneeGroup = newAssigneeGroup;
       }
+
+      return project;
     };
 
     $scope.onSaveChangesAndAssign = function() {
@@ -169,14 +182,14 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
             newAssigneeGroup = $scope.project.assigneeGroup;
         }
 
-        prepareProjectForSave(message, newAssigneeGroup);
-        saveProject();
+        var project = prepareProjectForSave(message, newAssigneeGroup);
+        saveProject(project);
       });
     };
 
     $scope.onSaveChanges = function(origin) {
-      prepareProjectForSave();
-      saveProject().$promise.then(function() {
+      var project = prepareProjectForSave();
+      saveProject(project).$promise.then(function() {
         if (origin !== 'requirements') {
           $state.reload();
         }
