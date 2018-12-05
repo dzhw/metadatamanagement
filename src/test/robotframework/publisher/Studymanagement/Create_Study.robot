@@ -52,20 +52,12 @@ Open Study Create Page
     Click Element Through Tooltips    xpath=//ui-view/descendant::a[md-icon[text()='add']]
 
 Choose Panel As Survey Design
-    Focus    xpath=//md-select[@name = 'surveyDesign']
-    Mouse Over    xpath=//md-select[@name = 'surveyDesign']
-    Click Element    xpath=//md-select[@name = 'surveyDesign']
-    Focus    xpath=//md-select-menu//md-option[contains(., 'Panel')]
-    Mouse Over    xpath=//md-select-menu//md-option[contains(., 'Panel')]
-    Click Element    xpath=//md-select-menu//md-option[contains(., 'Panel')]
+    Click Element Through Tooltips    xpath=//md-select[@name = 'surveyDesign']
+    Click Element Through Tooltips    xpath=//md-select-menu//md-option[contains(., 'Panel')]
 
 Choose In Aufbereitung as Data Availibility
-    Focus    xpath=//md-select[@name = 'dataAvailability']
-    Mouse Over    xpath=//md-select[@name = 'dataAvailability']
-    Click Element    xpath=//md-select[@name = 'dataAvailability']
-    Focus    xpath=//md-select-menu//md-option[contains(., 'In Aufbereitung')]
-    Mouse Over    xpath=//md-select-menu//md-option[contains(., 'In Aufbereitung')]
-    Click Element    xpath=//md-select-menu//md-option[contains(., 'In Aufbereitung')]
+    Click Element Through Tooltips    xpath=//md-select[@name = 'dataAvailability']
+    Click Element Through Tooltips    xpath=//md-select-menu//md-option[contains(., 'In Aufbereitung')]
 
 Add Another Author
     Click Element Through Tooltips    xpath=//md-card/descendant::button[md-icon[text()='add']]
