@@ -392,6 +392,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       } else {
         ProjectReleaseService.releaseProject($scope.project);
       }
+    };
 
     $scope.uploadQuestions = function(files) {
       QuestionUploadService.uploadQuestions(files, $scope.project.id);

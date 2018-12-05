@@ -24,40 +24,45 @@ angular.module('metadatamanagementApp').service(
       }
     };
 
-    var isUpdateAllowed = function(project, type) {
-      var test = project || CurrentProjectService.getCurrentProject();
+    var isTypeUpdateAllowed = function(project, type) {
       var isTypeReady = false;
-      if (type && _.includes(test.configuration.dataProviders,
-          Principal.loginName())) {
-        var conf = test.configuration;
+      if (type && _.includes(project.configuration.dataProviders,
+        Principal.loginName())) {
+        var conf = project.configuration;
         switch (type) {
           case 'studies':
-            isTypeReady = (conf.studiesState.dataProviderReady ||
-                conf.studiesState.publisherReady);
+            isTypeReady = _.get(conf, 'studiesState.dataProviderReady') ||
+              _.get(conf, 'studiesState.publisherReady');
             break;
           case 'surveys':
-            isTypeReady = (conf.surveysState.dataProviderReady ||
-                conf.surveysState.publisherReady);
+            isTypeReady = _.get(conf, 'surveysState.dataProviderReady') ||
+              _.get(conf, 'surveysState.publisherReady');
             break;
           case 'instruments':
-            isTypeReady = (conf.instrumentsState.dataProviderReady ||
-                conf.instrumentsState.publisherReady);
+            isTypeReady = _.get(conf, 'instrumentsState.dataProviderReady') ||
+              _.get(conf, 'instrumentsState.publisherReady');
             break;
           case 'data_sets':
-            isTypeReady = (conf.dataSetsState.dataProviderReady ||
-                conf.dataSetsState.publisherReady);
+            isTypeReady = _.get(conf, 'dataSetsState.dataProviderReady') ||
+              _.get(conf, 'dataSetsState.publisherReady');
             break;
           case 'questions':
-            isTypeReady = (conf.questionsState.dataProviderReady ||
-                conf.questionsState.publisherReady);
+            isTypeReady = _.get(conf, 'questionsState.dataProviderReady') ||
+              _.get(conf, 'questionsState.publisherReady');
             break;
           case 'variables':
-            isTypeReady = (conf.variablesState.dataProviderReady ||
-                conf.variablesState.publisherReady);
+            isTypeReady = _.get(conf, 'variablesState.dataProviderReady') ||
+              _.get(conf, 'variablesState.publisherReady');
             break;
         }
       }
-      return !isTypeReady && isProjectSelected(test) &&
+      return !isTypeReady;
+    };
+
+    var isUpdateAllowed = function(project, type) {
+      var test = project || CurrentProjectService.getCurrentProject();
+
+      return isProjectSelected(test) && isTypeUpdateAllowed(test, type) &&
         isProjectUnreleased(test) && isMemberOfAssignedGroup(test);
     };
 
