@@ -6,7 +6,8 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
            PageTitleService, LanguageService, ToolbarHeaderService,
            DataAcquisitionProjectResource, SimpleMessageToastService,
            CurrentProjectService, projectDeferred, CommonDialogsService,
-           SearchDao, $translate, $mdDialog) {
+           SearchDao, QuestionUploadService, VariableUploadService, $translate,
+           $mdDialog) {
 
     PageTitleService.setPageTitle(
       'data-acquisition-project-management.project-cockpit.title');
@@ -385,6 +386,14 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       $scope.changed = changed;
     };
 
+    $scope.uploadQuestions = function(files) {
+      QuestionUploadService.uploadQuestions(files, $scope.project.id);
+    };
+
+    $scope.uploadVariables = function(files) {
+      VariableUploadService.uploadVariables(files, $scope.project.id);
+    };
+
     $state.loadComplete = true;
   }).directive('projectCockpitConfig', function() {
   return {
@@ -415,7 +424,9 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       'project-cockpit-assignment.html.tmpl',
     scope: true,
     replace: true,
-    link: function(scope, elem, attrs) { // jshint ignore:line
+    transclude: true,
+    /* jshint -W098 */
+    link: function(scope, elem, attrs, ctrl, $transclude) {
       var elasticSearchType = {
         studies: 'studies',
         surveys: 'surveys',
@@ -449,6 +460,9 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         if (newVal !== oldVal) {
           scope.setChanged(true);
         }
+      });
+      $transclude(function(transclusion) {
+        scope.hasTranscludedContent = transclusion.length > 0;
       });
 
       scope.searchProjectData(

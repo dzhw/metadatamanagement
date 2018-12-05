@@ -50,7 +50,8 @@
 		</md-checkbox>
 	</md-card-content>
 	<md-card-actions layout="row" layout-align="end center">
-		<a ng-click="create()"><md-button
+		<div ng-transclude></div>
+		<a ng-if="!hasTranscludedContent" ng-click="create()"><md-button
 			ng-disabled="project.configuration[group+'State'].dataProviderReady && project.configuration[group+'State'].publisherReady"
 		>{{'data-acquisition-project-management.project-cockpit.config.new' | translate}}</md-button></a>
 	</md-card-actions>
