@@ -1,20 +1,22 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation;
 
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Requirements;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.constraintvalidation.SupportedValidationTarget;
 import javax.validation.constraintvalidation.ValidationTarget;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
+
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Requirements;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 
 /**
  * Validate {@link DataAcquisitionProject} save attempt.
@@ -27,12 +29,11 @@ public class ValidDataAcquisitionProjectSaveValidator
   private DataAcquisitionProjectRepository repository;
 
   @Override
-  public void initialize(ValidDataAcquisitionProjectSave constraintAnnotation) {
-  }
+  public void initialize(ValidDataAcquisitionProjectSave constraintAnnotation) {}
 
   @Override
   public boolean isValid(DataAcquisitionProject dataAcquisitionProject,
-                         ConstraintValidatorContext constraintValidatorContext) {
+      ConstraintValidatorContext constraintValidatorContext) {
 
     final String id = dataAcquisitionProject.getId();
     Optional<DataAcquisitionProject> oldDataProjectOpt = repository.findById(id);
@@ -54,7 +55,7 @@ public class ValidDataAcquisitionProjectSaveValidator
    * Only admins and publishers are allowed to modify the publisher list of a project.
    */
   private boolean isPublisherUpdatePermitted(DataAcquisitionProject oldProject,
-                                             DataAcquisitionProject newProject) {
+      DataAcquisitionProject newProject) {
 
     List<String> oldPublishers = oldProject.getConfiguration().getPublishers();
     List<String> newPublishers = newProject.getConfiguration().getPublishers();
@@ -65,11 +66,11 @@ public class ValidDataAcquisitionProjectSaveValidator
   }
 
   /*
-   * If the project configuration contained at least one data provider, it must also contain
-   * at least one data provider after the update.
+   * If the project configuration contained at least one data provider, it must also contain at
+   * least one data provider after the update.
    */
   private boolean isDataProviderUpdatePermitted(DataAcquisitionProject oldProject,
-                                                DataAcquisitionProject newProject) {
+      DataAcquisitionProject newProject) {
 
     List<String> oldDataProviders = oldProject.getConfiguration().getDataProviders();
     List<String> newDataProviders = newProject.getConfiguration().getDataProviders();
@@ -81,14 +82,13 @@ public class ValidDataAcquisitionProjectSaveValidator
    * Requirement updates are only permitted if the user is a publisher of the project.
    */
   private boolean isProjectRequirementsUpdatePermitted(DataAcquisitionProject oldProject,
-                                                       DataAcquisitionProject newProject) {
+      DataAcquisitionProject newProject) {
 
     Requirements oldRequirements = oldProject.getConfiguration().getRequirements();
     Requirements newRequirements = newProject.getConfiguration().getRequirements();
 
-    return isNotModified(oldRequirements, newRequirements)
-        || oldProject.getConfiguration().getPublishers()
-        .contains(SecurityUtils.getCurrentUserLogin());
+    return isNotModified(oldRequirements, newRequirements) || oldProject.getConfiguration()
+        .getPublishers().contains(SecurityUtils.getCurrentUserLogin());
   }
 
   /*
@@ -99,8 +99,8 @@ public class ValidDataAcquisitionProjectSaveValidator
   }
 
   /**
-   * DataAcquisitionProject can only be updated if the user is a member of the
-   * currently assigned group (role wise) responsible for editing the project.
+   * DataAcquisitionProject can only be updated if the user is a member of the currently assigned
+   * group (role wise) responsible for editing the project.
    */
   private boolean isUserInAssignedGroup(DataAcquisitionProject oldProject) {
     String requiredRole;
@@ -122,7 +122,7 @@ public class ValidDataAcquisitionProjectSaveValidator
    * Current assignee group must provide a message if the group assignment changes.
    */
   private boolean isMessageToAssigneeGroupProvided(DataAcquisitionProject oldProject,
-                                                   DataAcquisitionProject dataAcquisitionProject) {
+      DataAcquisitionProject dataAcquisitionProject) {
     if (oldProject == null) {
       return true;
     }
