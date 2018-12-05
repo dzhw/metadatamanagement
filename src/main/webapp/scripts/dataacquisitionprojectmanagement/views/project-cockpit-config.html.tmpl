@@ -26,6 +26,7 @@
 				<md-list-item>
 					<md-input-container ng-class="'fdz-no-margin'">
 						<md-checkbox ng-model="project.configuration.requirements.studiesRequired" name="study" ng-class="'fdz-no-margin'" ng-disabled="true">
+							<md-tooltip ng-if="isProjectRequirementsDisabled">{{'data-acquisition-project-management.project-cockpit.tooltip.not-in-publishers' | translate}}</md-tooltip>
 							{{'data-acquisition-project-management.project-cockpit.requirements.studies' | translate}}
 						</md-checkbox>
 					</md-input-container>
@@ -33,6 +34,7 @@
 				<md-list-item>
 					<md-input-container ng-class="'fdz-no-margin'">
 						<md-checkbox ng-model="project.configuration.requirements.surveysRequired" ng-class="'fdz-no-margin'" name="survey" ng-disabled="isProjectRequirementsDisabled">
+							<md-tooltip ng-if="isProjectRequirementsDisabled">{{'data-acquisition-project-management.project-cockpit.tooltip.not-in-publishers' | translate}}</md-tooltip>
 							{{'data-acquisition-project-management.project-cockpit.requirements.surveys' | translate}}
 						</md-checkbox>
 					</md-input-container>
@@ -40,6 +42,7 @@
 				<md-list-item>
 					<md-input-container ng-class="'fdz-no-margin'">
 						<md-checkbox ng-model="project.configuration.requirements.instrumentsRequired" ng-class="'fdz-no-margin'" name="instruments" ng-disabled="isProjectRequirementsDisabled">
+							<md-tooltip ng-if="isProjectRequirementsDisabled">{{'data-acquisition-project-management.project-cockpit.tooltip.not-in-publishers' | translate}}</md-tooltip>
 							{{'data-acquisition-project-management.project-cockpit.requirements.instruments' | translate}}
 						</md-checkbox>
 					</md-input-container>
@@ -47,6 +50,7 @@
 				<md-list-item>
 					<md-input-container ng-class="'fdz-no-margin'">
 						<md-checkbox ng-model="project.configuration.requirements.questionsRequired" ng-class="'fdz-no-margin'" name="questions" ng-disabled="isProjectRequirementsDisabled">
+							<md-tooltip ng-if="isProjectRequirementsDisabled">{{'data-acquisition-project-management.project-cockpit.tooltip.not-in-publishers' | translate}}</md-tooltip>
 							{{'data-acquisition-project-management.project-cockpit.requirements.questions' | translate}}
 						</md-checkbox>
 					</md-input-container>
@@ -54,6 +58,7 @@
 				<md-list-item>
 					<md-input-container ng-class="'fdz-no-margin'">
 						<md-checkbox ng-model="project.configuration.requirements.dataSetsRequired" ng-class="'fdz-no-margin'" name="dataSet" ng-disabled="isProjectRequirementsDisabled">
+							<md-tooltip ng-if="isProjectRequirementsDisabled">{{'data-acquisition-project-management.project-cockpit.tooltip.not-in-publishers' | translate}}</md-tooltip>
 							{{'data-acquisition-project-management.project-cockpit.requirements.dataSets' | translate}}
 						</md-checkbox>
 					</md-input-container>
@@ -61,6 +66,7 @@
 				<md-list-item>
 					<md-input-container ng-class="'fdz-no-margin'">
 						<md-checkbox ng-model="project.configuration.requirements.variablesRequired" ng-class="'fdz-no-margin'" name="variables" ng-disabled="isProjectRequirementsDisabled">
+							<md-tooltip ng-if="isProjectRequirementsDisabled">{{'data-acquisition-project-management.project-cockpit.tooltip.not-in-publishers' | translate}}</md-tooltip>
 							{{'data-acquisition-project-management.project-cockpit.requirements.variables' | translate}}
 						</md-checkbox>
 					</md-input-container>
