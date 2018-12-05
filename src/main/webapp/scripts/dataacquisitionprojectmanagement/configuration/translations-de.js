@@ -94,7 +94,8 @@ angular.module('metadatamanagementApp').config(
           },
           'tooltip': {
             'not-assigned': 'Das Projekt ist aktuell der anderen Benutzergruppe zugewiesen.',
-            'not-in-group': 'Sie gehören nicht dieser Benutzergruppe an.'
+            'not-in-group': 'Sie gehören nicht dieser Benutzergruppe an.',
+            'not-in-publishers': 'Sie sind diesem Projekt nicht als Publisher zugewiesen'
           },
           'alert': {
             'title': 'Achtung',

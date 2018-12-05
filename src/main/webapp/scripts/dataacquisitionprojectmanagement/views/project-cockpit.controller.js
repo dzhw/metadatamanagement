@@ -71,6 +71,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
           $scope.changed = false;
           $scope.project = project;
           setAssignedToProject();
+          setProjectRequirementsDisabled($scope.project);
           CurrentProjectService.setCurrentProject($scope.project);
           SimpleMessageToastService
             .openSimpleMessageToast(
@@ -424,6 +425,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         variables: 'variables'
       };
       scope.group = attrs.group;
+      scope.icon = attrs.icon;
       scope.create = function() {
         $state.go(attrs.createstate, {});
       };
