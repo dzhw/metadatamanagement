@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
            PageTitleService, LanguageService, ToolbarHeaderService,
            DataAcquisitionProjectResource, SimpleMessageToastService,
            CurrentProjectService, projectDeferred, CommonDialogsService,
-           SearchDao, $translate, $mdDialog) {
+           SearchDao, $translate, $mdDialog, ProjectReleaseService) {
 
     PageTitleService.setPageTitle(
       'data-acquisition-project-management.project-cockpit.title');
@@ -383,6 +383,14 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         changed = true;
       }
       $scope.changed = changed;
+    };
+
+    $scope.toggleReleaseProject = function() {
+      if ($scope.project.release) {
+        ProjectReleaseService.unreleaseProject($scope.project);
+      } else {
+        ProjectReleaseService.releaseProject($scope.project);
+      }
     };
 
     $state.loadComplete = true;
