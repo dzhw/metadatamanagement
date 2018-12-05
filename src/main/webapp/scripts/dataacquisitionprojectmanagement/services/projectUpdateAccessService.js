@@ -1,3 +1,5 @@
+/* global _ */
+
 'use strict';
 angular.module('metadatamanagementApp').service(
   'ProjectUpdateAccessService',
@@ -25,7 +27,7 @@ angular.module('metadatamanagementApp').service(
     var isUpdateAllowed = function(project, type) {
       var test = project || CurrentProjectService.getCurrentProject();
       var isTypeReady = false;
-      if (type && _.includes(project.configuration.dataProviders,
+      if (type && _.includes(test.configuration.dataProviders,
           Principal.loginName())) {
         var conf = test.configuration;
         switch (type) {

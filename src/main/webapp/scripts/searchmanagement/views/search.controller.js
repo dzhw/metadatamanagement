@@ -344,7 +344,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       uploadFunction: null,
       disabled: false,
       visibleForPublicUser: true,
-      noResultsText: 'search-management.no-results-text.studies'
+      noResultsText: 'search-management.no-results-text.studies',
+      group: 'studies'
     }, {
       title: 'search-management.tabs.surveys',
       inputLabel: 'search-management.input-label.surveys',
@@ -354,7 +355,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       uploadFunction: null,
       disabled: false,
       visibleForPublicUser: true,
-      noResultsText: 'search-management.no-results-text.surveys'
+      noResultsText: 'search-management.no-results-text.surveys',
+      group: 'surveys'
     }, {
       title: 'search-management.tabs.instruments',
       inputLabel: 'search-management.input-label.instruments',
@@ -364,7 +366,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       uploadFunction: null,
       disabled: false,
       visibleForPublicUser: true,
-      noResultsText: 'search-management.no-results-text.instruments'
+      noResultsText: 'search-management.no-results-text.instruments',
+      group: 'instruments'
     }, {
       title: 'search-management.tabs.questions',
       inputLabel: 'search-management.input-label.questions',
@@ -374,7 +377,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       uploadFunction: $scope.uploadQuestions,
       disabled: false,
       visibleForPublicUser: true,
-      noResultsText: 'search-management.no-results-text.questions'
+      noResultsText: 'search-management.no-results-text.questions',
+      group: 'questions'
     }, {
       title: 'search-management.tabs.data_sets',
       inputLabel: 'search-management.input-label.data-sets',
@@ -384,7 +388,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       uploadFunction: null,
       disabled: false,
       visibleForPublicUser: true,
-      noResultsText: 'search-management.no-results-text.data-sets'
+      noResultsText: 'search-management.no-results-text.data-sets',
+      group: 'dataSets'
     }, {
       title: 'search-management.tabs.variables',
       inputLabel: 'search-management.input-label.variables',
@@ -394,7 +399,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       uploadFunction: $scope.uploadVariables,
       disabled: false,
       visibleForPublicUser: true,
-      noResultsText: 'search-management.no-results-text.variables'
+      noResultsText: 'search-management.no-results-text.variables',
+      group: 'variables'
     }, {
       title: 'search-management.tabs.related_publications',
       inputLabel: 'search-management.input-label.related-publications',

@@ -34,11 +34,12 @@ describe('ProjectUpdateAccessService', function() {
 
     expect(ProjectUpdateAccessService.isUpdateAllowed()).toBe(true);
   });
-  
+
   it('should return true if an updateable project is selected', function() {
     spyOn(CurrentProjectService, 'getCurrentProject').and.returnValue({
       assigneeGroup: 'DATA_PROVIDER',
       configuration : {
+        dataProviders: [Principal.loginName()],
         surveysState : {
           publisherReady : false,
           dataProviderReady : false
@@ -54,6 +55,7 @@ describe('ProjectUpdateAccessService', function() {
     spyOn(CurrentProjectService, 'getCurrentProject').and.returnValue({
       assigneeGroup: 'DATA_PROVIDER',
       configuration : {
+        dataProviders: [Principal.loginName()],
         surveysState : {
           publisherReady : false,
           dataProviderReady : true
@@ -68,6 +70,7 @@ describe('ProjectUpdateAccessService', function() {
     spyOn(CurrentProjectService, 'getCurrentProject').and.returnValue({
       assigneeGroup: 'DATA_PROVIDER',
       configuration : {
+        dataProviders: [Principal.loginName()],
         studiesState : {
           publisherReady : false,
           dataProviderReady : false
@@ -83,6 +86,7 @@ describe('ProjectUpdateAccessService', function() {
     spyOn(CurrentProjectService, 'getCurrentProject').and.returnValue({
       assigneeGroup: 'DATA_PROVIDER',
       configuration : {
+        dataProviders: [Principal.loginName()],
         studiesState : {
           publisherReady : false,
           dataProviderReady : true
@@ -98,6 +102,7 @@ describe('ProjectUpdateAccessService', function() {
     spyOn(CurrentProjectService, 'getCurrentProject').and.returnValue({
       assigneeGroup: 'DATA_PROVIDER',
       configuration : {
+        dataProviders: [Principal.loginName()],
         instrumentsState : {
           publisherReady : false,
           dataProviderReady : false
@@ -113,6 +118,7 @@ describe('ProjectUpdateAccessService', function() {
     spyOn(CurrentProjectService, 'getCurrentProject').and.returnValue({
       assigneeGroup: 'DATA_PROVIDER',
       configuration : {
+        dataProviders: [Principal.loginName()],
         instrumentsState : {
           publisherReady : false,
           dataProviderReady : true
@@ -128,6 +134,7 @@ describe('ProjectUpdateAccessService', function() {
     spyOn(CurrentProjectService, 'getCurrentProject').and.returnValue({
       assigneeGroup: 'DATA_PROVIDER',
       configuration : {
+        dataProviders: [Principal.loginName()],
         variablesState : {
           publisherReady : false,
           dataProviderReady : false
@@ -143,6 +150,7 @@ describe('ProjectUpdateAccessService', function() {
     spyOn(CurrentProjectService, 'getCurrentProject').and.returnValue({
       assigneeGroup: 'DATA_PROVIDER',
       configuration : {
+        dataProviders: [Principal.loginName()],
         variablesState : {
           publisherReady : true,
           dataProviderReady : true
@@ -158,6 +166,7 @@ describe('ProjectUpdateAccessService', function() {
     spyOn(CurrentProjectService, 'getCurrentProject').and.returnValue({
       assigneeGroup: 'DATA_PROVIDER',
       configuration : {
+        dataProviders: [Principal.loginName()],
         dataSetsState : {
           publisherReady : false,
           dataProviderReady : false
@@ -173,6 +182,7 @@ describe('ProjectUpdateAccessService', function() {
     spyOn(CurrentProjectService, 'getCurrentProject').and.returnValue({
       assigneeGroup: 'DATA_PROVIDER',
       configuration : {
+        dataProviders: [Principal.loginName()],
         dataSetsState : {
           publisherReady : true,
           dataProviderReady : false
@@ -188,6 +198,7 @@ describe('ProjectUpdateAccessService', function() {
     spyOn(CurrentProjectService, 'getCurrentProject').and.returnValue({
       assigneeGroup: 'DATA_PROVIDER',
       configuration : {
+        dataProviders: [Principal.loginName()],
         questionsState : {
           publisherReady : false,
           dataProviderReady : false
@@ -203,6 +214,7 @@ describe('ProjectUpdateAccessService', function() {
     spyOn(CurrentProjectService, 'getCurrentProject').and.returnValue({
       assigneeGroup: 'DATA_PROVIDER',
       configuration : {
+        dataProviders: [Principal.loginName()],
         questionsState : {
           publisherReady : true,
           dataProviderReady : false
@@ -213,7 +225,7 @@ describe('ProjectUpdateAccessService', function() {
 
     expect(ProjectUpdateAccessService.isUpdateAllowed(undefined, 'questions')).toBe(false);
   });
-  
+
   it('should return false if a project has been released', function() {
     spyOn(CurrentProjectService, 'getCurrentProject').and.returnValue({
       release: {}
