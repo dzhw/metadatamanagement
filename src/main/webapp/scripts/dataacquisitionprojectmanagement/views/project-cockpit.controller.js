@@ -39,12 +39,16 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
 
     var setAssignedToProject = function() {
       var name = Principal.loginName();
-      $scope.isAssignedToProject =
+      $scope.isAssignedPublisher =
         !!_.find($scope.activeUsers.publishers, function(o) {
-          return o.login === name;
-        }) || !!_.find($scope.activeUsers.dataProviders, function(o) {
-          return o.login === name;
-        });
+        return o.login === name;
+      });
+      $scope.isAssignedDataProvider =
+      !!_.find($scope.activeUsers.dataProviders, function(o) {
+        return o.login === name;
+      });
+      $scope.isAssignedToProject =
+        $scope.isAssignedPublisher || $scope.isAssignedDataProvider;
     };
 
     var requiredTypesWatch;
@@ -230,6 +234,8 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     $scope.isPublisher = Principal.hasAnyAuthority(['ROLE_PUBLISHER']);
     $scope.isDataProvider = Principal.hasAnyAuthority(['ROLE_DATA_PROVIDER']);
     $scope.isAssignedToProject = false;
+    $scope.isAssignedPublisher = false;
+    $scope.isAssignedDataProvider = false;
 
     // load all users assigned to the currrent project
     projectDeferred.promise.then(
