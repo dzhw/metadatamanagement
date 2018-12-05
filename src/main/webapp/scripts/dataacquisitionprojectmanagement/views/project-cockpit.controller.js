@@ -137,15 +137,20 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
 
       if (project.configuration.publishers) {
         project.configuration.publishers =
-          _.union(project.configuration.publishers, configuredPublishers);
+          _.filter(_.union(project.configuration.publishers,
+            configuredPublishers), function(val) {
+            return _.includes(configuredPublishers, val);
+          });
       } else {
         project.configuration.publishers = configuredPublishers;
       }
 
       if (project.configuration.dataProviders) {
         project.configuration.dataProviders =
-          _.union(project.configuration.dataProviders,
-            configuredDataProviders);
+          _.filter(_.union(project.configuration.dataProviders,
+            configuredDataProviders), function(val) {
+            return _.includes(configuredDataProviders, val);
+          });
       } else {
         project.configuration.dataProviders = configuredDataProviders;
       }
