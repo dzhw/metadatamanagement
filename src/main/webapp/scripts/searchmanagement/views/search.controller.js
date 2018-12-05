@@ -285,17 +285,11 @@ angular.module('metadatamanagementApp').controller('SearchController',
     };
 
     $scope.uploadVariables = function(files) {
-      if (!files || files.length === 0 || !$scope.currentProject) {
-        return;
-      }
       VariableUploadService.uploadVariables(files,
         $scope.currentProject.id);
     };
 
     $scope.uploadQuestions = function(files) {
-      if (!files || files.length === 0) {
-        return;
-      }
       QuestionUploadService.uploadQuestions(files,
         $scope.currentProject.id);
     };

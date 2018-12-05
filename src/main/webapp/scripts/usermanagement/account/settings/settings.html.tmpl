@@ -23,11 +23,8 @@
 
                 <div class="form-group" ng-class="{'has-error': form.firstName.$dirty && form.firstName.$invalid}">
                     <label class="control-label" for="firstName" data-translate="user-management.settings.form.firstname">First Name</label>
-                    <input type="text" class="form-control" id="firstName" name="firstName" placeholder="{{'user-management.settings.form.firstname.placeholder' | translate}}" ng-model="settingsAccount.firstName" ng-minlength=1 ng-maxlength=50 required maxlength="50">
+                    <input type="text" class="form-control" id="firstName" name="firstName" placeholder="{{'user-management.settings.form.firstname.placeholder' | translate}}" ng-model="settingsAccount.firstName" ng-minlength=1 ng-maxlength=50 maxlength="50">
                     <div ng-show="form.firstName.$dirty && form.firstName.$invalid">
-                        <p class="help-block" ng-show="form.firstName.$error.required" data-translate="user-management.settings.messages.validate.firstname.required">
-                            Your first name is required.
-                        </p>
                         <p class="help-block" ng-show="form.firstName.$error.minlength" data-translate="user-management.settings.messages.validate.firstname.minlength">
                             Your first name is required to be at least 1 character.
                         </p>
@@ -38,11 +35,8 @@
                 </div>
                 <div class="form-group" ng-class="{'has-error': form.lastName.$dirty && form.lastName.$invalid}">
                     <label class="control-label" for="lastName" data-translate="user-management.settings.form.lastname">Last Name</label>
-                    <input type="text" class="form-control" id="lastName" name="lastName" placeholder="{{'user-management.settings.form.lastname.placeholder' | translate}}" ng-model="settingsAccount.lastName" ng-minlength=1 ng-maxlength=50 required maxlength="50">
+                    <input type="text" class="form-control" id="lastName" name="lastName" placeholder="{{'user-management.settings.form.lastname.placeholder' | translate}}" ng-model="settingsAccount.lastName" ng-minlength=1 ng-maxlength=50 maxlength="50">
                     <div ng-show="form.lastName.$dirty && form.lastName.$invalid">
-                        <p class="help-block" ng-show="form.lastName.$error.required" data-translate="user-management.settings.messages.validate.lastname.required">
-                            Your last name is required.
-                        </p>
                         <p class="help-block" ng-show="form.lastName.$error.minlength" data-translate="user-management.settings.messages.validate.lastname.minlength">
                             Your last name is required to be at least 1 character.
                         </p>

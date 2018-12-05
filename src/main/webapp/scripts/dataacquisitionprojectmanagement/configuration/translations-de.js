@@ -136,7 +136,8 @@ angular.module('metadatamanagementApp').config(
             'released': 'Veröffentlicht',
             'expected': 'Erwartet',
             'ready': 'bereit',
-            'new': 'Neu'
+            'new': 'Neu',
+            'upload': 'Hochladen'
           },
           'message-dialog': {
             'title': 'Nachricht für {{recipient}} eingeben',

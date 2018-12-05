@@ -136,7 +136,8 @@ angular.module('metadatamanagementApp').config(
             'released': 'Published',
             'expected': 'expected',
             'ready': 'ready',
-            'new': 'New'
+            'new': 'New',
+            'upload': 'Upload'
           },
           'message-dialog': {
             'title': 'Write a message for {{recipient}} group',
