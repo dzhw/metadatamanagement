@@ -96,11 +96,11 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       switch (assigneeGroup) {
         case 'PUBLISHER':
           recipient = $translate.instant('data-acquisition' +
-            '-project-management.project-cockpit.label.ROLE_PUBLISHER');
+            '-project-management.project-cockpit.label.ROLE_DATA_PROVIDER');
           break;
         case 'DATA_PROVIDER':
           recipient = $translate.instant('data-acquisition' +
-            '-project-management.project-cockpit.label.ROLE_DATA_PROVIDER');
+            '-project-management.project-cockpit.label.ROLE_PUBLISHER');
           break;
         default:
           recipient = '';
@@ -110,6 +110,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         controller: 'AssigneeMessageDialogController',
         templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
           'assignee-message-dialog.html.tmpl',
+        fullscreen: true,
         locals: {
           recipient: recipient
         }
