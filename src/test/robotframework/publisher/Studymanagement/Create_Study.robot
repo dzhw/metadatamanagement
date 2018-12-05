@@ -7,8 +7,8 @@ Resource          ../../resources/search_resource.robot
 
 *** Test Cases ***
 Create Study by Publisher
-    Create RobotsProject
     Pass Execution If    '${BROWSER}' == 'ie'    Study Creation not possible in IE
+    Create RobotsProject
     Click on study tab
     Open Study Create Page
     Input Text    name=titleDe    Test Studie
