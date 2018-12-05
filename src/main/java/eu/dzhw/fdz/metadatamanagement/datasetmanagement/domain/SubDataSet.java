@@ -29,7 +29,7 @@ public class SubDataSet {
 
   /**
    * The filename of the subdataset without extension.
-   * 
+   *
    * Must not be empty and must not contain more than 32 characters.
    */
   @NotEmpty(message = "data-set-management.error.sub-data-set.name.not-empty")
@@ -39,7 +39,7 @@ public class SubDataSet {
 
   /**
    * The number of rows (observations or episodes) which are present in this subdataset.
-   * 
+   *
    * Must not be empty.
    */
   @NotNull(message = "data-set-management.error.sub-data-set.number-of-observations.not-null")
@@ -48,7 +48,7 @@ public class SubDataSet {
   /**
    * The access way of this subdataset. Describes how the user will be able to work with the data
    * set.
-   * 
+   *
    * Must not be empty and be one of {@link AccessWays} but not {@link AccessWays#NOT_ACCESSIBLE}.
    */
   @NotNull(message = "data-set-management.error.sub-data-set.access-way.not-null")
@@ -69,8 +69,9 @@ public class SubDataSet {
 
   /**
    * A hint telling how to cite this subdataset in publications.
-   * 
-   * Must not contain more than 2048 characters.
+   *
+   * It must be specified in at least one language and it must not contain more than 2048
+   * characters.
    */
   @I18nStringSize(max = StringLengths.LARGE,
       message = "data-set-management.error.sub-data-set.citation-hint.i18n-string-size")
