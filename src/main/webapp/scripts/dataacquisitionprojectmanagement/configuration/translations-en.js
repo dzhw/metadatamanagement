@@ -44,7 +44,8 @@ angular.module('metadatamanagementApp').config(
         'error': {
           'data-acquisition-project': {
             'assignee-group': {
-              'not-null': 'The project must be assigned to the publisher or data provider group.'
+              'not-null': 'The project must be assigned to the publisher or data provider group.',
+              'not-assigned': 'This project is currently assigned to another group (publisher or data provider).'
             },
             'id': {
               'not-empty': 'The name of the Data Acquisition Project must not be empty!',
@@ -57,12 +58,20 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'configuration': {
+            'data-provider': {
+              'update-not-allowed': 'At least one data provider must be assigned.'
+            },
             'publishers': {
-              'not-empty': 'The project must have at least one publisher.'
+              'not-empty': 'The project must have at least one publisher.',
+              'unauthorized': 'Publisher can only be assigned by other publishers.'
+            },
+            'requirements': {
+              'unauthorized': 'Only publishers of this project are allowed to change mandatory fields.'
             }
           },
           'last-assignee-group-message': {
-            'size': 'The message must not be longer than 2048 characters.'
+            'size': 'The message must not be longer than 2048 characters.',
+            'not-empty': 'A message must be provided on assignee group change.'
           },
           'release': {
             'version': {
