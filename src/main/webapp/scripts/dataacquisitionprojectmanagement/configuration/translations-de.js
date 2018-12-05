@@ -45,7 +45,7 @@ angular.module('metadatamanagementApp').config(
           'data-acquisition-project': {
             'assignee-group': {
               'not-null': 'Die zuständige Bearbeitergruppe (Publisher oder Datengeber) darf nicht leer sein.',
-              'not-assigned': 'Dieses Projekt ist aktuell einer anderen Gruppe (Publisher bzw. Datengeber) zugewiesen'
+              'not-assigned': 'Die Zuständigkeit für das Projekt kann nicht geändert werden, weil es Publishern zugewiesen ist.'
             },
             'id': {
               'not-empty': 'Der Name des Datenaufbereitungsprojekts darf nicht leer sein!',
@@ -140,7 +140,7 @@ angular.module('metadatamanagementApp').config(
           },
           'message-dialog': {
             'title': 'Nachricht für {{recipient}} eingeben',
-            'description': 'Geben Sie eine Nachricht ein, die nach erfolgter Zuweisung an alle {{recipient}} dieses Projekts per E-Mail verschickt wird. Nach der Zuweisung können Sie nichts am Projekt verändern, bis die {{recipient}}-Gruppe die Zuweisung ändert!',
+            'description': 'Geben Sie eine Nachricht ein, die nach erfolgter Zuweisung an alle {{recipient}} dieses Projekts per E-Mail verschickt wird.',
             'label': 'Nachricht',
             'confirm': 'Bestätigen & Zuweisen',
             'cancel': 'Abbrechen'

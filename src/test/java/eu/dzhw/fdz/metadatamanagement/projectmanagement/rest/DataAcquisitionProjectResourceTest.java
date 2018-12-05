@@ -395,10 +395,11 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
   }
 
   @Test
-  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = PUBLISHER_USERNAME)
-  public void testUpdatDataAcquisitionProject_correct_assignee() throws Exception {
+  @WithMockUser(authorities = AuthoritiesConstants.DATA_PROVIDER, username = DATA_PROVIDER_USERNAME)
+  public void testUpdatDataAcquisitionProject_valid_assignee_group() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
-    project.setAssigneeGroup(AssigneeGroup.PUBLISHER);
+    project.setAssigneeGroup(AssigneeGroup.DATA_PROVIDER);
+    project.setLastAssigneeGroupMessage("test");
 
     project = dataAcquisitionProjectRepository.save(project);
 
@@ -410,11 +411,32 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = PUBLISHER_USERNAME)
-  public void testUpdatDataAcquisitionProject_invalid_assignee() throws Exception {
+  public void testUpdatDataAcquisitionProject_override_as_publisher() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    project.getConfiguration().setPublishers(Collections.singletonList(PUBLISHER_USERNAME));
     project.setAssigneeGroup(AssigneeGroup.DATA_PROVIDER);
+    project.setLastAssigneeGroupMessage("test");
 
     project = dataAcquisitionProjectRepository.save(project);
+
+    project.setAssigneeGroup(AssigneeGroup.PUBLISHER);
+
+    mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
+        .content(TestUtil.convertObjectToJsonBytes(project))
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNoContent());
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.DATA_PROVIDER, username = DATA_PROVIDER_USERNAME)
+  public void testUpdatDataAcquisitionProject_invalid_assignee_group() throws Exception {
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    project.setAssigneeGroup(AssigneeGroup.PUBLISHER);
+    project.setLastAssigneeGroupMessage("test");
+
+    project = dataAcquisitionProjectRepository.save(project);
+
+    project.setAssigneeGroup(AssigneeGroup.DATA_PROVIDER);
 
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
         .content(TestUtil.convertObjectToJsonBytes(project))
