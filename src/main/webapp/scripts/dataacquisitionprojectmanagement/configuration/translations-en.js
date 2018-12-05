@@ -92,6 +92,10 @@ angular.module('metadatamanagementApp').config(
             'header-data-provider': 'Data Providers of this project',
             'header-publisher': 'Publishers of this project'
           },
+          'tooltip': {
+            'not-assigned': 'The project is currently assigned to the other user group.',
+            'not-in-group': 'You are not assigned to this user group.'
+          },
           'alert': {
             'title': 'Attention',
             'noproject': 'No project selected.',
