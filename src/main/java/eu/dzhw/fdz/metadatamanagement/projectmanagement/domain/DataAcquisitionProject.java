@@ -86,13 +86,15 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
    * Contains the project configuration.
    */
   @Valid
-  @NotNull(message = "data-acquisition-project-management.error.data-acquisition-project.not-null")
+  @NotNull(message = "data-acquisition-project-management.error.data-acquisition-project"
+      + ".configuration.not-null")
   private Configuration configuration = new Configuration();
 
   /**
    * Determines which assignee group is able to edit data on the project.
    */
-  @NotNull(message = "data-acquisition-project-management.error.assignee-group.not-null")
+  @NotNull(message = "data-acquisition-project-management.error.data-acquisition-project"
+      + ".assignee-group.not-null")
   private AssigneeGroup assigneeGroup;
 
 

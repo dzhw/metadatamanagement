@@ -31,13 +31,13 @@ public class ValidDataAcquisitionProjectSaveValidator
   private static final String MISSING_ASSIGNEE_GROUP_MESSAGE = "data-acquisition-project-"
       + "management.error.data-acquisition-project.last-assignee-group-message.not-empty";
   private static final String INVALID_PUBLISHER_UPDATE = "data-acquisition-project-"
-      + "management.error.data-acquisition-project.configuration.publishers.unauthorized";
+      + "management.error.configuration.publishers.unauthorized";
   private static final String INVALID_DATA_PROVIDER_UPDATE = "data-acquisition-project-"
-      + "management.error.data-acquisition-project.configuration.data-providers.update-not-allowed";
+      + "management.error.configuration.data-providers.update-not-allowed";
   private static final String INVALID_REQUIREMENTS_UPDATE = "data-acquisition-project-"
-      + "management.error.data-acquisition-project.configuration.requirements.unauthorized";
+      + "management.error.configuration.requirements.unauthorized";
   private static final String CREATE_PROJECT_NOT_ALLOWED = "data-acquisition-project-"
-      + "management.error.data-acquisition-project.create.unauthorized";
+      + "management.error.create.unauthorized";
 
   @Autowired
   private DataAcquisitionProjectRepository repository;

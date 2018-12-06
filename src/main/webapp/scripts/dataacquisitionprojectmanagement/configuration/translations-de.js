@@ -47,6 +47,12 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'Die zuständige Bearbeitergruppe (Publisher oder Datengeber) darf nicht leer sein.',
               'not-assigned': 'Die Zuständigkeit für das Projekt kann nicht geändert werden, weil es Publishern zugewiesen ist.'
             },
+            'configuration': {
+              'not-null': 'Die Projektkonfiguration darf nicht leer sein'
+            },
+            'create': {
+              'unauthorized': 'Projekte dürfen nur durch Publisher angelegt werden.'
+            },
             'id': {
               'not-empty': 'Der Name des Datenaufbereitungsprojekts darf nicht leer sein!',
               'pattern': 'Der Name eines Projektes darf nur aus Zahlen und kleinen Buchstaben (a-z) bestehen.',

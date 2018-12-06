@@ -47,6 +47,12 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'The project must be assigned to the publisher or data provider group.',
               'not-assigned': 'Project assignment cannot be changed at this time, because it is assigned to publishers.'
             },
+            'configuration': {
+              'not-null': 'Die project configuration must not be empty.'
+            },
+            'create': {
+              'unauthorized': 'Only publishers are allowed to create projects.'
+            },
             'id': {
               'not-empty': 'The name of the Data Acquisition Project must not be empty!',
               'pattern': 'The name of the project must contain only lowercase letters (a-z) and digits.',
