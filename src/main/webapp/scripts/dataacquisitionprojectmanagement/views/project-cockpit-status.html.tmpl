@@ -12,7 +12,7 @@
 				<md-tooltip ng-hide="!project" md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
 					{{project.release?'global.tooltips.unrelease-project':'global.tooltips.release-project' | translate}}
 				</md-tooltip>
-				<md-icon md-font-set="material-icons">{{ctrl.selectedProject.release?'stop_screen_share':'screen_share'}}</md-icon>
+				<md-icon md-font-set="material-icons">{{project.release?'stop_screen_share':'screen_share'}}</md-icon>
 			</md-button>
 		</span>
 	</md-card-content>
