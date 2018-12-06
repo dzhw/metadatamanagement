@@ -190,7 +190,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       var newAssigneeGroup = getNextAssigneeGroup($scope.project);
       var isPublisher = Principal.hasAuthority('ROLE_PUBLISHER');
 
-      if(newAssigneeGroup === 'PUBLISHER' && !isPublisher) {
+      if (newAssigneeGroup === 'PUBLISHER' && !isPublisher) {
         DataAcquisitionProjectPostValidationService
           .postValidate($scope.project.id)
           .then(postValidationStep.resolve, postValidationStep.reject);
