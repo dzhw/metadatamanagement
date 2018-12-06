@@ -1,4 +1,4 @@
-<md-dialog aria-label="{{'survey-management.edit.choose-previous-version.title' | translate:translationParams }}" layout="column">
+<md-dialog aria-label="{{'survey-management.edit.choose-previous-version.title' | translate:translationParams }}" layout="column" style="-ms-flex: auto;">
     <md-toolbar>
         <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
             <h2 class="fdz-truncate-string">
@@ -12,7 +12,7 @@
             </md-button>
         </div>
     </md-toolbar>
-    <md-dialog-content layout-padding flex layout="column">
+    <md-dialog-content layout-padding flex layout="column" style="-ms-flex: auto;">
         <p ng-if="surveys && surveys.length > 0" style="margin: 0px;">{{'survey-management.edit.choose-previous-version.text' | translate }}</p>
         <table md-autofocus fdz-table ng-if="surveys && surveys.length > 0" style="width: 100%;" flex>
             <thead>
