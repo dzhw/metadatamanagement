@@ -4,7 +4,7 @@
 			<project-status-label assignee-group="{{project.assigneeGroup}}"></project-status-label>
 		</p>
 		<span class="layout-row" layout-align="space-between center">
-			<md-checkbox ng-model="project.release" ng-disabled="true" md-invert class="md-primary" style="margin:0;">
+			<md-checkbox ng-model="!!project.release" ng-disabled="true" md-invert class="md-primary" style="margin:0;">
 				{{'data-acquisition-project-management.project-cockpit.config.released' | translate}}
 			</md-checkbox>
 			<span flex></span>
