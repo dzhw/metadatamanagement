@@ -212,7 +212,7 @@
             </md-card-header>
             <md-divider></md-divider>
             <md-card-content style="padding-bottom: 0px; padding-left: 0px;">
-                <div layout="row" ng-repeat="person in ctrl.study.authors track by $index">
+                <div id="move-container" layout="row" ng-repeat="person in ctrl.study.authors track by $index">
                     <md-button ng-if="ctrl.study.authors.length > 1" class="md-primary md-icon-button" ng-click="ctrl.deleteAuthor($index)" style="margin-top: 18px; margin-left: 0px; margin-right: 0px;">
                         <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                             {{'study-management.edit.delete-author-tooltip' | translate}}
