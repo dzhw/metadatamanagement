@@ -120,6 +120,8 @@ angular.module('metadatamanagementApp').config(
           'study-series': 'Study Series',
           'study-series-de': 'Study Series',
           'study-series-en': 'Study Series',
+          'institution-de': 'Institution',
+          'institution-en': 'Institution',
           'floating-label': {
             'survey': 'Which survey do you want to filter?',
             'instrument': 'Which instrument do you want to filter?',
@@ -132,6 +134,7 @@ angular.module('metadatamanagementApp').config(
             'variable': 'Which variable do you want to filter?',
             'question': 'Which question do you want to filter?',
             'study-series': 'Which study series do you want to filter?',
+            'institution': 'Which institute do you want to filter?'
           },
           'input-label': {
             'studies': 'Select filters for Study Search...',

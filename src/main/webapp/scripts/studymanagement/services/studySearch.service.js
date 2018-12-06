@@ -362,6 +362,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
               'de': bucket.key,
               'en': bucket.institutionEn.buckets[0].key
             };
+            institutionElement.count = bucket.doc_count;
             institutions.push(institutionElement);
           });
         return institutions;

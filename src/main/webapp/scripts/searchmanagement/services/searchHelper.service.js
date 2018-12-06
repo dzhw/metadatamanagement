@@ -13,7 +13,9 @@ angular.module('metadatamanagementApp').factory(
         'question': 'questions.id',
         'data-set': 'dataSets.id',
         'variable': 'variables.id',
-        'related-publication': 'relatedPublications.id'
+        'related-publication': 'relatedPublications.id',
+        'institution-de': 'institution.de',
+        'institution-en': 'institution.en'
       },
       'variables': {
         'study-series-de': 'study.studySeries.de',

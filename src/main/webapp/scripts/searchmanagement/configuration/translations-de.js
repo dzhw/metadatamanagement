@@ -120,6 +120,8 @@ angular.module('metadatamanagementApp').config(
           'study-series': 'Studienreihe',
           'study-series-de': 'Studienreihe',
           'study-series-en': 'Studienreihe',
+          'institution-de': 'Institut',
+          'institution-en': 'Institut',
           'floating-label': {
             'survey': 'Nach welcher Erhebung wollen Sie filtern?',
             'instrument': 'Nach welchem Instrument wollen Sie filtern?',
@@ -131,7 +133,8 @@ angular.module('metadatamanagementApp').config(
             'access-way': 'Nach welchem Zugangsweg wollen Sie filtern?',
             'variable': 'Nach welcher Variable wollen Sie filtern?',
             'question': 'Nach welcher Frage wollen Sie filtern?',
-            'study-series': 'Nach welcher Studienreihe wollen Sie filtern?'
+            'study-series': 'Nach welcher Studienreihe wollen Sie filtern?',
+            'institution': 'Nach welchem Institut wollen Sie filtern?'
           },
           'input-label': {
             'studies': 'Filter für die Studiensuche...',
