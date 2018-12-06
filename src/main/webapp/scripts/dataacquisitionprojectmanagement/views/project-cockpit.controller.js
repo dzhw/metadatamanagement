@@ -7,7 +7,8 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
            DataAcquisitionProjectResource, SimpleMessageToastService,
            CurrentProjectService, projectDeferred, CommonDialogsService,
            SearchDao, QuestionUploadService, VariableUploadService, $translate,
-           $mdDialog, ProjectReleaseService) {
+           $mdDialog, ProjectReleaseService,
+           DataAcquisitionProjectPostValidationService) {
 
     PageTitleService.setPageTitle(
       'data-acquisition-project-management.project-cockpit.title');
@@ -94,6 +95,17 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       );
     };
 
+    var getNextAssigneeGroup = function(project) {
+      switch (_.get(project, 'assigneeGroup')) {
+        case 'DATA_PROVIDER':
+          return 'PUBLISHER';
+        case 'PUBLISHER':
+          return 'DATA_PROVIDER';
+        default:
+          return '';
+      }
+    };
+
     var showAssigneeGroupMessageDialog = function() {
       var currentProject = CurrentProjectService.getCurrentProject();
       var assigneeGroup = _.get(currentProject, 'assigneeGroup');
@@ -174,22 +186,23 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     };
 
     $scope.onSaveChangesAndAssign = function() {
-      showAssigneeGroupMessageDialog().then(function(message) {
-        var newAssigneeGroup;
+      var postValidationStep = $q.defer();
+      var newAssigneeGroup = getNextAssigneeGroup($scope.project);
+      var isPublisher = Principal.hasAuthority('ROLE_PUBLISHER');
 
-        switch ($scope.project.assigneeGroup) {
-          case 'DATA_PROVIDER':
-            newAssigneeGroup = 'PUBLISHER';
-            break;
-          case 'PUBLISHER':
-            newAssigneeGroup = 'DATA_PROVIDER';
-            break;
-          default:
-            newAssigneeGroup = $scope.project.assigneeGroup;
-        }
+      if(newAssigneeGroup === 'PUBLISHER' && !isPublisher) {
+        DataAcquisitionProjectPostValidationService
+          .postValidate($scope.project.id)
+          .then(postValidationStep.resolve, postValidationStep.reject);
+      } else {
+        postValidationStep.resolve();
+      }
 
-        var project = prepareProjectForSave(message, newAssigneeGroup);
-        saveProject(project);
+      postValidationStep.promise.then(function() {
+        showAssigneeGroupMessageDialog().then(function(message) {
+          var project = prepareProjectForSave(message, newAssigneeGroup);
+          saveProject(project);
+        });
       });
     };
 

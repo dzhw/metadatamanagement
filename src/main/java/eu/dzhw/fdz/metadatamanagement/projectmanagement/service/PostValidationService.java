@@ -23,9 +23,9 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 
 /**
- * This service handels the post-validation of projects. It checks the foreign keys and references
+ * This service handles the post-validation of projects. It checks the foreign keys and references
  * between different domain objects. If a foreign key or reference is not valid, the service adds a
- * error message to a list. If everthing is checked, the service returns a list with all errors.
+ * error message to a list. If everything is checked, the service returns a list with all errors.
  *
  * @author Daniel Katzberg
  *
@@ -56,7 +56,7 @@ public class PostValidationService {
   private QuestionImageService questionImageService;
 
   /**
-   * This method handels the complete post validation of a project.
+   * This method handles the complete post validation of a project.
    *
    * @param dataAcquisitionProjectId The id of the data acquisition project id.
    * @return a list of all post validation errors.
