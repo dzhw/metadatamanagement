@@ -436,6 +436,8 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     scope: true,
     link: function(scope, elem, attrs) { // jshint ignore:line
       scope.group = attrs.group;
+      scope.disabled = !scope.advancedPrivileges &&
+        attrs.group === 'publishers';
     }
   };
 }).directive('projectCockpitAssignment', function($state) {

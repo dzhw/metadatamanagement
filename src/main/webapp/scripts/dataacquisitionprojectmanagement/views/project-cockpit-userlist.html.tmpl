@@ -1,7 +1,7 @@
 <md-card>
 	<md-autocomplete
 		flex
-		ng-disabled="false"
+		ng-disabled="disabled"
 		md-search-text="searchText[group]"
 		md-selected-item="selectedUser[group]"
 		md-selected-item-change="selectedUserChanged(selectedUser[group], group)"
@@ -33,7 +33,7 @@
 					<strong>{{user.login}}</strong> (<a href="mailto:{{user.email}}">{{user.email}}</a>)
 				</div>
 				<span flex></span>
-				<md-button ng-disabled="!canDeleteUser(user, group)" class="md-icon-button md-primary" ng-click="removeUser(user, group)" aria-label="remove user">
+				<md-button ng-disabled="disabled || !canDeleteUser(user, group)" class="md-icon-button md-primary" ng-click="removeUser(user, group)" aria-label="remove user">
 					<md-icon md-font-set="material-icons" class="ng-binding ng-scope material-icons" role="img" aria-hidden="true">delete_forever</md-icon>
 					<md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
 						{{'data-acquisition-project-management.project-cockpit.button.remove-user' | translate}}

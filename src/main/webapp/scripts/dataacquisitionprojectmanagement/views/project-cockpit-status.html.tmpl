@@ -4,9 +4,14 @@
 			<project-status-label assignee-group="{{project.assigneeGroup}}"></project-status-label>
 		</p>
 		<span class="layout-row" layout-align="space-between center">
-			<md-checkbox ng-model="!!project.release" ng-disabled="true" md-invert class="md-primary" style="margin:0;">
-				{{'data-acquisition-project-management.project-cockpit.config.released' | translate}}
-			</md-checkbox>
+			<div ng-if="project.release">
+				<md-icon md-font-set="material-icons" class="fdz-released">check_circle</md-icon>
+				<span>{{'global.toolbar.released' | translate}}</span>
+			</div>
+			<div ng-if="!project.release">
+				<md-icon md-font-set="material-icons" class="fdz-not-released">cancel</md-icon>
+				<span>{{'global.toolbar.not-released' | translate}}</span>
+			</div>
 			<span flex></span>
 			<md-button class="md-primary md-raised md-icon-button" style="margin-right: 0px;" ng-disabled="!project" ng-click="toggleReleaseProject()" data-has-authority="ROLE_PUBLISHER">
 				<md-tooltip ng-hide="!project" md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
