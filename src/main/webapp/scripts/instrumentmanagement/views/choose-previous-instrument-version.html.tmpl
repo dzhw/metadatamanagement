@@ -12,9 +12,9 @@
             </md-button>
         </div>
     </md-toolbar>
-    <md-dialog-content layout-padding flex layout="column">
+    <md-dialog-content layout-padding flex layout="column" style="-ms-flex: auto;">
         <p ng-if="instruments && instruments.length > 0" style="margin: 0px;">{{'instrument-management.edit.choose-previous-version.text' | translate }}</p>
-        <table md-autofocus fdz-table ng-if="instruments && instruments.length > 0" style="width: 100%;" flex>
+        <table md-autofocus fdz-table ng-if="instruments && instruments.length > 0" style="width: 100%; -ms-flex: auto;" flex>
             <thead>
                 <tr>
                     <th style="max-width: 600px;">{{'instrument-management.edit.choose-previous-version.instrument-description' | translate }}
@@ -39,7 +39,7 @@
                 </tr>
             </tbody>
         </table>
-        <div ng-if="!instruments || instruments.length === 0" flex>
+        <div ng-if="!instruments || instruments.length === 0" flex style="-ms-flex: auto;">
             <span>{{'instrument-management.edit.choose-previous-version.no-versions-found' | translate:translationParams }}</span>
         </div>
         <div ng-hide="(!instruments || instruments.length === 0) && (currentPage.number === 0)" layout="row" layout-align="space-between center" style="margin-top: 8px;">
