@@ -20,7 +20,7 @@ angular.module('metadatamanagementApp')
       }
 
       if (!isRequired && (typeState === undefined || typeState === null)) {
-        return 1;
+        return 2;
       }
 
       var isPublisherReady = typeState.publisherReady;
