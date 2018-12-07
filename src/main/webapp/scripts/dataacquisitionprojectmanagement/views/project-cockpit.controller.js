@@ -188,17 +188,9 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     $scope.onSaveChangesAndAssign = function() {
 
       if (!_.get($scope.project, 'configuration.dataProviders.length')) {
-        $mdDialog.show($mdDialog.alert()
-          .title($translate.instant('data-acquisition' +
-            '-project-management.project-cockpit.no-data-providers' +
-            '-dialog.title'))
-          .textContent($translate.instant('data-acquisition' +
-            '-project-management.project-cockpit.no-data-providers' +
-            '-dialog.text'))
-          .ariaLabel($translate.instant('data-acquisition' +
-            '-project-management.project-cockpit.no-data-providers' +
-            '-dialog.title'))
-          .ok($translate.instant('global.buttons.ok')));
+        SimpleMessageToastService.openAlertMessageToast('data-acquisition' +
+          '-project-management.project-cockpit.no-data-providers' +
+          '-dialog.text');
         return;
       }
 

@@ -1,4 +1,4 @@
-<md-card flex-gt-sm="33">
+<md-card>
 	<md-card-header>
 		<md-card-header-text>
 			<span class="md-headline layout-row">
@@ -49,8 +49,8 @@
 	</md-card-content>
 	<md-card-actions layout="row" layout-align="end center">
 		<div ng-transclude></div>
-		<a ng-if="!hasTranscludedContent" ng-click="create()"><md-button
-			ng-disabled="project.configuration[group+'State'].dataProviderReady && project.configuration[group+'State'].publisherReady"
-		>{{'data-acquisition-project-management.project-cockpit.config.new' | translate}}</md-button></a>
+		<md-button class="md-primary md-raised" ng-if="!hasTranscludedContent" ng-click="create()" ng-disabled="project.configuration[group+'State'].dataProviderReady && project.configuration[group+'State'].publisherReady">
+			{{'data-acquisition-project-management.project-cockpit.config.new' | translate}}
+		</md-button>
 	</md-card-actions>
 </md-card>

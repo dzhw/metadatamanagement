@@ -153,9 +153,7 @@ angular.module('metadatamanagementApp').config(
             'cancel': 'Cancel'
           },
           'no-data-providers-dialog': {
-            'title': 'No data providers',
-            'text': 'This project has no assigned data providers. Please assign at least one data provider in the project configuration',
-            'confirm': 'Ok'
+            'text': 'This project has no assigned data providers. Please assign at least one data provider in the project configuration'
           }
         }
       }

@@ -5,7 +5,6 @@
         <h1 class="md-headline" style="margin-left: 0px;">
             <span display-i18n-string="ctrl.instrument.description" fdz-hyphenate></span>
             <span class="label label-as-badge label-default">{{ctrl.instrument.id}}</span>
-            <project-status-label ng-if="!ctrl.projectIsCurrentlyReleased" assignee-group="{{ctrl.assigneeGroup}}"></project-status-label>
         </h1>
         <json-content-dialog ng-if="ctrl.enableJsonView" content="ctrl.instrument" header-title="ctrl.instrument.description" exclude-fields="ctrl.jsonExcludes" class="fdz-no-margin-bottom"></json-content-dialog>
     </div>

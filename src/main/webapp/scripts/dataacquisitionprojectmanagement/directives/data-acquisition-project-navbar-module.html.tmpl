@@ -17,14 +17,9 @@
             <md-icon md-font-set="material-icons">add</md-icon>
         </md-button>
     </div>
-    <div ng-if="ctrl.selectedProject && ctrl.selectedProject.release" style="margin-top: 1em;">
-        <md-icon md-font-set="material-icons" class="fdz-released">check_circle</md-icon>
-        <span>{{'global.toolbar.released' | translate}}</span>
-    </div>
-    <div ng-if="ctrl.selectedProject && !ctrl.selectedProject.release" style="margin-top: 1em;">
-        <md-icon md-font-set="material-icons" class="fdz-not-released">cancel</md-icon>
-        <span>{{'global.toolbar.not-released' | translate}}</span>
-        <project-status-label assignee-group="{{ctrl.selectedProject.assigneeGroup}}"></project-status-label>
+    <div style="margin-top: 1em;" layout="column">
+        <release-status-badge released="ctrl.selectedProject.release"></release-status-badge>
+        <project-status-badge ng-if="ctrl.selectedProject && !ctrl.selectedProject.release" assignee-group="{{ctrl.selectedProject.assigneeGroup}}"></project-status-badge>
     </div>
     <div style="margin-top: 1em;" class="layout-row">
         <md-button class="md-primary md-raised md-icon-button" ng-class="{'fdz-reset-left-margin': ctrl.hasAuthority('ROLE_PUBLISHER')}" ng-click="ctrl.deleteProject()" style="margin-right: 0px;" ng-disabled="!ctrl.selectedProject || ctrl.selectedProject.hasBeenReleasedBefore || ctrl.projectChooserDisabled"

@@ -5,7 +5,6 @@
         <h1 class="md-headline" style="margin-left: 0px;">
             <span display-i18n-string="ctrl.survey.title" fdz-hyphenate></span>
             <span class="label label-as-badge label-default">{{ctrl.survey.id}}</span>
-            <project-status-label ng-if="!ctrl.projectIsCurrentlyReleased" assignee-group="{{ctrl.assigneeGroup}}"></project-status-label>
         </h1>
         <json-content-dialog ng-if="ctrl.enableJsonView" content="ctrl.survey" header-title="ctrl.survey.title" exclude-fields="ctrl.jsonExcludes"></json-content-dialog>
     </div>

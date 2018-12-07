@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .directive('projectStatusLabel', function() {
+  .directive('projectStatusBadge', function() {
     return {
-      templateUrl: 'scripts/common/projectstatuslabel/projectStatusLabel' +
+      templateUrl: 'scripts/common/projectstatusbadge/projectStatusBadge' +
         '.directive.html.tmpl',
       scope: {
         assigneeGroup: '@'
