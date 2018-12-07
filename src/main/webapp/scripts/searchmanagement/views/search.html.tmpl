@@ -5,7 +5,7 @@
                 <md-tab-label>
                     <md-icon ng-if="tab.icon" md-svg-icon="{{tab.icon}}"></md-icon>
                     <span>{{tab.title|translate}} {{tab.count != null? '(' + tab.count + ')' : ''}}</span>
-                        <span ng-if="tab.group && hasAnyAuthority && currentProject" ng-switch="getSentimentValue(tab.group)">
+                        <span ng-if="tab.group && currentProject && !currentProject.released && hasAnyAuthority(['ROLE_PUBLISHER','ROLE_DATA_PROVIDER'])" ng-switch="getSentimentValue(tab.group)">
                             <span ng-switch-when="0">
                                 <md-icon>sentiment_very_dissatisfied</md-icon>
                             </span>

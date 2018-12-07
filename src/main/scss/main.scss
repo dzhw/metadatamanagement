@@ -1146,12 +1146,23 @@ project-cockpit-status {
     }
 }
 
+project-status-badge {
+    display: inline-block;
+}
+
 release-status-badge {
-    .fdz-released {
-        color: #FFFFFF;
-        background-color: #00CC66;
-    }
-    .fdz-unreleased {
-        background-color: #FF0000;
-    }
+    display: inline-block;
+}
+
+project-status-badge > span, release-status-badge > span {
+    font-size: 1em !important;
+}
+
+.fdz-released {
+    color: #FFFFFF;
+    background-color: #00CC66;
+}
+
+.fdz-unreleased {
+    background-color: #FF0000;
 }

@@ -18,7 +18,7 @@
         </md-button>
     </div>
     <div style="margin-top: 1em;" layout="column">
-        <release-status-badge released="ctrl.selectedProject.release"></release-status-badge>
+        <release-status-badge ng-if="ctrl.selectedProject !== undefined && ctrl.selectedProject !== null" released="ctrl.selectedProject.release"></release-status-badge>
         <project-status-badge ng-if="ctrl.selectedProject && !ctrl.selectedProject.release" assignee-group="{{ctrl.selectedProject.assigneeGroup}}"></project-status-badge>
     </div>
     <div style="margin-top: 1em;" class="layout-row">

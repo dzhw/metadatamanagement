@@ -68,7 +68,10 @@ angular.module('metadatamanagementApp')
             Principal.identity().then(function(identity) {
               project.hasBeenReleasedBefore = false;
               project.configuration = {
-                publishers: [identity.login]
+                publishers: [identity.login],
+                requirements: {
+                  studiesRequired: true
+                }
               };
               project.assigneeGroup = 'PUBLISHER';
               DataAcquisitionProjectResource.save(project,

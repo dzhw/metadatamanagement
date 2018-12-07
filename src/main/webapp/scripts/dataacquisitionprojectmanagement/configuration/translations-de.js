@@ -125,11 +125,11 @@ angular.module('metadatamanagementApp').config(
           },
           'tabs': {
             'status': 'Status',
-            'config': 'Config'
+            'config': 'Einstellungen'
           },
           'requirements': {
             'header': 'Erwartete Metadaten',
-            'studies': 'Studien (immer obligatorisch)',
+            'studies': 'Studie',
             'surveys': 'Erhebungen',
             'instruments': 'Instrumente',
             'questions': 'Fragen',
@@ -141,7 +141,7 @@ angular.module('metadatamanagementApp').config(
             'assigned-group': 'Zugewiesene Benutzergruppe',
             'released': 'Veröffentlicht',
             'expected': 'Erwartet',
-            'ready': 'bereit',
+            'ready': 'fertig',
             'new': 'Neu',
             'upload': 'Hochladen'
           },
@@ -153,7 +153,7 @@ angular.module('metadatamanagementApp').config(
             'cancel': 'Abbrechen'
           },
           'no-data-providers-dialog': {
-            'text': 'Es gibt keine eingetragenen Datengeber für dieses Projekt. Wechseln Sie zur Projektkonfiguration und tragen Sie mindestens einen Datengeber ein'
+            'text': 'Es gibt keine eingetragenen Datengeber für dieses Projekt. Wechseln Sie zu den Projekteinstellungen und tragen Sie mindestens einen Datengeber ein.'
           }
         }
       }

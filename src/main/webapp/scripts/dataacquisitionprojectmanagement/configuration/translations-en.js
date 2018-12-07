@@ -125,11 +125,11 @@ angular.module('metadatamanagementApp').config(
           },
           'tabs': {
             'status': 'Status',
-            'config': 'Config'
+            'config': 'Configuration'
           },
           'requirements': {
             'header': 'Expected Metadata',
-            'studies': 'Studies (always mandatory)',
+            'studies': 'Study',
             'surveys': 'Surveys',
             'instruments': 'Instruments',
             'questions': 'Questions',
@@ -153,7 +153,7 @@ angular.module('metadatamanagementApp').config(
             'cancel': 'Cancel'
           },
           'no-data-providers-dialog': {
-            'text': 'This project has no assigned data providers. Please assign at least one data provider in the project configuration'
+            'text': 'This project has no assigned data providers. Please assign at least one data provider in the project configuration.'
           }
         }
       }

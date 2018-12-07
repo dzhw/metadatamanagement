@@ -1,27 +1,16 @@
 <md-card>
 	<md-card-header>
-		<md-card-header-text>
-			<span class="md-headline layout-row">
-				<span>
-					<a ui-sref="search({type: searchState})">
-						<md-icon ng-if="icon" md-svg-icon="{{icon}}"></md-icon>
-						{{'data-acquisition-project-management.project-cockpit.requirements.'+group | translate}}
-						<span ng-if="count !== null">({{count}})</span>
-					</a>
-				</span>
-				<span flex></span>
-				<span ng-switch="getSentimentValue(group)">
-					<span ng-switch-when="0">
-						<md-icon>sentiment_very_dissatisfied</md-icon>
-					</span>
-					<span ng-switch-when="1">
-						<md-icon>sentiment_satisfied</md-icon>
-					</span>
-					<span ng-switch-when="2">
-						<md-icon>sentiment_very_satisfied</md-icon>
-					</span>
-				</span>
-			</span>
+		<md-card-header-text layout="row" layout-align="space-between center">
+			<a ui-sref="search({type: searchState})" class="md-headline" layout="row" layout-align="start center">
+				<md-icon ng-if="icon" md-svg-icon="{{icon}}" class="md-primary"></md-icon>&nbsp;
+				{{'data-acquisition-project-management.project-cockpit.requirements.'+group | translate}}
+				<span ng-if="count !== null">({{count}})</span>
+			</a>
+			<div ng-switch="getSentimentValue(group)">
+				<md-icon ng-switch-when="0">sentiment_very_dissatisfied</md-icon>
+				<md-icon ng-switch-when="1">sentiment_satisfied</md-icon>
+				<md-icon ng-switch-when="2">sentiment_very_satisfied</md-icon>
+			</div>
 		</md-card-header-text>
 	</md-card-header>
 	<md-divider></md-divider>
@@ -49,8 +38,9 @@
 	</md-card-content>
 	<md-card-actions layout="row" layout-align="end center">
 		<div ng-transclude></div>
-		<md-button class="md-primary md-raised" ng-if="!hasTranscludedContent" ng-click="create()" ng-disabled="project.configuration[group+'State'].dataProviderReady && project.configuration[group+'State'].publisherReady">
-			{{'data-acquisition-project-management.project-cockpit.config.new' | translate}}
+		<md-button class="md-primary md-raised" ng-if="!hasTranscludedContent" ng-click="create()" ng-disabled="project.configuration[group+'State'].dataProviderReady && project.configuration[group+'State'].publisherReady" layout="row" layout-align="center center">
+			<span>{{'data-acquisition-project-management.project-cockpit.config.new' | translate}}</span>
+			<md-icon class="fdz-no-margin">add</md-icon>
 		</md-button>
 	</md-card-actions>
 </md-card>
