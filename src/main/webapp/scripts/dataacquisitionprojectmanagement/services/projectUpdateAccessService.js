@@ -59,11 +59,25 @@ angular.module('metadatamanagementApp').service(
       return !isTypeReady;
     };
 
+    var isAssignedToProject = function(project) {
+      var userLogin = Principal.loginName();
+      if (Principal.hasAuthority('ROLE_PUBLISHER')) {
+        return project.configuration.publishers.indexOf(userLogin) !== -1;
+      }
+
+      if (Principal.hasAuthority('ROLE_DATA_PROVIDER')) {
+        return project.configuration.dataProviders.indexOf(userLogin) !== -1;
+      }
+
+      return false;
+    };
+
     var isUpdateAllowed = function(project, type) {
       var test = project || CurrentProjectService.getCurrentProject();
 
       return isProjectSelected(test) && isTypeUpdateAllowed(test, type) &&
-        isProjectUnreleased(test) && isMemberOfAssignedGroup(test);
+        isProjectUnreleased(test) && isMemberOfAssignedGroup(test) &&
+        isAssignedToProject(test);
     };
 
     return {

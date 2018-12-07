@@ -5,18 +5,15 @@
                 <md-tab-label>
                     <md-icon ng-if="tab.icon" md-svg-icon="{{tab.icon}}"></md-icon>
                     <span>{{tab.title|translate}} {{tab.count != null? '(' + tab.count + ')' : ''}}</span>
-                        <span ng-if="tab.group && hasAnyAuthority && currentProject" ng-switch="
-                            !currentProject.configuration.requirements[tab.group+'Required'] ? 2 :
-                            !!currentProject.configuration[tab.group+'State'].dataProviderReady + !!currentProject.configuration[tab.group+'State'].publisherReady
-                        ">
+                        <span ng-if="tab.group && hasAnyAuthority && currentProject" ng-switch="getSentimentValue(tab.group)">
                             <span ng-switch-when="0">
                                 <md-icon>sentiment_very_dissatisfied</md-icon>
                             </span>
+                            <span ng-switch-when="1">
+                                <md-icon>sentiment_satisfied</md-icon>
+                            </span>
                             <span ng-switch-when="2">
                                 <md-icon>sentiment_very_satisfied</md-icon>
-                            </span>
-                            <span ng-switch-default>
-                                <md-icon>sentiment_satisfied</md-icon>
                             </span>
                         </span>
                     <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.msie || bowser.msedge || bowser.mobile || bowser.tablet ? -100 : 100">{{tab.title+'-tooltip'|translate}}</md-tooltip>

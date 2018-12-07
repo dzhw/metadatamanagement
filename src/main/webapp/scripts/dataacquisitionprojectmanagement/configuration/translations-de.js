@@ -151,6 +151,10 @@ angular.module('metadatamanagementApp').config(
             'label': 'Nachricht',
             'confirm': 'Bestätigen & Zuweisen',
             'cancel': 'Abbrechen'
+          },
+          'no-data-providers-dialog': {
+            'title': 'Keine Datengeber vorhanden',
+            'text': 'Es gibt keine eingetragenen Datengeber für dieses Projekt. Wechseln Sie zur Projektkonfiguration und tragen Sie mindestens einen Datengeber ein'
           }
         }
       }

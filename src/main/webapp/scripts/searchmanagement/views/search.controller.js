@@ -6,11 +6,12 @@
 a result of a type like variable or dataSet and so on. */
 angular.module('metadatamanagementApp').controller('SearchController',
   function($scope, Principal, $location, $state,
-    SearchDao, VariableUploadService, ProjectUpdateAccessService,
-    QuestionUploadService, RelatedPublicationUploadService,
-    CleanJSObjectService, CurrentProjectService, $timeout, PageTitleService,
-    ToolbarHeaderService, SearchHelperService, SearchResultNavigatorService,
-    StudyResource, StudyIdBuilderService, $rootScope) {
+           SearchDao, VariableUploadService, ProjectUpdateAccessService,
+           QuestionUploadService, RelatedPublicationUploadService,
+           CleanJSObjectService, CurrentProjectService, $timeout,
+           PageTitleService, ToolbarHeaderService, SearchHelperService,
+           SearchResultNavigatorService, StudyResource, StudyIdBuilderService,
+           $rootScope, ProjectStatusScoringService) {
 
     var queryChangedOnInit = false;
     var tabChangedOnInitFlag = false;
@@ -130,9 +131,9 @@ angular.module('metadatamanagementApp').controller('SearchController',
         $scope.tabs[$scope.searchParams.selectedTabIndex].elasticSearchType,
         $scope.pageObject);
       SearchDao.search($scope.searchParams.query, $scope.pageObject.page,
-          projectId, $scope.searchParams.filter,
-          $scope.tabs[$scope.searchParams.selectedTabIndex].elasticSearchType,
-          $scope.pageObject.size, $scope.searchParams.sortBy)
+        projectId, $scope.searchParams.filter,
+        $scope.tabs[$scope.searchParams.selectedTabIndex].elasticSearchType,
+        $scope.pageObject.size, $scope.searchParams.sortBy)
         .then(function(data) {
           $scope.searchResult = data.hits.hits;
           $scope.pageObject.totalHits = data.hits.total;
@@ -158,7 +159,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
           });
           if ($scope.currentProject) {
             var dataType = $scope.tabs[
-            $scope.searchParams.selectedTabIndex].elasticSearchType;
+              $scope.searchParams.selectedTabIndex].elasticSearchType;
             $scope.isUpdateAllowed = ProjectUpdateAccessService
               .isUpdateAllowed($scope.currentProject, dataType);
           }
@@ -182,7 +183,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
         'stateName': $state.current.name,
         'tabName': $scope.tabs[$scope.searchParams.selectedTabIndex].title,
         'searchUrl': $location.absUrl(),
-        'searchParams': $location.search()});
+        'searchParams': $location.search()
+      });
       if (newValue !== oldValue && !locationChanged) {
         readSearchParamsFromLocation();
         // type changes are already handled by $scope.onSelectedTabChanged
@@ -200,7 +202,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
         //wait for other events (logout, selectedTabIndex)
         $timeout(function() {
           var dataType = $scope.tabs[
-                $scope.searchParams.selectedTabIndex].elasticSearchType;
+            $scope.searchParams.selectedTabIndex].elasticSearchType;
           if (currentProject) {
             $scope.currentProject = currentProject;
             $scope.isUpdateAllowed = ProjectUpdateAccessService
@@ -227,8 +229,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       });
       var indexToSelect = _.findIndex($scope.tabs,
         function(tab) {
-        return tab.elasticSearchType === currentType;
-      });
+          return tab.elasticSearchType === currentType;
+        });
       if (indexToSelect < 0) {
         $scope.searchParams.selectedTabIndex = 0;
       } else {
@@ -237,12 +239,12 @@ angular.module('metadatamanagementApp').controller('SearchController',
     });
 
     $scope.onPageChanged = function() {
-        writeSearchParamsToLocation();
-        $scope.search();
-      };
+      writeSearchParamsToLocation();
+      $scope.search();
+    };
 
     $scope.$watch('searchParams.query', function() {
-      if (queryChangedOnInit)  {
+      if (queryChangedOnInit) {
         queryChangedOnInit = false;
         return;
       }
@@ -423,22 +425,24 @@ angular.module('metadatamanagementApp').controller('SearchController',
     };
 
     $scope.loadStudyForProject = function() {
-          if ($scope.currentProject && !$scope.currentProject.release &&
-            $scope.tabs[$scope.searchParams.selectedTabIndex]
-            .elasticSearchType === 'studies') {
-            $rootScope.$broadcast('start-ignoring-404');
-            StudyResource.get({id: StudyIdBuilderService.buildStudyId(
-              $scope.currentProject.id)}).$promise.then(function(study) {
-                $scope.currentStudy = study;
-              }).catch(function() {
-                $scope.currentStudy = undefined;
-              }).finally(function() {
-                $rootScope.$broadcast('stop-ignoring-404');
-              });
-          } else {
-            $scope.currentStudy = undefined;
-          }
-        };
+      if ($scope.currentProject && !$scope.currentProject.release &&
+        $scope.tabs[$scope.searchParams.selectedTabIndex]
+          .elasticSearchType === 'studies') {
+        $rootScope.$broadcast('start-ignoring-404');
+        StudyResource.get({
+          id: StudyIdBuilderService.buildStudyId(
+            $scope.currentProject.id)
+        }).$promise.then(function(study) {
+          $scope.currentStudy = study;
+        }).catch(function() {
+          $scope.currentStudy = undefined;
+        }).finally(function() {
+          $rootScope.$broadcast('stop-ignoring-404');
+        });
+      } else {
+        $scope.currentStudy = undefined;
+      }
+    };
 
     $scope.setDropZoneDisabled = function() {
       if (!$scope.tabs[$scope.searchParams.selectedTabIndex].uploadFunction) {
@@ -460,6 +464,11 @@ angular.module('metadatamanagementApp').controller('SearchController',
         }
       }
       $scope.isDropZoneDisabled = false;
+    };
+
+    $scope.getSentimentValue = function(tab) {
+      return ProjectStatusScoringService
+        .scoreProjectStatus($scope.currentProject, tab);
     };
     init();
   });

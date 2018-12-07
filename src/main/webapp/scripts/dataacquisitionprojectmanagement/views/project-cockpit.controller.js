@@ -43,12 +43,12 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       var name = Principal.loginName();
       $scope.isAssignedPublisher =
         !!_.find($scope.activeUsers.publishers, function(o) {
-        return o.login === name;
-      });
+          return o.login === name;
+        });
       $scope.isAssignedDataProvider =
-      !!_.find($scope.activeUsers.dataProviders, function(o) {
-        return o.login === name;
-      });
+        !!_.find($scope.activeUsers.dataProviders, function(o) {
+          return o.login === name;
+        });
       $scope.isAssignedToProject =
         $scope.isAssignedPublisher || $scope.isAssignedDataProvider;
     };
@@ -186,6 +186,22 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     };
 
     $scope.onSaveChangesAndAssign = function() {
+
+      if (!_.get($scope.project, 'configuration.dataProviders.length')) {
+        $mdDialog.show($mdDialog.alert()
+          .title($translate.instant('data-acquisition' +
+            '-project-management.project-cockpit.no-data-providers' +
+            '-dialog.title'))
+          .textContent($translate.instant('data-acquisition' +
+            '-project-management.project-cockpit.no-data-providers' +
+            '-dialog.text'))
+          .ariaLabel($translate.instant('data-acquisition' +
+            '-project-management.project-cockpit.no-data-providers' +
+            '-dialog.title'))
+          .ok($translate.instant('global.buttons.ok')));
+        return;
+      }
+
       var postValidationStep = $q.defer();
       var newAssigneeGroup = getNextAssigneeGroup($scope.project);
       var isPublisher = Principal.hasAuthority('ROLE_PUBLISHER');
@@ -440,62 +456,68 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         attrs.group === 'publishers';
     }
   };
-}).directive('projectCockpitAssignment', function($state) {
-  return {
-    restrict: 'E',
-    templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
-      'project-cockpit-assignment.html.tmpl',
-    scope: true,
-    replace: true,
-    transclude: true,
-    /* jshint -W098 */
-    link: function(scope, elem, attrs, ctrl, $transclude) {
-      var elasticSearchType = {
-        studies: 'studies',
-        surveys: 'surveys',
-        instruments: 'instruments',
-        questions: 'questions',
-        dataSets: 'data_sets',
-        variables: 'variables'
-      };
-      scope.group = attrs.group;
-      scope.icon = attrs.icon;
-      scope.create = function() {
-        $state.go(attrs.createstate, {});
-      };
-      scope.count = null;
-      scope.$watch(function() {
-        return scope.project &&
-        scope.project.configuration[attrs.group + 'State'] ?
-          scope.project.configuration[attrs.group + 'State']
-            .dataProviderReady : null;
-      }, function(newVal, oldVal) {
-        if (newVal !== oldVal) {
-          scope.setChanged(true);
-        }
-      });
-      scope.$watch(function() {
-        return scope.project &&
-        scope.project.configuration[attrs.group + 'State'] ?
-          scope.project.configuration[attrs.group + 'State']
-            .publisherReady : null;
-      }, function(newVal, oldVal) {
-        if (newVal !== oldVal) {
-          scope.setChanged(true);
-        }
-      });
-      $transclude(function(transclusion) {
-        scope.hasTranscludedContent = transclusion.length > 0;
-      });
+}).directive('projectCockpitAssignment',
+  function($state, ProjectStatusScoringService) {
+    return {
+      restrict: 'E',
+      templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
+        'project-cockpit-assignment.html.tmpl',
+      scope: true,
+      replace: true,
+      transclude: true,
+      /* jshint -W098 */
+      link: function(scope, elem, attrs, ctrl, $transclude) {
+        var elasticSearchType = {
+          studies: 'studies',
+          surveys: 'surveys',
+          instruments: 'instruments',
+          questions: 'questions',
+          dataSets: 'data_sets',
+          variables: 'variables'
+        };
+        scope.group = attrs.group;
+        scope.searchState = attrs.searchstate;
+        scope.icon = attrs.icon;
+        scope.create = function() {
+          $state.go(attrs.createstate, {});
+        };
+        scope.count = null;
+        scope.$watch(function() {
+          return scope.project &&
+          scope.project.configuration[attrs.group + 'State'] ?
+            scope.project.configuration[attrs.group + 'State']
+              .dataProviderReady : null;
+        }, function(newVal, oldVal) {
+          if (newVal !== oldVal) {
+            scope.setChanged(true);
+          }
+        });
+        scope.$watch(function() {
+          return scope.project &&
+          scope.project.configuration[attrs.group + 'State'] ?
+            scope.project.configuration[attrs.group + 'State']
+              .publisherReady : null;
+        }, function(newVal, oldVal) {
+          if (newVal !== oldVal) {
+            scope.setChanged(true);
+          }
+        });
+        $transclude(function(transclusion) {
+          scope.hasTranscludedContent = transclusion.length > 0;
+        });
 
-      scope.searchProjectData(
-        elasticSearchType[attrs.group]
-      ).then(function(data) {
-        scope.count = data.hits.total;
-      }).catch(function() {
-        scope.count = 0;
-      });
+        scope.searchProjectData(
+          elasticSearchType[attrs.group]
+        ).then(function(data) {
+          scope.count = data.hits.total;
+        }).catch(function() {
+          scope.count = 0;
+        });
 
-    }
-  };
-});
+        scope.getSentimentValue = function(tab) {
+          return ProjectStatusScoringService
+            .scoreProjectStatus(scope.project, tab);
+        };
+      }
+    };
+  });

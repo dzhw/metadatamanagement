@@ -151,6 +151,11 @@ angular.module('metadatamanagementApp').config(
             'label': 'Message',
             'confirm': 'Confirm & Assign',
             'cancel': 'Cancel'
+          },
+          'no-data-providers-dialog': {
+            'title': 'No data providers',
+            'text': 'This project has no assigned data providers. Please assign at least one data provider in the project configuration',
+            'confirm': 'Ok'
           }
         }
       }
