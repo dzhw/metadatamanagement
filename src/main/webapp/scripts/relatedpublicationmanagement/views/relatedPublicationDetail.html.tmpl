@@ -6,6 +6,7 @@
           <span lang="{{ctrl.relatedPublication.language}}" fdz-hyphenate>{{ctrl.relatedPublication.title}}</span>
           <span class="label label-as-badge label-default">{{ctrl.relatedPublication.id}}</span>
         </h1>
+        <json-content-dialog ng-if="ctrl.enableJsonView" exclude-fields="ctrl.jsonExcludes" content="ctrl.relatedPublication" header-title="ctrl.relatedPublication.title" class="fdz-no-margin-bottom"></json-content-dialog>
     </div>
     <div layout="column" layout-gt-sm="row">
         <div flex-gt-sm="50" layout="column">

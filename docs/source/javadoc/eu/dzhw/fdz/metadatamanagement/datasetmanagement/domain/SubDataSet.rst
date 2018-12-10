@@ -52,7 +52,7 @@ citationHint
 .. java:field:: @I18nStringSize @I18nStringNotEmpty private I18nString citationHint
    :outertype: SubDataSet
 
-   A hint telling how to cite this subdataset in publications. Must not contain more than 2048 characters.
+   A hint telling how to cite this subdataset in publications. It must be specified in at least one language and it must not contain more than 2048 characters.
 
 description
 ^^^^^^^^^^^
