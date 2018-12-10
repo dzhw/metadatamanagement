@@ -1,4 +1,4 @@
-/* global _ */
+/* global _, $, document */
 'use strict';
 
 angular.module('metadatamanagementApp')
@@ -155,13 +155,26 @@ angular.module('metadatamanagementApp')
         ctrl.currentAuthorIndex = index;
       };
 
+      var timeoutActive = null;
       ctrl.deleteCurrentAuthor = function(event) {
-        if (event.relatedTarget && (
-            event.relatedTarget.id === 'move-author-up-button' ||
-            event.relatedTarget.id === 'move-author-down-button')) {
-          return;
+        if (timeoutActive) {
+          $timeout.cancel(timeoutActive);
         }
-        delete ctrl.currentAuthorIndex;
+        timeoutActive = $timeout(function(){
+          timeoutActive = false;
+          // msie workaround: inputs unfocus on button mousedown
+          if (document.activeElement &&
+            $(document.activeElement).parents('#move-container').length) {
+            return;
+          }
+          if (event.relatedTarget && (
+              event.relatedTarget.id === 'move-author-up-button' ||
+              event.relatedTarget.id === 'move-author-down-button')) {
+            return;
+          }
+          delete ctrl.currentAuthorIndex;
+          timeoutActive = null;
+        }, 500);
       };
 
       ctrl.moveCurrentAuthorUp = function() {
