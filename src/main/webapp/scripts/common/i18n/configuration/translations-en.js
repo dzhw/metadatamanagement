@@ -98,7 +98,8 @@ angular.module('metadatamanagementApp').config(
             'github': 'Click to give feedback or report a Bug by Github',
             'email': 'Click to give feedback or report a Bug by an E-Mail.'
           },
-          'navbar-feedback': 'Click to give feedback or report a Bug'
+          'navbar-feedback': 'Click to give feedback or report a Bug',
+          'navbar-documentation': 'Click to show the user documentation'
         },
         'welcome-dialog': {
           'toolbar-head': 'Give Feedback or report Bugs',
@@ -146,7 +147,8 @@ angular.module('metadatamanagementApp').config(
           'language': 'Language',
           'data-access': 'Data Access',
           'disclosure': 'Disclosure',
-          'notepad': 'Notepad'
+          'notepad': 'Notepad',
+          'documentation': 'Documentation'
         },
         'form': {
           'username': 'Username',
@@ -347,9 +349,6 @@ angular.module('metadatamanagementApp').config(
             'title': 'Delete Data Set "{{ id }}"?',
             'content': 'Do you really want to delete Data Set "{{ id }}"?'
           }
-        },
-        'edit': {
-          'internet-explorer-not-supported': 'Editing with the Internet Explorer is not supported. Please use Chrome, Firefox or Edge.'
         }
       }
       //jscs:enable

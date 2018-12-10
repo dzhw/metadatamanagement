@@ -26,7 +26,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.Unique
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.ValidDataSetIdName;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.ValidDataSetType;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.ValidFormat;
-import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Study;
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderedStudy;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.AccessWays;
@@ -137,7 +137,7 @@ public class DataSet extends AbstractRdcDomainObject {
   private List<Integer> surveyNumbers;
 
   /**
-   * The id of the {@link Study} to which this dataset belongs.
+   * The id of the {@link OrderedStudy} to which this dataset belongs.
    * 
    * Must not be empty.
    */

@@ -12,9 +12,9 @@
             </md-button>
         </div>
     </md-toolbar>
-    <md-dialog-content layout-padding flex layout="column">
+    <md-dialog-content layout-padding flex layout="column" style="-ms-flex: auto;">
         <p ng-if="studyAttachments && studyAttachments.length > 0" style="margin: 0px;">{{'study-management.detail.attachments.choose-previous-version.text' | translate:translationParams }}</p>
-        <table md-autofocus fdz-table ng-if="studyAttachments && studyAttachments.length > 0" style="width: 100%;" flex>
+        <table md-autofocus fdz-table ng-if="studyAttachments && studyAttachments.length > 0" style="width: 100%; -ms-flex: auto;" flex>
             <thead>
                 <tr>
                     <th style="max-width: 600px;">{{'study-management.detail.attachments.choose-previous-version.attachment-description' | translate }}
@@ -39,7 +39,7 @@
                 </tr>
             </tbody>
         </table>
-        <div ng-if="!studyAttachments || studyAttachments.length === 0" flex>
+        <div ng-if="!studyAttachments || studyAttachments.length === 0" flex style="-ms-flex: auto;">
             <span>{{'study-management.detail.attachments.choose-previous-version.no-versions-found' | translate:translationParams }}</span>
         </div>
         <div ng-hide="(!studyAttachments || studyAttachments.length === 0) && (currentPage.number === 0)" layout="row" layout-align="space-between center" style="margin-top: 8px;">

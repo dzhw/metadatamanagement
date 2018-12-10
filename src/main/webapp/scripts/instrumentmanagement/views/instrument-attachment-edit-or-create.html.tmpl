@@ -24,7 +24,7 @@
                 <md-divider></md-divider>
                 <md-card-content>
                     <div layout="column">
-                        <md-input-container style="padding: 0px;" md-is-error="!instrumentAttachmentForm.filename.$valid && (instrumentAttachmentForm.filename.$dirty || instrumentAttachmentForm.filename.$touched)">
+                        <md-input-container style="padding: 0px; -ms-flex:auto;" md-is-error="!instrumentAttachmentForm.filename.$valid && (instrumentAttachmentForm.filename.$dirty || instrumentAttachmentForm.filename.$touched)">
                             <label>{{'instrument-management.detail.label.attachments.file' | translate }}</label>
                             <input disabled ng-pattern="/^[_A-Za-z0-9äöüÄÖÜß\-.]*$/" required ng-model="ctrl.instrumentAttachmentMetadata.fileName" name="filename" style="cursor: pointer; border-bottom: 1px rgba(0,0,0,0.12) solid; background-image: none;">
                             <div ng-if="!instrumentAttachmentForm.filename.$dirty && !instrumentAttachmentForm.filename.$touched" class="fdz-input-hint">{{'instrument-management.detail.attachments.hints.filename' | translate}}</div>
@@ -55,7 +55,7 @@
                 <md-divider></md-divider>
                 <md-card-content>
                     <div layout-gt-sm="row" layout="column">
-                        <md-input-container flex="50" style="margin-bottom: 42px;" md-is-error="!instrumentAttachmentForm.type.$valid && (instrumentAttachmentForm.type.$dirty || instrumentAttachmentForm.type.$touched)">
+                        <md-input-container flex="50" style="margin-bottom: 42px; -ms-flex:auto;" md-is-error="!instrumentAttachmentForm.type.$valid && (instrumentAttachmentForm.type.$dirty || instrumentAttachmentForm.type.$touched)">
                             <label>{{'instrument-management.detail.label.attachments.type' | translate}}</label>
                             <md-select required ng-model="ctrl.instrumentAttachmentMetadata.type" ng-model-options="{trackBy: '$value.de'}" name="type">
                                 <md-option ng-value="type" ng-repeat="type in ctrl.instrumentAttachmentTypes">{{type[currentLanguage]}}</md-option>
@@ -65,10 +65,10 @@
                                 <div ng-message="required">{{'instrument-management.error.instrument-attachment-metadata.type.not-null' | translate}}</div>
                             </div>
                         </md-input-container>
-                        <div flex="50"></div>
+                        <div flex="50" style="-ms-flex:auto;"></div>
                     </div>
                     <div layout-gt-sm="row" layout="column">
-                        <md-autocomplete required flex="50" md-input-name="language2" md-floating-label="{{'instrument-management.detail.label.attachments.language' | translate}}" md-require-match="true" md-select-on-match="true"
+                        <md-autocomplete required flex="50" style="-ms-flex:auto;" md-input-name="language2" md-floating-label="{{'instrument-management.detail.label.attachments.language' | translate}}" md-require-match="true" md-select-on-match="true"
                           md-match-case-insensitive="true" md-selected-item="ctrl.selectedLanguage" md-min-length="0" md-search-text="ctrl.languageSearchText" md-items="item in ctrl.searchLanguages(ctrl.languageSearchText)" md-item-text="item.displayLanguage[currentLanguage]"
                           md-clear-button="true" md-no-cache="true" md-selected-item-change="ctrl.selectedLanguageChanged()" md-is-error="!instrumentAttachmentForm.language2.$valid && (instrumentAttachmentForm.language2.$dirty || instrumentAttachmentForm.language2.$touched)">
                             <md-item-template>
@@ -86,7 +86,7 @@
                         <div flex="50"></div>
                     </div>
                     <div layout-gt-sm="row" layout="column">
-                        <md-input-container flex="50" style="margin-right: 8px;" md-is-error="!instrumentAttachmentForm.descriptionDe.$valid && (instrumentAttachmentForm.descriptionDe.$dirty || instrumentAttachmentForm.descriptionDe.$touched)">
+                        <md-input-container flex="50" style="margin-right: 8px; -ms-flex:auto;" md-is-error="!instrumentAttachmentForm.descriptionDe.$valid && (instrumentAttachmentForm.descriptionDe.$dirty || instrumentAttachmentForm.descriptionDe.$touched)">
                             <label class="fdz-input-required">{{'instrument-management.detail.label.attachments.description' | translate}} ({{'global.in-german' | translate}})</label>
                             <input fdz-required="!ctrl.instrumentAttachmentMetadata.description.en" md-maxlength="512" ng-model="ctrl.instrumentAttachmentMetadata.description.de" name="descriptionDe" lang="de" md-no-asterisk>
                             <div ng-if="!instrumentAttachmentForm.descriptionDe.$dirty && !instrumentAttachmentForm.descriptionDe.$touched" class="fdz-input-hint">{{'instrument-management.detail.attachments.hints.description.de' | translate}}</div>
@@ -95,7 +95,7 @@
                                 <div ng-message="md-maxlength">{{'instrument-management.error.instrument-attachment-metadata.description.i18n-string-size' | translate}}</div>
                             </div>
                         </md-input-container>
-                        <md-input-container flex="50" style="margin-right: 8px;" md-is-error="!instrumentAttachmentForm.descriptionEn.$valid && (instrumentAttachmentForm.descriptionEn.$dirty || instrumentAttachmentForm.descriptionEn.$touched)">
+                        <md-input-container flex="50" style="margin-right: 8px; -ms-flex:auto;" md-is-error="!instrumentAttachmentForm.descriptionEn.$valid && (instrumentAttachmentForm.descriptionEn.$dirty || instrumentAttachmentForm.descriptionEn.$touched)">
                             <label class="fdz-input-required">{{'instrument-management.detail.label.attachments.description' | translate}} ({{'global.in-english' | translate}})</label>
                             <input fdz-required="!ctrl.instrumentAttachmentMetadata.description.de" md-maxlength="512" ng-model="ctrl.instrumentAttachmentMetadata.description.en" name="descriptionEn" lang="en" md-no-asterisk>
                             <div ng-if="!instrumentAttachmentForm.descriptionEn.$dirty && !instrumentAttachmentForm.descriptionEn.$touched" class="fdz-input-hint">{{'instrument-management.detail.attachments.hints.description.en' | translate}}</div>

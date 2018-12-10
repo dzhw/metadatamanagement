@@ -29,6 +29,8 @@ spring:
 metadatamanagement:
   ordermanagement:
     email: birkelbach@dzhw.eu
+  projectmanagement:
+    email: birkelbach@dzhw.eu
   server:
     instance-index: ${cf.instance.index}
     context-root: https://metadatamanagement-test.cfapps.io

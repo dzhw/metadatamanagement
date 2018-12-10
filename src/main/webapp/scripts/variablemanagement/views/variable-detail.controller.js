@@ -20,6 +20,16 @@ angular.module('metadatamanagementApp')
     $scope.nextVariables = [];
     $scope.previousVariables = [];
     $scope.validResponsesOrMissingsAvailable = false;
+    $scope.enableJsonView = Principal
+      .hasAnyAuthority(['ROLE_PUBLISHER','ROLE_ADMIN']);
+    $scope.jsonExcludes = [
+      'nestedDataSet',
+      'nestedStudy',
+      'nestedQuestions',
+      'nestedRelatedPublications',
+      'nestedSurveys',
+      'nestedInstruments'
+    ];
     entity.promise.then(function(result) {
       var currenLanguage = LanguageService.getCurrentInstantly();
       var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';

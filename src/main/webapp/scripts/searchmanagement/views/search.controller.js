@@ -8,11 +8,9 @@ angular.module('metadatamanagementApp').controller('SearchController',
   function($scope, Principal, $location, $state,
     SearchDao, VariableUploadService,
     QuestionUploadService, RelatedPublicationUploadService,
-    DataSetUploadService, StudyUploadService, SurveyUploadService,
-    CleanJSObjectService, InstrumentUploadService,
-    CurrentProjectService, $timeout, PageTitleService, ToolbarHeaderService,
-    SearchHelperService, SearchResultNavigatorService, StudyResource,
-    StudyIdBuilderService, $rootScope) {
+    CleanJSObjectService, CurrentProjectService, $timeout, PageTitleService,
+    ToolbarHeaderService, SearchHelperService, SearchResultNavigatorService,
+    StudyResource, StudyIdBuilderService, $rootScope) {
 
     var queryChangedOnInit = false;
     var tabChangedOnInitFlag = false;
@@ -290,42 +288,11 @@ angular.module('metadatamanagementApp').controller('SearchController',
         $scope.currentProject.id);
     };
 
-    $scope.uploadSurveys = function(files) {
-      if (!files || files.length === 0) {
-        return;
-      }
-      SurveyUploadService.uploadSurveys(files,
-        $scope.currentProject.id);
-    };
-
-    $scope.uploadDataSets = function(files) {
-      if (!files || files.length === 0) {
-        return;
-      }
-      DataSetUploadService.uploadDataSets(files,
-        $scope.currentProject.id);
-    };
-
     $scope.uploadRelatedPublications = function(file) {
       if (Array.isArray(file)) {
         file = file[0];
       }
       RelatedPublicationUploadService.uploadRelatedPublications(file);
-    };
-
-    $scope.uploadStudy = function(files) {
-      if (!files || files.length === 0) {
-        return;
-      }
-      StudyUploadService.uploadStudy(files, $scope.currentProject.id);
-    };
-
-    $scope.uploadInstruments = function(files) {
-      if (!files || files.length === 0) {
-        return;
-      }
-      InstrumentUploadService.uploadInstruments(files,
-        $scope.currentProject.id);
     };
 
     //Refresh function for the refresh button
@@ -362,7 +329,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       icon: 'assets/images/icons/study.svg',
       elasticSearchType: 'studies',
       count: null,
-      uploadFunction: $scope.uploadStudy,
+      uploadFunction: null,
       disabled: false,
       visibleForPublicUser: true,
       noResultsText: 'search-management.no-results-text.studies'
@@ -372,7 +339,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       icon: 'assets/images/icons/survey.svg',
       elasticSearchType: 'surveys',
       count: null,
-      uploadFunction: $scope.uploadSurveys,
+      uploadFunction: null,
       disabled: false,
       visibleForPublicUser: true,
       noResultsText: 'search-management.no-results-text.surveys'
@@ -382,7 +349,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       icon: 'assets/images/icons/instrument.svg',
       elasticSearchType: 'instruments',
       count: null,
-      uploadFunction: $scope.uploadInstruments,
+      uploadFunction: null,
       disabled: false,
       visibleForPublicUser: true,
       noResultsText: 'search-management.no-results-text.instruments'
@@ -402,7 +369,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       icon: 'assets/images/icons/data-set.svg',
       elasticSearchType: 'data_sets',
       count: null,
-      uploadFunction: $scope.uploadDataSets,
+      uploadFunction: null,
       disabled: false,
       visibleForPublicUser: true,
       noResultsText: 'search-management.no-results-text.data-sets'

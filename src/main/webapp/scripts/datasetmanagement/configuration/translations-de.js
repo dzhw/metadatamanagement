@@ -235,7 +235,8 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-size': 'Die Maximallänge der Beschreibung eines Subdatensatz ist 512 Zeichen.'
             },
             'citation-hint': {
-              'i18n-string-size': 'Die Maximallänge des Zitationshinweises eines Subdatensatzes ist 2048 Zeichen.'
+              'i18n-string-size': 'Die Maximallänge des Zitationshinweises eines Subdatensatzes ist 2048 Zeichen.',
+              'valid-citation': 'Es muss mindestens ein deutscher oder englischer Zitationshinweis angegeben werden.'
             },
             'access-way': {
               'not-null': 'Der Zugangsweg eines Subdatensatz darf nicht leer sein!',

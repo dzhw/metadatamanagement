@@ -145,12 +145,10 @@ angular.module('metadatamanagementApp').config(
             'success': '<strong>Kontoänderungen wurden gespeichert!</strong>',
             'validate': {
               'firstname': {
-                'required': 'Ihr Vorname wird benötigt.',
                 'minlength': 'Ihr Vorname muss mindestens 1 Zeichen lang sein',
                 'maxlength': 'Ihr Vorname darf nicht länger als 50 Zeichen sein'
               },
               'lastname': {
-                'required': 'Ihr Nachname wird benötigt.',
                 'minlength': 'Ihr Nachname muss mindestens 1 Zeichen lang sein',
                 'maxlength': 'Ihr Nachname darf nicht länger als 50 Zeichen sein'
               }

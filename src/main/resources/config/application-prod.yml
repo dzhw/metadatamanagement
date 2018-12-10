@@ -29,6 +29,8 @@ spring:
 metadatamanagement:
   ordermanagement:
     email: dataservice@dzhw.eu
+  projectmanagement:
+    email: datadeposit@dzhw.eu
   server:
     instance-index: ${cf.instance.index}
     context-root: https://metadata.fdz.dzhw.eu

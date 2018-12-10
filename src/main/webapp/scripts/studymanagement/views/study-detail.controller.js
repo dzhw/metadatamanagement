@@ -16,6 +16,16 @@ angular.module('metadatamanagementApp')
       ctrl.projectIsCurrentlyReleased = true;
       ctrl.searchResultIndex = $stateParams['search-result-index'];
       ctrl.counts = {};
+      ctrl.jsonExcludes = [
+        'nestedDataSets',
+        'nestedVariables',
+        'nestedRelatedPublications',
+        'nestedSurveys',
+        'nestedQuestions',
+        'nestedInstruments'
+      ];
+      ctrl.enableJsonView = Principal
+        .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN']);
       var bowser = $rootScope.bowser;
 
       ctrl.loadAttachments = function() {

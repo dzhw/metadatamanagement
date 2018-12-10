@@ -49,7 +49,7 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
               dataAcquisitionProjectId,
               relatedQuestion.instrumentNumber,
               relatedQuestion.questionNumber),
-            relatedQuestionStrings: relatedQuestion.relatedQuestionStrings,
+            relatedQuestionStrings: relatedQuestion.relatedQuestionStrings
           });
       });
       if (variableObj.dataType.en === 'numeric' && variableObj.distribution) {

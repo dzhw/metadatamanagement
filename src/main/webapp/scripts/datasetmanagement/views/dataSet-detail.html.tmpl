@@ -3,6 +3,7 @@
     <next-search-result bowser="bowser" current-language="currentLanguage"></next-search-result>
     <div layout="row" style="margin-bottom: 0px;" layout-margin>
         <h1 class="md-headline" style="margin-left: 0px;"><span display-i18n-string="ctrl.dataSet.description" fdz-hyphenate></span> <span class="label label-as-badge label-default">{{ctrl.dataSet.id}}</span></h1>
+        <json-content-dialog ng-if="ctrl.enableJsonView" content="ctrl.dataSet" exclude-fields="ctrl.jsonExcludes" header-title="ctrl.dataSet.description" class="fdz-no-margin-bottom"></json-content-dialog>
     </div>
     <div layout="column" layout-gt-sm="row">
         <div flex-gt-sm="50" layout="column">
@@ -297,7 +298,7 @@
             </md-tooltip>
             <md-icon md-font-set="material-icons">note_add</md-icon>
         </md-button>
-        <md-button ng-if="!ctrl.projectIsCurrentlyReleased && !bowser.msie" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER" class="md-fab md-raised md-accent" ui-sref="dataSetEdit({id: ctrl.dataSet.id})">
+        <md-button ng-if="!ctrl.projectIsCurrentlyReleased" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER" class="md-fab md-raised md-accent" ui-sref="dataSetEdit({id: ctrl.dataSet.id})">
           <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
             {{'search-management.buttons.edit-data-set-tooltip' | translate}}
           </md-tooltip>

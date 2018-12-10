@@ -2,16 +2,43 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('ProjectCockpitController',
-  function($q, $scope, $state, $location, UserResource, Principal,
+  function($q, $scope, $state, $location, $transitions, UserResource, Principal,
            PageTitleService, LanguageService, ToolbarHeaderService,
            DataAcquisitionProjectResource, SimpleMessageToastService,
-           CurrentProjectService, projectDeferred) {
+           CurrentProjectService, projectDeferred, CommonDialogsService) {
 
     PageTitleService.setPageTitle(
       'data-acquisition-project-management.project-cockpit.title');
     ToolbarHeaderService.updateToolbarHeader({
       stateName: $state.current.name
     });
+
+    var registerConfirmOnDirtyHook = function() {
+      var unregisterTransitionHook = $transitions.onBefore({}, function() {
+        if ($scope.changed) {
+          return CommonDialogsService.showConfirmOnDirtyDialog();
+        }
+      });
+
+      $scope.$on('$destroy', unregisterTransitionHook);
+    };
+
+    var setProjectRequirementsDisabled = function(project) {
+      var loginName = Principal.loginName();
+      var publishers = _.get(project, 'configuration.publishers');
+      var result;
+      if (_.isArray(publishers)) {
+        result = publishers.indexOf(loginName) === -1;
+      } else {
+        result = false;
+      }
+      $scope.isProjectRequirementsDisabled = result;
+      return result;
+    };
+
+    var requiredTypesWatch;
+
+    $state.loadStarted = true;
 
     $scope.$on('current-project-changed',
       function(event, changedProject) { // jshint ignore:line
@@ -21,7 +48,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         }
       });
 
-    $scope.saveChanges = function() {
+    $scope.saveChanges = function(origin) {
       if (!$scope.project.configuration) {
         $scope.project.configuration = {};
       }
@@ -46,6 +73,9 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
               'data-acquisition-project.saved', {
                 id: $scope.project.id
               });
+          if (origin !== 'requirements') {
+            $state.reload();
+          }
         },
         //Server Error
         function() {
@@ -88,47 +118,68 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     $scope.fetching = false;
 
     // load all users assigned to the currrent project
-    projectDeferred.promise.then(function(project) {
-      $scope.fetching = true;
-      $scope.project = project;
-      CurrentProjectService.setCurrentProject(project);
+    projectDeferred.promise.then(
+      function(project) {
+        $scope.project = project;
+        $scope.fetching = true;
+        var isProjectRequirementsDisabled =
+          setProjectRequirementsDisabled(project);
+        CurrentProjectService.setCurrentProject(project);
 
-      function getAndAddUsers(key) {
-        // get users of type {key} asynchronously
-        // and return promise resolving when all are fetched
-        if (project.configuration[key]) {
-          return $q.all(
-            project.configuration[key].map(function(userLogin) {
-              return (
-                UserResource.getPublic({
-                  login: userLogin
-                }).$promise.then(function(userResult) {
-                  if (!_.includes($scope.activeUsers[key].map(function(u) {
-                    return u.login;
-                  }), userResult.login)) {
-                    $scope.activeUsers[key].push(userResult);
-                  }
-                })
-              );
-            })
-          );
-        } else {
-          return $q.resolve([]);
+        if (requiredTypesWatch) {
+          requiredTypesWatch();
         }
-      }
 
-      $q.resolve($q.all([
-        getAndAddUsers('publishers'),
-        getAndAddUsers('dataProviders')
-      ])).then(function() {
-        $scope.fetching = false;
-      }).catch(function(error) {
-        SimpleMessageToastService
-          .openAlertMessageToast(
-            'global.error.server-error.internal-server-error', {
-              status: error.data.error_description
-            });
-      });
+        if (!isProjectRequirementsDisabled &&
+          project.configuration.requirements) {
+          $scope.$watch(function() {
+            return $scope.project.configuration.requirements;
+          }, function(newVal, oldVal) {
+            if (newVal !== oldVal && !$scope.changed) {
+              $scope.changed = true;
+            }
+          }, true);
+        }
+
+        function getAndAddUsers(key) {
+          // get users of type {key} asynchronously
+          // and return promise resolving when all are fetched
+          if (project.configuration[key]) {
+            return $q.all(
+              project.configuration[key].map(function(userLogin) {
+                return (
+                  UserResource.getPublic({
+                    login: userLogin
+                  }).$promise.then(function(userResult) {
+                    if (!_.includes($scope.activeUsers[key].map(function(u) {
+                      return u.login;
+                    }), userResult.login)) {
+                      $scope.activeUsers[key].push(userResult);
+                    }
+                  })
+                );
+              })
+            );
+          } else {
+            return $q.resolve([]);
+          }
+        }
+
+        $q.resolve($q.all([
+          getAndAddUsers('publishers'),
+          getAndAddUsers('dataProviders')
+        ])).then(function() {
+          $scope.fetching = false;
+        }).catch(function(error) {
+          SimpleMessageToastService
+            .openAlertMessageToast(
+              'global.error.server-error.internal-server-error', {
+                status: error.data.error_description
+              });
+        });
+        registerConfirmOnDirtyHook();
+      }).finally(function() {
+      $scope.loadStarted = false;
     });
 
     $scope.advancedPrivileges = Principal.hasAnyAuthority(['ROLE_PUBLISHER',

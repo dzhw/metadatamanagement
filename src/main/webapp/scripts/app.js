@@ -13,7 +13,8 @@ try {
         'ngFileUpload', 'ngMaterial',
         'blockUI', 'LocalStorageModule', 'jkAngularCarousel',
         'angularMoment', 'ngAnimate', 'vcRecaptcha',
-        'ngMessages', 'katex', 'ngFileSaver', 'duScroll', 'ngShortcut'
+        'ngMessages', 'katex', 'ngFileSaver', 'duScroll', 'ngShortcut',
+        'jsonFormatter'
       ])
 
   .run(
@@ -62,7 +63,7 @@ try {
           // an authenticated user can't access to login and
           // register pages
           if (Principal.isAuthenticated() &&
-            $rootScope.toState.parent === 'account' &&
+            $rootScope.toState.parent.name === 'account' &&
             ($rootScope.toState.name === 'login' ||
               $rootScope.toState.name === 'register')) {
             return trans.router.stateService.target('search',
@@ -77,20 +78,7 @@ try {
               if (!Principal.hasAnyAuthority(
                   $rootScope.toState.data.authorities) ||
                   !Principal.isAuthenticated()) {
-                // user is not authenticated. store the state
-                // they wanted before you
-                // send them to the signin state, so you can
-                // return them when you're done
-                $rootScope.previousStateName =
-                $rootScope.toState.name;
-                $rootScope.previousStateParams =
-                $rootScope.toStateParams;
-                // now, send them to the signin state so they
-                // can log in
-                $state.go('login',
-                {
-                  lang: LanguageService.getCurrentInstantly()
-                });
+                $rootScope.$broadcast('userNotAuthorized');
               }
             }, 1000);
           }

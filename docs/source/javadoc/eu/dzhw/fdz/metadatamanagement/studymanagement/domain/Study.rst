@@ -52,6 +52,8 @@
 
 .. java:import:: io.searchbox.annotations JestId
 
+.. java:import:: io.swagger.annotations ApiModel
+
 .. java:import:: lombok AllArgsConstructor
 
 .. java:import:: lombok Builder
@@ -70,7 +72,7 @@ Study
 .. java:package:: eu.dzhw.fdz.metadatamanagement.studymanagement.domain
    :noindex:
 
-.. java:type:: @Entity @Document @ValidStudyId @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class Study extends AbstractRdcDomainObject implements StudySubDocumentProjection
+.. java:type:: @Entity @Document @ValidStudyId @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder @ApiModel public class Study extends AbstractRdcDomainObject implements StudySubDocumentProjection
 
    A study contains all metadata of a \ :java:ref:`DataAcquisitionProject`\ . It will get a DOI (Digital Object Identifier) when the \ :java:ref:`DataAcquisitionProject`\  is released.
 

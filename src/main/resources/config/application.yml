@@ -67,6 +67,9 @@ management:
   info:
     git:
       mode: full
+  health:
+    elasticsearch:
+      enabled: false
 
 javers:
   algorithm: levenshtein_distance
@@ -75,6 +78,8 @@ metadatamanagement:
   elasticsearch:
     version: 6.3.2
   ordermanagement:
+    email: reitmann@dzhw.eu
+  projectmanagement:
     email: reitmann@dzhw.eu
      
 # ===================================================================
