@@ -1,4 +1,4 @@
-<md-dialog aria-label="{{'data-set-management.detail.attachments.choose-previous-version.title' | translate:translationParams }}" layout="column" style="-ms-flex: auto;">
+<md-dialog aria-label="{{'data-set-management.detail.attachments.choose-previous-version.title' | translate:translationParams }}" layout="column">
     <md-toolbar>
         <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
             <h2 class="fdz-truncate-string">
@@ -14,7 +14,7 @@
     </md-toolbar>
     <md-dialog-content layout-padding flex layout="column" style="-ms-flex: auto;">
         <p ng-if="dataSetAttachments && dataSetAttachments.length > 0" style="margin: 0px;">{{'data-set-management.detail.attachments.choose-previous-version.text' | translate:translationParams }}</p>
-        <table md-autofocus fdz-table ng-if="dataSetAttachments && dataSetAttachments.length > 0" style="width: 100%;" flex>
+        <table md-autofocus fdz-table ng-if="dataSetAttachments && dataSetAttachments.length > 0" style="width: 100%; -ms-flex: auto;" flex>
             <thead>
                 <tr>
                     <th style="max-width: 600px;">{{'data-set-management.detail.attachments.choose-previous-version.attachment-title' | translate }}
@@ -39,7 +39,7 @@
                 </tr>
             </tbody>
         </table>
-        <div ng-if="!dataSetAttachments || dataSetAttachments.length === 0" flex>
+        <div ng-if="!dataSetAttachments || dataSetAttachments.length === 0" flex style="-ms-flex: auto;">
             <span>{{'data-set-management.detail.attachments.choose-previous-version.no-versions-found' | translate:translationParams }}</span>
         </div>
         <div ng-hide="(!dataSetAttachments || dataSetAttachments.length === 0) && (currentPage.number === 0)" layout="row" layout-align="space-between center" style="margin-top: 8px;">
