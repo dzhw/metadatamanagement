@@ -1,4 +1,4 @@
-<md-card>
+<md-card style="position: relative;">
     <a ui-sref="dataSetDetail({id: searchResult.id, 'search-result-index': searchResultIndex})" class="fdz-search-result">
         <md-card-header class="fdz-card-header-border">
             <md-card-avatar>
@@ -35,7 +35,7 @@
           {{'search-management.cards.data-set-tooltip' | translate: {id:searchResult.id} }}
         </md-tooltip>
     </a>
-    <div class="fdz-search-result-actions-container" ng-if="!projectIsCurrentlyReleased && !bowser.msie" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER" >
+    <div class="fdz-search-result-actions-container" ng-if="!projectIsCurrentlyReleased" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER" >
         <md-button class="md-icon-button md-primary" ui-sref="dataSetEdit({id: searchResult.id})" style="margin-right: 0px;">
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{'search-management.buttons.edit-data-set-tooltip' | translate}}

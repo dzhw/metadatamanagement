@@ -242,7 +242,7 @@
         </div>
     </div>
     <div class="fdz-fab-button-container" layout="column">
-      <md-button ng-if="!ctrl.projectIsCurrentlyReleased && !bowser.msie" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER" class="md-fab md-raised md-accent" ui-sref="surveyEdit({id: ctrl.survey.id})">
+      <md-button ng-if="!ctrl.projectIsCurrentlyReleased" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER" class="md-fab md-raised md-accent" ui-sref="surveyEdit({id: ctrl.survey.id})">
           <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
               {{'search-management.buttons.edit-survey-tooltip' | translate}}
           </md-tooltip>
