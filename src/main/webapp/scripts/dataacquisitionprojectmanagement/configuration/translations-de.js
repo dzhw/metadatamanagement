@@ -92,7 +92,7 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'project-cockpit': {
-          'title': 'Projekt-Cockpit',
+          'title': 'Projekt-Cockpit ({{projectId}})',
           'search': {
             'placeholder': 'Suchen Sie Benutzer...',
             'header-data-provider': 'Datengeber dieses Projekts',
@@ -101,7 +101,9 @@ angular.module('metadatamanagementApp').config(
           'tooltip': {
             'not-assigned': 'Das Projekt ist aktuell der anderen Benutzergruppe zugewiesen.',
             'not-in-group': 'Sie gehören nicht dieser Benutzergruppe an.',
-            'not-in-publishers': 'Sie sind diesem Projekt nicht als Publisher zugewiesen'
+            'not-in-publishers': 'Sie sind diesem Projekt nicht als Publisher zugewiesen',
+            'new': 'Klicken Sie hier, um einen neuen Eintrag zu erstellen',
+            'upload': 'Klicken Sie hier, um neue Daten hochzuladen.'
           },
           'alert': {
             'title': 'Achtung',

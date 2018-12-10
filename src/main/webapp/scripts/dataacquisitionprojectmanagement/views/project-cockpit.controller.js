@@ -7,14 +7,30 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
            DataAcquisitionProjectResource, SimpleMessageToastService,
            CurrentProjectService, projectDeferred, CommonDialogsService,
            SearchDao, QuestionUploadService, VariableUploadService, $translate,
-           $mdDialog, ProjectReleaseService,
+           $mdDialog, ProjectReleaseService, $timeout,
            DataAcquisitionProjectPostValidationService) {
 
+    var pageTitleKey = 'data-acquisition-project-management.project' +
+      '-cockpit.title';
+
     PageTitleService.setPageTitle(
-      'data-acquisition-project-management.project-cockpit.title');
+      pageTitleKey, {projectId: ''});
     ToolbarHeaderService.updateToolbarHeader({
       stateName: $state.current.name
     });
+
+    var setTypeCounts = function(projectId) {
+      SearchDao.search('', 1, projectId, {}, undefined, 5, undefined)
+        .then(function(data) {
+          $scope.counts = {};
+          ['variables', 'questions', 'data_sets', 'surveys', 'instruments',
+            'studies'].forEach(function(type) {
+            var bucket  = _.find(data.aggregations.countByType.buckets,
+              {key: type});
+            $scope.counts[type] = _.get(bucket, 'doc_count', '');
+          });
+        });
+    };
 
     var registerConfirmOnDirtyHook = function() {
       var unregisterTransitionHook = $transitions.onBefore({}, function() {
@@ -62,6 +78,9 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         if (changedProject) {
           $location.url('/' + LanguageService.getCurrentInstantly() +
             '/projects/' + changedProject.id);
+          PageTitleService.setPageTitle(pageTitleKey,
+            {projectId: changedProject.id});
+          setTypeCounts(changedProject.id);
         }
       });
 
@@ -266,6 +285,9 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         $scope.project = project;
         $scope.fetching = true;
 
+        PageTitleService.setPageTitle(pageTitleKey,
+          {projectId: project.id});
+
         var isProjectRequirementsDisabled =
           setProjectRequirementsDisabled(project);
         CurrentProjectService.setCurrentProject(project);
@@ -378,9 +400,6 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       }
       return $state.currentPromise;
     };
-    $scope.searchProjectData = function(group) {
-      return SearchDao.search('', 0, $scope.project.id, '', group, 1, '');
-    };
 
     $scope.removeUser = function(user, role) {
       $scope.changed = true;
@@ -414,6 +433,12 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         ProjectReleaseService.releaseProject($scope.project);
       }
     };
+
+    $scope.$on('upload-completed', function() {
+      $timeout(function() {
+        setTypeCounts($scope.project.id);
+      }, 2000);
+    });
 
     $scope.uploadQuestions = function(files) {
       QuestionUploadService.uploadQuestions(files, $scope.project.id);
@@ -459,14 +484,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       transclude: true,
       /* jshint -W098 */
       link: function(scope, elem, attrs, ctrl, $transclude) {
-        var elasticSearchType = {
-          studies: 'studies',
-          surveys: 'surveys',
-          instruments: 'instruments',
-          questions: 'questions',
-          dataSets: 'data_sets',
-          variables: 'variables'
-        };
+
         scope.group = attrs.group;
         scope.searchState = attrs.searchstate;
         scope.icon = attrs.icon;
@@ -496,14 +514,6 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         });
         $transclude(function(transclusion) {
           scope.hasTranscludedContent = transclusion.length > 0;
-        });
-
-        scope.searchProjectData(
-          elasticSearchType[attrs.group]
-        ).then(function(data) {
-          scope.count = data.hits.total;
-        }).catch(function() {
-          scope.count = 0;
         });
 
         scope.getSentimentValue = function(tab) {
