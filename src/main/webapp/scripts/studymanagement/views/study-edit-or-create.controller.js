@@ -160,7 +160,7 @@ angular.module('metadatamanagementApp')
         if (timeoutActive) {
           $timeout.cancel(timeoutActive);
         }
-        timeoutActive = $timeout(function(){
+        timeoutActive = $timeout(function() {
           timeoutActive = false;
           // msie workaround: inputs unfocus on button mousedown
           if (document.activeElement &&
@@ -495,3 +495,4 @@ angular.module('metadatamanagementApp')
 
       init();
     });
+
