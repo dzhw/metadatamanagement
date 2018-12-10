@@ -1,4 +1,4 @@
-/* global _*/
+/* global _, $, document */
 'use strict';
 
 angular.module('metadatamanagementApp')
@@ -201,14 +201,26 @@ angular.module('metadatamanagementApp')
         ctrl.currentSubDataSetInputName = event.target.name;
         ctrl.currentSubDataSetIndex = index;
       };
-
+      var timeoutActive = null;
       ctrl.deleteCurrentSubDataSet = function(event) {
-        if (event.relatedTarget && (
-            event.relatedTarget.id === 'move-sub-data-set-up-button' ||
-            event.relatedTarget.id === 'move-sub-data-set-down-button')) {
-          return;
+        if (timeoutActive) {
+          $timeout.cancel(timeoutActive);
         }
-        delete ctrl.currentSubDataSetIndex;
+        timeoutActive = $timeout(function() {
+          timeoutActive = false;
+          // msie workaround: inputs unfocus on button mousedown
+          if (document.activeElement &&
+            $(document.activeElement).parents('#move-container').length) {
+            return;
+          }
+          if (event.relatedTarget && (
+              event.relatedTarget.id === 'move-sub-data-set-up-button' ||
+              event.relatedTarget.id === 'move-sub-data-set-down-button')) {
+            return;
+          }
+          delete ctrl.currentSubDataSetIndex;
+          timeoutActive = null;
+        }, 1500);
       };
 
       ctrl.moveCurrentSubDataSetUp = function() {
