@@ -94,7 +94,6 @@ Close Survey Editor And Log Out
     Click Element Through Tooltips    xpath=//button[text()='Ja']
     #Probleme mit allen anderen Optionen, merkwürdiges Resultat wenn zuschnell ausgeloggt wird.
     Sleep    1s
-    Click Element Through Tooltips    xpath=//button[@id='logout']
 
 Choose Quantitative Daten As Data Type
     Click Element Through Tooltips    xpath=//md-select[@name = 'dataType']
