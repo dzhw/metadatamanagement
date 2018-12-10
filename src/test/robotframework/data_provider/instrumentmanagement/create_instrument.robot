@@ -1,6 +1,5 @@
 *** Settings ***
 Documentation     Instrument Creation by Dataprovider
-#Suite Setup       Pass Execution If    '${BROWSER}' == 'ie'    Creation not possible in IE
 Force Tags        smoketest
 Resource          ../../resources/home_page_resource.robot
 Resource          ../../resources/search_resource.robot
