@@ -8,6 +8,8 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.projectmanagement.domain DataAcquisitionProject
 
+.. java:import:: io.swagger.annotations ApiModel
+
 .. java:import:: lombok AllArgsConstructor
 
 .. java:import:: lombok Builder
@@ -22,7 +24,7 @@ Product
 .. java:package:: eu.dzhw.fdz.metadatamanagement.ordermanagement.domain
    :noindex:
 
-.. java:type:: @NoArgsConstructor @Data @AllArgsConstructor @Builder public class Product
+.. java:type:: @NoArgsConstructor @Data @AllArgsConstructor @Builder @ApiModel public class Product
 
    Data Product which can be ordered by a customer.
 
@@ -49,10 +51,10 @@ dataAcquisitionProjectId
 study
 ^^^^^
 
-.. java:field:: @NotNull @Valid private Study study
+.. java:field:: @NotNull @Valid private OrderedStudy study
    :outertype: Product
 
-   The (partial) \ :java:ref:`Study`\  of this product. Must not be empty.
+   The (partial) \ :java:ref:`OrderedStudy`\  of this product. Must not be empty.
 
 version
 ^^^^^^^

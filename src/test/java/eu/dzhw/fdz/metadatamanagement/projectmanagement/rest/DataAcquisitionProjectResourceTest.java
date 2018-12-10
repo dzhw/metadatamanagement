@@ -1,5 +1,28 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.rest;
 
+import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
+import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
+import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Requirements;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
+
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.is;
@@ -12,33 +35,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
-
-import eu.dzhw.fdz.metadatamanagement.AbstractTest;
-import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
-import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
-import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
-
 /**
  * Test the REST API for {@link DataAcquisitionProject}s.
- *
  * @author René Reitmann
  * @author Daniel Katzberg
  */
@@ -105,7 +103,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
             .contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(project)))
         .andExpect(status().is4xxClientError()).andExpect(jsonPath("$.errors[0].message",
-            containsString("error.data-acquisition-project.id.size")));
+        containsString("error.data-acquisition-project.id.size")));
   }
 
   @Test
@@ -213,8 +211,8 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
         .perform(post(API_DATA_ACQUISITION_PROJECTS_URI).contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(project)))
         .andExpect(status().isBadRequest()).andExpect(
-            jsonPath("$.errors[0].message", containsString("data-acquisition-project-management"
-                + ".error.data-acquisition-project.id.not-empty")));
+        jsonPath("$.errors[0].message", containsString("data-acquisition-project-management"
+            + ".error.data-acquisition-project.id.not-empty")));
   }
 
   @Test
@@ -308,7 +306,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
 
   /**
    * test the user implemented parts of save project
-   * 
+   *
    * @throws Exception
    */
   @Test
@@ -323,8 +321,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
         .perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
             .contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(project)))
-        .andExpect(status().isBadRequest())
-        .andExpect(content().string(containsString("cannot clear publishers")));
+        .andExpect(status().isBadRequest());
   }
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.DATA_PROVIDER)
@@ -335,18 +332,19 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     .perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .content(TestUtil.convertObjectToJsonBytes(project)))
-    .andExpect(status().isUnauthorized());
+    .andExpect(status().isBadRequest());
     // create the project with the given id
     dataAcquisitionProjectRepository.insert(project);
-    Configuration invalidConf = new Configuration(project.getConfiguration().getPublishers(), Collections.emptyList());
+    Configuration invalidConf = new Configuration(
+        project.getConfiguration().getPublishers(), Collections.emptyList(), new Requirements()
+    );
     project.setConfiguration(invalidConf);
     //update with invalid conf -- no dataprovider
     mockMvc
         .perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
             .contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(project)))
-        .andExpect(status().isUnauthorized())
-        .andExpect(content().string(containsString("not authorized to clear data providers")));
+        .andExpect(status().isBadRequest());
     invalidConf = new Configuration();
     project.setConfiguration(invalidConf);
     //update with invalid conf -- no publisher
@@ -354,7 +352,46 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
         .perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
             .contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(project)))
-        .andExpect(status().isUnauthorized())
-        .andExpect(content().string(containsString("not authorized to remove publisher")));
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = PUBLISHER_USERNAME)
+  public void testUpdateRequiredObjectTypes() throws Exception {
+    Configuration configuration = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProjectConfiguration(
+        Collections.singletonList(PUBLISHER_USERNAME),
+        Collections.emptyList()
+    );
+
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    project.setConfiguration(configuration);
+
+    dataAcquisitionProjectRepository.save(project);
+
+    mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
+        .content(TestUtil.convertObjectToJsonBytes(project))
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNoContent());
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = PUBLISHER_USERNAME)
+  public void testUpdateRequiredObjectTypes_badRequest() throws Exception {
+    Configuration configuration = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProjectConfiguration(
+        Collections.singletonList("differentPublisher"),
+        Collections.emptyList()
+    );
+
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    project.setConfiguration(configuration);
+
+    project = dataAcquisitionProjectRepository.save(project);
+
+    project.getConfiguration().getRequirements().setDataSetsRequired(true);
+
+    mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
+        .content(TestUtil.convertObjectToJsonBytes(project))
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest());
   }
 }

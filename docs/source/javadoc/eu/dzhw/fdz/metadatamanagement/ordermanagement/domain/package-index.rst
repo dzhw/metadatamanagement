@@ -10,7 +10,8 @@ Domain objects describing \ :java:ref:`eu.dzhw.fdz.metadatamanagement.ordermanag
 
    Customer
    Order
+   OrderClient
    OrderState
+   OrderedStudy
    Product
-   Study
 

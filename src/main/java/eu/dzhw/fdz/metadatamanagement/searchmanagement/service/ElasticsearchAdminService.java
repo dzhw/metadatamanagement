@@ -220,7 +220,6 @@ public class ElasticsearchAdminService {
   
   /**
    * Load Elasticsearch Mapping of an index.
-   * @param index An elasticsearch index
    * @param type An elasticsearch type of an index.
    * @return A Json Representation of a Mapping
    */

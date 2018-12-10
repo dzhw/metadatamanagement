@@ -1,30 +1,123 @@
 package eu.dzhw.fdz.metadatamanagement.ordermanagement.rest;
 
+import java.net.URI;
+import java.time.ZoneId;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.CacheControl;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Order;
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderClient;
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.repository.OrderRepository;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.service.OrderService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.ResponseHeader;
 
 /**
  * REST controller for ordering data products.
  */
 @RestController
+@Api(value = "Order Resource",
+    description = "Endpoints used by the MDM and the DLP to manage orders.")
 public class OrderResource {
+  @Autowired
+  private OrderRepository orderRepository;
 
   @Autowired
   private OrderService orderService;
 
+  @Value("${metadatamanagement.server.context-root}")
+  private String baseUrl;
+
+  private String dlpUrl = "http://todo.todo";
+
   /**
    * Order data products.
    */
-  @RequestMapping(value = "/api/order", method = RequestMethod.POST)
-  public ResponseEntity<?> create(@RequestBody Order order) {
+  @PostMapping("/api/orders")
+  @ApiOperation("The MDM creates orders and sends them to the DLP with this endpoint.")
+  @ApiResponses(value = {@ApiResponse(code = 201,
+      message = "Successfully created a new order."
+      + " Follow the returned Location header to proceed with the order process.",
+      responseHeaders = {@ResponseHeader(name = "Location", response = URI.class,
+          description = "URL to which the client should go now.")})})
+  @ResponseStatus(value = HttpStatus.CREATED)
+  public ResponseEntity<?> createOrder(@RequestBody @Valid Order order) {
     orderService.create(order);
-    return ResponseEntity.ok().build();
+    String destinationUrl =
+        baseUrl + "/#!/" + order.getLanguageKey() + "/shopping-cart/" + order.getId();
+    if (order.getClient().equals(OrderClient.MDM)) {
+      destinationUrl = dlpUrl;
+    }
+    return ResponseEntity
+        .created(UriComponentsBuilder.fromUriString(destinationUrl).build().toUri()).build();
+  }
+
+  /**
+   * Override default get by id since it does not set cache headers correctly.
+   *
+   * @param id a order id
+   * @return the Order or not found
+   */
+  @GetMapping("/api/orders/{id:.+}")
+  @ApiOperation("Get the current status of the order as it is stored in the MDM.")
+  public ResponseEntity<Order> findOrder(@PathVariable String id) {
+    Optional<Order> optional = orderRepository.findById(id);
+
+    if (!optional.isPresent()) {
+      return ResponseEntity.notFound().build();
+    }
+
+    Order entity = optional.get();
+    return ResponseEntity.ok()
+        .cacheControl(CacheControl.maxAge(0, TimeUnit.DAYS).mustRevalidate().cachePublic())
+        .eTag(entity.getVersion().toString())
+        .lastModified(
+            entity.getLastModifiedDate().atZone(ZoneId.of("GMT")).toInstant().toEpochMilli())
+        .body(entity);
+  }
+
+  /**
+   * Update the order to add or remove products for instance.
+   */
+  @PutMapping("/api/orders/{id:.+}")
+  @ApiOperation("The DLP and MDM use this endpoint to update an order in the MDM.")
+  @ApiResponses(value = {@ApiResponse(code = 200,
+      message = "Successfully updated the order."
+      + " Follow the returned Location header to proceed with the order process.",
+      responseHeaders = @ResponseHeader(name = "Location", response = URI.class,
+          description = "URL to which the client should go now."))})
+  public ResponseEntity<?> updateOrder(@PathVariable String id, @RequestBody @Valid Order order) {
+    Optional<Order> optional = orderRepository.findById(id);
+    if (!optional.isPresent()) {
+      return ResponseEntity.notFound().build();
+    }
+    order.setId(id);
+    orderRepository.save(order);
+    String destinationUrl =
+        baseUrl + "/#!/" + order.getLanguageKey() + "/shopping-cart/" + order.getId();
+    if (order.getClient().equals(OrderClient.MDM)) {
+      destinationUrl = dlpUrl;
+    }
+    return ResponseEntity.status(HttpStatus.OK)
+        .location(UriComponentsBuilder.fromUriString(destinationUrl).build().toUri()).build();
   }
 }

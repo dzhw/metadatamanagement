@@ -38,7 +38,7 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation ValidUniqueInstrumentNumber
 
-.. java:import:: eu.dzhw.fdz.metadatamanagement.ordermanagement.domain Study
+.. java:import:: eu.dzhw.fdz.metadatamanagement.ordermanagement.domain OrderedStudy
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.projectmanagement.domain DataAcquisitionProject
 
@@ -116,7 +116,7 @@ studyId
 .. java:field:: @Indexed @NotEmpty private String studyId
    :outertype: Instrument
 
-   The id of the \ :java:ref:`Study`\  to which this instrument belongs. Must not be empty.
+   The id of the \ :java:ref:`OrderedStudy`\  to which this instrument belongs. Must not be empty.
 
 subtitle
 ^^^^^^^^

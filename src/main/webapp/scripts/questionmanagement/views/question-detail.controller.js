@@ -25,6 +25,18 @@ angular.module('metadatamanagementApp')
       ctrl.imageLanguages = [];
       ctrl.imagesGroupedByLanguage = {};
 
+      ctrl.enableJsonView = Principal
+        .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN']);
+
+      ctrl.jsonExcludes = [
+        'nestedInstrument',
+        'nestedStudy',
+        'nestedSurveys',
+        'nestedVariables',
+        'nestedDataSets',
+        'nestedRelatedPublications'
+      ];
+
       entity.promise.then(function(result) {
         var title = {
           questionNumber: result.number,

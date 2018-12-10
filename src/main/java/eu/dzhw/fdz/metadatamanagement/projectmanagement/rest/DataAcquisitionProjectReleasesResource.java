@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,7 +34,7 @@ public class DataAcquisitionProjectReleasesResource {
    * 
    * @return the last 100 releases of the data acquisition project.
    */
-  @RequestMapping("/data-acquisition-projects/{id}/releases")
+  @GetMapping("/data-acquisition-projects/{id}/releases")
   public ResponseEntity<?> findPreviousDataAcquisitionVersions(@PathVariable String id,
       @RequestParam(name = "noBeta", defaultValue = "true") Boolean noBetaReleases) {
     List<Release> releases = this.projectVersionsService.findAllReleases(id, noBetaReleases);

@@ -24,7 +24,7 @@
                 <md-divider></md-divider>
                 <md-card-content>
                     <div layout="column">
-                        <md-input-container style="padding: 0px;" md-is-error="!studyAttachmentForm.filename.$valid && (studyAttachmentForm.filename.$dirty || studyAttachmentForm.filename.$touched)">
+                        <md-input-container style="padding: 0px; -ms-flex:auto" md-is-error="!studyAttachmentForm.filename.$valid && (studyAttachmentForm.filename.$dirty || studyAttachmentForm.filename.$touched)">
                             <label>{{'study-management.detail.label.attachments.file' | translate }}</label>
                             <input disabled ng-pattern="/^[_A-Za-z0-9äöüÄÖÜß\-.]*$/" required ng-model="ctrl.studyAttachmentMetadata.fileName" name="filename" style="cursor: pointer; border-bottom: 1px rgba(0,0,0,0.12) solid; background-image: none;">
                             <div ng-if="!studyAttachmentForm.filename.$dirty && !studyAttachmentForm.filename.$touched" class="fdz-input-hint">{{'study-management.detail.attachments.hints.filename' | translate}}</div>
@@ -55,7 +55,7 @@
                 <md-divider></md-divider>
                 <md-card-content>
                     <div layout-gt-sm="row" layout="column">
-                        <md-input-container flex="50" style="margin-bottom: 42px;" md-is-error="!studyAttachmentForm.type.$valid && (studyAttachmentForm.type.$dirty || studyAttachmentForm.type.$touched)">
+                        <md-input-container flex="50" style="margin-bottom: 42px; -ms-flex:auto" md-is-error="!studyAttachmentForm.type.$valid && (studyAttachmentForm.type.$dirty || studyAttachmentForm.type.$touched)">
                             <label>{{'study-management.detail.label.attachments.type' | translate}}</label>
                             <md-select required ng-model="ctrl.studyAttachmentMetadata.type" ng-model-options="{trackBy: '$value.de'}" name="type">
                                 <md-option ng-value="type" ng-repeat="type in ctrl.studyAttachmentTypes">{{type[currentLanguage]}}</md-option>
@@ -68,7 +68,7 @@
                         <div flex="50"></div>
                     </div>
                     <div layout-gt-sm="row" layout="column">
-                        <md-autocomplete required flex="50" md-input-name="language2" md-floating-label="{{'study-management.detail.label.attachments.language' | translate}}" md-require-match="true" md-select-on-match="true" md-match-case-insensitive="true" md-selected-item="ctrl.selectedLanguage"
+                        <md-autocomplete required flex="50" style="-ms-flex:auto;" md-input-name="language2" md-floating-label="{{'study-management.detail.label.attachments.language' | translate}}" md-require-match="true" md-select-on-match="true" md-match-case-insensitive="true" md-selected-item="ctrl.selectedLanguage"
                           md-min-length="0" md-search-text="ctrl.languageSearchText" md-items="item in ctrl.searchLanguages(ctrl.languageSearchText)" md-item-text="item.displayLanguage[currentLanguage]" md-clear-button="true" md-no-cache="true" md-selected-item-change="ctrl.selectedLanguageChanged()"
                           md-is-error="!studyAttachmentForm.language2.$valid && (studyAttachmentForm.language2.$dirty || studyAttachmentForm.language2.$touched)">
                             <md-item-template>
@@ -86,7 +86,7 @@
                         <div flex="50"></div>
                     </div>
                     <div layout="row">
-                        <md-input-container flex style="margin-right: 8px;" md-is-error="!studyAttachmentForm.title.$valid && (studyAttachmentForm.title.$dirty || studyAttachmentForm.title.$touched)">
+                        <md-input-container flex style="margin-right: 8px; -ms-flex:auto;" md-is-error="!studyAttachmentForm.title.$valid && (studyAttachmentForm.title.$dirty || studyAttachmentForm.title.$touched)">
                             <label>{{'study-management.detail.label.attachments.title' | translate}} ({{'global.in' | translate}} {{ctrl.selectedLanguage.displayLanguage[currentLanguage]?ctrl.selectedLanguage.displayLanguage[currentLanguage]:'?'}})</label>
                             <textarea rows="4" md-maxlength="2048" ng-model="ctrl.studyAttachmentMetadata.title" name="title"></textarea>
                             <div ng-if="!studyAttachmentForm.title.$dirty && !studyAttachmentForm.title.$touched" class="fdz-input-hint">{{'study-management.detail.attachments.hints.title' | translate}}</div>
@@ -96,7 +96,7 @@
                         </md-input-container>
                     </div>
                     <div layout-gt-sm="row" layout="column">
-                        <md-input-container flex="50" style="margin-right: 8px;" md-is-error="!studyAttachmentForm.descriptionDe.$valid && (studyAttachmentForm.descriptionDe.$dirty || studyAttachmentForm.descriptionDe.$touched)">
+                        <md-input-container flex="50" style="margin-right: 8px; -ms-flex:auto;" md-is-error="!studyAttachmentForm.descriptionDe.$valid && (studyAttachmentForm.descriptionDe.$dirty || studyAttachmentForm.descriptionDe.$touched)">
                             <label class="fdz-input-required">{{'study-management.detail.label.attachments.description' | translate}} ({{'global.in-german' | translate}})</label>
                             <input fdz-required="!ctrl.studyAttachmentMetadata.description.en" md-maxlength="512" ng-model="ctrl.studyAttachmentMetadata.description.de" name="descriptionDe" lang="de" md-no-asterisk>
                             <div ng-if="!studyAttachmentForm.descriptionDe.$dirty && !studyAttachmentForm.descriptionDe.$touched" class="fdz-input-hint">{{'study-management.detail.attachments.hints.description.de' | translate}}</div>
@@ -105,7 +105,7 @@
                                 <div ng-message="md-maxlength">{{'study-management.error.study-attachment-metadata.description.i18n-string-size' | translate}}</div>
                             </div>
                         </md-input-container>
-                        <md-input-container flex="50" style="margin-right: 8px;" md-is-error="!studyAttachmentForm.descriptionEn.$valid && (studyAttachmentForm.descriptionEn.$dirty || studyAttachmentForm.descriptionEn.$touched)">
+                        <md-input-container flex="50" style="margin-right: 8px; -ms-flex:auto;" md-is-error="!studyAttachmentForm.descriptionEn.$valid && (studyAttachmentForm.descriptionEn.$dirty || studyAttachmentForm.descriptionEn.$touched)">
                             <label class="fdz-input-required">{{'study-management.detail.label.attachments.description' | translate}} ({{'global.in-english' | translate}})</label>
                             <input fdz-required="!ctrl.studyAttachmentMetadata.description.de" md-maxlength="512" ng-model="ctrl.studyAttachmentMetadata.description.en" name="descriptionEn" lang="en" md-no-asterisk>
                             <div ng-if="!studyAttachmentForm.descriptionEn.$dirty && !studyAttachmentForm.descriptionEn.$touched" class="fdz-input-hint">{{'study-management.detail.attachments.hints.description.en' | translate}}</div>

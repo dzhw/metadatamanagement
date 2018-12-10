@@ -13,6 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.io.IOException;
 
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.SubDataSet;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -157,6 +158,25 @@ public class DataSetResourceTest extends AbstractTest {
     mockMvc.perform(put(API_DATASETS_URI + "/" + dataSet.getId())
       .content(TestUtil.convertObjectToJsonBytes(dataSet)))
       .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void testCreateDataSetWithEmptyCitationHint() throws Exception {
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    this.dataAcquisitionProjectRepository.save(project);
+
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
+
+    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(null, survey.getId(), 1);
+    I18nString citationHint = dataSet.getSubDataSets().get(0).getCitationHint();
+    citationHint.setDe(null);
+    citationHint.setEn("");
+
+    // Act and Assert
+    // create the DataSet with a survey but without a project
+    mockMvc.perform(put(API_DATASETS_URI + "/" + dataSet.getId())
+        .content(TestUtil.convertObjectToJsonBytes(dataSet)))
+        .andExpect(status().isBadRequest());
   }
 
   @Test
