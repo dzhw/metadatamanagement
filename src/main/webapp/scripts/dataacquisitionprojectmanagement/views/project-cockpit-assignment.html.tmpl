@@ -4,7 +4,7 @@
 			<a ui-sref="search({type: searchState})" class="md-headline" layout="row" layout-align="start center">
 				<md-icon ng-if="icon" md-svg-icon="{{icon}}" class="md-primary"></md-icon>
 				<span>&nbsp;{{'data-acquisition-project-management.project-cockpit.requirements.'+group | translate}}&nbsp;</span>
-				<span ng-if="counts[group]">({{counts[group]}})</span>
+				<span ng-if="counts[group === 'dataSets' ? 'data_sets' : group]">({{counts[group === 'dataSets' ? 'data_sets' : group]}})</span>
 			</a>
 			<div ng-switch="getSentimentValue(group)">
 				<md-icon ng-switch-when="0">sentiment_very_dissatisfied</md-icon>
@@ -20,7 +20,7 @@
 		</md-checkbox>
 		<md-checkbox
 			ng-model="project.configuration[group+'State'].dataProviderReady"
-			ng-disabled="!isAssignedPublisher && (!isAssignedDataProvider || project.assigneeGroup !== 'DATA_PROVIDER')"
+			ng-disabled="!isRequired() || !isAssignedPublisher && (!isAssignedDataProvider || project.assigneeGroup !== 'DATA_PROVIDER')"
 		>
 			<md-tooltip ng-if="!isAssignedPublisher && !isAssignedDataProvider">{{'data-acquisition-project-management.project-cockpit.tooltip.not-in-group' | translate}}</md-tooltip>
 			<md-tooltip ng-if="!isAssignedPublisher && project.assigneeGroup !== 'DATA_PROVIDER'">{{'data-acquisition-project-management.project-cockpit.tooltip.not-assigned' | translate}}</md-tooltip>
@@ -29,7 +29,7 @@
 		</md-checkbox>
 		<md-checkbox
 			ng-model="project.configuration[group+'State'].publisherReady"
-			ng-disabled="!isAssignedPublisher"
+			ng-disabled="!isRequired() || !isAssignedPublisher"
 		>
 			<md-tooltip ng-if="!isAssignedPublisher">{{'data-acquisition-project-management.project-cockpit.tooltip.not-in-group' | translate}}</md-tooltip>
 			{{'data-acquisition-project-management.project-cockpit.label.ROLE_PUBLISHER' | translate}}
