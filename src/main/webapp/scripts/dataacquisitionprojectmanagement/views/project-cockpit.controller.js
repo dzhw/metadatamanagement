@@ -72,6 +72,10 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
 
     $state.loadStarted = true;
 
+    $scope.$on('project-deleted',
+      function() {
+        $state.go('search');
+      });
     $scope.$on('current-project-changed',
       function(event, changedProject) { // jshint ignore:line
         if (changedProject) {
