@@ -33,6 +33,12 @@ angular.module('metadatamanagementApp').controller('SearchController',
       }
     });
 
+    $scope.$on('$destroy', function() {
+      if (deregisterTransitionHook) {
+        deregisterTransitionHook();
+      }
+    });
+
     $scope.isSearching = 0;
     $scope.isDropZoneDisabled = true;
 
@@ -332,12 +338,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
       //wait for 1 seconds until refresh
       //in order to wait for elasticsearch reindex
       $timeout($scope.search, 2000);
-    });
-
-    $scope.$on('destroy', function() {
-      if (deregisterTransitionHook) {
-        deregisterTransitionHook();
-      }
     });
 
     //Information for the different tabs

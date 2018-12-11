@@ -4,7 +4,7 @@
 			<a ui-sref="search({type: searchState})" class="md-headline" layout="row" layout-align="start center">
 				<md-icon ng-if="icon" md-svg-icon="{{icon}}" class="md-primary"></md-icon>
 				<span>&nbsp;{{'data-acquisition-project-management.project-cockpit.requirements.'+group | translate}}&nbsp;</span>
-				<span ng-if="counts[group === 'dataSets' ? 'data_sets' : group]">({{counts[group === 'dataSets' ? 'data_sets' : group]}})</span>
+				<span>({{counts[group === 'dataSets' ? 'data_sets' : group]}})</span>
 			</a>
 			<div ng-switch="getSentimentValue(group)">
 				<md-icon ng-switch-when="0">sentiment_very_dissatisfied</md-icon>

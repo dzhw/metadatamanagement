@@ -26,7 +26,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
             'studies'].forEach(function(type) {
             var bucket  = _.find(data.aggregations.countByType.buckets,
               {key: type});
-            $scope.counts[type] = _.get(bucket, 'doc_count', '');
+            $scope.counts[type] = _.get(bucket, 'doc_count', 0);
           });
         });
     };

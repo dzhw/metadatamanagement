@@ -7,7 +7,8 @@ angular.module('metadatamanagementApp')
       $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
       StudyAttachmentResource, SearchResultNavigatorService, $stateParams,
       $rootScope, DataAcquisitionProjectResource, ProductChooserDialogService,
-             ProjectUpdateAccessService) {
+      ProjectUpdateAccessService, $scope, $transitions) {
+
       SearchResultNavigatorService.registerCurrentSearchResult(
          $stateParams['search-result-index']);
       var versionFromUrl = $stateParams.version;
@@ -27,7 +28,6 @@ angular.module('metadatamanagementApp')
       ];
       ctrl.enableJsonView = Principal
         .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN']);
-      ctrl.isUpdateAllowed = false;
       var bowser = $rootScope.bowser;
 
       ctrl.loadAttachments = function() {
@@ -48,6 +48,21 @@ angular.module('metadatamanagementApp')
         return false;
       };
 
+      var setupTransitionHook = function(project) {
+        var deregisterTransitionHook = $transitions
+          .onBefore({state: 'studyDetail'}, function(transition) {
+            var identifier = _.get(transition, '_targetState._identifier');
+            if (identifier === 'studyEdit') {
+              return ProjectUpdateAccessService
+                .isUpdateAllowed(project, 'studies', true);
+            } else {
+              return true;
+            }
+          });
+
+        $scope.$on('$destroy', deregisterTransitionHook);
+      };
+
       entity.promise.then(function(result) {
         if (Principal
             .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
@@ -55,9 +70,8 @@ angular.module('metadatamanagementApp')
             id: result.dataAcquisitionProjectId
           }).$promise.then(function(project) {
             ctrl.projectIsCurrentlyReleased = (project.release != null);
-            ctrl.isUpdateAllowed = ProjectUpdateAccessService
-              .isUpdateAllowed(project, 'studies');
             ctrl.assigneeGroup = project.assigneeGroup;
+            setupTransitionHook(project);
           });
         }
 
