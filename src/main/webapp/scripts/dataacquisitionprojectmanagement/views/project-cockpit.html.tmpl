@@ -4,11 +4,7 @@
 <div ng-if="!project" class="layout-margin">
   <p>{{'data-acquisition-project-management.project-cockpit.alert.noproject' | translate}}</p>
 </div>
-<div ng-if="fetching" layout-align="space-around">
-  <md-progress-circular md-mode="indeterminate"></md-progress-circular>
-</div>
-
-<div ng-cloak ng-if="project && !fetching">
+<md-card ng-cloak ng-if="project && !fetching">
   <md-tabs md-dynamic-height md-border-bottom>
     <md-tab md-on-select="onTabSelect('status')">
       <md-tab-label>
@@ -29,7 +25,7 @@
       </md-tab-body>
     </md-tab>
   </md-tabs>
-</div>
+</md-card>
 
 
 <div class="fdz-fab-button-container" layout="column">
