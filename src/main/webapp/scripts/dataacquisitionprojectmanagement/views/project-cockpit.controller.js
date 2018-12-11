@@ -520,12 +520,10 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
             $state.go(attrs.createstate, {});
           }
         };
-        scope.count = null;
         scope.$watch(function() {
-          return scope.project &&
-          scope.project.configuration[attrs.group + 'State'] ?
-            scope.project.configuration[attrs.group + 'State']
-              .dataProviderReady : null;
+          var state = _.get(scope, 'project.configuration.' + attrs.group +
+            'State.dataProviderReady');
+          return state ? state : null;
         }, function(newVal, oldVal) {
           if (newVal !== oldVal) {
             scope.setChanged(true);
@@ -539,6 +537,11 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         scope.getSentimentValue = function(tab) {
           return ProjectStatusScoringService
             .scoreProjectStatus(scope.project, tab);
+        };
+
+        scope.isRequired = function() {
+          return _.get(scope, 'project.configuration.requirements.' +
+            attrs.group + 'Required');
         };
       }
     };
