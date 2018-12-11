@@ -219,8 +219,18 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       return project;
     };
 
-    $scope.onSaveChangesAndAssign = function() {
+    $scope.onSaveChangesAndTakeBack = function() {
+      var confirm = $mdDialog.confirm()
+      .title($translate.instant('data-acquisition' +
+        '-project-management.project-cockpit.takeback-dialog.title')
+      ).textContent($translate.instant('data-acquisition' +
+      '-project-management.project-cockpit.takeback-dialog.text')
+      ).ok($translate.instant('global.common-dialogs.yes'))
+      .cancel($translate.instant('global.common-dialogs.no'));
+      $mdDialog.show(confirm).then($scope.onSaveChangesAndAssign);
+    };
 
+    $scope.onSaveChangesAndAssign = function() {
       if (!_.get($scope.project, 'configuration.dataProviders.length')) {
         SimpleMessageToastService.openAlertMessageToast('data-acquisition' +
           '-project-management.project-cockpit.no-data-providers' +

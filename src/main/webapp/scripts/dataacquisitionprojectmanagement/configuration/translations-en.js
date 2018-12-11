@@ -127,6 +127,7 @@ angular.module('metadatamanagementApp').config(
           'button': {
             'save': 'Click to save the changes.',
             'save-assign': 'Click to save the changes and to assign the project.',
+            'save-takeback': 'Click to save the changes and to assign the project to the publishers group.',
             'remove-user': 'Remove user'
           },
           'list': {
@@ -164,6 +165,10 @@ angular.module('metadatamanagementApp').config(
           },
           'no-data-providers-dialog': {
             'text': 'This project has no assigned data providers. Please assign at least one data provider in the project configuration.'
+          },
+          'takeback-dialog': {
+            'title': 'Take back project',
+            'text': 'Do you really want to withdraw this project from the data provider group?'
           }
         }
       }

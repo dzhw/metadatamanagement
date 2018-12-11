@@ -127,6 +127,7 @@ angular.module('metadatamanagementApp').config(
           'button': {
             'save': 'Klicken, um die Anpassungen zu speichern.',
             'save-assign': 'Klicken, um die Anpassungen zu speichern und das Projekt zuzuweisen.',
+            'save-takeback': 'Klicken, um die Anpassungen zu speichern und das Projekt der Gruppe Publisher zuzuweisen.',
             'remove-user': 'Nutzer entfernen'
           },
           'list': {
@@ -164,6 +165,10 @@ angular.module('metadatamanagementApp').config(
           },
           'no-data-providers-dialog': {
             'text': 'Es gibt keine eingetragenen Datengeber für dieses Projekt. Wechseln Sie zu den Projekteinstellungen und tragen Sie mindestens einen Datengeber ein.'
+          },
+          'takeback-dialog': {
+            'title': 'Projekt zurückziehen',
+            'text': 'Möchten Sie das Projekt wirklich von der Gruppe Datengeber zurückziehen?'
           }
         }
       }

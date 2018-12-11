@@ -11,12 +11,20 @@
 		</md-card>
 		<md-card layout-margin layout-column layout-align="center center" flex="1" style="flex-grow:0;flex-basis:200px;padding:8px;">
 			<project-status-badge assignee-group="{{project.assigneeGroup}}"></project-status-badge>
-			<md-button class="md-raised md-fab md-mini md-primary" ng-click="onSaveChangesAndAssign()" ng-disabled="!isAssignedPublisher && project.assigneeGroup !== 'DATA_PROVIDER'">
-				<md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-					{{'data-acquisition-project-management.project-cockpit.button.save-assign' | translate}}
-				</md-tooltip>
-				<md-icon md-font-set="material-icons">send</md-icon>
-			</md-button>
+			<div class="layout-row">
+				<md-button ng-disabled="!(project.assigneeGroup === 'PUBLISHER' && isAssignedPublisher || project.assigneeGroup === 'DATA_PROVIDER' && isAssignedDataProvider)" class="md-raised md-fab md-mini md-primary" ng-click="onSaveChangesAndAssign()">
+					<md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+						{{'data-acquisition-project-management.project-cockpit.button.save-assign' | translate}}
+					</md-tooltip>
+					<md-icon md-font-set="material-icons">send</md-icon>
+				</md-button>
+				<md-button ng-if="isAssignedPublisher && project.assigneeGroup !== 'PUBLISHER'" class="md-raised md-fab md-mini md-primary" ng-click="onSaveChangesAndTakeBack()">
+					<md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+						{{'data-acquisition-project-management.project-cockpit.button.save-takeback' | translate}}
+					</md-tooltip>
+					<md-icon md-font-set="material-icons">gavel</md-icon>
+				</md-button>
+			</div>
 		</md-card>
 	</div>
 </div>
