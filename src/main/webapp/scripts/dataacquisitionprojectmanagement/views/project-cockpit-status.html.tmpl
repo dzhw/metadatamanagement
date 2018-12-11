@@ -2,12 +2,14 @@
 	<div layout-gt-xs="row" layout="column" layout-wrap>
 		<md-card layout-margin layout-column layout-align="center center" flex="1" style="flex-grow:0;min-width:200px;padding:8px;">
 			<release-status-badge released="project.release"></release-status-badge>
-			<md-button class="md-raised md-fab md-mini md-primary" ng-click="toggleReleaseProject()" ng-disabled="!isAssignedPublisher">
-				<md-tooltip ng-hide="!project" md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-					{{project.release?'global.tooltips.unrelease-project':'global.tooltips.release-project' | translate}}
-				</md-tooltip>
-				<md-icon md-font-set="material-icons">{{project.release?'stop_screen_share':'screen_share'}}</md-icon>
-			</md-button>
+			<div class="layout-row">
+				<md-button class="md-raised md-fab md-mini md-primary" ng-click="toggleReleaseProject()" ng-disabled="!isAssignedPublisher">
+					<md-tooltip ng-hide="!project" md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+						{{project.release?'global.tooltips.unrelease-project':'global.tooltips.release-project' | translate}}
+					</md-tooltip>
+					<md-icon md-font-set="material-icons">{{project.release?'stop_screen_share':'screen_share'}}</md-icon>
+				</md-button>
+			</div>
 		</md-card>
 		<md-card layout-margin layout-column layout-align="center center" flex="1" style="flex-grow:0;min-width:200px;padding:8px;">
 			<project-status-badge assignee-group="{{project.assigneeGroup}}"></project-status-badge>
