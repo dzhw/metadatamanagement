@@ -1,21 +1,21 @@
 <md-card style="margin-top:8px;">
 	<md-card-content layout="row">
 		<div layout="column" >
-			<div layout layout-align="end center" flex="50">
+			<div layout layout-align="start center" flex="50">
 				<release-status-badge released="project.release"></release-status-badge>
 			</div>
-			<div layout layout-align="end center" flex="50">
+			<div layout layout-align="start center" flex="50">
 				<project-status-badge assignee-group="{{project.assigneeGroup}}"></project-status-badge>
 			</div>
 		</div>
 		<div layout="column">
-			<md-button class="md-raised md-fab md-mini md-primary" ng-disabled="!project" ng-click="toggleReleaseProject()" data-has-authority="ROLE_PUBLISHER">
+			<md-button class="md-raised md-fab md-mini md-primary" ng-click="toggleReleaseProject()" ng-disabled="!isAssignedPublisher">
 				<md-tooltip ng-hide="!project" md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
 					{{project.release?'global.tooltips.unrelease-project':'global.tooltips.release-project' | translate}}
 				</md-tooltip>
 				<md-icon md-font-set="material-icons">{{project.release?'stop_screen_share':'screen_share'}}</md-icon>
 			</md-button>
-			<md-button ng-if="shareButtonShown" class="md-raised md-fab md-mini md-accent" ng-click="onSaveChangesAndAssign()" ng-disabled="!isAssignedPublisher && project.assigneeGroup !== 'DATA_PROVIDER'">
+			<md-button class="md-raised md-fab md-mini md-primary" ng-click="onSaveChangesAndAssign()" ng-disabled="!isAssignedPublisher && project.assigneeGroup !== 'DATA_PROVIDER'">
 				<md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
 					{{'data-acquisition-project-management.project-cockpit.button.save-assign' | translate}}
 				</md-tooltip>
@@ -24,24 +24,23 @@
 		</div>
 	</md-card-content>
 </md-card>
-<md-divider></md-divider>
 <div layout-gt-sm="row" layout="column" layout-wrap>
 	<project-cockpit-assignment class="fdz-project-cockpit-assignment" flex="none" group="studies" icon="assets/images/icons/study.svg" createstate="studyCreate" searchstate="studies"></project-cockpit-assignment>
 	<project-cockpit-assignment class="fdz-project-cockpit-assignment" flex="none" group="surveys" icon="assets/images/icons/survey.svg" createstate="surveyCreate" searchstate="surveys"></project-cockpit-assignment>
 	<project-cockpit-assignment class="fdz-project-cockpit-assignment" flex="none" group="instruments" icon="assets/images/icons/instrument.svg" createstate="instrumentCreate" searchstate="instruments"></project-cockpit-assignment>
 	<project-cockpit-assignment class="fdz-project-cockpit-assignment" flex="none" group="questions" icon="assets/images/icons/question.svg" searchstate="questions">
-        <md-button class="md-primary md-raised" ng-disabled="project.configuration.questionsState.dataProviderReady && project.configuration.questionsState.publisherReady"
-                   type="file" ngf-select="uploadQuestions($files)" directory webkitdirectory ngf-multiple="true">
-            {{'data-acquisition-project-management.project-cockpit.config.upload' | translate}}
-            <md-tooltip md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">{{'data-acquisition-project-management.project-cockpit.tooltip.upload' | translate}}</md-tooltip>
-        </md-button>
-    </project-cockpit-assignment>
+		<md-button class="md-primary md-raised" ng-disabled="project.configuration.questionsState.dataProviderReady && project.configuration.questionsState.publisherReady"
+				   type="file" ngf-select="uploadQuestions($files)" directory webkitdirectory ngf-multiple="true">
+			{{'data-acquisition-project-management.project-cockpit.config.upload' | translate}}
+			<md-tooltip md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">{{'data-acquisition-project-management.project-cockpit.tooltip.upload' | translate}}</md-tooltip>
+		</md-button>
+	</project-cockpit-assignment>
 	<project-cockpit-assignment class="fdz-project-cockpit-assignment" flex="none" group="dataSets" icon="assets/images/icons/data-set.svg" createstate="dataSetCreate" searchstate="data_sets"></project-cockpit-assignment>
 	<project-cockpit-assignment class="fdz-project-cockpit-assignment" flex="none" group="variables" icon="assets/images/icons/variable.svg" searchstate="variables">
-        <md-button class="md-primary md-raised" ng-disabled="project.configuration.variablesState.dataProviderReady && project.configuration.variablesState.publisherReady"
-                   type="file" ngf-select="uploadVariables($files)" directory webkitdirectory ngf-multiple="true">
-            {{'data-acquisition-project-management.project-cockpit.config.upload' | translate}}
-            <md-tooltip md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">{{'data-acquisition-project-management.project-cockpit.tooltip.upload' | translate}}</md-tooltip>
-        </md-button>
-    </project-cockpit-assignment>
+		<md-button class="md-primary md-raised" ng-disabled="project.configuration.variablesState.dataProviderReady && project.configuration.variablesState.publisherReady"
+				   type="file" ngf-select="uploadVariables($files)" directory webkitdirectory ngf-multiple="true">
+			{{'data-acquisition-project-management.project-cockpit.config.upload' | translate}}
+			<md-tooltip md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">{{'data-acquisition-project-management.project-cockpit.tooltip.upload' | translate}}</md-tooltip>
+		</md-button>
+	</project-cockpit-assignment>
 </div>

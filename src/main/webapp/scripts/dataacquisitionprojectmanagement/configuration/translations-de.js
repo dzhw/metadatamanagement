@@ -89,10 +89,18 @@ angular.module('metadatamanagementApp').config(
           },
           'post-validation': {
             'project-has-no-study': 'Das Projekt mit der FDZID {{ id }} enthält keine Studie.'
+          },
+          'project-update-access': {
+            'project-selected': 'Für das Anlegen neuer Daten muss ein Projekt ausgewählt sein.',
+            'type-update-allowed': 'Das Bearbeiten ist nicht möglich, weil die Korrektheit durch den Publisher bereits bestätigt wurde.',
+            'project-released': 'Das Bearbeiten ist nicht möglich, weil das Projekt bereits veröffentlicht wurde.',
+            'member-of-assigned-group': 'Das Bearbeiten ist nicht möglich, weil Sie nicht in der zugewiesenen Gruppe sind (Publisher bzw. Datengeber).',
+            'assigned-to-project': 'Das Bearbeiten ist nicht möglich, weil Sie dem ausgewählten Projekt nicht als Publisher bzw. Datengeber zugewiesen sind.'
           }
         },
         'project-cockpit': {
           'title': 'Projekt-Cockpit ({{projectId}})',
+          'header': 'Projekt-Cockpit',
           'search': {
             'placeholder': 'Suchen Sie Benutzer...',
             'header-data-provider': 'Datengeber dieses Projekts',

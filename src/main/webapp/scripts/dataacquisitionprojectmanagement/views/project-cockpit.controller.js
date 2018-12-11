@@ -8,13 +8,12 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
            CurrentProjectService, projectDeferred, CommonDialogsService,
            SearchDao, QuestionUploadService, VariableUploadService, $translate,
            $mdDialog, ProjectReleaseService, $timeout,
+           ProjectUpdateAccessService,
            DataAcquisitionProjectPostValidationService) {
 
     var pageTitleKey = 'data-acquisition-project-management.project' +
       '-cockpit.title';
 
-    PageTitleService.setPageTitle(
-      pageTitleKey, {projectId: ''});
     ToolbarHeaderService.updateToolbarHeader({
       stateName: $state.current.name
     });
@@ -81,8 +80,24 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
           PageTitleService.setPageTitle(pageTitleKey,
             {projectId: changedProject.id});
           setTypeCounts(changedProject.id);
+          PageTitleService.setPageTitle(
+            pageTitleKey, {projectId: changedProject.id});
         }
       });
+
+    $scope.isUpdateAllowed = function(type) {
+      var isRequired =  _.get($scope, 'project.configuration.requirements.' +
+        type + 'Required');
+      if (!isRequired) {
+        return false;
+      }
+      if ($scope.project) {
+        return ProjectUpdateAccessService
+          .isUpdateAllowed($scope.project, type, true);
+      } else {
+        return false;
+      }
+    };
 
     var saveProject = function(project) {
       return DataAcquisitionProjectResource.save(
@@ -282,6 +297,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     // load all users assigned to the currrent project
     projectDeferred.promise.then(
       function(project) {
+        setTypeCounts(project.id);
         $scope.project = project;
         $scope.fetching = true;
 
@@ -502,16 +518,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
             scope.setChanged(true);
           }
         });
-        scope.$watch(function() {
-          return scope.project &&
-          scope.project.configuration[attrs.group + 'State'] ?
-            scope.project.configuration[attrs.group + 'State']
-              .publisherReady : null;
-        }, function(newVal, oldVal) {
-          if (newVal !== oldVal) {
-            scope.setChanged(true);
-          }
-        });
+
         $transclude(function(transclusion) {
           scope.hasTranscludedContent = transclusion.length > 0;
         });

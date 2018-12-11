@@ -2,9 +2,8 @@
 	<md-card-header>
 		<md-card-header-text layout="row" layout-align="space-between center">
 			<a ui-sref="search({type: searchState})" class="md-headline" layout="row" layout-align="start center">
-				<md-icon ng-if="icon" md-svg-icon="{{icon}}" class="md-primary"></md-icon>&nbsp;
-				{{'data-acquisition-project-management.project-cockpit.requirements.'+group | translate}}
-				&nbsp;
+				<md-icon ng-if="icon" md-svg-icon="{{icon}}" class="md-primary"></md-icon>
+				<span>&nbsp;{{'data-acquisition-project-management.project-cockpit.requirements.'+group | translate}}&nbsp;</span>
 				<span ng-if="counts[group]">({{counts[group]}})</span>
 			</a>
 			<div ng-switch="getSentimentValue(group)">
@@ -39,7 +38,7 @@
 	</md-card-content>
 	<md-card-actions layout="row" layout-align="end center">
 		<div ng-transclude></div>
-		<md-button class="md-primary md-raised" ng-if="!hasTranscludedContent" ng-click="create()" ng-disabled="project.configuration[group+'State'].dataProviderReady && project.configuration[group+'State'].publisherReady">
+		<md-button class="md-primary md-raised" ng-if="!hasTranscludedContent" ng-click="create()" ng-disabled="!isUpdateAllowed(group)">
 			{{'data-acquisition-project-management.project-cockpit.config.new' | translate}}
 			<md-tooltip md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">{{'data-acquisition-project-management.project-cockpit.tooltip.new' | translate}}</md-tooltip>
 		</md-button>

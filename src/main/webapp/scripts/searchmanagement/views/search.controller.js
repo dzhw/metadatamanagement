@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
            CleanJSObjectService, CurrentProjectService, $timeout,
            PageTitleService, ToolbarHeaderService, SearchHelperService,
            SearchResultNavigatorService, StudyResource, StudyIdBuilderService,
-           $rootScope, ProjectStatusScoringService) {
+           $rootScope, ProjectStatusScoringService, $transitions) {
 
     var queryChangedOnInit = false;
     var tabChangedOnInitFlag = false;
@@ -19,6 +19,20 @@ angular.module('metadatamanagementApp').controller('SearchController',
     var currentProjectChangeIsBeingHandled = false;
     var selectedTabChangeIsBeingHandled = false;
     var queryChangeIsBeingHandled = false;
+
+    var deregisterTransitionHook = $transitions.onBefore({state: 'search'},
+      function(transition) {
+      var identifier = _.get(transition, '_targetState._identifier');
+      if (identifier && identifier.match && identifier.match(/.*Create$/)) {
+        var type = $scope.tabs[$scope.searchParams.selectedTabIndex]
+          .elasticSearchType;
+        return ProjectUpdateAccessService
+          .isUpdateAllowed($scope.currentProject, type, true);
+      } else {
+        return true;
+      }
+    });
+
     $scope.isSearching = 0;
     $scope.isDropZoneDisabled = true;
 
@@ -318,6 +332,12 @@ angular.module('metadatamanagementApp').controller('SearchController',
       //wait for 1 seconds until refresh
       //in order to wait for elasticsearch reindex
       $timeout($scope.search, 2000);
+    });
+
+    $scope.$on('destroy', function() {
+      if (deregisterTransitionHook) {
+        deregisterTransitionHook();
+      }
     });
 
     //Information for the different tabs

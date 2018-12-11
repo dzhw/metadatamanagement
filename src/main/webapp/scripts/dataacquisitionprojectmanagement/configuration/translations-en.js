@@ -89,10 +89,18 @@ angular.module('metadatamanagementApp').config(
           },
           'post-validation': {
             'project-has-no-study': 'The Project with the RDC-ID {{ id }} has no study.'
+          },
+          'project-update-access': {
+            'project-selected': 'A project has to be selected before data can be added.',
+            'type-update-allowed': 'Editing is impossible, because the publisher already confirmed the correctness of the current data.',
+            'project-released': 'Editing is impossible, because the project as already been released.',
+            'member-of-assigned-group': 'Editing is impossible, because you are not a member of the assigned group.',
+            'assigned-to-project': 'Editing is impossible, because you are not assigned to the selected project as a publisher or data provider.'
           }
         },
         'project-cockpit': {
           'title': 'Project-Cockpit ({{projectId}})',
+          'header': 'Project-Cockpit',
           'search': {
             'placeholder': 'Search for users...',
             'header-data-provider': 'Data Providers of this project',
@@ -127,7 +135,7 @@ angular.module('metadatamanagementApp').config(
           },
           'tabs': {
             'status': 'Status',
-            'config': 'Configuration'
+            'config': 'Settings'
           },
           'requirements': {
             'header': 'Expected Metadata',

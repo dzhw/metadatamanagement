@@ -96,21 +96,21 @@
             <md-icon md-font-set="material-icons">add</md-icon>
         </md-button>
 
-        <md-button class="md-fab md-raised md-accent" ui-sref="surveyCreate()" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='surveys'" ng-disabled="!isUpdateAllowed">
+        <md-button class="md-fab md-raised md-accent" ui-sref="surveyCreate()" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='surveys'">
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{'search-management.buttons.create-survey-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">add</md-icon>
         </md-button>
 
-        <md-button class="md-fab md-raised md-accent" ui-sref="dataSetCreate()" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='data_sets'" ng-disabled="!isUpdateAllowed">
+        <md-button class="md-fab md-raised md-accent" ui-sref="dataSetCreate()" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='data_sets'">
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{'search-management.buttons.create-data-set-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">add</md-icon>
         </md-button>
 
-        <md-button class="md-fab md-raised md-accent" ui-sref="instrumentCreate()" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='instruments'" ng-disabled="!isUpdateAllowed">
+        <md-button class="md-fab md-raised md-accent" ui-sref="instrumentCreate()" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='instruments'">
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{'search-management.buttons.create-instrument-tooltip' | translate}}
             </md-tooltip>

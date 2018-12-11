@@ -3,7 +3,18 @@
 'use strict';
 angular.module('metadatamanagementApp').service(
   'ProjectUpdateAccessService',
-  function(CurrentProjectService, Principal) {
+  function(CurrentProjectService, Principal, SimpleMessageToastService) {
+
+    var messagePrefix = 'data-acquisition-project-management.error.project' +
+      '-update-access.';
+
+    var errorList = {
+      projectSelected: messagePrefix + 'project-selected',
+      typeUpdateAllowed: messagePrefix + 'type-update-allowed',
+      projectUnreleased: messagePrefix + 'project-released',
+      memberOfAssignedGroup: messagePrefix + 'member-of-assigned-group',
+      assignedToProject: messagePrefix + 'assigned-to-project'
+    };
 
     var isProjectSelected = function(project) {
       return project !== undefined && project !== null;
@@ -71,12 +82,51 @@ angular.module('metadatamanagementApp').service(
       return false;
     };
 
-    var isUpdateAllowed = function(project, type) {
+    var isUpdateAllowed = function(project, type, notify) {
       var test = project || CurrentProjectService.getCurrentProject();
+      var isValid = true;
 
-      return isProjectSelected(test) && isTypeUpdateAllowed(test, type) &&
-        isProjectUnreleased(test) && isMemberOfAssignedGroup(test) &&
-        isAssignedToProject(test);
+      var projectSelected = isProjectSelected.bind(null, test);
+      projectSelected.canContinue = false;
+      projectSelected.errorKey = errorList.projectSelected;
+
+      var assignedToProject = isAssignedToProject.bind(null, test);
+      assignedToProject.canContinue = false;
+      assignedToProject.errorKey = errorList.assignedToProject;
+
+      var memberOfAssignedGroup = isMemberOfAssignedGroup.bind(null, test);
+      memberOfAssignedGroup.canContinue = true;
+      memberOfAssignedGroup.errorKey = errorList.memberOfAssignedGroup;
+
+      var updateAllowed = isTypeUpdateAllowed.bind(null, test, type);
+      updateAllowed.canContinue = true;
+      updateAllowed.errorKey = errorList.typeUpdateAllowed;
+
+      var projectUnreleased = isProjectUnreleased.bind(null, test);
+      projectUnreleased.canContinue = true;
+      projectUnreleased.errorKey = errorList.projectUnreleased;
+
+      var validations = [projectSelected, assignedToProject,
+        memberOfAssignedGroup, updateAllowed, projectUnreleased];
+
+      for (var i = 0; i < validations.length; i++) {
+        validations[i].isValid = validations[i]();
+        isValid = isValid && validations[i].isValid;
+        if (!validations[i].isValid && !validations[i].canContinue) {
+          break;
+        }
+      }
+
+      if (notify) {
+        validations.forEach(function(validation) {
+          if (validation.isValid === false) {
+            SimpleMessageToastService
+              .openAlertMessageToast(validation.errorKey);
+          }
+        });
+      }
+
+      return isValid;
     };
 
     return {
