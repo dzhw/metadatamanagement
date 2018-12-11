@@ -86,17 +86,13 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       });
 
     $scope.isUpdateAllowed = function(type) {
-      var isRequired =  _.get($scope, 'project.configuration.requirements.' +
+      return !_.get($scope, 'project.configuration.requirements.' +
         type + 'Required');
-      if (!isRequired) {
-        return false;
-      }
-      if ($scope.project) {
-        return ProjectUpdateAccessService
-          .isUpdateAllowed($scope.project, type, true);
-      } else {
-        return false;
-      }
+    };
+
+    $scope.isUploadAllowed = function(type) {
+      return ProjectUpdateAccessService.isUpdateAllowed($scope.project, type,
+        true);
     };
 
     var saveProject = function(project) {
@@ -490,7 +486,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     }
   };
 }).directive('projectCockpitAssignment',
-  function($state, ProjectStatusScoringService) {
+  function($state, ProjectStatusScoringService, ProjectUpdateAccessService) {
     return {
       restrict: 'E',
       templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
@@ -505,7 +501,10 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         scope.searchState = attrs.searchstate;
         scope.icon = attrs.icon;
         scope.create = function() {
-          $state.go(attrs.createstate, {});
+          if (ProjectUpdateAccessService.isUpdateAllowed(scope.project,
+            scope.group, true)) {
+            $state.go(attrs.createstate, {});
+          }
         };
         scope.count = null;
         scope.$watch(function() {

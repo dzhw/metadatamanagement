@@ -80,16 +80,16 @@
             </md-button>
         </div>
         <!-- Index 2 = Questions Tab -->
-        <md-button aria-label="{{'search-management.buttons.upload-questions' | translate}}" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='questions'" type="file" ngf-select="uploadQuestions($files)" ngf-multiple="true" class="md-accent md-fab fdz-fade-in"
-          directory webkitdirectory ng-disabled="!isUpdateAllowed">
+        <md-button aria-label="{{'search-management.buttons.upload-questions' | translate}}" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='questions'" type="file" ngf-select="uploadQuestions($files)" ngf-multiple="true" ngf-select-disabled="!isUploadAllowed('questions')" class="md-accent md-fab fdz-fade-in"
+          directory webkitdirectory>
             <md-tooltip ng-hide="!currentProject || currentProject.release" md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{'search-management.buttons.upload-questions-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">add</md-icon>
         </md-button>
 
-        <md-button aria-label="{{'search-management.buttons.upload-variables' | translate}}" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='variables'" type="file" ngf-select="uploadVariables($files)" class="md-accent md-fab fdz-fade-in" ngf-multiple="true"
-          directory webkitdirectory ng-disabled="!isUpdateAllowed">
+        <md-button aria-label="{{'search-management.buttons.upload-variables' | translate}}" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='variables'" type="file" ngf-select="uploadVariables($files)" ngf-select-disabled="!isUploadAllowed('variables')" class="md-accent md-fab fdz-fade-in" ngf-multiple="true"
+          directory webkitdirectory>
             <md-tooltip ng-hide="!currentProject || currentProject.release" md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{'search-management.buttons.upload-variables-tooltip' | translate}}
             </md-tooltip>

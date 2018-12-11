@@ -469,11 +469,16 @@ angular.module('metadatamanagementApp').controller('SearchController',
         $scope.isDropZoneDisabled = true;
         return;
       }
-      if ($scope.tabs[$scope.searchParams.selectedTabIndex]
-        .elasticSearchType !== 'related_publications') {
+
+      var type = $scope.tabs[$scope.searchParams.selectedTabIndex]
+        .elasticSearchType;
+
+      if (type !== 'related_publications') {
         if (!$scope.currentProject || $scope.currentProject.release ||
           !Principal.hasAnyAuthority(
-            ['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
+            ['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER']) ||
+          !ProjectUpdateAccessService
+            .isUpdateAllowed($scope.currentProject, type)) {
           $scope.isDropZoneDisabled = true;
           return;
         }
@@ -489,6 +494,11 @@ angular.module('metadatamanagementApp').controller('SearchController',
     $scope.getSentimentValue = function(tab) {
       return ProjectStatusScoringService
         .scoreProjectStatus($scope.currentProject, tab);
+    };
+
+    $scope.isUploadAllowed = function(type) {
+      return ProjectUpdateAccessService.isUpdateAllowed($scope.currentProject,
+        type, true);
     };
     init();
   });

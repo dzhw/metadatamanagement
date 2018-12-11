@@ -150,7 +150,7 @@ angular.module('metadatamanagementApp').config(
           'config': {
             'assigned-group': 'Assigned User Group',
             'released': 'Published',
-            'expected': 'expected',
+            'expected': 'Expected',
             'ready': 'ready',
             'new': 'New',
             'upload': 'Upload'
