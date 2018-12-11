@@ -1,4 +1,4 @@
-/* global _, bowser*/
+/* global _ */
 'use strict';
 
 angular.module('metadatamanagementApp')
@@ -92,87 +92,82 @@ angular.module('metadatamanagementApp')
       var init = function() {
         if (Principal.hasAnyAuthority(['ROLE_PUBLISHER',
             'ROLE_DATA_PROVIDER'])) {
-          if (!bowser.msie) {
-            if (entity) {
-              entity.$promise.then(function(instrument) {
-                ctrl.createMode = false;
-                DataAcquisitionProjectResource.get({
-                  id: instrument.dataAcquisitionProjectId
-                }).$promise.then(function(project) {
-                  if (project.release != null) {
-                    handleReleasedProject();
-                  } else if (!ProjectUpdateAccessService
-                    .isUpdateAllowed(project, 'instruments')) {
-                    handleUserNotInAssigneeGroup();
-                  } else {
-                    ctrl.instrument = instrument;
-                    ctrl.initSurveyChips();
-                    ctrl.loadAttachments();
-                    updateToolbarHeaderAndPageTitle();
-                    $scope.registerConfirmOnDirtyHook();
-                  }
-                });
+          if (entity) {
+            entity.$promise.then(function(instrument) {
+              ctrl.createMode = false;
+              DataAcquisitionProjectResource.get({
+                id: instrument.dataAcquisitionProjectId
+              }).$promise.then(function(project) {
+                if (project.release != null) {
+                  handleReleasedProject();
+                } else if (!ProjectUpdateAccessService
+                  .isUpdateAllowed(project, 'instruments')) {
+                  handleUserNotInAssigneeGroup();
+                } else {
+                  ctrl.instrument = instrument;
+                  ctrl.initSurveyChips();
+                  ctrl.loadAttachments();
+                  updateToolbarHeaderAndPageTitle();
+                  $scope.registerConfirmOnDirtyHook();
+                }
               });
-            } else {
-              if (CurrentProjectService.getCurrentProject() &&
-              !CurrentProjectService.getCurrentProject().release) {
-                ctrl.createMode = true;
-                AvailableInstrumentNumbersResource.get({
-                  id: CurrentProjectService.getCurrentProject().id
-                }).$promise.then(
-                    function(instrumentNumbers) {
-                      if (instrumentNumbers.length === 1) {
-                        ctrl.instrument = new InstrumentResource({
-                          id: InstrumentIdBuilderService.buildInstrumentId(
-                            CurrentProjectService.getCurrentProject().id,
-                            instrumentNumbers[0]
-                          ),
-                          number: instrumentNumbers[0],
-                          dataAcquisitionProjectId:
-                          CurrentProjectService.getCurrentProject().id,
-                          studyId: StudyIdBuilderService.buildStudyId(
-                            CurrentProjectService.getCurrentProject().id
-                          ),
-                        });
-                        updateToolbarHeaderAndPageTitle();
-                        $scope.registerConfirmOnDirtyHook();
-                      } else {
-                        $mdDialog.show({
-                            controller: 'ChooseInstrumentNumberController',
-                            templateUrl: 'scripts/instrumentmanagement/' +
-                              'views/choose-instrument-number.html.tmpl',
-                            clickOutsideToClose: false,
-                            fullscreen: true,
-                            locals: {
-                              availableInstrumentNumbers: instrumentNumbers
-                            }
-                          })
-                          .then(function(response) {
-                            ctrl.instrument = new InstrumentResource({
-                              id: InstrumentIdBuilderService.buildInstrumentId(
-                                CurrentProjectService.getCurrentProject().id,
-                                response.instrumentNumber
-                              ),
-                              number: response.instrumentNumber,
-                              dataAcquisitionProjectId:
-                              CurrentProjectService.getCurrentProject().id,
-                              studyId: StudyIdBuilderService.buildStudyId(
-                                CurrentProjectService.getCurrentProject().id
-                              )
-                            });
-                            $scope.responseRateInitializing = true;
-                            updateToolbarHeaderAndPageTitle();
-                            $scope.registerConfirmOnDirtyHook();
-                          });
-                      }
-                    });
-              } else {
-                handleReleasedProject();
-              }
-            }
+            });
           } else {
-            SimpleMessageToastService.openAlertMessageToast(
-              'global.edit.internet-explorer-not-supported');
+            if (CurrentProjectService.getCurrentProject() &&
+            !CurrentProjectService.getCurrentProject().release) {
+              ctrl.createMode = true;
+              AvailableInstrumentNumbersResource.get({
+                id: CurrentProjectService.getCurrentProject().id
+              }).$promise.then(
+                  function(instrumentNumbers) {
+                    if (instrumentNumbers.length === 1) {
+                      ctrl.instrument = new InstrumentResource({
+                        id: InstrumentIdBuilderService.buildInstrumentId(
+                          CurrentProjectService.getCurrentProject().id,
+                          instrumentNumbers[0]
+                        ),
+                        number: instrumentNumbers[0],
+                        dataAcquisitionProjectId:
+                        CurrentProjectService.getCurrentProject().id,
+                        studyId: StudyIdBuilderService.buildStudyId(
+                          CurrentProjectService.getCurrentProject().id
+                        ),
+                      });
+                      updateToolbarHeaderAndPageTitle();
+                      $scope.registerConfirmOnDirtyHook();
+                    } else {
+                      $mdDialog.show({
+                          controller: 'ChooseInstrumentNumberController',
+                          templateUrl: 'scripts/instrumentmanagement/' +
+                            'views/choose-instrument-number.html.tmpl',
+                          clickOutsideToClose: false,
+                          fullscreen: true,
+                          locals: {
+                            availableInstrumentNumbers: instrumentNumbers
+                          }
+                        })
+                        .then(function(response) {
+                          ctrl.instrument = new InstrumentResource({
+                            id: InstrumentIdBuilderService.buildInstrumentId(
+                              CurrentProjectService.getCurrentProject().id,
+                              response.instrumentNumber
+                            ),
+                            number: response.instrumentNumber,
+                            dataAcquisitionProjectId:
+                            CurrentProjectService.getCurrentProject().id,
+                            studyId: StudyIdBuilderService.buildStudyId(
+                              CurrentProjectService.getCurrentProject().id
+                            )
+                          });
+                          $scope.responseRateInitializing = true;
+                          updateToolbarHeaderAndPageTitle();
+                          $scope.registerConfirmOnDirtyHook();
+                        });
+                    }
+                  });
+            } else {
+              handleReleasedProject();
+            }
           }
         } else {
           SimpleMessageToastService.openAlertMessageToast(

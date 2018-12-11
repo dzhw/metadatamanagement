@@ -1,4 +1,4 @@
-/* global _, bowser*/
+/* global _ */
 'use strict';
 
 angular.module('metadatamanagementApp')
@@ -76,101 +76,96 @@ angular.module('metadatamanagementApp')
       var init = function() {
         if (Principal.hasAnyAuthority(['ROLE_PUBLISHER',
             'ROLE_DATA_PROVIDER'])) {
-          if (!bowser.msie) {
-            if (entity) {
-              entity.$promise.then(function(survey) {
-                ctrl.createMode = false;
-                DataAcquisitionProjectResource.get({
-                  id: survey.dataAcquisitionProjectId
-                }).$promise.then(function(project) {
-                  if (project.release != null) {
-                    handleReleasedProject();
-                  } else if (!ProjectUpdateAccessService
-                    .isUpdateAllowed(project, 'surveys')) {
-                    handleUserNotInAssigneeGroup();
-                  } else {
-                    ctrl.survey = survey;
-                    ctrl.currentSurveyMethod = survey.surveyMethod;
-                    $scope.responseRateInitializing = true;
-                    ctrl.loadAttachments();
-                    updateToolbarHeaderAndPageTitle();
-                    $scope.registerConfirmOnDirtyHook();
-                    SurveyResponseRateImageUploadService.getImage(
-                      ctrl.survey.id, ctrl.survey.number, 'en')
-                      .then(function(image) {
-                        ctrl.responseRateImageEn = image;
-                      });
-                    SurveyResponseRateImageUploadService.getImage(
-                      ctrl.survey.id, ctrl.survey.number, 'de')
-                      .then(function(image) {
-                        ctrl.responseRateImageDe = image;
-                      });
-                  }
-                });
-              });
-            } else {
-              if (CurrentProjectService.getCurrentProject() &&
-              !CurrentProjectService.getCurrentProject().release) {
-                ctrl.createMode = true;
-                AvailableSurveyNumbersResource.get({
-                  id: CurrentProjectService.getCurrentProject().id
-                }).$promise.then(
-                    function(surveyNumbers) {
-                      if (surveyNumbers.length === 1) {
-                        ctrl.survey = new SurveyResource({
-                          id: SurveyIdBuilderService.buildSurveyId(
-                            CurrentProjectService.getCurrentProject().id,
-                            surveyNumbers[0]
-                          ),
-                          number: surveyNumbers[0],
-                          dataAcquisitionProjectId:
-                          CurrentProjectService.getCurrentProject().id,
-                          studyId: StudyIdBuilderService.buildStudyId(
-                            CurrentProjectService.getCurrentProject().id
-                          ),
-                          wave: 1
-                        });
-                        $scope.responseRateInitializing = true;
-                        updateToolbarHeaderAndPageTitle();
-                        $scope.registerConfirmOnDirtyHook();
-                      } else {
-                        $mdDialog.show({
-                            controller: 'ChooseSurveyNumberController',
-                            templateUrl: 'scripts/surveymanagement/' +
-                              'views/choose-survey-number.html.tmpl',
-                            clickOutsideToClose: false,
-                            fullscreen: true,
-                            locals: {
-                              availableSurveyNumbers: surveyNumbers
-                            }
-                          })
-                          .then(function(response) {
-                            ctrl.survey = new SurveyResource({
-                              id: SurveyIdBuilderService.buildSurveyId(
-                                CurrentProjectService.getCurrentProject().id,
-                                response.surveyNumber
-                              ),
-                              number: response.surveyNumber,
-                              dataAcquisitionProjectId:
-                              CurrentProjectService.getCurrentProject().id,
-                              studyId: StudyIdBuilderService.buildStudyId(
-                                CurrentProjectService.getCurrentProject().id
-                              ),
-                              wave: 1
-                            });
-                            $scope.responseRateInitializing = true;
-                            updateToolbarHeaderAndPageTitle();
-                            $scope.registerConfirmOnDirtyHook();
-                          });
-                      }
+          if (entity) {
+            entity.$promise.then(function(survey) {
+              ctrl.createMode = false;
+              DataAcquisitionProjectResource.get({
+                id: survey.dataAcquisitionProjectId
+              }).$promise.then(function(project) {
+                if (project.release != null) {
+                  handleReleasedProject();
+                } else if (!ProjectUpdateAccessService
+                  .isUpdateAllowed(project, 'surveys')) {
+                  handleUserNotInAssigneeGroup();
+                } else {
+                  ctrl.survey = survey;
+                  ctrl.currentSurveyMethod = survey.surveyMethod;
+                  $scope.responseRateInitializing = true;
+                  ctrl.loadAttachments();
+                  updateToolbarHeaderAndPageTitle();
+                  $scope.registerConfirmOnDirtyHook();
+                  SurveyResponseRateImageUploadService.getImage(
+                    ctrl.survey.id, ctrl.survey.number, 'en')
+                    .then(function(image) {
+                      ctrl.responseRateImageEn = image;
                     });
-              } else {
-                handleReleasedProject();
-              }
-            }
+                  SurveyResponseRateImageUploadService.getImage(
+                    ctrl.survey.id, ctrl.survey.number, 'de')
+                    .then(function(image) {
+                      ctrl.responseRateImageDe = image;
+                    });
+                }
+              });
+            });
           } else {
-            SimpleMessageToastService.openAlertMessageToast(
-              'global.edit.internet-explorer-not-supported');
+            if (CurrentProjectService.getCurrentProject() &&
+            !CurrentProjectService.getCurrentProject().release) {
+              ctrl.createMode = true;
+              AvailableSurveyNumbersResource.get({
+                id: CurrentProjectService.getCurrentProject().id
+              }).$promise.then(
+                  function(surveyNumbers) {
+                    if (surveyNumbers.length === 1) {
+                      ctrl.survey = new SurveyResource({
+                        id: SurveyIdBuilderService.buildSurveyId(
+                          CurrentProjectService.getCurrentProject().id,
+                          surveyNumbers[0]
+                        ),
+                        number: surveyNumbers[0],
+                        dataAcquisitionProjectId:
+                        CurrentProjectService.getCurrentProject().id,
+                        studyId: StudyIdBuilderService.buildStudyId(
+                          CurrentProjectService.getCurrentProject().id
+                        ),
+                        wave: 1
+                      });
+                      $scope.responseRateInitializing = true;
+                      updateToolbarHeaderAndPageTitle();
+                      $scope.registerConfirmOnDirtyHook();
+                    } else {
+                      $mdDialog.show({
+                          controller: 'ChooseSurveyNumberController',
+                          templateUrl: 'scripts/surveymanagement/' +
+                            'views/choose-survey-number.html.tmpl',
+                          clickOutsideToClose: false,
+                          fullscreen: true,
+                          locals: {
+                            availableSurveyNumbers: surveyNumbers
+                          }
+                        })
+                        .then(function(response) {
+                          ctrl.survey = new SurveyResource({
+                            id: SurveyIdBuilderService.buildSurveyId(
+                              CurrentProjectService.getCurrentProject().id,
+                              response.surveyNumber
+                            ),
+                            number: response.surveyNumber,
+                            dataAcquisitionProjectId:
+                            CurrentProjectService.getCurrentProject().id,
+                            studyId: StudyIdBuilderService.buildStudyId(
+                              CurrentProjectService.getCurrentProject().id
+                            ),
+                            wave: 1
+                          });
+                          $scope.responseRateInitializing = true;
+                          updateToolbarHeaderAndPageTitle();
+                          $scope.registerConfirmOnDirtyHook();
+                        });
+                    }
+                  });
+            } else {
+              handleReleasedProject();
+            }
           }
         } else {
           SimpleMessageToastService.openAlertMessageToast(

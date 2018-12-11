@@ -350,9 +350,6 @@ angular.module('metadatamanagementApp').config(
             'title': 'Datensatz "{{ id }}" löschen?',
             'content': 'Wollen Sie den Datensatz "{{ id }}" wirklich löschen?'
           }
-        },
-        'edit': {
-          'internet-explorer-not-supported': 'Die Bearbeitung im Internet Explorer ist leider nicht möglich. Bitte nutzen Sie Chrome, Firefox oder Edge.'
         }
       }
       //jscs:enable

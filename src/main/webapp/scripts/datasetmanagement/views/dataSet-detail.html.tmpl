@@ -301,7 +301,7 @@
             </md-tooltip>
             <md-icon md-font-set="material-icons">note_add</md-icon>
         </md-button>
-        <md-button ng-if="!ctrl.projectIsCurrentlyReleased && !bowser.msie" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER" class="md-fab md-raised md-accent" ui-sref="dataSetEdit({id: ctrl.dataSet.id})" ng-disabled="!ctrl.isUpdateAllowed">
+        <md-button ng-if="!ctrl.projectIsCurrentlyReleased" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER" class="md-fab md-raised md-accent" ui-sref="dataSetEdit({id: ctrl.dataSet.id})" ng-disabled="!ctrl.isUpdateAllowed">
           <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
             {{'search-management.buttons.edit-data-set-tooltip' | translate}}
           </md-tooltip>
@@ -315,4 +315,3 @@
         </md-button>
     </div>
 </div>
-

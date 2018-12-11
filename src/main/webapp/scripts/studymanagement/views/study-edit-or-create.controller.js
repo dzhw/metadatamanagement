@@ -1,4 +1,4 @@
-/* global _, bowser*/
+/* global _, $, document */
 'use strict';
 
 angular.module('metadatamanagementApp')
@@ -89,42 +89,37 @@ angular.module('metadatamanagementApp')
       var init = function() {
         if (Principal
             .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
-          if (!bowser.msie) {
-            if (entity) {
-              entity.$promise.then(function(study) {
+          if (entity) {
+            entity.$promise.then(function(study) {
+              initEditMode(study);
+            });
+          } else {
+            if (CurrentProjectService.getCurrentProject() &&
+              !CurrentProjectService.getCurrentProject().release) {
+              StudyResource.get({
+                id: StudyIdBuilderService.buildStudyId(
+                  CurrentProjectService.getCurrentProject().id)
+              }).$promise.then(function(study) {
                 initEditMode(study);
+              }).catch(function() {
+                ctrl.createMode = true;
+                ctrl.study = new StudyResource({
+                  id: StudyIdBuilderService.buildStudyId(
+                    CurrentProjectService.getCurrentProject().id),
+                  dataAcquisitionProjectId: CurrentProjectService
+                    .getCurrentProject()
+                    .id,
+                  authors: [{
+                    firstName: '',
+                    lastName: ''
+                  }]
+                });
+                updateToolbarHeaderAndPageTitle();
+                $scope.registerConfirmOnDirtyHook();
               });
             } else {
-              if (CurrentProjectService.getCurrentProject() &&
-                !CurrentProjectService.getCurrentProject().release) {
-                StudyResource.get({
-                  id: StudyIdBuilderService.buildStudyId(
-                    CurrentProjectService.getCurrentProject().id)
-                }).$promise.then(function(study) {
-                  initEditMode(study);
-                }).catch(function() {
-                  ctrl.createMode = true;
-                  ctrl.study = new StudyResource({
-                    id: StudyIdBuilderService.buildStudyId(
-                      CurrentProjectService.getCurrentProject().id),
-                    dataAcquisitionProjectId: CurrentProjectService
-                      .getCurrentProject()
-                      .id,
-                    authors: [{
-                      firstName: '',
-                      lastName: ''
-                    }]
-                  });
-                  updateToolbarHeaderAndPageTitle();
-                  $scope.registerConfirmOnDirtyHook();
-                });
-              } else {
-                handleReleasedProject();
-              }
+              handleReleasedProject();
             }
-          } else {
-            SimpleMessageToastService.openAlertMessageToast(
-              'global.edit.internet-explorer-not-supported');
           }
         } else {
           SimpleMessageToastService.openAlertMessageToast(
@@ -173,13 +168,26 @@ angular.module('metadatamanagementApp')
         ctrl.currentAuthorIndex = index;
       };
 
+      var timeoutActive = null;
       ctrl.deleteCurrentAuthor = function(event) {
-        if (event.relatedTarget && (
-            event.relatedTarget.id === 'move-author-up-button' ||
-            event.relatedTarget.id === 'move-author-down-button')) {
-          return;
+        if (timeoutActive) {
+          $timeout.cancel(timeoutActive);
         }
-        delete ctrl.currentAuthorIndex;
+        timeoutActive = $timeout(function() {
+          timeoutActive = false;
+          // msie workaround: inputs unfocus on button mousedown
+          if (document.activeElement &&
+            $(document.activeElement).parents('#move-container').length) {
+            return;
+          }
+          if (event.relatedTarget && (
+              event.relatedTarget.id === 'move-author-up-button' ||
+              event.relatedTarget.id === 'move-author-down-button')) {
+            return;
+          }
+          delete ctrl.currentAuthorIndex;
+          timeoutActive = null;
+        }, 500);
       };
 
       ctrl.moveCurrentAuthorUp = function() {
@@ -500,3 +508,4 @@ angular.module('metadatamanagementApp')
 
       init();
     });
+

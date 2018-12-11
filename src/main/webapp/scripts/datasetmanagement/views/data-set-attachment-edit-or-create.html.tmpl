@@ -24,7 +24,7 @@
                 <md-divider></md-divider>
                 <md-card-content>
                     <div layout="column">
-                        <md-input-container style="padding: 0px;" md-is-error="!dataSetAttachmentForm.filename.$valid && (dataSetAttachmentForm.filename.$dirty || dataSetAttachmentForm.filename.$touched)">
+                        <md-input-container style="padding: 0px; -ms-flex:auto" md-is-error="!dataSetAttachmentForm.filename.$valid && (dataSetAttachmentForm.filename.$dirty || dataSetAttachmentForm.filename.$touched)">
                             <label>{{'data-set-management.detail.label.attachments.file' | translate }}</label>
                             <input disabled ng-pattern="/^[_A-Za-z0-9äöüÄÖÜß\-.]*$/" required ng-model="ctrl.dataSetAttachmentMetadata.fileName" name="filename" style="cursor: pointer; border-bottom: 1px rgba(0,0,0,0.12) solid; background-image: none;">
                             <div ng-if="!dataSetAttachmentForm.filename.$dirty && !dataSetAttachmentForm.filename.$touched" class="fdz-input-hint">{{'data-set-management.detail.attachments.hints.filename' | translate}}</div>
@@ -55,7 +55,7 @@
                 <md-divider></md-divider>
                 <md-card-content>
                     <div layout-gt-sm="row" layout="column">
-                        <md-autocomplete required flex="50" md-input-name="language2" md-floating-label="{{'data-set-management.detail.label.attachments.language' | translate}}" md-require-match="true" md-select-on-match="true"
+                        <md-autocomplete required flex="50" style="-ms-flex:auto" md-input-name="language2" md-floating-label="{{'data-set-management.detail.label.attachments.language' | translate}}" md-require-match="true" md-select-on-match="true"
                           md-match-case-insensitive="true" md-selected-item="ctrl.selectedLanguage" md-min-length="0" md-search-text="ctrl.languageSearchText" md-items="item in ctrl.searchLanguages(ctrl.languageSearchText)" md-item-text="item.displayLanguage[currentLanguage]"
                           md-clear-button="true" md-no-cache="true" md-selected-item-change="ctrl.selectedLanguageChanged()" md-is-error="!dataSetAttachmentForm.language2.$valid && (dataSetAttachmentForm.language2.$dirty || dataSetAttachmentForm.language2.$touched)">
                             <md-item-template>
@@ -73,7 +73,7 @@
                         <div flex="50"></div>
                     </div>
                     <div layout="row">
-                        <md-input-container flex style="margin-right: 8px;" md-is-error="!dataSetAttachmentForm.title.$valid && (dataSetAttachmentForm.title.$dirty || dataSetAttachmentForm.title.$touched)">
+                        <md-input-container flex style="margin-right: 8px; -ms-flex:auto" md-is-error="!dataSetAttachmentForm.title.$valid && (dataSetAttachmentForm.title.$dirty || dataSetAttachmentForm.title.$touched)">
                             <label class="fdz-input-required">{{'data-set-management.detail.label.attachments.title' | translate}} ({{'global.in' | translate}} {{ctrl.selectedLanguage.displayLanguage[currentLanguage]?ctrl.selectedLanguage.displayLanguage[currentLanguage]:'?'}})</label>
                             <textarea fdz-required rows="4" md-maxlength="2048" ng-model="ctrl.dataSetAttachmentMetadata.title" name="title"></textarea>
                             <div ng-if="!dataSetAttachmentForm.title.$dirty && !dataSetAttachmentForm.title.$touched" class="fdz-input-hint">{{'data-set-management.detail.attachments.hints.title' | translate}}</div>
@@ -84,7 +84,7 @@
                         </md-input-container>
                     </div>
                     <div layout-gt-sm="row" layout="column">
-                        <md-input-container flex="50" style="margin-right: 8px;" md-is-error="!dataSetAttachmentForm.descriptionDe.$valid && (dataSetAttachmentForm.descriptionDe.$dirty || dataSetAttachmentForm.descriptionDe.$touched)">
+                        <md-input-container flex="50" style="-ms-flex:auto; margin-right: 8px;" md-is-error="!dataSetAttachmentForm.descriptionDe.$valid && (dataSetAttachmentForm.descriptionDe.$dirty || dataSetAttachmentForm.descriptionDe.$touched)">
                             <label class="fdz-input-required">{{'data-set-management.detail.label.attachments.description' | translate}} ({{'global.in-german' | translate}})</label>
                             <input fdz-required="!ctrl.dataSetAttachmentMetadata.description.en" md-maxlength="512" ng-model="ctrl.dataSetAttachmentMetadata.description.de" name="descriptionDe" lang="de" md-no-asterisk>
                             <div ng-if="!dataSetAttachmentForm.descriptionDe.$dirty && !dataSetAttachmentForm.descriptionDe.$touched" class="fdz-input-hint">{{'data-set-management.detail.attachments.hints.description.de' | translate}}</div>
@@ -93,7 +93,7 @@
                                 <div ng-message="md-maxlength">{{'data-set-management.error.data-set-attachment-metadata.description.i18n-string-size' | translate}}</div>
                             </div>
                         </md-input-container>
-                        <md-input-container flex="50" style="margin-right: 8px;" md-is-error="!dataSetAttachmentForm.descriptionEn.$valid && (dataSetAttachmentForm.descriptionEn.$dirty || dataSetAttachmentForm.descriptionEn.$touched)">
+                        <md-input-container flex="50" style="margin-right: 8px; -ms-flex:auto" md-is-error="!dataSetAttachmentForm.descriptionEn.$valid && (dataSetAttachmentForm.descriptionEn.$dirty || dataSetAttachmentForm.descriptionEn.$touched)">
                             <label class="fdz-input-required">{{'data-set-management.detail.label.attachments.description' | translate}} ({{'global.in-english' | translate}})</label>
                             <input fdz-required="!ctrl.dataSetAttachmentMetadata.description.de" md-maxlength="512" ng-model="ctrl.dataSetAttachmentMetadata.description.en" name="descriptionEn" lang="en" md-no-asterisk>
                             <div ng-if="!dataSetAttachmentForm.descriptionEn.$dirty && !dataSetAttachmentForm.descriptionEn.$touched" class="fdz-input-hint">{{'data-set-management.detail.attachments.hints.description.en' | translate}}</div>
