@@ -57,6 +57,7 @@ angular.module('metadatamanagementApp')
           accessWay: ctrl.selectedAccessWay,
           version: ctrl.selectedVersion,
         });
+        $mdDialog.hide();
       };
 
       $scope.closeDialog = function() {
