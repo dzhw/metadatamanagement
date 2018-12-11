@@ -1,9 +1,9 @@
 <mongoChangeLog>
-    <changeSet changeId="ChangeSet-3" author="rreitmann">
+    <changeSet changeId="ChangeSet-4" author="rreitmann">
         <script>
             db.counters.insert(
             {
-                "_id" : "orders",
+                "_id" : "eu.dzhw.fdz.metadatamanagement.common.domain.Task",
                 "seq": NumberLong(0)
             });
         </script>
