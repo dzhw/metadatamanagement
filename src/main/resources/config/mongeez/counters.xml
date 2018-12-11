@@ -1,4 +1,13 @@
 <mongoChangeLog>
+    <changeSet changeId="ChangeSet-3" author="rreitmann">
+        <script>
+            db.counters.insert(
+            {
+                "_id" : "orders",
+                "seq": NumberLong(0)
+            });
+        </script>
+    </changeSet>
     <changeSet changeId="ChangeSet-4" author="rreitmann">
         <script>
             db.counters.insert(
