@@ -99,6 +99,15 @@ angular.module('metadatamanagementApp').config(
             'assigned-to-project': 'Editing is impossible, because you are not assigned to the selected project as a publisher or data provider.'
           }
         },
+        'projectstatuslabel': {
+          'assigned-to': 'Assigned to',
+          'PUBLISHER': 'Publisher',
+          'DATA_PROVIDER': 'Data Provider'
+        },
+        'releasestatusbadge': {
+          'released': 'Released',
+          'unreleased': 'Unreleased'
+        },
         'project-cockpit': {
           'title': 'Project-Cockpit ({{projectId}})',
           'header': 'Project-Cockpit',

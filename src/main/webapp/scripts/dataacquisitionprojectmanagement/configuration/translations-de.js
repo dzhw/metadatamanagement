@@ -99,6 +99,15 @@ angular.module('metadatamanagementApp').config(
             'assigned-to-project': 'Das Bearbeiten ist nicht möglich, weil Sie dem ausgewählten Projekt nicht als Publisher bzw. Datengeber zugewiesen sind.'
           }
         },
+        'projectstatuslabel': {
+          'assigned-to': 'Zugewiesen an',
+          'PUBLISHER': 'Publisher',
+          'DATA_PROVIDER': 'Datengeber'
+        },
+        'releasestatusbadge': {
+          'released': 'Freigegeben',
+          'unreleased': 'Nicht freigegeben'
+        },
         'project-cockpit': {
           'title': 'Projekt-Cockpit ({{projectId}})',
           'header': 'Projekt-Cockpit',
