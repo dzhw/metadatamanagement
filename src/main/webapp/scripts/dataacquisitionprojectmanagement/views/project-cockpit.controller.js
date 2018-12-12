@@ -32,8 +32,8 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     };
 
     var registerConfirmOnDirtyHook = function() {
-      var unregisterTransitionHook = $transitions.onBefore({}, function() {
-        if ($scope.changed) {
+      var unregisterTransitionHook = $transitions.onBefore({}, function(trans) {
+        if ($scope.changed && trans.to().name !== trans.from().name) {
           return CommonDialogsService.showConfirmOnDirtyDialog();
         }
       });
