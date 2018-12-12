@@ -88,7 +88,8 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'post-validation': {
-            'project-has-no-study': 'Das Projekt mit der FDZID {{ id }} enthält keine Studie.'
+            'project-has-no-study': 'Das Projekt mit der FDZID {{ id }} enthält keine Studie.',
+            'requirements-not-met': 'Die Korrektheit der erforderlichen Metadaten wurde in der Projektkonfiguration nicht vollständig bestätigt.'
           },
           'project-update-access': {
             'project-selected': 'Für das Anlegen neuer Daten muss ein Projekt ausgewählt sein.',

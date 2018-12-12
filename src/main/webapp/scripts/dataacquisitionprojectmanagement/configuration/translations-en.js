@@ -88,7 +88,8 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'post-validation': {
-            'project-has-no-study': 'The Project with the RDC-ID {{ id }} has no study.'
+            'project-has-no-study': 'The Project with the RDC-ID {{ id }} has no study.',
+            'requirements-not-met': 'The confirmation for validity of all required meta data in the project configuration is incomplete.'
           },
           'project-update-access': {
             'project-selected': 'A project has to be selected before data can be added.',
