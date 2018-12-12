@@ -31,7 +31,7 @@
 	</div>
 </div>
 <div layout-gt-sm="row" layout="column" layout-wrap>
-	<project-cockpit-assignment class="fdz-project-cockpit-assignment" flex="auto" group="studies" icon="assets/images/icons/study.svg" createstate="studyCreate" searchstate="studies" tooltip="search-management.buttons.create-study-tooltip"></project-cockpit-assignment>
+	<project-cockpit-assignment class="fdz-project-cockpit-assignment" flex="auto" group="studies" icon="assets/images/icons/study.svg" createstate="studyCreate" searchstate="studies" tooltip="{{'search-management.buttons.' + (counts.studies > 0 ? 'edit-study-tooltip' : 'create-study-tooltip')}}" button-label="{{'data-acquisition-project-management.project-cockpit.config.' + (counts.studies > 0 ? 'edit' : 'new')}}"></project-cockpit-assignment>
 	<project-cockpit-assignment class="fdz-project-cockpit-assignment" flex="auto" group="surveys" icon="assets/images/icons/survey.svg" createstate="surveyCreate" searchstate="surveys" tooltip="search-management.buttons.create-survey-tooltip"></project-cockpit-assignment>
 	<project-cockpit-assignment class="fdz-project-cockpit-assignment" flex="auto" group="instruments" icon="assets/images/icons/instrument.svg" createstate="instrumentCreate" searchstate="instruments" tooltip="search-management.buttons.create-instrument-tooltip"></project-cockpit-assignment>
 	<project-cockpit-assignment class="fdz-project-cockpit-assignment" flex="auto" group="questions" icon="assets/images/icons/question.svg" searchstate="questions">

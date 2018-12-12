@@ -515,6 +515,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         scope.searchState = attrs.searchstate;
         scope.icon = attrs.icon;
         scope.tooltip = attrs.tooltip;
+        scope.buttonLabel = attrs.buttonLabel;
         scope.create = function() {
           if (ProjectUpdateAccessService.isUpdateAllowed(scope.project,
             scope.group, true)) {

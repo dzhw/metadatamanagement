@@ -150,8 +150,9 @@ angular.module('metadatamanagementApp').config(
             'assigned-group': 'Zugewiesene Benutzergruppe',
             'released': 'Veröffentlicht',
             'expected': 'Erwartet',
-            'ready': 'fertig',
+            'ready': 'Fertig',
             'new': 'Neu',
+            'edit': 'Bearbeiten',
             'upload': 'Hochladen'
           },
           'message-dialog': {
