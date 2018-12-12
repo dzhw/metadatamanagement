@@ -19,7 +19,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     });
 
     var setTypeCounts = function(projectId) {
-      SearchDao.search('', 1, projectId, {}, undefined, 5, undefined)
+      SearchDao.search('', 1, projectId, {}, undefined, 0, undefined)
         .then(function(data) {
           $scope.counts = {};
           ['variables', 'questions', 'data_sets', 'surveys', 'instruments',
