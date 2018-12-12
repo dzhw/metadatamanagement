@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Task;
 
 /**
- * repository to handle task persostence.
+ * repository to handle task persistence.
  * @author tgehrke
  *
  */

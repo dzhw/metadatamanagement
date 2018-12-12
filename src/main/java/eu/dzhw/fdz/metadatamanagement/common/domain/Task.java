@@ -4,6 +4,7 @@ import java.net.URI;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorListDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,7 +30,7 @@ public class Task extends AbstractRdcDomainObject {
   private TaskState state;
   private URI location;
   private TaskType type;
-  private String message;
+  private ErrorListDto errorList;
 
   /**
    * State of tasks.

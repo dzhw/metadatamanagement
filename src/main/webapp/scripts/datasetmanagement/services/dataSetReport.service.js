@@ -15,10 +15,14 @@ angular.module('metadatamanagementApp').service('DataSetReportService',
               'id': dataAcquisitionProjectId
             },
             file: file
-          }).success(function(gridFsFileName) {
+          }).success(function(data/*, status, headers*/) {
             //Upload and document could filled with data successfully
             //Download automaticly data filled tex template
-            FileResource.download(gridFsFileName).then(function(
+            //TODO
+            //poll headers('location')
+            // on data.state='DONE'
+            //FileResource.download(data.location.string)
+            FileResource.download(data).then(function(
               response) {
               JobLoggingService.success({
                 message: 'data-set-management.log-messages.' +

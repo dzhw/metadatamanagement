@@ -17,7 +17,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,10 +26,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import eu.dzhw.fdz.metadatamanagement.common.domain.Task;
-import eu.dzhw.fdz.metadatamanagement.common.domain.Task.TaskState;
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
-import eu.dzhw.fdz.metadatamanagement.common.repository.TaskRepository;
 import eu.dzhw.fdz.metadatamanagement.common.rest.util.ZipUtil;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.exception.TemplateIncompleteException;
@@ -83,9 +79,6 @@ public class DataSetReportService {
 
   @Autowired
   private DataAcquisitionProjectVersionsService projectVersionsService;
-
-  @Autowired
-  private TaskRepository taskRepo;
 
   /**
    * The Escape Prefix handles the escaping of special latex signs within data information. This
@@ -157,9 +150,10 @@ public class DataSetReportService {
       List<String> missingTexFiles = this.validateDataSetReportStructure(zipFileSystem);
       if (!missingTexFiles.isEmpty()) {
         String message = "data-set-management.error" + ".files-in-template-zip-incomplete";
-        handleErrorTask(taskId, message);
+        TemplateIncompleteException incompleteException =
+            new TemplateIncompleteException(message, missingTexFiles);
         log.warn(message + missingTexFiles);
-        throw new TemplateIncompleteException(message, missingTexFiles);
+        throw incompleteException;
       }
 
       // Read the three files with freemarker code
@@ -203,17 +197,7 @@ public class DataSetReportService {
     return this.saveCompleteZipFile(zipTmpFile, multiPartFile.getOriginalFilename());
   }
 
-  private void handleErrorTask(String taskId, String message) {
-    Optional<Task> findById = taskRepo.findById(taskId);
-    if (findById.isPresent()) {
-      Task task = findById.get();
-      task.setState(TaskState.FAILURE);
-      task.setMessage(message);
-      taskRepo.save(task);
-    } else {
-      log.warn("task with id {} not exists", taskId);
-    }
-  }
+
 
   /**
    * Checks for all files which are included for the tex template.

@@ -2,6 +2,8 @@
 
 .. java:import:: org.springframework.data.mongodb.core.mapping Document
 
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.rest.errors ErrorListDto
+
 .. java:import:: lombok AllArgsConstructor
 
 .. java:import:: lombok Builder

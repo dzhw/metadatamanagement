@@ -8,7 +8,7 @@
             });
         </script>
     </changeSet>
-    <changeSet changeId="ChangeSet-4" author="rreitmann">
+    <changeSet changeId="ChangeSet-4" author="tgehrke">
         <script>
             db.counters.insert(
             {

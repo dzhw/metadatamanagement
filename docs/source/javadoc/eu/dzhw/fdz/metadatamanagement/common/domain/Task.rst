@@ -2,6 +2,8 @@
 
 .. java:import:: org.springframework.data.mongodb.core.mapping Document
 
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.rest.errors ErrorListDto
+
 .. java:import:: lombok AllArgsConstructor
 
 .. java:import:: lombok Builder
@@ -28,6 +30,12 @@ Task
 
 Fields
 ------
+errorList
+^^^^^^^^^
+
+.. java:field:: private ErrorListDto errorList
+   :outertype: Task
+
 id
 ^^
 
@@ -38,12 +46,6 @@ location
 ^^^^^^^^
 
 .. java:field:: private URI location
-   :outertype: Task
-
-message
-^^^^^^^
-
-.. java:field:: private String message
    :outertype: Task
 
 state
