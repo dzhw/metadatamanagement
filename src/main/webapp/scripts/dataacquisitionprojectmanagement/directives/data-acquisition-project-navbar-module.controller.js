@@ -6,13 +6,15 @@ angular.module('metadatamanagementApp')
     'CurrentProjectService', 'DataAcquisitionProjectPostValidationService',
     'DataAcquisitionProjectRepositoryClient', 'DataAcquisitionProjectResource',
     '$mdDialog', 'SimpleMessageToastService', '$translate',
-    'ElasticSearchAdminService', '$scope', 'Principal', '$state',
+    'ElasticSearchAdminService', '$scope', 'Principal', 'ProjectReleaseService',
+    '$state', 'LanguageService',
     function(CurrentProjectService,
              DataAcquisitionProjectPostValidationService,
              DataAcquisitionProjectRepositoryClient,
              DataAcquisitionProjectResource, $mdDialog,
              SimpleMessageToastService, $translate, ElasticSearchAdminService,
-             $scope, Principal, $state) {
+             $scope, Principal, ProjectReleaseService, $state,
+             LanguageService) {
       var ctrl = this;
       ctrl.hasAuthority = Principal.hasAuthority;
       var i18nPrefix = 'data-acquisition-project-management.log-messages.' +
@@ -68,7 +70,10 @@ angular.module('metadatamanagementApp')
             Principal.identity().then(function(identity) {
               project.hasBeenReleasedBefore = false;
               project.configuration = {
-                publishers: [identity.login]
+                publishers: [identity.login],
+                requirements: {
+                  studiesRequired: true
+                }
               };
               project.assigneeGroup = 'PUBLISHER';
               DataAcquisitionProjectResource.save(project,
@@ -81,6 +86,12 @@ angular.module('metadatamanagementApp')
                       });
                   ctrl.selectedProject = project;
                   CurrentProjectService.setCurrentProject(project);
+                  $state.go('project-cockpit', {
+                    id: ctrl.selectedProject.id,
+                    lang: LanguageService.getCurrentInstantly(),
+                    page: 'config'},
+                    {inherit: false}
+                  );
                 },
                 //Server Error while creating project
                 showErrorAlert
@@ -142,76 +153,11 @@ angular.module('metadatamanagementApp')
           .postValidate(ctrl.selectedProject.id);
       };
 
-      var doRelease = function() {
-        $mdDialog.show({
-          controller: 'ReleaseProjectDialogController',
-          templateUrl: 'scripts/dataacquisitionprojectmanagement/' +
-            'views/release-project-dialog.html.tmpl',
-          clickOutsideToClose: false,
-          fullscreen: true,
-          locals: {
-            project: angular.copy(ctrl.selectedProject)
-          }
-        }).catch(function() {
-          // user cancellled
-        });
-      };
-
-      var releaseProject = function() {
-        DataAcquisitionProjectPostValidationService
-          .postValidate(ctrl.selectedProject.id)
-          .then(doRelease, function() {
-            $mdDialog.show($mdDialog.alert()
-              .title($translate.instant(
-                i18nPrefix + 'release-not-possible-title', {
-                  id: ctrl.selectedProject.id
-                }))
-              .textContent($translate.instant(
-                i18nPrefix + 'release-not-possible', {
-                  id: ctrl.selectedProject.id
-                }))
-              .ariaLabel($translate.instant(
-                i18nPrefix + 'release-not-possible-title', {
-                  id: ctrl.selectedProject.id
-                }))
-              .ok($translate.instant('global.buttons.ok')));
-          });
-      };
-
-      var unreleaseProject = function() {
-        var confirmDialog = $mdDialog.confirm()
-          .title($translate.instant(i18nPrefix + 'unrelease-title', {
-            id: ctrl.selectedProject.id
-          }))
-          .textContent($translate.instant(i18nPrefix + 'unrelease', {
-            id: ctrl.selectedProject.id
-          }))
-          .ariaLabel($translate.instant(i18nPrefix + 'unrelease', {
-            id: ctrl.selectedProject.id
-          }))
-          .ok($translate.instant('global.buttons.ok'))
-          .cancel($translate.instant('global.buttons.cancel'));
-        $mdDialog.show(confirmDialog).then(function() {
-          var projectCopy = angular.copy(ctrl.selectedProject);
-          delete projectCopy.release;
-          DataAcquisitionProjectResource.save(projectCopy)
-            .$promise
-            .then(function() {
-              SimpleMessageToastService.openSimpleMessageToast(
-                i18nPrefix + 'unreleased-successfully', {
-                  id: ctrl.selectedProject.id
-                });
-              CurrentProjectService.setCurrentProject(projectCopy);
-              $state.forceReload();
-            });
-        });
-      };
-
       ctrl.toggleReleaseProject = function() {
         if (ctrl.selectedProject.release) {
-          unreleaseProject();
+          ProjectReleaseService.unreleaseProject(ctrl.selectedProject);
         } else {
-          releaseProject();
+          ProjectReleaseService.releaseProject(ctrl.selectedProject);
         }
       };
 

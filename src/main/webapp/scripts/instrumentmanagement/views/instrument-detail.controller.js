@@ -7,7 +7,9 @@ angular.module('metadatamanagementApp')
       PageTitleService, LanguageService, $state, CleanJSObjectService,
       ToolbarHeaderService, Principal, SimpleMessageToastService,
       SearchResultNavigatorService, $stateParams, ProductChooserDialogService,
-      DataAcquisitionProjectResource, ProjectUpdateAccessService) {
+      DataAcquisitionProjectResource, ProjectUpdateAccessService, $scope,
+      $transitions) {
+
       SearchResultNavigatorService.registerCurrentSearchResult(
         $stateParams['search-result-index']);
       //Controller Init
@@ -22,7 +24,6 @@ angular.module('metadatamanagementApp')
       ctrl.projectIsCurrentlyReleased = true;
       ctrl.enableJsonView = Principal
         .hasAnyAuthority(['ROLE_PUBLISHER','ROLE_ADMIN']);
-      ctrl.isUpdateAllowed = false;
 
       ctrl.jsonExcludes = [
         'nestedStudy',
@@ -32,6 +33,21 @@ angular.module('metadatamanagementApp')
         'nestedDataSets',
         'nestedRelatedPublications'
       ];
+
+      var setupTransitionHook = function(project) {
+        var deregisterTransitionHook = $transitions
+          .onBefore({state: 'instrumentDetail'}, function(transition) {
+            var identifier = _.get(transition, '_targetState._identifier');
+            if (identifier === 'instrumentEdit') {
+              return ProjectUpdateAccessService
+                .isUpdateAllowed(project, 'instruments', true);
+            } else {
+              return true;
+            }
+          });
+
+        $scope.$on('$destroy', deregisterTransitionHook);
+      };
       //Wait for instrument Promise
       entity.promise.then(function(result) {
         if (Principal
@@ -40,9 +56,8 @@ angular.module('metadatamanagementApp')
             id: result.dataAcquisitionProjectId
           }).$promise.then(function(project) {
             ctrl.projectIsCurrentlyReleased = (project.release != null);
-            ctrl.isUpdateAllowed = ProjectUpdateAccessService
-              .isUpdateAllowed(project, 'instruments');
             ctrl.assigneeGroup = project.assigneeGroup;
+            setupTransitionHook(project);
           });
         }
         ToolbarHeaderService.updateToolbarHeader({

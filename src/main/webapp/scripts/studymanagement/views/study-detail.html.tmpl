@@ -5,7 +5,6 @@
         <h1 class="md-headline" style="margin-left: 0px;">
             <span display-i18n-string="ctrl.study.title" fdz-hyphenate></span>
             <span class="label label-as-badge label-default">{{ctrl.study.id}}</span>
-            <project-status-label ng-if="!ctrl.projectIsCurrentlyReleased" assignee-group="{{ctrl.assigneeGroup}}"></project-status-label>
         </h1>
         <json-content-dialog ng-if="ctrl.enableJsonView" content="ctrl.study" header-title="ctrl.study.title" exclude-fields="ctrl.jsonExcludes" class="fdz-no-margin-bottom"></json-content-dialog>
     </div>
@@ -359,7 +358,7 @@
         </md-card>
     </div>
     <div class="fdz-fab-button-container" layout="column">
-        <md-button ng-if="!ctrl.projectIsCurrentlyReleased && !bowser.msie" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER" class="md-fab md-raised md-accent" ui-sref="studyEdit({id: ctrl.study.id})" ng-disabled="!ctrl.isUpdateAllowed">
+        <md-button ng-if="!ctrl.projectIsCurrentlyReleased" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER" class="md-fab md-raised md-accent" ui-sref="studyEdit({id: ctrl.study.id})">
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{'search-management.buttons.edit-study-tooltip' | translate}}
             </md-tooltip>

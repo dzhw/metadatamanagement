@@ -1,3 +1,4 @@
+/* global _ */
 'use strict';
 
 angular.module('metadatamanagementApp')
@@ -8,7 +9,9 @@ angular.module('metadatamanagementApp')
       LanguageService, $state, ToolbarHeaderService, CleanJSObjectService,
       SimpleMessageToastService, DataSetAttachmentResource,
       DataSetCitateDialogService, SearchResultNavigatorService, $stateParams,
-      ProductChooserDialogService, DataAcquisitionProjectResource) {
+      ProductChooserDialogService, DataAcquisitionProjectResource, $scope,
+      $transitions) {
+
       SearchResultNavigatorService.registerCurrentSearchResult(
           $stateParams['search-result-index']);
       var ctrl = this;
@@ -23,7 +26,6 @@ angular.module('metadatamanagementApp')
       };
       ctrl.enableJsonView = Principal
         .hasAnyAuthority(['ROLE_ADMIN','ROLE_PUBLISHER']);
-      ctrl.isUpdateAllowed = false;
 
       ctrl.jsonExcludes = [
         'nestedStudy',
@@ -33,6 +35,22 @@ angular.module('metadatamanagementApp')
         'nestedRelatedPublications',
         'nestedSurveys'
       ];
+
+      var setupTransitionHook = function(project) {
+        var deregisterTransitionHook = $transitions
+          .onBefore({state: 'dataSetDetail'}, function(transition) {
+            var identifier = _.get(transition, '_targetState._identifier');
+            if (identifier === 'dataSetEdit') {
+              return ProjectUpdateAccessService
+                .isUpdateAllowed(project, 'data_sets', true);
+            } else {
+              return true;
+            }
+          });
+
+        $scope.$on('$destroy', deregisterTransitionHook);
+      };
+
       entity.promise.then(function(result) {
         if (Principal
             .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
@@ -40,9 +58,8 @@ angular.module('metadatamanagementApp')
             id: result.dataAcquisitionProjectId
           }).$promise.then(function(project) {
             ctrl.projectIsCurrentlyReleased = (project.release != null);
-            ctrl.isUpdateAllowed = ProjectUpdateAccessService
-              .isUpdateAllowed(project, 'data_sets');
             ctrl.assigneeGroup = project.assigneeGroup;
+            setupTransitionHook(project);
           });
         }
         var currentLanguage = LanguageService.getCurrentInstantly();

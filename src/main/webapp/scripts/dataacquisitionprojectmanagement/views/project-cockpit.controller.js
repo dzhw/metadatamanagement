@@ -6,17 +6,34 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
            PageTitleService, LanguageService, ToolbarHeaderService,
            DataAcquisitionProjectResource, SimpleMessageToastService,
            CurrentProjectService, projectDeferred, CommonDialogsService,
-           SearchDao, $translate, $mdDialog) {
+           SearchDao, QuestionUploadService, VariableUploadService, $translate,
+           $mdDialog, ProjectReleaseService, $timeout,
+           ProjectUpdateAccessService,
+           DataAcquisitionProjectPostValidationService) {
 
-    PageTitleService.setPageTitle(
-      'data-acquisition-project-management.project-cockpit.title');
+    var pageTitleKey = 'data-acquisition-project-management.project' +
+      '-cockpit.title';
+
     ToolbarHeaderService.updateToolbarHeader({
       stateName: $state.current.name
     });
 
+    var setTypeCounts = function(projectId) {
+      SearchDao.search('', 1, projectId, {}, undefined, 5, undefined)
+        .then(function(data) {
+          $scope.counts = {};
+          ['variables', 'questions', 'data_sets', 'surveys', 'instruments',
+            'studies'].forEach(function(type) {
+            var bucket  = _.find(data.aggregations.countByType.buckets,
+              {key: type});
+            $scope.counts[type] = _.get(bucket, 'doc_count', 0);
+          });
+        });
+    };
+
     var registerConfirmOnDirtyHook = function() {
-      var unregisterTransitionHook = $transitions.onBefore({}, function() {
-        if ($scope.changed) {
+      var unregisterTransitionHook = $transitions.onBefore({}, function(trans) {
+        if ($scope.changed && trans.to().name !== trans.from().name) {
           return CommonDialogsService.showConfirmOnDirtyDialog();
         }
       });
@@ -41,12 +58,12 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       var name = Principal.loginName();
       $scope.isAssignedPublisher =
         !!_.find($scope.activeUsers.publishers, function(o) {
-        return o.login === name;
-      });
+          return o.login === name;
+        });
       $scope.isAssignedDataProvider =
-      !!_.find($scope.activeUsers.dataProviders, function(o) {
-        return o.login === name;
-      });
+        !!_.find($scope.activeUsers.dataProviders, function(o) {
+          return o.login === name;
+        });
       $scope.isAssignedToProject =
         $scope.isAssignedPublisher || $scope.isAssignedDataProvider;
     };
@@ -55,13 +72,32 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
 
     $state.loadStarted = true;
 
+    $scope.$on('project-deleted',
+      function() {
+        $state.go('search');
+      });
     $scope.$on('current-project-changed',
       function(event, changedProject) { // jshint ignore:line
         if (changedProject) {
           $location.url('/' + LanguageService.getCurrentInstantly() +
             '/projects/' + changedProject.id);
+          PageTitleService.setPageTitle(pageTitleKey,
+            {projectId: changedProject.id});
+          setTypeCounts(changedProject.id);
+          PageTitleService.setPageTitle(
+            pageTitleKey, {projectId: changedProject.id});
         }
       });
+
+    $scope.isUpdateAllowed = function(type) {
+      return !_.get($scope, 'project.configuration.requirements.' +
+        type + 'Required');
+    };
+
+    $scope.isUploadAllowed = function(type) {
+      return ProjectUpdateAccessService.isUpdateAllowed($scope.project, type,
+        true);
+    };
 
     var saveProject = function(project) {
       return DataAcquisitionProjectResource.save(
@@ -71,6 +107,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
           $scope.changed = false;
           $scope.project = project;
           setAssignedToProject();
+          setProjectRequirementsDisabled($scope.project);
           CurrentProjectService.setCurrentProject($scope.project);
           SimpleMessageToastService
             .openSimpleMessageToast(
@@ -90,6 +127,17 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
           }
         }
       );
+    };
+
+    var getNextAssigneeGroup = function(project) {
+      switch (_.get(project, 'assigneeGroup')) {
+        case 'DATA_PROVIDER':
+          return 'PUBLISHER';
+        case 'PUBLISHER':
+          return 'DATA_PROVIDER';
+        default:
+          return '';
+      }
     };
 
     var showAssigneeGroupMessageDialog = function() {
@@ -171,23 +219,42 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       return project;
     };
 
+    $scope.onSaveChangesAndTakeBack = function() {
+      var confirm = $mdDialog.confirm()
+      .title($translate.instant('data-acquisition' +
+        '-project-management.project-cockpit.takeback-dialog.title')
+      ).textContent($translate.instant('data-acquisition' +
+      '-project-management.project-cockpit.takeback-dialog.text')
+      ).ok($translate.instant('global.common-dialogs.yes'))
+      .cancel($translate.instant('global.common-dialogs.no'));
+      $mdDialog.show(confirm).then($scope.onSaveChangesAndAssign);
+    };
+
     $scope.onSaveChangesAndAssign = function() {
-      showAssigneeGroupMessageDialog().then(function(message) {
-        var newAssigneeGroup;
+      if (!_.get($scope.project, 'configuration.dataProviders.length')) {
+        SimpleMessageToastService.openAlertMessageToast('data-acquisition' +
+          '-project-management.project-cockpit.no-data-providers' +
+          '-dialog.text');
+        return;
+      }
 
-        switch ($scope.project.assigneeGroup) {
-          case 'DATA_PROVIDER':
-            newAssigneeGroup = 'PUBLISHER';
-            break;
-          case 'PUBLISHER':
-            newAssigneeGroup = 'DATA_PROVIDER';
-            break;
-          default:
-            newAssigneeGroup = $scope.project.assigneeGroup;
-        }
+      var postValidationStep = $q.defer();
+      var newAssigneeGroup = getNextAssigneeGroup($scope.project);
+      var isPublisher = Principal.hasAuthority('ROLE_PUBLISHER');
 
-        var project = prepareProjectForSave(message, newAssigneeGroup);
-        saveProject(project);
+      if (newAssigneeGroup === 'PUBLISHER' && !isPublisher) {
+        DataAcquisitionProjectPostValidationService
+          .postValidate($scope.project.id)
+          .then(postValidationStep.resolve, postValidationStep.reject);
+      } else {
+        postValidationStep.resolve();
+      }
+
+      postValidationStep.promise.then(function() {
+        showAssigneeGroupMessageDialog().then(function(message) {
+          var project = prepareProjectForSave(message, newAssigneeGroup);
+          saveProject(project);
+        });
       });
     };
 
@@ -240,8 +307,12 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     // load all users assigned to the currrent project
     projectDeferred.promise.then(
       function(project) {
+        setTypeCounts(project.id);
         $scope.project = project;
         $scope.fetching = true;
+
+        PageTitleService.setPageTitle(pageTitleKey,
+          {projectId: project.id});
 
         var isProjectRequirementsDisabled =
           setProjectRequirementsDisabled(project);
@@ -355,9 +426,6 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       }
       return $state.currentPromise;
     };
-    $scope.searchProjectData = function(group) {
-      return SearchDao.search('', 0, $scope.project.id, '', group, 1, '');
-    };
 
     $scope.removeUser = function(user, role) {
       $scope.changed = true;
@@ -370,12 +438,20 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
 
     $scope.shareButtonShown = false;
     $scope.onTabSelect = function(tab) {
+      $state.go('project-cockpit', {page: tab});
       if (tab === 'config') {
         $scope.shareButtonShown = false;
       } else if (tab === 'status') {
         $scope.shareButtonShown = true;
       }
     };
+    $scope.selectedTab = (function() {
+      switch ($state.params.page) {
+        case 'status': return 0;
+        case 'config': return 1;
+        default: return 0;
+      }
+    })();
 
     $scope.setChanged = function(changed) {
       if (changed === undefined) {
@@ -384,79 +460,27 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       $scope.changed = changed;
     };
 
+    $scope.toggleReleaseProject = function() {
+      if ($scope.project.release) {
+        ProjectReleaseService.unreleaseProject($scope.project);
+      } else {
+        ProjectReleaseService.releaseProject($scope.project);
+      }
+    };
+
+    $scope.$on('upload-completed', function() {
+      $timeout(function() {
+        setTypeCounts($scope.project.id);
+      }, 2000);
+    });
+
+    $scope.uploadQuestions = function(files) {
+      QuestionUploadService.uploadQuestions(files, $scope.project.id);
+    };
+
+    $scope.uploadVariables = function(files) {
+      VariableUploadService.uploadVariables(files, $scope.project.id);
+    };
+
     $state.loadComplete = true;
-  }).directive('projectCockpitConfig', function() {
-  return {
-    restrict: 'E',
-    templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
-      'project-cockpit-config.html.tmpl'
-  };
-}).directive('projectCockpitStatus', function() {
-  return {
-    restrict: 'E',
-    templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
-      'project-cockpit-status.html.tmpl'
-  };
-}).directive('projectCockpitUserlist', function() {
-  return {
-    restrict: 'E',
-    templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
-      'project-cockpit-userlist.html.tmpl',
-    scope: true,
-    link: function(scope, elem, attrs) { // jshint ignore:line
-      scope.group = attrs.group;
-    }
-  };
-}).directive('projectCockpitAssignment', function($state) {
-  return {
-    restrict: 'E',
-    templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
-      'project-cockpit-assignment.html.tmpl',
-    scope: true,
-    replace: true,
-    link: function(scope, elem, attrs) { // jshint ignore:line
-      var elasticSearchType = {
-        studies: 'studies',
-        surveys: 'surveys',
-        instruments: 'instruments',
-        questions: 'questions',
-        dataSets: 'data_sets',
-        variables: 'variables'
-      };
-      scope.group = attrs.group;
-      scope.create = function() {
-        $state.go(attrs.createstate, {});
-      };
-      scope.count = null;
-      scope.$watch(function() {
-        return scope.project &&
-        scope.project.configuration[attrs.group + 'State'] ?
-          scope.project.configuration[attrs.group + 'State']
-            .dataProviderReady : null;
-      }, function(newVal, oldVal) {
-        if (newVal !== oldVal) {
-          scope.setChanged(true);
-        }
-      });
-      scope.$watch(function() {
-        return scope.project &&
-        scope.project.configuration[attrs.group + 'State'] ?
-          scope.project.configuration[attrs.group + 'State']
-            .publisherReady : null;
-      }, function(newVal, oldVal) {
-        if (newVal !== oldVal) {
-          scope.setChanged(true);
-        }
-      });
-
-      scope.searchProjectData(
-        elasticSearchType[attrs.group]
-      ).then(function(data) {
-        scope.count = data.hits.total;
-      }).catch(function() {
-        scope.count = 0;
-      });
-
-    }
-  };
-});
+  });

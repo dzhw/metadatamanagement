@@ -350,9 +350,6 @@ angular.module('metadatamanagementApp').config(
             'title': 'Delete Data Set "{{ id }}"?',
             'content': 'Do you really want to delete Data Set "{{ id }}"?'
           }
-        },
-        'edit': {
-          'internet-explorer-not-supported': 'Editing with the Internet Explorer is not supported. Please use Chrome, Firefox or Edge.'
         }
       }
       //jscs:enable

@@ -165,6 +165,7 @@ ui-view:focus {
 
 .fdz-search-result-actions-container {
     position: absolute;
+    top: 0px;
     right: 8px;
     padding-top: 8px;
     padding-bottom: 8px;
@@ -1129,4 +1130,40 @@ md-toast.md-accent > .md-toast-content {
     width: 100%;
     height: 100%;
     border-radius: 0;
+}
+
+project-cockpit-status {
+    display: block;
+    @media screen and (max-width: 960px) {
+        margin-bottom: 150px;
+    }
+}
+
+.fdz-project-cockpit-assignment {
+    display: block;
+    min-width: 30%;
+    @media screen and (max-width: 1600px) {
+        min-width: 45%
+    }
+}
+
+project-status-badge {
+    display: inline-block;
+}
+
+release-status-badge {
+    display: inline-block;
+}
+
+project-status-badge > span, release-status-badge > span {
+    font-size: 1em !important;
+}
+
+.fdz-released {
+    color: #FFFFFF;
+    background-color: #00CC66;
+}
+
+.fdz-unreleased {
+    background-color: $brand-danger;
 }

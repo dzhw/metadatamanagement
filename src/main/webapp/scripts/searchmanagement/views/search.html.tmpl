@@ -5,6 +5,17 @@
                 <md-tab-label>
                     <md-icon ng-if="tab.icon" md-svg-icon="{{tab.icon}}"></md-icon>
                     <span>{{tab.title|translate}} {{tab.count != null? '(' + tab.count + ')' : ''}}</span>
+                        <span ng-if="tab.group && currentProject && !currentProject.released && hasAnyAuthority(['ROLE_PUBLISHER','ROLE_DATA_PROVIDER'])" ng-switch="getSentimentValue(tab.group)">
+                            <span ng-switch-when="0">
+                                <md-icon>sentiment_very_dissatisfied</md-icon>
+                            </span>
+                            <span ng-switch-when="1">
+                                <md-icon>sentiment_satisfied</md-icon>
+                            </span>
+                            <span ng-switch-when="2">
+                                <md-icon>sentiment_very_satisfied</md-icon>
+                            </span>
+                        </span>
                     <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.msie || bowser.msedge || bowser.mobile || bowser.tablet ? -100 : 100">{{tab.title+'-tooltip'|translate}}</md-tooltip>
                 </md-tab-label>
             </md-tab>
@@ -69,37 +80,37 @@
             </md-button>
         </div>
         <!-- Index 2 = Questions Tab -->
-        <md-button aria-label="{{'search-management.buttons.upload-questions' | translate}}" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='questions'" type="file" ngf-select="uploadQuestions($files)" ngf-multiple="true" class="md-accent md-fab fdz-fade-in"
-          directory webkitdirectory ng-disabled="!isUpdateAllowed">
+        <md-button aria-label="{{'search-management.buttons.upload-questions' | translate}}" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='questions'" type="file" ngf-select="uploadQuestions($files)" ngf-multiple="true" ngf-select-disabled="!isUploadAllowed('questions')" class="md-accent md-fab fdz-fade-in"
+          directory webkitdirectory>
             <md-tooltip ng-hide="!currentProject || currentProject.release" md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{'search-management.buttons.upload-questions-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">add</md-icon>
         </md-button>
 
-        <md-button aria-label="{{'search-management.buttons.upload-variables' | translate}}" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='variables'" type="file" ngf-select="uploadVariables($files)" class="md-accent md-fab fdz-fade-in" ngf-multiple="true"
-          directory webkitdirectory ng-disabled="!isUpdateAllowed">
+        <md-button aria-label="{{'search-management.buttons.upload-variables' | translate}}" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='variables'" type="file" ngf-select="uploadVariables($files)" ngf-select-disabled="!isUploadAllowed('variables')" class="md-accent md-fab fdz-fade-in" ngf-multiple="true"
+          directory webkitdirectory>
             <md-tooltip ng-hide="!currentProject || currentProject.release" md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{'search-management.buttons.upload-variables-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">add</md-icon>
         </md-button>
 
-        <md-button class="md-fab md-raised md-accent" ui-sref="surveyCreate()" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='surveys'" ng-disabled="!isUpdateAllowed">
+        <md-button class="md-fab md-raised md-accent" ui-sref="surveyCreate()" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='surveys'">
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{'search-management.buttons.create-survey-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">add</md-icon>
         </md-button>
 
-        <md-button class="md-fab md-raised md-accent" ui-sref="dataSetCreate()" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='data_sets'" ng-disabled="!isUpdateAllowed">
+        <md-button class="md-fab md-raised md-accent" ui-sref="dataSetCreate()" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='data_sets'">
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{'search-management.buttons.create-data-set-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">add</md-icon>
         </md-button>
 
-        <md-button class="md-fab md-raised md-accent" ui-sref="instrumentCreate()" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='instruments'" ng-disabled="!isUpdateAllowed">
+        <md-button class="md-fab md-raised md-accent" ui-sref="instrumentCreate()" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='instruments'">
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{'search-management.buttons.create-instrument-tooltip' | translate}}
             </md-tooltip>

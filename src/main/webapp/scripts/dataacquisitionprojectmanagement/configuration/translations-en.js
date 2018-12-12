@@ -45,7 +45,13 @@ angular.module('metadatamanagementApp').config(
           'data-acquisition-project': {
             'assignee-group': {
               'not-null': 'The project must be assigned to the publisher or data provider group.',
-              'not-assigned': 'This project is currently assigned to another group (publisher or data provider).'
+              'not-assigned': 'Project assignment cannot be changed at this time, because it is assigned to publishers.'
+            },
+            'configuration': {
+              'not-null': 'Die project configuration must not be empty.'
+            },
+            'create': {
+              'unauthorized': 'Only publishers are allowed to create projects.'
             },
             'id': {
               'not-empty': 'The name of the Data Acquisition Project must not be empty!',
@@ -82,11 +88,29 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'post-validation': {
-            'project-has-no-study': 'The Project with the RDC-ID {{ id }} has no study.'
+            'project-has-no-study': 'The Project with the RDC-ID {{ id }} has no study.',
+            'requirements-not-met': 'The confirmation for validity of all required meta data in the project configuration is incomplete.'
+          },
+          'project-update-access': {
+            'project-selected': 'A project has to be selected before data can be added.',
+            'type-update-allowed': 'Editing is impossible, because the publisher already confirmed the correctness of the current data.',
+            'project-released': 'Editing is impossible, because the project as already been released.',
+            'member-of-assigned-group': 'Editing is impossible, because you are not a member of the assigned group.',
+            'assigned-to-project': 'Editing is impossible, because you are not assigned to the selected project as a publisher or data provider.'
           }
         },
+        'projectstatuslabel': {
+          'assigned-to': 'Assigned to',
+          'PUBLISHER': 'Publisher',
+          'DATA_PROVIDER': 'Data Provider'
+        },
+        'releasestatusbadge': {
+          'released': 'Released',
+          'unreleased': 'Unreleased'
+        },
         'project-cockpit': {
-          'title': 'Project-Cockpit',
+          'title': 'Project-Cockpit ({{projectId}})',
+          'header': 'Project-Cockpit',
           'search': {
             'placeholder': 'Search for users...',
             'header-data-provider': 'Data Providers of this project',
@@ -94,7 +118,8 @@ angular.module('metadatamanagementApp').config(
           },
           'tooltip': {
             'not-assigned': 'The project is currently assigned to the other user group.',
-            'not-in-group': 'You are not assigned to this user group.'
+            'not-in-group': 'You are not assigned to this user group.',
+            'not-in-publishers': 'You are not assigned as a publisher of this project.'
           },
           'alert': {
             'title': 'Attention',
@@ -110,6 +135,7 @@ angular.module('metadatamanagementApp').config(
           'button': {
             'save': 'Click to save the changes.',
             'save-assign': 'Click to save the changes and to assign the project.',
+            'save-takeback': 'Click to save the changes and to assign the project to the publishers group.',
             'remove-user': 'Remove user'
           },
           'list': {
@@ -118,11 +144,11 @@ angular.module('metadatamanagementApp').config(
           },
           'tabs': {
             'status': 'Status',
-            'config': 'Config'
+            'config': 'Settings'
           },
           'requirements': {
             'header': 'Expected Metadata',
-            'studies': 'Studies (always mandatory)',
+            'studies': 'Study',
             'surveys': 'Surveys',
             'instruments': 'Instruments',
             'questions': 'Questions',
@@ -133,16 +159,25 @@ angular.module('metadatamanagementApp').config(
           'config': {
             'assigned-group': 'Assigned User Group',
             'released': 'Published',
-            'expected': 'expected',
-            'ready': 'ready',
-            'new': 'New'
+            'expected': 'Expected',
+            'ready': 'Ready',
+            'new': 'New',
+            'edit': 'Edit',
+            'upload': 'Upload'
           },
           'message-dialog': {
             'title': 'Write a message for {{recipient}} group',
-            'description': 'Please provide a message which will be send to all {{recipient}} group members of this project after a successful assignment. After the assignment you won\'t be able to modify anything on this project until the {{recipient}} group changes the assignment again!',
+            'description': 'Please provide a message which will be send to all {{recipient}} group members of this project via e-mail after a successful assignment',
             'label': 'Message',
             'confirm': 'Confirm & Assign',
             'cancel': 'Cancel'
+          },
+          'no-data-providers-dialog': {
+            'text': 'This project has no assigned data providers. Please assign at least one data provider in the project configuration.'
+          },
+          'takeback-dialog': {
+            'title': 'Take back project',
+            'text': 'Do you really want to withdraw this project from the data provider group?'
           }
         }
       }

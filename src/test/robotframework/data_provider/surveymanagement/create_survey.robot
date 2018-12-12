@@ -1,7 +1,7 @@
 *** Settings ***
 Documentation     Data driven test of survey creation.
 Suite Setup       Go To Survey Create Page
-Suite Teardown    Close Survey Editor And Log Out
+Suite Teardown    Close Survey Editor
 Force Tags        noslowpoke
 Test Template     Survey Page With Empty Or Invalid Options Should Fail
 Resource          ../../resources/home_page_resource.robot
@@ -87,14 +87,13 @@ Go To Survey Create Page
     Click on surveys tab
     Click Element Through Tooltips    xpath=//ui-view/descendant::a[md-icon[text()='add']]
 
-Close Survey Editor And Log Out
+Close Survey Editor
     Pass Execution If    '${BROWSER}' == 'ie'    Survey Creation not possible in IE
     Click Element Through Tooltips    xpath=//md-icon[text()='close']
     Get back to german home page
     Click Element Through Tooltips    xpath=//button[text()='Ja']
     #Probleme mit allen anderen Optionen, merkwürdiges Resultat wenn zuschnell ausgeloggt wird.
     Sleep    1s
-    Click Element Through Tooltips    xpath=//button[@id='logout']
 
 Choose Quantitative Daten As Data Type
     Click Element Through Tooltips    xpath=//md-select[@name = 'dataType']

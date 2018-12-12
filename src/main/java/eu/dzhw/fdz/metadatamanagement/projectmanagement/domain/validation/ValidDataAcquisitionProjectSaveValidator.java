@@ -9,6 +9,7 @@ import javax.validation.ConstraintValidatorContext;
 import javax.validation.constraintvalidation.SupportedValidationTarget;
 import javax.validation.constraintvalidation.ValidationTarget;
 
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.AssigneeGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
@@ -25,28 +26,29 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 public class ValidDataAcquisitionProjectSaveValidator
     implements ConstraintValidator<ValidDataAcquisitionProjectSave, DataAcquisitionProject> {
 
-  private static final String INVALID_ASSIGNEE_GROUP = "data-acquisition-project-" +
-      "management.error.data-acquisition-project.assignee-group.not-assigned";
-  private static final String MISSING_ASSIGNEE_GROUP_MESSAGE = "data-acquisition-project-" +
-      "management.error.data-acquisition-project.last-assignee-group-message.not-empty";
-  private static final String INVALID_PUBLISHER_UPDATE = "data-acquisition-project-" +
-      "management.error.data-acquisition-project.configuration.publishers.unauthorized";
-  private static final String INVALID_DATA_PROVIDER_UPDATE = "data-acquisition-project-" +
-      "management.error.data-acquisition-project.configuration.data-providers.update-not-allowed";
-  private static final String INVALID_REQUIREMENTS_UPDATE = "data-acquisition-project-" +
-      "management.error.data-acquisition-project.configuration.requirements.unauthorized";
-  private static final String CREATE_PROJECT_NOT_ALLOWED = "data-acquisition-project-" +
-      "management.error.data-acquisition-project.create.unauthorized";
+  private static final String INVALID_ASSIGNEE_GROUP = "data-acquisition-project-"
+      + "management.error.data-acquisition-project.assignee-group.not-assigned";
+  private static final String MISSING_ASSIGNEE_GROUP_MESSAGE = "data-acquisition-project-"
+      + "management.error.data-acquisition-project.last-assignee-group-message.not-empty";
+  private static final String INVALID_PUBLISHER_UPDATE = "data-acquisition-project-"
+      + "management.error.configuration.publishers.unauthorized";
+  private static final String INVALID_DATA_PROVIDER_UPDATE = "data-acquisition-project-"
+      + "management.error.configuration.data-providers.update-not-allowed";
+  private static final String INVALID_REQUIREMENTS_UPDATE = "data-acquisition-project-"
+      + "management.error.configuration.requirements.unauthorized";
+  private static final String CREATE_PROJECT_NOT_ALLOWED = "data-acquisition-project-"
+      + "management.error.create.unauthorized";
 
   @Autowired
   private DataAcquisitionProjectRepository repository;
 
   @Override
-  public void initialize(ValidDataAcquisitionProjectSave constraintAnnotation) {}
+  public void initialize(ValidDataAcquisitionProjectSave constraintAnnotation) {
+  }
 
   @Override
   public boolean isValid(DataAcquisitionProject dataAcquisitionProject,
-      ConstraintValidatorContext constraintValidatorContext) {
+                         ConstraintValidatorContext constraintValidatorContext) {
 
     constraintValidatorContext.disableDefaultConstraintViolation();
 
@@ -55,35 +57,35 @@ public class ValidDataAcquisitionProjectSaveValidator
     if (oldDataProjectOpt.isPresent()) {
       DataAcquisitionProject oldProject = oldDataProjectOpt.get();
 
-      if(!isUserInAssignedGroup(oldProject)) {
+      if (!isAssigneeGroupChangePermitted(oldProject, dataAcquisitionProject)) {
         constraintValidatorContext
             .buildConstraintViolationWithTemplate(INVALID_ASSIGNEE_GROUP)
             .addConstraintViolation();
         return false;
       }
 
-      if(!isMessageToAssigneeGroupProvided(oldProject, dataAcquisitionProject)) {
+      if (!isMessageToAssigneeGroupProvided(oldProject, dataAcquisitionProject)) {
         constraintValidatorContext
             .buildConstraintViolationWithTemplate(MISSING_ASSIGNEE_GROUP_MESSAGE)
             .addConstraintViolation();
         return false;
       }
 
-      if(!isPublisherUpdatePermitted(oldProject, dataAcquisitionProject)) {
+      if (!isPublisherUpdatePermitted(oldProject, dataAcquisitionProject)) {
         constraintValidatorContext
             .buildConstraintViolationWithTemplate(INVALID_PUBLISHER_UPDATE)
             .addConstraintViolation();
         return false;
       }
 
-      if(!isDataProviderUpdatePermitted(oldProject, dataAcquisitionProject)) {
+      if (!isDataProviderUpdatePermitted(oldProject, dataAcquisitionProject)) {
         constraintValidatorContext
             .buildConstraintViolationWithTemplate(INVALID_DATA_PROVIDER_UPDATE)
             .addConstraintViolation();
         return false;
       }
 
-      if(!isProjectRequirementsUpdatePermitted(oldProject, dataAcquisitionProject)) {
+      if (!isProjectRequirementsUpdatePermitted(oldProject, dataAcquisitionProject)) {
         constraintValidatorContext
             .buildConstraintViolationWithTemplate(INVALID_REQUIREMENTS_UPDATE)
             .addConstraintViolation();
@@ -92,7 +94,7 @@ public class ValidDataAcquisitionProjectSaveValidator
 
       return true;
     } else {
-      if(!isDataAcquisitionProjectCreatePermitted()) {
+      if (!isDataAcquisitionProjectCreatePermitted()) {
         constraintValidatorContext
             .buildConstraintViolationWithTemplate(CREATE_PROJECT_NOT_ALLOWED)
             .addConstraintViolation();
@@ -107,7 +109,7 @@ public class ValidDataAcquisitionProjectSaveValidator
    * Only admins and publishers are allowed to modify the publisher list of a project.
    */
   private boolean isPublisherUpdatePermitted(DataAcquisitionProject oldProject,
-      DataAcquisitionProject newProject) {
+                                             DataAcquisitionProject newProject) {
 
     List<String> oldPublishers = oldProject.getConfiguration().getPublishers();
     List<String> newPublishers = newProject.getConfiguration().getPublishers();
@@ -122,7 +124,7 @@ public class ValidDataAcquisitionProjectSaveValidator
    * least one data provider after the update.
    */
   private boolean isDataProviderUpdatePermitted(DataAcquisitionProject oldProject,
-      DataAcquisitionProject newProject) {
+                                                DataAcquisitionProject newProject) {
 
     List<String> oldDataProviders = oldProject.getConfiguration().getDataProviders();
     List<String> newDataProviders = newProject.getConfiguration().getDataProviders();
@@ -134,7 +136,7 @@ public class ValidDataAcquisitionProjectSaveValidator
    * Requirement updates are only permitted if the user is a publisher of the project.
    */
   private boolean isProjectRequirementsUpdatePermitted(DataAcquisitionProject oldProject,
-      DataAcquisitionProject newProject) {
+                                                       DataAcquisitionProject newProject) {
 
     Requirements oldRequirements = oldProject.getConfiguration().getRequirements();
     Requirements newRequirements = newProject.getConfiguration().getRequirements();
@@ -151,30 +153,31 @@ public class ValidDataAcquisitionProjectSaveValidator
   }
 
   /**
-   * DataAcquisitionProject can only be updated if the user is a member of the currently assigned
-   * group (role wise) responsible for editing the project.
+   * Project assignment can only be changed if user is publisher of the project, otherwise the user
+   * must be a data provider and the project must currently be assigned to data providers.
    */
-  private boolean isUserInAssignedGroup(DataAcquisitionProject oldProject) {
-    String requiredRole;
+  private boolean isAssigneeGroupChangePermitted(DataAcquisitionProject oldProject,
+                                                 DataAcquisitionProject newProject) {
 
-    switch (oldProject.getAssigneeGroup()) {
-      case PUBLISHER:
-        requiredRole = AuthoritiesConstants.PUBLISHER;
-        break;
-      case DATA_PROVIDER:
-        requiredRole = AuthoritiesConstants.DATA_PROVIDER;
-        break;
-      default:
-        throw new IllegalStateException("Unknown assignee group " + oldProject.getAssigneeGroup());
+    if (oldProject.getAssigneeGroup() == newProject.getAssigneeGroup()) {
+      return true;
     }
-    return SecurityUtils.isUserInRole(requiredRole);
+
+    String userLogin = SecurityUtils.getCurrentUserLogin();
+
+    if (oldProject.getConfiguration().getPublishers().contains(userLogin)) {
+      return true;
+    }
+
+    return oldProject.getAssigneeGroup() == AssigneeGroup.DATA_PROVIDER && oldProject
+        .getConfiguration().getDataProviders().contains(userLogin);
   }
 
   /**
    * Current assignee group must provide a message if the group assignment changes.
    */
   private boolean isMessageToAssigneeGroupProvided(DataAcquisitionProject oldProject,
-      DataAcquisitionProject dataAcquisitionProject) {
+                                                   DataAcquisitionProject dataAcquisitionProject) {
     if (oldProject == null) {
       return true;
     }

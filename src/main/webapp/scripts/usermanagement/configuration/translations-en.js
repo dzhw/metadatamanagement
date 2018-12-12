@@ -145,12 +145,10 @@ angular.module('metadatamanagementApp').config(
             'success': '<strong>Account Details saved!</strong>',
             'validate': {
               'firstname': {
-                'required': 'Your first name is required.',
                 'minlength': 'Your first name is required to be at least 1 character',
                 'maxlength': 'Your first name cannot be longer than 50 characters'
               },
               'lastname': {
-                'required': 'Your last name is required.',
                 'minlength': 'Your last name is required to be at least 1 character',
                 'maxlength': 'Your last name cannot be longer than 50 characters'
               }
