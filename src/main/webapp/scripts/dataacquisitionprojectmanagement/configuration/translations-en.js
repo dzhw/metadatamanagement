@@ -109,9 +109,7 @@ angular.module('metadatamanagementApp').config(
           'tooltip': {
             'not-assigned': 'The project is currently assigned to the other user group.',
             'not-in-group': 'You are not assigned to this user group.',
-            'not-in-publishers': 'You are not assigned as a publisher of this project.',
-            'new': 'Click here to create new data.',
-            'upload': 'Click here to upload new data.'
+            'not-in-publishers': 'You are not assigned as a publisher of this project.'
           },
           'alert': {
             'title': 'Attention',
