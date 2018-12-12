@@ -32,6 +32,14 @@ describe('ProjectUpdateAccessService', function() {
         surveysState: {
           publisherReady: false,
           dataProviderReady: false
+        },
+        requirements: {
+          dataSetsRequired: true,
+          surveysRequired: true,
+          variablesRequired: true,
+          studiesRequired: true,
+          instrumentsRequired: true,
+          questionsRequired: true
         }
       }
     };
@@ -47,7 +55,7 @@ describe('ProjectUpdateAccessService', function() {
   it('should return true if an updateable project is selected', function() {
     spyOn(Principal, 'loginName').and.returnValue(publisherName);
     spyOn(Principal, 'hasAuthority').and.returnValue(true);
-    expect(ProjectUpdateAccessService.isUpdateAllowed(defaultProject)).toBe(true);
+    expect(ProjectUpdateAccessService.isUpdateAllowed(defaultProject, 'studies')).toBe(true);
   });
 
   it('should return true if the survey state is still false', function() {
@@ -163,7 +171,7 @@ describe('ProjectUpdateAccessService', function() {
     spyOn(Principal, 'hasAuthority').and.callFake(trueOnDataProvider);
     defaultProject.release = {};
 
-    expect(ProjectUpdateAccessService.isUpdateAllowed(defaultProject)).toBe(false);
+    expect(ProjectUpdateAccessService.isUpdateAllowed(defaultProject, 'studies')).toBe(false);
   });
 
   it('should return false if the assigneeGroup doesn\'t match the current' +
@@ -172,21 +180,21 @@ describe('ProjectUpdateAccessService', function() {
     spyOn(Principal, 'loginName').and.returnValue(dataProviderName);
     spyOn(Principal, 'hasAuthority').and.callFake(trueOnDataProvider);
 
-    expect(ProjectUpdateAccessService.isUpdateAllowed(defaultProject)).toBe(false);
+    expect(ProjectUpdateAccessService.isUpdateAllowed(defaultProject, 'studies')).toBe(false);
   });
 
   it('should return false if assigneeGroup is unknown', function() {
     spyOn(Principal, 'loginName').and.returnValue(dataProviderName);
     spyOn(Principal, 'hasAuthority').and.callFake(trueOnDataProvider);
     defaultProject.assigneeGroup = '';
-    expect(ProjectUpdateAccessService.isUpdateAllowed(defaultProject)).toBe(false);
+    expect(ProjectUpdateAccessService.isUpdateAllowed(defaultProject, 'studies')).toBe(false);
   });
 
   it('should not call CurrentProjectService if the project was given as a ' +
     'parameter', function() {
     var spy = spyOn(CurrentProjectService, 'getCurrentProject').and
       .callThrough();
-    ProjectUpdateAccessService.isUpdateAllowed({});
+    ProjectUpdateAccessService.isUpdateAllowed(defaultProject, 'studies');
     expect(spy).not.toHaveBeenCalled();
   });
 });
