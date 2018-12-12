@@ -7,12 +7,14 @@ angular.module('metadatamanagementApp')
     'DataAcquisitionProjectRepositoryClient', 'DataAcquisitionProjectResource',
     '$mdDialog', 'SimpleMessageToastService', '$translate',
     'ElasticSearchAdminService', '$scope', 'Principal', 'ProjectReleaseService',
+    '$state', 'LanguageService',
     function(CurrentProjectService,
              DataAcquisitionProjectPostValidationService,
              DataAcquisitionProjectRepositoryClient,
              DataAcquisitionProjectResource, $mdDialog,
              SimpleMessageToastService, $translate, ElasticSearchAdminService,
-             $scope, Principal, ProjectReleaseService) {
+             $scope, Principal, ProjectReleaseService, $state,
+             LanguageService) {
       var ctrl = this;
       ctrl.hasAuthority = Principal.hasAuthority;
       var i18nPrefix = 'data-acquisition-project-management.log-messages.' +
@@ -84,6 +86,9 @@ angular.module('metadatamanagementApp')
                       });
                   ctrl.selectedProject = project;
                   CurrentProjectService.setCurrentProject(project);
+                  $state.go('project-cockpit', {id: ctrl.selectedProject.id,
+                    lang: LanguageService.getCurrentInstantly()},
+                    {inherit: false});
                 },
                 //Server Error while creating project
                 showErrorAlert
