@@ -2,8 +2,11 @@
     <previous-search-result bowser="bowser" current-language="currentLanguage"></previous-search-result>
     <next-search-result bowser="bowser" current-language="currentLanguage"></next-search-result>
     <div layout="row" style="margin-bottom: 0px;" layout-margin>
-        <h1 class="md-headline" style="margin-left: 0px;"><span display-i18n-string="ctrl.survey.title" fdz-hyphenate></span> <span class="label label-as-badge label-default">{{ctrl.survey.id}}</span></h1>
-        <json-content-dialog ng-if="ctrl.enableJsonView" content="ctrl.survey" header-title="ctrl.survey.title" exclude-fields="ctrl.jsonExcludes"></json-content-dialog>
+        <h1 class="md-headline" style="margin-left: 0px;">
+            <span display-i18n-string="ctrl.survey.title" fdz-hyphenate></span>
+            <span class="label label-as-badge label-default">{{ctrl.survey.id}}</span>
+        </h1>
+        <json-content-dialog ng-if="ctrl.enableJsonView" content="ctrl.survey" header-title="ctrl.survey.title" exclude-fields="ctrl.jsonExcludes" class="fdz-no-margin-bottom"></json-content-dialog>
     </div>
     <div layout="column" layout-gt-sm="row">
         <div flex-gt-sm="50" layout="column">
@@ -239,7 +242,7 @@
         </div>
     </div>
     <div class="fdz-fab-button-container" layout="column">
-      <md-button ng-if="!ctrl.projectIsCurrentlyReleased && !bowser.msie" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER" class="md-fab md-raised md-accent" ui-sref="surveyEdit({id: ctrl.survey.id})">
+      <md-button ng-if="!ctrl.projectIsCurrentlyReleased" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER" class="md-fab md-raised md-accent" ui-sref="surveyEdit({id: ctrl.survey.id})">
           <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
               {{'search-management.buttons.edit-survey-tooltip' | translate}}
           </md-tooltip>

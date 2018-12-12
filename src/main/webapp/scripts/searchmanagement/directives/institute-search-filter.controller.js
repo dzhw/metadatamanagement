@@ -2,7 +2,8 @@
 'use strict';
 angular.module('metadatamanagementApp')
   .controller('InstituteSearchFilterController',
-    function($scope, $location, CurrentProjectService, StudySearchService, LanguageService) {
+    function($scope, $location, CurrentProjectService, StudySearchService,
+             LanguageService) {
       var termKeyPrefix = 'filter.institution';
       $scope.searchText = '';
 
@@ -30,6 +31,7 @@ angular.module('metadatamanagementApp')
         var cleanedFilter = _.omit($scope.currentSearchParams.filter,
           'institution');
 
-        return StudySearchService.findInstitutions(searchText, cleanedFilter, language, true);
+        return StudySearchService.findInstitutions(searchText, cleanedFilter,
+          language, true);
       };
     });
