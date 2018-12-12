@@ -4,11 +4,13 @@ Default Tags      smoketest
 Resource          ../../resources/login_resource.robot
 Resource          ../../resources/click_element_resource.robot
 Resource          ../../resources/search_resource.robot
+Resource          ../../resources/home_page_resource.robot
 
 *** Test Cases ***
 Create Study by Publisher
     Pass Execution If    '${BROWSER}' == 'ie'    Study Creation not possible in IE
     Create RobotsProject
+    Get Back to german home page
     Click on study tab
     Open Study Create Page
     Input Text    name=titleDe    Test Studie
