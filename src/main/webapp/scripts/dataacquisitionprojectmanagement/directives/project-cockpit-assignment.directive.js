@@ -35,6 +35,15 @@ angular.module('metadatamanagementApp')
             scope.setChanged(true);
           }
         });
+        scope.$watch(function() {
+          var state = _.get(scope, 'project.configuration.' + attrs.group +
+            'State.publisherReady');
+          return state ? state : null;
+        }, function(newVal, oldVal) {
+          if (newVal !== oldVal) {
+            scope.setChanged(true);
+          }
+        });
 
         $transclude(function(transclusion) {
           scope.hasTranscludedContent = transclusion.length > 0;
