@@ -96,7 +96,8 @@ angular.module('metadatamanagementApp').config(
             'type-update-allowed': 'Editing is impossible, because the publisher already confirmed the correctness of the current data.',
             'project-released': 'Editing is impossible, because the project as already been released.',
             'member-of-assigned-group': 'Editing is impossible, because you are not a member of the assigned group.',
-            'assigned-to-project': 'Editing is impossible, because you are not assigned to the selected project as a publisher or data provider.'
+            'assigned-to-project': 'Editing is impossible, because you are not assigned to the selected project as a publisher or data provider.',
+            'not-required': 'Editing or creating is impossible because the project configuration doesn\'t require it.'
           }
         },
         'projectstatuslabel': {

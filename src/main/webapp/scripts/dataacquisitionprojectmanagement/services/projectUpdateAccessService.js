@@ -13,7 +13,8 @@ angular.module('metadatamanagementApp').service(
       typeUpdateAllowed: messagePrefix + 'type-update-allowed',
       projectUnreleased: messagePrefix + 'project-released',
       memberOfAssignedGroup: messagePrefix + 'member-of-assigned-group',
-      assignedToProject: messagePrefix + 'assigned-to-project'
+      assignedToProject: messagePrefix + 'assigned-to-project',
+      isNotRequired: messagePrefix + 'not-required'
     };
 
     var isProjectSelected = function(project) {
@@ -35,7 +36,17 @@ angular.module('metadatamanagementApp').service(
       }
     };
 
-    var isTypeUpdateAllowed = function(project, type) {
+    var isTypeRequired = function(project, type) {
+      if (type) {
+        type = type === 'data_sets' ? 'dataSets' : type;
+        return _.get(project, 'configuration.requirements.' + type +
+          'Required');
+      } else {
+        return false;
+      }
+    };
+
+    var isPublisherReady = function(project, type) {
       var isTypeReady = false;
       if (type) {
         var conf = project.configuration;
@@ -94,20 +105,24 @@ angular.module('metadatamanagementApp').service(
       assignedToProject.canContinue = false;
       assignedToProject.errorKey = errorList.assignedToProject;
 
+      var typeRequired = isTypeRequired.bind(null, test, type);
+      typeRequired.canContinue = true;
+      typeRequired.errorKey = errorList.isNotRequired;
+
       var memberOfAssignedGroup = isMemberOfAssignedGroup.bind(null, test);
       memberOfAssignedGroup.canContinue = true;
       memberOfAssignedGroup.errorKey = errorList.memberOfAssignedGroup;
 
-      var updateAllowed = isTypeUpdateAllowed.bind(null, test, type);
-      updateAllowed.canContinue = true;
-      updateAllowed.errorKey = errorList.typeUpdateAllowed;
+      var publisherReady = isPublisherReady.bind(null, test, type);
+      publisherReady.canContinue = true;
+      publisherReady.errorKey = errorList.typeUpdateAllowed;
 
       var projectUnreleased = isProjectUnreleased.bind(null, test);
       projectUnreleased.canContinue = true;
       projectUnreleased.errorKey = errorList.projectUnreleased;
 
-      var validations = [projectSelected, assignedToProject,
-        memberOfAssignedGroup, updateAllowed, projectUnreleased];
+      var validations = [projectSelected, assignedToProject, typeRequired,
+        memberOfAssignedGroup, publisherReady, projectUnreleased];
 
       for (var i = 0; i < validations.length; i++) {
         validations[i].isValid = validations[i]();
