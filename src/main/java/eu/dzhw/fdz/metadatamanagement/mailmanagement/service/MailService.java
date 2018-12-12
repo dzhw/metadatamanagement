@@ -166,10 +166,12 @@ public class MailService {
    */
   @Async
   public void sendPublishersAddedMail(List<User> publishers, String projectId, String sender) {
-    log.debug("Sending 'publishers added' mail");
-    sendChangedProjectConfigurationMail("addedToProjectConfiguration",
-        "email.project-configuration-added.title", "email.project-configuration.publisher-role",
-        publishers, projectId, sender);
+    if (!publishers.isEmpty()) {
+      log.debug("Sending 'publishers added' mail");
+      sendChangedProjectConfigurationMail("addedToProjectConfiguration",
+          "email.project-configuration-added.title", "email.project-configuration.publisher-role",
+          publishers, projectId, sender);
+    }
   }
 
   /**
@@ -178,10 +180,12 @@ public class MailService {
   @Async
   public void sendPublisherRemovedMail(List<User> removedPublisherUsers, String projectId,
                                        String sender) {
-    log.debug("Sending 'publishers removed' mail");
-    sendChangedProjectConfigurationMail("removedFromProjectConfiguration",
-        "email.project-configuration-removed.title", "email.project-configuration.publisher-role",
-        removedPublisherUsers, projectId, sender);
+    if (!removedPublisherUsers.isEmpty()) {
+      log.debug("Sending 'publishers removed' mail");
+      sendChangedProjectConfigurationMail("removedFromProjectConfiguration",
+          "email.project-configuration-removed.title", "email.project-configuration.publisher-role",
+          removedPublisherUsers, projectId, sender);
+    }
   }
 
   /**
@@ -190,11 +194,13 @@ public class MailService {
   @Async
   public void sendDataProviderAddedMail(List<User> addedDataProviders, String projectId,
                                         String sender) {
-    log.debug("Sending 'data providers added' mail");
-    sendChangedProjectConfigurationMail("addedToProjectConfiguration",
-        "email.project-configuration-added.title",
-        "email.project-configuration.data-provider-role", addedDataProviders, projectId,
-        sender);
+    if (!addedDataProviders.isEmpty()) {
+      log.debug("Sending 'data providers added' mail");
+      sendChangedProjectConfigurationMail("addedToProjectConfiguration",
+          "email.project-configuration-added.title",
+          "email.project-configuration.data-provider-role", addedDataProviders, projectId,
+          sender);
+    }
   }
 
   /**
@@ -203,11 +209,13 @@ public class MailService {
   @Async
   public void sendDataProviderRemovedMail(List<User> removedDataProviders, String projectId,
                                           String sender) {
-    log.debug("Sending 'data providers removed' mail");
-    sendChangedProjectConfigurationMail("removedFromProjectConfiguration",
-        "email.project-configuration-removed.title",
-        "email.project-configuration.data-provider-role", removedDataProviders, projectId,
-        sender);
+    if (!removedDataProviders.isEmpty()) {
+      log.debug("Sending 'data providers removed' mail");
+      sendChangedProjectConfigurationMail("removedFromProjectConfiguration",
+          "email.project-configuration-removed.title",
+          "email.project-configuration.data-provider-role", removedDataProviders, projectId,
+          sender);
+    }
   }
 
   private void sendChangedProjectConfigurationMail(String template, String subjectKey,
@@ -232,6 +240,11 @@ public class MailService {
    */
   @Async
   public void sendAssigneeGroupChangedMail(List<User> users, String projectId, String message) {
+
+    if (!users.isEmpty()) {
+      log.debug("Sending 'assignee group changed mail'");
+    }
+
     users.parallelStream().forEach(user -> {
       Locale locale = Locale.forLanguageTag(user.getLangKey());
       Context context = new Context(locale);
