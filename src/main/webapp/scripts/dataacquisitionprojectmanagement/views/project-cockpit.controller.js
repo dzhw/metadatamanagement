@@ -438,12 +438,20 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
 
     $scope.shareButtonShown = false;
     $scope.onTabSelect = function(tab) {
+      $state.go('project-cockpit', {page: tab});
       if (tab === 'config') {
         $scope.shareButtonShown = false;
       } else if (tab === 'status') {
         $scope.shareButtonShown = true;
       }
     };
+    $scope.selectedTab = (function() {
+      switch ($state.params.page) {
+        case 'status': return 0;
+        case 'config': return 1;
+        default: return 0;
+      }
+    })();
 
     $scope.setChanged = function(changed) {
       if (changed === undefined) {

@@ -86,9 +86,12 @@ angular.module('metadatamanagementApp')
                       });
                   ctrl.selectedProject = project;
                   CurrentProjectService.setCurrentProject(project);
-                  $state.go('project-cockpit', {id: ctrl.selectedProject.id,
-                    lang: LanguageService.getCurrentInstantly()},
-                    {inherit: false});
+                  $state.go('project-cockpit', {
+                    id: ctrl.selectedProject.id,
+                    lang: LanguageService.getCurrentInstantly(),
+                    page: 'config'},
+                    {inherit: false}
+                  );
                 },
                 //Server Error while creating project
                 showErrorAlert

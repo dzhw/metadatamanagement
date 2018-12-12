@@ -5,7 +5,7 @@
   <p>{{'data-acquisition-project-management.project-cockpit.alert.noproject' | translate}}</p>
 </div>
 <md-card ng-cloak ng-if="project && !fetching">
-  <md-tabs md-dynamic-height md-border-bottom>
+  <md-tabs md-dynamic-height md-border-bottom md-selected="selectedTab">
     <md-tab md-on-select="onTabSelect('status')">
       <md-tab-label>
         <md-icon md-font-set="material-icons">info</md-icon>
