@@ -3,12 +3,12 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .directive('projectCockpitAssignment',
+  .directive('projectCockpitMetadataTypeStateCard',
   function($state, ProjectStatusScoringService, ProjectUpdateAccessService) {
     return {
       restrict: 'E',
       templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
-        'project-cockpit-assignment.html.tmpl',
+        'project-cockpit-metadata-type-state-card.html.tmpl',
       scope: true,
       replace: true,
       transclude: true,
