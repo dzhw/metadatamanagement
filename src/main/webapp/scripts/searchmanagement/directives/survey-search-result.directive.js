@@ -16,7 +16,7 @@ angular.module('metadatamanagementApp').directive('surveySearchResult',
       },
       controller: function($scope, CommonDialogsService, SurveyResource,
         ElasticSearchAdminService, $rootScope, SimpleMessageToastService,
-        DataAcquisitionProjectResource, Principal) {
+        DataAcquisitionProjectResource, Principal, ProjectUpdateAccessService) {
         $scope.projectIsCurrentlyReleased = true;
         if (angular.isUndefined($scope.isUpdateAllowed)) {
           $scope.isUpdateAllowed = true;
@@ -27,6 +27,7 @@ angular.module('metadatamanagementApp').directive('surveySearchResult',
           DataAcquisitionProjectResource.get({
             id: $scope.searchResult.dataAcquisitionProjectId
           }).$promise.then(function(project) {
+            $scope.project = project;
             $scope.projectIsCurrentlyReleased = (project.release != null);
           });
         }
@@ -35,6 +36,13 @@ angular.module('metadatamanagementApp').directive('surveySearchResult',
             type: 'survey',
             id: surveyId
           }).then(function() {
+            if (!ProjectUpdateAccessService.isUpdateAllowed(
+              $scope.project,
+              'surveys',
+              true
+            )) {
+              return Promise.reject();
+            }
             return SurveyResource.delete({id: surveyId}).$promise;
           }).then(function() {
             return ElasticSearchAdminService.processUpdateQueue('surveys');

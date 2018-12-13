@@ -36,13 +36,13 @@
         </md-tooltip>
     </a>
     <div class="fdz-search-result-actions-container" ng-if="!projectIsCurrentlyReleased" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER" >
-        <md-button class="md-icon-button md-primary" ui-sref="dataSetEdit({id: searchResult.id})" style="margin-right: 0px;" ng-disabled="!isUpdateAllowed">
+        <md-button class="md-icon-button md-primary" ui-sref="dataSetEdit({id: searchResult.id})" style="margin-right: 0px;" >
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{'search-management.buttons.edit-data-set-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">mode_edit</md-icon>
         </md-button>
-        <md-button class="md-icon-button md-primary" ng-click="deleteDataSet(searchResult.id)" style="margin-left: 0px;" ng-disabled="!isUpdateAllowed">
+        <md-button class="md-icon-button md-primary" ng-click="deleteDataSet(searchResult.id)" style="margin-left: 0px;" >
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{'search-management.buttons.delete-data-set-tooltip' | translate}}
             </md-tooltip>

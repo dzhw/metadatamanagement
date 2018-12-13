@@ -16,7 +16,7 @@ angular.module('metadatamanagementApp').directive('datasetSearchResult',
       },
       controller: function($scope, CommonDialogsService, DataSetResource,
         ElasticSearchAdminService, $rootScope, SimpleMessageToastService,
-        DataAcquisitionProjectResource, Principal) {
+        DataAcquisitionProjectResource, Principal, ProjectUpdateAccessService) {
         $scope.projectIsCurrentlyReleased = true;
         if (angular.isUndefined($scope.isUpdateAllowed)) {
           $scope.isUpdateAllowed = true;
@@ -34,6 +34,13 @@ angular.module('metadatamanagementApp').directive('datasetSearchResult',
             type: 'data-set',
             id: dataSetId
           }).then(function() {
+            if (!ProjectUpdateAccessService.isUpdateAllowed(
+              $scope.project,
+              'surveys',
+              true
+            )) {
+              return Promise.reject();
+            }
             return DataSetResource.delete({id: dataSetId}).$promise;
           }).then(function() {
             return ElasticSearchAdminService.processUpdateQueue('data_sets');

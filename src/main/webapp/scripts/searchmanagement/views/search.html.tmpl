@@ -66,13 +66,13 @@
         </div>
 
         <div ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='studies'">
-            <md-button ng-if="!currentStudy" class="md-fab md-raised md-accent" ui-sref="studyCreate()" ng-disabled="!isUpdateAllowed">
+            <md-button ng-if="!currentStudy" class="md-fab md-raised md-accent" ui-sref="studyCreate()">
                 <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                     {{'search-management.buttons.create-study-tooltip' | translate}}
                 </md-tooltip>
                 <md-icon md-font-set="material-icons">add</md-icon>
             </md-button>
-            <md-button ng-if="currentStudy" class="md-fab md-raised md-accent" ui-sref="studyEdit({id: currentStudy.id})" ng-disabled="!isUpdateAllowed">
+            <md-button ng-if="currentStudy" class="md-fab md-raised md-accent" ui-sref="studyEdit({id: currentStudy.id})">
                 <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                     {{'search-management.buttons.edit-study-tooltip' | translate}}
                 </md-tooltip>
