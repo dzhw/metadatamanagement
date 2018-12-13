@@ -259,4 +259,28 @@ public class MailService {
       sendEmail(null, new String[]{user.getEmail()}, null, subject, content, false, true);
     });
   }
+
+  /**
+   * Send a mail to data providers informing them that they've been removed as the assignee group
+   * by a publisher.
+   */
+  public void sendDataProviderAccessRevokedMail(List<User> users, String projectId) {
+
+    if (!users.isEmpty()) {
+      log.debug("Sending 'data provider access revoked mail'");
+    }
+
+    users.parallelStream().forEach(user -> {
+      Locale locale = Locale.forLanguageTag(user.getLangKey());
+      Context context = new Context(locale);
+      context.setVariable("user", user);
+      context.setVariable("projectId", projectId);
+      context.setVariable("locale", locale);
+      context.setVariable("baseUrl", baseUrl);
+      String content = templateEngine.process("dataProviderAccessRevoked", context);
+      String subject = messageSource.getMessage("email.data-provider-access-revoked.title",
+          new Object[]{projectId}, locale);
+      sendEmail(null, new String[]{user.getEmail()}, null, subject, content, false, true);
+    });
+  }
 }

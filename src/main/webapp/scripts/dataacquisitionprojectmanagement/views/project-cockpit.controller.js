@@ -227,7 +227,11 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       '-project-management.project-cockpit.takeback-dialog.text')
       ).ok($translate.instant('global.common-dialogs.yes'))
       .cancel($translate.instant('global.common-dialogs.no'));
-      $mdDialog.show(confirm).then($scope.onSaveChangesAndAssign);
+      $mdDialog.show(confirm).then(function() {
+        var message = _.get($scope, 'project.lastAssigneeGroupMessage');
+        var project = prepareProjectForSave(message, 'PUBLISHER');
+        saveProject(project);
+      });
     };
 
     $scope.onSaveChangesAndAssign = function() {

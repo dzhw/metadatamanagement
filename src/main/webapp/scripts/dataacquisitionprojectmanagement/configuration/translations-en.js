@@ -75,10 +75,6 @@ angular.module('metadatamanagementApp').config(
               'unauthorized': 'Only publishers of this project are allowed to change mandatory fields.'
             }
           },
-          'last-assignee-group-message': {
-            'size': 'The message must not be longer than 2048 characters.',
-            'not-empty': 'A message must be provided on assignee group change.'
-          },
           'release': {
             'version': {
               'not-empty': 'The version must not be empty.',

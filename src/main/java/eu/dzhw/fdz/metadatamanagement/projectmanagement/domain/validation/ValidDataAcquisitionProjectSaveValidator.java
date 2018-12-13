@@ -186,7 +186,19 @@ public class ValidDataAcquisitionProjectSaveValidator
       return true;
     }
 
-    return StringUtils.hasText(dataAcquisitionProject.getLastAssigneeGroupMessage());
+    boolean isAssignedPublisher = oldProject.getConfiguration().getPublishers()
+        .contains(SecurityUtils.getCurrentUserLogin());
+    boolean isProjectAssignedToDataProvider = oldProject
+        .getAssigneeGroup() == AssigneeGroup.DATA_PROVIDER;
+    boolean isNextGroupPublisher = dataAcquisitionProject
+        .getAssigneeGroup() == AssigneeGroup.PUBLISHER;
+
+    // If we are an assigned publisher and we reassign the project to publishers, ignore the message
+    if (isAssignedPublisher && isProjectAssignedToDataProvider && isNextGroupPublisher) {
+      return true;
+    } else {
+      return StringUtils.hasText(dataAcquisitionProject.getLastAssigneeGroupMessage());
+    }
   }
 
   private boolean isNotModified(Object objA, Object objB) {

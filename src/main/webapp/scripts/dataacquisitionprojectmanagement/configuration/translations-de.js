@@ -75,10 +75,6 @@ angular.module('metadatamanagementApp').config(
               'unauthorized': 'Pflichtfelder dürfen nur durch Publishers dieses Projekts geändert werden.'
             }
           },
-          'last-assignee-group-message': {
-            'size': 'Die Nachricht darf nicht länger als 2048 Zeichen sein.',
-            'not-empty':'Bei einem Gruppenwechsel muss eine Nachricht angegeben werden.'
-          },
           'release': {
             'version': {
               'not-empty': 'Die Version darf nicht leer sein.',

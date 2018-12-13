@@ -8,6 +8,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisiti
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
@@ -160,28 +161,49 @@ public class DataAcquisitionProjectService {
   private void sendAssigneeGroupChangedMails(DataAcquisitionProject newDataAcquisitionProject) {
     String projectId = newDataAcquisitionProject.getId();
     if (changesProvider.hasAssigneeGroupChanged(projectId)) {
-      AssigneeGroup assigneeGroup = changesProvider.getNewAssigneeGroup(projectId);
-      Set<String> userNames;
+      if (isProjectForcefullyReassignedByPublisher(projectId)) {
+        List<String> dataProviders = changesProvider.getOldDataAcquisitionProject(projectId)
+            .getConfiguration().getDataProviders();
+        List<User> users = userRepository.findAllByLoginIn(new HashSet<>(dataProviders));
+        mailService.sendDataProviderAccessRevokedMail(users, projectId);
+      } else {
+        AssigneeGroup assigneeGroup = changesProvider.getNewAssigneeGroup(projectId);
+        Set<String> userNames;
 
-      switch (assigneeGroup) {
-        case DATA_PROVIDER:
-          List<String> dataProviders = newDataAcquisitionProject.getConfiguration()
-              .getDataProviders();
-          userNames = dataProviders != null ? new HashSet<>(dataProviders) : Collections.emptySet();
-          break;
-        case PUBLISHER:
-          userNames = new HashSet<>(newDataAcquisitionProject.getConfiguration().getPublishers());
-          break;
-        default:
-          throw new IllegalStateException("Unknown assignee group " + assigneeGroup);
-      }
+        switch (assigneeGroup) {
+          case DATA_PROVIDER:
+            List<String> dataProviders = newDataAcquisitionProject.getConfiguration()
+                .getDataProviders();
+            userNames = dataProviders != null ? new HashSet<>(dataProviders)
+                : Collections.emptySet();
+            break;
+          case PUBLISHER:
+            userNames = new HashSet<>(newDataAcquisitionProject.getConfiguration().getPublishers());
+            break;
+          default:
+            throw new IllegalStateException("Unknown assignee group " + assigneeGroup);
+        }
 
-      if (!userNames.isEmpty()) {
-        List<User> users = userRepository.findAllByLoginIn(userNames);
-        mailService.sendAssigneeGroupChangedMail(users, projectId,
-            newDataAcquisitionProject.getLastAssigneeGroupMessage());
+        if (!userNames.isEmpty()) {
+          List<User> users = userRepository.findAllByLoginIn(userNames);
+          mailService.sendAssigneeGroupChangedMail(users, projectId,
+              newDataAcquisitionProject.getLastAssigneeGroupMessage());
+        }
       }
     }
+  }
+
+  private boolean isProjectForcefullyReassignedByPublisher(String projectId) {
+
+    DataAcquisitionProject oldProject = changesProvider.getOldDataAcquisitionProject(projectId);
+    DataAcquisitionProject newProject = changesProvider.getNewDataAcquisitionProject(projectId);
+
+    String loginName = SecurityUtils.getCurrentUserLogin();
+    boolean isAssignedPublisher = oldProject.getConfiguration().getPublishers()
+        .contains(loginName);
+
+    return isAssignedPublisher && oldProject.getAssigneeGroup() == AssigneeGroup.DATA_PROVIDER
+        && newProject.getAssigneeGroup() == AssigneeGroup.PUBLISHER;
   }
 
   private void sendPublishersDataProvidersChangedMails(String projectId) {
