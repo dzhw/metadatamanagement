@@ -89,7 +89,7 @@ angular.module('metadatamanagementApp').config(
           },
           'project-update-access': {
             'project-selected': 'Für das Anlegen neuer Daten muss ein Projekt ausgewählt sein.',
-            'type-update-allowed': 'Das Bearbeiten ist nicht möglich, weil die Korrektheit durch den Publisher bereits bestätigt wurde.',
+            'type-update-allowed': 'Das Bearbeiten ist nicht möglich, weil die Korrektheit durch den Publisher oder Datengeber bereits bestätigt wurde.',
             'project-released': 'Das Bearbeiten ist nicht möglich, weil das Projekt bereits veröffentlicht wurde.',
             'member-of-assigned-group': 'Das Bearbeiten ist nicht möglich, weil das Projekt aktuell der anderen Bearbeitungsgruppe zugewiesen ist.',
             'assigned-to-project': 'Das Bearbeiten ist nicht möglich, weil Sie dem ausgewählten Projekt nicht als Publisher bzw. Datengeber zugewiesen sind.',
