@@ -93,8 +93,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
           PageTitleService.setPageTitle(pageTitleKey,
             {projectId: changedProject.id});
           setTypeCounts(changedProject.id);
-          PageTitleService.setPageTitle(
-            pageTitleKey, {projectId: changedProject.id});
+          setProjectRequirementsDisabled(changedProject);
         }
       });
 
@@ -331,6 +330,8 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
           {projectId: project.id});
 
         CurrentProjectService.setCurrentProject(project);
+
+        setProjectRequirementsDisabled(project);
 
         function getAndAddUsers(key) {
           // get users of type {key} asynchronously
