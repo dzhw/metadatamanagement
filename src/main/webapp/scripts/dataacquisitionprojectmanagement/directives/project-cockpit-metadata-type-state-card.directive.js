@@ -58,6 +58,14 @@ angular.module('metadatamanagementApp')
           return _.get(scope, 'project.configuration.requirements.' +
             attrs.group + 'Required');
         };
+
+        scope.getModifyButtonLabel = function(group) {
+          return (scope.counts && scope.counts[
+            // map camelCase to underscore_case
+            group.replace(/([A-Z])/g,
+              function($1) {return '_' + $1.toLowerCase();})
+          ] > 0 ? 'edit' : 'new');
+        };
       }
     };
   });
