@@ -36,7 +36,7 @@ angular.module('metadatamanagementApp').directive('datasetSearchResult',
           }).then(function() {
             if (!ProjectUpdateAccessService.isUpdateAllowed(
               $scope.project,
-              'surveys',
+              'dataSets',
               true
             )) {
               return Promise.reject();

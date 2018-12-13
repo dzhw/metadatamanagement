@@ -35,7 +35,7 @@ angular.module('metadatamanagementApp').directive('instrumentSearchResult',
           }).then(function() {
             if (!ProjectUpdateAccessService.isUpdateAllowed(
               $scope.project,
-              'surveys',
+              'instruments',
               true
             )) {
               return Promise.reject();
