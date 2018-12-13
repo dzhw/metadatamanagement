@@ -1,4 +1,4 @@
-/* global _ */
+/* global _, $ */
 'use strict';
 
 angular.module('metadatamanagementApp').controller('ProjectCockpitController',
@@ -286,6 +286,9 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         $scope.searchText[role] = '';
         $scope.selectedUser[role] = null;
         $state.searchCache[role] = {};
+        $timeout(function() {
+          $(':focus').blur();
+        }, 0);
       }
     };
 

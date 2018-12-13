@@ -1167,3 +1167,16 @@ project-status-badge > span, release-status-badge > span {
 .fdz-unreleased {
     background-color: $brand-danger;
 }
+
+@keyframes fade-highlight {
+    0% {
+        background: lighten($brand-primary, 50%);
+    }
+    100% {
+        background: white;
+    }
+}
+.fdz-project-userlist + md-list md-list-item {
+    background: white;
+    animation: fade-highlight 1s ease-out;
+}
