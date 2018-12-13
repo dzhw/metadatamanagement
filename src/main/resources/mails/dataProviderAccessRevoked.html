@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{email.data-provider-access-revoked.title(${projectId})}">Project has been assigned to publisher</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+        a {
+            text-decoration: none;
+            color: #006AB2;
+        }
+
+        body {
+            font-family: Roboto, "Helvetica Neue", sans-serif;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+<p th:text="#{email.assignee-group-changed.greeting(${user.login})}">Dear</p>
+<p>
+    <span th:text="#{email.data-provider-access-revoked.text1(${projectId})}">Project</span>
+    <a th:href="@{|${baseUrl}/#!/${#locale.language}/projects/${projectId}|}" th:text="|${projectId}|">project</a>
+    <span th:text="#{email.data-provider-access-revoked.text2}">has been assigned back to publisher</span>
+</p>
+<p>
+    <span th:text="#{email.data-provider-access-revoked.text3}">Regards</span><br>
+    <em th:text="#{email.signature}">Your FDZ-Team</em>
+</p>
+</body>
+</html>

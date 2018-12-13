@@ -415,7 +415,6 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.getConfiguration().setPublishers(Collections.singletonList(PUBLISHER_USERNAME));
     project.setAssigneeGroup(AssigneeGroup.DATA_PROVIDER);
-    project.setLastAssigneeGroupMessage("test");
 
     project = dataAcquisitionProjectRepository.save(project);
 

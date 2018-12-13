@@ -98,6 +98,24 @@ public class DataAcquisitionProjectChangesProvider {
     return dataAcquisitionProject != null ? dataAcquisitionProject.getAssigneeGroup() : null;
   }
 
+  /**
+   * Get the old {@link DataAcquisitionProject}.
+   * @param projectId id of the project
+   * @return {@link DataAcquisitionProject} or {@code null} if there was none
+   */
+  public DataAcquisitionProject getOldDataAcquisitionProject(String projectId) {
+    return oldProjects.get(projectId);
+  }
+
+  /**
+   * Get new {@link DataAcquisitionProject}.
+   * @param projectId id of the project
+   * @return {@link DataAcquisitionProject} or {@code null} if there was none
+   */
+  public DataAcquisitionProject getNewDataAcquisitionProject(String projectId) {
+    return newProjects.get(projectId);
+  }
+
   private List<String> getPublishers(DataAcquisitionProject project) {
     if (project != null) {
       return project.getConfiguration().getPublishers();
