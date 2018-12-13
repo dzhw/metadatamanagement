@@ -53,7 +53,7 @@ public class TaskService {
    */
   public void handleErrorTask(String taskId, Exception exception) {
     ErrorListDto errorList = crerateErrorListFromException(exception);
-    Optional<Task> findById = taskRepo.findById(taskId);
+    Optional<Task> findById = loadTask(taskId);
     if (findById.isPresent()) {
       Task task = findById.get();
       task.setState(TaskState.FAILURE);
@@ -71,15 +71,19 @@ public class TaskService {
    * @param resultUri the URI to handle the task result
    */
   public void handleTaskDone(String taskId, URI resultUri) {
-    Optional<Task> findById = taskRepo.findById(taskId);
-    if (findById.isPresent()) {
-      Task task = findById.get();
+    Optional<Task> optionalTask = loadTask(taskId);
+    if (optionalTask.isPresent()) {
+      Task task = optionalTask.get();
       task.setState(TaskState.DONE);
       task.setLocation(resultUri);
       taskRepo.save(task);
     } else {
       log.warn("task with id {} not exists", taskId);
     }
+  }
+
+  private Optional<Task> loadTask(String taskId) {
+    return taskRepo.findById(taskId);
   }
 
   /**
@@ -115,5 +119,16 @@ public class TaskService {
       }
     }
     return errorListDto;
+  }
+
+  /**
+   * Get the Task by Id.
+   * 
+   * @param taskId the id of the task
+   * @return the task or null if not present.
+   */
+  public Task getTask(String taskId) {
+    Optional<Task> loadTask = loadTask(taskId);
+    return loadTask.orElse(null);
   }
 }

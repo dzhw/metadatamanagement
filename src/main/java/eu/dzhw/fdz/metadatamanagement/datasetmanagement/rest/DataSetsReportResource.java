@@ -78,7 +78,7 @@ public class DataSetsReportResource {
           }
         }
       });
-      pollUri = URI.create("/search/tasks/" + taskId);
+      pollUri = URI.create("/api/tasks/" + taskId);
       Task task = taskService.createTask(taskId);
       return ResponseEntity.accepted().location(pollUri).body(task);
     } else {

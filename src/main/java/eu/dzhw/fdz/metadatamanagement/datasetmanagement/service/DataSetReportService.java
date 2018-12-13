@@ -120,7 +120,7 @@ public class DataSetReportService {
    *
    * @param multiPartFile The uploaded zip file
    * @param dataSetId An id of the data set.
-   * @param taskId TODO
+   * @param taskId the ID of the task
    * @return The name of the saved tex template in the GridFS / MongoDB.
    * @throws TemplateException Handles templates exceptions.
    * @throws IOException Handles IO Exception for the template.

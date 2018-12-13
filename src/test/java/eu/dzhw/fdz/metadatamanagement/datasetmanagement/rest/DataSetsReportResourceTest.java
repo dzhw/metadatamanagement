@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.rest;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.File;
@@ -7,6 +8,7 @@ import java.io.FileInputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -74,7 +76,7 @@ public class DataSetsReportResourceTest extends AbstractTest {
     this.fileService.deleteTempFiles();
     this.javersService.deleteAll();
   }
-  @Ignore
+  
   @Test
   @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testValidUpload() throws Exception {
@@ -106,10 +108,10 @@ public class DataSetsReportResourceTest extends AbstractTest {
     this.mockMvc.perform(MockMvcRequestBuilders.multipart(API_DATASETS_REPORTS_URI)
       .file(multipartFile)
       .param("id", dataSet.getId()))
-      .andExpect(status().isOk());
+      .andExpect(status().isAccepted())
+      .andExpect(header().string("location", Matchers.containsString("/api/tasks/")));
   }
   
-  @Ignore
   @Test
   @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testValidButIncompleteUpload() throws Exception {
@@ -138,7 +140,7 @@ public class DataSetsReportResourceTest extends AbstractTest {
     this.mockMvc.perform(MockMvcRequestBuilders.multipart(API_DATASETS_REPORTS_URI)
       .file(multipartFile)
       .param("id", dataSet.getId()))
-      .andExpect(status().isBadRequest());
+      .andExpect(status().isAccepted());
   }
 
   @Test
