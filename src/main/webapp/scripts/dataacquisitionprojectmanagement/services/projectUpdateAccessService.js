@@ -124,7 +124,6 @@ angular.module('metadatamanagementApp').service(
       var validations = [projectSelected, assignedToProject, typeRequired,
         memberOfAssignedGroup, publisherReady, projectUnreleased];
 
-
       for (var i = 0; i < validations.length; i++) {
         try {
           validations[i].isValid = validations[i](project);
