@@ -11,6 +11,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
            ProjectUpdateAccessService,
            DataAcquisitionProjectPostValidationService) {
 
+    var unregisterTransitionHook;
     var pageTitleKey = 'data-acquisition-project-management.project' +
       '-cockpit.title';
 
@@ -32,7 +33,11 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     };
 
     var registerConfirmOnDirtyHook = function() {
-      var unregisterTransitionHook = $transitions.onBefore({}, function(trans) {
+      if (unregisterTransitionHook) {
+        unregisterTransitionHook();
+      }
+
+      unregisterTransitionHook = $transitions.onBefore({}, function(trans) {
         if ($scope.changed && trans.to().name !== trans.from().name) {
           return CommonDialogsService.showConfirmOnDirtyDialog();
         }
@@ -68,14 +73,18 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         $scope.isAssignedPublisher || $scope.isAssignedDataProvider;
     };
 
-    var requiredTypesWatch;
-
     $state.loadStarted = true;
 
-    $scope.$on('project-deleted',
-      function() {
+    $scope.$watch('project', function(newVal, oldVal) {
+      if (oldVal !== undefined && newVal !== oldVal) {
+        $scope.changed = true;
+      }
+    }, true);
+
+    $scope.$on('project-deleted', function() {
         $state.go('search');
       });
+
     $scope.$on('current-project-changed',
       function(event, changedProject) { // jshint ignore:line
         if (changedProject) {
@@ -321,24 +330,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         PageTitleService.setPageTitle(pageTitleKey,
           {projectId: project.id});
 
-        var isProjectRequirementsDisabled =
-          setProjectRequirementsDisabled(project);
         CurrentProjectService.setCurrentProject(project);
-
-        if (requiredTypesWatch) {
-          requiredTypesWatch();
-        }
-
-        if (!isProjectRequirementsDisabled &&
-          project.configuration.requirements) {
-          $scope.$watch(function() {
-            return $scope.project.configuration.requirements;
-          }, function(newVal, oldVal) {
-            if (newVal !== oldVal && !$scope.changed) {
-              $scope.changed = true;
-            }
-          }, true);
-        }
 
         function getAndAddUsers(key) {
           // get users of type {key} asynchronously
