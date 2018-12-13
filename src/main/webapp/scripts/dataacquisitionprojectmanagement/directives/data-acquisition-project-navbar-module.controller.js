@@ -89,7 +89,7 @@ angular.module('metadatamanagementApp')
                   $state.go('project-cockpit', {
                     id: ctrl.selectedProject.id,
                     lang: LanguageService.getCurrentInstantly(),
-                    page: 'config'},
+                    tab: 'config'},
                     {inherit: false}
                   );
                 },
