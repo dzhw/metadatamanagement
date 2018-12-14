@@ -26,6 +26,7 @@ angular.module('metadatamanagementApp').directive('instrumentSearchResult',
           DataAcquisitionProjectResource.get({
             id: $scope.searchResult.dataAcquisitionProjectId
           }).$promise.then(function(project) {
+            $scope.project = project;
             $scope.projectIsCurrentlyReleased = (project.release != null);
           });
         }
@@ -55,7 +56,7 @@ angular.module('metadatamanagementApp').directive('instrumentSearchResult',
           {to: 'instrumentEdit'},
           function() {
             if (!ProjectUpdateAccessService.isUpdateAllowed(
-              CurrentProjectService.getCurrentProject(),
+              $scope.project,
               'instruments',
               true
             )) {

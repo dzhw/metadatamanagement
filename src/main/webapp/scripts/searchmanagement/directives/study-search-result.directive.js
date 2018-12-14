@@ -25,13 +25,14 @@ angular.module('metadatamanagementApp').directive('studySearchResult',
           DataAcquisitionProjectResource.get({
             id: $scope.searchResult.dataAcquisitionProjectId
           }).$promise.then(function(project) {
+            $scope.project = project;
             $scope.projectIsCurrentlyReleased = (project.release != null);
           });
         }
         var unregisterTransitionHook = $transitions.onBefore({to: 'studyEdit'},
           function() {
             if (!ProjectUpdateAccessService.isUpdateAllowed(
-              CurrentProjectService.getCurrentProject(),
+              $scope.project,
               'studies',
               true
             )) {

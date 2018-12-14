@@ -28,13 +28,14 @@ angular.module('metadatamanagementApp').directive('surveySearchResult',
           DataAcquisitionProjectResource.get({
             id: $scope.searchResult.dataAcquisitionProjectId
           }).$promise.then(function(project) {
+            $scope.project = project;
             $scope.projectIsCurrentlyReleased = (project.release != null);
           });
         }
 
         $scope.deleteSurvey = function(surveyId) {
           if (ProjectUpdateAccessService.isUpdateAllowed(
-            CurrentProjectService.getCurrentProject(),
+            $scope.project,
             'surveys',
             true
           )) {

@@ -27,12 +27,13 @@ angular.module('metadatamanagementApp').directive('datasetSearchResult',
           DataAcquisitionProjectResource.get({
             id: $scope.searchResult.dataAcquisitionProjectId
           }).$promise.then(function(project) {
+            $scope.project = project;
             $scope.projectIsCurrentlyReleased = (project.release != null);
           });
         }
         $scope.deleteDataSet = function(dataSetId) {
           if (ProjectUpdateAccessService.isUpdateAllowed(
-            CurrentProjectService.getCurrentProject(),
+            $scope.project,
             'data_sets',
             true
           )) {
@@ -56,7 +57,7 @@ angular.module('metadatamanagementApp').directive('datasetSearchResult',
           {to: 'dataSetEdit'},
           function() {
             if (!ProjectUpdateAccessService.isUpdateAllowed(
-              CurrentProjectService.getCurrentProject(),
+              $scope.project,
               'data_sets',
               true
             )) {
