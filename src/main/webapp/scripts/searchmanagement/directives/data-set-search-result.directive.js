@@ -31,26 +31,25 @@ angular.module('metadatamanagementApp').directive('datasetSearchResult',
           });
         }
         $scope.deleteDataSet = function(dataSetId) {
-          CommonDialogsService.showConfirmDeletionDialog({
-            type: 'data-set',
-            id: dataSetId
-          }).then(function() {
-            if (!ProjectUpdateAccessService.isUpdateAllowed(
-              CurrentProjectService.getCurrentProject(),
-              'data_sets',
-              true
-            )) {
-              return Promise.reject();
-            }
-            return DataSetResource.delete({id: dataSetId}).$promise;
-          }).then(function() {
-            return ElasticSearchAdminService.processUpdateQueue('data_sets');
-          }).then(function() {
-            $rootScope.$broadcast('deletion-completed');
-            SimpleMessageToastService.openSimpleMessageToast(
-              'data-set-management.edit.data-set-deleted-toast',
-              {id: dataSetId});
-          });
+          if (ProjectUpdateAccessService.isUpdateAllowed(
+            CurrentProjectService.getCurrentProject(),
+            'data_sets',
+            true
+          )) {
+            CommonDialogsService.showConfirmDeletionDialog({
+              type: 'data-set',
+              id: dataSetId
+            }).then(function() {
+              return DataSetResource.delete({id: dataSetId}).$promise;
+            }).then(function() {
+              return ElasticSearchAdminService.processUpdateQueue('data_sets');
+            }).then(function() {
+              $rootScope.$broadcast('deletion-completed');
+              SimpleMessageToastService.openSimpleMessageToast(
+                'data-set-management.edit.data-set-deleted-toast',
+                {id: dataSetId});
+            });
+          }
         };
 
         var unregisterTransitionHook = $transitions.onBefore(

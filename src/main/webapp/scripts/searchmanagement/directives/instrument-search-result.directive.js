@@ -30,26 +30,25 @@ angular.module('metadatamanagementApp').directive('instrumentSearchResult',
           });
         }
         $scope.deleteInstrument = function(instrumentId) {
-          CommonDialogsService.showConfirmDeletionDialog({
-            type: 'instrument',
-            id: instrumentId
-          }).then(function() {
-            if (!ProjectUpdateAccessService.isUpdateAllowed(
-              $scope.project,
-              'instruments',
-              true
-            )) {
-              return Promise.reject();
-            }
-            return InstrumentResource.delete({id: instrumentId}).$promise;
-          }).then(function() {
-            return ElasticSearchAdminService.processUpdateQueue('instruments');
-          }).then(function() {
-            $rootScope.$broadcast('deletion-completed');
-            SimpleMessageToastService.openSimpleMessageToast(
-              'instrument-management.edit.instrument-deleted-toast',
-              {id: instrumentId});
-          });
+          if (ProjectUpdateAccessService.isUpdateAllowed(
+            $scope.project,
+            'instruments',
+            true
+          )) {
+            CommonDialogsService.showConfirmDeletionDialog({
+              type: 'instrument',
+              id: instrumentId
+            }).then(function() {
+              return InstrumentResource.delete({id: instrumentId}).$promise;
+            }).then(function() {
+              return ElasticSearchAdminService.processUpdateQueue('instruments');
+            }).then(function() {
+              $rootScope.$broadcast('deletion-completed');
+              SimpleMessageToastService.openSimpleMessageToast(
+                'instrument-management.edit.instrument-deleted-toast',
+                {id: instrumentId});
+            });
+          }
         };
 
         var unregisterTransitionHook = $transitions.onBefore(

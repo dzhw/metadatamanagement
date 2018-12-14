@@ -33,26 +33,25 @@ angular.module('metadatamanagementApp').directive('surveySearchResult',
         }
 
         $scope.deleteSurvey = function(surveyId) {
-          CommonDialogsService.showConfirmDeletionDialog({
-            type: 'survey',
-            id: surveyId
-          }).then(function() {
-            if (!ProjectUpdateAccessService.isUpdateAllowed(
-              CurrentProjectService.getCurrentProject(),
-              'surveys',
-              true
-            )) {
-              return Promise.reject();
-            }
-            return SurveyResource.delete({id: surveyId}).$promise;
-          }).then(function() {
-            return ElasticSearchAdminService.processUpdateQueue('surveys');
-          }).then(function() {
-            $rootScope.$broadcast('deletion-completed');
-            SimpleMessageToastService.openSimpleMessageToast(
-              'survey-management.edit.survey-deleted-toast',
-              {id: surveyId});
-          });
+          if (ProjectUpdateAccessService.isUpdateAllowed(
+            CurrentProjectService.getCurrentProject(),
+            'surveys',
+            true
+          )) {
+            CommonDialogsService.showConfirmDeletionDialog({
+              type: 'survey',
+              id: surveyId
+            }).then(function() {
+              return SurveyResource.delete({id: surveyId}).$promise;
+            }).then(function() {
+              return ElasticSearchAdminService.processUpdateQueue('surveys');
+            }).then(function() {
+              $rootScope.$broadcast('deletion-completed');
+              SimpleMessageToastService.openSimpleMessageToast(
+                'survey-management.edit.survey-deleted-toast',
+                {id: surveyId});
+            });
+          }
         };
 
         var unregisterTransitionHook = $transitions.onBefore({to: 'surveyEdit'},
