@@ -20,18 +20,21 @@
 		</md-checkbox>
 		<md-checkbox
 			ng-model="project.configuration[group+'State'].dataProviderReady"
-			ng-disabled="!isRequired() || !isAssignedPublisher && (!isAssignedDataProvider || project.assigneeGroup !== 'DATA_PROVIDER')"
+			ng-disabled="!isRequired() || (!isAssignedDataProvider && project.assigneeGroup === 'DATA_PROVIDER')"
 		>
 			<md-tooltip ng-if="!isAssignedPublisher && !isAssignedDataProvider">{{'data-acquisition-project-management.project-cockpit.tooltip.not-in-group' | translate}}</md-tooltip>
-			<md-tooltip ng-if="!isAssignedPublisher && project.assigneeGroup !== 'DATA_PROVIDER'">{{'data-acquisition-project-management.project-cockpit.tooltip.not-assigned' | translate}}</md-tooltip>
+			<md-tooltip ng-if="(!isAssignedDataProvider && project.assigneeGroup === 'DATA_PROVIDER')">{{'data-acquisition-project-management.project-cockpit.tooltip.not-assigned' | translate}}</md-tooltip>
+			<md-tooltip ng-if="!isRequired()">{{'data-acquisition-project-management.error.project-update-access.not-required' | translate}}</md-tooltip>
 			{{'data-acquisition-project-management.project-cockpit.label.ROLE_DATA_PROVIDER' | translate}}
 			{{'data-acquisition-project-management.project-cockpit.config.ready' | translate}}
 		</md-checkbox>
 		<md-checkbox
 			ng-model="project.configuration[group+'State'].publisherReady"
-			ng-disabled="!isRequired() || !isAssignedPublisher"
+			ng-disabled="!isRequired() || (!isAssignedPublisher || project.assigneeGroup !== 'PUBLISHER')"
 		>
 			<md-tooltip ng-if="!isAssignedPublisher">{{'data-acquisition-project-management.project-cockpit.tooltip.not-in-group' | translate}}</md-tooltip>
+			<md-tooltip ng-if="project.assigneeGroup !== 'PUBLISHER'">{{'data-acquisition-project-management.project-cockpit.tooltip.not-assigned' | translate}}</md-tooltip>
+			<md-tooltip ng-if="!isRequired()">{{'data-acquisition-project-management.error.project-update-access.not-required' | translate}}</md-tooltip>
 			{{'data-acquisition-project-management.project-cockpit.label.ROLE_PUBLISHER' | translate}}
 			{{'data-acquisition-project-management.project-cockpit.config.ready' | translate}}
 		</md-checkbox>
