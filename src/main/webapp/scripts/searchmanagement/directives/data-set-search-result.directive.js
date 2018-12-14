@@ -17,7 +17,7 @@ angular.module('metadatamanagementApp').directive('datasetSearchResult',
       controller: function($scope, CommonDialogsService, DataSetResource,
         ElasticSearchAdminService, $rootScope, SimpleMessageToastService,
         DataAcquisitionProjectResource, Principal, ProjectUpdateAccessService,
-        $transitions, CurrentProjectService) {
+        $transitions) {
         $scope.projectIsCurrentlyReleased = true;
         if (angular.isUndefined($scope.isUpdateAllowed)) {
           $scope.isUpdateAllowed = true;

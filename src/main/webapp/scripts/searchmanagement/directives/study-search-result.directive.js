@@ -14,8 +14,7 @@ angular.module('metadatamanagementApp').directive('studySearchResult',
         isUpdateAllowed: '=?'
       },
       controller: function($scope, DataAcquisitionProjectResource,
-        Principal, ProjectUpdateAccessService, $transitions,
-        CurrentProjectService) {
+        Principal, ProjectUpdateAccessService, $transitions) {
         $scope.projectIsCurrentlyReleased = true;
         if (angular.isUndefined($scope.isUpdateAllowed)) {
           $scope.isUpdateAllowed = true;

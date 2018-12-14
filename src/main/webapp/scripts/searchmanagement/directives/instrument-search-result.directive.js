@@ -16,7 +16,7 @@ angular.module('metadatamanagementApp').directive('instrumentSearchResult',
       controller: function($scope, CommonDialogsService, InstrumentResource,
         ElasticSearchAdminService, $rootScope, SimpleMessageToastService,
         DataAcquisitionProjectResource, Principal, ProjectUpdateAccessService,
-        CurrentProjectService, $transitions) {
+        $transitions) {
         $scope.projectIsCurrentlyReleased = true;
         if (angular.isUndefined($scope.isUpdateAllowed)) {
           $scope.isUpdateAllowed = true;
@@ -42,7 +42,8 @@ angular.module('metadatamanagementApp').directive('instrumentSearchResult',
             }).then(function() {
               return InstrumentResource.delete({id: instrumentId}).$promise;
             }).then(function() {
-              return ElasticSearchAdminService.processUpdateQueue('instruments');
+              return ElasticSearchAdminService.
+                processUpdateQueue('instruments');
             }).then(function() {
               $rootScope.$broadcast('deletion-completed');
               SimpleMessageToastService.openSimpleMessageToast(
