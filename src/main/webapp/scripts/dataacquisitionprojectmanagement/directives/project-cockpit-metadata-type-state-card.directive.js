@@ -20,9 +20,12 @@ angular.module('metadatamanagementApp')
         scope.icon = attrs.icon;
         scope.tooltip = attrs.tooltip;
         scope.buttonLabel = attrs.buttonLabel;
+        scope.limit = attrs.limit || 0;
         scope.create = function() {
           if (ProjectUpdateAccessService.isUpdateAllowed(scope.project,
-            scope.group, true)) {
+            // map camelCase to underscore_case
+            scope.group.replace(/([A-Z])/g,
+              function($1) {return '_' + $1.toLowerCase();}), true)) {
             $state.go(attrs.createstate, {});
           }
         };
@@ -60,11 +63,11 @@ angular.module('metadatamanagementApp')
         };
 
         scope.getModifyButtonLabel = function(group) {
-          return (scope.counts && scope.counts[
+          return scope.limit ? (scope.counts && scope.counts[
             // map camelCase to underscore_case
             group.replace(/([A-Z])/g,
               function($1) {return '_' + $1.toLowerCase();})
-          ] > 0 ? 'edit' : 'new');
+          ] >= scope.limit ? 'edit' : 'new') : 'new';
         };
       }
     };
