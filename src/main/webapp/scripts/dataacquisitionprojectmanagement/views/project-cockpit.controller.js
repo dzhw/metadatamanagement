@@ -148,12 +148,12 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       }
     };
 
-    var showAssigneeGroupMessageDialog = function() {
+    var showAssigneeGroupMessageDialog = function(recipient) {
       var currentProject = CurrentProjectService.getCurrentProject();
       var assigneeGroup = _.get(currentProject, 'assigneeGroup');
-      var recipient;
+      recipient = recipient || assigneeGroup;
 
-      switch (assigneeGroup) {
+      switch (recipient) {
         case 'PUBLISHER':
           recipient = $translate.instant('data-acquisition' +
             '-project-management.project-cockpit.label.ROLE_DATA_PROVIDER');
@@ -236,9 +236,10 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       ).ok($translate.instant('global.common-dialogs.yes'))
       .cancel($translate.instant('global.common-dialogs.no'));
       $mdDialog.show(confirm).then(function() {
-        var message = _.get($scope, 'project.lastAssigneeGroupMessage');
-        var project = prepareProjectForSave(message, 'PUBLISHER');
-        saveProject(project);
+        showAssigneeGroupMessageDialog('PUBLISHER').then(function(message) {
+          var project = prepareProjectForSave(message, 'PUBLISHER');
+          saveProject(project);
+        });
       });
     };
 
