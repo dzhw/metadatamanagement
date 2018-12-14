@@ -151,8 +151,11 @@ angular.module('metadatamanagementApp').service(
           }
         });
         if (notification.length) {
-          // TODO: show more than one of the notifs
-          SimpleMessageToastService.openAlertMessageToast(notification[0]);
+          SimpleMessageToastService.openAlertMessageToasts(notification.map(
+            function(not) {
+              return {messageId: not};
+            }
+          ));
         }
       }
 
