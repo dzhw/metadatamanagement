@@ -102,7 +102,7 @@ angular.module('metadatamanagementApp')
                   handleReleasedProject();
                 } else if (!ProjectUpdateAccessService
                   .isUpdateAllowed(project, 'data_sets')) {
-                  handleUserNotInAssigneeGroup(project);
+                  handleUserNotInAssigneeGroup();
                 } else {
                   ctrl.dataSet = dataSet;
                   ctrl.initSurveyChips();

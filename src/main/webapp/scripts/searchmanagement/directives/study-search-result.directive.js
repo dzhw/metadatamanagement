@@ -14,7 +14,7 @@ angular.module('metadatamanagementApp').directive('studySearchResult',
         isUpdateAllowed: '=?'
       },
       controller: function($scope, DataAcquisitionProjectResource,
-        Principal) {
+        Principal, ProjectUpdateAccessService, $transitions) {
         $scope.projectIsCurrentlyReleased = true;
         if (angular.isUndefined($scope.isUpdateAllowed)) {
           $scope.isUpdateAllowed = true;
@@ -27,6 +27,17 @@ angular.module('metadatamanagementApp').directive('studySearchResult',
             $scope.projectIsCurrentlyReleased = (project.release != null);
           });
         }
+        var unregisterTransitionHook = $transitions.onBefore({to: 'studyEdit'},
+          function() {
+            if (!ProjectUpdateAccessService.isUpdateAllowed(
+              $scope.project,
+              'studies',
+              true
+            )) {
+              return Promise.reject();
+            }
+          });
+        $scope.$on('$destroy', unregisterTransitionHook);
       }
     };
   });

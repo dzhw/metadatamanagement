@@ -16,7 +16,8 @@ angular.module('metadatamanagementApp').directive('datasetSearchResult',
       },
       controller: function($scope, CommonDialogsService, DataSetResource,
         ElasticSearchAdminService, $rootScope, SimpleMessageToastService,
-        DataAcquisitionProjectResource, Principal, ProjectUpdateAccessService) {
+        DataAcquisitionProjectResource, Principal, ProjectUpdateAccessService,
+        $transitions, CurrentProjectService) {
         $scope.projectIsCurrentlyReleased = true;
         if (angular.isUndefined($scope.isUpdateAllowed)) {
           $scope.isUpdateAllowed = true;
@@ -35,8 +36,8 @@ angular.module('metadatamanagementApp').directive('datasetSearchResult',
             id: dataSetId
           }).then(function() {
             if (!ProjectUpdateAccessService.isUpdateAllowed(
-              $scope.project,
-              'dataSets',
+              CurrentProjectService.getCurrentProject(),
+              'data_sets',
               true
             )) {
               return Promise.reject();
@@ -51,6 +52,19 @@ angular.module('metadatamanagementApp').directive('datasetSearchResult',
               {id: dataSetId});
           });
         };
+
+        var unregisterTransitionHook = $transitions.onBefore(
+          {to: 'dataSetEdit'},
+          function() {
+            if (!ProjectUpdateAccessService.isUpdateAllowed(
+              CurrentProjectService.getCurrentProject(),
+              'data_sets',
+              true
+            )) {
+              return false;
+            }
+          });
+        $scope.$on('$destroy', unregisterTransitionHook);
       }
     };
   });

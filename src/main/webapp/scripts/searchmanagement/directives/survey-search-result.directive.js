@@ -16,7 +16,8 @@ angular.module('metadatamanagementApp').directive('surveySearchResult',
       },
       controller: function($scope, CommonDialogsService, SurveyResource,
         ElasticSearchAdminService, $rootScope, SimpleMessageToastService,
-        DataAcquisitionProjectResource, Principal, ProjectUpdateAccessService) {
+        DataAcquisitionProjectResource, Principal, ProjectUpdateAccessService,
+        $transitions) {
         $scope.projectIsCurrentlyReleased = true;
         if (angular.isUndefined($scope.isUpdateAllowed)) {
           $scope.isUpdateAllowed = true;
@@ -31,6 +32,7 @@ angular.module('metadatamanagementApp').directive('surveySearchResult',
             $scope.projectIsCurrentlyReleased = (project.release != null);
           });
         }
+
         $scope.deleteSurvey = function(surveyId) {
           CommonDialogsService.showConfirmDeletionDialog({
             type: 'survey',
@@ -53,6 +55,18 @@ angular.module('metadatamanagementApp').directive('surveySearchResult',
               {id: surveyId});
           });
         };
+
+        var unregisterTransitionHook = $transitions.onBefore({to: 'surveyEdit'},
+          function() {
+            if (!ProjectUpdateAccessService.isUpdateAllowed(
+              $scope.project,
+              'surveys',
+              true
+            )) {
+              return false;
+            }
+          });
+        $scope.$on('$destroy', unregisterTransitionHook);
       }
     };
   });

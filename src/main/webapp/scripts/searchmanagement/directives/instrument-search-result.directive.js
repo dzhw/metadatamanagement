@@ -15,7 +15,8 @@ angular.module('metadatamanagementApp').directive('instrumentSearchResult',
       },
       controller: function($scope, CommonDialogsService, InstrumentResource,
         ElasticSearchAdminService, $rootScope, SimpleMessageToastService,
-        DataAcquisitionProjectResource, Principal, ProjectUpdateAccessService) {
+        DataAcquisitionProjectResource, Principal, ProjectUpdateAccessService,
+        CurrentProjectService, $transitions) {
         $scope.projectIsCurrentlyReleased = true;
         if (angular.isUndefined($scope.isUpdateAllowed)) {
           $scope.isUpdateAllowed = true;
@@ -50,6 +51,19 @@ angular.module('metadatamanagementApp').directive('instrumentSearchResult',
               {id: instrumentId});
           });
         };
+
+        var unregisterTransitionHook = $transitions.onBefore(
+          {to: 'instrumentEdit'},
+          function() {
+            if (!ProjectUpdateAccessService.isUpdateAllowed(
+              CurrentProjectService.getCurrentProject(),
+              'instruments',
+              true
+            )) {
+              return false;
+            }
+          });
+        $scope.$on('$destroy', unregisterTransitionHook);
       }
     };
   });
