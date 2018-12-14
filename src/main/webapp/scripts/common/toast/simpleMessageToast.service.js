@@ -62,7 +62,6 @@ angular.module('metadatamanagementApp').service('SimpleMessageToastService',
       });
     }
 
-
     return {
       openSimpleMessageToast: openSimpleMessageToast,
       openSimpleMessageToasts: openSimpleMessageToasts,
