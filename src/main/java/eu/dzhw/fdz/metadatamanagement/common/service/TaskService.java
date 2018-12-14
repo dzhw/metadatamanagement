@@ -3,10 +3,9 @@ package eu.dzhw.fdz.metadatamanagement.common.service;
 import java.net.URI;
 import java.util.Optional;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.core.task.TaskExecutor;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.Task;
@@ -51,17 +50,11 @@ public class TaskService {
    * @param taskId the task
    * @param exception the reason for failing.
    */
-  public void handleErrorTask(String taskId, Exception exception) {
-    ErrorListDto errorList = crerateErrorListFromException(exception);
-    Optional<Task> findById = loadTask(taskId);
-    if (findById.isPresent()) {
-      Task task = findById.get();
+  public void handleErrorTask(@NotNull Task task, Exception exception) {
       task.setState(TaskState.FAILURE);
-      task.setErrorList(errorList);
+      task.setErrorList(crerateErrorListFromException(exception));
       taskRepo.save(task);
-    } else {
-      log.warn("task with id {} not exists", taskId);
-    }
+    
   }
 
   /**
@@ -70,41 +63,15 @@ public class TaskService {
    * @param taskId the task id
    * @param resultUri the URI to handle the task result
    */
-  public void handleTaskDone(String taskId, URI resultUri) {
-    Optional<Task> optionalTask = loadTask(taskId);
-    if (optionalTask.isPresent()) {
-      Task task = optionalTask.get();
+  public void handleTaskDone(@NotNull Task task, URI resultUri) {
       task.setState(TaskState.DONE);
       task.setLocation(resultUri);
       taskRepo.save(task);
-    } else {
-      log.warn("task with id {} not exists", taskId);
-    }
-  }
-
-  private Optional<Task> loadTask(String taskId) {
-    return taskRepo.findById(taskId);
-  }
-
-  /**
-   * ececuter config for dataset repot.
-   * 
-   * @return the executor.
-   */
-  @Bean(name = "datasetReportExecutor")
-  public TaskExecutor datasetReportExecutor() {
-    ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-    executor.setCorePoolSize(10);
-    executor.setMaxPoolSize(10);
-    executor.setQueueCapacity(100);
-    executor.setThreadNamePrefix("MyThread-");
-    executor.initialize();
-    return executor;
   }
 
   private ErrorListDto crerateErrorListFromException(Exception exception) {
     ErrorListDto errorListDto = new ErrorListDto();
-
+    log.info("handle exception", exception);
     if (exception instanceof TemplateException) {
       // The message of the exception is the error message of freemarker.
       // The manually added message for the dto can be translated into i18n strings
@@ -119,16 +86,5 @@ public class TaskService {
       }
     }
     return errorListDto;
-  }
-
-  /**
-   * Get the Task by Id.
-   * 
-   * @param taskId the id of the task
-   * @return the task or null if not present.
-   */
-  public Task getTask(String taskId) {
-    Optional<Task> loadTask = loadTask(taskId);
-    return loadTask.orElse(null);
   }
 }

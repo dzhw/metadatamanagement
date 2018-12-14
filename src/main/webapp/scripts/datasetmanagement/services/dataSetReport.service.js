@@ -3,9 +3,8 @@
 
 angular.module('metadatamanagementApp').service('DataSetReportService',
   function(Upload, FileResource, JobLoggingService, ZipWriterService,
-    $timeout, $resource) {
+    $timeout, $http) {
     var uploadTexTemplate = function(files, dataAcquisitionProjectId) {
-
       ZipWriterService.createZipFileAsync(files, true).then(function(file) {
         if (file !== null) {
           file.name = file.name || 'report.zip';
@@ -24,18 +23,14 @@ angular.module('metadatamanagementApp').service('DataSetReportService',
               var pollUri = headers('location');
               var tick = function() {
                 //poll headers('location')
-                var Task = $resource(pollUri);
-                Task.get({}).$promise.then(function(task, status) {
-                  console.log('polled:', pollUri);
-                  console.log('task:', task);
-                  console.log('status:', status);
-                  if (status === 202) {
+                $http.get(pollUri).then(function(task) {
+                  if (task.data.state === 'RUNNING') {
                     //running
                     $timeout(tick, 1000);
-                  } if (status === 303 && task.state === 'DONE') {
+                  } if (task.data.state === 'DONE') {
                     // on data.state='DONE'
                     //    FileResource.download(data.location.string)
-                    FileResource.download(task.location.sting).then(function(
+                    FileResource.download(task.data.location.sting).then(function(
                       response) {
                       JobLoggingService.success({
                         message: 'data-set-management.log-messages.' +
@@ -53,12 +48,12 @@ angular.module('metadatamanagementApp').service('DataSetReportService',
                         'data-set-management.log-messages.tex.cancelled', {}
                       );
                     });
-                  } if (status === 500) {
+                  } if (task.data.state === 'FAILURE') {
                     // on data.state='FAILURE'
                     //    data.errorList.forEach(--- handle errorDTO)
                     // Server hat issues with the tex file,
                     // send error to error output
-                    task.errorList.forEach(function(error) {
+                    task.data.errorList.forEach(function(error) {
                       var invalidValue = error.invalidValue;
                       if (error.message.indexOf('----') > -1) {
                         var endErrorIndex = error.message.indexOf(
@@ -82,8 +77,11 @@ angular.module('metadatamanagementApp').service('DataSetReportService',
                     );
                   }
                 }
-              );
+              ).catch(function(error) {
+                  console.log('error in promise', error);
+                });
               };
+              tick();
             }
           }).error(function(error) {
             console.log('repprt request failed', error);

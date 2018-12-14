@@ -17,8 +17,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Future;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,8 +29,10 @@ import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Task;
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.common.rest.util.ZipUtil;
+import eu.dzhw.fdz.metadatamanagement.common.service.TaskService;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.exception.TemplateIncompleteException;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
@@ -80,6 +85,9 @@ public class DataSetReportService {
   @Autowired
   private DataAcquisitionProjectVersionsService projectVersionsService;
 
+  @Autowired
+  private TaskService taskService;
+
   /**
    * The Escape Prefix handles the escaping of special latex signs within data information. This
    * Prefix will be copied before the template source code.
@@ -120,13 +128,14 @@ public class DataSetReportService {
    *
    * @param multiPartFile The uploaded zip file
    * @param dataSetId An id of the data set.
-   * @param taskId the ID of the task
+   * @param task the task to update the status of the pro
    * @return The name of the saved tex template in the GridFS / MongoDB.
    * @throws TemplateException Handles templates exceptions.
    * @throws IOException Handles IO Exception for the template.
    */
-  public String generateReport(MultipartFile multiPartFile, String dataSetId, String taskId)
-      throws TemplateException, TemplateIncompleteException, IOException {
+  @Async
+  public Future<String> generateReport(MultipartFile multiPartFile, String dataSetId, Task task)
+      throws IOException {
 
     // Configuration, based on Freemarker Version 2.3.23
     Configuration templateConfiguration = new Configuration(Configuration.VERSION_2_3_23);
@@ -153,9 +162,9 @@ public class DataSetReportService {
         TemplateIncompleteException incompleteException =
             new TemplateIncompleteException(message, missingTexFiles);
         log.warn(message + missingTexFiles);
-        throw incompleteException;
+        taskService.handleErrorTask(task, incompleteException);
+        return new AsyncResult<String>(null);
       }
-
       // Read the three files with freemarker code
       Path pathToMainTexFile = zipFileSystem.getPath(KEY_MAIN);
       String texMainFileStr = ZipUtil.readFileFromZip(pathToMainTexFile);
@@ -166,13 +175,17 @@ public class DataSetReportService {
 
       // Load data for template only once
       Map<String, Object> dataForTemplate = this.loadDataForTemplateFilling(dataSetId);
-      String variableListFilledStr = this.fillTemplate(texVariableListFileStr,
-          templateConfiguration, dataForTemplate, KEY_VARIABLELIST);
-      ZipUtil.writeFileToZip(pathToVariableListTexFile, variableListFilledStr);
-      String mainFilledStr =
-          this.fillTemplate(texMainFileStr, templateConfiguration, dataForTemplate, KEY_MAIN);
-      ZipUtil.writeFileToZip(pathToMainTexFile, mainFilledStr);
-
+      try {
+        String variableListFilledStr = this.fillTemplate(texVariableListFileStr,
+            templateConfiguration, dataForTemplate, KEY_VARIABLELIST);
+        ZipUtil.writeFileToZip(pathToVariableListTexFile, variableListFilledStr);
+        String mainFilledStr =
+            this.fillTemplate(texMainFileStr, templateConfiguration, dataForTemplate, KEY_MAIN);
+        ZipUtil.writeFileToZip(pathToMainTexFile, mainFilledStr);
+      } catch (TemplateException e) {
+        taskService.handleErrorTask(task, e);
+        return new AsyncResult<String>(null);
+      }
       // Create Variables pages
       @SuppressWarnings("unchecked")
       Map<String, Variable> variablesMap = (Map<String, Variable>) dataForTemplate.get("variables");
@@ -180,13 +193,19 @@ public class DataSetReportService {
 
       for (Variable variable : variables) {
         // filledTemplates.put("variables/" + variable.getName() + ".tex",
-        dataForTemplate.put("variable", variable);
-        String filledVariablesFile =
-            fillTemplate(texVariableFileStr, templateConfiguration, dataForTemplate, KEY_VARIABLE);
-        Path pathOfVariable = Paths.get("variables/" + variable.getName() + ".tex");
-        final Path root = zipFileSystem.getPath("/");
-        final Path dest = zipFileSystem.getPath(root.toString(), pathOfVariable.toString());
-        ZipUtil.writeFileToZip(dest, filledVariablesFile);
+        try {
+          dataForTemplate.put("variable", variable);
+          String filledVariablesFile = fillTemplate(texVariableFileStr, templateConfiguration,
+              dataForTemplate, KEY_VARIABLE);
+          Path pathOfVariable = Paths.get("variables/" + variable.getName() + ".tex");
+          final Path root = zipFileSystem.getPath("/");
+          final Path dest = zipFileSystem.getPath(root.toString(), pathOfVariable.toString());
+          ZipUtil.writeFileToZip(dest, filledVariablesFile);
+        } catch (TemplateException te) {
+          log.warn("templage invalid", te);
+          taskService.handleErrorTask(task, te);
+          return new AsyncResult<String>(null);
+        }
       }
 
       // Delete Variables.tex file from zip
@@ -194,7 +213,9 @@ public class DataSetReportService {
     }
 
     // Save into MongoDB / GridFS
-    return this.saveCompleteZipFile(zipTmpFile, multiPartFile.getOriginalFilename());
+    String fileName = this.saveCompleteZipFile(zipTmpFile, multiPartFile.getOriginalFilename());
+    taskService.handleTaskDone(task, URI.create(fileName));
+    return new AsyncResult<>(fileName);
   }
 
 

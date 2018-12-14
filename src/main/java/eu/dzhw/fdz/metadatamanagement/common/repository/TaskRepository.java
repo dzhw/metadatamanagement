@@ -1,6 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.common.repository;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.Task;
 
@@ -9,6 +9,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.Task;
  * @author tgehrke
  *
  */
-public interface TaskRepository extends MongoRepository<Task, String> {
+@RepositoryRestResource(path = "/studies")
+public interface TaskRepository extends BaseRepository<Task, String> {
 
 }
