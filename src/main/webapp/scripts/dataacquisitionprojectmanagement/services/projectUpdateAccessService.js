@@ -144,12 +144,16 @@ angular.module('metadatamanagementApp').service(
       }
 
       if (notify) {
+        var notification = [];
         validations.forEach(function(validation) {
           if (validation.isValid === false) {
-            SimpleMessageToastService
-              .openAlertMessageToast(validation.errorKey);
+            notification.push(validation.errorKey);
           }
         });
+        if (notification.length) {
+          // TODO: show more than one of the notifs
+          SimpleMessageToastService.openAlertMessageToast(notification[0]);
+        }
       }
 
       return isValid;
