@@ -1,7 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.common.service;
 
 import java.net.URI;
-import java.util.Optional;
 
 import javax.validation.constraints.NotNull;
 
@@ -47,26 +46,26 @@ public class TaskService {
   /**
    * save task as error.
    * 
-   * @param taskId the task
+   * @param task the task
    * @param exception the reason for failing.
    */
   public void handleErrorTask(@NotNull Task task, Exception exception) {
-      task.setState(TaskState.FAILURE);
-      task.setErrorList(crerateErrorListFromException(exception));
-      taskRepo.save(task);
-    
+    task.setState(TaskState.FAILURE);
+    task.setErrorList(crerateErrorListFromException(exception));
+    taskRepo.save(task);
+
   }
 
   /**
    * save task as done.
    * 
-   * @param taskId the task id
+   * @param task the task id
    * @param resultUri the URI to handle the task result
    */
   public void handleTaskDone(@NotNull Task task, URI resultUri) {
-      task.setState(TaskState.DONE);
-      task.setLocation(resultUri);
-      taskRepo.save(task);
+    task.setState(TaskState.DONE);
+    task.setLocation(resultUri);
+    taskRepo.save(task);
   }
 
   private ErrorListDto crerateErrorListFromException(Exception exception) {
