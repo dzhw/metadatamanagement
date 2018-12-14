@@ -95,7 +95,7 @@ angular.module('metadatamanagementApp').service(
 
     var isUpdateAllowed = function(project, type, notify) {
       if (!_.includes(['studies', 'surveys', 'instruments',
-        'data_sets', 'questions', 'variables'], type)) {
+        'data_sets', 'questions', 'variables', undefined, null], type)) {
         console.error('unexpected type in auth check:', type);
         return false;
       }

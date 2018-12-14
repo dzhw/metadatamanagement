@@ -14,7 +14,8 @@ angular.module('metadatamanagementApp').directive('studySearchResult',
         isUpdateAllowed: '=?'
       },
       controller: function($scope, DataAcquisitionProjectResource,
-        Principal, ProjectUpdateAccessService, $transitions) {
+        Principal, ProjectUpdateAccessService, $transitions,
+        CurrentProjectService) {
         $scope.projectIsCurrentlyReleased = true;
         if (angular.isUndefined($scope.isUpdateAllowed)) {
           $scope.isUpdateAllowed = true;
@@ -30,7 +31,7 @@ angular.module('metadatamanagementApp').directive('studySearchResult',
         var unregisterTransitionHook = $transitions.onBefore({to: 'studyEdit'},
           function() {
             if (!ProjectUpdateAccessService.isUpdateAllowed(
-              $scope.project,
+              CurrentProjectService.getCurrentProject(),
               'studies',
               true
             )) {
