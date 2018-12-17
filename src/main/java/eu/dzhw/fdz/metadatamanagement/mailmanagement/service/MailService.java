@@ -1,9 +1,14 @@
 package eu.dzhw.fdz.metadatamanagement.mailmanagement.service;
 
-import eu.dzhw.fdz.metadatamanagement.common.config.JHipsterProperties;
-import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Order;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.Future;
+import java.util.stream.Collectors;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
 import org.apache.commons.lang.CharEncoding;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,13 +23,10 @@ import org.springframework.util.StringUtils;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.Future;
-import java.util.stream.Collectors;
+import eu.dzhw.fdz.metadatamanagement.common.config.JHipsterProperties;
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Order;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Service for sending e-mails.
@@ -264,7 +266,9 @@ public class MailService {
    * Send a mail to data providers informing them that they've been removed as the assignee group
    * by a publisher.
    */
-  public void sendDataProviderAccessRevokedMail(List<User> users, String projectId) {
+  @Async
+  public void sendDataProviderAccessRevokedMail(List<User> users, String projectId,
+                                                String message) {
 
     if (!users.isEmpty()) {
       log.debug("Sending 'data provider access revoked mail'");
@@ -277,6 +281,7 @@ public class MailService {
       context.setVariable("projectId", projectId);
       context.setVariable("locale", locale);
       context.setVariable("baseUrl", baseUrl);
+      context.setVariable("messageToGroup", StringUtils.trimWhitespace(message));
       String content = templateEngine.process("dataProviderAccessRevoked", context);
       String subject = messageSource.getMessage("email.data-provider-access-revoked.title",
           new Object[]{projectId}, locale);

@@ -22,6 +22,10 @@
     <a th:href="@{|${baseUrl}/#!/${#locale.language}/projects/${projectId}|}" th:text="|${projectId}|">project</a>
     <span th:text="#{email.data-provider-access-revoked.text2}">has been assigned back to publisher</span>
 </p>
+<p th:if="${messageToGroup != null && !messageToGroup.isEmpty()}">
+    <span th:text="#{email-assignee-group-changed.text3}">The following message was provided:</span><br>
+    <span th:text="${messageToGroup}">Message from publishers</span>
+</p>
 <p>
     <span th:text="#{email.data-provider-access-revoked.text3}">Regards</span><br>
     <em th:text="#{email.signature}">Your FDZ-Team</em>

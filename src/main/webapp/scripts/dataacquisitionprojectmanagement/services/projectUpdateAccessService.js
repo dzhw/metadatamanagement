@@ -46,7 +46,7 @@ angular.module('metadatamanagementApp').service(
       }
     };
 
-    var isPublisherReady = function(project, type) {
+    var isTypeReady = function(project, type) {
       var isTypeReady = false;
       if (type) {
         var conf = project.configuration;
@@ -118,16 +118,16 @@ angular.module('metadatamanagementApp').service(
       memberOfAssignedGroup.canContinue = true;
       memberOfAssignedGroup.errorKey = errorList.memberOfAssignedGroup;
 
-      var publisherReady = isPublisherReady.bind(null, test, type);
-      publisherReady.canContinue = true;
-      publisherReady.errorKey = errorList.typeUpdateAllowed;
+      var typeReady = isTypeReady.bind(null, test, type);
+      typeReady.canContinue = true;
+      typeReady.errorKey = errorList.typeUpdateAllowed;
 
       var projectUnreleased = isProjectUnreleased.bind(null, test);
       projectUnreleased.canContinue = true;
       projectUnreleased.errorKey = errorList.projectUnreleased;
 
       var validations = [projectSelected, assignedToProject, typeRequired,
-        memberOfAssignedGroup, publisherReady, projectUnreleased];
+        memberOfAssignedGroup, typeReady, projectUnreleased];
 
       for (var i = 0; i < validations.length; i++) {
         try {

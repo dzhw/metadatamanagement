@@ -85,21 +85,21 @@ angular.module('metadatamanagementApp').config(
           },
           'post-validation': {
             'project-has-no-study': 'The Project with the RDC-ID {{ id }} has no study.',
-            'requirements-not-met': 'The confirmation for validity of all required meta data in the project configuration is incomplete.'
+            'requirements-not-met': 'There are still metadata that have not been marked as "ready" by the publishers.'
           },
           'project-update-access': {
             'project-selected': 'A project has to be selected before data can be added.',
-            'type-update-allowed': 'Editing is impossible, because the publisher or data provider already confirmed the correctness of the current data.',
-            'project-released': 'Editing is impossible, because the project has already been released.',
-            'member-of-assigned-group': 'Editing is not possible, because the project is currently assigned to the other group.',
-            'assigned-to-project': 'Editing is impossible, because you are not assigned to the selected project as a publisher or data provider.',
-            'not-required': 'Editing or creating is impossible because the project configuration doesn\'t require it.'
+            'type-update-allowed': 'The action is not possible because the metadata has already been marked as "ready" by the publishers or the data providers.',
+            'project-released': 'The action is not possible because the projects metadata is currently open to all public users.',
+            'member-of-assigned-group': 'The action is not possible because the project is currently assigned to the other project group.',
+            'assigned-to-project': 'The action is not possible because you are not assigned to the project as a publisher or data provider.',
+            'not-required': 'The action is not possible because this metadata was not marked as "expected" in the project settings.'
           }
         },
         'projectstatuslabel': {
           'assigned-to': 'Assigned to',
-          'PUBLISHER': 'Publisher',
-          'DATA_PROVIDER': 'Data Provider'
+          'PUBLISHER': 'Publishers',
+          'DATA_PROVIDER': 'Data Providers'
         },
         'releasestatusbadge': {
           'released': 'Released',
@@ -126,8 +126,8 @@ angular.module('metadatamanagementApp').config(
           'label': {
             'ROLE_USER': 'User',
             'ROLE_ADMIN': 'Admin',
-            'ROLE_DATA_PROVIDER': 'Data Provider',
-            'ROLE_PUBLISHER': 'Publisher'
+            'ROLE_DATA_PROVIDER': 'Data Providers',
+            'ROLE_PUBLISHER': 'Publishers'
           },
           'button': {
             'save': 'Click to save the changes.',
@@ -163,10 +163,10 @@ angular.module('metadatamanagementApp').config(
             'upload': 'Upload'
           },
           'message-dialog': {
-            'title': 'Write a message for {{recipient}} group',
-            'description': 'Please provide a message which will be send to all {{recipient}} group members of this project via e-mail after a successful assignment',
+            'title': 'Message to {{recipient}}',
+            'description': 'Please provide a message which will be sent to all {{recipient}} of this project via e-mail.',
             'label': 'Message',
-            'confirm': 'Confirm & Assign',
+            'confirm': 'Assign',
             'cancel': 'Cancel'
           },
           'no-data-providers-dialog': {

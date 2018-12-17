@@ -85,15 +85,15 @@ angular.module('metadatamanagementApp').config(
           },
           'post-validation': {
             'project-has-no-study': 'Das Projekt mit der FDZID {{ id }} enthält keine Studie.',
-            'requirements-not-met': 'Es gibt noch Metadaten die nicht vom Publisher als "fertig" markiert wurden.'
+            'requirements-not-met': 'Es gibt noch Metadaten die nicht von den Publishern als "fertig" markiert wurden.'
           },
           'project-update-access': {
             'project-selected': 'Für das Anlegen neuer Daten muss ein Projekt ausgewählt sein.',
-            'type-update-allowed': 'Das Bearbeiten ist nicht möglich, weil die Korrektheit durch den Publisher oder Datengeber bereits bestätigt wurde.',
-            'project-released': 'Das Bearbeiten ist nicht möglich, weil das Projekt bereits veröffentlicht wurde.',
-            'member-of-assigned-group': 'Das Bearbeiten ist nicht möglich, weil das Projekt aktuell der anderen Bearbeitungsgruppe zugewiesen ist.',
-            'assigned-to-project': 'Das Bearbeiten ist nicht möglich, weil Sie dem ausgewählten Projekt nicht als Publisher bzw. Datengeber zugewiesen sind.',
-            'not-required': 'Das Anlegen oder Bearbeiten ist nicht möglich, weil diese Angabe in der Projektkonfiguration nicht als Pflichtfeld eingetragen ist.'
+            'type-update-allowed': 'Die Aktion ist nicht möglich, weil die Metadaten bereits durch die Publisher oder die Datengeber als "fertig" markiert wurden.',
+            'project-released': 'Die Aktion ist nicht möglich, weil das Projekt momentan für alle öffentlichen Nutzer freigegeben ist.',
+            'member-of-assigned-group': 'Die Aktion ist nicht möglich, weil das Projekt momentan der anderen Projektgruppe zugewiesen ist.',
+            'assigned-to-project': 'Die Aktion ist nicht möglich, weil Sie dem Projekt nicht als Publisher oder Datengeber zugewiesen sind.',
+            'not-required': 'Die Aktion ist nicht möglich, weil diese Metadaten in den Projekteinstellungen nicht als "erwartet" markiert wurden.'
           }
         },
         'projectstatuslabel': {
@@ -163,10 +163,10 @@ angular.module('metadatamanagementApp').config(
             'upload': 'Hochladen'
           },
           'message-dialog': {
-            'title': 'Nachricht für {{recipient}} eingeben',
-            'description': 'Geben Sie eine Nachricht ein, die nach erfolgter Zuweisung an alle {{recipient}} dieses Projekts per E-Mail verschickt wird.',
+            'title': 'Nachricht an {{recipient}}',
+            'description': 'Geben Sie eine Nachricht ein, die an alle {{recipient}} dieses Projekts per E-Mail verschickt wird.',
             'label': 'Nachricht',
-            'confirm': 'Bestätigen & Zuweisen',
+            'confirm': 'Zuweisen',
             'cancel': 'Abbrechen'
           },
           'no-data-providers-dialog': {

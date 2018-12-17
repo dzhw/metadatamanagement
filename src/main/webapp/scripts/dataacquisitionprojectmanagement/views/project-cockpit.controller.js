@@ -76,9 +76,10 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     $state.loadStarted = true;
 
     $scope.$watch('project', function(newVal, oldVal) {
-      if (oldVal !== undefined && newVal !== oldVal) {
+      if (oldVal !== undefined && newVal !== oldVal && !$scope.saving) {
         $scope.changed = true;
       }
+      $scope.saving = false;
     }, true);
 
     $scope.$on('project-deleted', function() {
@@ -113,6 +114,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         //Success
         function() {
           $scope.changed = false;
+          $scope.saving = true;
           $scope.project = project;
           setAssignedToProject();
           setProjectRequirementsDisabled($scope.project);
