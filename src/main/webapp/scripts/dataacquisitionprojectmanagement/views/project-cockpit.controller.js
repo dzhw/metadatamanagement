@@ -86,9 +86,10 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         $state.go('search');
       });
 
+    var initializing = true;
     $scope.$on('current-project-changed',
       function(event, changedProject) { // jshint ignore:line
-        if (changedProject) {
+        if (changedProject && !initializing) {
           $location.url('/' + LanguageService.getCurrentInstantly() +
             '/projects/' + changedProject.id);
           PageTitleService.setPageTitle(pageTitleKey,
@@ -96,6 +97,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
           setTypeCounts(changedProject.id);
           setProjectRequirementsDisabled(changedProject);
         }
+        initializing = false;
       });
 
     $scope.isUpdateAllowed = function(type) {
@@ -294,16 +296,20 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       dataProviders: null
     };
 
+    $scope.preventSearching = {
+      publishers: false,
+      dataProviders: false
+    };
+
     $scope.selectedUserChanged = function(user, role) {
       if (user) {
         $scope.activeUsers[role].push(user);
         $scope.changed = true;
         $scope.searchText[role] = '';
         $scope.selectedUser[role] = null;
+        $scope.preventSearching[role] = true;
         $state.searchCache[role] = {};
-        $timeout(function() {
-          $(':focus').blur();
-        }, 0);
+        $(':focus').blur();
       }
     };
 
@@ -405,14 +411,19 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     };
     $scope.searchUsers = function(search, role) {
       var roleInternal = internalRoles[role];
-      if (!$state.loadComplete) {
-        return [];
+      var deferred = $q.defer();
+      if (!$state.loadComplete || $scope.preventSearching[role]) {
+        $scope.preventSearching[role] = false;
+        deferred.resolve([]);
+        return deferred.promise;
       }
-      if ($state.searchCache[role][search]) {
-        return $state.searchCache[role][search];
+      if ($state.searchCache[role]['text_' + search]) {
+        deferred.resolve($state.searchCache[role]['text_' + search]);
+        return deferred.promise;
       }
       if (!$state.currentPromise) {
-        $state.currentPromise = UserResource.search({
+        $state.currentPromise = deferred.promise;
+        UserResource.search({
           login: search,
           role: roleInternal
         }).$promise.then(function(result) {
@@ -423,11 +434,13 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
               return u.login;
             }).indexOf(x.login) < 0 && _.includes(x.authorities, roleInternal);
           });
-          $state.searchCache[role][search] = results;
-          return results;
+          $state.searchCache[role]['text_' + search] = results;
+          deferred.resolve($state.searchCache[role]['text_' + search]);
         });
+        return deferred.promise;
+      } else {
+        return $state.currentPromise;
       }
-      return $state.currentPromise;
     };
 
     $scope.removeUser = function(user, role) {
@@ -440,6 +453,19 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     };
 
     $scope.shareButtonShown = false;
+
+    $scope.$watchCollection(function() {
+      return $location.search();
+    }, function(newValue) {
+      $scope.selectedTab.index = (function() {
+        switch (newValue.tab) {
+          case 'status': return 0;
+          case 'config': return 1;
+          default: return 0;
+        }
+      })();
+    });
+
     $scope.onTabSelect = function(tab) {
       $state.go('project-cockpit', {tab: tab});
       if (tab === 'config') {
@@ -448,7 +474,8 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         $scope.shareButtonShown = true;
       }
     };
-    $scope.selectedTab = (function() {
+    $scope.selectedTab = {};
+    $scope.selectedTab.index = (function() {
       switch ($state.params.tab) {
         case 'status': return 0;
         case 'config': return 1;
