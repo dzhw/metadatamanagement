@@ -1,6 +1,6 @@
 *** Settings ***
 Documentation     Instrument Creation by Dataprovider
-Force Tags        smoketest
+Force Tags        noslowpoke
 Resource          ../../resources/home_page_resource.robot
 Resource          ../../resources/search_resource.robot
 Resource          ../../resources/click_element_resource.robot
@@ -53,5 +53,3 @@ Fill up the annotations
 Delete Instrument
     Click Element Through Tooltips    xpath=//button[md-icon[text()='delete_forever']]
     Click Element Through Tooltips    xpath=//button[text()='Ja']
-
-
