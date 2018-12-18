@@ -158,13 +158,14 @@ public class DataAcquisitionProjectService {
 
   private void sendAssigneeGroupChangedMails(DataAcquisitionProject newDataAcquisitionProject) {
     String projectId = newDataAcquisitionProject.getId();
+    String sender = metadataManagementProperties.getProjectManagement().getEmail();
     if (changesProvider.hasAssigneeGroupChanged(projectId)) {
       if (isProjectForcefullyReassignedByPublisher(projectId)) {
         List<String> dataProviders = changesProvider.getOldDataAcquisitionProject(projectId)
             .getConfiguration().getDataProviders();
         List<User> users = userRepository.findAllByLoginIn(new HashSet<>(dataProviders));
         mailService.sendDataProviderAccessRevokedMail(users, projectId,
-            newDataAcquisitionProject.getLastAssigneeGroupMessage());
+            newDataAcquisitionProject.getLastAssigneeGroupMessage(), sender);
       } else {
         AssigneeGroup assigneeGroup = changesProvider.getNewAssigneeGroup(projectId);
         Set<String> userNames;
@@ -186,7 +187,7 @@ public class DataAcquisitionProjectService {
         if (!userNames.isEmpty()) {
           List<User> users = userRepository.findAllByLoginIn(userNames);
           mailService.sendAssigneeGroupChangedMail(users, projectId,
-              newDataAcquisitionProject.getLastAssigneeGroupMessage());
+              newDataAcquisitionProject.getLastAssigneeGroupMessage(), sender);
         }
       }
     }

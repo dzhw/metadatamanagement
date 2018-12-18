@@ -220,6 +220,7 @@ public class MailService {
     }
   }
 
+  @Async
   private void sendChangedProjectConfigurationMail(String template, String subjectKey,
                                                    String roleKey, List<User> users,
                                                    String projectId, String sender) {
@@ -241,7 +242,8 @@ public class MailService {
    * Send a mail to users who are now able to edit the project.
    */
   @Async
-  public void sendAssigneeGroupChangedMail(List<User> users, String projectId, String message) {
+  public void sendAssigneeGroupChangedMail(List<User> users, String projectId, String message,
+      String sender) {
 
     if (!users.isEmpty()) {
       log.debug("Sending 'assignee group changed mail'");
@@ -268,7 +270,7 @@ public class MailService {
    */
   @Async
   public void sendDataProviderAccessRevokedMail(List<User> users, String projectId,
-                                                String message) {
+                                                String message, String sender) {
 
     if (!users.isEmpty()) {
       log.debug("Sending 'data provider access revoked mail'");
@@ -285,7 +287,7 @@ public class MailService {
       String content = templateEngine.process("dataProviderAccessRevoked", context);
       String subject = messageSource.getMessage("email.data-provider-access-revoked.title",
           new Object[]{projectId}, locale);
-      sendEmail(null, new String[]{user.getEmail()}, null, subject, content, false, true);
+      sendEmail(sender, new String[]{user.getEmail()}, null, subject, content, false, true);
     });
   }
 }
