@@ -1,6 +1,5 @@
 *** Settings ***
 Documentation     Tests the user experience of searching & finding a specific question of the Graduate Panel 2005
-Force Tags        noslowpoke
 Resource          ../../resources/search_resource.robot
 Resource          ../../resources/home_page_resource.robot
 
