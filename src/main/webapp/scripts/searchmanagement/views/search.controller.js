@@ -221,6 +221,9 @@ angular.module('metadatamanagementApp').controller('SearchController',
         currentProjectChangeIsBeingHandled = true;
         //wait for other events (logout, selectedTabIndex)
         $timeout(function() {
+          if (!$state.is('search')) {
+            return;
+          }
           var dataType = $scope.tabs[
             $scope.searchParams.selectedTabIndex].elasticSearchType;
           if (currentProject) {

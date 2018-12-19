@@ -20,7 +20,7 @@
 		</md-checkbox>
 		<md-checkbox
 			ng-model="project.configuration[group+'State'].dataProviderReady"
-			ng-disabled="!isRequired() || (!isAssignedDataProvider && project.assigneeGroup === 'DATA_PROVIDER')"
+			ng-disabled="!((isRequired() && isAssignedPublisher && project.assigneeGroup === 'PUBLISHER') || (isRequired() && isAssignedDataProvider && project.assigneeGroup === 'DATA_PROVIDER'))"
 		>
 			<md-tooltip ng-if="!isAssignedPublisher && !isAssignedDataProvider">{{'data-acquisition-project-management.project-cockpit.tooltip.not-in-group' | translate}}</md-tooltip>
 			<md-tooltip ng-if="(!isAssignedDataProvider && project.assigneeGroup === 'DATA_PROVIDER')">{{'data-acquisition-project-management.project-cockpit.tooltip.not-assigned' | translate}}</md-tooltip>
@@ -30,7 +30,7 @@
 		</md-checkbox>
 		<md-checkbox
 			ng-model="project.configuration[group+'State'].publisherReady"
-			ng-disabled="!isRequired() || (!isAssignedPublisher || project.assigneeGroup !== 'PUBLISHER')"
+			ng-disabled="!(isRequired() && isAssignedPublisher && project.assigneeGroup === 'PUBLISHER')"
 		>
 			<md-tooltip ng-if="!isAssignedPublisher">{{'data-acquisition-project-management.project-cockpit.tooltip.not-in-group' | translate}}</md-tooltip>
 			<md-tooltip ng-if="project.assigneeGroup !== 'PUBLISHER'">{{'data-acquisition-project-management.project-cockpit.tooltip.not-assigned' | translate}}</md-tooltip>

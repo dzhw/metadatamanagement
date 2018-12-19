@@ -71,7 +71,8 @@ angular.module('metadatamanagementApp')
         };
 
         scope.getTooltip = function(group) {
-          if (scope.limit && scope.limit <= scope.counts[group]) {
+          if (scope.counts && scope.limit &&
+             scope.limit <= scope.counts[group]) {
             return scope.tooltip.replace('create', 'edit');
           }
           return scope.tooltip;
