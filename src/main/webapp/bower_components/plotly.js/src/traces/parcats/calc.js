@@ -11,7 +11,7 @@
 // Requirements
 // ============
 var wrap = require('../../lib/gup').wrap;
-var hasColorscale = require('../../components/colorscale/has_colorscale');
+var hasColorscale = require('../../components/colorscale/helpers').hasColorscale;
 var colorscaleCalc = require('../../components/colorscale/calc');
 var filterUnique = require('../../lib/filter_unique.js');
 var Drawing = require('../../components/drawing');
@@ -73,7 +73,11 @@ module.exports = function calc(gd, trace) {
     // Process colorscale
     if(line) {
         if(hasColorscale(trace, 'line')) {
-            colorscaleCalc(trace, trace.line.color, 'line', 'c');
+            colorscaleCalc(gd, trace, {
+                vals: trace.line.color,
+                containerStr: 'line',
+                cLetter: 'c'
+            });
         }
         markerColorscale = Drawing.tryColorscale(line);
     } else {
