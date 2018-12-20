@@ -6,6 +6,7 @@
 * LICENSE file in the root directory of this source tree.
 */
 
+
 'use strict';
 
 var isNumeric = require('fast-isnumeric');
@@ -25,13 +26,10 @@ module.exports = function handleXYZDefaults(traceIn, traceOut, coerce, layout, x
         x = coerce(xName);
         y = coerce(yName);
 
-        var xlen = Lib.minRowLength(x);
-        var ylen = Lib.minRowLength(y);
-
         // column z must be accompanied by xName and yName arrays
-        if(xlen === 0 || ylen === 0) return 0;
+        if(!(x && x.length && y && y.length)) return 0;
 
-        traceOut._length = Math.min(xlen, ylen, z.length);
+        traceOut._length = Math.min(x.length, y.length, z.length);
     }
     else {
         x = coordDefaults(xName, coerce);
@@ -52,8 +50,10 @@ module.exports = function handleXYZDefaults(traceIn, traceOut, coerce, layout, x
 };
 
 function coordDefaults(coordStr, coerce) {
-    var coord = coerce(coordStr);
-    var coordType = coord ? coerce(coordStr + 'type', 'array') : 'scaled';
+    var coord = coerce(coordStr),
+        coordType = coord ?
+            coerce(coordStr + 'type', 'array') :
+            'scaled';
 
     if(coordType === 'scaled') {
         coerce(coordStr + '0');

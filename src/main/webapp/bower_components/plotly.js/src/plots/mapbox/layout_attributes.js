@@ -25,7 +25,7 @@ var fontAttr = fontAttrs({
 });
 fontAttr.family.dflt = 'Open Sans Regular, Arial Unicode MS Regular';
 
-var attrs = module.exports = overrideAll({
+module.exports = overrideAll({
     _arrayAttrRegexps: [Lib.counterRegex('mapbox', '.layers', true)],
 
     domain: domainAttrs({name: 'mapbox'}),
@@ -245,14 +245,3 @@ var attrs = module.exports = overrideAll({
         }
     })
 }, 'plot', 'from-root');
-
-// set uirevision outside of overrideAll so it can be `editType: 'none'`
-attrs.uirevision = {
-    valType: 'any',
-    role: 'info',
-    editType: 'none',
-    description: [
-        'Controls persistence of user-driven changes in the view:',
-        '`center`, `zoom`, `bearing`, `pitch`. Defaults to `layout.uirevision`.'
-    ].join(' ')
-};

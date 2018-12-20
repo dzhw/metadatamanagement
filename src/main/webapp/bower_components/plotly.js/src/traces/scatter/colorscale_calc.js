@@ -6,36 +6,26 @@
 * LICENSE file in the root directory of this source tree.
 */
 
+
 'use strict';
 
-var hasColorscale = require('../../components/colorscale/helpers').hasColorscale;
+var hasColorscale = require('../../components/colorscale/has_colorscale');
 var calcColorscale = require('../../components/colorscale/calc');
 
 var subTypes = require('./subtypes');
 
-module.exports = function calcMarkerColorscale(gd, trace) {
+
+module.exports = function calcMarkerColorscale(trace) {
     if(subTypes.hasLines(trace) && hasColorscale(trace, 'line')) {
-        calcColorscale(gd, trace, {
-            vals: trace.line.color,
-            containerStr: 'line',
-            cLetter: 'c'
-        });
+        calcColorscale(trace, trace.line.color, 'line', 'c');
     }
 
     if(subTypes.hasMarkers(trace)) {
         if(hasColorscale(trace, 'marker')) {
-            calcColorscale(gd, trace, {
-                vals: trace.marker.color,
-                containerStr: 'marker',
-                cLetter: 'c'
-            });
+            calcColorscale(trace, trace.marker.color, 'marker', 'c');
         }
         if(hasColorscale(trace, 'marker.line')) {
-            calcColorscale(gd, trace, {
-                vals: trace.marker.line.color,
-                containerStr: 'marker.line',
-                cLetter: 'c'
-            });
+            calcColorscale(trace, trace.marker.line.color, 'marker.line', 'c');
         }
     }
 };

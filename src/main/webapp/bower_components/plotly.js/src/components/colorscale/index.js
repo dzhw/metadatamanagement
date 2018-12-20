@@ -6,33 +6,27 @@
 * LICENSE file in the root directory of this source tree.
 */
 
+
 'use strict';
 
-var scales = require('./scales');
-var helpers = require('./helpers');
+exports.scales = require('./scales');
 
-module.exports = {
-    moduleType: 'component',
-    name: 'colorscale',
+exports.defaultScale = require('./default_scale');
 
-    attributes: require('./attributes'),
-    layoutAttributes: require('./layout_attributes'),
+exports.attributes = require('./attributes');
 
-    supplyLayoutDefaults: require('./layout_defaults'),
-    handleDefaults: require('./defaults'),
-    crossTraceDefaults: require('./cross_trace_defaults'),
+exports.handleDefaults = require('./defaults');
 
-    calc: require('./calc'),
+exports.calc = require('./calc');
 
-    // ./scales.js is required in lib/coerce.js ;
-    // it needs to be a seperate module to avoid circular a dependency
-    scales: scales.scales,
-    defaultScale: scales.defaultScale,
-    getScale: scales.get,
-    isValidScale: scales.isValid,
+exports.hasColorscale = require('./has_colorscale');
 
-    hasColorscale: helpers.hasColorscale,
-    flipScale: helpers.flipScale,
-    extractScale: helpers.extractScale,
-    makeColorScaleFunc: helpers.makeColorScaleFunc
-};
+exports.isValidScale = require('./is_valid_scale');
+
+exports.getScale = require('./get_scale');
+
+exports.flipScale = require('./flip_scale');
+
+exports.extractScale = require('./extract_scale');
+
+exports.makeColorScaleFunc = require('./make_color_scale_func');

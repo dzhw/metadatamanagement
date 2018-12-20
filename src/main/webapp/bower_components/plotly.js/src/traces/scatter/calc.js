@@ -87,7 +87,7 @@ function calc(gd, trace) {
     }
 
     arraysToCalcdata(cd, trace);
-    calcColorscale(gd, trace);
+    calcColorscale(trace);
     calcSelection(cd, trace);
 
     if(stackGroupOpts) {

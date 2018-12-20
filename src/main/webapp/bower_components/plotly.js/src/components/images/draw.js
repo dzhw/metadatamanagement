@@ -168,10 +168,9 @@ module.exports = function draw(gd) {
             yId = ya ? ya._id : '',
             clipAxes = xId + yId;
 
-        Drawing.setClipUrl(
-            thisImage,
-            clipAxes ? ('clip' + fullLayout._uid + clipAxes) : null,
-            gd
+        thisImage.call(Drawing.setClipUrl, clipAxes ?
+            ('clip' + fullLayout._uid + clipAxes) :
+            null
         );
     }
 

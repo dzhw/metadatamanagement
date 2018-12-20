@@ -93,8 +93,7 @@ module.exports = function hoverPoints(pointData, xval, yval, hovermode) {
                 y1: yc + rad,
                 yLabelVal: yLabelVal,
 
-                spikeDistance: dxy(di),
-                hovertemplate: trace.hovertemplate
+                spikeDistance: dxy(di)
             });
 
             fillHoverText(di, trace, pointData);
@@ -178,8 +177,7 @@ module.exports = function hoverPoints(pointData, xval, yval, hovermode) {
                 x1: xmax,
                 y0: yAvg,
                 y1: yAvg,
-                color: color,
-                hovertemplate: '%{name}'
+                color: color
             });
 
             delete pointData.index;

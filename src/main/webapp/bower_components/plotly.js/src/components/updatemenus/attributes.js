@@ -162,7 +162,7 @@ module.exports = overrideAll(templatedArray('updatemenu', {
         ].join(' ')
     },
 
-    pad: extendFlat(padAttrs({editType: 'arraydraw'}), {
+    pad: extendFlat({}, padAttrs, {
         description: 'Sets the padding around the buttons or dropdown menu.'
     }),
 

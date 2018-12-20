@@ -1,5 +1,5 @@
-'use strict';
 /* global Plotly*/
+'use strict';
 
 angular.module('metadatamanagementApp').factory('Plotly',
   function($rootScope, LanguageService) {

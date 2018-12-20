@@ -16,6 +16,7 @@ var Axes = require('../../plots/cartesian/axes');
 var histogram2dCalc = require('../histogram2d/calc');
 var colorscaleCalc = require('../../components/colorscale/calc');
 var convertColumnData = require('./convert_column_xyz');
+var maxRowLength = require('./max_row_length');
 var clean2dArray = require('./clean_2d_array');
 var interp2d = require('./interp2d');
 var findEmpties = require('./find_empties');
@@ -115,7 +116,7 @@ module.exports = function calc(gd, trace) {
     }
 
     // create arrays of brick boundaries, to be used by autorange and heatmap.plot
-    var xlen = Lib.maxRowLength(z);
+    var xlen = maxRowLength(z);
     var xIn = trace.xtype === 'scaled' ? '' : x;
     var xArray = makeBoundArray(trace, xIn, x0, dx, xlen, xa);
     var yIn = trace.ytype === 'scaled' ? '' : y;
@@ -145,11 +146,7 @@ module.exports = function calc(gd, trace) {
 
     // auto-z and autocolorscale if applicable
     if(!isContour || trace.contours.type !== 'constraint') {
-        colorscaleCalc(gd, trace, {
-            vals: z,
-            containerStr: '',
-            cLetter: 'z'
-        });
+        colorscaleCalc(trace, z, '', 'z');
     }
 
     if(isContour && trace.contours && trace.contours.coloring === 'heatmap') {

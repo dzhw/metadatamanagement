@@ -28,7 +28,6 @@ var setConvert = require('./set_convert');
  *  outerTicks: boolean, should ticks default to outside?
  *  showGrid: boolean, should gridlines be shown by default?
  *  noHover: boolean, this axis doesn't support hover effects?
- *  noTickson: boolean, this axis doesn't support 'tickson'
  *  data: the plot data, used to manage categories
  *  bgColor: the plot background color, to calculate default gridline colors
  */
@@ -69,8 +68,8 @@ module.exports = function handleAxisDefaults(containerIn, containerOut, coerce, 
     // try to get default title from splom trace, fallback to graph-wide value
     var dfltTitle = splomStash.label || layoutOut._dfltTitle[letter];
 
-    coerce('title.text', dfltTitle);
-    Lib.coerceFont(coerce, 'title.font', {
+    coerce('title', dfltTitle);
+    Lib.coerceFont(coerce, 'titlefont', {
         family: font.family,
         size: Math.round(font.size * 1.2),
         color: dfltFontColor
@@ -89,25 +88,6 @@ module.exports = function handleAxisDefaults(containerIn, containerOut, coerce, 
     if(containerOut.showline || containerOut.ticks) coerce('mirror');
 
     if(options.automargin) coerce('automargin');
-
-    var isMultiCategory = containerOut.type === 'multicategory';
-
-    if(!options.noTickson &&
-        (containerOut.type === 'category' || isMultiCategory) &&
-        (containerOut.ticks || containerOut.showgrid)
-    ) {
-        var ticksonDflt;
-        if(isMultiCategory) ticksonDflt = 'boundaries';
-        coerce('tickson', ticksonDflt);
-    }
-
-    if(isMultiCategory) {
-        var showDividers = coerce('showdividers');
-        if(showDividers) {
-            coerce('dividercolor');
-            coerce('dividerwidth');
-        }
-    }
 
     return containerOut;
 };

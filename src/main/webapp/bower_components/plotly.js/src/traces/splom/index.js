@@ -19,7 +19,7 @@ var AxisIDs = require('../../plots/cartesian/axis_ids');
 var subTypes = require('../scatter/subtypes');
 var calcMarkerSize = require('../scatter/calc').calcMarkerSize;
 var calcAxisExpansion = require('../scatter/calc').calcAxisExpansion;
-var calcColorscale = require('../scatter/colorscale_calc');
+var calcColorscales = require('../scatter/colorscale_calc');
 var convertMarkerSelection = require('../scattergl/convert').markerSelection;
 var convertMarkerStyle = require('../scattergl/convert').markerStyle;
 var calcHover = require('../scattergl').calcHover;
@@ -80,7 +80,7 @@ function calc(gd, trace) {
         }
     }
 
-    calcColorscale(gd, trace);
+    calcColorscales(trace);
     Lib.extendFlat(opts, convertMarkerStyle(trace));
 
     var visibleLength = cdata.length;
@@ -310,7 +310,7 @@ function editStyle(gd, cd0) {
     var scene = gd._fullLayout._splomScenes[trace.uid];
 
     if(scene) {
-        calcColorscale(gd, trace);
+        calcColorscales(trace);
 
         Lib.extendFlat(scene.matrixOptions, convertMarkerStyle(trace));
         // TODO [un]selected styles?

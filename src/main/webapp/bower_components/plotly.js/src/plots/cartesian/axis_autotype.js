@@ -14,10 +14,7 @@ var isNumeric = require('fast-isnumeric');
 var Lib = require('../../lib');
 var BADNUM = require('../../constants/numerical').BADNUM;
 
-module.exports = function autoType(array, calendar, opts) {
-    opts = opts || {};
-
-    if(!opts.noMultiCategory && multiCategory(array)) return 'multicategory';
+module.exports = function autoType(array, calendar) {
     if(moreDates(array, calendar)) return 'date';
     if(category(array)) return 'category';
     if(linearOK(array)) return 'linear';
@@ -83,11 +80,4 @@ function category(a) {
     }
 
     return curvecats > curvenums * 2;
-}
-
-// very-loose requirements for multicategory,
-// trace modules that should never auto-type to multicategory
-// should be declared with 'noMultiCategory'
-function multiCategory(a) {
-    return Lib.isArrayOrTypedArray(a[0]) && Lib.isArrayOrTypedArray(a[1]);
 }

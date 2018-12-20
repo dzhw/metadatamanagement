@@ -27,7 +27,7 @@ var scatterCalc = require('../scatter/calc');
 var calcMarkerSize = scatterCalc.calcMarkerSize;
 var calcAxisExpansion = scatterCalc.calcAxisExpansion;
 var setFirstScatter = scatterCalc.setFirstScatter;
-var calcColorscale = require('../scatter/colorscale_calc');
+var calcColorscales = require('../scatter/colorscale_calc');
 var linkTraces = require('../scatter/link_traces');
 var getTraceColor = require('../scatter/get_trace_color');
 var fillHoverText = require('../scatter/fill_hover_text');
@@ -84,7 +84,7 @@ function calc(gd, trace) {
     }
 
     // create scene options and scene
-    calcColorscale(gd, trace);
+    calcColorscales(trace);
     var opts = sceneOptions(gd, subplot, trace, positions, x, y);
     var scene = sceneUpdate(gd, subplot);
 
@@ -816,11 +816,6 @@ function calcHover(pointData, x, y, trace) {
         di.hi = Array.isArray(hoverinfo) ? hoverinfo[id] : hoverinfo;
     }
 
-    var hovertemplate = trace.hovertemplate;
-    if(hovertemplate) {
-        di.ht = Array.isArray(hovertemplate) ? hovertemplate[id] : hovertemplate;
-    }
-
     var fakeCd = {};
     fakeCd[pointData.index] = di;
 
@@ -837,9 +832,7 @@ function calcHover(pointData, x, y, trace) {
 
         cd: fakeCd,
         distance: minDist,
-        spikeDistance: dxy,
-
-        hovertemplate: di.ht
+        spikeDistance: dxy
     });
 
     if(di.htx) pointData.text = di.htx;

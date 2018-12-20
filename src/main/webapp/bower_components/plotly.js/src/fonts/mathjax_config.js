@@ -10,20 +10,26 @@
 
 /* global MathJax:false */
 
-module.exports = function() {
-    if(typeof MathJax !== 'undefined') {
-        var globalConfig = (window.PlotlyConfig || {}).MathJaxConfig !== 'local';
+/**
+ * Check and configure MathJax
+ */
+if(typeof MathJax !== 'undefined') {
+    exports.MathJax = true;
 
-        if(globalConfig) {
-            MathJax.Hub.Config({
-                messageStyle: 'none',
-                skipStartupTypeset: true,
-                displayAlign: 'left',
-                tex2jax: {
-                    inlineMath: [['$', '$'], ['\\(', '\\)']]
-                }
-            });
-            MathJax.Hub.Configured();
-        }
+    var globalConfig = (window.PlotlyConfig || {}).MathJaxConfig !== 'local';
+
+    if(globalConfig) {
+        MathJax.Hub.Config({
+            messageStyle: 'none',
+            skipStartupTypeset: true,
+            displayAlign: 'left',
+            tex2jax: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+            }
+        });
+        MathJax.Hub.Configured();
     }
-};
+
+} else {
+    exports.MathJax = false;
+}

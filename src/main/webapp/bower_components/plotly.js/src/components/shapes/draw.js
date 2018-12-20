@@ -120,10 +120,9 @@ function setClipPath(shapePath, gd, shapeOptions) {
     // spans two subplots. See https://github.com/plotly/plotly.js/issues/1452
     var clipAxes = (shapeOptions.xref + shapeOptions.yref).replace(/paper/g, '');
 
-    Drawing.setClipUrl(
-        shapePath,
-        clipAxes ? 'clip' + gd._fullLayout._uid + clipAxes : null,
-        gd
+    shapePath.call(Drawing.setClipUrl, clipAxes ?
+      ('clip' + gd._fullLayout._uid + clipAxes) :
+      null
     );
 }
 
@@ -307,7 +306,7 @@ function setupDragElement(gd, shapePath, shapeOptions, index, shapeLayer) {
 
         // Don't rely on clipPath being activated during re-layout
         setClipPath(shapePath, gd, shapeOptions);
-        Registry.call('_guiRelayout', gd, editHelpers.getUpdateObj());
+        Registry.call('relayout', gd, editHelpers.getUpdateObj());
     }
 
     function abortDrag() {
@@ -494,10 +493,9 @@ function setupDragElement(gd, shapePath, shapeOptions, index, shapeLayer) {
         if(xref !== 'paper' && !xa.autorange) clipAxes += xref;
         if(yref !== 'paper' && !ya.autorange) clipAxes += yref;
 
-        Drawing.setClipUrl(
-            shapePath,
-            clipAxes ? 'clip' + gd._fullLayout._uid + clipAxes : null,
-            gd
+        shapePath.call(Drawing.setClipUrl, clipAxes ?
+          'clip' + gd._fullLayout._uid + clipAxes :
+          null
         );
     }
 }

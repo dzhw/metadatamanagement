@@ -124,6 +124,8 @@ dragElement.init = function init(options) {
     var clampFn = options.clampFn || _clampFn;
 
     function onStart(e) {
+        e.preventDefault();
+
         // make dragging and dragged into properties of gd
         // so that others can look at and modify them
         gd._dragged = false;
@@ -165,14 +167,10 @@ dragElement.init = function init(options) {
             document.documentElement.style.cursor = window.getComputedStyle(element).cursor;
         }
 
+        document.addEventListener('mousemove', onMove);
         document.addEventListener('mouseup', onDone);
+        document.addEventListener('touchmove', onMove);
         document.addEventListener('touchend', onDone);
-
-        if(options.dragmode !== false) {
-            e.preventDefault();
-            document.addEventListener('mousemove', onMove);
-            document.addEventListener('touchmove', onMove);
-        }
 
         return;
     }
@@ -197,14 +195,12 @@ dragElement.init = function init(options) {
     }
 
     function onDone(e) {
-        if(options.dragmode !== false) {
-            e.preventDefault();
-            document.removeEventListener('mousemove', onMove);
-            document.removeEventListener('touchmove', onMove);
-        }
-
+        document.removeEventListener('mousemove', onMove);
         document.removeEventListener('mouseup', onDone);
+        document.removeEventListener('touchmove', onMove);
         document.removeEventListener('touchend', onDone);
+
+        e.preventDefault();
 
         if(hasHover) {
             Lib.removeElement(dragCover);

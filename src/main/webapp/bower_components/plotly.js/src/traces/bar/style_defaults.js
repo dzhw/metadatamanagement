@@ -6,10 +6,11 @@
 * LICENSE file in the root directory of this source tree.
 */
 
+
 'use strict';
 
 var Color = require('../../components/color');
-var hasColorscale = require('../../components/colorscale/helpers').hasColorscale;
+var hasColorscale = require('../../components/colorscale/has_colorscale');
 var colorscaleDefaults = require('../../components/colorscale/defaults');
 
 module.exports = function handleStyleDefaults(traceIn, traceOut, coerce, defaultColor, layout) {

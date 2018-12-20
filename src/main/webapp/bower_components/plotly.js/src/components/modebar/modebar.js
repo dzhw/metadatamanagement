@@ -80,16 +80,11 @@ proto.update = function(graphInfo, buttons) {
 
         this.updateButtons(buttons);
 
-        if(context.watermark || context.displaylogo) {
-            var logoGroup = this.getLogo();
-            if(context.watermark) {
-                logoGroup.className = logoGroup.className + ' watermark';
-            }
-
+        if(context.displaylogo) {
             if(fullLayout.modebar.orientation === 'v') {
-                this.element.prepend(logoGroup);
+                this.element.prepend(this.getLogo());
             } else {
-                this.element.appendChild(logoGroup);
+                this.element.appendChild(this.getLogo());
             }
 
             this.hasLogo = true;

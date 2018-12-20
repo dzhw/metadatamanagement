@@ -6,10 +6,11 @@
 * LICENSE file in the root directory of this source tree.
 */
 
+
 'use strict';
 
 var Registry = require('../../registry');
-var Lib = require('../../lib');
+
 
 module.exports = function handleOHLC(traceIn, traceOut, coerce, layout) {
     var x = coerce('x');
@@ -26,7 +27,9 @@ module.exports = function handleOHLC(traceIn, traceOut, coerce, layout) {
     if(!(open && high && low && close)) return;
 
     var len = Math.min(open.length, high.length, low.length, close.length);
-    if(x) len = Math.min(len, Lib.minRowLength(x));
+
+    if(x) len = Math.min(len, x.length);
+
     traceOut._length = len;
 
     return len;

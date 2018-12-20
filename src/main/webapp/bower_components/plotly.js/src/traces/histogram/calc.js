@@ -251,18 +251,16 @@ function calcAllAutoBins(gd, trace, pa, mainData, _overlayEdgeCase) {
         var isFirstVisible = true;
         for(i = 0; i < traces.length; i++) {
             tracei = traces[i];
-            if(tracei.visible) {
-                pos0 = tracei._pos0 = pa.makeCalcdata(tracei, mainData);
-                allPos = Lib.concat(allPos, pos0);
-                delete tracei._autoBinFinished;
-                if(trace.visible === true) {
-                    if(isFirstVisible) {
-                        isFirstVisible = false;
-                    }
-                    else {
-                        delete tracei._autoBin;
-                        tracei._autoBinFinished = 1;
-                    }
+            pos0 = tracei._pos0 = pa.makeCalcdata(tracei, mainData);
+            allPos = Lib.concat(allPos, pos0);
+            delete tracei._autoBinFinished;
+            if(trace.visible === true) {
+                if(isFirstVisible) {
+                    isFirstVisible = false;
+                }
+                else {
+                    delete tracei._autoBin;
+                    tracei._autoBinFinished = 1;
                 }
             }
         }
@@ -272,8 +270,7 @@ function calcAllAutoBins(gd, trace, pa, mainData, _overlayEdgeCase) {
 
         // Edge case: single-valued histogram overlaying others
         // Use them all together to calculate the bin size for the single-valued one
-        if(isOverlay && newBinSpec._dataSpan === 0 &&
-            pa.type !== 'category' && pa.type !== 'multicategory') {
+        if(isOverlay && newBinSpec._dataSpan === 0 && pa.type !== 'category') {
             // Several single-valued histograms! Stop infinite recursion,
             // just return an extra flag that tells handleSingleValueOverlays
             // to sort out this trace too
@@ -330,7 +327,7 @@ function calcAllAutoBins(gd, trace, pa, mainData, _overlayEdgeCase) {
             Lib.aggNums(Math.min, null, pos0);
 
         var dummyAx = {
-            type: (pa.type === 'category' || pa.type === 'multicategory') ? 'linear' : pa.type,
+            type: pa.type === 'category' ? 'linear' : pa.type,
             r2l: pa.r2l,
             dtick: binOpts.size,
             tick0: mainStart,

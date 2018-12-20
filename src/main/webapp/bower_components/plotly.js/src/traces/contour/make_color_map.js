@@ -26,13 +26,11 @@ module.exports = function makeColorMap(trace) {
         nc = 1;
     }
 
-    var scl = trace.reversescale ?
-        Colorscale.flipScale(trace.colorscale) :
-        trace.colorscale;
+    var scl = trace.colorscale,
+        len = scl.length;
 
-    var len = scl.length;
-    var domain = new Array(len);
-    var range = new Array(len);
+    var domain = new Array(len),
+        range = new Array(len);
 
     var si, i;
 

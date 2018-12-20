@@ -29,7 +29,7 @@ module.exports = function manageModeBar(gd) {
         context = gd._context,
         modeBar = fullLayout._modeBar;
 
-    if(!context.displayModeBar && !context.watermark) {
+    if(!context.displayModeBar) {
         if(modeBar) {
             modeBar.destroy();
             delete fullLayout._modeBar;
@@ -57,15 +57,11 @@ module.exports = function manageModeBar(gd) {
     if(Array.isArray(customButtons) && customButtons.length) {
         buttonGroups = fillCustomButton(customButtons);
     }
-    else if(!context.displayModeBar && context.watermark) {
-        buttonGroups = [];
-    }
     else {
         buttonGroups = getButtonGroups(
             gd,
             context.modeBarButtonsToRemove,
-            context.modeBarButtonsToAdd,
-            context.showSendToCloud
+            context.modeBarButtonsToAdd
         );
     }
 
@@ -74,7 +70,7 @@ module.exports = function manageModeBar(gd) {
 };
 
 // logic behind which buttons are displayed by default
-function getButtonGroups(gd, buttonsToRemove, buttonsToAdd, showSendToCloud) {
+function getButtonGroups(gd, buttonsToRemove, buttonsToAdd) {
     var fullLayout = gd._fullLayout;
     var fullData = gd._fullData;
 
@@ -105,9 +101,7 @@ function getButtonGroups(gd, buttonsToRemove, buttonsToAdd, showSendToCloud) {
     }
 
     // buttons common to all plot types
-    var commonGroup = ['toImage'];
-    if(showSendToCloud) commonGroup.push('sendDataToCloud');
-    addGroup(commonGroup);
+    addGroup(['toImage', 'sendDataToCloud']);
 
     var zoomGroup = [];
     var hoverGroup = [];

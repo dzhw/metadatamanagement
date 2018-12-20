@@ -15,6 +15,7 @@ var Color = require('../color');
 var Drawing = require('../drawing');
 var Lib = require('../../lib');
 var svgTextUtils = require('../../lib/svg_text_utils');
+var anchorUtils = require('../legend/anchor_utils');
 var arrayEditor = require('../../plot_api/plot_template').arrayEditor;
 
 var constants = require('./constants');
@@ -206,21 +207,21 @@ function findDimensions(gd, sliderOpts) {
     dims.height = dims.currentValueTotalHeight + constants.tickOffset + sliderOpts.ticklen + constants.labelOffset + dims.labelHeight + sliderOpts.pad.t + sliderOpts.pad.b;
 
     var xanchor = 'left';
-    if(Lib.isRightAnchor(sliderOpts)) {
+    if(anchorUtils.isRightAnchor(sliderOpts)) {
         dims.lx -= dims.outerLength;
         xanchor = 'right';
     }
-    if(Lib.isCenterAnchor(sliderOpts)) {
+    if(anchorUtils.isCenterAnchor(sliderOpts)) {
         dims.lx -= dims.outerLength / 2;
         xanchor = 'center';
     }
 
     var yanchor = 'top';
-    if(Lib.isBottomAnchor(sliderOpts)) {
+    if(anchorUtils.isBottomAnchor(sliderOpts)) {
         dims.ly -= dims.height;
         yanchor = 'bottom';
     }
-    if(Lib.isMiddleAnchor(sliderOpts)) {
+    if(anchorUtils.isMiddleAnchor(sliderOpts)) {
         dims.ly -= dims.height / 2;
         yanchor = 'middle';
     }

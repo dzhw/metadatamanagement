@@ -9,10 +9,11 @@
 'use strict';
 
 var colorscaleCalc = require('../../components/colorscale/calc');
-var Lib = require('../../lib');
+var isArray1D = require('../../lib').isArray1D;
 
 var convertColumnData = require('../heatmap/convert_column_xyz');
 var clean2dArray = require('../heatmap/clean_2d_array');
+var maxRowLength = require('../heatmap/max_row_length');
 var interp2d = require('../heatmap/interp2d');
 var findEmpties = require('../heatmap/find_empties');
 var makeBoundArray = require('../heatmap/make_bound_array');
@@ -69,7 +70,7 @@ function heatmappishCalc(gd, trace) {
     aax._minDtick = 0;
     bax._minDtick = 0;
 
-    if(Lib.isArray1D(trace.z)) convertColumnData(trace, aax, bax, 'a', 'b', ['z']);
+    if(isArray1D(trace.z)) convertColumnData(trace, aax, bax, 'a', 'b', ['z']);
     a = trace._a = trace._a || trace.a;
     b = trace._b = trace._b || trace.b;
 
@@ -86,7 +87,7 @@ function heatmappishCalc(gd, trace) {
     interp2d(z, trace._emptypoints);
 
     // create arrays of brick boundaries, to be used by autorange and heatmap.plot
-    var xlen = Lib.maxRowLength(z),
+    var xlen = maxRowLength(z),
         xIn = trace.xtype === 'scaled' ? '' : a,
         xArray = makeBoundArray(trace, xIn, a0, da, xlen, aax),
         yIn = trace.ytype === 'scaled' ? '' : b,
@@ -100,11 +101,7 @@ function heatmappishCalc(gd, trace) {
 
     if(trace.contours.type === 'levels' && trace.contours.coloring !== 'none') {
         // auto-z and autocolorscale if applicable
-        colorscaleCalc(gd, trace, {
-            vals: z,
-            containerStr: '',
-            cLetter: 'z'
-        });
+        colorscaleCalc(trace, z, '', 'z');
     }
 
     return [cd0];

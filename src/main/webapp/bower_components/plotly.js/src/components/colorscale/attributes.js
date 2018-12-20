@@ -8,7 +8,7 @@
 
 'use strict';
 
-var palettes = require('./scales.js').scales;
+var palettes = require('./scales.js');
 var paletteStr = Object.keys(palettes);
 
 function code(s) {
@@ -197,7 +197,7 @@ module.exports = function colorScaleAttrs(context, opts) {
         valType: 'boolean',
         role: 'style',
         dflt: false,
-        editType: 'plot',
+        editType: 'calc',
         description: [
             'Reverses the color mapping if true.',
             effectDesc,

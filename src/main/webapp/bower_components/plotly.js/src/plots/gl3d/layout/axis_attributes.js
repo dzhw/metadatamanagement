@@ -13,6 +13,7 @@ var axesAttrs = require('../../cartesian/layout_attributes');
 var extendFlat = require('../../../lib/extend').extendFlat;
 var overrideAll = require('../../../plot_api/edit_types').overrideAll;
 
+
 module.exports = overrideAll({
     visible: axesAttrs.visible,
     showspikes: {
@@ -72,9 +73,8 @@ module.exports = overrideAll({
     categoryorder: axesAttrs.categoryorder,
     categoryarray: axesAttrs.categoryarray,
     title: axesAttrs.title,
-    type: extendFlat({}, axesAttrs.type, {
-        values: ['-', 'linear', 'log', 'date', 'category']
-    }),
+    titlefont: axesAttrs.titlefont,
+    type: axesAttrs.type,
     autorange: axesAttrs.autorange,
     rangemode: axesAttrs.rangemode,
     range: axesAttrs.range,
@@ -113,9 +113,5 @@ module.exports = overrideAll({
     gridwidth: axesAttrs.gridwidth,
     zeroline: axesAttrs.zeroline,
     zerolinecolor: axesAttrs.zerolinecolor,
-    zerolinewidth: axesAttrs.zerolinewidth,
-    _deprecated: {
-        title: axesAttrs._deprecated.title,
-        titlefont: axesAttrs._deprecated.titlefont
-    }
+    zerolinewidth: axesAttrs.zerolinewidth
 }, 'plot', 'from-root');

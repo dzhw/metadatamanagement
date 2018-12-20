@@ -6,9 +6,9 @@
 * LICENSE file in the root directory of this source tree.
 */
 
-
 'use strict';
 
-module.exports = {
-    eventDataKeys: ['binNumber']
-};
+var scales = require('./scales');
+
+
+module.exports = scales.RdBu;

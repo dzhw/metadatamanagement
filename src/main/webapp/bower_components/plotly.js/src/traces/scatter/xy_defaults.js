@@ -6,32 +6,34 @@
 * LICENSE file in the root directory of this source tree.
 */
 
+
 'use strict';
 
-var Lib = require('../../lib');
 var Registry = require('../../registry');
 
+
 module.exports = function handleXYDefaults(traceIn, traceOut, layout, coerce) {
-    var x = coerce('x');
-    var y = coerce('y');
-    var len;
+    var len,
+        x = coerce('x'),
+        y = coerce('y');
 
     var handleCalendarDefaults = Registry.getComponentMethod('calendars', 'handleTraceDefaults');
     handleCalendarDefaults(traceIn, traceOut, ['x', 'y'], layout);
 
     if(x) {
-        var xlen = Lib.minRowLength(x);
         if(y) {
-            len = Math.min(xlen, Lib.minRowLength(y));
-        } else {
-            len = xlen;
+            len = Math.min(x.length, y.length);
+        }
+        else {
+            len = x.length;
             coerce('y0');
             coerce('dy');
         }
-    } else {
+    }
+    else {
         if(!y) return 0;
 
-        len = Lib.minRowLength(y);
+        len = traceOut.y.length;
         coerce('x0');
         coerce('dx');
     }

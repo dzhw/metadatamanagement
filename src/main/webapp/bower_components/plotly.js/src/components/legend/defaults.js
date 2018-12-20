@@ -66,17 +66,13 @@ module.exports = function legendDefaults(layoutIn, layoutOut, fullData) {
         basePlotLayoutAttributes, 'showlegend',
         legendReallyHasATrace && legendTraceCount > 1);
 
-    if(showLegend === false && !containerIn.uirevision) return;
+    if(showLegend === false) return;
 
     var containerOut = Template.newContainer(layoutOut, 'legend');
 
     function coerce(attr, dflt) {
         return Lib.coerce(containerIn, containerOut, attributes, attr, dflt);
     }
-
-    coerce('uirevision', layoutOut.uirevision);
-
-    if(showLegend === false) return;
 
     coerce('bgcolor', layoutOut.paper_bgcolor);
     coerce('bordercolor');
@@ -86,7 +82,7 @@ module.exports = function legendDefaults(layoutIn, layoutOut, fullData) {
     coerce('orientation');
     if(containerOut.orientation === 'h') {
         var xaxis = layoutIn.xaxis;
-        if(Registry.getComponentMethod('rangeslider', 'isVisible')(xaxis)) {
+        if(xaxis && xaxis.rangeslider && xaxis.rangeslider.visible) {
             defaultX = 0;
             defaultXAnchor = 'left';
             defaultY = 1.1;
@@ -107,6 +103,5 @@ module.exports = function legendDefaults(layoutIn, layoutOut, fullData) {
     coerce('xanchor', defaultXAnchor);
     coerce('y', defaultY);
     coerce('yanchor', defaultYAnchor);
-    coerce('valign');
     Lib.noneOrAll(containerIn, containerOut, ['x', 'y']);
 };

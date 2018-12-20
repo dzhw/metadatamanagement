@@ -11,6 +11,7 @@
 
 var Axes = require('../cartesian/axes');
 
+var convertHTMLToUnicode = require('../../lib/html2unicode');
 var str2RGBArray = require('../../lib/str2rgbarray');
 
 function Axes2DOptions(scene) {
@@ -113,14 +114,14 @@ proto.merge = function(options) {
         // '_name' is e.g. xaxis, xaxis2, yaxis, yaxis4 ...
         ax = options[this.scene[axisName]._name];
 
-        axTitle = ax.title.text === this.scene.fullLayout._dfltTitle[axisLetter] ? '' : ax.title.text;
+        axTitle = ax.title === this.scene.fullLayout._dfltTitle[axisLetter] ? '' : ax.title;
 
         for(j = 0; j <= 2; j += 2) {
             this.labelEnable[i + j] = false;
-            this.labels[i + j] = axTitle;
-            this.labelColor[i + j] = str2RGBArray(ax.title.font.color);
-            this.labelFont[i + j] = ax.title.font.family;
-            this.labelSize[i + j] = ax.title.font.size;
+            this.labels[i + j] = convertHTMLToUnicode(axTitle);
+            this.labelColor[i + j] = str2RGBArray(ax.titlefont.color);
+            this.labelFont[i + j] = ax.titlefont.family;
+            this.labelSize[i + j] = ax.titlefont.size;
             this.labelPad[i + j] = this.getLabelPad(axisName, ax);
 
             this.tickEnable[i + j] = false;
@@ -208,7 +209,7 @@ proto.hasAxisInAltrPos = function(axisName, ax) {
 
 proto.getLabelPad = function(axisName, ax) {
     var offsetBase = 1.5,
-        fontSize = ax.title.font.size,
+        fontSize = ax.titlefont.size,
         showticklabels = ax.showticklabels;
 
     if(axisName === 'xaxis') {

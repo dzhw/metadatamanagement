@@ -36,9 +36,7 @@ module.exports = function supplyDefaults(traceIn, traceOut, defaultColor, layout
     var sampleLetter = orientation === 'v' ? 'x' : 'y';
     var aggLetter = orientation === 'v' ? 'y' : 'x';
 
-    var len = (x && y) ?
-        Math.min(Lib.minRowLength(x) && Lib.minRowLength(y)) :
-        Lib.minRowLength(traceOut[sampleLetter] || []);
+    var len = (x && y) ? Math.min(x.length && y.length) : (traceOut[sampleLetter] || []).length;
 
     if(!len) {
         traceOut.visible = false;
@@ -57,8 +55,6 @@ module.exports = function supplyDefaults(traceIn, traceOut, defaultColor, layout
     // Note: bin defaults are now handled in Histogram.crossTraceDefaults
     // autobin(x|y) are only included here to appease Plotly.validate
     coerce('autobin' + sampleLetter);
-
-    coerce('hovertemplate');
 
     handleStyleDefaults(traceIn, traceOut, coerce, defaultColor, layout);
 

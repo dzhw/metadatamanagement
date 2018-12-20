@@ -25,7 +25,11 @@ function styleTrace(gd, calcTrace) {
     var markerLine = marker.line || {};
 
     var sclFunc = Colorscale.makeColorScaleFunc(
-        Colorscale.extractScale(trace, {cLetter: 'z'})
+        Colorscale.extractScale(
+            trace.colorscale,
+            trace.zmin,
+            trace.zmax
+        )
     );
 
     locs.each(function(d) {

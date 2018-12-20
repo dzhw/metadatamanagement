@@ -53,7 +53,6 @@ function handleDefaults(contIn, contOut, coerce, opts) {
         var axIn = contIn[axName];
         var axOut = Template.newContainer(contOut, axName);
         axOut._id = axOut._name = axName;
-        axOut._attr = opts.id + '.' + axName;
         axOut._traceIndices = subplotData.map(function(t) { return t._expandedIndex; });
 
         var dataAttr = constants.axisName2dataArray[axName];
@@ -66,8 +65,6 @@ function handleDefaults(contIn, contOut, coerce, opts) {
 
         var visible = coerceAxis('visible');
         setConvert(axOut, contOut, layoutOut);
-
-        coerceAxis('uirevision', contOut.uirevision);
 
         var dfltColor;
         var dfltFontColor;
@@ -103,8 +100,8 @@ function handleDefaults(contIn, contOut, coerce, opts) {
                     coerceAxis('side');
                     coerceAxis('angle', sector[0]);
 
-                    coerceAxis('title.text');
-                    Lib.coerceFont(coerceAxis, 'title.font', {
+                    coerceAxis('title');
+                    Lib.coerceFont(coerceAxis, 'titlefont', {
                         family: opts.font.family,
                         size: Math.round(opts.font.size * 1.2),
                         color: dfltFontColor

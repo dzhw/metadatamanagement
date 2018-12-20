@@ -17,6 +17,7 @@ var Drawing = require('../drawing');
 var Lib = require('../../lib');
 var svgTextUtils = require('../../lib/svg_text_utils');
 var axisIds = require('../../plots/cartesian/axis_ids');
+var anchorUtils = require('../legend/anchor_utils');
 
 var alignmentConstants = require('../../constants/alignment');
 var LINE_SPACING = alignmentConstants.LINE_SPACING;
@@ -68,7 +69,7 @@ module.exports = function draw(gd) {
             button.on('click', function() {
                 if(gd._dragged) return;
 
-                Registry.call('_guiRelayout', gd, update);
+                Registry.call('relayout', gd, update);
             });
 
             button.on('mouseover', function() {
@@ -217,21 +218,21 @@ function reposition(gd, buttons, opts, axName, selector) {
     var ly = graphSize.t + graphSize.h * (1 - opts.y);
 
     var xanchor = 'left';
-    if(Lib.isRightAnchor(opts)) {
+    if(anchorUtils.isRightAnchor(opts)) {
         lx -= width;
         xanchor = 'right';
     }
-    if(Lib.isCenterAnchor(opts)) {
+    if(anchorUtils.isCenterAnchor(opts)) {
         lx -= width / 2;
         xanchor = 'center';
     }
 
     var yanchor = 'top';
-    if(Lib.isBottomAnchor(opts)) {
+    if(anchorUtils.isBottomAnchor(opts)) {
         ly -= height;
         yanchor = 'bottom';
     }
-    if(Lib.isMiddleAnchor(opts)) {
+    if(anchorUtils.isMiddleAnchor(opts)) {
         ly -= height / 2;
         yanchor = 'middle';
     }

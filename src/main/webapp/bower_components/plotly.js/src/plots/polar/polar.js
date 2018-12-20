@@ -16,10 +16,10 @@ var Lib = require('../../lib');
 var Color = require('../../components/color');
 var Drawing = require('../../components/drawing');
 var Plots = require('../plots');
-var Axes = require('../../plots/cartesian/axes');
 var setConvertCartesian = require('../cartesian/set_convert');
 var setConvertPolar = require('./set_convert');
 var doAutoRange = require('../cartesian/autorange').doAutoRange;
+var doTicksSingle = require('../cartesian/axes').doTicksSingle;
 var dragBox = require('../cartesian/dragbox');
 var dragElement = require('../../components/dragelement');
 var Fx = require('../../components/fx');
@@ -65,7 +65,7 @@ function Polar(gd, id) {
         .attr('class', id);
 
     // unfortunately, we have to keep track of some axis tick settings
-    // as polar subplots do not implement the 'ticks' editType
+    // so that we don't have to call doTicksSingle with its special redraw flag
     this.radialTickLayout = null;
     this.angularTickLayout = null;
 }
@@ -141,9 +141,11 @@ proto.updateLayers = function(fullLayout, polarLayout) {
                     break;
                 case 'radial-grid':
                     sel.style('fill', 'none');
+                    sel.append('g').classed('x', 1);
                     break;
                 case 'angular-grid':
                     sel.style('fill', 'none');
+                    sel.append('g').classed('angularaxis', 1);
                     break;
                 case 'radial-line':
                     sel.append('line').style('fill', 'none');
@@ -165,15 +167,14 @@ proto.updateLayers = function(fullLayout, polarLayout) {
  *
  * - this.radialAxis
  *   extends polarLayout.radialaxis, adds mocked 'domain' and
- *   few other keys in order to reuse Cartesian doAutoRange and the Axes
- *   drawing routines.
+ *   few other keys in order to reuse Cartesian doAutoRange and doTicksSingle,
  *   used for calcdata -> geometric conversions (aka c2g) during the plot step
  *   + setGeometry setups ax.c2g for given ax.range
  *   + setScale setups ax._m,ax._b for given ax.range
  *
  * - this.angularAxis
  *   extends polarLayout.angularaxis, adds mocked 'range' and 'domain' and
- *   a few other keys in order to reuse the Axes drawing routines.
+ *   a few other keys in order to reuse Cartesian doTicksSingle,
  *   used for calcdata -> geometric conversions (aka c2g) during the plot step
  *   + setGeometry setups ax.c2g given ax.rotation, ax.direction & ax._categories,
  *                 and mocks ax.range
@@ -246,6 +247,8 @@ proto.updateLayout = function(fullLayout, polarLayout) {
     var cyy = _this.cyy = cy - yOffset2;
 
     _this.radialAxis = _this.mockAxis(fullLayout, polarLayout, radialLayout, {
+        _axislayer: layers['radial-axis'],
+        _gridlayer: layers['radial-grid'],
         // make this an 'x' axis to make positioning (especially rotation) easier
         _id: 'x',
         // convert to 'x' axis equivalent
@@ -258,6 +261,8 @@ proto.updateLayout = function(fullLayout, polarLayout) {
     });
 
     _this.angularAxis = _this.mockAxis(fullLayout, polarLayout, angularLayout, {
+        _axislayer: layers['angular-axis'],
+        _gridlayer: layers['angular-grid'],
         side: 'right',
         // to get auto nticks right
         domain: [0, Math.PI],
@@ -290,19 +295,28 @@ proto.updateLayout = function(fullLayout, polarLayout) {
 
     layers.frontplot
         .attr('transform', strTranslate(xOffset2, yOffset2))
-        .call(Drawing.setClipUrl, _this._hasClipOnAxisFalse ? null : _this.clipIds.forTraces, _this.gd);
+        .call(Drawing.setClipUrl, _this._hasClipOnAxisFalse ? null : _this.clipIds.forTraces);
 
     layers.bg
         .attr('d', dPath)
         .attr('transform', strTranslate(cx, cy))
         .call(Color.fill, polarLayout.bgcolor);
+
+    // remove crispEdges - all the off-square angles in polar plots
+    // make these counterproductive.
+    _this.framework.selectAll('.crisp').classed('crisp', 0);
 };
 
 proto.mockAxis = function(fullLayout, polarLayout, axLayout, opts) {
     var commonOpts = {
         // to get _boundingBox computation right when showticklabels is false
         anchor: 'free',
-        position: 0
+        position: 0,
+        _pos: 0,
+        // dummy truthy value to make doTicksSingle draw the grid
+        _counteraxis: true,
+        // don't use automargins routine for labels
+        automargin: false
     };
 
     var ax = Lib.extendFlat(commonOpts, axLayout, opts);
@@ -378,18 +392,18 @@ proto.updateRadialAxis = function(fullLayout, polarLayout) {
     // rotate auto tick labels by 180 if in quadrant II and III to make them
     // readable from left-to-right
     //
-    // TODO try moving deeper in Axes.drawLabels for better results?
+    // TODO try moving deeper in doTicksSingle for better results?
     if(ax.tickangle === 'auto' && (a0 > 90 && a0 <= 270)) {
         ax.tickangle = 180;
     }
 
     // easier to set rotate angle with custom translate function
-    var transFn = function(d) {
+    ax._transfn = function(d) {
         return 'translate(' + (ax.l2p(d.x) + innerRadius) + ',0)';
     };
 
     // set special grid path function
-    var gridPathFn = function(d) {
+    ax._gridpath = function(d) {
         return _this.pathArc(ax.r2p(d.x) + innerRadius);
     };
 
@@ -401,36 +415,7 @@ proto.updateRadialAxis = function(fullLayout, polarLayout) {
 
     if(hasRoomForIt) {
         ax.setScale();
-
-        var vals = Axes.calcTicks(ax);
-        var valsClipped = Axes.clipEnds(ax, vals);
-        var labelFns = Axes.makeLabelFns(ax, 0);
-        var tickSign = Axes.getTickSigns(ax)[2];
-
-        Axes.drawTicks(gd, ax, {
-            vals: vals,
-            layer: layers['radial-axis'],
-            path: Axes.makeTickPath(ax, 0, tickSign),
-            transFn: transFn,
-            crisp: false
-        });
-
-        Axes.drawGrid(gd, ax, {
-            vals: valsClipped,
-            layer: layers['radial-grid'],
-            path: gridPathFn,
-            transFn: Lib.noop,
-            crisp: false
-        });
-
-        Axes.drawLabels(gd, ax, {
-            vals: vals,
-            layer: layers['radial-axis'],
-            transFn: transFn,
-            labelXFn: labelFns.labelXFn,
-            labelYFn: labelFns.labelYFn,
-            labelAnchorFn: labelFns.labelAnchorFn
-        });
+        doTicksSingle(gd, ax, true);
     }
 
     // stash 'actual' radial axis angle for drag handlers (in degrees)
@@ -438,20 +423,21 @@ proto.updateRadialAxis = function(fullLayout, polarLayout) {
         rad2deg(snapToVertexAngle(deg2rad(radialLayout.angle), _this.vangles)) :
         radialLayout.angle;
 
-    var tLayer = strTranslate(cx, cy);
-    var tLayer2 = tLayer + strRotate(-angle);
+    var trans = strTranslate(cx, cy) + strRotate(-angle);
 
     updateElement(
         layers['radial-axis'],
         hasRoomForIt && (radialLayout.showticklabels || radialLayout.ticks),
-        {transform: tLayer2}
+        {transform: trans}
     );
 
+    // move all grid paths to about circle center,
+    // undo individual grid lines translations
     updateElement(
         layers['radial-grid'],
         hasRoomForIt && radialLayout.showgrid,
-        {transform: tLayer}
-    );
+        {transform: strTranslate(cx, cy)}
+    ).selectAll('path').attr('transform', null);
 
     updateElement(
         layers['radial-line'].select('line'),
@@ -461,7 +447,7 @@ proto.updateRadialAxis = function(fullLayout, polarLayout) {
             y1: 0,
             x2: radius,
             y2: 0,
-            transform: tLayer2
+            transform: trans
         }
     )
     .attr('stroke-width', radialLayout.linewidth)
@@ -483,13 +469,9 @@ proto.updateRadialAxisTitle = function(fullLayout, polarLayout, _angle) {
     var sina = Math.sin(angleRad);
 
     var pad = 0;
-
-    // Hint: no need to check if there is in fact a title.text set
-    // because if plot is editable, pad needs to be calculated anyways
-    // to properly show placeholder text when title is empty.
     if(radialLayout.title) {
         var h = Drawing.bBox(_this.layers['radial-axis'].node()).height;
-        var ts = radialLayout.title.font.size;
+        var ts = radialLayout.titlefont.size;
         pad = radialLayout.side === 'counterclockwise' ?
             -h - ts * 0.4 :
             h + ts * 0.8;
@@ -522,7 +504,6 @@ proto.updateAngularAxis = function(fullLayout, polarLayout) {
     _this.fillViewInitialKey('angularaxis.rotation', angularLayout.rotation);
 
     ax.setGeometry();
-    ax.setScale();
 
     // 't'ick to 'g'eometric radians is used all over the place here
     var t2g = function(d) { return ax.t2g(d.x); };
@@ -533,20 +514,34 @@ proto.updateAngularAxis = function(fullLayout, polarLayout) {
         ax.dtick = rad2deg(ax.dtick);
     }
 
-    var _transFn = function(rad) {
-        return strTranslate(cx + radius * Math.cos(rad), cy - radius * Math.sin(rad));
-    };
+    // Use tickval filter for category axes instead of tweaking
+    // the range w.r.t sector, so that sectors that cross 360 can
+    // show all their ticks.
+    if(ax.type === 'category') {
+        ax._tickFilter = function(d) {
+            return Lib.isAngleInsideSector(t2g(d), _this.sectorInRad);
+        };
+    }
 
-    var transFn = function(d) {
-        return _transFn(t2g(d));
-    };
+    ax._transfn = function(d) {
+        var sel = d3.select(this);
+        var hasElement = sel && sel.node();
 
-    var transFn2 = function(d) {
+        // don't translate grid lines
+        if(hasElement && sel.classed('angularaxisgrid')) return '';
+
         var rad = t2g(d);
-        return _transFn(rad) + strRotate(-rad2deg(rad));
+        var out = strTranslate(cx + radius * Math.cos(rad), cy - radius * Math.sin(rad));
+
+        // must also rotate ticks, but don't rotate labels
+        if(hasElement && sel.classed('ticks')) {
+            out += strRotate(-rad2deg(rad));
+        }
+
+        return out;
     };
 
-    var gridPathFn = function(d) {
+    ax._gridpath = function(d) {
         var rad = t2g(d);
         var cosRad = Math.cos(rad);
         var sinRad = Math.sin(rad);
@@ -554,14 +549,12 @@ proto.updateAngularAxis = function(fullLayout, polarLayout) {
             'L' + [cx + radius * cosRad, cy - radius * sinRad];
     };
 
-    var out = Axes.makeLabelFns(ax, 0);
-    var labelStandoff = out.labelStandoff;
-    var labelShift = out.labelShift;
     var offset4fontsize = (angularLayout.ticks !== 'outside' ? 0.7 : 0.5);
-    var pad = (ax.linewidth || 1) / 2;
 
-    var labelXFn = function(d) {
+    ax._labelx = function(d) {
         var rad = t2g(d);
+        var labelStandoff = ax._labelStandoff;
+        var pad = ax._pad;
 
         var offset4tx = signSin(rad) === 0 ?
             0 :
@@ -571,8 +564,11 @@ proto.updateAngularAxis = function(fullLayout, polarLayout) {
         return offset4tx + offset4tick;
     };
 
-    var labelYFn = function(d) {
+    ax._labely = function(d) {
         var rad = t2g(d);
+        var labelStandoff = ax._labelStandoff;
+        var labelShift = ax._labelShift;
+        var pad = ax._pad;
 
         var offset4tx = d.dy + d.fontSize * MID_SHIFT - labelShift;
         var offset4tick = -Math.sin(rad) * (labelStandoff + pad + offset4fontsize * d.fontSize);
@@ -580,8 +576,7 @@ proto.updateAngularAxis = function(fullLayout, polarLayout) {
         return offset4tx + offset4tick;
     };
 
-    // TODO maybe switch angle, d ordering ??
-    var labelAnchorFn = function(angle, d) {
+    ax._labelanchor = function(angle, d) {
         var rad = t2g(d);
         return signSin(rad) === 0 ?
             (signCos(rad) > 0 ? 'start' : 'end') :
@@ -594,13 +589,14 @@ proto.updateAngularAxis = function(fullLayout, polarLayout) {
         _this.angularTickLayout = newTickLayout;
     }
 
-    var vals = Axes.calcTicks(ax);
+    ax.setScale();
+    doTicksSingle(gd, ax, true);
 
     // angle of polygon vertices in geometric radians (null means circles)
     // TODO what to do when ax.period > ax._categories ??
     var vangles;
     if(polarLayout.gridshape === 'linear') {
-        vangles = vals.map(t2g);
+        vangles = ax._vals.map(t2g);
 
         // ax._vals should be always ordered, make them
         // always turn counterclockwise for convenience here
@@ -611,45 +607,6 @@ proto.updateAngularAxis = function(fullLayout, polarLayout) {
         vangles = null;
     }
     _this.vangles = vangles;
-
-    // Use tickval filter for category axes instead of tweaking
-    // the range w.r.t sector, so that sectors that cross 360 can
-    // show all their ticks.
-    if(ax.type === 'category') {
-        vals = vals.filter(function(d) {
-            return Lib.isAngleInsideSector(t2g(d), _this.sectorInRad);
-        });
-    }
-
-    if(ax.visible) {
-        var tickSign = ax.ticks === 'inside' ? -1 : 1;
-
-        Axes.drawTicks(gd, ax, {
-            vals: vals,
-            layer: layers['angular-axis'],
-            path: 'M' + (tickSign * pad) + ',0h' + (tickSign * ax.ticklen),
-            transFn: transFn2,
-            crisp: false
-        });
-
-        Axes.drawGrid(gd, ax, {
-            vals: vals,
-            layer: layers['angular-grid'],
-            path: gridPathFn,
-            transFn: Lib.noop,
-            crisp: false
-        });
-
-        Axes.drawLabels(gd, ax, {
-            vals: vals,
-            layer: layers['angular-axis'],
-            repositionOnUpdate: true,
-            transFn: transFn,
-            labelXFn: labelXFn,
-            labelYFn: labelYFn,
-            labelAnchorFn: labelAnchorFn
-        });
-    }
 
     // TODO maybe two arcs is better here?
     // maybe split style attributes between inner and outer angular axes?
@@ -907,7 +864,7 @@ proto.updateMainDrag = function(fullLayout) {
             rl[0] + (r0 - innerRadius) * m,
             rl[0] + (r1 - innerRadius) * m
         ];
-        Registry.call('_guiRelayout', gd, _this.id + '.radialaxis.range', newRng);
+        Registry.call('relayout', gd, _this.id + '.radialaxis.range', newRng);
     }
 
     function zoomClick(numClicks, evt) {
@@ -923,7 +880,7 @@ proto.updateMainDrag = function(fullLayout) {
             }
 
             gd.emit('plotly_doubleclick', null);
-            Registry.call('_guiRelayout', gd, updateObj);
+            Registry.call('relayout', gd, updateObj);
         }
 
         if(clickMode.indexOf('select') > -1 && numClicks === 1) {
@@ -1050,9 +1007,9 @@ proto.updateRadialDrag = function(fullLayout, polarLayout, rngIndex) {
 
     function doneFn() {
         if(angle1 !== null) {
-            Registry.call('_guiRelayout', gd, _this.id + '.radialaxis.angle', angle1);
+            Registry.call('relayout', gd, _this.id + '.radialaxis.angle', angle1);
         } else if(rprime !== null) {
-            Registry.call('_guiRelayout', gd, _this.id + '.radialaxis.range[' + rngIndex + ']', rprime);
+            Registry.call('relayout', gd, _this.id + '.radialaxis.range[' + rngIndex + ']', rprime);
         }
     }
 
@@ -1087,18 +1044,21 @@ proto.updateRadialDrag = function(fullLayout, polarLayout, rngIndex) {
             return;
         }
 
-        var fullLayoutNow = gd._fullLayout;
-        var polarLayoutNow = fullLayoutNow[_this.id];
-
         // update radial range -> update c2g -> update _m,_b
         radialAxis.range[rngIndex] = rprime;
         radialAxis._rl[rngIndex] = rprime;
-        _this.updateRadialAxis(fullLayoutNow, polarLayoutNow);
+        radialAxis.setGeometry();
+        radialAxis.setScale();
 
         _this.xaxis.setRange();
         _this.xaxis.setScale();
         _this.yaxis.setRange();
         _this.yaxis.setScale();
+
+        doTicksSingle(gd, radialAxis, true);
+        layers['radial-grid']
+            .attr('transform', strTranslate(cx, cy))
+            .selectAll('path').attr('transform', null);
 
         var hasRegl = false;
 
@@ -1106,6 +1066,7 @@ proto.updateRadialDrag = function(fullLayout, polarLayout, rngIndex) {
             var moduleCalcData = _this.traceHash[traceType];
             var moduleCalcDataVisible = Lib.filterVisible(moduleCalcData);
             var _module = moduleCalcData[0][0].trace._module;
+            var polarLayoutNow = gd._fullLayout[_this.id];
             _module.plot(gd, _this, moduleCalcDataVisible, polarLayoutNow);
             if(Registry.traceIs(traceType, 'gl') && moduleCalcDataVisible.length) hasRegl = true;
         }
@@ -1179,7 +1140,6 @@ proto.updateAngularDrag = function(fullLayout) {
     function moveFn(dx, dy) {
         var fullLayoutNow = _this.gd._fullLayout;
         var polarLayoutNow = fullLayoutNow[_this.id];
-
         var x1 = x0 + dx;
         var y1 = y0 + dy;
         var a1 = xy2a(x1, y1);
@@ -1198,6 +1158,7 @@ proto.updateAngularDrag = function(fullLayout) {
 
             layers.bg.attr('transform', trans);
             layers['radial-grid'].attr('transform', trans);
+            layers['angular-line'].select('path').attr('transform', trans);
             layers['radial-axis'].attr('transform', trans2);
             layers['radial-line'].select('line').attr('transform', trans2);
             _this.updateRadialAxisTitle(fullLayoutNow, polarLayoutNow, rrot1);
@@ -1223,7 +1184,10 @@ proto.updateAngularDrag = function(fullLayout) {
 
         // update rotation -> range -> _m,_b
         angularAxis.rotation = Lib.modHalf(rot1, 360);
-        _this.updateAngularAxis(fullLayoutNow, polarLayoutNow);
+        angularAxis.setGeometry();
+        angularAxis.setScale();
+
+        doTicksSingle(gd, angularAxis, true);
 
         if(_this._hasClipOnAxisFalse && !Lib.isFullCircle(_this.sectorInRad)) {
             scatterTraces.call(Drawing.hideOutsideRangePoints, _this);
@@ -1257,7 +1221,7 @@ proto.updateAngularDrag = function(fullLayout) {
             updateObj[_this.id + '.radialaxis.angle'] = rrot1;
         }
 
-        Registry.call('_guiRelayout', gd, updateObj);
+        Registry.call('relayout', gd, updateObj);
     }
 
     dragOpts.prepFn = function(evt, startX, startY) {

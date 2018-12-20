@@ -126,17 +126,13 @@ exports.loneHover = function loneHover(hoverItem, opts) {
         fontColor: hoverItem.fontColor,
 
         // filler to make createHoverText happy
-        trace: hoverItem.trace || {
+        trace: {
             index: 0,
             hoverinfo: ''
         },
         xa: {_offset: 0},
         ya: {_offset: 0},
-        index: 0,
-
-        hovertemplate: hoverItem.hovertemplate || false,
-        eventData: hoverItem.eventData || false,
-        hovertemplateLabels: hoverItem.hovertemplateLabels || false,
+        index: 0
     };
 
     var container3 = d3.select(opts.container);
@@ -150,6 +146,7 @@ exports.loneHover = function loneHover(hoverItem, opts) {
         container: container3,
         outerContainer: outerContainer3
     };
+
     var hoverLabel = createHoverText([pointData], fullOpts, opts.gd);
     alignHoverText(hoverLabel, fullOpts.rotateLabels);
 
@@ -183,17 +180,13 @@ exports.multiHovers = function multiHovers(hoverItems, opts) {
             fontColor: hoverItem.fontColor,
 
             // filler to make createHoverText happy
-            trace: hoverItem.trace || {
+            trace: {
                 index: 0,
                 hoverinfo: ''
             },
             xa: {_offset: 0},
             ya: {_offset: 0},
-            index: 0,
-
-            hovertemplate: hoverItem.hovertemplate || false,
-            eventData: hoverItem.eventData || false,
-            hovertemplateLabels: hoverItem.hovertemplateLabels || false,
+            index: 0
         };
     });
 
@@ -669,14 +662,7 @@ function _hover(gd, evt, subplot, noHoverEvent) {
     // other people and send it to the event
     for(itemnum = 0; itemnum < hoverData.length; itemnum++) {
         var pt = hoverData[itemnum];
-        var eventData = helpers.makeEventData(pt, pt.trace, pt.cd);
-
-        var ht = false;
-        if(pt.cd[pt.index] && pt.cd[pt.index].ht) ht = pt.cd[pt.index].ht;
-        hoverData[itemnum].hovertemplate = ht || pt.trace.hovertemplate || false;
-        hoverData[itemnum].eventData = [eventData];
-
-        newhoverdata.push(eventData);
+        newhoverdata.push(helpers.makeEventData(pt, pt.trace, pt.cd));
     }
 
     gd._hoverdata = newhoverdata;
@@ -734,8 +720,6 @@ function _hover(gd, evt, subplot, noHoverEvent) {
     });
 }
 
-var EXTRA_STRING_REGEX = /<extra>([\s\S]*)<\/extra>/;
-
 function createHoverText(hoverData, opts, gd) {
     var hovermode = opts.hovermode;
     var rotateLabels = opts.rotateLabels;
@@ -779,13 +763,11 @@ function createHoverText(hoverData, opts, gd) {
             if(allHaveZ && hoverData[i].zLabel === undefined) allHaveZ = false;
 
             traceHoverinfo = hoverData[i].hoverinfo || hoverData[i].trace.hoverinfo;
-            if(traceHoverinfo) {
-                var parts = Array.isArray(traceHoverinfo) ? traceHoverinfo : traceHoverinfo.split('+');
-                if(parts.indexOf('all') === -1 &&
-                    parts.indexOf(hovermode) === -1) {
-                    showCommonLabel = false;
-                    break;
-                }
+            var parts = Array.isArray(traceHoverinfo) ? traceHoverinfo : traceHoverinfo.split('+');
+            if(parts.indexOf('all') === -1 &&
+                parts.indexOf(hovermode) === -1) {
+                showCommonLabel = false;
+                break;
             }
         }
 
@@ -966,19 +948,6 @@ function createHoverText(hoverData, opts, gd) {
             // if 'name' is also empty, remove entire label
             if(name === '') g.remove();
             text = name;
-        }
-
-        // hovertemplate
-        var hovertemplate = d.hovertemplate || false;
-        var hovertemplateLabels = d.hovertemplateLabels || d;
-        var eventData = d.eventData[0] || {};
-        if(hovertemplate) {
-            text = Lib.hovertemplateString(hovertemplate, hovertemplateLabels, eventData);
-
-            text = text.replace(EXTRA_STRING_REGEX, function(match, extra) {
-                name = extra; // Assign name for secondary text label
-                return ''; // Remove from main text label
-            });
         }
 
         // main label
@@ -1379,7 +1348,7 @@ function cleanPoint(d, hovermode) {
 
     var infomode = d.hoverinfo || d.trace.hoverinfo;
 
-    if(infomode && infomode !== 'all') {
+    if(infomode !== 'all') {
         infomode = Array.isArray(infomode) ? infomode : infomode.split('+');
         if(infomode.indexOf('x') === -1) d.xLabel = undefined;
         if(infomode.indexOf('y') === -1) d.yLabel = undefined;
@@ -1565,11 +1534,8 @@ function hoverChanged(gd, evt, oldhoverdata) {
     for(var i = oldhoverdata.length - 1; i >= 0; i--) {
         var oldPt = oldhoverdata[i];
         var newPt = gd._hoverdata[i];
-
         if(oldPt.curveNumber !== newPt.curveNumber ||
-            String(oldPt.pointNumber) !== String(newPt.pointNumber) ||
-            String(oldPt.pointNumbers) !== String(newPt.pointNumbers)
-        ) {
+                String(oldPt.pointNumber) !== String(newPt.pointNumber)) {
             return true;
         }
     }

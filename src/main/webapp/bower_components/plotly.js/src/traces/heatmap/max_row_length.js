@@ -9,6 +9,12 @@
 
 'use strict';
 
-module.exports = {
-    eventDataKeys: []
+module.exports = function maxRowLength(z) {
+    var len = 0;
+
+    for(var i = 0; i < z.length; i++) {
+        len = Math.max(len, z[i].length);
+    }
+
+    return len;
 };

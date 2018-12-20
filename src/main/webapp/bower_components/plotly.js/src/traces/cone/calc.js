@@ -34,9 +34,5 @@ module.exports = function calc(gd, trace) {
     trace._len = len;
     trace._normMax = normMax;
 
-    colorscaleCalc(gd, trace, {
-        vals: [normMin, normMax],
-        containerStr: '',
-        cLetter: 'c'
-    });
+    colorscaleCalc(trace, [normMin, normMax], '', 'c');
 };

@@ -9,6 +9,7 @@
 
 'use strict';
 
+var nestedProperty = require('../lib/nested_property');
 var isPlainObject = require('../lib/is_plain_object');
 var noop = require('../lib/noop');
 var Loggers = require('../lib/loggers');
@@ -65,15 +66,11 @@ var isRemoveVal = exports.isRemoveVal = function isRemoveVal(val) {
  *  the flags for which actions we're going to perform to display these (and
  *  any other) changes. If we're already `recalc`ing, we don't need to redraw
  *  individual items
- * @param {function} _nestedProperty
- *  a (possibly modified for gui edits) nestedProperty constructor
- *  The modified version takes a 3rd argument, for a prefix to the attribute
- *  string necessary for storing GUI edits
  *
  * @returns {bool} `true` if it managed to complete drawing of the changes
  *  `false` would mean the parent should replot.
  */
-exports.applyContainerArrayChanges = function applyContainerArrayChanges(gd, np, edits, flags, _nestedProperty) {
+exports.applyContainerArrayChanges = function applyContainerArrayChanges(gd, np, edits, flags) {
     var componentType = np.astr,
         supplyComponentDefaults = Registry.getComponentMethod(componentType, 'supplyLayoutDefaults'),
         draw = Registry.getComponentMethod(componentType, 'draw'),
@@ -113,7 +110,7 @@ exports.applyContainerArrayChanges = function applyContainerArrayChanges(gd, np,
         // redoing supplyDefaults
         // TODO: this assumes componentArray is in gd.layout - which will not be
         // true after we extend this to restyle
-        componentArrayFull = _nestedProperty(fullLayout, componentType).get();
+        componentArrayFull = nestedProperty(fullLayout, componentType).get();
 
     var deletes = [],
         firstIndexChange = -1,
@@ -124,7 +121,7 @@ exports.applyContainerArrayChanges = function applyContainerArrayChanges(gd, np,
         objEdits,
         objKeys,
         objVal,
-        adding, prefix;
+        adding;
 
     // first make the add and edit changes
     for(i = 0; i < componentNums.length; i++) {
@@ -163,9 +160,7 @@ exports.applyContainerArrayChanges = function applyContainerArrayChanges(gd, np,
         }
         else {
             for(j = 0; j < objKeys.length; j++) {
-                prefix = componentType + '[' + componentNum + '].';
-                _nestedProperty(componentArray[componentNum], objKeys[j], prefix)
-                    .set(objEdits[objKeys[j]]);
+                nestedProperty(componentArray[componentNum], objKeys[j]).set(objEdits[objKeys[j]]);
             }
         }
     }

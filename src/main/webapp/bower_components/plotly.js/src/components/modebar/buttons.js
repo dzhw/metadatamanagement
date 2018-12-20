@@ -261,7 +261,7 @@ function handleCartesian(gd, ev) {
         aobj[astr] = val;
     }
 
-    Registry.call('_guiRelayout', gd, aobj);
+    Registry.call('relayout', gd, aobj);
 }
 
 modeBarButtons.zoom3d = {
@@ -317,7 +317,7 @@ function handleDrag3d(gd, ev) {
     var val2d = (val === 'pan') ? val : 'zoom';
     layoutUpdate.dragmode = val2d;
 
-    Registry.call('_guiRelayout', gd, layoutUpdate);
+    Registry.call('relayout', gd, layoutUpdate);
 }
 
 modeBarButtons.resetCameraDefault3d = {
@@ -356,7 +356,7 @@ function handleCamera3d(gd, ev) {
         }
     }
 
-    Registry.call('_guiRelayout', gd, aobj);
+    Registry.call('relayout', gd, aobj);
 }
 
 modeBarButtons.hoverClosest3d = {
@@ -370,48 +370,54 @@ modeBarButtons.hoverClosest3d = {
     click: handleHover3d
 };
 
-function getNextHover3d(gd, ev) {
+function handleHover3d(gd, ev) {
     var button = ev.currentTarget;
-    var val = button._previousVal;
+    var val = button._previousVal || false;
+    var layout = gd.layout;
     var fullLayout = gd._fullLayout;
     var sceneIds = fullLayout._subplots.gl3d;
 
     var axes = ['xaxis', 'yaxis', 'zaxis'];
+    var spikeAttrs = ['showspikes', 'spikesides', 'spikethickness', 'spikecolor'];
 
     // initialize 'current spike' object to be stored in the DOM
     var currentSpikes = {};
+    var axisSpikes = {};
     var layoutUpdate = {};
 
     if(val) {
-        layoutUpdate = val;
+        layoutUpdate = Lib.extendDeep(layout, val);
         button._previousVal = null;
     }
     else {
-        for(var i = 0; i < sceneIds.length; i++) {
-            var sceneId = sceneIds[i];
-            var sceneLayout = fullLayout[sceneId];
+        layoutUpdate = {
+            'allaxes.showspikes': false
+        };
 
-            var hovermodeAStr = sceneId + '.hovermode';
-            currentSpikes[hovermodeAStr] = sceneLayout.hovermode;
-            layoutUpdate[hovermodeAStr] = false;
+        for(var i = 0; i < sceneIds.length; i++) {
+            var sceneId = sceneIds[i],
+                sceneLayout = fullLayout[sceneId],
+                sceneSpikes = currentSpikes[sceneId] = {};
+
+            sceneSpikes.hovermode = sceneLayout.hovermode;
+            layoutUpdate[sceneId + '.hovermode'] = false;
 
             // copy all the current spike attrs
             for(var j = 0; j < 3; j++) {
                 var axis = axes[j];
-                var spikeAStr = sceneId + '.' + axis + '.showspikes';
-                layoutUpdate[spikeAStr] = false;
-                currentSpikes[spikeAStr] = sceneLayout[axis].showspikes;
+                axisSpikes = sceneSpikes[axis] = {};
+
+                for(var k = 0; k < spikeAttrs.length; k++) {
+                    var spikeAttr = spikeAttrs[k];
+                    axisSpikes[spikeAttr] = sceneLayout[axis][spikeAttr];
+                }
             }
         }
 
-        button._previousVal = currentSpikes;
+        button._previousVal = Lib.extendDeep({}, currentSpikes);
     }
-    return layoutUpdate;
-}
 
-function handleHover3d(gd, ev) {
-    var layoutUpdate = getNextHover3d(gd, ev);
-    Registry.call('_guiRelayout', gd, layoutUpdate);
+    Registry.call('relayout', gd, layoutUpdate);
 }
 
 modeBarButtons.zoomInGeo = {
@@ -467,7 +473,7 @@ function handleGeo(gd, ev) {
             var scale = geoLayout.projection.scale;
             var newScale = (val === 'in') ? 2 * scale : 0.5 * scale;
 
-            Registry.call('_guiRelayout', gd, id + '.projection.scale', newScale);
+            Registry.call('relayout', gd, id + '.projection.scale', newScale);
         } else if(attr === 'reset') {
             resetView(gd, 'geo');
         }
@@ -495,20 +501,18 @@ modeBarButtons.hoverClosestPie = {
     click: toggleHover
 };
 
-function getNextHover(gd) {
+function toggleHover(gd) {
     var fullLayout = gd._fullLayout;
 
-    if(fullLayout.hovermode) return false;
-
+    var onHoverVal;
     if(fullLayout._has('cartesian')) {
-        return fullLayout._isHoriz ? 'y' : 'x';
+        onHoverVal = fullLayout._isHoriz ? 'y' : 'x';
     }
-    return 'closest';
-}
+    else onHoverVal = 'closest';
 
-function toggleHover(gd) {
-    var newHover = getNextHover(gd);
-    Registry.call('_guiRelayout', gd, 'hovermode', newHover);
+    var newHover = gd._fullLayout.hovermode ? false : onHoverVal;
+
+    Registry.call('relayout', gd, 'hovermode', newHover);
 }
 
 // buttons when more then one plot types are present
@@ -522,10 +526,12 @@ modeBarButtons.toggleHover = {
     icon: Icons.tooltip_basic,
     gravity: 'ne',
     click: function(gd, ev) {
-        var layoutUpdate = getNextHover3d(gd, ev);
-        layoutUpdate.hovermode = getNextHover(gd);
+        toggleHover(gd);
 
-        Registry.call('_guiRelayout', gd, layoutUpdate);
+        // the 3d hovermode update must come
+        // last so that layout.hovermode update does not
+        // override scene?.hovermode?.layout.
+        handleHover3d(gd, ev);
     }
 };
 
@@ -561,7 +567,7 @@ modeBarButtons.toggleSpikelines = {
 
         var aobj = setSpikelineVisibility(gd);
 
-        Registry.call('_guiRelayout', gd, aobj);
+        Registry.call('relayout', gd, aobj);
     }
 };
 
@@ -608,5 +614,5 @@ function resetView(gd, subplotType) {
         }
     }
 
-    Registry.call('_guiRelayout', gd, aObj);
+    Registry.call('relayout', gd, aObj);
 }

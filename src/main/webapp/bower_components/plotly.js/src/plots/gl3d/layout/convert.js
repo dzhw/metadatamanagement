@@ -9,6 +9,7 @@
 
 'use strict';
 
+var convertHTMLToUnicode = require('../../../lib/html2unicode');
 var str2RgbaArray = require('../../../lib/str2rgbarray');
 
 var AXES_NAMES = ['xaxis', 'yaxis', 'zaxis'];
@@ -83,11 +84,11 @@ proto.merge = function(sceneLayout) {
         }
 
         // Axes labels
-        opts.labels[i] = axes.title.text;
-        if('font' in axes.title) {
-            if(axes.title.font.color) opts.labelColor[i] = str2RgbaArray(axes.title.font.color);
-            if(axes.title.font.family) opts.labelFont[i] = axes.title.font.family;
-            if(axes.title.font.size) opts.labelSize[i] = axes.title.font.size;
+        opts.labels[i] = convertHTMLToUnicode(axes.title);
+        if('titlefont' in axes) {
+            if(axes.titlefont.color) opts.labelColor[i] = str2RgbaArray(axes.titlefont.color);
+            if(axes.titlefont.family) opts.labelFont[i] = axes.titlefont.family;
+            if(axes.titlefont.size) opts.labelSize[i] = axes.titlefont.size;
         }
 
         // Lines

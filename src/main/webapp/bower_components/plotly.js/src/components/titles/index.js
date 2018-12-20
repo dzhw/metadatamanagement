@@ -67,21 +67,19 @@ function draw(gd, titleClass, options) {
     var group = options.containerGroup;
 
     var fullLayout = gd._fullLayout;
+    var titlefont = cont.titlefont || {};
+    var font = titlefont.family;
+    var fontSize = titlefont.size;
+    var fontColor = titlefont.color;
 
     var opacity = 1;
     var isplaceholder = false;
-    var title = cont.title;
-    var txt = (title && title.text ? title.text : '').trim();
-
-    var font = title && title.font ? title.font : {};
-    var fontFamily = font.family;
-    var fontSize = font.size;
-    var fontColor = font.color;
+    var txt = (cont.title || '').trim();
 
     // only make this title editable if we positively identify its property
     // as one that has editing enabled.
     var editAttr;
-    if(prop === 'title.text') editAttr = 'titleText';
+    if(prop === 'title') editAttr = 'titleText';
     else if(prop.indexOf('axis') !== -1) editAttr = 'axisTitleText';
     else if(prop.indexOf('colorbar' !== -1)) editAttr = 'colorbarTitleText';
     var editable = gd._context.edits[editAttr];
@@ -139,7 +137,7 @@ function draw(gd, titleClass, options) {
         titleEl.attr('transform', transformVal);
 
         titleEl.style({
-            'font-family': fontFamily,
+            'font-family': font,
             'font-size': d3.round(fontSize, 2) + 'px',
             fill: Color.rgb(fontColor),
             opacity: opacity * Color.opacity(fontColor),
@@ -239,9 +237,9 @@ function draw(gd, titleClass, options) {
         el.call(svgTextUtils.makeEditable, {gd: gd})
             .on('edit', function(text) {
                 if(traceIndex !== undefined) {
-                    Registry.call('_guiRestyle', gd, prop, text, traceIndex);
+                    Registry.call('restyle', gd, prop, text, traceIndex);
                 } else {
-                    Registry.call('_guiRelayout', gd, prop, text);
+                    Registry.call('relayout', gd, prop, text);
                 }
             })
             .on('cancel', function() {

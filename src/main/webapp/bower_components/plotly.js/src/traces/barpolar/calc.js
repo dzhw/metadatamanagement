@@ -8,7 +8,7 @@
 
 'use strict';
 
-var hasColorscale = require('../../components/colorscale/helpers').hasColorscale;
+var hasColorscale = require('../../components/colorscale/has_colorscale');
 var colorscaleCalc = require('../../components/colorscale/calc');
 var arraysToCalcdata = require('../bar/arrays_to_calcdata');
 var setGroupPositions = require('../bar/cross_trace_calc').setGroupPositions;
@@ -53,18 +53,10 @@ function calc(gd, trace) {
     }
 
     if(hasColorscale(trace, 'marker')) {
-        colorscaleCalc(gd, trace, {
-            vals: trace.marker.color,
-            containerStr: 'marker',
-            cLetter: 'c'
-        });
+        colorscaleCalc(trace, trace.marker.color, 'marker', 'c');
     }
     if(hasColorscale(trace, 'marker.line')) {
-        colorscaleCalc(gd, trace, {
-            vals: trace.marker.line.color,
-            containerStr: 'marker.line',
-            cLetter: 'c'
-        });
+        colorscaleCalc(trace, trace.marker.line.color, 'marker.line', 'c');
     }
 
     arraysToCalcdata(cd, trace);

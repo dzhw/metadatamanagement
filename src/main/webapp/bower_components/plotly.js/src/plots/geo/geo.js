@@ -367,7 +367,7 @@ proto.updateFx = function(fullLayout, geoLayout) {
             updateObj[_this.id + '.' + k] = viewInitial[k];
         }
 
-        Registry.call('_guiRelayout', gd, updateObj);
+        Registry.call('relayout', gd, updateObj);
         gd.emit('plotly_doubleclick', null);
     }
 
@@ -470,8 +470,7 @@ proto.updateFx = function(fullLayout, geoLayout) {
 
 proto.makeFramework = function() {
     var _this = this;
-    var gd = _this.graphDiv;
-    var fullLayout = gd._fullLayout;
+    var fullLayout = _this.graphDiv._fullLayout;
     var clipId = 'clip' + fullLayout._uid + _this.id;
 
     _this.clipDef = fullLayout._clips.append('clipPath')
@@ -481,7 +480,7 @@ proto.makeFramework = function() {
 
     _this.framework = d3.select(_this.container).append('g')
         .attr('class', 'geo ' + _this.id)
-        .call(Drawing.setClipUrl, clipId, gd);
+        .call(Drawing.setClipUrl, clipId);
 
     // sane lonlat to px
     _this.project = function(v) {
