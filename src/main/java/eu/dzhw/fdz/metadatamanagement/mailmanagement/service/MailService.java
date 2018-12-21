@@ -260,7 +260,7 @@ public class MailService {
       String content = templateEngine.process("assigneeGroupChanged", context);
       String subject = messageSource.getMessage("email.assignee-group-changed.title",
           new Object[]{projectId}, locale);
-      sendEmail(null, new String[]{user.getEmail()}, null, subject, content, false, true);
+      sendEmail(sender, new String[]{user.getEmail()}, null, subject, content, false, true);
     });
   }
 

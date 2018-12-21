@@ -9,14 +9,14 @@
     "**/.*"
   ],
   "homepage": "https://github.com/einars/js-beautify",
-  "version": "1.8.8",
-  "_release": "1.8.8",
+  "version": "1.8.9",
+  "_release": "1.8.9",
   "_resolution": {
     "type": "version",
-    "tag": "v1.8.8",
-    "commit": "87eee683b5761eaff24bb023212a98c9b365ae7e"
+    "tag": "v1.8.9",
+    "commit": "4ee8f02ae51576f77027c35cac4a4d0e0e619a30"
   },
   "_source": "https://github.com/einars/js-beautify.git",
-  "_target": "^1.8.8",
+  "_target": "^1.8.9",
   "_originalSource": "js-beautify"
 }

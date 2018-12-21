@@ -13,6 +13,7 @@ Search for
 Select project by name
     [Arguments]    ${projectname}
     Input Text    xpath=//md-sidenav//input[@type='search']    ${projectname}
+    Click Element Through Tooltips    xpath=//md-virtual-repeat-container//span[text()='${projectname}']
 
 Delect project by name
     [Arguments]    ${projectname}

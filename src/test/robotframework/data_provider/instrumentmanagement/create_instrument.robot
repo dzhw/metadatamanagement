@@ -21,7 +21,7 @@ Create Instrument by Dataprovider
 *** Keywords ***
 Go To Instrument Create Page
     Pass Execution If    '${BROWSER}' == 'ie'    Instrument Creation not possible in IE
-    Select project by name    robotproject
+    Select project by name    robotproject4${BROWSER}
     Wait Until Angular Ready    6s
     Click on instruments tab
     Click Element Through Tooltips    xpath=//ui-view/descendant::a[md-icon[text()='add']]
@@ -43,7 +43,7 @@ Choose Type
 Choose Survey
     Pass Execution If    '${BROWSER}' == 'ie'    Instrument Creation not possible in IE
     Click Element Through Tooltips  xpath=//md-chips[@name="surveys"]//md-autocomplete
-    Click Element Through Tooltips  xpath=//span[contains(.,'sur-robotproject')]
+    Click Element Through Tooltips  xpath=//span[contains(.,'sur-robotproject4${BROWSER}')]
 
 Fill up the annotations
     Pass Execution If    '${BROWSER}' == 'ie'    Instrument Creation not possible in IE
