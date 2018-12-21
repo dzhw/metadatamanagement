@@ -306,14 +306,12 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
                         'terms': {
                           'field': prefix + 'label.de',
                           'size': 100
-                        },
-                        'aggs': {
-                          'labelEn': {
-                            'terms': {
-                              'field': prefix + 'label.en',
-                              'size': 100
-                            }
-                          }
+                        }
+                      },
+                      'labelEn': {
+                        'terms': {
+                          'field': prefix + 'label.en',
+                          'size': 100
                         }
                       }
                     }
@@ -374,8 +372,10 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
           buckets.forEach(function(bucket) {
               labelElement = {
                 label: {
-                  de: bucket.labelDe.buckets[0].key,
-                  en: bucket.labelDe.buckets[0].labelEn.buckets[0].key
+                  de: bucket.labelDe.buckets[0] ?
+                    bucket.labelDe.buckets[0].key : '',
+                  en: bucket.labelEn.buckets[0] ?
+                    bucket.labelEn.buckets[0].key : ''
                 },
                 id: bucket.key,
                 count: bucket.doc_count
