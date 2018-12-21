@@ -14,6 +14,12 @@ Select project by name
     [Arguments]    ${projectname}
     Input Text    xpath=//md-sidenav//input[@type='search']    ${projectname}
 
+Delect project by name
+    [Arguments]    ${projectname}
+    Input Text    xpath=//input[@placeholder = 'Projekt auswählen']    ${projectname}
+    Click Element Through Tooltips    xpath=//md-sidenav/descendant::button[md-icon[text()='']]
+    Click Element Through Tooltips    xpath=//button[text()='OK']
+
 Click on search result by id
     [Arguments]    ${id}
     Click Element Through Tooltips    xpath=//a//span[text()='${id}']
