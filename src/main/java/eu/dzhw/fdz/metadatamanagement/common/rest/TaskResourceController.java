@@ -1,6 +1,9 @@
 package eu.dzhw.fdz.metadatamanagement.common.rest;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,14 +31,15 @@ public class TaskResourceController
   }
 
   /**
-   * get the task and return a specific http status depending on the task state.
+   * get the task state by id.
    * 
    * @param taskId the Id of the task.
-   * @return the task with specific http status.
+   * @return the task object.
    */
   @GetMapping("/tasks/{taskId}")
   public ResponseEntity<Task> getTaskStatus(@PathVariable String taskId) {
-
-    return super.findDomainObject(taskId);
+    ResponseEntity<Task> findDomainObject = super.findDomainObject(taskId);
+    return ResponseEntity.status(findDomainObject.getStatusCode())
+        .cacheControl(CacheControl.noStore()).body(findDomainObject.getBody());
   }
 }

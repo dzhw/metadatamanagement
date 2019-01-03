@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.common.domain;
 
 import java.net.URI;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorListDto;
@@ -26,6 +27,7 @@ import lombok.ToString;
 @Data
 @Builder
 public class Task extends AbstractRdcDomainObject {
+  @Id
   private String id;
   private TaskState state;
   private URI location;

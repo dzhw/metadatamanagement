@@ -9,7 +9,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.Task;
  * @author tgehrke
  *
  */
-@RepositoryRestResource(path = "/studies")
+@RepositoryRestResource(path = "/tasks")
 public interface TaskRepository extends BaseRepository<Task, String> {
 
 }

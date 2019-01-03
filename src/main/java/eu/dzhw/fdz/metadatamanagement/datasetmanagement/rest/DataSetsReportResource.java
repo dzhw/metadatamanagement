@@ -1,7 +1,10 @@
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.rest;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -57,12 +60,17 @@ public class DataSetsReportResource {
 
     // Handles no empty latex templates
     if (!multiPartFile.isEmpty()) {
+      Path zipTmpFilePath = Files.createTempFile(dataSetId.replace("!", ""), ".zip");
+      File zipTmpFile = zipTmpFilePath.toFile();
+      multiPartFile.transferTo(zipTmpFile);
+      zipTmpFile.setWritable(true);
+      
       URI pollUri;
       String taskId = Long.toString(counterService.getNextSequence(Task.class.getName()));
       pollUri = URI.create("/api/tasks/" + taskId);
       Task task = taskService.createTask(taskId);
       // fill the data with data and store the template into mongodb / gridfs
-      dataSetReportService.generateReport(multiPartFile, dataSetId, task);
+      dataSetReportService.generateReport(zipTmpFilePath, multiPartFile.getOriginalFilename(), dataSetId, task);
       return ResponseEntity.accepted().location(pollUri).body(task);
     } else {
       // Return bad request, if file is empty.

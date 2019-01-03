@@ -1,6 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.common.service;
 
+import java.io.IOException;
 import java.net.URI;
+import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotNull;
 
@@ -49,10 +51,12 @@ public class TaskService {
    * @param task the task
    * @param exception the reason for failing.
    */
-  public void handleErrorTask(@NotNull Task task, Exception exception) {
+  public Task handleErrorTask(@NotNull Task task, Exception exception) {
+    log.info("#handleErrorTask for task {}", task.getId());
     task.setState(TaskState.FAILURE);
     task.setErrorList(crerateErrorListFromException(exception));
-    taskRepo.save(task);
+    task.setLastModifiedDate(LocalDateTime.now());
+    return taskRepo.save(task);
 
   }
 
@@ -62,10 +66,11 @@ public class TaskService {
    * @param task the task id
    * @param resultUri the URI to handle the task result
    */
-  public void handleTaskDone(@NotNull Task task, URI resultUri) {
+  public Task handleTaskDone(@NotNull Task task, URI resultUri) {
     task.setState(TaskState.DONE);
     task.setLocation(resultUri);
-    taskRepo.save(task);
+    task.setLastModifiedDate(LocalDateTime.now());
+    return taskRepo.save(task);
   }
 
   private ErrorListDto crerateErrorListFromException(Exception exception) {
@@ -82,6 +87,10 @@ public class TaskService {
       // All missing files
       for (String missingFile : te.getMissingFiles()) {
         errorListDto.add(new ErrorDto(null, te.getMessage(), missingFile, null));
+      }
+      if (exception instanceof IOException) {
+        String messageKey = "data-set-management.error.io-error";
+        errorListDto.add(new ErrorDto(null, messageKey, exception.getMessage(), null));
       }
     }
     return errorListDto;

@@ -30,8 +30,8 @@ angular.module('metadatamanagementApp').service('DataSetReportService',
                   } if (task.data.state === 'DONE') {
                     // on data.state='DONE'
                     //    FileResource.download(data.location.string)
-                    FileResource.download(task.data.location.sting).then(function(
-                      response) {
+                    FileResource.download(task.data.location.string)
+                    .then(function(response) {
                       JobLoggingService.success({
                         message: 'data-set-management.log-messages.' +
                           'tex.upload-terminated'

@@ -125,97 +125,108 @@ public class DataSetReportService {
    * This service method will receive a tex template as a string and an id of a data set. With this
    * id, the service will load the data set for receiving all depending information, which are
    * needed for filling of the tex template with data.
-   *
-   * @param multiPartFile The uploaded zip file
+   * 
+   * @param originalName TODO
    * @param dataSetId An id of the data set.
    * @param task the task to update the status of the pro
+   * @param multiPartFile The uploaded zip file
+   *
    * @return The name of the saved tex template in the GridFS / MongoDB.
    * @throws TemplateException Handles templates exceptions.
    * @throws IOException Handles IO Exception for the template.
    */
   @Async
-  public Future<String> generateReport(MultipartFile multiPartFile, String dataSetId, Task task)
-      throws IOException {
-
-    // Configuration, based on Freemarker Version 2.3.23
-    Configuration templateConfiguration = new Configuration(Configuration.VERSION_2_3_23);
-    templateConfiguration.setDefaultEncoding(StandardCharsets.UTF_8.toString());
-    templateConfiguration.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
-    templateConfiguration.setNumberFormat("0.######");
-
-    // Prepare Zip enviroment config
-    Map<String, String> env = new HashMap<>();
-    env.put("create", "true");
-    env.put("encoding", StandardCharsets.UTF_8.name());
-
-    // Create tmp file
-    Path zipTmpFilePath = Files.createTempFile(dataSetId.replace("!", ""), ".zip");
-    File zipTmpFile = zipTmpFilePath.toFile();
-    multiPartFile.transferTo(zipTmpFile);
-    zipTmpFile.setWritable(true);
-    URI uriOfZipFile = URI.create("jar:" + zipTmpFilePath.toUri());
-    try (FileSystem zipFileSystem = FileSystems.newFileSystem(uriOfZipFile, env);) {
-      // Check missing files.
-      List<String> missingTexFiles = this.validateDataSetReportStructure(zipFileSystem);
-      if (!missingTexFiles.isEmpty()) {
-        String message = "data-set-management.error" + ".files-in-template-zip-incomplete";
-        TemplateIncompleteException incompleteException =
-            new TemplateIncompleteException(message, missingTexFiles);
-        log.warn(message + missingTexFiles);
-        taskService.handleErrorTask(task, incompleteException);
-        return new AsyncResult<String>(null);
-      }
-      // Read the three files with freemarker code
-      Path pathToMainTexFile = zipFileSystem.getPath(KEY_MAIN);
-      String texMainFileStr = ZipUtil.readFileFromZip(pathToMainTexFile);
-      Path pathToVariableListTexFile = zipFileSystem.getPath(KEY_VARIABLELIST);
-      String texVariableListFileStr = ZipUtil.readFileFromZip(pathToVariableListTexFile);
-      Path pathToVariableTexFile = zipFileSystem.getPath(KEY_VARIABLE);
-      String texVariableFileStr = ZipUtil.readFileFromZip(pathToVariableTexFile);
-
-      // Load data for template only once
-      Map<String, Object> dataForTemplate = this.loadDataForTemplateFilling(dataSetId);
-      try {
-        String variableListFilledStr = this.fillTemplate(texVariableListFileStr,
-            templateConfiguration, dataForTemplate, KEY_VARIABLELIST);
-        ZipUtil.writeFileToZip(pathToVariableListTexFile, variableListFilledStr);
-        String mainFilledStr =
-            this.fillTemplate(texMainFileStr, templateConfiguration, dataForTemplate, KEY_MAIN);
-        ZipUtil.writeFileToZip(pathToMainTexFile, mainFilledStr);
-      } catch (TemplateException e) {
-        taskService.handleErrorTask(task, e);
-        return new AsyncResult<String>(null);
-      }
-      // Create Variables pages
-      @SuppressWarnings("unchecked")
-      Map<String, Variable> variablesMap = (Map<String, Variable>) dataForTemplate.get("variables");
-      Collection<Variable> variables = variablesMap.values();
-
-      for (Variable variable : variables) {
-        // filledTemplates.put("variables/" + variable.getName() + ".tex",
-        try {
-          dataForTemplate.put("variable", variable);
-          String filledVariablesFile = fillTemplate(texVariableFileStr, templateConfiguration,
-              dataForTemplate, KEY_VARIABLE);
-          Path pathOfVariable = Paths.get("variables/" + variable.getName() + ".tex");
-          final Path root = zipFileSystem.getPath("/");
-          final Path dest = zipFileSystem.getPath(root.toString(), pathOfVariable.toString());
-          ZipUtil.writeFileToZip(dest, filledVariablesFile);
-        } catch (TemplateException te) {
-          log.warn("templage invalid", te);
-          taskService.handleErrorTask(task, te);
+  public Future<String> generateReport(Path zipTmpFilePath, String originalName, String dataSetId,
+      Task task) {
+    log.info("start #generateReport for {} and datasetId {}", originalName, dataSetId);
+    log.info("tmpfile {} exists: {}", zipTmpFilePath, zipTmpFilePath.toFile().exists());
+    try {
+      // Configuration, based on Freemarker Version 2.3.23
+      Configuration templateConfiguration = new Configuration(Configuration.VERSION_2_3_23);
+      templateConfiguration.setDefaultEncoding(StandardCharsets.UTF_8.toString());
+      templateConfiguration.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
+      templateConfiguration.setNumberFormat("0.######");
+      log.info("Prepare Zip enviroment config");
+      // Prepare Zip enviroment config
+      Map<String, String> env = new HashMap<>();
+      env.put("create", "true");
+      env.put("encoding", StandardCharsets.UTF_8.name());
+      // Create tmp file
+      URI uriOfZipFile = URI.create("jar:" + zipTmpFilePath.toUri());
+      try (FileSystem zipFileSystem = FileSystems.newFileSystem(uriOfZipFile, env);) {
+        // Check missing files.
+        log.info("Check missing files.");
+        List<String> missingTexFiles = this.validateDataSetReportStructure(zipFileSystem);
+        if (!missingTexFiles.isEmpty()) {
+          String message = "data-set-management.error" + ".files-in-template-zip-incomplete";
+          TemplateIncompleteException incompleteException =
+              new TemplateIncompleteException(message, missingTexFiles);
+          log.warn(message + missingTexFiles);
+          task = taskService.handleErrorTask(task, incompleteException);
           return new AsyncResult<String>(null);
         }
+        log.info("Read the three files with freemarker code");
+        // Read the three files with freemarker code
+        Path pathToMainTexFile = zipFileSystem.getPath(KEY_MAIN);
+        String texMainFileStr = ZipUtil.readFileFromZip(pathToMainTexFile);
+        Path pathToVariableListTexFile = zipFileSystem.getPath(KEY_VARIABLELIST);
+        String texVariableListFileStr = ZipUtil.readFileFromZip(pathToVariableListTexFile);
+        Path pathToVariableTexFile = zipFileSystem.getPath(KEY_VARIABLE);
+        String texVariableFileStr = ZipUtil.readFileFromZip(pathToVariableTexFile);
+
+        // Load data for template only once
+        Map<String, Object> dataForTemplate = this.loadDataForTemplateFilling(dataSetId);
+        try {
+          String variableListFilledStr = this.fillTemplate(texVariableListFileStr,
+              templateConfiguration, dataForTemplate, KEY_VARIABLELIST);
+          ZipUtil.writeFileToZip(pathToVariableListTexFile, variableListFilledStr);
+          String mainFilledStr =
+              this.fillTemplate(texMainFileStr, templateConfiguration, dataForTemplate, KEY_MAIN);
+          ZipUtil.writeFileToZip(pathToMainTexFile, mainFilledStr);
+        } catch (TemplateException e) {
+          log.warn("fill template fails", e);
+          task = taskService.handleErrorTask(task, e);
+          return new AsyncResult<String>(null);
+        }
+        // Create Variables pages
+        @SuppressWarnings("unchecked")
+        Map<String, Variable> variablesMap =
+            (Map<String, Variable>) dataForTemplate.get("variables");
+        Collection<Variable> variables = variablesMap.values();
+
+        for (Variable variable : variables) {
+          // filledTemplates.put("variables/" + variable.getName() + ".tex",
+          try {
+            dataForTemplate.put("variable", variable);
+            String filledVariablesFile = fillTemplate(texVariableFileStr, templateConfiguration,
+                dataForTemplate, KEY_VARIABLE);
+            Path pathOfVariable = Paths.get("variables/" + variable.getName() + ".tex");
+            final Path root = zipFileSystem.getPath("/");
+            final Path dest = zipFileSystem.getPath(root.toString(), pathOfVariable.toString());
+            ZipUtil.writeFileToZip(dest, filledVariablesFile);
+          } catch (TemplateException te) {
+            log.warn("templage invalid", te);
+            task = taskService.handleErrorTask(task, te);
+            return new AsyncResult<String>(null);
+          }
+        }
+
+        // Delete Variables.tex file from zip
+        Files.delete(pathToVariableTexFile);
       }
 
-      // Delete Variables.tex file from zip
-      Files.delete(pathToVariableTexFile);
+      // Save into MongoDB / GridFS
+      File zipTmpFile = zipTmpFilePath.toFile();
+      String fileName = this.saveCompleteZipFile(zipTmpFile, originalName);
+      log.info("file saved, start #handletaskDone");
+      task = taskService.handleTaskDone(task, URI.create(fileName));
+      return new AsyncResult<>(fileName);
+    } catch (IOException e) {
+      log.warn("failed generate report", e);
+      task = taskService.handleErrorTask(task, e);
+      return new AsyncResult<String>(null);
     }
 
-    // Save into MongoDB / GridFS
-    String fileName = this.saveCompleteZipFile(zipTmpFile, multiPartFile.getOriginalFilename());
-    taskService.handleTaskDone(task, URI.create(fileName));
-    return new AsyncResult<>(fileName);
   }
 
 
@@ -227,6 +238,7 @@ public class DataSetReportService {
    * @return True if all files are included. False min one file is missing.
    */
   private List<String> validateDataSetReportStructure(FileSystem zipFileSystem) {
+    log.info("start #validateDataSetReportStructure");
     List<String> missingTexFiles = new ArrayList<>();
 
     // NO Check for References.bib. This file is just optional has has to be added manually.
@@ -264,7 +276,6 @@ public class DataSetReportService {
    */
   private String fillTemplate(String templateContent, Configuration templateConfiguration,
       Map<String, Object> dataForTemplate, String fileName) throws IOException, TemplateException {
-
     String templateName = "texTemplate";
     if (fileName != null && fileName.trim().length() > 0) {
       templateName = fileName;
@@ -293,7 +304,7 @@ public class DataSetReportService {
   private String saveCompleteZipFile(File zipFile, String fileName) throws IOException {
     // No Update by API, so we have to delete first.
     fileService.deleteTempFile(fileName);
-
+    log.info("start #saveTempFile");
     // Save tex file
     return fileService.saveTempFile(new FileInputStream(zipFile), fileName, CONTENT_TYPE_ZIP);
   }
@@ -328,6 +339,7 @@ public class DataSetReportService {
    */
   private Map<String, Object> addStudyAndDataSetAndLastRelease(Map<String, Object> dataForTemplate,
       String dataSetId) {
+    log.info("start #addStudyAndDataSetAndLastRelease");
     // Get DataSet and check the valid result
     DataSet dataSet = this.dataSetRepository.findById(dataSetId).get();
     Study study = this.studyRepository.findById(dataSet.getStudyId()).get();
@@ -354,7 +366,7 @@ public class DataSetReportService {
    *         method.
    */
   private Map<String, Object> createVariableDependingMaps(Map<String, Object> dataForTemplate) {
-
+    log.info("start #createVariableDependingMaps");
     // Create a Map of Variables
     String dataSetId = ((DataSet) dataForTemplate.get("dataSet")).getId();
     List<Variable> variables =
