@@ -52,10 +52,10 @@ isQuestionsRequired
 
    Defines if question data is required for a release.
 
-isStudyRequired
-^^^^^^^^^^^^^^^
+isStudiesRequired
+^^^^^^^^^^^^^^^^^
 
-.. java:field:: @AssertTrue @Setter private boolean isStudyRequired
+.. java:field:: @AssertTrue @Setter private boolean isStudiesRequired
    :outertype: Requirements
 
    Defines if study data is required for a release (this object type is mandatory and this setting is therefore always \ ``true``\ .

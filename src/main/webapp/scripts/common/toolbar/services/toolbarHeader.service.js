@@ -74,7 +74,7 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         'icon': 'assets/images/icons/survey.svg'
       },
       'projectCockpit': {
-        'type': 'data-acquisition-project-management.project-cockpit.title'
+        'type': 'data-acquisition-project-management.project-cockpit.header'
       },
       'login': {
         'type': 'global.toolbar.buttons.login'
@@ -150,7 +150,7 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
       var studyItem = {
         'type': translationStringsMap.studyDetail.type,
         'iconType': translationStringsMap.studyDetail.iconType,
-        'icon': translationStringsMap.studyDetail.icon,
+        'icon': translationStringsMap.studyDetail.icon
       };
       if (item.studyIsPresent) {
         studyItem.state = 'studyDetail({"id":"' + item.studyId + '"})';

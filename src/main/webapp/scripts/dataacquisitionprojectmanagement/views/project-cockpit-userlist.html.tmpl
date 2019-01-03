@@ -1,0 +1,50 @@
+<md-card>
+	<md-autocomplete
+		flex
+		ng-disabled="disabled"
+		md-search-text="searchText[group]"
+		md-selected-item="selectedUser[group]"
+		md-selected-item-change="selectedUserChanged(selectedUser[group], group)"
+		md-items="user in searchUsers(searchText[group], group)"
+		md-item-text="user.login"
+		md-min-length="0"
+		md-delay="250"
+		placeholder="{{'data-acquisition-project-management.project-cockpit.search.placeholder' | translate}}"
+		md-require-match="true"
+		md-no-cache="true"
+		style="margin-bottom: 2px; -ms-flex: auto;"
+		class="fdz-project-userlist"
+	>
+		<md-item-template>
+			<div layout="row">
+				<strong><span md-highlight-text="searchText[group]">{{user.login}}</span></strong>
+				&nbsp;
+				<span md-highlight-text="searchText[group]">({{user.email}})</span>
+			</div>
+		</md-item-template>
+		<md-not-found>
+			{{searchText[group]}} <span data-translate="global.menu.entities.unknown-project"></span>
+		</md-not-found>
+	</md-autocomplete>
+
+	<md-list ng-if="activeUsers[group] && activeUsers[group].length" style="padding: 0px;">
+		<div ng-repeat="user in activeUsers[group]">
+			<md-list-item layout="row" style="padding-right: 0px;">
+				<div class="md-list-item-text">
+					<strong>{{user.login}}</strong> (<a href="mailto:{{user.email}}">{{user.email}}</a>)
+				</div>
+				<span flex></span>
+				<md-button ng-disabled="disabled || !canDeleteUser(user, group)" class="md-icon-button md-primary" ng-click="removeUser(user, group)" aria-label="remove user">
+					<md-icon md-font-set="material-icons" class="ng-binding ng-scope material-icons" role="img" aria-hidden="true">delete_forever</md-icon>
+					<md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+						{{'data-acquisition-project-management.project-cockpit.button.remove-user' | translate}}
+					</md-tooltip>
+				</md-button>
+			</md-list-item>
+			<md-divider ng-if=!$last></md-divider>
+		</div>
+	</md-list>
+	<div style="padding: 14px;" ng-if="!activeUsers[group] || !activeUsers[group].length">
+		<i>{{'data-acquisition-project-management.project-cockpit.list.empty-data-provider' | translate}}</i>
+	</div>
+</md-card>

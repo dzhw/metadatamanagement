@@ -1,7 +1,8 @@
 *** Settings ***
-Documentation     Tests if login is possible
+Documentation     Navigating Next and Previous Search Results
 Default Tags      smoketest
 Resource          ../../resources/search_resource.robot
+Resource          ../../resources/click_element_resource.robot
 
 *** Test Cases ***
 Logged in Publisher Click On First Search Result
@@ -13,10 +14,10 @@ Logged in Publisher Click On First Search Result
 
 *** Keywords ***
 Click on First Search Result
-    Click Element    xpath=//a[@class='fdz-search-result'][1]
+    Click Element Through Tooltips    xpath=//a[@class='fdz-search-result'][1]
 
 Click on Next Content
-    Click Element    xpath=//md-icon[@md-font-set='material-icons'][contains(.,'navigate_next')]
+    Click Element Through Tooltips    xpath=//md-icon[@md-font-set='material-icons'][contains(.,'navigate_next')]
 
 Click on Previous Content
-    Click Element    xpath=//md-icon[@md-font-set='material-icons'][contains(.,'navigate_before')]
+    Click Element Through Tooltips    xpath=//md-icon[@md-font-set='material-icons'][contains(.,'navigate_before')]

@@ -3,25 +3,6 @@
  */
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.rest;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.Matchers.hasSize;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
-
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
@@ -31,7 +12,10 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectState;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Requirements;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.QuestionImageMetadata;
@@ -44,6 +28,25 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyReposito
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * @author Daniel Katzberg
@@ -108,12 +111,21 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
   @Test
   @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testSimpleProjectForPostValidation() throws IOException, Exception {
-    
+    buildValidProject();
+
+    // Act & Assert
+    mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$.errors", hasSize(0)));//no errors
+  }
+
+  private DataAcquisitionProject buildValidProject() {
     //Arrange
     //Project
-    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();    
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    project.getConfiguration().setStudiesState(new ProjectState(true, true));
     this.rdcProjectRepository.save(project);
-    
+
     //Survey
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     this.surveyRepository.save(survey);
@@ -121,55 +133,53 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     surveyNumbers.add(1);
     List<String> listOfSurveyIds = new ArrayList<>();
     listOfSurveyIds.add(survey.getId());
-    
+
     //DataSet
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId(), 1);
     dataSet.setSurveyNumbers(surveyNumbers);
     dataSet.setSurveyIds(listOfSurveyIds);
     this.dataSetRepository.save(dataSet);
-    
+
     //Instrument
     Instrument instrument = UnitTestCreateDomainObjectUtils.buildInstrument(project.getId());
     instrument.setSurveyNumbers(surveyNumbers);
     instrument.setSurveyIds(listOfSurveyIds);
     this.instrumentRepository.save(instrument);
-    
+
     //Variables
     Variable variable1 =
         UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name1", 1, surveyNumbers);
-    this.variableRepository.save(variable1);    
+    this.variableRepository.save(variable1);
     Variable variable2 =
         UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name2", 2, surveyNumbers);
     this.variableRepository.save(variable2);
     Variable variable3 =
         UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name3", 3, surveyNumbers);
-    this.variableRepository.save(variable3);    
-    
+    this.variableRepository.save(variable3);
+
     //Atomic Question
-    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), 1, instrument.getId(), 
+    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), 1, instrument.getId(),
         survey.getId());
     this.questionRepository.save(question);
-    QuestionImageMetadata questionImageMetadata = 
+    QuestionImageMetadata questionImageMetadata =
         UnitTestCreateDomainObjectUtils.buildQuestionImageMetadata(project.getId(), question.getId());
     UnitTestImageHelper.saveQuestionImage(this.questionImageService, questionImageMetadata);
-    
-    
-    Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());    
+
+
+    Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
     this.studyRepository.save(study);
 
-    // Act & Assert
-    mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
-      .andExpect(status().isOk())
-      .andExpect(jsonPath("$.errors", hasSize(0)));//no errors
+    return project;
   }
-  
+
   @Test
   @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testPostValidationQuestionImageIsMissing() throws IOException, Exception {
     
     //Arrange
     //Project
-    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();    
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    project.getConfiguration().setStudiesState(new ProjectState(true, true));
     this.rdcProjectRepository.save(project);
     
     //Survey
@@ -230,7 +240,8 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     
     //Arrange
     //Project
-    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();    
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    project.getConfiguration().setStudiesState(new ProjectState(true, true));
     this.rdcProjectRepository.save(project);
     
     //Study (each project must have one)
@@ -288,7 +299,8 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     
     //Arrange
     //Project
-    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();    
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    project.getConfiguration().setStudiesState(new ProjectState(true, true));
     this.rdcProjectRepository.save(project);
     
     //Study (each project must have one)
@@ -349,7 +361,8 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     
     //Arrange
     //Project
-    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();    
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    project.getConfiguration().setStudiesState(new ProjectState(true, true));
     this.rdcProjectRepository.save(project);
     
     //Study (each project must have one)
@@ -403,7 +416,8 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     
     //Arrange
     //Project
-    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();    
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    project.getConfiguration().setStudiesState(new ProjectState(true, true));
     this.rdcProjectRepository.save(project);
     
     //Survey
@@ -456,5 +470,49 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
       .andExpect(jsonPath("$.errors[1].messageId", containsString("error.post-validation.data-set-has-invalid-survey-id")))
       .andExpect(jsonPath("$.errors[2].messageId", containsString("error.post-validation.variable-has-invalid-survey-id")));
     }
-  
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void testProjectRequirements() throws Exception {
+    DataAcquisitionProject dataAcquisitionProject = buildValidProject();
+    applyNotReadyState(dataAcquisitionProject);
+    rdcProjectRepository.save(dataAcquisitionProject);
+
+    mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.errors", hasSize(1)))
+        .andExpect(jsonPath("$.errors[0].messageId", equalTo("data-acquisition"
+        + "-project-management.error.post-validation.requirements-not-met")))
+        .andExpect(jsonPath("$.errors[0].messageParameter", hasSize(6)));
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.DATA_PROVIDER)
+  public void testProjectRequirements_publishers_only() throws Exception {
+    DataAcquisitionProject dataAcquisitionProject = buildValidProject();
+    // study is always mandatory so this would produce an error if a publisher validates a project
+    dataAcquisitionProject.getConfiguration().setStudiesState(new ProjectState(false, false));
+    rdcProjectRepository.save(dataAcquisitionProject);
+
+    mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.errors", hasSize(0)));
+  }
+
+  private void applyNotReadyState(DataAcquisitionProject project) {
+    Configuration configuration = project.getConfiguration();
+    Requirements requirements = configuration.getRequirements();
+    requirements.setDataSetsRequired(true);
+    requirements.setInstrumentsRequired(true);
+    requirements.setQuestionsRequired(true);
+    requirements.setSurveysRequired(true);
+    requirements.setVariablesRequired(true);
+    ProjectState state = new ProjectState(false, false);
+    configuration.setDataSetsState(state);
+    configuration.setInstrumentsState(state);
+    configuration.setQuestionsState(state);
+    configuration.setStudiesState(state);
+    configuration.setSurveysState(state);
+    configuration.setVariablesState(state);
+  }
 }

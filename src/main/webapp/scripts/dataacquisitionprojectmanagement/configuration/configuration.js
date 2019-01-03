@@ -7,10 +7,14 @@ angular
       $stateProvider
         .state('project-cockpit', {
           parent: 'site',
-          url: '/projects/:id?',
+          url: '/projects/:id?:tab',
           params: {
             id: {
               value: null,
+              squash: true
+            },
+            tab: {
+              value: 'status',
               squash: true
             }
           },
