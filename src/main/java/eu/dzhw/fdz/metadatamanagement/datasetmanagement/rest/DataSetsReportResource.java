@@ -64,13 +64,14 @@ public class DataSetsReportResource {
       File zipTmpFile = zipTmpFilePath.toFile();
       multiPartFile.transferTo(zipTmpFile);
       zipTmpFile.setWritable(true);
-      
+
       URI pollUri;
       String taskId = Long.toString(counterService.getNextSequence(Task.class.getName()));
       pollUri = URI.create("/api/tasks/" + taskId);
       Task task = taskService.createTask(taskId);
       // fill the data with data and store the template into mongodb / gridfs
-      dataSetReportService.generateReport(zipTmpFilePath, multiPartFile.getOriginalFilename(), dataSetId, task);
+      dataSetReportService.generateReport(zipTmpFilePath, multiPartFile.getOriginalFilename(),
+          dataSetId, task);
       return ResponseEntity.accepted().location(pollUri).body(task);
     } else {
       // Return bad request, if file is empty.
