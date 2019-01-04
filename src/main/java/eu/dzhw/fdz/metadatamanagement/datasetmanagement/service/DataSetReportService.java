@@ -23,7 +23,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
@@ -126,10 +125,10 @@ public class DataSetReportService {
    * id, the service will load the data set for receiving all depending information, which are
    * needed for filling of the tex template with data.
    * 
-   * @param originalName TODO
+   * @param originalName the original name of multipartfile
    * @param dataSetId An id of the data set.
    * @param task the task to update the status of the pro
-   * @param multiPartFile The uploaded zip file
+   * @param zipTmpFilePath The path to uploaded zip file
    *
    * @return The name of the saved tex template in the GridFS / MongoDB.
    * @throws TemplateException Handles templates exceptions.

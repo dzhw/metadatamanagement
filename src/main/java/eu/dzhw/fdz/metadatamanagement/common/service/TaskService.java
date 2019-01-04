@@ -88,10 +88,10 @@ public class TaskService {
       for (String missingFile : te.getMissingFiles()) {
         errorListDto.add(new ErrorDto(null, te.getMessage(), missingFile, null));
       }
-      if (exception instanceof IOException) {
-        String messageKey = "data-set-management.error.io-error";
-        errorListDto.add(new ErrorDto(null, messageKey, exception.getMessage(), null));
-      }
+    }
+    if (exception instanceof IOException) {
+      String messageKey = "data-set-management.error.io-error";
+      errorListDto.add(new ErrorDto(null, messageKey, exception.getMessage(), null));
     }
     return errorListDto;
   }

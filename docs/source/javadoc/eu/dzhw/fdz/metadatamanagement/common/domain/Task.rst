@@ -1,5 +1,7 @@
 .. java:import:: java.net URI
 
+.. java:import:: org.springframework.data.annotation Id
+
 .. java:import:: org.springframework.data.mongodb.core.mapping Document
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.rest.errors ErrorListDto
@@ -39,7 +41,7 @@ errorList
 id
 ^^
 
-.. java:field:: private String id
+.. java:field:: @Id private String id
    :outertype: Task
 
 location

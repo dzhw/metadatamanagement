@@ -1,7 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.common.rest;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
