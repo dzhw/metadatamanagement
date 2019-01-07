@@ -75,9 +75,11 @@ try {
             $rootScope.toState.data.authorities.length > 0) {
             // wait for initialization of Principal Service
             $timeout(function() {
-              if (!Principal.hasAnyAuthority(
+              if ($rootScope.toState.data.authorities &&
+                $rootScope.toState.data.authorities.length > 0 &&
+                (!Principal.hasAnyAuthority(
                   $rootScope.toState.data.authorities) ||
-                  !Principal.isAuthenticated()) {
+                  !Principal.isAuthenticated())) {
                 $rootScope.$broadcast('userNotAuthorized');
               }
             }, 1000);
@@ -179,7 +181,8 @@ try {
           if (config.url.indexOf('_search') !== -1 ||
               (config.url.indexOf('/api/data-acquisition-projects') !== -1 &&
                 config.method === 'GET' &&
-                config.url.indexOf('/releases') === -1)) {
+                config.url.indexOf('/releases') === -1) ||
+              config.url.indexOf('/api/users/findUserWithRole') !== -1) {
             return false; // ... don't block it.
           }
         };

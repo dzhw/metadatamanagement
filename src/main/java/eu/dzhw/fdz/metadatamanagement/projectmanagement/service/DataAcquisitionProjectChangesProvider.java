@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
 import eu.dzhw.fdz.metadatamanagement.common.service.util.ListUtils;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.AssigneeGroup;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
@@ -72,6 +73,47 @@ public class DataAcquisitionProjectChangesProvider {
     List<String> oldDataProviders = getDataProviders(oldProjects.get(projectId));
     List<String> newDataProviders = getDataProviders(newProjects.get(projectId));
     return ListUtils.diff(oldDataProviders, newDataProviders);
+  }
+
+  /**
+   * Checks if the assignee group changed after the update.
+   * @param projectId id of the project
+   * @return {@code true} if assignee group changed, otherwise {@code false}
+   */
+  public boolean hasAssigneeGroupChanged(String projectId) {
+    DataAcquisitionProject oldProject = oldProjects.get(projectId);
+    DataAcquisitionProject newProject = newProjects.get(projectId);
+
+    return oldProject != null && newProject != null
+        && oldProject.getAssigneeGroup() != newProject.getAssigneeGroup();
+  }
+
+  /**
+   * Get the assignee group of the updated project.
+   * @param projectId id of the project
+   * @return New assignee group
+   */
+  public AssigneeGroup getNewAssigneeGroup(String projectId) {
+    DataAcquisitionProject dataAcquisitionProject = newProjects.get(projectId);
+    return dataAcquisitionProject != null ? dataAcquisitionProject.getAssigneeGroup() : null;
+  }
+
+  /**
+   * Get the old {@link DataAcquisitionProject}.
+   * @param projectId id of the project
+   * @return {@link DataAcquisitionProject} or {@code null} if there was none
+   */
+  public DataAcquisitionProject getOldDataAcquisitionProject(String projectId) {
+    return oldProjects.get(projectId);
+  }
+
+  /**
+   * Get new {@link DataAcquisitionProject}.
+   * @param projectId id of the project
+   * @return {@link DataAcquisitionProject} or {@code null} if there was none
+   */
+  public DataAcquisitionProject getNewDataAcquisitionProject(String projectId) {
+    return newProjects.get(projectId);
   }
 
   private List<String> getPublishers(DataAcquisitionProject project) {

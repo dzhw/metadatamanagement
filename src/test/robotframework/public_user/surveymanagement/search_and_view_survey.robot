@@ -1,6 +1,5 @@
 *** Settings ***
 Documentation     Tests the user experience of searching & finding the Graduate Panel 2005 and opening the survey page of the first wave for bachelor graduates
-Force Tags        noslowpoke
 Resource          ../../resources/search_resource.robot
 Resource          ../../resources/home_page_resource.robot
 
