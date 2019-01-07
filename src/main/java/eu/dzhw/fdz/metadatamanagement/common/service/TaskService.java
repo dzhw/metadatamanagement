@@ -1,7 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.common.service;
 
 import java.io.IOException;
-import java.net.URI;
 import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotNull;
@@ -63,11 +62,11 @@ public class TaskService {
    * save task as done.
    * 
    * @param task the task id
-   * @param resultUri the URI to handle the task result
+   * @param resultLocation the location to get the result processed by the task.
    */
-  public Task handleTaskDone(@NotNull Task task, URI resultUri) {
+  public Task handleTaskDone(@NotNull Task task, String resultLocation) {
     task.setState(TaskState.DONE);
-    task.setLocation(resultUri);
+    task.setLocation(resultLocation);
     task.setLastModifiedDate(LocalDateTime.now());
     return taskRepo.save(task);
   }

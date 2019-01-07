@@ -1,5 +1,3 @@
-.. java:import:: java.net URI
-
 .. java:import:: org.springframework.data.annotation Id
 
 .. java:import:: org.springframework.data.mongodb.core.mapping Document

@@ -50,7 +50,7 @@ angular.module('metadatamanagementApp').service('DataSetReportService',
                     });
                   } if (task.data.state === 'FAILURE') {
                     // on data.state='FAILURE'
-                    //    data.errorList.forEach(--- handle errorDTO)
+                    // handle errorDTO in errorList)
                     // Server hat issues with the tex file,
                     // send error to error output
                     task.data.errorList.errors.forEach(function(error) {

@@ -218,7 +218,7 @@ public class DataSetReportService {
       File zipTmpFile = zipTmpFilePath.toFile();
       String fileName = this.saveCompleteZipFile(zipTmpFile, originalName);
       log.info("file saved, start #handletaskDone");
-      task = taskService.handleTaskDone(task, URI.create(fileName));
+      task = taskService.handleTaskDone(task, fileName);
       return new AsyncResult<>(fileName);
     } catch (IOException e) {
       log.warn("failed generate report", e);

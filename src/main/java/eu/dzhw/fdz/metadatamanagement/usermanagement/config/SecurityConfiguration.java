@@ -76,7 +76,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   /**
    * Enabling securtiy context for @async methods.
    * 
-   * @return
+   * @return the methodInvokingFactoryBean
    */
   @Bean
   public MethodInvokingFactoryBean methodInvokingFactoryBean() {

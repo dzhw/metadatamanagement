@@ -1,7 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.common.domain;
 
-import java.net.URI;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -30,7 +28,7 @@ public class Task extends AbstractRdcDomainObject {
   @Id
   private String id;
   private TaskState state;
-  private URI location;
+  private String location;
   private TaskType type;
   private ErrorListDto errorList;
 
