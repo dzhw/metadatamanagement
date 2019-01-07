@@ -10,7 +10,7 @@ angular.module('metadatamanagementApp')
       ElasticSearchAdminService, $mdDialog, $transitions, StudyResource,
       CommonDialogsService, LanguageService, AvailableInstrumentNumbersResource,
       InstrumentAttachmentResource, $q, StudyIdBuilderService, SearchDao,
-      DataAcquisitionProjectResource, $rootScope) {
+      DataAcquisitionProjectResource, $rootScope, ProjectUpdateAccessService) {
       var ctrl = this;
       ctrl.surveyChips = [];
       var updateToolbarHeaderAndPageTitle = function() {
@@ -54,15 +54,25 @@ angular.module('metadatamanagementApp')
         });
       };
 
-      var handleReleasedProject = function() {
-        SimpleMessageToastService.openAlertMessageToast(
-          'instrument-management.edit.choose-unreleased-project-toast');
+      var redirectToSearchView = function() {
         $timeout(function() {
           $state.go('search', {
             lang: LanguageService.getCurrentInstantly(),
             type: 'instruments'
           });
         }, 1000);
+      };
+
+      var handleReleasedProject = function() {
+        SimpleMessageToastService.openAlertMessageToast(
+          'instrument-management.edit.choose-unreleased-project-toast');
+        redirectToSearchView();
+      };
+
+      var handleUserNotInAssigneeGroup = function() {
+        SimpleMessageToastService.openAlertMessageToast(
+          'global.error.client-error.not-in-assignee-group');
+        redirectToSearchView();
       };
 
       ctrl.initSurveyChips = function() {
@@ -90,6 +100,9 @@ angular.module('metadatamanagementApp')
               }).$promise.then(function(project) {
                 if (project.release != null) {
                   handleReleasedProject();
+                } else if (!ProjectUpdateAccessService
+                  .isUpdateAllowed(project, 'instruments')) {
+                  handleUserNotInAssigneeGroup();
                 } else {
                   ctrl.instrument = instrument;
                   ctrl.initSurveyChips();

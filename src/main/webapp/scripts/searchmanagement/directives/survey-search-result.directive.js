@@ -11,35 +11,61 @@ angular.module('metadatamanagementApp').directive('surveySearchResult',
         currentLanguage: '=',
         bowser: '=',
         addMargin: '=',
-        searchResultIndex: '='
+        searchResultIndex: '=',
+        isUpdateAllowed: '=?'
       },
       controller: function($scope, CommonDialogsService, SurveyResource,
         ElasticSearchAdminService, $rootScope, SimpleMessageToastService,
-        DataAcquisitionProjectResource, Principal) {
+        DataAcquisitionProjectResource, Principal, ProjectUpdateAccessService,
+        $transitions) {
         $scope.projectIsCurrentlyReleased = true;
+        if (angular.isUndefined($scope.isUpdateAllowed)) {
+          $scope.isUpdateAllowed = true;
+        }
+
         if (Principal
             .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           DataAcquisitionProjectResource.get({
             id: $scope.searchResult.dataAcquisitionProjectId
           }).$promise.then(function(project) {
+            $scope.project = project;
             $scope.projectIsCurrentlyReleased = (project.release != null);
           });
         }
+
         $scope.deleteSurvey = function(surveyId) {
-          CommonDialogsService.showConfirmDeletionDialog({
-            type: 'survey',
-            id: surveyId
-          }).then(function() {
-            return SurveyResource.delete({id: surveyId}).$promise;
-          }).then(function() {
-            return ElasticSearchAdminService.processUpdateQueue('surveys');
-          }).then(function() {
-            $rootScope.$broadcast('deletion-completed');
-            SimpleMessageToastService.openSimpleMessageToast(
-              'survey-management.edit.survey-deleted-toast',
-              {id: surveyId});
-          });
+          if (ProjectUpdateAccessService.isUpdateAllowed(
+            $scope.project,
+            'surveys',
+            true
+          )) {
+            CommonDialogsService.showConfirmDeletionDialog({
+              type: 'survey',
+              id: surveyId
+            }).then(function() {
+              return SurveyResource.delete({id: surveyId}).$promise;
+            }).then(function() {
+              return ElasticSearchAdminService.processUpdateQueue('surveys');
+            }).then(function() {
+              $rootScope.$broadcast('deletion-completed');
+              SimpleMessageToastService.openSimpleMessageToast(
+                'survey-management.edit.survey-deleted-toast',
+                {id: surveyId});
+            });
+          }
         };
+
+        var unregisterTransitionHook = $transitions.onBefore({to: 'surveyEdit'},
+          function() {
+            if (!ProjectUpdateAccessService.isUpdateAllowed(
+              $scope.project,
+              'surveys',
+              true
+            )) {
+              return false;
+            }
+          });
+        $scope.$on('$destroy', unregisterTransitionHook);
       }
     };
   });

@@ -11,7 +11,7 @@
 
     <groupId>eu.dzhw.fdz.metadatamanagement</groupId>
     <artifactId>metadatamanagement</artifactId>
-    <version>1.0.75</version>
+    <version>1.0.76</version>
     <packaging>war</packaging>
     <name>metadatamanagement</name>
 
@@ -107,7 +107,7 @@
         <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-core</artifactId>
-            <version>1.19.1</version>
+            <version>1.20</version>
         </dependency>
         <dependency>
             <groupId>org.elasticsearch.client</groupId>

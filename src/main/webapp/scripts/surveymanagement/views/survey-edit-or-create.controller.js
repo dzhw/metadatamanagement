@@ -10,7 +10,7 @@ angular.module('metadatamanagementApp')
       CommonDialogsService, LanguageService, AvailableSurveyNumbersResource,
       SurveyAttachmentResource, $q, StudyIdBuilderService, moment,
       SurveyResponseRateImageUploadService, SurveySearchService,
-      DataAcquisitionProjectResource, $rootScope) {
+      DataAcquisitionProjectResource, $rootScope, ProjectUpdateAccessService) {
       var ctrl = this;
       var surveyMethodCache = {};
       var updateToolbarHeaderAndPageTitle = function() {
@@ -52,15 +52,25 @@ angular.module('metadatamanagementApp')
         });
       };
 
-      var handleReleasedProject = function() {
-        SimpleMessageToastService.openAlertMessageToast(
-          'survey-management.edit.choose-unreleased-project-toast');
+      var redirectToSearchView = function() {
         $timeout(function() {
           $state.go('search', {
             lang: LanguageService.getCurrentInstantly(),
             type: 'surveys'
           });
         }, 1000);
+      };
+
+      var handleReleasedProject = function() {
+        SimpleMessageToastService.openAlertMessageToast(
+          'survey-management.edit.choose-unreleased-project-toast');
+        redirectToSearchView();
+      };
+
+      var handleUserNotInAssigneeGroup = function() {
+        SimpleMessageToastService.openAlertMessageToast(
+          'global.error.client-error.not-in-assignee-group');
+        redirectToSearchView();
       };
 
       var init = function() {
@@ -74,6 +84,9 @@ angular.module('metadatamanagementApp')
               }).$promise.then(function(project) {
                 if (project.release != null) {
                   handleReleasedProject();
+                } else if (!ProjectUpdateAccessService
+                  .isUpdateAllowed(project, 'surveys')) {
+                  handleUserNotInAssigneeGroup();
                 } else {
                   ctrl.survey = survey;
                   ctrl.currentSurveyMethod = survey.surveyMethod;

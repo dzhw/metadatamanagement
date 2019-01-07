@@ -1,6 +1,6 @@
 {
   "name": "bootstrap-sass",
-  "version": "3.3.7",
+  "version": "3.4.0",
   "description": "bootstrap-sass is a Sass-powered version of Bootstrap 3, ready to drop right into your Sass powered applications.",
   "main": "assets/javascripts/bootstrap.js",
   "style": "assets/stylesheets/_bootstrap.scss",
@@ -33,9 +33,9 @@
     "url": "https://github.com/twbs/bootstrap-sass/issues"
   },
   "devDependencies": {
-    "node-sass": "^3.8.0",
+    "node-sass": "^4.9.3",
     "mincer": "~1.4.0",
-    "ejs": "~2.4.2"
+    "ejs": "~2.6.1"
   },
   "eyeglass": {
     "exports": "eyeglass-exports.js",

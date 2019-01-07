@@ -1,0 +1,49 @@
+<md-card>
+	<md-card-header>
+		<md-card-header-text layout="row" layout-align="space-between center">
+			<a ui-sref="search({type: searchState})" class="md-headline" layout="row" layout-align="start center">
+				<md-icon ng-if="icon" md-svg-icon="{{icon}}" class="md-primary"></md-icon>
+				<span>&nbsp;{{'data-acquisition-project-management.project-cockpit.requirements.'+group | translate}}&nbsp;</span>
+				<span>({{counts[group === 'dataSets' ? 'data_sets' : group]}})</span>
+			</a>
+			<div ng-switch="getSentimentValue(group)">
+				<md-icon ng-switch-when="0">sentiment_very_dissatisfied</md-icon>
+				<md-icon ng-switch-when="1">sentiment_satisfied</md-icon>
+				<md-icon ng-switch-when="2">sentiment_very_satisfied</md-icon>
+			</div>
+		</md-card-header-text>
+	</md-card-header>
+	<md-divider></md-divider>
+	<md-card-content>
+		<md-checkbox ng-model="project.configuration.requirements[group+'Required']" ng-disabled="true">
+			{{'data-acquisition-project-management.project-cockpit.config.expected' | translate}}
+		</md-checkbox>
+		<md-checkbox
+			ng-model="project.configuration[group+'State'].dataProviderReady"
+			ng-disabled="!((isRequired() && isAssignedPublisher && project.assigneeGroup === 'PUBLISHER') || (isRequired() && isAssignedDataProvider && project.assigneeGroup === 'DATA_PROVIDER'))"
+		>
+			<md-tooltip ng-if="!isAssignedPublisher && !isAssignedDataProvider">{{'data-acquisition-project-management.project-cockpit.tooltip.not-in-group' | translate}}</md-tooltip>
+			<md-tooltip ng-if="(!isAssignedDataProvider && project.assigneeGroup === 'DATA_PROVIDER')">{{'data-acquisition-project-management.project-cockpit.tooltip.not-assigned' | translate}}</md-tooltip>
+			<md-tooltip ng-if="!isRequired()">{{'data-acquisition-project-management.error.project-update-access.not-required' | translate}}</md-tooltip>
+			{{'data-acquisition-project-management.project-cockpit.label.ROLE_DATA_PROVIDER' | translate}}
+			{{'data-acquisition-project-management.project-cockpit.config.ready' | translate}}
+		</md-checkbox>
+		<md-checkbox
+			ng-model="project.configuration[group+'State'].publisherReady"
+			ng-disabled="!(isRequired() && isAssignedPublisher && project.assigneeGroup === 'PUBLISHER')"
+		>
+			<md-tooltip ng-if="!isAssignedPublisher">{{'data-acquisition-project-management.project-cockpit.tooltip.not-in-group' | translate}}</md-tooltip>
+			<md-tooltip ng-if="project.assigneeGroup !== 'PUBLISHER'">{{'data-acquisition-project-management.project-cockpit.tooltip.not-assigned' | translate}}</md-tooltip>
+			<md-tooltip ng-if="!isRequired()">{{'data-acquisition-project-management.error.project-update-access.not-required' | translate}}</md-tooltip>
+			{{'data-acquisition-project-management.project-cockpit.label.ROLE_PUBLISHER' | translate}}
+			{{'data-acquisition-project-management.project-cockpit.config.ready' | translate}}
+		</md-checkbox>
+	</md-card-content>
+	<md-card-actions layout="row" layout-align="end center">
+		<div ng-transclude></div>
+		<md-button class="md-primary md-raised" ng-if="!hasTranscludedContent" ng-click="create()">
+			{{'data-acquisition-project-management.project-cockpit.config.' + getModifyButtonLabel(group) | translate}}
+			<md-tooltip md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">{{getTooltip(group) | translate}}</md-tooltip>
+		</md-button>
+	</md-card-actions>
+</md-card>

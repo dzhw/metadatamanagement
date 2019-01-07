@@ -25,8 +25,7 @@ angular.module('metadatamanagementApp').controller('LoginController',
         } else {
           $rootScope.back();
         }
-      }).catch(function(error) {
-        console.log(error);
+      }).catch(function() {
         $scope.authenticationError = true;
       });
     };

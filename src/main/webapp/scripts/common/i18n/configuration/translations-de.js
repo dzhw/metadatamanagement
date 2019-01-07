@@ -268,7 +268,8 @@ angular.module('metadatamanagementApp').config(
           'client-error': {
             'unauthorized-error': 'Sie sind nicht angemeldet und können daher diese Aktion nicht durchführen (Status {{ status }}).',
             'forbidden-error': 'Sie haben nicht die Berechtigung (Rolle), um diese Aktion durchzuführen (Status {{ status }}).',
-            'not-found-error': 'Die angeforderte Seite wurde nicht gefunden ({{ status }}).'
+            'not-found-error': 'Die angeforderte Seite wurde nicht gefunden ({{ status }}).',
+            'not-in-assignee-group': 'Die Bearbeitung ist nicht möglich, weil die Zuständigkeit beim Datengeber oder Publisher liegt.'
           },
           'person': {
             'first-name': {
