@@ -35,37 +35,31 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   @Autowired
   public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-    auth.userDetailsService(userDetailsService)
-      .passwordEncoder(passwordEncoder());
+    auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
   }
 
   @Override
   public void configure(WebSecurity web) throws Exception {
-    web.ignoring()
-      .antMatchers("/scripts/**/*.{js,html}")
-      .antMatchers("/bower_components/**")
-      .antMatchers("/websocket/**")
-      .antMatchers("/i18n/**")
-      .antMatchers("/assets/**")
-      .antMatchers("/api/register")
-      .antMatchers("/api/activate")
-      .antMatchers("/api/account/reset-password/init")
-      .antMatchers("/api/account/reset-password/finish")
-      .antMatchers(HttpMethod.GET, "/public/files/**")
-      .antMatchers(HttpMethod.GET, "/api/variables/**")
-      .antMatchers(HttpMethod.GET, "/api/surveys/**")
-      .antMatchers(HttpMethod.GET, "/api/instruments/**")
-      .antMatchers(HttpMethod.GET, "/api/data-sets/**")
-      .antMatchers(HttpMethod.GET, "/api/questions/**")
-      .antMatchers(HttpMethod.GET, "/api/studies/**")
-      .antMatchers(HttpMethod.GET, "/api/study-serieses/**")
-      .antMatchers(HttpMethod.GET, "/api/related-publications/**")
-      .antMatchers(HttpMethod.GET, "/api/data-acquisition-projects/**/releases")
-      .antMatchers(HttpMethod.POST, "/api/search/**/_search")
-      .antMatchers(HttpMethod.GET, "/api/search/**")
-      .antMatchers(HttpMethod.POST, "/api/search/**/_mget")
-      .antMatchers(HttpMethod.POST, "/api/search/**/_count")
-      .antMatchers(HttpMethod.GET, "/management/info");
+    web.ignoring().antMatchers("/scripts/**/*.{js,html}").antMatchers("/bower_components/**")
+        .antMatchers("/websocket/**").antMatchers("/i18n/**").antMatchers("/assets/**")
+        .antMatchers("/api/register").antMatchers("/api/activate")
+        .antMatchers("/api/account/reset-password/init")
+        .antMatchers("/api/account/reset-password/finish")
+        .antMatchers(HttpMethod.GET, "/public/files/**")
+        .antMatchers(HttpMethod.GET, "/api/variables/**")
+        .antMatchers(HttpMethod.GET, "/api/surveys/**")
+        .antMatchers(HttpMethod.GET, "/api/instruments/**")
+        .antMatchers(HttpMethod.GET, "/api/data-sets/**")
+        .antMatchers(HttpMethod.GET, "/api/questions/**")
+        .antMatchers(HttpMethod.GET, "/api/studies/**")
+        .antMatchers(HttpMethod.GET, "/api/study-serieses/**")
+        .antMatchers(HttpMethod.GET, "/api/related-publications/**")
+        .antMatchers(HttpMethod.GET, "/api/data-acquisition-projects/**/releases")
+        .antMatchers(HttpMethod.POST, "/api/search/**/_search")
+        .antMatchers(HttpMethod.GET, "/api/search/**")
+        .antMatchers(HttpMethod.POST, "/api/search/**/_mget")
+        .antMatchers(HttpMethod.POST, "/api/search/**/_count")
+        .antMatchers(HttpMethod.GET, "/management/info");
   }
 
   @Override
@@ -78,13 +72,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   public SecurityEvaluationContextExtension securityEvaluationContextExtension() {
     return new SecurityEvaluationContextExtension();
   }
-  
+
+  /**
+   * Enabling securtiy context for @async methods.
+   * 
+   * @return
+   */
   @Bean
   public MethodInvokingFactoryBean methodInvokingFactoryBean() {
-      MethodInvokingFactoryBean methodInvokingFactoryBean = new MethodInvokingFactoryBean();
-      methodInvokingFactoryBean.setTargetClass(SecurityContextHolder.class);
-      methodInvokingFactoryBean.setTargetMethod("setStrategyName");
-      methodInvokingFactoryBean.setArguments(new Object[]{SecurityContextHolder.MODE_INHERITABLETHREADLOCAL});
-      return methodInvokingFactoryBean;
+    MethodInvokingFactoryBean methodInvokingFactoryBean = new MethodInvokingFactoryBean();
+    methodInvokingFactoryBean.setTargetClass(SecurityContextHolder.class);
+    methodInvokingFactoryBean.setTargetMethod("setStrategyName");
+    methodInvokingFactoryBean
+        .setArguments(new Object[] {SecurityContextHolder.MODE_INHERITABLETHREADLOCAL});
+    return methodInvokingFactoryBean;
   }
 }

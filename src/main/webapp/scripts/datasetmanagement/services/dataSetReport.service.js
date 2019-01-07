@@ -29,8 +29,8 @@ angular.module('metadatamanagementApp').service('DataSetReportService',
                     $timeout(tick, 1000);
                   } if (task.data.state === 'DONE') {
                     // on data.state='DONE'
-                    //    FileResource.download(data.location.string)
-                    FileResource.download(task.data.location.string)
+                    //    FileResource.download(data.location)
+                    FileResource.download(task.data.location)
                     .then(function(response) {
                       JobLoggingService.success({
                         message: 'data-set-management.log-messages.' +
@@ -53,7 +53,7 @@ angular.module('metadatamanagementApp').service('DataSetReportService',
                     //    data.errorList.forEach(--- handle errorDTO)
                     // Server hat issues with the tex file,
                     // send error to error output
-                    task.data.errorList.forEach(function(error) {
+                    task.data.errorList.errors.forEach(function(error) {
                       var invalidValue = error.invalidValue;
                       if (error.message.indexOf('----') > -1) {
                         var endErrorIndex = error.message.indexOf(
