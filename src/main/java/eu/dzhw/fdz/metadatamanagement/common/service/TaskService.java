@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class TaskService {
   @Autowired
-  TaskRepository taskRepo;
+  private TaskRepository taskRepo;
 
   /**
    * Create a task with given id and URI for polling the task state.
@@ -55,7 +55,6 @@ public class TaskService {
     log.info("#handleErrorTask for task {}", task.getId());
     task.setState(TaskState.FAILURE);
     task.setErrorList(crerateErrorListFromException(exception));
-    task.setLastModifiedDate(LocalDateTime.now());
     return taskRepo.save(task);
 
   }
