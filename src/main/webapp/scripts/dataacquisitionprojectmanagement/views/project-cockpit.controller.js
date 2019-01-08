@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
            PageTitleService, LanguageService, ToolbarHeaderService,
            DataAcquisitionProjectResource, SimpleMessageToastService,
            CurrentProjectService, projectDeferred, CommonDialogsService,
-           SearchDao, QuestionUploadService, VariableUploadService, $translate,
+           SearchDao, $translate,
            $mdDialog, ProjectReleaseService, $timeout,
            ProjectUpdateAccessService,
            DataAcquisitionProjectPostValidationService) {
@@ -503,14 +503,6 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         setTypeCounts($scope.project.id);
       }, 2000);
     });
-
-    $scope.uploadQuestions = function(files) {
-      QuestionUploadService.uploadQuestions(files, $scope.project.id);
-    };
-
-    $scope.uploadVariables = function(files) {
-      VariableUploadService.uploadVariables(files, $scope.project.id);
-    };
 
     $state.loadComplete = true;
   });
