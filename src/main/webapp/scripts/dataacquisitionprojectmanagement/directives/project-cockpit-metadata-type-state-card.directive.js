@@ -12,21 +12,67 @@ angular.module('metadatamanagementApp')
       scope: true,
       replace: true,
       transclude: true,
+      controllerAs: 'ctrl',
       /* jshint -W098 */
       link: function(scope, elem, attrs, ctrl, $transclude) {
 
         scope.group = attrs.group;
-        scope.searchState = attrs.searchstate;
-        scope.icon = attrs.icon;
-        scope.tooltip = attrs.tooltip;
-        scope.buttonLabel = attrs.buttonLabel;
-        scope.limit = attrs.limit || 0;
+        var iconpath = 'assets/images/icons/';
+        switch(scope.group) {
+          case 'studies':
+            scope.icon = iconpath + 'study.svg';
+            scope.createState = 'studyCreate';
+            scope.searchState = scope.group;
+            scope.tooltip = 'search-management.buttons.create-study-tooltip';
+            scope.limit = 1;
+          break;
+          case 'surveys':
+            scope.icon = iconpath + 'survey.svg';
+            scope.createState = 'surveyCreate';
+            scope.searchState = scope.group;
+            scope.tooltip = 'search-management.buttons.create-survey-tooltip';
+          break;
+          case 'instruments':
+            scope.icon = iconpath + 'instrument.svg';
+            scope.createState = 'instrumentCreate';
+            scope.searchState = scope.group;
+            scope.tooltip = 'search-management.buttons.' +
+              'create-instrument-tooltip';
+          break;
+          case 'questions':
+            scope.icon = iconpath + 'question.svg';
+            scope.createState = '';
+            scope.uploadFunction = scope.uploadQuestions;
+            scope.searchState = scope.group;
+            scope.tooltip = 'search-management.buttons.' +
+              'upload-questions-tooltip';
+          break;
+          case 'dataSets':
+            scope.icon = iconpath + 'data-set.svg';
+            scope.createState = 'studyCreate';
+            scope.searchState = scope.group;
+            scope.tooltip = 'search-management.buttons.' +
+              'create-data-set-tooltip';
+          break;
+          case 'variables':
+            scope.icon = iconpath + 'variable.svg';
+            scope.createState = '';
+            scope.uploadFunction = scope.uploadVariables;
+            scope.searchState = scope.group;
+            scope.tooltip = 'search-management.buttons.' +
+              'upload-variables-tooltip';
+          break;
+          default:
+            throw Error('wrong argument for group');
+        }
+
+        scope.limit = attrs.limit || scope.limit || 0;
         scope.create = function() {
           if (ProjectUpdateAccessService.isUpdateAllowed(scope.project,
             // map camelCase to underscore_case
             scope.group.replace(/([A-Z])/g,
               function($1) {return '_' + $1.toLowerCase();}), true)) {
-            $state.go(attrs.createstate, {});
+            $state.go(scope.createState, {});
           }
         };
         scope.$watch(function() {

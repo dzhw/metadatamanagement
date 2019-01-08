@@ -75,16 +75,6 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
 
     $state.loadStarted = true;
 
-    $scope.$watch('project', function(newVal, oldVal) {
-      if (oldVal !== undefined && newVal !== oldVal && !$scope.saving) {
-        $scope.changed = true;
-      }
-    }, true);
-
-    $scope.$on('project-deleted', function() {
-        $state.go('search');
-      });
-
     var initializing = true;
     $scope.$on('current-project-changed',
       function(event, changedProject) { // jshint ignore:line
@@ -97,6 +87,23 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
           setProjectRequirementsDisabled(changedProject);
         }
         initializing = false;
+      });
+
+    $scope.setChanged = function(changed) {
+      if (changed === undefined) {
+        changed = true;
+      }
+      $scope.changed = changed;
+    };
+
+    $scope.$watch('project', function(newVal, oldVal) {
+      if (oldVal !== undefined && newVal !== oldVal && !$scope.saving) {
+        $scope.setChanged();
+      }
+    }, true);
+
+    $scope.$on('project-deleted', function() {
+        $state.go('search');
       });
 
     $scope.isUpdateAllowed = function(type) {
@@ -115,7 +122,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         project,
         //Success
         function() {
-          $scope.changed = false;
+          $scope.setChanged(false);
           $scope.saving = false;
           $scope.project = project;
           setAssignedToProject();
@@ -284,7 +291,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       });
     };
 
-    $scope.changed = false;
+    $scope.setChanged(false);
 
     $scope.searchText = {
       publishers: '',
@@ -482,13 +489,6 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         default: return 0;
       }
     })();
-
-    $scope.setChanged = function(changed) {
-      if (changed === undefined) {
-        changed = true;
-      }
-      $scope.changed = changed;
-    };
 
     $scope.toggleReleaseProject = function() {
       if ($scope.project.release) {
