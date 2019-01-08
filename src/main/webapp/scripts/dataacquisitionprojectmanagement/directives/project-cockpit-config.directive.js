@@ -4,7 +4,7 @@ angular.module('metadatamanagementApp')
   .directive('projectCockpitConfig', function() {
     return {
       restrict: 'E',
-      templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
+      templateUrl: 'scripts/dataacquisitionprojectmanagement/directives/' +
         'project-cockpit-config.html.tmpl'
     };
   });

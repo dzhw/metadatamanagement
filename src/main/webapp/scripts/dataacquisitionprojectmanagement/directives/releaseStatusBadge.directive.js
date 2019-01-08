@@ -3,7 +3,7 @@ angular.module('metadatamanagementApp')
   .directive('releaseStatusBadge', function() {
     return {
       templateUrl: 'scripts/dataacquisitionprojectmanagement/' +
-        'views/releaseStatusBadge.directive.html.tmpl',
+        'directives/releaseStatusBadge.directive.html.tmpl',
       scope: {
         released: '='
       }

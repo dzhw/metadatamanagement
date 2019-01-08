@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp')
   function($state, ProjectStatusScoringService, ProjectUpdateAccessService) {
     return {
       restrict: 'E',
-      templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
+      templateUrl: 'scripts/dataacquisitionprojectmanagement/directives/' +
         'project-cockpit-metadata-type-state-card.html.tmpl',
       scope: true,
       replace: true,
