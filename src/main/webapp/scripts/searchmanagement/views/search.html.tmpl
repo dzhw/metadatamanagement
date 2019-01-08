@@ -123,5 +123,12 @@
             </md-tooltip>
             <md-icon md-font-set="material-icons">add</md-icon>
         </md-button>
+
+        <md-button class="md-fab md-raised md-accent" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='questions'">
+            <md-tooltip ng-hide="!currentProject || currentProject.release" md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                {{'search-management.buttons.delete-all-tooltip' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">delete_sweep</md-icon>
+        </md-button>
     </div>
 </div>
