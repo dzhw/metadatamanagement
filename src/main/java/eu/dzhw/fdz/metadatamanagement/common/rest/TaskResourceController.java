@@ -1,7 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.common.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,14 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Task;
 import eu.dzhw.fdz.metadatamanagement.common.repository.TaskRepository;
 
-
 /**
- * controller to request task status.
+ * Rest controller to request task status.
  * 
  * @author tgehrke
  *
  */
-
 @RestController
 @RequestMapping("/api")
 public class TaskResourceController
@@ -36,8 +33,6 @@ public class TaskResourceController
    */
   @GetMapping("/tasks/{taskId}")
   public ResponseEntity<Task> getTaskStatus(@PathVariable String taskId) {
-    ResponseEntity<Task> findDomainObject = super.findDomainObject(taskId);
-    return ResponseEntity.status(findDomainObject.getStatusCode())
-        .cacheControl(CacheControl.noStore()).body(findDomainObject.getBody());
+    return super.findDomainObject(taskId);
   }
 }

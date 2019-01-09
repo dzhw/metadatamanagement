@@ -33,7 +33,7 @@ Fields
 dataProviders
 ^^^^^^^^^^^^^
 
-.. java:field:: private List<String> dataProviders
+.. java:field:: @Builder.Default private List<String> dataProviders
    :outertype: Configuration
 
    User names having the role of a data provider for a project. Must contain at least one user name.
@@ -57,7 +57,7 @@ instrumentsState
 publishers
 ^^^^^^^^^^
 
-.. java:field:: @NotEmpty private List<String> publishers
+.. java:field:: @NotEmpty @Builder.Default private List<String> publishers
    :outertype: Configuration
 
    User names having the role of a publisher for a project. Must contain at least one user name.
@@ -73,7 +73,7 @@ questionsState
 requirements
 ^^^^^^^^^^^^
 
-.. java:field:: @Valid @NotNull private Requirements requirements
+.. java:field:: @Valid @NotNull @Builder.Default private Requirements requirements
    :outertype: Configuration
 
    Defines which object types are required before a project can be released.

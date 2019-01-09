@@ -1,8 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.common.service;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
-
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +16,8 @@ import freemarker.template.TemplateException;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Service to handle the task management.
- * 
+ * Service to handle the management of long running tasks.
+ *
  * @author tgehrke
  *
  */
@@ -30,36 +27,37 @@ public class TaskService {
   @Autowired
   private TaskRepository taskRepo;
 
+  @Autowired
+  private CounterService counterService;
+
   /**
-   * Create a task with given id and URI for polling the task state.
-   * 
-   * @param taskId the task id
-   * 
+   * Create a task.
+   *
    * @return the created task.
    */
-  public Task createTask(String taskId) {
+  public Task createTask() {
+    String taskId = Long.toString(counterService.getNextSequence(Task.class.getName()));
     Task task =
         Task.builder().state(TaskState.RUNNING).id(taskId).type(TaskType.DATA_SET_REPORT).build();
-    taskRepo.insert(task);
-    return task;
+    return taskRepo.insert(task);
   }
 
   /**
-   * save task as error.
-   * 
+   * Mark the task as errored.
+   *
    * @param task the task
    * @param exception the reason for failing.
    */
   public Task handleErrorTask(@NotNull Task task, Exception exception) {
-    log.info("#handleErrorTask for task {}", task.getId());
+    log.debug("Exception occurred in task {}", task.getId());
     task.setState(TaskState.FAILURE);
-    task.setErrorList(crerateErrorListFromException(exception));
+    task.setErrorList(createErrorListFromException(exception));
     return taskRepo.save(task);
 
   }
 
   /**
-   * save task as done.
+   * Mark the task as done.
    * 
    * @param task the task id
    * @param resultLocation the location to get the result processed by the task.
@@ -67,27 +65,24 @@ public class TaskService {
   public Task handleTaskDone(@NotNull Task task, String resultLocation) {
     task.setState(TaskState.DONE);
     task.setLocation(resultLocation);
-    task.setLastModifiedDate(LocalDateTime.now());
     return taskRepo.save(task);
   }
 
-  private ErrorListDto crerateErrorListFromException(Exception exception) {
+  private ErrorListDto createErrorListFromException(Exception exception) {
     ErrorListDto errorListDto = new ErrorListDto();
-    log.info("handle exception", exception);
+    log.debug("Handling exception", exception);
     if (exception instanceof TemplateException) {
       // The message of the exception is the error message of freemarker.
       // The manually added message for the dto can be translated into i18n strings
       String messageKey = "data-set-management.error.tex-template-error";
       errorListDto.add(new ErrorDto(null, messageKey, exception.getMessage(), null));
-    }
-    if (exception instanceof TemplateIncompleteException) {
+    } else if (exception instanceof TemplateIncompleteException) {
       TemplateIncompleteException te = (TemplateIncompleteException) exception;
       // All missing files
       for (String missingFile : te.getMissingFiles()) {
         errorListDto.add(new ErrorDto(null, te.getMessage(), missingFile, null));
       }
-    }
-    if (exception instanceof IOException) {
+    } else {
       String messageKey = "data-set-management.error.io-error";
       errorListDto.add(new ErrorDto(null, messageKey, exception.getMessage(), null));
     }

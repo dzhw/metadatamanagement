@@ -1,6 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.common.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 import java.util.Optional;
 
@@ -18,8 +20,6 @@ import freemarker.template.TemplateNotFoundException;
 
 @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
 public class TaskServiceTest extends AbstractTest {
-
-
   @Autowired
   private TaskService taskService;
   @Autowired
@@ -32,14 +32,12 @@ public class TaskServiceTest extends AbstractTest {
 
   @Test
   public void testCreateTask() {
-    String id = Long.toString(counterService.getNextSequence(Task.class.getName()));;
-    taskService.createTask(id);
+    Task task = taskService.createTask();
 
-    Optional<Task> result = taskRepo.findById(id);
+    Optional<Task> result = taskRepo.findById(task.getId());
     if (result.isPresent()) {
-      Task task = result.get();
-      assertEquals(id, task.getId());
-      assertEquals(TaskState.RUNNING, task.getState());
+      Task task2 = result.get();
+      assertEquals(TaskState.RUNNING, task2.getState());
     } else {
       fail("result not present in db");
     }

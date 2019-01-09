@@ -24,7 +24,7 @@ Task
 
 .. java:type:: @Document @EqualsAndHashCode @ToString @NoArgsConstructor @AllArgsConstructor @Data @Builder public class Task extends AbstractRdcDomainObject
 
-   entity for task handling.
+   Task entity holding the current state of a long running task.
 
    :author: tgehrke
 
@@ -36,11 +36,15 @@ errorList
 .. java:field:: private ErrorListDto errorList
    :outertype: Task
 
+   The list of errors which occurred during execution of the task.
+
 id
 ^^
 
 .. java:field:: @Id private String id
    :outertype: Task
+
+   The id or task number of the task.
 
 location
 ^^^^^^^^
@@ -48,15 +52,21 @@ location
 .. java:field:: private String location
    :outertype: Task
 
+   The location URI of the result of the task.
+
 state
 ^^^^^
 
 .. java:field:: private TaskState state
    :outertype: Task
 
+   The current state of the task.
+
 type
 ^^^^
 
 .. java:field:: private TaskType type
    :outertype: Task
+
+   The type of the task.
 

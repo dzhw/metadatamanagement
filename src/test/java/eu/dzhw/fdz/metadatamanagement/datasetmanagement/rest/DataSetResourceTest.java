@@ -13,7 +13,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.io.IOException;
 
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.SubDataSet;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

@@ -12,10 +12,9 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
- * entity for task handling.
+ * Task entity holding the current state of a long running task.
  * 
  * @author tgehrke
- *
  */
 @Document(collection = "tasks")
 @EqualsAndHashCode(callSuper = false, of = "id")
@@ -25,11 +24,30 @@ import lombok.ToString;
 @Data
 @Builder
 public class Task extends AbstractRdcDomainObject {
+  /**
+   * The id or task number of the task.
+   */
   @Id
   private String id;
+  
+  /**
+   * The current state of the task.
+   */
   private TaskState state;
+  
+  /**
+   * The location URI of the result of the task.
+   */
   private String location;
+  
+  /**
+   * The type of the task.
+   */
   private TaskType type;
+  
+  /**
+   * The list of errors which occurred during execution of the task.
+   */
   private ErrorListDto errorList;
 
   /**

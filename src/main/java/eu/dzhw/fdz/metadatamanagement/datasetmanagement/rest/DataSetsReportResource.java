@@ -16,13 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.Task;
-import eu.dzhw.fdz.metadatamanagement.common.service.CounterService;
 import eu.dzhw.fdz.metadatamanagement.common.service.TaskService;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.exception.TemplateIncompleteException;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetReportService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import freemarker.template.TemplateException;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * This Resource handles the upload of tex templates for the variable report.
@@ -32,17 +30,13 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Controller
 @RequestMapping("/api")
-@Slf4j
 public class DataSetsReportResource {
 
   @Autowired
   private DataSetReportService dataSetReportService;
 
   @Autowired
-  private CounterService counterService;
-  @Autowired
-  TaskService taskService;
-
+  private TaskService taskService;
 
   /**
    * Accept latex templates under the given request mapping.
@@ -63,12 +57,9 @@ public class DataSetsReportResource {
       Path zipTmpFilePath = Files.createTempFile(dataSetId.replace("!", ""), ".zip");
       File zipTmpFile = zipTmpFilePath.toFile();
       multiPartFile.transferTo(zipTmpFile);
-      zipTmpFile.setWritable(true);
-
-      URI pollUri;
-      String taskId = Long.toString(counterService.getNextSequence(Task.class.getName()));
-      pollUri = URI.create("/api/tasks/" + taskId);
-      Task task = taskService.createTask(taskId);
+      zipTmpFile.setWritable(true);      
+      Task task = taskService.createTask();
+      URI pollUri = URI.create("/api/tasks/" + task.getId());
       // fill the data with data and store the template into mongodb / gridfs
       dataSetReportService.generateReport(zipTmpFilePath, multiPartFile.getOriginalFilename(),
           dataSetId, task);

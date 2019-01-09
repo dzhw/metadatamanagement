@@ -1,10 +1,9 @@
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.rest;
 
-import static org.springframework.test.web.client.response.MockRestResponseCreators.withBadRequest;
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.hamcrest.Matchers.is;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,7 +13,6 @@ import java.nio.file.Paths;
 import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
@@ -22,7 +20,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -115,10 +112,8 @@ public class DataSetsReportResourceTest extends AbstractTest {
         .andExpect(status().isAccepted())
         .andExpect(header().string("location", Matchers.containsString("/api/tasks/"))).andReturn();
     String headlerLocation = result.getResponse().getHeader("location");
-    MvcResult taskRequest = mockMvc.perform(MockMvcRequestBuilders.get(headlerLocation))
+    mockMvc.perform(MockMvcRequestBuilders.get(headlerLocation))
         .andExpect(jsonPath("$.state", is(TaskState.DONE.toString()))).andReturn();
-
-
   }
 
   @Test
@@ -150,7 +145,7 @@ public class DataSetsReportResourceTest extends AbstractTest {
         .multipart(API_DATASETS_REPORTS_URI).file(multipartFile).param("id", dataSet.getId()))
         .andExpect(status().isAccepted()).andReturn();
     String headlerLocation = result.getResponse().getHeader("location");
-    MvcResult taskRequest = mockMvc.perform(MockMvcRequestBuilders.get(headlerLocation))
+    mockMvc.perform(MockMvcRequestBuilders.get(headlerLocation))
         .andExpect(jsonPath("$.state", is(TaskState.FAILURE.toString())))
         .andExpect(jsonPath("$.errorList.errors[0].message",
             is("data-set-management.error.files-in-template-zip-incomplete")))

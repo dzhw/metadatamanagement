@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').service('DataSetReportService',
   function(Upload, FileResource, JobLoggingService, ZipWriterService,
-    $timeout, $http) {
+    $timeout, $http, $log) {
     var uploadTexTemplate = function(files, dataAcquisitionProjectId) {
       ZipWriterService.createZipFileAsync(files, true).then(function(file) {
         if (file !== null) {
@@ -16,20 +16,14 @@ angular.module('metadatamanagementApp').service('DataSetReportService',
             },
             file: file
           }).success(function(data, status, headers) {
-            //Upload and document could filled with data successfully
-            //Download automaticly data filled tex template
             if (data.state === 'RUNNING' && status === 202) {
-              //TODO
               var pollUri = headers('location');
               var tick = function() {
-                //poll headers('location')
                 $http.get(pollUri).then(function(task) {
                   if (task.data.state === 'RUNNING') {
                     //running
-                    $timeout(tick, 1000);
-                  } if (task.data.state === 'DONE') {
-                    // on data.state='DONE'
-                    //    FileResource.download(data.location)
+                    $timeout(tick, 5000);
+                  } else if (task.data.state === 'DONE') {
                     FileResource.download(task.data.location)
                     .then(function(response) {
                       JobLoggingService.success({
@@ -48,11 +42,7 @@ angular.module('metadatamanagementApp').service('DataSetReportService',
                         'data-set-management.log-messages.tex.cancelled', {}
                       );
                     });
-                  } if (task.data.state === 'FAILURE') {
-                    // on data.state='FAILURE'
-                    // handle errorDTO in errorList)
-                    // Server hat issues with the tex file,
-                    // send error to error output
+                  } else if (task.data.state === 'FAILURE') {
                     task.data.errorList.errors.forEach(function(error) {
                       var invalidValue = error.invalidValue;
                       if (error.message.indexOf('----') > -1) {
@@ -78,13 +68,13 @@ angular.module('metadatamanagementApp').service('DataSetReportService',
                   }
                 }
               ).catch(function(error) {
-                  console.log('error in promise', error);
+                  $log.error('Error when polling task', error);
                 });
               };
               tick();
             }
           }).error(function(error) {
-            console.log('repprt request failed', error);
+            $log.error('Template Upload failed', error);
           });
         } else {
           JobLoggingService.cancel(
