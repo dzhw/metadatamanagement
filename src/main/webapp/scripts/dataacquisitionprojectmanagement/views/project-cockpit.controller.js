@@ -1,8 +1,8 @@
-/* global _, $ */
+/* global _ */
 'use strict';
 
 angular.module('metadatamanagementApp').controller('ProjectCockpitController',
-  function($q, $scope, $state, $location, $transitions, UserResource, Principal,
+  function($q, $scope, $state, $location, $transitions, Principal,
            PageTitleService, LanguageService, ToolbarHeaderService,
            DataAcquisitionProjectResource, SimpleMessageToastService,
            CurrentProjectService, projectDeferred, CommonDialogsService,
@@ -20,9 +20,9 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     });
 
     var setTypeCounts = function(projectId) {
+      $scope.counts = {};
       SearchDao.search('', 1, projectId, {}, undefined, 0, undefined)
         .then(function(data) {
-          $scope.counts = {};
           ['variables', 'questions', 'data_sets', 'surveys', 'instruments',
             'studies'].forEach(function(type) {
             var bucket  = _.find(data.aggregations.countByType.buckets,
@@ -190,51 +190,16 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
 
     var prepareProjectForSave = function(assigneeGroupMessage,
                                          newAssigneeGroup) {
-
       var project = _.assignIn({}, $scope.project);
-
       if (!project.configuration) {
         $scope.project.configuration = {};
       }
-
-      var configuredPublishers = $scope.activeUsers.publishers
-        .map(function(identity) {
-          return identity.login;
-        });
-
-      var configuredDataProviders = $scope.activeUsers.dataProviders
-        .map(function(identity) {
-          return identity.login;
-        });
-
-      if (project.configuration.publishers) {
-        project.configuration.publishers =
-          _.filter(_.union(project.configuration.publishers,
-            configuredPublishers), function(val) {
-            return _.includes(configuredPublishers, val);
-          });
-      } else {
-        project.configuration.publishers = configuredPublishers;
-      }
-
-      if (project.configuration.dataProviders) {
-        project.configuration.dataProviders =
-          _.filter(_.union(project.configuration.dataProviders,
-            configuredDataProviders), function(val) {
-            return _.includes(configuredDataProviders, val);
-          });
-      } else {
-        project.configuration.dataProviders = configuredDataProviders;
-      }
-
       if (assigneeGroupMessage) {
         project.lastAssigneeGroupMessage = assigneeGroupMessage;
       }
-
       if (newAssigneeGroup) {
         project.assigneeGroup = newAssigneeGroup;
       }
-
       return project;
     };
 
@@ -293,40 +258,6 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
 
     $scope.setChanged(false);
 
-    $scope.searchText = {
-      publishers: '',
-      dataProviders: ''
-    };
-
-    $scope.selectedUser = {
-      publishers: null,
-      dataProviders: null
-    };
-
-    $scope.preventSearching = {
-      publishers: false,
-      dataProviders: false
-    };
-
-    $scope.selectedUserChanged = function(user, role) {
-      if (user) {
-        $scope.activeUsers[role].push(user);
-        $scope.changed = true;
-        $scope.searchText[role] = '';
-        $scope.selectedUser[role] = null;
-        $scope.preventSearching[role] = true;
-        $state.searchCache[role] = {};
-        $(':focus').blur();
-      }
-    };
-
-    $scope.activeUsers = {
-      publishers: [],
-      dataProviders: []
-    };
-
-    $scope.fetching = false;
-
     $scope.advancedPrivileges = Principal.hasAnyAuthority(['ROLE_PUBLISHER',
       'ROLE_ADMIN']);
     $scope.isPublisher = Principal.hasAnyAuthority(['ROLE_PUBLISHER']);
@@ -335,12 +266,10 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     $scope.isAssignedPublisher = false;
     $scope.isAssignedDataProvider = false;
 
-    // load all users assigned to the currrent project
     projectDeferred.promise.then(
       function(project) {
         setTypeCounts(project.id);
-        $scope.project = project;
-        $scope.fetching = true;
+        $scope.project = _.assignIn({}, project);
 
         PageTitleService.setPageTitle(pageTitleKey,
           {projectId: project.id});
@@ -349,115 +278,10 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
 
         setProjectRequirementsDisabled(project);
 
-        function getAndAddUsers(key) {
-          // get users of type {key} asynchronously
-          // and return promise resolving when all are fetched
-          if (project.configuration[key]) {
-            return $q.all(
-              project.configuration[key].map(function(userLogin) {
-                return (
-                  UserResource.getPublic({
-                    login: userLogin
-                  }).$promise.then(function(userResult) {
-                    if (!_.includes($scope.activeUsers[key].map(function(u) {
-                      return u.login;
-                    }), userResult.login)) {
-                      $scope.activeUsers[key].push(userResult);
-                    }
-                  })
-                );
-              })
-            );
-          } else {
-            return $q.resolve([]);
-          }
-        }
-
-        $q.resolve($q.all([
-          getAndAddUsers('publishers'),
-          getAndAddUsers('dataProviders')
-        ])).then(function() {
-          $scope.fetching = false;
-          setAssignedToProject();
-        }).catch(function(error) {
-          SimpleMessageToastService
-            .openAlertMessageToast(
-              'global.error.server-error.internal-server-error', {
-                status: error.data.error_description
-              });
-        });
         registerConfirmOnDirtyHook();
       }).finally(function() {
       $scope.loadStarted = false;
     });
-
-    $scope.canDeleteUser = function(user, role) {
-      if (user.restricted) {
-        // cannot modify user whose details we can't read
-        return false;
-      }
-      if (!$scope.advancedPrivileges && role === 'publishers') {
-        // cannot remove publishers without advanced privilege
-        return false;
-      }
-      if ($scope.activeUsers[role].length <= 1) {
-        // cannot remove the last user in this list
-        return false;
-      }
-      return true;
-    };
-
-    $state.currentPromise = null;
-    $state.searchCache = {
-      publishers: {},
-      dataProviders: {}
-    };
-    var internalRoles = {
-      'publishers': 'ROLE_PUBLISHER',
-      'dataProviders': 'ROLE_DATA_PROVIDER'
-    };
-    $scope.searchUsers = function(search, role) {
-      var roleInternal = internalRoles[role];
-      var deferred = $q.defer();
-      if (!$state.loadComplete || $scope.preventSearching[role]) {
-        $scope.preventSearching[role] = false;
-        deferred.resolve([]);
-        return deferred.promise;
-      }
-      if ($state.searchCache[role]['text_' + search]) {
-        deferred.resolve($state.searchCache[role]['text_' + search]);
-        return deferred.promise;
-      }
-      if (!$state.currentPromise) {
-        $state.currentPromise = deferred.promise;
-        UserResource.search({
-          login: search,
-          role: roleInternal
-        }).$promise.then(function(result) {
-          $state.currentPromise = null;
-          var results = result.filter(function(x) {
-            // filter out already added users
-            return $scope.activeUsers[role].map(function(u) {
-              return u.login;
-            }).indexOf(x.login) < 0 && _.includes(x.authorities, roleInternal);
-          });
-          $state.searchCache[role]['text_' + search] = results;
-          deferred.resolve($state.searchCache[role]['text_' + search]);
-        });
-        return deferred.promise;
-      } else {
-        return $state.currentPromise;
-      }
-    };
-
-    $scope.removeUser = function(user, role) {
-      $scope.changed = true;
-      $scope.activeUsers[role] = $scope.activeUsers[role]
-        .filter(function(item) {
-          return item.login !== user.login;
-        });
-      $state.searchCache[role] = {};
-    };
 
     $scope.shareButtonShown = false;
 

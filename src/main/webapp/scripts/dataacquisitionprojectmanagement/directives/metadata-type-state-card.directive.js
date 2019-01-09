@@ -12,10 +12,8 @@ angular.module('metadatamanagementApp')
         'metadata-type-state-card.html.tmpl',
       scope: {
         group: '@',
-        counts: '<',
+        counts: '=',
         project: '=',
-        isAssignedPublisher: '<',
-        isAssignedDataProvider: '<',
       },
       replace: true,
       transclude: true,
@@ -25,8 +23,12 @@ angular.module('metadatamanagementApp')
         this.group = $scope.group;
         this.counts = $scope.counts;
         this.project = $scope.project;
-        this.isAssignedDataProvider = $scope.isAssignedDataProvider;
-        this.isAssignedPublisher = $scope.isAssignedPublisher;
+        this.isAssignedDataProvider = (
+          ProjectUpdateAccessService.isAssignedToProject.bind(null,
+            this.project, 'dataProviders'));
+        this.isAssignedPublisher = (
+          ProjectUpdateAccessService.isAssignedToProject.bind(null,
+            this.project, 'publishers'));
 
         var iconpath = 'assets/images/icons/';
         switch (this.group) {

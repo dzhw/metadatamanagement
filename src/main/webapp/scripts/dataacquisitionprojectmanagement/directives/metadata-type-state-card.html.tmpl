@@ -20,19 +20,19 @@
 		</md-checkbox>
 		<md-checkbox
 			ng-model="ctrl.project.configuration[ctrl.group+'State'].dataProviderReady"
-			ng-disabled="!((ctrl.isRequired() && isAssignedPublisher && ctrl.project.assigneeGroup === 'PUBLISHER') || (ctrl.isRequired() && isAssignedDataProvider && ctrl.project.assigneeGroup === 'DATA_PROVIDER'))"
+			ng-disabled="!((ctrl.isRequired() && ctrl.isAssignedPublisher() && ctrl.project.assigneeGroup === 'PUBLISHER') || (ctrl.isRequired() && ctrl.isAssignedDataProvider() && ctrl.project.assigneeGroup === 'DATA_PROVIDER'))"
 		>
-			<md-tooltip ng-if="!isAssignedPublisher && !isAssignedDataProvider">{{'data-acquisition-project-management.project-cockpit.tooltip.not-in-ctrl.group' | translate}}</md-tooltip>
-			<md-tooltip ng-if="(!isAssignedDataProvider && ctrl.project.assigneeGroup === 'DATA_PROVIDER')">{{'data-acquisition-project-management.project-cockpit.tooltip.not-assigned' | translate}}</md-tooltip>
+			<md-tooltip ng-if="!ctrl.isAssignedPublisher() && !ctrl.isAssignedDataProvider()">{{'data-acquisition-project-management.project-cockpit.tooltip.not-in-ctrl.group' | translate}}</md-tooltip>
+			<md-tooltip ng-if="(!ctrl.isAssignedDataProvider() && ctrl.project.assigneeGroup === 'DATA_PROVIDER')">{{'data-acquisition-project-management.project-cockpit.tooltip.not-assigned' | translate}}</md-tooltip>
 			<md-tooltip ng-if="!ctrl.isRequired()">{{'data-acquisition-project-management.error.project-update-access.not-required' | translate}}</md-tooltip>
 			{{'data-acquisition-project-management.project-cockpit.label.ROLE_DATA_PROVIDER' | translate}}
 			{{'data-acquisition-project-management.project-cockpit.config.ready' | translate}}
 		</md-checkbox>
 		<md-checkbox
 			ng-model="ctrl.project.configuration[ctrl.group+'State'].publisherReady"
-			ng-disabled="!(ctrl.isRequired() && isAssignedPublisher && ctrl.project.assigneeGroup === 'PUBLISHER')"
+			ng-disabled="!(ctrl.isRequired() && ctrl.isAssignedPublisher() && ctrl.project.assigneeGroup === 'PUBLISHER')"
 		>
-			<md-tooltip ng-if="!isAssignedPublisher">{{'data-acquisition-project-management.project-cockpit.tooltip.not-in-ctrl.group' | translate}}</md-tooltip>
+			<md-tooltip ng-if="!ctrl.isAssignedPublisher()">{{'data-acquisition-project-management.project-cockpit.tooltip.not-in-ctrl.group' | translate}}</md-tooltip>
 			<md-tooltip ng-if="ctrl.project.assigneeGroup !== 'PUBLISHER'">{{'data-acquisition-project-management.project-cockpit.tooltip.not-assigned' | translate}}</md-tooltip>
 			<md-tooltip ng-if="!ctrl.isRequired()">{{'data-acquisition-project-management.error.project-update-access.not-required' | translate}}</md-tooltip>
 			{{'data-acquisition-project-management.project-cockpit.label.ROLE_PUBLISHER' | translate}}

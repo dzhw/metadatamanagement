@@ -80,16 +80,19 @@ angular.module('metadatamanagementApp').service(
       return !isTypeReady;
     };
 
-    var isAssignedToProject = function(project) {
+    var isAssignedToProject = function(project, role) {
+      role = role || '';
       var userLogin = Principal.loginName();
-      if (Principal.hasAuthority('ROLE_PUBLISHER')) {
-        return project.configuration.publishers.indexOf(userLogin) !== -1;
+      if (role === '' || role === 'publishers') {
+        if (Principal.hasAuthority('ROLE_PUBLISHER')) {
+          return project.configuration.publishers.indexOf(userLogin) !== -1;
+        }
       }
-
-      if (Principal.hasAuthority('ROLE_DATA_PROVIDER')) {
-        return project.configuration.dataProviders.indexOf(userLogin) !== -1;
+      if (role === '' || role === 'dataProviders') {
+        if (Principal.hasAuthority('ROLE_DATA_PROVIDER')) {
+          return project.configuration.dataProviders.indexOf(userLogin) !== -1;
+        }
       }
-
       return false;
     };
 
@@ -131,7 +134,7 @@ angular.module('metadatamanagementApp').service(
 
       for (var i = 0; i < validations.length; i++) {
         try {
-          validations[i].isValid = validations[i](project);
+          validations[i].isValid = validations[i]();
         } catch (e) {
           isValid = false;
           console.error('error during validation:', e);
@@ -163,6 +166,7 @@ angular.module('metadatamanagementApp').service(
     };
 
     return {
+      isAssignedToProject: isAssignedToProject,
       isUpdateAllowed: isUpdateAllowed
     };
 

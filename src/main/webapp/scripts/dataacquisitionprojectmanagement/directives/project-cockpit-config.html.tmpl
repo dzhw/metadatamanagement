@@ -1,11 +1,11 @@
 <div layout-gt-sm="row" layout="column">
   <div flex style="-ms-flex:auto;">
     <div class="layout-margin layout-row md-body-2">{{'data-acquisition-project-management.project-cockpit.search.header-publisher' | translate}}</div>
-    <project-cockpit-userlist group="publishers"></project-cockpit-userlist>
+    <user-list project="project" advanced-privileges="advancedPrivileges" group="publishers"></user-list>
   </div>
   <div flex style="-ms-flex:auto;">
     <div class="layout-margin layout-row md-body-2">{{'data-acquisition-project-management.project-cockpit.search.header-data-provider' | translate}}</div>
-    <project-cockpit-userlist group="dataProviders"></project-cockpit-userlist>
+    <user-list project="project" advanced-privileges="advancedPrivileges" group="dataProviders"></user-list>
   </div>
 </div>
 
