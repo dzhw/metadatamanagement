@@ -29,12 +29,14 @@ public class Configuration {
    */
   @NotEmpty(message = "data-acquisition-project-management.error.configuration.publishers"
       + ".not-empty")
+  @Builder.Default
   private List<String> publishers = new ArrayList<>();
 
   /**
    * User names having the role of a data provider for a project. Must contain at least one user
    * name.
    */
+  @Builder.Default
   private List<String> dataProviders = new ArrayList<>();
 
   /**
@@ -42,6 +44,7 @@ public class Configuration {
    */
   @Valid
   @NotNull(message = "data-acquisition-project-management.error.required-object-types.not-null")
+  @Builder.Default
   private Requirements requirements = new Requirements();
 
   /**
