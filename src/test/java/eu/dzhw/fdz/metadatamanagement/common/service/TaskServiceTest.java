@@ -45,7 +45,7 @@ public class TaskServiceTest extends AbstractTest {
 
   @Test
   public void testHandleErrorTask() {
-    String id = Long.toString(counterService.getNextSequence(Task.class.getName()));;
+    String id = Long.toString(counterService.getNextSequence("tasks"));
     Task taskForError = taskRepo.insert(Task.builder().id(id).state(TaskState.RUNNING).build());
     Task result = taskService.handleErrorTask(taskForError,
         new TemplateNotFoundException("test.tex", null, "message"));
@@ -57,7 +57,7 @@ public class TaskServiceTest extends AbstractTest {
 
   @Test
   public void testHandleTaskDone() {
-    String id = Long.toString(counterService.getNextSequence(Task.class.getName()));;
+    String id = Long.toString(counterService.getNextSequence("tasks"));
     String resultLocation = "/tmp/template.zip";
     Task taskForDone = taskRepo.insert(Task.builder().id(id).state(TaskState.RUNNING).build());
     Task result = taskService.handleTaskDone(taskForDone, resultLocation);
@@ -65,7 +65,7 @@ public class TaskServiceTest extends AbstractTest {
     assertEquals(resultLocation, result.getLocation());
     assertEquals(TaskState.DONE, result.getState());
     assertNull(result.getErrorList());
-    
+
   }
 
 }
