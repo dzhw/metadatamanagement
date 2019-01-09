@@ -12,7 +12,7 @@
         <script>
             db.counters.insert(
             {
-                "_id" : "eu.dzhw.fdz.metadatamanagement.common.domain.Task",
+                "_id" : "tasks",
                 "seq": NumberLong(0)
             });
         </script>

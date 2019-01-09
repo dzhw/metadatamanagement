@@ -36,7 +36,7 @@ public class TaskService {
    * @return the created task.
    */
   public Task createTask() {
-    String taskId = Long.toString(counterService.getNextSequence(Task.class.getName()));
+    String taskId = Long.toString(counterService.getNextSequence("tasks"));
     Task task =
         Task.builder().state(TaskState.RUNNING).id(taskId).type(TaskType.DATA_SET_REPORT).build();
     return taskRepo.insert(task);
