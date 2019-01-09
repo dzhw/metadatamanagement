@@ -1,5 +1,15 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.domain;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.javers.core.metamodel.annotation.Entity;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
@@ -16,15 +26,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.javers.core.metamodel.annotation.Entity;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 /**
  * The data acquisition project collects the metadata for the data products which are published by
@@ -88,6 +89,7 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
   @Valid
   @NotNull(message = "data-acquisition-project-management.error.data-acquisition-project"
       + ".configuration.not-null")
+  @Builder.Default
   private Configuration configuration = new Configuration();
 
   /**

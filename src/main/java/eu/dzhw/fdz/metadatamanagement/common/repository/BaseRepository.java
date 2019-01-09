@@ -18,7 +18,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
  * 
  * @author René Reitmann
  *
- * @param <T> the entitiy
+ * @param <T> the entity
  * @param <ID> the id of the entity
  */
 @NoRepositoryBean

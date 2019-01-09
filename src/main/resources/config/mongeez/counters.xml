@@ -8,4 +8,13 @@
             });
         </script>
     </changeSet>
+    <changeSet changeId="ChangeSet-4" author="tgehrke">
+        <script>
+            db.counters.insert(
+            {
+                "_id" : "eu.dzhw.fdz.metadatamanagement.common.domain.Task",
+                "seq": NumberLong(0)
+            });
+        </script>
+    </changeSet>
 </mongoChangeLog>
