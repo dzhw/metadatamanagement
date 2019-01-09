@@ -19,7 +19,7 @@ angular.module('metadatamanagementApp').config(
           'delete-related-publications-title': 'Alle Publikationen ersetzen?',
           'delete-related-publications': 'Sind Sie sicher, dass Sie die Publikationen mit den übergebenen Daten ersetzen möchten?',
           'delete-instruments-title': 'Alle Instrumente ersetzen?',
-          'delete-instruments': 'Sind Sie sicher, dass Sie alle Instrumente innerhalb des Datenaufbereitungsprojekts mit der FDZ-ID "{{ id }}" mit den übergebenen Daten ersetzen möchten?'
+          'delete-instruments': 'Sind Sie sicher, dass Sie alle Instrumente innerhalb des Datenaufbereitungsprojekts mit der FDZ-ID "{{ id }}" mit den übergebenen Daten ersetzen möchten?',
         },
         'detail': {
           'search': 'Datensuche'
@@ -44,6 +44,7 @@ angular.module('metadatamanagementApp').config(
           'create-instrument-tooltip': 'Klicken, um ein neues Instrument zu erstellen',
           'edit-instrument-tooltip': 'Klicken, um das Instrument zu bearbeiten',
           'delete-instrument-tooltip': 'Klicken, um das Instrument zu löschen',
+          'delete-all-instruments-tooltip': 'Klicken, um alle Instrumente des Datenaufbereitungsprojekts zu löschen',
           'create-data-set-tooltip': 'Klicken, um einen neuen Datensatz zu erstellen',
           'edit-data-set-tooltip': 'Klicken, um den Datensatz zu bearbeiten',
           'delete-data-set-tooltip': 'Klicken, um den Datensatz zu löschen',

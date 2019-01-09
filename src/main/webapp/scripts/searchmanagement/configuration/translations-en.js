@@ -44,6 +44,7 @@ angular.module('metadatamanagementApp').config(
           'create-instrument-tooltip': 'Click to create a new instrument',
           'edit-instrument-tooltip': 'Click to edit the instrument',
           'delete-instrument-tooltip': 'Click to delete the instrument',
+          'delete-all-instruments-tooltip': 'Click, to delete all questions of the data acquisition project',
           'create-data-set-tooltip': 'Click to create a new data set',
           'edit-data-set-tooltip': 'Click to edit the data set',
           'delete-data-set-tooltip': 'Click to delete the data set',

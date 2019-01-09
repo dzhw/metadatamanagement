@@ -1,12 +1,10 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.rest;
 
-import eu.dzhw.fdz.metadatamanagement.common.rest.GenericDomainObjectResourceController;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation.ValidDataAcquisitionProjectSave;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionProjectService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+import java.util.Optional;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
@@ -14,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,12 +20,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.validation.Valid;
-import java.util.List;
-import java.util.Optional;
+import eu.dzhw.fdz.metadatamanagement.common.rest.GenericDomainObjectResourceController;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.InstrumentService;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation.ValidDataAcquisitionProjectSave;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionProjectService;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.service.QuestionService;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * If a data acquisition project has been released before, it can not be deleted by anyone.
+ * 
  * @author Daniel Katzberg
  */
 @RepositoryRestController
@@ -37,10 +44,14 @@ public class DataAcquisitionProjectResource extends
         DataAcquisitionProjectRepository> {
 
   private DataAcquisitionProjectService dataAcquisitionProjectService;
+  @Autowired
+  private QuestionService questionService;
+  @Autowired
+  private InstrumentService instrumetService;
 
   @Autowired
   public DataAcquisitionProjectResource(DataAcquisitionProjectRepository projectRepository,
-                                        DataAcquisitionProjectService service) {
+      DataAcquisitionProjectService service) {
     super(projectRepository);
     this.dataAcquisitionProjectService = service;
   }
@@ -52,16 +63,15 @@ public class DataAcquisitionProjectResource extends
   @Secured(value = {AuthoritiesConstants.DATA_PROVIDER, AuthoritiesConstants.PUBLISHER,
       AuthoritiesConstants.ADMIN})
   public ResponseEntity<?> saveProject(@PathVariable String id,
-                                       @RequestBody @ValidDataAcquisitionProjectSave @Valid
-                                           DataAcquisitionProject newDataProject) {
+      @RequestBody @ValidDataAcquisitionProjectSave @Valid DataAcquisitionProject newDataProject) {
     Optional<DataAcquisitionProject> dataAcquisitionProject = repository.findById(id);
     DataAcquisitionProject projectToSave;
 
     projectToSave = dataAcquisitionProject.orElseGet(DataAcquisitionProject::new);
 
     BeanUtils.copyProperties(newDataProject, projectToSave, "version");
-    DataAcquisitionProject savedProject = dataAcquisitionProjectService
-        .saveDataAcquisitionProject(projectToSave);
+    DataAcquisitionProject savedProject =
+        dataAcquisitionProjectService.saveDataAcquisitionProject(projectToSave);
 
     if (dataAcquisitionProject.isPresent()) {
       return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
@@ -72,6 +82,7 @@ public class DataAcquisitionProjectResource extends
 
   /**
    * Override default get by id since it does not set cache headers correctly.
+   * 
    * @param id a {@link DataAcquisitionProject} id
    * @return the {@link DataAcquisitionProject} or not found
    */
@@ -86,6 +97,7 @@ public class DataAcquisitionProjectResource extends
 
   /**
    * Overwriting the delete data acquisition project api method from mongo db.
+   * 
    * @param id The id of the data acquisition project.
    * @return Return a 200 (ok) if successful deleted or a Bad Request, if it has been released
    *         before and deleting is forbidden.
@@ -122,5 +134,28 @@ public class DataAcquisitionProjectResource extends
     List<DataAcquisitionProject> projects =
         dataAcquisitionProjectService.findByIdLikeOrderByIdAsc(id);
     return ResponseEntity.ok(projects);
+  }
+
+  /**
+   * delete all metadata by type from data acquisition project.
+   * 
+   * @param id the Id of the project.
+   * @param type the metadata type to delete
+   * @return no Content.
+   */
+  @DeleteMapping(value = "/data-acquisition-projects/{id}/{type}")
+  public ResponseEntity<Question> deleteAllMetadataByType(@PathVariable String id,
+      @PathVariable(value = "type", required = true) String type) {
+    switch (type) {
+      case "questions":
+        questionService.deleteQuestionsByProjectId(id);
+        break;
+      case "instruments":
+        instrumetService.deleteAllInstrumentsByProjectId(id);
+        break;
+      default:
+        return ResponseEntity.badRequest().build();
+    }
+    return ResponseEntity.noContent().build();
   }
 }

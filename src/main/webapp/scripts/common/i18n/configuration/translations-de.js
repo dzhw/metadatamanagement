@@ -349,6 +349,10 @@ angular.module('metadatamanagementApp').config(
           'confirm-delete-data-set': {
             'title': 'Datensatz "{{ id }}" löschen?',
             'content': 'Wollen Sie den Datensatz "{{ id }}" wirklich löschen?'
+          },
+          'confirm-delete-all-questions': {
+            'title': 'Alle Datensätze von "{{ id }}" löschen?',
+            'content': 'Wollen Sie wirklich alle Fragen des Datenaubereitungsprojekts "{{ id }}" löschen?'
           }
         }
       }

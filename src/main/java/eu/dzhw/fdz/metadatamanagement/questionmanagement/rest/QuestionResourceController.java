@@ -3,7 +3,6 @@ package eu.dzhw.fdz.metadatamanagement.questionmanagement.rest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,17 +37,5 @@ public class QuestionResourceController
   @RequestMapping(method = RequestMethod.GET, value = "/questions/{id:.+}")
   public ResponseEntity<Question> findQuestion(@PathVariable String id) {
     return super.findDomainObject(id);
-  }
-
-  /**
-   * delete all questions from data acquisition project.
-   * 
-   * @param projectId the Id of the project.
-   * @return no Content.
-   */
-  @DeleteMapping(value = "/data-acquisition-projects/questions/{projectId}")
-  public ResponseEntity<Question> deleteAllByProjectId(@PathVariable String projectId) {
-    questionService.deleteQuestionsByProjectId(projectId);
-    return ResponseEntity.noContent().build();
   }
 }

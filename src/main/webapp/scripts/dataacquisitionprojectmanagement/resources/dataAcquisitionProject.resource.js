@@ -2,8 +2,9 @@
 
 angular.module('metadatamanagementApp')
   .factory('DataAcquisitionProjectResource', function($resource, $rootScope) {
-    return $resource('/api/data-acquisition-projects/:id', {
-      id: '@id'
+    return $resource('/api/data-acquisition-projects/:id/:type', {
+      id: '@id',
+      type: '@type'
     }, {
       'get': {
         method: 'GET',
@@ -23,6 +24,9 @@ angular.module('metadatamanagementApp')
             }
           }
         }
+      },
+      'deleteAllMetadataByType': {
+        method: 'DELETE'
       }
     });
   });
