@@ -17,7 +17,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetReposi
  * @author René Reitmann
  */
 @RepositoryRestController
-public class DataSetResourceController 
+public class DataSetResourceController
     extends GenericDomainObjectResourceController<DataSet, DataSetRepository> {
 
   @Autowired

@@ -53,11 +53,13 @@ ist unbedingt Folge zu leisten, damit ein erfolgreicher Upload der
 einzelnen Metadaten gewährleistet werden kann.
 
 Aktuell können einige Metadaten bereits über eine Eingabemaske im MDM
-direkt eingetragen werden. Für die übrigen Ebenen müssen Excel-Tabellen
-ausgefüllt werden. Zusätzlich ist auf manchen Ebenen das Erstellen von
+direkt eingetragen werden. Für die übrigen Ebenen müssen Json Dateien
+hochgeladen werden, bzw eine Exceldatei ans FDZ übergeben werden bzw.
+hochgeladen werden.
+Zusätzlich ist auf manchen Ebenen das Erstellen von
 weiteren Anhängen (vgl. Kapitel 2.5) vorgesehen. Die Excel-Tabellen und
-eventuelle Anhänge müssen für jede Ebene dann entweder in einer
-bestimmten Ordnerstruktur ins MDM hochgeladen werden oder zunächst dem
+eventuelle Anhänge müssen für jede Ebene dann entweder ins MDM hochgeladen
+werden oder zunächst dem
 FDZ zur weiteren Bearbeitung geschickt werden. Tabelle 1 zeigt eine
 erste Übersicht über das Vorgehen der Metadateneingabe auf jeder Ebene,
 detaillierte Erläuterungen werden in den nachstehenden Kapiteln folgen.
@@ -74,16 +76,14 @@ Tabelle 1: Vorgehen bei der Metadateneingabe pro Ebene
 | Erhebungen      | Eingabemaske    | Anhänge (PDF)   | Eingabemaske    |
 |                 |                 |                 | ausfüllen       |
 +-----------------+-----------------+-----------------+-----------------+
-| Erhebungs-      | Excel-Tabelle/  | Anhänge (PDF,   | Ordner ins MDM  |
-| instrumente     | Eingabemaske    | Excel)          | laden/          |
-|                 |                 |                 | Eingabemaske    |
-|                 |                 |                 | ausfüllen       |
+| Erhebungs-      | Eingabemaske    | Anhänge (PDF,   | Eingabemaske    |
+| instrumente     |                 | Excel)          | ausfüllen       |
 +-----------------+-----------------+-----------------+-----------------+
 | Fragen          | Excel-Tabelle   | Fragebilder     | Im              |
 |                 | (oder Zofar)    | (.png)          | Vorlage-Ordner  |
 |                 |                 |                 | speichern       |
 +-----------------+-----------------+-----------------+-----------------+
-| Datensätze      | Excel-Tabelle   | Anhänge (PDF)   | Ordner ins MDM  |
+| Datensätze      | Eingabemaske    | Anhänge (PDF)   | Ordner ins MDM  |
 |                 |                 |                 | laden           |
 +-----------------+-----------------+-----------------+-----------------+
 | Variablen       | mind. 1         | mind. 1         | Im              |
@@ -137,12 +137,13 @@ Nach erfolgreicher Anmeldung erscheint in der Sidebar das folgende Feld:
    Bereich für Verwaltung von Projekten im MDM
 
 Über den Plus-Button können Sie ein neues Projekt anlegen (vgl.
-:numref:`neuesprojektanlegen`). Als Projektname müssen Sie eine bestimmte ID angeben,
-welche das FDZ zuvor speziell für Ihr Projekt vergeben hat und Ihnen
+:numref:`neuesprojektanlegen`). Als Projektname müssen Sie eine bestimmte ID
+angeben, welche das FDZ zuvor speziell für Ihr Projekt vergeben hat und Ihnen
 mitteilen muss (z. B. „gra2005“ für das Absolventenpanel 2005). Das
 Projekt ist dadurch im MDM angelegt, aber noch nicht automatisch
 freigegeben. Solange das Projekt noch nicht freigegeben wurde, können
-Sie es jederzeit über den Mülleimer-Button ganz links (vgl. :numref:`neuesprojektanlegen`)
+Sie es jederzeit über den Mülleimer-Button ganz links (vgl.
+:numref:`neuesprojektanlegen`)
 wieder löschen.
 
 .. figure:: ./_static/05_de.png
@@ -159,12 +160,11 @@ Notwendige Schnittstellen und Dateien
 -------------------------------------
 
 Grundsätzlich gibt es zwei verschiedene Möglichkeiten Metadaten
-einzutragen bzw. hochzuladen: Eingabemasken und Excel-Tabellen.
+einzutragen bzw. hochzuladen: Eingabemasken und der Upload von Dateien welche
+Metadaten enthalten (Json Dateien im Fall von Fragen und Variablen, eine
+Exceltabelle bei Publikationen).
 Eingabemasken ermöglichen eine komfortable Abgabe der Metadaten direkt
-auf der Website, während Excel-Tabellen zunächst ausgefüllt und im
-Anschluss daran entweder in einer bestimmten Ordnerstruktur (vgl.
-Kapitel 3.4) abgelegt und im MDM hochgeladen oder dem FDZ zur weiteren
-Bearbeitung zugeschickt werden müssen.
+auf der Website.
 
 Eingabemasken
 ~~~~~~~~~~~~~
@@ -189,38 +189,13 @@ Diese Excel-Tabellen finden Sie im Vorlage-Ordner der jeweiligen Ebene
 (vgl. Kapitel 3.4). Welche Metadaten Sie an welcher Stelle in der
 Excel-Tabelle eintragen müssen, erkennen Sie an den bereits vorgegebenen
 Spaltenüberschriften in der ersten Zeile der Tabelle. Dort stehen die
-Bezeichnungen der jeweiligen Metadaten, welche auf den ersten Blick
-etwas kryptisch erscheinen, innerhalb der noch folgenden Beschreibung
-der einzelnen Ebenen jedoch näher erläutert werden. Beispiele für
-Spaltenüberschriften in :numref:`spalten_excel_instruments`: *number* = Nummer des Instruments
-(Spalte A), *surveyNumbers* = Nummern der zugehörigen Erhebungen (Spalte
-B).
-
-.. figure:: ./_static/06_de.png
-   :name: spalten_excel_instruments
-
-   Spaltenüberschriften, Excel-Vorlage für die Ebene *Erhebungsinstrumente*
+Bezeichnungen der jeweiligen Metadaten.
 
 Die Suffixe „.de“ und „.en“ sind Teil vieler Spaltenüberschriften und
-weisen auf die Sprache des einzutragenden Metadatums hin. Beispiel in
-:numref:`sprachsuffixe`: Beschreibung des Instruments auf Deutsch (Spalte C),
-Beschreibung des Instruments auf Englisch (Spalte D).
-
-.. figure:: ./_static/07_de.png
-   :name: sprachsuffixe
-
-   Sprachensuffixe, Excel-Vorlage für die Ebene *Erhebungsinstrumente*
-
-Ab der zweiten Zeile sind die Tabellenvorlagen leer und hier nur für das
-Beispiel bereits gefüllt (vgl. :numref:`beispiele_excelvorlage_instruments`). Dort können Sie Ihre
+weisen auf die Sprache des einzutragenden Metadatums hin.
+Ab der zweiten Zeile sind die Tabellenvorlagen leer. Dort können Sie Ihre
 Inhalte entsprechend der Spaltenüberschriften eintragen. Inhaltliche
 Hilfen hierfür finden Sie in den Erklärungen zu den einzelnen Ebenen.
-
-
-.. figure:: ./_static/08_de.png
-   :name: beispiele_excelvorlage_instruments
-
-   Beispiele für den Inhalt der einzelnen Metadaten, Excel-Vorlage für die Ebene *Erhebungsinstrumente*
 
 Bitte beachten Sie außerdem:
 
@@ -237,7 +212,7 @@ Bitte beachten Sie außerdem:
    **Kontrolliertes Vokabular**
 
 Für einige Metadaten gibt es ein sogenanntes „kontrolliertes Vokabular“,
-d. h. dort können nur bestimmte Inhalte in die Spalten eingetragen
+d.h. dort können nur bestimmte Inhalte in die Spalten eingetragen
 werden. In diesen Spalten wird Ihnen in jeder Zelle eine Auswahl der
 möglichen Antworten anhand eines Drop-Down-Menüs angeboten und Sie
 müssen diese nur auswählen.
@@ -247,7 +222,7 @@ bestimmten Zelle automatisch der Inhalt der nächsten Zelle folgt. Für
 dieses Szenario sind die Excel-Vorlagen vorbereitet, d. h. in den
 betreffenden Spalten sind über mehrere Zeilen bereits Formeln
 hinterlegt, die die nächste Zelle automatisch füllen und Ihnen viel
-Tipparbeit ersparen (vgl. :numref:`formel_datensatz`). Die Vorlagen sind für alle Fälle
+Tipparbeit ersparen. Die Vorlagen sind für alle Fälle
 vorbereitet, so dass die Formeln auch in höher nummerierten Zeilen
 stehen werden, die Sie voraussichtlich nicht mehr benötigen (bis
 einschließlich Zeile 20 der Excel-Vorlage für die Ebenen Instrumente
@@ -255,30 +230,21 @@ sowie Datensätze, bis einschließlich Zeile 2000 der Excel-Vorlage für
 die Fragen- und Variablenebene). Zum leichteren Erkennen sind die
 betreffenden Zeilen in den Vorlagen bereits grau hinterlegt.
 
-
-.. figure:: ./_static/09_de.png
-   :name: formel_datensatz
-
-   Beispiel für eine Formel in einer befüllten Zelle in der Excel-Vorlage für die Ebene *Datensätze*
-
-.. figure:: ./_static/10_de.png
-   :name: formel_leer
-
-   Beispiel für eine Formel in einer leeren Zelle in der Excel-Vorlage für die Ebene *Datensätze*
-
-Da Formeln in solchen Zellen, die nicht mit Inhalt befüllt sind (vgl.
-:numref:`formel_leer`), einen fehlerhaften Upload der Excel-Tabelle hervorrufen,
+Da Formeln in solchen Zellen, die nicht mit Inhalt befüllt sind,
+einen fehlerhaften Upload der Excel-Tabelle hervorrufen,
 müssen die überflüssigen Formeln aus den nicht benötigten Zeilen
 herausgelöscht werden. Dies können Sie erledigen, indem Sie die nicht
-benötigten der grau eingefärbten Zeilen bis einschließlich der Zeile 20
-(für Instrumente und Datensätze) bzw. der Zeile 2000 (für Fragen- und
-Variablenebene) markieren und über das Menü per „Blattzeilen löschen“
-komplett entfernen (vgl. :numref:`nicht_benötigte_formel`).
+benötigten der grau eingefärbten Zeilen bis einschließlich der Zeile 2000
+(für Fragen- und Variablenebene) markieren und über das Menü per
+„Blattzeilen löschen“ komplett entfernen (vgl. dazu analog zur ehemaligen
+Exceltabelle für die Datensatzebene -- mittlerweile gibt es dort nur noch
+Eingabemasken :numref:`nicht_benötigte_formel`).
 
 .. figure:: ./_static/11_de.png
    :name: nicht_benötigte_formel
 
-   Beispiel für das Löschen nicht benötigter Formeln aus der Excel-Vorlage für die Ebene *Datensätze*
+   Beispiel für das Löschen nicht benötigter Formeln aus der Excel-Vorlage für
+   die Ebene *Datensätze*
 
 Anhänge
 ~~~~~~~
@@ -303,20 +269,17 @@ in den Erläuterungen für die einzelnen Ebenen.
 Die korrekte Anordnung der Dateien im Ordner
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Für einen erfolgreichen Upload der Metadaten über Excel-Tabellen müssen
+Für einen erfolgreichen Upload der Metadaten attachments müssen
 Sie sämtliche Dateien ihrer zugehörigen Ebene entsprechend in den vom
 FDZ vorbereiteten Vorlage-Ordner ablegen, welcher nach der jeweiligen
 Ebene benannt ist. Dieser Ordner sowie auch seine Unterordner sind mit
 englischen Begriffen betitelt. So heißt z. B. der Ordner der
 Instrumentenebene „instruments“ und der Ordner der Datensatzebene
 „dataSets“. Der Unterordner, welche alle Anhänge enthält, heißt
-unabhängig von der Ebene immer „attachments“. Die Reihenfolge der
-Dateien im Ordner sowie in den Unterordnern spielt keine Rolle. Da meist
-eine Sortierung nach alphabetischer Reihenfolge voreingestellt ist,
-steht der „attachments“-Ordner an erster Stelle, während die
-Excel-Tabelle erst danach folgt. Die vorliegende Ordnerstruktur am
-Beispiel der Instrumentenebene zeigt :numref:`ordnerstruktur_instruments`.
-
+unabhängig von der Ebene immer „attachments“. Mittlerweile werden, abweichend
+vom Screenshot, keine Exceldateien mehr benötigt. Die vorliegende Ordnerstruktur
+am Beispiel analog zur mittlerweile nicht mehr benötigten Instrumentenebene
+zeigt :numref:`ordnerstruktur_instruments`.
 
 .. figure:: ./_static/12_de.png
    :name: ordnerstruktur_instruments
@@ -354,10 +317,7 @@ erscheinen links davon zwei weiße Buttons (vgl. :numref:`studien_optionen`).
 
    Optionen für das Anlegen einer Studie
 
-Über den weißen Ordner-Button können Studieninformationen weiterhin
-mittels Ordner, der eine Excel-Tabelle und Anhänge enthält, hochgeladen
-werden, wobei diese Variante hier nicht weiter erläutert wird, da sie
-von der Eingabemaske abgelöst wurde. Mit einem Klick auf den weißen
+Mit einem Klick auf den weißen
 Plus-Button öffnet sich die Eingabemaske, in der Sie Ihre Informationen
 zur Studie ablegen können.
 
@@ -374,16 +334,20 @@ Sozialerhebung):
 .. figure:: ./_static/15_de.png
    :name: studienebene_eingabemaske
 
-   Eingabemaske auf Studienebene, Abschnitt "Details" am Beispiel der 21. Sozialerhebung
+   Eingabemaske auf Studienebene, Abschnitt "Details" am Beispiel der 21.
+   Sozialerhebung
 
 Nach dem Öffnen der Eingabemaske erscheint ganz oben die aus ihrem
 Projektnamen automatisch generierte ID für die Studienseite (s. rotes
-Kästchen in :numref:`studienebene_eingabemaske`). Einige Felder, die Sie frei ausfüllen können,
+Kästchen in :numref:`studienebene_eingabemaske`). Einige Felder, die Sie frei
+ausfüllen können,
 verfügen über einen Zeichenzähler, der Sie darüber informiert, wie viele
 Zeichen Sie dort insgesamt eintragen dürfen und wie viele Zeichen Sie
-bereits eingetragen haben (s. blaues Kästchen in :numref:`studienebene_eingabemaske`). Außerdem
+bereits eingetragen haben (s. blaues Kästchen in
+:numref:`studienebene_eingabemaske`). Außerdem
 finden Sie teilweise Drop-Down-Menüs vor, in denen Sie aus vorgegebenen
-Alternativen auswählen können (s. grünes Kästchen in :numref:`studienebene_eingabemaske`).
+Alternativen auswählen können (s. grünes Kästchen in
+:numref:`studienebene_eingabemaske`).
 
 Im zweiten Abschnitt der Eingabemaske müssen Sie eine Beschreibung Ihrer
 Studie sowohl auf Deutsch als auch auf Englisch eingeben. Für ein
@@ -394,11 +358,14 @@ abgebildet:
 .. figure:: ./_static/16_de.png
    :name: eingabemaske_studienbeschreibung
 
-   Eingabemaske auf Studienebene, Abschnitt "Studienbeschreibung" am Beispiel der 21. Sozialerhebung
+   Eingabemaske auf Studienebene, Abschnitt "Studienbeschreibung" am Beispiel
+   der 21. Sozialerhebung
 
 Im dritten Abschnitt der Eingabemaske geben Sie die Mitarbeiter(innen)
 Ihres Projekts ein. Für die Eingabe weiterer Personen klicken Sie
-einfach auf den blauen Plus-Button (s. :numref:`studienebene_eingabemaske_mitarbeiter`). Wenn mindestens zwei
+einfach auf den blauen Plus-Button (s.
+:numref:`studienebene_eingabemaske_mitarbeiter`).
+Wenn mindestens zwei
 Personen eingetragen sind, erscheinen die Pfeil-Buttons als aktiv
 (Farbwechsel von grau zu blau). Dann können Sie die Reihenfolge der
 Personen ändern, indem Sie die Namen nach oben oder unten verschieben.
@@ -658,114 +625,6 @@ Speichern-Button (Diskettensymbol unten rechts) speichern.
 
    Instrumente Anhang
 
-**Excel-Tabelle**
-
-Sie können für jede Ihrer Erhebungen alle zugehörigen Instrumente inkl.
-Anhänge innerhalb einer Tabelle eintragen und hochladen. Dazu müssen Sie
-die Excel-Datei *instruments.xlsx* ausfüllen, welche aus zwei
-Tabellenblättern besteht: *instruments* und *attachments*. Nachstehend
-finden Sie die Erläuterungen zur Tabelle:
-
-Tabelle 2: Ausfüllanweisungen für die Excel-Tabelle "instruments"
-
-+-----------------------+-----------------------+-----------------------+
-| **Tabellenblatt 1:                                                    |
-| instruments**                                                         |
-+=======================+=======================+=======================+
-| Es können mehrere                                                     |
-| Instrumente                                                           |
-| eingetragen werden (=                                                 |
-| mehrere Zeilen                                                        |
-| möglich, ein                                                          |
-| Instrument pro Zeile)                                                 |
-+-----------------------+-----------------------+-----------------------+
-| **Spaltenüberschrift**| **Muss ich das        | **Was muss ich        |
-|                       | ausfüllen?**          | eintragen?**          |
-+-----------------------+-----------------------+-----------------------+
-| number                | Ja                    | Nummer des            |
-|                       |                       | Instrumentes          |
-|                       |                       | (fortlaufend)         |
-+-----------------------+-----------------------+-----------------------+
-| surveyNumbers         | Ja                    | Nummer der            |
-|                       |                       | zugehörigen           |
-|                       |                       | Erhebungen            |
-+-----------------------+-----------------------+-----------------------+
-| description.de/en     | Ja                    | Beschreibung des      |
-|                       |                       | Instrumentes          |
-+-----------------------+-----------------------+-----------------------+
-| title.de/en           | Ja                    | Titel des Instruments |
-+-----------------------+-----------------------+-----------------------+
-| subtitle.de/en        | Nein                  | Untertitel des        |
-|                       |                       | Instruments           |
-+-----------------------+-----------------------+-----------------------+
-| type                  | Ja                    | Instrumenttyp:        |
-|                       |                       |                       |
-|                       |                       | „PAPI“ (paper and     |
-|                       |                       | pencil interview),    |
-|                       |                       |                       |
-|                       |                       | „CAPI“                |
-|                       |                       | (computer-assisted    |
-|                       |                       | personal interview),  |
-|                       |                       |                       |
-|                       |                       | „CATI“                |
-|                       |                       | (computer-assisted    |
-|                       |                       | telephone interview), |
-|                       |                       |                       |
-|                       |                       | „CAWI”                |
-|                       |                       | (computer-assisted    |
-|                       |                       | web interview)        |
-+-----------------------+-----------------------+-----------------------+
-| annotations.de/en     | Nein                  | Anmerkungen zum       |
-|                       |                       | Instrument            |
-+-----------------------+-----------------------+-----------------------+
-
-+-----------------------+-----------------------+-----------------------+
-| **Tabellenblatt 2:                                                    |
-| attachments**                                                         |
-+=======================+=======================+=======================+
-| Es können mehrere                                                     |
-| Anhänge eingetragen                                                   |
-| werden (= mehrere                                                     |
-| Zeilen möglich, ein                                                   |
-| Anhang pro Zeile)                                                     |
-+-----------------------+-----------------------+-----------------------+
-| **Spaltenüberschrift**| **Muss ich das        | **Was muss ich        |
-|                       | ausfüllen?**          | eintragen?**          |
-+-----------------------+-----------------------+-----------------------+
-| filename              | Ja                    | Name der Datei im     |
-|                       |                       | attachments-Ordner    |
-|                       |                       | (z. B.                |
-|                       |                       | „gra2005_W1_Questionn |
-|                       |                       | aire_de.pdf“)         |
-+-----------------------+-----------------------+-----------------------+
-| type.de/en            | Ja                    | de: „Fragebogen“,     |
-|                       |                       | „Filterführungsdiagra |
-|                       |                       | mm“,                  |
-|                       |                       | „Variablenfragebogen“ |
-|                       |                       | ,                     |
-|                       |                       | „Sonstige“;           |
-|                       |                       |                       |
-|                       |                       | en: „Questionnaire“,  |
-|                       |                       | „Question Flow“,      |
-|                       |                       | „Variable             |
-|                       |                       | Questionnaire“,       |
-|                       |                       | „Other“               |
-+-----------------------+-----------------------+-----------------------+
-| description.de/en     | Ja                    | Beschreibung des      |
-|                       |                       | Dokuments             |
-+-----------------------+-----------------------+-----------------------+
-| language              | Ja                    | Sprache des Anhangs   |
-|                       |                       |                       |
-|                       |                       | *Bitte verwenden Sie  |
-|                       |                       | eine Abkürzung nach   |
-|                       |                       | ISO 639-1*:           |
-|                       |                       |                       |
-|                       |                       | z. B. „de“, „en“      |
-+-----------------------+-----------------------+-----------------------+
-| instrumentNumber      | Ja                    | Nummer des dem Anhang |
-|                       |                       | zugehörigen           |
-|                       |                       | Instruments           |
-+-----------------------+-----------------------+-----------------------+
 
 Zu den möglichen Anhängen zählen z. B. Fragebögen, Variablenfragebögen
 sowie Filterführungsdiagramme [4]_. Diese müssen als PDF-Dateien
@@ -773,7 +632,8 @@ vorliegen. [5]_ Außerdem können an dieser Stelle Codierlisten, welche
 als Excel-Tabelle vorliegen müssen, erfasst werden. Alle Anhänge werden
 im Ordner *attachments* abgelegt.
 
-Für den Upload der Dateien ins MDM muss die Ordnerstruktur wie in :numref:`ordnerstruktur_instruments_2` vorliegen.
+Für den Upload der Dateien ins MDM muss die Ordnerstruktur wie in
+:numref:`ordnerstruktur_instruments_2` vorliegen.
 
 .. figure:: ./_static/32_1_de.png
    :name: ordnerstruktur_instruments_2
@@ -796,7 +656,8 @@ folgende Übersichtsseite erstellt wird:
 .. figure:: ./_static/33_de.png
    :name: fragenübersicht
 
-   Fragenübersicht im MDM am Beispiel der Frage 1.1 des Fragebogens der ersten Welle im Absolventenpanel 2005
+   Fragenübersicht im MDM am Beispiel der Frage 1.1 des Fragebogens der ersten
+   Welle im Absolventenpanel 2005
 
 Auf dieser Ebene werden Informationen über alle Fragen für jedes
 einzelne Erhebungsinstrument einer Studie abgeben. Der
@@ -1041,161 +902,8 @@ Im Anschluss werden die Subdatensätze per Eingabemaske auf der selben Seite ein
 Weitere Subdatensätze können per Klick auf das Plussymbol hinzugefügt werden.
 Nachdem gespeichert wurde, lassen sich weitere Materialien zum Datensatz hinzufügen.
 
-**Excel-Tabelle**
-
-Auf der Datensatzebene werden alle Datensätze und Subdatensätze [8]_,
-die einer Studie zugeordnet sind, erfasst. Ihre Informationen zu den
-Datensätzen können Sie in die Excel-Tabelle *dataSets.xlsx*, welche aus
-drei Tabellenblättern (*dataSets*, *subDataSets* und *attachments*)
-besteht, eintragen.
-
-Tabelle 4: Ausfüllanweisungen für die Excel-Tabelle "dataSets"
-
-+-----------------------+-----------------------+-----------------------+
-| **Tabellenblatt 1:                                                    |
-| dataSets**                                                            |
-+=======================+=======================+=======================+
-| Es können mehrere                                                     |
-| Datensätze                                                            |
-| eingetragen werden (=                                                 |
-| mehrere Zeilen                                                        |
-| möglich, ein                                                          |
-| Datensatz pro Zeile)                                                  |
-+-----------------------+-----------------------+-----------------------+
-| **Spaltenüberschrift**| **Muss ich das        | **Was muss ich        |
-|                       | ausfüllen?**          | eintragen?**          |
-+-----------------------+-----------------------+-----------------------+
-| number                | Ja                    | Nummer des            |
-|                       |                       | Datensatzes (laufende |
-|                       |                       | Nummer, eindeutig im  |
-|                       |                       | Datenaufbereitungspro |
-|                       |                       | jekt)                 |
-+-----------------------+-----------------------+-----------------------+
-| description.de/en     | Nein                  | Beschreibung des      |
-|                       |                       | Datensatzes           |
-+-----------------------+-----------------------+-----------------------+
-| type.de/en            | Ja                    | de:                   |
-|                       |                       | „Personendatensatz“,  |
-|                       |                       | „Episodendatensatz“;  |
-|                       |                       |                       |
-|                       |                       | en: „Individual       |
-|                       |                       | Data“, „Spell Data“   |
-+-----------------------+-----------------------+-----------------------+
-| format.de/en          | Nein                  | de: „breit“, „lang“;  |
-|                       |                       | en: „wide“, „long“    |
-+-----------------------+-----------------------+-----------------------+
-| surveyNumbers         | Ja                    | Nummern der zum       |
-|                       |                       | Datensatz gehörenden  |
-|                       |                       | Erhebungen            |
-+-----------------------+-----------------------+-----------------------+
-| annotations.de/en     | Nein                  | Anmerkungen zum       |
-|                       |                       | Datensatz             |
-+-----------------------+-----------------------+-----------------------+
-
-+-----------------------+-----------------------+-----------------------+
-| **Tabellenblatt 2:                                                    |
-| subDataSets**                                                         |
-+=======================+=======================+=======================+
-| Es können mehrere                                                     |
-| Subdatensätze                                                         |
-| eingetragen werden (=                                                 |
-| mehrere Zeilen                                                        |
-| möglich, ein                                                          |
-| Subdatensatz pro                                                      |
-| Zeile)                                                                |
-+-----------------------+-----------------------+-----------------------+
-| **Spaltenüberschrift**| **Muss ich das        | **Was muss ich        |
-|                       | ausfüllen?**          | eintragen?**          |
-+-----------------------+-----------------------+-----------------------+
-| name                  | Ja                    | Dateiname des         |
-|                       |                       | „physikalischen“      |
-|                       |                       | Datensatzes ohne      |
-|                       |                       | Dateikürzel (z. B.    |
-|                       |                       | „gra2005_tS_p_c_1-0-0 |
-|                       |                       | “)                    |
-+-----------------------+-----------------------+-----------------------+
-| numberOfObservations  | Ja                    | Anzahl der            |
-|                       |                       | Beobachtungseinheiten |
-|                       |                       | in einem Datensatz    |
-|                       |                       | (z. B. Anzahl der     |
-|                       |                       | Befragten)            |
-+-----------------------+-----------------------+-----------------------+
-| accessWay             | Ja                    | „download-cuf“,       |
-|                       |                       | „download-suf“,       |
-|                       |                       | „remote-desktop-suf“  |
-|                       |                       | oder „onsite-suf“     |
-+-----------------------+-----------------------+-----------------------+
-| description.de/en     | Ja                    | Beschreibung des      |
-|                       |                       | Datensatzes           |
-+-----------------------+-----------------------+-----------------------+
-| dataSetNumber         | Ja                    | Nummer des            |
-|                       |                       | zugehörigen           |
-|                       |                       | Datensatzes           |
-+-----------------------+-----------------------+-----------------------+
-| citationHint.de/en    | Nein                  | Hinweise zur          |
-|                       |                       | Zitation:             |
-|                       |                       | Primärforscher_1,     |
-|                       |                       | Primärforscher_2 &    |
-|                       |                       | Primärforscher_3      |
-|                       |                       | (Jahr). Studientitel. |
-|                       |                       | Aufbereitet durch     |
-|                       |                       | FDZMitarbeiter_1,     |
-|                       |                       | FDZMitarbeiter_2 &    |
-|                       |                       | FDZMitarbeiter_3,     |
-|                       |                       | doi:                  |
-|                       |                       | 10.21249/DZHW:a-Z0-9: |
-|                       |                       | 0-9.0-9.0-9,          |
-|                       |                       | released Jahr.        |
-|                       |                       | Hannover: FDZ-DZHW.   |
-+-----------------------+-----------------------+-----------------------+
-
-+-----------------------+-----------------------+-----------------------+
-| **Tabellenblatt 3:                                                    |
-| attachments**                                                         |
-+=======================+=======================+=======================+
-| Es können mehrere                                                     |
-| Anhänge eingetragen                                                   |
-| werden (= mehrere                                                     |
-| Zeilen möglich, ein                                                   |
-| Anhang pro Zeile)                                                     |
-+-----------------------+-----------------------+-----------------------+
-| **Spaltenüberschrift**| **Muss ich das        | **Was muss ich        |
-|                       | ausfüllen?**          | eintragen?**          |
-+-----------------------+-----------------------+-----------------------+
-| fileName              | Ja                    | Name der Datei im     |
-|                       |                       | attachments-Ordner    |
-|                       |                       | (z. B.                |
-|                       |                       | „DataSetReport-abs200 |
-|                       |                       | 5-ds1.pdf“)           |
-+-----------------------+-----------------------+-----------------------+
-| title                 | Ja                    | Titel des Anhangs     |
-+-----------------------+-----------------------+-----------------------+
-| description.de/en     | Ja                    | Beschreibung des      |
-|                       |                       | Anhangs               |
-+-----------------------+-----------------------+-----------------------+
-| language              | Ja                    | Sprache des Anhangs   |
-|                       |                       | *Bitte verwenden Sie  |
-|                       |                       | eine Abkürzung nach   |
-|                       |                       | ISO 639-1*:           |
-|                       |                       | z. B. „de“, „en“      |
-+-----------------------+-----------------------+-----------------------+
-| dataSetNumber         | Ja                    | Nummer des            |
-|                       |                       | zugehörigen           |
-|                       |                       | Datensatzes           |
-+-----------------------+-----------------------+-----------------------+
-
 Wenn Sie Materialien auf Ebene der Datensätze haben, können Sie diese
 auch hier wieder im Ordner *attachments* ablegen. [9]_
-
-Um den erfolgreichen Upload der Informationen ins MDM gewährleisten, ist
-auf Datensatzebene folgende Ordnerstruktur vorgegeben:
-
-**Ordnerstruktur: Inhalt des Ordners dataSets**
-
-.. figure:: ./_static/34_1_de.png
-
-Hochladen können Sie den Ordner im Reiter Datensätze entweder über den
-orangefarbenen Plus-Button (unten rechts) oder per Drag & Drop.
 
 Variablen (variables) [10]_
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1209,7 +917,8 @@ für jede Variable eine Übersichtsseite im MDM erstellt:
 .. figure:: ./_static/35_de.png
    :name: variablenübersicht
 
-   Variablenübersicht im MDM am Beispiel der Variable "1. Studium: Beginn (Semester)" im Absolventenpanel 2005, erste Welle (BA)
+   Variablenübersicht im MDM am Beispiel der Variable "1. Studium: Beginn
+   (Semester)" im Absolventenpanel 2005, erste Welle (BA)
 
 Die Erstellung der Variablenebene beinhaltet einerseits recht viel
 Aufwand, da für jeden Datensatz eine eigene Excel-Tabelle mit
@@ -1495,13 +1204,15 @@ Tabellenblatts die Verknüpfung zwischen einer Variablen und der
 dazugehörigen Frage aus dem Erhebungsinstrument erstellt. Für eine
 nachvollziehbare Dokumentation dieser Verbindung ist die Erstellung
 eines Variablenfragebogens sehr hilfreich. Aus diesem kann die
-Verknüpfung aus Variable und Frage problemlos abgelesen werden. :numref:`ausschnitt_variablenfragebogen` zeigt beispielhaft, dass den Variablen *astu08a* bis *astu08e* die Frage
-1.8 zugeordnet ist.
+Verknüpfung aus Variable und Frage problemlos abgelesen werden.
+:numref:`ausschnitt_variablenfragebogen` zeigt beispielhaft, dass den Variablen
+	*astu08a* bis *astu08e* die Frage 1.8 zugeordnet ist.
 
 .. figure:: ./_static/36_de.png
    :name: ausschnitt_variablenfragebogen
 
-   Ausschnitt aus dem Variablenfragebogen des Absolventenpanels 2005, erste Welle, Frage 1.8
+   Ausschnitt aus dem Variablenfragebogen des Absolventenpanels 2005, erste
+   Welle, Frage 1.8
 
 
 Außer der/den Excel-Tabelle/n müssen Sie für jede Tabelle noch den
@@ -1526,7 +1237,8 @@ wie folgt dargestellt:
 .. figure:: ./_static/37_de.png
    :name: publikationsübersicht
 
-   Publikationsübersicht im MDM am Beispiel einer Veröffentlichung, welche im Rahmen des Absolventenpanels 2005 verfasst wurde
+   Publikationsübersicht im MDM am Beispiel einer Veröffentlichung, welche im
+   Rahmen des Absolventenpanels 2005 verfasst wurde
 
 Wenn Sie Publikationen zu Ihren Daten abgeben möchten, senden Sie dem
 FDZ per Mail die PDF-Datei Ihrer Publikation sowie den dazugehörigen
@@ -1565,10 +1277,6 @@ Vor Abgabe bzw. dem Hochladen der Daten sind folgende Punkte zu
 
 ☐ Nicht benötigte Zeilen entfernt (vgl. Kapitel 3.2)
 
--  instruments.xlsx: löschen bis Zeile 20
-
--  dataSets.xlsx: löschen bis Zeile 20
-
 -  questions.xlsx: löschen bis Zeile 2000
 
 -  variables.xlsx: löschen bis Zeile 2000
@@ -1581,17 +1289,7 @@ Vor Abgabe bzw. dem Hochladen der Daten sind folgende Punkte zu
 
 -  Erhebungen (surveys)
 
-..
-
-   ☐ In das Metadatensystem hochgeladen
-
--  instruments.xlsx
-
--  dataSets.xlsx
-
-..
-
-   ☐ In der Ordnerstruktur abgelegt
+☐ In der Ordnerstruktur abgelegt
 
 -  questions.xlsx
 
