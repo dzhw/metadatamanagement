@@ -8,6 +8,7 @@ Resource          ../../resources/search_resource.robot
 
 *** Variables ***
 ${PROJECT_NAME}  hossainrobot
+${TOAST_MSSG}  Die Aktion ist nicht möglich
 
 *** Test Cases ***
 Check Dataprovider Cannot Change Anything
@@ -22,8 +23,8 @@ Check Dataprovider Cannot Change Anything
    Ensure Publisher Ready Checkbox is Disabled
    Ensure Project Release Button is Disabled
    Ensure Project Assign Role Button is Disabled
-   Ensure New Study Create Button is Disabled
-   Ensure Question Upload Button is Disabled
+   Ensure New Study Create Button is Restricted
+   Ensure Question Upload Button is Restricted
    Switch To Settings Tab
    Ensure Expected Metadata Fields are Disabled
    Data Provider Logout
@@ -47,11 +48,18 @@ Ensure Project Release Button is Disabled
 Ensure Project Assign Role Button is Disabled
     Page Should Contain Element  xpath=//md-card//project-status-badge[@assignee-group="PUBLISHER"]//following::button[@disabled="disabled"]
 
-Ensure New Study Create Button is Disabled
-    Click Element Through Tooltips  xpath=//md-card[@searchstate="studies"]//following::button[@type="button"]
+Ensure New Study Create Button is Restricted
+    Click Element Through Tooltips  xpath=//md-card[@group="studies"]//button[contains(.,"Neu")]
+    Click Element Through Tooltips  xpath=//md-toast//span[contains(.,"Die Aktion ist nicht möglich")]
+    Element Should Contain  xpath=//md-toast//span[contains(.,"Die Aktion ist nicht möglich")]  ${TOAST_MSSG}
+    Click Element Through Tooltips  xpath=//button//following::md-icon[contains(.,"close")]
 
-Ensure Question Upload Button is Disabled
-    Click Element Through Tooltips  xpath=//md-card[@group="questions"]//following::button[@type="file"]
+Ensure Question Upload Button is Restricted
+    Click Element Through Tooltips  xpath=//md-card[@group="questions"]//button[contains(.,"Hochladen")]
+    Click Element Through Tooltips  xpath=//md-toast//span[contains(.,"Die Aktion ist nicht möglich")]
+    Element Should Contain  xpath=//md-toast//following::span[contains(.,"Die Aktion ist nicht möglich")]  ${TOAST_MSSG}
+    Click Element Through Tooltips  xpath=//button//following::md-icon[contains(.,"close")]
+
 Switch To Settings Tab
     Click Element Through Tooltips  xpath=//md-pagination-wrapper[@role="tablist"]//md-tab-item//md-icon[contains(.,"settings")]
 
