@@ -32,7 +32,6 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.AssigneeGroup;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
@@ -59,9 +58,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
 
   @Autowired
   private JaversService javersService;
-
-  @Autowired
-  QuestionRepository questionRepo;
+ 
   @Autowired
   private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
 
@@ -73,7 +70,6 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
   @After
   public void cleanUp() {
     rdcProjectRepository.deleteAll();
-    questionRepo.deleteAll();
     javersService.deleteAll();
     elasticsearchUpdateQueueItemRepository.deleteAll();
   }

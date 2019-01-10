@@ -14,4 +14,7 @@ Common domain objects which can be used in all other subdomains of this applicat
    Period
    Person
    Resolution
+   Task
+   Task-TaskState
+   Task-TaskType
 
