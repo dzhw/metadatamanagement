@@ -12,7 +12,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
            PageTitleService, ToolbarHeaderService, SearchHelperService,
            SearchResultNavigatorService, StudyResource, StudyIdBuilderService,
            $rootScope, ProjectStatusScoringService, $transitions,
-           CommonDialogsService, DataAcquisitionProjectResource,
+           CommonDialogsService, DeleteAllQuestionsResource,
            ElasticSearchAdminService, SimpleMessageToastService) {
 
     var queryChangedOnInit = false;
@@ -515,8 +515,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
           type: 'all-questions',
           id: projectId
         }).then(function() {
-          return DataAcquisitionProjectResource.deleteAllMetadataByType(
-            {id: projectId, type: 'questions'}).$promise;
+          return DeleteAllQuestionsResource.deleteAll(
+            {id: projectId}).$promise;
         }).then(function() {
           return ElasticSearchAdminService.
             processUpdateQueue('questions');

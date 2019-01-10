@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,13 +20,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import eu.dzhw.fdz.metadatamanagement.common.rest.GenericDomainObjectResourceController;
-import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.InstrumentService;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation.ValidDataAcquisitionProjectSave;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionProjectService;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.service.QuestionService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import lombok.extern.slf4j.Slf4j;
 
@@ -44,10 +40,6 @@ public class DataAcquisitionProjectResource extends
         DataAcquisitionProjectRepository> {
 
   private DataAcquisitionProjectService dataAcquisitionProjectService;
-  @Autowired
-  private QuestionService questionService;
-  @Autowired
-  private InstrumentService instrumetService;
 
   @Autowired
   public DataAcquisitionProjectResource(DataAcquisitionProjectRepository projectRepository,
@@ -136,26 +128,4 @@ public class DataAcquisitionProjectResource extends
     return ResponseEntity.ok(projects);
   }
 
-  /**
-   * delete all metadata by type from data acquisition project.
-   * 
-   * @param id the Id of the project.
-   * @param type the metadata type to delete
-   * @return no Content.
-   */
-  @DeleteMapping(value = "/data-acquisition-projects/{id}/{type}")
-  public ResponseEntity<Question> deleteAllMetadataByType(@PathVariable String id,
-      @PathVariable(value = "type", required = true) String type) {
-    switch (type) {
-      case "questions":
-        questionService.deleteQuestionsByProjectId(id);
-        break;
-      case "instruments":
-        instrumetService.deleteAllInstrumentsByProjectId(id);
-        break;
-      default:
-        return ResponseEntity.badRequest().build();
-    }
-    return ResponseEntity.noContent().build();
-  }
 }

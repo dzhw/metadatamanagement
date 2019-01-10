@@ -17,6 +17,7 @@ import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DaraUpdateQueueItemRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
@@ -63,6 +64,8 @@ public abstract class AbstractTest {
   
   @Autowired
   private DaraUpdateQueueItemRepository daraUpdateQueueItemRepository;
+  @Autowired
+  private DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
   
   @Autowired
   private Javers javers;
@@ -79,5 +82,6 @@ public abstract class AbstractTest {
     assertEquals(0, this.elasticsearchUpdateQueueItemRepository.count());
     assertEquals(0, this.daraUpdateQueueItemRepository.count());
     assertEquals(0, this.javers.findSnapshots(QueryBuilder.anyDomainObject().build()).size());
+    assertEquals(0, this.dataAcquisitionProjectRepository.count());
   }
 }
