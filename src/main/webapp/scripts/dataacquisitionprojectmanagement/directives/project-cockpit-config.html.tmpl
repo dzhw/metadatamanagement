@@ -1,77 +1,79 @@
-<div layout-gt-sm="row" layout="column">
-  <div flex style="-ms-flex:auto;">
-    <div class="layout-margin layout-row md-body-2">{{'data-acquisition-project-management.project-cockpit.search.header-publisher' | translate}}</div>
-    <user-list project="project" advanced-privileges="advancedPrivileges" group="publishers"></user-list>
-  </div>
-  <div flex style="-ms-flex:auto;">
-    <div class="layout-margin layout-row md-body-2">{{'data-acquisition-project-management.project-cockpit.search.header-data-provider' | translate}}</div>
-    <user-list project="project" advanced-privileges="advancedPrivileges" group="dataProviders"></user-list>
-  </div>
-</div>
+<div>
+	<div layout-gt-sm="row" layout="column">
+	<div flex style="-ms-flex:auto;">
+		<div class="layout-margin layout-row md-body-2">{{'data-acquisition-project-management.project-cockpit.search.header-publisher' | translate}}</div>
+		<user-list project="project" advanced-privileges="advancedPrivileges" group="publishers"></user-list>
+	</div>
+	<div flex style="-ms-flex:auto;">
+		<div class="layout-margin layout-row md-body-2">{{'data-acquisition-project-management.project-cockpit.search.header-data-provider' | translate}}</div>
+		<user-list project="project" advanced-privileges="advancedPrivileges" group="dataProviders"></user-list>
+	</div>
+	</div>
 
-<md-card ng-if="project.configuration.requirements">
-	<md-card-title>
-		<md-card-title-text>
-			<span class="md-headline">
-				{{'data-acquisition-project-management.project-cockpit.requirements.header' | translate}}
-			</span>
-		</md-card-title-text>
-	</md-card-title>
-	<md-card-content>
-		<p class="md-body-1">
-			{{'data-acquisition-project-management.project-cockpit.requirements.setting-info' | translate}}
-		</p>
-		<form name="requirements" novalidate>
-			<md-list>
-				<md-list-item>
-					<md-input-container ng-class="'fdz-no-margin'">
-						<md-checkbox ng-model="project.configuration.requirements.studiesRequired" name="study" ng-class="'fdz-no-margin'" ng-disabled="true">
-							<md-tooltip ng-if="isProjectRequirementsDisabled">{{'data-acquisition-project-management.project-cockpit.tooltip.not-in-publishers' | translate}}</md-tooltip>
-							{{'data-acquisition-project-management.project-cockpit.requirements.studies' | translate}}
-						</md-checkbox>
-					</md-input-container>
-				</md-list-item>
-				<md-list-item>
-					<md-input-container ng-class="'fdz-no-margin'">
-						<md-checkbox ng-model="project.configuration.requirements.surveysRequired" ng-class="'fdz-no-margin'" name="survey" ng-disabled="isProjectRequirementsDisabled">
-							<md-tooltip ng-if="isProjectRequirementsDisabled">{{'data-acquisition-project-management.project-cockpit.tooltip.not-in-publishers' | translate}}</md-tooltip>
-							{{'data-acquisition-project-management.project-cockpit.requirements.surveys' | translate}}
-						</md-checkbox>
-					</md-input-container>
-				</md-list-item>
-				<md-list-item>
-					<md-input-container ng-class="'fdz-no-margin'">
-						<md-checkbox ng-model="project.configuration.requirements.instrumentsRequired" ng-class="'fdz-no-margin'" name="instruments" ng-disabled="isProjectRequirementsDisabled">
-							<md-tooltip ng-if="isProjectRequirementsDisabled">{{'data-acquisition-project-management.project-cockpit.tooltip.not-in-publishers' | translate}}</md-tooltip>
-							{{'data-acquisition-project-management.project-cockpit.requirements.instruments' | translate}}
-						</md-checkbox>
-					</md-input-container>
-				</md-list-item>
-				<md-list-item>
-					<md-input-container ng-class="'fdz-no-margin'">
-						<md-checkbox ng-model="project.configuration.requirements.questionsRequired" ng-class="'fdz-no-margin'" name="questions" ng-disabled="isProjectRequirementsDisabled">
-							<md-tooltip ng-if="isProjectRequirementsDisabled">{{'data-acquisition-project-management.project-cockpit.tooltip.not-in-publishers' | translate}}</md-tooltip>
-							{{'data-acquisition-project-management.project-cockpit.requirements.questions' | translate}}
-						</md-checkbox>
-					</md-input-container>
-				</md-list-item>
-				<md-list-item>
-					<md-input-container ng-class="'fdz-no-margin'">
-						<md-checkbox ng-model="project.configuration.requirements.dataSetsRequired" ng-class="'fdz-no-margin'" name="dataSet" ng-disabled="isProjectRequirementsDisabled">
-							<md-tooltip ng-if="isProjectRequirementsDisabled">{{'data-acquisition-project-management.project-cockpit.tooltip.not-in-publishers' | translate}}</md-tooltip>
-							{{'data-acquisition-project-management.project-cockpit.requirements.dataSets' | translate}}
-						</md-checkbox>
-					</md-input-container>
-				</md-list-item>
-				<md-list-item>
-					<md-input-container ng-class="'fdz-no-margin'">
-						<md-checkbox ng-model="project.configuration.requirements.variablesRequired" ng-class="'fdz-no-margin'" name="variables" ng-disabled="isProjectRequirementsDisabled">
-							<md-tooltip ng-if="isProjectRequirementsDisabled">{{'data-acquisition-project-management.project-cockpit.tooltip.not-in-publishers' | translate}}</md-tooltip>
-							{{'data-acquisition-project-management.project-cockpit.requirements.variables' | translate}}
-						</md-checkbox>
-					</md-input-container>
-				</md-list-item>
-			</md-list>
-		</form>
-	</md-card-content>
-</md-card>
+	<md-card ng-if="ctrl.project.configuration.requirements">
+		<md-card-title>
+			<md-card-title-text>
+				<span class="md-headline">
+					{{'data-acquisition-project-management.project-cockpit.requirements.header' | translate}}
+				</span>
+			</md-card-title-text>
+		</md-card-title>
+		<md-card-content>
+			<p class="md-body-1">
+				{{'data-acquisition-project-management.project-cockpit.requirements.setting-info' | translate}}
+			</p>
+			<form name="requirements" novalidate>
+				<md-list>
+					<md-list-item>
+						<md-input-container ng-class="'fdz-no-margin'">
+							<md-checkbox ng-model="ctrl.project.configuration.requirements.studiesRequired" name="study" ng-class="'fdz-no-margin'" ng-disabled="true">
+								<md-tooltip ng-if="ctrl.isProjectRequirementsDisabled()">{{'data-acquisition-project-management.project-cockpit.tooltip.not-in-publishers' | translate}}</md-tooltip>
+								{{'data-acquisition-project-management.project-cockpit.requirements.studies' | translate}}
+							</md-checkbox>
+						</md-input-container>
+					</md-list-item>
+					<md-list-item>
+						<md-input-container ng-class="'fdz-no-margin'">
+							<md-checkbox ng-model="ctrl.project.configuration.requirements.surveysRequired" ng-class="'fdz-no-margin'" name="survey" ng-disabled="ctrl.isProjectRequirementsDisabled()">
+								<md-tooltip ng-if="ctrl.isProjectRequirementsDisabled()">{{'data-acquisition-project-management.project-cockpit.tooltip.not-in-publishers' | translate}}</md-tooltip>
+								{{'data-acquisition-project-management.project-cockpit.requirements.surveys' | translate}}
+							</md-checkbox>
+						</md-input-container>
+					</md-list-item>
+					<md-list-item>
+						<md-input-container ng-class="'fdz-no-margin'">
+							<md-checkbox ng-model="ctrl.project.configuration.requirements.instrumentsRequired" ng-class="'fdz-no-margin'" name="instruments" ng-disabled="ctrl.isProjectRequirementsDisabled()">
+								<md-tooltip ng-if="ctrl.isProjectRequirementsDisabled()">{{'data-acquisition-project-management.project-cockpit.tooltip.not-in-publishers' | translate}}</md-tooltip>
+								{{'data-acquisition-project-management.project-cockpit.requirements.instruments' | translate}}
+							</md-checkbox>
+						</md-input-container>
+					</md-list-item>
+					<md-list-item>
+						<md-input-container ng-class="'fdz-no-margin'">
+							<md-checkbox ng-model="ctrl.project.configuration.requirements.questionsRequired" ng-class="'fdz-no-margin'" name="questions" ng-disabled="ctrl.isProjectRequirementsDisabled()">
+								<md-tooltip ng-if="ctrl.isProjectRequirementsDisabled()">{{'data-acquisition-project-management.project-cockpit.tooltip.not-in-publishers' | translate}}</md-tooltip>
+								{{'data-acquisition-project-management.project-cockpit.requirements.questions' | translate}}
+							</md-checkbox>
+						</md-input-container>
+					</md-list-item>
+					<md-list-item>
+						<md-input-container ng-class="'fdz-no-margin'">
+							<md-checkbox ng-model="ctrl.project.configuration.requirements.dataSetsRequired" ng-class="'fdz-no-margin'" name="dataSet" ng-disabled="ctrl.isProjectRequirementsDisabled()">
+								<md-tooltip ng-if="ctrl.isProjectRequirementsDisabled()">{{'data-acquisition-project-management.project-cockpit.tooltip.not-in-publishers' | translate}}</md-tooltip>
+								{{'data-acquisition-project-management.project-cockpit.requirements.dataSets' | translate}}
+							</md-checkbox>
+						</md-input-container>
+					</md-list-item>
+					<md-list-item>
+						<md-input-container ng-class="'fdz-no-margin'">
+							<md-checkbox ng-model="ctrl.project.configuration.requirements.variablesRequired" ng-class="'fdz-no-margin'" name="variables" ng-disabled="ctrl.isProjectRequirementsDisabled()">
+								<md-tooltip ng-if="ctrl.isProjectRequirementsDisabled()">{{'data-acquisition-project-management.project-cockpit.tooltip.not-in-publishers' | translate}}</md-tooltip>
+								{{'data-acquisition-project-management.project-cockpit.requirements.variables' | translate}}
+							</md-checkbox>
+						</md-input-container>
+					</md-list-item>
+				</md-list>
+			</form>
+		</md-card-content>
+	</md-card>
+</div>

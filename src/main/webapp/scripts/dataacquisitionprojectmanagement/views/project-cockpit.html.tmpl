@@ -1,38 +1,42 @@
-<div layout="row" style="margin-bottom: 0px;" layout-margin>
-  <h1 id="top" class="md-headline fdz-truncate-string" style="margin-left: 0px;">{{'data-acquisition-project-management.project-cockpit.header' | translate}} <span class="label label-as-badge label-default">{{project.id}}</span></h1>
-</div>
-<div ng-if="!project" class="layout-margin">
-  <p>{{'data-acquisition-project-management.project-cockpit.alert.noproject' | translate}}</p>
-</div>
-<md-card ng-cloak ng-if="project">
-  <md-tabs md-dynamic-height md-border-bottom md-selected="selectedTab.index">
-    <md-tab md-on-select="onTabSelect('status')">
-      <md-tab-label>
-        <md-icon md-font-set="material-icons">info</md-icon>
-        {{'data-acquisition-project-management.project-cockpit.tabs.status' | translate}}
-      </md-tab-label>
-      <md-tab-body class="md-padding">
-        <project-cockpit-status></project-cockpit-status>
-      </md-tab-body>
-    </md-tab>
-    <md-tab md-on-select="onTabSelect('config')">
-      <md-tab-label>
-        <md-icon md-font-set="material-icons">settings</md-icon>
-        {{'data-acquisition-project-management.project-cockpit.tabs.config' | translate}}
-      </md-tab-label>
-      <md-tab-body class="md-padding">
-        <project-cockpit-config></project-cockpit-config>
-      </md-tab-body>
-    </md-tab>
-  </md-tabs>
-</md-card>
+<div>
 
+  <div layout="row" style="margin-bottom: 0px;" layout-margin>
+    <h1 id="top" class="md-headline fdz-truncate-string" style="margin-left: 0px;">{{'data-acquisition-project-management.project-cockpit.header' | translate}} <span class="label label-as-badge label-default">{{project.id}}</span></h1>
+  </div>
+  <div ng-if="!project" class="layout-margin">
+    <p>{{'data-acquisition-project-management.project-cockpit.alert.noproject' | translate}}</p>
+  </div>
 
-<div class="fdz-fab-button-container" layout="column">
-  <md-button class="md-raised md-fab md-accent" ng-click="onSaveChanges('requirements')" ng-disabled="!changed">
-    <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
-        {{'data-acquisition-project-management.project-cockpit.button.save' | translate}}
-    </md-tooltip>
-    <md-icon md-font-set="material-icons">save</md-icon>
-  </md-button>
+  <md-card ng-cloak ng-if="project">
+    <md-tabs md-dynamic-height md-border-bottom md-selected="selectedTab.index">
+      <md-tab md-on-select="onTabSelect('status')">
+        <md-tab-label>
+          <md-icon md-font-set="material-icons">info</md-icon>
+          {{'data-acquisition-project-management.project-cockpit.tabs.status' | translate}}
+        </md-tab-label>
+        <md-tab-body class="md-padding">
+          <project-cockpit-status project="project"></project-cockpit-status>
+        </md-tab-body>
+      </md-tab>
+      <md-tab md-on-select="onTabSelect('config')">
+        <md-tab-label>
+          <md-icon md-font-set="material-icons">settings</md-icon>
+          {{'data-acquisition-project-management.project-cockpit.tabs.config' | translate}}
+        </md-tab-label>
+        <md-tab-body class="md-padding">
+          <project-cockpit-config project="project"></project-cockpit-config>
+        </md-tab-body>
+      </md-tab>
+    </md-tabs>
+  </md-card>
+
+  <div class="fdz-fab-button-container" layout="column">
+    <md-button class="md-raised md-fab md-accent" ng-click="onSaveChanges('requirements')" ng-disabled="!changed">
+      <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+          {{'data-acquisition-project-management.project-cockpit.button.save' | translate}}
+      </md-tooltip>
+      <md-icon md-font-set="material-icons">save</md-icon>
+    </md-button>
+  </div>
+
 </div>

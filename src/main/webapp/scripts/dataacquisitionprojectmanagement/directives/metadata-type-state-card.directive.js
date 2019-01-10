@@ -23,12 +23,16 @@ angular.module('metadatamanagementApp')
         this.group = $scope.group;
         this.counts = $scope.counts;
         this.project = $scope.project;
-        this.isAssignedDataProvider = (
-          ProjectUpdateAccessService.isAssignedToProject.bind(null,
-            this.project, 'dataProviders'));
-        this.isAssignedPublisher = (
-          ProjectUpdateAccessService.isAssignedToProject.bind(null,
-            this.project, 'publishers'));
+
+        this.update = function(changedProject) {
+          this.isAssignedDataProvider =
+            ProjectUpdateAccessService.isAssignedToProject(
+              changedProject, 'dataProviders');
+          this.isAssignedPublisher =
+            ProjectUpdateAccessService.isAssignedToProject(
+              changedProject, 'publishers');
+        }.bind(this);
+        this.update(this.project);
 
         var iconpath = 'assets/images/icons/';
         switch (this.group) {
@@ -90,6 +94,11 @@ angular.module('metadatamanagementApp')
         $transclude(function(transclusion) {
           ctrl.hasTranscludedContent = transclusion.length > 0;
         });
+
+        $scope.$on('current-project-changed',
+          function(event, changedProject) { // jshint ignore:line
+            ctrl.update(changedProject);
+          });
 
         ctrl.getSentimentValue = function(tab) {
           return ProjectStatusScoringService
