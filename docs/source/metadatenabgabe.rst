@@ -137,10 +137,47 @@ Nach erfolgreicher Anmeldung erscheint in der Sidebar das folgende Feld:
    Bereich für Verwaltung von Projekten im MDM
 
 Über den Plus-Button können Sie ein neues Projekt anlegen (vgl.
-:numref:`neuesprojektanlegen`). Als Projektname müssen Sie eine bestimmte ID
-angeben, welche das FDZ zuvor speziell für Ihr Projekt vergeben hat und Ihnen
-mitteilen muss (z. B. „gra2005“ für das Absolventenpanel 2005). Das
-Projekt ist dadurch im MDM angelegt, aber noch nicht automatisch
+:numref:`neuesprojektanlegen`). Als Projektname müssen Sie eine
+DataAcquisitionProject-ID (DAP-id) angeben, welche das FDZ zuvor speziell für
+Ihr Projekt vergeben hat und Ihnen mitteilen muss (z. B. „gra2005“ für das
+Absolventenpanel 2005).
+
+DataAcquisitionProject-ID
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- **drei Kleinbuchstaben**: Um die internationale Nutzbarkeit der Daten zu
+  erleichtern, ergeben sich die drei Kleinbuchstaben aus der englischsprachigen
+  Abkürzung des Projektes. Es kann Ausnahmen geben, wenn z.B. bestimmte Projekte
+  ein besonders griffiges Kürzel haben wie z.B. bei Libertas 2016 - lib2016.
+- **(zwei bis) vier Ziffern**: Die Ziffern sind in der Regel die vier Ziffern
+des Jahres, das die Zugehörigkeit zur Stichprobe definiert, z. B. der
+Abschluss des Studiums (z. B. im (Prüfungs-)Jahr 2005 oder der Erwerb der
+Hochschulzugangsberechtigung im Jahr 2008). Davon kann in begründeten
+Ausnahmefällen abgewichen werden.
+- Beispielsweise ist die Sozialerhebung deutlich stärker unter der
+jeweiligen Nummer der Studie als unter dem Jahr, das die Zugehörigkeit
+zur Stichprobe definiert, bekannt, so dass beispielsweise für die 19.
+Sozialerhebung aus dem Jahr 2009 die Ziffern 19 (und nicht 2009) vergeben werden
+- Bei Befragungen, die sich auf mehrere Jahreszahlen beziehen, kann eine
+andere eindeutige Jahreszahl verwendet werden. Beispielweise gehören in
+der KomPaed-Befragung die zuletzt aktiven Panelteilnehmer mehrerer
+Kohorten zur Stichprobe. Hier werden die vier Ziffern des Erhebungsjahres
+(2014) genutzt.
+
+Für jedes weitere Objekt wird später ebenfalls eine ID generiert, die die DAP-id
+enthält und sich nach der folgenden Logik zusammensetzt:
+
+| Metadaten          | Id-Generierung                                                                    |
+| ------------------ | --------------------------------------------------------------------------------- |
+| Study              | "stu-" + DAP-id + "$"                                                             |
+| Survey             | "sur-" + DAP-id + "-" + "sy" + survey.number + "$"                                |
+| DataSet            | "dat-" + DAP-id + "-" + "ds" + dataSet.number + "$"                               |
+| Variable           | "var-" + DAP-id + "-" + "ds" + variable.dataSetNumber + "-" + variable name + "$" |
+| Instrument         | "ins-" + DAP-id + "-" + "ins" + number + "$"                                      |
+| Question           | "que-" + DAP-id + "-ins" + instrumentNumber + "-" + number + "$"                  |
+| relatedPublication | "pub-" + citaviId + "$"                                                           |
+
+Das Projekt ist dadurch im MDM angelegt, aber noch nicht automatisch
 freigegeben. Solange das Projekt noch nicht freigegeben wurde, können
 Sie es jederzeit über den Mülleimer-Button ganz links (vgl.
 :numref:`neuesprojektanlegen`)
@@ -165,6 +202,13 @@ Metadaten enthalten (Json Dateien im Fall von Fragen und Variablen, eine
 Exceltabelle bei Publikationen).
 Eingabemasken ermöglichen eine komfortable Abgabe der Metadaten direkt
 auf der Website.
+
+Domänenmodell
+~~~~~~~~~~~~~
+
+Im Domänenmodell_ werden alle Domänenobjekte, ihre Relationen zueinander
+und, ob diese verpflichtend auszufüllen sind, dokumentiert.
+.. _Domänenmodell: https://github.com/dzhw/metadatamanagement/wiki/Domain-Model
 
 Eingabemasken
 ~~~~~~~~~~~~~
@@ -387,7 +431,11 @@ zur Studie ablegen. Dazu klicken Sie auf den blauen Plus-Button (s.
 in dem Sie eine Datei hochladen und diese näher beschreiben können.
 Die hier relevanten Materialien sind momentan der deutsch- und
 englischsprachige Daten- und Methodenbericht (DMB) sowie eine
-englischsprachige *study overview*. [1]_ Die Eingaben müssen Sie
+englischsprachige *study overview*. [1]_
+Die Sprache der Materialien muss nach ISO 639-1_ angegeben werden.
+Bei den Metadaten der Materialien ist darauf zu achten die Metadaten aus den
+Dokumenten zu entfernen (Autor und Titel).
+Die Eingaben müssen Sie
 anschließend über den orangefarbenen Save-Button abspeichern.
 Mit den Pfeil-Buttons können Sie dann ggf. die Reihenfolge bereits
 eingegebener Materialien verändern. Wenn Sie eine geänderte Reihenfolge
@@ -485,8 +533,8 @@ Länge in zwei Teilen – dargestellt:
 
 Beim Anlegen einer Erhebung wird automatisch die ID auf Basis des
 Projektnamens generiert (s. rotes Kästchen, :numref:`eingabemaske_erhebung_details_1`,
-hier als Beispiel der 21. Sozialerhebung). Neben den bereits aus der Studienebene
-bekannten Funktionen gibt es in dieser Eingabemaske zusätzlich eine
+hier als Beispiel der 21. Sozialerhebung). Neben den bereits aus der
+Studienebene bekannten Funktionen gibt es in dieser Eingabemaske zusätzlich eine
 Kalenderfunktion (s. blaue Kästchen, :numref:`eingabemaske_erhebung_details_1`),
 welche die Feldzeit des
 Projekts erfasst und in :numref:`kalender_erhebung` dargestellt ist:
@@ -499,9 +547,10 @@ Projekts erfasst und in :numref:`kalender_erhebung` dargestellt ist:
 
 Im zweiten Teil der Eingabemaske für die Erhebungsebene gibt es die
 Besonderheit, dass sich die Rücklaufquote automatisch ermitteln lässt
-(s. :numref:`eingabemaske_erhebungsebene_details_2`). Sie können den Rücklauf auch manuell eingeben. Hierbei ist
-zu jedoch beachten, dass sich bereits eingegebene Zahlen bei Brutto- und
-Netto-Stichprobe bei nicht automatisch anpassen.
+(s. :numref:`eingabemaske_erhebungsebene_details_2`). Sie können den Rücklauf
+auch manuell eingeben. Hierbei ist zu jedoch beachten, dass sich bereits
+eingegebene Zahlen bei Brutto- und Netto-Stichprobe bei nicht automatisch
+anpassen.
 
 .. figure:: ./_static/26_de.png
    :name: eingabemaske_erhebungsebene_details_2
@@ -572,8 +621,15 @@ nicht historisiert werden.
 
    Dialog zur Historisierung innerhalb einer Erhebung
 
+**Prüfschritte**
+
+Der Titel der Erhebung wird zukünftig bei da|ra vor einige Attribute (z.B.
+Referenzzeitraum) gehängt. Der Titel der Erhebung muss daher eindeutig sein und
+im Falle von Panelstudien die Welle enthalten.
+
 Erhebungsinstrumente (instruments)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Als Instrument wird das Erhebungsinstrument bezeichnet (z.B. Fragebogen).
 
 **Übersicht**
 
@@ -612,12 +668,16 @@ aus den Pflichtfeldern Beschreibung, Titel, Typ und Erhebung, sowie
 den nicht verpflichtenden Feldern Untertitel und Anmerkungen.
 
 Des weiteren können weitere Materialien zum Instrument
-hochgeladen werden. Um weitere Materialien hochzuladen muss zunächst das Instrument abgespeichert sein.
-Im Anschluss muss der Plusbutton gedrückt werden, woraufhin sich ein Dialog öffnet (s.
-:numref:`instruments_anhang_dialog`), in welchem der Anhang hochgeladen werden kann und Metadaten zur Datei
-eingegeben werden können. Um die Datei hochzuladen wird auf den Büroklammer-Button gedrückt und es öffnet sich ein
-weiterer Dialog. Alle Felder dieses Dialogs sind verpflichtend. Anschließend lässt sich der Anhang mit dem
-Speichern-Button (Diskettensymbol unten rechts) speichern.
+hochgeladen werden. Um weitere Materialien hochzuladen muss zunächst das
+Instrument abgespeichert sein.
+Im Anschluss muss der Plusbutton gedrückt werden, woraufhin sich ein Dialog
+öffnet (s. :numref:`instruments_anhang_dialog`), in welchem der Anhang
+hochgeladen werden kann und Metadaten zur Datei
+eingegeben werden können. Um die Datei hochzuladen wird auf den
+Büroklammer-Button gedrückt und es öffnet sich ein
+weiterer Dialog. Alle Felder dieses Dialogs sind verpflichtend. Anschließend
+lässt sich der Anhang mit dem Speichern-Button (Diskettensymbol unten rechts)
+speichern.
 
 
 .. figure:: ./_static/instruments_anhang_dialog.png
@@ -827,7 +887,7 @@ von ZOFAR geliefert)
 |                       |                       |                       |
 |                       |                       | *Bitte verwenden Sie  |
 |                       |                       | eine Abkürzung nach   |
-|                       |                       | ISO 639-1*:           |
+|                       |                       | ISO 639-1_*:           |
 |                       |                       | z. B. „de“, „en“      |
 +-----------------------+-----------------------+-----------------------+
 | indexInQuestion       | Ja                    | Auf das wievielte     |
@@ -838,6 +898,8 @@ von ZOFAR geliefert)
 |                       |                       | vor, steht hier immer |
 |                       |                       | 1)                    |
 +-----------------------+-----------------------+-----------------------+
+
+.. _639-1: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 
 Mit dem zweiten Tabellenblatt *images* erfassen Sie Informationen zu den
 Fragebildern, welche Sie für jede Frage mit hochladen müssen. Zu jeder
@@ -876,13 +938,15 @@ Ihrer Studie erstellt haben, wird für jeden dieser Datensätze folgende
 .. figure:: ./_static/34_0.png
    :name: datensatzübersicht
 
-   Datensatzübersicht im MDM am Beispiel des Personendatensatzes (Bachelor) im Absolventenpanel 2005
+   Datensatzübersicht im MDM am Beispiel des Personendatensatzes (Bachelor) im
+   Absolventenpanel 2005
 
 **Eingabemaske**
 
 Datensätze lassen sich auch per Eingabemaske anlegen und editieren.
 Hierfür muss man auf den Reiter Datensätze klicken (:numref:`mdm-ebenen`),
-anschließend auf das Plussymbol (:numref:`neuerdatensatz`) in der unteren rechten Ecke klicken und dann auf das Stiftsymbol (:numref:`stiftdatensatz`)
+anschließend auf das Plussymbol (:numref:`neuerdatensatz`) in der unteren
+rechten Ecke klicken und dann auf das Stiftsymbol (:numref:`stiftdatensatz`)
 ("Klicken um einen Datensatz manuell zu erstellen").
 
 .. figure:: ./_static/new_dataset_de.png
@@ -896,11 +960,14 @@ anschließend auf das Plussymbol (:numref:`neuerdatensatz`) in der unteren recht
    Klicken um einen Datensatz manuell zu erstellen.
 
 Die mit * markierten Felder sind verpflichtend.
-Die verknüpften Erhebungen werden nach einem Klick in das Feld "Erhebungen" automatisch
+Die verknüpften Erhebungen werden nach einem Klick in das Feld "Erhebungen"
+automatisch
 vorgeschlagen und können per Klick ausgewählt werden.
-Im Anschluss werden die Subdatensätze per Eingabemaske auf der selben Seite eingegeben.
+Im Anschluss werden die Subdatensätze per Eingabemaske auf der selben Seite
+eingegeben.
 Weitere Subdatensätze können per Klick auf das Plussymbol hinzugefügt werden.
-Nachdem gespeichert wurde, lassen sich weitere Materialien zum Datensatz hinzufügen.
+Nachdem gespeichert wurde, lassen sich weitere Materialien zum Datensatz
+hinzufügen.
 
 Wenn Sie Materialien auf Ebene der Datensätze haben, können Sie diese
 auch hier wieder im Ordner *attachments* ablegen. [9]_
@@ -925,13 +992,13 @@ Aufwand, da für jeden Datensatz eine eigene Excel-Tabelle mit
 Informationen zu allen Variablen geliefert werden muss. Viele
 Informationen müssen manuell eingetragen werden, einige können – sofern
 die Befragung über Zofar stattgefunden hat – auch direkt aus Zofar
-extrahiert werden oder sogar aus der Excel-Tabelle der Frageebene
-importiert werden.
+(das Onlinebefragungstool des DZHW) extrahiert werden oder sogar aus der
+Excel-Tabelle der Frageebene importiert werden.
 
 Die Variablenebene ist andererseits sehr wertvoll im Hinblick auf die
 Nachnutzbarkeit der Forschungsdaten. Wenn Metadaten auf dieser Ebene
 vorhanden sind, können die dazugehörigen Daten auch aus inhaltlicher
-Sicht umfassend durchsucht werden, sodass Analysepotential auch für sehr
+Sicht umfassend durchsucht werden, sodass das Analysepotential auch für sehr
 spezielle Fragestellungen direkt sichtbar wird.
 
 Für die Darstellung der Metadatenaufnahme auf Variablenebene gilt es
@@ -1026,15 +1093,15 @@ Tabelle 5: Ausfüllanweisungen für die Excel-Tabelle "vimport_ds*Nr*."
 |                       |                       | Für jede Variable     |
 |                       |                       | muss dann ein „x“     |
 |                       |                       | gesetzt werden, wenn  |
-|                       |                       | ´diese über den       |
+|                       |                       | diese über den        |
 |                       |                       | jeweiligen Zugangsweg |
 |                       |                       | nicht vorhanden ist.  |
 +-----------------------+-----------------------+-----------------------+
-| filterDetails.descrip | Nein                  | Verbalisierte         |
+| filterDetails.descrip\ | Nein                  | Verbalisierte         |
 | tion.de/.en           |                       | Beschreibung des      |
 |                       |                       | Variablenfilters      |
 +-----------------------+-----------------------+-----------------------+
-| filterDetails.express | Ja, wenn Filter       | Regel, die in der     |
+| filterDetails.express\ | Ja, wenn Filter       | Regel, die in der     |
 | ion [11]_             | vorhanden             | angegebenen „Sprache“ |
 |                       |                       | (.expressionLanguage) |
 |                       |                       | beschreibt, welche    |
@@ -1045,11 +1112,11 @@ Tabelle 5: Ausfüllanweisungen für die Excel-Tabelle "vimport_ds*Nr*."
 |                       |                       | Filterführung wird    |
 |                       |                       | beachtet (PAPI))      |
 +-----------------------+-----------------------+-----------------------+
-| filterDetails.express | Ja, wenn Filter       | Sprache des           |
+| filterDetails.express\ | Ja, wenn Filter       | Sprache des           |
 | ionLanguage [12]_     | vorhanden             | Filterausdrucks:      |
 |                       |                       | „Stata“               |
 +-----------------------+-----------------------+-----------------------+
-| generationDetails.des | Nein                  | Beschreibung, wie die |
+| generationDetails.des\ | Nein                  | Beschreibung, wie die |
 | cription.de/.en       |                       | Variable erzeugt      |
 |                       |                       | wurde, wenn sie nicht |
 |                       |                       | direkt aus dem        |
@@ -1064,7 +1131,7 @@ Tabelle 5: Ausfüllanweisungen für die Excel-Tabelle "vimport_ds*Nr*."
 |                       |                       | siehe Abschnitt       |
 |                       |                       | "Generierungsdetails")|
 +-----------------------+-----------------------+-----------------------+
-| generationDetails.rul | Ja, wenn Variable     | Regel, die in der     |
+| generationDetails.rul\ | Ja, wenn Variable     | Regel, die in der     |
 | e                     | generiert             | angegebenen „Sprache“ |
 |                       |                       | (.ruleExpressionLangu |
 |                       |                       | age)                  |
@@ -1085,7 +1152,7 @@ Tabelle 5: Ausfüllanweisungen für die Excel-Tabelle "vimport_ds*Nr*."
 | eExpressionLanguage   | generiert             | Erzeugungsregel:      |
 |                       |                       | „Stata“ oder „R“      |
 +-----------------------+-----------------------+-----------------------+
-| derivedVariablesIdent | Nein\*                | Identifier zur        |
+| derivedVariablesIdent\ | Nein\*                | Identifier zur        |
 | ifier                 |                       | eindeutigen Zuordnung |
 |                       |                       | von abgeleiteten      |
 |                       |                       | Variablen. Präfix     |
@@ -1128,7 +1195,7 @@ Tabelle 5: Ausfüllanweisungen für die Excel-Tabelle "vimport_ds*Nr*."
 |                       |                       | Bundesländern         |
 |                       |                       | abgeleitet.           |
 +-----------------------+-----------------------+-----------------------+
-| doNotDisplayThousands | Nein                  | Wenn bei der Anzeige  |
+| doNotDisplayThousands\ | Nein                  | Wenn bei der Anzeige  |
 | Seperator             |                       | der Werte einer       |
 |                       |                       | Variablen *keine*     |
 |                       |                       | Tausendertrennzeichen |
@@ -1177,7 +1244,7 @@ Feld auch leer gelassen werden.
 +-----------------------+-----------------------+-----------------------+
 | name                  | Ja                    | Variablenname         |
 +-----------------------+-----------------------+-----------------------+
-| relatedQuestionString | Nein                  | Text, der den         |
+| relatedQuestionString\ | Nein                  | Text, der den         |
 | s.de/.en              |                       | Frageinhalt der       |
 |                       |                       | Variable darstellt.   |
 |                       |                       | Also Fragetext der    |
