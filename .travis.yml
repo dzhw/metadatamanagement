@@ -54,7 +54,7 @@ jobs:
     - name: "Firefox Smoketest"
       install:
         - ./src/test/robotframework/setup.sh
-        script:
+      script:
         - robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:firefox --include smoketest --exclude chromeonly ./src/test/robotframework
     - name: "Edge Smoketest"
       install:
