@@ -18,33 +18,38 @@ addons:
     packages:
       - g++-4.9
 stages:
-    - name: build and deploy
+    - name: build
       if: NOT branch =~ /^saikotitis.*$/
+    - name: deploy
+      if: branch =~ /^(development|master)$/
     - name: e2e smoketests
-      if: branch != master
+      if: branch = development || branch =~ /^saikotitis.*$/
     - name: nightly e2e tests
       if: env(TRAVIS_EVENT_TYPE) = cron || branch =~ /^saikotitis.*$/
 jobs:
   include:
-    - stage: build and deploy
-      before_install:
+    - stage: build
+      name: "Client & Server Build"
+      install:
         - export CXX=g++-4.9
         - export NODE_OPTIONS=--max-old-space-size=4096
         - export MAVEN_OPTS=-Dorg.slf4j.simpleLogger.log.pl.project13.maven.git=WARN
-        - sudo rm -vf /etc/apt/sources.list.d/*riak*
-        - wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
-        - echo "deb http://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
-        - sudo apt-get update -qq
-        - sudo apt-get install cf-cli -y --allow-unauthenticated
         - sudo apt-get -y install python-pip python-dev --allow-unauthenticated
         - pip install git+https://github.com/dzhw/javasphinx.git --user
-      # turn off travis default mvn install call and install a recent node version instead
-      install:
         - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install 11.6.0
         - npm install -g bower
         - npm install -g grunt-cli
       script:
-        - ./deploy/build-and-deploy.sh unused $CI_DEPLOY_USERNAME $CI_DEPLOY_PASSWORD $TRAVIS_BRANCH $COVERALLS_TOKEN
+        - ./deploy/build.sh unused $TRAVIS_BRANCH $COVERALLS_TOKEN
+    - stage: deploy
+      name: "Deploy to PWS"
+      install:
+        - wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
+        - echo "deb http://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+        - sudo apt-get update -qq
+        - sudo apt-get install cf-cli -y --allow-unauthenticated
+      script:
+        - ./deploy/deploy.sh unused $CI_DEPLOY_USERNAME $CI_DEPLOY_PASSWORD $TRAVIS_BRANCH
     - stage: e2e smoketests
       name: "Chrome Smoketest"
       install:
