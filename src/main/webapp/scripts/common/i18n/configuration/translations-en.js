@@ -357,10 +357,13 @@ angular.module('metadatamanagementApp').config(
           'confirm-delete-all-variables': {
             'title': 'Delete all data of "{{ id }}"?',
             'content': 'Do you really want to delete  all variables of data acquisition project "{{ id }}"?'
+<<<<<<< HEAD
           },
           'confirm-delete-all-instruments': {
             'title': 'Delete all data of "{{ id }}"?',
             'content': 'Do you really want to delete  all instruments of data acquisition project "{{ id }}"?'
+=======
+>>>>>>> branch 'tgehrke-edicos/issue1902' of https://github.com/dzhw/metadatamanagement.git
           }
         }
       }

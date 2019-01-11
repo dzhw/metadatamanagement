@@ -16,6 +16,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
            DeleteAllVariablesResource, DeleteAllInstrumentsResource,
            ElasticSearchAdminService, SimpleMessageToastService) {
 
+
     var queryChangedOnInit = false;
     var tabChangedOnInitFlag = false;
     var locationChanged = false;
