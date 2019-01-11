@@ -79,7 +79,6 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       if (oldVal !== undefined && newVal !== oldVal && !$scope.saving) {
         $scope.changed = true;
       }
-      $scope.saving = false;
     }, true);
 
     $scope.$on('project-deleted', function() {
@@ -111,12 +110,13 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     };
 
     var saveProject = function(project) {
+      $scope.saving = true;
       return DataAcquisitionProjectResource.save(
         project,
         //Success
         function() {
           $scope.changed = false;
-          $scope.saving = true;
+          $scope.saving = false;
           $scope.project = project;
           setAssignedToProject();
           setProjectRequirementsDisabled($scope.project);
@@ -131,7 +131,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         //Server Error
         function(response) {
           var errors = _.get(response, 'data.errors');
-
+          $scope.saving = false;
           if (errors) {
             errors.forEach(function(error) {
               SimpleMessageToastService.openAlertMessageToast(error.message);

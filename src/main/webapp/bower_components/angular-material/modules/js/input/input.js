@@ -2,7 +2,7 @@
  * AngularJS Material Design
  * https://github.com/angular/material
  * @license MIT
- * v1.1.10
+ * v1.1.12
  */
 (function( window, angular, undefined ){
 "use strict";
@@ -11,14 +11,14 @@
  * @ngdoc module
  * @name material.components.input
  */
-mdInputContainerDirective['$inject'] = ["$mdTheming", "$parse"];
+mdInputContainerDirective['$inject'] = ["$mdTheming", "$parse", "$$rAF"];
 inputTextareaDirective['$inject'] = ["$mdUtil", "$window", "$mdAria", "$timeout", "$mdGesture"];
 mdMaxlengthDirective['$inject'] = ["$animate", "$mdUtil"];
 placeholderDirective['$inject'] = ["$compile"];
 ngMessageDirective['$inject'] = ["$mdUtil"];
 mdSelectOnFocusDirective['$inject'] = ["$document", "$timeout"];
-mdInputInvalidMessagesAnimation['$inject'] = ["$$AnimateRunner", "$animateCss", "$mdUtil", "$log"];
-ngMessagesAnimation['$inject'] = ["$$AnimateRunner", "$animateCss", "$mdUtil", "$log"];
+mdInputInvalidMessagesAnimation['$inject'] = ["$$AnimateRunner", "$animateCss", "$mdUtil"];
+ngMessagesAnimation['$inject'] = ["$$AnimateRunner", "$animateCss", "$mdUtil"];
 ngMessageAnimation['$inject'] = ["$$AnimateRunner", "$animateCss", "$mdUtil", "$log"];
 var inputModule = angular.module('material.components.input', [
     'material.core'
@@ -44,8 +44,6 @@ if (window._mdMocksIncluded) {
     return {
       // special accessor to internals... useful for testing
       messages: {
-        show        : showInputMessages,
-        hide        : hideInputMessages,
         getElement  : getMessagesElement
       }
     };
@@ -65,28 +63,31 @@ if (window._mdMocksIncluded) {
  * @restrict E
  *
  * @description
- * `<md-input-container>` is the parent of any input or textarea element.
+ * `<md-input-container>` is the parent of any input or textarea element. It can also optionally
+ * wrap `<md-select>` elements so that they will be formatted for use in a form.
  *
- * Input and textarea elements will not behave properly unless the md-input-container
- * parent is provided.
+ * Input and textarea elements will not behave properly unless the md-input-container parent is
+ * provided.
  *
- * A single `<md-input-container>` should contain only one `<input>` element, otherwise it will throw an error.
+ * A single `<md-input-container>` should contain only one `<input>` or `<md-select>` element,
+ * otherwise it will throw an error.
  *
- * <b>Exception:</b> Hidden inputs (`<input type="hidden" />`) are ignored and will not throw an error, so
- * you may combine these with other inputs.
+ * <b>Exception:</b> Hidden inputs (`<input type="hidden" />`) are ignored and will not throw an
+ * error, so you may combine these with other inputs.
  *
- * <b>Note:</b> When using `ngMessages` with your input element, make sure the message and container elements
- * are *block* elements, otherwise animations applied to the messages will not look as intended. Either use a `div` and
- * apply the `ng-message` and `ng-messages` classes respectively, or use the `md-block` class on your element.
+ * <b>Note:</b> When using `ngMessages` with your input element, make sure the message and container
+ * elements are *block* elements, otherwise animations applied to the messages will not look as
+ * intended. Either use a `div` and apply the `ng-message` and `ng-messages` classes respectively,
+ * or use the `md-block` class on your element.
  *
- * @param md-is-error {expression=} When the given expression evaluates to true, the input container
- *   will go into error state. Defaults to erroring if the input has been touched and is invalid.
- * @param md-no-float {boolean=} When present, `placeholder` attributes on the input will not be converted to floating
- *   labels.
+ * @param {expression=} md-is-error When the given expression evaluates to `true`, the input
+ *   container will go into the error state. Defaults to erroring if the input has been touched and
+ *   is invalid.
+ * @param {boolean=} md-no-float When present, `placeholder` attributes on the input will not be
+ *   converted to floating labels.
  *
  * @usage
  * <hljs lang="html">
- *
  * <md-input-container>
  *   <label>Username</label>
  *   <input type="text" ng-model="user.name">
@@ -97,6 +98,11 @@ if (window._mdMocksIncluded) {
  *   <textarea ng-model="user.description"></textarea>
  * </md-input-container>
  *
+ * <md-input-container>
+ *   <md-select ng-model="user.state" placeholder="State of Residence">
+ *     <md-option ng-value="state" ng-repeat="state in states">{{ state }}</md-option>
+ *   </md-select>
+ * </md-input-container>
  * </hljs>
  *
  * <h3>When disabling floating labels</h3>
@@ -105,10 +111,9 @@ if (window._mdMocksIncluded) {
  * <md-input-container md-no-float>
  *   <input type="text" placeholder="Non-Floating Label">
  * </md-input-container>
- *
  * </hljs>
  */
-function mdInputContainerDirective($mdTheming, $parse) {
+function mdInputContainerDirective($mdTheming, $parse, $$rAF) {
 
   ContainerCtrl['$inject'] = ["$scope", "$element", "$attrs", "$animate"];
   var INPUT_TAGS = ['INPUT', 'TEXTAREA', 'SELECT', 'MD-SELECT'];
@@ -129,14 +134,32 @@ function mdInputContainerDirective($mdTheming, $parse) {
 
   function compile(tElement) {
     // Check for both a left & right icon
-    var leftIcon = tElement[0].querySelector(LEFT_SELECTORS);
-    var rightIcon = tElement[0].querySelector(RIGHT_SELECTORS);
-
-    if (leftIcon) { tElement.addClass('md-icon-left'); }
-    if (rightIcon) { tElement.addClass('md-icon-right'); }
+    var hasLeftIcon = tElement[0].querySelector(LEFT_SELECTORS);
+    var hasRightIcon = tElement[0].querySelector(RIGHT_SELECTORS);
 
     return function postLink(scope, element) {
       $mdTheming(element);
+
+      if (hasLeftIcon || hasRightIcon) {
+        // When accessing the element's contents synchronously, they may not be defined yet because
+        // of the use of ng-if. If we wait one frame, then the element should be there if the ng-if
+        // resolves to true.
+        $$rAF(function() {
+          // Handle the case where the md-icon element is initially hidden via ng-if from #9529.
+          // We don't want to preserve the space for the icon in the case of ng-if, like we do for
+          // ng-show.
+          // Note that we can't use the same selectors from above because the elements are no longer
+          // siblings for textareas at this point due to the insertion of the md-resize-wrapper.
+          var iconNotRemoved = element[0].querySelector('md-icon') ||
+            element[0].querySelector('.md-icon');
+          if (hasLeftIcon && iconNotRemoved) {
+            element.addClass('md-icon-left');
+          }
+          if (hasRightIcon && iconNotRemoved) {
+            element.addClass('md-icon-right');
+          }
+        });
+      }
     };
   }
 
@@ -215,11 +238,12 @@ function labelDirective() {
  *   will be logged in the console if not present.
  * @param {string=} placeholder An alternative approach to using aria-label when the label is not
  *   PRESENT. The placeholder text is copied to the aria-label attribute.
- * @param md-no-autogrow {boolean=} When present, textareas will not grow automatically.
- * @param md-no-asterisk {boolean=} When present, an asterisk will not be appended to the inputs floating label
- * @param md-no-resize {boolean=} Disables the textarea resize handle.
+ * @param {boolean=} md-no-autogrow When present, textareas will not grow automatically.
+ * @param {boolean=} md-no-asterisk When present, an asterisk will not be appended to the inputs
+ *   floating label.
+ * @param {boolean=} md-no-resize Disables the textarea resize handle.
  * @param {number=} max-rows The maximum amount of rows for a textarea.
- * @param md-detect-hidden {boolean=} When present, textareas will be sized properly when they are
+ * @param {boolean=} md-detect-hidden When present, textareas will be sized properly when they are
  *   revealed after being hidden. This is off by default for performance reasons because it
  *   guarantees a reflow every digest cycle.
  *
@@ -661,6 +685,10 @@ function mdMaxlengthDirective($animate, $mdUtil) {
     var ngTrim = angular.isDefined(attr.ngTrim) ? $mdUtil.parseAttributeBoolean(attr.ngTrim) : true;
     var isPasswordInput = attr.type === 'password';
 
+    scope.$watch(attr.mdMaxlength, function(value) {
+      maxlength = value;
+    });
+
     ngModelCtrl.$validators['md-maxlength'] = function(modelValue, viewValue) {
       if (!angular.isNumber(maxlength) || maxlength < 0) {
         return true;
@@ -702,9 +730,8 @@ function mdMaxlengthDirective($animate, $mdUtil) {
       attr.$observe('ngTrim', function (value) {
         ngTrim = angular.isDefined(value) ? $mdUtil.parseAttributeBoolean(value) : true;
       });
- 
+
       scope.$watch(attr.mdMaxlength, function(value) {
-        maxlength = value;
         if (angular.isNumber(value) && value > 0) {
           if (!charCountEl.parent().length) {
             $animate.enter(charCountEl, errorsSpacer);
@@ -772,9 +799,11 @@ function placeholderDirective($compile) {
     }
 
     // md-select handles placeholders on it's own
-    if (element[0].nodeName != 'MD-SELECT') {
+    if (element[0].nodeName !== 'MD-SELECT') {
       // Move the placeholder expression to the label
-      var newLabel = angular.element('<label ng-click="delegateClick()" tabindex="-1">' + attr.placeholder + '</label>');
+      var newLabel = angular.element(
+        '<label ng-click="delegateClick()" tabindex="-1" aria-hidden="true">' + attr.placeholder +
+        '</label>');
 
       // Note that we unset it via `attr`, in order to get AngularJS
       // to remove any observers that it might have set up. Otherwise
@@ -961,10 +990,10 @@ function ngMessageDirective($mdUtil) {
   }
 }
 
-var $$AnimateRunner, $animateCss, $mdUtil, $log;
+var $$AnimateRunner, $animateCss, $mdUtil;
 
-function mdInputInvalidMessagesAnimation($$AnimateRunner, $animateCss, $mdUtil, $log) {
-  saveSharedServices($$AnimateRunner, $animateCss, $mdUtil, $log);
+function mdInputInvalidMessagesAnimation($$AnimateRunner, $animateCss, $mdUtil) {
+  saveSharedServices($$AnimateRunner, $animateCss, $mdUtil);
 
   return {
     addClass: function(element, className, done) {
@@ -975,8 +1004,8 @@ function mdInputInvalidMessagesAnimation($$AnimateRunner, $animateCss, $mdUtil, 
   };
 }
 
-function ngMessagesAnimation($$AnimateRunner, $animateCss, $mdUtil, $log) {
-  saveSharedServices($$AnimateRunner, $animateCss, $mdUtil, $log);
+function ngMessagesAnimation($$AnimateRunner, $animateCss, $mdUtil) {
+  saveSharedServices($$AnimateRunner, $animateCss, $mdUtil);
 
   return {
     enter: function(element, done) {
@@ -1029,7 +1058,6 @@ function showInputMessages(element, done) {
   var children = messages.children();
 
   if (messages.length == 0 || children.length == 0) {
-    $log.warn('mdInput messages show animation called on invalid messages element: ', element);
     done();
     return;
   }
@@ -1049,7 +1077,6 @@ function hideInputMessages(element, done) {
   var children = messages.children();
 
   if (messages.length == 0 || children.length == 0) {
-    $log.warn('mdInput messages hide animation called on invalid messages element: ', element);
     done();
     return;
   }
@@ -1129,11 +1156,10 @@ function getMessagesElement(element) {
   return angular.element(element[0].querySelector('.md-input-messages-animation'));
 }
 
-function saveSharedServices(_$$AnimateRunner_, _$animateCss_, _$mdUtil_, _$log_) {
+function saveSharedServices(_$$AnimateRunner_, _$animateCss_, _$mdUtil_) {
   $$AnimateRunner = _$$AnimateRunner_;
   $animateCss = _$animateCss_;
   $mdUtil = _$mdUtil_;
-  $log = _$log_;
 }
 
 })(window, window.angular);
