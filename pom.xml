@@ -116,7 +116,7 @@
         <dependency>
             <groupId>org.javers</groupId>
             <artifactId>javers-spring-boot-starter-mongo</artifactId>
-            <version>5.0.0</version>
+            <version>5.1.2</version>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
@@ -222,7 +222,7 @@
         <dependency>
             <groupId>uk.com.robust-it</groupId>
             <artifactId>cloning</artifactId>
-            <version>1.9.10</version>
+            <version>1.9.11</version>
         </dependency>
     </dependencies>
 
