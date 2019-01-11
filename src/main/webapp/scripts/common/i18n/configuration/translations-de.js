@@ -365,6 +365,10 @@ angular.module('metadatamanagementApp').config(
           'confirm-delete-all-surveys': {
             'title': 'Alle Datensätze von "{{ id }}" löschen?',
             'content': 'Wollen Sie wirklich alle Erhebungen des Datenaubereitungsprojekts "{{ id }}" löschen?'
+          },
+          'confirm-delete-all-data-sets': {
+            'title': 'Alle Datensätze von "{{ id }}" löschen?',
+            'content': 'Wollen Sie wirklich alle Datensätze des Datenaubereitungsprojekts "{{ id }}" löschen?'
           }
         }
       }

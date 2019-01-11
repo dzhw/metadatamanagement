@@ -300,11 +300,11 @@ angular.module('metadatamanagementApp').config(
             'variable-has-invalid-data-set-id': 'Die Variable {{id}} referenziert auf einen unbekannten Datensatz ({{toBereferenzedId}}).',
             'variable-has-invalid-question-id': 'Die Variable {{id}} referenziert auf einen unbekannte Frage ({{toBereferenzedId}}).',
             'variable-survey-ids-are-not-consistent-with-data-set': 'Die Variable {{id}} referenziert auf andere Erhebungen als ihr Datensatz {{toBereferenzedId}}.'
-          },
+          }
+        },
           'edit': {
             'all-variables-deleted-toast': 'Alle Variablen des Datenaufbereitungsprojekts "{{id}}" wurden gelöscht.'
           }
-        }
       }
       //jscs:enable
     };

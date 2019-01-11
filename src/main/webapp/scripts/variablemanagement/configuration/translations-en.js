@@ -301,10 +301,10 @@ angular.module('metadatamanagementApp').config(
             'variable-has-invalid-data-set-id': 'The Variable {{id}} references to an unknown Data Set ({{toBereferenzedId}}).',
             'variable-has-invalid-question-id': 'The Variable {{id}} references to an unknown Question ({{toBereferenzedId}}).',
             'variable-survey-ids-are-not-consistent-with-data-set': 'The Variable {{id}} references different surveys than its Data Set {{toBereferenzedId}}.'
-          },
-          'edit': {
-            'all-variables-deleted-toast': 'All Variables of the data acquisition project "{{id}}" are deleted.'
           }
+        },
+        'edit': {
+          'all-variables-deleted-toast': 'All Variables of the data acquisition project "{{id}}" are deleted.'
         }
       }
       //jscs:enable
