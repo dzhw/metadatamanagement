@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.SurveyService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
@@ -34,7 +34,7 @@ public class DeleteAllSurveysResourceController {
   @Secured(value = {AuthoritiesConstants.DATA_PROVIDER, AuthoritiesConstants.PUBLISHER,
       AuthoritiesConstants.ADMIN})
   @DeleteMapping(value = "/data-acquisition-projects/{id}/surveys")
-  public ResponseEntity<Question> deleteAllMetadataByType(@PathVariable String id) {
+  public ResponseEntity<Survey> deleteAllMetadataByType(@PathVariable String id) {
     surveyService.deleteAllSurveysByProjectId(id);
     return ResponseEntity.noContent().build();
   }

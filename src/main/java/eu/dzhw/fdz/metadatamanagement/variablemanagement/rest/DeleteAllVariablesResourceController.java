@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.service.VariableService;
 
 /**
@@ -34,7 +34,7 @@ public class DeleteAllVariablesResourceController {
   @Secured(value = {AuthoritiesConstants.DATA_PROVIDER, AuthoritiesConstants.PUBLISHER,
       AuthoritiesConstants.ADMIN})
   @DeleteMapping(value = "/data-acquisition-projects/{id}/variables")
-  public ResponseEntity<Question> deleteAllMetadataByType(@PathVariable String id) {
+  public ResponseEntity<Variable> deleteAllMetadataByType(@PathVariable String id) {
     variableService.deleteAllVariablesByProjectId(id);
     return ResponseEntity.noContent().build();
   }

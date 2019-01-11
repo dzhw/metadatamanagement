@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.InstrumentService;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 /**
@@ -34,7 +34,7 @@ public class DeleteAllInstrumentsResourceController {
   @Secured(value = {AuthoritiesConstants.DATA_PROVIDER, AuthoritiesConstants.PUBLISHER,
       AuthoritiesConstants.ADMIN})
   @DeleteMapping(value = "/data-acquisition-projects/{id}/instruments")
-  public ResponseEntity<Question> deleteAllMetadataByType(@PathVariable String id) {
+  public ResponseEntity<Instrument> deleteAllMetadataByType(@PathVariable String id) {
     instrumentService.deleteAllInstrumentsByProjectId(id);
     return ResponseEntity.noContent().build();
   }
