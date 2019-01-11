@@ -126,6 +126,18 @@
 
         <md-button class="md-fab md-raised md-accent" ng-click="deleteAllQuestions(currentProject.id)" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='questions' && currentProject">
             <md-tooltip ng-hide="!currentProject || currentProject.release" md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                {{'search-management.buttons.delete-all-questions-tooltip' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">delete_sweep</md-icon>
+        </md-button>
+        <md-button class="md-fab md-raised md-accent" ng-click="deleteAllVariables(currentProject.id)" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='variables' && currentProject">
+            <md-tooltip ng-hide="!currentProject || currentProject.release" md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                {{'search-management.buttons.delete-all-variables-tooltip' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">delete_sweep</md-icon>
+        </md-button>
+        <md-button class="md-fab md-raised md-accent" ng-click="deleteAllInstruments(currentProject.id)" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='instruments' && currentProject">
+            <md-tooltip ng-hide="!currentProject || currentProject.release" md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{'search-management.buttons.delete-all-instruments-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">delete_sweep</md-icon>

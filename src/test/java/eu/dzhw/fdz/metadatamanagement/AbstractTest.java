@@ -69,6 +69,8 @@ public abstract class AbstractTest {
   
   @Autowired
   private Javers javers;
+  @Autowired
+  private SurveyRepository taskRepository;
   
   @After
   public void ensureMongoHasBeenCleanedUp() {
@@ -79,6 +81,7 @@ public abstract class AbstractTest {
     assertEquals(0, this.dataSetRepository.count());
     assertEquals(0, this.variableRepository.count());
     assertEquals(0, this.relatedPublicationRepository.count());
+    assertEquals(0, this.taskRepository.count());
     assertEquals(0, this.elasticsearchUpdateQueueItemRepository.count());
     assertEquals(0, this.daraUpdateQueueItemRepository.count());
     assertEquals(0, this.javers.findSnapshots(QueryBuilder.anyDomainObject().build()).size());

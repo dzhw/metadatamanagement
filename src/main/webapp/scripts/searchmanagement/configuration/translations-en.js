@@ -44,14 +44,16 @@ angular.module('metadatamanagementApp').config(
           'create-instrument-tooltip': 'Click to create a new instrument',
           'edit-instrument-tooltip': 'Click to edit the instrument',
           'delete-instrument-tooltip': 'Click to delete the instrument',
-          'delete-all-instruments-tooltip': 'Click, to delete all questions of the data acquisition project',
+          'delete-all-instruments-tooltip': 'Click, to delete all instruments of the data acquisition project',
           'create-data-set-tooltip': 'Click to create a new data set',
           'edit-data-set-tooltip': 'Click to edit the data set',
           'delete-data-set-tooltip': 'Click to delete the data set',
           'upload-related-publications-tooltip': 'Click to upload publications',
           'upload-instruments-tooltip': 'Click to upload instruments for the selected data acquisition project',
           'previous-search-result-tooltip': 'Click (or CTRL+"\u21E6") to show search result {{ index }} ({{ id }})',
-          'next-search-result-tooltip': 'Click (or CTRL+"\u21E8") to show search result {{ index }} ({{ id }})'
+          'next-search-result-tooltip': 'Click (or CTRL+"\u21E8") to show search result {{ index }} ({{ id }})',
+          'delete-all-questions-tooltip': 'Click, to delete all questions of the data acquisition project',
+          'delete-all-variables-tooltip': 'Click, to delete all variables of the data acquisition project'
         },
         'input-label': {
           'all': 'Search for Studies, Variables, Questions, Surveys, Data Sets, Instruments and Publications...',

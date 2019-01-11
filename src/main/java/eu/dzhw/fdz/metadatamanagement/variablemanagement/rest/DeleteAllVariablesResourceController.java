@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.questionmanagement.rest;
+package eu.dzhw.fdz.metadatamanagement.variablemanagement.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.service.QuestionService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.service.VariableService;
 
 /**
- * Rest Controller for deleting questions of a data acquisition project.
+ * Rest Controller for deleting variables of a data acquisition project.
  * 
  * @author tgehrke
  *
@@ -21,21 +21,21 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
 
 @RestController
 @RequestMapping("/api")
-public class DeleteAllQuestionsResourceController {
+public class DeleteAllVariablesResourceController {
   @Autowired
-  private QuestionService questionService;
+  private VariableService variableService;
 
   /**
-   * delete all questions from data acquisition project.
+   * delete all variables from data acquisition project.
    * 
    * @param id the Id of the project.
    * @return no Content.
    */
   @Secured(value = {AuthoritiesConstants.DATA_PROVIDER, AuthoritiesConstants.PUBLISHER,
       AuthoritiesConstants.ADMIN})
-  @DeleteMapping(value = "/data-acquisition-projects/{id}/questions")
+  @DeleteMapping(value = "/data-acquisition-projects/{id}/variables")
   public ResponseEntity<Question> deleteAllMetadataByType(@PathVariable String id) {
-    questionService.deleteQuestionsByProjectId(id);
+    variableService.deleteAllVariablesByProjectId(id);
     return ResponseEntity.noContent().build();
   }
 }

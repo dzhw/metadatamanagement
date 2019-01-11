@@ -13,6 +13,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
            SearchResultNavigatorService, StudyResource, StudyIdBuilderService,
            $rootScope, ProjectStatusScoringService, $transitions,
            CommonDialogsService, DeleteAllQuestionsResource,
+           DeleteAllVariablesResource, DeleteAllInstrumentsResource,
            ElasticSearchAdminService, SimpleMessageToastService) {
 
     var queryChangedOnInit = false;
@@ -524,6 +525,52 @@ angular.module('metadatamanagementApp').controller('SearchController',
           $rootScope.$broadcast('deletion-completed');
           SimpleMessageToastService.openSimpleMessageToast(
             'question-management.edit.all-questions-deleted-toast',
+            {id: projectId});
+        });
+      }
+    };
+    $scope.deleteAllVariables = function(projectId) {
+      if (ProjectUpdateAccessService.isUpdateAllowed(
+        $scope.project,
+        'variables',
+        true
+      )) {
+        CommonDialogsService.showConfirmDeletionDialog({
+          type: 'all-variables',
+          id: projectId
+        }).then(function() {
+          return DeleteAllVariablesResource.deleteAll(
+            {id: projectId}).$promise;
+        }).then(function() {
+          return ElasticSearchAdminService.
+            processUpdateQueue('variables');
+        }).then(function() {
+          $rootScope.$broadcast('deletion-completed');
+          SimpleMessageToastService.openSimpleMessageToast(
+            'variable-management.edit.all-variables-deleted-toast',
+            {id: projectId});
+        });
+      }
+    };
+    $scope.deleteAllInstruments = function(projectId) {
+      if (ProjectUpdateAccessService.isUpdateAllowed(
+        $scope.project,
+        'instruments',
+        true
+      )) {
+        CommonDialogsService.showConfirmDeletionDialog({
+          type: 'all-instruments',
+          id: projectId
+        }).then(function() {
+          return DeleteAllInstrumentsResource.deleteAll(
+            {id: projectId}).$promise;
+        }).then(function() {
+          return ElasticSearchAdminService.
+            processUpdateQueue('instruments');
+        }).then(function() {
+          $rootScope.$broadcast('deletion-completed');
+          SimpleMessageToastService.openSimpleMessageToast(
+            'instrument-management.edit.all-instruments-deleted-toast',
             {id: projectId});
         });
       }

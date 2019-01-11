@@ -237,7 +237,8 @@ angular.module('metadatamanagementApp').config(function($translateProvider) {
                       'en': 'Please provide additional annotations (in English) to this survey here.'
                     },
                     'instrument-number': 'Please select an instrument number for the new instrument.'
-                }
+                },
+                'all-instruments-deleted-toast': 'All Instruments of the data acquisition project "{{id}}" are deleted.'
             }
         }
         //jscs:enable
