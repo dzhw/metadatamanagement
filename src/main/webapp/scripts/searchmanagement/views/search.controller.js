@@ -13,7 +13,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
            SearchResultNavigatorService, StudyResource, StudyIdBuilderService,
            $rootScope, ProjectStatusScoringService, $transitions,
            CommonDialogsService, DeleteAllQuestionsResource,
-           ElasticSearchAdminService, SimpleMessageToastService) {
+           DeleteAllVariablesResource, ElasticSearchAdminService,
+           SimpleMessageToastService) {
 
     var queryChangedOnInit = false;
     var tabChangedOnInitFlag = false;
@@ -524,6 +525,29 @@ angular.module('metadatamanagementApp').controller('SearchController',
           $rootScope.$broadcast('deletion-completed');
           SimpleMessageToastService.openSimpleMessageToast(
             'question-management.edit.all-questions-deleted-toast',
+            {id: projectId});
+        });
+      }
+    };
+    $scope.deleteAllVariables = function(projectId) {
+      if (ProjectUpdateAccessService.isUpdateAllowed(
+        $scope.project,
+        'variables',
+        true
+      )) {
+        CommonDialogsService.showConfirmDeletionDialog({
+          type: 'all-variables',
+          id: projectId
+        }).then(function() {
+          return DeleteAllVariablesResource.deleteAll(
+            {id: projectId}).$promise;
+        }).then(function() {
+          return ElasticSearchAdminService.
+            processUpdateQueue('variables');
+        }).then(function() {
+          $rootScope.$broadcast('deletion-completed');
+          SimpleMessageToastService.openSimpleMessageToast(
+            'variable-management.edit.all-variables-deleted-toast',
             {id: projectId});
         });
       }

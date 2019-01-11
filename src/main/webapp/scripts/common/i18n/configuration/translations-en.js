@@ -353,6 +353,10 @@ angular.module('metadatamanagementApp').config(
           'confirm-delete-all-questions': {
             'title': 'Delete all data of "{{ id }}"?',
             'content': 'Do you really want to delete  all questions of data acquisition project "{{ id }}"?'
+          },
+          'confirm-delete-all-variables': {
+            'title': 'Delete all data of "{{ id }}"?',
+            'content': 'Do you really want to delete  all variables of data acquisition project "{{ id }}"?'
           }
         }
       }
