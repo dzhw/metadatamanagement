@@ -2,11 +2,11 @@
 	<md-card-header>
 		<md-card-header-text layout="row" layout-align="space-between center">
 			<a ui-sref="ctrl.search({type: ctrl.searchState})" class="md-headline" layout="row" layout-align="start center">
-				<md-icon ng-if="icon" md-svg-icon="{{icon}}" class="md-primary"></md-icon>
-				<span>&nbsp;{{'data-acquisition-project-management.project-cockpit.requirements.'+ctrl.group | translate}}&nbsp;</span>
-				<span>({{ctrl.counts[ctrl.group === 'dataSets' ? 'data_sets' : ctrl.group]}})</span>
+				<md-icon ng-if="ctrl.icon" md-svg-icon="{{ctrl.icon}}" class="md-primary"></md-icon>
+				<span>&nbsp;{{'data-acquisition-project-management.project-cockpit.requirements.'+ctrl.type | translate}}&nbsp;</span>
+				<span>({{ctrl.counts[ctrl.type === 'dataSets' ? 'data_sets' : ctrl.type]}})</span>
 			</a>
-			<div ng-switch="ctrl.getSentimentValue(ctrl.group)">
+			<div ng-switch="ctrl.getSentimentValue(ctrl.type)">
 				<md-icon ng-switch-when="0">sentiment_very_dissatisfied</md-icon>
 				<md-icon ng-switch-when="1">sentiment_satisfied</md-icon>
 				<md-icon ng-switch-when="2">sentiment_very_satisfied</md-icon>
@@ -15,24 +15,24 @@
 	</md-card-header>
 	<md-divider></md-divider>
 	<md-card-content>
-		<md-checkbox ng-model="ctrl.project.configuration.requirements[ctrl.group+'Required']" ng-disabled="true">
+		<md-checkbox ng-model="ctrl.project.configuration.requirements[ctrl.type+'Required']" ng-disabled="true">
 			{{'data-acquisition-project-management.project-cockpit.config.expected' | translate}}
 		</md-checkbox>
 		<md-checkbox
-			ng-model="ctrl.project.configuration[ctrl.group+'State'].dataProviderReady"
+			ng-model="ctrl.project.configuration[ctrl.type+'State'].dataProviderReady"
 			ng-disabled="!((ctrl.isRequired() && ctrl.isAssignedPublisher && ctrl.project.assigneeGroup === 'PUBLISHER') || (ctrl.isRequired() && ctrl.isAssignedDataProvider && ctrl.project.assigneeGroup === 'DATA_PROVIDER'))"
 		>
-			<md-tooltip ng-if="!ctrl.isAssignedPublisher && !ctrl.isAssignedDataProvider">{{'data-acquisition-project-management.project-cockpit.tooltip.not-in-ctrl.group' | translate}}</md-tooltip>
+			<md-tooltip ng-if="!ctrl.isAssignedPublisher && !ctrl.isAssignedDataProvider">{{'data-acquisition-project-management.project-cockpit.tooltip.not-in-ctrl.type' | translate}}</md-tooltip>
 			<md-tooltip ng-if="(!ctrl.isAssignedDataProvider && ctrl.project.assigneeGroup === 'DATA_PROVIDER')">{{'data-acquisition-project-management.project-cockpit.tooltip.not-assigned' | translate}}</md-tooltip>
 			<md-tooltip ng-if="!ctrl.isRequired()">{{'data-acquisition-project-management.error.project-update-access.not-required' | translate}}</md-tooltip>
 			{{'data-acquisition-project-management.project-cockpit.label.ROLE_DATA_PROVIDER' | translate}}
 			{{'data-acquisition-project-management.project-cockpit.config.ready' | translate}}
 		</md-checkbox>
 		<md-checkbox
-			ng-model="ctrl.project.configuration[ctrl.group+'State'].publisherReady"
+			ng-model="ctrl.project.configuration[ctrl.type+'State'].publisherReady"
 			ng-disabled="!(ctrl.isRequired() && ctrl.isAssignedPublisher && ctrl.project.assigneeGroup === 'PUBLISHER')"
 		>
-			<md-tooltip ng-if="!ctrl.isAssignedPublisher">{{'data-acquisition-project-management.project-cockpit.tooltip.not-in-ctrl.group' | translate}}</md-tooltip>
+			<md-tooltip ng-if="!ctrl.isAssignedPublisher">{{'data-acquisition-project-management.project-cockpit.tooltip.not-in-ctrl.type' | translate}}</md-tooltip>
 			<md-tooltip ng-if="ctrl.project.assigneeGroup !== 'PUBLISHER'">{{'data-acquisition-project-management.project-cockpit.tooltip.not-assigned' | translate}}</md-tooltip>
 			<md-tooltip ng-if="!ctrl.isRequired()">{{'data-acquisition-project-management.error.project-update-access.not-required' | translate}}</md-tooltip>
 			{{'data-acquisition-project-management.project-cockpit.label.ROLE_PUBLISHER' | translate}}
@@ -43,12 +43,12 @@
 		<div ng-transclude></div>
 		<div ng-if="!ctrl.hasTranscludedContent">
 			<md-button class="md-primary md-raised" ng-if="!!ctrl.createState" ng-click="ctrl.create()">
-				<span>{{'data-acquisition-project-management.project-cockpit.config.' + ctrl.getModifyButtonLabel(ctrl.group) | translate}}</span>
-				<md-tooltip md-z-index="bowser.mobile || bowser.tablet ? -100 : 100"> {{ctrl.getTooltip(ctrl.group) | translate}}</md-tooltip>
+				<span>{{'data-acquisition-project-management.project-cockpit.config.' + ctrl.getModifyButtonLabel(ctrl.type) | translate}}</span>
+				<md-tooltip md-z-index="bowser.mobile || bowser.tablet ? -100 : 100"> {{ctrl.getTooltip(ctrl.type) | translate}}</md-tooltip>
 			</md-button>
-			<md-button class="md-primary md-raised" ng-if="!!ctrl.uploadFunction" type="file" ngf-select="ctrl.uploadFunction($files)" directory webkitdirectory ngf-multiple="true" ngf-select-disabled="!isUploadAllowed(ctrl.group)">
+			<md-button class="md-primary md-raised" ng-if="!!ctrl.uploadFunction" type="file" ngf-select="ctrl.uploadFunction($files)" directory webkitdirectory ngf-multiple="true" ngf-select-disabled="!ctrl.isUploadAllowed(ctrl.type)">
 				<span>{{'data-acquisition-project-management.project-cockpit.config.upload' | translate}}</span>
-				<md-tooltip md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">{{ctrl.getTooltip(ctrl.group) | translate}}</md-tooltip>
+				<md-tooltip md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">{{ctrl.getTooltip(ctrl.type) | translate}}</md-tooltip>
 			</md-button>
 		</div>
 	</md-card-actions>

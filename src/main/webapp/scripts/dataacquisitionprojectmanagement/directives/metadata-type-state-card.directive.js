@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp')
       templateUrl: 'scripts/dataacquisitionprojectmanagement/directives/' +
         'metadata-type-state-card.html.tmpl',
       scope: {
-        group: '@',
+        type: '@',
         counts: '=',
         project: '=',
       },
@@ -20,7 +20,7 @@ angular.module('metadatamanagementApp')
       controllerAs: 'ctrl',
 
       controller: function($scope) {
-        this.group = $scope.group;
+        this.type = $scope.type;
         this.counts = $scope.counts;
         this.project = $scope.project;
 
@@ -35,24 +35,24 @@ angular.module('metadatamanagementApp')
         this.update(this.project);
 
         var iconpath = 'assets/images/icons/';
-        switch (this.group) {
+        switch (this.type) {
           case 'studies':
             this.icon = iconpath + 'study.svg';
             this.createState = 'studyCreate';
-            this.searchState = this.group;
+            this.searchState = this.type;
             this.tooltip = 'search-management.buttons.create-study-tooltip';
             this.limit = 1;
             break;
           case 'surveys':
             this.icon = iconpath + 'survey.svg';
             this.createState = 'surveyCreate';
-            this.searchState = this.group;
+            this.searchState = this.type;
             this.tooltip = 'search-management.buttons.create-survey-tooltip';
             break;
           case 'instruments':
             this.icon = iconpath + 'instrument.svg';
             this.createState = 'instrumentCreate';
-            this.searchState = this.group;
+            this.searchState = this.type;
             this.tooltip = 'search-management.buttons.' +
               'create-instrument-tooltip';
             break;
@@ -61,15 +61,15 @@ angular.module('metadatamanagementApp')
             this.createState = '';
             this.uploadFunction = function(files) {
               QuestionUploadService.uploadQuestions(files, this.project.id);
-            };
-            this.searchState = this.group;
+            }.bind(this);
+            this.searchState = this.type;
             this.tooltip = 'search-management.buttons.' +
               'upload-questions-tooltip';
             break;
           case 'dataSets':
             this.icon = iconpath + 'data-set.svg';
             this.createState = 'studyCreate';
-            this.searchState = this.group;
+            this.searchState = this.type;
             this.tooltip = 'search-management.buttons.' +
               'create-data-set-tooltip';
             break;
@@ -78,8 +78,8 @@ angular.module('metadatamanagementApp')
             this.createState = '';
             this.uploadFunction = function(files) {
               VariableUploadService.uploadVariables(files, this.project.id);
-            };
-            this.searchState = this.group;
+            }.bind(this);
+            this.searchState = this.type;
             this.tooltip = 'search-management.buttons.' +
               'upload-variables-tooltip';
             break;
@@ -107,7 +107,7 @@ angular.module('metadatamanagementApp')
 
         ctrl.isRequired = function() {
           return _.get(ctrl, 'project.configuration.requirements.' +
-            ctrl.group + 'Required');
+            ctrl.type + 'Required');
         };
 
         ctrl.getModifyButtonLabel = function(group) {
@@ -126,11 +126,19 @@ angular.module('metadatamanagementApp')
           return ctrl.tooltip;
         };
 
+        ctrl.isUpdateAllowed = function(type) {
+          return !_.get(ctrl, 'project.configuration.requirements.' +
+            type + 'Required');
+        };
+
+        ctrl.isUploadAllowed = function(type) {
+          return ProjectUpdateAccessService.isUpdateAllowed(ctrl.project,
+            type.replace(/([A-Z])/g,
+              function($1) {return '_' + $1.toLowerCase();}), true);
+        };
+
         ctrl.create = function() {
-          if (ProjectUpdateAccessService.isUpdateAllowed(ctrl.project,
-            // map camelCase to underscore_case
-            ctrl.group.replace(/([A-Z])/g,
-              function($1) {return '_' + $1.toLowerCase();}), true)) {
+          if (ctrl.isUploadAllowed(ctrl.type)) {
             $state.go(this.createState, {});
           }
         };

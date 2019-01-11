@@ -37,16 +37,6 @@ angular.module('metadatamanagementApp')
       link: function($scope, elem, attrs, ctrl, $transclude) {
         $scope.$on('current-project-changed', ctrl.update);
 
-        ctrl.isUpdateAllowed = function(type) {
-          return !_.get(ctrl, 'project.configuration.requirements.' +
-            type + 'Required');
-        };
-
-        ctrl.isUploadAllowed = function(type) {
-          return ProjectUpdateAccessService.isUpdateAllowed(ctrl.project, type,
-            true);
-        };
-
         ctrl.getNextAssigneeGroup = function(project) {
           switch (_.get(project, 'assigneeGroup')) {
             case 'DATA_PROVIDER':
