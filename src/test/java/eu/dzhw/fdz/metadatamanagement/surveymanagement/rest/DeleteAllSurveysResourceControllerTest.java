@@ -1,6 +1,6 @@
-package eu.dzhw.fdz.metadatamanagement.questionmanagement.rest;
+package eu.dzhw.fdz.metadatamanagement.surveymanagement.rest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -19,14 +19,13 @@ import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateD
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateValidIds;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
-public class DeleteAllQuestionsResourceControllerTest extends AbstractTest {
+public class DeleteAllSurveysResourceControllerTest extends AbstractTest {
+
 
   private static final String API_DELETE_ALL_QUESTIONS_URI = "/api/data-acquisition-projects";
   @Autowired

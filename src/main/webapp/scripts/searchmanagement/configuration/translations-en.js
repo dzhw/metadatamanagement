@@ -53,7 +53,8 @@ angular.module('metadatamanagementApp').config(
           'previous-search-result-tooltip': 'Click (or CTRL+"\u21E6") to show search result {{ index }} ({{ id }})',
           'next-search-result-tooltip': 'Click (or CTRL+"\u21E8") to show search result {{ index }} ({{ id }})',
           'delete-all-questions-tooltip': 'Click, to delete all questions of the data acquisition project',
-          'delete-all-variables-tooltip': 'Click, to delete all variables of the data acquisition project'
+          'delete-all-variables-tooltip': 'Click, to delete all variables of the data acquisition project',
+          'delete-all-surveys-tooltip': 'Click, to delete all surveys of the data acquisition project'
         },
         'input-label': {
           'all': 'Search for Studies, Variables, Questions, Surveys, Data Sets, Instruments and Publications...',
