@@ -19,10 +19,11 @@ addons:
       - g++-4.9
 stages:
     - name: build and deploy
+      if: NOT branch =~ /^saikotitis.*$/
     - name: e2e smoketests
-      if: branch != master && env(TRAVIS_EVENT_TYPE) != cron
+      if: branch != master
     - name: nightly e2e tests
-      if: env(TRAVIS_EVENT_TYPE) = cron
+      if: env(TRAVIS_EVENT_TYPE) = cron || branch =~ /^saikotitis.*$/
 jobs:
   include:
     - stage: build and deploy
