@@ -29,7 +29,7 @@ angular.module('metadatamanagementApp')
           CurrentProjectService.getCurrentProject().id : null;
         var language = LanguageService.getCurrentInstantly();
         var cleanedFilter = _.omit($scope.currentSearchParams.filter,
-          'institution');
+          'institution-de', 'institution-en');
 
         return StudySearchService.findInstitutions(searchText, cleanedFilter,
           language, true);

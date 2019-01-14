@@ -28,7 +28,9 @@ angular.module('metadatamanagementApp').factory(
         'access-way': 'accessWays',
         'panel-identifier': 'panelIdentifier',
         'derived-variables-identifier': 'derivedVariablesIdentifier',
-        'related-publication': 'relatedPublications.id'
+        'related-publication': 'relatedPublications.id',
+        'institution-de': 'study.institution.de',
+        'institution-en': 'study.institution.en'
       },
       'surveys': {
         'study-series-de': 'study.studySeries.de',
@@ -38,7 +40,9 @@ angular.module('metadatamanagementApp').factory(
         'question': 'questions.id',
         'data-set': 'dataSets.id',
         'variable': 'variables.id',
-        'related-publication': 'relatedPublications.id'
+        'related-publication': 'relatedPublications.id',
+        'institution-de': 'study.institution.de',
+        'institution-en': 'study.institution.en'
       },
       'questions': {
         'study-series-de': 'study.studySeries.de',
@@ -48,7 +52,9 @@ angular.module('metadatamanagementApp').factory(
         'instrument': 'instrumentId',
         'data-set': 'dataSets.id',
         'variable': 'variables.id',
-        'related-publication': 'relatedPublications.id'
+        'related-publication': 'relatedPublications.id',
+        'institution-de': 'study.institution.de',
+        'institution-en': 'study.institution.en'
       },
       'instruments': {
         'study-series-de': 'study.studySeries.de',
@@ -58,7 +64,9 @@ angular.module('metadatamanagementApp').factory(
         'question': 'questions.id',
         'data-set': 'dataSets.id',
         'variable': 'variables.id',
-        'related-publication': 'relatedPublications.id'
+        'related-publication': 'relatedPublications.id',
+        'institution-de': 'study.institution.de',
+        'institution-en': 'study.institution.en'
       },
       'data_sets': {
         'study-series-de': 'study.studySeries.de',
@@ -69,7 +77,9 @@ angular.module('metadatamanagementApp').factory(
         'question': 'questions.id',
         'variable': 'variables.id',
         'related-publication': 'relatedPublications.id',
-        'access-way': 'accessWays'
+        'access-way': 'accessWays',
+        'institution-de': 'study.institution.de',
+        'institution-en': 'study.institution.en'
       },
       'related_publications': {
         'study-series-de': 'studySerieses.de',
@@ -79,7 +89,9 @@ angular.module('metadatamanagementApp').factory(
         'instrument': 'instrumentIds',
         'question': 'questionIds',
         'data-set': 'dataSetIds',
-        'variable': 'variableIds'
+        'variable': 'variableIds',
+        'institution-de': 'studies.institution.de',
+        'institution-en': 'studies.institution.en'
       }
     };
 
