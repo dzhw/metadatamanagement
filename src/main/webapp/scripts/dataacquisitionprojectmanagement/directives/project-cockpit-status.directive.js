@@ -127,8 +127,8 @@ angular.module('metadatamanagementApp')
           });
         };
 
+        ctrl.counts = {};
         var setTypeCounts = function(projectId) {
-          ctrl.counts = {};
           SearchDao.search('', 1, projectId, {}, undefined, 0, undefined)
             .then(function(data) {
               ['variables', 'questions', 'data_sets', 'surveys', 'instruments',
