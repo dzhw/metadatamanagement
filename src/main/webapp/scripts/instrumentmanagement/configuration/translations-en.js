@@ -238,7 +238,7 @@ angular.module('metadatamanagementApp').config(function($translateProvider) {
                     },
                     'instrument-number': 'Please select an instrument number for the new instrument.'
                 },
-                'all-instruments-deleted-toast': 'All Instruments of the data acquisition project "{{id}}" are deleted.'
+                'all-instruments-deleted-toast': 'All Instruments of the Data Acquisition Project "{{id}}" have been deleted.'
             }
         }
         //jscs:enable

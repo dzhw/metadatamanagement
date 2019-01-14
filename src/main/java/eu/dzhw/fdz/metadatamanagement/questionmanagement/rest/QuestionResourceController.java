@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import eu.dzhw.fdz.metadatamanagement.common.rest.GenericDomainObjectResourceController;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.service.QuestionService;
 
 /**
  * Question REST Controller which overrides default spring data rest methods.
@@ -20,9 +19,7 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.service.QuestionService
 @RepositoryRestController
 public class QuestionResourceController
     extends GenericDomainObjectResourceController<Question, QuestionRepository> {
-  @Autowired
-  QuestionService questionService;
-
+  
   @Autowired
   public QuestionResourceController(QuestionRepository questionRepository) {
     super(questionRepository);

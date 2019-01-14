@@ -31,10 +31,9 @@ public class DeleteAllVariablesResourceController {
    * @param id the Id of the project.
    * @return no Content.
    */
-  @Secured(value = {AuthoritiesConstants.DATA_PROVIDER, AuthoritiesConstants.PUBLISHER,
-      AuthoritiesConstants.ADMIN})
+  @Secured(value = {AuthoritiesConstants.DATA_PROVIDER, AuthoritiesConstants.PUBLISHER})
   @DeleteMapping(value = "/data-acquisition-projects/{id}/variables")
-  public ResponseEntity<Variable> deleteAllMetadataByType(@PathVariable String id) {
+  public ResponseEntity<Variable> delete(@PathVariable String id) {
     variableService.deleteAllVariablesByProjectId(id);
     return ResponseEntity.noContent().build();
   }

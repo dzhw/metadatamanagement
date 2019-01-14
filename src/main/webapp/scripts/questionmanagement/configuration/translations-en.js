@@ -184,7 +184,7 @@ angular.module('metadatamanagementApp').config(
             'question-has-no-image': 'No image was found for the question {{id}}.'
           },
           'edit': {
-            'all-questions-deleted-toast': 'All questions of the data acquisition project "{{id}}" are deleted.'
+            'all-questions-deleted-toast': 'All questions of the Data Acquisition Project "{{id}}" have been deleted.'
           }
         }
       }

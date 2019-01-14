@@ -328,7 +328,7 @@ angular.module('metadatamanagementApp').config(
                     }
                 }
             },
-            'all-data-sets-deleted-toast': 'All data sets of the data acquisition project "{{id}}" are deleted.'
+            'all-data-sets-deleted-toast': 'All data sets of the Data Acquisition Project "{{id}}" have been deleted.'
         }
       }
       //jscs:enable

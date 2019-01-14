@@ -31,10 +31,9 @@ public class DeleteAllQuestionsResourceController {
    * @param id the Id of the project.
    * @return no Content.
    */
-  @Secured(value = {AuthoritiesConstants.DATA_PROVIDER, AuthoritiesConstants.PUBLISHER,
-      AuthoritiesConstants.ADMIN})
+  @Secured(value = {AuthoritiesConstants.DATA_PROVIDER, AuthoritiesConstants.PUBLISHER})
   @DeleteMapping(value = "/data-acquisition-projects/{id}/questions")
-  public ResponseEntity<Question> deleteAllMetadataByType(@PathVariable String id) {
+  public ResponseEntity<Question> delete(@PathVariable String id) {
     questionService.deleteQuestionsByProjectId(id);
     return ResponseEntity.noContent().build();
   }

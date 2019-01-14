@@ -304,7 +304,7 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'edit': {
-          'all-variables-deleted-toast': 'All Variables of the data acquisition project "{{id}}" are deleted.'
+          'all-variables-deleted-toast': 'All Variables of the Data Acquisition Project "{{id}}" have been deleted.'
         }
       }
       //jscs:enable

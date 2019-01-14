@@ -52,6 +52,7 @@ angular.module('metadatamanagementApp').config(
           'upload-instruments-tooltip': 'Klicken, um Instrumente für das ausgewählte Datenaufbereitungsprojekt hochzuladen',
           'previous-search-result-tooltip': 'Klicken (oder STRG+"\u21E6"), um das {{ index }}. Suchergebnis ({{ id }}) anzuzeigen',
           'next-search-result-tooltip': 'Klicken (oder STRG+"\u21E8"), um das {{ index }}. Suchergebnis ({{ id }}) anzuzeigen',
+          'delete-all-studies-tooltip': 'Klicken, um alle Studien des Datenaufbereitungsprojekts zu löschen',
           'delete-all-questions-tooltip': 'Klicken, um alle Fragen des Datenaufbereitungsprojekts zu löschen',
           'delete-all-variables-tooltip': 'Klicken, um alle Variablen des Datenaufbereitungsprojekts zu löschen',
           'delete-all-surveys-tooltip': 'Klicken, um alle Erhebungen des Datenaufbereitungsprojekts zu löschen',

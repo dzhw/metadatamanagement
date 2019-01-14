@@ -351,24 +351,28 @@ angular.module('metadatamanagementApp').config(
             'content': 'Wollen Sie den Datensatz "{{ id }}" wirklich löschen?'
           },
           'confirm-delete-all-questions': {
-            'title': 'Alle Datensätze von "{{ id }}" löschen?',
-            'content': 'Wollen Sie wirklich alle Fragen des Datenaubereitungsprojekts "{{ id }}" löschen?'
+            'title': 'Alle Fragen des Projekts "{{ id }}" löschen?',
+            'content': 'Wollen Sie wirklich alle Fragen des Datenaufbereitungsprojekts "{{ id }}" löschen?'
+          },
+          'confirm-delete-all-studies': {
+            'title': 'Alle Studien des Projekts "{{ id }}" löschen?',
+            'content': 'Wollen Sie wirklich alle Studien des Datenaufbereitungsprojekts "{{ id }}" löschen?'
           },
           'confirm-delete-all-variables': {
-            'title': 'Alle Datensätze von "{{ id }}" löschen?',
-            'content': 'Wollen Sie wirklich alle Variablen des Datenaubereitungsprojekts "{{ id }}" löschen?'
+            'title': 'Alle Variablen des Projekts "{{ id }}" löschen?',
+            'content': 'Wollen Sie wirklich alle Variablen des Datenaufbereitungsprojekts "{{ id }}" löschen?'
           },
           'confirm-delete-all-instruments': {
-            'title': 'Alle Datensätze von "{{ id }}" löschen?',
-            'content': 'Wollen Sie wirklich alle Instrumente des Datenaubereitungsprojekts "{{ id }}" löschen?'
+            'title': 'Alle Instrumente des Projekts "{{ id }}" löschen?',
+            'content': 'Wollen Sie wirklich alle Instrumente des Datenaufbereitungsprojekts "{{ id }}" löschen?'
           },
           'confirm-delete-all-surveys': {
-            'title': 'Alle Datensätze von "{{ id }}" löschen?',
-            'content': 'Wollen Sie wirklich alle Erhebungen des Datenaubereitungsprojekts "{{ id }}" löschen?'
+            'title': 'Alle Erhebungen des Projekts "{{ id }}" löschen?',
+            'content': 'Wollen Sie wirklich alle Erhebungen des Datenaufbereitungsprojekts "{{ id }}" löschen?'
           },
           'confirm-delete-all-data-sets': {
-            'title': 'Alle Datensätze von "{{ id }}" löschen?',
-            'content': 'Wollen Sie wirklich alle Datensätze des Datenaubereitungsprojekts "{{ id }}" löschen?'
+            'title': 'Alle Datensätze des Projekts "{{ id }}" löschen?',
+            'content': 'Wollen Sie wirklich alle Datensätze des Datenaufbereitungsprojekts "{{ id }}" löschen?'
           }
         }
       }

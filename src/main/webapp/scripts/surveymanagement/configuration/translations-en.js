@@ -319,7 +319,7 @@ angular.module('metadatamanagementApp').config(
             },
             'survey-number': 'Please select a survey number for the new survey.'
           },
-          'all-surveys-deleted-toast': 'All surveys of the data acquisition project "{{id}}" are deleted.'
+          'all-surveys-deleted-toast': 'All surveys of the Data Acquisition Project "{{id}}" have been deleted.'
         }
       }
       //jscs:enable

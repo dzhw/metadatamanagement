@@ -15,6 +15,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
            CommonDialogsService, DeleteAllQuestionsResource,
            DeleteAllVariablesResource, DeleteAllInstrumentsResource,
            DeleteAllSurveysResource, DeleteAllDataSetsResource,
+           DeleteAllStudiesResource,
            ElasticSearchAdminService, SimpleMessageToastService) {
 
     var queryChangedOnInit = false;
@@ -506,6 +507,29 @@ angular.module('metadatamanagementApp').controller('SearchController',
     $scope.isUploadAllowed = function(type) {
       return ProjectUpdateAccessService.isUpdateAllowed($scope.currentProject,
         type, true);
+    };
+    $scope.deleteAllStudies = function(projectId) {
+      if (ProjectUpdateAccessService.isUpdateAllowed(
+        $scope.project,
+        'studies',
+        true
+      )) {
+        CommonDialogsService.showConfirmDeletionDialog({
+          type: 'all-studies',
+          id: projectId
+        }).then(function() {
+          return DeleteAllStudiesResource.deleteAll(
+            {id: projectId}).$promise;
+        }).then(function() {
+          return ElasticSearchAdminService.
+            processUpdateQueue('studies');
+        }).then(function() {
+          $rootScope.$broadcast('deletion-completed');
+          SimpleMessageToastService.openSimpleMessageToast(
+            'study-management.edit.all-studies-deleted-toast',
+            {id: projectId});
+        });
+      }
     };
     $scope.deleteAllQuestions = function(projectId) {
       if (ProjectUpdateAccessService.isUpdateAllowed(
