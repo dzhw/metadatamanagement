@@ -1,0 +1,53 @@
+<div>
+	<div layout-gt-xs="row" layout="column" layout-wrap>
+		<md-card layout-margin layout-column layout-align="center center" flex="1" style="flex-grow:0;min-width:200px;padding:8px;">
+			<release-status-badge released="project.release"></release-status-badge>
+			<div class="layout-row">
+				<md-button class="md-raised md-fab md-mini md-primary" ng-click="toggleReleaseProject()" ng-disabled="!isAssignedPublisher || project.assigneeGroup !== 'PUBLISHER'">
+					<md-tooltip ng-if="isAssignedPublisher && project.assigneeGroup === 'PUBLISHER'" ng-hide="!project" md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+						{{project.release?'global.tooltips.unrelease-project':'global.tooltips.release-project' | translate}}
+					</md-tooltip>
+					<md-tooltip ng-if="!isAssignedPublisher || project.assigneeGroup !== 'PUBLISHER'" ng-hide="!project" md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+						{{'data-acquisition-project-management.error.project-update-access.member-of-assigned-group' | translate}}
+					</md-tooltip>
+					<md-icon md-font-set="material-icons">{{project.release?'stop_screen_share':'screen_share'}}</md-icon>
+				</md-button>
+			</div>
+		</md-card>
+		<md-card layout-margin layout-column layout-align="center center" flex="1" style="flex-grow:0;min-width:200px;padding:8px;">
+			<project-status-badge assignee-group="{{project.assigneeGroup}}"></project-status-badge>
+			<div class="layout-row">
+				<md-button ng-if="!(isAssignedPublisher && project.assigneeGroup !== 'PUBLISHER')" ng-disabled="!(project.assigneeGroup === 'PUBLISHER' && isAssignedPublisher || project.assigneeGroup === 'DATA_PROVIDER' && isAssignedDataProvider)" class="md-raised md-fab md-mini md-primary" ng-click="onSaveChangesAndAssign()">
+					<md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+						{{'data-acquisition-project-management.project-cockpit.button.save-assign' | translate}}
+					</md-tooltip>
+					<md-icon md-font-set="material-icons">send</md-icon>
+				</md-button>
+				<md-button ng-if="isAssignedPublisher && project.assigneeGroup !== 'PUBLISHER'" class="md-raised md-fab md-mini md-primary" ng-click="onSaveChangesAndTakeBack()">
+					<md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+						{{'data-acquisition-project-management.project-cockpit.button.save-takeback' | translate}}
+					</md-tooltip>
+					<md-icon md-font-set="material-icons">gavel</md-icon>
+				</md-button>
+			</div>
+		</md-card>
+	</div>
+</div>
+<div layout-gt-sm="row" layout="column" layout-wrap>
+	<project-cockpit-metadata-type-state-card class="fdz-project-cockpit-metadata-type-state-card" flex="auto" group="studies" icon="assets/images/icons/study.svg" createstate="studyCreate" searchstate="studies" tooltip="search-management.buttons.create-study-tooltip" limit="1"></project-cockpit-metadata-type-state-card>
+	<project-cockpit-metadata-type-state-card class="fdz-project-cockpit-metadata-type-state-card" flex="auto" group="surveys" icon="assets/images/icons/survey.svg" createstate="surveyCreate" searchstate="surveys" tooltip="search-management.buttons.create-survey-tooltip"></project-cockpit-metadata-type-state-card>
+	<project-cockpit-metadata-type-state-card class="fdz-project-cockpit-metadata-type-state-card" flex="auto" group="instruments" icon="assets/images/icons/instrument.svg" createstate="instrumentCreate" searchstate="instruments" tooltip="search-management.buttons.create-instrument-tooltip"></project-cockpit-metadata-type-state-card>
+	<project-cockpit-metadata-type-state-card class="fdz-project-cockpit-metadata-type-state-card" flex="auto" group="questions" icon="assets/images/icons/question.svg" searchstate="questions">
+		<md-button class="md-primary md-raised" type="file" ngf-select="uploadQuestions($files)" directory webkitdirectory ngf-multiple="true" ngf-select-disabled="!isUploadAllowed('questions')">
+			{{'data-acquisition-project-management.project-cockpit.config.upload' | translate}}
+			<md-tooltip md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">{{'search-management.buttons.upload-questions-tooltip' | translate}}</md-tooltip>
+		</md-button>
+	</project-cockpit-metadata-type-state-card>
+	<project-cockpit-metadata-type-state-card class="fdz-project-cockpit-metadata-type-state-card" flex="auto" group="dataSets" icon="assets/images/icons/data-set.svg" createstate="dataSetCreate" searchstate="data_sets" tooltip="search-management.buttons.create-data-set-tooltip"></project-cockpit-metadata-type-state-card>
+	<project-cockpit-metadata-type-state-card class="fdz-project-cockpit-metadata-type-state-card" flex="auto" group="variables" icon="assets/images/icons/variable.svg" searchstate="variables">
+		<md-button class="md-primary md-raised" type="file" ngf-select="uploadVariables($files)" directory webkitdirectory ngf-multiple="true" ngf-select-disabled="!isUploadAllowed('variables')">
+			{{'data-acquisition-project-management.project-cockpit.config.upload' | translate}}
+			<md-tooltip md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">{{'search-management.buttons.upload-variables-tooltip' | translate}}</md-tooltip>
+		</md-button>
+	</project-cockpit-metadata-type-state-card>
+</div>

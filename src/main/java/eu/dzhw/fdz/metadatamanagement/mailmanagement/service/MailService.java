@@ -1,9 +1,14 @@
 package eu.dzhw.fdz.metadatamanagement.mailmanagement.service;
 
-import eu.dzhw.fdz.metadatamanagement.common.config.JHipsterProperties;
-import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Order;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.Future;
+import java.util.stream.Collectors;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
 import org.apache.commons.lang.CharEncoding;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,13 +23,10 @@ import org.springframework.util.StringUtils;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.Future;
-import java.util.stream.Collectors;
+import eu.dzhw.fdz.metadatamanagement.common.config.JHipsterProperties;
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Order;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Service for sending e-mails.
@@ -166,10 +168,12 @@ public class MailService {
    */
   @Async
   public void sendPublishersAddedMail(List<User> publishers, String projectId, String sender) {
-    log.debug("Sending 'publishers added' mail");
-    sendChangedProjectConfigurationMail("addedToProjectConfiguration",
-        "email.project-configuration-added.title", "email.project-configuration.publisher-role",
-        publishers, projectId, sender);
+    if (!publishers.isEmpty()) {
+      log.debug("Sending 'publishers added' mail");
+      sendChangedProjectConfigurationMail("addedToProjectConfiguration",
+          "email.project-configuration-added.title", "email.project-configuration.publisher-role",
+          publishers, projectId, sender);
+    }
   }
 
   /**
@@ -178,10 +182,12 @@ public class MailService {
   @Async
   public void sendPublisherRemovedMail(List<User> removedPublisherUsers, String projectId,
                                        String sender) {
-    log.debug("Sending 'publishers removed' mail");
-    sendChangedProjectConfigurationMail("removedFromProjectConfiguration",
-        "email.project-configuration-removed.title", "email.project-configuration.publisher-role",
-        removedPublisherUsers, projectId, sender);
+    if (!removedPublisherUsers.isEmpty()) {
+      log.debug("Sending 'publishers removed' mail");
+      sendChangedProjectConfigurationMail("removedFromProjectConfiguration",
+          "email.project-configuration-removed.title", "email.project-configuration.publisher-role",
+          removedPublisherUsers, projectId, sender);
+    }
   }
 
   /**
@@ -190,11 +196,13 @@ public class MailService {
   @Async
   public void sendDataProviderAddedMail(List<User> addedDataProviders, String projectId,
                                         String sender) {
-    log.debug("Sending 'data providers added' mail");
-    sendChangedProjectConfigurationMail("addedToProjectConfiguration",
-        "email.project-configuration-added.title",
-        "email.project-configuration.data-provider-role", addedDataProviders, projectId,
-        sender);
+    if (!addedDataProviders.isEmpty()) {
+      log.debug("Sending 'data providers added' mail");
+      sendChangedProjectConfigurationMail("addedToProjectConfiguration",
+          "email.project-configuration-added.title",
+          "email.project-configuration.data-provider-role", addedDataProviders, projectId,
+          sender);
+    }
   }
 
   /**
@@ -203,13 +211,16 @@ public class MailService {
   @Async
   public void sendDataProviderRemovedMail(List<User> removedDataProviders, String projectId,
                                           String sender) {
-    log.debug("Sending 'data providers removed' mail");
-    sendChangedProjectConfigurationMail("removedFromProjectConfiguration",
-        "email.project-configuration-removed.title",
-        "email.project-configuration.data-provider-role", removedDataProviders, projectId,
-        sender);
+    if (!removedDataProviders.isEmpty()) {
+      log.debug("Sending 'data providers removed' mail");
+      sendChangedProjectConfigurationMail("removedFromProjectConfiguration",
+          "email.project-configuration-removed.title",
+          "email.project-configuration.data-provider-role", removedDataProviders, projectId,
+          sender);
+    }
   }
 
+  @Async
   private void sendChangedProjectConfigurationMail(String template, String subjectKey,
                                                    String roleKey, List<User> users,
                                                    String projectId, String sender) {
@@ -223,6 +234,59 @@ public class MailService {
       context.setVariable("role", messageSource.getMessage(roleKey, null, locale));
       String content = templateEngine.process(template, context);
       String subject = messageSource.getMessage(subjectKey, new Object[]{projectId}, locale);
+      sendEmail(sender, new String[]{user.getEmail()}, null, subject, content, false, true);
+    });
+  }
+
+  /**
+   * Send a mail to users who are now able to edit the project.
+   */
+  @Async
+  public void sendAssigneeGroupChangedMail(List<User> users, String projectId, String message,
+      String sender) {
+
+    if (!users.isEmpty()) {
+      log.debug("Sending 'assignee group changed mail'");
+    }
+
+    users.parallelStream().forEach(user -> {
+      Locale locale = Locale.forLanguageTag(user.getLangKey());
+      Context context = new Context(locale);
+      context.setVariable("user", user);
+      context.setVariable("projectId", projectId);
+      context.setVariable("locale", locale);
+      context.setVariable("baseUrl", baseUrl);
+      context.setVariable("messageToGroup", StringUtils.trimWhitespace(message));
+      String content = templateEngine.process("assigneeGroupChanged", context);
+      String subject = messageSource.getMessage("email.assignee-group-changed.title",
+          new Object[]{projectId}, locale);
+      sendEmail(sender, new String[]{user.getEmail()}, null, subject, content, false, true);
+    });
+  }
+
+  /**
+   * Send a mail to data providers informing them that they've been removed as the assignee group
+   * by a publisher.
+   */
+  @Async
+  public void sendDataProviderAccessRevokedMail(List<User> users, String projectId,
+                                                String message, String sender) {
+
+    if (!users.isEmpty()) {
+      log.debug("Sending 'data provider access revoked mail'");
+    }
+
+    users.parallelStream().forEach(user -> {
+      Locale locale = Locale.forLanguageTag(user.getLangKey());
+      Context context = new Context(locale);
+      context.setVariable("user", user);
+      context.setVariable("projectId", projectId);
+      context.setVariable("locale", locale);
+      context.setVariable("baseUrl", baseUrl);
+      context.setVariable("messageToGroup", StringUtils.trimWhitespace(message));
+      String content = templateEngine.process("dataProviderAccessRevoked", context);
+      String subject = messageSource.getMessage("email.data-provider-access-revoked.title",
+          new Object[]{projectId}, locale);
       sendEmail(sender, new String[]{user.getEmail()}, null, subject, content, false, true);
     });
   }

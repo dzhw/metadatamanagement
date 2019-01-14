@@ -9,21 +9,16 @@ ${BROWSER}        chrome
 
 *** Keywords ***
 Click Element Through Tooltips
-    [Documentation]
-    ...     Can be used to click hidden elements
-    ...     Dependencies
-    ...         SeleniumLibrary
-    ...         String
-    [Arguments]     ${xpath_string}
+    [Arguments]    ${xpath_string}
+    [Documentation]    Can be used to click hidden elements
+    ...    Dependencies
+    ...    SeleniumLibrary
+    ...    String
     # escape " characters of xpath
-    ${var} =  Replace String      ${xpath_string}        xpath=  ${EMPTY}
-    ${element_xpath} =  Replace String      ${var}        \"  \\\"
-    Run Keyword If  '${BROWSER}' != 'ie'
-    ...             Wait Until Keyword Succeeds  10s  0.5s  Execute JavaScript  window.document.evaluate("${element_xpath}", document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null).snapshotItem(0).click();
-    Run Keyword If  '${BROWSER}' == 'ie'
-    ...             Wait Until Keyword Succeeds  10s  0.5s  Focus  ${xpath_string}
-    Run Keyword If  '${BROWSER}' == 'ie'
-    ...             Wait Until Keyword Succeeds  10s  0.5s  Mouse Over  ${xpath_string}
-    Run Keyword If  '${BROWSER}' == 'ie'
-    ...             Wait Until Keyword Succeeds  10s  0.5s  Click Element  ${xpath_string}
-    Wait Until Angular Ready	10s
+    ${var} =    Replace String    ${xpath_string}    xpath=    ${EMPTY}
+    ${element_xpath} =    Replace String    ${var}    \"    \\\"
+    Run Keyword If    '${BROWSER}' != 'ie'    Wait Until Keyword Succeeds    10s    0.5s    Execute JavaScript    window.document.evaluate("${element_xpath}", document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null).snapshotItem(0).click();
+    Run Keyword If    '${BROWSER}' == 'ie'    Wait Until Keyword Succeeds    10s    0.5s    Focus    ${xpath_string}
+    Run Keyword If    '${BROWSER}' == 'ie'    Wait Until Keyword Succeeds    10s    0.5s    Mouse Over    ${xpath_string}
+    Run Keyword If    '${BROWSER}' == 'ie'    Wait Until Keyword Succeeds    10s    0.5s    Click Element    ${xpath_string}
+    Wait Until Angular Ready    10s

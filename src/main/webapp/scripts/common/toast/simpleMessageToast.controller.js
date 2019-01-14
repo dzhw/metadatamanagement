@@ -3,9 +3,8 @@
 
 angular.module('metadatamanagementApp')
   .controller('SimpleMessageToastController',
-    function($scope, $mdToast, messageId, messageParams, alert) {
-      $scope.messageId = messageId;
-      $scope.messageParams = messageParams;
+    function($scope, $mdToast, messages, alert) {
+      $scope.messages = messages;
       $scope.alert = alert;
 
       /* Close Function for Toasts. */

@@ -1,6 +1,5 @@
 *** Settings ***
 Documentation     Tests the user experience of using a survey filter for finding a connected question
-Force Tags        smoketest
 Resource          ../../resources/search_resource.robot
 Resource          ../../resources/home_page_resource.robot
 

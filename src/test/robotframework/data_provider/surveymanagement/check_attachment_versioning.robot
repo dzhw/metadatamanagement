@@ -1,13 +1,11 @@
 *** Settings ***
 Documentation     Test editing survey page and versioning
-Force Tags        smoketest    chromeonly
-Resource          ../../resources/login_resource.robot
+Force Tags        chromeonly
 Resource          ../../resources/home_page_resource.robot
 Resource          ../../resources/search_resource.robot
 
 *** Test Cases ***
 Editing survey attachement and check versioning
-    Login as dataprovider
     Select project by name    fileuploadproject
     Click on surveys tab
     Click Survey Edit Button
@@ -19,15 +17,9 @@ Editing survey attachement and check versioning
     Page Should Contain    vor ein paar Sekunden
     Revise to second latest version
     Click Attachment Save Button
-    [Teardown]    Get back to home page and logout
+    [Teardown]    Get back to german home page
 
 *** Keywords ***
-Get back to home page and logout
-    Get back to german home page
-    ${present}=    Run Keyword And Return Status    Page Should Contain    Sie haben ungespeicherte Änderungen.
-    Run Keyword If    ${present} == 'True'    Click Element Through Tooltips    xpath=//button[contains(.,'Ja')]
-    Click Element Through Tooltips    xpath=//button[@id='logout']
-
 Click Edit Attachment Button
     Click Element Through Tooltips    xpath=//button[md-icon[text()='mode_edit']]
 

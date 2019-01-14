@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.metrics.web.client.MetricsRestTemplateCustomizer;
 import org.springframework.boot.actuate.metrics.web.client.RestTemplateExchangeTagsProvider;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -117,9 +118,11 @@ public class SearchResource {
     }
     ResponseEntity<String> responseFromElasticSearch = restTemplate.exchange(
         url, method, new HttpEntity<>(body, headers), String.class);
-    ResponseEntity<String> finalResponse = new ResponseEntity<String>(
-        responseFromElasticSearch.getBody(), responseFromElasticSearch.getStatusCode());
-    return finalResponse;
+  
+    return ResponseEntity
+        .status(responseFromElasticSearch.getStatusCode())
+        .cacheControl(CacheControl.noStore())
+        .body(responseFromElasticSearch.getBody());
   }
 
   /**

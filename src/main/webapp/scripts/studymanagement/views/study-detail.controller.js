@@ -6,7 +6,9 @@ angular.module('metadatamanagementApp')
     function(entity, PageTitleService, LanguageService, DataSetSearchService,
       $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
       StudyAttachmentResource, SearchResultNavigatorService, $stateParams,
-      $rootScope, DataAcquisitionProjectResource, ProductChooserDialogService) {
+      $rootScope, DataAcquisitionProjectResource, ProductChooserDialogService,
+      ProjectUpdateAccessService, $scope, $transitions) {
+
       SearchResultNavigatorService.registerCurrentSearchResult(
          $stateParams['search-result-index']);
       var versionFromUrl = $stateParams.version;
@@ -46,6 +48,21 @@ angular.module('metadatamanagementApp')
         return false;
       };
 
+      var setupTransitionHook = function(project) {
+        var deregisterTransitionHook = $transitions
+          .onBefore({state: 'studyDetail'}, function(transition) {
+            var identifier = _.get(transition, '_targetState._identifier');
+            if (identifier === 'studyEdit') {
+              return ProjectUpdateAccessService
+                .isUpdateAllowed(project, 'studies', true);
+            } else {
+              return true;
+            }
+          });
+
+        $scope.$on('$destroy', deregisterTransitionHook);
+      };
+
       entity.promise.then(function(result) {
         if (Principal
             .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
@@ -53,6 +70,8 @@ angular.module('metadatamanagementApp')
             id: result.dataAcquisitionProjectId
           }).$promise.then(function(project) {
             ctrl.projectIsCurrentlyReleased = (project.release != null);
+            ctrl.assigneeGroup = project.assigneeGroup;
+            setupTransitionHook(project);
           });
         }
 

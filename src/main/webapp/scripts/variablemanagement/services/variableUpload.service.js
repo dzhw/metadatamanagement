@@ -175,6 +175,9 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
     };
 
     var uploadVariables = function(files, dataAcquisitionProjectId) {
+      if (!files || files.length === 0 || !dataAcquisitionProjectId) {
+        return;
+      }
       existingVariables = {};
       if (!CleanJSObjectService.isNullOrEmpty(
           dataAcquisitionProjectId)) {
