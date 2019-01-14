@@ -1,8 +1,7 @@
 # don't use container based infrastructure cause we need sudo
 sudo: required
 language: java
-os:
-  - linux
+dist: xenial
 jdk:
   - openjdk8
 python:
@@ -11,12 +10,6 @@ cache:
   directories:
   - $HOME/.m2
   - ./node_modules
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - g++-4.9
 stages:
     - name: build
       if: NOT (branch =~ /^saikotitis.*$/ || branch =~ /^(development|master)$/)
@@ -31,7 +24,6 @@ jobs:
     - stage: build
       name: "Client & Server Build"
       install:
-        - export CXX=g++-4.9
         - export NODE_OPTIONS=--max-old-space-size=4096
         - export MAVEN_OPTS=-Dorg.slf4j.simpleLogger.log.pl.project13.maven.git=WARN
         - sudo apt-get -y install python-pip python-dev --allow-unauthenticated
@@ -44,7 +36,6 @@ jobs:
     - stage: build and deploy
       name: "Build and Deploy to PWS"
       install:
-        - export CXX=g++-4.9
         - export NODE_OPTIONS=--max-old-space-size=4096
         - export MAVEN_OPTS=-Dorg.slf4j.simpleLogger.log.pl.project13.maven.git=WARN
         - sudo apt-get -y install python-pip python-dev --allow-unauthenticated
