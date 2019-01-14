@@ -1,6 +1,5 @@
 *** Settings ***
 Documentation     Publisher Create Study
-Default Tags      smoketest
 Resource          ../../resources/login_resource.robot
 Resource          ../../resources/click_element_resource.robot
 Resource          ../../resources/search_resource.robot

@@ -2,7 +2,7 @@
  * AngularJS Material Design
  * https://github.com/angular/material
  * @license MIT
- * v1.1.10
+ * v1.1.12
  */
 goog.provide('ngmaterial.components.slider');
 goog.require('ngmaterial.core');
@@ -16,6 +16,16 @@ angular.module('material.components.slider', [
 ])
 .directive('mdSlider', SliderDirective)
 .directive('mdSliderContainer', SliderContainerDirective);
+
+/**
+ * @type {number} the page size used for stepping when page up/down keys are pressed.
+ */
+var stepPageSize = 10;
+/**
+ * @type {number} the multiplier applied to a step when the arrow key is pressed along with
+ *  alt, meta, or ctrl.
+ */
+var modifierMultiplier = 4;
 
 /**
  * @ngdoc directive
@@ -55,7 +65,7 @@ function SliderContainerDirective() {
         elem.attr('md-vertical', '');
       }
 
-      if(!slider.attr('flex')) {
+      if (!slider.attr('flex')) {
         slider.attr('flex', '');
       }
 
@@ -87,6 +97,9 @@ function SliderContainerDirective() {
 
         var initialMaxWidth;
 
+        /**
+         * @param {number} length of the input's string value
+         */
         ctrl.fitInputWidthToTextLength = function (length) {
           var input = element[0].querySelector('md-input-container');
 
@@ -114,11 +127,11 @@ function SliderContainerDirective() {
  * @description
  * The `<md-slider>` component allows the user to choose from a range of values.
  *
- * As per the [material design spec](https://material.io/guidelines/style/color.html#color-color-system)
+ * As per the [Material Design spec](https://material.io/archive/guidelines/style/color.html#color-color-system)
  * the slider is in the accent color by default. The primary color palette may be used with
  * the `md-primary` class.
  *
- * It has two modes:
+ * The slider has two modes:
  * - "normal" mode where the user slides between a wide range of values
  * - "discrete" mode where the user slides between only a few select values
  *
@@ -126,8 +139,14 @@ function SliderContainerDirective() {
  * and use the `step` attribute to change the distance between
  * values the user is allowed to pick.
  *
- * When using the keyboard, holding the Meta, Control, or Alt key while pressing the left
- * and right arrow buttons will cause the slider to move 4 steps.
+ * When using the keyboard:
+ * - pressing the arrow keys will increase or decrease the slider's value by one step
+ * - holding the Meta, Control, or Alt key while pressing the arrow keys will
+ *   move the slider four steps at a time
+ * - pressing the Home key will move the slider to the first allowed value
+ * - pressing the End key will move the slider to the last allowed value
+ * - pressing the Page Up key will increase the slider value by ten
+ * - pressing the Page Down key will decrease the slider value by ten
  *
  * @usage
  * <h4>Normal Mode</h4>
@@ -148,13 +167,21 @@ function SliderContainerDirective() {
  *
  * @param {expression} ng-model Assignable angular expression to be data-bound.
  *  The expression should evaluate to a `number`.
- * @param {boolean=} md-discrete Whether to enable discrete mode.
- * @param {boolean=} md-invert Whether to enable invert mode.
- * @param {number=} step The distance between values the user is allowed to pick. Default `1`.
- * @param {number=} min The minimum value the user is allowed to pick. Default `0`.
- * @param {number=} max The maximum value the user is allowed to pick. Default `100`.
+ * @param {expression=} ng-disabled If this expression evaluates as truthy, the slider will be
+ *  disabled.
+ * @param {expression=} ng-readonly If this expression evaluates as truthy, the slider will be in
+ *  read only mode.
+ * @param {boolean=} md-discrete If this attribute exists during initialization, enable discrete
+ *  mode. Defaults to `false`.
+ * @param {boolean=} md-vertical If this attribute exists during initialization, enable vertical
+ *  orientation mode. Defaults to `false`.
+ * @param {boolean=} md-invert If this attribute exists during initialization, enable inverted mode.
+ *  Defaults to `false`.
+ * @param {number=} step The distance between values the user is allowed to pick. Defaults to `1`.
+ * @param {number=} min The minimum value the user is allowed to pick. Defaults to `0`.
+ * @param {number=} max The maximum value the user is allowed to pick. Defaults to `100`.
  * @param {number=} round The amount of numbers after the decimal point. The maximum is 6 to
- *  prevent scientific notation. Default `3`.
+ *  prevent scientific notation. Defaults to `3`.
  */
 function SliderDirective($$rAF, $window, $mdAria, $mdUtil, $mdConstant, $mdTheming, $mdGesture,
                          $parse, $log, $timeout) {
@@ -362,7 +389,7 @@ function SliderDirective($$rAF, $window, $mdAria, $mdUtil, $mdConstant, $mdThemi
     }
 
     function clearTicks() {
-      if(tickCanvas && tickCtx) {
+      if (tickCanvas && tickCtx) {
         var dimensions = getSliderDimensions();
         tickCtx.clearRect(0, 0, dimensions.width, dimensions.height);
       }
@@ -383,27 +410,61 @@ function SliderDirective($$rAF, $window, $mdAria, $mdUtil, $mdConstant, $mdThemi
 
     /**
      * left/right/up/down arrow listener
+     * @param {!KeyboardEvent} ev
      */
     function keydownListener(ev) {
       if (isDisabled()) return;
+      var keyCodes = $mdConstant.KEY_CODE;
 
       var changeAmount;
-      if (vertical ? ev.keyCode === $mdConstant.KEY_CODE.DOWN_ARROW : ev.keyCode === $mdConstant.KEY_CODE.LEFT_ARROW) {
-        changeAmount = -step;
-      } else if (vertical ? ev.keyCode === $mdConstant.KEY_CODE.UP_ARROW : ev.keyCode === $mdConstant.KEY_CODE.RIGHT_ARROW) {
-        changeAmount = step;
+      switch (ev.keyCode) {
+        case keyCodes.DOWN_ARROW:
+        case keyCodes.LEFT_ARROW:
+          ev.preventDefault();
+          changeAmount = -step;
+          break;
+        case keyCodes.UP_ARROW:
+        case keyCodes.RIGHT_ARROW:
+          ev.preventDefault();
+          changeAmount = step;
+          break;
+        case keyCodes.PAGE_DOWN:
+          ev.preventDefault();
+          changeAmount = -step * stepPageSize;
+          break;
+        case keyCodes.PAGE_UP:
+          ev.preventDefault();
+          changeAmount = step * stepPageSize;
+          break;
+        case keyCodes.HOME:
+          ev.preventDefault();
+          ev.stopPropagation();
+          updateValue(min);
+          break;
+        case keyCodes.END:
+          ev.preventDefault();
+          ev.stopPropagation();
+          updateValue(max);
+          break;
       }
-      changeAmount = invert ? -changeAmount : changeAmount;
       if (changeAmount) {
+        changeAmount = invert ? -changeAmount : changeAmount;
         if (ev.metaKey || ev.ctrlKey || ev.altKey) {
-          changeAmount *= 4;
+          changeAmount *= modifierMultiplier;
         }
         ev.preventDefault();
         ev.stopPropagation();
-        scope.$evalAsync(function() {
-          setModelValue(ngModelCtrl.$viewValue + changeAmount);
-        });
+        updateValue(ngModelCtrl.$viewValue + changeAmount);
       }
+    }
+
+    /**
+     * @param value new slider value used for setting the model value
+     */
+    function updateValue(value) {
+      scope.$evalAsync(function() {
+        setModelValue(value);
+      });
     }
 
     function mouseDownListener() {
@@ -463,7 +524,7 @@ function SliderDirective($$rAF, $window, $mdAria, $mdUtil, $mdConstant, $mdThemi
         var formattedValue = (Math.round((value - min) / step) * step + min);
         formattedValue = (Math.round(formattedValue * Math.pow(10, round)) / Math.pow(10, round));
 
-        if (containerCtrl && containerCtrl.fitInputWidthToTextLength){
+        if (containerCtrl && containerCtrl.fitInputWidthToTextLength) {
           $mdUtil.debounce(function () {
             containerCtrl.fitInputWidthToTextLength(formattedValue.toString().length);
           }, 100)();
@@ -474,7 +535,7 @@ function SliderDirective($$rAF, $window, $mdAria, $mdUtil, $mdConstant, $mdThemi
     }
 
     /**
-     * @param percent 0-1
+     * @param {number} percent 0-1
      */
     function setSliderPercent(percent) {
 
