@@ -47,6 +47,7 @@ jobs:
         - echo "deb http://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
         - sudo apt-get update -qq
         - sudo apt-get install cf-cli -y --allow-unauthenticated
+        - sudo netstat -pelnut
       script:
         - ./deploy/build-and-deploy.sh unused $CI_DEPLOY_USERNAME $CI_DEPLOY_PASSWORD $TRAVIS_BRANCH $COVERALLS_TOKEN $TRAVIS_EVENT_TYPE
     - stage: e2e smoketests

@@ -18,7 +18,7 @@ import pl.allegro.tech.embeddedelasticsearch.PopularProperties;
 /**
  * Embedded in-memory elasticsearch node. It will start only once by the
  * {@code UnitTestConfiguration}. The node name is 'UnitTestNode'. The node is by default reachable
- * by the url http://localhost:9234.
+ * by the url http://localhost:19234.
  *
  * @author Daniel Katzberg
  */
@@ -27,19 +27,19 @@ public class EmbeddedElasticsearchConfiguration {
 
   @Autowired
   private MetadataManagementProperties properties;
-  
+
   @Bean
   public EmbeddedElastic embeddedElastic() throws IOException, InterruptedException {
     final EmbeddedElastic embeddedElastic = EmbeddedElastic.builder()
         .withElasticVersion(properties.getElasticsearch().getVersion())
         .withEsJavaOpts("-Xms128m -Xmx512m")
-        .withSetting(PopularProperties.HTTP_PORT, 9234)
+        .withSetting(PopularProperties.HTTP_PORT, 19234)
         .withSetting(PopularProperties.CLUSTER_NAME, "metadatamanagement-test")
         .withInstallationDirectory(new File("target/elasticsearch"))
         .withStartTimeout(2, TimeUnit.MINUTES)
         .build()
         .start();
-        
+
     return embeddedElastic;
   }
 }
