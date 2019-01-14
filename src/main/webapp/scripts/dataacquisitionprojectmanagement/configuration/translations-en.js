@@ -95,7 +95,8 @@ angular.module('metadatamanagementApp').config(
             'project-released': 'The action is not possible because the projects metadata is currently open to all public users.',
             'member-of-assigned-group': 'The action is not possible because the project is currently assigned to the other project group.',
             'assigned-to-project': 'The action is not possible because you are not assigned to the project as a publisher or data provider.',
-            'not-required': 'The action is not possible because this metadata was not marked as "expected" in the project settings.'
+            'not-required': 'The action is not possible because this metadata was not marked as "expected" in the project settings.',
+            'prerequisite-missing': 'This actions is not possible because a prerequisite isn\'t fulfilled: {{ name }}'
           }
         },
         'projectstatuslabel': {

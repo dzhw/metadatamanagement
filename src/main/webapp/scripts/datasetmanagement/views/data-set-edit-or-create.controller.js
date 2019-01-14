@@ -104,6 +104,10 @@ angular.module('metadatamanagementApp')
                   .isUpdateAllowed(project, 'data_sets')) {
                   handleUserNotInAssigneeGroup();
                 } else {
+                  ProjectUpdateAccessService.isPrerequisiteFulfilled(
+                    project, 'data_sets'
+                  ).catch(handlePrerequisitesMissing);
+
                   ctrl.dataSet = dataSet;
                   ctrl.initSurveyChips();
                   ctrl.loadAttachments();
@@ -115,6 +119,10 @@ angular.module('metadatamanagementApp')
           } else {
             if (CurrentProjectService.getCurrentProject() &&
             !CurrentProjectService.getCurrentProject().release) {
+              ProjectUpdateAccessService.isPrerequisiteFulfilled(
+                CurrentProjectService.getCurrentProject(), 'data_sets'
+              ).catch(handlePrerequisitesMissing);
+
               ctrl.createMode = true;
               AvailableDataSetNumbersResource.get({
                 id: CurrentProjectService.getCurrentProject().id

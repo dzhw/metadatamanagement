@@ -75,6 +75,10 @@ angular.module('metadatamanagementApp')
         redirectToSearchView();
       };
 
+      var handlePrerequisitesMissing = function() {
+        redirectToSearchView();
+      }
+
       ctrl.initSurveyChips = function() {
         ctrl.surveyChips = [];
         ctrl.instrument.surveyNumbers.forEach(
@@ -104,6 +108,10 @@ angular.module('metadatamanagementApp')
                   .isUpdateAllowed(project, 'instruments')) {
                   handleUserNotInAssigneeGroup();
                 } else {
+                  ProjectUpdateAccessService.isPrerequisiteFulfilled(
+                    project, 'instruments'
+                  ).catch(handlePrerequisitesMissing);
+
                   ctrl.instrument = instrument;
                   ctrl.initSurveyChips();
                   ctrl.loadAttachments();
@@ -115,6 +123,10 @@ angular.module('metadatamanagementApp')
           } else {
             if (CurrentProjectService.getCurrentProject() &&
             !CurrentProjectService.getCurrentProject().release) {
+              ProjectUpdateAccessService.isPrerequisiteFulfilled(
+                CurrentProjectService.getCurrentProject(), 'instruments'
+              ).catch(handlePrerequisitesMissing);
+
               ctrl.createMode = true;
               AvailableInstrumentNumbersResource.get({
                 id: CurrentProjectService.getCurrentProject().id

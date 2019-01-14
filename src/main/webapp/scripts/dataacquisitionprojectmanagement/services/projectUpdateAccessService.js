@@ -3,7 +3,8 @@
 'use strict';
 angular.module('metadatamanagementApp').service(
   'ProjectUpdateAccessService',
-  function(CurrentProjectService, Principal, SimpleMessageToastService, $log) {
+  function(CurrentProjectService, Principal, SimpleMessageToastService,
+    $log, $q, SearchDao) {
 
     var messagePrefix = 'data-acquisition-project-management.error.project' +
       '-update-access.';
@@ -15,6 +16,7 @@ angular.module('metadatamanagementApp').service(
       memberOfAssignedGroup: messagePrefix + 'member-of-assigned-group',
       assignedToProject: messagePrefix + 'assigned-to-project',
       isNotRequired: messagePrefix + 'not-required',
+      prerequisiteMissing: messagePrefix + 'prerequisite-missing',
       updateForPublisherAllowed: messagePrefix +
         'update-for-publishers-allowed',
       updateForDataProviderAllowed: messagePrefix +
@@ -181,9 +183,50 @@ angular.module('metadatamanagementApp').service(
       return isValid;
     };
 
+    var isPrerequisiteFulfilled = function(project, type) {
+      var deferred = $q.defer();
+      type = type.replace(/^([a-zA-Z]*)([a-z])([A-Z])([a-zA-Z]*)$/,
+        function(ms, m1, m2, m3, m4) {
+          return m1 + m2 + '_' + m3.toLowerCase() + m4;
+        });
+
+      var prereq = '';
+      if (type === 'instruments') {
+        prereq = 'surveys';
+      }
+      if (type === 'data_sets') {
+        prereq = 'surveys';
+      }
+
+      if (!prereq) {
+        deferred.resolve(true);
+        return deferred.promise;
+      }
+
+      var check = function(count) {
+        if (count >= 1) {
+          deferred.resolve(true);
+        } else {
+          SimpleMessageToastService.openSimpleMessageToast(
+            errorList.prerequisiteMissing, {name: prereq});
+          deferred.reject(false);
+        }
+      };
+
+      SearchDao.search('', 1, project.id, {}, undefined, 0, undefined)
+        .then(function(data) {
+            var bucket  = _.find(data.aggregations.countByType.buckets,
+              {key: prereq});
+            check(_.get(bucket, 'doc_count', 0));
+          });
+
+      return deferred.promise;
+    };
+
     return {
       isAssignedToProject: isAssignedToProject,
-      isUpdateAllowed: isUpdateAllowed
+      isUpdateAllowed: isUpdateAllowed,
+      isPrerequisiteFulfilled: isPrerequisiteFulfilled
     };
 
   });

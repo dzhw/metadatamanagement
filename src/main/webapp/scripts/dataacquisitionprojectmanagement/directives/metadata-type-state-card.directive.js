@@ -25,6 +25,9 @@ angular.module('metadatamanagementApp')
         this.project = $scope.project;
 
         this.update = function(changedProject) {
+          if (!changedProject) {
+            return;
+          }
           this.isAssignedDataProvider =
             ProjectUpdateAccessService.isAssignedToProject(
               changedProject, 'dataProviders');
@@ -131,15 +134,18 @@ angular.module('metadatamanagementApp')
             type + 'Required');
         };
 
-        ctrl.isUploadAllowed = function(type) {
+        ctrl.isCreationAllowed = function(type) {
           return ProjectUpdateAccessService.isUpdateAllowed(ctrl.project,
             type.replace(/([A-Z])/g,
               function($1) {return '_' + $1.toLowerCase();}), true);
         };
 
         ctrl.create = function() {
-          if (ctrl.isUploadAllowed(ctrl.type)) {
-            $state.go(this.createState, {});
+          if (ctrl.isCreationAllowed(ctrl.type)) {
+            ProjectUpdateAccessService.isPrerequisiteFulfilled(
+              this.project, this.type).then(function(result) {
+                $state.go(this.createState, {});
+              })
           }
         };
 
