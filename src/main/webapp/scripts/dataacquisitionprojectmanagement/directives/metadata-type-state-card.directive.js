@@ -5,7 +5,7 @@
 angular.module('metadatamanagementApp')
   .directive('metadataTypeStateCard',
   function($state, ProjectStatusScoringService, ProjectUpdateAccessService,
-      VariableUploadService, QuestionUploadService) {
+      VariableUploadService, QuestionUploadService, DeleteMetadataService) {
     return {
       restrict: 'E',
       templateUrl: 'scripts/dataacquisitionprojectmanagement/directives/' +
@@ -16,7 +16,6 @@ angular.module('metadatamanagementApp')
         project: '=',
       },
       replace: true,
-      transclude: true,
       controllerAs: 'ctrl',
 
       controller: function($scope) {
@@ -41,6 +40,8 @@ angular.module('metadatamanagementApp')
             this.createState = 'studyCreate';
             this.searchState = this.type;
             this.tooltip = 'search-management.buttons.create-study-tooltip';
+            this.deleteTooltip = 'search-management.buttons.' +
+              'delete-all-studies-tooltip';
             this.limit = 1;
             break;
           case 'surveys':
@@ -48,6 +49,8 @@ angular.module('metadatamanagementApp')
             this.createState = 'surveyCreate';
             this.searchState = this.type;
             this.tooltip = 'search-management.buttons.create-survey-tooltip';
+            this.deleteTooltip = 'search-management.buttons.' +
+              'delete-all-surveys-tooltip';
             break;
           case 'instruments':
             this.icon = iconpath + 'instrument.svg';
@@ -55,6 +58,8 @@ angular.module('metadatamanagementApp')
             this.searchState = this.type;
             this.tooltip = 'search-management.buttons.' +
               'create-instrument-tooltip';
+            this.deleteTooltip = 'search-management.buttons.' +
+              'delete-all-instruments-tooltip';
             break;
           case 'questions':
             this.icon = iconpath + 'question.svg';
@@ -65,6 +70,8 @@ angular.module('metadatamanagementApp')
             this.searchState = this.type;
             this.tooltip = 'search-management.buttons.' +
               'upload-questions-tooltip';
+            this.deleteTooltip = 'search-management.buttons.' +
+              'delete-all-questions-tooltip';
             break;
           case 'dataSets':
             this.icon = iconpath + 'data-set.svg';
@@ -72,6 +79,8 @@ angular.module('metadatamanagementApp')
             this.searchState = this.type;
             this.tooltip = 'search-management.buttons.' +
               'create-data-set-tooltip';
+            this.deleteTooltip = 'search-management.buttons.' +
+             'delete-all-data-sets-tooltip';
             break;
           case 'variables':
             this.icon = iconpath + 'variable.svg';
@@ -82,6 +91,8 @@ angular.module('metadatamanagementApp')
             this.searchState = this.type;
             this.tooltip = 'search-management.buttons.' +
               'upload-variables-tooltip';
+            this.deleteTooltip = 'search-management.buttons.' +
+             'delete-all-variables-tooltip';
             break;
           default:
             throw Error('wrong argument for group');
@@ -90,11 +101,7 @@ angular.module('metadatamanagementApp')
       },
 
       /* jshint -W098 */
-      link: function($scope, elem, attrs, ctrl, $transclude) {
-        $transclude(function(transclusion) {
-          ctrl.hasTranscludedContent = transclusion.length > 0;
-        });
-
+      link: function($scope, elem, attrs, ctrl) {
         $scope.$on('current-project-changed',
           function(event, changedProject) { // jshint ignore:line
             ctrl.update(changedProject);
@@ -143,6 +150,9 @@ angular.module('metadatamanagementApp')
           }
         };
 
+        ctrl.delete = function() {
+          DeleteMetadataService.deleteAllOfType($scope.project, ctrl.type);
+        };
       }
     };
   });

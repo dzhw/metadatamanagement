@@ -32,6 +32,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.AssigneeGroup;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 /**
@@ -57,9 +58,9 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
 
   @Autowired
   private JaversService javersService;
-
+ 
   @Autowired
-  private DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
+  private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
 
   @Before
   public void setup() {
@@ -70,6 +71,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
   public void cleanUp() {
     rdcProjectRepository.deleteAll();
     javersService.deleteAll();
+    elasticsearchUpdateQueueItemRepository.deleteAll();
   }
 
   @Test
@@ -235,7 +237,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     shouldNotBeFound.setId("shouldnotbefoundid");
     shouldNotBeFound.setConfiguration(shouldNotBeFoundConfiguration);
 
-    dataAcquisitionProjectRepository.saveAll(Arrays.asList(shouldBeFound, shouldNotBeFound));
+    rdcProjectRepository.saveAll(Arrays.asList(shouldBeFound, shouldNotBeFound));
 
     mockMvc
         .perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/search/findByIdLikeOrderByIdAsc")
@@ -263,7 +265,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     projectB.setId("b");
     projectB.setConfiguration(configurationB);
 
-    dataAcquisitionProjectRepository.saveAll(Arrays.asList(projectA, projectB));
+    rdcProjectRepository.saveAll(Arrays.asList(projectA, projectB));
 
     mockMvc.perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/search/findByIdLikeOrderByIdAsc"))
         .andExpect(status().isOk()).andExpect(jsonPath("$.length()", equalTo(2)))
@@ -281,7 +283,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.setConfiguration(configuration);
 
-    dataAcquisitionProjectRepository.save(project);
+    rdcProjectRepository.save(project);
 
     mockMvc.perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId()))
         .andExpect(status().isOk()).andExpect(jsonPath("$.id", equalTo(project.getId())));
@@ -297,7 +299,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.setConfiguration(configuration);
 
-    dataAcquisitionProjectRepository.save(project);
+    rdcProjectRepository.save(project);
 
     mockMvc.perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId()))
         .andExpect(status().isNotFound());
@@ -312,7 +314,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
   public void testSaveProjectWithEmptyPublishers() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     // create the project with the given id
-    dataAcquisitionProjectRepository.insert(project);
+    rdcProjectRepository.insert(project);
     Configuration invalidConf = new Configuration();
     project.setConfiguration(invalidConf);
     mockMvc
@@ -333,7 +335,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
             .content(TestUtil.convertObjectToJsonBytes(project)))
         .andExpect(status().isBadRequest());
     // create the project with the given id
-    dataAcquisitionProjectRepository.insert(project);
+    rdcProjectRepository.insert(project);
     new Configuration();
     Configuration invalidConf = Configuration.builder().publishers(
         project.getConfiguration().getPublishers()).dataProviders(Collections.emptyList()).build();
@@ -365,7 +367,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.setConfiguration(configuration);
 
-    dataAcquisitionProjectRepository.save(project);
+    rdcProjectRepository.save(project);
 
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
         .content(TestUtil.convertObjectToJsonBytes(project))
@@ -384,7 +386,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.setConfiguration(configuration);
 
-    project = dataAcquisitionProjectRepository.save(project);
+    project = rdcProjectRepository.save(project);
 
     project.getConfiguration().getRequirements().setDataSetsRequired(true);
 
@@ -401,7 +403,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     project.setAssigneeGroup(AssigneeGroup.DATA_PROVIDER);
     project.setLastAssigneeGroupMessage("test");
 
-    project = dataAcquisitionProjectRepository.save(project);
+    project = rdcProjectRepository.save(project);
 
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
         .content(TestUtil.convertObjectToJsonBytes(project))
@@ -416,7 +418,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     project.getConfiguration().setPublishers(Collections.singletonList(PUBLISHER_USERNAME));
     project.setAssigneeGroup(AssigneeGroup.DATA_PROVIDER);
 
-    project = dataAcquisitionProjectRepository.save(project);
+    project = rdcProjectRepository.save(project);
 
     project.setAssigneeGroup(AssigneeGroup.PUBLISHER);
 
@@ -433,7 +435,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     project.setAssigneeGroup(AssigneeGroup.PUBLISHER);
     project.setLastAssigneeGroupMessage("test");
 
-    project = dataAcquisitionProjectRepository.save(project);
+    project = rdcProjectRepository.save(project);
 
     project.setAssigneeGroup(AssigneeGroup.DATA_PROVIDER);
 

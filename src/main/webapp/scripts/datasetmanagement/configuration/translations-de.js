@@ -327,7 +327,8 @@ angular.module('metadatamanagementApp').config(
                   'en': 'Wie soll der Subdatensatz zitiert werden?'
                 }
               }
-            }
+            },
+            'all-data-sets-deleted-toast': 'Alle Datensätze des Datenaufbereitungsprojekts "{{id}}" wurden gelöscht.'
           }
         }
       //jscs:enable

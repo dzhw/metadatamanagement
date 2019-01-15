@@ -161,7 +161,8 @@ angular.module('metadatamanagementApp').config(
             'ready': 'Fertig',
             'new': 'Neu',
             'edit': 'Bearbeiten',
-            'upload': 'Hochladen'
+            'upload': 'Hochladen',
+            'delete': 'Löschen'
           },
           'message-dialog': {
             'title': 'Nachricht an {{recipient}}',
