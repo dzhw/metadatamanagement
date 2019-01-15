@@ -75,6 +75,10 @@ angular.module('metadatamanagementApp')
         redirectToSearchView();
       };
 
+      var handlePrerequisitesMissing = function() {
+        redirectToSearchView();
+      };
+
       ctrl.initSurveyChips = function() {
         ctrl.surveyChips = [];
         ctrl.dataSet.surveyNumbers.forEach(

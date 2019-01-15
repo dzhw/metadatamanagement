@@ -102,6 +102,10 @@ angular.module('metadatamanagementApp').service(
     };
 
     var isUpdateAllowed = function(project, type, notify) {
+      type = type.replace(/([a-z])([A-Z])/g,
+        function($1, $2, $3) {  // jshint ignore:line
+          return $2 + '_' + $3.toLowerCase();});
+
       if (!_.includes(['studies', 'surveys', 'instruments',
         'data_sets', 'questions', 'variables', undefined, null], type)) {
         return false;
@@ -171,6 +175,7 @@ angular.module('metadatamanagementApp').service(
             notification.push(validation.errorKey);
           }
         });
+
         if (notification.length) {
           SimpleMessageToastService.openAlertMessageToasts(notification.map(
             function(not) {
@@ -185,10 +190,9 @@ angular.module('metadatamanagementApp').service(
 
     var isPrerequisiteFulfilled = function(project, type) {
       var deferred = $q.defer();
-      type = type.replace(/^([a-zA-Z]*)([a-z])([A-Z])([a-zA-Z]*)$/,
-        function(ms, m1, m2, m3, m4) {
-          return m1 + m2 + '_' + m3.toLowerCase() + m4;
-        });
+      type = type.replace(/([a-z])([A-Z])/g,
+        function($1, $2, $3) {  // jshint ignore:line
+          return $2 + '_' + $3.toLowerCase();});
 
       var prereq = '';
       if (type === 'instruments') {
@@ -207,8 +211,8 @@ angular.module('metadatamanagementApp').service(
         if (count >= 1) {
           deferred.resolve(true);
         } else {
-          SimpleMessageToastService.openSimpleMessageToast(
-            errorList.prerequisiteMissing, {name: prereq});
+          SimpleMessageToastService.openAlertMessageToast(
+            errorList.prerequisiteMissing + '-' + prereq);
           deferred.reject(false);
         }
       };

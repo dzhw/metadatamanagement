@@ -11,8 +11,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
            CleanJSObjectService, CurrentProjectService, $timeout,
            PageTitleService, ToolbarHeaderService, SearchHelperService,
            SearchResultNavigatorService, StudyResource, StudyIdBuilderService,
-           $rootScope, ProjectStatusScoringService, $transitions,
-           SimpleMessageToastService) {
+           $rootScope, ProjectStatusScoringService, $transitions) {
 
     var queryChangedOnInit = false;
     var tabChangedOnInitFlag = false;
@@ -34,10 +33,11 @@ angular.module('metadatamanagementApp').controller('SearchController',
             ),
           $q(function(resolve, reject) {
             if (ProjectUpdateAccessService
-              .isUpdateAllowed($scope.currentProject, type, true))
+                .isUpdateAllowed($scope.currentProject, type, true)) {
               resolve(true);
-            else
+            } else {
               reject(false);
+            }
           })
         ]);
       } else {

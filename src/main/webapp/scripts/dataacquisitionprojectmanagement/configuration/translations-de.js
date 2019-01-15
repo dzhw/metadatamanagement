@@ -95,7 +95,7 @@ angular.module('metadatamanagementApp').config(
             'member-of-assigned-group': 'Die Aktion ist nicht möglich, weil das Projekt momentan der anderen Projektgruppe zugewiesen ist.',
             'assigned-to-project': 'Die Aktion ist nicht möglich, weil Sie dem Projekt nicht als Publisher oder Datengeber zugewiesen sind.',
             'not-required': 'Die Aktion ist nicht möglich, weil diese Metadaten in den Projekteinstellungen nicht als "erwartet" markiert wurden.',
-            'prerequisite-missing': 'Die Aktion ist nicht möglich, weil eine Vorraussetzung nicht erfüllt ist: {{ name }}'
+            'prerequisite-missing-surveys': 'Die Aktion ist nicht möglich, weil mindestens eine Erhebung existieren muss.'
           }
         },
         'projectstatuslabel': {

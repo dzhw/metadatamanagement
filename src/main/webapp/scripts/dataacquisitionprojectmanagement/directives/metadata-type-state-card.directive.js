@@ -135,17 +135,16 @@ angular.module('metadatamanagementApp')
         };
 
         ctrl.isCreationAllowed = function(type) {
-          return ProjectUpdateAccessService.isUpdateAllowed(ctrl.project,
-            type.replace(/([A-Z])/g,
-              function($1) {return '_' + $1.toLowerCase();}), true);
+          return ProjectUpdateAccessService.isUpdateAllowed(
+            ctrl.project, type, true);
         };
 
         ctrl.create = function() {
           if (ctrl.isCreationAllowed(ctrl.type)) {
             ProjectUpdateAccessService.isPrerequisiteFulfilled(
-              this.project, this.type).then(function(result) {
-                $state.go(this.createState, {});
-              })
+              ctrl.project, ctrl.type).then(function() {
+                $state.go(ctrl.createState, {});
+              });
           }
         };
 
