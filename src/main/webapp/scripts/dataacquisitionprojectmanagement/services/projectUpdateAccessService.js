@@ -102,9 +102,11 @@ angular.module('metadatamanagementApp').service(
     };
 
     var isUpdateAllowed = function(project, type, notify) {
-      type = type.replace(/([a-z])([A-Z])/g,
-        function($1, $2, $3) {  // jshint ignore:line
-          return $2 + '_' + $3.toLowerCase();});
+      if (type) {
+        type = type.replace(/([a-z])([A-Z])/g,
+          function($1, $2, $3) {  // jshint ignore:line
+            return $2 + '_' + $3.toLowerCase();});
+      }
 
       if (!_.includes(['studies', 'surveys', 'instruments',
         'data_sets', 'questions', 'variables', undefined, null], type)) {
