@@ -33,10 +33,9 @@ angular.module('metadatamanagementApp')
         }.bind(this);
         this.update(this.project);
 
-        var iconpath = 'assets/images/icons/';
         switch (this.type) {
           case 'studies':
-            this.icon = iconpath + 'study.svg';
+            this.icon = 'assets/images/icons/study.svg';
             this.createState = 'studyCreate';
             this.searchState = this.type;
             this.tooltip = 'search-management.buttons.create-study-tooltip';
@@ -45,7 +44,7 @@ angular.module('metadatamanagementApp')
             this.limit = 1;
             break;
           case 'surveys':
-            this.icon = iconpath + 'survey.svg';
+            this.icon = 'assets/images/icons/survey.svg';
             this.createState = 'surveyCreate';
             this.searchState = this.type;
             this.tooltip = 'search-management.buttons.create-survey-tooltip';
@@ -53,7 +52,7 @@ angular.module('metadatamanagementApp')
               'delete-all-surveys-tooltip';
             break;
           case 'instruments':
-            this.icon = iconpath + 'instrument.svg';
+            this.icon = 'assets/images/icons/instrument.svg';
             this.createState = 'instrumentCreate';
             this.searchState = this.type;
             this.tooltip = 'search-management.buttons.' +
@@ -62,7 +61,7 @@ angular.module('metadatamanagementApp')
               'delete-all-instruments-tooltip';
             break;
           case 'questions':
-            this.icon = iconpath + 'question.svg';
+            this.icon = 'assets/images/icons/question.svg';
             this.createState = '';
             this.uploadFunction = function(files) {
               QuestionUploadService.uploadQuestions(files, this.project.id);
@@ -74,7 +73,7 @@ angular.module('metadatamanagementApp')
               'delete-all-questions-tooltip';
             break;
           case 'dataSets':
-            this.icon = iconpath + 'data-set.svg';
+            this.icon = 'assets/images/icons/data-set.svg';
             this.createState = 'studyCreate';
             this.searchState = this.type;
             this.tooltip = 'search-management.buttons.' +
@@ -83,7 +82,7 @@ angular.module('metadatamanagementApp')
              'delete-all-data-sets-tooltip';
             break;
           case 'variables':
-            this.icon = iconpath + 'variable.svg';
+            this.icon = 'assets/images/icons/variable.svg';
             this.createState = '';
             this.uploadFunction = function(files) {
               VariableUploadService.uploadVariables(files, this.project.id);
