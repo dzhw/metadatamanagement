@@ -40,8 +40,11 @@
 		</md-checkbox>
 	</md-card-content>
 	<md-card-actions layout="row" layout-align="end center">
-		<div ng-transclude></div>
-		<div ng-if="!ctrl.hasTranscludedContent">
+		<div>
+			<md-button class="md-raised" ng-click="ctrl.delete()" ng-disabled="!(ctrl.counts[ctrl.type === 'dataSets' ? 'data_sets' : ctrl.type])">
+				<span>{{'data-acquisition-project-management.project-cockpit.config.delete' | translate}}</span>
+				<md-tooltip md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">{{ctrl.deleteTooltip | translate}}</md-tooltip>
+			</md-button>
 			<md-button class="md-primary md-raised" ng-if="!!ctrl.createState" ng-click="ctrl.create()">
 				<span>{{'data-acquisition-project-management.project-cockpit.config.' + ctrl.getModifyButtonLabel(ctrl.type) | translate}}</span>
 				<md-tooltip md-z-index="bowser.mobile || bowser.tablet ? -100 : 100"> {{ctrl.getTooltip(ctrl.type) | translate}}</md-tooltip>

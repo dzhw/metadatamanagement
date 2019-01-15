@@ -147,6 +147,12 @@ angular.module('metadatamanagementApp')
           }, 2000);
         });
 
+        $scope.$on('deletion-completed', function() {
+          $timeout(function() {
+            setTypeCounts(ctrl.project.id);
+          }, 2000);
+        });
+
         ctrl.toggleReleaseProject = function() {
           if (ctrl.project.release) {
             ProjectReleaseService.unreleaseProject(ctrl.project);

@@ -12,11 +12,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
            PageTitleService, ToolbarHeaderService, SearchHelperService,
            SearchResultNavigatorService, StudyResource, StudyIdBuilderService,
            $rootScope, ProjectStatusScoringService, $transitions,
-           CommonDialogsService, DeleteAllQuestionsResource,
-           DeleteAllVariablesResource, DeleteAllInstrumentsResource,
-           DeleteAllSurveysResource, DeleteAllDataSetsResource,
-           DeleteAllStudiesResource,
-           ElasticSearchAdminService, SimpleMessageToastService) {
+           DeleteMetadataService) {
 
     var queryChangedOnInit = false;
     var tabChangedOnInitFlag = false;
@@ -508,143 +504,24 @@ angular.module('metadatamanagementApp').controller('SearchController',
       return ProjectUpdateAccessService.isUpdateAllowed($scope.currentProject,
         type, true);
     };
-    $scope.deleteAllStudies = function(projectId) {
-      if (ProjectUpdateAccessService.isUpdateAllowed(
-        $scope.project,
-        'studies',
-        true
-      )) {
-        CommonDialogsService.showConfirmDeletionDialog({
-          type: 'all-studies',
-          id: projectId
-        }).then(function() {
-          return DeleteAllStudiesResource.deleteAll(
-            {id: projectId}).$promise;
-        }).then(function() {
-          return ElasticSearchAdminService.
-            processUpdateQueue('studies');
-        }).then(function() {
-          $rootScope.$broadcast('deletion-completed');
-          SimpleMessageToastService.openSimpleMessageToast(
-            'study-management.edit.all-studies-deleted-toast',
-            {id: projectId});
-        });
-      }
+    $scope.deleteAllStudies = function() {
+      DeleteMetadataService.deleteAllOfType($scope.currentProject, 'studies');
     };
-    $scope.deleteAllQuestions = function(projectId) {
-      if (ProjectUpdateAccessService.isUpdateAllowed(
-        $scope.project,
-        'questions',
-        true
-      )) {
-        CommonDialogsService.showConfirmDeletionDialog({
-          type: 'all-questions',
-          id: projectId
-        }).then(function() {
-          return DeleteAllQuestionsResource.deleteAll(
-            {id: projectId}).$promise;
-        }).then(function() {
-          return ElasticSearchAdminService.
-            processUpdateQueue('questions');
-        }).then(function() {
-          $rootScope.$broadcast('deletion-completed');
-          SimpleMessageToastService.openSimpleMessageToast(
-            'question-management.edit.all-questions-deleted-toast',
-            {id: projectId});
-        });
-      }
+    $scope.deleteAllQuestions = function() {
+      DeleteMetadataService.deleteAllOfType($scope.currentProject, 'questions');
     };
-    $scope.deleteAllVariables = function(projectId) {
-      if (ProjectUpdateAccessService.isUpdateAllowed(
-        $scope.project,
-        'variables',
-        true
-      )) {
-        CommonDialogsService.showConfirmDeletionDialog({
-          type: 'all-variables',
-          id: projectId
-        }).then(function() {
-          return DeleteAllVariablesResource.deleteAll(
-            {id: projectId}).$promise;
-        }).then(function() {
-          return ElasticSearchAdminService.
-            processUpdateQueue('variables');
-        }).then(function() {
-          $rootScope.$broadcast('deletion-completed');
-          SimpleMessageToastService.openSimpleMessageToast(
-            'variable-management.edit.all-variables-deleted-toast',
-            {id: projectId});
-        });
-      }
+    $scope.deleteAllVariables = function() {
+      DeleteMetadataService.deleteAllOfType($scope.currentProject, 'variables');
     };
-    $scope.deleteAllInstruments = function(projectId) {
-      if (ProjectUpdateAccessService.isUpdateAllowed(
-        $scope.project,
-        'instruments',
-        true
-      )) {
-        CommonDialogsService.showConfirmDeletionDialog({
-          type: 'all-instruments',
-          id: projectId
-        }).then(function() {
-          return DeleteAllInstrumentsResource.deleteAll(
-            {id: projectId}).$promise;
-        }).then(function() {
-          return ElasticSearchAdminService.
-            processUpdateQueue('instruments');
-        }).then(function() {
-          $rootScope.$broadcast('deletion-completed');
-          SimpleMessageToastService.openSimpleMessageToast(
-            'instrument-management.edit.all-instruments-deleted-toast',
-            {id: projectId});
-        });
-      }
+    $scope.deleteAllInstruments = function() {
+      DeleteMetadataService.deleteAllOfType(
+        $scope.currentProject, 'instruments');
     };
-    $scope.deleteAllSurveys = function(projectId) {
-      if (ProjectUpdateAccessService.isUpdateAllowed(
-        $scope.project,
-        'surveys',
-        true
-      )) {
-        CommonDialogsService.showConfirmDeletionDialog({
-          type: 'all-surveys',
-          id: projectId
-        }).then(function() {
-          return DeleteAllSurveysResource.deleteAll(
-            {id: projectId}).$promise;
-        }).then(function() {
-          return ElasticSearchAdminService.
-            processUpdateQueue('surveys');
-        }).then(function() {
-          $rootScope.$broadcast('deletion-completed');
-          SimpleMessageToastService.openSimpleMessageToast(
-            'survey-management.edit.all-surveys-deleted-toast',
-            {id: projectId});
-        });
-      }
+    $scope.deleteAllSurveys = function() {
+      DeleteMetadataService.deleteAllOfType($scope.currentProject, 'surveys');
     };
-    $scope.deleteAllDataSets = function(projectId) {
-      if (ProjectUpdateAccessService.isUpdateAllowed(
-        $scope.project,
-        'data_sets',
-        true
-      )) {
-        CommonDialogsService.showConfirmDeletionDialog({
-          type: 'all-data-sets',
-          id: projectId
-        }).then(function() {
-          return DeleteAllDataSetsResource.deleteAll(
-            {id: projectId}).$promise;
-        }).then(function() {
-          return ElasticSearchAdminService.
-            processUpdateQueue('data_sets');
-        }).then(function() {
-          $rootScope.$broadcast('deletion-completed');
-          SimpleMessageToastService.openSimpleMessageToast(
-            'data-set-management.edit.all-data-sets-deleted-toast',
-            {id: projectId});
-        });
-      }
+    $scope.deleteAllDataSets = function() {
+      DeleteMetadataService.deleteAllOfType($scope.currentProject, 'data_sets');
     };
     init();
   });
