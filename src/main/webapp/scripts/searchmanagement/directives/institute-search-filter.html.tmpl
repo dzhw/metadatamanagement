@@ -8,7 +8,8 @@
                      md-search-text="searchText" md-items="item in searchInstitutions(searchText)"
                      md-item-text="(item | displayI18nString)" md-clear-button="true"
                      md-no-cache="true" md-menu-class="fdz-search-filter-items"
-                     md-select-on-focus="true">
+                     md-select-on-focus="true"
+                     fdz-autofocus="!currentSearchParams.filter.institution-de || !currentSearchParams.filter.institution-en">
         <md-item-template>
             <span class="item-title fdz-truncate-string">
                 <strong>{{(item | displayI18nString)}}</strong>

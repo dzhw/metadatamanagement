@@ -27,11 +27,10 @@ angular.module('metadatamanagementApp')
         $scope.query = $location.search().query;
         $scope.projectId = CurrentProjectService.getCurrentProject() ?
           CurrentProjectService.getCurrentProject().id : null;
-        var language = LanguageService.getCurrentInstantly();
         var cleanedFilter = _.omit($scope.currentSearchParams.filter,
           'institution-de', 'institution-en');
 
-        return StudySearchService.findInstitutions(searchText, cleanedFilter,
-          language, true);
+        return StudySearchService.findInstitutionLabels(searchText,
+          cleanedFilter, $scope.type, $scope.query, $scope.projectId);
       };
     });
