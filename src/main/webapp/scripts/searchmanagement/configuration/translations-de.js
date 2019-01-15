@@ -19,7 +19,7 @@ angular.module('metadatamanagementApp').config(
           'delete-related-publications-title': 'Alle Publikationen ersetzen?',
           'delete-related-publications': 'Sind Sie sicher, dass Sie die Publikationen mit den übergebenen Daten ersetzen möchten?',
           'delete-instruments-title': 'Alle Instrumente ersetzen?',
-          'delete-instruments': 'Sind Sie sicher, dass Sie alle Instrumente innerhalb des Datenaufbereitungsprojekts mit der FDZ-ID "{{ id }}" mit den übergebenen Daten ersetzen möchten?'
+          'delete-instruments': 'Sind Sie sicher, dass Sie alle Instrumente innerhalb des Datenaufbereitungsprojekts mit der FDZ-ID "{{ id }}" mit den übergebenen Daten ersetzen möchten?',
         },
         'detail': {
           'search': 'Datensuche'
@@ -44,13 +44,19 @@ angular.module('metadatamanagementApp').config(
           'create-instrument-tooltip': 'Klicken, um ein neues Instrument zu erstellen',
           'edit-instrument-tooltip': 'Klicken, um das Instrument zu bearbeiten',
           'delete-instrument-tooltip': 'Klicken, um das Instrument zu löschen',
+          'delete-all-instruments-tooltip': 'Klicken, um alle Instrumente des Datenaufbereitungsprojekts zu löschen',
           'create-data-set-tooltip': 'Klicken, um einen neuen Datensatz zu erstellen',
           'edit-data-set-tooltip': 'Klicken, um den Datensatz zu bearbeiten',
           'delete-data-set-tooltip': 'Klicken, um den Datensatz zu löschen',
           'upload-related-publications-tooltip': 'Klicken, um Publikationen hochzuladen',
           'upload-instruments-tooltip': 'Klicken, um Instrumente für das ausgewählte Datenaufbereitungsprojekt hochzuladen',
           'previous-search-result-tooltip': 'Klicken (oder STRG+"\u21E6"), um das {{ index }}. Suchergebnis ({{ id }}) anzuzeigen',
-          'next-search-result-tooltip': 'Klicken (oder STRG+"\u21E8"), um das {{ index }}. Suchergebnis ({{ id }}) anzuzeigen'
+          'next-search-result-tooltip': 'Klicken (oder STRG+"\u21E8"), um das {{ index }}. Suchergebnis ({{ id }}) anzuzeigen',
+          'delete-all-studies-tooltip': 'Klicken, um alle Studien des Datenaufbereitungsprojekts zu löschen',
+          'delete-all-questions-tooltip': 'Klicken, um alle Fragen des Datenaufbereitungsprojekts zu löschen',
+          'delete-all-variables-tooltip': 'Klicken, um alle Variablen des Datenaufbereitungsprojekts zu löschen',
+          'delete-all-surveys-tooltip': 'Klicken, um alle Erhebungen des Datenaufbereitungsprojekts zu löschen',
+          'delete-all-data-sets-tooltip': 'Klicken, um alle Datensätze des Datenaufbereitungsprojekts zu löschen'
         },
         'input-label': {
           'all': 'Suchen Sie Studien, Variablen, Fragen, Erhebungen, Datensätze, Instrumente oder Publikationen...',

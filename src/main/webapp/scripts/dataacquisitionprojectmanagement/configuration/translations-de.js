@@ -89,7 +89,8 @@ angular.module('metadatamanagementApp').config(
           },
           'project-update-access': {
             'project-selected': 'Für das Anlegen neuer Daten muss ein Projekt ausgewählt sein.',
-            'type-update-allowed': 'Die Aktion ist nicht möglich, weil die Metadaten bereits durch die Publisher oder die Datengeber als "fertig" markiert wurden.',
+            'update-for-publishers-allowed': 'Die Aktion ist nicht möglich, weil die Metadaten bereits durch den Publisher als "fertig" markiert wurden',
+            'update-for-data-providers-allowed': 'Die Aktion ist nicht möglich, weil die Metadaten bereits durch den Publisher oder Datengeber als "fertig" markiert wurden',
             'project-released': 'Die Aktion ist nicht möglich, weil das Projekt momentan für alle öffentlichen Nutzer freigegeben ist.',
             'member-of-assigned-group': 'Die Aktion ist nicht möglich, weil das Projekt momentan der anderen Projektgruppe zugewiesen ist.',
             'assigned-to-project': 'Die Aktion ist nicht möglich, weil Sie dem Projekt nicht als Publisher oder Datengeber zugewiesen sind.',
@@ -160,7 +161,8 @@ angular.module('metadatamanagementApp').config(
             'ready': 'Fertig',
             'new': 'Neu',
             'edit': 'Bearbeiten',
-            'upload': 'Hochladen'
+            'upload': 'Hochladen',
+            'delete': 'Löschen'
           },
           'message-dialog': {
             'title': 'Nachricht an {{recipient}}',

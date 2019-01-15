@@ -82,7 +82,7 @@ public class VariableService {
    * A service method for deletion of variables within a data acquisition project.
    * @param dataAcquisitionProjectId the id for to the data acquisition project.
    */
-  private void deleteAllVariablesByProjectId(String dataAcquisitionProjectId) {
+  public void deleteAllVariablesByProjectId(String dataAcquisitionProjectId) {
     try (Stream<Variable> variables = variableRepository
         .streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
       variables.forEach(variable -> {

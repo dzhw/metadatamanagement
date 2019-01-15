@@ -13,8 +13,8 @@ angular.module('metadatamanagementApp').config(
             'upload-terminated': 'Finished upload of {{ totalQuestions }} Questions and {{ totalImages }} Images with {{totalWarnings}} warnings and {{ totalErrors }} errors.',
             'unable-to-delete': 'The questions could not be deleted!',
             'unable-to-read-image-file': 'Image file "{{ file }}" could not be read!',
+            'cancelled': 'Upload of questions cancelled!',
             'technical-representation-success-copy-to-clipboard': 'The Technical Representation was successfully copied into the clipboard.',
-            'question-has-no-image': 'No image was found for the question {{id}}.',
             'unable-to-parse-json-file': 'The JSON file "{{file}}" in Instrument {{instrument}} does not contain valid JSON!',
             'unable-to-read-file': 'The file "{{file}}" in Instrument {{instrument}} could not be read!',
             'non-unique-index-in-instrument': 'At least two questions ({{firstQuestionId}}, {{secondQuestionId}}) have the same index "{{index}}" in an instrument.'
@@ -180,8 +180,12 @@ angular.module('metadatamanagementApp').config(
             'question-has-invalid-instrument-id': 'The Question {{id}} references an unknown Instrument ({{toBereferenzedId}}).',
             'question-has-invalid-successor': 'The Question {{id}} references an unknown successor ({{toBereferenzedId}}).',
             'question-has-invalid-survey-id': 'The Question {{id}} references an unknown Survey ({{toBereferenzedId}}).',
-            'non-unique-question-number-in-instrument': 'The Question {{id}} with the number {{number}} is not unique within the Insturment {{instrumentId}}.'
+            'non-unique-question-number-in-instrument': 'The Question {{id}} with the number {{number}} is not unique within the Insturment {{instrumentId}}.',
+            'question-has-no-image': 'No image was found for the question {{id}}.'
           }
+        },
+        'edit': {
+          'all-questions-deleted-toast': 'All questions of the Data Acquisition Project "{{id}}" have been deleted.'
         }
       }
       //jscs:enable

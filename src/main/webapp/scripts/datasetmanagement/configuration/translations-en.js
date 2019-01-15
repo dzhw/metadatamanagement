@@ -327,7 +327,8 @@ angular.module('metadatamanagementApp').config(
                       'en': 'How should the subdataset be cited?'
                     }
                 }
-            }
+            },
+            'all-data-sets-deleted-toast': 'All data sets of the Data Acquisition Project "{{id}}" have been deleted.'
         }
       }
       //jscs:enable

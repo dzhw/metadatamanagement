@@ -318,7 +318,8 @@ angular.module('metadatamanagementApp').config(
               'en': 'Laden Sie eine grafische Darstellung des Rücklaufs (auf Englisch) hoch.'
             },
             'survey-number': 'Wählen Sie eine freie Nummer für die neue Erhebung aus.'
-          }
+          },
+          'all-surveys-deleted-toast': 'Alle Erhebungen des Datenaufbereitungsprojekts "{{id}}" wurden gelöscht.'
         }
       }
       //jscs:enable

@@ -88,7 +88,7 @@ public class QuestionService {
    * 
    * @param dataAcquisitionProjectId the id for to the data acquisition project.
    */
-  private void deleteQuestionsByProjectId(String dataAcquisitionProjectId) {
+  public void deleteQuestionsByProjectId(String dataAcquisitionProjectId) {
     try (Stream<Question> questions =
         questionRepository.streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
       questions.forEach(question -> {

@@ -64,7 +64,42 @@
                 <md-icon md-font-set="material-icons">refresh</md-icon>
             </md-button>
         </div>
-
+        <md-button ng-disabled="!tabs[searchParams.selectedTabIndex].count" class="md-fab md-raised md-primary" ng-click="deleteAllStudies()" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='studies' && currentProject">
+            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                {{'search-management.buttons.delete-all-studies-tooltip' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">delete_sweep</md-icon>
+        </md-button>
+        <md-button ng-disabled="!tabs[searchParams.selectedTabIndex].count" class="md-fab md-raised md-primary" ng-click="deleteAllQuestions()" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='questions' && currentProject">
+            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                {{'search-management.buttons.delete-all-questions-tooltip' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">delete_sweep</md-icon>
+        </md-button>
+        <md-button ng-disabled="!tabs[searchParams.selectedTabIndex].count" class="md-fab md-raised md-primary" ng-click="deleteAllVariables()" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='variables' && currentProject">
+            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                {{'search-management.buttons.delete-all-variables-tooltip' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">delete_sweep</md-icon>
+        </md-button>
+        <md-button ng-disabled="!tabs[searchParams.selectedTabIndex].count" class="md-fab md-raised md-primary" ng-click="deleteAllInstruments()" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='instruments' && currentProject">
+            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                {{'search-management.buttons.delete-all-instruments-tooltip' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">delete_sweep</md-icon>
+        </md-button>
+        <md-button ng-disabled="!tabs[searchParams.selectedTabIndex].count" class="md-fab md-raised md-primary" ng-click="deleteAllSurveys()" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='surveys' && currentProject">
+            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                {{'search-management.buttons.delete-all-surveys-tooltip' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">delete_sweep</md-icon>
+        </md-button>
+        <md-button ng-disabled="!tabs[searchParams.selectedTabIndex].count" class="md-fab md-raised md-primary" ng-click="deleteAllDataSets()" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='data_sets' && currentProject">
+            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                {{'search-management.buttons.delete-all-data-sets-tooltip' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">delete_sweep</md-icon>
+        </md-button>
         <div ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='studies'">
             <md-button ng-if="!currentStudy" class="md-fab md-raised md-accent" ui-sref="studyCreate()">
                 <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
