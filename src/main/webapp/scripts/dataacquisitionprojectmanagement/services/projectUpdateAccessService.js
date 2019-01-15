@@ -192,6 +192,12 @@ angular.module('metadatamanagementApp').service(
 
     var isPrerequisiteFulfilled = function(project, type) {
       var deferred = $q.defer();
+
+      if (!project || !type) {
+        deferred.reject(false);
+        return deferred.promise;
+      }
+
       type = type.replace(/([a-z])([A-Z])/g,
         function($1, $2, $3) {  // jshint ignore:line
           return $2 + '_' + $3.toLowerCase();});
