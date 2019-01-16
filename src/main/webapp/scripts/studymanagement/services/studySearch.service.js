@@ -364,19 +364,35 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       });
     };
 
-    var findInstitutionLabels = function(searchText, filter, type,
-                                         queryTerm, dataAcquisitionProjectId) {
+    var buildSearchConfig = function(searchText, filter, type, queryTerm,
+      dataAcquisitionProjectId, filterAttribute) {
+      return {
+        searchText: searchText,
+        type: type,
+        filter: filter,
+        dataAcquisitionProjectId: dataAcquisitionProjectId,
+        filterAttribute: filterAttribute,
+        queryTerm: queryTerm
+      };
+    };
+
+    var findLabel = function(searchConfig) {
+      var type = searchConfig.type;
 
       var language = LanguageService.getCurrentInstantly();
+
       var query = createQueryObject(type);
       query.size = 0;
       query.body = {};
-      var termFilters = createTermFilters(filter, dataAcquisitionProjectId,
-        type);
-      var prefix = (type === 'studies' || !type)  ? ''
-        : 'nestedStudy.';
 
-      var aggregationFieldName = prefix + 'institution.' + language;
+      var termFilters = createTermFilters(searchConfig.filter,
+        searchConfig.dataAcquisitionProjectId, type);
+
+      var prefix = (type === 'studies' || !type) ? '' : 'nestedStudy.';
+
+      var aggregationFilterFieldName = prefix + searchConfig.filterAttribute +
+        '.' + language;
+
       var aggregation = {
         'aggs': {
           'label': {
@@ -390,15 +406,15 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
               }
             },
             'aggs': {
-              'institutionDE': {
+              'labelDE': {
                 'terms': {
-                  'field': prefix + 'institution.de',
+                  'field': prefix + searchConfig.filterAttribute + '.de',
                   'size': 100
                 },
                 'aggs': {
-                  'institutionEN': {
+                  'labelEN': {
                     'terms': {
-                      'field': prefix + 'institution.en',
+                      'field': prefix + searchConfig.filterAttribute + '.en',
                       'size': 100
                     }
                   }
@@ -408,9 +424,10 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
           }
         }
       };
+
       var nestedAggregation = {
         'aggs': {
-          'institutes': {
+          'labelAggregation': {
             'nested': {
               'path': prefix.replace('.', '')
             }
@@ -419,8 +436,8 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       };
 
       aggregation.aggs.label.filter.bool.must[0]
-        .match[aggregationFieldName + '.ngrams'] =  {
-        'query': searchText,
+        .match[aggregationFilterFieldName + '.ngrams'] =  {
+        'query': searchConfig.searchText,
         'operator': 'AND',
         'minimum_should_match': '100%',
         'zero_terms_query': 'ALL'
@@ -431,14 +448,14 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       }
 
       if (prefix !== '') {
-        nestedAggregation.aggs.institutes.aggs =
+        nestedAggregation.aggs.labelAggregation.aggs =
           aggregation.aggs;
         query.body.aggs = nestedAggregation.aggs;
       } else {
         query.body.aggs = aggregation.aggs;
       }
 
-      SearchHelperService.addQuery(query, queryTerm);
+      SearchHelperService.addQuery(query, searchConfig.queryTerm);
 
       SearchHelperService.addFilter(query);
 
@@ -446,15 +463,17 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
         var labelElement = {};
         var labels = [];
         var buckets = [];
+
         if (prefix !== '') {
-          buckets = result.aggregations.institutes.label.institutionDE.buckets;
+          buckets = result.aggregations.labelAggregation.label.labelDE.buckets;
         } else {
-          buckets = result.aggregations.label.institutionDE.buckets;
+          buckets = result.aggregations.label.labelDE.buckets;
         }
+
         buckets.forEach(function(bucket) {
           labelElement = {
             de: bucket.key,
-            en: bucket.institutionEN.buckets[0].key,
+            en: bucket.labelEN.buckets[0].key,
             count: bucket.doc_count
           };
           labels.push(labelElement);
@@ -463,12 +482,37 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       });
     };
 
+    var findInstitutionLabels = function(searchText, filter, type,
+                                         queryTerm, dataAcquisitionProjectId) {
+
+      return findLabel(buildSearchConfig(
+        searchText,
+        filter,
+        type,
+        queryTerm,
+        dataAcquisitionProjectId,
+        'institution'
+      ));
+    };
+
+    var findSponsorLabels = function(searchText, filter, type,
+                                     queryTerm, dataAcquisitionProjectId) {
+      return findLabel(buildSearchConfig(
+        searchText,
+        filter,
+        type,
+        queryTerm,
+        dataAcquisitionProjectId
+      ));
+    };
+
     return {
       findOneById: findOneById,
       findStudySeries: findStudySeries,
       findSponsors: findSponsors,
       findInstitutions: findInstitutions,
       findStudyTitles: findStudyTitles,
-      findInstitutionLabels: findInstitutionLabels
+      findInstitutionLabels: findInstitutionLabels,
+      findSponsorLabels: findSponsorLabels
     };
   });
