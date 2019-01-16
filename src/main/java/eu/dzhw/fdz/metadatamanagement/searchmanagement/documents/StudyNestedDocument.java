@@ -28,6 +28,8 @@ public class StudyNestedDocument extends AbstractNestedSubDocument {
 
   private I18nString institution;
 
+  private I18nString sponsor;
+
   /**
    * Create a StudyNesteddocument from a projection.
    * 

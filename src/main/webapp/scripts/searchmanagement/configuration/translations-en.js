@@ -76,7 +76,8 @@ angular.module('metadatamanagementApp').config(
           'data-sets': 'No Data Sets found for your search request.',
           'studies': 'No Studies found for your search request.',
           'related-publications': 'No Publications found for your search request.',
-          'instruments': 'No Instruments found for your search request.'
+          'instruments': 'No Instruments found for your search request.',
+          'sponsor': 'No Instruments found for your search request.'
         },
         'tabs': {
           'variables': 'Variables',
@@ -128,6 +129,8 @@ angular.module('metadatamanagementApp').config(
           'study-series-en': 'Study Series',
           'institution-de': 'Institution',
           'institution-en': 'Institution',
+          'sponsor-de': 'Sponsor',
+          'sponsor-en': 'Sponsor',
           'floating-label': {
             'survey': 'Which survey do you want to filter?',
             'instrument': 'Which instrument do you want to filter?',
@@ -140,7 +143,8 @@ angular.module('metadatamanagementApp').config(
             'variable': 'Which variable do you want to filter?',
             'question': 'Which question do you want to filter?',
             'study-series': 'Which study series do you want to filter?',
-            'institution': 'Which institute do you want to filter?'
+            'institution': 'Which institute do you want to filter?',
+            'sponsor': 'Which sponsor do you want to filter?'
           },
           'input-label': {
             'studies': 'Select filters for Study Search...',

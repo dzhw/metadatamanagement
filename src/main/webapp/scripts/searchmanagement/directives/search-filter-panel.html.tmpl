@@ -31,7 +31,7 @@
         <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
             {{'search-management.filter.clear-filters-tooltip' | translate}}
         </md-tooltip>
-        <md-icon md-svg-src="/assets/images/icons/filter-remove.svg"></md-icon>
+        <publishermd-icon md-svg-src="/assets/images/icons/filter-remove.svg"></publishermd-icon>
     </md-button>
 </div>
 <div ng-if="selectedFilters && selectedFilters.length !== 0" layout="column" style="margin: 0px 16px 0px 16px;" ng-style="getFilterPanelStyle()" ng-hide="filtersCollapsed">
@@ -48,6 +48,7 @@
         <panel-identifier-search-filter ng-if="selectedFilters.indexOf('panel-identifier') >= 0" current-language="currentLanguage" current-search-params="currentSearchParams" panel-identifier-changed-callback="onOneFilterChanged" bowser="bowser"></panel-identifier-search-filter>
         <derived-variables-identifier-search-filter ng-if="selectedFilters.indexOf('derived-variables-identifier') >= 0" current-language="currentLanguage" current-search-params="currentSearchParams" derived-variables-identifier-changed-callback="onOneFilterChanged" bowser="bowser"></derived-variables-identifier-search-filter>
         <related-publication-search-filter ng-if="selectedFilters.indexOf('related-publication') >= 0" current-language="currentLanguage" current-search-params="currentSearchParams" related-publication-changed-callback="onOneFilterChanged" bowser="bowser"></related-publication-search-filter>
+        <sponsor-search-filter ng-if="selectedFilters.indexOf('sponsor-de') >= 0 || selectedFilters.indexOf('sponsor-en') >= 0" current-language="currentLanguage" current-search-params="currentSearchParams" sponsor-changed-callback="onFilterChanged" bowser="bowser"></sponsor-search-filter>
         <input type="submit" ng-hide="true">
     </form>
 </div>

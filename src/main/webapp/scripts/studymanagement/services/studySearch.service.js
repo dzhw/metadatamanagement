@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').factory('StudySearchService',
-  function(ElasticSearchClient, $q, CleanJSObjectService,
+  function($q, $log, ElasticSearchClient, CleanJSObjectService,
            SearchHelperService, LanguageService) {
     var createQueryObject = function(type) {
       type = type || 'studies';
@@ -388,7 +388,20 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       var termFilters = createTermFilters(searchConfig.filter,
         searchConfig.dataAcquisitionProjectId, type);
 
-      var prefix = (type === 'studies' || !type) ? '' : 'nestedStudy.';
+      var prefix;
+
+      switch (type) {
+        case 'related_publications':
+          prefix = 'nestedStudies.';
+          break;
+        case 'study':
+          prefix = '';
+          break;
+        default:
+          $log.warn('Unknown type for studySearch.service#findLabel:', type,
+            'Will default to no prefix.');
+          prefix = '';
+      }
 
       var aggregationFilterFieldName = prefix + searchConfig.filterAttribute +
         '.' + language;
@@ -497,12 +510,14 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
 
     var findSponsorLabels = function(searchText, filter, type,
                                      queryTerm, dataAcquisitionProjectId) {
+
       return findLabel(buildSearchConfig(
         searchText,
         filter,
         type,
         queryTerm,
-        dataAcquisitionProjectId
+        dataAcquisitionProjectId,
+        'sponsor'
       ));
     };
 

@@ -15,7 +15,9 @@ angular.module('metadatamanagementApp').factory(
         'variable': 'variables.id',
         'related-publication': 'relatedPublications.id',
         'institution-de': 'institution.de',
-        'institution-en': 'institution.en'
+        'institution-en': 'institution.en',
+        'sponsor-de': 'sponsor.de',
+        'sponsor-en': 'sponsor.en'
       },
       'variables': {
         'study-series-de': 'study.studySeries.de',
@@ -30,7 +32,9 @@ angular.module('metadatamanagementApp').factory(
         'derived-variables-identifier': 'derivedVariablesIdentifier',
         'related-publication': 'relatedPublications.id',
         'institution-de': 'study.institution.de',
-        'institution-en': 'study.institution.en'
+        'institution-en': 'study.institution.en',
+        'sponsor-de': 'study.sponsor.de',
+        'sponsor-en': 'study.sponsor.en'
       },
       'surveys': {
         'study-series-de': 'study.studySeries.de',
@@ -42,7 +46,9 @@ angular.module('metadatamanagementApp').factory(
         'variable': 'variables.id',
         'related-publication': 'relatedPublications.id',
         'institution-de': 'study.institution.de',
-        'institution-en': 'study.institution.en'
+        'institution-en': 'study.institution.en',
+        'sponsor-de': 'study.sponsor.de',
+        'sponsor-en': 'study.sponsor.en'
       },
       'questions': {
         'study-series-de': 'study.studySeries.de',
@@ -54,7 +60,9 @@ angular.module('metadatamanagementApp').factory(
         'variable': 'variables.id',
         'related-publication': 'relatedPublications.id',
         'institution-de': 'study.institution.de',
-        'institution-en': 'study.institution.en'
+        'institution-en': 'study.institution.en',
+        'sponsor-de': 'study.sponsor.de',
+        'sponsor-en': 'study.sponsor.en'
       },
       'instruments': {
         'study-series-de': 'study.studySeries.de',
@@ -66,7 +74,9 @@ angular.module('metadatamanagementApp').factory(
         'variable': 'variables.id',
         'related-publication': 'relatedPublications.id',
         'institution-de': 'study.institution.de',
-        'institution-en': 'study.institution.en'
+        'institution-en': 'study.institution.en',
+        'sponsor-de': 'study.sponsor.de',
+        'sponsor-en': 'study.sponsor.en'
       },
       'data_sets': {
         'study-series-de': 'study.studySeries.de',
@@ -79,7 +89,9 @@ angular.module('metadatamanagementApp').factory(
         'related-publication': 'relatedPublications.id',
         'access-way': 'accessWays',
         'institution-de': 'study.institution.de',
-        'institution-en': 'study.institution.en'
+        'institution-en': 'study.institution.en',
+        'sponsor-de': 'study.sponsor.de',
+        'sponsor-en': 'study.sponsor.en'
       },
       'related_publications': {
         'study-series-de': 'studySerieses.de',
@@ -91,7 +103,9 @@ angular.module('metadatamanagementApp').factory(
         'data-set': 'dataSetIds',
         'variable': 'variableIds',
         'institution-de': 'studies.institution.de',
-        'institution-en': 'studies.institution.en'
+        'institution-en': 'studies.institution.en',
+        'sponsor-de': 'studies.sponsor.de',
+        'sponsor-en': 'studies.sponsor.en'
       }
     };
 
