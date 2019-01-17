@@ -24,13 +24,8 @@ Check Publisher Can Change Accordingly
    Ensure Survey Creation is Possible
    Go Back
    Sleep  1s   #to avoid failling edge test
-   Ensure Instrument Creation is Possible
-   Go Back
-   Sleep  1s   #to avoid failling edge test
-   Ensure Dataset Creation is Possible
-   Go Back
-   Sleep  1s   #to avoid failling edge test
-   Discard Changes Yes
+   Ensure Instrument Create Button is Restricted
+   Ensure Dataset Create Button is Restricted
    Publisher Logout
 
 Check Dataprovider Cannot Change Anything
@@ -52,7 +47,6 @@ Check Dataprovider Cannot Change Anything
 
 
 *** Keywords ***
-
 Ensure Study Create Button is Restricted
     Click Element Through Tooltips  xpath=//md-card[@type="studies"]//button[contains(.,"Neu")]
     Click Element Through Tooltips  xpath=//md-toast//span[contains(.,"Die Aktion ist nicht möglich")]
@@ -61,6 +55,18 @@ Ensure Study Create Button is Restricted
 
 Ensure Question Upload Button is Restricted
     Click Element Through Tooltips  xpath=//md-card[@type="questions"]//button[contains(.,"Hochladen")]
+    Click Element Through Tooltips  xpath=//md-toast//span[contains(.,"Die Aktion ist nicht möglich")]
+    Element Should Contain  xpath=//md-toast//span[contains(.,"Die Aktion ist nicht möglich")]  ${TOAST_MSSG}
+    Click Element Through Tooltips  xpath=//button//following::md-icon[contains(.,"close")]
+
+Ensure Instrument Create Button is Restricted
+    Click Element Through Tooltips  xpath=//md-card[@type="instruments"]//button[contains(.,"Neu")]
+    Click Element Through Tooltips  xpath=//md-toast//span[contains(.,"Die Aktion ist nicht möglich")]
+    Element Should Contain  xpath=//md-toast//span[contains(.,"Die Aktion ist nicht möglich")]  ${TOAST_MSSG}
+    Click Element Through Tooltips  xpath=//button//following::md-icon[contains(.,"close")]
+
+Ensure Dataset Create Button is Restricted
+    Click Element Through Tooltips  xpath=//md-card[@type="dataSets"]//button[contains(.,"Neu")]
     Click Element Through Tooltips  xpath=//md-toast//span[contains(.,"Die Aktion ist nicht möglich")]
     Element Should Contain  xpath=//md-toast//span[contains(.,"Die Aktion ist nicht möglich")]  ${TOAST_MSSG}
     Click Element Through Tooltips  xpath=//button//following::md-icon[contains(.,"close")]

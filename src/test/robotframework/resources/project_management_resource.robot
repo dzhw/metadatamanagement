@@ -24,8 +24,8 @@ Assign a dataprovider
 
 Assign a publisher
    [Arguments]   ${publishername}  ${publishernameindex}
-   Input Text  xpath=//project-cockpit-userlist[@group='publishers']//following::input[@type='search']  ${publishername}
-   Click Element Through Tooltips  xpath=//span[@md-highlight-text='searchText[group]'][contains(.,'${publishername}')][${publishernameindex}]
+   Input Text  xpath=//md-card[@group='publishers']//following::input[@type='search']  ${publishername}
+   Click Element Through Tooltips  xpath=//span[@md-highlight-text='ctrl.searchText[ctrl.group]'][contains(.,'${publishername}')][${publishernameindex}]
 
 Switch To Settings Tab
    Click Element Through Tooltips  xpath=//md-pagination-wrapper[@role="tablist"]//md-tab-item//md-icon[contains(.,"settings")]
@@ -80,3 +80,11 @@ Ensure Dataset Creation is Possible
 
 Ensure Variable Upload is Possible
    Click Element Through Tooltips  xpath=//md-card[@type="variables"]//button[contains(.,"Hochladen")]
+
+
+Click Publisher Ready Checkbox for Studies
+   Click Element Through Tooltips  xpath=//md-card[@type="studies"]//md-checkbox[contains(.,"Publisher Fertig")]
+
+Click Dataprovider Ready Checkbox for Studies
+   Click Element Through Tooltips  xpath=//md-card[@type="studies"]//md-checkbox[contains(.,"Datengeber Fertig")]
+
