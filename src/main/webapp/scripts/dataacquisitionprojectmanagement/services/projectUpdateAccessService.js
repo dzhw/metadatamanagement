@@ -84,6 +84,9 @@ angular.module('metadatamanagementApp').service(
     };
 
     var isAssignedToProject = function(project, role) {
+      if (!project) {
+        return false;
+      }
       role = role || '';
       var userLogin = Principal.loginName();
       if (role === '' || role === 'publishers') {
