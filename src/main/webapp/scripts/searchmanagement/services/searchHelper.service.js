@@ -17,7 +17,9 @@ angular.module('metadatamanagementApp').factory(
         'institution-de': 'institution.de',
         'institution-en': 'institution.en',
         'sponsor-de': 'sponsor.de',
-        'sponsor-en': 'sponsor.en'
+        'sponsor-en': 'sponsor.en',
+        'survey-method-de': 'nestedSurveys.surveyMethod.de',
+        'survey-method-en': 'nestedSurveys.surveyMethod.en'
       },
       'variables': {
         'study-series-de': 'study.studySeries.de',
@@ -34,7 +36,9 @@ angular.module('metadatamanagementApp').factory(
         'institution-de': 'study.institution.de',
         'institution-en': 'study.institution.en',
         'sponsor-de': 'study.sponsor.de',
-        'sponsor-en': 'study.sponsor.en'
+        'sponsor-en': 'study.sponsor.en',
+        'survey-method-de': 'nestedSurveys.surveyMethod.de',
+        'survey-method-en': 'nestedSurveys.surveyMethod.en'
       },
       'surveys': {
         'study-series-de': 'study.studySeries.de',
@@ -48,7 +52,9 @@ angular.module('metadatamanagementApp').factory(
         'institution-de': 'study.institution.de',
         'institution-en': 'study.institution.en',
         'sponsor-de': 'study.sponsor.de',
-        'sponsor-en': 'study.sponsor.en'
+        'sponsor-en': 'study.sponsor.en',
+        'survey-method-de': 'surveyMethod.de',
+        'survey-method-en': 'surveyMethod.en'
       },
       'questions': {
         'study-series-de': 'study.studySeries.de',
@@ -62,7 +68,9 @@ angular.module('metadatamanagementApp').factory(
         'institution-de': 'study.institution.de',
         'institution-en': 'study.institution.en',
         'sponsor-de': 'study.sponsor.de',
-        'sponsor-en': 'study.sponsor.en'
+        'sponsor-en': 'study.sponsor.en',
+        'survey-method-de': 'nestedSurveys.surveyMethod.de',
+        'survey-method-en': 'nestedSurveys.surveyMethod.en'
       },
       'instruments': {
         'study-series-de': 'study.studySeries.de',
@@ -76,7 +84,9 @@ angular.module('metadatamanagementApp').factory(
         'institution-de': 'study.institution.de',
         'institution-en': 'study.institution.en',
         'sponsor-de': 'study.sponsor.de',
-        'sponsor-en': 'study.sponsor.en'
+        'sponsor-en': 'study.sponsor.en',
+        'survey-method-de': 'nestedSurveys.surveyMethod.de',
+        'survey-method-en': 'nestedSurveys.surveyMethod.en'
       },
       'data_sets': {
         'study-series-de': 'study.studySeries.de',
@@ -91,7 +101,9 @@ angular.module('metadatamanagementApp').factory(
         'institution-de': 'study.institution.de',
         'institution-en': 'study.institution.en',
         'sponsor-de': 'study.sponsor.de',
-        'sponsor-en': 'study.sponsor.en'
+        'sponsor-en': 'study.sponsor.en',
+        'survey-method-de': 'nestedSurveys.surveyMethod.de',
+        'survey-method-en': 'nestedSurveys.surveyMethod.en'
       },
       'related_publications': {
         'study-series-de': 'studySerieses.de',
@@ -105,7 +117,9 @@ angular.module('metadatamanagementApp').factory(
         'institution-de': 'studies.institution.de',
         'institution-en': 'studies.institution.en',
         'sponsor-de': 'studies.sponsor.de',
-        'sponsor-en': 'studies.sponsor.en'
+        'sponsor-en': 'studies.sponsor.en',
+        'survey-method-de': 'nestedSurveys.surveyMethod.de',
+        'survey-method-en': 'nestedSurveys.surveyMethod.en'
       }
     };
 

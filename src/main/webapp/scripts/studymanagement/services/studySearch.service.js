@@ -2,8 +2,8 @@
 'use strict';
 
 angular.module('metadatamanagementApp').factory('StudySearchService',
-  function($q, $log, ElasticSearchClient, CleanJSObjectService,
-           SearchHelperService, LanguageService) {
+  function($q, ElasticSearchClient, CleanJSObjectService, SearchHelperService,
+           GenericFilterOptionsSearchService, LanguageService) {
     var createQueryObject = function(type) {
       type = type || 'studies';
       return {
@@ -366,139 +366,35 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
 
     var buildSearchConfig = function(searchText, filter, type, queryTerm,
       dataAcquisitionProjectId, filterAttribute) {
+
+      var prefix;
+
+      switch (type) {
+        case 'studies':
+          prefix = '';
+          break;
+        case 'related_publications':
+          prefix = 'nestedStudies';
+          break;
+        default:
+          prefix = 'nestedStudy';
+      }
+
       return {
         searchText: searchText,
         type: type,
         filter: filter,
         dataAcquisitionProjectId: dataAcquisitionProjectId,
         filterAttribute: filterAttribute,
-        queryTerm: queryTerm
+        queryTerm: queryTerm,
+        prefix: prefix
       };
     };
 
-    var findLabel = function(searchConfig) {
-      var type = searchConfig.type;
-
-      var language = LanguageService.getCurrentInstantly();
-
-      var query = createQueryObject(type);
-      query.size = 0;
-      query.body = {};
-
-      var termFilters = createTermFilters(searchConfig.filter,
-        searchConfig.dataAcquisitionProjectId, type);
-
-      var prefix;
-
-      switch (type) {
-        case 'related_publications':
-          prefix = 'nestedStudies.';
-          break;
-        case 'study':
-          prefix = '';
-          break;
-        default:
-          $log.warn('Unknown type for studySearch.service#findLabel:', type,
-            'Will default to no prefix.');
-          prefix = '';
-      }
-
-      var aggregationFilterFieldName = prefix + searchConfig.filterAttribute +
-        '.' + language;
-
-      var aggregation = {
-        'aggs': {
-          'label': {
-            'filter': {
-              'bool': {
-                'must': [{
-                  'match': {
-
-                  }
-                }]
-              }
-            },
-            'aggs': {
-              'labelDE': {
-                'terms': {
-                  'field': prefix + searchConfig.filterAttribute + '.de',
-                  'size': 100
-                },
-                'aggs': {
-                  'labelEN': {
-                    'terms': {
-                      'field': prefix + searchConfig.filterAttribute + '.en',
-                      'size': 100
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      };
-
-      var nestedAggregation = {
-        'aggs': {
-          'labelAggregation': {
-            'nested': {
-              'path': prefix.replace('.', '')
-            }
-          }
-        }
-      };
-
-      aggregation.aggs.label.filter.bool.must[0]
-        .match[aggregationFilterFieldName + '.ngrams'] =  {
-        'query': searchConfig.searchText,
-        'operator': 'AND',
-        'minimum_should_match': '100%',
-        'zero_terms_query': 'ALL'
-      };
-
-      if (termFilters) {
-        _.set(query, 'body.query.bool.filter', termFilters);
-      }
-
-      if (prefix !== '') {
-        nestedAggregation.aggs.labelAggregation.aggs =
-          aggregation.aggs;
-        query.body.aggs = nestedAggregation.aggs;
-      } else {
-        query.body.aggs = aggregation.aggs;
-      }
-
-      SearchHelperService.addQuery(query, searchConfig.queryTerm);
-
-      SearchHelperService.addFilter(query);
-
-      return ElasticSearchClient.search(query).then(function(result) {
-        var labelElement = {};
-        var labels = [];
-        var buckets = [];
-
-        if (prefix !== '') {
-          buckets = result.aggregations.labelAggregation.label.labelDE.buckets;
-        } else {
-          buckets = result.aggregations.label.labelDE.buckets;
-        }
-
-        buckets.forEach(function(bucket) {
-          labelElement = {
-            de: bucket.key,
-            en: bucket.labelEN.buckets[0].key,
-            count: bucket.doc_count
-          };
-          labels.push(labelElement);
-        });
-        return labels;
-      });
-    };
-
-    var findInstitutionLabels = function(searchText, filter, type,
+    var findInstitutionFilterOptions = function(searchText, filter, type,
                                          queryTerm, dataAcquisitionProjectId) {
 
-      return findLabel(buildSearchConfig(
+      return GenericFilterOptionsSearchService.findLabels(buildSearchConfig(
         searchText,
         filter,
         type,
@@ -508,10 +404,10 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       ));
     };
 
-    var findSponsorLabels = function(searchText, filter, type,
+    var findSponsorFilterOptions = function(searchText, filter, type,
                                      queryTerm, dataAcquisitionProjectId) {
 
-      return findLabel(buildSearchConfig(
+      return GenericFilterOptionsSearchService.findLabels(buildSearchConfig(
         searchText,
         filter,
         type,
@@ -527,7 +423,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       findSponsors: findSponsors,
       findInstitutions: findInstitutions,
       findStudyTitles: findStudyTitles,
-      findInstitutionLabels: findInstitutionLabels,
-      findSponsorLabels: findSponsorLabels
+      findInstitutionFilterOptions: findInstitutionFilterOptions,
+      findSponsorFilterOptions: findSponsorFilterOptions
     };
   });

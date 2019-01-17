@@ -131,6 +131,8 @@ angular.module('metadatamanagementApp').config(
           'institution-en': 'Institution',
           'sponsor-de': 'Sponsor',
           'sponsor-en': 'Sponsor',
+          'survey-method-de': 'Survey Method',
+          'survey-method-en': 'Survey Method',
           'floating-label': {
             'survey': 'Which survey do you want to filter?',
             'instrument': 'Which instrument do you want to filter?',
@@ -144,7 +146,8 @@ angular.module('metadatamanagementApp').config(
             'question': 'Which question do you want to filter?',
             'study-series': 'Which study series do you want to filter?',
             'institution': 'Which institute do you want to filter?',
-            'sponsor': 'Which sponsor do you want to filter?'
+            'sponsor': 'Which sponsor do you want to filter?',
+            'survey-method': 'Which survey method do you want to filter?'
           },
           'input-label': {
             'studies': 'Select filters for Study Search...',

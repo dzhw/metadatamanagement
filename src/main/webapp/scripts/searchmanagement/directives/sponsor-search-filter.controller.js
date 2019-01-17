@@ -30,7 +30,7 @@ angular.module('metadatamanagementApp')
         var cleanedFilter = _.omit($scope.currentSearchParams.filter,
           'sponsor-de', 'sponsor-en');
 
-        return StudySearchService.findSponsorLabels(searchText,
+        return StudySearchService.findSponsorFilterOptions(searchText,
           cleanedFilter, $scope.type, $scope.query, $scope.projectId);
       };
     });
