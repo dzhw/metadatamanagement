@@ -11,7 +11,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
            CleanJSObjectService, CurrentProjectService, $timeout,
            PageTitleService, ToolbarHeaderService, SearchHelperService,
            SearchResultNavigatorService, StudyResource, StudyIdBuilderService,
-           $rootScope, ProjectStatusScoringService, $transitions) {
+           $rootScope, ProjectStatusScoringService, $transitions,
+           DeleteMetadataService) {
 
     var queryChangedOnInit = false;
     var tabChangedOnInitFlag = false;
@@ -502,6 +503,25 @@ angular.module('metadatamanagementApp').controller('SearchController',
     $scope.isUploadAllowed = function(type) {
       return ProjectUpdateAccessService.isUpdateAllowed($scope.currentProject,
         type, true);
+    };
+    $scope.deleteAllStudies = function() {
+      DeleteMetadataService.deleteAllOfType($scope.currentProject, 'studies');
+    };
+    $scope.deleteAllQuestions = function() {
+      DeleteMetadataService.deleteAllOfType($scope.currentProject, 'questions');
+    };
+    $scope.deleteAllVariables = function() {
+      DeleteMetadataService.deleteAllOfType($scope.currentProject, 'variables');
+    };
+    $scope.deleteAllInstruments = function() {
+      DeleteMetadataService.deleteAllOfType(
+        $scope.currentProject, 'instruments');
+    };
+    $scope.deleteAllSurveys = function() {
+      DeleteMetadataService.deleteAllOfType($scope.currentProject, 'surveys');
+    };
+    $scope.deleteAllDataSets = function() {
+      DeleteMetadataService.deleteAllOfType($scope.currentProject, 'data_sets');
     };
     init();
   });

@@ -17,9 +17,9 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepo
  * @author René Reitmann
  */
 @RepositoryRestController
-public class QuestionResourceController 
+public class QuestionResourceController
     extends GenericDomainObjectResourceController<Question, QuestionRepository> {
-
+  
   @Autowired
   public QuestionResourceController(QuestionRepository questionRepository) {
     super(questionRepository);

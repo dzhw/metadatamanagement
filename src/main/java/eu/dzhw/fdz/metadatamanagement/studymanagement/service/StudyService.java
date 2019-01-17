@@ -105,7 +105,7 @@ public class StudyService {
    * 
    * @param dataAcquisitionProjectId the id for to the data acquisition project.
    */
-  private void deleteAllStudiesByProjectId(String dataAcquisitionProjectId) {
+  public void deleteAllStudiesByProjectId(String dataAcquisitionProjectId) {
     try (Stream<Study> studies =
         studyRepository.streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
       studies.forEach(study -> {

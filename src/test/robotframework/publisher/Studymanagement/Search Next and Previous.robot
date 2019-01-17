@@ -1,6 +1,5 @@
 *** Settings ***
 Documentation     Navigating Next and Previous Search Results
-Default Tags      smoketest
 Resource          ../../resources/search_resource.robot
 Resource          ../../resources/click_element_resource.robot
 

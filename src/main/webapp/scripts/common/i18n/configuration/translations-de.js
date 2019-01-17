@@ -349,6 +349,30 @@ angular.module('metadatamanagementApp').config(
           'confirm-delete-data-set': {
             'title': 'Datensatz "{{ id }}" löschen?',
             'content': 'Wollen Sie den Datensatz "{{ id }}" wirklich löschen?'
+          },
+          'confirm-delete-all-questions': {
+            'title': 'Alle Fragen des Projekts "{{ id }}" löschen?',
+            'content': 'Wollen Sie wirklich alle Fragen des Datenaufbereitungsprojekts "{{ id }}" löschen?'
+          },
+          'confirm-delete-all-studies': {
+            'title': 'Alle Studien des Projekts "{{ id }}" löschen?',
+            'content': 'Wollen Sie wirklich alle Studien des Datenaufbereitungsprojekts "{{ id }}" löschen?'
+          },
+          'confirm-delete-all-variables': {
+            'title': 'Alle Variablen des Projekts "{{ id }}" löschen?',
+            'content': 'Wollen Sie wirklich alle Variablen des Datenaufbereitungsprojekts "{{ id }}" löschen?'
+          },
+          'confirm-delete-all-instruments': {
+            'title': 'Alle Instrumente des Projekts "{{ id }}" löschen?',
+            'content': 'Wollen Sie wirklich alle Instrumente des Datenaufbereitungsprojekts "{{ id }}" löschen?'
+          },
+          'confirm-delete-all-surveys': {
+            'title': 'Alle Erhebungen des Projekts "{{ id }}" löschen?',
+            'content': 'Wollen Sie wirklich alle Erhebungen des Datenaufbereitungsprojekts "{{ id }}" löschen?'
+          },
+          'confirm-delete-all-data-sets': {
+            'title': 'Alle Datensätze des Projekts "{{ id }}" löschen?',
+            'content': 'Wollen Sie wirklich alle Datensätze des Datenaufbereitungsprojekts "{{ id }}" löschen?'
           }
         }
       }

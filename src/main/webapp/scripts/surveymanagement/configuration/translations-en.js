@@ -318,7 +318,8 @@ angular.module('metadatamanagementApp').config(
               'en': 'Upload a graphical representation of the response rate in English.'
             },
             'survey-number': 'Please select a survey number for the new survey.'
-          }
+          },
+          'all-surveys-deleted-toast': 'All surveys of the Data Acquisition Project "{{id}}" have been deleted.'
         }
       }
       //jscs:enable
