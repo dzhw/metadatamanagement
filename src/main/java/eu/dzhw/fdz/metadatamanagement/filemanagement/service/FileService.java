@@ -6,6 +6,7 @@ import java.io.InputStream;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.index.Index;
@@ -31,6 +32,9 @@ public class FileService {
   
   @Autowired
   private MongoOperations mongoOperations;
+  
+  @Value("${metadatamanagement.server.instance-index}")
+  private Integer instanceId;
   
   /**
    * We expect filenames in GridFS to be unique.
@@ -59,6 +63,9 @@ public class FileService {
    */
   @Scheduled(cron = "0 0 3 * * ?")
   public void deleteTempFiles() {
+    if (instanceId != 0) {
+      return;
+    }
     // Regular Expression, which checks for filenames, which are starting with /tmp/
     Query query = new Query(GridFsCriteria.whereFilename()
         .regex("^/tmp/"));
