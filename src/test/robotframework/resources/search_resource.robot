@@ -13,7 +13,13 @@ Search for
 Select project by name
     [Arguments]    ${projectname}
     Input Text    xpath=//md-sidenav//input[@type='search']    ${projectname}
-    Click Element Through Tooltips    xpath=//md-virtual-repeat-container//span[text()='${projectname}']
+    Run Keyword And Ignore Error  Click Element Through Tooltips    xpath=//md-virtual-repeat-container//span[text()='${projectname}']
+
+Delect project by name
+    [Arguments]    ${projectname}
+    Input Text    xpath=//input[@placeholder = 'Projekt auswählen']    ${projectname}
+    Click Element Through Tooltips    xpath=//md-sidenav/descendant::button[md-icon[text()='']]
+    Click Element Through Tooltips    xpath=//button[text()='OK']
 
 Click on search result by id
     [Arguments]    ${id}
@@ -67,4 +73,4 @@ Click Survey Edit Button
     Click Element Through Tooltips    xpath=//ui-view//a/md-icon[text()='mode_edit']
 
 Click on Cockpit Button
-    Click Element Through Tooltips    xpath= //md-icon[@md-svg-src='assets/images/icons/12206436.desktop-mac-dashboard.svg']
+    Click Element Through Tooltips    xpath=//project-navbar-module//a[contains(@class, 'md-accent')]
