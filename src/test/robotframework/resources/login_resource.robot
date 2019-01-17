@@ -37,7 +37,6 @@ Delete Robotsproject
     Click Element Through Tooltips    xpath=//md-sidenav/descendant::button[md-icon[text()='']]
     Click Element Through Tooltips    xpath=//button[text()='OK']
 
-
 Save Changes
     Click Element Through Tooltips    xpath=//ui-view/descendant::button[md-icon[text()='save']]
 
