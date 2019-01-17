@@ -1,14 +1,14 @@
-<div ng-form="surveyMethodFilterForm" layout="row" layout-align="center center">
-    <md-autocomplete fdz-autofocus="!currentSearchParams.filter['survey-method-' + currentLanguage]"
+<div ng-form="institutionFilterForm" layout="row" layout-align="center center">
+    <md-autocomplete fdz-autofocus="!currentSearchParams.filter['institution-' + currentLanguage]"
                      class="fdz-search-filter-component"
                      flex
                      md-delay="250"
-                     md-input-name="surveyMethodFilter"
-                     md-floating-label="{{'search-management.filter.floating-label.survey-method' | translate}}"
+                     md-input-name="institutionFilter"
+                     md-floating-label="{{'search-management.filter.floating-label.institution' | translate}}"
                      md-min-length="0"
-                     md-items="item in searchSurveyMethods(searchText, currentLanguage)"
-                     md-selected-item="currentSurveyMethod"
-                     md-selected-item-change="onSelectionChanged(currentSurveyMethod)"
+                     md-items="item in searchInstitutions(searchText, currentLanguage)"
+                     md-selected-item="currentInstitution"
+                     md-selected-item-change="onSelectionChanged(currentInstitution)"
                      md-require-match="true"
                      md-select-on-match="true"
                      md-search-text="searchText"
@@ -25,13 +25,13 @@
         </md-item-template>
         <md-not-found>
           <span class="item-title fdz-truncate-string">
-            <strong>{{'search-management.filter.survey-method-filter.not-found' | translate}}</strong>
+            <strong>{{'search-management.filter.institution-filter.not-found' | translate}}</strong>
           </span>
             <span class="item-metadata fdz-truncate-string">{{'search-management.tabs.' + type + '-found' | translate:'{number:0}':'messageformat'}}</span>
         </md-not-found>
-        <div ng-messages="surveyMethodFilterForm.surveyMethodFilter.$error">
+        <div ng-messages="institutionFilterForm.institutionFilter.$error">
             <div ng-message="md-require-match">
-                {{'search-management.filter.survey-method-filter.no-valid-selected' | translate}}
+                {{'search-management.filter.institution-filter.no-valid-selected' | translate}}
             </div>
         </div>
     </md-autocomplete>

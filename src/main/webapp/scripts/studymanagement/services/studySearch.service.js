@@ -367,19 +367,6 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
     var buildSearchConfig = function(searchText, filter, type, queryTerm,
       dataAcquisitionProjectId, filterAttribute) {
 
-      var prefix;
-
-      switch (type) {
-        case 'studies':
-          prefix = '';
-          break;
-        case 'related_publications':
-          prefix = 'nestedStudies';
-          break;
-        default:
-          prefix = 'nestedStudy';
-      }
-
       return {
         searchText: searchText,
         type: type,
@@ -387,34 +374,38 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
         dataAcquisitionProjectId: dataAcquisitionProjectId,
         filterAttribute: filterAttribute,
         queryTerm: queryTerm,
-        prefix: prefix
+        prefix: type === 'studies' ? '' : 'study'
       };
     };
 
     var findInstitutionFilterOptions = function(searchText, filter, type,
                                          queryTerm, dataAcquisitionProjectId) {
 
-      return GenericFilterOptionsSearchService.findLabels(buildSearchConfig(
+      var searchConfig = buildSearchConfig(
         searchText,
         filter,
         type,
         queryTerm,
         dataAcquisitionProjectId,
         'institution'
-      ));
+      );
+
+      return GenericFilterOptionsSearchService.findFilterOptions(searchConfig);
     };
 
     var findSponsorFilterOptions = function(searchText, filter, type,
                                      queryTerm, dataAcquisitionProjectId) {
 
-      return GenericFilterOptionsSearchService.findLabels(buildSearchConfig(
+      var searchConfig = buildSearchConfig(
         searchText,
         filter,
         type,
         queryTerm,
         dataAcquisitionProjectId,
         'sponsor'
-      ));
+      );
+
+      return GenericFilterOptionsSearchService.findFilterOptions(searchConfig);
     };
 
     return {

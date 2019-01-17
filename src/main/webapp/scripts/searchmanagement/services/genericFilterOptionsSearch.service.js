@@ -29,48 +29,31 @@ angular.module('metadatamanagementApp')
 
     var findFilterOptions = function(searchConfig) {
       var type = searchConfig.type;
-
       var language = LanguageService.getCurrentInstantly();
 
       var query = {
         index: type,
         type: type
       };
-
       query.size = 0;
-      query.body = {};
-
       var termFilters = createTermFilters(searchConfig.filter,
-        searchConfig.dataAcquisitionProjectId, type);
-
+        searchConfig.dataAcquisitionProjectId, searchConfig.type);
+      var fieldName = searchConfig.filterAttribute;
       var prefix = searchConfig.prefix ? searchConfig.prefix + '.' : '';
 
-      var aggregationFilterFieldName = prefix + searchConfig.filterAttribute +
-        '.' + language;
-
-      var aggregation = {
+      query.body = {
         'aggs': {
-          'label': {
-            'filter': {
-              'bool': {
-                'must': [{
-                  'match': {}
-                }]
-              }
+          'firstLabel': {
+            'terms': {
+              'field': prefix + fieldName + '.' + language,
+              'size': 100
             },
             'aggs': {
-              'labelDE': {
+              'secondLabel': {
                 'terms': {
-                  'field': prefix + searchConfig.filterAttribute + '.de',
+                  'field': prefix + fieldName +
+                    (language === 'de' ? '.en' : '.de'),
                   'size': 100
-                },
-                'aggs': {
-                  'labelEN': {
-                    'terms': {
-                      'field': prefix + searchConfig.filterAttribute + '.en',
-                      'size': 100
-                    }
-                  }
                 }
               }
             }
@@ -78,18 +61,16 @@ angular.module('metadatamanagementApp')
         }
       };
 
-      var nestedAggregation = {
-        'aggs': {
-          'labelAggregation': {
-            'nested': {
-              'path': searchConfig.prefix
-            }
-          }
+      query.body.query = {
+        'bool': {
+          'must': [{
+            'match': {}
+          }]
         }
       };
 
-      aggregation.aggs.label.filter.bool.must[0]
-        .match[aggregationFilterFieldName + '.ngrams'] = {
+      query.body.query.bool.must[0].match
+        [prefix + fieldName + '.' + language + '.ngrams'] = {
         'query': searchConfig.searchText,
         'operator': 'AND',
         'minimum_should_match': '100%',
@@ -97,45 +78,29 @@ angular.module('metadatamanagementApp')
       };
 
       if (termFilters) {
-        _.set(query, 'body.query.bool.filter', termFilters);
+        query.body.query.bool.filter = termFilters;
       }
 
-      if (prefix !== '') {
-        nestedAggregation.aggs.labelAggregation.aggs =
-          aggregation.aggs;
-        query.body.aggs = nestedAggregation.aggs;
-      } else {
-        query.body.aggs = aggregation.aggs;
-      }
-
-      SearchHelperService.addQuery(query, searchConfig.queryTerm);
-
-      SearchHelperService.addFilter(query);
+      SearchHelperService.addQuery(query, searchConfig.queryterm);
 
       return ElasticSearchClient.search(query).then(function(result) {
-        var labelElement = {};
-        var labels = [];
-        var buckets = [];
-
-        if (prefix !== '') {
-          buckets = result.aggregations.labelAggregation.label.labelDE.buckets;
-        } else {
-          buckets = result.aggregations.label.labelDE.buckets;
-        }
-
-        buckets.forEach(function(bucket) {
-          labelElement = {
-            de: bucket.key,
-            en: bucket.labelEN.buckets[0].key,
-            count: bucket.doc_count
+        var studySeries = [];
+        var studySeriesElement = {};
+        result.aggregations.firstLabel.buckets.forEach(function(bucket) {
+          studySeriesElement = {
+            'de': language === 'de' ? bucket.key
+              : bucket.secondLabel.buckets[0].key,
+            'en': language === 'en' ? bucket.key
+              : bucket.secondLabel.buckets[0].key,
+            'count': bucket.doc_count
           };
-          labels.push(labelElement);
+          studySeries.push(studySeriesElement);
         });
-        return labels;
+        return studySeries;
       });
     };
 
     return {
-      findLabels: findFilterOptions
+      findFilterOptions: findFilterOptions
     };
   });

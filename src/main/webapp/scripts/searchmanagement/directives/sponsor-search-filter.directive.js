@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp').directive('sponsorSearchFilter',
         'sponsor-search-filter.html.tmpl',
       scope: {
         currentSearchParams: '=',
-        sponsorChangedCallback: '=',
+        sponsorChangedCallback: '&',
         currentLanguage: '=',
         bowser: '='
       },

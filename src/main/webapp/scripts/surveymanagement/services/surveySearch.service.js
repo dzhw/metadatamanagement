@@ -287,14 +287,14 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
       var findSurveyMethodFilterOptions = function(searchText, filter, type,
         queryTerm, dataAcquisitionProjectId) {
 
-        return GenericFilterOptionsSearchService.findLabels({
+        return GenericFilterOptionsSearchService.findFilterOptions({
           searchText: searchText,
           type: type,
           filter: filter,
           dataAcquisitionProjectId: dataAcquisitionProjectId,
           filterAttribute: 'surveyMethod',
           queryTerm: queryTerm,
-          prefix: type === 'surveys' ? '' : 'nestedSurveys'
+          prefix: type === 'surveys' ? '' : 'surveys'
         });
       };
 

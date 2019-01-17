@@ -1,11 +1,10 @@
 /* global _ */
 'use strict';
 angular.module('metadatamanagementApp')
-  .controller('SponsorSearchFilterController',
+  .controller('InstitutionSearchFilterController',
     function($scope, $location, $q, $timeout, CurrentProjectService,
              StudySearchService) {
-
-      // prevent sponsor changed events during init
+      // prevent institution changed events during init
       var initializing = true;
       var selectionChanging = false;
       var cache = {
@@ -18,14 +17,14 @@ angular.module('metadatamanagementApp')
       };
       var currentFilterByLanguage;
 
-      //Search after sponsors, call Elasticsearch
-      $scope.searchSponsors = function(searchText, language) {
+      //Search after institutes, call Elasticsearch
+      $scope.searchInstitutions = function(searchText, language) {
         $scope.type = $location.search().type;
         $scope.query = $location.search().query;
         $scope.projectId = CurrentProjectService.getCurrentProject() ?
           CurrentProjectService.getCurrentProject().id : null;
         var cleanedFilter = _.omit($scope.currentSearchParams.filter,
-          'sponsor-' + language);
+          'institution-' + language);
 
         if (searchText === cache.searchText &&
           $scope.type === cache.type &&
@@ -37,21 +36,21 @@ angular.module('metadatamanagementApp')
         }
 
         //Search Call to Elasticsearch
-        return StudySearchService.findSponsorFilterOptions(searchText,
+        return StudySearchService.findInstitutionFilterOptions(searchText,
           cleanedFilter, $scope.type, $scope.query, $scope.projectId)
-          .then(function(sponsors) {
+          .then(function(institutes) {
               cache.searchText = searchText;
               cache.filter = _.cloneDeep(cleanedFilter);
-              cache.searchResult = sponsors;
+              cache.searchResult = institutes;
               cache.type = $scope.type;
               cache.query = $scope.query;
               cache.projectId = $scope.projectId;
-              return sponsors;
+              return institutes;
             }
           );
       };
 
-      //Init the de and en filter of sponsors
+      //Init the de and en filter of institutes
       var init = function(currentLanguage) {
         //Just a change? No Init!
         if (selectionChanging) {
@@ -62,43 +61,43 @@ angular.module('metadatamanagementApp')
         //Init the Filter
         initializing = true;
         if ($scope.currentSearchParams.filter &&
-          $scope.currentSearchParams.filter['sponsor-' +
+          $scope.currentSearchParams.filter['institution-' +
           currentLanguage]) {
 
           //Check with of both filter are active, depending on actual language
           currentFilterByLanguage =
-            $scope.currentSearchParams.filter['sponsor-' +
+            $scope.currentSearchParams.filter['institution-' +
             currentLanguage];
 
-          //Search and validate sponsors
-          $scope.searchSponsors(currentFilterByLanguage, currentLanguage)
-            .then(function(sponsors) {
+          //Search and validate institutions
+          $scope.searchInstitutions(currentFilterByLanguage, currentLanguage)
+            .then(function(institutions) {
 
-              //Just one sponsor
-              if (sponsors.length === 1) {
-                $scope.currentSponsor = sponsors[0];
+              //Just one Institution exists
+              if (institutions.length === 1) {
+                $scope.currentInstitution = institutions[0];
                 return;
-              } else if (sponsors.length > 1) {
-                //Standard case, there are many sponosrs
-                sponsors.forEach(function(sponsor) {
-                  if (sponsor[currentLanguage] ===
+              } else if (institutions.length > 1) {
+                //Standard case, there are many institutions
+                institutions.forEach(function(institution) {
+                  if (institution[currentLanguage] ===
                     currentFilterByLanguage) {
-                    $scope.currentSponsor = sponsor;
+                    $scope.currentInstitution = institution;
                     return;
                   }
                 });
               }
 
-              //Sponsor was not found check the language
-              if (!$scope.currentSponsor) {
-                $scope.currentSponsor =
-                  $scope.currentSearchParams.filter['sponsor-' +
+              //Institution was not found check the language
+              if (!$scope.currentInstitution) {
+                $scope.currentInstitution =
+                  $scope.currentSearchParams.filter['institution-' +
                   currentLanguage];
                 $timeout(function() {
-                  $scope.sponsorFilterForm.sponsorFilter
+                  $scope.institutionFilterForm.institutionFilter
                     .$setValidity('md-require-match', false);
                 }, 500);
-                $scope.sponsorFilterForm.sponsorFilter
+                $scope.institutionFilterForm.institutionFilter
                   .$setTouched();
               }
             });
@@ -112,24 +111,24 @@ angular.module('metadatamanagementApp')
           }
 
           if ($scope.currentSearchParams.filter &&
-            $scope.currentSearchParams.filter['sponsor-' +
+            $scope.currentSearchParams.filter['institution-' +
             i18nAnotherEnding]) {
-            $scope.searchSponsors(
-              $scope.currentSearchParams.filter['sponsor-' +
+            $scope.searchInstitutes(
+              $scope.currentSearchParams.filter['institution-' +
               i18nAnotherEnding], i18nAnotherEnding)
-              .then(function(sponsors) {
-                if (sponsors) {
-                  $scope.currentSponsor = sponsors[0];
+              .then(function(institutions) {
+                if (institutions) {
+                  $scope.currentInstitution = institutions[0];
 
-                  $scope.currentSearchParams.filter['sponsor-' +
-                  i18nActualEnding] = sponsors[0][i18nActualEnding];
-                  $scope.selectedFilters.push('sponsor-' +
+                  $scope.currentSearchParams.filter['institution-' +
+                  i18nActualEnding] = institutions[0][i18nActualEnding];
+                  $scope.selectedFilters.push('institution-' +
                     i18nActualEnding);
                   delete $scope.selectedFilters[_.indexOf(
                     $scope.selectedFilters,
-                    'sponsor-' + i18nAnotherEnding)
+                    'institution-' + i18nAnotherEnding)
                     ];
-                  delete $scope.currentSearchParams.filter['sponsor-' +
+                  delete $scope.currentSearchParams.filter['institution-' +
                   i18nAnotherEnding];
                   return;
                 }
@@ -139,8 +138,8 @@ angular.module('metadatamanagementApp')
         }
       };
 
-      //Set the filter, if the user changed the sponsor filter
-      $scope.onSelectionChanged = function(sponsor) {
+      //Set the filter, if the user changed the institution Filter
+      $scope.onSelectionChanged = function(institution) {
         if (initializing) {
           initializing = false;
           return;
@@ -150,20 +149,20 @@ angular.module('metadatamanagementApp')
           $scope.currentSearchParams.filter = {};
         }
 
-        //Set the sponsor Filter in the URL
-        if (sponsor) {
-          $scope.currentSearchParams.filter['sponsor-' +
-          $scope.currentLanguage] = sponsor[$scope.currentLanguage];
+        //Set the institution filter in the URL
+        if (institution) {
+          $scope.currentSearchParams.filter['institution-' +
+          $scope.currentLanguage] = institution[$scope.currentLanguage];
         } else {
-          //No sponsor is chosen, delete the Parameter in the URL
-          delete $scope.currentSearchParams.filter['sponsor-' +
+          //No Institution is chosen, delete the Parameter in the URL
+          delete $scope.currentSearchParams.filter['institution-' +
           $scope.currentLanguage];
         }
-        $scope.sponsorChangedCallback();
+        $scope.institutionChangedCallback();
       };
 
-      //Initialize and watch the current sponsor filter
-      $scope.$watch('currentSearchParams.filter["sponsor-' +
+      //Initialize and watch the current Institution Filter
+      $scope.$watch('currentSearchParams.filter["institution-' +
         $scope.currentLanguage + '"]',
         function() {
           init($scope.currentLanguage);
