@@ -83,8 +83,8 @@ Tabelle 1: Vorgehen bei der Metadateneingabe pro Ebene
 |                 | (oder Zofar)    | (.png)          | Vorlage-Ordner  |
 |                 |                 |                 | speichern       |
 +-----------------+-----------------+-----------------+-----------------+
-| Datensätze      | Eingabemaske    | Anhänge (PDF)   | Ordner ins MDM  |
-|                 |                 |                 | laden           |
+| Datensätze      | Eingabemaske    | Anhänge (PDF)   | Eingabemaske    |
+|                 |                 |                 | ausfüllen       |
 +-----------------+-----------------+-----------------+-----------------+
 | Variablen       | mind. 1         | mind. 1         | Im              |
 |                 | Excel-Tabelle   | Datensatz       | Vorlage-Ordner  |
@@ -150,32 +150,41 @@ DataAcquisitionProject-ID
   Abkürzung des Projektes. Es kann Ausnahmen geben, wenn z.B. bestimmte Projekte
   ein besonders griffiges Kürzel haben wie z.B. bei Libertas 2016 - lib2016.
 - **(zwei bis) vier Ziffern**: Die Ziffern sind in der Regel die vier Ziffern
-des Jahres, das die Zugehörigkeit zur Stichprobe definiert, z. B. der
-Abschluss des Studiums (z. B. im (Prüfungs-)Jahr 2005 oder der Erwerb der
-Hochschulzugangsberechtigung im Jahr 2008). Davon kann in begründeten
-Ausnahmefällen abgewichen werden.
+  des Jahres, das die Zugehörigkeit zur Stichprobe definiert, z. B. der
+  Abschluss des Studiums (z. B. im (Prüfungs-)Jahr 2005 oder der Erwerb der
+  Hochschulzugangsberechtigung im Jahr 2008). Davon kann in begründeten
+  Ausnahmefällen abgewichen werden.
 - Beispielsweise ist die Sozialerhebung deutlich stärker unter der
-jeweiligen Nummer der Studie als unter dem Jahr, das die Zugehörigkeit
-zur Stichprobe definiert, bekannt, so dass beispielsweise für die 19.
-Sozialerhebung aus dem Jahr 2009 die Ziffern 19 (und nicht 2009) vergeben werden
+  jeweiligen Nummer der Studie als unter dem Jahr, das die Zugehörigkeit
+  zur Stichprobe definiert, bekannt, so dass beispielsweise für die 19.
+  Sozialerhebung aus dem Jahr 2009 die Ziffern 19 (und nicht 2009) vergeben
+  werden.
 - Bei Befragungen, die sich auf mehrere Jahreszahlen beziehen, kann eine
-andere eindeutige Jahreszahl verwendet werden. Beispielweise gehören in
-der KomPaed-Befragung die zuletzt aktiven Panelteilnehmer mehrerer
-Kohorten zur Stichprobe. Hier werden die vier Ziffern des Erhebungsjahres
-(2014) genutzt.
+  andere eindeutige Jahreszahl verwendet werden. Beispielweise gehören in
+  der KomPaed-Befragung die zuletzt aktiven Panelteilnehmer mehrerer
+  Kohorten zur Stichprobe. Hier werden die vier Ziffern des Erhebungsjahres
+  (2014) genutzt.
 
 Für jedes weitere Objekt wird später ebenfalls eine ID generiert, die die DAP-id
 enthält und sich nach der folgenden Logik zusammensetzt:
 
++--------------------+-----------------------------------------------------------------------------------+
 | Metadaten          | Id-Generierung                                                                    |
-| ------------------ | --------------------------------------------------------------------------------- |
++====================+===================================================================================+
 | Study              | "stu-" + DAP-id + "$"                                                             |
++--------------------+-----------------------------------------------------------------------------------+
 | Survey             | "sur-" + DAP-id + "-" + "sy" + survey.number + "$"                                |
++--------------------+-----------------------------------------------------------------------------------+
 | DataSet            | "dat-" + DAP-id + "-" + "ds" + dataSet.number + "$"                               |
++--------------------+-----------------------------------------------------------------------------------+
 | Variable           | "var-" + DAP-id + "-" + "ds" + variable.dataSetNumber + "-" + variable name + "$" |
++--------------------+-----------------------------------------------------------------------------------+
 | Instrument         | "ins-" + DAP-id + "-" + "ins" + number + "$"                                      |
++--------------------+-----------------------------------------------------------------------------------+
 | Question           | "que-" + DAP-id + "-ins" + instrumentNumber + "-" + number + "$"                  |
++--------------------+-----------------------------------------------------------------------------------+
 | relatedPublication | "pub-" + citaviId + "$"                                                           |
++--------------------+-----------------------------------------------------------------------------------+
 
 Das Projekt ist dadurch im MDM angelegt, aber noch nicht automatisch
 freigegeben. Solange das Projekt noch nicht freigegeben wurde, können
@@ -317,18 +326,8 @@ Für einen erfolgreichen Upload der Metadaten attachments müssen
 Sie sämtliche Dateien ihrer zugehörigen Ebene entsprechend in den vom
 FDZ vorbereiteten Vorlage-Ordner ablegen, welcher nach der jeweiligen
 Ebene benannt ist. Dieser Ordner sowie auch seine Unterordner sind mit
-englischen Begriffen betitelt. So heißt z. B. der Ordner der
-Instrumentenebene „instruments“ und der Ordner der Datensatzebene
-„dataSets“. Der Unterordner, welche alle Anhänge enthält, heißt
-unabhängig von der Ebene immer „attachments“. Mittlerweile werden, abweichend
-vom Screenshot, keine Exceldateien mehr benötigt. Die vorliegende Ordnerstruktur
-am Beispiel analog zur mittlerweile nicht mehr benötigten Instrumentenebene
-zeigt :numref:`ordnerstruktur_instruments`.
-
-.. figure:: ./_static/12_de.png
-   :name: ordnerstruktur_instruments
-
-   Ordnerstruktur am Beispiel der Instrumentenebene
+englischen Begriffen betitelt. Der Unterordner, welche alle Anhänge enthält,
+heißt unabhängig von der Ebene immer „attachments“.
 
 Die Abgabe von Metadaten für die einzelnen Ebenen
 -------------------------------------------------
@@ -689,19 +688,7 @@ speichern.
 Zu den möglichen Anhängen zählen z. B. Fragebögen, Variablenfragebögen
 sowie Filterführungsdiagramme [4]_. Diese müssen als PDF-Dateien
 vorliegen. [5]_ Außerdem können an dieser Stelle Codierlisten, welche
-als Excel-Tabelle vorliegen müssen, erfasst werden. Alle Anhänge werden
-im Ordner *attachments* abgelegt.
-
-Für den Upload der Dateien ins MDM muss die Ordnerstruktur wie in
-:numref:`ordnerstruktur_instruments_2` vorliegen.
-
-.. figure:: ./_static/32_1_de.png
-   :name: ordnerstruktur_instruments_2
-
-   Ordnerstruktur: Inhalt des Ordners instruments
-
-Hochladen können Sie den Ordner im Reiter Instrumente entweder über den
-orangefarbenen Plus-Button (unten rechts) oder per Drag & Drop.
+als Excel-Tabelle vorliegen müssen, erfasst werden.
 
 Fragen (questions) [6]_
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -732,6 +719,19 @@ Vorgehensweisen schrittweise beschrieben.
 
 Questions (manuell)
 ~~~~~~~~~~~~~~~~~~~
+Um json Dateien zu erzeugen muss zuerst einmal eine Exceltabelle ausgefüllt
+werden. Die Exceltabelle hat die beiden Tabellenblätter questions und images.
+Spaltennamen und Ausfüllanweisungen sind im nächsten Abschnitt zu finden.
+
+Zusätzlich müssen zu jeder Frage ein oder mehrere Bilder vorhanden sein.
+Wie Fragebilder aus Ragtime-Dateien extrahiert werden können, wird
+`hier <https://github.com/dzhw/metadatamanagement-io/wiki/Bilderfassung-aus-RagTime>`_
+erklärt.
+Eine Anleitung zum Ausschneiden von Bildern aus pdf Dateien ist
+`hier <https://github.com/dzhw/metadatamanagement-io/wiki/Bilderfassung-aus-pdf>`_
+zu finden.
+
+
 
 **Excel-Tabelle**
 
@@ -743,161 +743,162 @@ erfassen:
 
 Tabelle 3: Ausfüllanweisungen für die Excel-Tabelle "questions"
 
-+-----------------------+-----------------------+-----------------------+
-| **Tabellenblatt 1:                                                    |
-| questions**                                                           |
-+=======================+=======================+=======================+
-| Es können mehrere                                                     |
-| Fragen eingetragen                                                    |
-| werden (= mehrere                                                     |
-| Zeilen möglich, eine                                                  |
-| Frage pro Zeile)                                                      |
-+-----------------------+-----------------------+-----------------------+
-| **Spaltenüberschrift**| **Muss ich das        | **Was muss ich        |
-|                       | ausfüllen?**          | eintragen?**          |
-+-----------------------+-----------------------+-----------------------+
-| indexInInstrument     | Ja                    | Nummer der Frage im   |
-|                       |                       | Fragebogen, nach der  |
-|                       |                       | die Reihenfolge       |
-|                       |                       | festgelegt wird       |
-|                       |                       | (ganzzahlig)          |
-+-----------------------+-----------------------+-----------------------+
-| questionNumber        | Ja                    | Fragenummer,          |
-|                       |                       | idealerweise          |
-|                       |                       | selbsterklärend aus   |
-|                       |                       | Instrument (z. B.     |
-|                       |                       | 1.1)                  |
-+-----------------------+-----------------------+-----------------------+
-| instrumentNumber      | Ja                    | Nummer des            |
-|                       |                       | Instruments           |
-+-----------------------+-----------------------+-----------------------+
-| questionsText.de/en   | Ja                    | „Übergreifender“      |
-|                       |                       | Fragetext, bei        |
-|                       |                       | Itembatterien oder    |
-|                       |                       | komplexen Fragen der  |
-|                       |                       | einleitende           |
-|                       |                       | Fragetext. Bei        |
-|                       |                       | „einfachen“           |
-|                       |                       | Fragetypen der        |
-|                       |                       | komplette Fragetext.  |
-+-----------------------+-----------------------+-----------------------+
-| instruction.de/en     | Nein                  | wenn vorhanden,       |
-|                       |                       | Anweisungstext der    |
-|                       |                       | Frage                 |
-+-----------------------+-----------------------+-----------------------+
-| introduction.de/en    | Nein                  | wenn vorhanden,       |
-|                       |                       | Einleitungstext der   |
-|                       |                       | Frage                 |
-+-----------------------+-----------------------+-----------------------+
-| type.de/en            | Ja                    | de: „Einfachnennung“, |
-|                       |                       | „Offen“,              |
-|                       |                       | „Mehrfachnennung“,    |
-|                       |                       | „Itembatterie“ oder   |
-|                       |                       | „Matrix“ (eine        |
-|                       |                       | Anleitung zur         |
-|                       |                       | Einteilung der        |
-|                       |                       | verschiedenen         |
-|                       |                       | Fragetypen kann unter |
-|                       |                       | https://github.com/dz |
-|                       |                       | hw/metadatamanagement |
-|                       |                       | /files/1421895/Anleit |
-|                       |                       | ung_Vergabe_Fragetype |
-|                       |                       | n.docx                |
-|                       |                       | gefunden werden)      |
-|                       |                       |                       |
-|                       |                       | en: „Single Choice“,  |
-|                       |                       | „Open“, „Multiple     |
-|                       |                       | Choice“, „Item Set“   |
-|                       |                       | or „Grid“.            |
-+-----------------------+-----------------------+-----------------------+
-| topic.de/en           | Nein                  | Themenblock, in dem   |
-|                       |                       | die Frage im          |
-|                       |                       | Instrument            |
-|                       |                       | eingeordnet ist       |
-|                       |                       | (idealerweise direkt  |
-|                       |                       | aus Instrument        |
-|                       |                       | entnehmbar)           |
-+-----------------------+-----------------------+-----------------------+
-| successorNumbers      | Nein                  | Fragenummern der      |
-|                       |                       | nachfolgenden         |
-|                       |                       | Frage(n) (Angabe in   |
-|                       |                       | einer Zeile durch     |
-|                       |                       | Komma getrennt)       |
-+-----------------------+-----------------------+-----------------------+
-| technicalRepresentati | x\*                   | Herkunft des          |
-| on.type               |                       | Codeschnipsels (z. B. |
-|                       |                       | „ZOFAR-Question       |
-|                       |                       | Markup Language“)     |
-+-----------------------+-----------------------+-----------------------+
-| technicalRepresentati | x\*                   | Technische Sprache    |
-| on.language           |                       | des Codeschnipsels    |
-|                       |                       | (z. B. XML)           |
-+-----------------------+-----------------------+-----------------------+
-| technicalRepresentati | x\*                   | Codeschnipsel, um     |
-| on.source             |                       | Frage technisch       |
-|                       |                       | abbilden zu können    |
-|                       |                       | (z. B. QML-Schnipsel) |
-+-----------------------+-----------------------+-----------------------+
-| additionalQuestionTex | Nein                  | Weitere Ausführungen  |
-| t.de/.en              |                       | der Frage, die nicht  |
-|                       |                       | im Fragetext stehen,  |
-|                       |                       | wie z. B. der         |
-|                       |                       | Itemtext (bei         |
-|                       |                       | Itembatterien) oder   |
-|                       |                       | Antworttext (bei      |
-|                       |                       | Mehrfachnennungen).   |
-|                       |                       | Aktuell ist diese     |
-|                       |                       | Information für den   |
-|                       |                       | Nutzenden des MDM     |
-|                       |                       | nicht sichtbar,       |
-|                       |                       | sondern wird nur bei  |
-|                       |                       | einer Volltextsuche   |
-|                       |                       | berücksichtigt.       |
-+-----------------------+-----------------------+-----------------------+
-| annotations.de/en     | Nein                  | Anmerkungen zur Frage |
-+-----------------------+-----------------------+-----------------------+
++------------------------+-----------------------+------------------------+
+| **Tabellenblatt 1:                                                      |
+| questions**                                                             |
++========================+=======================+========================+
+| Es können mehrere                                                       |
+| Fragen eingetragen                                                      |
+| werden (= mehrere                                                       |
+| Zeilen möglich, eine                                                    |
+| Frage pro Zeile)                                                        |
++------------------------+-----------------------+------------------------+
+| **Spaltenüberschrift** | **Muss ich das        | **Was muss ich         |
+|                        | ausfüllen?**          | eintragen?**           |
++------------------------+-----------------------+------------------------+
+| indexInInstrument      | Ja                    | Nummer der Frage im    |
+|                        |                       | Fragebogen, nach der   |
+|                        |                       | die Reihenfolge        |
+|                        |                       | festgelegt wird        |
+|                        |                       | (ganzzahlig)           |
++------------------------+-----------------------+------------------------+
+| questionNumber         | Ja                    | Fragenummer,           |
+|                        |                       | idealerweise           |
+|                        |                       | selbsterklärend aus    |
+|                        |                       | Instrument (z. B.      |
+|                        |                       | 1.1). Format: 0-9,     |
+|                        |                       | a-z, Umlaute, ß, ., -  |
++------------------------+-----------------------+------------------------+
+| instrumentNumber       | Ja                    | Nummer des             |
+|                        |                       | Instruments            |
++------------------------+-----------------------+------------------------+
+| questionsText.de/en    | Ja                    | „Übergreifender“       |
+|                        |                       | Fragetext, bei         |
+|                        |                       | Itembatterien oder     |
+|                        |                       | komplexen Fragen der   |
+|                        |                       | einleitende            |
+|                        |                       | Fragetext. Bei         |
+|                        |                       | „einfachen“            |
+|                        |                       | Fragetypen der         |
+|                        |                       | komplette Fragetext.   |
++------------------------+-----------------------+------------------------+
+| instruction.de/en      | Nein                  | wenn vorhanden,        |
+|                        |                       | Anweisungstext der     |
+|                        |                       | Frage                  |
++------------------------+-----------------------+------------------------+
+| introduction.de/en     | Nein                  | wenn vorhanden,        |
+|                        |                       | Einleitungstext der    |
+|                        |                       | Frage                  |
++------------------------+-----------------------+------------------------+
+| type.de/en             | Ja                    | de: „Einfachnennung“,  |
+|                        |                       | „Offen“,               |
+|                        |                       | „Mehrfachnennung“,     |
+|                        |                       | „Itembatterie“ oder    |
+|                        |                       | „Matrix“ (eine         |
+|                        |                       | Anleitung zur          |
+|                        |                       | Einteilung der         |
+|                        |                       | verschiedenen          |
+|                        |                       | Fragetypen kann unter  |
+|                        |                       | https://github.com/dz\ |
+|                        |                       | hw/metadatamanagement\ |
+|                        |                       | /files/1421895/Anleit\ |
+|                        |                       | ung_Vergabe_Fragetype\ |
+|                        |                       | n.docx                 |
+|                        |                       | gefunden werden)       |
+|                        |                       |                        |
+|                        |                       | en: „Single Choice“,   |
+|                        |                       | „Open“, „Multiple      |
+|                        |                       | Choice“, „Item Set“    |
+|                        |                       | or „Grid“.             |
++------------------------+-----------------------+------------------------+
+| topic.de/en            | Nein                  | Themenblock, in dem    |
+|                        |                       | die Frage im           |
+|                        |                       | Instrument             |
+|                        |                       | eingeordnet ist        |
+|                        |                       | (idealerweise direkt   |
+|                        |                       | aus Instrument         |
+|                        |                       | entnehmbar)            |
++------------------------+-----------------------+------------------------+
+| successorNumbers       | Nein                  | Fragenummern der       |
+|                        |                       | nachfolgenden          |
+|                        |                       | Frage(n) (Angabe in    |
+|                        |                       | einer Zeile durch      |
+|                        |                       | Komma getrennt)        |
++------------------------+-----------------------+------------------------+
+| technicalRepresentati\ | x\*                   | Herkunft des           |
+| on.type                |                       | Codeschnipsels (z. B.  |
+|                        |                       | „ZOFAR-Question        |
+|                        |                       | Markup Language“)      |
++------------------------+-----------------------+------------------------+
+| technicalRepresentati  | x\*                   | Technische Sprache     |
+| on.language            |                       | des Codeschnipsels     |
+|                        |                       | (z. B. XML)            |
++------------------------+-----------------------+------------------------+
+| technicalRepresentati\ | x\*                   | Codeschnipsel, um      |
+| on.source              |                       | Frage technisch        |
+|                        |                       | abbilden zu können     |
+|                        |                       | (z. B. QML-Schnipsel)  |
++------------------------+-----------------------+------------------------+
+| additionalQuestionTex\ | Nein                  | Weitere Ausführungen   |
+| t.de/.en               |                       | der Frage, die nicht   |
+|                        |                       | im Fragetext stehen,   |
+|                        |                       | wie z. B. der          |
+|                        |                       | Itemtext (bei          |
+|                        |                       | Itembatterien) oder    |
+|                        |                       | Antworttext (bei       |
+|                        |                       | Mehrfachnennungen).    |
+|                        |                       | Aktuell ist diese      |
+|                        |                       | Information für den    |
+|                        |                       | Nutzenden des MDM      |
+|                        |                       | nicht sichtbar,        |
+|                        |                       | sondern wird nur bei   |
+|                        |                       | einer Volltextsuche    |
+|                        |                       | berücksichtigt.        |
++------------------------+-----------------------+------------------------+
+| annotations.de/en      | Nein                  | Anmerkungen zur Frage  |
++------------------------+-----------------------+------------------------+
 
 x\* = nur, wenn technicalRepresentation vorhanden (wird dann automatisch
 von ZOFAR geliefert)
 
-+-----------------------+-----------------------+-----------------------+
++------------------------+----------------------+-----------------------+
 | **Tabellenblatt 2:                                                    |
 | images**                                                              |
-+=======================+=======================+=======================+
++========================+======================+=======================+
 | Es können mehrere                                                     |
 | Bilder eingetragen                                                    |
 | werden (= mehrere                                                     |
 | Zeilen möglich, ein                                                   |
 | Bild pro Zeile)                                                       |
-+-----------------------+-----------------------+-----------------------+
-| **Spaltenüberschrift**| **Muss ich das        | **Was muss ich        |
-|                       | ausfüllen?**          | eintragen?**          |
-+-----------------------+-----------------------+-----------------------+
-| fileName              | Ja                    | Dateiname des Bildes  |
-|                       |                       | (z.B. „1.1_1.png“)    |
-+-----------------------+-----------------------+-----------------------+
-| questionNumber        | Ja                    | Dem Bild zugeordnete  |
-|                       |                       | Fragenummer           |
-+-----------------------+-----------------------+-----------------------+
-| instrumentNumber      | Ja                    | Nummer des zum Bild   |
-|                       |                       | gehörenden            |
-|                       |                       | Instruments           |
-+-----------------------+-----------------------+-----------------------+
-| language              | Ja                    | Sprache des Bildes    |
-|                       |                       |                       |
-|                       |                       | *Bitte verwenden Sie  |
-|                       |                       | eine Abkürzung nach   |
-|                       |                       | ISO 639-1_*:           |
-|                       |                       | z. B. „de“, „en“      |
-+-----------------------+-----------------------+-----------------------+
-| indexInQuestion       | Ja                    | Auf das wievielte     |
-|                       |                       | Bild der Frage        |
-|                       |                       | bezieht sich die      |
-|                       |                       | Zeile? (Liegt pro     |
-|                       |                       | Frage nur ein Bild    |
-|                       |                       | vor, steht hier immer |
-|                       |                       | 1)                    |
-+-----------------------+-----------------------+-----------------------+
++------------------------+----------------------+-----------------------+
+| **Spaltenüberschrift** | **Muss ich das\      | **Was muss ich\       |
+|                        | ausfüllen?**         | eintragen?**          |
++------------------------+----------------------+-----------------------+
+| fileName               | Ja                   | Dateiname des Bildes  |
+|                        |                      | (z.B. „1.1_1.png“)    |
++------------------------+----------------------+-----------------------+
+| questionNumber         | Ja                   | Dem Bild zugeordnete  |
+|                        |                      | Fragenummer           |
++------------------------+----------------------+-----------------------+
+| instrumentNumber       | Ja                   | Nummer des zum Bild   |
+|                        |                      | gehörenden            |
+|                        |                      | Instruments           |
++------------------------+----------------------+-----------------------+
+| language               | Ja                   | Sprache des Bildes    |
+|                        |                      |                       |
+|                        |                      | *Bitte verwenden Sie  |
+|                        |                      | eine Abkürzung nach   |
+|                        |                      | ISO 639-1_*:          |
+|                        |                      | z. B. „de“, „en“      |
++------------------------+----------------------+-----------------------+
+| indexInQuestion        | Ja                   | Auf das wievielte     |
+|                        |                      | Bild der Frage        |
+|                        |                      | bezieht sich die      |
+|                        |                      | Zeile? (Liegt pro     |
+|                        |                      | Frage nur ein Bild    |
+|                        |                      | vor, steht hier immer |
+|                        |                      | 1)                    |
++------------------------+----------------------+-----------------------+
 
 .. _639-1: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 
@@ -916,6 +917,49 @@ Die fertig ausgefüllte Excel-Datei sowie die Bilder zu den Fragen
 speichern Sie dann in dem Ordner, den das FDZ für Sie vorbereitet hat.
 Das FDZ greift daraufhin auf die Dateien zu, verarbeitet sie weiter und
 lädt die Metadaten für die Fragenebene dann selbst ins MDM.
+
+Generierung der json Dateien mit R
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Doku befindet sich im Aufbau und ist nur für FDZ-MitarbeiterInnen relevant.
+
+Momentan liegen die Question-Exceldateien der Projekte, sowie die Skripte
+zur Erzeugung der json Dateien im Verzeichnis
+``\\faust\Abt4\FDZ\Querschnittsaufgaben\Metadaten\Erzeugen``.
+Der Aufbau ist wie folgt::
+
+   |-- Projekte
+      |-- projectName
+         |-- questions
+            |-- out
+            |-- projectName.xlsx
+   |-- Skripte
+      |-- question-generation.R
+      |-- sort-images.R
+      |-- R
+         |-- question-generation_main.R
+         |-- utils
+            |-- question-generation_functions.R
+
+
+Um json Dateien für ein neues Projekt zu erzeugen, muss zuerst ein
+Projektordner angelegt werden. Außerdem muss die Question-Exceltabelle des
+Projektes ausgefüllt werden (z.B. projectName.xlsx mit den beiden
+Tabellenblätter questions und images). Außerdem muss der Ordner out angelegt
+werden. Danach question-generation.R öffnen und bei project den Projektnamen
+anpassen, z.B. ``project <- "gra2005"``. Das Skript z.B. mit Strg+a ->
+Strg+Enter ausführen. Im Ordner out sind nun die json Dateien für den
+Import in der vorgegebenen Ordnerstruktur zu finden.
+
+**Einsortierung der Bilder in die Ordnerstruktur**
+
+Nun müssen die Bilder noch in die Ordnerstruktur eingepflegt werden.
+Dafür kann das R-Skript sort-images.R verwendet werden.
+Die pngs zu den Fragen (es können auch mehrere pngs zu einer Frage vorliegen)
+und das Tabellenblatt images der Exceltabelle werden dafür benötigt.
+Nähere Erklärungen zur Sortierung der Bilder sind im R-Skript selbst zu finden.
+
+Die fertigen jsons und Bilder können nun zu Github ins jeweilige
+``$projectname-metadata-repository`` kopiert werden.
 
 Questions (Zofar)
 ~~~~~~~~~~~~~~~~~
@@ -1021,250 +1065,250 @@ Tabellenblätter *variables* und *relatedQuestions*.
 
 Tabelle 5: Ausfüllanweisungen für die Excel-Tabelle "vimport_ds*Nr*."
 
-+-----------------------+-----------------------+-----------------------+
-| **Tabellenblatt 1:                                                    |
-| variables**                                                           |
-+=======================+=======================+=======================+
-| Es können mehrere                                                     |
-| Variablen eingetragen                                                 |
-| werden (= mehrere                                                     |
-| Zeilen möglich, eine                                                  |
-| Variable pro Zeile)                                                   |
-+-----------------------+-----------------------+-----------------------+
-| **Spaltenüberschrift**| **Muss ich das        | **Was muss ich        |
-|                       | ausfüllen?**          | eintragen?**          |
-+-----------------------+-----------------------+-----------------------+
-| name                  | Ja                    | Variablenname         |
-+-----------------------+-----------------------+-----------------------+
-| surveyNumbers         | Ja\*                  | Angabe aller der      |
-|                       |                       | Variablen zugehörigen |
-|                       |                       | Erhebungsnummern (in  |
-|                       |                       | einer Zelle durch     |
-|                       |                       | Komma getrennt)       |
-+-----------------------+-----------------------+-----------------------+
-| scaleLevel.de/.en     | Ja                    | de: „nominal“,        |
-|                       |                       | „ordinal“,            |
-|                       |                       | „intervall“ oder      |
-|                       |                       | „verhältnis“          |
-|                       |                       | en: „nominal“,        |
-|                       |                       | „ordinal“,            |
-|                       |                       | „intervall“ or        |
-|                       |                       | „ratio“               |
-+-----------------------+-----------------------+-----------------------+
-| panelIdentifier       | Nein\*                | Identifier zur        |
-|                       |                       | eindeutigen Zuordnung |
-|                       |                       | von Panelvariablen.   |
-|                       |                       | Präfix muss aus der   |
-|                       |                       | Projekt-ID + Nummer   |
-|                       |                       | des Datensatzes       |
-|                       |                       | bestehen (Beispiel:   |
-|                       |                       | *gra2005-ds1*), der   |
-|                       |                       | hintere Teil des      |
-|                       |                       | Identifiers ist       |
-|                       |                       | beliebig wählbar,     |
-|                       |                       | muss aber eindeutig   |
-|                       |                       | sein.                 |
-|                       |                       | Beispiel: Sind die    |
-|                       |                       | Variablen *astu01a*   |
-|                       |                       | und *bstu01a* aus dem |
-|                       |                       | 1. Datensatz des      |
-|                       |                       | Projekts *gra2005*    |
-|                       |                       | Panelvariablen, so    |
-|                       |                       | könnte der Identifier |
-|                       |                       | *gra2005-ds1-stu01a*  |
-|                       |                       | lauten.               |
-+-----------------------+-----------------------+-----------------------+
-| annotations.de/en     | Nein                  | Anmerkungen zur       |
-|                       |                       | Variablen             |
-+-----------------------+-----------------------+-----------------------+
-| accessWays            | Ja\*                  | Mögliche Zugangswege: |
-|                       |                       | Download-CUF,         |
-|                       |                       | Download-SUF,         |
-|                       |                       | Remote-Desktop-SUF,   |
-|                       |                       | On-Site-SUF.          |
-|                       |                       | Bei mehreren          |
-|                       |                       | Zugangswegen sind den |
-|                       |                       | verschiedenen         |
-|                       |                       | Zugangswegen          |
-|                       |                       | entsprechend Spalten  |
-|                       |                       | vorhanden, die mit    |
-|                       |                       | „nicht verfügbar im … |
-|                       |                       | “ überschrieben sind. |
-|                       |                       | Für jede Variable     |
-|                       |                       | muss dann ein „x“     |
-|                       |                       | gesetzt werden, wenn  |
-|                       |                       | diese über den        |
-|                       |                       | jeweiligen Zugangsweg |
-|                       |                       | nicht vorhanden ist.  |
-+-----------------------+-----------------------+-----------------------+
-| filterDetails.descrip\ | Nein                  | Verbalisierte         |
-| tion.de/.en           |                       | Beschreibung des      |
-|                       |                       | Variablenfilters      |
-+-----------------------+-----------------------+-----------------------+
-| filterDetails.express\ | Ja, wenn Filter       | Regel, die in der     |
-| ion [11]_             | vorhanden             | angegebenen „Sprache“ |
-|                       |                       | (.expressionLanguage) |
-|                       |                       | beschreibt, welche    |
-|                       |                       | Teilpopulation zu     |
-|                       |                       | dieser Variable hin   |
-|                       |                       | gefiltert wurde (auch |
-|                       |                       | verschachtelte        |
-|                       |                       | Filterführung wird    |
-|                       |                       | beachtet (PAPI))      |
-+-----------------------+-----------------------+-----------------------+
-| filterDetails.express\ | Ja, wenn Filter       | Sprache des           |
-| ionLanguage [12]_     | vorhanden             | Filterausdrucks:      |
-|                       |                       | „Stata“               |
-+-----------------------+-----------------------+-----------------------+
-| generationDetails.des\ | Nein                  | Beschreibung, wie die |
-| cription.de/.en       |                       | Variable erzeugt      |
-|                       |                       | wurde, wenn sie nicht |
-|                       |                       | direkt aus dem        |
-|                       |                       | Fragebogen abgelesen  |
-|                       |                       | werden kann           |
-|                       |                       | (`Beispiel <https://m |
-|                       |                       | etadata.fdz.dzhw.eu/# |
-|                       |                       | !/de/variables/var-gr |
-|                       |                       | a2005-ds1-aocc221j_g1 |
-|                       |                       | r$?search-result-inde |
-|                       |                       | x=1>`__,              |
-|                       |                       | siehe Abschnitt       |
-|                       |                       | "Generierungsdetails")|
-+-----------------------+-----------------------+-----------------------+
-| generationDetails.rul\ | Ja, wenn Variable     | Regel, die in der     |
-| e                     | generiert             | angegebenen „Sprache“ |
-|                       |                       | (.ruleExpressionLangu |
-|                       |                       | age)                  |
-|                       |                       | beschreibt, wie die   |
-|                       |                       | Variable erzeugt      |
-|                       |                       | wurde                 |
-|                       |                       | (`Beispiel <https://m |
-|                       |                       | etadata.fdz.dzhw.eu/# |
-|                       |                       | !/de/variables/var-gr |
-|                       |                       | a2005-ds1-afec021k_g2 |
-|                       |                       | $?search-result-index |
-|                       |                       | =1>`__,               |
-|                       |                       | siehe Abschnitt       |
-|                       |                       | „Generierungsregel    |
-|                       |                       | (Stata)“)             |
-+-----------------------+-----------------------+-----------------------+
-| generationDetails.rul | Ja, wenn Variable     | Sprache der           |
-| eExpressionLanguage   | generiert             | Erzeugungsregel:      |
-|                       |                       | „Stata“ oder „R“      |
-+-----------------------+-----------------------+-----------------------+
-| derivedVariablesIdent\ | Nein\*                | Identifier zur        |
-| ifier                 |                       | eindeutigen Zuordnung |
-|                       |                       | von abgeleiteten      |
-|                       |                       | Variablen. Präfix     |
-|                       |                       | muss aus der          |
-|                       |                       | Projekt-ID + Nummer   |
-|                       |                       | des Datensatzes       |
-|                       |                       | bestehen (Beispiel:   |
-|                       |                       | *gra2005-ds1*), der   |
-|                       |                       | hintere Teil des      |
-|                       |                       | Identifiers ist frei  |
-|                       |                       | wählbar, muss aber    |
-|                       |                       | eindeutig sein.       |
-|                       |                       |                       |
-|                       |                       | Beispiel: Wurde die   |
-|                       |                       | Variable *astu01a_g1* |
-|                       |                       | aus *astu01a*         |
-|                       |                       | abgeleitet, so könnte |
-|                       |                       | der Identifier        |
-|                       |                       | *gra2005-ds1-astu*    |
-|                       |                       | lauten.               |
-|                       |                       |                       |
-|                       |                       | Wichtig: Alle         |
-|                       |                       | Variablen, aus denen  |
-|                       |                       | die abgeleitete       |
-|                       |                       | Variable entstanden   |
-|                       |                       | ist, müssen           |
-|                       |                       | berücksichtigt werden |
-|                       |                       | (sowohl aufwärts als  |
-|                       |                       | auch abwärts).        |
-|                       |                       |                       |
-|                       |                       | Beispiel: Von der     |
-|                       |                       | tatsächlichen         |
-|                       |                       | Hochschule wird       |
-|                       |                       | sowohl der            |
-|                       |                       | Hochschulort          |
-|                       |                       | (West-/Ostdeutschland |
-|                       |                       | )                     |
-|                       |                       | als auch der          |
-|                       |                       | Hochschulort nach     |
-|                       |                       | Bundesländern         |
-|                       |                       | abgeleitet.           |
-+-----------------------+-----------------------+-----------------------+
-| doNotDisplayThousands\ | Nein                  | Wenn bei der Anzeige  |
-| Seperator             |                       | der Werte einer       |
-|                       |                       | Variablen *keine*     |
-|                       |                       | Tausendertrennzeichen |
-|                       |                       | angezeigt werden      |
-|                       |                       | sollen, muss hier     |
-|                       |                       | "true" angezeigt      |
-|                       |                       | werden (z. B.         |
-|                       |                       | Jahreszahlen). Bleibt |
-|                       |                       | das Feld leer, wird   |
-|                       |                       | dies als "false"      |
-|                       |                       | interpretiert, d.h.   |
-|                       |                       | es werden             |
-|                       |                       | Tausendertrennzeichen |
-|                       |                       | angezeigt.            |
-+-----------------------+-----------------------+-----------------------+
++------------------------+-----------------------+------------------------+
+| **Tabellenblatt 1:                                                      |
+| variables**                                                             |
++========================+=======================+========================+
+| Es können mehrere                                                       |
+| Variablen eingetragen                                                   |
+| werden (= mehrere                                                       |
+| Zeilen möglich, eine                                                    |
+| Variable pro Zeile)                                                     |
++------------------------+-----------------------+------------------------+
+| **Spaltenüberschrift** | **Muss ich das        | **Was muss ich         |
+|                        | ausfüllen?**          | eintragen?**           |
++------------------------+-----------------------+------------------------+
+| name                   | Ja                    | Variablenname          |
++------------------------+-----------------------+------------------------+
+| surveyNumbers          | Ja\*                  | Angabe aller der       |
+|                        |                       | Variablen zugehörigen  |
+|                        |                       | Erhebungsnummern (in   |
+|                        |                       | einer Zelle durch      |
+|                        |                       | Komma getrennt)        |
++------------------------+-----------------------+------------------------+
+| scaleLevel.de/.en      | Ja                    | de: „nominal“,         |
+|                        |                       | „ordinal“,             |
+|                        |                       | „intervall“ oder       |
+|                        |                       | „verhältnis“           |
+|                        |                       | en: „nominal“,         |
+|                        |                       | „ordinal“,             |
+|                        |                       | „intervall“ or         |
+|                        |                       | „ratio“                |
++------------------------+-----------------------+------------------------+
+| panelIdentifier        | Nein\*                | Identifier zur         |
+|                        |                       | eindeutigen Zuordnung  |
+|                        |                       | von Panelvariablen.    |
+|                        |                       | Präfix muss aus der    |
+|                        |                       | Projekt-ID + Nummer    |
+|                        |                       | des Datensatzes        |
+|                        |                       | bestehen (Beispiel:    |
+|                        |                       | *gra2005-ds1*), der    |
+|                        |                       | hintere Teil des       |
+|                        |                       | Identifiers ist        |
+|                        |                       | beliebig wählbar,      |
+|                        |                       | muss aber eindeutig    |
+|                        |                       | sein.                  |
+|                        |                       | Beispiel: Sind die     |
+|                        |                       | Variablen *astu01a*    |
+|                        |                       | und *bstu01a* aus dem  |
+|                        |                       | 1. Datensatz des       |
+|                        |                       | Projekts *gra2005*     |
+|                        |                       | Panelvariablen, so     |
+|                        |                       | könnte der Identifier  |
+|                        |                       | *gra2005-ds1-stu01a*   |
+|                        |                       | lauten.                |
++------------------------+-----------------------+------------------------+
+| annotations.de/en      | Nein                  | Anmerkungen zur        |
+|                        |                       | Variablen              |
++------------------------+-----------------------+------------------------+
+| accessWays             | Ja\*                  | Mögliche Zugangswege:  |
+|                        |                       | Download-CUF,          |
+|                        |                       | Download-SUF,          |
+|                        |                       | Remote-Desktop-SUF,    |
+|                        |                       | On-Site-SUF.           |
+|                        |                       | Bei mehreren           |
+|                        |                       | Zugangswegen sind den  |
+|                        |                       | verschiedenen          |
+|                        |                       | Zugangswegen           |
+|                        |                       | entsprechend Spalten   |
+|                        |                       | vorhanden, die mit     |
+|                        |                       | „nicht verfügbar im …  |
+|                        |                       | “ überschrieben sind.  |
+|                        |                       | Für jede Variable      |
+|                        |                       | muss dann ein „x“      |
+|                        |                       | gesetzt werden, wenn   |
+|                        |                       | diese über den         |
+|                        |                       | jeweiligen Zugangsweg  |
+|                        |                       | nicht vorhanden ist.   |
++------------------------+-----------------------+------------------------+
+| filterDetails.descrip\ | Nein                  | Verbalisierte          |
+| tion.de/.en            |                       | Beschreibung des       |
+|                        |                       | Variablenfilters       |
++------------------------+-----------------------+------------------------+
+| filterDetails.express\ | Ja, wenn Filter       | Regel, die in der      |
+| ion [11]_              | vorhanden             | angegebenen „Sprache“  |
+|                        |                       | (.expressionLanguage)  |
+|                        |                       | beschreibt, welche     |
+|                        |                       | Teilpopulation zu      |
+|                        |                       | dieser Variable hin    |
+|                        |                       | gefiltert wurde (auch  |
+|                        |                       | verschachtelte         |
+|                        |                       | Filterführung wird     |
+|                        |                       | beachtet (PAPI))       |
++------------------------+-----------------------+------------------------+
+| filterDetails.express\ | Ja, wenn Filter       | Sprache des            |
+| ionLanguage [12]_      | vorhanden             | Filterausdrucks:       |
+|                        |                       | „Stata“                |
++------------------------+-----------------------+------------------------+
+| generationDetails.des\ | Nein                  | Beschreibung, wie die  |
+| cription.de/.en        |                       | Variable erzeugt       |
+|                        |                       | wurde, wenn sie nicht  |
+|                        |                       | direkt aus dem         |
+|                        |                       | Fragebogen abgelesen   |
+|                        |                       | werden kann            |
+|                        |                       | (`Beispiel <https://m\ |
+|                        |                       | etadata.fdz.dzhw.eu/#\ |
+|                        |                       | !/de/variables/var-gr\ |
+|                        |                       | a2005-ds1-aocc221j_g1\ |
+|                        |                       | r$?search-result-inde\ |
+|                        |                       | x=1>`__,               |
+|                        |                       | siehe Abschnitt        |
+|                        |                       | "Generierungsdetails") |
++------------------------+-----------------------+------------------------+
+| generationDetails.rul\ | Ja, wenn Variable     | Regel, die in der      |
+| e                      | generiert             | angegebenen „Sprache“  |
+|                        |                       | (.ruleExpressionLangu  |
+|                        |                       | age)                   |
+|                        |                       | beschreibt, wie die    |
+|                        |                       | Variable erzeugt       |
+|                        |                       | wurde                  |
+|                        |                       | (`Beispiel <https://m\ |
+|                        |                       | etadata.fdz.dzhw.eu/#\ |
+|                        |                       | !/de/variables/var-gr\ |
+|                        |                       | a2005-ds1-afec021k_g2\ |
+|                        |                       | $?search-result-index\ |
+|                        |                       | =1>`__,                |
+|                        |                       | siehe Abschnitt        |
+|                        |                       | „Generierungsregel     |
+|                        |                       | (Stata)“)              |
++------------------------+-----------------------+------------------------+
+| generationDetails.rul\ | Ja, wenn Variable     | Sprache der            |
+| eExpressionLanguage    | generiert             | Erzeugungsregel:       |
+|                        |                       | „Stata“ oder „R“       |
++------------------------+-----------------------+------------------------+
+| derivedVariablesIdent\ | Nein\*                | Identifier zur         |
+| ifier                  |                       | eindeutigen Zuordnung  |
+|                        |                       | von abgeleiteten       |
+|                        |                       | Variablen. Präfix      |
+|                        |                       | muss aus der           |
+|                        |                       | Projekt-ID + Nummer    |
+|                        |                       | des Datensatzes        |
+|                        |                       | bestehen (Beispiel:    |
+|                        |                       | *gra2005-ds1*), der    |
+|                        |                       | hintere Teil des       |
+|                        |                       | Identifiers ist frei   |
+|                        |                       | wählbar, muss aber     |
+|                        |                       | eindeutig sein.        |
+|                        |                       |                        |
+|                        |                       | Beispiel: Wurde die    |
+|                        |                       | Variable *astu01a_g1*  |
+|                        |                       | aus *astu01a*          |
+|                        |                       | abgeleitet, so könnte  |
+|                        |                       | der Identifier         |
+|                        |                       | *gra2005-ds1-astu*     |
+|                        |                       | lauten.                |
+|                        |                       |                        |
+|                        |                       | Wichtig: Alle          |
+|                        |                       | Variablen, aus denen   |
+|                        |                       | die abgeleitete        |
+|                        |                       | Variable entstanden    |
+|                        |                       | ist, müssen            |
+|                        |                       | berücksichtigt werden  |
+|                        |                       | (sowohl aufwärts als   |
+|                        |                       | auch abwärts).         |
+|                        |                       |                        |
+|                        |                       | Beispiel: Von der      |
+|                        |                       | tatsächlichen          |
+|                        |                       | Hochschule wird        |
+|                        |                       | sowohl der             |
+|                        |                       | Hochschulort           |
+|                        |                       | (West-/Ostdeutschland  |
+|                        |                       | )                      |
+|                        |                       | als auch der           |
+|                        |                       | Hochschulort nach      |
+|                        |                       | Bundesländern          |
+|                        |                       | abgeleitet.            |
++------------------------+-----------------------+------------------------+
+| doNotDisplayThousands\ | Nein                  | Wenn bei der Anzeige   |
+| Seperator              |                       | der Werte einer        |
+|                        |                       | Variablen *keine*      |
+|                        |                       | Tausendertrennzeichen  |
+|                        |                       | angezeigt werden       |
+|                        |                       | sollen, muss hier      |
+|                        |                       | "true" angezeigt       |
+|                        |                       | werden (z. B.          |
+|                        |                       | Jahreszahlen). Bleibt  |
+|                        |                       | das Feld leer, wird    |
+|                        |                       | dies als "false"       |
+|                        |                       | interpretiert, d.h.    |
+|                        |                       | es werden              |
+|                        |                       | Tausendertrennzeichen  |
+|                        |                       | angezeigt.             |
++------------------------+-----------------------+------------------------+
 
 \* Wenn eigene Konventionen verwendet werden, muss das Feld manuell
 ausgefüllt werden. Bei Verwendung von FDZ-eigenen Schemata kann dieses
 Feld auch leer gelassen werden.
 
-+-----------------------+-----------------------+-----------------------+
-| **Tabellenblatt 2:                                                    |
-| relatedQuestions**                                                    |
-+=======================+=======================+=======================+
-| **Variablen, die mit                                                  |
-| mehreren Fragen                                                       |
-| verbunden sind,                                                       |
-| können mehrfach                                                       |
-| aufgeführt werden.                                                    |
-| Variablen, die keiner                                                 |
-| Frage (oder keinem                                                    |
-| Instrument)                                                           |
-| zugeordnet sind,                                                      |
-| müssen nicht                                                          |
-| eingetragen werden.**                                                 |
-+-----------------------+-----------------------+-----------------------+
-| Es können mehrere                                                     |
-| verbundene Fragen                                                     |
-| eingetragen werden (=                                                 |
-| mehrere Zeilen, eine                                                  |
-| verbundene Frage pro                                                  |
-| Zeile)                                                                |
-+-----------------------+-----------------------+-----------------------+
-| **Spaltenüberschrift**| **Muss ich das        | **Was muss ich        |
-|                       | ausfüllen?**          | eintragen?**          |
-+-----------------------+-----------------------+-----------------------+
-| name                  | Ja                    | Variablenname         |
-+-----------------------+-----------------------+-----------------------+
++------------------------+-----------------------+-----------------------+
+| **Tabellenblatt 2:                                                     |
+| relatedQuestions**                                                     |
++========================+=======================+=======================+
+| **Variablen, die mit                                                   |
+| mehreren Fragen                                                        |
+| verbunden sind,                                                        |
+| können mehrfach                                                        |
+| aufgeführt werden.                                                     |
+| Variablen, die keiner                                                  |
+| Frage (oder keinem                                                     |
+| Instrument)                                                            |
+| zugeordnet sind,                                                       |
+| müssen nicht                                                           |
+| eingetragen werden.**                                                  |
++------------------------+-----------------------+-----------------------+
+| Es können mehrere                                                      |
+| verbundene Fragen                                                      |
+| eingetragen werden (=                                                  |
+| mehrere Zeilen, eine                                                   |
+| verbundene Frage pro                                                   |
+| Zeile)                                                                 |
++------------------------+-----------------------+-----------------------+
+| **Spaltenüberschrift** | **Muss ich das        | **Was muss ich        |
+|                        | ausfüllen?**          | eintragen?**          |
++------------------------+-----------------------+-----------------------+
+| name                   | Ja                    | Variablenname         |
++------------------------+-----------------------+-----------------------+
 | relatedQuestionString\ | Nein                  | Text, der den         |
-| s.de/.en              |                       | Frageinhalt der       |
-|                       |                       | Variable darstellt.   |
-|                       |                       | Also Fragetext der    |
-|                       |                       | dazugehörigen Frage   |
-|                       |                       | plus evtl. weitere    |
-|                       |                       | Ausführungen wie      |
-|                       |                       | bspw. der Itemtext    |
-|                       |                       | (bei Itembatterien)   |
-|                       |                       | oder der Antworttext  |
-|                       |                       | (bei Einfach- oder    |
-|                       |                       | Mehrfachnennungen)    |
-+-----------------------+-----------------------+-----------------------+
-| questionNumber        | Ja                    | Nummer der zur        |
-|                       |                       | Variablen zugehörigen |
-|                       |                       | Frage im Fragebogen   |
-+-----------------------+-----------------------+-----------------------+
-| instrumentNumber      | Ja                    | Nummer des zur        |
-|                       |                       | Variablen zugehörigen |
-|                       |                       | Fragebogens           |
-+-----------------------+-----------------------+-----------------------+
+| s.de/.en               |                       | Frageinhalt der       |
+|                        |                       | Variable darstellt.   |
+|                        |                       | Also Fragetext der    |
+|                        |                       | dazugehörigen Frage   |
+|                        |                       | plus evtl. weitere    |
+|                        |                       | Ausführungen wie      |
+|                        |                       | bspw. der Itemtext    |
+|                        |                       | (bei Itembatterien)   |
+|                        |                       | oder der Antworttext  |
+|                        |                       | (bei Einfach- oder    |
+|                        |                       | Mehrfachnennungen)    |
++------------------------+-----------------------+-----------------------+
+| questionNumber         | Ja                    | Nummer der zur        |
+|                        |                       | Variablen zugehörigen |
+|                        |                       | Frage im Fragebogen   |
++------------------------+-----------------------+-----------------------+
+| instrumentNumber       | Ja                    | Nummer des zur        |
+|                        |                       | Variablen zugehörigen |
+|                        |                       | Fragebogens           |
++------------------------+-----------------------+-----------------------+
 
 Dem Namen entsprechend wird aus den Informationen des zweiten
 Tabellenblatts die Verknüpfung zwischen einer Variablen und der
@@ -1273,7 +1317,7 @@ nachvollziehbare Dokumentation dieser Verbindung ist die Erstellung
 eines Variablenfragebogens sehr hilfreich. Aus diesem kann die
 Verknüpfung aus Variable und Frage problemlos abgelesen werden.
 :numref:`ausschnitt_variablenfragebogen` zeigt beispielhaft, dass den Variablen
-	*astu08a* bis *astu08e* die Frage 1.8 zugeordnet ist.
+*astu08a* bis *astu08e* die Frage 1.8 zugeordnet ist.
 
 .. figure:: ./_static/36_de.png
    :name: ausschnitt_variablenfragebogen
