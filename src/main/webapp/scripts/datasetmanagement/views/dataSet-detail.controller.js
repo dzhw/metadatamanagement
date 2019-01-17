@@ -1,14 +1,17 @@
+/* global _ */
 'use strict';
 
 angular.module('metadatamanagementApp')
   .controller('DataSetDetailController',
     function(entity, Principal,
-      VariableSearchService,
+      VariableSearchService, ProjectUpdateAccessService,
       DataSetSearchService, DataSetReportService, PageTitleService,
       LanguageService, $state, ToolbarHeaderService, CleanJSObjectService,
       SimpleMessageToastService, DataSetAttachmentResource,
       DataSetCitateDialogService, SearchResultNavigatorService, $stateParams,
-      ProductChooserDialogService, DataAcquisitionProjectResource) {
+      ProductChooserDialogService, DataAcquisitionProjectResource, $scope,
+      $transitions) {
+
       SearchResultNavigatorService.registerCurrentSearchResult(
           $stateParams['search-result-index']);
       var ctrl = this;
@@ -32,6 +35,22 @@ angular.module('metadatamanagementApp')
         'nestedRelatedPublications',
         'nestedSurveys'
       ];
+
+      var setupTransitionHook = function(project) {
+        var deregisterTransitionHook = $transitions
+          .onBefore({state: 'dataSetDetail'}, function(transition) {
+            var identifier = _.get(transition, '_targetState._identifier');
+            if (identifier === 'dataSetEdit') {
+              return ProjectUpdateAccessService
+                .isUpdateAllowed(project, 'data_sets', true);
+            } else {
+              return true;
+            }
+          });
+
+        $scope.$on('$destroy', deregisterTransitionHook);
+      };
+
       entity.promise.then(function(result) {
         if (Principal
             .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
@@ -39,13 +58,15 @@ angular.module('metadatamanagementApp')
             id: result.dataAcquisitionProjectId
           }).$promise.then(function(project) {
             ctrl.projectIsCurrentlyReleased = (project.release != null);
+            ctrl.assigneeGroup = project.assigneeGroup;
+            setupTransitionHook(project);
           });
         }
-        var currenLanguage = LanguageService.getCurrentInstantly();
-        var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';
+        var currentLanguage = LanguageService.getCurrentInstantly();
+        var secondLanguage = currentLanguage === 'de' ? 'en' : 'de';
         PageTitleService.setPageTitle('data-set-management.detail.title', {
-          description: result.description[currenLanguage] ? result
-          .description[currenLanguage] : result.description[secondLanguage],
+          description: result.description[currentLanguage] ? result
+          .description[currentLanguage] : result.description[secondLanguage],
           dataSetId: result.id
         });
         ToolbarHeaderService.updateToolbarHeader({

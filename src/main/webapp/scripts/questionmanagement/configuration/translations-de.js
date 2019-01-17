@@ -183,6 +183,9 @@ angular.module('metadatamanagementApp').config(
             'non-unique-question-number-in-instrument': 'Die Frage {{id}} mit der Nummer {{additionalId}} ist nicht eindeutig innerhalb des Instruments {{toBereferenzedId}}.',
             'question-has-no-image': 'Bei der Frage {{id}} kann kein dazugehöriges Bild gefunden werden.'
           }
+        },
+        'edit': {
+          'all-questions-deleted-toast': 'Alle Fragen des Datenaufbereitungsprojekts "{{id}}" wurden gelöscht.'
         }
       }
       //jscs:enable

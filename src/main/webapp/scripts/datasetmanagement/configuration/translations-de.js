@@ -150,6 +150,7 @@ angular.module('metadatamanagementApp').config(
         'error': {
           'files-in-template-zip-incomplete': 'Die bereitgestellten Dateien für die Erzeugung eines Datensatzreports sind unvollständig. Es fehlte die Datei: {{invalidValue}}',
           'tex-template-error': 'Die Generierung eines Datensatzreports war nicht erfolgreich. Folgender Fehler trat auf: {{invalidValue}}',
+          'io-error': 'Ein Serverfehler ist aufgetreten. Der Report konnte nicht erzeugt werden.',
           'data-set': {
             'unique-data-set-number-in-project': 'Die Nummer des Datensatzes in innerhalb der Studie nicht eindeutig.',
             'id': {
@@ -326,7 +327,8 @@ angular.module('metadatamanagementApp').config(
                   'en': 'Wie soll der Subdatensatz zitiert werden?'
                 }
               }
-            }
+            },
+            'all-data-sets-deleted-toast': 'Alle Datensätze des Datenaufbereitungsprojekts "{{id}}" wurden gelöscht.'
           }
         }
       //jscs:enable

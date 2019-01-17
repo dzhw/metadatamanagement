@@ -281,7 +281,9 @@ module.exports = function(grunt) {
               'length.',
               'Bad value “mailto:{{user.email}}” for attribute “href” on' +
               ' element “a”: Illegal character in scheme data: “{” is not' +
-              ' allowed.'
+              ' allowed.',
+              'Attribute “layout-wrap” not allowed on element' +
+              ' “div” at this point.'
             ],
             customattrs: [
               'show-validation',

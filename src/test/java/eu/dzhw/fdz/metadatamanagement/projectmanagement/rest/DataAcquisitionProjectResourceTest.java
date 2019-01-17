@@ -1,14 +1,19 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.rest;
 
-import eu.dzhw.fdz.metadatamanagement.AbstractTest;
-import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
-import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
-import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Requirements;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,21 +24,16 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
+import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
+import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.AssigneeGroup;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 /**
  * Test the REST API for {@link DataAcquisitionProject}s.
@@ -58,9 +58,9 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
 
   @Autowired
   private JaversService javersService;
-
+ 
   @Autowired
-  private DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
+  private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
 
   @Before
   public void setup() {
@@ -71,6 +71,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
   public void cleanUp() {
     rdcProjectRepository.deleteAll();
     javersService.deleteAll();
+    elasticsearchUpdateQueueItemRepository.deleteAll();
   }
 
   @Test
@@ -113,7 +114,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     //delete not created project
     mockMvc.perform(delete(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
         .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
-    
+
     // create the project with the given id
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
         .contentType(MediaType.APPLICATION_JSON)
@@ -236,7 +237,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     shouldNotBeFound.setId("shouldnotbefoundid");
     shouldNotBeFound.setConfiguration(shouldNotBeFoundConfiguration);
 
-    dataAcquisitionProjectRepository.saveAll(Arrays.asList(shouldBeFound, shouldNotBeFound));
+    rdcProjectRepository.saveAll(Arrays.asList(shouldBeFound, shouldNotBeFound));
 
     mockMvc
         .perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/search/findByIdLikeOrderByIdAsc")
@@ -264,7 +265,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     projectB.setId("b");
     projectB.setConfiguration(configurationB);
 
-    dataAcquisitionProjectRepository.saveAll(Arrays.asList(projectA, projectB));
+    rdcProjectRepository.saveAll(Arrays.asList(projectA, projectB));
 
     mockMvc.perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/search/findByIdLikeOrderByIdAsc"))
         .andExpect(status().isOk()).andExpect(jsonPath("$.length()", equalTo(2)))
@@ -282,7 +283,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.setConfiguration(configuration);
 
-    dataAcquisitionProjectRepository.save(project);
+    rdcProjectRepository.save(project);
 
     mockMvc.perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId()))
         .andExpect(status().isOk()).andExpect(jsonPath("$.id", equalTo(project.getId())));
@@ -298,7 +299,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.setConfiguration(configuration);
 
-    dataAcquisitionProjectRepository.save(project);
+    rdcProjectRepository.save(project);
 
     mockMvc.perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId()))
         .andExpect(status().isNotFound());
@@ -306,15 +307,14 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
 
   /**
    * test the user implemented parts of save project
-   *
    * @throws Exception
    */
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testSaveProjectWithEmptyPublishers() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
- // create the project with the given id
-    dataAcquisitionProjectRepository.insert(project);
+    // create the project with the given id
+    rdcProjectRepository.insert(project);
     Configuration invalidConf = new Configuration();
     project.setConfiguration(invalidConf);
     mockMvc
@@ -323,21 +323,22 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
             .content(TestUtil.convertObjectToJsonBytes(project)))
         .andExpect(status().isBadRequest());
   }
+
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.DATA_PROVIDER)
   public void testSaveProjectWithInvalidConfigAsProvider() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.getConfiguration().setDataProviders(Arrays.asList("dataprovider"));
     mockMvc
-    .perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
-        .contentType(MediaType.APPLICATION_JSON)
-        .content(TestUtil.convertObjectToJsonBytes(project)))
-    .andExpect(status().isBadRequest());
+        .perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(project)))
+        .andExpect(status().isBadRequest());
     // create the project with the given id
-    dataAcquisitionProjectRepository.insert(project);
-    Configuration invalidConf = new Configuration(
-        project.getConfiguration().getPublishers(), Collections.emptyList(), new Requirements()
-    );
+    rdcProjectRepository.insert(project);
+    new Configuration();
+    Configuration invalidConf = Configuration.builder().publishers(
+        project.getConfiguration().getPublishers()).dataProviders(Collections.emptyList()).build();
     project.setConfiguration(invalidConf);
     //update with invalid conf -- no dataprovider
     mockMvc
@@ -366,7 +367,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.setConfiguration(configuration);
 
-    dataAcquisitionProjectRepository.save(project);
+    rdcProjectRepository.save(project);
 
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
         .content(TestUtil.convertObjectToJsonBytes(project))
@@ -385,9 +386,58 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.setConfiguration(configuration);
 
-    project = dataAcquisitionProjectRepository.save(project);
+    project = rdcProjectRepository.save(project);
 
     project.getConfiguration().getRequirements().setDataSetsRequired(true);
+
+    mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
+        .content(TestUtil.convertObjectToJsonBytes(project))
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.DATA_PROVIDER, username = DATA_PROVIDER_USERNAME)
+  public void testUpdatDataAcquisitionProject_valid_assignee_group() throws Exception {
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    project.setAssigneeGroup(AssigneeGroup.DATA_PROVIDER);
+    project.setLastAssigneeGroupMessage("test");
+
+    project = rdcProjectRepository.save(project);
+
+    mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
+        .content(TestUtil.convertObjectToJsonBytes(project))
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNoContent());
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = PUBLISHER_USERNAME)
+  public void testUpdatDataAcquisitionProject_override_as_publisher() throws Exception {
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    project.getConfiguration().setPublishers(Collections.singletonList(PUBLISHER_USERNAME));
+    project.setAssigneeGroup(AssigneeGroup.DATA_PROVIDER);
+
+    project = rdcProjectRepository.save(project);
+
+    project.setAssigneeGroup(AssigneeGroup.PUBLISHER);
+
+    mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
+        .content(TestUtil.convertObjectToJsonBytes(project))
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNoContent());
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.DATA_PROVIDER, username = DATA_PROVIDER_USERNAME)
+  public void testUpdatDataAcquisitionProject_invalid_assignee_group() throws Exception {
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    project.setAssigneeGroup(AssigneeGroup.PUBLISHER);
+    project.setLastAssigneeGroupMessage("test");
+
+    project = rdcProjectRepository.save(project);
+
+    project.setAssigneeGroup(AssigneeGroup.DATA_PROVIDER);
 
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
         .content(TestUtil.convertObjectToJsonBytes(project))

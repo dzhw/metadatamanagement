@@ -1,13 +1,12 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
-import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
-import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.HandleBeforeSave;
@@ -18,14 +17,20 @@ import org.springframework.data.rest.core.event.BeforeDeleteEvent;
 import org.springframework.data.rest.core.event.BeforeSaveEvent;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
+import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
+import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.AssigneeGroup;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
 
 /**
  * Service class for the Data Acquisition Project. Handles calls to the mongo db.
+ * 
  * @author Daniel Katzberg
  */
 @Service
@@ -50,12 +55,10 @@ public class DataAcquisitionProjectService {
    * Creates a new {@link DataAcquisitionProjectService} instance.
    */
   public DataAcquisitionProjectService(DataAcquisitionProjectRepository dataAcquisitionProjectRepo,
-                                       ApplicationEventPublisher applicationEventPublisher,
-                                       UserInformationProvider userInformationProvider,
-                                       DataAcquisitionProjectChangesProvider changesProvider,
-                                       UserRepository userRepository,
-                                       MailService mailService,
-                                       MetadataManagementProperties metadataManagementProperties) {
+      ApplicationEventPublisher applicationEventPublisher,
+      UserInformationProvider userInformationProvider,
+      DataAcquisitionProjectChangesProvider changesProvider, UserRepository userRepository,
+      MailService mailService, MetadataManagementProperties metadataManagementProperties) {
     this.acquisitionProjectRepository = dataAcquisitionProjectRepo;
     this.eventPublisher = applicationEventPublisher;
     this.userInformationProvider = userInformationProvider;
@@ -78,12 +81,13 @@ public class DataAcquisitionProjectService {
 
   /**
    * Deletes a Data Acquisition Project, it it hasn't been released before.
+   * 
    * @param dataAcquisitionProject A representation of the Data Acquisition Project.
    * @return True = The Project is deleted. False = The Project is not deleted.
    */
   public boolean deleteDataAcquisitionProject(DataAcquisitionProject dataAcquisitionProject) {
 
-    //just delete project, if it has not been released before.
+    // just delete project, if it has not been released before.
     if (!dataAcquisitionProject.getHasBeenReleasedBefore()) {
       this.eventPublisher.publishEvent(new BeforeDeleteEvent(dataAcquisitionProject));
       this.acquisitionProjectRepository.delete(dataAcquisitionProject);
@@ -94,8 +98,9 @@ public class DataAcquisitionProjectService {
   }
 
   /**
-   * Searches for {@link DataAcquisitionProject} items for the given id. The result
-   * may be limited if the current user is not an admin or publisher.
+   * Searches for {@link DataAcquisitionProject} items for the given id. The result may be limited
+   * if the current user is not an admin or publisher.
+   * 
    * @param projectId Project id
    * @return A list of {@link DataAcquisitionProject}
    */
@@ -105,10 +110,8 @@ public class DataAcquisitionProjectService {
     if (isAdmin() || isPublisher()) {
       return acquisitionProjectRepository.findByIdLikeOrderByIdAsc(projectId);
     } else {
-      return acquisitionProjectRepository.findAllByIdLikeAndPublisherIdOrderByIdAsc(
-          projectId,
-          loginName
-      );
+      return acquisitionProjectRepository.findAllByIdLikeAndPublisherIdOrderByIdAsc(projectId,
+          loginName);
     }
   }
 
@@ -116,9 +119,10 @@ public class DataAcquisitionProjectService {
    * Searches for a {@link DataAcquisitionProject} with the given id. The result depends on the
    * user's role. Publishers and administrators find everything (provided the project with the given
    * id exists). In all other cases the user must be a data provider for the requested project.
+   * 
    * @param projectId Project id
    * @return Optional of {@link DataAcquisitionProject}, might contain {@code null} if the project
-   *     doesn't exist or if the user has insufficient access rights.
+   *         doesn't exist or if the user has insufficient access rights.
    */
   public Optional<DataAcquisitionProject> findDataAcquisitionProjectById(String projectId) {
     String loginName = userInformationProvider.getUserLogin();
@@ -126,10 +130,7 @@ public class DataAcquisitionProjectService {
     if (isAdmin() || isPublisher()) {
       return acquisitionProjectRepository.findById(projectId);
     } else {
-      return acquisitionProjectRepository.findByProjectIdAndDataProviderId(
-          projectId,
-          loginName
-      );
+      return acquisitionProjectRepository.findByProjectIdAndDataProviderId(projectId, loginName);
     }
   }
 
@@ -143,21 +144,74 @@ public class DataAcquisitionProjectService {
 
   @HandleBeforeSave
   void onHandleBeforeSave(DataAcquisitionProject newDataAcquisitionProject) {
-    Optional<DataAcquisitionProject> oldProject = acquisitionProjectRepository
-        .findById(newDataAcquisitionProject.getId());
+    Optional<DataAcquisitionProject> oldProject =
+        acquisitionProjectRepository.findById(newDataAcquisitionProject.getId());
     changesProvider.put(oldProject.orElse(null), newDataAcquisitionProject);
   }
 
   @HandleAfterSave
   void onHandleAfterSave(DataAcquisitionProject newDataAcquisitionProject) {
     final String projectId = newDataAcquisitionProject.getId();
+    sendPublishersDataProvidersChangedMails(projectId);
+    sendAssigneeGroupChangedMails(newDataAcquisitionProject);
+  }
 
+  private void sendAssigneeGroupChangedMails(DataAcquisitionProject newDataAcquisitionProject) {
+    String projectId = newDataAcquisitionProject.getId();
+    String sender = metadataManagementProperties.getProjectManagement().getEmail();
+    if (changesProvider.hasAssigneeGroupChanged(projectId)) {
+      if (isProjectForcefullyReassignedByPublisher(projectId)) {
+        List<String> dataProviders = changesProvider.getOldDataAcquisitionProject(projectId)
+            .getConfiguration().getDataProviders();
+        List<User> users = userRepository.findAllByLoginIn(new HashSet<>(dataProviders));
+        mailService.sendDataProviderAccessRevokedMail(users, projectId,
+            newDataAcquisitionProject.getLastAssigneeGroupMessage(), sender);
+      } else {
+        AssigneeGroup assigneeGroup = changesProvider.getNewAssigneeGroup(projectId);
+        Set<String> userNames;
+
+        switch (assigneeGroup) {
+          case DATA_PROVIDER:
+            List<String> dataProviders =
+                newDataAcquisitionProject.getConfiguration().getDataProviders();
+            userNames =
+                dataProviders != null ? new HashSet<>(dataProviders) : Collections.emptySet();
+            break;
+          case PUBLISHER:
+            userNames = new HashSet<>(newDataAcquisitionProject.getConfiguration().getPublishers());
+            break;
+          default:
+            throw new IllegalStateException("Unknown assignee group " + assigneeGroup);
+        }
+
+        if (!userNames.isEmpty()) {
+          List<User> users = userRepository.findAllByLoginIn(userNames);
+          mailService.sendAssigneeGroupChangedMail(users, projectId,
+              newDataAcquisitionProject.getLastAssigneeGroupMessage(), sender);
+        }
+      }
+    }
+  }
+
+  private boolean isProjectForcefullyReassignedByPublisher(String projectId) {
+
+    DataAcquisitionProject oldProject = changesProvider.getOldDataAcquisitionProject(projectId);
+    DataAcquisitionProject newProject = changesProvider.getNewDataAcquisitionProject(projectId);
+
+    String loginName = SecurityUtils.getCurrentUserLogin();
+    boolean isAssignedPublisher = oldProject.getConfiguration().getPublishers().contains(loginName);
+
+    return isAssignedPublisher && oldProject.getAssigneeGroup() == AssigneeGroup.DATA_PROVIDER
+        && newProject.getAssigneeGroup() == AssigneeGroup.PUBLISHER;
+  }
+
+  private void sendPublishersDataProvidersChangedMails(String projectId) {
     List<String> addedPublishers = changesProvider.getAddedPublisherUserNamesList(projectId);
     List<String> removedPublishers = changesProvider.getRemovedPublisherUserNamesList(projectId);
 
     List<String> addedDataProviders = changesProvider.getAddedDataProviderUserNamesList(projectId);
-    List<String> removedDataProviders = changesProvider
-        .getRemovedDataProviderUserNamesList(projectId);
+    List<String> removedDataProviders =
+        changesProvider.getRemovedDataProviderUserNamesList(projectId);
 
     UserFetchResult users = fetchUsersForUserNames(addedPublishers, removedPublishers,
         addedDataProviders, removedDataProviders);
@@ -172,9 +226,8 @@ public class DataAcquisitionProjectService {
   }
 
   private UserFetchResult fetchUsersForUserNames(List<String> addedPublishers,
-                                                 List<String> removedPublishers,
-                                                 List<String> addedDataProviders,
-                                                 List<String> removedDataProviders) {
+      List<String> removedPublishers, List<String> addedDataProviders,
+      List<String> removedDataProviders) {
     Set<String> userLoginNames = new HashSet<>(addedPublishers);
     userLoginNames.addAll(removedPublishers);
     userLoginNames.addAll(addedDataProviders);
@@ -182,17 +235,18 @@ public class DataAcquisitionProjectService {
 
     List<User> users = userRepository.findAllByLoginIn(userLoginNames);
 
-    List<User> addedPublisherUsers = users.stream()
-        .filter(u -> addedPublishers.contains(u.getLogin())).collect(Collectors.toList());
-    List<User> removedPublisherUsers = users.stream()
-        .filter(u -> removedPublishers.contains(u.getLogin())).collect(Collectors.toList());
-    List<User> addedDataProviderUsers = users.stream()
-        .filter(u -> addedDataProviders.contains(u.getLogin())).collect(Collectors.toList());
-    List<User> removedDataProviderUsers = users.stream()
-        .filter(u -> removedDataProviders.contains(u.getLogin())).collect(Collectors.toList());
+    List<User> addedPublisherUsers = filterUsersByUserNames(users, addedPublishers);
+    List<User> removedPublisherUsers = filterUsersByUserNames(users, removedPublishers);
+    List<User> addedDataProviderUsers = filterUsersByUserNames(users, addedDataProviders);
+    List<User> removedDataProviderUsers = filterUsersByUserNames(users, removedDataProviders);
 
     return new UserFetchResult(addedPublisherUsers, removedPublisherUsers, addedDataProviderUsers,
         removedDataProviderUsers);
+  }
+
+  private List<User> filterUsersByUserNames(List<User> users, List<String> userNames) {
+    return users.stream().filter(u -> userNames.contains(u.getLogin()))
+        .collect(Collectors.toList());
   }
 
   /**
@@ -205,7 +259,7 @@ public class DataAcquisitionProjectService {
     private List<User> removedDataProviderUsers;
 
     UserFetchResult(List<User> addedPublisherUsers, List<User> removedPublisherUsers,
-                    List<User> addedDataProviderUsers, List<User> removedDataProviderUsers) {
+        List<User> addedDataProviderUsers, List<User> removedDataProviderUsers) {
       this.addedPublisherUsers = addedPublisherUsers;
       this.removedPublisherUsers = removedPublisherUsers;
       this.addedDataProviderUsers = addedDataProviderUsers;

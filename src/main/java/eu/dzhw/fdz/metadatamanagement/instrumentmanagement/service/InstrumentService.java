@@ -93,7 +93,7 @@ public class InstrumentService {
    * 
    * @param dataAcquisitionProjectId the id for to the data acquisition project.
    */
-  private void deleteAllInstrumentsByProjectId(String dataAcquisitionProjectId) {
+  public void deleteAllInstrumentsByProjectId(String dataAcquisitionProjectId) {
     try (Stream<Instrument> instruments =
         instrumentRepository.streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
       instruments.forEach(instrument -> {

@@ -1,3 +1,19 @@
+.. java:import:: javax.validation Valid
+
+.. java:import:: javax.validation.constraints NotEmpty
+
+.. java:import:: javax.validation.constraints NotNull
+
+.. java:import:: javax.validation.constraints Pattern
+
+.. java:import:: javax.validation.constraints Size
+
+.. java:import:: org.javers.core.metamodel.annotation Entity
+
+.. java:import:: org.springframework.data.annotation Id
+
+.. java:import:: org.springframework.data.mongodb.core.mapping Document
+
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain AbstractRdcDomainObject
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation StringLengths
@@ -30,22 +46,6 @@
 
 .. java:import:: lombok ToString
 
-.. java:import:: org.javers.core.metamodel.annotation Entity
-
-.. java:import:: org.springframework.data.annotation Id
-
-.. java:import:: org.springframework.data.mongodb.core.mapping Document
-
-.. java:import:: javax.validation Valid
-
-.. java:import:: javax.validation.constraints NotEmpty
-
-.. java:import:: javax.validation.constraints NotNull
-
-.. java:import:: javax.validation.constraints Pattern
-
-.. java:import:: javax.validation.constraints Size
-
 DataAcquisitionProject
 ======================
 
@@ -58,10 +58,18 @@ DataAcquisitionProject
 
 Fields
 ------
+assigneeGroup
+^^^^^^^^^^^^^
+
+.. java:field:: @NotNull private AssigneeGroup assigneeGroup
+   :outertype: DataAcquisitionProject
+
+   Determines which assignee group is able to edit data on the project.
+
 configuration
 ^^^^^^^^^^^^^
 
-.. java:field:: @Valid @NotNull private Configuration configuration
+.. java:field:: @Valid @NotNull @Builder.Default private Configuration configuration
    :outertype: DataAcquisitionProject
 
    Contains the project configuration.
@@ -81,6 +89,14 @@ id
    :outertype: DataAcquisitionProject
 
    The id of this project. Must not be empty and must only contain lower cased (english) letters and numbers. Must not contain more than 32 characters.
+
+lastAssigneeGroupMessage
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. java:field:: @Size private String lastAssigneeGroupMessage
+   :outertype: DataAcquisitionProject
+
+   The last message provided by an assignee group user before \ :java:ref:`DataAcquisitionProject.assigneeGroup`\  value changed.
 
 release
 ^^^^^^^

@@ -540,6 +540,9 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
     };
 
     var uploadQuestions = function(files, dataAcquisitionProjectId) {
+      if (!files || files.length === 0) {
+        return;
+      }
       existingQuestions = {};
       usedIndexInInstrument = {};
       if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {

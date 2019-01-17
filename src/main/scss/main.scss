@@ -1131,3 +1131,52 @@ md-toast.md-accent > .md-toast-content {
     height: 100%;
     border-radius: 0;
 }
+
+project-cockpit-status {
+    display: block;
+    @media screen and (max-width: 960px) {
+        margin-bottom: 150px;
+    }
+}
+
+.fdz-metadata-type-state-card {
+    display: block;
+    min-width: 30%;
+    @media screen and (max-width: 1600px) {
+        min-width: 45%
+    }
+}
+
+project-status-badge {
+    display: inline-block;
+}
+
+release-status-badge {
+    display: inline-block;
+}
+
+project-status-badge > span, release-status-badge > span {
+    font-size: 1em !important;
+}
+
+.fdz-released {
+    color: #FFFFFF;
+    background-color: #00CC66;
+}
+
+.fdz-unreleased {
+    background-color: $brand-danger;
+}
+
+@keyframes fade-highlight {
+    0% {
+        background: lighten($brand-primary, 50%);
+    }
+    100% {
+        background: white;
+    }
+}
+.fdz-project-user-list + md-list md-list-item {
+    background: white;
+    animation: fade-highlight 1s ease-out;
+}

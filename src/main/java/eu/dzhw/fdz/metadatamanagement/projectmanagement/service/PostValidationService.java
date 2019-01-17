@@ -1,16 +1,14 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectState;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Requirements;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.rest.dto.PostValidationMessageDto;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
@@ -18,14 +16,24 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.service.QuestionImageSe
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RelatedQuestion;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 /**
- * This service handels the post-validation of projects. It checks the foreign keys and references
+ * This service handles the post-validation of projects. It checks the foreign keys and references
  * between different domain objects. If a foreign key or reference is not valid, the service adds a
- * error message to a list. If everthing is checked, the service returns a list with all errors.
+ * error message to a list. If everything is checked, the service returns a list with all errors.
  *
  * @author Daniel Katzberg
  *
@@ -55,8 +63,11 @@ public class PostValidationService {
   @Autowired
   private QuestionImageService questionImageService;
 
+  @Autowired
+  private DataAcquisitionProjectRepository projectRepository;
+
   /**
-   * This method handels the complete post validation of a project.
+   * This method handles the complete post validation of a project.
    *
    * @param dataAcquisitionProjectId The id of the data acquisition project id.
    * @return a list of all post validation errors.
@@ -64,7 +75,20 @@ public class PostValidationService {
   public List<PostValidationMessageDto> postValidate(String dataAcquisitionProjectId) {
 
     List<PostValidationMessageDto> errors = new ArrayList<>();
-    
+
+    if (SecurityUtils.isUserInRole(AuthoritiesConstants.PUBLISHER)) {
+      Optional<DataAcquisitionProject> project =
+          projectRepository.findById(dataAcquisitionProjectId);
+      if (project.isPresent()) {
+        errors = postValidateProject(project.get(), errors);
+      } else {
+        PostValidationMessageDto error = new PostValidationMessageDto("data-acquisition-project"
+            + "-management.error.post-validation.no-project", Collections
+            .singletonList(dataAcquisitionProjectId));
+        return Collections.singletonList(error);
+      }
+    }
+
     //Check Study
     Study study = 
         this.studyRepository.findOneByDataAcquisitionProjectId(dataAcquisitionProjectId);
@@ -92,8 +116,55 @@ public class PostValidationService {
     
     return errors;
   }
-  
-  
+
+  private List<PostValidationMessageDto> postValidateProject(DataAcquisitionProject project,
+      List<PostValidationMessageDto> errors) {
+
+    Configuration configuration = project.getConfiguration();
+    Requirements requirements = configuration.getRequirements();
+    List<String> information = new ArrayList<>();
+
+    if (isProjectStateInvalid(requirements.isStudiesRequired(), configuration.getStudiesState())) {
+      information.add("studies");
+    }
+
+    if (isProjectStateInvalid(requirements.isSurveysRequired(), configuration.getSurveysState())) {
+      information.add("surveys");
+    }
+
+    if (isProjectStateInvalid(requirements.isDataSetsRequired(),
+        configuration.getDataSetsState())) {
+      information.add("data_sets");
+    }
+
+    if (isProjectStateInvalid(requirements.isInstrumentsRequired(),
+        configuration.getInstrumentsState())) {
+      information.add("instruments");
+    }
+
+    if (isProjectStateInvalid(requirements.isQuestionsRequired(),
+        configuration.getQuestionsState())) {
+      information.add("questions");
+    }
+
+    if (isProjectStateInvalid(requirements.isVariablesRequired(),
+        configuration.getVariablesState())) {
+      information.add("variables");
+    }
+
+    if (!information.isEmpty()) {
+      PostValidationMessageDto message = new PostValidationMessageDto("data-acquisition"
+          + "-project-management.error.post-validation.requirements-not-met", information);
+      errors.add(message);
+    }
+
+    return errors;
+  }
+
+  private boolean isProjectStateInvalid(boolean required, ProjectState projectState) {
+    return required && (projectState == null || !projectState.isPublisherReady());
+  }
+
   /**
    * This method checks all potential issues for study by post-validation.
    * @param study A study of a project.

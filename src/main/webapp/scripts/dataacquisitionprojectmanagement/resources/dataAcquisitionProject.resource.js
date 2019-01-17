@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .factory('DataAcquisitionProjectResource', function($resource) {
+  .factory('DataAcquisitionProjectResource', function($resource, $rootScope) {
     return $resource('/api/data-acquisition-projects/:id', {
       id: '@id'
     }, {
@@ -12,10 +12,24 @@ angular.module('metadatamanagementApp')
         }
       },
       'save': {
-        method: 'PUT'
+        method: 'PUT',
+        interceptor: {
+          response: function(response) {
+            if (response.status === 200) {
+              $rootScope.$broadcast('project-saved');
+            }
+          }
+        }
       },
       'delete': {
-        method: 'DELETE'
+        method: 'DELETE',
+        interceptor: {
+          response: function(response) {
+            if (response.status === 200) {
+              $rootScope.$broadcast('project-deleted');
+            }
+          }
+        }
       }
     });
   });

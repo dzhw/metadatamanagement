@@ -264,6 +264,7 @@
     <script src="scripts/variablemanagement/configuration/variable.js"></script>
     <script src="scripts/variablemanagement/configuration/translations-de.js"></script>
     <script src="scripts/variablemanagement/configuration/translations-en.js"></script>
+    <script src="scripts/variablemanagement/resources/deleteAllVariables.resource.js"></script>
     <script src="scripts/variablemanagement/resources/variable.resource.js"></script>
     <script src="scripts/variablemanagement/services/variableSearch.service.js"></script>
     <script src="scripts/variablemanagement/services/variableBuilder.service.js"></script>
@@ -291,6 +292,7 @@
     <script src="scripts/surveymanagement/services/surveySearch.service.js"></script>
     <script src="scripts/surveymanagement/services/surveyAttachmentUpload.service.js"></script>
     <script src="scripts/surveymanagement/services/surveyRepositoryClient.service.js"></script>
+    <script src="scripts/surveymanagement/resources/deleteAllSurveys.resource.js"></script>
     <script src="scripts/surveymanagement/resources/surveyAttachment.resource.js"></script>
     <script src="scripts/surveymanagement/resources/surveyVersions.resource.js"></script>
     <script src="scripts/surveymanagement/resources/surveyAttachmentVersions.resource.js"></script>
@@ -303,6 +305,7 @@
     <script src="scripts/datasetmanagement/resources/dataSetAttachment.resource.js"></script>
     <script src="scripts/datasetmanagement/resources/dataSetVersions.resource.js"></script>
     <script src="scripts/datasetmanagement/resources/dataSetAttachmentVersions.resource.js"></script>
+    <script src="scripts/datasetmanagement/resources/deleteAllDataSets.resource.js"></script>
     <script src="scripts/datasetmanagement/resources/availableDataSetNumbers.resource.js"></script>
     <script src="scripts/datasetmanagement/services/dataSetSearch.service.js"></script>
     <script src="scripts/datasetmanagement/services/dataSetIdBuilder.service.js"></script>
@@ -321,6 +324,7 @@
     <script src="scripts/questionmanagement/configuration/question.js"></script>
     <script src="scripts/questionmanagement/configuration/translations-de.js"></script>
     <script src="scripts/questionmanagement/configuration/translations-en.js"></script>
+    <script src="scripts/questionmanagement/resources/deleteAllQuestions.resource.js"></script>
     <script src="scripts/questionmanagement/resources/question.resource.js"></script>
     <script src="scripts/questionmanagement/resources/questionImageMetadata.resource.js"></script>
     <script src="scripts/questionmanagement/services/questionSearch.service.js"></script>
@@ -339,6 +343,7 @@
     <script src="scripts/studymanagement/resources/studyAttachmentVersions.resource.js"></script>
     <script src="scripts/studymanagement/resources/studySerieses.resource.js"></script>
     <script src="scripts/studymanagement/resources/studyAccessWays.resource.js"></script>
+    <script src="scripts/studymanagement/resources/deleteAllStudies.resource.js"></script>
     <script src="scripts/studymanagement/services/studyIdBuilder.service.js"></script>
     <script src="scripts/studymanagement/services/studyRepositoryClient.service.js"></script>
     <script src="scripts/studymanagement/services/studySearch.service.js"></script>
@@ -362,6 +367,7 @@
     <script src="scripts/instrumentmanagement/services/instrumentSearch.service.js"></script>
     <script src="scripts/instrumentmanagement/services/instrumentAttachmentUpload.service.js"></script>
     <script src="scripts/instrumentmanagement/services/instrumentRepositoryClient.service.js"></script>
+    <script src="scripts/instrumentmanagement/resources/deleteAllInstruments.resource.js"></script>
     <script src="scripts/instrumentmanagement/resources/instrument.resource.js"></script>
     <script src="scripts/instrumentmanagement/resources/instrumentAttachment.resource.js"></script>
     <script src="scripts/instrumentmanagement/resources/instrumentVersions.resource.js"></script>
@@ -389,6 +395,9 @@
     <script src="scripts/dataacquisitionprojectmanagement/resources/daraRelease.resource.js"></script>
     <script src="scripts/dataacquisitionprojectmanagement/resources/dataAcquisitionProjectReleases.resource.js"></script>
     <script src="scripts/dataacquisitionprojectmanagement/services/dataAcquisitionProjectRepositoryClient.service.js"></script>
+    <script src="scripts/dataacquisitionprojectmanagement/services/projectUpdateAccessService.js"></script>
+    <script src="scripts/dataacquisitionprojectmanagement/services/projectReleaseService.js"></script>
+    <script src="scripts/dataacquisitionprojectmanagement/services/deleteMetadata.service.js"></script>
     <script src="scripts/dataacquisitionprojectmanagement/resources/dataAcquisitionProjectLastRelease.resource.js"></script>
     <script src="scripts/dataacquisitionprojectmanagement/services/postValidation.service.js"></script>
     <script src="scripts/dataacquisitionprojectmanagement/services/currentProject.service.js"></script>
@@ -397,6 +406,15 @@
     <script src="scripts/dataacquisitionprojectmanagement/directives/project-does-not-exist-validator.directive.js"></script>
     <script src="scripts/dataacquisitionprojectmanagement/configuration/configuration.js"></script>
     <script src="scripts/dataacquisitionprojectmanagement/views/project-cockpit.controller.js"></script>
+    <script src="scripts/dataacquisitionprojectmanagement/directives/metadata-type-state-card.directive.js"></script>
+    <script src="scripts/dataacquisitionprojectmanagement/directives/project-cockpit-status.directive.js"></script>
+    <script src="scripts/dataacquisitionprojectmanagement/directives/project-cockpit-config.directive.js"></script>
+    <script src="scripts/dataacquisitionprojectmanagement/directives/user-list.directive.js"></script>
+    <script src="scripts/dataacquisitionprojectmanagement/views/assignee-message-dialog.controller.js"></script>
+    <script src="scripts/dataacquisitionprojectmanagement/services/projectSaveService.js"></script>
+    <script src="scripts/dataacquisitionprojectmanagement/services/projectStatusScoringService.js"></script>
+    <script src="scripts/dataacquisitionprojectmanagement/directives/projectStatusBadge.directive.js"></script>
+    <script src="scripts/dataacquisitionprojectmanagement/directives/releaseStatusBadge.directive.js"></script>
 
     <script src="scripts/searchmanagement/services/elasticSearch.client.service.js"></script>
     <script src="scripts/searchmanagement/services/search.dao.js"></script>

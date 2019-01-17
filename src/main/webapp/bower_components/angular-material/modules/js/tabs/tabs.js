@@ -2,7 +2,7 @@
  * AngularJS Material Design
  * https://github.com/angular/material
  * @license MIT
- * v1.1.10
+ * v1.1.12
  */
 (function( window, angular, undefined ){
 "use strict";
@@ -156,43 +156,51 @@ function MdTabsPaginationService() {
  * @restrict E
  *
  * @description
- * The `<md-tab>` is a nested directive used within `<md-tabs>` to specify a tab with a **label** and optional *view content*.
+ * The `<md-tab>` is a nested directive used within `<md-tabs>` to specify a tab with a **label**
+ * and optional *view content*.
  *
- * If the `label` attribute is not specified, then an optional `<md-tab-label>` tag can be used to specify more
- * complex tab header markup. If neither the **label** nor the **md-tab-label** are specified, then the nested
- * markup of the `<md-tab>` is used as the tab header markup.
+ * If the `label` attribute is not specified, then an optional `<md-tab-label>` tag can be used to
+ * specify more complex tab header markup. If neither the **label** nor the **md-tab-label** are
+ * specified, then the nested markup of the `<md-tab>` is used as the tab header markup.
  *
- * Please note that if you use `<md-tab-label>`, your content **MUST** be wrapped in the `<md-tab-body>` tag.  This
- * is to define a clear separation between the tab content and the tab label.
+ * Please note that if you use `<md-tab-label>`, your content **MUST** be wrapped in the
+ * `<md-tab-body>` tag.  This is to define a clear separation between the tab content and the tab
+ * label.
  *
- * This container is used by the TabsController to show/hide the active tab's content view. This synchronization is
- * automatically managed by the internal TabsController whenever the tab selection changes. Selection changes can
- * be initiated via data binding changes, programmatic invocation, or user gestures.
+ * This container is used by the TabsController to show/hide the active tab's content view. This
+ * synchronization is automatically managed by the internal TabsController whenever the tab
+ * selection changes. Selection changes can be initiated via data binding changes, programmatic
+ * invocation, or user gestures.
  *
  * @param {string=} label Optional attribute to specify a simple string as the tab label
- * @param {boolean=} ng-disabled If present and expression evaluates to truthy, disabled tab selection.
- * @param {expression=} md-on-deselect Expression to be evaluated after the tab has been de-selected.
+ * @param {boolean=} ng-disabled If present and expression evaluates to truthy, disabled tab
+ *  selection.
+ * @param {string=} md-tab-class Optional attribute to specify a class that will be applied to the tab's button
+ * @param {expression=} md-on-deselect Expression to be evaluated after the tab has been
+ *  de-selected.
  * @param {expression=} md-on-select Expression to be evaluated after the tab has been selected.
- * @param {boolean=} md-active When true, sets the active tab.  Note: There can only be one active tab at a time.
+ * @param {boolean=} md-active When true, sets the active tab.  Note: There can only be one active
+ *  tab at a time.
  *
  *
  * @usage
  *
  * <hljs lang="html">
- * <md-tab label="" ng-disabled md-on-select="" md-on-deselect="" >
+ * <md-tab label="My Tab" md-tab-class="my-content-tab" ng-disabled md-on-select="onSelect()" md-on-deselect="onDeselect()">
  *   <h3>My Tab content</h3>
  * </md-tab>
  *
- * <md-tab >
+ * <md-tab>
  *   <md-tab-label>
- *     <h3>My Tab content</h3>
+ *     <h3>My Tab</h3>
  *   </md-tab-label>
  *   <md-tab-body>
  *     <p>
- *       Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
- *       totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae
- *       dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit,
- *       sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
+ *       Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
+ *       laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi
+ *       architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
+ *       aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione
+ *       voluptatem sequi nesciunt.
  *     </p>
  *   </md-tab-body>
  * </md-tab>
@@ -232,7 +240,8 @@ function MdTab () {
       active:   '=?mdActive',
       disabled: '=?ngDisabled',
       select:   '&?mdOnSelect',
-      deselect: '&?mdOnDeselect'
+      deselect: '&?mdOnDeselect',
+      tabClass: '@mdTabClass'
     }
   };
 
@@ -319,7 +328,7 @@ function MdTabScroll ($parse) {
 }
 
 
-MdTabsController['$inject'] = ["$scope", "$element", "$window", "$mdConstant", "$mdTabInkRipple", "$mdUtil", "$animateCss", "$attrs", "$compile", "$mdTheming", "$mdInteraction", "MdTabsPaginationService"];angular
+MdTabsController['$inject'] = ["$scope", "$element", "$window", "$mdConstant", "$mdTabInkRipple", "$mdUtil", "$animateCss", "$attrs", "$compile", "$mdTheming", "$mdInteraction", "$timeout", "MdTabsPaginationService"];angular
     .module('material.components.tabs')
     .controller('MdTabsController', MdTabsController);
 
@@ -327,16 +336,14 @@ MdTabsController['$inject'] = ["$scope", "$element", "$window", "$mdConstant", "
  * ngInject
  */
 function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipple, $mdUtil,
-                           $animateCss, $attrs, $compile, $mdTheming, $mdInteraction,
+                           $animateCss, $attrs, $compile, $mdTheming, $mdInteraction, $timeout,
                            MdTabsPaginationService) {
   // define private properties
   var ctrl      = this,
       locked    = false,
-      elements  = getElements(),
       queue     = [],
       destroyed = false,
       loaded    = false;
-
 
   // Define public methods
   ctrl.$onInit            = $onInit;
@@ -367,7 +374,8 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
 
   /**
    * AngularJS Lifecycle hook for newer AngularJS versions.
-   * Bindings are not guaranteed to have been assigned in the controller, but they are in the $onInit hook.
+   * Bindings are not guaranteed to have been assigned in the controller, but they are in the
+   * $onInit hook.
    */
   function $onInit() {
     // Define one-way bindings
@@ -400,6 +408,7 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
     ctrl.styleTabItemFocus = false;
     ctrl.shouldCenterTabs  = shouldCenterTabs();
     ctrl.tabContentPrefix  = 'tab-content-';
+    ctrl.navigationHint = 'Use the left and right arrow keys to navigate between tabs';
 
     // Setup the tabs controller after all bindings are available.
     setupTabsController();
@@ -415,10 +424,6 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
     bindEvents();
     $mdTheming($element);
     $mdUtil.nextTick(function () {
-      // Note that the element references need to be updated, because certain "browsers"
-      // (IE/Edge) lose them and start throwing "Invalid calling object" errors, when we
-      // compile the element contents down in `compileElement`.
-      elements = getElements();
       updateHeightFromContent();
       adjustOffset();
       updateInkBarStyles();
@@ -468,10 +473,10 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
   }
 
   /**
-   * Defines boolean attributes with default value set to true.  (ie. md-stretch-tabs with no value
-   * will be treated as being truthy)
-   * @param key
-   * @param handler
+   * Defines boolean attributes with default value set to true. I.e. md-stretch-tabs with no value
+   * will be treated as being truthy.
+   * @param {string} key
+   * @param {Function} handler
    */
   function defineBooleanAttribute (key, handler) {
     var attr = $attrs.$normalize('md-' + key);
@@ -494,19 +499,25 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
   // Change handlers
 
   /**
-   * Toggles stretch tabs class and updates inkbar when tab stretching changes
-   * @param stretchTabs
+   * Toggles stretch tabs class and updates inkbar when tab stretching changes.
    */
-  function handleStretchTabs (stretchTabs) {
+  function handleStretchTabs () {
     var elements = getElements();
     angular.element(elements.wrapper).toggleClass('md-stretch-tabs', shouldStretchTabs());
     updateInkBarStyles();
   }
 
-  function handleCenterTabs (newValue) {
+  /**
+   * Update the value of ctrl.shouldCenterTabs.
+   */
+  function handleCenterTabs () {
     ctrl.shouldCenterTabs = shouldCenterTabs();
   }
 
+  /**
+   * @param {number} newWidth new max tab width in pixels
+   * @param {number} oldWidth previous max tab width in pixels
+   */
   function handleMaxTabWidth (newWidth, oldWidth) {
     if (newWidth !== oldWidth) {
       var elements = getElements();
@@ -538,7 +549,7 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
 
   /**
    * Add/remove the `md-no-tab-content` class depending on `ctrl.hasContent`
-   * @param hasContent
+   * @param {boolean} hasContent
    */
   function handleHasContent (hasContent) {
     $element[ hasContent ? 'removeClass' : 'addClass' ]('md-no-tab-content');
@@ -546,7 +557,7 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
 
   /**
    * Apply ctrl.offsetLeft to the paging element when it changes
-   * @param left
+   * @param {string|number} left
    */
   function handleOffsetChange (left) {
     var elements = getElements();
@@ -555,14 +566,14 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
     // Fix double-negative which can happen with RTL support
     newValue = newValue.replace('--', '');
 
-    angular.element(elements.paging).css($mdConstant.CSS.TRANSFORM, 'translate3d(' + newValue + ', 0, 0)');
+    angular.element(elements.paging).css($mdConstant.CSS.TRANSFORM, 'translate(' + newValue + ', 0)');
     $scope.$broadcast('$mdTabsPaginationChanged');
   }
 
   /**
    * Update the UI whenever `ctrl.focusIndex` is updated
-   * @param newIndex
-   * @param oldIndex
+   * @param {number} newIndex
+   * @param {number} oldIndex
    */
   function handleFocusIndexChange (newIndex, oldIndex) {
     if (newIndex === oldIndex) return;
@@ -573,8 +584,8 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
 
   /**
    * Update the UI whenever the selected index changes. Calls user-defined select/deselect methods.
-   * @param newValue
-   * @param oldValue
+   * @param {number} newValue selected index's new value
+   * @param {number} oldValue selected index's previous value
    */
   function handleSelectedIndexChange (newValue, oldValue) {
     if (newValue === oldValue) return;
@@ -622,7 +633,7 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
 
   /**
    * Handle user keyboard interactions
-   * @param event
+   * @param {KeyboardEvent} event keydown event
    */
   function keydown (event) {
     switch (event.keyCode) {
@@ -711,13 +722,19 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
     });
   }
 
+  /**
+   * Hides or shows the tabs ink bar.
+   * @param {boolean} hide A Boolean (not just truthy/falsy) value to determine whether the class
+   * should be added or removed.
+   */
   function handleInkBar (hide) {
     angular.element(getElements().inkBar).toggleClass('ng-hide', hide);
   }
 
   /**
-   * Toggle dynamic height class when value changes
-   * @param value
+   * Enables or disables tabs dynamic height.
+   * @param {boolean} value A Boolean (not just truthy/falsy) value to determine whether the class
+   * should be added or removed.
    */
   function handleDynamicHeight (value) {
     $element.toggleClass('md-dynamic-height', value);
@@ -725,7 +742,7 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
 
   /**
    * Remove a tab from the data and select the nearest valid tab.
-   * @param tabData
+   * @param {Object} tabData tab to remove
    */
   function removeTab (tabData) {
     if (destroyed) return;
@@ -746,8 +763,8 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
 
   /**
    * Create an entry in the tabs array for a new tab at the specified index.
-   * @param tabData
-   * @param index
+   * @param {Object} tabData tab to insert
+   * @param {number} index location to insert the new tab
    * @returns {*}
    */
   function insertTab (tabData, index) {
@@ -790,7 +807,7 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
 
   /**
    * Gathers references to all of the DOM elements used by this controller.
-   * @returns {{}}
+   * @returns {Object}
    */
   function getElements () {
     var elements = {};
@@ -865,7 +882,7 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
 
   /**
    * Determines if the tabs should appear centered.
-   * @returns {string|boolean}
+   * @returns {boolean}
    */
   function shouldCenterTabs () {
     return ctrl.centerTabs && !ctrl.shouldPaginate;
@@ -873,9 +890,10 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
 
   /**
    * Determines if pagination is necessary to display the tabs within the available space.
-   * @returns {boolean}
+   * @returns {boolean} true if pagination is necessary, false otherwise
    */
   function shouldPaginate () {
+    var shouldPaginate;
     if (ctrl.noPagination || !loaded) return false;
     var canvasWidth = $element.prop('clientWidth');
 
@@ -883,7 +901,14 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
       canvasWidth -= tab.offsetWidth;
     });
 
-    return canvasWidth < 0;
+    shouldPaginate = canvasWidth < 0;
+    // Work around width calculation issues on IE11 when pagination is enabled
+    if (shouldPaginate) {
+      getElements().paging.style.width = '999999px';
+    } else {
+      getElements().paging.style.width = undefined;
+    }
+    return shouldPaginate;
   }
 
   /**
@@ -910,9 +935,9 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
   /**
    * Defines a property using a getter and setter in order to trigger a change handler without
    * using `$watch` to observe changes.
-   * @param key
-   * @param handler
-   * @param value
+   * @param {PropertyKey} key
+   * @param {Function} handler
+   * @param {any} value
    */
   function defineProperty (key, handler, value) {
     Object.defineProperty(ctrl, key, {
@@ -934,13 +959,9 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
   }
 
   /**
-   * Calculates the width of the pagination wrapper by summing the widths of the dummy tabs.
-   * @returns {number}
+   * @param {Array<HTMLElement>} tabs tab item elements for use in computing total width
+   * @returns {number} the width of the tabs in the specified array in pixels
    */
-  function calcPagingWidth () {
-    return calcTabsWidth(getElements().tabs);
-  }
-
   function calcTabsWidth(tabs) {
     var width = 0;
 
@@ -955,29 +976,20 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
     return Math.ceil(width);
   }
 
-  function getMaxTabWidth () {
+  /**
+   * @returns {number} either the max width as constrained by the container or the max width from
+   * the 2017 version of the Material Design spec.
+   */
+  function getMaxTabWidth() {
     var elements = getElements(),
-        containerWidth = elements.canvas.clientWidth,
+      containerWidth = elements.canvas.clientWidth,
 
-        // See https://material.google.com/components/tabs.html#tabs-specs
-        specMax = 264;
+      // See https://material.io/archive/guidelines/components/tabs.html#tabs-specs
+      specMax = 264;
 
     // Do the spec maximum, or the canvas width; whichever is *smaller* (tabs larger than the canvas
     // width can break the pagination) but not less than 0
     return Math.max(0, Math.min(containerWidth - 1, specMax));
-  }
-
-  function getMinTabWidth() {
-    var elements = getElements(),
-        containerWidth = elements.canvas.clientWidth,
-        xsBreakpoint = 600,
-
-        // See https://material.google.com/components/tabs.html#tabs-specs
-        specMin = containerWidth > xsBreakpoint ? 160 : 72;
-
-    // Do the spec minimum, or the canvas width; whichever is *smaller* (tabs larger than the canvas
-    // width can break the pagination) but not less than 0
-    return Math.max(0, Math.min(containerWidth - 1, specMin));
   }
 
   /**
@@ -995,8 +1007,9 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
   }
 
   /**
-   * This moves the selected or focus index left or right.  This is used by the keydown handler.
-   * @param inc
+   * This moves the selected or focus index left or right. This is used by the keydown handler.
+   * @param {number} inc amount to increment
+   * @param {boolean} focus true to increment the focus index, false to increment the selected index
    */
   function incrementIndex (inc, focus) {
     var newIndex,
@@ -1014,7 +1027,7 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
   }
 
   /**
-   * This is used to forward focus to tab container elements.  This method is necessary to avoid
+   * This is used to forward focus to tab container elements. This method is necessary to avoid
    * animation issues when attempting to focus an item that is out of view.
    */
   function redirectFocus () {
@@ -1024,6 +1037,7 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
 
   /**
    * Forces the pagination to move the focused tab into view.
+   * @param {number=} index of tab to have its offset adjusted
    */
   function adjustOffset (index) {
     var elements = getElements();
@@ -1037,7 +1051,7 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
         extraOffset = 32;
 
     // If we are selecting the first tab (in LTR and RTL), always set the offset to 0
-    if (index == 0) {
+    if (index === 0) {
       ctrl.offsetLeft = 0;
       return;
     }
@@ -1055,7 +1069,7 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
   }
 
   /**
-   * Iterates through all queued functions and clears the queue.  This is used for functions that
+   * Iterates through all queued functions and clears the queue. This is used for functions that
    * are called before the UI is ready, such as size calculations.
    */
   function processQueue () {
@@ -1067,9 +1081,10 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
    * Determines if the tab content area is needed.
    */
   function updateHasContent () {
-    var hasContent  = false;
+    var hasContent = false;
+    var i;
 
-    for (var i = 0; i < ctrl.tabs.length; i++) {
+    for (i = 0; i < ctrl.tabs.length; i++) {
       if (ctrl.tabs[i].hasContent) {
         hasContent = true;
         break;
@@ -1111,7 +1126,9 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
       currentHeight -= tabsHeight;
       newHeight -= tabsHeight;
       // Need to include bottom border in these calculations
-      if ($element.attr('md-border-bottom') !== undefined) ++currentHeight;
+      if ($element.attr('md-border-bottom') !== undefined) {
+        ++currentHeight;
+      }
     }
 
     // Lock during animation so the user can't change tabs
@@ -1152,9 +1169,16 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
 
   /**
    * Repositions the ink bar to the selected tab.
-   * @returns {*}
+   * Parameters are used when calling itself recursively when md-center-tabs is used as we need to
+   * run two passes to properly center the tabs. These parameters ensure that we only run two passes
+   * and that we don't run indefinitely.
+   * @param {number=} previousTotalWidth previous width of pagination wrapper
+   * @param {number=} previousWidthOfTabItems previous width of all tab items
    */
-  function updateInkBarStyles () {
+  function updateInkBarStyles (previousTotalWidth, previousWidthOfTabItems) {
+    if (ctrl.noInkBar) {
+      return;
+    }
     var elements = getElements();
 
     if (!elements.tabs[ ctrl.selectedIndex ]) {
@@ -1162,10 +1186,16 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
       return;
     }
 
-    if (!ctrl.tabs.length) return queue.push(ctrl.updateInkBarStyles);
-    // if the element is not visible, we will not be able to calculate sizes until it is
-    // we should treat that as a resize event rather than just updating the ink bar
-    if (!$element.prop('offsetParent')) return handleResizeWhenVisible();
+    if (!ctrl.tabs.length) {
+      queue.push(ctrl.updateInkBarStyles);
+      return;
+    }
+    // If the element is not visible, we will not be able to calculate sizes until it becomes
+    // visible. We should treat that as a resize event rather than just updating the ink bar.
+    if (!$element.prop('offsetParent')) {
+      handleResizeWhenVisible();
+      return;
+    }
 
     var index      = ctrl.selectedIndex,
         totalWidth = elements.paging.offsetWidth,
@@ -1174,11 +1204,14 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
         right      = totalWidth - left - tab.offsetWidth;
 
     if (ctrl.shouldCenterTabs) {
-      // We need to use the same calculate process as in the pagination wrapper, to avoid rounding deviations.
-      var tabWidth = calcTabsWidth(elements.tabs);
+      // We need to use the same calculate process as in the pagination wrapper, to avoid rounding
+      // deviations.
+      var totalWidthOfTabItems = calcTabsWidth(elements.tabs);
 
-      if (totalWidth > tabWidth) {
-        $mdUtil.nextTick(updateInkBarStyles, false);
+      if (totalWidth > totalWidthOfTabItems &&
+          previousTotalWidth !== totalWidth &&
+          previousWidthOfTabItems !== totalWidthOfTabItems) {
+        $timeout(updateInkBarStyles, 0, true, totalWidth, totalWidthOfTabItems);
       }
     }
     updateInkBarClassName();
@@ -1235,8 +1268,7 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
   }
 
   /**
-   * Sets the `aria-controls` attribute to the elements that
-   * correspond to the passed-in tab.
+   * Sets the `aria-controls` attribute to the elements that correspond to the passed-in tab.
    * @param tab
    */
   function setAriaControls (tab) {
@@ -1247,7 +1279,7 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
   }
 
   function isRtl() {
-    return ($mdUtil.bidi() == 'rtl');
+    return ($mdUtil.bidi() === 'rtl');
   }
 }
 
@@ -1320,7 +1352,6 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
  * `never`           | ---       | ---
  *
  * @param {integer=} md-selected Index of the active/selected tab.
- * @param {boolean=} md-no-ink If present, disables ink ripple effects.
  * @param {boolean=} md-no-ink-bar If present, disables the selection ink bar.
  * @param {string=}  md-align-tabs Attribute to indicate position of tab buttons: `bottom` or `top`;
  *  Default is `top`.
@@ -1330,7 +1361,7 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
  *  contents of the selected tab.
  * @param {boolean=} md-border-bottom If present, shows a solid `1px` border between the tabs and
  *  their content.
- * @param {boolean=} md-center-tabs When enabled, tabs will be centered provided there is no need
+ * @param {boolean=} md-center-tabs If defined, tabs will be centered provided there is no need
  *  for pagination.
  * @param {boolean=} md-no-pagination When enabled, pagination will remain off.
  * @param {boolean=} md-swipe-content When enabled, swipe gestures will be enabled for the content
@@ -1343,6 +1374,10 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
  * @param {boolean=} md-no-select-click When true, click events will not be fired when the value of
  *  `md-active` on an `md-tab` changes. This is useful when using tabs with UI-Router's child
  *  states, as triggering a click event in that case can cause an extra tab change to occur.
+ * @param {string=} md-navigation-hint Attribute to override the default `tablist` navigation hint
+ *  that screen readers will announce to provide instructions for navigating between tabs. This is
+ *  desirable when you want the hint to be in a different language. Default is "Use the left and
+ *  right arrow keys to navigate between tabs".
  *
  * @usage
  * <hljs lang="html">
@@ -1373,6 +1408,7 @@ angular
 function MdTabs ($$mdSvgRegistry) {
   return {
     scope:            {
+      navigationHint: '@?mdNavigationHint',
       selectedIndex: '=?mdSelected'
     },
     template:         function (element, attr) {
@@ -1401,6 +1437,7 @@ function MdTabs ($$mdSvgRegistry) {
             '<md-icon md-svg-src="'+ $$mdSvgRegistry.mdTabsArrow +'"></md-icon> ' +
           '</md-next-button> ' +
           '<md-tabs-canvas ' +
+              'tabindex="{{ $mdTabsCtrl.hasFocus ? -1 : 0 }}" ' +
               'ng-focus="$mdTabsCtrl.redirectFocus()" ' +
               'ng-class="{ ' +
                   '\'md-paginated\': $mdTabsCtrl.shouldPaginate, ' +
@@ -1410,10 +1447,11 @@ function MdTabs ($$mdSvgRegistry) {
             '<md-pagination-wrapper ' +
                 'ng-class="{ \'md-center-tabs\': $mdTabsCtrl.shouldCenterTabs }" ' +
                 'md-tab-scroll="$mdTabsCtrl.scroll($event)" ' +
-                'role="tablist"> ' +
+                'role="tablist" ' +
+                'aria-label="{{::$mdTabsCtrl.navigationHint}}">' +
               '<md-tab-item ' +
                   'tabindex="{{ tab.isActive() ? 0 : -1 }}" ' +
-                  'class="md-tab" ' +
+                  'class="md-tab {{::tab.scope.tabClass}}" ' +
                   'ng-repeat="tab in $mdTabsCtrl.tabs" ' +
                   'role="tab" ' +
                   'id="tab-item-{{::tab.id}}" ' +
@@ -1439,6 +1477,8 @@ function MdTabs ($$mdSvgRegistry) {
               '<md-dummy-tab ' +
                   'class="md-tab" ' +
                   'tabindex="-1" ' +
+                  'ng-focus="$mdTabsCtrl.hasFocus = true" ' +
+                  'ng-blur="$mdTabsCtrl.hasFocus = false" ' +
                   'ng-repeat="tab in $mdTabsCtrl.tabs" ' +
                   'md-tabs-template="::tab.label" ' +
                   'md-scope="::tab.parent"></md-dummy-tab> ' +

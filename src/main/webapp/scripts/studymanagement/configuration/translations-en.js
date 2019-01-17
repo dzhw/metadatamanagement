@@ -297,7 +297,8 @@ angular.module('metadatamanagementApp').config(
               'middle-name': 'If available enter the middle-name of this project member.',
               'last-name': 'Enter the last name of this project member.'
             }
-          }
+          },
+          'all-studies-deleted-toast': 'All Studies of the Data Acquisition Project "{{id}}" have been deleted.'
         }
       }
       //jscs:enable

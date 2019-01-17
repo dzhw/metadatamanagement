@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,9 @@ public class UserService {
 
   @Autowired
   private AuthorityRepository authorityRepository;
+  
+  @Value("${metadatamanagement.server.instance-index}")
+  private Integer instanceId;
 
   /**
    * Activate the user.
@@ -187,6 +191,9 @@ public class UserService {
    */
   @Scheduled(cron = "0 0 1 * * ?")
   public void removeNotActivatedUsers() {
+    if (instanceId != 0) {
+      return;
+    }
     LocalDateTime now = LocalDateTime.now();
     List<User> users =
         userRepository.findAllByActivatedIsFalseAndCreatedDateBefore(now.minusDays(3));

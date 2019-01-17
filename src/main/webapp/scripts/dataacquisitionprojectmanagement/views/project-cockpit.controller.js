@@ -2,20 +2,27 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('ProjectCockpitController',
-  function($q, $scope, $state, $location, $transitions, UserResource, Principal,
+  function($scope, $state, $location, $transitions, Principal,
            PageTitleService, LanguageService, ToolbarHeaderService,
-           DataAcquisitionProjectResource, SimpleMessageToastService,
-           CurrentProjectService, projectDeferred, CommonDialogsService) {
+           CurrentProjectService, projectDeferred, CommonDialogsService,
+           ProjectSaveService) {
 
-    PageTitleService.setPageTitle(
-      'data-acquisition-project-management.project-cockpit.title');
+    var unregisterTransitionHook;
+    var pageTitleKey = 'data-acquisition-project-management.project' +
+      '-cockpit.title';
+
     ToolbarHeaderService.updateToolbarHeader({
       stateName: $state.current.name
     });
 
     var registerConfirmOnDirtyHook = function() {
-      var unregisterTransitionHook = $transitions.onBefore({}, function() {
-        if ($scope.changed) {
+      if (unregisterTransitionHook) {
+        unregisterTransitionHook();
+      }
+
+      unregisterTransitionHook = $transitions.onBefore({}, function(trans) {
+        if ($scope.changed &&
+            trans.to().name !== trans.from().name) {
           return CommonDialogsService.showConfirmOnDirtyDialog();
         }
       });
@@ -23,223 +30,101 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       $scope.$on('$destroy', unregisterTransitionHook);
     };
 
-    var setProjectRequirementsDisabled = function(project) {
-      var loginName = Principal.loginName();
-      var publishers = _.get(project, 'configuration.publishers');
-      var result;
-      if (_.isArray(publishers)) {
-        result = publishers.indexOf(loginName) === -1;
-      } else {
-        result = false;
-      }
-      $scope.isProjectRequirementsDisabled = result;
-      return result;
+    var saveProject = function(project) {
+      return ProjectSaveService.saveProject(project).then(function() {
+        $scope.changed = false;
+      });
     };
-
-    var requiredTypesWatch;
 
     $state.loadStarted = true;
 
+    var initializing = true;
     $scope.$on('current-project-changed',
       function(event, changedProject) { // jshint ignore:line
-        if (changedProject) {
+        if (changedProject && !initializing) {
           $location.url('/' + LanguageService.getCurrentInstantly() +
             '/projects/' + changedProject.id);
+          PageTitleService.setPageTitle(pageTitleKey,
+            {projectId: changedProject.id});
         }
+        initializing = false;
       });
 
-    $scope.saveChanges = function(origin) {
-      if (!$scope.project.configuration) {
-        $scope.project.configuration = {};
+    $scope.$watch('project', function(newVal, oldVal) {
+      if (oldVal !== undefined && newVal !== oldVal &&
+          !ProjectSaveService.getSaving()) {
+        $scope.changed = true;
       }
+    }, true);
 
-      $scope.project.configuration.publishers =
-        $scope.activeUsers.publishers.map(function(identity) {
-          return identity.login;
-        });
-      $scope.project.configuration.dataProviders =
-        $scope.activeUsers.dataProviders.map(function(identity) {
-          return identity.login;
-        });
+    $scope.$on('project-deleted', function() {
+        $state.go('search');
+      });
 
-      DataAcquisitionProjectResource.save(
-        $scope.project,
-        //Success
-        function() {
-          $scope.changed = false;
-          SimpleMessageToastService
-            .openSimpleMessageToast(
-              'data-acquisition-project-management.log-messages.' +
-              'data-acquisition-project.saved', {
-                id: $scope.project.id
-              });
-          if (origin !== 'requirements') {
-            $state.reload();
-          }
-        },
-        //Server Error
-        function() {
-          SimpleMessageToastService
-            .openAlertMessageToast(
-              'data-acquisition-project-management.log-messages.' +
-              'data-acquisition-project.server-error'
-            );
+    $scope.onSaveChanges = function(origin) {
+      var project = ProjectSaveService.prepareProjectForSave($scope.project);
+      saveProject(project).then(function() {
+        if (origin !== 'requirements') {
+          $state.reload();
         }
-      );
+      });
     };
 
     $scope.changed = false;
 
-    $scope.searchText = {
-      publishers: '',
-      dataProviders: ''
-    };
+    $scope.advancedPrivileges = Principal.hasAnyAuthority(['ROLE_PUBLISHER',
+      'ROLE_ADMIN']);
+    $scope.isPublisher = Principal.hasAnyAuthority(['ROLE_PUBLISHER']);
+    $scope.isDataProvider = Principal.hasAnyAuthority(['ROLE_DATA_PROVIDER']);
+    $scope.isAssignedToProject = false;
 
-    $scope.selectedUser = {
-      publishers: null,
-      dataProviders: null
-    };
-
-    $scope.selectedUserChanged = function(user, role) {
-      if (user) {
-        $scope.activeUsers[role].push(user);
-        $scope.changed = true;
-        $scope.searchText[role] = '';
-        $scope.selectedUser[role] = null;
-        $state.searchCache[role] = {};
-      }
-    };
-
-    $scope.activeUsers = {
-      publishers: [],
-      dataProviders: []
-    };
-
-    $scope.fetching = false;
-
-    // load all users assigned to the currrent project
     projectDeferred.promise.then(
       function(project) {
-        $scope.project = project;
-        $scope.fetching = true;
-        var isProjectRequirementsDisabled =
-          setProjectRequirementsDisabled(project);
+        $scope.project = _.assignIn({}, project);
+
+        PageTitleService.setPageTitle(pageTitleKey,
+          {projectId: project.id});
+
         CurrentProjectService.setCurrentProject(project);
 
-        if (requiredTypesWatch) {
-          requiredTypesWatch();
-        }
+        // setProjectRequirementsDisabled(project);
 
-        if (!isProjectRequirementsDisabled &&
-          project.configuration.requirements) {
-          $scope.$watch(function() {
-            return $scope.project.configuration.requirements;
-          }, function(newVal, oldVal) {
-            if (newVal !== oldVal && !$scope.changed) {
-              $scope.changed = true;
-            }
-          }, true);
-        }
-
-        function getAndAddUsers(key) {
-          // get users of type {key} asynchronously
-          // and return promise resolving when all are fetched
-          if (project.configuration[key]) {
-            return $q.all(
-              project.configuration[key].map(function(userLogin) {
-                return (
-                  UserResource.getPublic({
-                    login: userLogin
-                  }).$promise.then(function(userResult) {
-                    if (!_.includes($scope.activeUsers[key].map(function(u) {
-                      return u.login;
-                    }), userResult.login)) {
-                      $scope.activeUsers[key].push(userResult);
-                    }
-                  })
-                );
-              })
-            );
-          } else {
-            return $q.resolve([]);
-          }
-        }
-
-        $q.resolve($q.all([
-          getAndAddUsers('publishers'),
-          getAndAddUsers('dataProviders')
-        ])).then(function() {
-          $scope.fetching = false;
-        }).catch(function(error) {
-          SimpleMessageToastService
-            .openAlertMessageToast(
-              'global.error.server-error.internal-server-error', {
-                status: error.data.error_description
-              });
-        });
         registerConfirmOnDirtyHook();
       }).finally(function() {
       $scope.loadStarted = false;
     });
 
-    $scope.advancedPrivileges = Principal.hasAnyAuthority(['ROLE_PUBLISHER',
-      'ROLE_ADMIN']);
+    $scope.shareButtonShown = false;
 
-    $scope.canDeleteUser = function(user, role) {
-      if (user.restricted) {
-        // cannot modify user whose details we can't read
-        return false;
-      }
-      if (!$scope.advancedPrivileges && role === 'publishers') {
-        // cannot remove publishers without advanced privilege
-        return false;
-      }
-      if ($scope.activeUsers[role].length <= 1) {
-        // cannot remove the last user in this list
-        return false;
-      }
-      return true;
-    };
+    $scope.$watchCollection(function() {
+      return $location.search();
+    }, function(newValue) {
+      $scope.selectedTab.index = (function() {
+        switch (newValue.tab) {
+          case 'status': return 0;
+          case 'config': return 1;
+          default: return 0;
+        }
+      })();
+    });
 
-    $state.currentPromise = null;
-    $state.searchCache = {
-      publishers: {},
-      dataProviders: {}
-    };
-    $scope.searchUsers = function(search, role, roleInternal) {
-      if (!$state.loadComplete) {
-        return [];
+    $scope.onTabSelect = function(tab) {
+      $state.go('project-cockpit', {tab: tab});
+      if (tab === 'config') {
+        $scope.shareButtonShown = false;
+      } else if (tab === 'status') {
+        $scope.shareButtonShown = true;
       }
-      if ($state.searchCache[role][search]) {
-        return $state.searchCache[role][search];
-      }
-      if (!$state.currentPromise) {
-        $state.currentPromise = UserResource.search({
-          login: search,
-          role: roleInternal
-        }).$promise.then(function(result) {
-          $state.currentPromise = null;
-          var results = result.filter(function(x) {
-            // filter out already added users
-            return $scope.activeUsers[role].map(function(u) {
-              return u.login;
-            }).indexOf(x.login) < 0 && _.includes(x.authorities, roleInternal);
-          });
-          $state.searchCache[role][search] = results;
-          return results;
-        });
-      }
-      return $state.currentPromise;
     };
-
-    $scope.removeUser = function(user, role) {
-      $scope.changed = true;
-      $scope.activeUsers[role] = $scope.activeUsers[role]
-        .filter(function(item) {
-          return item.login !== user.login;
-        });
-      $state.searchCache[role] = {};
-    };
+    $scope.selectedTab = {};
+    $scope.selectedTab.index = (function() {
+      switch ($state.params.tab) {
+        case 'status': return 0;
+        case 'config': return 1;
+        default: return 0;
+      }
+    })();
 
     $state.loadComplete = true;
+
   });

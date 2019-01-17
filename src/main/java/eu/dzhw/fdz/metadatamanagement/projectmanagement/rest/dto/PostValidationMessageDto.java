@@ -3,7 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.projectmanagement.rest.dto;
 import java.util.List;
 
 /**
- * This Message DTO is for transfering the id of a error message with all depending parameter 
+ * This Message DTO is for transferring the id of an error message with all depending parameters
  * to the client. 
  * 
  * @author Daniel Katzberg

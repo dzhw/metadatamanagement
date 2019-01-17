@@ -203,24 +203,22 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
                     'size': 100
                   },
                   'aggs': {
-                    'textDe': {
+                    'number': {
                       'terms': {
-                        'field': prefix + 'questionText.de',
+                        'field': prefix + 'number',
                         'size': 100
                       },
                       'aggs': {
+                        'textDe': {
+                          'terms': {
+                            'field': prefix + 'questionText.de',
+                            'size': 100
+                          }
+                        },
                         'textEn': {
                           'terms': {
                             'field': prefix + 'questionText.en',
                             'size': 100
-                          },
-                          'aggs': {
-                            'number': {
-                              'terms': {
-                                'field': prefix + 'number',
-                                'size': 100
-                              }
-                            }
                           }
                         }
                       }
@@ -281,13 +279,15 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
           buckets = result.aggregations.title.id.buckets;
         }
         buckets.forEach(function(bucket) {
+            var numberBucket = bucket.number.buckets[0];
             titleElement = {
               questionText: {
-                de: bucket.textDe.buckets[0].key,
-                en: bucket.textDe.buckets[0].textEn.buckets[0].key
+                de: numberBucket.textDe.buckets[0] ?
+                  numberBucket.textDe.buckets[0].key : '',
+                en: numberBucket.textEn.buckets[0] ?
+                  numberBucket.textEn.buckets[0].key : ''
               },
-              number: bucket.textDe.buckets[0].textEn.buckets[0]
-                .number.buckets[0].key,
+              number: numberBucket.key,
               id: bucket.key,
               count: bucket.doc_count
             };

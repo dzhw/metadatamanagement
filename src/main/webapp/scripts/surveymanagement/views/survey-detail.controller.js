@@ -8,7 +8,24 @@ angular.module('metadatamanagementApp')
       SurveyAttachmentResource, Principal, SimpleMessageToastService,
       SearchResultNavigatorService, $stateParams,
       SurveyResponseRateImageUploadService, DataAcquisitionProjectResource,
-      ProductChooserDialogService) {
+      ProductChooserDialogService, ProjectUpdateAccessService, $transitions,
+      $scope) {
+
+      var setupTransitionHook = function(project) {
+        var deregisterTransitionHook = $transitions
+          .onBefore({state: 'surveyDetail'}, function(transition) {
+            var identifier = _.get(transition, '_targetState._identifier');
+            if (identifier === 'surveyEdit') {
+              return ProjectUpdateAccessService
+                .isUpdateAllowed(project, 'surveys', true);
+            } else {
+              return true;
+            }
+          });
+
+        $scope.$on('$destroy', deregisterTransitionHook);
+      };
+
       SearchResultNavigatorService.registerCurrentSearchResult(
           $stateParams['search-result-index']);
       var ctrl = this;
@@ -29,52 +46,54 @@ angular.module('metadatamanagementApp')
         'nestedQuestions'
       ];
 
-      entity.promise.then(function(result) {
+      entity.promise.then(function(survey) {
         if (Principal
             .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           DataAcquisitionProjectResource.get({
-            id: result.dataAcquisitionProjectId
+            id: survey.dataAcquisitionProjectId
           }).$promise.then(function(project) {
             ctrl.projectIsCurrentlyReleased = (project.release != null);
+            ctrl.assigneeGroup = project.assigneeGroup;
+            setupTransitionHook(project);
           });
         }
         var currenLanguage = LanguageService.getCurrentInstantly();
         var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';
         PageTitleService.setPageTitle('survey-management.detail.title', {
-          title: result.title[currenLanguage] ? result.title[currenLanguage]
-          : result.title[secondLanguage],
-          surveyId: result.id
+          title: survey.title[currenLanguage] ? survey.title[currenLanguage]
+          : survey.title[secondLanguage],
+          surveyId: survey.id
         });
         ToolbarHeaderService.updateToolbarHeader({
           'stateName': $state.current.name,
-          'id': result.id,
-          'number': result.number,
-          'studyId': result.studyId,
+          'id': survey.id,
+          'number': survey.number,
+          'studyId': survey.studyId,
           'studyIsPresent': CleanJSObjectService.
-          isNullOrEmpty(result.study) ? false : true,
-          'projectId': result.dataAcquisitionProjectId});
-        if (result.dataSets) {
+          isNullOrEmpty(survey.study) ? false : true,
+          'projectId': survey.dataAcquisitionProjectId});
+        if (survey.dataSets) {
           ctrl.accessWays = [];
-          result.dataSets.forEach(function(dataSet) {
+          survey.dataSets.forEach(function(dataSet) {
             ctrl.accessWays = _.union(dataSet.accessWays, ctrl.accessWays);
           });
         }
-        if (result.release || Principal.hasAnyAuthority(['ROLE_PUBLISHER',
+        if (survey.release || Principal.hasAnyAuthority(['ROLE_PUBLISHER',
             'ROLE_DATA_PROVIDER'])) {
-          ctrl.survey = result;
-          ctrl.study = result.study;
-          ctrl.counts.dataSetsCount = result.dataSets.length;
+          ctrl.survey = survey;
+          ctrl.study = survey.study;
+          ctrl.counts.dataSetsCount = survey.dataSets.length;
           if (ctrl.counts.dataSetsCount === 1) {
-            ctrl.dataSet = result.dataSets[0];
+            ctrl.dataSet = survey.dataSets[0];
           }
           SurveySearchService.countBy('dataAcquisitionProjectId',
           ctrl.survey.dataAcquisitionProjectId)
           .then(function(surveysCount) {
             ctrl.counts.surveysCount = surveysCount.count;
           });
-          ctrl.counts.instrumentsCount = result.instruments.length;
+          ctrl.counts.instrumentsCount = survey.instruments.length;
           if (ctrl.counts.instrumentsCount === 1) {
-            ctrl.instrument = result.instruments[0];
+            ctrl.instrument = survey.instruments[0];
           }
           SurveyAttachmentResource.findBySurveyId({
             surveyId: ctrl.survey.id
@@ -84,9 +103,9 @@ angular.module('metadatamanagementApp')
                 ctrl.attachments = attachments;
               }
             });
-          ctrl.counts.publicationsCount = result.relatedPublications.length;
+          ctrl.counts.publicationsCount = survey.relatedPublications.length;
           if (ctrl.counts.publicationsCount === 1) {
-            ctrl.relatedPublication = result.relatedPublications[0];
+            ctrl.relatedPublication = survey.relatedPublications[0];
           }
           SurveyResponseRateImageUploadService.getImage(
             ctrl.survey.id, ctrl.survey.number, currenLanguage)
@@ -95,7 +114,7 @@ angular.module('metadatamanagementApp')
             });
         } else {
           SimpleMessageToastService.openAlertMessageToast(
-            'survey-management.detail.not-released-toast', {id: result.id}
+            'survey-management.detail.not-released-toast', {id: survey.id}
           );
         }
       });

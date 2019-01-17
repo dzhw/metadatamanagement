@@ -238,7 +238,8 @@ angular.module('metadatamanagementApp').config(
               'en': 'Geben Sie zusätzliche Anmerkungen zu dem Instrument hier auf Englisch an.',
             },
             'instrument-number': 'Wählen Sie eine freie Nummer für das neue Instrument aus.'
-          }
+          },
+          'all-instruments-deleted-toast': 'Alle Instrumente des Datenaufbereitungsprojekt "{{id}}" wurden gelöscht.'
         }
       }
       //jscs:enable

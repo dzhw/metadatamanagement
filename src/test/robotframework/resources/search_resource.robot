@@ -13,6 +13,7 @@ Search for
 Select project by name
     [Arguments]    ${projectname}
     Input Text    xpath=//md-sidenav//input[@type='search']    ${projectname}
+    Click Element Through Tooltips    xpath=//md-virtual-repeat-container//span[text()='${projectname}']
 
 Click on search result by id
     [Arguments]    ${id}
@@ -64,3 +65,6 @@ Click on publications tab
 
 Click Survey Edit Button
     Click Element Through Tooltips    xpath=//ui-view//a/md-icon[text()='mode_edit']
+
+Click on Cockpit Button
+    Click Element Through Tooltips    xpath= //md-icon[@md-svg-src='assets/images/icons/12206436.desktop-mac-dashboard.svg']

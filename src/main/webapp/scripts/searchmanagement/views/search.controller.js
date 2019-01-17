@@ -5,12 +5,14 @@
 /* The Controller for the search. It differs between tabs and a tab represent
 a result of a type like variable or dataSet and so on. */
 angular.module('metadatamanagementApp').controller('SearchController',
-  function($scope, Principal, $location, $state,
-    SearchDao, VariableUploadService,
-    QuestionUploadService, RelatedPublicationUploadService,
-    CleanJSObjectService, CurrentProjectService, $timeout, PageTitleService,
-    ToolbarHeaderService, SearchHelperService, SearchResultNavigatorService,
-    StudyResource, StudyIdBuilderService, $rootScope) {
+  function($scope, Principal, $location, $state, $q,
+           SearchDao, VariableUploadService, ProjectUpdateAccessService,
+           QuestionUploadService, RelatedPublicationUploadService,
+           CleanJSObjectService, CurrentProjectService, $timeout,
+           PageTitleService, ToolbarHeaderService, SearchHelperService,
+           SearchResultNavigatorService, StudyResource, StudyIdBuilderService,
+           $rootScope, ProjectStatusScoringService, $transitions,
+           DeleteMetadataService) {
 
     var queryChangedOnInit = false;
     var tabChangedOnInitFlag = false;
@@ -18,6 +20,38 @@ angular.module('metadatamanagementApp').controller('SearchController',
     var currentProjectChangeIsBeingHandled = false;
     var selectedTabChangeIsBeingHandled = false;
     var queryChangeIsBeingHandled = false;
+
+    var deregisterTransitionHook = $transitions.onBefore({state: 'search'},
+      function(transition) {
+      var identifier = _.get(transition, '_targetState._identifier');
+      if (identifier && identifier.match && identifier.match(/.*Create$/)) {
+        var type = $scope.tabs[$scope.searchParams.selectedTabIndex]
+          .elasticSearchType;
+        return $q.all([
+          ProjectUpdateAccessService.isPrerequisiteFulfilled(
+            $scope.currentProject,
+            $scope.tabs[$scope.searchParams.selectedTabIndex].elasticSearchType
+            ),
+          $q(function(resolve, reject) {
+            if (ProjectUpdateAccessService
+                .isUpdateAllowed($scope.currentProject, type, true)) {
+              resolve(true);
+            } else {
+              reject(false);
+            }
+          })
+        ]);
+      } else {
+        return true;
+      }
+    });
+
+    $scope.$on('$destroy', function() {
+      if (deregisterTransitionHook) {
+        deregisterTransitionHook();
+      }
+    });
+
     $scope.isSearching = 0;
     $scope.isDropZoneDisabled = true;
 
@@ -100,6 +134,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       });
       $scope.searchResult = {};
       $scope.currentProject = CurrentProjectService.getCurrentProject();
+      $scope.isUpdateAllowed = ProjectUpdateAccessService.isUpdateAllowed();
       if (!$scope.currentProject) {
         $scope.currentProject = undefined;
       }
@@ -129,9 +164,9 @@ angular.module('metadatamanagementApp').controller('SearchController',
         $scope.tabs[$scope.searchParams.selectedTabIndex].elasticSearchType,
         $scope.pageObject);
       SearchDao.search($scope.searchParams.query, $scope.pageObject.page,
-          projectId, $scope.searchParams.filter,
-          $scope.tabs[$scope.searchParams.selectedTabIndex].elasticSearchType,
-          $scope.pageObject.size, $scope.searchParams.sortBy)
+        projectId, $scope.searchParams.filter,
+        $scope.tabs[$scope.searchParams.selectedTabIndex].elasticSearchType,
+        $scope.pageObject.size, $scope.searchParams.sortBy)
         .then(function(data) {
           $scope.searchResult = data.hits.hits;
           $scope.pageObject.totalHits = data.hits.total;
@@ -155,6 +190,12 @@ angular.module('metadatamanagementApp').controller('SearchController',
             $scope.tabs[$scope.searchParams.selectedTabIndex].count =
               data.hits.total;
           });
+          if ($scope.currentProject) {
+            var dataType = $scope.tabs[
+              $scope.searchParams.selectedTabIndex].elasticSearchType;
+            $scope.isUpdateAllowed = ProjectUpdateAccessService
+              .isUpdateAllowed($scope.currentProject, dataType);
+          }
           $scope.isSearching--;
         }, function() {
           $scope.pageObject.totalHits = 0;
@@ -175,7 +216,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
         'stateName': $state.current.name,
         'tabName': $scope.tabs[$scope.searchParams.selectedTabIndex].title,
         'searchUrl': $location.absUrl(),
-        'searchParams': $location.search()});
+        'searchParams': $location.search()
+      });
       if (newValue !== oldValue && !locationChanged) {
         readSearchParamsFromLocation();
         // type changes are already handled by $scope.onSelectedTabChanged
@@ -192,10 +234,18 @@ angular.module('metadatamanagementApp').controller('SearchController',
         currentProjectChangeIsBeingHandled = true;
         //wait for other events (logout, selectedTabIndex)
         $timeout(function() {
+          if (!$state.is('search')) {
+            return;
+          }
+          var dataType = $scope.tabs[
+            $scope.searchParams.selectedTabIndex].elasticSearchType;
           if (currentProject) {
             $scope.currentProject = currentProject;
+            $scope.isUpdateAllowed = ProjectUpdateAccessService
+              .isUpdateAllowed(currentProject, dataType);
           } else {
             $scope.currentProject = undefined;
+            $scope.isUpdateAllowed = false;
           }
           $scope.pageObject.page = 1;
           writeSearchParamsToLocation();
@@ -215,8 +265,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       });
       var indexToSelect = _.findIndex($scope.tabs,
         function(tab) {
-        return tab.elasticSearchType === currentType;
-      });
+          return tab.elasticSearchType === currentType;
+        });
       if (indexToSelect < 0) {
         $scope.searchParams.selectedTabIndex = 0;
       } else {
@@ -225,12 +275,12 @@ angular.module('metadatamanagementApp').controller('SearchController',
     });
 
     $scope.onPageChanged = function() {
-        writeSearchParamsToLocation();
-        $scope.search();
-      };
+      writeSearchParamsToLocation();
+      $scope.search();
+    };
 
     $scope.$watch('searchParams.query', function() {
-      if (queryChangedOnInit)  {
+      if (queryChangedOnInit) {
         queryChangedOnInit = false;
         return;
       }
@@ -273,17 +323,11 @@ angular.module('metadatamanagementApp').controller('SearchController',
     };
 
     $scope.uploadVariables = function(files) {
-      if (!files || files.length === 0 || !$scope.currentProject) {
-        return;
-      }
       VariableUploadService.uploadVariables(files,
         $scope.currentProject.id);
     };
 
     $scope.uploadQuestions = function(files) {
-      if (!files || files.length === 0) {
-        return;
-      }
       QuestionUploadService.uploadQuestions(files,
         $scope.currentProject.id);
     };
@@ -332,7 +376,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       uploadFunction: null,
       disabled: false,
       visibleForPublicUser: true,
-      noResultsText: 'search-management.no-results-text.studies'
+      noResultsText: 'search-management.no-results-text.studies',
+      group: 'studies'
     }, {
       title: 'search-management.tabs.surveys',
       inputLabel: 'search-management.input-label.surveys',
@@ -342,7 +387,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       uploadFunction: null,
       disabled: false,
       visibleForPublicUser: true,
-      noResultsText: 'search-management.no-results-text.surveys'
+      noResultsText: 'search-management.no-results-text.surveys',
+      group: 'surveys'
     }, {
       title: 'search-management.tabs.instruments',
       inputLabel: 'search-management.input-label.instruments',
@@ -352,7 +398,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       uploadFunction: null,
       disabled: false,
       visibleForPublicUser: true,
-      noResultsText: 'search-management.no-results-text.instruments'
+      noResultsText: 'search-management.no-results-text.instruments',
+      group: 'instruments'
     }, {
       title: 'search-management.tabs.questions',
       inputLabel: 'search-management.input-label.questions',
@@ -362,7 +409,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       uploadFunction: $scope.uploadQuestions,
       disabled: false,
       visibleForPublicUser: true,
-      noResultsText: 'search-management.no-results-text.questions'
+      noResultsText: 'search-management.no-results-text.questions',
+      group: 'questions'
     }, {
       title: 'search-management.tabs.data_sets',
       inputLabel: 'search-management.input-label.data-sets',
@@ -372,7 +420,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       uploadFunction: null,
       disabled: false,
       visibleForPublicUser: true,
-      noResultsText: 'search-management.no-results-text.data-sets'
+      noResultsText: 'search-management.no-results-text.data-sets',
+      group: 'dataSets'
     }, {
       title: 'search-management.tabs.variables',
       inputLabel: 'search-management.input-label.variables',
@@ -382,7 +431,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       uploadFunction: $scope.uploadVariables,
       disabled: false,
       visibleForPublicUser: true,
-      noResultsText: 'search-management.no-results-text.variables'
+      noResultsText: 'search-management.no-results-text.variables',
+      group: 'variables'
     }, {
       title: 'search-management.tabs.related_publications',
       inputLabel: 'search-management.input-label.related-publications',
@@ -411,33 +461,40 @@ angular.module('metadatamanagementApp').controller('SearchController',
     };
 
     $scope.loadStudyForProject = function() {
-          if ($scope.currentProject && !$scope.currentProject.release &&
-            $scope.tabs[$scope.searchParams.selectedTabIndex]
-            .elasticSearchType === 'studies') {
-            $rootScope.$broadcast('start-ignoring-404');
-            StudyResource.get({id: StudyIdBuilderService.buildStudyId(
-              $scope.currentProject.id)}).$promise.then(function(study) {
-                $scope.currentStudy = study;
-              }).catch(function() {
-                $scope.currentStudy = undefined;
-              }).finally(function() {
-                $rootScope.$broadcast('stop-ignoring-404');
-              });
-          } else {
-            $scope.currentStudy = undefined;
-          }
-        };
+      if ($scope.currentProject && !$scope.currentProject.release &&
+        $scope.tabs[$scope.searchParams.selectedTabIndex]
+          .elasticSearchType === 'studies') {
+        $rootScope.$broadcast('start-ignoring-404');
+        StudyResource.get({
+          id: StudyIdBuilderService.buildStudyId(
+            $scope.currentProject.id)
+        }).$promise.then(function(study) {
+          $scope.currentStudy = study;
+        }).catch(function() {
+          $scope.currentStudy = undefined;
+        }).finally(function() {
+          $rootScope.$broadcast('stop-ignoring-404');
+        });
+      } else {
+        $scope.currentStudy = undefined;
+      }
+    };
 
     $scope.setDropZoneDisabled = function() {
       if (!$scope.tabs[$scope.searchParams.selectedTabIndex].uploadFunction) {
         $scope.isDropZoneDisabled = true;
         return;
       }
-      if ($scope.tabs[$scope.searchParams.selectedTabIndex]
-        .elasticSearchType !== 'related_publications') {
+
+      var type = $scope.tabs[$scope.searchParams.selectedTabIndex]
+        .elasticSearchType;
+
+      if (type !== 'related_publications') {
         if (!$scope.currentProject || $scope.currentProject.release ||
           !Principal.hasAnyAuthority(
-            ['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
+            ['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER']) ||
+          !ProjectUpdateAccessService
+            .isUpdateAllowed($scope.currentProject, type)) {
           $scope.isDropZoneDisabled = true;
           return;
         }
@@ -448,6 +505,35 @@ angular.module('metadatamanagementApp').controller('SearchController',
         }
       }
       $scope.isDropZoneDisabled = false;
+    };
+
+    $scope.getSentimentValue = function(tab) {
+      return ProjectStatusScoringService
+        .scoreProjectStatus($scope.currentProject, tab);
+    };
+
+    $scope.isUploadAllowed = function(type) {
+      return ProjectUpdateAccessService.isUpdateAllowed($scope.currentProject,
+        type, true);
+    };
+    $scope.deleteAllStudies = function() {
+      DeleteMetadataService.deleteAllOfType($scope.currentProject, 'studies');
+    };
+    $scope.deleteAllQuestions = function() {
+      DeleteMetadataService.deleteAllOfType($scope.currentProject, 'questions');
+    };
+    $scope.deleteAllVariables = function() {
+      DeleteMetadataService.deleteAllOfType($scope.currentProject, 'variables');
+    };
+    $scope.deleteAllInstruments = function() {
+      DeleteMetadataService.deleteAllOfType(
+        $scope.currentProject, 'instruments');
+    };
+    $scope.deleteAllSurveys = function() {
+      DeleteMetadataService.deleteAllOfType($scope.currentProject, 'surveys');
+    };
+    $scope.deleteAllDataSets = function() {
+      DeleteMetadataService.deleteAllOfType($scope.currentProject, 'data_sets');
     };
     init();
   });

@@ -8,9 +8,11 @@ Domain objects describing \ :java:ref:`eu.dzhw.fdz.metadatamanagement.projectman
 .. toctree::
    :maxdepth: 1
 
+   AssigneeGroup
    Configuration
    DaraUpdateQueueItem
    DataAcquisitionProject
+   ProjectState
    Release
    Requirements
 

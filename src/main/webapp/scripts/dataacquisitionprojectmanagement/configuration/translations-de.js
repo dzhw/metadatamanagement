@@ -43,6 +43,16 @@ angular.module('metadatamanagementApp').config(
         },
         'error': {
           'data-acquisition-project': {
+            'assignee-group': {
+              'not-null': 'Die zuständige Bearbeitergruppe (Publisher oder Datengeber) darf nicht leer sein.',
+              'not-assigned': 'Die Zuständigkeit für das Projekt kann nicht geändert werden, weil es Publishern zugewiesen ist.'
+            },
+            'configuration': {
+              'not-null': 'Die Projektkonfiguration darf nicht leer sein'
+            },
+            'create': {
+              'unauthorized': 'Projekte dürfen nur durch Publisher angelegt werden.'
+            },
             'id': {
               'not-empty': 'Der Name des Datenaufbereitungsprojekts darf nicht leer sein!',
               'pattern': 'Der Name eines Projektes darf nur aus Zahlen und kleinen Buchstaben (a-z) bestehen.',
@@ -54,8 +64,15 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'configuration': {
+            'data-providers': {
+              'update-not-allowed': 'Es muss mindestens 1 Datengeber eingetragen sein.'
+            },
             'publishers': {
-              'not-empty': 'Es muss mindestens ein Publisher eingetragen sein.'
+              'not-empty': 'Es muss mindestens ein Publisher eingetragen sein.',
+              'unauthorized': 'Publisher dürfen nur durch andere Publisher gesetzt werden.'
+            },
+            'requirements': {
+              'unauthorized': 'Pflichtfelder dürfen nur durch Publishers dieses Projekts geändert werden.'
             }
           },
           'release': {
@@ -67,15 +84,41 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'post-validation': {
-            'project-has-no-study': 'Das Projekt mit der FDZID {{ id }} enthält keine Studie.'
+            'project-has-no-study': 'Das Projekt mit der FDZID {{ id }} enthält keine Studie.',
+            'requirements-not-met': 'Es gibt noch Metadaten die nicht von den Publishern als "fertig" markiert wurden.'
+          },
+          'project-update-access': {
+            'project-selected': 'Für das Anlegen neuer Daten muss ein Projekt ausgewählt sein.',
+            'update-for-publishers-allowed': 'Die Aktion ist nicht möglich, weil die Metadaten bereits durch den Publisher als "fertig" markiert wurden',
+            'update-for-data-providers-allowed': 'Die Aktion ist nicht möglich, weil die Metadaten bereits durch den Publisher oder Datengeber als "fertig" markiert wurden',
+            'project-released': 'Die Aktion ist nicht möglich, weil das Projekt momentan für alle öffentlichen Nutzer freigegeben ist.',
+            'member-of-assigned-group': 'Die Aktion ist nicht möglich, weil das Projekt momentan der anderen Projektgruppe zugewiesen ist.',
+            'assigned-to-project': 'Die Aktion ist nicht möglich, weil Sie dem Projekt nicht als Publisher oder Datengeber zugewiesen sind.',
+            'not-required': 'Die Aktion ist nicht möglich, weil diese Metadaten in den Projekteinstellungen nicht als "erwartet" markiert wurden.',
+            'prerequisite-missing-surveys': 'Die Aktion ist nicht möglich, weil das Projekt noch keine Erhebung enthält.'
           }
         },
+        'projectstatuslabel': {
+          'assigned-to': 'Zugewiesen an',
+          'PUBLISHER': 'Publisher',
+          'DATA_PROVIDER': 'Datengeber'
+        },
+        'releasestatusbadge': {
+          'released': 'Freigegeben',
+          'unreleased': 'Nicht freigegeben'
+        },
         'project-cockpit': {
-          'title': 'Projekt-Cockpit',
+          'title': 'Projekt-Cockpit ({{projectId}})',
+          'header': 'Projekt-Cockpit',
           'search': {
             'placeholder': 'Suchen Sie Benutzer...',
             'header-data-provider': 'Datengeber dieses Projekts',
             'header-publisher': 'Publisher dieses Projekts'
+          },
+          'tooltip': {
+            'not-assigned': 'Das Projekt ist aktuell der anderen Benutzergruppe zugewiesen.',
+            'not-in-group': 'Sie gehören nicht dieser Benutzergruppe an.',
+            'not-in-publishers': 'Sie sind diesem Projekt nicht als Publisher zugewiesen'
           },
           'alert': {
             'title': 'Achtung',
@@ -90,21 +133,51 @@ angular.module('metadatamanagementApp').config(
           },
           'button': {
             'save': 'Klicken, um die Anpassungen zu speichern.',
+            'save-assign': 'Klicken, um die Anpassungen zu speichern und das Projekt zuzuweisen.',
+            'save-takeback': 'Klicken, um die Anpassungen zu speichern und das Projekt der Gruppe Publisher zuzuweisen.',
             'remove-user': 'Nutzer entfernen'
           },
           'list': {
             'empty-data-provider': 'Keine Datengeber sind diesem Projekt zugeteilt.',
             'empty-publisher': 'Keine Publisher sind diesem Projekt zugeteilt.'
           },
+          'tabs': {
+            'status': 'Status',
+            'config': 'Einstellungen'
+          },
           'requirements': {
             'header': 'Erwartete Metadaten',
-            'studies': 'Studien (immer obligatorisch)',
+            'studies': 'Studie',
             'surveys': 'Erhebungen',
             'instruments': 'Instrumente',
             'questions': 'Fragen',
-            'data-sets': 'Datensätze',
+            'dataSets': 'Datensätze',
             'variables': 'Variablen',
             'setting-info': 'Die folgenden Metadaten müssen bereitgestellt werden, bevor dieses Projekt für alle Benutzer freigegeben werden kann:'
+          },
+          'config': {
+            'assigned-group': 'Zugewiesene Benutzergruppe',
+            'released': 'Veröffentlicht',
+            'expected': 'Erwartet',
+            'ready': 'Fertig',
+            'new': 'Neu',
+            'edit': 'Bearbeiten',
+            'upload': 'Hochladen',
+            'delete': 'Löschen'
+          },
+          'message-dialog': {
+            'title': 'Nachricht an {{recipient}}',
+            'description': 'Geben Sie eine Nachricht ein, die an alle {{recipient}} dieses Projekts per E-Mail verschickt wird.',
+            'label': 'Nachricht',
+            'confirm': 'Zuweisen',
+            'cancel': 'Abbrechen'
+          },
+          'no-data-providers-dialog': {
+            'text': 'Es gibt keine eingetragenen Datengeber für dieses Projekt. Wechseln Sie zu den Projekteinstellungen und tragen Sie mindestens einen Datengeber ein.'
+          },
+          'takeback-dialog': {
+            'title': 'Projekt zurückziehen',
+            'text': 'Möchten Sie das Projekt wirklich von der Gruppe Datengeber zurückziehen?'
           }
         }
       }
