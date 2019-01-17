@@ -1,11 +1,12 @@
-/* global _ */
+/* global _, bowser */
 
 'use strict';
 
 angular.module('metadatamanagementApp')
   .directive('metadataTypeStateCard',
   function($state, ProjectStatusScoringService, ProjectUpdateAccessService,
-      VariableUploadService, QuestionUploadService, DeleteMetadataService) {
+      VariableUploadService, QuestionUploadService, DeleteMetadataService,
+      SimpleMessageToastService) {
     return {
       restrict: 'E',
       templateUrl: 'scripts/dataacquisitionprojectmanagement/directives/' +
@@ -138,19 +139,24 @@ angular.module('metadatamanagementApp')
         };
 
         ctrl.isUploadAllowed = function(type) {
+          if (bowser.msie) {
+            SimpleMessageToastService.openAlertMessageToast('global.error.' +
+              'browser-not-supported');
+            return false;
+          }
           return ProjectUpdateAccessService.isUpdateAllowed(ctrl.project,
-            type.replace(/([A-Z])/g,
-              function($1) {return '_' + $1.toLowerCase();}), true);
+            type, true);
         };
 
         ctrl.create = function() {
-          if (ctrl.isUploadAllowed(ctrl.type)) {
+          if (ProjectUpdateAccessService.isUpdateAllowed(ctrl.project,
+              ctrl.type, true)) {
             $state.go(this.createState, {});
           }
         };
 
         ctrl.delete = function() {
-          DeleteMetadataService.deleteAllOfType($scope.project, ctrl.type);
+          DeleteMetadataService.deleteAllOfType(ctrl.project, ctrl.type);
         };
       }
     };
