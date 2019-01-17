@@ -725,8 +725,7 @@ Spaltennamen und Ausfüllanweisungen sind im nächsten Abschnitt zu finden.
 
 Zusätzlich müssen zu jeder Frage ein oder mehrere Bilder vorhanden sein.
 Wie Fragebilder aus Ragtime-Dateien extrahiert werden können, wird
-`hier <https://github.com/dzhw/metadatamanagement-io/wiki/Bilderfassung-aus-RagTime>`_
-erklärt.
+erklärt: :ref:`bilderfassung_ragtime-label`
 Eine Anleitung zum Ausschneiden von Bildern aus pdf Dateien ist
 `hier <https://github.com/dzhw/metadatamanagement-io/wiki/Bilderfassung-aus-pdf>`_
 zu finden.
