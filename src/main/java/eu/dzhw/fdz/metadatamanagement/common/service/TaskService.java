@@ -1,8 +1,12 @@
 package eu.dzhw.fdz.metadatamanagement.common.service;
 
+import java.time.LocalDateTime;
+
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.Task;
@@ -29,6 +33,9 @@ public class TaskService {
 
   @Autowired
   private CounterService counterService;
+  
+  @Value("${metadatamanagement.server.instance-index}")
+  private Integer instanceId;
 
   /**
    * Create a task.
@@ -87,5 +94,20 @@ public class TaskService {
       errorListDto.add(new ErrorDto(null, messageKey, exception.getMessage(), null));
     }
     return errorListDto;
+  }
+  
+  /**
+   * Delete all completed tasks at 3 am.
+   */
+  @Scheduled(cron = "0 0 3 * * ?")
+  public void deleteCompletedTasks() {
+    if (instanceId != 0) {
+      return;
+    }
+    log.info("Starting deletion of completed tasks...");
+    LocalDateTime yesterday = LocalDateTime.now().minusDays(14);
+    taskRepo.deleteAllByStateAndCreatedDateBefore(TaskState.DONE, yesterday);    
+    taskRepo.deleteAllByStateAndCreatedDateBefore(TaskState.FAILURE, yesterday);
+    log.info("Finished deleting completed tasks.");
   }
 }

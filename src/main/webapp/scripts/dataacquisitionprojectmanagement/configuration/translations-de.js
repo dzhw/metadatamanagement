@@ -94,7 +94,8 @@ angular.module('metadatamanagementApp').config(
             'project-released': 'Die Aktion ist nicht möglich, weil das Projekt momentan für alle öffentlichen Nutzer freigegeben ist.',
             'member-of-assigned-group': 'Die Aktion ist nicht möglich, weil das Projekt momentan der anderen Projektgruppe zugewiesen ist.',
             'assigned-to-project': 'Die Aktion ist nicht möglich, weil Sie dem Projekt nicht als Publisher oder Datengeber zugewiesen sind.',
-            'not-required': 'Die Aktion ist nicht möglich, weil diese Metadaten in den Projekteinstellungen nicht als "erwartet" markiert wurden.'
+            'not-required': 'Die Aktion ist nicht möglich, weil diese Metadaten in den Projekteinstellungen nicht als "erwartet" markiert wurden.',
+            'prerequisite-missing-surveys': 'Die Aktion ist nicht möglich, weil das Projekt noch keine Erhebung enthält.'
           }
         },
         'projectstatuslabel': {
