@@ -1,7 +1,7 @@
 <md-card class="fdz-metadata-type-state-card" flex="auto">
 	<md-card-header>
 		<md-card-header-text layout="row" layout-align="space-between center">
-			<a ui-sref="ctrl.search({type: ctrl.searchState})" class="md-headline" layout="row" layout-align="start center">
+			<a ui-sref="search({type: ctrl.searchState})" class="md-headline" layout="row" layout-align="start center">
 				<md-icon ng-if="ctrl.icon" md-svg-icon="{{ctrl.icon}}" class="md-primary"></md-icon>
 				<span>&nbsp;{{'data-acquisition-project-management.project-cockpit.requirements.'+ctrl.type | translate}}&nbsp;</span>
 				<span>({{ctrl.counts[ctrl.type === 'dataSets' ? 'data_sets' : ctrl.type]}})</span>
@@ -41,9 +41,13 @@
 	</md-card-content>
 	<md-card-actions layout="row" layout-align="end center">
 		<div>
-			<md-button class="md-raised" ng-click="ctrl.delete()" ng-disabled="!(ctrl.counts[ctrl.type === 'dataSets' ? 'data_sets' : ctrl.type])">
+			<md-button style="margin: 0 4px;" class="md-raised" ng-click="ctrl.delete()" ng-disabled="!(ctrl.counts[ctrl.type === 'dataSets' ? 'data_sets' : ctrl.type])">
 				<span>{{'data-acquisition-project-management.project-cockpit.config.delete' | translate}}</span>
 				<md-tooltip md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">{{ctrl.deleteTooltip | translate}}</md-tooltip>
+			</md-button>
+			<md-button style="margin: 0 4px;" class="md-raised" ui-sref="search({type: ctrl.searchState})" ng-disabled="!(ctrl.counts[ctrl.type === 'dataSets' ? 'data_sets' : ctrl.type])" ng-if="ctrl.type !== 'variables' && ctrl.type !== 'questions' && ctrl.type !== 'studies'">
+				<span>{{'data-acquisition-project-management.project-cockpit.config.edit' | translate}}</span>
+				<md-tooltip md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">{{ctrl.editTooltip | translate}}</md-tooltip>
 			</md-button>
 			<md-button class="md-primary md-raised" ng-if="!!ctrl.createState" ng-click="ctrl.create()">
 				<span>{{'data-acquisition-project-management.project-cockpit.config.' + ctrl.getModifyButtonLabel(ctrl.type) | translate}}</span>

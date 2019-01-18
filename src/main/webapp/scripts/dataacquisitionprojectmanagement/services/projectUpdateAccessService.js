@@ -3,7 +3,8 @@
 'use strict';
 angular.module('metadatamanagementApp').service(
   'ProjectUpdateAccessService',
-  function(CurrentProjectService, Principal, SimpleMessageToastService, $log) {
+  function(CurrentProjectService, Principal, SimpleMessageToastService,
+    $log, $q, SearchDao) {
 
     var messagePrefix = 'data-acquisition-project-management.error.project' +
       '-update-access.';
@@ -15,6 +16,7 @@ angular.module('metadatamanagementApp').service(
       memberOfAssignedGroup: messagePrefix + 'member-of-assigned-group',
       assignedToProject: messagePrefix + 'assigned-to-project',
       isNotRequired: messagePrefix + 'not-required',
+      prerequisiteMissing: messagePrefix + 'prerequisite-missing',
       updateForPublisherAllowed: messagePrefix +
         'update-for-publishers-allowed',
       updateForDataProviderAllowed: messagePrefix +
@@ -84,6 +86,9 @@ angular.module('metadatamanagementApp').service(
     };
 
     var isAssignedToProject = function(project, role) {
+      if (!project) {
+        return false;
+      }
       role = role || '';
       var userLogin = Principal.loginName();
       if (role === '' || role === 'publishers') {
@@ -100,6 +105,12 @@ angular.module('metadatamanagementApp').service(
     };
 
     var isUpdateAllowed = function(project, type, notify) {
+      if (type) {
+        type = type.replace(/([a-z])([A-Z])/g,
+          function($1, $2, $3) {  // jshint ignore:line
+            return $2 + '_' + $3.toLowerCase();});
+      }
+
       if (!_.includes(['studies', 'surveys', 'instruments',
         'data_sets', 'questions', 'variables', undefined, null], type)) {
         return false;
@@ -169,6 +180,7 @@ angular.module('metadatamanagementApp').service(
             notification.push(validation.errorKey);
           }
         });
+
         if (notification.length) {
           SimpleMessageToastService.openAlertMessageToasts(notification.map(
             function(not) {
@@ -181,9 +193,55 @@ angular.module('metadatamanagementApp').service(
       return isValid;
     };
 
+    var isPrerequisiteFulfilled = function(project, type) {
+      var deferred = $q.defer();
+
+      if (!project || !type) {
+        deferred.reject(false);
+        return deferred.promise;
+      }
+
+      type = type.replace(/([a-z])([A-Z])/g,
+        function($1, $2, $3) {  // jshint ignore:line
+          return $2 + '_' + $3.toLowerCase();});
+
+      var prereq = '';
+      if (type === 'instruments') {
+        prereq = 'surveys';
+      }
+      if (type === 'data_sets') {
+        prereq = 'surveys';
+      }
+
+      if (!prereq) {
+        deferred.resolve(true);
+        return deferred.promise;
+      }
+
+      var check = function(count) {
+        if (count >= 1) {
+          deferred.resolve(true);
+        } else {
+          SimpleMessageToastService.openAlertMessageToast(
+            errorList.prerequisiteMissing + '-' + prereq);
+          deferred.reject(false);
+        }
+      };
+
+      SearchDao.search('', 1, project.id, {}, undefined, 0, undefined)
+        .then(function(data) {
+            var bucket  = _.find(data.aggregations.countByType.buckets,
+              {key: prereq});
+            check(_.get(bucket, 'doc_count', 0));
+          });
+
+      return deferred.promise;
+    };
+
     return {
       isAssignedToProject: isAssignedToProject,
-      isUpdateAllowed: isUpdateAllowed
+      isUpdateAllowed: isUpdateAllowed,
+      isPrerequisiteFulfilled: isPrerequisiteFulfilled
     };
 
   });

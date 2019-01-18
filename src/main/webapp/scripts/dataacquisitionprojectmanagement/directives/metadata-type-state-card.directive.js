@@ -25,6 +25,9 @@ angular.module('metadatamanagementApp')
         this.project = $scope.project;
 
         this.update = function(changedProject) {
+          if (!changedProject) {
+            return;
+          }
           this.isAssignedDataProvider =
             ProjectUpdateAccessService.isAssignedToProject(
               changedProject, 'dataProviders');
@@ -51,6 +54,8 @@ angular.module('metadatamanagementApp')
             this.tooltip = 'search-management.buttons.create-survey-tooltip';
             this.deleteTooltip = 'search-management.buttons.' +
               'delete-all-surveys-tooltip';
+            this.editTooltip = 'search-management.buttons.' +
+              'edit-surveys-tooltip';
             break;
           case 'instruments':
             this.icon = 'assets/images/icons/instrument.svg';
@@ -60,6 +65,8 @@ angular.module('metadatamanagementApp')
               'create-instrument-tooltip';
             this.deleteTooltip = 'search-management.buttons.' +
               'delete-all-instruments-tooltip';
+            this.editTooltip = 'search-management.buttons.' +
+              'edit-instruments-tooltip';
             break;
           case 'questions':
             this.icon = 'assets/images/icons/question.svg';
@@ -81,6 +88,8 @@ angular.module('metadatamanagementApp')
               'create-data-set-tooltip';
             this.deleteTooltip = 'search-management.buttons.' +
              'delete-all-data-sets-tooltip';
+            this.editTooltip = 'search-management.buttons.' +
+             'edit-data-sets-tooltip';
             break;
           case 'variables':
             this.icon = 'assets/images/icons/variable.svg';
@@ -144,14 +153,20 @@ angular.module('metadatamanagementApp')
               'browser-not-supported');
             return false;
           }
-          return ProjectUpdateAccessService.isUpdateAllowed(ctrl.project,
-            type, true);
+          return ctrl.isCreationAllowed(type);
+        };
+
+        ctrl.isCreationAllowed = function(type) {
+          return ProjectUpdateAccessService.isUpdateAllowed(
+            ctrl.project, type, true);
         };
 
         ctrl.create = function() {
-          if (ProjectUpdateAccessService.isUpdateAllowed(ctrl.project,
-              ctrl.type, true)) {
-            $state.go(this.createState, {});
+          if (ctrl.isCreationAllowed(ctrl.type)) {
+            ProjectUpdateAccessService.isPrerequisiteFulfilled(
+              ctrl.project, ctrl.type).then(function() {
+                $state.go(ctrl.createState, {});
+              });
           }
         };
 
