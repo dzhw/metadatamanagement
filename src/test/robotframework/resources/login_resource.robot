@@ -27,7 +27,7 @@ Create Project
     Click Element Through Tooltips    xpath=//md-sidenav//button[md-icon[text()='add']]
     Input Text    name=id    ${projectname}
     Wait Until Keyword Succeeds    5s    0.5s    Page Should Contain Element    xpath=//button[@type='submit' and not(contains(@disabled, 'disabled'))]
-    Click Element Through Tooltips    xpath=//button[@type='submit']
+    Click Element Through Tooltips    xpath=//button[@type='submit'][contains(.,'OK')]
     Sleep  3s
 
 Delete Robotsproject

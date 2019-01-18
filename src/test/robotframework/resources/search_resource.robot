@@ -15,7 +15,7 @@ Select project by name
     Input Text    xpath=//md-sidenav//input[@type='search']    ${projectname}
     Run Keyword And Ignore Error  Click Element Through Tooltips    xpath=//md-virtual-repeat-container//span[text()='${projectname}']
 
-Delect project by name
+Delete project by name
     [Arguments]    ${projectname}
     Input Text    xpath=//input[@placeholder = 'Projekt auswählen']    ${projectname}
     Click Element Through Tooltips    xpath=//md-sidenav/descendant::button[md-icon[text()='']]

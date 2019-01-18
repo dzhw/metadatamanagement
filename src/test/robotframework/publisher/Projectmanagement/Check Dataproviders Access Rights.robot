@@ -42,7 +42,7 @@ Check Dataprovider Cannot Change Anything
    Ensure Expected Metadata Fields are Disabled
    Data Provider Logout
    Login as publisher
-   Delect project by name  ${PROJECT_NAME}${BROWSER}
+   Delete project by name  ${PROJECT_NAME}${BROWSER}
 
 
 
