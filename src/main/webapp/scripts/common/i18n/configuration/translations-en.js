@@ -242,6 +242,7 @@ angular.module('metadatamanagementApp').config(
           '403': 'You are not authorized to access the page.',
           'server-not-reachable': 'Server not reachable',
           'not-null': 'Field {{fieldName}} cannot be empty!',
+          'browser-not-supported': 'This action isn\'t supported in the currently used browser',
           'entity': {
             'exists': 'There is already a {{params[0]}} with RDC-ID "{{params[1]}}"!',
             'compoundexists': 'There is already a "{{params[0]}}" with the field combination "{{params[1]}}"!',

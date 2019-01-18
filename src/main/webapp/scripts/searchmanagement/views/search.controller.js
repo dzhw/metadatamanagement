@@ -1,4 +1,4 @@
-/* global _ */
+/* global _, bowser */
 
 'use strict';
 
@@ -12,7 +12,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
            PageTitleService, ToolbarHeaderService, SearchHelperService,
            SearchResultNavigatorService, StudyResource, StudyIdBuilderService,
            $rootScope, ProjectStatusScoringService, $transitions,
-           DeleteMetadataService) {
+           DeleteMetadataService, SimpleMessageToastService) {
 
     var queryChangedOnInit = false;
     var tabChangedOnInitFlag = false;
@@ -513,6 +513,11 @@ angular.module('metadatamanagementApp').controller('SearchController',
     };
 
     $scope.isUploadAllowed = function(type) {
+      if (bowser.msie) {
+        SimpleMessageToastService.openAlertMessageToast('global.error.' +
+          'browser-not-supported');
+        return false;
+      }
       return ProjectUpdateAccessService.isUpdateAllowed($scope.currentProject,
         type, true);
     };
