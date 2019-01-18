@@ -1,6 +1,6 @@
 {
   "name": "angular-i18n",
-  "version": "1.7.5",
+  "version": "1.7.6",
   "license": "MIT",
   "ignore": [
     "**/.*",
@@ -9,13 +9,13 @@
     "precommit.sh"
   ],
   "homepage": "https://github.com/angular/bower-angular-i18n",
-  "_release": "1.7.5",
+  "_release": "1.7.6",
   "_resolution": {
     "type": "version",
-    "tag": "v1.7.5",
-    "commit": "14db68166eb5601ba3773ff7dff402d3eb25e124"
+    "tag": "v1.7.6",
+    "commit": "25032333bf3eac755f8daf3b05b8cde515d9140a"
   },
   "_source": "https://github.com/angular/bower-angular-i18n.git",
-  "_target": "1.7.5",
+  "_target": "1.7.6",
   "_originalSource": "angular-i18n"
 }
