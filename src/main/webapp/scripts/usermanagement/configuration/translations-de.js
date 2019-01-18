@@ -168,6 +168,12 @@ angular.module('metadatamanagementApp').config(
           'buttons': {
             'send': 'Senden'
           }
+        },
+        'welcome-dialog': {
+          'title': 'Herzlich Willkommen',
+          'text-body': '<p>Liebe(r) {{username}},<br>schön, dass Sie sich dazu entschieden haben, ihre Forschungsdaten anderen Forschern über unser FDZ zur Verfügung zu stellen.</p><p>Dieses System dient dazu, alle Informationen rund um Ihre Forschungsdaten (sogenannte Metadaten) zu erfassen und zu veröffentlichen. Eine ausführliche Benutzerdokumentation find Sie hier: <a href="https://metadatamanagement.readthedocs.io/de/stable/" target="_blank">ReadTheDocs</a>.</p><p>In dem Navigationsmenü auf der linken Seite finden Sie eine Liste aller Datenaufbereitungsprojekte denen Sie als Datengeber zugewiesen wurden:<img src="/assets/images/welcome-dialog-project-chooser-{{language}}.png" class="fdz-welcome-dialog-image"/>.Wählen Sie dort einfach das Projekt aus, für dass Sie jetzt Metadaten erfassen möchten und klicken Sie anschließend auf die orangene Schaltfläche <img src="/assets/images/welcome-dialog-project-cockpit-button.png"/> unter dem ausgewählten Projekt.</p>',
+          'close': 'Schließen',
+          'do-not-show-again': 'Nicht mehr anzeigen'
         }
       }
       //jscs:enable

@@ -1,0 +1,36 @@
+<md-dialog aria-label="{{'user-management.welcome-dialog.close' | translate}}">
+    <form ng-cloak flex="grow">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{'user-management.welcome-dialog.title' | translate}}</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="closeDialog()">
+                    <md-icon aria-label="{{'user-management.welcome-dialog.close' | translate}}">
+                        close
+                    </md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <div flex="grow" layout="column" layout-align="space-between none">
+            <md-dialog-content>
+                <div class="md-dialog-content"
+                     translate="user-management.welcome-dialog.text-body"
+                     data-translate-values="{username: username, language: language}"
+                >
+                </div>
+            </md-dialog-content>
+
+            <md-dialog-actions>
+                <md-checkbox ng-model="data.doNotShowAgain"
+                             ng-if="displayDeactivateDialogOption"
+                             aria-label="{{'user-management.welcome-dialog.do-not-show-again' | translate}}"
+                             class="fdz-no-margin-bottom">
+                    {{'user-management.welcome-dialog.do-not-show-again' | translate}}
+                </md-checkbox>
+                <md-button ng-click="closeDialog()" class="md-primary">
+                    {{'user-management.welcome-dialog.close' | translate}}
+                </md-button>
+            </md-dialog-actions>
+        </div>
+    </form>
+</md-dialog>

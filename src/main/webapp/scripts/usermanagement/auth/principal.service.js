@@ -1,3 +1,4 @@
+/* globals _ */
 'use strict';
 
 angular.module('metadatamanagementApp').factory(
@@ -78,6 +79,9 @@ angular.module('metadatamanagementApp').factory(
       },
       loginName: function() {
         return _identity && _identity.login;
+      },
+      isWelcomeDialogDeactivated: function() {
+        return _.get(_identity, 'welcomeDialogDeactivated', false);
       }
     };
   });

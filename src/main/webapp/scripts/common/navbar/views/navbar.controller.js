@@ -3,8 +3,9 @@
 
 angular.module('metadatamanagementApp').controller('NavbarController',
   function($scope, Principal, $mdSidenav, $document, $timeout,
-    LanguageService, Auth, $state,
-    FdzWelcomeDialogService) {
+    LanguageService, Auth, $state, FdzWelcomeDialogService,
+    WelcomeDialogService) {
+
     $scope.isAuthenticated = Principal.isAuthenticated;
 
     //For toggle buttons
@@ -61,6 +62,14 @@ angular.module('metadatamanagementApp').controller('NavbarController',
         lang: LanguageService.getCurrentInstantly()
       });
       $scope.close();
+    };
+
+    $scope.displayWelcomeDialog = function() {
+      WelcomeDialogService.display(Principal.loginName(), false);
+    };
+
+    $scope.isDataProvider = function() {
+      return Principal.hasAuthority('ROLE_DATA_PROVIDER');
     };
 
     var fixTextareaHeight = function() {

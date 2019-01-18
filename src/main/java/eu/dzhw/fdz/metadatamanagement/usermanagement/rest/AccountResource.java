@@ -110,7 +110,7 @@ public class AccountResource {
     return userRepository.findOneByLogin(userDto.getLogin())
         .filter(u -> u.getLogin().equals(SecurityUtils.getCurrentUserLogin())).map(u -> {
           userService.updateUserInformation(userDto.getFirstName(), userDto.getLastName(),
-              userDto.getEmail(), userDto.getLangKey());
+              userDto.getEmail(), userDto.getLangKey(), userDto.isWelcomeDialogDeactivated());
           return new ResponseEntity<String>(HttpStatus.OK);
         }).orElseGet(() -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
   }

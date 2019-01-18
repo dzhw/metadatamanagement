@@ -168,6 +168,12 @@ angular.module('metadatamanagementApp').config(
           'buttons': {
             'send': 'Send'
           }
+        },
+        'welcome-dialog': {
+          'title': 'Welcome',
+          'text-body': '<p>Dear {{username}},<br>we are pleased that you have decided to make your research data available to other researchers via our FDZ, a system that collects and publishes all information related to your research data (so-called metadata).</p><p>A detailed user documentation can be found here: <a href="https://metadatamanagement.readthedocs.io/de/stable/" target="_blank">ReadTheDocs</a>.</p>In the navigation menu on the left side you will find a list of all data processing projects to which you have been assigned as a data provider.<img src="/assets/images/welcome-dialog-project-chooser-{{language}}.png" class="fdz-welcome-dialog-image"/>Simply select the project for which you want to collect metadata and click on the orange button <img src="/assets/images/welcome-dialog-project-cockpit-button.png"/> below the selected project.</p>',
+          'close': 'Close',
+          'do-not-show-again': 'Don\'t show this dialog again'
         }
       }
       //jscs:enable

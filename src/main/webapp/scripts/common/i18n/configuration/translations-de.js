@@ -99,7 +99,8 @@ angular.module('metadatamanagementApp').config(
             'email': 'Klicken, um per E-Mail Feedback zu geben oder einen Fehler zu melden'
           },
           'navbar-feedback': 'Klicken, um Feedback zu geben oder einen Fehler zu melden',
-          'navbar-documentation': 'Klicken, um die Benutzerdokumentation zu öffnen'
+          'navbar-documentation': 'Klicken, um die Benutzerdokumentation zu öffnen',
+          'navbar-usage-info': 'Klicken, um Hinweise zur Benutzung dieser Seite zu erhalten'
         },
         'welcome-dialog': {
           'toolbar-head': 'Feedback geben oder Fehler melden',
@@ -148,7 +149,8 @@ angular.module('metadatamanagementApp').config(
           'data-access': 'Datenzugang',
           'disclosure': 'Impressum',
           'notepad': 'Merkzettel',
-          'documentation': 'Dokumentation'
+          'documentation': 'Dokumentation',
+          'usage-info': 'Hinweise zur Nutzung'
         },
         'form': {
           'username': 'Benutzername',
