@@ -10,7 +10,7 @@ ${PROJECT_NAME}  hossainrobot
 ${TOAST_MSSG}  Die Aktion ist nicht möglich
 
 *** Test Cases ***
-Create and Delete Study
+Publisher Create But Can Not Delete Study When Publisher is Ready
    Create Project  ${PROJECT_NAME}${BROWSER}
    Assign a dataprovider  dataprovider  1
    Select Survey Checkbox
@@ -43,9 +43,25 @@ Create and Delete Study
    Save Changes
    Click on Cockpit Button
    Click Publisher Ready Checkbox for Studies
-   Click on Delete Button
-   Save Changes
-   Delete project by name  ${PROJECT_NAME}${BROWSER}
+   Click on Delete Button for Meatdata
+   Close The Toast Message  ${TOAST_MSSG}
+
+Publisher Create and Can Delete Study When Both are Ready
+   Click Dataprovider Ready Checkbox for Studies
+   Click on Delete Button for Meatdata
+   Close The Toast Message  ${TOAST_MSSG}
+
+Publisher Create and Can Delete Study When Dataprovider is Ready
+   Click Publisher Ready Checkbox for Studies    #deselect the checkbox this time
+   Click on Delete Button for Meatdata
+   Discard Changes No
+
+Publisher Create and Can Delete Study When Both are Not Ready
+    Click Dataprovider Ready Checkbox for Studies   #deselect the checkbox this time
+    Click on Delete Button for Meatdata
+    Discard Changes Yes
+    Save Changes
+    Delete project by name  ${PROJECT_NAME}${BROWSER}
 
 *** Keywords ***
 Choose Panel As Survey Design
@@ -56,9 +72,8 @@ Choose In Aufbereitung as Data Availibility
     Click Element Through Tooltips    xpath=//md-select[@name = 'dataAvailability']
     Click Element Through Tooltips    xpath=//md-select-menu//md-option[contains(., 'In Aufbereitung')]
 
-Click on Delete Button
+Click on Delete Button for Meatdata
     Click Element Through Tooltips   xpath=//md-card-actions//span[contains(., "Löschen")]
-    Click Element Through Tooltips  xpath=//md-toast//span[contains(.,"Die Aktion ist nicht möglich")]
-    Element Should Contain  xpath=//md-toast//span[contains(.,"Die Aktion ist nicht möglich")]  ${TOAST_MSSG}
-    Click Element Through Tooltips  xpath=//button//following::md-icon[contains(.,"close")]
+
+
 
