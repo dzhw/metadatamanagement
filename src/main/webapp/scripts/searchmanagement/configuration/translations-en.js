@@ -56,7 +56,10 @@ angular.module('metadatamanagementApp').config(
           'delete-all-questions-tooltip': 'Click, to delete all questions of the Data Acquisition Project',
           'delete-all-variables-tooltip': 'Click, to delete all variables of the Data Acquisition Project',
           'delete-all-surveys-tooltip': 'Click, to delete all surveys of the Data Acquisition Project',
-          'delete-all-data-sets-tooltip': 'Click, to delete all data sets of the Data Acquisition Project'
+          'delete-all-data-sets-tooltip': 'Click, to delete all data sets of the Data Acquisition Project',
+          'edit-surveys-tooltip': 'Click to edit the existing surveys',
+          'edit-instruments-tooltip': 'Click to edit the existing instruments',
+          'edit-data-sets-tooltip': 'Click to edit the existing data sets'
         },
         'input-label': {
           'all': 'Search for Studies, Variables, Questions, Surveys, Data Sets, Instruments and Publications...',

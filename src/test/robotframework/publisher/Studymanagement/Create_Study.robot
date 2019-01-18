@@ -8,7 +8,7 @@ Resource          ../../resources/home_page_resource.robot
 *** Test Cases ***
 Create Study by Publisher
     Pass Execution If    '${BROWSER}' == 'ie'    Study Creation not possible in IE
-    Create RobotsProject
+    Create Project  robotsproject${BROWSER}
     Get Back to german home page
     Click on study tab
     Open Study Create Page
@@ -42,13 +42,6 @@ Create Study by Publisher
     Delete Robotsproject
 
 *** Keywords ***
-Create RobotsProject
-    Pass Execution If    '${BROWSER}' == 'ie'    Study Creation not possible in IE
-    Click Element Through Tooltips    xpath=//md-sidenav//button[md-icon[text()='add']]
-    Input Text    name=id    robotsproject${BROWSER}
-    Wait Until Keyword Succeeds    5s    0.5s    Page Should Contain Element    xpath=//button[@type='submit' and not(contains(@disabled, 'disabled'))]
-    Click Element Through Tooltips    xpath=//button[@type='submit']
-
 Open Study Create Page
     Click Element Through Tooltips    xpath=//ui-view/descendant::a[md-icon[text()='add']]
 

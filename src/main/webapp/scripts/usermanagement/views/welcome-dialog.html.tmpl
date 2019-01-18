@@ -1,4 +1,4 @@
-<md-dialog aria-label="{{'user-management.welcome-dialog.close' | translate}}">
+<md-dialog aria-label="{{'user-management.welcome-dialog.title' | translate}}">
     <form ng-cloak flex="grow">
         <md-toolbar>
             <div class="md-toolbar-tools">
@@ -14,7 +14,7 @@
         <div flex="grow" layout="column" layout-align="space-between none">
             <md-dialog-content>
                 <div class="md-dialog-content"
-                     translate="user-management.welcome-dialog.text-body"
+                     data-translate="user-management.welcome-dialog.text-body"
                      data-translate-values="{username: username, language: language}"
                 >
                 </div>
