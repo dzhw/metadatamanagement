@@ -198,7 +198,12 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.updateElasticSearchIndex = function() {
-        return ElasticSearchAdminService.processUpdateQueue('surveys');
+        return $q.all([
+          ElasticSearchAdminService.
+            processUpdateQueue('surveys'),
+          ElasticSearchAdminService.
+            processUpdateQueue('studies'),
+        ]);
       };
 
       ctrl.onSavedSuccessfully = function() {
