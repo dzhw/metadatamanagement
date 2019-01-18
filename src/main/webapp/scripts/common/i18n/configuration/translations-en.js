@@ -94,7 +94,7 @@ angular.module('metadatamanagementApp').config(
             'instrument': 'Click to show instrument {{param}}',
             'publication': 'Click to show publication {{param}}'
           },
-          'welcome-dialog': {
+          'feedback-dialog': {
             'github': 'Click to give feedback or report a Bug by Github',
             'email': 'Click to give feedback or report a Bug by an E-Mail.'
           },
@@ -102,7 +102,7 @@ angular.module('metadatamanagementApp').config(
           'navbar-documentation': 'Click to show the user documentation',
           'navbar-usage-info': 'Click to show usage information for this site'
         },
-        'welcome-dialog': {
+        'feedback-dialog': {
           'toolbar-head': 'Give Feedback or report Bugs',
           'content-body-feedback': 'You can submit bugs and request enhancements ...',
           'content-body-via': '... via',

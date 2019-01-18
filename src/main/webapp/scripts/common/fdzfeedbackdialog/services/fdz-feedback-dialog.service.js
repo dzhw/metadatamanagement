@@ -1,12 +1,12 @@
 'use strict';
 
-angular.module('metadatamanagementApp').service('FdzWelcomeDialogService',
+angular.module('metadatamanagementApp').service('FdzFeedbackDialogService',
     function($mdDialog, localStorageService, $rootScope) {
       var showDialog = function() {
         $mdDialog.show({
-          templateUrl: 'scripts/common/fdzwelcomedialog/directives/' +
-          'fdz-welcome-dialog.html.tmpl',
-          controller: 'FdzWelcomeDialogController',
+          templateUrl: 'scripts/common/fdzfeedbackdialog/directives/' +
+          'fdz-feedback-dialog.html.tmpl',
+          controller: 'FdzFeedbackDialogController',
           locals: {
             bowser: $rootScope.bowser
           },
@@ -18,7 +18,7 @@ angular.module('metadatamanagementApp').service('FdzWelcomeDialogService',
 
       var deleteOption = function() {
         //delete unused option from all browsers...
-        localStorageService.remove('closeWelcomeDialogForever');
+        localStorageService.remove();
       };
 
       return {
