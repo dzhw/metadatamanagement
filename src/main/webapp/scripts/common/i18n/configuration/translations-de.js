@@ -244,6 +244,7 @@ angular.module('metadatamanagementApp').config(
           '403': 'Sie haben nicht die nötigen Berechtigungen diese Seite anzuzeigen.',
           'server-not-reachable': 'Der Server ist nicht erreichbar!',
           'not-null': 'Das Feld {{fieldName}} darf nicht leer sein!',
+          'browser-not-supported': 'Diese Aktion wird vom verwendeten Browser nicht unterstützt.',
           'entity': {
             'exists': 'Ein Datensatz vom Typ "{{params[0]}}" mit FDZ-ID "{{params[1]}}" existiert bereits!',
             'compoundexists': 'Ein Datensatz vom Typ "{{params[0]}}" und der Felderkombination "{{params[1]}}" existiert bereits!',

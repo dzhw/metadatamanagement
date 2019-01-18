@@ -13,7 +13,13 @@ angular.module('metadatamanagementApp').factory(
         'question': 'questions.id',
         'data-set': 'dataSets.id',
         'variable': 'variables.id',
-        'related-publication': 'relatedPublications.id'
+        'related-publication': 'relatedPublications.id',
+        'institution-de': 'institution.de',
+        'institution-en': 'institution.en',
+        'sponsor-de': 'sponsor.de',
+        'sponsor-en': 'sponsor.en',
+        'survey-method-de': 'surveys.surveyMethod.de',
+        'survey-method-en': 'surveys.surveyMethod.en'
       },
       'variables': {
         'study-series-de': 'study.studySeries.de',
@@ -26,7 +32,13 @@ angular.module('metadatamanagementApp').factory(
         'access-way': 'accessWays',
         'panel-identifier': 'panelIdentifier',
         'derived-variables-identifier': 'derivedVariablesIdentifier',
-        'related-publication': 'relatedPublications.id'
+        'related-publication': 'relatedPublications.id',
+        'institution-de': 'study.institution.de',
+        'institution-en': 'study.institution.en',
+        'sponsor-de': 'study.sponsor.de',
+        'sponsor-en': 'study.sponsor.en',
+        'survey-method-de': 'surveys.surveyMethod.de',
+        'survey-method-en': 'surveys.surveyMethod.en'
       },
       'surveys': {
         'study-series-de': 'study.studySeries.de',
@@ -36,7 +48,13 @@ angular.module('metadatamanagementApp').factory(
         'question': 'questions.id',
         'data-set': 'dataSets.id',
         'variable': 'variables.id',
-        'related-publication': 'relatedPublications.id'
+        'related-publication': 'relatedPublications.id',
+        'institution-de': 'study.institution.de',
+        'institution-en': 'study.institution.en',
+        'sponsor-de': 'study.sponsor.de',
+        'sponsor-en': 'study.sponsor.en',
+        'survey-method-de': 'surveyMethod.de',
+        'survey-method-en': 'surveyMethod.en'
       },
       'questions': {
         'study-series-de': 'study.studySeries.de',
@@ -46,7 +64,13 @@ angular.module('metadatamanagementApp').factory(
         'instrument': 'instrumentId',
         'data-set': 'dataSets.id',
         'variable': 'variables.id',
-        'related-publication': 'relatedPublications.id'
+        'related-publication': 'relatedPublications.id',
+        'institution-de': 'study.institution.de',
+        'institution-en': 'study.institution.en',
+        'sponsor-de': 'study.sponsor.de',
+        'sponsor-en': 'study.sponsor.en',
+        'survey-method-de': 'surveys.surveyMethod.de',
+        'survey-method-en': 'surveys.surveyMethod.en'
       },
       'instruments': {
         'study-series-de': 'study.studySeries.de',
@@ -56,7 +80,13 @@ angular.module('metadatamanagementApp').factory(
         'question': 'questions.id',
         'data-set': 'dataSets.id',
         'variable': 'variables.id',
-        'related-publication': 'relatedPublications.id'
+        'related-publication': 'relatedPublications.id',
+        'institution-de': 'study.institution.de',
+        'institution-en': 'study.institution.en',
+        'sponsor-de': 'study.sponsor.de',
+        'sponsor-en': 'study.sponsor.en',
+        'survey-method-de': 'surveys.surveyMethod.de',
+        'survey-method-en': 'surveys.surveyMethod.en'
       },
       'data_sets': {
         'study-series-de': 'study.studySeries.de',
@@ -67,7 +97,13 @@ angular.module('metadatamanagementApp').factory(
         'question': 'questions.id',
         'variable': 'variables.id',
         'related-publication': 'relatedPublications.id',
-        'access-way': 'accessWays'
+        'access-way': 'accessWays',
+        'institution-de': 'study.institution.de',
+        'institution-en': 'study.institution.en',
+        'sponsor-de': 'study.sponsor.de',
+        'sponsor-en': 'study.sponsor.en',
+        'survey-method-de': 'surveys.surveyMethod.de',
+        'survey-method-en': 'surveys.surveyMethod.en'
       },
       'related_publications': {
         'study-series-de': 'studySerieses.de',
