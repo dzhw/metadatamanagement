@@ -15,8 +15,10 @@ Write Message and Assign
 
 Discard Changes Yes
    Click Element Through Tooltips  xpath=//md-dialog-actions//button[contains(.,'Ja')]
+
 Discard Changes No
    Click Element Through Tooltips  xpath=//md-dialog-actions//button[contains(.,'Nein')]
+
 Assign a dataprovider
    [Arguments]   ${dataprovidername}  ${dataprovidernameindex}
    Input Text  xpath=//md-card[@group='dataProviders']//following::input[@type='search']  ${dataprovidername}
