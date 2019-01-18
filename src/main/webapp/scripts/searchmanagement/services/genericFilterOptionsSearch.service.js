@@ -81,7 +81,7 @@ angular.module('metadatamanagementApp')
         query.body.query.bool.filter = termFilters;
       }
 
-      SearchHelperService.addQuery(query, searchConfig.queryterm);
+      SearchHelperService.addQuery(query, searchConfig.queryTerm);
 
       return ElasticSearchClient.search(query).then(function(result) {
         var studySeries = [];
