@@ -90,3 +90,9 @@ Click Publisher Ready Checkbox for Studies
 Click Dataprovider Ready Checkbox for Studies
    Click Element Through Tooltips  xpath=//md-card[@type="studies"]//md-checkbox[contains(.,"Datengeber Fertig")]
 
+Close The Toast Message
+    [Arguments]  ${TOAST_MSSG}
+    Click Element Through Tooltips  xpath=//md-toast//span[contains(.,"Die Aktion ist nicht möglich")]
+    Element Should Contain  xpath=//md-toast//span[contains(.,"Die Aktion ist nicht möglich")]  ${TOAST_MSSG}
+    Click Element Through Tooltips  xpath=//button//following::md-icon[contains(.,"close")]
+
