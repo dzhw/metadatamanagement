@@ -12,7 +12,14 @@ angular.module('metadatamanagementApp')
         }
       },
       'save': {
-        method: 'PUT'
+        method: 'PUT',
+        interceptor: {
+          response: function(response) {
+            if (response.status === 200) {
+              $rootScope.$broadcast('project-saved');
+            }
+          }
+        }
       },
       'delete': {
         method: 'DELETE',

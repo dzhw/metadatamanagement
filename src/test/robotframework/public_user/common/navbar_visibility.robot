@@ -1,6 +1,5 @@
 *** Settings ***
 Documentation     Tests if side bar is visible when browser window is maximized and not visible when browser window is small.
-Force Tags        smoketest
 Resource          ../../resources/search_resource.robot
 Resource          ../../resources/home_page_resource.robot
 

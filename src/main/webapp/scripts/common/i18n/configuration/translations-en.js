@@ -242,6 +242,7 @@ angular.module('metadatamanagementApp').config(
           '403': 'You are not authorized to access the page.',
           'server-not-reachable': 'Server not reachable',
           'not-null': 'Field {{fieldName}} cannot be empty!',
+          'browser-not-supported': 'This action isn\'t supported in the currently used browser',
           'entity': {
             'exists': 'There is already a {{params[0]}} with RDC-ID "{{params[1]}}"!',
             'compoundexists': 'There is already a "{{params[0]}}" with the field combination "{{params[1]}}"!',
@@ -349,6 +350,30 @@ angular.module('metadatamanagementApp').config(
           'confirm-delete-data-set': {
             'title': 'Delete Data Set "{{ id }}"?',
             'content': 'Do you really want to delete Data Set "{{ id }}"?'
+          },
+          'confirm-delete-all-questions': {
+            'title': 'Delete all questions of project "{{ id }}"?',
+            'content': 'Do you really want to delete all questions of Data Acquisition Project "{{ id }}"?'
+          },
+          'confirm-delete-all-studies': {
+            'title': 'Delete all studies of project "{{ id }}"?',
+            'content': 'Do you really want to delete all studies of Data Acquisition Project "{{ id }}"?'
+          },
+          'confirm-delete-all-variables': {
+            'title': 'Delete all variables of project "{{ id }}"?',
+            'content': 'Do you really want to delete all variables of Data Acquisition Project "{{ id }}"?'
+          },
+          'confirm-delete-all-instruments': {
+            'title': 'Delete all instruments of project "{{ id }}"?',
+            'content': 'Do you really want to delete all instruments of Data Acquisition Project "{{ id }}"?'
+          },
+          'confirm-delete-all-surveys': {
+            'title': 'Delete all surveys of project "{{ id }}"?',
+            'content': 'Do you really want to delete all surveys of Data Acquisition Project "{{ id }}"?'
+          },
+          'confirm-delete-all-data-sets': {
+            'title': 'Delete all data sets of project "{{ id }}"?',
+            'content': 'Do you really want to delete all data sets of Data Acquisition Project "{{ id }}"?'
           }
         }
       }

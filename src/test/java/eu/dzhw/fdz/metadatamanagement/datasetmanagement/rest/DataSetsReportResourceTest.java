@@ -1,5 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.rest;
 
+import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.File;
@@ -7,6 +10,7 @@ import java.io.FileInputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,11 +18,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Task.TaskState;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
@@ -46,13 +52,13 @@ public class DataSetsReportResourceTest extends AbstractTest {
 
   @Autowired
   private DataSetRepository dataSetRepository;
-  
+
   @Autowired
   private StudyRepository studyRepository;
 
   @Autowired
   private FileService fileService;
-  
+
   @Autowired
   private JaversService javersService;
 
@@ -61,8 +67,7 @@ public class DataSetsReportResourceTest extends AbstractTest {
 
   @Before
   public void setup() {
-    this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac)
-      .build();
+    this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
   }
 
   @After
@@ -75,13 +80,12 @@ public class DataSetsReportResourceTest extends AbstractTest {
   }
 
   @Test
-  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testValidUpload() throws Exception {
 
     // Arrange
     Path currentRelativePath = Paths.get("");
-    String basicPath = currentRelativePath.toAbsolutePath()
-      .toString();
+    String basicPath = currentRelativePath.toAbsolutePath().toString();
     File templatePath = new File(basicPath + "/src/test/resources/data/latexExample/");
 
     FileInputStream fileInputStream = new FileInputStream(templatePath + "/TemplateExample.zip");
@@ -97,29 +101,32 @@ public class DataSetsReportResourceTest extends AbstractTest {
 
     Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
     this.studyRepository.save(study);
-    
+
     // Act and Assert
     MockMultipartFile multipartFile =
         new MockMultipartFile("file", "TemplateExample.zip", "application/zip", texTemplate);
 
-    this.mockMvc.perform(MockMvcRequestBuilders.multipart(API_DATASETS_REPORTS_URI)
-      .file(multipartFile)
-      .param("id", dataSet.getId()))
-      .andExpect(status().isOk());
+    MvcResult result = this.mockMvc
+        .perform(MockMvcRequestBuilders.multipart(API_DATASETS_REPORTS_URI).file(multipartFile)
+            .param("id", dataSet.getId()))
+        .andExpect(status().isAccepted())
+        .andExpect(header().string("location", Matchers.containsString("/api/tasks/"))).andReturn();
+    String headlerLocation = result.getResponse().getHeader("location");
+    mockMvc.perform(MockMvcRequestBuilders.get(headlerLocation))
+        .andExpect(jsonPath("$.state", is(TaskState.DONE.toString()))).andReturn();
   }
-  
-  
+
   @Test
-  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testValidButIncompleteUpload() throws Exception {
 
     // Arrange
     Path currentRelativePath = Paths.get("");
-    String basicPath = currentRelativePath.toAbsolutePath()
-      .toString();
+    String basicPath = currentRelativePath.toAbsolutePath().toString();
     File templatePath = new File(basicPath + "/src/test/resources/data/latexExample/");
 
-    FileInputStream fileInputStream = new FileInputStream(templatePath + "/TemplateExampleIncomplete.zip");
+    FileInputStream fileInputStream =
+        new FileInputStream(templatePath + "/TemplateExampleIncomplete.zip");
     byte[] texTemplate = new byte[fileInputStream.available()];
     fileInputStream.read(texTemplate);
     fileInputStream.close();
@@ -131,17 +138,22 @@ public class DataSetsReportResourceTest extends AbstractTest {
     this.dataSetRepository.save(dataSet);
 
     // Act and Assert
-    MockMultipartFile multipartFile =
-        new MockMultipartFile("file", "TemplateExampleIncomplete.zip", "application/zip", texTemplate);
+    MockMultipartFile multipartFile = new MockMultipartFile("file", "TemplateExampleIncomplete.zip",
+        "application/zip", texTemplate);
 
-    this.mockMvc.perform(MockMvcRequestBuilders.multipart(API_DATASETS_REPORTS_URI)
-      .file(multipartFile)
-      .param("id", dataSet.getId()))
-      .andExpect(status().isBadRequest());
+    MvcResult result = this.mockMvc.perform(MockMvcRequestBuilders
+        .multipart(API_DATASETS_REPORTS_URI).file(multipartFile).param("id", dataSet.getId()))
+        .andExpect(status().isAccepted()).andReturn();
+    String headlerLocation = result.getResponse().getHeader("location");
+    mockMvc.perform(MockMvcRequestBuilders.get(headlerLocation))
+        .andExpect(jsonPath("$.state", is(TaskState.FAILURE.toString())))
+        .andExpect(jsonPath("$.errorList.errors[0].message",
+            is("data-set-management.error.files-in-template-zip-incomplete")))
+        .andReturn();
   }
 
   @Test
-  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testNonValidUpload() throws Exception {
 
     // Arrange
@@ -155,8 +167,6 @@ public class DataSetsReportResourceTest extends AbstractTest {
     // Act and Assert
     MockMultipartFile multipartFile = new MockMultipartFile("file", empty);
     this.mockMvc.perform(MockMvcRequestBuilders.multipart(API_DATASETS_REPORTS_URI)
-      .file(multipartFile)
-      .param("id", dataSet.getId()))
-      .andExpect(status().isBadRequest());
+        .file(multipartFile).param("id", dataSet.getId())).andExpect(status().isBadRequest());
   }
 }

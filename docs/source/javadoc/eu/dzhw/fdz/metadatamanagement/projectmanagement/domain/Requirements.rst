@@ -1,3 +1,7 @@
+.. java:import:: javax.validation.constraints AssertTrue
+
+.. java:import:: org.javers.core.metamodel.annotation ValueObject
+
 .. java:import:: lombok AccessLevel
 
 .. java:import:: lombok AllArgsConstructor
@@ -11,10 +15,6 @@
 .. java:import:: lombok NoArgsConstructor
 
 .. java:import:: lombok Setter
-
-.. java:import:: org.javers.core.metamodel.annotation ValueObject
-
-.. java:import:: javax.validation.constraints AssertTrue
 
 Requirements
 ============
@@ -55,7 +55,7 @@ isQuestionsRequired
 isStudiesRequired
 ^^^^^^^^^^^^^^^^^
 
-.. java:field:: @AssertTrue @Setter private boolean isStudiesRequired
+.. java:field:: @AssertTrue @Setter @Builder.Default private boolean isStudiesRequired
    :outertype: Requirements
 
    Defines if study data is required for a release (this object type is mandatory and this setting is therefore always \ ``true``\ .

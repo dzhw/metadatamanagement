@@ -17,7 +17,7 @@ angular.module('metadatamanagementApp').directive('datasetSearchResult',
       controller: function($scope, CommonDialogsService, DataSetResource,
         ElasticSearchAdminService, $rootScope, SimpleMessageToastService,
         DataAcquisitionProjectResource, Principal, ProjectUpdateAccessService,
-        $transitions) {
+        $transitions, $q) {
         $scope.projectIsCurrentlyReleased = true;
         if (angular.isUndefined($scope.isUpdateAllowed)) {
           $scope.isUpdateAllowed = true;
@@ -43,7 +43,12 @@ angular.module('metadatamanagementApp').directive('datasetSearchResult',
             }).then(function() {
               return DataSetResource.delete({id: dataSetId}).$promise;
             }).then(function() {
-              return ElasticSearchAdminService.processUpdateQueue('data_sets');
+              return $q.all([
+                ElasticSearchAdminService.
+                  processUpdateQueue('data_sets'),
+                ElasticSearchAdminService.
+                  processUpdateQueue('studies'),
+              ]).promise;
             }).then(function() {
               $rootScope.$broadcast('deletion-completed');
               SimpleMessageToastService.openSimpleMessageToast(

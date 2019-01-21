@@ -10,23 +10,6 @@ USERNAME="$2"
 PASSWORD="$3"
 TRAVIS_BRANCH="$4"
 COVERALLS_TOKEN="$5"
-TRAVIS_EVENT_TYPE="$6"
-if [ "${TRAVIS_EVENT_TYPE}" = "cron" ]; then
-  echo "Skipping build and deploy steps..."
-  export PYTHONWARNINGS="ignore"
-  echo "Testing E2E in parallel on all browsers:"
-  ROBOT_CHROME="robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/chrome -v USE_SAUCELABS:TRUE -v BROWSER:chrome --exclude smoketest --exclude firefoxonly ./src/test/robotframework"
-  ROBOT_FIREFOX="robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/firefox -v USE_SAUCELABS:TRUE -v BROWSER:firefox --exclude smoketest --exclude chromeonly ./src/test/robotframework"
-  ROBOT_IE11="robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/ie11 -v USE_SAUCELABS:TRUE -v BROWSER:ie --exclude smoketest --exclude firefoxonly --exclude chromeonly ./src/test/robotframework"
-  ROBOT_EDGE="robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/edge -v USE_SAUCELABS:TRUE -v BROWSER:edge --exclude smoketest --exclude firefoxonly --exclude chromeonly --exclude noslowpoke ./src/test/robotframework"
-  parallel --progress ::: "${ROBOT_CHROME}" "${ROBOT_FIREFOX}" "${ROBOT_IE11}" "${ROBOT_EDGE}"
-  if [ $? -ne 0 ]; then
-      echo "At least one E2E test failed!"
-      exit -1
-  fi
-  echo "All E2E Tests passed."
-  exit 0
-fi
 if [ -n "${TRAVIS_BRANCH}" ]; then
   PROFILE="dev"
 fi
@@ -60,31 +43,4 @@ cf push -f ./deploy/manifest-${PROFILE}.yml
 if [ $? -ne 0 ]; then
     echo "cf push failed!"
     exit -1
-fi
-if [ "${PROFILE}" = "dev" ]; then
-  export PYTHONWARNINGS="ignore"
-  echo "Smoke Testing E2E with Chrome:"
-  robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:chrome --include smoketest --exclude firefoxonly ./src/test/robotframework
-  if [ $? -ne 0 ]; then
-      echo "E2E test with Chrome failed!"
-      exit -1
-  fi
-  echo "Smoke Testing E2E with Firefox:"
-  robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:firefox --include smoketest --exclude chromeonly ./src/test/robotframework
-  if [ $? -ne 0 ]; then
-      echo "E2E test with Firefox failed!"
-      exit -1
-  fi
-  echo "Smoke Testing E2E with IE11:"
-  robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:ie --include smoketest --exclude firefoxonly --exclude chromeonly --exclude noslowpoke ./src/test/robotframework
-  if [ $? -ne 0 ]; then
-      echo "E2E test with IE11 failed!"
-      exit -1
-  fi
-  echo "Smoke Testing E2E with Edge:"
-  robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:edge --include smoketest --exclude firefoxonly --exclude chromeonly --exclude noslowpoke ./src/test/robotframework
-  if [ $? -ne 0 ]; then
-      echo "E2E test with Edge failed!"
-      exit -1
-  fi
 fi

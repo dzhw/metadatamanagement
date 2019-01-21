@@ -38,6 +38,7 @@
     <form role="search" ng-submit="hideMobileKeyboard()">
         <study-series-search-filter ng-if="selectedFilters.indexOf('study-series-de') >= 0 || selectedFilters.indexOf('study-series-en') >= 0" current-language="currentLanguage" current-search-params="currentSearchParams" selected-filters="selectedFilters" study-series-changed-callback="onOneFilterChanged" bowser="bowser"></study-series-search-filter>
         <study-search-filter ng-if="selectedFilters.indexOf('study') >= 0" current-language="currentLanguage" current-search-params="currentSearchParams" study-changed-callback="onOneFilterChanged" bowser="bowser"></study-search-filter>
+        <institution-search-filter ng-if="selectedFilters.indexOf('institution-de') >= 0 || selectedFilters.indexOf('institution-en') >= 0" current-language="currentLanguage" current-search-params="currentSearchParams" institution-changed-callback="onOneFilterChanged()" bowser="bowser"></institution-search-filter>
         <survey-search-filter ng-if="selectedFilters.indexOf('survey') >= 0" current-language="currentLanguage" current-search-params="currentSearchParams" survey-changed-callback="onOneFilterChanged" bowser="bowser"></survey-search-filter>
         <instrument-search-filter ng-if="selectedFilters.indexOf('instrument') >= 0" current-language="currentLanguage" current-search-params="currentSearchParams" instrument-changed-callback="onOneFilterChanged" bowser="bowser"></instrument-search-filter>
         <question-search-filter ng-if="selectedFilters.indexOf('question') >= 0" current-language="currentLanguage" current-search-params="currentSearchParams" question-changed-callback="onOneFilterChanged" bowser="bowser"></question-search-filter>
@@ -47,6 +48,8 @@
         <panel-identifier-search-filter ng-if="selectedFilters.indexOf('panel-identifier') >= 0" current-language="currentLanguage" current-search-params="currentSearchParams" panel-identifier-changed-callback="onOneFilterChanged" bowser="bowser"></panel-identifier-search-filter>
         <derived-variables-identifier-search-filter ng-if="selectedFilters.indexOf('derived-variables-identifier') >= 0" current-language="currentLanguage" current-search-params="currentSearchParams" derived-variables-identifier-changed-callback="onOneFilterChanged" bowser="bowser"></derived-variables-identifier-search-filter>
         <related-publication-search-filter ng-if="selectedFilters.indexOf('related-publication') >= 0" current-language="currentLanguage" current-search-params="currentSearchParams" related-publication-changed-callback="onOneFilterChanged" bowser="bowser"></related-publication-search-filter>
+        <sponsor-search-filter ng-if="selectedFilters.indexOf('sponsor-de') >= 0 || selectedFilters.indexOf('sponsor-en') >= 0" current-language="currentLanguage" current-search-params="currentSearchParams" sponsor-changed-callback="onOneFilterChanged()" bowser="bowser"></sponsor-search-filter>
+        <survey-method-search-filter ng-if="selectedFilters.indexOf('survey-method-de') >= 0 || selectedFilters.indexOf('survey-method-en') >= 0" current-language="currentLanguage" current-search-params="currentSearchParams" survey-method-changed-callback="onOneFilterChanged()" bowser="bowser"></survey-method-search-filter>
         <input type="submit" ng-hide="true">
     </form>
 </div>

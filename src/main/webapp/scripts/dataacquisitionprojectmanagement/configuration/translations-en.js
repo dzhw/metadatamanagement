@@ -90,10 +90,13 @@ angular.module('metadatamanagementApp').config(
           'project-update-access': {
             'project-selected': 'A project has to be selected before data can be added.',
             'type-update-allowed': 'The action is not possible because the metadata has already been marked as "ready" by the publishers or the data providers.',
+            'update-for-publishers-allowed': 'The action is not possible because the metadata has already been marked as "ready" by the publishers.',
+            'update-for-data-providers-allowed': 'The action is not possible because the metadata has already been marked as "ready" by the publishers or data providers.',
             'project-released': 'The action is not possible because the projects metadata is currently open to all public users.',
             'member-of-assigned-group': 'The action is not possible because the project is currently assigned to the other project group.',
             'assigned-to-project': 'The action is not possible because you are not assigned to the project as a publisher or data provider.',
-            'not-required': 'The action is not possible because this metadata was not marked as "expected" in the project settings.'
+            'not-required': 'The action is not possible because this metadata was not marked as "expected" in the project settings.',
+            'prerequisite-missing-surveys': 'The action is not possible because the project does not contain any survey.'
           }
         },
         'projectstatuslabel': {
@@ -160,7 +163,8 @@ angular.module('metadatamanagementApp').config(
             'ready': 'Ready',
             'new': 'New',
             'edit': 'Edit',
-            'upload': 'Upload'
+            'upload': 'Upload',
+            'delete': 'Delete'
           },
           'message-dialog': {
             'title': 'Message to {{recipient}}',

@@ -88,7 +88,7 @@ public class DataSetService {
    * A service method for deletion of dataSets within a data acquisition project.
    * @param dataAcquisitionProjectId the id for to the data acquisition project.
    */
-  private void deleteDataSetsByProjectId(String dataAcquisitionProjectId) {
+  public void deleteDataSetsByProjectId(String dataAcquisitionProjectId) {
     try (Stream<DataSet> dataSets = dataSetRepository
         .streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
       dataSets.forEach(dataSet -> {

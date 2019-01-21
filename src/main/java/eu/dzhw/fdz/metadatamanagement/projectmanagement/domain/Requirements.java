@@ -1,5 +1,9 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.domain;
 
+import javax.validation.constraints.AssertTrue;
+
+import org.javers.core.metamodel.annotation.ValueObject;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,9 +11,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.javers.core.metamodel.annotation.ValueObject;
-
-import javax.validation.constraints.AssertTrue;
 
 /**
  * This configuration defines which object types have to be delivered before
@@ -30,6 +31,7 @@ public class Requirements {
   @AssertTrue(message = "data-acquisition-project-management.error.required-object-types"
       + ".is-studies-required.assert-true")
   @Setter(AccessLevel.NONE)
+  @Builder.Default
   private boolean isStudiesRequired = true;
 
   /**
