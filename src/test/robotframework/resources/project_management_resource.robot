@@ -29,6 +29,12 @@ Assign a publisher
    Input Text  xpath=//md-card[@group='publishers']//following::input[@type='search']  ${publishername}
    Click Element Through Tooltips  xpath=//span[@md-highlight-text='ctrl.searchText[ctrl.group]'][contains(.,'${publishername}')][${publishernameindex}]
 
+Assign to publisher
+   Click Element Through Tooltips   xpath=//project-status-badge[@assignee-group="DATA_PROVIDER"]//div//button[@type="button"]
+
+Assign to dataprovider
+   Click Element Through Tooltips   xpath=//project-status-badge[@assignee-group="PUBLISHER"]//div//button[@type="button"]
+
 Switch To Settings Tab
    Click Element Through Tooltips  xpath=//md-pagination-wrapper[@role="tablist"]//md-tab-item//md-icon[contains(.,"settings")]
 
@@ -89,6 +95,44 @@ Click Publisher Ready Checkbox for Studies
 
 Click Dataprovider Ready Checkbox for Studies
    Click Element Through Tooltips  xpath=//md-card[@type="studies"]//md-checkbox[contains(.,"Datengeber Fertig")]
+
+Click Publisher Ready Checkbox for Surveys
+   Click Element Through Tooltips  xpath=//md-card[@type="surveys"]//md-checkbox[contains(.,"Publisher Fertig")]
+
+Click Dataprovider Ready Checkbox for Surveys
+   Click Element Through Tooltips  xpath=//md-card[@type="surveys"]//md-checkbox[contains(.,"Datengeber Fertig")]
+
+Click Publisher Ready Checkbox for Instruments
+   Click Element Through Tooltips  xpath=//md-card[@type="instruments"]//md-checkbox[contains(.,"Publisher Fertig")]
+
+Click Dataprovider Ready Checkbox for Instruments
+   Click Element Through Tooltips  xpath=//md-card[@type="instruments"]//md-checkbox[contains(.,"Datengeber Fertig")]
+
+Click Publisher Ready Checkbox for Questions
+   Click Element Through Tooltips  xpath=//md-card[@type="questions"]//md-checkbox[contains(.,"Publisher Fertig")]
+
+Click Dataprovider Ready Checkbox for Questions
+   Click Element Through Tooltips  xpath=//md-card[@type="questions"]//md-checkbox[contains(.,"Datengeber Fertig")]
+
+Click Publisher Ready Checkbox for Datasets
+   Click Element Through Tooltips  xpath=//md-card[@type="dataSets"]//md-checkbox[contains(.,"Publisher Fertig")]
+
+Click Dataprovider Ready Checkbox for Datasets
+   Click Element Through Tooltips  xpath=//md-card[@type="dataSets"]//md-checkbox[contains(.,"Datengeber Fertig")]
+
+Click Publisher Ready Checkbox for Variables
+   Click Element Through Tooltips  xpath=//md-card[@type="variables"]//md-checkbox[contains(.,"Publisher Fertig")]
+
+Click Dataprovider Ready Checkbox for Variables
+   Click Element Through Tooltips  xpath=//md-card[@type="variables"]//md-checkbox[contains(.,"Datengeber Fertig")]
+
+
+
+
+
+
+
+
 
 Close The Toast Message
     [Arguments]  ${TOAST_MSSG}
