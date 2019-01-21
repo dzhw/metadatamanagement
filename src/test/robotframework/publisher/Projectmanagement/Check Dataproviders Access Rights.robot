@@ -42,34 +42,28 @@ Check Dataprovider Cannot Change Anything
    Ensure Expected Metadata Fields are Disabled
    Data Provider Logout
    Login as publisher
-   Delect project by name  ${PROJECT_NAME}${BROWSER}
-
+   Delete project by name  ${PROJECT_NAME}${BROWSER}
 
 
 *** Keywords ***
 Ensure Study Create Button is Restricted
     Click Element Through Tooltips  xpath=//md-card[@type="studies"]//button[contains(.,"Neu")]
-    Click Element Through Tooltips  xpath=//md-toast//span[contains(.,"Die Aktion ist nicht möglich")]
-    Element Should Contain  xpath=//md-toast//span[contains(.,"Die Aktion ist nicht möglich")]  ${TOAST_MSSG}
-    Click Element Through Tooltips  xpath=//button//following::md-icon[contains(.,"close")]
+    Close The Toast Message  ${TOAST_MSSG}
 
 Ensure Question Upload Button is Restricted
     Click Element Through Tooltips  xpath=//md-card[@type="questions"]//button[contains(.,"Hochladen")]
-    Click Element Through Tooltips  xpath=//md-toast//span[contains(.,"Die Aktion ist nicht möglich")]
-    Element Should Contain  xpath=//md-toast//span[contains(.,"Die Aktion ist nicht möglich")]  ${TOAST_MSSG}
-    Click Element Through Tooltips  xpath=//button//following::md-icon[contains(.,"close")]
+    Run Keyword if  '${BROWSER}' == 'chrome'  Close The Toast Message  ${TOAST_MSSG}
+    Run Keyword if  '${BROWSER}' == 'firefox'  Close The Toast Message  ${TOAST_MSSG}
+    Run Keyword if  '${BROWSER}' == 'edge'  Close The Toast Message  ${TOAST_MSSG}
+    Run Keyword if  '${BROWSER}' == 'ie'  Close The Toast Message for Upload Button in IE
 
 Ensure Instrument Create Button is Restricted
     Click Element Through Tooltips  xpath=//md-card[@type="instruments"]//button[contains(.,"Neu")]
-    Click Element Through Tooltips  xpath=//md-toast//span[contains(.,"Die Aktion ist nicht möglich")]
-    Element Should Contain  xpath=//md-toast//span[contains(.,"Die Aktion ist nicht möglich")]  ${TOAST_MSSG}
-    Click Element Through Tooltips  xpath=//button//following::md-icon[contains(.,"close")]
+    Close The Toast Message  ${TOAST_MSSG}
 
 Ensure Dataset Create Button is Restricted
     Click Element Through Tooltips  xpath=//md-card[@type="dataSets"]//button[contains(.,"Neu")]
-    Click Element Through Tooltips  xpath=//md-toast//span[contains(.,"Die Aktion ist nicht möglich")]
-    Element Should Contain  xpath=//md-toast//span[contains(.,"Die Aktion ist nicht möglich")]  ${TOAST_MSSG}
-    Click Element Through Tooltips  xpath=//button//following::md-icon[contains(.,"close")]
+    Close The Toast Message  ${TOAST_MSSG}
 
 Ensure Expected Metadata Fields are Disabled
     Page Should Contain Element  xpath=//md-card[@ng-if="ctrl.project.configuration.requirements"]//following::md-checkbox[@name="survey" and @disabled="disabled"]
@@ -78,4 +72,7 @@ Ensure Expected Metadata Fields are Disabled
     Page Should Contain Element  xpath=//md-card[@ng-if="ctrl.project.configuration.requirements"]//following::md-checkbox[@name="dataSet" and @disabled="disabled"]
     Page Should Contain Element  xpath=//md-card[@ng-if="ctrl.project.configuration.requirements"]//following::md-checkbox[@name="variables" and @disabled="disabled"]
 
-
+Close The Toast Message for Upload Button in IE
+    Click Element Through Tooltips  xpath=//md-toast//span[contains(.,"Diese Aktion wird ")]
+    Element Should Contain  xpath=//md-toast//span[contains(.,"Diese Aktion wird ")]  Diese Aktion wird vom verwendeten Browser nicht unterstützt.
+    Click Element Through Tooltips  xpath=//button//following::md-icon[contains(.,"close")]

@@ -7,9 +7,10 @@ Resource          ../../resources/project_management_resource.robot
 
 *** Variables ***
 ${PROJECT_NAME}  hossainrobot
+${TOAST_MSSG}  Die Aktion ist nicht möglich
 
 *** Test Cases ***
-Create and Delete Study
+Publisher Create But Can Not Delete Study When Publisher is Ready
    Create Project  ${PROJECT_NAME}${BROWSER}
    Assign a dataprovider  dataprovider  1
    Select Survey Checkbox
@@ -19,8 +20,6 @@ Create and Delete Study
    Select Variable Checkbox
    Save Changes
    Switch To Status Tab
-   Select project by name  ${PROJECT_NAME}${BROWSER}
-   Click on Cockpit Button
    Ensure Study Creation is Possible
    Input Text    name=titleDe    Test Studie
    Input Text    name=titleEn    Test Study
@@ -41,16 +40,30 @@ Create and Delete Study
    Input Text    name=authorsFirstName_0    Anne
    Input Text    name=authorsMiddleName_0    noMiddleName
    Input Text    name=authorsLastName_0    Droid
-   Add Another Author
-   Focus    xpath=//input[@name = 'authorsFirstName_1']
-   Input Text    name=authorsFirstName_1    R2
-   Input Text    name=authorsMiddleName_1    D2
-   Input Text    name=authorsLastName_1    noLastName
    Save Changes
-   Delect project by name  ${PROJECT_NAME}${BROWSER}
+   Click on Cockpit Button
+   Click Publisher Ready Checkbox for Studies
+   Click on Delete Button for Meatdata
+   Close The Toast Message  ${TOAST_MSSG}
+
+Publisher Create and Can Delete Study When Both are Ready
+   Click Dataprovider Ready Checkbox for Studies
+   Click on Delete Button for Meatdata
+   Close The Toast Message  ${TOAST_MSSG}
+
+Publisher Create and Can Delete Study When Dataprovider is Ready
+   Click Publisher Ready Checkbox for Studies    #deselect the checkbox this time
+   Click on Delete Button for Meatdata
+   Discard Changes No
+
+Publisher Create and Can Delete Study When Both are Not Ready
+    Click Dataprovider Ready Checkbox for Studies   #deselect the checkbox this time
+    Click on Delete Button for Meatdata
+    Discard Changes Yes
+    Save Changes
+    Delete project by name  ${PROJECT_NAME}${BROWSER}
 
 *** Keywords ***
-
 Choose Panel As Survey Design
     Click Element Through Tooltips    xpath=//md-select[@name = 'surveyDesign']
     Click Element Through Tooltips    xpath=//md-select-menu//md-option[contains(., 'Panel')]
@@ -59,7 +72,8 @@ Choose In Aufbereitung as Data Availibility
     Click Element Through Tooltips    xpath=//md-select[@name = 'dataAvailability']
     Click Element Through Tooltips    xpath=//md-select-menu//md-option[contains(., 'In Aufbereitung')]
 
-Add Another Author
-    Click Element Through Tooltips    xpath=//md-card/descendant::button[md-icon[text()='add']]
+Click on Delete Button for Meatdata
+    Click Element Through Tooltips   xpath=//md-card-actions//span[contains(., "Löschen")]
+
 
 
